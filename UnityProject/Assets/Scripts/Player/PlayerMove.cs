@@ -532,7 +532,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
 
-		TargetPlayerUIHandCuffToggle(connectionToClient, true);
+		if(connectionToClient != null) TargetPlayerUIHandCuffToggle(connectionToClient, true);
 	}
 
 	[TargetRpc]

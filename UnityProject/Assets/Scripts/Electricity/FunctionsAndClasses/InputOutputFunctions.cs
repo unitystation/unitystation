@@ -56,10 +56,11 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 
 		if (!(Thiswire.Data.SupplyDependent[SourceInstance].ResistanceComingFrom.Count > 0))
 		{
-			ElectricalSynchronisation.StructureChange = true;
-			ElectricalSynchronisation.NUStructureChangeReact.Add(Thiswire.ControllingDevice);
-			ElectricalSynchronisation.NUResistanceChange.Add(Thiswire.ControllingDevice);
-			ElectricalSynchronisation.NUCurrentChange.Add(Thiswire.ControllingDevice);
+			var sync = ElectricalManager.Instance.electricalSync;
+			sync.StructureChange = true;
+			sync.NUStructureChangeReact.Add(Thiswire.ControllingDevice);
+			sync.NUResistanceChange.Add(Thiswire.ControllingDevice);
+			sync.NUCurrentChange.Add(Thiswire.ControllingDevice);
 			Logger.LogErrorFormat("Resistance isn't initialised on", Category.Electrical);
 			return;
 		}
@@ -68,14 +69,6 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 		//ELCurrent.CurrentWorkOnNextListADD(Thiswire);
 		Thiswire.ElectricityOutput(Current, SourceInstance);
 	}
-
-
-
-
-
-
-
-
 
 	public static void ResistancyOutput(ResistanceWrap Resistance,
 										ElectricalOIinheritance SourceInstance,
@@ -183,7 +176,7 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 					Thiswire.Data.ResistanceToConnectedDevices[SourceInstance][Reaction.ResistanceReactionA.Resistance]
 							.Add(ComingFrom);
 					SourceInstance.connectedDevices.Add(Thiswire);
-					ElectricalSynchronisation.InitialiseResistanceChange.Add(Thiswire.ControllingDevice);
+					ElectricalManager.Instance.electricalSync.InitialiseResistanceChange.Add(Thiswire.ControllingDevice);
 				}
 				if (Thiswire.ConnectionReaction[ComingFrom.Categorytype].DirectionReactionA.YouShallNotPass)
 				{
@@ -194,11 +187,11 @@ public static class InputOutputFunctions //for all the date of formatting of   O
 
 		if (Thiswire.Data.connections.Count > 2)
 		{
-			ElectricalSynchronisation.DirectionWorkOnNextListWaitADD(Thiswire);
+			ElectricalManager.Instance.electricalSync.DirectionWorkOnNextListWaitADD(Thiswire);
 		}
 		else
 		{
-			ElectricalSynchronisation.DirectionWorkOnNextListADD(Thiswire);
+			ElectricalManager.Instance.electricalSync.DirectionWorkOnNextListADD(Thiswire);
 		}
 	}
 }

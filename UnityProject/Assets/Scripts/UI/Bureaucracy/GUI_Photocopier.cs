@@ -9,13 +9,13 @@ namespace Assets.Scripts.UI.Bureaucracy
 		private Photocopier Photocopier { get; set; }
 		private RegisterObject registerObject;
 
-		private readonly NetLabel _statusLabel;
+		private readonly NetLabel _statusLabel = null;
 		private NetLabel StatusLabel => _statusLabel ? _statusLabel : this["StatusLabel"] as NetLabel;
 
-		private readonly NetLabel _scannerLabel;
+		private readonly NetLabel _scannerLabel = null;
 		private NetLabel ScannerLabel => _scannerLabel ? _scannerLabel : this["ScannerLabel"] as NetLabel;
 
-		private readonly NetLabel _trayLabel;
+		private readonly NetLabel _trayLabel = null;
 		private NetLabel TrayLabel => _trayLabel ? _trayLabel : this["TrayLabel"] as NetLabel;
 
 		public void Start()

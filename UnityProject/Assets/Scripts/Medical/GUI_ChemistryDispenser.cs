@@ -18,7 +18,7 @@ public class GUI_ChemistryDispenser : NetTab
 	public bool HeaterOn = false;
 
 	public ChemistryDispenser ChemistryDispenser;
-	[SerializeField] private Chemistry.Reagent[] dispensableReagents;
+	[SerializeField] private Chemistry.Reagent[] dispensableReagents = null;
 
 	private List<string> DispenseAmounts = new List<string>()
 	{

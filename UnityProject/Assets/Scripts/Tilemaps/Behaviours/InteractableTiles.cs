@@ -40,6 +40,8 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	public Layer WindowLayer => windowLayer;
 	private ObjectLayer objectLayer;
 	public ObjectLayer ObjectLayer => objectLayer;
+	private Layer underFloorLayer;
+	public Layer UnderFloorLayer => underFloorLayer;
 
 	private Layer grillTileMap;
 
@@ -89,6 +91,17 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		return metaTileMap.GetTile(pos, ignoreEffectsLayer);
 	}
 
+	/// <summary>
+	/// Gets the LayerTile of the tile at the indicated position, null if no tile there (open space).
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <returns></returns>
+	public LayerTile LayerTileAt(Vector2 worldPos, LayerTypeSelection ExcludedLayers)
+	{
+		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPos).RoundToInt();
+
+		return metaTileMap.GetTile(pos, ExcludedLayers);
+	}
 
 	/// <summary>
 	/// Converts the world position to a cell position on these tiles.
@@ -128,6 +141,11 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			if (tilemaps[i].name.Contains("Grills"))
 			{
 				grillTileMap = tilemaps[i];
+			}
+
+			if (tilemaps[i].name.Contains("UnderFloor"))
+			{
+				underFloorLayer = tilemaps[i];
 			}
 		}
 	}
@@ -174,7 +192,6 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	public void ServerProcessInteraction(int tileInteractionIndex, GameObject performer, Vector2 targetVector,  GameObject processorObj, ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
 	{
 		//find the indicated tile interaction
-		var success = false;
 		var worldPosTarget = (Vector2)performer.transform.position + targetVector;
 		//pass the interaction down to the basic tile
 		LayerTile tile = LayerTileAt(worldPosTarget);

@@ -205,7 +205,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private CustomNetTransform cnt;
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
-	private bool hasCachedComponents;
+	private bool hasCachedComponents = false;
 
 
 	private ElectricalOIinheritance electricalData;

@@ -18,10 +18,12 @@ using UnityEngine.Serialization;
 public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
 	 IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 {
-	//constants for calculating screen shake due to recoil
+	//constants for calculating screen shake due to recoil. Currently unused.
+	/*
 	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
 	private static readonly float MAX_SHAKE_INTENSITY = 1f;
 	private static readonly float MIN_SHAKE_INTENSITY = 0.01f;
+	*/
 
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity

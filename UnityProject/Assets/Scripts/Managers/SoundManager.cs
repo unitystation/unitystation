@@ -43,7 +43,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static SongTracker SongTracker => soundManager.songTracker;
 
-	[SerializeField] private GameObject soundSpawnPrefab;
+	[SerializeField] private GameObject soundSpawnPrefab = null;
 	private List<AudioSource> pooledSources = new List<AudioSource>();
 
 	public static SoundManager Instance

@@ -317,7 +317,7 @@ public class  Matrix : MonoBehaviour
 	{
 		var metaData = metaDataLayer.Get(position, true);
 		var newdata = new ElectricalMetaData();
-		newdata.Initialise(wireConnect, metaData, position.To2Int(), this);
+		newdata.Initialise(wireConnect, metaData, position, this);
 		metaData.ElectricalData.Add(newdata);
 
 		ElectricalCableTile Tile = null;
@@ -354,9 +354,11 @@ public class  Matrix : MonoBehaviour
 
 	public void AddElectricalNode(Vector3Int position, ElectricalCableTile wireConnect)
 	{
-		var metaData = metaDataLayer.Get(position, true);
+		var checkPos = position;
+		checkPos.z = 0;
+		var metaData = metaDataLayer.Get(checkPos, true);
 		var newdata = new ElectricalMetaData();
-		newdata.Initialise(wireConnect, metaData, position.To2Int(), this);
+		newdata.Initialise(wireConnect, metaData, position, this);
 		metaData.ElectricalData.Add(newdata);
 	}
 
@@ -394,14 +396,12 @@ public class  Matrix : MonoBehaviour
 		}
 	}
 
-
-
 	public MetaDataNode GetMetaDataNode(Vector3Int localPosition, bool createIfNotExists = true)
 	{
 		return (metaDataLayer.Get(localPosition, createIfNotExists));
 	}
 
-	public void RemoveUnderFloorTile(Vector2Int position, GenericTile tile)
+	public void RemoveUnderFloorTile(Vector3Int position, LayerTile tile)
 	{
 		if (UnderFloorLayer == null)
 		{

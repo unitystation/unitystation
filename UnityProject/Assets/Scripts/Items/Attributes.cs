@@ -17,7 +17,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	[Tooltip("Display name of this item when spawned.")]
 	[SerializeField]
-	private string initialName;
+	private string initialName = null;
 
 	[SyncVar(hook = nameof(SyncArticleName))]
 	private string articleName;
@@ -30,7 +30,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
-	private string initialDescription;
+	private string initialDescription = null;
 
 	[Tooltip("Will this item highlight on mouseover?")]
 	[SerializeField]

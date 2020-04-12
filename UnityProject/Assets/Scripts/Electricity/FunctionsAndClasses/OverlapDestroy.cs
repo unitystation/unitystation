@@ -25,14 +25,6 @@ public class OverlapDestroy : MonoBehaviour
 			if (ElectricalManager.DOCheck)
 			{
 				//Logger.Log("Seting cables!");
-				var wireConnect = this.GetComponent<WireConnect>();
-				if (wireConnect != null)
-				{
-					Undo.RecordObject(wireConnect, "Cable connections update");
-					wireConnect.InData.WireEndA = (wireConnect.WireEndA + 1);
-					wireConnect.InData.WireEndB = (wireConnect.WireEndB + 1);
-				}
-
 				var thing = this.GetComponent<CableInheritance>();
 				thing.ConvertToTile(true);
 				//ElectricalManager.DOCheck = false;

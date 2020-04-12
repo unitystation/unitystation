@@ -441,7 +441,7 @@ public static class PlayerSpawn
 		{
 			FollowCameraMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
 		}
-		bool newMob = false;
+
 		if (characterSettings != null)
 		{
 			playerScript.characterSettings = characterSettings;
@@ -452,7 +452,6 @@ public static class PlayerSpawn
 			{
 				playerSprites.OnCharacterSettingsChange(characterSettings);
 			}
-			newMob = true;
 		}
 		var healthStateMonitor = newBody.GetComponent<HealthStateMonitor>();
 		if (healthStateMonitor)

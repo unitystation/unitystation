@@ -207,7 +207,7 @@ public class IntrinsicElectronicData
 	{
 		if (MetaDataPresent != null)
 		{
-			return (MetaDataPresent.NodeLocation);
+			return (Vector2Int)MetaDataPresent.NodeLocation;
 		}
 		else if (Present != null)
 		{
@@ -226,7 +226,6 @@ public class IntrinsicElectronicData
 
 	public virtual void ShowDetails()
 	{
-
 		ElectricityFunctions.WorkOutActualNumbers(this);
 		Logger.Log("connections " + (string.Join(",", Data.connections)), Category.Electrical);
 		//Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
@@ -262,12 +261,10 @@ public class IntrinsicElectronicData
 	{
 		if (Present != null)
 		{
-			//Logger.Log("Present");
 			Present.DestroyThisPlease();
 		}
 		else
 		{
-			//Logger.Log("NOT Present");
 			InternalDestroyThisPlease();
 		}
 	}
@@ -275,22 +272,19 @@ public class IntrinsicElectronicData
 	private void InternalDestroyThisPlease()
 	{
 		DestroyQueueing = true;
-		ElectricalSynchronisation.NUElectricalObjectsToDestroy.Add(this);
+		ElectricalManager.Instance.electricalSync.NUElectricalObjectsToDestroy.Add(this);
 	}
 
 
 	public void DestroyingThisNow()
 	{
-		///Logger.Log("DestroyingThisNow");
 		if (Present != null)
 		{
-			///Logger.Log("Present DestroyingThisNow");
 			Present.DestroyingThisNow();
 			Present = null;
 		}
 		else
 		{
-			//Logger.Log("NOT Present DestroyingThisNow");
 			InternalDestroyingThisNow();
 		}
 	}
@@ -299,12 +293,11 @@ public class IntrinsicElectronicData
 	{
 		if (DestroyQueueing)
 		{
-			//Logger.Log("GGGGG");
 			FlushConnectionAndUp();
 			FindPossibleConnections();
 			FlushConnectionAndUp();
 			MetaDataPresent.IsOn.ElectricalData.Remove(MetaDataPresent);
-			ElectricalSynchronisation.StructureChange = true;
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			MetaDataPresent.Locatedon.RemoveUnderFloorTile(MetaDataPresent.NodeLocation, MetaDataPresent.RelatedTile);
 		}
 	}

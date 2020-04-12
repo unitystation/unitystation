@@ -25,7 +25,7 @@ public abstract class BasicTile : LayerTile
 	[Tooltip("Does this tile form a seal against the floor?")]
 	[FormerlySerializedAs("IsSealed")]
 	[SerializeField]
-	private bool isSealed;
+	private bool isSealed = false;
 
 	[Tooltip("Should this tile get initialized with Space gasmix at round start (e.g. asteroids)?")]
 	public bool SpawnWithNoAir;
@@ -40,12 +40,12 @@ public abstract class BasicTile : LayerTile
 	[Tooltip("Does this tile allow items / objects to pass through it?")]
 	[FormerlySerializedAs("Passable")]
 	[SerializeField]
-	private bool passable;
+	private bool passable = false;
 
 	[Tooltip("Can this tile be mined?")]
 	[FormerlySerializedAs("Mineable")]
 	[SerializeField]
-	private bool mineable;
+	private bool mineable = false;
 	/// <summary>
 	/// Can this tile be mined?
 	/// </summary>
