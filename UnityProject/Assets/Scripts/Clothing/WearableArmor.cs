@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -26,7 +27,7 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
-	{   
+	{
 		//Wearing
 		if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
 		{
@@ -51,61 +52,57 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 
 	private void UpdateBodyPartsArmor(bool remove = false)
 	{
-		foreach(BodyPartsCovered flag in bodyPartsCovered.GetFlags())
+		foreach(BodyPartsCovered coveredPart in bodyPartsCovered.GetFlags())
 		{
-			if (flag == BodyPartsCovered.none)
+			if (coveredPart == BodyPartsCovered.None)
 			{
 				continue;
 			}
 
-			BodyPartType bodyPart = bodyParts[flag];
-			foreach (BodyPartBehaviour part in player.BodyParts)
+			var bodyPart = bodyParts[coveredPart];
+			foreach (var part in player.BodyParts.Where(part => part.Type == bodyPart))
 			{
-				if (part.Type == bodyPart)
+				if (remove)
 				{
-					if (remove)
-					{
-						part.armor -= armor;
-						break;
-					}
-					else
-					{
-						part.armor += armor;
-						break;
-					}
+					part.armor -= armor;
+					break;
+				}
+				else
+				{
+					part.armor += armor;
+					break;
 				}
 			}
 		}
 	}
 
-
 	[Flags]
 	private enum BodyPartsCovered
 	{
-		none = 0,
-		head = 1 << 1,
-		eyes = 1 << 2,
-		mouth = 1 << 3,
-		chest = 1 << 4,
-		leftArm = 1 << 5,
-		rightArm = 1 << 6,
-		groin = 1 << 7,
-		leftLeg = 1 << 8,
-		rightLeft = 1 << 9
+		None = 0,
+		Head = 1 << 1,
+		Eyes = 1 << 2,
+		Mouth = 1 << 3,
+		Chest = 1 << 4,
+		LeftArm = 1 << 5,
+		RightArm = 1 << 6,
+		Groin = 1 << 7,
+		LeftLeg = 1 << 8,
+		RightLeft = 1 << 9
 	}
 
 	private readonly Dictionary<BodyPartsCovered, BodyPartType> bodyParts = new Dictionary<BodyPartsCovered, BodyPartType> ()
 	{
-		{BodyPartsCovered.none, BodyPartType.None},
-		{BodyPartsCovered.head, BodyPartType.Head},
-		{BodyPartsCovered.eyes, BodyPartType.Eyes},
-		{BodyPartsCovered.mouth, BodyPartType.Mouth},
-		{BodyPartsCovered.chest, BodyPartType.Chest},
-		{BodyPartsCovered.leftArm, BodyPartType.LeftArm},
-		{BodyPartsCovered.rightArm, BodyPartType.RightArm},
-		{BodyPartsCovered.groin, BodyPartType.Groin},
-		{BodyPartsCovered.leftLeg, BodyPartType.LeftLeg},
-		{BodyPartsCovered.rightLeft, BodyPartType.RightLeg},
+		{BodyPartsCovered.None, BodyPartType.None},
+		{BodyPartsCovered.Head, BodyPartType.Head},
+		{BodyPartsCovered.Eyes, BodyPartType.Eyes},
+		{BodyPartsCovered.Mouth, BodyPartType.Mouth},
+		{BodyPartsCovered.Chest, BodyPartType.Chest},
+		{BodyPartsCovered.LeftArm, BodyPartType.LeftArm},
+		{BodyPartsCovered.RightArm, BodyPartType.RightArm},
+		{BodyPartsCovered.Groin, BodyPartType.Groin},
+		{BodyPartsCovered.LeftLeg, BodyPartType.LeftLeg},
+		{BodyPartsCovered.RightLeft, BodyPartType.RightLeg},
 	};
 
 }
