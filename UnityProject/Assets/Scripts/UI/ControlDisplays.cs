@@ -106,6 +106,8 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(true);
+		preRoundWindow.SetActive(false);
+		SoundManager.SongTracker.Stop();
 	}
 
 	void GhostUI()
@@ -118,6 +120,8 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(true);
+		preRoundWindow.SetActive(false);
+		SoundManager.SongTracker.Stop();
 	}
 
 	/// <summary>
