@@ -18,11 +18,11 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	[SerializeField]
 	[FormerlySerializedAs("Sparks")]
-	private ParticleSystem sparksPrefab;
+	private ParticleSystem sparksPrefab = null;
 
 	[SerializeField]
 	[FormerlySerializedAs("Sparks")]
-	private ParticleSystem smokePrefab;
+	private ParticleSystem smokePrefab = null;
 
 	public float MaximumInstantBreakCurrent;
 	public float MaximumBreakdownCurrent;
@@ -171,22 +171,23 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public void QueueForDemolition(CableInheritance CableToDestroy)
 	{
+		var sync = ElectricalManager.Instance.electricalSync;
 		DestructionPriority = wireConnect.InData.Data.CurrentInWire * MaximumBreakdownCurrent;
-		if (ElectricalSynchronisation.CableToDestroy != null)
+		if (sync.CableToDestroy != null)
 		{
-			if (DestructionPriority >= ElectricalSynchronisation.CableToDestroy.DestructionPriority)
+			if (DestructionPriority >= sync.CableToDestroy.DestructionPriority)
 			{
-				ElectricalSynchronisation.CableToDestroy.Smoke.Stop();
-				ElectricalSynchronisation.CableToDestroy.Sparks.Stop();
-				ElectricalSynchronisation.CableUpdates.Add(ElectricalSynchronisation.CableToDestroy);
-				ElectricalSynchronisation.CableToDestroy = this;
+				sync.CableToDestroy.Smoke.Stop();
+				sync.CableToDestroy.Sparks.Stop();
+				sync.CableUpdates.Add(sync.CableToDestroy);
+				sync.CableToDestroy = this;
 			}
 			else {
-				ElectricalSynchronisation.CableUpdates.Add(this);
+				sync.CableUpdates.Add(this);
 			}
 		}
 		else {
-			ElectricalSynchronisation.CableToDestroy = this;
+			sync.CableToDestroy = this;
 		}
 	}
 
@@ -195,7 +196,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	{
 		yield return WaitFor.Seconds(TimeDeforeDestructiveBreakdown);
 		CheckDestruction = true;
-		ElectricalSynchronisation.CableUpdates.Add(this);
+		ElectricalManager.Instance.electricalSync.CableUpdates.Add(this);
 	}
 
 	IEnumerator WaitForLoad()
@@ -303,6 +304,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 								SetDirection(WireEndB, WireEndA, CableType);
 								//ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
 								Econns[i].DestroyThisPlease();
+								return;
 							}
 							else if (Econns[i].WireEndB == Connection.Overlap)
 							{
@@ -316,6 +318,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 								SetDirection(WireEndB, WireEndA, CableType);
 								//ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
 								Econns[i].DestroyThisPlease();
+								return;
 							}
 						}
 					}
@@ -342,7 +345,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		if (isServer)
 		{
 			CheckOverlap = true;
-			ElectricalSynchronisation.CableUpdates.Add(this);
+			ElectricalManager.Instance.electricalSync.CableUpdates.Add(this);
 		}
 	}
 

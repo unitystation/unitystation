@@ -297,7 +297,7 @@ namespace Mirror
                 payload = writer.ToArraySegment()
             };
 
-            conn.Send(message, channelId);
+            if(conn != null) conn.Send(message, channelId);
         }
 
         /// <summary>

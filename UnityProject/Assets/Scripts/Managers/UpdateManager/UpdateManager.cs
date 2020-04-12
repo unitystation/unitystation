@@ -10,22 +10,29 @@ using UnityEngine.Profiling;
 /// </summary>
 public class UpdateManager : MonoBehaviour
 {
+	private static UpdateManager instance;
+	public static UpdateManager Instance
+	{
+		get { return instance; }
+	}
+
 	private Dictionary<CallbackType, CallbackCollection> collections;
 
 	private List<Action> updateActions = new List<Action>();
 	private List<Action> fixedUpdateActions = new List<Action>();
 	private List<Action> lateUpdateActions = new List<Action>();
 
-    public static bool IsInitialized { get { return instance != null; } }
-	private static UpdateManager instance;
+	public bool Profile = false;
 
-	// TODO: Obsolete, remove when no longer used.
-	public static UpdateManager Instance { get { return instance; } }
+	public static bool IsInitialized
+	{
+		get { return instance != null; }
+	}
 
 	private class NamedAction
 	{
-		public Action Action;
-		public string Name;
+		public Action Action = null;
+		public string Name = null;
 		public bool WaitingForRemove;
 	}
 
@@ -33,26 +40,30 @@ public class UpdateManager : MonoBehaviour
 	{
 		// Double collection: List for fast iteration, dictionary for O(1) removal.
 		// Trading memory for cpu perf.
-
 		public readonly List<NamedAction> ActionList = new List<NamedAction>(128);
 		public readonly Dictionary<Action, NamedAction> ActionDictionary = new Dictionary<Action, NamedAction>(128);
+	}
+
+	private void Awake()
+	{
+		if (instance != null)
+		{
+			Destroy(gameObject);
+			return;
+		}
+
+		collections = new Dictionary<CallbackType, CallbackCollection>(3, new CallbackTypeComparer());
+		foreach (CallbackType callbackType in Enum.GetValues(typeof(CallbackType)))
+		{
+			collections.Add(callbackType, new CallbackCollection());
+		}
+
+		instance = this;
 	}
 
 	public static void Add(CallbackType type, Action action)
 	{
 		instance.AddCallbackInternal(type, action);
-	}
-
-	[Obsolete("This will be removed in the future. Use UpdateManager.Add(CallbackType, Action) instead.")]
-	public void Add(Action updatable)
-	{
-		Add(CallbackType.UPDATE, updatable);
-	}
-
-	[Obsolete("This will be removed in the future. Use UpdateManager.Remove(CallbackType, Action) instead.")]
-	public void Remove(Action updatable)
-	{
-		Add(CallbackType.UPDATE, updatable);
 	}
 
 	public static void Add(ManagedNetworkBehaviour networkBehaviour)
@@ -64,10 +75,9 @@ public class UpdateManager : MonoBehaviour
 
 	public static void Remove(CallbackType type, Action action)
 	{
-
 		if (action == null || Instance == null) return;
 
-			if (type == CallbackType.UPDATE)
+		if (type == CallbackType.UPDATE)
 		{
 			if (Instance.updateActions.Contains(action))
 			{
@@ -93,9 +103,6 @@ public class UpdateManager : MonoBehaviour
 				return;
 			}
 		}
-		//var callbackCollection = instance.collections[type];
-
-		//instance.RemoveCallbackInternal(callbackCollection, action);
 	}
 
 	public static void Remove(ManagedNetworkBehaviour networkBehaviour)
@@ -149,7 +156,6 @@ public class UpdateManager : MonoBehaviour
 
 	private void AddCallbackInternal(CallbackType type, Action action)
 	{
-
 		if (type == CallbackType.UPDATE)
 		{
 			if (!Instance.updateActions.Contains(action))
@@ -176,33 +182,6 @@ public class UpdateManager : MonoBehaviour
 				return;
 			}
 		}
-
-		//FIXME current system is 2 x slower possibly because of garbage being created
-		//in ProcessCallbacks()
-		return;
-		NamedAction namedAction = new NamedAction();
-
-		// Give that shit a name so we can refer to it in profiler.
-#if UNITY_EDITOR
-		namedAction.Name = action.Target != null ?
-			action.Target.GetType().ToString() + "." + action.Method.ToString() :
-			action.Method.ToString();
-#endif
-		namedAction.Action = action;
-
-        CallbackCollection callbackCollection = collections[type];
-
-		// Check if it's already been added, should never be the case so avoiding the overhead in build.
-#if UNITY_EDITOR
-		if (callbackCollection.ActionDictionary.ContainsKey(action))
-		{
-			Debug.LogErrorFormat("Failed to add callback '{0}' to CallbackEvent '{1}' because it is already added.", namedAction.Name, type.ToString());
-			return;
-		}
-#endif
-
-		callbackCollection.ActionList.Add(namedAction);
-		callbackCollection.ActionDictionary.Add(action, namedAction);
 	}
 
 	private void RemoveCallbackInternal(CallbackCollection collection, Action callback)
@@ -215,34 +194,27 @@ public class UpdateManager : MonoBehaviour
 		}
 	}
 
-	private void Awake()
-	{
-		if (instance != null)
-		{
-			Destroy(gameObject);
-			return;
-		}
-
-		collections = new Dictionary<CallbackType, CallbackCollection>(3, new CallbackTypeComparer());
-		foreach (CallbackType callbackType in Enum.GetValues(typeof(CallbackType)))
-		{
-			collections.Add(callbackType, new CallbackCollection());
-		}
-
-		instance = this;
-	}
-
 	private void Update()
 	{
 		for (int i = updateActions.Count; i > 0; i--)
 		{
 			if (i > 0 && i < updateActions.Count)
 			{
+#if UNITY_EDITOR
+				if (Profile)
+				{
+					Profiler.BeginSample(updateActions[i]?.Method?.ReflectedType?.FullName);
+				}
+#endif
 				updateActions[i].Invoke();
+#if UNITY_EDITOR
+				if (Profile)
+				{
+					Profiler.EndSample();
+				}
+#endif
 			}
 		}
-		//Fixme
-		//ProcessCallbacks(collections[CallbackType.UPDATE]);
 	}
 
 	private void FixedUpdate()
@@ -254,8 +226,6 @@ public class UpdateManager : MonoBehaviour
 				fixedUpdateActions[i].Invoke();
 			}
 		}
-		//Fixme
-		//ProcessCallbacks(collections[CallbackType.FIXED_UPDATE]);
 	}
 
 	private void LateUpdate()
@@ -267,8 +237,6 @@ public class UpdateManager : MonoBehaviour
 				lateUpdateActions[i].Invoke();
 			}
 		}
-		//Fixme
-		//ProcessCallbacks(collections[CallbackType.LATE_UPDATE]);
 	}
 
 	private void OnDestroy()
@@ -297,6 +265,6 @@ public struct CallbackTypeComparer : IEqualityComparer<CallbackType>
 
 	public int GetHashCode(CallbackType obj)
 	{
-		return (int)obj;
+		return (int) obj;
 	}
 }

@@ -50,7 +50,7 @@ public class ItemAttributesV2 : Attributes
 	public float ServerHitDamage
 	{
 		get {
-			
+
 			//If item has an ICustomDamageCalculation component, use that instead.
 			ICustomDamageCalculation part = GetComponent<ICustomDamageCalculation>();
 			if (part != null)
@@ -125,7 +125,7 @@ public class ItemAttributesV2 : Attributes
 	//suits and masks. Probably belong in the Clothing component.
 	[Tooltip("Is this a mask that can connect to a tank?")]
 	[SerializeField]
-	private bool canConnectToTank;
+	private bool canConnectToTank = false;
 	/// <summary>
 	/// Whether this item can connect to a gas tank.
 	/// </summary>
@@ -134,7 +134,7 @@ public class ItemAttributesV2 : Attributes
 
 	[Tooltip("Can this item protect humans against spess?")]
 	[SerializeField]
-	private bool isEVACapable;
+	private bool isEVACapable = false;
 	/// <summary>
 	/// Can this item protect humans against spess?
 	/// </summary>

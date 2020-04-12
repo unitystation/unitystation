@@ -101,6 +101,26 @@ public class UnderFloorLayer : Layer
 		}
 	}
 
+	public override void RemoveTile(Vector3Int position, bool removeAll = false)
+	{
+		if (Application.isPlaying)
+		{
+			base.RemoveTile(position, removeAll);
+			return;
+		}
+
+		//This is for the erase tool at edit time:
+		for (int i = 0; i < 50; i++)
+		{
+			position.z = -i + 1;
+			var getTile = tilemap.GetTile(position);
+			if (getTile != null)
+			{
+				base.RemoveTile(position, removeAll);
+			}
+		}
+	}
+
 	public void RemoveSpecifiedTile(Vector3Int position, LayerTile tile)
 	{
 		if (!TileStore.ContainsKey((Vector2Int)position)) return;
@@ -110,6 +130,9 @@ public class UnderFloorLayer : Layer
 			if (TileStore[(Vector2Int)position].Contains(tile))
 			{
 				int index = TileStore[(Vector2Int)position].IndexOf(tile);
+				matrix.TileChangeManager.RemoveTile(new Vector3Int(position.x, position.y, (-index) + 1),
+					LayerType.Underfloor,
+					false);
 				TileStore[(Vector2Int)position][index] = null;
 			}
 		}

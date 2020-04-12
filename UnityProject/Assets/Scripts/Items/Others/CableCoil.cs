@@ -150,7 +150,7 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandAp
 	{
 		Connection WireEndA = Connection.Overlap;
 		GameObject Cable = Spawn.ServerPrefab(CablePrefab, position, parent).GameObject;
-		ElectricalSynchronisation.StructureChange = true;
+		ElectricalManager.Instance.electricalSync.StructureChange = true;
 		//ElectricalCableMessage.Send(Cable, WireEndA, WireEndB, CableType);
 		var CableInheritance = Cable.GetComponent<CableInheritance>();
 		CableInheritance.IsInGamePlaced = true;

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7774542088384376982}
   - component: {fileID: 1070313877163671911}
   - component: {fileID: 6294776786751230859}
+  - component: {fileID: 2525581074043891641}
   m_Layer: 0
   m_Name: ElectricalManager
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   MediumVoltageCables: {fileID: 11400000, guid: c2e297b7aac41c141a4febee3e0b895d,
     type: 2}
   LowVoltageCables: {fileID: 11400000, guid: b285d916624115947a1d1bec0532f948, type: 2}
+  electricalSync: {fileID: 2525581074043891641}
   MSSpeed: 100
   Mode: 0
   DOCheck: 0
@@ -63,6 +65,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+--- !u!114 &2525581074043891641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7894183085214221789}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 00f695ced7ad8654ca2b325a3957206d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MainThreadProcess: 0
+  Electriclock: {fileID: 0}
+  StructureChange: 1
+  CableToDestroy: {fileID: 0}
+  DirectionWorkOnNextList: []
+  DirectionWorkOnNextListWait: []
+  _DirectionWorkOnNextList: []
+  _DirectionWorkOnNextListWait: []
+  UesAlternativeDirectionWorkOnNextList: 0
+  UesAlternativeResistanceWorkOnNextList: 0
+  currentTick: 0
+  tickRateComplete: 1
+  tickRate: 0
+  OrderList: 0e000000050000000d000000020000000f00000007000000
+  UnconditionalSupplies: 050000000d0000000e000000

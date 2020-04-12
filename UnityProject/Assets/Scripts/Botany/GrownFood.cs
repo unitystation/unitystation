@@ -14,13 +14,13 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	public GameObject SeedPacket => seedPacket;
 
 	[SerializeField]
-	private GameObject seedPacket;
+	private GameObject seedPacket = null;
 	[SerializeField]
-	private SpriteRenderer SpriteSizeAdjustment;
+	private SpriteRenderer SpriteSizeAdjustment = null;
 	[SerializeField]
 	private SpriteHandler Sprite;
 	[SerializeField]
-	private Edible edible;
+	private Edible edible = null;
 
 
 

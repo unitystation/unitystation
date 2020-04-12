@@ -11,7 +11,7 @@ public class Traitor : GameMode
 			 "2 traitors when there are 10 players.")]
 	[Range(0, 1)]
 	[SerializeField]
-	private float TraitorRatio;
+	private float TraitorRatio = 0;
 
 	/// <summary>
 	/// Set up the station for the game mode
@@ -44,7 +44,7 @@ public class Traitor : GameMode
 
 	// }
 
-	private List<JobType> LoyalImplanted = new List<JobType> 
+	private List<JobType> LoyalImplanted = new List<JobType>
 	{
 		JobType.CAPTAIN,
 		JobType.HOP,

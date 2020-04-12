@@ -632,13 +632,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 
 		var transferAmount = transferFrom.TransferAmount;
 
-		var useFillMessage = false;
-		//always taking max capacity from output-only things like tanks
-		if (transferFrom.transferMode == TransferMode.OutputOnly)
-		{
-			transferAmount = transferFrom.CurrentCapacity;
-			useFillMessage = true;
-		}
+		var useFillMessage = true;
 
 		var result = transferFrom.MoveReagentsTo(transferAmount, transferTo);
 

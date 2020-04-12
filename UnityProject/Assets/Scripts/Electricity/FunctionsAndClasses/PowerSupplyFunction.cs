@@ -6,24 +6,26 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 	public static void TurnOffSupply(ModuleSupplyingDevice Supply)
 	{
 		Supply.ControllingNode.Node.InData.Data.ChangeToOff = true;
-		ElectricalSynchronisation.NUCurrentChange.Add (Supply.ControllingNode);
+		ElectricalManager.Instance.electricalSync.NUCurrentChange.Add (Supply.ControllingNode);
 	}
 	public static void TurnOnSupply(ModuleSupplyingDevice Supply)
 	{
 		Supply.ControllingNode.Node.InData.Data.ChangeToOff = false;
-		ElectricalSynchronisation.AddSupply(Supply.ControllingNode, Supply.ControllingNode.ApplianceType);
-		ElectricalSynchronisation.NUStructureChangeReact.Add (Supply.ControllingNode);
-		ElectricalSynchronisation.NUResistanceChange.Add (Supply.ControllingNode);
-		ElectricalSynchronisation.NUCurrentChange.Add (Supply.ControllingNode);
+		var sync = ElectricalManager.Instance.electricalSync;
+		sync.AddSupply(Supply.ControllingNode, Supply.ControllingNode.ApplianceType);
+		sync.NUStructureChangeReact.Add (Supply.ControllingNode);
+		sync.NUResistanceChange.Add (Supply.ControllingNode);
+		sync.NUCurrentChange.Add (Supply.ControllingNode);
 	}
 
 	public static void PowerUpdateStructureChangeReact(ModuleSupplyingDevice Supply)
 	{
-		ElectricalSynchronisation.CircuitSearchLoop(Supply.ControllingNode.Node);
+		ElectricalManager.Instance.electricalSync.CircuitSearchLoop(Supply.ControllingNode.Node);
 	}
 
 	public static void PowerUpdateCurrentChange(ModuleSupplyingDevice Supply)
 	{
+		var sync = ElectricalManager.Instance.electricalSync;
 		if (Supply.ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(Supply.ControllingNode.Node)){
 			//Logger.Log("PowerUpdateCurrentChange for Supply  > " + Supply.name);
 			Supply.ControllingNode.Node.InData.FlushSupplyAndUp(Supply.ControllingNode.Node); //Needs change
@@ -70,9 +72,9 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 			else {
 				foreach (var  connectedDevice in Supply.ControllingNode.Node.connectedDevices)
 				{
-					if (ElectricalSynchronisation.ReactiveSuppliesSet.Contains(connectedDevice.Categorytype))
+					if (sync.ReactiveSuppliesSet.Contains(connectedDevice.Categorytype))
 					{
-						ElectricalSynchronisation.NUCurrentChange.Add(connectedDevice.ControllingDevice);
+						sync.NUCurrentChange.Add(connectedDevice.ControllingDevice);
 					}
 				}
 			}
@@ -85,7 +87,7 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 			Supply.ControllingNode.Node.InData.Data.ChangeToOff = false;
 			Supply.ControllingNode.TurnOffCleanup();
 
-			ElectricalSynchronisation.RemoveSupply(Supply.ControllingNode.Node.InData.ControllingDevice, Supply.ControllingNode.Node.InData.Categorytype);
+			sync.RemoveSupply(Supply.ControllingNode.Node.InData.ControllingDevice, Supply.ControllingNode.Node.InData.Categorytype);
 		}
 	}
 }

@@ -9,6 +9,8 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
+	[NonSerialized]
+	public LayerTypeSelection layerTypeSelection = LayerTypeSelection.Underfloor | LayerTypeSelection.Effects;
 
 	[FormerlySerializedAs("entries")]
 	[Tooltip("Defines each possible way this item can be placed as a tile.")]
@@ -37,7 +39,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 
 		//check if we are clicking a spot we can place a tile on
 		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, side);
-		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
+		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget,layerTypeSelection);
 
 		foreach (var entry in waysToPlace)
 		{
@@ -53,7 +55,6 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 				return true;
 			}
 		}
-
 		return false;
 	}
 	public void ClientPredictInteraction(PositionalHandApply interaction)
@@ -68,7 +69,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 		//which matrix are we clicking on
 		var interactableTiles = InteractableTiles.GetAt(interaction.WorldPositionTarget, true);
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.WorldPositionTarget);
-		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget);
+		var tileAtPosition = interactableTiles.LayerTileAt(interaction.WorldPositionTarget,layerTypeSelection);
 
 		PlaceableTileEntry placeableTileEntry = null;
 
@@ -113,7 +114,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 				Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
 				SoundManager.PlayNetworkedAtPos(placeSound, targetPosition);
 			}
-			
+
 			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
 				.ServerStartProgress(targetPosition, placeTime, performer);
 		}

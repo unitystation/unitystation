@@ -17,7 +17,7 @@ public class ChatScroll : MonoBehaviour
 	[SerializeField] private GameObject defaultChatEntryPrefab = null;
 	[SerializeField] private Scrollbar scrollBar = null;
 	[SerializeField] private float scrollSpeed = 0.5f;
-	[SerializeField] private RectTransform layoutRoot;
+	[SerializeField] private RectTransform layoutRoot = null;
 
 	private List<ChatEntryData> chatLog = new List<ChatEntryData>();
 	protected List<ChatEntryView> chatViewPool = new List<ChatEntryView>();
@@ -29,7 +29,7 @@ public class ChatScroll : MonoBehaviour
 	[SerializeField] protected int MaxViews = 17;
 	[Tooltip("If this is set to true then the input field will not add a chat entry to the" +
 	         "chatlogs. You do this because you want to handle the entry manually")]
-	[SerializeField] private bool doNotAddInputToChatLog;
+	[SerializeField] private bool doNotAddInputToChatLog = false;
 
 	private float contentWidth;
 

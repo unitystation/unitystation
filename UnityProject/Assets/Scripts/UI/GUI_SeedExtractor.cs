@@ -18,8 +18,6 @@ public class GUI_SeedExtractor : NetTab
 	[SerializeField]
 	private EmptyItemList seedList = null;
 	[SerializeField]
-	private NetColorChanger hullColor = null;
-	[SerializeField]
 	private NetButton backButton = null;
 	[SerializeField]
 	private NetLabel title = null;

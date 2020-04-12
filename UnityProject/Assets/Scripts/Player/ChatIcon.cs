@@ -10,7 +10,7 @@ public class ChatIcon : MonoBehaviour
 	private const int TalkSprite = 3;
 
 	[SerializeField]
-	private SpriteHandler spriteHandler;
+	private SpriteHandler spriteHandler = null;
 	[Tooltip("Time after which chat icon disapear")]
 	public float IconTimeout = 3f;
 	[Tooltip("The max time of non-stop typing. After this point, player might be disconected")]
@@ -45,7 +45,7 @@ public class ChatIcon : MonoBehaviour
 				StopCoroutine(coWaitToTurnOff);
 		}
 	}
-	
+
 	public void ToggleChatIcon(bool toggle, ChatModifier chatModifier)
 	{
 		if (toggle)

@@ -10,7 +10,7 @@ namespace AdminTools
 {
 	public class AdminToAdminChat : MonoBehaviour
 	{
-		[SerializeField] private ChatScroll chatScroll;
+		[SerializeField] private ChatScroll chatScroll = null;
 		private const string NotificationKey = "adminchat";
 
 		/// <summary>
