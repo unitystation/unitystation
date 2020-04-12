@@ -705,7 +705,7 @@ public class SoundManager : MonoBehaviour
 		{
 			if (step)
 			{
-				SoundManager.PlayNetworkedAtPos(
+				PlayNetworkedAtPos(
 					Instance.stepSounds[stepType][tile.floorTileType].PickRandom(),
 					worldPos,
 					Random.Range(0.7f, 1.2f),
