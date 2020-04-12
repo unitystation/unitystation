@@ -12,7 +12,6 @@ public partial class PlayerList : NetworkBehaviour
 	//ConnectedPlayer list, server only
 	private List<ConnectedPlayer> loggedIn = new List<ConnectedPlayer>();
 	private List<ConnectedPlayer> loggedOff = new List<ConnectedPlayer>();
-	private List<ConnectedPlayer> readyPlayers = new List<ConnectedPlayer>();
 
 	//For client needs: updated via UpdateConnectedPlayersMessage, useless for server
 	public List<ClientConnectedPlayer> ClientConnectedPlayers = new List<ClientConnectedPlayer>();
@@ -30,7 +29,10 @@ public partial class PlayerList : NetworkBehaviour
 	public List<ConnectedPlayer> AllPlayers =>
 		loggedIn.FindAll(player => (player.Script != null || player.ViewerScript != null));
 
-	public List<ConnectedPlayer> LobbyPlayers => loggedIn.FindAll(player => player.ViewerScript != null);
+	/// <summary>
+	/// Players in the pre-round lobby who have clicked the ready button and have up to date CharacterSettings
+	/// </summary>
+	public List<ConnectedPlayer> ReadyPlayers { get; } = new List<ConnectedPlayer>();
 
 	/// <summary>
 	/// Used to track who killed who. Could be used to check that a player actually killed someone themselves.
@@ -459,20 +461,29 @@ public partial class PlayerList : NetworkBehaviour
 	/// <summary>
 	/// Makes a player ready/unready for job allocations
 	/// </summary>
-	public void SetPlayerReady(ConnectedPlayer player, bool isReady, JobPrefsDict jobPrefs = null)
+	public void SetPlayerReady(ConnectedPlayer player, bool isReady, CharacterSettings charSettings = null)
 	{
 		if (isReady)
 		{
 			// Update connection with locked in job prefs
-			player.JobPreferences = jobPrefs;
-			readyPlayers.Add(player);
-			Logger.Log($"Set {player.Username} to ready! Job prefs:\n{jobPrefs}");
+			player.CharacterSettings = charSettings;
+			ReadyPlayers.Add(player);
+			Logger.Log($"Set {player.Username} to ready! Character settings:\n{charSettings}");
 		}
 		else
 		{
-			readyPlayers.Remove(player);
+			ReadyPlayers.Remove(player);
 			Logger.Log($"Set {player.Username} to NOT ready!");
 		}
+	}
+
+	/// <summary>
+	/// Clears the list of ready players
+	/// </summary>
+	[Server]
+	public void ClearReadyPlayers()
+	{
+		ReadyPlayers.Clear();
 	}
 }
 

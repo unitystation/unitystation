@@ -35,7 +35,7 @@ public class ConnectedPlayer
 	public string ClientId { get; set; }
 	public string UserId { get; set; }
 	public NetworkConnection Connection { get; set; }
-	public JobPrefsDict JobPreferences { get; set; }
+	public CharacterSettings CharacterSettings { get; set; }
 
 	public GameObject GameObject
 	{

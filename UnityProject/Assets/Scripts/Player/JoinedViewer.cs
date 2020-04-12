@@ -154,7 +154,7 @@ public class JoinedViewer : NetworkBehaviour
 		//If they do, bypass the normal spawn logic.
 		if (GameManager.Instance.TrySpawnAntag(spawnRequest)) return;
 
-		PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation, characterSettings);
+		PlayerSpawn.ServerSpawnPlayer(spawnRequest);
 	}
 	/// <summary>
 	/// Command to spectate a round instead of spawning as a player
@@ -195,16 +195,16 @@ public class JoinedViewer : NetworkBehaviour
 	/// </summary>
 	public void SetReady(bool isReady)
 	{
-		string jobPrefs = "";
+		var jsonCharSettings = "";
 		if (isReady)
 		{
-			jobPrefs = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings.JobPreferences);
+			jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
 		}
-		CmdPlayerReady(netIdentity, DatabaseAPI.ServerData.UserID, isReady, jobPrefs);
+		CmdPlayerReady(netIdentity, DatabaseAPI.ServerData.UserID, isReady, jsonCharSettings);
 	}
 
 	[Command]
-	private void CmdPlayerReady(NetworkIdentity networkIdentity, string userID, bool isReady, string jsonJobPrefs)
+	private void CmdPlayerReady(NetworkIdentity networkIdentity, string userID, bool isReady, string jsonCharSettings)
 	{
 		var byConnection = PlayerList.Instance.GetByConnection(networkIdentity.connectionToClient);
 		var byUserID = PlayerList.Instance.GetByUserID(userID);
@@ -218,11 +218,11 @@ public class JoinedViewer : NetworkBehaviour
 			return;
 		}
 
-		JobPrefsDict jobPrefs = null;
+		CharacterSettings charSettings = null;
 		if (isReady)
 		{
-			jobPrefs = JsonConvert.DeserializeObject<JobPrefsDict>(jsonJobPrefs);
+			charSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
 		}
-		PlayerList.Instance.SetPlayerReady(byConnection, isReady, jobPrefs);
+		PlayerList.Instance.SetPlayerReady(byConnection, isReady, charSettings);
 	}
 }
