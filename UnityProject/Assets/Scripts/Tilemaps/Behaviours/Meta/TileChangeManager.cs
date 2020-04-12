@@ -140,7 +140,8 @@ public class TileChangeManager : NetworkBehaviour
 	[Server]
 	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType, bool removeAll=true)
 	{
-		/*if (layerType == LayerType.Underfloor)
+		//Adjusts the cellPosition so it represents the correct z position of the target tile
+		if (layerType == LayerType.Underfloor)
 		{
 			var matrix = metaTileMap.Layers[LayerType.Underfloor].matrix;
 			var metaDataNode = matrix.GetMetaDataNode(cellPosition);
@@ -148,10 +149,9 @@ public class TileChangeManager : NetworkBehaviour
 			if (metaDataNode.ElectricalData.Count > 0)
 			{
 				cellPosition = metaDataNode.ElectricalData[0].NodeLocation;
-				metaDataNode.ElectricalData[0].InData.DestroyThisPlease();
 				removeAll = false;
 			}
-		}*/
+		}
 
 		var layerTile = metaTileMap.GetTile(cellPosition, layerType);
 		if(metaTileMap.HasTile(cellPosition, layerType, true))
