@@ -364,11 +364,11 @@ public partial class PlayerSync
 		{
 			if ( !playerScript.playerHealth.IsSoftCrit )
 			{
-				SpeedClient = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
+				SpeedClient = action.isRun ? playerMove.runSpeed : playerMove.walkSpeed;
 			}
 			else
 			{
-				SpeedClient = playerMove.CrawlSpeed;
+				SpeedClient = playerMove.crawlSpeed;
 			}
 		}
 

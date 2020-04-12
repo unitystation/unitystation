@@ -489,7 +489,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		{
 			pendingActions = new Queue<PlayerAction>();
 			UpdatePredictedState();
-			predictedSpeedClient = UIManager.WalkRun.running ? playerMove.RunSpeed : playerMove.WalkSpeed;
+			predictedSpeedClient = UIManager.WalkRun.running ? playerMove.runSpeed : playerMove.walkSpeed;
 		}
 	}
 

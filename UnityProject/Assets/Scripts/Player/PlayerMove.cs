@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Sound;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
@@ -15,6 +16,7 @@ using UnityEngine.Serialization;
 public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI
 {
 	public PlayerScript PlayerScript => playerScript;
+	public Footsteps footsteps = new Footsteps();
 
 	public bool diagonalMovement;
 
@@ -123,11 +125,14 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
-	[FormerlySerializedAs("speed")] public float InitialRunSpeed = 6;
-	[HideInInspector] public float RunSpeed = 6;
+	[FormerlySerializedAs("speed")]
+	[Tooltip("This is the initial Speed a player has while running. Walking Speed will be half this value")]
+	public float InitialSpeed = 6;
 
-	public float WalkSpeed = 3;
-	public float CrawlSpeed = 0.8f;
+	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))] public float runSpeed;
+
+	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))] public float walkSpeed;
+	[HideInInspector] public float crawlSpeed = 0.8f;
 
 	/// <summary>
 	/// Player will fall when pushed with such speed
@@ -149,7 +154,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
-		RunSpeed = InitialRunSpeed;
+		runSpeed = InitialSpeed;
+		walkSpeed = runSpeed/2;
+		crawlSpeed = 0.8f;
 	}
 
 	public override void OnStartClient()
@@ -470,6 +477,28 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		//ensure we are in sync with server
 		playerScript?.PlayerSync?.RollbackPrediction();
+	}
+
+	/// <summary>
+	/// Changes the player speed from Server. Values inputted as arguments will OVERRIDE the current speed!
+	/// </summary>
+	/// <param name="run">At what speed should the player run</param>
+	/// <param name="walk">At what speed should the player walk</param>
+	[Server]
+	public void ServerChangeSpeed(float run = 0f, float walk = 0f)
+	{
+		runSpeed = run < crawlSpeed ? crawlSpeed : run;
+		walkSpeed = walk < crawlSpeed ? crawlSpeed : walk;
+	}
+
+	private void SyncRunSpeed(float oldSpeed, float newSpeed)
+	{
+		this.runSpeed = newSpeed;
+	}
+
+	private void SyncWalkSpeed(float oldSpeed, float newSpeed)
+	{
+		this.walkSpeed = newSpeed;
 	}
 
 	public void CallActionClient()
