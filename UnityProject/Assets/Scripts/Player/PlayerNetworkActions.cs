@@ -403,14 +403,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			case ConsciousState.CONSCIOUS:
 				playerMove.allowInput = true;
-				playerScript.PlayerSync.SpeedServer = playerMove.runSpeed;
+				playerScript.PlayerSync.SpeedServer = playerMove.RunSpeed;
 				break;
 			case ConsciousState.BARELY_CONSCIOUS:
 				//Drop hand items when unconscious
 				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.leftHand));
 				Inventory.ServerDrop(itemStorage.GetNamedItemSlot(NamedSlot.rightHand));
 				playerMove.allowInput = true;
-				playerScript.PlayerSync.SpeedServer = playerMove.crawlSpeed;
+				playerScript.PlayerSync.SpeedServer = playerMove.CrawlSpeed;
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling

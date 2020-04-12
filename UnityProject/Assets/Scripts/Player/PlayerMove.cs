@@ -123,14 +123,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
-	[FormerlySerializedAs("speed")]
-	[Tooltip("This is the initial Speed a player has while running. Walking Speed will be half this value")]
-	public float InitialSpeed = 6;
-
-	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))] public float runSpeed;
-
-	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))] public float walkSpeed;
-	[HideInInspector] public float crawlSpeed = 0.8f;
+	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
+	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
+	[HideInInspector] public float CrawlSpeed;
 
 	/// <summary>
 	/// Player will fall when pushed with such speed
@@ -152,9 +147,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
-		runSpeed = InitialSpeed;
-		walkSpeed = runSpeed/2;
-		crawlSpeed = 0.8f;
+		RunSpeed = 6;
+		WalkSpeed = 3;
+		CrawlSpeed = 0.8f;
 	}
 
 	public override void OnStartClient()
@@ -485,18 +480,18 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	[Server]
 	public void ServerChangeSpeed(float run = 0f, float walk = 0f)
 	{
-		runSpeed = run < crawlSpeed ? crawlSpeed : run;
-		walkSpeed = walk < crawlSpeed ? crawlSpeed : walk;
+		RunSpeed = run < CrawlSpeed ? CrawlSpeed : run;
+		WalkSpeed = walk < CrawlSpeed ? CrawlSpeed : walk;
 	}
 
 	private void SyncRunSpeed(float oldSpeed, float newSpeed)
 	{
-		this.runSpeed = newSpeed;
+		this.RunSpeed = newSpeed;
 	}
 
 	private void SyncWalkSpeed(float oldSpeed, float newSpeed)
 	{
-		this.walkSpeed = newSpeed;
+		this.WalkSpeed = newSpeed;
 	}
 
 	public void CallActionClient()

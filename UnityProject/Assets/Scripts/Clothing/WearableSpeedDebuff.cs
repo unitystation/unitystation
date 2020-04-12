@@ -69,15 +69,15 @@ namespace Clothing
 		void ApplyDebuff()
 		{
 			player.playerMove.ServerChangeSpeed(
-				run: player.playerMove.runSpeed -= runningSpeedDebuff,
-				walk: player.playerMove.walkSpeed -= walkingSpeedDebuff);
+				run: player.playerMove.RunSpeed -= runningSpeedDebuff,
+				walk: player.playerMove.WalkSpeed -= walkingSpeedDebuff);
 		}
 
 		void RemoveDebuff()
 		{
 			player.playerMove.ServerChangeSpeed(
-				run: player.playerMove.runSpeed += runningSpeedDebuff,
-				walk: player.playerMove.walkSpeed += walkingSpeedDebuff);
+				run: player.playerMove.RunSpeed += runningSpeedDebuff,
+				walk: player.playerMove.WalkSpeed += walkingSpeedDebuff);
 		}
 	}
 }

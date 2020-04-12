@@ -194,8 +194,8 @@ public class MetabolismSystem : NetworkBehaviour
 	/// </summary>
 	private void ApplySpeedDebuff()
 	{
-		playerMove.runSpeed -= starvingRunDebuff;
-		playerMove.walkSpeed -= starvingWalkDebuff;
+		playerMove.RunSpeed -= starvingRunDebuff;
+		playerMove.WalkSpeed -= starvingWalkDebuff;
 		appliedStarvingDebuff = true;
 	}
 
@@ -204,8 +204,8 @@ public class MetabolismSystem : NetworkBehaviour
 	/// </summary>
 	private void RemoveSpeedDebuff()
 	{
-		playerMove.runSpeed += starvingRunDebuff;
-		playerMove.walkSpeed += starvingWalkDebuff;
+		playerMove.RunSpeed += starvingRunDebuff;
+		playerMove.WalkSpeed += starvingWalkDebuff;
 		appliedStarvingDebuff = false;
 	}
 

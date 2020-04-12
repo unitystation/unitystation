@@ -111,7 +111,7 @@ public partial class PlayerSync
 		{
 			Vector3Int worldPos = Vector3Int.RoundToInt((Vector2) transform.position); //cutting off Z-axis & rounding
 			MatrixInfo matrixAtPoint = MatrixManager.AtPoint(worldPos, true);
-			masterSpeedServer = playerMove.runSpeed;
+			masterSpeedServer = playerMove.RunSpeed;
 			PlayerState state = new PlayerState
 			{
 				MoveNumber = 0,
@@ -490,7 +490,7 @@ public partial class PlayerSync
 
 		if ( !playerScript.playerHealth || !playerScript.playerHealth.IsSoftCrit )
 		{
-			SpeedServer = action.isRun ? playerMove.runSpeed : playerMove.walkSpeed;
+			SpeedServer = action.isRun ? playerMove.RunSpeed : playerMove.WalkSpeed;
 		}
 
 		//we only lerp back if the client thinks it's passable  but server does not...if client

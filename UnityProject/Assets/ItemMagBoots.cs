@@ -80,14 +80,14 @@ public class ItemMagBoots : NetworkBehaviour,
 	private void ApplyEffect()
 	{
 		itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
-		playerMove.ServerChangeSpeed(run: playerMove.runSpeed - runSpeedDebuff);
+		playerMove.ServerChangeSpeed(run: playerMove.RunSpeed - runSpeedDebuff);
 		playerMove.PlayerScript.pushPull.ServerSetPushable(false);
 	}
 
 	private void RemoveEffect()
 	{
 		itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
-		playerMove.ServerChangeSpeed(run: playerMove.runSpeed + runSpeedDebuff);
+		playerMove.ServerChangeSpeed(run: playerMove.RunSpeed + runSpeedDebuff);
 		playerMove.PlayerScript.pushPull.ServerSetPushable(true);
 	}
 
