@@ -19,7 +19,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 		[SyncVar(hook = nameof(SyncPhotocopierState))]
 		private PhotocopierState photocopierState;
 
-		[SerializeField] private SpriteHandler spriteHandler;
+		[SerializeField] private SpriteHandler spriteHandler = null;
 		private RegisterObject registerObject;
 
 		private void Awake()

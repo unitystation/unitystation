@@ -24,15 +24,15 @@ public class GUI_JobPreferences : MonoBehaviour
 
 	[SerializeField]
 	[Tooltip("The job department template component")]
-	private JobDepartmentEntry departmentEntryTemplate;
+	private JobDepartmentEntry departmentEntryTemplate = null;
 
 	[SerializeField]
 	[Tooltip("The grid which contains all of the departments")]
-	private GameObject departmentGrid;
+	private GameObject departmentGrid = null;
 
 	[SerializeField]
 	[Tooltip("Image to hide the grid while it resizes")]
-	private GameObject gridShroud;
+	private GameObject gridShroud = null;
 
 	/// <summary>
 	/// A reference to each department entry so they can be destroyed later.

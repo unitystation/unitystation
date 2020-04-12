@@ -8,9 +8,9 @@ namespace AdminTools
 {
 	public class PlayerAlerts : MonoBehaviour
 	{
-		[SerializeField] private GameObject playerAlertsWindow;
-		[SerializeField] private PlayerAlertsScroll playerAlertsScroll;
-		[SerializeField] private GUI_Notification notifications;
+		[SerializeField] private GameObject playerAlertsWindow = null;
+		[SerializeField] private PlayerAlertsScroll playerAlertsScroll = null;
+		[SerializeField] private GUI_Notification notifications = null;
 		private const string NotificationKey = "playeralert";
 
 
@@ -99,7 +99,7 @@ namespace AdminTools
 		public void ServerAddNewEntry(string incidentTime, PlayerAlertTypes alertType, ConnectedPlayer perp,
 			string message)
 		{
-			if (perp == null) return;
+			if (perp == null || perp.Connection == null) return;
 			var entry = new PlayerAlertData();
 			entry.roundTime = incidentTime;
 			entry.playerNetId = perp.Connection.identity.netId;

@@ -11,8 +11,6 @@ public class SeedExtractorItemTypeEntry : DynamicEntry
 	//private Color emptyStockColor = Color.red;
 	private List<SeedPacket> seedPackets;
 	[SerializeField]
-	private EmptyItemList itemList = null;
-	[SerializeField]
 	private GUI_SeedExtractor seedExtractorWindow;
 	[SerializeField]
 	private NetLabel itemName = null;

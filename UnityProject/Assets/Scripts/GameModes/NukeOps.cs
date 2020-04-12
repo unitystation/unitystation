@@ -10,7 +10,7 @@ public class NukeOps : GameMode
 	         "2 nuke ops when there are 10 players.")]
 	[Range(0,1)]
 	[SerializeField]
-	private float nukeOpsRatio;
+	private float nukeOpsRatio = 0;
 
 
 	/// <summary>

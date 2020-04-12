@@ -11,27 +11,27 @@ public class JobListEntry : MonoBehaviour
 {
 	[SerializeField]
 	[Tooltip("The job TMP label component")]
-	private TMP_Text jobName;
+	private TMP_Text jobName = null;
 
 	[SerializeField]
 	[Tooltip("The job image component")]
-	private Image jobImage;
+	private Image jobImage = null;
 
 	[SerializeField]
 	[Tooltip("The priority dropdown component for this job")]
-	private TMP_Dropdown dropdown;
+	private TMP_Dropdown dropdown = null;
 
 	[SerializeField]
 	[Tooltip("The main job preferences window")]
-	private GUI_JobPreferences jobPreferences;
+	private GUI_JobPreferences jobPreferences = null;
 
 	[SerializeField]
 	[Tooltip("The job info window")]
-	private GUI_JobInfo jobInfo;
+	private GUI_JobInfo jobInfo = null;
 
 	[SerializeField]
 	[Tooltip("The EventTrigger Component")]
-	private EventTrigger eventTrigger;
+	private EventTrigger eventTrigger = null;
 	private Occupation occupation;
 
 	/// <summary>

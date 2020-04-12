@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -129,7 +128,7 @@ public class MouseInputController : MonoBehaviour
 
 			if  (KeyboardInputManager.IsShiftPressed())
 			{
-				//like above, send shift-click request, then do nothing else.  
+				//like above, send shift-click request, then do nothing else.
 				CheckShiftClick();
 				return;
 			}
@@ -480,14 +479,14 @@ public class MouseInputController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Fires if shift is pressed on click, initiates examine. Assumes inanimate object, but upgrades to checking health if living, and id if target has 
+	/// Fires if shift is pressed on click, initiates examine. Assumes inanimate object, but upgrades to checking health if living, and id if target has
 	/// storage and an ID card in-slot.
 	/// </summary>
 	private void CheckShiftClick()
 	{
 		// Get clickedObject from mousepos
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
-		
+
 		// TODO Prepare and send requestexaminemessage
 		// todo:  check if netid = 0.
 		RequestExamineMessage.Send(clickedObject.GetComponent<NetworkIdentity>().netId, MouseWorldPosition);

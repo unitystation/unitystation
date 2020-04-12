@@ -42,10 +42,8 @@ public class BloodSystem : MonoBehaviour
 	private float toxinLevel = 0;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private DNAandBloodType bloodType;
-	private readonly float bleedRate = 2f;
 	public float BloodLevel = (int)BloodVolume.NORMAL;
 	public bool IsBleeding { get; private set; }
-	private float tickRate = 1f;
 	private float tick = 0f;
 
 	private BloodSplatType bloodSplatColor;

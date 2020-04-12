@@ -32,7 +32,6 @@ public class ReactionManager : MonoBehaviour
 
 	private float timePassed;
 	private float timePassed2;
-	private static readonly string LogAddingWindyNode = "Adding windy node {0}, dir={1}, force={2}";
 
 	/// <summary>
 	/// reused when applying exposures to lots of tiles to avoid creating GC from

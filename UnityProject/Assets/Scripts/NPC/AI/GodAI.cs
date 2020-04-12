@@ -12,8 +12,6 @@ public class GodAI : MobAI
 	/// </summary>
 	public int PlaySoundTime = 3;
 
-	private bool soundplaying = false;
-
 	void Start()
 	{
 		PlaySound();

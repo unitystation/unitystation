@@ -8,7 +8,6 @@ public class ChatEntryView : MonoBehaviour
 	[SerializeField] private Text visibleText = null;
 	[SerializeField] private RectTransform textRectTransform = null;
 	[SerializeField] private RectTransform thisRectTransform = null;
-	[SerializeField] private ContentSizeFitter contentFitter = null;
 	protected ChatEntryData entryData;
 	protected ChatScroll chatScroll;
 

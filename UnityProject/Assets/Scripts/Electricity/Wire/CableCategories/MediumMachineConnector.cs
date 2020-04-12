@@ -6,9 +6,7 @@ using Mirror;
 
 public class MediumMachineConnector : NetworkBehaviour , ICheckedInteractable<PositionalHandApply>
 {
-	private bool SelfDestruct = false;
-
-	public WireConnect RelatedWire; 
+	public WireConnect RelatedWire;
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.MediumMachineConnector;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
 		PowerTypeCategory.StandardCable,
