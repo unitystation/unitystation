@@ -11,8 +11,7 @@ using UnityEngine.UI;
 public class ItemMagBoots : NetworkBehaviour,
 	IServerActionGUI, IClientInventoryMove,IServerInventoryMove
 {
-	[SyncVar(hook = nameof(SyncState))]
-	private bool isOn = false;
+	[SyncVar(hook = nameof(SyncIsOn))]private bool isOn = false;
 
 	public GameObject spriteObject;
 	private SpriteHandler spriteHandler;
@@ -41,43 +40,78 @@ public class ItemMagBoots : NetworkBehaviour,
 	{
 		pick = GetComponent<Pickupable>();
 		spriteHandler = spriteObject.GetComponent<SpriteHandler>();
-		itemAttributesV2 = GetComponent<ItemAttributesV2>();
+		itemAttributesV2 = gameObject.GetComponent<ItemAttributesV2>();
 		pick.RefreshUISlotImage();
 	}
 
-	private void ToggleBoots()
+	public void OnInventoryMoveServer(InventoryMove info)
 	{
-		if(player == null )
+		if (IsPuttingOn(info))
 		{
-			return;
+			playerMove = info.ToRootPlayer.PlayerScript.playerMove;
 		}
+
+		else if (IsTakingOff(info) & isOn)
+		{
+			playerMove = info.FromRootPlayer.PlayerScript.playerMove;
+			isOn = !isOn;
+			RemoveEffect();
+		}
+	}
+
+	private static bool IsPuttingOn (InventoryMove info)
+	{
+		if (info.ToSlot == null | info.ToSlot?.NamedSlot == null)
+		{
+			return false;
+		}
+		return info.ToSlot.NamedSlot == NamedSlot.feet;
+	}
+
+	private static bool IsTakingOff (InventoryMove info)
+	{
+		if (info.FromSlot == null | info.FromSlot?.NamedSlot == null)
+		{
+			return false;
+		}
+		return info.FromSlot.NamedSlot == NamedSlot.feet;
+	}
+
+	private void ApplyEffect()
+	{
+		itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
+		playerMove.ServerChangeSpeed(run: playerMove.runSpeed - runSpeedDebuff);
+		playerMove.PlayerScript.pushPull.ServerSetPushable(false);
+	}
+
+	private void RemoveEffect()
+	{
+		itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
+		playerMove.ServerChangeSpeed(run: playerMove.runSpeed + runSpeedDebuff);
+		playerMove.PlayerScript.pushPull.ServerSetPushable(true);
+	}
+
+	[Server]
+	public void ServerChangeState(ConnectedPlayer newPlayer)
+	{
+		isOn = !isOn;
+		newPlayer = newPlayer;
+
 		if (isOn)
 		{
-			itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
-			ApplySpeedDebuff();
-
+			ApplyEffect();
 		}
 		else
 		{
-			itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
-			RemoveSpeedDebuff();
+			RemoveEffect();
 		}
-		//if the ghost NRE will be thrown
-		player.Script.pushPull.ServerSetPushable(!isOn);
 	}
 
-	private void SyncState(bool oldVar, bool newVar)
+	private void SyncIsOn(bool oldIsOn, bool newIsOn)
 	{
-		isOn = newVar;
+		isOn = newIsOn;
 		spriteHandler.ChangeSprite(isOn ? 1 : 0);
 		pick.RefreshUISlotImage();
-		ToggleBoots();
-	}
-
-	public void ServerChangeState(ConnectedPlayer newPlayer)
-	{
-		this.player = newPlayer;
-		isOn = !isOn;
 	}
 
 	private void OnPlayerDeath()
@@ -86,77 +120,30 @@ public class ItemMagBoots : NetworkBehaviour,
 		{
 			if (isOn)
 			{
-				ServerChangeState(this.player);
+				ServerChangeState(player);
 			}
 			UIActionManager.Toggle(this, false);
-			// player.Script.playerHealth.OnDeathNotifyEvent -= OnPlayerDeath;
+			player.Script.playerHealth.OnDeathNotifyEvent -= OnPlayerDeath;
 			player = null;
 		}
 		else
 		{
 			UIActionManager.Toggle(this, false);
 		}
-
 	}
 
-	private void ApplySpeedDebuff()
-	{
-		playerMove.ServerChangeSpeed(run: playerMove.runSpeed - runSpeedDebuff);
-	}
-
-	private void RemoveSpeedDebuff()
-	{
-		playerMove.ServerChangeSpeed(run: playerMove.runSpeed + runSpeedDebuff);
-	}
-
-	#region UI related
-
-	public void OnInventoryMoveServer(InventoryMove info)
-	{
-		if (IsPuttingOn(info) & isOn)
-		{
-			ApplySpeedDebuff();
-		}
-		else if (IsTakingOff(info) & isOn)
-		{
-			ServerChangeState(player);
-			RemoveSpeedDebuff();
-		}
-	}
-
-	private bool IsPuttingOn (InventoryMove info)
-	{
-		if (info.ToSlot == null | info.ToSlot?.NamedSlot == null)
-		{
-			return false;
-		}
-		playerMove = info.ToRootPlayer?.PlayerScript.playerMove;
-
-		return playerMove != null && info.ToSlot.NamedSlot == NamedSlot.feet;
-	}
-
-	private bool IsTakingOff (InventoryMove info)
-	{
-		if (info.FromSlot == null | info.FromSlot?.NamedSlot == null)
-		{
-			return false;
-		}
-		playerMove = info.FromRootPlayer?.PlayerScript.playerMove;
-
-		return playerMove != null && info.FromSlot.NamedSlot == NamedSlot.feet;
-	}
-
-	// Client only method
+	#region UI
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
-		var hand = PlayerManager.LocalPlayerScript.playerNetworkActions;
-		//when item is moved and player has it on his feet
-		if (hand.GetActiveItemInSlot(NamedSlot.feet) != null && hand.GetActiveItemInSlot(NamedSlot.feet) == gameObject)
+		var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
+		if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
+		    & pna.GetActiveItemInSlot(NamedSlot.feet)?.gameObject == gameObject)
 		{
 			UIActionManager.Toggle(this, true);
 			UIActionManager.SetSprite(this, (sprites[0]));
 		}
-		else
+		else if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed
+		         & pna.GetActiveItemInSlot(NamedSlot.feet)?.gameObject != gameObject)
 		{
 			UIActionManager.Toggle(this, false);
 		}
@@ -173,4 +160,135 @@ public class ItemMagBoots : NetworkBehaviour,
 	}
 
 	#endregion
+	// private void Awake()
+	// {
+	//
+	// 	spriteHandler = spriteObject.GetComponent<SpriteHandler>();
+	// 	itemAttributesV2 = GetComponent<ItemAttributesV2>();
+	// 	pick.RefreshUISlotImage();
+	// }
+	//
+	// private void ToggleBoots()
+	// {
+	// 	if(player == null )
+	// 	{
+	// 		return;
+	// 	}
+	// 	if (isOn)
+	// 	{
+	// 		itemAttributesV2.AddTrait(CommonTraits.Instance.NoSlip);
+	// 		ApplySpeedDebuff();
+	//
+	// 	}
+	// 	else
+	// 	{
+	// 		itemAttributesV2.RemoveTrait(CommonTraits.Instance.NoSlip);
+	// 		RemoveSpeedDebuff();
+	// 	}
+	// 	//if the ghost NRE will be thrown
+	// 	player.Script.pushPull.ServerSetPushable(!isOn);
+	// }
+	//
+	// private void SyncState(bool oldVar, bool newVar)
+	// {
+	// 	isOn = newVar;
+	// 	spriteHandler.ChangeSprite(isOn ? 1 : 0);
+	// 	pick.RefreshUISlotImage();
+	// 	ToggleBoots();
+	// }
+	//
+	// public void ServerChangeState(ConnectedPlayer newPlayer)
+	// {
+	// 	this.player = newPlayer;
+	// 	isOn = !isOn;
+	// }
+	//
+	// private void OnPlayerDeath()
+	// {
+	// 	if (isServer)
+	// 	{
+	// 		if (isOn)
+	// 		{
+	// 			ServerChangeState(this.player);
+	// 		}
+	// 		UIActionManager.Toggle(this, false);
+	// 		// player.Script.playerHealth.OnDeathNotifyEvent -= OnPlayerDeath;
+	// 		player = null;
+	// 	}
+	// 	else
+	// 	{
+	// 		UIActionManager.Toggle(this, false);
+	// 	}
+	//
+	// }
+	//
+	// private void ApplySpeedDebuff()
+	// {
+	// 	playerMove.ServerChangeSpeed(run: playerMove.runSpeed - runSpeedDebuff);
+	// }
+	//
+	// private void RemoveSpeedDebuff()
+	// {
+	// 	playerMove.ServerChangeSpeed(run: playerMove.runSpeed + runSpeedDebuff);
+	// }
+	//
+	// #region UI related
+	//
+	// public void OnInventoryMoveServer(InventoryMove info)
+	// {
+	// 	if (IsTakingOff(info) & isOn)
+	// 	{
+	// 		ServerChangeState(player);
+	// 	}
+	// }
+	//
+	// private bool IsPuttingOn (InventoryMove info)
+	// {
+	// 	if (info.ToSlot == null | info.ToSlot?.NamedSlot == null)
+	// 	{
+	// 		return false;
+	// 	}
+	// 	playerMove = info.ToRootPlayer?.PlayerScript.playerMove;
+	//
+	// 	return playerMove != null && info.ToSlot.NamedSlot == NamedSlot.feet;
+	// }
+	//
+	// private bool IsTakingOff (InventoryMove info)
+	// {
+	// 	if (info.FromSlot == null | info.FromSlot?.NamedSlot == null)
+	// 	{
+	// 		return false;
+	// 	}
+	// 	playerMove = info.FromRootPlayer?.PlayerScript.playerMove;
+	//
+	// 	return playerMove != null && info.FromSlot.NamedSlot == NamedSlot.feet;
+	// }
+	//
+	// // Client only method
+	// public void OnInventoryMoveClient(ClientInventoryMove info)
+	// {
+	// 	var hand = PlayerManager.LocalPlayerScript.playerNetworkActions;
+	// 	//when item is moved and player has it on his feet
+	// 	if (hand.GetActiveItemInSlot(NamedSlot.feet) != null && hand.GetActiveItemInSlot(NamedSlot.feet) == gameObject)
+	// 	{
+	// 		UIActionManager.Toggle(this, true);
+	// 		UIActionManager.SetSprite(this, (sprites[0]));
+	// 	}
+	// 	else
+	// 	{
+	// 		UIActionManager.Toggle(this, false);
+	// 	}
+	// }
+	//
+	// public void CallActionClient()
+	// {
+	// 	UIActionManager.SetSprite(this, (!isOn ? sprites[1] : sprites[0]));
+	// }
+	//
+	// public void CallActionServer(ConnectedPlayer SentByPlayer)
+	// {
+	// 	ServerChangeState(SentByPlayer);
+	// }
+	//
+	// #endregion
 }
