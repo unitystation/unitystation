@@ -19,6 +19,10 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	[SerializeField]
 	private GameObject countdownPanel = null;
 	[SerializeField]
+	private GameObject timerPanel = null;
+	[SerializeField]
+	private GameObject roundStarted = null;
+	[SerializeField]
 	private GameObject characterCustomization = null;
 	[SerializeField]
 	private Button characterButton = null;
@@ -33,23 +37,27 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	{
 		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 		{
-			// In pre-round so setup button for readying
-			SetReady(false);
+			// In pre-round so reset ready status
+			isReady = false;
+			SetUIForCountdown();
+			// When the round starts the UI should change to joining
+			EventManager.AddHandler(EVENT.RoundStarted, SetUIForJoining);
 		}
 		else
 		{
 			// Not in pre-round so setup button for joining
-			readyText.text = "Join now!";
+			SetUIForJoining();
 		}
 	}
 
-	void OnDisable()
+	private void OnDisable()
 	{
+		EventManager.RemoveHandler(EVENT.RoundStarted, SetUIForJoining);
 		doCountdown = false;
 		adminPanel.SetActive(false);
 	}
 
-	void Update()
+	private void Update()
 	{
 		// TODO: remove once admin system is in
 		if (Input.GetKeyDown(KeyCode.F7) && !BuildPreferences.isForRelease)
@@ -59,14 +67,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 		if (doCountdown)
 		{
-			countdownTime -= Time.deltaTime;
-			if (countdownTime <= 0)
-			{
-				OnCountdownEnd();
-			}
+			UpdateCountdown();
 		}
-
-		UpdateUI();
 	}
 
 	private void OnCountdownEnd()
@@ -79,19 +81,25 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		}
 		else
 		{
-			// Change the ready button to a join button so the player can still edit their character
-			readyText.text = "Join now!";
-
+			SetUIForJoining();
 		}
 	}
-	public void UpdateUI()
+
+	private void UpdateCountdown()
 	{
-		if (PlayerList.Instance == null) return;
-		playerCount.text = PlayerList.Instance.ClientConnectedPlayers.Count.ToString();
-		currentGameMode.text = GameManager.Instance.GetGameModeName();
-		timer.text = TimeSpan.FromSeconds(this.countdownTime).ToString(@"mm\:ss");
+		countdownTime -= Time.deltaTime;
+		if (countdownTime <= 0)
+		{
+			OnCountdownEnd();
+		}
+		timer.text = TimeSpan.FromSeconds(countdownTime).ToString(@"mm\:ss");
 	}
 
+	public void UpdatePlayerCount(int count)
+	{
+		playerCount.text = count.ToString();
+		currentGameMode.text = GameManager.Instance.GetGameModeName();
+	}
 	public void StartNowButton()
 	{
 		if (CustomNetworkManager.Instance._isServer == false)
@@ -107,7 +115,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		Logger.Log($"SyncCountdown called with: started={started}, time={time}", Category.Round);
 		countdownTime = time;
 		doCountdown = started;
-		UpdateUI();
+		UpdateCountdown();
 		countdownPanel.SetActive(started);
 		playerWaitPanel.SetActive(!started);
 	}
@@ -148,5 +156,25 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		isReady = ready;
 		characterButton.interactable = !ready;
 		readyText.text = (!ready) ? "Ready" : "Unready";
+	}
+
+	/// <summary>
+	/// Show timer panel and ready button
+	/// </summary>
+	private void SetUIForCountdown()
+	{
+		SetReady(isReady);
+		timerPanel.SetActive(true);
+		roundStarted.SetActive(false);
+	}
+
+	/// <summary>
+	/// Hide timer panel and show join button
+	/// </summary>
+	private void SetUIForJoining()
+	{
+		readyText.text = "Join now!";
+		timerPanel.SetActive(false);
+		roundStarted.SetActive(true);
 	}
 }
