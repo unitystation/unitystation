@@ -100,6 +100,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		playerCount.text = count.ToString();
 		currentGameMode.text = GameManager.Instance.GetGameModeName();
 	}
+
 	public void StartNowButton()
 	{
 		if (CustomNetworkManager.Instance._isServer == false)
@@ -107,6 +108,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 			Logger.LogError("Can only execute command from server.", Category.DebugConsole);
 			return;
 		}
+		OnCountdownEnd();
 		GameManager.Instance.StartRound();
 	}
 
