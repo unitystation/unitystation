@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: 10mm
   m_EditorClassIdentifier: 
   MaxItemSize: 5
-  Whitelist: []
+  Whitelist:
+  - {fileID: 11400000, guid: 85a90a4e0aadf0fedb21ebc836bc40d2, type: 2}
   Required: []
   Blacklist: []
