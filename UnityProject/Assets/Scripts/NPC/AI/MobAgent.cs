@@ -130,12 +130,31 @@ public class MobAgent : Agent
 
 	void MonitorDecisionMaking()
 	{
-		if (health == null || integrity == null) return;
 		// Only living mobs have health.  Some like the bots have integrity instead.
-		if (((health.IsDead || health.IsCrit || health.IsCardiacArrest || Pause)) ||
-			((integrity != null) && (integrity.integrity <= 0)))
+		if (health != null) // Living mob
 		{
-			//can't do anything this NPC is not capable of movement
+			if (health.IsDead || health.IsCrit || health.IsCardiacArrest)
+			{
+				// Can't do anything this NPC is not capable of movement
+				return;
+			}
+		}
+		else if (integrity != null) //Bot
+		{
+			if (integrity.integrity <= 0)
+			{
+				// Too damaged to move
+				return;
+			}
+		}
+		else
+		{
+			// Don't do anything without a health or integrity
+			return;
+		}
+
+		if (Pause)
+		{
 			return;
 		}
 

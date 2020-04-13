@@ -66,6 +66,7 @@ public static class PlayerSpawn
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
 		var oldGhost = forMind.ghost;
+		forMind.stepType = GetStepType(forMind.body);
 
 		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null);
 
@@ -91,6 +92,7 @@ public static class PlayerSpawn
 		var occupation = forMind.occupation;
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
+		forMind.stepType = GetStepType(forMind.body);
 
 		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, true);
 	}
@@ -480,5 +482,19 @@ public static class PlayerSpawn
 			.Where(x => x.JobRestrictions.Contains(jobType)).ToList();
 
 		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
+	}
+
+	private static StepType GetStepType(PlayerScript player)
+	{
+		if (player.Equipment.GetClothingItem(NamedSlot.outerwear)?.gameObject.GetComponent<StepChanger>() != null)
+		{
+			return StepType.Suit;
+		}
+		else if (player.Equipment.GetClothingItem(NamedSlot.feet) != null)
+		{
+			return StepType.Shoes;
+		}
+
+		return StepType.Barefoot;
 	}
 }
