@@ -80,6 +80,8 @@ public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 				return Instance._45;
 			case AmmoType._10mm:
 				return Instance._10mm;
+			case AmmoType._50:
+				return Instance._50;
 			case AmmoType.Internal:
 				return Instance.Internal;
 		}
