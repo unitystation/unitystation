@@ -225,7 +225,6 @@ public enum AmmoType
 	Syringe,
 	uzi9mm,
 	_45,
-	_75,
 	_10mm,
 	_50,
 	Internal
