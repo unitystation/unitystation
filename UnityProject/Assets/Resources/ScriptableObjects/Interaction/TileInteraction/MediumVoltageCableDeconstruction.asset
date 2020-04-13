@@ -9,13 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f0627a4860741578ec35e4340e83cc6, type: 3}
-  m_Name: LowVoltageCutWire
+  m_Script: {fileID: 11500000, guid: 5f2d82bd79c43e34db49b3796e650dd0, type: 3}
+  m_Name: MediumVoltageCableDeconstruction
   m_EditorClassIdentifier: 
   requiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
-  performerStartActionMessage: You cut the low voltage cable
-  othersStartActionMessage: '{performer} cuts the low voltage cable'
-  seconds: 0
-  objectsToSpawn: {fileID: 0}
-  performerFinishActionMessage: 
-  othersFinishActionMessage: 
+  performerStartActionMessage: You cut the mediam voltage cable
+  othersStartActionMessage: '{performer} cuts the mediam voltage cable'
