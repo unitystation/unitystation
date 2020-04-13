@@ -64,7 +64,8 @@ public enum ChatModifier
 	Elvis = 1 << 17,
 	Spurdo = 1 << 18,
 	UwU = 1 << 19,
-	Unintelligible = 1 << 20
+	Unintelligible = 1 << 20,
+	Scotsman = 1 << 21
 }
 
 public class ChatEvent
