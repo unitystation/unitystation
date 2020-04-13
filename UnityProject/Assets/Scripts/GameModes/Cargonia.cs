@@ -7,43 +7,18 @@ using System;
 [CreateAssetMenu(menuName="ScriptableObjects/GameModes/Cargonia")]
 public class Cargonia : GameMode
 {
-	/// <summary>
-	/// Set up the station for the game mode
-	/// </summary>
 	private List<JobType> RebelJob;
 
 	public override void SetupRound()
 	{
-		Logger.Log("Setting up Rebel round!", Category.GameMode);
+		base.SetupRound();
+
 		//Select a random department
 		var rnd = new System.Random();
 		var RebelDep = (Departments) rnd.Next(Enum.GetNames(typeof(Departments)).Length);
 		RebelJob = RebelJobs[RebelDep];
 		GameManager.Instance.Rebels = RebelJob;
 	}
-	/// <summary>
-	/// Begin the round
-	/// </summary>
-	public override void StartRound()
-	{
-		Logger.Log("Starting Rebel round!", Category.GameMode);
-		base.StartRound();
-	}
-	// /// <summary>
-	// /// Check if the round should end yet
-	// /// </summary>
-	// public override void CheckEndCondition()
-	// {
-	// 	Logger.Log("Check end round conditions!", Category.GameMode);
-	// }
-
-	// /// <summary>
-	// /// End the round and display any relevant reports
-	// /// </summary>
-	// public override void EndRound()
-	// {
-
-	// }
 
 	// TODO switch this for the Department ScriptableObjects
 	private  enum Departments

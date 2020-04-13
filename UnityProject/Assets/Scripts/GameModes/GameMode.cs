@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using Antagonists;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Contains the definition of a game mode. To create a new one you should
@@ -11,56 +12,140 @@ using Antagonists;
 /// </summary>
 public abstract class GameMode : ScriptableObject
 {
+	#region Inspector Values
+
+	[Header("General Settings")]
 	/// <summary>
 	/// The name of the game mode
 	/// </summary>
 	[Tooltip("The name of the game mode")]
-	public string Name;
+	[SerializeField]
+	private string gameModeName;
+	public string Name => gameModeName;
 
 	/// <summary>
 	/// The description of the game mode
 	/// </summary>
 	[Tooltip("A description of the game mode")]
-	public string Description;
+	[SerializeField]
+	[TextArea]
+	private string description;
+	public string Description => description;
 
 	/// <summary>
 	/// Is respawning enabled in this game mode
 	/// </summary>
 	[Tooltip("Should players be allowed to respawn?")]
-	public bool CanRespawn;
+	[SerializeField]
+	private bool canRespawn;
+	public bool CanRespawn => canRespawn;
 
 	/// <summary>
-	/// The minimum amount of players needed for the game mode
+	/// The minimum amount of players needed for the game mode to be possible. Can't be lower than 1.
 	/// </summary>
-	[Tooltip("What is the minimum amount of players needed for this game mode?")]
-	public int MinPlayers;
+	[Tooltip("What is the minimum amount of players needed to play this game mode?")]
+	[SerializeField]
+	[Min(1)]
+	private int minPlayers = 1;
+	public int MinPlayers => minPlayers;
+
+	[Header("Antagonist Settings")]
+	/// <summary>
+	/// The ratio of antagonists to spawn for this game mode
+	/// </summary>
+	[Tooltip("Ratio of antagonists to player count. A value of 0.2 means there would be " +
+			 "2 antagonists when there are 10 players.")]
+	[SerializeField]
+	[Range(0, 1)]
+	private float antagRatio = 0;
+	public float AntagRatio => antagRatio;
 
 	/// <summary>
-	/// The minimum amount of antags needed in the game mode
+	/// The minimum amount of antags needed for the game mode to be possible.
+	/// If <see cref="requiresMinAntags"/> is false, the number of chosen antags will be rounded up to this number.
 	/// </summary>
-	[Tooltip("What is the minimum amount of antagonists needed for this game mode?")]
-	public int MinAntags;
+	[Tooltip("The minimum amount of antags needed for the game mode to be possible. " +
+			 "If requiresMinAntags is false, the number of chosen antags will be rounded up to this number.")]
+	[SerializeField]
+	[Min(0)]
+	private int minAntags = 0;
+	public int MinAntags => minAntags;
+
+	/// <summary>
+	/// Is the game mode possible if the <see cref="antagRatio"/> doesn't meet the <see cref="minAntags"/>?
+	/// E.g. If true, when antagRatio is 0.2 and minAntags is 1, then you need at least 5 players to start the game mode.
+	/// </summary>
+	[Tooltip("Is the game mode possible if the player count multiplied by the antagRatio doesn't meet the minAntags? " +
+			 "E.g. If true, when antagRatio is 0.2 and minAntags is 1, you need at least 5 players to start the game mode.")]
+	[SerializeField]
+	private bool requiresMinAntags;
+	public bool RequiresMinAntags => requiresMinAntags;
+
+	/// <summary>
+	/// Are antags on the same team or are they lone wolves?
+	/// Used for the end of round antag report.
+	/// </summary>
+	[Tooltip("Are antags on the same team or are they lone wolves?" +
+			 "Used for the end of round antag report.")]
+	[SerializeField]
+	private bool teamGameMode;
+	public bool TeamGameMode => teamGameMode;
+
+	/// <summary>
+	/// Can antags spawn during the round?
+	/// </summary>
+	[Tooltip("Can antags spawn during the round?")]
+	[SerializeField]
+	private bool midRoundAntags;
+	public bool MidRoundAntags => midRoundAntags;
 
 	/// <summary>
 	/// The possible antagonists for this game mode
 	/// </summary>
-	public List<Antagonist> PossibleAntags;
-
-	// ================= Game Mode Methods =================
+	[Tooltip("The possible antagonists for this game mode")]
+	[SerializeField]
+	private List<Antagonist> possibleAntags;
+	public List<Antagonist> PossibleAntags => possibleAntags;
 
 	/// <summary>
-	/// Check if the game mode meets the minimum player requirements
+	/// The JobTypes that cannot be chosen as antagonists for this game mode
+	/// </summary>
+	[Tooltip("The JobTypes that cannot be chosen as antagonists for this game mode")]
+	[SerializeField]
+	private List<JobType> nonAntagJobTypes = new List<JobType>
+	{
+		JobType.CAPTAIN,
+		JobType.HOP,
+		JobType.HOS,
+		JobType.WARDEN,
+		JobType.SECURITY_OFFICER,
+		JobType.DETECTIVE,
+	};
+	public List<JobType> NonAntagJobTypes => nonAntagJobTypes;
+
+	#endregion
+
+	#region Game Mode Methods
+
+	/// <summary>
+	/// Check if the game mode meets the minimum player and antag requirements.
+	/// Override this to add other checks for your game mode.
 	/// </summary>
 	public virtual bool IsPossible()
 	{
-		//TODO add more checks in future
-		return PlayerList.Instance.ConnectionCount >= MinPlayers;
+		int players = PlayerList.Instance.ConnectionCount;
+		return players >= MinPlayers && (!RequiresMinAntags ||
+										 (Math.Floor(players * antagRatio) >= MinAntags));
 	}
 
 	/// <summary>
-	/// Set up everything for the game mode
+	/// Set up anything needed for the game mode before the RoundStarted event is triggered.
+	/// Override this if you need any custom logic.
 	/// </summary>
-	public abstract void SetupRound();
+	public virtual void SetupRound()
+	{
+		Logger.LogFormat("Setting up {0} round!", Category.GameMode, Name);
+	}
 
 	/// <summary>
 	/// Checks if the conditions are met to spawn an antag, and spawns them
@@ -88,7 +173,20 @@ public abstract class GameMode : ScriptableObject
 	/// <param name="spawnRequest">player's spawn request, which should be used to determine
 	/// if they should spawn as an antag</param>
 	/// <returns>true if an antag should be spawned.</returns>
-	protected abstract bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest);
+	protected virtual bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
+	{
+		// Don't spawn any mid round antags if game mode doesn't allow it
+		if (!MidRoundAntags)
+		{
+			return false;
+		}
+
+		// Populates antags based on the non-antag job types and ratios
+		int players = PlayerList.Instance.InGamePlayers.Count;
+		return !NonAntagJobTypes.Contains(spawnRequest.RequestedOccupation.JobType) &&
+			   AntagManager.Instance.AntagCount < Math.Floor(players * AntagRatio) &&
+			   players > 0;
+	}
 
 	/// <summary>
 	/// Spawn the player requesting the spawn as an antag, includes creating their player object
@@ -108,21 +206,12 @@ public abstract class GameMode : ScriptableObject
 	}
 
 	/// <summary>
-	/// Determine what to do with new players that join
-	/// </summary>
-	// public virtual void SetupNewPlayer()
-	// {
-	// 	if (GameManager.Instance.RoundStarted)
-	// 	{
-	// 		UIManager.Display.SetScreenForJobSelect();
-	// 	}
-	// }
-
-	/// <summary>
 	/// Start the round
 	/// </summary>
 	public virtual void StartRound()
 	{
+		Logger.LogFormat("Starting {0} round!", Category.GameMode, Name);
+
 		// Allocate jobs to all ready players and spawn them
 		var jobAllocator = new JobAllocator();
 		var playerSpawnRequests = jobAllocator.DetermineJobs(PlayerList.Instance.ReadyPlayers);
@@ -145,10 +234,13 @@ public abstract class GameMode : ScriptableObject
 	/// </summary>
 	public virtual void EndRound()
 	{
-		Logger.Log("Ending round!", Category.GameMode);
+		Logger.LogFormat("Ending {0} round!", Category.GameMode, Name);
 		AntagManager.Instance.ShowAntagStatusReport();
 	}
 
-	// TODO
+	// /// <summary>
+	// /// Override this to choose players to be antags
+	// /// </summary>
 	// public abstract void ChooseAntags();
+	#endregion
 }
