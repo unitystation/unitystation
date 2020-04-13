@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &1159535383240640759
+--- !u!1001 &6246162898451914459
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9,18 +9,8 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: AmmoType
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
       propertyPath: ammoType
       value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: SpawnsCaseing
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -29,30 +19,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
       propertyPath: initialName
-      value: Revolver
+      value: 'Mateba '
       objectReference: {fileID: 0}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialDescription
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
-        type: 2}
     - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 36a97a4f3aabe0647990fe22b958d1f5,
+      objectReference: {fileID: 21300000, guid: a3a6e0b872827d24baf809c07044c1c8,
         type: 3}
     - target: {fileID: 7392881626475492836, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -62,7 +41,7 @@ PrefabInstance:
     - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_Name
-      value: Revolver_Ballistic
+      value: Mateba_Ballistic
       objectReference: {fileID: 0}
     - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
