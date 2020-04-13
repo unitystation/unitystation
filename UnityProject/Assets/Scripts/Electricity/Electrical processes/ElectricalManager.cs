@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System.Collections;
 using System.Threading;
 
 public class ElectricalManager : MonoBehaviour
@@ -17,6 +18,7 @@ public class ElectricalManager : MonoBehaviour
 	public ElectricalMode Mode;
 
 	public bool DOCheck;
+
 	private Object electricalLock = new Object();
 	public static Object ElectricalLock => Instance.electricalLock;
 
@@ -37,15 +39,14 @@ public class ElectricalManager : MonoBehaviour
 
 		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
 		{
-			lock (ElectricalLock)
+			if (electricalSync.MainThreadProcess)
 			{
-				if (electricalSync.MainThreadProcess)
+				lock (ElectricalLock)
 				{
 					electricalSync.PowerNetworkUpdate();
+					electricalSync.MainThreadProcess = false;
+					Monitor.Pulse(ElectricalLock);
 				}
-
-				electricalSync.MainThreadProcess = false;
-				Monitor.Pulse(ElectricalLock);
 			}
 		}
 	}
@@ -67,9 +68,14 @@ public class ElectricalManager : MonoBehaviour
 		EventManager.RemoveHandler(EVENT.RoundEnded, StopSim);
 	}
 
+
+
 	public void StartSim()
 	{
+
 		if (!CustomNetworkManager.Instance._isServer) return;
+
+
 		roundStartedServer = true;
 		Running = true;
 
@@ -78,8 +84,8 @@ public class ElectricalManager : MonoBehaviour
 			electricalSync.SetSpeed((int)MSSpeed);
 			electricalSync.StartSim();
 		}
-
 		Logger.Log("Round Started", Category.Electrical);
+		StartCoroutine(KickstartElectrical());
 	}
 
 	public void StopSim()
@@ -97,6 +103,17 @@ public class ElectricalManager : MonoBehaviour
 	{
 		Instance.electricalSync.SetSpeed((int)Instance.MSSpeed);
 	}
+
+	private IEnumerator KickstartElectrical()
+	{
+		electricalSync.StopSim();
+		Mode = ElectricalMode.GameLoop;
+		yield return WaitFor.Seconds(2f);
+		Mode = ElectricalMode.Threaded;
+		electricalSync.SetSpeed((int)MSSpeed);
+		electricalSync.StartSim();
+	}
+
 }
 
 public enum ElectricalMode
