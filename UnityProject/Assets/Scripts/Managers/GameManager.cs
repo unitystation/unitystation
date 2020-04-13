@@ -292,9 +292,6 @@ public partial class GameManager : MonoBehaviour
 			SpaceBodies.Clear();
 			PendingSpaceBodies = new Queue<MatrixMove>();
 
-			// Clear the list of ready players so they have to ready up again
-			PlayerList.Instance.ClearReadyPlayers();
-
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
@@ -417,6 +414,8 @@ public partial class GameManager : MonoBehaviour
 		{
 			yield return WaitFor.EndOfFrame;
 		}
+		// Clear the list of ready players so they have to ready up again
+		PlayerList.Instance.ClearReadyPlayers();
 		CheckPlayerCount();
 	}
 
