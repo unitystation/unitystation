@@ -10,7 +10,7 @@ public class MorphableReagentContainer : NetworkBehaviour
 {
 	private static int NoMajorReagent = "".GetStableHashCode();
 
-	public SpriteHandler spriteHandler;
+	public SpriteRenderer mainSpriteRender;
 	public MorphableReagentContainerData data;
 
 	private Chemistry.Reagent majorReagent;
@@ -21,16 +21,14 @@ public class MorphableReagentContainer : NetworkBehaviour
 	private ReagentContainer serverContainer;
 	private Pickupable pickupable;
 
-	private SpriteSheetAndData defaultSprite;
+	private Sprite defaultSprite;
 
 	private void Awake()
 	{
-		if (!data)
+		if (!data || !mainSpriteRender)
 			return;
 
-		var hasDefaultSprite = SetupDefaultSprite();
-		if (!hasDefaultSprite)
-			return;
+		defaultSprite = mainSpriteRender.sprite;
 
 		fillVisual = GetComponent<ReagentContainerFillVisualisation>();
 		pickupable = GetComponent<Pickupable>();
@@ -74,18 +72,16 @@ public class MorphableReagentContainer : NetworkBehaviour
 		{
 			DisableVisualisation();
 		}
-	}
-
-	private void ShowVisualisation(ContainerCustomSprite sprite)
-	{
-		spriteHandler.SetSprite(sprite.SpriteSheet);
-		if (fillVisual)
-		{
-			fillVisual.fillSpriteRender.enabled = false;
-		}
 
 		// Update UI sprite in inventory
 		pickupable?.RefreshUISlotImage();
+	}
+
+	private void ShowVisualisation(ContainerCustomSprite spriteData)
+	{
+		mainSpriteRender.sprite = spriteData.MainSprite;
+		if (fillVisual && fillVisual.fillSpriteRender)
+			fillVisual.fillSpriteRender.gameObject.SetActive(false);
 	}
 
 	/// <summary>
@@ -93,40 +89,9 @@ public class MorphableReagentContainer : NetworkBehaviour
 	/// </summary>
 	private void DisableVisualisation()
 	{
-		spriteHandler.SetSprite(defaultSprite);
-		if (fillVisual)
-		{
-			fillVisual.fillSpriteRender.enabled = true;
-		}
-
-		// Update UI sprite in inventory
-		pickupable?.RefreshUISlotImage();
+		mainSpriteRender.sprite = defaultSprite;
+		if (fillVisual && fillVisual.fillSpriteRender)
+			fillVisual.fillSpriteRender.gameObject.SetActive(true);
 	}
 
-	/// <summary>
-	/// Setups default sprite sheet for container (like empty glass sprite)
-	/// </summary>
-	/// <returns>True if setup was successful</returns>
-	private bool SetupDefaultSprite()
-	{
-		if (!spriteHandler)
-		{
-			Logger.LogError($"{gameObject.name} Can't use MorphableReagentContainer " +
-				"without SpriteHandler selected", Category.Chemistry);
-			return false;
-		}
-
-		if (spriteHandler.Sprites == null || spriteHandler.Sprites.Count == 0)
-		{
-			Logger.LogError($"{gameObject.name} Can't use MorphableReagentContainer " +
-				"without SpriteHandler default sprite assigned. Add default sprite to SpriteHandler.", Category.Chemistry);
-			return false;
-		}
-
-		defaultSprite = spriteHandler.Sprites.First();
-		if (defaultSprite == null)
-			return false;
-
-		return true;
-	}
 }

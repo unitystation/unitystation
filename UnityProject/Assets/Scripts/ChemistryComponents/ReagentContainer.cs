@@ -744,6 +744,11 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 			return reagentMix.Total;
 		}
 	}
+
+	/// <summary>
+	/// Server only. Reagent with biggest amount in mix
+	/// </summary>
+	public Chemistry.Reagent MajorMixReagent => reagentMix.MajorMixReagent;
 }
 
 public struct TransferResult

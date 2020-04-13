@@ -8,7 +8,7 @@ using Mirror;
 public class ContainerCustomSprite
 {
 	public string CustomDescription = "";
-	public SpriteSheetAndData SpriteSheet;
+	public Sprite MainSprite;
 }
 
 [System.Serializable]
