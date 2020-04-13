@@ -77,8 +77,8 @@ public class ElectricalSynchronisation : MonoBehaviour
 				Thread.Sleep(MillieSecondDelay - (int) StopWatch.ElapsedMilliseconds);
 			}
 		}
-		thread.Abort();
 		Profiler.EndThreadProfiling();
+		thread.Abort();
 	}
 
 	//What keeps electrical Ticking
