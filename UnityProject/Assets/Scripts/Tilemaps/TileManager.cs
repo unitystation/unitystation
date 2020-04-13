@@ -17,7 +17,8 @@ public static class TilePaths
 		{TileType.Object, "Tiles/Objects"},
 		{TileType.WindowDamaged, "Tiles/WindowDamage"},
 		{TileType.Effects, "Tiles/Effects"},
-		{TileType.UnderFloor, "Tiles/UnderFloors"}
+		{TileType.UnderFloor, "Tiles/UnderFloors"},
+		{TileType.ElectricalCable, "Tiles/Electrical"}
 	};
 
 	public static string Get(TileType type)

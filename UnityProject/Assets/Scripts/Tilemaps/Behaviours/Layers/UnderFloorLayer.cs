@@ -85,12 +85,6 @@ public class UnderFloorLayer : Layer
 
 			if (Application.isPlaying)
 			{
-				var electricalCableTile = tile as ElectricalCableTile;
-				if (tile != null)
-				{
-					matrix.AddElectricalNode(position, electricalCableTile);
-				}
-
 				matrix.TileChangeManager.UpdateTile(position, tile as BasicTile, false);
 			}
 			base.SetTile(position, tile, transformMatrix);
@@ -98,6 +92,26 @@ public class UnderFloorLayer : Layer
 		else
 		{
 			base.SetTile(position, tile, transformMatrix);
+		}
+	}
+
+	public override void RemoveTile(Vector3Int position, bool removeAll = false)
+	{
+		if (Application.isPlaying)
+		{
+			base.RemoveTile(position, removeAll);
+			return;
+		}
+
+		//This is for the erase tool at edit time:
+		for (int i = 0; i < 50; i++)
+		{
+			position.z = -i + 1;
+			var getTile = tilemap.GetTile(position);
+			if (getTile != null)
+			{
+				base.RemoveTile(position, removeAll);
+			}
 		}
 	}
 
