@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using System.Threading;
 
 public class ElectricalManager : MonoBehaviour
@@ -18,6 +17,8 @@ public class ElectricalManager : MonoBehaviour
 	public ElectricalMode Mode;
 
 	public bool DOCheck;
+	private Object electricalLock = new Object();
+	public static Object ElectricalLock => Instance.electricalLock;
 
 	private void Awake()
 	{
@@ -36,7 +37,7 @@ public class ElectricalManager : MonoBehaviour
 
 		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
 		{
-			lock (electricalSync.Electriclock)
+			lock (ElectricalLock)
 			{
 				if (electricalSync.MainThreadProcess)
 				{
@@ -44,7 +45,7 @@ public class ElectricalManager : MonoBehaviour
 				}
 
 				electricalSync.MainThreadProcess = false;
-				Monitor.Pulse(electricalSync.Electriclock);
+				Monitor.Pulse(ElectricalLock);
 			}
 		}
 	}
@@ -75,7 +76,7 @@ public class ElectricalManager : MonoBehaviour
 		if (Mode == ElectricalMode.Threaded)
 		{
 			electricalSync.SetSpeed((int)MSSpeed);
-			electricalSync.Start();
+			electricalSync.StartSim();
 		}
 
 		Logger.Log("Round Started", Category.Electrical);
@@ -86,7 +87,7 @@ public class ElectricalManager : MonoBehaviour
 		if (!CustomNetworkManager.Instance._isServer) return;
 
 		Running = false;
-		electricalSync.Stop();
+		electricalSync.StopSim();
 		roundStartedServer = false;
 		electricalSync.Reset();
 		Logger.Log("Round Ended", Category.Electrical);
@@ -96,7 +97,6 @@ public class ElectricalManager : MonoBehaviour
 	{
 		Instance.electricalSync.SetSpeed((int)Instance.MSSpeed);
 	}
-
 }
 
 public enum ElectricalMode

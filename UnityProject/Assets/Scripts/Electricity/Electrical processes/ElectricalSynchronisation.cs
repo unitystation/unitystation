@@ -27,28 +27,27 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private int MillieSecondDelay;
 
-	[NonSerialized]
-	public UnityEngine.Object Electriclock = new UnityEngine.Object();
-
 	private CustomSampler sampler;
+
+	private Thread thread;
 
 	ElectricalSynchronisation()
 	{
 		sampler = CustomSampler.Create("ElectricalStep");
 	}
 
-
-	public void Start()
+	public void StartSim()
 	{
 		if (!running)
 		{
-			new Thread(Run).Start();
+			thread = new Thread(Run);
+			thread.Start();
 
 			running = true;
 		}
 	}
 
-	public void Stop()
+	public void StopSim()
 	{
 		running = false;
 	}
@@ -78,6 +77,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 				Thread.Sleep(MillieSecondDelay - (int) StopWatch.ElapsedMilliseconds);
 			}
 		}
+		thread.Abort();
 		Profiler.EndThreadProfiling();
 	}
 
@@ -483,10 +483,10 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private void ThreadedPowerNetworkUpdate()
 	{
-		lock (Electriclock)
+		lock (ElectricalManager.ElectricalLock)
 		{
 			MainThreadProcess = true;
-			Monitor.Wait(Electriclock);
+			Monitor.Wait(ElectricalManager.ElectricalLock);
 		}
 	}
 
