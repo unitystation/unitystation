@@ -85,12 +85,6 @@ public class UnderFloorLayer : Layer
 
 			if (Application.isPlaying)
 			{
-				var electricalCableTile = tile as ElectricalCableTile;
-				if (tile != null)
-				{
-					matrix.AddElectricalNode(position, electricalCableTile);
-				}
-
 				matrix.TileChangeManager.UpdateTile(position, tile as BasicTile, false);
 			}
 			base.SetTile(position, tile, transformMatrix);
