@@ -7,10 +7,32 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: initialName
+      value: blood-red hardsuit helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: initialDescription
+      value: A dual-mode advanced helmet designed for work in special operations.
+        It is in EVA mode. Property of Gorlex Marauders.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: isEVACapable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5dfde3b30ee79614da051b816fa8a26d,
+        type: 3}
     - target: {fileID: 2179959185564930015, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Name
-      value: SynidcateHardsuitHead
+      value: SyndicateHardsuitHelmet
       objectReference: {fileID: 0}
     - target: {fileID: 2179959185564930015, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -72,16 +94,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
+    - target: {fileID: 2293722870276993643, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
-      propertyPath: clothData
+      propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 11400000, guid: 6a75b09ca69d8a045adc47a8f8997112,
-        type: 2}
-    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: hideClothingFlags
-      value: 2032
       objectReference: {fileID: 0}
     - target: {fileID: 2295559571915120171, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -101,7 +117,7 @@ PrefabInstance:
     - target: {fileID: 2295559571915120171, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: Armor.Energy
-      value: 15
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 2295559571915120171, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -143,32 +159,21 @@ PrefabInstance:
       propertyPath: Resistances.AcidProof
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2293722870276993643, guid: a7a048f6c330048e9a2358fb6f71d385,
+    - target: {fileID: 2727688219082199354, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
-      propertyPath: m_AssetId
+      propertyPath: bodyPartsCovered
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: clothData
       value: 
+      objectReference: {fileID: 11400000, guid: 6a75b09ca69d8a045adc47a8f8997112,
+        type: 2}
+    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: hideClothingFlags
+      value: 2032
       objectReference: {fileID: 0}
-    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: initialName
-      value: blood-red hardsuit helmet
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: initialDescription
-      value: A dual-mode advanced helmet designed for work in special operations.
-        It is in EVA mode. Property of Gorlex Marauders.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: isEVACapable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 5dfde3b30ee79614da051b816fa8a26d,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7a048f6c330048e9a2358fb6f71d385, type: 3}
