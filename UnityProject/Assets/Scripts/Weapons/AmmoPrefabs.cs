@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 /// Just so the guns can find there ammo;
@@ -82,6 +83,10 @@ public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 				return Instance._10mm;
 			case AmmoType.Internal:
 				return Instance.Internal;
+			case AmmoType._50:
+				return Instance._50;
+			default:
+				throw new ArgumentOutOfRangeException(nameof(ammoType), ammoType, null);
 		}
 		return null;
 	}
