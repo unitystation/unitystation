@@ -21,6 +21,22 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6527fc110908ea24da2338028e6bf890, type: 3}
   - {fileID: 21300000, guid: c3a961fccf198f647a894f0399b122a9, type: 3}
   - {fileID: 21300000, guid: 911dfce0d9ad6744db6173f77dafecdb, type: 3}
+--- !u!114 &7271438161642496343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426160498802093876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed44c09dda7911046be12dffc5fdebdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 2164972540663452851}
+  data: {fileID: 11400000, guid: 75e00de3ddc0bd54eab827a3700c64eb, type: 2}
 --- !u!1 &3195531052532842683
 GameObject:
   m_ObjectHideFlags: 0
@@ -128,6 +144,27 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: a652072a4249d7145a17349eb2c47af1, type: 3}
+    - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: a652072a4249d7145a17349eb2c47af1,
+        type: 3}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: exportCost
@@ -238,3 +275,15 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 2828652761953900756}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2164972540663452851 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+    type: 3}
+  m_PrefabInstance: {fileID: 2828652761953900756}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
