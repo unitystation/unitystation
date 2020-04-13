@@ -21,11 +21,6 @@ public class SpawnMessage : ServerMessage
 			Logger.LogWarning("Couldn't resolve SpawnedObject!", Category.NetMessage);
 			return;
 		}
-		if (NetworkObjects[1] == null)
-		{
-			Logger.LogWarning("Couldn't resolve ClonedFrom!", Category.NetMessage);
-			return;
-		}
 
 		//call all the hooks!
 		var comps = NetworkObjects[0].GetComponents<IClientSpawn>();
