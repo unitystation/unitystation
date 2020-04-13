@@ -54,10 +54,13 @@ public class MetabolismSystem : NetworkBehaviour
 	[Tooltip("How often a metabolism tick occurs (in seconds)")]
 	private float metabolismRate = 5f;
 
-	//TODO: Actually use this
-	//[SerializeField]
-	//[Tooltip("How fast the entity can walk while in the starving state")]
-	//private float starvingWalkSpeed = 2f;
+	[SerializeField]
+	[Tooltip("Speed debuff when running and starving")]
+	private float starvingRunDebuff = 2f;
+
+	[SerializeField]
+	[Tooltip("Speed debuff when walking and starting")]
+	private float starvingWalkDebuff = 1f;
 
 	public int NutritionLevel => nutritionLevel;
 
@@ -106,6 +109,7 @@ public class MetabolismSystem : NetworkBehaviour
 	private PlayerMove playerMove;
 	private List<MetabolismEffect> effects;
 	private float tick = 0;
+	private bool appliedStarvingDebuff;
 
 	void Awake()
 	{
@@ -124,7 +128,7 @@ public class MetabolismSystem : NetworkBehaviour
 	}
 
 	void UpdateMe()
-    {
+	{
 		//Server only
 		if (CustomNetworkManager.Instance._isServer)
 		{
@@ -175,14 +179,36 @@ public class MetabolismSystem : NetworkBehaviour
 		}
 
 		//Client and server
-		if (HungerState == HungerState.Starving)
+		if (HungerState == HungerState.Starving & !appliedStarvingDebuff)
 		{
-			playerMove.RunSpeed = playerMove.WalkSpeed;
+			ApplySpeedDebuff();
 		}
-		else
+		else if (HungerState != HungerState.Starving & appliedStarvingDebuff)
 		{
-			playerMove.RunSpeed = playerMove.InitialRunSpeed;
+			RemoveSpeedDebuff();
 		}
+	}
+
+	/// <summary>
+	/// Applies the speed debuff when starving
+	/// </summary>
+	private void ApplySpeedDebuff()
+	{
+		playerMove.ServerChangeSpeed(
+			run:playerMove.RunSpeed + starvingRunDebuff,
+			walk: playerMove.WalkSpeed + starvingWalkDebuff);
+		appliedStarvingDebuff = true;
+	}
+
+	/// <summary>
+	/// Removes the speed debuff when starving
+	/// </summary>
+	private void RemoveSpeedDebuff()
+	{
+		playerMove.ServerChangeSpeed(
+			run:playerMove.RunSpeed + starvingRunDebuff,
+			walk: playerMove.WalkSpeed + starvingWalkDebuff);
+		appliedStarvingDebuff = false;
 	}
 
 	/// <summary>
