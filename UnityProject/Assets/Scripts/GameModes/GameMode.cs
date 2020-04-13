@@ -124,7 +124,8 @@ public abstract class GameMode : ScriptableObject
 	public virtual void StartRound()
 	{
 		// Allocate jobs to all ready players and spawn them
-		var playerSpawnRequests = JobAllocator.DetermineJobs(PlayerList.Instance.ReadyPlayers);
+		var jobAllocator = new JobAllocator();
+		var playerSpawnRequests = jobAllocator.DetermineJobs(PlayerList.Instance.ReadyPlayers);
 		foreach (var spawnReq in playerSpawnRequests)
 		{
 			PlayerSpawn.ServerSpawnPlayer(spawnReq);

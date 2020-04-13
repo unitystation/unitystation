@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 
 // TODO add Managers namespace
-public static class JobAllocator
+public class JobAllocator
 {
 	/// <summary>
 	/// The default occupation to allocate to players who don't get any jobs.
@@ -11,29 +11,29 @@ public static class JobAllocator
 	/// <summary>
 	/// All players who have been allocated a job already
 	/// </summary>
-	private static List<PlayerSpawnRequest> _determinedPlayers;
+	private List<PlayerSpawnRequest> determinedPlayers;
 	/// <summary>
 	/// Players who haven't been allocated a job yet
 	/// </summary>
-	private static List<ConnectedPlayer> _playersLeft;
+	private List<ConnectedPlayer> playersLeft;
 	/// <summary>
 	/// Players who missed out on their job preference
 	/// </summary>
-	private static List<ConnectedPlayer> _missedOutPlayers;
+	private List<ConnectedPlayer> missedOutPlayers;
 
-	private static Dictionary<Occupation, int> _occupationCount = new Dictionary<Occupation, int>();
+	private Dictionary<Occupation, int> occupationCount = new Dictionary<Occupation, int>();
 
 	/// <summary>
 	/// Randomly determine the occupations for every player according to their job preferences
 	/// </summary>
 	/// <param name="players">The players to assign jobs to</param>
 	/// <returns>A list of JoinedViewers with the JobTypes assigned to them</returns>
-	public static IEnumerable<PlayerSpawnRequest> DetermineJobs(IEnumerable<ConnectedPlayer> players)
+	public IEnumerable<PlayerSpawnRequest> DetermineJobs(IEnumerable<ConnectedPlayer> players)
 	{
 		// Reset all player lists
-		_playersLeft = players.ToList();
-		_missedOutPlayers = new List<ConnectedPlayer>();
-		_determinedPlayers = new List<PlayerSpawnRequest>();
+		playersLeft = players.ToList();
+		missedOutPlayers = new List<ConnectedPlayer>();
+		determinedPlayers = new List<PlayerSpawnRequest>();
 
 		// Find all head jobs and normal jobs
 		var headJobs = DepartmentList.Instance.GetAllHeadJobs().ToArray();
@@ -43,14 +43,14 @@ public static class JobAllocator
 		var priorityOrder = new [] {Priority.High, Priority.Medium, Priority.Low};
 		foreach (var priority in priorityOrder)
 		{
-			if (!_playersLeft.Any())
+			if (!playersLeft.Any())
 			{
 				// Everyone has been allocated a job so stop checking
 				break;
 			}
 
 			// Allocate players who didn't get their previous priority choice first
-			if (_missedOutPlayers.Any())
+			if (missedOutPlayers.Any())
 			{
 				// var thisPriority = missedOutPlayers.Where(player =>
 				// 	player.CharacterSettings.JobPreferences.ContainsValue(priority)).Select(p => );
@@ -64,13 +64,13 @@ public static class JobAllocator
 				// 	var candidates = playersLeft.Where(player =>
 				// 		player.CharacterSettings.JobPreferences.ContainsValue(Priority.Medium)).ToList();
 				// }
-				ChoosePlayers(headJobs, priority, _missedOutPlayers);
-				ChoosePlayers(normalJobs, priority, _missedOutPlayers);
+				ChoosePlayers(headJobs, priority, missedOutPlayers);
+				ChoosePlayers(normalJobs, priority, missedOutPlayers);
 			}
 
 			// Start by allocating head jobs, then normal jobs
-			ChoosePlayers(headJobs, priority, _playersLeft);
-			ChoosePlayers(normalJobs, priority, _playersLeft);
+			ChoosePlayers(headJobs, priority, playersLeft);
+			ChoosePlayers(normalJobs, priority, playersLeft);
 		}
 
 		// TODO: check if head jobs are unassigned and see if a normal job from that department could be promoted
@@ -78,7 +78,7 @@ public static class JobAllocator
 		// Dictionary<Department, ConnectedPlayer> assignedNormalJobs;
 
 		AllocateDefaultJobs();
-		return _determinedPlayers;
+		return determinedPlayers;
 	}
 
 	/// <summary>
@@ -88,18 +88,18 @@ public static class JobAllocator
 	/// <param name="occupations">The occupations to assign to players</param>
 	/// <param name="priority">The priority to check for</param>
 	/// <param name="playerPool">The available players to choose from</param>
-	private static void ChoosePlayers(IEnumerable<Occupation> occupations, Priority priority,
+	private void ChoosePlayers(IEnumerable<Occupation> occupations, Priority priority,
 		IReadOnlyCollection<ConnectedPlayer> playerPool)
 	{
 		foreach (var occupation in occupations)
 		{
 			// No more players left to assign
-			if (!_playersLeft.Any())
+			if (!playersLeft.Any())
 			{
 				return;
 			}
 
-			_occupationCount.TryGetValue(occupation, out int filledSlots);
+			occupationCount.TryGetValue(occupation, out int filledSlots);
 			int slotsLeft = occupation.Limit - filledSlots;
 
 			// All slots for this occupation have been allocated
@@ -126,7 +126,7 @@ public static class JobAllocator
 				chosen = candidates.PickRandom(slotsLeft).ToList();
 
 				// Store the players who missed out on their first choice to give them priority for other jobs
-				_missedOutPlayers.AddRange(candidates.Except(chosen));
+				missedOutPlayers.AddRange(candidates.Except(chosen));
 			}
 			else
 			{
@@ -142,37 +142,39 @@ public static class JobAllocator
 	/// </summary>
 	/// <param name="players">Players to allocate jobs to</param>
 	/// <param name="job">The job to allocate</param>
-	private static void AllocateJobs(IReadOnlyCollection<ConnectedPlayer> players, Occupation job)
+	private void AllocateJobs(IReadOnlyCollection<ConnectedPlayer> players, Occupation job)
 	{
 		// Update determined players and players left
-		_determinedPlayers.AddRange(players.Select(player =>
+		determinedPlayers.AddRange(players.Select(player =>
 			PlayerSpawnRequest.RequestOccupation(player.ViewerScript, job, player.CharacterSettings)));
-		_playersLeft.RemoveAll(players.Contains);
+		playersLeft.RemoveAll(players.Contains);
 
 		// Update occupation counts
-		_occupationCount.TryGetValue(job, out int currentCount);
-		_occupationCount[job] = currentCount + 1;
+		occupationCount.TryGetValue(job, out int currentCount);
+		occupationCount[job] = currentCount + 1;
 	}
 
 	/// <summary>
 	/// Ensures all players have been allocated a job and allocates the default one
 	/// </summary>
-	private static void AllocateDefaultJobs()
+	private void AllocateDefaultJobs()
 	{
-		if (_missedOutPlayers.Any() || _playersLeft.Any())
+		if (missedOutPlayers.Any() || playersLeft.Any())
 		{
-			if (!_missedOutPlayers.Equals(_playersLeft))
+			if (!missedOutPlayers.Equals(playersLeft))
 			{
-				Logger.LogError("Missed out players != players left!", Category.Jobs);
+				Logger.LogError("Missed out players != players left! " +
+								"Something isn't assigning missed out players correctly.", Category.Jobs);
 			}
 
-			Logger.LogFormat("These people have missed out on jobs, assigning to Assistant: {0}", Category.Jobs, string.Join(",", _missedOutPlayers));
+			Logger.LogFormat("These people were not assigned a job, assigning to {0}: {1}", Category.Jobs,
+				DefaultJob.DisplayName, string.Join("\n", playersLeft));
 
 			// Update determined players and players left
-			AllocateJobs(_missedOutPlayers, DefaultJob);
+			AllocateJobs(playersLeft, DefaultJob);
 		}
 
-		if (_playersLeft.Any())
+		if (playersLeft.Any())
 		{
 			Logger.LogError("There are still some players left!", Category.Jobs);
 		}
