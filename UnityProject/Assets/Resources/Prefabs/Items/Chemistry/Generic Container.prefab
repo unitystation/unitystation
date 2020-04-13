@@ -16,6 +16,19 @@ MonoBehaviour:
   backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   iconOverride: {fileID: 0}
   backgroundSprite: {fileID: 0}
+--- !u!114 &6745350564874167598
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785875528613525472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e87ca80500964a91bd61d1a1a7ab3d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sound: Slurp
 --- !u!114 &9018167180428263240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28,19 +41,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 1
   maxCapacity: 100
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   reagentMix:
-    temperature: 0
+    temperature: 273.15
     reagents:
       m_keys: []
       m_values: []
-  itemAttributes: {fileID: 0}
+  itemAttributes: {fileID: 7701549257419364482}
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 0
-  possibleTransferAmounts: []
-  transferAmount: 20
+  possibleTransferAmounts:
+  - 5
+  - 10
+  - 15
+  - 20
+  - 30
+  - 50
+  transferAmount: 10
 --- !u!1001 &7786560402941971290
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -115,17 +137,17 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: empty glass
+      value: generic container
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: 
+      value: It's a very generic container
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialSize
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -215,3 +237,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7786560402941971290}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7701549257419364482 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 7786560402941971290}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785875528613525472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99794c150ee14b21a829d6ed54d27a60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

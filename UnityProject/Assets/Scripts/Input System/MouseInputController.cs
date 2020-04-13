@@ -2,10 +2,8 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Grpc.Core.Logging;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Main entry point for handling all input events

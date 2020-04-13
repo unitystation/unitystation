@@ -36,13 +36,17 @@ public class RequestExamineMessage : ClientMessage
 		string msg = "";
 		IExaminable examinable;
 
-		for (int i = 0; i < examinables.Count(); i++)
+		for (int i = 0; i < examinables.Length; i++)
 		{
 			examinable = examinables[i];
 
-			msg += $"{examinable.Examine(mousePosition)}";
+			var examinableMsg = examinable.Examine(mousePosition);
+			if (string.IsNullOrEmpty(examinableMsg))
+				continue;
 
-			if (i != examinables.Count() - 1)
+			msg += examinableMsg;
+
+			if (i != examinables.Length - 1)
 			{
 				msg += "\n";
 			}
