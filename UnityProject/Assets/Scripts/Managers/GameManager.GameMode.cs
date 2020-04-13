@@ -131,7 +131,7 @@ public partial class GameManager
 	// TODO could add a nice cutscene/animation here while waiting for initialisation
 	private IEnumerator WaitToStartGameMode()
 	{
-		yield return WaitFor.Seconds(1f);
+		yield return WaitFor.EndOfFrame;
 		GameMode.StartRound();
 	}
 }
