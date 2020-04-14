@@ -12,6 +12,9 @@ public class GUI_ExosuitFabricator : NetTab
 	private GUI_ExoFabPageProducts productDisplay = null;
 
 	[SerializeField]
+	private GUI_ExoFabQueueDisplay queueDisplay = null;
+
+	[SerializeField]
 	private NetPageSwitcher nestedSwitcher = null;
 
 	private ExosuitFabricator exosuitFabricator;
@@ -31,6 +34,9 @@ public class GUI_ExosuitFabricator : NetTab
 	public ExoFabDownQueueClickedEvent OnDownQueueClicked { get => onDownQueueClicked; }
 	private ExoFabDispenseSheetClickEvent onDispenseSheetClicked;
 	public ExoFabDispenseSheetClickEvent OnDispenseSheetClicked { get => onDispenseSheetClicked; }
+
+	private ExoFabClearQueueClickEvent onClearQueueClicked;
+	public ExoFabClearQueueClickEvent OnClearQueueClicked { get => onClearQueueClicked; }
 
 	private bool inited = false;
 
@@ -58,35 +64,49 @@ public class GUI_ExosuitFabricator : NetTab
 
 		OnRemoveProductClicked.AddListener(RemoveFromQueue);
 
+		onUpQueueClicked = new ExoFabUpQueueClickedEvent();
+
+		OnUpQueueClicked.AddListener(UpQueue);
+
+		onDownQueueClicked = new ExoFabDownQueueClickedEvent();
+
+		OnDownQueueClicked.AddListener(DownQueue);
+
 		onDispenseSheetClicked = new ExoFabDispenseSheetClickEvent();
 
 		OnDispenseSheetClicked.AddListener(DispenseSheet);
 
+		onClearQueueClicked = new ExoFabClearQueueClickEvent();
+
+		OnClearQueueClicked.AddListener(ClearQueue);
+
 		//Makes sure it connects with the ExosuitFabricator
 		exosuitFabricator = Provider.GetComponentInChildren<ExosuitFabricator>();
 		//Subscribes to the MaterialsManipulated event
-		ExosuitFabricator.MaterialsManipulated += UpdateAll;
+		ExosuitFabricator.MaterialsManipulated += UpdateServerMaterials;
 
 		materialsAndCategoryDisplay.InitMaterialList(exosuitFabricator.materialStorage);
 		materialsAndCategoryDisplay.InitCategories(exosuitFabricator.exoFabProducts);
-		UpdateAll();
-	}
-
-	public override void OnEnable()
-	{
-		base.OnEnable();
-		if (!CustomNetworkManager.Instance._isServer || !inited)
-		{
-			return;
-		}
-		UpdateAll();
+		OnTabOpened.AddListener(UpdateGUIForPeepers);
 	}
 
 	//Updates the GUI and adds any visible NetUIElements to the server.
-	public void UpdateAll()
+	public void UpdateServerMaterials()
 	{
-		materialsAndCategoryDisplay.UpdateMaterialCount(exosuitFabricator.materialStorage);
-		RescanElements();
+		materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorage);
+	}
+
+	//Everytime someone new looks at the tab, update the tab for the client
+	public void UpdateGUIForPeepers(ConnectedPlayer notUsed)
+	{
+		StartCoroutine(WaitForClient());
+	}
+
+	private IEnumerator WaitForClient()
+	{
+		yield return new WaitForSeconds(0.2f);
+		materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorage);
+		queueDisplay.UpdateQueue();
 	}
 
 	//Used by buttons, which contains the amount and type to dispense
@@ -97,7 +117,9 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public void AddProductToQueue(MachineProduct product)
 	{
-		Logger.Log("Adding product to queue");
+		Logger.Log("Adding Product");
+		queueDisplay.CurrentProducts.Add(product);
+		queueDisplay.UpdateQueue();
 	}
 
 	public void AddAllProductsToQueue(NetButton button)
@@ -122,10 +144,18 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public void UpQueue(int productNumber)
 	{
+		queueDisplay.MoveProductUpInQueue(productNumber);
 	}
 
 	public void DownQueue(int productNumber)
 	{
+		queueDisplay.MoveProductDownInqueue(productNumber);
+	}
+
+	public void ClearQueue()
+	{
+		Logger.Log("Clearing Queue");
+		queueDisplay.ClearQueue();
 	}
 
 	public void OpenCategory(MachineProductList categoryProducts)
@@ -147,7 +177,7 @@ public class GUI_ExosuitFabricator : NetTab
 
 	private void OnDestroy()
 	{
-		ExosuitFabricator.MaterialsManipulated -= UpdateAll;
+		ExosuitFabricator.MaterialsManipulated -= UpdateServerMaterials;
 	}
 }
 
@@ -178,5 +208,10 @@ public class ExoFabCategoryClickEvent : UnityEvent<MachineProductList>
 
 [System.Serializable]
 public class ExoFabDispenseSheetClickEvent : UnityEvent<int, ItemTrait>
+{
+}
+
+[System.Serializable]
+public class ExoFabClearQueueClickEvent : UnityEvent
 {
 }

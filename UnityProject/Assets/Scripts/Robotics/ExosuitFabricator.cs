@@ -86,7 +86,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	//Clicking the exofab with material sheets(Metal sheets, glass sheets, silver sheets, etc.)
 	//in hand will insert the materials in the storage and update the GUI.
 	//Every sheet is 2000cm^3
-	[Server]
+
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		//Can't insert materials while exofab is in production.
@@ -106,7 +106,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	///<summary>
 	///Spawns a number material sheet if there is enough in the storage
 	///</summary>
-	[Server]
+
 	public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 	{
 		if (materialStorage.TryRemoveMaterialSheet(materialType, amountOfSheets))

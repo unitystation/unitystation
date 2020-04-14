@@ -1,10 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUI_ExoFabMaterialEntry : DynamicEntry
 {
-	private GUI_ExosuitFabricator ExoFabMasterTab = null;
+	private GUI_ExosuitFabricator ExoFabMasterTab
+	{
+		get => MasterTab as GUI_ExosuitFabricator;
+	}
 
 	private ItemTrait materialType;
 
@@ -26,17 +30,16 @@ public class GUI_ExoFabMaterialEntry : DynamicEntry
 	private NetLabel amountLabel;
 	public NetLabel AmountLabel { get => amountLabel; }
 
-	private NetButton buttonOne;
-	private NetButton buttonTen;
-	private NetButton buttonFifty;
+	private GUI_ExoFabButton buttonOne;
+	private GUI_ExoFabButton buttonTen;
+	private GUI_ExoFabButton buttonFifty;
+
+	//private bool inited = false;
 
 	public void DispenseMaterial(int amount)
 	{
 		Logger.Log("CLICK");
-		if (ExoFabMasterTab == null)
-		{
-			MasterTab.GetComponent<GUI_ExosuitFabricator>().OnDispenseSheetClicked.Invoke(amount, materialType);
-		}
+		if (ExoFabMasterTab == null) ExoFabMasterTab.GetComponent<GUI_ExosuitFabricator>().OnDispenseSheetClicked.Invoke(amount, materialType);
 		else { ExoFabMasterTab?.OnDispenseSheetClicked.Invoke(amount, materialType); }
 	}
 
@@ -44,6 +47,7 @@ public class GUI_ExoFabMaterialEntry : DynamicEntry
 	{
 		currentAmount = materialRecord.CurrentAmount;
 		materialType = materialRecord.materialType;
+
 		foreach (var element in Elements)
 		{
 			string nameBeforeIndex = element.name.Split('~')[0];
@@ -59,15 +63,15 @@ public class GUI_ExoFabMaterialEntry : DynamicEntry
 					break;
 
 				case "OneSheetButton":
-					buttonOne = element as NetButton;
+					buttonOne = element as GUI_ExoFabButton;
 					break;
 
 				case "TenSheetButton":
-					buttonTen = element as NetButton;
+					buttonTen = element as GUI_ExoFabButton;
 					break;
 
 				case "FiftySheetButton":
-					buttonFifty = element as NetButton;
+					buttonFifty = element as GUI_ExoFabButton;
 					break;
 			}
 		}
@@ -79,27 +83,27 @@ public class GUI_ExoFabMaterialEntry : DynamicEntry
 		int sheetsDispensable = currentAmount / 2000;
 		if (sheetsDispensable < 1)
 		{
-			buttonOne.gameObject.SetActive(false);
-			buttonTen.gameObject.SetActive(false);
-			buttonFifty.gameObject.SetActive(false);
+			buttonOne.SetValue = "false";
+			buttonTen.SetValue = "false";
+			buttonFifty.SetValue = "false";
 		}
 		else if (sheetsDispensable >= 1 && sheetsDispensable < 10)
 		{
-			buttonOne.gameObject.SetActive(true);
-			buttonTen.gameObject.SetActive(false);
-			buttonFifty.gameObject.SetActive(false);
+			buttonOne.SetValue = "true";
+			buttonTen.SetValue = "false";
+			buttonFifty.SetValue = "false";
 		}
 		else if (sheetsDispensable > 10 && sheetsDispensable < 50)
 		{
-			buttonOne.gameObject.SetActive(true);
-			buttonTen.gameObject.SetActive(true);
-			buttonFifty.gameObject.SetActive(false);
+			buttonOne.SetValue = "true";
+			buttonTen.SetValue = "true";
+			buttonFifty.SetValue = "false";
 		}
 		else
 		{
-			buttonOne.gameObject.SetActive(true);
-			buttonTen.gameObject.SetActive(true);
-			buttonFifty.gameObject.SetActive(true);
+			buttonOne.SetValue = "true";
+			buttonTen.SetValue = "true";
+			buttonFifty.SetValue = "true";
 		}
 	}
 }

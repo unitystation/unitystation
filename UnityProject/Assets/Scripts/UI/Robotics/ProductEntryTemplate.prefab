@@ -433,6 +433,7 @@ MonoBehaviour:
     name: 
     product: {fileID: 0}
     materialPrice: []
+    productionTime: 10
   categoryName: 
 --- !u!1 &4337926468673919268
 GameObject:
@@ -595,8 +596,8 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8693435784144951773}
-        m_MethodName: 
+      - m_Target: {fileID: 9081593022855644900}
+        m_MethodName: AddToQueue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -610,6 +611,7 @@ MonoBehaviour:
     name: 
     product: {fileID: 0}
     materialPrice: []
+    productionTime: 10
   categoryName: 
 --- !u!1 &7749955192746333516
 GameObject:

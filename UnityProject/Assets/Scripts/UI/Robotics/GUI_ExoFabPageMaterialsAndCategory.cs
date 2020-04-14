@@ -6,6 +6,7 @@ public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 {
 	[SerializeField] private EmptyItemList materialList;
 	[SerializeField] private EmptyItemList productCategoryList;
+	private bool inited = false;
 
 	//private Dictionary<ItemTrait, GUI_ExoFabMaterialEntry> materialEntries = new Dictionary<ItemTrait, GUI_ExoFabMaterialEntry>();
 
@@ -19,7 +20,6 @@ public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 		{
 			GUI_ExoFabMaterialEntry item = materialList.Entries[i] as GUI_ExoFabMaterialEntry;
 			item.ReInit(materialRecords[i]);
-			//materialEntries.Add(materialRecords[i].materialType, item);
 		}
 	}
 
@@ -41,17 +41,8 @@ public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 	/// Updates the material count for each material
 	/// </summary>
 	/// <param name="exofab"></param>
-	public void UpdateMaterialCount(MaterialStorage materialStorage)
+	public void UpdateMaterialList(MaterialStorage materialStorage)
 	{
 		InitMaterialList(materialStorage);
-		//GUI_ExoFabMaterialEntry materialEntry;
-		//foreach (MaterialRecord materialRecord in materialStorage.MaterialRecordList)
-		//{
-		//	string currentAmountInString = materialRecord.CurrentAmount.ToString();
-		//	materialEntry = materialEntries[materialRecord.materialType];
-		//	materialEntry.AmountLabel.SetValue = currentAmountInString;
-		//	materialEntry.CurrentAmount = materialRecord.CurrentAmount;
-		//	materialEntry.UpdateButtonVisibility();
-		//}
 	}
 }

@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2406928317904061398}
   - component: {fileID: 4443598727915939476}
   - component: {fileID: 8591771105573319793}
-  - component: {fileID: 5965587126677896854}
+  - component: {fileID: 7989185315554205052}
   m_Layer: 5
-  m_Name: RemoveProductButton
+  m_Name: RemoveProduct
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,7 +135,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5965587126677896854}
+      - m_Target: {fileID: 7989185315554205052}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -146,7 +146,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &5965587126677896854
+--- !u!114 &7989185315554205052
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -155,14 +155,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 2559900059246549620}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: CallShuttle
+      - m_Target: {fileID: 3854159109261479322}
+        m_MethodName: RemoveFromQueue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -185,7 +185,7 @@ GameObject:
   - component: {fileID: 374385212204417392}
   - component: {fileID: 2460494125523447648}
   - component: {fileID: 8954947285760499546}
-  - component: {fileID: 9028893706654418468}
+  - component: {fileID: 2084146372945679717}
   m_Layer: 5
   m_Name: UpButton
   m_TagString: Untagged
@@ -307,7 +307,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9028893706654418468}
+      - m_Target: {fileID: 2084146372945679717}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -318,7 +318,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &9028893706654418468
+--- !u!114 &2084146372945679717
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -327,14 +327,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 3507309800169169685}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: CallShuttle
+      - m_Target: {fileID: 3854159109261479322}
+        m_MethodName: ForwardInQueue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -410,9 +410,9 @@ GameObject:
   - component: {fileID: 5901588060894559564}
   - component: {fileID: 1228270861188419533}
   - component: {fileID: 5704417438373119076}
-  - component: {fileID: 1010523783178339987}
+  - component: {fileID: 8061154471295550002}
   m_Layer: 5
-  m_Name: Down Button
+  m_Name: DownButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -532,7 +532,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1010523783178339987}
+      - m_Target: {fileID: 8061154471295550002}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -543,7 +543,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &1010523783178339987
+--- !u!114 &8061154471295550002
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -552,14 +552,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5302314692971061199}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: 80af66fa15a485449be1acba90908fb9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: CallShuttle
+      - m_Target: {fileID: 3854159109261479322}
+        m_MethodName: BackwardsInQueue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -659,7 +659,7 @@ GameObject:
   - component: {fileID: 9144321841236066325}
   - component: {fileID: 6888825755055271546}
   m_Layer: 5
-  m_Name: ProductQueueNumber
+  m_Name: QueueNumber
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

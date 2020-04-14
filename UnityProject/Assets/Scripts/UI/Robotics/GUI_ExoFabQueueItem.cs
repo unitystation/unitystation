@@ -4,16 +4,19 @@ using UnityEngine;
 
 public class GUI_ExoFabQueueItem : DynamicEntry
 {
-	private GUI_ExosuitFabricator exoFabMasterTab;
+	private GUI_ExosuitFabricator ExoFabMasterTab
+	{
+		get => MasterTab as GUI_ExosuitFabricator;
+	}
+
 	private MachineProduct product;
 
-	private MachineProduct Product
+	public MachineProduct Product
 	{
 		get => product;
 		set
 		{
 			product = value;
-			ReInit();
 		}
 	}
 
@@ -25,26 +28,30 @@ public class GUI_ExoFabQueueItem : DynamicEntry
 		set
 		{
 			numberInQueue = value;
-			ReInit();
 		}
 	}
 
+	private GUI_ExoFabButton upButton;
+	public GUI_ExoFabButton UpButton { get => upButton; }
+	private GUI_ExoFabButton downButton;
+	public GUI_ExoFabButton DownButton { get => downButton; }
+
 	public void ForwardInQueue()
 	{
-		if (exoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
-		else { exoFabMasterTab?.OnRemoveProductClicked.Invoke(NumberInQueue); }
+		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
+		else { ExoFabMasterTab?.OnRemoveProductClicked.Invoke(NumberInQueue); }
 	}
 
 	public void BackwardsInQueue()
 	{
-		if (exoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
-		else { exoFabMasterTab?.OnUpQueueClicked.Invoke(NumberInQueue); }
+		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
+		else { ExoFabMasterTab?.OnUpQueueClicked.Invoke(NumberInQueue); }
 	}
 
 	public void RemoveFromQueue()
 	{
-		if (exoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
-		else { exoFabMasterTab?.OnDownQueueClicked.Invoke(NumberInQueue); }
+		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
+		else { ExoFabMasterTab?.OnDownQueueClicked.Invoke(NumberInQueue); }
 	}
 
 	public void ReInit()
@@ -65,6 +72,16 @@ public class GUI_ExoFabQueueItem : DynamicEntry
 
 				case "ProductName":
 					element.SetValue = Product.Name;
+					break;
+
+				case "UpButton":
+					upButton = element as GUI_ExoFabButton;
+					upButton.SetValue = "true";
+					break;
+
+				case "DownButton":
+					downButton = element as GUI_ExoFabButton;
+					downButton.SetValue = "true";
 					break;
 			}
 		}

@@ -30,10 +30,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cm3PerSheet: 2000
-  maximumTotalResourceStorage: 20000
+  syncMode: 0
+  syncInterval: 0.1
   materialsInMachines: {fileID: 11400000, guid: b6e83d10ca1eed247949504321b25658,
     type: 2}
+  maximumTotalResourceStorage: 20000
 --- !u!114 &4434257373069083471
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,14 +110,6 @@ MonoBehaviour:
     EquippedData: {fileID: 4900000, guid: b09b11b4369c4bf4c9df826864404911, type: 3}
   materialStorage: {fileID: 4345289403541654959}
   exoFabProducts: {fileID: 11400000, guid: 5de8c3642d9b41742bd0f830d07a5bd7, type: 2}
-  material1: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
-    type: 3}
-  material2: {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d,
-    type: 3}
-  material3: {fileID: 6254655335276451647, guid: db7e38821ee90cf45b4f7edbbece6900,
-    type: 3}
-  material4: {fileID: 6254655335276451647, guid: fdfebca06b77ef64898a68e1df0d3e9a,
-    type: 3}
 --- !u!1001 &8615537192462600737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -229,6 +222,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: serverOnly
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
