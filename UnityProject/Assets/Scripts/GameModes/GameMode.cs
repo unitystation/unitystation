@@ -212,11 +212,23 @@ public abstract class GameMode : ScriptableObject
 	/// </summary>
 	protected void SpawnAntag(PlayerSpawnRequest playerSpawnRequest)
 	{
-		if (PossibleAntags.Count > 0)
+		if (PossibleAntags.Count <= 0)
 		{
-			int randIndex = Random.Range(0, PossibleAntags.Count);
-			AntagManager.Instance.ServerSpawnAntag(PossibleAntags[randIndex], playerSpawnRequest);
+			Logger.LogError("PossibleAntags is empty! Game mode must have some if spawning antags.",
+				Category.GameMode);
+			return;
 		}
+
+		int randIndex = Random.Range(0, PossibleAntags.Count);
+		var antag = PossibleAntags[randIndex];
+		if (!AllocateJobsToAntags &&antag.AntagOccupation == null)
+		{
+			Logger.LogErrorFormat("AllocateJobsToAntags is false but {0} AntagOccupation is null! " +
+								  "Game mode must either set AllocateJobsToAntags or possible antags neeed an AntagOccupation.",
+				Category.GameMode, antag.AntagName);
+			return;
+		}
+		AntagManager.Instance.ServerSpawnAntag(PossibleAntags[randIndex], playerSpawnRequest);
 	}
 
 	/// <summary>
