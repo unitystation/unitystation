@@ -13,16 +13,16 @@ using UnityEngine;
 [Serializable]
 public class Armor
 {
-	[Range(0,100)] public float Melee;
-	[Range(0,100)] public float Bullet;
-	[Range(0,100)] public float Laser;
-	[Range(0,100)] public float Energy;
-	[Range(0,100)] public float Bomb;
-	[Range(0,100)] public float Rad;
-	[Range(0,100)] public float Fire;
-	[Range(0,100)] public float Acid;
-	[Range(0,100)] public float Magic;
-	[Range(0,100)] public float Bio;
+	[Range(-100,100)] public float Melee;
+	[Range(-100,100)] public float Bullet;
+	[Range(-100,100)] public float Laser;
+	[Range(-100,100)] public float Energy;
+	[Range(-100,100)] public float Bomb;
+	[Range(-100,100)] public float Rad;
+	[Range(-100,100)] public float Fire;
+	[Range(-100,100)] public float Acid;
+	[Range(-100,100)] public float Magic;
+	[Range(-100,100)] public float Bio;
 
 	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance
