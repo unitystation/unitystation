@@ -92,7 +92,7 @@ PrefabInstance:
     - target: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: m_Name
-      value: SecurityHUD2
+      value: SecurityHUD
       objectReference: {fileID: 0}
     - target: {fileID: 2718814624466391119, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
@@ -105,6 +105,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8ac2070b0e576ba4f8a7e6c89255ef1c,
         type: 3}
+    - target: {fileID: 3470201379774433319, guid: 28c72054b1f484ed4a6253c4feee3eb4,
+        type: 3}
+      propertyPath: bodyPartsCovered
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9062951044728521674, guid: 28c72054b1f484ed4a6253c4feee3eb4,
         type: 3}
       propertyPath: clothData

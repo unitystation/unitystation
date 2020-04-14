@@ -586,5 +586,6 @@ public partial class Chat
 		{Speech.Swedish, ChatModifier.Swedish},
 		{Speech.Chav, ChatModifier.Chav},
 		{Speech.Stutter, ChatModifier.Stutter},
+		{Speech.Scotsman, ChatModifier.Scotsman}
 	};
 }
