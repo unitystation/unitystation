@@ -7,6 +7,7 @@ using Mirror;
 [System.Serializable]
 public class ContainerCustomSprite
 {
+	[TextArea]
 	public string CustomDescription = "";
 	public Sprite MainSprite;
 }
