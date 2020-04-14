@@ -227,5 +227,6 @@ public enum AmmoType
 	_45,
 	_10mm,
 	_50,
+	tommy9mm,
 	Internal
 }
