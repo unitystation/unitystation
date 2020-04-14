@@ -42,6 +42,8 @@ public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 	[SerializeField]
 	private GameObject tommy9mm = null;
 	[SerializeField]
+	private GameObject _762 = null;
+	[SerializeField]
 	private GameObject Internal = null;
 
 	/// <summary>
@@ -86,6 +88,8 @@ public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 				return Instance._50;
 			case AmmoType.tommy9mm:
 				return Instance.tommy9mm;
+			case AmmoType._762:
+				return Instance._762;
 			case AmmoType.Internal:
 				return Instance.Internal;
 		}
