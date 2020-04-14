@@ -88,6 +88,5 @@ public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 			default:
 				throw new ArgumentOutOfRangeException(nameof(ammoType), ammoType, null);
 		}
-		return null;
 	}
 }
