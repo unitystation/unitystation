@@ -16,6 +16,10 @@ MonoBehaviour:
     m_keys:
     - {fileID: 11400000, guid: a2f2da04196bb32b2935d5a21b362f9b, type: 2}
     - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+    - {fileID: 11400000, guid: 8d1468f2ac5202e65af28854a30b9c55, type: 2}
+    - {fileID: 11400000, guid: 8f0919186512e2b00840bdfc242942ff, type: 2}
+    - {fileID: 11400000, guid: 0e911336dddca2f8d993b04b94ee8f42, type: 2}
+    - {fileID: 11400000, guid: e93999e64602a55eba3f8021139e5822, type: 2}
     m_values:
     - CustomName: glass of vodka
       CustomDescription: The glass contain wodka. Xynta.
@@ -23,3 +27,16 @@ MonoBehaviour:
     - CustomName: glass of water
       CustomDescription: 
       MainSprite: {fileID: 21300000, guid: 2bf661949122ccf468e9a699282f67c4, type: 3}
+    - CustomName: glass of whiskey
+      CustomDescription: The silky, smokey whiskey goodness inside the glass makes
+        the drink look very classy.
+      MainSprite: {fileID: 21300000, guid: aaa72d7b24149ea4bac58622e6b65f6a, type: 3}
+    - CustomName: glass of absinthe
+      CustomDescription: It's as strong as it smells.
+      MainSprite: {fileID: 21300000, guid: 270e973245d3cb04f9fbf47852da97e1, type: 3}
+    - CustomName: pint of beer
+      CustomDescription: A freezing pint of beer.
+      MainSprite: {fileID: 21300000, guid: b1afc66e1ca612b4d815f3c3dcc80c99, type: 3}
+    - CustomName: glass of gin
+      CustomDescription: A crystal clear glass of Griffeater gin.
+      MainSprite: {fileID: 21300000, guid: 6517328be301fef4ca6c1ee8849d7843, type: 3}
