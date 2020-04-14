@@ -38,20 +38,20 @@ public class GUI_ExoFabQueueItem : DynamicEntry
 
 	public void ForwardInQueue()
 	{
-		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
-		else { ExoFabMasterTab?.OnRemoveProductClicked.Invoke(NumberInQueue); }
+		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnUpQueueClicked.Invoke(numberInQueue); }
+		else { ExoFabMasterTab?.OnUpQueueClicked.Invoke(numberInQueue); }
 	}
 
 	public void BackwardsInQueue()
 	{
-		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
-		else { ExoFabMasterTab?.OnUpQueueClicked.Invoke(NumberInQueue); }
+		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnDownQueueClicked.Invoke(numberInQueue); }
+		else { ExoFabMasterTab?.OnDownQueueClicked.Invoke(numberInQueue); }
 	}
 
 	public void RemoveFromQueue()
 	{
-		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
-		else { ExoFabMasterTab?.OnDownQueueClicked.Invoke(NumberInQueue); }
+		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnRemoveProductClicked.Invoke(numberInQueue); }
+		else { ExoFabMasterTab?.OnRemoveProductClicked.Invoke(NumberInQueue); }
 	}
 
 	public void ReInit()

@@ -62,6 +62,39 @@ public class MachineProduct
 public class MachineProductMaterialPrice
 {
 	[SerializeField]
+	private int Iron;
+
+	[SerializeField]
+	private int Glass;
+
+	[SerializeField]
+	private int Silver;
+
+	[SerializeField]
+	private int Gold;
+
+	[SerializeField]
+	private int Plasma;
+
+	[SerializeField]
+	private int Uranium;
+
+	[SerializeField]
+	private int Titanium;
+
+	[SerializeField]
+	private int Diamond;
+
+	[SerializeField]
+	private int BluespaceCrystal;
+
+	[SerializeField]
+	private int Plastic;
+
+	[SerializeField]
+	public static GameObject materials;
+
+	[SerializeField]
 	[Tooltip("The material type, materials have an item trait according to their types.")]
 	private ItemTrait material;
 

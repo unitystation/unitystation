@@ -12,19 +12,25 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 
 	public void MoveProductUpInQueue(int productNumber)
 	{
-		MachineProduct machineProductMovedUp = currentProducts[productNumber];
-		MachineProduct machineProductMovedDown = currentProducts[productNumber - 1];
-		currentProducts[productNumber] = machineProductMovedDown;
-		currentProducts[productNumber - 1] = machineProductMovedUp;
+		MachineProduct temp1 = currentProducts[productNumber];
+		MachineProduct temp2 = currentProducts[productNumber - 1];
+		currentProducts[productNumber] = temp2;
+		currentProducts[productNumber - 1] = temp1;
 		UpdateQueue();
 	}
 
 	public void MoveProductDownInqueue(int productNumber)
 	{
-		MachineProduct machineProductMovedUp = currentProducts[productNumber + 1];
-		MachineProduct machineProductMovedDown = currentProducts[productNumber];
-		currentProducts[productNumber] = machineProductMovedUp;
-		currentProducts[productNumber + 1] = machineProductMovedDown;
+		MachineProduct temp1 = currentProducts[productNumber];
+		MachineProduct temp2 = currentProducts[productNumber + 1];
+		currentProducts[productNumber + 1] = temp1;
+		currentProducts[productNumber] = temp2;
+		UpdateQueue();
+	}
+
+	public void RemoveProduct(int numberInQueue)
+	{
+		currentProducts.RemoveAt(numberInQueue);
 		UpdateQueue();
 	}
 
@@ -60,10 +66,7 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 		//Only one item
 		if (currentProducts.Count == 1)
 		{
-			if (item.NumberInQueue == 0)
-			{
-				item.DownButton.SetValue = "false";
-			}
+			item.DownButton.SetValue = "false";
 		}
 		else
 		{

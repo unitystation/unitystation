@@ -139,7 +139,7 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public void RemoveFromQueue(int productNumber)
 	{
-		//Need implementation
+		queueDisplay.RemoveProduct(productNumber);
 	}
 
 	public void UpQueue(int productNumber)
