@@ -28,7 +28,7 @@ public class JobAllocator
 	/// </summary>
 	/// <param name="players">The players to assign jobs to</param>
 	/// <returns>A list of JoinedViewers with the JobTypes assigned to them</returns>
-	public IEnumerable<PlayerSpawnRequest> DetermineJobs(IEnumerable<ConnectedPlayer> players)
+	public List<PlayerSpawnRequest> DetermineJobs(IEnumerable<ConnectedPlayer> players)
 	{
 		// Reset all player lists
 		playersLeft = players.ToList();

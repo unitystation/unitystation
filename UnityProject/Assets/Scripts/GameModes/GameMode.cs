@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Antagonists;
+using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -15,101 +17,108 @@ public abstract class GameMode : ScriptableObject
 	#region Inspector Values
 
 	[Header("General Settings")]
-	/// <summary>
-	/// The name of the game mode
-	/// </summary>
 	[Tooltip("The name of the game mode")]
 	[SerializeField]
 	private string gameModeName;
+	/// <summary>
+	/// The name of the game mode
+	/// </summary>
 	public string Name => gameModeName;
 
-	/// <summary>
-	/// The description of the game mode
-	/// </summary>
 	[Tooltip("A description of the game mode")]
 	[SerializeField]
 	[TextArea]
 	private string description;
+	/// <summary>
+	/// The description of the game mode
+	/// </summary>
 	public string Description => description;
 
-	/// <summary>
-	/// Is respawning enabled in this game mode
-	/// </summary>
 	[Tooltip("Should players be allowed to respawn?")]
 	[SerializeField]
 	private bool canRespawn;
+	/// <summary>
+	/// Is respawning enabled in this game mode
+	/// </summary>
 	public bool CanRespawn => canRespawn;
 
-	/// <summary>
-	/// The minimum amount of players needed for the game mode to be possible. Can't be lower than 1.
-	/// </summary>
 	[Tooltip("What is the minimum amount of players needed to play this game mode?")]
 	[SerializeField]
 	[Min(1)]
 	private int minPlayers = 1;
+	/// <summary>
+	/// The minimum amount of players needed for the game mode to be possible. Can't be lower than 1.
+	/// </summary>
 	public int MinPlayers => minPlayers;
 
 	[Header("Antagonist Settings")]
-	/// <summary>
-	/// The ratio of antagonists to spawn for this game mode
-	/// </summary>
 	[Tooltip("Ratio of antagonists to player count. A value of 0.2 means there would be " +
 			 "2 antagonists when there are 10 players.")]
 	[SerializeField]
 	[Range(0, 1)]
 	private float antagRatio = 0;
+	/// <summary>
+	/// The ratio of antagonists to spawn for this game mode
+	/// </summary>
 	public float AntagRatio => antagRatio;
 
-	/// <summary>
-	/// The minimum amount of antags needed for the game mode to be possible.
-	/// If <see cref="requiresMinAntags"/> is false, the number of chosen antags will be rounded up to this number.
-	/// </summary>
 	[Tooltip("The minimum amount of antags needed for the game mode to be possible. " +
 			 "If requiresMinAntags is false, the number of chosen antags will be rounded up to this number.")]
 	[SerializeField]
 	[Min(0)]
 	private int minAntags = 0;
+	/// <summary>
+	/// The minimum amount of antags needed for the game mode to be possible.
+	/// If <see cref="requiresMinAntags"/> is false, the number of chosen antags will be rounded up to this number.
+	/// </summary>
 	public int MinAntags => minAntags;
 
-	/// <summary>
-	/// Is the game mode possible if the <see cref="antagRatio"/> doesn't meet the <see cref="minAntags"/>?
-	/// E.g. If true, when antagRatio is 0.2 and minAntags is 1, then you need at least 5 players to start the game mode.
-	/// </summary>
 	[Tooltip("Is the game mode possible if the player count multiplied by the antagRatio doesn't meet the minAntags? " +
 			 "E.g. If true, when antagRatio is 0.2 and minAntags is 1, you need at least 5 players to start the game mode.")]
 	[SerializeField]
 	private bool requiresMinAntags;
+	/// <summary>
+	/// Is the game mode possible if the <see cref="antagRatio"/> doesn't meet the <see cref="minAntags"/>?
+	/// E.g. If true, when antagRatio is 0.2 and minAntags is 1, then you need at least 5 players to start the game mode.
+	/// </summary>
 	public bool RequiresMinAntags => requiresMinAntags;
 
-	/// <summary>
-	/// Are antags on the same team or are they lone wolves?
-	/// Used for the end of round antag report.
-	/// </summary>
 	[Tooltip("Are antags on the same team or are they lone wolves?" +
 			 "Used for the end of round antag report.")]
 	[SerializeField]
 	private bool teamGameMode;
+	/// <summary>
+	/// Are antags on the same team or are they lone wolves?
+	/// Used for the end of round antag report.
+	/// </summary>
 	public bool TeamGameMode => teamGameMode;
 
-	/// <summary>
-	/// Can antags spawn during the round?
-	/// </summary>
 	[Tooltip("Can antags spawn during the round?")]
 	[SerializeField]
 	private bool midRoundAntags;
+	/// <summary>
+	/// Can antags spawn during the round?
+	/// </summary>
 	public bool MidRoundAntags => midRoundAntags;
 
+	[FormerlySerializedAs("chooseAntagsBeforeJobs")]
+	[Tooltip("Should antags be allocated a job? If true, will choose antags after allocating jobs.")]
+	[SerializeField]
+	private bool allocateJobsToAntags;
 	/// <summary>
-	/// The possible antagonists for this game mode
+	/// Should antags be allocated a job?
+	/// If true, will choose antags after allocating jobs.
 	/// </summary>
+	public bool AllocateJobsToAntags => allocateJobsToAntags;
+
 	[Tooltip("The possible antagonists for this game mode")]
 	[SerializeField]
 	private List<Antagonist> possibleAntags;
+	/// <summary>
+	/// The possible antagonists for this game mode
+	/// </summary>
 	public List<Antagonist> PossibleAntags => possibleAntags;
 
-	/// <summary>
-	/// The JobTypes that cannot be chosen as antagonists for this game mode
-	/// </summary>
 	[Tooltip("The JobTypes that cannot be chosen as antagonists for this game mode")]
 	[SerializeField]
 	private List<JobType> nonAntagJobTypes = new List<JobType>
@@ -121,6 +130,9 @@ public abstract class GameMode : ScriptableObject
 		JobType.SECURITY_OFFICER,
 		JobType.DETECTIVE,
 	};
+	/// <summary>
+	/// The JobTypes that cannot be chosen as antagonists for this game mode
+	/// </summary>
 	public List<JobType> NonAntagJobTypes => nonAntagJobTypes;
 
 	#endregion
@@ -133,7 +145,7 @@ public abstract class GameMode : ScriptableObject
 	/// </summary>
 	public virtual bool IsPossible()
 	{
-		int players = PlayerList.Instance.ConnectionCount;
+		int players = PlayerList.Instance.ReadyPlayers.Count;
 		return players >= MinPlayers && (!RequiresMinAntags ||
 										 (Math.Floor(players * antagRatio) >= MinAntags));
 	}
@@ -152,6 +164,7 @@ public abstract class GameMode : ScriptableObject
 	/// as the antag if so, spawning them as an actual player and transferring them into the body
 	/// (meaning there's no need to call PlayerSpawn.ServerSpawnPlayer). Does nothing
 	/// if the conditions are not met to spawn this viewer as an antag.
+	/// Only called for mid-round joiners.
 	/// </summary>
 	/// <param name="spawnRequest">spawn requested by the player</param>
 	/// <returns>true if the viewer was spawned as an antag.</returns>
@@ -169,6 +182,7 @@ public abstract class GameMode : ScriptableObject
 	/// <summary>
 	/// Check if the joined viewer should be spawned as an antag (prior to actually
 	/// spawning them).
+	/// Only called for mid-round joiners.
 	/// </summary>
 	/// <param name="spawnRequest">player's spawn request, which should be used to determine
 	/// if they should spawn as an antag</param>
@@ -181,7 +195,7 @@ public abstract class GameMode : ScriptableObject
 			return false;
 		}
 
-		// Populates antags based on the non-antag job types and ratios
+		// Determine if antag based on the non-antag job types and ratios
 		int players = PlayerList.Instance.InGamePlayers.Count;
 		return !NonAntagJobTypes.Contains(spawnRequest.RequestedOccupation.JobType) &&
 			   AntagManager.Instance.AntagCount < Math.Floor(players * AntagRatio) &&
@@ -212,13 +226,46 @@ public abstract class GameMode : ScriptableObject
 	{
 		Logger.LogFormat("Starting {0} round!", Category.GameMode, Name);
 
-		// Allocate jobs to all ready players and spawn them
+		List<PlayerSpawnRequest> playerSpawnRequests;
+		List<PlayerSpawnRequest> antagSpawnRequests;
+		int antagsToSpawn = CalculateAntagCount(PlayerList.Instance.ReadyPlayers.Count);
 		var jobAllocator = new JobAllocator();
-		var playerSpawnRequests = jobAllocator.DetermineJobs(PlayerList.Instance.ReadyPlayers);
+		var playerPool = PlayerList.Instance.ReadyPlayers;
+		if (AllocateJobsToAntags)
+		{
+			// Choose antags first then allocate jobs to all other players
+			var chosenAntags = playerPool.PickRandom(antagsToSpawn).ToList();
+			playerPool.RemoveAll(chosenAntags.Contains);
+			playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
+			antagSpawnRequests = chosenAntags.Select(player => PlayerSpawnRequest.RequestOccupation(player, null)).ToList();
+		}
+		else
+		{
+			// Allocate jobs to all players first then choose antags
+			playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
+			antagSpawnRequests = playerSpawnRequests.PickRandom(antagsToSpawn).ToList();
+			playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
+		}
+
+		// Spawn all players and antags
 		foreach (var spawnReq in playerSpawnRequests)
 		{
 			PlayerSpawn.ServerSpawnPlayer(spawnReq);
 		}
+		foreach (var spawnReq in antagSpawnRequests)
+		{
+			SpawnAntag(spawnReq);
+		}
+	}
+
+	/// <summary>
+	/// Calculates how many antags should be chosen at round start based on the player count.
+	/// </summary>
+	private int CalculateAntagCount(int playerCount)
+	{
+		var antagCount = (int)Math.Floor(playerCount * antagRatio);
+		// If RequiresMinAntags is true then round up to MinAntags if antagCount is below
+		return RequiresMinAntags ? Math.Max(MinAntags, antagCount) : antagCount;
 	}
 
 	/// <summary>
@@ -238,9 +285,5 @@ public abstract class GameMode : ScriptableObject
 		AntagManager.Instance.ShowAntagStatusReport();
 	}
 
-	// /// <summary>
-	// /// Override this to choose players to be antags
-	// /// </summary>
-	// public abstract void ChooseAntags();
 	#endregion
 }
