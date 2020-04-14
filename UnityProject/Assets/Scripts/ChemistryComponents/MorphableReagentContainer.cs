@@ -5,6 +5,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+/// <summary>
+/// Defines container that can change it appearance based on reagent inside
+/// Mostly used for drinking glass that changes depending on cocktails
+/// </summary>
 [RequireComponent(typeof(ReagentContainer))]
 public class MorphableReagentContainer : NetworkBehaviour
 {
@@ -22,7 +26,6 @@ public class MorphableReagentContainer : NetworkBehaviour
 	private Pickupable pickupable;
 	private ItemAttributesV2 item;
 
-	private string defaultDescription;
 	private Sprite defaultSprite;
 
 	private void Awake()
@@ -37,11 +40,6 @@ public class MorphableReagentContainer : NetworkBehaviour
 
 		// save default data
 		defaultSprite = mainSpriteRender.sprite;
-		if (item)
-		{
-			defaultDescription = item.InitialDescription;
-		}
-
 
 		if (serverContainer)
 		{
@@ -86,21 +84,30 @@ public class MorphableReagentContainer : NetworkBehaviour
 		pickupable?.RefreshUISlotImage();
 	}
 
+	/// <summary>
+	/// Show visualisation of this reagent data
+	/// </summary>
+	/// <param name="spriteData"></param>
 	private void ShowVisualisation(ContainerCustomSprite spriteData)
 	{
 		mainSpriteRender.sprite = spriteData.MainSprite;
 		if (fillVisual && fillVisual.fillSpriteRender)
 			fillVisual.fillSpriteRender.gameObject.SetActive(false);
 
-		// set custom glass description, if avaliable
-		var customDesc = spriteData.CustomDescription;
-		if (!string.IsNullOrEmpty(customDesc))
+		if (item)
 		{
-			if (item)
-			{
+			// set custom description from data (if avaliable)
+			var customDesc = spriteData.CustomDescription;
+			if (!string.IsNullOrEmpty(customDesc))
 				item.ServerSetArticleDescription(customDesc);
-			}
+
+			// set custom name from data (if avaliable)
+			var customName = spriteData.CustomName;
+			if (!string.IsNullOrEmpty(customName))
+				item.ServerSetArticleName(customName);
 		}
+		
+
 	}
 
 	/// <summary>
@@ -115,7 +122,11 @@ public class MorphableReagentContainer : NetworkBehaviour
 		// return description to standard
 		if (item)
 		{
-			item.ServerSetArticleDescription(defaultDescription);
+			// set default description
+			item.ServerSetArticleDescription(item.InitialDescription);
+
+			// set default name
+			item.ServerSetArticleName(item.InitialName);
 		}
 	}
 
