@@ -52,18 +52,6 @@ public class JobAllocator
 			// Allocate players who didn't get their previous priority choice first
 			if (missedOutPlayers.Any())
 			{
-				// var thisPriority = missedOutPlayers.Where(player =>
-				// 	player.CharacterSettings.JobPreferences.ContainsValue(priority)).Select(p => );
-				//
-				//
-				// foreach (var player in missedOutPlayers)
-				// {
-				// 	// TODO!!
-				// 	var player.CharacterSettings.JobPreferences
-				// 	// Find any players that selected the job with the specified priority
-				// 	var candidates = playersLeft.Where(player =>
-				// 		player.CharacterSettings.JobPreferences.ContainsValue(Priority.Medium)).ToList();
-				// }
 				ChoosePlayers(headJobs, priority, missedOutPlayers);
 				ChoosePlayers(normalJobs, priority, missedOutPlayers);
 			}
@@ -93,29 +81,14 @@ public class JobAllocator
 	{
 		foreach (var occupation in occupations)
 		{
-			// No more players left to assign
-			if (!playersLeft.Any())
-			{
-				return;
-			}
-
 			occupationCount.TryGetValue(occupation, out int filledSlots);
 			int slotsLeft = occupation.Limit - filledSlots;
 
-			// All slots for this occupation have been allocated
-			if (slotsLeft < 1)
+			// Check slots leftr and find any players that selected the job with the specified priority
+			if (slotsLeft < 1 ||
+				!TryGetCandidates(ref playerPool, occupation, priority, out var candidates))
 			{
-				continue;
-			}
-
-			// Find any players that selected the job with the specified priority
-			var candidates = playerPool.Where(player =>
-				player.CharacterSettings.JobPreferences.ContainsKey(occupation.JobType) &&
-				player.CharacterSettings.JobPreferences[occupation.JobType] == priority).ToList();
-
-			// Skip this job since no candidates available
-			if (!candidates.Any())
-			{
+				// Skip this job since all slots for this occupation have been allocated or no candidates available
 				continue;
 			}
 
@@ -133,8 +106,34 @@ public class JobAllocator
 				// Equal or less candidates than job slots, add all candidates
 				chosen = candidates;
 			}
+
 			AllocateJobs(chosen, occupation);
+
+			// No more players left to assign
+			if (!playersLeft.Any())
+			{
+				return;
+			}
 		}
+	}
+
+	/// <summary>
+	/// Tries to get candidates from a pool of players for an occupation at a certain priority level.
+	/// </summary>
+	/// <param name="playerPool">The pool of players to get candidates from</param>
+	/// <param name="occupation">The occupation to check</param>
+	/// <param name="priority">The priority level to check</param>
+	/// <param name="candidates">A list of candidates if any were found</param>
+	/// <returns>Returns true if candidates were found, and false if not.</returns>
+	private bool TryGetCandidates(ref IReadOnlyCollection<ConnectedPlayer> playerPool, Occupation occupation,
+		Priority priority, out List<ConnectedPlayer> candidates)
+	{
+		// Find any players that selected the job with the specified priority
+		candidates = playerPool.Where(player =>
+			player.CharacterSettings.JobPreferences.ContainsKey(occupation.JobType) &&
+			player.CharacterSettings.JobPreferences[occupation.JobType] == priority).ToList();
+
+		return candidates.Any();
 	}
 
 	/// <summary>
