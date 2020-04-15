@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 
 public class ConveyorBelt : NetworkBehaviour
 {
-	public float AnimationSpeed = 1f;
+	public float AnimationSpeed = 0.5f;
 
 	private float timeElapsedServer = 0;
 	private float timeElapsedClient = 0;
 
-	private GameObject ConnectedSwitch;
+	private ConveyorBeltSwitch ConnectedSwitch;
 
 	public SpriteHandler spriteHandler;
 
@@ -23,7 +21,6 @@ public class ConveyorBelt : NetworkBehaviour
 	private Matrix Matrix => registerTile.Matrix;
 
 	public ConveyorDirection MappedDirection;
-	public ConveyorStatus MappedStatus;
 
 	private ConveyorDirection LastDirection;
 	private ConveyorStatus LastStatus;
@@ -41,7 +38,7 @@ public class ConveyorBelt : NetworkBehaviour
 		//all clients will be updated with this
 	}
 
-	private void SyncDirection( ConveyorDirection newDirection, ConveyorDirection oldDirection)
+	private void SyncDirection(ConveyorDirection newDirection, ConveyorDirection oldDirection)
 	{
 		CurrentDirection = newDirection;
 		//do your thing
@@ -63,7 +60,11 @@ public class ConveyorBelt : NetworkBehaviour
 			if (timeElapsedServer > AnimationSpeed)
 			{
 				DetectItems();
+				ChangeDirection();
+				ServerChangeState(CurrentStatus, CurrentDirection);
+
 				ChangeAnimation();
+
 				timeElapsedServer = 0;
 			}
 		}
@@ -83,6 +84,7 @@ public class ConveyorBelt : NetworkBehaviour
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		OnStart();
 	}
+
 	void OnDisable()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
@@ -93,16 +95,31 @@ public class ConveyorBelt : NetworkBehaviour
 		registerTile = GetComponent<RegisterTile>();
 
 		CurrentDirection = MappedDirection;
-		CurrentStatus = MappedStatus;
+
+		if (ConnectedSwitch == null) return;
+
+		if (ConnectedSwitch.CurrentState == 0)
+		{
+			CurrentStatus = ConveyorStatus.Backward;
+		}
+		else if (ConnectedSwitch.CurrentState == 1)
+		{
+			CurrentStatus = ConveyorStatus.Off;
+		}
+		else
+		{
+			CurrentStatus = ConveyorStatus.Forward;
+		}
 
 		if (!isServer) return;
-		ServerChangeState(MappedStatus, MappedDirection);
+
+		ServerChangeState(CurrentStatus, MappedDirection);
 	}
 
 	//void Start()
 	//{
 	//	registerTile = GetComponent<RegisterTile>();
-		
+
 	//	CurrentDirection = MappedDirection;
 	//	CurrentStatus = MappedStatus;
 	//	LastDirection = CurrentDirection;
@@ -111,6 +128,24 @@ public class ConveyorBelt : NetworkBehaviour
 	//	if (!isServer) return;
 	//	ServerChangeState(MappedStatus, MappedDirection);
 	//}
+
+	private void ChangeDirection()
+	{
+		if (ConnectedSwitch == null) return;
+
+		if (ConnectedSwitch.CurrentState == 0)
+		{
+			CurrentStatus = ConveyorStatus.Backward;
+		}
+		else if (ConnectedSwitch.CurrentState == 1)
+		{
+			CurrentStatus = ConveyorStatus.Off;
+		}
+		else
+		{
+			CurrentStatus = ConveyorStatus.Forward;
+		}
+	}
 
 	private void ChangeAnimation()
 	{
@@ -218,6 +253,11 @@ public class ConveyorBelt : NetworkBehaviour
 				spriteHandler.ChangeSpriteVariant(7);
 			}
 		}
+
+		if (position == null)
+		{
+			position = Vector3.up;
+		}
 	}
 
 	private void DetectItems()
@@ -244,11 +284,11 @@ public class ConveyorBelt : NetworkBehaviour
 
 	[Server]
 	public virtual void Transport(ObjectBehaviour toTransport)
-	{ 
+	{
 		toTransport.GetComponent<CustomNetTransform>().SetPosition(registerTile.WorldPosition + position);
 	}
 
-#if UNITY_EDITOR//no idea how to get this to work, so you can see conveyor direction in editor
+#if UNITY_EDITOR//no idea how to get this to work, so you can see the correct conveyor direction in editor
 
 	private void Update()
 	{
