@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4963249456697642776}
   - component: {fileID: 9179395053284328901}
+  - component: {fileID: 3569393190955387615}
   m_Layer: 0
   m_Name: BaseSprite
   m_TagString: Untagged
@@ -82,6 +83,105 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3569393190955387615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2239508276124512771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300002, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300004, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300006, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300008, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300010, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300012, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300014, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300016, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300018, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300020, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300022, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300024, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300026, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300028, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300030, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300032, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300034, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300036, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300038, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300040, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300042, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300044, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300046, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300048, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300050, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300052, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300054, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300056, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300058, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300060, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    - {fileID: 21300062, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+    EquippedData: {fileID: 4900000, guid: 14b5724d02b32724ba920b51c7c8e097, type: 3}
+  - Texture: {fileID: 2800000, guid: b741542666fee104e85d1e45811c983b, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: b741542666fee104e85d1e45811c983b, type: 3}
+    - {fileID: 21300002, guid: b741542666fee104e85d1e45811c983b, type: 3}
+    - {fileID: 21300004, guid: b741542666fee104e85d1e45811c983b, type: 3}
+    - {fileID: 21300006, guid: b741542666fee104e85d1e45811c983b, type: 3}
+    - {fileID: 21300008, guid: b741542666fee104e85d1e45811c983b, type: 3}
+    - {fileID: 21300010, guid: b741542666fee104e85d1e45811c983b, type: 3}
+    - {fileID: 21300012, guid: b741542666fee104e85d1e45811c983b, type: 3}
+    - {fileID: 21300014, guid: b741542666fee104e85d1e45811c983b, type: 3}
+    EquippedData: {fileID: 4900000, guid: 2ed45f4d1d5c7454d88721b71612d3c1, type: 3}
+  - Texture: {fileID: 2800000, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300002, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300004, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300006, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300008, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300010, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300012, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300014, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300016, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300018, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300020, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300022, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300024, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300026, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300028, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300030, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300032, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300034, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300036, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300038, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300040, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300042, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300044, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300046, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300048, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300050, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300052, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300054, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300056, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300058, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300060, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    - {fileID: 21300062, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
+    EquippedData: {fileID: 4900000, guid: 82ac7ddef4e1ae745983d8bac934817f, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &7144248469089430455
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,43 +421,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   AnimationSpeed: 1
-  SpriteSheets:
-  - Texture: {fileID: 2800000, guid: c8ba7d44f92495842a45ac653adc0e1c, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: d7bc036f18e79ba44a541bb8707f203d, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: 31e7d932033aea6439832d96b23511a3, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: ae074eab2519b6d41a1a3148e68c4030, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: 99fa00f00485acb4aac4d8a47116d666, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: eead196c3e3b852439c31fccaf2bbf94, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: f1591f279ea91a1498daedc384970288, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: c9b55c9b8b9702b4d98371bf47badfa2, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: dbd95fbf611c74b43b3b914cd6e6318e, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: f719b3839110970428fda03bd0aa7356, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: 7e4a9fff26576a44ba2cc0a3a414c24c, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  - Texture: {fileID: 2800000, guid: 145d2b8f443ae50488eec9c92002aaec, type: 3}
-    Sprites: []
-    EquippedData: {fileID: 0}
-  spriteRenderer: {fileID: 9179395053284328901}
+  spriteHandler: {fileID: 3569393190955387615}
   MappedDirection: 1
   MappedStatus: 0

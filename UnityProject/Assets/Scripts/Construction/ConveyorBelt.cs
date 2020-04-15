@@ -16,6 +16,10 @@ public class ConveyorBelt : NetworkBehaviour
 
 	private RegisterTile registerTile;
 
+	private int count = 0;
+
+	private Vector3 position;
+
 	private Matrix Matrix => registerTile.Matrix;
 
 	public ConveyorDirection MappedDirection;
@@ -24,15 +28,21 @@ public class ConveyorBelt : NetworkBehaviour
 	private ConveyorDirection LastDirection;
 	private ConveyorStatus LastStatus;
 
-	[SyncVar(hook = nameof(SyncStatus))]
+	[SyncVar(hook = nameof(SyncDirection))]
 	private ConveyorDirection CurrentDirection;
 
 	[SyncVar(hook = nameof(SyncStatus))]
 	private ConveyorStatus CurrentStatus;
 
-	private void SyncStatus(ConveyorStatus newStatus, ConveyorStatus oldStatus, ConveyorDirection newDirection, ConveyorDirection oldDirection)
+	private void SyncStatus(ConveyorStatus newStatus, ConveyorStatus oldStatus)
 	{
 		CurrentStatus = newStatus;
+		//do your thing
+		//all clients will be updated with this
+	}
+
+	private void SyncDirection( ConveyorDirection newDirection, ConveyorDirection oldDirection)
+	{
 		CurrentDirection = newDirection;
 		//do your thing
 		//all clients will be updated with this
@@ -50,7 +60,7 @@ public class ConveyorBelt : NetworkBehaviour
 		if (isServer)
 		{
 			timeElapsedServer += Time.deltaTime;
-			if (timeElapsedServer > AnimationSpeed && CurrentStatus != ConveyorStatus.Off)
+			if (timeElapsedServer > AnimationSpeed)
 			{
 				DetectItems();
 				ChangeAnimation();
@@ -71,41 +81,154 @@ public class ConveyorBelt : NetworkBehaviour
 	private void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		OnStart();
 	}
 	void OnDisable()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
-	private void Start()
+	private void OnStart()
 	{
-		if (!isServer) return;
-
 		registerTile = GetComponent<RegisterTile>();
 
+		CurrentDirection = MappedDirection;
+		CurrentStatus = MappedStatus;
+
+		if (!isServer) return;
 		ServerChangeState(MappedStatus, MappedDirection);
 	}
 
+	//void Start()
+	//{
+	//	registerTile = GetComponent<RegisterTile>();
+		
+	//	CurrentDirection = MappedDirection;
+	//	CurrentStatus = MappedStatus;
+	//	LastDirection = CurrentDirection;
+	//	LastStatus = CurrentStatus;
+
+	//	if (!isServer) return;
+	//	ServerChangeState(MappedStatus, MappedDirection);
+	//}
+
 	private void ChangeAnimation()
 	{
-		if (CurrentDirection == LastDirection || CurrentStatus == LastStatus) return;
+		if (CurrentDirection != LastDirection || CurrentStatus != LastStatus)
+		{
+			if (CurrentStatus == ConveyorStatus.Off)
+			{
+				spriteHandler.ChangeSprite(1);
+			}
+			else if (CurrentStatus == ConveyorStatus.Forward)
+			{
+				spriteHandler.ChangeSprite(2);
+			}
+			else
+			{
+				spriteHandler.ChangeSprite(0);
+			}
 
-		if (CurrentStatus == ConveyorStatus.Off)
-		{
-			spriteHandler.SetSprite(spriteHandler.Sprites[(int)CurrentDirection]);
-		}
-		else if (CurrentStatus == ConveyorStatus.Forward)
-		{
-			spriteHandler.ChangeSpriteVariant((int)CurrentDirection);
-		}
-		else
-		{
-			spriteHandler.ChangeSpriteVariant((int)CurrentDirection + 6);
+			if (CurrentDirection == ConveyorDirection.Up)
+			{
+				position = Vector3.up;
+
+				if (CurrentStatus == ConveyorStatus.Backward)
+				{
+					position *= -1;
+				}
+
+				spriteHandler.ChangeSpriteVariant(0);
+			}
+			else if (CurrentDirection == ConveyorDirection.Down)
+			{
+				position = Vector3.down;
+
+				if (CurrentStatus == ConveyorStatus.Backward)
+				{
+					position *= -1;
+				}
+
+				spriteHandler.ChangeSpriteVariant(1);
+			}
+			else if (CurrentDirection == ConveyorDirection.Left)
+			{
+				position = Vector3.left;
+
+				if (CurrentStatus == ConveyorStatus.Backward)
+				{
+					position *= -1;
+				}
+
+				spriteHandler.ChangeSpriteVariant(2);
+			}
+			else if (CurrentDirection == ConveyorDirection.Right)
+			{
+				position = Vector3.right;
+
+				if (CurrentStatus == ConveyorStatus.Backward)
+				{
+					position *= -1;
+				}
+
+				spriteHandler.ChangeSpriteVariant(3);
+			}
+			else if (CurrentDirection == ConveyorDirection.LeftDown)
+			{
+				position = Vector3.down;
+
+				if (CurrentStatus == ConveyorStatus.Backward)
+				{
+					position = Vector3.left;
+				}
+
+				spriteHandler.ChangeSpriteVariant(4);
+			}
+			else if (CurrentDirection == ConveyorDirection.UpLeft)
+			{
+				position = Vector3.left;
+
+				if (CurrentStatus == ConveyorStatus.Backward)
+				{
+					position = Vector3.up;
+				}
+
+				spriteHandler.ChangeSpriteVariant(5);
+			}
+			else if (CurrentDirection == ConveyorDirection.DownRight)
+			{
+				position = Vector3.right;
+
+				if (CurrentStatus == ConveyorStatus.Backward)
+				{
+					position = Vector3.down;
+				}
+
+				spriteHandler.ChangeSpriteVariant(6);
+			}
+			else if (CurrentDirection == ConveyorDirection.RightUp)
+			{
+				position = Vector3.up;
+
+				if (CurrentStatus == ConveyorStatus.Backward)
+				{
+					position = Vector3.right;
+				}
+
+				spriteHandler.ChangeSpriteVariant(7);
+			}
 		}
 	}
 
 	private void DetectItems()
 	{
+		if (CurrentStatus == ConveyorStatus.Off) return;
+
+		foreach (var player in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true))
+		{
+			TransportPlayers(player);
+		}
+
 		foreach (var items in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true))
 		{
 			Transport(items);
@@ -113,11 +236,29 @@ public class ConveyorBelt : NetworkBehaviour
 	}
 
 	[Server]
-	public virtual void Transport(ObjectBehaviour toTransport)
+	public virtual void TransportPlayers(ObjectBehaviour player)
 	{
 		//teleports player to the front of the new gateway
-		//toTransport.GetComponent<PlayerSync>().SetPosition();
+		player.GetComponent<PlayerSync>().SetPosition(registerTile.WorldPosition + position);
 	}
+
+	[Server]
+	public virtual void Transport(ObjectBehaviour toTransport)
+	{ 
+		toTransport.GetComponent<CustomNetTransform>().SetPosition(registerTile.WorldPosition + position);
+	}
+
+#if UNITY_EDITOR//no idea how to get this to work, so you can see conveyor direction in editor
+
+	private void Update()
+	{
+		if (Application.isEditor && !Application.isPlaying)
+		{
+			spriteHandler.gameObject.GetComponent<SpriteRenderer>().sprite = spriteHandler.Sprites[(int)CurrentDirection].Sprites[0];
+		}
+	}
+
+#endif
 }
 public enum ConveyorStatus
 {
@@ -129,9 +270,11 @@ public enum ConveyorStatus
 public enum ConveyorDirection
 {
 	Up = 0,
-	Sideways = 1,
-	TopToRight = 2,
-	BottomToRight = 3,
-	TopToLeft = 4,
-	BottomToLeft = 5
+	Down = 1,
+	Left = 2,
+	Right = 3,
+	LeftDown = 4,
+	UpLeft = 5,
+	DownRight = 6,
+	RightUp = 7
 }
