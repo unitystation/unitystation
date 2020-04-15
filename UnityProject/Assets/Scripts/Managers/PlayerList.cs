@@ -174,7 +174,7 @@ public partial class PlayerList : NetworkBehaviour
 
 		var loggedOffClient = GetLoggedOffClient(player.ClientId);
 
-		if (loggedOffClient  != null)
+		if (loggedOffClient  != null && BuildPreferences.isForRelease)
 		{
 			Logger.LogFormat(
 				"ConnectedPlayer {0} already exists in this server's PlayerList as {1}. Will update existing player instead of adding this new connected player.",
