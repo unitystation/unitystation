@@ -299,6 +299,7 @@ public class IntrinsicElectronicData
 			MetaDataPresent.IsOn.ElectricalData.Remove(MetaDataPresent);
 			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			MetaDataPresent.Locatedon.RemoveUnderFloorTile(MetaDataPresent.NodeLocation, MetaDataPresent.RelatedTile);
+
 		}
 	}
 

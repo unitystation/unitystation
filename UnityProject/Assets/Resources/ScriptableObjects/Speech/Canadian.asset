@@ -26,9 +26,6 @@ MonoBehaviour:
   - original: coffee
     replaceWith:
     - doubledouble
-  - original: backpack
-    replaceWith:
-    - knapsack
   - original: rucksack
     replaceWith:
     - knapsack
@@ -44,9 +41,6 @@ MonoBehaviour:
   - original: pal
     replaceWith:
     - buddy
-  - original: donut
-    replaceWith:
-    - doughnut
   - original: faucet
     replaceWith:
     - tap
@@ -74,12 +68,6 @@ MonoBehaviour:
   - original: shoes
     replaceWith:
     - runners
-  - original: cigarette
-    replaceWith:
-    - dart
-  - original: cig
-    replaceWith:
-    - dart
   - original: color
     replaceWith:
     - colour
@@ -121,17 +109,25 @@ MonoBehaviour:
     - metre
   - original: tumor
     replaceWith:
-    - tomour
+    - tumour
   - original: mile
     replaceWith:
     - kilometre
   - original: pound
     replaceWith:
     - kilogram
+  - original: three
+    replaceWith:
+    - tree
+  - original: boy
+    replaceWith:
+    - b'y
   letterReplaceList: []
-  activateAdditions: 0
-  probability: 0
+  activateAdditions: 1
+  probability: 39
   beginning: []
-  ending: []
-  unintelligible: 0
+  ending:
+  - Eh?
+  - Eh!
+  - Eh.
   customCode: {fileID: 0}

@@ -109,9 +109,22 @@ public static class EffectsFactory
 		EnsureInit();
 		Spawn.ServerPrefab(waterTile, worldPos,	MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
 	}
-	public static void ChemSplat(Vector3Int worldPos)
+
+	public static void ChemSplat(Vector3Int worldPos, Color color)
 	{
 		EnsureInit();
-		Spawn.ServerPrefab(chemTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
+		var chemTileInst = Spawn.ServerPrefab(chemTile, worldPos, MatrixManager.AtPoint(worldPos, true).Objects, Quaternion.identity);
+		if (chemTileInst.Successful)
+		{
+			var chemTileGO = chemTileInst.GameObject;
+			if (chemTileGO)
+			{
+				var decal = chemTileGO.GetComponent<FloorDecal>();
+				if (decal)
+				{
+					decal.color = color;
+				}
+			}
+		}
 	}
 }

@@ -7,6 +7,33 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: initialName
+      value: mining hardsuit helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: initialDescription
+      value: A special helmet designed for work in a hazardous, low pressure environment.
+        Has reinforced plating for wildlife encounters and dual floodlights.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: isEVACapable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4e809dd5dff1ac0408db58d51e5487c8,
+        type: 3}
+    - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 41
+      objectReference: {fileID: 0}
     - target: {fileID: 2179959185564930015, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: m_Name
@@ -72,16 +99,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
+    - target: {fileID: 2293722870276993643, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
-      propertyPath: clothData
+      propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 11400000, guid: 4211cd5ce5094ab498bac3b63a8afd9d,
-        type: 2}
-    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: hideClothingFlags
-      value: 2032
       objectReference: {fileID: 0}
     - target: {fileID: 2295559571915120171, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -101,7 +122,7 @@ PrefabInstance:
     - target: {fileID: 2295559571915120171, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: Armor.Energy
-      value: 5
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2295559571915120171, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -138,37 +159,21 @@ PrefabInstance:
       propertyPath: HeatResistance
       value: 30000
       objectReference: {fileID: 0}
-    - target: {fileID: 2293722870276993643, guid: a7a048f6c330048e9a2358fb6f71d385,
+    - target: {fileID: 2727688219082199354, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
-      propertyPath: m_AssetId
+      propertyPath: bodyPartsCovered
+      value: 14
+      objectReference: {fileID: 0}
+    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: clothData
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
+      objectReference: {fileID: 11400000, guid: 4211cd5ce5094ab498bac3b63a8afd9d,
+        type: 2}
+    - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
-      propertyPath: initialName
-      value: mining hardsuit helmet
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: initialDescription
-      value: A special helmet designed for work in a hazardous, low pressure environment.
-        Has reinforced plating for wildlife encounters and dual floodlights.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: isEVACapable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 4e809dd5dff1ac0408db58d51e5487c8,
-        type: 3}
-    - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 41
+      propertyPath: hideClothingFlags
+      value: 2032
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7a048f6c330048e9a2358fb6f71d385, type: 3}

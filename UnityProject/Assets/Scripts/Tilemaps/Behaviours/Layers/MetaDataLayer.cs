@@ -146,7 +146,7 @@ public class MetaDataLayer : MonoBehaviour
 					//for all other things leave a chem splat
 					if (!didSplat)
 					{
-						EffectsFactory.ChemSplat(worldPosInt);
+						EffectsFactory.ChemSplat(worldPosInt, reagents.MixColor);
 						didSplat = true;
 					}
 

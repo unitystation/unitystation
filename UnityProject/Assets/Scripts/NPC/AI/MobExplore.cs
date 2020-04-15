@@ -129,7 +129,7 @@ protected Vector3Int actionPosition;
 		{
 			case Target.food:
 				var edible = registerObj.Matrix.GetFirst<Edible>(checkPos, true);
-				if(edible != null) edible.NPCTryEat();
+				if(edible != null) edible.TryConsume(gameObject);
 				break;
 			case Target.dirtyFloor:
 				var floorDecal = registerObj.Matrix.Get<FloorDecal>(checkPos, true).FirstOrDefault(p => p.Cleanable);

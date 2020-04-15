@@ -7,11 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: m_Name
-      value: Syringegun_Ballistic
-      objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: AmmoType
@@ -31,14 +26,12 @@ PrefabInstance:
         type: 3}
       propertyPath: Projectile
       value: 
-      objectReference: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba,
+      objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-    - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: 373d27494b2b34fb6b987358fb178d54,
-        type: 2}
+      propertyPath: ammoType
+      value: 11
+      objectReference: {fileID: 0}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
@@ -107,10 +100,21 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 530173ab2806149429b276e6407a1775, type: 3}
+    - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4b707e0f70804db41be5f57adde5d8c4,
+        type: 3}
     - target: {fileID: 7392881626475492836, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_Name
+      value: Syringegun_Ballistic
       objectReference: {fileID: 0}
     - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -167,11 +171,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: itemStorageCapacity
       value: 
-      objectReference: {fileID: 21300000, guid: 4b707e0f70804db41be5f57adde5d8c4,
-        type: 3}
+      objectReference: {fileID: 11400000, guid: 373d27494b2b34fb6b987358fb178d54,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f46dc50d35397f04f8f6be3fb49668ca, type: 3}
