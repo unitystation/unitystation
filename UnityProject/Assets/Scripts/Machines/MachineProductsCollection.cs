@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -45,9 +46,7 @@ public class MachineProduct
 
 	[SerializeField]
 	[Tooltip("Product material cost")]
-	private List<MachineProductMaterialPrice> materialPrice = new List<MachineProductMaterialPrice>();
-
-	public List<MachineProductMaterialPrice> MaterialPrice { get => materialPrice; }
+	public DictionaryMaterialToIntAmount materialToAmounts;
 
 	[SerializeField]
 	[Tooltip("Base time it takes to create the product")]
@@ -56,53 +55,7 @@ public class MachineProduct
 	public float ProductionTime { get => productionTime; }
 }
 
-//This is used to define material price of materials for a certain product. If
-//items get a component holding the value, this should be refactored.
-[System.Serializable]
-public class MachineProductMaterialPrice
+[Serializable]
+public class DictionaryMaterialToIntAmount : SerializableDictionary<MaterialSheet, int>
 {
-	[SerializeField]
-	private int Iron;
-
-	[SerializeField]
-	private int Glass;
-
-	[SerializeField]
-	private int Silver;
-
-	[SerializeField]
-	private int Gold;
-
-	[SerializeField]
-	private int Plasma;
-
-	[SerializeField]
-	private int Uranium;
-
-	[SerializeField]
-	private int Titanium;
-
-	[SerializeField]
-	private int Diamond;
-
-	[SerializeField]
-	private int BluespaceCrystal;
-
-	[SerializeField]
-	private int Plastic;
-
-	[SerializeField]
-	public static GameObject materials;
-
-	[SerializeField]
-	[Tooltip("The material type, materials have an item trait according to their types.")]
-	private ItemTrait material;
-
-	public ItemTrait Material { get => material; }
-
-	[SerializeField]
-	[Tooltip("The amount of materials the product costs.")]
-	private int amount;
-
-	public int Amount { get => amount; }
 }
