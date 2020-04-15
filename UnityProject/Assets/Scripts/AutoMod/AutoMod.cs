@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using UnityEngine;
 using Telepathy;
 using Debug = UnityEngine.Debug;
@@ -29,6 +30,8 @@ namespace AdminTools
 			}
 		}
 
+		private Dictionary<string, string> loadedWordFilter = new Dictionary<string, string>();
+
 		//Cooldown is based on a score system. A score is created every time a user posts a chat message. It will check how many
 		//times the user has posted something, how fast and compare the content. If the resulting score is higher then the max score
 		//them AutoMod will take action to stop the spamming
@@ -44,7 +47,25 @@ namespace AdminTools
 
 		private void Start()
 		{
+			LoadWordFilter();
 			LoadConfig();
+		}
+
+		private void LoadWordFilter()
+		{
+			var data = File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "wordfilter.txt"));
+			var base64EncodedBytes = Convert.FromBase64String(data);
+			var text = System.Text.Encoding.UTF8.GetString(base64EncodedBytes);
+
+			var list = JsonUtility.FromJson<WordFilterEntries>(text);
+			foreach (var w in list.FilterList)
+			{
+				var targetWord = w.TargetWord.ToLower();
+				if (!loadedWordFilter.ContainsKey(targetWord))
+				{
+					loadedWordFilter.Add(targetWord, w.ReplaceWithWord);
+				}
+			}
 		}
 
 		private void SaveConfig()
@@ -113,7 +134,18 @@ namespace AdminTools
 
 			if (Instance.loadedConfig.enableBadWordFilter)
 			{
-				message = WordFilterSO.Instance.ProcessMessage(message);
+				message = Instance.ProcessMessage(message);
+			}
+
+			return message;
+		}
+
+		private string ProcessMessage(string message)
+		{
+			foreach (var kvp in loadedWordFilter)
+			{
+				Regex r = new Regex(@"\b" + kvp.Key + @"\b", RegexOptions.IgnoreCase);
+				message = r.Replace(message, kvp.Value);
 			}
 
 			return message;
@@ -138,7 +170,7 @@ namespace AdminTools
 			                 || !Instance.loadedConfig.enablePlasmaReleaseNotification) return;
 
 			if (PlayerList.Instance.IsAntag(perp.GameObject)) return;
-			
+
 			string roundTime = GameManager.Instance.stationTime.ToString("O");
 			UIManager.Instance.playerAlerts.ServerAddNewEntry(roundTime, PlayerAlertTypes.PlasmaOpen, perp,
 				$"{roundTime} : {perp.Name} has released plasma as a non-antag");
@@ -267,5 +299,18 @@ namespace AdminTools
 		public bool enableBadWordFilter = true;
 		public bool enableRdmNotification = true;
 		public bool enablePlasmaReleaseNotification = true;
+	}
+
+	[Serializable]
+	public class WordFilterEntries
+	{
+		public List<WordFilterEntry> FilterList = new List<WordFilterEntry>();
+	}
+
+	[Serializable]
+	public class WordFilterEntry
+	{
+		public string TargetWord;
+		public string ReplaceWithWord;
 	}
 }
