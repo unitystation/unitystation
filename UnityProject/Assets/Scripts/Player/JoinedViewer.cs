@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading;
+using System.Linq;
+using System.Net.NetworkInformation;
 using UnityEngine;
 using Mirror;
 
@@ -16,18 +15,10 @@ public class JoinedViewer : NetworkBehaviour
 	{
 		base.OnStartLocalPlayer();
 		PlayerManager.SetViewerForControl(this);
-
-		if (!PlayerPrefs.HasKey(PlayerPrefKeys.ClientID))
-		{
-			PlayerPrefs.SetString(PlayerPrefKeys.ClientID, "");
-			PlayerPrefs.Save();
-		}
-
-		Logger.LogFormat("JoinedViewer on this client calling CmdServerSetupPlayer, our clientID: {0} username: {1}",
-			Category.Connections,
-			PlayerPrefs.GetString(PlayerPrefKeys.ClientID), PlayerManager.CurrentCharacterSettings.Username);
-
-		CmdServerSetupPlayer(PlayerPrefs.GetString(PlayerPrefKeys.ClientID),
+		
+		CmdServerSetupPlayer(NetworkInterface.GetAllNetworkInterfaces().
+				Where(nic => nic.OperationalStatus == OperationalStatus.Up).
+				Select(nic => nic.GetPhysicalAddress().ToString()).FirstOrDefault(),
 			PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
 			DatabaseAPI.ServerData.IdToken);
 	}
@@ -124,7 +115,7 @@ public class JoinedViewer : NetworkBehaviour
 		}
 		else
 		{
-			TargetLocalPlayerSetupNewPlayer(connectionToClient, unverifiedConnPlayer.ClientId,
+			TargetLocalPlayerSetupNewPlayer(connectionToClient,
 				GameManager.Instance.CurrentRoundState);
 		}
 
@@ -139,16 +130,8 @@ public class JoinedViewer : NetworkBehaviour
 	/// <param name="serverClientID">client ID server</param>
 	/// <param name="roundState"></param>
 	[TargetRpc]
-	private void TargetLocalPlayerSetupNewPlayer(NetworkConnection target,
-		string serverClientID, RoundState roundState)
+	private void TargetLocalPlayerSetupNewPlayer(NetworkConnection target, RoundState roundState)
 	{
-		Logger.LogFormat("JoinedViewer on this client updating our client id to what server tells us, from {0} to {1}",
-			Category.Connections,
-			PlayerPrefs.GetString(PlayerPrefKeys.ClientID), serverClientID);
-		//save our ID so we can rejoin
-		PlayerPrefs.SetString(PlayerPrefKeys.ClientID, serverClientID);
-		PlayerPrefs.Save();
-
 		//clear our UI because we're about to change it based on the round state
 		UIManager.ResetAllUI();
 
