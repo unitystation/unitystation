@@ -56,7 +56,7 @@ namespace Chemistry
 				}
 				else
 				{
-					reagents[result.Key] = reactionAmount;
+					reagents[result.Key] = reactionResult;
 				}
 			}
 
