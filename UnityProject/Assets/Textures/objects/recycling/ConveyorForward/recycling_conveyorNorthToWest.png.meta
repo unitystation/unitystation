@@ -1,31 +1,19 @@
 fileFormatVersion: 2
-guid: c8ba7d44f92495842a45ac653adc0e1c
+guid: 99fa00f00485acb4aac4d8a47116d666
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4237797242838402755
-    second: recycling_conveyorSouthToNorth_0
+      213: 8254686015365640349
+    second: recycling_conveyorNorthToWest_0
   - first:
-      213: -5587027825671501646
-    second: recycling_conveyorSouthToNorth_1
+      213: 12599713759830532
+    second: recycling_conveyorNorthToWest_1
   - first:
-      213: 8900385222488142703
-    second: recycling_conveyorSouthToNorth_2
+      213: -5659355858207963709
+    second: recycling_conveyorNorthToWest_2
   - first:
-      213: 5481288051740278500
-    second: recycling_conveyorSouthToNorth_3
-  - first:
-      213: -3728970262245714856
-    second: recycling_conveyorSouthToNorth_4
-  - first:
-      213: -8187734280983105034
-    second: recycling_conveyorSouthToNorth_5
-  - first:
-      213: 7229057429636531007
-    second: recycling_conveyorSouthToNorth_6
-  - first:
-      213: 7304778658748645545
-    second: recycling_conveyorSouthToNorth_7
+      213: 4745673646786234890
+    second: recycling_conveyorNorthToWest_3
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -111,7 +99,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: recycling_conveyorSouthToNorth_0
+      name: recycling_conveyorNorthToWest_0
       rect:
         serializedVersion: 2
         x: 0
@@ -125,14 +113,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 3c64389b32eafca30800000000000000
-      internalID: 4237797242838402755
+      spriteID: d90f04e12398e8270800000000000000
+      internalID: 8254686015365640349
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: recycling_conveyorSouthToNorth_1
+      name: recycling_conveyorNorthToWest_1
       rect:
         serializedVersion: 2
         x: 32
@@ -146,14 +134,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 2b880ac3bc3e672b0800000000000000
-      internalID: -5587027825671501646
+      spriteID: 4022de67f53cc2000800000000000000
+      internalID: 12599713759830532
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: recycling_conveyorSouthToNorth_2
+      name: recycling_conveyorNorthToWest_2
       rect:
         serializedVersion: 2
         x: 64
@@ -167,14 +155,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f63ba8e1435848b70800000000000000
-      internalID: 8900385222488142703
+      spriteID: 3c50dfdd4dde571b0800000000000000
+      internalID: -5659355858207963709
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: recycling_conveyorSouthToNorth_3
+      name: recycling_conveyorNorthToWest_3
       rect:
         serializedVersion: 2
         x: 96
@@ -188,92 +176,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4ee72932172711c40800000000000000
-      internalID: 5481288051740278500
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: recycling_conveyorSouthToNorth_4
-      rect:
-        serializedVersion: 2
-        x: 128
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 85459dcad49004cc0800000000000000
-      internalID: -3728970262245714856
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: recycling_conveyorSouthToNorth_5
-      rect:
-        serializedVersion: 2
-        x: 160
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6f1b6ba4d035f5e80800000000000000
-      internalID: -8187734280983105034
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: recycling_conveyorSouthToNorth_6
-      rect:
-        serializedVersion: 2
-        x: 192
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: f33426a5e65c25460800000000000000
-      internalID: 7229057429636531007
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: recycling_conveyorSouthToNorth_7
-      rect:
-        serializedVersion: 2
-        x: 224
-        y: 0
-        width: 32
-        height: 32
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 9a0419ddc79cf5560800000000000000
-      internalID: 7304778658748645545
+      spriteID: a0a40a0c9050cd140800000000000000
+      internalID: 4745673646786234890
       vertices: []
       indices: 
       edges: []
