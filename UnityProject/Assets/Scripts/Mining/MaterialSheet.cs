@@ -8,5 +8,5 @@ public class MaterialSheet : ScriptableObject
 	public GameObject OrePrefab;
 	public string displayName;
 	public GameObject RefinedPrefab;
-	public ItemTrait materialType;
+	public ItemTrait materialTrait;
 }

@@ -48,11 +48,13 @@ public class GUI_ExoFabItem : DynamicEntry
 				case "MaterialCost":
 					StringBuilder sb = new StringBuilder();
 					string materialName;
+					string materialPrice;
 					sb.Append("Cost: ");
-					foreach (MachineProductMaterialPrice materialPrice in Product.MaterialPrice)
+					foreach (MaterialSheet material in Product.materialToAmounts.Keys)
 					{
-						materialName = MaterialStorage.MaterialToNameRecord[materialPrice.Material];
-						sb.Append(materialPrice.Amount.ToString() + " " + materialName + " ");
+						materialName = material.displayName;
+						materialPrice = Product.materialToAmounts[material].ToString();
+						sb.Append(materialPrice + " " + materialName + " ");
 					}
 					element.SetValue = sb.ToString();
 					break;

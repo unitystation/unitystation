@@ -44,11 +44,11 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		//2000cm3 per sheet is standard for ss13
 		cm3PerSheet = materialsInMachines.cm3PerSheet;
 		//Initializes the record of materials in the material storage.
-		foreach (MaterialUsedInMachines material in materialsInMachines.materials)
+		foreach (MaterialSheet material in materialsInMachines.materials)
 		{
 			MaterialRecord materialRecord = new MaterialRecord();
-			materialRecord.materialName = material.materialName;
-			materialRecord.materialPrefab = material.materialPrefab;
+			materialRecord.materialName = material.displayName;
+			materialRecord.materialPrefab = material.RefinedPrefab;
 			materialRecord.materialType = material.materialTrait;
 			materialRecordList.Add(materialRecord);
 		}
