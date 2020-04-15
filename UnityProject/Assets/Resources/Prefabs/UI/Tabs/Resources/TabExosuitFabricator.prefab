@@ -1621,7 +1621,9 @@ MonoBehaviour:
   machineProduct:
     name: 
     product: {fileID: 0}
-    materialPrice: []
+    materialToAmounts:
+      m_keys: []
+      m_values: 
     productionTime: 10
   categoryName: 
 --- !u!1 &3055706373598980762
@@ -2260,6 +2262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aab67730e686673459aca18e708b13b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxProductsInQueue: 20
   itemsInQueue: {fileID: 1903989233657077856}
 --- !u!1 &5015456946460072907
 GameObject:
@@ -3474,8 +3477,8 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: CallShuttle
+      - m_Target: {fileID: -908370874475079000}
+        m_MethodName: ProcessQueue
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

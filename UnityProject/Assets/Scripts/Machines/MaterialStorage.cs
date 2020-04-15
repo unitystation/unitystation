@@ -181,6 +181,33 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		else return false;
 	}
 
+	public bool TryRemoveCM3Materials(DictionaryMaterialToIntAmount materialsAndAmount)
+	{
+		//Checks if the materials from a list of materials and amount can be removed from the storage without going below 0
+		foreach (MaterialSheet material in materialsAndAmount.Keys)
+		{
+			int amountInStorage = ItemTraitToMaterialRecord[material.materialTrait].CurrentAmount;
+			int productAmountCost = materialsAndAmount[material];
+			if (amountInStorage < productAmountCost)
+			{
+				return false;
+			}
+		}
+
+		int newTotalResourceAmount = CurrentTotalResourceAmount;
+		//Removes all the materials and their amount from the storage.
+		foreach (MaterialSheet material in materialsAndAmount.Keys)
+		{
+			int amountInStorage = ItemTraitToMaterialRecord[material.materialTrait].CurrentAmount;
+			int productAmountCost = materialsAndAmount[material];
+			int newAmount = amountInStorage - productAmountCost;
+			newTotalResourceAmount -= productAmountCost;
+			ItemTraitToMaterialRecord[material.materialTrait].ServerSetCurrentAmount(newAmount);
+		}
+		ServerSetCurrentTotalResourceAmount(newTotalResourceAmount);
+		return true;
+	}
+
 	[Server]
 	public void ServerSetCurrentTotalResourceAmount(int newValue)
 	{

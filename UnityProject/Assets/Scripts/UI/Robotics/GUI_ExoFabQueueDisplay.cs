@@ -7,6 +7,11 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 	private List<MachineProduct> currentProducts = new List<MachineProduct>();
 	public List<MachineProduct> CurrentProducts { get => currentProducts; }
 
+	public int maxProductsInQueue = 20;
+
+	//Temporary until the queue has been optimized.
+	public int MaxProductsInQueue { get => maxProductsInQueue; }
+
 	[SerializeField]
 	private EmptyItemList itemsInQueue;
 
@@ -42,8 +47,11 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 
 	public void AddToQueue(MachineProduct product)
 	{
-		currentProducts.Add(product);
-		UpdateQueue();
+		if (currentProducts.Count >= maxProductsInQueue)
+		{
+			currentProducts.Add(product);
+			UpdateQueue();
+		}
 	}
 
 	public void UpdateQueue()

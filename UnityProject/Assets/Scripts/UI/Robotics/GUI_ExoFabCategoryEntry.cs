@@ -20,6 +20,11 @@ public class GUI_ExoFabCategoryEntry : DynamicEntry
 		else { ExoFabMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
 	}
 
+	public void AddAllProducts()
+	{
+		//Not implemented yet
+	}
+
 	public void ReInit(MachineProductList productCategory)
 	{
 		ExoFabProducts = productCategory;

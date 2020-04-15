@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-//
-
 /// <summary>
 /// Main component for the exosuit fabricator.
 /// </summary>
@@ -132,12 +130,24 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		UpdateGUI();
 	}
 
-	//Needs product to be produced and time it takes to be produced.
-	private IEnumerator ProcessProduction()
+	public bool CanProcessProduct(MachineProduct product)
 	{
-		yield return WaitFor.Seconds(5f);
+		if (materialStorage.TryRemoveCM3Materials(product.materialToAmounts))
+		{
+			StartCoroutine(ProcessProduction(product.Product, product.ProductionTime));
+			return true;
+		}
 
-		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: 1);
+		return false;
+	}
+
+	//Needs product to be produced and time it takes to be produced.
+	private IEnumerator ProcessProduction(GameObject productObject, float productionTime)
+	{
+		stateSync = ExosuitFabricatorState.Production;
+		yield return WaitFor.Seconds(productionTime);
+
+		Spawn.ServerPrefab(productObject, registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: 1);
 		stateSync = ExosuitFabricatorState.Idle;
 	}
 

@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+//Current features not implemented yet:
+//Add all products. There are not enough items yet for this feature to make sense.
+//The queue system has to be optimized, the list is currently recreated fully and then sent to the peepers.
+//
 public class GUI_ExosuitFabricator : NetTab
 {
 	[SerializeField]
@@ -21,10 +25,10 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public Dictionary<string, GameObject[]> categoryNameToProductEntries = new Dictionary<string, GameObject[]>();
 
-	private ExoFabProductAddClickEvent onProductAddClicked;
-	public ExoFabProductAddClickEvent OnProductAddClicked { get => onProductAddClicked; }
-	private ExoFabCategoryClickEvent onCategoryClicked;
-	public ExoFabCategoryClickEvent OnCategoryClicked { get => onCategoryClicked; }
+	private ExoFabProductAddClickedEvent onProductAddClicked;
+	public ExoFabProductAddClickedEvent OnProductAddClicked { get => onProductAddClicked; }
+	private ExoFabCategoryClickedEvent onCategoryClicked;
+	public ExoFabCategoryClickedEvent OnCategoryClicked { get => onCategoryClicked; }
 	private ExoFabRemoveProductClickedEvent onRemoveProductClicked;
 	public ExoFabRemoveProductClickedEvent OnRemoveProductClicked { get => onRemoveProductClicked; }
 
@@ -32,11 +36,15 @@ public class GUI_ExosuitFabricator : NetTab
 	public ExoFabUpQueueClickedEvent OnUpQueueClicked { get => onUpQueueClicked; }
 	private ExoFabDownQueueClickedEvent onDownQueueClicked;
 	public ExoFabDownQueueClickedEvent OnDownQueueClicked { get => onDownQueueClicked; }
-	private ExoFabDispenseSheetClickEvent onDispenseSheetClicked;
-	public ExoFabDispenseSheetClickEvent OnDispenseSheetClicked { get => onDispenseSheetClicked; }
+	private ExoFabDispenseSheetClickedEvent onDispenseSheetClicked;
+	public ExoFabDispenseSheetClickedEvent OnDispenseSheetClicked { get => onDispenseSheetClicked; }
 
-	private ExoFabClearQueueClickEvent onClearQueueClicked;
-	public ExoFabClearQueueClickEvent OnClearQueueClicked { get => onClearQueueClicked; }
+	private ExoFabClearQueueClickedEvent onClearQueueClicked;
+	public ExoFabClearQueueClickedEvent OnClearQueueClicked { get => onClearQueueClicked; }
+
+	private ExoFabProcessQueueClickedEvent onProcessQueueClicked;
+
+	public ExoFabProcessQueueClickedEvent OnProcessQueueClicked { get => onProcessQueueClicked; }
 
 	private bool inited = false;
 
@@ -52,11 +60,11 @@ public class GUI_ExosuitFabricator : NetTab
 			yield return WaitFor.EndOfFrame;
 		}
 		inited = true;
-		onProductAddClicked = new ExoFabProductAddClickEvent();
+		onProductAddClicked = new ExoFabProductAddClickedEvent();
 
 		OnProductAddClicked.AddListener(AddProductToQueue);
 
-		onCategoryClicked = new ExoFabCategoryClickEvent();
+		onCategoryClicked = new ExoFabCategoryClickedEvent();
 
 		OnCategoryClicked.AddListener(OpenCategory);
 
@@ -72,13 +80,17 @@ public class GUI_ExosuitFabricator : NetTab
 
 		OnDownQueueClicked.AddListener(DownQueue);
 
-		onDispenseSheetClicked = new ExoFabDispenseSheetClickEvent();
+		onDispenseSheetClicked = new ExoFabDispenseSheetClickedEvent();
 
 		OnDispenseSheetClicked.AddListener(DispenseSheet);
 
-		onClearQueueClicked = new ExoFabClearQueueClickEvent();
+		onClearQueueClicked = new ExoFabClearQueueClickedEvent();
 
 		OnClearQueueClicked.AddListener(ClearQueue);
+
+		onProcessQueueClicked = new ExoFabProcessQueueClickedEvent();
+
+		onProcessQueueClicked.AddListener(ProcessQueue);
 
 		//Makes sure it connects with the ExosuitFabricator
 		exosuitFabricator = Provider.GetComponentInChildren<ExosuitFabricator>();
@@ -117,14 +129,22 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public void AddProductToQueue(MachineProduct product)
 	{
-		Logger.Log("Adding Product");
 		queueDisplay.CurrentProducts.Add(product);
 		queueDisplay.UpdateQueue();
 	}
 
+	public void ProcessQueue()
+	{
+		MachineProduct ProcessedProduct = queueDisplay.CurrentProducts[0];
+		if (exosuitFabricator.CanProcessProduct(ProcessedProduct))
+		{
+			queueDisplay.RemoveProduct(0);
+			//Need more logic here, continue until it cannot process more products
+		}
+	}
+
 	public void AddAllProductsToQueue(NetButton button)
 	{
-		Logger.Log("Click");
 	}
 
 	public void ReturnFromProductPage(GUI_ExoFabProductButton button)
@@ -133,8 +153,8 @@ public class GUI_ExosuitFabricator : NetTab
 		//{
 		//	productEntries.SetActive(false);
 		//}
-		Logger.Log("RETURNING TO MATERIAL CATEGORY PAGE");
 		nestedSwitcher.SetActivePage(materialsAndCategoryDisplay);
+		UpdateServerMaterials();
 	}
 
 	public void RemoveFromQueue(int productNumber)
@@ -154,13 +174,11 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public void ClearQueue()
 	{
-		Logger.Log("Clearing Queue");
 		queueDisplay.ClearQueue();
 	}
 
 	public void OpenCategory(MachineProductList categoryProducts)
 	{
-		Logger.Log("OPENING CATEGORY");
 		nestedSwitcher.SetActivePage(productDisplay);
 		productDisplay.DisplayProducts(categoryProducts);
 	}
@@ -182,7 +200,7 @@ public class GUI_ExosuitFabricator : NetTab
 }
 
 [System.Serializable]
-public class ExoFabProductAddClickEvent : UnityEvent<MachineProduct>
+public class ExoFabProductAddClickedEvent : UnityEvent<MachineProduct>
 {
 }
 
@@ -202,16 +220,21 @@ public class ExoFabDownQueueClickedEvent : UnityEvent<int>
 }
 
 [System.Serializable]
-public class ExoFabCategoryClickEvent : UnityEvent<MachineProductList>
+public class ExoFabCategoryClickedEvent : UnityEvent<MachineProductList>
 {
 }
 
 [System.Serializable]
-public class ExoFabDispenseSheetClickEvent : UnityEvent<int, ItemTrait>
+public class ExoFabDispenseSheetClickedEvent : UnityEvent<int, ItemTrait>
 {
 }
 
 [System.Serializable]
-public class ExoFabClearQueueClickEvent : UnityEvent
+public class ExoFabClearQueueClickedEvent : UnityEvent
+{
+}
+
+[System.Serializable]
+public class ExoFabProcessQueueClickedEvent : UnityEvent
 {
 }
