@@ -506,5 +506,5 @@ public class BanEntry
 	public string dateTimeOfBan;
 	public string reason;
 	public string ipAddress;
-	public string clientId;
+	public string clientId = "non-serialised ClientId";
 }
