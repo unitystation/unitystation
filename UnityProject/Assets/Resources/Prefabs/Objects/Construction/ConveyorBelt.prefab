@@ -71,8 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: -7787235591214652525, guid: c9b55c9b8b9702b4d98371bf47badfa2,
-    type: 3}
+  m_Sprite: {fileID: 21300004, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -421,6 +420,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   AnimationSpeed: 1
+  ConnectedSwitch: {fileID: 0}
   spriteHandler: {fileID: 3569393190955387615}
   MappedDirection: 1
-  MappedStatus: 0

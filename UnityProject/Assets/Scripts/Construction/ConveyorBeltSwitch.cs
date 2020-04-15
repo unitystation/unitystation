@@ -12,7 +12,7 @@ public class ConveyorBeltSwitch : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private Sprite LastSprite;
 
-	public int CurrentState = 1;
+	public int CurrentState = 1; // 0 Backwards, 1 Off, 2 Forwards
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{

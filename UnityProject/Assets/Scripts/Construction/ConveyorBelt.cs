@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class ConveyorBelt : NetworkBehaviour
 {
-	public float AnimationSpeed = 0.5f;
+	public float AnimationSpeed = 1f;
 
 	private float timeElapsedServer = 0;
 	private float timeElapsedClient = 0;
 
-	private ConveyorBeltSwitch ConnectedSwitch;
+	public ConveyorBeltSwitch ConnectedSwitch;
 
 	public SpriteHandler spriteHandler;
 
@@ -61,7 +61,8 @@ public class ConveyorBelt : NetworkBehaviour
 			{
 				DetectItems();
 				ChangeDirection();
-				ServerChangeState(CurrentStatus, CurrentDirection);
+
+				//ServerChangeState(CurrentStatus, CurrentDirection);
 
 				ChangeAnimation();
 
@@ -98,6 +99,8 @@ public class ConveyorBelt : NetworkBehaviour
 
 		if (ConnectedSwitch == null) return;
 
+		LastStatus = CurrentStatus;
+
 		if (ConnectedSwitch.CurrentState == 0)
 		{
 			CurrentStatus = ConveyorStatus.Backward;
@@ -133,6 +136,10 @@ public class ConveyorBelt : NetworkBehaviour
 	{
 		if (ConnectedSwitch == null) return;
 
+		Logger.Log("Connected switch not null");
+
+		LastStatus = CurrentStatus;
+
 		if (ConnectedSwitch.CurrentState == 0)
 		{
 			CurrentStatus = ConveyorStatus.Backward;
@@ -145,12 +152,14 @@ public class ConveyorBelt : NetworkBehaviour
 		{
 			CurrentStatus = ConveyorStatus.Forward;
 		}
+
+		Logger.Log("Current status "+ CurrentStatus);
 	}
 
 	private void ChangeAnimation()
 	{
-		if (CurrentDirection != LastDirection || CurrentStatus != LastStatus)
-		{
+		//if (CurrentDirection != LastDirection || CurrentStatus != LastStatus)
+		//{
 			if (CurrentStatus == ConveyorStatus.Off)
 			{
 				spriteHandler.ChangeSprite(1);
@@ -252,7 +261,7 @@ public class ConveyorBelt : NetworkBehaviour
 
 				spriteHandler.ChangeSpriteVariant(7);
 			}
-		}
+		//}
 
 		if (position == null)
 		{
