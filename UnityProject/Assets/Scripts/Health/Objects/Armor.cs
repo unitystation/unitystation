@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 /// <summary>
 /// Represents armor which provides resistance against various kinds of attacks.
@@ -12,16 +13,16 @@ using System;
 [Serializable]
 public class Armor
 {
-	public float Melee;
-	public float Bullet;
-	public float Laser;
-	public float Energy;
-	public float Bomb;
-	public float Rad;
-	public float Fire;
-	public float Acid;
-	public float Magic;
-	public float Bio;
+	[Range(-100,100)] public float Melee;
+	[Range(-100,100)] public float Bullet;
+	[Range(-100,100)] public float Laser;
+	[Range(-100,100)] public float Energy;
+	[Range(-100,100)] public float Bomb;
+	[Range(-100,100)] public float Rad;
+	[Range(-100,100)] public float Fire;
+	[Range(-100,100)] public float Acid;
+	[Range(-100,100)] public float Magic;
+	[Range(-100,100)] public float Bio;
 
 	/// <summary>
 	/// Calculates how much damage would be done based on armor resistance
@@ -31,7 +32,12 @@ public class Armor
 	/// <returns>new damage after applying protection values</returns>
 	public float GetDamage(float damage, AttackType attackType)
 	{
-		return damage * (100 - GetRating(attackType)) * .01f;
+		float rating = GetRating(attackType);
+		if (rating > 100)
+		{
+			rating = 100;
+		}
+		return damage * (1 - rating / 100);
 	}
 
 	/// <summary>
@@ -93,7 +99,7 @@ public class Armor
 	}
 
 	/// <summary>
-	/// Operator override to substract all armor types with ease. Thank you, Redline.
+	/// Operator override to subtract all armor types with ease. Thank you, Redline.
 	/// </summary>
 	public static Armor operator -(Armor a, Armor b)
 	{
@@ -114,8 +120,6 @@ public class Armor
 		return armor;
 	}
 }
-
-
 
 /// <summary>
 /// A type of attack - not quite the same as a type of damage. A type of damage

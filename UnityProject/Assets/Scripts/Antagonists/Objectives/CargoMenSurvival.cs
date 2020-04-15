@@ -25,17 +25,16 @@ namespace Antagonists
 			foreach (var p in PlayerList.Instance.AllPlayers)
 			{
 				if (p.Script == null) continue;
-				
+
 				foreach (JobType rebeljob in GameManager.Instance.Rebels)
 				{
-					if (p.Job == rebeljob) allRebels++;
-				}
-
-				if (p.Script.playerHealth != null)
-				{
-					if (!p.Script.playerHealth.IsDead & GameManager.Instance.Rebels.Contains(p.Job))
+					if (p.Job == rebeljob)
 					{
-						allAliveRebels++;
+						allRebels++;
+						if (p.Script.playerHealth != null && !p.Script.playerHealth.IsDead)
+						{
+							allAliveRebels++;
+						}
 					}
 				}
 			}
