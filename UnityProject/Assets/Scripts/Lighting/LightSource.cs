@@ -6,9 +6,6 @@ using System.Net;
 using Light2D;
 using UnityEngine;
 
-// Note: Judging the "lighting" sprite sheet it seems that light source can have many disabled states.
-// At this point i just want to do a basic setup for an obvious extension, so only On / Off states are actually implemented
-// and for other states is just a state and sprite assignment.
 public enum LightState
 {
 	None = 0,
@@ -120,92 +117,79 @@ public class LightSource : ObjectTrigger
 	//on which switch owns which light
 	public void Received(LightSwitchData Received)
 	{
-		if (wallMount.State != LightMountStates.LightMountState.Broken &&
-		    wallMount.State != LightMountStates.LightMountState.MissingBulb)
+		if (wallMount.State == LightMountStates.LightMountState.Broken ||
+		    wallMount.State == LightMountStates.LightMountState.MissingBulb)
 		{
-			//Logger.Log (Received.LightSwitchTrigger.ToString() + " < LightSwitchTrigger" + Received.RelatedAPC.ToString() + " < APC" + Received.state.ToString() + " < state" );
-			tempStateCache = Received.state;
+			return;
+		}
 
-			if (waitToCheckState)
+		//Logger.Log (Received.LightSwitchTrigger.ToString() + " < LightSwitchTrigger" + Received.RelatedAPC.ToString() + " < APC" + Received.state.ToString() + " < state" );
+		tempStateCache = Received.state;
+
+		if (waitToCheckState)
+		{
+			return;
+		}
+
+		if (Received.LightSwitch != relatedLightSwitch && relatedLightSwitch != null) return;
+
+		if (relatedLightSwitch == null)
+		{
+			relatedLightSwitch = Received.LightSwitch;
+		}
+
+		if (Received.RelatedAPC != null)
+		{
+			RelatedAPC = Received.RelatedAPC;
+
+			if (RelatedAPC == null)
 			{
-				return;
+				Logger.Log($"Related APC was missing in the received method: {gameObject.name}",
+					Category.Lighting);
 			}
-
-			if (Received.LightSwitch == relatedLightSwitch || relatedLightSwitch == null)
+			else if (relatedLightSwitch == null)
 			{
-				if (relatedLightSwitch == null)
+				Logger.Log($"Related Lightswitch was missing in the received method: {gameObject.name}",
+					Category.Lighting);
+			}
+			else if (State == LightState.On)
+			{
+				if (RelatedAPC.ConnectedSwitchesAndLights.ContainsKey(relatedLightSwitch))
 				{
-					relatedLightSwitch = Received.LightSwitch;
-				}
-
-				if (Received.RelatedAPC != null)
-				{
-					RelatedAPC = Received.RelatedAPC;
-
-					if (RelatedAPC == null)
+					if (!RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Contains(this))
 					{
-						Logger.Log($"Related APC was missing in the received method: {gameObject.name}",
-							Category.Lighting);
+						RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Add(this);
 					}
-					else if (relatedLightSwitch == null)
-					{
-						Logger.Log($"Related Lightswitch was missing in the received method: {gameObject.name}",
-							Category.Lighting);
-					}
-					else if (State == LightState.On)
-					{
-						if (RelatedAPC.ConnectedSwitchesAndLights.ContainsKey(relatedLightSwitch))
-						{
-							if (!RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Contains(this))
-							{
-								RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Add(this);
-							}
-						}
-						else
-						{
-							RelatedAPC.ConnectedSwitchesAndLights.Add(relatedLightSwitch, new List<LightSource>{this});
-						}
-					}
-				}
-				else if (relatedLightSwitch.SelfPowered)
-				{
-					if (State == LightState.On)
-					{
-						if (!relatedLightSwitch.SelfPowerLights.Contains(this))
-						{
-							relatedLightSwitch.SelfPowerLights.Add(this);
-						}
-					}
-				}
-
-				if (Renderer == null)
-				{
-					waitToCheckState = true;
-					StartCoroutine(WaitToTryAgain());
-					return;
 				}
 				else
 				{
-					State = Received.state ? LightState.On : LightState.Off;
-					wallMount.SwitchChangeState(State);
+					RelatedAPC.ConnectedSwitchesAndLights.Add(relatedLightSwitch, new List<LightSource>{this});
 				}
 			}
 		}
-	}
-
-	//broadcast target - invoked so lights can register themselves with this APC in
-	//LightSwitch.DetectLightsAndAction. There must be a better way to do this that doesn't rely
-	//on broadcasting.
-	public void EmergencyLight(LightSwitchData Received)
-	{
-		if (gameObject.tag == "EmergencyLight")
+		else if (relatedLightSwitch.SelfPowered)
 		{
-			var emergLightAnim = gameObject.GetComponent<EmergencyLightAnimator>();
-			if (emergLightAnim != null)
+			if (State == LightState.On)
 			{
-				Received.RelatedAPC.ConnectEmergencyLight(emergLightAnim);
+				if (!relatedLightSwitch.SelfPowerLights.Contains(this))
+				{
+					relatedLightSwitch.SelfPowerLights.Add(this);
+				}
 			}
 		}
+
+		if (Renderer == null)
+		{
+			waitToCheckState = true;
+			StartCoroutine(WaitToTryAgain());
+			return;
+		}
+		else
+		{
+			State = Received.state ? LightState.On : LightState.Off;
+			wallMount.SwitchChangeState(State);
+		}
+
 	}
 
 	private void OnIntensityChange()
@@ -324,13 +308,6 @@ public class LightSource : ObjectTrigger
 
 	private void ExtractLightSprites()
 	{
-		// Reimplementation of sprite location on atlas.
-
-		// Note: It is quite magical and really should not be done like this:
-		// It takes an assigned sprite name, parses its index, adds 4 to it and takes resulting sprite from the sheet.
-		// There is a bold assumption that sprite sheets associated with states are spaced 4 indexes between, and that nobody has changed any sprite names.
-		// My reimplementation just grabs more sprites for associated states.
-
 		var _assignedSprite = Renderer.sprite;
 
 		if (_assignedSprite == null)
@@ -341,27 +318,11 @@ public class LightSource : ObjectTrigger
 			return;
 		}
 
-		// Try to parse base sprite index.
 		string[] _splitedName = _assignedSprite.name.Split('_');
 
 		if (_splitedName.Length == 2 && int.TryParse(_splitedName[1], out _))
 		{
 			mSpriteDictionary.Add(LightState.On, _assignedSprite);
-
-
-			/* these don't work as expected - _spriteSheet always is an empty array
-			Func<int, Sprite> ExtractSprite = delegate (int iIndex)
-			{
-				if (iIndex >= 0 && iIndex < _spriteSheet.Length)
-					return _spriteSheet[iIndex];
-				return null;
-			};
-			// Extract sprites from sprite sheet based on spacing from base index.
-			mSpriteDictionary.Add(LightState.Off, ExtractSprite(_baseIndex + SheetSpacing));
-			mSpriteDictionary.Add(LightState.MissingBulb, ExtractSprite(_baseIndex + (SheetSpacing * 2)));
-			mSpriteDictionary.Add(LightState.Dirty, ExtractSprite(_baseIndex + (SheetSpacing * 3)));
-			mSpriteDictionary.Add(LightState.Broken, ExtractSprite(_baseIndex + (SheetSpacing * 4)));
-			*/
 		}
 		else
 		{
