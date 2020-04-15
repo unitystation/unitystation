@@ -1,26 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &3508800220695291675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5426160498802093876}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d8872d4cc4320514995f91133f2a5adb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  fillSpriteRender: {fileID: 1423238681600864337}
-  fillIcons:
-  - {fileID: 21300000, guid: bf37ae1d1f143df498ec3130158dd7f0, type: 3}
-  - {fileID: 21300000, guid: fbed33b69fcac4e45ba6517ec96ea2a1, type: 3}
-  - {fileID: 21300000, guid: 6527fc110908ea24da2338028e6bf890, type: 3}
-  - {fileID: 21300000, guid: c3a961fccf198f647a894f0399b122a9, type: 3}
-  - {fileID: 21300000, guid: 911dfce0d9ad6744db6173f77dafecdb, type: 3}
 --- !u!1 &3195531052532842683
 GameObject:
   m_ObjectHideFlags: 0
@@ -121,6 +100,27 @@ MonoBehaviour:
   spriteIndex: 0
   variantIndex: 0
   SetSpriteOnStartUp: 0
+--- !u!114 &3508800220695291675
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5426160498802093876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8872d4cc4320514995f91133f2a5adb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  fillSpriteRender: {fileID: 1423238681600864337}
+  fillIcons:
+  - {fileID: 21300000, guid: bf37ae1d1f143df498ec3130158dd7f0, type: 3}
+  - {fileID: 21300000, guid: fbed33b69fcac4e45ba6517ec96ea2a1, type: 3}
+  - {fileID: 21300000, guid: 6527fc110908ea24da2338028e6bf890, type: 3}
+  - {fileID: 21300000, guid: c3a961fccf198f647a894f0399b122a9, type: 3}
+  - {fileID: 21300000, guid: 911dfce0d9ad6744db6173f77dafecdb, type: 3}
 --- !u!1001 &2828652761953900756
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -136,7 +136,7 @@ PrefabInstance:
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: initialName
-      value: glass
+      value: drinking glass
       objectReference: {fileID: 0}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -202,6 +202,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896866896034096660, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896866896034096660, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 7897283028627769940, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
