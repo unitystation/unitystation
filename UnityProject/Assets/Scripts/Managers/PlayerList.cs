@@ -172,7 +172,7 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
-		Logger.Log($"Player: {player.Name} client id is: {player.ClientId}");
+		Logger.Log($"Player: {player.Username} client id is: {player.ClientId}");
 		var loggedOffClient = GetLoggedOffClient(player.ClientId);
 
 		if (loggedOffClient  != null)
