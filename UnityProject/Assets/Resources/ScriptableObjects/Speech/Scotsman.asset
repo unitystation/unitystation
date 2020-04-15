@@ -1,0 +1,200 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c302747b295f59d429cc78a122bcb51d, type: 3}
+  m_Name: Scotsman
+  m_EditorClassIdentifier: 
+  activateReplacements: 1
+  wordReplaceList:
+  - original: you
+    replaceWith:
+    - ye
+    - yah
+  - original: the
+    replaceWith:
+    - tae
+  - original: yourself
+    replaceWith:
+    - yersel
+  - original: would
+    replaceWith:
+    - wid
+  - original: with
+    replaceWith:
+    - wi
+  - original: of
+    replaceWith:
+    - eh
+    - ae
+    - o
+  - original: not
+    replaceWith:
+    - no
+  - original: i
+    replaceWith:
+    - a
+  - original: your
+    replaceWith:
+    - yer
+  - original: girl
+    replaceWith:
+    - lassie
+    - lass
+    - burd
+  - original: need to
+    replaceWith:
+    - needty
+  - original: shit
+    replaceWith:
+    - shite
+    - shet
+  - original: doing
+    replaceWith:
+    - dain
+  - original: out
+    replaceWith:
+    - oot
+  - original: you've
+    replaceWith:
+    - ye've
+  - original: i'll
+    replaceWith:
+    - al
+  - original: off
+    replaceWith:
+    - aff
+  - original: into
+    replaceWith:
+    - intae
+    - inty
+  - original: alright
+    replaceWith:
+    - awryt
+  - original: crazy
+    replaceWith:
+    - a bampot
+  - original: great
+    replaceWith:
+    - crackin'
+  - original: awesome
+    replaceWith:
+    - crackin'
+  - original: idiot
+    replaceWith:
+    - eejit
+    - numpty
+    - fruitcake
+    - neep
+  - original: ugly
+    replaceWith:
+    - hackit
+  - original: is not
+    replaceWith:
+    - isnae
+  - original: tired
+    replaceWith:
+    - knackert
+  - original: gay
+    replaceWith:
+    - a jessie
+  - original: testing
+    replaceWith:
+    - testin'
+  - original: fuck
+    replaceWith:
+    - fook
+  - original: fucking
+    replaceWith:
+    - fookin'
+    - feckin
+  - original: fucker
+    replaceWith:
+    - fooker
+  - original: ones
+    replaceWith:
+    - wans
+  - original: on
+    replaceWith:
+    - oan
+  - original: his
+    replaceWith:
+    - es
+  - original: thought
+    replaceWith:
+    - thawt
+  - original: home
+    replaceWith:
+    - hame
+  - original: boy
+    replaceWith:
+    - lad
+    - laddie
+  - original: mom
+    replaceWith:
+    - mum
+    - maw
+    - mam
+  - original: head
+    replaceWith:
+    - heed
+  - original: my
+    replaceWith:
+    - me
+    - ma
+  - original: do not
+    replaceWith:
+    - dinny
+  - original: throw
+    replaceWith:
+    - chuck
+  - original: window
+    replaceWith:
+    - windae
+  - original: fucked
+    replaceWith:
+    - fooked
+    - shagged
+  - original: ass
+    replaceWith:
+    - arse
+  - original: bothered
+    replaceWith:
+    - arsed
+  - original: dick
+    replaceWith:
+    - dobber
+  - original: something
+    replaceWith:
+    - suhin
+  - original: around
+    replaceWith:
+    - round
+    - roond
+  - original: dead
+    replaceWith:
+    - deed
+  - original: boys
+    replaceWith:
+    - lads
+    - laddies
+  - original: girls
+    replaceWith:
+    - lasses
+    - lassies
+    - burds
+  letterReplaceList: []
+  activateAdditions: 1
+  probability: 24
+  beginning:
+  - Oi!
+  ending:
+  - Ya wee fooker?
+  customCode: {fileID: 0}

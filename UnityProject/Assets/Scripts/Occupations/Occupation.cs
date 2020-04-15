@@ -34,7 +34,7 @@ public class Occupation : ScriptableObject
 	[SerializeField]
 	[Tooltip("Priority for selecting this occupation when requested occupation is not" +
 			 " available.")]
-	private int priority;
+	private int priority = 0;
 	public int Priority => priority;
 
 	[FormerlySerializedAs("AllowedAccess")]
@@ -98,7 +98,7 @@ public class Occupation : ScriptableObject
 
 	[SerializeField]
 	[TextArea(10, 20)]
-	[Tooltip("An elaborate job description for newcomers. Should say what playing this job usually entails, similar to descriptionShort.")] 
+	[Tooltip("An elaborate job description for newcomers. Should say what playing this job usually entails, similar to descriptionShort.")]
 	private string descriptionLong = "";
 	public string DescriptionLong => descriptionLong;
 }

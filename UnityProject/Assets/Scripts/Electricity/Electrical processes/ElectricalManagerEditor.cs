@@ -23,11 +23,11 @@ public class ElectricalManagerEditor : Editor
 	{
 		EditorGUILayout.BeginHorizontal();
 
-		GUI.enabled = Application.isPlaying;
+		GUI.enabled = Application.isPlaying && electricalManager.Mode != ElectricalMode.Manual;
 
 		if (GUILayout.Button("SetSpeed"))
 		{
-			AtmosManager.SetInternalSpeed();
+			ElectricalManager.SetInternalSpeed();
 		}
 
 		if (!electricalManager.Running)
@@ -46,8 +46,7 @@ public class ElectricalManagerEditor : Editor
 
 		if (GUILayout.Button("Step"))
 		{
-			var sync = FindObjectOfType<ElectricalSynchronisation>();
-			sync.RunStep(false);
+			ElectricalManager.Instance.electricalSync.RunStep(false);
 		}
 
 		GUI.enabled = true;

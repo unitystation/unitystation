@@ -1,5 +1,5 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 using System.Threading;
 
 public class ElectricalManager : MonoBehaviour
@@ -15,7 +15,12 @@ public class ElectricalManager : MonoBehaviour
 
 	public static ElectricalManager Instance;
 
+	public ElectricalMode Mode;
+
 	public bool DOCheck;
+
+	private Object electricalLock = new Object();
+	public static Object ElectricalLock => Instance.electricalLock;
 
 	private void Awake()
 	{
@@ -27,9 +32,22 @@ public class ElectricalManager : MonoBehaviour
 
 	private void Update()
 	{
-		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
+		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Mode == ElectricalMode.GameLoop && Running)
 		{
 			electricalSync.DoUpdate(false);
+		}
+
+		if (roundStartedServer && CustomNetworkManager.Instance._isServer && Running)
+		{
+			if (electricalSync.MainThreadProcess)
+			{
+				lock (ElectricalLock)
+				{
+					electricalSync.PowerNetworkUpdate();
+					electricalSync.MainThreadProcess = false;
+					Monitor.Pulse(ElectricalLock);
+				}
+			}
 		}
 	}
 
@@ -50,14 +68,24 @@ public class ElectricalManager : MonoBehaviour
 		EventManager.RemoveHandler(EVENT.RoundEnded, StopSim);
 	}
 
+
+
 	public void StartSim()
 	{
+
 		if (!CustomNetworkManager.Instance._isServer) return;
 
-		electricalSync.Start();
+
 		roundStartedServer = true;
 		Running = true;
+
+		if (Mode == ElectricalMode.Threaded)
+		{
+			electricalSync.SetSpeed((int)MSSpeed);
+			electricalSync.StartSim();
+		}
 		Logger.Log("Round Started", Category.Electrical);
+		StartCoroutine(KickstartElectrical());
 	}
 
 	public void StopSim()
@@ -65,11 +93,27 @@ public class ElectricalManager : MonoBehaviour
 		if (!CustomNetworkManager.Instance._isServer) return;
 
 		Running = false;
-		electricalSync.Stop();
+		electricalSync.StopSim();
 		roundStartedServer = false;
 		electricalSync.Reset();
 		Logger.Log("Round Ended", Category.Electrical);
 	}
+
+	public static void SetInternalSpeed()
+	{
+		Instance.electricalSync.SetSpeed((int)Instance.MSSpeed);
+	}
+
+	private IEnumerator KickstartElectrical()
+	{
+		electricalSync.StopSim();
+		Mode = ElectricalMode.GameLoop;
+		yield return WaitFor.Seconds(2f);
+		Mode = ElectricalMode.Threaded;
+		electricalSync.SetSpeed((int)MSSpeed);
+		electricalSync.StartSim();
+	}
+
 }
 
 public enum ElectricalMode

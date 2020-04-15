@@ -1,25 +1,17 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 using Mirror;
 using System.Linq;
 using System.Reflection;
-using System;
-using System.Linq;
-using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 #endif
-using System.Reflection;
 
 [System.Serializable]
 
 public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 {
-	public Connection WireEndB;
-	public Connection WireEndA;
 
 	//is the Bass class but every node inherits from
 	[SerializeField]

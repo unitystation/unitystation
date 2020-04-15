@@ -23,7 +23,7 @@ public class LoadingScreenManager : MonoBehaviour
 		}
 	}
 
-	[SerializeField] private LoadingScreen loadingScreen;
+	[SerializeField] private LoadingScreen loadingScreen = null;
 
 
 	private void OnEnable()
@@ -69,7 +69,7 @@ public class LoadingScreenManager : MonoBehaviour
 			loadingScreen.SetLoadBar((float)TileManager.TilesLoaded / (float)TileManager.TilesToLoad);
 			yield return WaitFor.EndOfFrame;
 		}
-		
+
 		endAction.Invoke();
 	}
 }

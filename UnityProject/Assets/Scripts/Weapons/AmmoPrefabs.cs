@@ -8,33 +8,43 @@
 public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 {
 	[SerializeField]
-	private GameObject _12mm;
+	private GameObject _12mm = null;
 	[SerializeField]
-	private GameObject _5Point56mm;
+	private GameObject _5Point56mm = null;
 	[SerializeField]
-	private GameObject _9mm;
+	private GameObject _9mm = null;
 	[SerializeField]
-	private GameObject _38;
+	private GameObject _38 = null;
 	[SerializeField]
-	private GameObject _46x30mmtT;
+	private GameObject _46x30mmtT = null;
 	[SerializeField]
-	private GameObject _50mm;
+	private GameObject _50mm = null;
 	[SerializeField]
-	private GameObject _357mm;
+	private GameObject _357mm = null;
 	[SerializeField]
-	private GameObject A762;
+	private GameObject A762 = null;
 	[SerializeField]
-	private GameObject FusionCells;
+	private GameObject FusionCells = null;
 	[SerializeField]
-	private GameObject Slug;
+	private GameObject Slug = null;
 	[SerializeField]
-	private GameObject smg9mm;
+	private GameObject smg9mm = null;
 	[SerializeField]
-	private GameObject Syringe;
+	private GameObject Syringe = null;
 	[SerializeField]
-	private GameObject uzi9mm;
+	private GameObject uzi9mm = null;
 	[SerializeField]
-	private GameObject Internal;
+	private GameObject _45 = null;
+	[SerializeField]
+	private GameObject _10mm = null;
+	[SerializeField]
+	private GameObject _50 = null;
+	[SerializeField]
+	private GameObject tommy9mm = null;
+	[SerializeField]
+	private GameObject _762 = null;
+	[SerializeField]
+	private GameObject Internal = null;
 
 	/// <summary>
 	/// Get the prefab of the ammo type so you can
@@ -70,6 +80,16 @@ public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 				return Instance._5Point56mm;
 			case AmmoType._9mm:
 				return Instance._9mm;
+			case AmmoType._45:
+				return Instance._45;
+			case AmmoType._10mm:
+				return Instance._10mm;
+			case AmmoType._50:
+				return Instance._50;
+			case AmmoType.tommy9mm:
+				return Instance.tommy9mm;
+			case AmmoType._762:
+				return Instance._762;
 			case AmmoType.Internal:
 				return Instance.Internal;
 		}

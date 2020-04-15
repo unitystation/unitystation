@@ -35,23 +35,23 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	[SyncVar(hook = nameof(UpdatePlant))] private string plantSyncString;
 
 	[SerializeField] private RegisterTile registerTile;
-	[SerializeField] private bool isSoilPile;
+	[SerializeField] private bool isSoilPile = false;
 
 	[Tooltip("If this is set the plant will not grow/die over time, use it to keep wild findable plants alive")]
 	[SerializeField]
-	private bool isWild;
+	private bool isWild = false;
 
 	[SerializeField] private List<DefaultPlantData> potentialWeeds = new List<DefaultPlantData>();
 	[SerializeField] private PlantTrayModification modification;
-	[SerializeField] private ReagentContainer reagentContainer;
-	[SerializeField] private Chemistry.Reagent water;
-	[SerializeField] private Chemistry.Reagent mutagen;
-	[SerializeField] private SpriteHandler plantSprite;
-	[SerializeField] private SpriteHandler harvestNotifier;
-	[SerializeField] private SpriteHandler weedNotifier;
-	[SerializeField] private SpriteHandler waterNotifier;
-	[SerializeField] private SpriteHandler nutrimentNotifier;
-	[SerializeField] private float tickRate;
+	[SerializeField] private ReagentContainer reagentContainer = null;
+	[SerializeField] private Chemistry.Reagent water = null;
+	[SerializeField] private Chemistry.Reagent mutagen = null;
+	[SerializeField] private SpriteHandler plantSprite = null;
+	[SerializeField] private SpriteHandler harvestNotifier = null;
+	[SerializeField] private SpriteHandler weedNotifier = null;
+	[SerializeField] private SpriteHandler waterNotifier = null;
+	[SerializeField] private SpriteHandler nutrimentNotifier = null;
+	[SerializeField] private float tickRate = 0;
 
 
 	private static readonly System.Random random = new System.Random();

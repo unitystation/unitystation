@@ -26,238 +26,6 @@ public class SoundManager : MonoBehaviour
 
 	private static AudioSource currentLobbyAudioSource;
 
-	private readonly Dictionary<Footstep, List<string>> FootSteps = new Dictionary<Footstep, List<string>>()
-	{
-		{
-			Footstep.floor,
-			new List<string> {"floor1", "floor2", "floor3", "floor4", "floor5"}
-		},
-		{
-			Footstep.asteroid,
-			new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
-		},
-		{
-			Footstep.carpet,
-			new List<string> {"carpet1", "carpet2", "carpet3", "carpet4", "carpet5"}
-		},
-		{
-			Footstep.catwalk,
-			new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
-		},
-		{
-			Footstep.grass,
-			new List<string> {"grass1", "grass2", "grass3", "grass4"}
-		},
-		{
-			Footstep.lava, //not literally
-			new List<string> {"lava1", "lava2", "lava3"}
-		},
-		{
-			Footstep.plating,
-			new List<string> {"plating1", "plating2", "plating3", "plating4", "plating5"}
-		},
-		{
-			Footstep.wood,
-			new List<string> {"wood1", "wood2", "wood3", "wood4", "wood5"}
-		},
-		{
-			Footstep.sand,
-			new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
-		},
-		{
-			Footstep.water,
-			new List<string> {"water1", "water2", "water3", "water4"}
-		},
-		{
-			Footstep.clownstep,
-			new List<string> {"clownstep1", "clownstep2"}
-		},
-	};
-
-	private readonly Dictionary<BareFootstep, List<string>> BareFootsteps = new Dictionary<BareFootstep, List<string>>()
-	{
-		{
-			BareFootstep.floor,
-			new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
-		},
-		{
-			BareFootstep.asteroid,
-			new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
-		},
-		{
-			BareFootstep.carpet,
-			new List<string>
-				{"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}
-		},
-		{
-			BareFootstep.catwalk,
-			new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
-		},
-		{
-			BareFootstep.grass,
-			new List<string> {"grass1", "grass2", "grass3", "grass4"}
-		},
-		{
-			BareFootstep.lava, //not literally
-			new List<string> {"lava1", "lava2", "lava3"}
-		},
-		{
-			BareFootstep.plating,
-			new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
-		},
-		{
-			BareFootstep.wood,
-			new List<string> {"woodbarefoot1", "woodbarefoot2", "woodbarefoot3", "woodbarefoot4", "woodbarefoot5"}
-		},
-		{
-			BareFootstep.sand,
-			new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
-		},
-		{
-			BareFootstep.water,
-			new List<string> {"water1", "water2", "water3", "water4"}
-		},
-		{
-			BareFootstep.clownstep,
-			new List<string> {"clownstep1", "clownstep2"}
-		}
-	};
-
-	private readonly Dictionary<ClawFootstep, List<string>> ClawFootsteps = new Dictionary<ClawFootstep, List<string>>()
-	{
-		{
-			ClawFootstep.floor,
-			new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
-		},
-		{
-			ClawFootstep.asteroid,
-			new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
-		},
-		{
-			ClawFootstep.carpet,
-			new List<string>
-				{"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}
-		},
-		{
-			ClawFootstep.catwalk,
-			new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
-		},
-		{
-			ClawFootstep.grass,
-			new List<string> {"grass1", "grass2", "grass3", "grass4"}
-		},
-		{
-			ClawFootstep.lava, //not literally
-			new List<string> {"lava1", "lava2", "lava3"}
-		},
-		{
-			ClawFootstep.plating,
-			new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
-		},
-		{
-			ClawFootstep.wood,
-			new List<string> {"woodclaw1", "woodclaw2", "woodclaw3", "woodclaw4", "woodclaw5"}
-		},
-		{
-			ClawFootstep.sand,
-			new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
-		},
-		{
-			ClawFootstep.water,
-			new List<string> {"water1", "water2", "water3", "water4"}
-		}
-	};
-
-	private readonly Dictionary<HeavyFootstep, List<string>> HeavyFootsteps =
-		new Dictionary<HeavyFootstep, List<string>>()
-		{
-			{
-				HeavyFootstep.floor,
-				new List<string> {"suitstep1", "suitstep2"}
-			},
-			{
-				HeavyFootstep.asteroid,
-				new List<string> {"suitstep1", "suitstep2"}
-			},
-			{
-				HeavyFootstep.carpet,
-				new List<string> {"suitstep1", "suitstep2"}
-			},
-			{
-				HeavyFootstep.catwalk,
-				new List<string> {"suitstep1", "suitstep2"}
-			},
-			{
-				HeavyFootstep.grass,
-				new List<string> {"suitstep1", "suitstep2"}
-			},
-			{
-				HeavyFootstep.lava,
-				new List<string> {"suitstep1", "suitstep2"}
-			},
-			{
-				HeavyFootstep.plating,
-				new List<string> {"suitstep1", "suitstep2"}
-			},
-			{
-				HeavyFootstep.wood,
-				new List<string> {"suitstep1", "suitstep2"}
-			},
-			{
-				HeavyFootstep.sand,
-				new List<string> {"lava1", "lava2", "lava3"}
-			},
-			{
-				HeavyFootstep.water,
-				new List<string> {"water1", "water2", "water3", "water4"}
-			}
-		};
-
-	private readonly Dictionary<ClownFoostep, List<string>> ClownFootsteps =
-		new Dictionary<ClownFoostep, List<string>>()
-		{
-			{
-				ClownFoostep.floor,
-				new List<string> {"clownstep1", "clownstep2"}
-			},
-			{
-				ClownFoostep.asteroid,
-				new List<string> {"clownstep1", "clownstep2"}
-			},
-			{
-				ClownFoostep.carpet,
-				new List<string> {"clownstep1", "clownstep2"}
-			},
-			{
-				ClownFoostep.catwalk,
-				new List<string> {"clownstep1", "clownstep2"}
-			},
-			{
-				ClownFoostep.grass,
-				new List<string> {"clownstep1", "clownstep2"}
-			},
-			{
-				ClownFoostep.lava,
-				new List<string> {"clownstep1", "clownstep2"}
-			},
-			{
-				ClownFoostep.plating,
-				new List<string> {"clownstep1", "clownstep2"}
-			},
-			{
-				ClownFoostep.wood,
-				new List<string> {"clownstep1", "clownstep2"}
-			},
-			{
-				ClownFoostep.sand,
-				new List<string> {"clownstep1", "clownstep2"}
-			},
-			{
-				ClownFoostep.water,
-				new List<string> {"water1", "water2", "water3", "water4"}
-			}
-		};
-
 	private static bool Step;
 	private bool isMusicMute;
 
@@ -275,7 +43,7 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static SongTracker SongTracker => soundManager.songTracker;
 
-	[SerializeField] private GameObject soundSpawnPrefab;
+	[SerializeField] private GameObject soundSpawnPrefab = null;
 	private List<AudioSource> pooledSources = new List<AudioSource>();
 
 	public static SoundManager Instance
@@ -628,72 +396,6 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Play Footstep at given world position.
-	/// </summary>
-
-	//TODO creature has claws
-
-	// Creature is barefoot (with humanlike foot)
-	private static void BarefootAtPosition(Vector3 worldPos, BasicTile tile, GameObject performer)
-	{
-		var WalkingSoundCategory = tile.BarefootWalkingSoundCategory;
-		PlayNetworkedAtPos(
-			Instance.BareFootsteps[WalkingSoundCategory][
-				RANDOM.Next(Instance.BareFootsteps[WalkingSoundCategory].Count)],
-			worldPos, (float) Instance.GetRandomNumber(0.7d, 1.2d),
-			Global: false, polyphonic: true, sourceObj: performer);
-	}
-
-	// TODO Creature is wearing hardsuit
-
-	// Creature is wearing clown shoes
-	private static void ClownStepAtPos(Vector3 worldPos, BasicTile tile, GameObject performer)
-	{
-		var WalkingSoundCategory = tile.ClownFootstepSoundCategory;
-		PlayNetworkedAtPos(
-			Instance.ClownFootsteps[WalkingSoundCategory][
-				RANDOM.Next(Instance.ClownFootsteps[WalkingSoundCategory].Count)],
-			worldPos, (float) Instance.GetRandomNumber(0.7d, 1.2d),
-			Global: false, polyphonic: true, sourceObj: performer);
-	}
-
-	// Normal footsteps
-	public static void FootstepAtPosition(Vector3 worldPos, Pickupable feetSlot, GameObject performer)
-	{
-		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
-
-		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
-		var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
-
-		if (tile != null)
-		{
-			if (Step)
-			{
-				if (feetSlot == null)
-				{
-					//TODO when we have creatures with claws, check here to make proper claw sound
-					BarefootAtPosition(worldPos, tile, performer);
-				}
-				else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Squeaky))
-				{
-					ClownStepAtPos(worldPos, tile, performer);
-				}
-				else
-				{
-					PlayNetworkedAtPos(
-						Instance.FootSteps[tile.WalkingSoundCategory][
-							RANDOM.Next(Instance.FootSteps[tile.WalkingSoundCategory].Count)],
-						worldPos, (float) Instance.GetRandomNumber(0.7d, 1.2d),
-						Global: false, polyphonic: true, sourceObj: performer);
-				}
-			}
-
-			Step = !Step;
-		}
-	}
-
-
-	/// <summary>
 	/// Play Glassknock at given world position.
 	/// </summary>
 	public static void GlassknockAtPosition(Vector3 worldPos, GameObject performer = null)
@@ -982,78 +684,343 @@ public class SoundManager : MonoBehaviour
 		var rand = RANDOM.Next(RoundEndSounds.Length);
 		PlayNetworked(RoundEndSounds[rand], 1f);
 	}
-}
 
-public enum Footstep
-{
-	floor,
-	asteroid,
-	carpet,
-	catwalk,
-	grass,
-	lava,
-	plating,
-	wood,
-	sand,
-	water,
-	clownstep
-}
+	//TODO Please someone who knows what he's doing, take all of this outside this class!
+	private static bool step;
 
-public enum BareFootstep
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
-	clownstep = Footstep.clownstep
-}
+	/// <summary>
+	/// Play footsteps at given position. It will handle all the logic to determine
+	/// the proper sound to use.
+	/// </summary>
+	/// <param name="worldPos">Where in the world is this sound coming from. Also used to get the type of tile</param>
+	/// <param name="stepType">What kind of step does the creature walking have</param>
+	/// <param name="performer">The creature making the sound</param>
+	public static void FootstepAtPosition(Vector3 worldPos, StepType stepType, GameObject performer)
+	{
+		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
+		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
+		var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
 
-public enum HeavyFootstep
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
-	clownstep = Footstep.clownstep
-}
+		if (tile != null)
+		{
+			if (step)
+			{
+				PlayNetworkedAtPos(
+					Instance.stepSounds[stepType][tile.floorTileType].PickRandom(),
+					worldPos,
+					Random.Range(0.7f, 1.2f),
+					Global: false,
+					polyphonic: true,
+					sourceObj: performer
+				);
+			}
 
-public enum ClawFootstep
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
-	clownstep = Footstep.clownstep
-}
+			step = !step;
+		}
+	}
 
-public enum ClownFoostep
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
+	private readonly Dictionary<StepType, Dictionary<FloorTileType, List<string>>> stepSounds = new Dictionary<StepType, Dictionary<FloorTileType, List<string>>>()
+	{
+		{
+			StepType.Barefoot,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string>
+						{"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"grass1", "grass2", "grass3", "grass4"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"lava1", "lava2", "lava3"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"woodbarefoot1", "woodbarefoot2", "woodbarefoot3", "woodbarefoot4", "woodbarefoot5"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				}
+			}
+		},
+		{
+			StepType.Claw,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string> {"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"grass1", "grass2", "grass3", "grass4"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"lava1", "lava2", "lava3"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"woodclaw1", "woodclaw2", "woodclaw3", "woodclaw4", "woodclaw5"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				}
+			}
+		},
+		{
+			StepType.Shoes,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"floor1", "floor2", "floor3", "floor4", "floor5"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string> {"carpet1", "carpet2", "carpet3", "carpet4", "carpet5"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"grass1", "grass2", "grass3", "grass4"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"lava1", "lava2", "lava3"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"plating1", "plating2", "plating3", "plating4", "plating5"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"wood1", "wood2", "wood3", "wood4", "wood5"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+			}
+		},
+		{
+			StepType.Suit,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"lava1", "lava2", "lava3"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+			}
+		},
+		{
+			StepType.Heavy,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"lava1", "lava2", "lava3"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+			}
+		},
+		{
+			StepType.Clown,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				}
+			}
+		}
+	};
 }

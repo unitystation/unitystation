@@ -77,8 +77,12 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 					{
 						void ProgressComplete()
 						{
-							Chat.AddExamineMsgFromServer(interaction.Performer, "You " + (Controller.IsWelded ? "unweld" : "weld") + " the door.");
-							Controller.ServerTryWeld();
+							if (Controller != null)
+							{
+								Chat.AddExamineMsgFromServer(interaction.Performer,
+									"You " + (Controller.IsWelded ? "unweld" : "weld") + " the door.");
+								Controller.ServerTryWeld();
+							}
 						}
 
 						var bar = StandardProgressAction.CreateForWelder(ProgressConfig, ProgressComplete, welder)

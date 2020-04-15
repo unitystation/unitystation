@@ -94,7 +94,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				{
 					//locally predict
 					canSwap = UIManager.CurrentIntent == Intent.Help
-							  && !PlayerScript.pushPull.IsPullingSomething;
+					          && !PlayerScript.pushPull.IsPullingSomething;
 				}
 			}
 			else
@@ -103,12 +103,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				canSwap = isSwappable;
 			}
 			return canSwap
-				   //don't swap with ghosts
-				   && !PlayerScript.IsGhost
-				   //pass through players if we can
-				   && !registerPlayer.IsPassable(isServer)
-				   //can't swap with buckled players, they're strapped down
-				   && !IsBuckled;
+			       //don't swap with ghosts
+			       && !PlayerScript.IsGhost
+			       //pass through players if we can
+			       && !registerPlayer.IsPassable(isServer)
+			       //can't swap with buckled players, they're strapped down
+			       && !IsBuckled;
 		}
 	}
 
@@ -123,11 +123,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
-	[FormerlySerializedAs("speed")] public float InitialRunSpeed = 6;
-	[HideInInspector] public float RunSpeed = 6;
-
-	public float WalkSpeed = 3;
-	public float CrawlSpeed = 0.8f;
+	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
+	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
+	[HideInInspector] public float CrawlSpeed;
 
 	/// <summary>
 	/// Player will fall when pushed with such speed
@@ -149,7 +147,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
-		RunSpeed = InitialRunSpeed;
+		RunSpeed = 6;
+		WalkSpeed = 3;
+		CrawlSpeed = 0.8f;
 	}
 
 	public override void OnStartClient()
@@ -299,7 +299,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		{
 			// Converting world direction to local direction
 			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
-											  direction);
+			                                  direction);
 		}
 
 
@@ -340,7 +340,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (netid == NetId.Invalid)
 		{
 			Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
-							" can only be used on objects with a Net ID. Ensure this object has one.",
+			                " can only be used on objects with a Net ID. Ensure this object has one.",
 				Category.Movement);
 			return;
 		}
@@ -470,6 +470,28 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		//ensure we are in sync with server
 		playerScript?.PlayerSync?.RollbackPrediction();
+	}
+
+	/// <summary>
+	/// Changes the player speed from Server. Values inputted as arguments will OVERRIDE the current speed!
+	/// </summary>
+	/// <param name="run">At what speed should the player run</param>
+	/// <param name="walk">At what speed should the player walk</param>
+	[Server]
+	public void ServerChangeSpeed(float run = 0f, float walk = 0f)
+	{
+		RunSpeed = run < CrawlSpeed ? CrawlSpeed : run;
+		WalkSpeed = walk < CrawlSpeed ? CrawlSpeed : walk;
+	}
+
+	private void SyncRunSpeed(float oldSpeed, float newSpeed)
+	{
+		this.RunSpeed = newSpeed;
+	}
+
+	private void SyncWalkSpeed(float oldSpeed, float newSpeed)
+	{
+		this.WalkSpeed = newSpeed;
 	}
 
 	public void CallActionClient()
@@ -621,6 +643,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	{
 		SyncCuffed(cuffed, this.cuffed);
 	}
+
+
 }
 
 /// <summary>

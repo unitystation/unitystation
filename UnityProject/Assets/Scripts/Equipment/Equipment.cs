@@ -17,6 +17,7 @@ public class Equipment : NetworkBehaviour, IExaminable
 	public bool IsInternalsEnabled;
 	private ItemSlot maskSlot;
 	private ItemStorage itemStorage;
+	public ItemStorage ItemStorage => itemStorage;
 
 	private void Awake()
 	{

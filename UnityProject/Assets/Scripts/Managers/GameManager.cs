@@ -27,8 +27,7 @@ public partial class GameManager : MonoBehaviour
 	/// <summary>
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
-	[SerializeField]
-	private readonly float RoundEndTime = 15f;
+	private readonly float RoundEndTime = 30f;
 
 	public float startTime;
 	/// <summary>
@@ -51,9 +50,6 @@ public partial class GameManager : MonoBehaviour
 
 	public DateTime stationTime;
 	public int RoundsPerMap = 10;
-
-	private int MapRotationCount = 0;
-	private int MapRotationMapsCounter = 0;
 
 	//Space bodies in the solar system <Only populated ServerSide>:
 	//---------------------------------
@@ -142,7 +138,7 @@ public partial class GameManager : MonoBehaviour
 		//Fills list of Vectors all along shuttle path
 		var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
 		var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
-		
+
 
 		var distance = (int)Vector2.Distance(beginning, target);
 
@@ -406,8 +402,6 @@ public partial class GameManager : MonoBehaviour
 	{
 		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
 		yield return WaitFor.Seconds(RoundEndTime);
-		// Prevents annoying sound duplicate when testing
-		yield return WaitFor.Seconds(60f);
 		RestartRound();
 	}
 
