@@ -1,4 +1,6 @@
-﻿using Mirror;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class ConveyorBelt : NetworkBehaviour
@@ -13,8 +15,6 @@ public class ConveyorBelt : NetworkBehaviour
 	public SpriteHandler spriteHandler;
 
 	private RegisterTile registerTile;
-
-	private int count = 0;
 
 	private Vector3 position;
 
@@ -52,6 +52,25 @@ public class ConveyorBelt : NetworkBehaviour
 		CurrentDirection = newDirection;
 	}
 
+	[Server]
+	public void ServerChangeStatus(int newStatusTest)
+	{
+		Logger.Log("ServerChangeStatus: "+ newStatusTest);
+		if (newStatusTest == 0)
+		{
+			CurrentStatus = ConveyorStatus.Backward;
+		}
+		else if (newStatusTest == 1)
+		{
+			CurrentStatus = ConveyorStatus.Off;
+		}
+		else
+		{
+			CurrentStatus = ConveyorStatus.Forward;
+		}
+		Logger.Log("Current status " + CurrentStatus);
+	}
+
 	protected virtual void UpdateMe()
 	{
 		if (isServer)
@@ -59,12 +78,13 @@ public class ConveyorBelt : NetworkBehaviour
 			timeElapsedServer += Time.deltaTime;
 			if (timeElapsedServer > AnimationSpeed)
 			{
-				DetectItems();
-				ChangeDirection();
+				//ChangeDirection();
 
 				//ServerChangeState(CurrentStatus, CurrentDirection);
 
 				ChangeAnimation();
+
+				DetectItems();
 
 				timeElapsedServer = 0;
 			}
@@ -97,22 +117,22 @@ public class ConveyorBelt : NetworkBehaviour
 
 		CurrentDirection = MappedDirection;
 
-		if (ConnectedSwitch == null) return;
+		//if (ConnectedSwitch == null) return;
 
-		LastStatus = CurrentStatus;
+		//LastStatus = CurrentStatus;
 
-		if (ConnectedSwitch.CurrentState == 0)
-		{
-			CurrentStatus = ConveyorStatus.Backward;
-		}
-		else if (ConnectedSwitch.CurrentState == 1)
-		{
-			CurrentStatus = ConveyorStatus.Off;
-		}
-		else
-		{
-			CurrentStatus = ConveyorStatus.Forward;
-		}
+		//if (ConnectedSwitch.CurrentState == 0)
+		//{
+		//	CurrentStatus = ConveyorStatus.Backward;
+		//}
+		//else if (ConnectedSwitch.CurrentState == 1)
+		//{
+		//	CurrentStatus = ConveyorStatus.Off;
+		//}
+		//else
+		//{
+		//	CurrentStatus = ConveyorStatus.Forward;
+		//}
 
 		if (!isServer) return;
 
@@ -136,9 +156,9 @@ public class ConveyorBelt : NetworkBehaviour
 	{
 		if (ConnectedSwitch == null) return;
 
-		Logger.Log("Connected switch not null");
-
 		LastStatus = CurrentStatus;
+
+		Logger.Log("Connected Switch: "+ ConnectedSwitch.CurrentState);
 
 		if (ConnectedSwitch.CurrentState == 0)
 		{
@@ -309,6 +329,7 @@ public class ConveyorBelt : NetworkBehaviour
 
 #endif
 }
+
 public enum ConveyorStatus
 {
 	Forward = 0,

@@ -6,6 +6,8 @@ public class ConveyorBeltSwitch : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	public SpriteRenderer spriteRenderer;
 
+	public ConveyorBelt[] conveyorBelts;
+
 	public Sprite Forward;
 	public Sprite Backward;
 	public Sprite Off;
@@ -48,6 +50,12 @@ public class ConveyorBeltSwitch : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			spriteRenderer.sprite = Forward;
 			CurrentState = 2;
+		}
+		//Logger.Log("CurrentState " + CurrentState);
+
+		foreach (var conveyorBelt in conveyorBelts)
+		{
+			conveyorBelt.ServerChangeStatus(CurrentState);
 		}
 	}
 }
