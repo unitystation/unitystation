@@ -6,7 +6,7 @@ using Grpc.Core;
 using Mirror;
 using UnityEngine;
 
-public class ConveyorBelt : NetworkBehaviour
+public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SerializeField]
 	private float AnimationSpeed = 1f;
@@ -60,6 +60,8 @@ public class ConveyorBelt : NetworkBehaviour
 	{
 		registerTile = GetComponent<RegisterTile>();
 		CurrentDirection = MappedDirection;
+		spriteHandler.ChangeSprite((int)CurrentStatus);
+		spriteHandler.ChangeSpriteVariant((int)CurrentDirection);
 	}
 
 	/* Make this object a subordinate object. Make the switch boss around the behavior of this thing*/
@@ -180,6 +182,51 @@ public class ConveyorBelt : NetworkBehaviour
 		DownRight = 6,
 		RightUp = 7
 	}
+
+
+	/* Construction stuff */
+
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		if (!Validations.IsTarget(gameObject, interaction)) return false;
+
+		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) || Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);// deconstruct(crowbar) and turn direction(wrench)
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+		{
+			//deconsruct
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+			"You start deconstructing the conveyor belt...",
+			$"{interaction.Performer.ExpensiveName()} starts deconstructing the conveyor belt...",
+			"You deconstruct the conveyor belt.",
+			$"{interaction.Performer.ExpensiveName()} deconstructs the conveyor belt.",
+			() =>
+			{
+				Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
+				Despawn.ServerSingle(gameObject);
+			});
+		}
+		else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))//change direction
+		{
+			int count = (int)CurrentDirection + 1;
+
+			if (count > 7)
+			{
+				count = 0;
+			}
+
+			CurrentDirection = (ConveyorDirection)count;
+
+			spriteHandler.ChangeSpriteVariant(count);
+		}
+	}
+
 
 #if UNITY_EDITOR//no idea how to get this to work, so you can see the correct conveyor direction in editor
 

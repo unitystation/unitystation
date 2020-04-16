@@ -9,7 +9,7 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 {
 	public SpriteRenderer spriteRenderer;
 
-	public ConveyorBelt[] conveyorBelts;
+	public List<ConveyorBelt> conveyorBelts = new List<ConveyorBelt>();
 
 	public Sprite spriteForward;
 	public Sprite spriteBackward;
@@ -44,11 +44,6 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
-
-		foreach (ConveyorBelt conveyor in conveyorBelts)
-		{
-			conveyor.UpdateStatus(currentState);
-		}
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
@@ -67,6 +62,19 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
+
+		foreach (ConveyorBelt conveyor in conveyorBelts)
+		{
+			if (conveyor != null)
+			{
+				conveyor.UpdateStatus(currentState);
+			}
+		}
+	}
+
+	public void AddConveyorBelt(ConveyorBelt newConveyorBelt)
+	{
+		conveyorBelts.Add(newConveyorBelt);
 	}
 
 	public enum State
