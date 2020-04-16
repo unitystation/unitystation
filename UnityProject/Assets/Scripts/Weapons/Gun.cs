@@ -25,6 +25,9 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	private static readonly float MIN_SHAKE_INTENSITY = 0.01f;
 	*/
 
+	[SerializeField]
+	private GameObject ammoPrefab = null;
+
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
 	/// </summary>
@@ -185,7 +188,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			Logger.LogTraceFormat("Auto-populate internal magazine for {0}", Category.Inventory, name);
 
 			//Make generic magazine and modify it to fit weapon
-			GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(AmmoType.Internal);
+			//GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(AmmoType.Internal);
 
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 
@@ -203,7 +206,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
 
 			//AmmoPrefabs
-			GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
+			//GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
 
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 		}
