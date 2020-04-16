@@ -24,7 +24,7 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 
 		if (!Validations.IsTarget(gameObject, interaction)) return false;
 
-		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) || interaction.HandObject == null;
+		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) || interaction.HandObject == null || Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
 	}
 
 	private void SyncSwitchState(State oldValue, State newValue)
@@ -69,6 +69,23 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 				currentState = State.Off;
 				spriteRenderer.sprite = spriteOff;
 				conveyorBelts.Clear();
+			});
+		}
+		else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+		{
+			//deconsruct
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+			"You start deconstructing the conveyor belt switch...",
+			$"{interaction.Performer.ExpensiveName()} starts deconstructing the conveyor belt switch...",
+			"You deconstruct the conveyor belt switch.",
+			$"{interaction.Performer.ExpensiveName()} deconstructs the conveyor belt switch.",
+			() =>
+			{
+				currentState = State.Off;
+				spriteRenderer.sprite = spriteOff;
+				conveyorBelts.Clear();
+				Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
+				Despawn.ServerSingle(gameObject);
 			});
 		}
 		else
