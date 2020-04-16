@@ -200,29 +200,19 @@ public class JoinedViewer : NetworkBehaviour
 		{
 			jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
 		}
-		CmdPlayerReady(netIdentity, DatabaseAPI.ServerData.UserID, isReady, jsonCharSettings);
+		CmdPlayerReady(isReady, jsonCharSettings);
 	}
 
 	[Command]
-	private void CmdPlayerReady(NetworkIdentity networkIdentity, string userID, bool isReady, string jsonCharSettings)
+	private void CmdPlayerReady(bool isReady, string jsonCharSettings)
 	{
-		var byConnection = PlayerList.Instance.GetByConnection(networkIdentity.connectionToClient);
-		var byUserID = PlayerList.Instance.GetByUserID(userID);
-
-		// Double check connection and userID
-		if (byConnection != byUserID)
-		{
-			Logger.LogErrorFormat("Client's NetworkConnection and UserID point to different players!\n" +
-								  "Player from connection: {0}\n" +
-								  "Player from UserID: {1}", Category.Exploits, byConnection, byUserID);
-			return;
-		}
+		var player = PlayerList.Instance.GetByConnection(connectionToClient);
 
 		CharacterSettings charSettings = null;
 		if (isReady)
 		{
 			charSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
 		}
-		PlayerList.Instance.SetPlayerReady(byConnection, isReady, charSettings);
+		PlayerList.Instance.SetPlayerReady(player, isReady, charSettings);
 	}
 }
