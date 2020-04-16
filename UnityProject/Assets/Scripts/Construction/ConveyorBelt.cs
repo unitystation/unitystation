@@ -18,7 +18,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[SyncVar]
 	private bool SyncInverted = false;
 
-	public bool Inverted = false;
+	public bool Inverted = false;// this is read only during runtime, but sets SyncInverted on Start.
 
 	private float timeElapsedServer = 0;
 	private float timeElapsedClient = 0;
@@ -71,10 +71,9 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		registerTile = GetComponent<RegisterTile>();
 		CurrentDirection = MappedDirection;
 
-		SyncInverted = Inverted;
-
 		if (isServer)
 		{
+			SyncInverted = Inverted;
 			UpdateDirection(CurrentDirection);
 		}
 
@@ -166,6 +165,14 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		foreach (var items in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Item, true))
 		{
 			Transport(items);
+		}
+
+		foreach (var objects in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Object, true))
+		{
+			if (objects.gameObject != gameObject)//dont move itself, lol
+			{
+				Transport(objects);
+			}
 		}
 	}
 
