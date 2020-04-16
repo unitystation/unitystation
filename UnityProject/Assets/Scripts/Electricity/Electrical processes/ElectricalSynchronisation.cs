@@ -371,15 +371,22 @@ public class ElectricalSynchronisation : MonoBehaviour
 	/// </summary>
 	private void PowerUpdateResistanceChange()
 	{
-		foreach (ElectricalNodeControl PoweredDevice in InitialiseResistanceChange)
+		for (int i = InitialiseResistanceChange.Count - 1; i >= 0; i--)
 		{
-			PoweredDevice.InitialPowerUpdateResistance();
+			if (i < InitialiseResistanceChange.Count)
+			{
+				InitialiseResistanceChange.ElementAt(i).InitialPowerUpdateResistance();
+			}
 		}
 
 		InitialiseResistanceChange.Clear();
-		foreach (ElectricalNodeControl PoweredDevice in ResistanceChange)
+
+		for (int i = ResistanceChange.Count - 1; i >= 0; i--)
 		{
-			PoweredDevice.PowerUpdateResistanceChange();
+			if (i < InitialiseResistanceChange.Count)
+			{
+				ResistanceChange.ElementAt(i).PowerUpdateResistanceChange();
+			}
 		}
 
 		ResistanceChange.Clear();

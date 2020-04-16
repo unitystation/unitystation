@@ -430,7 +430,7 @@ public class Pipe : NetworkBehaviour, IServerLifecycle
 	{
 		if (anchoredLayer)
 		{
-			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
+			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Floors");
 		}
 		else
 		{
