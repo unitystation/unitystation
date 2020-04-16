@@ -190,7 +190,8 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 			{
 				foreach (var lightSource in SelfPowerLights)
 				{
-					LightSwitchData Send = new LightSwitchData() { state = state, LightSwitch = this, RelatedAPC = RelatedAPC };
+					LightSwitchData Send = new LightSwitchData()
+						{state = state, LightSwitch = this, RelatedAPC = RelatedAPC};
 					lightSource.gameObject.SendMessage("Received", Send, SendMessageOptions.DontRequireReceiver);
 				}
 			}
@@ -218,7 +219,9 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 				{
 					var Send = new LightSwitchData()
 						{
-							state = state, LightSwitch = this, RelatedAPC = RelatedAPC
+							state = state,
+							LightSwitch = this,
+							RelatedAPC = RelatedAPC
 						};
 					localObject.SendMessage("Received", Send, SendMessageOptions.DontRequireReceiver);
 				}
@@ -227,7 +230,9 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 				{
 					var Send = new LightSwitchData()
 						{
-							LightSwitch = this, RelatedAPC = RelatedAPC, SelfPowered = SelfPowered
+							LightSwitch = this,
+							RelatedAPC = RelatedAPC,
+							SelfPowered = SelfPowered
 						};
 					localObject.SendMessage("EmergencyLight", Send, SendMessageOptions.DontRequireReceiver);
 				}

@@ -330,6 +330,12 @@ public class LightSource : ObjectTrigger
 		}
 	}
 
+	public void SubscribeToSwitch(ref Action<bool> triggerEvent)
+	{
+		Debug.Log("Light source is subscribed");
+		triggerEvent += Trigger;
+	}
+
 	// Handle sync failure.
 	private IEnumerator WaitToTryAgain()
 	{
