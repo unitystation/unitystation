@@ -192,7 +192,8 @@ public class SoundManager : MonoBehaviour
 	{
 		for (int i = pooledSources.Count - 1; i > 0; i--)
 		{
-			if (pooledSources[i] != null && !pooledSources[i].isPlaying)
+			if (pooledSources[i] != null && pooledSources[i].gameObject != null
+			                             && !pooledSources[i].isPlaying)
 			{
 				pooledSources[i].isPlaying = true;
 				CopySource(pooledSources[i].audioSource, sourceToCopy);
