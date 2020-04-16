@@ -4,11 +4,11 @@ using UnityEngine;
 
 
 
-public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
+public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IInteractable<HandActivate>
 {
 
 	public APC APCBuffer;
-	public ConveyorBelt ConveyorBeltBuffer;
+	public List<ConveyorBelt> ConveyorBeltBuffer = new List<ConveyorBelt>();
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -70,7 +70,7 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			if (conveyorBelt != null)
 			{
 				Chat.AddExamineMsgFromServer(interaction.Performer, "You set the internal buffer of the multitool to the Conveyor Belt");
-				ConveyorBeltBuffer = conveyorBelt;
+				ConveyorBeltBuffer.Add(conveyorBelt);
 			}
 			ConveyorBeltSwitch conveyorBeltSwitch = interaction.TargetObject.GetComponent<ConveyorBeltSwitch>();
 			if (conveyorBeltSwitch != null)
@@ -86,5 +86,11 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 				}
 			}
 		}
+	}
+
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		Chat.AddExamineMsgFromServer(interaction.Performer, "Conveyor Belt buffer cleared");
+		ConveyorBeltBuffer.Clear();
 	}
 }

@@ -72,9 +72,15 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 		}
 	}
 
-	public void AddConveyorBelt(ConveyorBelt newConveyorBelt)
+	public void AddConveyorBelt(List<ConveyorBelt> newConveyorBelts)
 	{
-		conveyorBelts.Add(newConveyorBelt);
+		foreach (var conveyor in newConveyorBelts)
+		{
+			if (!conveyorBelts.Contains(conveyor))
+			{
+				conveyorBelts.Add(conveyor);
+			}
+		}
 	}
 
 	public enum State

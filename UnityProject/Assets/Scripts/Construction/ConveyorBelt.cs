@@ -9,7 +9,7 @@ using UnityEngine;
 public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SerializeField]
-	private float AnimationSpeed = 1f;
+	private float ConveyorBeltSpeed = 0.5f; //does not change animation speed! Only detection and teleport speed
 	[SerializeField]
 	private SpriteHandler spriteHandler;
 	[SerializeField]
@@ -31,7 +31,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (isServer)
 		{
 			timeElapsedServer += Time.deltaTime;
-			if (timeElapsedServer > AnimationSpeed)
+			if (timeElapsedServer > ConveyorBeltSpeed)
 			{
 				ChangeAnimation();
 				DetectItems();
@@ -41,7 +41,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		else
 		{
 			timeElapsedClient += Time.deltaTime;
-			if (timeElapsedClient > AnimationSpeed)
+			if (timeElapsedClient > ConveyorBeltSpeed)
 			{
 				ChangeAnimation();
 				timeElapsedClient = 0;
@@ -136,6 +136,8 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (CurrentStatus == ConveyorStatus.Off) return;
 
+		if (!Matrix.IsPassableAt(registerTile.LocalPositionServer, Vector3Int.RoundToInt(registerTile.LocalPositionServer + position), true)) return;
+		
 		foreach (var player in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true))
 		{
 			TransportPlayers(player);
@@ -241,7 +243,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				count = 0;
 			}
 
-			ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
 			"You start redirecting the conveyor belt...",
 			$"{interaction.Performer.ExpensiveName()} starts redirecting the conveyor belt...",
 			"You redirect the conveyor belt.",

@@ -180,7 +180,7 @@ MonoBehaviour:
     EquippedData: {fileID: 4900000, guid: 82ac7ddef4e1ae745983d8bac934817f, type: 3}
   spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  SetSpriteOnStartUp: 0
 --- !u!1 &7144248469089430455
 GameObject:
   m_ObjectHideFlags: 0
@@ -419,6 +419,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  AnimationSpeed: 0.5
+  ConveyorBeltSpeed: 0.5
   spriteHandler: {fileID: 3569393190955387615}
   MappedDirection: 2
