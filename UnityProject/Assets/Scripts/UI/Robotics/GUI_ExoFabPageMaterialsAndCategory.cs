@@ -6,7 +6,6 @@ public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 {
 	[SerializeField] private EmptyItemList materialList;
 	[SerializeField] private EmptyItemList productCategoryList;
-	private bool inited = false;
 
 	//private Dictionary<ItemTrait, GUI_ExoFabMaterialEntry> materialEntries = new Dictionary<ItemTrait, GUI_ExoFabMaterialEntry>();
 

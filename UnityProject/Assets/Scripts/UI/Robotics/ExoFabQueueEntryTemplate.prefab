@@ -355,7 +355,7 @@ GameObject:
   - component: {fileID: 1553571790095564601}
   - component: {fileID: 3854159109261479322}
   m_Layer: 5
-  m_Name: ProductionEntryTemplate
+  m_Name: ExoFabQueueEntryTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -657,7 +657,7 @@ GameObject:
   - component: {fileID: 6590200504552184397}
   - component: {fileID: 4941634663395624675}
   - component: {fileID: 9144321841236066325}
-  - component: {fileID: 6888825755055271546}
+  - component: {fileID: 5001883350948800112}
   m_Layer: 5
   m_Name: QueueNumber
   m_TagString: Untagged
@@ -724,7 +724,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 1.
---- !u!114 &6888825755055271546
+--- !u!114 &5001883350948800112
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -733,7 +733,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7075387600833157468}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Script: {fileID: 11500000, guid: d60b002c9e21fac4eb6be1f59badd77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7461367673459827910
@@ -824,7 +824,7 @@ GameObject:
   - component: {fileID: 42767936224599402}
   - component: {fileID: 5582018048348906623}
   - component: {fileID: 3499068315302685713}
-  - component: {fileID: 1283684970856873160}
+  - component: {fileID: 2490866684396635274}
   m_Layer: 5
   m_Name: ProductName
   m_TagString: Untagged
@@ -891,7 +891,7 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: cyborg left arm
---- !u!114 &1283684970856873160
+--- !u!114 &2490866684396635274
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -900,7 +900,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8031279648812949713}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 21afa0ea296b4f4091642a323912e6e5, type: 3}
+  m_Script: {fileID: 11500000, guid: d60b002c9e21fac4eb6be1f59badd77c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &8590453890886158680

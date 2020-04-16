@@ -19,6 +19,9 @@ public class GUI_ExosuitFabricator : NetTab
 	private GUI_ExoFabQueueDisplay queueDisplay = null;
 
 	[SerializeField]
+	private GUI_ExoFabPageBuildingProcess buildingPage = null;
+
+	[SerializeField]
 	private NetPageSwitcher nestedSwitcher = null;
 
 	private ExosuitFabricator exosuitFabricator;
@@ -46,7 +49,13 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public ExoFabProcessQueueClickedEvent OnProcessQueueClicked { get => onProcessQueueClicked; }
 
+	private ExoFabProductFinishedEvent onProductFinishedEvent;
+
+	public ExoFabProductFinishedEvent OnProductFinishedEvent { get => onProductFinishedEvent; }
+
 	private bool inited = false;
+	private bool isUpdating = false;
+	private bool isProcessing = false;
 
 	protected override void InitServer()
 	{
@@ -92,10 +101,14 @@ public class GUI_ExosuitFabricator : NetTab
 
 		onProcessQueueClicked.AddListener(ProcessQueue);
 
+		onProductFinishedEvent = new ExoFabProductFinishedEvent();
+
+		onProductFinishedEvent.AddListener(ProcessQueue);
+
 		//Makes sure it connects with the ExosuitFabricator
 		exosuitFabricator = Provider.GetComponentInChildren<ExosuitFabricator>();
 		//Subscribes to the MaterialsManipulated event
-		ExosuitFabricator.MaterialsManipulated += UpdateServerMaterials;
+		ExosuitFabricator.MaterialsManipulated += UpdateMaterialsDisplay;
 
 		materialsAndCategoryDisplay.InitMaterialList(exosuitFabricator.materialStorage);
 		materialsAndCategoryDisplay.InitCategories(exosuitFabricator.exoFabProducts);
@@ -103,7 +116,7 @@ public class GUI_ExosuitFabricator : NetTab
 	}
 
 	//Updates the GUI and adds any visible NetUIElements to the server.
-	public void UpdateServerMaterials()
+	public void UpdateMaterialsDisplay()
 	{
 		materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorage);
 	}
@@ -111,7 +124,11 @@ public class GUI_ExosuitFabricator : NetTab
 	//Everytime someone new looks at the tab, update the tab for the client
 	public void UpdateGUIForPeepers(ConnectedPlayer notUsed)
 	{
-		StartCoroutine(WaitForClient());
+		if (!isUpdating)
+		{
+			isUpdating = true;
+			StartCoroutine(WaitForClient());
+		}
 	}
 
 	private IEnumerator WaitForClient()
@@ -119,6 +136,7 @@ public class GUI_ExosuitFabricator : NetTab
 		yield return new WaitForSeconds(0.2f);
 		materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorage);
 		queueDisplay.UpdateQueue();
+		isUpdating = false;
 	}
 
 	//Used by buttons, which contains the amount and type to dispense
@@ -129,17 +147,52 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public void AddProductToQueue(MachineProduct product)
 	{
-		queueDisplay.CurrentProducts.Add(product);
-		queueDisplay.UpdateQueue();
+		queueDisplay.AddToQueue(product);
 	}
 
 	public void ProcessQueue()
 	{
-		MachineProduct ProcessedProduct = queueDisplay.CurrentProducts[0];
-		if (exosuitFabricator.CanProcessProduct(ProcessedProduct))
+		//Checks if there's still products in the queue and if it's already processing
+		if (queueDisplay.CurrentProducts.Count > 0 && !isProcessing)
 		{
+			MachineProduct processedProduct = queueDisplay.CurrentProducts[0];
+			StartCoroutine(ProcessQueueUntilUnable(processedProduct));
+		}
+		else if (isProcessing)
+		{
+			//Do nothing
+		}
+		else
+		{
+			isProcessing = false;
+			if (buildingPage.IsAnimating) { buildingPage.StopAnimatingLabel(); }
+			if (!nestedSwitcher.CurrentPage.Equals(materialsAndCategoryDisplay)) { nestedSwitcher.SetActivePage(materialsAndCategoryDisplay); }
+			UpdateMaterialsDisplay();
+		}
+	}
+
+	private IEnumerator ProcessQueueUntilUnable(MachineProduct processedProduct)
+	{
+		if (exosuitFabricator.CanProcessProduct(processedProduct))
+		{
+			if (!nestedSwitcher.CurrentPage.Equals(buildingPage)) { nestedSwitcher.SetActivePage(buildingPage); }
+
+			isProcessing = true;
 			queueDisplay.RemoveProduct(0);
-			//Need more logic here, continue until it cannot process more products
+			queueDisplay.UpdateQueue();
+			buildingPage.SetProductLabelProductName(processedProduct.Name);
+			buildingPage.StartAnimateLabel();
+
+			yield return new WaitForSeconds(processedProduct.ProductionTime + 0.2f);
+
+			isProcessing = false;
+			onProductFinishedEvent.Invoke();
+		}
+		else
+		{
+			isProcessing = false;
+			buildingPage.StopAnimatingLabel();
+			nestedSwitcher.SetActivePage(materialsAndCategoryDisplay);
 		}
 	}
 
@@ -154,7 +207,7 @@ public class GUI_ExosuitFabricator : NetTab
 		//	productEntries.SetActive(false);
 		//}
 		nestedSwitcher.SetActivePage(materialsAndCategoryDisplay);
-		UpdateServerMaterials();
+		UpdateMaterialsDisplay();
 	}
 
 	public void RemoveFromQueue(int productNumber)
@@ -195,7 +248,7 @@ public class GUI_ExosuitFabricator : NetTab
 
 	private void OnDestroy()
 	{
-		ExosuitFabricator.MaterialsManipulated -= UpdateServerMaterials;
+		ExosuitFabricator.MaterialsManipulated -= UpdateMaterialsDisplay;
 	}
 }
 
@@ -236,5 +289,10 @@ public class ExoFabClearQueueClickedEvent : UnityEvent
 
 [System.Serializable]
 public class ExoFabProcessQueueClickedEvent : UnityEvent
+{
+}
+
+[System.Serializable]
+public class ExoFabProductFinishedEvent : UnityEvent
 {
 }

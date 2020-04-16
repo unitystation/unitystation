@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class GUI_ExoFabQueueDisplay : NetUIElement
 {
+	private DictionaryMaterialToIntAmount MaterialAmountCache;
+
 	private List<MachineProduct> currentProducts = new List<MachineProduct>();
 	public List<MachineProduct> CurrentProducts { get => currentProducts; }
 
@@ -13,24 +15,36 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 	public int MaxProductsInQueue { get => maxProductsInQueue; }
 
 	[SerializeField]
+	private GUI_ExoFabButton processQueueButton;
+
+	[SerializeField]
+	private GUI_ExoFabButton clearQueueButton;
+
+	[SerializeField]
 	private EmptyItemList itemsInQueue;
 
 	public void MoveProductUpInQueue(int productNumber)
 	{
-		MachineProduct temp1 = currentProducts[productNumber];
-		MachineProduct temp2 = currentProducts[productNumber - 1];
-		currentProducts[productNumber] = temp2;
-		currentProducts[productNumber - 1] = temp1;
-		UpdateQueue();
+		if (productNumber != 0)
+		{
+			MachineProduct temp1 = currentProducts[productNumber];
+			MachineProduct temp2 = currentProducts[productNumber - 1];
+			currentProducts[productNumber] = temp2;
+			currentProducts[productNumber - 1] = temp1;
+			UpdateQueue();
+		}
 	}
 
 	public void MoveProductDownInqueue(int productNumber)
 	{
-		MachineProduct temp1 = currentProducts[productNumber];
-		MachineProduct temp2 = currentProducts[productNumber + 1];
-		currentProducts[productNumber + 1] = temp1;
-		currentProducts[productNumber] = temp2;
-		UpdateQueue();
+		if (currentProducts.Count != productNumber - 1)
+		{
+			MachineProduct temp1 = currentProducts[productNumber];
+			MachineProduct temp2 = currentProducts[productNumber + 1];
+			currentProducts[productNumber + 1] = temp1;
+			currentProducts[productNumber] = temp2;
+			UpdateQueue();
+		}
 	}
 
 	public void RemoveProduct(int numberInQueue)
@@ -47,11 +61,12 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 
 	public void AddToQueue(MachineProduct product)
 	{
-		if (currentProducts.Count >= maxProductsInQueue)
+		if (currentProducts.Count <= maxProductsInQueue)
 		{
 			currentProducts.Add(product);
 			UpdateQueue();
 		}
+		else Logger.Log("Queue is full!!!");
 	}
 
 	public void UpdateQueue()
@@ -66,6 +81,21 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 			item.ReInit();
 			DisableUpDownButtons(item);
 		}
+		SetProcessAndClearButtonInteractable();
+	}
+
+	private void SetProcessAndClearButtonInteractable()
+	{
+		if (currentProducts.Count == 0)
+		{
+			processQueueButton.SetValue = "false";
+			clearQueueButton.SetValue = "false";
+		}
+		else
+		{
+			processQueueButton.SetValue = "true";
+			clearQueueButton.SetValue = "true";
+		}
 	}
 
 	//The first entry on list must have its up button disabled, the last down button disabled.
@@ -75,6 +105,7 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 		if (currentProducts.Count == 1)
 		{
 			item.DownButton.SetValue = "false";
+			item.UpButton.SetValue = "false";
 		}
 		else
 		{

@@ -35,6 +35,8 @@ public class GUI_ExoFabQueueItem : DynamicEntry
 	public GUI_ExoFabButton UpButton { get => upButton; }
 	private GUI_ExoFabButton downButton;
 	public GUI_ExoFabButton DownButton { get => downButton; }
+	private GUI_ExoFabQueueLabel numberInQueueColorElement;
+	private GUI_ExoFabQueueLabel productTextColorElement;
 
 	public void ForwardInQueue()
 	{
@@ -54,6 +56,10 @@ public class GUI_ExoFabQueueItem : DynamicEntry
 		else { ExoFabMasterTab?.OnRemoveProductClicked.Invoke(NumberInQueue); }
 	}
 
+	public void SetTextToRed()
+	{
+	}
+
 	public void ReInit()
 	{
 		if (product == null)
@@ -67,10 +73,12 @@ public class GUI_ExoFabQueueItem : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "QueueNumber":
+					numberInQueueColorElement = element as GUI_ExoFabQueueLabel;
 					element.SetValue = NumberInQueue.ToString();
 					break;
 
 				case "ProductName":
+					productTextColorElement = element as GUI_ExoFabQueueLabel;
 					element.SetValue = Product.Name;
 					break;
 
