@@ -28,6 +28,8 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 	public string InitialName => initialName;
 
+	public string InitialDescription => initialDescription;
+
 	[Tooltip("Description of this item when spawned.")]
 	[SerializeField]
 	private string initialDescription = null;
@@ -159,9 +161,9 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 		string str = "This is a " + displayName + ".";
 
-		if (!string.IsNullOrEmpty(initialDescription))
+		if (!string.IsNullOrEmpty(ArticleDescription))
 		{
-			str = str + " " + initialDescription;
+			str = str + " " + ArticleDescription;
 		}
 		return str;
 	}
