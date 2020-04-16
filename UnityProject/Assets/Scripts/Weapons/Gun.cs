@@ -51,6 +51,12 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	[HideInInspector]
 	public bool MagInternal = false;
 
+
+	/// <summary>
+	/// State whether or not you can remove the mag from the gun
+	/// </summary>
+	public bool CanRemovableMag = true;
+
 	/// <summary>
 	///     If the gun should eject it's magazine automatically (external-magazine-specific)
 	/// </summary>
@@ -244,7 +250,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//firing countdown
 		if (Projectile != null && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 		{
-			if (SmartGun) // should be forced off when using an internal magazine
+			if (SmartGun && CanRemovableMag) // should be forced off when using an internal magazine
 			{
 				RequestUnload(CurrentMagazine);
 				OutOfAmmoSFX();
@@ -325,7 +331,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	public bool Interact(HandActivate interaction)
 	{
 		//try ejecting the mag if external
-		if (CurrentMagazine != null && !MagInternal)
+		if (CurrentMagazine != null && !MagInternal && CanRemovableMag)
 		{
 			RequestUnload(CurrentMagazine);
 			return true;
@@ -400,7 +406,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			DequeueAndProcessServerShot();
 		}
 
-		if (queuedUnload && queuedShots.Count == 0)
+		if (queuedUnload && queuedShots.Count == 0 && CanRemovableMag)
 		{
 			// done processing shot queue,
 			// perform the queued unload action, causing all clients and server to update their version of this Weapon

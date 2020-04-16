@@ -110,7 +110,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// Decrease ammo count by given number.
 	/// </summary>
 	/// <returns></returns>
-	public void ExpendAmmo(int amount = 1)
+	public virtual void ExpendAmmo(int amount = 1)
 	{
 		if (ClientAmmoRemains < amount)
 		{
@@ -197,6 +197,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// </summary>
 	/// <returns></returns>
 	public double CurrentRNG()
+
 	{
 		double currentRNG = RNGContents[clientAmmoRemains];
 		Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, currentRNG, serverAmmoRemains, clientAmmoRemains);
