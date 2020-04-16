@@ -1,58 +1,46 @@
 ﻿using System;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GUI_PreRoundWindow : MonoBehaviour
 {
+	// Text objects
 	[SerializeField]
 	private TMP_Text currentGameMode = null;
 	[SerializeField]
 	private TMP_Text timer = null;
 	[SerializeField]
 	private TMP_Text playerCount = null;
+	[SerializeField]
+	private TMP_Text readyText = null;
 
+	// UI panels
 	[SerializeField]
 	private GameObject adminPanel = null;
 	[SerializeField]
 	private GameObject playerWaitPanel = null;
 	[SerializeField]
-	private GameObject countdownPanel = null;
+	private GameObject mainPanel = null;
 	[SerializeField]
 	private GameObject timerPanel = null;
 	[SerializeField]
-	private GameObject roundStarted = null;
+	private GameObject joinPanel = null;
 	[SerializeField]
+
+	// Character objects
 	private GameObject characterCustomization = null;
 	[SerializeField]
 	private Button characterButton = null;
-	[SerializeField]
-	private TMP_Text readyText = null;
 
+	// Internal variables
 	private bool doCountdown;
 	private float countdownTime;
 	private bool isReady;
 
-	private void OnEnable()
-	{
-		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
-		{
-			// In pre-round so reset ready status
-			isReady = false;
-			SetUIForCountdown();
-			// When the round starts the UI should change to joining
-			EventManager.AddHandler(EVENT.RoundStarted, SetUIForJoining);
-		}
-		else
-		{
-			// Not in pre-round so setup button for joining
-			SetUIForJoining();
-		}
-	}
-
 	private void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.RoundStarted, SetUIForJoining);
 		doCountdown = false;
 		adminPanel.SetActive(false);
 	}
@@ -108,7 +96,6 @@ public class GUI_PreRoundWindow : MonoBehaviour
 			Logger.LogError("Can only execute command from server.", Category.DebugConsole);
 			return;
 		}
-		OnCountdownEnd();
 		GameManager.Instance.StartRound();
 	}
 
@@ -117,9 +104,16 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		Logger.Log($"SyncCountdown called with: started={started}, time={time}", Category.Round);
 		countdownTime = time;
 		doCountdown = started;
+		if (started)
+		{
+			SetUIForCountdown();
+		}
+		else
+		{
+			SetUIForWaiting();
+		}
+		// Update now so timer doesn't flash 0:00
 		UpdateCountdown();
-		countdownPanel.SetActive(started);
-		playerWaitPanel.SetActive(!started);
 	}
 
 	public void OnCharacterButton()
@@ -128,20 +122,22 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		characterCustomization.SetActive(true);
 	}
 
+	/// <summary>
+	/// Toggle isReady and update the UI
+	/// </summary>
 	public void OnReadyButton()
 	{
 		SoundManager.Play("Click01");
+		SetReady(!isReady);
+	}
 
-		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
-		{
-			// Player can only toggle ready status in pre-round phase
-			SetReady(!isReady);
-		}
-		else
-		{
-			// Let the player choose a job when not in pre-round phase
-			UIManager.Display.SetScreenForJobSelect();
-		}
+	/// <summary>
+	/// Show the job select screen
+	/// </summary>
+	public void OnJoinButton()
+	{
+		SoundManager.Play("Click01");
+		UIManager.Display.SetScreenForJobSelect();
 	}
 
 	/// <summary>
@@ -161,22 +157,21 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Show timer panel and ready button
+	/// Show timer and ready button
 	/// </summary>
-	private void SetUIForCountdown()
+	public void SetUIForCountdown()
 	{
 		SetReady(isReady);
 		timerPanel.SetActive(true);
-		roundStarted.SetActive(false);
+		joinPanel.SetActive(false);
 	}
 
 	/// <summary>
-	/// Hide timer panel and show join button
+	/// Show round started and join button
 	/// </summary>
-	private void SetUIForJoining()
+	public void SetUIForJoining()
 	{
-		readyText.text = "Join now!";
+		joinPanel.SetActive(true);
 		timerPanel.SetActive(false);
-		roundStarted.SetActive(true);
 	}
 }

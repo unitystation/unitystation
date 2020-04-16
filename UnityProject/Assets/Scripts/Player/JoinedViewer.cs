@@ -119,11 +119,9 @@ public class JoinedViewer : NetworkBehaviour
 				// Round hasn't yet started, give players the pre-game screen
 				UIManager.Display.SetScreenForPreRound();
 				break;
-			// case RoundState.Started:
-			// TODO spawn a ghost if round has already ended?
 			default:
-				// occupation select
-				UIManager.Display.SetScreenForJobSelect();
+				// Show the joining screen
+				UIManager.Display.SetScreenForJoining();
 				break;
 		}
 	}
@@ -172,7 +170,7 @@ public class JoinedViewer : NetworkBehaviour
 	private void TargetSyncCountdown(NetworkConnection target, bool started, float countdownTime)
 	{
 		Logger.Log("Syncing countdown!", Category.Round);
-		UIManager.Instance.displayControl.preRoundWindow.GetComponent<GUI_PreRoundWindow>()
+		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>()
 			.SyncCountdown(started, countdownTime);
 	}
 
