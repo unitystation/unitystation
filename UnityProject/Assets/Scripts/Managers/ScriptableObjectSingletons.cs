@@ -20,6 +20,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public CommonCooldowns CommonCooldowns;
 	public AmmoPrefabs AmmoPrefabs;
 	public UIActionSOSingleton UIActionSOSingleton;
-	public WordFilterSO WordFilterSO;
 	public SpeechModManager SpeechModManager;
 }
