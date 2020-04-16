@@ -44,23 +44,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9bdd149a73a974c77bd23df0cb28c844, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  primaryEscapeShuttle: {fileID: 0}
+  GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
+  SecretGameMode: 1
+  Rebels: 
   counting: 0
   MinPlayersForCountdown: 1
-  startTime: 0
+  PreRoundTime: 120
+  RoundEndTime: 15
   NextGameMode: Random
   RespawnAllowed: 1
   roundTimer: {fileID: 0}
   waitForStart: 0
   RoundsPerMap: 10
-  Maps:
-  - Assets/scenes/PogStation.unity
   SpaceBodies: []
   minDistanceBetweenSpaceBodies: 200
   solarSystemRadius: 600
   CentComm: {fileID: 5244294626086762232}
-  primaryEscapeShuttle: {fileID: 0}
-  GameModeData: {fileID: 11400000, guid: 050782fd4c93a164e8100c4c7183d5b3, type: 2}
-  SecretGameMode: 1
 --- !u!114 &5244294626086762232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,3 +74,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 5243784332070655206}
+  CurrentAlertLevel: 1
+  coolDownAlertChange: 5

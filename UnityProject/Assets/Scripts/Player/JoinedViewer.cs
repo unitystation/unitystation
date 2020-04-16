@@ -76,7 +76,7 @@ public class JoinedViewer : NetworkBehaviour
 			if (GameManager.Instance.waitForStart)
 			{
 				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart,
-					GameManager.Instance.startTime);
+					GameManager.Instance.CountdownTime);
 			}
 			else
 			{
