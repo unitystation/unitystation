@@ -1,61 +1,78 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Mirror;
 using UnityEngine;
 
-public class ConveyorBeltSwitch : MonoBehaviour, ICheckedInteractable<HandApply>
+public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	public SpriteRenderer spriteRenderer;
 
 	public ConveyorBelt[] conveyorBelts;
 
-	public Sprite Forward;
-	public Sprite Backward;
-	public Sprite Off;
+	public Sprite spriteForward;
+	public Sprite spriteBackward;
+	public Sprite spriteOff;
 
 	private Sprite LastSprite;
 
-	public int CurrentState = 1; // 0 Backwards, 1 Off, 2 Forwards
+	[SyncVar(hook = nameof(SyncSwitchState))]
+	public State currentState = State.Off;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		return DefaultWillInteract.Default(interaction, side)
+		       && Validations.IsTarget(gameObject, interaction);
+	}
 
-		if (!Validations.IsTarget(gameObject, interaction)) return false;
+	private void SyncSwitchState(State oldValue, State newValue)
+	{
+		currentState = newValue;
 
-		return true;
+		switch (currentState)
+		{
+			case State.Off:
+				spriteRenderer.sprite = spriteOff;
+				break;
+			case State.Forward:
+				spriteRenderer.sprite = spriteForward;
+				break;
+			case State.Backward:
+				spriteRenderer.sprite = spriteBackward;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+
+		foreach (ConveyorBelt conveyor in conveyorBelts)
+		{
+			conveyor.UpdateStatus(currentState);
+		}
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (spriteRenderer.sprite == Forward)
+		switch (currentState)
 		{
-			LastSprite = spriteRenderer.sprite;
+			case State.Off:
+				currentState = State.Forward;
+				break;
+			case State.Forward:
+				currentState = State.Backward;
+				break;
+			case State.Backward:
+				currentState = State.Off;
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+	}
 
-			spriteRenderer.sprite = Off;
-			CurrentState = 1;
-		}
-		else if (spriteRenderer.sprite == Backward)
-		{
-			LastSprite = spriteRenderer.sprite;
-
-			spriteRenderer.sprite = Off;
-			CurrentState = 1;
-		}
-		else if(LastSprite == Forward)
-		{
-			spriteRenderer.sprite = Backward;
-			CurrentState = 0;
-		}
-		else
-		{
-			spriteRenderer.sprite = Forward;
-			CurrentState = 2;
-		}
-		//Logger.Log("CurrentState " + CurrentState);
-
-		foreach (var conveyorBelt in conveyorBelts)
-		{
-			conveyorBelt.ServerChangeStatus(CurrentState);
-		}
+	public enum State
+	{
+		Off = 0,
+		Forward = 1,
+		Backward = 2
 	}
 }
