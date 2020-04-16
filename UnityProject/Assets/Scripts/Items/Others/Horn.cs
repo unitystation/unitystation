@@ -34,7 +34,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthBehaviour targetHealth )
 	{
 		yield return WaitFor.Seconds( 0.02f );
-		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5, sourceObj: gameObject );
+		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5, sourceObj: GetHonkSoundObject());
 		targetHealth.ApplyDamageToBodypart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
 	}
 
@@ -65,7 +65,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 
 			ClassicHonk();
 
-			if ( isCrit )
+			if ( isCrit && interaction.Intent == Intent.Harm)
 			{
 				StartCoroutine( CritHonk( interaction, targetHealth ) );
 			}
@@ -80,7 +80,7 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 
 	private void ClassicHonk()
 	{
-		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: gameObject );
+		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: GetHonkSoundObject());
 	}
 
 	/// <summary>
@@ -100,5 +100,16 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 		if (interaction.HandObject != gameObject) return false;
 		return Validations.CanApply(interaction.Performer, interaction.TargetObject, side, true, ReachRange.Unlimited, interaction.TargetVector)
 				&& allowUse;
+	}
+
+	/// <summary>
+	/// Is called to find the object where the honk sound is played. 
+	/// </summary>
+	/// <returns>The GameObject where the sound for the Honk should be played.
+	/// If the horn is in an inventory, the container in which it is located is returned. </returns>
+	private GameObject GetHonkSoundObject()
+	{
+		ItemSlot itemslot = gameObject.GetComponent<Pickupable>().ItemSlot;
+		return itemslot != null ? itemslot.ItemStorage.gameObject : gameObject;
 	}
 }

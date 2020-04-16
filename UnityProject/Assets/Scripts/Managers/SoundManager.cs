@@ -44,7 +44,7 @@ public class SoundManager : MonoBehaviour
 	public static SongTracker SongTracker => soundManager.songTracker;
 
 	[SerializeField] private GameObject soundSpawnPrefab = null;
-	private List<AudioSource> pooledSources = new List<AudioSource>();
+	private List<SoundSpawn> pooledSources = new List<SoundSpawn>();
 
 	public static SoundManager Instance
 	{
@@ -179,7 +179,7 @@ public class SoundManager : MonoBehaviour
 		for (int i = 0; i < 20; i++)
 		{
 			var soundObj = Instantiate(soundSpawnPrefab, transform);
-			pooledSources.Add(soundObj.GetComponent<AudioSource>());
+			pooledSources.Add(soundObj.GetComponent<SoundSpawn>());
 		}
 	}
 
@@ -188,23 +188,27 @@ public class SoundManager : MonoBehaviour
 	/// This copies the sourceToCopy settings to a source taken from the pool
 	/// and return it.
 	/// </summary>
-	private AudioSource GetSourceFromPool(AudioSource sourceToCopy)
+	private SoundSpawn GetSourceFromPool(AudioSource sourceToCopy)
 	{
 		for (int i = pooledSources.Count - 1; i > 0; i--)
 		{
 			if (pooledSources[i] != null && !pooledSources[i].isPlaying)
 			{
-				return CopySource(pooledSources[i], sourceToCopy);
+				pooledSources[i].isPlaying = true;
+				CopySource(pooledSources[i].audioSource, sourceToCopy);
+				return pooledSources[i];
 			}
 		}
 
 		var soundObj = Instantiate(soundSpawnPrefab, transform);
-		var source = soundObj.GetComponent<AudioSource>();
+		var source = soundObj.GetComponent<SoundSpawn>();
 		pooledSources.Add(source);
-		return CopySource(source, sourceToCopy);
+		source.isPlaying = true;
+		CopySource(source.audioSource, sourceToCopy);
+		return source;
 	}
 
-	private AudioSource CopySource(AudioSource newSource, AudioSource sourceToCopy)
+	private void CopySource(AudioSource newSource, AudioSource sourceToCopy)
 	{
 		newSource.clip = sourceToCopy.clip;
 		newSource.loop = sourceToCopy.loop;
@@ -233,7 +237,6 @@ public class SoundManager : MonoBehaviour
 			sourceToCopy.GetCustomCurve(AudioSourceCurveType.SpatialBlend));
 		newSource.SetCustomCurve(AudioSourceCurveType.ReverbZoneMix,
 			sourceToCopy.GetCustomCurve(AudioSourceCurveType.ReverbZoneMix));
-		return newSource;
 	}
 
 	/// <summary>
@@ -340,12 +343,12 @@ public class SoundManager : MonoBehaviour
 		var sound = Instance.GetSourceFromPool(Instance.sounds[name]);
 		if (pitch > 0)
 		{
-			sound.pitch = pitch;
+			sound.audioSource.pitch = pitch;
 		}
 
-		sound.time = time;
-		sound.volume = volume;
-		sound.panStereo = pan;
+		sound.audioSource.time = time;
+		sound.audioSource.volume = volume;
+		sound.audioSource.panStereo = pan;
 		Instance.PlaySource(sound, oneShot);
 	}
 
@@ -371,27 +374,27 @@ public class SoundManager : MonoBehaviour
 		Instance.PlaySource(Instance.GetSourceFromPool(Instance.sounds[name]));
 	}
 
-	private void PlaySource(AudioSource source, bool polyphonic = false, bool Global = true)
+	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true)
 	{
 		if (!Global
 		    && PlayerManager.LocalPlayer != null
 		    && Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), source.transform.position, layerMask))
 		{
 			//Logger.Log("MuffledMixer");
-			source.outputAudioMixerGroup = soundManager.MuffledMixer;
+			source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
 		}
 		else
 		{
-			source.outputAudioMixerGroup = soundManager.DefaultMixer;
+			source.audioSource.outputAudioMixerGroup = soundManager.DefaultMixer;
 		}
 
 		if (polyphonic)
 		{
-			source.PlayOneShot(source.clip);
+			source.PlayOneShot();
 		}
 		else
 		{
-			source.Play();
+			source.PlayNormally();
 		}
 	}
 
@@ -441,7 +444,7 @@ public class SoundManager : MonoBehaviour
 
 		if (pitch > 0)
 		{
-			sound.pitch = pitch;
+			sound.audioSource.pitch = pitch;
 		}
 
 		if (netId != NetId.Empty)
@@ -480,9 +483,9 @@ public class SoundManager : MonoBehaviour
 			{
 				if (Instance.pooledSources[i] == null) continue;
 
-				if (Instance.pooledSources[i].isPlaying && Instance.pooledSources[i].clip == sound.clip)
+				if (Instance.pooledSources[i].isPlaying && Instance.pooledSources[i].audioSource.clip == sound.clip)
 				{
-					Instance.pooledSources[i].Stop();
+					Instance.pooledSources[i].audioSource.Stop();
 				}
 			}
 
@@ -496,9 +499,9 @@ public class SoundManager : MonoBehaviour
 				for (int i = Instance.pooledSources.Count - 1; i > 0; i--)
 				{
 					if (Instance.pooledSources[i] == null) continue;
-					if (Instance.pooledSources[i].isPlaying && Instance.pooledSources[i].clip == s.clip)
+					if (Instance.pooledSources[i].isPlaying && Instance.pooledSources[i].audioSource.clip == s.clip)
 					{
-						Instance.pooledSources[i].Stop();
+						Instance.pooledSources[i].audioSource.Stop();
 					}
 				}
 				s.Stop();
