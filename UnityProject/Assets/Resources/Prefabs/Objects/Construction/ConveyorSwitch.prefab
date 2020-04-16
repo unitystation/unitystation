@@ -204,7 +204,7 @@ MonoBehaviour:
   matrixDebugLogging: 0
   objectType: 1
   AtmosPassable: 1
-  Passable: 0
+  Passable: 1
 --- !u!114 &4216241947996897747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -317,9 +317,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2611eb35a2c5a44884395da52fbddd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   spriteRenderer: {fileID: 9179395053284328901}
   conveyorBelts: []
-  Forward: {fileID: 21300000, guid: 2076e3faddc91074fa1b0cebfe9672b1, type: 3}
-  Backward: {fileID: 21300000, guid: 32ff77b6e05d3aa4faee423469f979de, type: 3}
-  Off: {fileID: 21300000, guid: dda53721035c8c44ba2b12f974f26488, type: 3}
-  CurrentState: 1
+  spriteForward: {fileID: 21300000, guid: 2076e3faddc91074fa1b0cebfe9672b1, type: 3}
+  spriteBackward: {fileID: 21300000, guid: 32ff77b6e05d3aa4faee423469f979de, type: 3}
+  spriteOff: {fileID: 21300000, guid: dda53721035c8c44ba2b12f974f26488, type: 3}
+  currentState: 0
