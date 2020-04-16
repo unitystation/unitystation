@@ -51,17 +51,17 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			{
 				if (APCBuffer != null)
 				{
-					Chat.AddExamineMsgToClient("You set the power device to use the APC in the buffer");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "You set the power device to use the APC in the buffer");
 					PoweredDevice.SetAPC(APCBuffer);
 				}
 				else {
-					Chat.AddExamineMsgToClient("Your buffer is empty fill it with something");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "Your buffer is empty fill it with something");
 				}
 			}
 			APC _APC = interaction.TargetObject.GetComponent<APC>();
 			if (_APC != null)
 			{
-				Chat.AddExamineMsgToClient("You set the internal buffer of the multitool to the APC");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You set the internal buffer of the multitool to the APC");
 				APCBuffer = _APC;
 			}
 
@@ -69,7 +69,7 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			ConveyorBelt conveyorBelt = interaction.TargetObject.GetComponent<ConveyorBelt>();
 			if (conveyorBelt != null)
 			{
-				Chat.AddExamineMsgToClient("You set the internal buffer of the multitool to the Conveyor Belt");
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You set the internal buffer of the multitool to the Conveyor Belt");
 				ConveyorBeltBuffer = conveyorBelt;
 			}
 			ConveyorBeltSwitch conveyorBeltSwitch = interaction.TargetObject.GetComponent<ConveyorBeltSwitch>();
@@ -77,12 +77,12 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			{
 				if (ConveyorBeltBuffer != null)
 				{
-					Chat.AddExamineMsgToClient("You set the Conveyor Belt Switch to use the Conveyor Belt in the buffer");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "You set the Conveyor Belt Switch to use the Conveyor Belt in the buffer");
 					conveyorBeltSwitch.AddConveyorBelt(ConveyorBeltBuffer);
 				}
 				else
 				{
-					Chat.AddExamineMsgToClient("Your Conveyor Belt buffer is empty fill it with something");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "Your Conveyor Belt buffer is empty fill it with something");
 				}
 			}
 		}

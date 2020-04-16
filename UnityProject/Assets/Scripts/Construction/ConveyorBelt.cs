@@ -20,7 +20,10 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private RegisterTile registerTile;
 	private Vector3 position;
 	private Matrix Matrix => registerTile.Matrix;
+
+	[SyncVar(hook = nameof(SyncDirection))]
 	private ConveyorDirection CurrentDirection;
+
 	private ConveyorStatus CurrentStatus = ConveyorStatus.Off;
 
 	protected virtual void UpdateMe()
@@ -60,8 +63,25 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		registerTile = GetComponent<RegisterTile>();
 		CurrentDirection = MappedDirection;
+
+		if (isServer)
+		{
+			UpdateDirection(CurrentDirection);
+		}
+
 		spriteHandler.ChangeSprite((int)CurrentStatus);
 		spriteHandler.ChangeSpriteVariant((int)CurrentDirection);
+	}
+
+	public void SyncDirection(ConveyorDirection oldValue, ConveyorDirection newValue)
+	{
+		CurrentDirection = newValue;
+	}
+
+	[Server]
+	public void UpdateDirection(ConveyorDirection newValue)
+	{
+		CurrentDirection = newValue;
 	}
 
 	/* Make this object a subordinate object. Make the switch boss around the behavior of this thing*/
@@ -171,7 +191,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		Backward = 2,
 	}
 
-	private enum ConveyorDirection
+	public enum ConveyorDirection
 	{
 		Up = 0,
 		Down = 1,
@@ -221,9 +241,19 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				count = 0;
 			}
 
-			CurrentDirection = (ConveyorDirection)count;
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+			"You start redirecting the conveyor belt...",
+			$"{interaction.Performer.ExpensiveName()} starts redirecting the conveyor belt...",
+			"You redirect the conveyor belt.",
+			$"{interaction.Performer.ExpensiveName()} redirects the conveyor belt.",
+			() =>
+			{
+				CurrentDirection = (ConveyorDirection)count;
 
-			spriteHandler.ChangeSpriteVariant(count);
+				UpdateDirection(CurrentDirection);
+
+				spriteHandler.ChangeSpriteVariant(count);
+			});
 		}
 	}
 
