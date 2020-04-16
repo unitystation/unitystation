@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net.NetworkInformation;
-using UnityEngine;
+﻿using System.Net.NetworkInformation;
 using Mirror;
 
 /// <summary>
@@ -15,10 +12,8 @@ public class JoinedViewer : NetworkBehaviour
 	{
 		base.OnStartLocalPlayer();
 		PlayerManager.SetViewerForControl(this);
-		
-		CmdServerSetupPlayer(NetworkInterface.GetAllNetworkInterfaces().
-				Where(nic => nic.OperationalStatus == OperationalStatus.Up).
-				Select(nic => nic.GetPhysicalAddress().ToString()).FirstOrDefault(),
+
+		CmdServerSetupPlayer(GetNetworkInfo(),
 			PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
 			DatabaseAPI.ServerData.IdToken);
 	}
@@ -56,17 +51,9 @@ public class JoinedViewer : NetworkBehaviour
 		var isValidPlayer = await PlayerList.Instance.ValidatePlayer(unverifiedClientId, unverifiedUsername,
 			unverifiedUserid, unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
 		if (!isValidPlayer) return; //this validates Userid and Token
-		var Userid = unverifiedUserid;
+
 		// Check if they have a player to rejoin. If not, assign them a new client ID
-		GameObject loggedOffPlayer = null;
-		if (BuildPreferences.isForRelease)
-		{
-			loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyUserId(Userid);
-		}
-		else
-		{
-			loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId);
-		}
+		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId);
 
 		if (loggedOffPlayer != null)
 		{
@@ -78,20 +65,9 @@ public class JoinedViewer : NetworkBehaviour
 			}
 		}
 
-		if (loggedOffPlayer == null)
-		{
-			//This is the players first time connecting to this round, assign them a Client ID;
-			var oldID = unverifiedClientId;
-			unverifiedClientId = Guid.NewGuid().ToString();
-			unverifiedConnPlayer.ClientId = unverifiedClientId;
-			Logger.LogFormat("This server did not find a logged off player with clientID {0}, assigning" +
-			                 " joined viewer a new ID {1}", Category.Connections, oldID, unverifiedClientId);
-		}
-
 		// Sync all player data and the connected player count
 		CustomNetworkManager.Instance.SyncPlayerData(gameObject);
 		UpdateConnectedPlayersMessage.Send();
-
 
 		// Only sync the pre-round countdown if it's already started
 		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
@@ -119,7 +95,7 @@ public class JoinedViewer : NetworkBehaviour
 				GameManager.Instance.CurrentRoundState);
 		}
 
-		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, Userid);
+		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, unverifiedUserid);
 	}
 
 	/// <summary>
@@ -199,5 +175,19 @@ public class JoinedViewer : NetworkBehaviour
 		Logger.Log("Syncing countdown!", Category.Round);
 		UIManager.Instance.displayControl.preRoundWindow.GetComponent<GUI_PreRoundWindow>()
 			.SyncCountdown(started, countdownTime);
+	}
+
+	private string GetNetworkInfo()
+	{
+		var nics = NetworkInterface.GetAllNetworkInterfaces();
+		foreach (var n in nics)
+		{
+			if (!string.IsNullOrEmpty(n.GetPhysicalAddress().ToString()))
+			{
+				return n.GetPhysicalAddress().ToString();
+			}
+		}
+
+		return "";
 	}
 }
