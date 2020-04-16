@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,6 +26,15 @@ public class SoundSpawn : MonoBehaviour
 	{
 		waitLead = 0f;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		if(isPlaying)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			isPlaying = false;
+		}
 	}
 
 	void UpdateMe()
