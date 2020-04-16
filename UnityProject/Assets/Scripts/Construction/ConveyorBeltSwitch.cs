@@ -15,15 +15,16 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 	public Sprite spriteBackward;
 	public Sprite spriteOff;
 
-	private Sprite LastSprite;
-
 	[SyncVar(hook = nameof(SyncSwitchState))]
 	public State currentState = State.Off;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		return DefaultWillInteract.Default(interaction, side)
-		       && Validations.IsTarget(gameObject, interaction);
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		if (!Validations.IsTarget(gameObject, interaction)) return false;
+
+		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) || interaction.HandObject == null;
 	}
 
 	private void SyncSwitchState(State oldValue, State newValue)
@@ -49,29 +50,47 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 		{
 			if (conveyor != null)
 			{
-				conveyor.UpdateStatus(currentState);
+				conveyor.UpdateStatus(currentState);//sync clients
 			}
 		}
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		switch (currentState)
+		if(Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))//clearing conveyor list
 		{
-			case State.Off:
-				currentState = State.Forward;
-				break;
-			case State.Forward:
-				currentState = State.Backward;
-				break;
-			case State.Backward:
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+			"You start clearing the connected conveyor belts...",
+			$"{interaction.Performer.ExpensiveName()} starts clearing the connected conveyor belts...",
+			"You clear the connected the conveyor belts.",
+			$"{interaction.Performer.ExpensiveName()} clears the connected conveyor belts.",
+			() =>
+			{
 				currentState = State.Off;
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
+				spriteRenderer.sprite = spriteOff;
+				conveyorBelts.Clear();
+			});
+		}
+		else
+		{
+			switch (currentState)
+			{
+				case State.Off:
+					currentState = State.Forward;
+					break;
+				case State.Forward:
+					currentState = State.Backward;
+					break;
+				case State.Backward:
+					currentState = State.Off;
+					break;
+				default:
+					throw new ArgumentOutOfRangeException();
+			}
 		}
 	}
 
+	//Multitool buffer adding
 	public void AddConveyorBelt(List<ConveyorBelt> newConveyorBelts)
 	{
 		foreach (var conveyor in newConveyorBelts)

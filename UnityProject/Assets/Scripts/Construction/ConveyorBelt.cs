@@ -113,7 +113,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void ChangeAnimation()
 	{
-		spriteHandler.ChangeSprite((int) CurrentStatus);
+		spriteHandler.ChangeSprite((int)CurrentStatus);
 
 		switch (CurrentStatus)
 		{
@@ -128,7 +128,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				break;
 		}
 
-		spriteHandler.ChangeSpriteVariant((int) CurrentDirection);
+		spriteHandler.ChangeSpriteVariant((int)CurrentDirection);
 	}
 
 	private void DetectItems()
@@ -136,7 +136,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (CurrentStatus == ConveyorStatus.Off) return;
 
 		if (!Matrix.IsPassableAt(registerTile.LocalPositionServer, Vector3Int.RoundToInt(registerTile.LocalPositionServer + position), true)) return;
-		
+
 		foreach (var player in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true))
 		{
 			TransportPlayers(player);
@@ -268,7 +268,6 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 			spriteHandler.gameObject.GetComponent<SpriteRenderer>().sprite = spriteHandler.Sprites[(int)CurrentDirection].Sprites[0];
 		}
 	}
-
 #endif
 }
 
