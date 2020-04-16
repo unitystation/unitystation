@@ -27,6 +27,8 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	[SerializeField]
 	private GameObject ammoPrefab = null;
+	[SerializeField]
+	private GameObject casingPrefab = null;
 
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
@@ -125,9 +127,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	///     Current Weapon Type
 	/// </summary>
 	public WeaponType WeaponType;
-
-	private GameObject casingPrefab;
-
 	/// <summary>
 	/// Used only in server, the queued up shots that need to be performed when the weapon FireCountDown hits
 	/// 0.
