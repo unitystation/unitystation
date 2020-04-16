@@ -8,6 +8,7 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 {
 
 	public APC APCBuffer;
+	public ConveyorBelt ConveyorBeltBuffer;
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -22,6 +23,18 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			}
 			APC _APC = interaction.TargetObject.GetComponent<APC>();
 			if (_APC != null) {
+				return true;
+			}
+
+			//conveyorbelt
+			ConveyorBelt conveyorBelt = interaction.TargetObject.GetComponent<ConveyorBelt>();
+			if (conveyorBelt != null)
+			{
+				return true;
+			}
+			ConveyorBeltSwitch conveyorBeltSwitch = interaction.TargetObject.GetComponent<ConveyorBeltSwitch>();
+			if (conveyorBeltSwitch != null)
+			{
 				return true;
 			}
 		}
@@ -50,6 +63,27 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			{
 				Chat.AddExamineMsgToClient("You set the internal buffer of the multitool to the APC");
 				APCBuffer = _APC;
+			}
+
+			//conveyorbelt
+			ConveyorBelt conveyorBelt = interaction.TargetObject.GetComponent<ConveyorBelt>();
+			if (conveyorBelt != null)
+			{
+				Chat.AddExamineMsgToClient("You set the internal buffer of the multitool to the Conveyor Belt");
+				ConveyorBeltBuffer = conveyorBelt;
+			}
+			ConveyorBeltSwitch conveyorBeltSwitch = interaction.TargetObject.GetComponent<ConveyorBeltSwitch>();
+			if (conveyorBeltSwitch != null)
+			{
+				if (ConveyorBeltBuffer != null)
+				{
+					Chat.AddExamineMsgToClient("You set the Conveyor Belt Switch to use the Conveyor Belt in the buffer");
+					conveyorBeltSwitch.AddConveyorBelt(ConveyorBeltBuffer);
+				}
+				else
+				{
+					Chat.AddExamineMsgToClient("Your Conveyor Belt buffer is empty fill it with something");
+				}
 			}
 		}
 	}
