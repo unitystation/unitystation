@@ -54,7 +54,7 @@ public class GUI_ExoFabItem : DynamicEntry
 					{
 						materialName = material.displayName;
 						materialPrice = Product.materialToAmounts[material].ToString();
-						sb.Append(materialPrice + " " + materialName + " ");
+						sb.Append(materialPrice + " " + materialName + " " + "| ");
 					}
 					element.SetValue = sb.ToString();
 					break;

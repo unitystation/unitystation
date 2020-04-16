@@ -41,9 +41,18 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 
 	private void Awake()
 	{
+		EnsureInit();
+	}
+
+	public void EnsureInit()
+	{
 		//2000cm3 per sheet is standard for ss13
 		cm3PerSheet = materialsInMachines.cm3PerSheet;
 		//Initializes the record of materials in the material storage.
+		materialRecordList.Clear();
+		nameToMaterialRecord.Clear();
+		ItemTraitToMaterialRecord.Clear();
+		materialToNameRecord.Clear();
 		foreach (MaterialSheet material in materialsInMachines.materials)
 		{
 			MaterialRecord materialRecord = new MaterialRecord();
@@ -63,8 +72,14 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		//Optimizes retrieval of record
 		foreach (MaterialRecord materialRecord in materialRecordList)
 		{
-			NameToMaterialRecord.Add(materialRecord.materialName.ToLower(), materialRecord);
-			ItemTraitToMaterialRecord.Add(materialRecord.materialType, materialRecord);
+			if (!NameToMaterialRecord.ContainsKey(materialRecord.materialName))
+			{
+				NameToMaterialRecord.Add(materialRecord.materialName.ToLower(), materialRecord);
+			}
+			if (!ItemTraitToMaterialRecord.ContainsKey(materialRecord.materialType))
+			{
+				ItemTraitToMaterialRecord.Add(materialRecord.materialType, materialRecord);
+			}
 		}
 	}
 
@@ -181,6 +196,7 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		else return false;
 	}
 
+	[Server]
 	public bool TryRemoveCM3Materials(DictionaryMaterialToIntAmount materialsAndAmount)
 	{
 		//Checks if the materials from a list of materials and amount can be removed from the storage without going below 0
@@ -223,7 +239,17 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		throw new System.NotImplementedException();
+		EnsureInit();
+		ResetMaterialStorage();
+	}
+
+	public void ResetMaterialStorage()
+	{
+		ServerSetCurrentTotalResourceAmount(0);
+		foreach (MaterialRecord materialRecord in ItemTraitToMaterialRecord.Values)
+		{
+			materialRecord.ServerSetCurrentAmount(0);
+		}
 	}
 }
 

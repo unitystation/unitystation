@@ -6,7 +6,7 @@ using Mirror;
 /// <summary>
 /// Main component for the exosuit fabricator.
 /// </summary>
-public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
+public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn
 {
 	[SyncVar(hook = nameof(ServerSyncSprite))]
 	private ExosuitFabricatorState stateSync;
@@ -18,11 +18,13 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	public MaterialStorage materialStorage;
 	public MachineProductsCollection exoFabProducts;
 
-	private ItemTrait materialType;
+	private ItemTrait InsertedMaterialType;
 
 	public delegate void MaterialsManipulating();
 
 	public static event MaterialsManipulating MaterialsManipulated;
+
+	private IEnumerator currentProduction;
 
 	private void UpdateGUI()
 	{
@@ -47,12 +49,17 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		ServerSyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
+		EnsureInit();
 	}
 
 	private void Awake()
 	{
-		stateSync = ExosuitFabricatorState.Idle;
+		EnsureInit();
+	}
+
+	public void EnsureInit()
+	{
+		ServerSyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
 		materialStorage = this.GetComponent<MaterialStorage>();
 	}
 
@@ -72,7 +79,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 			{
 				if (Validations.HasItemTrait(interaction.HandObject, material))
 				{
-					materialType = material;
+					InsertedMaterialType = material;
 					return true;
 				};
 			}
@@ -91,7 +98,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		if (stateSync != ExosuitFabricatorState.Production)
 		{
 			int materialSheetAmount = interaction.HandSlot.Item.GetComponent<Stackable>().Amount;
-			if (materialStorage.TryAddMaterialSheet(materialType, materialSheetAmount))
+			if (materialStorage.TryAddMaterialSheet(InsertedMaterialType, materialSheetAmount))
 			{
 				Inventory.ServerDespawn(interaction.HandObject);
 				UpdateGUI();
@@ -134,7 +141,8 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	{
 		if (materialStorage.TryRemoveCM3Materials(product.materialToAmounts))
 		{
-			StartCoroutine(ProcessProduction(product.Product, product.ProductionTime));
+			currentProduction = ProcessProduction(product.Product, product.ProductionTime);
+			StartCoroutine(currentProduction);
 			return true;
 		}
 
@@ -166,6 +174,15 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		else
 		{
 			//Do nothing
+		}
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		if (currentProduction != null)
+		{
+			StopCoroutine(currentProduction);
+			currentProduction = null;
 		}
 	}
 }

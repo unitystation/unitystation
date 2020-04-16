@@ -143,7 +143,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: b8471550233548f5a8aecb61061a2263, type: 3}
-    m_FontSize: 15
+    m_FontSize: 16
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -202,8 +202,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -209, y: -36}
-  m_SizeDelta: {x: 474.8, y: 69.8}
+  m_AnchoredPosition: {x: -216.68, y: -37.9}
+  m_SizeDelta: {x: 433.37, y: 70.61}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5226455859149934658
 CanvasRenderer:
@@ -233,7 +233,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: b8471550233548f5a8aecb61061a2263, type: 3}
-    m_FontSize: 16
+    m_FontSize: 14
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 1
@@ -244,7 +244,8 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Cost: 700 Iron | 500 glass | 2000 plasma | 10000 silver | 16000 gold'
+  m_Text: 'Cost: 700 Iron | 500 glass | 2000 plasma | 10000 silver | 16000 gold |
+    500 diamond | 10000 titanium | 800 uranium'
 --- !u!114 &9220475595911822118
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,7 +433,9 @@ MonoBehaviour:
   machineProduct:
     name: 
     product: {fileID: 0}
-    materialPrice: []
+    materialToAmounts:
+      m_keys: []
+      m_values: 
     productionTime: 10
   categoryName: 
 --- !u!1 &4337926468673919268
@@ -610,7 +613,9 @@ MonoBehaviour:
   machineProduct:
     name: 
     product: {fileID: 0}
-    materialPrice: []
+    materialToAmounts:
+      m_keys: []
+      m_values: 
     productionTime: 10
   categoryName: 
 --- !u!1 &7749955192746333516
@@ -681,8 +686,8 @@ MonoBehaviour:
     m_FontSize: 15
     m_FontStyle: 0
     m_BestFit: 1
-    m_MinSize: 1
-    m_MaxSize: 20
+    m_MinSize: 15
+    m_MaxSize: 15
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -701,7 +706,7 @@ GameObject:
   - component: {fileID: 1562223500251783518}
   - component: {fileID: 9081593022855644900}
   m_Layer: 5
-  m_Name: ProductEntryTemplate
+  m_Name: ExoFabProductEntryTemplate
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -728,7 +733,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
   m_AnchoredPosition: {x: 365.8, y: -34.9}
-  m_SizeDelta: {x: 731.6, y: 69.8}
+  m_SizeDelta: {x: 731.6, y: 78}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &9081593022855644900
 MonoBehaviour:

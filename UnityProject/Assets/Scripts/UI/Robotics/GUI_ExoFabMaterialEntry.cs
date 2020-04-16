@@ -54,11 +54,11 @@ public class GUI_ExoFabMaterialEntry : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "MaterialName":
-					element.SetValue = materialRecord.materialName;
+					element.SetValue = materialRecord.materialName + ":";
 					break;
 
 				case "MaterialAmount":
-					element.SetValue = materialRecord.CurrentAmount.ToString();
+					element.SetValue = materialRecord.CurrentAmount.ToString() + "cm3";
 					amountLabel = element as NetLabel;
 					break;
 
