@@ -91,7 +91,6 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	/// It will update the belt current state and its sprite.
 	/// </summary>
 	/// <param name="switchState"></param>
-	[Server]
 	public void UpdateStatus(ConveyorBeltSwitch.State switchState)
 	{
 		switch (switchState)
@@ -152,7 +151,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public virtual void TransportPlayers(ObjectBehaviour player)
 	{
-		//teleports player to the front of the new gateway
+		//teleports player to the next tile
 		player.GetComponent<PlayerSync>().SetPosition(registerTile.WorldPosition + position);
 	}
 
