@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: GrillDestroyed
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: grille
   LayerType: 5
   TileType: 6
   RequiredTiles:
   - {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1, type: 2}
-  WalkingSoundCategory: 0
+  floorTileType: 0
   atmosPassable: 1
   isSealed: 0
+  SpawnWithNoAir: 0
   oreCategory: 0
   MaxHealth: 0
   HealthStates: []
@@ -39,16 +40,16 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
+    Melee: 50
+    Bullet: 70
+    Laser: 70
+    Energy: 100
+    Bomb: 10
+    Rad: 100
     Fire: 0
     Acid: 0
     Magic: 0
-    Bio: 0
+    Bio: 100
   tileInteractions:
   - {fileID: 11400000, guid: 10228000f4d0b45ccbe54926e21b9cb0, type: 2}
   spawnOnDeconstruct: {fileID: 0}
