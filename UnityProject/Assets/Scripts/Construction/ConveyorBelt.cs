@@ -9,11 +9,16 @@ using UnityEngine;
 public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SerializeField]
-	private float ConveyorBeltSpeed = 0.5f; //does not change animation speed! Only detection and teleport speed
+	private float ConveyorBeltSpeed = 1f; //does not change animation speed! Only detection and teleport speed
 	[SerializeField]
 	private SpriteHandler spriteHandler;
 	[SerializeField]
 	private ConveyorDirection MappedDirection;
+
+	[SyncVar]
+	private bool SyncInverted = false;
+
+	public bool Inverted = false;
 
 	private float timeElapsedServer = 0;
 	private float timeElapsedClient = 0;
@@ -33,6 +38,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 			timeElapsedServer += Time.deltaTime;
 			if (timeElapsedServer > ConveyorBeltSpeed)
 			{
+				Inverted = SyncInverted;
 				ChangeAnimation();
 				DetectItems();
 				timeElapsedServer = 0;
@@ -43,6 +49,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 			timeElapsedClient += Time.deltaTime;
 			if (timeElapsedClient > ConveyorBeltSpeed)
 			{
+				Inverted = SyncInverted;
 				ChangeAnimation();
 				timeElapsedClient = 0;
 			}
@@ -63,6 +70,8 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		registerTile = GetComponent<RegisterTile>();
 		CurrentDirection = MappedDirection;
+
+		SyncInverted = Inverted;
 
 		if (isServer)
 		{
@@ -113,7 +122,19 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void ChangeAnimation()
 	{
+		var tempStatus = CurrentStatus;
+
+		if (SyncInverted && CurrentStatus == ConveyorStatus.Forward)
+		{
+			CurrentStatus = ConveyorStatus.Backward;
+		}
+		else if (SyncInverted && CurrentStatus == ConveyorStatus.Backward)
+		{
+			CurrentStatus = ConveyorStatus.Forward;
+		}
+
 		spriteHandler.ChangeSprite((int)CurrentStatus);
+		spriteHandler.ChangeSpriteVariant((int)CurrentDirection);
 
 		switch (CurrentStatus)
 		{
@@ -128,7 +149,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				break;
 		}
 
-		spriteHandler.ChangeSpriteVariant((int)CurrentDirection);
+		CurrentStatus = tempStatus;
 	}
 
 	private void DetectItems()
@@ -214,7 +235,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		if (!Validations.IsTarget(gameObject, interaction)) return false;
 
-		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) || Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);// deconstruct(crowbar) and turn direction(wrench)
+		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) || Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) || Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);// deconstruct(crowbar) and turn direction(wrench)
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
@@ -254,6 +275,26 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				UpdateDirection(CurrentDirection);
 
 				spriteHandler.ChangeSpriteVariant(count);
+			});
+		}
+		else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+		{
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
+			"You start inverting the conveyor belt...",
+			$"{interaction.Performer.ExpensiveName()} starts inverting the conveyor belt...",
+			"You invert the conveyor belt.",
+			$"{interaction.Performer.ExpensiveName()} invert the conveyor belt.",
+			() =>
+			{
+				switch (SyncInverted)
+				{
+					case true:
+						SyncInverted = false;
+						break;
+					case false:
+						SyncInverted = true;
+						break;
+				}
 			});
 		}
 	}
