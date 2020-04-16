@@ -71,9 +71,10 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		registerTile = GetComponent<RegisterTile>();
 		CurrentDirection = MappedDirection;
 
+		SyncInverted = Inverted;
+
 		if (isServer)
 		{
-			SyncInverted = Inverted;
 			UpdateDirection(CurrentDirection);
 		}
 
