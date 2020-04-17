@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
@@ -28,7 +28,6 @@ public class ItemMagBoots : NetworkBehaviour,
 	[Tooltip("The speed debuff to apply to run speed.")]
 	[SerializeField]
 	private float runSpeedDebuff = 1.5f;
-
 
 	[SerializeField]
 	private ActionData actionData = null;
@@ -61,7 +60,7 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	private static bool IsPuttingOn (InventoryMove info)
 	{
-		if (info.ToSlot == null | info.ToSlot?.NamedSlot == null)
+		if (info.ToSlot?.NamedSlot == null)
 		{
 			return false;
 		}
@@ -70,7 +69,7 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	private static bool IsTakingOff (InventoryMove info)
 	{
-		if (info.FromSlot == null | info.FromSlot?.NamedSlot == null)
+		if (info.FromSlot?.NamedSlot == null)
 		{
 			return false;
 		}
@@ -100,10 +99,12 @@ public class ItemMagBoots : NetworkBehaviour,
 		if (isOn)
 		{
 			ApplyEffect();
+			player.Script.playerHealth.OnDeathNotifyEvent += OnPlayerDeath;
 		}
 		else
 		{
 			RemoveEffect();
+			player.Script.playerHealth.OnDeathNotifyEvent -= OnPlayerDeath;
 		}
 	}
 
@@ -134,27 +135,34 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
+		if (CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
+			return;
 		var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
-		if (info.ClientInventoryMoveType == ClientInventoryMoveType.Added
-		    & pna.GetActiveItemInSlot(NamedSlot.feet)?.gameObject == gameObject)
+		switch (info.ClientInventoryMoveType)
 		{
-			UIActionManager.Toggle(this, true);
-			UIActionManager.SetSprite(this, (sprites[0]));
-		}
-		else if (info.ClientInventoryMoveType == ClientInventoryMoveType.Removed
-		         & pna.GetActiveItemInSlot(NamedSlot.feet)?.gameObject != gameObject)
-		{
-			UIActionManager.Toggle(this, false);
+			case ClientInventoryMoveType.Added when pna.GetActiveItemInSlot(NamedSlot.feet)?.gameObject == gameObject:
+				UIActionManager.Toggle(this, true);
+				UIActionManager.SetSprite(this, (sprites[0]));
+				break;
+			case ClientInventoryMoveType.Removed when pna.GetActiveItemInSlot(NamedSlot.feet)?.gameObject != gameObject:
+				UIActionManager.Toggle(this, false);
+				break;
 		}
 	}
 
 	public void CallActionClient()
 	{
-		UIActionManager.SetSprite(this, (!isOn ? sprites[1] : sprites[0]));
+		if (!PlayerManager.LocalPlayerScript.IsDeadOrGhost)
+		{
+			UIActionManager.SetSprite(this, (!isOn ? sprites[1] : sprites[0]));
+		}
 	}
 
 	public void CallActionServer(ConnectedPlayer SentByPlayer)
 	{
-		ServerChangeState(SentByPlayer);
+		if (!SentByPlayer.Script.IsDeadOrGhost)
+		{
+			ServerChangeState(SentByPlayer);
+		}
 	}
 }

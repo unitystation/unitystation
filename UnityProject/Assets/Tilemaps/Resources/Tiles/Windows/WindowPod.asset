@@ -12,13 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad263680d73c8c54ba53262044a57d04, type: 3}
   m_Name: WindowPod
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: pod window
   LayerType: 1
   TileType: 2
   RequiredTiles: []
-  WalkingSoundCategory: 0
+  floorTileType: 0
   atmosPassable: 0
   isSealed: 0
+  SpawnWithNoAir: 0
   oreCategory: 0
   MaxHealth: 0
   HealthStates: []
@@ -34,20 +35,20 @@ MonoBehaviour:
     FireProof: 0
     Flammable: 0
     UnAcidable: 0
-    AcidProof: 0
+    AcidProof: 1
     Indestructable: 0
     FreezeProof: 0
   armor:
-    Melee: 0
+    Melee: 90
     Bullet: 0
     Laser: 0
     Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
+    Bomb: 50
+    Rad: 100
+    Fire: 80
+    Acid: 100
     Magic: 0
-    Bio: 0
+    Bio: 100
   tileInteractions:
   - {fileID: 11400000, guid: 4635ca63f127a4b1cb58c7ff9de5695a, type: 2}
   spawnOnDeconstruct: {fileID: 0}

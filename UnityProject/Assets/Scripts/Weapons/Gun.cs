@@ -25,6 +25,11 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	private static readonly float MIN_SHAKE_INTENSITY = 0.01f;
 	*/
 
+	[SerializeField]
+	private GameObject ammoPrefab = null;
+	[SerializeField]
+	private GameObject casingPrefab = null;
+
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
 	/// </summary>
@@ -128,9 +133,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	///     Current Weapon Type
 	/// </summary>
 	public WeaponType WeaponType;
-
-	private GameObject casingPrefab;
-
 	/// <summary>
 	/// Used only in server, the queued up shots that need to be performed when the weapon FireCountDown hits
 	/// 0.
@@ -191,7 +193,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			Logger.LogTraceFormat("Auto-populate internal magazine for {0}", Category.Inventory, name);
 
 			//Make generic magazine and modify it to fit weapon
-			GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(AmmoType.Internal);
+			//GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(AmmoType.Internal);
 
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 
@@ -209,7 +211,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
 
 			//AmmoPrefabs
-			GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
+			//GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
 
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 		}

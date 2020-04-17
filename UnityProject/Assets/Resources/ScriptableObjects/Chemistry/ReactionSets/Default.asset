@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6ae085312b071098d3dbb5d8da0511, type: 3}
   m_Name: Default
   m_EditorClassIdentifier: 
-  parents: []
+  parents:
+  - {fileID: 11400000, guid: 5e9cd20e17eb54a49b4676ae98d5a6a1, type: 2}
   reactions:
   - {fileID: 11400000, guid: 5f8820e0f9670bd30ba49f549b1ac994, type: 2}
   - {fileID: 11400000, guid: 2c91aa3e713bbcd3bb3965eb4ea7f867, type: 2}

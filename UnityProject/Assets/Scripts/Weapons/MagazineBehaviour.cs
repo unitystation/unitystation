@@ -212,21 +212,22 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 public enum AmmoType
 {
-	_12mm,
-	_5Point56mm,
 	_9mm,
-	_38,
-	_46x30mmtT,
+	uzi9mm,
+	smg9mm,
+	tommy9mm,
+	_10mm,
+	_46mm,
 	_50mm,
-	_357mm,
+	_556mm,
+	_38,
+	_45,
+	_50,
+	_357,
+	_762,
 	A762,
 	FusionCells,
 	Slug,
-	smg9mm,
 	Syringe,
-	uzi9mm,
-	_45,
-	_10mm,
-	_50,
 	Internal
 }
