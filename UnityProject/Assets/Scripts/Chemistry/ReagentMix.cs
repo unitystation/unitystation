@@ -20,6 +20,22 @@ namespace Chemistry
 			set => temperature = value;
 		}
 
+		/// <summary>
+		/// Return reagent with biggest amount in mix
+		/// </summary>
+		public Reagent MajorMixReagent
+		{
+			get
+			{
+				var reag = reagents.OrderByDescending((p) => p.Value)
+					.FirstOrDefault();
+
+				if (reag.Value > 0f)
+					return reag.Key;
+				else
+					return null;
+			}
+		}
 
 		/// <summary>
 		/// Average of all reagent colors in a mix 

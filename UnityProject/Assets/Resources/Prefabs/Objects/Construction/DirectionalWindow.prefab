@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -230,8 +231,8 @@ MonoBehaviour:
     Energy: 0
     Bomb: 0
     Rad: 0
-    Fire: 0
-    Acid: 0
+    Fire: 80
+    Acid: 100
     Magic: 0
     Bio: 0
   Resistances:
@@ -239,10 +240,10 @@ MonoBehaviour:
     FireProof: 0
     Flammable: 0
     UnAcidable: 0
-    AcidProof: 0
+    AcidProof: 1
     Indestructable: 0
     FreezeProof: 0
-  HeatResistance: 100
+  HeatResistance: 800
   initialIntegrity: 200
 --- !u!114 &114876689548865824
 MonoBehaviour:
@@ -256,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 

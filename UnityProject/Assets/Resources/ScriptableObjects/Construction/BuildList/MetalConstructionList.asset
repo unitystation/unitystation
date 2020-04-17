@@ -140,3 +140,17 @@ MonoBehaviour:
     buildTime: 10
     spawnAmount: 1
     onePerTile: 0
+  - name: Conveyor Belt
+    prefab: {fileID: 7144248469089430455, guid: d029ccf2e161c824f931cda8b7404f9a,
+      type: 3}
+    cost: 5
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Conveyor Belt Switch
+    prefab: {fileID: 7144248469089430455, guid: 261dcc3c68f35e04e80b7d2f6415f742,
+      type: 3}
+    cost: 5
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
