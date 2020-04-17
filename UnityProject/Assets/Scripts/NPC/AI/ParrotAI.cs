@@ -14,8 +14,8 @@ public class ParrotAI : MobAI
 	private string capParrotName;
 	private float timeForNextRandomAction;
 	private float timeWaiting;
-	
-	private string lastHeardMsg = "";   
+
+	private string lastHeardMsg = "";
 
 	protected override void Awake()
 	{
@@ -75,7 +75,7 @@ public class ParrotAI : MobAI
 		var inventory = player.GetComponent<ItemStorage>();
 		var thingInHand = inventory.GetActiveHandSlot();
 
-		if (thingInHand != null)
+		if (thingInHand != null && thingInHand.Item != null)
 		{
 			GameObject stolenThing = thingInHand.Item.gameObject;
 			Inventory.ServerDespawn(thingInHand);
@@ -115,7 +115,7 @@ public class ParrotAI : MobAI
 			Speak(lastHeardMsg);
 		}
 		else
-		{	
+		{
 			Speak(polyPhrases[Random.Range(0, polyPhrases.Length)]);
 		}
 	}
@@ -144,7 +144,7 @@ public class ParrotAI : MobAI
 		}
 	}
 
-	private readonly string[] polyPhrases = 
+	private readonly string[] polyPhrases =
 	{
 		"Who wired the SMES!",
 		"Has anyone seen the Nuke disc?",
