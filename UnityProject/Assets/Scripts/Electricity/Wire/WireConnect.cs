@@ -14,20 +14,20 @@ public class WireConnect : ElectricalOIinheritance
 	/// <summary>
 	///The function for out putting current into other nodes (Basically doing ElectricityInput On another one)
 	/// </summary>
-	//public override void ElectricityOutput(WrapCurrent Current, ElectricalOIinheritance SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalDirectionStep Path)
-	//{
-	//	if (Logall)
-	//	{
-	//		Logger.Log("this > " + this + "ElectricityOutput, Current > " + Current + " SourceInstance  > " + SourceInstance, Category.Electrical);
-	//	}
-	//	InputOutputFunctions.ElectricityOutput(Current, SourceInstance, ComingFrom, this, Path);
+	/*public override void ElectricityOutput(WrapCurrent Current, ElectricalOIinheritance SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalDirectionStep Path)
+	{
+		if (Logall)
+		{
+			Logger.Log("this > " + this + "ElectricityOutput, Current > " + Current + " SourceInstance  > " + SourceInstance, Category.Electrical);
+		}
+		InputOutputFunctions.ElectricityOutput(Current, SourceInstance, ComingFrom, this, Path);
 
-	//	if (ControllingCable != null)
-	//	{
-	//		ElectricalSynchronisation.CableUpdates.Add(ControllingCable);
-	//	}
+		if (ControllingCable != null)
+		{
+			ElectricalSynchronisation.CableUpdates.Add(ControllingCable);
+		}
 
-	//}
+	}*/
 
 	//public void LineExplore(CableLine PassOn, HashSet<IntrinsicElectronicData> VisitedSteps)
 	//{

@@ -80,9 +80,9 @@ public class TileChangeManager : NetworkBehaviour
 
 
 	[Server]
-	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile, bool SetTileServer = true)
+	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile, bool SetTileServer = true, bool OverrideDifferentCheck = false)
 	{
-		if (IsDifferent(cellPosition, layerTile))
+		if (IsDifferent(cellPosition, layerTile) || OverrideDifferentCheck)
 		{
 			if (SetTileServer)
 			{

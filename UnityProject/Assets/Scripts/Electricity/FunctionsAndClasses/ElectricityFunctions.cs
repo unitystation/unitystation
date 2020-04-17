@@ -535,4 +535,34 @@ public static class ElectricityFunctions
 
 		return (Voltage);
 	}
+
+	public static ElectricalCableTile RetrieveElectricalTile(Connection WireEndA, Connection WireEndB, PowerTypeCategory powerTypeCategory)
+	{
+		ElectricalCableTile Tile = null;
+		string Compound;
+		if (WireEndA < WireEndB)
+		{
+			Compound = WireEndA + "_" + WireEndB;
+		}
+		else {
+			Compound = WireEndB + "_" + WireEndA;
+		}
+		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
+
+		switch (powerTypeCategory)
+		{
+			case PowerTypeCategory.StandardCable:
+				Tile = ElectricalManager.Instance.MediumVoltageCables.Tiles[spriteIndex];
+				break;
+			case PowerTypeCategory.LowVoltageCable:
+				Tile = ElectricalManager.Instance.LowVoltageCables.Tiles[spriteIndex];
+				break;
+			case PowerTypeCategory.HighVoltageCable:
+				Tile = ElectricalManager.Instance.HighVoltageCables.Tiles[spriteIndex];
+				break;
+		}
+
+		return (Tile);
+	}
+
 }

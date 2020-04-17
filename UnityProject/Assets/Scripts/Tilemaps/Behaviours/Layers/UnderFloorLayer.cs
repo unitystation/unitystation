@@ -85,7 +85,7 @@ public class UnderFloorLayer : Layer
 
 			if (Application.isPlaying)
 			{
-				matrix.TileChangeManager.UpdateTile(position, tile as BasicTile, false);
+				matrix.TileChangeManager.UpdateTile(position, tile as BasicTile, false, true);
 			}
 			base.SetTile(position, tile, transformMatrix);
 		}
