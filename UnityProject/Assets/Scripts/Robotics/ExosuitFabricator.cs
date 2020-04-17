@@ -8,23 +8,22 @@ using Mirror;
 /// </summary>
 public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn
 {
-	[SyncVar(hook = nameof(ServerSyncSprite))]
+	[SyncVar(hook = nameof(SyncSprite))]
 	private ExosuitFabricatorState stateSync;
 
 	[SerializeField] private SpriteHandler spriteHandler;
 	[SerializeField] private SpriteSheetAndData idleSprite;
+	[SerializeField] private SpriteSheetAndData acceptingMaterialsSprite;
 	[SerializeField] private SpriteSheetAndData productionSprite;
 	private RegisterObject registerObject;
 	public MaterialStorage materialStorage;
 	public MachineProductsCollection exoFabProducts;
-
 	private ItemTrait InsertedMaterialType;
+	private IEnumerator currentProduction;
 
 	public delegate void MaterialsManipulating();
 
 	public static event MaterialsManipulating MaterialsManipulated;
-
-	private IEnumerator currentProduction;
 
 	private void UpdateGUI()
 	{
@@ -38,12 +37,13 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	public enum ExosuitFabricatorState
 	{
 		Idle,
+		AcceptingMaterials,
 		Production,
 	};
 
 	public override void OnStartClient()
 	{
-		ServerSyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
+		SyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
 		base.OnStartClient();
 	}
 
@@ -59,7 +59,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 
 	public void EnsureInit()
 	{
-		ServerSyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
+		SyncSprite(ExosuitFabricatorState.Idle, ExosuitFabricatorState.Idle);
 		materialStorage = this.GetComponent<MaterialStorage>();
 	}
 
@@ -101,16 +101,33 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 			if (materialStorage.TryAddMaterialSheet(InsertedMaterialType, materialSheetAmount))
 			{
 				Inventory.ServerDespawn(interaction.HandObject);
+				if (stateSync == ExosuitFabricatorState.Idle)
+				{
+					StartCoroutine(AnimateAcceptingMaterials());
+				}
 				UpdateGUI();
 			}
-			else Logger.Log("materialStorage is full");
+			else Chat.AddActionMsgToChat(interaction.Performer, "Exosuit Fabricator is full",
+				"Exosuit Fabricator is full");
 		}
-		else Logger.Log("Cannot put in materials while producing");
+		else Chat.AddActionMsgToChat(interaction.Performer, "Cannot accept materials while fabricating",
+			"Cannot accept materials while fabricating");
 	}
 
-	///<summary>
-	///Spawns a number material sheet if there is enough in the storage
-	///</summary>
+	private IEnumerator AnimateAcceptingMaterials()
+	{
+		stateSync = ExosuitFabricatorState.AcceptingMaterials;
+
+		yield return WaitFor.Seconds(1.2f);
+		if (stateSync == ExosuitFabricatorState.Production)
+		{
+			//Do nothing if production was started during the material insertion animation
+		}
+		else
+		{
+			stateSync = ExosuitFabricatorState.Idle;
+		}
+	}
 
 	public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 	{
@@ -123,20 +140,29 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		}
 		else
 		{
-			Logger.Log("Not enough materials!!!");
+			//Not enough materials to dispense
 		}
 	}
 
-	//Updates the amount of sheets in the exofab
-	public void UpdateMaterialSheetCount(int materialAmount, ItemTrait sheetType)
+	[Server]
+	public void DropAllMaterials()
 	{
-		if (materialStorage.ItemTraitToMaterialRecord.ContainsKey(sheetType))
+		foreach (MaterialRecord materialRecord in materialStorage.ItemTraitToMaterialRecord.Values)
 		{
-			materialStorage.TryAddMaterialSheet(sheetType, materialAmount);
+			GameObject materialToSpawn = materialRecord.materialPrefab;
+			int sheetsPerCM3 = materialStorage.CM3PerSheet;
+			int amountToSpawn = materialRecord.CurrentAmount / sheetsPerCM3;
+
+			if (amountToSpawn > 0)
+			{
+				Spawn.ServerPrefab(materialToSpawn, registerObject.WorldPositionServer, transform.parent, count: amountToSpawn);
+			}
 		}
-		UpdateGUI();
 	}
 
+	/// <summary>
+	/// Checks the material storage to see if there's enough materials and if true will process the product
+	/// </summary>
 	public bool CanProcessProduct(MachineProduct product)
 	{
 		if (materialStorage.TryRemoveCM3Materials(product.materialToAmounts))
@@ -149,7 +175,6 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		return false;
 	}
 
-	//Needs product to be produced and time it takes to be produced.
 	private IEnumerator ProcessProduction(GameObject productObject, float productionTime)
 	{
 		stateSync = ExosuitFabricatorState.Production;
@@ -159,8 +184,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		stateSync = ExosuitFabricatorState.Idle;
 	}
 
-	[Server]
-	public void ServerSyncSprite(ExosuitFabricatorState stateOld, ExosuitFabricatorState stateNew)
+	public void SyncSprite(ExosuitFabricatorState stateOld, ExosuitFabricatorState stateNew)
 	{
 		stateSync = stateNew;
 		if (stateNew == ExosuitFabricatorState.Idle)
@@ -170,6 +194,10 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		else if (stateNew == ExosuitFabricatorState.Production)
 		{
 			spriteHandler.SetSprite(productionSprite, 0);
+		}
+		else if (stateNew == ExosuitFabricatorState.AcceptingMaterials)
+		{
+			spriteHandler.SetSprite(acceptingMaterialsSprite, 0);
 		}
 		else
 		{
@@ -184,5 +212,7 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 			StopCoroutine(currentProduction);
 			currentProduction = null;
 		}
+
+		DropAllMaterials();
 	}
 }

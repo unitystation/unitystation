@@ -9,9 +9,9 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 	private List<MachineProduct> currentProducts = new List<MachineProduct>();
 	public List<MachineProduct> CurrentProducts { get => currentProducts; }
 
+	//Temporary until the queue has been optimized.
 	public int maxProductsInQueue = 20;
 
-	//Temporary until the queue has been optimized.
 	public int MaxProductsInQueue { get => maxProductsInQueue; }
 
 	[SerializeField]

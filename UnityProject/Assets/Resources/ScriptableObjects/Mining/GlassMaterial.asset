@@ -10,7 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03e121b26b644f546ba7e3b9678dd3a3, type: 3}
-  m_Name: Glass
+  m_Name: GlassMaterial
   m_EditorClassIdentifier: 
-  displayName: 
-  materialPrefab: {fileID: 0}
+  OrePrefab: {fileID: 0}
+  displayName: Glass
+  RefinedPrefab: {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d,
+    type: 3}
+  materialTrait: {fileID: 11400000, guid: ef95b18f5d8aa42d2b4241d48a97d81d, type: 2}

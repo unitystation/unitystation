@@ -6,7 +6,7 @@ using UnityEngine.Events;
 //Current features not implemented yet:
 //Add all products. There are not enough items yet for this feature to make sense.
 //The queue system has to be optimized, the list is currently recreated fully and then sent to the peepers.
-//
+
 public class GUI_ExosuitFabricator : NetTab
 {
 	[SerializeField]
@@ -115,7 +115,6 @@ public class GUI_ExosuitFabricator : NetTab
 		OnTabOpened.AddListener(UpdateGUIForPeepers);
 	}
 
-	//Updates the GUI and adds any visible NetUIElements to the server.
 	public void UpdateMaterialsDisplay()
 	{
 		materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorage);
@@ -202,10 +201,6 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public void ReturnFromProductPage(GUI_ExoFabProductButton button)
 	{
-		//foreach (GameObject productEntries in categoryNameToProductEntries[button.categoryName])
-		//{
-		//	productEntries.SetActive(false);
-		//}
 		nestedSwitcher.SetActivePage(materialsAndCategoryDisplay);
 		UpdateMaterialsDisplay();
 	}

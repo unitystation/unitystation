@@ -34,11 +34,8 @@ public class GUI_ExoFabMaterialEntry : DynamicEntry
 	private GUI_ExoFabButton buttonTen;
 	private GUI_ExoFabButton buttonFifty;
 
-	//private bool inited = false;
-
 	public void DispenseMaterial(int amount)
 	{
-		Logger.Log("CLICK");
 		if (ExoFabMasterTab == null) ExoFabMasterTab.GetComponent<GUI_ExosuitFabricator>().OnDispenseSheetClicked.Invoke(amount, materialType);
 		else { ExoFabMasterTab?.OnDispenseSheetClicked.Invoke(amount, materialType); }
 	}
@@ -58,7 +55,7 @@ public class GUI_ExoFabMaterialEntry : DynamicEntry
 					break;
 
 				case "MaterialAmount":
-					element.SetValue = materialRecord.CurrentAmount.ToString() + "cm3";
+					element.SetValue = materialRecord.CurrentAmount.ToString() + " cm3";
 					amountLabel = element as NetLabel;
 					break;
 
@@ -93,7 +90,7 @@ public class GUI_ExoFabMaterialEntry : DynamicEntry
 			buttonTen.SetValue = "false";
 			buttonFifty.SetValue = "false";
 		}
-		else if (sheetsDispensable > 10 && sheetsDispensable < 50)
+		else if (sheetsDispensable >= 10 && sheetsDispensable < 50)
 		{
 			buttonOne.SetValue = "true";
 			buttonTen.SetValue = "true";

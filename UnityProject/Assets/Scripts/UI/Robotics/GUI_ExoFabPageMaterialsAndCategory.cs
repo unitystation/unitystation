@@ -7,8 +7,6 @@ public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 	[SerializeField] private EmptyItemList materialList;
 	[SerializeField] private EmptyItemList productCategoryList;
 
-	//private Dictionary<ItemTrait, GUI_ExoFabMaterialEntry> materialEntries = new Dictionary<ItemTrait, GUI_ExoFabMaterialEntry>();
-
 	public void InitMaterialList(MaterialStorage materialStorage)
 	{
 		List<MaterialRecord> materialRecords = materialStorage.MaterialRecordList;

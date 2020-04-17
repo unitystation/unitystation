@@ -24,7 +24,6 @@ public class GUI_ExoFabItem : DynamicEntry
 
 	public void AddToQueue()
 	{
-		Logger.Log("CLICK");
 		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnProductAddClicked.Invoke(Product); }
 		else { ExoFabMasterTab?.OnProductAddClicked.Invoke(Product); }
 	}

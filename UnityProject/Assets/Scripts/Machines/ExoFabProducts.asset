@@ -16,57 +16,84 @@ MonoBehaviour:
   - categoryName: Cyborg
     products:
     - name: Cyborg Head
-      product: {fileID: 0}
-      materialPrice:
-      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-        amount: 10000
-      - material: {fileID: 11400000, guid: 1eeb3d785ef561f40ab7e3bb924cedd6, type: 2}
-        amount: 1000
+      product: {fileID: 1783305499621281309, guid: 3d19d0250c5d8f044a0d3a0654316ac3,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 10270000
+      productionTime: 10
     - name: Cyborg Left Arm
-      product: {fileID: 0}
-      materialPrice:
-      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-        amount: 10000
+      product: {fileID: 4010194602388370502, guid: e5ec5dc9591066d47a44185d4e8e9d66,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 10270000
+      productionTime: 10
     - name: Cyborg Right Arm
-      product: {fileID: 0}
-      materialPrice:
-      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-        amount: 10000
+      product: {fileID: 6704733875890864299, guid: efa2c04573e08dd478e4b46c23747b75,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 10270000
+      productionTime: 10
     - name: Cyborg Left Leg
-      product: {fileID: 0}
-      materialPrice:
-      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-        amount: 10000
-    - name: Right Leg
-      product: {fileID: 0}
-      materialPrice:
-      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-        amount: 10000
+      product: {fileID: 7055739377925045099, guid: 59ada15f401ba1642b944aa50b71be17,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 10270000
+      productionTime: 10
+    - name: Cyborg Right Leg
+      product: {fileID: 2356957148362960011, guid: b16845fd207ea56479edf1be13a22752,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 10270000
+      productionTime: 10
+    - name: Cyborg Torso
+      product: {fileID: 2199899340259699504, guid: a814d04a55ec3db4883ceb13efea78d4,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 10270000
+      productionTime: 10
     - name: Cyborg Exoskeleton
-      product: {fileID: 0}
-      materialPrice:
-      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-        amount: 10000
-  - categoryName: Ripley
+      product: {fileID: 2062928049622915926, guid: 64d48084d2838c44e897ddb5ce08bf1e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 10270000
+      productionTime: 10
+  - categoryName: WEAPONS!
     products:
-    - name: RipleyPart
-      product: {fileID: 0}
-      materialPrice:
-      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-        amount: 1500000
-  - categoryName: Odysseus
-    products:
-    - name: Test2
-      product: {fileID: 0}
-      materialPrice:
-      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-        amount: 99999
-      - material: {fileID: 11400000, guid: ef95b18f5d8aa42d2b4241d48a97d81d, type: 2}
-        amount: 99999
-    - name: Test3
-      product: {fileID: 0}
-      materialPrice:
-      - material: {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
-        amount: 50000
-      - material: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-        amount: 25000
+    - name: ENERGY GUN!!
+      product: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: f4010000
+      productionTime: 5
+    - name: ENERGY GUN 2
+      product: {fileID: 6507000735928756314, guid: 66e26e048c0ee0448878c27b37dc685f,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: ee020000
+      productionTime: 5
+    - name: STUN BATON!
+      product: {fileID: 8127442588295923452, guid: 263c0469b2b002a488de7b1506c59bcc,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 2c010000
+      productionTime: 5

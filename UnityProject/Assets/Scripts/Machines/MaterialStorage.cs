@@ -62,14 +62,13 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 			materialRecordList.Add(materialRecord);
 		}
 
-		//Temporary solution to get material name and material type together, metal is called iron in machines for instance etc.
+		//Optimizes retrieval of record
 		foreach (MaterialRecord materialRecord in materialRecordList)
 		{
 			if (!MaterialToNameRecord.ContainsKey(materialRecord.materialType))
 				MaterialToNameRecord.Add(materialRecord.materialType, materialRecord.materialName);
 		}
 
-		//Optimizes retrieval of record
 		foreach (MaterialRecord materialRecord in materialRecordList)
 		{
 			if (!NameToMaterialRecord.ContainsKey(materialRecord.materialName))
@@ -83,45 +82,9 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		}
 	}
 
-	//public bool TryAddMaterialCM3Value(string material, int quantity)
-	//{
-	//	int valueInCM3 = quantity;
-	//	int totalSum = valueInCM3 + currentTotalResourceAmount;
-	//	if (totalSum <= maximumTotalResourceStorage)
-	//	{
-	//		NameToMaterialRecord[material.ToLower()].currentAmount += valueInCM3;
-	//		currentTotalResourceAmount += valueInCM3;
-	//		return true;
-	//	}
-	//	else return false;
-	//}
-
-	//public bool TryAddMaterialCM3Value(ItemTrait itemTrait, int quantity)
-	//{
-	//	int valueInCM3 = quantity;
-	//	int totalSum = valueInCM3 + currentTotalResourceAmount;
-	//	if (totalSum <= maximumTotalResourceStorage)
-	//	{
-	//		ItemTraitToMaterialRecord[itemTrait].currentAmount += valueInCM3;
-	//		currentTotalResourceAmount += valueInCM3;
-	//		return true;
-	//	}
-	//	else return false;
-	//}
-
-	//public bool TryAddMaterialSheet(string material, int quantity)
-	//{
-	//	int valueInCM3 = quantity * cm3PerSheet;
-	//	int totalSum = valueInCM3 + currentTotalResourceAmount;
-	//	if (totalSum <= maximumTotalResourceStorage)
-	//	{
-	//		NameToMaterialRecord[material.ToLower()].currentAmount += valueInCM3;
-	//		currentTotalResourceAmount += valueInCM3;
-	//		return true;
-	//	}
-	//	else return false;
-	//}
-
+	/// <summary>
+	/// Attempt to add material sheets to the storage, these are converted into cm3. Returns true on success and false on failure.
+	/// </summary>
 	[Server]
 	public bool TryAddMaterialSheet(ItemTrait itemTrait, int quantity)
 	{
@@ -141,18 +104,9 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		else return false;
 	}
 
-	//public bool TryRemoveCM3Material(string material, int quantity)
-	//{
-	//	int valueInCM3Removed = quantity;
-	//	if (NameToMaterialRecord[material.ToLower()].currentAmount >= valueInCM3Removed)
-	//	{
-	//		NameToMaterialRecord[material.ToLower()].currentAmount -= valueInCM3Removed;
-	//		currentTotalResourceAmount -= valueInCM3Removed;
-	//		return true;
-	//	}
-	//	else return false;
-	//}
-
+	/// <summary>
+	/// Attempt to remove a cm3 amount of materials from the storage. Returns true on success and false on failure.
+	/// </summary>
 	[Server]
 	public bool TryRemoveCM3Material(ItemTrait materialType, int quantity)
 	{
@@ -166,18 +120,9 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		else return false;
 	}
 
-	//public bool TryRemoveMaterialSheet(string material, int quantity)
-	//{
-	//	int valueInCM3Removed = quantity * cm3PerSheet;
-	//	if (NameToMaterialRecord[material.ToLower()].currentAmount >= valueInCM3Removed)
-	//	{
-	//		NameToMaterialRecord[material.ToLower()].currentAmount -= valueInCM3Removed;
-	//		currentTotalResourceAmount -= valueInCM3Removed;
-	//		return true;
-	//	}
-	//	else return false;
-	//}
-
+	/// <summary>
+	/// Attempt to remove an amount of material sheets from the storage. Returns true on success and false on failure.
+	/// </summary>
 	[Server]
 	public bool TryRemoveMaterialSheet(ItemTrait materialType, int quantity)
 	{
@@ -196,6 +141,9 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		else return false;
 	}
 
+	/// <summary>
+	/// Attempt to remove an amount of materials from a Dictionary of materials. Returns true on success and false on failure.
+	/// </summary>
 	[Server]
 	public bool TryRemoveCM3Materials(DictionaryMaterialToIntAmount materialsAndAmount)
 	{

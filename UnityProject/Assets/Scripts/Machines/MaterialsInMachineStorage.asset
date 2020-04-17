@@ -13,36 +13,11 @@ MonoBehaviour:
   m_Name: MaterialsInMachineStorage
   m_EditorClassIdentifier: 
   materials:
-  - materialName: iron
-    materialTrait: {fileID: 11400000, guid: f27d5423a79d84fcab6199b0c5a47f4e, type: 2}
-    materialPrefab: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
-      type: 3}
-  - materialName: glass
-    materialTrait: {fileID: 11400000, guid: ef95b18f5d8aa42d2b4241d48a97d81d, type: 2}
-    materialPrefab: {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d,
-      type: 3}
-  - materialName: silver
-    materialTrait: {fileID: 11400000, guid: 1eeb3d785ef561f40ab7e3bb924cedd6, type: 2}
-    materialPrefab: {fileID: 6254655335276451647, guid: db7e38821ee90cf45b4f7edbbece6900,
-      type: 3}
-  - materialName: gold
-    materialTrait: {fileID: 11400000, guid: 7acd49a682df8ee45a17e0bb4f667642, type: 2}
-    materialPrefab: {fileID: 6254655335276451647, guid: 2d1e406ab4ff1174a94bc1a0de1b9704,
-      type: 3}
-  - materialName: titanium
-    materialTrait: {fileID: 11400000, guid: eab4a0cf6ec899240b34c27ae82015e2, type: 2}
-    materialPrefab: {fileID: 6254655335276451647, guid: 8a2a9838ff2c91643a77af22d485b15f,
-      type: 3}
-  - materialName: uranium
-    materialTrait: {fileID: 11400000, guid: 66d1cd8016198e74c92a755f9b2bdeb0, type: 2}
-    materialPrefab: {fileID: 6254655335276451647, guid: fdfebca06b77ef64898a68e1df0d3e9a,
-      type: 3}
-  - materialName: plasma
-    materialTrait: {fileID: 11400000, guid: 70d28796af421c64a8770cb93c818bd4, type: 2}
-    materialPrefab: {fileID: 6254655335276451647, guid: 70a15a1bc92d10944878d2f52dfe2be0,
-      type: 3}
-  - materialName: diamond
-    materialTrait: {fileID: 11400000, guid: 6ac5a21494216bf4e9e0047ecd65b01d, type: 2}
-    materialPrefab: {fileID: 5776497215191974577, guid: 1598cca5ce449de40b71631377e13b53,
-      type: 3}
+  - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+  - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+  - {fileID: 11400000, guid: 34a32a7e1dca6124e9b583dd262acb0a, type: 2}
+  - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+  - {fileID: 11400000, guid: 8aeea7bd472220c4abf642776d281f42, type: 2}
+  - {fileID: 11400000, guid: 78dc359894fa18744acf5862e480dd75, type: 2}
+  - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
   cm3PerSheet: 2000
