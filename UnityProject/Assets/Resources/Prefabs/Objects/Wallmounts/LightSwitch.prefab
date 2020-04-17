@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -67,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 18
+  m_SortingLayer: 19
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: e5190e92b1300c449b22db8ea3f4f37d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -92,8 +93,8 @@ GameObject:
   - component: {fileID: 61000012989894210}
   - component: {fileID: 82306546317105916}
   - component: {fileID: 114783072045832552}
-  - component: {fileID: 114156815017434572}
   - component: {fileID: 114942625721484022}
+  - component: {fileID: 4336187224331491966}
   - component: {fileID: 114056794007261734}
   - component: {fileID: 114773043881674562}
   - component: {fileID: 114547392609398558}
@@ -256,33 +257,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
---- !u!114 &114156815017434572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000014236108730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7a9eb64b31264686a68cf26e202e62c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isOn: 1
-  AtShutOffVoltage: 50
-  lightOff: {fileID: 21300000, guid: 4d81eb053d9b3f84d8ec165484e526a1, type: 3}
-  RelatedAPC: {fileID: 0}
-  lightOn: {fileID: 21300000, guid: e5190e92b1300c449b22db8ea3f4f37d, type: 3}
-  lightPowerCut: {fileID: 21300000, guid: 9aa18eab7ff404e4280d94c64356560a, type: 3}
-  PowerCut: 0
-  radius: 10
-  SelfPowered: 0
-  SelfPowerLights: []
 --- !u!114 &114942625721484022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +277,22 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+--- !u!114 &4336187224331491966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014236108730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c43d3fd88f44c684f0d47dbaee2bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  listLightSources: []
+  isOn: 1
 --- !u!114 &114056794007261734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +318,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114547392609398558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +335,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &114148094876921124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +365,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -404,7 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1132776131

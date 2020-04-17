@@ -77,7 +77,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		{
 			for (int i = 0; i < SelfPowerLights.Count; i++)
 			{
-				SelfPowerLights[i].PowerLightIntensityUpdate(240);
+				//SelfPowerLights[i].PowerLightIntensityUpdate(240);
 			}
 		}
 	}

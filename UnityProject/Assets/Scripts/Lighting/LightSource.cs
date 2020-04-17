@@ -1,289 +1,31 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using Light2D;
+using Mirror;
 using UnityEngine;
 
 public enum LightState
 {
 	None = 0,
-
 	On,
 	Off,
-
-	// Placeholder states, i assume naming would change.
-	MissingBulb,
-	Dirty,
-	Broken,
-
-	TypeCount,
 }
 
-/// <summary>
-/// Light source, such as a light bar. Note that for wall protrusion lights such as light tubes / light bars,
-/// LightSwitch automatically sets their RelatedAPC if it's looking in their general direction
-/// </summary>
 [ExecuteInEditMode]
 public class LightSource : ObjectTrigger
 {
-	private const LightState InitialState = LightState.Off;
-
-	private readonly Dictionary<LightState, Sprite> mSpriteDictionary =
-		new Dictionary<LightState, Sprite>((int) LightState.TypeCount);
+	private const LightState InitialState = LightState.On;
 
 	[Header("Generates itself if this is null:")]
 	public GameObject mLightRendererObject;
 
-	private LightState mState;
-	private SpriteRenderer Renderer;
-	private float fullIntensityVoltage = 240;
-	public float Resistance = 1200;
-	private bool tempStateCache;
-	private float _intensity;
 	private LightMountStates wallMount;
 
-	/// <summary>
-	/// Current intensity of the lights, automatically clamps and updates sprites when set
-	/// </summary>
-	private float Intensity
-	{
-		get { return _intensity; }
-		set
-		{
-			value = Mathf.Clamp(value, 0, 1);
-			if (_intensity != value)
-			{
-				_intensity = value;
-				OnIntensityChange();
-			}
-		}
-	}
+	public Color customColor;
 
-	///Note that for wall protrusion lights such as light tubes / light bars,
-	// LightSwitch automatically sets this if it's looking in their general direction
-	public APC RelatedAPC;
+	public bool switchState { get; private set; }
 
-	public LightSwitch relatedLightSwitch;
-	public Color customColor; //Leave null if you want default light color.
-
-	// For network sync reliability.
-	private bool waitToCheckState;
-
-	private LightState State
-	{
-		get { return mState; }
-
-		set
-		{
-			if (mState == value)
-				return;
-
-			mState = value;
-
-			OnStateChange(value);
-		}
-	}
-
-	public override void Trigger(bool iState)
-	{
-		// Leo Note: Some sync magic happening here. Decided not to touch it.
-		tempStateCache = iState;
-
-		if (waitToCheckState)
-		{
-			return;
-		}
-
-		if (Renderer == null)
-		{
-			waitToCheckState = true;
-			if (this != null && gameObject.activeInHierarchy)
-			{
-				StartCoroutine(WaitToTryAgain());
-			}
-
-			return;
-		}
-		else
-		{
-			State = iState ? LightState.On : LightState.Off;
-		}
-	}
-
-	//this is the method broadcast invoked by LightSwitch to tell this light source what switch is driving it.
-	//it is buggy and unreliable especially when client joins on a rotated matrix, client and server do not agree
-	//on which switch owns which light
-	public void Received(LightSwitchData Received)
-	{
-		if (wallMount.State == LightMountStates.LightMountState.Broken ||
-		    wallMount.State == LightMountStates.LightMountState.MissingBulb)
-		{
-			return;
-		}
-
-		//Logger.Log (Received.LightSwitchTrigger.ToString() + " < LightSwitchTrigger" + Received.RelatedAPC.ToString() + " < APC" + Received.state.ToString() + " < state" );
-		tempStateCache = Received.state;
-
-		if (waitToCheckState)
-		{
-			return;
-		}
-
-		if (Received.LightSwitch != relatedLightSwitch && relatedLightSwitch != null) return;
-
-		if (relatedLightSwitch == null)
-		{
-			relatedLightSwitch = Received.LightSwitch;
-		}
-
-		if (Received.RelatedAPC != null)
-		{
-			RelatedAPC = Received.RelatedAPC;
-
-			if (RelatedAPC == null)
-			{
-				Logger.Log($"Related APC was missing in the received method: {gameObject.name}",
-					Category.Lighting);
-			}
-			else if (relatedLightSwitch == null)
-			{
-				Logger.Log($"Related Lightswitch was missing in the received method: {gameObject.name}",
-					Category.Lighting);
-			}
-			else if (State == LightState.On)
-			{
-				if (RelatedAPC.ConnectedSwitchesAndLights.ContainsKey(relatedLightSwitch))
-				{
-					if (!RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Contains(this))
-					{
-						RelatedAPC.ConnectedSwitchesAndLights[relatedLightSwitch].Add(this);
-					}
-				}
-				else
-				{
-					RelatedAPC.ConnectedSwitchesAndLights.Add(relatedLightSwitch, new List<LightSource>{this});
-				}
-			}
-		}
-		else if (relatedLightSwitch.SelfPowered)
-		{
-			if (State == LightState.On)
-			{
-				if (!relatedLightSwitch.SelfPowerLights.Contains(this))
-				{
-					relatedLightSwitch.SelfPowerLights.Add(this);
-				}
-			}
-		}
-
-		if (Renderer == null)
-		{
-			waitToCheckState = true;
-			StartCoroutine(WaitToTryAgain());
-			return;
-		}
-		else
-		{
-			State = Received.state ? LightState.On : LightState.Off;
-			wallMount.SwitchChangeState(State);
-		}
-
-	}
-
-	private void OnIntensityChange()
-	{
-		//we were getting an NRE here internally in GetComponent so this checks if the object lifetime
-		//is up according to Unity
-		if (this == null) return;
-		var lightSprites = GetComponentInChildren<LightSprite>();
-		if (lightSprites)
-		{
-			lightSprites.Color.a = Intensity;
-		}
-	}
-
-	private void OnStateChange(LightState iValue)
-	{
-		// Assign state appropriate sprite to the LightSourceObject.
-		if (mSpriteDictionary.ContainsKey(iValue))
-		{
-			Renderer.sprite = mSpriteDictionary[iValue];
-		}
-		else if (mSpriteDictionary.Any())
-		{
-			Renderer.sprite = mSpriteDictionary.Values.First();
-		}
-
-		// Switch Light renderer.
-		if (mLightRendererObject != null)
-			mLightRendererObject.SetActive(iValue == LightState.On);
-	}
-
-	public void PowerLightIntensityUpdate(float Voltage)
-	{
-		if (State == LightState.Off)
-		{
-			//RelatedAPC.ListOfLights.Remove(this);
-			//RelatedAPC = null;
-		}
-		else
-		{
-			// Intensity clamped between 0 and 1, and sprite updated automatically with custom get set
-			Intensity = Voltage / fullIntensityVoltage;
-		}
-	}
-
-	private void Awake()
-	{
-		if (!Application.isPlaying)
-		{
-			return;
-		}
-
-		Renderer = GetComponentInChildren<SpriteRenderer>();
-
-		if (mLightRendererObject == null)
-		{
-			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
-		}
-
-		wallMount = GetComponent<LightMountStates>();
-
-		State = InitialState;
-
-		ExtractLightSprites();
-
-		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-	}
-
-	private void OnWillDestroyServer(DestructionInfo arg0)
-	{
-		Spawn.ServerPrefab("GlassShard", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
-			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
-	}
-
-#if UNITY_EDITOR
-	void Update()
-	{
-		if (!Application.isPlaying)
-		{
-			if (gameObject.tag == "EmergencyLight")
-			{
-				if (RelatedAPC == null)
-				{
-					Logger.LogError("EmergencyLight is missing APC reference, at " + transform.position,
-						Category.Electrical);
-					RelatedAPC.Current =
-						1; //so It will bring up an error, you can go to click on to go to the actual object with the missing reference
-				}
-			}
-
-			return;
-		}
-	}
-#endif
+	[SyncVar]
+	private LightState mState;
 
 	void Start()
 	{
@@ -306,65 +48,48 @@ public class LightSource : ObjectTrigger
 		mLightRendererObject.GetComponent<LightSprite>().Color = _color;
 	}
 
-	private void ExtractLightSprites()
+	private void Awake()
 	{
-		var _assignedSprite = Renderer.sprite;
-
-		if (_assignedSprite == null)
+		if (!Application.isPlaying)
 		{
-			Logger.LogError(
-				"LightSource: Unable to extract light source state sprites from SpriteSheet. Operation requires Renderer.sprite to be assigned in inspector.",
-				Category.Lighting);
 			return;
 		}
 
-		string[] _splitedName = _assignedSprite.name.Split('_');
+		if (mLightRendererObject == null)
+		{
+			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
+		}
 
-		if (_splitedName.Length == 2 && int.TryParse(_splitedName[1], out _))
-		{
-			mSpriteDictionary.Add(LightState.On, _assignedSprite);
-		}
-		else
-		{
-			mSpriteDictionary.Add(LightState.On, _assignedSprite);
-		}
+		wallMount = GetComponent<LightMountStates>();
+
+		mState = InitialState;
 	}
 
 	public void SubscribeToSwitch(ref Action<bool> triggerEvent)
 	{
 		Debug.Log("Light source is subscribed");
-		triggerEvent += Trigger;
+		triggerEvent += OnSwitchInvokeEvent;
 	}
 
-	// Handle sync failure.
-	private IEnumerator WaitToTryAgain()
+	private void OnSwitchInvokeEvent(bool newState)
 	{
-		yield return WaitFor.Seconds(0.2f);
-		if (Renderer == null)
+		switchState = newState;
+		if (wallMount.State == LightMountStates.LightMountState.Broken ||
+		    wallMount.State == LightMountStates.LightMountState.MissingBulb)
 		{
-			Renderer = GetComponentInChildren<SpriteRenderer>();
-			if (Renderer != null)
-			{
-				State = tempStateCache ? LightState.On : LightState.Off;
-				if (mLightRendererObject != null)
-				{
-					mLightRendererObject.SetActive(tempStateCache);
-				}
-			}
-			else
-			{
-				Logger.LogWarning("LightSource still failing Renderer sync", Category.Lighting);
-			}
-		}
-		else
-		{
-			State = tempStateCache ? LightState.On : LightState.Off;
-			if (mLightRendererObject != null)
-			{
-				mLightRendererObject.SetActive(tempStateCache);
-			}
+			return;
 		}
 
-		waitToCheckState = false;
+		wallMount.SwitchChangeState(newState ? LightState.On : LightState.Off);
+		Trigger(newState);
+	}
+
+	public override void Trigger(bool iState)
+	{
+		mState = iState ? LightState.On : LightState.Off;
+		if (mLightRendererObject != null)
+		{
+			mLightRendererObject.SetActive(iState);
+		}
 	}
 }

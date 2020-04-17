@@ -9,12 +9,11 @@ namespace Lighting
 	{
 		public List<LightSource> listLightSources;
 
-		public APC relatedApc;
-
 		public Action<bool> switchTriggerEvent;
 
 		[SyncVar(hook = nameof(SyncState))]
 		public bool isOn = true;
+
 		private void Awake()
 		{
 			foreach (var lightSource in listLightSources)
@@ -33,15 +32,13 @@ namespace Lighting
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
-			Debug.Log("Switch Pressed");
 			ServerChangeState(!isOn);
-
+			Debug.Log("Switch Pressed");
 		}
 
 		private void SyncState(bool oldState, bool newState)
 		{
 			isOn = newState;
-
 		}
 
 		[Server]

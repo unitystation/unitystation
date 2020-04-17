@@ -131,7 +131,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 			Voltages = 0.001f;
 		}
 		float CalculatingResistance = new float();
-		if (PowerLights)
+		/*if (PowerLights)
 		{
 			foreach (KeyValuePair<LightSwitch, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
 			{
@@ -162,7 +162,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 					}
 				}
 			}
-		}
+		}*/
 
 		//Machinery
 		if (PowerMachinery)

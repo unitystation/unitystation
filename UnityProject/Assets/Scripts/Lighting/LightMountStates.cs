@@ -29,7 +29,6 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	//Second layer for light effect
 
 	private LightSource lightSource;
-	private LightSwitch lightSwitch;
 	private Integrity integrity;
 	private Orientation orientation;
 
@@ -125,14 +124,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			}
 			else
 			{
-				if (lightSwitch == null)
-				{
-					lightSwitch = lightSource.relatedLightSwitch;
-				}
-
-				if (lightSwitch == null) return;
-				
-				if (lightSwitch.isOn == LightSwitch.States.On)
+				if (lightSource.switchState)
 				{
 					Despawn.ServerSingle(interaction.HandObject);
 					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
@@ -158,8 +150,6 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			Logger.Log($"This light mount is missing a light source or integrity component! {gameObject.name}", Category.Lighting);
 			return false;
 		}
-
-		lightSwitch = lightSource.relatedLightSwitch;
 		integrityStateBroken = integrity.initialIntegrity * multiplierBroken;
 		integrityStateMissingBulb = integrity.initialIntegrity * multiplierMissingBulb;
 		orientation = GetComponent<Directional>().CurrentDirection;
