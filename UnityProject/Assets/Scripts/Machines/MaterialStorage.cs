@@ -32,11 +32,11 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 
 	public override void OnStartClient()
 	{
-		foreach (MaterialRecord materialRecord in materialRecordList)
-		{
-			materialRecord.SyncCurrentAmount(materialRecord.CurrentAmount, materialRecord.CurrentAmount);
-		}
-		base.OnStartClient();
+		//foreach (MaterialRecord materialRecord in materialRecordList)
+		//{
+		//	materialRecord.SyncCurrentAmount(materialRecord.CurrentAmount, materialRecord.CurrentAmount);
+		//}
+		//base.OnStartClient();
 	}
 
 	private void Awake()
@@ -95,7 +95,7 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		{
 			//Sets the current amount of a certain material
 			int newAmount = ItemTraitToMaterialRecord[itemTrait].CurrentAmount + valueInCM3;
-			ItemTraitToMaterialRecord[itemTrait].ServerSetCurrentAmount(newAmount);
+			ItemTraitToMaterialRecord[itemTrait].SetCurrentAmount(newAmount);
 			//Sets the total amount of all materials
 			int newTotalAmount = CurrentTotalResourceAmount + valueInCM3;
 			ServerSetCurrentTotalResourceAmount(newTotalAmount);
@@ -114,7 +114,7 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		if (ItemTraitToMaterialRecord[materialType].CurrentAmount >= valueInCM3Removed)
 		{
 			int newAmount = ItemTraitToMaterialRecord[materialType].CurrentAmount - valueInCM3Removed;
-			ItemTraitToMaterialRecord[materialType].ServerSetCurrentAmount(newAmount);
+			ItemTraitToMaterialRecord[materialType].SetCurrentAmount(newAmount);
 			return true;
 		}
 		else return false;
@@ -131,7 +131,7 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		{
 			//Sets the new current amount of material
 			int newAmount = ItemTraitToMaterialRecord[materialType].CurrentAmount - valueInCM3Removed;
-			ItemTraitToMaterialRecord[materialType].ServerSetCurrentAmount(newAmount);
+			ItemTraitToMaterialRecord[materialType].SetCurrentAmount(newAmount);
 
 			//Sets the total amount of all materials
 			int newTotalAmount = CurrentTotalResourceAmount - valueInCM3Removed;
@@ -166,7 +166,7 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 			int productAmountCost = materialsAndAmount[material];
 			int newAmount = amountInStorage - productAmountCost;
 			newTotalResourceAmount -= productAmountCost;
-			ItemTraitToMaterialRecord[material.materialTrait].ServerSetCurrentAmount(newAmount);
+			ItemTraitToMaterialRecord[material.materialTrait].SetCurrentAmount(newAmount);
 		}
 		ServerSetCurrentTotalResourceAmount(newTotalResourceAmount);
 		return true;
@@ -196,14 +196,13 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 		ServerSetCurrentTotalResourceAmount(0);
 		foreach (MaterialRecord materialRecord in ItemTraitToMaterialRecord.Values)
 		{
-			materialRecord.ServerSetCurrentAmount(0);
+			materialRecord.SetCurrentAmount(0);
 		}
 	}
 }
 
-public class MaterialRecord : NetworkBehaviour
+public class MaterialRecord
 {
-	[SyncVar(hook = nameof(SyncCurrentAmount))]
 	private int currentAmount;
 
 	public int CurrentAmount { get => currentAmount; }
@@ -211,15 +210,7 @@ public class MaterialRecord : NetworkBehaviour
 	public ItemTrait materialType { get; set; }
 	public GameObject materialPrefab { get; set; }
 
-	[Server]
-	public void ServerSetCurrentAmount(int newAmount)
-	{
-		int oldAmount = CurrentAmount;
-		currentAmount = newAmount;
-		SyncCurrentAmount(oldAmount, currentAmount);
-	}
-
-	public void SyncCurrentAmount(int oldValue, int newValue)
+	public void SetCurrentAmount(int newValue)
 	{
 		currentAmount = newValue;
 	}
