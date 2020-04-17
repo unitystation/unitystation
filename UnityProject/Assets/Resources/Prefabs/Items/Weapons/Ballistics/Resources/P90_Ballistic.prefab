@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -93,6 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -104,11 +107,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
-        type: 3}
-      propertyPath: m_Name
-      value: P90_Ballistic
-      objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: SpawnsCaseing
@@ -145,12 +143,17 @@ PrefabInstance:
       propertyPath: WeaponType
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: itemStorageCapacity
+      propertyPath: ammoType
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 11400000, guid: b9b7e2c863aad42f5bdc8d356e5fc42c,
-        type: 2}
+      objectReference: {fileID: 742292832060491855, guid: 8d67e765cfb4f7e4ea02b4bb99f12383,
+        type: 3}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialName
@@ -229,10 +232,21 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: c657163f13377ad4d80064711079f80f, type: 3}
+    - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 324e03d72e4f94c40bcf3b68b8c205aa,
+        type: 3}
     - target: {fileID: 7392881626475492836, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_Name
+      value: P90_Ballistic
       objectReference: {fileID: 0}
     - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -289,12 +303,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+    - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: itemStorageCapacity
       value: 
-      objectReference: {fileID: 21300000, guid: 324e03d72e4f94c40bcf3b68b8c205aa,
-        type: 3}
+      objectReference: {fileID: 11400000, guid: b9b7e2c863aad42f5bdc8d356e5fc42c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f46dc50d35397f04f8f6be3fb49668ca, type: 3}
 --- !u!4 &8577108076371459539 stripped
