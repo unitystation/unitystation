@@ -38,17 +38,19 @@ public class StepChanger : MonoBehaviour, IServerInventoryMove
 		{
 			if (removing && changeSlot == NamedSlot.outerwear)
 			{
-				WearType? feet = player.PlayerScript.Equipment.ItemStorage.GetNamedItemSlot(NamedSlot.feet).Item?.GetComponent<StepChanger>().wearType;
-
-				switch (feet)
+				WearType feet = WearType.barefoot;
+				var tryGetItem = player.PlayerScript.Equipment.ItemStorage.GetNamedItemSlot(NamedSlot.feet).Item;
+				if (tryGetItem != null)
 				{
-					case null:
-						mind.stepType = StepType.Barefoot;
-						return;
-					default:
-						mind.stepType = (StepType)feet;
-						return;
+					var stepChanger = tryGetItem.GetComponent<StepChanger>();
+					if (stepChanger != null)
+					{
+						feet = stepChanger.wearType;
+					}
 				}
+
+				mind.stepType = (StepType)feet;
+				return;
 			}
 
 			if (removing && changeSlot == NamedSlot.feet)
@@ -65,6 +67,7 @@ public class StepChanger : MonoBehaviour, IServerInventoryMove
 
 	private enum WearType
 	{
+		barefoot = StepType.Barefoot,
 		shoes = StepType.Shoes,
 		clownshoes = StepType.Clown,
 		hardsuit = StepType.Suit
