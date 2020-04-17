@@ -9,7 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccfe138752d4b66bcb7c56a0c9769c7, type: 3}
-  m_Name: 12mm
+  m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
+  m_Name: InternalBatteryCapacity
   m_EditorClassIdentifier: 
-  traitDescription: An object with this trait can hold 12mm bullets as a magazine.
+  MaxItemSize: 5
+  Whitelist:
+  - {fileID: 11400000, guid: 6dfa39f936b18f24b833015a255aa6f2, type: 2}
+  Required: []
+  Blacklist: []

@@ -28,20 +28,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 15
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
+  maxCapacity: 100
+  reactionSet: {fileID: 0}
+  reagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys: []
+      m_values: []
   itemAttributes: {fileID: 0}
-  InSolidForm: 0
-  Reagents: []
-  Amounts: []
-  TraitWhitelist: []
-  ReagentWhitelist: []
-  TransferMode: 1
-  InitialTransferAmount: 5
-  PossibleTransferAmounts:
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 1
+  possibleTransferAmounts:
   - 5
   - 10
   - 15
+  transferAmount: 5
 --- !u!114 &4278387595838427271
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -68,11 +73,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3097138933977987719, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+    - target: {fileID: 2885341641989622235, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
-      propertyPath: m_Name
-      value: Magazine_Syringe
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 74238222819d4ca498b8b751044e6133,
+        type: 3}
     - target: {fileID: 3091929310079895539, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -128,6 +134,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3097138933977987719, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: m_Name
+      value: Magazine_Syringe
+      objectReference: {fileID: 0}
+    - target: {fileID: 3129732272286336819, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: magazineSize
@@ -136,12 +152,7 @@ PrefabInstance:
     - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: ammoType
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 3129732272286336819, guid: 2c406df2572ceba47af8a9de4f9a50ba,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 3176908863337649637, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
@@ -169,12 +180,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8f46f13d516624e6883db235a840f575,
         type: 2}
-    - target: {fileID: 2885341641989622235, guid: 2c406df2572ceba47af8a9de4f9a50ba,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 74238222819d4ca498b8b751044e6133,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c406df2572ceba47af8a9de4f9a50ba, type: 3}
 --- !u!1 &742292832060491855 stripped
