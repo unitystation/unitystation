@@ -52,6 +52,11 @@ public class MetaDataSystem : SubsystemBehaviour
 		if (MatrixManager.IsInitialized)
 		{
 			LocateRooms();
+			Stopwatch Dsw = new Stopwatch();
+			Dsw.Start();
+			matrix.UnderFloorLayer.InitialiseUnderFloorUtilities();
+			Dsw.Stop();
+			Logger.Log("Initialise Station Utilities (Power cables, Atmos pipes): " + Dsw.ElapsedMilliseconds + " ms", Category.Matrix);
 		}
 
 		sw.Stop();
@@ -96,6 +101,7 @@ public class MetaDataSystem : SubsystemBehaviour
 			FindRoomAt(position);
 		}
 	}
+
 
 	private void FindRoomAt(Vector3Int position)
 	{

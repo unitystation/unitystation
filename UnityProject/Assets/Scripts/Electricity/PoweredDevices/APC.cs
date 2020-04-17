@@ -53,7 +53,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 
 	private void OnDisable()
 	{
-		ElectricalSynchronisation.PoweredDevices.Remove(ElectricalNodeControl);
+		ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ElectricalNodeControl);
 	}
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -65,17 +65,17 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	public void PowerNetworkUpdate()
 	{
 		//Logger.Log("humm...");
-		if (!(CashOfConnectedDevices == ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices.Count))
+		if (!(CashOfConnectedDevices == ElectricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices.Count))
 		{
-			CashOfConnectedDevices = ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices.Count;
+			CashOfConnectedDevices = ElectricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices.Count;
 			ConnectedDepartmentBatteries.Clear();
-			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Device in ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices)
+			foreach (var Device in ElectricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices)
 			{
 				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery)
 				{
-					if (!(ConnectedDepartmentBatteries.Contains(Device.Key.GameObject().GetComponent<DepartmentBattery>())))
+					if (!(ConnectedDepartmentBatteries.Contains(Device.Key.GetComponent<DepartmentBattery>())))
 					{
-						ConnectedDepartmentBatteries.Add(Device.Key.GameObject().GetComponent<DepartmentBattery>());
+						ConnectedDepartmentBatteries.Add(Device.Key.GetComponent<DepartmentBattery>());
 					}
 				}
 			}
@@ -88,8 +88,9 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 				BatteryCharging = true;
 			}
 		}
-		SyncVoltage(voltageSync, ElectricalNodeControl.Node.Data.ActualVoltage);
-		Current = ElectricalNodeControl.Node.Data.CurrentInWire;
+		ElectricityFunctions.WorkOutActualNumbers(ElectricalNodeControl.Node.InData);
+		SyncVoltage(voltageSync, ElectricalNodeControl.Node.InData.Data.ActualVoltage);
+		Current = ElectricalNodeControl.Node.InData.Data.CurrentInWire;
 		HandleDevices();
 		UpdateDisplay();
 	}

@@ -26,7 +26,6 @@ public class ClothingItem : MonoBehaviour
 	private Orientation currentDirection = Orientation.Down;
 
 	protected int referenceOffset;
-	private int variantIndex = 0;
 
 	public SpriteHandler spriteHandler;
 

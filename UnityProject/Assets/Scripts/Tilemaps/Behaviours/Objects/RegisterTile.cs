@@ -205,7 +205,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private CustomNetTransform cnt;
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
-	private bool hasCachedComponents;
+	private bool hasCachedComponents = false;
+
+
+	private ElectricalOIinheritance electricalData;
+	public ElectricalOIinheritance ElectricalData => electricalData;
 
 	protected virtual void Awake()
 	{
@@ -278,6 +282,11 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 	}
 
+	public void SetElectricalData(ElectricalOIinheritance inElectricalData)
+	{
+		//Logger.Log("seting " + this.name);
+		electricalData = inElectricalData;
+	}
 
 
 	/// <summary>

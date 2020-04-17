@@ -40,7 +40,7 @@ namespace DatabaseAPI
         private float updateWait = 0f;
         private string publicIP;
         private TelepathyTransport telepathyTransport;
-        private BoosterTransport boosterTransport;
+        private BoosterTransport boosterTransport = null;
 
         void AttemptConfigLoad()
         {

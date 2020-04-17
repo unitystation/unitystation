@@ -4,11 +4,31 @@ using UnityEngine;
 
 public class ElectronicSupplyData
 {
-	public Dictionary<ElectricalOIinheritance, float> CurrentGoingTo = new Dictionary<ElectricalOIinheritance, float>();
-	public Dictionary<ElectricalOIinheritance, float> CurrentComingFrom  = new Dictionary<ElectricalOIinheritance, float>();
-	public Dictionary<ElectricalOIinheritance, float> ResistanceGoingTo = new Dictionary<ElectricalOIinheritance, float>();
-	public Dictionary<ElectricalOIinheritance, float> ResistanceComingFrom = new Dictionary<ElectricalOIinheritance, float>();
-	public float SourceVoltages;
-	public HashSet<ElectricalOIinheritance> Downstream = new HashSet<ElectricalOIinheritance>();
-	public HashSet<ElectricalOIinheritance> Upstream = new HashSet<ElectricalOIinheritance>();
+	public Dictionary<IntrinsicElectronicData, VIRCurrent> CurrentGoingTo = new Dictionary<IntrinsicElectronicData, VIRCurrent>();
+	public Dictionary<IntrinsicElectronicData, VIRCurrent> CurrentComingFrom  = new Dictionary<IntrinsicElectronicData, VIRCurrent>();
+	public Dictionary<IntrinsicElectronicData, VIRResistances> ResistanceGoingTo = new Dictionary<IntrinsicElectronicData, VIRResistances>();
+	public Dictionary<IntrinsicElectronicData, VIRResistances> ResistanceComingFrom = new Dictionary<IntrinsicElectronicData, VIRResistances>();
+	public float SourceVoltage = 0;
+	public HashSet<IntrinsicElectronicData> Downstream = new HashSet<IntrinsicElectronicData>();
+	public HashSet<IntrinsicElectronicData> Upstream = new HashSet<IntrinsicElectronicData>();
+
+	public override string ToString()
+	{
+		return (
+		string.Join(",", CurrentGoingTo)
+		);
+	}
+
+	public void Pool()
+	{
+		ElectricalDataCleanup.Pool(CurrentGoingTo);
+		ElectricalDataCleanup.Pool(CurrentComingFrom);
+		ElectricalDataCleanup.Pool(ResistanceGoingTo);
+		ElectricalDataCleanup.Pool(ResistanceComingFrom);
+		Downstream.Clear();
+		Upstream.Clear();
+		SourceVoltage = 0;
+		ElectricalPool.PooledElectronicSupplyData.Add(this);
+	}
+
 }

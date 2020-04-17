@@ -22,6 +22,7 @@ public class UpdateItemSlotMessage : ServerMessage
 		if (!CustomNetworkManager.IsServer)
 		{
 			LoadMultipleObjects(new uint[]{Storage, Item});
+			if (NetworkObjects[0] == null) return;
 
 			ItemSlot slot = null;
 			if (SlotIndex == -1)

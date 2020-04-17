@@ -66,6 +66,7 @@ public static class PlayerSpawn
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
 		var oldGhost = forMind.ghost;
+		forMind.stepType = GetStepType(forMind.body);
 
 		ServerSpawnInternal(connection, occupation, settings, forMind, willDestroyOldBody: oldGhost != null);
 
@@ -91,6 +92,7 @@ public static class PlayerSpawn
 		var occupation = forMind.occupation;
 		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
+		forMind.stepType = GetStepType(forMind.body);
 
 		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, true);
 	}
@@ -98,7 +100,7 @@ public static class PlayerSpawn
 	//Jobs that should always use their own spawn points regardless of current round time
 	private static readonly ReadOnlyCollection<JobType> NEVER_SPAWN_ARRIVALS_JOBS = new ReadOnlyCollection<JobType>(new List<JobType>
 		{
-			JobType.AI, 
+			JobType.AI,
 			JobType.SYNDICATE
 		});
 	//Time to start spawning players at arrivals
@@ -141,9 +143,9 @@ public static class PlayerSpawn
 				{
 					spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
 				}
-				
+
 			}
-			
+
 			if (spawnTransform == null)
 			{
 				Logger.LogErrorFormat(
@@ -315,14 +317,14 @@ public static class PlayerSpawn
 		//Hard coding to assistant
 		Vector3Int spawnPosition = GetSpawnForJob(JobType.ASSISTANT).transform.position.CutToInt();
 
-		//Get spawn location 
+		//Get spawn location
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
 		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
 		var newPlayer = Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation, parentTransform);
 		newPlayer.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
-		//Create the mind without a job refactor this to make it as a ghost mind 
+		//Create the mind without a job refactor this to make it as a ghost mind
 		Mind.Create(newPlayer);
 		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, EVENT.GhostSpawned, PlayerManager.CurrentCharacterSettings);
 
@@ -439,7 +441,7 @@ public static class PlayerSpawn
 		{
 			FollowCameraMessage.Send(newBody, playerObjectBehavior.parentContainer.gameObject);
 		}
-		bool newMob = false;
+
 		if (characterSettings != null)
 		{
 			playerScript.characterSettings = characterSettings;
@@ -450,7 +452,6 @@ public static class PlayerSpawn
 			{
 				playerSprites.OnCharacterSettingsChange(characterSettings);
 			}
-			newMob = true;
 		}
 		var healthStateMonitor = newBody.GetComponent<HealthStateMonitor>();
 		if (healthStateMonitor)
@@ -481,5 +482,19 @@ public static class PlayerSpawn
 			.Where(x => x.JobRestrictions.Contains(jobType)).ToList();
 
 		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
+	}
+
+	private static StepType GetStepType(PlayerScript player)
+	{
+		if (player.Equipment.GetClothingItem(NamedSlot.outerwear)?.gameObject.GetComponent<StepChanger>() != null)
+		{
+			return StepType.Suit;
+		}
+		else if (player.Equipment.GetClothingItem(NamedSlot.feet) != null)
+		{
+			return StepType.Shoes;
+		}
+
+		return StepType.Barefoot;
 	}
 }

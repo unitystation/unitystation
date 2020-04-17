@@ -13,6 +13,14 @@ public class MetaDataNode: IGasMixContainer
 {
 	public static readonly MetaDataNode None;
 
+
+	/// <summary>
+	/// Contains all electrical data for this tile
+	/// </summary>
+	public List<ElectricalMetaData> ElectricalData = new List<ElectricalMetaData>();
+
+
+
 	/// <summary>
 	/// Local position of this tile in its parent matrix.
 	/// </summary>

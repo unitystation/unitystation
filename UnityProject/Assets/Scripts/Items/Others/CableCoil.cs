@@ -114,6 +114,8 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandAp
 						if (con.WireEndA == WireEndB || con.WireEndB == WireEndB)
 						{
 							Chat.AddExamineMsgToClient("There is already a cable at that position");
+							econs.Clear();
+							ElectricalPool.PooledFPCList.Add(econs);
 							return;
 						}
 						foreach (var Econ in econs)
@@ -122,16 +124,22 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandAp
 							{
 								if (con.WireEndA == Econ.WireEndA || con.WireEndB == Econ.WireEndA){
 									Chat.AddExamineMsgToClient("There is already a cable at that position");
+									econs.Clear();
+									ElectricalPool.PooledFPCList.Add(econs);
 									return;
 								}
 								else if (con.WireEndA == Econ.WireEndB || con.WireEndB == Econ.WireEndB){
 									Chat.AddExamineMsgToClient("There is already a cable at that position");
+									econs.Clear();
+									ElectricalPool.PooledFPCList.Add(econs);
 									return;
 								}
 							}
 						}
 					}
 				}
+				econs.Clear();
+				ElectricalPool.PooledFPCList.Add(econs);
 				BuildCable(roundTargetWorldPosition, interaction.Performer.transform.parent, WireEndB);
 				Inventory.ServerConsume(interaction.HandSlot, 1);
 			}
@@ -142,7 +150,11 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandAp
 	{
 		Connection WireEndA = Connection.Overlap;
 		GameObject Cable = Spawn.ServerPrefab(CablePrefab, position, parent).GameObject;
-		ElectricalCableMessage.Send(Cable, WireEndA, WireEndB, CableType);
-		Cable.GetComponent<CableInheritance>().SetDirection(WireEndB, WireEndA, CableType);
+		ElectricalManager.Instance.electricalSync.StructureChange = true;
+		//ElectricalCableMessage.Send(Cable, WireEndA, WireEndB, CableType);
+		var CableInheritance = Cable.GetComponent<CableInheritance>();
+		CableInheritance.IsInGamePlaced = true;
+		CableInheritance.SetDirection(WireEndB, WireEndA, CableType);
+
 	}
 }
