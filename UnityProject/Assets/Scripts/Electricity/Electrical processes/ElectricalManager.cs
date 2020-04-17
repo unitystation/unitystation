@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using System.Threading;
 
 public class ElectricalManager : MonoBehaviour
@@ -13,13 +14,28 @@ public class ElectricalManager : MonoBehaviour
 	public bool Running { get; private set; }
 	public float MSSpeed = 100;
 
-	public static ElectricalManager Instance;
+	public static ElectricalManager Instance
+	{
+		get
+		{
+			if (instance == null)
+			{
+				instance = FindObjectOfType<ElectricalManager>();
+			}
+
+			return instance;
+		}
+		set { instance = value; }
+	}
+
+	private static ElectricalManager instance;
 
 	public ElectricalMode Mode;
 
 	public bool DOCheck;
 
 	private Object electricalLock = new Object();
+
 	public static Object ElectricalLock => Instance.electricalLock;
 
 	private void Awake()
@@ -69,10 +85,8 @@ public class ElectricalManager : MonoBehaviour
 	}
 
 
-
 	public void StartSim()
 	{
-
 		if (!CustomNetworkManager.Instance._isServer) return;
 
 
@@ -81,11 +95,11 @@ public class ElectricalManager : MonoBehaviour
 
 		if (Mode == ElectricalMode.Threaded)
 		{
-			electricalSync.SetSpeed((int)MSSpeed);
+			electricalSync.SetSpeed((int) MSSpeed);
 			electricalSync.StartSim();
 		}
+
 		Logger.Log("Round Started", Category.Electrical);
-		StartCoroutine(KickstartElectrical());
 	}
 
 	public void StopSim()
@@ -101,17 +115,7 @@ public class ElectricalManager : MonoBehaviour
 
 	public static void SetInternalSpeed()
 	{
-		Instance.electricalSync.SetSpeed((int)Instance.MSSpeed);
-	}
-
-	private IEnumerator KickstartElectrical()
-	{
-		electricalSync.StopSim();
-		Mode = ElectricalMode.GameLoop;
-		yield return WaitFor.Seconds(2f);
-		Mode = ElectricalMode.Threaded;
-		electricalSync.SetSpeed((int)MSSpeed);
-		electricalSync.StartSim();
+		Instance.electricalSync.SetSpeed((int) Instance.MSSpeed);
 	}
 
 }

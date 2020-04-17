@@ -6,7 +6,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5680136605834777345}
+  m_GameObject: {fileID: 6201122676745406775}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 49c1dcb3aeedc1446a9e40fc57eb5cd3, type: 3}
@@ -17,6 +17,7 @@ MonoBehaviour:
   CableType: 0
   CablePrefab: {fileID: 1042895037894172, guid: e76e1e2174fe48d41bf086955b459b61,
     type: 3}
+  powerTypeCategory: 1
 --- !u!1001 &6201122676745358930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -43,7 +44,7 @@ PrefabInstance:
         type: 3}
       propertyPath: stacksWith.Array.data[0]
       value: 
-      objectReference: {fileID: 5680136605834777345}
+      objectReference: {fileID: 6201122676745406775}
     - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -216,7 +217,7 @@ PrefabInstance:
       objectReference: {fileID: 4900000, guid: 840872281a5684a49bc65684d2ad93bc, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}
---- !u!1 &5680136605834777345 stripped
+--- !u!1 &6201122676745406775 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
     type: 3}
