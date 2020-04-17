@@ -157,6 +157,17 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Show waiting for players text
+	/// </summary>
+	public void SetUIForWaiting()
+	{
+		timerPanel.SetActive(false);
+		joinPanel.SetActive(false);
+		playerWaitPanel.SetActive(true);
+		mainPanel.SetActive(false);
+	}
+
+	/// <summary>
 	/// Show timer and ready button
 	/// </summary>
 	public void SetUIForCountdown()
@@ -164,6 +175,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		SetReady(isReady);
 		timerPanel.SetActive(true);
 		joinPanel.SetActive(false);
+		playerWaitPanel.SetActive(false);
+		mainPanel.SetActive(true);
 	}
 
 	/// <summary>
@@ -173,5 +186,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	{
 		joinPanel.SetActive(true);
 		timerPanel.SetActive(false);
+		playerWaitPanel.SetActive(false);
+		mainPanel.SetActive(true);
 	}
 }

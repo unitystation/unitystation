@@ -361,6 +361,10 @@ public partial class GameManager : MonoBehaviour
 			RespawnCurrentlyAllowed = GameMode.CanRespawn;
 			StartCoroutine(WaitToInitEscape());
 			StartCoroutine(WaitToStartGameMode());
+
+			// Tell all clients that the countdown has finished
+			UpdateCountdownMessage.Send(true, 0);
+
 			CurrentRoundState = RoundState.Started;
 			EventManager.Broadcast(EVENT.RoundStarted);
 		}
