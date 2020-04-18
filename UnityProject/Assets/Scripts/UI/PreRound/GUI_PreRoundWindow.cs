@@ -42,6 +42,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	private void OnDisable()
 	{
 		doCountdown = false;
+		isReady = false;
 		adminPanel.SetActive(false);
 	}
 
