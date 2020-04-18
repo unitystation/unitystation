@@ -55,6 +55,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 107955457563787986, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: initialName
+      value: soil
+      objectReference: {fileID: 0}
+    - target: {fileID: 107955457563787986, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: initialDescription
+      value: A patch of dirt.
+      objectReference: {fileID: 0}
     - target: {fileID: 114203913422603216, guid: 1efec61511b50c844868cb49d1a711a1,
         type: 3}
       propertyPath: Passable
