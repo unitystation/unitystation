@@ -15,6 +15,8 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[SerializeField]
 	private ConveyorDirection MappedDirection;
 
+	private ConveyorUIController controller;
+
 	[SyncVar]
 	private bool SyncInverted = false;
 
@@ -72,6 +74,8 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		registerTile = GetComponent<RegisterTile>();
 		CurrentDirection = MappedDirection;
+
+		controller = UIManager.Instance?.GetComponent<ConveyorUI>().GetController(); ;
 
 		SyncInverted = Inverted;
 
@@ -274,12 +278,12 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 		else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))//change direction
 		{
-			int count = (int)CurrentDirection + 1;
+			//int count = (int)CurrentDirection + 1;
 
-			if (count > 7)
-			{
-				count = 0;
-			}
+			//if (count > 7)
+			//{
+			//	count = 0;
+			//}
 
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
 			"You start redirecting the conveyor belt...",
@@ -288,11 +292,17 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 			$"{interaction.Performer.ExpensiveName()} redirects the conveyor belt.",
 			() =>
 			{
-				CurrentDirection = (ConveyorDirection)count;
+				//CurrentDirection = (ConveyorDirection)count;
 
-				UpdateDirection(CurrentDirection);
+				//UpdateDirection(CurrentDirection);
 
-				spriteHandler.ChangeSpriteVariant(count);
+				//spriteHandler.ChangeSpriteVariant(count);
+
+				if (controller == null) return;
+
+				controller.OpenUI();
+				controller.Process(this);
+
 			});
 		}
 		else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
@@ -316,6 +326,22 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				}
 			});
 		}
+	}
+
+	[Command]
+	public void CmdChangeDirection(ConveyorDirection newValue)
+	{
+		ChangeDirection(newValue);
+	}
+
+	[Server]
+	public void ChangeDirection(ConveyorDirection newValue)
+	{
+		CurrentDirection = newValue;
+
+		UpdateDirection(CurrentDirection);
+
+		spriteHandler.ChangeSpriteVariant((int)CurrentDirection);
 	}
 
 #if UNITY_EDITOR//no idea how to get this to work, so you can see the correct conveyor direction in editor
