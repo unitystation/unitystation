@@ -1,4 +1,5 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Net.NetworkInformation;
 using Mirror;
 using Newtonsoft.Json;
 
@@ -75,8 +76,10 @@ public class JoinedViewer : NetworkBehaviour
 		{
 			if (GameManager.Instance.waitForStart)
 			{
-				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart,
-					GameManager.Instance.CountdownTime);
+				// Calculate when the countdown will end in the unix timestamp
+				long endTime = DateTimeOffset.UtcNow.AddSeconds(GameManager.Instance.CountdownTime)
+					.ToUnixTimeMilliseconds();
+				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, endTime);
 			}
 			else
 			{
@@ -167,11 +170,10 @@ public class JoinedViewer : NetworkBehaviour
 	/// Tells the client to start the countdown if it's already started
 	/// </summary>
 	[TargetRpc]
-	private void TargetSyncCountdown(NetworkConnection target, bool started, float countdownTime)
+	private void TargetSyncCountdown(NetworkConnection target, bool started, long endTime)
 	{
 		Logger.Log("Syncing countdown!", Category.Round);
-		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>()
-			.SyncCountdown(started, countdownTime);
+		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);
 	}
 
 	private string GetNetworkInfo()

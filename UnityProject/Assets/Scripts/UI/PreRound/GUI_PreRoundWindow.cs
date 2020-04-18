@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -99,10 +99,11 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		GameManager.Instance.StartRound();
 	}
 
-	public void SyncCountdown(bool started, float time)
+	public void SyncCountdown(bool started, long endTime)
 	{
-		Logger.Log($"SyncCountdown called with: started={started}, time={time}", Category.Round);
-		countdownTime = time;
+		Logger.Log($"SyncCountdown called with: started={started}, endTime={endTime}", Category.Round);
+		TimeSpan timeTillEnd = DateTimeOffset.FromUnixTimeMilliseconds(endTime) - DateTimeOffset.UtcNow;
+		countdownTime = (float)timeTillEnd.TotalSeconds;
 		doCountdown = started;
 		if (started)
 		{
