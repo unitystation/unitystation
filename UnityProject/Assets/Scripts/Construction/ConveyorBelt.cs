@@ -29,6 +29,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[SyncVar(hook = nameof(SyncDirection))]
 	private ConveyorDirection CurrentDirection;
 
+	[SyncVar]
 	private ConveyorStatus CurrentStatus = ConveyorStatus.Off;
 
 	protected virtual void UpdateMe()
@@ -66,6 +67,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
+
 	private void OnStart()
 	{
 		registerTile = GetComponent<RegisterTile>();
