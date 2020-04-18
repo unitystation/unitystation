@@ -36,7 +36,7 @@ public class SpaceCleaner : NetworkBehaviour, ICheckedInteractable<AimApply>
 		//just in case
 		if (reagentContainer == null) return;
 
-		if (reagentContainer.CurrentCapacity < reagentsPerUse)
+		if (reagentContainer.ReagentMixTotal < reagentsPerUse)
 		{
 			return;
 		}

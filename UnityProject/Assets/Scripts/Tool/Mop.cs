@@ -47,7 +47,7 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		if (reagentContainer.CurrentCapacity < 1)
+		if (reagentContainer.ReagentMixTotal < 1)
 		{	//warning
 			Chat.AddExamineMsg(interaction.Performer, "Your mop is dry!");
 			return;

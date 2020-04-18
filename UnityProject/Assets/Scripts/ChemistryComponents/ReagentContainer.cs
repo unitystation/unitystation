@@ -8,11 +8,11 @@ using UnityEngine.Serialization;
 using Chemistry;
 
 /// <summary>
-/// Note that pretty much all the methods in this component work server-side only, but aren't
-/// prefixed with "Server"
+/// Defines reagent container that can store reagent mix inside
+/// All reagent mix logic done server-side
 /// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
-public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
+public partial class ReagentContainer : MonoBehaviour, IServerSpawn,
 	IEnumerable<KeyValuePair<Chemistry.Reagent, float>>
 {
 	[Header("Container Parameters")]
@@ -25,12 +25,14 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 	[SerializeField] private ReactionSet reactionSet;
 	public ReactionSet ReactionSet => reactionSet;
 
+	[Tooltip("Initial mix of reagent inside container")]
 	[FormerlySerializedAs("reagentMix")]
 	[SerializeField] private ReagentMix initialReagentMix = new ReagentMix();
 
 	private ItemAttributesV2 itemAttributes;
 	private RegisterTile registerTile;
-	private EmptyFullSync containerSprite;
+	private CustomNetTransform customNetTransform;
+	private Integrity integrity;
 
 	/// <summary>
 	/// Invoked server side when regent container spills all of its contents
@@ -43,10 +45,9 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 	[NonSerialized] public UnityEvent OnReagentMixChanged = new UnityEvent();
 
 	private ReagentMix currentReagentMix;
-
 	/// <summary>
-	/// Server side only.
-	/// Current reagent mix inside container.
+	/// Server side only. Current reagent mix inside container.
+	/// Invoke OnReagentMixChanged if you change anything in reagent mix
 	/// </summary>
 	private ReagentMix CurrentReagentMix
 	{
@@ -61,35 +62,22 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 			}
 			return currentReagentMix;
 		}
-
 	}
 
-	public float CurrentCapacity
-	{
-		get => currentCapacity;
-		private set
-		{
-			currentCapacity = value;
-			onCurrentCapacityChange.Invoke(value);
-		}
-	}
-
+	/// <summary>
+	/// Returns reagent amount in container. Null if reagent amount is 0
+	/// </summary>
 	public float? this[Chemistry.Reagent reagent] => CurrentReagentMix[reagent];
 
+	/// <summary>
+	/// Shortcut to reagents dictionary in reagent mix
+	/// Invoke OnReagentMixChanged if you change anything in reagent mix
+	/// </summary>
 	private DictionaryReagentFloat Reagents => CurrentReagentMix.reagents;
 
+	public bool IsFull => ReagentMixTotal >= MaxCapacity;
 
-	private FloatEvent onCurrentCapacityChange = new FloatEvent();
-
-	public bool TraitWhitelistOn => traitWhitelist.Count > 0;
-
-
-
-	public bool ReagentWhitelistOn => reagentWhitelist != null && reagentWhitelist.Count > 0;
-
-
-	public bool IsFull => CurrentCapacity >= MaxCapacity;
-	public bool IsEmpty => CurrentCapacity <= 0f;
+	public bool IsEmpty => ReagentMixTotal <= 0f;
 
 	public float TransferAmount
 	{
@@ -107,60 +95,46 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 		}
 	}
 
-
-	private float currentCapacity;
+	private string FancyContainerName
+	{
+		get
+		{
+			return itemAttributes ? itemAttributes.InitialName : gameObject.ExpensiveName();
+		}
+	}
+		
+	/// <summary>
+	/// Server only. Total reagent mix ammount in units
+	/// </summary>
+	public float ReagentMixTotal
+	{
+		get
+		{
+			return CurrentReagentMix.Total;
+		}
+	}
 
 	private void Awake()
 	{
-		itemAttributes = GetComponent<ItemAttributesV2>();
+		registerTile = GetComponent<RegisterTile>();
 
 		// add ReagentContainer trait on server and client
-		if (itemAttributes != null)
+		itemAttributes = GetComponent<ItemAttributesV2>();
+		if (itemAttributes)
 		{
 			var containerTrait = CommonTraits.Instance.ReagentContainer;
 			if (!itemAttributes.HasTrait(containerTrait))
 				itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
 		}
 
-		this.WaitForNetworkManager(() =>
-		{
-			if (!CustomNetworkManager.IsServer)
-			{
-				return;
-			}
-
-			onCurrentCapacityChange.AddListener(newCapacity =>
-			{
-				if (containerSprite == null)
-				{
-					return;
-				}
-
-				containerSprite.SetState(IsEmpty ? EmptyFullStatus.Empty : EmptyFullStatus.Full);
-			});
-		});
-	}
-
-	private void Start()
-	{
-		if (!CustomNetworkManager.IsServer)
-		{
-			return;
-		}
-
-		registerTile = GetComponent<RegisterTile>();
-		var customNetTransform = GetComponent<CustomNetTransform>();
-		if (customNetTransform != null)
+		// register spill on throw
+		customNetTransform = GetComponent<CustomNetTransform>();
+		if (customNetTransform)
 		{
 			customNetTransform.OnThrowEnd.AddListener(throwInfo =>
 			{
 				//check spill on throw
-				if (!Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow))
-				{
-					return;
-				}
-
-				if (IsEmpty)
+				if (!Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow) || IsEmpty)
 				{
 					return;
 				}
@@ -169,73 +143,32 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 			});
 		}
 
-		if (containerSprite == null)
-		{
-			containerSprite = GetComponent<EmptyFullSync>();
-		}
-
-		var integrity = GetComponent<Integrity>();
-		if (integrity != null)
+		// spill all content on destroy
+		integrity = GetComponent<Integrity>();
+		if (integrity)
 		{
 			integrity.OnWillDestroyServer.AddListener(info => SpillAll());
 		}
 	}
 
-	protected void ResetContents()
-	{
-		currentReagentMix = initialReagentMix.Clone();
-		CurrentCapacity = CurrentReagentMix.Total;
-
-		OnReagentMixChanged?.Invoke();
-	}
-
 	public void OnSpawnServer(SpawnInfo info)
 	{
+		// reset all content on server respawn
 		ResetContents();
 	}
 
-	public RightClickableResult GenerateRightClickOptions()
+	protected void ResetContents()
 	{
-		var result = RightClickableResult.Create();
-
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			return result;
-		}
-
-		//fixme: these only work on server
-		result.AddElement("Contents", ExamineContents);
-		//Pour / add can only be done if in reach
-		if (Validations.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
-		{
-			result.AddElement("PourOut", () => SpillAll());
-		}
-
-		return result;
-	}
-
-	private void ExamineContents()
-	{
-		if (IsEmpty)
-		{
-			Chat.AddExamineMsgToClient(gameObject.ExpensiveName() + " is empty.");
-			return;
-		}
-
-		foreach (var reagent in Reagents)
-		{
-			Chat.AddExamineMsgToClient($"{gameObject.ExpensiveName()} contains {reagent.Value} {reagent.Key}.");
-		}
+		currentReagentMix = initialReagentMix.Clone();
+		OnReagentMixChanged?.Invoke();
 	}
 
 	/// <summary>
-	/// Add reagents
+	/// Add reagent mix to container. May cause reaction.
 	/// </summary>
-	/// <param name="addition">Reagents to add</param>
-	/// <param name="addTemperature">KELVIN temperature of added reagents, default equals to 20°C</param>
-	/// <returns>Result of transfer. Can see how much was actually transferred, if any</returns>
 	public TransferResult Add(ReagentMix addition)
 	{
+		// check whitelist
 		if (ReagentWhitelistOn)
 		{
 			if (!addition.reagents.All(r => reagentWhitelist.Contains(r.Key)))
@@ -243,41 +176,41 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 				return new TransferResult
 				{
 					Success = false,
-					Message = "You can't transfer this into " + gameObject.ExpensiveName()
+					Message = "You can't transfer this into " + FancyContainerName
 				};
 			}
 		}
 
-		CurrentCapacity = CurrentReagentMix.Total;
-		var totalToAdd = CurrentReagentMix.Total;
-
-		if (CurrentCapacity >= MaxCapacity)
+		// check if container is already full
+		if (IsFull)
 		{
 			return new TransferResult
 			{
 				Success = false,
-				Message = $"The {gameObject.ExpensiveName()} is full."
+				Message = $"The {FancyContainerName} is full."
 			};
 		}
 
+		// save total ammount before reaction
+		var beforeMixTotal = CurrentReagentMix.Total;
+		// add addition to reagent mix
 		CurrentReagentMix.Add(addition);
-
 		//Reactions happen here
 		ReactionSet.Apply(this, CurrentReagentMix);
-		CurrentCapacity = CurrentReagentMix.Total;
-		Clean();
 
 		var message = string.Empty;
-		if (CurrentCapacity > MaxCapacity)
+		if (ReagentMixTotal > MaxCapacity)
 		{
 			//Reaction ends up in more reagents than container can hold
-			var excessCapacity = CurrentCapacity;
+			var excessCapacity = ReagentMixTotal;
 			CurrentReagentMix.Max(MaxCapacity, out _);
-			CurrentCapacity = CurrentReagentMix.Total;
-			message = $"Reaction caused excess ({excessCapacity}/{MaxCapacity}), current capacity is {CurrentCapacity}";
+			ReagentMixTotal = CurrentReagentMix.Total;
+			message = $"Reaction caused excess ({excessCapacity}/{MaxCapacity}), current capacity is {ReagentMixTotal}";
 		}
 
 		OnReagentMixChanged?.Invoke();
+
+		var totalToAdd = CurrentReagentMix.Total;
 		return new TransferResult {Success = true, TransferAmount = totalToAdd, Message = message};
 	}
 
@@ -326,7 +259,7 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 	public void Spill(Vector3Int worldPos, float amount)
 	{
 		var spilledReagents = TakeReagents(amount);
-		CurrentCapacity = CurrentReagentMix.Total;
+		ReagentMixTotal = CurrentReagentMix.Total;
 		MatrixManager.ReagentReact(spilledReagents, worldPos);
 	}
 
@@ -400,7 +333,7 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 	public override string ToString()
 	{
 		return $"[{gameObject.ExpensiveName()}" +
-		       $" |{CurrentCapacity}/{MaxCapacity}|" +
+		       $" |{ReagentMixTotal}/{MaxCapacity}|" +
 		       $" ({string.Join(",", Reagents)})" +
 		       $" Mode: {transferMode}," +
 		       $" TransferAmount: {TransferAmount}," +
@@ -414,13 +347,6 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 		CurrentReagentMix.Multiply(multiplier);
 		OnReagentMixChanged?.Invoke();
 	}
-
-	public void Clean()
-	{
-		CurrentReagentMix.Clean();
-		OnReagentMixChanged?.Invoke();
-	}
-
 
 	public Color GetMixColor()
 	{
@@ -439,16 +365,7 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 		return Mathf.Clamp01(CurrentReagentMix.Total / MaxCapacity);
 	}
 
-	/// <summary>
-	/// Server only. Reagent mix ammount in units
-	/// </summary>
-	public float ReagentMixTotal
-	{
-		get
-		{
-			return CurrentReagentMix.Total;
-		}
-	}
+
 
 	/// <summary>
 	/// Server only. Reagent with biggest amount in mix

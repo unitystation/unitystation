@@ -192,6 +192,9 @@ namespace Chemistry
 			RemoveVolume(removed);
 		}
 
+		/// <summary>
+		/// Deletes empty reagents. Call after changes in reagent mix
+		/// </summary>
 		public void Clean()
 		{
 			foreach (var key in reagents.Keys.ToArray())

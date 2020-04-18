@@ -65,6 +65,8 @@ namespace Chemistry
 				effect.Apply(sender, reactionAmount);
 			}
 
+			// delete empty reagents
+			reagentMix.Clean();
 			return true;
 		}
 	}
