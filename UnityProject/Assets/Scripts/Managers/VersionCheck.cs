@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Networking;
 using UnityEngine.UI;
 
 public class VersionCheck : MonoBehaviour
@@ -37,24 +38,24 @@ public class VersionCheck : MonoBehaviour
 	private IEnumerator CheckVersion()
 	{
 		string url = urlCheck + "?ver=" + VERSION_NUMBER;
-		WWW get_curVersion = new WWW(url);
-		yield return get_curVersion;
+		var get_curVersion = new UnityWebRequest(url);
+		yield return get_curVersion.SendWebRequest();
 
-		if (get_curVersion.text == "1")
+		if (get_curVersion.isNetworkError | get_curVersion.isHttpError | get_curVersion.downloadHandler.text == "")
+		{
+			errorWindow.SetActive(true);
+		}
+		else if (get_curVersion.downloadHandler.text == "1")
 		{
 			//			Logger.Log("Is up to date");
 			loginWindow.SetActive(true);
-		}
-		else if (get_curVersion.text == "")
-		{
-			errorWindow.SetActive(true);
 		}
 		else
 		{
 			//			Logger.Log("Update required to: Version " + get_curVersion.text);
 			updateWindow.SetActive(true);
 			yourVerText.text = VERSION_NUMBER;
-			newVerText.text = get_curVersion.text;
+			newVerText.text = get_curVersion.downloadHandler.text;
 		}
 	}
 
