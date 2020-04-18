@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: ammoType
-      value: 9
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -43,6 +43,18 @@ PrefabInstance:
       propertyPath: ProjectileVelocity
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 742292832060491855, guid: f009519fadf5abb4cb406fbaf00ff683,
+        type: 3}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: casingPrefab
+      value: 
+      objectReference: {fileID: 7885110935015110955, guid: 4f1eb975ef940201eac8726b12289e87,
+        type: 3}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.size
@@ -249,7 +261,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemStorageCapacity
       value: 
-      objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
+      objectReference: {fileID: 11400000, guid: 3aaa2fa3215284e608242ef34b8c7aa4,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f46dc50d35397f04f8f6be3fb49668ca, type: 3}

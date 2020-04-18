@@ -195,8 +195,8 @@ public class MetabolismSystem : NetworkBehaviour
 	private void ApplySpeedDebuff()
 	{
 		playerMove.ServerChangeSpeed(
-			run:playerMove.RunSpeed + starvingRunDebuff,
-			walk: playerMove.WalkSpeed + starvingWalkDebuff);
+			run:playerMove.RunSpeed - starvingRunDebuff,
+			walk: playerMove.WalkSpeed - starvingWalkDebuff);
 		appliedStarvingDebuff = true;
 	}
 

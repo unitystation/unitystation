@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.Net.NetworkInformation;
-using UnityEngine;
+﻿using System.Net.NetworkInformation;
 using Mirror;
 
 /// <summary>
@@ -16,9 +13,7 @@ public class JoinedViewer : NetworkBehaviour
 		base.OnStartLocalPlayer();
 		PlayerManager.SetViewerForControl(this);
 
-		CmdServerSetupPlayer(NetworkInterface.GetAllNetworkInterfaces().
-				Where(nic => nic.OperationalStatus == OperationalStatus.Up).
-				Select(nic => nic.GetPhysicalAddress().ToString()).FirstOrDefault(),
+		CmdServerSetupPlayer(GetNetworkInfo(),
 			PlayerManager.CurrentCharacterSettings.Username, DatabaseAPI.ServerData.UserID, GameData.BuildNumber,
 			DatabaseAPI.ServerData.IdToken);
 	}
@@ -180,5 +175,19 @@ public class JoinedViewer : NetworkBehaviour
 		Logger.Log("Syncing countdown!", Category.Round);
 		UIManager.Instance.displayControl.preRoundWindow.GetComponent<GUI_PreRoundWindow>()
 			.SyncCountdown(started, countdownTime);
+	}
+
+	private string GetNetworkInfo()
+	{
+		var nics = NetworkInterface.GetAllNetworkInterfaces();
+		foreach (var n in nics)
+		{
+			if (!string.IsNullOrEmpty(n.GetPhysicalAddress().ToString()))
+			{
+				return n.GetPhysicalAddress().ToString();
+			}
+		}
+
+		return "";
 	}
 }

@@ -131,7 +131,7 @@ PrefabInstance:
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: ammoType
-      value: 14
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -143,6 +143,12 @@ PrefabInstance:
       propertyPath: WeaponType
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 6961538310405134957, guid: 0d9df74027a2dcde192f74b81f20cb60,
+        type: 3}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialName

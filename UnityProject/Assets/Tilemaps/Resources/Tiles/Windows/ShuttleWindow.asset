@@ -16,9 +16,10 @@ MonoBehaviour:
   LayerType: 1
   TileType: 2
   RequiredTiles: []
-  WalkingSoundCategory: 0
+  floorTileType: 0
   atmosPassable: 0
   isSealed: 0
+  SpawnWithNoAir: 0
   oreCategory: 0
   MaxHealth: 0
   HealthStates: []
@@ -34,7 +35,7 @@ MonoBehaviour:
     FireProof: 0
     Flammable: 0
     UnAcidable: 0
-    AcidProof: 0
+    AcidProof: 1
     Indestructable: 0
     FreezeProof: 0
   armor:
