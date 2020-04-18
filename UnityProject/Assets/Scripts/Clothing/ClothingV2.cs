@@ -24,7 +24,7 @@ public class ClothingV2 : MonoBehaviour
 
 	[Tooltip("Type of variant to use of the clothing data.")]
 	[SerializeField]
-	private ClothingVariantType variantType;
+	private ClothingVariantType variantType = ClothingVariantType.Default;
 
 	[Tooltip("Determine when a piece of clothing hides another")]
 	[SerializeField, EnumFlag]
@@ -151,7 +151,7 @@ public class ClothingV2 : MonoBehaviour
 		SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(clothingData.Base.Equipped));
 		SpriteInfos.isPaletteds.Add(clothingData.Base.IsPaletted);
 		SpriteInfos.palettes.Add(new List<Color>(clothingData.Base.Palette));
-		
+
 		variantStore[ClothingVariantType.Default] = c;
 		c++;
 
@@ -216,7 +216,7 @@ public enum ClothingVariantType
 }
 
 /// <summary>
-/// Bit flags which determine when a piece of clothing hides another. 
+/// Bit flags which determine when a piece of clothing hides another.
 /// IE a helmet hiding glasses.
 /// </summary>
 [Flags]
