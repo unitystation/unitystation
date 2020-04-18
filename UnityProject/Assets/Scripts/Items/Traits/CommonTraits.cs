@@ -46,4 +46,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait SolidPlasma;
 	public ItemTrait NukeDisk;
 	public ItemTrait Insulated;
+	public ItemTrait InternalBattery;
 }

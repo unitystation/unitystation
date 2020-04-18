@@ -264,6 +264,8 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	void UpdateMe()
 	{
+		if (CustomNetworkManager.Instance._isServer == false) return;
+
 		foreach (MetaDataNode node in externalNodes.Keys)
 		{
 			subsystemManager.UpdateAt(node.Position);

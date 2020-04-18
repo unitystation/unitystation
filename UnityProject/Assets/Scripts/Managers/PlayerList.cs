@@ -172,13 +172,14 @@ public partial class PlayerList : NetworkBehaviour
 			return player;
 		}
 
+		Logger.Log($"Player: {player.Username} client id is: {player.ClientId}");
 		var loggedOffClient = GetLoggedOffClient(player.ClientId);
 
 		if (loggedOffClient  != null)
 		{
-			Logger.LogFormat(
-				"ConnectedPlayer {0} already exists in this server's PlayerList as {1}. Will update existing player instead of adding this new connected player.",
-				Category.Connections, player, loggedOff);
+			Logger.Log(
+				$"ConnectedPlayer {player} already exists in this server's PlayerList as {loggedOff}. " +
+				$"Will update existing player instead of adding this new connected player.");
 
 			if (loggedOffClient.GameObject == null)
 			{

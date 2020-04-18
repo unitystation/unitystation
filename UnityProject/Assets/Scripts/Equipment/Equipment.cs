@@ -31,6 +31,7 @@ public class Equipment : NetworkBehaviour, IExaminable
 				clothingItems.Add(clothingItem.Slot, clothingItem);
 			}
 		}
+
 		maskSlot = itemStorage.GetNamedItemSlot(NamedSlot.mask);
 		InitInternals();
 	}
@@ -44,7 +45,8 @@ public class Equipment : NetworkBehaviour, IExaminable
 	{
 		foreach (var clothingItem in clothingItems)
 		{
-			PlayerAppearanceMessage.SendTo(gameObject, (int)clothingItem.Key, recipient, clothingItem.Value.GameObjectReference, true, false);
+			PlayerAppearanceMessage.SendTo(gameObject, (int) clothingItem.Key, recipient,
+				clothingItem.Value.GameObjectReference, true, false);
 		}
 	}
 
@@ -132,19 +134,24 @@ public class Equipment : NetworkBehaviour, IExaminable
 	/// <param name="namedSlot"></param>
 	/// <returns></returns>
 	public String GetIdentityFromID()
+	{
+		IDCard card = null;
+		var tryGetItem = ItemSlot.GetNamed(itemStorage, NamedSlot.id).Item;
+		if (tryGetItem != null)
 		{
-			IDCard card = ItemSlot.GetNamed(itemStorage,NamedSlot.id)?.Item?.GetComponent<IDCard>();
-			//Logger.Log("ID Card: " + (card != null ? card.ToString() : "null"));
-			if (card != null)
-			{
-				return card.RegisteredName + " " + (card.Occupation ? $" ({ card.Occupation.DisplayName })" : "");
-			}
-			else
-			{
-				return "";
-			}
+			card = tryGetItem.GetComponent<IDCard>();
 		}
-	
+		//Logger.Log("ID Card: " + (card != null ? card.ToString() : "null"));
+		if (card != null)
+		{
+			return card.RegisteredName + " " + (card.Occupation ? $" ({card.Occupation.DisplayName})" : "");
+		}
+		else
+		{
+			return "";
+		}
+	}
+
 	public string Examine(Vector3 worldPos)
 	{
 		// Collect clothing + ID info.

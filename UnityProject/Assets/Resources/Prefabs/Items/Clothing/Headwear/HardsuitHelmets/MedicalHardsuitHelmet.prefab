@@ -16,8 +16,8 @@ PrefabInstance:
         type: 3}
       propertyPath: initialDescription
       value: A special helmet designed for work in a hazardous, low pressure environment.
-        Built with lightweight materials for extra comfort, but does not protect the
-        eyes from intense light.
+        Built with lightweight materials for extra comfort, but does not protect
+        the eyes from intense light.
       objectReference: {fileID: 0}
     - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -159,6 +159,11 @@ PrefabInstance:
         type: 3}
       propertyPath: HeatResistance
       value: 30000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2727688219082199354, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: bodyPartsCovered
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 5061482891772091482, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}

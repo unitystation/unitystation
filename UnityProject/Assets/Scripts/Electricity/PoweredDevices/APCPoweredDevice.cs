@@ -9,11 +9,26 @@ public class APCPoweredDevice : NetworkBehaviour
 	public float MinimumWorkingVoltage = 190;
 	public float MaximumWorkingVoltage = 300;
 	public bool IsEnvironmentalDevice = false;
-	public float Wattusage = 0.01f;
+
+	[SerializeField]
+	private float wattusage = 0.01f;
+
+	public float Wattusage
+	{
+		get { return wattusage; }
+		set
+		{
+			wattusage = value;
+			Resistance = 240 / (value / 240);
+		}
+	}
+
 	public float Resistance = 99999999;
 	public APC RelatedAPC;
 	public IAPCPowered Powered;
 	public bool AdvancedControlToScript;
+
+	public bool StateUpdateOnClient = true;
 
 	[SyncVar(hook = nameof(UpdateSynchronisedState))]
 	public PowerStates State;
@@ -110,23 +125,30 @@ public class APCPoweredDevice : NetworkBehaviour
 			{
 				Powered.PowerNetworkUpdate(Voltage);
 			}
-			else {
+			else
+			{
+				var NewState = PowerStates.Off;
 				if (Voltage <= 1)
 				{
-					State = PowerStates.Off;
+					NewState = PowerStates.Off;
 				}
 				else if (Voltage > MaximumWorkingVoltage)
 				{
-					State = PowerStates.OverVoltage;
+					NewState = PowerStates.OverVoltage;
 				}
 				else if (Voltage < MinimumWorkingVoltage)
 				{
-					State = PowerStates.LowVoltage;
+					NewState = PowerStates.LowVoltage;
 				}
 				else {
-					State = PowerStates.On;
+					NewState = PowerStates.On;
 				}
-				Powered.StateUpdate(State);
+
+				if (NewState != State)
+				{
+					State = NewState;
+					Powered.StateUpdate(State);
+				}
 			}
 
 		}
@@ -144,7 +166,7 @@ public class APCPoweredDevice : NetworkBehaviour
 		}
 
 		State = _State;
-		if (Powered != null)
+		if (Powered != null && StateUpdateOnClient)
 		{
 			Powered.StateUpdate(State);
 		}

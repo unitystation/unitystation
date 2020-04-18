@@ -29,7 +29,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private CustomSampler sampler;
 
-	private Thread thread;
+	public Thread thread;
 
 	ElectricalSynchronisation()
 	{
@@ -40,10 +40,9 @@ public class ElectricalSynchronisation : MonoBehaviour
 	{
 		if (!running)
 		{
+			running = true;
 			thread = new Thread(Run);
 			thread.Start();
-
-			running = true;
 		}
 	}
 
@@ -330,7 +329,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		{
 			return;
 		}
-
+		//Logger.Log("IfStructureChange");
 		StructureChange = false;
 		foreach (var category in OrderList)
 		{
@@ -353,6 +352,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 	/// </summary>
 	private void PowerUpdateStructureChangeReact()
 	{
+		//Logger.Log("PowerUpdateStructureChangeReact");
 		for (int i = 0; i < OrderList.Count; i++)
 		{
 			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
@@ -371,15 +371,22 @@ public class ElectricalSynchronisation : MonoBehaviour
 	/// </summary>
 	private void PowerUpdateResistanceChange()
 	{
-		foreach (ElectricalNodeControl PoweredDevice in InitialiseResistanceChange)
+		for (int i = InitialiseResistanceChange.Count - 1; i >= 0; i--)
 		{
-			PoweredDevice.InitialPowerUpdateResistance();
+			if (i < InitialiseResistanceChange.Count)
+			{
+				InitialiseResistanceChange.ElementAt(i).InitialPowerUpdateResistance();
+			}
 		}
 
 		InitialiseResistanceChange.Clear();
-		foreach (ElectricalNodeControl PoweredDevice in ResistanceChange)
+
+		for (int i = ResistanceChange.Count - 1; i >= 0; i--)
 		{
-			PoweredDevice.PowerUpdateResistanceChange();
+			if (i < InitialiseResistanceChange.Count)
+			{
+				ResistanceChange.ElementAt(i).PowerUpdateResistanceChange();
+			}
 		}
 
 		ResistanceChange.Clear();
@@ -403,6 +410,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 	/// </summary>
 	private void PowerUpdateCurrentChange()
 	{
+		//Logger.Log("PowerUpdateCurrentChange");
 		for (int i = 0; i < UnconditionalSupplies.Count; i++)
 		{
 			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
@@ -483,6 +491,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private void ThreadedPowerNetworkUpdate()
 	{
+		//Logger.Log("ThreadedPowerNetworkUpdate");
 		lock (ElectricalManager.ElectricalLock)
 		{
 			MainThreadProcess = true;
@@ -495,6 +504,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 	/// </summary>
 	public void PowerNetworkUpdate()
 	{
+		//Logger.Log("PowerNetworkUpdate");
 		for (int i = 0; i < SupplyToadd.Count; i++)
 		{
 			InternalAddSupply(SupplyToadd[i]);
