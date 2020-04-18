@@ -31,7 +31,7 @@ public struct PixelPerfectRTParameter : IEquatable<PixelPerfectRTParameter>
 	public Vector2Int resolution => units * pixelPerUnit;
 
 	public float orthographicSize => units.y * 0.5f;
-		
+
 	public Vector2 GetFilteredRendererPosition(
 		Vector3 iPositionToMatch,
 		Vector3 iPreviousPosition,
@@ -86,7 +86,19 @@ public struct PixelPerfectRTParameter : IEquatable<PixelPerfectRTParameter>
 
 	public bool Equals(PixelPerfectRTParameter iParameter)
 	{
-		return this.units == iParameter.units &&
-		       this.pixelPerUnit == iParameter.pixelPerUnit;
+		return units.Equals(iParameter.units) && pixelPerUnit == iParameter.pixelPerUnit;
+	}
+
+	public override bool Equals(object obj)
+	{
+		return obj is PixelPerfectRTParameter other && Equals(other);
+	}
+
+	public override int GetHashCode()
+	{
+		unchecked
+		{
+			return (units.GetHashCode() * 397) ^ pixelPerUnit;
+		}
 	}
 }
