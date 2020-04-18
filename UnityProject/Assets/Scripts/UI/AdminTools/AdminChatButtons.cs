@@ -18,7 +18,7 @@ namespace AdminTools
 		[SerializeField] private Color selectedColor;
 		[SerializeField] private Color unSelectedColor;
 		// Ignore default color warning
-#pragma restore disable CS0649
+#pragma warning restore CS0649
 
 		private void OnEnable()
 		{

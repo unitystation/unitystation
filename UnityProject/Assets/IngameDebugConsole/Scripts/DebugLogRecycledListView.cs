@@ -19,6 +19,7 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private DebugLogManager debugManager = null;
 
+		// Ignore default color warning
 		#pragma warning disable CS0649
 		[SerializeField]
 		private Color logItemNormalColor1;
