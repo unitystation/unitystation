@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections;
+﻿using Mirror;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using Mirror;
 using UnityEngine;
 
 public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
@@ -36,12 +34,15 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 			case State.Off:
 				spriteRenderer.sprite = spriteOff;
 				break;
+
 			case State.Forward:
 				spriteRenderer.sprite = spriteForward;
 				break;
+
 			case State.Backward:
 				spriteRenderer.sprite = spriteBackward;
 				break;
+
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
@@ -57,7 +58,7 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if(Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))//clearing conveyor list
+		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))//clearing conveyor list
 		{
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
 			"You start clearing the connected conveyor belts...",
@@ -95,12 +96,15 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 				case State.Off:
 					currentState = State.Forward;
 					break;
+
 				case State.Forward:
 					currentState = State.Backward;
 					break;
+
 				case State.Backward:
 					currentState = State.Off;
 					break;
+
 				default:
 					throw new ArgumentOutOfRangeException();
 			}
