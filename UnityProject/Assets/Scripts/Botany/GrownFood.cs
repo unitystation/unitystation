@@ -80,7 +80,7 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	/// </summary>
 	private void SetupEdible()
 	{
-		edible.NutritionLevel = Mathf.FloorToInt(reagentContainer[nutrient] ?? 0);
+		edible.NutritionLevel = Mathf.FloorToInt(reagentContainer[nutrient]);
 	}
 
 	/// <summary>

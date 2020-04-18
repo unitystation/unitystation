@@ -73,9 +73,9 @@ namespace Chemistry.Components
 		}
 
 		/// <summary>
-		/// Returns reagent amount in container. Null if reagent doesn't exist in container.
+		/// Returns reagent amount in container
 		/// </summary>
-		public float? this[Reagent reagent] => CurrentReagentMix[reagent];
+		public float this[Reagent reagent] => CurrentReagentMix[reagent];
 
 		public bool IsFull => ReagentMixTotal >= MaxCapacity;
 
@@ -387,7 +387,7 @@ namespace Chemistry.Components
 		}
 
 		/// <summary>
-		/// Used for tests only
+		/// Used for tests and debug only
 		/// Create empty gameobject and add reagent containe with desired settings
 		/// </summary>
 		public static ReagentContainer Create(ReactionSet reactionSet, int maxCapacity)

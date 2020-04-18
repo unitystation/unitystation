@@ -345,6 +345,8 @@ namespace Chemistry.Components
 			if (target != null)
 			{
 				var transffered = CurrentReagentMix.Take(amount);
+				OnReagentMixChanged?.Invoke();
+
 				transferResult = target.Add(transffered);
 				if (!transferResult.Success)
 				{
