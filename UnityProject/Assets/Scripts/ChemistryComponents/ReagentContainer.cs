@@ -138,8 +138,8 @@ namespace Chemistry.Components
 			{
 				customNetTransform.OnThrowEnd.AddListener(throwInfo =>
 				{
-				//check spill on throw
-				if (!Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow) || IsEmpty)
+					//check spill on throw
+					if (!Validations.HasItemTrait(this.gameObject, CommonTraits.Instance.SpillOnThrow) || IsEmpty)
 					{
 						return;
 					}
@@ -332,7 +332,7 @@ namespace Chemistry.Components
 		{
 			if (!IsEmpty)
 			{
-				if (!registerTile && registerTile.CustomTransform)
+				if (registerTile && registerTile.CustomTransform)
 				{
 					var worldPos = registerTile.CustomTransform.AssumedWorldPositionServer().CutToInt();
 					SpillAll(worldPos, thrown);
