@@ -23,8 +23,7 @@ namespace Chemistry.Components
 		NoTransfer = 4
 	}
 
-	public partial class ReagentContainer :
-		ICheckedInteractable<HandApply>, //Transfer: active hand <-> object in the world
+	public partial class ReagentContainer : ICheckedInteractable<HandApply>, //Transfer: active hand <-> object in the world
 		ICheckedInteractable<HandActivate>, //Activate to change transfer amount
 		ICheckedInteractable<InventoryApply> //Transfer: active hand <-> other hand
 	{

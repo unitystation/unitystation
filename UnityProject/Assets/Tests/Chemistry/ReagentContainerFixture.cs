@@ -5,26 +5,22 @@ using global::Chemistry;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Chemistry.Components;
 
 namespace Tests.Chemistry
 {
     public class ReactionContainerFixture
     {
-
         private static ReagentContainer GetContainer(int maxCapacity, ReagentMix contents)
         {
-            GameObject obj = new GameObject();
-            obj.AddComponent<ReagentContainer>();
-            ReagentContainer container = obj.GetComponent<ReagentContainer>();
-            container.ReactionSet = new ReactionSet();
-            container.MaxCapacity = maxCapacity;
-            container.Add(contents);
+            var set = new ReactionSet();
+			var container = ReagentContainer.Create(set, maxCapacity);
+			container.Add(contents);
             return container;
         }
 
         private static void AssertContainerContentsEqualTo(ReagentContainer container, ReagentMix expected)
         {
-            container.Clean();
             expected.Clean();
             Assert.AreEqual(expected.Count(), container.Count());
             foreach (var pair in expected)

@@ -20,11 +20,19 @@ namespace Chemistry.Components
 
 		[Tooltip("Max container capacity in units")]
 		[SerializeField] private int maxCapacity = 100;
-		public int MaxCapacity => maxCapacity;
+		public int MaxCapacity
+		{
+			get => maxCapacity;
+			private set { maxCapacity = value; }
+		}
 
 		[Tooltip("Reactions list which can happen inside container. Use Default for generic containers")]
 		[SerializeField] private ReactionSet reactionSet;
-		public ReactionSet ReactionSet => reactionSet;
+		public ReactionSet ReactionSet
+		{
+			get => reactionSet;
+			private set { reactionSet = value; }
+		}
 
 		[Tooltip("Initial mix of reagent inside container")]
 		[FormerlySerializedAs("reagentMix")]
@@ -383,6 +391,21 @@ namespace Chemistry.Components
 				   $" {nameof(IsEmpty)}: {IsEmpty}," +
 				   $" {nameof(IsFull)}: {IsFull}" +
 				   "]";
+		}
+
+		/// <summary>
+		/// Used for tests only
+		/// Create empty gameobject and add reagent containe with desired settings
+		/// </summary>
+		public static ReagentContainer Create(ReactionSet reactionSet, int maxCapacity)
+		{
+			GameObject obj = new GameObject();
+			var container = obj.AddComponent<ReagentContainer>();
+
+			container.ReactionSet = new ReactionSet();
+			container.MaxCapacity = maxCapacity;
+
+			return container;
 		}
 	}
 }
