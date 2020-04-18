@@ -247,16 +247,24 @@ public abstract class GameMode : ScriptableObject
 		{
 			// Allocate jobs to all players first then choose antags
 			playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
-			antagSpawnRequests = playerSpawnRequests.PickRandom(antagsToSpawn).ToList();
+			// TODO: add antag pref checks here
+			var antagCandidates = playerSpawnRequests.Where(p =>
+					!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType));
+			antagSpawnRequests = antagCandidates.PickRandom(antagsToSpawn).ToList();
+			// Player and antag spawn requests are kept separate to stop players being spawned twice
 			playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
 		}
 		else
 		{
 			// Choose antags first then allocate jobs to all other players
-			var chosenAntags = playerPool.PickRandom(antagsToSpawn).ToList();
+			// TODO: add antag pref checks here
+			var antagCandidates = playerPool;
+			var chosenAntags = antagCandidates.PickRandom(antagsToSpawn).ToList();
+			// Player and antag spawn requests are kept separate to stop players being spawned twice
 			playerPool.RemoveAll(chosenAntags.Contains);
 			playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
-			antagSpawnRequests = chosenAntags.Select(player => PlayerSpawnRequest.RequestOccupation(player, null)).ToList();
+			antagSpawnRequests = chosenAntags.Select(player =>
+				PlayerSpawnRequest.RequestOccupation(player, null)).ToList();
 		}
 
 		// Spawn all players and antags
