@@ -154,21 +154,22 @@ public partial class ReagentContainer : MonoBehaviour, IServerSpawn,
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		// reset all content on server respawn
-		ResetContents();
+		ResetContent();
 	}
 
-	protected void ResetContents()
+	protected void ResetContent()
 	{
 		currentReagentMix = initialReagentMix.Clone();
 		OnReagentMixChanged?.Invoke();
 	}
 
 	/// <summary>
-	/// Add reagent mix to container. May cause reaction.
+	/// Add reagent mix to container. May cause reaction inside container.
+	/// Use MoveReagentsTo to transfer reagents from one container to another
 	/// </summary>
 	public TransferResult Add(ReagentMix addition)
 	{
-		// check whitelist
+		// check whitelist reagents
 		if (ReagentWhitelistOn)
 		{
 			if (!addition.reagents.All(r => reagentWhitelist.Contains(r.Key)))
@@ -191,20 +192,31 @@ public partial class ReagentContainer : MonoBehaviour, IServerSpawn,
 			};
 		}
 
-		// save total ammount before reaction
+		// save total ammount before mixing
 		var beforeMixTotal = CurrentReagentMix.Total;
+		var afterMixTotal = beforeMixTotal + addition.Total;
+
+		// check if container can hold sum of mixes amount
+		if (afterMixTotal > MaxCapacity)
+		{
+			// remove excess from addition mix
+			var freeSpot = MaxCapacity - beforeMixTotal;
+			addition.Max(freeSpot, out _);
+		}
+
 		// add addition to reagent mix
 		CurrentReagentMix.Add(addition);
 		//Reactions happen here
 		ReactionSet.Apply(this, CurrentReagentMix);
 
+		// get mix total after all reactions
+		var afterReactionTotal = CurrentReagentMix.Total;
+
 		var message = string.Empty;
 		if (ReagentMixTotal > MaxCapacity)
 		{
 			//Reaction ends up in more reagents than container can hold
-			var excessCapacity = ReagentMixTotal;
 			CurrentReagentMix.Max(MaxCapacity, out _);
-			ReagentMixTotal = CurrentReagentMix.Total;
 			message = $"Reaction caused excess ({excessCapacity}/{MaxCapacity}), current capacity is {ReagentMixTotal}";
 		}
 

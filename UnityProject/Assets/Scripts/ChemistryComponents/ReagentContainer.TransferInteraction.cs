@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Chemistry;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -8,6 +9,7 @@ public struct TransferResult
 	public bool Success;
 	public string Message;
 	public float TransferAmount;
+	public ReagentMix Excess;
 }
 
 public enum TransferMode
@@ -43,6 +45,11 @@ public partial class ReagentContainer
 	[FormerlySerializedAs("TransferAmount")]
 	[FormerlySerializedAs("InitialTransferAmount")]
 	[SerializeField] private float transferAmount = 20;
+
+	public bool TraitWhitelistOn => traitWhitelist.Count > 0;
+
+	public bool ReagentWhitelistOn => reagentWhitelist != null && reagentWhitelist.Count > 0;
+
 
 	/// <summary>
 	/// Server side only
