@@ -90,7 +90,8 @@ namespace Chemistry
 			}
 		}
 
-		public DictionaryReagentFloat reagents;
+		[SerializeField]
+		private DictionaryReagentFloat reagents;
 
 		public ReagentMix(DictionaryReagentFloat reagents, float temperature = ZERO_CELSIUS_IN_KELVIN)
 		{
@@ -110,7 +111,31 @@ namespace Chemistry
 			reagents = new DictionaryReagentFloat();
 		}
 
-		public float? this[Reagent reagent] => reagents.TryGetValue(reagent, out var val) ? val : (float?) null;
+		public float this[Reagent reagent]
+		{
+			get
+			{
+				if (!reagents.ContainsKey(reagent))
+					return 0f;
+
+				return reagents[reagent];
+			}
+			set
+			{
+				if (!reagents.ContainsKey(reagent))
+				{
+					if (value > 0)
+						reagents.Add(reagent, value);
+				}
+				else
+				{
+					if (value > 0)
+						reagents[reagent] = value;
+					else
+						reagents.Remove(reagent);
+				}
+			}
+		}
 
 		public void Add(ReagentMix b)
 		{
@@ -119,36 +144,15 @@ namespace Chemistry
 
 			foreach (var reagent in b.reagents)
 			{
-				if (reagents.TryGetValue(reagent.Key, out var value))
-				{
-					reagents[reagent.Key] = reagent.Value + value;
-				}
-				else
-				{
-					reagents[reagent.Key] = reagent.Value;
-				}
+				this[reagent.Key] += reagent.Value;
 			}
 		}
 
 		public void Subtract(ReagentMix b)
 		{
-			// Pretty broken, many NaNs
-			// Temperature = (
-			// 	              Temperature * CalculateTotal() +
-			// 	              b.Temperature * b.CalculateTotal()
-			//               ) /
-			//               (CalculateTotal() - b.CalculateTotal());
-
 			foreach (var reagent in b.reagents)
 			{
-				if (reagents.TryGetValue(reagent.Key, out var value))
-				{
-					reagents[reagent.Key] = value - reagent.Value;
-				}
-				else
-				{
-					reagents[reagent.Key] = reagent.Value;
-				}
+				reagents[reagent.Key] -= reagent.Value;
 			}
 		}
 
@@ -156,17 +160,21 @@ namespace Chemistry
 		{
 			foreach (var key in reagents.Keys.ToArray())
 			{
-				reagents[key] *= multiplier;
+				this[key] *= multiplier;
 			}
 		}
 
 		public ReagentMix TransferTo(ReagentMix b, float amount)
 		{
-			var transferred = Clone();
-			transferred.Max(Math.Min(amount, Total), out _);
-			Subtract(transferred);
-			b.Add(transferred);
-			return transferred;
+			var toTransferMix = Clone();
+
+			// can't allow to transfer more than Total
+			var toTransferAmount = Math.Min(amount, Total);
+			toTransferMix.Max(toTransferAmount, out _);
+
+			Subtract(toTransferMix);
+			b.Add(toTransferMix);
+			return toTransferMix;
 		}
 
 		public ReagentMix Take(float amount)
@@ -192,20 +200,6 @@ namespace Chemistry
 			RemoveVolume(removed);
 		}
 
-		/// <summary>
-		/// Deletes empty reagents. Call after changes in reagent mix
-		/// </summary>
-		public void Clean()
-		{
-			foreach (var key in reagents.Keys.ToArray())
-			{
-				if (reagents[key] == 0)
-				{
-					reagents.Remove(key);
-				}
-			}
-		}
-
 		public void Clear()
 		{
 			reagents.Clear();
@@ -216,6 +210,11 @@ namespace Chemistry
 		public float Total
 		{
 			get { return reagents.Sum(kvp => kvp.Value); }
+		}
+
+		public bool Contains(Reagent reagent)
+		{
+			return reagents.ContainsKey(reagent);
 		}
 
 		public bool Contains(Reagent reagent, float amount)

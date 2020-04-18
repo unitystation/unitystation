@@ -21,7 +21,6 @@ namespace Tests.Chemistry
 
         private static void AssertContainerContentsEqualTo(ReagentContainer container, ReagentMix expected)
         {
-            expected.Clean();
             Assert.AreEqual(expected.Count(), container.Count());
             foreach (var pair in expected)
             {

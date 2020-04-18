@@ -77,12 +77,6 @@ namespace Chemistry.Components
 		/// </summary>
 		public float? this[Reagent reagent] => CurrentReagentMix[reagent];
 
-		/// <summary>
-		/// Shortcut to reagents dictionary in reagent mix
-		/// Invoke OnReagentMixChanged if you change anything in reagent mix
-		/// </summary>
-		private DictionaryReagentFloat Reagents => CurrentReagentMix.reagents;
-
 		public bool IsFull => ReagentMixTotal >= MaxCapacity;
 
 		public bool IsEmpty => ReagentMixTotal <= 0f;
@@ -181,7 +175,7 @@ namespace Chemistry.Components
 			// check whitelist reagents
 			if (ReagentWhitelistOn)
 			{
-				if (!addition.reagents.All(r => reagentWhitelist.Contains(r.Key)))
+				if (!addition.All(r => reagentWhitelist.Contains(r.Key)))
 				{
 					return new TransferResult
 					{
@@ -280,8 +274,7 @@ namespace Chemistry.Components
 		/// <returns></returns>
 		public float AmountOfReagent(Reagent reagent)
 		{
-			Reagents.TryGetValue(reagent, out var amount);
-			return amount;
+			return CurrentReagentMix[reagent];
 		}
 
 		/// <summary>
@@ -385,7 +378,7 @@ namespace Chemistry.Components
 		{
 			return $"[{gameObject.ExpensiveName()}" +
 				   $" |{ReagentMixTotal}/{MaxCapacity}|" +
-				   $" ({string.Join(",", Reagents)})" +
+				   $" ({string.Join(",", CurrentReagentMix)})" +
 				   $" Mode: {transferMode}," +
 				   $" TransferAmount: {TransferAmount}," +
 				   $" {nameof(IsEmpty)}: {IsEmpty}," +
