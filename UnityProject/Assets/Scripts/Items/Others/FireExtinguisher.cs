@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Chemistry.Components;
 
 [RequireComponent(typeof(Pickupable))]
 public class FireExtinguisher : NetworkBehaviour, IServerSpawn,

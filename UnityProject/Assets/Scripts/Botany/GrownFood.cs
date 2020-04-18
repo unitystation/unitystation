@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Chemistry.Components;
 
 //Used when spawning the food
 [RequireComponent(typeof(CustomNetTransform))]

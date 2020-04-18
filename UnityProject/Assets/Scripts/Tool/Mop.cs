@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chemistry.Components;
+using System;
 using UnityEngine;
 
 /// <summary>

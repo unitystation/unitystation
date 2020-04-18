@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Chemistry;
 using Mirror;
+using Chemistry.Components;
 
 /// <summary>
 /// Where the magic happens in botany. This tray grows all of the plants
@@ -478,7 +479,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
                 var objectContainer = slot?.Item?.GetComponent<ReagentContainer>();
                 if (objectContainer != null)
                 {
-                    objectContainer.ServerMoveReagentsTo(5, reagentContainer);
+                    objectContainer.MoveReagentsTo(5, reagentContainer);
                     Chat.AddActionMsgToChat(interaction.Performer,
                         $"You add reagents to the {gameObject.ExpensiveName()}.",
                         $"{interaction.Performer.name} adds reagents to the {gameObject.ExpensiveName()}.");

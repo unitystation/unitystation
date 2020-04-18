@@ -6,6 +6,7 @@ using Chemistry;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
+using Chemistry.Components;
 
 [RequireComponent(typeof(Pickupable))]
 public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpawn
