@@ -3,6 +3,7 @@ using Mirror;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
@@ -169,6 +170,8 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (CurrentStatus == ConveyorStatus.Off) return;
 
 		if (!Matrix.IsPassableAt(registerTile.LocalPositionServer, Vector3Int.RoundToInt(registerTile.LocalPositionServer + position), true)) return;
+
+		if (Matrix.Get<ObjectBehaviour>((registerTile.LocalPositionServer + position).RoundToInt(), ObjectType.Object, true).Count() > 1) return;
 
 		foreach (var player in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true))
 		{
