@@ -33,11 +33,11 @@ public partial class ReagentContainer : IExaminable
 			return "It's empty.";
 
 		var fillDesc = ChemistryUtils.GetFillDescription(fillPercent);
-		var stateDesc = ChemistryUtils.GetMixStateDescription(ReagentMix);
+		var stateDesc = ChemistryUtils.GetMixStateDescription(ServerReagentMix);
 
-		var color = ReagentMix.MixColor;
+		var color = ServerReagentMix.MixColor;
 		var colorDesc = TextUtils.ColorToString(color);
-		var units = Mathf.RoundToInt(maxCapacity * fillPercent);
+		var units = Mathf.RoundToInt(MaxCapacity * fillPercent);
 
 		if (ExamineAmount == ExamineAmountMode.APROXIMATE_AMOUNT)
 		{
