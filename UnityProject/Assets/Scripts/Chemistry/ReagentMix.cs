@@ -152,7 +152,7 @@ namespace Chemistry
 		{
 			foreach (var reagent in b.reagents)
 			{
-				reagents[reagent.Key] -= reagent.Value;
+				this[reagent.Key] -= reagent.Value;
 			}
 		}
 
