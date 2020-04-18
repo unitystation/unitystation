@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(ReagentContainer))]
-public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
+public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IExaminable
 {
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.Mop, true, false);
@@ -76,5 +76,16 @@ public class Mop : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 	public void CleanTile(Vector3 worldPos)
 	{
 		MatrixManager.ReagentReact(reagentContainer.TakeReagents(reagentsPerUse), worldPos.CutToInt());
+	}
+
+	public string Examine(Vector3 worldPos = default)
+	{
+		string msg = null;
+		if (reagentContainer)
+		{
+			msg = !reagentContainer.IsEmpty ? "It's wet." : "It's dry. Use bucket to wet it.";
+		}
+
+		return msg;
 	}
 }

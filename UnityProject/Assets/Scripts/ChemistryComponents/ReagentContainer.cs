@@ -117,15 +117,6 @@ namespace Chemistry.Components
 		{
 			registerTile = GetComponent<RegisterTile>();
 
-			// add ReagentContainer trait on server and client
-			itemAttributes = GetComponent<ItemAttributesV2>();
-			if (itemAttributes)
-			{
-				var containerTrait = CommonTraits.Instance.ReagentContainer;
-				if (!itemAttributes.HasTrait(containerTrait))
-					itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
-			}
-
 			// register spill on throw
 			customNetTransform = GetComponent<CustomNetTransform>();
 			if (customNetTransform)

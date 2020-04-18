@@ -11,7 +11,6 @@ namespace Chemistry.Components
 		public bool Success;
 		public string Message;
 		public float TransferAmount;
-		public ReagentMix Excess;
 	}
 
 	public enum TransferMode
@@ -203,91 +202,91 @@ namespace Chemistry.Components
 		/// Server side only
 		/// Transfers Reagents between two containers
 		/// </summary>
-		private void ServerTransferInteraction(ReagentContainer one, ReagentContainer two, GameObject performer)
+		private void ServerTransferInteraction(ReagentContainer objectInHands, ReagentContainer target, GameObject performer)
 		{
 			ReagentContainer transferTo = null;
-			switch (one.transferMode)
+			switch (objectInHands.transferMode)
 			{
 				case TransferMode.Normal:
-					switch (two.transferMode)
+					switch (target.transferMode)
 					{
 						case TransferMode.Normal:
-							transferTo = two;
+							transferTo = target;
 							break;
 						case TransferMode.OutputOnly:
-							transferTo = one;
+							transferTo = objectInHands;
 							break;
 						case TransferMode.InputOnly:
-							transferTo = two;
+							transferTo = target;
 							break;
 						default:
 							Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
-								Category.Chemistry, one, two);
+								Category.Chemistry, objectInHands, target);
 							break;
 					}
 
 					break;
 				case TransferMode.Syringe:
-					switch (two.transferMode)
+					switch (target.transferMode)
 					{
 						case TransferMode.Normal:
-							transferTo = one.IsFull ? two : one;
+							transferTo = objectInHands.IsFull ? target : objectInHands;
 							break;
 						case TransferMode.OutputOnly:
-							transferTo = one;
+							transferTo = objectInHands;
 							break;
 						case TransferMode.InputOnly:
-							transferTo = two;
+							transferTo = target;
 							break;
 						default:
 							Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
-								Category.Chemistry, one, two);
+								Category.Chemistry, objectInHands, target);
 							break;
 					}
 
 					break;
 				case TransferMode.OutputOnly:
-					switch (two.transferMode)
+					switch (target.transferMode)
 					{
 						case TransferMode.Normal:
-							transferTo = two;
+							transferTo = target;
 							break;
 						case TransferMode.OutputOnly:
 							Chat.AddExamineMsg(performer, "Both containers are output-only.");
 							break;
 						case TransferMode.InputOnly:
-							transferTo = two;
+							transferTo = target;
 							break;
 						default:
 							Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
-								Category.Chemistry, one, two);
+								Category.Chemistry, objectInHands, target);
 							break;
 					}
 
 					break;
 				case TransferMode.InputOnly:
-					switch (two.transferMode)
+					switch (target.transferMode)
 					{
 						case TransferMode.Normal:
-							transferTo = one;
+							transferTo = objectInHands;
 							break;
 						case TransferMode.OutputOnly:
-							transferTo = one;
+							transferTo = objectInHands;
 							break;
 						case TransferMode.InputOnly:
 							Chat.AddExamineMsg(performer, "Both containers are input-only.");
 							break;
 						default:
 							Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}",
-								Category.Chemistry, one, two);
+								Category.Chemistry, objectInHands, target);
 							break;
 					}
 
 					break;
 				default:
 					Logger.LogErrorFormat("Invalid transfer mode when attempting transfer {0}<->{1}", Category.Chemistry,
-						one,
-						two);
+						objectInHands,
+						target);
 					break;
 			}
 
@@ -296,7 +295,7 @@ namespace Chemistry.Components
 				return;
 			}
 
-			var transferFrom = two == transferTo ? one : two;
+			var transferFrom = target == transferTo ? objectInHands : target;
 
 			Logger.LogTraceFormat("Attempting transfer from {0} into {1}", Category.Chemistry, transferFrom, transferTo);
 
@@ -308,10 +307,9 @@ namespace Chemistry.Components
 				return;
 			}
 
-			var transferAmount = transferFrom.TransferAmount;
+			var transferAmount = objectInHands.TransferAmount;
 
 			var useFillMessage = true;
-
 			var result = transferFrom.MoveReagentsTo(transferAmount, transferTo);
 
 			string resultMessage;
@@ -341,6 +339,18 @@ namespace Chemistry.Components
 		)
 		{
 			TransferResult transferResult;
+
+			// save total ammount before mixing
+			var beforeMixTotal = target.ReagentMixTotal;
+			var afterMixTotal = beforeMixTotal + amount;
+
+			// check if container can hold sum of mixes amount
+			if (afterMixTotal > target.MaxCapacity)
+			{
+				// remove excess from addition mix
+				// it will delete excess from world entirely
+				amount = target.MaxCapacity - beforeMixTotal;
+			}
 
 			if (target != null)
 			{
