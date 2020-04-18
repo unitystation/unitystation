@@ -189,17 +189,22 @@ public abstract class GameMode : ScriptableObject
 	/// <returns>true if an antag should be spawned.</returns>
 	protected virtual bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-		// Don't spawn any mid round antags if game mode doesn't allow it
+		// Does this game mode support mid-round antags?
 		if (!MidRoundAntags)
 		{
 			return false;
 		}
 
-		// Determine if antag based on the non-antag job types and ratios
-		int players = PlayerList.Instance.InGamePlayers.Count;
-		return !NonAntagJobTypes.Contains(spawnRequest.RequestedOccupation.JobType) &&
-			   AntagManager.Instance.AntagCount < Math.Floor(players * AntagRatio) &&
-			   players > 0;
+		// Can this job be an antag?
+		if (NonAntagJobTypes.Contains(spawnRequest.RequestedOccupation.JobType))
+		{
+			return false;
+		}
+
+		// Are there enough antags already?
+		int newPlayerCount = PlayerList.Instance.InGamePlayers.Count + 1;
+		var expectedAntagCount = (int)Math.Floor(newPlayerCount * AntagRatio);
+		return AntagManager.Instance.AntagCount < expectedAntagCount;
 	}
 
 	/// <summary>
