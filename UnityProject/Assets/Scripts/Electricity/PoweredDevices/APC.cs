@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -421,4 +422,18 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 		}
 	}
 
+}
+
+public class PoweredDevices
+{
+	public TypeOfPoweredDevice type;
+	public List<APCPoweredDevice> listOfDevices;
+}
+
+public enum TypeOfPoweredDevice
+{
+	Lights,
+	Doors,
+	Battery,
+	Environment
 }

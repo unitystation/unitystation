@@ -22,9 +22,9 @@ public class LightSource : ObjectTrigger
 
 	public Color customColor;
 
-	public bool switchState { get; private set; }
+	public bool SwitchState { get; private set; }
 
-	[SyncVar]
+	[SyncVar(hook =nameof(SyncLightState))]
 	private LightState mState;
 
 	void Start()
@@ -64,6 +64,11 @@ public class LightSource : ObjectTrigger
 
 		mState = InitialState;
 	}
+	public override void OnStartClient()
+	{
+		SyncLightState(mState, mState);
+		base.OnStartClient();
+	}
 
 	public void SubscribeToSwitch(ref Action<bool> triggerEvent)
 	{
@@ -73,23 +78,37 @@ public class LightSource : ObjectTrigger
 
 	private void OnSwitchInvokeEvent(bool newState)
 	{
-		switchState = newState;
-		if (wallMount.State == LightMountStates.LightMountState.Broken ||
-		    wallMount.State == LightMountStates.LightMountState.MissingBulb)
+		SwitchState = newState;
+		if (wallMount != null)
 		{
-			return;
-		}
+			if (wallMount.State == LightMountState.Broken ||
+			    wallMount.State == LightMountState.MissingBulb)
+			{
+				return;
+			}
 
-		wallMount.SwitchChangeState(newState ? LightState.On : LightState.Off);
+			wallMount.SwitchChangeState(newState ? LightState.On : LightState.Off);
+		}
 		Trigger(newState);
 	}
 
 	public override void Trigger(bool iState)
 	{
-		mState = iState ? LightState.On : LightState.Off;
+		ServerChangeLightState(iState ? LightState.On : LightState.Off);
+	}
+
+	private void SyncLightState(LightState oldState, LightState newState)
+	{
+		mState = newState;
 		if (mLightRendererObject != null)
 		{
-			mLightRendererObject.SetActive(iState);
+			mLightRendererObject.SetActive(mState == LightState.On ? true : false);
 		}
+	}
+
+	[Server]
+	public void ServerChangeLightState(LightState newState)
+	{
+		mState = newState;
 	}
 }

@@ -5,10 +5,8 @@ using UnityEngine;
 
 namespace Lighting
 {
-	public class LightSwitchV2 : NetworkBehaviour, ICheckedInteractable<HandApply>
+	public class LightSwitchV2 : SwitchBase, ICheckedInteractable<HandApply>
 	{
-		public List<LightSource> listLightSources;
-
 		public Action<bool> switchTriggerEvent;
 
 		[SyncVar(hook = nameof(SyncState))]
@@ -16,10 +14,11 @@ namespace Lighting
 
 		private void Awake()
 		{
-			foreach (var lightSource in listLightSources)
+			foreach (var lightSource in listOfTriggers)
 			{
-				if(lightSource != null)
-					lightSource.SubscribeToSwitch(ref switchTriggerEvent);
+				var light = lightSource as LightSource;
+				if(light != null)
+					light.SubscribeToSwitch(ref switchTriggerEvent);
 			}
 		}
 
@@ -47,6 +46,7 @@ namespace Lighting
 			isOn = newState;
 			switchTriggerEvent?.Invoke(isOn);
 		}
+
 		void OnDrawGizmosSelected()
 		{
 			var sprite = GetComponentInChildren<SpriteRenderer>();
@@ -55,9 +55,9 @@ namespace Lighting
 
 			//Highlighting all controlled lightSources
 			Gizmos.color = new Color(1, 1, 0, 1);
-			for (int i = 0; i < listLightSources.Count; i++)
+			for (int i = 0; i < listOfTriggers.Count; i++)
 			{
-				var lightSource = listLightSources[i];
+				var lightSource = listOfTriggers[i];
 				if(lightSource == null) continue;
 				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
 				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);

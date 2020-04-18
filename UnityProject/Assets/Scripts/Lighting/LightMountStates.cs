@@ -3,29 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
-
+public enum LightMountState
+{
+	None = 0,
+	On,
+	Off,
+	MissingBulb,
+	Broken,
+	TypeCount,
+}
 public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
-	//Burned out state is missing
-	public enum LightMountState
-	{
-		None = 0,
-		On,
-		Off,
-		MissingBulb,
-		Broken,
-		TypeCount,
-	}
-
 	[SyncVar(hook = nameof(SyncLightState))]
 	private LightMountState state = LightMountState.On;
 
 	public LightMountState State => state;
 
-
 	[Tooltip("Sprite for bulb.")]
 	public SpriteRenderer spriteRenderer;
 
+	[Tooltip("Sprite for light effect.")]
+	public SpriteRenderer spriteRendererLightOn;
 	//Second layer for light effect
 
 	private LightSource lightSource;
@@ -41,13 +39,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 	public Sprite[] spriteListFull;
 
-
 	public Sprite[] spriteListLightOn;
-
-	[Tooltip("Sprite for light effect.")]
-	public SpriteRenderer spriteRendererLightOn;
-
-
 
 	[Header("Broken state.")]
 	[Tooltip("In Broken state will drop this item.")]
@@ -124,7 +116,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			}
 			else
 			{
-				if (lightSource.switchState)
+				if (lightSource.SwitchState)
 				{
 					Despawn.ServerSingle(interaction.HandObject);
 					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
