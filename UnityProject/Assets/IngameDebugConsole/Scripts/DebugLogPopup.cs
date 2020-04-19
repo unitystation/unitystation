@@ -41,15 +41,18 @@ namespace IngameDebugConsole
 		/// Number of new debug entries since the log window has been closed
 		/// </summary>
 		private int newInfoCount = 0, newWarningCount = 0, newErrorCount = 0;
-		
+
 		private Color normalColor;
 
+		// Ignore default color warning
+#pragma warning disable CS0649
 		[SerializeField]
 		private Color alertColorInfo;
 		[SerializeField]
 		private Color alertColorWarning;
 		[SerializeField]
 		private Color alertColorError;
+#pragma warning disable CS0649
 
 		public bool isLogPopupVisible = false;
 		private bool isPopupBeingDragged = false;
