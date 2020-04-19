@@ -9,10 +9,9 @@ namespace Chemistry
 	[Serializable]
 	public class ReagentMix : IEnumerable<KeyValuePair<Reagent, float>>
 	{
-		public const float ZERO_CELSIUS_IN_KELVIN = 273.15f;
-
 		[Tooltip("In Kelvins")]
-		[SerializeField] private float temperature = ZERO_CELSIUS_IN_KELVIN;
+		[Temperature]
+		[SerializeField] private float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN;
 
 		public float Temperature
 		{
@@ -93,19 +92,19 @@ namespace Chemistry
 		[SerializeField]
 		private DictionaryReagentFloat reagents;
 
-		public ReagentMix(DictionaryReagentFloat reagents, float temperature = ZERO_CELSIUS_IN_KELVIN)
+		public ReagentMix(DictionaryReagentFloat reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
 			this.reagents = reagents;
 		}
 
-		public ReagentMix(Reagent reagent, float amount, float temperature = ZERO_CELSIUS_IN_KELVIN)
+		public ReagentMix(Reagent reagent, float amount, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
 			reagents = new DictionaryReagentFloat {[reagent] = amount};
 		}
 
-		public ReagentMix(float temperature = ZERO_CELSIUS_IN_KELVIN)
+		public ReagentMix(float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
 		{
 			Temperature = temperature;
 			reagents = new DictionaryReagentFloat();
