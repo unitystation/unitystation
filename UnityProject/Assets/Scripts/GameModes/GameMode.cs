@@ -4,7 +4,6 @@ using System.Linq;
 using UnityEngine;
 using Antagonists;
 using UnityEngine.Serialization;
-using Random = UnityEngine.Random;
 
 /// <summary>
 /// Contains the definition of a game mode. To create a new one you should
@@ -224,16 +223,15 @@ public abstract class GameMode : ScriptableObject
 			return;
 		}
 
-		int randIndex = Random.Range(0, PossibleAntags.Count);
-		var antag = PossibleAntags[randIndex];
-		if (!AllocateJobsToAntags &&antag.AntagOccupation == null)
+		var antag = PossibleAntags.PickRandom();
+		if (!AllocateJobsToAntags && antag.AntagOccupation == null)
 		{
 			Logger.LogErrorFormat("AllocateJobsToAntags is false but {0} AntagOccupation is null! " +
 								  "Game mode must either set AllocateJobsToAntags or possible antags neeed an AntagOccupation.",
 				Category.GameMode, antag.AntagName);
 			return;
 		}
-		AntagManager.Instance.ServerSpawnAntag(PossibleAntags[randIndex], playerSpawnRequest);
+		AntagManager.Instance.ServerSpawnAntag(antag, playerSpawnRequest);
 	}
 
 	/// <summary>
