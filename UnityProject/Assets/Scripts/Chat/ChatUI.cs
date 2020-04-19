@@ -471,7 +471,6 @@ public class ChatUI : MonoBehaviour
 			return;
 		}
 
-		Logger.Log($"Creating channel toggle for {channel}", Category.UI);
 		// Create the toggle button
 		GameObject channelToggleItem =
 			Instantiate(channelToggleTemplate, channelToggleTemplate.transform.parent, false);

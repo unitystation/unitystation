@@ -1,17 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using Grpc.Core;
+﻿using Grpc.Core;
 using Mirror;
+using System;
+using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SerializeField]
 	private float ConveyorBeltSpeed = 1f; //does not change animation speed! Only detection and teleport speed
+
 	[SerializeField]
 	private SpriteHandler spriteHandler;
+
 	[SerializeField]
 	private ConveyorDirection MappedDirection;
 
@@ -29,6 +30,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[SyncVar(hook = nameof(SyncDirection))]
 	private ConveyorDirection CurrentDirection;
 
+	[SyncVar(hook = nameof(SyncStatus))]
 	private ConveyorStatus CurrentStatus = ConveyorStatus.Off;
 
 	protected virtual void UpdateMe()
@@ -66,6 +68,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
+
 	private void OnStart()
 	{
 		registerTile = GetComponent<RegisterTile>();
@@ -93,6 +96,11 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		CurrentDirection = newValue;
 	}
 
+	private void SyncStatus(ConveyorStatus oldValue, ConveyorStatus newValue)
+	{
+		CurrentStatus = newValue;
+	}
+
 	/* Make this object a subordinate object. Make the switch boss around the behavior of this thing*/
 
 	/// <summary>
@@ -107,12 +115,15 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 			case ConveyorBeltSwitch.State.Off:
 				CurrentStatus = ConveyorStatus.Off;
 				break;
+
 			case ConveyorBeltSwitch.State.Forward:
 				CurrentStatus = ConveyorStatus.Forward;
 				break;
+
 			case ConveyorBeltSwitch.State.Backward:
 				CurrentStatus = ConveyorStatus.Backward;
 				break;
+
 			default:
 				throw new ArgumentOutOfRangeException(nameof(switchState), switchState, null);
 		}
@@ -141,9 +152,11 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 			case ConveyorStatus.Forward:
 				position = directionsForward[CurrentDirection];
 				break;
+
 			case ConveyorStatus.Backward:
 				position = directionsBackward[CurrentDirection];
 				break;
+
 			default:
 				position = Vector3.up;
 				break;
@@ -157,6 +170,8 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (CurrentStatus == ConveyorStatus.Off) return;
 
 		if (!Matrix.IsPassableAt(registerTile.LocalPositionServer, Vector3Int.RoundToInt(registerTile.LocalPositionServer + position), true)) return;
+
+		if (Matrix.Get<ObjectBehaviour>((registerTile.LocalPositionServer + position).RoundToInt(), ObjectType.Object, true).Count() > 1) return;
 
 		foreach (var player in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true))
 		{
@@ -233,9 +248,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		RightUp = 7
 	}
 
-
 	/* Construction stuff */
-
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -299,6 +312,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 					case true:
 						SyncInverted = false;
 						break;
+
 					case false:
 						SyncInverted = true;
 						break;
@@ -306,7 +320,6 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 			});
 		}
 	}
-
 
 #if UNITY_EDITOR//no idea how to get this to work, so you can see the correct conveyor direction in editor
 
@@ -317,7 +330,6 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 			spriteHandler.gameObject.GetComponent<SpriteRenderer>().sprite = spriteHandler.Sprites[(int)CurrentDirection].Sprites[0];
 		}
 	}
+
 #endif
 }
-
-

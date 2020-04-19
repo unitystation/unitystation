@@ -39,6 +39,11 @@ public class PlayerSpawnRequest
 		return new PlayerSpawnRequest(requestedOccupation, requestedBy, characterSettings);
 	}
 
+	public static PlayerSpawnRequest RequestOccupation(ConnectedPlayer requestedBy, Occupation requestedOccupation)
+	{
+		return new PlayerSpawnRequest(requestedOccupation, requestedBy.ViewerScript, requestedBy.CharacterSettings);
+	}
+
 	public override string ToString()
 	{
 		return $"{nameof(RequestedOccupation)}: {RequestedOccupation}, {nameof(JoinedViewer)}: {JoinedViewer}, {nameof(CharacterSettings)}: {CharacterSettings}";

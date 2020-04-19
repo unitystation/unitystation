@@ -231,6 +231,7 @@ public class IntrinsicElectronicData
 		//Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
 		Logger.Log("Type " + (Categorytype.ToString()), Category.Electrical);
 		Logger.Log("Can connect to " + (string.Join(",", CanConnectTo)), Category.Electrical);
+		Logger.Log("WireEndA > " + WireEndA + " WireEndB > " + WireEndB, Category.Electrical);
 		foreach (var Supply in Data.SupplyDependent)
 		{
 			string ToLog;
