@@ -213,6 +213,11 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745406775, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Name
+      value: High Cable Coil
+      objectReference: {fileID: 0}
     - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: maxAmount
@@ -223,6 +228,12 @@ PrefabInstance:
       propertyPath: stacksWith.Array.data[0]
       value: 
       objectReference: {fileID: 1431646644770877665}
+    - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: stacksWith.Array.data[1]
+      value: 
+      objectReference: {fileID: 4019383695740491213, guid: 930cb494644d9ed46b31e1ecf4222089,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3e6805b264a935428b0de415ea57943, type: 3}
 --- !u!1 &1431646644770877665 stripped
