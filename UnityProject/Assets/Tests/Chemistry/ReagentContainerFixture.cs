@@ -13,9 +13,10 @@ namespace Tests.Chemistry
     {
         private static ReagentContainer GetContainer(int maxCapacity, ReagentMix contents)
         {
-            var set = new ReactionSet();
+            var set = ScriptableObject.CreateInstance<ReactionSet>();
 			var container = ReagentContainer.Create(set, maxCapacity);
 			container.Add(contents);
+
             return container;
         }
 
@@ -25,16 +26,16 @@ namespace Tests.Chemistry
             foreach (var pair in expected)
             {
                 var val = container[pair.Key];
-                Assert.IsTrue(val != null);
                 Assert.AreEqual(pair.Value, val, 0.00000001, $"Wrong amount of {pair.Key}.");
             }
         }
 
         private static IEnumerable AdditionTestData()
         {
-            var a = new global::Chemistry.Reagent();
-            var b = new global::Chemistry.Reagent();
-            var c = new global::Chemistry.Reagent();
+            var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+            var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+            var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+
             //Test adding without overflow
             yield return new object[]
             {
@@ -117,9 +118,9 @@ namespace Tests.Chemistry
 
         private static IEnumerable RemovalTestData()
         {
-            var a = new global::Chemistry.Reagent();
-            var b = new global::Chemistry.Reagent();
-            var c = new global::Chemistry.Reagent();
+            var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+            var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+            var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
 
             yield return new object[]
             {

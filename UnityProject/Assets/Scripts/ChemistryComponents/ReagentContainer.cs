@@ -421,7 +421,7 @@ namespace Chemistry.Components
 			GameObject obj = new GameObject();
 			var container = obj.AddComponent<ReagentContainer>();
 
-			container.ReactionSet = new ReactionSet();
+			container.ReactionSet = reactionSet;
 			container.MaxCapacity = maxCapacity;
 
 			return container;
