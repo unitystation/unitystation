@@ -116,7 +116,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1942658981970304}
   m_LocalRotation: {x: -0, y: -0, z: -0.00000014901144, w: 1}
-  m_LocalPosition: {x: 46, y: 60, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4714874764225132}
@@ -343,19 +343,18 @@ MonoBehaviour:
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
-  maxCapacity: 3000
-  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
-  reagentMix:
-    temperature: 273.15
-    reagents:
-      m_keys:
-      - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
-      m_values:
-      - 3000
-  itemAttributes: {fileID: 0}
   traitWhitelist: []
   reagentWhitelist:
   - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
   transferMode: 2
   possibleTransferAmounts: []
   transferAmount: 20
+  maxCapacity: 3000
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+      m_values:
+      - 3000
