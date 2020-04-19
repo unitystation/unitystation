@@ -170,7 +170,7 @@ public class APCPoweredDevice : NetworkBehaviour
 		{
 			Powered.StateUpdate(State);
 		}
-	}
+	}  
 }
 
 

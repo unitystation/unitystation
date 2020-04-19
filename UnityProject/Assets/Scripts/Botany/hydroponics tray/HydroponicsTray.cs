@@ -10,7 +10,7 @@ using Mirror;
 /// </summary>
 public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>, IServerSpawn
 {
-	public bool HasPlant => plantData != null;
+	public bool HasPlant => plantData?.FullyGrownSprite?.Texture != null;
 	public bool ReadyToHarvest => plantCurrentStage == PlantSpriteStage.FullyGrown;
 
 
@@ -44,6 +44,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	[SerializeField] private List<DefaultPlantData> potentialWeeds = new List<DefaultPlantData>();
 	[SerializeField] private PlantTrayModification modification;
 	[SerializeField] private ReagentContainer reagentContainer = null;
+	[SerializeField] private Chemistry.Reagent nutriment = null;
 	[SerializeField] private Chemistry.Reagent water = null;
 	[SerializeField] private Chemistry.Reagent mutagen = null;
 	[SerializeField] private SpriteHandler plantSprite = null;
@@ -56,17 +57,16 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 
 	private static readonly System.Random random = new System.Random();
 
-	private PlantData plantData;
+	[SerializeField] private PlantData plantData;
+
 	private readonly List<GameObject> readyProduce = new List<GameObject>();
 	private float tickCount;
 	private float weedLevel;
-	private float nutritionLevel;
 
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		EnsureInit();
-		nutritionLevel = 100;
 		if (isSoilPile)
 		{
 			//only select plants that have valid produce
@@ -166,23 +166,18 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			//Growth and harvest checks
 			if (!ReadyToHarvest)
 			{
-				plantData.NextGrowthStageProgress += (int) Math.Round(plantData.GrowthSpeed / 10f);
+				plantData.NextGrowthStageProgress += (int) Math.Ceiling(plantData.GrowthSpeed / 5f);
 
 				if (plantData.NextGrowthStageProgress > 100)
 				{
 					plantData.NextGrowthStageProgress = 0;
-					if (nutritionLevel > 0 || plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
+					if (reagentContainer[nutriment] > 0 || plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
 					{
 						if (!plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
 						{
-							if (nutritionLevel != 0)
+							if (reagentContainer[nutriment] > 0)
 							{
-								nutritionLevel = nutritionLevel - 1;
-							}
-
-							if (nutritionLevel < 0)
-							{
-								nutritionLevel = 0;
+								reagentContainer.Subtract(new ReagentMix(nutriment, 1));
 							}
 						}
 
@@ -216,7 +211,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			{
 				CropDeath();
 			}
-			else if (plantData.Age > plantData.Lifespan * 500)
+			else if (plantData.Age > plantData.Lifespan * 2500)
 			{
 				CropDeath();
 			}
@@ -248,7 +243,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			}
 		}
 
-		UpdateNutrimentFlag(showNutrimenetFlag, nutritionLevel < 25);
+		UpdateNutrimentFlag(showNutrimenetFlag, reagentContainer[nutriment] == null || reagentContainer[nutriment] < 25);
 
 		UpdateWaterFlag(showWaterFlag, reagentContainer[water] == null || reagentContainer[water] < 25);
 
@@ -263,15 +258,17 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	private void UpdateHarvestFlag(bool oldNotifier, bool newNotifier)
 	{
 		if (isSoilPile) return;
-
-		showHarvestFlag = newNotifier;
-		if (showHarvestFlag)
+		if (oldNotifier != newNotifier)
 		{
-			harvestNotifier.PushTexture();
-		}
-		else
-		{
-			harvestNotifier.PushClear();
+			showHarvestFlag = newNotifier;
+			if (showHarvestFlag)
+			{
+				harvestNotifier.PushTexture();
+			}
+			else
+			{
+				harvestNotifier.PushClear();
+			}
 		}
 	}
 
@@ -283,15 +280,17 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	private void UpdateWeedsFlag(bool oldNotifier, bool newNotifier)
 	{
 		if (isSoilPile) return;
-
-		showWeedsFlag = newNotifier;
-		if (showWeedsFlag)
+		if (oldNotifier != newNotifier)
 		{
-			weedNotifier.PushTexture();
-		}
-		else
-		{
-			weedNotifier.PushClear();
+			showWeedsFlag = newNotifier;
+			if (showWeedsFlag)
+			{
+				weedNotifier.PushTexture();
+			}
+			else
+			{
+				weedNotifier.PushClear();
+			}
 		}
 	}
 
@@ -303,15 +302,17 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	private void UpdateWaterFlag(bool oldNotifier, bool newNotifier)
 	{
 		if (isSoilPile) return;
-
-		showWaterFlag = newNotifier;
-		if (showWaterFlag)
+		if (oldNotifier != newNotifier)
 		{
-			waterNotifier.PushTexture();
-		}
-		else
-		{
-			waterNotifier.PushClear();
+			showWaterFlag = newNotifier;
+			if (showWaterFlag)
+			{
+				waterNotifier.PushTexture();
+			}
+			else
+			{
+				waterNotifier.PushClear();
+			}
 		}
 	}
 
@@ -323,46 +324,55 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	private void UpdateNutrimentFlag(bool oldNotifier, bool newNotifier)
 	{
 		if (isSoilPile) return;
-
-		showNutrimenetFlag = newNotifier;
-		if (showNutrimenetFlag)
+		if (oldNotifier != newNotifier)
 		{
-			nutrimentNotifier.PushTexture();
-		}
-		else
-		{
-			nutrimentNotifier.PushClear();
+			showNutrimenetFlag = newNotifier;
+			if (showNutrimenetFlag)
+			{
+				nutrimentNotifier.PushTexture();
+			}
+			else
+			{
+				nutrimentNotifier.PushClear();
+			}
 		}
 	}
 
 
 	private void UpdatePlant(string oldPlantSyncString, string newPlantSyncString)
 	{
-		//if (plantSyncString == newPlantSyncString) return;
-
-		plantSyncString = newPlantSyncString;
-		if (newPlantSyncString == null)
+		if (oldPlantSyncString != newPlantSyncString)
 		{
-			plantData = null;
-		}
-		else if (DefaultPlantData.PlantDictionary.ContainsKey(plantSyncString))
-		{
-			plantData = PlantData.CreateNewPlant(DefaultPlantData.PlantDictionary[plantSyncString].plantData);
-		}
+			plantSyncString = newPlantSyncString;
+			if (newPlantSyncString == null)
+			{
+				plantData = null;
+			}
+			else if (DefaultPlantData.PlantDictionary.ContainsKey(plantSyncString))
+			{
+				plantData = PlantData.CreateNewPlant(DefaultPlantData.PlantDictionary[plantSyncString].plantData);
+			}
 
-		UpdateSprite();
+			UpdateSprite();
+		}
 	}
 
 	private void UpdatePlantStage(PlantSpriteStage oldValue, PlantSpriteStage newValue)
 	{
-		plantCurrentStage = newValue;
-		UpdateSprite();
+		if (plantCurrentStage != newValue)
+		{
+			plantCurrentStage = newValue;
+			UpdateSprite();
+		}
 	}
 
 	private void UpdatePlantGrowthStage(int oldgrowingPlantStage, int newgrowingPlantStage)
 	{
-		growingPlantStage = newgrowingPlantStage;
-		UpdateSprite();
+		if (growingPlantStage != newgrowingPlantStage)
+		{
+			growingPlantStage = newgrowingPlantStage;
+			UpdateSprite();
+		}
 	}
 
 	/// <summary>
@@ -409,11 +419,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	{
 		if (plantData.PlantTrays.Contains(PlantTrays.Weed_Adaptation))
 		{
-			nutritionLevel = nutritionLevel + plantData.Potency;
-			if (nutritionLevel > 100)
-			{
-				nutritionLevel = 100;
-			}
+			reagentContainer.Add(new ReagentMix(nutriment, plantData.Potency));
 		}
 
 		if (plantData.PlantTrays.Contains(PlantTrays.Fungal_Vitality))
@@ -546,7 +552,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 				Chat.AddActionMsgToChat(interaction.Performer,
 					$"You compost the {foodObject.name} in the {gameObject.ExpensiveName()}.",
 					$"{interaction.Performer.name} composts {foodObject.name} in the {gameObject.ExpensiveName()}.");
-				nutritionLevel = nutritionLevel + foodObject.plantData.Potency;
+				reagentContainer.Add(new ReagentMix(nutriment, foodObject.plantData.Potency));
 				Despawn.ServerSingle(interaction.HandObject);
 				return;
 			}

@@ -13,7 +13,6 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		// Use default interaction checks
-		if (!Validations.HasTarget(interaction)) return false;
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (!Validations.IsTarget(gameObject, interaction))
 		{
@@ -37,6 +36,7 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			{
 				return true;
 			}
+			return true;
 		}
 		return false;
 	}
@@ -85,8 +85,28 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 					Chat.AddExamineMsgFromServer(interaction.Performer, "Your Conveyor Belt buffer is empty fill it with something");
 				}
 			}
+
+			PrintElectricalThings(interaction);
 		}
 	}
+
+	public void PrintElectricalThings(PositionalHandApply interaction)
+	{
+		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
+		MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
+		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
+		var matrix = interaction.Performer.GetComponentInParent<Matrix>();
+		var MetaDataNode = matrix.GetElectricalConnections(localPosInt);
+		string ToReturn = "The Multitool Display lights up with \n"
+		                  + "Number of electrical objects present : " + MetaDataNode.Count + "\n";
+		foreach (var D in MetaDataNode) {
+			ToReturn = ToReturn + D.ShowInGameDetails() + "\n";
+		}
+		MetaDataNode.Clear();
+		ElectricalPool.PooledFPCList.Add(MetaDataNode);
+		Chat.AddExamineMsgFromServer(interaction.Performer, ToReturn);
+	}
+
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
