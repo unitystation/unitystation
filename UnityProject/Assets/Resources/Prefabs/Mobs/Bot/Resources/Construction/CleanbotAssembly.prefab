@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  armLast: 0
+  armLast: 1
   stageParts:
-  - {fileID: 5914959498962467419, guid: 34a89eb06b04dc54eae02fc8048dd8f7, type: 3}
-  - {fileID: 3506820747392627008, guid: 1fa9f2d6fbcfef845bb2f5903ffcfd23, type: 3}
+  - {fileID: 4010194602388370502, guid: e5ec5dc9591066d47a44185d4e8e9d66, type: 3}
+  - {fileID: 6704733875890864299, guid: efa2c04573e08dd478e4b46c23747b75, type: 3}
   stageSprite:
-  - {fileID: 21300000, guid: 91265de389e48a144991ff3fe46ba95f, type: 3}
-  - {fileID: 21300000, guid: beb57f833afabcf4798afd35ad02c6d5, type: 3}
-  botPrefab: {fileID: 4447485276008945440, guid: 2d3792ef0c450da49ab3ec9bc4ac2664,
+  - {fileID: 21300000, guid: eb93bff088e262c4d97d4b6a1d08d46e, type: 3}
+  - {fileID: 0}
+  botPrefab: {fileID: 5037153879944481302, guid: 52e52506ef7e83e41a024f96fadc9304,
     type: 3}
   spriteHandler: {fileID: 526982063192555996}
 --- !u!1001 &5914844480995460833
@@ -33,7 +33,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: MedibotAssembly
+      value: CleanbotAssembly
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -79,6 +79,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4911511444418374, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4911511444418374, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
@@ -103,7 +111,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 91265de389e48a144991ff3fe46ba95f,
+      objectReference: {fileID: 21300000, guid: eb93bff088e262c4d97d4b6a1d08d46e,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -113,7 +121,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
-      value: Medibot Assembly
+      value: Cleanbot Assembly
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -194,11 +202,6 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 9a2f277fb4587ff41a4adae3f4e3cf2d, type: 3}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: initialSize
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &5914959498962467419 stripped

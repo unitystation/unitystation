@@ -1,21 +1,24 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
-
-
+/// <summary>
+/// The component used in the botassembly prefabs that keeps track of the "stage" the bot is on before spawning the actual simplebot prefab
+/// </summary>
 public class BotConstruction : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
+	[Tooltip("Check this if the cyborg arm goes in last or if you need only one of the things in the list to be true")]
+	public bool armLast;// A bool used if the bot should use the cyborg arm last
+
 	[Tooltip("Place the parts used in each stage, the first part will be element 0")]
-	public GameObject[] stageParts;//Add gameprefabs here
+	public GameObject[] stageParts;// A list containing item prefabs set in the editor, the parts should go in the order you want
 
-	[Tooltip("Place each sprite for each stage here, if the sprite should stay the same just put the same sprite in")]
-	public Sprite[] stageSprite; //Sprites used for each stage
+	[Tooltip("Place each sprite for each stage here, if the sprite should stay the same just leave it blank")]
+	public Sprite[] stageSprite; // This list contains sprites for each stage, if left null sprite will not change
 
-	public GameObject botPrefab; //The bot spawned after all stages are done
+	[Tooltip("The bot that spawns when assembly is complete")]
+	public GameObject botPrefab; // The simplebot prefab that will spawn when all stages are done
 
-	[SyncVar]
-	private int stageCounter = 0; //The counter that will be used to figure out what stage the bot is on
+	[SyncVar(hook = nameof(SpriteSync))]
+	private int stageCounter = 0; // A counter used to track what stage the bot is on and hooked to SpriteSync to sync the sprite with client
 
 	public SpriteHandler spriteHandler;
 
@@ -23,50 +26,70 @@ public class BotConstruction : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		Debug.Log("This runs!");
-		Debug.LogFormat("Stage at: {0}", stageCounter);
-		// Checks to make sure player is next to object is concious 
+
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		//Grabs the attributes of the item in active hand
-		var item = interaction.HandObject != null ? interaction.HandObject.GetComponent<ItemAttributesV2>().InitialName : null;
-		// Goes through list of items and checks them against the stageParts list and stageCounter
-		for (int x = 0; x < stageParts.Length - 1; x++)
+		// Gets the component ItemAttributesV2 and grabs the InitalName from the object in the hand
+		string hand = interaction.HandObject != null ? interaction.HandObject.GetComponent<ItemAttributesV2>().InitialName : null;
+		if (hand == null)
 		{
-			Debug.LogWarningFormat("Loop is on {0}",x);
-			var checkItem = stageParts[stageCounter].GetComponent<ItemAttributesV2>().InitialName;
-			if (item == checkItem & x == stageCounter) return true;
-			if (x == stageParts.Length - 1)
-			{
-				Debug.LogErrorFormat("Returned False! Item wanted is:{0} Item got is{1} Stage is {2} List is on {3}", checkItem, item, stageCounter, x);
-				return false;
-			}
+			return false;
 		}
-		Debug.LogError("BotConstruction should never get to this point, if you see this get a developer to look at BotConstruction.cs");
+		// Gets the component ItemAttributesV2 and grabs the InitalName from the object in the list according to the stageCounter
+		string checkItem = stageParts[stageCounter].GetComponent<ItemAttributesV2>().InitialName;
+
+		// Checks if armLast is true, if so it will accept anything in the list no matter the order 
+		if (armLast)
+		{
+			foreach (var part in stageParts)
+			{
+				if (hand == part.GetComponent<ItemAttributesV2>().InitialName) return true;
+			}
+			return false;
+		}
+
+		// Goes through list of items and checks them against the stageParts list and stageCounter
+		for (int x = 0; x <= stageParts.Length - 1; x++)
+		{
+			if (hand == checkItem & x == stageCounter) return true;
+		}
 		return false;
 	}
 
-
-	public void ClientPredictInteraction(HandApply interaction)
+	public void SpriteSync(int oldValue, int newValue)
 	{
-		Debug.LogWarning("Client predicting!");
-	}
-	public void ServerRollbackClient(HandApply interaction)
-	{
-		Debug.LogError("Rollback found!");
+		// Syncs sprite with client
+		if (stageSprite[stageCounter] != null)
+		{
+			spriteHandler.SetSprite(stageSprite[newValue]);
+		}
 	}
 
-	//invoked when the server recieves the interaction request and WIllinteract returns true
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		Debug.LogWarningFormat("Serverside is running! Stage at {0}", stageCounter);
-		Debug.LogWarningFormat("Stageparts is: {0}", stageParts.Length - 1);
-		if (stageCounter >= stageParts.Length - 1)
+
+
+		//Despawns item in hand, might cause problems later if it's stackable
+		Inventory.ServerDespawn(interaction.HandObject);
+
+		if (armLast)
 		{
 			Spawn.ServerPrefab(botPrefab, gameObject.RegisterTile().WorldPosition, transform.parent, count: 1);
+			stageCounter = 0;
 			Despawn.ServerSingle(gameObject);
 		}
-		else stageCounter++;
-		Debug.LogWarningFormat("Stage Check: {0}", stageCounter);
+
+		// Checks to see if the stagecounter is greater than or equal to the length of stageParts list, if not ups the counter by 1
+		if (stageCounter >= stageParts.Length - 1)
+		{
+			//Will spawn the simplebot, set stageCounter to 0 (sometimes causes problems with many instances) and despawns the assembly
+			Spawn.ServerPrefab(botPrefab, gameObject.RegisterTile().WorldPosition, transform.parent, count: 1);
+			stageCounter = 0;
+			Despawn.ServerSingle(gameObject);
+		}
+		else
+		{
+			stageCounter++;
+		}
 	}
 }
