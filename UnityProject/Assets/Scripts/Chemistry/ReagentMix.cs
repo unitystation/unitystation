@@ -9,7 +9,6 @@ namespace Chemistry
 	[Serializable]
 	public class ReagentMix : IEnumerable<KeyValuePair<Reagent, float>>
 	{
-		[Tooltip("In Kelvins")]
 		[Temperature]
 		[SerializeField] private float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN;
 

@@ -13,9 +13,10 @@ namespace Chemistry.Components
 	/// Client can only interact with container by Interactions (Examine, HandApply, etc).
 	/// </summary>
 	[RequireComponent(typeof(RightClickAppearance))]
-	public partial class ReagentContainer : MonoBehaviour, IServerSpawn,
+	public partial class ReagentContainer : MonoBehaviour, IServerSpawn, IRightClickable,
 		IEnumerable<KeyValuePair<Reagent, float>>
 	{
+
 		[Header("Container Parameters")]
 
 		[Tooltip("Max container capacity in units")]
@@ -375,6 +376,40 @@ namespace Chemistry.Components
 				   $" {nameof(IsEmpty)}: {IsEmpty}," +
 				   $" {nameof(IsFull)}: {IsFull}" +
 				   "]";
+		}
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			var result = RightClickableResult.Create();
+
+			if (!CustomNetworkManager.Instance._isServer)
+			{
+				return result;
+			}
+
+			//fixme: these only work on server
+			result.AddElement("Contents", ExamineContents);
+			//Pour / add can only be done if in reach
+			if (Validations.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
+			{
+				result.AddElement("PourOut", () => SpillAll());
+			}
+
+			return result;
+		}
+
+		private void ExamineContents()
+		{
+			if (IsEmpty)
+			{
+				Chat.AddExamineMsgToClient(gameObject.ExpensiveName() + " is empty.");
+				return;
+			}
+
+			foreach (var reagent in CurrentReagentMix)
+			{
+				Chat.AddExamineMsgToClient($"{gameObject.ExpensiveName()} contains {reagent.Value} {reagent.Key}.");
+			}
 		}
 
 		/// <summary>
