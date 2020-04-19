@@ -22,22 +22,25 @@ MonoBehaviour:
     - non
   - original: I'm
     replaceWith:
-    - j
+    - je suis
   - original: am
     replaceWith:
     - suis
   - original: a
     replaceWith:
     - un
+    - une
   - original: and
     replaceWith:
     - et
   - original: the
     replaceWith:
-    - l'
+    - les
+    - la
+    - le
   - original: I
     replaceWith:
-    - j'
+    - je
   - original: for
     replaceWith:
     - pour
@@ -189,10 +192,18 @@ MonoBehaviour:
   - original: wizard
     replaceWith:
     - sorcier
+  - original: friends
+    replaceWith:
+    - amis
+  - original: very
+    replaceWith:
+    - "tr\xE8s"
+  - original: bread
+    replaceWith:
+    - baguette
   letterReplaceList: []
   activateAdditions: 0
   probability: 0
   beginning: []
   ending: []
-  unintelligible: 0
   customCode: {fileID: 0}
