@@ -1,308 +1,250 @@
-﻿using UnityEngine;
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Collections;
+using UnityEngine;
 
-/// <summary>
-/// Magical dog AI brain for corgis!
-/// Used for all corgis, remember to set the name of the
-/// dog in inspector.
-/// *All logic should be server side.
-/// </summary>
-public class CorgiAI : MobAI
+namespace NPC.AI.Friendly
 {
-	private string dogName;
-	private string capDogName;
-
-	//Set this inspector. The corgi will only respond to
-	//voice commands from these job types:
-	public List<JobType> allowedToGiveCommands = new List<JobType>();
-
-	//TODO: later we can make it so capt or hop can tell the dog to
-	//respond to commands from others based on their names
-
-	private float timeForNextRandomAction;
-	private float timeWaiting;
-
-	private ConeOfSight coneOfSight;
-	private LayerMask mobMask;
-
-	protected override void Awake()
+	/// <summary>
+	/// Magical dog AI brain for corgis!
+	/// Used for all corgis, remember to set the name of the
+	/// dog in inspector.
+	/// *All logic should be server side.
+	/// </summary>
+	public class CorgiAI : GenericFriendlyAI
 	{
-		base.Awake();
-		dogName = mobName.ToLower();
-		capDogName = char.ToUpper(dogName[0]) + dogName.Substring(1);
-	}
+		//Set this inspector. The corgi will only respond to
+		//voice commands from these job types:
+		public List<JobType> allowedToGiveCommands = new List<JobType>();
 
-	public override void OnEnable()
-	{
-		base.OnEnable();
-		mobMask = LayerMask.GetMask("Walls", "NPC");
-		coneOfSight = GetComponent<ConeOfSight>();
-	}
+		//TODO: later we can make it so capt or hop can tell the dog to
+		//respond to commands from others based on their names
 
-	private void SingleBark(GameObject barked = null)
-	{
-		SoundManager.PlayNetworkedAtPos("Bark", 
-										gameObject.transform.position, 
-										Random.Range(.8F, 1.3F));
+		private ConeOfSight coneOfSight;
+		private LayerMask mobMask;
+		private string dogName;
 
-		if (barked != null)
+		protected override void Awake()
 		{
-			Chat.AddActionMsgToChat(barked, $"{capDogName} barks at you!", 
-									$"{capDogName} barks at {barked.ExpensiveName()}");
-		}
-		else
-		{
-			Chat.AddActionMsgToChat(gameObject, $"{capDogName} barks!", $"{capDogName} barks!");
-		}		
-	}
-
-	IEnumerator RandomBarks(GameObject barked = null)
-	{
-		int barkAmt = Random.Range(1, 4);
-		while (barkAmt > 0) 
-		{
-			SingleBark(barked);
-			yield return WaitFor.Seconds(Random.Range(0.4f, 1f));
-			barkAmt--;
-		}
-
-		yield break;
-	}
-
-	protected override void AIStartServer()
-	{
-		followingStopped.AddListener(OnFollowingStopped);
-		exploringStopped.AddListener(OnExploreStopped);
-		fleeingStopped.AddListener(OnFleeStopped);
-	}
-
-	public override void LocalChatReceived(ChatEvent chatEvent)
-	{
-		ProcessLocalChat(chatEvent);
-		base.LocalChatReceived(chatEvent);
-	}
-
-	void ProcessLocalChat(ChatEvent chatEvent)
-	{
-		var speaker = PlayerList.Instance.Get(chatEvent.speaker);
-
-		if (speaker.Script == null) return;
-		if (speaker.Script.playerNetworkActions == null) return;
-
-		if (speaker.Job == JobType.CAPTAIN || speaker.Job == JobType.HOP)
-		{
-			StartCoroutine(PerformVoiceCommand(chatEvent.message.ToLower(), speaker));
-		}
-	}
-
-	IEnumerator PerformVoiceCommand(string msg, ConnectedPlayer speaker)
-	{
-		//We want these ones to happen right away:
-		if (msg.Contains($"{dogName} run") || msg.Contains($"{dogName} get out of here"))
-		{
-			StartFleeing(speaker.GameObject, 10f);
-			yield break;
-		}
-
-		if (msg.Contains($"{dogName} stay") || msg.Contains($"{dogName} sit")
-											|| msg.Contains($"{dogName} stop"))
-		{
+			base.Awake();
+			dogName = mobName.ToLower();
 			ResetBehaviours();
-			yield break;
 		}
 
-		//Slight delay for the others:
-		yield return WaitFor.Seconds(0.5f);
-
-		if (msg.Contains($"{dogName} come") || msg.Contains($"{dogName} follow")
-											|| msg.Contains($"come {dogName}"))
+		public override void OnEnable()
 		{
-			if (Random.value > 0.8f)
+			base.OnEnable();
+			mobMask = LayerMask.GetMask("Walls", "NPC");
+			coneOfSight = GetComponent<ConeOfSight>();
+		}
+
+		private void SingleBark(GameObject barked = null)
+		{
+			SoundManager.PlayNetworkedAtPos("Bark",
+				gameObject.transform.position,
+				Random.Range(.8F, 1.3F));
+
+			if (barked != null)
 			{
-				yield return StartCoroutine(ChaseTail(1));
+				Chat.AddActionMsgToChat(barked, $"{mobNameCap} barks at you!",
+					$"{mobNameCap} barks at {barked.ExpensiveName()}");
 			}
 			else
 			{
-				SingleBark();
+				Chat.AddActionMsgToChat(gameObject, $"{mobNameCap} barks!", $"{mobNameCap} barks!");
 			}
-
-			FollowTarget(speaker.GameObject.transform);
-			yield break;
 		}
 
-		if (msg.Contains($"{dogName} find food") || msg.Contains($"{dogName} explore"))
+		IEnumerator RandomBarks(GameObject barked = null)
 		{
-			if (Random.value > 0.8f)
+			for (int barkAmt = Random.Range(1, 4); barkAmt > 0; barkAmt--)
 			{
-				yield return StartCoroutine(ChaseTail(2));
+				SingleBark(barked);
+				yield return WaitFor.Seconds(Random.Range(0.4f, 1f));
 			}
-			else
+
+			yield return WaitFor.EndOfFrame;
+		}
+
+		public override void LocalChatReceived(ChatEvent chatEvent)
+		{
+			ProcessLocalChat(chatEvent);
+			base.LocalChatReceived(chatEvent);
+		}
+
+		void ProcessLocalChat(ChatEvent chatEvent)
+		{
+			var speaker = PlayerList.Instance.Get(chatEvent.speaker);
+
+			if (speaker.Script == null) return;
+			if (speaker.Script.playerNetworkActions == null) return;
+
+			if (speaker.Job == JobType.CAPTAIN || speaker.Job == JobType.HOP)
 			{
-				SingleBark();
+				StartCoroutine(PerformVoiceCommand(chatEvent.message.ToLower(), speaker));
 			}
-
-			BeginExploring();
-			yield break;
 		}
-	}
 
-	IEnumerator ChaseTail(int times)
-	{
-		var timesSpun = 0;
-		Chat.AddActionMsgToChat(gameObject, $"{capDogName} start chasing its own tail!", $"{capDogName} start chasing its own tail!");
-;
-
-		while (timesSpun <= times)
+		IEnumerator PerformVoiceCommand(string msg, ConnectedPlayer speaker)
 		{
-			for (int spriteDir = 1; spriteDir < 5; spriteDir++)
+			//We want these ones to happen right away:
+			if (msg.Contains($"{dogName} run") || msg.Contains($"{dogName} get out of here"))
 			{
-				dirSprites.DoManualChange(spriteDir);
-				yield return WaitFor.Seconds(0.3f);
+				StartFleeing(speaker.GameObject, 10f);
+				yield break;
 			}
 
-			timesSpun++;
-		}
-
-		StartCoroutine(RandomBarks());
-
-		yield return WaitFor.EndOfFrame;
-	}
-
-	//TODO: Do extra stuff on these events, like barking when being told to sit:
-	void OnFleeStopped()
-	{
-		StartCoroutine(RandomBarks());
-	}
-
-	void OnExploreStopped()
-	{
-		StartCoroutine(RandomBarks());
-	}
-
-	void OnFollowingStopped()
-	{
-		StartCoroutine(RandomBarks());
-	}
-
-	public override void OnPetted(GameObject performer)
-	{
-		base.OnPetted(performer);
-
-		int randAction = Random.Range(1,6);
-
-		switch (randAction)
-		{
-			case 1:
-				StartCoroutine(ChaseTail(Random.Range(1,3)));
-				break;
-			case 2:
-				RandomBarks();
-				break;
-			case 3:
-				Chat.AddActionMsgToChat(gameObject, $"{capDogName} wags its tail!", $"{capDogName} wags its tail!");
-				break;
-			case 4:
-				Chat.AddActionMsgToChat(
-					performer,
-					$"{capDogName} licks your hand!", 
-					$"{capDogName} licks {performer.ExpensiveName()}'s hand!");
-				break;
-			case 5:
-				Chat.AddActionMsgToChat(
-					performer,
-					$"{capDogName} gives you its paw!",
-					$"{capDogName} gives his paw to {performer.ExpensiveName()}");
-				break;
-		}
-	}
-
-	protected override void OnAttackReceived(GameObject damagedBy)
-	{
-		SingleBark();
-		StartFleeing(damagedBy);
-	}
-
-	//Updates only on the server
-	protected override void UpdateMe()
-	{
-		if (health.IsDead || health.IsCrit || health.IsCardiacArrest) return;
-
-		base.UpdateMe();
-		MonitorExtras();
-	}
-
-	void MonitorExtras()
-	{
-		//TODO monitor hunger when it is added
-
-		if (IsPerformingTask) return;
-
-		timeWaiting += Time.deltaTime;
-		if (timeWaiting > timeForNextRandomAction)
-		{
-			timeWaiting = 0f;
-			timeForNextRandomAction = Random.Range(15f, 30f);
-
-			DoRandomAction();
-		}
-	}
-
-	CatAI AnyCatsNearby()
-	{
-		var hits = coneOfSight.GetObjectsInSight(mobMask, dirSprites.CurrentFacingDirection, 10f, 5);
-		foreach (Collider2D coll in hits)
-		{
-			if (coll.gameObject != gameObject && coll.gameObject.GetComponent<CatAI>() != null
-				&& !coll.gameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+			if (msg.Contains($"{dogName} stay") || msg.Contains($"{dogName} sit")
+			                                    || msg.Contains($"{dogName} stop"))
 			{
-				return coll.gameObject.GetComponent<CatAI>();
+				ResetBehaviours();
+				yield break;
+			}
+
+			//Slight delay for the others:
+			yield return WaitFor.Seconds(0.5f);
+
+			if (msg.Contains($"{dogName} come") || msg.Contains($"{dogName} follow")
+			                                    || msg.Contains($"come {dogName}"))
+			{
+				if (Random.value > 0.8f)
+				{
+					yield return StartCoroutine(ChaseTail(1));
+				}
+				else
+				{
+					SingleBark();
+				}
+
+				FollowTarget(speaker.GameObject.transform);
+				yield break;
+			}
+
+			if (msg.Contains($"{dogName} find food") || msg.Contains($"{dogName} explore"))
+			{
+				if (Random.value > 0.8f)
+				{
+					yield return StartCoroutine(ChaseTail(2));
+				}
+				else
+				{
+					SingleBark();
+				}
+
+				BeginExploring();
+				yield break;
 			}
 		}
-		return null;
-	}
 
-	void BarkAtCats(CatAI cat)
-	{
-		float chase = Random.value;
-		// RandomBarks(cat.gameObject);
-		SingleBark(cat.gameObject);
-
-		//Make the cat flee!
-		cat.RunFromDog(gameObject.transform);
-		FollowTarget(cat.gameObject.transform, 5f);
-		RandomBarks();
-	}
-
-	void DoRandomAction()
-	{
-		// Bark at cats!
-		var possibleCat = AnyCatsNearby();
-		if (possibleCat != null)
+		//TODO: Do extra stuff on these events, like barking when being told to sit:
+		protected override void OnExploringStopped()
 		{
-
-			BarkAtCats(possibleCat);
-			return;
+			StartCoroutine(RandomBarks());
 		}
 
-		int randAction = Random.Range(1, 5);
-		switch (randAction)
+		protected override void OnFleeingStopped()
 		{
-			case 1:
-				StartCoroutine(ChaseTail(Random.Range(1, 5)));
-				break;
-			case 2:
-				NudgeInDirection(GetNudgeDirFromInt(Random.Range(0, 8)));
-				break;
-			case 3:
-				RandomBarks();
-				break;
-			case 4:
-				Chat.AddActionMsgToChat(
-					gameObject,
-					$"{capDogName} wags its tail!",
-					$"{capDogName} wags its tail!");
-				break;
+			StartCoroutine(RandomBarks());
+		}
+
+		protected override void OnFollowStopped()
+		{
+			StartCoroutine(RandomBarks());
+		}
+
+		public override void OnPetted(GameObject performer)
+		{
+			base.OnPetted(performer);
+
+			int randAction = Random.Range(1,6);
+
+			switch (randAction)
+			{
+				case 1:
+					StartCoroutine(ChaseTail(Random.Range(1,3)));
+					break;
+				case 2:
+					RandomBarks();
+					break;
+				case 3:
+					Chat.AddActionMsgToChat(gameObject, $"{mobNameCap} wags its tail!", $"{mobNameCap} wags its tail!");
+					break;
+				case 4:
+					Chat.AddActionMsgToChat(
+						performer,
+						$"{mobNameCap} licks your hand!",
+						$"{mobNameCap} licks {performer.ExpensiveName()}'s hand!");
+					break;
+				case 5:
+					Chat.AddActionMsgToChat(
+						performer,
+						$"{mobNameCap} gives you its paw!",
+						$"{mobNameCap} gives his paw to {performer.ExpensiveName()}");
+					break;
+			}
+		}
+
+		protected override void OnAttackReceived(GameObject damagedBy)
+		{
+			SingleBark();
+			StartFleeing(damagedBy);
+		}
+
+		CatAI AnyCatsNearby()
+		{
+			var hits = coneOfSight.GetObjectsInSight(mobMask, dirSprites.CurrentFacingDirection, 10f, 5);
+			foreach (Collider2D coll in hits)
+			{
+				if (coll.gameObject != gameObject && coll.gameObject.GetComponent<CatAI>() != null
+				                                  && !coll.gameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+				{
+					return coll.gameObject.GetComponent<CatAI>();
+				}
+			}
+			return null;
+		}
+
+		void BarkAtCats(CatAI cat)
+		{
+			float chase = Random.value;
+			// RandomBarks(cat.gameObject);
+			SingleBark(cat.gameObject);
+
+			//Make the cat flee!
+			cat.RunFromDog(gameObject.transform);
+			FollowTarget(cat.gameObject.transform, 5f);
+			RandomBarks();
+		}
+
+		protected override void DoRandomAction()
+		{
+			// Bark at cats!
+			var possibleCat = AnyCatsNearby();
+			if (possibleCat != null)
+			{
+
+				BarkAtCats(possibleCat);
+				return;
+			}
+
+			int randAction = Random.Range(1, 5);
+			switch (randAction)
+			{
+				case 1:
+					StartCoroutine(ChaseTail(Random.Range(1, 5)));
+					break;
+				case 2:
+					NudgeInDirection(GetNudgeDirFromInt(Random.Range(0, 8)));
+					break;
+				case 3:
+					RandomBarks();
+					break;
+				case 4:
+					Chat.AddActionMsgToChat(
+						gameObject,
+						$"{mobNameCap} wags its tail!",
+						$"{mobNameCap} wags its tail!");
+					break;
+			}
 		}
 	}
 }

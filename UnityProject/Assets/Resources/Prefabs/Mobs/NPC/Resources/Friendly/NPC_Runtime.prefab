@@ -25,8 +25,8 @@ GameObject:
   - component: {fileID: 1032026185081466959}
   - component: {fileID: 42171897942477365}
   - component: {fileID: -3721379882699803303}
-  - component: {fileID: 7978874405384304538}
   - component: {fileID: 1835663294993441926}
+  - component: {fileID: 7978874405384304538}
   m_Layer: 12
   m_Name: NPC_Runtime
   m_TagString: Untagged
@@ -104,7 +104,7 @@ MonoBehaviour:
   butcherResults:
   - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
   - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
-  aliveSprite: {fileID: 21300006, guid: c7a7a42a80cc90f4883bd96f90ec527a, type: 3}
+  aliveSprite: {fileID: 21300004, guid: c7a7a42a80cc90f4883bd96f90ec527a, type: 3}
   deadSprite: {fileID: 21300000, guid: e058d1fe9f973f14f9e9a80e7c147395, type: 3}
   deadState: 0
   spriteRend: {fileID: 971255727839780468}
@@ -192,6 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -366,6 +367,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0036bd5aae14571835232bc33ddaf2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1835663294993441926
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7978874405384304538
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -380,19 +393,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobName: Runtime
   knockedDownRotation: 90
-  mouseDmg: 70
---- !u!114 &1835663294993441926
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  minTimeBetweenRandomActions: 15
+  maxTimeBetweenRandomActions: 30
 --- !u!1 &5258005088007752283
 GameObject:
   m_ObjectHideFlags: 0
@@ -448,6 +450,17 @@ MonoBehaviour:
   isBleeding: 0
   livingHealthBehaviour: {fileID: 0}
   Severity: 0
+  armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &5751403467835134051
 GameObject:
   m_ObjectHideFlags: 0
@@ -493,6 +506,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -583,6 +597,17 @@ MonoBehaviour:
   isBleeding: 0
   livingHealthBehaviour: {fileID: 0}
   Severity: 0
+  armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &8607780478860151628
 GameObject:
   m_ObjectHideFlags: 0
