@@ -13,6 +13,7 @@ public class ControlDisplays : MonoBehaviour
 		Lobby,
 		Game,
 		PreRound,
+		Joining,
 		TeamSelect,
 		JobSelect
 	}
@@ -106,6 +107,8 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(true);
+		preRoundWindow.SetActive(false);
+		SoundManager.SongTracker.Stop();
 	}
 
 	void GhostUI()
@@ -118,6 +121,8 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(true);
+		preRoundWindow.SetActive(false);
+		SoundManager.SongTracker.Stop();
 	}
 
 	/// <summary>
@@ -140,6 +145,9 @@ public class ControlDisplays : MonoBehaviour
 				break;
 			case Screens.PreRound:
 				SetScreenForPreRound();
+				break;
+			case Screens.Joining:
+				SetScreenForJoining();
 				break;
 			case Screens.TeamSelect:
 				SetScreenForTeamSelect();
@@ -201,6 +209,21 @@ public class ControlDisplays : MonoBehaviour
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(true);
+		preRoundWindow.GetComponent<GUI_PreRoundWindow>().SetUIForCountdown();
+	}
+
+	public void SetScreenForJoining()
+	{
+		ResetUI(); //Make sure UI is back to default for next play
+		UIManager.PlayerHealthUI.gameObject.SetActive(false);
+		hudBottomHuman.SetActive(false);
+		hudBottomGhost.SetActive(false);
+		panelRight.gameObject.SetActive(false);
+		rightClickManager.SetActive(false);
+		jobSelectWindow.SetActive(false);
+		teamSelectionWindow.SetActive(false);
+		preRoundWindow.SetActive(true);
+		preRoundWindow.GetComponent<GUI_PreRoundWindow>().SetUIForJoining();
 	}
 
 	public void SetScreenForTeamSelect()

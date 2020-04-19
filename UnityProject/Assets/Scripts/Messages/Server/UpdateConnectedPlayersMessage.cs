@@ -31,6 +31,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 		PlayerList.Instance.RefreshPlayerListText();
 		UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>().UpdateJobsList();
+		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().UpdatePlayerCount(Players?.Length ?? 0);
 	}
 
 	public static UpdateConnectedPlayersMessage Send()

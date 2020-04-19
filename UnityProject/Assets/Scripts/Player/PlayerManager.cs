@@ -1,5 +1,5 @@
 ﻿using System.Text.RegularExpressions;
-using Lobby;
+using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -36,17 +36,17 @@ public class PlayerManager : MonoBehaviour
 	}
 
 #if UNITY_EDITOR	//Opening the station scene instead of going through the lobby
-	void Awake()
+	private void Awake()
 	{
-		if (CurrentCharacterSettings == null){
-			var deserialized = JsonUtility.FromJson<CharacterSettings>(Regex.Unescape(PlayerPrefs.GetString("currentcharacter")));
-			PlayerCustomisationDataSOs.Instance.ValidateCharacterSettings(ref deserialized);
-			CurrentCharacterSettings = deserialized;
-			if (CurrentCharacterSettings == null)
-			{
-				CurrentCharacterSettings = new CharacterSettings();
-			}
+		if (CurrentCharacterSettings != null)
+		{
+			return;
 		}
+		// Load CharacterSettings from PlayerPrefs or create a new one
+		string unescapedJson = Regex.Unescape(PlayerPrefs.GetString("currentcharacter"));
+		var deserialized = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
+		PlayerCustomisationDataSOs.Instance.ValidateCharacterSettings(ref deserialized);
+		CurrentCharacterSettings = deserialized ?? new CharacterSettings();
 	}
 #endif
 
