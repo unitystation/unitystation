@@ -18,7 +18,7 @@ public class MachineProductList
 {
 	[SerializeField]
 	[Tooltip("Category name for a list of products.")]
-	private string categoryName;
+	private string categoryName = null;
 
 	public string CategoryName { get => categoryName; }
 
