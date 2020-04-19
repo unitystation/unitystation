@@ -147,6 +147,7 @@ public class JobAllocator
 		determinedPlayers.AddRange(players.Select(player =>
 			PlayerSpawnRequest.RequestOccupation(player.ViewerScript, job, player.CharacterSettings)));
 		playersLeft.RemoveAll(players.Contains);
+		missedOutPlayers.RemoveAll(players.Contains);
 
 		// Update occupation counts
 		occupationCount.TryGetValue(job, out int currentCount);
@@ -158,24 +159,19 @@ public class JobAllocator
 	/// </summary>
 	private void AllocateDefaultJobs()
 	{
-		if (missedOutPlayers.Any() || playersLeft.Any())
+		if (playersLeft.Any())
 		{
-			if (!missedOutPlayers.Equals(playersLeft))
-			{
-				Logger.LogError("Missed out players != players left! " +
-								"Something isn't assigning missed out players correctly.", Category.Jobs);
-			}
-
-			Logger.LogFormat("These people were not assigned a job, assigning to {0}: {1}", Category.Jobs,
+			Logger.LogFormat("These people were not allocated a job, assigning them to {0}: {1}", Category.Jobs,
 				DefaultJob.DisplayName, string.Join("\n", playersLeft));
 
 			// Update determined players and players left
 			AllocateJobs(playersLeft, DefaultJob);
 		}
 
-		if (playersLeft.Any())
+		if (missedOutPlayers.Any() || playersLeft.Any())
 		{
-			Logger.LogError("There are still some players left!", Category.Jobs);
+			Logger.LogError("There are still unallocated players, something has gone wrong in the JobAllocator!",
+				Category.Jobs);
 		}
 	}
 }
