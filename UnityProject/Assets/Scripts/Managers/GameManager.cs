@@ -22,14 +22,19 @@ public partial class GameManager : MonoBehaviour
 	/// How long the pre-round stage should last
 	/// </summary>
 	[SerializeField]
-	private readonly float PreRoundTime = 30f;
+	private float PreRoundTime = 120f;
 
 	/// <summary>
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
-	private readonly float RoundEndTime = 30f;
+	[SerializeField]
+	private float RoundEndTime = 15f;
 
-	public float startTime;
+	/// <summary>
+	/// The current time left on the countdown timer
+	/// </summary>
+	public float CountdownTime { get; private set; }
+
 	/// <summary>
 	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
 	/// Reset to the server setting of RespawnAllowed when the level loads.
@@ -268,8 +273,8 @@ public partial class GameManager : MonoBehaviour
 
 		if (waitForStart)
 		{
-			startTime -= Time.deltaTime;
-			if (startTime <= 0f)
+			CountdownTime -= Time.deltaTime;
+			if (CountdownTime <= 0f)
 			{
 				StartRound();
 			}
@@ -309,6 +314,7 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
+			// Execute server-side OnSpawn hooks for mapped objects
 			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
 			foreach (var s in iServerSpawns)
 			{
@@ -345,16 +351,19 @@ public partial class GameManager : MonoBehaviour
 				//TODO set default game modes
 				NextGameMode = "Random";
 			}
+
 			// Game mode specific setup
 			GameMode.SetupRound();
-			GameMode.StartRound();
-			// TODO make job selection stuff
 
 			// Standard round start setup
 			stationTime = new DateTime().AddHours(12);
 			counting = true;
 			RespawnCurrentlyAllowed = GameMode.CanRespawn;
 			StartCoroutine(WaitToInitEscape());
+			StartCoroutine(WaitToStartGameMode());
+
+			// Tell all clients that the countdown has finished
+			UpdateCountdownMessage.Send(true, 0);
 
 			CurrentRoundState = RoundState.Started;
 			EventManager.Broadcast(EVENT.RoundStarted);
@@ -414,6 +423,8 @@ public partial class GameManager : MonoBehaviour
 		{
 			yield return WaitFor.EndOfFrame;
 		}
+		// Clear the list of ready players so they have to ready up again
+		PlayerList.Instance.ClearReadyPlayers();
 		CheckPlayerCount();
 	}
 
@@ -430,9 +441,9 @@ public partial class GameManager : MonoBehaviour
 
 	public void StartCountdown()
 	{
-		startTime = PreRoundTime;
+		CountdownTime = PreRoundTime;
 		waitForStart = true;
-		UpdateCountdownMessage.Send(waitForStart, startTime);
+		UpdateCountdownMessage.Send(waitForStart, CountdownTime);
 	}
 
 	public int GetOccupationsCount(JobType jobType)

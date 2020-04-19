@@ -7,6 +7,11 @@ using System.Linq;
 /// </summary>
 public class CharacterSettings
 {
+	// TODO: all of the in-game appearance variables should probably be refactored into a separate class which can
+	// then be used in PlayerScript since job preferences are only needed at round start in ConnectedPlayer
+
+	// IMPORTANT: these fields use primitive types (int, string... etc) so they can be sent  over the network with
+	// RPCs and Commands without needing to serialise them to JSON!
 	public const int MAX_NAME_LENGTH = 26; //Arbitrary limit, but 26 is the max the current UI can fit
 	public string Username;
 	public string Name = "Cuban Pete";

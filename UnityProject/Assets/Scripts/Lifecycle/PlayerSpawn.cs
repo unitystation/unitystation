@@ -23,6 +23,7 @@ public static class PlayerSpawn
 	{
 		NetworkConnection conn = joinedViewer.connectionToClient;
 
+		// TODO: add a nice cutscene/animation for the respawn transition
 		var newPlayer = ServerSpawnInternal(conn, occupation, characterSettings, null);
 		if (newPlayer)
 		{
