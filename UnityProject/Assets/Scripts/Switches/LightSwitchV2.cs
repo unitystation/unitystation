@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -14,10 +15,20 @@ namespace Lighting
 		[SyncVar(hook = nameof(SyncState))]
 		public bool isOn = true;
 
+		[SerializeField]
+		private float coolDownTime = 1.0f;
+
+		private bool isInCoolDown;
+
+		[SerializeField]
+		private Sprite[] sprites;
+
+		[SerializeField]
+		private SpriteRenderer spriteRenderer;
+
 		private PowerStates powerState = PowerStates.On;
 		private void Awake()
 		{
-
 			foreach (var lightSource in listOfLights)
 			{
 				if(lightSource != null)
@@ -34,11 +45,12 @@ namespace Lighting
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
-			return true;
+			return !isInCoolDown;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			StartCoroutine(SwitchCoolDown());
 			if (powerState == PowerStates.Off) return;
 			ServerChangeState(!isOn);
 			Debug.Log("Switch Pressed");
@@ -47,6 +59,7 @@ namespace Lighting
 		private void SyncState(bool oldState, bool newState)
 		{
 			isOn = newState;
+			spriteRenderer.sprite = isOn ? sprites[0] : sprites[1];
 		}
 
 		[Server]
@@ -95,6 +108,13 @@ namespace Lighting
 					powerState = State;
 					break;
 			}
+		}
+
+		private IEnumerator SwitchCoolDown()
+		{
+			isInCoolDown = true;
+			yield return WaitFor.Seconds(coolDownTime);
+			isInCoolDown = false;
 		}
 	}
 }

@@ -24,12 +24,13 @@ namespace Tests
 		   foreach (var objectDevice in listOfDevices)
 		   {
 			   var device = objectDevice as APCPoweredDevice;
+			   if(device.IsSelfPowered) continue;
 			   if (device.RelatedAPC == null)
 			   {
 				   count++;
 				   var obStr = objectDevice.name;
 				   devicesWithoutAPC.Add(obStr);
-				   //Logger.Log(obStr, Category.Tests);
+				   Logger.Log(obStr, Category.Tests);
 				   report.AppendLine(obStr);
 			   }
 		   }
@@ -46,7 +47,9 @@ namespace Tests
 		    Logger.Log("LightSource without Switches", Category.Tests);
 		    foreach (var objectDevice in listOfDevices)
 		    {
+
 			    var device = objectDevice as LightSource;
+			    if(device.IsWithoutSwitch) continue;
 			    if (device.relatedLightSwitch == null)
 			    {
 				    count++;
@@ -75,7 +78,7 @@ namespace Tests
 				    count++;
 				    var obStr = objectDevice.name;
 				    devicesWithoutAPC.Add(obStr);
-				    //Logger.Log(obStr, Category.Tests);
+				    Logger.Log(obStr, Category.Tests);
 				    report.AppendLine(obStr);
 			    }
 		    }

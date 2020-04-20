@@ -21,6 +21,10 @@ public class LightSource : ObjectTrigger,IAPCPowered
 
 	public Color customColor;
 
+	[SerializeField]
+	private bool isWithoutSwitch;
+
+	public bool IsWithoutSwitch => isWithoutSwitch;
 	public bool SwitchState { get; private set; }
 
 	[SyncVar(hook =nameof(SyncLightState))]
@@ -62,13 +66,8 @@ public class LightSource : ObjectTrigger,IAPCPowered
 		}
 
 		wallMount = GetComponent<LightMountStates>();
-
-		mState = InitialState;
-	}
-	public void EnsureInit()
-	{
-		wallMount = GetComponent<LightMountStates>();
 		SwitchState = true;
+		mState = InitialState;
 	}
 
 	private void OnDestroy()
@@ -123,7 +122,7 @@ public class LightSource : ObjectTrigger,IAPCPowered
 		mState = newState;
 		if (mLightRendererObject != null)
 		{
-			mLightRendererObject.SetActive(mState == LightState.On ? true : false);
+			mLightRendererObject.SetActive(mState == LightState.On);
 		}
 	}
 

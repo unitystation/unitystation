@@ -13,6 +13,10 @@ public class APCPoweredDevice : NetworkBehaviour
 
 	public DeviceType deviceType = DeviceType.None;
 
+	[SerializeField]
+	private bool isSelfPowered;
+
+	public bool IsSelfPowered => isSelfPowered;
 
 	[SerializeField]
 	private float wattusage = 0.01f;
