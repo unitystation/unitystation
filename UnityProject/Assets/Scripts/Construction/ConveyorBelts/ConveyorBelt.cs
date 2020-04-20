@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
+[SelectionBase]
 public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SerializeField] private SpriteHandler spriteHandler;
@@ -11,6 +12,12 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private Vector3 position;
 	private ConveyorBelt prevBelt;
 	private ConveyorBelt nextBelt;
+
+	public ConveyorBelt PrevBelt => prevBelt;
+	public ConveyorBelt NextBelt => nextBelt;
+	public bool ActivePrevBelt => ValidBelt(prevBelt);
+	public bool ActiveNextBelt => ValidBelt(nextBelt);
+
 	private Matrix Matrix => registerTile.Matrix;
 
 	[SyncVar(hook = nameof(SyncDirection))]
@@ -73,7 +80,6 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public override void OnStartServer()
 	{
-		//CheckNeighbours();
 		RefreshSprites();
 	}
 
@@ -82,82 +88,11 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		SyncDirection(CurrentDirection, CurrentDirection);
 	}
 
-	public void CheckNeighbours()
+	bool ValidBelt(ConveyorBelt belt)
 	{
-		var nFound = 0;
-		var inFound = false;
-		var inPos = -1;
-		var outPos = -1;
-		for (int i = 0; i < searchDirs.Length; i++)
-		{
-			var conveyorBelt =
-				registerTile.Matrix.GetFirst<ConveyorBelt>(registerTile.LocalPosition + searchDirs[i].To3Int(), true);
-
-			//Default directions are Left To Right and Up to Down
-			// [prev] ---> [next] first default direction
-			//
-			// [prev]
-			// |    second default direction
-			// V
-			// [next]
-
-			if (conveyorBelt != null && nFound < 2)
-			{
-				switch (i)
-				{
-					case 0: //First default IN pos:
-						prevBelt = conveyorBelt;
-						inFound = true;
-						inPos = 0;
-						break;
-					case 1: //Second default IN pos:
-						if (!inFound)
-						{
-							inPos = 1;
-							prevBelt = conveyorBelt;
-							inFound = true;
-						}
-						else
-						{
-							outPos = 1;
-							nextBelt = conveyorBelt;
-						}
-
-						break;
-					case 2: //Third default in:
-						if (!inFound)
-						{
-							inPos = 2;
-							prevBelt = conveyorBelt;
-							inFound = true;
-						}
-						else
-						{
-							outPos = 2;
-							nextBelt = conveyorBelt;
-						}
-
-						break;
-					case 3:
-						nextBelt = conveyorBelt;
-						outPos = 3;
-						break;
-				}
-
-				nFound++;
-			}
-		}
-
-		DetermineDirection(inPos, outPos);
-	}
-
-	void DetermineDirection(int inPos, int outPos)
-	{
-		if (isServer)
-		{
-			CurrentDirection = ConveyorDirections.GetDirection(inPos, outPos);
-			GetPositionOffset();
-		}
+		if (belt == null || !belt.gameObject.activeInHierarchy) return false;
+		if (Vector3.Distance(belt.transform.localPosition, transform.localPosition) > 1.5f) return false;
+		return true;
 	}
 
 	public void SyncDirection(ConveyorDirection oldValue, ConveyorDirection newValue)
@@ -218,7 +153,23 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void RefreshSprites()
 	{
 		spriteHandler.ChangeSprite((int) CurrentStatus);
-		spriteHandler.ChangeSpriteVariant((int) CurrentDirection);
+		var variant = (int) CurrentDirection;
+		switch (variant)
+		{
+			case 8:
+				variant = 4;
+				break;
+			case 9:
+				variant = 5;
+				break;
+			case 10:
+				variant = 6;
+				break;
+			case 11:
+				variant = 7;
+				break;
+		}
+		spriteHandler.ChangeSpriteVariant(variant);
 	}
 
 	private void DetectItems()
@@ -273,7 +224,11 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		LeftDown = 4,
 		LeftUp = 5,
 		RightDown = 6,
-		RightUp = 7
+		RightUp = 7,
+		DownLeft = 8,
+		UpLeft = 9,
+		DownRight = 10,
+		UpRight = 11
 	}
 
 	/* Construction stuff */
@@ -351,5 +306,3 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 //		}
 	}
 }
-
-
