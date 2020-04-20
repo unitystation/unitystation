@@ -24,7 +24,7 @@ namespace UI.CharacterCreator
 		private AntagonistPreferences antagPrefsUI = null;
 
 		// Internal values
-		private bool antagEnabled = true;
+		private bool antagEnabled;
 		private Antagonist antag = null;
 
 		/// <summary>

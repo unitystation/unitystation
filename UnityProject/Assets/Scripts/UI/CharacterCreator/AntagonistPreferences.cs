@@ -41,7 +41,6 @@ namespace UI.CharacterCreator
 		{
 			if (isPopulated)
 			{
-				Logger.LogWarning("Antag entries already populated!");
 				return;
 			}
 
@@ -80,12 +79,6 @@ namespace UI.CharacterCreator
 		private void LoadAntagPreferences()
 		{
 			antagPrefs = PlayerManager.CurrentCharacterSettings.AntagPreferences;
-			if (antagPrefs.Keys.Count == 0)
-			{
-				// Default all antags to true
-				SetAllAntags(true);
-				SaveAntagPreferences();
-			}
 
 			foreach (var prefKvp in antagPrefs)
 			{
