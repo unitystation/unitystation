@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Antagonists;
+using UI.CharacterCreator;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -200,6 +201,12 @@ public abstract class GameMode : ScriptableObject
 			return false;
 		}
 
+		// Has this player enabled any of the possible antags?
+		if (!HasPossibleAntagEnabled(ref spawnRequest.CharacterSettings.AntagPreferences))
+		{
+			return false;
+		}
+
 		// Are there enough antags already?
 		int newPlayerCount = PlayerList.Instance.InGamePlayers.Count + 1;
 		var expectedAntagCount = (int)Math.Floor(newPlayerCount * AntagRatio);
@@ -223,7 +230,16 @@ public abstract class GameMode : ScriptableObject
 			return;
 		}
 
-		var antag = PossibleAntags.PickRandom();
+		var antagPool = PossibleAntags.Where(a =>
+			HasAntagEnabled(ref playerSpawnRequest.CharacterSettings.AntagPreferences, a)).ToList();
+
+		if (antagPool.Count < 1)
+		{
+			Logger.LogErrorFormat("No possible antags! Either PossibleAntags is empty or this player hasn't enabled " +
+								  "any antags and they were spawned as one anyways.", Category.GameMode);
+		}
+
+		var antag = antagPool.PickRandom();
 		if (!AllocateJobsToAntags && antag.AntagOccupation == null)
 		{
 			Logger.LogErrorFormat("AllocateJobsToAntags is false but {0} AntagOccupation is null! " +
@@ -232,6 +248,33 @@ public abstract class GameMode : ScriptableObject
 			return;
 		}
 		AntagManager.Instance.ServerSpawnAntag(antag, playerSpawnRequest);
+	}
+
+	/// <summary>
+	/// Checks if the antag preferences have at least one of the possible antags enabled.
+	/// </summary>
+	/// <param name="antagPrefs"></param>
+	/// <returns></returns>
+	protected bool HasAntagEnabled(ref AntagPrefsDict antagPrefs, Antagonist antag)
+	{
+		return antagPrefs.ContainsKey(antag.AntagName) && antagPrefs[antag.AntagName];
+	}
+
+	/// <summary>
+	/// Checks if the antag preferences have at least one of the possible antags enabled.
+	/// </summary>
+	/// <param name="antagPrefs"></param>
+	/// <returns></returns>
+	protected bool HasPossibleAntagEnabled(ref AntagPrefsDict antagPrefs)
+	{
+		foreach (var antag in PossibleAntags)
+		{
+			if (HasAntagEnabled(ref antagPrefs, antag))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/// <summary>
@@ -250,9 +293,9 @@ public abstract class GameMode : ScriptableObject
 		{
 			// Allocate jobs to all players first then choose antags
 			playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
-			// TODO: add antag pref checks here
 			var antagCandidates = playerSpawnRequests.Where(p =>
-					!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType));
+					!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType) &&
+					HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences));
 			antagSpawnRequests = antagCandidates.PickRandom(antagsToSpawn).ToList();
 			// Player and antag spawn requests are kept separate to stop players being spawned twice
 			playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
@@ -260,8 +303,8 @@ public abstract class GameMode : ScriptableObject
 		else
 		{
 			// Choose antags first then allocate jobs to all other players
-			// TODO: add antag pref checks here
-			var antagCandidates = playerPool;
+			var antagCandidates = playerPool.Where(p =>
+				HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences));
 			var chosenAntags = antagCandidates.PickRandom(antagsToSpawn).ToList();
 			// Player and antag spawn requests are kept separate to stop players being spawned twice
 			playerPool.RemoveAll(chosenAntags.Contains);
