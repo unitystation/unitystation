@@ -25,14 +25,37 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 
 	private State prevMoveState;
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
 	public override void OnStartServer()
 	{
 		currentState = State.Off;
+		SetBeltInfo();
 	}
 
 	public override void OnStartClient()
 	{
 		SyncSwitchState(currentState, currentState);
+	}
+
+	protected virtual void UpdateMe()
+	{
+		if (currentState == State.Off) return;
+
+		timeElapsed += Time.deltaTime;
+		if (timeElapsed > ConveyorBeltSpeed)
+		{
+			MoveConveyorBelt();
+			timeElapsed = 0;
+		}
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -41,9 +64,8 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 
 		if (!Validations.IsTarget(gameObject, interaction)) return false;
 
-		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-		       interaction.HandObject == null ||
-		       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+		return interaction.HandObject == null ||
+		       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
 	}
 
 	private void SyncSwitchState(State oldValue, State newValue)
@@ -74,28 +96,6 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 		}
 	}
 
-	private void OnEnable()
-	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
-
-	private void OnDisable()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
-
-	protected virtual void UpdateMe()
-	{
-		if (currentState == State.Off) return;
-
-		timeElapsed += Time.deltaTime;
-		if (timeElapsed > ConveyorBeltSpeed)
-		{
-			MoveConveyorBelt();
-			timeElapsed = 0;
-		}
-	}
-
 	void MoveConveyorBelt()
 	{
 		for (int i = 0; i < conveyorBelts.Count; i++)
@@ -106,21 +106,7 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver)) //clearing conveyor list
-		{
-			ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-				"You start clearing the connected conveyor belts...",
-				$"{interaction.Performer.ExpensiveName()} starts clearing the connected conveyor belts...",
-				"You clear the connected the conveyor belts.",
-				$"{interaction.Performer.ExpensiveName()} clears the connected conveyor belts.",
-				() =>
-				{
-					currentState = State.Off;
-					spriteRenderer.sprite = spriteOff;
-					conveyorBelts.Clear();
-				});
-		}
-		else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 		{
 			//deconsruct
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -175,6 +161,18 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 			{
 				conveyorBelts.Add(conveyor);
 			}
+		}
+
+		SetBeltInfo();
+	}
+
+	//Hands a reference of this switch to the belts so any neighbour ones
+	//can automatically sync up
+	private void SetBeltInfo()
+	{
+		for (int i = 0; i < conveyorBelts.Count; i++)
+		{
+			if (conveyorBelts[i] != null) conveyorBelts[i].SetSwitchRef(this);
 		}
 	}
 

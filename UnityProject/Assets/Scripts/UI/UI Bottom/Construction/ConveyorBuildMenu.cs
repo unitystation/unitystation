@@ -18,7 +18,8 @@ public class ConveyorBuildMenu : MonoBehaviour
 	public void TryBuildBelt(int direction)
 	{
 		SoundManager.Play("Click01");
-		Debug.Log("Try build: " + (ConveyorBelt.ConveyorDirection) direction);
+		CloseWindow();
+		RequestConveyorBuildMessage.Send(entry, materials, (ConveyorBelt.ConveyorDirection) direction);
 	}
 
 	public void GoToMainMenu()

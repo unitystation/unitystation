@@ -10,13 +10,8 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private RegisterTile registerTile;
 	private Vector3 position;
-	private ConveyorBelt prevBelt;
-	private ConveyorBelt nextBelt;
 
-	public ConveyorBelt PrevBelt => prevBelt;
-	public ConveyorBelt NextBelt => nextBelt;
-	public bool ActivePrevBelt => ValidBelt(prevBelt);
-	public bool ActiveNextBelt => ValidBelt(nextBelt);
+	public ConveyorBeltSwitch AssignedSwitch { get; private set; }
 
 	private Matrix Matrix => registerTile.Matrix;
 
@@ -38,17 +33,16 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		OnStart();
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if(isServer) UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	//Avoiding the use of coroutines as this could run on many conveyor belts
-	//This is needed so items and players are getting yeeted from being pushed by belts
+	//This is needed so items and players aren't getting yeeted from being pushed by belts
 	//each frame
 	void UpdateMe()
 	{
@@ -81,6 +75,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public override void OnStartServer()
 	{
 		RefreshSprites();
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public override void OnStartClient()
@@ -88,17 +83,11 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		SyncDirection(CurrentDirection, CurrentDirection);
 	}
 
-	bool ValidBelt(ConveyorBelt belt)
-	{
-		if (belt == null || !belt.gameObject.activeInHierarchy) return false;
-		if (Vector3.Distance(belt.transform.localPosition, transform.localPosition) > 1.5f) return false;
-		return true;
-	}
-
 	public void SyncDirection(ConveyorDirection oldValue, ConveyorDirection newValue)
 	{
 		CurrentDirection = newValue;
 		GetPositionOffset();
+		RefreshSprites();
 	}
 
 	void GetPositionOffset()
@@ -117,10 +106,37 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 	}
 
+	[Server]
+	public void SetBeltFromBuildMenu(ConveyorDirection direction)
+	{
+		CurrentDirection = direction;
+		//Discover any neighbours:
+		for (int i = 0; i < searchDirs.Length; i++)
+		{
+			var conveyorBelt =
+				registerTile.Matrix.GetFirst<ConveyorBelt>(registerTile.LocalPosition + searchDirs[i].To3Int(), true);
+
+			if (conveyorBelt != null)
+			{
+				if (conveyorBelt.AssignedSwitch != null)
+				{
+					conveyorBelt.AssignedSwitch.AddConveyorBelt(new List<ConveyorBelt>{this});
+					CurrentStatus = conveyorBelt.CurrentStatus;
+					break;
+				}
+			}
+		}
+	}
+
 	public void MoveBelt()
 	{
 		RefreshSprites();
 		if (isServer) DetectItems();
+	}
+
+	public void SetSwitchRef(ConveyorBeltSwitch switchRef)
+	{
+		AssignedSwitch = switchRef;
 	}
 
 	/// <summary>
@@ -169,6 +185,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				variant = 7;
 				break;
 		}
+
 		spriteHandler.ChangeSpriteVariant(variant);
 	}
 
@@ -246,7 +263,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 		{
 			//deconsruct
 			ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
@@ -261,48 +278,26 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				});
 		}
 
-//		else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))//change direction
-//		{
-//			int count = (int)CurrentDirection + 1;
-//
-//			if (count > 7)
-//			{
-//				count = 0;
-//			}
-//
-//			ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
-//			"You start redirecting the conveyor belt...",
-//			$"{interaction.Performer.ExpensiveName()} starts redirecting the conveyor belt...",
-//			"You redirect the conveyor belt.",
-//			$"{interaction.Performer.ExpensiveName()} redirects the conveyor belt.",
-//			() =>
-//			{
-//				CurrentDirection = (ConveyorDirection)count;
-//
-//				UpdateDirection(CurrentDirection);
-//
-//				spriteHandler.ChangeSpriteVariant(count);
-//			});
-//		}
-//		else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
-//		{
-//			ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
-//			"You start inverting the conveyor belt...",
-//			$"{interaction.Performer.ExpensiveName()} starts inverting the conveyor belt...",
-//			"You invert the conveyor belt.",
-//			$"{interaction.Performer.ExpensiveName()} invert the conveyor belt.",
-//			() =>
-//			{
-//				switch (SyncInverted)
-//				{
-//					case true:
-//						SyncInverted = false;
-//						break;
-//					case false:
-//						SyncInverted = true;
-//						break;
-//				}
-//			});
-//		}
+		else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver)) //change direction
+		{
+			int count = (int) CurrentDirection + 1;
+
+			if (count > 11)
+			{
+				count = 0;
+			}
+
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
+				"You start redirecting the conveyor belt...",
+				$"{interaction.Performer.ExpensiveName()} starts redirecting the conveyor belt...",
+				"You redirect the conveyor belt.",
+				$"{interaction.Performer.ExpensiveName()} redirects the conveyor belt.",
+				() =>
+				{
+					CurrentDirection = (ConveyorDirection) count;
+
+					spriteHandler.ChangeSpriteVariant(count);
+				});
+		}
 	}
 }
