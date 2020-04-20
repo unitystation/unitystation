@@ -18,7 +18,8 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[SyncVar(hook = nameof(SyncDirection))]
 	public ConveyorDirection CurrentDirection;
 
-	private ConveyorStatus CurrentStatus = ConveyorStatus.Off;
+	[SyncVar(hook = nameof(SyncStatus))]
+	public ConveyorStatus CurrentStatus;
 
 	Vector2Int[] searchDirs =
 	{
@@ -74,13 +75,14 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public override void OnStartServer()
 	{
+		CurrentStatus = ConveyorStatus.Off;
 		RefreshSprites();
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	public override void OnStartClient()
 	{
-		SyncDirection(CurrentDirection, CurrentDirection);
+		RefreshSprites();
 	}
 
 	public void SyncDirection(ConveyorDirection oldValue, ConveyorDirection newValue)
@@ -144,6 +146,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	/// It will update the belt current state and its sprite.
 	/// </summary>
 	/// <param name="switchState"></param>
+	[Server]
 	public void UpdateStatus(ConveyorBeltSwitch.State switchState)
 	{
 		switch (switchState)
@@ -162,7 +165,13 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 
 		GetPositionOffset();
+		RefreshSprites();
+	}
 
+	private void SyncStatus(ConveyorStatus oldStatus, ConveyorStatus newStatus)
+	{
+		CurrentStatus = newStatus;
+		GetPositionOffset();
 		RefreshSprites();
 	}
 
@@ -225,7 +234,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		item?.Push(position.To2Int());
 	}
 
-	private enum ConveyorStatus
+	public enum ConveyorStatus
 	{
 		Forward = 0,
 		Off = 1,

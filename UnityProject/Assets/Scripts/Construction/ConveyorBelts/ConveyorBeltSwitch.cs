@@ -86,14 +86,6 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 			default:
 				throw new ArgumentOutOfRangeException();
 		}
-
-		foreach (ConveyorBelt conveyor in conveyorBelts)
-		{
-			if (conveyor != null)
-			{
-				conveyor.UpdateStatus(currentState); //sync clients
-			}
-		}
 	}
 
 	void MoveConveyorBelt()
@@ -148,6 +140,14 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 					break;
 				default:
 					throw new ArgumentOutOfRangeException();
+			}
+
+			foreach (ConveyorBelt conveyor in conveyorBelts)
+			{
+				if (conveyor != null)
+				{
+					conveyor.UpdateStatus(currentState); //sync clients
+				}
 			}
 		}
 	}
