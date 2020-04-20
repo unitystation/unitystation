@@ -54,8 +54,10 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 
 	private void OnDisable()
 	{
+		if (ElectricalNodeControl == null) return;
 		ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ElectricalNodeControl);
 	}
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -63,6 +65,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 		if (interaction.HandObject != null) return false;
 		return true;
 	}
+
 	public void PowerNetworkUpdate()
 	{
 		//Logger.Log("humm...");
@@ -125,86 +128,21 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	/// </summary>
 	public void HandleDevices()
 	{
-		//Lights
 		float Voltages = Voltage;
 		if (Voltages > 270)
 		{
 			Voltages = 0.001f;
 		}
 		float CalculatingResistance = new float();
-		/*if (PowerLights)
-		{
-			foreach (KeyValuePair<LightSwitch, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
-			{
-				//TODO: This check is needed because destroyed lightswitches aren't being de-registered from the APC.
-				//Instead, it should be ensured that they are deregistered when destroyed. Doing
-				//it after this loop would create GC so it should instead be done via a destruction / despawn hook
-				if (SwitchTrigger.Key == null) continue;
-				SwitchTrigger.Key.PowerNetworkUpdate(Voltages);
-				if (SwitchTrigger.Key.isOn == LightSwitch.States.On)
-				{
-					for (int i = 0; i < SwitchTrigger.Value.Count; i++)
-					{
-						SwitchTrigger.Value[i].PowerLightIntensityUpdate(Voltages);
-						CalculatingResistance += (1 / SwitchTrigger.Value[i].Resistance);
-					}
-				}
-			}
-		}
-		else {
-			foreach (KeyValuePair<LightSwitch, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
-			{
-				SwitchTrigger.Key.PowerNetworkUpdate(0);
-				if (SwitchTrigger.Key.isOn == LightSwitch.States.On)
-				{
-					for (int i = 0; i < SwitchTrigger.Value.Count; i++)
-					{
-						SwitchTrigger.Value[i].PowerLightIntensityUpdate(0);
-					}
-				}
-			}
-		}*/
 
-		//Machinery
-		if (PowerMachinery)
+		foreach (APCPoweredDevice Device in ConnectedDevices)
 		{
-			foreach (APCPoweredDevice Device in ConnectedDevices)
-			{
+			Device.PowerNetworkUpdate(Voltages);
+			CalculatingResistance += (1 / Device.Resistance);
+		}
 
-				Device.PowerNetworkUpdate(Voltages);
-				CalculatingResistance += (1 / Device.Resistance);
-			}
-		}
-		else {
-			foreach (APCPoweredDevice Device in ConnectedDevices)
-			{
-				Device.PowerNetworkUpdate(0);
-			}
-		}
-		//Environment
-		if (PowerEnvironment)
-		{
-			foreach (APCPoweredDevice Device in EnvironmentalDevices)
-			{
-				Device.PowerNetworkUpdate(Voltages);
-				CalculatingResistance += (1 / Device.Resistance);
-			}
-		}
-		else {
-			foreach (APCPoweredDevice Device in EnvironmentalDevices)
-			{
-				Device.PowerNetworkUpdate(0);
-			}
-		}
 		ResistanceSourceModule.Resistance = (1 / CalculatingResistance);
 	}
-
-	public void FindPoweredDevices()
-	{
-		//yeah They be manually assigned for now
-		//needs a way of checking that doesn't cause too much lag and  can respond adequately to changes in the environment E.G a device getting destroyed/a new device being made
-	}
-
 
 	public NetTabType NetTabType;
 
@@ -353,17 +291,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	/// <summary>
 	/// Dictionary of all the light switches and their lights connected to this APC
 	/// </summary>
-	public Dictionary<LightSwitch, List<LightSource>> ConnectedSwitchesAndLights = new Dictionary<LightSwitch, List<LightSource>>();
-
-	/// <summary>
-	/// list of connected machines to the APC
-	/// </summary>
 	public List<APCPoweredDevice> ConnectedDevices = new List<APCPoweredDevice>();
-
-	/// <summary>
-	/// list of connected machines to the APC
-	/// </summary>
-	public List<APCPoweredDevice> EnvironmentalDevices = new List<APCPoweredDevice>();
 
 	// TODO make apcs detect connected department batteries
 	/// <summary>
@@ -392,19 +320,6 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	}
 
 	/// <summary>
-	/// Register the light with this APC, so that it will be toggled based on emergency status
-	/// </summary>
-	/// <param name="newLight"></param>
-	public void ConnectEmergencyLight(EmergencyLightAnimator newLight)
-	{
-		if (!ConnectedEmergencyLights.Contains(newLight))
-		{
-			ConnectedEmergencyLights.Add(newLight);
-			SetEmergencyLights(EmergencyState);
-		}
-	}
-
-	/// <summary>
 	/// Set the state of the emergency lights associated with this APC
 	/// </summary>
 	void SetEmergencyLights(bool isOn)
@@ -422,18 +337,21 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 		}
 	}
 
+	void OnDrawGizmosSelected()
+	{
+		var sprite = GetComponentInChildren<SpriteRenderer>();
+		if (sprite == null)
+			return;
+
+		//Highlighting all controlled lightSources
+		Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
+		for (int i = 0; i < ConnectedDevices.Count; i++)
+		{
+			var lightSource = ConnectedDevices[i];
+			if(lightSource == null) continue;
+			Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
+			Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
+		}
+	}
 }
 
-public class PoweredDevices
-{
-	public TypeOfPoweredDevice type;
-	public List<APCPoweredDevice> listOfDevices;
-}
-
-public enum TypeOfPoweredDevice
-{
-	Lights,
-	Doors,
-	Battery,
-	Environment
-}

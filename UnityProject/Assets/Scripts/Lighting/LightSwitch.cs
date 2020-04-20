@@ -71,7 +71,7 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		DetectLightsAndAction(true);
 		if (RelatedAPC != null)
 		{
-			RelatedAPC.ConnectedSwitchesAndLights[this] = new List<LightSource>();
+			//RelatedAPC.ConnectedSwitchesAndLights[this] = new List<LightSource>();
 		}
 		if (SelfPowered)
 		{

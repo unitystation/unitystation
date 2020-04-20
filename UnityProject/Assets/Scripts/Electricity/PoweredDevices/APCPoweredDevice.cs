@@ -8,7 +8,9 @@ public class APCPoweredDevice : NetworkBehaviour
 {
 	public float MinimumWorkingVoltage = 190;
 	public float MaximumWorkingVoltage = 300;
-	public bool IsEnvironmentalDevice = false;
+
+	public DeviceType deviceType = DeviceType.None;
+
 
 	[SerializeField]
 	private float wattusage = 0.01f;
@@ -33,6 +35,8 @@ public class APCPoweredDevice : NetworkBehaviour
 	[SyncVar(hook = nameof(UpdateSynchronisedState))]
 	public PowerStates State;
 
+	public Action<PowerStates> OnPowerStateChangeEvent;
+
 	private void Awake()
 	{
 		EnsureInit();
@@ -46,16 +50,6 @@ public class APCPoweredDevice : NetworkBehaviour
 		{
 			Resistance = 240 / (Wattusage / 240);
 		}
-		if (RelatedAPC != null)
-		{
-			if (IsEnvironmentalDevice)
-			{
-				RelatedAPC.EnvironmentalDevices.Add(this);
-			}
-			else {
-				RelatedAPC.ConnectedDevices.Add(this);
-			}
-		}
 	}
 
 	private void EnsureInit()
@@ -66,35 +60,18 @@ public class APCPoweredDevice : NetworkBehaviour
 
 	public void SetAPC(APC _APC)
 	{
+		if (_APC == null) return;
 		RemoveFromAPC();
 		RelatedAPC = _APC;
-		if (IsEnvironmentalDevice)
-		{
-			RelatedAPC.EnvironmentalDevices.Add(this);
-		}
-		else {
-			RelatedAPC.ConnectedDevices.Add(this);
-		}
+		RelatedAPC.ConnectedDevices.Add(this);
 	}
 
 	public void RemoveFromAPC()
 	{
-		if (RelatedAPC != null)
+		if (RelatedAPC == null) return;
+		if (RelatedAPC.ConnectedDevices.Contains(this))
 		{
-			if (IsEnvironmentalDevice)
-			{
-				if (RelatedAPC.EnvironmentalDevices.Contains(this))
-				{
-					RelatedAPC.EnvironmentalDevices.Remove(this);
-				}
-
-			}
-			else {
-				if (RelatedAPC.ConnectedDevices.Contains(this))
-				{
-					RelatedAPC.ConnectedDevices.Remove(this);
-				}
-			}
+			RelatedAPC.ConnectedDevices.Remove(this);
 		}
 	}
 
@@ -110,47 +87,36 @@ public class APCPoweredDevice : NetworkBehaviour
 		UpdateSynchronisedState(State, State);
 	}
 
-	public void APCBroadcastToDevice(APC APC)
-	{
-		if (RelatedAPC == null)
-		{
-			SetAPC(APC);
-		}
-	}
 	public void PowerNetworkUpdate(float Voltage) //Could be optimised to not update when voltage is same as previous voltage
 	{
-		if (Powered != null)
+		if (Powered == null) return;
+		if (AdvancedControlToScript)
 		{
-			if (AdvancedControlToScript)
+			Powered.PowerNetworkUpdate(Voltage);
+		}
+		else
+		{
+			var NewState = PowerStates.Off;
+			if (Voltage <= 1)
 			{
-				Powered.PowerNetworkUpdate(Voltage);
+				NewState = PowerStates.Off;
 			}
-			else
+			else if (Voltage > MaximumWorkingVoltage)
 			{
-				var NewState = PowerStates.Off;
-				if (Voltage <= 1)
-				{
-					NewState = PowerStates.Off;
-				}
-				else if (Voltage > MaximumWorkingVoltage)
-				{
-					NewState = PowerStates.OverVoltage;
-				}
-				else if (Voltage < MinimumWorkingVoltage)
-				{
-					NewState = PowerStates.LowVoltage;
-				}
-				else {
-					NewState = PowerStates.On;
-				}
-
-				if (NewState != State)
-				{
-					State = NewState;
-					Powered.StateUpdate(State);
-				}
+				NewState = PowerStates.OverVoltage;
+			}
+			else if (Voltage < MinimumWorkingVoltage)
+			{
+				NewState = PowerStates.LowVoltage;
+			}
+			else {
+				NewState = PowerStates.On;
 			}
 
+			if (NewState == State) return;
+			State = NewState;
+			Powered.StateUpdate(State);
+			OnPowerStateChangeEvent?.Invoke(NewState);
 		}
 	}
 	public void OnDisable()
@@ -171,8 +137,40 @@ public class APCPoweredDevice : NetworkBehaviour
 			Powered.StateUpdate(State);
 		}
 	}
+
+	void OnDrawGizmosSelected()
+	{
+		if (RelatedAPC == null)
+			return;
+
+		//Highlighting all controlled lightSources
+		switch (deviceType)
+		{
+			case DeviceType.Equipment:
+				Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
+				break;
+			case DeviceType.Lights:
+				Gizmos.color = new Color(1, 1, 0, 1);
+				break;
+			case DeviceType.Environment:
+				Gizmos.color = new Color(0, 1, 0, 1);
+				break;
+			default:
+				Gizmos.color = new Color(1, 1, 1, 1);
+				break;
+		}
+		Gizmos.DrawLine(RelatedAPC.transform.position, gameObject.transform.position);
+		Gizmos.DrawSphere(RelatedAPC.transform.position, 0.15f);
+	}
 }
 
+public enum DeviceType
+{
+	None,
+	Lights,
+	Environment,
+	Equipment
+}
 
 public enum PowerStates
 {

@@ -6,10 +6,10 @@ using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using Objects;
 
-[CustomEditor(typeof(SwitchBase),true )]
-public class ListOfObjectsEditor : Editor
+[CustomEditor(typeof(APC),true )]
+public class APCConnectingEditor : Editor
 {
-	private SwitchBase switchBase;
+	private APC switchBase;
 	private bool isSelecting;
 
 	void OnEnable()
@@ -31,7 +31,7 @@ public class ListOfObjectsEditor : Editor
 			if (GUILayout.Button("Begin Selecting Objects"))
 			{
 				isSelecting = true;
-				switchBase = (SwitchBase)target;
+				switchBase = (APC)target;
 			}
 		}
 		else
@@ -44,7 +44,7 @@ public class ListOfObjectsEditor : Editor
 		}
 	}
 
-	void OnScene(SceneView scene)
+	private void OnScene(SceneView scene)
 	{
 		//skip if not selecting
 		if (!isSelecting || switchBase == null)
@@ -68,7 +68,7 @@ public class ListOfObjectsEditor : Editor
 			// scan all hit objects for door controllers
 			for (int i = 0; i < hits.Length; i++)
 			{
-				var objectTrigger = hits[i].transform.GetComponent<ObjectTrigger>();
+				var objectTrigger = hits[i].transform.GetComponent<APCPoweredDevice>();
 				if (objectTrigger != null)
 					ToggleObjectTrigger(switchBase, objectTrigger);
 			}
@@ -80,17 +80,21 @@ public class ListOfObjectsEditor : Editor
 		Selection.activeGameObject = switchBase.gameObject;
 	}
 
-	private void ToggleObjectTrigger(SwitchBase listOfTriggers, ObjectTrigger objectTrigger)
+	private void ToggleObjectTrigger(APC listOfTriggers, APCPoweredDevice objectTrigger)
 	{
-		if (listOfTriggers.listOfTriggers.Contains(objectTrigger))
+		if (listOfTriggers.ConnectedDevices.Contains(objectTrigger))
 		{
-			listOfTriggers.listOfTriggers.Remove(objectTrigger);
+			listOfTriggers.ConnectedDevices.Remove(objectTrigger);
+			objectTrigger.RelatedAPC = null;
 			EditorUtility.SetDirty(listOfTriggers);
+			EditorUtility.SetDirty(objectTrigger);
 		}
 		else
 		{
-			listOfTriggers.listOfTriggers.Add(objectTrigger);
+			listOfTriggers.ConnectedDevices.Add(objectTrigger);
+			objectTrigger.RelatedAPC = listOfTriggers;
 			EditorUtility.SetDirty(listOfTriggers);
+			EditorUtility.SetDirty(objectTrigger);
 		}
 	}
 

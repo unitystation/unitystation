@@ -88,19 +88,16 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			if (state == LightMountState.On)
 			{
 				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
-				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
 				ServerChangeLightState(LightMountState.MissingBulb);
 			}
 			else if (state == LightMountState.Off)
 			{
 				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
-				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
 				ServerChangeLightState(LightMountState.MissingBulb);
 			}
 			else if (state == LightMountState.Broken)
 			{
 				Spawn.ServerPrefab(appliableBrokenItem, interaction.Performer.WorldPosServer());
-				Chat.AddExamineMsg(interaction.Performer, "You took the broken light tube out!");
 				ServerChangeLightState(LightMountState.MissingBulb);
 			}
 
@@ -111,7 +108,6 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{
 				Despawn.ServerSingle(interaction.HandObject);
-				Chat.AddExamineMsg(interaction.Performer, "You put broken light tube in!");
 				ServerChangeLightState(LightMountState.Broken);
 			}
 			else
@@ -119,20 +115,18 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 				if (lightSource.SwitchState)
 				{
 					Despawn.ServerSingle(interaction.HandObject);
-					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
 					ServerChangeLightState(LightMountState.On);
 				}
 				else
 				{
 					Despawn.ServerSingle(interaction.HandObject);
-					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
 					ServerChangeLightState(LightMountState.Off);
 				}
 			}
 		}
 	}
 
-	bool EnsureInit()
+	public bool EnsureInit()
 	{
 		if (lightSource == null) lightSource = GetComponent<LightSource>();
 		if (integrity == null) integrity = GetComponent<Integrity>();
@@ -184,18 +178,16 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 	//This one is for LightSource to make sure sprites and states are correct
 	//when lights switch state is changed
-	public void SwitchChangeState(LightState state)
+	public void SwitchChangeState(bool switchState)
 	{
 		if (!isServer) return;
+		if (State == LightMountState.Broken ||
+		    State == LightMountState.MissingBulb)
+		{
+			return;
+		}
 
-		if (state == LightState.On)
-		{
-			ServerChangeLightState(LightMountState.On);
-		}
-		else
-		{
-			ServerChangeLightState(LightMountState.Off);
-		}
+		ServerChangeLightState(switchState ? LightMountState.On : LightMountState.Off);
 	}
 
 	//Gets sprites for eash state

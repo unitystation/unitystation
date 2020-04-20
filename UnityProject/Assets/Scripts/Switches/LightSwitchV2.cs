@@ -5,23 +5,35 @@ using UnityEngine;
 
 namespace Lighting
 {
-	public class LightSwitchV2 : SwitchBase, ICheckedInteractable<HandApply>
+	public class LightSwitchV2 : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
+		public List<LightSource> listOfLights;
+
 		public Action<bool> switchTriggerEvent;
 
 		[SyncVar(hook = nameof(SyncState))]
 		public bool isOn = true;
 
+		private APCPoweredDevice poweredDevice;
+		private PowerStates powerState = PowerStates.On;
 		private void Awake()
 		{
-			foreach (var lightSource in listOfTriggers)
+			poweredDevice = GetComponent<APCPoweredDevice>();
+			if(poweredDevice != null)
+				poweredDevice.OnPowerStateChangeEvent += PowerStateChange;
+
+			foreach (var lightSource in listOfLights)
 			{
-				var light = lightSource as LightSource;
-				if(light != null)
-					light.SubscribeToSwitch(ref switchTriggerEvent);
+				if(lightSource != null)
+					lightSource.SubscribeToSwitchEvent(this);
 			}
 		}
 
+		public override void OnStartClient()
+		{
+			SyncState(isOn, isOn);
+			base.OnStartClient();
+		}
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -31,8 +43,28 @@ namespace Lighting
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (powerState == PowerStates.Off) return;
 			ServerChangeState(!isOn);
 			Debug.Log("Switch Pressed");
+		}
+
+		private void PowerStateChange(PowerStates newState)
+		{
+			switch (newState)
+			{
+				case PowerStates.On:
+					ServerChangeState(true);
+					powerState = newState;
+					break;
+				case PowerStates.LowVoltage:
+					break;
+				case PowerStates.OverVoltage:
+					break;
+				default:
+					ServerChangeState(false);
+					powerState = newState;
+					break;
+			}
 		}
 
 		private void SyncState(bool oldState, bool newState)
@@ -55,9 +87,9 @@ namespace Lighting
 
 			//Highlighting all controlled lightSources
 			Gizmos.color = new Color(1, 1, 0, 1);
-			for (int i = 0; i < listOfTriggers.Count; i++)
+			for (int i = 0; i < listOfLights.Count; i++)
 			{
-				var lightSource = listOfTriggers[i];
+				var lightSource = listOfLights[i];
 				if(lightSource == null) continue;
 				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
 				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);

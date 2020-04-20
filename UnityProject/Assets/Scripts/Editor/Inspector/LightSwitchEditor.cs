@@ -1,107 +1,114 @@
-﻿/*using System.Linq;
+﻿using System.Linq;
 using Lighting;
+using Mirror;
+using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
-using UnityEngine;
 using UnityEngine.SceneManagement;
+using Objects;
 
+[CustomEditor(typeof(LightSwitchV2),true )]
+public class LightSwitchEditor : Editor
+{
+	private LightSwitchV2 switchBase;
+	private bool isSelecting;
 
-	[CustomEditor(typeof(LightSwitchV2))]
-	public class LightSwitchEditor : Editor
+	void OnEnable()
 	{
-		private LightSwitchV2 lightSwtich;
-		private bool isSelecting;
+		SceneView.duringSceneGui += OnScene;
+	}
 
-		void OnEnable()
+	void OnDisable()
+	{
+		SceneView.duringSceneGui -= OnScene;
+	}
+
+	public override void OnInspectorGUI()
+	{
+		base.OnInspectorGUI();
+
+		if (!isSelecting)
 		{
-			SceneView.duringSceneGui += OnScene;
-		}
-
-		void OnDisable()
-		{
-			SceneView.duringSceneGui -= OnScene;
-		}
-
-		public override void OnInspectorGUI()
-		{
-			base.OnInspectorGUI();
-
-			if (!isSelecting)
+			if (GUILayout.Button("Begin Selecting Objects"))
 			{
-				if (GUILayout.Button("Begin Selecting Lights"))
-				{
-					isSelecting = true;
-					lightSwtich = (LightSwitchV2) target;
-				}
-			}
-			else
-			{
-				if (GUILayout.Button("Stop Selecting Lights"))
-				{
-					isSelecting = false;
-					lightSwtich = null;
-				}
+				isSelecting = true;
+				switchBase = (LightSwitchV2)target;
 			}
 		}
-
-		void OnScene(SceneView scene)
+		else
 		{
-			//skip if not selecting
-			if (!isSelecting || lightSwtich == null)
-				return;
-
-			Event e = Event.current;
-			if (e == null)
-				return;
-
-			if (HasPressedEscapeKey(e))
+			if (GUILayout.Button("Stop Selecting Objects"))
 			{
-				//Undo.RecordObject(lightSwtich,);
 				isSelecting = false;
-				return;
+				switchBase = null;
 			}
-
-			if (HasPressedLeftClick(e))
-			{
-				Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
-				RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction);
-
-				// scan all hit objects for ObjectTrigger
-				for (int i = 0; i < hits.Length; i++)
-				{
-					var lightSource = hits[i].transform.GetComponent<LightSource>();
-					if (lightSource != null)
-						ToggleLightSource(lightSwtich, lightSource);
-				}
-
-				EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
-			}
-
-			//return selection to switch
-			Selection.activeGameObject = lightSwtich.gameObject;
 		}
+	}
 
-		private void ToggleLightSource(LightSwitchV2 lightSwitch, LightSource lightSource)
+	void OnScene(SceneView scene)
+	{
+		//skip if not selecting
+		if (!isSelecting || switchBase == null)
+			return;
+
+		Event e = Event.current;
+		if (e == null)
+			return;
+
+		if (HasPressedEscapeKey(e))
 		{
-			if (lightSwitch.listLightSources.Contains(lightSource))
-			{
-				lightSwitch.listLightSources.Remove(lightSource);
-				EditorUtility.SetDirty(lightSwitch);
-			}
-			else
-			{
-				lightSwitch.listLightSources.Add(lightSource);
-				EditorUtility.SetDirty(lightSwitch);
-			}
+			isSelecting = false;
+			return;
 		}
 
-		private bool HasPressedEscapeKey(Event e)
+		if (HasPressedLeftClick(e))
 		{
-			return e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape;
+			Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
+			RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction);
+
+			// scan all hit objects for door controllers
+			for (int i = 0; i < hits.Length; i++)
+			{
+				var objectTrigger = hits[i].transform.GetComponent<LightSource>();
+				if (objectTrigger != null)
+					ToggleObjectTrigger(switchBase, objectTrigger);
+			}
+
+			EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
 		}
 
-		private bool HasPressedLeftClick(Event e)
+		//return selection to switch
+		Selection.activeGameObject = switchBase.gameObject;
+	}
+
+	private void ToggleObjectTrigger(LightSwitchV2 lightSwitch, LightSource lightSource)
+	{
+		if (lightSwitch.listOfLights.Contains(lightSource))
 		{
-			return e.type == EventType.MouseDown && e.button == 0;
+			lightSwitch.listOfLights.Remove(lightSource);
+			lightSource.ClearRelatedSwitch();
+
+			EditorUtility.SetDirty(lightSource);
+			EditorUtility.SetDirty(lightSwitch);
 		}
-	}*/
+		else
+		{
+			lightSwitch.listOfLights.Add(lightSource);
+			lightSource.SetRelatedSwitch(lightSwitch);
+
+			EditorUtility.SetDirty(lightSource);
+			EditorUtility.SetDirty(lightSwitch);
+		}
+	}
+
+	private bool HasPressedEscapeKey(Event e)
+	{
+		return e.type == EventType.KeyDown && e.keyCode == KeyCode.Escape;
+	}
+
+	private bool HasPressedLeftClick(Event e)
+	{
+		return e.type == EventType.MouseDown && e.button == 0;
+	}
+}
+
