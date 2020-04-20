@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Lighting;
 using Lucene.Net.Util;
+using Mirror;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
@@ -111,6 +112,21 @@ namespace Tests
 		    }
 		    Assert.That(count, Is.EqualTo(listOfDevices.Length));
 	    }
+
+	    [Test]
+	    public void LightMountState_Test()
+	    {
+		    GameObject variableForPrefab = (GameObject)Resources.Load("Prefabs/Objects/WallProtrusions/LightTubeMount", typeof(GameObject));
+		    var lightMountState = variableForPrefab.GetComponent<LightMountStates>();
+		    lightMountState.EnsureInit();
+		    var lightSource = variableForPrefab.GetComponent<LightSource>();
+
+		    lightMountState.SwitchChangeState(false);
+		    lightSource.Trigger(false);
+
+		    Assert.That(LightMountState.Off, Is.EqualTo(lightMountState.State));
+	    }
+
 	    /*[Test]
         public void LightSwitchEventTest()
         {
@@ -184,21 +200,5 @@ namespace Tests
 	        //Assert.That(lightMountState.State, Is.EqualTo(LightMountState.Off));
         }*/
 
-        // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
-        // `yield return null;` to skip a frame.
-        [UnityTest]
-        public IEnumerator PlayModeTestScript()
-        {
-            // Use the Assert class to test conditions.
-            // Use yield to skip a frame.
-            var startTime = System.DateTime.UtcNow;
-            int three = 3;
-            while ((System.DateTime.UtcNow - startTime).TotalSeconds < 3)
-            {
-	            yield return null;
-            }
-            Assert.IsTrue( 3 == three);
-
-        }
     }
 }

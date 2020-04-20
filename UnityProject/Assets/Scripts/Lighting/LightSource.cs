@@ -12,7 +12,7 @@ public enum LightState
 }
 
 [ExecuteInEditMode]
-public class LightSource : ObjectTrigger
+public class LightSource : ObjectTrigger,IAPCPowered
 {
 	private const LightState InitialState = LightState.On;
 
@@ -25,14 +25,8 @@ public class LightSource : ObjectTrigger
 
 	[SyncVar(hook =nameof(SyncLightState))]
 	private LightState mState;
-
-	private APCPoweredDevice poweredDevice;
 	private LightMountStates wallMount;
-
-	[SerializeField]
-	private LightSwitchV2 relatedLightSwitch;
-
-	public LightSwitchV2 RelatedLightSwitch { get; private set; }
+	public LightSwitchV2 relatedLightSwitch;
 
 	void Start()
 	{
@@ -67,39 +61,14 @@ public class LightSource : ObjectTrigger
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
 		}
 
-		poweredDevice = GetComponent<APCPoweredDevice>();
-		if(poweredDevice != null)
-			poweredDevice.OnPowerStateChangeEvent += PowerStateChange;
 		wallMount = GetComponent<LightMountStates>();
 
 		mState = InitialState;
-	}
-
-	private void PowerStateChange(PowerStates newState)
-	{
-		switch (newState)
-		{
-			case PowerStates.On:
-				Trigger(true);
-				return;
-			case PowerStates.LowVoltage:
-				return;
-			case PowerStates.OverVoltage:
-				return;
-			default:
-				Trigger(false);
-				return;
-		}
 	}
 	public void EnsureInit()
 	{
 		wallMount = GetComponent<LightMountStates>();
 		SwitchState = true;
-	}
-	public override void OnStartClient()
-	{
-		SyncLightState(mState, mState);
-		base.OnStartClient();
 	}
 
 	private void OnDestroy()
@@ -111,29 +80,17 @@ public class LightSource : ObjectTrigger
 	{
 		if (lightSwitch == null) return false;
 		UnSubscribeFromSwitchEvent();
-		Debug.Log("Light source is subscribed");
-		SetRelatedSwitch(lightSwitch);
+		relatedLightSwitch = lightSwitch;
 		lightSwitch.switchTriggerEvent += Trigger;
 		return true;
-	}
-
-	public void SetRelatedSwitch(LightSwitchV2 lightSwitch)
-	{
-		relatedLightSwitch = lightSwitch;
 	}
 
 	public bool UnSubscribeFromSwitchEvent()
 	{
 		if (relatedLightSwitch == null) return false;
-		Debug.Log("Light source is UnSubscribed");
 		relatedLightSwitch.switchTriggerEvent -= Trigger;
-		ClearRelatedSwitch();
-		return true;
-	}
-
-	public void ClearRelatedSwitch()
-	{
 		relatedLightSwitch = null;
+		return true;
 	}
 
 	public override void Trigger(bool newState)
@@ -143,7 +100,16 @@ public class LightSource : ObjectTrigger
 		{
 			wallMount.SwitchChangeState(newState);
 		}
-		ServerChangeLightState(newState ? LightState.On : LightState.Off);
+		else
+		{
+			ServerChangeLightState(newState ? LightState.On : LightState.Off);
+		}
+	}
+
+	public override void OnStartClient()
+	{
+		SyncLightState(mState, mState);
+		base.OnStartClient();
 	}
 
 	[Server]
@@ -161,8 +127,6 @@ public class LightSource : ObjectTrigger
 		}
 	}
 
-
-
 	void OnDrawGizmosSelected()
 	{
 		if (relatedLightSwitch == null) return;
@@ -175,5 +139,27 @@ public class LightSource : ObjectTrigger
 		Gizmos.DrawLine(relatedLightSwitch.transform.position, gameObject.transform.position);
 		Gizmos.DrawSphere(relatedLightSwitch.transform.position, 0.25f);
 
+	}
+
+	public void PowerNetworkUpdate(float Voltage)
+	{
+
+	}
+	public void StateUpdate(PowerStates State)
+	{
+		Debug.Log("PowerStateChange");
+		switch (State)
+		{
+			case PowerStates.On:
+				Trigger(true);
+				return;
+			case PowerStates.LowVoltage:
+				return;
+			case PowerStates.OverVoltage:
+				return;
+			default:
+				Trigger(false);
+				return;
+		}
 	}
 }

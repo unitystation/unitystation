@@ -86,7 +86,7 @@ public class LightSwitchEditor : Editor
 		if (lightSwitch.listOfLights.Contains(lightSource))
 		{
 			lightSwitch.listOfLights.Remove(lightSource);
-			lightSource.ClearRelatedSwitch();
+			lightSource.relatedLightSwitch = null;
 
 			EditorUtility.SetDirty(lightSource);
 			EditorUtility.SetDirty(lightSwitch);
@@ -94,7 +94,7 @@ public class LightSwitchEditor : Editor
 		else
 		{
 			lightSwitch.listOfLights.Add(lightSource);
-			lightSource.SetRelatedSwitch(lightSwitch);
+			lightSource.relatedLightSwitch = lightSwitch;
 
 			EditorUtility.SetDirty(lightSource);
 			EditorUtility.SetDirty(lightSwitch);

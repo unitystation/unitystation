@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Lighting
 {
-	public class LightSwitchV2 : NetworkBehaviour, ICheckedInteractable<HandApply>
+	public class LightSwitchV2 : NetworkBehaviour, ICheckedInteractable<HandApply>,IAPCPowered
 	{
 		public List<LightSource> listOfLights;
 
@@ -14,13 +14,9 @@ namespace Lighting
 		[SyncVar(hook = nameof(SyncState))]
 		public bool isOn = true;
 
-		private APCPoweredDevice poweredDevice;
 		private PowerStates powerState = PowerStates.On;
 		private void Awake()
 		{
-			poweredDevice = GetComponent<APCPoweredDevice>();
-			if(poweredDevice != null)
-				poweredDevice.OnPowerStateChangeEvent += PowerStateChange;
 
 			foreach (var lightSource in listOfLights)
 			{
@@ -46,25 +42,6 @@ namespace Lighting
 			if (powerState == PowerStates.Off) return;
 			ServerChangeState(!isOn);
 			Debug.Log("Switch Pressed");
-		}
-
-		private void PowerStateChange(PowerStates newState)
-		{
-			switch (newState)
-			{
-				case PowerStates.On:
-					ServerChangeState(true);
-					powerState = newState;
-					break;
-				case PowerStates.LowVoltage:
-					break;
-				case PowerStates.OverVoltage:
-					break;
-				default:
-					ServerChangeState(false);
-					powerState = newState;
-					break;
-			}
 		}
 
 		private void SyncState(bool oldState, bool newState)
@@ -96,5 +73,28 @@ namespace Lighting
 			}
 		}
 
+		public void PowerNetworkUpdate(float Voltage)
+		{
+
+		}
+
+		public void StateUpdate(PowerStates State)
+		{
+			switch (State)
+			{
+				case PowerStates.On:
+					ServerChangeState(true);
+					powerState = State;
+					break;
+				case PowerStates.LowVoltage:
+					break;
+				case PowerStates.OverVoltage:
+					break;
+				default:
+					ServerChangeState(false);
+					powerState = State;
+					break;
+			}
+		}
 	}
 }

@@ -86,6 +86,7 @@ public class APCConnectingEditor : Editor
 		{
 			listOfTriggers.ConnectedDevices.Remove(objectTrigger);
 			objectTrigger.RelatedAPC = null;
+
 			EditorUtility.SetDirty(listOfTriggers);
 			EditorUtility.SetDirty(objectTrigger);
 		}
@@ -93,6 +94,7 @@ public class APCConnectingEditor : Editor
 		{
 			listOfTriggers.ConnectedDevices.Add(objectTrigger);
 			objectTrigger.RelatedAPC = listOfTriggers;
+
 			EditorUtility.SetDirty(listOfTriggers);
 			EditorUtility.SetDirty(objectTrigger);
 		}

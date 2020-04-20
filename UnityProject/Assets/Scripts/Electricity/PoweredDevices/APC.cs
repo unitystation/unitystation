@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.iOS;
 
-public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
+public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -32,6 +33,9 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	public ElectricalNodeControl ElectricalNodeControl;
 
 	public ResistanceSourceModule ResistanceSourceModule;
+
+
+
 
 	/// <summary>
 	/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
@@ -289,7 +293,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	private List<EmergencyLightAnimator> ConnectedEmergencyLights = new List<EmergencyLightAnimator>();
 
 	/// <summary>
-	/// Dictionary of all the light switches and their lights connected to this APC
+	/// Devices connected to APC
 	/// </summary>
 	public List<APCPoweredDevice> ConnectedDevices = new List<APCPoweredDevice>();
 
@@ -300,6 +304,14 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	public List<DepartmentBattery> ConnectedDepartmentBatteries = new List<DepartmentBattery>();
 
 	private bool _emergencyState = false;
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		Debug.Log("Apc is DESPAWNED");
+		for (int i = ConnectedDevices.Count-1; i >= 0; i--)
+		{
+			ConnectedDevices[i].RemoveFromAPC();
+		}
+	}
 	/// <summary>
 	/// The state of the emergency lights. Calls SetEmergencyLights when changes.
 	/// </summary>
@@ -353,5 +365,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 			Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
 		}
 	}
+
+
 }
 

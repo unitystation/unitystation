@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using UnityEngine;
 using Mirror;
+using Debug = UnityEngine.Debug;
 
 public class APCPoweredDevice : NetworkBehaviour
 {
@@ -35,13 +37,10 @@ public class APCPoweredDevice : NetworkBehaviour
 	[SyncVar(hook = nameof(UpdateSynchronisedState))]
 	public PowerStates State;
 
-	public Action<PowerStates> OnPowerStateChangeEvent;
-
 	private void Awake()
 	{
 		EnsureInit();
 	}
-
 
 	void Start()
 	{
@@ -72,6 +71,7 @@ public class APCPoweredDevice : NetworkBehaviour
 		if (RelatedAPC.ConnectedDevices.Contains(this))
 		{
 			RelatedAPC.ConnectedDevices.Remove(this);
+			PowerNetworkUpdate(0.1f);
 		}
 	}
 
@@ -116,13 +116,9 @@ public class APCPoweredDevice : NetworkBehaviour
 			if (NewState == State) return;
 			State = NewState;
 			Powered.StateUpdate(State);
-			OnPowerStateChangeEvent?.Invoke(NewState);
 		}
 	}
-	public void OnDisable()
-	{
-		RemoveFromAPC();
-	}
+
 	private void UpdateSynchronisedState(PowerStates _OldState, PowerStates _State)
 	{
 		EnsureInit();

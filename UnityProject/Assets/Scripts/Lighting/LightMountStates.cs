@@ -84,45 +84,22 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	{
 		if (interaction.HandObject == null)
 		{
-
-			if (state == LightMountState.On)
-			{
-				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
-				ServerChangeLightState(LightMountState.MissingBulb);
-			}
-			else if (state == LightMountState.Off)
-			{
-				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
-				ServerChangeLightState(LightMountState.MissingBulb);
-			}
-			else if (state == LightMountState.Broken)
-			{
-				Spawn.ServerPrefab(appliableBrokenItem, interaction.Performer.WorldPosServer());
-				ServerChangeLightState(LightMountState.MissingBulb);
-			}
-
+			Spawn.ServerPrefab(state == LightMountState.Broken ? appliableBrokenItem : appliableItem,
+				interaction.Performer.WorldPosServer());
+			ServerChangeLightState(LightMountState.MissingBulb);
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, traitRequired) && state == LightMountState.MissingBulb)
 		{
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{
-				Despawn.ServerSingle(interaction.HandObject);
 				ServerChangeLightState(LightMountState.Broken);
 			}
 			else
 			{
-				if (lightSource.SwitchState)
-				{
-					Despawn.ServerSingle(interaction.HandObject);
-					ServerChangeLightState(LightMountState.On);
-				}
-				else
-				{
-					Despawn.ServerSingle(interaction.HandObject);
-					ServerChangeLightState(LightMountState.Off);
-				}
+				ServerChangeLightState(lightSource.SwitchState ? LightMountState.On : LightMountState.Off);
 			}
+			Despawn.ServerSingle(interaction.HandObject);
 		}
 	}
 
@@ -146,34 +123,33 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	{
 		if (!EnsureInit()) return;
 
+		if (newState == LightMountState.On)
+		{
+			lightSource.ServerChangeLightState(LightState.On);
+			spriteRenderer.sprite = GetSprite(spriteListFull);
+			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
+			integrity.soundOnHit = "GlassHit";
+			return;
+		}
+
 		if (newState == LightMountState.MissingBulb)
 		{
-			lightSource.Trigger(false);
 			spriteRenderer.sprite = GetSprite(spriteListMissingBulb);
-			spriteRendererLightOn.sprite = null;
 			integrity.soundOnHit = "";
 		}
 		else if (newState == LightMountState.Broken)
 		{
-			lightSource.Trigger(false);
+
 			spriteRenderer.sprite = GetSprite(spriteListBroken);
-			spriteRendererLightOn.sprite = null;
 			integrity.soundOnHit = "GlassStep";
 		}
 		else if (newState == LightMountState.Off)
 		{
-			lightSource.Trigger(false);
 			spriteRenderer.sprite = GetSprite(spriteListFull);
-			spriteRendererLightOn.sprite = null;
 			integrity.soundOnHit = "GlassHit";
 		}
-		else if (newState == LightMountState.On)
-		{
-			lightSource.Trigger(true);
-			spriteRenderer.sprite = GetSprite(spriteListFull);
-			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
-			integrity.soundOnHit = "GlassHit";
-		}
+		lightSource.ServerChangeLightState(LightState.Off);
+		spriteRendererLightOn.sprite = null;
 	}
 
 	//This one is for LightSource to make sure sprites and states are correct
