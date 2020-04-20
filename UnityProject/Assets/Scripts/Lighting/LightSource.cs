@@ -134,7 +134,7 @@ public class LightSource : ObjectTrigger,IAPCPowered
 			return;
 
 		//Highlighting all controlled lightSources
-		Gizmos.color = new Color(0, 1, 0, 1);
+		Gizmos.color = new Color(1, 1, 0, 1);
 		Gizmos.DrawLine(relatedLightSwitch.transform.position, gameObject.transform.position);
 		Gizmos.DrawSphere(relatedLightSwitch.transform.position, 0.25f);
 

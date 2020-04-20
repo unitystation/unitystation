@@ -91,6 +91,11 @@ public class APCPoweredDevice : NetworkBehaviour
 		UpdateSynchronisedState(State, State);
 	}
 
+	private void OnDestroy()
+	{
+		RemoveFromAPC();
+	}
+
 	public void PowerNetworkUpdate(float Voltage) //Could be optimised to not update when voltage is same as previous voltage
 	{
 		if (Powered == null) return;

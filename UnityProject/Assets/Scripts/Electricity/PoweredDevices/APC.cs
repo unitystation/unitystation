@@ -306,7 +306,6 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	private bool _emergencyState = false;
 	public void OnDespawnServer(DespawnInfo info)
 	{
-		Debug.Log("Apc is DESPAWNED");
 		for (int i = ConnectedDevices.Count-1; i >= 0; i--)
 		{
 			ConnectedDevices[i].RemoveFromAPC();
