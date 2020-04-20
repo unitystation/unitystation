@@ -16,9 +16,9 @@ namespace UI.CharacterCreator
 		private TMP_Text toggleText = null;
 
 		[SerializeField]
-		private Color yesColor;
+		private Color yesColor = new Color(0.1921126f, 0.496f, 0.1117746f);
 		[SerializeField]
-		private Color noColor;
+		private Color noColor = new Color(0.563f, 0.1209127f, 0.08690602f);
 
 		[SerializeField]
 		private AntagonistPreferences antagPrefsUI = null;

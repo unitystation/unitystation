@@ -27,7 +27,7 @@ namespace Antagonists
 
 		[Tooltip("Can this antag get objectives from the shared objective pool?")]
 		[SerializeField]
-		private bool canUseSharedObjectives;
+		private bool canUseSharedObjectives = false;
 		/// <summary>
 		/// Can this antag get objectives from the shared objective pool?
 		/// </summary>

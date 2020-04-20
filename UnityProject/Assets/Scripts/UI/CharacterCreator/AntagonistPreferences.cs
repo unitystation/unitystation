@@ -9,10 +9,10 @@ namespace UI.CharacterCreator
 	public class AntagonistPreferences : MonoBehaviour
 	{
 		[SerializeField]
-		private GameObject antagEntryTemplate;
+		private GameObject antagEntryTemplate = null;
 
 		[SerializeField]
-		private AntagData antagData;
+		private AntagData antagData = null;
 
 		private Dictionary<string, AntagEntry> antagEntries = new Dictionary<string, AntagEntry>();
 		private bool isPopulated;

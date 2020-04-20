@@ -41,7 +41,7 @@ public class Department : ScriptableObject
 	[SerializeField]
 	[Tooltip("Occupations which are the heads of this department, can include multiple or be empty. " +
 			 "Used for job allocation and will appear at the top of the department in job preferences.")]
-	private Occupation[] headOccupations;
+	private Occupation[] headOccupations = null;
 	/// <summary>
 	/// All head of department occupations
 	/// </summary>

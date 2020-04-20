@@ -19,7 +19,7 @@ public abstract class GameMode : ScriptableObject
 	[Header("General Settings")]
 	[Tooltip("The name of the game mode")]
 	[SerializeField]
-	private string gameModeName;
+	private string gameModeName = "New Game Mode";
 	/// <summary>
 	/// The name of the game mode
 	/// </summary>
@@ -28,7 +28,7 @@ public abstract class GameMode : ScriptableObject
 	[Tooltip("A description of the game mode")]
 	[SerializeField]
 	[TextArea]
-	private string description;
+	private string description = "";
 	/// <summary>
 	/// The description of the game mode
 	/// </summary>
@@ -36,7 +36,7 @@ public abstract class GameMode : ScriptableObject
 
 	[Tooltip("Should players be allowed to respawn?")]
 	[SerializeField]
-	private bool canRespawn;
+	private bool canRespawn = false;
 	/// <summary>
 	/// Is respawning enabled in this game mode
 	/// </summary>
@@ -76,7 +76,7 @@ public abstract class GameMode : ScriptableObject
 	[Tooltip("Is the game mode possible if the player count multiplied by the antagRatio doesn't meet the minAntags? " +
 			 "E.g. If true, when antagRatio is 0.2 and minAntags is 1, you need at least 5 players to start the game mode.")]
 	[SerializeField]
-	private bool requiresMinAntags;
+	private bool requiresMinAntags = false;
 	/// <summary>
 	/// Is the game mode possible if the <see cref="antagRatio"/> doesn't meet the <see cref="minAntags"/>?
 	/// E.g. If true, when antagRatio is 0.2 and minAntags is 1, then you need at least 5 players to start the game mode.
@@ -86,7 +86,7 @@ public abstract class GameMode : ScriptableObject
 	[Tooltip("Are antags on the same team or are they lone wolves?" +
 			 "Used for the end of round antag report.")]
 	[SerializeField]
-	private bool teamGameMode;
+	private bool teamGameMode = false;
 	/// <summary>
 	/// Are antags on the same team or are they lone wolves?
 	/// Used for the end of round antag report.
@@ -95,7 +95,7 @@ public abstract class GameMode : ScriptableObject
 
 	[Tooltip("Can antags spawn during the round?")]
 	[SerializeField]
-	private bool midRoundAntags;
+	private bool midRoundAntags = false;
 	/// <summary>
 	/// Can antags spawn during the round?
 	/// </summary>
@@ -104,7 +104,7 @@ public abstract class GameMode : ScriptableObject
 	[FormerlySerializedAs("chooseAntagsBeforeJobs")]
 	[Tooltip("Should antags be allocated a job? If true, will choose antags after allocating jobs.")]
 	[SerializeField]
-	private bool allocateJobsToAntags;
+	private bool allocateJobsToAntags = false;
 	/// <summary>
 	/// Should antags be allocated a job?
 	/// If true, will choose antags after allocating jobs.
@@ -113,7 +113,7 @@ public abstract class GameMode : ScriptableObject
 
 	[Tooltip("The possible antagonists for this game mode")]
 	[SerializeField]
-	private List<Antagonist> possibleAntags;
+	private List<Antagonist> possibleAntags = null;
 	/// <summary>
 	/// The possible antagonists for this game mode
 	/// </summary>
