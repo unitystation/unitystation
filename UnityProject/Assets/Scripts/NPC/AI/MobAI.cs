@@ -395,7 +395,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		followTimeMax = -1f;
 		followingTime = 0f;
 	}
-	
+
 	///<summary>
 	/// Triggers on creatures with Pettable component when petted.
 	///</summary>
@@ -406,11 +406,28 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		var dir = (performer.transform.position - transform.position).normalized;
 		dirSprites.ChangeDirection(dir);
 	}
+
 	///<summary>
 	/// Triggers when the explorer targets people and found one
 	///</summary>
 	///<param name="player">PlayerScript from the found player</param>
 	public virtual void ExplorePeople (PlayerScript player){}
+
+	/// <summary>
+	/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction
+	/// </summary>
+	/// <param name="dir"></param>
+	/// <param name="healthBehaviour"></param>
+	/// <param name="doLerpAnimation"></param>
+	public virtual void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour) {}
+
+	/// <summary>
+	/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction
+	/// </summary>
+	/// <param name="roundToInt"></param>
+	/// <param name="dir"></param>
+	/// <param name="doLerpAnimation"></param>
+	public virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir) {}
 
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{
