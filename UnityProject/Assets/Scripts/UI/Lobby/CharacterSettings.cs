@@ -40,8 +40,6 @@ public class CharacterSettings
 	{
 		ValidateName();
 		ValidateJobPreferences();
-		// TODO:
-		// ValidateAntagPreferences();
 	}
 
 	/// <summary>

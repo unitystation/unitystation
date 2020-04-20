@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Antagonists;
+using DatabaseAPI;
 using UnityEngine;
 
 namespace UI.CharacterCreator
@@ -28,7 +30,7 @@ namespace UI.CharacterCreator
 
 		private void OnDisable()
 		{
-			//SaveAntagPreferences();
+			SaveAntagPreferences();
 		}
 
 		/// <summary>
@@ -47,7 +49,7 @@ namespace UI.CharacterCreator
 
 			foreach (var antag in antags)
 			{
-				var newEntryGO = Instantiate(antagEntryTemplate.gameObject);
+				var newEntryGO = Instantiate(antagEntryTemplate.gameObject, antagEntryTemplate.transform.parent);
 				var entry = newEntryGO.GetComponent<AntagEntry>();
 				entry.Setup(antag);
 				antagEntries.Add(antag.AntagName, entry);
@@ -56,8 +58,16 @@ namespace UI.CharacterCreator
 			isPopulated = true;
 		}
 
+		/// <summary>
+		/// Sets all antags to be a certain value
+		/// </summary>
+		/// <param name="isEnabled"></param>
 		public void SetAllAntags(bool isEnabled)
 		{
+			foreach (string key in antagPrefs.Keys.ToList())
+			{
+				antagPrefs[key] = isEnabled;
+			}
 			foreach (var entry in antagEntries.Values)
 			{
 				entry.SetToggle(isEnabled);
@@ -70,6 +80,13 @@ namespace UI.CharacterCreator
 		private void LoadAntagPreferences()
 		{
 			antagPrefs = PlayerManager.CurrentCharacterSettings.AntagPreferences;
+			if (antagPrefs.Keys.Count == 0)
+			{
+				// Default all antags to true
+				SetAllAntags(true);
+				SaveAntagPreferences();
+			}
+
 			foreach (var prefKvp in antagPrefs)
 			{
 				string antagName = prefKvp.Key;
@@ -83,6 +100,15 @@ namespace UI.CharacterCreator
 											"or was the antag renamed?", Category.Antags, antagName);
 				}
 			}
+		}
+
+		/// <summary>
+		/// Save all antag preferences to the player manager
+		/// </summary>
+		private void SaveAntagPreferences()
+		{
+			PlayerManager.CurrentCharacterSettings.AntagPreferences = antagPrefs;
+			ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings);
 		}
 
 		/// <summary>
