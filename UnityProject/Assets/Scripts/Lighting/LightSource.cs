@@ -146,7 +146,6 @@ public class LightSource : ObjectTrigger,IAPCPowered
 	}
 	public void StateUpdate(PowerStates State)
 	{
-		Debug.Log("PowerStateChange");
 		switch (State)
 		{
 			case PowerStates.On:

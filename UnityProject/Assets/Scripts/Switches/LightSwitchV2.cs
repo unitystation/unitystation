@@ -53,7 +53,6 @@ namespace Lighting
 			StartCoroutine(SwitchCoolDown());
 			if (powerState == PowerStates.Off) return;
 			ServerChangeState(!isOn);
-			Debug.Log("Switch Pressed");
 		}
 
 		private void SyncState(bool oldState, bool newState)
