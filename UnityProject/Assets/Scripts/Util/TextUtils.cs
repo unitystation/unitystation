@@ -69,4 +69,19 @@ public static class TextUtils
 
 		return nearestColor;
 	}
+
+	/// <summary>
+	/// Copies the supplied text to the systems clipboard.
+	/// </summary>
+	/// <param name="text"></param>
+	/// <returns></returns>
+	public static void CopyTextToClipboard(string text)
+	{
+		//Apparently, the TextEditor component has native functionality to copy stuff to clipboard.
+		//This may create garbage, but it shouldn't be called very often so this should be fine.
+		TextEditor temp = new TextEditor();
+		temp.text = text;
+		temp.SelectAll();
+		temp.Copy();
+	}
 }
