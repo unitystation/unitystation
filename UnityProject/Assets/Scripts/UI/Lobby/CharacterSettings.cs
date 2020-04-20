@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using UI.CharacterCreator;
 
 /// <summary>
 /// Class containing all character preferences for a player
@@ -29,6 +30,7 @@ public class CharacterSettings
 	public string UnderwearName = "Mankini";
 	public string SocksName = "Knee-High (Freedom)";
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
+	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
 
 	/// <summary>
 	/// Does nothing if all the character's properties are valid
@@ -38,6 +40,8 @@ public class CharacterSettings
 	{
 		ValidateName();
 		ValidateJobPreferences();
+		// TODO:
+		// ValidateAntagPreferences();
 	}
 
 	/// <summary>
