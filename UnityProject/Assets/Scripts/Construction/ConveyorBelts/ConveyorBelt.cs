@@ -14,7 +14,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private Matrix Matrix => registerTile.Matrix;
 
 	[SyncVar(hook = nameof(SyncDirection))]
-	private ConveyorDirection CurrentDirection;
+	public ConveyorDirection CurrentDirection;
 
 	private ConveyorStatus CurrentStatus = ConveyorStatus.Off;
 
@@ -41,6 +41,8 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	}
 
 	//Avoiding the use of coroutines as this could run on many conveyor belts
+	//This is needed so items and players are getting yeeted from being pushed by belts
+	//each frame
 	void UpdateMe()
 	{
 		if (!processMoves) return;
@@ -66,13 +68,13 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void OnStart()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		spriteHandler.ChangeSprite((int) CurrentStatus);
-		spriteHandler.ChangeSpriteVariant((int) CurrentDirection);
+		RefreshSprites();
 	}
 
 	public override void OnStartServer()
 	{
-		CheckNeighbours();
+		//CheckNeighbours();
+		RefreshSprites();
 	}
 
 	public override void OnStartClient()
@@ -245,14 +247,14 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public virtual void TransportPlayer(PlayerSync player)
 	{
-		//teleports player to the next tile
-		player?.SetPosition(registerTile.WorldPosition + position);
+		//push player to the next tile
+		player?.Push(position.To2Int());
 	}
 
 	[Server]
 	public virtual void Transport(CustomNetTransform item)
 	{
-		item?.SetPosition(registerTile.WorldPosition + position);
+		item?.Push(position.To2Int());
 	}
 
 	private enum ConveyorStatus
