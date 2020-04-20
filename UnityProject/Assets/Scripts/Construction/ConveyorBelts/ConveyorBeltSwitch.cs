@@ -98,20 +98,9 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 
 	void MoveConveyorBelt()
 	{
-		if (currentState == State.Backward)
+		for (int i = 0; i < conveyorBelts.Count; i++)
 		{
-			for (int i = 0; i < conveyorBelts.Count; i++)
-			{
-				if (conveyorBelts[i] != null) conveyorBelts[i].MoveBelt();
-			}
-		}
-
-		if (currentState == State.Forward)
-		{
-			for (int i = conveyorBelts.Count - 1; i >= 0; i--)
-			{
-				if (conveyorBelts[i] != null) conveyorBelts[i].MoveBelt();
-			}
+			if (conveyorBelts[i] != null) conveyorBelts[i].MoveBelt();
 		}
 	}
 

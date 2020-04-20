@@ -25,6 +25,8 @@ public static class ConveyorDirections
 				case 4:
 					if (input == 1) return ConveyorBelt.ConveyorDirection.Down;
 					return ConveyorBelt.ConveyorDirection.RightDown;
+				case 5:
+					return ConveyorBelt.ConveyorDirection.RightDown;
 		}
 
 		return ConveyorBelt.ConveyorDirection.Right;
