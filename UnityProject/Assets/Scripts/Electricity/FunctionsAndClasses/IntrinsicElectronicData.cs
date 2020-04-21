@@ -224,6 +224,13 @@ public class IntrinsicElectronicData
 		return conns;
 	}
 
+	public string  ShowInGameDetails()
+	{
+		ElectricityFunctions.WorkOutActualNumbers(this);
+		return ("Component : " + Categorytype +  "\nVoltage > " + Data.ActualVoltage.ToEngineering("V") + " Current > " + Data.CurrentInWire.ToEngineering("A"));
+	}
+
+
 	public virtual void ShowDetails()
 	{
 		ElectricityFunctions.WorkOutActualNumbers(this);

@@ -15,7 +15,7 @@ public class Occupation : ScriptableObject
 	[FormerlySerializedAs("JobType")]
 	[SerializeField]
 	[Tooltip("Type of occupation.")]
-	private JobType jobType;
+	private JobType jobType = JobType.NULL;
 	public JobType JobType => jobType;
 
 	[FormerlySerializedAs("InventoryPopulator")]

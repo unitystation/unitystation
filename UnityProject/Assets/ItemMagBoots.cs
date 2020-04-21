@@ -93,6 +93,8 @@ public class ItemMagBoots : NetworkBehaviour,
 	[Server]
 	public void ServerChangeState(ConnectedPlayer newPlayer)
 	{
+		if (!ValidPlayer()) return;
+
 		isOn = !isOn;
 		player = newPlayer;
 
@@ -117,6 +119,8 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	private void OnPlayerDeath()
 	{
+		if (!ValidPlayer()) return;
+
 		if (isServer)
 		{
 			if (isOn)
@@ -164,5 +168,12 @@ public class ItemMagBoots : NetworkBehaviour,
 		{
 			ServerChangeState(SentByPlayer);
 		}
+	}
+
+	private bool ValidPlayer()
+	{
+		if (player == null || player.Script == null
+		                   || player.Script.playerHealth == null) return false;
+		return true;
 	}
 }

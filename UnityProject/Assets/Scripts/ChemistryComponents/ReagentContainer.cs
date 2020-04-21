@@ -274,6 +274,8 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 		ReagentMix.Add(addition);
 
 		//Reactions happen here
+		if (reactionSet == null) return new TransferResult {Success = false, TransferAmount = 0f, Message = ""} ;
+
 		reactionSet.Apply(this, ReagentMix);
 		CurrentCapacity = ReagentMix.Total;
 		Clean();
@@ -306,7 +308,7 @@ public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerS
 	/// Extracts reagents to be used outside ReagentContainer
 	/// </summary>
 	public ReagentMix TakeReagents(float amount)
-	{	
+	{
 		var takeMix = ReagentMix.Take(amount);
 		OnReagentMixChanged?.Invoke();
 		return takeMix;

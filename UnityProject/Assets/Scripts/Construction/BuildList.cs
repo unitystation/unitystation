@@ -83,8 +83,8 @@ namespace Construction
 			/// </summary>
 			/// <param name="at"></param>
 			/// <param name="buildingMaterial">object being used in hand to build this.</param>
-			/// <returns>true iff successful</returns>
-			public bool ServerBuild(SpawnDestination at, BuildingMaterial buildingMaterial)
+			/// <returns>true game object if successful</returns>
+			public GameObject ServerBuild(SpawnDestination at, BuildingMaterial buildingMaterial)
 			{
 				var stackable = buildingMaterial.GetComponent<Stackable>();
 				if (stackable != null)
@@ -95,7 +95,7 @@ namespace Construction
 						                        "Tried building {0} with insufficient materials in hand ({1})." +
 						                        " Build will not be performed.", Category.Construction, name,
 							buildingMaterial);
-						return false;
+						return null;
 					}
 					stackable.ServerConsume(cost);
 				}
@@ -107,13 +107,13 @@ namespace Construction
 						                        "Tried building {0} with insufficient materials in hand ({1})." +
 						                        " Build will not be performed.", Category.Construction, name,
 							buildingMaterial);
-						return false;
+						return null;
 					}
 
 					Inventory.ServerDespawn(buildingMaterial.GetComponent<Pickupable>().ItemSlot);
 				}
 
-				return Spawn.ServerPrefab(prefab, at, spawnAmount).Successful;
+				return Spawn.ServerPrefab(prefab, at, spawnAmount)?.GameObject;
 			}
 
 			/// <summary>

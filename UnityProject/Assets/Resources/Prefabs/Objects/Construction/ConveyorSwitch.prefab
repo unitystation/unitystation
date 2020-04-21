@@ -100,7 +100,7 @@ GameObject:
   - component: {fileID: 3348285834374005981}
   - component: {fileID: 7106149064385931371}
   - component: {fileID: -2763973709699312979}
-  m_Layer: 11
+  m_Layer: 23
   m_Name: ConveyorSwitch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -324,4 +324,5 @@ MonoBehaviour:
   spriteForward: {fileID: 21300000, guid: 2076e3faddc91074fa1b0cebfe9672b1, type: 3}
   spriteBackward: {fileID: 21300000, guid: 32ff77b6e05d3aa4faee423469f979de, type: 3}
   spriteOff: {fileID: 21300000, guid: dda53721035c8c44ba2b12f974f26488, type: 3}
+  ConveyorBeltSpeed: 0.8
   currentState: 0

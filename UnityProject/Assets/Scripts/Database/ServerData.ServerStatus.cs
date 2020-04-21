@@ -130,7 +130,7 @@ namespace DatabaseAPI
 
         private int GetPort()
         {
-	        int port = 7777;
+	        int port = (config.ServerPort != 0) ? config.ServerPort : 7777;
 	        if (telepathyTransport != null)
 	        {
 		        return Convert.ToInt32(telepathyTransport.port);
@@ -184,6 +184,7 @@ namespace DatabaseAPI
     {
         public string RconPass;
         public int RconPort;
+        public int ServerPort;
         //CertKey needed in the future for SSL Rcon
         public string certKey;
         public string HubUser;

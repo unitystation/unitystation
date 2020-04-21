@@ -295,11 +295,14 @@ public class  Matrix : MonoBehaviour
 		var list = ElectricalPool.GetFPCList();
 		if (ServerObjects != null)
 		{
-			foreach (var Object in ServerObjects.Get(position))
+			var collection = ServerObjects.Get(position);
+			for (int i = collection.Count - 1; i >= 0; i--)
 			{
-				if (Object?.ElectricalData?.InData != null)
+				if (i < collection.Count && collection[i] != null
+				    && collection[i].ElectricalData != null &&
+				    collection[i].ElectricalData.InData != null)
 				{
-					list.Add(Object?.ElectricalData?.InData);
+					list.Add(collection[i].ElectricalData.InData);
 				}
 			}
 		}

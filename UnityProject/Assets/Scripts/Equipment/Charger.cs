@@ -31,7 +31,7 @@ public class Charger : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPo
 
 	private void SyncState(ChargeState old, ChargeState newState)
 	{
-		if (chargeState != newState)
+		if (old != newState)
 		{
 			chargeState = newState;
 			spriteHandler.ChangeSprite((int)chargeState);
