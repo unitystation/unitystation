@@ -162,7 +162,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		//translate to the tile interaction system
 
 		//pass the interaction down to the basic tile
-		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget);
+		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget, true);
 		if (tile is BasicTile basicTile)
 		{
 			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
@@ -194,7 +194,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		//find the indicated tile interaction
 		var worldPosTarget = (Vector2)performer.transform.position + targetVector;
 		//pass the interaction down to the basic tile
-		LayerTile tile = LayerTileAt(worldPosTarget);
+		LayerTile tile = LayerTileAt(worldPosTarget, true);
 		if (tile is BasicTile basicTile)
 		{
 			if (tileInteractionIndex >= basicTile.TileInteractions.Count)
@@ -227,7 +227,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	{
 		Logger.Log("Interaction detected on InteractableTiles.");
 
-		LayerTile tile = LayerTileAt(interaction.ShadowWorldLocation);
+		LayerTile tile = LayerTileAt(interaction.ShadowWorldLocation, true);
 
 		if(tile is BasicTile basicTile)
 		{
