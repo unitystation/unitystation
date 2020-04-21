@@ -1,13 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 using Lighting;
-using Lucene.Net.Util;
-using Mirror;
 using NUnit.Framework;
 using UnityEngine;
-using UnityEngine.TestTools;
 
 namespace Tests
 {
@@ -34,7 +29,7 @@ namespace Tests
 				   report.AppendLine(obStr);
 			   }
 		   }
-		   Assert.That(count, Is.EqualTo(listOfDevices.Length));
+		   Assert.That(count, Is.EqualTo(0),$"APCPoweredDevice count in the scene: {listOfDevices.Length}");
 	    }
 
 	    [Test]
@@ -55,11 +50,11 @@ namespace Tests
 				    count++;
 				    var obStr = objectDevice.name;
 				    devicesWithoutAPC.Add(obStr);
-				    //Logger.Log(obStr, Category.Tests);
+				    Logger.Log(obStr, Category.Tests);
 				    report.AppendLine(obStr);
 			    }
 		    }
-		    Assert.That(count, Is.EqualTo(listOfDevices.Length));
+		    Assert.That(count, Is.EqualTo(0),$"LightSource count in the scene: {listOfDevices.Length}");
 	    }
 
 	    [Test]
@@ -82,12 +77,14 @@ namespace Tests
 				    report.AppendLine(obStr);
 			    }
 		    }
-		    Assert.That(count, Is.EqualTo(listOfDevices.Length));
+		    Assert.That(count, Is.EqualTo(0),$"Switches count in the scene: {listOfDevices.Length}");
 	    }
 
 	    [Test]
 	    public void CheckAll_SwitchesFor_LightSourcesInTheList()
 	    {
+		    // Checks if light source from switch list
+		    // is assigned to the switch
 		    int count = 0;
 		    List<string> devicesWithoutAPC = new List<string>();
 		    var listOfDevices =  Resources.FindObjectsOfTypeAll(typeof(LightSwitchV2));
@@ -113,7 +110,41 @@ namespace Tests
 				    }
 			    }
 		    }
-		    Assert.That(count, Is.EqualTo(listOfDevices.Length));
+		    Assert.That(count, Is.EqualTo(0),$"APCs count in the scene: {listOfDevices.Length}");
+	    }
+
+	    [Test]
+	    public void CheckAll_APCsFor_ConnectedDevicesInTheList()
+	    {
+		    // Checks if powered device from APC list
+		    // is assigned to the APC
+		    int count = 0;
+		    List<string> devicesAPC = new List<string>();
+		    var listOfAPCs =  Resources.FindObjectsOfTypeAll(typeof(APC));
+		    var report = new StringBuilder();
+		    Logger.Log("Devices without properly defined APC", Category.Tests);
+		    foreach (var apc in listOfAPCs)
+		    {
+			    var device = apc as APC;
+			    if (device.ConnectedDevices.Count == 0)
+			    {
+				    continue;
+			    }
+			    foreach (var connectedDevice in device.ConnectedDevices)
+			    {
+				    if (connectedDevice.RelatedAPC != device)
+				    {
+					    string obStr = connectedDevice.name;
+					    devicesAPC.Add(obStr);
+					    string apcStr = connectedDevice.RelatedAPC == null ? "null" : connectedDevice.RelatedAPC.name;
+					    Logger.Log($"\"{obStr}\" RelatedAPC is \"{apcStr}\", supposed to be \"{device.name}\"", Category.Tests);
+					    report.AppendLine(obStr);
+					    count++;
+				    }
+			    }
+		    }
+
+		    Assert.That(count, Is.EqualTo(0), $"APCs in the scene: {listOfAPCs.Length}");
 	    }
 
 	    [Test]
@@ -129,79 +160,6 @@ namespace Tests
 
 		    Assert.That(LightMountState.Off, Is.EqualTo(lightMountState.State));
 	    }
-
-	    /*[Test]
-        public void LightSwitchEventTest()
-        {
-	        GameObject gameObject  = new GameObject();
-	        gameObject.AddComponent<LightSource>();
-	        gameObject.AddComponent<LightSwitchV2>();
-	        var lightSource = gameObject.GetComponent<LightSource>();
-	        var lightSwitchV2 = gameObject.GetComponent<LightSwitchV2>();
-
-	        lightSource.SubscribeToSwitch(ref lightSwitchV2.switchTriggerEvent);
-
-	        lightSwitchV2.switchTriggerEvent.Invoke(false);
-
-	        Assert.That(lightSource.SwitchState, Is.False);
-        }
-        [Test]
-        public void LightSwitchEventTestUnsubscribe()
-        {
-	        GameObject gameObjectSwitch  = new GameObject();
-	        gameObjectSwitch.AddComponent<LightSwitchV2>();
-	        var lightSwitchV2 = gameObjectSwitch.GetComponent<LightSwitchV2>();
-
-	        GameObject Light2  = new GameObject();
-	        Light2.AddComponent<LightSource>();
-	        var light2 = Light2.GetComponent<LightSource>();
-	        light2.SubscribeToSwitch(ref lightSwitchV2.switchTriggerEvent);
-
-	        GameObject Light3  = new GameObject();
-	        Light3.AddComponent<LightSource>();
-	        var light3 = Light3.GetComponent<LightSource>();
-	        light3.SubscribeToSwitch(ref lightSwitchV2.switchTriggerEvent);
-
-	        GameObject Light4  = new GameObject();
-	        Light4.AddComponent<LightSource>();
-	        var light4 = Light2.GetComponent<LightSource>();
-	        light4.SubscribeToSwitch(ref lightSwitchV2.switchTriggerEvent);
-
-	        lightSwitchV2.switchTriggerEvent.Invoke(true);
-	        light3.UnSubscribeFromSwitch(ref lightSwitchV2.switchTriggerEvent);
-
-	        lightSwitchV2.switchTriggerEvent.Invoke(false);
-
-	        Assert.That(light2.SwitchState, Is.False);
-	        Assert.That(light3.SwitchState, Is.True);
-	        Assert.That(light4.SwitchState, Is.False);
-        }
-
-        [Test]
-        public void LightMountStatesTest()
-        {
-	        GameObject lightSourceObject = new GameObject();
-	        lightSourceObject.AddComponent<LightSource>();
-	        lightSourceObject.AddComponent<LightMountStates>();
-	        lightSourceObject.AddComponent<Integrity>();
-	        lightSourceObject.AddComponent<Directional>();
-	        var lightSource = lightSourceObject.GetComponent<LightSource>();
-	        lightSource.EnsureInit();
-	        var lightMountState = lightSourceObject.GetComponent<LightMountStates>();
-	        lightMountState.EnsureInit();
-
-	        GameObject gameObject  = new GameObject();
-	        gameObject.AddComponent<LightSwitchV2>();
-	        var lightSwitchV2 = gameObject.GetComponent<LightSwitchV2>();
-
-
-	        lightSource.SubscribeToSwitch(ref lightSwitchV2.switchTriggerEvent);
-
-	        lightSwitchV2.switchTriggerEvent.Invoke(false);
-
-	        Assert.That(lightSource.SwitchState, Is.False);
-	        //Assert.That(lightMountState.State, Is.EqualTo(LightMountState.Off));
-        }*/
 
     }
 }

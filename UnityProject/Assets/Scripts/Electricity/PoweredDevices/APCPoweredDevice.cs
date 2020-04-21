@@ -148,22 +148,8 @@ public class APCPoweredDevice : NetworkBehaviour
 		if (RelatedAPC == null)
 			return;
 
-		//Highlighting all controlled lightSources
-		switch (deviceType)
-		{
-			case DeviceType.Equipment:
-				Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
-				break;
-			case DeviceType.Lights:
-				Gizmos.color = new Color(1, 1, 0, 1);
-				break;
-			case DeviceType.Environment:
-				Gizmos.color = new Color(0, 1, 0, 1);
-				break;
-			default:
-				Gizmos.color = new Color(1, 1, 1, 1);
-				break;
-		}
+		//Highlighting APC
+		Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
 		Gizmos.DrawLine(RelatedAPC.transform.position, gameObject.transform.position);
 		Gizmos.DrawSphere(RelatedAPC.transform.position, 0.15f);
 	}
