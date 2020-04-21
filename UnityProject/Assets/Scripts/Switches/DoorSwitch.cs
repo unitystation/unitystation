@@ -76,6 +76,8 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		for (int i = 0; i < doorControllers.Length; i++)
 		{
+			if(doorControllers[i] == null) continue;
+
 			if (doorControllers[i].IsClosed)
 			{
 				if (doorControllers[i] != null)

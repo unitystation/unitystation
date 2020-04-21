@@ -140,9 +140,4 @@ public class ConnectedPlayer
 			UpdateConnectedPlayersMessage.Send();
 		}
 	}
-
-	public override string ToString()
-	{
-		return $"[clientID={ClientId}|conn={Connection.connectionId}|go={gameObject}|name='{name}'|job={job}|synced={Synced}]";
-	}
 }
