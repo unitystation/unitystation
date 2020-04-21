@@ -91,6 +91,17 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		return metaTileMap.GetTile(pos, ignoreEffectsLayer);
 	}
 
+	/// <summary>
+	/// Gets the LayerTile of the tile at the indicated position, null if no tile there (open space).
+	/// </summary>
+	/// <param name="worldPos"></param>
+	/// <returns></returns>
+	public LayerTile LayerTileAt(Vector2 worldPos, LayerTypeSelection ExcludedLayers)
+	{
+		Vector3Int pos = objectLayer.transform.InverseTransformPoint(worldPos).RoundToInt();
+
+		return metaTileMap.GetTile(pos, ExcludedLayers);
+	}
 
 	/// <summary>
 	/// Converts the world position to a cell position on these tiles.
@@ -151,7 +162,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		//translate to the tile interaction system
 
 		//pass the interaction down to the basic tile
-		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget);
+		LayerTile tile = LayerTileAt(interaction.WorldPositionTarget, true);
 		if (tile is BasicTile basicTile)
 		{
 			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
@@ -181,10 +192,9 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	public void ServerProcessInteraction(int tileInteractionIndex, GameObject performer, Vector2 targetVector,  GameObject processorObj, ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
 	{
 		//find the indicated tile interaction
-		var success = false;
 		var worldPosTarget = (Vector2)performer.transform.position + targetVector;
 		//pass the interaction down to the basic tile
-		LayerTile tile = LayerTileAt(worldPosTarget);
+		LayerTile tile = LayerTileAt(worldPosTarget, true);
 		if (tile is BasicTile basicTile)
 		{
 			if (tileInteractionIndex >= basicTile.TileInteractions.Count)
@@ -217,7 +227,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	{
 		Logger.Log("Interaction detected on InteractableTiles.");
 
-		LayerTile tile = LayerTileAt(interaction.ShadowWorldLocation);
+		LayerTile tile = LayerTileAt(interaction.ShadowWorldLocation, true);
 
 		if(tile is BasicTile basicTile)
 		{

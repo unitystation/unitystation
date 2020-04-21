@@ -17,9 +17,10 @@ MonoBehaviour:
   TileType: 8
   RequiredTiles:
   - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
-  WalkingSoundCategory: 0
+  floorTileType: 0
   atmosPassable: 0
   isSealed: 0
+  SpawnWithNoAir: 0
   oreCategory: 0
   MaxHealth: 0
   HealthStates: []

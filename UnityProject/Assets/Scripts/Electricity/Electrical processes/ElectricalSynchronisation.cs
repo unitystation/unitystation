@@ -4,6 +4,7 @@ using System.Threading;
 using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
+using System;
 using Debug = UnityEngine.Debug;
 #if UNITY_EDITOR
 using Unity.Profiling;
@@ -26,28 +27,26 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private int MillieSecondDelay;
 
-	public UnityEngine.Object Electriclock = new UnityEngine.Object();
-
 	private CustomSampler sampler;
+
+	public Thread thread;
 
 	ElectricalSynchronisation()
 	{
 		sampler = CustomSampler.Create("ElectricalStep");
 	}
 
-
-	public void Start()
+	public void StartSim()
 	{
-		return;
 		if (!running)
 		{
-			new Thread(Run).Start();
-
 			running = true;
+			thread = new Thread(Run);
+			thread.Start();
 		}
 	}
 
-	public void Stop()
+	public void StopSim()
 	{
 		running = false;
 	}
@@ -64,21 +63,21 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private void Run()
 	{
-		//Profiler.BeginThreadProfiling("Unitystation", "Electronics");
+		Profiler.BeginThreadProfiling("Unitystation", "Electronics");
 		while (running)
 		{
-			//	sampler.Begin();
+			sampler.Begin();
 			StopWatch.Restart();
 			RunStep();
 			StopWatch.Stop();
-			//	sampler.End();
+			sampler.End();
 			if (StopWatch.ElapsedMilliseconds < MillieSecondDelay)
 			{
 				Thread.Sleep(MillieSecondDelay - (int) StopWatch.ElapsedMilliseconds);
 			}
 		}
-
-		//Profiler.EndThreadProfiling();
+		Profiler.EndThreadProfiling();
+		thread.Abort();
 	}
 
 	//What keeps electrical Ticking
@@ -330,7 +329,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 		{
 			return;
 		}
-
+		//Logger.Log("IfStructureChange");
 		StructureChange = false;
 		foreach (var category in OrderList)
 		{
@@ -353,6 +352,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 	/// </summary>
 	private void PowerUpdateStructureChangeReact()
 	{
+		//Logger.Log("PowerUpdateStructureChangeReact");
 		for (int i = 0; i < OrderList.Count; i++)
 		{
 			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
@@ -371,15 +371,22 @@ public class ElectricalSynchronisation : MonoBehaviour
 	/// </summary>
 	private void PowerUpdateResistanceChange()
 	{
-		foreach (ElectricalNodeControl PoweredDevice in InitialiseResistanceChange)
+		for (int i = InitialiseResistanceChange.Count - 1; i >= 0; i--)
 		{
-			PoweredDevice.InitialPowerUpdateResistance();
+			if (i < InitialiseResistanceChange.Count)
+			{
+				InitialiseResistanceChange.ElementAt(i).InitialPowerUpdateResistance();
+			}
 		}
 
 		InitialiseResistanceChange.Clear();
-		foreach (ElectricalNodeControl PoweredDevice in ResistanceChange)
+
+		for (int i = ResistanceChange.Count - 1; i >= 0; i--)
 		{
-			PoweredDevice.PowerUpdateResistanceChange();
+			if (i < InitialiseResistanceChange.Count)
+			{
+				ResistanceChange.ElementAt(i).PowerUpdateResistanceChange();
+			}
 		}
 
 		ResistanceChange.Clear();
@@ -403,6 +410,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 	/// </summary>
 	private void PowerUpdateCurrentChange()
 	{
+		//Logger.Log("PowerUpdateCurrentChange");
 		for (int i = 0; i < UnconditionalSupplies.Count; i++)
 		{
 			foreach (ElectricalNodeControl TheSupply in AliveSupplies[OrderList[i]])
@@ -483,10 +491,11 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private void ThreadedPowerNetworkUpdate()
 	{
-		lock (Electriclock)
+		//Logger.Log("ThreadedPowerNetworkUpdate");
+		lock (ElectricalManager.ElectricalLock)
 		{
 			MainThreadProcess = true;
-			Monitor.Wait(Electriclock);
+			Monitor.Wait(ElectricalManager.ElectricalLock);
 		}
 	}
 
@@ -495,6 +504,7 @@ public class ElectricalSynchronisation : MonoBehaviour
 	/// </summary>
 	public void PowerNetworkUpdate()
 	{
+		//Logger.Log("PowerNetworkUpdate");
 		for (int i = 0; i < SupplyToadd.Count; i++)
 		{
 			InternalAddSupply(SupplyToadd[i]);

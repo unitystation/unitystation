@@ -772,7 +772,7 @@ namespace Mirror
 
             Respawn(identity);
 
-            if (!keepAuthority)
+            if (!keepAuthority && previousPlayer != null)
                 previousPlayer.RemoveClientAuthority();
 
             return true;

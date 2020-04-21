@@ -1,5 +1,6 @@
 ﻿
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -14,7 +15,7 @@ public class Department : ScriptableObject
 
 	[SerializeField]
 	[Tooltip("Display name for this department.")]
-	private string displayName;
+	private string displayName = null;
 	public string DisplayName => displayName;
 
 	[SerializeField]
@@ -35,11 +36,28 @@ public class Department : ScriptableObject
 	public Sprite Icon => icon;
 
 	[Header("Settings")]
-	// Settings defining gameplay-related aspects of the departmen.
+	// Settings defining gameplay-related aspects of the department.
+
+	[SerializeField]
+	[Tooltip("Occupations which are the heads of this department, can include multiple or be empty. " +
+			 "Used for job allocation and will appear at the top of the department in job preferences.")]
+	private Occupation[] headOccupations = null;
+	/// <summary>
+	/// All head of department occupations
+	/// </summary>
+	public IEnumerable<Occupation> HeadOccupations => headOccupations;
 
 	[SerializeField]
 	[Tooltip("Occupations associated with this department, and the order in which" +
-	         "they should be displayed in job preferences.")]
-	private Occupation[] occupations;
+			 "they should be displayed in job preferences.")]
+	private Occupation[] occupations = null;
+	/// <summary>
+	/// All non-head of department occupations for this department
+	/// </summary>
 	public IEnumerable<Occupation> Occupations => occupations;
+
+	/// <summary>
+	/// All head and non-head occupations in this department
+	/// </summary>
+	public IEnumerable<Occupation> AllOccupations => headOccupations.Concat(occupations);
 }

@@ -34,7 +34,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	[Tooltip("Whether this slot is initially visible in the UI.")]
 	[SerializeField]
-	private bool initiallyHidden;
+	private bool initiallyHidden = false;
 
 
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
@@ -219,7 +219,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			{
 				image.material.SetInt("_IsPaletted", 0);
 			}
-			
+
 
 			if (spriteRends.Length > 1)
 			{

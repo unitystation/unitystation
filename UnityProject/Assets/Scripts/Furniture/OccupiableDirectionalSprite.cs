@@ -81,7 +81,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 
 	private void EnsureInit()
 	{
-		if (directional != null) return;
+		if (directional != null || gameObject == null) return;
 		directional = GetComponent<Directional>();
 		directional.OnDirectionChange.AddListener(OnDirectionChanged);
 		OnDirectionChanged(directional.CurrentDirection);

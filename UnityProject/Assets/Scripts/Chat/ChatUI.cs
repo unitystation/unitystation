@@ -22,8 +22,6 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private GameObject activeRadioChannelPanel = null;
 	[SerializeField] private GameObject activeChannelTemplate = null;
 	[SerializeField] private InputField InputFieldChat = null;
-	[SerializeField] private Image scrollHandle = null;
-	[SerializeField] private Image scrollBackground = null;
 	[SerializeField] private Transform thresholdMarker = null;
 	[SerializeField] private AdminHelpChat adminHelpChat = null;
 	private bool windowCoolDown = false;
@@ -270,8 +268,8 @@ public class ChatUI : MonoBehaviour
 
 	private void DetermineScrollBarState(bool coolDownFade)
 	{
-		//revisit when we work on chat system v2
-		return;
+		// TODO revisit when we work on chat system v2
+		/*
 		if ((allEntries.Count - hiddenEntries) < 20)
 		{
 			float fadeTime = 0f;
@@ -284,6 +282,7 @@ public class ChatUI : MonoBehaviour
 			scrollBackground.CrossFadeAlpha(1f, 0f, false);
 			scrollHandle.CrossFadeAlpha(1f, 0f, false);
 		}
+		*/
 	}
 
 	//This is an editor interface trigger event, do not delete
@@ -472,7 +471,6 @@ public class ChatUI : MonoBehaviour
 			return;
 		}
 
-		Logger.Log($"Creating channel toggle for {channel}", Category.UI);
 		// Create the toggle button
 		GameObject channelToggleItem =
 			Instantiate(channelToggleTemplate, channelToggleTemplate.transform.parent, false);
@@ -834,6 +832,6 @@ public class ChatUI : MonoBehaviour
 		else
 		{
 			adminHelpChat.gameObject.SetActive(true);
-		} 
+		}
 	}
 }

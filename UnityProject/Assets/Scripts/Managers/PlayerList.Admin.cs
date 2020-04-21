@@ -24,7 +24,6 @@ public partial class PlayerList
 	private string banPath;
 	private List<string> whiteListUsers = new List<string>();
 	private string whiteListPath;
-	private bool thisClientIsAdmin;
 	public string AdminToken { get; private set; }
 
 	[Server]
@@ -308,7 +307,7 @@ public partial class PlayerList
 
 
 		//banlist checking:
-		var banEntry = banList?.CheckForEntry(Userid, unverifiedConnPlayer.Connection.address);
+		var banEntry = banList?.CheckForEntry(Userid, unverifiedConnPlayer.Connection.address, unverifiedClientId);
 		if (banEntry != null)
 		{
 			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
@@ -365,7 +364,6 @@ public partial class PlayerList
 
 	public void SetClientAsAdmin(string _adminToken)
 	{
-		thisClientIsAdmin = true;
 		AdminToken = _adminToken;
 		ControlTabs.Instance.ToggleOnAdminTab();
 		Logger.Log("You have logged in as an admin. Admin tools are now available.");
@@ -426,7 +424,6 @@ public partial class PlayerList
 		bool ban = false, int banLengthInMinutes = 0)
 	{
 		string message = "";
-		string clientID = connPlayer.ClientId;
 		if (ban)
 		{
 			message = $"You have been banned for {banLengthInMinutes}" +
@@ -445,10 +442,11 @@ public partial class PlayerList
 				minutes = banLengthInMinutes,
 				reason = reason,
 				dateTimeOfBan = DateTime.Now.ToString("O"),
-				ipAddress = connPlayer.Connection.address
+				ipAddress = connPlayer.Connection.address,
+				clientId = connPlayer.ClientId
 			});
 
-			File.WriteAllText(banPath, JsonUtility.ToJson(banList));
+			SaveBanList();
 		}
 		else
 		{
@@ -464,7 +462,7 @@ public partial class PlayerList
 			yield break;
 		}
 
-		Logger.Log($"Kicking client {clientID} : {message}");
+		Logger.Log($"Kicking client {connPlayer.Username} : {message}");
 		InfoWindowMessage.Send(connPlayer.GameObject, message, "Disconnected");
 
 		yield return WaitFor.Seconds(1f);
@@ -486,21 +484,17 @@ public class BanList
 {
 	public List<BanEntry> banEntries = new List<BanEntry>();
 
-	public BanEntry CheckForEntry(string userId, string ipAddress)
+	public BanEntry CheckForEntry(string userId, string ipAddress, string clientId)
 	{
-		var index = banEntries.FindIndex(x => x.userId == userId);
-		if (index == -1)
+		var index = banEntries.FindIndex(x => x.userId == userId
+		                                      || x.ipAddress == ipAddress
+		                                      || x.clientId == clientId);
+		if (index != -1)
 		{
-			var ipIndex = banEntries.FindIndex(x => x.ipAddress == ipAddress);
-			if (ipIndex != -1)
-			{
-				return banEntries[ipIndex];
-			}
-
-			return null;
+			return banEntries[index];
 		}
 
-		return banEntries[index];
+		return null;
 	}
 }
 [Serializable]
@@ -512,4 +506,5 @@ public class BanEntry
 	public string dateTimeOfBan;
 	public string reason;
 	public string ipAddress;
+	public string clientId;
 }

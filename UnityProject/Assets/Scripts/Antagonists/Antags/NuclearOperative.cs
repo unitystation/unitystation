@@ -6,16 +6,11 @@ namespace Antagonists
 	[CreateAssetMenu(menuName="ScriptableObjects/Antagonist/NuclearOperative")]
 	public class NuclearOperative : Antagonist
 	{
-
-		[Tooltip("Occupation that nuclear operatives should spawn as.")]
-		[SerializeField]
-		private Occupation nuclearOperativeOccupation = null;
-
 		// add any NuclearOperative specific logic here
 		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{
 			//spawn as a nuke op regardless of the requested occupation
-			var newPlayer = PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, nuclearOperativeOccupation,
+			var newPlayer = PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, AntagOccupation,
 				spawnRequest.CharacterSettings);
 
 			//send the code:

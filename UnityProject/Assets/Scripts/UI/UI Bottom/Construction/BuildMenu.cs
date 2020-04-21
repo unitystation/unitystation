@@ -13,8 +13,9 @@ namespace UI.UI_Bottom
 		private GameObject listItemPrefab = null;
 
 		[Tooltip("content panel into which the list items should be placed")]
-		[SerializeField]
-		public GameObject contentPanel;
+		[SerializeField] private GameObject contentPanel;
+
+		[SerializeField] private ConveyorBuildMenu conveyorBuildMenu;
 
 		//current object whose menu is being shown
 		private BuildingMaterial currentBuildingMaterial;
@@ -27,6 +28,7 @@ namespace UI.UI_Bottom
 		/// <param name="buildingMaterial"></param>
 		public void ShowBuildMenu(BuildingMaterial buildingMaterial)
 		{
+			conveyorBuildMenu.gameObject.SetActive(false);
 			transform.GetChild(0).gameObject.SetActive(true);
 			currentBuildingMaterial = buildingMaterial;
 			//delete previous results
@@ -40,6 +42,12 @@ namespace UI.UI_Bottom
 			{
 				CreateListItem(entry);
 			}
+		}
+
+		public void ShowConveyorBeltMenu(BuildList.Entry entry, BuildingMaterial buildingMaterial)
+		{
+			CloseBuildMenu();
+			conveyorBuildMenu.OpenConveyorBuildMenu(entry, buildingMaterial);
 		}
 
 		public void CloseBuildMenu()

@@ -62,7 +62,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 		footer.SetActive(false);
 		waitMessage.SetActive(true);
 
-		PlayerManager.LocalViewerScript.CmdRequestJob(preference, PlayerManager.CurrentCharacterSettings);
+		PlayerManager.LocalViewerScript.RequestJob(preference);
 		waitForSpawnTimer = waitForSpawnTimerMax;
 	}
 
@@ -170,7 +170,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 		occupationGO.GetComponent<Image>().color = Color.white;
 		occupationGO.GetComponentInChildren<TextMeshProUGUI>().text = "Spectate";
 		occupationGO.transform.localScale = new Vector3(1.0f, 1f, 1.0f);
-		occupationGO.GetComponent<Button>().onClick.AddListener(() => { PlayerManager.LocalViewerScript.CmdSpectacte(); });
+		occupationGO.GetComponent<Button>().onClick.AddListener(() => { PlayerManager.LocalViewerScript.CmdSpectate(); });
 
 	}
 }

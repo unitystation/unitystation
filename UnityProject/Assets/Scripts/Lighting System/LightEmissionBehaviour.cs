@@ -17,7 +17,7 @@ public class LightEmissionBehaviour : MonoBehaviour
 	[SerializeField]
 	[Range(0, 1)]
 	[Tooltip("Additional flat white color helps lit black sprites, if required.")]
-	private float mAdditionalEmission;
+	private float mAdditionalEmission = 0;
 
 	[SerializeField]
 	[Tooltip("Scaling option to control glow size.")]
@@ -86,7 +86,7 @@ public class LightEmissionBehaviour : MonoBehaviour
 
 	/// <summary>
 	/// Trigger synchronization of rendering parameters.
-	/// Using OnWillRenderObject will insure that synchronization happens only when necessary. 
+	/// Using OnWillRenderObject will insure that synchronization happens only when necessary.
 	/// </summary>
 	private void OnWillRenderObject()
 	{

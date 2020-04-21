@@ -18,11 +18,11 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	[SerializeField]
 	[FormerlySerializedAs("Sparks")]
-	private ParticleSystem sparksPrefab;
+	private ParticleSystem sparksPrefab = null;
 
 	[SerializeField]
 	[FormerlySerializedAs("Sparks")]
-	private ParticleSystem smokePrefab;
+	private ParticleSystem smokePrefab = null;
 
 	public float MaximumInstantBreakCurrent;
 	public float MaximumBreakdownCurrent;
@@ -30,6 +30,8 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	public bool CheckDestruction;
 	public float DestructionPriority;
 	public bool CanOverCurrent = true;
+
+	private bool BeingDestroyed = false;
 
 	private bool CheckOverlap = false;
 	public bool IsInGamePlaced = false;
@@ -80,19 +82,10 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		//ElectricalSynchronisation.StructureChange = true;
 		PowerUpdateStructureChange();
 	}
-	void Start()
-	{
-		SetDirection(WireEndB, WireEndA, CableType);
-		wireConnect = GetComponent<WireConnect>();
-		wireConnect.ControllingCable = this;
-		//StartCoroutine(WaitForLoad());
-	}
-
 
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
-		SetDirection(WireEndB, WireEndA, CableType);
 		wireConnect = GetComponent<WireConnect>();
 		wireConnect.ControllingCable = this;
 		StartCoroutine(WaitForLoad());
@@ -127,11 +120,9 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public virtual void PowerNetworkUpdate()
 	{
-		//Logger.Log("PowerNetworkUpdate");
 		ElectricityFunctions.WorkOutActualNumbers(wireConnect.InData);
 		if (CheckOverlap)
 		{
-			//Logger.Log("CheckOverlap");
 			CheckOverlap = false;
 			FindOverlapsAndCombine();
 
@@ -200,7 +191,6 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(1);
-
 		//Logger.Log("AddElectricalNode");
 		if (!IsInGamePlaced)
 		{
@@ -211,13 +201,14 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public void ConvertToTile(bool editor = false)
 	{
-		if (this != null)
+		if (this != null && !BeingDestroyed)
 		{
 			if (wireConnect.InData.WireEndA != Connection.NA | wireConnect.InData.WireEndB != Connection.NA)
 			{
 				var searchVec = wireConnect.registerTile.LocalPosition;
 				if (wireConnect.SpriteHandler == null)
 				{
+					BeingDestroyed = true;
 					if (editor)
 					{
 						wireConnect.registerTile.Matrix.EditorAddElectricalNode(searchVec, wireConnect);
@@ -237,6 +228,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 					else
 					{
 						Despawn.ServerSingle(gameObject);
+
 					}
 					wireConnect.InData.DestroyAuthorised = false;
 					wireConnect.InData.DestroyQueueing = false;
@@ -302,6 +294,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 								SetDirection(WireEndB, WireEndA, CableType);
 								//ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
 								Econns[i].DestroyThisPlease();
+								return;
 							}
 							else if (Econns[i].WireEndB == Connection.Overlap)
 							{
@@ -315,6 +308,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 								SetDirection(WireEndB, WireEndA, CableType);
 								//ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
 								Econns[i].DestroyThisPlease();
+								return;
 							}
 						}
 					}

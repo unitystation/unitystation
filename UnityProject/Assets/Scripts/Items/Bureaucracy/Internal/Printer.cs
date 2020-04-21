@@ -39,14 +39,15 @@ namespace Assets.Scripts.Items.Bureaucracy.Internal
 			return new Printer(TrayCount + 1, TrayCapacity, TrayOpen);
 		}
 
-		public bool CanPrint(string content) =>
+		public bool CanPrint(string content, bool isAvailableForPrinting) =>
 			content != null
 			&& !TrayOpen
-			&& TrayCount > 0;
+			&& TrayCount > 0
+			&& isAvailableForPrinting;
 
-		public Printer Print(string content, GameObject printerObj)
+		public Printer Print(string content, GameObject printerObj, bool isAvailableForPrinting)
 		{
-			if (!CanPrint(content))
+			if (!CanPrint(content, isAvailableForPrinting))
 				throw new InvalidOperationException("Cannot print");
 
 			var prefab = Spawn.GetPrefabByName("Paper");

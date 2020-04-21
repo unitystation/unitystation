@@ -102,6 +102,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1042895037894172, guid: 9de39208d8b9b5044aab78843d0c4f34,
         type: 3}
+    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: powerTypeCategory
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: m_Color.r
@@ -182,11 +187,42 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745385122, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745389440, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.1462264
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745389440, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.65061575
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745389440, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745406775, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Name
+      value: low Cable Coil
+      objectReference: {fileID: 0}
     - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: stacksWith.Array.data[0]
       value: 
       objectReference: {fileID: 7657921970005526780}
+    - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: stacksWith.Array.data[1]
+      value: 
+      objectReference: {fileID: 4433336198165141055, guid: 827dad187b7a6e449b5b73aa0e691a38,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3e6805b264a935428b0de415ea57943, type: 3}
 --- !u!1 &7657921970005526780 stripped

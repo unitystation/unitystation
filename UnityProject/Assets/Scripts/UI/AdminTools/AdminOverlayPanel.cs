@@ -10,7 +10,7 @@ namespace AdminTools
 	/// </summary>
 	public class AdminOverlayPanel : MonoBehaviour
 	{
-		[SerializeField] private Text displayText;
+		[SerializeField] private Text displayText = null;
 		private ObjectBehaviour targetObjBehaviour;
 		private AdminOverlay adminOverlay;
 		private Transform target;

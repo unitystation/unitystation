@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &5126976011242611182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568672687853555390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 498378a6a03686e4fa4b6e365b6e0d42, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StorageItemName: 2
 --- !u!1 &5625205706954716596
 GameObject:
   m_ObjectHideFlags: 0
@@ -46,6 +59,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -99,19 +113,6 @@ MonoBehaviour:
   spriteIndex: 0
   variantIndex: 0
   SetSpriteOnStartUp: 0
---- !u!114 &5126976011242611182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8568672687853555390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 498378a6a03686e4fa4b6e365b6e0d42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StorageItemName: 2
 --- !u!1001 &4934267206829871565
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -233,7 +234,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
-      objectReference: {fileID: 4900000, guid: a573fc0ded5a2154aa5079101aa1308d, type: 3}
+      objectReference: {fileID: 4900000, guid: 302532a603e80734c9180e6c3400fb06, type: 3}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: itemSprites.RightHand.Texture
@@ -267,7 +268,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
-      objectReference: {fileID: 4900000, guid: 95806317972fadbe881b1966d5e3603e, type: 3}
+      objectReference: {fileID: 4900000, guid: 67304a68bac6a0544b3e1c140b1baf2a, type: 3}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: initialName

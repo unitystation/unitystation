@@ -11,7 +11,7 @@ public class WorldGateway : StationGateway
 {
 
 	[SerializeField]
-	private GameObject StationGateway;// doesnt have to be station just the gateway this one will connect to
+	private GameObject StationGateway = null;// doesnt have to be station just the gateway this one will connect to
 
 	public bool IsOnlineAtStart = false;
 

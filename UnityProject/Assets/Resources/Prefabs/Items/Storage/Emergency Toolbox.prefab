@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -99,6 +100,25 @@ MonoBehaviour:
   spriteIndex: 0
   variantIndex: 0
   SetSpriteOnStartUp: 0
+--- !u!114 &4595770748390540386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8568672687853555390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackableMaterials: 1
+  materialCost: 10
+  reagentContainer: 0
+  craftItem:
+  - {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8, type: 3}
+  assembly: {fileID: 8622575264684028204, guid: 4ea433b6871fa2b4193194fd6be7a8ce,
+    type: 3}
 --- !u!114 &7730546641517030926
 MonoBehaviour:
   m_ObjectHideFlags: 0
