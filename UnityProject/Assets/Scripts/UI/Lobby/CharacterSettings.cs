@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
+using UI.CharacterCreator;
 
 /// <summary>
 /// Class containing all character preferences for a player
@@ -29,6 +31,29 @@ public class CharacterSettings
 	public string UnderwearName = "Mankini";
 	public string SocksName = "Knee-High (Freedom)";
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
+	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
+
+	public override string ToString()
+	{
+		var sb = new StringBuilder($"{Username}'s character settings:\n", 300);
+		sb.AppendLine($"Name: {Name}");
+		sb.AppendLine($"Gender: {Gender}");
+		sb.AppendLine($"ClothingStyle: {ClothingStyle}");
+		sb.AppendLine($"BagStyle: {BagStyle}");
+		sb.AppendLine($"Age: {Age}");
+		sb.AppendLine($"Speech: {Speech}");
+		sb.AppendLine($"HairStyleName: {HairStyleName}");
+		sb.AppendLine($"HairColor: {HairColor}");
+		sb.AppendLine($"EyeColor: {EyeColor}");
+		sb.AppendLine($"FacialHairName: {FacialHairName}");
+		sb.AppendLine($"FacialHairColor: {FacialHairColor}");
+		sb.AppendLine($"SkinTone: {SkinTone}");
+		sb.AppendLine($"UnderwearName: {UnderwearName}");
+		sb.AppendLine($"SocksName: {SocksName}");
+		sb.AppendLine($"JobPreferences: \n\t{string.Join("\n\t", JobPreferences)}");
+		sb.AppendLine($"AntagPreferences: \n\t{string.Join("\n\t", AntagPreferences)}");
+		return sb.ToString();
+	}
 
 	/// <summary>
 	/// Does nothing if all the character's properties are valid
