@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
-
+using System;
 
 /// <summary>
 ///     Allows a door to be interacted with.
@@ -40,8 +40,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 
 	public void ClientPredictInteraction(HandApply interaction)
 	{
-		allowInput = false;
-		StartCoroutine(DoorInputCoolDown());
+		StartInputCoolDown();
 	}
 
 	//nothing to rollback
@@ -54,7 +53,8 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		if (Controller.IsClosed && Controller.IsAutomatic)
 		{
-			Controller.ServerTryOpen(byPlayer);
+			HackingNode onAttemptOpen = Controller.GetNodeOfEnum(DoorController.NodeNames.OnAttemptOpen);
+			onAttemptOpen.InputReceived(byPlayer);
 		}
 	}
 
@@ -64,7 +64,8 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		// Close the door if it's open
 		if (!Controller.IsClosed)
 		{
-			Controller.ServerTryClose();
+			HackingNode onAttemptClose = Controller.GetNodeOfEnum(DoorController.NodeNames.OnAttemptClose);
+			onAttemptClose.InputReceived(interaction.Performer);
 		}
 		else
 		{
@@ -89,7 +90,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 						.ServerStartProgress(interaction.Performer.transform.position, weldTime, interaction.Performer);
 						if (bar != null)
 						{
-							SoundManager.PlayNetworkedAtPos("Weld", interaction.Performer.transform.position, Random.Range(0.8f, 1.2f), sourceObj: interaction.Performer);
+							SoundManager.PlayNetworkedAtPos("Weld", interaction.Performer.transform.position, UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: interaction.Performer);
 							Chat.AddExamineMsgFromServer(interaction.Performer, "You start " + (Controller.IsWelded ? "unwelding" : "welding") + " the door...");
 						}
 
@@ -107,10 +108,36 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 					return;
 				}
 			}
+			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
+			{
+				var screwdriver = interaction.HandObject.GetComponent<Screwdriver>();
+				if (interaction.Intent != Intent.Help)
+				{
+
+					if (Controller != null)
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer,
+							"You " + (Controller.IsHackPanelOpen ? "close" : "open") + " the doors' control panel.");
+						Controller.ServerTryToggleHackPanel();
+					}
+
+					return;
+				}
+			}
 			// Attempt to open if it's closed
-			Controller.ServerTryOpen(interaction.Performer);
+			//Tell the OnAttemptOpen node to activate. Node is by default wired to attempt to open the door.
+			HackingNode onAttemptOpen = Controller.GetNodeOfEnum(DoorController.NodeNames.OnAttemptOpen);
+			onAttemptOpen.InputReceived(interaction.Performer);
 		}
 
+		StartInputCoolDown();
+	}
+
+	/// <summary>
+	/// Called on the door to put inputs on it on cooldown.
+	/// </summary>
+	public void StartInputCoolDown()
+	{
 		allowInput = false;
 		StartCoroutine(DoorInputCoolDown());
 	}
