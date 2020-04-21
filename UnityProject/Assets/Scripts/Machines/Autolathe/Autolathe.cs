@@ -8,16 +8,29 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 	[SyncVar(hook = nameof(SyncSprite))]
 	private AutolatheState stateSync;
 
+	[SerializeField]
 	private SpriteHandler spriteHandler = null;
-	private SpriteSheetAndData idleSprite = null;
-	private SpriteSheetAndData productionSprite = null;
-	private SpriteSheetAndData acceptingMaterialsSprite = null;
-	private RegisterObject registerObject = null;
-
-	private MaterialStorage materialStorage = null;
 
 	[SerializeField]
-	private MachineProductsCollection autoLatheProducts = null;
+	private SpriteSheetAndData idleSprite = null;
+
+	[SerializeField]
+	private SpriteSheetAndData productionSprite = null;
+
+	[SerializeField]
+	private SpriteSheetAndData acceptingMaterialsSprite = null;
+
+	private RegisterObject registerObject = null;
+
+	[SerializeField]
+	private MaterialStorage materialStorage = null;
+
+	public MaterialStorage MaterialStorage { get => materialStorage; }
+
+	[SerializeField]
+	private MachineProductsCollection autolatheProducts = null;
+
+	public MachineProductsCollection AutolatheProducts { get => autolatheProducts; }
 
 	public delegate void MaterialsManipulating();
 
@@ -33,6 +46,12 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		Production,
 	}
 
+	public override void OnStartClient()
+	{
+		SyncSprite(AutolatheState.Idle, AutolatheState.Idle);
+		base.OnStartClient();
+	}
+
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		EnsureInit();
@@ -45,11 +64,11 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 
 	public void EnsureInit()
 	{
-		idleSprite = spriteHandler.Sprites[0];
-		productionSprite = spriteHandler.Sprites[1];
-		acceptingMaterialsSprite = spriteHandler.Sprites[2];
 		SyncSprite(AutolatheState.Idle, AutolatheState.Idle);
-		materialStorage = this.GetComponent<MaterialStorage>();
+	}
+
+	public void OnEnable()
+	{
 		registerObject = GetComponent<RegisterObject>();
 	}
 
@@ -108,7 +127,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 	{
 		stateSync = AutolatheState.AcceptingMaterials;
 
-		yield return WaitFor.Seconds(1.2f);
+		yield return WaitFor.Seconds(0.9f);
 		if (stateSync == AutolatheState.Production)
 		{
 			//Do nothing if production was started during the material insertion animation
@@ -151,7 +170,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		stateSync = AutolatheState.Production;
 		yield return WaitFor.Seconds(productionTime);
 
-		Spawn.ServerPrefab(productObject, registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: 1);
+		Spawn.ServerPrefab(productObject, registerObject.WorldPositionServer, transform.parent, count: 1);
 		stateSync = AutolatheState.Idle;
 	}
 

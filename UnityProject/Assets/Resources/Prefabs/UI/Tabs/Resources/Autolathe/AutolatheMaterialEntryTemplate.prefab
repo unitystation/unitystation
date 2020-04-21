@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9033320568909400992
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8781422490786299763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8484e916a6d43c5438ffc407081e8f81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7979972394477849301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7,6 +19,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 61098404866985462, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: ServerMethod.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -9033320568909400992}
+    - target: {fileID: 61098404866985462, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: ServerMethod.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DispenseMaterial
+      objectReference: {fileID: 0}
     - target: {fileID: 356771763154939573, guid: 475e99927a9922941948733967a89656,
         type: 3}
       propertyPath: m_EffectColor.r
@@ -162,6 +184,16 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.31764707
       objectReference: {fileID: 0}
+    - target: {fileID: 4168167386509142445, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: ServerMethod.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -9033320568909400992}
+    - target: {fileID: 4168167386509142445, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: ServerMethod.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DispenseMaterial
+      objectReference: {fileID: 0}
     - target: {fileID: 5459351300904395961, guid: 475e99927a9922941948733967a89656,
         type: 3}
       propertyPath: m_EffectColor.r
@@ -192,6 +224,16 @@ PrefabInstance:
       propertyPath: m_EffectColor.b
       value: 0.10588236
       objectReference: {fileID: 0}
+    - target: {fileID: 7849728828091085161, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: ServerMethod.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: -9033320568909400992}
+    - target: {fileID: 7849728828091085161, guid: 475e99927a9922941948733967a89656,
+        type: 3}
+      propertyPath: ServerMethod.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: DispenseMaterial
+      objectReference: {fileID: 0}
     - target: {fileID: 8582807679481865445, guid: 475e99927a9922941948733967a89656,
         type: 3}
       propertyPath: m_Color.r
@@ -207,5 +249,12 @@ PrefabInstance:
       propertyPath: m_Color.b
       value: 0.31764707
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4223155886838364445, guid: 475e99927a9922941948733967a89656, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 475e99927a9922941948733967a89656, type: 3}
+--- !u!1 &8781422490786299763 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1685313445592298918, guid: 475e99927a9922941948733967a89656,
+    type: 3}
+  m_PrefabInstance: {fileID: 7979972394477849301}
+  m_PrefabAsset: {fileID: 0}
