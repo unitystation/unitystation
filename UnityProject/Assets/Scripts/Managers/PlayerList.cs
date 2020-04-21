@@ -466,9 +466,16 @@ public partial class PlayerList : NetworkBehaviour
 		if (isReady)
 		{
 			// Update connection with locked in job prefs
-			player.CharacterSettings = charSettings;
+			if (charSettings != null)
+			{
+				player.CharacterSettings = charSettings;
+			}
+			else
+			{
+				Logger.LogError($"{player.Username} was set to ready with NULL character settings:\n{player}");
+			}
 			ReadyPlayers.Add(player);
-			Logger.Log($"Set {player.Username} to ready! Character settings:\n{charSettings}");
+			Logger.Log($"Set {player.Username} to ready with these character settings:\n{charSettings}");
 		}
 		else
 		{
