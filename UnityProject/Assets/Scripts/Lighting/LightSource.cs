@@ -152,8 +152,10 @@ public class LightSource : ObjectTrigger,IAPCPowered
 				Trigger(true);
 				return;
 			case PowerStates.LowVoltage:
+				Trigger(false);
 				return;
 			case PowerStates.OverVoltage:
+				Trigger(true);
 				return;
 			default:
 				Trigger(false);

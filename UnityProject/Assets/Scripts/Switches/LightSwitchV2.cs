@@ -51,7 +51,7 @@ namespace Lighting
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			StartCoroutine(SwitchCoolDown());
-			if (powerState == PowerStates.Off) return;
+			if (powerState == PowerStates.Off || powerState == PowerStates.LowVoltage) return;
 			ServerChangeState(!isOn);
 		}
 
@@ -99,8 +99,12 @@ namespace Lighting
 					powerState = State;
 					break;
 				case PowerStates.LowVoltage:
+					ServerChangeState(false);
+					powerState = State;
 					break;
 				case PowerStates.OverVoltage:
+					ServerChangeState(true);
+					powerState = State;
 					break;
 				default:
 					ServerChangeState(false);
