@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using NPC.AI;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace NPC.AI.Hostile
+namespace NPC
 {
 	public class FaceHuggerAI : MobAI, ICheckedInteractable<HandApply>, IServerSpawn
 	{

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NPC.AI.Hostile
+namespace NPC
 {
 	/// <summary>
 	/// Enemy Statue NPC's

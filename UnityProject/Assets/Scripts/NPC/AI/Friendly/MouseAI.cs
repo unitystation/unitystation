@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace NPC.AI.Friendly
+namespace NPC
 {
 	/// <summary>
 	/// AI brain for mice

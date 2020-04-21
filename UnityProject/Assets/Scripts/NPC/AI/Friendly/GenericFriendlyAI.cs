@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace NPC.AI.Friendly
+namespace NPC
 {
 	public class GenericFriendlyAI : MobAI
 	{

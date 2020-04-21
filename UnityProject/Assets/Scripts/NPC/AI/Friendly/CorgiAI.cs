@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NPC.AI.Friendly
+namespace NPC
 {
 	/// <summary>
 	/// Magical dog AI brain for corgis!

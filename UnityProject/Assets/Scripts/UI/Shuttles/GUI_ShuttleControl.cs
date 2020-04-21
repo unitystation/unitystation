@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using NPC.AI.Friendly;
+using NPC;
 using UnityEngine;
 
 /// Server only stuff
@@ -114,7 +114,7 @@ public class GUI_ShuttleControl : NetTab
 	private void AddEmagItems()
 	{
 		EntryList.AddItems( MapIconType.Human, GetObjectsOf<PlayerScript>(player => !player.IsDeadOrGhost) );
-		EntryList.AddItems( MapIconType.Ian , GetObjectsOf<CorgiAI>() );
+		EntryList.AddItems( MapIconType.Ian , GetObjectsOf<NPC.CorgiAI>() );
 		EntryList.AddItems( MapIconType.Nuke , GetObjectsOf<Nuke>() );
 
 		RescanElements();

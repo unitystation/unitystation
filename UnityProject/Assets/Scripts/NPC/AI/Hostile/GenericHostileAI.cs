@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace NPC.AI.Hostile
+namespace NPC
 {
 	/// <summary>
 	/// Generic hostile AI that will attack all players
