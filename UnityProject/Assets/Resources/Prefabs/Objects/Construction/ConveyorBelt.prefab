@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 3348285834374005981}
   - component: {fileID: 7106149064385931371}
   - component: {fileID: 7393164251923224906}
-  m_Layer: 11
+  m_Layer: 23
   m_Name: ConveyorBelt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -380,3 +380,5 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 3569393190955387615}
+  CurrentDirection: 0
+  CurrentStatus: 0
