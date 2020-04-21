@@ -21,6 +21,7 @@ public class RequestInventoryTransferMessage : ClientMessage
 	public override void Process()
 	{
 		LoadMultipleObjects(new uint[]{FromStorage, ToStorage});
+		if (NetworkObjects[0] == null || NetworkObjects[1] == null) return;
 
 		var fromSlot = ItemSlot.Get(NetworkObjects[0].GetComponent<ItemStorage>(), FromNamedSlot, FromSlotIndex);
 		var toSlot = ItemSlot.Get(NetworkObjects[1].GetComponent<ItemStorage>(), ToNamedSlot, ToSlotIndex);
