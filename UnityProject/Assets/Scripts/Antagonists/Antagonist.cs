@@ -57,6 +57,14 @@ namespace Antagonists
 		/// </summary>
 		public Occupation AntagOccupation => antagOccupation;
 
+		[Tooltip("Should this antag show up as an option in the antag preferences?")]
+		[SerializeField]
+		private bool showInPreferences = true;
+		/// <summary>
+		/// Should this antag show up as an option in the antag preferences?
+		/// </summary>
+		public bool ShowInPreferences => showInPreferences;
+
 		/// <summary>
 		/// Server only. Spawn the joined viewer as the indicated antag, includes creating their player object
 		/// and transferring them to it.

@@ -44,7 +44,7 @@ namespace UI.CharacterCreator
 				return;
 			}
 
-			var antags = antagData.GetAllAntags();
+			var antags = antagData.GetAllAntags().Where(a => a.ShowInPreferences);
 
 			foreach (var antag in antags)
 			{
@@ -80,17 +80,16 @@ namespace UI.CharacterCreator
 		{
 			antagPrefs = PlayerManager.CurrentCharacterSettings.AntagPreferences;
 
-			foreach (var prefKvp in antagPrefs)
+			foreach (string antagName in antagPrefs.Keys.ToList())
 			{
-				string antagName = prefKvp.Key;
 				if (antagEntries.ContainsKey(antagName))
 				{
-					antagEntries[antagName].SetToggle(prefKvp.Value);
+					antagEntries[antagName].SetToggle(antagPrefs[antagName]);
 				}
 				else
 				{
-					Logger.LogWarningFormat("There is no antag entry for {0}. Were entries populated incorrectly " +
-											"or was the antag renamed?", Category.Antags, antagName);
+					// Remove all antag prefs which aren't valid anymore.
+					antagPrefs.Remove(antagName);
 				}
 			}
 		}
