@@ -2,19 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExoFabPageProducts : NetPage
+public class GUI_AutolathePageProducts : NetPage
 {
 	[SerializeField]
 	private EmptyItemList productList = null;
 
-	public void DisplayProducts(MachineProductList exoFabProducts)
+	public void DisplayProducts(MachineProductList autolatheProducts)
 	{
-		List<MachineProduct> products = exoFabProducts.Products;
+		List<MachineProduct> products = autolatheProducts.Products;
 		productList.Clear();
 		productList.AddItems(products.Count);
 		for (int i = 0; i < products.Count; i++)
 		{
-			GUI_ExoFabItem item = productList.Entries[i] as GUI_ExoFabItem;
+			GUI_AutolatheItem item = productList.Entries[i] as GUI_AutolatheItem;
 			item.Product = products[i];
 		}
 	}

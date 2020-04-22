@@ -3,20 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-//Current features not implemented yet:
-//Add all products. There are not enough items yet for this feature to make sense.
-//The queue system has to be optimized, the list is currently recreated fully and then sent to the peepers.
+//Reused code from GUI_ExosuitFabricator
 
-public class GUI_ExosuitFabricator : NetTab
+public class GUI_Autolathe : NetTab
 {
 	[SerializeField]
-	private GUI_ExoFabPageMaterialsAndCategory materialsAndCategoryDisplay = null;
+	private GUI_AutolathePageMaterialsAndCategory materialsAndCategoryDisplay = null;
 
 	[SerializeField]
-	private GUI_ExoFabPageProducts productDisplay = null;
+	private GUI_AutolathePageProducts productDisplay = null;
 
 	[SerializeField]
-	private GUI_ExoFabQueueDisplay queueDisplay = null;
+	private GUI_AutolatheQueueDisplay queueDisplay = null;
 
 	[SerializeField]
 	private GUI_ExoFabPageBuildingProcess buildingPage = null;
@@ -24,7 +22,7 @@ public class GUI_ExosuitFabricator : NetTab
 	[SerializeField]
 	private NetPageSwitcher nestedSwitcher = null;
 
-	private ExosuitFabricator exosuitFabricator;
+	private Autolathe autolathe;
 
 	public Dictionary<string, GameObject[]> categoryNameToProductEntries = new Dictionary<string, GameObject[]>();
 
@@ -53,6 +51,7 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public ExoFabProductFinishedEvent OnProductFinishedEvent { get => onProductFinishedEvent; }
 
+	private bool inited = false;
 	private bool isUpdating = false;
 	private bool isProcessing = false;
 
@@ -67,6 +66,7 @@ public class GUI_ExosuitFabricator : NetTab
 		{
 			yield return WaitFor.EndOfFrame;
 		}
+		inited = true;
 		onProductAddClicked = new ExoFabProductAddClickedEvent();
 
 		OnProductAddClicked.AddListener(AddProductToQueue);
@@ -104,18 +104,18 @@ public class GUI_ExosuitFabricator : NetTab
 		onProductFinishedEvent.AddListener(ProcessQueue);
 
 		//Makes sure it connects with the ExosuitFabricator
-		exosuitFabricator = Provider.GetComponentInChildren<ExosuitFabricator>();
+		autolathe = Provider.GetComponentInChildren<Autolathe>();
 		//Subscribes to the MaterialsManipulated event
-		ExosuitFabricator.MaterialsManipulated += UpdateMaterialsDisplay;
+		Autolathe.MaterialsManipulated += UpdateMaterialsDisplay;
 
-		materialsAndCategoryDisplay.InitMaterialList(exosuitFabricator.materialStorage);
-		materialsAndCategoryDisplay.InitCategories(exosuitFabricator.exoFabProducts);
+		materialsAndCategoryDisplay.InitMaterialList(autolathe.MaterialStorage);
+		materialsAndCategoryDisplay.InitCategories(autolathe.AutolatheProducts);
 		OnTabOpened.AddListener(UpdateGUIForPeepers);
 	}
 
 	public void UpdateMaterialsDisplay()
 	{
-		materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorage);
+		materialsAndCategoryDisplay.UpdateMaterialList(autolathe.MaterialStorage);
 	}
 
 	//Everytime someone new looks at the tab, update the tab for the client
@@ -131,7 +131,7 @@ public class GUI_ExosuitFabricator : NetTab
 	private IEnumerator WaitForClient()
 	{
 		yield return new WaitForSeconds(0.2f);
-		materialsAndCategoryDisplay.UpdateMaterialList(exosuitFabricator.materialStorage);
+		materialsAndCategoryDisplay.UpdateMaterialList(autolathe.MaterialStorage);
 		queueDisplay.UpdateQueue();
 		isUpdating = false;
 	}
@@ -139,7 +139,7 @@ public class GUI_ExosuitFabricator : NetTab
 	//Used by buttons, which contains the amount and type to dispense
 	public void DispenseSheet(int amount, ItemTrait materialType)
 	{
-		exosuitFabricator.DispenseMaterialSheet(amount, materialType);
+		autolathe.DispenseMaterialSheet(amount, materialType);
 	}
 
 	public void AddProductToQueue(MachineProduct product)
@@ -170,7 +170,7 @@ public class GUI_ExosuitFabricator : NetTab
 
 	private IEnumerator ProcessQueueUntilUnable(MachineProduct processedProduct)
 	{
-		if (exosuitFabricator.CanProcessProduct(processedProduct))
+		if (autolathe.CanProcessProduct(processedProduct))
 		{
 			if (!nestedSwitcher.CurrentPage.Equals(buildingPage)) { nestedSwitcher.SetActivePage(buildingPage); }
 
@@ -241,51 +241,6 @@ public class GUI_ExosuitFabricator : NetTab
 
 	private void OnDestroy()
 	{
-		ExosuitFabricator.MaterialsManipulated -= UpdateMaterialsDisplay;
+		Autolathe.MaterialsManipulated -= UpdateMaterialsDisplay;
 	}
-}
-
-[System.Serializable]
-public class ExoFabProductAddClickedEvent : UnityEvent<MachineProduct>
-{
-}
-
-[System.Serializable]
-public class ExoFabRemoveProductClickedEvent : UnityEvent<int>
-{
-}
-
-[System.Serializable]
-public class ExoFabUpQueueClickedEvent : UnityEvent<int>
-{
-}
-
-[System.Serializable]
-public class ExoFabDownQueueClickedEvent : UnityEvent<int>
-{
-}
-
-[System.Serializable]
-public class ExoFabCategoryClickedEvent : UnityEvent<MachineProductList>
-{
-}
-
-[System.Serializable]
-public class ExoFabDispenseSheetClickedEvent : UnityEvent<int, ItemTrait>
-{
-}
-
-[System.Serializable]
-public class ExoFabClearQueueClickedEvent : UnityEvent
-{
-}
-
-[System.Serializable]
-public class ExoFabProcessQueueClickedEvent : UnityEvent
-{
-}
-
-[System.Serializable]
-public class ExoFabProductFinishedEvent : UnityEvent
-{
 }

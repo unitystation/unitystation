@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExoFabCategoryEntry : DynamicEntry
+public class GUI_AutolatheCategoryEntry : DynamicEntry
 {
-	private GUI_ExosuitFabricator ExoFabMasterTab = null;
+	private GUI_Autolathe autolatheMasterTab = null;
 	private MachineProductList exoFabProducts = null;
 
 	public MachineProductList ExoFabProducts
@@ -15,8 +15,8 @@ public class GUI_ExoFabCategoryEntry : DynamicEntry
 
 	public void OpenCategory()
 	{
-		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnCategoryClicked.Invoke(ExoFabProducts); }
-		else { ExoFabMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
+		if (autolatheMasterTab == null) { MasterTab.GetComponent<GUI_Autolathe>().OnCategoryClicked.Invoke(ExoFabProducts); }
+		else { autolatheMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
 	}
 
 	public void AddAllProducts()

@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GUI_ExoFabPageMaterialsAndCategory : NetPage
 {
-	[SerializeField] private EmptyItemList materialList;
-	[SerializeField] private EmptyItemList productCategoryList;
+	[SerializeField] private EmptyItemList materialList = null;
+	[SerializeField] private EmptyItemList productCategoryList = null;
 
 	public void InitMaterialList(MaterialStorage materialStorage)
 	{

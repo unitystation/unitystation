@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExoFabQueueDisplay : NetUIElement
+public class GUI_AutolatheQueueDisplay : NetUIElement
 {
 	private DictionaryMaterialToIntAmount MaterialAmountCache = null;
 
@@ -75,7 +75,7 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 		itemsInQueue.AddItems(currentProducts.Count);
 		for (int i = 0; i < currentProducts.Count; i++)
 		{
-			GUI_ExoFabQueueItem item = itemsInQueue.Entries[i] as GUI_ExoFabQueueItem;
+			GUI_AutolatheQueueItem item = itemsInQueue.Entries[i] as GUI_AutolatheQueueItem;
 			item.Product = currentProducts[i];
 			item.NumberInQueue = i;
 			item.ReInit();
@@ -99,7 +99,7 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 	}
 
 	//The first entry on list must have its up button disabled, the last down button disabled.
-	private void DisableUpDownButtons(GUI_ExoFabQueueItem item)
+	private void DisableUpDownButtons(GUI_AutolatheQueueItem item)
 	{
 		//Only one item
 		if (currentProducts.Count == 1)
@@ -117,5 +117,6 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 
 	public override void ExecuteServer()
 	{
+		throw new System.NotImplementedException();
 	}
 }
