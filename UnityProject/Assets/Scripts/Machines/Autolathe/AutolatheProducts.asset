@@ -138,6 +138,15 @@ MonoBehaviour:
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: c4090000
       productionTime: 4
+    - name: Health Analyzer
+      product: {fileID: 5914959498962467419, guid: 34a89eb06b04dc54eae02fc8048dd8f7,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: c800000064000000
+      productionTime: 4
   - categoryName: Dinnerware
     products:
     - name: Drinking Glass
@@ -165,7 +174,7 @@ MonoBehaviour:
         m_values: f4010000
       productionTime: 4
     - name: Proximity Sensor
-      product: {fileID: 2819670291326673133, guid: 09868dc1147587f4191af0a4defd8c1d,
+      product: {fileID: 3506820747392627008, guid: 1fa9f2d6fbcfef845bb2f5903ffcfd23,
         type: 3}
       materialToAmounts:
         m_keys:
