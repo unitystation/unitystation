@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace NPC
 {
@@ -178,6 +180,7 @@ namespace NPC
 		protected virtual void HandleDeathOrUnconscious()
 		{
 			if (!IsDead || deathSoundPlayed || deathSounds.Count <= 0) return;
+			ResetBehaviours();
 			deathSoundPlayed = true;
 			SoundManager.PlayNetworkedAtPos(
 				deathSounds.PickRandom(),
@@ -216,21 +219,31 @@ namespace NPC
 		{
 			base.UpdateMe();
 
-			if (!isServer) return;
+			if (!isServer)
+			{
+				return;
+			}
 
 			if (IsDead || IsUnconscious)
 			{
 				HandleDeathOrUnconscious();
+				return;
 			}
 
-			if (currentStatus == MobStatus.Searching)
+			switch (currentStatus)
 			{
-				HandleSearch();
-			}
-
-			if (currentStatus == MobStatus.Attacking || currentStatus == MobStatus.None)
-			{
-				MonitorIdleness();
+				case MobStatus.Searching:
+					HandleSearch();
+					break;
+				case MobStatus.Attacking:
+					MonitorIdleness();
+					break;
+				case MobStatus.None:
+					MonitorIdleness();
+					break;
+				default:
+					HandleSearch();
+					break;
 			}
 		}
 

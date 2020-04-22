@@ -53,15 +53,9 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		}
 	}
 
-	public bool IsDead
-	{
-		get { return health.IsDead; }
-	}
+	public bool IsDead => health.IsDead;
 
-	public bool IsUnconscious
-	{
-		get { return health.IsCrit; }
-	}
+	public bool IsUnconscious => health.IsCrit;
 
 	protected virtual void Awake()
 	{
