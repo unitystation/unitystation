@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -70,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 1daa9aaa2f9d8874cbfa3cac2cb400fc, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d6e44b50f3859f94694b5ae6a18bd1f6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -92,17 +93,17 @@ GameObject:
   - component: {fileID: 4354794864428666}
   - component: {fileID: 61442980425183844}
   - component: {fileID: 61828718115089044}
-  - component: {fileID: 114419139457667244}
-  - component: {fileID: 114426033591178068}
+  - component: {fileID: 114599001885558102}
   - component: {fileID: 114239634461430000}
-  - component: {fileID: 7797393742352403905}
-  - component: {fileID: 114523646684726672}
-  - component: {fileID: 114511804586140830}
-  - component: {fileID: 114949926480072206}
-  - component: {fileID: 114622348777250390}
-  - component: {fileID: 2376568579662189787}
+  - component: {fileID: 5576590868308224840}
+  - component: {fileID: 114622615258334520}
+  - component: {fileID: 114856365489096404}
+  - component: {fileID: 114902324251604404}
+  - component: {fileID: 114743726468459702}
+  - component: {fileID: 114871496431602404}
+  - component: {fileID: -4249458516495516063}
   m_Layer: 11
-  m_Name: Closet_BioHazard_Pink
+  m_Name: Closet_BioHazard_General
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -176,7 +177,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5410156, y: 0.8852539}
   m_EdgeRadius: 0
---- !u!114 &114419139457667244
+--- !u!114 &114599001885558102
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,20 +192,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114426033591178068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615565101381030}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  butcherTime: 2
-  butcherSound: BladeSlice
 --- !u!114 &114239634461430000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -219,15 +206,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialContents: {fileID: 11400000, guid: 039b67ba8f2de0e4f9bcdf7a7b95f4c7, type: 2}
+  initialContents: {fileID: 11400000, guid: fe55899fa8e8d4e4ab395599e3564203, type: 2}
   lockLight: {fileID: 0}
   IsLockable: 0
   playerLimit: 3
   metalDroppedOnDestroy: 2
   soundOnOpenOrClose: OpenClose
-  doorOpened: {fileID: 21300000, guid: d0008e92cac3da242b000e916e9ad29c, type: 3}
+  doorOpened: {fileID: 21300000, guid: c7f847bda05023f4e8208d4edf68c5bc, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
---- !u!114 &7797393742352403905
+--- !u!114 &5576590868308224840
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,7 +238,7 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &114523646684726672
+--- !u!114 &114622615258334520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,7 +257,7 @@ MonoBehaviour:
   AtmosPassable: 1
   Passable: 0
   closetType: 0
---- !u!114 &114511804586140830
+--- !u!114 &114856365489096404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,7 +270,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114949926480072206
+  ignoreExtraRotation: []
+--- !u!114 &114902324251604404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615565101381030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  butcherTime: 2
+  butcherSound: BladeSlice
+--- !u!114 &114743726468459702
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -297,6 +299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 20
     Bullet: 10
@@ -318,7 +321,7 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 1370
   initialIntegrity: 200
---- !u!114 &114622348777250390
+--- !u!114 &114871496431602404
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,10 +333,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &2376568579662189787
+--- !u!114 &-4249458516495516063
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,8 +351,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: biohazard closet
-  initialDescription: An acid-proof locker.
+  initialName: level 3 biohazard gear closet
+  initialDescription: t's a storage unit for level 3 biohazard gear.
   willHighlight: 1
   exportCost: 200
   exportName: closet
@@ -398,6 +402,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -422,7 +427,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 242cbea76c378e84384b2b561a8b20db, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d71e6f1439d85e24b8309f3b605f385a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
