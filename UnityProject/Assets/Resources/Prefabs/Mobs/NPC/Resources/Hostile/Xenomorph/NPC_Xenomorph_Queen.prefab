@@ -270,7 +270,7 @@ GameObject:
   - component: {fileID: 3493423571535560689}
   - component: {fileID: 3651291330810827203}
   - component: {fileID: 3708589072684735304}
-  - component: {fileID: 2976352357051723736}
+  - component: {fileID: 3448620070470626675}
   m_Layer: 12
   m_Name: NPC_Xenomorph_Queen
   m_TagString: Untagged
@@ -593,7 +593,7 @@ MonoBehaviour:
   attackVerb: slashed
   defaultTarget: 0
   meleeCoolDown: 0.4
---- !u!114 &2976352357051723736
+--- !u!114 &3448620070470626675
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -602,11 +602,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4827737755655954553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 243a3c078e195af4dadbc9f673627997, type: 3}
+  m_Script: {fileID: 11500000, guid: 84cd02d18c094950961c275572844115, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: Xenomorph
-  knockedDownRotation: -90
+  knockedDownRotation: 90
   deathSounds:
   - xenodie
   randomSound:
@@ -615,3 +615,8 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+  huggerCap: 4
+  fertility: 30
+  eggCooldown: 300
+  alienEgg: {fileID: 8331399007563457964, guid: 9473c17e4e7f2f24d99f2d788030cd9f,
+    type: 3}

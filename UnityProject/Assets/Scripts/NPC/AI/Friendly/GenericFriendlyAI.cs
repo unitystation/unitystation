@@ -66,7 +66,7 @@ namespace NPC
 
 		protected virtual void DoRandomAction() {}
 
-		protected override void OnAttackReceived(GameObject damagedBy)
+		protected override void OnAttackReceived(GameObject damagedBy = null)
 		{
 			StartFleeing(damagedBy, 5f);
 		}
