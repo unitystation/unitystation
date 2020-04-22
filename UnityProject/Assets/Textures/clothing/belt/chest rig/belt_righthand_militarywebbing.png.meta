@@ -1,21 +1,21 @@
 fileFormatVersion: 2
-guid: 3d76882c2f388f84fb187c4d8fe581b2
+guid: b830043d31f62834d9ef62eefb6630e8
 TextureImporter:
   internalIDToNameTable:
   - first:
       213: 21300000
-    second: securitywebbing_0
+    second: militarywebbing_0
   - first:
       213: 21300002
-    second: securitywebbing_1
+    second: militarywebbing_1
   - first:
       213: 21300004
-    second: securitywebbing_2
+    second: militarywebbing_2
   - first:
       213: 21300006
-    second: securitywebbing_3
+    second: militarywebbing_3
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -69,6 +69,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -98,7 +99,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: securitywebbing_0
+      name: militarywebbing_0
       rect:
         serializedVersion: 2
         x: 0
@@ -119,7 +120,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: securitywebbing_1
+      name: militarywebbing_1
       rect:
         serializedVersion: 2
         x: 32
@@ -140,7 +141,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: securitywebbing_2
+      name: militarywebbing_2
       rect:
         serializedVersion: 2
         x: 64
@@ -161,7 +162,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: securitywebbing_3
+      name: militarywebbing_3
       rect:
         serializedVersion: 2
         x: 96
