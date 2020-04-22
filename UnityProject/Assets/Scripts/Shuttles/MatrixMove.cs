@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Light2D;
 using UnityEngine;
-using UnityEngine.Events;
 using Mirror;
 using UnityEngine.Serialization;
 
@@ -296,7 +295,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			CheckMovementServer();
 		}
 
-		
+
 	}
 
 	public override void UpdateMe()
@@ -380,7 +379,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		//To stop autopilot
 		DisableAutopilotTarget();
 		TryNotifyPlayers();
-		
+
 	}
 
 	/// Move for n tiles, regardless of direction, and stop
