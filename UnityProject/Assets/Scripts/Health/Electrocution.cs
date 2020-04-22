@@ -3,11 +3,16 @@ using UnityEngine;
 
 /// <summary>
 /// For electrocuting a victim. NPCs not emplemented, just (human) players.
-/// Might be a good idea to just receive a GameObject instead of requestiong both
-/// the shock origin's position and name separately.
 /// </summary>
 public class Electrocution
 {
+	/// <summary>
+	/// The electrocution severity.
+	/// <para>None: no potential difference (no side effects)</para> 
+	/// <para>Mild: exposure to voltage like that of a small battery (no consequential effects)</para>
+	/// <para>Painful: imagine an electric fence (drop actively held item, minor burns)</para>
+	/// <para>Lethal: high voltage line (stun, severe burns, death possible)</para>
+	/// </summary>
 	public enum Severity
 	{
 		None,
