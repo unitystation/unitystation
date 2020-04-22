@@ -2,19 +2,33 @@
 using System.Text;
 using Lighting;
 using NUnit.Framework;
+using UnityEditor;
 using UnityEngine;
 
 namespace Tests
 {
     public class LightSwitchTests
     {
+	    List<APCPoweredDevice> GetAllObjectsOnlyInScene()
+	    {
+		    List<APCPoweredDevice> objectsInScene = new List<APCPoweredDevice>();
+
+		    foreach (APCPoweredDevice go in Resources.FindObjectsOfTypeAll(typeof(APCPoweredDevice)))
+		    {
+			    if (!EditorUtility.IsPersistent(go.transform.root.gameObject) && !(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))
+				    objectsInScene.Add(go);
+		    }
+
+		    return objectsInScene;
+	    }
+
 	    [Test]
 	    [Ignore("Need to assign everything")]
 	    public void FindAll_PoweredDevices_WithoutRelatedAPC()
 	    {
 		    int count = 0;
 		    List<string> devicesWithoutAPC = new List<string>();
-		   var listOfDevices =  Resources.FindObjectsOfTypeAll(typeof(APCPoweredDevice));
+		   var listOfDevices =  GetAllObjectsOnlyInScene();
 		   var report = new StringBuilder();
 		   Logger.Log("Powered Devices without APC", Category.Tests);
 		   foreach (var objectDevice in listOfDevices)
@@ -30,8 +44,21 @@ namespace Tests
 				   report.AppendLine(obStr);
 			   }
 		   }
-		   Assert.That(count, Is.EqualTo(0),$"APCPoweredDevice count in the scene: {listOfDevices.Length}");
+		   Assert.That(count, Is.EqualTo(0),$"APCPoweredDevice count in the scene: {listOfDevices.Count}");
 	    }
+
+		private List<LightSource> GetAllLightSourcesInTheScene()
+		{
+		  List<LightSource> objectsInScene = new List<LightSource>();
+
+		  foreach (LightSource go in Resources.FindObjectsOfTypeAll(typeof(LightSource)))
+		  {
+			  if (!EditorUtility.IsPersistent(go.transform.root.gameObject) && !(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))
+				  objectsInScene.Add(go);
+		  }
+
+		  return objectsInScene;
+		}
 
 	    [Test]
 	    [Ignore("Need to assign everything")]
@@ -39,7 +66,7 @@ namespace Tests
 	    {
 		    int count = 0;
 		    List<string> devicesWithoutAPC = new List<string>();
-		    var listOfDevices =  Resources.FindObjectsOfTypeAll(typeof(LightSource));
+		    var listOfDevices =  GetAllLightSourcesInTheScene();
 		    var report = new StringBuilder();
 		    Logger.Log("LightSource without Switches", Category.Tests);
 		    foreach (var objectDevice in listOfDevices)
@@ -56,8 +83,22 @@ namespace Tests
 				    report.AppendLine(obStr);
 			    }
 		    }
-		    Assert.That(count, Is.EqualTo(0),$"LightSource count in the scene: {listOfDevices.Length}");
+		    Assert.That(count, Is.EqualTo(0),$"LightSource count in the scene: {listOfDevices.Count}");
 	    }
+
+		List<LightSwitchV2> GetAllLightSwitchesInTheScene()
+		{
+			List<LightSwitchV2> objectsInScene = new List<LightSwitchV2>();
+
+			foreach (LightSwitchV2 go in Resources.FindObjectsOfTypeAll(typeof(LightSwitchV2)))
+			{
+				if (!EditorUtility.IsPersistent(go.transform.root.gameObject) &&
+				    !(go.hideFlags == HideFlags.NotEditable || go.hideFlags == HideFlags.HideAndDontSave))
+					objectsInScene.Add(go);
+			}
+
+			return objectsInScene;
+		}
 
 	    [Test]
 	    [Ignore("Need to assign everything")]
@@ -65,7 +106,7 @@ namespace Tests
 	    {
 		    int count = 0;
 		    List<string> devicesWithoutAPC = new List<string>();
-		    var listOfDevices =  Resources.FindObjectsOfTypeAll(typeof(LightSwitchV2));
+		    var listOfDevices =  GetAllLightSwitchesInTheScene();
 		    var report = new StringBuilder();
 		    Logger.Log("Light switches without Lights", Category.Tests);
 		    foreach (var objectDevice in listOfDevices)
@@ -80,7 +121,7 @@ namespace Tests
 				    report.AppendLine(obStr);
 			    }
 		    }
-		    Assert.That(count, Is.EqualTo(0),$"Switches count in the scene: {listOfDevices.Length}");
+		    Assert.That(count, Is.EqualTo(0),$"Switches count in the scene: {listOfDevices.Count}");
 	    }
 
 	    [Test]
