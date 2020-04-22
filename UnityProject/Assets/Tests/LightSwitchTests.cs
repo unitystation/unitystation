@@ -1,15 +1,17 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using Lighting;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 
 namespace Tests
 {
     public class LightSwitchTests
     {
-	    List<APCPoweredDevice> GetAllObjectsOnlyInScene()
+	    List<APCPoweredDevice> GetAllPoweredDevicesInTheScene()
 	    {
 		    List<APCPoweredDevice> objectsInScene = new List<APCPoweredDevice>();
 
@@ -28,7 +30,7 @@ namespace Tests
 	    {
 		    int count = 0;
 		    List<string> devicesWithoutAPC = new List<string>();
-		   var listOfDevices =  GetAllObjectsOnlyInScene();
+		   var listOfDevices =  GetAllPoweredDevicesInTheScene();
 		   var report = new StringBuilder();
 		   Logger.Log("Powered Devices without APC", Category.Tests);
 		   foreach (var objectDevice in listOfDevices)
@@ -111,7 +113,7 @@ namespace Tests
 		    Logger.Log("Light switches without Lights", Category.Tests);
 		    foreach (var objectDevice in listOfDevices)
 		    {
-			    var device = objectDevice as LightSwitchV2;
+			    var device = objectDevice;
 			    if (device.listOfLights.Count == 0)
 			    {
 				    count++;
@@ -199,6 +201,146 @@ namespace Tests
 		    }
 
 		    Assert.That(count, Is.EqualTo(0), $"APCs in the scene: {listOfAPCs.Length}");
+	    }
+
+	    /// <summary>
+	    /// Checks only scenes selected for build
+	    /// </summary>
+	    [Test]
+	    public void CheckAllScenes_ForAPCPoweredDevices_WhichMissRelatedAPCs()
+	    {
+		    var buildScenes = EditorBuildSettings.scenes.Where(s => s.enabled);
+		    var missingAPCinDeviceReport = new List<(string, string)>();
+		    int countMissingAPC = 0;
+		    int countSelfPowered = 0;
+		    int countAll = 0;
+
+		    foreach (var scene in buildScenes)
+		    {
+			    var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
+			    var currentSceneName = currentScene.name;
+
+			    var listOfDevices =  GetAllPoweredDevicesInTheScene();
+			    foreach (var objectDevice in listOfDevices)
+			    {
+				    countAll++;
+				    var device = objectDevice;
+				    if (device.IsSelfPowered)
+				    {
+					    countSelfPowered++;
+					    continue;
+				    }
+				    if (device.RelatedAPC == null)
+				    {
+					    countMissingAPC++;
+					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name));
+				    }
+			    }
+		    }
+
+		    // Form report about missing components
+		    var report = new StringBuilder();
+		    foreach (var s in missingAPCinDeviceReport)
+		    {
+			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" miss APC reference.";
+			    report.AppendLine(missingComponentMsg);
+		    }
+
+		    Logger.Log($"All devices count: {countAll}", Category.Tests);
+		    Logger.Log($"Self powered Devices count: {countSelfPowered}", Category.Tests);
+		    Logger.Log($"Devices count which miss APCs: {countMissingAPC}", Category.Tests);
+		    Assert.IsEmpty(missingAPCinDeviceReport, report.ToString());
+	    }
+
+	    /// <summary>
+	    /// Checks only scenes selected for build
+	    /// </summary>
+	    [Test]
+	    public void CheckAllScenes_ForLightSources_WhichMissRelatedSwitches()
+	    {
+		    var buildScenes = EditorBuildSettings.scenes.Where(s => s.enabled);
+		    var missingAPCinDeviceReport = new List<(string, string)>();
+		    int countMissingSwitch = 0;
+		    int countWithoutSwitches = 0;
+		    int countAll = 0;
+
+		    foreach (var scene in buildScenes)
+		    {
+			    var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
+			    var currentSceneName = currentScene.name;
+
+			    var listOfDevices = GetAllLightSourcesInTheScene();
+			    foreach (var objectDevice in listOfDevices)
+			    {
+				    countAll++;
+				    var device = objectDevice;
+				    if (device.IsWithoutSwitch)
+				    {
+					    countWithoutSwitches++;
+					    continue;
+				    }
+				    if (device.relatedLightSwitch == null)
+				    {
+					    countMissingSwitch++;
+					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name));
+				    }
+			    }
+		    }
+
+		    // Form report about missing components
+		    var report = new StringBuilder();
+		    foreach (var s in missingAPCinDeviceReport)
+		    {
+			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" miss switch reference.";
+			    report.AppendLine(missingComponentMsg);
+		    }
+
+		    Logger.Log($"All Light Sources count: {countAll}", Category.Tests);
+		    Logger.Log($"Without switches Light Sources count: {countWithoutSwitches}", Category.Tests);
+		    Logger.Log($"With missing switch reference: {countMissingSwitch}", Category.Tests);
+		    Assert.IsEmpty(missingAPCinDeviceReport, report.ToString());
+	    }
+
+	    /// <summary>
+	    /// Checks only scenes selected for build
+	    /// </summary>
+	    [Test]
+	    public void CheckAllScenes_ForLightSwitchesLists_WhichMissLightSources()
+	    {
+		    var buildScenes = EditorBuildSettings.scenes.Where(s => s.enabled);
+		    var missingAPCinDeviceReport = new List<(string, string)>();
+		    int countSwitchesWithoutLights = 0;
+		    int countAll = 0;
+
+		    foreach (var scene in buildScenes)
+		    {
+			    var currentScene = EditorSceneManager.OpenScene(scene.path, OpenSceneMode.Single);
+			    var currentSceneName = currentScene.name;
+
+			    var listOfDevices = GetAllLightSwitchesInTheScene();
+			    foreach (var objectDevice in listOfDevices)
+			    {
+				    countAll++;
+				    var device = objectDevice;
+				    if (device.listOfLights.Count == 0)
+				    {
+					    countSwitchesWithoutLights++;
+					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name));
+				    }
+			    }
+		    }
+
+		    // Form report about missing components
+		    var report = new StringBuilder();
+		    foreach (var s in missingAPCinDeviceReport)
+		    {
+			    var missingComponentMsg = $"{s.Item1}: \"{s.Item2}\" miss switch reference.";
+			    report.AppendLine(missingComponentMsg);
+		    }
+
+		    Logger.Log($"All Light Switches count: {countAll}", Category.Tests);
+		    Logger.Log($"Switches with empty lists of lights: {countSwitchesWithoutLights}", Category.Tests);
+		    Assert.IsEmpty(missingAPCinDeviceReport, report.ToString());
 	    }
     }
 }
