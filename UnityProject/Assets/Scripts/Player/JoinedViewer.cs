@@ -1,5 +1,7 @@
-﻿using System.Net.NetworkInformation;
+﻿using System;
+using System.Net.NetworkInformation;
 using Mirror;
+using Newtonsoft.Json;
 
 /// <summary>
 /// This is the Viewer object for a joined player.
@@ -74,8 +76,10 @@ public class JoinedViewer : NetworkBehaviour
 		{
 			if (GameManager.Instance.waitForStart)
 			{
-				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart,
-					GameManager.Instance.startTime);
+				// Calculate when the countdown will end in the unix timestamp
+				long endTime = DateTimeOffset.UtcNow.AddSeconds(GameManager.Instance.CountdownTime)
+					.ToUnixTimeMilliseconds();
+				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, endTime);
 			}
 			else
 			{
@@ -118,13 +122,17 @@ public class JoinedViewer : NetworkBehaviour
 				// Round hasn't yet started, give players the pre-game screen
 				UIManager.Display.SetScreenForPreRound();
 				break;
-			// case RoundState.Started:
-			// TODO spawn a ghost if round has already ended?
 			default:
-				// occupation select
-				UIManager.Display.SetScreenForJobSelect();
+				// Show the joining screen
+				UIManager.Display.SetScreenForJoining();
 				break;
 		}
+	}
+
+	public void RequestJob(JobType job)
+	{
+		var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
+		CmdRequestJob(job, jsonCharSettings);
 	}
 
 	/// <summary>
@@ -133,8 +141,9 @@ public class JoinedViewer : NetworkBehaviour
 	/// Fails if no more slots for that occupation are available.
 	/// </summary>
 	[Command]
-	public void CmdRequestJob(JobType jobType, CharacterSettings characterSettings)
+	private void CmdRequestJob(JobType jobType, string jsonCharSettings)
 	{
+		var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
 		if (GameManager.Instance.CurrentRoundState != RoundState.Started)
 		{
 			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
@@ -153,15 +162,13 @@ public class JoinedViewer : NetworkBehaviour
 		//If they do, bypass the normal spawn logic.
 		if (GameManager.Instance.TrySpawnAntag(spawnRequest)) return;
 
-		PlayerSpawn.ServerSpawnPlayer(spawnRequest.JoinedViewer, spawnRequest.RequestedOccupation, characterSettings);
+		PlayerSpawn.ServerSpawnPlayer(spawnRequest);
 	}
 	/// <summary>
 	/// Command to spectate a round instead of spawning as a player
 	/// </summary>
-	/// <param name="jobType"></param>
-	/// <param name="characterSettings"></param>
 	[Command]
-	public void CmdSpectacte()
+	public void CmdSpectate()
 	{
 		PlayerSpawn.ServerSpawnGhost(this);
 	}
@@ -170,11 +177,10 @@ public class JoinedViewer : NetworkBehaviour
 	/// Tells the client to start the countdown if it's already started
 	/// </summary>
 	[TargetRpc]
-	private void TargetSyncCountdown(NetworkConnection target, bool started, float countdownTime)
+	private void TargetSyncCountdown(NetworkConnection target, bool started, long endTime)
 	{
 		Logger.Log("Syncing countdown!", Category.Round);
-		UIManager.Instance.displayControl.preRoundWindow.GetComponent<GUI_PreRoundWindow>()
-			.SyncCountdown(started, countdownTime);
+		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);
 	}
 
 	private string GetNetworkInfo()
@@ -189,5 +195,31 @@ public class JoinedViewer : NetworkBehaviour
 		}
 
 		return "";
+	}
+
+	/// <summary>
+	/// Mark this joined viewer as ready for job allocation
+	/// </summary>
+	public void SetReady(bool isReady)
+	{
+		var jsonCharSettings = "";
+		if (isReady)
+		{
+			jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
+		}
+		CmdPlayerReady(isReady, jsonCharSettings);
+	}
+
+	[Command]
+	private void CmdPlayerReady(bool isReady, string jsonCharSettings)
+	{
+		var player = PlayerList.Instance.GetByConnection(connectionToClient);
+
+		CharacterSettings charSettings = null;
+		if (isReady)
+		{
+			charSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
+		}
+		PlayerList.Instance.SetPlayerReady(player, isReady, charSettings);
 	}
 }

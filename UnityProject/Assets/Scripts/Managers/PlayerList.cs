@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Newtonsoft.Json;
 
 /// Comfy place to get players and their info (preferably via their connection)
 /// Has limited scope for clients (ClientConnectedPlayers only), sweet things are mostly for server
@@ -30,13 +30,15 @@ public partial class PlayerList : NetworkBehaviour
 		loggedIn.FindAll(player => (player.Script != null || player.ViewerScript != null));
 
 	/// <summary>
+	/// Players in the pre-round lobby who have clicked the ready button and have up to date CharacterSettings
+	/// </summary>
+	public List<ConnectedPlayer> ReadyPlayers { get; } = new List<ConnectedPlayer>();
+
+	/// <summary>
 	/// Used to track who killed who. Could be used to check that a player actually killed someone themselves.
 	/// </summary>
 	public Dictionary<PlayerScript, List<PlayerScript>>
 		KillTracker = new Dictionary<PlayerScript, List<PlayerScript>>();
-
-	//Nuke Ops (TODO: throughoutly remove all unnecessary TDM variables)
-	public bool nukeSetOff = false;
 
 	private void Awake()
 	{
@@ -273,8 +275,7 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		var conn = Get(playerObj);
 		if (conn == null || conn.Script == null || conn.Script.mind == null) return false;
-		if (conn.Script.mind.IsAntag) return true;
-		return false;
+		return conn.Script.mind.IsAntag;
 	}
 
 	[Server]
@@ -455,6 +456,41 @@ public partial class PlayerList : NetworkBehaviour
 			adminListWatcher.Changed -= LoadCurrentAdmins;
 			adminListWatcher.Dispose();
 		}
+	}
+
+	/// <summary>
+	/// Makes a player ready/unready for job allocations
+	/// </summary>
+	public void SetPlayerReady(ConnectedPlayer player, bool isReady, CharacterSettings charSettings = null)
+	{
+		if (isReady)
+		{
+			// Update connection with locked in job prefs
+			if (charSettings != null)
+			{
+				player.CharacterSettings = charSettings;
+			}
+			else
+			{
+				Logger.LogError($"{player.Username} was set to ready with NULL character settings:\n{player}");
+			}
+			ReadyPlayers.Add(player);
+			Logger.Log($"Set {player.Username} to ready with these character settings:\n{charSettings}");
+		}
+		else
+		{
+			ReadyPlayers.Remove(player);
+			Logger.Log($"Set {player.Username} to NOT ready!");
+		}
+	}
+
+	/// <summary>
+	/// Clears the list of ready players
+	/// </summary>
+	[Server]
+	public void ClearReadyPlayers()
+	{
+		ReadyPlayers.Clear();
 	}
 }
 

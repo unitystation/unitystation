@@ -22,12 +22,20 @@ public class MatrixCheckEditor : EditorWindow
 
 	public void OnEnable()
 	{
-		SceneView.onSceneGUIDelegate += OnSceneGUI;
+#if UNITY_2019_3_OR_NEWER
+	SceneView.duringSceneGui  += OnSceneGUI;
+#else
+	SceneView.onSceneGUIDelegate += OnSceneGUI;
+#endif
 	}
 
 	public void OnDisable()
 	{
-		SceneView.onSceneGUIDelegate -= OnSceneGUI;
+#if UNITY_2019_3_OR_NEWER
+		SceneView.duringSceneGui  += OnSceneGUI;
+#else
+	SceneView.onSceneGUIDelegate += OnSceneGUI;
+#endif
 	}
 
 	private void OnSceneGUI(SceneView sceneView)

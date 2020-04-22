@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -67,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 18
+  m_SortingLayer: 19
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: e5190e92b1300c449b22db8ea3f4f37d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -90,16 +91,16 @@ GameObject:
   m_Component:
   - component: {fileID: 4000014215534684}
   - component: {fileID: 61000012989894210}
-  - component: {fileID: 82306546317105916}
   - component: {fileID: 114783072045832552}
-  - component: {fileID: 114156815017434572}
   - component: {fileID: 114942625721484022}
+  - component: {fileID: 4336187224331491966}
   - component: {fileID: 114056794007261734}
   - component: {fileID: 114773043881674562}
   - component: {fileID: 114547392609398558}
   - component: {fileID: 114148094876921124}
   - component: {fileID: 114026713173586346}
   - component: {fileID: 114330810423114948}
+  - component: {fileID: 8711263746210110711}
   m_Layer: 19
   m_Name: LightSwitch
   m_TagString: Untagged
@@ -148,102 +149,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!82 &82306546317105916
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000014236108730}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c81e5904247ac4370b4037957cf00e1f, type: 3}
-  m_PlayOnAwake: 0
-  m_Volume: 0.473
-  m_Pitch: 1.6
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1.7502441
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 0
 --- !u!114 &114783072045832552
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,33 +161,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
---- !u!114 &114156815017434572
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000014236108730}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b7a9eb64b31264686a68cf26e202e62c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  isOn: 1
-  AtShutOffVoltage: 50
-  lightOff: {fileID: 21300000, guid: 4d81eb053d9b3f84d8ec165484e526a1, type: 3}
-  RelatedAPC: {fileID: 0}
-  lightOn: {fileID: 21300000, guid: e5190e92b1300c449b22db8ea3f4f37d, type: 3}
-  lightPowerCut: {fileID: 21300000, guid: 9aa18eab7ff404e4280d94c64356560a, type: 3}
-  PowerCut: 0
-  radius: 10
-  SelfPowered: 0
-  SelfPowerLights: []
 --- !u!114 &114942625721484022
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,6 +181,27 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+--- !u!114 &4336187224331491966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014236108730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44c43d3fd88f44c684f0d47dbaee2bfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  listOfLights: []
+  isOn: 1
+  coolDownTime: 2
+  sprites:
+  - {fileID: 21300000, guid: e1204639981bd5642aa9bca944ee47d7, type: 3}
+  - {fileID: 21300000, guid: 78c7a580cdf74bc4a8f85b744365253a, type: 3}
+  spriteRenderer: {fileID: 212000013332854840}
 --- !u!114 &114056794007261734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114547392609398558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +244,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &114148094876921124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -371,6 +274,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -404,7 +308,31 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1132776131
+--- !u!114 &8711263746210110711
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000014236108730}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 220
+  MaximumWorkingVoltage: 600
+  deviceType: 6
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  State: 2

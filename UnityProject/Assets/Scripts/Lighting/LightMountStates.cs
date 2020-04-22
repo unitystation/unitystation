@@ -3,33 +3,30 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
-
+public enum LightMountState
+{
+	None = 0,
+	On,
+	Off,
+	MissingBulb,
+	Broken,
+	TypeCount,
+}
 public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
-	//Burned out state is missing
-	public enum LightMountState
-	{
-		None = 0,
-		On,
-		Off,
-		MissingBulb,
-		Broken,
-		TypeCount,
-	}
-
 	[SyncVar(hook = nameof(SyncLightState))]
 	private LightMountState state = LightMountState.On;
 
 	public LightMountState State => state;
 
-
 	[Tooltip("Sprite for bulb.")]
 	public SpriteRenderer spriteRenderer;
 
+	[Tooltip("Sprite for light effect.")]
+	public SpriteRenderer spriteRendererLightOn;
 	//Second layer for light effect
 
 	private LightSource lightSource;
-	private LightSwitch lightSwitch;
 	private Integrity integrity;
 	private Orientation orientation;
 
@@ -42,13 +39,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 	public Sprite[] spriteListFull;
 
-
 	public Sprite[] spriteListLightOn;
-
-	[Tooltip("Sprite for light effect.")]
-	public SpriteRenderer spriteRendererLightOn;
-
-
 
 	[Header("Broken state.")]
 	[Tooltip("In Broken state will drop this item.")]
@@ -93,62 +84,26 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	{
 		if (interaction.HandObject == null)
 		{
-
-			if (state == LightMountState.On)
-			{
-				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
-				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
-				ServerChangeLightState(LightMountState.MissingBulb);
-			}
-			else if (state == LightMountState.Off)
-			{
-				Spawn.ServerPrefab(appliableItem, interaction.Performer.WorldPosServer());
-				Chat.AddExamineMsg(interaction.Performer, "You took the light tube out!");
-				ServerChangeLightState(LightMountState.MissingBulb);
-			}
-			else if (state == LightMountState.Broken)
-			{
-				Spawn.ServerPrefab(appliableBrokenItem, interaction.Performer.WorldPosServer());
-				Chat.AddExamineMsg(interaction.Performer, "You took the broken light tube out!");
-				ServerChangeLightState(LightMountState.MissingBulb);
-			}
-
+			Spawn.ServerPrefab(state == LightMountState.Broken ? appliableBrokenItem : appliableItem,
+				interaction.Performer.WorldPosServer());
+			ServerChangeLightState(LightMountState.MissingBulb);
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, traitRequired) && state == LightMountState.MissingBulb)
 		{
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{
-				Despawn.ServerSingle(interaction.HandObject);
-				Chat.AddExamineMsg(interaction.Performer, "You put broken light tube in!");
 				ServerChangeLightState(LightMountState.Broken);
 			}
 			else
 			{
-				if (lightSwitch == null)
-				{
-					lightSwitch = lightSource.relatedLightSwitch;
-				}
-
-				if (lightSwitch == null) return;
-				
-				if (lightSwitch.isOn == LightSwitch.States.On)
-				{
-					Despawn.ServerSingle(interaction.HandObject);
-					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
-					ServerChangeLightState(LightMountState.On);
-				}
-				else
-				{
-					Despawn.ServerSingle(interaction.HandObject);
-					Chat.AddExamineMsg(interaction.Performer, "You put light tube in!");
-					ServerChangeLightState(LightMountState.Off);
-				}
+				ServerChangeLightState(lightSource.SwitchState ? LightMountState.On : LightMountState.Off);
 			}
+			Despawn.ServerSingle(interaction.HandObject);
 		}
 	}
 
-	bool EnsureInit()
+	public bool EnsureInit()
 	{
 		if (lightSource == null) lightSource = GetComponent<LightSource>();
 		if (integrity == null) integrity = GetComponent<Integrity>();
@@ -158,8 +113,6 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			Logger.Log($"This light mount is missing a light source or integrity component! {gameObject.name}", Category.Lighting);
 			return false;
 		}
-
-		lightSwitch = lightSource.relatedLightSwitch;
 		integrityStateBroken = integrity.initialIntegrity * multiplierBroken;
 		integrityStateMissingBulb = integrity.initialIntegrity * multiplierMissingBulb;
 		orientation = GetComponent<Directional>().CurrentDirection;
@@ -170,50 +123,47 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	{
 		if (!EnsureInit()) return;
 
+		if (newState == LightMountState.On)
+		{
+			lightSource.ServerChangeLightState(LightState.On);
+			spriteRenderer.sprite = GetSprite(spriteListFull);
+			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
+			integrity.soundOnHit = "GlassHit";
+			return;
+		}
+
 		if (newState == LightMountState.MissingBulb)
 		{
-			lightSource.Trigger(false);
 			spriteRenderer.sprite = GetSprite(spriteListMissingBulb);
-			spriteRendererLightOn.sprite = null;
 			integrity.soundOnHit = "";
 		}
 		else if (newState == LightMountState.Broken)
 		{
-			lightSource.Trigger(false);
+
 			spriteRenderer.sprite = GetSprite(spriteListBroken);
-			spriteRendererLightOn.sprite = null;
 			integrity.soundOnHit = "GlassStep";
 		}
 		else if (newState == LightMountState.Off)
 		{
-			lightSource.Trigger(false);
 			spriteRenderer.sprite = GetSprite(spriteListFull);
-			spriteRendererLightOn.sprite = null;
 			integrity.soundOnHit = "GlassHit";
 		}
-		else if (newState == LightMountState.On)
-		{
-			lightSource.Trigger(true);
-			spriteRenderer.sprite = GetSprite(spriteListFull);
-			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
-			integrity.soundOnHit = "GlassHit";
-		}
+		lightSource.ServerChangeLightState(LightState.Off);
+		spriteRendererLightOn.sprite = null;
 	}
 
 	//This one is for LightSource to make sure sprites and states are correct
 	//when lights switch state is changed
-	public void SwitchChangeState(LightState state)
+	public void SwitchChangeState(bool switchState)
 	{
 		if (!isServer) return;
+		if (State == LightMountState.Broken ||
+		    State == LightMountState.MissingBulb)
+		{
+			return;
+		}
 
-		if (state == LightState.On)
-		{
-			ServerChangeLightState(LightMountState.On);
-		}
-		else
-		{
-			ServerChangeLightState(LightMountState.Off);
-		}
+		ServerChangeLightState(switchState ? LightMountState.On : LightMountState.Off);
 	}
 
 	//Gets sprites for eash state

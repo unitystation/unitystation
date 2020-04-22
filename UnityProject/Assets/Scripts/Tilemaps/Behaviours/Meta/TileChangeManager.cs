@@ -80,19 +80,28 @@ public class TileChangeManager : NetworkBehaviour
 
 
 	[Server]
-	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile, bool SetTileServer = true)
+	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile)
 	{
 		if (IsDifferent(cellPosition, layerTile))
 		{
-			if (SetTileServer)
-			{
-				InternalUpdateTile(cellPosition, layerTile);
-			}
+			InternalUpdateTile(cellPosition, layerTile);
 
 			RpcUpdateTile(cellPosition, layerTile.TileType, layerTile.name);
 
 			AddToChangeList(cellPosition, layerTile);
 		}
+	}
+
+	/// <summary>
+	/// Used for the underfloor layer to reduce complexity on the main UpdateTile Function
+	/// </summary>
+	/// <param name="cellPosition"></param>
+	/// <param name="layerTile"></param>
+	[Server]
+	public void UnderfloorUpdateTile(Vector3Int cellPosition, LayerTile layerTile)
+	{
+		RpcUpdateTile(cellPosition, layerTile.TileType, layerTile.name);
+		AddToChangeList(cellPosition, layerTile);
 	}
 
 	/// <summary>
@@ -154,6 +163,11 @@ public class TileChangeManager : NetworkBehaviour
 			{
 				OnFloorOrPlatingRemoved.Invoke( cellPosition );
 			}
+			else if (layerType == LayerType.Windows)
+			{
+				RemoveTile(cellPosition, LayerType.Effects);
+			}
+
 			return layerTile;
 		}
 

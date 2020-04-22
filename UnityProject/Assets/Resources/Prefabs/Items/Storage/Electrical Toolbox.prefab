@@ -1,5 +1,24 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3657602016767311360
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 473327348190068013}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackableMaterials: 1
+  materialCost: 10
+  reagentContainer: 0
+  craftItem:
+  - {fileID: 7602444472548548205, guid: 28ccdf7c9ebf84198bf4b8bd543f4ce8, type: 3}
+  assembly: {fileID: 8622575264684028204, guid: 4ea433b6871fa2b4193194fd6be7a8ce,
+    type: 3}
 --- !u!1001 &8105233436819780499
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -154,3 +173,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
+--- !u!1 &473327348190068013 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4,
+    type: 3}
+  m_PrefabInstance: {fileID: 8105233436819780499}
+  m_PrefabAsset: {fileID: 0}

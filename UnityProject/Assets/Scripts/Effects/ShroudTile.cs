@@ -2,7 +2,7 @@
 
 public class ShroudTile : MonoBehaviour
 {
-	public Renderer renderer;
+	public new Renderer renderer;
 
 	private void OnEnable()
 	{

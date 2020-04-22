@@ -12,7 +12,7 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 {
 	[SerializeField]
 	[Tooltip("When wore in this slot, the armor values will be applied to player.")]
-	private NamedSlot slot;
+	private NamedSlot slot = NamedSlot.outerwear;
 
 	[SerializeField]
 	[Tooltip("What body parts does this item protect")]

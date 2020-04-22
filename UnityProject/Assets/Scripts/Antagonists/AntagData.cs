@@ -40,6 +40,15 @@ namespace Antagonists
 		}
 
 		/// <summary>
+		/// Returns an enumerator of all antag names as strings
+		/// </summary>
+		/// <returns></returns>
+		public IReadOnlyCollection<Antagonist> GetAllAntags()
+		{
+			return Antags;
+		}
+
+		/// <summary>
 		/// Generates a set of valid objectives for a player based on their antag type.
 		/// Will set them up and ensure all targets are unique.
 		/// Amount to generate does not include the escape objective.

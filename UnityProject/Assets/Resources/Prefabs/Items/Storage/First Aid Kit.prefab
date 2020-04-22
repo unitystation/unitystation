@@ -13,6 +13,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StorageItemName: 4
+--- !u!114 &4262289884360340554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8635195139948178778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  craftItem:
+  - {fileID: 4010194602388370502, guid: e5ec5dc9591066d47a44185d4e8e9d66, type: 3}
+  - {fileID: 6704733875890864299, guid: efa2c04573e08dd478e4b46c23747b75, type: 3}
+  assembly: {fileID: 5914959498962467419, guid: 6c3917fe0f6cb4b4b912f686cbc05d7f,
+    type: 3}
 --- !u!1001 &4991786853530350121
 PrefabInstance:
   m_ObjectHideFlags: 0

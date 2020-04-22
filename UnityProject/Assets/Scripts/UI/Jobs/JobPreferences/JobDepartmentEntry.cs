@@ -53,6 +53,6 @@ public class JobDepartmentEntry : MonoBehaviour
 	{
 		header.text = department.DisplayName;
 		headerBackground.color = department.HeaderColor;
-		Add(department.Occupations, ref jobEntries);
+		Add(department.AllOccupations, ref jobEntries);
 	}
 }

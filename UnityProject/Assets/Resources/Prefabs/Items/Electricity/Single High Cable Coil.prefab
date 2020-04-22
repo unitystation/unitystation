@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 793492339016116951, guid: 288980126acf5f441841169958c31630,
+        type: 3}
+      propertyPath: m_Name
+      value: Single High Cable Coil
+      objectReference: {fileID: 0}
     - target: {fileID: 1317881860533816661, guid: 288980126acf5f441841169958c31630,
         type: 3}
       propertyPath: m_AssetId
@@ -86,12 +91,7 @@ PrefabInstance:
         type: 3}
       propertyPath: stacksWith.Array.data[1]
       value: 
-      objectReference: {fileID: 4019383695740491213}
+      objectReference: {fileID: 1431646644770877665, guid: 288980126acf5f441841169958c31630,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 288980126acf5f441841169958c31630, type: 3}
---- !u!1 &4019383695740491213 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1431646644770877665, guid: 288980126acf5f441841169958c31630,
-    type: 3}
-  m_PrefabInstance: {fileID: 2601254455557580076}
-  m_PrefabAsset: {fileID: 0}

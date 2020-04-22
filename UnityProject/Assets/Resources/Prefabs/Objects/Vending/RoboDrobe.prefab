@@ -142,6 +142,8 @@ MonoBehaviour:
     Stock: 2
   - Item: {fileID: 4396341318306884477, guid: 1d54376f0c6f4474b8839a8847d19a9f, type: 3}
     Stock: 2
+  - Item: {fileID: 7636118406116123594, guid: 93c3b540119b16945b32d1d69bc3a786, type: 3}
+    Stock: 2
   - Item: {fileID: 0}
     Stock: 2
   HullColor: {r: 1, g: 1, b: 1, a: 1}
@@ -281,6 +283,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -299,8 +302,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: RoboDrobe
-  initialDescription: A vending machine designed to dispense clothing known only to
-    roboticists.
+  initialDescription: A vending machine designed to dispense clothing known only
+    to roboticists.
   willHighlight: 1
   exportCost: 0
   exportName: 
@@ -350,6 +353,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
