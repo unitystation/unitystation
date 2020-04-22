@@ -130,6 +130,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
       propertyPath: exportCost
       value: 5
       objectReference: {fileID: 0}
@@ -211,6 +216,12 @@ PrefabInstance:
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 8963034aff1de4947ab19e0f7ac46d3e, type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 499414d166fa0d14ca279746eb2d77de,
+        type: 2}
     - target: {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: m_Name

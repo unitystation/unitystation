@@ -105,7 +105,7 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 		{
 			if (toggle.isOn)
 			{
-				netToggle.SetValue = "0";
+				netToggle.SetValueServer("0");
 			}
 			return;
 		}
@@ -115,11 +115,11 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 			var hasOccupation = TargetCard.Occupation == occupation;
 			if (hasOccupation && !toggle.isOn)
 			{
-				netToggle.SetValue = "1";
+				netToggle.SetValueServer("1");
 			}
 			else if (!hasOccupation && toggle.isOn)
 			{
-				netToggle.SetValue = "0";
+				netToggle.SetValueServer("0");
 			}
 		}
 		else
@@ -127,11 +127,11 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 			var hasAccess = TargetCard.HasAccess(access);
 			if (hasAccess && !toggle.isOn)
 			{
-				netToggle.SetValue = "1";
+				netToggle.SetValueServer("1");
 			}
 			else if (!hasAccess && toggle.isOn)
 			{
-				netToggle.SetValue = "0";
+				netToggle.SetValueServer("0");
 			}
 		}
 	}

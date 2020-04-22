@@ -42,12 +42,12 @@ public class GUI_Cargo : NetTab
 
 	public void RefreshSubpage(NetPage oldPage, NetPage newPage)
 	{
-		DirectoryText.SetValue = newPage.GetComponent<GUI_CargoPage>().DirectoryName;
+		DirectoryText.SetValueServer(newPage.GetComponent<GUI_CargoPage>().DirectoryName);
 	}
 
 	private void UpdateCreditsText()
 	{
-		СreditsText.SetValue = "Budget: " + CargoManager.Instance.Credits.ToString();
+		СreditsText.SetValueServer("Budget: " + CargoManager.Instance.Credits.ToString());
 		СreditsText.ExecuteServer();
 	}
 

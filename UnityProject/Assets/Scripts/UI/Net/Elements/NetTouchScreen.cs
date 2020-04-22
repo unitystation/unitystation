@@ -4,7 +4,7 @@ using UnityEngine;
 /// Sends client's touch coordinates (within element) over network
 [RequireComponent(typeof( TouchScreen ))]
 [Serializable]
-public class NetTouchScreen : NetUIElement
+public class NetTouchScreen : NetUIElement<string>
 {
 	public override ElementMode InteractionMode => ElementMode.ClientWrite;
 
@@ -22,9 +22,9 @@ public class NetTouchScreen : NetUIElement
 			return element;
 		}
 	}
-	
+
 	public StringEvent ServerMethod;
-	
+
 	public override void ExecuteServer() {
 		ServerMethod.Invoke(Value);
 	}

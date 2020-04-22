@@ -1,93 +1,211 @@
 using System;
+using System.IO;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Bson;
 using UnityEngine;
+
+
+/// <summary>
 /// Base class for networked UI element
+/// </summary>
 [Serializable]
-public abstract class NetUIElement : MonoBehaviour
+public abstract class NetUIElement<T> : NetUIElementBase
 {
 	protected bool externalChange;
 
+	/// <summary>
 	/// Unique tab that contains this element
-	public NetTab MasterTab {
-		get {
-			if ( !masterTab ) {
+	/// </summary>
+	public NetTab MasterTab
+	{
+		get
+		{
+			if (!masterTab)
+			{
 				masterTab = GetComponentsInParent<NetTab>(true)[0];
 			}
+
 			return masterTab;
 		}
 	}
+
 	private NetTab masterTab;
 
-	public ElementValue ElementValue => new ElementValue{Id = name, Value = Value};
+	public override ElementValue ElementValue => new ElementValue
+	{
+		Id = name,
+		Value = BinaryValue
+	};
 
-	public virtual ElementMode InteractionMode => ElementMode.Normal;
+	public override ElementMode InteractionMode => ElementMode.Normal;
 
-	/// Server-only method for updating element (i.e. changing label text) from server GUI code
-	public virtual string SetValue {
-		set {
-			Value = value;
-			UpdatePeepers();
-		}
-	}
-
+	/// <summary>
 	/// Initialize method before element list is collected. For editor-set values
-	public virtual void Init() {}
+	/// </summary>
+	public override void Init()
+	{
+	}
 
-	public virtual string Value {
-		get {
-			return "-1";
+	public virtual T Value
+	{
+		get => default;
+		set { }
+	}
+
+	public override object ValueObject
+	{
+		get => Value;
+		set { Value = (T) value; }
+	}
+
+	public override byte[] BinaryValue
+	{
+		set
+		{
+			var ms = new MemoryStream(value);
+			using (var bsonReader = new BsonReader(ms))
+			{
+				var serializer = new JsonSerializer();
+				Value = serializer.Deserialize<Wrapper<T>>(bsonReader).Value;
+			}
 		}
-		set {
+		get
+		{
+			using (var ms = new MemoryStream())
+			{
+				using (var writer = new BsonWriter(ms))
+				{
+					var serializer = new JsonSerializer();
+					serializer.Serialize(writer, new Wrapper<T>(Value));
+				}
+
+				return ms.ToArray();
+			}
 		}
 	}
 
+	/// <summary>
+	/// Server-only method for updating element (i.e. changing label text) from server GUI code
+	/// </summary>
+	public void SetValueServer(T value)
+	{
+		Value = value;
+		UpdatePeepers();
+	}
+
+	/// <summary>
+	/// Server-only method for updating element (i.e. changing label text) from server GUI code
+	/// </summary>
+	public override void SetValueServer(object value)
+	{
+		Value = (T) value;
+		UpdatePeepers();
+	}
+
+	/// <summary>
 	/// Always point to this method in OnValueChanged
 	/// <a href="https://camo.githubusercontent.com/e3bbac26b36a01c9df8fbb6a6858bb4a82ba3036/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3339333738373838303431353239373534332f3435333632313031363433343833353435362f7467745f636c69656e742e676966">See GIF</a>
-	public void ExecuteClient() {
+	/// </summary>
+	public override void ExecuteClient()
+	{
 		//Don't send if triggered by external change
-		if ( !externalChange ) {
-			TabInteractMessage.Send(MasterTab.Provider, MasterTab.Type, name, Value);
+		if (!externalChange)
+		{
+			TabInteractMessage.Send(MasterTab.Provider, MasterTab.Type, name, BinaryValue);
 		}
 	}
 
+	/// <summary>
 	/// Send update to observers.
-	protected void UpdatePeepers() {
-		if ( gameObject.activeInHierarchy )
+	/// </summary>
+	protected void UpdatePeepers()
+	{
+		if (gameObject.activeInHierarchy)
 		{
 			UpdatePeepersLogic();
-		} else
+		}
+		else
 		{
-//			Logger.LogTraceFormat( "'{0}': didn't update peepers because gameObject is inactive (another page?)", Category.NetUI, name );
 			MasterTab.ValidatePeepers();
 		}
 	}
 
 
+	/// <summary>
 	/// Override if you want custom "send update to peepers" logic
 	/// i.e. to include more values than just the current one
+	/// </summary>
 	protected virtual void UpdatePeepersLogic()
 	{
-		TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, new[] {ElementValue} );
+		TabUpdateMessage.SendToPeepers(MasterTab.Provider, MasterTab.Type, TabAction.Update, new[] {ElementValue});
 	}
 
-	public abstract void ExecuteServer();
-
-	public override string ToString() {
+	public override string ToString()
+	{
 		return ElementValue.ToString();
 	}
-
-	public const char DELIMITER = '~';
 
 	/// <summary>
 	/// Special logic to execute after all tab elements are initialized
 	/// </summary>
-	public virtual void AfterInit() { }
+	public override void AfterInit()
+	{
+	}
+
+	private class Wrapper<T>
+	{
+		public T Value;
+
+		public Wrapper(T value)
+		{
+			Value = value;
+		}
+	}
 }
 
-public enum ElementMode {
+
+public abstract class NetUIElementBase : MonoBehaviour
+{
+	public const char DELIMITER = '~';
+	public abstract ElementValue ElementValue { get; }
+	public abstract ElementMode InteractionMode { get; }
+	public abstract object ValueObject { get; set; }
+
+	/// <summary>
+	/// Initialize method before element list is collected. For editor-set values
+	/// </summary>
+	public abstract void Init();
+
+	public abstract byte[] BinaryValue { get; set; }
+
+	/// <summary>
+	/// Server-only method for updating element (i.e. changing label text) from server GUI code
+	/// </summary>
+	public abstract void SetValueServer(object value);
+
+	/// <summary>
+	/// Always point to this method in OnValueChanged
+	/// <a href="https://camo.githubusercontent.com/e3bbac26b36a01c9df8fbb6a6858bb4a82ba3036/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3339333738373838303431353239373534332f3435333632313031363433343833353435362f7467745f636c69656e742e676966">See GIF</a>
+	/// </summary>
+	public abstract void ExecuteClient();
+
+	public abstract void ExecuteServer();
+	public abstract string ToString();
+
+	/// <summary>
+	/// Special logic to execute after all tab elements are initialized
+	/// </summary>
+	public abstract void AfterInit();
+}
+
+public enum ElementMode
+{
 	/// Changeable by both client and server
 	Normal,
+
 	/// Only server can change value
 	ServerWrite,
+
 	/// Only client can change value, and server doesn't store it
 	ClientWrite
 }

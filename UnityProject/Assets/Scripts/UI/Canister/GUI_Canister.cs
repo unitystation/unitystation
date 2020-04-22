@@ -163,7 +163,7 @@ public class GUI_Canister : NetTab
 		ServerUpdateExternalTank(canister.hasContainerInserted);
 
 		//init wheel
-		ReleasePressureWheel.SetValue = Mathf.RoundToInt(container.ReleasePressure).ToString();
+		ReleasePressureWheel.SetValueServer(Mathf.RoundToInt(container.ReleasePressure).ToString());
 		StartCoroutine(ServerRefreshInternalPressure());
 
 	}
@@ -178,16 +178,16 @@ public class GUI_Canister : NetTab
 
 		if (externalExists)
 		{
-			externalTankStatus.SetValue = insertedContainer.Item().InitialName;
-			externalTankImage.SetValue = "ExternalTankInserted@0";
+			externalTankStatus.SetValueServer(insertedContainer.Item().InitialName);
+			externalTankImage.SetValueServer("ExternalTankInserted@0");
 			GasContainer externalTank = insertedContainer.GetComponent<GasContainer>();
 			ExternalPressureDial.ServerSpinTo(Mathf.RoundToInt(externalTank.ServerInternalPressure));
 
 		}
 		else
 		{
-			externalTankStatus.SetValue = "No Tank Inserted";
-			externalTankImage.SetValue = "ExternalTankEmpty@0";
+			externalTankStatus.SetValueServer("No Tank Inserted");
+			externalTankImage.SetValueServer("ExternalTankEmpty@0");
 			ExternalPressureDial.ServerSpinTo(0);
 		}
 	}
@@ -197,7 +197,7 @@ public class GUI_Canister : NetTab
 	/// </summary>
 	private void ServerUpdateConnectionStatus(bool isConnected)
 	{
-		ConnectionStatus.SetValue = isConnected ? "Connected" : "Not Connected";
+		ConnectionStatus.SetValueServer(isConnected ? "Connected" : "Not Connected");
 	}
 
 	/// <summary>
@@ -343,7 +343,7 @@ public class GUI_Canister : NetTab
 	{
 		container.ReleasePressure = newValue;
 		ReleasePressureDial.ServerSpinTo(newValue);
-		ReleasePressureWheel.SetValue = newValue.ToString();
+		ReleasePressureWheel.SetValueServer(newValue.ToString());
 	}
 
 	/// <summary>
@@ -498,28 +498,28 @@ public class GUI_Canister : NetTab
 	private IEnumerator DisplayFlashingText(string text, float speed = 0.5F)
 	{
 		string initialInfoText = externalTankStatus.Element.text;
-		externalTankStatus.SetValue = text;
+		externalTankStatus.SetValueServer(text);
 		yield return WaitFor.Seconds(speed);
-		externalTankStatus.SetValue = "";
+		externalTankStatus.SetValueServer("");
 		yield return WaitFor.Seconds(speed/2);
-		externalTankStatus.SetValue = text;
+		externalTankStatus.SetValueServer(text);
 		yield return WaitFor.Seconds(speed);
-		externalTankStatus.SetValue = "";
+		externalTankStatus.SetValueServer("");
 		yield return WaitFor.Seconds(speed/2);
-		externalTankStatus.SetValue = text;
+		externalTankStatus.SetValueServer(text);
 		yield return WaitFor.Seconds(speed);
-		externalTankStatus.SetValue = "";
+		externalTankStatus.SetValueServer("");
 		yield return WaitFor.Seconds(speed/2);
 
 		Canister canister = Provider.GetComponent<Canister>();
 
 		if (canister.InsertedContainer != null)
 		{
-			externalTankStatus.SetValue = $"{canister.InsertedContainer.Item().InitialName}";
+			externalTankStatus.SetValueServer($"{canister.InsertedContainer.Item().InitialName}");
 		}
 		else
 		{
-			externalTankStatus.SetValue = "No Tank Inserted";
+			externalTankStatus.SetValueServer("No Tank Inserted");
 		}
 
 	}
