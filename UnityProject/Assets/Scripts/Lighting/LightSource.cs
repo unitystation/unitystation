@@ -14,7 +14,8 @@ public enum LightState
 [ExecuteInEditMode]
 public class LightSource : ObjectTrigger,IAPCPowered
 {
-	private const LightState InitialState = LightState.On;
+	[SerializeField]
+	private LightState InitialState = LightState.On;
 
 	[Header("Generates itself if this is null:")]
 	public GameObject mLightRendererObject;

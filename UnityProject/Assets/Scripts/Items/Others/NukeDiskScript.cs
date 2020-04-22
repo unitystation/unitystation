@@ -6,16 +6,19 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using UnityEngine.UIElements;
 using Random = UnityEngine.Random;
 public class NukeDiskScript : NetworkBehaviour
 {
+	[SerializeField]
+	private float boundRadius = 600;
 	private Pickupable pick;
 	private CustomNetTransform customNetTrans;
 	private RegisterItem registerItem;
 	private BoundsInt bound;
 	private EscapeShuttle escapeShuttle;
 
-	private float timeCheckDiskLocation = 1.0f;
+	private float timeCheckDiskLocation = 5.0f;
 	private float timeCurrentDisk = 0;
 
 	private float timeCurrentAnimation = 0;
@@ -69,48 +72,47 @@ public class NukeDiskScript : NetworkBehaviour
 			}
 
 		}
-			
+
 	}
 
 	private bool DiskLost()
 	{
-		if (!bound.Contains(Vector3Int.FloorToInt(gameObject.AssumedWorldPosServer())))
+		if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
+			.magnitude < boundRadius)) return false;
+
+		if (escapeShuttle != null && escapeShuttle.Status != ShuttleStatus.DockedCentcom)
 		{
-			if (escapeShuttle != null && escapeShuttle.Status != ShuttleStatus.DockedCentcom)
+			if (escapeShuttle.MatrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
 			{
-				if (escapeShuttle.MatrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
-				{
-					return false;
-				}
+				return false;
+			}
+		}
+		else
+		{
+			ItemSlot slot = pick.ItemSlot;
+			if (slot == null)
+			{
 				return true;
 			}
-			else
+			RegisterPlayer player = slot.Player;
+			if (player == null)
 			{
-				ItemSlot slot = pick.ItemSlot;
-				if (slot == null)
-				{
-					return true;
-				}
-				RegisterPlayer player = slot.Player;
-				if (player == null)
-				{
-					return true;
-				}
-				if (player.GetComponent<PlayerHealth>().IsDead)
-				{
-					return true;
-				}
-				var checkPlayer = PlayerList.Instance.Get(player.gameObject);
-				if(checkPlayer == null)
-				{
-					return true;
-				}
-				if(!PlayerList.Instance.AntagPlayers.Contains(checkPlayer))
-				{
-					return true;
-				}
-
+				return true;
 			}
+			if (player.GetComponent<PlayerHealth>().IsDead)
+			{
+				return true;
+			}
+			var checkPlayer = PlayerList.Instance.Get(player.gameObject);
+			if(checkPlayer == null)
+			{
+				return true;
+			}
+			if(!PlayerList.Instance.AntagPlayers.Contains(checkPlayer))
+			{
+				return true;
+			}
+
 		}
 		return false;
 	}
@@ -121,6 +123,12 @@ public class NukeDiskScript : NetworkBehaviour
 		while(MatrixManager.IsSpaceAt(Vector3Int.FloorToInt(position),true) || MatrixManager.IsWallAt(Vector3Int.FloorToInt(position), true))
 		{
 			position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
+		}
+
+		if (pick?.ItemSlot != null)
+		{
+			Inventory.ServerDrop(pick.ItemSlot);
+			pick.RefreshUISlotImage();
 		}
 		customNetTrans.SetPosition(position);
 	}
