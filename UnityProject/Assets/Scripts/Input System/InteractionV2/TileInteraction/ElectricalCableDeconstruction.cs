@@ -37,25 +37,30 @@ public class ElectricalCableDeconstruction : TileInteraction
 	public override void ServerPerformInteraction(TileApply interaction)
 	{
 		Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer);
-		if (interaction.BasicTile.LayerType == LayerType.Underfloor)
-		{
-			var ElectricalCable = interaction.BasicTile as ElectricalCableTile;
-			if (ElectricalCable != null)
-			{
-				var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
-				var metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos);
+		if (interaction.BasicTile.LayerType != LayerType.Underfloor) return;
 
-				foreach (var ElectricalData in metaDataNode.ElectricalData)
-				{
-					if (ElectricalData.RelatedTile == ElectricalCable)
-					{
-						ElectricalData.InData.DestroyThisPlease();
-						Spawn.ServerPrefab(ElectricalCable.SpawnOnDeconstruct, interaction.WorldPositionTarget,
-							count: ElectricalCable.SpawnAmountOnDeconstruct);
-						return;
-					}
-				}
-			}
+		var ElectricalCable = interaction.BasicTile as ElectricalCableTile;
+		if (ElectricalCable == null) return;
+
+		var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
+		var metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos);
+
+		foreach (var ElectricalData in metaDataNode.ElectricalData)
+		{
+			if (ElectricalData.RelatedTile != ElectricalCable) continue;
+
+			// Electrocute the performer. If shock is painful enough, cancel the interaction.
+			ElectricityFunctions.WorkOutActualNumbers(ElectricalData.InData);
+			float voltage = ElectricalData.InData.Data.ActualVoltage;
+			var electrocutionSeverity = new Electrocution().ElectrocutePlayer(
+				interaction.Performer, interaction.WorldPositionTarget, "cable", voltage);
+			if (electrocutionSeverity > Electrocution.Severity.Mild) return;
+
+			ElectricalData.InData.DestroyThisPlease();
+			Spawn.ServerPrefab(ElectricalCable.SpawnOnDeconstruct, interaction.WorldPositionTarget,
+				count: ElectricalCable.SpawnAmountOnDeconstruct);
+
+			return;
 		}
 	}
 }
