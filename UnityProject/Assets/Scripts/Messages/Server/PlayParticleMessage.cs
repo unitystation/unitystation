@@ -26,7 +26,7 @@ public class PlayParticleMessage : ServerMessage
 			return;
 		}
 
-		LoadMultipleObjects(new uint[] {ParentObject, ParentObject});
+		LoadMultipleObjects(new uint[] {ParticleObject, ParentObject});
 
 		GameObject particleObject = NetworkObjects[0];
 		GameObject parentObject = NetworkObjects[1];
@@ -90,7 +90,11 @@ public class PlayParticleMessage : ServerMessage
 		try
 		{
 			topContainer = obj.GetComponent<PushPull>().TopContainer.gameObject;
-		} catch ( Exception ignored ) {}
+		}
+		catch (Exception ignored)
+		{
+			Debug.Log($"PlayParticleMessage threw an exception {ignored} which has been ignored.");
+		}
 
 
 		PlayParticleMessage msg = new PlayParticleMessage {

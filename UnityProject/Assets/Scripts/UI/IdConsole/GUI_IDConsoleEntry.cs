@@ -23,12 +23,12 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 	[Tooltip("Color settings to apply when it's on")]
 	[SerializeField]
 	[Header("On Colors")]
-	private ColorBlock onColors;
+	private ColorBlock onColors = ColorBlock.defaultColorBlock;
 
 	[Tooltip("Color settings to use when it's off")]
 	[SerializeField]
 	[Header("Off Colors")]
-	private ColorBlock offColors;
+	private ColorBlock offColors = ColorBlock.defaultColorBlock;
 
 	//parent ID console tab this lives in
 	private GUI_IDConsole console;

@@ -12,7 +12,7 @@ public class PlayerCustomisationDataSOs : SingletonScriptableObject<PlayerCustom
 	[Header("Drag multiple ScriptableObjects into the lists to populate them")]
 	[Tooltip("Contains entries for each customisation type which should list all customisation options")]
 	[SerializeField]
-	private PlayerCustomisationDictionary playerCustomisationDictionary;
+	private PlayerCustomisationDictionary playerCustomisationDictionary = null;
 
 	/// <summary>
 	/// Returns a PlayerCustomisationData using the type and name.

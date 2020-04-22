@@ -25,6 +25,7 @@ namespace Chemistry.Editor
 		private int progress;
 		private int maxProgress;
 		private bool cancel;
+		private bool overwrite;
 
 
 		[MenuItem("Window/Chemistry Importer")]
@@ -38,6 +39,7 @@ namespace Chemistry.Editor
 			reagentExportPath = EditorGUILayout.TextField("Reagent export path", reagentExportPath);
 			reactionExportPath = EditorGUILayout.TextField("Reaction export path", reactionExportPath);
 			reactionSetExportPath = EditorGUILayout.TextField("Reaction set export path", reactionSetExportPath);
+			overwrite = GUILayout.Toggle(overwrite, "Overwrite existing data");
 
 			EditorGUI.BeginDisabledGroup(
 				!Directory.Exists(reagentsPath) ||
@@ -92,7 +94,7 @@ namespace Chemistry.Editor
 		private IEnumerator Export()
 		{
 			progress = 0;
-			var reagentFiles = Directory.EnumerateFiles(reagentsPath);
+			var reagentFiles = Directory.EnumerateFiles(reagentsPath, "*.yml");
 
 			var reagentGroups = reagentFiles
 				.Select(file => (file,
@@ -108,7 +110,48 @@ namespace Chemistry.Editor
 				.SelectMany(dict => dict)
 				.ToDictionary(pair => pair.Key, pair => pair.Value);
 
-			var reactionFiles = Directory.EnumerateFiles(reactionPath)
+			foreach (var reagentsGroup in reagentGroups)
+			{
+				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key))
+					.Replace("Reagents", "");
+				Debug.Log(prefix);
+				var prefixPath = Path.Combine(reagentExportPath, prefix);
+				if (!Directory.Exists(prefixPath))
+				{
+					Directory.CreateDirectory(prefixPath);
+				}
+
+				foreach (var reagent in reagentsGroup)
+				{
+					var path = Path.Combine(prefixPath, ToPascalCase(reagent.Value.Name) + ".asset");
+					var localPath = LocalPath(path);
+
+					if (!File.Exists(path) || overwrite)
+					{
+						AssetDatabase.CreateAsset(reagent.Value, path);
+					}
+					else
+					{
+						var existAsset = AssetDatabase.LoadAssetAtPath<Reagent>(localPath);
+						if (existAsset)
+							flatReagents[reagent.Key] = existAsset;
+					}
+
+
+					progress++;
+					if (cancel)
+					{
+						progress = 0;
+						cancel = false;
+						yield break;
+					}
+
+					yield return new EditorWaitForSeconds(0f);
+				}
+			}
+
+
+			var reactionFiles = Directory.EnumerateFiles(reactionPath, "*.yml")
 				.ToArray();
 
 			var reactionSetsData = new Dictionary<string, List<Reaction>>();
@@ -125,33 +168,7 @@ namespace Chemistry.Editor
 
 			maxProgress = flatReagents.Count + reactionGroups.Sum(r => r.Count());
 
-			foreach (var reagentsGroup in reagentGroups)
-			{
-				var prefix = ToPascalCase(Path.GetFileNameWithoutExtension(reagentsGroup.Key))
-					.Replace("Reagents", "");
-				Debug.Log(prefix);
-				var prefixPath = Path.Combine(reagentExportPath, prefix);
-				if (!Directory.Exists(prefixPath))
-				{
-					Directory.CreateDirectory(prefixPath);
-				}
 
-				foreach (var reagent in reagentsGroup)
-				{
-					var path = Path.Combine(prefixPath, ToPascalCase(reagent.Value.Name) + ".asset");
-					AssetDatabase.CreateAsset(reagent.Value, path);
-
-					progress++;
-					if (cancel)
-					{
-						progress = 0;
-						cancel = false;
-						yield break;
-					}
-
-					yield return new EditorWaitForSeconds(0f);
-				}
-			}
 
 			foreach (var reactionsGroup in reactionGroups)
 			{
@@ -170,7 +187,24 @@ namespace Chemistry.Editor
 						Directory.CreateDirectory(Path.GetDirectoryName(path));
 					}
 
-					AssetDatabase.CreateAsset(reaction.Value, path);
+					var localPath = LocalPath(path);
+					if (!File.Exists(path) || overwrite)
+					{
+						AssetDatabase.CreateAsset(reaction.Value, localPath);
+					}
+					else
+					{
+						var existAsset = AssetDatabase.LoadAssetAtPath<Reaction>(localPath);
+						if (existAsset)
+						{
+							foreach (var data in reactionSetsData)
+							{
+								var index = data.Value.IndexOf(reaction.Value);
+								if (index > 0)
+									data.Value[index] = existAsset;
+							}
+						}
+					}
 
 
 					progress++;
@@ -206,7 +240,18 @@ namespace Chemistry.Editor
 					ToPascalCase(Path.GetFileName(reactionSetData.Key)) +
 					".asset");
 
-				AssetDatabase.CreateAsset(reactionSet, path);
+				var localPath = LocalPath(path);
+
+				if (!File.Exists(path) || overwrite)
+					AssetDatabase.CreateAsset(reactionSet, localPath);
+				else
+				{
+					var origSet = AssetDatabase.LoadAssetAtPath<ReactionSet>(localPath);
+					var newSet = origSet.reactions.Union(reactionSet.reactions);
+
+					origSet.reactions = newSet.ToArray();
+					AssetDatabase.SaveAssets();
+				}
 
 				if (cancel)
 				{
@@ -233,7 +278,8 @@ namespace Chemistry.Editor
 			{
 				reaction.results = new DictionaryReagentInt();
 				var results = ((Dictionary<object, object>) resultsData).ToDictionary(
-					r => reagents[(string) r.Key],
+					r => {
+						return reagents[(string)r.Key]; },
 					r => int.Parse((string) r.Value));
 
 				foreach (var result in results)
@@ -384,6 +430,16 @@ namespace Chemistry.Editor
 			{
 				return GetEnumerator();
 			}
+		}
+
+		private string LocalPath(string path)
+		{
+			if (path.StartsWith(Application.dataPath))
+			{
+				return "Assets" + path.Substring(Application.dataPath.Length);
+			}
+
+			return path;
 		}
 	}
 }

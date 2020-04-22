@@ -9,8 +9,8 @@ public class GUI_Notification : MonoBehaviour
 {
 	public Dictionary<string, int> notifications = new Dictionary<string, int>();
 
-	[SerializeField] private Text label;
-	[SerializeField] private Image background;
+	[SerializeField] private Text label = null;
+	[SerializeField] private Image background = null;
 
 	private void OnEnable()
 	{

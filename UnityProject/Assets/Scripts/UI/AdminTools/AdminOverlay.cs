@@ -29,15 +29,15 @@ namespace AdminTools
 			}
 		}
 
-		[SerializeField] private GameObject infoPanelPrefab;
+		[SerializeField] private GameObject infoPanelPrefab = null;
 		private List<AdminOverlayPanel> infoPanelPool = new List<AdminOverlayPanel>();
 		private List<AdminOverlayPanel> panelsInUse = new List<AdminOverlayPanel>();
 
 		private Dictionary<uint, AdminInfo> serverInfos = new Dictionary<uint, AdminInfo>();
 
 		[SerializeField] private Button overlayToggleButton = null;
-		[SerializeField] private Color selectedColor;
-		[SerializeField] private Color unSelectedColor;
+		[SerializeField] private Color selectedColor = new Color(67, 112, 156); // Ocean blue
+		[SerializeField] private Color unSelectedColor = new Color(59, 78, 96); // Darker ocean blue
 
 		public bool IsOn { get; private set; }
 

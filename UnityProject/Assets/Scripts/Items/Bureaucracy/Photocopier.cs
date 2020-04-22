@@ -19,7 +19,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 		[SyncVar(hook = nameof(SyncPhotocopierState))]
 		private PhotocopierState photocopierState;
 
-		[SerializeField] private SpriteHandler spriteHandler;
+		[SerializeField] private SpriteHandler spriteHandler = null;
 		private RegisterObject registerObject;
 
 		private void Awake()
@@ -146,7 +146,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 			OnGuiRenderRequired();
 		}
 
-		public bool CanPrint() => printer.CanPrint(scanner.ScannedText);
+		public bool CanPrint() => printer.CanPrint(scanner.ScannedText, photocopierState == PhotocopierState.Idle);
 
 		[Server]
 		public void Print()
@@ -160,7 +160,7 @@ namespace Assets.Scripts.Items.Bureaucracy
 		{
 			yield return WaitFor.Seconds(4f);
 			SyncPhotocopierState(photocopierState, PhotocopierState.Idle);
-			printer = printer.Print(scanner.ScannedText, gameObject);
+			printer = printer.Print(scanner.ScannedText, gameObject, photocopierState == PhotocopierState.Idle);
 			OnGuiRenderRequired();
 		}
 

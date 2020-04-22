@@ -14,9 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  ammoType: 13
+  ammoPrefab: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
+    type: 3}
+  casingPrefab: {fileID: 0}
+  ammoType: 17
   SpawnsCaseing: 0
   MagInternal: 1
+  CanRemovableMag: 1
   SmartGun: 0
   MagSize: 1
   CurrentRecoilVariance: 0
@@ -131,7 +135,7 @@ PrefabInstance:
     - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Name
-      value: PKA
+      value: Proto-Kinetic-Accelerator
       objectReference: {fileID: 0}
     - target: {fileID: 7710870028303749509, guid: c456c86d5736aee499478a158376781e,
         type: 3}

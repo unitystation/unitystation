@@ -31,9 +31,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  AmmoType: 8
-  SpawnsCaseing: 1
+  ammoPrefab: {fileID: 742292832060491855, guid: 65ed747e8d0f44242ba0c8eacae5e478,
+    type: 3}
+  casingPrefab: {fileID: 0}
+  ammoType: 8
+  SpawnsCaseing: 0
+  MagInternal: 0
+  CanRemovableMag: 0
   SmartGun: 0
+  MagSize: 10
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FiringSound: ShootLaser
@@ -47,6 +53,19 @@ MonoBehaviour:
     RecoilDuration: 0
     RecoveryDuration: 0
   WeaponType: 0
+--- !u!114 &505251973963023168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7680527389759007793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 088b05d8e3804e948a69579df536c570, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BatteryitemStorage: {fileID: -5387393567893094126}
 --- !u!1001 &7680081105192390795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107,6 +126,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 057c94bd12ebc534786282a2005dd9d1,
+        type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.size
@@ -116,6 +141,11 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.RightHand.Sprites.Array.size
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -195,12 +225,12 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 8f950bc1bba8a1946b1660d23ef82afb, type: 3}
-    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: initialTraits.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 057c94bd12ebc534786282a2005dd9d1,
-        type: 3}
+      objectReference: {fileID: 11400000, guid: 7a8a160ea6ef075498f62f1898e1964d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &7680527389759007793 stripped

@@ -80,7 +80,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114056072402202090
@@ -144,6 +143,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114878883059172016
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -158,6 +158,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 30
     Bullet: 30
@@ -191,10 +192,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1688268840
 --- !u!114 &7037579127031050856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,11 +211,13 @@ MonoBehaviour:
   doorController: {fileID: 2415801389328985729}
   spritePath: icons/obj/doors/shutters
   animFrames: 07000000060000000500000004000000030000000200000001000000
+  animLength: 0
   closeFrame: 8
   deniedFrame: 0
   openFrame: 0
   direction: 0
   IncludeAccessDeniedAnim: 0
+  Smoothed: 0
 --- !u!114 &2415801389328985729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -229,23 +232,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  closeSFX: {fileID: 0}
+  openSFX: BlastDoor
+  closeSFX: BlastDoor
   doorAnimationSize: 6
   doorAnimator: {fileID: 7037579127031050856}
   DoorDeniedSpriteOffset: 12
   DoorCoverSpriteOffset: 0
   DoorLightSpriteOffset: 0
   DoorSpriteOffset: 0
+  weldOverlay: {fileID: 0}
+  weldSprite: {fileID: 0}
   doorType: 16
   damageOnClose: 1
+  damageClosed: 90
   ignorePassableChecks: 0
-  IsOpened: 0
+  IsAutomatic: 1
   isPerformingAction: 0
   isWindowedDoor: 0
   useSimpleLightAnimation: 0
   useSimpleDeniedAnimation: 0
   maxTimeOpen: -1
-  openSFX: {fileID: 0}
+  enablePressureWarning: 0
+  DoorPressureSpriteOffset: 25
+  pressureLevel: 0
   openingDirection: 1
   spriteRenderer: {fileID: 0}
 --- !u!114 &6040070739731804246
@@ -264,6 +273,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: shutters
   initialDescription: Can be closed to prevent passage.
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
@@ -312,6 +322,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -334,7 +345,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1825689229
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300030, guid: 9357df457aba141c5983326814664ee2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

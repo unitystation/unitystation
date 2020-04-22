@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
+using UI.CharacterCreator;
 
 /// <summary>
 /// Class containing all character preferences for a player
@@ -7,6 +9,11 @@ using System.Linq;
 /// </summary>
 public class CharacterSettings
 {
+	// TODO: all of the in-game appearance variables should probably be refactored into a separate class which can
+	// then be used in PlayerScript since job preferences are only needed at round start in ConnectedPlayer
+
+	// IMPORTANT: these fields use primitive types (int, string... etc) so they can be sent  over the network with
+	// RPCs and Commands without needing to serialise them to JSON!
 	public const int MAX_NAME_LENGTH = 26; //Arbitrary limit, but 26 is the max the current UI can fit
 	public string Username;
 	public string Name = "Cuban Pete";
@@ -24,6 +31,29 @@ public class CharacterSettings
 	public string UnderwearName = "Mankini";
 	public string SocksName = "Knee-High (Freedom)";
 	public JobPrefsDict JobPreferences = new JobPrefsDict();
+	public AntagPrefsDict AntagPreferences = new AntagPrefsDict();
+
+	public override string ToString()
+	{
+		var sb = new StringBuilder($"{Username}'s character settings:\n", 300);
+		sb.AppendLine($"Name: {Name}");
+		sb.AppendLine($"Gender: {Gender}");
+		sb.AppendLine($"ClothingStyle: {ClothingStyle}");
+		sb.AppendLine($"BagStyle: {BagStyle}");
+		sb.AppendLine($"Age: {Age}");
+		sb.AppendLine($"Speech: {Speech}");
+		sb.AppendLine($"HairStyleName: {HairStyleName}");
+		sb.AppendLine($"HairColor: {HairColor}");
+		sb.AppendLine($"EyeColor: {EyeColor}");
+		sb.AppendLine($"FacialHairName: {FacialHairName}");
+		sb.AppendLine($"FacialHairColor: {FacialHairColor}");
+		sb.AppendLine($"SkinTone: {SkinTone}");
+		sb.AppendLine($"UnderwearName: {UnderwearName}");
+		sb.AppendLine($"SocksName: {SocksName}");
+		sb.AppendLine($"JobPreferences: \n\t{string.Join("\n\t", JobPreferences)}");
+		sb.AppendLine($"AntagPreferences: \n\t{string.Join("\n\t", AntagPreferences)}");
+		return sb.ToString();
+	}
 
 	/// <summary>
 	/// Does nothing if all the character's properties are valid

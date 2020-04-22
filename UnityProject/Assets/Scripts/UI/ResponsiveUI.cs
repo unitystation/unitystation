@@ -112,7 +112,7 @@ using UnityEngine.SceneManagement;
 				yield break;
 			}
 			Logger.Log("Screen height before resizing: " + main.pixelHeight + " Aspect Y: " + height/(float)Screen.height, Category.Camera);
-			Logger.Log("Screen height before resizing: " + main.pixelWidth + " Aspect X: " + width/(float)Screen.width, Category.Camera);
+			Logger.Log("Screen width before resizing: " + main.pixelWidth + " Aspect X: " + width/(float)Screen.width, Category.Camera);
 
 			// Enforce aspect by resizing the camera rectangle to nearest (lower) even number.
 			main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);

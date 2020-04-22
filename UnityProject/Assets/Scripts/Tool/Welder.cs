@@ -31,13 +31,12 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	public UnityEvent OnWelderOffServer = new UnityEvent();
 
 	//Inhands
-	private int leftHandOriginal;
+	private int leftHandOriginal = 0;
 	private int rightHandOriginal = 0;
 	private int leftHandFlame;
 	private int rightHandFlame;
 
 	private bool isBurning = false;
-	private float burnRate = 0.2f;
 
 	public float damageOn;
 	private float damageOff;

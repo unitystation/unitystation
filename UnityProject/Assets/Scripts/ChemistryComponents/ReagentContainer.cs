@@ -12,15 +12,37 @@ using Chemistry;
 /// prefixed with "Server"
 /// </summary>
 [RequireComponent(typeof(RightClickAppearance))]
-public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
+public partial class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	ICheckedInteractable<HandApply>, //Transfer: active hand <-> object in the world
 	ICheckedInteractable<HandActivate>, //Activate to change transfer amount
 	ICheckedInteractable<InventoryApply>, //Transfer: active hand <-> other hand
 	IEnumerable<KeyValuePair<Chemistry.Reagent, float>>
 {
+
+	[Header("Container Parameters")]
 	public int maxCapacity = 100;
+
 	[SerializeField] private ReactionSet reactionSet;
-	[SerializeField] private ReagentMix reagentMix = new ReagentMix();
+
+	[FormerlySerializedAs("reagentMix")]
+	[SerializeField] private ReagentMix initialReagentMix = new ReagentMix();
+
+	private ReagentMix reagentMix;
+	private ReagentMix ReagentMix
+	{
+		get
+		{
+			if (reagentMix == null)
+			{
+				if (initialReagentMix == null)
+					return null;
+
+				reagentMix = initialReagentMix.Clone();
+			}
+			return reagentMix;
+		}
+
+	}
 
 	public float CurrentCapacity
 	{
@@ -32,9 +54,9 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 		}
 	}
 
-	public float? this[Chemistry.Reagent reagent] => reagentMix[reagent];
+	public float? this[Chemistry.Reagent reagent] => ReagentMix[reagent];
 
-	private DictionaryReagentFloat Reagents => reagentMix.reagents;
+	private DictionaryReagentFloat Reagents => ReagentMix.reagents;
 
 	public ItemAttributesV2 itemAttributes;
 	private FloatEvent onCurrentCapacityChange = new FloatEvent();
@@ -62,6 +84,11 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	/// </summary>
 	[NonSerialized] public UnityEvent OnSpillAllContents = new UnityEvent();
 
+	/// <summary>
+	/// Invoked server side when the mix of reagents inside container changes
+	/// </summary>
+	[NonSerialized] public UnityEvent OnReagentMixChanged = new UnityEvent();
+
 	[field: Range(1, 100)]
 	[field: SerializeField]
 	[field: FormerlySerializedAs("TransferAmount")]
@@ -76,8 +103,12 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 
 	public float Temperature
 	{
-		get => reagentMix.Temperature;
-		set => reagentMix.Temperature = value;
+		get => ReagentMix.Temperature;
+		set
+		{
+			ReagentMix.Temperature = value;
+			OnReagentMixChanged?.Invoke();
+		}
 	}
 
 	public ReactionSet ReactionSet
@@ -93,9 +124,13 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	private void Awake()
 	{
 		itemAttributes = GetComponent<ItemAttributesV2>();
+
+		// add ReagentContainer trait on server and client
 		if (itemAttributes != null)
 		{
-			itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
+			var containerTrait = CommonTraits.Instance.ReagentContainer;
+			if (!itemAttributes.HasTrait(containerTrait))
+				itemAttributes.AddTrait(CommonTraits.Instance.ReagentContainer);
 		}
 
 		this.WaitForNetworkManager(() =>
@@ -157,26 +192,16 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 		}
 	}
 
-	/// <summary>
-	/// Reinitialise the contents if there are any with the passed in values
-	/// </summary>
-	/// <param name="reagents">List of reagent names</param>
-	/// <param name="amounts">List of reagent amounts</param>
-	public void ResetContents(List<string> reagents, List<float> amounts)
-	{
-		//Reagents = reagents;
-		//Amounts = amounts;
-		ResetContents();
-	}
-
 	protected void ResetContents()
 	{
-		CurrentCapacity = reagentMix.Total;
+		reagentMix = initialReagentMix.Clone();
+		CurrentCapacity = ReagentMix.Total;
+
+		OnReagentMixChanged?.Invoke();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		TransferAmount = TransferAmount;
 		ResetContents();
 	}
 
@@ -234,8 +259,8 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 			}
 		}
 
-		CurrentCapacity = reagentMix.Total;
-		var totalToAdd = reagentMix.Total;
+		CurrentCapacity = ReagentMix.Total;
+		var totalToAdd = ReagentMix.Total;
 
 		if (CurrentCapacity >= maxCapacity)
 		{
@@ -246,34 +271,37 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 			};
 		}
 
-		reagentMix.Add(addition);
+		ReagentMix.Add(addition);
 
 		//Reactions happen here
-		reactionSet.Apply(this, reagentMix);
-		CurrentCapacity = reagentMix.Total;
-		reagentMix.Clean();
+		if (reactionSet == null) return new TransferResult {Success = false, TransferAmount = 0f, Message = ""} ;
+
+		reactionSet.Apply(this, ReagentMix);
+		CurrentCapacity = ReagentMix.Total;
+		Clean();
 
 		var message = string.Empty;
 		if (CurrentCapacity > maxCapacity)
 		{
 			//Reaction ends up in more reagents than container can hold
 			var excessCapacity = CurrentCapacity;
-			reagentMix.Max(maxCapacity, out _);
-			CurrentCapacity = reagentMix.Total;
+			ReagentMix.Max(maxCapacity, out _);
+			CurrentCapacity = ReagentMix.Total;
 			message = $"Reaction caused excess ({excessCapacity}/{maxCapacity}), current capacity is {CurrentCapacity}";
 		}
 
+		OnReagentMixChanged?.Invoke();
 		return new TransferResult {Success = true, TransferAmount = totalToAdd, Message = message};
 	}
 
 	public bool Contains(Chemistry.Reagent reagent, float amount)
 	{
-		return reagentMix.Contains(reagent, amount);
+		return ReagentMix.Contains(reagent, amount);
 	}
 
 	public bool ContainsMoreThan(Chemistry.Reagent reagent, float amount)
 	{
-		return reagentMix.ContainsMoreThan(reagent, amount);
+		return ReagentMix.ContainsMoreThan(reagent, amount);
 	}
 
 	/// <summary>
@@ -281,12 +309,15 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	/// </summary>
 	public ReagentMix TakeReagents(float amount)
 	{
-		return reagentMix.Take(amount);
+		var takeMix = ReagentMix.Take(amount);
+		OnReagentMixChanged?.Invoke();
+		return takeMix;
 	}
 
 	public void Subtract(ReagentMix reagents)
 	{
-		reagentMix.Subtract(reagents);
+		ReagentMix.Subtract(reagents);
+		OnReagentMixChanged?.Invoke();
 	}
 
 	/// <summary>
@@ -309,7 +340,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 
 		if (target != null)
 		{
-			var transffered = reagentMix.Take(amount);
+			var transffered = ReagentMix.Take(amount);
 			transferResult = target.Add(transffered);
 			if (!transferResult.Success)
 			{
@@ -327,8 +358,8 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 			};
 		}
 
-		reagentMix.Clean();
-		CurrentCapacity = reagentMix.Total;
+		Clean();
+		CurrentCapacity = ReagentMix.Total;
 
 		return transferResult;
 	}
@@ -344,11 +375,6 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 		return amount;
 	}
 
-	private void RemoveAll()
-	{
-		reagentMix.Clear();
-	}
-
 	private void SpillAll(bool thrown = false)
 	{
 		SpillAll(TransformState.HiddenPos, thrown);
@@ -357,7 +383,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 	public void Spill(Vector3Int worldPos, float amount)
 	{
 		var spilledReagents = TakeReagents(amount);
-		CurrentCapacity = reagentMix.Total;
+		CurrentCapacity = ReagentMix.Total;
 		MatrixManager.ReagentReact(spilledReagents, worldPos);
 	}
 
@@ -382,7 +408,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 		NotifyPlayersOfSpill(worldPos);
 
 		//todo: half decent regs spread
-		var spilledReagents = TakeReagents(reagentMix.Total);
+		var spilledReagents = TakeReagents(ReagentMix.Total);
 		MatrixManager.ReagentReact(spilledReagents, worldPos);
 
 		OnSpillAllContents.Invoke();
@@ -632,13 +658,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 
 		var transferAmount = transferFrom.TransferAmount;
 
-		var useFillMessage = false;
-		//always taking max capacity from output-only things like tanks
-		if (transferFrom.transferMode == TransferMode.OutputOnly)
-		{
-			transferAmount = transferFrom.CurrentCapacity;
-			useFillMessage = true;
-		}
+		var useFillMessage = true;
 
 		var result = transferFrom.MoveReagentsTo(transferAmount, transferTo);
 
@@ -677,7 +697,7 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 
 	public IEnumerator<KeyValuePair<Chemistry.Reagent, float>> GetEnumerator()
 	{
-		return reagentMix.GetEnumerator();
+		return ReagentMix.GetEnumerator();
 	}
 
 	IEnumerator IEnumerable.GetEnumerator()
@@ -699,13 +719,49 @@ public class ReagentContainer : MonoBehaviour, IRightClickable, IServerSpawn,
 
 	public void Multiply(float multiplier)
 	{
-		reagentMix.Multiply(multiplier);
+		ReagentMix.Multiply(multiplier);
+		OnReagentMixChanged?.Invoke();
 	}
 
 	public void Clean()
 	{
-		reagentMix.Clean();
+		ReagentMix.Clean();
+		OnReagentMixChanged?.Invoke();
 	}
+
+
+	public Color GetMixColor()
+	{
+		return ReagentMix.MixColor;
+	}
+
+	/// <summary>
+	/// Server only. Returns [0,1] fill percents
+	/// </summary>
+	/// <returns></returns>
+	public float GetFillPercent()
+	{
+		if (IsEmpty)
+			return 0f;
+
+		return Mathf.Clamp01(ReagentMix.Total / maxCapacity);
+	}
+
+	/// <summary>
+	/// Server only. Reagent mix ammount in units
+	/// </summary>
+	public float ReagentMixTotal
+	{
+		get
+		{
+			return ReagentMix.Total;
+		}
+	}
+
+	/// <summary>
+	/// Server only. Reagent with biggest amount in mix
+	/// </summary>
+	public Chemistry.Reagent MajorMixReagent => ReagentMix.MajorMixReagent;
 }
 
 public struct TransferResult

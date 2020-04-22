@@ -6,6 +6,7 @@ public class DebugMultitool : MonoBehaviour, ICheckedInteractable<PositionalHand
 {
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
+		if (interaction.HandObject == null) return false;
 		return true;
 	}
 
@@ -16,15 +17,10 @@ public class DebugMultitool : MonoBehaviour, ICheckedInteractable<PositionalHand
 		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
 		var matrix = interaction.Performer.GetComponentInParent<Matrix>();
 		var MetaDataNode = matrix.GetMetaDataNode(localPosInt);
+		Logger.Log("MetaDataNodeCount " + MetaDataNode.ElectricalData.Count);
 
 		foreach (var D in MetaDataNode.ElectricalData) {
 			D.InData.ShowDetails();
-		}
-
-		if (Input.GetKey(KeyCode.F8))
-		{
-			UnderFloorLayer.LOk = true;
-			matrix.UnderFloorLayer.CalculateTile(localPosInt.To2Int());
 		}
 	}
 }

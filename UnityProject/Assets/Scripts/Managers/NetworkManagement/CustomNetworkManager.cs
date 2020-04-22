@@ -6,6 +6,7 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
+using DatabaseAPI;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -14,6 +15,7 @@ public class CustomNetworkManager : NetworkManager
 	public static CustomNetworkManager Instance;
 
 	[HideInInspector] public bool _isServer;
+	[HideInInspector] private ServerConfig config;
 	public GameObject humanPlayerPrefab;
 	public GameObject ghostPrefab;
 	public GameObject disconnectedViewerPrefab;
@@ -42,6 +44,7 @@ public class CustomNetworkManager : NetworkManager
 	public override void Start()
 	{
 		CheckTransport();
+		ApplyConfig();
 		//Automatically host if starting up game *not* from lobby
 		if (SceneManager.GetActiveScene().name != "Lobby")
 		{
@@ -70,6 +73,28 @@ public class CustomNetworkManager : NetworkManager
 						Logger.Log("No beam data found. Falling back to Telepathy");
 						transport = telepathy;
 					}
+				}
+			}
+		}
+	}
+
+	void ApplyConfig()
+	{
+		config = ServerData.ServerConfig;
+		if (config.ServerPort != 0 && config.ServerPort <= 65535)
+		{
+			Logger.LogFormat("ServerPort defined in config: {0}", Category.Server, config.ServerPort);
+			var booster = GetComponent<BoosterTransport>();
+			if (booster != null)
+			{
+				booster.port = (ushort)config.ServerPort;
+			}
+			else
+			{
+				var telepathy = GetComponent<TelepathyTransport>();
+				if (telepathy != null)
+				{
+					telepathy.port = (ushort)config.ServerPort;
 				}
 			}
 		}

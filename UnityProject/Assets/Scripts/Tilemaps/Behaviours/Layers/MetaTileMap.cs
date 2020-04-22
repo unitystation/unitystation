@@ -267,6 +267,29 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Gets the topmost tile at the specified cell position , Whilst ignoring the specified tiles in the ExcludedLayers
+	/// </summary>
+	/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
+	/// as world position.</param>
+	/// <returns></returns>
+	public LayerTile GetTile(Vector3Int cellPosition, LayerTypeSelection ExcludedLayers)
+	{
+		for (var i = 0; i < LayersValues.Length; i++)
+		{
+			LayerTile tile = LayersValues[i].GetTile(cellPosition);
+			if (tile != null)
+			{
+				if (LTSUtil.IsLayerIn(ExcludedLayers,tile.LayerType)) continue;
+
+				return tile;
+			}
+		}
+
+		return null;
+	}
+
+
+	/// <summary>
 	/// Checks if tile is empty of objects (only solid by default)
 	/// </summary>
 	public bool IsEmptyAt( Vector3Int position, bool isServer )

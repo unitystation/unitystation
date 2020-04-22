@@ -295,11 +295,14 @@ public class  Matrix : MonoBehaviour
 		var list = ElectricalPool.GetFPCList();
 		if (ServerObjects != null)
 		{
-			foreach (var Object in ServerObjects.Get(position))
+			var collection = ServerObjects.Get(position);
+			for (int i = collection.Count - 1; i >= 0; i--)
 			{
-				if (Object?.ElectricalData?.InData != null)
+				if (i < collection.Count && collection[i] != null
+				    && collection[i].ElectricalData != null &&
+				    collection[i].ElectricalData.InData != null)
 				{
-					list.Add(Object?.ElectricalData?.InData);
+					list.Add(collection[i].ElectricalData.InData);
 				}
 			}
 		}
@@ -317,91 +320,67 @@ public class  Matrix : MonoBehaviour
 	{
 		var metaData = metaDataLayer.Get(position, true);
 		var newdata = new ElectricalMetaData();
-		newdata.Initialise(wireConnect, metaData, position.To2Int(), this);
+		newdata.Initialise(wireConnect, metaData, position, this);
 		metaData.ElectricalData.Add(newdata);
 
-		ElectricalCableTile Tile = null;
-		string Compound;
-		if (newdata.InData.WireEndA < newdata.InData.WireEndB)
-		{
-			Compound = newdata.InData.WireEndA + "_" + newdata.InData.WireEndB;
-		}
-		else {
-			Compound = newdata.InData.WireEndB + "_" + newdata.InData.WireEndA;
-		}
-		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
-
-		switch (newdata.InData.Categorytype)
-		{
-			case PowerTypeCategory.StandardCable:
-				Tile = ElectricalManager.Instance.MediumVoltageCables.Tiles[spriteIndex];
-				break;
-			case PowerTypeCategory.LowVoltageCable:
-				Tile = ElectricalManager.Instance.LowVoltageCables.Tiles[spriteIndex];
-				break;
-			case PowerTypeCategory.HighVoltageCable:
-				Tile = ElectricalManager.Instance.HighVoltageCables.Tiles[spriteIndex];
-				break;
-		}
-		newdata.RelatedTile = Tile;
-		if (Tile != null) {
-			if (metaTileMap != null)
-			{
-				metaTileMap.SetTile(position, Tile);
-			}
-		}
+		UnderFloorElectricalSetTile(wireConnect.InData.WireEndA, wireConnect.InData.WireEndB,
+			wireConnect.InData.Categorytype, position, newdata);
 	}
 
-	public void AddElectricalNode(Vector3Int position, ElectricalCableTile wireConnect)
+	public void AddElectricalNode(Vector3Int position, ElectricalCableTile electricalCableTile, bool AddTile = false)
 	{
-		var metaData = metaDataLayer.Get(position, true);
+		var checkPos = position;
+		checkPos.z = 0;
+		var metaData = metaDataLayer.Get(checkPos, true);
 		var newdata = new ElectricalMetaData();
-		newdata.Initialise(wireConnect, metaData, position.To2Int(), this);
+		newdata.Initialise(electricalCableTile, metaData, position, this);
 		metaData.ElectricalData.Add(newdata);
+		if (AddTile)
+		{
+			if (electricalCableTile != null) {
+				if (UnderFloorLayer == null)
+				{
+					underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
+				}
+				if (UnderFloorLayer != null)
+				{
+					UnderFloorLayer.SetTile(position, electricalCableTile, Matrix4x4.identity);
+				}
+			}
+		}
 	}
 
 	public void EditorAddElectricalNode(Vector3Int position, WireConnect wireConnect)
 	{
-		var	ElectricalManager = FindObjectOfType<ElectricalManager>();
-		ElectricalCableTile Tile = null;
-		string Compound;
-		if (wireConnect.InData.WireEndA < wireConnect.InData.WireEndB)
-		{
-			Compound = wireConnect.InData.WireEndA + "_" + wireConnect.InData.WireEndB;
-		}
-		else {
-			Compound = wireConnect.InData.WireEndB + "_" + wireConnect.InData.WireEndA;
-		}
-		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
+		UnderFloorElectricalSetTile(wireConnect.InData.WireEndA, wireConnect.InData.WireEndB,
+			wireConnect.InData.Categorytype, position);
+	}
 
-		switch (wireConnect.InData.Categorytype)
+	private void UnderFloorElectricalSetTile(Connection WireEndA, Connection WireEndB, PowerTypeCategory powerTypeCategory, Vector3Int position, ElectricalMetaData newdata = null )
+	{
+		ElectricalCableTile Tile = ElectricityFunctions.RetrieveElectricalTile( WireEndA,  WireEndB,  powerTypeCategory);
+		if (newdata != null)
 		{
-			case PowerTypeCategory.StandardCable:
-				Tile = ElectricalManager.MediumVoltageCables.Tiles[spriteIndex];
-				break;
-			case PowerTypeCategory.LowVoltageCable:
-				Tile = ElectricalManager.LowVoltageCables.Tiles[spriteIndex];
-				break;
-			case PowerTypeCategory.HighVoltageCable:
-				Tile = ElectricalManager.HighVoltageCables.Tiles[spriteIndex];
-				break;
+			newdata.RelatedTile = Tile;
 		}
 		if (Tile != null) {
-			if (metaTileMap != null)
+			if (UnderFloorLayer == null)
 			{
-				metaTileMap.SetTile(position, Tile);
+				underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
+			}
+			if (UnderFloorLayer != null)
+			{
+				UnderFloorLayer.SetTile(position, Tile, Matrix4x4.identity);
 			}
 		}
 	}
-
-
 
 	public MetaDataNode GetMetaDataNode(Vector3Int localPosition, bool createIfNotExists = true)
 	{
 		return (metaDataLayer.Get(localPosition, createIfNotExists));
 	}
 
-	public void RemoveUnderFloorTile(Vector2Int position, GenericTile tile)
+	public void RemoveUnderFloorTile(Vector3Int position, LayerTile tile)
 	{
 		if (UnderFloorLayer == null)
 		{

@@ -12,8 +12,8 @@ public class SongTracker : MonoBehaviour
 	[SerializeField] private Image speakerImage = null;
 	[SerializeField] private Sprite speakerOn = null;
 	[SerializeField] private Sprite speakerOff = null;
-	[SerializeField] private Color onColor;
-	[SerializeField] private Color offColor;
+	[SerializeField] private Color onColor = new Color(178, 194, 204); // Pale Blue
+	[SerializeField] private Color offColor = new Color(176, 176, 176); // Grey
 
 	private float timeBetweenSongs = 2f;
 	private float currentWaitTime = 0f;

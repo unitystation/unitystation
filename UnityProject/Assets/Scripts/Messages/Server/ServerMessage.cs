@@ -81,7 +81,6 @@ public abstract class ServerMessage : GameMessageBase
 	{
 		var players = PlayerList.Instance.AllPlayers;
 
-		RaycastHit2D hit;
 		LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
 		for (int i = players.Count - 1; i > 0; i--)
 		{

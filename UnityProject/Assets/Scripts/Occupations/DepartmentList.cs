@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 
 /// <summary>
@@ -14,6 +13,22 @@ public class DepartmentList : SingletonScriptableObject<DepartmentList>
 	[SerializeField]
 	[Tooltip("Allowed departments, and the order in which they should be displayed in" +
 	         " job preferences.")]
-	private Department[] departments;
+	private Department[] departments = null;
 	public IEnumerable<Department> Departments => departments;
+
+	/// <summary>
+	/// Returns all head jobs defined in each Department ScriptableObject
+	/// </summary>
+	public IEnumerable<Occupation> GetAllHeadJobs()
+	{
+		return departments.SelectMany(dept => dept.HeadOccupations);
+	}
+
+	/// <summary>
+	/// Returns all non-head jobs defined in each Department ScriptableObject
+	/// </summary>
+	public IEnumerable<Occupation> GetAllNormalJobs()
+	{
+		return departments.SelectMany(dept => dept.Occupations);
+	}
 }

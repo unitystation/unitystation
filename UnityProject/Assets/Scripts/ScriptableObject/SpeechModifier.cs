@@ -11,18 +11,18 @@ public class SpeechModifier : ScriptableObject
 	[Tooltip("Activate the replacement behavior for this speech modifier.")]
 	[SerializeField] private bool activateReplacements = true;
 	[Tooltip("Strict replacement. Will only replace word or words isolated by spaces.")]
- 	[SerializeField] private List<StringListOfStrings> wordReplaceList;
+ 	[SerializeField] private List<StringListOfStrings> wordReplaceList = null;
 	[Tooltip("Lazy replacement. Will replace anything you put here, doesn't matter if isolated or in the middle of a word")]
-	[SerializeField] private List<StringListOfStrings> letterReplaceList;
+	[SerializeField] private List<StringListOfStrings> letterReplaceList = null;
 
 	[Header("Additions")]
 	[Tooltip("Activate the addition of text to ending or begining of message.")]
-	[SerializeField] private bool activateAdditions;
+	[SerializeField] private bool activateAdditions = false;
 	[Tooltip("Chances of this happening in %.")]
-	[SerializeField] [Range(0,100)] private int probability;
-	[SerializeField] private List<string> beginning;
-	[SerializeField] private List<string> ending;
-	
+	[SerializeField] [Range(0,100)] private int probability = 0;
+	[SerializeField] private List<string> beginning = null;
+	[SerializeField] private List<string> ending = null;
+
 	[Header("Special")]
 	[Tooltip("If assigned, text will be processed by this class instead. Remember to implement a ProcessMessage method with a string message as argument!")]
 	public CustomSpeechModifier customCode = null;
@@ -34,8 +34,8 @@ public class SpeechModifier : ScriptableObject
 			foreach (var word in wordReplaceList)
 			{
 				message = Regex.Replace(
-					message, 
-					@"\b(" + word.original + @")\b", 
+					message,
+					@"\b(" + word.original + @")\b",
 					m => WasYelling(m.Groups[1].Value) ? word.replaceWith.PickRandom().ToUpper() : word.replaceWith.PickRandom(),
 					RegexOptions.IgnoreCase);
 			}
@@ -46,13 +46,13 @@ public class SpeechModifier : ScriptableObject
 			foreach (var word in letterReplaceList)
 			{
 				message = Regex.Replace(
-					message, 
-					"(" + word.original + ")", 
+					message,
+					"(" + word.original + ")",
 					m => WasYelling(m.Groups[1].Value) ? word.replaceWith.PickRandom().ToUpper() : word.replaceWith.PickRandom(),
 					RegexOptions.IgnoreCase);
 			}
 		}
-		
+
 		return message;
 	}
 
@@ -70,7 +70,7 @@ public class SpeechModifier : ScriptableObject
 			   message = $"{message} {ending.PickRandom()}";
 		   }
 	   }
-		
+
 		return message;
 	}
 
@@ -78,7 +78,7 @@ public class SpeechModifier : ScriptableObject
 
 	public string ProcessMessage(string message)
 	{
-		if (customCode != null) 
+		if (customCode != null)
 		{
 			return customCode.ProcessMessage(message);
 		}

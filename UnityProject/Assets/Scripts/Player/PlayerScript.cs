@@ -365,7 +365,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public string AdminInfoString()
 	{
-		var text = "";
 		if (PlayerList.Instance.IsAntag(gameObject))
 		{
 			return $"<color=yellow>Name: {characterSettings.Name}\r\n" +

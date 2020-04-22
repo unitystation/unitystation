@@ -9,7 +9,7 @@ namespace AdminTools
 	/// </summary>
 	public class AdminGlobalSound : MonoBehaviour
 	{
-		[SerializeField] private GameObject buttonTemplate;
+		[SerializeField] private GameObject buttonTemplate = null;
 		private AdminGlobalSoundSearchBar SearchBar;
 		public List<GameObject> soundButtons = new List<GameObject>();
 
