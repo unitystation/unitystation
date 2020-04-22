@@ -19,6 +19,9 @@ namespace AdminTools
 		private float refreshTime = 3f;
 		private float currentCount = 0f;
 
+		private List<GameObject> HiddenButtons = new List<GameObject>();
+		[SerializeField] private AdminSearchBar searchBar;
+
 		//Loaded playerEntries
 		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
 
@@ -85,6 +88,8 @@ namespace AdminTools
 				}
 			}
 
+			Search();
+
 			if (SelectedPlayer == null)
 			{
 				SelectPlayerInList(playerEntries[0]);
@@ -119,6 +124,39 @@ namespace AdminTools
 
 			SelectedPlayer = selectedEntry;
 			if(OnSelectPlayer != null) OnSelectPlayer.Invoke(selectedEntry.PlayerData);
+		}
+
+		public void Search()
+		{
+			if (searchBar == null) return;
+
+			foreach (GameObject x in HiddenButtons)//Hidden Buttons stores list of the hidden items which dont contain the search phrase
+			{
+				if (x != null)
+				{
+					x.SetActive(true);
+				}
+			}
+			HiddenButtons.Clear();
+
+			var buttons = playerEntries;//Grabs fresh list of all the possible buttons
+
+			var Searchtext = searchBar.SearchText();
+
+			for (int i = 0; i < buttons.Count; i++)
+			{
+				if (buttons[i] != null)
+				{
+					if (buttons[i].displayName.text.ToLower().Contains(Searchtext.text.ToLower()) || Searchtext.text.Length == 0)
+					{
+					}
+					else
+					{
+						HiddenButtons.Add(buttons[i].gameObject);//non-results get hidden
+						buttons[i].gameObject.SetActive(false);
+					}
+				}
+			}
 		}
 	}
 
