@@ -25,14 +25,14 @@ public class SeedExtractorItemEntry : DynamicEntry
 		seedItem = seedPacket;
 		//var seedPacket = seedItem.GetComponent<SeedPacket>();
 		seedExtractorWindow = correspondingWindow;
-		seedStats.SetValue = $"{seedPacket.plantData.Potency.ToString().PadLeft(3)} " +
-			$"{seedPacket.plantData.Yield.ToString().PadLeft(3)} " +
-			$"{seedPacket.plantData.GrowthSpeed.ToString().PadLeft(3)} " +
-			$"{seedPacket.plantData.Endurance.ToString().PadLeft(3)} " +
-			$"{seedPacket.plantData.Lifespan.ToString().PadLeft(3)} " +
-			$"{seedPacket.plantData.WeedResistance.ToString().PadLeft(3)} " +
-			$"{seedPacket.plantData.WeedGrowthRate.ToString().PadLeft(3)}";
-		itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(regularColor);
+		seedStats.SetValueServer($"{seedPacket.plantData.Potency.ToString().PadLeft(3)} " +
+		                   $"{seedPacket.plantData.Yield.ToString().PadLeft(3)} " +
+		                   $"{seedPacket.plantData.GrowthSpeed.ToString().PadLeft(3)} " +
+		                   $"{seedPacket.plantData.Endurance.ToString().PadLeft(3)} " +
+		                   $"{seedPacket.plantData.Lifespan.ToString().PadLeft(3)} " +
+		                   $"{seedPacket.plantData.WeedResistance.ToString().PadLeft(3)} " +
+		                   $"{seedPacket.plantData.WeedGrowthRate.ToString().PadLeft(3)}");
+		itemBackground.SetValueServer(ColorUtility.ToHtmlStringRGB(regularColor));
 	}
 
 	public void Dispense()

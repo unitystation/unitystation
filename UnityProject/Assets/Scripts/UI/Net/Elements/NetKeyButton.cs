@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// Useful for virtual keypads.
 [RequireComponent(typeof( Button ))]
 [Serializable]
-public class NetKeyButton : NetUIElement
+public class NetKeyButton : NetUIElement<string>
 {
 	public override string Value => name.ToCharArray()[0].ToString();
 
@@ -16,7 +16,7 @@ public class NetKeyButton : NetUIElement
 	public override void ExecuteServer() {
 		ServerMethod.Invoke(name.ToCharArray()[0]);
 	}
-	
+
 }
 /// <inheritdoc />
 /// "If you wish to use a generic UnityEvent type you must override the class type."

@@ -58,7 +58,7 @@ public class GUI_CargoPageSupplies : GUI_CargoPage
 			GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
 			item.ReInit(categories[i]);
 		}
-		categoryText.SetValue = "Categories";
+		categoryText.SetValueServer("Categories");
 	}
 
 	private void DisplayCurrentSupplies()
@@ -72,7 +72,7 @@ public class GUI_CargoPageSupplies : GUI_CargoPage
 			GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
 			item.Order = supplies[i];
 		}
-		categoryText.SetValue = CargoManager.Instance.CurrentCategory.CategoryName;
+		categoryText.SetValueServer(CargoManager.Instance.CurrentCategory.CategoryName);
 	}
 
 	public void CloseCategory()

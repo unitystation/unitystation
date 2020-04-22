@@ -25,10 +25,10 @@ public class SeedExtractorItemTypeEntry : DynamicEntry
 	{
 		seedPackets = item;
 		seedExtractorWindow = correspondingWindow;
-		itemName.SetValue = seedPackets.First().name;
-		itemIcon.SetValue = seedPackets.First().name;
-		itemCount.SetValue = $"({seedPackets.Count.ToString()})";
-		itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(regularColor);
+		itemName.SetValueServer(seedPackets.First().name);
+		itemIcon.SetValueServer(seedPackets.First().name);
+		itemCount.SetValueServer($"({seedPackets.Count.ToString()})");
+		itemBackground.SetValueServer(ColorUtility.ToHtmlStringRGB(regularColor));
 	}
 
 	public void Show()

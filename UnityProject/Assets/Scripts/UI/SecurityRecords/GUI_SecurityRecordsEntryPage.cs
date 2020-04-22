@@ -85,14 +85,14 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 			return;
 		}
 
-		nameText.SetValue = record.EntryName;
-		idText.SetValue = record.ID;
-		sexText.SetValue = record.Sex;
-		ageText.SetValue = record.Age;
-		speciesText.SetValue = record.Species;
-		rankText.SetValue = record.Rank;
-		fingerprintText.SetValue = record.Fingerprints;
-		statusButtonText.SetValue = record.Status.ToString();
+		nameText.SetValueServer(record.EntryName);
+		idText.SetValueServer(record.ID);
+		sexText.SetValueServer(record.Sex);
+		ageText.SetValueServer(record.Age);
+		speciesText.SetValueServer(record.Species);
+		rankText.SetValueServer(record.Rank);
+		fingerprintText.SetValueServer(record.Fingerprints);
+		statusButtonText.SetValueServer(record.Status.ToString());
 
 		var characterSettings = record.characterSettings;
 
@@ -150,7 +150,7 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 				record.Status = SecurityStatus.None;
 				break;
 		}
-		statusButtonText.SetValue = record.Status.ToString();
+		statusButtonText.SetValueServer(record.Status.ToString());
 	}
 
 	/// <summary>
@@ -193,7 +193,7 @@ public class GUI_SecurityRecordsEntryPage : NetPage
 	/// <param name="value">String to set in field.</param>
 	public void ConfirmPopup(string value)
 	{
-		currentlyEditingField.SetValue = value;
+		currentlyEditingField.SetValueServer(value);
 		string nameBeforeIndex = currentlyEditingField.name.Split('~')[0];
 		switch (nameBeforeIndex)
 		{

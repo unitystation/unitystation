@@ -18,7 +18,7 @@ public class GUI_ExoFabPageBuildingProcess : NetPage
 
 	public void SetProductLabelProductName(string productName)
 	{
-		buildingLabel.SetValue = "Building " + productName;
+		buildingLabel.SetValueServer("Building " + productName);
 	}
 
 	public void StartAnimateLabel()
@@ -41,7 +41,7 @@ public class GUI_ExoFabPageBuildingProcess : NetPage
 		{
 			foreach (string text in pleaseWaitText)
 			{
-				pleaseWaitLabel.SetValue = text;
+				pleaseWaitLabel.SetValueServer(text);
 				yield return WaitFor.Seconds(0.5f);
 			}
 		}

@@ -25,7 +25,7 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 	private void ResetList()
 	{
 		List<SecurityRecord> records = SecurityRecordsManager.Instance.SecurityRecords;
-		
+
 		currentRecords.Clear();
 		for (int i = 0; i < records.Count; i++)
 		{
@@ -81,7 +81,7 @@ public class GUI_SecurityRecordsEntriesPage : NetPage
 		recordsList.AddItems(currentRecords.Count);
 		for (int i = 0; i < currentRecords.Count; i++)
 		{
-			GUI_SecurityRecordsItem item = recordsList.Entries[i] as GUI_SecurityRecordsItem;
+			var item = recordsList.Entries[i] as GUI_SecurityRecordsItem;
 			item.ReInit(currentRecords[i], securityRecordsTab);
 			item.gameObject.SetActive(true);
 		}

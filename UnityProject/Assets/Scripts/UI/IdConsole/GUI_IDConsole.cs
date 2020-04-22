@@ -105,8 +105,8 @@ public class GUI_IDConsole : NetTab
 
 	private void ServerUpdateLoginCardName()
 	{
-		loginCardName.SetValue = console.AccessCard != null ?
-			$"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}" : "********";
+		loginCardName.SetValueServer(console.AccessCard != null ?
+			$"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}" : "********");
 	}
 
 	private void ServerRefreshCardNames()
@@ -123,7 +123,7 @@ public class GUI_IDConsole : NetTab
 
 		if (!valToSet.Equals(accessCardName.Value))
 		{
-			accessCardName.SetValue = valToSet;
+			accessCardName.SetValueServer(valToSet);
 		}
 
 
@@ -138,7 +138,7 @@ public class GUI_IDConsole : NetTab
 
 		if (!valToSet.Equals(targetCardName.Value))
 		{
-			targetCardName.SetValue = valToSet;
+			targetCardName.SetValueServer(valToSet);
 		}
 	}
 

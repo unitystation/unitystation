@@ -68,11 +68,11 @@ public class GUI_SecurityRecords : NetTab
 		var IdCard = console.IdCard;
 		if (IdCard)
 		{
-			labelToSet.SetValue = $"{IdCard.RegisteredName}, {IdCard.JobType.ToString()}";
+			labelToSet.SetValueServer($"{IdCard.RegisteredName}, {IdCard.JobType.ToString()}");
 		}
 		else
 		{
-			labelToSet.SetValue = "********";
+			labelToSet.SetValueServer("********");
 		}
 	}
 
