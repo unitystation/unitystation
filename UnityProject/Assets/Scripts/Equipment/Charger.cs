@@ -80,7 +80,7 @@ public class Charger : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPo
 			SyncState(chargeState,ChargeState.Off);
 			_APCPoweredDevice.Resistance = 99999;
 		}
-		else if (ChargingSlot.Item == null)
+		else if (ChargingSlot.Item == null && interaction.UsedObject != null)
 		{
 			var _object = interaction.UsedObject.GetComponent<InternalBattery>();
 			if (_object == null) return;

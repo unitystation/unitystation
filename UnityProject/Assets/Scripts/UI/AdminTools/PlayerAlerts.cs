@@ -99,10 +99,15 @@ namespace AdminTools
 		public void ServerAddNewEntry(string incidentTime, PlayerAlertTypes alertType, ConnectedPlayer perp,
 			string message)
 		{
+			var netId = NetId.Invalid;
+			if (perp.Connection.identity != null)
+			{
+				netId = perp.Connection.identity.netId;
+			}
 			if (perp == null || perp.Connection == null) return;
 			var entry = new PlayerAlertData();
 			entry.roundTime = incidentTime;
-			entry.playerNetId = perp.Connection.identity.netId;
+			entry.playerNetId = netId;
 			entry.playerAlertType = alertType;
 			entry.Message = message;
 			serverPlayerAlerts.Add(entry);
