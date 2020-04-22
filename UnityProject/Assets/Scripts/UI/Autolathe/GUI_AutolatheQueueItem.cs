@@ -73,22 +73,22 @@ public class GUI_AutolatheQueueItem : DynamicEntry
 			{
 				case "QueueNumber":
 					numberInQueueColorElement = element as GUI_ExoFabQueueLabel;
-					element.SetValue = NumberInQueue.ToString();
+					element.SetValueServer(NumberInQueue.ToString());
 					break;
 
 				case "ProductName":
 					productTextColorElement = element as GUI_ExoFabQueueLabel;
-					element.SetValue = Product.Name;
+					element.SetValueServer(Product.Name);
 					break;
 
 				case "UpButton":
 					upButton = element as GUI_ExoFabButton;
-					upButton.SetValue = "true";
+					upButton.SetValueServer("true");
 					break;
 
 				case "DownButton":
 					downButton = element as GUI_ExoFabButton;
-					downButton.SetValue = "true";
+					downButton.SetValueServer("true");
 					break;
 			}
 		}

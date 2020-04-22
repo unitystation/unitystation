@@ -33,7 +33,7 @@ public class GUI_ExoFabCategoryEntry : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "CategoryName":
-					element.SetValue = ExoFabProducts.CategoryName;
+					element.SetValueServer(ExoFabProducts.CategoryName);
 					break;
 			}
 		}

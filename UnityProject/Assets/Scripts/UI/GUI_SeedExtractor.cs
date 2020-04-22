@@ -135,8 +135,8 @@ public class GUI_SeedExtractor : NetTab
 	/// <param name="seedType">Name of selected seed type</param>
 	public void SelectSeedType(string seedType)
 	{
-		title.SetValue = System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(seedType.ToLower());
-		icon.SetValue = seedType;
+		title.SetValueServer(System.Threading.Thread.CurrentThread.CurrentCulture.TextInfo.ToTitleCase(seedType.ToLower()));
+		icon.SetValueServer(seedType);
 		backButton.enabled = true;
 		selectedSeedType = seedType;
 		UpdateList();
@@ -147,8 +147,8 @@ public class GUI_SeedExtractor : NetTab
 	/// </summary>
 	public void Back()
 	{
-		title.SetValue = "Select Seed Packet";
-		icon.SetValue = null;
+		title.SetValueServer("Select Seed Packet");
+		icon.SetValueServer(null);
 		backButton.enabled = false;
 		selectedSeedType = null;
 		UpdateList();

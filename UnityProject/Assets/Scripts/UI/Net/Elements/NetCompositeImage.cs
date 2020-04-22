@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(ObjectImageSnapshot))]
-public class NetCompositeImage : NetUIElement
+public class NetCompositeImage : NetUIElement<string>
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	public FilterMode FilterMode = FilterMode.Point;

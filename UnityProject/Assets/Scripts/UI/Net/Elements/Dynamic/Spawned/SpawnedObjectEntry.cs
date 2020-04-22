@@ -35,4 +35,4 @@ public class SpawnedObjectEntry : DynamicEntry
 	}
 }
 
-public class ObjectChangeEvent : UnityEvent<GameObject, string, NetUIElement> { }
+public class ObjectChangeEvent : UnityEvent<GameObject, string, NetUIElementBase> { }

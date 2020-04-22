@@ -31,7 +31,7 @@ public class GUI_Rename : NetTab
 
 				if ( renameable.CustomName.Length > 0 )
 				{
-					networkedInputField.SetValue = renameable.CustomName;
+					networkedInputField.SetValueServer(renameable.CustomName);
 				}
 			} );
 		}
@@ -53,7 +53,7 @@ public class GUI_Rename : NetTab
 
 		renameable = Provider.GetComponent<Renameable>();
 	}
-	
+
 	public void CloseDialog()
 	{
 		ControlTabs.CloseTab(Type, Provider);

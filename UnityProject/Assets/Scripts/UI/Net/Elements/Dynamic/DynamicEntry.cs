@@ -3,8 +3,8 @@
 /// <summary>
 /// Dynamic list entry
 /// </summary>
-public class DynamicEntry : NetUIElement {
-	public NetUIElement[] Elements => GetComponentsInChildren<NetUIElement>(false);
+public class DynamicEntry : NetUIElement<string> {
+	public NetUIElementBase[] Elements => GetComponentsInChildren<NetUIElementBase>(false);
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
 	public override string Value {

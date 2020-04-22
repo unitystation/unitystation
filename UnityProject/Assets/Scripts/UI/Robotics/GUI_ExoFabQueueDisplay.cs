@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExoFabQueueDisplay : NetUIElement
+public class GUI_ExoFabQueueDisplay : NetUIElement<string>
 {
 	private DictionaryMaterialToIntAmount MaterialAmountCache = null;
 
@@ -88,13 +88,13 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 	{
 		if (currentProducts.Count == 0)
 		{
-			processQueueButton.SetValue = "false";
-			clearQueueButton.SetValue = "false";
+			processQueueButton.SetValueServer("false");
+			clearQueueButton.SetValueServer("false");
 		}
 		else
 		{
-			processQueueButton.SetValue = "true";
-			clearQueueButton.SetValue = "true";
+			processQueueButton.SetValueServer("true");
+			clearQueueButton.SetValueServer("true");
 		}
 	}
 
@@ -104,14 +104,14 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 		//Only one item
 		if (currentProducts.Count == 1)
 		{
-			item.DownButton.SetValue = "false";
-			item.UpButton.SetValue = "false";
+			item.DownButton.SetValueServer("false");
+			item.UpButton.SetValueServer("false");
 		}
 		else
 		{
-			if (item.NumberInQueue == 0) item.UpButton.SetValue = "false";
+			if (item.NumberInQueue == 0) item.UpButton.SetValueServer("false");
 
-			if (item.NumberInQueue == currentProducts.Count - 1) item.DownButton.SetValue = "false";
+			if (item.NumberInQueue == currentProducts.Count - 1) item.DownButton.SetValueServer("false");
 		}
 	}
 

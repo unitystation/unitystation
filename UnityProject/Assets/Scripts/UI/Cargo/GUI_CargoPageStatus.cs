@@ -53,11 +53,11 @@ public class GUI_CargoPageStatus : GUI_CargoPage
 				string sec = (cm.CurrentFlyTime % 60).ToString();
 				sec = sec.Length >= 10 ? sec : "0" + sec;
 
-				shuttleButtonText.SetValue = min + ":" + sec;
+				shuttleButtonText.SetValueServer(min + ":" + sec);
 			}
 			else
 			{
-				shuttleButtonText.SetValue = "ARRIVING";
+				shuttleButtonText.SetValueServer("ARRIVING");
 			}
 			SetShuttleStatus(statusTransitImage);
 		}
@@ -71,20 +71,20 @@ public class GUI_CargoPageStatus : GUI_CargoPage
 			{
 				SetShuttleStatus(statusCentcomImage);
 			}
-			shuttleButtonText.SetValue = "SEND";
+			shuttleButtonText.SetValueServer("SEND");
 		}
 
-		messageText.SetValue = cm.CentcomMessage;
-		creditsText.SetValue = cm.Credits.ToString();
+		messageText.SetValueServer(cm.CentcomMessage);
+		creditsText.SetValueServer(cm.Credits.ToString());
 	}
 
 	//Current shuttle status is displayed like a switch - only one is active
 	private void SetShuttleStatus(NetColorChanger objToSwitch)
 	{
-		statusCargoImage.SetValue = "000000";
-		statusTransitImage.SetValue = "000000";
-		statusCentcomImage.SetValue = "000000";
+		statusCargoImage.SetValueServer("000000");
+		statusTransitImage.SetValueServer("000000");
+		statusCentcomImage.SetValueServer("000000");
 
-		objToSwitch.SetValue = "ffffff";
+		objToSwitch.SetValueServer("ffffff");
 	}
 }
