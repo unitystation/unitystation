@@ -116,8 +116,8 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 				}
 				UpdateGUI();
 			}
-			else Chat.AddActionMsgToChat(interaction.Performer, "Exosuit Fabricator is full",
-				"Exosuit Fabricator is full");
+			else Chat.AddActionMsgToChat(interaction.Performer, "Autolathe is full",
+				"Autolathe is full");
 		}
 		else Chat.AddActionMsgToChat(interaction.Performer, "Cannot accept materials while fabricating",
 			"Cannot accept materials while fabricating");
