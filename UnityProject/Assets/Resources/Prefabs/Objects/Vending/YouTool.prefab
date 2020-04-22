@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -101,7 +102,7 @@ GameObject:
   - component: {fileID: 114775338284287122}
   - component: {fileID: 2621353704256442992}
   m_Layer: 11
-  m_Name: vending_126
+  m_Name: YouTool
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -186,7 +187,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114975881549111064
@@ -202,16 +202,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VendorContent:
+  - Item: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943, type: 3}
+    Stock: 10
+  - Item: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}
+    Stock: 5
+  - Item: {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43, type: 3}
+    Stock: 3
+  - Item: {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5, type: 3}
+    Stock: 5
   - Item: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a, type: 3}
     Stock: 5
-  - Item: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}
+  - Item: {fileID: 8238071069653876758, guid: bf74e8243028ec14ebeb6578ebd2fcf4, type: 3}
+    Stock: 5
+  - Item: {fileID: 0}
     Stock: 5
   - Item: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad, type: 3}
     Stock: 5
-  - Item: {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5, type: 3}
+  - Item: {fileID: 0}
     Stock: 5
-  - Item: {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43, type: 3}
+  - Item: {fileID: 0}
     Stock: 5
+  - Item: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
+    Stock: 5
+  - Item: {fileID: 6200957232458716886, guid: 29d7ceeefbf3c484e82d37353cea673e, type: 3}
+    Stock: 1
+  - Item: {fileID: 0}
+    Stock: 2
+  - Item: {fileID: 6700281191928912403, guid: 45d5212210f77468d9d791c1f922bdc6, type: 3}
+    Stock: 2
+  - Item: {fileID: 970193913688544828, guid: 32fcd56a575fd884ebae6deb79a43656, type: 3}
+    Stock: 2
+  - Item: {fileID: 8139484074677452963, guid: d0c4b52b477e35e44a7e0c0a6876892c, type: 3}
+    Stock: 2
+  - Item: {fileID: 7636118406116123594, guid: df90174791c3adda585b7cb6c9f01473, type: 3}
+    Stock: 2
+  - Item: {fileID: 6373161644663410599, guid: aeaa5bf158ea049459f44fb8a916174c, type: 3}
+    Stock: 1
   HullColor: {r: 0.79607844, g: 0.6509804, b: 0.20392157, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -274,6 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114307420777048274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -288,20 +315,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
+    Melee: 100
+    Bullet: 100
+    Laser: 100
+    Energy: 100
     Bomb: 0
     Rad: 0
-    Fire: 0
-    Acid: 0
+    Fire: 100
+    Acid: 70
     Magic: 0
     Bio: 0
   Resistances:
     LavaProof: 0
-    FireProof: 0
+    FireProof: 1
     Flammable: 0
     UnAcidable: 0
     AcidProof: 0
@@ -321,10 +349,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
 --- !u!114 &2621353704256442992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,8 +367,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: Robco Tool Maker
-  initialDescription: Everything you need for do-it-yourself station repair.
+  initialName: YouTool
+  initialDescription: Tools for tools.
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
