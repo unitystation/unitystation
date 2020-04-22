@@ -56,6 +56,7 @@ public class GUI_ShuttleControl : NetTab
 			yield return WaitFor.EndOfFrame;
 		}
 		Trigger = Provider.GetComponent<ShuttleConsole>();
+		Trigger.CacheRcs();
 		Trigger.OnStateChange.AddListener(OnStateChange);
 
 		MatrixMove.RegisterCoordReadoutScript(CoordReadout);

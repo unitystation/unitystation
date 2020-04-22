@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.Events;
@@ -14,100 +15,130 @@ public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 	private RegisterTile registerTile;
 	private HasNetworkTab hasNetworkTab;
 
-    public TabStateEvent OnStateChange;
-    private TabState state = TabState.Normal;
-    public TabState State
-    {
-	    get { return state; }
-	    set
-	    {
-		    if ( state != value )
-		    {
-			    state = value;
-			    OnStateChange.Invoke( value );
-		    }
-	    }
-    }
+	public TabStateEvent OnStateChange;
+	private TabState state = TabState.Normal;
 
-    private void Awake()
-    {
-	    if ( !registerTile )
-	    {
-		    registerTile = GetComponent<RegisterTile>();
-	    }
+	private List<RcsThruster> bowRcsThrusters = new List<RcsThruster>(); //front
+	private List<RcsThruster> sternRcsThrusters = new List<RcsThruster>(); //back
+	private List<RcsThruster> portRcsThrusters = new List<RcsThruster>(); //left
+	private List<RcsThruster> starBoardRcsThrusters = new List<RcsThruster>(); //right
 
-	    hasNetworkTab = GetComponent<HasNetworkTab>();
-    }
+	public TabState State
+	{
+		get { return state; }
+		set
+		{
+			if (state != value)
+			{
+				state = value;
+				OnStateChange.Invoke(value);
+			}
+		}
+	}
 
-    private void OnEnable()
-    {
-	    if ( ShuttleMatrixMove == null )
-	    {
-		    StartCoroutine( InitMatrixMove() );
-	    }
-    }
+	private void Awake()
+	{
+		if (!registerTile)
+		{
+			registerTile = GetComponent<RegisterTile>();
+		}
 
-    private IEnumerator InitMatrixMove()
-    {
-	    ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
+		hasNetworkTab = GetComponent<HasNetworkTab>();
+	}
 
-        if ( ShuttleMatrixMove == null )
-        {
-            while ( !registerTile.Matrix )
-            {
-                yield return WaitFor.EndOfFrame;
-            }
-            ShuttleMatrixMove = MatrixManager.Get( registerTile.Matrix ).MatrixMove;
-        }
+	private void OnEnable()
+	{
+		if (ShuttleMatrixMove == null)
+		{
+			StartCoroutine(InitMatrixMove());
+		}
+	}
 
-        if ( ShuttleMatrixMove == null )
-        {
-            Logger.Log( $"{this} is not on a movable matrix, so won't function.", Category.Matrix );
-            hasNetworkTab.enabled = false;
-        }
-        else
-        {
-            Logger.Log( $"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically", Category.Matrix );
-        }
+	//Searches the matrix for RcsThrusters
+	public void CacheRcs()
+	{
+		ClearRcsCache();
+		foreach(Transform t in transform.parent)
+		{
+			
+		}
+	}
 
-        if (ShuttleMatrixMove != null)
-        {
-	        hasNetworkTab.enabled = true;
-        }
-    }
+	void ClearRcsCache()
+	{
+		bowRcsThrusters.Clear();
+		sternRcsThrusters.Clear();
+		portRcsThrusters.Clear();
+		starBoardRcsThrusters.Clear();
+	}
 
+	private IEnumerator InitMatrixMove()
+	{
+		ShuttleMatrixMove = GetComponentInParent<MatrixMove>();
 
-    public bool WillInteract(HandApply interaction, NetworkSide side)
-    {
-	    if (!DefaultWillInteract.Default(interaction, side)) return false;
-	    //can only be interacted with an emag (normal click behavior is in HasNetTab)
-	    if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Emag)) return false;
-	    return true;
-    }
+		if (ShuttleMatrixMove == null)
+		{
+			while (!registerTile.Matrix)
+			{
+				yield return WaitFor.EndOfFrame;
+			}
 
-    public void ServerPerformInteraction(HandApply interaction)
-    {
-	    //apply emag
-	    switch ( State )
-	    {
-		    case TabState.Normal:
-			    State = TabState.Emagged;
+			ShuttleMatrixMove = MatrixManager.Get(registerTile.Matrix).MatrixMove;
+		}
+
+		if (ShuttleMatrixMove == null)
+		{
+			Logger.Log($"{this} is not on a movable matrix, so won't function.", Category.Matrix);
+			hasNetworkTab.enabled = false;
+		}
+		else
+		{
+			Logger.Log($"No MatrixMove reference set to {this}, found {ShuttleMatrixMove} automatically",
+				Category.Matrix);
+		}
+
+		if (ShuttleMatrixMove != null)
+		{
+			hasNetworkTab.enabled = true;
+		}
+	}
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		//can only be interacted with an emag (normal click behavior is in HasNetTab)
+		if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Emag)) return false;
+		return true;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		//apply emag
+		switch (State)
+		{
+			case TabState.Normal:
+				State = TabState.Emagged;
 				break;
-		    case TabState.Emagged:
-			    State = TabState.Off;
+			case TabState.Emagged:
+				State = TabState.Off;
 				break;
-		    case TabState.Off:
-			    State = TabState.Normal;
-			    break;
-	    }
-    }
-
+			case TabState.Off:
+				State = TabState.Normal;
+				break;
+		}
+	}
 }
+
 public enum TabState
 {
-	Normal, Emagged, Off
+	Normal,
+	Emagged,
+	Off
 }
+
 /// <inheritdoc />
 /// "If you wish to use a generic UnityEvent type you must override the class type."
 [Serializable]
-public class TabStateEvent : UnityEvent<TabState>{}
+public class TabStateEvent : UnityEvent<TabState>
+{
+}

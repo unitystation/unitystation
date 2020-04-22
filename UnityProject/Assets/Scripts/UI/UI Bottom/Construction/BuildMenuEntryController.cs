@@ -87,7 +87,7 @@ namespace UI.UI_Bottom
 		public void OnClick()
 		{
 			//Show the conveyor belt build menu
-			if (entry.Name.Contains("Conveyor Belt"))
+			if (entry.Name.Equals("Conveyor Belt"))
 			{
 				UIManager.BuildMenu.ShowConveyorBeltMenu(entry, buildingMaterial);
 				return;
