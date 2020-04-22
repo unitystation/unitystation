@@ -229,5 +229,6 @@ public enum AmmoType
 	FusionCells,
 	Slug,
 	Syringe,
+	Gasoline,
 	Internal
 }
