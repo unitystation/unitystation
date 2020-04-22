@@ -393,7 +393,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 40132ccddf247ec59b30a98ad81f6e57, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ea75b40d8b9f2784b870616a61d56697, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 0
@@ -1083,8 +1083,8 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.10000038, y: -1.5309906}
+  m_AnchorMax: {x: 1, y: 0.99981225}
+  m_AnchoredPosition: {x: -0.10000038, y: -1.5309753}
   m_SizeDelta: {x: 18.402, y: 17.179}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5599550173553169709
@@ -1113,7 +1113,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 40132ccddf247ec59b30a98ad81f6e57, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ea75b40d8b9f2784b870616a61d56697, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 0
@@ -2160,8 +2160,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 386.86, y: 204.2}
-  m_SizeDelta: {x: 773.7, y: 725.6}
+  m_AnchoredPosition: {x: 386.86, y: 283.49994}
+  m_SizeDelta: {x: 773.7, y: 567}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4064754075727687934
 MonoBehaviour:
@@ -2274,8 +2274,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3501889032507981295}
   m_HandleRect: {fileID: 3631489220984243165}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 1
+  m_Value: 0
+  m_Size: 0.99981225
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3382,8 +3382,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 376.71658, y: -0.00036621094}
-  m_SizeDelta: {x: 731.6, y: 69.8}
+  m_AnchoredPosition: {x: 376.71658, y: 0.000061035156}
+  m_SizeDelta: {x: 731.6, y: 10}
   m_Pivot: {x: 0.5, y: 1}
 --- !u!222 &4782890111279092973
 CanvasRenderer:
@@ -3416,8 +3416,8 @@ MonoBehaviour:
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
   m_ChildControlHeight: 0
-  m_ChildScaleWidth: 0
-  m_ChildScaleHeight: 0
+  m_ChildScaleWidth: 1
+  m_ChildScaleHeight: 1
 --- !u!114 &3532295997644518671
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GUI_AutolatheQueueDisplay : NetUIElement
 {
-	private DictionaryMaterialToIntAmount MaterialAmountCache;
+	private DictionaryMaterialToIntAmount MaterialAmountCache = null;
 
 	private List<MachineProduct> currentProducts = new List<MachineProduct>();
 	public List<MachineProduct> CurrentProducts { get => currentProducts; }
@@ -15,13 +15,13 @@ public class GUI_AutolatheQueueDisplay : NetUIElement
 	public int MaxProductsInQueue { get => maxProductsInQueue; }
 
 	[SerializeField]
-	private GUI_ExoFabButton processQueueButton;
+	private GUI_ExoFabButton processQueueButton = null;
 
 	[SerializeField]
-	private GUI_ExoFabButton clearQueueButton;
+	private GUI_ExoFabButton clearQueueButton = null;
 
 	[SerializeField]
-	private EmptyItemList itemsInQueue;
+	private EmptyItemList itemsInQueue = null;
 
 	public void MoveProductUpInQueue(int productNumber)
 	{

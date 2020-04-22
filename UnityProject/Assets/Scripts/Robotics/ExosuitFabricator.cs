@@ -11,15 +11,15 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	[SyncVar(hook = nameof(SyncSprite))]
 	private ExosuitFabricatorState stateSync;
 
-	[SerializeField] private SpriteHandler spriteHandler;
-	[SerializeField] private SpriteSheetAndData idleSprite;
-	[SerializeField] private SpriteSheetAndData acceptingMaterialsSprite;
-	[SerializeField] private SpriteSheetAndData productionSprite;
-	private RegisterObject registerObject;
-	public MaterialStorage materialStorage;
-	public MachineProductsCollection exoFabProducts;
-	private ItemTrait InsertedMaterialType;
-	private IEnumerator currentProduction;
+	[SerializeField] private SpriteHandler spriteHandler = null;
+	[SerializeField] private SpriteSheetAndData idleSprite = null;
+	[SerializeField] private SpriteSheetAndData acceptingMaterialsSprite = null;
+	[SerializeField] private SpriteSheetAndData productionSprite = null;
+	private RegisterObject registerObject = null;
+	public MaterialStorage materialStorage = null;
+	public MachineProductsCollection exoFabProducts = null;
+	private ItemTrait InsertedMaterialType = null;
+	private IEnumerator currentProduction = null;
 
 	public delegate void MaterialsManipulating();
 

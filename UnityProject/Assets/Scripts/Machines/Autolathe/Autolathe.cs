@@ -37,7 +37,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 	public static event MaterialsManipulating MaterialsManipulated;
 
 	private ItemTrait insertedMaterialType = null;
-	private IEnumerator currentProduction;
+	private IEnumerator currentProduction = null;
 
 	public enum AutolatheState
 	{
