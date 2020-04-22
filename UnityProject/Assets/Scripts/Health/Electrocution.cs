@@ -28,7 +28,7 @@ public class Electrocution
 	private PlayerScript victimScript;
 	private LivingHealthBehaviour victimLHB;
 	private BodyPartType playerActiveHand;
-	private Vector3Int shockSourcePos;
+	private Vector2 shockSourcePos;
 	private string shockSourceName;
 	private float shockPower;
 
@@ -63,7 +63,7 @@ public class Electrocution
 	/// Not implemented
 	/// </summary>
 	/// <returns>Severity enumerable</returns>
-	public Severity ElectrocuteNPC(GameObject npc, Vector3Int shockSourcePos,
+	public Severity ElectrocuteNPC(GameObject npc, Vector2 shockSourcePos,
 		string shockSourceName, float voltage)
 	{
 		throw new NotImplementedException();
@@ -78,7 +78,7 @@ public class Electrocution
 	/// <param name="shockSourceName">The name of the voltage source</param>
 	/// <param name="voltage">The voltage the victim receives</param>
 	/// <returns>Severity enumerable</returns>
-	public Severity ElectrocutePlayer(GameObject player, Vector3Int shockSourcePos,
+	public Severity ElectrocutePlayer(GameObject player, Vector2 shockSourcePos,
 		string shockSourceName, float voltage)
 	{
 		victim = player;
@@ -112,20 +112,6 @@ public class Electrocution
 		}
 
 		return severity;
-	}
-
-	/// <summary>
-	/// Electrocutes a player, applying effects to the victim
-	/// depending on the electrocution power.
-	/// </summary>
-	/// <param name="player">The player GameObject to electrocute></param>
-	/// <param name="sourceObject">The voltage source GameObject (used for name, position)</param>
-	/// <param name="voltage">The voltage the victim receives</param>
-	/// <returns>Severity enumerable</returns>
-	public Severity ElectrocutePlayer(GameObject player, GameObject sourceObject, float voltage)
-	{
-		return ElectrocutePlayer(
-			player, sourceObject.RegisterTile().WorldPosition, sourceObject.ExpensiveName(), voltage);
 	}
 
 	/// <summary>

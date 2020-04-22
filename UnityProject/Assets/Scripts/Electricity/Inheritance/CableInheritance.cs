@@ -54,12 +54,6 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true)) return;
 		if (matrix.Matrix == null) return;
 
-		// Electrocute the performer. If shock is painful enough, cancel the interaction.
-		float voltage = wireConnect.InData.Data.ActualVoltage;
-		var electrocutionSeverity = new Electrocution()
-			.ElectrocutePlayer(interaction.Performer, localPosInt, "cable", voltage);
-		if (electrocutionSeverity > Electrocution.Severity.Mild) return;
-
 		wireConnect.DestroyThisPlease();
 	}
 

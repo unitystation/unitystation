@@ -19,7 +19,7 @@ public class ElectrifiedGrilleInteraction : TileInteraction
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (!ElectrocutionCriteriaMet(interaction, side)) return false;
 
-		var severity = (new Electrocution()).GetPlayerSeverity(interaction.Performer, voltage);
+		var severity = new Electrocution().GetPlayerSeverity(interaction.Performer, voltage);
 
 		// If the potential electrocution is painful, return true to stop other interactions.
 		if (severity > Electrocution.Severity.Mild) return true;
@@ -30,7 +30,7 @@ public class ElectrifiedGrilleInteraction : TileInteraction
 	public override void ServerPerformInteraction(TileApply interaction)
 	{
 		new Electrocution().ElectrocutePlayer(
-			interaction.Performer, interaction.TargetCellPos, interaction.BasicTile.DisplayName, voltage);
+			interaction.Performer, interaction.WorldPositionTarget, interaction.BasicTile.DisplayName, voltage);
 	}
 
 	/// <summary>
@@ -60,7 +60,7 @@ public class ElectrifiedGrilleInteraction : TileInteraction
 		// That's why we cannot simply read the connector voltage, and both ends of the cable
 		// need to be connected to the powernet.
 		bool connectorExists = false;
-		// Unfortunately client won't report conn.InData.Categorytype and conn.Data.ActualVoltage correctly.
+		// Unfortunately client won't report conn.Categorytype and conn.Data.ActualVoltage correctly.
 		if (side == NetworkSide.Client)
 		{
 			foreach (var conn in eConns)
