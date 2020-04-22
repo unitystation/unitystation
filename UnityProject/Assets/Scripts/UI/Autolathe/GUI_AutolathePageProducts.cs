@@ -5,7 +5,7 @@ using UnityEngine;
 public class GUI_AutolathePageProducts : NetPage
 {
 	[SerializeField]
-	private EmptyItemList productList;
+	private EmptyItemList productList = null;
 
 	public void DisplayProducts(MachineProductList autolatheProducts)
 	{

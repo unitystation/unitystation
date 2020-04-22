@@ -138,12 +138,13 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		}
 	}
 
+	[Server]
 	public void DispenseMaterialSheet(int amountOfSheets, ItemTrait materialType)
 	{
 		if (materialStorage.TryRemoveMaterialSheet(materialType, amountOfSheets))
 		{
 			Spawn.ServerPrefab(materialStorage.ItemTraitToMaterialRecord[materialType].materialPrefab,
-			registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: amountOfSheets);
+			registerObject.WorldPositionServer, transform.parent, count: amountOfSheets);
 
 			UpdateGUI();
 		}
@@ -153,6 +154,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		}
 	}
 
+	[Server]
 	public bool CanProcessProduct(MachineProduct product)
 	{
 		if (materialStorage.TryRemoveCM3Materials(product.materialToAmounts))
