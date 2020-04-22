@@ -76,6 +76,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -111,6 +112,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!61 &8743878080590154091
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8611762581646760049}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.011474609, y: 0.011474609}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.5410156, y: 0.8852539}
+  m_EdgeRadius: 0
 --- !u!114 &2506889719136084579
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -142,13 +169,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialContents: {fileID: 0}
-  IsClosed: 0
-  IsLocked: 0
   lockLight: {fileID: 0}
+  IsLockable: 0
   playerLimit: 3
   metalDroppedOnDestroy: 2
-  soundOnOpen: OpenClose
-  statusSync: 0
+  soundOnOpenOrClose: OpenClose
   doorOpened: {fileID: 21300000, guid: 64b240e12ad22cb448e547c57af09f62, type: 3}
   spriteRenderer: {fileID: 212255976647380646, guid: 5ca1ac398c97e49c59e202455fcf7d66,
     type: 3}
@@ -165,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &5751723862268193494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,32 +210,6 @@ MonoBehaviour:
   AtmosPassable: 1
   Passable: 0
   closetType: 0
---- !u!61 &8743878080590154091
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8611762581646760049}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.011474609, y: 0.011474609}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.5410156, y: 0.8852539}
-  m_EdgeRadius: 0
 --- !u!1001 &9045249459415240177
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -217,75 +217,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 242cbea76c378e84384b2b561a8b20db,
+        type: 3}
     - target: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Name
       value: Generic Closet
-      objectReference: {fileID: 0}
-    - target: {fileID: 6339551662075218074, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_Offset.x
-      value: -0.060668945
-      objectReference: {fileID: 0}
-    - target: {fileID: 6339551662075218074, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_Offset.y
-      value: 0.023254395
-      objectReference: {fileID: 0}
-    - target: {fileID: 6339551662075218074, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 0.83569336
-      objectReference: {fileID: 0}
-    - target: {fileID: 6339551662075218074, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 0.9217529
-      objectReference: {fileID: 0}
-    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: Armor.Melee
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: Armor.Bullet
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: Armor.Laser
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 70
-      objectReference: {fileID: 0}
-    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 60
-      objectReference: {fileID: 0}
-    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: HeatResistance
-      value: 1370
-      objectReference: {fileID: 0}
-    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: initialIntegrity
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 725567512822600538, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -357,17 +298,76 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 6339551662075218074, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_Offset.x
+      value: -0.060668945
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339551662075218074, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: 0.023254395
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339551662075218074, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.83569336
+      objectReference: {fileID: 0}
+    - target: {fileID: 6339551662075218074, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.9217529
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: HeatResistance
+      value: 1370
+      objectReference: {fileID: 0}
+    - target: {fileID: 8208024911721290269, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 200
+      objectReference: {fileID: 0}
     - target: {fileID: 8831097227523844026, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Name
       value: BaseSprite
       objectReference: {fileID: 0}
-    - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
+    - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 21300000, guid: 242cbea76c378e84384b2b561a8b20db,
-        type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8275826183322400200, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}

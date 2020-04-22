@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -70,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: f8af1c5b24785214082947edc508ef49, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 66971f0ae57d03441abca4fb80ab1124, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -92,17 +93,17 @@ GameObject:
   - component: {fileID: 4354794864428666}
   - component: {fileID: 61442980425183844}
   - component: {fileID: 61828718115089044}
-  - component: {fileID: 114192154473191574}
-  - component: {fileID: 114003549074708886}
+  - component: {fileID: 114597010362170592}
+  - component: {fileID: 114869266564877396}
   - component: {fileID: 114239634461430000}
-  - component: {fileID: 3537801393806581598}
-  - component: {fileID: 114170089691885322}
-  - component: {fileID: 114884582897557178}
-  - component: {fileID: 114417805006977500}
-  - component: {fileID: 114977405969616476}
-  - component: {fileID: -1996446571231806980}
+  - component: {fileID: 4223211768920691601}
+  - component: {fileID: 114615101260203070}
+  - component: {fileID: 114519977436863984}
+  - component: {fileID: 114495747431520570}
+  - component: {fileID: 114282200537726130}
+  - component: {fileID: 8335135614682248246}
   m_Layer: 11
-  m_Name: Closet_BioHazard_Red_Plain_Stripe
+  m_Name: Closet_BioHazard_Virology
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -116,7 +117,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1615565101381030}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1843, y: 1139, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4625006096954862}
@@ -176,7 +177,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.5410156, y: 0.8852539}
   m_EdgeRadius: 0
---- !u!114 &114192154473191574
+--- !u!114 &114597010362170592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -191,7 +192,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114003549074708886
+--- !u!114 &114869266564877396
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -219,15 +220,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialContents: {fileID: 11400000, guid: 8d678af0037013c4aa5edebad524469b, type: 2}
+  initialContents: {fileID: 11400000, guid: fa22910d3c8b3644ab477a26fe9c7021, type: 2}
   lockLight: {fileID: 0}
   IsLockable: 0
   playerLimit: 3
   metalDroppedOnDestroy: 2
   soundOnOpenOrClose: OpenClose
-  doorOpened: {fileID: 21300000, guid: 6d9cb2fc7609efd4095b29badf04da94, type: 3}
+  doorOpened: {fileID: 21300000, guid: 47ff5ba635c9dc745a4f00ebdf7c534c, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
---- !u!114 &3537801393806581598
+--- !u!114 &4223211768920691601
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -251,7 +252,7 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &114170089691885322
+--- !u!114 &114615101260203070
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -270,7 +271,7 @@ MonoBehaviour:
   AtmosPassable: 1
   Passable: 0
   closetType: 0
---- !u!114 &114884582897557178
+--- !u!114 &114519977436863984
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,7 +284,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
---- !u!114 &114417805006977500
+  ignoreExtraRotation: []
+--- !u!114 &114495747431520570
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -297,6 +299,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 20
     Bullet: 10
@@ -318,7 +321,7 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 1370
   initialIntegrity: 200
---- !u!114 &114977405969616476
+--- !u!114 &114282200537726130
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -330,10 +333,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
---- !u!114 &-1996446571231806980
+--- !u!114 &8335135614682248246
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -347,8 +351,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: biohazard closet
-  initialDescription: An acid-proof locker.
+  initialName: level 3 biohazard gear closet
+  initialDescription: t's a storage unit for level 3 biohazard gear.
   willHighlight: 1
   exportCost: 200
   exportName: closet
@@ -398,6 +402,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -422,7 +427,7 @@ SpriteRenderer:
   m_SortingLayerID: -391668011
   m_SortingLayer: 9
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 8b432fdedb8756e47aeac55918b648cb, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1ff2b85bb8b67cf4eb3c8924cc7488c6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
