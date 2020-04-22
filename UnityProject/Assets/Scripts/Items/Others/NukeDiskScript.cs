@@ -77,8 +77,8 @@ public class NukeDiskScript : NetworkBehaviour
 
 	private bool DiskLost()
 	{
-		if (!((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
-			.magnitude > boundRadius)) return false;
+		if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
+			.magnitude < boundRadius)) return false;
 
 		if (escapeShuttle != null && escapeShuttle.Status != ShuttleStatus.DockedCentcom)
 		{
