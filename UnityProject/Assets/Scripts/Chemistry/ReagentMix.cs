@@ -12,6 +12,41 @@ namespace Chemistry
 		[Temperature]
 		[SerializeField] private float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN;
 
+		[SerializeField]
+		private DictionaryReagentFloat reagents;
+
+		public ReagentMix(DictionaryReagentFloat reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
+		{
+			Temperature = temperature;
+			this.reagents = reagents;
+		}
+
+		public ReagentMix(Reagent reagent, float amount, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
+		{
+			Temperature = temperature;
+			reagents = new DictionaryReagentFloat { [reagent] = amount };
+		}
+
+		public ReagentMix(float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
+		{
+			Temperature = temperature;
+			reagents = new DictionaryReagentFloat();
+		}
+
+		public float this[Reagent reagent]
+		{
+			get
+			{
+				if (!reagents.ContainsKey(reagent))
+					return 0f;
+
+				return reagents[reagent];
+			}
+		}
+
+		/// <summary>
+		/// Returns current temperature mix in Kelvin
+		/// </summary>
 		public float Temperature
 		{
 			get => temperature;
@@ -88,61 +123,32 @@ namespace Chemistry
 			}
 		}
 
-		[SerializeField]
-		private DictionaryReagentFloat reagents;
-
-		public ReagentMix(DictionaryReagentFloat reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
-		{
-			Temperature = temperature;
-			this.reagents = reagents;
-		}
-
-		public ReagentMix(Reagent reagent, float amount, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
-		{
-			Temperature = temperature;
-			reagents = new DictionaryReagentFloat {[reagent] = amount};
-		}
-
-		public ReagentMix(float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
-		{
-			Temperature = temperature;
-			reagents = new DictionaryReagentFloat();
-		}
-
-		public float this[Reagent reagent]
-		{
-			get
-			{
-				if (!reagents.ContainsKey(reagent))
-					return 0f;
-
-				return reagents[reagent];
-			}
-			set
-			{
-				if (!reagents.ContainsKey(reagent))
-				{
-					if (value > 0)
-						reagents.Add(reagent, value);
-				}
-				else
-				{
-					if (value > 0)
-						reagents[reagent] = value;
-					else
-						reagents.Remove(reagent);
-				}
-			}
-		}
-
 		public void Add(ReagentMix b)
 		{
 			Temperature = (Temperature * Total + b.Temperature * b.Total) /
-			              (Total + b.Total);
+						  (Total + b.Total);
 
 			foreach (var reagent in b.reagents)
 			{
-				this[reagent.Key] += reagent.Value;
+				Add(reagent.Key, reagent.Value);
+			}
+		}
+
+		public void Add(Reagent reagent, float amount)
+		{
+			if (amount < 0f)
+			{
+				Debug.LogError($"Trying to add negative {amount} amount of {reagent}");
+				return;
+			}
+
+			if (!reagents.ContainsKey(reagent))
+			{
+				reagents.Add(reagent, amount);
+			}
+			else
+			{
+				reagents[reagent] += amount;
 			}
 		}
 
@@ -150,15 +156,60 @@ namespace Chemistry
 		{
 			foreach (var reagent in b.reagents)
 			{
-				this[reagent.Key] -= reagent.Value;
+				Subtract(reagent.Key, reagent.Value);
+			}
+		}
+
+		public float Subtract(Reagent reagent, float subAmount)
+		{
+			if (subAmount < 0f)
+			{
+				Debug.LogError($"Trying to subtract negative {subAmount} amount of {reagent}. Use positive amount instead.");
+				return 0f;
+			}
+
+			if (!reagents.ContainsKey(reagent))
+			{
+				// have nothing to remove, just return zero
+				return 0f;
+			}
+
+			var curAmount = reagents[reagent];
+			var newAmount = curAmount - subAmount;
+
+			if (newAmount < 0f)
+			{
+				// nothing left, remove reagent - it became zero
+				// remove amount that was before
+				reagents.Remove(reagent);
+				return curAmount;
+			}
+			else
+			{
+				// change amount to subtraction result
+				reagents[reagent] = newAmount;
+				return newAmount;
 			}
 		}
 
 		public void Multiply(float multiplier)
 		{
+			if (multiplier < 0f)
+			{
+				Debug.LogError($"Trying to multiply reagentmix by {multiplier}");
+				return;
+			}
+
+			if (multiplier == 0f)
+			{
+				// if multiply by zero - clear all reagents
+				Clear();
+				return;
+			}
+
 			foreach (var key in reagents.Keys.ToArray())
 			{
-				this[key] *= multiplier;
+				reagents[key] *= multiplier;
 			}
 		}
 

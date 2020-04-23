@@ -43,20 +43,13 @@ namespace Chemistry
 
 			foreach (var ingredient in ingredients)
 			{
-				reagentMix[ingredient.Key] -= reactionAmount * ingredient.Value;
+				reagentMix.Subtract(ingredient.Key, reactionAmount * ingredient.Value);
 			}
 
 			foreach (var result in results)
 			{
 				var reactionResult = reactionAmount * result.Value;
-				if (reagentMix.Contains(result.Key))
-				{
-					reagentMix[result.Key] += reactionResult;
-				}
-				else
-				{
-					reagentMix[result.Key] = reactionResult;
-				}
+				reagentMix.Add(result.Key, reactionResult);
 			}
 
 			foreach (var effect in effects)
