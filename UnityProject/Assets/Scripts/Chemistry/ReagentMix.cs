@@ -177,7 +177,7 @@ namespace Chemistry
 			var curAmount = reagents[reagent];
 			var newAmount = curAmount - subAmount;
 
-			if (newAmount < 0f)
+			if (newAmount <= 0f)
 			{
 				// nothing left, remove reagent - it became zero
 				// remove amount that was before
