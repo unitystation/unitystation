@@ -62,22 +62,10 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 	/// </summary>
 	public bool IsWeldable => (weldOverlay != null);
 
-	[SerializeField] [Tooltip("SpriteRender which is toggled on when the door panel is exposed. Existence is equivalent to the ability to hack the door.")] private SpriteRenderer hackPanelOverlay = null;
-	[SerializeField] private Sprite hackPanelSprite = null;
 	/// <summary>
-	/// Is door hackable?
+	/// Hacking nodes used to change the control flow of the object.
 	/// </summary>
-	public bool IsHackable => (hackPanelOverlay != null);
-
-	[SyncVar(hook = nameof(SyncIsHackPanelOpen))]
-	[HideInInspector] private bool isHackPanelOpen = false;
-	/// <summary>
-	/// Is the doors hack panel open?
-	/// </summary>
-	public bool IsHackPanelOpen => isHackPanelOpen;
-
 	private List<HackingNode> hackNodes = new List<HackingNode>();
-
 	public List<HackingNode> HackNodes => hackNodes;
 
 	public DoorType doorType;
@@ -380,33 +368,6 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 		}
 	}
 
-
-	public void ServerTryToggleHackPanel()
-	{
-		if (!isPerformingAction && (hackPanelOverlay != null))
-		{
-			ServerToggleHackPanel();
-		}
-	}
-
-	public void ServerToggleHackPanel()
-	{
-		if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
-		if (!isPerformingAction)
-		{
-			SyncIsHackPanelOpen(isHackPanelOpen, !isHackPanelOpen);
-		}
-	}
-
-	private void SyncIsHackPanelOpen(bool _wasPanelOpen, bool _isPanelOpen)
-	{
-		isHackPanelOpen = _isPanelOpen;
-		if (hackPanelOverlay != null) // if door is weldable
-		{
-			hackPanelOverlay.sprite = isHackPanelOpen ? hackPanelSprite : null;
-		}
-	}
-
 	public void ServerDisassemble(HandApply interaction)
 	{
 		tileChangeManager.RemoveTile(registerTile.LocalPositionServer, LayerType.Walls);
@@ -548,29 +509,38 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 	{
 		HackingNode openDoor = GetNodeOfEnum(NodeNames.OpenDoor);
 		openDoor.AddToInputMethods(ServerOpen);
+		openDoor.IsInput = true;
 
 		HackingNode onAttemptOpen = GetNodeOfEnum(NodeNames.OnAttemptOpen);
 		onAttemptOpen.AddToInputMethods(ServerTryOpen);
+		onAttemptOpen.IsOutput = true;
 
 		HackingNode closeDoor = GetNodeOfEnum(NodeNames.CloseDoor);
 		closeDoor.AddToInputMethods(ServerClose);
+		closeDoor.IsInput = true;
 
 		HackingNode onAttemptClose = GetNodeOfEnum(NodeNames.OnAttemptClose);
 		onAttemptClose.AddToInputMethods(ServerTryClose);
+		onAttemptClose.IsOutput = true;
 
 		HackingNode acceptID = GetNodeOfEnum(NodeNames.AcceptId);
+		acceptID.IsInput = true;
 
 		HackingNode rejectID = GetNodeOfEnum(NodeNames.RejectID);
 		rejectID.AddToInputMethods(ServerAccessDenied);
+		rejectID.IsInput = true;
 
 		HackingNode onIDRejected = GetNodeOfEnum(NodeNames.OnIDRejected);
 		onIDRejected.AddConnectedNode(rejectID);
+		onIDRejected.IsOutput = true;
 
 		HackingNode doPressureWarning = GetNodeOfEnum(NodeNames.DoPressureWarning);
-		onIDRejected.AddToInputMethods(ServerPressureWarn);
+		doPressureWarning.AddToInputMethods(ServerPressureWarn);
+		doPressureWarning.IsInput = true;
 
 		HackingNode shouldDoPressureWarning = GetNodeOfEnum(NodeNames.ShouldDoPressureWarning);
 		shouldDoPressureWarning.AddConnectedNode(doPressureWarning);
+		shouldDoPressureWarning.IsOutput = true;
 
 	}
 

@@ -3,14 +3,14 @@ using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Mirror;
-
+using System.Collections.Generic;
 
 /// <summary>
 /// This is a controller for hacking an object. This compoenent being attached to an object means that the object is hackable.
 /// It will check interactions with the object, and once the goal interactions have been met, it will open a hacking UI prefab.
 /// e.g. check if interacted with a screw driver, then check if 
 /// </summary>
-public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IServerSpawn
+public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IServerSpawn, IServerDespawn
 {
 	[SerializeField]
 	[Tooltip("The prefab spawned when interacting with exposed wires. Should be a UI element.")]
@@ -72,7 +72,7 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		OnHackStageSet(_oldStage, _newStage);
 	}
 
-	public void RegisterHackingGUI(GUI_Hacking hackUI)
+	public virtual void RegisterHackingGUI(GUI_Hacking hackUI)
 	{
 		hackingGUI = hackUI;
 	}
@@ -89,9 +89,11 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	public abstract bool WillInteract(HandApply interaction, NetworkSide side);
 
 	/// <summary>
-	/// This creates the UI prefab used for hacking this object.
+	/// This function must be defined to get the hacking nodes off of the object that stores them.
+	/// i.e. for a simple door, it would get the nodes from the door object.
 	/// </summary>
-	public abstract void CreateHackPrefab();
+	/// <returns></returns>
+	public abstract List<HackingNode> GetHackNodes();
 
 	/// <summary>
 	/// These functions are called when the SyncVars are set using the appropriate hooks.
@@ -103,4 +105,5 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 
 	protected virtual void OnHackStageSet(int oldStage, int newStage) { }
 
+	public abstract void OnDespawnServer(DespawnInfo info);
 }

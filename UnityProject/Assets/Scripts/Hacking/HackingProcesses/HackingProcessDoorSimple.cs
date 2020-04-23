@@ -2,8 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This handles opening a network tab internally, and hence, doesn't require a HasNetworkTab component. Don't add one!
+/// </summary>
 public class HackingProcessDoorSimple : HackingProcessBase
 {
+	public NetTabType NetTabType = NetTabType.HackingPanel;
 
 	[SerializeField]
 	[Tooltip("The name that comes up when you interact with the object.")]
@@ -64,7 +68,10 @@ public class HackingProcessDoorSimple : HackingProcessBase
 		//Do specific things when the wires are exposed.
 		if (WiresExposed)
 		{
-
+			if (interaction.HandObject == null && interaction.Performer != null)
+			{
+				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+			}
 		}
 		//Note, if the wires are exposed and an action is taken, then we should probably return in there, shouldn't also be running these options.
 
@@ -114,8 +121,13 @@ public class HackingProcessDoorSimple : HackingProcessBase
 		}
 	}
 
-	public override void CreateHackPrefab()
+	public override void OnDespawnServer(DespawnInfo info)
 	{
-		throw new System.NotImplementedException();
+		NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType);
+	}
+
+	public override List<HackingNode> GetHackNodes()
+	{
+		return controller.HackNodes;
 	}
 }

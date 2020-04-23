@@ -108,22 +108,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 					return;
 				}
 			}
-			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
-			{
-				var screwdriver = interaction.HandObject.GetComponent<Screwdriver>();
-				if (interaction.Intent != Intent.Help)
-				{
 
-					if (Controller != null)
-					{
-						Chat.AddExamineMsgFromServer(interaction.Performer,
-							"You " + (Controller.IsHackPanelOpen ? "close" : "open") + " the doors' control panel.");
-						Controller.ServerTryToggleHackPanel();
-					}
-
-					return;
-				}
-			}
 			// Attempt to open if it's closed
 			//Tell the OnAttemptOpen node to activate. Node is by default wired to attempt to open the door.
 			HackingNode onAttemptOpen = Controller.GetNodeOfEnum(DoorController.NodeNames.OnAttemptOpen);

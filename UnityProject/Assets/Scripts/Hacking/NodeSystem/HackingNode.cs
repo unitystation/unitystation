@@ -52,8 +52,8 @@ public class HackingNode
 	{
 		PublicLabel = "unset label";
 		InternalLabel = "unset internal label";
-		IsInput = true;
-		IsOutput = true;
+		IsInput = false;
+		IsOutput = false;
 	}
 
 	public static HackingNode GetNodeByInternalLabel(List<HackingNode> nodeList, string internalLabel)
