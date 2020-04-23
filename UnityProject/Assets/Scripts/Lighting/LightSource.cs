@@ -129,11 +129,16 @@ public class LightSource : ObjectTrigger,IAPCPowered
 
 	void OnDrawGizmosSelected()
 	{
-		if (relatedLightSwitch == null) return;
+
 		var sprite = GetComponentInChildren<SpriteRenderer>();
 		if (sprite == null)
 			return;
-
+		if (relatedLightSwitch == null && !isWithoutSwitch)
+		{
+			Gizmos.color = new Color(1, 0.5f, 1, 1);
+			Gizmos.DrawSphere(sprite.transform.position, 0.20f);
+			return;
+		}
 		//Highlighting all controlled lightSources
 		Gizmos.color = new Color(1, 1, 0, 1);
 		Gizmos.DrawLine(relatedLightSwitch.transform.position, gameObject.transform.position);

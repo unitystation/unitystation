@@ -85,12 +85,18 @@ public class DoorSwitchEditor : Editor
 			var list = doorSwitch.doorControllers.ToList();
 			list.Remove(doorController);
 			doorSwitch.doorControllers = list.ToArray();
+
+			EditorUtility.SetDirty(doorSwitch);
+			EditorUtility.SetDirty(doorController);
 		}
 		else
 		{
 			var list = doorSwitch.doorControllers.ToList();
 			list.Add(doorController);
 			doorSwitch.doorControllers = list.ToArray();
+
+			EditorUtility.SetDirty(doorSwitch);
+			EditorUtility.SetDirty(doorController);
 		}
 	}
 
