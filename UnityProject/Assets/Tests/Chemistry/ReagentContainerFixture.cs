@@ -26,15 +26,22 @@ namespace Tests.Chemistry
             foreach (var pair in expected)
             {
                 var val = container[pair.Key];
-                Assert.AreEqual(pair.Value, val, 0.00000001, $"Wrong amount of {pair.Key}.");
-            }
+
+				if (pair.Key)
+					Assert.AreEqual(pair.Value, val, 0.00000001, $"Wrong amount of {pair.Key}.");
+				else
+					Assert.AreEqual(pair.Value, val, 0.00000001);
+			}
         }
 
         private static IEnumerable AdditionTestData()
         {
             var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			a.Name = "a";
             var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			b.Name = "b";
             var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			c.Name = "c";
 
             //Test adding without overflow
             yield return new object[]
@@ -118,11 +125,14 @@ namespace Tests.Chemistry
 
         private static IEnumerable RemovalTestData()
         {
-            var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
-            var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
-            var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			a.Name = "a";
+			var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			b.Name = "b";
+			var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			c.Name = "c";
 
-            yield return new object[]
+			yield return new object[]
             {
                 50,
                 new ReagentMix(a, 10),
