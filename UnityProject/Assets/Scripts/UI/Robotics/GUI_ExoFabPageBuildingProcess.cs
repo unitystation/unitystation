@@ -8,17 +8,17 @@ public class GUI_ExoFabPageBuildingProcess : NetPage
 	public bool IsAnimating { get => isAnimating; }
 
 	[SerializeField]
-	private NetLabel buildingLabel;
+	private NetLabel buildingLabel = null;
 
 	[SerializeField]
-	private NetLabel pleaseWaitLabel;
+	private NetLabel pleaseWaitLabel = null;
 
 	private string[] pleaseWaitText = { "Please wait until completion . . .",
 		"Please wait until completion . .", "Please wait until completion .", "Please wait until completion" };
 
 	public void SetProductLabelProductName(string productName)
 	{
-		buildingLabel.SetValue = "Building " + productName;
+		buildingLabel.SetValueServer("Building " + productName);
 	}
 
 	public void StartAnimateLabel()
@@ -41,7 +41,7 @@ public class GUI_ExoFabPageBuildingProcess : NetPage
 		{
 			foreach (string text in pleaseWaitText)
 			{
-				pleaseWaitLabel.SetValue = text;
+				pleaseWaitLabel.SetValueServer(text);
 				yield return WaitFor.Seconds(0.5f);
 			}
 		}

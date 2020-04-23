@@ -163,6 +163,11 @@ public class TileChangeManager : NetworkBehaviour
 			{
 				OnFloorOrPlatingRemoved.Invoke( cellPosition );
 			}
+			else if (layerType == LayerType.Windows)
+			{
+				RemoveTile(cellPosition, LayerType.Effects);
+			}
+
 			return layerTile;
 		}
 

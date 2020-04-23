@@ -34,13 +34,13 @@ public class MachineProduct
 {
 	[SerializeField]
 	[Tooltip("Product name.")]
-	private string name;
+	private string name = null;
 
 	public string Name { get => name; }
 
 	[SerializeField]
 	[Tooltip("Product Prefab")]
-	private GameObject product;
+	private GameObject product = null;
 
 	public GameObject Product { get => product; }
 

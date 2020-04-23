@@ -527,7 +527,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (data.Damage >= MAX_WINDOW_DAMAGE)
 		{
-			tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
 			data.WindowDamage = WindowDamageLevel.Broken;
 

@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -100,6 +101,7 @@ GameObject:
   - component: {fileID: 2168658977310716751}
   - component: {fileID: 8801529538964132052}
   - component: {fileID: 7430843453514057946}
+  - component: {fileID: 3235767790128179610}
   m_Layer: 13
   m_Name: LightTubeMount
   m_TagString: Untagged
@@ -179,10 +181,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   mLightRendererObject: {fileID: 0}
-  Resistance: 1200
-  RelatedAPC: {fileID: 0}
-  relatedLightSwitch: {fileID: 0}
   customColor: {r: 0, g: 0, b: 0, a: 0}
+  isWithoutSwitch: 0
+  relatedLightSwitch: {fileID: 0}
 --- !u!114 &114510560690312678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -323,6 +325,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteRenderer: {fileID: 212685610322283746}
+  spriteRendererLightOn: {fileID: 3971560341310276896}
   traitRequired: {fileID: 11400000, guid: 82327368297d15b41971f9a171ce14cf, type: 2}
   appliableItem: {fileID: 2419386692754613975, guid: 55cd86212b6c71d468c98ff09f7bbd8a,
     type: 3}
@@ -336,7 +339,6 @@ MonoBehaviour:
   - {fileID: 21300002, guid: 1f8fe2981d2d3bb4f8643d0bed83b580, type: 3}
   - {fileID: 21300004, guid: 1f8fe2981d2d3bb4f8643d0bed83b580, type: 3}
   - {fileID: 21300006, guid: 1f8fe2981d2d3bb4f8643d0bed83b580, type: 3}
-  spriteRendererLightOn: {fileID: 3971560341310276896}
   appliableBrokenItem: {fileID: 2419386692754613975, guid: 10506e21513152a48b7a81dcf361b681,
     type: 3}
   spriteListBroken:
@@ -351,6 +353,30 @@ MonoBehaviour:
   - {fileID: 21300002, guid: 43108dbb5e00bb44092dcc2c124a8586, type: 3}
   - {fileID: 21300004, guid: 43108dbb5e00bb44092dcc2c124a8586, type: 3}
   - {fileID: 21300006, guid: 43108dbb5e00bb44092dcc2c124a8586, type: 3}
+--- !u!114 &3235767790128179610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745947215034166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 220
+  MaximumWorkingVoltage: 600
+  deviceType: 1
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  State: 2
 --- !u!1 &4425836223823806458
 GameObject:
   m_ObjectHideFlags: 0
@@ -396,6 +422,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

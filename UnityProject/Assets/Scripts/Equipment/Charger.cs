@@ -31,7 +31,7 @@ public class Charger : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPo
 
 	private void SyncState(ChargeState old, ChargeState newState)
 	{
-		if (chargeState != newState)
+		if (old != newState)
 		{
 			chargeState = newState;
 			spriteHandler.ChangeSprite((int)chargeState);
@@ -80,7 +80,7 @@ public class Charger : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPo
 			SyncState(chargeState,ChargeState.Off);
 			_APCPoweredDevice.Resistance = 99999;
 		}
-		else if (ChargingSlot.Item == null)
+		else if (ChargingSlot.Item == null && interaction.UsedObject != null)
 		{
 			var _object = interaction.UsedObject.GetComponent<InternalBattery>();
 			if (_object == null) return;

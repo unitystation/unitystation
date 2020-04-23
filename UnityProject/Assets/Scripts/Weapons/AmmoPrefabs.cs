@@ -43,6 +43,8 @@ public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 	[SerializeField]
 	private GameObject Syringe = null;
 	[SerializeField]
+	private GameObject Gasoline = null;
+	[SerializeField]
 	private GameObject Internal = null;
 
 	/// <summary>
@@ -87,6 +89,8 @@ public class AmmoPrefabs : SingletonScriptableObject<AmmoPrefabs>
 				return Instance.Slug;
 			case AmmoType.Syringe:
 				return Instance.Syringe;
+			case AmmoType.Gasoline:
+				return Instance.Gasoline;
 			case AmmoType.Internal:
 				return Instance.Internal;
 			default:

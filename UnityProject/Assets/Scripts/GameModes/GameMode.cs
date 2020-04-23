@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Antagonists;
+using UI.CharacterCreator;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -18,7 +19,7 @@ public abstract class GameMode : ScriptableObject
 	[Header("General Settings")]
 	[Tooltip("The name of the game mode")]
 	[SerializeField]
-	private string gameModeName;
+	private string gameModeName = "New Game Mode";
 	/// <summary>
 	/// The name of the game mode
 	/// </summary>
@@ -27,7 +28,7 @@ public abstract class GameMode : ScriptableObject
 	[Tooltip("A description of the game mode")]
 	[SerializeField]
 	[TextArea]
-	private string description;
+	private string description = "";
 	/// <summary>
 	/// The description of the game mode
 	/// </summary>
@@ -35,7 +36,7 @@ public abstract class GameMode : ScriptableObject
 
 	[Tooltip("Should players be allowed to respawn?")]
 	[SerializeField]
-	private bool canRespawn;
+	private bool canRespawn = false;
 	/// <summary>
 	/// Is respawning enabled in this game mode
 	/// </summary>
@@ -75,7 +76,7 @@ public abstract class GameMode : ScriptableObject
 	[Tooltip("Is the game mode possible if the player count multiplied by the antagRatio doesn't meet the minAntags? " +
 			 "E.g. If true, when antagRatio is 0.2 and minAntags is 1, you need at least 5 players to start the game mode.")]
 	[SerializeField]
-	private bool requiresMinAntags;
+	private bool requiresMinAntags = false;
 	/// <summary>
 	/// Is the game mode possible if the <see cref="antagRatio"/> doesn't meet the <see cref="minAntags"/>?
 	/// E.g. If true, when antagRatio is 0.2 and minAntags is 1, then you need at least 5 players to start the game mode.
@@ -85,7 +86,7 @@ public abstract class GameMode : ScriptableObject
 	[Tooltip("Are antags on the same team or are they lone wolves?" +
 			 "Used for the end of round antag report.")]
 	[SerializeField]
-	private bool teamGameMode;
+	private bool teamGameMode = false;
 	/// <summary>
 	/// Are antags on the same team or are they lone wolves?
 	/// Used for the end of round antag report.
@@ -94,7 +95,7 @@ public abstract class GameMode : ScriptableObject
 
 	[Tooltip("Can antags spawn during the round?")]
 	[SerializeField]
-	private bool midRoundAntags;
+	private bool midRoundAntags = false;
 	/// <summary>
 	/// Can antags spawn during the round?
 	/// </summary>
@@ -103,7 +104,7 @@ public abstract class GameMode : ScriptableObject
 	[FormerlySerializedAs("chooseAntagsBeforeJobs")]
 	[Tooltip("Should antags be allocated a job? If true, will choose antags after allocating jobs.")]
 	[SerializeField]
-	private bool allocateJobsToAntags;
+	private bool allocateJobsToAntags = false;
 	/// <summary>
 	/// Should antags be allocated a job?
 	/// If true, will choose antags after allocating jobs.
@@ -112,7 +113,7 @@ public abstract class GameMode : ScriptableObject
 
 	[Tooltip("The possible antagonists for this game mode")]
 	[SerializeField]
-	private List<Antagonist> possibleAntags;
+	private List<Antagonist> possibleAntags = null;
 	/// <summary>
 	/// The possible antagonists for this game mode
 	/// </summary>
@@ -200,6 +201,12 @@ public abstract class GameMode : ScriptableObject
 			return false;
 		}
 
+		// Has this player enabled any of the possible antags?
+		if (!HasPossibleAntagEnabled(ref spawnRequest.CharacterSettings.AntagPreferences))
+		{
+			return false;
+		}
+
 		// Are there enough antags already?
 		int newPlayerCount = PlayerList.Instance.InGamePlayers.Count + 1;
 		var expectedAntagCount = (int)Math.Floor(newPlayerCount * AntagRatio);
@@ -223,7 +230,16 @@ public abstract class GameMode : ScriptableObject
 			return;
 		}
 
-		var antag = PossibleAntags.PickRandom();
+		var antagPool = PossibleAntags.Where(a =>
+			HasAntagEnabled(ref playerSpawnRequest.CharacterSettings.AntagPreferences, a)).ToList();
+
+		if (antagPool.Count < 1)
+		{
+			Logger.LogErrorFormat("No possible antags! Either PossibleAntags is empty or this player hasn't enabled " +
+								  "any antags and they were spawned as one anyways.", Category.GameMode);
+		}
+
+		var antag = antagPool.PickRandom();
 		if (!AllocateJobsToAntags && antag.AntagOccupation == null)
 		{
 			Logger.LogErrorFormat("AllocateJobsToAntags is false but {0} AntagOccupation is null! " +
@@ -232,6 +248,36 @@ public abstract class GameMode : ScriptableObject
 			return;
 		}
 		AntagManager.Instance.ServerSpawnAntag(antag, playerSpawnRequest);
+	}
+
+	/// <summary>
+	/// Checks if the antag preferences have at least one of the possible antags enabled.
+	/// Assume the antag is enabled by default if it doesn't appear in the preferences.
+	/// </summary>
+	/// <param name="antagPrefs"></param>
+	/// <param name="antag"></param>
+	/// <returns></returns>
+	protected bool HasAntagEnabled(ref AntagPrefsDict antagPrefs, Antagonist antag)
+	{
+		return !antag.ShowInPreferences ||
+			   (antagPrefs.ContainsKey(antag.AntagName) && antagPrefs[antag.AntagName]);
+	}
+
+	/// <summary>
+	/// Checks if the antag preferences have at least one of the possible antags enabled.
+	/// </summary>
+	/// <param name="antagPrefs"></param>
+	/// <returns></returns>
+	protected bool HasPossibleAntagEnabled(ref AntagPrefsDict antagPrefs)
+	{
+		foreach (var antag in PossibleAntags)
+		{
+			if (HasAntagEnabled(ref antagPrefs, antag))
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/// <summary>
@@ -250,9 +296,9 @@ public abstract class GameMode : ScriptableObject
 		{
 			// Allocate jobs to all players first then choose antags
 			playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
-			// TODO: add antag pref checks here
 			var antagCandidates = playerSpawnRequests.Where(p =>
-					!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType));
+					!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType) &&
+					HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences));
 			antagSpawnRequests = antagCandidates.PickRandom(antagsToSpawn).ToList();
 			// Player and antag spawn requests are kept separate to stop players being spawned twice
 			playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
@@ -260,8 +306,8 @@ public abstract class GameMode : ScriptableObject
 		else
 		{
 			// Choose antags first then allocate jobs to all other players
-			// TODO: add antag pref checks here
-			var antagCandidates = playerPool;
+			var antagCandidates = playerPool.Where(p =>
+				HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences));
 			var chosenAntags = antagCandidates.PickRandom(antagsToSpawn).ToList();
 			// Player and antag spawn requests are kept separate to stop players being spawned twice
 			playerPool.RemoveAll(chosenAntags.Contains);

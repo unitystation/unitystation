@@ -241,6 +241,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 53bb9f10c65e1dd4fa5b856a06b91f91, type: 2}
   modification: 0
   reagentContainer: {fileID: 3468170437254342443}
+  nutriment: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
   water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
   mutagen: {fileID: 11400000, guid: 034ab10c20e9a63099ab7df08b99509c, type: 2}
   plantSprite: {fileID: 6974158223068387757}
@@ -249,6 +250,34 @@ MonoBehaviour:
   waterNotifier: {fileID: 1254092131188494499}
   nutrimentNotifier: {fileID: 2269397715240448978}
   tickRate: 1
+  plantData:
+    ProduceObject: {fileID: 0}
+    Name: 
+    Plantname: 
+    Description: 
+    PacketsSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    GrowthSprites: []
+    FullyGrownSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    DeadSprite:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    WeedResistance: 50
+    WeedGrowthRate: 10
+    GrowthSpeed: 60
+    Potency: 15
+    Endurance: 15
+    Yield: 40
+    Lifespan: 25
+    PlantTrays: 
+    ReagentProduction: []
+    MutatesInTo: []
 --- !u!114 &3468170437254342443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -264,13 +293,17 @@ MonoBehaviour:
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
-  maxCapacity: 100
+  maxCapacity: 200
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   initialReagentMix:
-    temperature: 0
+    temperature: 300
     reagents:
-      m_keys: []
-      m_values: []
+      m_keys:
+      - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+      - {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
+      m_values:
+      - 100
+      - 100
   itemAttributes: {fileID: 0}
   traitWhitelist: []
   reagentWhitelist: []

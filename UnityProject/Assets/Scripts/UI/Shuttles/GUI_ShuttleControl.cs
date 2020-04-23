@@ -56,6 +56,7 @@ public class GUI_ShuttleControl : NetTab
 			yield return WaitFor.EndOfFrame;
 		}
 		Trigger = Provider.GetComponent<ShuttleConsole>();
+		Trigger.CacheRcs();
 		Trigger.OnStateChange.AddListener(OnStateChange);
 
 		MatrixMove.RegisterCoordReadoutScript(CoordReadout);
@@ -65,10 +66,12 @@ public class GUI_ShuttleControl : NetTab
 		{
 			EntryList.Origin = MatrixMove;
 			//Init listeners
-			MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(() => this["StartButton"].SetValue = "1");
+			string temp = "1";
+			this["StartButton"].SetValueServer(temp);
+			MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(() => this["StartButton"].SetValueServer("1"));
 			MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener(() =>
 		   {
-			   this["StartButton"].SetValue = "0";
+			   this["StartButton"].SetValueServer("0");
 			   HideWaypoint();
 		   });
 
@@ -78,9 +81,9 @@ public class GUI_ShuttleControl : NetTab
 			}
 			HideWaypoint(false);
 
-			rulersColor = this["Rulers"].Value;
-			rayColor = this["RadarScanRay"].Value;
-			crosshairColor = this["Crosshair"].Value;
+			rulersColor = ((NetUIElement<string>)this["Rulers"]).Value;
+			rayColor = ((NetUIElement<string>)this["RadarScanRay"]).Value;
+			crosshairColor = ((NetUIElement<string>)this["Crosshair"]).Value;
 
 			OnStateChange(State);
 		}
@@ -136,7 +139,7 @@ public class GUI_ShuttleControl : NetTab
 	public void SetSafetyProtocols(bool on)
 	{
 		MatrixMove.SafetyProtocolsOn = on;
-		this["SafetyText"].SetValue = on ? "ON" : "OFF";
+		this["SafetyText"].SetValueServer(@on ? "ON" : "OFF");
 	}
 
 	public void SetWaypoint(string position)
@@ -216,15 +219,16 @@ public class GUI_ShuttleControl : NetTab
 		}
 		EntryList.RefreshTrackedPos();
 		//Logger.Log((MatrixMove.shuttleFuelSystem.FuelLevel * 100).ToString());
+		var fuelGauge = (NetUIElement<string>)this["FuelGauge"];
 		if (MatrixMove.ShuttleFuelSystem == null)
 		{
-			if (this["FuelGauge"].Value != "100") {
-				this["FuelGauge"].SetValue = (100).ToString();
+			if (fuelGauge.Value != "100") {
+				fuelGauge.SetValueServer((100).ToString());
 			}
 
 		}
 		else {
-			this["FuelGauge"].SetValue = Math.Round((MatrixMove.ShuttleFuelSystem.FuelLevel * 100)).ToString();
+			fuelGauge.SetValueServer(Math.Round((MatrixMove.ShuttleFuelSystem.FuelLevel * 100)).ToString());
 		}
 		yield return WaitFor.Seconds(2f);
 
@@ -269,10 +273,10 @@ public class GUI_ShuttleControl : NetTab
 				PowerOff();
 				StartNormalOperation();
 				//Important: set values from server using SetValue and not Value
-				this["OffOverlay"].SetValue = DebugTools.ColorToHex(Color.clear);
-				this["Rulers"].SetValue = rulersColor;
-				this["RadarScanRay"].SetValue = rayColor;
-				this["Crosshair"].SetValue = crosshairColor;
+				this["OffOverlay"].SetValueServer(DebugTools.ColorToHex(Color.clear));
+				this["Rulers"].SetValueServer(rulersColor);
+				this["RadarScanRay"].SetValueServer(rayColor);
+				this["Crosshair"].SetValueServer(crosshairColor);
 				SetSafetyProtocols(@on: true);
 
 				break;
@@ -280,11 +284,11 @@ public class GUI_ShuttleControl : NetTab
 				PowerOff();
 				StartNormalOperation();
 				//Remove overlay
-				this["OffOverlay"].SetValue = DebugTools.ColorToHex(Color.clear);
+				this["OffOverlay"].SetValueServer(DebugTools.ColorToHex(Color.clear));
 				//Repaint radar to evil colours
-				this["Rulers"].SetValue = ChangeColorHue(rulersColor, -80);
-				this["RadarScanRay"].SetValue = ChangeColorHue(rayColor, -80);
-				this["Crosshair"].SetValue = ChangeColorHue( crosshairColor, -80 );
+				this["Rulers"].SetValueServer(ChangeColorHue(rulersColor, -80));
+				this["RadarScanRay"].SetValueServer(ChangeColorHue(rayColor, -80));
+				this["Crosshair"].SetValueServer(ChangeColorHue( crosshairColor, -80 ));
 				AddEmagItems();
 				SetSafetyProtocols(@on: false);
 
@@ -292,7 +296,7 @@ public class GUI_ShuttleControl : NetTab
 			case TabState.Off:
 				PowerOff();
 				//Black screen overlay
-				this["OffOverlay"].SetValue = DebugTools.ColorToHex(Color.black);
+				this["OffOverlay"].SetValueServer(DebugTools.ColorToHex(Color.black));
 				SetSafetyProtocols(@on: true);
 
 				break;

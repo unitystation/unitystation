@@ -7,7 +7,7 @@ using System;
 [CreateAssetMenu(menuName="ScriptableObjects/GameModes/Cargonia")]
 public class Cargonia : GameMode
 {
-	private List<JobType> RebelJob;
+	private List<JobType> rebelJob;
 
 	public override void SetupRound()
 	{
@@ -15,9 +15,11 @@ public class Cargonia : GameMode
 
 		//Select a random department
 		var rnd = new System.Random();
-		var RebelDep = (Departments) rnd.Next(Enum.GetNames(typeof(Departments)).Length);
-		RebelJob = RebelJobs[RebelDep];
-		GameManager.Instance.Rebels = RebelJob;
+		var rebelDep = (Departments) rnd.Next(Enum.GetNames(typeof(Departments)).Length);
+		rebelJob = rebelJobs[rebelDep];
+		GameManager.Instance.Rebels = rebelJob;
+		Logger.LogFormat("The using {0} as the rebel department!", Category.GameMode, rebelDep);
+
 	}
 
 	// TODO switch this for the Department ScriptableObjects
@@ -30,7 +32,7 @@ public class Cargonia : GameMode
 		Supply
 	}
 
-	private readonly Dictionary<Departments, List<JobType>> RebelJobs = new Dictionary<Departments, List<JobType>>() {
+	private readonly Dictionary<Departments, List<JobType>> rebelJobs = new Dictionary<Departments, List<JobType>>() {
 		{Departments.Engineering,
 		new List<JobType>{JobType.CHIEF_ENGINEER, JobType.ENGINEER, JobType.ATMOSTECH}},
 		{Departments.Science,
@@ -45,6 +47,6 @@ public class Cargonia : GameMode
 
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-		return RebelJob.Contains(spawnRequest.RequestedOccupation.JobType);
+		return rebelJob.Contains(spawnRequest.RequestedOccupation.JobType);
 	}
 }

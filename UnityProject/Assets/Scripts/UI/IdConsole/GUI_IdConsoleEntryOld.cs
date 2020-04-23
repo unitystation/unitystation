@@ -27,7 +27,7 @@ public class GUI_IdConsoleEntryOld : DynamicEntry
 		idCard = idToSet;
 		access = accessToSet.RelatedAccess;
 		category = categoryToSet;
-		displayedName.SetValue = accessToSet.AccessName;
+		displayedName.SetValueServer(accessToSet.AccessName);
 		CheckIsSet();
 	}
 
@@ -37,13 +37,13 @@ public class GUI_IdConsoleEntryOld : DynamicEntry
 		console = consoleOldToSet;
 		idCard = idToSet;
 		occupation = occupationToSet;
-		displayedName.SetValue = occupationToSet.JobType.JobString();
+		displayedName.SetValueServer(occupationToSet.JobType.JobString());
 		CheckIsSet();
 	}
 
 	private void SetButton(bool pressed)
 	{
-		displayedBg.SetValue = pressed ? "555555" : "ffffff";
+		displayedBg.SetValueServer(pressed ? "555555" : "ffffff");
 		//Not sure if we will want to color code buttons
 		/*
 		if (isAssignment)

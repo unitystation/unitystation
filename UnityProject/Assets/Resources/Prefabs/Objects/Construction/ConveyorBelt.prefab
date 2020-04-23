@@ -68,9 +68,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -391668011
-  m_SortingLayer: 9
-  m_SortingOrder: 0
+  m_SortingLayerID: 322132419
+  m_SortingLayer: 2
+  m_SortingOrder: 200
   m_Sprite: {fileID: 21300002, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -192,15 +192,13 @@ GameObject:
   - component: {fileID: 1925386106379506438}
   - component: {fileID: 8819730959757270550}
   - component: {fileID: 799095722577257379}
-  - component: {fileID: 4436606494572318361}
   - component: {fileID: 74958767906644875}
-  - component: {fileID: 4216241947996897747}
   - component: {fileID: 2611605342679031968}
   - component: {fileID: 1835757013911865864}
   - component: {fileID: 3348285834374005981}
   - component: {fileID: 7106149064385931371}
   - component: {fileID: 7393164251923224906}
-  m_Layer: 11
+  m_Layer: 23
   m_Name: ConveyorBelt
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -263,30 +261,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &4436606494572318361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144248469089430455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  registerTile: {fileID: 0}
-  floorDecal: {fileID: 0}
-  isInitiallyNotPushable: 1
-  pushPullSound: 
-  soundDelayTime: 0
-  soundMinimumPitchVariance: 1
-  soundMaximumPitchVariance: 1
-  OnPullingSomethingChangedServer:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &74958767906644875
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -305,20 +279,6 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
---- !u!114 &4216241947996897747
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7144248469089430455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
-  ignoreExtraRotation: []
 --- !u!114 &2611605342679031968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -419,6 +379,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  ConveyorBeltSpeed: 0.5
   spriteHandler: {fileID: 3569393190955387615}
-  MappedDirection: 0
+  CurrentDirection: 0
+  CurrentStatus: 0

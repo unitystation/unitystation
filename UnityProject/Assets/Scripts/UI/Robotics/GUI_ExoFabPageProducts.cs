@@ -5,7 +5,7 @@ using UnityEngine;
 public class GUI_ExoFabPageProducts : NetPage
 {
 	[SerializeField]
-	private EmptyItemList productList;
+	private EmptyItemList productList = null;
 
 	public void DisplayProducts(MachineProductList exoFabProducts)
 	{

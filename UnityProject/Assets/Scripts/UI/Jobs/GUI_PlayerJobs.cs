@@ -62,7 +62,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 		footer.SetActive(false);
 		waitMessage.SetActive(true);
 
-		PlayerManager.LocalViewerScript.CmdRequestJob(preference, PlayerManager.CurrentCharacterSettings);
+		PlayerManager.LocalViewerScript.RequestJob(preference);
 		waitForSpawnTimer = waitForSpawnTimerMax;
 	}
 

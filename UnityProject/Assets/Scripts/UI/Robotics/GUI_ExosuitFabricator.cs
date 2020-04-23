@@ -53,7 +53,6 @@ public class GUI_ExosuitFabricator : NetTab
 
 	public ExoFabProductFinishedEvent OnProductFinishedEvent { get => onProductFinishedEvent; }
 
-	private bool inited = false;
 	private bool isUpdating = false;
 	private bool isProcessing = false;
 
@@ -68,7 +67,6 @@ public class GUI_ExosuitFabricator : NetTab
 		{
 			yield return WaitFor.EndOfFrame;
 		}
-		inited = true;
 		onProductAddClicked = new ExoFabProductAddClickedEvent();
 
 		OnProductAddClicked.AddListener(AddProductToQueue);

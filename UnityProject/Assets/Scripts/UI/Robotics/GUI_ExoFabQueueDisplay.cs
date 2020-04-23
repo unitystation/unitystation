@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExoFabQueueDisplay : NetUIElement
+public class GUI_ExoFabQueueDisplay : NetUIElement<string>
 {
-	private DictionaryMaterialToIntAmount MaterialAmountCache;
+	private DictionaryMaterialToIntAmount MaterialAmountCache = null;
 
 	private List<MachineProduct> currentProducts = new List<MachineProduct>();
 	public List<MachineProduct> CurrentProducts { get => currentProducts; }
@@ -15,13 +15,13 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 	public int MaxProductsInQueue { get => maxProductsInQueue; }
 
 	[SerializeField]
-	private GUI_ExoFabButton processQueueButton;
+	private GUI_ExoFabButton processQueueButton = null;
 
 	[SerializeField]
-	private GUI_ExoFabButton clearQueueButton;
+	private GUI_ExoFabButton clearQueueButton = null;
 
 	[SerializeField]
-	private EmptyItemList itemsInQueue;
+	private EmptyItemList itemsInQueue = null;
 
 	public void MoveProductUpInQueue(int productNumber)
 	{
@@ -88,13 +88,13 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 	{
 		if (currentProducts.Count == 0)
 		{
-			processQueueButton.SetValue = "false";
-			clearQueueButton.SetValue = "false";
+			processQueueButton.SetValueServer("false");
+			clearQueueButton.SetValueServer("false");
 		}
 		else
 		{
-			processQueueButton.SetValue = "true";
-			clearQueueButton.SetValue = "true";
+			processQueueButton.SetValueServer("true");
+			clearQueueButton.SetValueServer("true");
 		}
 	}
 
@@ -104,14 +104,14 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 		//Only one item
 		if (currentProducts.Count == 1)
 		{
-			item.DownButton.SetValue = "false";
-			item.UpButton.SetValue = "false";
+			item.DownButton.SetValueServer("false");
+			item.UpButton.SetValueServer("false");
 		}
 		else
 		{
-			if (item.NumberInQueue == 0) item.UpButton.SetValue = "false";
+			if (item.NumberInQueue == 0) item.UpButton.SetValueServer("false");
 
-			if (item.NumberInQueue == currentProducts.Count - 1) item.DownButton.SetValue = "false";
+			if (item.NumberInQueue == currentProducts.Count - 1) item.DownButton.SetValueServer("false");
 		}
 	}
 

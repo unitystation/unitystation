@@ -9,7 +9,7 @@ namespace AdminTools
 	public class AdminPlayerEntry : MonoBehaviour
 	{
 		private Action<AdminPlayerEntry> OnClickEvent;
-		[SerializeField] private Text displayName = null;
+		public Text displayName = null;
 		[SerializeField] private Image bg = null;
 		//The notification counter on the button
 		public GUI_Notification pendingMsgNotification = null;

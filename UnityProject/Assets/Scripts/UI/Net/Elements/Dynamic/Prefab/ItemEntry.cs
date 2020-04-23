@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// For storing Prefabs and not actual instances
@@ -26,7 +27,7 @@ public class ItemEntry : DynamicEntry {
 			Logger.LogWarning( $"No attributes found for prefab {Prefab}",Category.NetUI );
 			return;
 		}
-		foreach ( var element in Elements ) {
+		foreach ( var element in Elements.Cast<NetUIElement<string>>() ) {
 			string nameBeforeIndex = element.name.Split( DELIMITER )[0];
 			switch ( nameBeforeIndex ) {
 					case "ItemName":
