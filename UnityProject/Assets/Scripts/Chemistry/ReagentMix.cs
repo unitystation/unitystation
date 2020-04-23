@@ -192,6 +192,9 @@ namespace Chemistry
 			}
 		}
 
+		/// <summary>
+		/// Multiply each reagent amount by multiplier
+		/// </summary>
 		public void Multiply(float multiplier)
 		{
 			if (multiplier < 0f)
@@ -213,7 +216,11 @@ namespace Chemistry
 			}
 		}
 
-		public ReagentMix TransferTo(ReagentMix b, float amount)
+		/// <summary>
+		/// Transfer part of reagent mix
+		/// </summary>
+		/// <returns>Transfered reagent mix</returns>
+		public ReagentMix TransferTo(ReagentMix toTransfer, float amount)
 		{
 			var toTransferMix = Clone();
 
@@ -222,7 +229,7 @@ namespace Chemistry
 			toTransferMix.Max(toTransferAmount, out _);
 
 			Subtract(toTransferMix);
-			b.Add(toTransferMix);
+			toTransfer.Add(toTransferMix);
 			return toTransferMix;
 		}
 
@@ -243,6 +250,9 @@ namespace Chemistry
 			Multiply(multiplier);
 		}
 
+		/// <summary>
+		/// Try to remove max avaliable amount of mix
+		/// </summary>
 		public void Max(float max, out float removed)
 		{
 			removed = Math.Max(Total - max, 0);
