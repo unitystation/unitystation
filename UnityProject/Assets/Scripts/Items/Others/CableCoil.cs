@@ -12,7 +12,7 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandAp
 	public WiringColor CableType;
 	public GameObject CablePrefab;
 	public PowerTypeCategory powerTypeCategory;
-
+	[SerializeField] private bool onlyNESW = false;
 	public Connection GetDirectionFromFaceDirection(GameObject originator)
 	{
 		var playerScript = originator.GetComponent<PlayerScript>();
@@ -121,7 +121,7 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<PositionalHandAp
 
 			if (WireEndB != Connection.NA)
 			{
-				if (CableType == WiringColor.high)
+				if (onlyNESW)
 				{
 					switch (WireEndB)
 					{
