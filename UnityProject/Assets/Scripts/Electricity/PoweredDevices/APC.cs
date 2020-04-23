@@ -140,6 +140,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 
 		foreach (APCPoweredDevice Device in ConnectedDevices)
 		{
+			if(Device == null) continue;
 			Device.PowerNetworkUpdate(Voltages);
 			CalculatingResistance += (1 / Device.Resistance);
 		}
