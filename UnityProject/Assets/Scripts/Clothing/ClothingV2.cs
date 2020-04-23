@@ -9,7 +9,7 @@ using Mirror;
 /// New and improved, removes need for UniCloth type stuff, works
 /// well with using prefab variants.
 /// </summary>
-public class ClothingV2 : MonoBehaviour
+public class ClothingV2 : NetworkBehaviour
 {
 	private SpriteHandlerController spriteHandlerController;
 	//TODO: This can probably be migrated to this component rather than using a separate SO, since
@@ -23,7 +23,7 @@ public class ClothingV2 : MonoBehaviour
 	private int variantIndex = -1;
 
 	[Tooltip("Type of variant to use of the clothing data.")]
-	[SerializeField]
+	[SerializeField][SyncVar(hook = nameof(SyncSprites))]
 	private ClothingVariantType variantType = ClothingVariantType.Default;
 
 	[Tooltip("Determine when a piece of clothing hides another")]
@@ -71,47 +71,50 @@ public class ClothingV2 : MonoBehaviour
 	//set up the sprites / config of this instance using the cloth data
 	private void TryInit()
 	{
-		if (clothData is ClothingData clothingData)
+		switch (clothData)
 		{
-			spriteInfo = SetUpSheetForClothingData(clothingData);
-			SetUpFromClothingData(clothingData.Base);
+			case ClothingData clothingData:
+				spriteInfo = SetUpSheetForClothingData(clothingData);
+				SetUpFromClothingData(clothingData.Base);
 
-			switch (variantType)
-			{
-				case ClothingVariantType.Default:
-					if (variantIndex > -1)
-					{
-						if (!(clothingData.Variants.Count >= variantIndex))
+				switch (variantType)
+				{
+					case ClothingVariantType.Default:
+						if (variantIndex > -1)
 						{
-							SetUpFromClothingData(clothingData.Variants[variantIndex]);
+							if (!(clothingData.Variants.Count >= variantIndex))
+							{
+								SetUpFromClothingData(clothingData.Variants[variantIndex]);
+							}
 						}
-					}
+						break;
+					case ClothingVariantType.Skirt:
+						SetUpFromClothingData(clothingData.DressVariant);
+						break;
+					case ClothingVariantType.Tucked:
+						SetUpFromClothingData(clothingData.Base_Adjusted);
+						break;
+				}
+				break;
 
-					break;
-				case ClothingVariantType.Skirt:
-					SetUpFromClothingData(clothingData.DressVariant);
-					break;
-				case ClothingVariantType.Tucked:
-					SetUpFromClothingData(clothingData.Base_Adjusted);
-					break;
+			case ContainerData containerData:
+				this.spriteInfo = SpriteFunctions.SetupSingleSprite(containerData.Sprites.Equipped);
+				SetUpFromClothingData(containerData.Sprites);
+				break;
+
+			case BeltData beltData:
+				this.spriteInfo = SpriteFunctions.SetupSingleSprite(beltData.sprites.Equipped);
+				SetUpFromClothingData(beltData.sprites);
+				break;
+
+			case HeadsetData headsetData:
+			{
+				var Headset = GetComponent<Headset>();
+				this.spriteInfo = SpriteFunctions.SetupSingleSprite(headsetData.Sprites.Equipped);
+				SetUpFromClothingData(headsetData.Sprites);
+				Headset.EncryptionKey = headsetData.Key.EncryptionKey;
+				break;
 			}
-		}
-		else if (clothData is ContainerData containerData)
-		{
-			this.spriteInfo = SpriteFunctions.SetupSingleSprite(containerData.Sprites.Equipped);
-			SetUpFromClothingData(containerData.Sprites);
-		}
-		else if (clothData is BeltData beltData)
-		{
-			this.spriteInfo = SpriteFunctions.SetupSingleSprite(beltData.sprites.Equipped);
-			SetUpFromClothingData(beltData.sprites);
-		}
-		else if (clothData is HeadsetData headsetData)
-		{
-			var Headset = GetComponent<Headset>();
-			this.spriteInfo = SpriteFunctions.SetupSingleSprite(headsetData.Sprites.Equipped);
-			SetUpFromClothingData(headsetData.Sprites);
-			Headset.EncryptionKey = headsetData.Key.EncryptionKey;
 		}
 	}
 
@@ -194,6 +197,19 @@ public class ClothingV2 : MonoBehaviour
 		RefreshClothingItem();
 	}
 
+	private void SyncSprites(ClothingVariantType oldValue, ClothingVariantType newValue)
+	{
+		variantType = newValue;
+		TryInit();
+		RefreshClothingItem();
+	}
+
+	[Server]
+	public void ServerChangeVariant(ClothingVariantType variant)
+	{
+		variantType = variant;
+	}
+
 	private void RefreshClothingItem()
 	{
 		if (clothingItem != null)
@@ -206,13 +222,13 @@ public class ClothingV2 : MonoBehaviour
 	{
 		return clothData == null ? null : clothData.GetPaletteOrNull(variantIndex);
 	}
-}
 
-public enum ClothingVariantType
-{
-	Default = 0,
-	Tucked = 1,
-	Skirt = 2
+	public enum ClothingVariantType
+	{
+		Default = 0,
+		Tucked = 1,
+		Skirt = 2
+	}
 }
 
 /// <summary>
