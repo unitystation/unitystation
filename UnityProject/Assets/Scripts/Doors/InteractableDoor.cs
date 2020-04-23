@@ -54,7 +54,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		if (Controller.IsClosed && Controller.IsAutomatic)
 		{
 			HackingNode onAttemptOpen = Controller.GetNodeOfEnum(DoorController.NodeNames.OnAttemptOpen);
-			onAttemptOpen.InputReceived(byPlayer);
+			onAttemptOpen.SendOutputToConnectedNodes(byPlayer);
 		}
 	}
 
@@ -110,9 +110,9 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 			}
 
 			// Attempt to open if it's closed
-			//Tell the OnAttemptOpen node to activate. Node is by default wired to attempt to open the door.
+			//Tell the OnAttemptOpen node to activate.
 			HackingNode onAttemptOpen = Controller.GetNodeOfEnum(DoorController.NodeNames.OnAttemptOpen);
-			onAttemptOpen.InputReceived(interaction.Performer);
+			onAttemptOpen.SendOutputToConnectedNodes(interaction.Performer);
 		}
 
 		StartInputCoolDown();

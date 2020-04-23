@@ -23,22 +23,37 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 
 	public enum NodeNames
 	{
+		//When a the door is interacted with.
 		OnAttemptOpen,
 		OnAttemptClose,
 
+		//Begin the process of checking if we should open/close.
+		BeginOpenProcedure,
+		BeginCloseProcedure,
+
+		//We have decided that we are valid to open, and are now going to.
+		OnShouldOpen,
+		OnShouldClose,
+
+		//Open the door/close the door.
 		OpenDoor,
 		CloseDoor,
 
+		//Outputs when the door opens/closes.
 		OnDoorOpened,
 		OnDoorClosed,
 
+		//Output when an ID should be accepted/rejected.
 		OnIDAccepted,
 		OnIDRejected,
 
+		//Do the animation/sounds for rejecting an ID.
 		AcceptId,
 		RejectID,
 
+		//Output when we should do a pressure warning.
 		ShouldDoPressureWarning,
+		//Input to do the animation/sounds for a pressure warning.
 		DoPressureWarning
 
 	}
@@ -256,10 +271,11 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 	{
 		// Sliding door is not passable according to matrix
         if( !IsClosed && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) ) {
-			HackingNode closedDoor = GetNodeOfEnum(NodeNames.CloseDoor);
-			closedDoor.InputReceived();
-			//ServerClose();
-        }
+			//HackingNode closedDoor = GetNodeOfEnum(NodeNames.CloseDoor);
+			//closedDoor.InputReceived();
+			HackingNode onShouldClose = GetNodeOfEnum(NodeNames.OnShouldClose);
+			onShouldClose.SendOutputToConnectedNodes();
+		}
 		else
 		{
 			ResetWaiting();
@@ -314,8 +330,8 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 			}
 			else
 			{
-				HackingNode openDoor = GetNodeOfEnum(NodeNames.OpenDoor);
-				openDoor.InputReceived(Originator);
+				HackingNode onShouldOpen = GetNodeOfEnum(NodeNames.OnShouldOpen);
+				onShouldOpen.SendOutputToConnectedNodes(Originator);
 			}
 		}
 	}
@@ -507,21 +523,39 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 
 	public void LinkHackNodes()
 	{
+
 		HackingNode openDoor = GetNodeOfEnum(NodeNames.OpenDoor);
 		openDoor.AddToInputMethods(ServerOpen);
 		openDoor.IsInput = true;
-
-		HackingNode onAttemptOpen = GetNodeOfEnum(NodeNames.OnAttemptOpen);
-		onAttemptOpen.AddToInputMethods(ServerTryOpen);
-		onAttemptOpen.IsOutput = true;
 
 		HackingNode closeDoor = GetNodeOfEnum(NodeNames.CloseDoor);
 		closeDoor.AddToInputMethods(ServerClose);
 		closeDoor.IsInput = true;
 
+		HackingNode beginOpenProcedure = GetNodeOfEnum(NodeNames.BeginOpenProcedure);
+		beginOpenProcedure.AddToInputMethods(ServerTryOpen);
+		beginOpenProcedure.IsInput = true;
+
+		HackingNode beginCloseProcedure = GetNodeOfEnum(NodeNames.BeginCloseProcedure);
+		beginCloseProcedure.AddToInputMethods(ServerTryClose);
+		beginCloseProcedure.IsInput = true;
+
+		HackingNode onAttemptOpen = GetNodeOfEnum(NodeNames.OnAttemptOpen);
+		onAttemptOpen.AddConnectedNode(beginOpenProcedure);
+		onAttemptOpen.IsOutput = true;
+
 		HackingNode onAttemptClose = GetNodeOfEnum(NodeNames.OnAttemptClose);
-		onAttemptClose.AddToInputMethods(ServerTryClose);
+		onAttemptClose.AddConnectedNode(beginCloseProcedure);
 		onAttemptClose.IsOutput = true;
+
+		HackingNode onShouldOpen = GetNodeOfEnum(NodeNames.OnShouldOpen);
+		onShouldOpen.AddConnectedNode(openDoor);
+		onShouldOpen.IsOutput = true;
+
+		HackingNode onShouldClose = GetNodeOfEnum(NodeNames.OnShouldClose);
+		onShouldClose.AddConnectedNode(closeDoor);
+		onShouldClose.IsOutput = true;
+
 
 		HackingNode acceptID = GetNodeOfEnum(NodeNames.AcceptId);
 		acceptID.IsInput = true;

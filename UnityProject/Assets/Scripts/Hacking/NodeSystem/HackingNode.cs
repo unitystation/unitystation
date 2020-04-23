@@ -85,6 +85,11 @@ public class HackingNode
 		connectedInputNodes.Add(node);
 	}
 
+	public virtual void RemoveConnectedNode(HackingNode node)
+	{
+		connectedInputNodes.Remove(node);
+	}
+
 	/// <summary>
 	/// Adds a method to the input method delegates. Basically, allows a way to callback a function added to the node.
 	/// </summary>

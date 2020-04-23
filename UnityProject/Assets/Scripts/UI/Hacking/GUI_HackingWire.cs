@@ -7,19 +7,21 @@ public class GUI_HackingWire : MonoBehaviour
 	[SerializeField]
 	private GameObject wireStart;
 	private GUI_HackingNode startNode;
+	public GUI_HackingNode StartNode => startNode;
 
 	[SerializeField]
 	private GameObject wireEnd;
 	private GUI_HackingNode endNode;
+	public GUI_HackingNode EndNode => endNode;
 
 	[SerializeField]
 	private GameObject wireBody;
 
-	private Vector2 uiOffset;
-	private Canvas canvas;
+	private GUI_Hacking parentHackingPanel;
 
 	public void Start()
 	{
+		parentHackingPanel = GetComponentInParent<GUI_Hacking>();
 	}
 
 	public void SetStartUINode(GUI_HackingNode startNode)
@@ -28,7 +30,7 @@ public class GUI_HackingWire : MonoBehaviour
 		RectTransform nodeRectTransform = startNode.GetComponent<RectTransform>();
 		RectTransform wireStartRectTransform = wireStart.GetComponent<RectTransform>();
 
-		wireStartRectTransform.position = nodeRectTransform.position;// + nodeRectTransform.anchoredPosition;
+		wireStartRectTransform.position = nodeRectTransform.position;
 	}
 
 	public void SetEndUINode(GUI_HackingNode endNode)
@@ -64,5 +66,10 @@ public class GUI_HackingWire : MonoBehaviour
 		Vector3 rotation = wireBodyRectTransform.transform.eulerAngles;
 		rotation.z = angle;
 		wireBodyRectTransform.transform.eulerAngles = rotation;
+	}
+
+	public void Remove()
+	{
+		parentHackingPanel.RemoveWire(this);
 	}
 }

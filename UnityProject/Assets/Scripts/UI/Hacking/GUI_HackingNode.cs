@@ -11,6 +11,12 @@ public class GUI_HackingNode : MonoBehaviour
 	private HackingNode hackNode;
 	public HackingNode HackNode => hackNode;
 
+	public GUI_Hacking parentHackingPanel;
+
+	public void Start()
+	{
+		parentHackingPanel = GetComponentInParent<GUI_Hacking>();
+	}
 
 	public void SetHackingNode(HackingNode node)
 	{
@@ -21,5 +27,23 @@ public class GUI_HackingNode : MonoBehaviour
 	public void SetUpNodeData()
 	{
 		label.SetText(hackNode.InternalLabel);
+	}
+
+	public void OnClick()
+	{
+		if (parentHackingPanel.IsAddingWire)
+		{
+			if (hackNode.IsInput)
+			{
+				parentHackingPanel.FinishAddingWire(this);
+			}
+		}
+		else
+		{
+			if (hackNode.IsOutput)
+			{
+				parentHackingPanel.BeginAddingWire(this);
+			}
+		}
 	}
 }

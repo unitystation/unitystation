@@ -52,12 +52,13 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 		if (interaction.TargetObject != gameObject) return false;
 
+		if (interaction.HandObject == null && !WiresExposed) return false;
+
 		return IntDoor != null && IntDoor.allowInput;
 	}
 
 	public override void ClientPredictInteraction(HandApply interaction)
 	{
-		IntDoor.StartInputCoolDown();
 	}
 
 	public override void ServerRollbackClient(HandApply interaction) { }
@@ -71,9 +72,10 @@ public class HackingProcessDoorSimple : HackingProcessBase
 			if (interaction.HandObject == null && interaction.Performer != null)
 			{
 				TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType, TabAction.Open);
+				IntDoor.StartInputCoolDown();
+				return;
 			}
 		}
-		//Note, if the wires are exposed and an action is taken, then we should probably return in there, shouldn't also be running these options.
 
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 		{
@@ -88,12 +90,11 @@ public class HackingProcessDoorSimple : HackingProcessBase
 					ServerTryTogglePanel();
 				}
 
+				IntDoor.StartInputCoolDown();
 				return;
 			}
 
 		}
-
-		IntDoor.StartInputCoolDown();
 
 	}
 

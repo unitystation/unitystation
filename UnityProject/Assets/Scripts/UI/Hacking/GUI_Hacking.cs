@@ -40,6 +40,12 @@ public class GUI_Hacking : NetTab
 	private List<GUI_HackingNode> outputNodeUIObjects = new List<GUI_HackingNode>();
 	public List<GUI_HackingNode> OutputNodeUIObjects => outputNodeUIObjects;
 
+	/// <summary>
+	/// List of wires UI objects.
+	/// </summary>
+	private List<GUI_HackingWire> hackingWires = new List<GUI_HackingWire>();
+	public List<GUI_HackingWire> HackingWires => hackingWires;
+
 
 	[SerializeField]
 	private RectTransform inputsLayout;
@@ -60,7 +66,17 @@ public class GUI_Hacking : NetTab
 	[Tooltip("This is the cell size of the hacking nodes when displayed by the UI. The cell size isn't calculated dynamically, but the spacing betweem them is.")]
 	private Vector2 nodeCellSize;
 
-    void Start()
+	private bool isAddingWire = false;
+	public bool IsAddingWire => isAddingWire;
+
+
+	/// <summary>
+	/// These are used interanlly for when a new wire is being added.
+	/// </summary>
+	private GUI_HackingNode newWireOutput;
+	private GUI_HackingNode newWireInput;
+
+	void Start()
     {
 		if (Provider != null)
 		{
@@ -132,7 +148,6 @@ public class GUI_Hacking : NetTab
 
 		GenerateNodeConnections();
 	}
-
 	/// <summary>
 	/// Gets the UI component of a node inside the system. Every node should have a UI component, so this shouldn't ever return null. If it does, uh oh.
 	/// </summary>
@@ -206,8 +221,49 @@ public class GUI_Hacking : NetTab
 				GUIWire.SetStartUINode(outputUINode);
 				GUIWire.SetEndUINode(inputUINode);
 				GUIWire.PositionWireBody();
+
+				hackingWires.Add(GUIWire);
 			}
 		}
 	}
 
+	public void RegenerateWiring()
+	{
+		foreach (GUI_HackingWire wire in hackingWires)
+		{
+			Destroy(wire.gameObject);
+		}
+		hackingWires = new List<GUI_HackingWire>();
+
+		GenerateNodeConnections();
+	}
+
+	public void RemoveWire(GUI_HackingWire wireUI)
+	{
+		HackingNode outputNode = wireUI.StartNode.HackNode;
+		HackingNode inputNode = wireUI.EndNode.HackNode;
+
+		outputNode.RemoveConnectedNode(inputNode);
+
+		hackingWires.Remove(wireUI);
+		Destroy(wireUI.gameObject);
+	}
+
+	public void BeginAddingWire(GUI_HackingNode outputNode)
+	{
+		newWireOutput = outputNode;
+		isAddingWire = true;
+	}
+
+	public void FinishAddingWire(GUI_HackingNode inputNode)
+	{
+		newWireInput = inputNode;
+
+		newWireOutput.HackNode.AddConnectedNode(newWireInput.HackNode);
+
+		RegenerateWiring();
+
+		isAddingWire = false;
+
+	}
 }
