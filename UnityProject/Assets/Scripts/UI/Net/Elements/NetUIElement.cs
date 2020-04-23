@@ -30,6 +30,7 @@ public abstract class NetUIElement<T> : NetUIElementBase
 	}
 
 	private NetTab masterTab;
+	private static readonly JsonSerializer JsonSerializer = new JsonSerializer();
 
 	public override ElementValue ElementValue => new ElementValue
 	{
@@ -38,13 +39,6 @@ public abstract class NetUIElement<T> : NetUIElementBase
 	};
 
 	public override ElementMode InteractionMode => ElementMode.Normal;
-
-	/// <summary>
-	/// Initialize method before element list is collected. For editor-set values
-	/// </summary>
-	public override void Init()
-	{
-	}
 
 	public virtual T Value
 	{
@@ -55,7 +49,7 @@ public abstract class NetUIElement<T> : NetUIElementBase
 	public override object ValueObject
 	{
 		get => Value;
-		set { Value = (T) value; }
+		set => Value = (T) value;
 	}
 
 	public override byte[] BinaryValue
@@ -65,22 +59,18 @@ public abstract class NetUIElement<T> : NetUIElementBase
 			var ms = new MemoryStream(value);
 			using (var bsonReader = new BsonReader(ms))
 			{
-				var serializer = new JsonSerializer();
-				Value = serializer.Deserialize<Wrapper<T>>(bsonReader).Value;
+				Value = JsonSerializer.Deserialize<Wrapper<T>>(bsonReader).Value;
 			}
 		}
 		get
 		{
-			using (var ms = new MemoryStream())
+			var ms = new MemoryStream();
+			using (var writer = new BsonWriter(ms))
 			{
-				using (var writer = new BsonWriter(ms))
-				{
-					var serializer = new JsonSerializer();
-					serializer.Serialize(writer, new Wrapper<T>(Value));
-				}
-
-				return ms.ToArray();
+				JsonSerializer.Serialize(writer, new Wrapper<T>(Value));
 			}
+
+			return ms.ToArray();
 		}
 	}
 
@@ -146,13 +136,6 @@ public abstract class NetUIElement<T> : NetUIElementBase
 		return ElementValue.ToString();
 	}
 
-	/// <summary>
-	/// Special logic to execute after all tab elements are initialized
-	/// </summary>
-	public override void AfterInit()
-	{
-	}
-
 	private class Wrapper<T>
 	{
 		public T Value;
@@ -175,7 +158,7 @@ public abstract class NetUIElementBase : MonoBehaviour
 	/// <summary>
 	/// Initialize method before element list is collected. For editor-set values
 	/// </summary>
-	public abstract void Init();
+	public virtual void Init() {}
 
 	public abstract byte[] BinaryValue { get; set; }
 
@@ -191,12 +174,11 @@ public abstract class NetUIElementBase : MonoBehaviour
 	public abstract void ExecuteClient();
 
 	public abstract void ExecuteServer(ConnectedPlayer subject);
-	public abstract string ToString();
 
 	/// <summary>
 	/// Special logic to execute after all tab elements are initialized
 	/// </summary>
-	public abstract void AfterInit();
+	public virtual void AfterInit() {}
 }
 
 public enum ElementMode
