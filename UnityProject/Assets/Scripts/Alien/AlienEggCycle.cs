@@ -20,6 +20,9 @@ namespace Alien
 		[Tooltip("In what state will this egg spawn in the world.")]
 		[SerializeField]
 		private EggState initialState = EggState.Growing;
+
+		[Tooltip("Allows mappers to have eggs that won't start cycle once spawned, but are still intractable")][SerializeField]
+		private bool freezeCycle = false;
 		[Tooltip("A reference for the facehugger mob so we can spawn it.")]
 		[SerializeField]
 		private GameObject facehugger;
@@ -82,6 +85,12 @@ namespace Alien
 		private IEnumerator StartIncubation()
 		{
 			spriteHandler.SetSprite(spriteHandler.Sprites[SMALL_SPRITE]);
+
+			if (freezeCycle)
+			{
+				yield break;
+			}
+
 			yield return WaitFor.Seconds(incubationTime / 2);
 			UpdateState(currentState == EggState.Growing ? EggState.Grown : currentState);
 		}
@@ -89,6 +98,12 @@ namespace Alien
 		private IEnumerator FinishIncubation()
 		{
 			spriteHandler.SetSprite(spriteHandler.Sprites[BIG_SPRITE]);
+
+			if (freezeCycle)
+			{
+				yield break;
+			}
+			
 			yield return WaitFor.Seconds(incubationTime / 2);
 			UpdateState(currentState == EggState.Grown ? EggState.Burst : currentState);
 		}
