@@ -351,19 +351,19 @@ namespace NPC
 
 			foreach (var slot in faceSlots)
 			{
-				var item = equipment.ItemStorage.GetNamedItemSlot(slot)?.Item?.gameObject;
-				if (item == null)
+				var item = equipment.ItemStorage.GetNamedItemSlot(slot)?.Item;
+				if (item == null || item.gameObject == null)
 				{
 					continue;
 				}
 
-				if (!Validations.HasItemTrait(item, CommonTraits.Instance.AntiFacehugger))
+				if (!Validations.HasItemTrait(item.gameObject, CommonTraits.Instance.AntiFacehugger))
 				{
 					Inventory.ServerDrop(equipment.ItemStorage.GetNamedItemSlot(slot));
 				}
 				else
 				{
-					var integrity = item.GetComponent<Integrity>();
+					var integrity = item.gameObject.GetComponent<Integrity>();
 					if (integrity != null)
 					{
 						// Your protection might break!

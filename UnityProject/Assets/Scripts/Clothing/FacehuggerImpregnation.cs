@@ -142,21 +142,25 @@ namespace Clothing
 
 		public void OnInventoryMoveClient(ClientInventoryMove info)
 		{
-			var pna = PlayerManager.LocalPlayerScript?.playerNetworkActions;
-			var health = PlayerManager.LocalPlayerScript.playerHealth;
+			var playerScript = PlayerManager.LocalPlayerScript;
 			if ((CustomNetworkManager.Instance._isServer && GameData.IsHeadlessServer)
-			    || pna == null
-			    || health == null)
+			    || playerScript == null
+			    || playerScript.playerNetworkActions == null
+			    || playerScript.playerHealth == null)
 			{
 				return;
 			}
 
 			switch (info.ClientInventoryMoveType)
 			{
-				case ClientInventoryMoveType.Added when pna?.GetActiveItemInSlot(NamedSlot.mask)?.gameObject == gameObject:
+				case ClientInventoryMoveType.Added
+					when playerScript.playerNetworkActions.GetActiveItemInSlot(NamedSlot.mask)?.gameObject ==
+					     gameObject:
 					UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.crit);
 					break;
-				case ClientInventoryMoveType.Removed when pna?.GetActiveItemInSlot(NamedSlot.mask)?.gameObject != gameObject:
+				case ClientInventoryMoveType.Removed
+					when playerScript.playerNetworkActions.GetActiveItemInSlot(NamedSlot.mask)?.gameObject !=
+					     gameObject:
 					UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.normal);
 					break;
 			}
