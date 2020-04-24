@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -14,6 +15,10 @@ public enum LightMountState
 }
 public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
+	private float coolDownTime = 3.0f;
+
+	private bool isInCoolDown;
+
 	[SyncVar(hook = nameof(SyncLightState))]
 	private LightMountState state = LightMountState.On;
 
@@ -82,6 +87,9 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (isInCoolDown) return;
+		StartCoroutine(CoolDown());
+
 		if (interaction.HandObject == null)
 		{
 			if (state == LightMountState.On && state != LightMountState.MissingBulb && state != LightMountState.Broken && !Validations.HasItemTrait(interaction.PerformerPlayerScript.Equipment.GetClothingItem(NamedSlot.hands).GameObjectReference, CommonTraits.Instance.BlackGloves))
@@ -251,5 +259,12 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	private void ServerChangeLightState(LightMountState newState)
 	{
 		state = newState;
+	}
+
+	private IEnumerator CoolDown()
+	{
+		isInCoolDown = true;
+		yield return WaitFor.Seconds(coolDownTime);
+		isInCoolDown = false;
 	}
 }
