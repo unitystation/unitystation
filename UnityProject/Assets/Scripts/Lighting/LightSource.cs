@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using Light2D;
 using Lighting;
 using Mirror;
@@ -133,8 +134,9 @@ public class LightSource : ObjectTrigger,IAPCPowered
 		var sprite = GetComponentInChildren<SpriteRenderer>();
 		if (sprite == null)
 			return;
-		if (relatedLightSwitch == null && !isWithoutSwitch)
+		if (relatedLightSwitch == null)
 		{
+			if (isWithoutSwitch) return;
 			Gizmos.color = new Color(1, 0.5f, 1, 1);
 			Gizmos.DrawSphere(sprite.transform.position, 0.20f);
 			return;

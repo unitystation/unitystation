@@ -145,8 +145,9 @@ public class APCPoweredDevice : NetworkBehaviour
 
 	void OnDrawGizmosSelected()
 	{
-		if (RelatedAPC == null && !isSelfPowered)
+		if (RelatedAPC == null)
 		{
+			if (isSelfPowered) return;
 			Gizmos.color = new Color(1f, 0f, 0, 1);
 			Gizmos.DrawCube(gameObject.transform.position,new Vector3(0.3f,0.3f));
 			return;
