@@ -13,7 +13,7 @@ public enum LightState
 }
 
 [ExecuteInEditMode]
-public class LightSource : ObjectTrigger,IAPCPowered
+public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 {
 	[SerializeField]
 	private LightState InitialState = LightState.On;
@@ -70,11 +70,6 @@ public class LightSource : ObjectTrigger,IAPCPowered
 		wallMount = GetComponent<LightMountStates>();
 		SwitchState = true;
 		mState = InitialState;
-	}
-
-	private void OnDestroy()
-	{
-		UnSubscribeFromSwitchEvent();
 	}
 
 	public bool SubscribeToSwitchEvent(LightSwitchV2 lightSwitch)
@@ -169,5 +164,10 @@ public class LightSource : ObjectTrigger,IAPCPowered
 				Trigger(false);
 				return;
 		}
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		UnSubscribeFromSwitchEvent();
 	}
 }
