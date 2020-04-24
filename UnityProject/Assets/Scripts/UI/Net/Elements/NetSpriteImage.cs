@@ -66,5 +66,5 @@ public class NetSpriteImage : NetUIElement<string>
 		}
 	}
 
-	public override void ExecuteServer() {}
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 }

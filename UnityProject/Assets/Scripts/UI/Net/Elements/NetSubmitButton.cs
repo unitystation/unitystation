@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -22,7 +22,7 @@ public class NetSubmitButton : NetUIElement<string>
 	public StringEvent ServerMethod;
 	public InputField SourceInputField;
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke(Value);
 	}
 }

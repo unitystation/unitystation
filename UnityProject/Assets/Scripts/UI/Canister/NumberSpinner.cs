@@ -240,7 +240,7 @@ public class NumberSpinner : NetUIElement<string>
 
 	public StringEvent ServerMethod;
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke(Value);
 	}
 }

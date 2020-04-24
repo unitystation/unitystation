@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class NetRadiusCircle : NetUIElement<string>
@@ -44,5 +44,5 @@ public class NetRadiusCircle : NetUIElement<string>
 		}
 	}
 
-	public override void ExecuteServer() {}
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 }

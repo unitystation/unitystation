@@ -18,11 +18,6 @@ public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 	public TabStateEvent OnStateChange;
 	private TabState state = TabState.Normal;
 
-	private List<RcsThruster> bowRcsThrusters = new List<RcsThruster>(); //front
-	private List<RcsThruster> sternRcsThrusters = new List<RcsThruster>(); //back
-	private List<RcsThruster> portRcsThrusters = new List<RcsThruster>(); //left
-	private List<RcsThruster> starBoardRcsThrusters = new List<RcsThruster>(); //right
-
 	public TabState State
 	{
 		get { return state; }
@@ -52,24 +47,6 @@ public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 		{
 			StartCoroutine(InitMatrixMove());
 		}
-	}
-
-	//Searches the matrix for RcsThrusters
-	public void CacheRcs()
-	{
-		ClearRcsCache();
-		foreach(Transform t in transform.parent)
-		{
-			
-		}
-	}
-
-	void ClearRcsCache()
-	{
-		bowRcsThrusters.Clear();
-		sternRcsThrusters.Clear();
-		portRcsThrusters.Clear();
-		starBoardRcsThrusters.Clear();
 	}
 
 	private IEnumerator InitMatrixMove()

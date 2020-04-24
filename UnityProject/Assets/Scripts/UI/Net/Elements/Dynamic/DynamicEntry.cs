@@ -7,6 +7,10 @@ public class DynamicEntry : NetUIElement<string> {
 	public NetUIElementBase[] Elements => GetComponentsInChildren<NetUIElementBase>(false);
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
+	public override void ExecuteServer(ConnectedPlayer subject)
+	{
+	}
+
 	public override string Value {
 		get {
 			return ((Vector2)transform.localPosition).Stringified();
@@ -22,6 +26,4 @@ public class DynamicEntry : NetUIElement<string> {
 		get { return transform.localPosition; }
 		set { transform.localPosition = value; }
 	}
-
-	public override void ExecuteServer() {}
 }

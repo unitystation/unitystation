@@ -46,7 +46,7 @@ public class GUI_ExoFabButton : NetButton
 		}
 	}
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
 		ServerMethod.Invoke();
 	}

@@ -24,7 +24,7 @@ public class NetPageSwitcher : NetUIElement<string>
 	/// </summary>
 	public PageChangeEvent OnPageChange;
 
-	public override void ExecuteServer() {}
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 
 	public override string Value {
 		get => CurrentPageIndex.ToString();

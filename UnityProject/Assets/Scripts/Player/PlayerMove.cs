@@ -6,8 +6,8 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     Player move queues the directional move keys
-///     to be processed along with the server.
+///     ** Now all movement input keys are sent to PlayerSync.Client
+/// 	** PlayerMove may become obsolete in the future
 ///     It also changes the sprite direction and
 ///     handles interaction with objects that can
 ///     be walked into it.
@@ -169,70 +169,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		}
 
 		ServerUpdateIsSwappable();
-	}
-
-	/// <summary>
-	/// Processes currenlty held directional movement keys into a PlayerAction.
-	/// Opposite moves on the X or Y axis cancel out, not moving the player in that axis.
-	/// Moving while dead spawns the player's ghost.
-	/// </summary>
-	/// <returns> A PlayerAction containing up to two (non-opposite) movement directions.</returns>
-	public PlayerAction SendAction()
-	{
-		// Stores the directions the player will move in.
-		List<int> actionKeys = new List<int>();
-
-		// Only move if player is out of UI
-		if (!(PlayerManager.LocalPlayer == gameObject && UIManager.IsInputFocus))
-		{
-			bool moveL = KeyboardInputManager.CheckMoveAction(MoveAction.MoveLeft);
-			bool moveR = KeyboardInputManager.CheckMoveAction(MoveAction.MoveRight);
-			bool moveU = KeyboardInputManager.CheckMoveAction(MoveAction.MoveDown);
-			bool moveD = KeyboardInputManager.CheckMoveAction(MoveAction.MoveUp);
-			// Determine movement on each axis (cancelling opposite moves)
-			int moveX = (moveR ? 1 : 0) - (moveL ? 1 : 0);
-			int moveY = (moveD ? 1 : 0) - (moveU ? 1 : 0);
-
-			if (moveX != 0 || moveY != 0)
-			{
-				bool beingDraggedWithCuffs = IsCuffed && PlayerScript.pushPull.IsBeingPulledClient;
-
-				if (allowInput && !IsBuckled && !beingDraggedWithCuffs)
-				{
-					switch (moveX)
-					{
-						case 1:
-							actionKeys.Add((int)MoveAction.MoveRight);
-							break;
-						case -1:
-							actionKeys.Add((int)MoveAction.MoveLeft);
-							break;
-						default:
-							break; // Left, Right cancelled or not pressed
-					}
-					switch (moveY)
-					{
-						case 1:
-							actionKeys.Add((int)MoveAction.MoveUp);
-							break;
-						case -1:
-							actionKeys.Add((int)MoveAction.MoveDown);
-							break;
-						default:
-							break; // Up, Down cancelled or not pressed
-					}
-				}
-				else // Player tried to move but isn't allowed
-				{
-					if (PlayerScript.playerHealth.IsDead)
-					{
-						pna.CmdSpawnPlayerGhost();
-					}
-				}
-			}
-		}
-
-		return new PlayerAction { moveActions = actionKeys.ToArray() };
 	}
 
 	public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay,
@@ -643,8 +579,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	{
 		SyncCuffed(cuffed, this.cuffed);
 	}
-
-
 }
 
 /// <summary>

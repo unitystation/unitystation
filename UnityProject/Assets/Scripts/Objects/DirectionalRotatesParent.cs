@@ -14,6 +14,11 @@ public class DirectionalRotatesParent : MonoBehaviour
 	[SerializeField]
 	private OrientationEnum prefabChildrenOrientation = OrientationEnum.Down;
 
+	public OrientationEnum MappedOrientation
+	{
+		get { return prefabChildrenOrientation; }
+	}
+
 	private void Awake()
 	{
 		var directional = GetComponent<Directional>();
