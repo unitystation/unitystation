@@ -39,6 +39,8 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Squeaky;
 	public ItemTrait LightTube;
 	public ItemTrait LightBulb;
+	public ItemTrait LightReplacer;
+	public ItemTrait BlackGloves;
 	public ItemTrait Broken;
 	public ItemTrait Breakable;
 	public ItemTrait Rods;
