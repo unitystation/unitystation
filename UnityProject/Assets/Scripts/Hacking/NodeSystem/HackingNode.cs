@@ -21,7 +21,7 @@ public class HackingNode
 	//Using an auto get-set for this for now. Will need to update how this functions when I figure out how the internal label should be shared. i.e. to the engineers somehow.`
 	public	string InternalLabel { get; set; }
 
-	//Interanlly used to identify nodes while i work on this.
+	//Used to identify nodes.
 	public int NodeID { get; set; }
 
 	//Bools for whether the node is an input or output node. I'm not exactly sure how these will work, so maybe eventually there could be a situation where a node is both? Dunno
@@ -46,6 +46,7 @@ public class HackingNode
 		InternalLabel = internalLabel;
 		IsInput = isInput;
 		IsOutput = isOutput;
+		NodeID = 0;
 	}
 
 	public HackingNode()
@@ -54,6 +55,7 @@ public class HackingNode
 		InternalLabel = "unset internal label";
 		IsInput = false;
 		IsOutput = false;
+		NodeID = 0;
 	}
 
 	public static HackingNode GetNodeByInternalLabel(List<HackingNode> nodeList, string internalLabel)
@@ -88,6 +90,11 @@ public class HackingNode
 	public virtual void RemoveConnectedNode(HackingNode node)
 	{
 		connectedInputNodes.Remove(node);
+	}
+
+	public virtual void RemoveAllConnectedNodes()
+	{
+		connectedInputNodes.Clear();
 	}
 
 	/// <summary>

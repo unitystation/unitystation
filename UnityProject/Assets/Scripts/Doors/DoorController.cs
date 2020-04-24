@@ -505,13 +505,16 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 	public List<HackingNode> GenerateHackNodes()
 	{
 		List<HackingNode> tempList = new List<HackingNode>();
+		int id = 0;
 		foreach (string nodeName in Enum.GetNames(typeof(NodeNames)))
 		{
 			HackingNode node = new HackingNode();
 			node.InternalLabel = (string)nodeName;
 			node.PublicLabel = "alpha";
+			node.NodeID = id;
 
 			tempList.Add(node);
+			id++;
 		}
 		return tempList;
 	}
@@ -556,7 +559,6 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 		onShouldClose.AddConnectedNode(closeDoor);
 		onShouldClose.IsOutput = true;
 
-
 		HackingNode acceptID = GetNodeOfEnum(NodeNames.AcceptId);
 		acceptID.IsInput = true;
 
@@ -581,6 +583,11 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 	public List<HackingNode> GetHackingNodes()
 	{
 		return HackNodes;
+	}
+
+	public void SetHackingNodes(List<HackingNode> nodes)
+	{
+		hackNodes = nodes;
 	}
 
 	public void OnSpawnServer(SpawnInfo info)

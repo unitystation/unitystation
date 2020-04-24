@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
+using YamlDotNet.Samples;
 
 /// <summary>
 /// This is a controller for hacking an object. This compoenent being attached to an object means that the object is hackable.
@@ -12,10 +13,6 @@ using System.Collections.Generic;
 /// </summary>
 public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IServerSpawn, IServerDespawn
 {
-	[SerializeField]
-	[Tooltip("The prefab spawned when interacting with exposed wires. Should be a UI element.")]
-	private GameObject hackingPrefab;
-
 	[SerializeField]
 	[Tooltip("Whether the wires used to hack the object are initially exposed when the object is spawned.")]
 	private bool wiresInitiallyExposed = false;
@@ -26,6 +23,7 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 
 	//The hacking GUI that is registered to this component.
 	private GUI_Hacking hackingGUI;
+	public GUI_Hacking HackingGUI => hackingGUI;
 
 	[SerializeField]
 	[Tooltip("What the initial stage of the hack should be when the object is spawned.")]
@@ -77,6 +75,75 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		hackingGUI = hackUI;
 	}
 
+	public virtual void AddNodeConnection(int keyOutput, int keyInput)
+	{
+		HackingNode outputNode = GetHackNodes()[keyOutput];
+		HackingNode inputNode = GetHackNodes()[keyInput];
+
+		if (outputNode != null && inputNode != null && outputNode.IsOutput && inputNode.IsInput)
+		{
+			outputNode.AddConnectedNode(inputNode);
+		}
+	}
+
+	public virtual void RemoveNodeConnection(int keyOutput, int keyInput)
+	{
+		HackingNode outputNode = GetHackNodes()[keyOutput];
+		HackingNode inputNode = GetHackNodes()[keyInput];
+
+		if (outputNode != null && inputNode != null && outputNode.IsOutput && inputNode.IsInput)
+		{
+			outputNode.RemoveConnectedNode(inputNode);
+		}
+	}
+
+	public virtual void RemoveNodeConnection(int[] connection)
+	{
+		if (connection.Count() != 2) return;
+
+		HackingNode outputNode = GetHackNodes()[connection[0]];
+		HackingNode inputNode = GetHackNodes()[connection[1]];
+
+		if (outputNode != null && inputNode != null && outputNode.IsOutput && inputNode.IsInput)
+		{
+			outputNode.RemoveConnectedNode(inputNode);
+		}
+	}
+
+	public virtual void AddNodeConnection(int[] connection)
+	{
+		if (connection.Count() != 2) return;
+
+		HackingNode outputNode = GetHackNodes()[connection[0]];
+		HackingNode inputNode = GetHackNodes()[connection[1]];
+
+		if (outputNode != null && inputNode != null && outputNode.IsOutput && inputNode.IsInput && !outputNode.ConnectedInputNodes.Contains(inputNode))
+		{
+			outputNode.AddConnectedNode(inputNode);
+		}
+	}
+
+	public virtual List<int[]> GetNodeConnectionList()
+	{
+		List<int[]> connectionList = new List<int[]>();
+		List<HackingNode> hackingNodes = GetHackNodes();
+		int outputIndex = 0;
+		foreach (HackingNode node in hackingNodes )
+		{
+			int inputIndex = 0;
+			List<HackingNode> connectedNodes = node.ConnectedInputNodes;
+			foreach (HackingNode connectedNode in connectedNodes)
+			{
+				int[] connection = { outputIndex, inputIndex };
+				connectionList.Add(connection);
+				inputIndex++;
+			}
+			outputIndex++;
+		}
+		return connectionList;
+	}
+
+
 	//These sounds are used when the security panel on the object is opened.
 	public string openPanelSFX = null, closePanelSFX = null;
 
@@ -95,6 +162,8 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	/// <returns></returns>
 	public abstract List<HackingNode> GetHackNodes();
 
+	public abstract void SetHackNodes(List<HackingNode> newNodes);
+
 	/// <summary>
 	/// These functions are called when the SyncVars are set using the appropriate hooks.
 	/// DO NOT CALL THESE ELSEWHERE!
@@ -106,4 +175,51 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	protected virtual void OnHackStageSet(int oldStage, int newStage) { }
 
 	public abstract void OnDespawnServer(DespawnInfo info);
+
+	/// <summary>
+	/// Check to see if a player can actually remove a connection from between two nodes. The connection is a 2 valued array. connection[0] is the index of the output node, connection[1] is the index of the input node.
+	/// </summary>
+	/// <param name="ply"></param>
+	/// <param name="connection"></param>
+	/// <returns></returns>
+	public virtual bool ServerPlayerCanRemoveConnection(PlayerScript playerScript, int[] connection)
+	{
+		if (!playerScript.IsInReach(gameObject, true))
+		{
+			return false;
+		}
+
+		if (!WiresExposed)
+		{
+			return false;
+		}
+
+		if (!Validations.HasItemTrait(playerScript.Equipment.ItemStorage.GetActiveHandSlot().Item.gameObject, CommonTraits.Instance.Wirecutter))
+		{
+			return true;
+		}
+
+		return true;
+	}
+
+	public virtual bool ServerPlayerCanAddConnection(PlayerScript playerScript, int[] connection)
+	{
+		if (!playerScript.IsInReach(gameObject, true))
+		{
+			return false;
+		}
+
+		if (!WiresExposed)
+		{
+			return false;
+		}
+
+		if (!Validations.HasItemTrait(playerScript.Equipment.ItemStorage.GetActiveHandSlot().Item.gameObject, CommonTraits.Instance.Wirecutter))
+		{
+			return true;
+		}
+
+		return true;
+	}
+
 }

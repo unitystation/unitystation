@@ -9,6 +9,7 @@ public class GUI_Hacking : NetTab
 {
 	private IHackable hackInterface;
 	private HackingProcessBase hackProcess;
+	public HackingProcessBase HackProcess => hackProcess;
 
 	/// <summary>
 	/// This is a list of all the hacking nodes for this object.
@@ -76,6 +77,8 @@ public class GUI_Hacking : NetTab
 	private GUI_HackingNode newWireOutput;
 	private GUI_HackingNode newWireInput;
 
+	private List<int[]> connectionList = new List<int[]>();
+
 	void Start()
     {
 		if (Provider != null)
@@ -85,6 +88,7 @@ public class GUI_Hacking : NetTab
 			hackProcess.RegisterHackingGUI(this);
 
 			SetNodeList(hackProcess.GetHackNodes());
+			connectionList = hackProcess.GetNodeConnectionList();
 		}
 	}
 
@@ -244,9 +248,83 @@ public class GUI_Hacking : NetTab
 		HackingNode inputNode = wireUI.EndNode.HackNode;
 
 		outputNode.RemoveConnectedNode(inputNode);
+			
+		ClientRecalculateConnectionList();
+
+		//If we're on client, network to the server the changes we made.
+		if (!IsServer)
+		{
+			int outIndex = hackNodes.IndexOf(outputNode);
+			int inIndex = hackNodes.IndexOf(inputNode);
+			int[] connectionToRemove = { outIndex, inIndex };
+			RemoveHackingConnection.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, connectionToRemove);
+		}
 
 		hackingWires.Remove(wireUI);
 		Destroy(wireUI.gameObject);
+	}
+
+	/// <summary>
+	/// This is called when the client changes something about the connection list. Don't trust this output! Only using it to predict UI changes.
+	/// </summary>
+	private void ClientRecalculateConnectionList()
+	{
+		connectionList = GetNodeConnectionList();
+	}
+
+	/// <summary>
+	/// This method is called by a net message from the server. The client predicts actions will have the determined effect and then this function will
+	/// update the UI if there's a mistmatch.
+	/// </summary>
+	/// <param name="serverConnections"></param>
+	public void UpdateConnectionList(List<int[]> serverConnections)
+	{
+		bool sameList = Enumerable.SequenceEqual(connectionList, serverConnections);
+		if (!sameList)
+		{
+			connectionList = serverConnections;
+			UpdateNodeConnectionsFromConnectionList();
+			RegenerateWiring();
+		}
+	}
+
+	/// <summary>
+	/// Update what nodes are connected to what using the connection list.
+	/// </summary>
+	private void UpdateNodeConnectionsFromConnectionList()
+	{
+		foreach (HackingNode node in hackNodes)
+		{
+			node.RemoveAllConnectedNodes();
+		}
+
+		foreach (int[] connection in connectionList)
+		{
+			HackingNode outputNode = hackNodes[connection[0]];
+			HackingNode inputNode = hackNodes[connection[1]];
+
+			outputNode.AddConnectedNode(inputNode);
+		}
+	}
+
+	public  List<int[]> GetNodeConnectionList()
+	{
+		List<int[]> connectionList = new List<int[]>();
+		List<HackingNode> hackingNodes = hackNodes;
+		int outputIndex = 0;
+		foreach (HackingNode node in hackingNodes)
+		{
+			int inputIndex = 0;
+			List<HackingNode> connectedNodes = node.ConnectedInputNodes;
+			foreach (HackingNode connectedNode in connectedNodes)
+			{
+				int[] connection = { outputIndex, inputIndex };
+				connectionList.Add(connection);
+				inputIndex++;
+			}
+			outputIndex++;
+		}
+		return connectionList;
 	}
 
 	public void BeginAddingWire(GUI_HackingNode outputNode)
@@ -260,6 +338,16 @@ public class GUI_Hacking : NetTab
 		newWireInput = inputNode;
 
 		newWireOutput.HackNode.AddConnectedNode(newWireInput.HackNode);
+
+		ClientRecalculateConnectionList();
+
+		if (!IsServer)
+		{
+			int outIndex = hackNodes.IndexOf(newWireOutput.HackNode);
+			int inIndex = hackNodes.IndexOf(newWireInput.HackNode);
+			int[] connectionToAdd = { outIndex, inIndex };
+			AddHackingConnection.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, connectionToAdd);
+		}
 
 		RegenerateWiring();
 

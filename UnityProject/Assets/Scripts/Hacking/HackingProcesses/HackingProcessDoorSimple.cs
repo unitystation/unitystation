@@ -131,4 +131,9 @@ public class HackingProcessDoorSimple : HackingProcessBase
 	{
 		return controller.HackNodes;
 	}
+
+	public override void SetHackNodes(List<HackingNode> newNodes)
+	{
+		controller.SetHackingNodes(newNodes);
+	}
 }
