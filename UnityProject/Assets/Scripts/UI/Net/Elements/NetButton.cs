@@ -9,7 +9,7 @@ public class NetButton : NetUIElement<string>
 {
 	public UnityEvent ServerMethod;
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke();
 	}
 

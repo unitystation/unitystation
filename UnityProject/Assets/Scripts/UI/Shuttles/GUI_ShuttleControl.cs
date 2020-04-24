@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NPC;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// Server only stuff
 public class GUI_ShuttleControl : NetTab
@@ -36,6 +37,11 @@ public class GUI_ShuttleControl : NetTab
 		}
 	}
 
+	[SerializeField] private Image rcsLight;
+	[SerializeField] private Sprite rcsLightOn;
+	[SerializeField] private Sprite rcsLightOff;
+	[SerializeField] private ToggleButton rcsToggleButton;
+	private ConnectedPlayer playerControllingRcs;
 
 	public GUI_CoordReadout CoordReadout;
 
@@ -43,6 +49,8 @@ public class GUI_ShuttleControl : NetTab
 	string rulersColor;
 	string rayColor;
 	string crosshairColor;
+
+	public bool RcsMode { get; private set; }
 
 	public override void OnEnable()
 	{
@@ -57,10 +65,10 @@ public class GUI_ShuttleControl : NetTab
 			yield return WaitFor.EndOfFrame;
 		}
 		Trigger = Provider.GetComponent<ShuttleConsole>();
-		Trigger.CacheRcs();
 		Trigger.OnStateChange.AddListener(OnStateChange);
 
 		MatrixMove.RegisterCoordReadoutScript(CoordReadout);
+		MatrixMove.RegisterShuttleGuiScript(this);
 
 		//Not doing this for clients
 		if (IsServer)
@@ -87,6 +95,10 @@ public class GUI_ShuttleControl : NetTab
 			crosshairColor = ((NetUIElement<string>)this["Crosshair"]).Value;
 
 			OnStateChange(State);
+		}
+		else
+		{
+			ClientToggleRcs(matrixMove.rcsModeActive);
 		}
 	}
 
@@ -135,6 +147,39 @@ public class GUI_ShuttleControl : NetTab
 			HideWaypoint();
 			MatrixMove.DisableAutopilotTarget();
 		}
+	}
+
+	public void ServerToggleRcs(bool on, ConnectedPlayer subject)
+	{
+		RcsMode = on;
+		MatrixMove.ToggleRcs(on);
+		SetRcsLight(on);
+
+		if (on)
+		{
+			playerControllingRcs = subject;
+		}
+		else
+		{
+			playerControllingRcs = null;
+		}
+	}
+
+	public void ClientToggleRcs(bool on)
+	{
+		RcsMode = on;
+		SetRcsLight(on);
+		rcsToggleButton.isOn = on;
+	}
+
+	private void SetRcsLight(bool on)
+	{
+		if (on)
+		{
+			rcsLight.sprite = rcsLightOn;
+			return;
+		}
+		rcsLight.sprite = rcsLightOff;
 	}
 
 	public void SetSafetyProtocols(bool on)
@@ -231,7 +276,17 @@ public class GUI_ShuttleControl : NetTab
 		else {
 			fuelGauge.SetValueServer(Math.Round((MatrixMove.ShuttleFuelSystem.FuelLevel * 100)).ToString());
 		}
-		yield return WaitFor.Seconds(2f);
+		yield return WaitFor.Seconds(1f);
+
+		//validate Player using Rcs
+		if (playerControllingRcs != null)
+		{
+			bool validate = playerControllingRcs.Script && Validations.CanApply(playerControllingRcs.Script, Provider, NetworkSide.Server);
+			if (!validate)
+			{
+				ServerToggleRcs(false, null);
+			}
+		}
 
 		if (RefreshRadar)
 		{

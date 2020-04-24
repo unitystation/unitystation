@@ -93,7 +93,7 @@ public struct PlayerState
 	}
 }
 
-public partial class PlayerSync : NetworkBehaviour, IPushable
+public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllable
 {
 	public bool VisibleState {
 		get => ServerPosition != TransformState.HiddenPos;
@@ -495,7 +495,6 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 
 	/// <summary>
 	/// true when player tries to break pull or leave locker.
-	/// DoAction() is not executed in this case
 	/// </summary>
 	private bool didWiggle = false;
 
@@ -503,31 +502,29 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 	{
 		if (isLocalPlayer && playerMove != null)
 		{
-			didWiggle = false;
-			if (KeyboardInputManager.IsMovementPressed() && Validations.CanInteract(playerScript, isServer ? NetworkSide.Server : NetworkSide.Client))
+			if (PlayerManager.MovementControllable == this)
 			{
-				//	If being pulled by another player and you try to break free
-				if (pushPull != null && pushPull.IsBeingPulledClient)
+				didWiggle = false;
+				if (KeyboardInputManager.IsMovementPressed() && Validations.CanInteract(playerScript,
+					    isServer ? NetworkSide.Server : NetworkSide.Client))
 				{
-					pushPull.CmdStopFollowing();
-					didWiggle = true;
-				}
-				else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
-				{
-					//	Leaving locker
-					var closet = Camera2DFollow.followControl.target.GetComponent<ClosetControl>();
-					if (closet)
+					//	If being pulled by another player and you try to break free
+					if (pushPull != null && pushPull.IsBeingPulledClient)
 					{
-						InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(closet.gameObject), closet);
+						pushPull.CmdStopFollowing();
 						didWiggle = true;
 					}
+					else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
+					{
+						//	Leaving locker
+						var closet = Camera2DFollow.followControl.target.GetComponent<ClosetControl>();
+						if (closet)
+						{
+							InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(closet.gameObject), closet);
+							didWiggle = true;
+						}
+					}
 				}
-			}
-
-			//Not requesting directional move if we're attempting to leave locker/break pull
-			if (!didWiggle && ClientPositionReady)
-			{
-				DoAction();
 			}
 		}
 
@@ -705,4 +702,26 @@ public partial class PlayerSync : NetworkBehaviour, IPushable
 		}
 	}
 #endif
+
+	public void RecievePlayerMoveAction(PlayerAction moveActions)
+	{
+		if (moveActions.moveActions.Length != 0 && !MoveCooldown
+		                                        && isLocalPlayer && playerMove != null
+		                                        && !didWiggle && ClientPositionReady)
+		{
+			bool beingDraggedWithCuffs = playerMove.IsCuffed && playerScript.pushPull.IsBeingPulledClient;
+
+			if (playerMove.allowInput && !playerMove.IsBuckled && !beingDraggedWithCuffs)
+			{
+				StartCoroutine(DoProcess(moveActions));
+			}
+			else // Player tried to move but isn't allowed
+			{
+				if (playerScript.playerHealth.IsDead)
+				{
+					playerScript.playerNetworkActions.CmdSpawnPlayerGhost();
+				}
+			}
+		}
+	}
 }

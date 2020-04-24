@@ -84,24 +84,7 @@ public partial class PlayerSync
 	private bool blockClientMovement = false;
 
 	private bool MoveCooldown = false; //cooldown is here just for client performance
-	private void DoAction()
-	{
-		PlayerAction action = playerMove.SendAction();
-		if (action.moveActions.Length != 0 && !MoveCooldown)
-		{
-			StartCoroutine(DoProcess(action));
-		}
-	}
 
-	public bool DoAction(PlayerAction action)
-	{
-		if (action.moveActions.Length != 0 && !MoveCooldown)
-		{
-			StartCoroutine(DoProcess(action));
-			return true;
-		}
-		return false;
-	}
 	//Extracted to its own function, to make reasoning about it easier for me.
 	private bool ShouldPlayerMove()
 	{
@@ -184,7 +167,7 @@ public partial class PlayerSync
 				}
 				else
 				{
-					
+
 					//cannot move but it's not due to bumping, so don't even send it.
 					cancelMove = true;
 					Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"

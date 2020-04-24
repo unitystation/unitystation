@@ -290,10 +290,6 @@ public class NetUIDynamicList : NetUIElement<string[]>
 		return index;
 	}
 
-	public override void ExecuteServer()
-	{
-	}
-
 	/// <summary>
 	/// Deactivate entry gameobject after putting it to pool and vice versa
 	/// </summary>
@@ -310,4 +306,6 @@ public class NetUIDynamicList : NetUIElement<string[]>
 			dequeuedItem.gameObject.SetActive(true);
 		}
 	}
+
+	public override void ExecuteServer(ConnectedPlayer subject) { }
 }

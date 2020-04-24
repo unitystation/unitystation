@@ -115,8 +115,7 @@ public class GUI_AutolatheQueueDisplay : NetUIElement<string>
 		}
 	}
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
-		throw new System.NotImplementedException();
 	}
 }

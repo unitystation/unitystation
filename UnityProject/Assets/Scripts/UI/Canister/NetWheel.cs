@@ -22,7 +22,7 @@ public class NetWheel : NetUIElement<string>
 
 	public IntEvent ServerMethod;
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke(Element.KPA);
 	}
 }
