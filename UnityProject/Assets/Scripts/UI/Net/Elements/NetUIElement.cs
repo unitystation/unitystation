@@ -69,7 +69,7 @@ public abstract class NetUIElement : MonoBehaviour
 		TabUpdateMessage.SendToPeepers( MasterTab.Provider, MasterTab.Type, TabAction.Update, new[] {ElementValue} );
 	}
 
-	public abstract void ExecuteServer();
+	public abstract void ExecuteServer(ConnectedPlayer subject);
 
 	public override string ToString() {
 		return ElementValue.ToString();

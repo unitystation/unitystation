@@ -115,7 +115,7 @@ public class GUI_ExoFabQueueDisplay : NetUIElement
 		}
 	}
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
 	}
 }

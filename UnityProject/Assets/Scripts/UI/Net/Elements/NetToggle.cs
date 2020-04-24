@@ -17,12 +17,12 @@ public class NetToggle : NetUIElement
 		}
 	}
 
-	public BoolEvent ServerMethod;
+	public BoolEventWithSubject ServerMethod;
 
 	private Toggle element;
 
-	public override void ExecuteServer() {
-		ServerMethod.Invoke(Element.isOn);
+	public override void ExecuteServer(ConnectedPlayer subject) {
+		ServerMethod.Invoke(Element.isOn, subject);
 	}
 
 	public Toggle Element {
@@ -38,3 +38,6 @@ public class NetToggle : NetUIElement
 /// "If you wish to use a generic UnityEvent type you must override the class type."
 [Serializable]
 public class BoolEvent : UnityEvent<bool>{}
+
+[Serializable]
+public class BoolEventWithSubject : UnityEvent<bool, ConnectedPlayer>{}

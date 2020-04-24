@@ -37,7 +37,7 @@ public class NetSlider : NetUIElement
 		}
 	}
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
 		ServerMethod.Invoke(Element.value);
 	}

@@ -100,5 +100,5 @@ public class NetCompositeImage : NetUIElement
 		ResolvedObject = NetworkIdentity.spawned[id].gameObject;
 	}
 
-	public override void ExecuteServer() {}
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 }

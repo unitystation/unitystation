@@ -18,11 +18,6 @@ public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 	public TabStateEvent OnStateChange;
 	private TabState state = TabState.Normal;
 
-	private List<RcsThruster> bowRcsThrusters = new List<RcsThruster>(); //front
-	private List<RcsThruster> sternRcsThrusters = new List<RcsThruster>(); //back
-	private List<RcsThruster> portRcsThrusters = new List<RcsThruster>(); //left
-	private List<RcsThruster> starBoardRcsThrusters = new List<RcsThruster>(); //right
-
 	public TabState State
 	{
 		get { return state; }
@@ -108,64 +103,6 @@ public class ShuttleConsole : MonoBehaviour, ICheckedInteractable<HandApply>
 				State = TabState.Normal;
 				break;
 		}
-	}
-
-	//Searches the matrix for RcsThrusters
-	public void CacheRcs()
-	{
-		ClearRcsCache();
-		foreach(Transform t in transform.parent)
-		{
-			if (t.tag.Equals("Rcs"))
-			{
-				CacheRcs(t.GetComponent<DirectionalRotatesParent>().MappedOrientation,
-					t.GetComponent<RcsThruster>());
-			}
-		}
-	}
-
-	void CacheRcs(OrientationEnum mappedOrientation, RcsThruster thruster)
-	{
-		var shuttleFacing = ShuttleMatrixMove.InitialFacing;
-		if (shuttleFacing == Orientation.Up)
-		{
-			if(mappedOrientation == OrientationEnum.Up) bowRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) sternRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) portRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) starBoardRcsThrusters.Add(thruster);
-		}
-
-		if (shuttleFacing == Orientation.Right)
-		{
-			if(mappedOrientation == OrientationEnum.Up) portRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) starBoardRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) sternRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) bowRcsThrusters.Add(thruster);
-		}
-
-		if (shuttleFacing == Orientation.Down)
-		{
-			if(mappedOrientation == OrientationEnum.Up) sternRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) bowRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) starBoardRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) portRcsThrusters.Add(thruster);
-		}
-
-		if (shuttleFacing == Orientation.Left)
-		{
-			if(mappedOrientation == OrientationEnum.Up) starBoardRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) portRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) bowRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) sternRcsThrusters.Add(thruster);
-		}
-	}
-
-	void ClearRcsCache()
-	{
-		bowRcsThrusters.Clear();
-		sternRcsThrusters.Clear();
-		portRcsThrusters.Clear();
-		starBoardRcsThrusters.Clear();
 	}
 }
 

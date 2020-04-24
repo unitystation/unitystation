@@ -23,5 +23,5 @@ public class DynamicEntry : NetUIElement {
 		set { transform.localPosition = value; }
 	}
 
-	public override void ExecuteServer() {}
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 }

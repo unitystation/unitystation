@@ -29,7 +29,7 @@ public class NetRadiusCircle : NetUIElement
 						Element.color = modifiedColor;
 					}
 				}
-			}			
+			}
 			externalChange = false;
 		}
 	}
@@ -43,6 +43,6 @@ public class NetRadiusCircle : NetUIElement
 			return element;
 		}
 	}
-	
-	public override void ExecuteServer() {}
+
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 }

@@ -32,7 +32,7 @@ public class GUI_ExoFabQueueLabel : NetUIElement
 		}
 	}
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
 	}
 }

@@ -34,7 +34,7 @@ public class NetLabel : NetUIElement
 		}
 	}
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
 	}
 }

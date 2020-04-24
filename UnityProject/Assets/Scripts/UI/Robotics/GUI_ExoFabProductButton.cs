@@ -10,7 +10,7 @@ public class GUI_ExoFabProductButton : NetButton
 	[HideInInspector]
 	public string categoryName;
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
 		ServerMethod.Invoke();
 	}
