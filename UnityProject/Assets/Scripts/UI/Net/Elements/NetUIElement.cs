@@ -140,7 +140,7 @@ public abstract class NetUIElement<T> : NetUIElementBase
 		TabUpdateMessage.SendToPeepers(MasterTab.Provider, MasterTab.Type, TabAction.Update, new[] {ElementValue});
 	}
 
-	public abstract void ExecuteServer(ConnectedPlayer subject);
+	public override void ExecuteServer(ConnectedPlayer subject){}
 
 	public override string ToString() {
 		return ElementValue.ToString();
@@ -190,7 +190,7 @@ public abstract class NetUIElementBase : MonoBehaviour
 	/// </summary>
 	public abstract void ExecuteClient();
 
-	public abstract void ExecuteServer();
+	public abstract void ExecuteServer(ConnectedPlayer subject);
 	public abstract string ToString();
 
 	/// <summary>
