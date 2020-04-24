@@ -156,7 +156,7 @@ public class StationGateway : NetworkBehaviour
 			SetOnline();
 			ServerChangeState(true);
 
-			string text = "Alert! New Gateway connection formed.\n\n Connection established to an unknown location";
+			string text = "Alert! New Gateway connection formed.\n\n Connection established to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
 		}
 	}
@@ -169,13 +169,11 @@ public class StationGateway : NetworkBehaviour
 
 		if (!SpawnedMobs && playersFound.Count() > 0)
 		{
-			Logger.Log("spawned mobs");
+			Logger.Log("Gateway Spawned Mobs");
 			if (SelectedWorld.GetComponent<MobSpawnControlScript>() != null)
 			{
 				SelectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();
 			}
-			string text = "Alert! Gateway connection identified.\n\n Connection established to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
-			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
 			SpawnedMobs = true;
 		}
 
