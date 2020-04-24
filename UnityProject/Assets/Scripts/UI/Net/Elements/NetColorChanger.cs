@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(Graphic))]
 [Serializable]
-public class NetColorChanger : NetUIElement
+public class NetColorChanger : NetUIElement<string>
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 

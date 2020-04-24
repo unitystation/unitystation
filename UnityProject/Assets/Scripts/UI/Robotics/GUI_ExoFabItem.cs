@@ -41,7 +41,7 @@ public class GUI_ExoFabItem : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "ProductName":
-					element.SetValue = Product.Name;
+					element.SetValueServer(Product.Name);
 					break;
 
 				case "MaterialCost":
@@ -55,7 +55,7 @@ public class GUI_ExoFabItem : DynamicEntry
 						materialPrice = Product.materialToAmounts[material].ToString();
 						sb.Append(materialPrice + " " + materialName + " " + "| ");
 					}
-					element.SetValue = sb.ToString();
+					element.SetValueServer(sb.ToString());
 					break;
 			}
 		}

@@ -41,19 +41,19 @@ public class GUI_CargoPageCart : GUI_CargoPage
 		DisplayCurrentCart();
 		if (CanAffordCart())
 		{
-			confirmButtonText.SetValue = "CONFIRM CART";
+			confirmButtonText.SetValueServer("CONFIRM CART");
 		}
 		else
 		{
-			confirmButtonText.SetValue = "NOT ENOUGH CREDITS";
+			confirmButtonText.SetValueServer("NOT ENOUGH CREDITS");
 		}
-		totalPriceText.SetValue = "TOTAL: " + CargoManager.Instance.TotalCartPrice().ToString() + " CREDITS";
+		totalPriceText.SetValueServer("TOTAL: " + CargoManager.Instance.TotalCartPrice().ToString() + " CREDITS");
 		if (CargoManager.Instance.CurrentCart.Count == 0)
 		{
-			confirmButtonText.SetValue = "CART IS EMPTY";
-			totalPriceText.SetValue = "";
+			confirmButtonText.SetValueServer("CART IS EMPTY");
+			totalPriceText.SetValueServer("");
 		}
-		
+
 	}
 
 	public void ConfirmCart()

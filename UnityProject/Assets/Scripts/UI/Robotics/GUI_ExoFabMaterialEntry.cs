@@ -51,11 +51,11 @@ public class GUI_ExoFabMaterialEntry : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "MaterialName":
-					element.SetValue = materialRecord.materialName + ":";
+					element.SetValueServer(materialRecord.materialName + ":");
 					break;
 
 				case "MaterialAmount":
-					element.SetValue = materialRecord.CurrentAmount.ToString() + " cm3";
+					element.SetValueServer(materialRecord.CurrentAmount.ToString() + " cm3");
 					amountLabel = element as NetLabel;
 					break;
 
@@ -80,27 +80,27 @@ public class GUI_ExoFabMaterialEntry : DynamicEntry
 		int sheetsDispensable = currentAmount / 2000;
 		if (sheetsDispensable < 1)
 		{
-			buttonOne.SetValue = "false";
-			buttonTen.SetValue = "false";
-			buttonFifty.SetValue = "false";
+			buttonOne.SetValueServer("false");
+			buttonTen.SetValueServer("false");
+			buttonFifty.SetValueServer("false");
 		}
 		else if (sheetsDispensable >= 1 && sheetsDispensable < 10)
 		{
-			buttonOne.SetValue = "true";
-			buttonTen.SetValue = "false";
-			buttonFifty.SetValue = "false";
+			buttonOne.SetValueServer("true");
+			buttonTen.SetValueServer("false");
+			buttonFifty.SetValueServer("false");
 		}
 		else if (sheetsDispensable >= 10 && sheetsDispensable < 50)
 		{
-			buttonOne.SetValue = "true";
-			buttonTen.SetValue = "true";
-			buttonFifty.SetValue = "false";
+			buttonOne.SetValueServer("true");
+			buttonTen.SetValueServer("true");
+			buttonFifty.SetValueServer("false");
 		}
 		else
 		{
-			buttonOne.SetValue = "true";
-			buttonTen.SetValue = "true";
-			buttonFifty.SetValue = "true";
+			buttonOne.SetValueServer("true");
+			buttonTen.SetValueServer("true");
+			buttonFifty.SetValueServer("true");
 		}
 	}
 }

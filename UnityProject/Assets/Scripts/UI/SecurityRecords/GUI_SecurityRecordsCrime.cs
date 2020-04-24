@@ -20,10 +20,10 @@ public class GUI_SecurityRecordsCrime : DynamicEntry
 		crime = crimeToInit;
 		entryPage = entryPageToInit;
 
-		crimeText.SetValue = crime.Crime;
-		detailsText.SetValue = crime.Details;
-		authorText.SetValue = crime.Author;
-		timeText.SetValue = crime.Time;
+		crimeText.SetValueServer(crime.Crime);
+		detailsText.SetValueServer(crime.Details);
+		authorText.SetValueServer(crime.Author);
+		timeText.SetValueServer(crime.Time);
 	}
 
 	public void DeleteCrime()

@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// Slider, used to call methods with float as arg
 [RequireComponent(typeof(GUI_FuelGauge))]
 [Serializable]
-public class NetFuelGauge : NetUIElement
+public class NetFuelGauge : NetUIElement<string>
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	public override string Value

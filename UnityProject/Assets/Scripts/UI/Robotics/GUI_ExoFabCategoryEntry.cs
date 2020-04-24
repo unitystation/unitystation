@@ -15,7 +15,6 @@ public class GUI_ExoFabCategoryEntry : DynamicEntry
 
 	public void OpenCategory()
 	{
-		Logger.Log("CLICK");
 		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnCategoryClicked.Invoke(ExoFabProducts); }
 		else { ExoFabMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
 	}
@@ -34,7 +33,7 @@ public class GUI_ExoFabCategoryEntry : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "CategoryName":
-					element.SetValue = ExoFabProducts.CategoryName;
+					element.SetValueServer(ExoFabProducts.CategoryName);
 					break;
 			}
 		}

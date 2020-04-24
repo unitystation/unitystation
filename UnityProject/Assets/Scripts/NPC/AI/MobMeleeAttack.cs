@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 /// <summary>
 /// Basic AI behaviour for following and melee attacking a target
 /// </summary>
-[RequireComponent(typeof(MobAI))]
+// [RequireComponent(typeof(MobAI))]
 public class MobMeleeAttack : MobFollow
 {
 	[Tooltip("The sprites gameobject. Needs to be a child of the prefab root")]

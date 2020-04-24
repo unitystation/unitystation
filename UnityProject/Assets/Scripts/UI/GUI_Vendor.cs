@@ -43,7 +43,7 @@ public class GUI_Vendor : NetTab
 			yield return WaitFor.EndOfFrame;
 		}
 		vendor = Provider.GetComponent<Vendor>();
-		hullColor.SetValue = ColorUtility.ToHtmlStringRGB(vendor.HullColor);
+		hullColor.SetValueServer(ColorUtility.ToHtmlStringRGB(vendor.HullColor));
 		inited = true;
 		GenerateContentList();
 		UpdateList();

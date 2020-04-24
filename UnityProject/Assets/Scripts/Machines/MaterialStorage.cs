@@ -10,7 +10,7 @@ public class MaterialStorage : NetworkBehaviour, IServerSpawn
 	public int CM3PerSheet { get => cm3PerSheet; }
 
 	[SerializeField]
-	private int maximumTotalResourceStorage;
+	private int maximumTotalResourceStorage = 0;
 
 	[SyncVar(hook = nameof(SyncCurrentTotalResourceAmount))]
 	private int currentTotalResourceAmount = 0;

@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using UnityEngine;
 using Mirror;
-using UnityEngine.iOS;
 
 public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn
 {
@@ -44,6 +45,24 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	{
 		voltageSync = newVoltage;
 		UpdateDisplay();
+	}
+
+	private void Start()
+	{
+		CheckListOfDevicesForNulls();
+	}
+
+	private void CheckListOfDevicesForNulls()
+	{
+		if (ConnectedDevices.Count == 0) return;
+		for (int i = ConnectedDevices.Count -1; i >= 0; i--)
+		{
+			if (ConnectedDevices[i] == null)
+			{
+				UnityEngine.Debug.Log($"{this.name} has a null value in {i}.");
+				ConnectedDevices.RemoveAt(i);
+			}
+		}
 	}
 
 	public override void OnStartServer()
