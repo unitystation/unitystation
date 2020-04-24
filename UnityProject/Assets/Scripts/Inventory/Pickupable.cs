@@ -28,24 +28,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	public bool CanPickup => canPickup;
 
 	/// <summary>
-	/// Does damage to active left or right arm.
-	/// </summary>
-	public bool doesDamage;
-
-	/// <summary>
-	/// 1 = 100%
-	/// </summary>
-	public float doesDamageChance = 1f;
-
-	public float amountOfDamage = 10f;
-
-	public AttackType attackType;
-
-	public DamageType damageType;
-
-	public bool protectionByGloveItemTrait;
-
-	/// <summary>
 	/// Which inventory slot this is currently in, null if not in inventory
 	/// </summary>
 	public ItemSlot ItemSlot => itemSlot;
@@ -198,20 +180,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			{
 				Logger.LogTraceFormat("Pickup success! server pos:{0} player pos:{1} (floating={2})", Category.Security,
 					cnt.ServerState.WorldPosition, interaction.Performer.transform.position, cnt.IsFloatingServer);
-
-				if (doesDamage && Random.value < doesDamageChance && protectionByGloveItemTrait ? !Validations.HasItemTrait(interaction.PerformerPlayerScript.Equipment.GetClothingItem(NamedSlot.hands).GameObjectReference, CommonTraits.Instance.PickUpProtection): true)
-				{
-					if (interaction.HandSlot.NamedSlot == NamedSlot.leftHand)
-					{
-						interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, amountOfDamage, attackType, damageType, BodyPartType.LeftArm);
-					}
-					else
-					{
-						interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, amountOfDamage, attackType, damageType, BodyPartType.RightArm);
-					}
-
-					Chat.AddExamineMsgFromServer(interaction.Performer, "<color=red>You injure yourself picking up the " + GetComponent<ItemAttributesV2>().ArticleName + "</color>");
-				}
 			}
 			else
 			{
