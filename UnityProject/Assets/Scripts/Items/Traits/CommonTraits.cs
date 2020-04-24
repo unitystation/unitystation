@@ -49,4 +49,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Insulated;
 	public ItemTrait InternalBattery;
 	public ItemTrait AntiFacehugger;
+	public ItemTrait PickUpProtection;
 }
