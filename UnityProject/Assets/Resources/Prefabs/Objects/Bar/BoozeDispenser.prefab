@@ -6,7 +6,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5972872610322627283}
+  m_GameObject: {fileID: 6406346259585755381}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
@@ -23,7 +23,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5972872610322627283}
+  m_GameObject: {fileID: 6406346259585755381}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5657f3ab371d77f449cbbb38e86b7d4c, type: 3}
@@ -35,14 +35,14 @@ MonoBehaviour:
   Down: {fileID: 21300000, guid: 69f1f20089fb9ae499bc9aca582de209, type: 3}
   Left: {fileID: 21300006, guid: 69f1f20089fb9ae499bc9aca582de209, type: 3}
   Up: {fileID: 21300002, guid: 69f1f20089fb9ae499bc9aca582de209, type: 3}
-  spriteRenderer: {fileID: 5972872610322607608}
+  spriteRenderer: {fileID: 6595474460572830946}
 --- !u!114 &6957727407797718013
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5972872610322627283}
+  m_GameObject: {fileID: 6406346259585755381}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
@@ -57,6 +57,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7628244273918246941, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: isInitiallyNotPushable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Size.x
@@ -138,6 +143,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialDescription
+      value: Contains a large reservoir of the good stuff.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialName
+      value: booze dispenser
+      objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_AssetId
@@ -145,13 +160,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
---- !u!1 &5972872610322627283 stripped
+--- !u!1 &6406346259585755381 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 5972872610322709877}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &5972872610322607608 stripped
+--- !u!212 &6595474460572830946 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}

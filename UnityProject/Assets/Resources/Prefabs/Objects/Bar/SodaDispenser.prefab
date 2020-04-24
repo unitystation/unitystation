@@ -6,7 +6,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526306905240286939}
+  m_GameObject: {fileID: 7095102647972717821}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
@@ -23,7 +23,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526306905240286939}
+  m_GameObject: {fileID: 7095102647972717821}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5657f3ab371d77f449cbbb38e86b7d4c, type: 3}
@@ -35,14 +35,14 @@ MonoBehaviour:
   Down: {fileID: 21300000, guid: 5d5bf60ac6590ae4aa31bd08c2e7e652, type: 3}
   Left: {fileID: 21300006, guid: 5d5bf60ac6590ae4aa31bd08c2e7e652, type: 3}
   Up: {fileID: 21300002, guid: 5d5bf60ac6590ae4aa31bd08c2e7e652, type: 3}
-  spriteRenderer: {fileID: 7526306905240265200}
+  spriteRenderer: {fileID: 6996028302146191594}
 --- !u!114 &9131542180434988290
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7526306905240286939}
+  m_GameObject: {fileID: 7095102647972717821}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
@@ -57,6 +57,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7628244273918246941, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: isInitiallyNotPushable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_Sprite
@@ -123,6 +128,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialName
+      value: soda dispenser
+      objectReference: {fileID: 0}
+    - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: initialDescription
+      value: Contains a large reservoir of soft drinks.
+      objectReference: {fileID: 0}
     - target: {fileID: 9212640593017544930, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: m_AssetId
@@ -130,13 +145,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
---- !u!1 &7526306905240286939 stripped
+--- !u!1 &7095102647972717821 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 7526306905240367485}
   m_PrefabAsset: {fileID: 0}
---- !u!212 &7526306905240265200 stripped
+--- !u!212 &6996028302146191594 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
