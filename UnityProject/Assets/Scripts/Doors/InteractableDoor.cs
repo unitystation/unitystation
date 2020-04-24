@@ -65,7 +65,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		if (!Controller.IsClosed)
 		{
 			HackingNode onAttemptClose = Controller.GetNodeOfEnum(DoorController.NodeNames.OnAttemptClose);
-			onAttemptClose.InputReceived(interaction.Performer);
+			onAttemptClose.SendOutputToConnectedNodes(interaction.Performer);
 		}
 		else
 		{
