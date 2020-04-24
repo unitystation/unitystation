@@ -89,8 +89,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private List<RcsThruster> portRcsThrusters = new List<RcsThruster>(); //left
 	private List<RcsThruster> starBoardRcsThrusters = new List<RcsThruster>(); //right
 
-	[SyncVar]
-	private bool rcsModeActive;
+	[SyncVar] [HideInInspector]
+	public bool rcsModeActive;
 
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	private bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead

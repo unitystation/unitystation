@@ -17,12 +17,14 @@ public class NetToggle : NetUIElement
 		}
 	}
 
-	public BoolEventWithSubject ServerMethod;
+	public BoolEvent ServerMethod;
+	public BoolEventWithSubject ServerMethodWithSubject;
 
 	private Toggle element;
 
 	public override void ExecuteServer(ConnectedPlayer subject) {
-		ServerMethod.Invoke(Element.isOn, subject);
+		ServerMethod?.Invoke(Element.isOn);
+		ServerMethodWithSubject?.Invoke(Element.isOn, subject);
 	}
 
 	public Toggle Element {

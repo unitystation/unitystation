@@ -1238,6 +1238,7 @@ MonoBehaviour:
   rcsLight: {fileID: 4045547224110564359}
   rcsLightOn: {fileID: 21300002, guid: 549fbecefe555964a8444a4cd42275a3, type: 3}
   rcsLightOff: {fileID: 21300000, guid: 549fbecefe555964a8444a4cd42275a3, type: 3}
+  rcsToggleButton: {fileID: 2180316960823425740}
   CoordReadout: {fileID: 1286891109983827235}
 --- !u!1 &1608340126526448
 GameObject:
@@ -1448,6 +1449,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1661767596591212
 GameObject:
   m_ObjectHideFlags: 0
@@ -1757,6 +1761,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1725628103696136
 GameObject:
   m_ObjectHideFlags: 0
@@ -4269,6 +4276,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
+    m_PersistentCalls:
+      m_Calls: []
+  ServerMethodWithSubject:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 114343398355056170}

@@ -39,6 +39,8 @@ public class GUI_ShuttleControl : NetTab
 	[SerializeField] private Image rcsLight;
 	[SerializeField] private Sprite rcsLightOn;
 	[SerializeField] private Sprite rcsLightOff;
+	[SerializeField] private ToggleButton rcsToggleButton;
+	private ConnectedPlayer playerControllingRcs;
 
 	public GUI_CoordReadout CoordReadout;
 
@@ -91,6 +93,10 @@ public class GUI_ShuttleControl : NetTab
 
 			OnStateChange(State);
 		}
+		else
+		{
+			ClientToggleRcs(matrixMove.rcsModeActive);
+		}
 	}
 
 	private void StartNormalOperation()
@@ -142,16 +148,25 @@ public class GUI_ShuttleControl : NetTab
 
 	public void ServerToggleRcs(bool on, ConnectedPlayer subject)
 	{
-		Debug.Log("INTERACTED BY " + subject.Name);
 		RcsMode = on;
 		MatrixMove.ToggleRcs(on);
 		SetRcsLight(on);
+
+		if (on)
+		{
+			playerControllingRcs = subject;
+		}
+		else
+		{
+			playerControllingRcs = null;
+		}
 	}
 
 	public void ClientToggleRcs(bool on)
 	{
 		RcsMode = on;
 		SetRcsLight(on);
+		rcsToggleButton.isOn = on;
 	}
 
 	private void SetRcsLight(bool on)
@@ -257,7 +272,17 @@ public class GUI_ShuttleControl : NetTab
 		else {
 			this["FuelGauge"].SetValue = Math.Round((MatrixMove.ShuttleFuelSystem.FuelLevel * 100)).ToString();
 		}
-		yield return WaitFor.Seconds(2f);
+		yield return WaitFor.Seconds(1f);
+
+		//validate Player using Rcs
+		if (playerControllingRcs != null)
+		{
+			bool validate = playerControllingRcs.Script && Validations.CanApply(playerControllingRcs.Script, Provider, NetworkSide.Server);
+			if (!validate)
+			{
+				ServerToggleRcs(false, null);
+			}
+		}
 
 		if (RefreshRadar)
 		{
