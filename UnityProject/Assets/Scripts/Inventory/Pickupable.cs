@@ -210,7 +210,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 						interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, amountOfDamage, attackType, damageType, BodyPartType.RightArm);
 					}
 
-					Chat.AddExamineMsgFromServer(interaction.Performer, "<color=red>You injure yourself picking up the " + this.name + "</color>");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "<color=red>You injure yourself picking up the " + GetComponent<ItemAttributesV2>().ArticleName + "</color>");
 				}
 			}
 			else
