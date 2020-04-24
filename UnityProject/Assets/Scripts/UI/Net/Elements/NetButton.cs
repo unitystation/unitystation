@@ -5,7 +5,7 @@ using UnityEngine.UI;
 /// Simple button, has no special value
 [RequireComponent(typeof( Button ))]
 [Serializable]
-public class NetButton : NetUIElement<string>
+public class NetButton : NetUIStringElement
 {
 	public UnityEvent ServerMethod;
 

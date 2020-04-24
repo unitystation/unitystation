@@ -9,7 +9,7 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(InputField))]
 [Serializable]
-public class NetFilledInputField : NetUIElement<string>
+public class NetFilledInputField : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 

@@ -30,7 +30,10 @@ public abstract class NetUIElement<T> : NetUIElementBase
 	}
 
 	private NetTab masterTab;
-	private static readonly JsonSerializer JsonSerializer = new JsonSerializer();
+	private static readonly JsonSerializer JsonSerializer = new JsonSerializer
+	{
+		ReferenceLoopHandling = ReferenceLoopHandling.Ignore
+	};
 
 	public override ElementValue ElementValue => new ElementValue
 	{
@@ -127,7 +130,8 @@ public abstract class NetUIElement<T> : NetUIElementBase
 	/// </summary>
 	protected virtual void UpdatePeepersLogic()
 	{
-		TabUpdateMessage.SendToPeepers(MasterTab.Provider, MasterTab.Type, TabAction.Update, new[] {ElementValue});
+		var masterTab = MasterTab;
+		TabUpdateMessage.SendToPeepers(masterTab.Provider, masterTab.Type, TabAction.Update, new[] {ElementValue});
 	}
 
 	public override void ExecuteServer(ConnectedPlayer subject){}

@@ -207,7 +207,8 @@ public class NetUIDynamicList : NetUIElement<string[]>
 	protected virtual void RefreshPositions()
 	{
 		//Adding new entries to the end by default
-		var entries = Entries.OrderBy(entry => entry.name).ToArray();
+		var entries = Entries;
+		Array.Sort(entries, (entry1, entry2) => String.Compare(entry1.name, entry2.name));
 		for (var i = 0; i < entries.Length; i++)
 		{
 			SetProperPosition(entries[i], i);

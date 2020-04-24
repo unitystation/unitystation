@@ -46,9 +46,9 @@ public class GUI_ShuttleControl : NetTab
 	public GUI_CoordReadout CoordReadout;
 
 	private GameObject Waypoint;
-	string rulersColor;
-	string rayColor;
-	string crosshairColor;
+	Color rulersColor;
+	Color rayColor;
+	Color crosshairColor;
 
 	public bool RcsMode { get; private set; }
 
@@ -90,9 +90,9 @@ public class GUI_ShuttleControl : NetTab
 			}
 			HideWaypoint(false);
 
-			rulersColor = ((NetUIElement<string>)this["Rulers"]).Value;
-			rayColor = ((NetUIElement<string>)this["RadarScanRay"]).Value;
-			crosshairColor = ((NetUIElement<string>)this["Crosshair"]).Value;
+			rulersColor = ((NetColorChanger)this["Rulers"]).Value;
+			rayColor = ((NetColorChanger)this["RadarScanRay"]).Value;
+			crosshairColor = ((NetColorChanger)this["Crosshair"]).Value;
 
 			OnStateChange(State);
 		}
@@ -329,41 +329,36 @@ public class GUI_ShuttleControl : NetTab
 				PowerOff();
 				StartNormalOperation();
 				//Important: set values from server using SetValue and not Value
-				this["OffOverlay"].SetValueServer(DebugTools.ColorToHex(Color.clear));
+				this["OffOverlay"].SetValueServer(Color.clear);
 				this["Rulers"].SetValueServer(rulersColor);
 				this["RadarScanRay"].SetValueServer(rayColor);
 				this["Crosshair"].SetValueServer(crosshairColor);
-				SetSafetyProtocols(@on: true);
+				SetSafetyProtocols(true);
 
 				break;
 			case TabState.Emagged:
 				PowerOff();
 				StartNormalOperation();
 				//Remove overlay
-				this["OffOverlay"].SetValueServer(DebugTools.ColorToHex(Color.clear));
+				this["OffOverlay"].SetValueServer(Color.clear);
 				//Repaint radar to evil colours
-				this["Rulers"].SetValueServer(ChangeColorHue(rulersColor, -80));
-				this["RadarScanRay"].SetValueServer(ChangeColorHue(rayColor, -80));
-				this["Crosshair"].SetValueServer(ChangeColorHue( crosshairColor, -80 ));
+				this["Rulers"].SetValueServer(HSVUtil.ChangeColorHue(rulersColor, -80));
+				this["RadarScanRay"].SetValueServer(HSVUtil.ChangeColorHue(rayColor, -80));
+				this["Crosshair"].SetValueServer(HSVUtil.ChangeColorHue(crosshairColor, -80));
 				AddEmagItems();
-				SetSafetyProtocols(@on: false);
+				SetSafetyProtocols(false);
 
 				break;
 			case TabState.Off:
 				PowerOff();
 				//Black screen overlay
-				this["OffOverlay"].SetValueServer(DebugTools.ColorToHex(Color.black));
-				SetSafetyProtocols(@on: true);
+				this["OffOverlay"].SetValueServer(Color.black);
+				SetSafetyProtocols(true);
 
 				break;
 			default:
 				return;
 		}
-	}
-
-	private static string ChangeColorHue(string srcHexColour, int amount)
-	{
-		return DebugTools.ColorToHex(HSVUtil.ChangeColorHue(DebugTools.HexToColor(srcHexColour), amount));
 	}
 
 	/// <summary>
