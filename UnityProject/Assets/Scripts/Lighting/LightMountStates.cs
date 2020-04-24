@@ -89,12 +89,12 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 				if (interaction.HandSlot.NamedSlot == NamedSlot.leftHand)
 				{
 					interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, 10f, AttackType.Energy, DamageType.Burn, BodyPartType.LeftArm);
-					Chat.AddExamineMsgFromServer(interaction.Performer, "You burn your left hand while attempting to remove the light");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "<color=red>You burn your left hand while attempting to remove the light</color>");
 				}
 				else
 				{
 					interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, 10f, AttackType.Energy, DamageType.Burn, BodyPartType.RightArm);
-					Chat.AddExamineMsgFromServer(interaction.Performer, "You burn your right hand while attempting to remove the light");
+					Chat.AddExamineMsgFromServer(interaction.Performer, "<color=red>You burn your right hand while attempting to remove the light</color>");
 				}
 				return;
 			}
