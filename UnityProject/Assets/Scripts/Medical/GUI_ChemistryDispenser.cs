@@ -18,7 +18,7 @@ public class GUI_ChemistryDispenser : NetTab
 	public bool HeaterOn = false;
 
 	public ChemistryDispenser ChemistryDispenser;
-	[SerializeField] private Chemistry.Reagent[] dispensableReagents;
+	[SerializeField] private Chemistry.Reagent[] dispensableReagents = null;
 
 	private List<string> DispenseAmounts = new List<string>()
 	{
@@ -33,9 +33,9 @@ public class GUI_ChemistryDispenser : NetTab
 		"100",
 	};
 
-	private NetUIElement listOfReagents;
+	private NetUIElementBase listOfReagents;
 
-	private NetUIElement ListOfReagents
+	private NetUIElementBase ListOfReagents
 	{
 		get
 		{
@@ -49,9 +49,9 @@ public class GUI_ChemistryDispenser : NetTab
 	}
 
 	//The thing that says 100U @ 10c
-	private NetUIElement totalAndTemperature;
+	private NetUIElementBase totalAndTemperature;
 
-	private NetUIElement TotalAndTemperature
+	private NetUIElementBase TotalAndTemperature
 	{
 		get
 		{
@@ -66,7 +66,7 @@ public class GUI_ChemistryDispenser : NetTab
 
 	void Start()
 	{
-		this["20"].SetValue = "1";
+		this["20"].SetValueServer("1");
 		if (Provider != null)
 		{
 			//Makes sure it connects with the dispenser properly
@@ -87,11 +87,11 @@ public class GUI_ChemistryDispenser : NetTab
 			if (DispenseAmounts[i] == Number.ToString()
 			) //Checks what button has been pressed  And sets the correct position appropriate
 			{
-				this[DispenseAmounts[i]].SetValue = "1";
+				this[DispenseAmounts[i]].SetValueServer("1");
 			}
 			else
 			{
-				this[DispenseAmounts[i]].SetValue = "0";
+				this[DispenseAmounts[i]].SetValueServer("0");
 			}
 		}
 
@@ -187,16 +187,15 @@ public class GUI_ChemistryDispenser : NetTab
 				newListOfReagents += $"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)} - {reagent.Value} U \n";
 			}
 
-			TotalAndTemperature.SetValue =
-				$"{ChemistryDispenser.Container.CurrentCapacity}U @ {(ChemistryDispenser.Container.Temperature)}°C";
+			TotalAndTemperature.SetValueServer($"{ChemistryDispenser.Container.CurrentCapacity}U @ {(ChemistryDispenser.Container.Temperature)}°C");
 		}
 		else
 		{
 			newListOfReagents = "No reagents";
-			TotalAndTemperature.SetValue = "No container inserted";
+			TotalAndTemperature.SetValueServer("No container inserted");
 		}
 
-		ListOfReagents.SetValue = newListOfReagents;
+		ListOfReagents.SetValueServer(newListOfReagents);
 	}
 
 	public void OnDestroy()

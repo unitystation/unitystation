@@ -71,13 +71,13 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		DetectLightsAndAction(true);
 		if (RelatedAPC != null)
 		{
-			RelatedAPC.ConnectedSwitchesAndLights[this] = new List<LightSource>();
+			//RelatedAPC.ConnectedSwitchesAndLights[this] = new List<LightSource>();
 		}
 		if (SelfPowered)
 		{
 			for (int i = 0; i < SelfPowerLights.Count; i++)
 			{
-				SelfPowerLights[i].PowerLightIntensityUpdate(240);
+				//SelfPowerLights[i].PowerLightIntensityUpdate(240);
 			}
 		}
 	}
@@ -188,16 +188,22 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 		{
 			if (SelfPowered)
 			{
-				foreach (var l in SelfPowerLights)
+				foreach (var lightSource in SelfPowerLights)
 				{
-					LightSwitchData Send = new LightSwitchData() { state = state, LightSwitch = this, RelatedAPC = RelatedAPC };
-					l.gameObject.SendMessage("Received", Send, SendMessageOptions.DontRequireReceiver);
+					LightSwitchData Send = new LightSwitchData()
+						{state = state, LightSwitch = this, RelatedAPC = RelatedAPC};
+					lightSource.gameObject.SendMessage("Received", Send, SendMessageOptions.DontRequireReceiver);
 				}
 			}
 
 			return;
 		}
 
+		DetectLights(state);
+	}
+
+	private void DetectLights(bool state)
+	{
 		Vector2 startPos = GetCastPos();
 		//figure out which lights this switch is hooked up to based on proximity and facing
 		int length = Physics2D.OverlapCircleNonAlloc(startPos, radius, lightSpriteColliders, lightingMask);
@@ -211,12 +217,23 @@ public class LightSwitch : NetworkBehaviour, IClientInteractable<HandApply>
 			{
 				if (localObject.tag != "EmergencyLight")
 				{
-					LightSwitchData Send = new LightSwitchData() { state = state, LightSwitch = this, RelatedAPC = RelatedAPC };
+					var Send = new LightSwitchData()
+						{
+							state = state,
+							LightSwitch = this,
+							RelatedAPC = RelatedAPC
+						};
 					localObject.SendMessage("Received", Send, SendMessageOptions.DontRequireReceiver);
 				}
+
 				if (RelatedAPC != null) //|| SelfPowered
 				{
-					LightSwitchData Send = new LightSwitchData() { LightSwitch = this, RelatedAPC = RelatedAPC, SelfPowered = SelfPowered };
+					var Send = new LightSwitchData()
+						{
+							LightSwitch = this,
+							RelatedAPC = RelatedAPC,
+							SelfPowered = SelfPowered
+						};
 					localObject.SendMessage("EmergencyLight", Send, SendMessageOptions.DontRequireReceiver);
 				}
 			}

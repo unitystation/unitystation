@@ -8,15 +8,15 @@ public class JobDepartmentEntry : MonoBehaviour
 {
 	[SerializeField]
 	[Tooltip("The header text for this department")]
-	private TMP_Text header;
+	private TMP_Text header = null;
 
 	[SerializeField]
 	[Tooltip("The background image for this department")]
-	private Image headerBackground;
+	private Image headerBackground = null;
 
 	[SerializeField]
 	[Tooltip("The template to use for each job")]
-	private JobListEntry jobEntryTemplate;
+	private JobListEntry jobEntryTemplate = null;
 
 	/// <summary>
 	/// Adds a job entry for an occupation
@@ -53,6 +53,6 @@ public class JobDepartmentEntry : MonoBehaviour
 	{
 		header.text = department.DisplayName;
 		headerBackground.color = department.HeaderColor;
-		Add(department.Occupations, ref jobEntries);
+		Add(department.AllOccupations, ref jobEntries);
 	}
 }

@@ -19,6 +19,10 @@ public class FloorDecal : NetworkBehaviour
 
 	public bool CanDryUp = false;
 
+	[SyncVar(hook = "OnColorChanged")]
+	[HideInInspector]
+	public Color color;
+
 	[Tooltip("Possible appearances of this decal. One will randomly be chosen when the decal appears." +
 	         " This can be left empty, in which case the prefab's sprite renderer sprite will " +
 	         "be used.")]
@@ -63,6 +67,14 @@ public class FloorDecal : NetworkBehaviour
 		if (PossibleSprites != null && PossibleSprites.Length > 0)
 		{
 			spriteRenderer.sprite = PossibleSprites[chosenSprite];
+		}
+	}
+
+	public void OnColorChanged(Color oldColor, Color newColor)
+	{
+		if (spriteRenderer)
+		{
+			spriteRenderer.color = newColor;
 		}
 	}
 

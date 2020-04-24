@@ -9,7 +9,7 @@ namespace Antagonists
     public class CaptureCapsHat : Objective
     {
         [SerializeField]
-        private List<GameObject> allowedHats;
+        private List<GameObject> allowedHats = null;
 
         protected override void Setup()
         {
@@ -18,20 +18,23 @@ namespace Antagonists
 
         private ConnectedPlayer FindCaptain()
         {
-            List<ConnectedPlayer> allPlayers = PlayerList.Instance.InGamePlayers;
-            return PlayerList.Instance.InGamePlayers.FirstOrDefault
-            (
-                    player => PlayerList.Instance.Get(player.GameObject).Job == JobType.CAPTAIN
-            );
+	        var index = PlayerList.Instance.InGamePlayers.FindIndex(x => x.Job == JobType.CAPTAIN);
+	        if (index != -1)
+	        {
+		        return PlayerList.Instance.InGamePlayers[index];
+	        }
+
+	        return null;
         }
 
         protected override bool CheckCompletion()
         {
- 
-            var captain = FindCaptain();
+	        var captain = FindCaptain();
             // No captain? Objective completed
             if (captain == null) return true;
             var inventory = captain.GameObject.GetComponent<ItemStorage>();
+            //something fucked up, give them green
+            if (inventory == null) return true;
             var headSlot = inventory.GetNamedItemSlot(NamedSlot.head).Item;
             // Objective completed if captain has no hat or is wearing a non-allowed hat
             if (headSlot == null || !allowedHats.Contains(headSlot.gameObject)) return true;

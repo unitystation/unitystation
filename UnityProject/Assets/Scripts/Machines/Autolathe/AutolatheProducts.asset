@@ -1,0 +1,184 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a530723332345043ae218456ed72ca0, type: 3}
+  m_Name: AutolatheProducts
+  m_EditorClassIdentifier: 
+  productCategoryList:
+  - categoryName: Tools
+    products:
+    - name: Bucket
+      product: {fileID: 7516689663430431150, guid: 8aa459a6447baed4a95b189f4950f59f,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: c8000000
+      productionTime: 4
+    - name: Screwdriver
+      product: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 4b000000
+      productionTime: 4
+    - name: Wrench
+      product: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 96000000
+      productionTime: 4
+    - name: Wirecutter
+      product: {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 50000000
+      productionTime: 4
+    - name: Crowbar
+      product: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 32000000
+      productionTime: 4
+    - name: Welding tool
+      product: {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 4600000014000000
+      productionTime: 4
+    - name: Multitool
+      product: {fileID: 970193913688544828, guid: 32fcd56a575fd884ebae6deb79a43656,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 3200000014000000
+      productionTime: 4
+    - name: Cable Coils
+      product: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 2c01000096000000
+      productionTime: 4
+    - name: Flashlight
+      product: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 3200000014000000
+      productionTime: 4
+    - name: Fire Extinguisher
+      product: {fileID: 7914790827376970613, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 5a000000
+      productionTime: 4
+    - name: Welding Helmet
+      product: {fileID: 7636118406116123594, guid: df90174791c3adda585b7cb6c9f01473,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: d606000090010000
+      productionTime: 4
+    - name: Toolbox
+      product: {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: f4010000
+      productionTime: 4
+  - categoryName: Construction
+    products: []
+  - categoryName: Security
+    products: []
+  - categoryName: Medical
+    products:
+    - name: Beaker
+      product: {fileID: 2303393086579293408, guid: 2aadd00fd99ff354ba118dcaaf5e7cb1,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: f4010000
+      productionTime: 4
+    - name: Large Beaker
+      product: {fileID: 8748682074694926391, guid: c3ae2df5429c2ee4e8992b7c33661f78,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: c4090000
+      productionTime: 4
+    - name: Health Analyzer
+      product: {fileID: 5914959498962467419, guid: 34a89eb06b04dc54eae02fc8048dd8f7,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: c800000064000000
+      productionTime: 4
+  - categoryName: Dinnerware
+    products:
+    - name: Drinking Glass
+      product: {fileID: 5426160498802093876, guid: 73832b33f58924a40b5c771587f9707e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: f4010000
+      productionTime: 4
+  - categoryName: Electronics
+    products: []
+  - categoryName: T-Comm
+    products: []
+  - categoryName: Machinery
+    products: []
+  - categoryName: Misc
+    products:
+    - name: Emergency Oxy. Tank
+      product: {fileID: 2819670291326673133, guid: 09868dc1147587f4191af0a4defd8c1d,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: f4010000
+      productionTime: 4
+    - name: Proximity Sensor
+      product: {fileID: 3506820747392627008, guid: 1fa9f2d6fbcfef845bb2f5903ffcfd23,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 20030000c8000000
+      productionTime: 4

@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -135,6 +136,17 @@ MonoBehaviour:
   isBleeding: 0
   livingHealthBehaviour: {fileID: 0}
   Severity: 0
+  armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &4826259315037707297
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,6 +202,17 @@ MonoBehaviour:
   isBleeding: 0
   livingHealthBehaviour: {fileID: 0}
   Severity: 0
+  armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &4827224533573323059
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,8 +268,8 @@ GameObject:
   - component: {fileID: 4826045711076760867}
   - component: {fileID: 3493423571535560689}
   - component: {fileID: 3651291330810827203}
-  - component: {fileID: 3708589072684735304}
-  - component: {fileID: 8310532552690989649}
+  - component: {fileID: -6250721629969418776}
+  - component: {fileID: 5396295491477764102}
   m_Layer: 12
   m_Name: NPC_Larvae
   m_TagString: Untagged
@@ -310,7 +333,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  maxHealth: 50
+  maxHealth: 25
   canBreathAnywhere: 1
   cloningDamage: 0
   bloodSystem: {fileID: 0}
@@ -451,6 +474,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -528,7 +552,7 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
---- !u!114 &3708589072684735304
+--- !u!114 &-6250721629969418776
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -537,30 +561,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 4827737755655954553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 857bf8f3709511b4fb9178b76caed382, type: 3}
+  m_Script: {fileID: 11500000, guid: e16004dedecb6d54e8bde3e5d6279b4c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  brain: {fileID: 11400000, guid: ee57f96de53d4b0489799717352da07e, type: 2}
+  brain: {fileID: 0}
   agentParameters:
     agentCameras: []
     agentRenderTextures: []
     maxStep: 0
     resetOnDone: 1
-    onDemandDecision: 1
+    onDemandDecision: 0
     numberOfActionsBetweenDecisions: 1
   performingDecision: 0
   performingAction: 0
   activated: 0
-  tickRate: 0
+  tickRate: 1
   followTarget: {fileID: 0}
-  spriteHolder: {fileID: 3392343644113499114}
-  targetOtherPlayersWhoGetInWay: 1
-  onlyHitTarget: 0
-  hitDamage: 10
-  attackVerb: slashed
-  defaultTarget: 0
-  meleeCoolDown: 0.4
---- !u!114 &8310532552690989649
+--- !u!114 &5396295491477764102
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -569,15 +586,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 4827737755655954553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba86e59112fcacd448eb7b1203dd37f1, type: 3}
+  m_Script: {fileID: 11500000, guid: 2287edb10a0f4d21a75b58f179a7e673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   mobName: Larvae
-  knockedDownRotation: -90
-  searchTickRate: 0.5
-  DeathSounds:
-  - facehugger
-  GenericSounds:
-  - facehugger
-  PlaySoundTime: 3
-  status: 0
+  knockedDownRotation: 90
+  minTimeBetweenRandomActions: 10
+  maxTimeBetweenRandomActions: 10
+  timeToGrow: 200
+  xenomorph: {fileID: 4827737755655954553, guid: 9ff670259caaa5c488c14453dd5d8c63,
+    type: 3}

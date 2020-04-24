@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Mirror;
+using NPC.AI;
 using UnityEngine;
 
 public class MobMeleeLerpMessage : ServerMessage
@@ -13,6 +14,12 @@ public class MobMeleeLerpMessage : ServerMessage
 
 		var getMob = NetworkIdentity.spawned[mob];
 		var mobMelee = getMob.GetComponent<MobMeleeAttack>();
+		if (mobMelee == null)
+		{
+			var mobAction = getMob.GetComponent<MobMeleeAction>();
+			mobAction.ClientDoLerpAnimation(dir);
+			return;
+		}
 		mobMelee.ClientDoLerpAnimation(dir);
 	}
 

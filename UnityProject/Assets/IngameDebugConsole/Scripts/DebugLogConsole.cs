@@ -189,7 +189,7 @@ namespace IngameDebugConsole
 			stringBuilder.Append( "Accelerometer: " ).Append( SystemInfo.supportsAccelerometer ? "supported\n" : "not supported\n" );
 			stringBuilder.Append( "Gyro: " ).Append( SystemInfo.supportsGyroscope ? "supported\n" : "not supported\n" );
 			stringBuilder.Append( "Location Service: " ).Append( SystemInfo.supportsLocationService ? "supported\n" : "not supported\n" );
-			stringBuilder.Append( "Image Effects: " ).Append( SystemInfo.supportsImageEffects ? "supported\n" : "not supported\n" );
+			// Image effects not checked, is always true on newer Unity versions.
 			stringBuilder.Append( "Compute Shaders: " ).Append( SystemInfo.supportsComputeShaders ? "supported\n" : "not supported\n" );
 			stringBuilder.Append( "Shadows: " ).Append( SystemInfo.supportsShadows ? "supported\n" : "not supported\n" );
 			stringBuilder.Append( "RenderToCubemap: " ).Append( SystemInfo.supportsRenderToCubemap ? "supported\n" : "not supported\n" );
@@ -397,10 +397,10 @@ namespace IngameDebugConsole
 
 			if( command.Length == 0 )
 				return;
-			
+
 			// Parse the arguments
 			commandArguments.Clear();
-			
+
 			int endIndex = IndexOfChar( command, ' ', 0 );
 			commandArguments.Add( command.Substring( 0, endIndex ) );
 
@@ -420,7 +420,7 @@ namespace IngameDebugConsole
 					endIndex = IndexOfChar( command, ' ', i + 1 );
 					commandArguments.Add( command.Substring( i, endIndex - i ) );
 				}
-				
+
 				i = endIndex;
 			}
 

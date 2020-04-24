@@ -82,11 +82,17 @@ namespace UI.UI_Bottom
 			buildingMaterial.gameObject.PopulateImageSprites(materialImage, materialSecondaryImage);
 
 			materialCost.text = entry.Cost.ToString();
-
 		}
 
 		public void OnClick()
 		{
+			//Show the conveyor belt build menu
+			if (entry.Name.Equals("Conveyor Belt"))
+			{
+				UIManager.BuildMenu.ShowConveyorBeltMenu(entry, buildingMaterial);
+				return;
+			}
+
 			RequestBuildMessage.Send(entry, buildingMaterial);
 			UIManager.BuildMenu.CloseBuildMenu();
 		}

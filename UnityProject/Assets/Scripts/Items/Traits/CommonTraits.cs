@@ -37,7 +37,6 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Knife;
 	public ItemTrait Transforamble;
 	public ItemTrait Squeaky;
-	public ItemTrait Boots;
 	public ItemTrait LightTube;
 	public ItemTrait LightBulb;
 	public ItemTrait Broken;
@@ -45,4 +44,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Rods;
 	public ItemTrait SolidPlasma;
 	public ItemTrait NukeDisk;
+	public ItemTrait Insulated;
+	public ItemTrait InternalBattery;
+	public ItemTrait AntiFacehugger;
 }

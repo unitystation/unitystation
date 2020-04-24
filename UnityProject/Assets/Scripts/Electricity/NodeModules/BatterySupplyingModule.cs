@@ -50,6 +50,10 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 		ModuleType = ElectricalModuleTypeCategory.BatterySupplyingDevice;
 		ControllingNode = Node;
 		Node.AddModule(this);
+		if (StartOnStartUp)
+		{
+			TurnOnSupply();
+		}
 	}
 
 	public override void TurnOnSupply()
@@ -118,7 +122,7 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 			ControllingNode.Node.InData.Data.InternalResistance = InternalResistance;
 			PreviousInternalResistance = InternalResistance;
 
-			ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
+			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode);
 		}
 		//Logger.Log(CurrentCapacity + " < CurrentCapacity" + ControllingNode.Node.InData.Categorytype, Category.Electrical);
 	}
@@ -126,9 +130,9 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 	{
 		if (SourceInstance != ControllingNode.Node)
 		{
-			if (!ElectricalSynchronisation.NUCurrentChange.Contains(ControllingNode))
+			if (!ElectricalManager.Instance.electricalSync.NUCurrentChange.Contains(ControllingNode))
 			{
-				ElectricalSynchronisation.NUCurrentChange.Add(ControllingNode);
+				ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode);
 			}
 		}
 		return Current;

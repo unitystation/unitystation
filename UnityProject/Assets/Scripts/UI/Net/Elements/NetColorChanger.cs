@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(Graphic))]
 [Serializable]
-public class NetColorChanger : NetUIElement
+public class NetColorChanger : NetUIElement<string>
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
@@ -19,7 +19,7 @@ public class NetColorChanger : NetUIElement
 		}
 	}
 
-	private Graphic element; 
+	private Graphic element;
 	public Graphic Element {
 		get {
 			if ( !element ) {
@@ -29,5 +29,5 @@ public class NetColorChanger : NetUIElement
 		}
 	}
 
-	public override void ExecuteServer() {	}
+	public override void ExecuteServer(ConnectedPlayer subject) {	}
 }

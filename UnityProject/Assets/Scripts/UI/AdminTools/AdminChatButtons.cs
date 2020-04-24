@@ -13,8 +13,12 @@ namespace AdminTools
 		[SerializeField] private Button adminChatButton = null;
 		[SerializeField] private Button playerChatButton = null;
 		[SerializeField] private Button prayerWindowButton = null;
+		// Ignore default color warning
+#pragma warning disable CS0649
 		[SerializeField] private Color selectedColor;
 		[SerializeField] private Color unSelectedColor;
+		// Ignore default color warning
+#pragma warning restore CS0649
 
 		private void OnEnable()
 		{

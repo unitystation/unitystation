@@ -486,6 +486,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return 0;
 	}
 
+	public void RepairWindow(Vector3Int cellPos)
+	{
+		var data = metaDataLayer.Get(cellPos);
+		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
+		data.WindowDamage = WindowDamageLevel.Undamaged;
+		data.Damage = 0;
+	}
+
 	/// <summary>
 	/// Damage a window tile, incrementaly
 	/// </summary>
@@ -519,7 +527,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (data.Damage >= MAX_WINDOW_DAMAGE)
 		{
-			tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
 			data.WindowDamage = WindowDamageLevel.Broken;
 

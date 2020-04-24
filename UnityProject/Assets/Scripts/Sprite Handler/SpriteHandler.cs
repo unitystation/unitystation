@@ -9,6 +9,7 @@ using System.Linq;
 using Newtonsoft.Json;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
+
 ///	<summary>
 ///	for Handling sprite animations
 ///	</summary>
@@ -23,15 +24,14 @@ public class SpriteHandler : MonoBehaviour
 		public Sprite sprite;
 		public float waitTime;
 	}
+
 	private SpriteRenderer spriteRenderer;
 
 	private Image image;
 
-	[SerializeField]
-	private int spriteIndex;
+	[SerializeField] private int spriteIndex;
 
-	[SerializeField]
-	[FormerlySerializedAs("VariantIndex")]
+	[SerializeField] [FormerlySerializedAs("VariantIndex")]
 	private int variantIndex;
 
 	private int animationIndex = 0;
@@ -42,25 +42,32 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool isAnimation = false;
 
-	[SerializeField]
-	private bool SetSpriteOnStartUp = true;
+	[SerializeField] private bool SetSpriteOnStartUp = true;
 
 
 	private bool Initialised;
 
-	private void SetImageColor(Color value) {
+	void Awake()
+	{
+		AddSprites();
+		GetImageComponent();
+		TryInit();
+	}
+
+	private void SetImageColor(Color value)
+	{
 		if (spriteRenderer != null)
 		{
 			spriteRenderer.color = value;
 		}
-		else if (image != null){
+		else if (image != null)
+		{
 			image.color = value;
 		}
 	}
 
 	private void SetImageSprite(Sprite value)
 	{
-
 		if (spriteRenderer != null)
 		{
 			spriteRenderer.sprite = value;
@@ -77,8 +84,8 @@ public class SpriteHandler : MonoBehaviour
 			{
 				block.SetInt("_IsPaletted", 0);
 			}
-			spriteRenderer.SetPropertyBlock(block);
 
+			spriteRenderer.SetPropertyBlock(block);
 		}
 		else if (image != null)
 		{
@@ -95,31 +102,26 @@ public class SpriteHandler : MonoBehaviour
 
 	private void GetImageComponent()
 	{
-		spriteRenderer = this.GetComponent<SpriteRenderer>();
-		image = this.GetComponent<Image>();
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		image = GetComponent<Image>();
 	}
 
-	private IEnumerator WaitForInitialisation()
+	private void TryInit()
 	{
 		ImageComponentStatus(false);
-		yield return WaitFor.EndOfFrame;
 		Initialised = true;
 		GetImageComponent();
-		if (spriteData == null) {
+		if (spriteData == null)
+		{
 			spriteData = new SpriteData();
 		}
+
 		if (HasImageComponent() && SetSpriteOnStartUp && spriteData.HasSprite())
 		{
 			PushTexture();
 		}
-		ImageComponentStatus(true);
-	}
 
-	void Start()
-	{
-		AddSprites();
-		GetImageComponent();
-		StartCoroutine(WaitForInitialisation());
+		ImageComponentStatus(true);
 	}
 
 	private void ImageComponentStatus(bool Status)
@@ -128,10 +130,10 @@ public class SpriteHandler : MonoBehaviour
 		{
 			spriteRenderer.enabled = Status;
 		}
-		else if (image != null){
+		else if (image != null)
+		{
 			image.enabled = Status;
 		}
-	
 	}
 
 	private void OnEnable()
@@ -150,6 +152,7 @@ public class SpriteHandler : MonoBehaviour
 		{
 			GetImageComponent();
 		}
+
 		SetImageColor(value);
 	}
 
@@ -182,9 +185,7 @@ public class SpriteHandler : MonoBehaviour
 			spriteData.palettes[spriteIndex] = newPalette;
 			PushTexture();
 		}
-
 	}
-
 
 	public void PushTexture()
 	{
@@ -193,8 +194,8 @@ public class SpriteHandler : MonoBehaviour
 			if (spriteData != null && spriteData.List != null)
 			{
 				if (spriteIndex < spriteData.List.Count &&
-					variantIndex < spriteData.List[spriteIndex].Count &&
-					animationIndex < spriteData.List[spriteIndex][variantIndex].Count)
+				    variantIndex < spriteData.List[spriteIndex].Count &&
+				    animationIndex < spriteData.List[spriteIndex][variantIndex].Count)
 				{
 					SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
 
@@ -204,7 +205,7 @@ public class SpriteHandler : MonoBehaviour
 					return;
 				}
 				else if (spriteIndex < spriteData.List.Count &&
-						 variantIndex < spriteData.List[spriteIndex].Count)
+				         variantIndex < spriteData.List[spriteIndex].Count)
 				{
 					animationIndex = 0;
 
@@ -215,6 +216,7 @@ public class SpriteHandler : MonoBehaviour
 					return;
 				}
 			}
+
 			SetImageSprite(null);
 			TryToggleAnimationState(false);
 		}
@@ -222,10 +224,9 @@ public class SpriteHandler : MonoBehaviour
 
 	public void UpdateMe()
 	{
-
 		timeElapsed += Time.deltaTime;
 		if (spriteData.List.Count > spriteIndex &&
-			timeElapsed >= waitTime)
+		    timeElapsed >= waitTime)
 		{
 			animationIndex++;
 			if (animationIndex >= spriteData.List[spriteIndex][variantIndex].Count)
@@ -236,6 +237,7 @@ public class SpriteHandler : MonoBehaviour
 			SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
 			SetSprite(curSpriteInfo);
 		}
+
 		if (!isAnimation)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
@@ -255,8 +257,8 @@ public class SpriteHandler : MonoBehaviour
 		if (spriteData.List != null)
 		{
 			if (newSprites < spriteData.List.Count &&
-				spriteIndex != newSprites &&
-				variantIndex < spriteData.List[newSprites].Count)
+			    spriteIndex != newSprites &&
+			    variantIndex < spriteData.List[newSprites].Count)
 			{
 				spriteIndex = newSprites;
 				animationIndex = 0;
@@ -274,13 +276,14 @@ public class SpriteHandler : MonoBehaviour
 		if (spriteData.List != null)
 		{
 			if (spriteIndex < spriteData.List.Count &&
-				spriteVariant < spriteData.List[spriteIndex].Count &&
-				variantIndex != spriteVariant)
+			    spriteVariant < spriteData.List[spriteIndex].Count &&
+			    variantIndex != spriteVariant)
 			{
 				if (spriteData.List[spriteIndex][spriteVariant].Count <= animationIndex)
 				{
 					animationIndex = 0;
 				}
+
 				variantIndex = spriteVariant;
 
 				SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
@@ -306,10 +309,10 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
-/// <summary>
-/// Used to set a singular sprite
-/// </summary>
-/// <param name="_sprite">Sprite.</param>
+	/// <summary>
+	/// Used to set a singular sprite
+	/// </summary>
+	/// <param name="_sprite">Sprite.</param>
 	public void SetSprite(Sprite _sprite)
 	{
 		SetImageSprite(_sprite);
@@ -330,7 +333,8 @@ public class SpriteHandler : MonoBehaviour
 		{
 			PushTexture();
 		}
-		else {
+		else
+		{
 			SetSpriteOnStartUp = true;
 		}
 	}
@@ -350,7 +354,8 @@ public class SpriteHandler : MonoBehaviour
 		{
 			PushTexture();
 		}
-		else {
+		else
+		{
 			SetSpriteOnStartUp = true;
 		}
 	}
@@ -371,11 +376,13 @@ public class SpriteHandler : MonoBehaviour
 		{
 			spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Data));
 		}
+
 		if (Initialised)
 		{
 			PushTexture();
 		}
-		else {
+		else
+		{
 			SetSpriteOnStartUp = true;
 		}
 	}
@@ -388,9 +395,9 @@ public class SpriteHandler : MonoBehaviour
 			{
 				spriteData.List = new List<List<List<SpriteInfo>>>();
 			}
+
 			spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Data));
 		}
-
 	}
 
 	public SpriteHandlerState ReturnState()
@@ -404,6 +411,7 @@ public class SpriteHandler : MonoBehaviour
 		});
 	}
 }
+
 public class SpriteHandlerState
 {
 	//public string Name; //for  synchronising of network

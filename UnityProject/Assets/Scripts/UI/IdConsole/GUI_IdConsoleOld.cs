@@ -82,28 +82,28 @@ public class GUI_IdConsoleOld : NetTab
 
 	private void UpdateLoginCardName()
 	{
-		loginCardName.SetValue = console.AccessCard != null ?
-			$"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}" : "********";
+		loginCardName.SetValueServer(console.AccessCard != null ?
+			$"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}" : "********");
 	}
 
 	private void UpdateCardNames()
 	{
 		if (console.AccessCard != null)
 		{
-			accessCardName.SetValue = $"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}";
+			accessCardName.SetValueServer($"{console.AccessCard.RegisteredName}, {console.AccessCard.JobType.ToString()}");
 		}
 		else
 		{
-			accessCardName.SetValue = "-";
+			accessCardName.SetValueServer("-");
 		}
 
 		if (console.TargetCard != null)
 		{
-			targetCardName.SetValue = $"{console.TargetCard.RegisteredName}, {console.TargetCard.JobType.ToString()}";
+			targetCardName.SetValueServer($"{console.TargetCard.RegisteredName}, {console.TargetCard.JobType.ToString()}");
 		}
 		else
 		{
-			targetCardName.SetValue = "-";
+			targetCardName.SetValueServer("-");
 		}
 	}
 

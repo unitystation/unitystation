@@ -6,8 +6,8 @@ using UnityEngine.Events;
 using UnityEngine.Serialization;
 
 /// <summary>
-///     Player move queues the directional move keys
-///     to be processed along with the server.
+///     ** Now all movement input keys are sent to PlayerSync.Client
+/// 	** PlayerMove may become obsolete in the future
 ///     It also changes the sprite direction and
 ///     handles interaction with objects that can
 ///     be walked into it.
@@ -94,7 +94,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				{
 					//locally predict
 					canSwap = UIManager.CurrentIntent == Intent.Help
-							  && !PlayerScript.pushPull.IsPullingSomething;
+					          && !PlayerScript.pushPull.IsPullingSomething;
 				}
 			}
 			else
@@ -103,12 +103,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				canSwap = isSwappable;
 			}
 			return canSwap
-				   //don't swap with ghosts
-				   && !PlayerScript.IsGhost
-				   //pass through players if we can
-				   && !registerPlayer.IsPassable(isServer)
-				   //can't swap with buckled players, they're strapped down
-				   && !IsBuckled;
+			       //don't swap with ghosts
+			       && !PlayerScript.IsGhost
+			       //pass through players if we can
+			       && !registerPlayer.IsPassable(isServer)
+			       //can't swap with buckled players, they're strapped down
+			       && !IsBuckled;
 		}
 	}
 
@@ -123,11 +123,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
-	[FormerlySerializedAs("speed")] public float InitialRunSpeed = 6;
-	[HideInInspector] public float RunSpeed = 6;
-
-	public float WalkSpeed = 3;
-	public float CrawlSpeed = 0.8f;
+	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
+	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
+	[HideInInspector] public float CrawlSpeed;
 
 	/// <summary>
 	/// Player will fall when pushed with such speed
@@ -149,7 +147,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
-		RunSpeed = InitialRunSpeed;
+		RunSpeed = 6;
+		WalkSpeed = 3;
+		CrawlSpeed = 0.8f;
 	}
 
 	public override void OnStartClient()
@@ -169,70 +169,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		}
 
 		ServerUpdateIsSwappable();
-	}
-
-	/// <summary>
-	/// Processes currenlty held directional movement keys into a PlayerAction.
-	/// Opposite moves on the X or Y axis cancel out, not moving the player in that axis.
-	/// Moving while dead spawns the player's ghost.
-	/// </summary>
-	/// <returns> A PlayerAction containing up to two (non-opposite) movement directions.</returns>
-	public PlayerAction SendAction()
-	{
-		// Stores the directions the player will move in.
-		List<int> actionKeys = new List<int>();
-
-		// Only move if player is out of UI
-		if (!(PlayerManager.LocalPlayer == gameObject && UIManager.IsInputFocus))
-		{
-			bool moveL = KeyboardInputManager.CheckMoveAction(MoveAction.MoveLeft);
-			bool moveR = KeyboardInputManager.CheckMoveAction(MoveAction.MoveRight);
-			bool moveU = KeyboardInputManager.CheckMoveAction(MoveAction.MoveDown);
-			bool moveD = KeyboardInputManager.CheckMoveAction(MoveAction.MoveUp);
-			// Determine movement on each axis (cancelling opposite moves)
-			int moveX = (moveR ? 1 : 0) - (moveL ? 1 : 0);
-			int moveY = (moveD ? 1 : 0) - (moveU ? 1 : 0);
-
-			if (moveX != 0 || moveY != 0)
-			{
-				bool beingDraggedWithCuffs = IsCuffed && PlayerScript.pushPull.IsBeingPulledClient;
-
-				if (allowInput && !IsBuckled && !beingDraggedWithCuffs)
-				{
-					switch (moveX)
-					{
-						case 1:
-							actionKeys.Add((int)MoveAction.MoveRight);
-							break;
-						case -1:
-							actionKeys.Add((int)MoveAction.MoveLeft);
-							break;
-						default:
-							break; // Left, Right cancelled or not pressed
-					}
-					switch (moveY)
-					{
-						case 1:
-							actionKeys.Add((int)MoveAction.MoveUp);
-							break;
-						case -1:
-							actionKeys.Add((int)MoveAction.MoveDown);
-							break;
-						default:
-							break; // Up, Down cancelled or not pressed
-					}
-				}
-				else // Player tried to move but isn't allowed
-				{
-					if (PlayerScript.playerHealth.IsDead)
-					{
-						pna.CmdSpawnPlayerGhost();
-					}
-				}
-			}
-		}
-
-		return new PlayerAction { moveActions = actionKeys.ToArray() };
 	}
 
 	public Vector3Int GetNextPosition(Vector3Int currentPosition, PlayerAction action, bool isReplay,
@@ -299,7 +235,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		{
 			// Converting world direction to local direction
 			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
-											  direction);
+			                                  direction);
 		}
 
 
@@ -340,7 +276,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (netid == NetId.Invalid)
 		{
 			Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
-							" can only be used on objects with a Net ID. Ensure this object has one.",
+			                " can only be used on objects with a Net ID. Ensure this object has one.",
 				Category.Movement);
 			return;
 		}
@@ -472,6 +408,28 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		playerScript?.PlayerSync?.RollbackPrediction();
 	}
 
+	/// <summary>
+	/// Changes the player speed from Server. Values inputted as arguments will OVERRIDE the current speed!
+	/// </summary>
+	/// <param name="run">At what speed should the player run</param>
+	/// <param name="walk">At what speed should the player walk</param>
+	[Server]
+	public void ServerChangeSpeed(float run = 0f, float walk = 0f)
+	{
+		RunSpeed = run < CrawlSpeed ? CrawlSpeed : run;
+		WalkSpeed = walk < CrawlSpeed ? CrawlSpeed : walk;
+	}
+
+	private void SyncRunSpeed(float oldSpeed, float newSpeed)
+	{
+		this.RunSpeed = newSpeed;
+	}
+
+	private void SyncWalkSpeed(float oldSpeed, float newSpeed)
+	{
+		this.WalkSpeed = newSpeed;
+	}
+
 	public void CallActionClient()
 	{
 		if (CanUnBuckleSelf())
@@ -505,7 +463,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
 		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
 
-		TargetPlayerUIHandCuffToggle(connectionToClient, true);
+		if(connectionToClient != null) TargetPlayerUIHandCuffToggle(connectionToClient, true);
 	}
 
 	[TargetRpc]

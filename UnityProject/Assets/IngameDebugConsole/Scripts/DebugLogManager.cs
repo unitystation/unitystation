@@ -48,12 +48,6 @@ namespace IngameDebugConsole
 		[SerializeField]
 		private float minimumHeight = 200f;
 
-		/// <summary>
-		/// Should command input field be cleared after pressing Enter
-		/// </summary>
-		[SerializeField]
-		private bool startInPopupMode = true;
-
 		[SerializeField]
 		private bool clearCommandAfterExecution = true;
 
@@ -81,6 +75,8 @@ namespace IngameDebugConsole
 
 		private Dictionary<LogType, Sprite> logSpriteRepresentations;
 
+		//Default value warning
+#pragma warning disable CS0649
 		[SerializeField]
 		private Color collapseButtonNormalColor;
 		[SerializeField]
@@ -90,6 +86,7 @@ namespace IngameDebugConsole
 		private Color filterButtonsNormalColor;
 		[SerializeField]
 		private Color filterButtonsSelectedColor;
+#pragma warning restore CS0649
 
 		[Header("Internal References")]
 		[SerializeField]

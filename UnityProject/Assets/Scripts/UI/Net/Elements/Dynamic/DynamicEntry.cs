@@ -3,9 +3,13 @@
 /// <summary>
 /// Dynamic list entry
 /// </summary>
-public class DynamicEntry : NetUIElement {
-	public NetUIElement[] Elements => GetComponentsInChildren<NetUIElement>(false);
+public class DynamicEntry : NetUIElement<string> {
+	public NetUIElementBase[] Elements => GetComponentsInChildren<NetUIElementBase>(false);
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
+
+	public override void ExecuteServer(ConnectedPlayer subject)
+	{
+	}
 
 	public override string Value {
 		get {
@@ -22,6 +26,4 @@ public class DynamicEntry : NetUIElement {
 		get { return transform.localPosition; }
 		set { transform.localPosition = value; }
 	}
-
-	public override void ExecuteServer() {}
 }

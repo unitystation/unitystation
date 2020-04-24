@@ -23,16 +23,16 @@ public class VendorItemEntry : DynamicEntry
 	{
 		vendorItem = item;
 		vendorWindow = correspondingWindow;
-		itemName.SetValue = vendorItem.Item.name;
-		itemIcon.SetValue = vendorItem.Item.name;
-		itemCount.SetValue = $"({vendorItem.Stock.ToString()})";
+		itemName.SetValueServer(vendorItem.Item.name);
+		itemIcon.SetValueServer(vendorItem.Item.name);
+		itemCount.SetValueServer($"({vendorItem.Stock.ToString()})");
 		if (vendorItem.Stock <= 0)
 		{
-			itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(emptyStockColor);
+			itemBackground.SetValueServer(ColorUtility.ToHtmlStringRGB(emptyStockColor));
 		}
 		else
 		{
-			itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(regularColor);
+			itemBackground.SetValueServer(ColorUtility.ToHtmlStringRGB(regularColor));
 		}
 	}
 

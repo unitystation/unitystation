@@ -224,6 +224,13 @@ public class IntrinsicElectronicData
 		return conns;
 	}
 
+	public string  ShowInGameDetails()
+	{
+		ElectricityFunctions.WorkOutActualNumbers(this);
+		return ("Component : " + Categorytype +  "\nVoltage > " + Data.ActualVoltage.ToEngineering("V") + " Current > " + Data.CurrentInWire.ToEngineering("A"));
+	}
+
+
 	public virtual void ShowDetails()
 	{
 		ElectricityFunctions.WorkOutActualNumbers(this);
@@ -231,6 +238,7 @@ public class IntrinsicElectronicData
 		//Logger.Log("ID " + (this.GetInstanceID()), Category.Electrical);
 		Logger.Log("Type " + (Categorytype.ToString()), Category.Electrical);
 		Logger.Log("Can connect to " + (string.Join(",", CanConnectTo)), Category.Electrical);
+		Logger.Log("WireEndA > " + WireEndA + " WireEndB > " + WireEndB, Category.Electrical);
 		foreach (var Supply in Data.SupplyDependent)
 		{
 			string ToLog;
@@ -272,7 +280,7 @@ public class IntrinsicElectronicData
 	private void InternalDestroyThisPlease()
 	{
 		DestroyQueueing = true;
-		ElectricalSynchronisation.NUElectricalObjectsToDestroy.Add(this);
+		ElectricalManager.Instance.electricalSync.NUElectricalObjectsToDestroy.Add(this);
 	}
 
 
@@ -297,8 +305,9 @@ public class IntrinsicElectronicData
 			FindPossibleConnections();
 			FlushConnectionAndUp();
 			MetaDataPresent.IsOn.ElectricalData.Remove(MetaDataPresent);
-			ElectricalSynchronisation.StructureChange = true;
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			MetaDataPresent.Locatedon.RemoveUnderFloorTile(MetaDataPresent.NodeLocation, MetaDataPresent.RelatedTile);
+
 		}
 	}
 

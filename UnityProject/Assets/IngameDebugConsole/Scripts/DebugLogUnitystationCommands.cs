@@ -38,6 +38,13 @@ namespace IngameDebugConsole
 			Logger.Log($"{ServerData.UserID}");
 		}
 
+		[ConsoleMethod("copyid", "Copies your uuid to your clipboard.")]
+		public static void CopyUserID()
+		{
+			TextUtils.CopyTextToClipboard($"{ServerData.UserID}");
+			Logger.Log($"UUID Copied to clipboard.");
+		}
+
 		[ConsoleMethod("damage-self", "Server only cmd.\nUsage:\ndamage-self <bodyPart> <brute amount> <burn amount>\nExample: damage-self LeftArm 40 20.Insert")]
 		public static void RunDamageSelf(string bodyPartString, int burnDamage, int bruteDamage)
 		{

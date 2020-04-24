@@ -23,7 +23,7 @@ public class GameData : MonoBehaviour
 	         " allows skipping login. Host player will also be given admin privs." +
 	         "Not supported in release builds.")]
 	[SerializeField]
-	private bool offlineMode;
+	private bool offlineMode = false;
 
 	/// <summary>
 	/// Whether --offlinemode command line argument is passed. Enforces offline mode.

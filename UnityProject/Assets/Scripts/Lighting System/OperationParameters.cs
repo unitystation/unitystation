@@ -57,11 +57,30 @@ public struct OperationParameters : IEquatable<OperationParameters>
 
 	public bool Equals(OperationParameters iOperation)
 	{
-		return this.cameraOrthographicSize == iOperation.cameraOrthographicSize &&
-		       this.screenSize == iOperation.screenSize &&
-		       this.occlusionPPRTParameter == iOperation.occlusionPPRTParameter &&
-		       this.fovPPRTParameter == iOperation.fovPPRTParameter &&
-		       this.lightPPRTParameter == iOperation.lightPPRTParameter &&
-		       this.obstacleLightPPRTParameter == iOperation.obstacleLightPPRTParameter;
+		return cameraOrthographicSize.Equals(iOperation.cameraOrthographicSize) &&
+		       screenSize.Equals(iOperation.screenSize) &&
+		       occlusionPPRTParameter.Equals(iOperation.occlusionPPRTParameter) &&
+		       fovPPRTParameter.Equals(iOperation.fovPPRTParameter) &&
+		       lightPPRTParameter.Equals(iOperation.lightPPRTParameter) &&
+		       obstacleLightPPRTParameter.Equals(iOperation.obstacleLightPPRTParameter);
+	}
+
+	public override bool Equals(object obj)
+	{
+		return obj is OperationParameters other && Equals(other);
+	}
+
+	public override int GetHashCode()
+	{
+		unchecked
+		{
+			var hashCode = cameraOrthographicSize.GetHashCode();
+			hashCode = (hashCode * 397) ^ screenSize.GetHashCode();
+			hashCode = (hashCode * 397) ^ occlusionPPRTParameter.GetHashCode();
+			hashCode = (hashCode * 397) ^ fovPPRTParameter.GetHashCode();
+			hashCode = (hashCode * 397) ^ lightPPRTParameter.GetHashCode();
+			hashCode = (hashCode * 397) ^ obstacleLightPPRTParameter.GetHashCode();
+			return hashCode;
+		}
 	}
 }

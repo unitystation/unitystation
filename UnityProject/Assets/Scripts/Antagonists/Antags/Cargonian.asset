@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: Cargonian
   m_EditorClassIdentifier: 
   antagName: Rebel
-  NumberOfObjectives: 2
+  numberOfObjectives: 2
   canUseSharedObjectives: 0
   needsEscapeObjective: 0
   coreObjectives:
   - {fileID: 11400000, guid: b9c3d945f4d15ac439a8b8bfa9b90cd7, type: 2}
   - {fileID: 11400000, guid: d36bfb794a534d0408e0f60a2f31cf8f, type: 2}
+  antagOccupation: {fileID: 0}
+  showInPreferences: 0

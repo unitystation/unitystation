@@ -66,19 +66,19 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 			resistance.Ohms = 9999991;
 		}
 		ControllingNode.Node.InData.ConnectionReaction[ReactionTo.ConnectingDevice] = ReactionTo;
-		ElectricalSynchronisation.PoweredDevices.Add(ControllingNode);
+		ElectricalManager.Instance.electricalSync.PoweredDevices.Add(ControllingNode);
 		ComingFromDevice.SetDeadEnd();
 		Node.AddModule(this);
 	}
 
 	public override void OnDespawnServer(DespawnInfo info)
 	{
-		ElectricalSynchronisation.PoweredDevices.Remove(ControllingNode);
+		ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ControllingNode);
 	}
 
 	public override void PotentialDestroyed()
 	{
-		ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);
+		ElectricalManager.Instance.electricalSync.ResistanceChange.Add(ControllingNode);
 	}
 
 	public override void InitialPowerUpdateResistance()
@@ -96,7 +96,7 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 				ControllingNode.Node.InData.ResistanceInput(Wrap, Supplie.Key, ComingFromDevice);
 			}
 
-			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
+			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
 		}
 	}
 
@@ -117,7 +117,7 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 			//		Connections.Value
 			//);
 			//}
-			ElectricalSynchronisation.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
+			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supplie.Key.InData.ControllingDevice);
 		}
 	}
 
@@ -135,7 +135,7 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 			}
 			resistance.Ohms = Resistance;
 			dirtyResistance = false;
-			ElectricalSynchronisation.ResistanceChange.Add(ControllingNode);
+			ElectricalManager.Instance.electricalSync.ResistanceChange.Add(ControllingNode);
 			//foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Supplie in ControllingNode.Node.Data.ResistanceToConnectedDevices)
 			//{
 			//	if (Supplie.Value.Contains(PowerTypeCategory.StandardCable)) //wtf is here?

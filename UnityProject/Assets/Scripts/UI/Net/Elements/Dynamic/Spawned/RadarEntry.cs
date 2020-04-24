@@ -38,7 +38,7 @@ public class RadarEntry : DynamicEntry {
 	/// </summary>
 	public void ReInit() {
 		for ( var i = 0; i < Elements.Length; i++ ) {
-			var element = Elements[i];
+			var element = (NetUIElement<string>)Elements[i];
 			string nameBeforeIndex = element.name.Split( DELIMITER )[0];
 			switch ( nameBeforeIndex ) {
 				//can be expanded in the future

@@ -203,6 +203,7 @@ public static class ElectricityFunctions
 	}
 
 
+	// TODO Add documentation, clean up, remove commented out code, etc.
 	public static float WorkOutAtResistance(ElectronicSupplyData ResistanceSources, IntrinsicElectronicData Indata)
 	{
 		float Resistanc = 0;
@@ -221,7 +222,6 @@ public static class ElectricityFunctions
 
 			//ResistanceSour.ExceptWith(ResistanceSourtoreove);
 
-			float Resistancxall = 0;
 			float Toadd = 0;
 			float ToRemove = 0;
 
@@ -278,6 +278,7 @@ public static class ElectricityFunctions
 		return (Total);
 	}
 
+	// TODO Add documentation, clean up, remove commented out code, fix spelling, etc.
 	public static float WorkOutResistance(ElectronicSupplyData ResistanceSources, IntrinsicElectronicData Indata)
 	{
 		//Worked out per source
@@ -295,7 +296,6 @@ public static class ElectricityFunctions
 
 			////ResistanceSour.ExceptWith(ResistanceSourtoreove);
 
-			float Resistancxall = 0;
 			//float Toadd = 0;
 			//float ToRemove = 0;
 
@@ -535,4 +535,34 @@ public static class ElectricityFunctions
 
 		return (Voltage);
 	}
+
+	public static ElectricalCableTile RetrieveElectricalTile(Connection WireEndA, Connection WireEndB, PowerTypeCategory powerTypeCategory)
+	{
+		ElectricalCableTile Tile = null;
+		string Compound;
+		if (WireEndA < WireEndB)
+		{
+			Compound = WireEndA + "_" + WireEndB;
+		}
+		else {
+			Compound = WireEndB + "_" + WireEndA;
+		}
+		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
+
+		switch (powerTypeCategory)
+		{
+			case PowerTypeCategory.StandardCable:
+				Tile = ElectricalManager.Instance.MediumVoltageCables.Tiles[spriteIndex];
+				break;
+			case PowerTypeCategory.LowVoltageCable:
+				Tile = ElectricalManager.Instance.LowVoltageCables.Tiles[spriteIndex];
+				break;
+			case PowerTypeCategory.HighVoltageCable:
+				Tile = ElectricalManager.Instance.HighVoltageCables.Tiles[spriteIndex];
+				break;
+		}
+
+		return (Tile);
+	}
+
 }

@@ -164,7 +164,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				UIManager.Instance.playerListUIControl.window.SetActive(true);
 			}
 
-			PlayerManager.SetPlayerForControl(gameObject);
+			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
 
 			if (IsGhost)
 			{
@@ -365,7 +365,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public string AdminInfoString()
 	{
-		var text = "";
 		if (PlayerList.Instance.IsAntag(gameObject))
 		{
 			return $"<color=yellow>Name: {characterSettings.Name}\r\n" +

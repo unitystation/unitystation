@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Light2D;
 using UnityEngine;
-using UnityEngine.Events;
 using Mirror;
 using UnityEngine.Serialization;
 
@@ -85,6 +84,13 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Tooltip("Does it require fuel in order to fly?")]
 	public bool RequiresFuel;
 
+	private List<RcsThruster> bowRcsThrusters = new List<RcsThruster>(); //front
+	private List<RcsThruster> sternRcsThrusters = new List<RcsThruster>(); //back
+	private List<RcsThruster> portRcsThrusters = new List<RcsThruster>(); //left
+	private List<RcsThruster> starBoardRcsThrusters = new List<RcsThruster>(); //right
+
+	[SyncVar] [HideInInspector]
+	public bool rcsModeActive;
 
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
 	private bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead
@@ -125,6 +131,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private readonly int rotTime = 90;
 	[HideInInspector]
 	private GUI_CoordReadout coordReadoutScript;
+
+	private GUI_ShuttleControl shuttleControlGUI;
 	private int moveCur = -1;
 	private int moveLimit = -1;
 
@@ -262,6 +270,10 @@ public class MatrixMove : ManagedNetworkBehaviour
 		this.shuttleFuelSystem = shuttleFuel;
 	}
 
+	public void RegisterShuttleGuiScript(GUI_ShuttleControl shuttleGui)
+	{
+		shuttleControlGUI = shuttleGui;
+	}
 	public void RegisterCoordReadoutScript(GUI_CoordReadout coordReadout)
 	{
 		this.coordReadoutScript = coordReadout;
@@ -295,8 +307,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{
 			CheckMovementServer();
 		}
-
-		
 	}
 
 	public override void UpdateMe()
@@ -325,9 +335,13 @@ public class MatrixMove : ManagedNetworkBehaviour
 			}
 		}
 
-		if (isClient && coordReadoutScript != null)
+		if (isClient)
 		{
-			coordReadoutScript.SetCoords(clientState.Position);
+			if(coordReadoutScript != null) coordReadoutScript.SetCoords(clientState.Position);
+			if (shuttleControlGUI != null && rcsModeActive != shuttleControlGUI.RcsMode)
+			{
+				shuttleControlGUI.ClientToggleRcs(rcsModeActive);
+			}
 		}
 	}
 
@@ -341,6 +355,17 @@ public class MatrixMove : ManagedNetworkBehaviour
 		else
 		{
 			StartMovement();
+		}
+	}
+
+	[Server]
+	public void ToggleRcs(bool on)
+	{
+		rcsModeActive = on;
+		if (on)
+		{
+			//Refresh Rcs
+			CacheRcs();
 		}
 	}
 
@@ -380,7 +405,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		//To stop autopilot
 		DisableAutopilotTarget();
 		TryNotifyPlayers();
-		
+
 	}
 
 	/// Move for n tiles, regardless of direction, and stop
@@ -923,6 +948,63 @@ public class MatrixMove : ManagedNetworkBehaviour
 		}
 
 		yield return null;
+	}
+
+	//Searches the matrix for RcsThrusters
+	public void CacheRcs()
+	{
+		ClearRcsCache();
+		foreach(Transform t in matrixInfo.Objects)
+		{
+			if (t.tag.Equals("Rcs"))
+			{
+				CacheRcs(t.GetComponent<DirectionalRotatesParent>().MappedOrientation,
+					t.GetComponent<RcsThruster>());
+			}
+		}
+	}
+
+	void CacheRcs(OrientationEnum mappedOrientation, RcsThruster thruster)
+	{
+		if (InitialFacing == Orientation.Up)
+		{
+			if(mappedOrientation == OrientationEnum.Up) bowRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Down) sternRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Right) portRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Left) starBoardRcsThrusters.Add(thruster);
+		}
+
+		if (InitialFacing == Orientation.Right)
+		{
+			if(mappedOrientation == OrientationEnum.Up) portRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Down) starBoardRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Right) sternRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Left) bowRcsThrusters.Add(thruster);
+		}
+
+		if (InitialFacing == Orientation.Down)
+		{
+			if(mappedOrientation == OrientationEnum.Up) sternRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Down) bowRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Right) starBoardRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Left) portRcsThrusters.Add(thruster);
+		}
+
+		if (InitialFacing == Orientation.Left)
+		{
+			if(mappedOrientation == OrientationEnum.Up) starBoardRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Down) portRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Right) bowRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Left) sternRcsThrusters.Add(thruster);
+		}
+	}
+
+	void ClearRcsCache()
+	{
+		bowRcsThrusters.Clear();
+		sternRcsThrusters.Clear();
+		portRcsThrusters.Clear();
+		starBoardRcsThrusters.Clear();
 	}
 
 #if UNITY_EDITOR

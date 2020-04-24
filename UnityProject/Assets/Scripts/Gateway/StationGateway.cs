@@ -10,17 +10,17 @@ using System.Linq;
 public class StationGateway : NetworkBehaviour
 {
 	[SerializeField]
-	private SpriteRenderer[] Sprites;
+	private SpriteRenderer[] Sprites = null;
 	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
 
 	private int animationOffset = 0;
 
 	[SerializeField]
-	private Sprite[] Online;
+	private Sprite[] Online = null;
 	[SerializeField]
-	private Sprite[] Offline;
+	private Sprite[] Offline = null;
 	[SerializeField]
-	private Sprite[] PowerOff;//TODO connect gateway to APC
+	private Sprite[] PowerOff = null;//TODO connect gateway to APC
 
 	[SerializeField]
 	private List<GameObject> Worlds = new List<GameObject>();//List of worlds available to be chosen
@@ -169,7 +169,7 @@ public class StationGateway : NetworkBehaviour
 
 		if (!SpawnedMobs && playersFound.Count() > 0)
 		{
-			Logger.Log("spawned mobs");
+			Logger.Log("Gateway Spawned Mobs");
 			if (SelectedWorld.GetComponent<MobSpawnControlScript>() != null)
 			{
 				SelectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();

@@ -30,9 +30,9 @@ public class PlantData
 	public List<Reagent> ReagentProduction = new List<Reagent>();
 	public List<DefaultPlantData> MutatesInTo = new List<DefaultPlantData>();
 
-	public int Age { get; set; }
-	public int NextGrowthStageProgress { get; set; }
-	public float Health { get; set; }
+	public int Age;
+	public int NextGrowthStageProgress;
+	public float Health;
 
 	//Use static methods to create new instances of PlantData
 	private PlantData() { }

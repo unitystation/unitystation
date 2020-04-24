@@ -31,12 +31,12 @@ public class GUI_SecurityRecordsItem : DynamicEntry
 		}
 		securityRecord = record;
 		securityRecordsTab = recordsTab;
-		recordNameText.SetValue = record.EntryName;
-		recordIdText.SetValue = record.ID;
-		recordRankText.SetValue = record.Rank;
-		recordFingerprintsText.SetValue = record.Fingerprints;
-		recordStatusText.SetValue = record.Status.ToString();
-		recordBgColor.SetValue = GetStatusColor(record.Status);
+		recordNameText.SetValueServer(record.EntryName);
+		recordIdText.SetValueServer(record.ID);
+		recordRankText.SetValueServer(record.Rank);
+		recordFingerprintsText.SetValueServer(record.Fingerprints);
+		recordStatusText.SetValueServer(record.Status.ToString());
+		recordBgColor.SetValueServer(GetStatusColor(record.Status));
 	}
 
 	private string GetStatusColor(SecurityStatus status)

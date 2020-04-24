@@ -23,12 +23,12 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 	[Tooltip("Color settings to apply when it's on")]
 	[SerializeField]
 	[Header("On Colors")]
-	private ColorBlock onColors;
+	private ColorBlock onColors = ColorBlock.defaultColorBlock;
 
 	[Tooltip("Color settings to use when it's off")]
 	[SerializeField]
 	[Header("Off Colors")]
-	private ColorBlock offColors;
+	private ColorBlock offColors = ColorBlock.defaultColorBlock;
 
 	//parent ID console tab this lives in
 	private GUI_IDConsole console;
@@ -105,7 +105,7 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 		{
 			if (toggle.isOn)
 			{
-				netToggle.SetValue = "0";
+				netToggle.SetValueServer("0");
 			}
 			return;
 		}
@@ -115,11 +115,11 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 			var hasOccupation = TargetCard.Occupation == occupation;
 			if (hasOccupation && !toggle.isOn)
 			{
-				netToggle.SetValue = "1";
+				netToggle.SetValueServer("1");
 			}
 			else if (!hasOccupation && toggle.isOn)
 			{
-				netToggle.SetValue = "0";
+				netToggle.SetValueServer("0");
 			}
 		}
 		else
@@ -127,11 +127,11 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 			var hasAccess = TargetCard.HasAccess(access);
 			if (hasAccess && !toggle.isOn)
 			{
-				netToggle.SetValue = "1";
+				netToggle.SetValueServer("1");
 			}
 			else if (!hasAccess && toggle.isOn)
 			{
-				netToggle.SetValue = "0";
+				netToggle.SetValueServer("0");
 			}
 		}
 	}

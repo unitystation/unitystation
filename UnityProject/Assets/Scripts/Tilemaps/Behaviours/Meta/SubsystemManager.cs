@@ -10,11 +10,8 @@ public class SubsystemManager : NetworkBehaviour
 
 	private void Start()
 	{
-		if (isServer)
-		{
-			systems = systems.OrderByDescending(s => s.Priority).ToList();
-			Initialize();
-		}
+		systems = systems.OrderByDescending(s => s.Priority).ToList();
+		Initialize();
 	}
 
 	private void Initialize()

@@ -14,6 +14,7 @@ You will need these to start your journey:
 
 - [Unity Hub](https://unity3d.com/get-unity/download) Manages your Unity installations. It will install the proper Unity version for you, so you don't really need to worry about that. (but if you really want to know, it is **2019.3.8f1** at the time of writing this guide 04/07/20).
 - A [GitHub account](https://github.com/).
+- An SSD drive is *highly* recommended to store project files on – this will greatly affect first import time.
 
 
 
