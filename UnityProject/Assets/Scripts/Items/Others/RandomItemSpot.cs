@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 namespace Items
 {
-	public class RandomItemSpot : MonoBehaviour
+	public class RandomItemSpot : NetworkBehaviour
 	{
 		[Tooltip("Amout of items we could get from this pool")] [SerializeField]
 		private int lootCount = 1;
@@ -14,34 +15,42 @@ namespace Items
 		[Tooltip("List of possible pools of items to choose from")][SerializeField]
 		private List<PoolData> poolList;
 
-		private void Awake()
+		private const int MaxAmountRolls = 5;
+
+		public override void OnStartServer()
 		{
-			EventManager.AddHandler(EVENT.RoundStarted, RollRandomPool);
+			RollRandomPool();
 		}
 
 		private void RollRandomPool()
 		{
-			foreach (var pool in poolList)
+			PoolData pool = null;
+			while (pool == null)
 			{
-				if (pool == null)
+				int rollAttempt = 0;
+
+				var tryPool = poolList.PickRandom();
+				if (DMMath.Prob(tryPool.Probability))
 				{
-					continue;
+					pool = tryPool;
+				}
+				else
+				{
+					rollAttempt ++;
 				}
 
-				if (!DMMath.Prob(pool.Probability))
+				if (rollAttempt >= MaxAmountRolls)
 				{
-					continue;
+					Destroy(gameObject);
+					break;
 				}
-
-				SpawnItems(pool);
-				break;
 			}
+
+			SpawnItems(pool);
 		}
 
 		private void SpawnItems(PoolData poolData)
 		{
-
-
 			for (int i = 0; i < lootCount; i++)
 			{
 				var item = poolData.RandomItemPool.Pool.PickRandom();
@@ -61,7 +70,7 @@ namespace Items
 					scatterRadius: spread);
 			}
 
-			Despawn.ServerSingle(gameObject);
+			Destroy(gameObject);
 		}
 	}
 
