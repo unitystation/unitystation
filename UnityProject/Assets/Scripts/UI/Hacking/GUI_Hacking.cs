@@ -47,6 +47,11 @@ public class GUI_Hacking : NetTab
 	private List<GUI_HackingWire> hackingWires = new List<GUI_HackingWire>();
 	public List<GUI_HackingWire> HackingWires => hackingWires;
 
+	/// <summary>
+	/// List of hacking device UI objects.
+	/// </summary>
+	private List<GUI_HackingDevice> hackingDevices = new List<GUI_HackingDevice>();
+	public List<GUI_HackingDevice> HackingDevices => hackingDevices;
 
 	[SerializeField]
 	private RectTransform inputsLayout;
@@ -64,8 +69,21 @@ public class GUI_Hacking : NetTab
 	private GameObject connectingWireUIPrefab;
 
 	[SerializeField]
+	private GameObject hackingDeviceUIPrefab;
+
+	[SerializeField]
+	private RectTransform hackingDeviceLayout;
+
+	[SerializeField]
 	[Tooltip("This is the cell size of the hacking nodes when displayed by the UI. The cell size isn't calculated dynamically, but the spacing betweem them is.")]
 	private Vector2 nodeCellSize;
+
+	[SerializeField]
+	[Tooltip("This is the cell size of any hacking devices being added.")]
+	private Vector2 deviceCellSize;
+
+	[SerializeField]
+	private Vector2 deviceNodeCellSize;
 
 	private bool isAddingWire = false;
 	public bool IsAddingWire => isAddingWire;
@@ -151,6 +169,7 @@ public class GUI_Hacking : NetTab
 		}
 		GenerateInputNodeUI();
 		GenerateOutputNodeUI();
+		GenerateDeviceNodeUI();
 
 		HorizontalLayoutGroup inputLayout = inputsLayout.GetComponentInChildren<HorizontalLayoutGroup>();
 		inputLayout.CalculateLayoutInputHorizontal();
@@ -166,6 +185,7 @@ public class GUI_Hacking : NetTab
 
 		GenerateNodeConnections();
 	}
+
 	/// <summary>
 	/// Gets the UI component of a node inside the system. Every node should have a UI component, so this shouldn't ever return null. If it does, uh oh.
 	/// </summary>
@@ -188,6 +208,8 @@ public class GUI_Hacking : NetTab
 
 		foreach (HackingNode node in inputNodes)
 		{
+			if (node.IsDeviceNode) continue;
+
 			GameObject nodeUIObject = Instantiate(inputHackingNodeUIPrefab, inputsLayout.transform);
 			RectTransform nodeRect = nodeUIObject.transform as RectTransform;
 			nodeRect.sizeDelta = nodeCellSize;
@@ -213,6 +235,8 @@ public class GUI_Hacking : NetTab
 
 		foreach (HackingNode node in outputNodes)
 		{
+			if (node.IsDeviceNode) continue;
+
 			GameObject nodeUIObject = Instantiate(outputHackingNodeUIPrefab, outputsLayout.transform);
 			RectTransform nodeRect = nodeUIObject.transform as RectTransform;
 			nodeRect.sizeDelta = nodeCellSize;
@@ -222,6 +246,59 @@ public class GUI_Hacking : NetTab
 
 			outputNodeUIObjects.Add(nodeGUI);
 			nodeUIObjects.Add(nodeGUI);
+		}
+	}
+
+	private void GenerateDeviceNodeUI()
+	{
+		Debug.Log("Device NodeUI called.");
+		foreach (HackingDevice device in hackProcess.Devices)
+		{
+
+			Debug.Log("Generating device node ui.");
+			GameObject devicePanel = Instantiate(hackingDeviceUIPrefab, hackingDeviceLayout);
+			RectTransform deviceRect = devicePanel.transform as RectTransform;
+			deviceRect.sizeDelta = deviceCellSize;
+
+			GUI_HackingDevice GUIDevice = devicePanel.GetComponent<GUI_HackingDevice>();
+			GUIDevice.SetHackingDevice(device);
+
+			//Since we're repositioning UI elements based on this things position, we need to ensure they have the correct position.
+			HorizontalLayoutGroup deviceLayout = hackingDeviceLayout.GetComponent<HorizontalLayoutGroup>();
+			deviceLayout.CalculateLayoutInputHorizontal();
+			deviceLayout.CalculateLayoutInputVertical();
+			deviceLayout.SetLayoutHorizontal();
+			deviceLayout.SetLayoutVertical();
+
+			/////////////////////////Adding Input Node For Device/////////////////////////
+			GameObject inputNodeUIObject = Instantiate(inputHackingNodeUIPrefab, hackingDeviceLayout.parent);
+			RectTransform inNodeRect = inputNodeUIObject.transform as RectTransform;
+			inNodeRect.sizeDelta = deviceNodeCellSize;
+			inputNodeUIObject.transform.position = (Vector2)devicePanel.transform.position - new Vector2(0, deviceCellSize.y/2);
+
+			GUI_HackingNode inputNodeGUI = inputNodeUIObject.GetComponent<GUI_HackingNode>();
+			inputNodeGUI.SetHackingNode(device.InputNode);
+
+			inputNodeUIObjects.Add(inputNodeGUI);
+			nodeUIObjects.Add(inputNodeGUI);
+			/////////////////////////////////////////////////////////////////////////////
+
+
+			/////////////////////////Adding Output Node For Device/////////////////////////
+			GameObject outputNodeUIObject = Instantiate(outputHackingNodeUIPrefab, hackingDeviceLayout.parent);
+			RectTransform outNodeRect = outputNodeUIObject.transform as RectTransform;
+			outNodeRect.sizeDelta = deviceNodeCellSize;
+			outputNodeUIObject.transform.position = (Vector2)devicePanel.transform.position + new Vector2(0, deviceCellSize.y/2);
+
+			GUI_HackingNode outputNodeGUI = outputNodeUIObject.GetComponent<GUI_HackingNode>();
+			outputNodeGUI.SetHackingNode(device.OutputNode);
+
+			outputNodeUIObjects.Add(outputNodeGUI);
+			nodeUIObjects.Add(outputNodeGUI);
+			/////////////////////////////////////////////////////////////////////////////
+
+			hackingDevices.Add(GUIDevice);
+
 		}
 	}
 
@@ -281,6 +358,22 @@ public class GUI_Hacking : NetTab
 		Destroy(wireUI.gameObject);
 	}
 
+	public void RegenerateDevices()
+	{
+		foreach (GUI_HackingDevice device in hackingDevices)
+		{
+			Destroy(device.gameObject);
+		}
+		hackingDevices = new List<GUI_HackingDevice>();
+		GenerateDeviceNodeUI();
+	}
+
+	public void RemoveDevice(GUI_HackingDevice deviceUI)
+	{
+		hackProcess.RemoveHackingDevice(deviceUI.Device);
+		RegenerateDevices();
+		RegenerateWiring();
+	}
 	/// <summary>
 	/// This is called when the client changes something about the connection list. Don't trust this output! Only using it to predict UI changes.
 	/// </summary>
@@ -304,7 +397,7 @@ public class GUI_Hacking : NetTab
 		{
 			Debug.Log("Connection list mismatch, reloading on client.");
 			connectionList = serverConnections;
-			UpdateNodeConnectionsFromConnectionList();
+			//UpdateNodeConnectionsFromConnectionList();
 			RegenerateWiring();
 		}
 	}
@@ -377,5 +470,22 @@ public class GUI_Hacking : NetTab
 
 		isAddingWire = false;
 
+	}
+
+	public void AttemptAddDevice()
+	{
+		Debug.Log("Attempting to add device.");
+		Pickupable handItem = PlayerManager.LocalPlayerScript.Equipment.ItemStorage.GetActiveHandSlot().Item;
+		if (handItem != null)
+		{
+			Debug.Log("Item in hand, checking if valid hack device.");
+			HackingDevice hackDevice = handItem.GetComponent<HackingDevice>();
+			if (hackDevice != null)
+			{
+				Debug.Log("Valid Hacking Device, adding now.");
+				hackProcess.AddHackingDevice(hackDevice);
+				SetNodeList(hackProcess.GetHackNodes());
+			}
+		}
 	}
 }

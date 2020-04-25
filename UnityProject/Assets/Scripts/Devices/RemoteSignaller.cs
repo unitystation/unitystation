@@ -18,6 +18,7 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 	private Pickupable pickupable;
 	private RadioMessager radioMessager;
 	private RadioReceiver radioReceiver;
+	private HackingDevice hackDevice;
 
 	[SyncVar(hook = nameof(SyncIsOn))]
 	private bool isOn;
@@ -44,6 +45,7 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 		radioMessager = GetComponent<RadioMessager>();
 		radioReceiver = GetComponent<RadioReceiver>();
 
+		hackDevice = GetComponent<HackingDevice>();
 	}
 
 	public override void OnStartClient()
@@ -92,5 +94,7 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 		{
 			UpdateChatMessage.Send(pickupable.ItemSlot.Player.gameObject, ChatChannel.Examine, ChatModifier.None, "You feel your signaler vibrate.");
 		}
+
+		hackDevice.SendOutputSignal();
 	}
 }

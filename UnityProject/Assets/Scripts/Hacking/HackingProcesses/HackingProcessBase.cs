@@ -161,6 +161,11 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	{
 		devices.Remove(device);
 		GetHackNodes().Remove(device.InputNode);
+
+		//Ensure that nothing is connected to the device when it's removed.
+		GetHackNodes().ForEach(x => x.RemoveConnectedNode(device.InputNode));
+
+		device.OutputNode.RemoveAllConnectedNodes();
 		GetHackNodes().Remove(device.OutputNode);
 	}
 
