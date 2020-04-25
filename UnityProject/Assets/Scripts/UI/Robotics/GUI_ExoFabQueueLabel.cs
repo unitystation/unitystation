@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public class GUI_ExoFabQueueLabel : NetUIElement<string>
+public class GUI_ExoFabQueueLabel : NetUIStringElement
 {
 	public override string Value
 	{

@@ -6,7 +6,7 @@ using UnityEngine;
 using Mirror;
 using Debug = UnityEngine.Debug;
 
-public class APCPoweredDevice : NetworkBehaviour
+public class APCPoweredDevice : NetworkBehaviour, IServerDespawn
 {
 	public float MinimumWorkingVoltage = 190;
 	public float MaximumWorkingVoltage = 300;
@@ -91,11 +91,6 @@ public class APCPoweredDevice : NetworkBehaviour
 		UpdateSynchronisedState(State, State);
 	}
 
-	private void OnDestroy()
-	{
-		RemoveFromAPC();
-	}
-
 	public void PowerNetworkUpdate(float Voltage) //Could be optimised to not update when voltage is same as previous voltage
 	{
 		if (Powered == null) return;
@@ -157,6 +152,11 @@ public class APCPoweredDevice : NetworkBehaviour
 		Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
 		Gizmos.DrawLine(RelatedAPC.transform.position, gameObject.transform.position);
 		Gizmos.DrawSphere(RelatedAPC.transform.position, 0.15f);
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		RemoveFromAPC();
 	}
 }
 

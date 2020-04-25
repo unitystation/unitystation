@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// Toggle for bool-based methods
 [RequireComponent(typeof(Toggle))]
 [Serializable]
-public class NetToggle : NetUIElement<string>
+public class NetToggle : NetUIStringElement
 {
 	public override string Value {
 		get { return Element.isOn ? "1" : "0"; }

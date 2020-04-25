@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// Useful for virtual keypads.
 [RequireComponent(typeof( Button ))]
 [Serializable]
-public class NetKeyButton : NetUIElement<string>
+public class NetKeyButton : NetUIStringElement
 {
 	public override string Value => name.ToCharArray()[0].ToString();
 

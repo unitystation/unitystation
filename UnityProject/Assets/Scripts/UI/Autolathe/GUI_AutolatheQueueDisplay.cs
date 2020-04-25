@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_AutolatheQueueDisplay : NetUIElement<string>
+public class GUI_AutolatheQueueDisplay : NetUIStringElement
 {
 	private DictionaryMaterialToIntAmount MaterialAmountCache = null;
 

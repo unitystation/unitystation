@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// Intended for dynamic lists
 [RequireComponent(typeof( Button ))]
 [Serializable]
-public class NetDynamicButton : NetUIElement<string>
+public class NetDynamicButton : NetUIStringElement
 {
 	public override string Value {
 		get { return gameObject.transform.parent.gameObject.name; }

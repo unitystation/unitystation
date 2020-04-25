@@ -23,8 +23,6 @@ public class NetUIDynamicList : NetUIElement<string[]>
 
 	public GameObject EntryPrefab;
 
-
-
 	public override string[] Value
 	{
 		get => EntryIndex.Keys.ToArray();
@@ -155,11 +153,8 @@ public class NetUIDynamicList : NetUIElement<string[]>
 		for (var i = 0; i < proposedIndices.Length; i++)
 		{
 			var proposedIndex = proposedIndices[i];
-
 			var dynamicEntry = PoolSpawnEntry();
-
 			var resultIndex = InitDynamicEntry(dynamicEntry, proposedIndex);
-
 
 			if (resultIndex != string.Empty)
 			{
@@ -168,9 +163,9 @@ public class NetUIDynamicList : NetUIElement<string[]>
 			}
 			else
 			{
-				Logger.LogWarning(
-					$"Dynamic entry \"{proposedIndex}\" {mode} spawn failure, something is wrong with {dynamicEntry}",
-					Category.NetUI);
+				Logger.LogWarningFormat(
+					"Dynamic entry \"{0}\" {1} spawn failure, something is wrong with {2}", Category.NetUI,
+					proposedIndex, mode, dynamicEntry);
 			}
 
 			dynamicEntries[i] = dynamicEntry;
@@ -212,7 +207,8 @@ public class NetUIDynamicList : NetUIElement<string[]>
 	protected virtual void RefreshPositions()
 	{
 		//Adding new entries to the end by default
-		var entries = Entries.OrderBy(entry => entry.name).ToArray();
+		var entries = Entries;
+		Array.Sort(entries, (entry1, entry2) => String.Compare(entry1.name, entry2.name));
 		for (var i = 0; i < entries.Length; i++)
 		{
 			SetProperPosition(entries[i], i);
@@ -235,7 +231,14 @@ public class NetUIDynamicList : NetUIElement<string[]>
 	protected override void UpdatePeepersLogic()
 	{
 		var valuesToSend = new List<ElementValue> {ElementValue};
-		valuesToSend.AddRange(Entries.SelectMany(entry => entry.Elements, (entry, element) => element.ElementValue));
+		// Don't use LINQ, this is in the hot path
+		foreach (var entry in Entries)
+		{
+			foreach (var element in entry.Elements)
+			{
+				valuesToSend.Add(element.ElementValue);
+			}
+		}
 
 		TabUpdateMessage.SendToPeepers(MasterTab.Provider, MasterTab.Type, TabAction.Update, valuesToSend.ToArray());
 	}

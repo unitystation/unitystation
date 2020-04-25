@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// Slider, used to call methods with float as arg
 [RequireComponent(typeof(Slider))]
 [Serializable]
-public class NetSlider : NetUIElement<string>
+public class NetSlider : NetUIStringElement
 {
 	public override string Value
 	{

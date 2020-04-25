@@ -5,7 +5,7 @@ using UnityEngine;
 /**
  * NetUI component for Wheel, handles syncing the value.
  */
-public class NetWheel : NetUIElement<string>
+public class NetWheel : NetUIStringElement
 {
 	public Wheel Element;
 
