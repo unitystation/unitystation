@@ -3,6 +3,7 @@ using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 public class RemoveHackingConnection : ClientMessage
 {
@@ -12,16 +13,20 @@ public class RemoveHackingConnection : ClientMessage
 
 	public override void Process()
 	{
+		Debug.Log("Attempt to remove wire received from client.");
 		LoadMultipleObjects(new uint[] { Player, HackableObject });
-		int[] connectionToRemove = JsonUtility.FromJson<int[]>(JsonData);
+		int[] connectionToRemove = JsonConvert.DeserializeObject<int[]>(JsonData);
 
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
 		var hackObject = NetworkObjects[1];
 		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
 		if (hackingProcess.ServerPlayerCanRemoveConnection(playerScript, connectionToRemove))
 		{
+			Debug.Log("Attempt to remove wire valid, attempting to remove.");
+			Debug.Log(connectionToRemove);
+			Debug.Log("Output Index: " + connectionToRemove[0] + " Input Index: " + connectionToRemove[1]);
 			hackingProcess.RemoveNodeConnection(connectionToRemove);
-			HackingNodeConnectionList.Send(hackObject, hackingProcess.GetNodeConnectionList());
+			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
 		}
 	}
 
@@ -31,7 +36,7 @@ public class RemoveHackingConnection : ClientMessage
 		{
 			Player = player.GetComponent<NetworkIdentity>().netId,
 			HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
-			JsonData = JsonUtility.ToJson(connectionToRemove),
+			JsonData = JsonConvert.SerializeObject(connectionToRemove),
 		};
 		msg.Send();
 		return msg;

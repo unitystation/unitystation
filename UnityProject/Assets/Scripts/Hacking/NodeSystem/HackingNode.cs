@@ -29,6 +29,8 @@ public class HackingNode
 
 	public bool IsOutput { get; set; }
 
+	public bool IsDeviceNode { get; set; }
+
 	private List<HackingNode> connectedInputNodes = new List<HackingNode>();
 
 	public List<HackingNode> ConnectedInputNodes => connectedInputNodes;
@@ -46,6 +48,7 @@ public class HackingNode
 		InternalLabel = internalLabel;
 		IsInput = isInput;
 		IsOutput = isOutput;
+		IsDeviceNode = false;
 		NodeID = 0;
 	}
 
@@ -55,6 +58,7 @@ public class HackingNode
 		InternalLabel = "unset internal label";
 		IsInput = false;
 		IsOutput = false;
+		IsDeviceNode = false;
 		NodeID = 0;
 	}
 

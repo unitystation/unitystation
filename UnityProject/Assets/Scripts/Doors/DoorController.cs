@@ -170,6 +170,7 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 
 		hackNodes = GenerateHackNodes();
+		LinkHackNodes();
 	}
 
 	public override void OnStartClient()
@@ -578,6 +579,12 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 		shouldDoPressureWarning.AddConnectedNode(doPressureWarning);
 		shouldDoPressureWarning.IsOutput = true;
 
+		HackingNode onDoorOpened = GetNodeOfEnum(NodeNames.OnDoorOpened);
+		onDoorOpened.IsOutput = true;
+
+		HackingNode onDoorClosed = GetNodeOfEnum(NodeNames.OnDoorClosed);
+		onDoorClosed.IsOutput = true;
+
 	}
 
 	public List<HackingNode> GetHackingNodes()
@@ -595,4 +602,5 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 		hackNodes = GenerateHackNodes();
 		LinkHackNodes();
 	}
+
 }

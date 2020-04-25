@@ -3,6 +3,7 @@ using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using System.Collections.Generic;
+using Newtonsoft.Json;
 
 public class AddHackingConnection : ClientMessage
 {
@@ -12,16 +13,18 @@ public class AddHackingConnection : ClientMessage
 
 	public override void Process()
 	{
+		Debug.Log("Client attempting to add new wire.");
 		LoadMultipleObjects(new uint[] { Player, HackableObject });
-		int[] connectionToAdd = JsonUtility.FromJson<int[]>(JsonData);
+		int[] connectionToAdd = JsonConvert.DeserializeObject<int[]>(JsonData);
 
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
 		var hackObject = NetworkObjects[1];
 		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
 		if (hackingProcess.ServerPlayerCanAddConnection(playerScript, connectionToAdd))
 		{
+			Debug.Log("Client successfully added new wire.");
 			hackingProcess.AddNodeConnection(connectionToAdd);
-			HackingNodeConnectionList.Send(hackObject, hackingProcess.GetNodeConnectionList());
+			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
 		}
 	}
 
@@ -31,7 +34,7 @@ public class AddHackingConnection : ClientMessage
 		{
 			Player = player.GetComponent<NetworkIdentity>().netId,
 			HackableObject = hackObject.GetComponent<NetworkIdentity>().netId,
-			JsonData = JsonUtility.ToJson(connectionToAdd),
+			JsonData = JsonConvert.SerializeObject(connectionToAdd),
 		};
 		msg.Send();
 		return msg;

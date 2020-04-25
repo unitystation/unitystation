@@ -25,15 +25,15 @@ public class RequestHackingNodeConnections : ClientMessage
 			List<int[]> connectionList = hackProcess.GetNodeConnectionList();
 			if (connectionList != null)
 			{
-				SendDataToClient(connectionList, hackObject);
+				SendDataToClient(NetworkObjects[0], hackObject, connectionList);
 				return;
 			}
 		}
 	}
 
-	void SendDataToClient(List<int[]> connectionList, GameObject recipient)
+	void SendDataToClient(GameObject recipient, GameObject hackObject, List<int[]> connectionList)
 	{
-		HackingNodeConnectionList.Send(recipient, connectionList);
+		HackingNodeConnectionList.Send(recipient, hackObject, connectionList);
 	}
 
 	public static RequestHackingNodeConnections Send(GameObject player, GameObject hackObject)

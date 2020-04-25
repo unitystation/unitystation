@@ -36,6 +36,9 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	private int hackStage = 0;
 	public int HackStage => hackStage;
 
+	private List<HackingDevice> devices = new List<HackingDevice>();
+	public List<HackingDevice> Devices => devices;
+
 	public override void OnStartClient()
 	{
 		SyncWiresExposed(wiresExposed, wiresExposed);
@@ -99,20 +102,23 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 
 	public virtual void RemoveNodeConnection(int[] connection)
 	{
-		if (connection.Count() != 2) return;
+		Debug.Log("Attempting to remove connection.");
+		if (connection.Length != 2) return;
 
+		Debug.Log("Valid connection array, checking nodes.");
 		HackingNode outputNode = GetHackNodes()[connection[0]];
 		HackingNode inputNode = GetHackNodes()[connection[1]];
 
 		if (outputNode != null && inputNode != null && outputNode.IsOutput && inputNode.IsInput)
 		{
+			Debug.Log("Nodes connected, removing connection.");
 			outputNode.RemoveConnectedNode(inputNode);
 		}
 	}
 
 	public virtual void AddNodeConnection(int[] connection)
 	{
-		if (connection.Count() != 2) return;
+		if (connection.Length != 2) return;
 
 		HackingNode outputNode = GetHackNodes()[connection[0]];
 		HackingNode inputNode = GetHackNodes()[connection[1]];
@@ -130,17 +136,32 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		int outputIndex = 0;
 		foreach (HackingNode node in hackingNodes )
 		{
-			int inputIndex = 0;
 			List<HackingNode> connectedNodes = node.ConnectedInputNodes;
 			foreach (HackingNode connectedNode in connectedNodes)
 			{
+				int inputIndex = hackingNodes.IndexOf(connectedNode);
 				int[] connection = { outputIndex, inputIndex };
 				connectionList.Add(connection);
-				inputIndex++;
+
+				Debug.Log("Output Index: " + outputIndex + " Input Index : " + inputIndex);
 			}
 			outputIndex++;
 		}
 		return connectionList;
+	}
+
+	public virtual void AddHackingDevice(HackingDevice device)
+	{
+		devices.Add(device);
+		GetHackNodes().Add(device.InputNode);
+		GetHackNodes().Add(device.OutputNode);
+	}
+
+	public virtual void RemoveHackingDevice(HackingDevice device)
+	{
+		devices.Remove(device);
+		GetHackNodes().Remove(device.InputNode);
+		GetHackNodes().Remove(device.OutputNode);
 	}
 
 
@@ -177,7 +198,8 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	public abstract void OnDespawnServer(DespawnInfo info);
 
 	/// <summary>
-	/// Check to see if a player can actually remove a connection from between two nodes. The connection is a 2 valued array. connection[0] is the index of the output node, connection[1] is the index of the input node.
+	/// Check to see if a player can actually remove a connection from between two nodes. The validation of the nodes isn't done here by default, but they're included as a paramter if you wish to override this method.
+	/// The connection is a 2 valued array. connection[0] is the index of the output node, connection[1] is the index of the input node.
 	/// </summary>
 	/// <param name="ply"></param>
 	/// <param name="connection"></param>
@@ -194,7 +216,8 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 			return false;
 		}
 
-		if (!Validations.HasItemTrait(playerScript.Equipment.ItemStorage.GetActiveHandSlot().Item.gameObject, CommonTraits.Instance.Wirecutter))
+		Pickupable handItem = playerScript.Equipment.ItemStorage.GetActiveHandSlot().Item;
+		if (handItem != null && !Validations.HasItemTrait(handItem.gameObject, CommonTraits.Instance.Wirecutter))
 		{
 			return true;
 		}
@@ -202,6 +225,13 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		return true;
 	}
 
+	/// <summary>
+	/// Check to see if a player can add a connection to two nodes. The validation of the nodes isn't done here by default, but they're included as a paramter if you wish to override this method.
+	/// The connection is a 2 valued array. connection[0] is the index of the output node, connection[1] is the index of the input node.
+	/// </summary>
+	/// <param name="playerScript"></param>
+	/// <param name="connection"></param>
+	/// <returns></returns>
 	public virtual bool ServerPlayerCanAddConnection(PlayerScript playerScript, int[] connection)
 	{
 		if (!playerScript.IsInReach(gameObject, true))
@@ -214,7 +244,8 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 			return false;
 		}
 
-		if (!Validations.HasItemTrait(playerScript.Equipment.ItemStorage.GetActiveHandSlot().Item.gameObject, CommonTraits.Instance.Wirecutter))
+		Pickupable handItem = playerScript.Equipment.ItemStorage.GetActiveHandSlot().Item;
+		if (handItem != null && !Validations.HasItemTrait(handItem.gameObject, CommonTraits.Instance.Wirecutter))
 		{
 			return true;
 		}

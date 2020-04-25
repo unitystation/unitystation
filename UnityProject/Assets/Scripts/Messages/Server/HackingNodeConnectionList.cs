@@ -3,27 +3,50 @@ using System.Collections.Generic;
 using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
+using Newtonsoft.Json;
 
 
 public class HackingNodeConnectionList : ServerMessage
 {
 	public string JsonData;
-	public uint Recipient;//fixme: Recipient is redundant! Can be safely removed
+	public uint Recipient;
+	public uint HackingObject;
 
 	public override void Process()
 	{
-		LoadNetworkObject(Recipient);
-		List<int[]> data = JsonUtility.FromJson<List<int[]>>(JsonData);
+		Debug.Log("Received updated connection list, updating on client.");
+		LoadMultipleObjects(new uint[] { Recipient, HackingObject });
+		List<int[]> data = JsonConvert.DeserializeObject<List<int[]>>(JsonData);
 
-		NetworkObject.GetComponent<HackingProcessBase>().HackingGUI.UpdateConnectionList(data);
+		if (NetworkObjects[1].GetComponent<HackingProcessBase>().HackingGUI != null)
+		{
+			NetworkObjects[1].GetComponent<HackingProcessBase>().HackingGUI.UpdateConnectionList(data);
+		}
 	}
 
-	public static HackingNodeConnectionList Send(GameObject recipient, List<int[]> connectionList)
+	public static HackingNodeConnectionList Send(GameObject recipient, GameObject hackingObject, List<int[]> connectionList)
 	{
+		Debug.Log("Sending updated connection list to client.");
 		HackingNodeConnectionList msg =
-			new HackingNodeConnectionList { Recipient = recipient.GetComponent<NetworkIdentity>().netId, JsonData = JsonUtility.ToJson(connectionList) };
+			new HackingNodeConnectionList { Recipient = recipient.GetComponent<NetworkIdentity>().netId, HackingObject = hackingObject.GetComponent<NetworkIdentity>().netId, JsonData = JsonConvert.SerializeObject(connectionList) };
 
-		msg.SendTo(recipient);
+		msg.SendToNearbyPlayers(hackingObject.transform.position);
 		return msg;
+	}
+
+	public override void Deserialize(NetworkReader reader)
+	{
+		base.Deserialize(reader);
+		Recipient = reader.ReadUInt32();
+		HackingObject = reader.ReadUInt32();
+		JsonData = reader.ReadString();
+	}
+
+	public override void Serialize(NetworkWriter writer)
+	{
+		base.Serialize(writer);
+		writer.WriteUInt32(Recipient);
+		writer.WriteUInt32(HackingObject);
+		writer.WriteString(JsonData);
 	}
 }

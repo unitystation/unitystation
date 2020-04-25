@@ -89,6 +89,20 @@ public class GUI_Hacking : NetTab
 
 			SetNodeList(hackProcess.GetHackNodes());
 			connectionList = hackProcess.GetNodeConnectionList();
+
+			if (!IsServer)
+			{
+				RequestHackingNodeConnections.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject);
+			}
+		}
+	}
+
+	public override void OnEnable()
+	{
+		base.OnEnable();
+		if (!IsServer && hackProcess != null)
+		{
+			RequestHackingNodeConnections.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject);
 		}
 	}
 
@@ -257,7 +271,10 @@ public class GUI_Hacking : NetTab
 			int outIndex = hackNodes.IndexOf(outputNode);
 			int inIndex = hackNodes.IndexOf(inputNode);
 			int[] connectionToRemove = { outIndex, inIndex };
+			Debug.Log(connectionToRemove);
+			Debug.Log("Output Index: " + outIndex + " Input Index : " + inIndex);
 			RemoveHackingConnection.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, connectionToRemove);
+			Debug.Log("Client attempting to remove wire.");
 		}
 
 		hackingWires.Remove(wireUI);
@@ -270,6 +287,8 @@ public class GUI_Hacking : NetTab
 	private void ClientRecalculateConnectionList()
 	{
 		connectionList = GetNodeConnectionList();
+		Debug.Log("Printing client connection lits:");
+		Debug.Log(connectionList);
 	}
 
 	/// <summary>
@@ -279,9 +298,11 @@ public class GUI_Hacking : NetTab
 	/// <param name="serverConnections"></param>
 	public void UpdateConnectionList(List<int[]> serverConnections)
 	{
+		Debug.Log("Received new list from server, checking if list is the same.");
 		bool sameList = Enumerable.SequenceEqual(connectionList, serverConnections);
 		if (!sameList)
 		{
+			Debug.Log("Connection list mismatch, reloading on client.");
 			connectionList = serverConnections;
 			UpdateNodeConnectionsFromConnectionList();
 			RegenerateWiring();
@@ -314,13 +335,14 @@ public class GUI_Hacking : NetTab
 		int outputIndex = 0;
 		foreach (HackingNode node in hackingNodes)
 		{
-			int inputIndex = 0;
 			List<HackingNode> connectedNodes = node.ConnectedInputNodes;
 			foreach (HackingNode connectedNode in connectedNodes)
 			{
+				int inputIndex = hackingNodes.IndexOf(connectedNode);
 				int[] connection = { outputIndex, inputIndex };
 				connectionList.Add(connection);
-				inputIndex++;
+				Debug.Log(connection);
+				Debug.Log("Output Index: " + outputIndex + " Input Index : " + inputIndex);
 			}
 			outputIndex++;
 		}
@@ -347,6 +369,8 @@ public class GUI_Hacking : NetTab
 			int inIndex = hackNodes.IndexOf(newWireInput.HackNode);
 			int[] connectionToAdd = { outIndex, inIndex };
 			AddHackingConnection.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, connectionToAdd);
+
+			Debug.Log("Client attempting to add wire.");
 		}
 
 		RegenerateWiring();
