@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Clothing;
 using NPC.AI;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -394,7 +395,13 @@ namespace NPC
 			var result = Spawn.ServerPrefab(maskObject);
 			var mask = result.GameObject;
 
+			if (IsDead || IsUnconscious)
+			{
+				mask.GetComponent<FacehuggerImpregnation>().KillHugger();
+			}
+
 			Inventory.ServerAdd(mask, handSlot, ReplacementStrategy.DropOther);
+
 			Despawn.ServerSingle(gameObject);
 		}
 
