@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// Sends client's InputField value to server method
 [RequireComponent(typeof( Button ))]
 [Serializable]
-public class NetSubmitButton : NetUIElement<string>
+public class NetSubmitButton : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ClientWrite;
 

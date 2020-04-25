@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class NetRadiusCircle : NetUIElement<string>
+public class NetRadiusCircle : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	public override string Value {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExoFabQueueDisplay : NetUIElement<string>
+public class GUI_ExoFabQueueDisplay : NetUIStringElement
 {
 	private DictionaryMaterialToIntAmount MaterialAmountCache = null;
 
