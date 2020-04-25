@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -125,6 +126,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -206,6 +208,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -286,6 +289,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -333,7 +337,7 @@ GameObject:
   - component: {fileID: 5350244418063553576}
   - component: {fileID: 5436548932472527014}
   - component: {fileID: 5436608837719691304}
-  - component: {fileID: 5440299092347855878}
+  - component: {fileID: 6933404841500283154}
   - component: {fileID: 5436201255972717216}
   - component: {fileID: 5440180223325874976}
   - component: {fileID: 5440308518630496892}
@@ -447,7 +451,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   butcherTime: 2
   butcherSound: BladeSlice
---- !u!114 &5440299092347855878
+--- !u!114 &6933404841500283154
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -456,7 +460,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5396676033813189828}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b5cc73c31b95f9e4c888601cdf661a56, type: 3}
+  m_Script: {fileID: 11500000, guid: e0ef83521ec7a394c963581b127a60ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
@@ -684,7 +688,7 @@ MonoBehaviour:
     Bio: 100
   Resistances:
     LavaProof: 0
-    FireProof: 0
+    FireProof: 1
     Flammable: 0
     UnAcidable: 0
     AcidProof: 0
@@ -704,6 +708,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
