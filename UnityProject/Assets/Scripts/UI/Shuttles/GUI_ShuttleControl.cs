@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mirror;
 using NPC;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,6 @@ using UnityEngine.UI;
 /// Server only stuff
 public class GUI_ShuttleControl : NetTab
 {
-
 	private RadarList entryList;
 	private RadarList EntryList
 	{
@@ -41,7 +41,6 @@ public class GUI_ShuttleControl : NetTab
 	[SerializeField] private Sprite rcsLightOn;
 	[SerializeField] private Sprite rcsLightOff;
 	[SerializeField] private ToggleButton rcsToggleButton;
-	private ConnectedPlayer playerControllingRcs;
 
 	public GUI_CoordReadout CoordReadout;
 
@@ -152,16 +151,17 @@ public class GUI_ShuttleControl : NetTab
 	public void ServerToggleRcs(bool on, ConnectedPlayer subject)
 	{
 		RcsMode = on;
-		MatrixMove.ToggleRcs(on);
 		SetRcsLight(on);
+
+		var consoleId = Trigger.GetComponent<NetworkIdentity>().netId;
 
 		if (on)
 		{
-			playerControllingRcs = subject;
+			MatrixMove.ToggleRcs(on, subject, consoleId);
 		}
 		else
 		{
-			playerControllingRcs = null;
+			MatrixMove.ToggleRcs(false, null, consoleId);
 		}
 	}
 
@@ -279,9 +279,9 @@ public class GUI_ShuttleControl : NetTab
 		yield return WaitFor.Seconds(1f);
 
 		//validate Player using Rcs
-		if (playerControllingRcs != null)
+		if (MatrixMove.playerControllingRcs != null)
 		{
-			bool validate = playerControllingRcs.Script && Validations.CanApply(playerControllingRcs.Script, Provider, NetworkSide.Server);
+			bool validate = MatrixMove.playerControllingRcs.Script && Validations.CanApply(MatrixMove.playerControllingRcs.Script, Provider, NetworkSide.Server);
 			if (!validate)
 			{
 				ServerToggleRcs(false, null);

@@ -11,7 +11,7 @@ using UnityEngine.Serialization;
 /// Behavior which allows an entire matrix to move and rotate (and be synced over the network).
 /// This behavior must go on a gameobject that is the parent of the gameobject that has the actual Matrix component.
 /// </summary>
-public class MatrixMove : ManagedNetworkBehaviour
+public class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 {
 
 	/// <summary>
@@ -88,6 +88,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	private List<RcsThruster> sternRcsThrusters = new List<RcsThruster>(); //back
 	private List<RcsThruster> portRcsThrusters = new List<RcsThruster>(); //left
 	private List<RcsThruster> starBoardRcsThrusters = new List<RcsThruster>(); //right
+	public ConnectedPlayer playerControllingRcs { get; private set; }
 
 	[SyncVar] [HideInInspector]
 	public bool rcsModeActive;
@@ -359,13 +360,25 @@ public class MatrixMove : ManagedNetworkBehaviour
 	}
 
 	[Server]
-	public void ToggleRcs(bool on)
+	public void ToggleRcs(bool on, ConnectedPlayer subject, uint consoleId)
 	{
 		rcsModeActive = on;
 		if (on)
 		{
-			//Refresh Rcs
-			CacheRcs();
+			if (subject != null)
+			{
+				ToggleRcsPlayerControl.UpdateClient(subject, consoleId, true);
+				CacheRcs();
+				playerControllingRcs = subject;
+			}
+		}
+		else
+		{
+			if (playerControllingRcs != null)
+			{
+				ToggleRcsPlayerControl.UpdateClient(subject, consoleId, false);
+				playerControllingRcs = null;
+			}
 		}
 	}
 
@@ -501,8 +514,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// </summary>
 	private void AnimateMovement()
 	{
-
-
 		if (Equals(clientState, MatrixState.Invalid))
 		{
 			return;
@@ -1005,6 +1016,24 @@ public class MatrixMove : ManagedNetworkBehaviour
 		sternRcsThrusters.Clear();
 		portRcsThrusters.Clear();
 		starBoardRcsThrusters.Clear();
+	}
+
+	//For Rcs Movement
+	public void ReceivePlayerMoveAction(PlayerAction moveActions)
+	{
+		if (moveActions.Direction() != Vector2Int.zero)
+		{
+			RcsMovementMessage.Send(moveActions.Direction(), netId);
+		}
+	}
+
+	[Server]
+	public void ProcessRcsMoveRequest(ConnectedPlayer sentBy, Vector2Int dir)
+	{
+		if (sentBy == playerControllingRcs)
+		{
+
+		}
 	}
 
 #if UNITY_EDITOR
