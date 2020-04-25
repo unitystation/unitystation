@@ -87,15 +87,6 @@ public abstract class NetUIElement<T> : NetUIElementBase
 	}
 
 	/// <summary>
-	/// Server-only method for updating element (i.e. changing label text) from server GUI code
-	/// </summary>
-	public override void SetValueServer(object value)
-	{
-		Value = (T) value;
-		UpdatePeepers();
-	}
-
-	/// <summary>
 	/// Always point to this method in OnValueChanged
 	/// <a href="https://camo.githubusercontent.com/e3bbac26b36a01c9df8fbb6a6858bb4a82ba3036/68747470733a2f2f63646e2e646973636f72646170702e636f6d2f6174746163686d656e74732f3339333738373838303431353239373534332f3435333632313031363433343833353435362f7467745f636c69656e742e676966">See GIF</a>
 	/// </summary>
@@ -165,11 +156,6 @@ public abstract class NetUIElementBase : MonoBehaviour
 	public virtual void Init() {}
 
 	public abstract byte[] BinaryValue { get; set; }
-
-	/// <summary>
-	/// Server-only method for updating element (i.e. changing label text) from server GUI code
-	/// </summary>
-	public abstract void SetValueServer(object value);
 
 	/// <summary>
 	/// Always point to this method in OnValueChanged

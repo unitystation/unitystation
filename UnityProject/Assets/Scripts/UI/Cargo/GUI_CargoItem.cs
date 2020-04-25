@@ -54,16 +54,16 @@ public class GUI_CargoItem : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "SupplyName":
-					element.SetValueServer(order.OrderName);
+					((NetUIElement<string>)element).SetValueServer(order.OrderName);
 					break;
 				case "Price":
-					element.SetValueServer(order.CreditsCost.ToString() + " credits");
+					((NetUIElement<string>)element).SetValueServer(order.CreditsCost + " credits");
 					break;
 				case "CartName":
-					element.SetValueServer(order.OrderName + "\n" + order.CreditsCost.ToString() + " credits");
+					((NetUIElement<string>)element).SetValueServer(order.OrderName + "\n" + order.CreditsCost + " credits");
 					break;
 				case "Cancel":
-					element.SetValueServer("CANCEL");
+					((NetUIElement<string>)element).SetValueServer("CANCEL");
 					break;
 			}
 		}
@@ -79,10 +79,10 @@ public class GUI_CargoItem : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "SupplyName":
-					element.SetValueServer(category.CategoryName);
+					((NetUIElement<string>)element).SetValueServer(category.CategoryName);
 					break;
 				case "Price":
-					element.SetValueServer("ENTER");
+					((NetUIElement<string>)element).SetValueServer("ENTER");
 					break;
 			}
 		}
