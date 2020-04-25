@@ -46,6 +46,25 @@ MonoBehaviour:
   TraitRequired: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
   TransformTo: {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d,
     type: 3}
+--- !u!114 &8670566117553005211
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2265521501557685915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 669232669da8f03448704f901bcfc787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  doesDamage: 1
+  doesDamageChance: 0.5
+  amountOfDamage: 10
+  attackType: 0
+  damageType: 0
+  protectionItemTraits:
+  - {fileID: 11400000, guid: 30a421d219292474595f4c1e34917e51, type: 2}
 --- !u!1001 &2266199196745466401
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101,11 +120,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: doesDamage
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114738972662350094, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 40b0aa452345ccc4c9ecae14031d3063,
+        type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -211,12 +241,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: eca72cf10c773424ab1605cf913b19a1,
         type: 2}
-    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 40b0aa452345ccc4c9ecae14031d3063,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &2265521501557685915 stripped

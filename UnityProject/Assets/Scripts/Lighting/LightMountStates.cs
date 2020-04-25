@@ -89,7 +89,29 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	{
 		if (isInCoolDown) return;
 		StartCoroutine(CoolDown());
+
 		if (interaction.HandObject == null)
+		{
+			if (state == LightMountState.On && state != LightMountState.MissingBulb && state != LightMountState.Broken && !Validations.HasItemTrait(interaction.PerformerPlayerScript.Equipment.GetClothingItem(NamedSlot.hands).GameObjectReference, CommonTraits.Instance.BlackGloves))
+			{
+				if (interaction.HandSlot.NamedSlot == NamedSlot.leftHand)
+				{
+					interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, 10f, AttackType.Energy, DamageType.Burn, BodyPartType.LeftArm);
+					Chat.AddExamineMsgFromServer(interaction.Performer, "<color=red>You burn your left hand while attempting to remove the light</color>");
+				}
+				else
+				{
+					interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, 10f, AttackType.Energy, DamageType.Burn, BodyPartType.RightArm);
+					Chat.AddExamineMsgFromServer(interaction.Performer, "<color=red>You burn your right hand while attempting to remove the light</color>");
+				}
+				return;
+			}
+
+			Spawn.ServerPrefab(state == LightMountState.Broken ? appliableBrokenItem : appliableItem,
+				interaction.Performer.WorldPosServer());
+			ServerChangeLightState(LightMountState.MissingBulb);
+		}
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.LightReplacer) && state != LightMountState.MissingBulb)
 		{
 			Spawn.ServerPrefab(state == LightMountState.Broken ? appliableBrokenItem : appliableItem,
 				interaction.Performer.WorldPosServer());
@@ -238,6 +260,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	{
 		state = newState;
 	}
+
 	private IEnumerator CoolDown()
 	{
 		isInCoolDown = true;
