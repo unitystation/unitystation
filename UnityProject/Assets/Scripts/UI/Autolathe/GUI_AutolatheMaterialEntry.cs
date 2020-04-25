@@ -50,11 +50,11 @@ public class GUI_AutolatheMaterialEntry : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "MaterialName":
-					element.SetValueServer(materialRecord.materialName + ":");
+					((NetUIElement<string>)element).SetValueServer(materialRecord.materialName + ":");
 					break;
 
 				case "MaterialAmount":
-					element.SetValueServer(materialRecord.CurrentAmount.ToString() + " cm3");
+					((NetUIElement<string>)element).SetValueServer(materialRecord.CurrentAmount + " cm3");
 					amountLabel = element as NetLabel;
 					break;
 

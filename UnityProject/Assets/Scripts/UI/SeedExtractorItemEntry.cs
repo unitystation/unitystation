@@ -32,7 +32,7 @@ public class SeedExtractorItemEntry : DynamicEntry
 		                   $"{seedPacket.plantData.Lifespan.ToString().PadLeft(3)} " +
 		                   $"{seedPacket.plantData.WeedResistance.ToString().PadLeft(3)} " +
 		                   $"{seedPacket.plantData.WeedGrowthRate.ToString().PadLeft(3)}");
-		itemBackground.SetValueServer(ColorUtility.ToHtmlStringRGB(regularColor));
+		itemBackground.SetValueServer(regularColor);
 	}
 
 	public void Dispense()
