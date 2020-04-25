@@ -21,12 +21,14 @@ namespace NPC
 		private GameObject alienEgg = null;
 
 		private static int currentHuggerAmt;
+		private static bool resetHandlerAdded = false;
 
 		public static int CurrentHuggerAmt
 		{
 			get => currentHuggerAmt;
 			set => currentHuggerAmt = value;
 		}
+
 
 		private bool CapReached()
 		{
@@ -65,8 +67,26 @@ namespace NPC
 			Spawn.ServerPrefab(alienEgg, gameObject.transform.position);
 		}
 
+		private static void ResetHuggerAmount()
+		{
+			currentHuggerAmt = 0;
+		}
+
+		private static void AddResetHandler()
+		{
+			if (resetHandlerAdded)
+			{
+				return;
+			}
+
+			EventManager.AddHandler(EVENT.RoundStarted, ResetHuggerAmount);
+			resetHandlerAdded = true;
+		}
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			AddResetHandler();
+
 			if (fertility != 0)
 			{
 				FertilityLoop();
