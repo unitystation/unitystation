@@ -376,7 +376,7 @@ public class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 		{
 			if (playerControllingRcs != null)
 			{
-				ToggleRcsPlayerControl.UpdateClient(subject, consoleId, false);
+				ToggleRcsPlayerControl.UpdateClient(playerControllingRcs, consoleId, false);
 				playerControllingRcs = null;
 			}
 		}
@@ -1032,7 +1032,9 @@ public class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 	{
 		if (sentBy == playerControllingRcs)
 		{
-
+			serverState.Position += dir.To3Int();
+			serverState.Inform = true;
+			NotifyPlayers();
 		}
 	}
 
