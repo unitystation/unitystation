@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using WebSocketSharp;
 
 namespace NPC
 {
@@ -16,7 +17,7 @@ namespace NPC
 		protected override void Awake()
 		{
 			base.Awake();
-			mobNameCap = char.ToUpper(mobName[0]) + mobName.Substring(1);
+			mobNameCap = mobName.IsNullOrEmpty() ? mobName : char.ToUpper(mobName[0]) + mobName.Substring(1);
 			BeginExploring();
 		}
 
