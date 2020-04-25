@@ -1,5 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using WebSocketSharp;
+using Random = UnityEngine.Random;
 
 namespace NPC
 {
@@ -14,7 +17,7 @@ namespace NPC
 		protected override void Awake()
 		{
 			base.Awake();
-			mobNameCap = char.ToUpper(mobName[0]) + mobName.Substring(1);
+			mobNameCap = mobName.IsNullOrEmpty() ? mobName : char.ToUpper(mobName[0]) + mobName.Substring(1);
 			BeginExploring();
 		}
 
@@ -34,6 +37,11 @@ namespace NPC
 		private IEnumerator Grow()
 		{
 			yield return WaitFor.Seconds(timeToGrow);
+			if (IsDead || IsUnconscious)
+			{
+				yield break;
+			}
+
 			Spawn.ServerPrefab(xenomorph, gameObject.transform.position);
 			Despawn.ServerSingle(gameObject);
 		}
