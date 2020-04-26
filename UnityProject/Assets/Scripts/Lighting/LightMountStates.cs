@@ -92,7 +92,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 		if (interaction.HandObject == null)
 		{
-			if (state == LightMountState.On && state != LightMountState.MissingBulb && state != LightMountState.Broken && !Validations.HasItemTrait(interaction.PerformerPlayerScript.Equipment.GetClothingItem(NamedSlot.hands).GameObjectReference, CommonTraits.Instance.BlackGloves))
+			if (state == LightMountState.On && !Validations.HasItemTrait(interaction.PerformerPlayerScript.Equipment.GetClothingItem(NamedSlot.hands).GameObjectReference, CommonTraits.Instance.BlackGloves))
 			{
 				if (interaction.HandSlot.NamedSlot == NamedSlot.leftHand)
 				{

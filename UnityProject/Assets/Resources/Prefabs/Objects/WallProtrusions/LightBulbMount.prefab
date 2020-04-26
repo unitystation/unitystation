@@ -99,8 +99,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  InitialState: 1
   mLightRendererObject: {fileID: 0}
-  customColor: {r: 0, g: 0, b: 0, a: 0}
+  lightStateColorOn: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0.8}
+  lightStateColorEmergency: {r: 0.7264151, g: 0, b: 0, a: 0.8}
   isWithoutSwitch: 0
   relatedLightSwitch: {fileID: 0}
 --- !u!114 &114469489843686000
