@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -10,10 +11,11 @@ public class EmergencyLightAnimator : NetworkBehaviour
 	public float animateTime = 0.4f;
 	private float timeElapsedSprite = 0;
 	private int currentSprite = 0;
-	public float rotateSpeed = 30f;
+	public float rotateSpeed = 40f;
 
 	private SpriteRenderer spriteRenderer;
 	private LightSource lightSource;
+
 
 	void Awake()
 	{
@@ -31,14 +33,19 @@ public class EmergencyLightAnimator : NetworkBehaviour
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
+
+	protected virtual void UpdateMe()
+	{
+		AnimateLight();
+	}
+
 	private void AnimateLight()
 	{
 		lightSource.mLightRendererObject.transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime, Space.World);
 	}
-	protected virtual void UpdateMe()
+	private void AnimateSprite()
 	{
-		AnimateLight();
-		/*timeElapsedSprite += Time.deltaTime;
+		timeElapsedSprite += Time.deltaTime;
 		if (timeElapsedSprite >= animateTime)
 		{
 			spriteRenderer.sprite = sprites[currentSprite];
@@ -50,7 +57,8 @@ public class EmergencyLightAnimator : NetworkBehaviour
 			{
 				currentSprite++;
 			}
+
 			timeElapsedSprite = 0;
-		}*/
+		}
 	}
 }

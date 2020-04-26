@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 8801529538964132052}
   - component: {fileID: 7430843453514057946}
   - component: {fileID: 3235767790128179610}
+  - component: {fileID: -8775636696312819921}
   m_Layer: 13
   m_Name: LightTubeMount
   m_TagString: Untagged
@@ -379,6 +380,23 @@ MonoBehaviour:
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
   State: 2
+--- !u!114 &-8775636696312819921
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745947215034166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ee25e15c851c447bd342aa75f7ca2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  sprites: []
+  animateTime: 0.4
+  rotateSpeed: 30
 --- !u!1 &4425836223823806458
 GameObject:
   m_ObjectHideFlags: 0

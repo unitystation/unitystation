@@ -36,16 +36,8 @@ public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 	private LightState mState;
 	private LightMountStates wallMount;
 	private LightSprite lightSprite;
+	private EmergencyLightAnimator emergencyLightAnimator;
 	public LightSwitchV2 relatedLightSwitch;
-
-	void Start()
-	{
-		if (!Application.isPlaying)
-		{
-			return;
-		}
-		lightSprite.Color = lightStateColorOn;
-	}
 
 	private void Awake()
 	{
@@ -56,8 +48,10 @@ public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 
 		EnsureLightsInit();
 		wallMount = GetComponent<LightMountStates>();
+		emergencyLightAnimator = GetComponent<EmergencyLightAnimator>();
 		SwitchState = true;
 		mState = InitialState;
+		lightSprite.Color = lightStateColorOn;
 	}
 
 	private void EnsureLightsInit()
@@ -103,13 +97,15 @@ public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 				Trigger(true);
 				return;
 			case PowerStates.LowVoltage:
-				Trigger(false);
+				ServerChangeLightState(LightState.Emergency);
+				wallMount.SwitchChangeState(false);
 				return;
 			case PowerStates.OverVoltage:
 				Trigger(true);
 				return;
 			case PowerStates.Off:
-				SyncLightState(mState, LightState.Emergency);
+				ServerChangeLightState(LightState.Emergency);
+				wallMount.SwitchChangeState(false);
 				return;
 		}
 	}
@@ -129,8 +125,8 @@ public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 
 	public override void OnStartClient()
 	{
-		SyncLightState(mState, mState);
 		base.OnStartClient();
+		SyncLightState(mState, mState);
 	}
 
 	[Server]
@@ -152,15 +148,31 @@ public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 			switch (newState)
 			{
 				case LightState.On:
+					if (emergencyLightAnimator != null)
+					{
+						emergencyLightAnimator.StopAnimation();
+					}
 					lightSprite.Color = lightStateColorOn;
+					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(true);
 					break;
 				case LightState.Emergency:
 					lightSprite.Color = lightStateColorEmergency;
+					mLightRendererObject.transform.localScale = Vector3.one * 3.0f;
+					SwitchState = false;
 					mLightRendererObject.SetActive(true);
+					if (emergencyLightAnimator != null)
+					{
+						emergencyLightAnimator.StartAnimation();
+					}
 					break;
 				case LightState.Off:
+					if (emergencyLightAnimator != null)
+					{
+						emergencyLightAnimator.StopAnimation();
+					}
 					lightSprite.Color = lightStateColorOn;
+					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 					mLightRendererObject.SetActive(false);
 					break;
 			}
