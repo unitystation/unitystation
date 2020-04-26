@@ -13,7 +13,6 @@ using UnityEngine.Serialization;
 /// </summary>
 public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 {
-	public bool debug = false;
 	/// <summary>
 	/// Set this to make sure collisions are correct for the MatrixMove
 	/// For example, shuttles collide with floors but players don't
@@ -28,6 +27,9 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 	[Tooltip("Initial facing of the ship. Very important to set this correctly!")]
 	[SerializeField]
 	private OrientationEnum initialFacing;
+
+	[Tooltip("Does it require fuel in order to fly?")]
+	public bool RequiresFuel;
 	/// <summary>
 	/// Initial facing of the ship as mapped in the editor.
 	/// </summary>
@@ -71,18 +73,6 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 	/// </summary>
 	[NonSerialized]
 	public bool IsFueled;
-
-	[Tooltip("Does it require fuel in order to fly?")]
-	public bool RequiresFuel;
-
-	private List<RcsThruster> bowRcsThrusters = new List<RcsThruster>(); //front
-	private List<RcsThruster> sternRcsThrusters = new List<RcsThruster>(); //back
-	private List<RcsThruster> portRcsThrusters = new List<RcsThruster>(); //left
-	private List<RcsThruster> starBoardRcsThrusters = new List<RcsThruster>(); //right
-	public ConnectedPlayer playerControllingRcs { get; private set; }
-
-	[SyncVar] [HideInInspector]
-	public bool rcsModeActive;
 
 	private bool IsAutopilotEngaged => Target != TransformState.HiddenPos;
 
@@ -181,80 +171,6 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 		}
 	}
 
-	/// <summary>
-	/// Performs the rotation / movement animation on all clients and server. Called every UpdateMe()
-	/// </summary>
-	private void AnimateMovement()
-	{
-		if (Equals(clientState, MatrixState.Invalid))
-		{
-			return;
-		}
-
-		if (NeedsRotationClient)
-		{
-			//rotate our transform to our new facing direction
-			if (clientState.RotationTime != 0)
-			{
-				//animate rotation
-				transform.rotation =
-					Quaternion.RotateTowards(transform.rotation,
-						 InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion,
-						Time.deltaTime * clientState.RotationTime);
-			}
-			else
-			{
-				//rotate instantly
-				transform.rotation = InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion;
-			}
-		}
-		else if (IsMovingClient)
-		{
-			//Only move target if rotation is finished
-			//predict client state because we don't get constant updates when flying in one direction.
-			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.Vector;
-		}
-
-		//finish rotation (rotation event will be fired in lateupdate
-		if (!NeedsRotationClient && inProgressRotation != null)
-		{
-			// Finishes the job of Lerp and straightens the ship with exact angle value
-			transform.rotation = InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion;
-		}
-
-		//Lerp
-		if (clientState.Position != transform.position)
-		{
-			float distance = Vector3.Distance(clientState.Position, transform.position);
-
-			//Teleport (Greater then 30 unity meters away from server target):
-			if (distance > 30f)
-			{
-				matrixPositionFilter.FilterPosition(transform, clientState.Position, clientState.FlyingDirection);
-				return;
-			}
-
-			transform.position = clientState.Position;
-
-			//If stopped then lerp to target (snap to grid)
-			if (!clientState.IsMoving )
-			{
-				if ( clientState.Position == transform.position )
-				{
-					MatrixMoveEvents.OnFullStopClient.Invoke();
-				}
-				if ( distance > 0f )
-				{
-					//TODO: Why is this needed? Seems weird.
-					matrixPositionFilter.SetPosition(transform.position);
-					return;
-				}
-			}
-
-			matrixPositionFilter.FilterPosition(transform, transform.position, clientState.FlyingDirection);
-		}
-	}
-
 	private bool CanMoveTo(Orientation direction)
 	{
 		Vector3 dir = direction.Vector;
@@ -310,63 +226,6 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 		}
 
 		return true;
-	}
-
-	//Searches the matrix for RcsThrusters
-	public void CacheRcs()
-	{
-		ClearRcsCache();
-		foreach(Transform t in matrixInfo.Objects)
-		{
-			if (t.tag.Equals("Rcs"))
-			{
-				CacheRcs(t.GetComponent<DirectionalRotatesParent>().MappedOrientation,
-					t.GetComponent<RcsThruster>());
-			}
-		}
-	}
-
-	void CacheRcs(OrientationEnum mappedOrientation, RcsThruster thruster)
-	{
-		if (InitialFacing == Orientation.Up)
-		{
-			if(mappedOrientation == OrientationEnum.Up) bowRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) sternRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) portRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) starBoardRcsThrusters.Add(thruster);
-		}
-
-		if (InitialFacing == Orientation.Right)
-		{
-			if(mappedOrientation == OrientationEnum.Up) portRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) starBoardRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) sternRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) bowRcsThrusters.Add(thruster);
-		}
-
-		if (InitialFacing == Orientation.Down)
-		{
-			if(mappedOrientation == OrientationEnum.Up) sternRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) bowRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) starBoardRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) portRcsThrusters.Add(thruster);
-		}
-
-		if (InitialFacing == Orientation.Left)
-		{
-			if(mappedOrientation == OrientationEnum.Up) starBoardRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) portRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) bowRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) sternRcsThrusters.Add(thruster);
-		}
-	}
-
-	void ClearRcsCache()
-	{
-		bowRcsThrusters.Clear();
-		sternRcsThrusters.Clear();
-		portRcsThrusters.Clear();
-		starBoardRcsThrusters.Clear();
 	}
 
 #if UNITY_EDITOR

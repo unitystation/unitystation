@@ -316,7 +316,7 @@ public partial class MatrixMove
 		//ServerState lerping to its target tile
 
 		Vector3? actualNewPosition = null;
-		if (!ServerPositionsMatch)
+		if (!ServerPositionsMatch || rcsBurn)
 		{
 			//some special logic needs to fire when we exactly reach our target tile,
 			//but we want movement to continue as far as it should based on deltaTime
@@ -326,7 +326,7 @@ public partial class MatrixMove
 			//when reaching an exact tile position and result in server movement jerkiness and inconsistent client predicted movement.
 
 			//actual position we should reach this update, regardless of if we passed through the target position
-			actualNewPosition = serverState.Position +
+			actualNewPosition = serverState.Position + rcsValue +
 			                    serverState.FlyingDirection.Vector * (serverState.Speed * Time.deltaTime);
 			//update position without passing the target position
 			serverState.Position =
@@ -349,7 +349,8 @@ public partial class MatrixMove
 
 		if (CanMoveFor() && (!SafetyProtocolsOn || CanMoveTo(serverTargetState.FlyingDirection)))
 		{
-			var goal = Vector3Int.RoundToInt(serverState.Position + serverTargetState.FlyingDirection.Vector);
+			var goal = Vector3Int.RoundToInt(serverState.Position + rcsValue + serverTargetState.FlyingDirection.Vector);
+
 			//keep moving
 			serverTargetState.Position = goal;
 			if (IsAutopilotEngaged && ((int) serverState.Position.x == (int) Target.x
@@ -576,18 +577,5 @@ public partial class MatrixMove
 		}
 
 		yield return null;
-	}
-
-	[Server]
-	public void ProcessRcsMoveRequest(ConnectedPlayer sentBy, Vector2Int dir)
-	{
-		if (sentBy == playerControllingRcs)
-		{
-			serverState.Position += dir.To3Int();
-			serverTargetState.Position += dir.To3Int();
-			serverState.Inform = true;
-			serverTargetState.Inform = true;
-			NotifyPlayers();
-		}
 	}
 }

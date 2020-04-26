@@ -83,12 +83,77 @@ public partial class MatrixMove
 		}
 	}
 
-	//For Rcs Movement
-	public void ReceivePlayerMoveAction(PlayerAction moveActions)
+	/// <summary>
+	/// Performs the rotation / movement animation on all clients and server. Called every UpdateMe()
+	/// </summary>
+	private void AnimateMovement()
 	{
-		if (moveActions.Direction() != Vector2Int.zero)
+		if (Equals(clientState, MatrixState.Invalid))
 		{
-			RcsMovementMessage.Send(moveActions.Direction(), netId);
+			return;
+		}
+
+		if (NeedsRotationClient)
+		{
+			//rotate our transform to our new facing direction
+			if (clientState.RotationTime != 0)
+			{
+				//animate rotation
+				transform.rotation =
+					Quaternion.RotateTowards(transform.rotation,
+						 InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion,
+						Time.deltaTime * clientState.RotationTime);
+			}
+			else
+			{
+				//rotate instantly
+				transform.rotation = InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion;
+			}
+		}
+		else if (IsMovingClient)
+		{
+			//Only move target if rotation is finished
+			//predict client state because we don't get constant updates when flying in one direction.
+			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.Vector;
+		}
+
+		//finish rotation (rotation event will be fired in lateupdate
+		if (!NeedsRotationClient && inProgressRotation != null)
+		{
+			// Finishes the job of Lerp and straightens the ship with exact angle value
+			transform.rotation = InitialFacing.OffsetTo(clientState.FacingDirection).Quaternion;
+		}
+
+		//Lerp
+		if (clientState.Position != transform.position)
+		{
+			float distance = Vector3.Distance(clientState.Position, transform.position);
+
+			//Teleport (Greater then 30 unity meters away from server target):
+			if (distance > 30f)
+			{
+				matrixPositionFilter.FilterPosition(transform, clientState.Position, clientState.FlyingDirection);
+				return;
+			}
+
+			transform.position = clientState.Position;
+
+			//If stopped then lerp to target (snap to grid)
+			if (!clientState.IsMoving )
+			{
+				if ( clientState.Position == transform.position )
+				{
+					MatrixMoveEvents.OnFullStopClient.Invoke();
+				}
+				if ( distance > 0f )
+				{
+					//TODO: Why is this needed? Seems weird.
+					matrixPositionFilter.SetPosition(transform.position);
+					return;
+				}
+			}
+
+			matrixPositionFilter.FilterPosition(transform, transform.position, clientState.FlyingDirection);
 		}
 	}
 }
