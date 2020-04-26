@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace NPC
 {
-	public class XenoQueenAI: GenericHostileAI, IServerSpawn
+	public class XenoQueenAI: GenericHostileAI
 	{
 		[Tooltip("Max amount of active facehuggers that can be in the server at once")][SerializeField]
 		private int huggerCap = 0;
@@ -83,14 +83,17 @@ namespace NPC
 			resetHandlerAdded = true;
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		protected override void OnSpawnMob()
 		{
+			base.OnSpawnMob();
 			AddResetHandler();
 
 			if (fertility != 0)
 			{
 				FertilityLoop();
 			}
+
+			BeginSearch();
 		}
 	}
 }

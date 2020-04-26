@@ -6,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace NPC
 {
-	public class LarvaeAI : GenericFriendlyAI, IServerSpawn
+	public class LarvaeAI : GenericFriendlyAI
 	{
 		[Tooltip("Time in seconds this larva will take to become a full grown Xeno")][SerializeField]
 		private float timeToGrow;
@@ -18,6 +18,7 @@ namespace NPC
 		{
 			base.Awake();
 			mobNameCap = mobName.IsNullOrEmpty() ? mobName : char.ToUpper(mobName[0]) + mobName.Substring(1);
+			simpleAnimal = GetComponent<SimpleAnimal>();
 			BeginExploring();
 		}
 
@@ -51,15 +52,17 @@ namespace NPC
 			StartFleeing(damagedBy);
 		}
 
+		protected override void OnSpawnMob()
+		{
+			base.OnSpawnMob();
+			StartFleeing(gameObject, 10f);
+			StartCoroutine(Grow());
+		}
+
 		public override void OnDespawnServer(DespawnInfo info)
 		{
 			base.OnDespawnServer(info);
 			StopAllCoroutines();
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			StartCoroutine(Grow());
 		}
 	}
 }
