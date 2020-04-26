@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
+using WebSocketSharp;
 
 namespace NPC
 {
-	public class GenericFriendlyAI : MobAI
+	public class GenericFriendlyAI : MobAI, IServerSpawn
 	{
 		protected string mobNameCap;
 		protected float timeForNextRandomAction;
@@ -13,10 +14,13 @@ namespace NPC
 		[SerializeField]
 		protected float maxTimeBetweenRandomActions = 30f;
 
+		protected SimpleAnimal simpleAnimal;
+
 		protected override void Awake()
 		{
 			base.Awake();
-			mobNameCap = char.ToUpper(mobName[0]) + mobName.Substring(1);
+			mobNameCap = mobName.IsNullOrEmpty() ? mobName : char.ToUpper(mobName[0]) + mobName.Substring(1);
+			simpleAnimal = GetComponent<SimpleAnimal>();
 			BeginExploring();
 		}
 
@@ -66,6 +70,21 @@ namespace NPC
 
 		protected virtual void DoRandomAction() {}
 
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			OnSpawnMob();
+		}
+
+		protected virtual void OnSpawnMob()
+		{
+			dirSprites.SetToNPCLayer();
+			registerObject.Passable = false;
+			if (simpleAnimal != null)
+			{
+				simpleAnimal.SetDeadState(false);
+			}
+		}
+
 		protected override void OnAttackReceived(GameObject damagedBy = null)
 		{
 			StartFleeing(damagedBy, 5f);
@@ -74,6 +93,5 @@ namespace NPC
 		protected virtual void OnExploringStopped(){}
 		protected virtual void OnFleeingStopped(){}
 		protected virtual void OnFollowStopped(){}
-
 	}
 }
