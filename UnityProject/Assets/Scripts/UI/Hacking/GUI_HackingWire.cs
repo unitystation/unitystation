@@ -30,6 +30,8 @@ public class GUI_HackingWire : MonoBehaviour
 		RectTransform nodeRectTransform = startNode.GetComponent<RectTransform>();
 		RectTransform wireStartRectTransform = wireStart.GetComponent<RectTransform>();
 
+		wireStartRectTransform.sizeDelta = nodeRectTransform.sizeDelta * 0.7f;
+
 		wireStartRectTransform.position = nodeRectTransform.position;
 	}
 
@@ -39,8 +41,9 @@ public class GUI_HackingWire : MonoBehaviour
 		RectTransform nodeRectTransform = endNode.GetComponent<RectTransform>();
 		RectTransform wireEndRectTransform = wireEnd.GetComponent<RectTransform>();
 
-		wireEndRectTransform.position = nodeRectTransform.position;
+		wireEndRectTransform.sizeDelta = nodeRectTransform.sizeDelta * 0.7f;
 
+		wireEndRectTransform.position = nodeRectTransform.position;
 	}
 
 	public void PositionWireBody()
