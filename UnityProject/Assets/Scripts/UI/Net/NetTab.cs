@@ -58,7 +58,11 @@ public class NetTab : Tab
 	/// <summary>
 	/// Invoked when there is a new peeper to this tab
 	/// </summary>
+	[SerializeField]
 	public ConnectedPlayerEvent OnTabOpened = new ConnectedPlayerEvent();
+
+	[SerializeField]
+	public ConnectedPlayerEvent OnTabClosed = new ConnectedPlayerEvent();
 
 	public ElementValue[] ElementValues => CachedElements.Values.Select(element => element.ElementValue).ToArray(); //likely expensive
 
@@ -101,7 +105,9 @@ public class NetTab : Tab
 
 	public void RemovePlayer(GameObject player)
 	{
-		Peepers.Remove(PlayerList.Instance.Get(player));
+		ConnectedPlayer newPeeper = PlayerList.Instance.Get(player);
+		OnTabClosed.Invoke(newPeeper);
+		Peepers.Remove(newPeeper);
 	}
 
 	public void RescanElements()
@@ -245,4 +251,5 @@ public class NetTab : Tab
 	}
 }
 
+[System.Serializable]
 public class ConnectedPlayerEvent : UnityEvent<ConnectedPlayer> { }

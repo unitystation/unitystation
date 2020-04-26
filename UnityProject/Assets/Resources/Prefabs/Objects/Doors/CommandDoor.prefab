@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 114503660770427716}
   - component: {fileID: 114121495487176538}
   - component: {fileID: -9160553101885179674}
+  - component: {fileID: -3917243928398086771}
   m_Layer: 17
   m_Name: CommandDoor
   m_TagString: Untagged
@@ -156,7 +157,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  hackingPrefab: {fileID: 0}
   wiresInitiallyExposed: 0
   hackInitialStage: 0
   openPanelSFX: 
@@ -492,6 +492,23 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &-3917243928398086771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069162904971260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: ad3502dbb5202e64ab70b125dba1335c,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 15e4795bbc71b044ea2a69dc1c89f1d4,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!1 &1299148880752886
 GameObject:
   m_ObjectHideFlags: 0

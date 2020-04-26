@@ -744,6 +744,34 @@ MonoBehaviour:
   Provider: {fileID: 0}
   ProviderRegisterTile: {fileID: 0}
   Type: 19
+  OnTabOpened:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9155997247415610150}
+        m_MethodName: ServerOnOpened
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+  OnTabClosed:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 9155997247415610150}
+        m_MethodName: ServerOnClosed
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
   inputsLayout: {fileID: 3403150550479503722}
   outputsLayout: {fileID: 3238243053852797468}
   inputHackingNodeUIPrefab: {fileID: 2953554483379236539, guid: 836ffa954e8ee17418eb73c293729498,

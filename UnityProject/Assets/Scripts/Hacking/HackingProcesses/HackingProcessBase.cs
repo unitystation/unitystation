@@ -11,6 +11,7 @@ using YamlDotNet.Samples;
 /// It will check interactions with the object, and once the goal interactions have been met, it will open a hacking UI prefab.
 /// e.g. check if interacted with a screw driver, then check if 
 /// </summary>
+[RequireComponent(typeof(ItemStorage))]
 public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IServerSpawn, IServerDespawn
 {
 	[SerializeField]
@@ -39,13 +40,23 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	private List<HackingDevice> devices = new List<HackingDevice>();
 	public List<HackingDevice> Devices => devices;
 
+	private ItemStorage itemStorage;
+	public ItemStorage ItemStorage => itemStorage;
+
+	public void Awake()
+	{
+		itemStorage = GetComponent<ItemStorage>();
+	}
+
 	public override void OnStartClient()
 	{
+		itemStorage = GetComponent<ItemStorage>();
 		SyncWiresExposed(wiresExposed, wiresExposed);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
+		itemStorage = GetComponent<ItemStorage>();
 		SyncWiresExposed(wiresInitiallyExposed, wiresInitiallyExposed);
 	}
 
@@ -142,8 +153,6 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 				int inputIndex = hackingNodes.IndexOf(connectedNode);
 				int[] connection = { outputIndex, inputIndex };
 				connectionList.Add(connection);
-
-				Debug.Log("Output Index: " + outputIndex + " Input Index : " + inputIndex);
 			}
 			outputIndex++;
 		}
@@ -169,6 +178,13 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		GetHackNodes().Remove(device.OutputNode);
 	}
 
+	public virtual void RemoveAllDevices()
+	{
+		foreach (HackingDevice device in devices.ToList())
+		{
+			RemoveHackingDevice(device);
+		}
+	}
 
 	//These sounds are used when the security panel on the object is opened.
 	public string openPanelSFX = null, closePanelSFX = null;
@@ -256,6 +272,69 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		}
 
 		return true;
+	}
+
+	public virtual bool ServerPlayerCanAddDevice(PlayerScript playerScript, HackingDevice device)
+	{
+		if (!playerScript.IsInReach(gameObject, true))
+		{
+			return false;
+		}
+
+		if (!WiresExposed)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public virtual bool ServerPlayerCanRemoveDevice(PlayerScript playerScript, HackingDevice device)
+	{
+		if (!playerScript.IsInReach(gameObject, true))
+		{
+			return false;
+		}
+
+		if (!WiresExposed)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	/// <summary>
+	/// Called when we want to store a device in the hacking panel.
+	/// </summary>
+	/// <param name="hackDevice"></param>
+	public virtual void ServerStoreHackingDevice(HackingDevice hackDevice)
+	{
+		Pickupable item = hackDevice.GetComponent<Pickupable>();
+		if (item.ItemSlot != null)
+		{
+			Inventory.ServerPerform(InventoryMove.Transfer(item.ItemSlot, itemStorage.GetBestSlotFor(item)));
+		}
+		else
+		{
+			Inventory.ServerPerform(InventoryMove.Add(item, itemStorage.GetBestSlotFor(item)));
+		}
+	}
+
+	/// <summary>
+	/// Called when a player retrieves a hacking device from the panel.
+	/// </summary>
+	/// <param name="playerScript"></param>
+	/// <param name="hackDevice"></param>
+	public virtual void ServerPlayerRemoveHackingDevice(PlayerScript playerScript, HackingDevice hackDevice)
+	{
+		Pickupable item = hackDevice.GetComponent<Pickupable>();
+		ItemSlot handSlot = playerScript.Equipment.ItemStorage.GetActiveHandSlot();
+		Pickupable handItem = handSlot.Item;
+		if (handItem == null)
+		{
+			Inventory.ServerPerform(InventoryMove.Transfer(item.ItemSlot, handSlot));
+		}
 	}
 
 }

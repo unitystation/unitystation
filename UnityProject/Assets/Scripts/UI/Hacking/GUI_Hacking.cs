@@ -124,6 +124,25 @@ public class GUI_Hacking : NetTab
 		}
 	}
 
+	public void ServerOnOpened(ConnectedPlayer connectedPlayer)
+	{
+		//For some reason, this appears to be null the first time it's called.
+		ItemStorage hackStorage = hackProcess == null ? Provider.GetComponentInChildren<ItemStorage>() : hackProcess.ItemStorage;
+		if (hackStorage != null)
+		{
+			hackStorage.ServerAddObserverPlayer(connectedPlayer.GameObject);
+		}
+	}
+
+	public void ServerOnClosed(ConnectedPlayer connectedPlayer)
+	{
+		ItemStorage hackStorage = hackProcess == null ? Provider.GetComponentInChildren<ItemStorage>() : hackProcess.ItemStorage;
+		if (hackStorage != null)
+		{
+			hackStorage.ServerRemoveObserverPlayer(connectedPlayer.GameObject);
+		}
+	}
+
 	/// <summary>
 	/// Set the list of nodes this component will use. Importantly, this should be sent this information from the server. The client doesn't actually need to know what nodes are attached where.
 	/// At least until it opens the UI.
@@ -132,7 +151,27 @@ public class GUI_Hacking : NetTab
 	public void SetNodeList(List<HackingNode> nodeList)
 	{
 		DeleteOldNodes();
+		DeleteOldWires();
+		DeleteOldDevices();
+		ForceLayoutGroupUpdates();
 		hackNodes = nodeList;
+		GenerateNodeUI();
+	}
+
+
+	private void SafeDestory(GameObject obj)
+	{
+		obj.transform.parent = null;
+		obj.name = "$disposed";
+		Destroy(obj);
+		obj.SetActive(false);
+	}
+
+	private void RegenerateUI()
+	{
+		DeleteOldNodes();
+		DeleteOldWires();
+		DeleteOldDevices();
 		GenerateNodeUI();
 	}
 
@@ -140,7 +179,7 @@ public class GUI_Hacking : NetTab
 	{
 		foreach(GUI_HackingNode UINode in nodeUIObjects)
 		{
-			Destroy(UINode.gameObject);
+			SafeDestory(UINode.gameObject);
 		}
 		nodeUIObjects = new List<GUI_HackingNode>();
 		inputNodeUIObjects = new List<GUI_HackingNode>();
@@ -149,6 +188,27 @@ public class GUI_Hacking : NetTab
 		hackNodes = new List<HackingNode>();
 		inputNodes = new List<HackingNode>();
 		outputNodes = new List<HackingNode>();
+	}
+
+	private void ForceLayoutGroupUpdates()
+	{
+		HorizontalLayoutGroup inputLayout = inputsLayout.GetComponentInChildren<HorizontalLayoutGroup>();
+		inputLayout.CalculateLayoutInputHorizontal();
+		inputLayout.CalculateLayoutInputVertical();
+		inputLayout.SetLayoutHorizontal();
+		inputLayout.SetLayoutVertical();
+
+		HorizontalLayoutGroup outputLayout = outputsLayout.GetComponentInChildren<HorizontalLayoutGroup>();
+		outputLayout.CalculateLayoutInputHorizontal();
+		outputLayout.CalculateLayoutInputVertical();
+		outputLayout.SetLayoutHorizontal();
+		outputLayout.SetLayoutVertical();
+
+		HorizontalLayoutGroup deviceLayout = hackingDeviceLayout.GetComponent<HorizontalLayoutGroup>();
+		deviceLayout.CalculateLayoutInputHorizontal();
+		deviceLayout.CalculateLayoutInputVertical();
+		deviceLayout.SetLayoutHorizontal();
+		deviceLayout.SetLayoutVertical();
 	}
 
 	/// <summary>
@@ -171,17 +231,7 @@ public class GUI_Hacking : NetTab
 		GenerateOutputNodeUI();
 		GenerateDeviceNodeUI();
 
-		HorizontalLayoutGroup inputLayout = inputsLayout.GetComponentInChildren<HorizontalLayoutGroup>();
-		inputLayout.CalculateLayoutInputHorizontal();
-		inputLayout.CalculateLayoutInputVertical();
-		inputLayout.SetLayoutHorizontal();
-		inputLayout.SetLayoutVertical();
-
-		HorizontalLayoutGroup outputLayout = outputsLayout.GetComponentInChildren<HorizontalLayoutGroup>();
-		outputLayout.CalculateLayoutInputHorizontal();
-		outputLayout.CalculateLayoutInputVertical();
-		outputLayout.SetLayoutHorizontal();
-		outputLayout.SetLayoutVertical();
+		ForceLayoutGroupUpdates();
 
 		GenerateNodeConnections();
 	}
@@ -198,7 +248,7 @@ public class GUI_Hacking : NetTab
 
 	private void GenerateInputNodeUI()
 	{
-		int numNodes = inputNodes.Count();
+		int numNodes = inputNodes.Count(x => !x.IsDeviceNode);
 		HorizontalLayoutGroup layout = inputsLayout.GetComponentInChildren<HorizontalLayoutGroup>();
 		float cellSizeX = nodeCellSize.x;
 		float layoutWidth = inputsLayout.rect.width;
@@ -225,7 +275,7 @@ public class GUI_Hacking : NetTab
 
 	private void GenerateOutputNodeUI()
 	{
-		int numNodes = outputNodes.Count();
+		int numNodes = outputNodes.Count(x => !x.IsDeviceNode);
 		HorizontalLayoutGroup layout = outputsLayout.GetComponentInChildren<HorizontalLayoutGroup>();
 		float cellSizeX = nodeCellSize.x;
 		float layoutWidth = inputsLayout.rect.width;
@@ -252,8 +302,13 @@ public class GUI_Hacking : NetTab
 	private void GenerateDeviceNodeUI()
 	{
 		Debug.Log("Device NodeUI called.");
-		foreach (HackingDevice device in hackProcess.Devices)
+	//	foreach (ItemSlot device in hackProcess.Devices)
+		foreach (ItemSlot itemSlot in hackProcess.ItemStorage.GetItemSlots())
 		{
+
+			HackingDevice device = itemSlot.Item != null ? itemSlot.Item.GetComponent<HackingDevice>() : null;
+
+			if (device == null) continue;
 
 			Debug.Log("Generating device node ui.");
 			GameObject devicePanel = Instantiate(hackingDeviceUIPrefab, hackingDeviceLayout);
@@ -263,15 +318,10 @@ public class GUI_Hacking : NetTab
 			GUI_HackingDevice GUIDevice = devicePanel.GetComponent<GUI_HackingDevice>();
 			GUIDevice.SetHackingDevice(device);
 
-			//Since we're repositioning UI elements based on this things position, we need to ensure they have the correct position.
-			HorizontalLayoutGroup deviceLayout = hackingDeviceLayout.GetComponent<HorizontalLayoutGroup>();
-			deviceLayout.CalculateLayoutInputHorizontal();
-			deviceLayout.CalculateLayoutInputVertical();
-			deviceLayout.SetLayoutHorizontal();
-			deviceLayout.SetLayoutVertical();
+			ForceLayoutGroupUpdates();
 
 			/////////////////////////Adding Input Node For Device/////////////////////////
-			GameObject inputNodeUIObject = Instantiate(inputHackingNodeUIPrefab, hackingDeviceLayout.parent);
+			GameObject inputNodeUIObject = Instantiate(inputHackingNodeUIPrefab, GUIDevice.transform);
 			RectTransform inNodeRect = inputNodeUIObject.transform as RectTransform;
 			inNodeRect.sizeDelta = deviceNodeCellSize;
 			inputNodeUIObject.transform.position = (Vector2)devicePanel.transform.position - new Vector2(0, deviceCellSize.y/2);
@@ -285,7 +335,7 @@ public class GUI_Hacking : NetTab
 
 
 			/////////////////////////Adding Output Node For Device/////////////////////////
-			GameObject outputNodeUIObject = Instantiate(outputHackingNodeUIPrefab, hackingDeviceLayout.parent);
+			GameObject outputNodeUIObject = Instantiate(outputHackingNodeUIPrefab, GUIDevice.transform);
 			RectTransform outNodeRect = outputNodeUIObject.transform as RectTransform;
 			outNodeRect.sizeDelta = deviceNodeCellSize;
 			outputNodeUIObject.transform.position = (Vector2)devicePanel.transform.position + new Vector2(0, deviceCellSize.y/2);
@@ -322,14 +372,18 @@ public class GUI_Hacking : NetTab
 		}
 	}
 
-	public void RegenerateWiring()
+	public void DeleteOldWires()
 	{
 		foreach (GUI_HackingWire wire in hackingWires)
 		{
-			Destroy(wire.gameObject);
+			SafeDestory(wire.gameObject);
 		}
 		hackingWires = new List<GUI_HackingWire>();
+	}
 
+	public void RegenerateWiring()
+	{
+		DeleteOldWires();
 		GenerateNodeConnections();
 	}
 
@@ -348,8 +402,6 @@ public class GUI_Hacking : NetTab
 			int outIndex = hackNodes.IndexOf(outputNode);
 			int inIndex = hackNodes.IndexOf(inputNode);
 			int[] connectionToRemove = { outIndex, inIndex };
-			Debug.Log(connectionToRemove);
-			Debug.Log("Output Index: " + outIndex + " Input Index : " + inIndex);
 			RemoveHackingConnection.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, connectionToRemove);
 			Debug.Log("Client attempting to remove wire.");
 		}
@@ -358,21 +410,59 @@ public class GUI_Hacking : NetTab
 		Destroy(wireUI.gameObject);
 	}
 
-	public void RegenerateDevices()
+	private void DeleteOldDevices()
 	{
 		foreach (GUI_HackingDevice device in hackingDevices)
 		{
-			Destroy(device.gameObject);
+			SafeDestory(device.gameObject);
 		}
 		hackingDevices = new List<GUI_HackingDevice>();
+	}
+
+	//In theory, this should sync devices between server and client. In practice, I worry there may be a race condition, so, watch out for that I guess.
+
+	/// <summary>
+	/// Client side function to update devices from observed slots in storage.
+	/// </summary>
+	public void UpdateDevices()
+	{
+		if (IsServer) return;
+		hackProcess.RemoveAllDevices();
+
+		foreach (ItemSlot deviceSlot in hackProcess.ItemStorage.GetItemSlots())
+		{
+			Pickupable devicePickup = deviceSlot.Item;
+			if (devicePickup != null)
+			{
+				HackingDevice device = devicePickup.GetComponent<HackingDevice>();
+				hackProcess.AddHackingDevice(device);
+			}
+		}
+		//Refresh this since new nodes will have been added/removed.
+		SetNodeList(hackProcess.GetHackNodes());
+		//RegenerateDevices();
+		//RegenerateWiring();
+	}
+
+	public void RegenerateDevices()
+	{
+		DeleteOldDevices();
 		GenerateDeviceNodeUI();
 	}
 
 	public void RemoveDevice(GUI_HackingDevice deviceUI)
 	{
-		hackProcess.RemoveHackingDevice(deviceUI.Device);
-		RegenerateDevices();
-		RegenerateWiring();
+		HackingDevice hackDevice = null;
+		foreach( ItemSlot itemSlot in hackProcess.ItemStorage.GetItemSlots())
+		{
+			if (itemSlot.Item != null && itemSlot.Item.GetComponent<HackingDevice>().Equals(deviceUI.Device))
+			{
+				Debug.Log("Hacking device found!");
+				hackDevice = itemSlot.Item.GetComponent<HackingDevice>();
+			}
+		}
+		
+		RemoveHackingDevice.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, hackDevice.gameObject);
 	}
 	/// <summary>
 	/// This is called when the client changes something about the connection list. Don't trust this output! Only using it to predict UI changes.
@@ -381,7 +471,6 @@ public class GUI_Hacking : NetTab
 	{
 		connectionList = GetNodeConnectionList();
 		Debug.Log("Printing client connection lits:");
-		Debug.Log(connectionList);
 	}
 
 	/// <summary>
@@ -391,13 +480,14 @@ public class GUI_Hacking : NetTab
 	/// <param name="serverConnections"></param>
 	public void UpdateConnectionList(List<int[]> serverConnections)
 	{
+		UpdateDevices();
 		Debug.Log("Received new list from server, checking if list is the same.");
 		bool sameList = Enumerable.SequenceEqual(connectionList, serverConnections);
 		if (!sameList)
 		{
 			Debug.Log("Connection list mismatch, reloading on client.");
 			connectionList = serverConnections;
-			//UpdateNodeConnectionsFromConnectionList();
+			UpdateNodeConnectionsFromConnectionList();
 			RegenerateWiring();
 		}
 	}
@@ -434,8 +524,6 @@ public class GUI_Hacking : NetTab
 				int inputIndex = hackingNodes.IndexOf(connectedNode);
 				int[] connection = { outputIndex, inputIndex };
 				connectionList.Add(connection);
-				Debug.Log(connection);
-				Debug.Log("Output Index: " + outputIndex + " Input Index : " + inputIndex);
 			}
 			outputIndex++;
 		}
@@ -483,8 +571,7 @@ public class GUI_Hacking : NetTab
 			if (hackDevice != null)
 			{
 				Debug.Log("Valid Hacking Device, adding now.");
-				hackProcess.AddHackingDevice(hackDevice);
-				SetNodeList(hackProcess.GetHackNodes());
+				AddHackingDevice.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, hackDevice.gameObject);
 			}
 		}
 	}
