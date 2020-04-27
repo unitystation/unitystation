@@ -28,7 +28,7 @@ public partial class GameManager : MonoBehaviour
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
 	[SerializeField]
-	private float RoundEndTime = 15f;
+	private float RoundEndTime = 120f;
 
 	/// <summary>
 	/// The current time left on the countdown timer
