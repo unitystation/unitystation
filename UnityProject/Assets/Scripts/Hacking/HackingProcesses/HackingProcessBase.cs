@@ -89,6 +89,11 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		hackingGUI = hackUI;
 	}
 
+	/// <summary>
+	/// Add a connection between two nodes in the hacking device. keyOutput is the index of the output node, similar for key input.
+	/// </summary>
+	/// <param name="keyOutput"></param>
+	/// <param name="keyInput"></param>
 	public virtual void AddNodeConnection(int keyOutput, int keyInput)
 	{
 		HackingNode outputNode = GetHackNodes()[keyOutput];
@@ -100,6 +105,11 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		}
 	}
 
+	/// <summary>
+	/// Remove a connection between two nodes. keyOutput is the index of the output node, similar for key input.
+	/// </summary>
+	/// <param name="keyOutput"></param>
+	/// <param name="keyInput"></param>
 	public virtual void RemoveNodeConnection(int keyOutput, int keyInput)
 	{
 		HackingNode outputNode = GetHackNodes()[keyOutput];
@@ -140,6 +150,10 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		}
 	}
 
+	/// <summary>
+	/// Get the list of connetions between nodes as a list of integer arrays. The first integer in each array is the output nodes index, and the second integer is the input nodes index.
+	/// </summary>
+	/// <returns></returns>
 	public virtual List<int[]> GetNodeConnectionList()
 	{
 		List<int[]> connectionList = new List<int[]>();
@@ -159,6 +173,10 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		return connectionList;
 	}
 
+	/// <summary>
+	/// Adds a hacking device to the panel. Usually called in conjunction with ServerStoreHackingDevice if called serverside. Can be called clientside, but will only modify client side devices.
+	/// </summary>
+	/// <param name="device"></param>
 	public virtual void AddHackingDevice(HackingDevice device)
 	{
 		devices.Add(device);
@@ -166,6 +184,10 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		GetHackNodes().Add(device.OutputNode);
 	}
 
+	/// <summary>
+	/// Removes a hacking device from the panel. Usually called in conjunction with ServerPlayerRemoveHackingDevice if called serverside. Can be called clientside, but will only modify clientside devices.
+	/// </summary>
+	/// <param name="device"></param>
 	public virtual void RemoveHackingDevice(HackingDevice device)
 	{
 		devices.Remove(device);
@@ -178,6 +200,9 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		GetHackNodes().Remove(device.OutputNode);
 	}
 
+	/// <summary>
+	/// Removes all devices. Does not remove them from internal storage. If this is called without removing them from storage, they'll be stuck there.
+	/// </summary>
 	public virtual void RemoveAllDevices()
 	{
 		foreach (HackingDevice device in devices.ToList())
@@ -204,16 +229,27 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	/// <returns></returns>
 	public abstract List<HackingNode> GetHackNodes();
 
+	/// <summary>
+	/// This is a temporary function the hacking nodes are stored on this component.
+	/// </summary>
+	/// <param name="newNodes"></param>
 	public abstract void SetHackNodes(List<HackingNode> newNodes);
 
 	/// <summary>
 	/// These functions are called when the SyncVars are set using the appropriate hooks.
 	/// DO NOT CALL THESE ELSEWHERE!
+	/// Used to support things happening when wires are exposed.
 	/// </summary>
 	protected virtual void OnWiresExposed() { }
 
 	protected virtual void OnWiresHidden() { }
 
+	/// <summary>
+	/// This is called in the appropraite SyncVar hooks. Used to make stuff happen when progress is made on hacking the object.
+	/// Could update sprites, play sounds, etc. 
+	/// </summary>
+	/// <param name="oldStage"></param>
+	/// <param name="newStage"></param>
 	protected virtual void OnHackStageSet(int oldStage, int newStage) { }
 
 	public abstract void OnDespawnServer(DespawnInfo info);
@@ -274,6 +310,12 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		return true;
 	}
 
+	/// <summary>
+	/// Check to see if a player can add a device to the panel. By default, only checks if they're in reach and the wires are exposed.
+	/// </summary>
+	/// <param name="playerScript"></param>
+	/// <param name="device"></param>
+	/// <returns></returns>
 	public virtual bool ServerPlayerCanAddDevice(PlayerScript playerScript, HackingDevice device)
 	{
 		if (!playerScript.IsInReach(gameObject, true))
@@ -289,6 +331,12 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		return true;
 	}
 
+	/// <summary>
+	/// Checks to see if a player can remove a device from the panel. By default, only checks if they're in each and the wires are exposed.
+	/// </summary>
+	/// <param name="playerScript"></param>
+	/// <param name="device"></param>
+	/// <returns></returns>
 	public virtual bool ServerPlayerCanRemoveDevice(PlayerScript playerScript, HackingDevice device)
 	{
 		if (!playerScript.IsInReach(gameObject, true))

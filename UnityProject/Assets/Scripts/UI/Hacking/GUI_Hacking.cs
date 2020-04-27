@@ -7,7 +7,6 @@ using UnityEngine.UI;
 
 public class GUI_Hacking : NetTab
 {
-	private IHackable hackInterface;
 	private HackingProcessBase hackProcess;
 	public HackingProcessBase HackProcess => hackProcess;
 
@@ -90,9 +89,12 @@ public class GUI_Hacking : NetTab
 
 
 	/// <summary>
-	/// These are used interanlly for when a new wire is being added.
+	/// Used interanlly for when a new wire is being added.
 	/// </summary>
 	private GUI_HackingNode newWireOutput;
+	/// <summary>
+	/// Used interanlly for when a new wire is being added.
+	/// </summary>
 	private GUI_HackingNode newWireInput;
 
 	private List<int[]> connectionList = new List<int[]>();
@@ -101,7 +103,6 @@ public class GUI_Hacking : NetTab
     {
 		if (Provider != null)
 		{
-			hackInterface = Provider.GetComponentInChildren<IHackable>();
 			hackProcess = Provider.GetComponentInChildren<HackingProcessBase>();
 			hackProcess.RegisterHackingGUI(this);
 
@@ -159,20 +160,16 @@ public class GUI_Hacking : NetTab
 	}
 
 
+	/// <summary>
+	/// Used to remove GUI objects from layout groups. Need to use this special function because otherwise they aren't removed from layout groups on the same frame that Destroy is called, and UI will be placed in the wrong spots.
+	/// </summary>
+	/// <param name="obj"></param>
 	private void SafeDestory(GameObject obj)
 	{
 		obj.transform.parent = null;
 		obj.name = "$disposed";
 		Destroy(obj);
 		obj.SetActive(false);
-	}
-
-	private void RegenerateUI()
-	{
-		DeleteOldNodes();
-		DeleteOldWires();
-		DeleteOldDevices();
-		GenerateNodeUI();
 	}
 
 	private void DeleteOldNodes()
@@ -227,6 +224,7 @@ public class GUI_Hacking : NetTab
 				outputNodes.Add(node);
 			}
 		}
+
 		GenerateInputNodeUI();
 		GenerateOutputNodeUI();
 		GenerateDeviceNodeUI();
@@ -301,8 +299,6 @@ public class GUI_Hacking : NetTab
 
 	private void GenerateDeviceNodeUI()
 	{
-		Debug.Log("Device NodeUI called.");
-	//	foreach (ItemSlot device in hackProcess.Devices)
 		foreach (ItemSlot itemSlot in hackProcess.ItemStorage.GetItemSlots())
 		{
 
@@ -310,7 +306,6 @@ public class GUI_Hacking : NetTab
 
 			if (device == null) continue;
 
-			Debug.Log("Generating device node ui.");
 			GameObject devicePanel = Instantiate(hackingDeviceUIPrefab, hackingDeviceLayout);
 			RectTransform deviceRect = devicePanel.transform as RectTransform;
 			deviceRect.sizeDelta = deviceCellSize;
@@ -324,7 +319,7 @@ public class GUI_Hacking : NetTab
 			GameObject inputNodeUIObject = Instantiate(inputHackingNodeUIPrefab, GUIDevice.transform);
 			RectTransform inNodeRect = inputNodeUIObject.transform as RectTransform;
 			inNodeRect.sizeDelta = deviceNodeCellSize;
-			inputNodeUIObject.transform.position = (Vector2)devicePanel.transform.position - new Vector2(0, deviceCellSize.y/2);
+			inputNodeUIObject.transform.position = (Vector2)devicePanel.transform.position - new Vector2(0, deviceCellSize.y/3);
 
 			GUI_HackingNode inputNodeGUI = inputNodeUIObject.GetComponent<GUI_HackingNode>();
 			inputNodeGUI.SetHackingNode(device.InputNode);
@@ -338,7 +333,7 @@ public class GUI_Hacking : NetTab
 			GameObject outputNodeUIObject = Instantiate(outputHackingNodeUIPrefab, GUIDevice.transform);
 			RectTransform outNodeRect = outputNodeUIObject.transform as RectTransform;
 			outNodeRect.sizeDelta = deviceNodeCellSize;
-			outputNodeUIObject.transform.position = (Vector2)devicePanel.transform.position + new Vector2(0, deviceCellSize.y/2);
+			outputNodeUIObject.transform.position = (Vector2)devicePanel.transform.position + new Vector2(0, deviceCellSize.y/3);
 
 			GUI_HackingNode outputNodeGUI = outputNodeUIObject.GetComponent<GUI_HackingNode>();
 			outputNodeGUI.SetHackingNode(device.OutputNode);
@@ -403,7 +398,6 @@ public class GUI_Hacking : NetTab
 			int inIndex = hackNodes.IndexOf(inputNode);
 			int[] connectionToRemove = { outIndex, inIndex };
 			RemoveHackingConnection.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, connectionToRemove);
-			Debug.Log("Client attempting to remove wire.");
 		}
 
 		hackingWires.Remove(wireUI);
@@ -438,10 +432,7 @@ public class GUI_Hacking : NetTab
 				hackProcess.AddHackingDevice(device);
 			}
 		}
-		//Refresh this since new nodes will have been added/removed.
 		SetNodeList(hackProcess.GetHackNodes());
-		//RegenerateDevices();
-		//RegenerateWiring();
 	}
 
 	public void RegenerateDevices()
@@ -457,7 +448,6 @@ public class GUI_Hacking : NetTab
 		{
 			if (itemSlot.Item != null && itemSlot.Item.GetComponent<HackingDevice>().Equals(deviceUI.Device))
 			{
-				Debug.Log("Hacking device found!");
 				hackDevice = itemSlot.Item.GetComponent<HackingDevice>();
 			}
 		}
@@ -470,7 +460,6 @@ public class GUI_Hacking : NetTab
 	private void ClientRecalculateConnectionList()
 	{
 		connectionList = GetNodeConnectionList();
-		Debug.Log("Printing client connection lits:");
 	}
 
 	/// <summary>
@@ -480,35 +469,9 @@ public class GUI_Hacking : NetTab
 	/// <param name="serverConnections"></param>
 	public void UpdateConnectionList(List<int[]> serverConnections)
 	{
+		connectionList = serverConnections;
+	
 		UpdateDevices();
-		Debug.Log("Received new list from server, checking if list is the same.");
-		bool sameList = Enumerable.SequenceEqual(connectionList, serverConnections);
-		if (!sameList)
-		{
-			Debug.Log("Connection list mismatch, reloading on client.");
-			connectionList = serverConnections;
-			UpdateNodeConnectionsFromConnectionList();
-			RegenerateWiring();
-		}
-	}
-
-	/// <summary>
-	/// Update what nodes are connected to what using the connection list.
-	/// </summary>
-	private void UpdateNodeConnectionsFromConnectionList()
-	{
-		foreach (HackingNode node in hackNodes)
-		{
-			node.RemoveAllConnectedNodes();
-		}
-
-		foreach (int[] connection in connectionList)
-		{
-			HackingNode outputNode = hackNodes[connection[0]];
-			HackingNode inputNode = hackNodes[connection[1]];
-
-			outputNode.AddConnectedNode(inputNode);
-		}
 	}
 
 	public  List<int[]> GetNodeConnectionList()
@@ -562,17 +525,15 @@ public class GUI_Hacking : NetTab
 
 	public void AttemptAddDevice()
 	{
-		Debug.Log("Attempting to add device.");
 		Pickupable handItem = PlayerManager.LocalPlayerScript.Equipment.ItemStorage.GetActiveHandSlot().Item;
 		if (handItem != null)
 		{
-			Debug.Log("Item in hand, checking if valid hack device.");
 			HackingDevice hackDevice = handItem.GetComponent<HackingDevice>();
 			if (hackDevice != null)
 			{
-				Debug.Log("Valid Hacking Device, adding now.");
 				AddHackingDevice.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, hackDevice.gameObject);
 			}
 		}
 	}
+
 }
