@@ -14,7 +14,7 @@ public enum LightState
 }
 
 [ExecuteInEditMode]
-public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
+public class LightSource : ObjectTrigger, IAPCPowered, IServerDespawn
 {
 	[SerializeField]
 	private LightState InitialState = LightState.On;
@@ -89,26 +89,7 @@ public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 		return true;
 	}
 
-	public void StateUpdate(PowerStates State)
-	{
-		switch (State)
-		{
-			case PowerStates.On:
-				Trigger(true);
-				return;
-			case PowerStates.LowVoltage:
-				ServerChangeLightState(LightState.Emergency);
-				wallMount.SwitchChangeState(false);
-				return;
-			case PowerStates.OverVoltage:
-				Trigger(true);
-				return;
-			case PowerStates.Off:
-				ServerChangeLightState(LightState.Emergency);
-				wallMount.SwitchChangeState(false);
-				return;
-		}
-	}
+
 
 	public override void Trigger(bool newState)
 	{
@@ -199,10 +180,34 @@ public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 
 	}
 
+	#region IAPCPowered
 	public void PowerNetworkUpdate(float Voltage)
 	{
 
 	}
+
+	public void StateUpdate(PowerStates State)
+	{
+		switch (State)
+		{
+			case PowerStates.On:
+				Trigger(true);
+				return;
+			case PowerStates.LowVoltage:
+				ServerChangeLightState(LightState.Emergency);
+				wallMount.SwitchChangeState(false);
+				return;
+			case PowerStates.OverVoltage:
+				Trigger(true);
+				return;
+			case PowerStates.Off:
+				ServerChangeLightState(LightState.Emergency);
+				wallMount.SwitchChangeState(false);
+				return;
+		}
+	}
+	#endregion
+
 
 
 	public void OnDespawnServer(DespawnInfo info)

@@ -16,11 +16,15 @@ public class EmergencyLightAnimator : NetworkBehaviour
 	private SpriteRenderer spriteRenderer;
 	private LightSource lightSource;
 
-
-	void Awake()
+	private void OnEnable()
 	{
 		lightSource = GetComponent<LightSource>();
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+	}
+
+	private void OnDisable()
+	{
+		StopAnimation();
 	}
 
 	public void StartAnimation()
