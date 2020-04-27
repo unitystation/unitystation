@@ -26,6 +26,8 @@ public partial class MatrixMove
 	/// </summary>
 	public bool Initialized => clientStarted && receivedInitialState;
 
+	private MatrixMoveNodes clientMoveNodes = new MatrixMoveNodes();
+
 	public override void OnStartClient()
 	{
 		SyncPivot(pivot, pivot);

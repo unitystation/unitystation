@@ -22,6 +22,8 @@ public partial class MatrixMove
 	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
 	private int AccuracyThreshold = 1;
 
+	private MatrixMoveNodes serverMoveNodes = new MatrixMoveNodes();
+
 	public override void OnStartServer()
 	{
 		InitServerState();
