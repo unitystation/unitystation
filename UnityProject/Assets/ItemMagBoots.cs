@@ -118,7 +118,6 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	private void OnPlayerDeath()
 	{
-		if (player == null) return;
 		if (!ValidPlayer()) return;
 
 		if (isServer)
