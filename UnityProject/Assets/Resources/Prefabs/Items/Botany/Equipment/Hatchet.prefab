@@ -217,7 +217,10 @@ MonoBehaviour:
   hitSoundSettings: 0
   canConnectToTank: 0
   isEVACapable: 0
-  attackVerbs: []
+  attackVerbs:
+  - chopped
+  - torn
+  - cut
   itemSprites:
     LeftHand:
       Texture: {fileID: 2800000, guid: 7f2449860690c2943aae8727fec3cf4f, type: 3}
