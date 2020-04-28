@@ -711,7 +711,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 		{
 			bool beingDraggedWithCuffs = playerMove.IsCuffed && playerScript.pushPull.IsBeingPulledClient;
 
-			if (playerMove.allowInput && !playerMove.IsBuckled && !beingDraggedWithCuffs)
+			if (playerMove.allowInput && !playerMove.IsBuckled && !beingDraggedWithCuffs && !UIManager.IsInputFocus)
 			{
 				StartCoroutine(DoProcess(moveActions));
 			}

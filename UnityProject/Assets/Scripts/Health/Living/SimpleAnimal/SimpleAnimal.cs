@@ -9,11 +9,17 @@ public class SimpleAnimal : LivingHealthBehaviour
 	public Sprite deadSprite;
 
 	//Syncvar hook so that new players can sync state on start
-	[SyncVar(hook = nameof(SetAliveState))] public bool deadState;
+	[SyncVar(hook = nameof(SyncAliveState))] public bool deadState;
 
 	public SpriteRenderer spriteRend;
 
 	public RegisterObject registerObject;
+
+	[Server]
+	public void SetDeadState(bool isDead)
+	{
+		deadState = isDead;
+	}
 
 	public override void Awake()
 	{
@@ -29,7 +35,7 @@ public class SimpleAnimal : LivingHealthBehaviour
 	private IEnumerator WaitForLoad()
 	{
 		yield return WaitFor.Seconds(2f);
-		SetAliveState(deadState, deadState);
+		SyncAliveState(deadState, deadState);
 	}
 
 	[Server]
@@ -38,10 +44,10 @@ public class SimpleAnimal : LivingHealthBehaviour
 		deadState = true;
 	}
 
-	private void SetAliveState(bool oldState, bool state)
+	private void SyncAliveState(bool oldState, bool state)
 	{
 		deadState = state;
-		
+
 		if (state)
 		{
 			spriteRend.sprite = deadSprite;
