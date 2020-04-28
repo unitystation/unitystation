@@ -13,6 +13,8 @@ public class MobSpawnControlScript : NetworkBehaviour
 
 	private float timeElapsedServer = 0;
 
+	private const float PlayerCheckTime = 1f;
+
 	[Server]
 	public void SpawnMobs()
 	{
@@ -34,7 +36,7 @@ public class MobSpawnControlScript : NetworkBehaviour
 		if (isServer)
 		{
 			timeElapsedServer += Time.deltaTime;
-			if (timeElapsedServer > 1f && !SpawnedMobs)
+			if (timeElapsedServer > PlayerCheckTime && !SpawnedMobs)
 			{
 				DetectPlayer();
 				timeElapsedServer = 0;
@@ -55,18 +57,11 @@ public class MobSpawnControlScript : NetworkBehaviour
 	[Server]
 	private void DetectPlayer()
 	{
-		foreach (var player in PlayerList.Instance.InGamePlayers)
+		if (PlayerList.Instance.GetPlayersOnMatrix(MatrixManager.Get(gameObject)).Count > 0)
 		{
-			var playerScript = player.Script;
-
-			if (playerScript == null) return;
-
-			if (playerScript.registerTile.Matrix == gameObject.GetComponent<RegisterObject>().Matrix)
-			{
-				SpawnMobs();
-				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-				return;
-			}
+			SpawnMobs();
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			return;
 		}
 	}
 
