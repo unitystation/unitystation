@@ -55,7 +55,7 @@ public class MobSpawnControlScript : NetworkBehaviour
 	[Server]
 	private void DetectPlayer()
 	{
-		foreach (var player in PlayerList.Instance.AllPlayers)
+		foreach (var player in PlayerList.Instance.InGamePlayers)
 		{
 			var playerScript = player.Script;
 
