@@ -68,6 +68,13 @@ jobs:
           - StandaloneOSX
           - StandaloneLinux64
     steps:
+      - name: free disk space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
       # Remove old artifacts so we don't run out of space!
 #      - name: Remove old artifacts
 #        uses: c-hive/gha-remove-artifacts@v1
