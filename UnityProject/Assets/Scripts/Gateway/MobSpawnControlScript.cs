@@ -7,14 +7,65 @@ public class MobSpawnControlScript : NetworkBehaviour
 {
 	public List<GameObject> MobSpawners;
 
+	public bool DetectViaMatrix;
+
+	private bool SpawnedMobs;
+
+	private float timeElapsedServer = 0;
+
 	[Server]
 	public void SpawnMobs()
 	{
+		if (SpawnedMobs) return;
+
+		SpawnedMobs = true;
+
 		foreach (GameObject Spawner in MobSpawners)
 		{
 			if (Spawner != null)
 			{
 				Spawner.GetComponent<MobSpawnScript>().SpawnMob();
+			}
+		}
+	}
+
+	protected virtual void UpdateMe()
+	{
+		if (isServer)
+		{
+			timeElapsedServer += Time.deltaTime;
+			if (timeElapsedServer > 1f && !SpawnedMobs)
+			{
+				DetectPlayer();
+				timeElapsedServer = 0;
+			}
+		}
+	}
+
+	private void OnEnable()
+	{
+		if (!DetectViaMatrix) return;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+	void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	[Server]
+	private void DetectPlayer()
+	{
+		foreach (var player in PlayerList.Instance.AllPlayers)
+		{
+			var playerScript = player.Script;
+
+			if (playerScript == null) return;
+
+			if (playerScript.registerTile.Matrix == gameObject.GetComponent<RegisterObject>().Matrix)
+			{
+				SpawnMobs();
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+				return;
 			}
 		}
 	}
