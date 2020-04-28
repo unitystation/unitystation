@@ -57,11 +57,17 @@ public class MobSpawnControlScript : NetworkBehaviour
 	[Server]
 	private void DetectPlayer()
 	{
-		if (PlayerList.Instance.GetPlayersOnMatrix(MatrixManager.Get(gameObject)).Count > 0)
+		foreach (var player in PlayerList.Instance.InGamePlayers)
 		{
-			SpawnMobs();
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			return;
+			var script = player.Script;
+			if (script == null) return;
+
+			if (script.registerTile.Matrix == gameObject.GetComponent<RegisterObject>().Matrix)
+			{
+				SpawnMobs();
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+				return;
+			}
 		}
 	}
 
