@@ -89,34 +89,38 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 	{
 		if (isInCoolDown) return;
 		StartCoroutine(CoolDown());
-		var handObject = interaction.HandObject;
-		var performer = interaction.Performer;
-		if (handObject == null)
-		{
-			if (state == LightMountState.On &&
-			    !Validations.HasItemTrait(interaction.PerformerPlayerScript.Equipment.GetClothingItem(NamedSlot.hands).GameObjectReference, CommonTraits.Instance.BlackGloves))
-			{
 
-				interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, 10f, AttackType.Energy, DamageType.Burn,
-					interaction.HandSlot.NamedSlot == NamedSlot.leftHand ? BodyPartType.LeftArm : BodyPartType.RightArm);
-				Chat.AddExamineMsgFromServer(performer, $"<color=red>You burn your hand while attempting to remove the light</color>");
+		if (interaction.HandObject == null)
+		{
+			if (state == LightMountState.On && state != LightMountState.MissingBulb && state != LightMountState.Broken && !Validations.HasItemTrait(interaction.PerformerPlayerScript.Equipment.GetClothingItem(NamedSlot.hands).GameObjectReference, CommonTraits.Instance.BlackGloves))
+			{
+				if (interaction.HandSlot.NamedSlot == NamedSlot.leftHand)
+				{
+					interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, 10f, AttackType.Energy, DamageType.Burn, BodyPartType.LeftArm);
+					Chat.AddExamineMsgFromServer(interaction.Performer, "<color=red>You burn your left hand while attempting to remove the light</color>");
+				}
+				else
+				{
+					interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, 10f, AttackType.Energy, DamageType.Burn, BodyPartType.RightArm);
+					Chat.AddExamineMsgFromServer(interaction.Performer, "<color=red>You burn your right hand while attempting to remove the light</color>");
+				}
 				return;
 			}
 
 			Spawn.ServerPrefab(state == LightMountState.Broken ? appliableBrokenItem : appliableItem,
-				performer.WorldPosServer());
+				interaction.Performer.WorldPosServer());
 			ServerChangeLightState(LightMountState.MissingBulb);
 		}
-		else if (Validations.HasItemTrait(handObject, CommonTraits.Instance.LightReplacer) && state != LightMountState.MissingBulb)
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.LightReplacer) && state != LightMountState.MissingBulb)
 		{
 			Spawn.ServerPrefab(state == LightMountState.Broken ? appliableBrokenItem : appliableItem,
-				performer.WorldPosServer());
+				interaction.Performer.WorldPosServer());
 			ServerChangeLightState(LightMountState.MissingBulb);
 		}
-		else if (Validations.HasItemTrait(handObject, traitRequired) && state == LightMountState.MissingBulb)
+		else if (Validations.HasItemTrait(interaction.HandObject, traitRequired) && state == LightMountState.MissingBulb)
 		{
 
-			if (Validations.HasItemTrait(handObject, CommonTraits.Instance.Broken))
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Broken))
 			{
 				ServerChangeLightState(LightMountState.Broken);
 			}
@@ -124,7 +128,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			{
 				ServerChangeLightState(lightSource.SwitchState ? LightMountState.On : LightMountState.Off);
 			}
-			Despawn.ServerSingle(handObject);
+			Despawn.ServerSingle(interaction.HandObject);
 		}
 	}
 
@@ -191,7 +195,7 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 		ServerChangeLightState(switchState ? LightMountState.On : LightMountState.Off);
 	}
 
-	//Gets sprites for each state
+	//Gets sprites for eash state
 	private Sprite GetSprite(Sprite[] spriteList)
 	{
 		if (spriteList == null)

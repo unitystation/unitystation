@@ -44,7 +44,7 @@ namespace Clothing
 			itemAttributesV2.ServerSetArticleDescription("Still pretty scary!");
 		}
 
-		public void KillHugger()
+		private void KillHugger()
 		{
 			isAlive = false;
 			clothingV2.ServerChangeVariant(ClothingV2.ClothingVariantType.Tucked);

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-using WebSocketSharp;
-using Random = UnityEngine.Random;
 
 namespace NPC
 {
-	public class LarvaeAI : GenericFriendlyAI
+	public class LarvaeAI : GenericFriendlyAI, IServerSpawn
 	{
 		[Tooltip("Time in seconds this larva will take to become a full grown Xeno")][SerializeField]
 		private float timeToGrow;
@@ -17,8 +14,7 @@ namespace NPC
 		protected override void Awake()
 		{
 			base.Awake();
-			mobNameCap = mobName.IsNullOrEmpty() ? mobName : char.ToUpper(mobName[0]) + mobName.Substring(1);
-			simpleAnimal = GetComponent<SimpleAnimal>();
+			mobNameCap = char.ToUpper(mobName[0]) + mobName.Substring(1);
 			BeginExploring();
 		}
 
@@ -38,11 +34,6 @@ namespace NPC
 		private IEnumerator Grow()
 		{
 			yield return WaitFor.Seconds(timeToGrow);
-			if (IsDead || IsUnconscious)
-			{
-				yield break;
-			}
-
 			Spawn.ServerPrefab(xenomorph, gameObject.transform.position);
 			Despawn.ServerSingle(gameObject);
 		}
@@ -52,17 +43,15 @@ namespace NPC
 			StartFleeing(damagedBy);
 		}
 
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			StartFleeing(gameObject, 10f);
-			StartCoroutine(Grow());
-		}
-
 		public override void OnDespawnServer(DespawnInfo info)
 		{
 			base.OnDespawnServer(info);
 			StopAllCoroutines();
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			StartCoroutine(Grow());
 		}
 	}
 }

@@ -62,10 +62,9 @@ namespace Lighting
 		}
 
 		[Server]
-		public void ServerChangeState(bool newState, bool invokeEvent = true)
+		public void ServerChangeState(bool newState)
 		{
 			isOn = newState;
-			if (!invokeEvent) return;
 			switchTriggerEvent?.Invoke(isOn);
 		}
 
@@ -96,19 +95,19 @@ namespace Lighting
 			switch (State)
 			{
 				case PowerStates.On:
-					ServerChangeState(true,invokeEvent:false);
+					ServerChangeState(true);
 					powerState = State;
 					break;
 				case PowerStates.LowVoltage:
-					ServerChangeState(false,invokeEvent:false);
+					ServerChangeState(false);
 					powerState = State;
 					break;
 				case PowerStates.OverVoltage:
-					ServerChangeState(true,invokeEvent:false);
+					ServerChangeState(true);
 					powerState = State;
 					break;
 				default:
-					ServerChangeState(false,invokeEvent:false);
+					ServerChangeState(false);
 					powerState = State;
 					break;
 			}

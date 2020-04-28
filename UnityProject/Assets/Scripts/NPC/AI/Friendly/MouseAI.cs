@@ -51,11 +51,5 @@ namespace NPC
 		{
 			Squeak();
 		}
-
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			BeginExploring();
-		}
 	}
 }

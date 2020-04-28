@@ -12,7 +12,7 @@ namespace NPC
 	/// </summary>
 	[RequireComponent(typeof(MobMeleeAttack))]
 	[RequireComponent(typeof(ConeOfSight))]
-	public class GenericHostileAI : MobAI, IServerSpawn
+	public class GenericHostileAI : MobAI
 	{
 		[SerializeField]
 		protected List<string> deathSounds = new List<string>();
@@ -37,7 +37,6 @@ namespace NPC
 		protected int playersLayer;
 		protected MobMeleeAttack mobMeleeAttack;
 		protected ConeOfSight coneOfSight;
-		protected SimpleAnimal simpleAnimal;
 
 		public override void OnEnable()
 		{
@@ -46,7 +45,6 @@ namespace NPC
 			playersLayer = LayerMask.NameToLayer("Players");
 			mobMeleeAttack = GetComponent<MobMeleeAttack>();
 			coneOfSight = GetComponent<ConeOfSight>();
-			simpleAnimal = GetComponent<SimpleAnimal>();
 			PlayRandomSound();
 		}
 
@@ -79,7 +77,6 @@ namespace NPC
 		protected override void ResetBehaviours()
 		{
 			base.ResetBehaviours();
-			mobFollow.followTarget = null;
 			currentStatus = MobStatus.None;
 			searchWaitTime = 0f;
 		}
@@ -297,21 +294,6 @@ namespace NPC
 			if (findTarget != null)
 			{
 				BeginAttack(findTarget);
-			}
-		}
-
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			OnSpawnMob();
-		}
-
-		protected virtual void OnSpawnMob()
-		{
-			dirSprites.SetToNPCLayer();
-			registerObject.Passable = false;
-			if (simpleAnimal != null)
-			{
-				simpleAnimal.SetDeadState(false);
 			}
 		}
 

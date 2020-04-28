@@ -149,12 +149,6 @@ namespace NPC
 			}
 		}
 
-		protected override void OnSpawnMob()
-		{
-			base.OnSpawnMob();
-			BeginSearch();
-		}
-
 		private readonly Dictionary<int, Orientation> orientations = new Dictionary<int, Orientation>()
 		{
 			{1, Orientation.Up},

@@ -1,68 +1,72 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
 
-public class EmergencyLightAnimator : NetworkBehaviour
+public class EmergencyLightAnimator : MonoBehaviour
 {
 	public Sprite[] sprites;
 
 	public float animateTime = 0.4f;
-	private float timeElapsedSprite = 0;
-	private int currentSprite = 0;
-	public float rotateSpeed = 40f;
+	public float rotateSpeed = 30f;
+
+	public bool isOn; //Is turned on (being animated/emissing lights)
+	bool isRunningCR = false; //is running coroutine
 
 	private SpriteRenderer spriteRenderer;
 	private LightSource lightSource;
+	public Color lightColor;
 
-	private void OnEnable()
+	void Awake()
 	{
 		lightSource = GetComponent<LightSource>();
+		lightSource.customColor = lightColor;
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 	}
 
-	private void OnDisable()
+	public void Toggle(bool _isOn)
 	{
-		StopAnimation();
-	}
-
-	public void StartAnimation()
-	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
-
-	public void StopAnimation()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
-
-
-	protected virtual void UpdateMe()
-	{
-		AnimateLight();
-	}
-
-	private void AnimateLight()
-	{
-		lightSource.mLightRendererObject.transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime, Space.World);
-	}
-	private void AnimateSprite()
-	{
-		timeElapsedSprite += Time.deltaTime;
-		if (timeElapsedSprite >= animateTime)
+		if (_isOn && !isRunningCR)
 		{
-			spriteRenderer.sprite = sprites[currentSprite];
-			if (sprites.Length == currentSprite)
-			{
-				currentSprite = 0;
-			}
-			else
-			{
-				currentSprite++;
-			}
+			isOn = _isOn;
+			if (!gameObject.activeInHierarchy) return;
 
-			timeElapsedSprite = 0;
+			StartCoroutine(Animate());
 		}
+		else
+		{
+			isOn = _isOn;
+		}
+
+		if ( lightSource )
+		{
+			lightSource.Trigger(_isOn);
+		}
+	}
+
+	IEnumerator Animate()
+	{
+		isRunningCR = true;
+		int curSpriteIndex = 0;
+		float counter = 0f;
+		spriteRenderer.sprite = sprites[curSpriteIndex];
+		while (isOn)
+		{
+			yield return 0;
+			lightSource.mLightRendererObject.transform.Rotate(0f, 0f, rotateSpeed * Time.deltaTime, Space.World);
+			counter += Time.deltaTime;
+			if (counter > animateTime)
+			{
+				counter = 0f;
+				curSpriteIndex++;
+
+				if (curSpriteIndex == sprites.Length)
+				{
+					curSpriteIndex = 0; //Start over
+				}
+				spriteRenderer.sprite = sprites[curSpriteIndex];
+			}
+		}
+		spriteRenderer.sprite = sprites[2];
+		isRunningCR = false;
 	}
 }

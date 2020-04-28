@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using System;
+using System.Collections;
 
 /// <summary>
 ///     Message that tells client the status of the preround countdown
@@ -6,7 +7,7 @@
 public class UpdateCountdownMessage : ServerMessage
 {
 	public bool Started;
-	public double EndTime;
+	public long EndTime;
 
 	public override void Process()
 	{
@@ -21,8 +22,8 @@ public class UpdateCountdownMessage : ServerMessage
 	/// <returns></returns>
 	public static UpdateCountdownMessage Send(bool started, float time)
 	{
-		// Calculate when the countdown will end relative to the current NetworkTime
-		double endTime = NetworkTime.time + time;
+		// Calculate when the countdown will end in the unix timestamp
+		long endTime = DateTimeOffset.UtcNow.AddSeconds(time).ToUnixTimeMilliseconds();
 		UpdateCountdownMessage msg = new UpdateCountdownMessage
 		{
 			Started = started,

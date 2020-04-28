@@ -14,18 +14,12 @@ public class MobMeleeLerpMessage : ServerMessage
 
 		var getMob = NetworkIdentity.spawned[mob];
 		var mobMelee = getMob.GetComponent<MobMeleeAttack>();
-		var mobAction = getMob.GetComponent<MobMeleeAction>();
-		if (mobMelee == null & mobAction == null)
-		{
-			return;
-		}
-
 		if (mobMelee == null)
 		{
+			var mobAction = getMob.GetComponent<MobMeleeAction>();
 			mobAction.ClientDoLerpAnimation(dir);
 			return;
 		}
-
 		mobMelee.ClientDoLerpAnimation(dir);
 	}
 

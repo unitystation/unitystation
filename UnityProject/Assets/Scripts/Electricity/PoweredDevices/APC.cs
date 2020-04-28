@@ -346,10 +346,28 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 			if (_emergencyState != value)
 			{
 				_emergencyState = value;
+				SetEmergencyLights(value);
 			}
 		}
 	}
 
+	/// <summary>
+	/// Set the state of the emergency lights associated with this APC
+	/// </summary>
+	void SetEmergencyLights(bool isOn)
+	{
+		if (ConnectedEmergencyLights.Count == 0)
+		{
+			return;
+		}
+		for (int i = 0; i < ConnectedEmergencyLights.Count; i++)
+		{
+			if (ConnectedEmergencyLights[i]) //might be destroyed
+			{
+				ConnectedEmergencyLights[i].Toggle(isOn);
+			}
+		}
+	}
 
 	void OnDrawGizmosSelected()
 	{

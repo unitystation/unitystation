@@ -14,7 +14,7 @@ using UnityEngine.Profiling;
 /// Monitors and calculates health
 /// </summary>
 [RequireComponent(typeof(HealthStateMonitor))]
-public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable, IExaminable, IServerSpawn
+public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable, IExaminable
 {
 	private static readonly float GIB_THRESHOLD = 200f;
 	//damage incurred per tick per fire stack
@@ -816,14 +816,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		healthString = pronoun + " is " + healthString + (respiratorySystem.IsSuffocating && !IsDead ? " " + pronoun + " is having trouble breathing!" : "");
 		return healthString;
-	}
-
-	public void OnSpawnServer(SpawnInfo info)
-	{
-		ConsciousState = ConsciousState.CONSCIOUS;
-		OverallHealth = maxHealth;
-		ResetBodyParts();
-		CalculateOverallHealth();
 	}
 }
 
