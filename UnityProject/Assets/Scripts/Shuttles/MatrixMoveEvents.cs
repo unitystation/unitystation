@@ -10,8 +10,8 @@ public class MatrixMoveEvents
 	public readonly UnityEvent OnStartMovementClient = new UnityEvent();
 	public readonly UnityEvent OnStopMovementClient = new UnityEvent();
 	public readonly UnityEvent OnFullStopClient = new UnityEvent();
-	public readonly UnityEvent OnStartMovementServer = new UnityEvent();
-	public readonly UnityEvent OnStopMovementServer = new UnityEvent();
+	public readonly UnityEvent OnStartEnginesServer = new UnityEvent();
+	public readonly UnityEvent OnStopEnginesServer = new UnityEvent();
 	public readonly OrientationEvent OnRotate = new OrientationEvent();
 	public readonly DualFloatEvent OnSpeedChange = new DualFloatEvent();
 }

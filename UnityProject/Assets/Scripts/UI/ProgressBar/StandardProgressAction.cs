@@ -189,14 +189,14 @@ public class StandardProgressAction : IProgressAction
 		{
 			if (startProgressInfo.Target.TargetMatrixInfo.MatrixMove != null)
 			{
-				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
+				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnStartEnginesServer, OnMatrixStartMove);
 				eventRegistry.Register(startProgressInfo.Target.TargetMatrixInfo.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 
 			var performerMatrix = playerScript.registerTile.Matrix;
 			if (performerMatrix.MatrixMove != null)
 			{
-				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer, OnMatrixStartMove);
+				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnStartEnginesServer, OnMatrixStartMove);
 				eventRegistry.Register(performerMatrix.MatrixMove.MatrixMoveEvents.OnRotate, OnMatrixRotate);
 			}
 		}

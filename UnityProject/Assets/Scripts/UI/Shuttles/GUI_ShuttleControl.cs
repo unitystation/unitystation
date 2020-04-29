@@ -51,6 +51,12 @@ public class GUI_ShuttleControl : NetTab
 
 	public bool RcsMode { get; private set; }
 
+	private bool RefreshRadar = false;
+	private ShuttleConsole Trigger;
+	private TabState State => Trigger.State;
+
+	private bool Autopilot = true;
+
 	public override void OnEnable()
 	{
 		base.OnEnable();
@@ -76,8 +82,8 @@ public class GUI_ShuttleControl : NetTab
 			//Init listeners
 			string temp = "1";
 			this["StartButton"].SetValueServer(temp);
-			MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(() => this["StartButton"].SetValueServer("1"));
-			MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener(() =>
+			MatrixMove.MatrixMoveEvents.OnStartEnginesServer.AddListener(() => this["StartButton"].SetValueServer("1"));
+			MatrixMove.MatrixMoveEvents.OnStopEnginesServer.AddListener(() =>
 		   {
 			   this["StartButton"].SetValueServer("0");
 			   HideWaypoint();
@@ -133,7 +139,6 @@ public class GUI_ShuttleControl : NetTab
 		StartRefresh();
 	}
 
-	private bool Autopilot = true;
 	public void SetAutopilot(bool on)
 	{
 		Autopilot = on;
@@ -222,10 +227,6 @@ public class GUI_ShuttleControl : NetTab
 			EntryList.UpdateExclusive(Waypoint);
 		}
 	}
-
-	private bool RefreshRadar = false;
-	private ShuttleConsole Trigger;
-	private TabState State => Trigger.State;
 
 	private void StartRefresh()
 	{
@@ -365,14 +366,14 @@ public class GUI_ShuttleControl : NetTab
 	/// Starts or stops the shuttle.
 	/// </summary>
 	/// <param name="off">Toggle parameter</param>
-	public void TurnOnOff(bool on)
+	public void TurnOnOff(bool on, ConnectedPlayer subject = null)
 	{
 		if (on && State != TabState.Off)
 		{
-			MatrixMove.StartMovement();
+			MatrixMove.ToggleEngines(true, subject);
 		}
 		else {
-			MatrixMove.StopMovement();
+			MatrixMove.ToggleEngines(false);
 		}
 	}
 
@@ -411,8 +412,8 @@ public class GUI_ShuttleControl : NetTab
 			Logger.LogWarning("Matrix move is missing for some reason on this shuttle", Category.Matrix);
 			return;
 		}
-		float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1) + 1;
-		//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
+		float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1);
+
 		MatrixMove.SetSpeed(speed);
 	}
 }

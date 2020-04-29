@@ -9,14 +9,10 @@ using UnityEngine;
 public partial class MatrixMove
 {
 	//server-only values
-	public MatrixState ServerState => serverState;
-	public bool IsMovingServer => serverState.IsMoving && serverState.Speed > 0f;
-	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
-	private bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead
-	///used for syncing with players, matters only for server
-	private MatrixState serverState = MatrixState.Invalid;
-	/// future state that collects all changes
-	private MatrixState serverTargetState = MatrixState.Invalid;
+	[SyncVar]
+	public MatrixState ServerState;
+	public bool IsMovingServer => ServerState.IsMoving && ServerState.Speed > 0f;
+	private bool IsRotatingServer;
 	//Autopilot target
 	private Vector3 Target = TransformState.HiddenPos;
 	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
@@ -24,30 +20,21 @@ public partial class MatrixMove
 
 	private MatrixMoveNodes serverMoveNodes = new MatrixMoveNodes();
 
+	[SyncVar] private bool EnginesOperational;
+
+	private float serverLerpTime = 0f;
+	private Vector2 serverFromPosition;
+	private Vector2 serverTargetPosition;
+
 	public override void OnStartServer()
 	{
 		InitServerState();
-
-		MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
-		{
-			if ( floatingSyncHandle == null )
-			{
-				this.StartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
-			}
-		} );
-		MatrixMoveEvents.OnStopMovementServer.AddListener( () => this.TryStopCoroutine( ref floatingSyncHandle ) );
-
 		base.OnStartServer();
-		NotifyPlayers();
 	}
 
 	[Server]
 	private void InitServerState()
 	{
-		serverState.FlyingDirection = InitialFacing;
-		serverState.FacingDirection = InitialFacing;
-		Logger.LogTraceFormat("{0} server initial facing / flying {1}", Category.Matrix, this, InitialFacing);
-
 		Vector3Int initialPositionInt =
 			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
 		SyncInitialPosition(initialPosition, initialPositionInt);
@@ -57,12 +44,12 @@ public partial class MatrixMove
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		SyncPivot(pivot, initialPosition - childPosition);
 
-		Logger.LogTraceFormat("{0}: pivot={1} initialPos={2}", Category.Matrix, gameObject.name,
-			pivot, initialPositionInt);
-		serverState.Speed = 1f;
-		serverState.Position = initialPosition;
-		serverTargetState = serverState;
-		clientState = serverState;
+		ServerState = new MatrixState
+		{
+			FlyingDirection = InitialFacing,
+			FacingDirection = InitialFacing,
+			Position = initialPosition
+		};
 
 		RecheckThrusters();
 		if ( thrusters.Count > 0 )
@@ -83,7 +70,7 @@ public partial class MatrixMove
 						if ( thrusters.Count == 0 && IsMovingServer )
 						{
 							Logger.LogFormat( "All thrusters were destroyed! Stopping {0} soon!", Category.Transform, matrixInfo.Matrix.name );
-							StartCoroutine( StopWithDelay(1f) );
+							ToggleEngines(false);
 						}
 					}	);
 				}
@@ -121,38 +108,48 @@ public partial class MatrixMove
 
 			RotationSensors = sensors.Select(sensor => sensor.gameObject).ToArray();
 		}
-
-		IEnumerator StopWithDelay( float delay )
-		{
-			SetSpeed( ServerState.Speed / 2 );
-			yield return WaitFor.Seconds( delay );
-			Logger.LogFormat( "{0}: Stopping due to missing thrusters!", Category.Transform, matrixInfo.Matrix.name );
-			StopMovement();
-		}
-	}
-
-	/// <summary>
-	/// Send current position of space floating player to clients every second in case their reproduction is wrong
-	/// </summary>
-	private IEnumerator FloatingAwarenessSync()
-	{
-		yield return WaitFor.Seconds(1);
-		serverState.Inform = true;
-		NotifyPlayers();
-		this.RestartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
 	}
 
 	[Server]
-	public void ToggleMovement()
+	public void ToggleEngines(bool on, ConnectedPlayer subject = null)
 	{
-		if (IsMovingServer)
+		if (on && HasWorkingThrusters && (IsFueled || !RequiresFuel))
 		{
-			StopMovement();
+			MatrixMoveEvents.OnStartEnginesServer.Invoke();
+			EnginesOperational = true;
+			serverMoveNodes.GenerateMoveNodes(transform.position, ServerState.FlyingDirection.VectorInt);
+			GetServerTargetNode();
 		}
 		else
 		{
-			StartMovement();
+			MatrixMoveEvents.OnStopEnginesServer.Invoke();
+			EnginesOperational = false;
+			if (on)
+			{
+				if (subject != null)
+				{
+					//Could not toggle the engines on for some reason, inform the player
+					if (!HasWorkingThrusters)
+					{
+						Chat.AddExamineMsg(subject.GameObject, "The shuttle has no working thrusters and cannot be started.");
+						return;
+					}
+
+					if (RequiresFuel && !IsFueled)
+					{
+						Chat.AddExamineMsg(subject.GameObject, "This shuttle has no fuel and cannot be started.");
+						return;
+					}
+				}
+			}
 		}
+	}
+
+	void GetServerTargetNode()
+	{
+		serverLerpTime = 0f;
+		serverFromPosition = transform.position;
+		serverTargetPosition = serverMoveNodes.GetTargetNode(ServerState.FlyingDirection.VectorInt);
 	}
 
 	[Server]
@@ -166,6 +163,7 @@ public partial class MatrixMove
 				ToggleRcsPlayerControl.UpdateClient(subject, consoleId, true);
 				CacheRcs();
 				playerControllingRcs = subject;
+				Chat.AddExamineMsg(subject.GameObject, "Rcs has been activated. Use movement keys to pilot");
 			}
 		}
 		else
@@ -178,7 +176,6 @@ public partial class MatrixMove
 		}
 	}
 
-	/// Start moving. If speed was zero, it'll be set to 1
 	[Server]
 	public void StartMovement()
 	{
@@ -189,15 +186,7 @@ public partial class MatrixMove
 		//Not allowing movement without any thrusters:
 		if (HasWorkingThrusters && (IsFueled || !RequiresFuel))
 		{
-			//Setting speed if there is none
-			if (serverTargetState.Speed <= 0)
-			{
-				SetSpeed(1);
-			}
-
-			Logger.LogTrace(gameObject.name + " started moving with speed " + serverTargetState.Speed, Category.Matrix);
-			serverTargetState.IsMoving = true;
-			MatrixMoveEvents.OnStartMovementServer.Invoke();
+			MatrixMoveEvents.OnStartEnginesServer.Invoke();
 
 			RequestNotify();
 		}
@@ -207,14 +196,11 @@ public partial class MatrixMove
 	[Server]
 	public void StopMovement()
 	{
-		Logger.LogTrace(gameObject.name+ " stopped movement", Category.Matrix);
-		serverTargetState.IsMoving = false;
-		MatrixMoveEvents.OnStopMovementServer.Invoke();
+		MatrixMoveEvents.OnStopEnginesServer.Invoke();
 
 		//To stop autopilot
 		DisableAutopilotTarget();
 		TryNotifyPlayers();
-
 	}
 
 	/// Move for n tiles, regardless of direction, and stop
@@ -262,7 +248,7 @@ public partial class MatrixMove
 	[Server]
 	public void AdjustSpeed(float relativeValue)
 	{
-		float absSpeed = serverTargetState.Speed + relativeValue;
+		float absSpeed = ServerState.Speed + relativeValue;
 		SetSpeed(absSpeed);
 	}
 
@@ -270,56 +256,58 @@ public partial class MatrixMove
 	[Server]
 	public void SetSpeed(float absoluteValue)
 	{
-		if (absoluteValue <= 0)
+		ServerState = new MatrixState
 		{
-			//Stop movement if speed is zero or below
-			serverTargetState.Speed = 0;
-			if (serverTargetState.IsMoving)
-			{
-				StopMovement();
-			}
-
-			return;
-		}
-
-		if (absoluteValue > MaxSpeed)
-		{
-			Logger.LogWarning($"MaxSpeed {MaxSpeed} reached, not going further", Category.Matrix);
-			if (serverTargetState.Speed >= MaxSpeed)
-			{
-				//Not notifying people if some dick is spamming "increase speed" button at max speed
-				return;
-			}
-
-			serverTargetState.Speed = MaxSpeed;
-		}
-		else
-		{
-			serverTargetState.Speed = absoluteValue;
-		}
-
-		//do not send speed updates when not moving
-		if (serverTargetState.IsMoving)
-		{
-			RequestNotify();
-		}
+			IsMoving = ServerState.IsMoving,
+			Speed = Mathf.Clamp(absoluteValue, 0f, MaxSpeed),
+			RotationTime = ServerState.RotationTime,
+			Position = ServerState.Position,
+			FacingDirection = ServerState.FacingDirection,
+			FlyingDirection = ServerState.FlyingDirection
+		};
 	}
 
 	/// Serverside movement routine
 	[Server]
 	private void CheckMovementServer()
 	{
-		//Not doing any serverside movement while rotating
-		if (IsRotatingServer)
+		if (EnginesOperational && ServerState.Speed > 0f)
 		{
-			return;
+			serverLerpTime += Time.deltaTime * ServerState.Speed;
+			transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
+			matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection);
+			if (serverLerpTime >= 1f)
+			{
+				UpdateServerStatePosition(serverTargetPosition);
+				serverMoveNodes.AddHistoryNode(serverTargetPosition.To2Int(), NetworkTime.time);
+				GetServerTargetNode();
+
+			}
 		}
+		else
+		{
+			//Finish the lerp if it was half way through on stopping
+			if (serverMoveNodes.historyNodes[0].nodePos != Vector2Int.zero &&
+			    serverMoveNodes.historyNodes[0].nodePos != serverTargetPosition.To2Int())
+			{
+				serverLerpTime += Time.deltaTime * 1f;
+				transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
+				matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection);
+				if (serverLerpTime >= 1f)
+				{
+					transform.position = serverTargetPosition; //sometimes it is ever so slightly off the target
+					UpdateServerStatePosition(serverTargetPosition);
+					serverMoveNodes.AddHistoryNode(serverTargetPosition.To2Int(), NetworkTime.time);
+				}
+			}
+		}
+
 
 		//ServerState lerping to its target tile
 
-		Vector3? actualNewPosition = null;
-		if (!ServerPositionsMatch || rcsBurn)
-		{
+	//	Vector3? actualNewPosition = null;
+		//if (!ServerPositionsMatch || rcsBurn)
+	//	{
 			//some special logic needs to fire when we exactly reach our target tile,
 			//but we want movement to continue as far as it should based on deltaTime
 			//despite reaching / exceeding the target tile. So we save the actual new position
@@ -328,65 +316,76 @@ public partial class MatrixMove
 			//when reaching an exact tile position and result in server movement jerkiness and inconsistent client predicted movement.
 
 			//actual position we should reach this update, regardless of if we passed through the target position
-			actualNewPosition = serverState.Position + rcsValue +
-			                    serverState.FlyingDirection.Vector * (serverState.Speed * Time.deltaTime);
-			//update position without passing the target position
-			serverState.Position =
-				Vector3.MoveTowards(serverState.Position,
-					serverTargetState.Position,
-					serverState.Speed * Time.deltaTime);
+//			actualNewPosition = serverState.Position + rcsValue +
+//			                    serverState.FlyingDirection.Vector * (serverState.Speed * Time.deltaTime);
+//			//update position without passing the target position
+//			serverState.Position =
+//				Vector3.MoveTowards(serverState.Position,
+//					serverTargetState.Position,
+//					serverState.Speed * Time.deltaTime);
 
 			//At this point, if serverState.Position reached an exact tile position,
 			//you can see that actualNewPosition != serverState.Position, so we will
 			//need to carry that extra movement forward after processing the logic that
 			//occurs on the exact tile position.
-			TryNotifyPlayers();
-		}
+		//	TryNotifyPlayers();
+	//	}
 
-		bool isGonnaStop = !serverTargetState.IsMoving;
-		if (!IsMovingServer || isGonnaStop || !ServerPositionsMatch)
-		{
-			return;
-		}
+//		bool isGonnaStop = !serverTargetState.IsMoving;
+//		if (!IsMovingServer || isGonnaStop || !ServerPositionsMatch)
+//		{
+//			return;
+//		}
 
-		if (CanMoveFor() && (!SafetyProtocolsOn || CanMoveTo(serverTargetState.FlyingDirection)))
-		{
-			var goal = Vector3Int.RoundToInt(serverState.Position + rcsValue + serverTargetState.FlyingDirection.Vector);
+//		if (CanMoveFor() && (!SafetyProtocolsOn || CanMoveTo(serverTargetState.FlyingDirection)))
+//		{
+//			var goal = Vector3Int.RoundToInt(serverState.Position + rcsValue + serverTargetState.FlyingDirection.Vector);
+//
+//			//keep moving
+//			serverTargetState.Position = goal;
+//			if (IsAutopilotEngaged && ((int) serverState.Position.x == (int) Target.x
+//			                           || (int) serverState.Position.y == (int) Target.y))
+//			{
+//				StartCoroutine(TravelToTarget());
+//			}
+//			//now we can carry on with any excess movement we had discarded earlier, now
+//			//that we've already ran the logic that needs to happen on the exact tile position
+//			if (actualNewPosition != null)
+//			{
+//				serverState.Position = actualNewPosition.Value;
+//			}
+//		}
+//		else
+//		{
+////			Logger.LogTrace( "Stopping due to safety protocols!",Category.Matrix );
+//			StopMovement();
+//			TryNotifyPlayers();
+//		}
+	}
 
-			//keep moving
-			serverTargetState.Position = goal;
-			if (IsAutopilotEngaged && ((int) serverState.Position.x == (int) Target.x
-			                           || (int) serverState.Position.y == (int) Target.y))
-			{
-				StartCoroutine(TravelToTarget());
-			}
-			//now we can carry on with any excess movement we had discarded earlier, now
-			//that we've already ran the logic that needs to happen on the exact tile position
-			if (actualNewPosition != null)
-			{
-				serverState.Position = actualNewPosition.Value;
-			}
-		}
-		else
+	[Server]
+	private void UpdateServerStatePosition(Vector2 position)
+	{
+		position -= (Vector2)pivot;
+		ServerState = new MatrixState
 		{
-//			Logger.LogTrace( "Stopping due to safety protocols!",Category.Matrix );
-			StopMovement();
-			TryNotifyPlayers();
-		}
+			IsMoving = ServerState.IsMoving,
+			Speed = ServerState.Speed,
+			RotationTime = ServerState.RotationTime,
+			Position = position,
+			FacingDirection = ServerState.FacingDirection,
+			FlyingDirection = ServerState.FlyingDirection
+		};
 	}
 
 	/// Manually set matrix to a specific position.
 	[Server]
-	public void SetPosition(Vector3 pos, bool notify = true)
+	public void SetPosition(Vector3 pos)
 	{
 		Vector3Int intPos = Vector3Int.RoundToInt(pos);
-		serverState.Position = intPos;
-		serverTargetState.Position = intPos;
-		serverState.Inform = true;
-		if (notify)
-		{
-			NotifyPlayers();
-		}
+		transform.position = intPos;
+		UpdateServerStatePosition(intPos.To2Int());
+		Debug.Log("Sync Set Positions with clients!!");
 	}
 
 	/// Schedule notification for the next ServerPositionsMatch
@@ -394,7 +393,6 @@ public partial class MatrixMove
 	[Server]
 	private void RequestNotify()
 	{
-		serverTargetState.Inform = true;
 		TryNotifyPlayers();
 	}
 
@@ -402,37 +400,37 @@ public partial class MatrixMove
 	[Server]
 	private void TryNotifyPlayers()
 	{
-		if (ServerPositionsMatch)
-		{
-//				When serverState reaches its planned destination,
-//				embrace all other updates like changed speed and rotation
-			serverState = serverTargetState;
-			serverState.Inform = true;
-			Logger.LogTraceFormat("{0} setting server state from target state {1}", Category.Matrix, this, serverState);
-			NotifyPlayers();
-		}
+//		if (ServerPositionsMatch)
+//		{
+////				When serverState reaches its planned destination,
+////				embrace all other updates like changed speed and rotation
+//			serverState = serverTargetState;
+//			serverState.Inform = true;
+//			Logger.LogTraceFormat("{0} setting server state from target state {1}", Category.Matrix, this, serverState);
+//			NotifyPlayers();
+//		}
 	}
 
 	///  Currently sending to everybody, but should be sent to nearby players only
 	[Server]
 	private void NotifyPlayers()
 	{
-		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
-		if (!IsMovingServer || serverState.Inform)
-		{
-			serverState.RotationTime = rotTime;
-			//fixme: this whole class behaves like ass!
-			if ( serverState.RotationTime != serverTargetState.RotationTime )
-			{ //Doesn't guarantee that matrix will stop
-				MatrixMoveMessage.SendToAll(gameObject, serverState);
-			} else
-			{ //Ends up in instant rotations
-				MatrixMoveMessage.SendToAll(gameObject, serverTargetState);
-			}
-			//Clear inform flags
-			serverTargetState.Inform = false;
-			serverState.Inform = false;
-		}
+//		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
+//		if (!IsMovingServer || serverState.Inform)
+//		{
+//			serverState.RotationTime = rotTime;
+//			//fixme: this whole class behaves like ass!
+//			if ( serverState.RotationTime != serverTargetState.RotationTime )
+//			{ //Doesn't guarantee that matrix will stop
+//				MatrixMoveMessage.SendToAll(gameObject, serverState);
+//			} else
+//			{ //Ends up in instant rotations
+//				MatrixMoveMessage.SendToAll(gameObject, serverTargetState);
+//			}
+//			//Clear inform flags
+//			serverTargetState.Inform = false;
+//			serverState.Inform = false;
+//		}
 	}
 
 	///     Sync with new player joining
@@ -441,8 +439,15 @@ public partial class MatrixMove
 	[Server]
 	public void NotifyPlayer(GameObject playerGameObject, bool rotateImmediate = false)
 	{
-		serverState.RotationTime = rotateImmediate ? 0 : rotTime;
-		MatrixMoveMessage.Send(playerGameObject, gameObject, serverState);
+		ServerState = new MatrixState
+		{
+			IsMoving = ServerState.IsMoving,
+			Speed = ServerState.Speed,
+			RotationTime = rotateImmediate ? 0 : rotTime,
+			Position = ServerState.Position,
+			FacingDirection = ServerState.FacingDirection,
+			FlyingDirection = ServerState.FlyingDirection
+		};
 	}
 
 	///Only change orientation if rotation is finished
@@ -462,7 +467,7 @@ public partial class MatrixMove
 	[Server]
 	public void Steer(bool clockwise)
 	{
-		SteerTo(serverTargetState.FacingDirection.Rotate(clockwise ? 1 : -1));
+	//	SteerTo(serverTargetState.FacingDirection.Rotate(clockwise ? 1 : -1));
 	}
 
 	/// <summary>
@@ -473,17 +478,17 @@ public partial class MatrixMove
 	[Server]
 	public bool SteerTo(Orientation desiredOrientation)
 	{
-		if (CanRotateTo(desiredOrientation))
-		{
-			serverTargetState.FacingDirection = desiredOrientation;
-			serverTargetState.FlyingDirection = desiredOrientation;
-			Logger.LogTraceFormat("{0} server target facing / flying {1}", Category.Matrix, this, desiredOrientation);
-
-			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(desiredOrientation), NetworkSide.Server, RotationEvent.Start));
-
-			RequestNotify();
-			return true;
-		}
+//		if (CanRotateTo(desiredOrientation))
+//		{
+//			serverTargetState.FacingDirection = desiredOrientation;
+//			serverTargetState.FlyingDirection = desiredOrientation;
+//			Logger.LogTraceFormat("{0} server target facing / flying {1}", Category.Matrix, this, desiredOrientation);
+//
+//			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(desiredOrientation), NetworkSide.Server, RotationEvent.Start));
+//
+//			RequestNotify();
+//			return true;
+//		}
 		return false;
 	}
 
@@ -492,7 +497,7 @@ public partial class MatrixMove
 	[Server]
 	public void ChangeFlyingDirection(Orientation newFlyingDirection)
 	{
-		serverTargetState.FlyingDirection = newFlyingDirection;
+	//	serverTargetState.FlyingDirection = newFlyingDirection;
 		Logger.LogTraceFormat("{0} server target flying {1}", Category.Matrix, this, newFlyingDirection);
 	}
 
@@ -502,10 +507,10 @@ public partial class MatrixMove
 	{
 		if (CanRotateTo(newFacingDirection))
 		{
-			serverTargetState.FacingDirection = newFacingDirection;
+	//		serverTargetState.FacingDirection = newFacingDirection;
 			Logger.LogTraceFormat("{0} server target facing  {1}", Category.Matrix, this, newFacingDirection);
 
-			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(newFacingDirection), NetworkSide.Server, RotationEvent.Start));
+			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, ServerState.FacingDirection.OffsetTo(newFacingDirection), NetworkSide.Server, RotationEvent.Start));
 
 			RequestNotify();
 			return true;
@@ -530,14 +535,14 @@ public partial class MatrixMove
 	{
 		if (IsAutopilotEngaged)
 		{
-			var pos = serverState.Position;
+			var pos = ServerState.Position;
 			if (Vector3.Distance(pos, Target) <= AccuracyThreshold)
 			{
 				StopMovement();
 				yield break;
 			}
 
-			Orientation currentDir = serverState.FlyingDirection;
+			Orientation currentDir = ServerState.FlyingDirection;
 
 			Vector3 xProjection = Vector3.Project(pos, Vector3.right);
 			int xProjectionX = (int) xProjection.x;
@@ -568,7 +573,7 @@ public partial class MatrixMove
 				}
 			}
 
-			if (!serverState.IsMoving)
+			if (!ServerState.IsMoving)
 			{
 				StartMovement();
 			}

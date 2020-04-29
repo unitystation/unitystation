@@ -66,7 +66,7 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 	/// Gets the rotation offset this matrix has from its initial mapped
 	/// facing.
 	/// </summary>
-	public RotationOffset FacingOffsetFromInitial => ClientState.FacingOffsetFromInitial(this);
+	public RotationOffset FacingOffsetFromInitial => ServerState.FacingOffsetFromInitial(this);
 
 	/// <summary>
 	/// If it is currently fuelled
@@ -126,18 +126,17 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 		coordReadoutScript = coordReadout;
 	}
 
-	///managed by UpdateManager
-	public override void FixedUpdateMe()
+	public override void UpdateMe()
 	{
 		if (isServer)
 		{
 			CheckMovementServer();
 		}
-	}
-
-	public override void UpdateMe()
-	{
-		AnimateMovement();
+		else
+		{
+			CheckMovementClient();
+		}
+	//	AnimateMovement();
 	}
 
 	///managed by UpdateManager
@@ -163,7 +162,7 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 
 		if (isClient)
 		{
-			if(coordReadoutScript != null) coordReadoutScript.SetCoords(clientState.Position);
+			if(coordReadoutScript != null) coordReadoutScript.SetCoords(ServerState.Position);
 			if (shuttleControlGUI != null && rcsModeActive != shuttleControlGUI.RcsMode)
 			{
 				shuttleControlGUI.ClientToggleRcs(rcsModeActive);
@@ -179,16 +178,13 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 		for (var i = 0; i < SensorPositions.Length; i++)
 		{
 			var sensor = SensorPositions[i];
-			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(sensor, matrixInfo, serverTargetState);
+			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(sensor, matrixInfo, ServerState);
 
 			// Exclude the moving matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { matrixInfo.Id };
 			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos + dir.RoundToInt(), isServer: true,
 											collisionType: matrixColliderType, excludeList: excludeList))
 			{
-				Logger.LogTrace(
-					$"Can't pass {serverTargetState.Position}->{serverTargetState.Position + dir} (because {sensorPos}->{sensorPos + dir})!",
-					Category.Matrix);
 				return false;
 			}
 		}
@@ -211,16 +207,13 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 			var sensor = RotationSensors[i];
 			// Need to pass an aggriate local vector in reference to the Matrix GO to get the correct WorldPos
 			Vector3 localSensorAggrigateVector = (rotationSensorContainerTransform.localRotation * sensor.transform.localPosition) + rotationSensorContainerTransform.localPosition;
-			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(localSensorAggrigateVector, matrixInfo, serverTargetState);
+			Vector3Int sensorPos = MatrixManager.LocalToWorldInt(localSensorAggrigateVector, matrixInfo, ServerState);
 
 			// Exclude the rotating matrix, we shouldn't be able to collide with ourselves
 			int[] excludeList = { matrixInfo.Id };
 			if (!MatrixManager.IsPassableAt(sensorPos, sensorPos, isServer: true,
 											collisionType: matrixColliderType, includingPlayers: true, excludeList: excludeList))
 			{
-				Logger.LogTrace(
-					$"Can't rotate at {serverTargetState.Position}->{serverTargetState.Position } (because {sensorPos} is occupied)!",
-					Category.Matrix);
 				return false;
 			}
 		}
@@ -246,38 +239,18 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 			Gizmos.color = color1;
 			Gizmos.DrawWireCube(transform.position, Vector3.one );
 
-			DebugGizmoUtils.DrawArrow(transform.position, clientState.FlyingDirection.Vector*2);
+			DebugGizmoUtils.DrawArrow(transform.position, ServerState.FlyingDirection.Vector*2);
 			return;
 		}
 
 		//serverState
 		Gizmos.color = color1;
-		Vector3 serverPos = serverState.Position;
+		Vector3 serverPos = ServerState.Position;
 		Gizmos.DrawWireCube(serverPos, size1);
-		if (serverState.IsMoving)
+		if (ServerState.IsMoving)
 		{
-			DebugGizmoUtils.DrawArrow(serverPos + Vector3.right / 3, serverState.FlyingDirection.Vector * serverState.Speed);
-			DebugGizmoUtils.DrawText(serverState.Speed.ToString(), serverPos + Vector3.right, 15);
-		}
-
-		//serverTargetState
-		Gizmos.color = color2;
-		Vector3 serverTargetPos = serverTargetState.Position;
-		Gizmos.DrawWireCube(serverTargetPos, size2);
-		if (serverTargetState.IsMoving)
-		{
-			DebugGizmoUtils.DrawArrow(serverTargetPos, serverTargetState.FlyingDirection.Vector * serverTargetState.Speed);
-			DebugGizmoUtils.DrawText(serverTargetState.Speed.ToString(), serverTargetPos + Vector3.down, 15);
-		}
-
-		//clientState
-		Gizmos.color = color3;
-		Vector3 pos = clientState.Position;
-		Gizmos.DrawWireCube(pos, size3);
-		if (clientState.IsMoving)
-		{
-			DebugGizmoUtils.DrawArrow(pos + Vector3.left / 3, clientState.FlyingDirection.Vector * clientState.Speed);
-			DebugGizmoUtils.DrawText(clientState.Speed.ToString(), pos + Vector3.left, 15);
+			DebugGizmoUtils.DrawArrow(serverPos + Vector3.right / 3, ServerState.FlyingDirection.Vector * ServerState.Speed);
+			DebugGizmoUtils.DrawText(ServerState.Speed.ToString(), serverPos + Vector3.right, 15);
 		}
 	}
 #endif

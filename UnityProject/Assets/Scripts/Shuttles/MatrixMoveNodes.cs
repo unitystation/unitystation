@@ -9,10 +9,11 @@ public class MatrixMoveNodes
 
 	/// <summary>
 	/// Generates new travel nodes based on the start position
-	/// and direction of travel
+	/// and direction of travel. Also automatically clears history nodes
 	/// </summary>
 	public void GenerateMoveNodes(Vector2 fromPosition, Vector2Int direction)
 	{
+		ResetHistoryNodes();
 		var lastNode = Vector2Int.RoundToInt(fromPosition);
 		for (int i = 0; i < nodes.Length; i++)
 		{
