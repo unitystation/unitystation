@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Mirror;
 using TMPro;
 using UnityEngine;
@@ -70,7 +71,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		}
 		else
 		{
-			SetUIForJoining();
+			StartCoroutine(SetUIForJoining());
 		}
 	}
 
@@ -186,11 +187,12 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	/// <summary>
 	/// Show round started and join button
 	/// </summary>
-	public void SetUIForJoining()
+	public IEnumerator SetUIForJoining()
 	{
-		joinPanel.SetActive(true);
 		timerPanel.SetActive(false);
 		playerWaitPanel.SetActive(false);
+		yield return WaitFor.Seconds(2f);
+		joinPanel.SetActive(true);
 		mainPanel.SetActive(true);
 	}
 }
