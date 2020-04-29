@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -125,6 +126,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -180,6 +182,8 @@ GameObject:
   - component: {fileID: 3385541160428677379}
   - component: {fileID: 4792015667158574305}
   - component: {fileID: -1016215171651041673}
+  - component: {fileID: -2934526323519094174}
+  - component: {fileID: 8386195029513753312}
   m_Layer: 23
   m_Name: chairs_bar
   m_TagString: Untagged
@@ -195,7 +199,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8325475169279047993}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -3.498053, y: 196.58282, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3367356935213924318}
@@ -255,6 +259,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -418,4 +423,33 @@ MonoBehaviour:
   syncInterval: 0.1
   resourcesMadeOf: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
     type: 3}
-  howMany: 2
+  howMany: 1
+--- !u!114 &-2934526323519094174
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8325475169279047993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadow: {fileID: 21300000, guid: 4076652198f1e1940865e22f2bde2354, type: 3}
+  draggerMustBeAdjacent: 1
+  allowDragWhileSoftCrit: 0
+--- !u!114 &8386195029513753312
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8325475169279047993}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1f386f82014aa4ba117d2289c3d540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabVariant: {fileID: 1011433845357754, guid: d4ab748b91c63c446a3b30a6eebe9598,
+    type: 3}

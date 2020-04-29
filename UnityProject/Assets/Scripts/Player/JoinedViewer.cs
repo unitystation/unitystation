@@ -148,6 +148,7 @@ public class JoinedViewer : NetworkBehaviour
 			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
 			return;
 		}
+
 		int slotsTaken = GameManager.Instance.GetOccupationsCount(jobType);
 		int slotsMax = GameManager.Instance.GetOccupationMaxCount(jobType);
 		if (slotsTaken >= slotsMax)
@@ -157,11 +158,10 @@ public class JoinedViewer : NetworkBehaviour
 
 		var spawnRequest =
 			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
-		//regardless of their chosen occupation, they might spawn as an antag instead.
-		//If they do, bypass the normal spawn logic.
-		if (GameManager.Instance.TrySpawnAntag(spawnRequest)) return;
 
-		PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+		GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
+
+		GameManager.Instance.ProcessSpawnPlayerQueue();
 	}
 	/// <summary>
 	/// Command to spectate a round instead of spawning as a player
