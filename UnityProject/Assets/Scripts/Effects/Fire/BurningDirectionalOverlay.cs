@@ -45,6 +45,7 @@ public class BurningDirectionalOverlay : MonoBehaviour
 	/// <param name="direction"></param>
 	public void Burn(Orientation direction)
 	{
+		if(spriteRenderer == null) return;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		orientation = direction;
 		burn = true;
