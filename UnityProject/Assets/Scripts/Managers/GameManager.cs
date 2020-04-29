@@ -464,7 +464,7 @@ public partial class GameManager : MonoBehaviour
 			int slotsMax = GameManager.Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
 			if (slotsTaken >= slotsMax)
 			{
-				return;
+				continue;
 			}
 
 			//regardless of their chosen occupation, they might spawn as an antag instead.
@@ -472,7 +472,7 @@ public partial class GameManager : MonoBehaviour
 			if (GameManager.Instance.TrySpawnAntag(player))
 			{
 				SpawnPlayerRequestQueue.Dequeue();
-				break;
+				continue;
 			}
 
 			PlayerSpawn.ServerSpawnPlayer(player);
