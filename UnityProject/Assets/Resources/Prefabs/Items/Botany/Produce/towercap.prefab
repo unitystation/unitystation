@@ -31,7 +31,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   plantData:
-    ProduceObject: {fileID: 0}
+    ProduceObject: {fileID: 8350257510729075399, guid: d3c8937672fe44a799797d7f1e1ebc5d,
+      type: 3}
     Name: tower
     Plantname: Tower Caps
     Description: This mycelium grows into tower-cap mushrooms.
@@ -211,7 +212,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
