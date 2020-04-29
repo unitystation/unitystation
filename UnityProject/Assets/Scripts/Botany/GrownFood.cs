@@ -85,23 +85,24 @@ public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
 	/// <summary>
 	/// Gets seeds for plant and replaces held food with seeds
 	/// DOES NOT WORK, eating overrides this.
+	/// Commented out as it was causing problems with non-edible plants.
 	/// </summary>
 	/// <param name="interaction"></param>
-	public void ServerPerformInteraction(HandActivate interaction)
-	{
-		if (plantData != null)
-		{
-			var seedObject = Spawn.ServerPrefab(this.seedPacket, interaction.Performer.RegisterTile().WorldPositionServer, parent: interaction.Performer.transform.parent).GameObject;
-			var seedPacket = seedObject.GetComponent<SeedPacket>();
-			seedPacket.plantData = PlantData.CreateNewPlant(plantData);
-
-			seedPacket.SyncPlant(null, plantData.Name);
-
-			var slot = interaction.HandSlot;
-			Inventory.ServerAdd(seedObject, interaction.HandSlot, ReplacementStrategy.DespawnOther);
-		}
-
-
-	}
+	///public void ServerPerformInteraction(HandActivate interaction)
+	///{
+	///	if (plantData != null)
+	///	{
+	///		var seedObject = Spawn.ServerPrefab(this.seedPacket, interaction.Performer.RegisterTile().WorldPositionServer, parent: interaction.Performer.transform.parent).GameObject;
+	///		var seedPacket = seedObject.GetComponent<SeedPacket>();
+	///		seedPacket.plantData = PlantData.CreateNewPlant(plantData);
+	///
+	///		seedPacket.SyncPlant(null, plantData.Name);
+	///
+	///		var slot = interaction.HandSlot;
+	///		Inventory.ServerAdd(seedObject, interaction.HandSlot, ReplacementStrategy.DespawnOther);
+	///	}
+	///
+	///
+	///}
 }
 
