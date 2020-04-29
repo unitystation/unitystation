@@ -24,53 +24,55 @@ namespace Items
 
 		private void RollRandomPool()
 		{
-			PoolData pool = null;
-			while (pool == null)
+			for (int i = 0; i <= lootCount; i++)
 			{
+				PoolData pool = null;
+				// Roll attempt is a safe check in the case the mapper did tables with low % and we can't find
+				// anything to spawn in 5 attempts
 				int rollAttempt = 0;
 
-				var tryPool = poolList.PickRandom();
-				if (DMMath.Prob(tryPool.Probability))
+				while (pool == null)
 				{
-					pool = tryPool;
-				}
-				else
-				{
-					rollAttempt ++;
+
+					if (rollAttempt >= MaxAmountRolls)
+					{
+						continue;
+					}
+
+					var tryPool = poolList.PickRandom();
+					if (DMMath.Prob(tryPool.Probability))
+					{
+						pool = tryPool;
+					}
+					else
+					{
+						rollAttempt ++;
+					}
 				}
 
-				if (rollAttempt >= MaxAmountRolls)
-				{
-					Destroy(gameObject);
-					break;
-				}
+				SpawnItems(pool);
 			}
 
-			SpawnItems(pool);
+			Destroy(gameObject);
 		}
 
 		private void SpawnItems(PoolData poolData)
 		{
-			for (int i = 0; i < lootCount; i++)
+			var item = poolData.RandomItemPool.Pool.PickRandom();
+			var spread = fanOut ? Random.Range(-0.5f,0.5f) : (float?) null;
+
+			if (!DMMath.Prob(item.Probability))
 			{
-				var item = poolData.RandomItemPool.Pool.PickRandom();
-				var spread = fanOut ? Random.Range(-0.5f,0.5f) : (float?) null;
-
-				if (!DMMath.Prob(item.Probability))
-				{
-					continue;
-				}
-
-				var maxAmt = Random.Range(1, item.MaxAmount+1);
-
-				Spawn.ServerPrefab(
-					item.Prefab,
-					gameObject.RegisterTile().WorldPositionServer,
-					count: maxAmt,
-					scatterRadius: spread);
+				return;
 			}
 
-			Destroy(gameObject);
+			var maxAmt = Random.Range(1, item.MaxAmount+1);
+
+			Spawn.ServerPrefab(
+				item.Prefab,
+				gameObject.RegisterTile().WorldPositionServer,
+				count: maxAmt,
+				scatterRadius: spread);
 		}
 	}
 
