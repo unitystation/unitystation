@@ -57,10 +57,11 @@ public class PlayerSprites : MonoBehaviour
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
-			// add listner in case clothing was changed
+			// add listener in case clothing was changed
 			c.OnClothingEquiped += OnClothingEquipped;
 		}
 
+		//TODO: Remove Resources.Load calls, change to prefab references stored somewhere
 		if (ENGULFED_BURNING_OVERLAY_PREFAB == null)
 		{
 			ENGULFED_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("EngulfedBurningPlayer");
@@ -74,6 +75,9 @@ public class PlayerSprites : MonoBehaviour
 		OnClientFireStacksChange(livingHealthBehaviour.FireStacks);
 	}
 
+	/// <summary>
+	/// Instantiate and attach the burning sprite overlays if they don't exist
+	/// </summary>
 	private void AddBurningOverlayGameObjects()
 	{
 		if (engulfedBurningOverlay == null)
@@ -100,6 +104,9 @@ public class PlayerSprites : MonoBehaviour
 		OnDirectionChange(directional.CurrentDirection);
 	}
 
+	/// <summary>
+	/// Sets up the sprites for all customisations (Hair and underclothes)
+	/// </summary>
 	public void SetupAllCustomisationSprites()
 	{
 		SetupCustomisationSprite(CustomisationType.Underwear, "underwear", ThisCharacter.UnderwearName);
@@ -108,6 +115,9 @@ public class PlayerSprites : MonoBehaviour
 		SetupCustomisationSprite(CustomisationType.HairStyle, "Hair", ThisCharacter.HairStyleName, ThisCharacter.HairColor);
 	}
 
+	/// <summary>
+	/// Sets up the sprite for a specific customisation
+	/// </summary>
 	private void SetupCustomisationSprite(CustomisationType customisationType, string customisationKey, string customisationName, string htmlColor)
 	{
 		if (ColorUtility.TryParseHtmlString(htmlColor, out var newColor))
@@ -120,6 +130,9 @@ public class PlayerSprites : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Sets up the sprite for a specific customisation
+	/// </summary>
 	private void SetupCustomisationSprite(CustomisationType customisationType, string customisationKey, string customisationName, Color? color = null)
 	{
 		if (customisationName != "None")
@@ -142,6 +155,9 @@ public class PlayerSprites : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Sets up the sprites for all body parts using the given RaceVariantTextureData
+	/// </summary>
 	public void SetupAllBodySprites(RaceVariantTextureData Variant)
 	{
 		Color? newSkinColor = null;
@@ -168,6 +184,9 @@ public class PlayerSprites : MonoBehaviour
 		SetupBodySprite(Variant.Eyes, "eyes", newEyeColor);
 	}
 
+	/// <summary>
+	/// Sets up the sprite for a specific body part
+	/// </summary>
 	private void SetupBodySprite(SpriteSheetAndData variantBodypart, string bodypartKey, Color? color = null)
 	{
 		if (variantBodypart.Texture != null)
@@ -205,6 +224,9 @@ public class PlayerSprites : MonoBehaviour
 		UpdateBurningOverlays(livingHealthBehaviour.FireStacks, direction);
 	}
 
+	/// <summary>
+	/// Updates whether burning sprites are showing and sets their facing
+	/// </summary>
 	private void UpdateBurningOverlays(float fireStacks, Orientation currentFacing)
 	{
 		if (fireStacks <= 0)
@@ -268,15 +290,12 @@ public class PlayerSprites : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Returns true iff this playersprites has a clothing item for the specified named slot
+	/// Returns true if this playersprites has a clothing item for the specified named slot
 	/// </summary>
-	/// <param name="namedSlot"></param>
-	/// <returns></returns>
 	public bool HasClothingItem(NamedSlot? namedSlot)
 	{
 		return characterSprites.FirstOrDefault(ci => ci.Slot == namedSlot) != null;
 	}
-
 
 	private void OnClothingEquipped(ClothingV2 clothing, bool isEquiped)
 	{
@@ -287,8 +306,8 @@ public class PlayerSprites : MonoBehaviour
 			hideClothingFlags |= clothing.HideClothingFlags;
 		// if player get off old clothes, we need to remove old flags
 		else
-		{	//repeat 11 times, once for each bit		
-			for (int i = 0;i < 11; i++)
+		{
+			for (int i = 0; i < 11; i++) //repeat 11 times, once for each bit
 			{
 				//get a bit from the byte
 				ulong bit = ((ulong)clothing.HideClothingFlags >> i) & 1U;
