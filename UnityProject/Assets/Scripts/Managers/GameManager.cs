@@ -464,6 +464,7 @@ public partial class GameManager : MonoBehaviour
 			int slotsMax = GameManager.Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
 			if (slotsTaken >= slotsMax)
 			{
+				SpawnPlayerRequestQueue.Dequeue();
 				continue;
 			}
 
