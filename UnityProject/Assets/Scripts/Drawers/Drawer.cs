@@ -168,18 +168,18 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 	#region Interactions
 
 	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
-    {
+	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-        if (interaction.HandObject != null) return false;
+		if (interaction.HandObject != null) return false;
 	
 		return true;
-    }
+	}
 
-    public virtual void ServerPerformInteraction(HandApply interaction)
-    {
+	public virtual void ServerPerformInteraction(HandApply interaction)
+	{
 		if (drawerState == DrawerState.Open) CloseDrawer();
 		else OpenDrawer();
-    }
+	}
 
 	#endregion Interactions
 
@@ -212,7 +212,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		drawerState = DrawerState.Open; // [SyncVar] will update sprites
 	}
 
-    protected virtual void CloseDrawer()
+	protected virtual void CloseDrawer()
 	{
 		trayBehaviour.parentContainer = drawerPushPull;
 		trayBehaviour.VisibleState = false;

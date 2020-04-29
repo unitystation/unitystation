@@ -10,7 +10,7 @@ using UnityEngine;
 public class Morgue : Drawer
 {
 	// Extra states over the base DrawerState enum.
-    private enum MorgueState
+	private enum MorgueState
 	{
 		/// <summary> Yellow morgue lights. </summary>
 		ShutWithItems = 3,
