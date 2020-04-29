@@ -140,6 +140,14 @@ MonoBehaviour:
       Items:
       - {fileID: 5313833756698493227, guid: 2d6f4fef721c0dc4787288d67494e06b, type: 3}
       - {fileID: 5313833756698493227, guid: 2d6f4fef721c0dc4787288d67494e06b, type: 3}
+    - OrderName: Beaker Box Crate
+      CreditsCost: 700
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 340110790840061811, guid: 7aa9761a5eabc0c4291900cdb61809d7, type: 3}
+      - {fileID: 340110790840061811, guid: 7aa9761a5eabc0c4291900cdb61809d7, type: 3}
+      - {fileID: 340110790840061811, guid: 7aa9761a5eabc0c4291900cdb61809d7, type: 3}
   - CategoryName: Science
     Supplies:
     - OrderName: Chemistry kit Crate
@@ -260,6 +268,14 @@ MonoBehaviour:
       - {fileID: 8635195139948178778, guid: 26e69f383ef501b4987c0b649f07f9ca, type: 3}
       - {fileID: 8635195139948178778, guid: 26e69f383ef501b4987c0b649f07f9ca, type: 3}
       - {fileID: 8635195139948178778, guid: 26e69f383ef501b4987c0b649f07f9ca, type: 3}
+    - OrderName: Replacement Lights
+      CreditsCost: 1000
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 3973267002362988137, guid: 4500696505625ce9db738d4f79806975, type: 3}
+      - {fileID: 3973267002362988137, guid: 4500696505625ce9db738d4f79806975, type: 3}
+      - {fileID: 3973267002362988137, guid: 4500696505625ce9db738d4f79806975, type: 3}
   - CategoryName: Botany
     Supplies:
     - OrderName: Hydroponics Crate
