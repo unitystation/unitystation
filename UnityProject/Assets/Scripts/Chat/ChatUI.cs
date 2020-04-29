@@ -22,7 +22,8 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private GameObject activeRadioChannelPanel = null;
 	[SerializeField] private GameObject activeChannelTemplate = null;
 	[SerializeField] private InputField InputFieldChat = null;
-	[SerializeField] private Transform thresholdMarker = null;
+	[SerializeField] private Transform thresholdMarkerBottom = null;
+	[SerializeField] private Transform thresholdMarkerTop = null;
 	[SerializeField] private AdminHelpChat adminHelpChat = null;
 	private bool windowCoolDown = false;
 
@@ -206,7 +207,8 @@ public class ChatUI : MonoBehaviour
 
 		GameObject entry = entryPool.GetChatEntry();
 		var chatEntry = entry.GetComponent<ChatEntry>();
-		chatEntry.thresholdMarker = thresholdMarker;
+		chatEntry.thresholdMarkerBottom = thresholdMarkerBottom;
+		chatEntry.thresholdMarkerTop = thresholdMarkerTop;
 		chatEntry.SetText(message);
 		allEntries.Add(chatEntry);
 		SetEntryTransform(entry);
