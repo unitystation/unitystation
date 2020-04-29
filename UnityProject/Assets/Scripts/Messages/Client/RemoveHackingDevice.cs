@@ -13,7 +13,6 @@ public class RemoveHackingDevice: ClientMessage
 
 	public override void Process()
 	{
-		Debug.Log("Client attempting to remove a device.");
 		LoadMultipleObjects(new uint[] { Player, HackableObject, HackingDevice });
 
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
@@ -22,7 +21,6 @@ public class RemoveHackingDevice: ClientMessage
 		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
 		if (hackingProcess.ServerPlayerCanRemoveDevice(playerScript, hackDevice))
 		{
-			Debug.Log("Client successfully removed device.");
 			hackingProcess.RemoveHackingDevice(hackDevice);
 			hackingProcess.ServerPlayerRemoveHackingDevice(playerScript, hackDevice);
 			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());

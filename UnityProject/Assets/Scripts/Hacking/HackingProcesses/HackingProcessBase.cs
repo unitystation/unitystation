@@ -5,6 +5,7 @@ using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
 using YamlDotNet.Samples;
+using UnityEngine.Events;
 
 /// <summary>
 /// This is a controller for hacking an object. This compoenent being attached to an object means that the object is hackable.
@@ -29,6 +30,7 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	[SerializeField]
 	[Tooltip("What the initial stage of the hack should be when the object is spawned.")]
 	private int hackInitialStage = 0;
+
 	/// <summary>
 	/// This is a convenience function. Since some devices need to have several steps be completed in order to expose their wiring, this just adds a simple way of
 	/// communicating between server/client what stage of the hack we're up to. Saves having to recreate it each time we make a new hacking process.
@@ -43,7 +45,14 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	private ItemStorage itemStorage;
 	public ItemStorage ItemStorage => itemStorage;
 
-	public void Awake()
+	public HackingNodeList nodeInfo;
+
+	/// <summary>
+	/// Contains all the hacking nodes associated with this object.
+	/// </summary>
+	protected List<HackingNode> hackNodes = new List<HackingNode>();
+
+	void Awake()
 	{
 		itemStorage = GetComponent<ItemStorage>();
 	}
@@ -51,12 +60,18 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	public override void OnStartClient()
 	{
 		itemStorage = GetComponent<ItemStorage>();
+		if (isClientOnly)
+		{
+			ClientGenerateNodesFromNodeInfo();
+		}
 		SyncWiresExposed(wiresExposed, wiresExposed);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		itemStorage = GetComponent<ItemStorage>();
+		ServerGenerateNodesFromNodeInfo();
+		ServerLinkHackingNodes();
 		SyncWiresExposed(wiresInitiallyExposed, wiresInitiallyExposed);
 	}
 
@@ -87,6 +102,45 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	public virtual void RegisterHackingGUI(GUI_Hacking hackUI)
 	{
 		hackingGUI = hackUI;
+	}
+
+
+	public abstract void ServerLinkHackingNodes();
+
+	public virtual void ServerGenerateNodesFromNodeInfo()
+	{
+		foreach (HackingNodeInfo inf in nodeInfo.nodeInfoList)
+		{
+			HackingNode newNode = new HackingNode();
+			newNode.IsInput = inf.IsInput;
+			newNode.IsOutput = inf.IsOutput;
+			newNode.IsDeviceNode = inf.IsDeviceNode;
+			newNode.InternalIdentifier = inf.InternalIdentifier;
+			newNode.HiddenLabel = inf.HiddenLabel;
+			newNode.PublicLabel = inf.PublicLabel;
+
+			hackNodes.Add(newNode);
+		}
+	}
+
+	//Node list is just undefined nodes for the client. Important, because it means that the client does not know what nodes does what. It just needs the same amount of nodes.
+	public void ClientGenerateNodesFromNodeInfo()
+	{
+		foreach (HackingNodeInfo inf in nodeInfo.nodeInfoList)
+		{
+			HackingNode newNode = new HackingNode();
+			newNode.IsInput = inf.IsInput;
+			newNode.IsOutput = inf.IsOutput;
+			newNode.IsDeviceNode = inf.IsDeviceNode;
+			newNode.PublicLabel = inf.PublicLabel;
+
+			hackNodes.Add(newNode);
+		}
+	}
+
+	public HackingNode GetNodeWithInternalIdentifier(string identifier)
+	{
+		return hackNodes.Find(x => x.InternalIdentifier.Equals(identifier));
 	}
 
 	/// <summary>
@@ -123,16 +177,13 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 
 	public virtual void RemoveNodeConnection(int[] connection)
 	{
-		Debug.Log("Attempting to remove connection.");
 		if (connection.Length != 2) return;
 
-		Debug.Log("Valid connection array, checking nodes.");
 		HackingNode outputNode = GetHackNodes()[connection[0]];
 		HackingNode inputNode = GetHackNodes()[connection[1]];
 
 		if (outputNode != null && inputNode != null && outputNode.IsOutput && inputNode.IsInput)
 		{
-			Debug.Log("Nodes connected, removing connection.");
 			outputNode.RemoveConnectedNode(inputNode);
 		}
 	}
@@ -141,10 +192,19 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	{
 		if (connection.Length != 2) return;
 
-		HackingNode outputNode = GetHackNodes()[connection[0]];
-		HackingNode inputNode = GetHackNodes()[connection[1]];
+		HackingNode outputNode = hackNodes[connection[0]];
+		HackingNode inputNode = hackNodes[connection[1]];
 
-		if (outputNode != null && inputNode != null && outputNode.IsOutput && inputNode.IsInput && !outputNode.ConnectedInputNodes.Contains(inputNode))
+		bool nodeNotNull = outputNode != null && inputNode != null;
+		Debug.Log(nodeNotNull);
+
+		bool isOutputAndInput = outputNode.IsOutput && inputNode.IsInput;
+		Debug.Log(isOutputAndInput);
+
+		bool notAlreadyHasNode = !outputNode.ConnectedInputNodes.Contains(inputNode);
+		Debug.Log(notAlreadyHasNode);
+
+		if (nodeNotNull && isOutputAndInput && notAlreadyHasNode)
 		{
 			outputNode.AddConnectedNode(inputNode);
 		}
@@ -157,14 +217,13 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	public virtual List<int[]> GetNodeConnectionList()
 	{
 		List<int[]> connectionList = new List<int[]>();
-		List<HackingNode> hackingNodes = GetHackNodes();
 		int outputIndex = 0;
-		foreach (HackingNode node in hackingNodes )
+		foreach (HackingNode node in hackNodes)
 		{
 			List<HackingNode> connectedNodes = node.ConnectedInputNodes;
 			foreach (HackingNode connectedNode in connectedNodes)
 			{
-				int inputIndex = hackingNodes.IndexOf(connectedNode);
+				int inputIndex = hackNodes.IndexOf(connectedNode);
 				int[] connection = { outputIndex, inputIndex };
 				connectionList.Add(connection);
 			}
@@ -180,8 +239,8 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	public virtual void AddHackingDevice(HackingDevice device)
 	{
 		devices.Add(device);
-		GetHackNodes().Add(device.InputNode);
-		GetHackNodes().Add(device.OutputNode);
+		hackNodes.Add(device.InputNode);
+		hackNodes.Add(device.OutputNode);
 	}
 
 	/// <summary>
@@ -191,13 +250,13 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	public virtual void RemoveHackingDevice(HackingDevice device)
 	{
 		devices.Remove(device);
-		GetHackNodes().Remove(device.InputNode);
+		hackNodes.Remove(device.InputNode);
 
 		//Ensure that nothing is connected to the device when it's removed.
-		GetHackNodes().ForEach(x => x.RemoveConnectedNode(device.InputNode));
+		hackNodes.ForEach(x => x.RemoveConnectedNode(device.InputNode));
 
 		device.OutputNode.RemoveAllConnectedNodes();
-		GetHackNodes().Remove(device.OutputNode);
+		hackNodes.Remove(device.OutputNode);
 	}
 
 	/// <summary>
@@ -227,13 +286,10 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	/// i.e. for a simple door, it would get the nodes from the door object.
 	/// </summary>
 	/// <returns></returns>
-	public abstract List<HackingNode> GetHackNodes();
-
-	/// <summary>
-	/// This is a temporary function the hacking nodes are stored on this component.
-	/// </summary>
-	/// <param name="newNodes"></param>
-	public abstract void SetHackNodes(List<HackingNode> newNodes);
+	public virtual List<HackingNode> GetHackNodes()
+	{
+		return hackNodes;
+	}
 
 	/// <summary>
 	/// These functions are called when the SyncVars are set using the appropriate hooks.
@@ -386,3 +442,4 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	}
 
 }
+

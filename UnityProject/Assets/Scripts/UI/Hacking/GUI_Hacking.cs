@@ -99,20 +99,26 @@ public class GUI_Hacking : NetTab
 
 	private List<int[]> connectionList = new List<int[]>();
 
+	private bool initialised = false;
+
+	private void Initialise()
+	{
+
+	}
+
 	void Start()
-    {
+	{
 		if (Provider != null)
 		{
 			hackProcess = Provider.GetComponentInChildren<HackingProcessBase>();
 			hackProcess.RegisterHackingGUI(this);
 
-			SetNodeList(hackProcess.GetHackNodes());
-			connectionList = hackProcess.GetNodeConnectionList();
-
-			if (!IsServer)
+			if (hackProcess.isClient)
 			{
 				RequestHackingNodeConnections.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject);
 			}
+
+			initialised = true;
 		}
 	}
 
@@ -126,8 +132,8 @@ public class GUI_Hacking : NetTab
 	}
 
 	public void ServerOnOpened(ConnectedPlayer connectedPlayer)
-	{
-		//For some reason, this appears to be null the first time it's called.
+	{	
+		HackingProcessBase directHackReference = Provider.GetComponentInChildren<HackingProcessBase>();
 		ItemStorage hackStorage = hackProcess == null ? Provider.GetComponentInChildren<ItemStorage>() : hackProcess.ItemStorage;
 		if (hackStorage != null)
 		{
@@ -367,6 +373,26 @@ public class GUI_Hacking : NetTab
 		}
 	}
 
+	private void UpdateWiresFromConnectionList()
+	{
+		DeleteOldWires();
+		foreach (int[] connection in connectionList)
+		{
+			int outputIndex = connection[0];
+			int inputIndex = connection[1];
+			GUI_HackingNode outputUINode = GetUIComponentOfNode(hackNodes[outputIndex]);
+			GUI_HackingNode inputUINode = GetUIComponentOfNode(hackNodes[inputIndex]);
+
+			GameObject connectingWire = Instantiate(connectingWireUIPrefab, transform);
+			GUI_HackingWire GUIWire = connectingWire.GetComponent<GUI_HackingWire>();
+			GUIWire.SetStartUINode(outputUINode);
+			GUIWire.SetEndUINode(inputUINode);
+			GUIWire.PositionWireBody();
+
+			hackingWires.Add(GUIWire);
+		}
+	}
+
 	public void DeleteOldWires()
 	{
 		foreach (GUI_HackingWire wire in hackingWires)
@@ -388,8 +414,6 @@ public class GUI_Hacking : NetTab
 		HackingNode inputNode = wireUI.EndNode.HackNode;
 
 		outputNode.RemoveConnectedNode(inputNode);
-			
-		ClientRecalculateConnectionList();
 
 		//If we're on client, network to the server the changes we made.
 		if (!IsServer)
@@ -416,13 +440,11 @@ public class GUI_Hacking : NetTab
 	//In theory, this should sync devices between server and client. In practice, I worry there may be a race condition, so, watch out for that I guess.
 
 	/// <summary>
-	/// Client side function to update devices from observed slots in storage.
+	/// Function to update devices from observed slots in storage. Mostly used on client.
 	/// </summary>
 	public void UpdateDevices()
 	{
-		if (IsServer) return;
 		hackProcess.RemoveAllDevices();
-
 		foreach (ItemSlot deviceSlot in hackProcess.ItemStorage.GetItemSlots())
 		{
 			Pickupable devicePickup = deviceSlot.Item;
@@ -432,7 +454,6 @@ public class GUI_Hacking : NetTab
 				hackProcess.AddHackingDevice(device);
 			}
 		}
-		SetNodeList(hackProcess.GetHackNodes());
 	}
 
 	public void RegenerateDevices()
@@ -470,8 +491,12 @@ public class GUI_Hacking : NetTab
 	public void UpdateConnectionList(List<int[]> serverConnections)
 	{
 		connectionList = serverConnections;
-	
-		UpdateDevices();
+		if (hackProcess.isClientOnly)
+		{
+			UpdateDevices();
+		}
+		SetNodeList(hackProcess.GetHackNodes());
+		UpdateWiresFromConnectionList();
 	}
 
 	public  List<int[]> GetNodeConnectionList()
@@ -505,8 +530,6 @@ public class GUI_Hacking : NetTab
 
 		newWireOutput.HackNode.AddConnectedNode(newWireInput.HackNode);
 
-		ClientRecalculateConnectionList();
-
 		if (!IsServer)
 		{
 			int outIndex = hackNodes.IndexOf(newWireOutput.HackNode);
@@ -514,10 +537,7 @@ public class GUI_Hacking : NetTab
 			int[] connectionToAdd = { outIndex, inIndex };
 			AddHackingConnection.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, connectionToAdd);
 
-			Debug.Log("Client attempting to add wire.");
 		}
-
-		RegenerateWiring();
 
 		isAddingWire = false;
 

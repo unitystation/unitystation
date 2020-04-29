@@ -5,7 +5,7 @@ using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
 
-public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
+public class DoorController : NetworkBehaviour, IServerSpawn
 {
 	//public bool isWindowed = false;
 	public enum OpeningDirection
@@ -19,43 +19,6 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 		Safe,
 		Caution,
 		Warning
-	}
-
-	public enum NodeNames
-	{
-		//When a the door is interacted with.
-		OnAttemptOpen,
-		OnAttemptClose,
-
-		//Begin the process of checking if we should open/close.
-		BeginOpenProcedure,
-		BeginCloseProcedure,
-
-		//We have decided that we are valid to open, and are now going to.
-		OnShouldOpen,
-		OnShouldClose,
-
-		//Open the door/close the door.
-		OpenDoor,
-		CloseDoor,
-
-		//Outputs when the door opens/closes.
-		OnDoorOpened,
-		OnDoorClosed,
-
-		//Output when an ID should be accepted/rejected.
-		OnIDAccepted,
-		OnIDRejected,
-
-		//Do the animation/sounds for rejecting an ID.
-		AcceptId,
-		RejectID,
-
-		//Output when we should do a pressure warning.
-		ShouldDoPressureWarning,
-		//Input to do the animation/sounds for a pressure warning.
-		DoPressureWarning
-
 	}
 
 	private int closedLayer;
@@ -76,12 +39,6 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 	/// Is door weldedable?
 	/// </summary>
 	public bool IsWeldable => (weldOverlay != null);
-
-	/// <summary>
-	/// Hacking nodes used to change the control flow of the object.
-	/// </summary>
-	private List<HackingNode> hackNodes = new List<HackingNode>();
-	public List<HackingNode> HackNodes => hackNodes;
 
 	public DoorType doorType;
 
@@ -146,6 +103,17 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 	[HideInInspector] public SpriteRenderer spriteRenderer;
 
 
+	private HackingProcessBase hackingProcess;
+	public HackingProcessBase HackingProcess => hackingProcess;
+
+	private bool isHackable;
+	public bool IsHackable => isHackable;
+
+	private bool hackingLoaded;
+
+	private float inputDelay = 0.5f;
+	private float delayStartTime = 0;
+
 	private void Awake()
 	{
 		EnsureInit();
@@ -169,8 +137,9 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 		registerTile = gameObject.GetComponent<RegisterDoor>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 
-		hackNodes = GenerateHackNodes();
-		LinkHackNodes();
+		hackingProcess = GetComponent<HackingProcessBase>();
+		isHackable = hackingProcess != null;
+		hackingLoaded = false;
 	}
 
 	public override void OnStartClient()
@@ -271,11 +240,17 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 	public void ServerTryClose()
 	{
 		// Sliding door is not passable according to matrix
-        if( !IsClosed && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) ) {
-			//HackingNode closedDoor = GetNodeOfEnum(NodeNames.CloseDoor);
-			//closedDoor.InputReceived();
-			HackingNode onShouldClose = GetNodeOfEnum(NodeNames.OnShouldClose);
-			onShouldClose.SendOutputToConnectedNodes();
+        if( !IsClosed && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) )
+		{
+			if (isHackable && hackingLoaded)
+			{
+				HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier("OnShouldClose");
+				onShouldClose.SendOutputToConnectedNodes();
+			}
+			else
+			{
+				ServerClose();
+			}
 		}
 		else
 		{
@@ -285,10 +260,17 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 
 	public void ServerClose() {
 		if (gameObject == null) return; // probably destroyed by a shuttle crash
+		if (Time.time < delayStartTime + inputDelay) return;
+
+		delayStartTime = Time.time;
+
 		IsClosed = true;
 
-		HackingNode onDoorClosed = GetNodeOfEnum(NodeNames.OnDoorOpened);
-		onDoorClosed.SendOutputToConnectedNodes();
+		if (isHackable && hackingLoaded)
+		{
+			HackingNode onDoorClosed = hackingProcess.GetNodeWithInternalIdentifier("OnDoorOpened");
+			onDoorClosed.SendOutputToConnectedNodes();
+		}
 
 		if ( !isPerformingAction ) {
 			DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Close );
@@ -312,10 +294,15 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 			{
 				if (IsClosed && !isPerformingAction)
 				{
-					
-					HackingNode onIDRejected = GetNodeOfEnum(NodeNames.OnIDRejected);
-					onIDRejected.SendOutputToConnectedNodes(Originator);
-
+					if (isHackable && hackingLoaded)
+					{
+						HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier("OnIDRejected");
+						onIDRejected.SendOutputToConnectedNodes(Originator);
+					}
+					else
+					{
+						ServerAccessDenied();
+					}
 					return;
 				}
 			}
@@ -325,14 +312,27 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 		{
 			if (!pressureWarnActive && DoorUnderPressure())
 			{
-				//ServerPressureWarn();
-				HackingNode shouldDoPressureWarn = GetNodeOfEnum(NodeNames.ShouldDoPressureWarning);
-				shouldDoPressureWarn.SendOutputToConnectedNodes(Originator);
+				if (isHackable && hackingLoaded)
+				{
+					HackingNode shouldDoPressureWarn = hackingProcess.GetNodeWithInternalIdentifier("ShouldDoPressureWarning");
+					shouldDoPressureWarn.SendOutputToConnectedNodes(Originator);
+				}
+				else
+				{
+					ServerPressureWarn();
+				}
 			}
 			else
 			{
-				HackingNode onShouldOpen = GetNodeOfEnum(NodeNames.OnShouldOpen);
-				onShouldOpen.SendOutputToConnectedNodes(Originator);
+				if (isHackable && hackingLoaded)
+				{
+					HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier("OnShouldOpen");
+					onShouldOpen.SendOutputToConnectedNodes(Originator);
+				}
+				else
+				{
+					ServerOpen();
+				}
 			}
 		}
 	}
@@ -347,11 +347,18 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 	public void ServerOpen()
 	{
 		if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
+		if (Time.time < delayStartTime + inputDelay) return;
+
+		delayStartTime = Time.time;
+
 		ResetWaiting();
 		IsClosed = false;
 
-		HackingNode onDoorOpened = GetNodeOfEnum(NodeNames.OnDoorOpened);
-		onDoorOpened.SendOutputToConnectedNodes();
+		if (isHackable && hackingLoaded)
+		{
+			HackingNode onDoorOpened = hackingProcess.GetNodeWithInternalIdentifier("OnDoorOpened");
+			onDoorOpened.SendOutputToConnectedNodes();
+		}
 
 		if (!isPerformingAction)
 		{
@@ -503,104 +510,59 @@ public class DoorController : NetworkBehaviour, IHackable, IServerSpawn
 		}
 	}
 
-	public List<HackingNode> GenerateHackNodes()
-	{
-		List<HackingNode> tempList = new List<HackingNode>();
-		int id = 0;
-		foreach (string nodeName in Enum.GetNames(typeof(NodeNames)))
-		{
-			HackingNode node = new HackingNode();
-			node.InternalLabel = (string)nodeName;
-			node.PublicLabel = "alpha";
-			node.NodeID = id;
-
-			tempList.Add(node);
-			id++;
-		}
-		return tempList;
-	}
-
-	public HackingNode GetNodeOfEnum(NodeNames nodeEnum)
-	{
-		return HackingNode.GetNodeByInternalLabel(hackNodes, Enum.GetName(typeof(NodeNames), nodeEnum));
-	}
 
 	public void LinkHackNodes()
 	{
 
-		HackingNode openDoor = GetNodeOfEnum(NodeNames.OpenDoor);
+		HackingNode openDoor = hackingProcess.GetNodeWithInternalIdentifier("OpenDoor");
 		openDoor.AddToInputMethods(ServerOpen);
-		openDoor.IsInput = true;
 
-		HackingNode closeDoor = GetNodeOfEnum(NodeNames.CloseDoor);
+		HackingNode closeDoor = hackingProcess.GetNodeWithInternalIdentifier("CloseDoor");
 		closeDoor.AddToInputMethods(ServerClose);
-		closeDoor.IsInput = true;
 
-		HackingNode beginOpenProcedure = GetNodeOfEnum(NodeNames.BeginOpenProcedure);
+		HackingNode beginOpenProcedure = hackingProcess.GetNodeWithInternalIdentifier("BeginOpenProcedure");
 		beginOpenProcedure.AddToInputMethods(ServerTryOpen);
-		beginOpenProcedure.IsInput = true;
 
-		HackingNode beginCloseProcedure = GetNodeOfEnum(NodeNames.BeginCloseProcedure);
+		HackingNode beginCloseProcedure = hackingProcess.GetNodeWithInternalIdentifier("BeginCloseProcedure");
 		beginCloseProcedure.AddToInputMethods(ServerTryClose);
-		beginCloseProcedure.IsInput = true;
 
-		HackingNode onAttemptOpen = GetNodeOfEnum(NodeNames.OnAttemptOpen);
+		HackingNode onAttemptOpen = hackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
 		onAttemptOpen.AddConnectedNode(beginOpenProcedure);
-		onAttemptOpen.IsOutput = true;
 
-		HackingNode onAttemptClose = GetNodeOfEnum(NodeNames.OnAttemptClose);
+		HackingNode onAttemptClose = hackingProcess.GetNodeWithInternalIdentifier("OnAttemptClose");
 		onAttemptClose.AddConnectedNode(beginCloseProcedure);
-		onAttemptClose.IsOutput = true;
 
-		HackingNode onShouldOpen = GetNodeOfEnum(NodeNames.OnShouldOpen);
+		HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier("OnShouldOpen");
 		onShouldOpen.AddConnectedNode(openDoor);
-		onShouldOpen.IsOutput = true;
 
-		HackingNode onShouldClose = GetNodeOfEnum(NodeNames.OnShouldClose);
+		HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier("OnShouldClose");
 		onShouldClose.AddConnectedNode(closeDoor);
-		onShouldClose.IsOutput = true;
 
-		HackingNode acceptID = GetNodeOfEnum(NodeNames.AcceptId);
-		acceptID.IsInput = true;
+		HackingNode acceptID = hackingProcess.GetNodeWithInternalIdentifier("AcceptId");
 
-		HackingNode rejectID = GetNodeOfEnum(NodeNames.RejectID);
+		HackingNode rejectID = hackingProcess.GetNodeWithInternalIdentifier("RejectID");
 		rejectID.AddToInputMethods(ServerAccessDenied);
-		rejectID.IsInput = true;
 
-		HackingNode onIDRejected = GetNodeOfEnum(NodeNames.OnIDRejected);
+		HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier("OnIDRejected");
 		onIDRejected.AddConnectedNode(rejectID);
-		onIDRejected.IsOutput = true;
 
-		HackingNode doPressureWarning = GetNodeOfEnum(NodeNames.DoPressureWarning);
+		HackingNode doPressureWarning = hackingProcess.GetNodeWithInternalIdentifier("DoPressureWarning");
 		doPressureWarning.AddToInputMethods(ServerPressureWarn);
-		doPressureWarning.IsInput = true;
 
-		HackingNode shouldDoPressureWarning = GetNodeOfEnum(NodeNames.ShouldDoPressureWarning);
+		HackingNode shouldDoPressureWarning = hackingProcess.GetNodeWithInternalIdentifier("ShouldDoPressureWarning");
 		shouldDoPressureWarning.AddConnectedNode(doPressureWarning);
-		shouldDoPressureWarning.IsOutput = true;
 
-		HackingNode onDoorOpened = GetNodeOfEnum(NodeNames.OnDoorOpened);
-		onDoorOpened.IsOutput = true;
+		HackingNode onDoorOpened = hackingProcess.GetNodeWithInternalIdentifier("OnDoorOpened");
 
-		HackingNode onDoorClosed = GetNodeOfEnum(NodeNames.OnDoorClosed);
-		onDoorClosed.IsOutput = true;
+		HackingNode onDoorClosed = hackingProcess.GetNodeWithInternalIdentifier("OnDoorClosed");
 
-	}
+		hackingLoaded = true;
 
-	public List<HackingNode> GetHackingNodes()
-	{
-		return HackNodes;
-	}
-
-	public void SetHackingNodes(List<HackingNode> nodes)
-	{
-		hackNodes = nodes;
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		hackNodes = GenerateHackNodes();
-		LinkHackNodes();
+
 	}
 
 }

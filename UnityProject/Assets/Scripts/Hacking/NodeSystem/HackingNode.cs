@@ -14,15 +14,12 @@ public class HackingNode
 	/// The public label is what a player sees when they view the name of this node in the hacking menu. This is important to have synced, as it should be the same serverside and clientside, and late joiners need to have the
 	/// correct public label to be on the same page as other players.
 	/// </summary>
-	[SerializeField]
 	public string PublicLabel { get; set; }
 
-	//private string internalLabel = "iternal";
 	//Using an auto get-set for this for now. Will need to update how this functions when I figure out how the internal label should be shared. i.e. to the engineers somehow.`
-	public	string InternalLabel { get; set; }
+	public	string HiddenLabel { get; set; }
 
-	//Used to identify nodes.
-	public int NodeID { get; set; }
+	public string InternalIdentifier { get; set; }
 
 	//Bools for whether the node is an input or output node. I'm not exactly sure how these will work, so maybe eventually there could be a situation where a node is both? Dunno
 	public	bool IsInput { get; set; }
@@ -45,26 +42,24 @@ public class HackingNode
 	public HackingNode(string publicLabel, string internalLabel, bool isInput, bool isOutput)
 	{
 		PublicLabel = publicLabel;
-		InternalLabel = internalLabel;
+		InternalIdentifier = internalLabel;
 		IsInput = isInput;
 		IsOutput = isOutput;
 		IsDeviceNode = false;
-		NodeID = 0;
 	}
 
 	public HackingNode()
 	{
 		PublicLabel = "unset label";
-		InternalLabel = "unset internal label";
+		InternalIdentifier = "unset internal label";
 		IsInput = false;
 		IsOutput = false;
 		IsDeviceNode = false;
-		NodeID = 0;
 	}
 
 	public static HackingNode GetNodeByInternalLabel(List<HackingNode> nodeList, string internalLabel)
 	{
-		return nodeList.Find(x => x.InternalLabel.Equals(internalLabel));
+		return nodeList.Find(x => x.InternalIdentifier.Equals(internalLabel));
 	}
 
 	/// <summary>

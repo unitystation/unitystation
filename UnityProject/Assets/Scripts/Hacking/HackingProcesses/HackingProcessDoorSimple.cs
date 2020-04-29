@@ -1,5 +1,7 @@
-﻿using System.Collections;
+﻿using Mirror;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -8,6 +10,20 @@ using UnityEngine;
 public class HackingProcessDoorSimple : HackingProcessBase
 {
 	public NetTabType NetTabType = NetTabType.HackingPanel;
+
+	private static int? doorSeed = null;
+	private static int? DoorSeed
+	{
+		get
+		{
+			if (doorSeed == null)
+			{
+				doorSeed = Random.RandomRange(1, 100000);
+			}
+			return doorSeed;
+		}
+	}
+
 
 	[SerializeField]
 	[Tooltip("The name that comes up when you interact with the object.")]
@@ -98,6 +114,27 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 	}
 
+	public override void ServerGenerateNodesFromNodeInfo()
+	{
+		foreach (HackingNodeInfo inf in nodeInfo.nodeInfoList.ToList().Shuffle())
+		{
+			HackingNode newNode = new HackingNode();
+			newNode.IsInput = inf.IsInput;
+			newNode.IsOutput = inf.IsOutput;
+			newNode.IsDeviceNode = inf.IsDeviceNode;
+			newNode.InternalIdentifier = inf.InternalIdentifier;
+			newNode.HiddenLabel = inf.HiddenLabel;
+			newNode.PublicLabel = inf.PublicLabel;
+
+			hackNodes.Add(newNode);
+		}
+	}
+
+	public override void ServerLinkHackingNodes()
+	{
+		Controller.LinkHackNodes();
+	}
+
 	public void ServerTryTogglePanel()
 	{
 		if (!Controller.isPerformingAction)
@@ -127,13 +164,4 @@ public class HackingProcessDoorSimple : HackingProcessBase
 		NetworkTabManager.Instance.RemoveTab(gameObject, NetTabType);
 	}
 
-	public override List<HackingNode> GetHackNodes()
-	{
-		return Controller.HackNodes;
-	}
-
-	public override void SetHackNodes(List<HackingNode> newNodes)
-	{
-		Controller.SetHackingNodes(newNodes);
-	}
 }

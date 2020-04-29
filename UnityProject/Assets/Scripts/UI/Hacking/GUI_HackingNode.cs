@@ -26,7 +26,7 @@ public class GUI_HackingNode : MonoBehaviour
 
 	public void SetUpNodeData()
 	{
-		label.SetText(hackNode.InternalLabel);
+		//label.SetText(hackNode.HiddenLabel);
 	}
 
 	public void OnClick()

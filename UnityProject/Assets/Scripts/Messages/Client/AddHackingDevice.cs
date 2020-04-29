@@ -13,7 +13,6 @@ public class AddHackingDevice: ClientMessage
 
 	public override void Process()
 	{
-		Debug.Log("Client attempting to add new device.");
 		LoadMultipleObjects(new uint[] { Player, HackableObject, HackingDevice });
 
 		var playerScript = NetworkObjects[0].GetComponent<PlayerScript>();
@@ -22,7 +21,6 @@ public class AddHackingDevice: ClientMessage
 		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
 		if (hackingProcess.ServerPlayerCanAddDevice(playerScript, hackDevice))
 		{
-			Debug.Log("Client successfully added new device.");
 			hackingProcess.AddHackingDevice(hackDevice);
 			hackingProcess.ServerStoreHackingDevice(hackDevice);
 			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());

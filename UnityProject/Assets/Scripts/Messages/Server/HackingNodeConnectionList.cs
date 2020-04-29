@@ -14,7 +14,6 @@ public class HackingNodeConnectionList : ServerMessage
 
 	public override void Process()
 	{
-		Debug.Log("Received updated connection list, updating on client.");
 		LoadMultipleObjects(new uint[] { Recipient, HackingObject });
 		List<int[]> data = JsonConvert.DeserializeObject<List<int[]>>(JsonData);
 
@@ -26,7 +25,6 @@ public class HackingNodeConnectionList : ServerMessage
 
 	public static HackingNodeConnectionList Send(GameObject recipient, GameObject hackingObject, List<int[]> connectionList)
 	{
-		Debug.Log("Sending updated connection list to client.");
 		HackingNodeConnectionList msg =
 			new HackingNodeConnectionList { Recipient = recipient.GetComponent<NetworkIdentity>().netId, HackingObject = hackingObject.GetComponent<NetworkIdentity>().netId, JsonData = JsonConvert.SerializeObject(connectionList) };
 

@@ -26,11 +26,11 @@ public class HackingDevice : MonoBehaviour, IServerSpawn, IClientSpawn
 	{
 		inputNode = new HackingNode();
 		inputNode.AddToInputMethods(onInputReceived.Invoke);
-		inputNode.InternalLabel = "Input";
+		inputNode.HiddenLabel = "Input";
 		inputNode.IsInput = true;
 		inputNode.IsDeviceNode = true;
 		outputNode = new HackingNode();
-		outputNode.InternalLabel = "Output";
+		outputNode.HiddenLabel = "Output";
 		outputNode.IsOutput = true;
 		outputNode.IsDeviceNode = true;
 	}
@@ -40,11 +40,11 @@ public class HackingDevice : MonoBehaviour, IServerSpawn, IClientSpawn
 		if (!CustomNetworkManager.IsServer)
 		{
 			inputNode = new HackingNode();
-			inputNode.InternalLabel = "Input";
+			inputNode.HiddenLabel = "Input";
 			inputNode.IsInput = true;
 			inputNode.IsDeviceNode = true;
 			outputNode = new HackingNode();
-			outputNode.InternalLabel = "Output";
+			outputNode.HiddenLabel = "Output";
 			outputNode.IsOutput = true;
 			outputNode.IsDeviceNode = true;
 		}

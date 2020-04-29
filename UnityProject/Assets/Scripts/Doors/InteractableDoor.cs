@@ -53,8 +53,15 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		if (Controller.IsClosed && Controller.IsAutomatic)
 		{
-			HackingNode onAttemptOpen = Controller.GetNodeOfEnum(DoorController.NodeNames.OnAttemptOpen);
-			onAttemptOpen.SendOutputToConnectedNodes(byPlayer);
+			if (Controller.IsHackable)
+			{
+				HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
+				onAttemptOpen.SendOutputToConnectedNodes(byPlayer);
+			}
+			else
+			{
+				Controller.ServerTryOpen(byPlayer);
+			}
 		}
 	}
 
@@ -64,8 +71,15 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		// Close the door if it's open
 		if (!Controller.IsClosed)
 		{
-			HackingNode onAttemptClose = Controller.GetNodeOfEnum(DoorController.NodeNames.OnAttemptClose);
-			onAttemptClose.SendOutputToConnectedNodes(interaction.Performer);
+			if (Controller.IsHackable)
+			{
+				HackingNode onAttemptClose = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptClose");
+				onAttemptClose.SendOutputToConnectedNodes(interaction.Performer);
+			}
+			else
+			{
+				Controller.ServerTryClose();
+			}
 		}
 		else
 		{
@@ -111,8 +125,16 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 
 			// Attempt to open if it's closed
 			//Tell the OnAttemptOpen node to activate.
-			HackingNode onAttemptOpen = Controller.GetNodeOfEnum(DoorController.NodeNames.OnAttemptOpen);
-			onAttemptOpen.SendOutputToConnectedNodes(interaction.Performer);
+			if (Controller.IsHackable)
+			{
+				HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
+				onAttemptOpen.SendOutputToConnectedNodes(interaction.Performer);
+			}
+			else
+			{
+				Controller.ServerTryOpen(interaction.Performer);
+			}
+
 		}
 
 		StartInputCoolDown();

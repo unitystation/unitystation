@@ -13,7 +13,6 @@ public class AddHackingConnection : ClientMessage
 
 	public override void Process()
 	{
-		Debug.Log("Client attempting to add new wire.");
 		LoadMultipleObjects(new uint[] { Player, HackableObject });
 		int[] connectionToAdd = JsonConvert.DeserializeObject<int[]>(JsonData);
 
@@ -22,7 +21,6 @@ public class AddHackingConnection : ClientMessage
 		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
 		if (hackingProcess.ServerPlayerCanAddConnection(playerScript, connectionToAdd))
 		{
-			Debug.Log("Client successfully added new wire.");
 			hackingProcess.AddNodeConnection(connectionToAdd);
 			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
 		}
