@@ -5,7 +5,7 @@ using UnityEngine.UI;
 ///Text label, not modifiable by clients directly
 [RequireComponent(typeof(Text))]
 [Serializable]
-public class NetLabel : NetUIElement<string>
+public class NetLabel : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
@@ -34,7 +34,7 @@ public class NetLabel : NetUIElement<string>
 		}
 	}
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
 	}
 }

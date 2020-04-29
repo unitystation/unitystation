@@ -13,9 +13,11 @@ namespace AdminTools
         {
 
             string text = CentCommInputBox.text;
-            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendCentCommAnnouncement(DatabaseAPI.ServerData.UserID,
-                                                                                            PlayerList.Instance.AdminToken,
-                                                                                            text);
+			var action = PlayerManager.LocalPlayerScript;
+
+			if (action == null) return;
+
+			action.playerNetworkActions.CmdSendCentCommAnnouncement(DatabaseAPI.ServerData.UserID, PlayerList.Instance.AdminToken, text);
 
             adminTools.ShowMainPage();
         }
@@ -23,9 +25,11 @@ namespace AdminTools
         public void SendCentCommReport()
         {
             string text = CentCommInputBox.text;
-            PlayerManager.LocalPlayerScript.playerNetworkActions.CmdSendCentCommReport(DatabaseAPI.ServerData.UserID,
-                                                                                        PlayerList.Instance.AdminToken,
-                                                                                        text);
+			var action = PlayerManager.LocalPlayerScript;
+
+			if (action == null) return;
+
+			action.playerNetworkActions.CmdSendCentCommReport(DatabaseAPI.ServerData.UserID, PlayerList.Instance.AdminToken, text);
 
             adminTools.ShowMainPage();
         }

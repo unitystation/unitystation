@@ -9,6 +9,16 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
       propertyPath: Reagents.Array.data[0]
       value: berryjuice
       objectReference: {fileID: 0}
@@ -17,10 +27,52 @@ PrefabInstance:
       propertyPath: itemAttributes
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f404090add8a06a26a3739a097558b8f,
+        type: 2}
+    - target: {fileID: -8495944252109480343, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialName
+      value: Berry Juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: initialSize
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2836087772d454d49ae344ee98e3f55b,
+        type: 3}
+    - target: {fileID: 1024679538077702783, guid: 5bffec0720d353440a0d06532a3221f6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 1129366686127204299, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
       propertyPath: m_Name
-      value: Berry Juice1
+      value: Berry Juice
       objectReference: {fileID: 0}
     - target: {fileID: 1134857784536455871, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
@@ -77,31 +129,5 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: initialName
-      value: Berry Juice
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: initialDescription
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: initialSize
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1024679538077702783, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 2836087772d454d49ae344ee98e3f55b,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5bffec0720d353440a0d06532a3221f6, type: 3}

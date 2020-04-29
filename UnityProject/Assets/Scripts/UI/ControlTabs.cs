@@ -18,6 +18,9 @@ public class ControlTabs : MonoBehaviour
 	private bool preventRoll = false;
 
 	private static ControlTabs controlTabs;
+	private Tab[] tabsCache;
+	private Tab[] popoutTabsCache;
+
 	public static ControlTabs Instance
 	{
 		get
@@ -67,20 +70,28 @@ public class ControlTabs : MonoBehaviour
 	{
 		get
 		{
-			var list = new List<Tab>();
-			var tabs = TabStorage.GetComponentsInChildren<Tab>(true);
-			for (var i = 0; i < tabs?.Length; i++)
+			if (tabsCache == null)
 			{
-				Tab tab = tabs[i];
+				tabsCache = TabStorage.GetComponentsInChildren<Tab>(true);
+			}
+
+			if (popoutTabsCache == null)
+			{
+				popoutTabsCache = TabStoragePopOut.GetComponentsInChildren<Tab>(true);
+			}
+
+			var list = new List<Tab>(tabsCache.Length + popoutTabsCache.Length);
+			for (var i = 0; i < tabsCache?.Length; i++)
+			{
+				Tab tab = tabsCache[i];
 				if (!tab.Hidden)
 				{
 					list.Add(tab);
 				}
 			}
-			tabs = TabStoragePopOut.GetComponentsInChildren<Tab>(true);
-			for (var i = 0; i < tabs?.Length; i++)
+			for (var i = 0; i < popoutTabsCache?.Length; i++)
 			{
-				Tab tab = tabs[i];
+				Tab tab = popoutTabsCache[i];
 				if (!tab.Hidden)
 				{
 					list.Add(tab);
@@ -94,19 +105,28 @@ public class ControlTabs : MonoBehaviour
 		get
 		{
 			var list = new List<Tab>();
-			var tabs = TabStorage.GetComponentsInChildren<Tab>(true);
-			for (var i = 0; i < tabs?.Length; i++)
+
+			if (tabsCache == null)
 			{
-				Tab tab = tabs[i];
+				tabsCache = TabStorage.GetComponentsInChildren<Tab>(true);
+			}
+
+			if (popoutTabsCache == null)
+			{
+				popoutTabsCache = TabStoragePopOut.GetComponentsInChildren<Tab>(true);
+			}
+
+			for (var i = 0; i < tabsCache?.Length; i++)
+			{
+				Tab tab = tabsCache[i];
 				if (tab.Hidden)
 				{
 					list.Add(tab);
 				}
 			}
-			tabs = TabStoragePopOut.GetComponentsInChildren<Tab>(true);
-			for (var i = 0; i < tabs?.Length; i++)
+			for (var i = 0; i < popoutTabsCache?.Length; i++)
 			{
-				Tab tab = tabs[i];
+				Tab tab = popoutTabsCache[i];
 				if (tab.Hidden)
 				{
 					list.Add(tab);
@@ -158,8 +178,8 @@ public class ControlTabs : MonoBehaviour
 	{
 		get
 		{
-			var netTabs = new Dictionary<NetTabDescriptor, NetTab>();
 			var activeTabs = ActiveTabs;
+			var netTabs = new Dictionary<NetTabDescriptor, NetTab>(activeTabs.Count);
 			for (var i = 0; i < activeTabs.Count; i++)
 			{
 				NetTab tab = activeTabs[i] as NetTab;
@@ -186,6 +206,12 @@ public class ControlTabs : MonoBehaviour
 		Instance.HideTab(ClientTabType.Admin);
 
 		SelectTab(ClientTabType.Stats);
+	}
+
+	private void Update()
+	{
+		tabsCache = null;
+		popoutTabsCache = null;
 	}
 
 	/// <summary>
@@ -513,16 +539,18 @@ public class ControlTabs : MonoBehaviour
 	public static void UpdateTab(NetTabType type, GameObject tabProvider, ElementValue[] values, bool touched = false)
 	{
 		var lookupTab = new NetTabDescriptor(tabProvider, type);
-		if (Instance.OpenedNetTabs.ContainsKey(lookupTab))
+		var openedNetTabs = Instance.OpenedNetTabs;
+
+		if (!openedNetTabs.ContainsKey(lookupTab))
 		{
-			var tabInfo = Instance.OpenedNetTabs[lookupTab];
+			return;
+		}
 
-			var touchedElement = tabInfo.ImportValues(values);
-
-			if (touched && touchedElement != null)
-			{
-				Instance.ShowFinger(tabInfo.gameObject, touchedElement.gameObject);
-			}
+		var tabInfo = openedNetTabs[lookupTab];
+		var touchedElement = tabInfo.ImportValues(values);
+		if (touched && touchedElement != null)
+		{
+			Instance.ShowFinger(tabInfo.gameObject, touchedElement.gameObject);
 		}
 	}
 

@@ -92,6 +92,8 @@ namespace AdminTools
 
 			if (SelectedPlayer == null)
 			{
+				if (playerEntries.Count == 0) return;
+
 				SelectPlayerInList(playerEntries[0]);
 			}
 			else

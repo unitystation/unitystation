@@ -323,7 +323,7 @@ public partial class PlayerList
 			{
 				//User is still banned:
 				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is banned. " +
-				                                      $"You were banned for {banEntry.reason}. This ban has {banEntry.minutes} minutes remaining."));
+				                                      $"You were banned for {banEntry.reason}. This ban has {banEntry.minutes - totalMins} minutes remaining."));
 				Logger.Log($"{unverifiedConnPlayer.Username} tried to log back in but the account is banned. " +
 				           $"IP: {unverifiedConnPlayer.Connection.address}", Category.Admin);
 				return false;
@@ -423,6 +423,13 @@ public partial class PlayerList
 	IEnumerator KickPlayer(ConnectedPlayer connPlayer, string reason,
 		bool ban = false, int banLengthInMinutes = 0)
 	{
+		Logger.Log( "Processing KickPlayer/ban for "+ "\n"
+		           + "UserId " + connPlayer?.UserId + "\n"
+		           + "Username " + connPlayer?.Username + "\n"
+		           + "address " + connPlayer?.Connection?.address + "\n"
+		           + "clientId " + connPlayer?.ClientId + "\n"
+		           );
+
 		string message = "";
 		if (ban)
 		{
@@ -432,21 +439,26 @@ public partial class PlayerList
 			var index = banList.banEntries.FindIndex(x => x.userId == connPlayer.UserId);
 			if (index != -1)
 			{
+				Logger.Log("removing pre-existing ban entry for userId of" + connPlayer.UserId  );
 				banList.banEntries.RemoveAt(index);
 			}
 
 			banList.banEntries.Add(new BanEntry
 			{
-				userId = connPlayer.UserId,
-				userName = connPlayer.Username,
+				userId = connPlayer?.UserId,
+				userName = connPlayer?.Username,
 				minutes = banLengthInMinutes,
 				reason = reason,
 				dateTimeOfBan = DateTime.Now.ToString("O"),
-				ipAddress = connPlayer.Connection.address,
-				clientId = connPlayer.ClientId
+				ipAddress = connPlayer?.Connection?.address,
+				clientId = connPlayer?.ClientId
 			});
 
 			SaveBanList();
+			if (banList.banEntries.Count != 0)
+			{
+				Logger.Log(banList.banEntries[banList.banEntries.Count - 1].ToString());
+			}
 		}
 		else
 		{
@@ -507,4 +519,13 @@ public class BanEntry
 	public string reason;
 	public string ipAddress;
 	public string clientId;
+
+	public override string ToString()
+	{
+		return ("BanEntry of " + userId + " / " + userName + "\n"
+		         + "for " + minutes + " minutes, on" + dateTimeOfBan + "\n"
+		         + "on IP " + ipAddress + "\n"
+		         + "clientId " + clientId + "\n"
+		         + "for reason" + reason);
+	}
 }

@@ -4,7 +4,7 @@ using UnityEngine.UI;
 /// Holds value of prefab containing sprite we're looking for.
 /// prefab-based for now
 [RequireComponent(typeof(Image))]
-public class NetPrefabImage : NetUIElement<string>
+public class NetPrefabImage : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	public override string Value {
@@ -36,5 +36,5 @@ public class NetPrefabImage : NetUIElement<string>
 		}
 	}
 
-	public override void ExecuteServer() {}
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 }

@@ -164,7 +164,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				UIManager.Instance.playerListUIControl.window.SetActive(true);
 			}
 
-			PlayerManager.SetPlayerForControl(gameObject);
+			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
 
 			if (IsGhost)
 			{
