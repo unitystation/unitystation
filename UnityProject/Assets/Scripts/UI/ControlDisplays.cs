@@ -223,7 +223,7 @@ public class ControlDisplays : MonoBehaviour
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.SetActive(true);
-		preRoundWindow.GetComponent<GUI_PreRoundWindow>().SetUIForJoining();
+		StartCoroutine(preRoundWindow.GetComponent<GUI_PreRoundWindow>().SetUIForJoining());
 	}
 
 	public void SetScreenForTeamSelect()
