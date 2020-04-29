@@ -6,7 +6,7 @@ using Mirror;
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(ReagentContainer))]
 [DisallowMultipleComponent]
-public class GrownFood : NetworkBehaviour, IInteractable<HandActivate>
+public class GrownFood : NetworkBehaviour
 {
 	public PlantData plantData;
 	public ReagentContainer reagentContainer;
