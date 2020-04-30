@@ -42,7 +42,9 @@ public partial class MatrixMove
 				    ServerState.FlyingDirection.VectorInt * -1 != dir)
 				{
 					serverMoveNodes.AdjustFutureNodes(dir);
-					GetServerTargetNode();
+					serverTargetPosition += dir;
+					serverFromPosition = transform.position;
+					serverLerpTime = 0f;
 				}
 				else
 				{

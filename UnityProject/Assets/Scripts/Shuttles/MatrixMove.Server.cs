@@ -321,7 +321,7 @@ public partial class MatrixMove
 		{
 			serverLerpTime += Time.deltaTime * ServerState.Speed;
 			transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
-			matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection);
+			matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection, rcsBurn);
 			if (serverLerpTime >= 1f)
 			{
 				UpdateServerStatePosition(serverTargetPosition);
@@ -338,7 +338,7 @@ public partial class MatrixMove
 			{
 				serverLerpTime += Time.deltaTime * 1f;
 				transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
-				matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection);
+				matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection, rcsBurn);
 				if (serverLerpTime >= 1f)
 				{
 					transform.position = serverTargetPosition; //sometimes it is ever so slightly off the target
