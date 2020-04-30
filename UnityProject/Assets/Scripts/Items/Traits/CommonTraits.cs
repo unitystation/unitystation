@@ -25,6 +25,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait CanFillMop;
 	public ItemTrait Cultivator;
 	public ItemTrait Trowel;
+	public ItemTrait Hatchet;
 	public ItemTrait Bucket;
 	public ItemTrait MetalSheet;
 	public ItemTrait GlassSheet;
