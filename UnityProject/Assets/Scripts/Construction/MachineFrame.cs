@@ -18,8 +18,13 @@ namespace Machines
 		[SerializeField] private StatefulState screwedFinishedState = null;
 
 		private ItemSlot circuitBoardSlot;//Index 0
-		private List<ItemSlot> partsSlots = new List<ItemSlot>();//All other indexes
+		private IDictionary<ItemTrait, int> partsUsed = new Dictionary<ItemTrait, int>();
+		private List<GameObject> partsUsedGameObjects = new List<GameObject>();
 		private Stateful stateful;
+
+		private MachineParts machineParts;
+		private MachineParts.MachinePartList trait;
+
 		private StatefulState CurrentState => stateful.CurrentState;
 		private ObjectBehaviour objectBehaviour;
 
@@ -28,11 +33,6 @@ namespace Machines
 			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
-
-			for (int i = 1; i < 6; i++)
-			{
-				partsSlots.Add(GetComponent<ItemStorage>().GetIndexedItemSlot(i));
-			}
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -62,15 +62,22 @@ namespace Machines
 			}
 			else if (CurrentState == circuitAddedState)
 			{
+				//remove circuit board
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				{
+					return true;
+				}
 
-				//REFACTOR FOR ITEM TRAITS
-				//remove circuit board or add parts
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-					   Validations.HasUsedComponent<Manipulator>(interaction) ||
-					   Validations.HasUsedComponent<MatterBin>(interaction) ||
-					   Validations.HasUsedComponent<MicroLaser>(interaction) ||
-					   Validations.HasUsedComponent<ScanningModule>(interaction) ||
-					   Validations.HasUsedComponent<Capacitor>(interaction);
+				//check part item traits, if in scriptableObject of the machine then return true.
+				foreach(var part in machineParts.machineParts)
+				{
+					if (Validations.HasUsedItemTrait(interaction, part.itemTrait))
+					{
+						return true;
+					}
+				}
+
+				return false;
 			}
 			else if (CurrentState == partsAddedState)
 			{
@@ -159,6 +166,8 @@ namespace Machines
 					//stick in the circuit board
 					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
 						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
+
+					machineParts = interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed;
 					Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
 					stateful.ServerChangeState(circuitAddedState);
 				}
@@ -187,31 +196,89 @@ namespace Machines
 				}
 				else if (ItemTraitCheck(interaction))
 				{
-					foreach (var slot in partsSlots)
+					var usedObject = interaction.UsedObject;
+
+					Chat.AddActionMsgToChat(interaction, $"You place the {usedObject.ExpensiveName()} inside the frame.",
+						$"{interaction.Performer.ExpensiveName()} places the {usedObject.ExpensiveName()} inside the frame.");
+
+					PartCheck(usedObject, interaction);
+
+					//foreach ()
+					//{
+
+					//}
+
+					if (partsAddedState)
 					{
-						if (interaction.UsedObject)
-						{
-
-						}
+						stateful.ServerChangeState(partsAddedState);
 					}
-
-					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
-						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
-					//Inventory.ServerTransfer(interaction.HandSlot, partsSlots);
-					stateful.ServerChangeState(circuitAddedState);
 				}
 			}
 
 
 		}
 
+		private void PartCheck(GameObject usedObject, HandApply interaction)
+		{
+			for(int i = 0; i < machineParts.machineParts.Length; i++)
+			{
+				if (usedObject.GetComponent<ItemAttributesV2>().HasTrait(machineParts.machineParts[i].itemTrait))
+				{
+					trait = machineParts.machineParts[i];
+					break;
+				}
+			}
+
+			var needed = trait.amountOfThisPart;
+
+			var itemTrait = trait.itemTrait;
+
+			if (partsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the object already exists, and its stackable and some of it is needed.
+			{
+				partsUsed[itemTrait] = needed;
+				usedObject.GetComponent<Stackable>().ServerConsume(needed);
+			}
+			else if (partsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the object already exists, and its stackable and all of its needed.
+			{
+				var used = usedObject.GetComponent<Stackable>().Amount;
+				partsUsed[itemTrait] += used;
+				usedObject.GetComponent<Stackable>().ServerConsume(used);
+			}
+			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the object doesnt exists, and its stackable and some of it is needed.
+			{
+				partsUsed.Add(itemTrait, needed);
+				usedObject.GetComponent<Stackable>().ServerConsume(needed);
+			}
+			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the object doesnt exists, and its stackable and all of its needed.
+			{
+				var used = usedObject.GetComponent<Stackable>().Amount;
+				partsUsed.Add(itemTrait, used);
+				usedObject.GetComponent<Stackable>().ServerConsume(used);
+			}
+			else if (partsUsed.ContainsKey(itemTrait))// Already exists but isnt stackable
+			{
+				partsUsed[itemTrait] ++;
+
+				Inventory.ServerDespawn(interaction.HandSlot);
+			}
+			else// Doesnt exist but isnt stackable
+			{
+				partsUsed.Add(itemTrait, 1);
+				Inventory.ServerDespawn(interaction.HandSlot);
+			}
+		}
+
 		private bool ItemTraitCheck(HandApply interaction)
 		{
-			return Validations.HasUsedComponent<Manipulator>(interaction) ||
-					   Validations.HasUsedComponent<MatterBin>(interaction) ||
-					   Validations.HasUsedComponent<MicroLaser>(interaction) ||
-					   Validations.HasUsedComponent<ScanningModule>(interaction) || //REFACTOR FOR ITEM TRAITS //
-					   Validations.HasUsedComponent<Capacitor>(interaction);
+			foreach (var part in machineParts.machineParts)
+			{
+				if (Validations.HasUsedItemTrait(interaction, part.itemTrait))
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 
 		public string Examine(Vector3 worldPos)

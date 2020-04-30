@@ -1,12 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 namespace Machines
 {
 	[CreateAssetMenu(fileName = "MachineParts", menuName = "ScriptableObjects/MachineParts", order = 1)]
-	public class SpawnManagerScriptableObject : ScriptableObject
+	public class MachineParts : ScriptableObject
 	{
-		public List<ItemTrait> ItemsTraits = new List<ItemTrait>();
+		[Serializable]
+		public class MachinePartList
+		{
+			public ItemTrait itemTrait;// The machine part needed to build machine
+
+			public int amountOfThisPart = 1; // Amount of that part
+		}
+
+		public GameObject machine;// Machine which will be spawned
+
+		public string NameOfCircuitBoard;
+
+		public MachinePartList[] machineParts;
 	}
 }
