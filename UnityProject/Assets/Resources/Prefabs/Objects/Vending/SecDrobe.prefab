@@ -148,7 +148,7 @@ MonoBehaviour:
     Stock: 3
   - Item: {fileID: 5346501866518943165, guid: ab2acbff0b11d6d4aa18a2211082f330, type: 3}
     Stock: 3
-  - Item: {fileID: 835768756810601639, guid: cbb088b408dd144688326b8eefb45f5d, type: 3}
+  - Item: {fileID: 5437448505016987486, guid: 3f0da6473d897f11f88cf172ed0c5f30, type: 3}
     Stock: 3
   - Item: {fileID: 1070110363393237790, guid: 591574bb7d99d2245b5f15166ea5be76, type: 3}
     Stock: 3
@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -361,6 +362,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
