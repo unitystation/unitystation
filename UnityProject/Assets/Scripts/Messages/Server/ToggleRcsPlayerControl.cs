@@ -15,12 +15,10 @@ public class ToggleRcsPlayerControl : ServerMessage
 		if (ActiveControl)
 		{
 			PlayerManager.SetMovementControllable(shuttleConsole.ShuttleMatrixMove);
-			Camera2DFollow.followControl.target = shuttleConsole.transform;
 		}
 		else
 		{
 			PlayerManager.SetMovementControllable(PlayerManager.LocalPlayerScript.PlayerSync);
-			Camera2DFollow.followControl.target = PlayerManager.LocalPlayer.transform;
 		}
 	}
 

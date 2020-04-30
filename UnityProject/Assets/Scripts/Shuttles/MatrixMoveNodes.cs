@@ -43,6 +43,18 @@ public class MatrixMoveNodes
 	}
 
 	/// <summary>
+	/// Used by the RCS system to adjust nodes when in flight
+	/// to give the effect of strafing
+	/// </summary>
+	public void AdjustFutureNodes(Vector2Int adjustDir)
+	{
+		for (int i = 0; i < nodes.Length; i++)
+		{
+			nodes[i] += adjustDir;
+		}
+	}
+
+	/// <summary>
 	/// Clears history nodes
 	/// </summary>
 	public void ResetHistoryNodes()

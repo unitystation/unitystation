@@ -31,10 +31,24 @@ public partial class MatrixMove
 	[Server]
 	public void ProcessRcsMoveRequest(ConnectedPlayer sentBy, Vector2Int dir)
 	{
-		if (sentBy == playerControllingRcs && !rcsBurn)
+		if (sentBy == playerControllingRcs && dir != Vector2Int.zero && !rcsBurn)
 		{
 			rcsBurn = true;
-			//Todo rcs stuff
+			if (ServerState.Speed > 0f)
+			{
+				//matrix is moving we need to strafe instead
+				//(forward and reverse will be ignored)
+				if (ServerState.FlyingDirection.VectorInt != dir &&
+				    ServerState.FlyingDirection.VectorInt * -1 != dir)
+				{
+					serverMoveNodes.AdjustFutureNodes(dir);
+					GetServerTargetNode();
+				}
+				else
+				{
+					rcsBurn = false;
+				}
+			}
 		}
 	}
 

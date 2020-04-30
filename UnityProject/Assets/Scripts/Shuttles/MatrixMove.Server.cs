@@ -327,6 +327,7 @@ public partial class MatrixMove
 				UpdateServerStatePosition(serverTargetPosition);
 				serverMoveNodes.AddHistoryNode(serverTargetPosition.To2Int(), NetworkTime.time);
 				GetServerTargetNode();
+				if (rcsBurn) rcsBurn = false;
 			}
 		}
 		else
@@ -343,6 +344,7 @@ public partial class MatrixMove
 					transform.position = serverTargetPosition; //sometimes it is ever so slightly off the target
 					UpdateServerStatePosition(serverTargetPosition);
 					serverMoveNodes.AddHistoryNode(serverTargetPosition.To2Int(), NetworkTime.time);
+					if (rcsBurn) rcsBurn = false;
 				}
 			}
 		}

@@ -126,7 +126,7 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 		coordReadoutScript = coordReadout;
 	}
 
-	public override void UpdateMe()
+	public override void FixedUpdateMe()
 	{
 		if (isServer)
 		{
