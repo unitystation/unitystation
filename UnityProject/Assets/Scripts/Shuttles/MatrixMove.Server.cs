@@ -13,7 +13,7 @@ public partial class MatrixMove
 	public bool IsMovingServer => ServerState.IsMoving && ServerState.Speed > 0f;
 
 	private bool IsRotatingServer;
-	
+
 	//Autopilot target
 	private Vector3 Target = TransformState.HiddenPos;
 
@@ -319,7 +319,6 @@ public partial class MatrixMove
 
 		if (EnginesOperational && ServerState.Speed > 0f)
 		{
-			ReachedServerTargetNode = false;
 			serverLerpTime += Time.deltaTime * ServerState.Speed;
 			transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
 			matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection);
@@ -336,7 +335,6 @@ public partial class MatrixMove
 			if (serverMoveNodes.historyNodes[0].nodePos != Vector2Int.zero &&
 			    serverMoveNodes.historyNodes[0].nodePos != serverTargetPosition.To2Int())
 			{
-				ReachedServerTargetNode = false;
 				serverLerpTime += Time.deltaTime * 1f;
 				transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
 				matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection);
