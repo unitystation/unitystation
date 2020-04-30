@@ -13,7 +13,7 @@ public partial class MatrixMove
 	public bool IsMovingServer => ServerState.IsMoving && ServerState.Speed > 0f;
 
 	private bool IsRotatingServer;
-
+	
 	//Autopilot target
 	private Vector3 Target = TransformState.HiddenPos;
 
@@ -284,6 +284,7 @@ public partial class MatrixMove
 	[Server]
 	private void CheckMovementServer()
 	{
+
 		if (IsRotatingServer)
 		{
 			//rotate our transform to our new facing direction
@@ -298,6 +299,7 @@ public partial class MatrixMove
 
 				if (serverRotateLerp >= 1f)
 				{
+					serverMoveNodes.GenerateMoveNodes(transform.position, ServerState.FlyingDirection.VectorInt);
 					transform.rotation = InitialFacing.OffsetTo(ServerState.FacingDirection).Quaternion;
 					IsRotatingServer = false;
 					GetServerTargetNode();
@@ -308,12 +310,16 @@ public partial class MatrixMove
 				//rotate instantly
 				transform.rotation = InitialFacing.OffsetTo(ServerState.FacingDirection).Quaternion;
 				IsRotatingServer = false;
+				serverMoveNodes.GenerateMoveNodes(transform.position, ServerState.FlyingDirection.VectorInt);
 				GetServerTargetNode();
 			}
+
+			return;
 		}
 
 		if (EnginesOperational && ServerState.Speed > 0f)
 		{
+			ReachedServerTargetNode = false;
 			serverLerpTime += Time.deltaTime * ServerState.Speed;
 			transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
 			matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection);
@@ -330,6 +336,7 @@ public partial class MatrixMove
 			if (serverMoveNodes.historyNodes[0].nodePos != Vector2Int.zero &&
 			    serverMoveNodes.historyNodes[0].nodePos != serverTargetPosition.To2Int())
 			{
+				ReachedServerTargetNode = false;
 				serverLerpTime += Time.deltaTime * 1f;
 				transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
 				matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection);
@@ -341,7 +348,6 @@ public partial class MatrixMove
 				}
 			}
 		}
-
 
 		//ServerState lerping to its target tile
 
@@ -528,6 +534,7 @@ public partial class MatrixMove
 				FacingDirection = desiredOrientation,
 				FlyingDirection = desiredOrientation
 			};
+
 			serverFromRotation = transform.rotation;
 			serverRotateLerp = 0f;
 			IsRotatingServer = true;
