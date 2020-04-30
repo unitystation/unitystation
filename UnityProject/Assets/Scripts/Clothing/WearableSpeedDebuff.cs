@@ -19,7 +19,7 @@ namespace Clothing
 
 		[SerializeField]
 		[Tooltip("In what slot should this debuff take place")]
-		private NamedSlot slot;
+		private NamedSlot slot = NamedSlot.outerwear;
 
 		private PlayerScript player;
 

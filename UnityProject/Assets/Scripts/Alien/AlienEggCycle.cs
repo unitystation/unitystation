@@ -25,7 +25,7 @@ namespace Alien
 		private bool freezeCycle = false;
 		[Tooltip("A reference for the facehugger mob so we can spawn it.")]
 		[SerializeField]
-		private GameObject facehugger;
+		private GameObject facehugger = null;
 
 		[SyncVar(hook = nameof(SyncState))]
 		private EggState currentState;
@@ -103,7 +103,7 @@ namespace Alien
 			{
 				yield break;
 			}
-			
+
 			yield return WaitFor.Seconds(incubationTime / 2);
 			UpdateState(currentState == EggState.Grown ? EggState.Burst : currentState);
 		}

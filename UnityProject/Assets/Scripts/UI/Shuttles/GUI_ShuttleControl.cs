@@ -38,9 +38,9 @@ public class GUI_ShuttleControl : NetTab
 	}
 
 	[SerializeField] private Image rcsLight = null;
-	[SerializeField] private Sprite rcsLightOn;
-	[SerializeField] private Sprite rcsLightOff;
-	[SerializeField] private ToggleButton rcsToggleButton;
+	[SerializeField] private Sprite rcsLightOn = null;
+	[SerializeField] private Sprite rcsLightOff = null;
+	[SerializeField] private ToggleButton rcsToggleButton = null;
 	private ConnectedPlayer playerControllingRcs;
 
 	public GUI_CoordReadout CoordReadout;

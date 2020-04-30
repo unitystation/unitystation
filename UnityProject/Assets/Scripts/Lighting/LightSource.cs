@@ -24,7 +24,7 @@ public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 	public Color customColor;
 
 	[SerializeField]
-	private bool isWithoutSwitch;
+	private bool isWithoutSwitch = true;
 
 	public bool IsWithoutSwitch => isWithoutSwitch;
 	public bool SwitchState { get; private set; }

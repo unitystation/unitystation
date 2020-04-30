@@ -9,7 +9,7 @@ namespace NPC
 		private float timeToGrow = 200;
 
 		[Tooltip("Reference to the  Xenomorph so we can spawn it")] [SerializeField]
-		private GameObject xenomorph;
+		private GameObject xenomorph = null;
 
 		protected override void Awake()
 		{

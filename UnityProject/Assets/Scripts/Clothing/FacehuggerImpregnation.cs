@@ -19,10 +19,10 @@ namespace Clothing
 		private int pregnancyTime = 300;
 
 		[Tooltip("Reference to facehugger gameObject so we can spawn it")] [SerializeField]
-		private GameObject facehugger;
+		private GameObject facehugger = null;
 
 		[Tooltip("Reference to larvae gameObject so we can spawn it")] [SerializeField]
-		private GameObject larvae;
+		private GameObject larvae = null;
 
 		private bool isAlive = true;
 		private RegisterPlayer registerPlayer;
