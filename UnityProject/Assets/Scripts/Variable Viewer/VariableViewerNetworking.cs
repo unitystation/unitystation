@@ -10,14 +10,15 @@ using Newtonsoft.Json;
 
 public class VariableViewerNetworking : MonoBehaviour
 {
-	public class IDnName { 
+	public class IDnName {
 		public ulong ID;
 		/// <summary>
 		/// The name of the shelf.
 		/// ShelfName
 		/// </summary>
 		public string SN;
-	} 
+	}
+
 	public class NetFriendlyBookShelfView
 	{
 		public ulong ID;
@@ -40,7 +41,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		public bool IE;
 
 		/// <summary>
-		/// ObscuredBookShelves 
+		/// ObscuredBookShelves
 		/// </summary>
 		public IDnName[] OBS;
 
@@ -177,7 +178,7 @@ public class VariableViewerNetworking : MonoBehaviour
 
 	public static NetFriendlyBookShelf ProcessSUBBookShelf(Librarian.BookShelf _BookShelf)  {
 		if (_BookShelf.IsPartiallyGenerated) {
-			Librarian.PopulateBookShelf(_BookShelf);
+			_BookShelf.PopulateBookShelf();
 		}
 
 		NetFriendlyBookShelf BookShelf = new NetFriendlyBookShelf
@@ -228,7 +229,7 @@ public class VariableViewerNetworking : MonoBehaviour
 		};
 		List<IDnName> NetFriendlyBookShelfs = new List<IDnName>();
 		if (_BookShelf.IsPartiallyGenerated) {
-			Librarian.PopulateBookShelf(_BookShelf);
+			_BookShelf.PopulateBookShelf();
 		}
 		foreach (var ObscuredBookShelve in _BookShelf.ObscuredBookShelves) {
 			NetFriendlyBookShelfs.Add(ProcessBookShelfToID(ObscuredBookShelve));
@@ -249,7 +250,7 @@ public class VariableViewerNetworking : MonoBehaviour
 	//public string ObscuredBy;
 	//public NetFriendlyBook[] HeldBooks;
 
-	public static NetFriendlyBook ProcessBook(Librarian.Book _book) { 
+	public static NetFriendlyBook ProcessBook(Librarian.Book _book) {
 		string Classe;
 		Classe = _book.BookClass.GetType().Name;
 		NetFriendlyBook Book = new NetFriendlyBook()
@@ -267,7 +268,7 @@ public class VariableViewerNetworking : MonoBehaviour
 			NetFriendlyPage Page = new NetFriendlyPage
 			{
 				ID = bob.ID,
-				Variable = bob.Variable.ToString(),
+				Variable = VVUIElementHandler.Serialise(bob.Variable, bob.VariableType),
 				VariableName = bob.VariableName,
 				VariableType = bob.VariableType.ToString()
 			};
@@ -304,7 +305,8 @@ public class VariableViewerNetworking : MonoBehaviour
 				{
 					PagePosition = _Sentence.PagePosition,
 					SentenceID = _Sentence.SentenceID,
-					ValueVariable = _Sentence.ValueVariable.ToString(),
+
+					ValueVariable = VVUIElementHandler.Serialise(_Sentence.ValueVariable, _Sentence.ValueVariableType),
 					ValueVariableType = _Sentence.ValueVariableType.ToString(),
 					OnPageID = _Sentence.OnPageID,
 					HeldBySentenceID = LibrarianSentence.SentenceID
@@ -315,14 +317,15 @@ public class VariableViewerNetworking : MonoBehaviour
 				}
 				if (_Sentence.KeyVariable != null)
 				{
-					FriendlySentence.KeyVariable = _Sentence.KeyVariable.ToString();
+					FriendlySentence.KeyVariable =
+						VVUIElementHandler.Serialise(_Sentence.KeyVariable, _Sentence.KeyVariableType);
 					FriendlySentence.KeyVariableType = _Sentence.KeyVariableType.ToString();
 					if ((FriendlySentence.KeyVariableType == null) || (Librarian.UEGetType(FriendlySentence.KeyVariableType) == null))
 					{
 						FriendlySentence.KeyVariableType = _Sentence.KeyVariableType.AssemblyQualifiedName;
 					}
 				}
-		
+
 
 				if (_Sentence.Sentences != null)
 				{

@@ -192,7 +192,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		if (Resistances.FireProof && attackType == AttackType.Fire) return;
 
 		var damageInfo = new DamageInfo(damage, attackType, damageType);
-		
+
 
 		damage = Armor.GetDamage(damage, attackType);
 		if (damage > 0)
@@ -326,7 +326,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || !KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
 		{
 			return null;
 		}

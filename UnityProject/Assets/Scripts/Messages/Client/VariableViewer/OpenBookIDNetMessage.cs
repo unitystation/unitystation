@@ -18,7 +18,7 @@ public class OpenBookIDNetMessage : ClientMessage
 	{
 		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
 		if (admin == null) return;
-		VariableViewer.RequestSendBook(BookID);
+		VariableViewer.RequestSendBook(BookID, SentByPlayer.GameObject);
 	}
 
 
