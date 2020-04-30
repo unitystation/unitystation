@@ -11,11 +11,11 @@ public class GUI_Spawner : NetTab
 	private SpawnedObjectList spawnedObjectList;
 	private SpawnedObjectList SpawnedObjectList => spawnedObjectList ? spawnedObjectList : spawnedObjectList = this["MobList"] as SpawnedObjectList;
 
-	private NetUIElementBase infoDisplay;
-	private NetUIElementBase InfoDisplay => infoDisplay ? infoDisplay : infoDisplay = this["RandomText"];
+	private NetUIElement<string> infoDisplay;
+	private NetUIElement<string> InfoDisplay => infoDisplay ? infoDisplay : infoDisplay = (NetUIElement<string>)this["RandomText"];
 
-	private NetUIElementBase nestedPageName;
-	private NetUIElementBase NestedPageName => nestedPageName ? nestedPageName : nestedPageName = this["NestedPageName"];
+	private NetUIElement<string> nestedPageName;
+	private NetUIElement<string> NestedPageName => nestedPageName ? nestedPageName : nestedPageName = (NetUIElement<string>)this["NestedPageName"];
 
 	protected override void InitServer()
 	{

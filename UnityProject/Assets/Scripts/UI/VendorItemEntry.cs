@@ -28,11 +28,11 @@ public class VendorItemEntry : DynamicEntry
 		itemCount.SetValueServer($"({vendorItem.Stock.ToString()})");
 		if (vendorItem.Stock <= 0)
 		{
-			itemBackground.SetValueServer(ColorUtility.ToHtmlStringRGB(emptyStockColor));
+			itemBackground.SetValueServer(emptyStockColor);
 		}
 		else
 		{
-			itemBackground.SetValueServer(ColorUtility.ToHtmlStringRGB(regularColor));
+			itemBackground.SetValueServer(regularColor);
 		}
 	}
 

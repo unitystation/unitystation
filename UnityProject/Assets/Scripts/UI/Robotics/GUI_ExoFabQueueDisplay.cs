@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExoFabQueueDisplay : NetUIElement<string>
+public class GUI_ExoFabQueueDisplay : NetUIStringElement
 {
 	private List<MachineProduct> currentProducts = new List<MachineProduct>();
 	public List<MachineProduct> CurrentProducts { get => currentProducts; }

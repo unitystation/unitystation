@@ -446,7 +446,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 		{
 			var produceObject = Spawn
 				.ServerPrefab(plantData.ProduceObject, registerTile.WorldPositionServer, transform.parent)
-				.GameObject;
+				?.GameObject;
 
 			if (produceObject == null)
 			{

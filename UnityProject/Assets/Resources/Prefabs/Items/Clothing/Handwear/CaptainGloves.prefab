@@ -7,17 +7,23 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5947731994596095198, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: m_Name
-      value: CaptainGloves
-      objectReference: {fileID: 0}
     - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 42daddf00dcd73945bfce9864c942900,
         type: 2}
+    - target: {fileID: 5799337935409317762, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c4d5798b5f7636b41b286a08c368cf68,
+        type: 3}
+    - target: {fileID: 5947731994596095198, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_Name
+      value: CaptainGloves
+      objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -80,6 +86,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
       propertyPath: initialName
       value: captain's gloves
       objectReference: {fileID: 0}
@@ -89,11 +100,17 @@ PrefabInstance:
       value: Regal blue gloves, with a nice gold trim, a diamond anti-shock coating,
         and an integrated thermal barrier. Swanky.
       objectReference: {fileID: 0}
-    - target: {fileID: 5799337935409317762, guid: f819cf8b4a0534ec59570563e52c8508,
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: initialTraits.Array.data[1]
       value: 
-      objectReference: {fileID: 21300000, guid: c4d5798b5f7636b41b286a08c368cf68,
+      objectReference: {fileID: 11400000, guid: 10a21ec3d5e7d1d489334ee8c7382ba7,
+        type: 2}
+    - target: {fileID: 6081843052801809340, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 30a421d219292474595f4c1e34917e51,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f819cf8b4a0534ec59570563e52c8508, type: 3}

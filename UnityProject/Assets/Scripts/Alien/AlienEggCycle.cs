@@ -45,6 +45,12 @@ namespace Alien
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
+			//FIXME This shouldn't be called by client yet it seems it is
+			if (!isServer)
+			{
+				return;
+			}
+
 			EnsureInit();
 		}
 

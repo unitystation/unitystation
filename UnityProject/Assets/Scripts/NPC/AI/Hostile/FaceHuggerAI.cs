@@ -1,6 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using Clothing;
 using NPC.AI;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -31,6 +31,13 @@ namespace NPC
 		private int playersLayer;
 		private MobMeleeAction mobMeleeAction;
 		private ConeOfSight coneOfSight;
+		private SimpleAnimal simpleAnimal;
+
+		protected override void Awake()
+		{
+			base.Awake();
+			simpleAnimal = GetComponent<SimpleAnimal>();
+		}
 
 		public override void OnEnable()
 		{
@@ -70,6 +77,7 @@ namespace NPC
 		protected override void ResetBehaviours()
 		{
 			base.ResetBehaviours();
+			mobFollow.followTarget = null;
 			currentStatus = MobStatus.None;
 			searchWaitTime = 0f;
 		}
@@ -216,16 +224,23 @@ namespace NPC
 			if (IsDead || IsUnconscious)
 			{
 				HandleDeathOrUnconscious();
+				return;
 			}
 
-			if (currentStatus == MobStatus.Searching)
+			switch (currentStatus)
 			{
-				HandleSearch();
-			}
-
-			if (currentStatus == MobStatus.Attacking || currentStatus == MobStatus.None)
-			{
-				MonitorIdleness();
+				case MobStatus.Searching:
+					HandleSearch();
+					return;
+				case MobStatus.Attacking:
+					MonitorIdleness();
+					break;
+				case MobStatus.None:
+					MonitorIdleness();
+					break;
+				default:
+					MonitorIdleness();
+					break;
 			}
 		}
 
@@ -234,6 +249,7 @@ namespace NPC
 			if (damagedBy == null)
 			{
 				StartFleeing(damagedBy);
+				return;
 			}
 
 			if (health.OverallHealth < -20f)
@@ -394,13 +410,30 @@ namespace NPC
 			var result = Spawn.ServerPrefab(maskObject);
 			var mask = result.GameObject;
 
+			if (IsDead || IsUnconscious)
+			{
+				mask.GetComponent<FacehuggerImpregnation>().KillHugger();
+			}
+
 			Inventory.ServerAdd(mask, handSlot, ReplacementStrategy.DropOther);
+
 			Despawn.ServerSingle(gameObject);
 		}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			XenoQueenAI.CurrentHuggerAmt += 1;
+			//FIXME This shouldn't be called by client yet it seems it is
+			if (!isServer)
+			{
+				return;
+			}
+
+			XenoQueenAI.CurrentHuggerAmt++;
+			dirSprites.SetToNPCLayer();
+			registerObject.Passable = false;
+			simpleAnimal.SetDeadState(false);
+			ResetBehaviours();
+			BeginSearch();
 		}
 
 		public override void OnDespawnServer(DespawnInfo info)

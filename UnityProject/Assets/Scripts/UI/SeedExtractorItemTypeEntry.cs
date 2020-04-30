@@ -28,7 +28,7 @@ public class SeedExtractorItemTypeEntry : DynamicEntry
 		itemName.SetValueServer(seedPackets.First().name);
 		itemIcon.SetValueServer(seedPackets.First().name);
 		itemCount.SetValueServer($"({seedPackets.Count.ToString()})");
-		itemBackground.SetValueServer(ColorUtility.ToHtmlStringRGB(regularColor));
+		itemBackground.SetValueServer(regularColor);
 	}
 
 	public void Show()

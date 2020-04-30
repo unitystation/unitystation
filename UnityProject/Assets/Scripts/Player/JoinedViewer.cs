@@ -76,9 +76,8 @@ public class JoinedViewer : NetworkBehaviour
 		{
 			if (GameManager.Instance.waitForStart)
 			{
-				// Calculate when the countdown will end in the unix timestamp
-				long endTime = DateTimeOffset.UtcNow.AddSeconds(GameManager.Instance.CountdownTime)
-					.ToUnixTimeMilliseconds();
+				// Calculate when the countdown will end relative to the NetworkTime
+				double endTime = NetworkTime.time + GameManager.Instance.CountdownTime;
 				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, endTime);
 			}
 			else
@@ -149,6 +148,7 @@ public class JoinedViewer : NetworkBehaviour
 			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
 			return;
 		}
+
 		int slotsTaken = GameManager.Instance.GetOccupationsCount(jobType);
 		int slotsMax = GameManager.Instance.GetOccupationMaxCount(jobType);
 		if (slotsTaken >= slotsMax)
@@ -158,11 +158,10 @@ public class JoinedViewer : NetworkBehaviour
 
 		var spawnRequest =
 			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
-		//regardless of their chosen occupation, they might spawn as an antag instead.
-		//If they do, bypass the normal spawn logic.
-		if (GameManager.Instance.TrySpawnAntag(spawnRequest)) return;
 
-		PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+		GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
+
+		GameManager.Instance.ProcessSpawnPlayerQueue();
 	}
 	/// <summary>
 	/// Command to spectate a round instead of spawning as a player
@@ -177,7 +176,7 @@ public class JoinedViewer : NetworkBehaviour
 	/// Tells the client to start the countdown if it's already started
 	/// </summary>
 	[TargetRpc]
-	private void TargetSyncCountdown(NetworkConnection target, bool started, long endTime)
+	private void TargetSyncCountdown(NetworkConnection target, bool started, double endTime)
 	{
 		Logger.Log("Syncing countdown!", Category.Round);
 		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);

@@ -137,14 +137,14 @@ MonoBehaviour:
   livingHealthBehaviour: {fileID: 0}
   Severity: 0
   armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
+    Melee: 15
+    Bullet: 10
+    Laser: 5
+    Energy: 5
     Bomb: 0
     Rad: 0
-    Fire: 0
-    Acid: 0
+    Fire: -50
+    Acid: 80
     Magic: 0
     Bio: 0
 --- !u!1 &4826259315037707297
@@ -203,14 +203,14 @@ MonoBehaviour:
   livingHealthBehaviour: {fileID: 0}
   Severity: 0
   armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
+    Melee: 30
+    Bullet: 20
+    Laser: 10
+    Energy: 10
     Bomb: 0
     Rad: 0
-    Fire: 0
-    Acid: 0
+    Fire: -50
+    Acid: 75
     Magic: 0
     Bio: 0
 --- !u!1 &4827224533573323059

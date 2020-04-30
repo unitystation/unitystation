@@ -16,86 +16,87 @@ public class GUI_NukeWindow : NetTab
 
 	private string InitialInfoText;
 
-	private const string colorGreen = "00E100",
-	colorGrey = "F3FEFF",
-	colorRed = "FF2828";
+	private static readonly Color
+		colorGreen = DebugTools.HexToColor("00E100"),
+		colorGrey = DebugTools.HexToColor("F3FEFF"),
+		colorRed = DebugTools.HexToColor("FF2828");
 
 	//get various ui elements (not the method i would choose, but it works)
-	private NetUIElementBase infoTimerDisplay;
-	private NetUIElementBase InfoTimerDisplay
+	private NetUIElement<string> infoTimerDisplay;
+	private NetUIElement<string> InfoTimerDisplay
 	{
 		get
 		{
 			if (!infoTimerDisplay)
 			{
-				infoTimerDisplay = this["NukeTimerLabel"];
+				infoTimerDisplay = (NetUIElement<string>)this["NukeTimerLabel"];
 			}
 			return infoTimerDisplay;
 		}
 	}
 
-	private NetUIElementBase infoTimerColor;
+	private NetColorChanger infoTimerColor;
 
-	private NetUIElementBase InfoTimerColor
+	private NetColorChanger InfoTimerColor
 	{
 		get
 		{
 			if (!infoTimerColor)
 			{
-				infoTimerColor = this["TimerNukeToggleColor"] as NetColorChanger;
+				infoTimerColor = (NetColorChanger)this["TimerNukeToggleColor"];
 			}
 			return infoTimerColor;
 		}
 	}
 
-	private NetUIElementBase infoAnchorColor;
-	private NetUIElementBase InfoAnchorColor
+	private NetColorChanger infoAnchorColor;
+	private NetColorChanger InfoAnchorColor
 	{
 		get
 		{
 			if (!infoAnchorColor)
 			{
-				infoAnchorColor = this["AnchorNukeToggleColor"] as NetColorChanger;
+				infoAnchorColor = (NetColorChanger)this["AnchorNukeToggleColor"];
 			}
 			return infoAnchorColor;
 		}
 	}
 
 
-	private NetUIElementBase infoSafetyColor;
-	private NetUIElementBase InfoSafetyColor
+	private NetColorChanger infoSafetyColor;
+	private NetColorChanger InfoSafetyColor
 	{
 		get
 		{
 			if (!infoSafetyColor)
 			{
-				infoSafetyColor = this["SafetyNukeToggleColor"] as NetColorChanger;
+				infoSafetyColor = (NetColorChanger)this["SafetyNukeToggleColor"];
 			}
 			return infoSafetyColor;
 		}
 	}
 
-	private NetUIElementBase infoNukeDisplay;
-	private NetUIElementBase InfoNukeDisplay
+	private NetUIElement<string> infoNukeDisplay;
+	private NetUIElement<string> InfoNukeDisplay
 	{
 		get
 		{
 			if (!infoNukeDisplay)
 			{
-				infoNukeDisplay = this["NukeInfoDisplay"];
+				infoNukeDisplay = (NetUIElement<string>)this["NukeInfoDisplay"];
 			}
 			return infoNukeDisplay;
 		}
 	}
-	private NetUIElementBase codeDisplay;
+	private NetUIElement<string> codeDisplay;
 
-	private NetUIElementBase CodeDisplay
+	private NetUIElement<string> CodeDisplay
 	{
 		get
 		{
 			if (!codeDisplay)
 			{
-				codeDisplay = this["NukeCodeDisplay"];
+				codeDisplay = (NetUIElement<string>)this["NukeCodeDisplay"];
 			}
 			return codeDisplay;
 		}
@@ -121,8 +122,8 @@ public class GUI_NukeWindow : NetTab
 		base.OnEnable();
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			infoNukeDisplay = this["NukeInfoDisplay"];
-			codeDisplay = this["NukeCodeDisplay"];
+			infoNukeDisplay = (NetUIElement<string>)this["NukeInfoDisplay"];
+			codeDisplay = (NetUIElement<string>)this["NukeCodeDisplay"];
 		}
 	}
 

@@ -13,11 +13,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4331555194852958, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4331555194852958, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 2.5
       objectReference: {fileID: 0}
     - target: {fileID: 4331555194852958, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
       propertyPath: m_LocalScale.z
@@ -82,6 +82,11 @@ PrefabInstance:
         type: 3}
       propertyPath: attackType
       value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 8750900017165839274, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: damage
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}

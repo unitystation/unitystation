@@ -43,7 +43,7 @@ public class GUI_IdConsoleEntryOld : DynamicEntry
 
 	private void SetButton(bool pressed)
 	{
-		displayedBg.SetValueServer(pressed ? "555555" : "ffffff");
+		displayedBg.SetValueServer(pressed ? DebugTools.HexToColor("555555") : Color.white);
 		//Not sure if we will want to color code buttons
 		/*
 		if (isAssignment)

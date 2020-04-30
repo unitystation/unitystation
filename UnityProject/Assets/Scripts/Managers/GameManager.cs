@@ -28,7 +28,7 @@ public partial class GameManager : MonoBehaviour
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
 	[SerializeField]
-	private float RoundEndTime = 15f;
+	private float RoundEndTime = 60f;
 
 	/// <summary>
 	/// The current time left on the countdown timer
@@ -75,6 +75,12 @@ public partial class GameManager : MonoBehaviour
 	//whether the game was launched directly to a station, skipping lobby
 	private bool loadedDirectlyToStation;
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
+
+	public Queue<PlayerSpawnRequest> SpawnPlayerRequestQueue = new Queue<PlayerSpawnRequest>();
+
+	private bool QueueProcessing;
+
+	private float timeElapsedServer = 0;
 
 	private void Awake()
 	{
@@ -284,6 +290,13 @@ public partial class GameManager : MonoBehaviour
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
 		}
+
+		timeElapsedServer += Time.deltaTime;
+		if (timeElapsedServer > 1f)
+		{
+			ProcessSpawnPlayerQueue();
+			timeElapsedServer = 0;
+		}
 	}
 
 	/// <summary>
@@ -444,6 +457,40 @@ public partial class GameManager : MonoBehaviour
 		CountdownTime = PreRoundTime;
 		waitForStart = true;
 		UpdateCountdownMessage.Send(waitForStart, CountdownTime);
+	}
+
+	public void ProcessSpawnPlayerQueue()
+	{
+		if (QueueProcessing) return;
+
+		while (SpawnPlayerRequestQueue.Count > 0)
+		{
+			QueueProcessing = true;
+
+			var player = SpawnPlayerRequestQueue.Peek();
+
+			int slotsTaken = GameManager.Instance.GetOccupationsCount(player.RequestedOccupation.JobType);
+			int slotsMax = GameManager.Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
+			if (slotsTaken >= slotsMax)
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			//regardless of their chosen occupation, they might spawn as an antag instead.
+			//If they do, bypass the normal spawn logic.
+			if (GameManager.Instance.TrySpawnAntag(player))
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			PlayerSpawn.ServerSpawnPlayer(player);
+
+			SpawnPlayerRequestQueue.Dequeue();
+		}
+
+		QueueProcessing = false;
 	}
 
 	public int GetOccupationsCount(JobType jobType)
