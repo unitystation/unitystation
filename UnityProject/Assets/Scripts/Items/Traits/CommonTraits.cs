@@ -50,9 +50,4 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait InternalBattery;
 	public ItemTrait AntiFacehugger;
 	public ItemTrait PickUpProtection;
-	public ItemTrait Manipulator;
-	public ItemTrait MatterBin;
-	public ItemTrait MicroLaser;
-	public ItemTrait ScanningModule;
-	public ItemTrait Capacitor;
 }
