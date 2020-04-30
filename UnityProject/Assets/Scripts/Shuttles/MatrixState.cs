@@ -8,7 +8,7 @@ public struct MatrixState : IEquatable<MatrixState>
 {
 	public bool IsMoving;
 	public float Speed;
-	public int RotationTime; //in frames?
+	public float RotationTime;
 
 	public Vector3 Position;
 

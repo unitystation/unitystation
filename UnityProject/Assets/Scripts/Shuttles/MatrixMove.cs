@@ -39,7 +39,7 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 	[FormerlySerializedAs("maxSpeed")]
 	public float MaxSpeed = 20f;
 
-	[Tooltip("Whether safety is currently on, preventing collisions when sensors detect them.")]
+	[SyncVar][Tooltip("Whether safety is currently on, preventing collisions when sensors detect them.")]
 	public bool SafetyProtocolsOn = true;
 
 
