@@ -12,12 +12,13 @@ namespace Machines
 	{
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState cablesAddedState = null;
-		[SerializeField] private StatefulState WrenchedState = null;
+		[SerializeField] private StatefulState wrenchedState = null;
 		[SerializeField] private StatefulState circuitAddedState = null;
 		[SerializeField] private StatefulState partsAddedState = null;
-		[SerializeField] private StatefulState ScrewedFinishedState = null;
+		[SerializeField] private StatefulState screwedFinishedState = null;
 
-		private ItemSlot circuitBoardSlot;
+		private ItemSlot circuitBoardSlot;//Index 0
+		private List<ItemSlot> partsSlots = new List<ItemSlot>();//All other indexes
 		private Stateful stateful;
 		private StatefulState CurrentState => stateful.CurrentState;
 		private ObjectBehaviour objectBehaviour;
@@ -27,6 +28,11 @@ namespace Machines
 			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+
+			for (int i = 1; i < 6; i++)
+			{
+				partsSlots.Add(GetComponent<ItemStorage>().GetIndexedItemSlot(i));
+			}
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -38,36 +44,44 @@ namespace Machines
 			//different logic depending on state
 			if (CurrentState == initialState)
 			{
-				if (objectBehaviour.IsPushable)
-				{
-					//wrench in place or deconstruct
-					return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) ||
-						Validations.HasUsedActiveWelder(interaction);
-				}
-
-				//insert, unwrench, or screw  or pry out circuitboard (client can't see this storage inventory so we can't check the slot contents clientside
-				return Validations.HasUsedComponent<ComputerCircuitboard>(interaction) ||
-					   Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-					   Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) ||
-					   Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
-			}
-			else if (CurrentState == circuitScrewedState)
-			{
-				//unscrew circuit board or add 5 cables
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
-					   (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 5));
+				//Add 5 cables or deconstruct
+				return (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) && Validations.HasUsedAtLeast(interaction, 5)) ||
+					Validations.HasUsedActiveWelder(interaction);
 			}
 			else if (CurrentState == cablesAddedState)
 			{
-				//add glass or cut out cables
+				//cut cables or wrench frame
 				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter) ||
-					   (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.GlassSheet) && Validations.HasUsedAtLeast(interaction, 2));
+					  Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
 			}
-			else if (CurrentState == glassAddedState)
+			else if (CurrentState == wrenchedState)
 			{
-				//screw in monitor or pry off glass
+				//Unwrench or add circuit board
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench) ||
+					Validations.HasUsedComponent<ComputerCircuitboard>(interaction);
+			}
+			else if (CurrentState == circuitAddedState)
+			{
+
+				//REFACTOR FOR ITEM TRAITS
+				//remove circuit board or add parts
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+					   Validations.HasUsedComponent<Manipulator>(interaction) ||
+					   Validations.HasUsedComponent<MatterBin>(interaction) ||
+					   Validations.HasUsedComponent<MicroLaser>(interaction) ||
+					   Validations.HasUsedComponent<ScanningModule>(interaction) ||
+					   Validations.HasUsedComponent<Capacitor>(interaction);
+			}
+			else if (CurrentState == partsAddedState)
+			{
+				//screw in parts or remove parts
 				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
 					   Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
+			}
+			else if (CurrentState == screwedFinishedState)
+			{
+				//Unscrew parts
+				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 			}
 
 			return false;
@@ -78,86 +92,7 @@ namespace Machines
 		{
 			if (CurrentState == initialState)
 			{
-				if (objectBehaviour.IsPushable)
-				{
-					if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
-					{
-						if (!ServerValidations.IsAnchorBlocked(interaction))
-						{
-							//wrench in place
-							ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-								"You start wrenching the frame into place...",
-								$"{interaction.Performer.ExpensiveName()} starts wrenching the frame into place...",
-								"You wrench the frame into place.",
-								$"{interaction.Performer.ExpensiveName()} wrenches the frame into place.",
-								() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
-						}
-					}
-					else if (Validations.HasUsedActiveWelder(interaction))
-					{
-						//deconsruct
-						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-							"You start deconstructing the frame...",
-							$"{interaction.Performer.ExpensiveName()} starts deconstructing the frame...",
-							"You deconstruct the frame.",
-							$"{interaction.Performer.ExpensiveName()} deconstructs the frame.",
-							() =>
-							{
-								Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
-								Despawn.ServerSingle(gameObject);
-							});
-					}
-				}
-				else
-				{
-					//already wrenched in place
-					if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
-					{
-						//unwrench
-						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-							"You start to unfasten the frame...",
-							$"{interaction.Performer.ExpensiveName()} starts to unfasten the frame...",
-							"You unfasten the frame.",
-							$"{interaction.Performer.ExpensiveName()} unfastens the frame.",
-							() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
-					}
-					else if (Validations.HasUsedComponent<ComputerCircuitboard>(interaction) && circuitBoardSlot.IsEmpty)
-					{
-						//stick in the circuit board
-						Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
-							$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
-						Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
-					}
-					else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) && circuitBoardSlot.IsOccupied)
-					{
-						//screw in the circuit board
-						Chat.AddActionMsgToChat(interaction, $"You screw {circuitBoardSlot.ItemObject.ExpensiveName()} into place.",
-							$"{interaction.Performer.ExpensiveName()} screws {circuitBoardSlot.ItemObject.ExpensiveName()} into place.");
-						ToolUtils.ServerPlayToolSound(interaction);
-						stateful.ServerChangeState(circuitScrewedState);
-					}
-					else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) &&
-							 circuitBoardSlot.IsOccupied)
-					{
-						//wrench out the circuit board
-						Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
-							$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
-						ToolUtils.ServerPlayToolSound(interaction);
-						Inventory.ServerDrop(circuitBoardSlot);
-					}
-				}
-			}
-			else if (CurrentState == circuitScrewedState)
-			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
-				{
-					//unscrew circuit board
-					Chat.AddActionMsgToChat(interaction, $"You unfasten the circuit board.",
-						$"{interaction.Performer.ExpensiveName()} unfastens the circuit board.");
-					ToolUtils.ServerPlayToolSound(interaction);
-					stateful.ServerChangeState(initialState);
-				}
-				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
 						 Validations.HasUsedAtLeast(interaction, 5))
 				{
 					//add 5 cables
@@ -172,6 +107,20 @@ namespace Machines
 							stateful.ServerChangeState(cablesAddedState);
 						});
 				}
+				else if (Validations.HasUsedActiveWelder(interaction))
+				{
+					//deconsruct
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start deconstructing the frame...",
+						$"{interaction.Performer.ExpensiveName()} starts deconstructing the frame...",
+						"You deconstruct the frame.",
+						$"{interaction.Performer.ExpensiveName()} deconstructs the frame.",
+						() =>
+						{
+							Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
+							Despawn.ServerSingle(gameObject);
+						});
+				}
 			}
 			else if (CurrentState == cablesAddedState)
 			{
@@ -182,54 +131,87 @@ namespace Machines
 						$"{interaction.Performer.ExpensiveName()} removes the cables.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
-					stateful.ServerChangeState(circuitScrewedState);
+					stateful.ServerChangeState(initialState);
 				}
-				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.GlassSheet) &&
-						 Validations.HasUsedAtLeast(interaction, 2))
+				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
-					//add glass
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-						"You start to put in the glass panel...",
-						$"{interaction.Performer.ExpensiveName()} starts to put in the glass panel...",
-						"You put in the glass panel.",
-						$"{interaction.Performer.ExpensiveName()} puts in the glass panel.",
-						() =>
-						{
-							Inventory.ServerConsume(interaction.HandSlot, 2);
-							stateful.ServerChangeState(glassAddedState);
-						});
+					if (!ServerValidations.IsAnchorBlocked(interaction))
+					{
+						//wrench in place
+						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+							"You start wrenching the frame into place...",
+							$"{interaction.Performer.ExpensiveName()} starts wrenching the frame into place...",
+							"You wrench the frame into place.",
+							$"{interaction.Performer.ExpensiveName()} wrenches the frame into place.",
+							() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
+						stateful.ServerChangeState(wrenchedState);
+					}
+					else
+					{
+						Chat.AddExamineMsgFromServer(interaction.Performer, "Unable to wrench frame");
+					}
 				}
 			}
-			else if (CurrentState == glassAddedState)
+			else if (CurrentState == wrenchedState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				if (Validations.HasUsedComponent<ComputerCircuitboard>(interaction) && circuitBoardSlot.IsEmpty)
 				{
-					//screw in monitor, completing construction
-					Chat.AddActionMsgToChat(interaction, $"You connect the monitor.",
-						$"{interaction.Performer.ExpensiveName()} connects the monitor.");
-					ToolUtils.ServerPlayToolSound(interaction);
-					var circuitBoard = circuitBoardSlot.ItemObject?.GetComponent<ComputerCircuitboard>();
-					if (circuitBoard == null)
-					{
-						Logger.LogWarningFormat("Cannot complete computer, circuit board not in frame {0}. Probably a coding error.",
-							Category.Interaction, name);
-						return;
-					}
-					Spawn.ServerPrefab(circuitBoard.ComputerToSpawn, SpawnDestination.At(gameObject));
-					Despawn.ServerSingle(gameObject);
+					//stick in the circuit board
+					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
+						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
+					Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
+					stateful.ServerChangeState(circuitAddedState);
 				}
-				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
-					//remove glass
-					Chat.AddActionMsgToChat(interaction, $"You remove the glass panel.",
-						$"{interaction.Performer.ExpensiveName()} removes the glass panel.");
-					ToolUtils.ServerPlayToolSound(interaction);
-					Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, SpawnDestination.At(gameObject), 2);
+					//unwrench
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start to unfasten the frame...",
+						$"{interaction.Performer.ExpensiveName()} starts to unfasten the frame...",
+						"You unfasten the frame.",
+						$"{interaction.Performer.ExpensiveName()} unfastens the frame.",
+						() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
 					stateful.ServerChangeState(cablesAddedState);
 				}
 			}
+			else if (CurrentState == circuitAddedState)
+			{
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
+				{
+					//wrench out the circuit board
+					Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
+						$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
+					ToolUtils.ServerPlayToolSound(interaction);
+					Inventory.ServerDrop(circuitBoardSlot);
+					stateful.ServerChangeState(wrenchedState);
+				}
+				else if (ItemTraitCheck(interaction))
+				{
+					foreach (var slot in partsSlots)
+					{
+						if (interaction.UsedObject)
+						{
+
+						}
+					}
+
+					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
+						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
+					//Inventory.ServerTransfer(interaction.HandSlot, partsSlots);
+					stateful.ServerChangeState(circuitAddedState);
+				}
+			}
 
 
+		}
+
+		private bool ItemTraitCheck(HandApply interaction)
+		{
+			return Validations.HasUsedComponent<Manipulator>(interaction) ||
+					   Validations.HasUsedComponent<MatterBin>(interaction) ||
+					   Validations.HasUsedComponent<MicroLaser>(interaction) ||
+					   Validations.HasUsedComponent<ScanningModule>(interaction) || //REFACTOR FOR ITEM TRAITS //
+					   Validations.HasUsedComponent<Capacitor>(interaction);
 		}
 
 		public string Examine(Vector3 worldPos)
@@ -257,7 +239,7 @@ namespace Machines
 				}
 			}
 
-			if (CurrentState == circuitScrewedState)
+			if (CurrentState == initialState)
 			{
 				msg = " Add five wires must be added to continue construction. Use a screwdriver to unfasten the circuitboard.";
 			}
@@ -268,7 +250,7 @@ namespace Machines
 				msg = "Add two glass sheets to mount the glass panel. Use a wirecutter to remove cables.";
 			}
 
-			if (CurrentState == glassAddedState)
+			if (CurrentState == initialState)
 			{
 				msg = "Connect the monitor with a screwdriver to finish construction. Use a crowbar to remove glass panel.";
 			}
@@ -289,7 +271,7 @@ namespace Machines
 
 			//set initial state
 			objectBehaviour.ServerSetPushable(false);
-			stateful.ServerChangeState(glassAddedState);
+			stateful.ServerChangeState(initialState);
 		}
 	}
 }
