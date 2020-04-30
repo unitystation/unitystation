@@ -80,6 +80,8 @@ public partial class GameManager : MonoBehaviour
 
 	private bool QueueProcessing;
 
+	private float timeElapsedServer = 0;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -287,6 +289,13 @@ public partial class GameManager : MonoBehaviour
 		{
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
+		}
+
+		timeElapsedServer += Time.deltaTime;
+		if (timeElapsedServer > 1f)
+		{
+			ProcessSpawnPlayerQueue();
+			timeElapsedServer = 0;
 		}
 	}
 
