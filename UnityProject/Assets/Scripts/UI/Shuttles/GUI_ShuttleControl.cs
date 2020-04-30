@@ -23,7 +23,7 @@ public class GUI_ShuttleControl : NetTab
 		}
 	}
 	private MatrixMove matrixMove;
-	[HideInInspector]
+
 	public MatrixMove MatrixMove
 	{
 		get
@@ -37,7 +37,7 @@ public class GUI_ShuttleControl : NetTab
 		}
 	}
 
-	[SerializeField] private Image rcsLight;
+	[SerializeField] private Image rcsLight = null;
 	[SerializeField] private Sprite rcsLightOn;
 	[SerializeField] private Sprite rcsLightOff;
 	[SerializeField] private ToggleButton rcsToggleButton;

@@ -6,7 +6,7 @@ namespace NPC
 	public class LarvaeAI : GenericFriendlyAI, IServerSpawn
 	{
 		[Tooltip("Time in seconds this larva will take to become a full grown Xeno")][SerializeField]
-		private float timeToGrow;
+		private float timeToGrow = 200;
 
 		[Tooltip("Reference to the  Xenomorph so we can spawn it")] [SerializeField]
 		private GameObject xenomorph;

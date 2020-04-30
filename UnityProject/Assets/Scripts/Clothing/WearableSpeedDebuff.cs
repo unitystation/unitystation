@@ -15,7 +15,7 @@ namespace Clothing
 
 		[SerializeField]
 		[Tooltip("This will be speed to substract from walking speed")]
-		private float walkingSpeedDebuff;
+		private float walkingSpeedDebuff = 0.5f;
 
 		[SerializeField]
 		[Tooltip("In what slot should this debuff take place")]

@@ -14,6 +14,7 @@ public class ElectricalCableDeconstruction : TileInteraction
 	[SerializeField]
 	private ItemTrait requiredTrait = null;
 
+	// TODO Unused. See https://github.com/unitystation/unitystation/issues/3903
 	[Tooltip("Action message to performer when they begin this interaction.")] [SerializeField]
 	private string performerStartActionMessage = null;
 
