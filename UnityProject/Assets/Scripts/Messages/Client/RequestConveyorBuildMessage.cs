@@ -96,12 +96,12 @@ public class RequestConveyorBuildMessage : ClientMessage
 	public static RequestConveyorBuildMessage Send(BuildList.Entry entry, BuildingMaterial hasMenu,
 		ConveyorBelt.ConveyorDirection direction)
 	{
-		byte entryIndex = (byte) hasMenu.BuildList.Entries.ToList().IndexOf(entry);
+		var entryIndex = hasMenu.BuildList.Entries.ToList().IndexOf(entry);
 		if (entryIndex == -1) return null;
 
-		RequestConveyorBuildMessage msg = new RequestConveyorBuildMessage
+		var msg = new RequestConveyorBuildMessage
 		{
-			EntryIndex = entryIndex,
+			EntryIndex = (byte) entryIndex,
 			Direction = direction
 		};
 		msg.Send();

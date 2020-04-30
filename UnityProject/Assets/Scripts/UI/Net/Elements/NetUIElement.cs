@@ -191,7 +191,7 @@ public abstract class NetUIElementBase : MonoBehaviour
 	public abstract void ExecuteClient();
 
 	public abstract void ExecuteServer(ConnectedPlayer subject);
-	public abstract string ToString();
+	public abstract override string ToString();
 
 	/// <summary>
 	/// Special logic to execute after all tab elements are initialized
