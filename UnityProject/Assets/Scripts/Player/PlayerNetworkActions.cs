@@ -271,6 +271,29 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType)aim);
 	}
 
+	[Command]
+	public void CmdToggleLightSwitch(GameObject switchObj)
+	{
+		if (!Validations.CanApply(playerScript, switchObj, NetworkSide.Server)) return;
+		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
+		{
+			if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+			LightSwitch s = switchObj.GetComponent<LightSwitch>();
+			if (s.isOn == LightSwitch.States.On)
+			{
+				s.isOn = LightSwitch.States.Off;
+			}
+			else if (s.isOn == LightSwitch.States.Off)
+			{
+				s.isOn = LightSwitch.States.On;
+			}
+		}
+		else
+		{
+			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
+									" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
+		}
+	}
 
 	[Command]
 	public void CmdTryUncuff()

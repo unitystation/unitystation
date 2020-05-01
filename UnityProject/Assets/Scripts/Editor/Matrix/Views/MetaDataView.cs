@@ -25,6 +25,7 @@ public class MetaDataView : BasicView
 		localChecks.Add(new PlasmaCheck());
 		localChecks.Add(new OxygenCheck());
 		localChecks.Add(new CarbonDioxideCheck());
+		localChecks.Add(new RoomNumberCheck());
 		localChecks.Add(new AirlockCheck());
 		localChecks.Add(new SlipperyCheck());
 		localChecks.Add(new AtmosUpdateCheck());
@@ -316,6 +317,22 @@ public class MetaDataView : BasicView
 			{
 				Vector3 p = LocalToWorld(source, position);
 				GizmoUtils.DrawText($"{node.GasMix.GetMoles(Gas.CarbonDioxide):0.###}", p, false);
+			}
+		}
+	}
+
+	private class RoomNumberCheck : Check<MetaDataLayer>
+	{
+		public override string Label { get; } = "Room Number";
+
+		public override void DrawLabel(MetaDataLayer source, Vector3Int position)
+		{
+			MetaDataNode node = source.Get(position, false);
+
+			if (node.IsRoom)
+			{
+				Vector3 p = LocalToWorld(source, position);
+				GizmoUtils.DrawText($"{node.RoomNumber}", p, false);
 			}
 		}
 	}

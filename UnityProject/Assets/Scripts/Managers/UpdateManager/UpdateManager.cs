@@ -77,17 +77,31 @@ public class UpdateManager : MonoBehaviour
 	{
 		if (action == null || Instance == null) return;
 
-		switch (type)
+		if (type == CallbackType.UPDATE)
 		{
-			case CallbackType.UPDATE:
+			if (Instance.updateActions.Contains(action))
+			{
 				Instance.updateActions.Remove(action);
 				return;
-			case CallbackType.FIXED_UPDATE:
+			}
+		}
+
+		if (type == CallbackType.FIXED_UPDATE)
+		{
+			if (Instance.fixedUpdateActions.Contains(action))
+			{
 				Instance.fixedUpdateActions.Remove(action);
 				return;
-			case CallbackType.LATE_UPDATE:
+			}
+		}
+
+		if (type == CallbackType.LATE_UPDATE)
+		{
+			if (Instance.lateUpdateActions.Contains(action))
+			{
 				Instance.lateUpdateActions.Remove(action);
 				return;
+			}
 		}
 	}
 
@@ -142,17 +156,31 @@ public class UpdateManager : MonoBehaviour
 
 	private void AddCallbackInternal(CallbackType type, Action action)
 	{
-		switch (type)
+		if (type == CallbackType.UPDATE)
 		{
-			case CallbackType.UPDATE:
+			if (!Instance.updateActions.Contains(action))
+			{
 				Instance.updateActions.Add(action);
 				return;
-			case CallbackType.FIXED_UPDATE:
+			}
+		}
+
+		if (type == CallbackType.FIXED_UPDATE)
+		{
+			if (!Instance.fixedUpdateActions.Contains(action))
+			{
 				Instance.fixedUpdateActions.Add(action);
 				return;
-			case CallbackType.LATE_UPDATE:
+			}
+		}
+
+		if (type == CallbackType.LATE_UPDATE)
+		{
+			if (!Instance.lateUpdateActions.Contains(action))
+			{
 				Instance.lateUpdateActions.Add(action);
 				return;
+			}
 		}
 	}
 
