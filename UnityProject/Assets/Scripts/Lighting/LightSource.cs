@@ -27,7 +27,7 @@ public class LightSource : ObjectTrigger, IAPCPowered, IServerDespawn
 	public Color lightStateColorEmergency = new Color(0.7264151f, 0, 0, 0.8f);
 
 	[SerializeField]
-	private bool isWithoutSwitch;
+	private bool isWithoutSwitch = true;
 
 	public bool IsWithoutSwitch => isWithoutSwitch;
 	public bool SwitchState { get; private set; }

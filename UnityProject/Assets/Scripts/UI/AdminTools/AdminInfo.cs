@@ -16,7 +16,7 @@ namespace AdminTools
 	{
 		private IAdminInfo adminInfos;
 		[Tooltip("The position offset from the center of the tracked object")]
-		[SerializeField] private Vector2 offsetPosition;
+		[SerializeField] private Vector2 offsetPosition = Vector2.zero;
 		[Tooltip("Give the server obj time to init before sending overlay data")]
 		[SerializeField] private float waitToInit = 2f;
 

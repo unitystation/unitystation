@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(MouseDraggable))]
 public class ChairDraggable : MonoBehaviour, ICheckedInteractable<MouseDrop>
 {
-	[SerializeField] private GameObject prefabVariant;
+	[SerializeField] private GameObject prefabVariant = null;
     public bool WillInteract(MouseDrop interaction, NetworkSide side)
     {
 	    if (!DefaultWillInteract.Default(interaction, side))

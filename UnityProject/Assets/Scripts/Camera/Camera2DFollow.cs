@@ -100,7 +100,7 @@ public class Camera2DFollow : MonoBehaviour
 				return;
 			}
 
-			Vector3 recoilOffset = Vector3.zero;
+			recoilOffset = Vector3.zero;
 			//if  we are recoiling, adjust target position
 			if (recoilOffsetDestination != Vector2.zero)
 			{
@@ -155,7 +155,8 @@ public class Camera2DFollow : MonoBehaviour
 				newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;
 				newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
 			}
-			transform.position = newPos + recoilOffset;
+			// ReSharper disable once HONK1002
+			transform.position = newPos + (Vector3)recoilOffset;
 			starsBackground.position = -newPos * starScroll;
 
 			lastTargetPosition = target.position;

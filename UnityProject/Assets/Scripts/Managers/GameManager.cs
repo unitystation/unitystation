@@ -76,9 +76,9 @@ public partial class GameManager : MonoBehaviour
 	private bool loadedDirectlyToStation;
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
 
-	public Queue<PlayerSpawnRequest> SpawnPlayerRequestQueue = new Queue<PlayerSpawnRequest>();
-
 	private bool QueueProcessing;
+
+	private float timeElapsedServer = 0;
 
 	private void Awake()
 	{
@@ -99,8 +99,6 @@ public partial class GameManager : MonoBehaviour
 
 		//so respawn works when loading directly to outpost station
 		RespawnCurrentlyAllowed = RespawnAllowed;
-
-
 	}
 
 	private void OnEnable()
@@ -448,40 +446,6 @@ public partial class GameManager : MonoBehaviour
 		CountdownTime = PreRoundTime;
 		waitForStart = true;
 		UpdateCountdownMessage.Send(waitForStart, CountdownTime);
-	}
-
-	public void ProcessSpawnPlayerQueue()
-	{
-		if (QueueProcessing) return;
-
-		while (SpawnPlayerRequestQueue.Count > 0)
-		{
-			QueueProcessing = true;
-
-			var player = SpawnPlayerRequestQueue.Peek();
-
-			int slotsTaken = GameManager.Instance.GetOccupationsCount(player.RequestedOccupation.JobType);
-			int slotsMax = GameManager.Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
-			if (slotsTaken >= slotsMax)
-			{
-				SpawnPlayerRequestQueue.Dequeue();
-				continue;
-			}
-
-			//regardless of their chosen occupation, they might spawn as an antag instead.
-			//If they do, bypass the normal spawn logic.
-			if (GameManager.Instance.TrySpawnAntag(player))
-			{
-				SpawnPlayerRequestQueue.Dequeue();
-				continue;
-			}
-
-			PlayerSpawn.ServerSpawnPlayer(player);
-
-			SpawnPlayerRequestQueue.Dequeue();
-		}
-
-		QueueProcessing = false;
 	}
 
 	public int GetOccupationsCount(JobType jobType)

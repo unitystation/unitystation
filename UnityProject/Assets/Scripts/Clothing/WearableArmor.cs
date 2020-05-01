@@ -16,7 +16,7 @@ public class WearableArmor : MonoBehaviour, IServerInventoryMove
 
 	[SerializeField]
 	[Tooltip("What body parts does this item protect")]
-	private BodyPartsCovered bodyPartsCovered;
+	private BodyPartsCovered bodyPartsCovered = BodyPartsCovered.None;
 
 	private PlayerHealth player;
 	private Armor armor;

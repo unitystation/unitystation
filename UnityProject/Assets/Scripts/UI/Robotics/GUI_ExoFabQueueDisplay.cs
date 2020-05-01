@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class GUI_ExoFabQueueDisplay : NetUIStringElement
 {
-	private DictionaryMaterialToIntAmount MaterialAmountCache = null;
-
 	private List<MachineProduct> currentProducts = new List<MachineProduct>();
 	public List<MachineProduct> CurrentProducts { get => currentProducts; }
 
