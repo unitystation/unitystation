@@ -51,7 +51,6 @@ public class MetaDataSystem : SubsystemBehaviour
 
 		if (MatrixManager.IsInitialized)
 		{
-			LocateRooms();
 			Stopwatch Dsw = new Stopwatch();
 			Dsw.Start();
 			matrix.UnderFloorLayer.InitialiseUnderFloorUtilities();
@@ -89,114 +88,6 @@ public class MetaDataSystem : SubsystemBehaviour
 			{
 				node.IsClosedAirlock = true;
 			}
-		}
-	}
-
-	private void LocateRooms()
-	{
-		BoundsInt bounds = metaTileMap.GetBounds();
-
-		foreach (Vector3Int position in bounds.allPositionsWithin)
-		{
-			FindRoomAt(position);
-		}
-	}
-
-
-	private void FindRoomAt(Vector3Int position)
-	{
-		if (!metaTileMap.IsAtmosPassableAt(position, true))
-		{
-			MetaDataNode node = metaDataLayer.Get(position);
-			node.Type = NodeType.Occupied;
-
-			if (matrix.GetFirst<RegisterDoor>(position, true))
-			{
-				node.IsClosedAirlock = true;
-			}
-
-			SetupNeighbors(node);
-		}
-		else if (!metaTileMap.IsSpaceAt(position, true) && !metaDataLayer.IsRoomAt(position) && !metaDataLayer.IsSpaceAt(position))
-		{
-			CreateRoom(position);
-		}
-	}
-
-	private void CreateRoom(Vector3Int origin)
-	{
-		var roomPositions = new HashSet<Vector3Int>();
-		var freePositions = new UniqueQueue<Vector3Int>();
-
-		freePositions.Enqueue(origin);
-
-		var isSpace = false;
-
-		// breadth-first search of the connected tiles that are not occupied
-		while (!freePositions.IsEmpty)
-		{
-			if (freePositions.TryDequeue(out Vector3Int position))
-			{
-				roomPositions.Add(position);
-
-				Vector3Int[] neighbors = MetaUtils.GetNeighbors(position, null);
-				for (var i = 0; i < neighbors.Length; i++)
-				{
-					Vector3Int neighbor = neighbors[i];
-					if (metaTileMap.IsSpaceAt(neighbor, true))
-					{
-						Vector3Int worldPosition = MatrixManager.LocalToWorldInt(neighbor, MatrixManager.Get(matrix.Id));
-
-						// If matrix manager says, the neighboring positions is space, the whole room is connected to space.
-						// Otherwise there is another matrix, blocking off the connection to space.
-						if (MatrixManager.IsSpaceAt(worldPosition, true))
-						{
-							isSpace = true;
-						}
-					}
-					else if (metaTileMap.IsAtmosPassableAt(position, neighbor, true))
-					{
-						// if neighbor position is not yet a room in the meta data layer and not in the room positions list,
-						// add it to the positions that need be checked
-						if (!roomPositions.Contains(neighbor) && !metaDataLayer.IsRoomAt(neighbor))
-						{
-							freePositions.Enqueue(neighbor);
-						}
-					}
-				}
-			}
-		}
-
-		AssignType(roomPositions, isSpace ? NodeType.Space : NodeType.Room);
-
-		SetupNeighbors(roomPositions);
-	}
-
-	private void AssignType(IEnumerable<Vector3Int> positions, NodeType nodeType)
-	{
-		// Bulk assign type to nodes at given positions
-		foreach (Vector3Int position in positions)
-		{
-			MetaDataNode node = metaDataLayer.Get(position);
-
-			node.Type = nodeType;
-
-			// assign room number, if type is room
-			node.RoomNumber = nodeType == NodeType.Room ? roomCounter : -1;
-		}
-
-		// increase room counter, so next room will get a new number
-		if (nodeType == NodeType.Room)
-		{
-			roomCounter++;
-		}
-	}
-
-	private void SetupNeighbors(IEnumerable<Vector3Int> positions)
-	{
-		foreach (Vector3Int position in positions)
-		{
-			SetupNeighbors(metaDataLayer.Get(position));
 		}
 	}
 

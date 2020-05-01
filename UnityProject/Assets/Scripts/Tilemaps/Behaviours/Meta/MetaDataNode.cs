@@ -27,11 +27,6 @@ public class MetaDataNode: IGasMixContainer
 	public readonly Vector3Int Position;
 
 	/// <summary>
-	/// If this node is in a closed room, it's assigned to it by the room's number
-	/// </summary>
-	public int RoomNumber = -1;
-
-	/// <summary>
 	/// Type of this node.
 	/// </summary>
 	public NodeType Type;
