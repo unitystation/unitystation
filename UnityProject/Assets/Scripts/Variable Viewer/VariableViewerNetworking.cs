@@ -239,17 +239,6 @@ public class VariableViewerNetworking : MonoBehaviour
 		return (TopBookShelf);
 	}
 
-	//		public ulong ID;
-	//public string ShelfName;
-	//public bool IsEnabled;
-	//public GameObject Shelf;
-
-	////public NetFriendlyBookShelf[] ObscuredBookShelves;
-	//public string ObscuredBookShelves;
-	////public NetFriendlyBookShelf ObscuredBy;
-	//public string ObscuredBy;
-	//public NetFriendlyBook[] HeldBooks;
-
 	public static NetFriendlyBook ProcessBook(Librarian.Book _book) {
 		string Classe;
 		Classe = _book.BookClass.GetType().Name;

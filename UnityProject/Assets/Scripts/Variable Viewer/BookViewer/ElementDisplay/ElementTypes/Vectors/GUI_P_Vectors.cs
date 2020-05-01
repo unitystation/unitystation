@@ -5,6 +5,9 @@ using System;
 using UnityEngine.UI;
 using DatabaseAPI;
 
+/// <summary>
+/// Used to display vectors in the Variable viewer and to do all the Serialisation and deserialisation of vectors
+/// </summary>
 public class GUI_P_Vectors : PageElement
 {
 	public InputField INX;
