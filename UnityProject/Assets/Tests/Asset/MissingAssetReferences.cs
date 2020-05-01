@@ -9,7 +9,7 @@ using UnityEditor.SceneManagement;
 
 namespace Tests
 {
-	public class MissingAssetReferences 
+	public class MissingAssetReferences
 	{
 		/// <summary>
 		/// Checks if there is any prefab with missing reference component
@@ -51,7 +51,7 @@ namespace Tests
 		}
 
 		/// <summary>
-		/// Check if there any prefab with MissingReference field 
+		/// Check if there any prefab with MissingReference field
 		/// </summary>
 		[Test]
 		public void CheckMissingReferenceFieldsOnPrefabs()
@@ -133,7 +133,7 @@ namespace Tests
 		}
 
 		/// <summary>
-		/// Check if there are scriptable objects that has missing reference fields 
+		/// Check if there are scriptable objects that has missing reference fields
 		/// </summary>
 		[Test]
 		public void CheckMissingRefenceFieldsScritpableObjects()
@@ -180,7 +180,7 @@ namespace Tests
 		[Test]
 		public void CheckMissingComponentsOnScenes()
 		{
-			var buildScenes = EditorBuildSettings.scenes;
+			var buildScenes = EditorBuildSettings.scenes.Where(s => s.enabled);
 
 			var missingComponentsReport = new List<(string, string)>();
 			var missingFieldsReport = new List<(string, string, string, string)>();
