@@ -49,8 +49,12 @@ public class RolledPoster : NetworkBehaviour, ICheckedInteractable<PositionalHan
 			icon = poster.Type == PosterType.Contraband ? contrabandSprite : legitSprite;
 		}
 
-		attributes.ServerSetArticleName(posterName);
-		attributes.ServerSetArticleDescription(desc);
+		if (isServer)
+		{
+			attributes.ServerSetArticleName(posterName);
+			attributes.ServerSetArticleDescription(desc);
+		}
+		
 		spriteRend.sprite = icon;
 	}
 

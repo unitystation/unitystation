@@ -50,6 +50,11 @@ namespace Lighting
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (!isServer) 
+			{
+				Logger.Log("Client tried to run ServerPerformInteraction() in LightSwitchV2.cs. Tsk Tsk.");
+				return;
+			}
 			StartCoroutine(SwitchCoolDown());
 			if (powerState == PowerStates.Off || powerState == PowerStates.LowVoltage) return;
 			ServerChangeState(!isOn);
@@ -93,6 +98,11 @@ namespace Lighting
 
 		public void StateUpdate(PowerStates State)
 		{
+			if (!isServer) 
+			{
+				Logger.Log("Client tried to run StateUpdate() in LightSwitchV2.cs. Tsk Tsk");
+				return;
+			}
 			switch (State)
 			{
 				case PowerStates.On:

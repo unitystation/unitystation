@@ -50,7 +50,8 @@ public class LightSource : ObjectTrigger, IAPCPowered, IServerDespawn
 		wallMount = GetComponent<LightMountStates>();
 		emergencyLightAnimator = GetComponent<EmergencyLightAnimator>();
 		SwitchState = true;
-		mState = InitialState;
+		if(isServer)
+			mState = InitialState;
 		lightSprite.Color = lightStateColorOn;
 	}
 
@@ -98,7 +99,7 @@ public class LightSource : ObjectTrigger, IAPCPowered, IServerDespawn
 		{
 			wallMount.SwitchChangeState(newState);
 		}
-		else
+		else if(isServer)
 		{
 			ServerChangeLightState(newState ? LightState.On : LightState.Off);
 		}
@@ -107,7 +108,8 @@ public class LightSource : ObjectTrigger, IAPCPowered, IServerDespawn
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		SyncLightState(mState, mState);
+		// Commenting this line out for now as you shouldn't be running a syncvar hook outside of the syncvar getting updated data from server.
+		//SyncLightState(mState, mState);
 	}
 
 	[Server]
@@ -118,7 +120,7 @@ public class LightSource : ObjectTrigger, IAPCPowered, IServerDespawn
 
 	private void SyncLightState(LightState oldState, LightState newState)
 	{
-		mState = newState;
+		//mState = newState;
 		ChangeColorState(newState);
 	}
 
@@ -188,22 +190,45 @@ public class LightSource : ObjectTrigger, IAPCPowered, IServerDespawn
 
 	public void StateUpdate(PowerStates State)
 	{
-		switch (State)
+		// Server only code here.
+		if (!isServer)
 		{
-			case PowerStates.On:
-				Trigger(true);
-				return;
-			case PowerStates.LowVoltage:
-				ServerChangeLightState(LightState.Emergency);
-				wallMount.SwitchChangeState(false);
-				return;
-			case PowerStates.OverVoltage:
-				Trigger(true);
-				return;
-			case PowerStates.Off:
-				ServerChangeLightState(LightState.Emergency);
-				wallMount.SwitchChangeState(false);
-				return;
+			switch (State)
+			{
+				case PowerStates.On:
+					Trigger(true);
+					return;
+				case PowerStates.LowVoltage:
+					ServerChangeLightState(LightState.Emergency);
+					wallMount.SwitchChangeState(false);
+					return;
+				case PowerStates.OverVoltage:
+					Trigger(true);
+					return;
+				case PowerStates.Off:
+					ServerChangeLightState(LightState.Emergency);
+					wallMount.SwitchChangeState(false);
+					return;
+			}
+		}
+		// Client only code here.
+		else 
+		{
+			switch (State)
+			{
+				case PowerStates.On:
+					Trigger(true);
+					return;
+				case PowerStates.LowVoltage:
+					wallMount.SwitchChangeState(false);
+					return;
+				case PowerStates.OverVoltage:
+					Trigger(true);
+					return;
+				case PowerStates.Off:
+					wallMount.SwitchChangeState(false);
+					return;
+			}
 		}
 	}
 	#endregion

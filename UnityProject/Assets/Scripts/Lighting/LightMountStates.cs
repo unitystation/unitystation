@@ -87,6 +87,12 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		if (!isServer) 
+		{
+			Logger.Log("Client tried to run ServerPerformInteraction() in LightMountStates.cs. Tsk Tsk");
+			return;
+		}
+
 		if (isInCoolDown) return;
 		StartCoroutine(CoolDown());
 		var handObject = interaction.HandObject;
@@ -150,7 +156,8 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 		if (newState == LightMountState.On)
 		{
-			lightSource.ServerChangeLightState(LightState.On);
+			// Most likely shouldn't be running client-side.
+			//lightSource.ServerChangeLightState(LightState.On);
 			spriteRenderer.sprite = GetSprite(spriteListFull);
 			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
 			integrity.soundOnHit = "GlassHit";
@@ -173,7 +180,8 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			spriteRenderer.sprite = GetSprite(spriteListFull);
 			integrity.soundOnHit = "GlassHit";
 		}
-		lightSource.ServerChangeLightState(LightState.Off);
+		// Most likely shouldn't be running client-side.
+		//lightSource.ServerChangeLightState(LightState.Off);
 		spriteRendererLightOn.sprite = null;
 	}
 
@@ -241,19 +249,25 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 	private void SyncLightState(LightMountState oldState, LightMountState newState)
 	{
-		state = newState;
+		//state = newState;
 		ChangeLightState(newState);
 	}
 
 	public override void OnStartClient()
 	{
-		SyncLightState(state, state);
+		// Commenting this line out for now as you shouldn't be running a syncvar hook outside of the syncvar getting updated data from server.
+		//SyncLightState(state, state);
 		base.OnStartClient();
 	}
 
 	[Server]
 	private void ServerChangeLightState(LightMountState newState)
 	{
+		if (!isServer) 
+		{
+			Logger.Log("Client tried to run ServerChangeLightState() in LightMountState.cs. Tsk Tsk");
+			return;
+		}
 		state = newState;
 	}
 

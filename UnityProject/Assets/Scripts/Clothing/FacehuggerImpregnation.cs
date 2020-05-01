@@ -37,6 +37,14 @@ namespace Clothing
 
 		public override void OnStartServer()
 		{
+			// Testing to see if one of the several references to this method get called on the client. Can be removed
+			// or add a [Server] line above it fire warning, but this is more specific at a glance.
+			if (!isServer) 
+			{
+				Logger.Log("Client tried to run OnStartServer() in FacehuggerImpregnation.cs. Forcing return.", Category.Server);
+				return;
+			}
+
 			base.OnStartServer();
 			if (!isToy) return;
 

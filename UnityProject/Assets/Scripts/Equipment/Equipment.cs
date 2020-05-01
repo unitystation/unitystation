@@ -73,12 +73,20 @@ public class Equipment : NetworkBehaviour, IExaminable
 
 	public void OnInternalsEnabled()
 	{
-		CmdSetInternalsEnabled(true);
+		// Will only allow player with authority to send the command. Otherwise we get a log with the game object in question.
+		if (hasAuthority)
+			CmdSetInternalsEnabled(true);
+		else
+			Logger.Log("Client tried to send command for" + gameObject + " without authority");
 	}
 
 	public void OnInternalsDisabled()
 	{
-		CmdSetInternalsEnabled(false);
+		// Will only allow player with authority to send the command. Otherwise we get a log with the game object in question.
+		if (hasAuthority)
+			CmdSetInternalsEnabled(false);
+		else
+			Logger.Log("Client tried to send command for" + gameObject + " without authority");
 	}
 
 	/// <summary>

@@ -119,7 +119,9 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn
 
 			if (NewState == State) return;
 			State = NewState;
-			Powered.StateUpdate(State);
+
+			if(isServer)
+				Powered.StateUpdate(State);
 		}
 	}
 

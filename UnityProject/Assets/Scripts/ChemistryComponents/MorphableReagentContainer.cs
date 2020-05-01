@@ -71,13 +71,20 @@ public class MorphableReagentContainer : NetworkBehaviour
 			// check if we have this reagent in overrides table
 			var spriteData = data.Get(newHash);
 			if (spriteData != null)
-				ShowVisualisation(spriteData);
-			else
-				DisableVisualisation();
+			{
+				//ShowVisualisation(spriteData);
+				// Commented above line out. ShowVisualisation uses a server-only method.
+			}
+			else 
+			{
+				//DisableVisualisation();
+				// Commented above line out. DisableVisualisation uses a server-only method.
+			}
 		}
 		else
 		{
-			DisableVisualisation();
+			//DisableVisualisation();
+			// Commented above line out. DisableVisualisation uses a server-only method.
 		}
 
 		// Update UI sprite in inventory

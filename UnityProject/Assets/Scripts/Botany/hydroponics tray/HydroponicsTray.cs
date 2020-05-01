@@ -463,6 +463,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			}
 
 			netTransform.DisappearFromWorldServer();
+
 			readyProduce.Add(produceObject);
 		}
 	}
