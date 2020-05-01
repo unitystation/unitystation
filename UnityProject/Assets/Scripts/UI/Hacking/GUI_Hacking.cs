@@ -410,6 +410,13 @@ public class GUI_Hacking : NetTab
 
 	public void RemoveWire(GUI_HackingWire wireUI)
 	{
+		//Temporary. We should eventually sync this up with a a unified server/client check for whether someone can remove a wire from the hacking process.
+		Pickupable handItem = PlayerManager.LocalPlayerScript.Equipment.ItemStorage.GetActiveHandSlot().Item;
+		if (handItem == null || !Validations.HasItemTrait(handItem.gameObject, CommonTraits.Instance.Wirecutter))
+		{
+			return;
+		}
+
 		HackingNode outputNode = wireUI.StartNode.HackNode;
 		HackingNode inputNode = wireUI.EndNode.HackNode;
 
@@ -554,6 +561,11 @@ public class GUI_Hacking : NetTab
 				AddHackingDevice.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, hackDevice.gameObject);
 			}
 		}
+	}
+
+	public void CloseTab()
+	{
+		ControlTabs.CloseTab(Type, Provider);
 	}
 
 }

@@ -21,7 +21,7 @@ public class RemoveHackingConnection : ClientMessage
 		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
 		if (hackingProcess.ServerPlayerCanRemoveConnection(playerScript, connectionToRemove))
 		{
-			hackingProcess.RemoveNodeConnection(connectionToRemove);
+			hackingProcess.ServerPlayerRemoveConnection(playerScript, connectionToRemove);
 			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
 		}
 	}

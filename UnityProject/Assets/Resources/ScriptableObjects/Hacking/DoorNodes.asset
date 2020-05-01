@@ -109,3 +109,27 @@ MonoBehaviour:
     IsDeviceNode: 0
     HiddenLabel: DoPressureWarning
     PublicLabel: p
+  - InternalIdentifier: PowerOut
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: PowerOut
+    PublicLabel: q
+  - InternalIdentifier: PowerIn
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: PowerIn
+    PublicLabel: r
+  - InternalIdentifier: DummyOut
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: DummyOut
+    PublicLabel: s
+  - InternalIdentifier: DummyIn
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: DummyIn
+    PublicLabel: t

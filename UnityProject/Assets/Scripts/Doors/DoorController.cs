@@ -510,6 +510,22 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 		}
 	}
 
+	private void ServerElectrocute(GameObject obj)
+	{
+		float r = UnityEngine.Random.value;
+		if (r < 0.45)
+		{
+			PlayerScript ply = obj.GetComponent<PlayerScript>();
+			if (ply != null)
+			{
+				hackingProcess.HackingGUI.RemovePlayer(ply.gameObject);
+				TabUpdateMessage.Send(ply.gameObject, hackingProcess.HackingGUI.Provider, NetTabType.HackingPanel, TabAction.Close);
+				Electrocution elec = new Electrocution();
+				elec.ElectrocutePlayer(ply.gameObject, (Vector2Int)registerTile.WorldPositionServer, "wire", 9080);
+			}
+		}
+
+	}
 
 	public void LinkHackNodes()
 	{
@@ -533,9 +549,11 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 		onAttemptClose.AddConnectedNode(beginCloseProcedure);
 
 		HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier("OnShouldOpen");
+		onShouldOpen.AddWireCutCallback(ServerElectrocute);
 		onShouldOpen.AddConnectedNode(openDoor);
 
 		HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier("OnShouldClose");
+		onShouldClose.AddWireCutCallback(ServerElectrocute);
 		onShouldClose.AddConnectedNode(closeDoor);
 
 		HackingNode acceptID = hackingProcess.GetNodeWithInternalIdentifier("AcceptId");
@@ -555,6 +573,17 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 		HackingNode onDoorOpened = hackingProcess.GetNodeWithInternalIdentifier("OnDoorOpened");
 
 		HackingNode onDoorClosed = hackingProcess.GetNodeWithInternalIdentifier("OnDoorClosed");
+
+		HackingNode powerIn = hackingProcess.GetNodeWithInternalIdentifier("PowerIn");
+
+		HackingNode powerOut = hackingProcess.GetNodeWithInternalIdentifier("PowerOut");
+		powerOut.AddConnectedNode(powerIn);
+		powerOut.AddWireCutCallback(ServerElectrocute);
+
+		HackingNode dummyIn = hackingProcess.GetNodeWithInternalIdentifier("DummyIn");
+
+		HackingNode dummyOut = hackingProcess.GetNodeWithInternalIdentifier("DummyOut");
+		dummyOut.AddConnectedNode(dummyIn);
 
 		hackingLoaded = true;
 

@@ -11,20 +11,6 @@ public class HackingProcessDoorSimple : HackingProcessBase
 {
 	public NetTabType NetTabType = NetTabType.HackingPanel;
 
-	private static int? doorSeed = null;
-	private static int? DoorSeed
-	{
-		get
-		{
-			if (doorSeed == null)
-			{
-				doorSeed = Random.RandomRange(1, 100000);
-			}
-			return doorSeed;
-		}
-	}
-
-
 	[SerializeField]
 	[Tooltip("The name that comes up when you interact with the object.")]
 	private string doorName = "airlock";
@@ -35,6 +21,11 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 	[SerializeField]
 	private Sprite hackPanelSprite = null;
+
+	private static int? seed = null;
+
+	private List<HackingNode> inputNodes = new List<HackingNode>();
+	private List<HackingNode> outputNodes = new List<HackingNode>();
 
 	private DoorController controller;
 	public DoorController Controller
@@ -59,6 +50,14 @@ public class HackingProcessDoorSimple : HackingProcessBase
 				intDoor = GetComponent<InteractableDoor>();
 			}
 			return intDoor;
+		}
+	}
+
+	private void Awake()
+	{
+		if (seed == null)
+		{
+			seed = Random.Range(1, 100000);
 		}
 	}
 
@@ -114,20 +113,68 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 	}
 
+	public void Shuffle(List<HackingNodeInfo> list)
+	{
+		System.Random rng = new System.Random((int)seed);
+		int n = list.Count;
+		while (n > 1)
+		{
+			n--;
+			int k = rng.Next(n + 1);
+			HackingNodeInfo value = list[k];
+			list[k] = list[n];
+			list[n] = value;
+		}
+	}
+
 	public override void ServerGenerateNodesFromNodeInfo()
 	{
-		foreach (HackingNodeInfo inf in nodeInfo.nodeInfoList.ToList().Shuffle())
+		List<HackingNodeInfo> infList = nodeInfo.nodeInfoList.ToList();
+		Shuffle(infList);
+		foreach (HackingNodeInfo inf in infList)
+		{
+				HackingNode newNode = new HackingNode();
+				newNode.IsInput = inf.IsInput;
+				newNode.IsOutput = inf.IsOutput;
+				newNode.IsDeviceNode = inf.IsDeviceNode;
+				newNode.InternalIdentifier = inf.InternalIdentifier;
+				newNode.HiddenLabel = inf.HiddenLabel;
+				newNode.PublicLabel = inf.PublicLabel;
+
+			if (inf.IsInput)
+			{
+				inputNodes.Add(newNode);
+			}
+			else
+			{
+				outputNodes.Add(newNode);
+			}
+		}
+
+		hackNodes = inputNodes.Concat(outputNodes).ToList();
+	}
+
+	public override void ClientGenerateNodesFromNodeInfo()
+	{
+		List<HackingNodeInfo> infList = nodeInfo.nodeInfoList.ToList();
+		foreach (HackingNodeInfo inf in infList)
 		{
 			HackingNode newNode = new HackingNode();
 			newNode.IsInput = inf.IsInput;
 			newNode.IsOutput = inf.IsOutput;
 			newNode.IsDeviceNode = inf.IsDeviceNode;
-			newNode.InternalIdentifier = inf.InternalIdentifier;
-			newNode.HiddenLabel = inf.HiddenLabel;
 			newNode.PublicLabel = inf.PublicLabel;
 
-			hackNodes.Add(newNode);
+			if (inf.IsInput)
+			{
+				inputNodes.Add(newNode);
+			}
+			else
+			{
+				outputNodes.Add(newNode);
+			}
 		}
+		hackNodes = inputNodes.Concat(outputNodes).ToList();
 	}
 
 	public override void ServerLinkHackingNodes()

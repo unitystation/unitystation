@@ -124,7 +124,7 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	}
 
 	//Node list is just undefined nodes for the client. Important, because it means that the client does not know what nodes does what. It just needs the same amount of nodes.
-	public void ClientGenerateNodesFromNodeInfo()
+	public virtual void ClientGenerateNodesFromNodeInfo()
 	{
 		foreach (HackingNodeInfo inf in nodeInfo.nodeInfoList)
 		{
@@ -196,13 +196,10 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		HackingNode inputNode = hackNodes[connection[1]];
 
 		bool nodeNotNull = outputNode != null && inputNode != null;
-		Debug.Log(nodeNotNull);
 
 		bool isOutputAndInput = outputNode.IsOutput && inputNode.IsInput;
-		Debug.Log(isOutputAndInput);
 
 		bool notAlreadyHasNode = !outputNode.ConnectedInputNodes.Contains(inputNode);
-		Debug.Log(notAlreadyHasNode);
 
 		if (nodeNotNull && isOutputAndInput && notAlreadyHasNode)
 		{
@@ -330,9 +327,9 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		}
 
 		Pickupable handItem = playerScript.Equipment.ItemStorage.GetActiveHandSlot().Item;
-		if (handItem != null && !Validations.HasItemTrait(handItem.gameObject, CommonTraits.Instance.Wirecutter))
+		if (handItem == null || !Validations.HasItemTrait(handItem.gameObject, CommonTraits.Instance.Wirecutter))
 		{
-			return true;
+			return false;
 		}
 
 		return true;
@@ -357,13 +354,20 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 			return false;
 		}
 
-		Pickupable handItem = playerScript.Equipment.ItemStorage.GetActiveHandSlot().Item;
-		if (handItem != null && !Validations.HasItemTrait(handItem.gameObject, CommonTraits.Instance.Wirecutter))
-		{
-			return true;
-		}
-
 		return true;
+	}
+
+	public virtual void ServerPlayerRemoveConnection(PlayerScript player, int[] connection)
+	{
+		int outIndex = connection[0];
+		int inIndex = connection[1];
+
+		HackingNode node = hackNodes[outIndex];
+		if (node != null)
+		{
+			node.WireCutCallback(player.gameObject);
+		}
+		RemoveNodeConnection(connection);
 	}
 
 	/// <summary>

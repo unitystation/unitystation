@@ -35,6 +35,8 @@ public class HackingNode
 
 	public Action<GameObject> inputCallBacks;
 
+	public Action<GameObject> onConnectionCut;
+
 	//This does not need to be synced between the server and client. As long as the server is sending correct data to the client, the object this is attached to should work fine.
 	//We only need to update the client on what nodes are doing what when they're in the hacking menu.
 	//private NodeInputCallback inputMethods = null;
@@ -79,6 +81,26 @@ public class HackingNode
 		{
 			node.InputReceived(originator);
 		}
+	}
+
+	public virtual void AddWireCutCallback(Action method)
+	{
+		Action<GameObject> methodWrapped = delegate (GameObject gameObject)
+		{
+			method();
+		};
+
+		onConnectionCut += methodWrapped;
+	}
+
+	public virtual void AddWireCutCallback(Action<GameObject> method)
+	{
+		onConnectionCut += method;
+	}
+
+	public virtual void WireCutCallback(GameObject obj = null)
+	{
+		onConnectionCut?.Invoke(obj);
 	}
 
 	public virtual void AddConnectedNode(HackingNode node)
