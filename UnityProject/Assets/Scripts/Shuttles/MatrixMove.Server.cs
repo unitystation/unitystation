@@ -332,21 +332,51 @@ public partial class MatrixMove
 		}
 		else
 		{
-			//Finish the lerp if it was half way through on stopping
-			if (serverMoveNodes.historyNodes[0].nodePos != Vector2Int.zero &&
-			    serverMoveNodes.historyNodes[0].nodePos != serverTargetPosition.To2Int())
+
+			if (rcsBurn)
 			{
 				serverLerpTime += Time.deltaTime * 1f;
 				transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
 				matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection, rcsBurn);
 				if (serverLerpTime >= 1f)
 				{
-					transform.position = serverTargetPosition; //sometimes it is ever so slightly off the target
 					UpdateServerStatePosition(serverTargetPosition);
+					transform.position = serverTargetPosition; //sometimes it is ever so slightly off the target
+					rcsBurn = false;
 					serverMoveNodes.AddHistoryNode(serverTargetPosition.To2Int(), NetworkTime.time);
-					if (rcsBurn) rcsBurn = false;
 				}
 			}
+
+//			//Finish the lerp if it was half way through on stopping
+//			if (serverMoveNodes.historyNodes[0].nodePos != Vector2Int.zero &&
+//			    serverMoveNodes.historyNodes[0].nodePos != serverTargetPosition.To2Int())
+//			{
+//				serverLerpTime += Time.deltaTime * 1f;
+//				transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
+//				matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection, rcsBurn);
+//				if (serverLerpTime >= 1f)
+//				{
+//					transform.position = serverTargetPosition; //sometimes it is ever so slightly off the target
+//					UpdateServerStatePosition(serverTargetPosition);
+//					serverMoveNodes.AddHistoryNode(serverTargetPosition.To2Int(), NetworkTime.time);
+//					if (rcsBurn) rcsBurn = false;
+//				}
+//			}
+//			else
+//			{
+//				if (rcsBurn)
+//				{
+//					serverLerpTime += Time.deltaTime * 1f;
+//					transform.position = Vector2.Lerp(serverFromPosition, serverTargetPosition, serverLerpTime);
+//					matrixPositionFilter.FilterPosition(transform, transform.position, ServerState.FlyingDirection, rcsBurn);
+//					if (serverLerpTime >= 1f)
+//					{
+//						transform.position = serverTargetPosition; //sometimes it is ever so slightly off the target
+//						rcsBurn = false;
+//						serverMoveNodes.AddHistoryNode(serverTargetPosition.To2Int(), NetworkTime.time);
+//					}
+//				}
+//			}
 		}
 
 		//ServerState lerping to its target tile
