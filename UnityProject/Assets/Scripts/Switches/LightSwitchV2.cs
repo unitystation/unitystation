@@ -21,10 +21,10 @@ namespace Lighting
 		private bool isInCoolDown;
 
 		[SerializeField]
-		private Sprite[] sprites;
+		private Sprite[] sprites = null;
 
 		[SerializeField]
-		private SpriteRenderer spriteRenderer;
+		private SpriteRenderer spriteRenderer = null;
 
 		private PowerStates powerState = PowerStates.On;
 		private void Awake()

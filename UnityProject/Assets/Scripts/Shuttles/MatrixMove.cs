@@ -27,7 +27,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 	[Tooltip("Initial facing of the ship. Very important to set this correctly!")]
 	[SerializeField]
-	private OrientationEnum initialFacing;
+	private OrientationEnum initialFacing = OrientationEnum.Down;
 	/// <summary>
 	/// Initial facing of the ship as mapped in the editor.
 	/// </summary>

@@ -18,7 +18,7 @@ public class EmptyFullSync : NetworkBehaviour, IServerSpawn
 	public string FullName;
 
 	[SerializeField] [FormerlySerializedAs(nameof(spriteSync))]
-	private EmptyFullStatus initialState;
+	private EmptyFullStatus initialState = EmptyFullStatus.Empty;
 
 	[SyncVar(hook = nameof(SyncState))]
 	private EmptyFullStatus spriteSync;

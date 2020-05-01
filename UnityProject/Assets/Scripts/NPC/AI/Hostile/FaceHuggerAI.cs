@@ -25,7 +25,7 @@ namespace NPC
 		[SerializeField] private MobStatus currentStatus;
 		public MobStatus CurrentStatus => currentStatus;
 
-		[SerializeField] private GameObject maskObject;
+		[SerializeField] private GameObject maskObject = null;
 
 		private LayerMask hitMask;
 		private int playersLayer;

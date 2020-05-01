@@ -13,7 +13,7 @@ namespace Items
 		[Tooltip("Should we spread the items in the tile once spawned?")][SerializeField]
 		private bool fanOut = false;
 		[Tooltip("List of possible pools of items to choose from")][SerializeField]
-		private List<PoolData> poolList;
+		private List<PoolData> poolList = null;
 
 		private const int MaxAmountRolls = 5;
 
@@ -82,7 +82,7 @@ namespace Items
 		[Tooltip("Probabilities of spawning from this pool when chosen")] [SerializeField][Range(0,100)]
 		private int probability = 100;
 		[Tooltip("The pool from which we will try to get items")] [SerializeField]
-		private RandomItemPool randomItemPool;
+		private RandomItemPool randomItemPool = null;
 		public int Probability => probability;
 		public RandomItemPool RandomItemPool => randomItemPool;
 	}

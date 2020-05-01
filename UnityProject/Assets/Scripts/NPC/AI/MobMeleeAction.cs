@@ -16,20 +16,20 @@ namespace NPC.AI
 		         "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
 		         "a player originally.")]
 		[SerializeField]
-		private bool targetOtherPlayersWhoGetInWay;
+		private bool targetOtherPlayersWhoGetInWay = true;
 
 		[Tooltip("Act on nothing but the target. No players in the way, no tiles, nada.")]
 		[SerializeField]
-		private bool onlyActOnTarget;
+		private bool onlyActOnTarget = false;
 
 		[SerializeField]
 		private bool doLerpOnAction;
 
 		[SerializeField]
-		private GameObject spriteHolder;
+		private GameObject spriteHolder = null;
 
 		[SerializeField]
-		private float actionCooldown;
+		private float actionCooldown = 1f;
 
 		private LayerMask checkMask;
 		private int playersLayer;
