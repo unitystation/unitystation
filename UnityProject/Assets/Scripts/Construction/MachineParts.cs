@@ -13,6 +13,8 @@ namespace Machines
 		{
 			public ItemTrait itemTrait;// The machine part needed to build machine
 
+			public GameObject basicItem; //Basic item prefab used for when deconstructing mapped machines.
+
 			public int amountOfThisPart = 1; // Amount of that part
 		}
 

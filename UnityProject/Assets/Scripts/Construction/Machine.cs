@@ -16,7 +16,7 @@ namespace Machines
 
 		//Not needed on all machine prefabs
 		public IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();
-		public IDictionary<ItemTrait, int> partsUsed = new Dictionary<ItemTrait, int>();
+		public IDictionary<GameObject, int> partsInFrame = new Dictionary<GameObject, int>();
 
 		[Tooltip("Frame prefab this computer should deconstruct into.")]
 		[SerializeField]
@@ -84,9 +84,9 @@ namespace Machines
 			basicPartsUsed = BasicPartsUsed;
 		}
 
-		public void SetPartsUsed(IDictionary<ItemTrait, int> PartsUsed)
+		public void SetPartsInFrame(IDictionary<GameObject, int> PartsInFrame)
 		{
-			partsUsed = PartsUsed;
+			partsInFrame = PartsInFrame;
 		}
 	}
 }
