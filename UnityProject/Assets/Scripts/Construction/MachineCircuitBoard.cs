@@ -18,5 +18,10 @@ namespace Machines
 		/// What machine parts are needed
 		/// </summary>
 		public MachineParts MachinePartsUsed => machineParts;
+
+		public void SetMachineParts(MachineParts MachineParts)
+		{
+			machineParts = MachineParts;
+		}
 	}
 }

@@ -13,12 +13,7 @@ MonoBehaviour:
   m_Name: MachineConstruction
   m_EditorClassIdentifier: 
   MaxItemSize: 5
-  Whitelist:
-  - {fileID: 11400000, guid: dfd495e3b4de9468bbe3a9e06d8c8a0a, type: 2}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  Required: []
+  Whitelist: []
+  Required:
+  - {fileID: 11400000, guid: 4e535bfcd4a0c6442984dfd404a6fcf9, type: 2}
   Blacklist: []

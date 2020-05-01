@@ -64,7 +64,7 @@ namespace Machines
 			else if (CurrentState == circuitAddedState)
 			{
 				//remove circuit board
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
 					return true;
 				}
@@ -192,17 +192,10 @@ namespace Machines
 					ToolUtils.ServerPlayToolSound(interaction);
 					Inventory.ServerDrop(circuitBoardSlot);
 					stateful.ServerChangeState(wrenchedState);
-					//TO DO RESPAWN ALREADY PUT IN ITEMS
 
-					foreach (var item in partsUsed)
+					foreach (var item in partsUsed)//Spawns the non stackable parts that were used
 					{
-						if (StockPartsCheck(item.Key, interaction) == item.Key)
-						{
-							for (int i = 0; i <= item.Value; i++)
-							{
-								Spawn.ServerPrefab(StockPartsPrefabCheck(item.Key), SpawnDestination.At(gameObject));
-							}
-						}
+						Spawn.ServerPrefab(StockPartsPrefabCheck(item.Key), SpawnDestination.At(gameObject), item.Value);
 					}
 				}
 				else if (ItemTraitCheck(interaction))
@@ -231,7 +224,12 @@ namespace Machines
 			{
 				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
-					Spawn.ServerPrefab(machineParts.machine, SpawnDestination.At(gameObject));
+					var spawnedObject = Spawn.ServerPrefab(machineParts.machine, SpawnDestination.At(gameObject)).GameObject.GetComponent<Machine>();
+
+					//Send circuit board data to the new machine
+					spawnedObject.SetBasicPartsUsed(basicPartsUsed);
+					spawnedObject.SetPartsUsed(partsUsed);
+					spawnedObject.SetMachineParts(machineParts);
 					Despawn.ServerSingle(gameObject);
 				}
 			}
@@ -277,13 +275,13 @@ namespace Machines
 			else if (basicPartsUsed.ContainsKey(itemTrait))// Already exists but isnt stackable
 			{
 				basicPartsUsed[itemTrait] ++;
-				partsUsed[StockPartsCheck(itemTrait, interaction)]++;
+				partsUsed[StockPartsCheck(itemTrait, interaction.UsedObject)]++;
 				Inventory.ServerDespawn(interaction.HandSlot);
 			}
 			else// Doesnt exist but isnt stackable
 			{
 				basicPartsUsed.Add(itemTrait, 1);
-				partsUsed.Add(StockPartsCheck(itemTrait, interaction), 1);
+				partsUsed.Add(StockPartsCheck(itemTrait, interaction.UsedObject), 1);
 				Inventory.ServerDespawn(interaction.HandSlot);
 			}
 		}
@@ -292,7 +290,7 @@ namespace Machines
 		{
 			foreach (var part in machineParts.machineParts)
 			{
-				if (Validations.HasUsedItemTrait(interaction, part.itemTrait) && (!basicPartsUsed.ContainsKey(part.itemTrait) || basicPartsUsed[part.itemTrait] != part.amountOfThisPart))
+				if (Validations.HasUsedItemTrait(interaction, part.itemTrait) && (!basicPartsUsed.ContainsKey(part.itemTrait) || basicPartsUsed[part.itemTrait] != part.amountOfThisPart)) //Has items trait and we dont have enough yet
 				{
 					return true;
 				}
@@ -329,7 +327,7 @@ namespace Machines
 					if (!basicPartsUsed.TryGetValue(parts.itemTrait, out int value))
 					{
 						msg += parts.amountOfThisPart;
-						msg += " " + parts.itemTrait;
+						msg += " " + parts.itemTrait.name;
 
 						if (parts.amountOfThisPart > 1)
 						{
@@ -341,7 +339,7 @@ namespace Machines
 					else if (basicPartsUsed[parts.itemTrait] != parts.amountOfThisPart)
 					{
 						msg += parts.amountOfThisPart - basicPartsUsed[parts.itemTrait];
-						msg += " " + parts.itemTrait;
+						msg += " " + parts.itemTrait.name;
 
 						if ((parts.amountOfThisPart - basicPartsUsed[parts.itemTrait]) > 1)
 						{
@@ -352,7 +350,12 @@ namespace Machines
 					}
 				}
 
-				msg += "Use wrench to remove circuit board, you will destroy all non stackable items.";
+				msg += "Use crowbar to remove circuit board, you will destroy all non stackable items inside.";
+			}
+
+			if (CurrentState == partsAddedState)
+			{
+				msg = "Use a screwdriver to finish construction or use crowbar to remove circuit board.\n However you will destroy all non stackable items inside.";
 			}
 
 			return msg;
@@ -361,19 +364,66 @@ namespace Machines
 		/// <summary>
 		/// Initializes this frame's state to be from a just-deconstructed computer
 		/// </summary>
-		/// <param name="computer"></param>
-		public void ServerInitFromComputer(Computer computer)
+		/// <param name="machine"></param>
+		public void ServerInitFromComputer(Machine machine)
 		{
 			//create the circuit board
-			var board = Spawn.ServerPrefab(computer.CircuitBoardPrefab);
+			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
+
+			board.GetComponent<MachineCircuitBoard>().SetMachineParts(machine.MachineParts); //Basic item requirements to the circuit board.
+
+			machineParts = machine.MachineParts;// basic items to the frame
+
+			if (machine.partsUsed == null)//If this is a mapped machine, spawn Tier 1 items
+			{
+				PartsUsedToSpawn(machine.MachineParts);
+			}
+			else
+			{
+				partsUsed = machine.partsUsed;
+			}
+
 			//put it in
-			Inventory.ServerAdd(board.GameObject, circuitBoardSlot);
+			Inventory.ServerAdd(board, circuitBoardSlot);
 
 			//set initial state
 			objectBehaviour.ServerSetPushable(false);
-			stateful.ServerChangeState(initialState);
+			stateful.ServerChangeState(partsAddedState);
 		}
 
+		private void PartsUsedToSpawn(MachineParts list)
+		{
+			foreach (var part in list.machineParts)
+			{
+				var itemTrait = part.itemTrait;
+
+				if (itemTrait == MachinePartsItemTraits.Instance.Manipulator)
+				{
+					AddToPartsUsed(MachinePartsItemTraits.Instance.MicroManipulator, part);
+				}
+				else if (itemTrait == MachinePartsItemTraits.Instance.MatterBin)
+				{
+					AddToPartsUsed(MachinePartsItemTraits.Instance.BasicMatterBin, part);
+				}
+				else if (itemTrait == MachinePartsItemTraits.Instance.MicroLaser)
+				{
+					AddToPartsUsed(MachinePartsItemTraits.Instance.BasicMicroLaser, part);
+				}
+				else if (itemTrait == MachinePartsItemTraits.Instance.ScanningModule)
+				{
+					AddToPartsUsed(MachinePartsItemTraits.Instance.BasicScanningModule, part);
+				}
+				else if (itemTrait == MachinePartsItemTraits.Instance.Capacitor)
+				{
+					AddToPartsUsed(MachinePartsItemTraits.Instance.BasicCapacitor, part);
+				}
+			}
+		}
+
+		private void AddToPartsUsed( ItemTrait itemTrait, MachineParts.MachinePartList list)
+		{
+			partsUsed.Add(itemTrait, list.amountOfThisPart);
+		}
 
 		public GameObject StockPartsPrefabCheck(ItemTrait itemTrait)
 		{
@@ -513,47 +563,47 @@ namespace Machines
 			return null;
 		}
 
-		public ItemTrait StockPartsCheck(ItemTrait itemTrait, HandApply interaction)
+		public ItemTrait StockPartsCheck(ItemTrait itemTrait, GameObject UsedObject)
 		{
 			if (itemTrait == MachinePartsItemTraits.Instance.Manipulator)
 			{
-				return Manipulator(interaction);
+				return Manipulator(UsedObject);
 			}
 			else if (itemTrait == MachinePartsItemTraits.Instance.MatterBin)
 			{
-				return MatterBin(interaction);
+				return MatterBin(UsedObject);
 			}
 			else if (itemTrait == MachinePartsItemTraits.Instance.MicroLaser)
 			{
-				return MicroLaser(interaction);
+				return MicroLaser(UsedObject);
 			}
 			else if (itemTrait == MachinePartsItemTraits.Instance.ScanningModule)
 			{
-				return ScanningModule(interaction);
+				return ScanningModule(UsedObject);
 			}
 			else if (itemTrait == MachinePartsItemTraits.Instance.Capacitor)
 			{
-				return Capacitor(interaction);
+				return Capacitor(UsedObject);
 			}
 
 			return itemTrait;
 		}
 
-		private ItemTrait Manipulator(HandApply interaction)
+		private ItemTrait Manipulator(GameObject UsedObject)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.MicroManipulator))
+			if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.MicroManipulator))
 			{
 				return MachinePartsItemTraits.Instance.MicroManipulator;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.NanoManipulator))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.NanoManipulator))
 			{
 				return MachinePartsItemTraits.Instance.NanoManipulator;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.PicoManipulator))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.PicoManipulator))
 			{
 				return MachinePartsItemTraits.Instance.PicoManipulator;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.FemtoManipulator))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.FemtoManipulator))
 			{
 				return MachinePartsItemTraits.Instance.FemtoManipulator;
 			}
@@ -561,21 +611,21 @@ namespace Machines
 			return null;
 		}
 
-		private ItemTrait MatterBin(HandApply interaction)
+		private ItemTrait MatterBin(GameObject UsedObject)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.BasicMatterBin))
+			if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.BasicMatterBin))
 			{
 				return MachinePartsItemTraits.Instance.BasicMatterBin;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.AdvancedMatterBin))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.AdvancedMatterBin))
 			{
 				return MachinePartsItemTraits.Instance.AdvancedMatterBin;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.SuperMatterBin))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.SuperMatterBin))
 			{
 				return MachinePartsItemTraits.Instance.SuperMatterBin;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.BluespaceMatterBin))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.BluespaceMatterBin))
 			{
 				return MachinePartsItemTraits.Instance.BluespaceMatterBin;
 			}
@@ -583,21 +633,21 @@ namespace Machines
 			return null;
 		}
 
-		private ItemTrait MicroLaser(HandApply interaction)
+		private ItemTrait MicroLaser(GameObject UsedObject)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.BasicMicroLaser))
+			if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.BasicMicroLaser))
 			{
 				return MachinePartsItemTraits.Instance.BasicMicroLaser;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.HighPowerMicroLaser))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.HighPowerMicroLaser))
 			{
 				return MachinePartsItemTraits.Instance.HighPowerMicroLaser;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.UltraHighPowerMicroLaser))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.UltraHighPowerMicroLaser))
 			{
 				return MachinePartsItemTraits.Instance.UltraHighPowerMicroLaser;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.QuadUltraMicroLaser))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.QuadUltraMicroLaser))
 			{
 				return MachinePartsItemTraits.Instance.QuadUltraMicroLaser;
 			}
@@ -605,21 +655,21 @@ namespace Machines
 			return null;
 		}
 
-		private ItemTrait ScanningModule(HandApply interaction)
+		private ItemTrait ScanningModule(GameObject UsedObject)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.BasicScanningModule))
+			if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.BasicScanningModule))
 			{
 				return MachinePartsItemTraits.Instance.BasicScanningModule;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.AdvancedScanningModule))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.AdvancedScanningModule))
 			{
 				return MachinePartsItemTraits.Instance.AdvancedScanningModule;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.PhasicScanningModule))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.PhasicScanningModule))
 			{
 				return MachinePartsItemTraits.Instance.PhasicScanningModule;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.TriphasicScanningModule))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.TriphasicScanningModule))
 			{
 				return MachinePartsItemTraits.Instance.TriphasicScanningModule;
 			}
@@ -627,21 +677,21 @@ namespace Machines
 			return null;
 		}
 
-		private ItemTrait Capacitor(HandApply interaction)
+		private ItemTrait Capacitor(GameObject UsedObject)
 		{
-			if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.BasicCapacitor))
+			if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.BasicCapacitor))
 			{
 				return MachinePartsItemTraits.Instance.BasicCapacitor;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.AdvancedCapacitor))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.AdvancedCapacitor))
 			{
 				return MachinePartsItemTraits.Instance.AdvancedCapacitor;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.SuperCapacitor))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.SuperCapacitor))
 			{
 				return MachinePartsItemTraits.Instance.SuperCapacitor;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, MachinePartsItemTraits.Instance.QuadraticCapacitor))
+			else if (Validations.HasItemTrait(UsedObject, MachinePartsItemTraits.Instance.QuadraticCapacitor))
 			{
 				return MachinePartsItemTraits.Instance.QuadraticCapacitor;
 			}
