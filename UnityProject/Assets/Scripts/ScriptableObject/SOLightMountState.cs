@@ -30,5 +30,5 @@ public class SOLightMountState : UnityEngine.ScriptableObject
 	public RandomItemPool lootDrop;
 
 	[Tooltip("Light color.")]
-	public Color lightState;
+	public Color LightColor;
 }

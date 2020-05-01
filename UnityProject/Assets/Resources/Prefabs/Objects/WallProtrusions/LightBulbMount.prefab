@@ -100,12 +100,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  relatedLightSwitch: {fileID: 0}
   InitialState: 1
   mLightRendererObject: {fileID: 0}
-  lightStateColorOn: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0.8}
-  lightStateColorEmergency: {r: 0.7264151, g: 0, b: 0, a: 0.8}
   isWithoutSwitch: 0
-  relatedLightSwitch: {fileID: 0}
+  spriteRenderer: {fileID: 212082969356704250}
+  spriteRendererLightOn: {fileID: 6796822836624601522}
+  mountStatesMachine: {fileID: 11400000, guid: 3bd2d676f24e6864dbff58a5436afb74, type: 2}
+  currentState: {fileID: 11400000, guid: 996291111aa54d242bdf5a2ae9d7ae8a, type: 2}
 --- !u!114 &114469489843686000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +188,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
+  isDirty: 1
   sceneId: 0
   serverOnly: 0
   m_AssetId: 

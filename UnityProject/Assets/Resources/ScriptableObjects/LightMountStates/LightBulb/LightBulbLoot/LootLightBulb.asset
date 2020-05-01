@@ -10,6 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
-  m_Name: LightBulbLoot
+  m_Name: LootLightBulb
   m_EditorClassIdentifier: 
-  pool: []
+  pool:
+  - prefab: {fileID: 2419386692754613975, guid: 088f5b3f38540a844ae6781f2ab40abe,
+      type: 3}
+    maxAmount: 1
+    probability: 20
+  - prefab: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+      type: 3}
+    maxAmount: 3
+    probability: 25
+  - prefab: {fileID: 2265521501557685915, guid: 82677ff961fa72944936cc923625a1bc,
+      type: 3}
+    maxAmount: 2
+    probability: 50

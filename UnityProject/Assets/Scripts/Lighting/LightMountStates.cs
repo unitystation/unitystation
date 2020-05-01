@@ -4,15 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
-public enum LightMountState
-{
-	None = 0,
-	On,
-	Off,
-	MissingBulb,
-	Broken,
-	TypeCount,
-}
 public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private float coolDownTime = 3.0f;
@@ -150,7 +141,6 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 
 		if (newState == LightMountState.On)
 		{
-			lightSource.ServerChangeLightState(LightState.On);
 			spriteRenderer.sprite = GetSprite(spriteListFull);
 			spriteRendererLightOn.sprite = GetSprite(spriteListLightOn);
 			integrity.soundOnHit = "GlassHit";
@@ -173,7 +163,6 @@ public class LightMountStates : NetworkBehaviour, ICheckedInteractable<HandApply
 			spriteRenderer.sprite = GetSprite(spriteListFull);
 			integrity.soundOnHit = "GlassHit";
 		}
-		lightSource.ServerChangeLightState(LightState.Off);
 		spriteRendererLightOn.sprite = null;
 	}
 
