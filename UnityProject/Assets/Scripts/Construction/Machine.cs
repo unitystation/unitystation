@@ -46,12 +46,14 @@ namespace Machines
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (MachineParts == null) return;
+
 			//unscrew
 			ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,
-				"You start to disconnect the monitor...",
-				$"{interaction.Performer.ExpensiveName()} starts to disconnect the monitor...",
-				"You disconnect the monitor.",
-				$"{interaction.Performer.ExpensiveName()} disconnects the monitor.",
+				"You start to deconstruct the machine...",
+				$"{interaction.Performer.ExpensiveName()} starts to deconstruct the machine...",
+				"You deconstruct the machine.",
+				$"{interaction.Performer.ExpensiveName()} deconstructs the machine.",
 				() =>
 				{
 					//drop all our contents

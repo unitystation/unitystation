@@ -184,14 +184,14 @@ namespace Machines
 			{
 				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
 				{
-					//wrench out the circuit board
+					//wrench out the circuit board, when it only has some of the parts
 					Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
 						$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
 					ToolUtils.ServerPlayToolSound(interaction);
 					Inventory.ServerDrop(circuitBoardSlot);
 					stateful.ServerChangeState(wrenchedState);
 
-					if (partsInFrame == null)
+					if (partsInFrame.Count == 0)
 					{
 						foreach (var part in machineParts.machineParts)
 						{
@@ -241,6 +241,32 @@ namespace Machines
 					spawnedObject.SetPartsInFrame(partsInFrame);
 					spawnedObject.SetMachineParts(machineParts);
 					Despawn.ServerSingle(gameObject);
+				}
+				else if(Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
+				{
+					//wrench out the circuit board, when it has all the parts in.
+					Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
+						$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
+					ToolUtils.ServerPlayToolSound(interaction);
+					Inventory.ServerDrop(circuitBoardSlot);
+					stateful.ServerChangeState(wrenchedState);
+
+					if (partsInFrame.Count == 0)
+					{
+						foreach (var part in machineParts.machineParts)
+						{
+							Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosClient(), count: part.amountOfThisPart);
+						}
+					}
+					else
+					{
+						foreach (var item in partsInFrame)//Spawns the non stackable parts that were used //TODO MOVE BACK FROM HIDDEN POS
+						{
+							if (item.Key == null) return;
+
+							item.Key.GetComponent<CustomNetTransform>().SetPosition(gameObject.WorldPosClient());
+						}
+					}
 				}
 			}
 		}
@@ -403,7 +429,7 @@ namespace Machines
 
 			machineParts = machine.MachineParts;// basic items to the frame
 
-			if (machine.partsInFrame != null)
+			if (machine.partsInFrame.Count != 0)
 			{
 				partsInFrame = machine.partsInFrame;
 			}
