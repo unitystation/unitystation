@@ -15,8 +15,8 @@ namespace Machines
 		public MachineParts MachineParts;
 
 		//Not needed on all machine prefabs
-		public IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();
-		public IDictionary<GameObject, int> partsInFrame = new Dictionary<GameObject, int>();
+		private IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();
+		private IDictionary<GameObject, int> partsInFrame = new Dictionary<GameObject, int>();
 
 		[Tooltip("Frame prefab this computer should deconstruct into.")]
 		[SerializeField]
@@ -25,6 +25,9 @@ namespace Machines
 		[Tooltip("Prefab of the circuit board that lives inside this computer.")]
 		[SerializeField]
 		private GameObject machineBoardPrefab = null;
+
+		public IDictionary<ItemTrait, int> BasicPartsUsed => basicPartsUsed;
+		public IDictionary<GameObject, int> PartsInFrame => partsInFrame;
 
 		/// <summary>
 		/// Prefab of the circuit board that lives inside this computer.
@@ -71,7 +74,17 @@ namespace Machines
 					}
 
 					var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
+
+					Logger.Log("machine parts: " + partsInFrame.Count);
+					if (partsInFrame.Count == 0)
+					{
+						Logger.Log("Machine partsInFrame.Count == 0");
+					}
+
 					frame.GetComponent<MachineFrame>().ServerInitFromComputer(this);
+					//basicPartsUsed.Clear();
+					//partsInFrame.Clear();
+					//MachineParts = null;
 					Despawn.ServerSingle(gameObject);
 				});
 		}
@@ -83,11 +96,21 @@ namespace Machines
 
 		public void SetBasicPartsUsed(IDictionary<ItemTrait, int> BasicPartsUsed)
 		{
+			Logger.Log("machine BasicPartsUsed: " + BasicPartsUsed.Count);
+			if (BasicPartsUsed.Count == 0)
+			{
+				Logger.Log("Machine BasicPartsUsed.Count == 0");
+			}
 			basicPartsUsed = BasicPartsUsed;
 		}
 
 		public void SetPartsInFrame(IDictionary<GameObject, int> PartsInFrame)
 		{
+			Logger.Log("machine PartsInFrame: " + PartsInFrame.Count);
+			if (PartsInFrame.Count == 0)
+			{
+				Logger.Log("Machine PartsInFrame.Count == 0");
+			}
 			partsInFrame = PartsInFrame;
 		}
 	}

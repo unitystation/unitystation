@@ -25,6 +25,8 @@ namespace Machines
 		private MachineParts machineParts;
 		private MachineParts.MachinePartList trait;
 
+		private bool putBoardInManually;
+
 		private StatefulState CurrentState => stateful.CurrentState;
 		private ObjectBehaviour objectBehaviour;
 
@@ -167,6 +169,7 @@ namespace Machines
 					machineParts = interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed;
 					Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
 					stateful.ServerChangeState(circuitAddedState);
+					putBoardInManually = true;
 				}
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
@@ -191,8 +194,10 @@ namespace Machines
 					Inventory.ServerDrop(circuitBoardSlot);
 					stateful.ServerChangeState(wrenchedState);
 
-					if (partsInFrame.Count == 0)
+					Logger.Log("parts: " + partsInFrame.Count);
+					if (partsInFrame.Count == 0 && !putBoardInManually)
 					{
+						Logger.Log("partsInFrame.Count == 0");
 						foreach (var part in machineParts.machineParts)
 						{
 							Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosClient(), count : part.amountOfThisPart);
@@ -200,13 +205,14 @@ namespace Machines
 					}
 					else
 					{
-						foreach (var item in partsInFrame)//Spawns the non stackable parts that were used //TODO MOVE BACK FROM HIDDEN POS
+						foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
 						{
 							if (item.Key == null) return;
 
 							item.Key.GetComponent<CustomNetTransform>().SetPosition(gameObject.WorldPosClient());
 						}
 					}
+					putBoardInManually = false;
 				}
 				else if (ItemTraitCheck(interaction))
 				{
@@ -236,10 +242,17 @@ namespace Machines
 				{
 					var spawnedObject = Spawn.ServerPrefab(machineParts.machine, SpawnDestination.At(gameObject)).GameObject.GetComponent<Machine>();
 
+					if (spawnedObject == null)
+					{
+						Logger.Log("null");
+					}
 					//Send circuit board data to the new machine
 					spawnedObject.SetBasicPartsUsed(basicPartsUsed);
+					//basicPartsUsed.Clear();
 					spawnedObject.SetPartsInFrame(partsInFrame);
+					//partsInFrame.Clear();
 					spawnedObject.SetMachineParts(machineParts);
+					//machineParts = null;
 					Despawn.ServerSingle(gameObject);
 				}
 				else if(Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
@@ -251,8 +264,10 @@ namespace Machines
 					Inventory.ServerDrop(circuitBoardSlot);
 					stateful.ServerChangeState(wrenchedState);
 
-					if (partsInFrame.Count == 0)
+					Logger.Log("parts: " + partsInFrame.Count);
+					if (partsInFrame.Count == 0 && !putBoardInManually)
 					{
+						Logger.Log("partsInFrame.Count == 0");
 						foreach (var part in machineParts.machineParts)
 						{
 							Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosClient(), count: part.amountOfThisPart);
@@ -260,13 +275,15 @@ namespace Machines
 					}
 					else
 					{
-						foreach (var item in partsInFrame)//Spawns the non stackable parts that were used //TODO MOVE BACK FROM HIDDEN POS
+						foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
 						{
 							if (item.Key == null) return;
 
 							item.Key.GetComponent<CustomNetTransform>().SetPosition(gameObject.WorldPosClient());
 						}
 					}
+
+					putBoardInManually = false;
 				}
 			}
 		}
@@ -429,14 +446,9 @@ namespace Machines
 
 			machineParts = machine.MachineParts;// basic items to the frame
 
-			if (machine.partsInFrame.Count != 0)
-			{
-				partsInFrame = machine.partsInFrame;
-			}
-			else
-			{
-				basicPartsUsed = machine.basicPartsUsed;
-			}
+			partsInFrame = machine.PartsInFrame;
+
+			basicPartsUsed = machine.BasicPartsUsed;
 
 			//put it in
 			Inventory.ServerAdd(board, circuitBoardSlot);
