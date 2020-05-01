@@ -7,7 +7,7 @@ namespace Machines
 	/// in components without needing to be assigned in editor.
 	/// </summary>
 	[CreateAssetMenu(fileName = "MachinePartsPrefabsSingleton", menuName = "Singleton/MachinePartsPrefabs")]
-	public class MachinePartsPrefabs : SingletonScriptableObject<CommonPrefabs>
+	public class MachinePartsPrefabs : SingletonScriptableObject<MachinePartsPrefabs>
 	{
 
 		public GameObject MicroManipulator;

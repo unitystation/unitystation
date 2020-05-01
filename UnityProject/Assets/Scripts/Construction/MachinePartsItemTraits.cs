@@ -8,7 +8,7 @@ namespace Machines
 	/// in components without needing to be assigned in editor.
 	/// </summary>
 	[CreateAssetMenu(fileName = "MachineTraitsSingleton", menuName = "Singleton/Traits/MachinePartTraits")]
-	public class MachinePartsItemTraits : SingletonScriptableObject<CommonTraits>
+	public class MachinePartsItemTraits : SingletonScriptableObject<MachinePartsItemTraits>
 	{
 		//Catagories
 		public ItemTrait Manipulator;
