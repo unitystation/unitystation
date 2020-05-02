@@ -51,13 +51,13 @@ namespace Machines
 			//all clients will be updated with this
 			switch (spriteForClient)
 			{
-				case SpriteStates.box:
+				case SpriteStates.Box:
 					spriteRender.sprite = box;
 					break;
-				case SpriteStates.boxCable:
+				case SpriteStates.BoxCable:
 					spriteRender.sprite = boxCable;
 					break;
-				case SpriteStates.boxCircuit:
+				case SpriteStates.BoxCircuit:
 					spriteRender.sprite = box;
 					break;
 			}
@@ -139,7 +139,7 @@ namespace Machines
 							Inventory.ServerConsume(interaction.HandSlot, 5);
 							stateful.ServerChangeState(cablesAddedState);
 							spriteRender.sprite = boxCable;
-							ServerChangeSprite(SpriteStates.boxCable);
+							ServerChangeSprite(SpriteStates.BoxCable);
 						});
 				}
 				else if (Validations.HasUsedActiveWelder(interaction))
@@ -168,7 +168,7 @@ namespace Machines
 					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 					stateful.ServerChangeState(initialState);
 					spriteRender.sprite = box;
-					ServerChangeSprite(SpriteStates.box);
+					ServerChangeSprite(SpriteStates.Box);
 				}
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
@@ -202,7 +202,7 @@ namespace Machines
 					stateful.ServerChangeState(circuitAddedState);
 					putBoardInManually = true;
 					spriteRender.sprite = boxCircuit;
-					ServerChangeSprite(SpriteStates.boxCircuit);
+					ServerChangeSprite(SpriteStates.BoxCircuit);
 				}
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
@@ -247,7 +247,7 @@ namespace Machines
 					putBoardInManually = false;
 
 					spriteRender.sprite = boxCable;
-					ServerChangeSprite(SpriteStates.boxCable);
+					ServerChangeSprite(SpriteStates.BoxCable);
 
 					partsInFrame.Clear();
 					basicPartsUsed.Clear();
@@ -322,7 +322,7 @@ namespace Machines
 					putBoardInManually = false;
 
 					spriteRender.sprite = boxCable;
-					ServerChangeSprite(SpriteStates.boxCable);
+					ServerChangeSprite(SpriteStates.BoxCable);
 
 					partsInFrame.Clear();
 					basicPartsUsed.Clear();
@@ -533,7 +533,7 @@ namespace Machines
 		public void ServerInitFromComputer(Machine machine)
 		{
 			spriteRender.sprite = boxCircuit;
-			ServerChangeSprite(SpriteStates.boxCircuit);
+			ServerChangeSprite(SpriteStates.BoxCircuit);
 
 			// Create the circuit board
 			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
@@ -560,9 +560,9 @@ namespace Machines
 
 		private enum SpriteStates
 		{
-			box = 0,
-			boxCable = 1,
-			boxCircuit = 2
+			Box = 0,
+			BoxCable = 1,
+			BoxCircuit = 2
 		}
 	}
 }
