@@ -17,9 +17,6 @@ public class SOLightMountState : UnityEngine.ScriptableObject
 	[SerializeField]private SpritesDirectional spritesDirectional = null;
 	public SpritesDirectional SpritesDirectional => spritesDirectional;
 
-	[SerializeField]private LightMountState state = LightMountState.None;
-	public LightMountState State => state;
-
 	[Tooltip("Will drop this item.")]
 	[SerializeField]private GameObject tube = null;
 	public GameObject Tube => tube;

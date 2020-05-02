@@ -41,7 +41,6 @@ Transform:
   m_Children:
   - {fileID: 4215336372400204}
   - {fileID: 4607217257851400438}
-  - {fileID: 5610071760427543035}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -102,12 +101,13 @@ MonoBehaviour:
   syncInterval: 0.1
   relatedLightSwitch: {fileID: 0}
   InitialState: 1
-  mLightRendererObject: {fileID: 6235375543613798129}
+  mLightRendererObject: {fileID: 0}
   isWithoutSwitch: 0
   spriteRenderer: {fileID: 212082969356704250}
   spriteRendererLightOn: {fileID: 6796822836624601522}
+  spritesStateOnEffect: {fileID: 11400000, guid: 726dca084060d4241bf0ffddd39509fe,
+    type: 2}
   mountStatesMachine: {fileID: 11400000, guid: 3bd2d676f24e6864dbff58a5436afb74, type: 2}
-  currentState: {fileID: 11400000, guid: 8ab13a2a71c64db439325f07d81427b7, type: 2}
 --- !u!114 &114469489843686000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,55 +356,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &6235375543613798129
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5610071760427543035}
-  - component: {fileID: 9127069937913010522}
-  m_Layer: 21
-  m_Name: Light2D
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!4 &5610071760427543035
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6235375543613798129}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12, y: 12, z: 12}
-  m_Children: []
-  m_Father: {fileID: 4371806621149412}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9127069937913010522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6235375543613798129}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Color: {r: 0, g: 0, b: 0, a: 0}
-  Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
-  SortingOrder: 0
-  Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
-  LightOrigin: {x: 0, y: 0, z: 1}
-  Shape: 0
 --- !u!1 &8446040756283705889
 GameObject:
   m_ObjectHideFlags: 0

@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: LightBulbStateMachine
   m_EditorClassIdentifier: 
   LightMountStates:
-  - {fileID: 11400000, guid: ba6f4dfe25f49514b886dd0262eb0deb, type: 2}
-  - {fileID: 11400000, guid: 3b5c01db557b3c14d89be5ab0164765e, type: 2}
-  - {fileID: 11400000, guid: af9129140171c4f4cbdd9042a5a1f156, type: 2}
-  - {fileID: 11400000, guid: 767ec4ff4aab72948879ef802e209b52, type: 2}
-  - {fileID: 11400000, guid: 8ab13a2a71c64db439325f07d81427b7, type: 2}
-  - {fileID: 11400000, guid: 996291111aa54d242bdf5a2ae9d7ae8a, type: 2}
+    m_keys: 010000000200000003000000040000000500000006000000
+    m_values:
+    - {fileID: 11400000, guid: 996291111aa54d242bdf5a2ae9d7ae8a, type: 2}
+    - {fileID: 11400000, guid: 8ab13a2a71c64db439325f07d81427b7, type: 2}
+    - {fileID: 11400000, guid: 767ec4ff4aab72948879ef802e209b52, type: 2}
+    - {fileID: 11400000, guid: ba6f4dfe25f49514b886dd0262eb0deb, type: 2}
+    - {fileID: 11400000, guid: af9129140171c4f4cbdd9042a5a1f156, type: 2}
+    - {fileID: 11400000, guid: 3b5c01db557b3c14d89be5ab0164765e, type: 2}
