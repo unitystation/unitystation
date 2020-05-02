@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -125,6 +126,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -182,6 +184,8 @@ GameObject:
   - component: {fileID: 114808882908742840}
   - component: {fileID: 114908063341546646}
   - component: {fileID: -7017711085307090504}
+  - component: {fileID: -6694476313894456181}
+  - component: {fileID: -7406973119770313257}
   m_Layer: 17
   m_Name: ResearchDoor
   m_TagString: Untagged
@@ -269,6 +273,7 @@ MonoBehaviour:
   maxTimeOpen: 5
   enablePressureWarning: 1
   DoorPressureSpriteOffset: 25
+  pressureLevel: 0
   openingDirection: 0
   spriteRenderer: {fileID: 0}
 --- !u!114 &114411665271381982
@@ -603,6 +608,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -626,6 +632,46 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &-6694476313894456181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471265584270754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: ad3502dbb5202e64ab70b125dba1335c,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 15e4795bbc71b044ea2a69dc1c89f1d4,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
+--- !u!114 &-7406973119770313257
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1471265584270754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2bfcc0fbb86771940b4d7b38c9c7d3b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  wiresInitiallyExposed: 0
+  hackInitialStage: 0
+  nodeInfo: {fileID: 11400000, guid: 70468a705c81370488f44537a6568005, type: 2}
+  openPanelSFX: 
+  closePanelSFX: 
+  NetTabType: 19
+  doorName: research door
+  hackPanelOverlay: {fileID: 0}
+  hackPanelSprite: {fileID: 0}
 --- !u!1 &1491549408370048
 GameObject:
   m_ObjectHideFlags: 0
@@ -671,6 +717,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -751,6 +798,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
