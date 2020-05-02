@@ -67,9 +67,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		//Server actions
-		// Close the door if it's open
-		if (!Controller.IsClosed)
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 		{
 			if (Controller.IsHackable)
 			{
@@ -78,8 +76,12 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 			}
 			else
 			{
-				Controller.ServerTryClose();
-			}
+				TryCrowbar(interaction.Performer);
+			}	
+		}
+		else if (!Controller.IsClosed)
+		{
+			TryClose(); // Close the door if it's open
 		}
 		else
 		{
@@ -134,7 +136,6 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 			{
 				Controller.ServerTryOpen(interaction.Performer);
 			}
-
 		}
 
 		StartInputCoolDown();
@@ -147,6 +148,30 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		allowInput = false;
 		StartCoroutine(DoorInputCoolDown());
+	}
+
+	public virtual void TryClose()
+	{
+		Controller.ServerTryClose();
+	}
+
+	public virtual void TryOpen(GameObject performer)
+	{
+		Controller.ServerTryOpen(performer);
+	}
+
+	public void TryCrowbar(GameObject performer)
+	{
+		//TODO: force the opening/close if powerless but make sure firelocks are unaffected
+
+		if (!Controller.IsClosed)
+		{
+			Controller.ServerTryClose();
+		}
+		else
+		{
+			Controller.ServerTryOpen(performer);
+		}
 	}
 
 	/// Disables any interactions with door for a while

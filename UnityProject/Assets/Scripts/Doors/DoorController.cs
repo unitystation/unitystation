@@ -252,6 +252,10 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 				HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier("OnShouldClose");
 				onShouldClose.SendOutputToConnectedNodes();
 			}
+			// Sliding door is not passable according to matrix
+            if( !IsClosed && !isPerformingAction && (ignorePassableChecks || matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding) ) {
+	            ServerClose();
+            }
 			else
 			{
 				ServerClose();

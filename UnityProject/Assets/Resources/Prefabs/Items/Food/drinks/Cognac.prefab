@@ -43,27 +43,26 @@ PrefabInstance:
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 50
       objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+    - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
-      propertyPath: initialName
-      value: Cognac
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
-        type: 3}
-      propertyPath: initialDescription
+      propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 5bffec0720d353440a0d06532a3221f6,
+      objectReference: {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
-      propertyPath: initialSize
+      propertyPath: m_SortingLayerID
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 138f4cbbeec531c43b5adfb417f332d0,
+      propertyPath: m_SortingLayer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 963106870793376919, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1024679538077702783, guid: 5bffec0720d353440a0d06532a3221f6,
         type: 3}
       propertyPath: m_AssetId
