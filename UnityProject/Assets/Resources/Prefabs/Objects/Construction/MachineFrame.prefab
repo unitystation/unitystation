@@ -34,8 +34,10 @@ MonoBehaviour:
   wrenchedState: {fileID: 11400000, guid: 58f920c5778516c469fd44836715ce0c, type: 2}
   circuitAddedState: {fileID: 11400000, guid: e0ac3c48fdc6a374b812dcf38f61c86a, type: 2}
   partsAddedState: {fileID: 11400000, guid: a9770efcfaef8a841bba9179224e0683, type: 2}
-  screwedFinishedState: {fileID: 11400000, guid: 5cde7128e19ef8b45abe9a49df14cbb9,
-    type: 2}
+  box: {fileID: 21300000, guid: 672ad47521ab2a447baa38319f1ea48f, type: 3}
+  boxCable: {fileID: 21300000, guid: 51590a1efc2acfd49b649b5e9197b385, type: 3}
+  boxCircuit: {fileID: 21300000, guid: a390b2979c2bd584c907808379cd2037, type: 3}
+  spriteRender: {fileID: 5233219277319702858}
 --- !u!114 &9068824048823860380
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,7 +59,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 58f920c5778516c469fd44836715ce0c, type: 2}
   - {fileID: 11400000, guid: e0ac3c48fdc6a374b812dcf38f61c86a, type: 2}
   - {fileID: 11400000, guid: a9770efcfaef8a841bba9179224e0683, type: 2}
-  - {fileID: 11400000, guid: 5cde7128e19ef8b45abe9a49df14cbb9, type: 2}
 --- !u!1001 &4738934531455006941
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69,7 +70,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7779458ea9d5364488e6f65566722ec2,
+      objectReference: {fileID: 21300000, guid: 672ad47521ab2a447baa38319f1ea48f,
         type: 3}
     - target: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
@@ -146,6 +147,12 @@ PrefabInstance:
 --- !u!1 &5458395581066390877 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
+    type: 3}
+  m_PrefabInstance: {fileID: 4738934531455006941}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &5233219277319702858 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 676721839806558615, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 4738934531455006941}
   m_PrefabAsset: {fileID: 0}
