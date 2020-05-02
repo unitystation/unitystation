@@ -2,8 +2,10 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using YamlDotNet.Core.Tokens;
 
 /// <summary>
 /// Main logic for managing right click behavior.
@@ -18,6 +20,9 @@ public class RightClickManager : MonoBehaviour
 {
 	[Tooltip("Ordering to use for right click options.")]
 	public RightClickOptionOrder rightClickOptionOrder;
+
+	[Tooltip("Having it on every item is Pretty cool so best place to put it")]
+	public RightClickOption VariableViewerOption;
 
 	/// saved reference to lighting sytem, for checking FOV occlusion
 	private LightingSystem lightingSystem;
@@ -179,17 +184,26 @@ public class RightClickManager : MonoBehaviour
 
 			//check for any components that have an attributed method. These are added to the end in whatever order,
 			//doesn't matter since it's only for development.
-			foreach (var attributedType in attributedTypes)
+			if (KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
 			{
-				var components = curObject.GetComponents(attributedType.ComponentType);
-				foreach (var component in components)
+				foreach (var attributedType in attributedTypes)
 				{
-					//only add the item if the concrete type matches
-					if (component.GetType() == attributedType.ComponentType)
+					var components = curObject.GetComponents(attributedType.ComponentType);
+					foreach (var component in components)
 					{
-						//create menu items for these components
-						subMenus.AddRange(CreateSubMenuOptions(attributedType, component));
+						//only add the item if the concrete type matches
+						if (component.GetType() == attributedType.ComponentType)
+						{
+							//create menu items for these components
+							subMenus.AddRange(CreateSubMenuOptions(attributedType, component));
+						}
 					}
+				}
+
+				if (!string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
+				{
+					Action VVAction = () => RequestBookshelfNetMessage.Send(curObject, ServerData.UserID, PlayerList.Instance.AdminToken);
+					subMenus.Add(VariableViewerOption.AsMenu(VVAction));
 				}
 			}
 

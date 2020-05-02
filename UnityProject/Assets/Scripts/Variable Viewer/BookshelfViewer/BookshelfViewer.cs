@@ -133,4 +133,24 @@ public class BookshelfViewer : MonoBehaviour
 	{
 		gameObject.SetActive(false);
 	}
+
+
+	void OnEnable()
+	{
+		EventManager.AddHandler(EVENT.RoundEnded, Reset);
+	}
+
+	void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.RoundEnded, Reset);
+	}
+
+	public void Reset()
+	{
+		ListTop = 0;
+		ListBottom = 2;
+		IDToLocation.Clear();
+		WaitingOn.Clear();
+		Close();
+	}
 }

@@ -1,0 +1,135 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17f00df4f4795324a9d1fea1458b31df, type: 3}
+  m_Name: DoorNodes
+  m_EditorClassIdentifier: 
+  nodeInfoList:
+  - InternalIdentifier: OnAttemptOpen
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OnAttemptOpen
+    PublicLabel: a
+  - InternalIdentifier: OnAttemptClose
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OnAttemptClose
+    PublicLabel: b
+  - InternalIdentifier: BeginOpenProcedure
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: BeginOpenProcedure
+    PublicLabel: c
+  - InternalIdentifier: BeginCloseProcedure
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: BeginCloseProcedure
+    PublicLabel: d
+  - InternalIdentifier: OnShouldOpen
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OnShouldOpen
+    PublicLabel: e
+  - InternalIdentifier: OnShouldClose
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OnShouldClose
+    PublicLabel: f
+  - InternalIdentifier: OpenDoor
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: OpenDoor
+    PublicLabel: g
+  - InternalIdentifier: CloseDoor
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: CloseDoor
+    PublicLabel: h
+  - InternalIdentifier: OnDoorOpened
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OnDoorOpened
+    PublicLabel: i
+  - InternalIdentifier: OnDoorClosed
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OnDoorClosed
+    PublicLabel: j
+  - InternalIdentifier: OnIDAccepted
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OnIDAccepted
+    PublicLabel: k
+  - InternalIdentifier: OnIDRejected
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OnIDRejected
+    PublicLabel: l
+  - InternalIdentifier: AcceptId
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: AcceptId
+    PublicLabel: m
+  - InternalIdentifier: RejectID
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: RejectID
+    PublicLabel: n
+  - InternalIdentifier: ShouldDoPressureWarning
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: ShouldDoPressureWarning
+    PublicLabel: o
+  - InternalIdentifier: DoPressureWarning
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: DoPressureWarning
+    PublicLabel: p
+  - InternalIdentifier: PowerOut
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: PowerOut
+    PublicLabel: q
+  - InternalIdentifier: PowerIn
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: PowerIn
+    PublicLabel: r
+  - InternalIdentifier: DummyOut
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: DummyOut
+    PublicLabel: s
+  - InternalIdentifier: DummyIn
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: DummyIn
+    PublicLabel: t

@@ -42,6 +42,12 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public DamagedEvent OnApllyDamage = new DamagedEvent();
 
 	/// <summary>
+	/// event for hotspots
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnExposedEvent = new UnityEvent();
+
+	/// <summary>
 	/// Server-side burn up logic - invoked when integrity reaches 0 due to burn damage.
 	/// Setting this will override the default burn up logic.
 	/// See OnWillDestroyServer if you only want an event when the object is destroyed
@@ -192,7 +198,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		if (Resistances.FireProof && attackType == AttackType.Fire) return;
 
 		var damageInfo = new DamageInfo(damage, attackType, damageType);
-		
+
 
 		damage = Armor.GetDamage(damage, attackType);
 		if (damage > 0)
@@ -321,12 +327,13 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		{
 			ApplyDamage(exposure.StandardDamage(), AttackType.Fire, DamageType.Burn);
 		}
+		OnExposedEvent.Invoke();
 		Profiler.EndSample();
 	}
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || !KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
 		{
 			return null;
 		}

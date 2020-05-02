@@ -15,6 +15,12 @@ public class AccessRestrictions : MonoBehaviour
 			return true;
 		}
 
+		//There is no player object being checked, default to false.
+		if (Player == null)
+		{
+			return false;
+		}
+
 
 		ItemStorage playerStorage = Player.GetComponent<ItemStorage>();
 		//this isn't a player. It could be an npc. No NPC access logic at the moment

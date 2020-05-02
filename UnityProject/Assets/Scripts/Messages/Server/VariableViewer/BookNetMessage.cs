@@ -17,13 +17,13 @@ public class BookNetMessage : ServerMessage
 		UIManager.Instance.VariableViewer.ReceiveBook(Book);
 	}
 
-	public static BookNetMessage Send(Librarian.Book _book)
+	public static BookNetMessage Send(Librarian.Book _book, GameObject ToWho)
 	{
 		BookNetMessage msg = new BookNetMessage
 		{
 			Book = VariableViewerNetworking.ProcessBook(_book)
 		};
-		msg.SendToAll();
+		msg.SendTo(ToWho);
 		return msg;
 	}
 

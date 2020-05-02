@@ -6,6 +6,7 @@ using Mirror;
 /// A generic drawer component designed for multi-tile drawer objects.
 /// </summary>
 [RequireComponent(typeof(PushPull))] // For setting held items' containers to the drawer.
+[ExecuteInEditMode]
 public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<HandApply>, IServerDespawn//, System.IEquatable<>
 {
 	protected enum DrawerState
@@ -116,7 +117,6 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 	/// </summary>
 	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
 	{
-		Debug.Log("OnMatrixRotate()");
 		if (rotationInfo.IsClientside) return;
 		if (!rotationInfo.IsEnding) return;
 

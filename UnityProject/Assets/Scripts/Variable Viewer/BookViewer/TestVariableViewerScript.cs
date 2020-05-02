@@ -8,19 +8,18 @@ public class TestVariableViewerScript : MonoBehaviour
 	public bool Pbool = true;
 	public int Pint = 55;
 	public string pstring = "yoyyyoy";
+	private string privateVstring = "My `collection` ";
 	public Teststruct pTeststruct;
-	public Connection pConnection  = Connection.Overlap;
+	public Connection pConnection = Connection.Overlap;
 
 
 	public Tuple<int, string> Trees;
 
 	private Connection _state;
+
 	public Connection State
 	{
-		get
-		{
-			return _state;
-		}
+		get { return _state; }
 		set
 		{
 			if (_state != value)
@@ -42,10 +41,12 @@ public class TestVariableViewerScript : MonoBehaviour
 	public HashSet<Connection> PHashSetConnection = new HashSet<Connection>();
 	public HashSet<object> PHashSetobject = new HashSet<object>();
 
-	public Dictionary<int,int> PDictionaryIntInt = new Dictionary<int, int>();
-	public Dictionary<bool,bool> PDictionaryboolbool  = new Dictionary<bool, bool>();
-	public Dictionary<string, string> PDictionarystringstring  = new Dictionary<string, string>();
-	public Dictionary<Connection, Connection> PDictionaryConnectionConnection = new Dictionary<Connection, Connection>();
+	public Dictionary<int, int> PDictionaryIntInt = new Dictionary<int, int>();
+	public Dictionary<bool, bool> PDictionaryboolbool = new Dictionary<bool, bool>();
+	public Dictionary<string, string> PDictionarystringstring = new Dictionary<string, string>();
+
+	public Dictionary<Connection, Connection>
+		PDictionaryConnectionConnection = new Dictionary<Connection, Connection>();
 
 	public Dictionary<string, HashSet<int>> DictionaryHashSet = new Dictionary<string, HashSet<int>>();
 	public Dictionary<string, List<int>> DictionaryList = new Dictionary<string, List<int>>();
@@ -54,9 +55,9 @@ public class TestVariableViewerScript : MonoBehaviour
 
 
 	void Start()
-    {
+	{
 		Trees = new Tuple<int, string>(2, "ggggggg");
-        for (int i = 0; i < length; i++)
+		for (int i = 0; i < length; i++)
 		{
 			PListInt.Add(i);
 			PListbool.Add(true);
@@ -83,7 +84,7 @@ public class TestVariableViewerScript : MonoBehaviour
 			DictionaryHashSet[i.ToString()] = PHashSetInt;
 			DictionaryList[i.ToString()] = PListInt;
 		}
-    }
+	}
 }
 
 

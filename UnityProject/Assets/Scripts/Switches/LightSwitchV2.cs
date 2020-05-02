@@ -27,6 +27,7 @@ namespace Lighting
 		private SpriteRenderer spriteRenderer = null;
 
 		private PowerStates powerState = PowerStates.On;
+
 		private void Awake()
 		{
 			foreach (var lightSource in listOfLights)
@@ -34,25 +35,6 @@ namespace Lighting
 				if(lightSource != null)
 					lightSource.SubscribeToSwitchEvent(this);
 			}
-		}
-
-		public override void OnStartClient()
-		{
-			SyncState(isOn, isOn);
-			base.OnStartClient();
-		}
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
-			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
-			return !isInCoolDown;
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			StartCoroutine(SwitchCoolDown());
-			if (powerState == PowerStates.Off || powerState == PowerStates.LowVoltage) return;
-			ServerChangeState(!isOn);
 		}
 
 		private void SyncState(bool oldState, bool newState)
@@ -69,22 +51,25 @@ namespace Lighting
 			switchTriggerEvent?.Invoke(isOn);
 		}
 
-		void OnDrawGizmosSelected()
-		{
-			var sprite = GetComponentInChildren<SpriteRenderer>();
-			if (sprite == null)
-				return;
+		#region ICheckedInteractable<HandApply>
 
-			//Highlighting all controlled lightSources
-			Gizmos.color = new Color(1, 1, 0, 1);
-			for (int i = 0; i < listOfLights.Count; i++)
-			{
-				var lightSource = listOfLights[i];
-				if(lightSource == null) continue;
-				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
-				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
-			}
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
+			return !isInCoolDown;
 		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			StartCoroutine(SwitchCoolDown());
+			if (powerState == PowerStates.Off || powerState == PowerStates.LowVoltage) return;
+			ServerChangeState(!isOn);
+		}
+
+		#endregion
+
+		#region IAPCPowered
 
 		public void PowerNetworkUpdate(float Voltage)
 		{
@@ -93,6 +78,7 @@ namespace Lighting
 
 		public void StateUpdate(PowerStates State)
 		{
+			if (!isServer) return;
 			switch (State)
 			{
 				case PowerStates.On:
@@ -111,6 +97,31 @@ namespace Lighting
 					ServerChangeState(false,invokeEvent:false);
 					powerState = State;
 					break;
+			}
+		}
+
+		#endregion
+
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			SyncState(isOn, isOn);
+		}
+
+		void OnDrawGizmosSelected()
+		{
+			var sprite = GetComponentInChildren<SpriteRenderer>();
+			if (sprite == null)
+				return;
+
+			//Highlighting all controlled lightSources
+			Gizmos.color = new Color(1, 1, 0, 1);
+			for (int i = 0; i < listOfLights.Count; i++)
+			{
+				var lightSource = listOfLights[i];
+				if(lightSource == null) continue;
+				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
+				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
 			}
 		}
 
