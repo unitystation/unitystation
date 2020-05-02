@@ -539,15 +539,7 @@ public static class ElectricityFunctions
 	public static ElectricalCableTile RetrieveElectricalTile(Connection WireEndA, Connection WireEndB, PowerTypeCategory powerTypeCategory)
 	{
 		ElectricalCableTile Tile = null;
-		string Compound;
-		if (WireEndA < WireEndB)
-		{
-			Compound = WireEndA + "_" + WireEndB;
-		}
-		else {
-			Compound = WireEndB + "_" + WireEndA;
-		}
-		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
+		int spriteIndex = WireDirections.GetSpriteIndex(WireEndA, WireEndB);
 
 		switch (powerTypeCategory)
 		{
@@ -564,5 +556,4 @@ public static class ElectricityFunctions
 
 		return (Tile);
 	}
-
 }

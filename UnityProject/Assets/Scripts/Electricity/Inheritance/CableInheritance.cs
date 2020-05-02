@@ -346,20 +346,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	private void SetSprite()
 	{
 		SpriteRenderer SR = gameObject.GetComponentInChildren<SpriteRenderer>();
-		string Compound;
-		if (WireEndA < WireEndB)
-		{
-			Compound = WireEndA + "_" + WireEndB;
-		}
-		else {
-			Compound = WireEndB + "_" + WireEndA;
-		}
-		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
-		if (TRay)
-		{
-			spriteIndex += 36;
-		}
-
+		int spriteIndex = WireDirections.GetSpriteIndex(WireEndA, WireEndB, TRay);
 		SR.sprite = CableSprites.Sprites[spriteIndex];
 		if (SR.sprite == null)
 		{
