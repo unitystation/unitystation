@@ -54,10 +54,10 @@ namespace Machines
 				case SpriteStates.box:
 					spriteRender.sprite = box;
 					break;
-				case SpriteStates.box_Cable:
+				case SpriteStates.boxCable:
 					spriteRender.sprite = boxCable;
 					break;
-				case SpriteStates.Box_Circuit:
+				case SpriteStates.boxCircuit:
 					spriteRender.sprite = box;
 					break;
 			}
@@ -139,7 +139,7 @@ namespace Machines
 							Inventory.ServerConsume(interaction.HandSlot, 5);
 							stateful.ServerChangeState(cablesAddedState);
 							spriteRender.sprite = boxCable;
-							ServerChangeSprite(SpriteStates.box_Cable);
+							ServerChangeSprite(SpriteStates.boxCable);
 						});
 				}
 				else if (Validations.HasUsedActiveWelder(interaction))
@@ -202,7 +202,7 @@ namespace Machines
 					stateful.ServerChangeState(circuitAddedState);
 					putBoardInManually = true;
 					spriteRender.sprite = boxCircuit;
-					ServerChangeSprite(SpriteStates.Box_Circuit);
+					ServerChangeSprite(SpriteStates.boxCircuit);
 				}
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
@@ -247,7 +247,7 @@ namespace Machines
 					putBoardInManually = false;
 
 					spriteRender.sprite = boxCable;
-					ServerChangeSprite(SpriteStates.box_Cable);
+					ServerChangeSprite(SpriteStates.boxCable);
 
 					partsInFrame.Clear();
 					basicPartsUsed.Clear();
@@ -322,7 +322,7 @@ namespace Machines
 					putBoardInManually = false;
 
 					spriteRender.sprite = boxCable;
-					ServerChangeSprite(SpriteStates.box_Cable);
+					ServerChangeSprite(SpriteStates.boxCable);
 
 					partsInFrame.Clear();
 					basicPartsUsed.Clear();
@@ -533,7 +533,7 @@ namespace Machines
 		public void ServerInitFromComputer(Machine machine)
 		{
 			spriteRender.sprite = boxCircuit;
-			ServerChangeSprite(SpriteStates.Box_Circuit);
+			ServerChangeSprite(SpriteStates.boxCircuit);
 
 			// Create the circuit board
 			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
@@ -561,8 +561,8 @@ namespace Machines
 		private enum SpriteStates
 		{
 			box = 0,
-			box_Cable = 1,
-			Box_Circuit = 2
+			boxCable = 1,
+			boxCircuit = 2
 		}
 	}
 }
