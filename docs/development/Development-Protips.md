@@ -9,9 +9,9 @@ Various tips to help speed up development and share random knowledge that doesn'
 #### Faster Building and Testing
 
 1. Only include the smallest station in the build / rotation. Including all maps will needlessly increase build / start times. 
-   * In `Lobby` scene,
+    * In `Lobby` scene,
 edit `NetworkManager`, change `Online Scene` to `PogStation` (smallest map at the moment). 
-   * Edit `Assets/StreamingAssets/maps.json`, removing 
+    * Edit `Assets/StreamingAssets/maps.json`, removing 
 all but PogStation from `lowPopMaps`
-   * When you build, uncheck all but StartUp, Lobby, and PogStation
-   * Don't commit these changes.
+    * When you build, uncheck all but StartUp, Lobby, and PogStation
+    * Don't commit these changes.
