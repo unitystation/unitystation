@@ -26,7 +26,9 @@ namespace Machines
 		private IDictionary<GameObject, int> partsInFrame = new Dictionary<GameObject, int>();
 		private Stateful stateful;
 
+		//[SyncVar(hook =nameof(SyncMachine))]
 		private MachineParts machineParts;
+
 		private MachineParts.MachinePartList machinePartsList;
 
 		private bool putBoardInManually;
@@ -69,6 +71,19 @@ namespace Machines
 			spriteForClient = newVar;
 		}
 
+		//private void SyncMachine(MachineParts oldVar, MachineParts newVar)
+		//{
+		//	machineParts = newVar;
+		//	//do your thing
+		//	//all clients will be updated with this
+		//}
+
+		//[Server]
+		//private void ServerChangeMachine(MachineParts newVar)
+		//{
+		//	machineParts = newVar;
+		//}
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -96,20 +111,21 @@ namespace Machines
 			}
 			else if (CurrentState == circuitAddedState)
 			{
-				//remove circuit board, also removes all parts that have been added
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
-				{
-					return true;
-				}
+				////remove circuit board, also removes all parts that have been added
+				//if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+				//{
+				//	return true;
+				//}
 
-				//check part item traits, if in scriptableObject of the machine then return true.
-				foreach(var part in machineParts.machineParts)
-				{
-					if (Validations.HasUsedItemTrait(interaction, part.itemTrait))
-					{
-						return true;
-					}
-				}
+				////check part item traits, if in scriptableObject of the machine then return true.
+				//foreach(var part in machineParts.machineParts)
+				//{
+				//	if (Validations.HasUsedItemTrait(interaction, part.itemTrait))
+				//	{
+				//		return true;
+				//	}
+				//}
+				return true;
 			}
 			else if (CurrentState == partsAddedState)
 			{
@@ -198,6 +214,7 @@ namespace Machines
 						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
 
 					machineParts = interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed;
+					//ServerChangeMachine(interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed);
 					Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
 					stateful.ServerChangeState(circuitAddedState);
 					putBoardInManually = true;
@@ -469,7 +486,7 @@ namespace Machines
 			string msg = "";
 			if (CurrentState == initialState)
 			{
-				msg = " Add five wires to continue construction.\n";
+				msg = " Add five wires to continue construction. Or use a welder to deconstruct.\n";
 			}
 
 			if (CurrentState == cablesAddedState)
@@ -544,7 +561,9 @@ namespace Machines
 
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleDescription(machine.MachineParts.DescriptionOfCircuitBoard); // Sets desc of board
 
-			machineParts = machine.MachineParts;// Basic items to the machine frame from the despawned machine
+			//ServerChangeMachine(machine.MachineParts); // Basic items to the machine frame from the despawned machine
+
+			machineParts = machine.MachineParts;
 
 			partsInFrame = machine.PartsInFrame;
 
