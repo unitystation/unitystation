@@ -5,7 +5,7 @@ Lists of things that we expect in your PRs, and common mistakes / things to look
 #### PR Acceptance
 1. Code should be sufficiently commented - all classes, public methods and public fields should have comments. So should any logic that isn't obvious why it's doing something.
 2. Code should be indented with tabs and not spaces.
-3. Code should compile.
+3. Code should compile without new errors or warnings.
 4. PR should be tested in editor (most PRs should be tested hosting in editor and joining in a standalone build).
 5. Any new files should be named using PascalCase
 6. Any new or changed components should follow the [Component Development Checklist](Component-Development-Checklist.md)
