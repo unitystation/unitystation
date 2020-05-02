@@ -469,18 +469,18 @@ namespace Machines
 			string msg = "";
 			if (CurrentState == initialState)
 			{
-				msg = " Add five wires must be added to continue construction.";
+				msg = " Add five wires to continue construction.\n";
 			}
 
 			if (CurrentState == cablesAddedState)
 			{
-				msg = " Wrench down the frame to continue construction. Or use a wirecutter to remove the cables.";
+				msg = " Wrench down the frame to continue construction. Or use a wirecutter to remove the cables.\n";
 			}
 
 
 			if (CurrentState == wrenchedState)
 			{
-				msg = "Add a machine circuit to continue construction. Or wrench to unanchor the frame.";
+				msg = "Add a machine circuit to continue construction. Or wrench to unanchor the frame.\n";
 			}
 
 			if (CurrentState == circuitAddedState)
@@ -515,12 +515,12 @@ namespace Machines
 					}
 				}
 
-				msg += "Use crowbar to remove circuit board, you will destroy all non stackable items inside.";
+				msg += "Use crowbar to remove circuit board.\n";
 			}
 
 			if (CurrentState == partsAddedState)
 			{
-				msg = "Use a screwdriver to finish construction or use crowbar to remove circuit board.\n However you will destroy all non stackable items inside.";
+				msg = "Use a screwdriver to finish construction or use crowbar to remove circuit board.\n";
 			}
 
 			return msg;
