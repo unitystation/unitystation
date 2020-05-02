@@ -58,7 +58,7 @@ namespace Machines
 					spriteRender.sprite = boxCable;
 					break;
 				case SpriteStates.BoxCircuit:
-					spriteRender.sprite = box;
+					spriteRender.sprite = boxCircuit;
 					break;
 			}
 		}
