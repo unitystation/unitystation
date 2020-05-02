@@ -27,6 +27,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private bool isWithoutSwitch = true;
 	public bool IsWithoutSwitch => isWithoutSwitch;
 	private bool switchState;
+	private PowerStates powerState;
 
 	[SerializeField]private SpriteRenderer spriteRenderer;
 	[SerializeField]private SpriteRenderer spriteRendererLightOn;
@@ -77,14 +78,15 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 		if(traitRequired == null)
 			traitRequired = currentState.TraitRequired;
+
+		if (!isWithoutSwitch)
+			switchState = InitialState == LightMountState.On;
 	}
 
 	[Server]
 	public void ServerChangeLightState(LightMountState newState)
 	{
 		mState = newState;
-		ChangeCurrentState(newState);
-		SetAnimation();
 	}
 
 	private void SyncLightState(LightMountState oldState, LightMountState newState)
@@ -190,7 +192,10 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 			}
 			else
 			{
-				ServerChangeLightState(switchState ? LightMountState.On : LightMountState.Off);
+				ServerChangeLightState(
+					(switchState && (powerState == PowerStates.On))
+					? LightMountState.On : (powerState != PowerStates.OverVoltage)
+					? LightMountState.Emergency : LightMountState.Off);
 			}
 			Despawn.ServerSingle(handObject);
 		}
@@ -204,12 +209,14 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	}
 
-	public void StateUpdate(PowerStates State)
+	public void StateUpdate(PowerStates newPowerState)
 	{
+		if (!isServer) return;
+		powerState = newPowerState;
 		if(mState == LightMountState.Broken
 		   || mState == LightMountState.MissingBulb) return;
 
-		switch (State)
+		switch (newPowerState)
 		{
 			case PowerStates.On:
 				ServerChangeLightState(LightMountState.On);
@@ -248,8 +255,9 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	public override void Trigger(bool newState)
 	{
+		if (!isServer) return;
 		switchState = newState;
-		if(mState == LightMountState.On || mState == LightMountState.Off)
+		if(powerState == PowerStates.On)
 			ServerChangeLightState(newState ? LightMountState.On : LightMountState.Off);
 	}
 

@@ -92,7 +92,6 @@ GameObject:
   - component: {fileID: 4917660536286328}
   - component: {fileID: 61106100713950454}
   - component: {fileID: 1491614389099873586}
-  - component: {fileID: 114197525563370534}
   - component: {fileID: 114510560690312678}
   - component: {fileID: 114413268325490614}
   - component: {fileID: 114153354409449902}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 8801529538964132052}
   - component: {fileID: 3235767790128179610}
   - component: {fileID: -8775636696312819921}
+  - component: {fileID: 114197525563370534}
   m_Layer: 13
   m_Name: LightTubeMount
   m_TagString: Untagged
@@ -166,29 +166,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114197525563370534
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1745947215034166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cd47c8a7b3ca4905983be3a08c1caf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  relatedLightSwitch: {fileID: 0}
-  InitialState: 1
-  mLightRendererObject: {fileID: 0}
-  isWithoutSwitch: 0
-  spriteRenderer: {fileID: 212685610322283746}
-  spriteRendererLightOn: {fileID: 3971560341310276896}
-  spritesStateOnEffect: {fileID: 11400000, guid: eb6855ff2551ddc4abe1b264ca4bbb52,
-    type: 2}
-  mountStatesMachine: {fileID: 11400000, guid: 2049efbecd5fb44478e9830e1b970f84, type: 2}
 --- !u!114 &114510560690312678
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,6 +333,29 @@ MonoBehaviour:
   sprites: []
   animateTime: 0.4
   rotateSpeed: 30
+--- !u!114 &114197525563370534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745947215034166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd47c8a7b3ca4905983be3a08c1caf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  relatedLightSwitch: {fileID: 0}
+  InitialState: 1
+  mLightRendererObject: {fileID: 0}
+  isWithoutSwitch: 0
+  spriteRenderer: {fileID: 212685610322283746}
+  spriteRendererLightOn: {fileID: 3971560341310276896}
+  spritesStateOnEffect: {fileID: 11400000, guid: eb6855ff2551ddc4abe1b264ca4bbb52,
+    type: 2}
+  mountStatesMachine: {fileID: 11400000, guid: 2049efbecd5fb44478e9830e1b970f84, type: 2}
 --- !u!1 &4425836223823806458
 GameObject:
   m_ObjectHideFlags: 0
