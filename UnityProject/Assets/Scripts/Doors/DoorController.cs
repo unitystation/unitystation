@@ -113,6 +113,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 
 	private float inputDelay = 0.5f;
 	private float delayStartTime = 0;
+	private float delayStartTimeTryOpen = 0;
 
 	private void Awake()
 	{
@@ -239,8 +240,12 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 
 	public void ServerTryClose()
 	{
+		if (Time.time < delayStartTimeTryOpen + inputDelay) return;
+
+		delayStartTimeTryOpen = Time.time;
+
 		// Sliding door is not passable according to matrix
-        if( !IsClosed && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) )
+		if ( !IsClosed && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) )
 		{
 			if (isHackable && hackingLoaded)
 			{
@@ -283,6 +288,11 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 
 	public void ServerTryOpen(GameObject Originator)
 	{
+
+		if (Time.time < delayStartTimeTryOpen + inputDelay) return;
+
+		delayStartTimeTryOpen = Time.time;
+
 		if (isWelded)
 		{
 			Chat.AddExamineMsgFromServer(Originator, "This door is welded shut.");

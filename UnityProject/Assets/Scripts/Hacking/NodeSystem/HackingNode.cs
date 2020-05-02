@@ -69,7 +69,7 @@ public class HackingNode
 	/// </summary>
 	public virtual void InputReceived(GameObject originator = null)
 	{
-		inputCallBacks(originator);
+		inputCallBacks?.Invoke(originator);
 	}
 
 	/// <summary>
