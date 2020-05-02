@@ -47,7 +47,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 0
   damageType: 0
-  attackType: 1
+  attackType: 3
+  isMiningBullet: 0
 --- !u!114 &7533891959412256121
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,6 +107,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

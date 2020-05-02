@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -126,7 +127,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 20
   damageType: 1
-  attackType: 1
+  attackType: 2
+  isMiningBullet: 0
 --- !u!1 &8499750385740165176
 GameObject:
   m_ObjectHideFlags: 0
