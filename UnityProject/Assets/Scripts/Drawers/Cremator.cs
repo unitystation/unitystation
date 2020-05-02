@@ -149,8 +149,9 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 	{
 		foreach (var player in serverHeldPlayers)
 		{
-			var playerLHB = player.GetComponent<LivingHealthBehaviour>();
-			Despawn.ServerSingle(playerLHB.gameObject);
+			var playerScript = player.GetComponent<PlayerScript>();
+			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+			Despawn.ServerSingle(player.gameObject);
 		}
 
 		serverHeldPlayers = new List<ObjectBehaviour>();
