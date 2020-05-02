@@ -60,8 +60,6 @@ GameObject:
   - component: {fileID: 4486458079919614}
   - component: {fileID: 114838662630386526}
   - component: {fileID: 8902598492986650915}
-  - component: {fileID: 114065967972627576}
-  - component: {fileID: 114694480355599990}
   - component: {fileID: 61222086973544660}
   - component: {fileID: 114736272981376494}
   - component: {fileID: 114987107583708958}
@@ -125,50 +123,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114065967972627576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1275749971873228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cd47c8a7b3ca4905983be3a08c1caf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  InitialState: 2
-  mLightRendererObject: {fileID: 1128005765242482}
-  customColor: {r: 0.8901961, g: 0.03529412, b: 0, a: 0.84705883}
-  isWithoutSwitch: 1
-  relatedLightSwitch: {fileID: 0}
---- !u!114 &114694480355599990
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1275749971873228}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47ee25e15c851c447bd342aa75f7ca2b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sprites:
-  - {fileID: 21300006, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
-  - {fileID: 21300014, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
-  - {fileID: 21300022, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
-  - {fileID: 21300030, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
-  - {fileID: 21300038, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
-  - {fileID: 21300046, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
-  - {fileID: 21300054, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
-  - {fileID: 21300062, guid: fa2d2371153209c428649172a3e3d2a5, type: 3}
-  animateTime: 0.2
-  rotateSpeed: 70
-  isOn: 0
-  lightColor: {r: 0.8901961, g: 0.03529412, b: 0, a: 0.84705883}
 --- !u!61 &61222086973544660
 BoxCollider2D:
   m_ObjectHideFlags: 0

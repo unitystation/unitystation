@@ -41,7 +41,6 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	[SerializeField]
 	private SOLightMountStatesMachine mountStatesMachine;
-	[SerializeField]
 	private SOLightMountState currentState;
 
 	private void EnsureInit()
@@ -68,7 +67,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		if(directional == null)
 			directional = GetComponent<Directional>();
 
-		ChangeObjectsBehaviour();
+		ChangeCurrentState(InitialState);
 	}
 
 	[Server]
