@@ -1,21 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Construction;
+using Mirror;
 
 namespace Machines
 {
 	/// <summary>
 	/// Main Component for Machine Construction
 	/// </summary>
-	public class MachineFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
+	public class MachineFrame : NetworkBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState cablesAddedState = null;
 		[SerializeField] private StatefulState wrenchedState = null;
 		[SerializeField] private StatefulState circuitAddedState = null;
 		[SerializeField] private StatefulState partsAddedState = null;
-		[SerializeField] private StatefulState screwedFinishedState = null;
+
+		[SerializeField] private Sprite box;
+		[SerializeField] private Sprite boxCable;
+		[SerializeField] private Sprite boxCircuit;
+		[SerializeField] private SpriteRenderer spriteRender;
 
 		private ItemSlot circuitBoardSlot;//Index 0
 		private IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();
@@ -23,18 +27,46 @@ namespace Machines
 		private Stateful stateful;
 
 		private MachineParts machineParts;
-		private MachineParts.MachinePartList trait;
+		private MachineParts.MachinePartList machinePartsList;
 
 		private bool putBoardInManually;
 
 		private StatefulState CurrentState => stateful.CurrentState;
 		private ObjectBehaviour objectBehaviour;
 
+		[SyncVar(hook =nameof(SyncState))]
+		private SpriteStates spriteForClient;
+
 		private void Awake()
 		{
 			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+		}
+
+		private void SyncState(SpriteStates oldVar, SpriteStates newVar)
+		{
+			spriteForClient = newVar;
+			//do your thing
+			//all clients will be updated with this
+			switch (spriteForClient)
+			{
+				case SpriteStates.box:
+					spriteRender.sprite = box;
+					break;
+				case SpriteStates.box_Cable:
+					spriteRender.sprite = boxCable;
+					break;
+				case SpriteStates.Box_Circuit:
+					spriteRender.sprite = box;
+					break;
+			}
+		}
+
+		[Server]
+		private void ServerChangeSprite(SpriteStates newVar)
+		{
+			spriteForClient = newVar;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -64,7 +96,7 @@ namespace Machines
 			}
 			else if (CurrentState == circuitAddedState)
 			{
-				//remove circuit board
+				//remove circuit board, also removes all parts that have been added
 				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
 				{
 					return true;
@@ -81,14 +113,9 @@ namespace Machines
 			}
 			else if (CurrentState == partsAddedState)
 			{
-				//screw in parts or remove parts
+				//screw in parts or crowbar out circuit board which removes all parts
 				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
 					   Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar);
-			}
-			else if (CurrentState == screwedFinishedState)
-			{
-				//Unscrew parts
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver);
 			}
 
 			return false;
@@ -111,6 +138,8 @@ namespace Machines
 						{
 							Inventory.ServerConsume(interaction.HandSlot, 5);
 							stateful.ServerChangeState(cablesAddedState);
+							spriteRender.sprite = boxCable;
+							ServerChangeSprite(SpriteStates.box_Cable);
 						});
 				}
 				else if (Validations.HasUsedActiveWelder(interaction))
@@ -138,6 +167,8 @@ namespace Machines
 					ToolUtils.ServerPlayToolSound(interaction);
 					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 					stateful.ServerChangeState(initialState);
+					spriteRender.sprite = box;
+					ServerChangeSprite(SpriteStates.box);
 				}
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
@@ -170,6 +201,8 @@ namespace Machines
 					Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
 					stateful.ServerChangeState(circuitAddedState);
 					putBoardInManually = true;
+					spriteRender.sprite = boxCircuit;
+					ServerChangeSprite(SpriteStates.Box_Circuit);
 				}
 				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 				{
@@ -194,13 +227,11 @@ namespace Machines
 					Inventory.ServerDrop(circuitBoardSlot);
 					stateful.ServerChangeState(wrenchedState);
 
-					Logger.Log("parts: " + partsInFrame.Count);
-					if (partsInFrame.Count == 0 && !putBoardInManually)
+					if (partsInFrame.Count == 0 && !putBoardInManually)//technically never true as this state cannot happen for a mapped machine
 					{
-						Logger.Log("partsInFrame.Count == 0");
 						foreach (var part in machineParts.machineParts)
 						{
-							Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosClient(), count : part.amountOfThisPart);
+							Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), count : part.amountOfThisPart);
 						}
 					}
 					else
@@ -209,10 +240,17 @@ namespace Machines
 						{
 							if (item.Key == null) return;
 
-							item.Key.GetComponent<CustomNetTransform>().SetPosition(gameObject.WorldPosClient());
+							item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(gameObject.GetComponent<CustomNetTransform>().ServerPosition);
 						}
 					}
+
 					putBoardInManually = false;
+
+					spriteRender.sprite = boxCable;
+					ServerChangeSprite(SpriteStates.box_Cable);
+
+					partsInFrame.Clear();
+					basicPartsUsed.Clear();
 				}
 				else if (ItemTraitCheck(interaction))
 				{
@@ -238,21 +276,16 @@ namespace Machines
 			}
 			else if (CurrentState == partsAddedState)
 			{
+				//Complete construction, spawn new machine and send data over to it.
 				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 				{
 					var spawnedObject = Spawn.ServerPrefab(machineParts.machine, SpawnDestination.At(gameObject)).GameObject.GetComponent<Machine>();
 
-					if (spawnedObject == null)
-					{
-						Logger.Log("null");
-					}
 					//Send circuit board data to the new machine
 					spawnedObject.SetBasicPartsUsed(basicPartsUsed);
-					//basicPartsUsed.Clear();
 					spawnedObject.SetPartsInFrame(partsInFrame);
-					//partsInFrame.Clear();
 					spawnedObject.SetMachineParts(machineParts);
-					//machineParts = null;
+
 					Despawn.ServerSingle(gameObject);
 				}
 				else if(Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
@@ -264,105 +297,165 @@ namespace Machines
 					Inventory.ServerDrop(circuitBoardSlot);
 					stateful.ServerChangeState(wrenchedState);
 
-					Logger.Log("parts: " + partsInFrame.Count);
 					if (partsInFrame.Count == 0 && !putBoardInManually)
 					{
-						Logger.Log("partsInFrame.Count == 0");
 						foreach (var part in machineParts.machineParts)
 						{
-							Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosClient(), count: part.amountOfThisPart);
+							Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), count: part.amountOfThisPart);
 						}
 					}
 					else
 					{
 						foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
 						{
-							if (item.Key == null) return;
+							if (item.Key == null)
+							{
+								continue;
+							}
 
-							item.Key.GetComponent<CustomNetTransform>().SetPosition(gameObject.WorldPosClient());
+							var pos = gameObject.GetComponent<CustomNetTransform>().ServerPosition;
+
+							item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(pos);
 						}
 					}
 
 					putBoardInManually = false;
+
+					spriteRender.sprite = boxCable;
+					ServerChangeSprite(SpriteStates.box_Cable);
+
+					partsInFrame.Clear();
+					basicPartsUsed.Clear();
 				}
 			}
 		}
 
 		private void PartCheck(GameObject usedObject, HandApply interaction)
 		{
+			// For all the list of data(itemtraits, amounts needed) in machine parts
 			for(int i = 0; i < machineParts.machineParts.Length; i++)
 			{
+				// If the interaction object has an itemtrait thats in the list, set the list machinePartsList variable as the list from the machineParts data from the circuit board.
 				if (usedObject.GetComponent<ItemAttributesV2>().HasTrait(machineParts.machineParts[i].itemTrait))
 				{
-					trait = machineParts.machineParts[i];
+					machinePartsList = machineParts.machineParts[i];
 					break;
+
+					// IF YOU WANT AN ITEM TO HAVE TWO ITEMTTRAITS WHICH CONTRIBUTE TO THE MACHINE BUILIDNG PROCESS, THIS NEEDS TO BE REFACTORED
+					// all the stuff below needs to go into its own method which gets called here, replace the break;
 				}
 			}
 
-			var needed = trait.amountOfThisPart;
+			// Amount of the itemtrait that is needed for the machine to be buildable
+			var needed = machinePartsList.amountOfThisPart;
 
-			var itemTrait = trait.itemTrait;
+			// Itemtrait currently being looked at.
+			var itemTrait = machinePartsList.itemTrait;
 
-			if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the object already exists, and its stackable and some of it is needed.
+			// If theres already the itemtrait how many more do we need
+			if (basicPartsUsed.ContainsKey(itemTrait))
 			{
-				basicPartsUsed[itemTrait] = needed;
-				usedObject.GetComponent<Stackable>().ServerConsume(needed);
-
-				AddItemToDict(usedObject, needed);
+				needed -= basicPartsUsed[itemTrait];
 			}
-			else if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the object already exists, and its stackable and all of its needed.
+
+			if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait already exists, and its stackable and some of it is needed.
+			{
+				basicPartsUsed[itemTrait] = machinePartsList.amountOfThisPart;
+
+				Inventory.ServerDrop(interaction.HandSlot);
+
+				AddItemToDict(usedObject, needed, interaction);
+			}
+			else if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the itemTrait already exists, and its stackable and all of its needed.
 			{
 				var used = usedObject.GetComponent<Stackable>().Amount;
 				basicPartsUsed[itemTrait] += used;
-				usedObject.GetComponent<Stackable>().ServerConsume(used);
 
-				AddItemToDict(usedObject, used);
+				Inventory.ServerDrop(interaction.HandSlot);
+
+				AddItemToDict(usedObject, used, interaction);
+
 			}
-			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the object doesnt exists, and its stackable and some of it is needed.
+			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait doesnt exists, and its stackable and some of it is needed.
 			{
 				basicPartsUsed.Add(itemTrait, needed);
-				usedObject.GetComponent<Stackable>().ServerConsume(needed);
 
-				AddItemToDict(usedObject, needed);
+				Inventory.ServerDrop(interaction.HandSlot);
+
+				AddItemToDict(usedObject, needed, interaction);
+
 			}
-			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the object doesnt exists, and its stackable and all of its needed.
+			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the itemTrait doesnt exists, and its stackable and all of its needed.
 			{
 				var used = usedObject.GetComponent<Stackable>().Amount;
 				basicPartsUsed.Add(itemTrait, used);
-				usedObject.GetComponent<Stackable>().ServerConsume(used);
 
-				AddItemToDict(usedObject, used);
+				Inventory.ServerDrop(interaction.HandSlot);
+
+				AddItemToDict(usedObject, used, interaction);
 			}
-			else if (basicPartsUsed.ContainsKey(itemTrait))// Already exists but isnt stackable
+			else if (basicPartsUsed.ContainsKey(itemTrait))// ItemTrait already exists but isnt stackable
 			{
 				basicPartsUsed[itemTrait] ++;
 
-				AddItemToDict(usedObject, 1);
+				Inventory.ServerDrop(interaction.HandSlot);
 
-				Inventory.ServerDespawn(interaction.HandSlot);
+				AddItemToDict(usedObject, 1, interaction);
 			}
-			else// Doesnt exist but isnt stackable
+			else// ItemTrait doesnt exist but isnt stackable
 			{
 				basicPartsUsed.Add(itemTrait, 1);
 
-				AddItemToDict(usedObject, 1);
+				Inventory.ServerDrop(interaction.HandSlot);
 
-				Inventory.ServerDespawn(interaction.HandSlot);
+				AddItemToDict(usedObject, 1, interaction);
 			}
 		}
 
-		private void AddItemToDict(GameObject usedObject, int amount)
+		private void AddItemToDict(GameObject usedObject, int amount, HandApply interaction)
 		{
-			var newObject = Instantiate(usedObject, usedObject.transform);
-			newObject.GetComponent<CustomNetTransform>().SetPosition(TransformState.HiddenPos);
-			partsInFrame.Add(newObject, amount);
+			// If its stackable, make copy itself, set amount used, send to hidden pos.
+			if (usedObject.GetComponent<Stackable>() != null)
+			{
+				// Returns usedObject if stack amount is 1, if > 1 then creates new object.
+				var newObject = usedObject.GetComponent<Stackable>().ServerRemoveOne();
+
+				//If a new object was created
+				if (newObject != usedObject)
+				{
+					usedObject.GetComponent<Stackable>().ServerConsume(amount - 1);
+
+					newObject.GetComponent<Stackable>().ServerIncrease(amount - 1);
+
+					if (usedObject.GetComponent<Stackable>().Amount != 0)
+					{
+						Inventory.ServerAdd(usedObject, interaction.HandSlot);
+					}
+				}
+				else if (newObject.GetComponent<Stackable>().Amount == 0)
+				{
+					// Sets old objects amount if amount is 0
+					newObject.GetComponent<Stackable>().ServerIncrease(amount);
+				}
+
+				newObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+
+				partsInFrame.Add(newObject, amount);
+			}
+			// If not stackable send to hidden pos
+			else
+			{
+				usedObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+
+				partsInFrame.Add(usedObject, amount);
+			}
 		}
 
 		private bool ItemTraitCheck(HandApply interaction)
 		{
 			foreach (var part in machineParts.machineParts)
 			{
-				if (Validations.HasUsedItemTrait(interaction, part.itemTrait) && (!basicPartsUsed.ContainsKey(part.itemTrait) || basicPartsUsed[part.itemTrait] != part.amountOfThisPart)) //Has items trait and we dont have enough yet
+				if (Validations.HasUsedItemTrait(interaction, part.itemTrait) && (!basicPartsUsed.ContainsKey(part.itemTrait) || basicPartsUsed[part.itemTrait] != part.amountOfThisPart)) // Has items trait and we dont have enough yet
 				{
 					return true;
 				}
@@ -396,7 +489,7 @@ namespace Machines
 
 				foreach (var parts in machineParts.machineParts)
 				{
-					if (!basicPartsUsed.TryGetValue(parts.itemTrait, out int value))
+					if (!basicPartsUsed.ContainsKey(parts.itemTrait))
 					{
 						msg += parts.amountOfThisPart;
 						msg += " " + parts.itemTrait.name;
@@ -439,23 +532,37 @@ namespace Machines
 		/// <param name="machine"></param>
 		public void ServerInitFromComputer(Machine machine)
 		{
-			//create the circuit board
+			spriteRender.sprite = boxCircuit;
+			ServerChangeSprite(SpriteStates.Box_Circuit);
+
+			// Create the circuit board
 			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
 
-			board.GetComponent<MachineCircuitBoard>().SetMachineParts(machine.MachineParts); //Basic item requirements to the circuit board.
+			board.GetComponent<MachineCircuitBoard>().SetMachineParts(machine.MachineParts); // Basic item requirements to the circuit board
 
-			machineParts = machine.MachineParts;// basic items to the frame
+			board.GetComponent<ItemAttributesV2>().ServerSetArticleName(machine.MachineParts.NameOfCircuitBoard); // Sets name of board
+
+			board.GetComponent<ItemAttributesV2>().ServerSetArticleDescription(machine.MachineParts.DescriptionOfCircuitBoard); // Sets desc of board
+
+			machineParts = machine.MachineParts;// Basic items to the machine frame from the despawned machine
 
 			partsInFrame = machine.PartsInFrame;
 
 			basicPartsUsed = machine.BasicPartsUsed;
 
-			//put it in
+			// Put it in
 			Inventory.ServerAdd(board, circuitBoardSlot);
 
-			//set initial state
+			// Set initial state
 			objectBehaviour.ServerSetPushable(false);
 			stateful.ServerChangeState(partsAddedState);
+		}
+
+		private enum SpriteStates
+		{
+			box = 0,
+			box_Cable = 1,
+			Box_Circuit = 2
 		}
 	}
 }

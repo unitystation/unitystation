@@ -61,8 +61,8 @@ namespace Machines
 				{
 					//drop all our contents
 					ItemStorage itemStorage = null;
-					// rare cases were gameObject is destroyed for some reason and then the method is called
 
+					// rare cases were gameObject is destroyed for some reason and then the method is called
 					if (gameObject != null)
 					{
 						itemStorage = GetComponent<ItemStorage>();
@@ -75,16 +75,8 @@ namespace Machines
 
 					var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
 
-					Logger.Log("machine parts: " + partsInFrame.Count);
-					if (partsInFrame.Count == 0)
-					{
-						Logger.Log("Machine partsInFrame.Count == 0");
-					}
-
 					frame.GetComponent<MachineFrame>().ServerInitFromComputer(this);
-					//basicPartsUsed.Clear();
-					//partsInFrame.Clear();
-					//MachineParts = null;
+
 					Despawn.ServerSingle(gameObject);
 				});
 		}
@@ -94,24 +86,14 @@ namespace Machines
 			MachineParts = machineParts;
 		}
 
-		public void SetBasicPartsUsed(IDictionary<ItemTrait, int> BasicPartsUsed)
+		public void SetBasicPartsUsed(IDictionary<ItemTrait, int> basicPartsUsed)
 		{
-			Logger.Log("machine BasicPartsUsed: " + BasicPartsUsed.Count);
-			if (BasicPartsUsed.Count == 0)
-			{
-				Logger.Log("Machine BasicPartsUsed.Count == 0");
-			}
-			basicPartsUsed = BasicPartsUsed;
+			this.basicPartsUsed = basicPartsUsed;
 		}
 
-		public void SetPartsInFrame(IDictionary<GameObject, int> PartsInFrame)
+		public void SetPartsInFrame(IDictionary<GameObject, int> partsInFrame)
 		{
-			Logger.Log("machine PartsInFrame: " + PartsInFrame.Count);
-			if (PartsInFrame.Count == 0)
-			{
-				Logger.Log("Machine PartsInFrame.Count == 0");
-			}
-			partsInFrame = PartsInFrame;
+			this.partsInFrame = partsInFrame;
 		}
 	}
 }

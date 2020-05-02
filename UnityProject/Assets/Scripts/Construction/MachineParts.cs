@@ -22,6 +22,8 @@ namespace Machines
 
 		public string NameOfCircuitBoard;
 
+		public string DescriptionOfCircuitBoard;
+
 		public MachinePartList[] machineParts;
 	}
 }
