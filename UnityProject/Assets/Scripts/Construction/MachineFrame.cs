@@ -5,6 +5,24 @@ using Mirror;
 
 namespace Machines
 {
+	[System.Serializable]
+	public class AllowedTraitList
+	{
+		public AllowedTraitList()
+		{
+
+		}
+		public AllowedTraitList(ItemTrait allowedTrait)
+		{
+			AllowedTrait = allowedTrait;
+		}
+
+		public ItemTrait AllowedTrait;
+	}
+
+	[System.Serializable]
+	public class SyncListItem : SyncList<AllowedTraitList> { }
+
 	/// <summary>
 	/// Main Component for Machine Construction
 	/// </summary>
@@ -26,8 +44,11 @@ namespace Machines
 		private IDictionary<GameObject, int> partsInFrame = new Dictionary<GameObject, int>();
 		private Stateful stateful;
 
-		//[SyncVar(hook =nameof(SyncMachine))]
 		private MachineParts machineParts;
+
+		private readonly SyncListItem allowedTraits = new SyncListItem();
+
+		private List<AllowedTraitList> listOfAllowedTraits = new List<AllowedTraitList>();
 
 		private MachineParts.MachinePartList machinePartsList;
 
@@ -71,18 +92,33 @@ namespace Machines
 			spriteForClient = newVar;
 		}
 
-		//private void SyncMachine(MachineParts oldVar, MachineParts newVar)
-		//{
-		//	machineParts = newVar;
-		//	//do your thing
-		//	//all clients will be updated with this
-		//}
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
 
-		//[Server]
-		//private void ServerChangeMachine(MachineParts newVar)
-		//{
-		//	machineParts = newVar;
-		//}
+			allowedTraits.Callback += RandomNumbers_CallBack;
+		}
+
+		private void RandomNumbers_CallBack(SyncListItem.Operation op, int itemIndex, AllowedTraitList oldItem, AllowedTraitList newItem)
+		{
+			switch (op)
+			{
+				case SyncListItem.Operation.OP_ADD:
+					listOfAllowedTraits.Add(newItem);
+					break;
+				case SyncListItem.Operation.OP_CLEAR:
+					listOfAllowedTraits.Clear();
+					break;
+				case SyncListItem.Operation.OP_INSERT:
+					break;
+				case SyncListItem.Operation.OP_REMOVEAT:
+					break;
+				case SyncListItem.Operation.OP_SET:
+					break;
+				default:
+					break;
+			}
+		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -111,20 +147,20 @@ namespace Machines
 			}
 			else if (CurrentState == circuitAddedState)
 			{
-				////remove circuit board, also removes all parts that have been added
-				//if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
-				//{
-				//	return true;
-				//}
+				//remove circuit board, also removes all parts that have been added
+				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar))
+				{
+					return true;
+				}
 
-				////check part item traits, if in scriptableObject of the machine then return true.
-				//foreach(var part in machineParts.machineParts)
-				//{
-				//	if (Validations.HasUsedItemTrait(interaction, part.itemTrait))
-				//	{
-				//		return true;
-				//	}
-				//}
+				//check part item traits, if in scriptableObject of the machine then return true.
+				foreach (var part in listOfAllowedTraits)
+				{
+					if (Validations.HasUsedItemTrait(interaction, part.AllowedTrait))
+					{
+						return true;
+					}
+				}
 				return true;
 			}
 			else if (CurrentState == partsAddedState)
@@ -214,7 +250,14 @@ namespace Machines
 						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
 
 					machineParts = interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed;
-					//ServerChangeMachine(interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed);
+
+					allowedTraits.Clear();
+
+					foreach (var list in machineParts.machineParts)
+					{
+						allowedTraits.Add(new AllowedTraitList(list.itemTrait));
+					}
+
 					Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
 					stateful.ServerChangeState(circuitAddedState);
 					putBoardInManually = true;
@@ -561,9 +604,15 @@ namespace Machines
 
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleDescription(machine.MachineParts.DescriptionOfCircuitBoard); // Sets desc of board
 
-			//ServerChangeMachine(machine.MachineParts); // Basic items to the machine frame from the despawned machine
-
+			// Basic items to the machine frame from the despawned machine
 			machineParts = machine.MachineParts;
+
+			allowedTraits.Clear();
+
+			foreach (var list in machineParts.machineParts)
+			{
+				allowedTraits.Add(new AllowedTraitList(list.itemTrait));
+			}
 
 			partsInFrame = machine.PartsInFrame;
 
