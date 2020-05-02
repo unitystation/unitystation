@@ -81,7 +81,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	/// <param name="keyAction">The action to check</param>
 	/// <param name="keyEventType">The type of key event to check for</param>
-	private bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
+	public bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
 	{
 		DualKeyCombo action = keybindManager.userKeybinds[keyAction];
 		return CheckComboEvent(action.PrimaryCombo, keyEventType) || CheckComboEvent(action.SecondaryCombo, keyEventType);

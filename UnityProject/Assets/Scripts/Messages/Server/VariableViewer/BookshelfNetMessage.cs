@@ -14,17 +14,19 @@ public class BookshelfNetMessage : ServerMessage
 	public VariableViewerNetworking.NetFriendlyBookShelfView data;
 
 	public override void Process()
-	{//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
-		UIManager.Instance.BookshelfViewer.BookShelfView  = data;
+	{
+		//JsonConvert.DeserializeObject<VariableViewerNetworking.NetFriendlyBookShelfView>()
+		//Logger.Log(JsonConvert.SerializeObject(data));
+		UIManager.Instance.BookshelfViewer.BookShelfView = data;
 		UIManager.Instance.BookshelfViewer.ValueSetUp();
 	}
 
-	public static BookshelfNetMessage Send(Librarian.BookShelf _BookShelf)
+	public static BookshelfNetMessage Send(Librarian.BookShelf _BookShelf, GameObject ToWho)
 	{
 		BookshelfNetMessage msg = new BookshelfNetMessage();
 		msg.data = VariableViewerNetworking.ProcessBookShelf(_BookShelf);
 
-		msg.SendToAll();
+		msg.SendTo(ToWho);
 		return msg;
 	}
 }

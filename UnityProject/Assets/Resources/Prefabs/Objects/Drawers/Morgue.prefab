@@ -6,7 +6,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2326953878361334167}
+  m_GameObject: {fileID: 1876053485803257813}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 1
+  InitialDirection: 3
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
 --- !u!114 &5627962479411611065
@@ -23,7 +23,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2326953878361334167}
+  m_GameObject: {fileID: 1876053485803257813}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
@@ -37,7 +37,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2326953878361334167}
+  m_GameObject: {fileID: 1876053485803257813}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6d23a1b60ae85b34eb3841bdf4cc3531, type: 3}
@@ -48,15 +48,13 @@ MonoBehaviour:
   trayPrefab: {fileID: 6276591062313578460, guid: ec878b229bc16bb43a22dfbe0068687a,
     type: 3}
   storePlayers: 1
-  alarmBuzzerSystemEnabled: 1
-  allowHacking: 1
 --- !u!114 &9175309300622239234
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2326953878361334167}
+  m_GameObject: {fileID: 1876053485803257813}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f33057964bf034e2aa6ac4bdabacb465, type: 3}
@@ -80,7 +78,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2326953878361335714}
+  m_GameObject: {fileID: 7675055783983336943}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
@@ -124,13 +122,6 @@ MonoBehaviour:
     - {fileID: 21300004, guid: 0757f1f988ceba94db25bfb406984659, type: 3}
     - {fileID: 21300006, guid: 0757f1f988ceba94db25bfb406984659, type: 3}
     EquippedData: {fileID: 4900000, guid: 580664b947f0000489ec3e08e18d961e, type: 3}
-  - Texture: {fileID: 2800000, guid: 63af457339709fc4abca91e76c075489, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 63af457339709fc4abca91e76c075489, type: 3}
-    - {fileID: 21300002, guid: 63af457339709fc4abca91e76c075489, type: 3}
-    - {fileID: 21300004, guid: 63af457339709fc4abca91e76c075489, type: 3}
-    - {fileID: 21300006, guid: 63af457339709fc4abca91e76c075489, type: 3}
-    EquippedData: {fileID: 4900000, guid: 0df54391cda3c4d43b15d39363ce0407, type: 3}
   spriteIndex: 0
   variantIndex: 0
   SetSpriteOnStartUp: 1
@@ -262,6 +253,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: isDirty
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: initialName
@@ -275,13 +271,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
---- !u!1 &2326953878361334167 stripped
+--- !u!1 &1876053485803257813 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}
   m_PrefabInstance: {fileID: 2326953878361258396}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2326953878361335714 stripped
+--- !u!1 &7675055783983336943 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}

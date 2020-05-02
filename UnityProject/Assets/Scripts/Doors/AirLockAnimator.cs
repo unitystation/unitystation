@@ -71,30 +71,42 @@ using UnityEditor;
 			{
 				doorController.PlayOpenSound();
 			}
-			//open animation
+
+			// Opening animation.
 			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false, true, true, skipAnimation));
 
-			//light animation
-			// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
-			if (doorController.useSimpleLightAnimation)
+			// Light animation.
+			// If the airlock has overlay_Lights sprites, play the overlay_Lights sprite animation.
+			if (overlayLights.Length != 0)
 			{
-				if (!skipAnimation)
+				// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
+				if (doorController.useSimpleLightAnimation)
 				{
-					StartCoroutine(PlaySimpleLightAnim());
-				}
-			}
-			else
-			{
-				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
-				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, skipToEnd: skipAnimation));
+					if (!skipAnimation)
+					{
+						StartCoroutine(PlaySimpleLightAnim());
+					}
 				}
 				else
 				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, animSize, true, skipToEnd: skipAnimation));
+					if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
+					{
+						StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, skipToEnd: skipAnimation));
+					}
+					else
+					{
+						StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, animSize, true, skipToEnd: skipAnimation));
+					}
 				}
 			}
-			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset, skipToEnd: skipAnimation));
+
+			// Glass/cover animation.
+			// If the airlock has overlay_Glass sprites, play the overlay_Glass sprite animation.
+			if (overlaySprites.Length != 0)
+			{
+				StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset, skipToEnd: skipAnimation));
+			}
+			
 			//mabe the boxColliderStuff should be on the DoorController.
 			StartCoroutine(MakePassable(skipAnimation));
 		}
@@ -118,28 +130,42 @@ using UnityEditor;
 			{
 				doorController.PlayCloseSound();
 			}
+
+			// Closing animation.
 			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize, animSize, false, true, true, skipAnimation));
 
-			// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
-			if (doorController.useSimpleLightAnimation)
+			// Light animation.
+			// If the airlock has overlay_Lights sprites, play the overlay_Lights sprite animation.
+			if (overlayLights.Length != 0)
 			{
-				if (!skipAnimation)
+				// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
+				if (doorController.useSimpleLightAnimation)
 				{
-					StartCoroutine(PlaySimpleLightAnim());
-				}
-			}
-			else
-			{
-				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
-				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true, skipToEnd: skipAnimation));
+					if (!skipAnimation)
+					{
+						StartCoroutine(PlaySimpleLightAnim());
+					}
 				}
 				else
 				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true, skipToEnd: skipAnimation));
+					if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
+					{
+						StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true, skipToEnd: skipAnimation));
+					}
+					else
+					{
+						StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true, skipToEnd: skipAnimation));
+					}
 				}
 			}
-			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6, skipToEnd: skipAnimation));
+
+			// Glass/cover animation.
+			// If the airlock has overlay_Glass sprites, play the overlay_Glass sprite animation.
+			if (overlaySprites.Length != 0)
+			{
+				StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6, skipToEnd: skipAnimation));
+			}
+			
 			StartCoroutine(MakeSolid(skipAnimation));
 		}
 
@@ -317,6 +343,13 @@ using UnityEditor;
 		//only works in editor, so sprites are cached before play
 		public Sprite[] GetListOfSpritesFromLoadedSprite(Sprite sprite)
 		{
+			// If the sprite renderer has no sprite applied, return null.
+			// Otherwise every sprite in "Assets/Resources/" will be returned.
+			if (AssetDatabase.GetAssetPath(sprite).Equals(""))
+			{
+				return null;
+			}
+
 			string basepath = AssetDatabase.GetAssetPath(sprite).Replace("Assets/Resources/", "");
 			return Resources.LoadAll<Sprite>(basepath.Replace(".png", ""));
 		}

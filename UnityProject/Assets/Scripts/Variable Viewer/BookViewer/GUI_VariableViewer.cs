@@ -168,27 +168,11 @@ public class GUI_VariableViewer : MonoBehaviour
 
 	public void ReceiveBook(VariableViewerNetworking.NetFriendlyBook Book)
 	{
+		Pool();
 		ID = Book.ID;
 		Title = Book.Title;
 		PresentPagesCount = 0;
-		RightArrow.SetActive(false);
-		LeftArrow.SetActive(false);
-		VVUIElementHandler.Pool();
-		foreach (var ListOfPages in PagesInBook)
-		{
-			foreach (var Page in ListOfPages)
-			{
-				PoolPageEntry(Page);
-			}
-		}
-		foreach (var Page in CurrentlyOpen)
-		{
-			PoolPageEntry(Page);
-		}
 
-		PagesInBook.Clear();
-		PagesInBook.Add(new List<GUI_PageEntry>());
-		CurrentlyOpen.Clear();
 		CurrentlyOpenBook = Book;
 
 		if (History.Count > 0)
@@ -278,5 +262,49 @@ public class GUI_VariableViewer : MonoBehaviour
 		{
 			PooledPages.Add(PageEntry);
 		}
+	}
+
+
+	void OnEnable()
+	{
+		EventManager.AddHandler(EVENT.RoundEnded, Reset);
+	}
+
+	void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.RoundEnded, Reset);
+	}
+
+	public void Pool()
+	{
+		ID = 0;
+		Title = "Title";
+		PresentPagesCount = 0;
+		RightArrow.SetActive(false);
+		LeftArrow.SetActive(false);
+		VVUIElementHandler.Pool();
+		foreach (var ListOfPages in PagesInBook)
+		{
+			foreach (var Page in ListOfPages)
+			{
+				PoolPageEntry(Page);
+			}
+		}
+		foreach (var Page in CurrentlyOpen)
+		{
+			PoolPageEntry(Page);
+		}
+
+		PagesInBook.Clear();
+		PagesInBook.Add(new List<GUI_PageEntry>());
+		CurrentlyOpen.Clear();
+	}
+
+	public void Reset()
+	{
+		Pool();
+		History.Clear();
+		HistoryLocation = -1;
+		Close();
 	}
 }
