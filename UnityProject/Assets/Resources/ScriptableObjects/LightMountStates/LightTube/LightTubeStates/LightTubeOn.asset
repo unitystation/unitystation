@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: LightTubeOn
   m_EditorClassIdentifier: 
   spritesDirectional: {fileID: 11400000, guid: 5e629a8d96c38b14d9809a79efa4d9a2, type: 2}
-  state: 1
-  Tube: {fileID: 2419386692754613975, guid: 55cd86212b6c71d468c98ff09f7bbd8a, type: 3}
+  state: 0
+  tube: {fileID: 2419386692754613975, guid: 55cd86212b6c71d468c98ff09f7bbd8a, type: 3}
   traitRequired: {fileID: 11400000, guid: 82327368297d15b41971f9a171ce14cf, type: 2}
-  multiplierBroken: 0
+  multiplierIntegrity: 0.6
   lootDrop: {fileID: 11400000, guid: 7fed0dc1aa4592e46a65c6e972157ca9, type: 2}
-  lightState: {r: 1, g: 1, b: 1, a: 0}
+  lightColor: {r: 1, g: 1, b: 1, a: 0}

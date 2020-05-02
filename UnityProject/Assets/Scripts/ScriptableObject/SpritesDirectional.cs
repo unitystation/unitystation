@@ -22,13 +22,13 @@ public class SpritesDirectional : UnityEngine.ScriptableObject
 		switch (direction)
 		{
 			case OrientationEnum.Down:
-				return sprites[1];
-			case OrientationEnum.Up:
 				return sprites[0];
 			case OrientationEnum.Left:
 				return sprites[3];
-			default:
+			case OrientationEnum.Up:
 				return sprites[2];
+			default:
+				return sprites[1];
 		}
 	}
 }

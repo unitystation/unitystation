@@ -1,4 +1,5 @@
 ﻿using Items;
+using Microsoft.CSharp.RuntimeBinder;
 using UnityEngine;
 public enum LightMountState
 {
@@ -12,23 +13,30 @@ public enum LightMountState
 [CreateAssetMenu(fileName = "SOLightMountState", menuName = "ScriptableObjects/States/SOLightMountState", order = 0)]
 public class SOLightMountState : UnityEngine.ScriptableObject
 {
-	public SpritesDirectional spritesDirectional;
+	[SerializeField]private SpritesDirectional spritesDirectional;
+	public SpritesDirectional SpritesDirectional => spritesDirectional;
 
-	public LightMountState state;
+	[SerializeField]private LightMountState state;
+	public LightMountState State => state;
 
 	[Tooltip("Will drop this item.")]
-	public GameObject Tube;
+	[SerializeField]private GameObject tube;
+	public GameObject Tube => tube;
 
 	[Tooltip("Item with this trait will be put in.")]
-	public ItemTrait traitRequired;
+	[SerializeField]private ItemTrait traitRequired;
+	public ItemTrait TraitRequired => traitRequired;
 
 	[Tooltip("On what % of integrity mount changes state.")]
 	[Range(0.1f, 0.90f)]
-	public float multiplierBroken;
+	[SerializeField]private float multiplierIntegrity;
+	public float MultiplierIntegrity => multiplierIntegrity;
 
 	[Tooltip("Drops this on destroy.")]
-	public RandomItemPool lootDrop;
+	[SerializeField]private RandomItemPool lootDrop;
+	public RandomItemPool LootDrop => lootDrop;
 
 	[Tooltip("Light color.")]
-	public Color LightColor;
+	[SerializeField]private Color lightColor;
+	public Color LightColor => lightColor;
 }
