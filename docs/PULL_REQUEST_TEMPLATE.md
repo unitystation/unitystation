@@ -1,4 +1,4 @@
-_PROTIP: Check out our [Development Gotchas](https://github.com/unitystation/unitystation/wiki/Development-Gotchas-and-Common-Mistakes) page to help ensure your PR is accepted and help you prevent common mistakes._
+_PROTIP: Check out our [Development Gotchas](https://unitystation.github.io/unitystation/development/Development-Gotchas-and-Common-Mistakes/) page to help ensure your PR is accepted and help you prevent common mistakes._
 
 ### Purpose
 _Describe the problem the PR fixes or the feature it introduces_<br>
