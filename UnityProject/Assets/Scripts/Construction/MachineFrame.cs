@@ -96,10 +96,18 @@ namespace Machines
 		{
 			base.OnStartClient();
 
-			allowedTraits.Callback += RandomNumbers_CallBack;
+			//tracks change for client
+			allowedTraits.Callback += AllowedTraitsCallBack;
 		}
 
-		private void RandomNumbers_CallBack(SyncListItem.Operation op, int itemIndex, AllowedTraitList oldItem, AllowedTraitList newItem)
+		/// <summary>
+		/// Client calls this when the list is changed
+		/// </summary>
+		/// <param name="op"></param>
+		/// <param name="itemIndex"></param>
+		/// <param name="oldItem"></param>
+		/// <param name="newItem"></param>
+		private void AllowedTraitsCallBack(SyncListItem.Operation op, int itemIndex, AllowedTraitList oldItem, AllowedTraitList newItem)
 		{
 			switch (op)
 			{
@@ -120,6 +128,12 @@ namespace Machines
 			}
 		}
 
+		/// <summary>
+		/// Client Side interaction
+		/// </summary>
+		/// <param name="interaction"></param>
+		/// <param name="side"></param>
+		/// <returns></returns>
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -173,223 +187,293 @@ namespace Machines
 			return false;
 		}
 
+		/// <summary>
+		/// What the server does if the interaction is valid on client
+		/// </summary>
+		/// <param name="interaction"></param>
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (CurrentState == initialState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
-						 Validations.HasUsedAtLeast(interaction, 5))
-				{
-					//add 5 cables
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-						"You start adding cables to the frame...",
-						$"{interaction.Performer.ExpensiveName()} starts adding cables to the frame...",
-						"You add cables to the frame.",
-						$"{interaction.Performer.ExpensiveName()} adds cables to the frame.",
-						() =>
-						{
-							Inventory.ServerConsume(interaction.HandSlot, 5);
-							stateful.ServerChangeState(cablesAddedState);
-							spriteRender.sprite = boxCable;
-							ServerChangeSprite(SpriteStates.BoxCable);
-						});
-				}
-				else if (Validations.HasUsedActiveWelder(interaction))
-				{
-					//deconsruct
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-						"You start deconstructing the frame...",
-						$"{interaction.Performer.ExpensiveName()} starts deconstructing the frame...",
-						"You deconstruct the frame.",
-						$"{interaction.Performer.ExpensiveName()} deconstructs the frame.",
-						() =>
-						{
-							Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
-							Despawn.ServerSingle(gameObject);
-						});
-				}
+				InitialStateInteraction(interaction);
 			}
 			else if (CurrentState == cablesAddedState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
-				{
-					//cut out cables
-					Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
-						$"{interaction.Performer.ExpensiveName()} removes the cables.");
-					ToolUtils.ServerPlayToolSound(interaction);
-					Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
-					stateful.ServerChangeState(initialState);
-					spriteRender.sprite = box;
-					ServerChangeSprite(SpriteStates.Box);
-				}
-				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
-				{
-					if (!ServerValidations.IsAnchorBlocked(interaction))
-					{
-						//wrench in place
-						ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-							"You start wrenching the frame into place...",
-							$"{interaction.Performer.ExpensiveName()} starts wrenching the frame into place...",
-							"You wrench the frame into place.",
-							$"{interaction.Performer.ExpensiveName()} wrenches the frame into place.",
-							() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
-						stateful.ServerChangeState(wrenchedState);
-					}
-					else
-					{
-						Chat.AddExamineMsgFromServer(interaction.Performer, "Unable to wrench frame");
-					}
-				}
+				CablesAddedStateInteraction(interaction);
 			}
 			else if (CurrentState == wrenchedState)
 			{
-				if (Validations.HasUsedComponent<MachineCircuitBoard>(interaction) && circuitBoardSlot.IsEmpty)
-				{
-					//stick in the circuit board
-					Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
-						$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
-
-					machineParts = interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed;
-
-					allowedTraits.Clear();
-
-					foreach (var list in machineParts.machineParts)
-					{
-						allowedTraits.Add(new AllowedTraitList(list.itemTrait));
-					}
-
-					Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
-					stateful.ServerChangeState(circuitAddedState);
-					putBoardInManually = true;
-					spriteRender.sprite = boxCircuit;
-					ServerChangeSprite(SpriteStates.BoxCircuit);
-				}
-				else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
-				{
-					//unwrench
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
-						"You start to unfasten the frame...",
-						$"{interaction.Performer.ExpensiveName()} starts to unfasten the frame...",
-						"You unfasten the frame.",
-						$"{interaction.Performer.ExpensiveName()} unfastens the frame.",
-						() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
-					stateful.ServerChangeState(cablesAddedState);
-				}
+				WrenchedStateInteraction(interaction);
 			}
 			else if (CurrentState == circuitAddedState)
 			{
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
-				{
-					//wrench out the circuit board, when it only has some of the parts
-					Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
-						$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
-					ToolUtils.ServerPlayToolSound(interaction);
-					Inventory.ServerDrop(circuitBoardSlot);
-					stateful.ServerChangeState(wrenchedState);
-
-					if (partsInFrame.Count == 0 && !putBoardInManually)//technically never true as this state cannot happen for a mapped machine
-					{
-						foreach (var part in machineParts.machineParts)
-						{
-							Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), count : part.amountOfThisPart);
-						}
-					}
-					else
-					{
-						foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
-						{
-							if (item.Key == null) return;
-
-							item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(gameObject.GetComponent<CustomNetTransform>().ServerPosition);
-						}
-					}
-
-					putBoardInManually = false;
-
-					spriteRender.sprite = boxCable;
-					ServerChangeSprite(SpriteStates.BoxCable);
-
-					partsInFrame.Clear();
-					basicPartsUsed.Clear();
-				}
-				else if (ItemTraitCheck(interaction))
-				{
-					var usedObject = interaction.UsedObject;
-
-					Chat.AddActionMsgToChat(interaction, $"You place the {usedObject.ExpensiveName()} inside the frame.",
-						$"{interaction.Performer.ExpensiveName()} places the {usedObject.ExpensiveName()} inside the frame.");
-
-					PartCheck(usedObject, interaction);
-
-					foreach (var parts in machineParts.machineParts)
-					{
-						if (!basicPartsUsed.ContainsKey(parts.itemTrait)) return;
-
-						if (basicPartsUsed[parts.itemTrait] != parts.amountOfThisPart)
-						{
-							return;
-						}
-					}
-
-					stateful.ServerChangeState(partsAddedState);
-				}
+				CircuitAddedStateInteraction(interaction);
 			}
 			else if (CurrentState == partsAddedState)
 			{
-				//Complete construction, spawn new machine and send data over to it.
-				if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
-				{
-					var spawnedObject = Spawn.ServerPrefab(machineParts.machine, SpawnDestination.At(gameObject)).GameObject.GetComponent<Machine>();
+				PartsAddedStateInteraction(interaction);
+			}
+		}
 
-					//Send circuit board data to the new machine
-					spawnedObject.SetBasicPartsUsed(basicPartsUsed);
-					spawnedObject.SetPartsInFrame(partsInFrame);
-					spawnedObject.SetMachineParts(machineParts);
+		/// <summary>
+		/// Stage 1, Add cable to continue or welder to destroy frame.
+		/// </summary>
+		/// <param name="interaction"></param>
+		private void InitialStateInteraction(HandApply interaction)
+		{
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
+									 Validations.HasUsedAtLeast(interaction, 5))
+			{
+				//add 5 cables
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+					"You start adding cables to the frame...",
+					$"{interaction.Performer.ExpensiveName()} starts adding cables to the frame...",
+					"You add cables to the frame.",
+					$"{interaction.Performer.ExpensiveName()} adds cables to the frame.",
+					() =>
+					{
+						Inventory.ServerConsume(interaction.HandSlot, 5);
+						stateful.ServerChangeState(cablesAddedState);
 
-					Despawn.ServerSingle(gameObject);
-				}
-				else if(Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
+						//sprite change
+						spriteRender.sprite = boxCable;
+						ServerChangeSprite(SpriteStates.BoxCable);
+					});
+			}
+			else if (Validations.HasUsedActiveWelder(interaction))
+			{
+				//deconsruct
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+					"You start deconstructing the frame...",
+					$"{interaction.Performer.ExpensiveName()} starts deconstructing the frame...",
+					"You deconstruct the frame.",
+					$"{interaction.Performer.ExpensiveName()} deconstructs the frame.",
+					() =>
+					{
+						Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
+						Despawn.ServerSingle(gameObject);
+					});
+			}
+		}
+
+		/// <summary>
+		/// Stage 2, Wrench down to continue construction, anchors machine, or wirecutters to move to stage 1
+		/// </summary>
+		/// <param name="interaction"></param>
+		private void CablesAddedStateInteraction(HandApply interaction)
+		{
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+			{
+				//cut out cables
+				Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
+					$"{interaction.Performer.ExpensiveName()} removes the cables.");
+				ToolUtils.ServerPlayToolSound(interaction);
+				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
+				stateful.ServerChangeState(initialState);
+
+				//sprite change
+				spriteRender.sprite = box;
+				ServerChangeSprite(SpriteStates.Box);
+			}
+			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			{
+				if (!ServerValidations.IsAnchorBlocked(interaction))
 				{
-					//wrench out the circuit board, when it has all the parts in.
-					Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
-						$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
-					ToolUtils.ServerPlayToolSound(interaction);
-					Inventory.ServerDrop(circuitBoardSlot);
+					//wrench in place
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+						"You start wrenching the frame into place...",
+						$"{interaction.Performer.ExpensiveName()} starts wrenching the frame into place...",
+						"You wrench the frame into place.",
+						$"{interaction.Performer.ExpensiveName()} wrenches the frame into place.",
+						() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
 					stateful.ServerChangeState(wrenchedState);
-
-					if (partsInFrame.Count == 0 && !putBoardInManually)
-					{
-						foreach (var part in machineParts.machineParts)
-						{
-							Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), count: part.amountOfThisPart);
-						}
-					}
-					else
-					{
-						foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
-						{
-							if (item.Key == null)
-							{
-								continue;
-							}
-
-							var pos = gameObject.GetComponent<CustomNetTransform>().ServerPosition;
-
-							item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(pos);
-						}
-					}
-
-					putBoardInManually = false;
-
-					spriteRender.sprite = boxCable;
-					ServerChangeSprite(SpriteStates.BoxCable);
-
-					partsInFrame.Clear();
-					basicPartsUsed.Clear();
+				}
+				else
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, "Unable to wrench frame");
 				}
 			}
 		}
 
+		/// <summary>
+		/// Stage 3, add circuit board which contains data for construction, or use wrench to go back to stage 2
+		/// </summary>
+		/// <param name="interaction"></param>
+		private void WrenchedStateInteraction(HandApply interaction)
+		{
+			if (Validations.HasUsedComponent<MachineCircuitBoard>(interaction) && circuitBoardSlot.IsEmpty)
+			{
+				//stick in the circuit board
+				Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
+					$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
+
+				//Transfer parts data
+				machineParts = interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed;
+
+				//Syncing allowed traits to clients
+				allowedTraits.Clear();
+
+				foreach (var list in machineParts.machineParts)
+				{
+					allowedTraits.Add(new AllowedTraitList(list.itemTrait));
+				}
+
+				Inventory.ServerTransfer(interaction.HandSlot, circuitBoardSlot);
+				stateful.ServerChangeState(circuitAddedState);
+				putBoardInManually = true;
+
+				//sprite change
+				spriteRender.sprite = boxCircuit;
+				ServerChangeSprite(SpriteStates.BoxCircuit);
+			}
+			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
+			{
+				//unwrench
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+					"You start to unfasten the frame...",
+					$"{interaction.Performer.ExpensiveName()} starts to unfasten the frame...",
+					"You unfasten the frame.",
+					$"{interaction.Performer.ExpensiveName()} unfastens the frame.",
+					() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
+				stateful.ServerChangeState(cablesAddedState);
+			}
+		}
+
+		/// <summary>
+		/// Stage 4, Add in valid parts, or remove circuit board to go back to stage 3.
+		/// </summary>
+		/// <param name="interaction"></param>
+		private void CircuitAddedStateInteraction(HandApply interaction)
+		{
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
+			{
+				//wrench out the circuit board, when it only has some of the parts
+				Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
+					$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
+				ToolUtils.ServerPlayToolSound(interaction);
+				Inventory.ServerDrop(circuitBoardSlot);
+				stateful.ServerChangeState(wrenchedState);
+
+				if (partsInFrame.Count == 0 && !putBoardInManually)//technically never true as this state cannot happen for a mapped machine
+				{
+					foreach (var part in machineParts.machineParts)
+					{
+						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), count: part.amountOfThisPart);
+					}
+				}
+				else
+				{
+					foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
+					{
+						if (item.Key == null) return;
+
+						item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(gameObject.GetComponent<CustomNetTransform>().ServerPosition);
+					}
+				}
+
+				putBoardInManually = false;
+
+				//Sprite change
+				spriteRender.sprite = boxCable;
+				ServerChangeSprite(SpriteStates.BoxCable);
+
+				//Reset frame data
+				partsInFrame.Clear();
+				basicPartsUsed.Clear();
+			}
+			else if (ItemTraitCheck(interaction)) //Adding parts validation
+			{
+				var usedObject = interaction.UsedObject;
+
+				Chat.AddActionMsgToChat(interaction, $"You place the {usedObject.ExpensiveName()} inside the frame.",
+					$"{interaction.Performer.ExpensiveName()} places the {usedObject.ExpensiveName()} inside the frame.");
+
+				//Process Part
+				PartCheck(usedObject, interaction);
+
+				//Check we have all the parts so we can move on to next stage.
+				foreach (var parts in machineParts.machineParts)
+				{
+					if (!basicPartsUsed.ContainsKey(parts.itemTrait)) return;
+
+					if (basicPartsUsed[parts.itemTrait] != parts.amountOfThisPart)
+					{
+						return;
+					}
+				}
+
+				stateful.ServerChangeState(partsAddedState);
+			}
+		}
+
+		/// <summary>
+		/// Stage 5, complete construction, or remove board and return to stage 3.
+		/// </summary>
+		/// <param name="interaction"></param>
+		private void PartsAddedStateInteraction(HandApply interaction)
+		{
+			//Complete construction, spawn new machine and send data over to it.
+			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
+			{
+				var spawnedObject = Spawn.ServerPrefab(machineParts.machine, SpawnDestination.At(gameObject)).GameObject.GetComponent<Machine>();
+
+				//Send circuit board data to the new machine
+				spawnedObject.SetBasicPartsUsed(basicPartsUsed);
+				spawnedObject.SetPartsInFrame(partsInFrame);
+				spawnedObject.SetMachineParts(machineParts);
+
+				//Despawn frame
+				Despawn.ServerSingle(gameObject);
+			}
+			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) && circuitBoardSlot.IsOccupied)
+			{
+				//wrench out the circuit board, when it has all the parts in.
+				Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
+					$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
+				ToolUtils.ServerPlayToolSound(interaction);
+				Inventory.ServerDrop(circuitBoardSlot);
+				stateful.ServerChangeState(wrenchedState);
+
+				//If frame in mapped; count == 0 and its the only time putBoardInManually will be false as putting in board makes it true
+				if (partsInFrame.Count == 0 && !putBoardInManually)
+				{
+					foreach (var part in machineParts.machineParts)
+					{
+						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), count: part.amountOfThisPart);
+					}
+				}
+				else
+				{
+					foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
+					{
+						if (item.Key == null)//Shouldnt ever happen, but just incase
+						{
+							continue;
+						}
+
+						var pos = gameObject.GetComponent<CustomNetTransform>().ServerPosition;
+
+						item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(pos);
+					}
+				}
+
+				putBoardInManually = false;
+
+				//Sprite change
+				spriteRender.sprite = boxCable;
+				ServerChangeSprite(SpriteStates.BoxCable);
+
+				//Reset data
+				partsInFrame.Clear();
+				basicPartsUsed.Clear();
+			}
+		}
+
+		/// <summary>
+		/// Function to process the part which has been applied to the frame
+		/// </summary>
+		/// <param name="usedObject"></param>
+		/// <param name="interaction"></param>
 		private void PartCheck(GameObject usedObject, HandApply interaction)
 		{
 			// For all the list of data(itemtraits, amounts needed) in machine parts
@@ -418,6 +502,7 @@ namespace Machines
 				needed -= basicPartsUsed[itemTrait];
 			}
 
+			//Main logic for tallying up and moving parts to hidden pos
 			if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait already exists, and its stackable and some of it is needed.
 			{
 				basicPartsUsed[itemTrait] = machinePartsList.amountOfThisPart;
@@ -472,6 +557,12 @@ namespace Machines
 			}
 		}
 
+		/// <summary>
+		/// Adds the part object to the dictionaries and moves items to hidden pos
+		/// </summary>
+		/// <param name="usedObject"></param>
+		/// <param name="amount"></param>
+		/// <param name="interaction"></param>
 		private void AddItemToDict(GameObject usedObject, int amount, HandApply interaction)
 		{
 			// If its stackable, make copy itself, set amount used, send to hidden pos.
@@ -511,6 +602,11 @@ namespace Machines
 			}
 		}
 
+		/// <summary>
+		/// Used to validate the interaction for the server.
+		/// </summary>
+		/// <param name="interaction"></param>
+		/// <returns></returns>
 		private bool ItemTraitCheck(HandApply interaction)
 		{
 			foreach (var part in machineParts.machineParts)
@@ -524,6 +620,11 @@ namespace Machines
 			return false;
 		}
 
+		/// <summary>
+		/// Examine messages
+		/// </summary>
+		/// <param name="worldPos"></param>
+		/// <returns></returns>
 		public string Examine(Vector3 worldPos)
 		{
 			string msg = "";
@@ -549,7 +650,7 @@ namespace Machines
 
 				foreach (var parts in machineParts.machineParts)
 				{
-					if (!basicPartsUsed.ContainsKey(parts.itemTrait))
+					if (!basicPartsUsed.ContainsKey(parts.itemTrait))//If false then we have none of the itemtrait
 					{
 						msg += parts.amountOfThisPart;
 						msg += " " + parts.itemTrait.name;
@@ -561,7 +662,7 @@ namespace Machines
 
 						msg += "\n";
 					}
-					else if (basicPartsUsed[parts.itemTrait] != parts.amountOfThisPart)
+					else if (basicPartsUsed[parts.itemTrait] != parts.amountOfThisPart)//If we have some but not enough of the itemtrait
 					{
 						msg += parts.amountOfThisPart - basicPartsUsed[parts.itemTrait];
 						msg += " " + parts.itemTrait.name;
@@ -587,7 +688,7 @@ namespace Machines
 		}
 
 		/// <summary>
-		/// Initializes this frame's state to be from a just-deconstructed computer
+		/// Initializes this frame's state to be from a just-deconstructed machine
 		/// </summary>
 		/// <param name="machine"></param>
 		public void ServerInitFromComputer(Machine machine)
