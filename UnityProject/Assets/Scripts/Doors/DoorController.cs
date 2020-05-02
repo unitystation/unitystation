@@ -224,7 +224,7 @@ public class DoorController : NetworkBehaviour
 		public void ServerTryClose()
 		{
 			// Sliding door is not passable according to matrix
-            if( !IsClosed && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) ) {
+            if( !IsClosed && !isPerformingAction && (ignorePassableChecks || matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding) ) {
 	            ServerClose();
             }
 			else

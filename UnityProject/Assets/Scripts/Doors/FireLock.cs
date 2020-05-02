@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.Events;
 
-public class FireLock : InteractableDoor, IServerLifecycle
+public class FireLock : InteractableDoor
 {
 	private MetaDataNode metaNode;
+	public FireAlarm fireAlarm;
 
 	public override void TryClose()
 	{
@@ -14,34 +15,35 @@ public class FireLock : InteractableDoor, IServerLifecycle
 
 	}
 
-	public void TickUpdate()
+	void TriggerAlarm()
 	{
-		if (!Controller.IsClosed)
+		if (fireAlarm)
 		{
-			if (metaNode.GasMix.Pressure < AtmosConstants.MINIMUM_OXYGEN_PRESSURE)
-			{
-				ReceiveAlert();
-			}
+			fireAlarm.SendCloseAlerts();
+		}
+		else
+		{
+			ReceiveAlert();
 		}
 	}
 
 	public void ReceiveAlert()
 	{
-		Controller.ServerTryClose();
+		if (!Controller.IsClosed)
+		{
+			Controller.ServerTryClose();
+		}
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		var integrity = GetComponent<Integrity>();
-		integrity.OnExposedEvent.AddListener(ReceiveAlert);
-		AtmosManager.Instance.inGameFireLocks.Add(this);
+		integrity.OnExposedEvent.AddListener(TriggerAlarm);
 		RegisterTile registerTile = GetComponent<RegisterTile>();
 		MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 		metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+		Controller.ServerOpen();
 	}
 
-	public void OnDespawnServer(DespawnInfo info)
-	{
-		AtmosManager.Instance.inGameFireLocks.Remove(this);
-	}
+
 }

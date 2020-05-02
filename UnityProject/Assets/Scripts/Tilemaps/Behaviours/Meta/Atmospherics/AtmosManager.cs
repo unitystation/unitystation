@@ -18,7 +18,7 @@ public class AtmosManager : MonoBehaviour
 
 	public bool roundStartedServer = false;
 	public HashSet<Pipe> inGamePipes = new HashSet<Pipe>();
-	public HashSet<FireLock> inGameFireLocks = new HashSet<FireLock>();
+	public HashSet<FireAlarm> inGameFireAlarms = new HashSet<FireAlarm>();
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
 	public static float tickRate;
@@ -80,9 +80,9 @@ public class AtmosManager : MonoBehaviour
 			p.TickUpdate();
 		}
 
-		foreach (FireLock firelock in inGameFireLocks)
+		foreach (FireAlarm firealarm in inGameFireAlarms)
 		{
-			firelock.TickUpdate();
+			firealarm.TickUpdate();
 		}
 	}
 
@@ -171,7 +171,7 @@ public class AtmosManager : MonoBehaviour
 			roundStartedServer = false;
 		}
 		inGamePipes.Clear();
-		inGameFireLocks.Clear();
+		inGameFireAlarms.Clear();
 	}
 }
 
