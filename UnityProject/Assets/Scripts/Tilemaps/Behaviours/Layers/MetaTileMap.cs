@@ -198,14 +198,24 @@ public class MetaTileMap : MonoBehaviour
 		return false;
 	}
 
-	public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
+	public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null)
 	{
-		Layers[tile.LayerType].SetTile(position, tile, transformMatrix);
+		if (Layers.TryGetValue(tile.LayerType, out var layer))
+		{
+			layer.SetTile(position, tile, matrixTransform.GetValueOrDefault(Matrix4x4.identity));
+		}
+		else
+		{
+			LogMissingLayer(position, tile.LayerType);
+		}
+
 	}
 
-	public void SetTile(Vector3Int position, LayerTile tile)
+	private void LogMissingLayer(Vector3Int position, LayerType layerType)
 	{
-		Layers[tile.LayerType].SetTile(position, tile, Matrix4x4.identity);
+		Logger.LogErrorFormat("Modifying tile at cellPos {0} for layer type {1} failed because matrix {2} " +
+		                      "has no layer of that type. Please add this layer to this matrix in" +
+		                      " the scene.", Category.TileMaps, position, layerType, name);
 	}
 
 	/// <summary>
@@ -239,9 +249,16 @@ public class MetaTileMap : MonoBehaviour
 	/// <returns></returns>
 	public LayerTile GetTile(Vector3Int cellPosition, LayerType layerType)
 	{
-		Layer layer = null;
-		Layers.TryGetValue(layerType, out layer);
-		return layer ? Layers[layerType].GetTile(cellPosition) : null;
+		if (Layers.TryGetValue(layerType, out var layer))
+		{
+			return layer.GetTile(cellPosition);
+		}
+		else
+		{
+			LogMissingLayer(cellPosition, layerType);
+		}
+
+		return null;
 	}
 
 	/// <summary>
@@ -413,13 +430,13 @@ public class MetaTileMap : MonoBehaviour
 	}
 	public bool HasTile(Vector3Int position, LayerType layerType, bool isServer)
 	{
-		//protection against nonexistent layers
-		for ( var i = 0; i < LayersKeys.Length; i++ )
+		if (Layers.TryGetValue(layerType, out var layer))
 		{
-			if ( layerType == LayersKeys[i] )
-			{
-				return Layers[layerType].HasTile( position, isServer );
-			}
+			return layer.HasTile(position, isServer);
+		}
+		else
+		{
+			LogMissingLayer(position, layerType);
 		}
 
 		return false;
@@ -430,6 +447,7 @@ public class MetaTileMap : MonoBehaviour
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			Layer layer = LayersValues[i]; //layer.LayerType < refLayer &&
+			//TODO: @Bod9001 What is the purpose of this strange conditional logic?
 			if (
 			    !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors) &&
 			    refLayer != LayerType.Grills)
@@ -441,11 +459,14 @@ public class MetaTileMap : MonoBehaviour
 
 	public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll)
 	{
-		if (!Layers.ContainsKey(refLayer))
+		if (Layers.TryGetValue(refLayer, out var layer))
 		{
-			return;
+			layer.RemoveTile(position, removeAll);
 		}
-		Layers[refLayer].RemoveTile(position, removeAll);
+		else
+		{
+			LogMissingLayer(position, refLayer);
+		}
 	}
 
 	public void ClearAllTiles()
