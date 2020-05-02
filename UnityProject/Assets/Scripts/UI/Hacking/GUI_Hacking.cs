@@ -172,7 +172,7 @@ public class GUI_Hacking : NetTab
 	/// <param name="obj"></param>
 	private void SafeDestory(GameObject obj)
 	{
-		obj.transform.parent = null;
+		obj.transform.SetParent(null);
 		obj.name = "$disposed";
 		Destroy(obj);
 		obj.SetActive(false);
