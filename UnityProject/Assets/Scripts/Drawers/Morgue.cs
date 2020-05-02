@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using System.Collections;
 
 /// <summary>
 /// Morgue component for morgue objects. Adds additional function to the base Drawer component.
@@ -20,31 +18,19 @@ public class Morgue : Drawer
 		ShutWithPlayer = 2
 	}
 
-	[SerializeField]
-	[Tooltip("Whether the morgue alarm should sound if a consciousness is present.")]
-	private bool alarmBuzzerSystemEnabled = true;
-	[SerializeField]
-	[Tooltip("Whether the morgue alarm can be toggled. The LED display will still show red if a consciousness is present.")]
-	private bool allowBuzzerSystemToggling = true;
-	[SerializeField]
-	[Tooltip("Whether the morgue can be emagged (permanently breaks the display and alarm - useful for hiding corpses in plain sight).")]
-	private bool allowEmagging = true;
-
-	private const int ALARM_PERIOD = 5; // In seconds.
+	// Whether the morgue alarm should sound if a consciousness is present.
+	private const bool ALARM_SYSTEM_ENABLED = true;
+	// Whether the morgue alarm can be toggled. The LED display will still show red if a consciousness is present.
+	private const bool ALLOW_BUZZER_TOGGLING = true;
+	// Whether the morgue can be emagged. Permanently breaks the display and alarm (useful for hiding corpses in plain sight).
+	private const bool ALLOW_EMAGGING = true;
+	// Delay between alarm sounds, in seconds.
+	private const int ALARM_PERIOD = 5;
 
 	private bool consciousnessPresent = false;
-	private bool buzzerEnabled;
+	private bool buzzerEnabled = ALARM_SYSTEM_ENABLED;
 	private bool alarmBroken = false;
 	private bool alarmRunning = false;
-
-	#region Init Methods
-
-	protected void Start()
-	{
-		buzzerEnabled = alarmBuzzerSystemEnabled;
-	}
-
-	#endregion Init Methods
 
 	#region Interactions
 
@@ -113,8 +99,9 @@ public class Morgue : Drawer
 
 	private void UseScrewdriver(HandApply interaction)
 	{
-		if (!allowBuzzerSystemToggling) return;
-		if (!alarmBuzzerSystemEnabled) return;
+#pragma warning disable CS0162 // Unreachable code detected
+		if (!ALARM_SYSTEM_ENABLED || !ALLOW_BUZZER_TOGGLING) return;
+#pragma warning restore CS0162 // Unreachable code detected
 
 		ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
 				$"You poke the {interaction.HandObject.name.ToLower()} around in the {name.ToLower()}'s electrical panel...",
@@ -126,8 +113,9 @@ public class Morgue : Drawer
 
 	private void UseEmag(HandApply interaction)
 	{
-		if (!allowEmagging) return;
-		if (!alarmBuzzerSystemEnabled) return;
+#pragma warning disable CS0162 // Unreachable code detected
+		if (!ALARM_SYSTEM_ENABLED || !ALLOW_EMAGGING) return;
+#pragma warning restore CS0162 // Unreachable code detected
 		if (alarmBroken) return;
 		alarmBroken = true;
 
@@ -162,7 +150,7 @@ public class Morgue : Drawer
 
 	private IEnumerator PlayAlarm()
 	{
-		if (!alarmBuzzerSystemEnabled || alarmRunning) yield break;
+		if (!ALARM_SYSTEM_ENABLED || alarmRunning) yield break;
 
 		alarmRunning = true;
 		while (consciousnessPresent && buzzerEnabled && !alarmBroken)
