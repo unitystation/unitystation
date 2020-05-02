@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 2703357943102309780}
   - component: {fileID: 15473265638533672}
   - component: {fileID: 1867072349025343184}
+  - component: {fileID: -6310048276167888487}
   m_Layer: 13
   m_Name: LightBulbMount
   m_TagString: Untagged
@@ -99,8 +100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  InitialState: 1
   mLightRendererObject: {fileID: 0}
-  customColor: {r: 0, g: 0, b: 0, a: 0}
+  lightStateColorOn: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0.8}
+  lightStateColorEmergency: {r: 0.7264151, g: 0, b: 0, a: 0.8}
   isWithoutSwitch: 0
   relatedLightSwitch: {fileID: 0}
 --- !u!114 &114469489843686000
@@ -296,6 +299,23 @@ MonoBehaviour:
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
   State: 2
+--- !u!114 &-6310048276167888487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614508754264130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47ee25e15c851c447bd342aa75f7ca2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  sprites: []
+  animateTime: 0.4
+  rotateSpeed: 30
 --- !u!1 &1865224276101266
 GameObject:
   m_ObjectHideFlags: 0

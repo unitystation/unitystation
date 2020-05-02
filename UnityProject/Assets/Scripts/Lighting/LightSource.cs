@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.Remoting.Messaging;
 using Light2D;
 using Lighting;
 using Mirror;
@@ -9,10 +10,11 @@ public enum LightState
 	None = 0,
 	On,
 	Off,
+	Emergency
 }
 
 [ExecuteInEditMode]
-public class LightSource : ObjectTrigger,IAPCPowered
+public class LightSource : ObjectTrigger, IAPCPowered, IServerDespawn
 {
 	[SerializeField]
 	private LightState InitialState = LightState.On;
@@ -20,10 +22,12 @@ public class LightSource : ObjectTrigger,IAPCPowered
 	[Header("Generates itself if this is null:")]
 	public GameObject mLightRendererObject;
 
-	public Color customColor;
+	public Color lightStateColorOn = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f);
+
+	public Color lightStateColorEmergency = new Color(0.7264151f, 0, 0, 0.8f);
 
 	[SerializeField]
-	private bool isWithoutSwitch;
+	private bool isWithoutSwitch = true;
 
 	public bool IsWithoutSwitch => isWithoutSwitch;
 	public bool SwitchState { get; private set; }
@@ -31,28 +35,9 @@ public class LightSource : ObjectTrigger,IAPCPowered
 	[SyncVar(hook =nameof(SyncLightState))]
 	private LightState mState;
 	private LightMountStates wallMount;
+	private LightSprite lightSprite;
+	private EmergencyLightAnimator emergencyLightAnimator;
 	public LightSwitchV2 relatedLightSwitch;
-
-	void Start()
-	{
-		if (!Application.isPlaying)
-		{
-			return;
-		}
-
-		Color _color;
-
-		if (customColor == new Color(0, 0, 0, 0))
-		{
-			_color = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f);
-		}
-		else
-		{
-			_color = customColor;
-		}
-
-		mLightRendererObject.GetComponent<LightSprite>().Color = _color;
-	}
 
 	private void Awake()
 	{
@@ -61,19 +46,30 @@ public class LightSource : ObjectTrigger,IAPCPowered
 			return;
 		}
 
+		EnsureLightsInit();
+		wallMount = GetComponent<LightMountStates>();
+		emergencyLightAnimator = GetComponent<EmergencyLightAnimator>();
+		SwitchState = true;
+		mState = InitialState;
+		lightSprite.Color = lightStateColorOn;
+	}
+
+	private void EnsureLightsInit()
+	{
 		if (mLightRendererObject == null)
 		{
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
 		}
 
-		wallMount = GetComponent<LightMountStates>();
-		SwitchState = true;
-		mState = InitialState;
-	}
-
-	private void OnDestroy()
-	{
-		UnSubscribeFromSwitchEvent();
+		lightSprite = mLightRendererObject.GetComponent<LightSprite>();
+		if (lightStateColorOn == new Color(0, 0, 0, 0))
+		{
+			lightStateColorOn = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f);
+		}
+		if (lightStateColorEmergency == new Color(0, 0, 0, 0))
+		{
+			lightStateColorEmergency = new Color(0.7264151f, 0, 0, 0.8f);
+		}
 	}
 
 	public bool SubscribeToSwitchEvent(LightSwitchV2 lightSwitch)
@@ -93,6 +89,8 @@ public class LightSource : ObjectTrigger,IAPCPowered
 		return true;
 	}
 
+
+
 	public override void Trigger(bool newState)
 	{
 		SwitchState = newState;
@@ -108,8 +106,8 @@ public class LightSource : ObjectTrigger,IAPCPowered
 
 	public override void OnStartClient()
 	{
-		SyncLightState(mState, mState);
 		base.OnStartClient();
+		SyncLightState(mState, mState);
 	}
 
 	[Server]
@@ -121,9 +119,44 @@ public class LightSource : ObjectTrigger,IAPCPowered
 	private void SyncLightState(LightState oldState, LightState newState)
 	{
 		mState = newState;
+		ChangeColorState(newState);
+	}
+
+	private void ChangeColorState(LightState newState)
+	{
 		if (mLightRendererObject != null)
 		{
-			mLightRendererObject.SetActive(mState == LightState.On);
+			switch (newState)
+			{
+				case LightState.On:
+					if (emergencyLightAnimator != null)
+					{
+						emergencyLightAnimator.StopAnimation();
+					}
+					lightSprite.Color = lightStateColorOn;
+					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
+					mLightRendererObject.SetActive(true);
+					break;
+				case LightState.Emergency:
+					lightSprite.Color = lightStateColorEmergency;
+					mLightRendererObject.transform.localScale = Vector3.one * 3.0f;
+					SwitchState = false;
+					mLightRendererObject.SetActive(true);
+					if (emergencyLightAnimator != null)
+					{
+						emergencyLightAnimator.StartAnimation();
+					}
+					break;
+				case LightState.Off:
+					if (emergencyLightAnimator != null)
+					{
+						emergencyLightAnimator.StopAnimation();
+					}
+					lightSprite.Color = lightStateColorOn;
+					mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
+					mLightRendererObject.SetActive(false);
+					break;
+			}
 		}
 	}
 
@@ -133,8 +166,9 @@ public class LightSource : ObjectTrigger,IAPCPowered
 		var sprite = GetComponentInChildren<SpriteRenderer>();
 		if (sprite == null)
 			return;
-		if (relatedLightSwitch == null && !isWithoutSwitch)
+		if (relatedLightSwitch == null)
 		{
+			if (isWithoutSwitch) return;
 			Gizmos.color = new Color(1, 0.5f, 1, 1);
 			Gizmos.DrawSphere(sprite.transform.position, 0.20f);
 			return;
@@ -146,10 +180,12 @@ public class LightSource : ObjectTrigger,IAPCPowered
 
 	}
 
+	#region IAPCPowered
 	public void PowerNetworkUpdate(float Voltage)
 	{
 
 	}
+
 	public void StateUpdate(PowerStates State)
 	{
 		switch (State)
@@ -158,14 +194,24 @@ public class LightSource : ObjectTrigger,IAPCPowered
 				Trigger(true);
 				return;
 			case PowerStates.LowVoltage:
-				Trigger(false);
+				ServerChangeLightState(LightState.Emergency);
+				wallMount.SwitchChangeState(false);
 				return;
 			case PowerStates.OverVoltage:
 				Trigger(true);
 				return;
-			default:
-				Trigger(false);
+			case PowerStates.Off:
+				ServerChangeLightState(LightState.Emergency);
+				wallMount.SwitchChangeState(false);
 				return;
 		}
+	}
+	#endregion
+
+
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		UnSubscribeFromSwitchEvent();
 	}
 }

@@ -122,7 +122,7 @@ public class Mind
 				return CloneableStatus.StillAlive;
 			}
 		}
-		if (!IsOnline(currentMob))
+		if (!IsOnline())
 		{
 			return CloneableStatus.Offline;
 		}
@@ -130,9 +130,9 @@ public class Mind
 		return CloneableStatus.Cloneable;
 	}
 
-	public bool IsOnline(GameObject currentMob)
+	public bool IsOnline()
 	{
-		NetworkConnection connection = currentMob.GetComponent<NetworkIdentity>().connectionToClient;
+		NetworkConnection connection = GetCurrentMob().GetComponent<NetworkIdentity>().connectionToClient;
 		return PlayerList.Instance.ContainsConnection(connection);
 	}
 

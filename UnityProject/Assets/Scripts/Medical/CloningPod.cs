@@ -44,7 +44,7 @@ public class CloningPod : NetworkBehaviour
 		{
 			console.UpdateDisplay();
 		}
-		if (record.mind.IsOnline(record.mind.GetCurrentMob()))
+		if (record.mind.IsOnline())
 		{
 			PlayerSpawn.ServerClonePlayer(record.mind, transform.position.CutToInt());
 		}

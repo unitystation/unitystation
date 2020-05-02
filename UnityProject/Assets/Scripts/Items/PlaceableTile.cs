@@ -131,7 +131,7 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 
 		[Tooltip("What layer this can be placed on top of. Choose None to allow placing on empty space.")]
 		[SerializeField]
-		public LayerType placeableOn;
+		public LayerType placeableOn = LayerType.Base;
 
 		[Tooltip("Particular tile this is placeable on. Leave empty to allow placing on any tile.")]
 		[SerializeField]

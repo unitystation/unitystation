@@ -6,9 +6,11 @@ public class CraftingManager : MonoBehaviour
 	private static CraftingManager craftingManager;
 	[SerializeField] private CraftingDatabase meals = new CraftingDatabase();
 	[SerializeField] private CraftingDatabase cuts = new CraftingDatabase();
+	[SerializeField] private CraftingDatabase logs = new CraftingDatabase();
 
 	public static CraftingDatabase Meals => Instance.meals;
 	public static CraftingDatabase Cuts => Instance.cuts;
+	public static CraftingDatabase Logs => Instance.logs;
 
 	public static CraftingManager Instance
 	{

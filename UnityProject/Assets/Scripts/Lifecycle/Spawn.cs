@@ -50,7 +50,10 @@ public static class Spawn
 
 			foreach (var spawnablePrefab in spawnablePrefabs)
 			{
-				nameToSpawnablePrefab.Add(spawnablePrefab.name, spawnablePrefab);
+				if (!nameToSpawnablePrefab.ContainsKey(spawnablePrefab.name))
+				{
+					nameToSpawnablePrefab.Add(spawnablePrefab.name, spawnablePrefab);
+				}
 			}
 		}
 	}

@@ -15,7 +15,8 @@ public class ChatEntry : MonoBehaviour
 	[SerializeField] private List<Text> allText = new List<Text>();
 	[SerializeField] private List<Image> allImages = new List<Image>();
 	[SerializeField] private List<Button> allButtons = new List<Button>();
-	public Transform thresholdMarker;
+	public Transform thresholdMarkerBottom;
+	public Transform thresholdMarkerTop;
 	private Coroutine waitToCheck;
 
 
@@ -142,8 +143,12 @@ public class ChatEntry : MonoBehaviour
 	IEnumerator WaitToCheckPos()
 	{
 		yield return WaitFor.EndOfFrame;
-		var offset = thresholdMarker.position - transform.position;
-		if (offset.y > -427f && offset.y < -0f)
+
+		// Get the chat entry's position outside of it's child position under ChatFeed.
+		float entryYPositionOutsideChatFeedParent = transform.localPosition.y + transform.parent.localPosition.y;
+
+		// Check to see if the chat entry is inside the VIEWPORT thresholds, and if so we will enable viewing it.
+		if (entryYPositionOutsideChatFeedParent > thresholdMarkerBottom.localPosition.y && entryYPositionOutsideChatFeedParent < thresholdMarkerTop.localPosition.y) 
 		{
 			ToggleUIElements(true);
 		}

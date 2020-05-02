@@ -28,7 +28,7 @@ public partial class GameManager : MonoBehaviour
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
 	[SerializeField]
-	private float RoundEndTime = 15f;
+	private float RoundEndTime = 60f;
 
 	/// <summary>
 	/// The current time left on the countdown timer
@@ -76,6 +76,10 @@ public partial class GameManager : MonoBehaviour
 	private bool loadedDirectlyToStation;
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
 
+	private bool QueueProcessing;
+
+	private float timeElapsedServer = 0;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -95,8 +99,6 @@ public partial class GameManager : MonoBehaviour
 
 		//so respawn works when loading directly to outpost station
 		RespawnCurrentlyAllowed = RespawnAllowed;
-
-
 	}
 
 	private void OnEnable()

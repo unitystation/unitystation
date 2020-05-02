@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_AutolatheQueueDisplay : NetUIElement<string>
+public class GUI_AutolatheQueueDisplay : NetUIStringElement
 {
-	private DictionaryMaterialToIntAmount MaterialAmountCache = null;
-
 	private List<MachineProduct> currentProducts = new List<MachineProduct>();
 	public List<MachineProduct> CurrentProducts { get => currentProducts; }
 
@@ -115,8 +113,7 @@ public class GUI_AutolatheQueueDisplay : NetUIElement<string>
 		}
 	}
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
-		throw new System.NotImplementedException();
 	}
 }

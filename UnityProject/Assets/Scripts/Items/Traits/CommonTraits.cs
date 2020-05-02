@@ -25,6 +25,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait CanFillMop;
 	public ItemTrait Cultivator;
 	public ItemTrait Trowel;
+	public ItemTrait Hatchet;
 	public ItemTrait Bucket;
 	public ItemTrait MetalSheet;
 	public ItemTrait GlassSheet;
@@ -39,6 +40,8 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Squeaky;
 	public ItemTrait LightTube;
 	public ItemTrait LightBulb;
+	public ItemTrait LightReplacer;
+	public ItemTrait BlackGloves;
 	public ItemTrait Broken;
 	public ItemTrait Breakable;
 	public ItemTrait Rods;
@@ -47,4 +50,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Insulated;
 	public ItemTrait InternalBattery;
 	public ItemTrait AntiFacehugger;
+	public ItemTrait PickUpProtection;
 }

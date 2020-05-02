@@ -21,10 +21,10 @@ namespace Lighting
 		private bool isInCoolDown;
 
 		[SerializeField]
-		private Sprite[] sprites;
+		private Sprite[] sprites = null;
 
 		[SerializeField]
-		private SpriteRenderer spriteRenderer;
+		private SpriteRenderer spriteRenderer = null;
 
 		private PowerStates powerState = PowerStates.On;
 		private void Awake()
@@ -62,9 +62,10 @@ namespace Lighting
 		}
 
 		[Server]
-		public void ServerChangeState(bool newState)
+		public void ServerChangeState(bool newState, bool invokeEvent = true)
 		{
 			isOn = newState;
+			if (!invokeEvent) return;
 			switchTriggerEvent?.Invoke(isOn);
 		}
 
@@ -95,19 +96,19 @@ namespace Lighting
 			switch (State)
 			{
 				case PowerStates.On:
-					ServerChangeState(true);
+					ServerChangeState(true,invokeEvent:false);
 					powerState = State;
 					break;
 				case PowerStates.LowVoltage:
-					ServerChangeState(false);
+					ServerChangeState(false,invokeEvent:false);
 					powerState = State;
 					break;
 				case PowerStates.OverVoltage:
-					ServerChangeState(true);
+					ServerChangeState(true,invokeEvent:false);
 					powerState = State;
 					break;
 				default:
-					ServerChangeState(false);
+					ServerChangeState(false,invokeEvent:false);
 					powerState = State;
 					break;
 			}

@@ -2,10 +2,11 @@
 using System.Collections;
 using Mirror;
 using UnityEngine;
+using Random = System.Random;
 
 namespace Alien
 {
-	public class AlienEggCycle : NetworkBehaviour, IInteractable<HandApply>, IServerSpawn
+	public class AlienEggCycle : NetworkBehaviour, IInteractable<HandApply>
 	{
 		private const float OPENING_ANIM_TIME = 1.6f;
 		private const int SMALL_SPRITE = 0;
@@ -14,8 +15,6 @@ namespace Alien
 		private const int HATCHED_SPRITE = 3;
 		private const int SQUISHED_SPRITE = 4;
 
-		[Tooltip("How much  time should the egg take incubating the facehugger. This includes from the growing phase until the actual spawn")]
-		[SerializeField]
 		private float incubationTime = 300;
 		[Tooltip("In what state will this egg spawn in the world.")]
 		[SerializeField]
@@ -25,7 +24,7 @@ namespace Alien
 		private bool freezeCycle = false;
 		[Tooltip("A reference for the facehugger mob so we can spawn it.")]
 		[SerializeField]
-		private GameObject facehugger;
+		private GameObject facehugger = null;
 
 		[SyncVar(hook = nameof(SyncState))]
 		private EggState currentState;
@@ -34,47 +33,102 @@ namespace Alien
 		private ObjectAttributes objectAttributes;
 		public EggState State => currentState;
 
+		private float serverTimer = 0f;
+		private bool noLongerAlive = false;
+		private bool initialized = false;
+
 		private void Awake()
 		{
+			Init();
+		}
+
+		void Init()
+		{
+			if (initialized) return;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			registerObject = GetComponent<RegisterObject>();
 			objectAttributes = GetComponent<ObjectAttributes>();
-
-			EnsureInit();
+			initialized = true;
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
-		{
-			EnsureInit();
-		}
-
-		private void EnsureInit()
+		private void OnDisable()
 		{
 			if (isServer)
 			{
-				UpdateState(initialState);
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			}
+		}
+
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			SyncState(currentState, currentState);
+		}
+
+		public override void OnStartServer()
+		{
+			base.OnStartServer();
+			UpdateState(initialState);
+			noLongerAlive = false;
+			incubationTime = UnityEngine.Random.Range(60f, 400f);
+			serverTimer = 0f;
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		}
+
+		void UpdateMe()
+		{
+			if (freezeCycle || noLongerAlive) return;
+			ServerMonitorEggState();
+		}
+
+		void ServerMonitorEggState()
+		{
+			serverTimer += Time.deltaTime;
+			if (currentState == EggState.Growing)
+			{
+				if (serverTimer > incubationTime)
+				{
+					incubationTime = UnityEngine.Random.Range(60f, 400f);
+					UpdateState(EggState.Grown);
+					serverTimer = 0f;
+				}
 			}
 
-			SyncState(currentState, currentState);
+			if (currentState == EggState.Grown)
+			{
+				if (serverTimer > incubationTime)
+				{
+					UpdateState(EggState.Burst);
+					serverTimer = 0f;
+				}
+			}
+
+			if (currentState == EggState.Burst)
+			{
+				if (serverTimer > OPENING_ANIM_TIME)
+				{
+					Spawn.ServerPrefab(facehugger, gameObject.RegisterTile().WorldPositionServer);
+					noLongerAlive = true;
+				}
+			}
 		}
 
 		private void SyncState(EggState oldState, EggState newState)
 		{
 			currentState = newState;
+			if(!initialized) Init();
 
 			switch (currentState)
 			{
 				case EggState.Growing:
-					StopAllCoroutines();
-					StartCoroutine(nameof(StartIncubation));
+					spriteHandler.SetSprite(spriteHandler.Sprites[SMALL_SPRITE]);
 					break;
 				case EggState.Grown:
-					StopAllCoroutines();
-					StartCoroutine(nameof(FinishIncubation));
+					spriteHandler.SetSprite(spriteHandler.Sprites[BIG_SPRITE]);
 					break;
 				case EggState.Burst:
 					StopAllCoroutines();
-					StartCoroutine(nameof(OpenEgg));
+					StartCoroutine(OpenEgg());
 					break;
 				case EggState.Squished:
 					spriteHandler.SetSprite(spriteHandler.Sprites[SQUISHED_SPRITE]);
@@ -82,43 +136,15 @@ namespace Alien
 			}
 		}
 
-		private IEnumerator StartIncubation()
-		{
-			spriteHandler.SetSprite(spriteHandler.Sprites[SMALL_SPRITE]);
-
-			if (freezeCycle)
-			{
-				yield break;
-			}
-
-			yield return WaitFor.Seconds(incubationTime / 2);
-			UpdateState(currentState == EggState.Growing ? EggState.Grown : currentState);
-		}
-
-		private IEnumerator FinishIncubation()
-		{
-			spriteHandler.SetSprite(spriteHandler.Sprites[BIG_SPRITE]);
-
-			if (freezeCycle)
-			{
-				yield break;
-			}
-			
-			yield return WaitFor.Seconds(incubationTime / 2);
-			UpdateState(currentState == EggState.Grown ? EggState.Burst : currentState);
-		}
-
 		private IEnumerator OpenEgg()
 		{
 			spriteHandler.SetSprite(spriteHandler.Sprites[OPENING_SPRITE]);
 			yield return WaitFor.Seconds(OPENING_ANIM_TIME);
 			spriteHandler.SetSprite(spriteHandler.Sprites[HATCHED_SPRITE]);
-			Spawn.ServerPrefab(facehugger, gameObject.RegisterTile().WorldPositionServer);
 		}
 
 		private void Squish(HandApply interaction)
 		{
-			StopAllCoroutines();
 			SoundManager.PlayNetworkedAtPos(
 				"squish",
 				gameObject.RegisterTile().WorldPositionServer,
@@ -132,6 +158,7 @@ namespace Alien
 
 			UpdateState(EggState.Squished);
 			registerObject.Passable = true;
+			noLongerAlive = true;
 		}
 
 		[Server]

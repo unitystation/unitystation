@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 114536480436588622}
   - component: {fileID: 6622438585055889099}
   - component: {fileID: 6583254002094982938}
+  - component: {fileID: 9019940786057255883}
   m_Layer: 11
   m_Name: FuelTank
   m_TagString: Untagged
@@ -214,7 +215,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
+  initialIntegrity: 300
 --- !u!114 &114536480436588622
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,6 +228,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -258,15 +260,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCapacity: 100
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
+  maxCapacity: 1000
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
-  reagentMix:
-    temperature: 0
+  initialReagentMix:
+    temperature: 273.15
     reagents:
       m_keys:
       - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
       m_values:
-      - 100
+      - 1000
   itemAttributes: {fileID: 0}
   traitWhitelist: []
   reagentWhitelist:
@@ -274,6 +279,26 @@ MonoBehaviour:
   transferMode: 2
   possibleTransferAmounts: []
   transferAmount: 20
+--- !u!114 &9019940786057255883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677789019931390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d25f701f64474544993c1372b83c1b0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: fuel tank
+  initialDescription: A tank full of industrial welding fuel. Do not consume.
+  willHighlight: 1
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1754091207019976
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +344,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

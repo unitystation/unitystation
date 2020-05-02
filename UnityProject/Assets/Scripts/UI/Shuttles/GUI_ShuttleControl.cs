@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using NPC;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// Server only stuff
 public class GUI_ShuttleControl : NetTab
@@ -22,7 +23,7 @@ public class GUI_ShuttleControl : NetTab
 		}
 	}
 	private MatrixMove matrixMove;
-	[HideInInspector]
+
 	public MatrixMove MatrixMove
 	{
 		get
@@ -36,13 +37,28 @@ public class GUI_ShuttleControl : NetTab
 		}
 	}
 
+	[SerializeField] private Image rcsLight = null;
+	[SerializeField] private Sprite rcsLightOn = null;
+	[SerializeField] private Sprite rcsLightOff = null;
+	[SerializeField] private ToggleButton rcsToggleButton = null;
+	private ConnectedPlayer playerControllingRcs;
 
 	public GUI_CoordReadout CoordReadout;
 
 	private GameObject Waypoint;
-	string rulersColor;
-	string rayColor;
-	string crosshairColor;
+	Color rulersColor;
+	Color rayColor;
+	Color crosshairColor;
+
+	public bool RcsMode { get; private set; }
+
+
+	private NetUIElement<string> SafetyText => (NetUIElement<string>)this[nameof(SafetyText)];
+	private NetUIElement<string> StartButton => (NetUIElement<string>)this[nameof(StartButton)];
+	private NetColorChanger Crosshair => (NetColorChanger)this[nameof(Crosshair)];
+	private NetColorChanger RadarScanRay => (NetColorChanger)this[nameof(RadarScanRay)];
+	private NetColorChanger OffOverlay => (NetColorChanger)this[nameof(OffOverlay)];
+	private NetColorChanger Rulers => (NetColorChanger)this[nameof(Rulers)];
 
 	public override void OnEnable()
 	{
@@ -57,10 +73,10 @@ public class GUI_ShuttleControl : NetTab
 			yield return WaitFor.EndOfFrame;
 		}
 		Trigger = Provider.GetComponent<ShuttleConsole>();
-		Trigger.CacheRcs();
 		Trigger.OnStateChange.AddListener(OnStateChange);
 
 		MatrixMove.RegisterCoordReadoutScript(CoordReadout);
+		MatrixMove.RegisterShuttleGuiScript(this);
 
 		//Not doing this for clients
 		if (IsServer)
@@ -68,11 +84,11 @@ public class GUI_ShuttleControl : NetTab
 			EntryList.Origin = MatrixMove;
 			//Init listeners
 			string temp = "1";
-			this["StartButton"].SetValueServer(temp);
-			MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(() => this["StartButton"].SetValueServer("1"));
+			StartButton.SetValueServer(temp);
+			MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(() => StartButton.SetValueServer("1"));
 			MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener(() =>
 		   {
-			   this["StartButton"].SetValueServer("0");
+			   StartButton.SetValueServer("0");
 			   HideWaypoint();
 		   });
 
@@ -82,11 +98,15 @@ public class GUI_ShuttleControl : NetTab
 			}
 			HideWaypoint(false);
 
-			rulersColor = ((NetUIElement<string>)this["Rulers"]).Value;
-			rayColor = ((NetUIElement<string>)this["RadarScanRay"]).Value;
-			crosshairColor = ((NetUIElement<string>)this["Crosshair"]).Value;
+			rulersColor = Rulers.Value;
+			rayColor =RadarScanRay.Value;
+			crosshairColor = Crosshair.Value;
 
 			OnStateChange(State);
+		}
+		else
+		{
+			ClientToggleRcs(matrixMove.rcsModeActive);
 		}
 	}
 
@@ -137,11 +157,45 @@ public class GUI_ShuttleControl : NetTab
 		}
 	}
 
+	public void ServerToggleRcs(bool on, ConnectedPlayer subject)
+	{
+		RcsMode = on;
+		MatrixMove.ToggleRcs(on);
+		SetRcsLight(on);
+
+		if (on)
+		{
+			playerControllingRcs = subject;
+		}
+		else
+		{
+			playerControllingRcs = null;
+		}
+	}
+
+	public void ClientToggleRcs(bool on)
+	{
+		RcsMode = on;
+		SetRcsLight(on);
+		rcsToggleButton.isOn = on;
+	}
+
+	private void SetRcsLight(bool on)
+	{
+		if (on)
+		{
+			rcsLight.sprite = rcsLightOn;
+			return;
+		}
+		rcsLight.sprite = rcsLightOff;
+	}
+
 	public void SetSafetyProtocols(bool on)
 	{
 		MatrixMove.SafetyProtocolsOn = on;
-		this["SafetyText"].SetValueServer(@on ? "ON" : "OFF");
+		SafetyText.SetValueServer(@on ? "ON" : "OFF");
 	}
+
 
 	public void SetWaypoint(string position)
 	{
@@ -231,7 +285,17 @@ public class GUI_ShuttleControl : NetTab
 		else {
 			fuelGauge.SetValueServer(Math.Round((MatrixMove.ShuttleFuelSystem.FuelLevel * 100)).ToString());
 		}
-		yield return WaitFor.Seconds(2f);
+		yield return WaitFor.Seconds(1f);
+
+		//validate Player using Rcs
+		if (playerControllingRcs != null)
+		{
+			bool validate = playerControllingRcs.Script && Validations.CanApply(playerControllingRcs.Script, Provider, NetworkSide.Server);
+			if (!validate)
+			{
+				ServerToggleRcs(false, null);
+			}
+		}
 
 		if (RefreshRadar)
 		{
@@ -268,47 +332,43 @@ public class GUI_ShuttleControl : NetTab
 		{
 			return;
 		}
+
 		switch (newState)
 		{
 			case TabState.Normal:
 				PowerOff();
 				StartNormalOperation();
 				//Important: set values from server using SetValue and not Value
-				this["OffOverlay"].SetValueServer(DebugTools.ColorToHex(Color.clear));
-				this["Rulers"].SetValueServer(rulersColor);
-				this["RadarScanRay"].SetValueServer(rayColor);
-				this["Crosshair"].SetValueServer(crosshairColor);
-				SetSafetyProtocols(@on: true);
+				OffOverlay.SetValueServer(Color.clear);
+				Rulers.SetValueServer(rulersColor);
+				RadarScanRay.SetValueServer(rayColor);
+				Crosshair.SetValueServer(crosshairColor);
+				SetSafetyProtocols(true);
 
 				break;
 			case TabState.Emagged:
 				PowerOff();
 				StartNormalOperation();
 				//Remove overlay
-				this["OffOverlay"].SetValueServer(DebugTools.ColorToHex(Color.clear));
+				OffOverlay.SetValueServer(Color.clear);
 				//Repaint radar to evil colours
-				this["Rulers"].SetValueServer(ChangeColorHue(rulersColor, -80));
-				this["RadarScanRay"].SetValueServer(ChangeColorHue(rayColor, -80));
-				this["Crosshair"].SetValueServer(ChangeColorHue( crosshairColor, -80 ));
+				Rulers.SetValueServer(HSVUtil.ChangeColorHue(rulersColor, -80));
+				RadarScanRay.SetValueServer(HSVUtil.ChangeColorHue(rayColor, -80));
+				Crosshair.SetValueServer(HSVUtil.ChangeColorHue(crosshairColor, -80));
 				AddEmagItems();
-				SetSafetyProtocols(@on: false);
+				SetSafetyProtocols(false);
 
 				break;
 			case TabState.Off:
 				PowerOff();
 				//Black screen overlay
-				this["OffOverlay"].SetValueServer(DebugTools.ColorToHex(Color.black));
-				SetSafetyProtocols(@on: true);
+				OffOverlay.SetValueServer(Color.black);
+				SetSafetyProtocols(true);
 
 				break;
 			default:
 				return;
 		}
-	}
-
-	private static string ChangeColorHue(string srcHexColour, int amount)
-	{
-		return DebugTools.ColorToHex(HSVUtil.ChangeColorHue(DebugTools.HexToColor(srcHexColour), amount));
 	}
 
 	/// <summary>

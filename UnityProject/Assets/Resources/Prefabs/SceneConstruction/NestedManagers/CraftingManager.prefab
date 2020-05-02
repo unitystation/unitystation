@@ -73,6 +73,14 @@ MonoBehaviour:
         ingredientName: Meat
       Output: {fileID: 6532193109441330816, guid: f06058cd7ca4b944aa68f64125386e28,
         type: 3}
+  logs:
+    recipeList:
+    - Name: Wooden Plank
+      Ingredients:
+      - amount: 1
+        ingredientName: Tower-cap log
+      Output: {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175,
+        type: 3}
   techweb: {fileID: 8028218387555133124}
   designs: {fileID: 8028062986537714290}
 --- !u!114 &8028218387555133124

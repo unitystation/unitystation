@@ -48,7 +48,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	[Tooltip("The kind of object this is.")]
 	[FormerlySerializedAs("ObjectType")] [SerializeField]
-	private ObjectType objectType;
+	private ObjectType objectType = ObjectType.Item;
 	/// <summary>
 	/// The kind of object this is.
 	/// </summary>

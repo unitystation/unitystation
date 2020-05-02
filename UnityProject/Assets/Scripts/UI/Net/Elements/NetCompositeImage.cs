@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(ObjectImageSnapshot))]
-public class NetCompositeImage : NetUIElement<string>
+public class NetCompositeImage : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	public FilterMode FilterMode = FilterMode.Point;
@@ -100,5 +100,5 @@ public class NetCompositeImage : NetUIElement<string>
 		ResolvedObject = NetworkIdentity.spawned[id].gameObject;
 	}
 
-	public override void ExecuteServer() {}
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 }
