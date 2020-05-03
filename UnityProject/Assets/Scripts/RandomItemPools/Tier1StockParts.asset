@@ -10,21 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
-  m_Name: UncommonTools
+  m_Name: Tier1StockParts
   m_EditorClassIdentifier: 
   pool:
-  - prefab: {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43,
+  - prefab: {fileID: 2527188313238870147, guid: bb147b9bf5a66eb40b94bd8853aaf9ea,
       type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 970193913688544828, guid: 32fcd56a575fd884ebae6deb79a43656, type: 3}
-    maxAmount: 1
-    probability: 100
-  - prefab: {fileID: 8127442588295923452, guid: 706cc1f035332384c96f001de4760563,
+  - prefab: {fileID: 2527188313238870147, guid: 45433567aa3e67f44a4bf6ad15bc6c04,
       type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 8568672687853555390, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+  - prefab: {fileID: 2527188313238870147, guid: 73792b6d5257dfe4e85247bd61979cef,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2527188313238870147, guid: 12e1033504f11d342867225fade01e88,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2527188313238870147, guid: 1ca8c26ca2f61444bb8d374104ed2a02,
       type: 3}
     maxAmount: 1
     probability: 100
