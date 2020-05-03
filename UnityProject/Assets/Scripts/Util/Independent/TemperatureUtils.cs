@@ -19,16 +19,22 @@ public static class TemperatureUtils
 	public static float Transform(float t, TemeratureUnits from, TemeratureUnits to)
 	{
 		if (from == to)
+		{
 			return t;
+		}
 
 		float ret = t;
 		// transform to kelvins
 		if (from != TemeratureUnits.K)
+		{
 			ret = ToKelvin(t, from);
+		}
 
 		// now transform to desired
 		if (to != TemeratureUnits.K)
+		{
 			ret = FromKelvin(t, to);
+		}
 
 		return ret;
 	}

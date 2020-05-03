@@ -33,16 +33,7 @@ namespace Chemistry
 			reagents = new DictionaryReagentFloat();
 		}
 
-		public float this[Reagent reagent]
-		{
-			get
-			{
-				if (!reagents.ContainsKey(reagent))
-					return 0f;
-
-				return reagents[reagent];
-			}
-		}
+		public float this[Reagent reagent] => reagents.TryGetValue(reagent, out var amount) ? amount : 0;
 
 		/// <summary>
 		/// Returns current temperature mix in Kelvin
@@ -60,18 +51,15 @@ namespace Chemistry
 		{
 			get
 			{
-				var reag = reagents.OrderByDescending((p) => p.Value)
+				var reagent = reagents.OrderByDescending(p => p.Value)
 					.FirstOrDefault();
 
-				if (reag.Value > 0f)
-					return reag.Key;
-				else
-					return null;
+				return reagent.Value > 0 ? reagent.Key : null;
 			}
 		}
 
 		/// <summary>
-		/// Average of all reagent colors in a mix 
+		/// Average of all reagent colors in a mix
 		/// </summary>
 		public Color MixColor
 		{
@@ -80,10 +68,10 @@ namespace Chemistry
 				var avgColor = new Color();
 				var totalAmount = Total;
 
-				foreach (var reag in reagents)
+				foreach (var reagent in reagents)
 				{
-					var percent = reag.Value / totalAmount;
-					var colorStep = percent * reag.Key.color;
+					var percent = reagent.Value / totalAmount;
+					var colorStep = percent * reagent.Key.color;
 
 					avgColor += colorStep;
 				}
@@ -162,34 +150,31 @@ namespace Chemistry
 
 		public float Subtract(Reagent reagent, float subAmount)
 		{
-			if (subAmount < 0f)
+			if (subAmount < 0)
 			{
-				Debug.LogError($"Trying to subtract negative {subAmount} amount of {reagent}. Use positive amount instead.");
-				return 0f;
+				Debug.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", subAmount, reagent);
+				return 0;
 			}
 
-			if (!reagents.ContainsKey(reagent))
+			if (reagents.TryGetValue(reagent, out var amount))
 			{
-				// have nothing to remove, just return zero
-				return 0f;
-			}
+				var newAmount = amount - subAmount;
 
-			var curAmount = reagents[reagent];
-			var newAmount = curAmount - subAmount;
+				if (newAmount <= 0)
+				{
+					// nothing left, remove reagent - it became zero
+					// remove amount that was before
+					reagents.Remove(reagent);
+					return amount;
+				}
 
-			if (newAmount <= 0f)
-			{
-				// nothing left, remove reagent - it became zero
-				// remove amount that was before
-				reagents.Remove(reagent);
-				return curAmount;
-			}
-			else
-			{
 				// change amount to subtraction result
 				reagents[reagent] = newAmount;
-				return newAmount;
+				return amount;
 			}
+
+			// have nothing to remove, just return zero
+			return 0;
 		}
 
 		/// <summary>
@@ -269,31 +254,6 @@ namespace Chemistry
 		public float Total
 		{
 			get { return reagents.Sum(kvp => kvp.Value); }
-		}
-
-		public bool Contains(Reagent reagent)
-		{
-			return reagents.ContainsKey(reagent);
-		}
-
-		public bool Contains(Reagent reagent, float amount)
-		{
-			if (reagents.TryGetValue(reagent, out var value))
-			{
-				return value >= amount;
-			}
-
-			return false;
-		}
-
-		public bool ContainsMoreThan(Reagent reagent, float amount)
-		{
-			if (reagents.TryGetValue(reagent, out var value))
-			{
-				return value > amount;
-			}
-
-			return false;
 		}
 
 		public ReagentMix Clone()
