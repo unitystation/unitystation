@@ -14,7 +14,7 @@ public static class InteractionUtils
 	/// Use this on client side to request an interaction. This can be used to trigger
 	/// interactions manually outside of the normal interaction logic.
 	/// Request the server to perform the indicated interaction using the specified
-	/// component (or whichever component triggers if interactableComponent is null). The server will still validate the interaction and only perform
+	/// component (or let the server determine the component if interactableComponent is null). The server will still validate the interaction and only perform
 	/// it if it validates.
 	///
 	/// Note that if interactableComponent implements IClientSideInteractable for this interaction type,

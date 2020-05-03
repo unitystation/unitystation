@@ -215,11 +215,13 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 					}
 					else
 					{
-						//don't interact at all, stop all checking - we hit a cooldown
-						//rollback in case they tried to predict it
+						//hit a cooldown, rollback in case client tried to predict it
 						tileInteraction.ServerRollbackClient(tileApply);
-						break;
 					}
+
+					// interaction should've triggered and did or we hit a cooldown, so we're
+					// done processing this request.
+					break;
 				}
 				else
 				{
@@ -239,19 +241,16 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		{
 			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation), TileApply.ApplyType.MouseDrop);
 			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation));
-			var i = 0;
 			foreach (var tileInteraction in basicTile.TileInteractions)
 			{
 				if (tileInteraction == null) continue;
 				if (tileInteraction.WillInteract(tileApply, NetworkSide.Client) &&
 					Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction))
 				{
-					//request the tile interaction with this index
-					RequestInteractMessage.SendTileMouseDrop(tileMouseDrop, this, i);
+					//request the tile interaction because we think one will happen
+					RequestInteractMessage.SendTileMouseDrop(tileMouseDrop, this);
 					return true;
 				}
-
-				i++;
 			}
 		}
 

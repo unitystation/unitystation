@@ -14,16 +14,17 @@ public class RequestInteractMessage : ClientMessage
 
 	/**
 	 * this is sent as the componentID when the client doesn't know
-	 * exactly which interaction should be triggered. In this case,
-	 * the server will check each interaction of the given interaction type
-	 * to see which should occur.
+	 * exactly which interaction should be triggered, and will
+	 * defer to the server. In this case,
+	 * the server will check each interaction of the given interaction type on the involved
+	 * objects to see which should occur.
 	 */
 	private static readonly ushort UNKNOWN_COMPONENT_TYPE_ID = ushort.MaxValue;
 
 	//these are always populated
 	public Type ComponentType;
 	public Type InteractionType;
-	//object that will process the interaction
+	//object that will process the interaction. NetId.Invalid if the server should determine this.
 	public uint ProcessorObject;
 	//player's intent
 	public Intent Intent;
@@ -230,14 +231,14 @@ public class RequestInteractMessage : ClientMessage
 	private void ProcessInteraction<T>(T interaction, GameObject processorObj)
 		where T : Interaction
 	{
-		if (processorObj == null)
-		{
-			Logger.LogWarning("processorObj is null, action will not be performed.", Category.Interaction);
-			return;
-		}
 		//find the indicated component if one was indicated
 		if (ComponentType != null)
 		{
+			if (processorObj == null)
+			{
+				Logger.LogWarning("processorObj is null, action will not be performed.", Category.Interaction);
+				return;
+			}
 			var component = processorObj.GetComponent(ComponentType);
 			if (component == null)
 			{
@@ -273,46 +274,78 @@ public class RequestInteractMessage : ClientMessage
 		}
 		else
 		{
-			// client wasn't sure which component should be triggered, check them in the proper order
+			// client wasn't sure which component of which object should be triggered, check them in the proper order
 			// and trigger the first one that should happen, rolling back any that shouldn't happen.
-			var interactables = processorObj.GetComponents<IInteractable<T>>()
-				.Where(c => c != null && (c as MonoBehaviour).enabled);
-			Logger.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
-				typeof(T).Name, processorObj.name);
-			foreach (var interactable in interactables.Reverse())
+
+			//always check used object first
+			if (interaction.UsedObject)
 			{
-				if (interactable.ServerCheckInteract(interaction))
+				var interactables = interaction.UsedObject.GetComponents<IInteractable<T>>()
+					.Where(c => c != null && (c as MonoBehaviour).enabled);
+				Logger.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
+					typeof(T).Name, interaction.UsedObject.name);
+				if (ServerCheckAndTrigger(interaction, interactables))
 				{
-					//perform if not on cooldown
-					if (Cooldowns.TryStartServer(interaction, CommonCooldowns.Instance.Interaction))
-					{
-						interactable.ServerPerformInteraction(interaction);
-					}
-					else
-					{
-						//stop all checking for this interaction, we hit a cooldown
-						//rollback if this component implements it, in case they tried to predict it
-						if (interactable is IPredictedInteractable<T> predictedInteractable)
-						{
-							predictedInteractable.ServerRollbackClient(interaction);
-						}
-						break;
-					}
+					return;
 				}
-				else
+			}
+			//check the target object if there is one
+			if (interaction is TargetedInteraction targetedInteraction)
+			{
+				var interactables = targetedInteraction.TargetObject.GetComponents<IInteractable<T>>()
+					.Where(c => c != null && (c as MonoBehaviour).enabled);
+				Logger.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
+					typeof(T).Name, targetedInteraction.TargetObject.name);
+				if (ServerCheckAndTrigger(interaction, interactables))
 				{
-					//rollback if this component implements it, in case they tried to predict it
-					if (interactable is IPredictedInteractable<T> predictedInteractable)
-					{
-						predictedInteractable.ServerRollbackClient(interaction);
-					}
+					return;
 				}
 			}
 		}
 	}
 
+
+	private static bool ServerCheckAndTrigger<T>(T interaction, IEnumerable<IInteractable<T>> interactables) where T : Interaction
+	{
+		foreach (var interactable in interactables.Reverse())
+		{
+			if (interactable.ServerCheckInteract(interaction))
+			{
+				//perform if not on cooldown
+				if (Cooldowns.TryStartServer(interaction, CommonCooldowns.Instance.Interaction))
+				{
+					interactable.ServerPerformInteraction(interaction);
+				}
+				else
+				{
+					//hit a cooldown, rollback if this component implements it, in case client tried to predict it
+					if (interactable is IPredictedInteractable<T> predictedInteractable)
+					{
+						predictedInteractable.ServerRollbackClient(interaction);
+					}
+				}
+
+				// An interaction should've triggered and either did or hit a cooldown, so we're done
+				// checking this request.
+				return true;
+			}
+			else
+			{
+				//rollback if this component implements it, in case client tried to predict it
+				if (interactable is IPredictedInteractable<T> predictedInteractable)
+				{
+					predictedInteractable.ServerRollbackClient(interaction);
+				}
+			}
+		}
+
+		// no interactions triggered
+		return false;
+	}
+
+
 	//only intended to be used by core if2 classes, please use InteractionUtils.RequestInteract instead.
-	//pass null for interactableComponent if you want the server to determine which component should be triggered.
+	//pass null for interactableComponent if you want the server to determine which component of the involved objects should be triggered.
 	//(which can be useful when client doesn't have enough info to know which one to trigger)
 	public static void Send<T>(T interaction, IBaseInteractable<T> interactableComponent)
 		where T : Interaction
@@ -344,7 +377,7 @@ public class RequestInteractMessage : ClientMessage
 			return;
 		}
 
-		if (!(interactableComponent is Component))
+		if (interactableComponent != null && !(interactableComponent is Component))
 		{
 			Logger.LogError("interactableComponent must be a component, but isn't. The message will not be sent.",
 				Category.NetMessage);
@@ -356,7 +389,7 @@ public class RequestInteractMessage : ClientMessage
 		{
 			ComponentType = interactableComponent == null ? null : interactableComponent.GetType(),
 			InteractionType = typeof(T),
-			ProcessorObject = comp.GetComponent<NetworkIdentity>().netId,
+			ProcessorObject = comp == null ? NetId.Invalid : comp.GetComponent<NetworkIdentity>().netId,
 			Intent = interaction.Intent
 		};
 		if (typeof(T) == typeof(PositionalHandApply))
@@ -426,7 +459,7 @@ public class RequestInteractMessage : ClientMessage
 		msg.Send();
 	}
 
-	public static void SendTileMouseDrop(TileMouseDrop mouseDrop, InteractableTiles interactableTiles, int tileInteractionIndex)
+	public static void SendTileMouseDrop(TileMouseDrop mouseDrop, InteractableTiles interactableTiles)
 	{
 		if (!mouseDrop.Performer.Equals(PlayerManager.LocalPlayer))
 		{
@@ -461,11 +494,20 @@ public class RequestInteractMessage : ClientMessage
 		else
 		{
 			//client requested a specific component.
-			ComponentType = componentIDToComponentType[reader.ReadUInt16()];
+			ComponentType = componentIDToComponentType[componentID];
 		}
 
 		InteractionType = interactionIDToInteractionType[reader.ReadByte()];
-		ProcessorObject = reader.ReadUInt32();
+		if (componentID != UNKNOWN_COMPONENT_TYPE_ID)
+		{
+			// client specified exact component
+			ProcessorObject = reader.ReadUInt32();
+		}
+		else
+		{
+			// client requested server to check the interaction
+			ProcessorObject = NetId.Invalid;
+		}
 		Intent = (Intent) reader.ReadByte();
 
 		if (InteractionType == typeof(PositionalHandApply))
@@ -522,7 +564,11 @@ public class RequestInteractMessage : ClientMessage
 			writer.WriteUInt16(componentTypeToComponentID[ComponentType]);
 		}
 		writer.WriteByte(interactionTypeToInteractionID[InteractionType]);
-		writer.WriteUInt32(ProcessorObject);
+		//server determines processor object if client specified unknown component
+		if (ComponentType != null)
+		{
+			writer.WriteUInt32(ProcessorObject);
+		}
 		writer.WriteByte((byte) Intent);
 
 		if (InteractionType == typeof(PositionalHandApply))
