@@ -131,7 +131,6 @@ public class ElectricalSynchronisation : MonoBehaviour
 	public int currentTick;
 	public float tickRateComplete = 1f; //currently set to update every second
 	public float tickRate;
-	private float tickCount = 0f;
 	private const int Steps = 5;
 
 	public List<PowerTypeCategory> OrderList = new List<PowerTypeCategory>()

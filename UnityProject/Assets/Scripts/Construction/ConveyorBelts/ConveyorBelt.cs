@@ -6,7 +6,7 @@ using UnityEngine;
 [SelectionBase]
 public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
-	[SerializeField] private SpriteHandler spriteHandler;
+	[SerializeField] private SpriteHandler spriteHandler = null;
 
 	private RegisterTile registerTile;
 	private Vector3 position;

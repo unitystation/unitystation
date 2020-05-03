@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -106,8 +107,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011119182976}
   - component: {fileID: 61000010130597256}
+  - component: {fileID: 1858633288062230997}
   - component: {fileID: 114234539136935032}
-  - component: {fileID: 114874730882314834}
   - component: {fileID: 114450786801091896}
   - component: {fileID: 114789676302844992}
   - component: {fileID: 114034692067134764}
@@ -115,6 +116,7 @@ GameObject:
   - component: {fileID: 114265084883189168}
   - component: {fileID: 114949534438748220}
   - component: {fileID: 114146168231498696}
+  - component: {fileID: 2360582274513324799}
   m_Layer: 19
   m_Name: FireAlarm
   m_TagString: Untagged
@@ -130,7 +132,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012425957516}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1868, y: 1139, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4000011015354084}
@@ -165,6 +167,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1858633288062230997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012425957516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7aa8c34adfb884646b01b21e62173b62, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  FireLockList: []
+  activated: 0
+  coolDownTime: 1
+  isInCooldown: 0
 --- !u!114 &114234539136935032
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -177,22 +197,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
---- !u!114 &114874730882314834
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012425957516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Message: The automatic firealarm is locked
 --- !u!114 &114450786801091896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114774275199163462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -252,6 +259,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &114265084883189168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -294,7 +303,7 @@ MonoBehaviour:
     Bio: 0
   Resistances:
     LavaProof: 0
-    FireProof: 0
+    FireProof: 1
     Flammable: 0
     UnAcidable: 0
     AcidProof: 0
@@ -314,10 +323,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3079428713
+--- !u!114 &2360582274513324799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012425957516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 1
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  State: 0
 --- !u!1 &1000013647327112
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +396,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -424,7 +458,7 @@ Transform:
   m_GameObject: {fileID: 1000014173103480}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.6800191}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000011119182976}
   m_RootOrder: 0
@@ -443,6 +477,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

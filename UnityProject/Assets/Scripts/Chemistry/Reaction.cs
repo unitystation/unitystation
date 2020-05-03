@@ -24,7 +24,7 @@ namespace Chemistry
 				return false;
 			}
 
-			if (!ingredients.All(reagent => reagentMix.Contains(reagent.Key)))
+			if (!ingredients.All(reagent => reagentMix[reagent.Key] > 0))
 			{
 				return false;
 			}

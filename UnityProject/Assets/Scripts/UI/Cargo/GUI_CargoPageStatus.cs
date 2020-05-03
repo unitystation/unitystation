@@ -81,10 +81,10 @@ public class GUI_CargoPageStatus : GUI_CargoPage
 	//Current shuttle status is displayed like a switch - only one is active
 	private void SetShuttleStatus(NetColorChanger objToSwitch)
 	{
-		statusCargoImage.SetValueServer("000000");
-		statusTransitImage.SetValueServer("000000");
-		statusCentcomImage.SetValueServer("000000");
+		statusCargoImage.SetValueServer(Color.black);
+		statusTransitImage.SetValueServer(Color.black);
+		statusCentcomImage.SetValueServer(Color.black);
 
-		objToSwitch.SetValueServer("ffffff");
+		objToSwitch.SetValueServer(Color.white);
 	}
 }

@@ -32,4 +32,5 @@
 	Clown,
 	Mime,
 	LateJoin,
+	GhostTeleportSites
 }

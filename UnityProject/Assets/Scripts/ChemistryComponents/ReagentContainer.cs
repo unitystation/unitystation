@@ -233,22 +233,6 @@ namespace Chemistry.Components
 		}
 
 		/// <summary>
-		/// Server side only
-		/// </summary>
-		public bool Contains(Reagent reagent, float amount)
-		{
-			return CurrentReagentMix.Contains(reagent, amount);
-		}
-
-		/// <summary>
-		/// Server side only
-		/// </summary>
-		public bool ContainsMoreThan(Reagent reagent, float amount)
-		{
-			return CurrentReagentMix.ContainsMoreThan(reagent, amount);
-		}
-
-		/// <summary>
 		/// Server side only. Extracts reagents to be used outside ReagentContainer
 		/// </summary>
 		public ReagentMix TakeReagents(float amount)

@@ -48,7 +48,7 @@ public class GUI_Cargo : NetTab
 	private void UpdateCreditsText()
 	{
 		СreditsText.SetValueServer("Budget: " + CargoManager.Instance.Credits.ToString());
-		СreditsText.ExecuteServer();
+		СreditsText.ExecuteServer(null);
 	}
 
 	public void CallShuttle()

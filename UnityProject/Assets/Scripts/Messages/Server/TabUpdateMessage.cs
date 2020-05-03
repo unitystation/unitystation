@@ -88,7 +88,7 @@ public class TabUpdateMessage : ServerMessage
 		}
 
 		msg.SendTo(recipient);
-		Logger.LogTrace(msg.ToString(), Category.NetUI);
+		Logger.LogTraceFormat("{0}", Category.NetUI, msg);
 		return msg;
 	}
 }

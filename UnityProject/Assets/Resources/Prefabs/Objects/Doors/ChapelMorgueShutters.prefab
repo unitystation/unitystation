@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 7037579127031050856}
   - component: {fileID: 2415801389328985729}
   - component: {fileID: 6040070739731804246}
+  - component: {fileID: -6421333424056825435}
   m_Layer: 17
   m_Name: ChapelMorgueShutters
   m_TagString: Untagged
@@ -192,6 +193,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -231,7 +233,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  closeSFX: {fileID: 0}
+  openSFX: 
+  closeSFX: 
   doorAnimationSize: 6
   doorAnimator: {fileID: 7037579127031050856}
   DoorDeniedSpriteOffset: 12
@@ -242,6 +245,7 @@ MonoBehaviour:
   weldSprite: {fileID: 0}
   doorType: 16
   damageOnClose: 1
+  damageClosed: 90
   ignorePassableChecks: 0
   IsAutomatic: 1
   isPerformingAction: 0
@@ -249,7 +253,9 @@ MonoBehaviour:
   useSimpleLightAnimation: 0
   useSimpleDeniedAnimation: 0
   maxTimeOpen: -1
-  openSFX: {fileID: 0}
+  enablePressureWarning: 0
+  DoorPressureSpriteOffset: 25
+  pressureLevel: 0
   openingDirection: 1
   spriteRenderer: {fileID: 0}
 --- !u!114 &6040070739731804246
@@ -272,6 +278,19 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &-6421333424056825435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010316053548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 1
 --- !u!1 &1000014037698914
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,6 +336,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

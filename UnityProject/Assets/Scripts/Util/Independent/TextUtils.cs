@@ -36,7 +36,9 @@ public static class TextUtils
     {
         var a = color.a;
         if (a < 0.5f)
-            return "transparent";
+        {
+	        return "transparent";
+        }
 
         float H, S, V;
         Color.RGBToHSV(color, out H, out S, out V);
@@ -45,27 +47,32 @@ public static class TextUtils
 
         // Check if color is really dark
         if (V < 0.1f)
-            return "black";
+        {
+	        return "black";
+        }
 
         // Check if we are inside "gray tube"
         if (S < 0.1f)
         {
-            if (V > 0.9f)
-                return "white";
-            else
-                return "gray";
+	        return V > 0.9f ? "white" : "gray";
         }
 
         var nearest = CommonColors.OrderBy(x => Mathf.Abs(x.Item1 - H)).First();
         var nearestColor = nearest.Item2;
 
         if (S < 0.4f)
-            nearestColor = "bright " + nearestColor;
+        {
+	        nearestColor = "bright " + nearestColor;
+        }
         else if (V < 0.4f)
-            nearestColor = "dark " + nearestColor;
+        {
+	        nearestColor = "dark " + nearestColor;
+        }
 
         if (ColorsExceptions.ContainsKey(nearestColor))
-            nearestColor = ColorsExceptions[nearestColor];
+        {
+	        nearestColor = ColorsExceptions[nearestColor];
+        }
 
         return nearestColor;
     }

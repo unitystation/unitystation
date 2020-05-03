@@ -11,15 +11,15 @@ public class WearableSpeechMod : MonoBehaviour, IServerInventoryMove
 {
 	[SerializeField]
 	[Tooltip("What modifier/s this item adds")]
-	private ChatModifier modifier;
-	
+	private ChatModifier modifier = ChatModifier.UwU;
+
 	[Tooltip("Where in inventory should this item activate its modifier?")]
 	[SerializeField]
-	private NamedSlot slot;
+	private NamedSlot slot = NamedSlot.head;
 
 
 	public void OnInventoryMoveServer(InventoryMove info)
-	{   
+	{
 		//Wearing
 		if (info.ToSlot != null & info.ToSlot?.NamedSlot != null)
 		{

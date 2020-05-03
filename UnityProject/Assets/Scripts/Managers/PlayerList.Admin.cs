@@ -323,7 +323,7 @@ public partial class PlayerList
 			{
 				//User is still banned:
 				StartCoroutine(KickPlayer(unverifiedConnPlayer, $"Server Error: This account is banned. " +
-				                                      $"You were banned for {banEntry.reason}. This ban has {banEntry.minutes} minutes remaining."));
+				                                      $"You were banned for {banEntry.reason}. This ban has {banEntry.minutes - totalMins} minutes remaining."));
 				Logger.Log($"{unverifiedConnPlayer.Username} tried to log back in but the account is banned. " +
 				           $"IP: {unverifiedConnPlayer.Connection.address}", Category.Admin);
 				return false;

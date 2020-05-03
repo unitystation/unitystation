@@ -9,7 +9,7 @@ using UnityEngine.Events;
 /// they are scanned among immediate children
 /// of this gameObject (non-recursive)
 /// </summary>
-public class NetPageSwitcher : NetUIElement<string>
+public class NetPageSwitcher : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
@@ -24,7 +24,7 @@ public class NetPageSwitcher : NetUIElement<string>
 	/// </summary>
 	public PageChangeEvent OnPageChange;
 
-	public override void ExecuteServer() {}
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 
 	public override string Value {
 		get => CurrentPageIndex.ToString();

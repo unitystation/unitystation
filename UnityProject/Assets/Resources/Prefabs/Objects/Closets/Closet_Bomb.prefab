@@ -220,7 +220,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialContents: {fileID: 0}
+  initialContents: {fileID: 11400000, guid: 8b7cbc6a52703b1479475b5d6c5c76e8, type: 2}
   lockLight: {fileID: 0}
   IsLockable: 0
   playerLimit: 3
@@ -351,8 +351,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialName: bomb closet
-  initialDescription: A bomb locker. It's not bombproof.
+  initialName: EOD closet
+  initialDescription: It's a storage unit for explosion-protective suits.
   willHighlight: 1
   exportCost: 200
   exportName: closet

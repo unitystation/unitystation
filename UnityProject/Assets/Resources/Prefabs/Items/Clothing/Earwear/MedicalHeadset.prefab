@@ -7,6 +7,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1041179462549308755, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0bd05e5a22a1eeb4ba12aa98c67d279a,
+        type: 2}
+    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: initialName
+      value: medical radio headset
+      objectReference: {fileID: 0}
+    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: initialDescription
+      value: A headset for the trained staff of the medbay.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124838470649275786, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 123a6ad1ff941a7e2bb04a560ca35350,
+        type: 3}
     - target: {fileID: 6200957232458716886, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
       propertyPath: m_Name
@@ -16,16 +38,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Clothing
-      objectReference: {fileID: 0}
-    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: serverOnly
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6205322156016085922, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
@@ -82,27 +94,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
-      propertyPath: initialName
-      value: medical radio headset
-      objectReference: {fileID: 0}
-    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: initialDescription
-      value: A headset for the trained staff of the medbay.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1041179462549308755, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: clothData
+      propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 11400000, guid: 0bd05e5a22a1eeb4ba12aa98c67d279a,
-        type: 2}
-    - target: {fileID: 6124838470649275786, guid: abf4818425fa84c67a62abb4425a4dcb,
+      objectReference: {fileID: 0}
+    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 67df9eae07e22574a8abaedc639678ca,
-        type: 3}
+      propertyPath: serverOnly
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abf4818425fa84c67a62abb4425a4dcb, type: 3}

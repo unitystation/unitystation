@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -26,6 +26,7 @@ public enum NetTabType
 	Photocopier = 16,
 	ExosuitFabricator = 17,
 	Autolathe = 18,
+	HackingPanel = 19,
 	//add your tabs here
 }
 
@@ -43,7 +44,7 @@ public class NetTab : Tab
 	public bool IsServer => transform.parent.name == nameof(NetworkTabManager);
 
 	//	public static readonly NetTab Invalid = new NetworkTabInfo(null);
-	private List<NetUIElementBase> Elements => GetComponentsInChildren<NetUIElementBase>(false).ToList();
+	private ISet<NetUIElementBase> Elements => new HashSet<NetUIElementBase>(GetComponentsInChildren<NetUIElementBase>(false));
 
 	public Dictionary<string, NetUIElementBase> CachedElements => cachedElements;
 	private Dictionary<string, NetUIElementBase> cachedElements = new Dictionary<string, NetUIElementBase>();
@@ -57,7 +58,11 @@ public class NetTab : Tab
 	/// <summary>
 	/// Invoked when there is a new peeper to this tab
 	/// </summary>
+	[SerializeField]
 	public ConnectedPlayerEvent OnTabOpened = new ConnectedPlayerEvent();
+
+	[SerializeField]
+	public ConnectedPlayerEvent OnTabClosed = new ConnectedPlayerEvent();
 
 	public ElementValue[] ElementValues => CachedElements.Values.Select(element => element.ElementValue).ToArray(); //likely expensive
 
@@ -100,7 +105,9 @@ public class NetTab : Tab
 
 	public void RemovePlayer(GameObject player)
 	{
-		Peepers.Remove(PlayerList.Instance.Get(player));
+		ConnectedPlayer newPeeper = PlayerList.Instance.Get(player);
+		OnTabClosed.Invoke(newPeeper);
+		Peepers.Remove(newPeeper);
 	}
 
 	public void RescanElements()
@@ -110,9 +117,9 @@ public class NetTab : Tab
 
 	private void InitElements(bool serverFirstTime = false)
 	{
-		var elements = Elements;
 		//Init and add new elements to cache
-		foreach (NetUIElementBase element in elements)
+		var elements = Elements;
+		foreach (var element in elements)
 		{
 			if (serverFirstTime && element is NetPageSwitcher switcher && !switcher.StartInitialized)
 			{ //First time we make sure all pages are enabled in order to be scanned
@@ -121,19 +128,20 @@ public class NetTab : Tab
 				return;
 			}
 
-			if (!CachedElements.ContainsValue(element))
+			if (CachedElements.ContainsKey(element.name))
 			{
-				element.Init();
-
-				if (CachedElements.ContainsValue(element))
-				{
-					//Someone called InitElements in Init()
-					Logger.LogError($"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI);
-					return;
-				}
-
-				CachedElements.Add(element.name, element);
+				continue;
 			}
+			element.Init();
+
+			if (CachedElements.ContainsKey(element.name))
+			{
+				//Someone called InitElements in Init()
+				Logger.LogError($"'{name}': rescan during '{element}' Init(), aborting initial scan", Category.NetUI);
+				return;
+			}
+
+			CachedElements.Add(element.name, element);
 		}
 
 		var toRemove = new List<string>();
@@ -147,9 +155,9 @@ public class NetTab : Tab
 		}
 
 		//Remove obsolete elements from cache
-		for (var i = 0; i < toRemove.Count; i++)
+		foreach (var removed in toRemove)
 		{
-			CachedElements.Remove(toRemove[i]);
+			CachedElements.Remove(removed);
 		}
 	}
 
@@ -176,13 +184,12 @@ public class NetTab : Tab
 	private bool ImportContainer(ElementValue[] values, List<ElementValue> nonLists)
 	{
 		bool shouldRescan = false;
-		var groups = values.GroupBy(v => this[v.Id]);
 		foreach (var elementValue in values)
 		{
 			var element = this[elementValue.Id];
 
 			if (CachedElements.ContainsKey(elementValue.Id) &&
-			    (element is NetUIDynamicList || element is NetPageSwitcher))
+				(element is NetUIDynamicList || element is NetPageSwitcher))
 			{
 				var listContentsChanged = element.ValueObject != elementValue.Value;
 				if (!listContentsChanged)
@@ -244,4 +251,5 @@ public class NetTab : Tab
 	}
 }
 
+[System.Serializable]
 public class ConnectedPlayerEvent : UnityEvent<ConnectedPlayer> { }

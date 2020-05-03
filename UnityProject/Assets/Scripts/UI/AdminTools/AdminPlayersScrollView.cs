@@ -20,7 +20,7 @@ namespace AdminTools
 		private float currentCount = 0f;
 
 		private List<GameObject> HiddenButtons = new List<GameObject>();
-		[SerializeField] private AdminSearchBar searchBar;
+		[SerializeField] private AdminSearchBar searchBar = null;
 
 		//Loaded playerEntries
 		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
@@ -92,6 +92,8 @@ namespace AdminTools
 
 			if (SelectedPlayer == null)
 			{
+				if (playerEntries.Count == 0) return;
+
 				SelectPlayerInList(playerEntries[0]);
 			}
 			else

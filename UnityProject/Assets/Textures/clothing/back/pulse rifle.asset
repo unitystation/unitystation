@@ -1,0 +1,56 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 070914b0fa83e4540b98a98820fe27ae, type: 3}
+  m_Name: pulse rifle
+  m_EditorClassIdentifier: 
+  Sprites:
+    Equipped:
+      Texture: {fileID: 2800000, guid: e54e30e16f76a2c46a597b3d963988ca, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: e54e30e16f76a2c46a597b3d963988ca, type: 3}
+      - {fileID: 21300002, guid: e54e30e16f76a2c46a597b3d963988ca, type: 3}
+      - {fileID: 21300004, guid: e54e30e16f76a2c46a597b3d963988ca, type: 3}
+      - {fileID: 21300006, guid: e54e30e16f76a2c46a597b3d963988ca, type: 3}
+      EquippedData: {fileID: 4900000, guid: 71ec336d51c224e4fa85e3bc6e7908c8, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 98e122e468ecca547b2747db971d5b2e, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 98e122e468ecca547b2747db971d5b2e, type: 3}
+      - {fileID: 21300002, guid: 98e122e468ecca547b2747db971d5b2e, type: 3}
+      - {fileID: 21300004, guid: 98e122e468ecca547b2747db971d5b2e, type: 3}
+      - {fileID: 21300006, guid: 98e122e468ecca547b2747db971d5b2e, type: 3}
+      EquippedData: {fileID: 4900000, guid: 44b6d6adade79974da876c50bbd669e6, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: 6be7be8561f6f6744bd2a4fe2535b765, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6be7be8561f6f6744bd2a4fe2535b765, type: 3}
+      - {fileID: 21300002, guid: 6be7be8561f6f6744bd2a4fe2535b765, type: 3}
+      - {fileID: 21300004, guid: 6be7be8561f6f6744bd2a4fe2535b765, type: 3}
+      - {fileID: 21300006, guid: 6be7be8561f6f6744bd2a4fe2535b765, type: 3}
+      EquippedData: {fileID: 4900000, guid: e812e85140982d6449c60884e0f00297, type: 3}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  StorageData:
+    maxSlots: 0
+    maxItemSize: 0

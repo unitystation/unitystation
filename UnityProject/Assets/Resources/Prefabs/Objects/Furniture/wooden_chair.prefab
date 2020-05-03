@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -101,6 +102,8 @@ GameObject:
   - component: {fileID: 953878313788512146}
   - component: {fileID: -2482799812436144608}
   - component: {fileID: 3956987875186302708}
+  - component: {fileID: 2879262912181080695}
+  - component: {fileID: 6830089732404172710}
   m_Layer: 11
   m_Name: wooden_chair
   m_TagString: Untagged
@@ -196,6 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114369123125713116
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -270,6 +275,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -289,6 +295,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &953878313788512146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,6 +336,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: wooden chair
   initialDescription: For sitting or getting strapped onto.
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
@@ -349,6 +357,35 @@ MonoBehaviour:
   resourcesMadeOf: {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175,
     type: 3}
   howMany: 1
+--- !u!114 &2879262912181080695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568171546625408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadow: {fileID: 21300000, guid: a7fb8df02e5e1234c8d951fd8313d836, type: 3}
+  draggerMustBeAdjacent: 1
+  allowDragWhileSoftCrit: 0
+--- !u!114 &6830089732404172710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568171546625408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc1f386f82014aa4ba117d2289c3d540, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabVariant: {fileID: 1011433845357754, guid: dce8b95977b293b49974fcc26e4790c2,
+    type: 3}
 --- !u!1 &5276609779432803648
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +431,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -416,7 +454,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 16
+  m_SortingLayer: 17
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
