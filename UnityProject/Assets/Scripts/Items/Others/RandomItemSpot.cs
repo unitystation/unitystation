@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -19,6 +20,16 @@ namespace Items
 
 		public override void OnStartServer()
 		{
+			StartCoroutine(WaitForMatrixManager());
+		}
+
+		IEnumerator WaitForMatrixManager()
+		{
+			while (!MatrixManager.IsInitialized)
+			{
+				yield return WaitFor.EndOfFrame;
+			}
+
 			RollRandomPool();
 		}
 

@@ -12,6 +12,5 @@ public class MobSpawnScript : NetworkBehaviour
 	{
 		if (MobToSpawn == null) return;
 		Spawn.ServerPrefab(MobToSpawn, gameObject.GetComponent<RegisterTile>().WorldPosition);
-		Destroy(this.gameObject);
 	}
 }

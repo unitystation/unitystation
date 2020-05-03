@@ -183,6 +183,15 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			return;
 		}
 
+		StartCoroutine(PerformServerStateInit());
+	}
+
+	IEnumerator PerformServerStateInit()
+	{
+		while (!MatrixManager.IsInitialized)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
 		//If object is supposed to be hidden, keep it that way
 		serverState.Speed = 0;
 		serverState.SpinRotation = transform.localRotation.eulerAngles.z;

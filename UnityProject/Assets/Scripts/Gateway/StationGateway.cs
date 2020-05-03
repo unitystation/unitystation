@@ -141,9 +141,18 @@ public class StationGateway : NetworkBehaviour
 	IEnumerator LoadWorld()
 	{
 		//Selects Random world
-		var worldScene = Worlds[Random.Range(0, Worlds.Count)];
+		if(Worlds.Count == 0) yield break;
+
+		var worldScene = Worlds[0];
 		if (worldScene == null) yield break;
-		SceneManager.LoadSceneAsync(worldScene, LoadSceneMode.Additive);
+		AsyncOperation AO = SceneManager.LoadSceneAsync(worldScene, LoadSceneMode.Additive);
+		while(!AO.isDone)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+		yield return WaitFor.EndOfFrame;
+
+		NetworkServer.SpawnObjects();
 		SceneMessage msg = new SceneMessage
 		{
 			sceneName = worldScene,
@@ -152,24 +161,24 @@ public class StationGateway : NetworkBehaviour
 
 		NetworkServer.SendToAll(msg);
 
-//		selectedWorld = FindObjectOfType<WorldGateway>();
-//
-//		Message = "Teleporting to: " + selectedWorld.WorldName;
-//
-//		if (!selectedWorld.IsOnlineAtStart)
-//		{
-//			selectedWorld.IsOnlineAtStart = true;
-//			selectedWorld.SetUp();
-//		}
-//
-//		if (HasPower)
-//		{
-//			SetOnline();
-//			ServerChangeState(true);
-//
-//			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + selectedWorld.WorldName;
-//			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
-//		}
+		selectedWorld = FindObjectOfType<WorldGatewayRef>().WorldGateway;
+
+		Message = "Teleporting to: " + selectedWorld.WorldName;
+
+		if (!selectedWorld.IsOnlineAtStart)
+		{
+			selectedWorld.IsOnlineAtStart = true;
+			selectedWorld.SetUp();
+		}
+
+		if (HasPower)
+		{
+			SetOnline();
+			ServerChangeState(true);
+
+			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + selectedWorld.WorldName;
+			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+		}
 	}
 
 	[Server]
@@ -211,7 +220,17 @@ public class StationGateway : NetworkBehaviour
 	public virtual void TransportPlayers(ObjectBehaviour player)
 	{
 		//teleports player to the front of the new gateway
-		player.GetComponent<PlayerSync>().SetPosition(selectedWorld.GetComponent<RegisterTile>().WorldPosition);
+
+//
+
+	//	player.transform.parent = selectedWorld.transform;
+	player.GetComponent<PlayerSync>().SetPosition(selectedWorld.transform.position);
+		player.transform.parent = null;
+
+		SceneManager.MoveGameObjectToScene(player.gameObject, selectedWorld.gameObject.scene);
+		player.GetComponent<PlayerSync>().SetPosition(selectedWorld.transform.position);
+		Debug.Log("SELECTED WORLD POS: " + selectedWorld.transform.position);
+		MatrixManager.ListAllMatrices();
 	}
 
 	[Server]

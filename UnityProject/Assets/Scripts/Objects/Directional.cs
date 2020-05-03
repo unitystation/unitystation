@@ -115,9 +115,19 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 	}
 
 	public override void OnStartServer()
-    {
-	    SyncServerDirection(serverDirection, InitialOrientation);
-    }
+	{
+		StartCoroutine(WaitForMatrixLoad());
+	}
+
+	IEnumerator WaitForMatrixLoad()
+	{
+		while (!MatrixManager.IsInitialized)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		serverDirection = InitialOrientation;
+	}
 
 
     public override void OnStartClient()
@@ -218,8 +228,8 @@ public class Directional : NetworkBehaviour, IMatrixRotation
     //syncvar hook invoked when server sends a client the new direction for this object
     private void SyncServerDirection(Orientation oldDir, Orientation dir)
     {
-	    if (DisableSyncing) return;
-	    
+	  //  if (DisableSyncing) return;
+
 	    serverDirection = dir;
 	    //we only change our direction if we're not local player (local player is always predictive)
 	    //and not explicitly ignoring server updates.

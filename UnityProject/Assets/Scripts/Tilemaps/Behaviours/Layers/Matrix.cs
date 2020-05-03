@@ -29,6 +29,9 @@ public class  Matrix : MonoBehaviour
 	public UnderFloorLayer UnderFloorLayer => underFloorLayer;
 	private UnderFloorLayer underFloorLayer;
 
+	public bool IsSpaceMatrix;
+	public bool IsMainStation;
+
 
 	public MatrixMove MatrixMove { get; private set; }
 
@@ -76,6 +79,11 @@ public class  Matrix : MonoBehaviour
 				//maybe shake items somehow, too
 			}
 		} );
+	}
+
+	void Start()
+	{
+		MatrixManager.RegisterMatrix(this, IsSpaceMatrix, IsMainStation);
 	}
 
 	public void CompressAllBounds()

@@ -1161,7 +1161,7 @@ namespace Mirror
             NetworkIdentity[] identities = Resources.FindObjectsOfTypeAll<NetworkIdentity>();
             foreach (NetworkIdentity identity in identities)
             {
-                if (ValidateSceneObject(identity))
+                if (ValidateSceneObject(identity) && !identity.serverSpawned)
                 {
                     if (LogFilter.Debug) Debug.Log("SpawnObjects sceneId:" + identity.sceneId.ToString("X") + " name:" + identity.gameObject.name);
                     identity.Reset();
@@ -1171,8 +1171,11 @@ namespace Mirror
 
             foreach (NetworkIdentity identity in identities)
             {
-                if (ValidateSceneObject(identity))
-                    Spawn(identity.gameObject);
+	            if (ValidateSceneObject(identity) && !identity.serverSpawned)
+	            {
+		            Spawn(identity.gameObject);
+		            identity.serverSpawned = true;
+	            }
             }
             return true;
         }

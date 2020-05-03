@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
@@ -68,6 +69,17 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 
 	public override void OnStartServer()
 	{
+		StartCoroutine(WaitForMatrixManager());
+		base.OnStartServer();
+	}
+
+	IEnumerator WaitForMatrixManager()
+	{
+		while (!MatrixManager.IsInitialized)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
 		SpawnResult traySpawn = Spawn.ServerPrefab(trayPrefab, DrawerWorldPosition);
 		if (!traySpawn.Successful)
 		{
@@ -79,23 +91,30 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		trayTransform = tray.GetComponent<CustomNetTransform>();
 		trayBehaviour = tray.GetComponent<ObjectBehaviour>();
 		trayBehaviour.parentContainer = drawerPushPull;
-		trayBehaviour.VisibleState = false;		
+		trayBehaviour.VisibleState = false;
 
 		// These two will sync drawer state/orientation and render appropriate sprite
 		drawerState = DrawerState.Shut;
 		drawerOrientation = directional.CurrentDirection;
-
-		base.OnStartServer();
 	}
 
 	public override void OnStartClient()
 	{
-		traySpriteHandler = tray.GetComponentInChildren<SpriteHandler>();
-		UpdateSpriteDirection();
-
+		StartCoroutine(WaitForTray());
 		base.OnStartClient();
 	}
-	 
+
+	IEnumerator WaitForTray()
+	{
+		while (tray == null)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		traySpriteHandler = tray.GetComponentInChildren<SpriteHandler>();
+		UpdateSpriteDirection();
+	}
+
 	#endregion Init Methods
 
 	/// <summary>
@@ -109,7 +128,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 
 		EjectItems(true);
 		EjectPlayers(true);
-		Despawn.ServerSingle(tray); 
+		Despawn.ServerSingle(tray);
 	}
 
 	/// <summary>
@@ -171,7 +190,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.HandObject != null) return false;
-	
+
 		return true;
 	}
 
