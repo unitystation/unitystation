@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 114187653547998928}
   - component: {fileID: 8856671591219409022}
   - component: {fileID: -8023692734810667622}
+  - component: {fileID: 4974567565614456384}
   m_Layer: 10
   m_Name: Encryptionkey
   m_TagString: Untagged
@@ -422,3 +423,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 0}
+--- !u!114 &4974567565614456384
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599349953373750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

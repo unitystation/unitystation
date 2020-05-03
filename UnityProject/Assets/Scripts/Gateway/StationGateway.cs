@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// For Gateways inheritable class
@@ -23,9 +24,9 @@ public class StationGateway : NetworkBehaviour
 	private Sprite[] PowerOff = null;//TODO connect gateway to APC
 
 	[SerializeField]
-	private List<GameObject> Worlds = new List<GameObject>();//List of worlds available to be chosen
+	private List<string> Worlds = new List<string>();//List of worlds available to be chosen
 
-	private GameObject SelectedWorld;// The world from the list that was chosen
+	private WorldGateway selectedWorld;// The world from the list that was chosen
 
 	private bool HasPower = true;// Not used atm
 
@@ -118,47 +119,57 @@ public class StationGateway : NetworkBehaviour
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
-	private void Start()
+	public override void OnStartServer()
 	{
 		SetOffline();
-
-		if (!isServer) return;
 
 		registerTile = GetComponent<RegisterTile>();
 		Position = registerTile.WorldPosition;
 
 		ServerChangeState(false);
 
-		var count = Random.Range(RandomCountBegining, RandomCountEnd);
+		var count = 10f;//Random.Range(RandomCountBegining, RandomCountEnd);
 		Invoke(nameof(WorldSetup), count);
 	}
 
 	[Server]
 	public virtual void WorldSetup()
 	{
+		StartCoroutine(LoadWorld());
+	}
+
+	IEnumerator LoadWorld()
+	{
 		//Selects Random world
-		SelectedWorld = Worlds[Random.Range(0, Worlds.Count)];
-
-		if (SelectedWorld == null) return;
-
-		var selectedWorld = SelectedWorld.GetComponent<WorldGateway>();
-
-		Message = "Teleporting to: " + selectedWorld.WorldName;
-
-		if (!selectedWorld.IsOnlineAtStart)
+		var worldScene = Worlds[Random.Range(0, Worlds.Count)];
+		if (worldScene == null) yield break;
+		SceneManager.LoadSceneAsync(worldScene, LoadSceneMode.Additive);
+		SceneMessage msg = new SceneMessage
 		{
-			selectedWorld.IsOnlineAtStart = true;
-			selectedWorld.SetUp();
-		}
+			sceneName = worldScene,
+			sceneOperation = SceneOperation.LoadAdditive
+		};
 
-		if (HasPower)
-		{
-			SetOnline();
-			ServerChangeState(true);
+		NetworkServer.SendToAll(msg);
 
-			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
-			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
-		}
+//		selectedWorld = FindObjectOfType<WorldGateway>();
+//
+//		Message = "Teleporting to: " + selectedWorld.WorldName;
+//
+//		if (!selectedWorld.IsOnlineAtStart)
+//		{
+//			selectedWorld.IsOnlineAtStart = true;
+//			selectedWorld.SetUp();
+//		}
+//
+//		if (HasPower)
+//		{
+//			SetOnline();
+//			ServerChangeState(true);
+//
+//			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + selectedWorld.WorldName;
+//			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+//		}
 	}
 
 	[Server]
@@ -170,9 +181,9 @@ public class StationGateway : NetworkBehaviour
 		if (!SpawnedMobs && playersFound.Count() > 0)
 		{
 			Logger.Log("Gateway Spawned Mobs");
-			if (SelectedWorld.GetComponent<MobSpawnControlScript>() != null)
+			if (selectedWorld.GetComponent<MobSpawnControlScript>() != null)
 			{
-				SelectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();
+				selectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();
 			}
 			SpawnedMobs = true;
 		}
@@ -200,13 +211,13 @@ public class StationGateway : NetworkBehaviour
 	public virtual void TransportPlayers(ObjectBehaviour player)
 	{
 		//teleports player to the front of the new gateway
-		player.GetComponent<PlayerSync>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
+		player.GetComponent<PlayerSync>().SetPosition(selectedWorld.GetComponent<RegisterTile>().WorldPosition);
 	}
 
 	[Server]
 	public virtual void TransportObjectsItems(ObjectBehaviour objectsitems)
 	{
-		objectsitems.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
+		objectsitems.GetComponent<CustomNetTransform>().SetPosition(selectedWorld.GetComponent<RegisterTile>().WorldPosition);
 	}
 
 	public virtual void SetOnline()

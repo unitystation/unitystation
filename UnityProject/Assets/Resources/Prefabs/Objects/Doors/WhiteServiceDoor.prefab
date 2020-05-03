@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 4595622538382479424}
   - component: {fileID: -751398850610513256}
   - component: {fileID: -8806602694231772334}
+  - component: {fileID: -8129384706441219098}
   m_Layer: 18
   m_Name: WhiteServiceDoor
   m_TagString: Untagged
@@ -708,6 +709,21 @@ MonoBehaviour:
   doorName: service door
   hackPanelOverlay: {fileID: 0}
   hackPanelSprite: {fileID: 0}
+--- !u!114 &-8129384706441219098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013430947772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1000013482044110
 GameObject:
   m_ObjectHideFlags: 0

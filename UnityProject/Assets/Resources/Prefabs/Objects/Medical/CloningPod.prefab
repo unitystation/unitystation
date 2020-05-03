@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 114141448509805176}
   - component: {fileID: -5958612390385248796}
   - component: {fileID: 4597987211440370757}
+  - component: {fileID: 3226492502455936700}
   m_Layer: 11
   m_Name: CloningPod
   m_TagString: Untagged
@@ -361,3 +362,18 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
     type: 3}
   secondsToScrewdrive: 2
+--- !u!114 &3226492502455936700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1671969700958660}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

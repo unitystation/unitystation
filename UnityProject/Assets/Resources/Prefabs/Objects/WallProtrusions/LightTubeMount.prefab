@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 3235767790128179610}
   - component: {fileID: -8775636696312819921}
   - component: {fileID: 114197525563370534}
+  - component: {fileID: 4347738222806098176}
   m_Layer: 13
   m_Name: LightTubeMount
   m_TagString: Untagged
@@ -356,6 +357,21 @@ MonoBehaviour:
   spritesStateOnEffect: {fileID: 11400000, guid: eb6855ff2551ddc4abe1b264ca4bbb52,
     type: 2}
   mountStatesMachine: {fileID: 11400000, guid: 2049efbecd5fb44478e9830e1b970f84, type: 2}
+--- !u!114 &4347738222806098176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1745947215034166}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &4425836223823806458
 GameObject:
   m_ObjectHideFlags: 0

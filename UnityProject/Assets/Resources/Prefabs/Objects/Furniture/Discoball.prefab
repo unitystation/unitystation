@@ -231,6 +231,7 @@ GameObject:
   - component: {fileID: 114876689548865824}
   - component: {fileID: 8501056774758602355}
   - component: {fileID: 3247387162022988682}
+  - component: {fileID: 3967164206099468103}
   m_Layer: 29
   m_Name: Discoball
   m_TagString: Abstract
@@ -431,9 +432,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  relatedLightSwitch: {fileID: 0}
   InitialState: 1
   mLightRendererObject: {fileID: 1128005765242482, guid: 735d50453c7fc05459915866a72cbcfe,
     type: 3}
-  customColor: {r: 0.8901961, g: 0.03529412, b: 0, a: 0.84705883}
   isWithoutSwitch: 1
-  relatedLightSwitch: {fileID: 0}
+  spriteRenderer: {fileID: 0}
+  spriteRendererLightOn: {fileID: 0}
+  spritesStateOnEffect: {fileID: 0}
+  mountStatesMachine: {fileID: 0}
+--- !u!114 &3967164206099468103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376449702682419346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
