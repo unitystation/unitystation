@@ -13,9 +13,9 @@ namespace UI.UI_Bottom
 		private GameObject listItemPrefab = null;
 
 		[Tooltip("content panel into which the list items should be placed")]
-		[SerializeField] private GameObject contentPanel;
+		[SerializeField] private GameObject contentPanel = null;
 
-		[SerializeField] private ConveyorBuildMenu conveyorBuildMenu;
+		[SerializeField] private ConveyorBuildMenu conveyorBuildMenu = null;
 
 		//current object whose menu is being shown
 		private BuildingMaterial currentBuildingMaterial;

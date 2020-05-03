@@ -555,7 +555,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
+		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || !KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
 		{
 			return null;
 		}

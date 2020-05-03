@@ -21,12 +21,13 @@ namespace Lighting
 		private bool isInCoolDown;
 
 		[SerializeField]
-		private Sprite[] sprites;
+		private Sprite[] sprites = null;
 
 		[SerializeField]
-		private SpriteRenderer spriteRenderer;
+		private SpriteRenderer spriteRenderer = null;
 
 		private PowerStates powerState = PowerStates.On;
+
 		private void Awake()
 		{
 			foreach (var lightSource in listOfLights)
@@ -36,11 +37,22 @@ namespace Lighting
 			}
 		}
 
-		public override void OnStartClient()
+		private void SyncState(bool oldState, bool newState)
 		{
-			SyncState(isOn, isOn);
-			base.OnStartClient();
+			isOn = newState;
+			spriteRenderer.sprite = isOn ? sprites[0] : sprites[1];
 		}
+
+		[Server]
+		public void ServerChangeState(bool newState, bool invokeEvent = true)
+		{
+			isOn = newState;
+			if (!invokeEvent) return;
+			switchTriggerEvent?.Invoke(isOn);
+		}
+
+		#region ICheckedInteractable<HandApply>
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -55,17 +67,45 @@ namespace Lighting
 			ServerChangeState(!isOn);
 		}
 
-		private void SyncState(bool oldState, bool newState)
+		#endregion
+
+		#region IAPCPowered
+
+		public void PowerNetworkUpdate(float Voltage)
 		{
-			isOn = newState;
-			spriteRenderer.sprite = isOn ? sprites[0] : sprites[1];
+
 		}
 
-		[Server]
-		public void ServerChangeState(bool newState)
+		public void StateUpdate(PowerStates State)
 		{
-			isOn = newState;
-			switchTriggerEvent?.Invoke(isOn);
+			if (!isServer) return;
+			switch (State)
+			{
+				case PowerStates.On:
+					ServerChangeState(true,invokeEvent:false);
+					powerState = State;
+					break;
+				case PowerStates.LowVoltage:
+					ServerChangeState(false,invokeEvent:false);
+					powerState = State;
+					break;
+				case PowerStates.OverVoltage:
+					ServerChangeState(true,invokeEvent:false);
+					powerState = State;
+					break;
+				default:
+					ServerChangeState(false,invokeEvent:false);
+					powerState = State;
+					break;
+			}
+		}
+
+		#endregion
+
+		public override void OnStartClient()
+		{
+			base.OnStartClient();
+			SyncState(isOn, isOn);
 		}
 
 		void OnDrawGizmosSelected()
@@ -82,34 +122,6 @@ namespace Lighting
 				if(lightSource == null) continue;
 				Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
 				Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
-			}
-		}
-
-		public void PowerNetworkUpdate(float Voltage)
-		{
-
-		}
-
-		public void StateUpdate(PowerStates State)
-		{
-			switch (State)
-			{
-				case PowerStates.On:
-					ServerChangeState(true);
-					powerState = State;
-					break;
-				case PowerStates.LowVoltage:
-					ServerChangeState(false);
-					powerState = State;
-					break;
-				case PowerStates.OverVoltage:
-					ServerChangeState(true);
-					powerState = State;
-					break;
-				default:
-					ServerChangeState(false);
-					powerState = State;
-					break;
 			}
 		}
 

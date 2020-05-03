@@ -6,16 +6,41 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(Graphic))]
 [Serializable]
-public class NetColorChanger : NetUIElement<string>
+public class NetColorChanger : NetUIElement<Color>
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
-	public override string Value {
-		get { return DebugTools.ColorToHex(Element.color); }
+	public override Color Value
+	{
+		get => Element.color;
 		set {
 			externalChange = true;
-			Element.color = DebugTools.HexToColor( value );
+			Element.color = value;
 			externalChange = false;
+		}
+	}
+
+	public override byte[] BinaryValue
+	{
+		get
+		{
+			// Using the manual approach since it seemed to be a bottleneck when profiling
+			var color = Element.color;
+			var bytes = new byte[sizeof(float) * 4];
+			BitConverter.GetBytes(color.r).CopyTo(bytes, sizeof(float) * 0);
+			BitConverter.GetBytes(color.g).CopyTo(bytes, sizeof(float) * 1);
+			BitConverter.GetBytes(color.b).CopyTo(bytes, sizeof(float) * 2);
+			BitConverter.GetBytes(color.a).CopyTo(bytes, sizeof(float) * 3);
+			return bytes;
+		}
+		set
+		{
+			Element.color = new Color(
+				BitConverter.ToSingle(value, sizeof(float) * 0),
+				BitConverter.ToSingle(value, sizeof(float) * 1),
+				BitConverter.ToSingle(value, sizeof(float) * 2),
+				BitConverter.ToSingle(value, sizeof(float) * 3)
+				);
 		}
 	}
 
@@ -29,5 +54,5 @@ public class NetColorChanger : NetUIElement<string>
 		}
 	}
 
-	public override void ExecuteServer() {	}
+	public override void ExecuteServer(ConnectedPlayer subject) {	}
 }

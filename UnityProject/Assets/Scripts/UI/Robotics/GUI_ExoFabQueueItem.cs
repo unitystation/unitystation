@@ -35,7 +35,7 @@ public class GUI_ExoFabQueueItem : DynamicEntry
 	public GUI_ExoFabButton UpButton { get => upButton; }
 	private GUI_ExoFabButton downButton;
 	public GUI_ExoFabButton DownButton { get => downButton; }
-	private GUI_ExoFabQueueLabel numberInQueueColorElement;
+	private GUI_ExoFabQueueLabel queueNumberElement;
 	private GUI_ExoFabQueueLabel productTextColorElement;
 
 	public void ForwardInQueue()
@@ -73,22 +73,22 @@ public class GUI_ExoFabQueueItem : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "QueueNumber":
-					numberInQueueColorElement = element as GUI_ExoFabQueueLabel;
-					element.SetValueServer(NumberInQueue.ToString());
+					queueNumberElement = (GUI_ExoFabQueueLabel)element;
+					queueNumberElement.SetValueServer(NumberInQueue.ToString());
 					break;
 
 				case "ProductName":
-					productTextColorElement = element as GUI_ExoFabQueueLabel;
-					element.SetValueServer(Product.Name);
+					productTextColorElement = (GUI_ExoFabQueueLabel)element;
+					productTextColorElement.SetValueServer(Product.Name);
 					break;
 
 				case "UpButton":
-					upButton = element as GUI_ExoFabButton;
+					upButton = (GUI_ExoFabButton)element;
 					upButton.SetValueServer("true");
 					break;
 
 				case "DownButton":
-					downButton = element as GUI_ExoFabButton;
+					downButton = (GUI_ExoFabButton)element;
 					downButton.SetValueServer("true");
 					break;
 			}

@@ -62,7 +62,7 @@ public class TabInteractMessage : ClientMessage
 
 		var valueBeforeUpdate = updatedElement.ValueObject;
 		updatedElement.BinaryValue = ElementValue;
-		updatedElement.ExecuteServer();
+		updatedElement.ExecuteServer(player);
 
 		if (updatedElement.InteractionMode == ElementMode.ClientWrite)
 		{

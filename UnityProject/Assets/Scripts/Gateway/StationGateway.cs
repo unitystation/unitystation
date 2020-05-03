@@ -169,7 +169,7 @@ public class StationGateway : NetworkBehaviour
 
 		if (!SpawnedMobs && playersFound.Count() > 0)
 		{
-			Logger.Log("spawned mobs");
+			Logger.Log("Gateway Spawned Mobs");
 			if (SelectedWorld.GetComponent<MobSpawnControlScript>() != null)
 			{
 				SelectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();

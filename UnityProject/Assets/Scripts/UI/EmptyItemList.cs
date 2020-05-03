@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -14,6 +15,21 @@ public class EmptyItemList : NetUIDynamicList
 		for (int i = 0; i < count; i++)
 		{
 			AttemptAdd();
+		}
+		NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+		UpdatePeepers();
+	}
+
+	public void SetItems(int count)
+	{
+		while (count > Entries.Length)
+		{
+			AttemptAdd();
+		}
+
+		while (count < Entries.Length)
+		{
+			Remove(Entries.Last().name);
 		}
 		NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
 		UpdatePeepers();
@@ -39,10 +55,12 @@ public class EmptyItemList : NetUIDynamicList
 		var newEntry = Add();
 		if (!newEntry)
 		{
-			Logger.LogWarning($"Problems adding {newEntry}", Category.ItemSpawn);
+			Logger.LogWarningFormat("Problems adding {0}", Category.ItemSpawn,
+				newEntry);
 			return false;
 		}
-		Logger.Log($"ItemList: Item add success! newEntry={newEntry}", Category.ItemSpawn);
+		Logger.LogFormat("ItemList: Item add success! newEntry={0}", Category.ItemSpawn,
+			newEntry);
 		return true;
 
 	}

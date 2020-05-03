@@ -23,6 +23,22 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 	private EscapeKeyTarget escapeKeyTarget;
 
 	private LightingSystem lightingSystem;
+	public LightingSystem LightingSystem
+	{
+		get
+		{
+			if (lightingSystem == null)
+			{
+				lightingSystem = Camera.main.GetComponent<LightingSystem>();
+			}
+
+			return lightingSystem;
+		}
+		set
+		{
+			lightingSystem = value;
+		}
+	}
 
 	void Awake()
 	{
@@ -42,14 +58,14 @@ public class GUI_DevSelectVVTile : MonoBehaviour
 		{
 			statusText.text = "Click to select object to view (ESC to Cancel)";
 			UIManager.IsMouseInteractionDisabled = true;
-			lightingSystem.enabled = false;
+			LightingSystem.enabled = false;
 
 		}
 		else if (newState == State.INACTIVE)
 		{
 			statusText.text = "Click to select object to view (ESC to Cancel)";
 			UIManager.IsMouseInteractionDisabled = false;
-			lightingSystem.enabled = true;
+			LightingSystem.enabled = true;
 			gameObject.SetActive(false);
 		}
 		state = newState;

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 [Serializable]
-public class GUI_ExoFabQueueLabel : NetUIElement<string>
+public class GUI_ExoFabQueueLabel : NetUIStringElement
 {
 	public override string Value
 	{
@@ -32,7 +32,7 @@ public class GUI_ExoFabQueueLabel : NetUIElement<string>
 		}
 	}
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
 	}
 }

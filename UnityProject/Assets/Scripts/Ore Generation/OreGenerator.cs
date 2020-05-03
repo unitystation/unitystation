@@ -92,7 +92,8 @@ public class OreGenerator : MonoBehaviour
 		{
 			var chosenLocation = locations[RANDOM.Next(locations.Count)];
 			var ranLocation = chosenLocation + DIRECTIONS[RANDOM.Next(DIRECTIONS.Count)];
-			if (wallTilemap.GetTile(ranLocation) != null)
+			var tile = wallTilemap.GetTile(ranLocation);
+			if (tile != null && tile.name.Contains("rock_wall"))
 			{
 				tileChangeManager.UpdateTile(ranLocation, materialSpecified.WallTile);
 				locations.Add(ranLocation);

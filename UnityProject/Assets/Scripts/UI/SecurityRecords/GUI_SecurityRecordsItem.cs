@@ -39,18 +39,18 @@ public class GUI_SecurityRecordsItem : DynamicEntry
 		recordBgColor.SetValueServer(GetStatusColor(record.Status));
 	}
 
-	private string GetStatusColor(SecurityStatus status)
+	private Color GetStatusColor(SecurityStatus status)
 	{
 		switch (status)
 		{
 			case SecurityStatus.None:
-				return "424142";
+				return DebugTools.HexToColor("424142");
 			case SecurityStatus.Arrest:
-				return "C10000";
+				return DebugTools.HexToColor("C10000");
 			case SecurityStatus.Parole:
-				return "F57211";
+				return DebugTools.HexToColor("F57211");
 		}
-		return ("424142");
+		return DebugTools.HexToColor("424142");
 	}
 
 	public void OpenRecord()

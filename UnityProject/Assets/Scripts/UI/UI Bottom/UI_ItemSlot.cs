@@ -20,7 +20,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	[SerializeField]
 	[FormerlySerializedAs("NamedSlot")]
 	[Tooltip("For player inventory, named slot in player's ItemStorage that this UI slot corresponds to.")]
-	private NamedSlot namedSlot;
+	private NamedSlot namedSlot = NamedSlot.back;
 	public NamedSlot NamedSlot => namedSlot;
 
 	[Tooltip("whether this is for the local player's top level inventory or will be instead used" +

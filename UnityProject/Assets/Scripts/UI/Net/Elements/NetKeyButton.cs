@@ -7,13 +7,13 @@ using UnityEngine.UI;
 /// Useful for virtual keypads.
 [RequireComponent(typeof( Button ))]
 [Serializable]
-public class NetKeyButton : NetUIElement<string>
+public class NetKeyButton : NetUIStringElement
 {
 	public override string Value => name.ToCharArray()[0].ToString();
 
 	public CharEvent ServerMethod;
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke(name.ToCharArray()[0]);
 	}
 

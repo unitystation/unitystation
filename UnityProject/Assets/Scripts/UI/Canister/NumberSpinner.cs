@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 /// Controls an entire number spinner - a display made up of DigitSpinners.
 /// </summary>
-public class NumberSpinner : NetUIElement<string>
+public class NumberSpinner : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
@@ -240,7 +240,7 @@ public class NumberSpinner : NetUIElement<string>
 
 	public StringEvent ServerMethod;
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke(Value);
 	}
 }

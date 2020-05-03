@@ -18,7 +18,7 @@ public class GUI_IDConsoleEntry : MonoBehaviour
 	private Occupation occupation = null;
 	[Tooltip("If access, access this button will grant")]
 	[SerializeField]
-	private Access access;
+	private Access access = Access.maint_tunnels;
 
 	[Tooltip("Color settings to apply when it's on")]
 	[SerializeField]

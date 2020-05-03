@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 7037579127031050856}
   - component: {fileID: 2415801389328985729}
   - component: {fileID: 6040070739731804246}
+  - component: {fileID: -5257522470850296317}
   m_Layer: 17
   m_Name: BlastDoors
   m_TagString: Untagged
@@ -277,6 +278,19 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &-5257522470850296317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010316053548}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 1
 --- !u!1 &1000014037698914
 GameObject:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 7977230789509237639}
   m_Layer: 19
   m_Name: Vernor RCS
-  m_TagString: Untagged
+  m_TagString: Rcs
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -232,15 +232,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1587334133710578}
-  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0.6, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.277, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4097342555642043082}
   - {fileID: 2936257408402362458}
   m_Father: {fileID: 4725794095997998}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212550005265104934
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -317,13 +317,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2929997753115705742}
-  m_LocalRotation: {x: -0.00000037252812, y: 0.000000074505444, z: -1, w: 0.00000032782552}
-  m_LocalPosition: {x: -0.599, y: -0.006, z: -0}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
+  m_LocalPosition: {x: -0.01, y: 1.023, z: 0}
   m_LocalScale: {x: 1.2591598, y: 0.57680756, z: 12}
   m_Children: []
   m_Father: {fileID: 4887873931970760}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -180.00002}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!114 &2970587779633085894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -414,13 +414,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4091749528008510238}
-  m_LocalRotation: {x: -0, y: -0, z: 0.70710707, w: 0.7071066}
-  m_LocalPosition: {x: -0.04, y: -0.011, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.005, y: 0.395, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4887873931970760}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90.00001}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!198 &4183094264157137370
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -611,7 +611,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 0.9811321, g: 0.6423435, b: 0.5784977, a: 1}
-      maxColor: {r: 1, g: 1, b: 1, a: 0.8784314}
+      maxColor: {r: 1, g: 1, b: 1, a: 0.59607846}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -3956,7 +3956,7 @@ ParticleSystem:
         m_NumAlphaKeys: 2
     range: {x: 0, y: 1}
   CollisionModule:
-    enabled: 1
+    enabled: 0
     serializedVersion: 3
     type: 1
     collisionMode: 1

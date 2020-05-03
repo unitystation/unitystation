@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -136,6 +137,17 @@ MonoBehaviour:
   isBleeding: 0
   livingHealthBehaviour: {fileID: 0}
   Severity: 0
+  armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &4826259315037707297
 GameObject:
   m_ObjectHideFlags: 0
@@ -191,6 +203,17 @@ MonoBehaviour:
   isBleeding: 0
   livingHealthBehaviour: {fileID: 0}
   Severity: 0
+  armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &4827224533573323059
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +270,7 @@ GameObject:
   - component: {fileID: 3493423571535560689}
   - component: {fileID: 3651291330810827203}
   - component: {fileID: 3708589072684735304}
-  - component: {fileID: 3481414535748012905}
+  - component: {fileID: 1087470977093078623}
   m_Layer: 12
   m_Name: NPC_ClownPosse_Longface
   m_TagString: Untagged
@@ -452,6 +475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -560,11 +584,12 @@ MonoBehaviour:
   followTarget: {fileID: 0}
   spriteHolder: {fileID: 3392343644113499114}
   targetOtherPlayersWhoGetInWay: 1
+  onlyHitTarget: 0
   hitDamage: 15
   attackVerb: slashed
   defaultTarget: 0
   meleeCoolDown: 0.4
---- !u!114 &3481414535748012905
+--- !u!114 &1087470977093078623
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -573,18 +598,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 4827737755655954553}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f423e516d0a62384493c3095abe85efa, type: 3}
+  m_Script: {fileID: 11500000, guid: 243a3c078e195af4dadbc9f673627997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobName: ClownPosse_Longface
+  mobName: LongFace
   knockedDownRotation: 90
-  searchTickRate: 0.5
-  DeathSounds:
+  deathSounds:
   - ClownHonk
-  GenericSounds:
-  - ScaryClown1
-  - ScaryClown2
-  - ScaryClown3
-  - ScaryClown4
-  PlaySoundTime: 3
-  status: 0
+  randomSound:
+  - ScaryClown#
+  playRandomSoundTimer: 3
+  randomSoundProbability: 20
+  searchTickRate: 0.5
+  currentStatus: 0
