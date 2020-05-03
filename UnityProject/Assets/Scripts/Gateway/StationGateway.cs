@@ -224,13 +224,12 @@ public class StationGateway : NetworkBehaviour
 //
 
 	//	player.transform.parent = selectedWorld.transform;
-	player.GetComponent<PlayerSync>().SetPosition(selectedWorld.transform.position);
-		player.transform.parent = null;
+	//player.GetComponent<PlayerSync>().SetPosition(selectedWorld.transform.position);
+	//	player.transform.parent = null;
 
-		SceneManager.MoveGameObjectToScene(player.gameObject, selectedWorld.gameObject.scene);
-		player.GetComponent<PlayerSync>().SetPosition(selectedWorld.transform.position);
+	//	SceneManager.MoveGameObjectToScene(player.gameObject, selectedWorld.gameObject.scene);
+		player.GetComponent<PlayerSync>().SetPosition(selectedWorld.GetComponent<RegisterTile>().WorldPosition);
 		Debug.Log("SELECTED WORLD POS: " + selectedWorld.transform.position);
-		MatrixManager.ListAllMatrices();
 	}
 
 	[Server]
