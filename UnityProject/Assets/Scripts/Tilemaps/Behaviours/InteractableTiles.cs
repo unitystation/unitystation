@@ -177,7 +177,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 				    Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction))
 				{
 					//request the tile interaction with this index
-					RequestInteractMessage.SendTileApply(tileApply, this, tileInteraction, i);
+					RequestInteractMessage.SendTileApply(tileApply, this, tileInteraction);
 					return true;
 				}
 
@@ -189,7 +189,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	}
 
 	//for internal IF2 usages only, does server side logic for processing tileapply
-	public void ServerProcessInteraction(int tileInteractionIndex, GameObject performer, Vector2 targetVector,  GameObject processorObj, ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
+	public void ServerProcessInteraction(GameObject performer, Vector2 targetVector,  GameObject processorObj, ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
 	{
 		//find the indicated tile interaction
 		var worldPosTarget = (Vector2)performer.transform.position + targetVector;
@@ -197,28 +197,34 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		LayerTile tile = LayerTileAt(worldPosTarget, true);
 		if (tile is BasicTile basicTile)
 		{
-			if (tileInteractionIndex >= basicTile.TileInteractions.Count)
-			{
-				//this sometimes happens due to lag, so bumping it down to trace
-				Logger.LogTraceFormat("Requested TileInteraction at index {0} does not exist on this tile {1}.",
-					Category.Interaction, tileInteractionIndex, basicTile.name);
-				return;
-			}
-
-			var tileInteraction = basicTile.TileInteractions[tileInteractionIndex];
+			// check which tile interaction occurs in the correct order
+			Logger.LogTraceFormat("Server checking which tile interaction to trigger for TileApply on tile {0} at worldPos {1}", Category.Interaction,
+				tile.name, worldPosTarget);
 			var tileApply = new TileApply(performer, usedObject, intent,
 				(Vector2Int) WorldToCell(worldPosTarget), this, basicTile, usedSlot,
 				targetVector, applyType);
-
-			if (tileInteraction.WillInteract(tileApply, NetworkSide.Server) &&
-			    Cooldowns.TryStartServer(tileApply, CommonCooldowns.Instance.Interaction))
+			foreach (var tileInteraction in basicTile.TileInteractions)
 			{
-				//perform
-				tileInteraction.ServerPerformInteraction(tileApply);
-			}
-			else
-			{
-				tileInteraction.ServerRollbackClient(tileApply);
+				if (tileInteraction == null) continue;
+				if (tileInteraction.WillInteract(tileApply, NetworkSide.Server))
+				{
+					//perform if not on cooldown
+					if (Cooldowns.TryStartServer(tileApply, CommonCooldowns.Instance.Interaction))
+					{
+						tileInteraction.ServerPerformInteraction(tileApply);
+					}
+					else
+					{
+						//don't interact at all, stop all checking - we hit a cooldown
+						//rollback in case they tried to predict it
+						tileInteraction.ServerRollbackClient(tileApply);
+						break;
+					}
+				}
+				else
+				{
+					tileInteraction.ServerRollbackClient(tileApply);
+				}
 			}
 		}
 	}

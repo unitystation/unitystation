@@ -14,31 +14,60 @@ public static class InteractionUtils
 	/// Use this on client side to request an interaction. This can be used to trigger
 	/// interactions manually outside of the normal interaction logic.
 	/// Request the server to perform the indicated interaction using the specified
-	/// component. The server will still validate the interaction and only perform
+	/// component (or whichever component triggers if interactableComponent is null). The server will still validate the interaction and only perform
 	/// it if it validates.
 	///
 	/// Note that if interactableComponent implements IClientSideInteractable for this interaction type,
 	/// nothing will be done.
 	/// </summary>
 	/// <param name="interaction">interaction to perform</param>
-	/// <param name="interactableComponent">component to handle the interaction</param>
+	/// <param name="interactableComponent">component to handle the interaction, null
+	/// if the server should determine which component will trigger from the interaction</param>
 	/// <typeparam name="T"></typeparam>
-	public static void RequestInteract<T>(T interaction, IBaseInteractable<T> interactableComponent)
+	public static void RequestInteract<T>(T interaction, IBaseInteractable<T> interactableComponent = null)
 		where T : Interaction
 	{
 		if (!Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction)) return;
 		RequestInteractMessage.Send(interaction, interactableComponent);
 	}
 
+
+	/// <summary>
+	/// Checks if this component would trigger and sends the interaction request to the server if it does. Doesn't
+	/// send a message if it only triggered an IClientInteractable (client side only) interaction.
+	/// </summary>
+	/// <param name="interactable"></param>
+	/// <param name="interaction"></param>
+	/// <param name="side"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns>true if an interaction was triggered (even if it was clientside-only)</returns>
+	public static bool ClientCheckAndTrigger<T>(this IBaseInteractable<T> interactable, T interaction) where T: Interaction
+	{
+		if (CheckInteractInternal(interactable, interaction, NetworkSide.Client, out var wasClientInteractable))
+		{
+			//if it was a client-side only interaction, we don't send an interaction request
+			if (!wasClientInteractable)
+			{
+				// we defer to the server for deciding what interaction was triggered, unless this is
+				// an AimApply in which case there's no reason for such a thing (no shooting-like interactions
+				// should have multiple interactable AimApply components)
+				RequestInteract(interaction, typeof(T) == typeof(AimApply) ? interactable : null);
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
 	/// <summary>
 	/// Client side interaction checking logic. Goes through each interactable component (starting from the bottom of the object's
 	/// component list) and checks for triggered interactions, returning the first one that
 	/// triggers an interaction, null if none are triggered. Messages the server to request an interaction for the interaction that
-	/// was triggered (if any).
+	/// was triggered (if any). Doesn't message the server if only a clientside interaction was triggered.
 	/// </summary>
 	/// <param name="interactables"></param>
 	/// <param name="interaction"></param>
-	/// <param name="side"></param>
 	/// <typeparam name="T"></typeparam>
 	/// <returns></returns>
 	public static IBaseInteractable<T> ClientCheckAndTrigger<T>(IEnumerable<IBaseInteractable<T>> interactables, T interaction)
@@ -49,13 +78,8 @@ public static class InteractionUtils
 			Category.Interaction, typeof(T).Name);
 		foreach (var interactable in interactables.Reverse())
 		{
-			if (interactable.CheckInteractInternal(interaction, NetworkSide.Client, out var wasClientInteractable))
+			if (ClientCheckAndTrigger(interactable, interaction))
 			{
-				//don't send a message for clientside-only interactions
-				if (!wasClientInteractable)
-				{
-					RequestInteract(interaction, interactable);
-				}
 				return interactable;
 			}
 		}
@@ -115,30 +139,6 @@ public static class InteractionUtils
 		return false;
 	}
 
-	/// <summary>
-	/// Checks if this component would trigger and sends the interaction request to the server if it does. Doesn't
-	/// send a message if it only triggered an IClientInteractable (client side only) interaction.
-	/// </summary>
-	/// <param name="interactable"></param>
-	/// <param name="interaction"></param>
-	/// <param name="side"></param>
-	/// <typeparam name="T"></typeparam>
-	/// <returns>true if an interaction was triggered (even if it was clientside-only)</returns>
-	public static bool ClientCheckAndRequestInteract<T>(this IBaseInteractable<T> interactable, T interaction) where T: Interaction
-	{
-		if (CheckInteractInternal(interactable, interaction, NetworkSide.Client, out var wasClientInteractable))
-		{
-			//if it was a client-side only interaction, we don't send an interaction request
-			if (!wasClientInteractable)
-			{
-				RequestInteract(interaction, interactable);
-			}
-
-			return true;
-		}
-
-		return false;
-	}
 
 	/// <summary>
 	/// Checks if this component should trigger based on server-side logic.
