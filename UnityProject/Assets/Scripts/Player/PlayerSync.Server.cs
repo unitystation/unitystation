@@ -155,6 +155,8 @@ public partial class PlayerSync
 
 	public void SetVisibleServer(bool visible)
 	{
+		if (!isServer) return;
+
 		if ( visible )
 		{
 			AppearAtPositionServer( pushPull.AssumedWorldPositionServer() );

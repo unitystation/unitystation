@@ -15,44 +15,18 @@ public class Tools : Editor
 
 	}
 
-	[MenuItem("Tools/Clean Up Wire Dupes")]
-	private static void RemoveWireDupes()
+	[MenuItem("Tools/Refresh Directionals")]
+	private static void RefreshDirectionals()
 	{
-		List<Conn> testConns = new List<Conn>();
-		var allWires = FindObjectsOfType<WireConnect>();
+		var allDirs = FindObjectsOfType<Directional>();
 
-		int wireDupes = 0;
-		for (int i = allWires.Length - 1; i > 0; i--)
+		for (int i = allDirs.Length - 1; i > 0; i--)
 		{
-			var w = allWires[i];
-			var cable = w.GetComponent<CableInheritance>();
-			if (cable == null) continue;
-
-			var c = new Conn
-			{
-				worldPos = w.transform.position,
-				wireEndA = w.InData.WireEndA,
-				wireEndB = w.InData.WireEndB,
-				wireType = cable.ApplianceType
-			};
-
-			var index = testConns.FindIndex(x => x.worldPos == c.worldPos &&
-			                                     x.wireEndA == c.wireEndA &&
-			                                     x.wireEndB == c.wireEndB &&
-												 x.wireType == c.wireType);
-
-			if (index == -1)
-			{
-				testConns.Add(c);
-			}
-			else
-			{
-				DestroyImmediate(w.gameObject);
-				wireDupes++;
-			}
+			if(allDirs[i].onEditorDirectionChange != null)
+				allDirs[i].onEditorDirectionChange.Invoke();
 		}
 
-		Debug.Log($"Removed {wireDupes} wire dupes");
+		Debug.Log($"Refreshed {allDirs.Length} directionals");
 	}
 
 	//this is just for migrating from old way of setting wallmount directions to the new way

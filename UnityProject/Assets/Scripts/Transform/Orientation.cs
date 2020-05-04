@@ -21,7 +21,7 @@ public struct Orientation : IEquatable<Orientation>
 	/// </summary>
 	public readonly int Degrees;
 
-	private Orientation(int degree)
+	public Orientation(int degree)
 	{
 		Degrees = degree;
 	}

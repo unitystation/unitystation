@@ -17,7 +17,6 @@ GameObject:
   - component: {fileID: 114556952556266662}
   - component: {fileID: 6683878051609785215}
   - component: {fileID: 804569472849686567}
-  - component: {fileID: 2703357943102309780}
   - component: {fileID: 1867072349025343184}
   - component: {fileID: -6310048276167888487}
   - component: {fileID: 114259338949648092}
@@ -166,6 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverSpawned: 0
   isDirty: 1
   sceneId: 0
   serverOnly: 0
@@ -196,22 +196,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  isDebug: 0
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114259338949648092}
+        m_MethodName: EditorDirectionChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   ChangeDirectionWithMatrix: 0
   DisableSyncing: 1
---- !u!114 &2703357943102309780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614508754264130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a1123c5b215682469419ae00eb87e39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabChildrenOrientation: 3
 --- !u!114 &1867072349025343184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,6 +270,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   relatedLightSwitch: {fileID: 0}
+  isDebug: 0
   InitialState: 1
   mLightRendererObject: {fileID: 0}
   isWithoutSwitch: 0
@@ -288,9 +291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &1865224276101266
 GameObject:
   m_ObjectHideFlags: 0

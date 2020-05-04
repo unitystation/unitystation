@@ -98,7 +98,6 @@ GameObject:
   - component: {fileID: 114545401147975254}
   - component: {fileID: -584882335963469257}
   - component: {fileID: 2168658977310716751}
-  - component: {fileID: 8801529538964132052}
   - component: {fileID: 3235767790128179610}
   - component: {fileID: -8775636696312819921}
   - component: {fileID: 114197525563370534}
@@ -247,6 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  serverSpawned: 0
   isDirty: 1
   sceneId: 0
   serverOnly: 0
@@ -265,7 +265,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  isDebug: 0
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114197525563370534}
+        m_MethodName: EditorDirectionChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   ChangeDirectionWithMatrix: 0
   DisableSyncing: 1
 --- !u!114 &2168658977310716751
@@ -280,19 +295,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa17625094f8479ab08dbcfbdec01da8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8801529538964132052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1745947215034166}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a1123c5b215682469419ae00eb87e39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabChildrenOrientation: 3
 --- !u!114 &3235767790128179610
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +351,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   relatedLightSwitch: {fileID: 0}
+  isDebug: 0
   InitialState: 1
   mLightRendererObject: {fileID: 0}
   isWithoutSwitch: 0
@@ -369,9 +372,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &4425836223823806458
 GameObject:
   m_ObjectHideFlags: 0

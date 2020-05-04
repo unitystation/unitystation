@@ -11,7 +11,6 @@ using Random = UnityEngine.Random;
 public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowered, IServerDespawn
 {
 	public LightSwitchV2 relatedLightSwitch;
-
 	private float coolDownTime = 2.0f;
 	private bool isInCoolDown;
 
@@ -45,6 +44,8 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private GameObject itemInMount;
 	private float integrityThreshBar;
 
+	private bool isInit = false;
+
 	private void Awake()
 	{
 		EnsureInit();
@@ -52,6 +53,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void EnsureInit()
 	{
+		if (isInit) return;
 		if (mLightRendererObject == null)
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
 
@@ -83,6 +85,30 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 			switchState = InitialState == LightMountState.On;
 	}
 
+	public override void OnStartServer()
+	{
+		EnsureInit();
+		base.OnStartServer();
+		mState = InitialState;
+	}
+
+	public override void OnStartClient()
+	{
+		EnsureInit();
+		base.OnStartClient();
+		SyncLightState(mState, mState);
+	}
+
+	private void OnEnable()
+	{
+		integrity.OnApllyDamage.AddListener(OnDamageReceived);
+	}
+
+	private void OnDisable()
+	{
+		if(integrity != null) integrity.OnApllyDamage.RemoveListener(OnDamageReceived);
+	}
+
 	[Server]
 	public void ServerChangeLightState(LightMountState newState)
 	{
@@ -99,13 +125,25 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private void ChangeCurrentState(LightMountState newState)
 	{
 		currentState = mountStatesMachine.LightMountStates[newState];
-		CashCurrentStateVars();
+		SetSprites();
 	}
 
-	private void CashCurrentStateVars()
+	//Editor only syncing
+	public void EditorDirectionChange()
+	{
+		directional = GetComponent<Directional>();
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
+			? GetComponentsInChildren<SpriteRenderer>()[1] : GetComponentsInChildren<SpriteRenderer>()[0];
+
+		var state = mountStatesMachine.LightMountStates[LightMountState.On];
+		spriteRenderer.sprite = state.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+		spriteRendererLightOn.sprite = spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+	}
+
+	private void SetSprites()
 	{
 		spriteRenderer.sprite = currentState.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
-
 		spriteRendererLightOn.sprite = mState == LightMountState.On
 				? spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum())
 				: null;
@@ -262,24 +300,6 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	}
 
 	#endregion
-
-	public override void OnStartClient()
-	{
-		EnsureInit();
-		base.OnStartClient();
-		SyncLightState(mState, mState);
-	}
-
-	private void OnEnable()
-	{
-		EnsureInit();
-		integrity.OnApllyDamage.AddListener(OnDamageReceived);
-	}
-
-	private void OnDisable()
-	{
-		if(integrity != null) integrity.OnApllyDamage.RemoveListener(OnDamageReceived);
-	}
 
 	private void OnDamageReceived(DamageInfo arg0)
 	{
