@@ -20,8 +20,6 @@ using Mirror;
 [RequireComponent(typeof(RegisterTile))][ExecuteInEditMode]
 public class Directional : NetworkBehaviour, IMatrixRotation
 {
-	public bool isDebug = false;
-
 	[Tooltip("Direction of this object in the scene, used as the initial direction when the map loads.")]
 	public OrientationEnum InitialDirection = OrientationEnum.Down;
 
@@ -157,7 +155,6 @@ void OnDrawGizmosSelected()
 	private void WaitForMatrixLoad(MatrixInfo matrixInfo)
 	{
 		serverDirection = new Orientation(InitialOrientation.Degrees);
-		if(isDebug) Debug.Log("SERVER DIR: " + serverDirection);
 	}
 
     public override void OnStartClient()
