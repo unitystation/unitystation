@@ -411,6 +411,9 @@ public partial class PlayerList
 			{
 				Logger.Log(
 					$"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}");
+
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}", admin);
+
 				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
 			}
 		}
