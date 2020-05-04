@@ -32,7 +32,6 @@ public class  Matrix : MonoBehaviour
 	public bool IsSpaceMatrix;
 	public bool IsMainStation;
 
-
 	public MatrixMove MatrixMove { get; private set; }
 
 	private TileChangeManager tileChangeManager;
@@ -44,6 +43,22 @@ public class  Matrix : MonoBehaviour
 	/// Does this have a matrix move and is that matrix move moving?
 	/// </summary>
 	public bool IsMovingServer => MatrixMove != null && MatrixMove.IsMovingServer;
+
+	/// <summary>
+	/// Matrix info that is provided via MatrixManager
+	/// </summary>
+	public MatrixInfo MatrixInfo { get; private set; }
+	/// <summary>
+	/// Is the matrix info correctly configured
+	/// </summary>
+	public bool MatrixInfoConfigured { get; private set; }
+
+	/// <summary>
+	/// Register your action here if the MatrixInfo has not been configured correctly yet.
+	/// The action will be called when it has been set up correctly and return the
+	/// correct MatrixInfo
+	/// </summary>
+	public UnityAction<MatrixInfo> OnConfigLoaded;
 
 	/// <summary>
 	/// Invoked when some serious collision/explosion happens.
@@ -97,6 +112,13 @@ public class  Matrix : MonoBehaviour
 		{
 			layer.RecalculateBounds();
 		}
+	}
+
+	public void ConfigureMatrixInfo(MatrixInfo matrixInfo)
+	{
+		MatrixInfo = matrixInfo;
+		MatrixInfoConfigured = true;
+		OnConfigLoaded?.Invoke(matrixInfo);
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer, bool includingPlayers = true, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)

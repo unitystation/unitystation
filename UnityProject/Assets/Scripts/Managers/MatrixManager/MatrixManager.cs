@@ -76,19 +76,6 @@ public partial class MatrixManager : MonoBehaviour
 		}
 		//Wait half a second to capture the majority of other matrices loading in
 		yield return WaitFor.Seconds(0.1f);
-		Debug.Log("MATRIX MANAGER INIT: " + Instance.ActiveMatrices.Count);
-
-		foreach (var m in ActiveMatrices)
-		{
-			if (m.GameObject == null)
-			{
-				Debug.Log("NO GAME OBJECT!!");
-			}
-			else
-			{
-				Debug.Log("M: " + m.GameObject.name);
-			}
-		}
 		IsInitialized = true;
 	}
 
@@ -132,6 +119,7 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 		var matrixInfo = CreateMatrixInfoFromMatrix(matrixToRegister, Instance.ActiveMatrices.Count);
+		matrixToRegister.ConfigureMatrixInfo(matrixInfo);
 
 		if (!Instance.ActiveMatrices.Contains(matrixInfo))
 		{
@@ -153,6 +141,7 @@ public partial class MatrixManager : MonoBehaviour
 				for (var i = 0; i < Instance.ActiveMatrices.Count; i++)
 				{
 					Instance.ActiveMatrices[i] = CreateMatrixInfoFromMatrix(Instance.ActiveMatrices[i].Matrix, i);
+					matrixToRegister.ConfigureMatrixInfo(Instance.ActiveMatrices[i]);
 					Instance.ActiveMatrices[i].Matrix.Id = i;
 				}
 			}
