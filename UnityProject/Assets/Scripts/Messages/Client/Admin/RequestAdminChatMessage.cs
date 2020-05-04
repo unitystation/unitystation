@@ -21,6 +21,8 @@ public class RequestAdminChatMessage : ClientMessage
 		if (player != null)
 		{
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(Message, Userid);
+
+			PlayerList.Instance.AddToAdminLog(Userid + ":" + Message);
 		}
 	}
 

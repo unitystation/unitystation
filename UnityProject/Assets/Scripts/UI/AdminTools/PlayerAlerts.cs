@@ -168,9 +168,13 @@ namespace AdminTools
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{admin.ExpensiveName()} BRUTALLY GIBBED player {perp.ExpensiveName()} for a " +
-			                                                                         $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: " +
-			                                                                         $"{alertEntry.roundTime}", adminId);
+			string msg = $"{admin.ExpensiveName()} BRUTALLY GIBBED player {perp.ExpensiveName()} for a " +
+							$"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: " +
+							$"{alertEntry.roundTime}";
+
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
+
+			PlayerList.Instance.AddToAdminLog(adminId + ":" + msg);
 
 			playerScript.playerHealth.ServerGibPlayer();
 
@@ -187,9 +191,13 @@ namespace AdminTools
 			var playerScript = perp.GetComponent<PlayerScript>();
 			if (playerScript == null || playerScript.IsGhost || playerScript.playerHealth == null) return;
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{admin.ExpensiveName()} is talking to or monitoring player {perp.ExpensiveName()} for a " +
-			                                                                         $"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: " +
-			                                                                         $"{alertEntry.roundTime}", adminId);
+			string msg = $"{admin.ExpensiveName()} is talking to or monitoring player {perp.ExpensiveName()} for a " +
+							$"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: " +
+							$"{alertEntry.roundTime}";
+
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
+
+			PlayerList.Instance.AddToAdminLog(adminId + ":" + msg);
 
 			alertEntry.takenCareOf = true;
 			ServerSendEntryToAllAdmins(alertEntry);

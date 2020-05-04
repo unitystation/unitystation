@@ -27,8 +27,11 @@ public class DevSpawnMessage : ClientMessage
 		//no longer checks impassability, spawn anywhere, go hog wild.
 		Spawn.ServerPrefab(Name, WorldPosition);
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-			$"{admin.ExpensiveName()} spawned a {Name} at {WorldPosition}", AdminId);
+		string msg = $"{admin.ExpensiveName()} spawned a {Name} at {WorldPosition}";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, AdminId);
+
+		PlayerList.Instance.AddToAdminLog(AdminId + ":" + msg);
 	}
 
 	public override string ToString()

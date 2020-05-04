@@ -21,6 +21,8 @@ public partial class PlayerList
 	private Dictionary<string, string> loggedInAdmins = new Dictionary<string, string>();
 	private BanList banList;
 	private string adminsPath;
+	private string adminLogPath;
+	private bool logSwitcher = true;
 	private string banPath;
 	private List<string> whiteListUsers = new List<string>();
 	private string whiteListPath;
@@ -46,6 +48,26 @@ public partial class PlayerList
 		if (!File.Exists(whiteListPath))
 		{
 			File.CreateText(whiteListPath).Close();
+		}
+
+		if (logSwitcher)
+		{
+			adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog.txt");
+			logSwitcher = false;
+		}
+		else
+		{
+			adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminprevlog.txt");
+			logSwitcher = true;
+		}
+
+		if (!File.Exists(adminLogPath))
+		{
+			File.CreateText(adminLogPath).Close();
+		}
+		else
+		{
+			File.Create(adminLogPath).Close();
 		}
 
 		adminListWatcher = new FileSystemWatcher();
@@ -400,6 +422,14 @@ public partial class PlayerList
 		}
 	}
 
+	public void AddToAdminLog(string log)
+	{
+		File.AppendAllLines(adminLogPath, new string[]
+		{
+			"\r\n" + log
+		});
+	}
+
 	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes)
 	{
 		if (!adminUsers.Contains(admin)) return;
@@ -409,10 +439,13 @@ public partial class PlayerList
 		{
 			foreach (var p in players)
 			{
-				Logger.Log(
-					$"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}");
+				string msg = $"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}", admin);
+				Logger.Log(msg);
+
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, admin);
+
+				AddToAdminLog(admin + ":" + msg);
 
 				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
 			}

@@ -226,10 +226,14 @@ public static class VariableViewer
 	{
 		if (Librarian.IDToPage.ContainsKey(PageID))
 		{
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-				WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " +  Librarian.IDToPage[PageID].BindedTo.Title
-				+ " From " + VVUIElementHandler.Serialise(Librarian.IDToPage[PageID].Variable, Librarian.IDToPage[PageID].VariableType) + " to "+ ChangeTo
-				+ " with Send to clients? " + SendToClient, AdminId);
+			string msg = WhoBy.name + " Modified " + Librarian.IDToPage[PageID].VariableName + " on " + Librarian.IDToPage[PageID].BindedTo.Title
+				+ " From " + VVUIElementHandler.Serialise(Librarian.IDToPage[PageID].Variable, Librarian.IDToPage[PageID].VariableType) + " to " + ChangeTo
+				+ " with Send to clients? " + SendToClient;
+
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, AdminId);
+
+			PlayerList.Instance.AddToAdminLog(AdminId + ":" + msg);
+
 			Librarian.PageSetValue(Librarian.IDToPage[PageID], ChangeTo);
 			if (SendToClient)
 			{
