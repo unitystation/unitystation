@@ -74,7 +74,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	/// </summary>
 	private enum MotionStateEnum { Moving, Still }
 
-	private Coroutine limboHandle;
 	private MotionStateEnum motionState = MotionStateEnum.Moving;
 	/// <summary>
 	/// Used to determine if this transform is worth updating every frame
@@ -91,8 +90,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 			if ( value == MotionStateEnum.Moving )
 			{
-				StopCoroutine(limboHandle);
-
+				doMotionCheck = false;
 				// In the case we become Still and then Moving again in one second, we're still updating because freeze timer hasn't finished yet.
 				// Checking here if timer has passed yet (so we're no longer updating), if we are still updating we don't have to call OnEnable again.
 				if (!IsUpdating)
@@ -100,24 +98,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			}
 			else
 			{
-				this.RestartCoroutine( FreezeWithTimeout(), ref limboHandle );
+				motionCheckTime = 0f;
+				doMotionCheck = true;
 			}
 
 			motionState = value;
 		}
 	}
 
-	/// <summary>
-	/// Waits 5 seconds and unsubscribes this CNT from Update() cycle
-	/// </summary>
-	private IEnumerator FreezeWithTimeout()
-	{
-		yield return WaitFor.Seconds(5);
-		if ( MotionState == MotionStateEnum.Still )
-		{
-			base.OnDisable();
-		}
-	}
+	private bool doMotionCheck = false;
+	private float motionCheckTime = 0f;
 
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
@@ -187,7 +177,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			registerTile = GetComponent<RegisterTile>();
 		}
 
-		registerTile.WaitForMatrixManagerInit(PerformServerStateInit);
+		registerTile.WaitForMatrixInit(PerformServerStateInit);
 	}
 
 	private void PerformServerStateInit(MatrixInfo info)
@@ -242,9 +232,25 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	//managed by UpdateManager
 	public override void UpdateMe()
 	{
+		if (doMotionCheck) DoMotionCheck();
+
 		if ( this != null && !Synchronize() )
 		{
 			MotionState = MotionStateEnum.Still;
+		}
+	}
+
+	void DoMotionCheck()
+	{
+		motionCheckTime += Time.deltaTime;
+		if (motionCheckTime > 5f)
+		{
+			motionCheckTime = 0f;
+			doMotionCheck = false;
+			if (MotionState == MotionStateEnum.Still)
+			{
+				base.OnDisable();
+			}
 		}
 	}
 

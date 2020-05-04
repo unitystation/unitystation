@@ -21,7 +21,7 @@ namespace Items
 		public override void OnStartServer()
 		{
 			var registerTile = GetComponent<RegisterTile>();
-			registerTile.WaitForMatrixManagerInit(RollRandomPool);
+			registerTile.WaitForMatrixInit(RollRandomPool);
 		}
 
 		private void RollRandomPool(MatrixInfo matrixInfo)

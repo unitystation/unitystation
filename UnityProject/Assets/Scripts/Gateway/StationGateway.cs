@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -146,6 +147,7 @@ public class StationGateway : NetworkBehaviour
 		var worldScene = Worlds[0];
 		if (worldScene == null) yield break;
 		AsyncOperation AO = SceneManager.LoadSceneAsync(worldScene, LoadSceneMode.Additive);
+		AO.priority = 0;
 		while(!AO.isDone)
 		{
 			yield return WaitFor.EndOfFrame;
@@ -160,7 +162,6 @@ public class StationGateway : NetworkBehaviour
 		};
 
 		NetworkServer.SendToAll(msg);
-
 		selectedWorld = FindObjectOfType<WorldGatewayRef>().WorldGateway;
 
 		Message = "Teleporting to: " + selectedWorld.WorldName;
@@ -220,14 +221,6 @@ public class StationGateway : NetworkBehaviour
 	public virtual void TransportPlayers(ObjectBehaviour player)
 	{
 		//teleports player to the front of the new gateway
-
-//
-
-	//	player.transform.parent = selectedWorld.transform;
-	//player.GetComponent<PlayerSync>().SetPosition(selectedWorld.transform.position);
-	//	player.transform.parent = null;
-
-	//	SceneManager.MoveGameObjectToScene(player.gameObject, selectedWorld.gameObject.scene);
 		player.GetComponent<PlayerSync>().SetPosition(selectedWorld.GetComponent<RegisterTile>().WorldPosition);
 		Debug.Log("SELECTED WORLD POS: " + selectedWorld.transform.position);
 	}

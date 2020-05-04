@@ -75,8 +75,14 @@ public class MobAgent : Agent
 			startPos = transform.position;
 			isServer = true;
 			base.OnEnable();
-			AgentServerStart();
+			registerObj = GetComponent<RegisterObject>();
+			registerObj.WaitForMatrixInit(StartServerAgent);
 		}
+	}
+
+	void StartServerAgent(MatrixInfo info)
+	{
+		AgentServerStart();
 	}
 
 	public override void OnDisable()
@@ -114,7 +120,7 @@ public class MobAgent : Agent
 	/// </summary>
 	protected virtual void UpdateMe()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance._isServer && MatrixManager.IsInitialized)
 		{
 			MonitorDecisionMaking();
 		}

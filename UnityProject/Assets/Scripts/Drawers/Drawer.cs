@@ -71,7 +71,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 	{
 		base.OnStartServer();
 		registerObject = GetComponent<RegisterObject>();
-		registerObject.WaitForMatrixManagerInit(ServerInit);
+		registerObject.WaitForMatrixInit(ServerInit);
 	}
 
 	void ServerInit(MatrixInfo matrixInfo)

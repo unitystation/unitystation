@@ -121,7 +121,6 @@ public partial class MatrixManager : MonoBehaviour
 		}
 
 		var matrixInfo = CreateMatrixInfoFromMatrix(matrixToRegister, Instance.ActiveMatrices.Count);
-		matrixToRegister.ConfigureMatrixInfo(matrixInfo);
 
 		if (!Instance.ActiveMatrices.Contains(matrixInfo))
 		{
@@ -137,15 +136,7 @@ public partial class MatrixManager : MonoBehaviour
 		{
 			if (Instance.spaceMatrix == null)
 			{
-				Instance.ActiveMatrices.Insert(0, matrixInfo);
 				Instance.spaceMatrix = matrixToRegister;
-
-				for (var i = 0; i < Instance.ActiveMatrices.Count; i++)
-				{
-					Instance.ActiveMatrices[i] = CreateMatrixInfoFromMatrix(Instance.ActiveMatrices[i].Matrix, i);
-					matrixToRegister.ConfigureMatrixInfo(Instance.ActiveMatrices[i]);
-					Instance.ActiveMatrices[i].Matrix.Id = i;
-				}
 			}
 			else
 			{
@@ -165,6 +156,7 @@ public partial class MatrixManager : MonoBehaviour
 			}
 		}
 
+		matrixToRegister.ConfigureMatrixInfo(matrixInfo);
 		Instance.InitCollisions(matrixInfo);
 	}
 
@@ -190,17 +182,17 @@ public partial class MatrixManager : MonoBehaviour
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
 	{
-		//reverse loop so that station comes last
 		for ( var i = Instance.ActiveMatrices.Count - 1; i >= 0; i-- )
 		{
 			MatrixInfo mat = Instance.ActiveMatrices[i];
+			if (mat.Matrix == Instance.spaceMatrix) continue;
 			if ( !mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ), isServer ) )
 			{
 				return mat;
 			}
 		}
 
-		return Instance.ActiveMatrices[0];
+		return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
 	}
 
 	public static void ListAllMatrices()

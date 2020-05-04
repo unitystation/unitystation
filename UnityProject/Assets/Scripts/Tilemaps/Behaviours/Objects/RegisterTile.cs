@@ -395,12 +395,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private MatrixInfo pendingInfo;
 
 	/// <summary>
-	/// If your start initialization relies on MatrixManager being
-	/// initialized then send the action here. It will wait until
-	/// MatrixManager is ready before calling the action
+	/// If your start initialization relies on Matrix being
+	/// initialized with the correct MatrixInfo then send the action here.
+	/// It will wait until the matrix is properly configured
+	/// before calling the action
 	/// </summary>
-	/// <param name="initAction"></param>
-	public void WaitForMatrixManagerInit(Action<MatrixInfo> initAction)
+	/// <param name="initAction">Action to call when the Matrix is configured</param>
+	public void WaitForMatrixInit(Action<MatrixInfo> initAction)
 	{
 		matrixManagerDependantActions.Add(initAction);
 		if (!matrix.MatrixInfoConfigured)

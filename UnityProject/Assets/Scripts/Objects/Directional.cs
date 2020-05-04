@@ -117,7 +117,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 	public override void OnStartServer()
 	{
 		var registerTile = GetComponent<RegisterTile>();
-		registerTile.WaitForMatrixManagerInit(WaitForMatrixLoad);
+		registerTile.WaitForMatrixInit(WaitForMatrixLoad);
 	}
 
 	private void WaitForMatrixLoad(MatrixInfo matrixInfo)
