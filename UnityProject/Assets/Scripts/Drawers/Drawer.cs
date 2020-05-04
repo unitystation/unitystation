@@ -69,17 +69,13 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 
 	public override void OnStartServer()
 	{
-		StartCoroutine(WaitForMatrixManager());
 		base.OnStartServer();
+		registerObject = GetComponent<RegisterObject>();
+		registerObject.WaitForMatrixManagerInit(ServerInit);
 	}
 
-	IEnumerator WaitForMatrixManager()
+	void ServerInit(MatrixInfo matrixInfo)
 	{
-		while (!MatrixManager.IsInitialized)
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-
 		SpawnResult traySpawn = Spawn.ServerPrefab(trayPrefab, DrawerWorldPosition);
 		if (!traySpawn.Successful)
 		{

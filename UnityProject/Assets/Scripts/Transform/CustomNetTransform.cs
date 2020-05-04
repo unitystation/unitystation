@@ -175,7 +175,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		InitServerState();
 	}
 
-	private bool listenerAdded = false;
 	[Server]
 	private void InitServerState()
 	{
@@ -188,32 +187,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			registerTile = GetComponent<RegisterTile>();
 		}
 
-		var matrix = transform.parent.parent.GetComponent<Matrix>();
-		if (matrix == null)
-		{
-			Logger.LogError($"Can't find matrix at: {transform.parent.parent.name}" +
-			                $" for {gameObject.name}");
-			return;
-		}
-		if (!matrix.MatrixInfoConfigured)
-		{
-			listenerAdded = true;
-			matrix.OnConfigLoaded += PerformServerStateInit;
-		}
-		else
-		{
-			PerformServerStateInit(matrix.MatrixInfo);
-		}
+		registerTile.WaitForMatrixManagerInit(PerformServerStateInit);
 	}
 
 	private void PerformServerStateInit(MatrixInfo info)
 	{
-		if (listenerAdded)
-		{
-			listenerAdded = false;
-			matrix.OnConfigLoaded -= PerformServerStateInit;
-		}
-
 		//If object is supposed to be hidden, keep it that way
 		serverState.Speed = 0;
 		serverState.SpinRotation = transform.localRotation.eulerAngles.z;

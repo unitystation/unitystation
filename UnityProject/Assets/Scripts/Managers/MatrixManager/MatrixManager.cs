@@ -77,6 +77,8 @@ public partial class MatrixManager : MonoBehaviour
 		//Wait half a second to capture the majority of other matrices loading in
 		yield return WaitFor.Seconds(0.1f);
 		IsInitialized = true;
+
+		EventManager.Broadcast(EVENT.MatrixManagerInit);
 	}
 
 	private void OnEnable()

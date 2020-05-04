@@ -116,19 +116,14 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 
 	public override void OnStartServer()
 	{
-		StartCoroutine(WaitForMatrixLoad());
+		var registerTile = GetComponent<RegisterTile>();
+		registerTile.WaitForMatrixManagerInit(WaitForMatrixLoad);
 	}
 
-	IEnumerator WaitForMatrixLoad()
+	private void WaitForMatrixLoad(MatrixInfo matrixInfo)
 	{
-		while (!MatrixManager.IsInitialized)
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-
 		serverDirection = InitialOrientation;
 	}
-
 
     public override void OnStartClient()
     {

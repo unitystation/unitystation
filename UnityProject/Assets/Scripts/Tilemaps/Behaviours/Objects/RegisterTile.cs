@@ -232,6 +232,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LogMatrixDebug("OnEnable");
 		initialized = false;
 		ForceRegister();
+		EventManager.AddHandler(EVENT.MatrixManagerInit, MatrixManagerInit);
+	}
+
+	private void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.MatrixManagerInit, MatrixManagerInit);
 	}
 
 	public override void OnStartClient()
@@ -382,6 +388,59 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			LocalPositionServer = Vector3Int.RoundToInt(transform.localPosition);
 			LocalPositionClient = Vector3Int.RoundToInt(transform.localPosition);
 		}
+	}
+
+	private List<Action<MatrixInfo>> matrixManagerDependantActions = new List<Action<MatrixInfo>>();
+	private bool listenerAdded = false;
+	private MatrixInfo pendingInfo;
+
+	/// <summary>
+	/// If your start initialization relies on MatrixManager being
+	/// initialized then send the action here. It will wait until
+	/// MatrixManager is ready before calling the action
+	/// </summary>
+	/// <param name="initAction"></param>
+	public void WaitForMatrixManagerInit(Action<MatrixInfo> initAction)
+	{
+		matrixManagerDependantActions.Add(initAction);
+		if (!matrix.MatrixInfoConfigured)
+		{
+			if (!listenerAdded)
+			{
+				listenerAdded = true;
+				matrix.OnConfigLoaded += MatrixManagerInitAction;
+			}
+		}
+		else
+		{
+			MatrixManagerInitAction(matrix.MatrixInfo);
+		}
+	}
+
+	private void MatrixManagerInitAction(MatrixInfo matrixInfo)
+	{
+		if (!MatrixManager.IsInitialized)
+		{
+			pendingInfo = matrixInfo;
+			return;
+		}
+
+		if (listenerAdded)
+		{
+			listenerAdded = false;
+			matrix.OnConfigLoaded -= MatrixManagerInitAction;
+		}
+
+		foreach (var a in matrixManagerDependantActions)
+		{
+			a.Invoke(matrixInfo);
+		}
+		matrixManagerDependantActions.Clear();
+	}
+
+	void MatrixManagerInit()
+	{
+		MatrixManagerInitAction(pendingInfo);
 	}
 
 	public void UnregisterClient()

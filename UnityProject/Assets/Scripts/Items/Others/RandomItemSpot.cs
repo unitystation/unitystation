@@ -20,20 +20,11 @@ namespace Items
 
 		public override void OnStartServer()
 		{
-			StartCoroutine(WaitForMatrixManager());
+			var registerTile = GetComponent<RegisterTile>();
+			registerTile.WaitForMatrixManagerInit(RollRandomPool);
 		}
 
-		IEnumerator WaitForMatrixManager()
-		{
-			while (!MatrixManager.IsInitialized)
-			{
-				yield return WaitFor.EndOfFrame;
-			}
-
-			RollRandomPool();
-		}
-
-		private void RollRandomPool()
+		private void RollRandomPool(MatrixInfo matrixInfo)
 		{
 			for (int i = 0; i <= lootCount; i++)
 			{
@@ -63,8 +54,6 @@ namespace Items
 
 				SpawnItems(pool);
 			}
-
-			Destroy(gameObject);
 		}
 
 		private void SpawnItems(PoolData poolData)

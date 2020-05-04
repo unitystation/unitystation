@@ -166,6 +166,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 			yield return WaitFor.EndOfFrame;
 		}
 
+		yield return WaitFor.EndOfFrame;
+
 		InitServerState();
 
 		MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
