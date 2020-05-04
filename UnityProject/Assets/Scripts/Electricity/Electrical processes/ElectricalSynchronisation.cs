@@ -234,14 +234,11 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private void InternalAddSupply(QueueAddSupply Adding)
 	{
-		if (AliveSupplies.TryGetValue(Adding.category, out var aliveSup))
+		if (!AliveSupplies.TryGetValue(Adding.category, out var aliveSup))
 		{
-			aliveSup.Add(Adding.supply);
+			aliveSup = AliveSupplies[Adding.category] = new HashSet<ElectricalNodeControl>();
 		}
-		else
-		{
-			AliveSupplies[Adding.category] = new HashSet<ElectricalNodeControl>() { Adding.supply };
-		}
+		aliveSup.Add(Adding.supply);
 		TotalSupplies.Add(Adding.supply);
 	}
 

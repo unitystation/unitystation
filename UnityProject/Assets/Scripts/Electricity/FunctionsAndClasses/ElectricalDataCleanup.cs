@@ -136,22 +136,18 @@ public static class ElectricalDataCleanup
 					Object.Data.ActualVoltage = 0;
 				}
 			}
-			else
+			else if (Object.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
 			{
-				if (Object.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
+				if (supplyDep.CurrentComingFrom.Count > 0 || supplyDep.CurrentGoingTo.Count > 0)
 				{
-					if (supplyDep.CurrentComingFrom.Count > 0
-						|| supplyDep.CurrentGoingTo.Count > 0)
+					Pool(supplyDep.CurrentGoingTo);
+					Pool(supplyDep.CurrentComingFrom);
+					foreach (IntrinsicElectronicData JumpTo in Object.Data.connections)
 					{
-						Pool(supplyDep.CurrentGoingTo);
-						Pool(supplyDep.CurrentComingFrom);
-						foreach (IntrinsicElectronicData JumpTo in Object.Data.connections)
-						{
-							JumpTo.FlushSupplyAndUp(SourceInstance);
-						}
+						JumpTo.FlushSupplyAndUp(SourceInstance);
 					}
-					supplyDep.SourceVoltage = 0;
 				}
+				supplyDep.SourceVoltage = 0;
 			}
 		}
 
