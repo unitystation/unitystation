@@ -34,15 +34,15 @@ public class ControlTabs : MonoBehaviour
 	}
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 	}
 
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
 		Instance.ResetControlTabs();
 	}

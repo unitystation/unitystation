@@ -118,6 +118,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
+		Debug.Log("TRY PICK UP");
 		if (!canPickup) return false;
 		//we need to be the target
 		if (interaction.TargetObject != gameObject) return false;
