@@ -779,7 +779,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			if (playerScript.mind.IsSpectator) return;
 
 			GhostEnterBody();
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(admin.ExpensiveName() + " reentered body", adminId);
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(admin.ExpensiveName() + " reentered body.", adminId);
 		}
 	}
 
