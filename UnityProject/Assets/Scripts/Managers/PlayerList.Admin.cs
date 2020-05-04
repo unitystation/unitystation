@@ -52,12 +52,12 @@ public partial class PlayerList
 
 		if (logSwitcher)
 		{
-			adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog.txt");
+			adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog1.txt");
 			logSwitcher = false;
 		}
 		else
 		{
-			adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminprevlog.txt");
+			adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog2.txt");
 			logSwitcher = true;
 		}
 
@@ -67,7 +67,10 @@ public partial class PlayerList
 		}
 		else
 		{
+			//Clears file
 			File.Create(adminLogPath).Close();
+
+			//Todo add to file round number here
 		}
 
 		adminListWatcher = new FileSystemWatcher();
