@@ -772,12 +772,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!playerScript.IsGhost)//admin turns into ghost
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(admin.ExpensiveName() + " turned into a ghost.", adminId);
 		}
 		else if (playerScript.IsGhost)//back to player
 		{
 			if (playerScript.mind.IsSpectator) return;
 
 			GhostEnterBody();
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(admin.ExpensiveName() + " reentered body", adminId);
 		}
 	}
 
@@ -801,6 +803,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		{
 			SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject, player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
 		}
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(admin.ExpensiveName() + " played a global sound.", adminId);
 	}
 
 	[Command]
@@ -817,6 +821,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.left, 700, .05f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.up, 700, .05f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.right, 700, .05f);
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(admin.ExpensiveName() + " created a hotspot on " + onObject.ExpensiveName(), adminId);
 	}
 
 	[Command]
@@ -836,6 +842,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(admin.ExpensiveName() + " smashed " + toSmash.ExpensiveName(), adminId);
 	}
 
 	//simulates despawning and immediately respawning this object, expectation
@@ -847,6 +855,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 
 		Spawn.ServerPoolTestRespawn(toRespawn);
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(admin.ExpensiveName() + " respawned " + toRespawn.ExpensiveName(), adminId);
 	}
 
 	[Command]
@@ -856,6 +866,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 
 		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.notice);
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(admin.ExpensiveName() + " sent a centcomm announcement.", adminId);
 	}
 
 	[Command]
@@ -865,6 +877,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 		GameManager.Instance.CentComm.MakeCommandReport(text,
 														CentComm.UpdateSound.notice);
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(admin.ExpensiveName() + " sent a centcomm report.", adminId);
 	}
 
 	[Command]
