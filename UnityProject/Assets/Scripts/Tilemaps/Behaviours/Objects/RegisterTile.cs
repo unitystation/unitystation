@@ -254,7 +254,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		ForceRegister();
 		if (Matrix != null)
 		{
-			SyncNetworkedMatrixNetId(networkedMatrixNetId, Matrix.transform.parent.gameObject.NetId());
+			networkedMatrixNetId = Matrix.transform.parent.gameObject.NetId();
 		}
 	}
 
@@ -303,7 +303,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void ServerSetNetworkedMatrixNetID(uint newNetworkedMatrixNetID)
 	{
 		LogMatrixDebug("ServerSetNetworkedMatrixNetID");
-		SyncNetworkedMatrixNetId(networkedMatrixNetId, newNetworkedMatrixNetID);
+		networkedMatrixNetId = newNetworkedMatrixNetID;
 	}
 
 

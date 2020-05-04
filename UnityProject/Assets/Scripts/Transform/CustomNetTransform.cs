@@ -210,6 +210,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		registerTile.UpdatePositionServer();
 
 		serverLerpState = serverState;
+		NotifyPlayers();
 	}
 
 	/// Is it supposed to be hidden? (For init purposes)
