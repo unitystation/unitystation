@@ -23,7 +23,7 @@ public static class InteractionUtils
 	/// <param name="interaction">interaction to perform</param>
 	/// <param name="interactableComponent">component to handle the interaction, null
 	/// if the server should determine which component will trigger from the interaction</param>
-	/// <typeparam name="T"></typeparam>
+	/// <typeparam name="T">type of interaction</typeparam>
 	public static void RequestInteract<T>(T interaction, IBaseInteractable<T> interactableComponent = null)
 		where T : Interaction
 	{
@@ -36,9 +36,9 @@ public static class InteractionUtils
 	/// Checks if this component would trigger and sends the interaction request to the server if it does. Doesn't
 	/// send a message if it only triggered an IClientInteractable (client side only) interaction.
 	/// </summary>
-	/// <param name="interactable"></param>
-	/// <param name="interaction"></param>
-	/// <typeparam name="T"></typeparam>
+	/// <param name="interactable">component to check / trigger</param>
+	/// <param name="interaction">interaction attempting to be performed</param>
+	/// <typeparam name="T">interaction type</typeparam>
 	/// <returns>true if an interaction was triggered (even if it was clientside-only)</returns>
 	public static bool ClientCheckAndTrigger<T>(this IBaseInteractable<T> interactable, T interaction) where T: Interaction
 	{
@@ -65,9 +65,9 @@ public static class InteractionUtils
 	/// triggers an interaction, null if none are triggered. Messages the server to request an interaction for the interaction that
 	/// was triggered (if any). Doesn't message the server if only a clientside interaction was triggered.
 	/// </summary>
-	/// <param name="interactables"></param>
-	/// <param name="interaction"></param>
-	/// <typeparam name="T"></typeparam>
+	/// <param name="interactables">component to check</param>
+	/// <param name="interaction">interaction attempting to be performed</param>
+	/// <typeparam name="T">type of interaction being checked</typeparam>
 	/// <returns></returns>
 	public static IBaseInteractable<T> ClientCheckAndTrigger<T>(IEnumerable<IBaseInteractable<T>> interactables, T interaction)
 		where T : Interaction
@@ -142,9 +142,9 @@ public static class InteractionUtils
 	/// <summary>
 	/// Checks if this component should trigger based on server-side logic.
 	/// </summary>
-	/// <param name="interactable"></param>
-	/// <param name="interaction"></param>
-	/// <typeparam name="T"></typeparam>
+	/// <param name="interactable">component to check</param>
+	/// <param name="interaction">interaction attempting to be performed</param>
+	/// <typeparam name="T">type of interaction</typeparam>
 	/// <returns>true if an interaction would be triggered.</returns>
 	public static bool ServerCheckInteract<T>(this IBaseInteractable<T> interactable, T interaction)
 		where T : Interaction
