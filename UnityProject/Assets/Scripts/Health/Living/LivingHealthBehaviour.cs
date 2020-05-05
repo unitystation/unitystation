@@ -14,7 +14,7 @@ using UnityEngine.Profiling;
 /// Monitors and calculates health
 /// </summary>
 [RequireComponent(typeof(HealthStateMonitor))]
-public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable, IExaminable, IServerSpawn
+public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable, IElectrocutable, IExaminable, IServerSpawn
 {
 	private static readonly float GIB_THRESHOLD = 200f;
 	//damage incurred per tick per fire stack
