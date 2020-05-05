@@ -31,7 +31,7 @@ public class DevSpawnMessage : ClientMessage
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, AdminId);
 
-		PlayerList.Instance.AddToAdminLog(AdminId + ":" + msg);
+		PlayerList.Instance.AddToAdminLog(AdminId + " : " + msg);
 	}
 
 	public override string ToString()

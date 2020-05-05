@@ -41,7 +41,7 @@ public class RequestRespawnPlayer : ClientMessage
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, Userid);
 
-		PlayerList.Instance.AddToAdminLog(Userid + ":" + msg);
+		PlayerList.Instance.AddToAdminLog(Userid + " : " + msg);
 
 		deadPlayer.Script.playerNetworkActions.ServerRespawnPlayer();
 	}

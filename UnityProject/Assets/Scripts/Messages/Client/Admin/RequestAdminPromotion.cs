@@ -26,7 +26,7 @@ public class RequestAdminPromotion : ClientMessage
 			string msg = $"{player.ExpensiveName()} made {user.Name} an admin. Users ID is: {UserToPromote}";
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, Userid);
 
-			PlayerList.Instance.AddToAdminLog(Userid + ":" + msg);
+			PlayerList.Instance.AddToAdminLog(Userid + " : " + msg);
 		}
 	}
 

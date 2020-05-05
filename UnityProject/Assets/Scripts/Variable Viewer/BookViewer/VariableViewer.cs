@@ -232,7 +232,7 @@ public static class VariableViewer
 
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, AdminId);
 
-			PlayerList.Instance.AddToAdminLog(AdminId + ":" + msg);
+			PlayerList.Instance.AddToAdminLog(AdminId + " : " + msg);
 
 			Librarian.PageSetValue(Librarian.IDToPage[PageID], ChangeTo);
 			if (SendToClient)

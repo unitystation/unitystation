@@ -777,7 +777,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
 
-			PlayerList.Instance.AddToAdminLog(adminId + ":" + msg);
+			PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
 		}
 		else if (playerScript.IsGhost)//back to player
 		{
@@ -789,7 +789,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
 
-			PlayerList.Instance.AddToAdminLog(adminId + ":" + msg);
+			PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
 		}
 	}
 
@@ -818,7 +818,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg , adminId);
 
-		PlayerList.Instance.AddToAdminLog(adminId + ":" + msg);
+		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
 	}
 
 	[Command]
@@ -840,7 +840,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
 
-		PlayerList.Instance.AddToAdminLog(adminId + ":" + msg);
+		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
 	}
 
 	[Command]
@@ -865,7 +865,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
 
-		PlayerList.Instance.AddToAdminLog(adminId + ":" + msg);
+		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
 	}
 
 	//simulates despawning and immediately respawning this object, expectation
@@ -882,7 +882,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
 
-		PlayerList.Instance.AddToAdminLog(adminId + ":" + msg);
+		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
 	}
 
 	[Command]
@@ -897,7 +897,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
 
-		PlayerList.Instance.AddToAdminLog(adminId + ":" + msg + "\n" + text);
+		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg + "\n" + text);
 	}
 
 	[Command]
@@ -912,7 +912,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
 
-		PlayerList.Instance.AddToAdminLog(adminId + ":" + msg + "\n" + text);
+		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg + "\n" + text);
 	}
 
 	[Command]

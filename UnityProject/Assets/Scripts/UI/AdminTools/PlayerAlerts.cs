@@ -174,7 +174,7 @@ namespace AdminTools
 
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
 
-			PlayerList.Instance.AddToAdminLog(adminId + ":" + msg);
+			PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
 
 			playerScript.playerHealth.ServerGibPlayer();
 
@@ -197,7 +197,7 @@ namespace AdminTools
 
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
 
-			PlayerList.Instance.AddToAdminLog(adminId + ":" + msg);
+			PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
 
 			alertEntry.takenCareOf = true;
 			ServerSendEntryToAllAdmins(alertEntry);

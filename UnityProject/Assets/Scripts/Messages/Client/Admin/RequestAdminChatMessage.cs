@@ -22,7 +22,7 @@ public class RequestAdminChatMessage : ClientMessage
 		{
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(Message, Userid);
 
-			PlayerList.Instance.AddToAdminLog(Userid + ":" + Message);
+			PlayerList.Instance.AddToAdminLog(Userid + " : " + Message);
 		}
 	}
 

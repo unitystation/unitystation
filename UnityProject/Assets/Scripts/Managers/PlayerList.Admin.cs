@@ -482,7 +482,7 @@ public partial class PlayerList
 
 	public void AddToAdminLog(string log)
 	{
-		log = DateTime.UtcNow.ToShortTimeString() + " : " + log;
+		log = "Time " + DateTime.UtcNow.ToShortTimeString() + " : " + log;
 
 		File.AppendAllLines(adminLogPath, new string[]
 		{
@@ -505,7 +505,7 @@ public partial class PlayerList
 
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, admin);
 
-				AddToAdminLog(admin + ":" + msg);
+				AddToAdminLog(admin + " : " + msg);
 
 				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
 			}
