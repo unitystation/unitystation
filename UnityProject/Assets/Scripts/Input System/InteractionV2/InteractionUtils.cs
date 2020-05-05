@@ -68,6 +68,18 @@ public static class InteractionUtils
 		where T : Interaction
 	{
 		wasClientInteractable = false;
+		//interactions targeting an object at hiddenpos are NEVER allowed (except for inventory actions,
+		//since they can target an object in inventory which means its at hiddenpos)
+		if (!(interaction is InventoryApply) && interaction is TargetedInteraction targetedInteraction)
+		{
+			if (targetedInteraction.TargetObject != null &&
+			    targetedInteraction.TargetObject.IsAtHiddenPos())
+			{
+				Logger.LogTraceFormat("Aborting {0} interaction on object {1} because the object is hidden.",
+					Category.Interaction, typeof(T).Name, targetedInteraction.TargetObject.name);
+				return false;
+			}
+		}
 		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Interaction, side))) return false;
 		var result = false;
 		//check if client side interaction should be triggered
