@@ -22,7 +22,7 @@ public partial class PlayerList
 	private BanList banList;
 	private string adminsPath;
 	private string adminLogPath;
-	private bool logSwitcher = true;
+	private string adminLog2Path;
 	private string banPath;
 	private List<string> whiteListUsers = new List<string>();
 	private string whiteListPath;
@@ -37,7 +37,7 @@ public partial class PlayerList
 
 		if (!File.Exists(adminsPath))
 		{
-			File.CreateText(adminsPath).Close();
+			File.CreateText(adminsPath);
 		}
 
 		if (!File.Exists(banPath))
@@ -47,30 +47,81 @@ public partial class PlayerList
 
 		if (!File.Exists(whiteListPath))
 		{
-			File.CreateText(whiteListPath).Close();
+			File.CreateText(whiteListPath);
 		}
 
-		if (logSwitcher)
-		{
-			adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog1.txt");
-			logSwitcher = false;
-		}
-		else
-		{
-			adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog2.txt");
-			logSwitcher = true;
-		}
+		adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog1.txt");
+		adminLog2Path = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog2.txt");
 
 		if (!File.Exists(adminLogPath))
 		{
-			File.CreateText(adminLogPath).Close();
+			//Creates file
+			var file = File.CreateText(adminLogPath);
+
+			//Todo add to file round number here
+			file.WriteLine("true");
+
+			file.Close();
+		}
+
+		if (!File.Exists(adminLog2Path))
+		{
+			//Creates file
+			var file = File.CreateText(adminLog2Path);
+
+			//Todo add to file round number here
+			file.WriteLine("false");
+
+			file.Close();
+		}
+
+		var first = File.ReadLines(adminLogPath).First() == "true";
+
+		var second = File.ReadLines(adminLog2Path).First() == "true";
+
+		if (first && !second)
+		{
+			//Clears file
+			var file = File.CreateText(adminLogPath);
+
+			//Todo add to file round number here
+			file.WriteLine("false");
+
+			file.Close();
+		}
+		else if (!first && second)
+		{
+			//Clears file
+			var file = File.CreateText(adminLogPath);
+
+			//Todo add to file round number here
+			file.WriteLine("true");
+
+			file.Close();
+		}
+		else if (first && second)
+		{
+			//Clears file
+			var file = File.CreateText(adminLog2Path);
+
+			//Todo add to file round number here
+			file.WriteLine("false");
+
+			file.Close();
+
+			adminLogPath = adminLog2Path;
 		}
 		else
 		{
 			//Clears file
-			File.Create(adminLogPath).Close();
+			var file = File.CreateText(adminLog2Path);
 
 			//Todo add to file round number here
+			file.WriteLine("true");
+
+			file.Close();
+
+			adminLogPath = adminLog2Path;
 		}
 
 		adminListWatcher = new FileSystemWatcher();
@@ -427,6 +478,8 @@ public partial class PlayerList
 
 	public void AddToAdminLog(string log)
 	{
+		log = DateTime.UtcNow.ToShortTimeString() + " : " + log;
+
 		File.AppendAllLines(adminLogPath, new string[]
 		{
 			"\r\n" + log
