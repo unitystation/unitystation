@@ -50,6 +50,28 @@ public partial class PlayerList
 			File.CreateText(whiteListPath);
 		}
 
+		adminListWatcher = new FileSystemWatcher();
+		adminListWatcher.Path = Path.GetDirectoryName(adminsPath);
+		adminListWatcher.Filter = Path.GetFileName(adminsPath);
+		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+		adminListWatcher.Changed += LoadCurrentAdmins;
+		adminListWatcher.EnableRaisingEvents = true;
+
+		WhiteListWatcher = new FileSystemWatcher();
+		WhiteListWatcher.Path = Path.GetDirectoryName(whiteListPath);
+		WhiteListWatcher.Filter = Path.GetFileName(whiteListPath);
+		WhiteListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
+		WhiteListWatcher.Changed += LoadWhiteList;
+		WhiteListWatcher.EnableRaisingEvents = true;
+
+		LoadBanList();
+		LoadCurrentAdmins();
+		LoadWhiteList();
+		AdminLogStart();
+	}
+
+	private void AdminLogStart()
+	{
 		adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog1.txt");
 		adminLog2Path = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog2.txt");
 
@@ -123,24 +145,6 @@ public partial class PlayerList
 
 			adminLogPath = adminLog2Path;
 		}
-
-		adminListWatcher = new FileSystemWatcher();
-		adminListWatcher.Path = Path.GetDirectoryName(adminsPath);
-		adminListWatcher.Filter = Path.GetFileName(adminsPath);
-		adminListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-		adminListWatcher.Changed += LoadCurrentAdmins;
-		adminListWatcher.EnableRaisingEvents = true;
-
-		WhiteListWatcher = new FileSystemWatcher();
-		WhiteListWatcher.Path = Path.GetDirectoryName(whiteListPath);
-		WhiteListWatcher.Filter = Path.GetFileName(whiteListPath);
-		WhiteListWatcher.NotifyFilter = NotifyFilters.LastAccess | NotifyFilters.LastWrite;
-		WhiteListWatcher.Changed += LoadWhiteList;
-		WhiteListWatcher.EnableRaisingEvents = true;
-
-		LoadBanList();
-		LoadCurrentAdmins();
-		LoadWhiteList();
 	}
 
 	void LoadBanList()
