@@ -38,7 +38,6 @@ public static class InteractionUtils
 	/// </summary>
 	/// <param name="interactable"></param>
 	/// <param name="interaction"></param>
-	/// <param name="side"></param>
 	/// <typeparam name="T"></typeparam>
 	/// <returns>true if an interaction was triggered (even if it was clientside-only)</returns>
 	public static bool ClientCheckAndTrigger<T>(this IBaseInteractable<T> interactable, T interaction) where T: Interaction
