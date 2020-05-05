@@ -47,7 +47,6 @@ namespace Mirror
     [HelpURL("https://mirror-networking.com/docs/Components/NetworkIdentity.html")]
     public sealed class NetworkIdentity : MonoBehaviour
     {
-	    public bool serverSpawned = false;
 	    public bool isDirty;
         // configuration
         NetworkBehaviour[] networkBehavioursCache;

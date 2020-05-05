@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 
 /// <summary>
 /// Behavior for an object which has a different sprite for each direction it is facing and changes
-/// facing when Directional tells it to. 
+/// facing when Directional tells it to.
 /// Copied from OccupiableDirectionalSprite.cs. Comments from that preserved.
 ///
 /// Initial orientation should be set in Directional.

@@ -20,11 +20,18 @@ public class SubSceneManager : MonoBehaviour
 	}
 
 	[SerializeField] private AwayWorldListSO awayWorldList;
+	[SerializeField] private MainStationListSO mainStationList;
 
 	private string serverChosenAwaySite;
 	public string ServerChosenAwaySite
 	{
 		get => serverChosenAwaySite;
+	}
+
+	private string serverChosenMainStation;
+	public string ServerChosenMainStation
+	{
+		get => serverChosenMainStation;
 	}
 	public bool ServerAwaySiteLoaded { get; private set; }
 
@@ -49,26 +56,32 @@ public class SubSceneManager : MonoBehaviour
 		ServerAwaySiteLoaded = false;
 		if (newScene.name != "Lobby")
 		{
-			StartCoroutine(WaitForMatrixManager());
+			StartCoroutine(WaitForConnection());
 		}
 	}
 
-	IEnumerator WaitForMatrixManager()
+	IEnumerator WaitForConnection()
 	{
-		while (!MatrixManager.IsInitialized)
+		while (!CustomNetworkManager.Instance.isNetworkActive)
 		{
 			yield return WaitFor.EndOfFrame;
 		}
 
 		if (CustomNetworkManager.Instance._isServer)
 		{
+			//TODO More random away sites
+			//TODO More Main Stations and ways to choose them
 			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
+			serverChosenMainStation = mainStationList.MainStations[0];
 			StartCoroutine(RoundStartServerLoadSequence());
 		}
 	}
 
 	IEnumerator RoundStartServerLoadSequence()
 	{
+		//load main station
+		yield return StartCoroutine(LoadSubScene(serverChosenMainStation));
+
 		yield return WaitFor.Seconds(serverWaitAwayWorldLoad);
 		//Load the away site
 		yield return StartCoroutine(LoadSubScene(serverChosenAwaySite));
