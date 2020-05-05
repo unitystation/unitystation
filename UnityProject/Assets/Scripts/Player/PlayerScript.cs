@@ -225,6 +225,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		}
 	}
 
+	public object Chat { get; internal set; }
+
 	public bool IsInReach(GameObject go, bool isServer, float interactDist = interactionDistance)
 	{
 		var rt = go.RegisterTile();

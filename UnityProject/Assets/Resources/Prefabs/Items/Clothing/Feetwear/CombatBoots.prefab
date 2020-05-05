@@ -1,0 +1,153 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8898950366293888297
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1762207313667118248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: Armor.Bio
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 1764031991386896616, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_Name
+      value: CombatBoots
+      objectReference: {fileID: 0}
+    - target: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_TagString
+      value: Clothing
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1869883964880262248, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1950443690361248320, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8db6d94f591ac0e47bf157c15d8f05f2,
+        type: 3}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: initialName
+      value: combat boots
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: initialDescription
+      value: High speed, low drag combat boots.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2237498582025012862, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4728094771363396249, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 470cfa63f201d1f4eb43b39df5218cd7,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 502f496beb9034b9b9c97868e845ed7e, type: 3}

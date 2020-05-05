@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 4371806621149412}
   - component: {fileID: 61294264368354326}
   - component: {fileID: 895131165705544335}
-  - component: {fileID: 114259338949648092}
   - component: {fileID: 114469489843686000}
   - component: {fileID: 114870928894298498}
   - component: {fileID: 114115352977703776}
@@ -19,9 +18,9 @@ GameObject:
   - component: {fileID: 6683878051609785215}
   - component: {fileID: 804569472849686567}
   - component: {fileID: 2703357943102309780}
-  - component: {fileID: 15473265638533672}
   - component: {fileID: 1867072349025343184}
   - component: {fileID: -6310048276167888487}
+  - component: {fileID: 114259338949648092}
   m_Layer: 13
   m_Name: LightBulbMount
   m_TagString: Untagged
@@ -86,26 +85,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   IsFixedMatrix: 0
---- !u!114 &114259338949648092
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614508754264130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8cd47c8a7b3ca4905983be3a08c1caf0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  InitialState: 1
-  mLightRendererObject: {fileID: 0}
-  lightStateColorOn: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 0.8}
-  lightStateColorEmergency: {r: 0.7264151, g: 0, b: 0, a: 0.8}
-  isWithoutSwitch: 0
-  relatedLightSwitch: {fileID: 0}
 --- !u!114 &114469489843686000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +165,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isDirty: 0
+  isDirty: 1
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -232,49 +211,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefabChildrenOrientation: 3
---- !u!114 &15473265638533672
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614508754264130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3cc9a0c60c1ba8a4fab121f8403a66ef, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  spriteRenderer: {fileID: 212082969356704250}
-  spriteRendererLightOn: {fileID: 6796822836624601522}
-  traitRequired: {fileID: 11400000, guid: e3c06d233d4623549bc9ec895f304ff5, type: 2}
-  appliableItem: {fileID: 2419386692754613975, guid: ae09a5f5cfaa8134cbf8800bab7e0739,
-    type: 3}
-  spriteListFull:
-  - {fileID: 21300000, guid: bd3225efc525643479b237af41876cf0, type: 3}
-  - {fileID: 21300002, guid: bd3225efc525643479b237af41876cf0, type: 3}
-  - {fileID: 21300004, guid: bd3225efc525643479b237af41876cf0, type: 3}
-  - {fileID: 21300006, guid: bd3225efc525643479b237af41876cf0, type: 3}
-  spriteListLightOn:
-  - {fileID: 21300000, guid: 16f408214667adc469ad08e1f9ceacab, type: 3}
-  - {fileID: 21300002, guid: 16f408214667adc469ad08e1f9ceacab, type: 3}
-  - {fileID: 21300004, guid: 16f408214667adc469ad08e1f9ceacab, type: 3}
-  - {fileID: 21300006, guid: 16f408214667adc469ad08e1f9ceacab, type: 3}
-  appliableBrokenItem: {fileID: 2419386692754613975, guid: 088f5b3f38540a844ae6781f2ab40abe,
-    type: 3}
-  spriteListBroken:
-  - {fileID: 21300000, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
-  - {fileID: 21300002, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
-  - {fileID: 21300004, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
-  - {fileID: 21300006, guid: 653ce631072712748b973a8ed42d0a52, type: 3}
-  multiplierBroken: 0.7
-  multiplierMissingBulb: 0.35
-  spriteListMissingBulb:
-  - {fileID: 21300000, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
-  - {fileID: 21300002, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
-  - {fileID: 21300004, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
-  - {fileID: 21300006, guid: c1613cfe0c05d0d4c8092ca3b62d749c, type: 3}
 --- !u!114 &1867072349025343184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -316,6 +252,29 @@ MonoBehaviour:
   sprites: []
   animateTime: 0.4
   rotateSpeed: 30
+--- !u!114 &114259338949648092
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614508754264130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8cd47c8a7b3ca4905983be3a08c1caf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  relatedLightSwitch: {fileID: 0}
+  InitialState: 1
+  mLightRendererObject: {fileID: 0}
+  isWithoutSwitch: 0
+  spriteRenderer: {fileID: 212082969356704250}
+  spriteRendererLightOn: {fileID: 6796822836624601522}
+  spritesStateOnEffect: {fileID: 11400000, guid: 726dca084060d4241bf0ffddd39509fe,
+    type: 2}
+  mountStatesMachine: {fileID: 11400000, guid: 3bd2d676f24e6864dbff58a5436afb74, type: 2}
 --- !u!1 &1865224276101266
 GameObject:
   m_ObjectHideFlags: 0
