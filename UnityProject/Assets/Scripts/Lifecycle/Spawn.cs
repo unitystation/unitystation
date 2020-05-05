@@ -579,18 +579,9 @@ public static class Spawn
 
 	/// <summary>
 	/// For internal use only. Notifies the player of all objects despawned in the pool.
-	/// Necessary because mirror tells the player all of the network objects that exist when they join,
-	/// including pooled objects
 	/// </summary>
-	/// <param name="playerGameObject">GO of the player to notify</param>
+	/// <param name="playerGameObject"></param>
 	public static void _NotifyPlayer(GameObject playerGameObject)
-	{
-		foreach (var pooledGO in pools.Values.SelectMany(s => s))
-		{
-			//fire client hooks
-			DespawnMessage.Send(playerGameObject, DespawnResult.Single(DespawnInfo.Single(pooledGO)));
-		}
-	}
 
 	public static void _ClearPools()
 	{

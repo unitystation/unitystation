@@ -241,7 +241,7 @@ public class CustomNetworkManager : NetworkManager
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
 
 		//all despawned objects in the pool
-		Spawn._NotifyPlayer(playerGameObject);
+
 	}
 
 	public override void OnServerConnect(NetworkConnection conn)
