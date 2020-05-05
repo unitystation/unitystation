@@ -490,7 +490,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else
 		{
-			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You can be cloned</color>");
+			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You can now be cloned</color>");
 		}
 	}
 
