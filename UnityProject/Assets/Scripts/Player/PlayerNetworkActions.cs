@@ -483,6 +483,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleAllowCloning()
 	{
 		playerScript.mind.DenyCloning = !playerScript.mind.DenyCloning;
+
+		if (playerScript.mind.DenyCloning)
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "You will no longer be cloned");
+		}
+		else
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "You can be cloned");
+		}
 	}
 
 	/// <summary>
