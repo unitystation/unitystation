@@ -37,7 +37,7 @@ public partial class PlayerList
 
 		if (!File.Exists(adminsPath))
 		{
-			File.CreateText(adminsPath);
+			File.CreateText(adminsPath).Close();
 		}
 
 		if (!File.Exists(banPath))
@@ -47,7 +47,7 @@ public partial class PlayerList
 
 		if (!File.Exists(whiteListPath))
 		{
-			File.CreateText(whiteListPath);
+			File.CreateText(whiteListPath).Close();
 		}
 
 		adminListWatcher = new FileSystemWatcher();
