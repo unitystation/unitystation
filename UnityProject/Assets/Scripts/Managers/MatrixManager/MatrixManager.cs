@@ -93,10 +93,15 @@ public partial class MatrixManager : MonoBehaviour
 
 	void OnSceneChange(Scene oldScene, Scene newScene)
 	{
-		ResetMatrixManager(newScene);
+		ResetMatrixManager();
+		if (!newScene.name.Equals("Lobby"))
+		{
+			IsInitialized = false;
+			StartCoroutine(WaitForLoad());
+		}
 	}
 
-	void ResetMatrixManager(Scene newScene)
+	void ResetMatrixManager()
 	{
 		tileDmgMask = LayerMask.GetMask( "Windows", "Walls" );
 		Instance.spaceMatrix = null;
@@ -106,11 +111,6 @@ public partial class MatrixManager : MonoBehaviour
 		movingMatrices.Clear();
 		wallsTileMaps.Clear();
 		trackedIntersections.Clear();
-		if (!newScene.name.Equals("Lobby"))
-		{
-			IsInitialized = false;
-			StartCoroutine(WaitForLoad());
-		}
 	}
 
 	public static void RegisterMatrix(Matrix matrixToRegister, bool isSpaceMatrix = false, bool isMainStation = false)

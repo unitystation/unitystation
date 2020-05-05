@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Mirror
 {
@@ -846,7 +847,14 @@ namespace Mirror
         /// <returns>True if the player can see this object.</returns>
         public virtual bool OnCheckObserver(NetworkConnection conn)
         {
-            return true;
+	        //needed to do this here because I don't want to have to add an
+	        //override to every network behaviour
+	        if (gameObject.scene == SceneManager.GetActiveScene())
+	        {
+		        return true;
+	        }
+
+	        return false;
         }
     }
 }

@@ -258,7 +258,8 @@ public enum Category
 	ProgressAction,
 	Botany,
 	SoundFX,
-	Character
+	Character,
+	SubScenes
 }
 
 [Serializable]

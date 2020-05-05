@@ -24,9 +24,6 @@ public class StationGateway : NetworkBehaviour
 	[SerializeField]
 	private Sprite[] PowerOff = null;//TODO connect gateway to APC
 
-	[SerializeField]
-	private List<string> Worlds = new List<string>();//List of worlds available to be chosen
-
 	private WorldGateway selectedWorld;// The world from the list that was chosen
 
 	private bool HasPower = true;// Not used atm
@@ -129,39 +126,13 @@ public class StationGateway : NetworkBehaviour
 
 		ServerChangeState(false);
 
-		var count = 10f;//Random.Range(RandomCountBegining, RandomCountEnd);
-		Invoke(nameof(WorldSetup), count);
+		var count = 20f;//Random.Range(RandomCountBegining, RandomCountEnd);
+		Invoke(nameof(ConnectToWorld), count);
 	}
 
 	[Server]
-	public virtual void WorldSetup()
+	void ConnectToWorld()
 	{
-		StartCoroutine(LoadWorld());
-	}
-
-	IEnumerator LoadWorld()
-	{
-		//Selects Random world
-		if(Worlds.Count == 0) yield break;
-
-		var worldScene = Worlds[0];
-		if (worldScene == null) yield break;
-		AsyncOperation AO = SceneManager.LoadSceneAsync(worldScene, LoadSceneMode.Additive);
-		AO.priority = 0;
-		while(!AO.isDone)
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-		yield return WaitFor.EndOfFrame;
-
-		NetworkServer.SpawnObjects();
-		SceneMessage msg = new SceneMessage
-		{
-			sceneName = worldScene,
-			sceneOperation = SceneOperation.LoadAdditive
-		};
-
-		NetworkServer.SendToAll(msg);
 		selectedWorld = FindObjectOfType<WorldGatewayRef>().WorldGateway;
 
 		Message = "Teleporting to: " + selectedWorld.WorldName;
