@@ -577,12 +577,6 @@ public static class Spawn
 		}
 	}
 
-	/// <summary>
-	/// For internal use only. Notifies the player of all objects despawned in the pool.
-	/// </summary>
-	/// <param name="playerGameObject"></param>
-	public static void _NotifyPlayer(GameObject playerGameObject)
-
 	public static void _ClearPools()
 	{
 		pools.Clear();
