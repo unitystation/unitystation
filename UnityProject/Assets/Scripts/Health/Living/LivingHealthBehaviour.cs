@@ -695,6 +695,88 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	}
 
 	/// ---------------------------
+	/// Electrocution Methods
+	/// ---------------------------
+	/// Note: Electrocution for players is extended in PlayerHealth deriviative.
+	/// This is a generic electrocution implementation that just deals damage.
+
+	/// <summary>
+	/// Electrocutes a mob, applying damage to the victim
+	/// depending on the elctrocution power.
+	/// </summary>
+	/// <param name="electrocution">The object containing all information for this electrocution</param>
+	/// <returns></returns>
+	public virtual ElectrocutionSeverity Electrocute(Electrocution electrocution)
+	{
+		float resistance = ApproximateElectricalResistance(electrocution.Voltage);
+		electrocution.shockPower = Electrocution.CalculateShockPower(electrocution.Voltage, resistance);
+		SetElectrocutionSeverity(electrocution);
+
+		switch (electrocution.severity)
+		{
+			case ElectrocutionSeverity.None:
+				break;
+			case ElectrocutionSeverity.Mild:
+				MildElectrocution(electrocution);
+				break;
+			case ElectrocutionSeverity.Painful:
+				PainfulElectrocution(electrocution);
+				break;
+			case ElectrocutionSeverity.Lethal:
+				LethalElectrocution(electrocution);
+				break;
+		}
+
+		return electrocution.severity;
+	}
+
+	/// <summary>
+	/// Finds the severity of the electrocution.
+	/// In the future, this would depend on the victim's size. For now, assume humanoid size.
+	/// </summary>
+	/// <param name="electrocution">The object containing all information for this electrocution</param>
+	/// <returns>Severity enumerable - None, Mild, Painful, Lethal</returns>
+	protected virtual ElectrocutionSeverity SetElectrocutionSeverity(Electrocution electrocution)
+	{
+		float shockPower = electrocution.shockPower;
+		ElectrocutionSeverity severity;
+
+		if (shockPower >= 0.01 && shockPower < 1) severity = ElectrocutionSeverity.Mild;
+		else if (shockPower >= 1 && shockPower < 100) severity = ElectrocutionSeverity.Painful;
+		else if (shockPower >= 100) severity = ElectrocutionSeverity.Lethal;
+		else severity = ElectrocutionSeverity.None;
+
+		electrocution.severity = severity;
+		return severity;
+	}
+
+	// Overrideable for custom electrical resistance calculations.
+	protected virtual float ApproximateElectricalResistance(float voltage)
+	{
+		// TODO: Approximate mob's electrical resistance based on mob size.
+		return 500;
+	}
+
+	protected virtual void MildElectrocution(Electrocution electrocution)
+	{
+		return;
+	}
+
+	protected virtual void PainfulElectrocution(Electrocution electrocution)
+	{
+		LethalElectrocution(electrocution);
+	}
+
+	protected virtual void LethalElectrocution(Electrocution electrocution)
+	{
+		// TODO: Add sparks VFX at shockSourcePos.
+		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
+
+		float damage = electrocution.shockPower;
+		ApplyDamage(null, damage, AttackType.Internal, DamageType.Burn);
+	}
+
+	/// ---------------------------
 	/// MISC Functions:
 	/// ---------------------------
 
