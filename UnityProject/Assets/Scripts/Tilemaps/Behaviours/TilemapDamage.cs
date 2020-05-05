@@ -36,12 +36,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	//TODO: this needs a refactor. BaseTile has useful fields that should be used instead of this.
 	//also this implementation isn't designed for tile variations, essentially being limited to one tile kind per layer
 
-	private const int MAX_TABLE_DAMAGE = 50;
-	private const int MAX_WALL_DAMAGE = 100;
-	private const int MAX_FLOOR_DAMAGE = 70;
-	private const int MAX_PLATING_DAMAGE = 100;
-	private const int MAX_WINDOW_DAMAGE = 100;
-	private const int MAX_GRILL_DAMAGE = 60;
 	private static readonly float TILE_MIN_SCORCH_TEMPERATURE = 100f;
 
 	public float Integrity(Vector3Int pos)
@@ -50,122 +44,20 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			return 0;
 		}
-		int maxDamage = 0;
-		switch (Layer.LayerType)
-		{
-			case LayerType.Walls:
-				maxDamage = MAX_WALL_DAMAGE;
-				break;
-			case LayerType.Windows:
-				maxDamage = MAX_WINDOW_DAMAGE;
-				break;
-			case LayerType.Objects:
-				if (metaTileMap.IsTileTypeAt(pos, isServer: true, TileType.Table))
-				{
-					maxDamage = MAX_TABLE_DAMAGE;
-				}
-				else
-				{
-					return 0;
-				}
-				break;
-			case LayerType.Floors:
-				maxDamage = MAX_FLOOR_DAMAGE;
-				break;
-			case LayerType.Base:
-				maxDamage = MAX_PLATING_DAMAGE;
-				break;
-			case LayerType.Grills:
-				maxDamage = MAX_GRILL_DAMAGE;
-				break;
-		}
+		float maxDamage = 0;
+
+		maxDamage = GetMaxDamage(pos);
 
 		return Mathf.Clamp(maxDamage - metaDataLayer.Get(pos).Damage, 0, float.MaxValue);
 	}
 
 	private TileChangeManager tileChangeManager;
-
 	private MetaDataLayer metaDataLayer;
 	private MetaTileMap metaTileMap;
 
 	public Layer Layer { get; private set; }
 
 	private Matrix matrix;
-
-	//armor for windows and grills
-	private static readonly Armor REINFORCED_WINDOW_ARMOR = new Armor
-	{
-		Melee = 50,
-		Bullet = 0,
-		Laser = 0,
-		Energy = 0,
-		Bomb = 25,
-		Bio = 100,
-		Rad = 100,
-		Fire = 80,
-		Acid = 100
-	};
-	private static readonly Armor GRILL_ARMOR = new Armor
-	{
-		Melee = 50,
-		Bullet = 70,
-		Laser = 70,
-		Energy = 100,
-		Bomb = 10,
-		Bio = 100,
-		Rad = 100,
-		Fire = 0,
-		Acid = 0
-	};
-	//these are semi-random, please tweak
-	private static readonly Armor FLOOR_ARMOR = new Armor
-	{
-		Melee = 50,
-		Bullet = 50,
-		Laser = 50,
-		Energy = 50,
-		Bomb = 10,
-		Bio = 50,
-		Rad = 100,
-		Fire = 0,
-		Acid = 0
-	};
-	private static readonly Armor WALL_ARMOR = new Armor
-	{
-		Melee = 90,
-		Bullet = 90,
-		Laser = 90,
-		Energy = 90,
-		Bomb = 90,
-		Bio = 100,
-		Rad = 100,
-		Fire = 100,
-		Acid = 90
-	};
-	private static readonly Armor TABLE_ARMOR = new Armor
-	{
-		Melee = 20,
-		Bullet = 20,
-		Laser = 20,
-		Energy = 20,
-		Bomb = 10,
-		Bio = 100,
-		Rad = 100,
-		Fire = 0,
-		Acid = 0
-	};
-	private static readonly Armor BASE_ARMOR = new Armor
-	{
-		Melee = 50,
-		Bullet = 40,
-		Laser = 10,
-		Energy = 10,
-		Bomb = 30,
-		Bio = 50,
-		Rad = 100,
-		Fire = 80,
-		Acid = 50
-	};
 
 	void Awake()
 	{
@@ -178,21 +70,42 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		tileChangeManager.OnFloorOrPlatingRemoved.RemoveAllListeners();
 		tileChangeManager.OnFloorOrPlatingRemoved.AddListener(cellPos =>
-	   { //Poke items when both floor and plating are gone
-		 //As they might want to change matrix
+		{ //Poke items when both floor and plating are gone
+			//As they might want to change matrix
 			if (!metaTileMap.HasTile(cellPos, LayerType.Floors, true)
-			 && !metaTileMap.HasTile(cellPos, LayerType.Base, true)
-			 && metaTileMap.HasTile(cellPos, LayerType.Objects, true)
-			 )
-		   {
-				//				Vector3Int localPos = MatrixManager.Instance.WorldToLocalInt(metaTileMap.CellToWorld( cellPos ), matrix);
-				//				foreach ( var customNetTransform in matrix.Get<CustomNetTransform>( localPos, true ) )
+			    && !metaTileMap.HasTile(cellPos, LayerType.Base, true)
+			    && metaTileMap.HasTile(cellPos, LayerType.Objects, true)
+			)
+			{
 				foreach (var customNetTransform in matrix.Get<CustomNetTransform>(cellPos, true))
-			   {
-				   customNetTransform.CheckMatrixSwitch();
-			   }
-		   }
-	   });
+				{
+					customNetTransform.CheckMatrixSwitch();
+				}
+			}
+		});
+	}
+
+	private float GetReducedDamage(Vector3Int cellPos, float dmgAmt, AttackType attackType)
+	{
+
+		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
+		if (layerTile is BasicTile tile)
+		{
+			return tile.Armor.GetDamage(dmgAmt, attackType);
+		}
+
+		return dmgAmt;
+	}
+
+	private float GetMaxDamage(Vector3Int cellPos)
+	{
+		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
+		if (layerTile is BasicTile tile)
+		{
+			return tile.MaxHealth;
+		}
+
+		return 0;
 	}
 
 	//Server Only:
@@ -253,13 +166,13 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				LayerTile getTile = metaTileMap.GetTile(cellPos, LayerType.Walls);
 				if (getTile != null)
 				{
-						if (Validations.IsMineableAt(bulletHitTarget, metaTileMap))
-						{
-							SoundManager.PlayNetworkedAtPos("BreakStone", bulletHitTarget);
-							var tile = getTile as BasicTile;
-							Spawn.ServerPrefab(tile.SpawnOnDeconstruct, bulletHitTarget, count: tile.SpawnAmountOnDeconstruct);
-							tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-						}
+					if (Validations.IsMineableAt(bulletHitTarget, metaTileMap))
+					{
+						SoundManager.PlayNetworkedAtPos("BreakStone", bulletHitTarget);
+						var tile = getTile as BasicTile;
+						Spawn.ServerPrefab(tile.SpawnOnDeconstruct, bulletHitTarget, count: tile.SpawnAmountOnDeconstruct);
+						tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
+					}
 				}
 
 			}
@@ -298,11 +211,17 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		//look up layer tile so we can calculate damage
 		var layerTile = metaTileMap.GetTile(cellPos, true);
+
+
 		if (layerTile is BasicTile basicTile)
 		{
-			//TODO: Incorporate more resistance, not just indestructible
-			//determine damage resistance
-			if (basicTile.Resistances.Indestructable) return 0;
+			if (basicTile.Resistances.Indestructable ||
+			    basicTile.Resistances.FireProof && attackType == AttackType.Fire ||
+			    basicTile.Resistances.AcidProof && attackType == AttackType.Acid)
+			{
+				return 0;
+			}
+
 			dmgAmt = basicTile.Armor.GetDamage(dmgAmt, attackType);
 		}
 
@@ -370,9 +289,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private float AddTableDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
-		data.Damage += TABLE_ARMOR.GetDamage(dmgAmt, attackType);
+		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
 
-		if (data.Damage >= MAX_TABLE_DAMAGE)
+		if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			//watch out! must not accidentally destroy other objects like player!
 			tileChangeManager.RemoveTile(cellPos, LayerType.Objects);
@@ -389,7 +308,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				SpawnMetal(worldPos);
 			}
 
-			return data.ResetDamage() - MAX_TABLE_DAMAGE;
+			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
 
 		return 0;
@@ -397,9 +316,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private float AddWallDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
-		data.Damage += WALL_ARMOR.GetDamage(dmgAmt, attackType);
+		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
 
-		if (data.Damage >= MAX_WALL_DAMAGE)
+		if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
 
@@ -415,7 +334,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				SpawnMetal(worldPos);
 			}
 
-			return data.ResetDamage() - MAX_WALL_DAMAGE;
+			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
 
 		return 0;
@@ -423,13 +342,13 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private float AddFloorDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
-		data.Damage += FLOOR_ARMOR.GetDamage(dmgAmt, attackType);
+		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
 
 		if (data.Damage >= 30 && data.Damage < 70)
 		{
 			TryScorch(cellPos);
 		}
-		else if (data.Damage >= MAX_FLOOR_DAMAGE)
+		else if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			var removed = tileChangeManager.RemoveTile(cellPos, LayerType.Floors);
 			if (Random.value < 0.25f)
@@ -443,7 +362,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 			//			SoundManager.PlayNetworkedAtPos("FloorHit", worldPos, 1f);
 
-			return data.ResetDamage() - MAX_FLOOR_DAMAGE;
+			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
 
 		return 0;
@@ -459,13 +378,13 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	/// <param name="attackType"></param>
 	private float AddPlatingDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
-		data.Damage += BASE_ARMOR.GetDamage(dmgAmt, attackType);
+		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
 
-		if (data.Damage >= 30 && data.Damage < MAX_PLATING_DAMAGE)
+		if (data.Damage >= 30 && data.Damage < GetMaxDamage(cellPos))
 		{
 			TryScorch(cellPos);
 		}
-		else if (data.Damage >= MAX_PLATING_DAMAGE)
+		else if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Base);
 			//Spawn remains:
@@ -480,7 +399,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 			//			SoundManager.PlayNetworkedAtPos("PlatingHit", worldPos, 1f);
 
-			return data.ResetDamage() - MAX_PLATING_DAMAGE;
+			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
 
 		return 0;
@@ -505,7 +424,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	/// <returns>The remaining damage to apply to the tile if the window is broken, 0 otherwise.</returns>
 	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType, bool spawnPieces = true)
 	{
-		data.Damage += REINFORCED_WINDOW_ARMOR.GetDamage(damage, attackType);
+		data.Damage += GetReducedDamage(cellPos, damage, attackType);
 
 		if (data.Damage >= 20 && data.Damage < 50)
 		{
@@ -519,13 +438,13 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			data.WindowDamage = WindowDamageLevel.Crack02;
 		}
 
-		if (data.Damage >= 75 && data.Damage < MAX_WINDOW_DAMAGE)
+		if (data.Damage >= 75 && data.Damage < GetMaxDamage(cellPos))
 		{
 			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack03");
 			data.WindowDamage = WindowDamageLevel.Crack03;
 		}
 
-		if (data.Damage >= MAX_WINDOW_DAMAGE)
+		if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
 			data.WindowDamage = WindowDamageLevel.Broken;
@@ -539,7 +458,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			//Play the breaking window sfx:
 			SoundManager.PlayNetworkedAtPos("GlassBreak0#", hitPos, 1f);
 
-			return data.ResetDamage() - MAX_WINDOW_DAMAGE;
+			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
 
 		return 0; // The remaining damage after cracking the window.
@@ -547,10 +466,10 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private float AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType, bool spawnPieces = true)
 	{
-		data.Damage += GRILL_ARMOR.GetDamage(damage, attackType);
+		data.Damage += GetReducedDamage(cellPos, damage, attackType);
 
 		//At half health change image of grill to damaged
-		if (data.Damage >= MAX_GRILL_DAMAGE / 2 && data.Damage < MAX_GRILL_DAMAGE)
+		if (data.Damage >= GetMaxDamage(cellPos) / 2 && data.Damage < GetMaxDamage(cellPos))
 		{
 			if (data.GrillDamage != GrillDamageLevel.Damaged)
 			{
@@ -568,7 +487,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		//Make grills a little bit weaker (set to 60 hp):
-		if (data.Damage >= MAX_GRILL_DAMAGE)
+		if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType.Grills);
 
@@ -580,7 +499,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				SpawnRods(bulletHitTarget);
 			}
 
-			return data.ResetDamage() - MAX_GRILL_DAMAGE;
+			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
 
 		return 0;
