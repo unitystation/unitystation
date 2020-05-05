@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AdminTools;
 using UnityEngine;
@@ -173,11 +174,10 @@ public class PlayerHealth : LivingHealthBehaviour
 	private BodyPartType electrocutedHand;
 
 	/// <summary>
-	/// Electrocutes a player, applying effects to the victim
-	/// depending on the electrocution power.
+	/// Electrocutes a player, applying effects to the victim depending on the electrocution power.
 	/// </summary>
 	/// <param name="electrocution">The object containing all information for this electrocution</param>
-	/// <returns>Severity enumerable</returns>
+	/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
 	public override ElectrocutionSeverity Electrocute(Electrocution electrocution)
 	{
 		if (playerNetworkActions.activeHand == NamedSlot.leftHand)

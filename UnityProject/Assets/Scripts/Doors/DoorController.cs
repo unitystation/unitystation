@@ -534,8 +534,9 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 			{
 				hackingProcess.HackingGUI.RemovePlayer(ply.gameObject);
 				TabUpdateMessage.Send(ply.gameObject, hackingProcess.HackingGUI.Provider, NetTabType.HackingPanel, TabAction.Close);
-				Electrocution elec = new Electrocution();
-				elec.ElectrocutePlayer(ply.gameObject, (Vector2Int)registerTile.WorldPositionServer, "wire", 9080);
+				var playerLHB = obj.GetComponent<LivingHealthBehaviour>();
+				var electrocution = new Electrocution(9080, registerTile.WorldPositionServer, "wire");
+				if (playerLHB != null) playerLHB.Electrocute(electrocution);
 			}
 		}
 

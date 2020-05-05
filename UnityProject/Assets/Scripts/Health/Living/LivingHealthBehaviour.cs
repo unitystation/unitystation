@@ -701,11 +701,10 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// This is a generic electrocution implementation that just deals damage.
 
 	/// <summary>
-	/// Electrocutes a mob, applying damage to the victim
-	/// depending on the elctrocution power.
+	/// Electrocutes a mob, applying damage to the victim depending on the electrocution power.
 	/// </summary>
 	/// <param name="electrocution">The object containing all information for this electrocution</param>
-	/// <returns></returns>
+	/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
 	public virtual ElectrocutionSeverity Electrocute(Electrocution electrocution)
 	{
 		float resistance = ApproximateElectricalResistance(electrocution.Voltage);
