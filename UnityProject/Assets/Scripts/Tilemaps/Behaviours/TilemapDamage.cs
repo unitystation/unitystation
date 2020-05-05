@@ -582,7 +582,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			{
 				//window damage
 				SoundManager.PlayNetworkedAtPos("GlassHit", exposure.ExposedWorldPosition, Random.Range(0.9f, 1.1f));
-				AddWindowDamage(exposure.StandardDamage(), metaDataLayer.Get(cellPos), cellPos, exposure.ExposedWorldPosition, AttackType.Melee, false);
+				AddWindowDamage(exposure.StandardDamage(), metaDataLayer.Get(cellPos), cellPos, exposure.ExposedWorldPosition, AttackType.Fire, false);
 			}
 
 		}
@@ -595,7 +595,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
 					SoundManager.PlayNetworkedAtPos("GrillHit", exposure.ExposedWorldPosition, Random.Range(0.9f, 1.1f));
-					AddGrillDamage(exposure.StandardDamage(), metaDataLayer.Get(cellPos), cellPos, exposure.ExposedWorldPosition, AttackType.Melee, false);
+					AddGrillDamage(exposure.StandardDamage(), metaDataLayer.Get(cellPos), cellPos, exposure.ExposedWorldPosition, AttackType.Fire, false);
 				}
 			}
 		}
