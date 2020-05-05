@@ -416,6 +416,7 @@ public class DoorController : NetworkBehaviour
 
 		public void OnHoverStart()
 		{
+			if (gameObject.IsAtHiddenPos()) return;
 			UIManager.SetToolTip = doorType + " Door";
 		}
 
