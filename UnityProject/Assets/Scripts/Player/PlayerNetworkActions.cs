@@ -486,11 +486,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (playerScript.mind.DenyCloning)
 		{
-			Chat.AddExamineMsgFromServer(gameObject, "You will no longer be cloned");
+			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You will no longer be cloned</color>");
 		}
 		else
 		{
-			Chat.AddExamineMsgFromServer(gameObject, "You can be cloned");
+			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You can be cloned</color>");
 		}
 	}
 
