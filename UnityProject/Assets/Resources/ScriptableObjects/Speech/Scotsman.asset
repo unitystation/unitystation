@@ -11,82 +11,1041 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c302747b295f59d429cc78a122bcb51d, type: 3}
   m_Name: Scotsman
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   activateReplacements: 1
   wordReplaceList:
-  - original: you
+  - original: about
     replaceWith:
-    - ye
-    - yah
-  - original: the
+    - aboot
+  - original: above
     replaceWith:
-    - tae
-  - original: yourself
+    - `boon
+  - original: account
     replaceWith:
-    - yersel
-  - original: would
+    - accoont
+  - original: across
     replaceWith:
-    - wid
-  - original: with
+    - o`er
+  - original: after
     replaceWith:
-    - wi
-  - original: of
+    - efter
+  - original: agree
     replaceWith:
-    - eh
-    - ae
-    - o
-  - original: not
+    - gree
+  - original: all
     replaceWith:
-    - no
-  - original: i
+    - a`
+  - original: almost
     replaceWith:
-    - a
-  - original: your
+    - a`maist
+  - original: along
     replaceWith:
-    - yer
+    - alang
+  - original: already
+    replaceWith:
+    - awready
+  - original: also
+    replaceWith:
+    - an` a`
+  - original: although
+    replaceWith:
+    - althoogh
+  - original: and
+    replaceWith:
+    - `n`
+  - original: another
+    replaceWith:
+    - anither
+  - original: any
+    replaceWith:
+    - ony
+  - original: anyone
+    replaceWith:
+    - a`body
+  - original: anything
+    replaceWith:
+    - anythin`
+  - original: argue
+    replaceWith:
+    - argie
+  - original: around
+    replaceWith:
+    - aroond
+  - original: available
+    replaceWith:
+    - free
+  - original: avoid
+    replaceWith:
+    - jook
+  - original: away
+    replaceWith:
+    - awa`
+  - original: baby
+    replaceWith:
+    - bairn
+  - original: bad
+    replaceWith:
+    - ill
+  - original: bag
+    replaceWith:
+    - poke
+  - original: ball
+    replaceWith:
+    - baw
+  - original: bar
+    replaceWith:
+    - boozer
+  - original: beautiful
+    replaceWith:
+    - bonny
+  - original: because
+    replaceWith:
+    - fur
+  - original: nap
+    replaceWith:
+    - kip
+  - original: before
+    replaceWith:
+    - afore
+  - original: believe
+    replaceWith:
+    - hawp
+  - original: between
+    replaceWith:
+    - atween
+  - original: big
+    replaceWith:
+    - muckle
+  - original: board
+    replaceWith:
+    - boord
+  - original: both
+    replaceWith:
+    - baith
+  - original: box
+    replaceWith:
+    - kist
+  - original: boy
+    replaceWith:
+    - laddie
+  - original: but
+    replaceWith:
+    - bit
+  - original: call
+    replaceWith:
+    - ca`
+  - original: can
+    replaceWith:
+    - kin
+  - original: car
+    replaceWith:
+    - motor
+  - original: card
+    replaceWith:
+    - caird
+  - original: career
+    replaceWith:
+    - joab
+  - original: case
+    replaceWith:
+    - trial
+  - original: century
+    replaceWith:
+    - hunner years
+  - original: change
+    replaceWith:
+    - chaynge
+  - original: child
+    replaceWith:
+    - bairn
+  - original: choose
+    replaceWith:
+    - wale
+  - original: church
+    replaceWith:
+    - kirk
+  - original: city
+    replaceWith:
+    - toon
+  - original: close
+    replaceWith:
+    - claise
+  - original: cold
+    replaceWith:
+    - cauld
+  - original: consumer
+    replaceWith:
+    - punter
+  - original: could
+    replaceWith:
+    - cuid
+  - original: country
+    replaceWith:
+    - land
+  - original: course
+    replaceWith:
+    - coorse
+  - original: culture
+    replaceWith:
+    - culchur
+  - original: customer
+    replaceWith:
+    - punter
+  - original: dark
+    replaceWith:
+    - mirk
+  - original: dead
+    replaceWith:
+    - deid
+  - original: debate
+    replaceWith:
+    - argie
+  - original: degree
+    replaceWith:
+    - gree
+  - original: difficult
+    replaceWith:
+    - pernicketie
+  - original: dinner
+    replaceWith:
+    - tea
+  - original: director
+    replaceWith:
+    - guider
+  - original: do
+    replaceWith:
+    - dae
+  - original: dog
+    replaceWith:
+    - dug
+  - original: down
+    replaceWith:
+    - doon
+  - original: drop
+    replaceWith:
+    - drap
+  - original: during
+    replaceWith:
+    - while
+  - original: each
+    replaceWith:
+    - ilk
+  - original: early
+    replaceWith:
+    - earlie
+  - original: eat
+    replaceWith:
+    - sloch
+  - original: edge
+    replaceWith:
+    - lip
+  - original: enjoy
+    replaceWith:
+    - gilravage
+  - original: evening
+    replaceWith:
+    - forenicht
+  - original: every
+    replaceWith:
+    - ilka
+  - original: everybody
+    replaceWith:
+    - a`body
+  - original: everyone
+    replaceWith:
+    - a`body
+  - original: eye
+    replaceWith:
+    - yak
+  - original: family
+    replaceWith:
+    - fowk
+  - original: fast
+    replaceWith:
+    - fleet
+  - original: father
+    replaceWith:
+    - faither
+  - original: fight
+    replaceWith:
+    - rammy
+  - original: film
+    replaceWith:
+    - picture
+  - original: find
+    replaceWith:
+    - fin`
+  - original: fine
+    replaceWith:
+    - braw
+  - original: first
+    replaceWith:
+    - foremaist
+  - original: floor
+    replaceWith:
+    - flair
+  - original: food
+    replaceWith:
+    - fairn
+  - original: for
+    replaceWith:
+    - fur
+  - original: forget
+    replaceWith:
+    - forgoat
+  - original: friend
+    replaceWith:
+    - mukker
+  - original: from
+    replaceWith:
+    - fae
+  - original: game
+    replaceWith:
+    - gam
+  - original: garden
+    replaceWith:
+    - back green
+  - original: get
+    replaceWith:
+    - git
   - original: girl
     replaceWith:
     - lassie
-    - lass
-    - burd
-  - original: need to
+  - original: give
     replaceWith:
-    - needty
-  - original: shit
+    - gie
+  - original: glass
     replaceWith:
-    - shite
-    - shet
-  - original: doing
+    - gless
+  - original: go
     replaceWith:
-    - dain
-  - original: out
+    - gang
+  - original: good
     replaceWith:
-    - oot
-  - original: you've
+    - guid
+  - original: great
     replaceWith:
-    - ye've
-  - original: i'll
+    - stoatin
+  - original: grow
     replaceWith:
-    - al
-  - original: off
+    - graw
+  - original: guess
     replaceWith:
-    - aff
+    - jalouse
+  - original: hair
+    replaceWith:
+    - locks
+  - original: half
+    replaceWith:
+    - hauf
+  - original: hand
+    replaceWith:
+    - haun
+  - original: hang
+    replaceWith:
+    - hing
+  - original: have
+    replaceWith:
+    - hae
+  - original: head
+    replaceWith:
+    - heid
+  - original: heart
+    replaceWith:
+    - hert
+  - original: help
+    replaceWith:
+    - hulp
+  - original: here
+    replaceWith:
+    - `ere
+  - original: high
+    replaceWith:
+    - heich
+  - original: himself
+    replaceWith:
+    - his-sel
+  - original: hit
+    replaceWith:
+    - skelp
+  - original: hold
+    replaceWith:
+    - haud
+  - original: home
+    replaceWith:
+    - hame
+  - original: hope
+    replaceWith:
+    - hawp
+  - original: hot
+    replaceWith:
+    - het
+  - original: hotel
+    replaceWith:
+    - change-hoose
+  - original: hour
+    replaceWith:
+    - oor
+  - original: house
+    replaceWith:
+    - hoose
+  - original: how
+    replaceWith:
+    - howfur
+  - original: husband
+    replaceWith:
+    - guidman
+  - original: image
+    replaceWith:
+    - photie
+  - original: imagine
+    replaceWith:
+    - jalouse
+  - original: including
+    replaceWith:
+    - anaw
+  - original: indicate
+    replaceWith:
+    - show
+  - original: information
+    replaceWith:
+    - speirins
   - original: into
     replaceWith:
     - intae
-    - inty
+  - original: its
+    replaceWith:
+    - tis
+  - original: job
+    replaceWith:
+    - jab
+  - original: join
+    replaceWith:
+    - jyne
+  - original: just
+    replaceWith:
+    - juist
+  - original: kid
+    replaceWith:
+    - bairn
+  - original: kill
+    replaceWith:
+    - murdurr
+  - original: kitchen
+    replaceWith:
+    - scullery
+  - original: know
+    replaceWith:
+    - ken
+  - original: language
+    replaceWith:
+    - leid
+  - original: large
+    replaceWith:
+    - lairge
+  - original: last
+    replaceWith:
+    - lest
+  - original: later
+    replaceWith:
+    - efter
+  - original: laugh
+    replaceWith:
+    - roar
+  - original: lawyer
+    replaceWith:
+    - advocate
+  - original: lead
+    replaceWith:
+    - leid
+  - original: leave
+    replaceWith:
+    - lea
+  - original: leg
+    replaceWith:
+    - shank
+  - original: life
+    replaceWith:
+    - lee
+  - original: like
+    replaceWith:
+    - lik`
+  - original: little
+    replaceWith:
+    - wee
+  - original: long
+    replaceWith:
+    - lang
+  - original: look
+    replaceWith:
+    - keek
+  - original: love
+    replaceWith:
+    - loue
+  - original: make
+    replaceWith:
+    - mak`
+  - original: man
+    replaceWith:
+    - jimmy
+  - original: manage
+    replaceWith:
+    - guide
+  - original: manager
+    replaceWith:
+    - high heid yin
+  - original: many
+    replaceWith:
+    - mony
+  - original: market
+    replaceWith:
+    - merkat
+  - original: marriage
+    replaceWith:
+    - mairriage
+  - original: matter
+    replaceWith:
+    - maiter
+  - original: maybe
+    replaceWith:
+    - mibbie
+  - original: meeting
+    replaceWith:
+    - meetin
+  - original: method
+    replaceWith:
+    - way
+  - original: might
+    replaceWith:
+    - micht
+  - original: mind
+    replaceWith:
+    - mynd
+  - original: miss
+    replaceWith:
+    - lassy
+  - original: money
+    replaceWith:
+    - dosh
+  - original: month
+    replaceWith:
+    - munth
+  - original: more
+    replaceWith:
+    - mair
+  - original: morning
+    replaceWith:
+    - mornin`
+  - original: most
+    replaceWith:
+    - maist
+  - original: mother
+    replaceWith:
+    - mither
+  - original: mouth
+    replaceWith:
+    - geggy
+  - original: move
+    replaceWith:
+    - shift
+  - original: much
+    replaceWith:
+    - muckle
+  - original: must
+    replaceWith:
+    - mist
+  - original: my
+    replaceWith:
+    - mah
+  - original: myself
+    replaceWith:
+    - masell
+  - original: network
+    replaceWith:
+    - netwurk
+  - original: never
+    replaceWith:
+    - ne`er
+  - original: new
+    replaceWith:
+    - freish
+  - original: news
+    replaceWith:
+    - speirins
+  - original: next
+    replaceWith:
+    - neist
+  - original: nice
+    replaceWith:
+    - crakin`
+  - original: night
+    replaceWith:
+    - nicht
+  - original: no
+    replaceWith:
+    - na
+  - original: not
+    replaceWith:
+    - nae
+  - original: now
+    replaceWith:
+    - noo
+  - original: number
+    replaceWith:
+    - batch
+  - original: of
+    replaceWith:
+    - o`
+  - original: off
+    replaceWith:
+    - aff
+  - original: office
+    replaceWith:
+    - affice
+  - original: officer
+    replaceWith:
+    - boaby
+  - original: oh
+    replaceWith:
+    - och
+  - original: ok
+    replaceWith:
+    - a`richt
+  - original: old
+    replaceWith:
+    - auld
+  - original: on
+    replaceWith:
+    - oan
+  - original: once
+    replaceWith:
+    - wance
+  - original: one
+    replaceWith:
+    - yin
+  - original: only
+    replaceWith:
+    - ainlie
+  - original: other
+    replaceWith:
+    - ither
+  - original: others
+    replaceWith:
+    - ithers
+  - original: our
+    replaceWith:
+    - oor
+  - original: out
+    replaceWith:
+    - oot
+  - original: outside
+    replaceWith:
+    - ootdoors
+  - original: over
+    replaceWith:
+    - ower
+  - original: own
+    replaceWith:
+    - ain
+  - original: owner
+    replaceWith:
+    - gaffer
+  - original: painting
+    replaceWith:
+    - pentin
+  - original: part
+    replaceWith:
+    - pairt
+  - original: partner
+    replaceWith:
+    - bidie
+  - original: party
+    replaceWith:
+    - pairtie
+  - original: pass
+    replaceWith:
+    - bygae
+  - original: past
+    replaceWith:
+    - bygane
+  - original: people
+    replaceWith:
+    - fowk
+  - original: perhaps
+    replaceWith:
+    - mibbie
+  - original: person
+    replaceWith:
+    - body
+  - original: phone
+    replaceWith:
+    - phane
+  - original: place
+    replaceWith:
+    - steid
+  - original: play
+    replaceWith:
+    - speil
+  - original: police
+    replaceWith:
+    - polis
+  - original: poor
+    replaceWith:
+    - brassic
+  - original: popular
+    replaceWith:
+    - weel-kent
+  - original: pretty
+    replaceWith:
+    - bonny
+  - original: price
+    replaceWith:
+    - cost
+  - original: probably
+    replaceWith:
+    - likelie
+  - original: problem
+    replaceWith:
+    - kinch
+  - original: professional
+    replaceWith:
+    - perfaissional
+  - original: program
+    replaceWith:
+    - progrum
+  - original: provide
+    replaceWith:
+    - gie
+  - original: put
+    replaceWith:
+    - pat
+  - original: question
+    replaceWith:
+    - quaistion
+  - original: quite
+    replaceWith:
+    - ferr
+  - original: radio
+    replaceWith:
+    - tranny
+  - original: rather
+    replaceWith:
+    - ower
+  - original: ready
+    replaceWith:
+    - duin
+  - original: really
+    replaceWith:
+    - pure
+  - original: red
+    replaceWith:
+    - rid
+  - original: relationship
+    replaceWith:
+    - kinship
+  - original: remember
+    replaceWith:
+    - mind
+  - original: right
+    replaceWith:
+    - richt
+  - original: role
+    replaceWith:
+    - part
+  - original: same
+    replaceWith:
+    - identical
+  - original: school
+    replaceWith:
+    - schuil
+  - original: score
+    replaceWith:
+    - hampden roar
+  - original: season
+    replaceWith:
+    - seezin
+  - original: second
+    replaceWith:
+    - seicont
+  - original: several
+    replaceWith:
+    - loads
+  - original: shake
+    replaceWith:
+    - shoogle
+  - original: should
+    replaceWith:
+    - shuid
+  - original: show
+    replaceWith:
+    - shaw
+  - original: since
+    replaceWith:
+    - sin
+  - original: small
+    replaceWith:
+    - wee
+  - original: so
+    replaceWith:
+    - sae
+  - original: soldier
+    replaceWith:
+    - fighter
+  - original: sometimes
+    replaceWith:
+    - whiles
+  - original: south
+    replaceWith:
+    - sooth
+  - original: staff
+    replaceWith:
+    - warkers
+  - original: stand
+    replaceWith:
+    - staun
+  - original: star
+    replaceWith:
+    - starn
+  - original: start
+    replaceWith:
+    - stairt
+  - original: stay
+    replaceWith:
+    - bade
+  - original: stop
+    replaceWith:
+    - stoap
+  - original: store
+    replaceWith:
+    - hain
+  - original: street
+    replaceWith:
+    - wynd
+  - original: strong
+    replaceWith:
+    - pure tough
+  - original: style
+    replaceWith:
+    - pure class
+  - original: such
+    replaceWith:
+    - sic
+  - original: table
+    replaceWith:
+    - buird
+  - original: take
+    replaceWith:
+    - tak`
+  - original: talk
+    replaceWith:
+    - blether
+  - original: task
+    replaceWith:
+    - hing
+  - original: team
+    replaceWith:
+    - gang
+  - original: television
+    replaceWith:
+    - tellybox
+  - original: the
+    replaceWith:
+    - th`
+  - original: their
+    replaceWith:
+    - thair
+  - original: them
+    replaceWith:
+    - thaim
+  - original: there
+    replaceWith:
+    - thare
+  - original: these
+    replaceWith:
+    - thae
+  - original: they
+    replaceWith:
+    - thay
+  - original: those
+    replaceWith:
+    - they
+  - original: through
+    replaceWith:
+    - thro`
+  - original: throughout
+    replaceWith:
+    - throo`oot
+  - original: to
+    replaceWith:
+    - tae
+  - original: today
+    replaceWith:
+    - th`day
+  - original: together
+    replaceWith:
+    - th`gither
+  - original: tonight
+    replaceWith:
+    - th`nicht
+  - original: too
+    replaceWith:
+    - tae
+  - original: top
+    replaceWith:
+    - tap
+  - original: total
+    replaceWith:
+    - tot
+  - original: town
+    replaceWith:
+    - toun
+  - original: trouble
+    replaceWith:
+    - trauchle
+  - original: turn
+    replaceWith:
+    - caw
+  - original: TV
+    replaceWith:
+    - telly
+  - original: two
+    replaceWith:
+    - twa
+  - original: understand
+    replaceWith:
+    - ken
+  - original: until
+    replaceWith:
+    - `til
+  - original: use
+    replaceWith:
+    - uise
+  - original: usually
+    replaceWith:
+    - forordinar
+  - original: very
+    replaceWith:
+    - gey
+  - original: victim
+    replaceWith:
+    - sittin` duck
+  - original: view
+    replaceWith:
+    - sicht
+  - original: walk
+    replaceWith:
+    - donder
+  - original: wall
+    replaceWith:
+    - dyke
+  - original: want
+    replaceWith:
+    - waant
+  - original: water
+    replaceWith:
+    - cooncil juice
+  - original: way
+    replaceWith:
+    - wey
+  - original: well
+    replaceWith:
+    - weel
+  - original: west
+    replaceWith:
+    - wast
+  - original: what
+    replaceWith:
+    - whit
+  - original: whatever
+    replaceWith:
+    - whitevur
+  - original: when
+    replaceWith:
+    - whin
+  - original: where
+    replaceWith:
+    - whaur
+  - original: whether
+    replaceWith:
+    - whither
+  - original: which
+    replaceWith:
+    - whilk
+  - original: who
+    replaceWith:
+    - wha
+  - original: whole
+    replaceWith:
+    - hail
+  - original: whom
+    replaceWith:
+    - wham
+  - original: whose
+    replaceWith:
+    - wha`s
+  - original: wife
+    replaceWith:
+    - guidwife
+  - original: will
+    replaceWith:
+    - wull
+  - original: wind
+    replaceWith:
+    - win`
+  - original: window
+    replaceWith:
+    - windae
+  - original: with
+    replaceWith:
+    - wi`
+  - original: within
+    replaceWith:
+    - wi`in
+  - original: without
+    replaceWith:
+    - wi`oot
+  - original: woman
+    replaceWith:
+    - wifie
+  - original: work
+    replaceWith:
+    - wirk
+  - original: would
+    replaceWith:
+    - wid
+  - original: yard
+    replaceWith:
+    - yaird
+  - original: yeah
+    replaceWith:
+    - aye
+  - original: yes
+    replaceWith:
+    - aye
+  - original: yet
+    replaceWith:
+    - yit
+  - original: you
+    replaceWith:
+    - ye
+  - original: your
+    replaceWith:
+    - yer
+  - original: yourself
+    replaceWith:
+    - yersel`
+  - original: i
+    replaceWith:
+    - a
+  - original: shit
+    replaceWith:
+    - shite
   - original: alright
     replaceWith:
-    - awryt
+    - a`richt
   - original: crazy
     replaceWith:
-    - a bampot
-  - original: great
-    replaceWith:
-    - crackin'
-  - original: awesome
-    replaceWith:
-    - crackin'
+    - doolally
   - original: idiot
     replaceWith:
     - eejit
@@ -96,68 +1055,32 @@ MonoBehaviour:
   - original: ugly
     replaceWith:
     - hackit
-  - original: is not
-    replaceWith:
-    - isnae
   - original: tired
     replaceWith:
     - knackert
   - original: gay
     replaceWith:
-    - a jessie
+    - bufty
   - original: testing
     replaceWith:
-    - testin'
+    - testin`
   - original: fuck
     replaceWith:
     - fook
   - original: fucking
     replaceWith:
-    - fookin'
+    - fookin`
     - feckin
   - original: fucker
     replaceWith:
     - fooker
-  - original: ones
-    replaceWith:
-    - wans
-  - original: on
-    replaceWith:
-    - oan
-  - original: his
-    replaceWith:
-    - es
-  - original: thought
-    replaceWith:
-    - thawt
-  - original: home
-    replaceWith:
-    - hame
-  - original: boy
-    replaceWith:
-    - lad
-    - laddie
   - original: mom
     replaceWith:
-    - mum
     - maw
     - mam
-  - original: head
-    replaceWith:
-    - heed
-  - original: my
-    replaceWith:
-    - me
-    - ma
-  - original: do not
-    replaceWith:
-    - dinny
   - original: throw
     replaceWith:
     - chuck
-  - original: window
-    replaceWith:
-    - windae
   - original: fucked
     replaceWith:
     - fooked
@@ -170,17 +1093,10 @@ MonoBehaviour:
     - arsed
   - original: dick
     replaceWith:
-    - dobber
+    - boaby
   - original: something
     replaceWith:
     - suhin
-  - original: around
-    replaceWith:
-    - round
-    - roond
-  - original: dead
-    replaceWith:
-    - deed
   - original: boys
     replaceWith:
     - lads
@@ -193,8 +1109,6 @@ MonoBehaviour:
   letterReplaceList: []
   activateAdditions: 1
   probability: 24
-  beginning:
-  - Oi!
   ending:
-  - Ya wee fooker?
+  - ye daft cunt
   customCode: {fileID: 0}
