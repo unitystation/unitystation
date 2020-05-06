@@ -137,20 +137,26 @@ public static class ElectricityFunctions
 		// Connect wires
 		{
 			var eConnsAtPosition = matrix.GetElectricalConnections(position);
+			bool connectionsAdded = false;
 			foreach (var con in eConnsAtPosition)
 			{
 				if (CanConnectTo.Contains(con.Categorytype) &&
 					ConnectionMap.IsConnectedToTile(ConnPoints, con.GetConnPoints()))
 				{
 					connections.Add(con);
+					connectionsAdded = true;
 				}
 			}
 			eConnsAtPosition.Clear();
 			ElectricalPool.PooledFPCList.Add(eConnsAtPosition);
+
+			if (connectionsAdded)
+			{
+				return connections;
+			}
 		}
 
 		// Connect to overlap
-		if (connections.Count == 0)
 		{
 			var eConnsAtSearchVec = matrix.GetElectricalConnections(searchVecInt);
 			foreach (var con in eConnsAtSearchVec)
