@@ -9,7 +9,8 @@ public static class Despawn
 {
 
 	/// <summary>
-	/// Despawn the specified game object, syncing to all clients. Despawning removes an
+	/// Despawn the specified game object, syncing to all clients. Should only be called
+	/// on networked objects (i.e. ones which have NetworkIdentity component). Despawning removes an
 	/// object from the game, but may not necessarilly destroy it completely - it may end up back in the
 	/// object pool to be later reused.
 	/// </summary>
@@ -25,7 +26,8 @@ public static class Despawn
 	}
 
 	/// <summary>
-	/// Despawn the object server side and sync the despawn to all clients. Despawning removes an
+	/// Despawn the object server side and sync the despawn to all clients. Should only be
+	/// called on networked objects (i.e. ones which have NetworkIdentity component). Despawning removes an
 	/// object from the game, but may not necessarilly destroy it completely - it may end up back in the
 	/// object pool to be later reused.
 	/// </summary>
@@ -63,6 +65,7 @@ public static class Despawn
 		var poolPrefabTracker = info.GameObject.GetComponent<PoolPrefabTracker>();
 		var transform = info.GameObject.GetComponent<IPushable>();
 		var Electrical = info.GameObject.GetComponent<ElectricalOIinheritance>();
+		//TODO: What's the purpose of this?
 		if (Electrical != null)
 		{
 			if (!Electrical.InData.DestroyAuthorised)
@@ -73,6 +76,7 @@ public static class Despawn
 		}
 
 		_ServerFireDespawnHooks(DespawnResult.Single(info));
+
 		if (transform != null)
 		{
 			transform.VisibleState = false;
@@ -81,11 +85,17 @@ public static class Despawn
 		if (poolPrefabTracker != null)
 		{
 			//pooled
-			Spawn._AddToPool(info.GameObject);
+			//destroy for all clients but keep it in server-side pool
+			NetworkServer.UnSpawn(info.GameObject);
+			if (!Spawn._TryAddToPool(info.GameObject))
+			{
+				//can't pool it, destroy
+				Object.Destroy(info.GameObject);
+			}
 		}
 		else
 		{
-			//not pooled
+			//not pooled - destroy everywhere
 			NetworkServer.Destroy(info.GameObject);
 		}
 
@@ -94,7 +104,8 @@ public static class Despawn
 	}
 
 	/// <summary>
-	/// Despawn the specified game object locally, on this client only. Should ONLY be called on non-networked objects.
+	/// Despawn the specified game object locally, on this client only. Should ONLY be called on non-networked objects
+	/// (i.e. ones which don't have NetworkIdentity component).
 	/// Despawning removes an object from the game, but may not necessarilly destroy it completely - it may end up back in the
 	/// object pool to be later reused.
 	/// </summary>
@@ -106,7 +117,8 @@ public static class Despawn
 	}
 
 	/// <summary>
-	/// Despawn the object locally, on this client only. Should ONLY be called on non-networked objects. Despawning removes an
+	/// Despawn the object locally, on this client only. Should ONLY be called on non-networked objects
+	/// (i.e. ones which don't have NetworkIdentity component). Despawning removes an
 	/// object from the game, but may not necessarilly destroy it completely - it may end up back in the
 	/// object pool to be later reused.
 	/// </summary>
@@ -120,8 +132,15 @@ public static class Despawn
 			return DespawnResult.Fail(info);
 		}
 
-		//TODO: Add to clientside pool if object is pooled rather than just destroying it
-		Object.Destroy(info.GameObject);
+		//add to pool
+		if (Spawn._TryAddToPool(info.GameObject))
+		{
+			info.GameObject.SetActive(false);
+		}
+		else
+		{
+			Object.Destroy(info.GameObject);
+		}
 
 		return DespawnResult.Single(info);
 	}

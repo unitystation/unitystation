@@ -332,19 +332,6 @@ public static class Spawn
 				}
 			}
 
-			//fire client side lifecycle hooks
-			foreach (var spawnedObject in spawnedObjects)
-			{
-				var hooks = spawnedObject.GetComponents<IClientSpawn>();
-				if (hooks != null)
-				{
-					foreach (var hook in hooks)
-					{
-						hook.OnSpawnClient(ClientSpawnInfo.Default());
-					}
-				}
-			}
-
 			if (spawnedObjects.Count == 1)
 			{
 				return SpawnResult.Single(info, spawnedObjects[0]);
@@ -369,7 +356,6 @@ public static class Spawn
 	/// <param name="result"></param>
 	public static void _ServerFireClientServerSpawnHooks(SpawnResult result)
 	{
-
 		//fire server hooks
 		foreach (var spawnedObject in result.GameObjects)
 		{
@@ -382,9 +368,6 @@ public static class Spawn
 				}
 			}
 		}
-
-		//fire client hooks
-		SpawnMessage.SendToAll(result);
 	}
 
 
@@ -393,13 +376,13 @@ public static class Spawn
 	/// <summary>
 	/// For internal use by lifecycle system only.
 	/// Instantiates the prefab at the specified location, taking from the pool if possible.
-	/// Does not call any hooks
+	/// Does not call any hooks. Object will always be newly-created for all clients, as clients
+	/// have no pool for networked objects.
 	/// </summary>
 	/// <param name="prefab">prefab to instantiate</param>
 	/// <param name="destination">destination to spawn</param>
-	/// <param name="pooledInstance">true if the object was taken from the pool. False if newly spawned</param>
 	/// <returns></returns>
-	public static GameObject _PoolInstantiate(GameObject prefab, SpawnDestination destination, out bool pooledInstance)
+	public static GameObject _PoolInstantiate(GameObject prefab, SpawnDestination destination)
 	{
 		GameObject tempObject = null;
 		bool hide = destination.WorldPosition == TransformState.HiddenPos;
@@ -440,6 +423,14 @@ public static class Spawn
 			pooledInstance = false;
 		}
 
+
+		// regardless of whether it was from the pool or not, we know it doesn't exist clientside
+		// because there's no clientside pool for networked objects, so
+		// we only need to tell client to spawn it
+		NetworkServer.Spawn(tempObject);
+		tempObject.GetComponent<CustomNetTransform>()
+			?.NotifyPlayers(); //Sending clientState for newly spawned items
+
 		return tempObject;
 
 	}
@@ -451,16 +442,17 @@ public static class Spawn
 	}
 
 	/// <summary>
-	/// For internal use (lifecycle system) only
+	/// For internal use (lifecycle system) only. Tries to add the object to the pool.
 	/// </summary>
-	/// <param name="target"></param>
-	public static void _AddToPool(GameObject target)
+	/// <param name="target">object to try to pool</param>
+	/// <returns>true iff succesfully added to pool. Generally the object should be destroyed when not successfully added.</returns>
+	public static bool _TryAddToPool(GameObject target)
 	{
 		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
 		if ( !poolPrefabTracker )
 		{
 			Logger.LogWarning($"PoolPrefabTracker not found on {target}",Category.ItemSpawn);
-			return;
+			return false;
 		}
 		GameObject prefab = poolPrefabTracker.myPrefab;
 		prefab.transform.position = Vector2.zero;
@@ -473,6 +465,7 @@ public static class Spawn
 
 		pools[prefab].Add(target);
 		Logger.LogTraceFormat("Added {0} to pool, Pooled: {1} Index:{2}", Category.ItemSpawn, target.GetInstanceID(), pools[prefab].Count, pools[prefab].Count-1);
+		return true;
 	}
 
 
@@ -566,15 +559,6 @@ public static class Spawn
 		var prefabName = Regex.Replace(instance.name, @"\(.*\)", "").Trim();
 
 		return nameToSpawnablePrefab.ContainsKey(prefabName) ? GetPrefabByName(prefabName) : null;
-	}
-
-	public static void _CallAllClientSpawnHooksInScene()
-	{
-		//client side, just call the hooks
-		foreach (var clientSpawn in FindUtils.FindInterfaceImplementersInScene<IClientSpawn>())
-		{
-			clientSpawn.OnSpawnClient(ClientSpawnInfo.Default());
-		}
 	}
 
 	public static void _ClearPools()

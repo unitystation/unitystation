@@ -52,31 +52,14 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 		}
 		Logger.LogTraceFormat("Spawning using prefab {0}", Category.ItemSpawn, prefab);
 
-		bool isPooled;
-
-		GameObject tempObject = Spawn._PoolInstantiate(prefab, destination,
-			out isPooled);
-
-		if (!isPooled)
-		{
-			Logger.LogTrace("Prefab to spawn was not pooled, spawning new instance.", Category.ItemSpawn);
-			NetworkServer.Spawn(tempObject);
-			tempObject.GetComponent<CustomNetTransform>()
-				?.NotifyPlayers(); //Sending clientState for newly spawned items
-		}
-		else
-		{
-			Logger.LogTrace("Prefab to spawn was pooled, reusing it...", Category.ItemSpawn);
-		}
+		GameObject tempObject = Spawn._PoolInstantiate(prefab, destination);
 
 		return SpawnableResult.Single(tempObject, destination);
 	}
 
 	public SpawnableResult ClientSpawnAt(SpawnDestination destination)
 	{
-		bool isPooled; // not used for Client-only instantiation
-		var go = Spawn._PoolInstantiate(prefab, destination, out isPooled);
-
+		var go = Spawn._PoolInstantiate(prefab, destination);
 		return SpawnableResult.Single(go, destination);
 	}
 }

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -6,7 +7,7 @@ using UnityEngine.Events;
 /// <summary>
 /// Component to be attached to items to allow them to be used when hacking panels. A hacking device can be an input, an output or both.
 /// </summary>
-public class HackingDevice : MonoBehaviour, IServerSpawn, IClientSpawn
+public class HackingDevice : MonoBehaviour
 {
 	private HackingNode inputNode;
 	public HackingNode InputNode => inputNode;
@@ -17,15 +18,9 @@ public class HackingDevice : MonoBehaviour, IServerSpawn, IClientSpawn
 	[SerializeField]
 	private UnityEvent onInputReceived;
 
-	public void SendOutputSignal()
-	{
-		outputNode.SendOutputToConnectedNodes();
-	}
-
-	public void OnSpawnServer(SpawnInfo info)
+	private void OnEnable()
 	{
 		inputNode = new HackingNode();
-		inputNode.AddToInputMethods(onInputReceived.Invoke);
 		inputNode.HiddenLabel = "Input";
 		inputNode.IsInput = true;
 		inputNode.IsDeviceNode = true;
@@ -33,20 +28,14 @@ public class HackingDevice : MonoBehaviour, IServerSpawn, IClientSpawn
 		outputNode.HiddenLabel = "Output";
 		outputNode.IsOutput = true;
 		outputNode.IsDeviceNode = true;
+		if (CustomNetworkManager.IsServer)
+		{
+			inputNode.AddToInputMethods(onInputReceived.Invoke);
+		}
 	}
 
-	public void OnSpawnClient(ClientSpawnInfo info)
+	public void SendOutputSignal()
 	{
-		if (!CustomNetworkManager.IsServer)
-		{
-			inputNode = new HackingNode();
-			inputNode.HiddenLabel = "Input";
-			inputNode.IsInput = true;
-			inputNode.IsDeviceNode = true;
-			outputNode = new HackingNode();
-			outputNode.HiddenLabel = "Output";
-			outputNode.IsOutput = true;
-			outputNode.IsDeviceNode = true;
-		}
+		outputNode.SendOutputToConnectedNodes();
 	}
 }

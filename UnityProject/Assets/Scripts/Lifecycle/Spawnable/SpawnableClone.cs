@@ -38,15 +38,7 @@ public class SpawnableClone : ISpawnable
 			return SpawnableResult.Fail(destination);
 		}
 
-		GameObject tempObject = Spawn._PoolInstantiate(prefab, destination,
-			out var isPooled);
-
-		if (!isPooled)
-		{
-			NetworkServer.Spawn(tempObject);
-			tempObject.GetComponent<CustomNetTransform>()
-				?.NotifyPlayers(); //Sending clientState for newly spawned items
-		}
+		GameObject tempObject = Spawn._PoolInstantiate(prefab, destination);
 
 		return SpawnableResult.Single(tempObject, destination);
 	}
