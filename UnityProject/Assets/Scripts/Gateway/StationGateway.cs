@@ -193,7 +193,6 @@ public class StationGateway : NetworkBehaviour
 	{
 		//teleports player to the front of the new gateway
 		player.GetComponent<PlayerSync>().SetPosition(selectedWorld.GetComponent<RegisterTile>().WorldPosition);
-		player.GetComponent<CustomNetSceneChecker>().ResetObserversOnSceneChange();
 	}
 
 	[Server]
