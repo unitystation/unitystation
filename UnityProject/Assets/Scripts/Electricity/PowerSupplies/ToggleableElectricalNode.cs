@@ -15,16 +15,16 @@ public class ToggleableElectricalNode : NetworkBehaviour, IInteractable<HandAppl
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		isOn = !isOn;
-		UpdateServerState(isOn);
+		UpdateServerState();
 	}
 
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
 		isOn = true;
-		UpdateServerState(isOn);
+		UpdateServerState();
 	}
-	public void UpdateServerState(bool _isOn)
+	public void UpdateServerState()
 	{
 		if (isOn)
 		{

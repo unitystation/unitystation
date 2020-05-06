@@ -23,15 +23,10 @@ public static class ElectricalDataCleanup
 		Thiswire.connectedDevices.Clear();
 	}
 
-
-
 	public static class PowerSupplies
 	{
-
-
 		public static void FlushConnectionAndUp(IntrinsicElectronicData Object)
 		{
-
 			Object.Data.CurrentInWire = 0;
 			Object.Data.ActualVoltage = 0;
 			Object.Data.ResistanceToConnectedDevices.Clear();
@@ -59,8 +54,6 @@ public static class ElectricalDataCleanup
 			}
 		}
 
-
-
 		public static void FlushResistanceAndUp(IntrinsicElectronicData Object, ElectricalOIinheritance SourceInstance = null)
 		{
 			if (SourceInstance == null)
@@ -71,6 +64,7 @@ public static class ElectricalDataCleanup
 					if (Supply.Value.ResistanceComingFrom.Count > 0)
 					{
 						pass = true;
+						break;
 					}
 				}
 				if (pass)
@@ -91,27 +85,26 @@ public static class ElectricalDataCleanup
 					Object.Data.CurrentInWire = 0;
 					Object.Data.ActualVoltage = 0;
 				}
-
 			}
-			else {
-				if (Object.Data.SupplyDependent[SourceInstance].ResistanceComingFrom.Count > 0 || Object.Data.SupplyDependent[SourceInstance].ResistanceGoingTo.Count > 0)
+			else
+			{
+				ElectronicSupplyData supplyDep = Object.Data.SupplyDependent[SourceInstance];
+				if (supplyDep.ResistanceComingFrom.Count > 0 || supplyDep.ResistanceGoingTo.Count > 0)
 				{
-					Pool(Object.Data.SupplyDependent[SourceInstance].ResistanceComingFrom);
-					Pool(Object.Data.SupplyDependent[SourceInstance].ResistanceGoingTo);
+					Pool(supplyDep.ResistanceComingFrom);
+					Pool(supplyDep.ResistanceGoingTo);
 					foreach (IntrinsicElectronicData JumpTo in Object.Data.connections)
 					{
 						JumpTo.FlushResistanceAndUp(SourceInstance);
 					}
-					Pool(Object.Data.SupplyDependent[SourceInstance].CurrentGoingTo);
-					Pool(Object.Data.SupplyDependent[SourceInstance].CurrentComingFrom);
-					Object.Data.SupplyDependent[SourceInstance].SourceVoltage = 0;
+					Pool(supplyDep.CurrentGoingTo);
+					Pool(supplyDep.CurrentComingFrom);
+					supplyDep.SourceVoltage = 0;
 					Object.Data.CurrentInWire = new float();
 					Object.Data.ActualVoltage = new float();
 				}
 			}
 		}
-
-
 
 		public static void FlushSupplyAndUp(IntrinsicElectronicData Object, ElectricalOIinheritance SourceInstance = null)
 		{
@@ -123,6 +116,7 @@ public static class ElectricalDataCleanup
 					if (Supply.Value.CurrentComingFrom.Count > 0)
 					{
 						pass = true;
+						break;
 					}
 				}
 				if (pass)
@@ -142,21 +136,18 @@ public static class ElectricalDataCleanup
 					Object.Data.ActualVoltage = 0;
 				}
 			}
-			else {
-				if (Object.Data.SupplyDependent.ContainsKey(SourceInstance))
+			else if (Object.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
+			{
+				if (supplyDep.CurrentComingFrom.Count > 0 || supplyDep.CurrentGoingTo.Count > 0)
 				{
-					if (Object.Data.SupplyDependent[SourceInstance].CurrentComingFrom.Count > 0
-					    || Object.Data.SupplyDependent[SourceInstance].CurrentGoingTo.Count > 0)
+					Pool(supplyDep.CurrentGoingTo);
+					Pool(supplyDep.CurrentComingFrom);
+					foreach (IntrinsicElectronicData JumpTo in Object.Data.connections)
 					{
-						Pool(Object.Data.SupplyDependent[SourceInstance].CurrentGoingTo);
-						Pool(Object.Data.SupplyDependent[SourceInstance].CurrentComingFrom);
-						foreach (IntrinsicElectronicData JumpTo in Object.Data.connections)
-						{
-							JumpTo.FlushSupplyAndUp(SourceInstance);
-						}
+						JumpTo.FlushSupplyAndUp(SourceInstance);
 					}
-					Object.Data.SupplyDependent[SourceInstance].SourceVoltage = 0;
 				}
+				supplyDep.SourceVoltage = 0;
 			}
 		}
 
@@ -170,6 +161,7 @@ public static class ElectricalDataCleanup
 					if (Supply.Value.Downstream.Count > 0 || Supply.Value.Upstream.Count > 0)
 					{
 						pass = true;
+						break;
 					}
 				}
 				if (pass)
@@ -186,18 +178,16 @@ public static class ElectricalDataCleanup
 					//Object.connectedDevices.Clear();#
 				}
 			}
-			else {
-				//SourceInstance
+			else
+			{
 				bool pass = false;
-				if (Object.Data.SupplyDependent.ContainsKey(SourceInstance))
+				if (Object.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
 				{
-
-					if (Object.Data.SupplyDependent[SourceInstance].Downstream.Count > 0
-					|| Object.Data.SupplyDependent[SourceInstance].Upstream.Count > 0)
+					if (supplyDep.Downstream.Count > 0 || supplyDep.Upstream.Count > 0)
 					{
 						pass = true;
 					}
-					Object.Data.SupplyDependent[SourceInstance].Pool();
+					supplyDep.Pool();
 					Object.Data.SupplyDependent.Remove(SourceInstance);
 				}
 
@@ -218,7 +208,6 @@ public static class ElectricalDataCleanup
 		}
 	}
 
-
 	public static void Pool(Dictionary<IntrinsicElectronicData, VIRCurrent> ToPool)
 	{
 		foreach (var poolling in ToPool)
@@ -236,7 +225,7 @@ public static class ElectricalDataCleanup
 		}
 		ToPool.Clear();
 	}
-	//SupplyDependent
+
 	public static void Pool(Dictionary<ElectricalOIinheritance, ElectronicSupplyData> ToPool)
 	{
 		foreach (var poolling in ToPool)
