@@ -73,7 +73,7 @@ public static class ConnectionMap
 	public static bool IsConnectedToTileOverlap(Connection ConnectionDirection, ConnPoint AdjacentConnections)
 	{
 		switch (ConnectionDirection)
-		{	// Intentionally falling through these cases
+		{	// Intentional Fallthrough for these cases
 			case Connection.North:
 			case Connection.NorthEast:
 			case Connection.East:
@@ -84,18 +84,17 @@ public static class ConnectionMap
 			case Connection.NorthWest:
 			case Connection.Overlap:
 			case Connection.MachineConnect:
-			{
+			{	// All of the cases above run this code
 				return (AdjacentConnections.pointA == ConnectionDirection || AdjacentConnections.pointB == ConnectionDirection);
 			}
 			default:
-			{
+			{	// Unspecified behavior in all other cases
 				return false;
 			}
 		}
 	}
 }
 
-//Direction of the adjacent tile
 public enum Connection
 {
 	NA,
