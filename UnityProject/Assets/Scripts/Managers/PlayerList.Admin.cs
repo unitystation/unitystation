@@ -21,8 +21,6 @@ public partial class PlayerList
 	private Dictionary<string, string> loggedInAdmins = new Dictionary<string, string>();
 	private BanList banList;
 	private string adminsPath;
-	private string adminLogPath;
-	private string adminLog2Path;
 	private string banPath;
 	private List<string> whiteListUsers = new List<string>();
 	private string whiteListPath;
@@ -67,84 +65,6 @@ public partial class PlayerList
 		LoadBanList();
 		LoadCurrentAdmins();
 		LoadWhiteList();
-		AdminLogStart();
-	}
-
-	private void AdminLogStart()
-	{
-		adminLogPath = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog1.txt");
-		adminLog2Path = Path.Combine(Application.streamingAssetsPath, "admin", "adminlog2.txt");
-
-		if (!File.Exists(adminLogPath))
-		{
-			//Creates file
-			var file = File.CreateText(adminLogPath);
-
-			//Todo add to file round number here
-			file.WriteLine("true");
-
-			file.Close();
-		}
-
-		if (!File.Exists(adminLog2Path))
-		{
-			//Creates file
-			var file = File.CreateText(adminLog2Path);
-
-			//Todo add to file round number here
-			file.WriteLine("false");
-
-			file.Close();
-		}
-
-		var first = File.ReadLines(adminLogPath).First() == "true";
-
-		var second = File.ReadLines(adminLog2Path).First() == "true";
-
-		if (first && !second)
-		{
-			//Clears file
-			var file = File.CreateText(adminLogPath);
-
-			//Todo add to file round number here
-			file.WriteLine("false");
-
-			file.Close();
-		}
-		else if (!first && second)
-		{
-			//Clears file
-			var file = File.CreateText(adminLogPath);
-
-			//Todo add to file round number here
-			file.WriteLine("true");
-
-			file.Close();
-		}
-		else if (first && second)
-		{
-			//Clears file
-			var file = File.CreateText(adminLog2Path);
-
-			//Todo add to file round number here
-			file.WriteLine("false");
-
-			file.Close();
-
-			adminLogPath = adminLog2Path;
-		}
-		else
-		{
-			//Clears file
-			var file = File.CreateText(adminLog2Path);
-
-			//Todo add to file round number here
-			file.WriteLine("true");
-
-			file.Close();
-
-			adminLogPath = adminLog2Path;
-		}
 	}
 
 	void LoadBanList()
@@ -480,16 +400,6 @@ public partial class PlayerList
 		}
 	}
 
-	public void AddToAdminLog(string log)
-	{
-		log = "Time " + DateTime.UtcNow.ToShortTimeString() + " : " + log;
-
-		File.AppendAllLines(adminLogPath, new string[]
-		{
-			"\r\n" + log
-		});
-	}
-
 	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes)
 	{
 		if (!adminUsers.Contains(admin)) return;
@@ -503,9 +413,7 @@ public partial class PlayerList
 
 				Logger.Log(msg);
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, admin);
-
-				AddToAdminLog(admin + " : " + msg);
+				AdminLogging.Instance.AddToAdminChatAndLog(msg, admin);
 
 				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
 			}

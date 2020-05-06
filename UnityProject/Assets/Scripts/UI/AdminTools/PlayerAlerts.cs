@@ -172,9 +172,7 @@ namespace AdminTools
 							$"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: " +
 							$"{alertEntry.roundTime}";
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
-
-			PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
+			AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId);
 
 			playerScript.playerHealth.ServerGibPlayer();
 
@@ -195,9 +193,7 @@ namespace AdminTools
 							$"{alertEntry.playerAlertType.ToString()} incident that happened at roundtime: " +
 							$"{alertEntry.roundTime}";
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
-
-			PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
+			AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId);
 
 			alertEntry.takenCareOf = true;
 			ServerSendEntryToAllAdmins(alertEntry);

@@ -29,9 +29,7 @@ public class DevSpawnMessage : ClientMessage
 
 		string msg = $"{admin.ExpensiveName()} spawned a {Name} at {WorldPosition}";
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, AdminId);
-
-		PlayerList.Instance.AddToAdminLog(AdminId + " : " + msg);
+		AdminLogging.Instance.AddToAdminChatAndLog(msg, AdminId);
 	}
 
 	public override string ToString()

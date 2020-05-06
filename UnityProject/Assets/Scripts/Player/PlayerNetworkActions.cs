@@ -775,9 +775,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			string msg = admin.ExpensiveName() + " turned into a ghost.";
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
-
-			PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
+			AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId);
 		}
 		else if (playerScript.IsGhost)//back to player
 		{
@@ -787,9 +785,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 			string msg = admin.ExpensiveName() + " reentered body.";
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
-
-			PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
+			AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId);
 		}
 	}
 
@@ -816,9 +812,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		string msg = admin.ExpensiveName() + " played a global sound: " + index;
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg , adminId);
-
-		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
+		AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId);
 	}
 
 	[Command]
@@ -838,9 +832,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		string msg = admin.ExpensiveName() + " created a hotspot on " + onObject.ExpensiveName();
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
-
-		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
+		AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId);
 	}
 
 	[Command]
@@ -863,9 +855,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		string msg = admin.ExpensiveName() + " smashed " + toSmash.ExpensiveName();
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
-
-		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
+		AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId);
 	}
 
 	//simulates despawning and immediately respawning this object, expectation
@@ -880,9 +870,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		string msg = admin.ExpensiveName() + " respawned " + toRespawn.ExpensiveName();
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
-
-		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg);
+		AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId);
 	}
 
 	[Command]
@@ -895,9 +883,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		string msg = admin.ExpensiveName() + " sent a centcomm announcement.";
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
-
-		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg + "\n" + text);
+		AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId, text);
 	}
 
 	[Command]
@@ -910,9 +896,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		string msg = admin.ExpensiveName() + " sent a centcomm report.";
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
-
-		PlayerList.Instance.AddToAdminLog(adminId + " : " + msg + "\n" + text);
+		AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId, text);
 	}
 
 	[Command]

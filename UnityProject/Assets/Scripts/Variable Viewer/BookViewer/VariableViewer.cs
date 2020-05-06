@@ -230,9 +230,7 @@ public static class VariableViewer
 				+ " From " + VVUIElementHandler.Serialise(Librarian.IDToPage[PageID].Variable, Librarian.IDToPage[PageID].VariableType) + " to " + ChangeTo
 				+ " with Send to clients? " + SendToClient;
 
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, AdminId);
-
-			PlayerList.Instance.AddToAdminLog(AdminId + " : " + msg);
+			AdminLogging.Instance.AddToAdminChatAndLog(msg, AdminId);
 
 			Librarian.PageSetValue(Librarian.IDToPage[PageID], ChangeTo);
 			if (SendToClient)
