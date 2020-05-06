@@ -94,8 +94,8 @@ public static class Despawn
 	}
 
 	/// <summary>
-	/// Despawn the specified game object locally, on this client only. Despawning removes an
-	/// object from the game, but may not necessarilly destroy it completely - it may end up back in the
+	/// Despawn the specified game object locally, on this client only. Should ONLY be called on non-networked objects.
+	/// Despawning removes an object from the game, but may not necessarilly destroy it completely - it may end up back in the
 	/// object pool to be later reused.
 	/// </summary>
 	/// <param name="toDespawn"></param>
@@ -106,7 +106,7 @@ public static class Despawn
 	}
 
 	/// <summary>
-	/// Despawn the object locally, on this client only. Despawning removes an
+	/// Despawn the object locally, on this client only. Should ONLY be called on non-networked objects. Despawning removes an
 	/// object from the game, but may not necessarilly destroy it completely - it may end up back in the
 	/// object pool to be later reused.
 	/// </summary>
@@ -120,25 +120,14 @@ public static class Despawn
 			return DespawnResult.Fail(info);
 		}
 
-		//fire despawn hooks
-		var hooks = info.GameObject.GetComponents<IClientDespawn>();
-		if (hooks != null)
-		{
-			foreach (var hook in hooks)
-			{
-				hook.OnDespawnClient(ClientDespawnInfo.Default());
-			}
-		}
-
-		Spawn._AddToPool(info.GameObject);
-		info.GameObject.SetActive(false);
+		//TODO: Add to clientside pool if object is pooled rather than just destroying it
+		Object.Destroy(info.GameObject);
 
 		return DespawnResult.Single(info);
 	}
 
 	/// <summary>
-	/// Note - for internal use by spawn system only. Fires all server side despawn hooks then informs
-	/// client to call client side despawn hooks
+	/// Note - for internal use by spawn system only. Fires all server side despawn hooks
 	/// </summary>
 	/// <param name="result"></param>
 	public static void _ServerFireDespawnHooks(DespawnResult result)
@@ -152,8 +141,5 @@ public static class Despawn
 				comp.OnDespawnServer(result.DespawnInfo);
 			}
 		}
-
-		//fire client hooks
-		DespawnMessage.SendToAll(result);
 	}
 }
