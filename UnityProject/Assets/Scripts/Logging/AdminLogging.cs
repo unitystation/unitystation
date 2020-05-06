@@ -32,6 +32,8 @@ public class AdminLogging : MonoBehaviour
 
 	private void AdminLogStart()
 	{
+		Directory.CreateDirectory(Path.Combine(Application.streamingAssetsPath, "Logging"));
+
 		adminLogPath = Path.Combine(Application.streamingAssetsPath, "Logging", "adminlog1.txt");
 		adminLog2Path = Path.Combine(Application.streamingAssetsPath, "Logging", "adminlog2.txt");
 
