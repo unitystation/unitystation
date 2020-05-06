@@ -829,22 +829,22 @@ namespace Mirror
         /// <returns>true when overwriting so that Mirror knows that we wanted to rebuild observers ourselves. otherwise it uses built in rebuild.</returns>
         public virtual bool OnRebuildObservers(HashSet<NetworkConnection> observers, bool initialize)
         {
-	        if (forceHidden)
-		        return true;
+	        return false;
 
-	        foreach(var n in NetworkIdentity.spawned)
-	        {
-		        if (n.Value != null && n.Value.connectionToClient != null)
-		        {
-			        if (n.Value.gameObject.scene == gameObject.scene
-			            || SceneManager.GetActiveScene() == gameObject.scene)
-			        {
-				        observers.Add(n.Value.connectionToClient);
-			        }
-		        }
-	        }
-
-	        return true;
+	        //TODO: We are not doing observer rebuilds yet. will come back to visibility stuff later
+	        // foreach(var n in NetworkIdentity.spawned)
+	        // {
+	        //  if (n.Value != null && n.Value.connectionToClient != null)
+	        //  {
+	        //   if (n.Value.gameObject.scene == gameObject.scene
+	        //       || SceneManager.GetActiveScene() == gameObject.scene)
+	        //   {
+	        //    observers.Add(n.Value.connectionToClient);
+	        //   }
+	        //  }
+	        // }
+	        //
+	        // return true;
         }
 
         /// <summary>
@@ -866,17 +866,7 @@ namespace Mirror
         /// <returns>True if the player can see this object.</returns>
         public virtual bool OnCheckObserver(NetworkConnection conn)
         {
-	        if (forceHidden)
-		        return false;
-
-	        return conn.identity.gameObject.scene == gameObject.scene
-	               || SceneManager.GetActiveScene() == gameObject.scene;
+	        return SceneManager.GetActiveScene() == gameObject.scene;
         }
-
-        /// <summary>
-        /// If this is set to true no observers will be added
-        /// to it
-        /// </summary>
-        public bool forceHidden;
     }
 }

@@ -13,6 +13,7 @@ public class JoinedViewer : NetworkBehaviour
 	public override void OnStartLocalPlayer()
 	{
 		base.OnStartLocalPlayer();
+		RequestObserverRefresh.Send(ObserverRequest.OnlineSceneRefresh);
 		PlayerManager.SetViewerForControl(this);
 
 		CmdServerSetupPlayer(GetNetworkInfo(),
