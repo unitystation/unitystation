@@ -62,7 +62,7 @@ public class MobSpawnControlScript : NetworkBehaviour
 			var script = player.Script;
 			if (script == null) return;
 
-			if (script.registerTile.Matrix == gameObject.GetComponent<RegisterObject>().Matrix)
+			if (!script.IsGhost && script.registerTile.Matrix == gameObject.GetComponent<RegisterObject>().Matrix)
 			{
 				SpawnMobs();
 				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
