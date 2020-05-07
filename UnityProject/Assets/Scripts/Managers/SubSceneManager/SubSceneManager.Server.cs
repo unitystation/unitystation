@@ -9,7 +9,7 @@ public partial class SubSceneManager
 {
 	private string serverChosenAwaySite;
 	private string serverChosenMainStation;
-	
+
 	public override void OnStartServer()
 	{
 		// Determine a Main station subscene and away site
