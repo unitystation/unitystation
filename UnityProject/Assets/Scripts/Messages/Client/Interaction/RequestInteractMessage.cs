@@ -11,10 +11,20 @@ using UnityEngine;
 /// </summary>
 public class RequestInteractMessage : ClientMessage
 {
+
+	/**
+	 * this is sent as the componentID when the client doesn't know
+	 * exactly which interaction should be triggered, and will
+	 * defer to the server. In this case,
+	 * the server will check each interaction of the given interaction type on the involved
+	 * objects to see which should occur.
+	 */
+	private static readonly ushort UNKNOWN_COMPONENT_TYPE_ID = ushort.MaxValue;
+
 	//these are always populated
 	public Type ComponentType;
 	public Type InteractionType;
-	//object that will process the interaction
+	//object that will process the interaction. NetId.Invalid if the server should determine this.
 	public uint ProcessorObject;
 	//player's intent
 	public Intent Intent;
@@ -41,8 +51,6 @@ public class RequestInteractMessage : ClientMessage
 	public int SlotIndex;
 	//named slot targeted in storage
 	public NamedSlot NamedSlot;
-
-	public int TileInteractionIndex;
 
 	private static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
 	private static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
@@ -202,8 +210,9 @@ public class RequestInteractMessage : ClientMessage
 			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
 			LoadNetworkObject(ProcessorObject);
 			var processorObj = NetworkObject;
-			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(TileInteractionIndex,
-				SentByPlayer.GameObject, TargetVector, processorObj, usedSlot, usedObject, Intent, TileApply.ApplyType.HandApply);
+			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
+				TargetVector, processorObj, usedSlot, usedObject, Intent,
+				TileApply.ApplyType.HandApply);
 		}
 		else if(InteractionType == typeof(TileMouseDrop))
 		{
@@ -213,56 +222,131 @@ public class RequestInteractMessage : ClientMessage
 
 			var usedObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
-			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(TileInteractionIndex,
-				SentByPlayer.GameObject, TargetVector, processorObj, null, usedObj, Intent, TileApply.ApplyType.MouseDrop);
+			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
+				TargetVector, processorObj, null, usedObj, Intent,
+				TileApply.ApplyType.MouseDrop);
 		}
 	}
 
 	private void ProcessInteraction<T>(T interaction, GameObject processorObj)
 		where T : Interaction
 	{
-		if (processorObj == null)
+		//find the indicated component if one was indicated
+		if (ComponentType != null)
 		{
-			Logger.LogWarning("processorObj is null, action will not be performed.", Category.Interaction);
-			return;
-		}
-		//find the indicated component
-		var component = processorObj.GetComponent(ComponentType);
-		if (component == null)
-		{
-			Logger.LogWarningFormat("No component found of requested type {0} on {1}," +
-			                        " action will not be performed.",
-				Category.Interaction, ComponentType.Name, processorObj.name);
-			return;
-		}
-		if (!(component is IInteractable<T>))
-		{
-			Logger.LogWarningFormat("Component of type {0} doesn't implement IInteractable" +
-			                        " for interaction type {1} on {2}," +
-			                        " action will not be performed.",
-				Category.Interaction, ComponentType.Name, typeof(T).Name, processorObj.name);
-			return;
-		}
-
-		var interactable = (component as IInteractable<T>);
-		//server side interaction check and cooldown check, and start the cooldown
-		if (interactable.ServerCheckInteract(interaction) &&
-		    Cooldowns.TryStartServer(interaction, CommonCooldowns.Instance.Interaction))
-		{
-			//perform
-			interactable.ServerPerformInteraction(interaction);
+			if (processorObj == null)
+			{
+				Logger.LogWarning("processorObj is null, action will not be performed.", Category.Interaction);
+				return;
+			}
+			var component = processorObj.GetComponent(ComponentType);
+			if (component == null)
+			{
+				Logger.LogWarningFormat("No component found of requested type {0} on {1}," +
+				                        " action will not be performed.",
+					Category.Interaction, ComponentType.Name, processorObj.name);
+				return;
+			}
+			if (!(component is IInteractable<T>))
+			{
+				Logger.LogWarningFormat("Component of type {0} doesn't implement IInteractable" +
+				                        " for interaction type {1} on {2}," +
+				                        " action will not be performed.",
+					Category.Interaction, ComponentType.Name, typeof(T).Name, processorObj.name);
+				return;
+			}
+			var interactable = (component as IInteractable<T>);
+			//server side interaction check and cooldown check, and start the cooldown
+			if (interactable.ServerCheckInteract(interaction) &&
+			    Cooldowns.TryStartServer(interaction, CommonCooldowns.Instance.Interaction))
+			{
+				//perform
+				interactable.ServerPerformInteraction(interaction);
+			}
+			else
+			{
+				//rollback if this component implements it
+				if (component is IPredictedInteractable<T> predictedInteractable)
+				{
+					predictedInteractable.ServerRollbackClient(interaction);
+				}
+			}
 		}
 		else
 		{
-			//rollback if this component implements it
-			if (component is IPredictedInteractable<T> predictedInteractable)
+			// client wasn't sure which component of which object should be triggered, check them in the proper order
+			// and trigger the first one that should happen, rolling back any that shouldn't happen.
+
+			//always check used object first
+			if (interaction.UsedObject)
 			{
-				predictedInteractable.ServerRollbackClient(interaction);
+				var interactables = interaction.UsedObject.GetComponents<IInteractable<T>>()
+					.Where(c => c != null && (c as MonoBehaviour).enabled);
+				Logger.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
+					typeof(T).Name, interaction.UsedObject.name);
+				if (ServerCheckAndTrigger(interaction, interactables))
+				{
+					return;
+				}
+			}
+			//check the target object if there is one
+			if (interaction is TargetedInteraction targetedInteraction)
+			{
+				var interactables = targetedInteraction.TargetObject.GetComponents<IInteractable<T>>()
+					.Where(c => c != null && (c as MonoBehaviour).enabled);
+				Logger.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
+					typeof(T).Name, targetedInteraction.TargetObject.name);
+				if (ServerCheckAndTrigger(interaction, interactables))
+				{
+					return;
+				}
 			}
 		}
 	}
 
+
+	private static bool ServerCheckAndTrigger<T>(T interaction, IEnumerable<IInteractable<T>> interactables) where T : Interaction
+	{
+		foreach (var interactable in interactables.Reverse())
+		{
+			if (interactable.ServerCheckInteract(interaction))
+			{
+				//perform if not on cooldown
+				if (Cooldowns.TryStartServer(interaction, CommonCooldowns.Instance.Interaction))
+				{
+					interactable.ServerPerformInteraction(interaction);
+				}
+				else
+				{
+					//hit a cooldown, rollback if this component implements it, in case client tried to predict it
+					if (interactable is IPredictedInteractable<T> predictedInteractable)
+					{
+						predictedInteractable.ServerRollbackClient(interaction);
+					}
+				}
+
+				// An interaction should've triggered and either did or hit a cooldown, so we're done
+				// checking this request.
+				return true;
+			}
+			else
+			{
+				//rollback if this component implements it, in case client tried to predict it
+				if (interactable is IPredictedInteractable<T> predictedInteractable)
+				{
+					predictedInteractable.ServerRollbackClient(interaction);
+				}
+			}
+		}
+
+		// no interactions triggered
+		return false;
+	}
+
+
 	//only intended to be used by core if2 classes, please use InteractionUtils.RequestInteract instead.
+	//pass null for interactableComponent if you want the server to determine which component of the involved objects should be triggered.
+	//(which can be useful when client doesn't have enough info to know which one to trigger)
 	public static void Send<T>(T interaction, IBaseInteractable<T> interactableComponent)
 		where T : Interaction
 	{
@@ -293,7 +377,7 @@ public class RequestInteractMessage : ClientMessage
 			return;
 		}
 
-		if (!(interactableComponent is Component))
+		if (interactableComponent != null && !(interactableComponent is Component))
 		{
 			Logger.LogError("interactableComponent must be a component, but isn't. The message will not be sent.",
 				Category.NetMessage);
@@ -303,9 +387,9 @@ public class RequestInteractMessage : ClientMessage
 		var comp = interactableComponent as Component;
 		var msg = new RequestInteractMessage()
 		{
-			ComponentType = interactableComponent.GetType(),
+			ComponentType = interactableComponent == null ? null : interactableComponent.GetType(),
 			InteractionType = typeof(T),
-			ProcessorObject = comp.GetComponent<NetworkIdentity>().netId,
+			ProcessorObject = comp == null ? NetId.Invalid : comp.GetComponent<NetworkIdentity>().netId,
 			Intent = interaction.Intent
 		};
 		if (typeof(T) == typeof(PositionalHandApply))
@@ -347,7 +431,7 @@ public class RequestInteractMessage : ClientMessage
 	}
 
 	//only intended to be used by core if2 classes
-	public static void SendTileApply(TileApply tileApply, InteractableTiles interactableTiles, TileInteraction tileInteraction, int tileInteractionIndex)
+	public static void SendTileApply(TileApply tileApply, InteractableTiles interactableTiles, TileInteraction tileInteraction)
 	{
 		//if we are client and the interaction has client prediction, trigger it.
 		//Note that client prediction is not triggered for server player.
@@ -370,13 +454,12 @@ public class RequestInteractMessage : ClientMessage
 			InteractionType = typeof(TileApply),
 			ProcessorObject = interactableTiles.GetComponent<NetworkIdentity>().netId,
 			Intent = tileApply.Intent,
-			TargetVector = tileApply.TargetVector,
-			TileInteractionIndex = tileInteractionIndex
+			TargetVector = tileApply.TargetVector
 		};
 		msg.Send();
 	}
 
-	public static void SendTileMouseDrop(TileMouseDrop mouseDrop, InteractableTiles interactableTiles, int tileInteractionIndex)
+	public static void SendTileMouseDrop(TileMouseDrop mouseDrop, InteractableTiles interactableTiles)
 	{
 		if (!mouseDrop.Performer.Equals(PlayerManager.LocalPlayer))
 		{
@@ -393,8 +476,7 @@ public class RequestInteractMessage : ClientMessage
 			ProcessorObject = interactableTiles.GetComponent<NetworkIdentity>().netId,
 			Intent = mouseDrop.Intent,
 			UsedObject = mouseDrop.UsedObject.NetId(),
-			TargetVector = mouseDrop.TargetVector,
-			TileInteractionIndex = tileInteractionIndex
+			TargetVector = mouseDrop.TargetVector
 		};
 		msg.Send();
 	}
@@ -403,9 +485,29 @@ public class RequestInteractMessage : ClientMessage
 	{
 
 		base.Deserialize(reader);
-		ComponentType = componentIDToComponentType[reader.ReadUInt16()];
+		var componentID = reader.ReadUInt16();
+		if (componentID == UNKNOWN_COMPONENT_TYPE_ID)
+		{
+			//client didn't know which to trigger, leave ComponentType null
+			ComponentType = null;
+		}
+		else
+		{
+			//client requested a specific component.
+			ComponentType = componentIDToComponentType[componentID];
+		}
+
 		InteractionType = interactionIDToInteractionType[reader.ReadByte()];
-		ProcessorObject = reader.ReadUInt32();
+		if (componentID != UNKNOWN_COMPONENT_TYPE_ID)
+		{
+			// client specified exact component
+			ProcessorObject = reader.ReadUInt32();
+		}
+		else
+		{
+			// client requested server to check the interaction
+			ProcessorObject = NetId.Invalid;
+		}
 		Intent = (Intent) reader.ReadByte();
 
 		if (InteractionType == typeof(PositionalHandApply))
@@ -441,22 +543,32 @@ public class RequestInteractMessage : ClientMessage
 		else if (InteractionType == typeof(TileApply))
 		{
 			TargetVector = reader.ReadVector2();
-			TileInteractionIndex = reader.ReadByte();
 		}
 		else if(InteractionType == typeof(TileMouseDrop))
 		{
 			UsedObject = reader.ReadUInt32();
 			TargetVector = reader.ReadVector2();
-			TileInteractionIndex = reader.ReadByte();
 		}
 	}
 
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.WriteUInt16(componentTypeToComponentID[ComponentType]);
+		// indicate unknown component if client requested it
+		if (ComponentType == null)
+		{
+			writer.WriteUInt16(UNKNOWN_COMPONENT_TYPE_ID);
+		}
+		else
+		{
+			writer.WriteUInt16(componentTypeToComponentID[ComponentType]);
+		}
 		writer.WriteByte(interactionTypeToInteractionID[InteractionType]);
-		writer.WriteUInt32(ProcessorObject);
+		//server determines processor object if client specified unknown component
+		if (ComponentType != null)
+		{
+			writer.WriteUInt32(ProcessorObject);
+		}
 		writer.WriteByte((byte) Intent);
 
 		if (InteractionType == typeof(PositionalHandApply))
@@ -492,13 +604,11 @@ public class RequestInteractMessage : ClientMessage
 		else if (InteractionType == typeof(TileApply))
 		{
 			writer.WriteVector2(TargetVector);
-			writer.WriteByte((byte) TileInteractionIndex);
 		}
 		else if(InteractionType == typeof(TileMouseDrop))
 		{
 			writer.WriteUInt32(UsedObject);
 			writer.WriteVector2(TargetVector);
-			writer.WriteByte((byte)TileInteractionIndex);
 		}
 	}
 

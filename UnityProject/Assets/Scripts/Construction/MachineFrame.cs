@@ -303,12 +303,18 @@ namespace Machines
 		{
 			if (Validations.HasUsedComponent<MachineCircuitBoard>(interaction) && circuitBoardSlot.IsEmpty)
 			{
+				//Transfer parts data
+				machineParts = interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed;
+
+				if (machineParts == null)
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, "The machine circuit board is not specialised.");
+					return;
+				}
+
 				//stick in the circuit board
 				Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
 					$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
-
-				//Transfer parts data
-				machineParts = interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed;
 
 				//Syncing allowed traits to clients
 				allowedTraits.Clear();

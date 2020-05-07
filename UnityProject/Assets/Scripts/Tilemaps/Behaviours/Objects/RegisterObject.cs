@@ -37,6 +37,8 @@ public class RegisterObject : RegisterTile
 			return;
 		}
 
+		if (gameObject.IsAtHiddenPos()) return;
+
 		//thanks stack overflow!
 		Regex r = new Regex(@"
                 (?<=[A-Z])(?=[A-Z][a-z]) |
