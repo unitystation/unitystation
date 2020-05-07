@@ -1,5 +1,4 @@
 ﻿﻿using System;
- using System.Collections;
  using System.Collections.Generic;
  using UnityEngine;
  using UnityEngine.Events;
@@ -404,27 +403,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="initAction">Action to call when the Matrix is configured</param>
 	public void WaitForMatrixInit(Action<MatrixInfo> initAction)
 	{
-		StartCoroutine(WaitForMatrix(initAction));
-	}
-
-	IEnumerator WaitForMatrix(Action<MatrixInfo> initAction)
-	{
 		matrixManagerDependantActions.Add(initAction);
-
-		float time = 0f;
-		while (matrix == null)
-		{
-			time += Time.deltaTime;
-			if (time > 5f)
-			{
-				Logger.LogError("Failed to find a matrix");
-				yield break;
-			}
-			yield return WaitFor.EndOfFrame;
-		}
-
-		yield return WaitFor.EndOfFrame;
-
 		if (!matrix.MatrixInfoConfigured)
 		{
 			if (!listenerAdded)
