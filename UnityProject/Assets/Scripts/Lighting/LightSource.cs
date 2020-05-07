@@ -143,6 +143,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void SetSprites()
 	{
+		EnsureInit();
 		spriteRenderer.sprite = currentState.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
 		spriteRendererLightOn.sprite = mState == LightMountState.On
 				? spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum())

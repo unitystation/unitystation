@@ -20,6 +20,10 @@ public partial class SubSceneManager
 
 	IEnumerator RoundStartServerLoadSequence()
 	{
+		var loadTimer = new SubsceneLoadTimer();
+		//calculate load time:
+		loadTimer.MaxLoadTime = 20f + (asteroidList.Asteroids.Count * 10f);
+		loadTimer.IncrementLoadBar("Preparing..");
 		yield return WaitFor.Seconds(0.1f);
 		MainStationLoaded = true;
 
@@ -45,8 +49,9 @@ public partial class SubSceneManager
 			serverChosenMainStation = mainStationList.GetRandomMainStation();
 		}
 
+		loadTimer.IncrementLoadBar($"Loading {serverChosenMainStation}");
 		//load main station
-		yield return StartCoroutine(LoadSubScene(serverChosenMainStation));
+		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer));
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = serverChosenMainStation,
@@ -55,9 +60,11 @@ public partial class SubSceneManager
 
 		yield return WaitFor.Seconds(0.1f);
 
+		loadTimer.IncrementLoadBar("Loading Asteroids");
+
 		foreach (var asteroid in asteroidList.Asteroids)
 		{
-			yield return StartCoroutine(LoadSubScene(asteroid));
+			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer));
 
 			loadedScenesList.Add(new SceneInfo
 			{
@@ -77,14 +84,17 @@ public partial class SubSceneManager
 		{
 			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
 		}
-
-		yield return StartCoroutine(LoadSubScene(serverChosenAwaySite));
+		loadTimer.IncrementLoadBar("Loading Away Site");
+		yield return StartCoroutine(LoadSubScene(serverChosenAwaySite, loadTimer));
 		AwaySiteLoaded = true;
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = serverChosenAwaySite,
 			SceneType = SceneType.AwaySite
 		});
+
+		yield return WaitFor.Seconds(0.1f);
+		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 
 		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.SubScenes);
 	}

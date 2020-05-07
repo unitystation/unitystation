@@ -39,15 +39,19 @@ public partial class SubSceneManager : NetworkBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
-	IEnumerator LoadSubScene(string sceneName)
+	IEnumerator LoadSubScene(string sceneName, SubsceneLoadTimer loadTimer = null)
 	{
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 		while (!AO.isDone)
 		{
+			if (loadTimer != null) loadTimer.IncrementLoadBar();
 			yield return WaitFor.EndOfFrame;
 		}
 
+		if (loadTimer != null) loadTimer.IncrementLoadBar();
 		yield return WaitFor.EndOfFrame;
+
+		if (loadTimer != null) loadTimer.IncrementLoadBar();
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
@@ -100,3 +104,29 @@ public struct SceneInfo
 
 [System.Serializable]
 public class ScenesSyncList : SyncList<SceneInfo>{}
+
+public class SubsceneLoadTimer
+{
+	public float MaxLoadTime;
+	public float CurrentLoadTime;
+
+	private string lastText;
+
+	public void IncrementLoadBar(string text = "")
+	{
+		var textToDisplay = "";
+		if (string.IsNullOrEmpty(text))
+		{
+			textToDisplay = lastText;
+		}
+		else
+		{
+			textToDisplay = text;
+		}
+
+		lastText = textToDisplay;
+
+		CurrentLoadTime += 1f;
+		UIManager.Display.preRoundWindow.UpdateLoadingBar(textToDisplay, CurrentLoadTime / MaxLoadTime);
+	}
+}

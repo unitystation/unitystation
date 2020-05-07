@@ -10,6 +10,7 @@ public partial class SubSceneManager
 
 	private float waitTime = 0f;
 	private readonly float tickRate = 1f;
+
 	void MonitorServerSceneListOnClient()
 	{
 		if (isServer || clientIsLoadingSubscene) return;
@@ -30,7 +31,22 @@ public partial class SubSceneManager
 
 	IEnumerator LoadClientSubScene(SceneInfo sceneInfo)
 	{
-		yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName));
+		if (sceneInfo.SceneType == SceneType.MainStation)
+		{
+			var clientLoadTimer = new SubsceneLoadTimer();
+			//calculate load time:
+			clientLoadTimer.MaxLoadTime = 10f;
+			clientLoadTimer.IncrementLoadBar($"Loading {sceneInfo.SceneName}");
+			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, clientLoadTimer));
+			MainStationLoaded = true;
+			yield return WaitFor.Seconds(0.1f);
+			UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
+		}
+		else
+		{
+			yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName));
+		}
+
 		clientIsLoadingSubscene = false;
 	}
 }

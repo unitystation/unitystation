@@ -33,6 +33,7 @@ static class SceneAutoLoader
 			    EditorSceneManager.GetActiveScene().name == "OnlineScene")
 			{
 				EditorPrefs.SetString("prevEditorScene", "");
+				PreviousScene = "";
 				return;
 			}
 
@@ -67,7 +68,10 @@ static class SceneAutoLoader
 			try
 			{
 				EditorPrefs.SetString("prevEditorScene", "");
-				EditorSceneManager.OpenScene(PreviousScene);
+				if (!string.IsNullOrEmpty(PreviousScene))
+				{
+					EditorSceneManager.OpenScene(PreviousScene);
+				}
 			}
 			catch
 			{

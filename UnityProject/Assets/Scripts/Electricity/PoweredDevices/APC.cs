@@ -271,6 +271,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 
 	private void StartRefresh()
 	{
+		gameObject.SetActive(true);
 		RefreshDisplay = true;
 		StartCoroutine(Refresh());
 	}
