@@ -11,27 +11,21 @@ namespace CameraEffects
 
 		public GlitchEffect glitchEffect;
 
-		private void Update()
-		{
-			if (Input.GetKeyDown(KeyCode.Backspace))
-			{
-				ChangeDrunkState(drunkCamera);
-			}
+		public NightVisionCamera nightVisionCamera;
 
-			if (Input.GetKeyDown(KeyCode.P))
-			{
-				ChangeGlitchState(glitchEffect);
-			}
-		}
-
-		public void ChangeDrunkState(DrunkCamera drunkCamera)
+		public void ChangeDrunkState()
 		{
 			drunkCamera.enabled = !drunkCamera.enabled;
 		}
 
-		public void ChangeGlitchState(GlitchEffect glitchEffect)
+		public void ChangeGlitchState()
 		{
 			glitchEffect.enabled = !glitchEffect.enabled;
+		}
+
+		public void ChangeNightVisionState()
+		{
+			nightVisionCamera.enabled = !nightVisionCamera.enabled;
 		}
 	}
 }
