@@ -105,20 +105,21 @@ public partial class SubSceneManager
 	/// <param name="connToAdd"></param>
 	void AddObserverToAllObjects(NetworkConnection connToAdd, Scene sceneContext)
 	{
+		//Need to do matrices first:
+		foreach (var m in MatrixManager.Instance.ActiveMatrices)
+		{
+			if (m.Matrix.gameObject.scene == sceneContext)
+			{
+				m.Matrix.GetComponentInParent<NetworkIdentity>().AddPlayerObserver(connToAdd);
+			}
+		}
+		//Now for all the items:
 		foreach (var n in NetworkIdentity.spawned)
 		{
-			if (n.Value.gameObject.scene == SceneManager.GetActiveScene())
-			{
-				n.Value.AddPlayerObserver(connToAdd);
-				continue;
-			}
-
 			if (n.Value.gameObject.scene == sceneContext)
 			{
 				n.Value.AddPlayerObserver(connToAdd);
 			}
 		}
-
-		connToAdd.Send(new ObjectSpawnFinishedMessage());
 	}
 }

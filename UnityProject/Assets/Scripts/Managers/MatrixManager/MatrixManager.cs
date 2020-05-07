@@ -42,7 +42,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	private static LayerMask tileDmgMask;
 
-	private List<MatrixInfo> ActiveMatrices = new List<MatrixInfo>();
+	public List<MatrixInfo> ActiveMatrices { get; private set; } = new List<MatrixInfo>();
 	public List<MatrixInfo> MovableMatrices { get; private set; } = new List<MatrixInfo>();
 
 	public static bool IsInitialized;
