@@ -21,109 +21,6 @@ public class AdminLogging : MonoBehaviour
 		}
 	}
 
-	private string adminLogPath;
-	private string adminLog2Path;
-	private bool logswitcher = true;
-
-	private void Awake()
-	{
-		AdminLogStart();
-	}
-
-	private void AdminLogStart()
-	{
-		Directory.CreateDirectory(Path.Combine(Application.streamingAssetsPath, "Logging"));
-
-		adminLogPath = Path.Combine(Application.streamingAssetsPath, "Logging", "adminlog1.txt");
-		adminLog2Path = Path.Combine(Application.streamingAssetsPath, "Logging", "adminlog2.txt");
-
-		//if (!logswitcher)
-		//{
-		//	adminLogPath = adminLog2Path;
-
-		//	File.CreateText(adminLog2Path).Close();
-
-		//	logswitcher = true;
-		//}
-		//else
-		//{
-		//	File.CreateText(adminLogPath).Close();
-
-		//	logswitcher = false;
-		//}
-
-		if (!File.Exists(adminLogPath))
-		{
-			//Creates file
-			var file = File.CreateText(adminLogPath);
-
-			//Todo add to file round number here
-			file.WriteLine("true");
-
-			file.Close();
-		}
-
-		if (!File.Exists(adminLog2Path))
-		{
-			//Creates file
-			var file = File.CreateText(adminLog2Path);
-
-			//Todo add to file round number here
-			file.WriteLine("false");
-
-			file.Close();
-		}
-
-		var first = File.ReadLines(adminLogPath).First() == "true";
-
-		var second = File.ReadLines(adminLog2Path).First() == "true";
-
-		if (first && !second)
-		{
-			//Clears file
-			var file = File.CreateText(adminLogPath);
-
-			//Todo add to file round number here
-			file.WriteLine("false");
-
-			file.Close();
-		}
-		else if (!first && second)
-		{
-			//Clears file
-			var file = File.CreateText(adminLogPath);
-
-			//Todo add to file round number here
-			file.WriteLine("true");
-
-			file.Close();
-		}
-		else if (first && second)
-		{
-			//Clears file
-			var file = File.CreateText(adminLog2Path);
-
-			//Todo add to file round number here
-			file.WriteLine("false");
-
-			file.Close();
-
-			adminLogPath = adminLog2Path;
-		}
-		else
-		{
-			//Clears file
-			var file = File.CreateText(adminLog2Path);
-
-			//Todo add to file round number here
-			file.WriteLine("true");
-
-			file.Close();
-
-			adminLogPath = adminLog2Path;
-		}
-	}
-
 	/// <summary>
 	/// Adds admin actions to the admin chat and to admin logging file
 	/// </summary>
@@ -141,9 +38,6 @@ public class AdminLogging : MonoBehaviour
 
 		msg = "Time " + DateTime.UtcNow.ToShortTimeString() + " : " + userId + " : " + msg + txt;
 
-		File.AppendAllLines(adminLogPath, new string[]
-		{
-			"\r\n" + msg
-		});
+		Logger.Log(msg, Category.Admin);
 	}
 }
