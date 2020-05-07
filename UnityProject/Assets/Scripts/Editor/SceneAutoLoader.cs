@@ -32,9 +32,11 @@ static class SceneAutoLoader
 			if (EditorSceneManager.GetActiveScene().name == "Lobby" ||
 			    EditorSceneManager.GetActiveScene().name == "OnlineScene")
 			{
+				EditorPrefs.SetString("prevEditorScene", "");
 				return;
 			}
 
+			EditorPrefs.SetString("prevEditorScene", EditorSceneManager.GetActiveScene().name);
 
 			// User pressed play -- autoload online scene.
 			PreviousScene = EditorSceneManager.GetActiveScene().path;
@@ -64,6 +66,7 @@ static class SceneAutoLoader
 			// User pressed stop -- reload previous scene.
 			try
 			{
+				EditorPrefs.SetString("prevEditorScene", "");
 				EditorSceneManager.OpenScene(PreviousScene);
 			}
 			catch

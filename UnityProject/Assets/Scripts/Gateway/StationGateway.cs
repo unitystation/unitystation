@@ -1,6 +1,7 @@
 ﻿using Mirror;
 using UnityEngine;
 using System.Linq;
+using UnityEditor;
 
 /// <summary>
 /// For Gateways inheritable class
@@ -50,6 +51,8 @@ public class StationGateway : NetworkBehaviour
 
 	public float SoundLength = 7f;
 	public float AnimationSpeed = 0.25f;
+
+	private float WaitTimeBeforeActivation { get; set; }
 
 	[SyncVar(hook = nameof(SyncState))]
 	private bool isOn = false;
@@ -121,9 +124,37 @@ public class StationGateway : NetworkBehaviour
 		Position = registerTile.WorldPosition;
 		SubSceneManager.RegisterStationGateway(this);
 		ServerChangeState(false);
+		if (Application.isEditor)
+		{
+#if UNITY_EDITOR
+			if (EditorPrefs.HasKey("prevEditorScene"))
+			{
+				if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
+				{
+					if(SubSceneManager.Instance.awayWorldList.AwayWorlds.Contains(EditorPrefs.GetString("prevEditorScene")))
+					{
+						//This will ensure that the gateway is ready in 30 seconds
+						//if you are working on an awaysite in the editor
+						WaitTimeBeforeActivation = 30f;
+					}
+				}
+				else
+				{
+					WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
+				}
+			}
+			else
+			{
+				WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
+			}
+#endif
+		}
+		else
+		{
+			WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
+		}
 
-		var count = 30f;//Random.Range(RandomCountBegining, RandomCountEnd);
-		Invoke(nameof(ConnectToWorld), count);
+		Invoke(nameof(ConnectToWorld), WaitTimeBeforeActivation);
 	}
 
 	[Server]

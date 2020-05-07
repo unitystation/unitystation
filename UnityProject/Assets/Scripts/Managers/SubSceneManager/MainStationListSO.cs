@@ -10,4 +10,9 @@ public class MainStationListSO : ScriptableObject
 	[InfoBox("Remember to also add your scene to " +
 	         "the build settings list",EInfoBoxType.Normal)]
 	public List<string> MainStations = new List<string>();
+
+	public string GetRandomMainStation()
+	{
+		return MainStations[Random.Range(0, MainStations.Count)];
+	}
 }

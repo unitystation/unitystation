@@ -14,6 +14,6 @@ public class AwayWorldListSO : ScriptableObject
 
 	public string GetRandomAwaySite()
 	{
-		return AwayWorlds[Random.Range(0, AwayWorlds.Count - 1)];
+		return AwayWorlds[Random.Range(0, AwayWorlds.Count)];
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Mirror;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,7 +22,29 @@ public partial class SubSceneManager
 	{
 		yield return WaitFor.Seconds(0.1f);
 		MainStationLoaded = true;
-		serverChosenMainStation = mainStationList.MainStations[0];
+
+		//Auto scene load stuff in editor:
+		var prevEditorScene = "";
+
+#if UNITY_EDITOR
+		if (EditorPrefs.HasKey("prevEditorScene"))
+		{
+			if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
+			{
+				prevEditorScene = EditorPrefs.GetString("prevEditorScene");
+			}
+		}
+#endif
+
+		if (mainStationList.MainStations.Contains(prevEditorScene))
+		{
+			serverChosenMainStation = prevEditorScene;
+		}
+		else
+		{
+			serverChosenMainStation = mainStationList.GetRandomMainStation();
+		}
+
 		//load main station
 		yield return StartCoroutine(LoadSubScene(serverChosenMainStation));
 		loadedScenesList.Add(new SceneInfo
@@ -46,10 +69,17 @@ public partial class SubSceneManager
 		}
 
 		//Load the away site
-		AwaySiteLoaded = true;
-		serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
-		yield return StartCoroutine(LoadSubScene(serverChosenAwaySite));
+		if (awayWorldList.AwayWorlds.Contains(prevEditorScene))
+		{
+			serverChosenAwaySite = prevEditorScene;
+		}
+		else
+		{
+			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
+		}
 
+		yield return StartCoroutine(LoadSubScene(serverChosenAwaySite));
+		AwaySiteLoaded = true;
 		loadedScenesList.Add(new SceneInfo
 		{
 			SceneName = serverChosenAwaySite,

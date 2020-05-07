@@ -20,7 +20,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 	}
 
-	[SerializeField] private AwayWorldListSO awayWorldList;
+	public AwayWorldListSO awayWorldList;
 	[SerializeField] private MainStationListSO mainStationList;
 	[SerializeField] private AsteroidListSO asteroidList;
 
@@ -54,8 +54,8 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 		else
 		{
-			yield return WaitFor.Seconds(1f);
 			ClientScene.PrepareToSpawnSceneObjects();
+			yield return WaitFor.EndOfFrame;
 			RequestObserverRefresh.Send(sceneName);
 		}
 	}
@@ -68,7 +68,6 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 	}
 
-	//FIXME TILE MANAGER NEEDS TO BE HANDLED PROPERLY!!!!!
 	public void WaitForSubScene(string data, uint id)
 	{
 		StartCoroutine(WaitForMapToLoad(data, id));
