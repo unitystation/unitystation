@@ -30,18 +30,7 @@ public partial class SubSceneManager
 
 	IEnumerator LoadClientSubScene(SceneInfo sceneInfo)
 	{
-		var obsRequest = ObserverRequest.None;
-		switch (sceneInfo.SceneType)
-		{
-			case SceneType.MainStation:
-				obsRequest = ObserverRequest.RefreshForMainStation;
-				break;
-			case SceneType.AwaySite:
-				obsRequest = ObserverRequest.RefreshForAwaySite;
-				break;
-		}
-
-		yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName, obsRequest));
+		yield return StartCoroutine(LoadSubScene(sceneInfo.SceneName));
 		clientIsLoadingSubscene = false;
 	}
 }

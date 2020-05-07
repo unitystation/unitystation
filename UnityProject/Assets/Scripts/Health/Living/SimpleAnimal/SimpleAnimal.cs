@@ -29,12 +29,6 @@ public class SimpleAnimal : LivingHealthBehaviour
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
-		StartCoroutine(WaitForLoad());
-	}
-
-	private IEnumerator WaitForLoad()
-	{
-		yield return WaitFor.Seconds(2f);
 		SyncAliveState(deadState, deadState);
 	}
 

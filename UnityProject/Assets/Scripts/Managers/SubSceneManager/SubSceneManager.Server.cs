@@ -9,9 +9,7 @@ public partial class SubSceneManager
 {
 	private string serverChosenAwaySite;
 	private string serverChosenMainStation;
-
-	private float serverWaitAwayWorldLoad = 30f;
-
+	
 	public override void OnStartServer()
 	{
 		// Determine a Main station subscene and away site
@@ -32,11 +30,25 @@ public partial class SubSceneManager
 			SceneType = SceneType.MainStation
 		});
 
-		yield return WaitFor.Seconds(serverWaitAwayWorldLoad);
+		yield return WaitFor.Seconds(0.1f);
+
+		foreach (var asteroid in asteroidList.Asteroids)
+		{
+			yield return StartCoroutine(LoadSubScene(asteroid));
+
+			loadedScenesList.Add(new SceneInfo
+			{
+				SceneName = asteroid,
+				SceneType = SceneType.Asteroid
+			});
+
+			yield return WaitFor.Seconds(0.1f);
+		}
+
 		//Load the away site
 		AwaySiteLoaded = true;
 		serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
-		//	yield return StartCoroutine(LoadSubScene(serverChosenAwaySite));
+		yield return StartCoroutine(LoadSubScene(serverChosenAwaySite));
 
 		loadedScenesList.Add(new SceneInfo
 		{
@@ -51,7 +63,7 @@ public partial class SubSceneManager
 	/// No scene / proximity visibility checking. Just adding it to everything
 	/// </summary>
 	/// <param name="connToAdd"></param>
-	void AddObserverToAllObjects(NetworkConnection connToAdd, ObserverRequest request)
+	void AddObserverToAllObjects(NetworkConnection connToAdd, Scene sceneContext)
 	{
 		foreach (var n in NetworkIdentity.spawned)
 		{
@@ -61,20 +73,9 @@ public partial class SubSceneManager
 				continue;
 			}
 
-			switch (request)
+			if (n.Value.gameObject.scene == sceneContext)
 			{
-				case ObserverRequest.RefreshForMainStation:
-					if (n.Value.gameObject.scene.name == Instance.serverChosenMainStation)
-					{
-						n.Value.AddPlayerObserver(connToAdd);
-					}
-					break;
-				case ObserverRequest.RefreshForAwaySite:
-					if (n.Value.gameObject.scene.name == Instance.serverChosenAwaySite)
-					{
-						n.Value.AddPlayerObserver(connToAdd);
-					}
-					break;
+				n.Value.AddPlayerObserver(connToAdd);
 			}
 		}
 

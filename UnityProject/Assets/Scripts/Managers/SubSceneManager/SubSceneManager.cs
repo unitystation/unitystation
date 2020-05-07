@@ -22,6 +22,7 @@ public partial class SubSceneManager : NetworkBehaviour
 
 	[SerializeField] private AwayWorldListSO awayWorldList;
 	[SerializeField] private MainStationListSO mainStationList;
+	[SerializeField] private AsteroidListSO asteroidList;
 
 	readonly ScenesSyncList loadedScenesList = new ScenesSyncList();
 
@@ -38,9 +39,8 @@ public partial class SubSceneManager : NetworkBehaviour
 	/// </summary>
 	/// <param name="sceneName"></param>
 	/// <returns></returns>
-	IEnumerator LoadSubScene(string sceneName, ObserverRequest obsReq = ObserverRequest.None)
+	IEnumerator LoadSubScene(string sceneName)
 	{
-		if (obsReq == ObserverRequest.RefreshForAwaySite) yield return WaitFor.Seconds(6f);
 		AsyncOperation AO = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Additive);
 		while (!AO.isDone)
 		{
@@ -54,20 +54,17 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 		else
 		{
-			if (obsReq != ObserverRequest.None)
-			{
-				yield return WaitFor.Seconds(1f);
-				ClientScene.PrepareToSpawnSceneObjects();
-				RequestObserverRefresh.Send(obsReq);
-			}
+			yield return WaitFor.Seconds(1f);
+			ClientScene.PrepareToSpawnSceneObjects();
+			RequestObserverRefresh.Send(sceneName);
 		}
 	}
 
-	public static void ProcessObserverRefreshReq(ConnectedPlayer connectedPlayer, ObserverRequest requestType)
+	public static void ProcessObserverRefreshReq(ConnectedPlayer connectedPlayer, Scene sceneContext)
 	{
 		if (connectedPlayer.Connection != null)
 		{
-			Instance.AddObserverToAllObjects(connectedPlayer.Connection, requestType);
+			Instance.AddObserverToAllObjects(connectedPlayer.Connection, sceneContext);
 		}
 	}
 
