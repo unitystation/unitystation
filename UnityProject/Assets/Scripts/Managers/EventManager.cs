@@ -27,7 +27,8 @@ public enum EVENT
 	UpdateChatChannels,
 	ToggleChatBubbles,
 	PlayerRejoined,
-	PreRoundStarted
+	PreRoundStarted,
+	PlayerBecameDrone
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
@@ -121,6 +122,9 @@ public class EventManager : MonoBehaviour
 				break;
 			case EVENT.PlayerDied:
 				category = Category.Health;
+				break;
+			case EVENT.PlayerBecameDrone:
+				category = Category.Character;
 				break;
 			case EVENT.PowerNetSelfCheck:
 				category = Category.Electrical;

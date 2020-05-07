@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1df50b4bd91818745987780aef8b2ed4, type: 3}
+  m_Name: Drone
+  m_EditorClassIdentifier: 
+  rulesetName: Drone
+  droneName: Standard Drone
+  rule1: You may not involve yourself in the matters of another being, even if such
+    matters conflict with Law Two or Law Three, unless the other being is another
+    Drone.
+  rule2: You may not harm any being, regardless of intent or circumstance.
+  rule3: Your goals are to build, maintain, repair, improve, and power to the best
+    of your abilities, You must never actively work against these goals.

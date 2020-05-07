@@ -13,10 +13,19 @@ public static class PlayerUtils
 	/// Check if the gameobject is a ghost
 	/// </summary>
 	/// <param name="playerObject">object controlled by a player</param>
-	/// <returns>true iff playerObject is a ghost</returns>
+	/// <returns>true if playerObject is a ghost</returns>
 	public static bool IsGhost(GameObject playerObject)
 	{
 		return playerObject.layer == 31;
+	}
+	/// <summary>
+	/// Check if the gameobject is a drone
+	/// </summary>
+	/// <param name="playerObject">object controlled by a player</param>
+	/// <returns>true if playerObject is a drone</returns>
+	public static bool IsDrone(GameObject playerObject)
+	{
+		return playerObject.layer == 30;
 	}
 	public static bool IsOk(GameObject playerObject = null)
 	{

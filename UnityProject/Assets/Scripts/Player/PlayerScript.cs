@@ -92,6 +92,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		EventManager.AddHandler(EVENT.PlayerRejoined, Init);
 		EventManager.AddHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
 		EventManager.AddHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
+		EventManager.AddHandler(EVENT.PlayerBecameDrone, OnPlayerBecomeDrone);
 	}
 
 	/// <summary>
@@ -116,11 +117,17 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		Logger.Log("Local player become Ghost", Category.DebugConsole);
 		EnableLighting(true);
 	}
-
+	// why in the world are these switched
 	private void OnPlayerBecomeGhost()
 	{
 		Logger.Log("Local player returned to the body", Category.DebugConsole);
 		EnableLighting(false);
+	}
+
+	private void OnPlayerBecomeDrone()
+	{
+		Logger.Log("Local player became drone", Category.DebugConsole);
+		EnableLighting(true);
 	}
 
 	protected override void OnDisable()
@@ -130,6 +137,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, Init);
 		EventManager.RemoveHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
+		EventManager.RemoveHandler(EVENT.PlayerBecameDrone, OnPlayerBecomeDrone);
 	}
 
 	private void Awake()
@@ -174,8 +182,20 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				//show ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask |= 1 << LayerMask.NameToLayer("Ghosts");
+				mask |= 1 << LayerMask.NameToLayer("Players");
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 
+			}
+			else if (IsDrone)
+			{
+				//make the funny noises
+				SoundManager.Play("Ambient#");
+				SoundManager.PlayAmbience("ShipAmbience");
+				//hide ghosts AND humans
+				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+				mask &= ~(1 << LayerMask.NameToLayer("Players"));
+				Camera2DFollow.followControl.cam.cullingMask = mask;
 			}
 			else
 			{
@@ -208,6 +228,10 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	/// True if this player is a ghost, meaning they exist in the ghost layer
 	/// </summary>
 	public bool IsGhost => PlayerUtils.IsGhost(gameObject);
+	/// <summary>
+	/// True if this player is a drone, meaning they exist in the drone layer
+	/// </summary>
+	public bool IsDrone => PlayerUtils.IsDrone(gameObject);
 
 	/// <summary>
 	/// Same as is ghost, but also true when player inside his dead body
@@ -268,6 +292,16 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				return ghostTransmitChannels;
 			}
 			return ghostTransmitChannels | ghostReceiveChannels;
+		}
+		if (IsDrone)
+		{
+			ChatChannel droneTransmitChannels = ChatChannel.Binary | ChatChannel.OOC;
+			ChatChannel droneReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Binary;
+			if (transmitOnly)
+			{
+				return droneTransmitChannels;
+			}
+			return droneTransmitChannels | droneReceiveChannels;
 		}
 
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)

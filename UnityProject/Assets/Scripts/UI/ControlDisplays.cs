@@ -19,8 +19,10 @@ public class ControlDisplays : MonoBehaviour
 	}
 	public GameObject hudBottomHuman;
 	public GameObject hudBottomGhost;
+	public GameObject hudBottomDrone;
 	public GameObject jobSelectWindow;
 	public GameObject preRoundWindow;
+	public GameObject midRoundAntags;
 	public GameObject teamSelectionWindow;
 	public GameObject disclaimer;
 	public RectTransform panelRight;
@@ -36,6 +38,7 @@ public class ControlDisplays : MonoBehaviour
 	{
 		EventManager.AddHandler(EVENT.PlayerSpawned, HumanUI);
 		EventManager.AddHandler(EVENT.GhostSpawned, GhostUI);
+		EventManager.AddHandler(EVENT.PlayerBecameDrone, DroneUI);
 		EventManager.AddHandler(EVENT.PlayerRejoined, RejoinedEvent);
 	}
 
@@ -43,6 +46,7 @@ public class ControlDisplays : MonoBehaviour
 	{
 		EventManager.RemoveHandler(EVENT.PlayerSpawned, HumanUI);
 		EventManager.RemoveHandler(EVENT.GhostSpawned, GhostUI);
+		EventManager.RemoveHandler(EVENT.PlayerBecameDrone, DroneUI);
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, RejoinedEvent);
 	}
 
@@ -68,6 +72,7 @@ public class ControlDisplays : MonoBehaviour
 		}
 		else
 		{
+			//if(???) check for if the returning player is a drone
 			HumanUI();
 		}
 	}
@@ -99,10 +104,11 @@ public class ControlDisplays : MonoBehaviour
 
 	void HumanUI()
 	{
-		if (hudBottomHuman != null && hudBottomGhost != null)
+		if (hudBottomHuman != null && hudBottomGhost != null && hudBottomDrone != null)
 		{
 			hudBottomHuman.SetActive(true);
 			hudBottomGhost.SetActive(false);
+			hudBottomDrone.SetActive(false);
 		}
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
@@ -113,10 +119,25 @@ public class ControlDisplays : MonoBehaviour
 
 	void GhostUI()
 	{
-		if (hudBottomHuman != null && hudBottomGhost != null)
+		if (hudBottomHuman != null && hudBottomGhost != null && hudBottomDrone != null)
 		{
 			hudBottomHuman.SetActive(false);
 			hudBottomGhost.SetActive(true);
+			hudBottomDrone.SetActive(false);
+		}
+		UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		panelRight.gameObject.SetActive(true);
+		rightClickManager.SetActive(true);
+		preRoundWindow.SetActive(false);
+		SoundManager.SongTracker.Stop();
+	}
+	void DroneUI()
+	{
+		if(hudBottomHuman != null && hudBottomGhost != null && hudBottomDrone != null)
+		{
+			hudBottomHuman.SetActive(false);
+			hudBottomGhost.SetActive(false);
+			hudBottomDrone.SetActive(true);
 		}
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
@@ -178,6 +199,7 @@ public class ControlDisplays : MonoBehaviour
 		UIActionManager.Instance.OnRoundEnd();
 		hudBottomHuman.SetActive(false);
 		hudBottomGhost.SetActive(false);
+		hudBottomDrone.SetActive(false);
 		panelRight.gameObject.SetActive(false);
 		rightClickManager.SetActive(false);
 		jobSelectWindow.SetActive(false);
@@ -191,6 +213,7 @@ public class ControlDisplays : MonoBehaviour
 	{
 		hudBottomHuman.SetActive(false);
 		hudBottomGhost.SetActive(false);
+		hudBottomDrone.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(false);
@@ -204,6 +227,7 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		hudBottomHuman.SetActive(false);
 		hudBottomGhost.SetActive(false);
+		hudBottomDrone.SetActive(false);
 		panelRight.gameObject.SetActive(false);
 		rightClickManager.SetActive(false);
 		jobSelectWindow.SetActive(false);
@@ -218,6 +242,7 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		hudBottomHuman.SetActive(false);
 		hudBottomGhost.SetActive(false);
+		hudBottomDrone.SetActive(false);
 		panelRight.gameObject.SetActive(false);
 		rightClickManager.SetActive(false);
 		jobSelectWindow.SetActive(false);

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using Mirror;
 using Antagonists;
+using Drones;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -9,10 +10,13 @@ public class Mind
 {
 	public Occupation occupation;
 	public PlayerScript ghost;
+	public PlayerScript drone;
 	public PlayerScript body;
 	private SpawnedAntag Antag;
+	private DroneStuff Drone;
 	public bool IsAntag => Antag != null;
 	public bool IsGhosting;
+	public bool IsDrone => Drone != null;
 	public bool DenyCloning;
 	public int bodyMobID;
 	public StepType stepType = StepType.Barefoot;
@@ -67,12 +71,21 @@ public class Mind
 		ShowObjectives();
 	}
 
+	public void SetDrone(DroneStuff newDrone)
+	{
+		Drone = newDrone;
+		ShowLaws();
+	}
 	/// <summary>
 	/// Remove the antag status from this mind
 	/// </summary>
 	public void RemoveAntag()
 	{
 		Antag = null;
+	}
+	public void RemoveDrone()
+	{
+		Drone = null;
 	}
 
 	public GameObject GetCurrentMob()
@@ -143,5 +156,10 @@ public class Mind
 	{
 		if (!IsAntag) return;
 		Chat.AddExamineMsgFromServer(body.gameObject, Antag.GetObjectivesForPlayer());
+	}
+	public void ShowLaws()
+	{
+		if (!IsDrone) return;
+		Chat.AddExamineMsgFromServer(body.gameObject, Drone.GetRulesForPlayer());
 	}
 }

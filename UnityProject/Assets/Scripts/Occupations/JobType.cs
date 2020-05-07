@@ -45,5 +45,6 @@ public enum JobType
 	SECURITY_OFFICER = 33,
 	VIROLOGIST = 34,
 	WARDEN = 35,
-	SYNDICATE = 36
+	SYNDICATE = 36,
+	DRONE = 37
 }

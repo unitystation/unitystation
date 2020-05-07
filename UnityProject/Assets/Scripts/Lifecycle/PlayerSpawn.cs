@@ -97,6 +97,14 @@ public static class PlayerSpawn
 
 		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, true);
 	}
+	public static void ServerSpawnDrone(Mind forMind, Vector3Int worldPosition, GameObject newBody)
+	{
+		var oldBody = forMind.GetCurrentMob();
+		var connection = oldBody.GetComponent<NetworkIdentity>().connectionToClient;
+		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
+		forMind.stepType = GetStepType(forMind.body);
+		ServerTransferPlayer(connection, newBody, oldBody, EVENT.PlayerBecameDrone, settings, true);
+	}
 
 	//Jobs that should always use their own spawn points regardless of current round time
 	private static readonly ReadOnlyCollection<JobType> NEVER_SPAWN_ARRIVALS_JOBS = new ReadOnlyCollection<JobType>(new List<JobType>
@@ -201,7 +209,7 @@ public static class PlayerSpawn
 	/// </summary>
 	/// <param name="forConnection">connection to transfer control to</param>
 	/// TODO: Remove need for this parameter
-	/// <param name="forConnection">object forConnection is currently in control of</param>
+	/// <param name="fromObject">object forConnection is currently in control of</param>
 	/// <param name="forMind">mind to transfer control back into their body</param>
 	public static void ServerGhostReenterBody(NetworkConnection forConnection, GameObject fromObject, Mind forMind)
 	{
@@ -220,6 +228,29 @@ public static class PlayerSpawn
 		}
 	}
 
+	/// <summary>
+	/// Use this when a ghost chooses to become a drone.
+	/// Transfers their control into the drone present within reach.
+	/// Probably could work for possessing non-drones, with a bit of tweaking.
+	/// </summary>
+	/// <param name="oldBody">The ghost's old body</param>
+	/// <param name="newBody">The drone the ghost is becoming</param>
+	/// <param name="conn">The connection to transfer control to</param>
+	public static void GhostDroneControl(NetworkConnection conn, GameObject oldBody, GameObject newBody)
+	{
+		var ps = oldBody.GetComponent<PlayerScript>();
+		var mind = ps.mind;
+		var oldGhost = mind.ghost;
+		var occu = mind.occupation;
+		var settings = ps.characterSettings;
+		if (occu != null && occu.JobType != JobType.DRONE)
+			return;
+		ServerTransferPlayer(conn, newBody, oldBody, EVENT.PlayerBecameDrone, settings, oldGhost != null);
+		if (oldGhost)
+		{
+			Despawn.ServerSingle(oldGhost.gameObject);
+		}
+	}
 
 	/// <summary>
 	/// Use this when a player rejoins the game and already has a logged-out body in the game.
