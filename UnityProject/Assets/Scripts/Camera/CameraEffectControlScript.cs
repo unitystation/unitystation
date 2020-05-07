@@ -13,17 +13,17 @@ namespace CameraEffects
 
 		public NightVisionCamera nightVisionCamera;
 
-		public void ChangeDrunkState()
+		public void ToggleDrunkEffectState()
 		{
 			drunkCamera.enabled = !drunkCamera.enabled;
 		}
 
-		public void ChangeGlitchState()
+		public void ToggleGlitchEffectState()
 		{
 			glitchEffect.enabled = !glitchEffect.enabled;
 		}
 
-		public void ChangeNightVisionState()
+		public void ToggleNightVisionEffectState()
 		{
 			nightVisionCamera.enabled = !nightVisionCamera.enabled;
 		}
