@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 using System.Linq;
-using UnityEngine.SceneManagement;
 
 /// <summary>
 /// For Gateways inheritable class
@@ -123,25 +119,30 @@ public class StationGateway : NetworkBehaviour
 
 		registerTile = GetComponent<RegisterTile>();
 		Position = registerTile.WorldPosition;
-
+		SubSceneManager.RegisterStationGateway(this);
 		ServerChangeState(false);
 
-		var count = 20f;//Random.Range(RandomCountBegining, RandomCountEnd);
+		var count = 30f;//Random.Range(RandomCountBegining, RandomCountEnd);
 		Invoke(nameof(ConnectToWorld), count);
 	}
 
 	[Server]
 	void ConnectToWorld()
 	{
-		selectedWorld = FindObjectOfType<WorldGatewayRef>().WorldGateway;
+		var randomWorld = SubSceneManager.RequestRandomAwayWorldLink(this);
+
+		if (randomWorld == null)
+		{
+			Logger.Log("StationGateway failed to connect to an away world");
+			SetOffline();
+			return;
+		}
+
+		selectedWorld = randomWorld;
 
 		Message = "Teleporting to: " + selectedWorld.WorldName;
 
-		if (!selectedWorld.IsOnlineAtStart)
-		{
-			selectedWorld.IsOnlineAtStart = true;
-			selectedWorld.SetUp();
-		}
+		selectedWorld.SetUp(this);
 
 		if (HasPower)
 		{
