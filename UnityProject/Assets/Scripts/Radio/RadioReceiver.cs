@@ -8,17 +8,17 @@ public class RadioReceiver : MonoBehaviour, IServerSpawn, IServerDespawn
 {
 	[SerializeField]
 	[Tooltip("The frequency this device is waiting on a signal for. Uses MHz.")]
-	private float frequency;
+	private float frequency = 200f;
 	public float Frequency => frequency;
 
 	[SerializeField]
 	[Tooltip("The mimimum frequency that will active a signal received call. Uses MHz.")]
-	private float minFrequency;
+	private float minFrequency = 0;
 	public float MinFrequency => minFrequency;
 
 	[SerializeField]
 	[Tooltip("The maximum frequency that will active a signal received call. Uses MHz.")]
-	private float maxFrequency;
+	private float maxFrequency = 0;
 	public float MaxFrequency => maxFrequency;
 
 	[SerializeField]

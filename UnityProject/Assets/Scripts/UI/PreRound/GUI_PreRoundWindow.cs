@@ -16,11 +16,11 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	[SerializeField]
 	private TMP_Text readyText = null;
 
-	[SerializeField] private TMP_Text loadingText;
+	[SerializeField] private TMP_Text loadingText = null;
 
-	[SerializeField] private Scrollbar loadingBar;
+	[SerializeField] private Scrollbar loadingBar = null;
 
-	[SerializeField] private GameObject normalWindows;
+	[SerializeField] private GameObject normalWindows = null;
 
 	// UI panels
 	[SerializeField]

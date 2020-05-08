@@ -5,17 +5,17 @@ using UnityEngine;
 public class GUI_HackingWire : MonoBehaviour
 {
 	[SerializeField]
-	private GameObject wireStart;
+	private GameObject wireStart = null;
 	private GUI_HackingNode startNode;
 	public GUI_HackingNode StartNode => startNode;
 
 	[SerializeField]
-	private GameObject wireEnd;
+	private GameObject wireEnd = null;
 	private GUI_HackingNode endNode;
 	public GUI_HackingNode EndNode => endNode;
 
 	[SerializeField]
-	private GameObject wireBody;
+	private GameObject wireBody = null;
 
 	private GUI_Hacking parentHackingPanel;
 
@@ -65,7 +65,7 @@ public class GUI_HackingWire : MonoBehaviour
 		Vector2 oldSize = wireBodyRectTransform.sizeDelta;
 
 		wireBodyRectTransform.sizeDelta = new Vector2(oldSize.x, dist * (2 - UIManager.Instance.transform.localScale.x)); //Need to add this scaling here, because for some reason, the entire UI is scaled by 0.67? Iunno why.
-		
+
 		Vector3 rotation = wireBodyRectTransform.transform.eulerAngles;
 		rotation.z = angle;
 		wireBodyRectTransform.transform.eulerAngles = rotation;

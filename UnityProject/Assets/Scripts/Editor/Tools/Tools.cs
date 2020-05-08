@@ -8,10 +8,10 @@ public class Tools : Editor
 {
 	class Conn
 	{
-		public Vector3 worldPos;
-		public Connection wireEndA;
-		public Connection wireEndB;
-		public PowerTypeCategory wireType;
+		public Vector3 worldPos = Vector3.zero;
+		public Connection wireEndA = Connection.East;
+		public Connection wireEndB = Connection.East;
+		public PowerTypeCategory wireType = PowerTypeCategory.Transformer;
 
 	}
 

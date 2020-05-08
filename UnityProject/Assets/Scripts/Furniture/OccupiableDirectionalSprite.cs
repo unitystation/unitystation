@@ -111,7 +111,6 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	public override void OnStartServer()
 	{
 		EnsureInit();
-		occupantNetId = occupantNetId;
 		OnDirectionChanged(directional.InitialOrientation);
 	}
 

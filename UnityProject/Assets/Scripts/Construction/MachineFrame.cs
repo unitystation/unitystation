@@ -34,10 +34,10 @@ namespace Machines
 		[SerializeField] private StatefulState circuitAddedState = null;
 		[SerializeField] private StatefulState partsAddedState = null;
 
-		[SerializeField] private Sprite box;
-		[SerializeField] private Sprite boxCable;
-		[SerializeField] private Sprite boxCircuit;
-		[SerializeField] private SpriteRenderer spriteRender;
+		[SerializeField] private Sprite box = null;
+		[SerializeField] private Sprite boxCable = null;
+		[SerializeField] private Sprite boxCircuit = null;
+		[SerializeField] private SpriteRenderer spriteRender = null;
 
 		private ItemSlot circuitBoardSlot;//Index 0
 		private IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();

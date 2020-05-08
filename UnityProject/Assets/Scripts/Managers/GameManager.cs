@@ -78,8 +78,6 @@ public partial class GameManager : MonoBehaviour
 
 	private bool QueueProcessing;
 
-	private float timeElapsedServer = 0;
-
 	private void Awake()
 	{
 		if (Instance == null)
