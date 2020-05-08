@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: -1296996462333317458}
   - component: {fileID: -1250026692052214579}
   - component: {fileID: 8708487326535943296}
+  - component: {fileID: 4997850148537383002}
   m_Layer: 18
   m_Name: STMedBayDoor
   m_TagString: Untagged
@@ -580,6 +581,21 @@ MonoBehaviour:
   doorName: medbay door
   hackPanelOverlay: {fileID: 0}
   hackPanelSprite: {fileID: 0}
+--- !u!114 &4997850148537383002
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1033492078376264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1231954462806972
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114511699214781296}
   - component: {fileID: -678374216968888500}
   - component: {fileID: 8341462466351120766}
+  - component: {fileID: -5122027614549771309}
   m_Layer: 10
   m_Name: AirVent
   m_TagString: Untagged
@@ -328,6 +329,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+--- !u!114 &-5122027614549771309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010733523080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &8513106460640881890
 GameObject:
   m_ObjectHideFlags: 0

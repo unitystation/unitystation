@@ -1,4 +1,5 @@
 ﻿using System;
+using NaughtyAttributes;
 using UnityEngine;
 
 
@@ -7,6 +8,7 @@ using UnityEngine;
 public class SpritesDirectional : UnityEngine.ScriptableObject
 {
 	private const int SIZE = 4;
+	[InfoBox("Index: 0 = up, 1 = down, 2 = left, 3 = right", EInfoBoxType.Normal)]
 	public Sprite[] sprites = new Sprite[SIZE];
 	void OnValidate()
 	{
@@ -16,19 +18,20 @@ public class SpritesDirectional : UnityEngine.ScriptableObject
 			Array.Resize(ref sprites, SIZE);
 		}
 	}
+
 	public Sprite GetSpriteInDirection(OrientationEnum direction)
 	{
 		if (sprites.Length == 0) return null;
 		switch (direction)
 		{
-			case OrientationEnum.Down:
-				return sprites[0];
-			case OrientationEnum.Left:
-				return sprites[3];
 			case OrientationEnum.Up:
+				return sprites[0];
+			case OrientationEnum.Down:
+				return sprites[1];
+			case OrientationEnum.Left:
 				return sprites[2];
 			default:
-				return sprites[1];
+				return sprites[3];
 		}
 	}
 }

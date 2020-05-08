@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 3428408671806122639}
   - component: {fileID: 349424558993889444}
   - component: {fileID: 3108888715781251995}
+  - component: {fileID: 5835738060317369037}
   m_Layer: 17
   m_Name: AtmosDoor
   m_TagString: Untagged
@@ -591,6 +592,21 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 15e4795bbc71b044ea2a69dc1c89f1d4,
     type: 2}
   itemStoragePopulator: {fileID: 0}
+--- !u!114 &5835738060317369037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1457523303891292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1626320556660626
 GameObject:
   m_ObjectHideFlags: 0

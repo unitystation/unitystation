@@ -55,6 +55,17 @@ MonoBehaviour:
   isBleeding: 0
   livingHealthBehaviour: {fileID: 0}
   Severity: 0
+  armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &1088824078489892
 GameObject:
   m_ObjectHideFlags: 0
@@ -110,6 +121,17 @@ MonoBehaviour:
   isBleeding: 0
   livingHealthBehaviour: {fileID: 0}
   Severity: 0
+  armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
 --- !u!1 &1178824245349430
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,6 +190,7 @@ GameObject:
   - component: {fileID: 8093655862165673158}
   - component: {fileID: 8953132134925514141}
   - component: {fileID: -1536778056985268859}
+  - component: {fileID: -3251195665219911144}
   m_Layer: 12
   m_Name: NPC_Jerry
   m_TagString: Untagged
@@ -372,6 +395,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -488,6 +512,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobName: Mouse
   knockedDownRotation: 180
+  minTimeBetweenRandomActions: 10
+  maxTimeBetweenRandomActions: 30
 --- !u!114 &-1536778056985268859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -500,6 +526,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3251195665219911144
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -545,6 +586,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

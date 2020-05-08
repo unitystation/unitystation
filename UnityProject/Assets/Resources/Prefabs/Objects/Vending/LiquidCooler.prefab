@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 6685682366329771873}
   - component: {fileID: 1320320634143343504}
   - component: {fileID: 3521949737454309137}
+  - component: {fileID: 7018617827686443207}
   m_Layer: 11
   m_Name: LiquidCooler
   m_TagString: Untagged
@@ -302,7 +303,7 @@ MonoBehaviour:
   ExamineContent: 0
   maxCapacity: 500
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
-  reagentMix:
+  initialReagentMix:
     temperature: 0
     reagents:
       m_keys:
@@ -316,6 +317,21 @@ MonoBehaviour:
   transferMode: 2
   possibleTransferAmounts: []
   transferAmount: 20
+--- !u!114 &7018617827686443207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321968994659816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1398704703133964
 GameObject:
   m_ObjectHideFlags: 0

@@ -50,8 +50,8 @@ MonoBehaviour:
   startOnHeadless: 1
   showDebugMessages: 0
   serverTickRate: 100
-  offlineScene: Assets/Scenes/Lobby.unity
-  onlineScene: Assets/Scenes/OutpostStation.unity
+  offlineScene: Assets/Scenes/ActiveScenes/Lobby.unity
+  onlineScene: Assets/Scenes/ActiveScenes/OnlineScene.unity
   transport: {fileID: 4954124553048819253}
   networkAddress: localhost
   maxConnections: 100

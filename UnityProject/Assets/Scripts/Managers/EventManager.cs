@@ -27,7 +27,8 @@ public enum EVENT
 	UpdateChatChannels,
 	ToggleChatBubbles,
 	PlayerRejoined,
-	PreRoundStarted
+	PreRoundStarted,
+	MatrixManagerInit
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]

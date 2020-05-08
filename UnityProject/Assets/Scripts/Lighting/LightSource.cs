@@ -11,7 +11,6 @@ using Random = UnityEngine.Random;
 public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowered, IServerDespawn
 {
 	public LightSwitchV2 relatedLightSwitch;
-
 	private float coolDownTime = 2.0f;
 	private bool isInCoolDown;
 
@@ -36,7 +35,11 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private Integrity integrity;
 	private Directional directional;
 
-
+	[SerializeField] private BoxCollider2D boxColl;
+	[SerializeField] private Vector4 collDownSetting;
+	[SerializeField] private Vector4 collRightSetting;
+	[SerializeField] private Vector4 collUpSetting;
+	[SerializeField] private Vector4 collLeftSetting;
 	[SerializeField] private SpritesDirectional spritesStateOnEffect;
 	[SerializeField] private SOLightMountStatesMachine mountStatesMachine;
 	private SOLightMountState currentState;
@@ -45,6 +48,8 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private GameObject itemInMount;
 	private float integrityThreshBar;
 
+	private bool isInit = false;
+
 	private void Awake()
 	{
 		EnsureInit();
@@ -52,6 +57,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void EnsureInit()
 	{
+		if (isInit) return;
 		if (mLightRendererObject == null)
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
 
@@ -83,6 +89,36 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 			switchState = InitialState == LightMountState.On;
 	}
 
+	public override void OnStartServer()
+	{
+		EnsureInit();
+		base.OnStartServer();
+		mState = InitialState;
+	}
+
+	public override void OnStartClient()
+	{
+		EnsureInit();
+		base.OnStartClient();
+		GetComponent<RegisterTile>().WaitForMatrixInit(InitClientValues);
+
+	}
+
+	void InitClientValues(MatrixInfo matrixInfo)
+	{
+		SyncLightState(mState, mState);
+	}
+
+	private void OnEnable()
+	{
+		integrity.OnApllyDamage.AddListener(OnDamageReceived);
+	}
+
+	private void OnDisable()
+	{
+		if(integrity != null) integrity.OnApllyDamage.RemoveListener(OnDamageReceived);
+	}
+
 	[Server]
 	public void ServerChangeLightState(LightMountState newState)
 	{
@@ -99,13 +135,57 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private void ChangeCurrentState(LightMountState newState)
 	{
 		currentState = mountStatesMachine.LightMountStates[newState];
-		CashCurrentStateVars();
+		SetSprites();
 	}
 
-	private void CashCurrentStateVars()
+	//Editor only syncing
+	public void EditorDirectionChange()
 	{
-		spriteRenderer.sprite = currentState.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+		directional = GetComponent<Directional>();
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
+			? GetComponentsInChildren<SpriteRenderer>()[1] : GetComponentsInChildren<SpriteRenderer>()[0];
 
+		var state = mountStatesMachine.LightMountStates[LightMountState.On];
+		spriteRenderer.sprite = state.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+		spriteRendererLightOn.sprite = spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+		RefreshBoxCollider();
+	}
+
+	public void RefreshBoxCollider()
+	{
+		directional = GetComponent<Directional>();
+		Vector2 offset = Vector2.zero;
+		Vector2 size = Vector2.zero;
+
+		switch (directional.CurrentDirection.AsEnum())
+		{
+			case OrientationEnum.Down:
+				offset = new Vector2(collDownSetting.x, collDownSetting.y);
+				size = new Vector2(collDownSetting.z, collDownSetting.w);
+				break;
+			case OrientationEnum.Right:
+				offset = new Vector2(collRightSetting.x, collRightSetting.y);
+				size = new Vector2(collRightSetting.z, collRightSetting.w);
+				break;
+			case OrientationEnum.Up:
+				offset = new Vector2(collUpSetting.x, collUpSetting.y);
+				size = new Vector2(collUpSetting.z, collUpSetting.w);
+				break;
+			case OrientationEnum.Left:
+				offset = new Vector2(collLeftSetting.x, collLeftSetting.y);
+				size = new Vector2(collLeftSetting.z, collLeftSetting.w);
+				break;
+		}
+
+		boxColl.offset = offset;
+		boxColl.size = size;
+	}
+
+	private void SetSprites()
+	{
+		EnsureInit();
+		spriteRenderer.sprite = currentState.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
 		spriteRendererLightOn.sprite = mState == LightMountState.On
 				? spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum())
 				: null;
@@ -115,6 +195,8 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		var currentMultiplier = currentState.MultiplierIntegrity;
 		if (currentMultiplier > 0.15f)
 			integrityThreshBar = integrity.initialIntegrity * currentMultiplier;
+
+		RefreshBoxCollider();
 	}
 
 	private void SetAnimation()
@@ -262,24 +344,6 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	}
 
 	#endregion
-
-	public override void OnStartClient()
-	{
-		EnsureInit();
-		base.OnStartClient();
-		SyncLightState(mState, mState);
-	}
-
-	private void OnEnable()
-	{
-		EnsureInit();
-		integrity.OnApllyDamage.AddListener(OnDamageReceived);
-	}
-
-	private void OnDisable()
-	{
-		if(integrity != null) integrity.OnApllyDamage.RemoveListener(OnDamageReceived);
-	}
 
 	private void OnDamageReceived(DamageInfo arg0)
 	{
