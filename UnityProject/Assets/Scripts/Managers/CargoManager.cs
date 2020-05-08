@@ -293,6 +293,11 @@ public class CargoManager : MonoBehaviour
 			return;
 		}
 
+		if (CurrentCart.Count > 20)
+		{
+			return;
+		}
+
 		CurrentCart.Add(orderToAdd);
 		OnCartUpdate?.Invoke();
 	}
