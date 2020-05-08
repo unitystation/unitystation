@@ -56,19 +56,20 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 	}
 	public void OverlayInternalResistance(float InternalResistance, PowerTypeCategory Connecting)
 	{
-		if (Node.InData.ConnectionReaction.ContainsKey(Connecting) && (!(ResistanceRestorepoints.ContainsKey(Connecting))))
+		if (Node.InData.ConnectionReaction.TryGetValue(Connecting, out PowerInputReactions connReact) && !ResistanceRestorepoints.ContainsKey(Connecting))
 		{
-			ResistanceRestorepoints[Connecting] = Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms;
-			Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms = InternalResistance;
+			ResistanceRestorepoints[Connecting] = connReact.ResistanceReactionA.Resistance.Ohms;
+			connReact.ResistanceReactionA.Resistance.Ohms = InternalResistance;
 		}
 		ElectricalManager.Instance.electricalSync.InitialiseResistanceChange.Add(this);
 	}
 
 	public void RestoreResistance(PowerTypeCategory Connecting)
 	{
-		if (Node.InData.ConnectionReaction.ContainsKey(Connecting) && (ResistanceRestorepoints.ContainsKey(Connecting)))
+
+		if (Node.InData.ConnectionReaction.TryGetValue(Connecting, out PowerInputReactions connReact) && ResistanceRestorepoints.TryGetValue(Connecting, out float restore))
 		{
-			Node.InData.ConnectionReaction[Connecting].ResistanceReactionA.Resistance.Ohms = ResistanceRestorepoints[Connecting];
+			connReact.ResistanceReactionA.Resistance.Ohms = restore;
 			ResistanceRestorepoints.Remove(Connecting);
 		}
 	}
@@ -168,19 +169,23 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		UpdateDelegateDictionary[Module.ModuleType] = Module;
 		foreach (ElectricalUpdateTypeCategory UpdateType in Module.RequiresUpdateOn)
 		{
-			if (!UpdateRequestDictionary.ContainsKey(UpdateType))
+			if (UpdateRequestDictionary.TryGetValue(UpdateType, out var updateRequest))
 			{
-				UpdateRequestDictionary[UpdateType] = new HashSet<ElectricalModuleTypeCategory>();
+				updateRequest.Add(Module.ModuleType);
 			}
-			UpdateRequestDictionary[UpdateType].Add(Module.ModuleType);
+			else
+			{
+				UpdateRequestDictionary[UpdateType] = new HashSet<ElectricalModuleTypeCategory>() { Module.ModuleType };
+			}
 		}
 	}
 
 	public void UpDespawn(DespawnInfo info)
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.GoingOffStage))
+
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.GoingOffStage, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.GoingOffStage])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].OnDespawnServer(info);
 			}
@@ -189,9 +194,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public void UpOnStartServer()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.OnStartServer))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.OnStartServer, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.OnStartServer])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].OnStartServer();
 			}
@@ -200,9 +205,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public virtual void UpTurnOnSupply()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.TurnOnSupply))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.TurnOnSupply, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.TurnOnSupply])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].TurnOnSupply();
 			}
@@ -211,9 +216,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public virtual void UpTurnOffSupply()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.TurnOffSupply))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.TurnOffSupply, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.TurnOffSupply])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].TurnOffSupply();
 			}
@@ -222,9 +227,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public virtual void UpTurnOffCleanup()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.TurnOffCleanup))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.TurnOffCleanup, out var updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.TurnOffCleanup])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].TurnOffCleanup();
 			}
@@ -233,9 +238,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public void UpPowerUpdateStructureChange()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.PowerUpdateStructureChange))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.PowerUpdateStructureChange, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.PowerUpdateStructureChange])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].PowerUpdateStructureChange();
 			}
@@ -244,9 +249,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public void UpPowerUpdateStructureChangeReact()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.PowerUpdateStructureChangeReact))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.PowerUpdateStructureChangeReact, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.PowerUpdateStructureChangeReact])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].PowerUpdateStructureChangeReact();
 			}
@@ -255,9 +260,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public void UpInitialPowerUpdateResistance()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.InitialPowerUpdateResistance))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.InitialPowerUpdateResistance, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.InitialPowerUpdateResistance])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].InitialPowerUpdateResistance();
 			}
@@ -266,9 +271,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public void UpPowerUpdateResistanceChange()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.PowerUpdateResistanceChange))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.PowerUpdateResistanceChange, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.PowerUpdateResistanceChange])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].PowerUpdateResistanceChange();
 			}
@@ -277,9 +282,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public void UpPowerUpdateCurrentChange()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.PowerUpdateCurrentChange))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.PowerUpdateCurrentChange, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.PowerUpdateCurrentChange])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].PowerUpdateCurrentChange();
 			}
@@ -288,9 +293,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public void UpPotentialDestroyed()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.PotentialDestroyed))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.PotentialDestroyed, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.PotentialDestroyed])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].PotentialDestroyed();
 			}
@@ -299,9 +304,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public void UpPowerNetworkUpdate()
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.PowerNetworkUpdate))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.PowerNetworkUpdate, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.PowerNetworkUpdate])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				UpdateDelegateDictionary[Module].PowerNetworkUpdate();
 			}
@@ -311,9 +316,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public ResistanceWrap UpModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance)
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyResistancyOutput))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.ModifyResistancyOutput, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.ModifyResistancyOutput])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				Resistance = UpdateDelegateDictionary[Module].ModifyResistancyOutput(Resistance, SourceInstance);
 			}
@@ -323,9 +328,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public ResistanceWrap UpModifyResistanceInput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom)
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyResistanceInput))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.ModifyResistanceInput, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.ModifyResistanceInput])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				Resistance = UpdateDelegateDictionary[Module].ModifyResistanceInput(Resistance, SourceInstance, ComingFrom);
 			}
@@ -338,9 +343,9 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 										 ElectricalOIinheritance SourceInstance,
 										 IntrinsicElectronicData ComingFromm)
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyElectricityInput))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.ModifyElectricityInput, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.ModifyElectricityInput])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				Current = UpdateDelegateDictionary[Module].ModifyElectricityInput(Current, SourceInstance, ComingFromm);
 			}
@@ -350,15 +355,13 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 
 	public VIRCurrent UpModifyElectricityOutput(VIRCurrent Current, ElectricalOIinheritance SourceInstance)
 	{
-		if (UpdateRequestDictionary.ContainsKey(ElectricalUpdateTypeCategory.ModifyElectricityOutput))
+		if (UpdateRequestDictionary.TryGetValue(ElectricalUpdateTypeCategory.ModifyElectricityOutput, out HashSet<ElectricalModuleTypeCategory> updateRequest))
 		{
-			foreach (ElectricalModuleTypeCategory Module in UpdateRequestDictionary[ElectricalUpdateTypeCategory.ModifyElectricityOutput])
+			foreach (ElectricalModuleTypeCategory Module in updateRequest)
 			{
 				Current = UpdateDelegateDictionary[Module].ModifyElectricityOutput(Current, SourceInstance);
 			}
 		}
 		return (Current);
 	}
-
-
 }

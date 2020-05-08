@@ -47,15 +47,15 @@ public class CargoManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnRoundRestart;
+		SceneManager.activeSceneChanged += OnRoundRestart;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnRoundRestart;
+		SceneManager.activeSceneChanged -= OnRoundRestart;
 	}
 
-	void OnRoundRestart(Scene scene, LoadSceneMode mode)
+	void OnRoundRestart(Scene oldScene, Scene newScene)
 	{
 		Supplies.Clear();
 		CurrentOrders.Clear();

@@ -45,17 +45,12 @@ public class LowVoltageMachineConnector : NetworkBehaviour  , ICheckedInteractab
 		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
 		MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
 		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
-		if (matrix.Matrix != null)
-		{
-			if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
-			{
-				return;
-			}
-		}
-		else
+
+		if (matrix.Matrix == null || !matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
 		{
 			return;
 		}
+
 		Spawn.ServerPrefab("Low machine connector", gameObject.AssumedWorldPosServer());
 		Despawn.ServerSingle(gameObject);
 	}

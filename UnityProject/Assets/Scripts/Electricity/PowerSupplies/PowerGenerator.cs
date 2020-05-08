@@ -100,13 +100,10 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	public void UpdateServerState(bool _isOn)
 	{
-		if (_isOn)
+		if (_isOn && TryBurnFuel())
 		{
-			if (TryBurnFuel())
-			{
-				ElectricalNodeControl.TurnOnSupply();
-				isOn = true;
-			}
+			ElectricalNodeControl.TurnOnSupply();
+			isOn = true;
 		}
 		else
 		{
@@ -128,23 +125,22 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			objectBehaviour.ServerSetPushable(!isSecured);
 		}
 
-
 		SoundManager.PlayAtPosition("Wrench", transform.position, gameObject);
 
-		if (!isSecured)
+		if (isSecured)
 		{
-			spriteRend.sprite = generatorUnSecuredSprite;
-		}
-		else
-		{
-			if (!isOn)
-			{
-				spriteRend.sprite = generatorSecuredSprite;
-			}
-			else
+			if (isOn)
 			{
 				spriteRend.sprite = generatorOnSprite;
 			}
+			else
+			{
+				spriteRend.sprite = generatorSecuredSprite;
+			}
+		}
+		else
+		{
+			spriteRend.sprite = generatorUnSecuredSprite;
 		}
 	}
 
@@ -162,8 +158,11 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	//Server Only
 	void FuelExhaustedEvent()
 	{
-		var pFuel = plasmaFuel[0];
-		plasmaFuel.Remove(pFuel);
+		if (plasmaFuel.Count > 0)
+		{
+			plasmaFuel.RemoveAt(0);
+		}
+
 		if (isOn)
 		{
 			if (!TryBurnFuel())
@@ -172,6 +171,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			}
 		}
 	}
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -181,9 +181,9 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
 		return true;
 	}
+
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			UpdateSecured(isSecured, !isSecured);
@@ -208,5 +208,4 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			UpdateServerState(!isOn);
 		}
 	}
-
 }

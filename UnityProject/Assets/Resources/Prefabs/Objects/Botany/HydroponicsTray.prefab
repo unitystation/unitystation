@@ -101,8 +101,9 @@ GameObject:
   - component: {fileID: 114519504495500056}
   - component: {fileID: 17410868912263334}
   - component: {fileID: 107955457563787986}
+  - component: {fileID: 7822907302678425537}
   m_Layer: 11
-  m_Name: hydroponics  tray
+  m_Name: HydroponicsTray
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -278,6 +279,9 @@ MonoBehaviour:
     PlantTrays: 
     ReagentProduction: []
     MutatesInTo: []
+    Age: 0
+    NextGrowthStageProgress: 0
+    Health: 0
 --- !u!114 &3468170437254342443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -398,6 +402,21 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &7822907302678425537
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1609685257496530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1998759520953530410
 GameObject:
   m_ObjectHideFlags: 0

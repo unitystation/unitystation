@@ -50,6 +50,7 @@ public class BurningOverlay : MonoBehaviour
 	/// </summary>
 	public void StopBurning()
 	{
+		if (spriteRenderer == null) return;
 		spriteRenderer.sprite = null;
 		spriteRenderer.enabled = false;
 		burn = false;

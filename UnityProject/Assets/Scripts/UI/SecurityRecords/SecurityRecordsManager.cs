@@ -25,15 +25,15 @@ public class SecurityRecordsManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnRoundRestart;
+		SceneManager.activeSceneChanged += OnRoundRestart;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnRoundRestart;
+		SceneManager.activeSceneChanged -= OnRoundRestart;
 	}
 
-	void OnRoundRestart(Scene scene, LoadSceneMode mode)
+	void OnRoundRestart(Scene scene, Scene newScene)
 	{
 		SecurityRecords.Clear();
 	}

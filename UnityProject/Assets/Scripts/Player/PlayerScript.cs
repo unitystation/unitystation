@@ -341,6 +341,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	//Tooltips inspector bar
 	public void OnHoverStart()
 	{
+		if (gameObject.IsAtHiddenPos()) return;
 		UIManager.SetToolTip = visibleName;
 	}
 

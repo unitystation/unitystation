@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 8520176200339000472}
   - component: {fileID: 7262420522021229343}
   - component: {fileID: 2276457107007812492}
+  - component: {fileID: -5743939338661801347}
   m_Layer: 10
   m_Name: FloorbotAssembly
   m_TagString: Abstract
@@ -320,6 +321,21 @@ MonoBehaviour:
   botPrefab: {fileID: 2293724657804988958, guid: 2171b7b3a60b67c4c992116a448f523e,
     type: 3}
   spriteHandler: {fileID: 2517395314758716075}
+--- !u!114 &-5743939338661801347
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8622575264684028204}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &8624070390823707658
 GameObject:
   m_ObjectHideFlags: 0

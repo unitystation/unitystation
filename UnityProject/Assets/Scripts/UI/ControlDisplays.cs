@@ -20,10 +20,10 @@ public class ControlDisplays : MonoBehaviour
 	public GameObject hudBottomHuman;
 	public GameObject hudBottomGhost;
 	public GameObject jobSelectWindow;
-	public GameObject preRoundWindow;
 	public GameObject teamSelectionWindow;
 	public GameObject disclaimer;
 	public RectTransform panelRight;
+	public GUI_PreRoundWindow preRoundWindow;
 
 	[SerializeField]
 	private GameObject rightClickManager = null;
@@ -107,7 +107,7 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(true);
-		preRoundWindow.SetActive(false);
+		preRoundWindow.gameObject.SetActive(false);
 		SoundManager.SongTracker.Stop();
 	}
 
@@ -121,7 +121,7 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(true);
-		preRoundWindow.SetActive(false);
+		preRoundWindow.gameObject.SetActive(false);
 		SoundManager.SongTracker.Stop();
 	}
 
@@ -182,7 +182,7 @@ public class ControlDisplays : MonoBehaviour
 		rightClickManager.SetActive(false);
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
-		preRoundWindow.SetActive(false);
+		preRoundWindow.gameObject.SetActive(false);
 		disclaimer.SetActive(true);
 		UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(false);
 	}
@@ -196,6 +196,8 @@ public class ControlDisplays : MonoBehaviour
 		rightClickManager.SetActive(false);
 		uiAnimator.Play("idle");
 		disclaimer.SetActive(false);
+		preRoundWindow.gameObject.SetActive(true);
+		preRoundWindow.SetUIForMapLoading();
 	}
 
 	public void SetScreenForPreRound()
@@ -208,8 +210,8 @@ public class ControlDisplays : MonoBehaviour
 		rightClickManager.SetActive(false);
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
-		preRoundWindow.SetActive(true);
-		preRoundWindow.GetComponent<GUI_PreRoundWindow>().SetUIForCountdown();
+		preRoundWindow.gameObject.SetActive(true);
+		preRoundWindow.SetUIForCountdown();
 	}
 
 	public void SetScreenForJoining()
@@ -222,19 +224,19 @@ public class ControlDisplays : MonoBehaviour
 		rightClickManager.SetActive(false);
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
-		preRoundWindow.SetActive(true);
-		preRoundWindow.GetComponent<GUI_PreRoundWindow>().SetUIForJoining();
+		preRoundWindow.gameObject.SetActive(true);
+		preRoundWindow.SetUIForJoining();
 	}
 
 	public void SetScreenForTeamSelect()
 	{
-		preRoundWindow.SetActive(false);
+		preRoundWindow.gameObject.SetActive(false);
 		teamSelectionWindow.SetActive(true);
 	}
 
 	public void SetScreenForJobSelect()
 	{
-		preRoundWindow.SetActive(false);
+		preRoundWindow.gameObject.SetActive(false);
 		jobSelectWindow.SetActive(true);
 	}
 

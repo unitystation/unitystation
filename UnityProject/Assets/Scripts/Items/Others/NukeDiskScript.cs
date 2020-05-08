@@ -23,42 +23,60 @@ public class NukeDiskScript : NetworkBehaviour
 
 	private float timeCurrentAnimation = 0;
 
-	// Start is called before the first frame update
-	private void Start()
+	private bool isInit = false;
+	private bool boundsConfigured = false;
+
+	public override void OnStartServer()
 	{
-		bound = MatrixManager.MainStationMatrix.Bounds;
-		escapeShuttle = FindObjectOfType<EscapeShuttle>();
+		base.OnStartServer();
+		Init();
 	}
-	private void EnsureInit()
+
+	public override void OnStartClient()
 	{
+		base.OnStartClient();
+		Init();
+	}
+
+	void Init()
+	{
+		if (isInit) return;
+		isInit = true;
+
 		customNetTrans = GetComponent<CustomNetTransform>();
 		registerItem = GetComponent<RegisterItem>();
 		pick = GetComponent<Pickupable>();
+
+		registerItem.WaitForMatrixInit(EnsureInit);
+	}
+
+	private void EnsureInit(MatrixInfo matrixInfo)
+	{
+		bound = MatrixManager.MainStationMatrix.Bounds;
+		escapeShuttle = FindObjectOfType<EscapeShuttle>();
+		boundsConfigured = true;
 	}
 
 	private void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		EnsureInit();
 	}
 	void OnDisable()
 	{
-
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-
 	}
 
 	protected virtual void UpdateMe()
 	{
+		if (!boundsConfigured) return;
+
 		if (isServer)
 		{
 			timeCurrentDisk += Time.deltaTime;
 
 			if (timeCurrentDisk > timeCheckDiskLocation)
 			{
-
 				if (DiskLost()) { Teleport();}
-
 				timeCurrentDisk = 0;
 			}
 		}
@@ -72,7 +90,6 @@ public class NukeDiskScript : NetworkBehaviour
 			}
 
 		}
-
 	}
 
 	private bool DiskLost()

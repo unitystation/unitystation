@@ -17,12 +17,14 @@ using Mirror;
 ///
 /// This component should be used for all components which have some sort of directional behavior.
 /// </summary>
-[RequireComponent(typeof(RegisterTile))]
+[RequireComponent(typeof(RegisterTile))][ExecuteInEditMode]
 public class Directional : NetworkBehaviour, IMatrixRotation
 {
-
 	[Tooltip("Direction of this object in the scene, used as the initial direction when the map loads.")]
 	public OrientationEnum InitialDirection = OrientationEnum.Down;
+
+	private OrientationEnum editorInitialDirection;
+	public UnityEvent onEditorDirectionChange;
 
 	/// <summary>
 	/// Initial direction as an Orientation rather than enum.
@@ -31,6 +33,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 
 	[SyncVar(hook = nameof(SyncServerDirection))]
 	private Orientation serverDirection;
+
 	private Orientation clientDirection;
 
 	/// <summary>
@@ -42,6 +45,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 	         "matrix rotation to match the matrix rotation that occurred. If false," +
 	         " direction will not be changed regardless of matrix rotation.")]
 	public bool ChangeDirectionWithMatrix = true;
+
 	[Tooltip("If true this component will ignore all SyncVar updates. Useful if you just want to use" +
 	         "this component for easy direction changing at edit time")]
 	public bool DisableSyncing = false;
@@ -67,6 +71,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 			{
 				ForceClientDirectionFromServer();
 			}
+
 			ignoreServerUpdates = value;
 		}
 	}
@@ -83,6 +88,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 			ForceClientDirectionFromServer();
 		}
 	}
+
 	private bool lockDirection;
 
 	private bool ignoreServerUpdates = false;
@@ -97,10 +103,22 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 	/// <summary>
 	/// Current direction the object should be shown facing.
 	/// </summary>
-	public Orientation CurrentDirection =>
-		(isServer || (!IsLocalPlayer && !IgnoreServerUpdates) ? serverDirection : clientDirection);
+	public Orientation CurrentDirection {
 
-	void OnDrawGizmosSelected()
+		get
+		{
+			if (Application.isPlaying)
+			{
+				return (isServer || (!IsLocalPlayer && !IgnoreServerUpdates) ? serverDirection : clientDirection);
+			}
+			else
+			{
+				return InitialOrientation;
+			}
+		}
+	}
+
+void OnDrawGizmosSelected()
 	{
 		Gizmos.color = Color.green;
 
@@ -114,11 +132,30 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 		}
 	}
 
-	public override void OnStartServer()
-    {
-	    SyncServerDirection(serverDirection, InitialOrientation);
-    }
+	#if UNITY_EDITOR
+	void Update()
+	{
+		if (!Application.isPlaying)
+		{
+			if (editorInitialDirection != InitialDirection)
+			{
+				editorInitialDirection = InitialDirection;
+				if(onEditorDirectionChange != null) onEditorDirectionChange.Invoke();
+			}
+		}
+	}
+	#endif
 
+	public override void OnStartServer()
+	{
+		var registerTile = GetComponent<RegisterTile>();
+		registerTile.WaitForMatrixInit(WaitForMatrixLoad);
+	}
+
+	private void WaitForMatrixLoad(MatrixInfo matrixInfo)
+	{
+		serverDirection = new Orientation(InitialOrientation.Degrees);
+	}
 
     public override void OnStartClient()
     {
@@ -143,7 +180,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 		    gameObject.name, newDir, IsLocalPlayer, IgnoreServerUpdates, clientDirection, serverDirection);
 	    if (isServer)
 	    {
-		    SyncServerDirection(serverDirection, newDir);
+		    serverDirection = new Orientation(newDir.Degrees);
 	    }
 	    clientDirection = newDir;
 	    if (IsLocalPlayer)
@@ -190,7 +227,7 @@ public class Directional : NetworkBehaviour, IMatrixRotation
 			    else if (rotationInfo.IsServerside && isServer)
 			    {
 				    //change server side and sync to clients
-				    SyncServerDirection(serverDirection, CurrentDirection.Rotate(rotationInfo.RotationOffset));
+				    serverDirection = new Orientation(CurrentDirection.Rotate(rotationInfo.RotationOffset).Degrees);
 				    OnDirectionChange.Invoke(CurrentDirection);
 			    }
 		    }
@@ -212,15 +249,13 @@ public class Directional : NetworkBehaviour, IMatrixRotation
     [Command]
     private void CmdChangeDirection(Orientation direction)
     {
-	    SyncServerDirection(serverDirection, direction);
+	    serverDirection = new Orientation(direction.Degrees);
     }
 
     //syncvar hook invoked when server sends a client the new direction for this object
     private void SyncServerDirection(Orientation oldDir, Orientation dir)
     {
-	    if (DisableSyncing) return;
-	    
-	    serverDirection = dir;
+	    serverDirection = new Orientation(dir.Degrees);
 	    //we only change our direction if we're not local player (local player is always predictive)
 	    //and not explicitly ignoring server updates.
 	    if (!IgnoreServerUpdates && !IsLocalPlayer)

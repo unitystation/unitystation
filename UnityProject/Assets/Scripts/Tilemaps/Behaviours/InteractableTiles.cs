@@ -177,7 +177,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 				    Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction))
 				{
 					//request the tile interaction with this index
-					RequestInteractMessage.SendTileApply(tileApply, this, tileInteraction, i);
+					RequestInteractMessage.SendTileApply(tileApply, this, tileInteraction);
 					return true;
 				}
 
@@ -189,7 +189,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	}
 
 	//for internal IF2 usages only, does server side logic for processing tileapply
-	public void ServerProcessInteraction(int tileInteractionIndex, GameObject performer, Vector2 targetVector,  GameObject processorObj, ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
+	public void ServerProcessInteraction(GameObject performer, Vector2 targetVector,  GameObject processorObj, ItemSlot usedSlot, GameObject usedObject, Intent intent, TileApply.ApplyType applyType)
 	{
 		//find the indicated tile interaction
 		var worldPosTarget = (Vector2)performer.transform.position + targetVector;
@@ -197,28 +197,36 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		LayerTile tile = LayerTileAt(worldPosTarget, true);
 		if (tile is BasicTile basicTile)
 		{
-			if (tileInteractionIndex >= basicTile.TileInteractions.Count)
-			{
-				//this sometimes happens due to lag, so bumping it down to trace
-				Logger.LogTraceFormat("Requested TileInteraction at index {0} does not exist on this tile {1}.",
-					Category.Interaction, tileInteractionIndex, basicTile.name);
-				return;
-			}
-
-			var tileInteraction = basicTile.TileInteractions[tileInteractionIndex];
+			// check which tile interaction occurs in the correct order
+			Logger.LogTraceFormat("Server checking which tile interaction to trigger for TileApply on tile {0} at worldPos {1}", Category.Interaction,
+				tile.name, worldPosTarget);
 			var tileApply = new TileApply(performer, usedObject, intent,
 				(Vector2Int) WorldToCell(worldPosTarget), this, basicTile, usedSlot,
 				targetVector, applyType);
+			foreach (var tileInteraction in basicTile.TileInteractions)
+			{
+				if (tileInteraction == null) continue;
+				if (tileInteraction.WillInteract(tileApply, NetworkSide.Server))
+				{
+					//perform if not on cooldown
+					if (Cooldowns.TryStartServer(tileApply, CommonCooldowns.Instance.Interaction))
+					{
+						tileInteraction.ServerPerformInteraction(tileApply);
+					}
+					else
+					{
+						//hit a cooldown, rollback in case client tried to predict it
+						tileInteraction.ServerRollbackClient(tileApply);
+					}
 
-			if (tileInteraction.WillInteract(tileApply, NetworkSide.Server) &&
-			    Cooldowns.TryStartServer(tileApply, CommonCooldowns.Instance.Interaction))
-			{
-				//perform
-				tileInteraction.ServerPerformInteraction(tileApply);
-			}
-			else
-			{
-				tileInteraction.ServerRollbackClient(tileApply);
+					// interaction should've triggered and did or we hit a cooldown, so we're
+					// done processing this request.
+					break;
+				}
+				else
+				{
+					tileInteraction.ServerRollbackClient(tileApply);
+				}
 			}
 		}
 	}
@@ -233,19 +241,16 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		{
 			var tileApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, null, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation), TileApply.ApplyType.MouseDrop);
 			var tileMouseDrop = new TileMouseDrop(interaction.Performer, interaction.UsedObject, interaction.Intent, (Vector2Int)WorldToCell(interaction.ShadowWorldLocation), this, basicTile, -((Vector2)interaction.Performer.transform.position - interaction.ShadowWorldLocation));
-			var i = 0;
 			foreach (var tileInteraction in basicTile.TileInteractions)
 			{
 				if (tileInteraction == null) continue;
 				if (tileInteraction.WillInteract(tileApply, NetworkSide.Client) &&
 					Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction))
 				{
-					//request the tile interaction with this index
-					RequestInteractMessage.SendTileMouseDrop(tileMouseDrop, this, i);
+					//request the tile interaction because we think one will happen
+					RequestInteractMessage.SendTileMouseDrop(tileMouseDrop, this);
 					return true;
 				}
-
-				i++;
 			}
 		}
 
