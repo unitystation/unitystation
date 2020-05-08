@@ -100,6 +100,12 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	{
 		EnsureInit();
 		base.OnStartClient();
+		GetComponent<RegisterTile>().WaitForMatrixInit(InitClientValues);
+
+	}
+
+	void InitClientValues(MatrixInfo matrixInfo)
+	{
 		SyncLightState(mState, mState);
 	}
 
@@ -189,6 +195,8 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		var currentMultiplier = currentState.MultiplierIntegrity;
 		if (currentMultiplier > 0.15f)
 			integrityThreshBar = integrity.initialIntegrity * currentMultiplier;
+
+		RefreshBoxCollider();
 	}
 
 	private void SetAnimation()
