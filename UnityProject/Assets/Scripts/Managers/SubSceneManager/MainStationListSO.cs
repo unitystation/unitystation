@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -13,6 +14,17 @@ public class MainStationListSO : ScriptableObject
 
 	public string GetRandomMainStation()
 	{
+		var mapConfigPath = Path.Combine(Application.streamingAssetsPath,
+			"maps.json");
+
+		if (File.Exists(mapConfigPath))
+		{
+			var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
+				"maps.json")));
+
+			return maps.GetRandomMap();
+		}
+
 		return MainStations[Random.Range(0, MainStations.Count)];
 	}
 }

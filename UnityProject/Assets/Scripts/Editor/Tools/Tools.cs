@@ -31,6 +31,20 @@ public class Tools : Editor
 		Debug.Log($"Refreshed {allDirs.Length} directionals");
 	}
 
+	[MenuItem("Networking/Set all sceneids to 0")]
+	private static void SetAllSceneIdsToNull()
+	{
+		var allNets = FindObjectsOfType<NetworkIdentity>();
+
+		for (int i = allNets.Length - 1; i > 0; i--)
+		{
+			allNets[i].sceneId = 0;
+			EditorUtility.SetDirty(allNets[i]);
+		}
+
+		Debug.Log($"Set {allNets.Length} scene ids");
+	}
+
 	//this is just for migrating from old way of setting wallmount directions to the new way
 	[MenuItem("Tools/Set Wallmount Directionals from Transforms")]
 	private static void FixWallmountDirectionals()
