@@ -38,6 +38,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	private GameObject mapLoadingPanel = null;
 
 	// Character objects
+	[SerializeField]
 	private GameObject characterCustomization = null;
 	[SerializeField]
 	private Button characterButton = null;
