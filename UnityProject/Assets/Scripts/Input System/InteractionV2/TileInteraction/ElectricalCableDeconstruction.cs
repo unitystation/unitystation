@@ -56,7 +56,7 @@ public class ElectricalCableDeconstruction : TileInteraction
 			var electrocution = new Electrocution(voltage, interaction.WorldPositionTarget, "cable");
 			var performerLHB = interaction.Performer.GetComponent<LivingHealthBehaviour>();
 			var severity = performerLHB.Electrocute(electrocution);
-			if (severity > ElectrocutionSeverity.Mild) return;
+			if (severity > LivingShockResponse.Mild) return;
 
 			ElectricalData.InData.DestroyThisPlease();
 			Spawn.ServerPrefab(ElectricalCable.SpawnOnDeconstruct, interaction.WorldPositionTarget,

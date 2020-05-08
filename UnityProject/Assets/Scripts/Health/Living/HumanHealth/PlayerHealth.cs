@@ -178,7 +178,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	/// </summary>
 	/// <param name="electrocution">The object containing all information for this electrocution</param>
 	/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
-	public override ElectrocutionSeverity Electrocute(Electrocution electrocution)
+	public override LivingShockResponse Electrocute(Electrocution electrocution)
 	{
 		if (playerNetworkActions.activeHand == NamedSlot.leftHand)
 		{
@@ -242,12 +242,12 @@ public class PlayerHealth : LivingHealthBehaviour
 		ApplyDamageToBodypart(null, damage, AttackType.Internal, DamageType.Burn, bodypart);
 	}
 
-	protected override void MildElectrocution(Electrocution electrocution)
+	protected override void MildElectrocution(Electrocution electrocution, float shockPower)
 	{
 		Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
 	}
 
-	protected override void PainfulElectrocution(Electrocution electrocution)
+	protected override void PainfulElectrocution(Electrocution electrocution, float shockPower)
 	{
 		// TODO: Add sparks VFX at shockSourcePos.
 		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
@@ -259,7 +259,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		DealElectrocutionDamage(5, electrocutedHand);
 	}
 
-	protected override void LethalElectrocution(Electrocution electrocution)
+	protected override void LethalElectrocution(Electrocution electrocution, float shockPower)
 	{
 		// TODO: Add sparks VFX at shockSourcePos.
 		// TODO: Consider adding a scream SFX.
@@ -270,7 +270,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		// Consider removing this message when the shock animation has been implemented as it should be obvious enough.
 		Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} electrocutes you!");
 
-		var damage = electrocution.shockPower / ELECTROCUTION_BURNDAMAGE_MODIFIER;
+		var damage = shockPower / ELECTROCUTION_BURNDAMAGE_MODIFIER;
 		if (ELECTROCUTION_MAX_DAMAGE != -1 && damage > ELECTROCUTION_MAX_DAMAGE) damage = ELECTROCUTION_MAX_DAMAGE;
 		DealElectrocutionDamage(damage * 0.4f, electrocutedHand);
 		DealElectrocutionDamage(damage * 0.25f, BodyPartType.Chest);

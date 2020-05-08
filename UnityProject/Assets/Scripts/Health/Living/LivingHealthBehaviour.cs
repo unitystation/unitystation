@@ -14,7 +14,7 @@ using UnityEngine.Profiling;
 /// Monitors and calculates health
 /// </summary>
 [RequireComponent(typeof(HealthStateMonitor))]
-public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable, IElectrocutable, IExaminable, IServerSpawn
+public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireExposable, IExaminable, IServerSpawn
 {
 	private static readonly float GIB_THRESHOLD = 200f;
 	//damage incurred per tick per fire stack
@@ -705,47 +705,44 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// </summary>
 	/// <param name="electrocution">The object containing all information for this electrocution</param>
 	/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
-	public virtual ElectrocutionSeverity Electrocute(Electrocution electrocution)
+	public virtual LivingShockResponse Electrocute(Electrocution electrocution)
 	{
 		float resistance = ApproximateElectricalResistance(electrocution.Voltage);
-		electrocution.shockPower = Electrocution.CalculateShockPower(electrocution.Voltage, resistance);
-		SetElectrocutionSeverity(electrocution);
+		float shockPower = Electrocution.CalculateShockPower(electrocution.Voltage, resistance);
+		var severity = GetElectrocutionSeverity(shockPower);
 
-		switch (electrocution.severity)
+		switch (severity)
 		{
-			case ElectrocutionSeverity.None:
+			case LivingShockResponse.None:
 				break;
-			case ElectrocutionSeverity.Mild:
-				MildElectrocution(electrocution);
+			case LivingShockResponse.Mild:
+				MildElectrocution(electrocution, shockPower);
 				break;
-			case ElectrocutionSeverity.Painful:
-				PainfulElectrocution(electrocution);
+			case LivingShockResponse.Painful:
+				PainfulElectrocution(electrocution, shockPower);
 				break;
-			case ElectrocutionSeverity.Lethal:
-				LethalElectrocution(electrocution);
+			case LivingShockResponse.Lethal:
+				LethalElectrocution(electrocution, shockPower);
 				break;
 		}
 
-		return electrocution.severity;
+		return severity;
 	}
 
 	/// <summary>
 	/// Finds the severity of the electrocution.
 	/// In the future, this would depend on the victim's size. For now, assume humanoid size.
 	/// </summary>
-	/// <param name="electrocution">The object containing all information for this electrocution</param>
-	/// <returns>Severity enumerable - None, Mild, Painful, Lethal</returns>
-	protected virtual ElectrocutionSeverity SetElectrocutionSeverity(Electrocution electrocution)
+	/// <param name="shockPower">The power of the electrocution determines the shock response </param>
+	protected virtual LivingShockResponse GetElectrocutionSeverity(float shockPower)
 	{
-		float shockPower = electrocution.shockPower;
-		ElectrocutionSeverity severity;
+		LivingShockResponse severity;
 
-		if (shockPower >= 0.01 && shockPower < 1) severity = ElectrocutionSeverity.Mild;
-		else if (shockPower >= 1 && shockPower < 100) severity = ElectrocutionSeverity.Painful;
-		else if (shockPower >= 100) severity = ElectrocutionSeverity.Lethal;
-		else severity = ElectrocutionSeverity.None;
+		if (shockPower >= 0.01 && shockPower < 1) severity = LivingShockResponse.Mild;
+		else if (shockPower >= 1 && shockPower < 100) severity = LivingShockResponse.Painful;
+		else if (shockPower >= 100) severity = LivingShockResponse.Lethal;
+		else severity = LivingShockResponse.None;
 
-		electrocution.severity = severity;
 		return severity;
 	}
 
@@ -756,22 +753,22 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		return 500;
 	}
 
-	protected virtual void MildElectrocution(Electrocution electrocution)
+	protected virtual void MildElectrocution(Electrocution electrocution, float shockPower)
 	{
 		return;
 	}
 
-	protected virtual void PainfulElectrocution(Electrocution electrocution)
+	protected virtual void PainfulElectrocution(Electrocution electrocution, float shockPower)
 	{
-		LethalElectrocution(electrocution);
+		LethalElectrocution(electrocution, shockPower);
 	}
 
-	protected virtual void LethalElectrocution(Electrocution electrocution)
+	protected virtual void LethalElectrocution(Electrocution electrocution, float shockPower)
 	{
 		// TODO: Add sparks VFX at shockSourcePos.
 		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
 
-		float damage = electrocution.shockPower;
+		float damage = shockPower;
 		ApplyDamage(null, damage, AttackType.Internal, DamageType.Burn);
 	}
 
