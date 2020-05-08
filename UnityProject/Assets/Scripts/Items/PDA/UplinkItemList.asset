@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 14f7b754063058b4ca02d26832ca5f31, type: 3}
+  m_Name: UplinkItemList
+  m_EditorClassIdentifier: 
+  itemCategoryList:
+  - categoryName: Hacking
+    itemList:
+    - name: Cryptographic sequencer
+      item: {fileID: 5260985750374485318, guid: 36e3533550bd8a943ad05db76b83fdd3,
+        type: 3}
+      cost: 4
+  - categoryName: Weapons
+    itemList:
+    - name: Energy Sword
+      item: {fileID: 7781396554342910705, guid: bb89e4eb0756de04b8ab904221c23296,
+        type: 3}
+      cost: 8
+    - name: Stechkin
+      item: {fileID: 8582594776399167655, guid: 75bd7f17749d75542afa4d2395205c7b,
+        type: 3}
+      cost: 7
+    - name: 10mm Handgun Magazine(Stechkin Ammo)
+      item: {fileID: 8582594776399167655, guid: 75bd7f17749d75542afa4d2395205c7b,
+        type: 3}
+      cost: 1
+    - name: .357 Revolver
+      item: {fileID: 8582594776399167655, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      cost: 13
+    - name: .357 Speedloader
+      item: {fileID: 742292832060491855, guid: 9e8f0c4c21855a34f8ebe8ba3170f6de, type: 3}
+      cost: 4
+  - categoryName: Bundles
+    itemList:
+    - name: Syndicate Toolbox
+      item: {fileID: 6889139681302801520, guid: c7d8ece0f17b5ce42978455235ba5a89,
+        type: 3}
+      cost: 1
+  - categoryName: Misc
+    itemList: []
