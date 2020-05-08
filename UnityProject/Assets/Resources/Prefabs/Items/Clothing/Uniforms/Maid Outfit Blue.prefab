@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: hideClothingFlags
-      value: 9
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4658995992363608162, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
@@ -82,6 +82,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Armor.Bio
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4700669166950225366, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
