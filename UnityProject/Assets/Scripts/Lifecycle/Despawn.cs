@@ -61,9 +61,6 @@ public static class Despawn
 			}
 		}
 
-		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
-		var poolPrefabTracker = info.GameObject.GetComponent<PoolPrefabTracker>();
-		var transform = info.GameObject.GetComponent<IPushable>();
 		var Electrical = info.GameObject.GetComponent<ElectricalOIinheritance>();
 		//TODO: What's the purpose of this?
 		if (Electrical != null)
@@ -77,28 +74,7 @@ public static class Despawn
 
 		_ServerFireDespawnHooks(DespawnResult.Single(info));
 
-		if (transform != null)
-		{
-			transform.VisibleState = false;
-		}
-
-		if (poolPrefabTracker != null)
-		{
-			//pooled
-			//destroy for all clients but keep it in server-side pool
-			NetworkServer.UnSpawn(info.GameObject);
-			if (!Spawn._TryAddToPool(info.GameObject))
-			{
-				//can't pool it, destroy
-				Object.Destroy(info.GameObject);
-			}
-		}
-		else
-		{
-			//not pooled - destroy everywhere
-			NetworkServer.Destroy(info.GameObject);
-		}
-
+		Spawn._TryDespawnToPool(info.GameObject);
 
 		return DespawnResult.Single(info);
 	}
@@ -132,16 +108,7 @@ public static class Despawn
 			return DespawnResult.Fail(info);
 		}
 
-		//add to pool
-		if (Spawn._TryAddToPool(info.GameObject))
-		{
-			info.GameObject.SetActive(false);
-		}
-		else
-		{
-			Object.Destroy(info.GameObject);
-		}
-
+		Spawn._TryDespawnToPool(info.GameObject);
 		return DespawnResult.Single(info);
 	}
 

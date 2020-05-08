@@ -408,8 +408,6 @@ public static class Spawn
 				cnt.ReInitServerState();
 				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
 			}
-
-			pooledInstance = true;
 		}
 		else
 		{
@@ -419,8 +417,6 @@ public static class Spawn
 			tempObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
 
 			tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
-
-			pooledInstance = false;
 		}
 
 
@@ -442,18 +438,46 @@ public static class Spawn
 	}
 
 	/// <summary>
-	/// For internal use (lifecycle system) only. Tries to add the object to the pool.
+	/// For internal use (lifecycle system) only. Tries to add the object to the pool. If object can fit in the pool, moves it
+	/// to hiddenpos and deactivates it (destroying the object for each client if called on server).
+	/// Otherwise, destroys it (destroying it for each client if called on server).
 	/// </summary>
-	/// <param name="target">object to try to pool</param>
-	/// <returns>true iff succesfully added to pool. Generally the object should be destroyed when not successfully added.</returns>
-	public static bool _TryAddToPool(GameObject target)
+	/// <param name="target">object to try to despawn</param>
+	public static void _TryDespawnToPool(GameObject target)
 	{
 		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
-		if ( !poolPrefabTracker )
+		var shouldDestroy = false;
+		if (!poolPrefabTracker)
 		{
-			Logger.LogWarning($"PoolPrefabTracker not found on {target}",Category.ItemSpawn);
-			return false;
+			Logger.LogWarning($"PoolPrefabTracker not found on {target}, destroying it", Category.ItemSpawn);
+			shouldDestroy = true;
 		}
+
+		var cnt = target.GetComponent<CustomNetTransform>();
+		if ( !cnt )
+		{
+			Logger.LogWarning($"CustomNetTransform not found on {target}, destroying it",Category.ItemSpawn);
+			shouldDestroy = true;
+		}
+
+		if (shouldDestroy)
+		{
+			if (CustomNetworkManager.IsServer)
+			{
+				//destroy for everyone
+				NetworkServer.Destroy(target);
+			}
+			else
+			{
+				//destroy for this client
+				Object.Destroy(target);
+			}
+
+			return;
+		}
+
+
+
 		GameObject prefab = poolPrefabTracker.myPrefab;
 		prefab.transform.position = Vector2.zero;
 
@@ -464,8 +488,28 @@ public static class Spawn
 		}
 
 		pools[prefab].Add(target);
-		Logger.LogTraceFormat("Added {0} to pool, Pooled: {1} Index:{2}", Category.ItemSpawn, target.GetInstanceID(), pools[prefab].Count, pools[prefab].Count-1);
-		return true;
+		Logger.LogTraceFormat("Added {0} to pool, deactivated and moved to hiddenpos Pooled: {1} Index:{2}",
+			Category.ItemSpawn, target.GetInstanceID(), pools[prefab].Count, pools[prefab].Count-1);
+		if (CustomNetworkManager.IsServer)
+		{
+			//destroy for all clients, keep only in the server pool
+			NetworkServer.UnSpawn(target);
+
+			//transform.VisibleState seems to be valid only on server side, so we make it invisible
+			//here when we're going to add it to the pool.
+			var transform = target.GetComponent<IPushable>();
+			if (transform != null)
+			{
+				transform.VisibleState = false;
+			}
+			cnt.DisappearFromWorldServer();
+		}
+		else
+		{
+			cnt.DisappearFromWorld();
+		}
+
+		target.SetActive(false);
 	}
 
 
