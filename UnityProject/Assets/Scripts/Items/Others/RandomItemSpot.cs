@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -7,7 +6,7 @@ using Random = UnityEngine.Random;
 
 namespace Items
 {
-	public class RandomItemSpot : NetworkBehaviour
+	public class RandomItemSpot : NetworkBehaviour, IServerSpawn
 	{
 		[Tooltip("Amout of items we could get from this pool")] [SerializeField]
 		private int lootCount = 1;
@@ -26,7 +25,7 @@ namespace Items
 
 		private void RollRandomPool(MatrixInfo matrixInfo)
 		{
-			for (int i = 0; i <= lootCount; i++)
+			for (int i = 0; i < lootCount; i++)
 			{
 				PoolData pool = null;
 				// Roll attempt is a safe check in the case the mapper did tables with low % and we can't find
@@ -54,6 +53,8 @@ namespace Items
 
 				SpawnItems(pool);
 			}
+
+			Despawn.ServerSingle(gameObject);
 		}
 
 		private void SpawnItems(PoolData poolData)
@@ -73,6 +74,14 @@ namespace Items
 				gameObject.RegisterTile().WorldPositionServer,
 				count: maxAmt,
 				scatterRadius: spread);
+		}
+
+		public void OnSpawnServer(SpawnInfo info)
+		{
+			if (info.SpawnType != SpawnType.Mapped)
+			{
+				OnStartServer();
+			}
 		}
 	}
 
