@@ -31,8 +31,8 @@ public class SOLightMountState : UnityEngine.ScriptableObject
 	public float MultiplierIntegrity => multiplierIntegrity;
 
 	[Tooltip("Drops this on destroy.")]
-	[SerializeField]private RandomItemPool lootDrop = null;
-	public RandomItemPool LootDrop => lootDrop;
+	[SerializeField]private GameObject lootDrop = null;
+	public GameObject LootDrop => lootDrop;
 
 	[Tooltip("Light color.")]
 	[SerializeField]private Color lightColor = new Color();

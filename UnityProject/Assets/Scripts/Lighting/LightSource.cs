@@ -371,6 +371,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	public void OnDespawnServer(DespawnInfo info)
 	{
+		Spawn.ServerPrefab(currentState.LootDrop, gameObject.RegisterTile().WorldPositionServer);
 		UnSubscribeFromSwitchEvent();
 	}
 
