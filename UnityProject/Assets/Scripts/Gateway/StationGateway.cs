@@ -29,9 +29,7 @@ public class StationGateway : NetworkBehaviour
 
 	protected bool SpawnedMobs = false;
 
-	[SerializeField]
 	private int RandomCountBegining = 300; //Defaults to between 5 and 20 mins gate will open.
-	[SerializeField]
 	private int RandomCountEnd = 1200;
 
 	protected RegisterTile registerTile;
@@ -124,6 +122,7 @@ public class StationGateway : NetworkBehaviour
 		Position = registerTile.WorldPosition;
 		SubSceneManager.RegisterStationGateway(this);
 		ServerChangeState(false);
+		bool loadNormally = true;
 		if (Application.isEditor)
 		{
 #if UNITY_EDITOR
@@ -131,29 +130,24 @@ public class StationGateway : NetworkBehaviour
 			{
 				if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
 				{
-					if(SubSceneManager.Instance.awayWorldList.AwayWorlds.Contains(EditorPrefs.GetString("prevEditorScene")))
+					if (SubSceneManager.Instance.awayWorldList.AwayWorlds.Contains(
+						EditorPrefs.GetString("prevEditorScene")))
 					{
+						loadNormally = false;
 						//This will ensure that the gateway is ready in 30 seconds
 						//if you are working on an awaysite in the editor
 						WaitTimeBeforeActivation = 30f;
 					}
 				}
-				else
-				{
-					WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
-				}
-			}
-			else
-			{
-				WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
 			}
 #endif
 		}
-		else
+
+		if(loadNormally)
 		{
 			WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
 		}
-
+		
 		Invoke(nameof(ConnectToWorld), WaitTimeBeforeActivation);
 	}
 

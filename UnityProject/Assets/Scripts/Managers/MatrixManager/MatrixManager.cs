@@ -63,7 +63,7 @@ public partial class MatrixManager : MonoBehaviour
 		while (Instance.spaceMatrix == null || Instance.mainStationMatrix == null)
 		{
 			waitingTime += Time.deltaTime;
-			if (waitingTime > 5f)
+			if (waitingTime > 30f)
 			{
 				Logger.LogError("No Space matrix or MainStation matrix was found. " +
 				                "You need to load a matrix that is set to " +

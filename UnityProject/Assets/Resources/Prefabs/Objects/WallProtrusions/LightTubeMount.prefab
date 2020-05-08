@@ -138,7 +138,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.0029535145, y: 0.4399779}
+  m_Offset: {x: -0.002953514, y: 0.4399779}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -246,7 +246,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverSpawned: 0
   isDirty: 1
   sceneId: 0
   serverOnly: 0
@@ -265,7 +264,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isDebug: 0
   InitialDirection: 3
   onEditorDirectionChange:
     m_PersistentCalls:
@@ -351,12 +349,16 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   relatedLightSwitch: {fileID: 0}
-  isDebug: 0
   InitialState: 1
   mLightRendererObject: {fileID: 0}
   isWithoutSwitch: 0
   spriteRenderer: {fileID: 212685610322283746}
   spriteRendererLightOn: {fileID: 3971560341310276896}
+  boxColl: {fileID: 61106100713950454}
+  collDownSetting: {x: -0.002953514, y: 0.4399779, z: 0.8101374, w: 0.1451301}
+  collRightSetting: {x: -0.4367488, y: 0.004612446, z: 0.1316223, w: 0.754337}
+  collUpSetting: {x: 0.002267361, y: -0.4372666, z: 0.7500607, w: 0.1225356}
+  collLeftSetting: {x: 0.432503, y: -0.0007662773, z: 0.1366786, w: 0.7304379}
   spritesStateOnEffect: {fileID: 11400000, guid: eb6855ff2551ddc4abe1b264ca4bbb52,
     type: 2}
   mountStatesMachine: {fileID: 11400000, guid: 2049efbecd5fb44478e9830e1b970f84, type: 2}

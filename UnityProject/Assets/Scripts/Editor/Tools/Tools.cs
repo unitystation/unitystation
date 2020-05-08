@@ -24,6 +24,8 @@ public class Tools : Editor
 		{
 			if(allDirs[i].onEditorDirectionChange != null)
 				allDirs[i].onEditorDirectionChange.Invoke();
+
+			allDirs[i].transform.localEulerAngles = Vector3.zero;
 		}
 
 		Debug.Log($"Refreshed {allDirs.Length} directionals");

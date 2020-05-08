@@ -35,7 +35,11 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private Integrity integrity;
 	private Directional directional;
 
-
+	[SerializeField] private BoxCollider2D boxColl;
+	[SerializeField] private Vector4 collDownSetting;
+	[SerializeField] private Vector4 collRightSetting;
+	[SerializeField] private Vector4 collUpSetting;
+	[SerializeField] private Vector4 collLeftSetting;
 	[SerializeField] private SpritesDirectional spritesStateOnEffect;
 	[SerializeField] private SOLightMountStatesMachine mountStatesMachine;
 	private SOLightMountState currentState;
@@ -139,6 +143,37 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		var state = mountStatesMachine.LightMountStates[LightMountState.On];
 		spriteRenderer.sprite = state.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
 		spriteRendererLightOn.sprite = spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+		RefreshBoxCollider();
+	}
+
+	public void RefreshBoxCollider()
+	{
+		directional = GetComponent<Directional>();
+		Vector2 offset = Vector2.zero;
+		Vector2 size = Vector2.zero;
+
+		switch (directional.CurrentDirection.AsEnum())
+		{
+			case OrientationEnum.Down:
+				offset = new Vector2(collDownSetting.x, collDownSetting.y);
+				size = new Vector2(collDownSetting.z, collDownSetting.w);
+				break;
+			case OrientationEnum.Right:
+				offset = new Vector2(collRightSetting.x, collRightSetting.y);
+				size = new Vector2(collRightSetting.z, collRightSetting.w);
+				break;
+			case OrientationEnum.Up:
+				offset = new Vector2(collUpSetting.x, collUpSetting.y);
+				size = new Vector2(collUpSetting.z, collUpSetting.w);
+				break;
+			case OrientationEnum.Left:
+				offset = new Vector2(collLeftSetting.x, collLeftSetting.y);
+				size = new Vector2(collLeftSetting.z, collLeftSetting.w);
+				break;
+		}
+
+		boxColl.offset = offset;
+		boxColl.size = size;
 	}
 
 	private void SetSprites()

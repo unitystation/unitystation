@@ -100,7 +100,6 @@ GameObject:
   - component: {fileID: 1452751339543537213}
   - component: {fileID: 57138462155673126}
   - component: {fileID: 6971350107984356223}
-  - component: {fileID: 4286596573005730951}
   - component: {fileID: -2852385006568255146}
   m_Layer: 19
   m_Name: Camera
@@ -149,7 +148,7 @@ BoxCollider2D:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_UsedByEffector: 0
-  m_UsedByComposite: 1
+  m_UsedByComposite: 0
   m_Offset: {x: -0.3451538, y: 0.30499268}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
@@ -277,6 +276,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
 --- !u!114 &57138462155673126
@@ -311,19 +313,6 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
---- !u!114 &4286596573005730951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000014018295980}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a1123c5b215682469419ae00eb87e39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabChildrenOrientation: 3
 --- !u!114 &-2852385006568255146
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -336,6 +325,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0

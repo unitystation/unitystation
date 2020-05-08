@@ -68,7 +68,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.23747547, y: 0.2779311}
+  m_Size: {x: 0.2374755, y: 0.2779311}
   m_EdgeRadius: 0
 --- !u!114 &895131165705544335
 MonoBehaviour:
@@ -165,7 +165,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  serverSpawned: 0
   isDirty: 1
   sceneId: 0
   serverOnly: 0
@@ -196,7 +195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isDebug: 0
   InitialDirection: 3
   onEditorDirectionChange:
     m_PersistentCalls:
@@ -270,12 +268,16 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   relatedLightSwitch: {fileID: 0}
-  isDebug: 0
   InitialState: 1
   mLightRendererObject: {fileID: 0}
   isWithoutSwitch: 0
   spriteRenderer: {fileID: 212082969356704250}
   spriteRendererLightOn: {fileID: 6796822836624601522}
+  boxColl: {fileID: 61294264368354326}
+  collDownSetting: {x: 0, y: 0.3642767, z: 0.2374755, w: 0.2779311}
+  collRightSetting: {x: -0.3346747, y: -0.001173973, z: 0.3067206, w: 0.3087062}
+  collUpSetting: {x: 0, y: -0.3396958, z: 0.3144149, w: 0.3010119}
+  collLeftSetting: {x: 0.3462151, y: 0.008443832, z: 0.3144129, w: 0.304859}
   spritesStateOnEffect: {fileID: 11400000, guid: 726dca084060d4241bf0ffddd39509fe,
     type: 2}
   mountStatesMachine: {fileID: 11400000, guid: 3bd2d676f24e6864dbff58a5436afb74, type: 2}
