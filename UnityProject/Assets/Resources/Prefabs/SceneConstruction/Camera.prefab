@@ -538,6 +538,7 @@ GameObject:
   - component: {fileID: 5935000786866830145}
   - component: {fileID: 1578675351978633491}
   - component: {fileID: 1620099701739618863}
+  - component: {fileID: 8833532125410417946}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -727,6 +728,7 @@ MonoBehaviour:
   drunkCamera: {fileID: 5935000786866830145}
   glitchEffect: {fileID: 1578675351978633491}
   nightVisionCamera: {fileID: 1620099701739618863}
+  hologramCamera: {fileID: 8833532125410417946}
 --- !u!114 &5935000786866830145
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -772,6 +774,19 @@ MonoBehaviour:
   shader: {fileID: 4800000, guid: 521fac50d43d6dc41bd4ce7d10d09317, type: 3}
   luminance: 0.44
   lensRadius: 0.84
+--- !u!114 &8833532125410417946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1365047106309440}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5e399706da8bda4781957cc4a3cdfe4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  material: {fileID: 2100000, guid: 303d66cd6a755c24e8302a2ccaffaef9, type: 2}
 --- !u!1 &1456048741972242
 GameObject:
   m_ObjectHideFlags: 0
