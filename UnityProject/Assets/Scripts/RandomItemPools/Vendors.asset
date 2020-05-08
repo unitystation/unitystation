@@ -10,22 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
-  m_Name: CommonMedicalNChemical
+  m_Name: Vendors
   m_EditorClassIdentifier: 
   pool:
-  - prefab: {fileID: 7188868217503671157, guid: fc35b50e497fc8d469ec0c0e7abc9cdb,
-      type: 3}
+  - prefab: {fileID: 1000013211423706, guid: 4daca0798d5c497ab90cedc4b1d0afe0, type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 2419386692754613975, guid: 72539a60f847bd248bec932a82058e0b,
-      type: 3}
+  - prefab: {fileID: 1093139424532032, guid: f287a880e85744218878407f6c4dff3d, type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 8582594776399167655, guid: 5eb15adcfc6eff74587417fd1e12310e,
-      type: 3}
-    maxAmount: 1
-    probability: 0
-  - prefab: {fileID: 2303393086579293408, guid: 2aadd00fd99ff354ba118dcaaf5e7cb1,
-      type: 3}
+  - prefab: {fileID: 1098428341378092, guid: 0c59c3d4211674eefabe0f4cafc8fcc3, type: 3}
     maxAmount: 1
     probability: 100

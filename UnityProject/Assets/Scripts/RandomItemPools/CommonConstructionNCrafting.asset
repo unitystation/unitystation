@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CommonConstructionNCrafting
   m_EditorClassIdentifier: 
   pool:
-  - prefab: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+  - prefab: {fileID: 4435676122793348777, guid: c567e6c3b003a2b488534a8766866cb0,
       type: 3}
     maxAmount: 5
     probability: 100
@@ -40,4 +40,12 @@ MonoBehaviour:
   - prefab: {fileID: 3506820747392627008, guid: 1fa9f2d6fbcfef845bb2f5903ffcfd23,
       type: 3}
     maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4433336198165141055, guid: 827dad187b7a6e449b5b73aa0e691a38,
+      type: 3}
+    maxAmount: 5
+    probability: 100
+  - prefab: {fileID: 4019383695740491213, guid: 930cb494644d9ed46b31e1ecf4222089,
+      type: 3}
+    maxAmount: 5
     probability: 100

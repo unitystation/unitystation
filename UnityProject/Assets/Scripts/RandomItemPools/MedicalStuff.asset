@@ -10,22 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
-  m_Name: CommonMedicalNChemical
+  m_Name: MedicalStuff
   m_EditorClassIdentifier: 
   pool:
-  - prefab: {fileID: 7188868217503671157, guid: fc35b50e497fc8d469ec0c0e7abc9cdb,
+  - prefab: {fileID: 6748581008247049004, guid: 13186a514a60194429e94407b6cf1e0a,
       type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 2419386692754613975, guid: 72539a60f847bd248bec932a82058e0b,
+  - prefab: {fileID: 6748581008247049004, guid: 764cc89fcad4df74f92d294e87d2a8de,
+      type: 3}
+    maxAmount: 0
+    probability: 100
+  - prefab: {fileID: 6373161644663410599, guid: 47e758de6e8330e8ba5c0cf96801afa8,
       type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 8582594776399167655, guid: 5eb15adcfc6eff74587417fd1e12310e,
+  - prefab: {fileID: 8635195139948178778, guid: cca30c35e7468cb83adec4278a0ba57e,
       type: 3}
     maxAmount: 1
-    probability: 0
-  - prefab: {fileID: 2303393086579293408, guid: 2aadd00fd99ff354ba118dcaaf5e7cb1,
+    probability: 100
+  - prefab: {fileID: 3011710637427380133, guid: 091e9109cd71d5c4f9760883e85fe866,
       type: 3}
     maxAmount: 1
     probability: 100
