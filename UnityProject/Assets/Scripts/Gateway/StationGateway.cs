@@ -147,7 +147,7 @@ public class StationGateway : NetworkBehaviour
 		{
 			WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
 		}
-		
+
 		Invoke(nameof(ConnectToWorld), WaitTimeBeforeActivation);
 	}
 
