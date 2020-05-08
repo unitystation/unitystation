@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 1105258743114886135}
   - component: {fileID: 114960620051331706}
   - component: {fileID: 8224268276445300722}
+  - component: {fileID: 4509690511415981971}
   m_Layer: 31
   m_Name: Ghost
   m_TagString: Untagged
@@ -76,35 +77,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  characterSettings:
-    username: 
-    Name: Cuban Pete
-    Gender: 0
-    Clothing: 0
-    Backpack: 0
-    Age: 22
-    hairStyleOffset: -1
-    hairStyleName: Bald
-    hairCollectionIndex: 4
-    hairColor: black
-    eyeColor: black
-    facialHairOffset: -1
-    facialHairName: Shaved
-    facialHairCollectionIndex: 4
-    facialHairColor: black
-    skinTone: '#ffe0d1'
-    underwearOffset: 20
-    underwearName: Mankini
-    underwearCollectionIndex: 1
-    socksOffset: 376
-    socksName: Knee-High (Freedom)
-    socksCollectionIndex: 3
-    headSpriteIndex: 20
-    torsoSpriteIndex: 28
-    rightLegSpriteIndex: 12
-    leftLegSpriteIndex: 16
-    rightArmSpriteIndex: 4
-    leftArmSpriteIndex: 8
   playerName: ' '
   visibleName: ' '
 --- !u!114 &3553771700973194240
@@ -156,7 +128,6 @@ MonoBehaviour:
   actionData: {fileID: 0}
   moveList: 05000000060000000700000008000000
   pna: {fileID: 0}
-  InitialRunSpeed: 6
   RunSpeed: 10
   WalkSpeed: 10
   CrawlSpeed: 0.8
@@ -206,6 +177,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -284,6 +256,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -299,3 +272,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 859b05c4e8c945cf932ff3427e9102df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4509690511415981971
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4390267312333422610}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

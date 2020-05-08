@@ -59,7 +59,8 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	void UpdateMe()
 	{
 		//Server Only:
-		if (CustomNetworkManager.IsServer && !canBreathAnywhere)
+		if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
+		                                  && !canBreathAnywhere)
 		{
 			tick += Time.deltaTime;
 			if (tick >= tickRate)

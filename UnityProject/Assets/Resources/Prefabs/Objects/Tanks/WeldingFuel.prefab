@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114663309010729824}
   - component: {fileID: 3065337277714499866}
   - component: {fileID: -4444550712224746429}
+  - component: {fileID: 7458561619098169524}
   m_Layer: 11
   m_Name: WeldingFuel
   m_TagString: Untagged
@@ -345,7 +346,7 @@ MonoBehaviour:
   ExamineContent: 0
   maxCapacity: 3000
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
-  reagentMix:
+  initialReagentMix:
     temperature: 273.15
     reagents:
       m_keys:
@@ -359,3 +360,18 @@ MonoBehaviour:
   transferMode: 2
   possibleTransferAmounts: []
   transferAmount: 20
+--- !u!114 &7458561619098169524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942658981970304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

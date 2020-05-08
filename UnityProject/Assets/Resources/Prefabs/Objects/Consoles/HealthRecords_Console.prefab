@@ -117,6 +117,7 @@ GameObject:
   - component: {fileID: 114341795367230546}
   - component: {fileID: 114084463108243954}
   - component: {fileID: -4655658727303916461}
+  - component: {fileID: 8830777886858929861}
   m_Layer: 11
   m_Name: HealthRecords_Console
   m_TagString: Untagged
@@ -364,6 +365,21 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &8830777886858929861
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629775996022798}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1866982737474172
 GameObject:
   m_ObjectHideFlags: 0

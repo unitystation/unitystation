@@ -24,7 +24,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7376449702610727336}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -94,12 +94,12 @@ GameObject:
   - component: {fileID: 7478891196200289026}
   - component: {fileID: 7571823052708131370}
   - component: {fileID: 114868527810879464}
-  - component: {fileID: 114475937421885612}
   - component: {fileID: 114590610092742494}
   - component: {fileID: 114876689548865824}
   - component: {fileID: 8501056774758602355}
   - component: {fileID: 5660917725002937973}
-  - component: {fileID: 6176806834439654894}
+  - component: {fileID: -4418713798417396037}
+  - component: {fileID: 2691259544973863778}
   m_Layer: 18
   m_Name: RDirectionalWindow
   m_TagString: Untagged
@@ -195,20 +195,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   butcherTime: 2
   butcherSound: BladeSlice
---- !u!114 &114475937421885612
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7376449702682419346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
-  ignoreExtraRotation: []
 --- !u!114 &114590610092742494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,10 +285,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  InitialDirection: 3
+  InitialDirection: 0
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
---- !u!114 &6176806834439654894
+--- !u!114 &-4418713798417396037
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -311,7 +300,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 7376449702682419346}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a1123c5b215682469419ae00eb87e39, type: 3}
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2691259544973863778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376449702682419346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ef29d99a5454a14adc8bc2fc865b8e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   prefabChildrenOrientation: 3

@@ -55,13 +55,13 @@ public class PlayerManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 		EventManager.AddHandler(EVENT.PlayerDied, OnPlayerDeath);
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 		EventManager.RemoveHandler(EVENT.PlayerDied, OnPlayerDeath);
 		PlayerPrefs.Save();
 	}
@@ -74,7 +74,7 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
 		Reset();
 	}

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -37,7 +38,7 @@ public class DefaultPlantData : ScriptableObject
 	}
 
 	public void Awake()
-	{	
+	{
 #if UNITY_EDITOR
 		{
 			if (DefaultPlantDataSOs.Instance == null)
@@ -58,10 +59,15 @@ public class DefaultPlantData : ScriptableObject
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded -= OnSceneLoaded;
-		SceneManager.sceneLoaded += OnSceneLoaded;
+		SceneManager.activeSceneChanged += OnSceneLoaded;
 	}
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneLoaded;
+	}
+
+	void OnSceneLoaded(Scene scene, Scene newScene)
 	{
 
 		InitializePool();

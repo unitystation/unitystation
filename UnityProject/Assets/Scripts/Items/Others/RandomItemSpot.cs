@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
@@ -19,10 +20,11 @@ namespace Items
 
 		public override void OnStartServer()
 		{
-			RollRandomPool();
+			var registerTile = GetComponent<RegisterTile>();
+			registerTile.WaitForMatrixInit(RollRandomPool);
 		}
 
-		private void RollRandomPool()
+		private void RollRandomPool(MatrixInfo matrixInfo)
 		{
 			for (int i = 0; i <= lootCount; i++)
 			{
@@ -52,8 +54,6 @@ namespace Items
 
 				SpawnItems(pool);
 			}
-
-			Destroy(gameObject);
 		}
 
 		private void SpawnItems(PoolData poolData)
