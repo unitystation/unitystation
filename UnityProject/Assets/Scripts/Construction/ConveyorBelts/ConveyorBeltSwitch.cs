@@ -6,7 +6,7 @@ using Mirror;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlaveMultiMaster
 {
 	public SpriteRenderer spriteRenderer;
 
@@ -182,4 +182,20 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 		Forward = 1,
 		Backward = 2
 	}
+	//######################################## Multitool interaction ##################################
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.Conveyor;
+	public MultitoolConnectionType ConType  => conType;
+
+	public void SetMasters( List<ISetMultitoolMaster> Imasters)
+	{
+		List<ConveyorBelt> InnewConveyorBelts = new List<ConveyorBelt>();
+		foreach (var Conveyor in Imasters)
+		{
+			InnewConveyorBelts.Add(Conveyor as ConveyorBelt);
+		}
+		AddConveyorBelt(InnewConveyorBelts);
+	}
+
+
 }

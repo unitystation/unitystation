@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Atmospherics;
 
-public class Scrubber : AdvancedPipe
+public class Scrubber : AdvancedPipe, IAPCPowered
 {
 	// minimum pressure needs to be a little higher because of floating point inaccuracies
 	public float MinimumPressure = 101.3251f;
 	private MetaDataNode metaNode;
 	private MetaDataLayer metaDataLayer;
+	private PowerStates CurrentState;
 
 	public override bool ServerAttach()
 	{
@@ -31,7 +32,10 @@ public class Scrubber : AdvancedPipe
 		base.TickUpdate();
 		if (anchored)
 		{
-			CheckAtmos();
+			if (APCPoweredDevice.IsOn(CurrentState))
+			{
+				CheckAtmos();
+			}
 		}
 	}
 
@@ -52,6 +56,15 @@ public class Scrubber : AdvancedPipe
 			metaNode.GasMix -= suckedAir;
 			metaDataLayer.UpdateSystemsAt(RegisterTile.LocalPositionServer);
 		}
+	}
+
+	void IAPCPowered.PowerNetworkUpdate(float Voltage)
+	{
+	}
+
+	void IAPCPowered.StateUpdate(PowerStates State)
+	{
+		CurrentState = State;
 	}
 
 }

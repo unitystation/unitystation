@@ -86,7 +86,19 @@ public class GUI_Vendor : NetTab
 	/// </summary>
 	private void UpdateItemView(VendorItem itemToUpdate)
 	{
-		if (!vendor)
+		if (item == null || vendor == null) return;
+		if (!APCPoweredDevice.IsOn(vendor.CurrentPowerState))  return;
+		VendorItem itemToSpawn = null;
+		foreach (var vendorItem in vendorContent)
+		{
+			if (vendorItem == item)
+			{
+				itemToSpawn = item;
+				break;
+			}
+		}
+
+		if (!CanSell(itemToSpawn))
 		{
 			return;
 		}

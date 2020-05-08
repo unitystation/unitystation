@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,12 +7,21 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 {
 	public bool StartOnStartUp = false;
 
-	public float current = 0;
+	[HideInInspector]
 	public float Previouscurrent = 0;
-	public float SupplyingVoltage = 0;
+	public float current = 0;
+
+	[HideInInspector]
 	public float PreviousSupplyingVoltage = 0;
+	public float SupplyingVoltage = 0;
+
+	[HideInInspector]
 	public float PreviousInternalResistance = 0;
 	public float InternalResistance = 0;
+
+	[HideInInspector]
+	public float PreviousProducingWatts = 0;
+	public float ProducingWatts = 0;
 
 	public Current CurrentSource = new Current();
 
@@ -101,7 +111,11 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 	}
 	public override void PowerNetworkUpdate()
 	{
-		if (current != Previouscurrent | SupplyingVoltage != PreviousSupplyingVoltage | InternalResistance != PreviousInternalResistance)
+		if (
+			current != Previouscurrent
+		    || SupplyingVoltage != PreviousSupplyingVoltage
+		    || InternalResistance != PreviousInternalResistance
+		    || ProducingWatts != PreviousProducingWatts)
 		{
 			ControllingNode.Node.InData.Data.SupplyingCurrent = current;
 			Previouscurrent = current;
@@ -111,6 +125,9 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 
 			ControllingNode.Node.InData.Data.InternalResistance = InternalResistance;
 			PreviousInternalResistance = InternalResistance;
+
+			ControllingNode.Node.InData.Data.ProducingWatts = ProducingWatts;
+			PreviousProducingWatts = ProducingWatts;
 
 			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode.Node.InData.ControllingDevice);
 		}
