@@ -3,16 +3,11 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
-using Lighting;
 using NUnit.Framework;
 using UnityEditor;
-using UnityEditor.SceneManagement;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Tests
 {
-	[Serializable]
 	public class SubsceneTests
 	{
 		[Test]
@@ -75,6 +70,9 @@ namespace Tests
 			}
 		}
 
+		/// <summary>
+		/// Get the GUID for the provided Type of ScriptableObject, expects only one to exist, writes errors to the StringBuilder.
+		/// </summary>
 		bool TryGetScriptableObjectGUID(Type scriptableObjectType, StringBuilder sb, out string assetGUID)
 		{
 			assetGUID = string.Empty;
@@ -84,13 +82,13 @@ namespace Tests
 
 			if (!asset.Any())
 			{
-				sb.AppendLine($"{typeString}: Could not locate {typeString}");
+				sb.AppendLine($"{typeString}: Could not locate {typeString}.");
 				return false;
 			}
 
 			if (asset.Length > 1)
 			{
-				sb.AppendLine($"{typeString}: More than one {typeString} exists");
+				sb.AppendLine($"{typeString}: More than one {typeString} exists.");
 				return false;
 			}
 
@@ -98,6 +96,9 @@ namespace Tests
 			return true;
 		}
 
+		/// <summary>
+		/// Checks that build settings contain all scenes in the provided list and that they are enabled, writes errors to the StringBuilder.
+		/// </summary>
 		bool CheckForScenesInBuildSettings(Type scriptableObjectType, StringBuilder sb, List<string> scenesToCheck)
 		{
 			Dictionary<string, EditorBuildSettingsScene> buildSettingFiles = new Dictionary<string, EditorBuildSettingsScene>();
@@ -112,13 +113,13 @@ namespace Tests
 				if (!buildSettingFiles.TryGetValue(scene, out var buildScene))
 				{
 					success = false;
-					sb.AppendLine($"{typeString}: {scene} scene is not in the Build Settings list");
+					sb.AppendLine($"{typeString}: {scene} scene is not in the Build Settings list.");
 					continue;
 				}
 				else if (!buildScene.enabled)
 				{
 					success = false;
-					sb.AppendLine($"{typeString}: {scene} scene is not enabled in the Build Settings list");
+					sb.AppendLine($"{typeString}: {scene} scene is not enabled in the Build Settings list.");
 					continue;
 				}
 			}
