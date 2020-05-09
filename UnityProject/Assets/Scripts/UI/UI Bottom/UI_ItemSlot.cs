@@ -229,6 +229,11 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 					secondaryImage.color = spriteRends[1].color;
 				}
 			}
+			else
+			{
+				// reset from prev secondary image
+				SetSecondaryImage(null);
+			}
 
 			//determine if we should show an amount
 			var stack = item.GetComponent<Stackable>();

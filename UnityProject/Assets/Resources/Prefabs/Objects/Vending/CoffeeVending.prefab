@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 2465683597721563053}
   - component: {fileID: -3117573811729022983}
   m_Layer: 11
-  m_Name: vending_0
+  m_Name: CoffeeVending
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -123,9 +123,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VendorContent:
-  - Item: {fileID: 6602018046170396259, guid: 6744be6888ba21549a52eefcc270e0d5, type: 3}
+  - Item: {fileID: 4979961816922530936, guid: d6be48f0b2535c34db63e050f6424259, type: 3}
     Stock: 5
-  - Item: {fileID: 6602018046170396259, guid: 39e20df1f39056c4b84baec3bf74fb5c, type: 3}
+  - Item: {fileID: 6618353530657536621, guid: 35f78c76766179044a32dbd9e20e5c46, type: 3}
     Stock: 5
   HullColor: {r: 0.39607844, g: 0.52156866, b: 0.27450982, a: 1}
   EjectObjects: 0

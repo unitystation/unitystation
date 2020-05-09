@@ -1,16 +1,11 @@
 {
-    "name": "Assets",
+    "name": "Utils.Editor",
     "references": [
-        "Mirror",
-        "Mirror.Components",
-        "Unity.TextMeshPro",
-        "Chemistry",
-        "YamlDotNet",
-        "SerializableDictionary",
-        "NaughtyAttributes.Core",
-        "Utils"
+        "GUID:5593ec335d746491fb1ea3a708c576c2"
     ],
-    "includePlatforms": [],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
