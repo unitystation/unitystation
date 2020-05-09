@@ -1,6 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DatabaseAPI;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -12,35 +12,43 @@ namespace AdminTools
 		[SerializeField] private Button banBtn;
 		[SerializeField] private Button deputiseBtn = null;
 		[SerializeField] private Button respawnBtn = null;
-
+		[SerializeField] private Button respawnAsBtn = null;
+		[SerializeField] private Dropdown adminJobsDropdown = null;
+		[ReorderableList][SerializeField] private List<Occupation> availableAdminJobs = null;
 		private AdminPlayerEntry playerEntry;
 
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
 		{
 			base.OnPageRefresh(adminPageData);
+
+			var optionData = new List<Dropdown.OptionData>
+			{
+				new Dropdown.OptionData
+				{
+					text = "Select an admin job..."
+				}
+			};
+
+			foreach (var job in availableAdminJobs)
+			{
+				optionData.Add(new Dropdown.OptionData
+				{
+					text = job.DisplayName
+				});
+			}
+
+			adminJobsDropdown.value = 0;
+			adminJobsDropdown.options = optionData;
 		}
 
 		public void SetData(AdminPlayerEntry entry)
 		{
 			playerEntry = entry;
-
-			if (entry.PlayerData.isAdmin)
-			{
-				deputiseBtn.interactable = false;
-			}
-			else
-			{
-				deputiseBtn.interactable = true;
-			}
-
-			if (playerEntry.PlayerData.isAlive)
-			{
-				respawnBtn.interactable = false;
-			}
-			else
-			{
-				respawnBtn.interactable = true;
-			}
+			deputiseBtn.interactable = !entry.PlayerData.isAdmin;
+			respawnBtn.interactable = !playerEntry.PlayerData.isAlive;
+			respawnAsBtn.interactable = !playerEntry.PlayerData.isAlive &&
+			                            adminJobsDropdown.value != 0;
+			adminJobsDropdown.interactable = !playerEntry.PlayerData.isAlive;
 		}
 
 		public void OnKickBtn()
@@ -63,6 +71,17 @@ namespace AdminTools
 			adminTools.areYouSurePage.SetAreYouSurePage($"Respawn the player: {playerEntry.PlayerData.name}?", SendPlayerRespawnRequest);
 		}
 
+		public void OnRespawnAsButton()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage($"Respawn the player: {playerEntry.PlayerData.name}?", SendPlayerRespawnAsRequest);
+		}
+
+		public void OnDropdownValueChanged()
+		{
+			respawnAsBtn.interactable = !playerEntry.PlayerData.isAlive &&
+			                            adminJobsDropdown.value != 0;
+		}
+
 		void SendMakePlayerAdminRequest()
 		{
 			RequestAdminPromotion.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerEntry.PlayerData.uid);
@@ -72,6 +91,23 @@ namespace AdminTools
 		void SendPlayerRespawnRequest()
 		{
 			RequestRespawnPlayer.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerEntry.PlayerData.uid);
+			RefreshPage();
+		}
+
+		void SendPlayerRespawnAsRequest()
+		{
+			var value = adminJobsDropdown.value;
+			var occupation = value != 0
+				? availableAdminJobs[value - 1]
+				: availableAdminJobs.PickRandom(); //Just a safe value in case for whatever reason
+			//                                       user didn't select a job and can click the button
+
+			RequestRespawnPlayer.SendAdminJob(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				playerEntry.PlayerData.uid,
+				occupation);
+
 			RefreshPage();
 		}
 	}

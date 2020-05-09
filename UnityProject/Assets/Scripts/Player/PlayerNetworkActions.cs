@@ -474,8 +474,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerRespawnPlayer()
+	public void ServerRespawnPlayer(string occupation = null)
 	{
+		if (occupation != null)
+		{
+			playerScript.mind.occupation = Resources.Load<Occupation>($"ScriptableObjects/Occupations/"+occupation);
+		}
+
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
