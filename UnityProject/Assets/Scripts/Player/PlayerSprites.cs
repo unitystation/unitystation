@@ -15,6 +15,7 @@ public class PlayerSprites : MonoBehaviour
 {
 	private static GameObject ENGULFED_BURNING_OVERLAY_PREFAB;
 	private static GameObject PARTIAL_BURNING_OVERLAY_PREFAB;
+	private static GameObject ELECTROCUTED_OVERLAY_PREFAB;
 
 	/// <summary>
 	/// Threshold value where we switch from partial burning to fully engulfed sprite.
@@ -35,6 +36,7 @@ public class PlayerSprites : MonoBehaviour
 	private Directional directional;
 	private PlayerDirectionalOverlay engulfedBurningOverlay;
 	private PlayerDirectionalOverlay partialBurningOverlay;
+	private PlayerDirectionalOverlay electrocutedOverlay;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private PlayerScript playerScript;
 	private PlayerHealth playerHealth;
@@ -66,6 +68,7 @@ public class PlayerSprites : MonoBehaviour
 		{
 			ENGULFED_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("EngulfedBurningPlayer");
 			PARTIAL_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("PartialBurningPlayer");
+			ELECTROCUTED_OVERLAY_PREFAB = Resources.Load<GameObject>("ElectrocutedHumanoid");
 		}
 
 		AddOverlayGameObjects();
@@ -91,6 +94,12 @@ public class PlayerSprites : MonoBehaviour
 			partialBurningOverlay = Instantiate(PARTIAL_BURNING_OVERLAY_PREFAB, transform).GetComponent<PlayerDirectionalOverlay>();
 			partialBurningOverlay.enabled = true;
 			partialBurningOverlay.StopOverlay();
+		}
+		if (electrocutedOverlay == null)
+		{
+			electrocutedOverlay = Instantiate(ELECTROCUTED_OVERLAY_PREFAB, transform).GetComponent<PlayerDirectionalOverlay>();
+			electrocutedOverlay.enabled = true;
+			electrocutedOverlay.StopOverlay();
 		}
 	}
 
@@ -221,6 +230,30 @@ public class PlayerSprites : MonoBehaviour
 		}
 
 		UpdateBurningOverlays(livingHealthBehaviour.FireStacks, direction);
+		UpdateElectrocutionOverlay(direction);
+	}
+
+	/// <summary>
+	/// Toggle the electrocuted overlay for the player's mob. Assumes player mob is humanoid.
+	/// </summary>
+	public void ToggleElectrocutedOverlay()
+	{
+		if (electrocutedOverlay.OverlayActive)
+		{
+			electrocutedOverlay.StopOverlay();
+		}
+		else
+		{
+			electrocutedOverlay.StartOverlay(directional.CurrentDirection);
+		}
+	}
+
+	private void UpdateElectrocutionOverlay(Orientation currentFacing)
+	{
+		if (electrocutedOverlay.OverlayActive)
+		{
+			electrocutedOverlay.StartOverlay(currentFacing);
+		}
 	}
 
 	/// <summary>
