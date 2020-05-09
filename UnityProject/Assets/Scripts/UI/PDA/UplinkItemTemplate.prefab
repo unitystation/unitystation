@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 4661235868425514609}
   - component: {fileID: 6685384189630216008}
   - component: {fileID: 1672183379216618590}
-  - component: {fileID: 8613641553165632006}
+  - component: {fileID: 4486016253168051808}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -201,12 +201,12 @@ MonoBehaviour:
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8613641553165632006}
-        m_MethodName: 
+      - m_Target: {fileID: 4486016253168051808}
+        m_MethodName: SelectItem
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -248,7 +248,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &8613641553165632006
+--- !u!114 &4486016253168051808
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,9 +257,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 2147857638827982853}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7b42b57a53757c975a9f31e2182fde8e, type: 3}
+  m_Script: {fileID: 11500000, guid: 6448201a7d544f05294272189fdb3241, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  itemName: {fileID: 7043767399217298467}
+  itemCost: {fileID: 709517743832500335}
 --- !u!1 &2272825202886530719
 GameObject:
   m_ObjectHideFlags: 0
