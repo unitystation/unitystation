@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1721604302402341619}
   - component: {fileID: 1567170016700135650}
   - component: {fileID: 1140414460732144086}
+  - component: {fileID: -7731008137819855807}
   m_Layer: 19
   m_Name: Poster
   m_TagString: Untagged
@@ -111,6 +112,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &2005314267733314395
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127,6 +129,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &842841108259978593
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,7 +157,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &7154680421102874471
@@ -691,7 +693,8 @@ MonoBehaviour:
     PosterName: 83
     Type: 1
   - Name: Bounty Hunters
-    Description: A poster advertising bounty hunting services. "I hear you got a problem."
+    Description: A poster advertising bounty hunting services. "I hear you got a
+      problem."
     Icon: poster47
     sprite: {fileID: 0}
     PosterName: 84
@@ -718,6 +721,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -751,10 +755,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1915794502
 --- !u!114 &1140414460732144086
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -771,6 +775,21 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 0
+--- !u!114 &-7731008137819855807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5466995241280763689}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &5583455716784618316
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,6 +835,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

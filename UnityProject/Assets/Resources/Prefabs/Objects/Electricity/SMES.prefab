@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -102,6 +103,8 @@ GameObject:
   - component: {fileID: 114897658894920132}
   - component: {fileID: 114429980035310924}
   - component: {fileID: 3432798136324343086}
+  - component: {fileID: -3958875245984225180}
+  - component: {fileID: 2733088097871749730}
   m_Layer: 11
   m_Name: SMES
   m_TagString: Untagged
@@ -318,11 +321,11 @@ MonoBehaviour:
       SupplyingVoltage: 0
       ChangeToOff: 0
       CurrentStoreValue: 0
+    DestroyQueueing: 0
+    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
-  DestroyQueueing: 0
-  DestroyAuthorised: 0
 --- !u!114 &1502216706390324168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +345,9 @@ MonoBehaviour:
     ResistanceAvailable: 1
   EditorResistance: 0
   NotEditorResistanceset: 1
+  RR:
+    Ohms: 0
+    ResistanceAvailable: 1
   ReactionTo:
     ConnectingDevice: 1
     DirectionReaction: 0
@@ -366,6 +372,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModuleType: 0
   ControllingNode: {fileID: 0}
+  StartOnStartUp: 0
   current: 0
   Previouscurrent: 0
   SupplyingVoltage: 0
@@ -423,6 +430,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -462,6 +470,36 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
+--- !u!114 &-3958875245984225180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2733088097871749730
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: bdf456820020fe2479d8ead94758b8f1, type: 2}
+  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+    type: 3}
+  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+    type: 3}
+  secondsToScrewdrive: 2
 --- !u!1 &1610444276709522
 GameObject:
   m_ObjectHideFlags: 0
@@ -507,6 +545,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -587,6 +626,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -667,6 +707,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

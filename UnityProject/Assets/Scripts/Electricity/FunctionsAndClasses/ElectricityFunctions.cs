@@ -5,14 +5,13 @@ using System;
 
 public static class ElectricityFunctions
 {
-	public static HashSet<Vector2> MachineConnectorDirections = new HashSet<Vector2>()
+	public static HashSet<Vector3Int> MachineConnectorDirections = new HashSet<Vector3Int>()
 	{
-		Vector2.up,
-		Vector2.down,
-		Vector2.right,
-		Vector2.left
+		Vector3Int.up,
+		Vector3Int.down,
+		Vector3Int.right,
+		Vector3Int.left
 	};
-
 
 	public static void FindPossibleConnections(Matrix matrix,
 		HashSet<PowerTypeCategory> CanConnectTo,
@@ -21,9 +20,8 @@ public static class ElectricityFunctions
 		HashSet<IntrinsicElectronicData> InPutHashSet)
 	{
 		Vector2 searchVec = OIinheritance.GetLocation();
-		//Location
-		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointA, OIinheritance,InPutHashSet);
-		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointB, OIinheritance,InPutHashSet);
+		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointA, OIinheritance, InPutHashSet);
+		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointB, OIinheritance, InPutHashSet);
 	}
 
 	public static HashSet<IntrinsicElectronicData> SwitchCaseConnections(Vector2 searchVec,
@@ -33,129 +31,144 @@ public static class ElectricityFunctions
 		IntrinsicElectronicData OIinheritance,
 		HashSet<IntrinsicElectronicData> connections)
 	{
-		var Direction = Connection.Overlap;
-		var Position = new Vector3Int();
-		var MachineConnect = false;
+		var searchVecInt = new Vector3Int((int)searchVec.x, (int)searchVec.y, 0);
+
+		{   // LogError Duplicate wires
+			var eConnsAtSearchVec = matrix.GetElectricalConnections(searchVecInt);
+			foreach (var con in eConnsAtSearchVec)
+			{
+				if (OIinheritance != con)
+				{
+					if ((OIinheritance.WireEndA == con.WireEndA && OIinheritance.WireEndB == con.WireEndB) ||
+						(OIinheritance.WireEndA == con.WireEndB && OIinheritance.WireEndB == con.WireEndA))
+					{
+						Logger.LogErrorFormat("{0} < duplicate Please remove {1}",
+							Category.Electrical,
+							searchVecInt,
+							OIinheritance);
+					}
+				}
+			}
+
+			eConnsAtSearchVec.Clear();
+			ElectricalPool.PooledFPCList.Add(eConnsAtSearchVec);
+		}
+
+		// Connect to machine connnectors
+		if (ConnPoints == Connection.MachineConnect)
+		{
+			foreach (var dir in MachineConnectorDirections)
+			{
+				var pos = searchVecInt + dir;
+				var conns = matrix.GetElectricalConnections(pos);
+				foreach (var con in conns)
+				{
+					if (OIinheritance != con && CanConnectTo.Contains(con.Categorytype) &&
+						ConnectionMap.IsConnectedToTile(Connection.MachineConnect, con.GetConnPoints()))
+					{
+						connections.Add(con);
+					}
+				}
+
+				conns.Clear();
+				ElectricalPool.PooledFPCList.Add(conns);
+			}
+			return connections;
+		}
+
+		// Make a vector representing the connection direction
+		Vector3Int connVectorInt;
 		switch (ConnPoints)
 		{
 			case Connection.North:
 			{
-				Direction = Connection.North;
-				Position = new Vector3Int((int) searchVec.x + 0, (int) searchVec.y + 1, 0);
-			}
+				connVectorInt = new Vector3Int(0, 1, 0);
 				break;
+			}
 			case Connection.NorthEast:
 			{
-				Direction = Connection.NorthEast;
-				Position = new Vector3Int((int) searchVec.x + 1, (int) searchVec.y + 1, 0);
-			}
+				connVectorInt = new Vector3Int(1, 1, 0);
 				break;
+			}
 			case Connection.East:
 			{
-				Direction = Connection.East;
-				Position = new Vector3Int((int) searchVec.x + 1, (int) searchVec.y + 0, 0);
-			}
+				connVectorInt = new Vector3Int(1, 0, 0);
 				break;
+			}
 			case Connection.SouthEast:
 			{
-				Direction = Connection.SouthEast;
-				Position = new Vector3Int((int) searchVec.x + 1, (int) searchVec.y - 1, 0);
-			}
+				connVectorInt = new Vector3Int(1, -1, 0);
 				break;
+			}
 			case Connection.South:
 			{
-				Direction = Connection.South;
-				Position = new Vector3Int((int) searchVec.x + 0, (int) searchVec.y - 1, 0);
-			}
+				connVectorInt = new Vector3Int(0, -1, 0);
 				break;
+			}
 			case Connection.SouthWest:
 			{
-				Direction = Connection.SouthWest;
-				Position = new Vector3Int((int) searchVec.x + -1, (int) searchVec.y - 1, 0);
-			}
+				connVectorInt = new Vector3Int(-1, -1, 0);
 				break;
+			}
 			case Connection.West:
 			{
-				Direction = Connection.West;
-				Position = new Vector3Int((int) searchVec.x + -1, (int) searchVec.y + 0, 0);
-			}
+				connVectorInt = new Vector3Int(-1, 0, 0);
 				break;
+			}
 			case Connection.NorthWest:
 			{
-				Direction = Connection.NorthWest;
-				Position = new Vector3Int((int) searchVec.x + -1, (int) searchVec.y + 1, 0);
-			}
+				connVectorInt = new Vector3Int(-1, 1, 0);
 				break;
+			}
 			case Connection.Overlap:
 			{
-				Direction = Connection.Overlap;
-				Position = new Vector3Int((int) searchVec.x + 0, (int) searchVec.y + 0, 0);
-			}
+				connVectorInt = new Vector3Int(0, 0, 0);
 				break;
-			case Connection.MachineConnect:
+			}
+			default:
 			{
-				Direction = Connection.MachineConnect;
-				MachineConnect = true;
+				// No defined behaviour for any other types
+				return connections;
 			}
-				break;
 		}
 
-		var PositionE = new Vector3Int((int) searchVec.x, (int) searchVec.y, 0);
-		var Econns = matrix.GetElectricalConnections(PositionE);
-		foreach (var con in Econns)
-			if (OIinheritance != con)
-				if (OIinheritance.WireEndA == con.WireEndA && OIinheritance.WireEndB == con.WireEndB ||
-				    OIinheritance.WireEndA == con.WireEndB && OIinheritance.WireEndB == con.WireEndA)
-					Logger.LogErrorFormat("{0} < duplicate Please remove {1}",
-						Category.Electrical,
-						PositionE,
-						OIinheritance);
-		Econns.Clear();
-		ElectricalPool.PooledFPCList.Add(Econns);
-		if (!MachineConnect)
-		{
-			var conns = matrix.GetElectricalConnections(Position);
-			foreach (var con in conns)
-				if (CanConnectTo.Contains(con.Categorytype))
-					if (ConnectionMap.IsConnectedToTile(Direction, con.GetConnPoints()))
-					{
-						connections.Add(con);
-					}
+		Vector3Int position = searchVecInt + connVectorInt;
 
-			conns.Clear();
-			ElectricalPool.PooledFPCList.Add(conns);
-			if (connections.Count == 0)
+		// Connect wires
+		{
+			var eConnsAtPosition = matrix.GetElectricalConnections(position);
+			bool connectionsAdded = false;
+			foreach (var con in eConnsAtPosition)
 			{
-				Position = new Vector3Int((int) searchVec.x, (int) searchVec.y, 0);
-				conns = matrix.GetElectricalConnections(Position);
-				foreach (var con in conns)
-					if (OIinheritance != con)
-						if (CanConnectTo.Contains(con.Categorytype))
-							if (ConnectionMap.IsConnectedToTileOverlap(Direction, con.GetConnPoints()))
-							{
-								connections.Add(con);
-							}
-				conns.Clear();
-				ElectricalPool.PooledFPCList.Add(conns);
+				if (CanConnectTo.Contains(con.Categorytype) &&
+					ConnectionMap.IsConnectedToTile(ConnPoints, con.GetConnPoints()))
+				{
+					connections.Add(con);
+					connectionsAdded = true;
+				}
+			}
+			eConnsAtPosition.Clear();
+			ElectricalPool.PooledFPCList.Add(eConnsAtPosition);
+
+			if (connectionsAdded)
+			{
+				return connections;
 			}
 		}
-		else
+
+		// Connect to overlap
 		{
-			foreach (var Direction_ in MachineConnectorDirections)
+			var eConnsAtSearchVec = matrix.GetElectricalConnections(searchVecInt);
+			foreach (var con in eConnsAtSearchVec)
 			{
-				var pos = new Vector3Int((int) searchVec.x + (int) Direction_.x,
-					(int) searchVec.y + (int) Direction_.y, 0);
-				var conns = matrix.GetElectricalConnections(pos);
-				foreach (var con in conns)
-					if (OIinheritance != con)
-						if (CanConnectTo.Contains(con.Categorytype))
-							if (ConnectionMap.IsConnectedToTile(Direction, con.GetConnPoints()))
-							{
-								connections.Add(con);
-							}
-				conns.Clear();
-				ElectricalPool.PooledFPCList.Add(conns);
+				if (OIinheritance != con && CanConnectTo.Contains(con.Categorytype) &&
+					ConnectionMap.IsConnectedToTileOverlap(ConnPoints, con.GetConnPoints()))
+				{
+					connections.Add(con);
+				}
 			}
+			eConnsAtSearchVec.Clear();
+			ElectricalPool.PooledFPCList.Add(eConnsAtSearchVec);
 		}
 		return connections;
 	}
@@ -181,7 +194,6 @@ public static class ElectricityFunctions
 		return ((1 / ResistanceXAll));
 	}
 
-
 	public static VIRResistances WorkOutVIRResistance(
 		Dictionary<IntrinsicElectronicData, VIRResistances> ResistanceSources)
 	{
@@ -202,17 +214,22 @@ public static class ElectricityFunctions
 		return (ResistanceXAll);
 	}
 
-
 	// TODO Add documentation, clean up, remove commented out code, etc.
 	public static float WorkOutAtResistance(ElectronicSupplyData ResistanceSources, IntrinsicElectronicData Indata)
 	{
 		float Resistanc = 0;
 
-		if (Indata != null && ResistanceSources.ResistanceGoingTo.ContainsKey(Indata) &&
-		    ResistanceSources.ResistanceComingFrom.ContainsKey(Indata))
+		if (Indata == null)
 		{
-			HashSet<ResistanceWrap> ResistanceSour =
-				new HashSet<ResistanceWrap>(ResistanceSources.ResistanceComingFrom[Indata].ResistanceSources);
+			return Resistanc;
+		}
+
+		bool goingToExists = ResistanceSources.ResistanceGoingTo.TryGetValue(Indata, out VIRResistances goingTo);
+		bool comingFromExists = ResistanceSources.ResistanceComingFrom.TryGetValue(Indata, out VIRResistances comingFrom);
+
+		if (goingToExists && comingFromExists)
+		{
+			HashSet<ResistanceWrap> ResistanceSour = new HashSet<ResistanceWrap>(comingFrom.ResistanceSources);
 
 			//ResistanceSour.UnionWith(ResistanceSources.ResistanceComingFrom[Indata].ResistanceSources);
 
@@ -227,7 +244,7 @@ public static class ElectricityFunctions
 
 			foreach (var Resistance in ResistanceSour)
 			{
-				if (ResistanceSources.ResistanceGoingTo[Indata].ResistanceSources.Contains(Resistance))
+				if (goingTo.ResistanceSources.Contains(Resistance))
 				{
 					Toadd = 1 / Resistance.Resistance();
 				}
@@ -246,20 +263,18 @@ public static class ElectricityFunctions
 		}
 		else
 		{
-			if (ResistanceSources.ResistanceComingFrom.ContainsKey(Indata))
+			if (comingFromExists)
 			{
-				Resistanc = ResistanceSources.ResistanceComingFrom[Indata].Resistance();
+				Resistanc = comingFrom.Resistance();
 			}
-			else if (ResistanceSources.ResistanceGoingTo.ContainsKey(Indata))
+			else if (goingToExists)
 			{
-				Resistanc = ResistanceSources.ResistanceGoingTo[Indata].Resistance();
+				Resistanc = goingTo.Resistance();
 			}
 		}
 
-		//Logger.Log((1 / ResistanceXAll)+ "< Return");
 		return (Resistanc);
 	}
-
 
 	public static int SplitNumber(ElectronicSupplyData ResistanceSources, ResistanceWrap InitialWrap)
 	{
@@ -283,8 +298,10 @@ public static class ElectricityFunctions
 	{
 		//Worked out per source
 		float Resistanc = 0;
-		if (ResistanceSources.ResistanceGoingTo.ContainsKey(Indata) &&
-		    ResistanceSources.ResistanceComingFrom.ContainsKey(Indata))
+
+		bool goingToExists = ResistanceSources.ResistanceGoingTo.TryGetValue(Indata, out VIRResistances goingTo);
+		bool comingFromExists = ResistanceSources.ResistanceComingFrom.TryGetValue(Indata, out VIRResistances comingFrom);
+		if (goingToExists && comingFromExists)
 		{
 			//HashSet<ResistanceWrap> ResistanceSour = new HashSet<ResistanceWrap> (ResistanceSources.ResistanceGoingTo[Indata].ResistanceSources);
 
@@ -329,36 +346,22 @@ public static class ElectricityFunctions
 			//	Resistanc = 0;
 			//}
 			//ResistanceSources
-			Resistanc = ResistanceSources.ResistanceGoingTo[Indata].Resistance();
-			if (Resistanc > ResistanceSources.ResistanceComingFrom[Indata].Resistance())
-			{
-				Resistanc = Resistanc - ResistanceSources.ResistanceComingFrom[Indata].Resistance();
-			}
-			else
-			{
-				Resistanc = ResistanceSources.ResistanceComingFrom[Indata].Resistance() - Resistanc;
-			}
-		}
-		else
-		{
-			if (ResistanceSources.ResistanceGoingTo.ContainsKey(Indata))
-			{
-				Resistanc = ResistanceSources.ResistanceGoingTo[Indata].Resistance();
-			}
-			else if (ResistanceSources.ResistanceComingFrom.ContainsKey(Indata))
-			{
-				Resistanc = ResistanceSources.ResistanceComingFrom[Indata].Resistance();
-			}
-			else
-			{
-				Resistanc = 0;
-			}
-		}
+			Resistanc = goingTo.Resistance();
 
+			Resistanc = Resistanc > comingFrom.Resistance() ?
+				Resistanc - comingFrom.Resistance() : comingFrom.Resistance() - Resistanc;
+		}
+		else if (goingToExists)
+		{
+			Resistanc = goingTo.Resistance();
+		}
+		else if (comingFromExists)
+		{
+			Resistanc = comingFrom.Resistance();
+		}
 		//Logger.Log((1 / ResistanceXAll)+ "< Return");
 		return (Resistanc);
 	}
-
 
 	public static float WorkOutCurrent(Dictionary<IntrinsicElectronicData, float> ReceivingCurrents)
 	{
@@ -381,8 +384,9 @@ public static class ElectricityFunctions
 		float Current = 0; //Calculates the actual voltage and current flowing through the Node
 		float Voltage = 0;
 		AnInterestingDictionary.Clear();
-		foreach (var Supply in ElectricItem.Data.SupplyDependent
-		) //Voltages easy to work out just add up all the voltages from different sources
+
+		//Voltages easy to work out just add up all the voltages from different sources
+		foreach (var Supply in ElectricItem.Data.SupplyDependent)
 		{
 			Voltage += Supply.Value.SourceVoltage;
 		}
@@ -393,11 +397,11 @@ public static class ElectricityFunctions
 			{
 				if (AnInterestingDictionary.ContainsKey(CurrentItem.Key))
 				{
-					AnInterestingDictionary[CurrentItem.Key] += (float) CurrentItem.Value.Current();
+					AnInterestingDictionary[CurrentItem.Key] += (float)CurrentItem.Value.Current();
 				}
 				else
 				{
-					AnInterestingDictionary[CurrentItem.Key] = (float) CurrentItem.Value.Current();
+					AnInterestingDictionary[CurrentItem.Key] = (float)CurrentItem.Value.Current();
 				}
 			}
 
@@ -405,11 +409,11 @@ public static class ElectricityFunctions
 			{
 				if (AnInterestingDictionary.ContainsKey(CurrentItem.Key))
 				{
-					AnInterestingDictionary[CurrentItem.Key] += (float) -CurrentItem.Value.Current();
+					AnInterestingDictionary[CurrentItem.Key] += (float)-CurrentItem.Value.Current();
 				}
 				else
 				{
-					AnInterestingDictionary[CurrentItem.Key] = (float) -CurrentItem.Value.Current();
+					AnInterestingDictionary[CurrentItem.Key] = (float)-CurrentItem.Value.Current();
 				}
 			}
 		}
@@ -429,7 +433,6 @@ public static class ElectricityFunctions
 		return (Current, Voltage, (Voltage / Current));
 	}
 
-
 	public static float WorkOutVoltage(ElectricalOIinheritance ElectricItem)
 	{
 		float Voltage = 0;
@@ -440,7 +443,6 @@ public static class ElectricityFunctions
 
 		return (Voltage);
 	}
-
 
 	public static float WorkOutVoltageFromConnector(ElectricalOIinheritance ElectricItem,
 		PowerTypeCategory SpecifiedDevice)
@@ -454,6 +456,7 @@ public static class ElectricityFunctions
 				if (subcheck.Key.Categorytype == SpecifiedDevice)
 				{
 					pass = true;
+					break;
 				}
 			}
 
@@ -464,6 +467,7 @@ public static class ElectricityFunctions
 					if (subcheck.Key.Categorytype == SpecifiedDevice)
 					{
 						pass = true;
+						break;
 					}
 				}
 			}
@@ -489,6 +493,7 @@ public static class ElectricityFunctions
 				if (subcheck.Categorytype == SpecifiedDevice)
 				{
 					pass = false;
+					break;
 				}
 			}
 
@@ -513,6 +518,7 @@ public static class ElectricityFunctions
 				if (SpecifiedDevices.Contains(subcheck.Key.Categorytype))
 				{
 					pass = true;
+					break;
 				}
 			}
 
@@ -523,6 +529,7 @@ public static class ElectricityFunctions
 					if (SpecifiedDevices.Contains(subcheck.Key.Categorytype))
 					{
 						pass = true;
+						break;
 					}
 				}
 			}
@@ -539,30 +546,27 @@ public static class ElectricityFunctions
 	public static ElectricalCableTile RetrieveElectricalTile(Connection WireEndA, Connection WireEndB, PowerTypeCategory powerTypeCategory)
 	{
 		ElectricalCableTile Tile = null;
-		string Compound;
-		if (WireEndA < WireEndB)
-		{
-			Compound = WireEndA + "_" + WireEndB;
-		}
-		else {
-			Compound = WireEndB + "_" + WireEndA;
-		}
-		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
+		int spriteIndex = WireDirections.GetSpriteIndex(WireEndA, WireEndB);
 
 		switch (powerTypeCategory)
 		{
 			case PowerTypeCategory.StandardCable:
+			{
 				Tile = ElectricalManager.Instance.MediumVoltageCables.Tiles[spriteIndex];
 				break;
+			}
 			case PowerTypeCategory.LowVoltageCable:
+			{
 				Tile = ElectricalManager.Instance.LowVoltageCables.Tiles[spriteIndex];
 				break;
+			}
 			case PowerTypeCategory.HighVoltageCable:
+			{
 				Tile = ElectricalManager.Instance.HighVoltageCables.Tiles[spriteIndex];
 				break;
+			}
 		}
 
 		return (Tile);
 	}
-
 }

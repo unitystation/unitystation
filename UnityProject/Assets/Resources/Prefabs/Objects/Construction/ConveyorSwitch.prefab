@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 3348285834374005981}
   - component: {fileID: 7106149064385931371}
   - component: {fileID: -2763973709699312979}
+  - component: {fileID: -4847964719740510200}
   m_Layer: 23
   m_Name: ConveyorSwitch
   m_TagString: Untagged
@@ -326,3 +327,18 @@ MonoBehaviour:
   spriteOff: {fileID: 21300000, guid: dda53721035c8c44ba2b12f974f26488, type: 3}
   ConveyorBeltSpeed: 0.8
   currentState: 0
+--- !u!114 &-4847964719740510200
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7144248469089430455}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

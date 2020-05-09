@@ -7,7 +7,7 @@ using UnityEngine;
 ///
 /// Defined in terms of euler angle (rotation about the z axis, right is 0 and up is 90).
 /// </summary>
-public struct Orientation
+public struct Orientation : IEquatable<Orientation>
 {
 	public static readonly Orientation Right = new Orientation(0);
 	public static readonly Orientation Up = new Orientation(90);
@@ -21,7 +21,7 @@ public struct Orientation
 	/// </summary>
 	public readonly int Degrees;
 
-	private Orientation(int degree)
+	public Orientation(int degree)
 	{
 		Degrees = degree;
 	}
@@ -247,9 +247,7 @@ public struct Orientation
 
 	public override bool Equals(object obj)
 	{
-		if (ReferenceEquals(null, obj))
-			return false;
-		return obj is Orientation && Equals((Orientation) obj);
+		return obj is Orientation other && Equals(other);
 	}
 
 	public bool Equals(Orientation other)

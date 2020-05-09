@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 4518357836073184054}
   - component: {fileID: 8381321287682878987}
   - component: {fileID: -8649531395382896649}
+  - component: {fileID: 4611448190218815304}
   m_Layer: 18
   m_Name: AirLock
   m_TagString: Untagged
@@ -542,6 +543,21 @@ MonoBehaviour:
   doorName: airlock
   hackPanelOverlay: {fileID: 0}
   hackPanelSprite: {fileID: 0}
+--- !u!114 &4611448190218815304
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011462531918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1000014101652626
 GameObject:
   m_ObjectHideFlags: 0

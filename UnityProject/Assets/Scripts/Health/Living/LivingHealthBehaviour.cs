@@ -205,6 +205,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public override void OnStartClient()
 	{
+		base.OnStartClient();
 		EnsureInit();
 		StartCoroutine(WaitForClientLoad());
 	}

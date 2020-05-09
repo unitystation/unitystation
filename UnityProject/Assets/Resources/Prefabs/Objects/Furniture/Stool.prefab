@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: -3264221666603263987}
   - component: {fileID: -8848506015550652699}
   - component: {fileID: -7256631520227740812}
+  - component: {fileID: 8293386201010365792}
   m_Layer: 10
   m_Name: Stool
   m_TagString: Untagged
@@ -328,3 +329,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabVariant: {fileID: 1011433845357754, guid: 4e1fcaa387aec5b4dbe43c9c71ab5cb6,
     type: 3}
+--- !u!114 &8293386201010365792
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1733406564780334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

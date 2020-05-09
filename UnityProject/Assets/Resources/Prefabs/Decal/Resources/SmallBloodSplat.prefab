@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114262681174990446}
   - component: {fileID: 114758807010794188}
   - component: {fileID: 6893317791433521094}
+  - component: {fileID: 1341085971131883873}
   m_Layer: 0
   m_Name: SmallBloodSplat
   m_TagString: Untagged
@@ -145,6 +146,21 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+--- !u!114 &1341085971131883873
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0

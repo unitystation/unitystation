@@ -65,7 +65,9 @@ public class ExplodeWhenWelded : IPredictedCheckedInteractable<HandApply>
 
   //this method is invoked on the client side before informing the server of the interaction.
   //If it returns false, no message is sent.
-  //If it returns true, the message is sent to the server. Then this is invoked on the server side, and if 
+  //If it returns true, the message is sent to the server. The server
+  //will perform its own checks to decide which interaction should trigger (which may not be this component) 
+  //Then this is invoked on the server side, and if 
   //it returns true, the server finally performs the interaction.
   //We don't NEED to implement this method, but by implementing it we can cut down on the amount of messages
   //sent to the server.
@@ -128,6 +130,17 @@ To see detailed messages showing the order in which ICs are being checked, in Un
 
 Refer to the section "Precedence of Interaction Components" for the full details.
 
+### How does WillInteract work? My client does not have enough info to implement it?
+When WillInteract runs on the clientside and returns true, a message will be sent to the server merely saying that
+an interaction should trigger of the indicated type (HandApply, AimApply, etc...). The server will run through the
+server-side version of WillInteract for all the possible components (on the used object and then the target object if there is one),
+and will trigger the appropriate component regardless of which component triggered on the clientside.
+
+Because of this, if you don't have enough info to decide if a given interaction should occur and don't want
+to block another component from triggering, you can simply do as much checking as you can on the clientside and
+then return true from WillInteract. Then you can add the appropriate server-side logic to WillInteract so it can properly check
+the interaction.
+
 ### How do I inform the client what happened?
 In ServerPerformInteraction, if the server makes some change to the game state, usually they will need to ensure the client
 knows about the new state. This is currently not part of IF2, but there are various ways this can be done, many of which
@@ -165,9 +178,10 @@ There's a few things to check:
 1. Does your component implement WillInteract? If so, check if it is returning true when you try to interact. If it returns false, your component's interaction will not be triggered.
   If there is no Willinteract method, take a look at the DefaultWillInteract class to see what default logic
   is being used.
-2. Are there any other interactable components on the object or the other object involved in the interaction? If so, check if they appear below your component in the object's component list,
-	and check if they have Willinteract methods which are returning true. To fix this, there are a few options to consider:
-    * add more logic to another object's WillInteract method
+2. Are there any other interactable components on the object or the other object involved in the interaction? Remember that the server-side logic of WillInteract determines which components will trigger. 
+The client-side logic only tells the server to check for an interaction. So, use the TRACE logs on the server side to see if the component is being blocked by another.
+Some possible fixes:
+    * add more server-side logic to another component's WillInteract method to properly avoid the interaction.
 	* rearrange the components so your interaction is lower (thus is checked first) 
 	* move your interactable component to the other object involved in the interaction
 	
@@ -202,7 +216,8 @@ Tile interactions can't be done using interactable components, because tiles are
 
 Tile interactions are defined by creating Scriptable Objects which subclass TileInteraction. Some existing ones are already defined which may suit your needs (see Create > Interaction > Tile Interaction). If the existing scriptable objects don't support your needs, you can create a new subclass of TileInteraction following the example of the existing TileInteraction subclasses.
 
-To indicate that a given tile can have a particular interaction, you should locate that tile's asset (somewhere in Tilemaps/Resources/Tiles), and add your tile interaction asset to its Tile Interactions list. Interactions will be checked from top to bottom in the interactions list until one (if any) fires.
+To indicate that a given tile can have a particular interaction, you should locate that tile's asset (somewhere in Tilemaps/Resources/Tiles), and add your tile interaction asset to its Tile Interactions list. Interactions will be checked from top to bottom in the interactions list until one (if any) fires. As with interactable components, the client / server WillInteract logic works the same way - if any WIllInteract returns true on the client-side, the server will check all possible interactions on that tile using the server-side WillInteract logic, regardless of
+which interaction triggered on the clientside.
 
 For a thorough example of tile interactions, refer to the tile assets for ReinforcedWall and RWall in Tiles/Walls and examine their TileInteraction lists, and look at their TileInteraction assets. These define the logic for constructing and deconstructing reinforced walls (which are eventually turned into reinforced girders when deconstruction progresses far enough, which are actual prefabs instead of tiles).
 

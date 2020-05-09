@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114657714564364446}
   - component: {fileID: 114994120514330062}
   - component: {fileID: 3758013365063768114}
+  - component: {fileID: -7692504831386368172}
   m_Layer: 11
   m_Name: FoodCart
   m_TagString: Untagged
@@ -345,3 +346,18 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-7692504831386368172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011358831344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

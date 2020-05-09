@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 114680114684444950}
   - component: {fileID: 114209072084939298}
   - component: {fileID: 5673310310066489230}
+  - component: {fileID: 2824388217716967958}
   m_Layer: 11
   m_Name: Closet_Brown
   m_TagString: Untagged
@@ -357,6 +358,21 @@ MonoBehaviour:
   exportCost: 200
   exportName: closet
   exportMessage: 
+--- !u!114 &2824388217716967958
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1326196951998806}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1522744671779814
 GameObject:
   m_ObjectHideFlags: 0

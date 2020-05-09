@@ -16,6 +16,12 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	[SerializeField]
 	private TMP_Text readyText = null;
 
+	[SerializeField] private TMP_Text loadingText;
+
+	[SerializeField] private Scrollbar loadingBar;
+
+	[SerializeField] private GameObject normalWindows;
+
 	// UI panels
 	[SerializeField]
 	private GameObject adminPanel = null;
@@ -27,9 +33,12 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	private GameObject timerPanel = null;
 	[SerializeField]
 	private GameObject joinPanel = null;
+
 	[SerializeField]
+	private GameObject mapLoadingPanel = null;
 
 	// Character objects
+	[SerializeField]
 	private GameObject characterCustomization = null;
 	[SerializeField]
 	private Button characterButton = null;
@@ -192,5 +201,23 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		timerPanel.SetActive(false);
 		playerWaitPanel.SetActive(false);
 		mainPanel.SetActive(true);
+	}
+
+	public void SetUIForMapLoading()
+	{
+		normalWindows.SetActive(false);
+		mapLoadingPanel.SetActive(true);
+	}
+
+	public void UpdateLoadingBar(string text, float loadedAmt)
+	{
+		loadingText.text = text;
+		loadingBar.size = loadedAmt;
+	}
+
+	public void CloseMapLoadingPanel()
+	{
+		normalWindows.SetActive(true);
+		mapLoadingPanel.SetActive(false);
 	}
 }

@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 114692596090418488}
   - component: {fileID: 114928563535158040}
   - component: {fileID: 7767792003389877533}
+  - component: {fileID: 4809515341685903284}
   m_Layer: 11
   m_Name: LargeWabbajackStatue
   m_TagString: Abstract
@@ -280,6 +281,21 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &4809515341685903284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562085630854840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &6456939524071832781
 GameObject:
   m_ObjectHideFlags: 0
