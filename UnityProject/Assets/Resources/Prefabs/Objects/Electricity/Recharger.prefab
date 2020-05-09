@@ -43,6 +43,38 @@ MonoBehaviour:
   spriteIndex: 0
   variantIndex: 0
   SetSpriteOnStartUp: 1
+--- !u!114 &3714082574942529750
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363612023958579371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
+--- !u!114 &5156441712337473685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363612023958579371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: f0fa3ba37105f0c47b3256c9b1a53029, type: 2}
+  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+    type: 3}
+  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+    type: 3}
+  secondsToScrewdrive: 2
 --- !u!114 &5248956404812388229
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -101,20 +133,6 @@ MonoBehaviour:
   spriteHandler: {fileID: 8469091460828482844}
   _APCPoweredDevice: {fileID: 5794580443693233542}
   ChargingWatts: 0
---- !u!114 &3714082574942529750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7363612023958579371}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
-  ignoreExtraRotation: []
 --- !u!1001 &7797068074463247659
 PrefabInstance:
   m_ObjectHideFlags: 0
