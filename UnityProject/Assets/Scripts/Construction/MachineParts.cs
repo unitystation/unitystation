@@ -24,6 +24,8 @@ namespace Machines
 
 		public string DescriptionOfCircuitBoard;
 
+		public Sprite machineCircuitBoardSprite;
+
 		public MachinePartList[] machineParts;
 	}
 }
