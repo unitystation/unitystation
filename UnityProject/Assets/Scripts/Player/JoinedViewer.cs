@@ -2,6 +2,7 @@
 using System.Net.NetworkInformation;
 using Mirror;
 using Newtonsoft.Json;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// This is the Viewer object for a joined player.
@@ -13,6 +14,7 @@ public class JoinedViewer : NetworkBehaviour
 	public override void OnStartLocalPlayer()
 	{
 		base.OnStartLocalPlayer();
+		RequestObserverRefresh.Send(SceneManager.GetActiveScene().name);
 		PlayerManager.SetViewerForControl(this);
 
 		CmdServerSetupPlayer(GetNetworkInfo(),

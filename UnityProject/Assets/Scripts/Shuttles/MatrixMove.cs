@@ -155,6 +155,19 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 	public override void OnStartServer()
 	{
+		StartCoroutine(WaitForMatrixManager());
+		base.OnStartServer();
+	}
+
+	IEnumerator WaitForMatrixManager()
+	{
+		while (!MatrixManager.IsInitialized)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		yield return WaitFor.EndOfFrame;
+
 		InitServerState();
 
 		MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
@@ -166,7 +179,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 		} );
 		MatrixMoveEvents.OnStopMovementServer.AddListener( () => this.TryStopCoroutine( ref floatingSyncHandle ) );
 
-		base.OnStartServer();
 		NotifyPlayers();
 	}
 

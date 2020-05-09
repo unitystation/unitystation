@@ -16,6 +16,8 @@ See project updates on Patreon:<br>
 Please join us on Discord:<br>
 [<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/H6EunER)
 
+<img src="https://img.shields.io/discord/273774715741667329.svg"></a>
+
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://unitystation.github.io/unitystation/contribution-guides/Starting-contribution/)
 1. [Get Unity Hub](https://unity3d.com/get-unity/download)

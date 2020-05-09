@@ -966,6 +966,15 @@ namespace Mirror
             }
         }
 
+        /// <summary>
+        /// Manually add the player observer to this object
+        /// </summary>
+        /// <param name="conn"></param>
+        public void AddPlayerObserver(NetworkConnection conn)
+        {
+	        AddObserver(conn);
+        }
+
         internal void AddObserver(NetworkConnection conn)
         {
             if (observers == null)

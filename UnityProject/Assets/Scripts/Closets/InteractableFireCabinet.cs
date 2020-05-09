@@ -51,13 +51,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	public override void OnStartClient()
 	{
 		EnsureInit();
-		StartCoroutine(WaitForLoad());
 		base.OnStartClient();
-	}
-
-	private IEnumerator WaitForLoad()
-	{
-		yield return WaitFor.Seconds(3f);
 		SyncCabinet(IsClosed, IsClosed);
 		SyncItemSprite(isFull, isFull);
 	}

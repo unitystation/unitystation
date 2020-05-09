@@ -37,6 +37,24 @@ MonoBehaviour:
   - Trait: {fileID: 11400000, guid: 6097f8423a1b255468e2285de46bc3d3, type: 2}
     Material: {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d,
       type: 3}
+--- !u!114 &5600573209671788888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1735666357076621607}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: d7b92dbb9bdd1c543a43dbc82c7fdc57, type: 2}
+  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+    type: 3}
+  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+    type: 3}
+  secondsToScrewdrive: 2
 --- !u!114 &7207538277679673550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,6 +67,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites:
   - Texture: {fileID: 2800000, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
     Sprites:

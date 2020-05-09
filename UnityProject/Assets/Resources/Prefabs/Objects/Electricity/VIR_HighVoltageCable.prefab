@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114605427988546660}
   - component: {fileID: 114841479210732828}
   - component: {fileID: 1522423728901417748}
+  - component: {fileID: 6545474341214339794}
   m_Layer: 22
   m_Name: VIR_HighVoltageCable
   m_TagString: Untagged
@@ -173,8 +174,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  WireEndB: 0
-  WireEndA: 0
   InData:
     WireEndB: 0
     WireEndA: 0
@@ -224,6 +223,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -239,6 +239,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97ebba4229a5c5e4dae9438af16fbee3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6545474341214339794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1042895037894172}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1282939714934272
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,6 +299,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
