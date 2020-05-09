@@ -22,13 +22,19 @@ public class GUI_PDA : NetTab
 	[SerializeField] [Tooltip("Uplink here")]
 	private NetPage uplinkPage; //The uplinkPage for reference
 
-	[SerializeField] [Tooltip("Uplink here")]
-	private GUI_PDAUplinkCategory uplinkCategoryPage; //The uplinkPage for reference
+	[SerializeField] [Tooltip("UplinkCategory here")]
+	private GUI_PDAUplinkCategory uplinkCategoryPage; //The uplinkCategoryPage for reference
+
+	[SerializeField] [Tooltip("UplinkItem here")]
+	private GUI_PDAUplinkItem uplinkItemPage; //The uplinkItemPage for reference
 
 
 
 	private UplinkCategoryClickedEvent onCategoryClicked;
 	public UplinkCategoryClickedEvent OnCategoryClickedEvent {get => onCategoryClicked;}
+
+	private UplinkItemClickedEvent onItemClicked;
+	public UplinkItemClickedEvent OnItemClickedEvent {get => onItemClicked;}
 
 
 	// Grabs the PDA component and opens the mainmenu
@@ -36,6 +42,8 @@ public class GUI_PDA : NetTab
 	{
 		onCategoryClicked = new UplinkCategoryClickedEvent();
 		OnCategoryClickedEvent.AddListener(OpenUplinkCategory);
+		onItemClicked = new UplinkItemClickedEvent();
+		OnItemClickedEvent.AddListener(SpawnUplinkItem);
 		Pda = Provider.GetComponent<PDA>();
 		OpenMainMenu();
 	}
@@ -68,8 +76,8 @@ public class GUI_PDA : NetTab
 		}
 		if (IsServer && Pda.ActivateUplink(notificationString))
 		{
-			uplinkSwitcher.SetActivePage(uplinkCategoryPage);
 			uplinkCategoryPage.UpdateCategory();
+			uplinkSwitcher.SetActivePage(uplinkCategoryPage);
 			mainSwitcher.SetActivePage(uplinkPage);
 			return true;
 		}
@@ -79,13 +87,17 @@ public class GUI_PDA : NetTab
 	/// <summary>
 	/// Tells the item page to make entries depending on the category given
 	/// </summary>
-	public void OpenUplinkCategory(UplinkCatagories category)
+	public void OpenUplinkCategory(List<UplinkItems> items)
 	{
-		List<UplinkItems> items = category.ItemList;
-		//uplinkItemPage.ClearEntries();
-		//uplinkItemPage.GenerateEntries(item);
-		//uplinkSwitcher.SetActivePage(uplinkItemPage);
+		uplinkItemPage.GenerateEntries(items);
+		uplinkSwitcher.SetActivePage(uplinkItemPage);
 	}
+
+	public void SpawnUplinkItem(UplinkItems itemRequested)
+	{
+		Pda.SpawnUplinkItem(itemRequested.Item, itemRequested.Cost);
+	}
+
 	/// <summary>
 	/// Opens the messenger that does not exist yet
 	/// </summary>
@@ -119,6 +131,11 @@ public class GUI_PDA : NetTab
 }
 
 [Serializable]
-public class UplinkCategoryClickedEvent : UnityEvent<UplinkCatagories>
+public class UplinkCategoryClickedEvent : UnityEvent<List<UplinkItems>>
+{
+}
+
+[Serializable]
+public class UplinkItemClickedEvent : UnityEvent<UplinkItems>
 {
 }
