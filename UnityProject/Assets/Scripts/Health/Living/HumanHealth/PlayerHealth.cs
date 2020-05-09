@@ -17,6 +17,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	public MetabolismSystem Metabolism { get => metabolism; }
 
 	private PlayerMove playerMove;
+	private PlayerSprites playerSprites;
 
 	private PlayerNetworkActions playerNetworkActions;
 	/// <summary>
@@ -46,6 +47,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		playerMove = GetComponent<PlayerMove>();
+		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 		itemStorage = GetComponent<ItemStorage>();
 		base.OnStartClient();
@@ -271,7 +273,6 @@ public class PlayerHealth : LivingHealthBehaviour
 		StartCoroutine(ElectrocutionAnimation());
 		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition,
 				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);
-		// Consider removing this message when the shock animation has been implemented as it should be obvious enough.
 		Chat.AddExamineMsgFromServer(gameObject,
 				(electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
 				" electrocutes you!");
@@ -294,8 +295,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	[ClientRpc]
 	private void RpcToggleElectrocutedOverlay()
 	{
-		// This will be uncommented once the prefab lockdown is lifted as it requires prefab work.
-		//playerSprites.ToggleElectrocutedOverlay();
+		playerSprites.ToggleElectrocutedOverlay();
 	}
 
 	#endregion Electrocution
