@@ -38,7 +38,7 @@ public class RequestRespawnPlayer : ClientMessage
 	void TryRespawn(ConnectedPlayer deadPlayer, string occupation = null)
 	{
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-			$"{PlayerList.Instance.GetByUserID(Userid).Name} respawned dead player {deadPlayer.Name}", Userid);
+			$"{PlayerList.Instance.GetByUserID(Userid).Name} respawned dead player {deadPlayer.Name} as {occupation}", Userid);
 		deadPlayer.Script.playerNetworkActions.ServerRespawnPlayer(occupation);
 	}
 

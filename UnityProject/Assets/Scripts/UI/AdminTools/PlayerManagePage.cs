@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using DatabaseAPI;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,7 +13,6 @@ namespace AdminTools
 		[SerializeField] private Button respawnBtn = null;
 		[SerializeField] private Button respawnAsBtn = null;
 		[SerializeField] private Dropdown adminJobsDropdown = null;
-		[ReorderableList][SerializeField] private List<Occupation> availableAdminJobs = null;
 		private AdminPlayerEntry playerEntry;
 
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
@@ -29,7 +27,7 @@ namespace AdminTools
 				}
 			};
 
-			foreach (var job in availableAdminJobs)
+			foreach (var job in SOAdminJobsList.Instance.AdminAvailableJobs)
 			{
 				optionData.Add(new Dropdown.OptionData
 				{
@@ -63,17 +61,24 @@ namespace AdminTools
 
 		public void OnDeputiseBtn()
 		{
-			adminTools.areYouSurePage.SetAreYouSurePage($"Are you sure you want to make {playerEntry.PlayerData.name} an admin?", SendMakePlayerAdminRequest);
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Are you sure you want to make {playerEntry.PlayerData.name} an admin?",
+				SendMakePlayerAdminRequest);
 		}
 
 		public void OnRespawnButton()
 		{
-			adminTools.areYouSurePage.SetAreYouSurePage($"Respawn the player: {playerEntry.PlayerData.name}?", SendPlayerRespawnRequest);
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Respawn the player: {playerEntry.PlayerData.name}?",
+				SendPlayerRespawnRequest);
 		}
 
 		public void OnRespawnAsButton()
 		{
-			adminTools.areYouSurePage.SetAreYouSurePage($"Respawn the player: {playerEntry.PlayerData.name}?", SendPlayerRespawnAsRequest);
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Respawn the player: {playerEntry.PlayerData.name}" +
+				$" as {SOAdminJobsList.Instance.AdminAvailableJobs[adminJobsDropdown.value - 1].name}?",
+				SendPlayerRespawnAsRequest);
 		}
 
 		public void OnDropdownValueChanged()
@@ -84,13 +89,19 @@ namespace AdminTools
 
 		void SendMakePlayerAdminRequest()
 		{
-			RequestAdminPromotion.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerEntry.PlayerData.uid);
+			RequestAdminPromotion.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				playerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
 		void SendPlayerRespawnRequest()
 		{
-			RequestRespawnPlayer.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerEntry.PlayerData.uid);
+			RequestRespawnPlayer.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				playerEntry.PlayerData.uid);
 			RefreshPage();
 		}
 
@@ -98,9 +109,9 @@ namespace AdminTools
 		{
 			var value = adminJobsDropdown.value;
 			var occupation = value != 0
-				? availableAdminJobs[value - 1]
-				: availableAdminJobs.PickRandom(); //Just a safe value in case for whatever reason
-			//                                       user didn't select a job and can click the button
+				? SOAdminJobsList.Instance.AdminAvailableJobs[value - 1]
+				//Just a safe value in case for whatever reason user didn't select a job and can click the button
+				: SOAdminJobsList.Instance.AdminAvailableJobs.PickRandom();
 
 			RequestRespawnPlayer.SendAdminJob(
 				ServerData.UserID,

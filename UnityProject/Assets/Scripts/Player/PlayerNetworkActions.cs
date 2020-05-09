@@ -478,7 +478,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (occupation != null)
 		{
-			playerScript.mind.occupation = Resources.Load<Occupation>($"ScriptableObjects/Occupations/"+occupation);
+			foreach (var job in SOAdminJobsList.Instance.AdminAvailableJobs)
+			{
+				if (job.name != occupation)
+				{
+					continue;
+				}
+
+				playerScript.mind.occupation = job;
+				break;
+			}
 		}
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
