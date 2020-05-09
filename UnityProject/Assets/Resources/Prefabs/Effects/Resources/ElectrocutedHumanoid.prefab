@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1560966032627148193}
   - component: {fileID: 1682087833536344853}
-  - component: {fileID: -5562942693660557690}
+  - component: {fileID: -6019239046493335571}
   m_Layer: 10
-  m_Name: PartialBurningPlayer
+  m_Name: ElectrocutedHumanoid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -70,7 +70,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
   m_SortingLayer: 17
-  m_SortingOrder: 550
+  m_SortingOrder: 560
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -82,7 +82,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-5562942693660557690
+--- !u!114 &-6019239046493335571
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,29 +94,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6b2b680c7a816499f794469bf8980c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomOrder: 1
-  AnimationSpeed: 0.1
+  randomOrder: 0
+  AnimationSpeed: 0.08
   leftSprites:
-  - {fileID: 21300006, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300014, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300022, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300030, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300038, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
+  - {fileID: 21300006, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
+  - {fileID: 21300014, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
+  - {fileID: 21300022, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
   rightSprites:
-  - {fileID: 21300004, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300012, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300020, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300028, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300036, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
+  - {fileID: 21300004, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
+  - {fileID: 21300012, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
+  - {fileID: 21300020, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
   upSprites:
-  - {fileID: 21300002, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300010, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300018, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300026, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300034, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
+  - {fileID: 21300002, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
+  - {fileID: 21300010, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
+  - {fileID: 21300018, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
   downSprites:
-  - {fileID: 21300000, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300008, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300016, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300024, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
-  - {fileID: 21300032, guid: ca70299b90b19a44aa0dac245cb55064, type: 3}
+  - {fileID: 21300000, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
+  - {fileID: 21300008, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
+  - {fileID: 21300016, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
