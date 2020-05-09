@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 3956987875186302708}
   - component: {fileID: 2879262912181080695}
   - component: {fileID: 6830089732404172710}
+  - component: {fileID: -4125858894873895098}
   m_Layer: 11
   m_Name: wooden_chair
   m_TagString: Untagged
@@ -386,6 +387,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabVariant: {fileID: 1011433845357754, guid: dce8b95977b293b49974fcc26e4790c2,
     type: 3}
+--- !u!114 &-4125858894873895098
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1568171546625408}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &5276609779432803648
 GameObject:
   m_ObjectHideFlags: 0

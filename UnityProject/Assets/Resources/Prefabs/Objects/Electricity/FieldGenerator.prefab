@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114258488119912856}
   - component: {fileID: 114211369790186800}
   - component: {fileID: 114104876763743222}
+  - component: {fileID: -5913724462256824930}
   m_Layer: 11
   m_Name: FieldGenerator
   m_TagString: Untagged
@@ -55,7 +56,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114590706900826186
@@ -195,6 +195,8 @@ MonoBehaviour:
   syncInterval: 0.1
   Node: {fileID: 1120991291872144437}
   ApplianceType: 3
+  WireEndB: 0
+  WireEndA: 0
   ListCanConnectTo: 01000000
   SelfDestruct: 0
   Reactions: []
@@ -217,6 +219,9 @@ MonoBehaviour:
     ResistanceAvailable: 1
   EditorResistance: 500
   NotEditorResistanceset: 0
+  RR:
+    Ohms: 0
+    ResistanceAvailable: 1
   ReactionTo:
     ConnectingDevice: 1
     DirectionReaction: 0
@@ -241,27 +246,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  WireEndB: 9
-  WireEndA: 8
-  Data:
-    CurrentInWire: 0
-    ActualVoltage: 0
-    EstimatedResistance: 0
-    SupplyingCurrent: 0
-    InternalResistance: 0
-    SupplyingVoltage: 0
-    ChangeToOff: 0
-    CurrentStoreValue: 0
   InData:
+    WireEndB: 0
+    WireEndA: 0
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    DirectionOverride: 0
-    ResistanceOverride: 0
-    ElectricityOverride: 0
+    Present: {fileID: 0}
+    Data:
+      CurrentInWire: 0
+      ActualVoltage: 0
+      EstimatedResistance: 0
+      SupplyingCurrent: 0
+      InternalResistance: 0
+      SupplyingVoltage: 0
+      ChangeToOff: 0
+      CurrentStoreValue: 0
+    DestroyQueueing: 0
+    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
-  registerTile3: {fileID: 114469741977146778}
 --- !u!114 &114258488119912856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -275,6 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114211369790186800
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,6 +294,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -322,9 +328,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+--- !u!114 &-5913724462256824930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1305738920282892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1712574560713454
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,6 +392,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

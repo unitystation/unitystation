@@ -120,6 +120,8 @@ namespace NPC
 		/// </summary>
 		protected virtual void DoRandomMove()
 		{
+			if (!MatrixManager.IsInitialized) return;
+
 			var nudgeDir = GetNudgeDirFromInt(Random.Range(0, 8));
 			if (registerObject.Matrix.IsSpaceAt(registerObject.LocalPosition + nudgeDir.To3Int(), true))
 			{
@@ -222,7 +224,7 @@ namespace NPC
 		{
 			base.UpdateMe();
 
-			if (!isServer)
+			if (!isServer || !MatrixManager.IsInitialized)
 			{
 				return;
 			}

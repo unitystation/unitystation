@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -102,6 +103,7 @@ GameObject:
   - component: {fileID: 1479264743170500274}
   - component: {fileID: -3465280134105671477}
   - component: {fileID: 6334083418781041707}
+  - component: {fileID: -4852464108407116635}
   m_Layer: 10
   m_Name: Connector
   m_TagString: Untagged
@@ -177,7 +179,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114007797438959630
@@ -284,6 +285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -321,6 +323,7 @@ MonoBehaviour:
   syncInterval: 0.1
   InitialDirection: 3
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &1479264743170500274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -333,6 +336,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -352,6 +356,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Connector
   initialDescription: 
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
@@ -363,6 +368,7 @@ MonoBehaviour:
   throwSpeed: 2
   throwRange: 7
   hitSound: GenericHit
+  hitSoundSettings: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -402,3 +408,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
+--- !u!114 &-4852464108407116635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

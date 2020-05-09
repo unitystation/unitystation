@@ -17,10 +17,10 @@ GameObject:
   - component: {fileID: 114556952556266662}
   - component: {fileID: 6683878051609785215}
   - component: {fileID: 804569472849686567}
-  - component: {fileID: 2703357943102309780}
   - component: {fileID: 1867072349025343184}
   - component: {fileID: -6310048276167888487}
   - component: {fileID: 114259338949648092}
+  - component: {fileID: -514059772135766874}
   m_Layer: 13
   m_Name: LightBulbMount
   m_TagString: Untagged
@@ -68,7 +68,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.23747547, y: 0.2779311}
+  m_Size: {x: 0.2374755, y: 0.2779311}
   m_EdgeRadius: 0
 --- !u!114 &895131165705544335
 MonoBehaviour:
@@ -196,21 +196,22 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114259338949648092}
+        m_MethodName: EditorDirectionChange
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
   ChangeDirectionWithMatrix: 0
   DisableSyncing: 1
---- !u!114 &2703357943102309780
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1614508754264130}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7a1123c5b215682469419ae00eb87e39, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  prefabChildrenOrientation: 3
 --- !u!114 &1867072349025343184
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,9 +273,26 @@ MonoBehaviour:
   isWithoutSwitch: 0
   spriteRenderer: {fileID: 212082969356704250}
   spriteRendererLightOn: {fileID: 6796822836624601522}
+  boxColl: {fileID: 61294264368354326}
+  collDownSetting: {x: 0, y: 0.3642767, z: 0.2374755, w: 0.2779311}
+  collRightSetting: {x: -0.3346747, y: -0.001173973, z: 0.3067206, w: 0.3087062}
+  collUpSetting: {x: 0, y: -0.3396958, z: 0.3144149, w: 0.3010119}
+  collLeftSetting: {x: 0.3462151, y: 0.008443832, z: 0.3144129, w: 0.304859}
   spritesStateOnEffect: {fileID: 11400000, guid: 726dca084060d4241bf0ffddd39509fe,
     type: 2}
   mountStatesMachine: {fileID: 11400000, guid: 3bd2d676f24e6864dbff58a5436afb74, type: 2}
+--- !u!114 &-514059772135766874
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614508754264130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1865224276101266
 GameObject:
   m_ObjectHideFlags: 0

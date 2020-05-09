@@ -1,57 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6348119149955525131
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100328150011014054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  LightEmission: {fileID: 0}
-  Intensity: 0.7
-  Colour: {r: 0.16862746, g: 0.25988537, b: 0.9372549, a: 0.53333336}
-  EnumSprite: 1
-  Size: 1.5
-  PlayerLightData:
-    Intensity: 0.7
-    Colour: {r: 0.16862746, g: 0.25882354, b: 0.9372549, a: 0.53333336}
-    EnumSprite: 1
-    Size: 1.5
---- !u!114 &4581702040028779602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100328150011014054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cc835be17c750e246bed37c4406e0113, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  DefaultIntensity: 0
-  DefaultColour: {r: 0, g: 0, b: 0, a: 0}
-  DefaultEnumSprite: 0
-  DefaultSize: 0
-  Sprites: []
-  NameSprite: 
-  DefaultSettings:
-    Intensity: 0
-    Colour: {r: 0, g: 0, b: 0, a: 0}
-    EnumSprite: 0
-    Size: 12
-  lightSprite: {fileID: 0}
-  mLightRendererObject: {fileID: 0}
-  stringPlayerLightData: 
 --- !u!1 &4660160851429609936
 GameObject:
   m_ObjectHideFlags: 0
@@ -441,12 +389,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
---- !u!1 &100328150011014054 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 101322261917603612}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &105424409711638618 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4911511444418374, guid: a7abba22164ce49f0bf9b9b219f39298,

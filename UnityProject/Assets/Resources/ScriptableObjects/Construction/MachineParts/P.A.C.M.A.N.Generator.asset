@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7616af8b1aca87f4f83d0af4e2f8aeb8, type: 3}
+  m_Name: P.A.C.M.A.N.Generator
+  m_EditorClassIdentifier: 
+  machine: {fileID: 1853426429102140, guid: 69c27c4a07b053d458c6fec363e66403, type: 3}
+  NameOfCircuitBoard: P.A.C.M.A.N.-type Generator Board
+  DescriptionOfCircuitBoard: Used to build P.A.C.M.A.N.-type Generator, uses plasma
+    as fuel source.
+  machineParts:
+  - itemTrait: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
+    basicItem: {fileID: 4435676122793348777, guid: c567e6c3b003a2b488534a8766866cb0,
+      type: 3}
+    amountOfThisPart: 2
+  - itemTrait: {fileID: 11400000, guid: bc6313255779d8c40b24dee25c4db605, type: 2}
+    basicItem: {fileID: 2527188313238870147, guid: 12e1033504f11d342867225fade01e88,
+      type: 3}
+    amountOfThisPart: 1
+  - itemTrait: {fileID: 11400000, guid: 2b530cc6dc3250f4e97d022110dbf1f8, type: 2}
+    basicItem: {fileID: 2527188313238870147, guid: 1ca8c26ca2f61444bb8d374104ed2a02,
+      type: 3}
+    amountOfThisPart: 1
+  - itemTrait: {fileID: 11400000, guid: 6745069dc8b5c0e44939b2b4795e997f, type: 2}
+    basicItem: {fileID: 2527188313238870147, guid: bb147b9bf5a66eb40b94bd8853aaf9ea,
+      type: 3}
+    amountOfThisPart: 1

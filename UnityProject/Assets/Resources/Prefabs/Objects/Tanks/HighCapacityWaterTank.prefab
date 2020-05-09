@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 114095969428848044}
   - component: {fileID: 2102555284219174637}
   - component: {fileID: -6316358764717199605}
+  - component: {fileID: 3324624144993429502}
   m_Layer: 11
   m_Name: HighCapacityWaterTank
   m_TagString: Untagged
@@ -259,9 +260,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
   maxCapacity: 30000
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
-  reagentMix:
+  initialReagentMix:
     temperature: 0
     reagents:
       m_keys:
@@ -275,6 +279,21 @@ MonoBehaviour:
   transferMode: 2
   possibleTransferAmounts: []
   transferAmount: 20
+--- !u!114 &3324624144993429502
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1276867022725126}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1814863487152160
 GameObject:
   m_ObjectHideFlags: 0

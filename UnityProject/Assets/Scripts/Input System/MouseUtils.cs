@@ -46,8 +46,10 @@ public static class MouseUtils
 		LayerMask layerMaskToUse = layerMask.GetValueOrDefault(GetDefaultInteractionLayerMask());
 		var result = Physics2D.RaycastAll(worldPoint, Vector2.zero, 10f,
 				layerMaskToUse)
+			//failsafe - exclude hidden / despawned things in case they happen to mouse over hiddenpos
+			.Where(hit => !hit.collider.gameObject.IsAtHiddenPos())
 			//get the hit game object
-			.Select(hit => hit.collider.transform.gameObject);
+			.Select(hit => hit.collider.gameObject);
 
 		if (gameObjectFilter != null)
 		{

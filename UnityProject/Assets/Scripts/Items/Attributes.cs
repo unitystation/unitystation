@@ -106,6 +106,9 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 	/// </summary>
 	public void OnHoverStart()
 	{
+		//failsafe - don't highlight hidden / despawned stuff
+		if (gameObject.IsAtHiddenPos()) return;
+
 		if(willHighlight)
 		{
 			Highlight.HighlightThis(gameObject);

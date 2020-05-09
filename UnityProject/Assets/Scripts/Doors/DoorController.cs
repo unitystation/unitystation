@@ -502,6 +502,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 
 	public void OnHoverStart()
 	{
+		if (gameObject.IsAtHiddenPos()) return;
 		UIManager.SetToolTip = doorType + " Door";
 	}
 

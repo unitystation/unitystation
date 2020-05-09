@@ -34,13 +34,16 @@ public class PlayerTextureData : ScriptableObject
 
 	private void OnEnable()
 	{
-
-		SceneManager.sceneLoaded -= OnSceneLoaded;
-		SceneManager.sceneLoaded += OnSceneLoaded;
+		SceneManager.activeSceneChanged += OnSceneLoaded;
 	}
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-	{
 
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneLoaded;
+	}
+
+	void OnSceneLoaded(Scene scene, Scene newScene)
+	{
 		InitializePool();
 	}
 
