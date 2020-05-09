@@ -12,7 +12,7 @@ public class GUI_HackingDevice : MonoBehaviour
 	public GUI_Hacking parentHackingPanel;
 
 	[SerializeField]
-	private Image itemImage;
+	private Image itemImage = null;
 
 	public void Start()
 	{

@@ -15,7 +15,7 @@ public class HackingDevice : MonoBehaviour, IServerSpawn, IClientSpawn
 	public HackingNode OutputNode => outputNode;
 
 	[SerializeField]
-	private UnityEvent onInputReceived;
+	private UnityEvent onInputReceived = null;
 
 	public void SendOutputSignal()
 	{

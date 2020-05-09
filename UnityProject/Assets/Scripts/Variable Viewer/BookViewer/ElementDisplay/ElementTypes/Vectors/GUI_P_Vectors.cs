@@ -46,9 +46,6 @@ public class GUI_P_Vectors : PageElement
 		VariableViewerNetworking.NetFriendlySentence Sentence = null,
 		bool Iskey = false)
 	{
-		int col = 6;
-		float Dcol = 6;
-		float DCcol = 6.6f;
 		if (Page != null)
 		{
 			PageID = Page.ID;
