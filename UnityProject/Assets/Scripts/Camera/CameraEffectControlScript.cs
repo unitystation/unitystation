@@ -13,8 +13,6 @@ namespace CameraEffects
 
 		public NightVisionCamera nightVisionCamera;
 
-		public HologramCamera hologramCamera;
-
 		public void ToggleDrunkEffectState()
 		{
 			drunkCamera.enabled = !drunkCamera.enabled;
@@ -28,11 +26,6 @@ namespace CameraEffects
 		public void ToggleNightVisionEffectState()
 		{
 			nightVisionCamera.enabled = !nightVisionCamera.enabled;
-		}
-
-		public void ToggleHologramEffectState()
-		{
-			hologramCamera.enabled = !hologramCamera.enabled;
 		}
 	}
 }
