@@ -24,6 +24,9 @@ namespace Machines
 
 		public string DescriptionOfCircuitBoard;
 
+		/// <summary>
+		/// If null will use the sprite on the prefab.
+		/// </summary>
 		public Sprite machineCircuitBoardSprite;
 
 		public MachinePartList[] machineParts;
