@@ -32,5 +32,8 @@
 	Clown,
 	Mime,
 	LateJoin,
-	GhostTeleportSites
+	GhostTeleportSites,
+	CentCommCommander,
+	CentComm,
+	DeathSquad,
 }

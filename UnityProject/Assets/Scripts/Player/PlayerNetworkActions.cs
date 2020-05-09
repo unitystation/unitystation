@@ -474,8 +474,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerRespawnPlayer()
+	public void ServerRespawnPlayer(string occupation = null)
 	{
+		if (occupation != null)
+		{
+			foreach (var job in SOAdminJobsList.Instance.AdminAvailableJobs)
+			{
+				if (job.name != occupation)
+				{
+					continue;
+				}
+
+				playerScript.mind.occupation = job;
+				break;
+			}
+		}
+
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
