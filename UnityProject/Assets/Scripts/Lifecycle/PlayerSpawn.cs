@@ -479,10 +479,19 @@ public static class PlayerSpawn
 			return null;
 		}
 
-		List<SpawnPoint> spawnPoints = CustomNetworkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>())
-			.Where(x => x.JobRestrictions.Contains(jobType)).ToList();
+		List<SpawnPoint> arrivals = CustomNetworkManager.startPositions.Select(
+			x => x.GetComponent<SpawnPoint>()).Where(
+			x => x.Department == JobDepartment.LateJoin).ToList();
 
-		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
+		List<SpawnPoint> spawnPoints = CustomNetworkManager.startPositions.Select(
+			x => x.GetComponent<SpawnPoint>()).Where(
+			x => x.JobRestrictions.Contains(jobType)).ToList();
+
+		//Deafault to arrivals if there is no mapped spawn point for this job!
+		// will still return null if there is no arrivals spawn points set (and people will just not spawn!).
+		return spawnPoints.Count == 0
+			? arrivals.Count != 0 ? arrivals.PickRandom().transform : null
+			: spawnPoints.PickRandom().transform;
 	}
 
 	private static StepType GetStepType(PlayerScript player)
