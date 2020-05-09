@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Light2D;
@@ -33,8 +33,8 @@ public class PlayerSprites : MonoBehaviour
 	public readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
 	private Directional directional;
-	private BurningDirectionalOverlay engulfedBurningOverlay;
-	private BurningDirectionalOverlay partialBurningOverlay;
+	private PlayerDirectionalOverlay engulfedBurningOverlay;
+	private PlayerDirectionalOverlay partialBurningOverlay;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private PlayerScript playerScript;
 	private PlayerHealth playerHealth;
@@ -68,7 +68,7 @@ public class PlayerSprites : MonoBehaviour
 			PARTIAL_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("PartialBurningPlayer");
 		}
 
-		AddBurningOverlayGameObjects();
+		AddOverlayGameObjects();
 
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		livingHealthBehaviour.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
@@ -76,22 +76,21 @@ public class PlayerSprites : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Instantiate and attach the burning sprite overlays if they don't exist
+	/// Instantiate and attach the sprite overlays if they don't exist
 	/// </summary>
-	private void AddBurningOverlayGameObjects()
+	private void AddOverlayGameObjects()
 	{
 		if (engulfedBurningOverlay == null)
 		{
-			engulfedBurningOverlay = GameObject.Instantiate(ENGULFED_BURNING_OVERLAY_PREFAB, transform).GetComponent<BurningDirectionalOverlay>();
+			engulfedBurningOverlay = Instantiate(ENGULFED_BURNING_OVERLAY_PREFAB, transform).GetComponent<PlayerDirectionalOverlay>();
 			engulfedBurningOverlay.enabled = true;
-			engulfedBurningOverlay.StopBurning();
+			engulfedBurningOverlay.StopOverlay();
 		}
-
 		if (partialBurningOverlay == null)
 		{
-			partialBurningOverlay = GameObject.Instantiate(PARTIAL_BURNING_OVERLAY_PREFAB, transform).GetComponent<BurningDirectionalOverlay>();
+			partialBurningOverlay = Instantiate(PARTIAL_BURNING_OVERLAY_PREFAB, transform).GetComponent<PlayerDirectionalOverlay>();
 			partialBurningOverlay.enabled = true;
-			partialBurningOverlay.StopBurning();
+			partialBurningOverlay.StopOverlay();
 		}
 	}
 
@@ -231,18 +230,18 @@ public class PlayerSprites : MonoBehaviour
 	{
 		if (fireStacks <= 0)
 		{
-			engulfedBurningOverlay.StopBurning();
-			partialBurningOverlay.StopBurning();
+			engulfedBurningOverlay.StopOverlay();
+			partialBurningOverlay.StopOverlay();
 		}
 		else if (fireStacks < FIRE_STACK_ENGULF_THRESHOLD)
 		{
-			partialBurningOverlay.Burn(currentFacing);
-			engulfedBurningOverlay.StopBurning();
+			partialBurningOverlay.StartOverlay(currentFacing);
+			engulfedBurningOverlay.StopOverlay();
 		}
 		else
 		{
-			engulfedBurningOverlay.Burn(currentFacing);
-			partialBurningOverlay.StopBurning();
+			engulfedBurningOverlay.StartOverlay(currentFacing);
+			partialBurningOverlay.StopOverlay();
 		}
 	}
 
