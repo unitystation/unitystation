@@ -167,7 +167,10 @@ public class StationGateway : NetworkBehaviour
 
 		Message = "Teleporting to: " + selectedWorld.WorldName;
 
-		selectedWorld.SetUp(this);
+		if (selectedWorld.spawnMobsOnConnection)
+		{
+			selectedWorld.SetUp(this);
+		}
 
 		if (HasPower)
 		{
@@ -185,8 +188,9 @@ public class StationGateway : NetworkBehaviour
 		//detect players positioned on the portal bit of the gateway
 		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
 
-		if (!SpawnedMobs && playersFound.Count() > 0)
+		if (!SpawnedMobs && selectedWorld != null && playersFound.Count() > 0)
 		{
+			selectedWorld.SetUp(this);
 			Logger.Log("Gateway Spawned Mobs");
 			if (selectedWorld.GetComponent<MobSpawnControlScript>() != null)
 			{
