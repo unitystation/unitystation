@@ -713,7 +713,7 @@ namespace Machines
 
 			if (machine.MachineParts.machineCircuitBoardSprite != null)
 			{
-				board.GetComponent<SpriteRenderer>().sprite = machine.MachineParts.machineCircuitBoardSprite;
+				board.GetComponentInChildren<SpriteRenderer>().sprite = machine.MachineParts.machineCircuitBoardSprite;
 			}
 
 			// Basic items to the machine frame from the despawned machine
