@@ -53,8 +53,8 @@ namespace NPC
 		{
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} start chasing its own tail!",
-				$"{mobNameCap} start chasing its own tail!");
+				$"{mobNameCap} starts chasing its own tail!",
+				$"{mobNameCap} starts chasing its own tail!");
 
 			for (int timesSpun = 0; timesSpun <= times; timesSpun++)
 			{

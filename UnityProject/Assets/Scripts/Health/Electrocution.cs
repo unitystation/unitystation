@@ -33,7 +33,7 @@ public class Electrocution
 	/// <summary> Used by notification messages - tell the player(s) what shocked them. </summary>
 	public readonly string ShockSourceName;
 
-	public Electrocution(float voltage, Vector3 shockSourcePos, string shockSourceName)
+	public Electrocution(float voltage, Vector3 shockSourcePos, string shockSourceName = null)
 	{
 		Voltage = voltage;
 		ShockSourcePos = shockSourcePos;

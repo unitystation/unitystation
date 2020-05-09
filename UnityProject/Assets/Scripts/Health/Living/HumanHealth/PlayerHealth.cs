@@ -253,8 +253,11 @@ public class PlayerHealth : LivingHealthBehaviour
 		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
 		Inventory.ServerDrop(itemStorage.GetActiveHandSlot());
 		// Slip is essentially a yelp SFX.
-		SoundManager.PlayNetworkedAtPos("Slip", registerPlayer.WorldPosition, UnityEngine.Random.Range(0.4f, 1.2f), sourceObj: gameObject);
-		Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a small electric shock!");
+		SoundManager.PlayNetworkedAtPos("Slip", registerPlayer.WorldPosition,
+				UnityEngine.Random.Range(0.4f, 1.2f), sourceObj: gameObject);
+		Chat.AddExamineMsgFromServer(gameObject,
+				(electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
+				" gives you a small electric shock!");
 
 		DealElectrocutionDamage(5, electrocutedHand);
 	}
@@ -266,9 +269,12 @@ public class PlayerHealth : LivingHealthBehaviour
 		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
 		registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD);
 		StartCoroutine(ElectrocutionAnimation());
-		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition, UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition,
+				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 		// Consider removing this message when the shock animation has been implemented as it should be obvious enough.
-		Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} electrocutes you!");
+		Chat.AddExamineMsgFromServer(gameObject,
+				(electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
+				" electrocutes you!");
 
 		var damage = shockPower / ELECTROCUTION_BURNDAMAGE_MODIFIER;
 		if (ELECTROCUTION_MAX_DAMAGE != -1 && damage > ELECTROCUTION_MAX_DAMAGE) damage = ELECTROCUTION_MAX_DAMAGE;
