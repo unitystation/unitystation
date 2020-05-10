@@ -437,6 +437,12 @@ namespace Machines
 			{
 				var spawnedObject = Spawn.ServerPrefab(machineParts.machine, SpawnDestination.At(gameObject)).GameObject.GetComponent<Machine>();
 
+				if (spawnedObject == null)
+				{
+					Logger.Log(machineParts.machine + " is missing the machine script!");
+					return;
+				}
+
 				//Send circuit board data to the new machine
 				spawnedObject.SetBasicPartsUsed(basicPartsUsed);
 				spawnedObject.SetPartsInFrame(partsInFrame);
