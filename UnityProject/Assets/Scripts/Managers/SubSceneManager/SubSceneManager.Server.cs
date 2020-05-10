@@ -1,5 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Linq;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
@@ -10,6 +12,11 @@ public partial class SubSceneManager
 {
 	private string serverChosenAwaySite;
 	private string serverChosenMainStation;
+
+	public static string ServerChosenMainStation
+	{
+		get { return Instance.serverChosenMainStation; }
+	}
 
 	public override void OnStartServer()
 	{
@@ -121,5 +128,7 @@ public partial class SubSceneManager
 				n.Value.AddPlayerObserver(connToAdd);
 			}
 		}
+
+		CustomNetworkManager.Instance.SyncPlayerData(connToAdd.clientOwnedObjects.ElementAt(0).gameObject, sceneContext.name);
 	}
 }

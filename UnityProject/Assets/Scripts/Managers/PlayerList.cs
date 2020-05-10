@@ -45,7 +45,6 @@ public partial class PlayerList : NetworkBehaviour
 		if (Instance == null)
 		{
 			Instance = this;
-			Instance.ResetSyncedState();
 		}
 		else
 		{
@@ -57,16 +56,6 @@ public partial class PlayerList : NetworkBehaviour
 	{
 		base.OnStartServer();
 		InitAdminController();
-	}
-
-	/// Allowing players to sync after round restart
-	public void ResetSyncedState()
-	{
-		for (var i = 0; i < loggedIn.Count; i++)
-		{
-			var player = loggedIn[i];
-			player.Synced = false;
-		}
 	}
 
 	/// <summary>

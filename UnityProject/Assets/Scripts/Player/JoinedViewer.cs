@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 using System.Net.NetworkInformation;
 using Mirror;
 using Newtonsoft.Json;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -69,8 +72,6 @@ public class JoinedViewer : NetworkBehaviour
 			}
 		}
 
-		// Sync all player data and the connected player count
-		CustomNetworkManager.Instance.SyncPlayerData(gameObject);
 		UpdateConnectedPlayersMessage.Send();
 
 		// Only sync the pre-round countdown if it's already started
@@ -92,7 +93,7 @@ public class JoinedViewer : NetworkBehaviour
 		//their body or not, which should not be up to the client!
 		if (loggedOffPlayer != null)
 		{
-			PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
+			StartCoroutine(WaitForLoggedOffObserver(loggedOffPlayer));
 		}
 		else
 		{
@@ -101,6 +102,29 @@ public class JoinedViewer : NetworkBehaviour
 		}
 
 		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, unverifiedUserid);
+	}
+
+	/// <summary>
+	/// Waits for the client to be an observer of the player before continuing
+	/// </summary>
+	IEnumerator WaitForLoggedOffObserver(GameObject loggedOffPlayer)
+	{
+		//TODO When we have scene network culling we will need to allow observers
+		// for the whole specific scene and the body before doing the logic below:
+		var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();
+		while (!netIdentity.observers.ContainsKey(this.connectionToClient.connectionId))
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+		yield return WaitFor.EndOfFrame;
+		TargetLocalPlayerRejoinUI(connectionToClient);
+		PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
+	}
+
+	[TargetRpc]
+	private void TargetLocalPlayerRejoinUI(NetworkConnection target)
+	{
+		UIManager.Display.preRoundWindow.ShowRejoiningPanel();
 	}
 
 	/// <summary>
