@@ -6,6 +6,9 @@ using UnityEngine.Serialization;
 public class GUI_PDAUplinkCategory : NetPage
 {
 	[SerializeField]
+	private GUI_PDAUplinkMenu controller;
+
+	[SerializeField]
 	private EmptyItemList categoryTemplate;
 
 	[SerializeField]
@@ -19,5 +22,21 @@ public class GUI_PDAUplinkCategory : NetPage
 		{
 			categoryTemplate.Entries[i].GetComponent<GUI_PDAUplinkCategoryTemplate>().ReInit(categories.ItemCategoryList[i]);
 		}
+	}
+	public void ClearCategory()
+	{
+		categoryTemplate.Clear();
+	}
+
+	public void Back()
+	{
+		ClearCategory();
+		controller.mainController.OpenSettings();
+	}
+
+	public void Lock()
+	{
+		Back();
+		controller.mainController.Pda.LockUplink();
 	}
 }

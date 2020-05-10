@@ -144,4 +144,11 @@ public class Mind
 		if (!IsAntag) return;
 		Chat.AddExamineMsgFromServer(body.gameObject, Antag.GetObjectivesForPlayer());
 	}
+	/// <summary>
+	/// Simply returns what antag the player is, if any
+	/// </summary>
+	public SpawnedAntag GetAntag()
+	{
+		return Antag;
+	}
 }

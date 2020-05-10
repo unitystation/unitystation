@@ -1,10 +1,13 @@
 ﻿using System;
+using Antagonists;
 using Mirror;
+using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(PlayerLightControl))]
+[RequireComponent(typeof(HasNetworkTabItem))]
 public class PDA : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	//MessengerSyncDictionary pdas;
@@ -20,15 +23,19 @@ public class PDA : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public PlayerLightControl flashlight;
 
 	// Is the flashlight on?
-	[NonSerialized] public bool FlashlightOn;
+	[NonSerialized]
+	public bool FlashlightOn;
 
 	// The ID that's inserted, if any.
-	[NonSerialized] public IDCard IdCard;
+	[NonSerialized]
+	public IDCard IdCard;
 
-	[NonSerialized] public bool IdEject;
+	[NonSerialized]
+	public bool IdEject;
 
 	// The slot the ID is currently stored in
-	[NonSerialized] public ItemSlot IdSlot = null;
+	[NonSerialized]
+	public ItemSlot IdSlot = null;
 
 	[FormerlySerializedAs("OnServerIDCardChanged")] [FormerlySerializedAs("IdEvent")]
 	public IDEvent onServerIdCardChanged = new IDEvent();
@@ -44,9 +51,8 @@ public class PDA : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[NonSerialized] public string PdaRegisteredName;
 
 	//Local storage of the PDA
-	[NonSerialized] private ItemStorage storage;
+	private ItemStorage storage;
 
-	[Tooltip(" To unlock or lock the PDA even if the string is given")]
 	public bool uplinkLocked;
 
 	// The string that must be entered into the ringtone slot
@@ -54,7 +60,14 @@ public class PDA : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public string uplinkString;
 
 	[Tooltip("The amount of telecrystals in the PDA")]
-	public int teleCrystals = 0;
+	public int teleCrystals;
+
+	[NonSerialized]
+	public HasNetworkTabItem TabOnGameObject;
+
+	[SerializeField]
+	private Antagonist antagSet;
+
 
 	//Checks weather the player is trying to insert a cartridge or a new ID
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -107,14 +120,26 @@ public class PDA : NetworkBehaviour, ICheckedInteractable<HandApply>
 	/// </summary>
 	private void Start()
 	{
-		//Checks to see if anything is in the item slots and allocate them to their respective variables
 		storage = gameObject.GetComponent<ItemStorage>();
+		TabOnGameObject = gameObject.GetComponent<HasNetworkTabItem>();
+		pdaId = gameObject.GetComponent<NetworkIdentity>();
 		var slot = storage.GetIndexedItemSlot(0);
 		if (slot.IsEmpty != true) IdCard = slot.Item.GetComponent<IDCard>();
 		slot.OnSlotContentsChangeServer.AddListener(SlotChange);
 		//messengerSystem = GameObject.Find("MessengerManager").GetComponent<MessengerManager>();
-		pdaId = gameObject.GetComponent<NetworkIdentity>();
 		//AddSelf();
+	}
+	[Server]
+	public void AntagCheck(SpawnedAntag antag)
+	{
+		if (antag != null)
+		{
+			string name = antag.Antagonist.AntagName;
+			if (name == antagSet.AntagName && isServer)
+			{
+				uplinkLocked = false;
+			}
+		}
 	}
 	//The methods bellow are general functions of the PDA
 
@@ -142,7 +167,12 @@ public class PDA : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public bool ActivateUplink(string notificationString)
 	{
-		return isServer && notificationString == uplinkString;
+		if (notificationString == uplinkString && isServer && uplinkLocked != true)
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	/// <summary>
@@ -151,9 +181,21 @@ public class PDA : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[Server]
 	public void SpawnUplinkItem(GameObject objectRequested, int cost)
 	{
+		// Grabs the player's playerscript by asking HasNetworkTabItem who was the last person to interact
 		if (cost <= teleCrystals)
 		{
-			Spawn.ServerPrefab(objectRequested, gameObject.WorldPosServer(), count: 1);
+			var player = TabOnGameObject.LastInteractedPlayer().GetComponent<PlayerScript>().ItemStorage;
+			var result = Spawn.ServerPrefab(objectRequested);
+			var item = result.GameObject;
+			teleCrystals -=cost;
+			if (player.GetNamedItemSlot(NamedSlot.rightHand) == null)
+			{
+				Inventory.ServerAdd(item, player.GetNamedItemSlot(NamedSlot.rightHand),
+					ReplacementStrategy.DropOther);
+			}
+			Inventory.ServerAdd(item, player.GetNamedItemSlot(NamedSlot.leftHand),
+				ReplacementStrategy.DropOther);
+
 		}
 	}
 

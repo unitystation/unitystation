@@ -11,40 +11,31 @@ public class GUI_PDA : NetTab
 	[SerializeField] [Tooltip("Main menu here")]
 	private GUI_PDAMainMenu menuPage; //The menuPage for reference
 
-	[NonSerialized] public PDA Pda;
-
 	[SerializeField] [Tooltip("Setting Menu here")]
 	private GUI_PDASettingMenu settingPage; //The settingPage for reference
 
-	[SerializeField] [Tooltip("Uplink switcher here")]
-	private NetPageSwitcher uplinkSwitcher; //The uplinkPage for reference
-
 	[SerializeField] [Tooltip("Uplink here")]
-	private NetPage uplinkPage; //The uplinkPage for reference
+	private GUI_PDAUplinkMenu uplinkPage; //The uplinkPage for reference
 
-	[SerializeField] [Tooltip("UplinkCategory here")]
-	private GUI_PDAUplinkCategory uplinkCategoryPage; //The uplinkCategoryPage for reference
-
-	[SerializeField] [Tooltip("UplinkItem here")]
-	private GUI_PDAUplinkItem uplinkItemPage; //The uplinkItemPage for reference
-
-
-
-	private UplinkCategoryClickedEvent onCategoryClicked;
-	public UplinkCategoryClickedEvent OnCategoryClickedEvent {get => onCategoryClicked;}
+	[NonSerialized]
+	public PDA Pda;
 
 	private UplinkItemClickedEvent onItemClicked;
 	public UplinkItemClickedEvent OnItemClickedEvent {get => onItemClicked;}
+
+	private UplinkCategoryClickedEvent onCategoryClicked;
+	public UplinkCategoryClickedEvent OnCategoryClickedEvent {get => onCategoryClicked;}
 
 
 	// Grabs the PDA component and opens the mainmenu
 	private void Start()
 	{
-		onCategoryClicked = new UplinkCategoryClickedEvent();
-		OnCategoryClickedEvent.AddListener(OpenUplinkCategory);
 		onItemClicked = new UplinkItemClickedEvent();
 		OnItemClickedEvent.AddListener(SpawnUplinkItem);
+		onCategoryClicked = new UplinkCategoryClickedEvent();
+		OnCategoryClickedEvent.AddListener(OpenUplinkCategory);
 		Pda = Provider.GetComponent<PDA>();
+		Pda.AntagCheck(Pda.TabOnGameObject.LastInteractedPlayer().GetComponent<PlayerScript>().mind.GetAntag());
 		OpenMainMenu();
 	}
 
@@ -74,28 +65,30 @@ public class GUI_PDA : NetTab
 		{
 			return false;
 		}
-		if (IsServer && Pda.ActivateUplink(notificationString))
+		if (IsServer && Pda.ActivateUplink(notificationString) )
 		{
-			uplinkCategoryPage.UpdateCategory();
-			uplinkSwitcher.SetActivePage(uplinkCategoryPage);
-			mainSwitcher.SetActivePage(uplinkPage);
+			OpenUplink();
 			return true;
 		}
 
 		return false;
 	}
-	/// <summary>
-	/// Tells the item page to make entries depending on the category given
-	/// </summary>
+
+	public void OpenUplink()
+	{
+		uplinkPage.ShowCategories();
+		mainSwitcher.SetActivePage(uplinkPage);
+	}
+
 	public void OpenUplinkCategory(List<UplinkItems> items)
 	{
-		uplinkItemPage.GenerateEntries(items);
-		uplinkSwitcher.SetActivePage(uplinkItemPage);
+		uplinkPage.OpenSelectedCategory(items);
 	}
 
 	public void SpawnUplinkItem(UplinkItems itemRequested)
 	{
 		Pda.SpawnUplinkItem(itemRequested.Item, itemRequested.Cost);
+		uplinkPage.UpdateTc();
 	}
 
 	/// <summary>
@@ -129,7 +122,6 @@ public class GUI_PDA : NetTab
 		OpenMainMenu();
 	}
 }
-
 [Serializable]
 public class UplinkCategoryClickedEvent : UnityEvent<List<UplinkItems>>
 {
