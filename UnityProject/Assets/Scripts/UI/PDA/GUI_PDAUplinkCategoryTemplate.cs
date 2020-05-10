@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GUI_PDAUplinkCategoryTemplate : DynamicEntry
 {
-	private GUI_PDA pdaMasterTab = null;
+	private GUI_PDA masterTab;
 
 	[NonSerialized]
 	public UplinkCatagories Category;
@@ -14,16 +14,15 @@ public class GUI_PDAUplinkCategoryTemplate : DynamicEntry
 	private NetLabel categoryName;
 
 
-
 	public void OpenCategory()
 	{
-		if (pdaMasterTab == null) { pdaMasterTab.GetComponent<GUI_PDA>().OnCategoryClickedEvent.Invoke(Category.ItemList); }
-		else { pdaMasterTab.OnCategoryClickedEvent.Invoke(Category.ItemList); }
+		masterTab.OnCategoryClickedEvent.Invoke(Category.ItemList);
 	}
 
 
 	public void ReInit(UplinkCatagories assignedcategory)
 	{
+		masterTab = MasterTab.GetComponent<GUI_PDA>();
 		Category = assignedcategory;
 		categoryName.Value = Category.CategoryName;
 	}

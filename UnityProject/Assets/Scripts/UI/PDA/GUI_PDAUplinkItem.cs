@@ -5,6 +5,9 @@ using UnityEngine;
 public class GUI_PDAUplinkItem : NetPage
 {
 	[SerializeField]
+	private GUI_PDAUplinkMenu controller;
+
+	[SerializeField]
 	private EmptyItemList itemTemplate;
 
 	public void GenerateEntries(List<UplinkItems> itementries)
@@ -16,4 +19,16 @@ public class GUI_PDAUplinkItem : NetPage
 			itemTemplate.Entries[i].GetComponent<GUI_PDAUplinkItemTemplate>().ReInit(itementries[i]);
 		}
 	}
+
+	public void ClearItems()
+	{
+		itemTemplate.Clear();
+	}
+
+	public void Back()
+	{
+		ClearItems();
+		controller.ShowCategories();
+	}
+
 }
