@@ -170,6 +170,7 @@ public class CustomNetworkManager : NetworkManager
 
 		Logger.LogFormat("Client connecting to server {0}", Category.Connections, conn);
 		base.OnServerAddPlayer(conn);
+		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 	}
 

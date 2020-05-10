@@ -829,22 +829,23 @@ namespace Mirror
         /// <returns>true when overwriting so that Mirror knows that we wanted to rebuild observers ourselves. otherwise it uses built in rebuild.</returns>
         public virtual bool OnRebuildObservers(HashSet<NetworkConnection> observers, bool initialize)
         {
-	        return false;
+	        foreach (var obs in NetworkServer.observerSceneList)
+	        {
+		        if (obs.Key == null) continue;
+		        if (gameObject.scene == SceneManager.GetActiveScene())
+		        {
+			        observers.Add(obs.Key);
+		        }
+		        else
+		        {
+			        if (obs.Value.Contains(gameObject.scene))
+			        {
+				        observers.Add(obs.Key);
+			        }
+		        }
+			}
 
-	        //TODO: We are not doing observer rebuilds yet. will come back to visibility stuff later
-	        // foreach(var n in NetworkIdentity.spawned)
-	        // {
-	        //  if (n.Value != null && n.Value.connectionToClient != null)
-	        //  {
-	        //   if (n.Value.gameObject.scene == gameObject.scene
-	        //       || SceneManager.GetActiveScene() == gameObject.scene)
-	        //   {
-	        //    observers.Add(n.Value.connectionToClient);
-	        //   }
-	        //  }
-	        // }
-	        //
-	        // return true;
+	        return true;
         }
 
         /// <summary>

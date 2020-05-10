@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Mirror;
+#if UNITY_EDITOR
 using UnityEditor;
-using UnityEngine;
+#endif
 using UnityEngine.SceneManagement;
 
 //Server
@@ -20,9 +20,23 @@ public partial class SubSceneManager
 
 	public override void OnStartServer()
 	{
+		NetworkServer.observerSceneList.Clear();
 		// Determine a Main station subscene and away site
 		StartCoroutine(RoundStartServerLoadSequence());
 		base.OnStartServer();
+	}
+
+	/// <summary>
+	/// Starts a collection of scenes that this connection is allowed to see
+	/// </summary>
+	public void AddNewObserverScenePermissions(NetworkConnection conn)
+	{
+		if (NetworkServer.observerSceneList.ContainsKey(conn))
+		{
+			NetworkServer.observerSceneList.Remove(conn);
+		}
+
+		NetworkServer.observerSceneList.Add(conn, new List<Scene> {SceneManager.GetActiveScene()});
 	}
 
 	IEnumerator RoundStartServerLoadSequence()
@@ -107,6 +121,22 @@ public partial class SubSceneManager
 	}
 
 	/// <summary>
+	/// Add a new scene to a specific connections observable list
+	/// </summary>
+	void AddObservableSceneToConnection(NetworkConnection conn, Scene sceneContext)
+	{
+		if (!NetworkServer.observerSceneList.ContainsKey(conn))
+		{
+			AddNewObserverScenePermissions(conn);
+		}
+
+		if (!NetworkServer.observerSceneList[conn].Contains(sceneContext))
+		{
+			NetworkServer.observerSceneList[conn].Add(sceneContext);
+		}
+	}
+
+	/// <summary>
 	/// No scene / proximity visibility checking. Just adding it to everything
 	/// </summary>
 	/// <param name="connToAdd"></param>
@@ -128,6 +158,8 @@ public partial class SubSceneManager
 				n.Value.AddPlayerObserver(connToAdd);
 			}
 		}
+
+		AddObservableSceneToConnection(connToAdd, sceneContext);
 
 		CustomNetworkManager.Instance.SyncPlayerData(connToAdd.clientOwnedObjects.ElementAt(0).gameObject, sceneContext.name);
 	}
