@@ -23,5 +23,13 @@ namespace Machines
 		{
 			machineParts = MachineParts;
 		}
+
+		private void Awake()
+		{
+			if (machineParts == null) return;
+			if (machineParts.machineCircuitBoardSprite == null) return;
+
+			GetComponentInChildren<SpriteRenderer>().sprite = machineParts.machineCircuitBoardSprite;
+		}
 	}
 }
