@@ -117,7 +117,14 @@ public class JoinedViewer : NetworkBehaviour
 			yield return WaitFor.EndOfFrame;
 		}
 		yield return WaitFor.EndOfFrame;
+		TargetLocalPlayerRejoinUI(connectionToClient);
 		PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
+	}
+
+	[TargetRpc]
+	private void TargetLocalPlayerRejoinUI(NetworkConnection target)
+	{
+		UIManager.Display.preRoundWindow.ShowRejoiningPanel();
 	}
 
 	/// <summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -57,13 +58,31 @@ public class PlayerManager : MonoBehaviour
 	{
 		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 		EventManager.AddHandler(EVENT.PlayerDied, OnPlayerDeath);
+		EventManager.AddHandler(EVENT.PlayerRejoined, OnRejoinPlayer);
 	}
 
 	private void OnDisable()
 	{
 		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 		EventManager.RemoveHandler(EVENT.PlayerDied, OnPlayerDeath);
+		EventManager.RemoveHandler(EVENT.PlayerRejoined, OnRejoinPlayer);
 		PlayerPrefs.Save();
+	}
+
+	private void OnRejoinPlayer()
+	{
+		StartCoroutine(WaitForCamera());
+	}
+
+	IEnumerator WaitForCamera()
+	{
+		while (LocalPlayer == null
+		       || Vector2.Distance(Camera2DFollow.followControl.transform.position, LocalPlayer.transform.position) > 5f)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		UIManager.Display.RejoinedEvent();
 	}
 
 	private void Update()
