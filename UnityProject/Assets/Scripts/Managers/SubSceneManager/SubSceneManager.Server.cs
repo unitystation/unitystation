@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
@@ -121,5 +122,7 @@ public partial class SubSceneManager
 				n.Value.AddPlayerObserver(connToAdd);
 			}
 		}
+
+		CustomNetworkManager.Instance.SyncPlayerData(connToAdd.clientOwnedObjects.ElementAt(0).gameObject, sceneContext.name);
 	}
 }

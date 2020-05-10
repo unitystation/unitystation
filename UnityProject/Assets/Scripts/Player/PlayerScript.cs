@@ -179,7 +179,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			}
 			else
 			{
-
 				UIManager.LinkUISlots();
 				//play the spawn sound
 				SoundManager.Play("Ambient#");
@@ -190,8 +189,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 			}
 
-			//				Request sync to get all the latest transform data
-			new RequestSyncMessage().Send();
 			EventManager.Broadcast(EVENT.UpdateChatChannels);
 		}
 	}
