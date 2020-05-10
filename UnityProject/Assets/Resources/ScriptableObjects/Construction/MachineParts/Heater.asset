@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7616af8b1aca87f4f83d0af4e2f8aeb8, type: 3}
+  m_Name: Heater
+  m_EditorClassIdentifier: 
+  machine: {fileID: 1970799839538982, guid: 9c5034631fb1d4cb584c2cfaaa51f002, type: 3}
+  NameOfCircuitBoard: 'Heater Board '
+  DescriptionOfCircuitBoard: Used to build Heater.
+  machineParts:
+  - itemTrait: {fileID: 11400000, guid: 2b530cc6dc3250f4e97d022110dbf1f8, type: 2}
+    basicItem: {fileID: 2527188313238870147, guid: 1ca8c26ca2f61444bb8d374104ed2a02,
+      type: 3}
+    amountOfThisPart: 2
+  - itemTrait: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
+    basicItem: {fileID: 4435676122793348777, guid: c567e6c3b003a2b488534a8766866cb0,
+      type: 3}
+    amountOfThisPart: 1
+  - itemTrait: {fileID: 11400000, guid: bc6313255779d8c40b24dee25c4db605, type: 2}
+    basicItem: {fileID: 2527188313238870147, guid: 12e1033504f11d342867225fade01e88,
+      type: 3}
+    amountOfThisPart: 2
+  - itemTrait: {fileID: 11400000, guid: ef95b18f5d8aa42d2b4241d48a97d81d, type: 2}
+    basicItem: {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d,
+      type: 3}
+    amountOfThisPart: 1

@@ -16,23 +16,31 @@ MonoBehaviour:
   LayerType: 2
   TileType: 4
   RequiredTiles: []
-  WalkingSoundCategory: 0
-  BarefootWalkingSoundCategory: 0
-  ClawFootstepSoundCategory: 0
-  HeavyFootstepSoundCategory: 0
-  ClownFootstepSoundCategory: 0
+  floorTileType: 0
   atmosPassable: 1
   isSealed: 0
   SpawnWithNoAir: 0
   oreCategory: 0
-  MaxHealth: 0
   HealthStates: []
   passable: 0
   mineable: 0
   passableException:
     m_keys: 02000000
     m_values: 01
-  maxHealth: 0
+  maxHealth: 200
+  armor:
+    Melee: 10
+    Bullet: 30
+    Laser: 100
+    Energy: 0
+    Bomb: 20
+    Rad: 0
+    Fire: 80
+    Acid: 0
+    Magic: 0
+    Bio: 70
+  hitSounds: []
+  tileDestroyedRemains: []
   healthStates: []
   resistances:
     LavaProof: 0
@@ -42,17 +50,6 @@ MonoBehaviour:
     AcidProof: 0
     Indestructable: 0
     FreezeProof: 0
-  armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
   tileInteractions:
   - {fileID: 11400000, guid: b2ed86334f60cfebe9c02f326c550bfd, type: 2}
   - {fileID: 11400000, guid: 02a799c7125ad1d44b6a5c98cf8353e6, type: 2}

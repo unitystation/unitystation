@@ -271,6 +271,7 @@ GameObject:
   - component: {fileID: 3651291330810827203}
   - component: {fileID: 3708589072684735304}
   - component: {fileID: -5609505622552508171}
+  - component: {fileID: -4917677252813875205}
   m_Layer: 12
   m_Name: NPC_ClownPosse_Honkmunculus
   m_TagString: Untagged
@@ -610,3 +611,18 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
+--- !u!114 &-4917677252813875205
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

@@ -5,41 +5,44 @@ using global::Chemistry;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Chemistry.Components;
 
 namespace Tests.Chemistry
 {
 	public class ReactionContainerFixture
 	{
-
 		private static ReagentContainer GetContainer(int maxCapacity, ReagentMix contents)
 		{
-			GameObject obj = new GameObject();
-			obj.AddComponent<ReagentContainer>();
-			ReagentContainer container = obj.GetComponent<ReagentContainer>();
-			container.ReactionSet = new ReactionSet();
-			container.maxCapacity = maxCapacity;
+			var set = ScriptableObject.CreateInstance<ReactionSet>();
+			var container = ReagentContainer.Create(set, maxCapacity);
 			container.Add(contents);
+
 			return container;
 		}
 
 		private static void AssertContainerContentsEqualTo(ReagentContainer container, ReagentMix expected)
 		{
-			container.Clean();
-			expected.Clean();
 			Assert.AreEqual(expected.Count(), container.Count());
 			foreach (var pair in expected)
 			{
 				var val = container[pair.Key];
-				Assert.IsTrue(val != null);
-				Assert.AreEqual(pair.Value, val, 0.00000001, $"Wrong amount of {pair.Key}.");
+
+				if (pair.Key)
+					Assert.AreEqual(pair.Value, val, 0.00000001, $"Wrong amount of {pair.Key}.");
+				else
+					Assert.AreEqual(pair.Value, val, 0.00000001);
 			}
 		}
 
 		private static IEnumerable AdditionTestData()
 		{
-			var a = new global::Chemistry.Reagent();
-			var b = new global::Chemistry.Reagent();
-			var c = new global::Chemistry.Reagent();
+			var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			a.Name = "a";
+			var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			b.Name = "b";
+			var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			c.Name = "c";
+
 			//Test adding without overflow
 			yield return new object[]
 			{
@@ -122,9 +125,12 @@ namespace Tests.Chemistry
 
 		private static IEnumerable RemovalTestData()
 		{
-			var a = new global::Chemistry.Reagent();
-			var b = new global::Chemistry.Reagent();
-			var c = new global::Chemistry.Reagent();
+			var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			a.Name = "a";
+			var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			b.Name = "b";
+			var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			c.Name = "c";
 
 			yield return new object[]
 			{

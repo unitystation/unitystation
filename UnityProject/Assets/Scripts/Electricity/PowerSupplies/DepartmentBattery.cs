@@ -77,31 +77,26 @@ public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandAppl
 		UpdateState(isOn, isOn);
 	}
 
-	public void PowerNetworkUpdate() {
-		if (BatterySupplyingModule.CurrentCapacity > 0)
-		{
-			if (BatterySupplyingModule.CurrentCapacity > (BatterySupplyingModule.CapacityMax / 2))
-			{
-				if (CurrentState != BatteryStateSprite.Full)
-				{
-					UpdateBattery(CurrentState, BatteryStateSprite.Full);
-				}
+	public void PowerNetworkUpdate()
+	{
+		BatteryStateSprite newState;
 
-			}
-			else
-			{
-				if (CurrentState != BatteryStateSprite.Half)
-				{
-					UpdateBattery(CurrentState, BatteryStateSprite.Half);
-				}
-			}
+		if (BatterySupplyingModule.CurrentCapacity <= 0)
+		{
+			newState = BatteryStateSprite.Empty;
+		}
+		else if (BatterySupplyingModule.CurrentCapacity <= (BatterySupplyingModule.CapacityMax / 2))
+		{
+			newState = BatteryStateSprite.Half;
 		}
 		else
 		{
-			if (CurrentState != BatteryStateSprite.Empty)
-			{
-				UpdateBattery(CurrentState, BatteryStateSprite.Empty);
-			}
+			newState = BatteryStateSprite.Full;
+		}
+
+		if (CurrentState != newState)
+		{
+			UpdateBattery(CurrentState, newState);
 		}
 	}
 
@@ -132,8 +127,8 @@ public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandAppl
 				BatteryIndicatorSprite.enabled = false;
 				break;
 		}
-
 	}
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -142,13 +137,14 @@ public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandAppl
 
 		return true;
 	}
+
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 			isOn = !isOn;
-			UpdateServerState(isOn);
-		
+			UpdateServerState();
 	}
-	public void UpdateServerState(bool _isOn)
+
+	public void UpdateServerState()
 	{
 		if (isOn)
 		{

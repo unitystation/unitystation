@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
@@ -30,6 +29,7 @@ namespace AdminTools
 			currentData = adminPageData;
 			adminTools.RefreshOnlinePlayerList(adminPageData);
 			adminTools.CloseRetrievingDataScreen();
+
 		}
 	}
 

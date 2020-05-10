@@ -2,58 +2,65 @@
 
 public static class WireDirections
 {
-	private static Dictionary<string, int> LogicToIndexMap;
-
-	public static int GetSpriteIndex(string logic)
+	/// <summary>
+	/// Maps two Connection directions to a sprite index to show the correct wire sprite
+	/// </summary>
+	private static Dictionary<(Connection, Connection), int> LogicToIndexMap = new Dictionary<(Connection, Connection), int>
 	{
-		if (LogicToIndexMap == null)
-		{
-			LogicToIndexMap = new Dictionary<string, int>();
+		{ (Connection.North, Connection.Overlap), 0 },
+		{ (Connection.South, Connection.Overlap), 1 },
+		{ (Connection.East, Connection.Overlap), 2 },
+		{ (Connection.NorthEast, Connection.Overlap), 3 },
+		{ (Connection.SouthEast, Connection.Overlap), 4 },
+		{ (Connection.West, Connection.Overlap), 5 },
+		{ (Connection.NorthWest, Connection.Overlap), 6 },
+		{ (Connection.SouthWest, Connection.Overlap), 7 },
+		{ (Connection.North, Connection.South), 8 },
+		{ (Connection.North, Connection.East), 9 },
+		{ (Connection.North, Connection.NorthEast), 10 },
+		{ (Connection.North, Connection.SouthEast), 11 },
+		{ (Connection.North, Connection.West), 12 },
+		{ (Connection.North, Connection.NorthWest), 13 },
+		{ (Connection.North, Connection.SouthWest), 14 },
+		{ (Connection.East, Connection.South), 15 },
+		{ (Connection.NorthEast, Connection.South), 16 },
+		{ (Connection.SouthEast, Connection.South), 17 },
+		{ (Connection.South, Connection.West), 18 },
+		{ (Connection.South, Connection.NorthWest), 19 },
+		{ (Connection.South, Connection.SouthWest), 20 },
+		{ (Connection.NorthEast, Connection.East), 21 },
+		{ (Connection.East, Connection.SouthEast), 22 },
+		{ (Connection.East, Connection.West), 23 },
+		{ (Connection.East, Connection.NorthWest), 24 },
+		{ (Connection.East, Connection.SouthWest), 25 },
+		{ (Connection.NorthEast, Connection.SouthEast), 26 },
+		{ (Connection.NorthEast, Connection.West), 27 },
+		{ (Connection.NorthEast, Connection.NorthWest), 28 },
+		{ (Connection.NorthEast, Connection.SouthWest), 29 },
+		{ (Connection.SouthEast, Connection.West), 30 },
+		{ (Connection.SouthEast, Connection.NorthWest), 31 },
+		{ (Connection.SouthEast, Connection.SouthWest), 32 },
+		{ (Connection.West, Connection.NorthWest), 33 },
+		{ (Connection.SouthWest, Connection.West), 34 },
+		{ (Connection.SouthWest, Connection.NorthWest), 35 },
+	};
 
-			LogicToIndexMap.Add("North_Overlap", 0);
-			LogicToIndexMap.Add("South_Overlap", 1);
-			LogicToIndexMap.Add("East_Overlap", 2);
-			LogicToIndexMap.Add("NorthEast_Overlap", 3);
-			LogicToIndexMap.Add("SouthEast_Overlap", 4);
-			LogicToIndexMap.Add("West_Overlap", 5);
-			LogicToIndexMap.Add("NorthWest_Overlap", 6);
-			LogicToIndexMap.Add("SouthWest_Overlap", 7);
-			LogicToIndexMap.Add("North_South", 8);
-			LogicToIndexMap.Add("North_East", 9);
-			LogicToIndexMap.Add("North_NorthEast", 10);
-			LogicToIndexMap.Add("North_SouthEast", 11);
-			LogicToIndexMap.Add("North_West", 12);
-			LogicToIndexMap.Add("North_NorthWest", 13);
-			LogicToIndexMap.Add("North_SouthWest", 14);
-			LogicToIndexMap.Add("East_South", 15);
-			LogicToIndexMap.Add("NorthEast_South", 16);
-			LogicToIndexMap.Add("SouthEast_South", 17);
-			LogicToIndexMap.Add("South_West", 18);
-			LogicToIndexMap.Add("South_NorthWest", 19);
-			LogicToIndexMap.Add("South_SouthWest", 20);
-			LogicToIndexMap.Add("NorthEast_East", 21);
-			LogicToIndexMap.Add("East_SouthEast", 22);
-			LogicToIndexMap.Add("East_West", 23);
-			LogicToIndexMap.Add("East_NorthWest", 24);
-			LogicToIndexMap.Add("East_SouthWest", 25);
-			LogicToIndexMap.Add("NorthEast_SouthEast", 26);
-			LogicToIndexMap.Add("NorthEast_West", 27);
-			LogicToIndexMap.Add("NorthEast_NorthWest", 28);
-			LogicToIndexMap.Add("NorthEast_SouthWest", 29);
-			LogicToIndexMap.Add("SouthEast_West", 30);
-			LogicToIndexMap.Add("SouthEast_NorthWest", 31);
-			LogicToIndexMap.Add("SouthEast_SouthWest", 32);
-			LogicToIndexMap.Add("West_NorthWest", 33);
-			LogicToIndexMap.Add("SouthWest_West", 34);
-			LogicToIndexMap.Add("SouthWest_NorthWest", 35);
-		}
+	private static(Connection, Connection) OrderedTuple(Connection directionA, Connection directionB)
+	{
+		return directionA < directionB ? (directionA, directionB) : (directionB, directionA);
+	}
 
-		if (!LogicToIndexMap.ContainsKey(logic))
+	public static int GetSpriteIndex(Connection directionA, Connection directionB, bool TRayScannerSprite = false)
+	{
+		(Connection, Connection) connectTuple = OrderedTuple(directionA, directionB);
+
+		if (!LogicToIndexMap.TryGetValue(connectTuple, out int result))
 		{
-			Logger.Log("WIRE DIRECTION NOT FOUND: " + logic);
+			Logger.Log($"WIRE DIRECTION NOT FOUND: {connectTuple.Item1} -> {connectTuple.Item2}");
 			return 0;
 		}
 
-		return LogicToIndexMap[logic];
+		// Wires viewed with a TRayScanner have their own variant sprites, offset from the normal ones
+		return TRayScannerSprite ? result + 36 : result;
 	}
 }

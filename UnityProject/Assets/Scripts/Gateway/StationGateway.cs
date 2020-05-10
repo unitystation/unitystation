@@ -1,8 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Mirror;
+﻿using Mirror;
 using UnityEngine;
 using System.Linq;
+using UnityEditor;
 
 /// <summary>
 /// For Gateways inheritable class
@@ -22,10 +21,7 @@ public class StationGateway : NetworkBehaviour
 	[SerializeField]
 	private Sprite[] PowerOff = null;//TODO connect gateway to APC
 
-	[SerializeField]
-	private List<GameObject> Worlds = new List<GameObject>();//List of worlds available to be chosen
-
-	private GameObject SelectedWorld;// The world from the list that was chosen
+	private WorldGateway selectedWorld;// The world from the list that was chosen
 
 	private bool HasPower = true;// Not used atm
 
@@ -33,9 +29,7 @@ public class StationGateway : NetworkBehaviour
 
 	protected bool SpawnedMobs = false;
 
-	[SerializeField]
 	private int RandomCountBegining = 300; //Defaults to between 5 and 20 mins gate will open.
-	[SerializeField]
 	private int RandomCountEnd = 1200;
 
 	protected RegisterTile registerTile;
@@ -55,6 +49,8 @@ public class StationGateway : NetworkBehaviour
 
 	public float SoundLength = 7f;
 	public float AnimationSpeed = 0.25f;
+
+	private float WaitTimeBeforeActivation { get; set; }
 
 	[SyncVar(hook = nameof(SyncState))]
 	private bool isOn = false;
@@ -118,37 +114,62 @@ public class StationGateway : NetworkBehaviour
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
-	private void Start()
+	public override void OnStartServer()
 	{
 		SetOffline();
 
-		if (!isServer) return;
-
 		registerTile = GetComponent<RegisterTile>();
 		Position = registerTile.WorldPosition;
-
+		SubSceneManager.RegisterStationGateway(this);
 		ServerChangeState(false);
+		bool loadNormally = true;
+		if (Application.isEditor)
+		{
+#if UNITY_EDITOR
+			if (EditorPrefs.HasKey("prevEditorScene"))
+			{
+				if (!string.IsNullOrEmpty(EditorPrefs.GetString("prevEditorScene")))
+				{
+					if (SubSceneManager.Instance.awayWorldList.AwayWorlds.Contains(
+						EditorPrefs.GetString("prevEditorScene")))
+					{
+						loadNormally = false;
+						//This will ensure that the gateway is ready in 30 seconds
+						//if you are working on an awaysite in the editor
+						WaitTimeBeforeActivation = 30f;
+					}
+				}
+			}
+#endif
+		}
 
-		var count = Random.Range(RandomCountBegining, RandomCountEnd);
-		Invoke(nameof(WorldSetup), count);
+		if(loadNormally)
+		{
+			WaitTimeBeforeActivation = Random.Range(RandomCountBegining, RandomCountEnd);
+		}
+
+		Invoke(nameof(ConnectToWorld), WaitTimeBeforeActivation);
 	}
 
 	[Server]
-	public virtual void WorldSetup()
+	void ConnectToWorld()
 	{
-		//Selects Random world
-		SelectedWorld = Worlds[Random.Range(0, Worlds.Count)];
+		var randomWorld = SubSceneManager.RequestRandomAwayWorldLink(this);
 
-		if (SelectedWorld == null) return;
+		if (randomWorld == null)
+		{
+			Logger.Log("StationGateway failed to connect to an away world");
+			SetOffline();
+			return;
+		}
 
-		var selectedWorld = SelectedWorld.GetComponent<WorldGateway>();
+		selectedWorld = randomWorld;
 
 		Message = "Teleporting to: " + selectedWorld.WorldName;
 
-		if (!selectedWorld.IsOnlineAtStart)
+		if (selectedWorld.spawnMobsOnConnection)
 		{
-			selectedWorld.IsOnlineAtStart = true;
-			selectedWorld.SetUp();
+			selectedWorld.SetUp(this);
 		}
 
 		if (HasPower)
@@ -156,7 +177,7 @@ public class StationGateway : NetworkBehaviour
 			SetOnline();
 			ServerChangeState(true);
 
-			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + SelectedWorld.GetComponent<WorldGateway>().WorldName;
+			var text = "Alert! New Gateway connection formed.\n\n Connection established to: " + selectedWorld.WorldName;
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
 		}
 	}
@@ -167,12 +188,13 @@ public class StationGateway : NetworkBehaviour
 		//detect players positioned on the portal bit of the gateway
 		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Player, true);
 
-		if (!SpawnedMobs && playersFound.Count() > 0)
+		if (!SpawnedMobs && selectedWorld != null && playersFound.Count() > 0)
 		{
+			selectedWorld.SetUp(this);
 			Logger.Log("Gateway Spawned Mobs");
-			if (SelectedWorld.GetComponent<MobSpawnControlScript>() != null)
+			if (selectedWorld.GetComponent<MobSpawnControlScript>() != null)
 			{
-				SelectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();
+				selectedWorld.GetComponent<MobSpawnControlScript>().SpawnMobs();
 			}
 			SpawnedMobs = true;
 		}
@@ -200,13 +222,13 @@ public class StationGateway : NetworkBehaviour
 	public virtual void TransportPlayers(ObjectBehaviour player)
 	{
 		//teleports player to the front of the new gateway
-		player.GetComponent<PlayerSync>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
+		player.GetComponent<PlayerSync>().SetPosition(selectedWorld.GetComponent<RegisterTile>().WorldPosition);
 	}
 
 	[Server]
 	public virtual void TransportObjectsItems(ObjectBehaviour objectsitems)
 	{
-		objectsitems.GetComponent<CustomNetTransform>().SetPosition(SelectedWorld.GetComponent<RegisterTile>().WorldPosition);
+		objectsitems.GetComponent<CustomNetTransform>().SetPosition(selectedWorld.GetComponent<RegisterTile>().WorldPosition);
 	}
 
 	public virtual void SetOnline()

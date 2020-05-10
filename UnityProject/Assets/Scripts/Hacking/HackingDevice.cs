@@ -16,7 +16,7 @@ public class HackingDevice : MonoBehaviour
 	public HackingNode OutputNode => outputNode;
 
 	[SerializeField]
-	private UnityEvent onInputReceived;
+	private UnityEvent onInputReceived = null;
 
 	private void OnEnable()
 	{

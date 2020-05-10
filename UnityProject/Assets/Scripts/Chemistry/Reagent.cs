@@ -20,5 +20,10 @@ namespace Chemistry
 			get => displayName ?? name;
 			set => displayName = value;
 		}
+
+		public override string ToString()
+		{
+			return Name;
+		}
 	}
 }

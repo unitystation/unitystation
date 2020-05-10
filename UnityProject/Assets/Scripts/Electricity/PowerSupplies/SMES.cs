@@ -32,6 +32,7 @@ public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeCont
 	{
 		UpdateState(isOn, isOn);
 	}
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -39,13 +40,14 @@ public class SMES : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeCont
 		if (interaction.HandObject != null) return false;
 		return true;
 	}
+
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		isOn = !isOn;
-		UpdateServerState(isOn);
+		UpdateServerState();
 	}
 
-	public void UpdateServerState(bool _isOn)
+	public void UpdateServerState()
 	{
 		if (isOn)
 		{

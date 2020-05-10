@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Chemistry;
 using Mirror;
+using Chemistry.Components;
 
 /// <summary>
 /// Where the magic happens in botany. This tray grows all of the plants

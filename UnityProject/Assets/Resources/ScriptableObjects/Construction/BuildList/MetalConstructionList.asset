@@ -115,38 +115,6 @@ MonoBehaviour:
     buildTime: 2
     spawnAmount: 1
     onePerTile: 1
-  - name: High Voltage to Medium Voltage Transformer (left right)
-    prefab: {fileID: 1575520830166772, guid: 84482a6a9ce96a746b992465f8766f03, type: 3}
-    cost: 30
-    buildTime: 10
-    spawnAmount: 1
-    onePerTile: 1
-  - name: Department Battery
-    prefab: {fileID: 1575520830166772, guid: d72e24d0fc40a7545aad2f4e4f978d33, type: 3}
-    cost: 30
-    buildTime: 10
-    spawnAmount: 1
-    onePerTile: 1
-  - name: SMES Battery
-    prefab: {fileID: 1575520830166772, guid: 35eed4273d90143b0926de4715bbc06e, type: 3}
-    cost: 40
-    buildTime: 10
-    spawnAmount: 1
-    onePerTile: 1
-  - name: APC Frame
-    prefab: {fileID: 7187812193856883994, guid: eb83c6edf05d1f24188f4c09edc90e47,
-      type: 3}
-    cost: 5
-    buildTime: 10
-    spawnAmount: 1
-    onePerTile: 0
-  - name: Conveyor Belt
-    prefab: {fileID: 7144248469089430455, guid: d029ccf2e161c824f931cda8b7404f9a,
-      type: 3}
-    cost: 5
-    buildTime: 10
-    spawnAmount: 1
-    onePerTile: 1
   - name: Conveyor Belt Switch
     prefab: {fileID: 7144248469089430455, guid: 261dcc3c68f35e04e80b7d2f6415f742,
       type: 3}
@@ -166,5 +134,19 @@ MonoBehaviour:
       type: 3}
     cost: 5
     buildTime: 3
+    spawnAmount: 1
+    onePerTile: 1
+  - name: APC Frame
+    prefab: {fileID: 7187812193856883994, guid: eb83c6edf05d1f24188f4c09edc90e47,
+      type: 3}
+    cost: 5
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Conveyor Belt
+    prefab: {fileID: 7144248469089430455, guid: d029ccf2e161c824f931cda8b7404f9a,
+      type: 3}
+    cost: 5
+    buildTime: 10
     spawnAmount: 1
     onePerTile: 1

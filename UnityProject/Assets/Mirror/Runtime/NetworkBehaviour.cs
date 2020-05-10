@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Mirror
 {
@@ -828,7 +829,23 @@ namespace Mirror
         /// <returns>true when overwriting so that Mirror knows that we wanted to rebuild observers ourselves. otherwise it uses built in rebuild.</returns>
         public virtual bool OnRebuildObservers(HashSet<NetworkConnection> observers, bool initialize)
         {
-            return false;
+	        foreach (var obs in NetworkServer.observerSceneList)
+	        {
+		        if (obs.Key == null) continue;
+		        if (gameObject.scene == SceneManager.GetActiveScene())
+		        {
+			        observers.Add(obs.Key);
+		        }
+		        else
+		        {
+			        if (obs.Value.Contains(gameObject.scene))
+			        {
+				        observers.Add(obs.Key);
+			        }
+		        }
+			}
+
+	        return true;
         }
 
         /// <summary>
@@ -836,7 +853,13 @@ namespace Mirror
         /// <para>Objects on a host (with a local client) cannot be disabled or destroyed when they are not visibile to the local client. So this function is called to allow custom code to hide these objects. A typical implementation will disable renderer components on the object. This is only called on local clients on a host.</para>
         /// </summary>
         /// <param name="visible">New visibility state.</param>
-        public virtual void OnSetHostVisibility(bool visible) { }
+        public virtual void OnSetHostVisibility(bool visible)
+        {
+	        //We are not using mirrors visibity methods
+	        return;
+	        foreach (Renderer rend in GetComponentsInChildren<Renderer>())
+		        rend.enabled = visible;
+        }
 
         /// <summary>
         /// Callback used by the visibility system to determine if an observer (player) can see this object.
@@ -846,7 +869,13 @@ namespace Mirror
         /// <returns>True if the player can see this object.</returns>
         public virtual bool OnCheckObserver(NetworkConnection conn)
         {
-            return true;
+	        if (NetworkServer.observerSceneList.ContainsKey(conn) &&
+	            NetworkServer.observerSceneList[conn].Contains(gameObject.scene))
+	        {
+		        return true;
+	        }
+
+	        return SceneManager.GetActiveScene() == gameObject.scene;
         }
     }
 }

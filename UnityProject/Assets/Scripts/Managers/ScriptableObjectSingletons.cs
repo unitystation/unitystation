@@ -24,5 +24,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public SpeechModManager SpeechModManager;
 	public MachinePartsItemTraits MachinePartsItemTraits;
 	public MachinePartsPrefabs MachinePartsPrefabs;
-	public PoolConfig PoolConfig;
+	public SOAdminJobsList AdminJobsList;
 }

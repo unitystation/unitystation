@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MobSpawnControlScript : NetworkBehaviour
 {
-	public List<GameObject> MobSpawners;
+	public List<MobSpawnScript> MobSpawners = new List<MobSpawnScript>();
 
 	public bool DetectViaMatrix;
 
@@ -19,16 +22,32 @@ public class MobSpawnControlScript : NetworkBehaviour
 	public void SpawnMobs()
 	{
 		if (SpawnedMobs) return;
-
 		SpawnedMobs = true;
 
-		foreach (GameObject Spawner in MobSpawners)
+		foreach (var Spawner in MobSpawners)
 		{
 			if (Spawner != null)
 			{
-				Spawner.GetComponent<MobSpawnScript>().SpawnMob();
+				Spawner.SpawnMob();
 			}
 		}
+	}
+
+	[ContextMenu("Rebuild mob spawner list")]
+	void RebuildMobSpawnerList()
+	{
+		MobSpawners.Clear();
+		foreach (Transform t in transform.parent)
+		{
+			var mobSpawner = t.GetComponent<MobSpawnScript>();
+			if (mobSpawner != null)
+			{
+				MobSpawners.Add(mobSpawner);
+			}
+		}
+		#if UNITY_EDITOR
+		EditorUtility.SetDirty(gameObject);
+		#endif
 	}
 
 	protected virtual void UpdateMe()
@@ -62,7 +81,7 @@ public class MobSpawnControlScript : NetworkBehaviour
 			var script = player.Script;
 			if (script == null) return;
 
-			if (script.registerTile.Matrix == gameObject.GetComponent<RegisterObject>().Matrix)
+			if (!script.IsGhost && script.registerTile.Matrix == gameObject.GetComponent<RegisterObject>().Matrix)
 			{
 				SpawnMobs();
 				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);

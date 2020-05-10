@@ -35,17 +35,17 @@ public class GUI_IngameMenu : MonoBehaviour
 
 	void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnSceneLoaded;
+		SceneManager.activeSceneChanged += OnSceneLoaded;
 	}
 
 	void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnSceneLoaded;
+		SceneManager.activeSceneChanged -= OnSceneLoaded;
 	}
 
-	void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+	void OnSceneLoaded(Scene oldScene, Scene newScene)
 	{
-		if (scene.name != "Lobby")
+		if (newScene.name != "Lobby")
 		{
 			CloseMenuPanel(); // Close disclaimer and menu on scene switch
 		}

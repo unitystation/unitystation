@@ -78,8 +78,6 @@ public partial class GameManager : MonoBehaviour
 
 	private bool QueueProcessing;
 
-	private float timeElapsedServer = 0;
-
 	private void Awake()
 	{
 		if (Instance == null)
@@ -543,9 +541,6 @@ public partial class GameManager : MonoBehaviour
 
 		yield return WaitFor.Seconds(0.2f);
 
-		var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
-			"maps.json")));
-
-		CustomNetworkManager.Instance.ServerChangeScene(maps.GetRandomMap());
+		CustomNetworkManager.Instance.ServerChangeScene("OnlineScene");
 	}
 }

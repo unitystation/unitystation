@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 8597459946000449771}
   - component: {fileID: -5931044004430091604}
   - component: {fileID: 7998553572197777696}
+  - component: {fileID: -9194313990692737293}
   m_Layer: 11
   m_Name: Id_Console
   m_TagString: Untagged
@@ -416,6 +417,21 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &-9194313990692737293
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5514185242108095534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &5514342282601624932
 GameObject:
   m_ObjectHideFlags: 0

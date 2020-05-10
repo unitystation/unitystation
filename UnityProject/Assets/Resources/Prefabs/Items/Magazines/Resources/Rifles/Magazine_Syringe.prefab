@@ -31,14 +31,6 @@ MonoBehaviour:
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
-  maxCapacity: 100
-  reactionSet: {fileID: 0}
-  reagentMix:
-    temperature: 273.15
-    reagents:
-      m_keys: []
-      m_values: []
-  itemAttributes: {fileID: 0}
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 1
@@ -47,25 +39,13 @@ MonoBehaviour:
   - 10
   - 15
   transferAmount: 5
---- !u!114 &4278387595838427271
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 742292832060491855}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 66bdfc0b43384851bcf23cb6754755e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  EmptySprite: {fileID: 21300000, guid: 74238222819d4ca498b8b751044e6133, type: 3}
-  FullSprite: {fileID: 21300000, guid: f1299495679e8f3439d3c0f467d18ea2, type: 3}
-  EmptyName: 
-  FullName: 
-  initialState: 0
+  maxCapacity: 100
+  reactionSet: {fileID: 0}
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys: []
+      m_values: []
 --- !u!1001 &2357097940520202952
 PrefabInstance:
   m_ObjectHideFlags: 0

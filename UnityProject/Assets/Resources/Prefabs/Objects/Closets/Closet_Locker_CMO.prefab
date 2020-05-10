@@ -104,6 +104,7 @@ GameObject:
   - component: {fileID: 114739185875198414}
   - component: {fileID: 6673630204173322286}
   - component: {fileID: 3130159393336934288}
+  - component: {fileID: 4476160078750396154}
   m_Layer: 11
   m_Name: Closet_Locker_CMO
   m_TagString: Untagged
@@ -372,6 +373,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restriction: 25
+--- !u!114 &4476160078750396154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615565101381030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1660108514398418
 GameObject:
   m_ObjectHideFlags: 0

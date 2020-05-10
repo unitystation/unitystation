@@ -53,36 +53,36 @@ public class GUI_Hacking : NetTab
 	public List<GUI_HackingDevice> HackingDevices => hackingDevices;
 
 	[SerializeField]
-	private RectTransform inputsLayout;
+	private RectTransform inputsLayout = null;
 
 	[SerializeField]
-	private RectTransform outputsLayout;
+	private RectTransform outputsLayout = null;
 
 	[SerializeField]
-	private GameObject inputHackingNodeUIPrefab;
+	private GameObject inputHackingNodeUIPrefab = null;
 
 	[SerializeField]
-	private GameObject outputHackingNodeUIPrefab;
+	private GameObject outputHackingNodeUIPrefab = null;
 
 	[SerializeField]
-	private GameObject connectingWireUIPrefab;
+	private GameObject connectingWireUIPrefab = null;
 
 	[SerializeField]
-	private GameObject hackingDeviceUIPrefab;
+	private GameObject hackingDeviceUIPrefab = null;
 
 	[SerializeField]
-	private RectTransform hackingDeviceLayout;
+	private RectTransform hackingDeviceLayout = null;
 
 	[SerializeField]
 	[Tooltip("This is the cell size of the hacking nodes when displayed by the UI. The cell size isn't calculated dynamically, but the spacing betweem them is.")]
-	private Vector2 nodeCellSize;
+	private Vector2 nodeCellSize = Vector2.zero;
 
 	[SerializeField]
 	[Tooltip("This is the cell size of any hacking devices being added.")]
-	private Vector2 deviceCellSize;
+	private Vector2 deviceCellSize = Vector2.zero;
 
 	[SerializeField]
-	private Vector2 deviceNodeCellSize;
+	private Vector2 deviceNodeCellSize = Vector2.zero;
 
 	private bool isAddingWire = false;
 	public bool IsAddingWire => isAddingWire;
@@ -99,13 +99,6 @@ public class GUI_Hacking : NetTab
 
 	private List<int[]> connectionList = new List<int[]>();
 
-	private bool initialised = false;
-
-	private void Initialise()
-	{
-
-	}
-
 	void Start()
 	{
 		if (Provider != null)
@@ -117,8 +110,6 @@ public class GUI_Hacking : NetTab
 			{
 				RequestHackingNodeConnections.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject);
 			}
-
-			initialised = true;
 		}
 	}
 
@@ -132,7 +123,7 @@ public class GUI_Hacking : NetTab
 	}
 
 	public void ServerOnOpened(ConnectedPlayer connectedPlayer)
-	{	
+	{
 		HackingProcessBase directHackReference = Provider.GetComponentInChildren<HackingProcessBase>();
 		ItemStorage hackStorage = hackProcess == null ? Provider.GetComponentInChildren<ItemStorage>() : hackProcess.ItemStorage;
 		if (hackStorage != null)
@@ -215,7 +206,7 @@ public class GUI_Hacking : NetTab
 	}
 
 	/// <summary>
-	/// Generate the UI to represent the hacking nodes. This will be input nodes 
+	/// Generate the UI to represent the hacking nodes. This will be input nodes
 	/// </summary>
 	private void GenerateNodeUI()
 	{
@@ -479,7 +470,7 @@ public class GUI_Hacking : NetTab
 				hackDevice = itemSlot.Item.GetComponent<HackingDevice>();
 			}
 		}
-		
+
 		RemoveHackingDevice.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject, hackDevice.gameObject);
 	}
 	/// <summary>

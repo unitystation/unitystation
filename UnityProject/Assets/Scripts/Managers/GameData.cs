@@ -205,17 +205,18 @@ public class GameData : MonoBehaviour
 	{
 		Logger.RefreshPreferences();
 
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 	}
 
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
-		if (scene.name == "Lobby")
+		Resources.UnloadUnusedAssets();
+		if (newScene.name == "Lobby")
 		{
 			IsInGame = false;
 			Managers.instance.SetScreenForLobby();

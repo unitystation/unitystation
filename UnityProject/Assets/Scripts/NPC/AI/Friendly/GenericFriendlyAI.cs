@@ -26,7 +26,7 @@ namespace NPC
 
 		protected override void UpdateMe()
 		{
-			if (health.IsDead || health.IsCrit || health.IsCardiacArrest) return;
+			if (!MatrixManager.IsInitialized || health.IsDead || health.IsCrit || health.IsCardiacArrest) return;
 
 			base.UpdateMe();
 			MonitorExtras();
@@ -53,8 +53,8 @@ namespace NPC
 		{
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} start chasing its own tail!",
-				$"{mobNameCap} start chasing its own tail!");
+				$"{mobNameCap} starts chasing its own tail!",
+				$"{mobNameCap} starts chasing its own tail!");
 
 			for (int timesSpun = 0; timesSpun <= times; timesSpun++)
 			{

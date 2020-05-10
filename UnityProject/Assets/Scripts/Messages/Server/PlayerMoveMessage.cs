@@ -18,8 +18,8 @@ public class PlayerMoveMessage : ServerMessage
 		{
 			return;
 		}
-		Logger.LogTraceFormat("Processed {1}'s state: {0}", Category.Movement, this, NetworkObject.name);
 
+		Logger.LogTraceFormat("Processed {1}'s state: {0}", Category.Movement, this, NetworkObject.name);
 		var playerSync = NetworkObject.GetComponent<PlayerSync>();
 		playerSync.UpdateClientState(State);
 
@@ -37,7 +37,6 @@ public class PlayerMoveMessage : ServerMessage
 
 			ControlTabs.CheckTabClose();
 		}
-
 	}
 
 	public static PlayerMoveMessage Send(GameObject recipient, GameObject subjectPlayer, PlayerState state)

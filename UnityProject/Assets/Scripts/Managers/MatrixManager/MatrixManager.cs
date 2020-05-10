@@ -6,6 +6,7 @@ using System.Linq;
 using Chemistry;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// Defines collision type we expect
@@ -24,12 +25,25 @@ public enum CollisionType
 [ExecuteInEditMode]
 public partial class MatrixManager : MonoBehaviour
 {
-	//Declare in awake as MatrixManager needs to be destroyed on each scene change
-	public static MatrixManager Instance;
+	private static MatrixManager matrixManager;
+
+	public static MatrixManager Instance
+	{
+		get
+		{
+			if (matrixManager == null)
+			{
+				matrixManager = FindObjectOfType<MatrixManager>();
+			}
+
+			return matrixManager;
+		}
+	}
+
 	private static LayerMask tileDmgMask;
 
-	private MatrixInfo[] ActiveMatrices = new MatrixInfo[0];
-	public MatrixInfo[] MovableMatrices { get; private set; } = new MatrixInfo[0];
+	public List<MatrixInfo> ActiveMatrices { get; private set; } = new List<MatrixInfo>();
+	public List<MatrixInfo> MovableMatrices { get; private set; } = new List<MatrixInfo>();
 
 	public static bool IsInitialized;
 
@@ -38,32 +52,155 @@ public partial class MatrixManager : MonoBehaviour
 	/// </summary>
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
 
-	[Header("Set the amount of matrices in the scene here")]
-	public int matrixCount;
-
-	[Header("Cache the matrix that also handles space here")]
-	public Matrix spaceMatrix;
-
-	[SerializeField]
-	[Header("Set main station matrix here")]
+	public Matrix spaceMatrix { get; private set; }
 	private Matrix mainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
+	private IEnumerator WaitForLoad()
+	{
+		float waitingTime = 0f;
+		while (Instance.spaceMatrix == null || Instance.mainStationMatrix == null)
+		{
+			waitingTime += Time.deltaTime;
+			if (waitingTime > 30f)
+			{
+				Logger.LogError("No Space matrix or MainStation matrix was found. " +
+				                "You need to load a matrix that is set to " +
+				                "Spacematrix or MainStation or both.");
+				yield break;
+			}
+
+			yield return WaitFor.EndOfFrame;
+
+		}
+		//Wait half a second to capture the majority of other matrices loading in
+		yield return WaitFor.Seconds(0.1f);
+		IsInitialized = true;
+
+		EventManager.Broadcast(EVENT.MatrixManagerInit);
+	}
+
+	private void OnEnable()
+	{
+		SceneManager.activeSceneChanged += OnSceneChange;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneChange;
+	}
+
+	void OnSceneChange(Scene oldScene, Scene newScene)
+	{
+		ResetMatrixManager();
+		if (!newScene.name.Equals("Lobby"))
+		{
+			IsInitialized = false;
+			StartCoroutine(WaitForLoad());
+		}
+	}
+
+	void ResetMatrixManager()
+	{
+		tileDmgMask = LayerMask.GetMask( "Windows", "Walls" );
+		Instance.spaceMatrix = null;
+		Instance.mainStationMatrix = null;
+		MovableMatrices.Clear();
+		ActiveMatrices.Clear();
+		movingMatrices.Clear();
+		wallsTileMaps.Clear();
+		trackedIntersections.Clear();
+	}
+
+	public static void RegisterMatrix(Matrix matrixToRegister, bool isSpaceMatrix = false, bool isMainStation = false)
+	{
+		foreach (var curInfo in Instance.ActiveMatrices)
+		{
+			if (curInfo.Matrix == matrixToRegister) return;
+		}
+
+		var matrixInfo = CreateMatrixInfoFromMatrix(matrixToRegister, Instance.ActiveMatrices.Count);
+
+		if (!Instance.ActiveMatrices.Contains(matrixInfo))
+		{
+			Instance.ActiveMatrices.Add(matrixInfo);
+		}
+		if (!Instance.MovableMatrices.Contains(matrixInfo) && matrixInfo.MatrixMove != null)
+		{
+			Instance.MovableMatrices.Add(matrixInfo);
+		}
+		matrixToRegister.Id = matrixInfo.Id;
+
+		if (isSpaceMatrix)
+		{
+			if (Instance.spaceMatrix == null)
+			{
+				Instance.spaceMatrix = matrixToRegister;
+			}
+			else
+			{
+				Logger.Log("There is already a space matrix registered");
+			}
+		}
+
+		if (isMainStation)
+		{
+			if (Instance.mainStationMatrix == null)
+			{
+				Instance.mainStationMatrix = matrixToRegister;
+			}
+			else
+			{
+				Logger.Log("There is already a main station matrix registered");
+			}
+		}
+
+		matrixToRegister.ConfigureMatrixInfo(matrixInfo);
+		Instance.InitCollisions(matrixInfo);
+	}
+
+	private static MatrixInfo CreateMatrixInfoFromMatrix(Matrix matrix, int id)
+	{
+		var gameObj = matrix.gameObject;
+		return new MatrixInfo
+		{
+			Id = id,
+			Matrix = matrix,
+			GameObject = gameObj,
+			Objects = gameObj.transform.GetComponentInChildren<ObjectLayer>().transform,
+			MatrixMove = gameObj.GetComponentInParent<MatrixMove>(),
+			MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
+			MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
+			SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
+			ReactionManager = gameObj.GetComponentInParent<ReactionManager>(),
+			TileChangeManager = gameObj.GetComponentInParent<TileChangeManager>(),
+			InitialOffset = matrix.InitialOffset
+		};
+	}
+
 	/// Finds first matrix that is not empty at given world pos
 	public static MatrixInfo AtPoint(Vector3Int worldPos, bool isServer)
 	{
-		//reverse loop so that station comes last
-		for ( var i = Instance.ActiveMatrices.Length - 1; i >= 0; i-- )
+		for ( var i = Instance.ActiveMatrices.Count - 1; i >= 0; i-- )
 		{
 			MatrixInfo mat = Instance.ActiveMatrices[i];
+			if (mat.Matrix == Instance.spaceMatrix) continue;
 			if ( !mat.Matrix.IsEmptyAt( WorldToLocalInt( worldPos, mat ), isServer ) )
 			{
 				return mat;
 			}
 		}
 
-		return Instance.ActiveMatrices[0];
+		return Instance.ActiveMatrices[Instance.spaceMatrix.Id];
+	}
+
+	public static void ListAllMatrices()
+	{
+		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i--)
+		{
+			Debug.Log("MATRIX: " + Instance.ActiveMatrices[i].Name);
+		}
 	}
 
 	///Cross-matrix edition of <see cref="Matrix.IsFloatingAt(UnityEngine.Vector3Int,bool)"/>
@@ -145,7 +282,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static bool IsPassableAt(Vector3Int worldOrigin, Vector3Int worldTarget, bool isServer, CollisionType collisionType = CollisionType.Player, bool includingPlayers = true, GameObject context = null, int[] excludeList = null)
 	{
 		// Gets the list of Matrixes to actually check
-		MatrixInfo[] includeList = excludeList != null ? ExcludeFromAllMatrixes(GetList(excludeList)) : Instance.ActiveMatrices;
+		MatrixInfo[] includeList = excludeList != null ? ExcludeFromAllMatrixes(GetList(excludeList)).ToArray() : Instance.ActiveMatrices.ToArray();
 		return AllMatchInternal(mat =>
 			mat.Matrix.IsPassableAt(WorldToLocalInt(worldOrigin, mat),WorldToLocalInt(worldTarget, mat), isServer,
 				collisionType: collisionType, includingPlayers: includingPlayers, context: context), includeList);
@@ -256,15 +393,21 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		// Check door on the local tile first
 		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
-		InteractableDoor originDoor = Instance.GetFirst<InteractableDoor>(worldOrigin, isServer);
-		if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
-			return originDoor;
-
+		var originDoorList = GetAt<InteractableDoor>(worldOrigin, isServer);
+		foreach (InteractableDoor originDoor in originDoorList)
+		{
+			if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
+				return originDoor;
+		}
+		
 		// No closed door on local tile, check target tile
 		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
-		InteractableDoor targetDoor = Instance.GetFirst<InteractableDoor>(targetPos, isServer);
-		if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
-			return targetDoor;
+		var targetDoorList = GetAt<InteractableDoor>(targetPos, isServer);
+		foreach (InteractableDoor targetDoor in targetDoorList)
+		{
+			if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
+				return targetDoor;
+		}
 
 		// No closed doors on either tile
 		return null;
@@ -416,7 +559,7 @@ public partial class MatrixManager : MonoBehaviour
 	public static List<T> GetAt<T>(Vector3Int worldPos, bool isServer) where T : MonoBehaviour
 	{
 		List<T> t = new List<T>();
-		for (var i = 0; i < Instance.ActiveMatrices.Length; i++)
+		for (var i = 0; i < Instance.ActiveMatrices.Count; i++)
 		{
 			t.AddRange( Get(i).Matrix.Get<T>( WorldToLocalInt(worldPos,i), isServer ) );
 		}
@@ -470,7 +613,7 @@ public partial class MatrixManager : MonoBehaviour
 	// By default will just check every Matrix
 	private static bool AllMatchInternal(Func<MatrixInfo, bool> condition)
 	{
-		return AllMatchInternal(condition, Instance.ActiveMatrices);
+		return AllMatchInternal(condition, Instance.ActiveMatrices.ToArray());
 	}
 
 	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition, MatrixInfo[] matrixInfos)
@@ -488,7 +631,7 @@ public partial class MatrixManager : MonoBehaviour
 
 	private static bool AnyMatchInternal(Func<MatrixInfo, bool> condition)
 	{
-		return AnyMatchInternal(condition, Instance.ActiveMatrices);
+		return AnyMatchInternal(condition, Instance.ActiveMatrices.ToArray());
 	}
 
 	public static bool IsTableAt(Vector3Int worldTarget, bool isServer)
@@ -508,7 +651,7 @@ public partial class MatrixManager : MonoBehaviour
 	public T GetFirst<T>(Vector3Int position, bool isServer) where T : MonoBehaviour
 	{
 		//reverse loop so that station matrix comes last
-		for (var i = ActiveMatrices.Length - 1; i >= 0; i-- )
+		for (var i = ActiveMatrices.Count - 1; i >= 0; i-- )
 		{
 			T first = ActiveMatrices[i].Matrix.GetFirst<T>(WorldToLocalInt(position, ActiveMatrices[i]), isServer);
 			if (first)
@@ -520,95 +663,6 @@ public partial class MatrixManager : MonoBehaviour
 		return null;
 	}
 
-	private void OnEnable()
-	{
-		IsInitialized = false;
-		tileDmgMask = LayerMask.GetMask( "Windows", "Walls" );
-	}
-
-	void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-
-		IsInitialized = false;
-		StartCoroutine(WaitForLoad());
-	}
-
-	/// Waiting for scene to load before finding matrices
-	private IEnumerator WaitForLoad()
-	{
-		yield return WaitFor.Seconds(0.5f);
-		InitMatrices();
-	}
-
-	///Finding all matrices
-	private void InitMatrices()
-	{
-		List<Matrix> findMatrices = FindObjectsOfType<Matrix>().ToList();
-		if (spaceMatrix)
-		{
-			findMatrices.Remove(spaceMatrix);
-			findMatrices.Insert(0, spaceMatrix);
-		}
-
-		if (findMatrices.Count < matrixCount)
-		{
-//			Logger.Log( "Matrix init failure, will try in 0.5" );
-			StartCoroutine(WaitForLoad());
-			return;
-		}
-
-		var activeMatrices = new List<MatrixInfo>();
-		var movableMatrices = new List<MatrixInfo>();
-
-		for (int i = 0; i < findMatrices.Count; i++)
-		{
-			Matrix matrix = findMatrices[i];
-			GameObject gameObj = matrix.gameObject;
-			MatrixInfo matrixInfo = new MatrixInfo
-			{
-				Id = i,
-				Matrix = matrix,
-				GameObject = gameObj,
-				Objects = gameObj.transform.GetComponentInChildren<ObjectLayer>().transform,
-				MatrixMove = gameObj.GetComponentInParent<MatrixMove>(),
-				MetaTileMap = gameObj.GetComponent<MetaTileMap>(),
-				MetaDataLayer = gameObj.GetComponent<MetaDataLayer>(),
-				SubsystemManager = gameObj.GetComponentInParent<SubsystemManager>(),
-				ReactionManager = gameObj.GetComponentInParent<ReactionManager>(),
-				TileChangeManager = gameObj.GetComponentInParent<TileChangeManager>(),
-//				NetId is initialized later
-				InitialOffset = matrix.InitialOffset
-			};
-			if (!activeMatrices.Contains(matrixInfo))
-			{
-				activeMatrices.Add(matrixInfo);
-			}
-			if (!movableMatrices.Contains(matrixInfo) && matrixInfo.MatrixMove != null)
-			{
-				movableMatrices.Add(matrixInfo);
-			}
-			matrix.Id = i;
-		}
-
-		ActiveMatrices = activeMatrices.ToArray();
-		MovableMatrices = movableMatrices.ToArray();
-
-		InitCollisions();
-
-		IsInitialized = true;
-
-		//These aren't fully initialized at that moment; init is truly finished when server is up and NetIDs are resolved
-//		Logger.Log($"Semi-init {this}");
-	}
-
 	public override string ToString()
 	{
 		return $"MatrixManager: {string.Join(",\n", ActiveMatrices)}";
@@ -617,14 +671,9 @@ public partial class MatrixManager : MonoBehaviour
 	/// Get MatrixInfo by matrix id
 	public static MatrixInfo Get(int id)
 	{
-		if ( !IsInitialized )
-		{
-			Instance.InitMatrices();
-		}
-
 		//Sometimes Get is still being called on the old matrixmanager instance on a
 		//round restart
-		if (id >= Instance.ActiveMatrices.Length) return MatrixInfo.Invalid;
+		if (id >= Instance.ActiveMatrices.Count) return MatrixInfo.Invalid;
 
 		return Instance.ActiveMatrices[id];
 	}
@@ -648,14 +697,8 @@ public partial class MatrixManager : MonoBehaviour
 
 	private static MatrixInfo getInternal(Func<MatrixInfo, bool> condition)
 	{
-		if (!IsInitialized)
-		{
-			//			Logger.Log( "MatrixManager list not ready yet, trying to init" );
-			Instance.InitMatrices();
-		}
-
 		//reverse loop so that station comes up last
-		for (var i = Instance.ActiveMatrices.Length - 1; i >= 0; i-- )
+		for (var i = Instance.ActiveMatrices.Count - 1; i >= 0; i-- )
 		{
 			if (condition(Instance.ActiveMatrices[i]))
 			{
@@ -710,17 +753,17 @@ public partial class MatrixManager : MonoBehaviour
 
 	public static MatrixInfo[] ExcludeFromAllMatrixes(MatrixInfo[] excludeList)
 	{
-		MatrixInfo[] matrixList = new MatrixInfo[Instance.ActiveMatrices.Length];
+		MatrixInfo[] matrixList = new MatrixInfo[Instance.ActiveMatrices.Count];
 
 		if (excludeList == null)
 		{
-			Array.Copy(Instance.ActiveMatrices, matrixList, matrixList.Length);
+			Array.Copy(Instance.ActiveMatrices.ToArray(), matrixList, matrixList.Length);
 			return matrixList;
 		}
 
 		int currentIndex = 0;
 		bool toAdd = true;
-		for (int i = 0; i < Instance.ActiveMatrices.Length; i++)
+		for (int i = 0; i < Instance.ActiveMatrices.Count; i++)
 		{
 			toAdd = true;
 			for (int j = 0; j < excludeList.Length; j++)

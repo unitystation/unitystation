@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 8093655862165673158}
   - component: {fileID: 159138128674865030}
   - component: {fileID: 1698261190327922250}
+  - component: {fileID: 1187559692219701232}
   m_Layer: 12
   m_Name: NPC_Ian
   m_TagString: Untagged
@@ -527,6 +528,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1187559692219701232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
