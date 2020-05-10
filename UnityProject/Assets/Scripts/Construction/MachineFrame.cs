@@ -378,7 +378,7 @@ namespace Machines
 				{
 					foreach (var part in machineParts.machineParts)
 					{
-						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), count: part.amountOfThisPart);
+						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
 					}
 				}
 				else
@@ -465,7 +465,7 @@ namespace Machines
 				{
 					foreach (var part in machineParts.machineParts)
 					{
-						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), count: part.amountOfThisPart);
+						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
 					}
 				}
 				else
@@ -617,12 +617,22 @@ namespace Machines
 
 				newObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 
+				if (newObject.transform.parent != gameObject.transform.parent)
+				{
+					newObject.transform.parent = gameObject.transform.parent;
+				}
+
 				partsInFrame.Add(newObject, amount);
 			}
 			// If not stackable send to hidden pos
 			else
 			{
 				usedObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+
+				if (usedObject.transform.parent != gameObject.transform.parent)
+				{
+					usedObject.transform.parent = gameObject.transform.parent;
+				}
 
 				partsInFrame.Add(usedObject, amount);
 			}
@@ -757,6 +767,7 @@ namespace Machines
 			// Set initial state
 			objectBehaviour.ServerSetPushable(false);
 			stateful.ServerChangeState(partsAddedState);
+			putBoardInManually = false;
 		}
 
 		private enum SpriteStates
