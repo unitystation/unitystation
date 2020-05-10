@@ -65,6 +65,15 @@ namespace Machines
 			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+
+			SetSprite();
+
+			if (!isServer) return;
+
+			if (CurrentState != partsAddedState)
+			{
+				stateful.ServerChangeState(initialState);
+			}
 		}
 
 		private void SyncState(SpriteStates oldVar, SpriteStates newVar)
@@ -72,6 +81,11 @@ namespace Machines
 			spriteForClient = newVar;
 			//do your thing
 			//all clients will be updated with this
+			SetSprite();
+		}
+
+		private void SetSprite()
+		{
 			switch (spriteForClient)
 			{
 				case SpriteStates.Box:
