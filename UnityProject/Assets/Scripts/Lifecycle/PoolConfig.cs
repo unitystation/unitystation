@@ -26,6 +26,7 @@ public class PoolConfig : SingletonScriptableObject<PoolConfig>
 	[Tooltip("Configuration for each prefab that can be pooled. Adding" +
 	         " a prefab to this list will make it pool-able.")]
 	[SerializeField]
+	[ArrayElementTitle("Prefab")]
 	private PrefabPoolConfig[] prefabPools;
 
 	// cached for fast lookup of prefab pool configs
@@ -36,7 +37,10 @@ public class PoolConfig : SingletonScriptableObject<PoolConfig>
 		prefabToConfig = new Dictionary<GameObject, PrefabPoolConfig>();
 		foreach (var prefabConfig in prefabPools)
 		{
-			prefabToConfig.Add(prefabConfig.Prefab, prefabConfig);
+			if (prefabConfig.Prefab != null && !prefabToConfig.ContainsKey(prefabConfig.Prefab))
+			{
+				prefabToConfig.Add(prefabConfig.Prefab, prefabConfig);
+			}
 		}
 	}
 
