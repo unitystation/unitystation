@@ -133,6 +133,20 @@ MonoBehaviour:
   spriteHandler: {fileID: 8469091460828482844}
   _APCPoweredDevice: {fileID: 5794580443693233542}
   ChargingWatts: 0
+--- !u!114 &7812584158791827984
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7363612023958579371}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!1001 &7797068074463247659
 PrefabInstance:
   m_ObjectHideFlags: 0
