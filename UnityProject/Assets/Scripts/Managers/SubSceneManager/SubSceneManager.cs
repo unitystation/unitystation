@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,18 +8,7 @@ public partial class SubSceneManager : NetworkBehaviour
 {
 	private static SubSceneManager subSceneManager;
 
-	public static SubSceneManager Instance
-	{
-		get
-		{
-			if (subSceneManager == null)
-			{
-				subSceneManager = FindObjectOfType<SubSceneManager>();
-			}
-
-			return subSceneManager;
-		}
-	}
+	public static SubSceneManager Instance;
 
 	public AwayWorldListSO awayWorldList;
 	[SerializeField] private MainStationListSO mainStationList = null;
@@ -28,6 +18,18 @@ public partial class SubSceneManager : NetworkBehaviour
 
 	public bool AwaySiteLoaded { get; private set; }
 	public bool MainStationLoaded { get; private set; }
+
+	void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
 
 	void Update()
 	{
@@ -55,6 +57,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
+			yield return WaitFor.Seconds(0.1f);
 		}
 		else
 		{
@@ -62,6 +65,7 @@ public partial class SubSceneManager : NetworkBehaviour
 			yield return WaitFor.EndOfFrame;
 			RequestObserverRefresh.Send(sceneName);
 		}
+		yield return WaitFor.EndOfFrame;
 	}
 
 	public static void ProcessObserverRefreshReq(ConnectedPlayer connectedPlayer, Scene sceneContext)
