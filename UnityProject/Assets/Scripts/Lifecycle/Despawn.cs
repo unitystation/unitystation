@@ -74,9 +74,14 @@ public static class Despawn
 
 		_ServerFireDespawnHooks(DespawnResult.Single(info));
 
-		Spawn._TryDespawnToPool(info.GameObject);
-
-		return DespawnResult.Single(info);
+		if (Spawn._TryDespawnToPool(info.GameObject, false))
+		{
+			return DespawnResult.Single(info);
+		}
+		else
+		{
+			return DespawnResult.Fail(info);
+		}
 	}
 
 	/// <summary>
@@ -108,8 +113,14 @@ public static class Despawn
 			return DespawnResult.Fail(info);
 		}
 
-		Spawn._TryDespawnToPool(info.GameObject);
-		return DespawnResult.Single(info);
+		if (Spawn._TryDespawnToPool(info.GameObject, true))
+		{
+			return DespawnResult.Single(info);
+		}
+		else
+		{
+			return DespawnResult.Fail(info);
+		}
 	}
 
 	/// <summary>

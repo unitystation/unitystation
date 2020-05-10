@@ -847,17 +847,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 	}
 
-	//simulates despawning and immediately respawning this object, expectation
-	//being that it should properly initialize itself regardless of its previous state.
-	[Command]
-	public void CmdAdminRespawn(GameObject toRespawn, string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		Spawn.ServerPoolTestRespawn(toRespawn);
-	}
-
 	[Command]
 	public void CmdSendCentCommAnnouncement(string adminId, string adminToken, string text)
 	{

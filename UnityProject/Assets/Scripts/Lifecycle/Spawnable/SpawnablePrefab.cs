@@ -52,14 +52,25 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 		}
 		Logger.LogTraceFormat("Spawning using prefab {0}", Category.ItemSpawn, prefab);
 
-		GameObject tempObject = Spawn._PoolInstantiate(prefab, destination);
-
-		return SpawnableResult.Single(tempObject, destination);
+		if (Spawn._TryPoolInstantiate(prefab, destination, false, out var spawnedObject))
+		{
+			return SpawnableResult.Single(spawnedObject, destination);
+		}
+		else
+		{
+			return SpawnableResult.Fail(destination);
+		}
 	}
 
 	public SpawnableResult ClientSpawnAt(SpawnDestination destination)
 	{
-		var go = Spawn._PoolInstantiate(prefab, destination);
-		return SpawnableResult.Single(go, destination);
+		if (Spawn._TryPoolInstantiate(prefab, destination, true, out var spawnedObject))
+		{
+			return SpawnableResult.Single(spawnedObject, destination);
+		}
+		else
+		{
+			return SpawnableResult.Fail(destination);
+		}
 	}
 }

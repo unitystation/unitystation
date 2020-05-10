@@ -22,7 +22,7 @@ public static class Spawn
 	private static Dictionary<string, GameObject> nameToSpawnablePrefab = new Dictionary<string, GameObject>();
 
 	//object pool
-	private static Dictionary<GameObject, List<GameObject>> pools = new Dictionary<GameObject, List<GameObject>>();
+	private static ObjectPool objectPool;
 
 	//stuff needed for cloths
 	//TODO: Consider refactoring so this stuff isn't needed or is injected somehow.
@@ -55,6 +55,8 @@ public static class Spawn
 					nameToSpawnablePrefab.Add(spawnablePrefab.name, spawnablePrefab);
 				}
 			}
+
+			objectPool = new ObjectPool(PoolConfig.Instance);
 		}
 	}
 	private static bool IsPrefab(GameObject toCheck) => !toCheck.transform.gameObject.scene.IsValid();
@@ -303,13 +305,9 @@ public static class Spawn
 
 	}
 
-	private static bool IsTotallyImpassable(Vector3Int tileWorldPosition)
-	{
-		return MatrixManager.IsTotallyImpassable(tileWorldPosition,true);
-	}
-
 	/// <summary>
-	/// Performs the specified spawn locally, for this client only.
+	/// Performs the specified spawn locally, for this client only. Must not be called on
+	/// networked objects (objects with NetworkIdentity), or you will get unpredictable behavior.
 	/// </summary>
 	/// <returns></returns>
 	public static SpawnResult Client(SpawnInfo info)
@@ -374,35 +372,37 @@ public static class Spawn
 
 
 	/// <summary>
-	/// For internal use by lifecycle system only.
+	/// For internal use by lifecycle system only. If called as server, will
+	/// spawn the object for all clients if the object is networked. If called as client,
+	/// will only spawn the object for that client (trying to spawn networked object
+	/// as client will result in nothing happening).
 	/// Instantiates the prefab at the specified location, taking from the pool if possible.
 	/// Does not call any hooks. Object will always be newly-created for all clients, as clients
 	/// have no pool for networked objects.
 	/// </summary>
 	/// <param name="prefab">prefab to instantiate</param>
 	/// <param name="destination">destination to spawn</param>
-	/// <returns></returns>
-	public static GameObject _PoolInstantiate(GameObject prefab, SpawnDestination destination)
+	/// <param name="asClient">indicates this is being called from client-side logic.
+	/// This will ensure the object is spawned only if it is non-networked.
+	/// </param>
+	/// <param name="spawnedObject">spawned object, null if unsuccessful</param>
+	/// <returns>true iff successful</returns>
+	public static bool _TryPoolInstantiate(GameObject prefab, SpawnDestination destination, bool asClient, out GameObject spawnedObject)
 	{
-		GameObject tempObject = null;
 		bool hide = destination.WorldPosition == TransformState.HiddenPos;
 		//Cut off Z-axis
 		Vector3 cleanPos = ( Vector2 ) destination.WorldPosition;
 		Vector3 pos = hide ? TransformState.HiddenPos : cleanPos;
-		if (CanLoadFromPool(prefab))
+		bool isNetworked;
+		if (objectPool.TryGetFromPool(prefab, asClient, out spawnedObject))
 		{
-			//pool exists and has unused instances
-			int index = pools[prefab].Count - 1;
-			tempObject = pools[prefab][index];
-			Logger.LogTraceFormat("Loading {0} from pool Pooled:{1} Index:{2}", Category.ItemSpawn, tempObject.GetInstanceID(), pools[prefab].Count, index);
-			pools[prefab].RemoveAt(index);
-			tempObject.SetActive(true);
-
-			tempObject.transform.position = pos;
-			tempObject.transform.localRotation = destination.LocalRotation;
-			tempObject.transform.localScale = prefab.transform.localScale;
-			tempObject.transform.parent = destination.Parent;
-			var cnt = tempObject.GetComponent<CustomNetTransform>();
+			isNetworked = spawnedObject.GetComponent<NetworkIdentity>() != null;
+			spawnedObject.SetActive(true);
+			spawnedObject.transform.position = pos;
+			spawnedObject.transform.localRotation = destination.LocalRotation;
+			spawnedObject.transform.localScale = prefab.transform.localScale;
+			spawnedObject.transform.parent = destination.Parent;
+			var cnt = spawnedObject.GetComponent<CustomNetTransform>();
 			if ( cnt )
 			{
 				cnt.ReInitServerState();
@@ -411,40 +411,72 @@ public static class Spawn
 		}
 		else
 		{
-			tempObject = Object.Instantiate(prefab, pos, destination.Parent.rotation * destination.LocalRotation, destination.Parent);
-			tempObject.name = prefab.name;
-
-			tempObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
-
-			tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+			spawnedObject = Object.Instantiate(prefab, pos, destination.Parent.rotation * destination.LocalRotation, destination.Parent);
+			isNetworked = spawnedObject.GetComponent<NetworkIdentity>() != null;
+			if (isNetworked && (asClient || !CustomNetworkManager.IsServer))
+			{
+				Logger.LogWarningFormat("Attempted to spawn a networked object {0} as a client or from a non-server instance" +
+				                        " of the game. Object will not be spawned", Category.ItemSpawn,
+					spawnedObject);
+				Object.Destroy(spawnedObject);
+				spawnedObject = null;
+				return false;
+			}
+			spawnedObject.name = prefab.name;
+			spawnedObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
+			// only add pool prefab tracker if the object can be pooled
+			if (objectPool.IsPoolable(prefab))
+			{
+				spawnedObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
+			}
 		}
 
+		if (isNetworked)
+		{
+			// failsafe - we should be able to assume we are server if this code path is reached
+			if (!CustomNetworkManager.IsServer)
+			{
+				Logger.LogErrorFormat("Coding error! Tried to spawn networked object {0} but we " +
+				                      "are not server.", Category.ItemSpawn, spawnedObject);
+			}
 
-		// regardless of whether it was from the pool or not, we know it doesn't exist clientside
-		// because there's no clientside pool for networked objects, so
-		// we only need to tell client to spawn it
-		NetworkServer.Spawn(tempObject);
-		tempObject.GetComponent<CustomNetTransform>()
-			?.NotifyPlayers(); //Sending clientState for newly spawned items
+			// regardless of whether it was from the pool or not, we know it doesn't exist clientside
+			// because there's no clientside pool for networked objects, so
+			// we only need to tell client to spawn it
+			NetworkServer.Spawn(spawnedObject);
+			spawnedObject.GetComponent<CustomNetTransform>()
+				?.NotifyPlayers(); //Sending clientState for newly spawned items
+		}
 
-		return tempObject;
-
+		return spawnedObject;
 	}
 
-	private static bool CanLoadFromPool(GameObject prefab)
-	{
-		if (prefab == null) return false;
-		return pools.ContainsKey(prefab) && pools[prefab].Count > 0;
-	}
 
 	/// <summary>
 	/// For internal use (lifecycle system) only. Tries to add the object to the pool. If object can fit in the pool, moves it
-	/// to hiddenpos and deactivates it (destroying the object for each client if called on server).
-	/// Otherwise, destroys it (destroying it for each client if called on server).
+	/// to hiddenpos and deactivates it. Otherwise, just destroys it.
+	/// In all cases, the object will be destroyed on the client side.
+	///
+	/// Only allows despawning of a networked object if this is a server instance of the game.
+	///
+	/// Does nothing if object is networked and this is called as a client (because
+	/// client shouldn't initiate despawning of a networked object - only the server should)
 	/// </summary>
 	/// <param name="target">object to try to despawn</param>
-	public static void _TryDespawnToPool(GameObject target)
+	/// <param name="asClient">indicates this is being called from client-side logic.
+	/// This will ensure the object is despawned only if it is non-networked.
+	/// </param>
+	/// <returns>true iff successful at despawning it</returns>
+	public static bool _TryDespawnToPool(GameObject target, bool asClient)
 	{
+		var isNetworked = target.GetComponent<NetworkIdentity>() != null;
+		if (isNetworked && (asClient || !CustomNetworkManager.IsServer))
+		{
+			Logger.LogWarningFormat("Tried to despawn networked object {0} from clientside logic or" +
+			                        " as a non-server instance of the game," +
+			                        " object will not be despawned.", Category.ItemSpawn, target);
+			return false;
+		}
 		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
 		var shouldDestroy = false;
 		if (!poolPrefabTracker)
@@ -460,127 +492,62 @@ public static class Spawn
 			shouldDestroy = true;
 		}
 
-		if (shouldDestroy)
+		// going to add it to the pool
+		if (!shouldDestroy && objectPool.TryAddToPool(poolPrefabTracker))
 		{
-			if (CustomNetworkManager.IsServer)
+			//just a failsafe, not sure this is strictly necessary.
+			poolPrefabTracker.myPrefab.transform.position = Vector2.zero;
+
+			if (isNetworked)
 			{
+				// failsafe - we should be able to assume we are server if this code path is reached
+				if (!CustomNetworkManager.IsServer)
+				{
+					Logger.LogErrorFormat("Coding error! Tried to add networked object {0} to pool but we " +
+					                      "are not server.", Category.ItemSpawn, target);
+				}
+				//destroy for all clients, keep only in the server pool
+				NetworkServer.UnSpawn(target);
+
+				//transform.VisibleState seems to be valid only on server side, so we make it invisible
+				//here when we're going to add it to the pool.
+				var transform = target.GetComponent<IPushable>();
+				if (transform != null)
+				{
+					transform.VisibleState = false;
+				}
+				cnt.DisappearFromWorldServer();
+			}
+			else
+			{
+				cnt.DisappearFromWorld();
+			}
+
+			//regardless of what happens we deactivate it when it goes into the pool
+			target.SetActive(false);
+			return true;
+		}
+		else
+		{
+			//gonna destroy it
+			if (isNetworked)
+			{
+				// failsafe - we should be able to assume we are server if this code path is reached
+				if (!CustomNetworkManager.IsServer)
+				{
+					Logger.LogErrorFormat("Coding error! Tried to despawn networked object {0} but we " +
+					                      "are not server.", Category.ItemSpawn, target);
+				}
 				//destroy for everyone
 				NetworkServer.Destroy(target);
 			}
 			else
 			{
-				//destroy for this client
+				// destroy only for this instance of the game
 				Object.Destroy(target);
 			}
 
-			return;
-		}
-
-
-
-		GameObject prefab = poolPrefabTracker.myPrefab;
-		prefab.transform.position = Vector2.zero;
-
-		if (!pools.ContainsKey(prefab))
-		{
-			//pool for this prefab does not yet exist
-			pools.Add(prefab, new List<GameObject>());
-		}
-
-		pools[prefab].Add(target);
-		Logger.LogTraceFormat("Added {0} to pool, deactivated and moved to hiddenpos Pooled: {1} Index:{2}",
-			Category.ItemSpawn, target.GetInstanceID(), pools[prefab].Count, pools[prefab].Count-1);
-		if (CustomNetworkManager.IsServer)
-		{
-			//destroy for all clients, keep only in the server pool
-			NetworkServer.UnSpawn(target);
-
-			//transform.VisibleState seems to be valid only on server side, so we make it invisible
-			//here when we're going to add it to the pool.
-			var transform = target.GetComponent<IPushable>();
-			if (transform != null)
-			{
-				transform.VisibleState = false;
-			}
-			cnt.DisappearFromWorldServer();
-		}
-		else
-		{
-			cnt.DisappearFromWorld();
-		}
-
-		target.SetActive(false);
-	}
-
-
-	/// <summary>
-	/// FOR DEV / TESTING ONLY! Simulates destroying and recreating an item by putting it in the pool and taking it back
-	/// out again. If item is not pooled, simply destroys and recreates it as if calling Despawn and then Spawn
-	/// Can use this to validate that the object correctly re-initializes itself after spawning -
-	/// no state should be left over from its previous incarnation.
-	/// </summary>
-	/// <returns>the re-created object</returns>
-	public static GameObject ServerPoolTestRespawn(GameObject target)
-	{
-		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
-		if (poolPrefabTracker == null)
-		{
-			//destroy / create using normal approach with no pooling
-			Logger.LogWarningFormat("Object {0} has no pool prefab tracker, thus cannot be pooled. It will be destroyed / created" +
-			                        " without going through the pool.", Category.ItemSpawn, target.name);
-
-			//determine prefab
-			var position = target.TileWorldPosition();
-			var prefab = DeterminePrefab(target);
-			if (prefab == null)
-			{
-				Logger.LogErrorFormat("Object {0} at {1} cannot be respawned because it has no PoolPrefabTracker and its name" +
-				                      " does not match a prefab name, so we cannot" +
-				                      " determine the prefab to instantiate. Please fix this object so that it" +
-				                      " has an attached PoolPrefabTracker or so its name matches the prefab it was created from.", Category.ItemSpawn, target.name, position);
-				return null;
-			}
-
-			Despawn.ServerSingle(target);
-			return ServerPrefab(prefab, position.To3Int()).GameObject;
-		}
-		else
-		{
-			//destroy / create with pooling
-			//save previous position
-			var destination = SpawnDestination.At(target);
-			var worldPos = target.TileWorldPosition();
-			var transform = target.GetComponent<IPushable>();
-			var prevParent = target.transform.parent;
-
-			//this simulates going into the pool
-			Despawn._ServerFireDespawnHooks(DespawnResult.Single(DespawnInfo.Single(target)));
-
-			if (transform != null)
-			{
-				transform.VisibleState = false;
-			}
-
-			//this simulates coming back out of the pool
-			target.SetActive(true);
-
-			target.transform.parent = prevParent;
-			target.transform.position = worldPos.To3Int();
-
-			var cnt = target.GetComponent<CustomNetTransform>();
-			if (cnt)
-			{
-				cnt.ReInitServerState();
-				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
-			}
-			var prefab = DeterminePrefab(target);
-			SpawnInfo spawnInfo = SpawnInfo.Spawnable(
-				SpawnablePrefab.For(prefab),
-				destination);
-
-
-			_ServerFireClientServerSpawnHooks(SpawnResult.Single(spawnInfo, target));
-			return target;
+			return true;
 		}
 	}
 
@@ -607,11 +574,15 @@ public static class Spawn
 
 	public static void _ClearPools()
 	{
-		pools.Clear();
+		objectPool.Clear();
 	}
 }
 
-//not used for clients unless it is a client side pool object only
+/// <summary>
+/// ADded dynamically to objects when they are spawned from a prefab, to track which prefab
+/// they were spawned from. Should NEVER be manually added to a prefab via inspector.
+/// Only added to objects which can be pooled.
+/// </summary>
 public class PoolPrefabTracker : MonoBehaviour
 {
 	public GameObject myPrefab;

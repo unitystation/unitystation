@@ -6,7 +6,7 @@ using Mirror;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
-public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IRightClickable //see UpdateManager
+public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
 {
 	//I think this is valid server side only
 	public bool VisibleState {
@@ -551,24 +551,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	public void NotifyPlayer(GameObject playerGameObject) {
 		TransformStateMessage.Send(playerGameObject, gameObject, serverState);
-	}
-
-	public RightClickableResult GenerateRightClickOptions()
-	{
-		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken) || !KeyboardInputManager.Instance.CheckKeyAction(KeyAction.ShowAdminOptions, KeyboardInputManager.KeyEventType.Hold))
-		{
-			return null;
-		}
-
-		return RightClickableResult.Create()
-			.AddAdminElement("Respawn", AdminRespawn);
-	}
-
-	//simulates despawning and immediately respawning this object, expectation
-	//being that it should properly initialize itself regardless of its previous state.
-	private void AdminRespawn()
-	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 
 	// Checks if the object is occupiable and update occupant position if it's occupied (ex: a chair)

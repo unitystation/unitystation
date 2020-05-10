@@ -38,8 +38,13 @@ public class SpawnableClone : ISpawnable
 			return SpawnableResult.Fail(destination);
 		}
 
-		GameObject tempObject = Spawn._PoolInstantiate(prefab, destination);
-
-		return SpawnableResult.Single(tempObject, destination);
+		if (Spawn._TryPoolInstantiate(prefab, destination, false, out var spawnedObject))
+		{
+			return SpawnableResult.Single(spawnedObject, destination);
+		}
+		else
+		{
+			return SpawnableResult.Fail(destination);
+		}
 	}
 }
