@@ -17,7 +17,6 @@ public class ConnectedPlayer
 		Username = null,
 		name = "kek",
 		job = JobType.NULL,
-		Synced = true,
 		ClientId = "",
 		UserId = ""
 	};
@@ -28,10 +27,6 @@ public class ConnectedPlayer
 	private GameObject gameObject;
 	public PlayerScript Script { get; private set; }
 	public JoinedViewer ViewerScript { get; private set; }
-	/// <summary>
-	/// Flags if player received a bunch of sync messages upon joining
-	/// </summary>
-	public bool Synced { get; set; }
 	public string ClientId { get; set; }
 	public string UserId { get; set; }
 	public NetworkConnection Connection { get; set; }

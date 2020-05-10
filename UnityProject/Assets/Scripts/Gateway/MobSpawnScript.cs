@@ -1,17 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
 
 public class MobSpawnScript : NetworkBehaviour
 {
 	public GameObject MobToSpawn;
 
+	[SerializeField] private GameObject icon = null;
+
+	private void OnEnable()
+	{
+		icon.SetActive(false);
+	}
+
 	[Server]
 	public void SpawnMob()
 	{
 		if (MobToSpawn == null) return;
-		Spawn.ServerPrefab(MobToSpawn, gameObject.GetComponent<RegisterTile>().WorldPosition);
-		Destroy(this.gameObject);
+
+		var spawnResult = Spawn.ServerPrefab(MobToSpawn, gameObject.GetComponent<RegisterTile>().WorldPosition, transform.parent);
 	}
 }

@@ -19,6 +19,8 @@ public class CargoManager : MonoBehaviour
 	public List<CargoOrder> CurrentOrders = new List<CargoOrder>(); // Orders - payed orders that will spawn in shuttle on centcom arrival
 	public List<CargoOrder> CurrentCart = new List<CargoOrder>(); // Cart - current orders, that haven't been payed for/ordered yet
 
+	public int cartSizeLimit = 20;
+
 	public CargoUpdateEvent OnCartUpdate = new CargoUpdateEvent();
 	public CargoUpdateEvent OnShuttleUpdate = new CargoUpdateEvent();
 	public CargoUpdateEvent OnCreditsUpdate = new CargoUpdateEvent();
@@ -47,15 +49,15 @@ public class CargoManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnRoundRestart;
+		SceneManager.activeSceneChanged += OnRoundRestart;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnRoundRestart;
+		SceneManager.activeSceneChanged -= OnRoundRestart;
 	}
 
-	void OnRoundRestart(Scene scene, LoadSceneMode mode)
+	void OnRoundRestart(Scene oldScene, Scene newScene)
 	{
 		Supplies.Clear();
 		CurrentOrders.Clear();
@@ -289,6 +291,11 @@ public class CargoManager : MonoBehaviour
 	public void AddToCart(CargoOrder orderToAdd)
 	{
 		if (!CustomNetworkManager.Instance._isServer)
+		{
+			return;
+		}
+
+		if (CurrentCart.Count > cartSizeLimit)
 		{
 			return;
 		}

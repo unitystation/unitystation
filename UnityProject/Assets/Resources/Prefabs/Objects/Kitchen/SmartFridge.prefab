@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 114490796894361376}
   - component: {fileID: 114407379193247608}
   - component: {fileID: -933767125163796166}
+  - component: {fileID: -8513281049433112391}
+  - component: {fileID: 1338911703771008310}
   m_Layer: 11
   m_Name: SmartFridge
   m_TagString: Untagged
@@ -139,7 +141,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &5787332934185140899
@@ -174,7 +175,7 @@ MonoBehaviour:
     Stock: 5
   - Item: {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
     Stock: 5
-  - Item: {fileID: 6602018046170396259, guid: f8ed936a0410a9740ace6f58872926c7, type: 3}
+  - Item: {fileID: 6546673936360135170, guid: 9df8b42a3b7c7554ab9c48ba64b45d2e, type: 3}
     Stock: 5
   HullColor: {r: 0.98039216, g: 0.972549, b: 0.972549, a: 1}
   EjectObjects: 0
@@ -192,6 +193,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114490796894361376
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +208,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -239,10 +242,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
 --- !u!114 &-933767125163796166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,9 +262,40 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Smart Fridge
   initialDescription: A vending machine dispensing steaks and cookies.
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &-8513281049433112391
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013344912928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1338911703771008310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013344912928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: a27f80a1ee4a1484689b6f639504b40f, type: 2}
+  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+    type: 3}
+  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+    type: 3}
+  secondsToScrewdrive: 2
 --- !u!1 &1000013897877296
 GameObject:
   m_ObjectHideFlags: 0
@@ -307,6 +341,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

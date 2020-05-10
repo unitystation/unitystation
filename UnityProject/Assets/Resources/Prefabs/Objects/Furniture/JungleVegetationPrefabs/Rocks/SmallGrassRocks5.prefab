@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 114590610092742494}
   - component: {fileID: 114876689548865824}
   - component: {fileID: 8501056774758602355}
+  - component: {fileID: 7897674138156117222}
   m_Layer: 11
   m_Name: SmallGrassRocks5
   m_TagString: Untagged
@@ -283,3 +284,18 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &7897674138156117222
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376449702682419346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

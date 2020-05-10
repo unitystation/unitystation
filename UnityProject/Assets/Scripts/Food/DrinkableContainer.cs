@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using Chemistry.Components;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 

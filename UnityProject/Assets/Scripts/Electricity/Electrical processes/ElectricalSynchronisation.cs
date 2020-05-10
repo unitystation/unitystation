@@ -234,12 +234,11 @@ public class ElectricalSynchronisation : MonoBehaviour
 
 	private void InternalAddSupply(QueueAddSupply Adding)
 	{
-		if (!(AliveSupplies.ContainsKey(Adding.category)))
+		if (!AliveSupplies.TryGetValue(Adding.category, out var aliveSup))
 		{
-			AliveSupplies[Adding.category] = new HashSet<ElectricalNodeControl>();
+			aliveSup = AliveSupplies[Adding.category] = new HashSet<ElectricalNodeControl>();
 		}
-
-		AliveSupplies[Adding.category].Add(Adding.supply);
+		aliveSup.Add(Adding.supply);
 		TotalSupplies.Add(Adding.supply);
 	}
 
@@ -313,10 +312,9 @@ public class ElectricalSynchronisation : MonoBehaviour
 		while (ToRemove.Count > 0)
 		{
 			var toRemove = ToRemove.Dequeue();
-			if (AliveSupplies.ContainsKey(toRemove.category) &&
-			    AliveSupplies[toRemove.category].Contains(toRemove.device))
+			if (AliveSupplies.TryGetValue(toRemove.category, out HashSet<ElectricalNodeControl> aliveSup) &&
+				aliveSup.Remove(toRemove.device))
 			{
-				AliveSupplies[toRemove.category].Remove(toRemove.device);
 				TotalSupplies.Remove(toRemove.device);
 			}
 		}

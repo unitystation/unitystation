@@ -34,10 +34,10 @@ namespace Machines
 		[SerializeField] private StatefulState circuitAddedState = null;
 		[SerializeField] private StatefulState partsAddedState = null;
 
-		[SerializeField] private Sprite box;
-		[SerializeField] private Sprite boxCable;
-		[SerializeField] private Sprite boxCircuit;
-		[SerializeField] private SpriteRenderer spriteRender;
+		[SerializeField] private Sprite box = null;
+		[SerializeField] private Sprite boxCable = null;
+		[SerializeField] private Sprite boxCircuit = null;
+		[SerializeField] private SpriteRenderer spriteRender = null;
 
 		private ItemSlot circuitBoardSlot;//Index 0
 		private IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();
@@ -303,12 +303,18 @@ namespace Machines
 		{
 			if (Validations.HasUsedComponent<MachineCircuitBoard>(interaction) && circuitBoardSlot.IsEmpty)
 			{
+				//Transfer parts data
+				machineParts = interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed;
+
+				if (machineParts == null)
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer, "The machine circuit board is not specialised.");
+					return;
+				}
+
 				//stick in the circuit board
 				Chat.AddActionMsgToChat(interaction, $"You place the {interaction.UsedObject.ExpensiveName()} inside the frame.",
 					$"{interaction.Performer.ExpensiveName()} places the {interaction.UsedObject.ExpensiveName()} inside the frame.");
-
-				//Transfer parts data
-				machineParts = interaction.UsedObject.GetComponent<MachineCircuitBoard>().MachinePartsUsed;
 
 				//Syncing allowed traits to clients
 				allowedTraits.Clear();
@@ -704,6 +710,11 @@ namespace Machines
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleName(machine.MachineParts.NameOfCircuitBoard); // Sets name of board
 
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleDescription(machine.MachineParts.DescriptionOfCircuitBoard); // Sets desc of board
+
+			if (machine.MachineParts.machineCircuitBoardSprite != null)
+			{
+				board.GetComponentInChildren<SpriteRenderer>().sprite = machine.MachineParts.machineCircuitBoardSprite;
+			}
 
 			// Basic items to the machine frame from the despawned machine
 			machineParts = machine.MachineParts;

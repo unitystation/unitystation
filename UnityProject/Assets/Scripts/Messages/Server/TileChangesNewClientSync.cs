@@ -17,9 +17,8 @@ public class TileChangesNewClientSync : ServerMessage
 	{
 		//server doesn't need this message, it messes with its own tiles.
 		if (CustomNetworkManager.IsServer) return;
-		LoadNetworkObject(ManagerSubject);
-		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
-		tm.InitServerSync(data);
+
+		SubSceneManager.Instance.WaitForSubScene(data, ManagerSubject);
 	}
 
 	public static void Send(GameObject managerSubject, GameObject recipient, TileChangeList changeList)

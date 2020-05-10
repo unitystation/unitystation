@@ -248,7 +248,6 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public void damEditor()
 	{
-
 		SetSprite();
 	}
 
@@ -258,15 +257,8 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	{
 		if (WireEndA == Connection.Overlap | WireEndB == Connection.Overlap)
 		{
-			bool isA;
-			if (WireEndA == Connection.Overlap)
-			{
-				isA = true;
-			}
-			else {
-				isA = false;
-			}
 			List<IntrinsicElectronicData> Econns = new List<IntrinsicElectronicData>();
+
 			var IEnumerableEconns = wireConnect.Matrix.GetElectricalConnections(wireConnect.registerTile.LocalPositionServer);
 			foreach (var T in IEnumerableEconns)
 			{
@@ -274,47 +266,36 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 			}
 			IEnumerableEconns.Clear();
 			ElectricalPool.PooledFPCList.Add(IEnumerableEconns);
-			int i = 0;
-			if (Econns != null)
-			{
 
-				while (!(i >= Econns.Count))
+			for (int i = 0; i < Econns.Count; i++)
+			{
+				if (ApplianceType == Econns[i].Categorytype && wireConnect.InData != Econns[i])
 				{
-					if (ApplianceType == Econns[i].Categorytype)
+					Connection replacementConnection;
+					if (Econns[i].WireEndA == Connection.Overlap)
 					{
-						if (wireConnect.InData != Econns[i])
-						{
-							if (Econns[i].WireEndA == Connection.Overlap)
-							{
-								if (isA)
-								{
-									WireEndA = Econns[i].WireEndB;
-								}
-								else {
-									WireEndB = Econns[i].WireEndB;
-								}
-								SetDirection(WireEndB, WireEndA, CableType);
-								//ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
-								Econns[i].DestroyThisPlease();
-								return;
-							}
-							else if (Econns[i].WireEndB == Connection.Overlap)
-							{
-								if (isA)
-								{
-									WireEndA = Econns[i].WireEndA;
-								}
-								else {
-									WireEndB = Econns[i].WireEndA;
-								}
-								SetDirection(WireEndB, WireEndA, CableType);
-								//ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
-								Econns[i].DestroyThisPlease();
-								return;
-							}
-						}
+						replacementConnection = Econns[i].WireEndB;
 					}
-					i++;
+					else if (Econns[i].WireEndB == Connection.Overlap)
+					{
+						replacementConnection = Econns[i].WireEndA;
+					}
+					else
+					{
+						continue;
+					}
+
+					if (WireEndA == Connection.Overlap)
+					{
+						WireEndA = replacementConnection;
+					}
+					else
+					{
+						WireEndB = replacementConnection;
+					}
+					SetDirection(WireEndB, WireEndA, CableType);
+					Econns[i].DestroyThisPlease();
+					return;
 				}
 			}
 		}
@@ -346,20 +327,7 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	private void SetSprite()
 	{
 		SpriteRenderer SR = gameObject.GetComponentInChildren<SpriteRenderer>();
-		string Compound;
-		if (WireEndA < WireEndB)
-		{
-			Compound = WireEndA + "_" + WireEndB;
-		}
-		else {
-			Compound = WireEndB + "_" + WireEndA;
-		}
-		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
-		if (TRay)
-		{
-			spriteIndex += 36;
-		}
-
+		int spriteIndex = WireDirections.GetSpriteIndex(WireEndA, WireEndB, TRay);
 		SR.sprite = CableSprites.Sprites[spriteIndex];
 		if (SR.sprite == null)
 		{

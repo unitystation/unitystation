@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 114677574260028866}
   - component: {fileID: 114706761793951438}
   - component: {fileID: 100695007281472595}
+  - component: {fileID: 1482149933867241622}
   m_Layer: 11
   m_Name: vending_17
   m_TagString: Untagged
@@ -264,6 +265,18 @@ MonoBehaviour:
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &1482149933867241622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098428341378092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1744033224997864
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,6 +287,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4880013504118684}
   - component: {fileID: 212231906178566622}
+  - component: {fileID: 3085148309928075982}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -334,7 +348,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: c5e20668ad8822849813ab3ab7a65df5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 41ae9958b24048745b6e8cb1fad5e6f4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -345,3 +359,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3085148309928075982
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744033224997864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 41ae9958b24048745b6e8cb1fad5e6f4, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 41ae9958b24048745b6e8cb1fad5e6f4, type: 3}
+    - {fileID: 21300002, guid: 41ae9958b24048745b6e8cb1fad5e6f4, type: 3}
+    - {fileID: 21300004, guid: 41ae9958b24048745b6e8cb1fad5e6f4, type: 3}
+    - {fileID: 21300006, guid: 41ae9958b24048745b6e8cb1fad5e6f4, type: 3}
+    EquippedData: {fileID: 4900000, guid: 3f574874276912f4ba9e61bc92853120, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1

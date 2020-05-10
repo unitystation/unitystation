@@ -474,8 +474,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerRespawnPlayer()
+	public void ServerRespawnPlayer(string occupation = null)
 	{
+		if (occupation != null)
+		{
+			foreach (var job in SOAdminJobsList.Instance.AdminAvailableJobs)
+			{
+				if (job.name != occupation)
+				{
+					continue;
+				}
+
+				playerScript.mind.occupation = job;
+				break;
+			}
+		}
+
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
@@ -483,6 +497,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleAllowCloning()
 	{
 		playerScript.mind.DenyCloning = !playerScript.mind.DenyCloning;
+
+		if (playerScript.mind.DenyCloning)
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You will no longer be cloned</color>");
+		}
+		else
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You can now be cloned</color>");
+		}
 	}
 
 	/// <summary>

@@ -9,6 +9,7 @@ public class RequestRespawnPlayer : ClientMessage
 	public string Userid;
 	public string AdminToken;
 	public string UserToRespawn;
+	public string OccupationToRespawn;
 
 	public override void Process()
 	{
@@ -23,23 +24,22 @@ public class RequestRespawnPlayer : ClientMessage
 			var deadPlayer = PlayerList.Instance.GetByUserID(UserToRespawn);
 			if (deadPlayer.Script.playerHealth == null)
 			{
-				TryRespawn(deadPlayer);
+				TryRespawn(deadPlayer, OccupationToRespawn);
 				return;
 			}
 
 			if (deadPlayer.Script.playerHealth.IsDead)
 			{
-				TryRespawn(deadPlayer);
-				return;
+				TryRespawn(deadPlayer, OccupationToRespawn);
 			}
 		}
 	}
 
-	void TryRespawn(ConnectedPlayer deadPlayer)
+	void TryRespawn(ConnectedPlayer deadPlayer, string occupation = null)
 	{
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-			$"{PlayerList.Instance.GetByUserID(Userid).Name} respawned dead player {deadPlayer.Name}", Userid);
-		deadPlayer.Script.playerNetworkActions.ServerRespawnPlayer();
+			$"{PlayerList.Instance.GetByUserID(Userid).Name} respawned dead player {deadPlayer.Name} as {occupation}", Userid);
+		deadPlayer.Script.playerNetworkActions.ServerRespawnPlayer(occupation);
 	}
 
 	public static RequestRespawnPlayer Send(string userId, string adminToken, string userIDToRespawn)
@@ -54,12 +54,28 @@ public class RequestRespawnPlayer : ClientMessage
 		return msg;
 	}
 
+	public static RequestRespawnPlayer SendAdminJob(string userId, string adminToken, string userIDToRespawn,
+		Occupation occupation)
+	{
+		RequestRespawnPlayer msg = new RequestRespawnPlayer
+		{
+			Userid = userId,
+			AdminToken = adminToken,
+			UserToRespawn = userIDToRespawn,
+			OccupationToRespawn = occupation.name
+		};
+
+		msg.Send();
+		return msg;
+	}
+
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
 		Userid = reader.ReadString();
 		AdminToken = reader.ReadString();
 		UserToRespawn = reader.ReadString();
+		OccupationToRespawn = reader.ReadString();
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -68,5 +84,6 @@ public class RequestRespawnPlayer : ClientMessage
 		writer.WriteString(Userid);
 		writer.WriteString(AdminToken);
 		writer.WriteString(UserToRespawn);
+		writer.WriteString(OccupationToRespawn);
 	}
 }

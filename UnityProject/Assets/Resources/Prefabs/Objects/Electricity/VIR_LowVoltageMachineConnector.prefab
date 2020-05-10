@@ -17,6 +17,7 @@ GameObject:
   - component: {fileID: 61506100139303226}
   - component: {fileID: 114004853824327828}
   - component: {fileID: 114328546139034518}
+  - component: {fileID: 2439883872327300492}
   m_Layer: 22
   m_Name: VIR_LowVoltageMachineConnector
   m_TagString: Untagged
@@ -89,23 +90,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  WireEndB: 0
-  WireEndA: 0
-  Data:
-    CurrentInWire: 0
-    ActualVoltage: 0
-    EstimatedResistance: 0
-    SupplyingCurrent: 0
-    InternalResistance: 0
-    SupplyingVoltage: 0
-    ChangeToOff: 0
-    CurrentStoreValue: 0
   InData:
+    WireEndB: 0
+    WireEndA: 0
     Categorytype: 0
     ControllingDevice: {fileID: 0}
-    DirectionOverride: 0
-    ResistanceOverride: 0
-    ElectricityOverride: 0
+    Present: {fileID: 0}
+    Data:
+      CurrentInWire: 0
+      ActualVoltage: 0
+      EstimatedResistance: 0
+      SupplyingCurrent: 0
+      InternalResistance: 0
+      SupplyingVoltage: 0
+      ChangeToOff: 0
+      CurrentStoreValue: 0
+    DestroyQueueing: 0
+    DestroyAuthorised: 0
   registerTile: {fileID: 114947796331066130}
   connected: 0
   Logall: 0
@@ -125,6 +126,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  CanConnectTo: 
   InNorth: 48
   InSouth: 48
   InWest: 48
@@ -202,9 +204,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+--- !u!114 &2439883872327300492
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1127054139694796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1816013858564998
 GameObject:
   m_ObjectHideFlags: 0
@@ -250,6 +268,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -330,6 +349,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -410,6 +430,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -490,6 +511,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -570,6 +592,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

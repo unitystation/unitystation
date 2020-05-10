@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -100,6 +101,7 @@ GameObject:
   - component: {fileID: 114657714564364446}
   - component: {fileID: 114994120514330062}
   - component: {fileID: 3758013365063768114}
+  - component: {fileID: -7692504831386368172}
   m_Layer: 11
   m_Name: FoodCart
   m_TagString: Untagged
@@ -186,7 +188,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114585462459452276
@@ -204,7 +205,7 @@ MonoBehaviour:
   VendorContent:
   - Item: {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2, type: 3}
     Stock: 2
-  - Item: {fileID: 6602018046170396259, guid: f8ed936a0410a9740ace6f58872926c7, type: 3}
+  - Item: {fileID: 6546673936360135170, guid: 9df8b42a3b7c7554ab9c48ba64b45d2e, type: 3}
     Stock: 5
   HullColor: {r: 0.45882353, g: 0.3882353, b: 0.3137255, a: 1}
   EjectObjects: 0
@@ -268,6 +269,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114657714564364446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -282,6 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -315,10 +318,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
 --- !u!114 &3758013365063768114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -343,3 +346,18 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &-7692504831386368172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011358831344}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

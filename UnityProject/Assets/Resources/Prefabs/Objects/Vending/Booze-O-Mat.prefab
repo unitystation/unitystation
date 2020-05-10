@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114280947688144450}
   - component: {fileID: 114881596125346598}
   - component: {fileID: 114211682909943906}
+  - component: {fileID: -8174427693420781370}
   m_Layer: 11
   m_Name: Booze-O-Mat
   m_TagString: Untagged
@@ -309,6 +310,18 @@ MonoBehaviour:
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
+--- !u!114 &-8174427693420781370
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566758848664630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1796110219090800
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,6 +332,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4088045527849796}
   - component: {fileID: 212693738279068438}
+  - component: {fileID: 454956423751401003}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -390,3 +404,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &454956423751401003
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1796110219090800}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: a66daa6c84d771445bf2a00e0e1389a6, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: a66daa6c84d771445bf2a00e0e1389a6, type: 3}
+    - {fileID: 21300002, guid: a66daa6c84d771445bf2a00e0e1389a6, type: 3}
+    - {fileID: 21300004, guid: a66daa6c84d771445bf2a00e0e1389a6, type: 3}
+    - {fileID: 21300006, guid: a66daa6c84d771445bf2a00e0e1389a6, type: 3}
+    - {fileID: 21300008, guid: a66daa6c84d771445bf2a00e0e1389a6, type: 3}
+    - {fileID: 21300010, guid: a66daa6c84d771445bf2a00e0e1389a6, type: 3}
+    - {fileID: 21300012, guid: a66daa6c84d771445bf2a00e0e1389a6, type: 3}
+    - {fileID: 21300014, guid: a66daa6c84d771445bf2a00e0e1389a6, type: 3}
+    EquippedData: {fileID: 4900000, guid: 8cbc08fbba22b9b4ba3e4834bea9b8af, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1

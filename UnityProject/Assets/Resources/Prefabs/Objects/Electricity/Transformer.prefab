@@ -19,6 +19,8 @@ GameObject:
   - component: {fileID: 114042349333397026}
   - component: {fileID: 5103205208060466886}
   - component: {fileID: -1607867197496824203}
+  - component: {fileID: 1908906372044386879}
+  - component: {fileID: 3157373369197861252}
   m_Layer: 11
   m_Name: Transformer
   m_TagString: Untagged
@@ -184,8 +186,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  WireEndB: 0
-  WireEndA: 0
   InData:
     WireEndB: 0
     WireEndA: 0
@@ -218,6 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -271,6 +272,36 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 100
+--- !u!114 &1908906372044386879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3157373369197861252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 12c12df71c09fde4e83eba1917733b4a, type: 2}
+  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+    type: 3}
+  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+    type: 3}
+  secondsToScrewdrive: 2
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,6 +347,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -396,6 +428,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -476,6 +509,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

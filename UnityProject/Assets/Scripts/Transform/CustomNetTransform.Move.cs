@@ -457,7 +457,7 @@ public partial class CustomNetTransform
 
 		Vector3Int intOrigin = Vector3Int.RoundToInt(worldPosition);
 
-		if (intOrigin.x > 5000 || intOrigin.x < -5000 || intOrigin.y > 5000 || intOrigin.y < -5000)
+		if (intOrigin.x > 18000 || intOrigin.x < -18000 || intOrigin.y > 18000 || intOrigin.y < -18000)
 		{
 			Stop();
 			Logger.Log($"ITEM {transform.name} was forced to stop at {intOrigin}", Category.Movement);

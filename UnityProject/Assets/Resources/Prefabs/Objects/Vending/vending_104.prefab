@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4256397527467462}
   - component: {fileID: 212150874091127630}
+  - component: {fileID: 3914467794271242499}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -45,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -69,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 5c5b5d6885a66b242a548ef967bc8eb5, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 3ffc5b68322b39e4da52ec7df4bfd1ea, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -80,6 +82,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3914467794271242499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056804284647572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 3ffc5b68322b39e4da52ec7df4bfd1ea, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 3ffc5b68322b39e4da52ec7df4bfd1ea, type: 3}
+    - {fileID: 21300002, guid: 3ffc5b68322b39e4da52ec7df4bfd1ea, type: 3}
+    - {fileID: 21300004, guid: 3ffc5b68322b39e4da52ec7df4bfd1ea, type: 3}
+    - {fileID: 21300006, guid: 3ffc5b68322b39e4da52ec7df4bfd1ea, type: 3}
+    EquippedData: {fileID: 4900000, guid: e6e24faa79ce0ce4583bc2e141da5961, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1538438828928774
 GameObject:
   m_ObjectHideFlags: 0
@@ -99,6 +126,7 @@ GameObject:
   - component: {fileID: 114532474132266400}
   - component: {fileID: 114146302605864432}
   - component: {fileID: 114503800418262852}
+  - component: {fileID: 4140865936920749299}
   m_Layer: 11
   m_Name: vending_104
   m_TagString: Untagged
@@ -185,7 +213,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114524211834867648
@@ -263,6 +290,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114146302605864432
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +305,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -310,7 +339,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
-  m_AssetId: ecdfcc2ad92d8b846a04f0b050fdf377
-  m_SceneId: 0
+  m_AssetId: 
+--- !u!114 &4140865936920749299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1538438828928774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

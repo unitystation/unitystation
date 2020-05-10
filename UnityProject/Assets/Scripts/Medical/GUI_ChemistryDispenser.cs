@@ -187,7 +187,7 @@ public class GUI_ChemistryDispenser : NetTab
 				newListOfReagents += $"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)} - {reagent.Value} U \n";
 			}
 
-			TotalAndTemperature.SetValueServer($"{ChemistryDispenser.Container.CurrentCapacity}U @ {(ChemistryDispenser.Container.Temperature)}°C");
+			TotalAndTemperature.SetValueServer($"{ChemistryDispenser.Container.ReagentMixTotal}U @ {(ChemistryDispenser.Container.Temperature)}°C");
 		}
 		else
 		{

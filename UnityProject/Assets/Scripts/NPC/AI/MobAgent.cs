@@ -62,7 +62,7 @@ public class MobAgent : Agent
 		tickWait = 0f;
 	}
 
-	public override void OnEnable()
+	public void Start()
 	{
 		//only needed for starting via a map scene through the editor:
 		if (CustomNetworkManager.Instance == null) return;
@@ -74,9 +74,14 @@ public class MobAgent : Agent
 			cnt.OnTileReached().AddListener(OnTileReached);
 			startPos = transform.position;
 			isServer = true;
-			base.OnEnable();
-			AgentServerStart();
+			registerObj = GetComponent<RegisterObject>();
+			registerObj.WaitForMatrixInit(StartServerAgent);
 		}
+	}
+
+	void StartServerAgent(MatrixInfo info)
+	{
+		AgentServerStart();
 	}
 
 	public override void OnDisable()
@@ -114,7 +119,7 @@ public class MobAgent : Agent
 	/// </summary>
 	protected virtual void UpdateMe()
 	{
-		if (CustomNetworkManager.Instance._isServer)
+		if (CustomNetworkManager.Instance._isServer && MatrixManager.IsInitialized)
 		{
 			MonitorDecisionMaking();
 		}
