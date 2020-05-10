@@ -114,6 +114,8 @@ public partial class SubSceneManager
 			SceneType = SceneType.AwaySite
 		});
 
+		netIdentity.isDirty = true;
+
 		yield return WaitFor.Seconds(0.1f);
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 

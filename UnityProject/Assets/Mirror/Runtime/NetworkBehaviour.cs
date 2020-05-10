@@ -855,6 +855,8 @@ namespace Mirror
         /// <param name="visible">New visibility state.</param>
         public virtual void OnSetHostVisibility(bool visible)
         {
+	        //We are not using mirrors visibity methods
+	        return;
 	        foreach (Renderer rend in GetComponentsInChildren<Renderer>())
 		        rend.enabled = visible;
         }
@@ -867,6 +869,12 @@ namespace Mirror
         /// <returns>True if the player can see this object.</returns>
         public virtual bool OnCheckObserver(NetworkConnection conn)
         {
+	        if (NetworkServer.observerSceneList.ContainsKey(conn) &&
+	            NetworkServer.observerSceneList[conn].Contains(gameObject.scene))
+	        {
+		        return true;
+	        }
+
 	        return SceneManager.GetActiveScene() == gameObject.scene;
         }
     }

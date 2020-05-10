@@ -100,10 +100,28 @@ public enum SceneType
 }
 
 [System.Serializable]
-public struct SceneInfo
+public struct SceneInfo : IEquatable<SceneInfo>
 {
 	public string SceneName;
 	public SceneType SceneType;
+
+	public bool Equals(SceneInfo other)
+	{
+		return SceneName == other.SceneName && SceneType == other.SceneType;
+	}
+
+	public override bool Equals(object obj)
+	{
+		return obj is SceneInfo other && Equals(other);
+	}
+
+	public override int GetHashCode()
+	{
+		unchecked
+		{
+			return ((SceneName != null ? SceneName.GetHashCode() : 0) * 397) ^ (int) SceneType;
+		}
+	}
 }
 
 [System.Serializable]
