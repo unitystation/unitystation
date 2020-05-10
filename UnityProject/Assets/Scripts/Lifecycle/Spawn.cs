@@ -402,8 +402,7 @@ public static class Spawn
 			spawnedObject.transform.localRotation = destination.LocalRotation;
 			spawnedObject.transform.localScale = prefab.transform.localScale;
 			spawnedObject.transform.parent = destination.Parent;
-			var cnt = spawnedObject.GetComponent<CustomNetTransform>();
-			if ( cnt )
+			if ( spawnedObject.TryGetComponent<CustomNetTransform>(out var cnt) )
 			{
 				cnt.ReInitServerState();
 				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
@@ -481,14 +480,8 @@ public static class Spawn
 		var shouldDestroy = false;
 		if (!poolPrefabTracker)
 		{
-			Logger.LogWarning($"PoolPrefabTracker not found on {target}, destroying it", Category.ItemSpawn);
-			shouldDestroy = true;
-		}
-
-		var cnt = target.GetComponent<CustomNetTransform>();
-		if ( !cnt )
-		{
-			Logger.LogWarning($"CustomNetTransform not found on {target}, destroying it",Category.ItemSpawn);
+			// this is only needed at trace level because most mapped items don't have a prefab tracker
+			Logger.LogTraceFormat("PoolPrefabTracker not found on {0}, destroying it", Category.ItemSpawn, target);
 			shouldDestroy = true;
 		}
 
@@ -510,17 +503,37 @@ public static class Spawn
 				NetworkServer.UnSpawn(target);
 
 				//transform.VisibleState seems to be valid only on server side, so we make it invisible
-				//here when we're going to add it to the pool.
-				var transform = target.GetComponent<IPushable>();
-				if (transform != null)
+				//here when we're going to add it to the pool, but we don't do that on clientside.
+				if (target.TryGetComponent<IPushable>(out var pushable))
 				{
-					transform.VisibleState = false;
+					pushable.VisibleState = false;
 				}
-				cnt.DisappearFromWorldServer();
+
+				if (target.TryGetComponent<CustomNetTransform>(out var cnt))
+				{
+					cnt.DisappearFromWorldServer();
+				}
+				else
+				{
+					// no CNT - this is typically the case for non-networked objects.
+					// in this case we just manually move it to hiddenpos.
+					target.transform.position = TransformState.HiddenPos;
+				}
+
+
 			}
 			else
 			{
-				cnt.DisappearFromWorld();
+				if (target.TryGetComponent<CustomNetTransform>(out var cnt))
+				{
+					cnt.DisappearFromWorld();
+				}
+				else
+				{
+					// no CNT - this is typically the case for non-networked objects.
+					// in this case we just manually move it to hiddenpos.
+					target.transform.position = TransformState.HiddenPos;
+				}
 			}
 
 			//regardless of what happens we deactivate it when it goes into the pool

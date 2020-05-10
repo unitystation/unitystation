@@ -54,6 +54,13 @@ public class ObjectPool
 			//pool exists and has unused instances
 			int index = prefabToPooledObjects[prefab].Count - 1;
 			pooledObject = prefabToPooledObjects[prefab][index];
+			if (!pooledObject)
+			{
+				Logger.LogErrorFormat("Coding error! Tried to get {0} from pool but it's already been destroyed." +
+				                      " Destroyed objects should not be in the pool", Category.ItemSpawn, pooledObject);
+				pooledObject = null;
+				return false;
+			}
 			bool isNetworked = pooledObject.GetComponent<NetworkIdentity>() != null;
 			if (isNetworked && (requireNonNetworked || !CustomNetworkManager.IsServer))
 			{
