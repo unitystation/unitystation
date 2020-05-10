@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using Mirror;
 using UnityEditor;
@@ -11,6 +12,11 @@ public partial class SubSceneManager
 {
 	private string serverChosenAwaySite;
 	private string serverChosenMainStation;
+
+	public static string ServerChosenMainStation
+	{
+		get { return Instance.serverChosenMainStation; }
+	}
 
 	public override void OnStartServer()
 	{
