@@ -34,8 +34,18 @@ public partial class MatrixMove
 
 	public override void OnStartServer()
 	{
-		InitServerState();
+		StartCoroutine(ServerWaitForMatrixManager());
 		base.OnStartServer();
+	}
+
+	IEnumerator ServerWaitForMatrixManager()
+	{
+		while (!MatrixManager.IsInitialized)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		InitServerState();
 	}
 
 	[Server]
