@@ -38,7 +38,7 @@ public class SpawnableClone : ISpawnable
 			return SpawnableResult.Fail(destination);
 		}
 
-		if (Spawn._TryPoolInstantiate(prefab, destination, false, out var spawnedObject))
+		if (Spawn._ObjectPool.TryPoolInstantiate(prefab, destination, false, out var spawnedObject))
 		{
 			return SpawnableResult.Single(spawnedObject, destination);
 		}

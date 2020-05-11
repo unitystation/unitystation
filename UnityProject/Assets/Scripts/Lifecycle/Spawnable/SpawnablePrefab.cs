@@ -52,7 +52,7 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 		}
 		Logger.LogTraceFormat("Spawning using prefab {0}", Category.ItemSpawn, prefab);
 
-		if (Spawn._TryPoolInstantiate(prefab, destination, false, out var spawnedObject))
+		if (Spawn._ObjectPool.TryPoolInstantiate(prefab, destination, false, out var spawnedObject))
 		{
 			return SpawnableResult.Single(spawnedObject, destination);
 		}
@@ -64,7 +64,7 @@ public class SpawnablePrefab : ISpawnable, IClientSpawnable
 
 	public SpawnableResult ClientSpawnAt(SpawnDestination destination)
 	{
-		if (Spawn._TryPoolInstantiate(prefab, destination, true, out var spawnedObject))
+		if (Spawn._ObjectPool.TryPoolInstantiate(prefab, destination, true, out var spawnedObject))
 		{
 			return SpawnableResult.Single(spawnedObject, destination);
 		}
