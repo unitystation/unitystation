@@ -16,7 +16,7 @@ using UnityEngine.Serialization;
 /// Note that items stored in an ItemStorage can themselves have ItemStorage (for example, storing a backpack
 /// in a player's inventory)!
 /// </summary>
-public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove, IClientDespawn
+public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove
 {
 	[SerializeField]
 	[FormerlySerializedAs("ItemStorageStructure")]
@@ -86,13 +86,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		ItemSlot.Free(this);
 	}
 
-
-	public void OnDespawnClient(ClientDespawnInfo info)
-	{
-		//free the slots
-		ItemSlot.Free(this);
-	}
-
 	private void OnDestroy()
 	{
 		//free the slots
@@ -144,7 +137,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
 		if (UIManager.StorageHandler == null) return;
-		
+
 		//if we were currently looking at this storage, close the storage UI if this item was moved at all.
 		if (UIManager.StorageHandler.CurrentOpenStorage == this)
 		{
@@ -184,7 +177,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	}
 
 	/// <summary>
-	/// 
+	///
 	/// </summary>
 	/// <param name="namedSlot"></param>
 	/// <returns>true iff this item storage has the slot with the specified identifier</returns>

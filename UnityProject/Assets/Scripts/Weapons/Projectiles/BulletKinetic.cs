@@ -20,7 +20,7 @@ public class BulletKinetic : BulletBehaviour
 		Vector2 startPos = gameObject.AssumedWorldPosServer();
 		float time = maxBulletDistance / weapon.ProjectileVelocity;
 		yield return WaitFor.Seconds(time);
-		ReturnToPool();
+		DespawnThis();
 	}
 
 	public override void HandleCollisionEnter2D(Collision2D coll)
@@ -33,7 +33,7 @@ public class BulletKinetic : BulletBehaviour
 		ReturnToPool(coll);
 	}
 
-	protected override void ReturnToPool()
+	protected override void DespawnThis()
 	{
 		if (!isOnDespawn)
 		{
@@ -87,7 +87,7 @@ public class BulletKinetic : BulletBehaviour
 		if (oldEffectLayerTile)
 			tileChangeManager.UpdateTile(position, oldEffectLayerTile);
 		isOnDespawn = false;
-		Despawn.ClientSingle(gameObject);
+		global::Despawn.ClientSingle(gameObject);
 	}
 
 	public IEnumerator KineticAnim(Collision2D coll)
@@ -120,7 +120,7 @@ public class BulletKinetic : BulletBehaviour
 			tileChangeManager.UpdateTile(cellPos, oldEffectLayerTile);
 		}
 		isOnDespawn = false;
-		Despawn.ClientSingle(gameObject);
+		global::Despawn.ClientSingle(gameObject);
 	}
 
 }

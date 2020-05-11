@@ -304,10 +304,6 @@ public partial class GameManager : MonoBehaviour
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
 		}
-		else
-		{
-			StartCoroutine(WaitToFireClientHooks());
-		}
 	}
 
 	void OnRoundStart()
@@ -320,14 +316,7 @@ public partial class GameManager : MonoBehaviour
 			{
 				s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
 			}
-			Spawn._CallAllClientSpawnHooksInScene();
 		}
-	}
-
-	private IEnumerator WaitToFireClientHooks()
-	{
-		yield return WaitFor.Seconds(3f);
-		Spawn._CallAllClientSpawnHooksInScene();
 	}
 
 	/// <summary>

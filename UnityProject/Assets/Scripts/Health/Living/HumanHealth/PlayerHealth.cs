@@ -26,12 +26,26 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	private ItemStorage itemStorage;
 
+	private bool init = false;
+
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
 	public override void Awake()
 	{
 		base.Awake();
+		EnsureInit();
+	}
+
+	void EnsureInit()
+	{
+		if (init) return;
+
+		init = true;
+		playerNetworkActions = GetComponent<PlayerNetworkActions>();
+		playerMove = GetComponent<PlayerMove>();
+		registerPlayer = GetComponent<RegisterPlayer>();
+		itemStorage = GetComponent<ItemStorage>();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 
@@ -44,11 +58,14 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	public override void OnStartClient()
 	{
-		playerNetworkActions = GetComponent<PlayerNetworkActions>();
-		playerMove = GetComponent<PlayerMove>();
-		registerPlayer = GetComponent<RegisterPlayer>();
-		itemStorage = GetComponent<ItemStorage>();
+		EnsureInit();
 		base.OnStartClient();
+	}
+
+	public override void OnStartServer()
+	{
+		EnsureInit();
+		base.OnStartServer();
 	}
 
 	protected override void OnDeathActions()
@@ -154,6 +171,8 @@ public class PlayerHealth : LivingHealthBehaviour
 	///     make player unconscious upon crit
 	private void OnPlayerConsciousStateChangeServer( ConsciousState oldState, ConsciousState newState )
 	{
+		if (playerNetworkActions == null || registerPlayer == null) EnsureInit();
+
 		if ( isServer )
 		{
 			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
