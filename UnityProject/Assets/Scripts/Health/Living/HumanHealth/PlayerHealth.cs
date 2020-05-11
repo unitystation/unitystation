@@ -156,6 +156,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	{
 		if ( isServer )
 		{
+			if(playerNetworkActions != null)
 			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 		}
 
