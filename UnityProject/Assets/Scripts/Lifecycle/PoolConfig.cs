@@ -32,6 +32,11 @@ public class PoolConfig : SingletonScriptableObject<PoolConfig>
 	// cached for fast lookup of prefab pool configs
 	private Dictionary<GameObject, PrefabPoolConfig> prefabToConfig;
 
+	private void Awake()
+	{
+		OnValidate();
+	}
+
 	public void OnValidate()
 	{
 		prefabToConfig = new Dictionary<GameObject, PrefabPoolConfig>();

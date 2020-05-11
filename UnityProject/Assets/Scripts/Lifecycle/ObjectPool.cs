@@ -337,12 +337,20 @@ public class ObjectPool
 
 			var isNetworked = pooledObject.GetComponent<NetworkIdentity>() != null;
 			// networked objects should only be destroyed on server side
-			if (isNetworked && CustomNetworkManager.IsServer)
+			if (isNetworked)
 			{
-				Logger.LogTraceFormat("Destroying networked object {0} from object pool.", Category.ItemSpawn, pooledObject);
-				NetworkServer.Destroy(pooledObject);
+				if (CustomNetworkManager.IsServer)
+				{
+					Logger.LogTraceFormat("Destroying networked object {0} from object pool.", Category.ItemSpawn, pooledObject);
+					NetworkServer.Destroy(pooledObject);
+				}
+				else
+				{
+					Logger.LogErrorFormat("Coding error! Found networked object {0} in clientside pool." +
+					                      " Networked objects should not be in the clientside pool.", Category.ItemSpawn);
+				}
 			}
-			else if (!isNetworked)
+			else
 			{
 				//non-networked objects should be destroyed on both sides
 				Logger.LogTraceFormat("Destroying non-networked object {0} from object pool.", Category.ItemSpawn, pooledObject);
