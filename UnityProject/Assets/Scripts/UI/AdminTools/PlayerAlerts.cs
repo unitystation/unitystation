@@ -100,11 +100,17 @@ namespace AdminTools
 			string message)
 		{
 			var netId = NetId.Invalid;
+
+			if (perp?.Connection == null)
+			{
+				return;
+			}
+
 			if (perp.Connection.identity != null)
 			{
 				netId = perp.Connection.identity.netId;
 			}
-			if (perp == null || perp.Connection == null) return;
+
 			var entry = new PlayerAlertData();
 			entry.roundTime = incidentTime;
 			entry.playerNetId = netId;

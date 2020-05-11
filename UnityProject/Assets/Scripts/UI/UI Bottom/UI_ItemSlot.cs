@@ -20,7 +20,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	[SerializeField]
 	[FormerlySerializedAs("NamedSlot")]
 	[Tooltip("For player inventory, named slot in player's ItemStorage that this UI slot corresponds to.")]
-	private NamedSlot namedSlot;
+	private NamedSlot namedSlot = NamedSlot.back;
 	public NamedSlot NamedSlot => namedSlot;
 
 	[Tooltip("whether this is for the local player's top level inventory or will be instead used" +
@@ -93,16 +93,16 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 	}
 
 	//Reset Item slot sprite on game restart
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
 		sprite = null;
 		image.sprite = null;
@@ -228,6 +228,11 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 					SetSecondaryImage(spriteRends[1].sprite);
 					secondaryImage.color = spriteRends[1].color;
 				}
+			}
+			else
+			{
+				// reset from prev secondary image
+				SetSecondaryImage(null);
 			}
 
 			//determine if we should show an amount

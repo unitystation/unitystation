@@ -1,7 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 using System.Net.NetworkInformation;
 using Mirror;
 using Newtonsoft.Json;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 /// <summary>
 /// This is the Viewer object for a joined player.
@@ -13,6 +17,7 @@ public class JoinedViewer : NetworkBehaviour
 	public override void OnStartLocalPlayer()
 	{
 		base.OnStartLocalPlayer();
+		RequestObserverRefresh.Send(SceneManager.GetActiveScene().name);
 		PlayerManager.SetViewerForControl(this);
 
 		CmdServerSetupPlayer(GetNetworkInfo(),
@@ -67,8 +72,6 @@ public class JoinedViewer : NetworkBehaviour
 			}
 		}
 
-		// Sync all player data and the connected player count
-		CustomNetworkManager.Instance.SyncPlayerData(gameObject);
 		UpdateConnectedPlayersMessage.Send();
 
 		// Only sync the pre-round countdown if it's already started
@@ -76,9 +79,8 @@ public class JoinedViewer : NetworkBehaviour
 		{
 			if (GameManager.Instance.waitForStart)
 			{
-				// Calculate when the countdown will end in the unix timestamp
-				long endTime = DateTimeOffset.UtcNow.AddSeconds(GameManager.Instance.CountdownTime)
-					.ToUnixTimeMilliseconds();
+				// Calculate when the countdown will end relative to the NetworkTime
+				double endTime = NetworkTime.time + GameManager.Instance.CountdownTime;
 				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, endTime);
 			}
 			else
@@ -91,7 +93,7 @@ public class JoinedViewer : NetworkBehaviour
 		//their body or not, which should not be up to the client!
 		if (loggedOffPlayer != null)
 		{
-			PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
+			StartCoroutine(WaitForLoggedOffObserver(loggedOffPlayer));
 		}
 		else
 		{
@@ -100,6 +102,29 @@ public class JoinedViewer : NetworkBehaviour
 		}
 
 		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, unverifiedUserid);
+	}
+
+	/// <summary>
+	/// Waits for the client to be an observer of the player before continuing
+	/// </summary>
+	IEnumerator WaitForLoggedOffObserver(GameObject loggedOffPlayer)
+	{
+		//TODO When we have scene network culling we will need to allow observers
+		// for the whole specific scene and the body before doing the logic below:
+		var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();
+		while (!netIdentity.observers.ContainsKey(this.connectionToClient.connectionId))
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+		yield return WaitFor.EndOfFrame;
+		TargetLocalPlayerRejoinUI(connectionToClient);
+		PlayerSpawn.ServerRejoinPlayer(this, loggedOffPlayer);
+	}
+
+	[TargetRpc]
+	private void TargetLocalPlayerRejoinUI(NetworkConnection target)
+	{
+		UIManager.Display.preRoundWindow.ShowRejoiningPanel();
 	}
 
 	/// <summary>
@@ -149,6 +174,7 @@ public class JoinedViewer : NetworkBehaviour
 			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
 			return;
 		}
+
 		int slotsTaken = GameManager.Instance.GetOccupationsCount(jobType);
 		int slotsMax = GameManager.Instance.GetOccupationMaxCount(jobType);
 		if (slotsTaken >= slotsMax)
@@ -158,6 +184,7 @@ public class JoinedViewer : NetworkBehaviour
 
 		var spawnRequest =
 			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
+
 		//regardless of their chosen occupation, they might spawn as an antag instead.
 		//If they do, bypass the normal spawn logic.
 		if (GameManager.Instance.TrySpawnAntag(spawnRequest)) return;
@@ -177,7 +204,7 @@ public class JoinedViewer : NetworkBehaviour
 	/// Tells the client to start the countdown if it's already started
 	/// </summary>
 	[TargetRpc]
-	private void TargetSyncCountdown(NetworkConnection target, bool started, long endTime)
+	private void TargetSyncCountdown(NetworkConnection target, bool started, double endTime)
 	{
 		Logger.Log("Syncing countdown!", Category.Round);
 		UIManager.Display.preRoundWindow.GetComponent<GUI_PreRoundWindow>().SyncCountdown(started, endTime);

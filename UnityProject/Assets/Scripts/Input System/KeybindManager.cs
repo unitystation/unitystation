@@ -58,7 +58,11 @@ public enum KeyAction
 	TargetRightArm,
 	TargetLeftLeg,
 	TargetRightLeg,
-	TargetGroin
+	TargetGroin,
+
+	//Right click stuff
+	ShowAdminOptions
+
 }
 
 /// <summary>
@@ -216,6 +220,7 @@ public class KeybindManager : MonoBehaviour {
 		Chat,
 		Intent,
 		Targeting,
+		RightClick,
 	}
 
 	/// <summary>
@@ -299,7 +304,11 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.TargetRightArm, new KeybindMetadata("Target Right Arm", ActionType.Targeting)},
 		{ KeyAction.TargetLeftLeg,  new KeybindMetadata("Target Left Leg", ActionType.Targeting)},
 		{ KeyAction.TargetRightLeg, new KeybindMetadata("Target Right Leg", ActionType.Targeting)},
-		{ KeyAction.TargetGroin, 	new KeybindMetadata("Target Groin", ActionType.Targeting)}
+		{ KeyAction.TargetGroin, 	new KeybindMetadata("Target Groin", ActionType.Targeting)},
+
+		//Right click stuff
+		{ KeyAction.ShowAdminOptions, 	new KeybindMetadata("Show Admin Options", ActionType.RightClick)}
+
 	};
 
 	private readonly KeybindDict defaultKeybinds = new KeybindDict
@@ -342,7 +351,10 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.TargetRightArm, new DualKeyCombo(new KeyCombo(KeyCode.Keypad4), null)},
 		{ KeyAction.TargetLeftLeg,  new DualKeyCombo(new KeyCombo(KeyCode.Keypad3), null)},
 		{ KeyAction.TargetRightLeg, new DualKeyCombo(new KeyCombo(KeyCode.Keypad1), null)},
-		{ KeyAction.TargetGroin, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad2), null)}
+		{ KeyAction.TargetGroin, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad2), null)},
+
+		//Right click stuff
+		{ KeyAction.ShowAdminOptions, new DualKeyCombo(new KeyCombo(KeyCode.LeftControl), null)}
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
 

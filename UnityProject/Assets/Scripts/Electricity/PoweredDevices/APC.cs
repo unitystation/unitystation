@@ -78,6 +78,8 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	private void OnDisable()
 	{
 		if (ElectricalNodeControl == null) return;
+		if(ElectricalManager.Instance == null)return;
+		if(ElectricalManager.Instance.electricalSync == null)return;
 		ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ElectricalNodeControl);
 	}
 
@@ -269,6 +271,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 
 	private void StartRefresh()
 	{
+		gameObject.SetActive(true);
 		RefreshDisplay = true;
 		StartCoroutine(Refresh());
 	}
@@ -344,28 +347,10 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 			if (_emergencyState != value)
 			{
 				_emergencyState = value;
-				SetEmergencyLights(value);
 			}
 		}
 	}
 
-	/// <summary>
-	/// Set the state of the emergency lights associated with this APC
-	/// </summary>
-	void SetEmergencyLights(bool isOn)
-	{
-		if (ConnectedEmergencyLights.Count == 0)
-		{
-			return;
-		}
-		for (int i = 0; i < ConnectedEmergencyLights.Count; i++)
-		{
-			if (ConnectedEmergencyLights[i]) //might be destroyed
-			{
-				ConnectedEmergencyLights[i].Toggle(isOn);
-			}
-		}
-	}
 
 	void OnDrawGizmosSelected()
 	{

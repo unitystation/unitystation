@@ -1,76 +1,322 @@
 ﻿using System;
+using System.Collections;
+using System.Linq;
 using System.Runtime.Remoting.Messaging;
 using Light2D;
 using Lighting;
 using Mirror;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public enum LightState
+public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowered, IServerDespawn
 {
-	None = 0,
-	On,
-	Off,
-}
+	public LightSwitchV2 relatedLightSwitch;
+	private float coolDownTime = 2.0f;
+	private bool isInCoolDown;
 
-[ExecuteInEditMode]
-public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
-{
 	[SerializeField]
-	private LightState InitialState = LightState.On;
+	private LightMountState InitialState = LightMountState.On;
+
+	[SyncVar(hook =nameof(SyncLightState))]
+	private LightMountState mState;
 
 	[Header("Generates itself if this is null:")]
 	public GameObject mLightRendererObject;
-
-	public Color customColor;
-
 	[SerializeField]
-	private bool isWithoutSwitch;
-
+	private bool isWithoutSwitch = true;
 	public bool IsWithoutSwitch => isWithoutSwitch;
-	public bool SwitchState { get; private set; }
+	private bool switchState;
+	private PowerStates powerState;
 
-	[SyncVar(hook =nameof(SyncLightState))]
-	private LightState mState;
-	private LightMountStates wallMount;
-	public LightSwitchV2 relatedLightSwitch;
+	[SerializeField]private SpriteRenderer spriteRenderer;
+	[SerializeField]private SpriteRenderer spriteRendererLightOn;
+	private LightSprite lightSprite;
+	private EmergencyLightAnimator emergencyLightAnimator;
+	private Integrity integrity;
+	private Directional directional;
 
-	void Start()
-	{
-		if (!Application.isPlaying)
-		{
-			return;
-		}
+	[SerializeField] private BoxCollider2D boxColl = null;
+	[SerializeField] private Vector4 collDownSetting = Vector4.zero;
+	[SerializeField] private Vector4 collRightSetting = Vector4.zero;
+	[SerializeField] private Vector4 collUpSetting = Vector4.zero;
+	[SerializeField] private Vector4 collLeftSetting = Vector4.zero;
+	[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
+	[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
+	private SOLightMountState currentState;
 
-		Color _color;
+	private ItemTrait traitRequired;
+	private GameObject itemInMount;
+	private float integrityThreshBar;
 
-		if (customColor == new Color(0, 0, 0, 0))
-		{
-			_color = new Color(0.7264151f, 0.7264151f, 0.7264151f, 0.8f);
-		}
-		else
-		{
-			_color = customColor;
-		}
-
-		mLightRendererObject.GetComponent<LightSprite>().Color = _color;
-	}
+	private bool isInit = false;
 
 	private void Awake()
 	{
-		if (!Application.isPlaying)
-		{
-			return;
-		}
+		EnsureInit();
+	}
 
+	private void EnsureInit()
+	{
+		if (isInit) return;
 		if (mLightRendererObject == null)
-		{
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, new Color(0, 0, 0, 0), 12);
-		}
 
-		wallMount = GetComponent<LightMountStates>();
-		SwitchState = true;
+		if(spriteRenderer == null)
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+
+		if(spriteRendererLightOn == null) spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
+			? GetComponentsInChildren<SpriteRenderer>()[1] : GetComponentsInChildren<SpriteRenderer>()[0];
+
+		if(lightSprite == null)
+			lightSprite = mLightRendererObject.GetComponent<LightSprite>();
+
+		if(emergencyLightAnimator == null)
+			emergencyLightAnimator = GetComponent<EmergencyLightAnimator>();
+
+		if (integrity == null)
+			integrity = GetComponent<Integrity>();
+
+		if(directional == null)
+			directional = GetComponent<Directional>();
+
+		if(currentState == null)
+			ChangeCurrentState(InitialState);
+
+		if(traitRequired == null)
+			traitRequired = currentState.TraitRequired;
+
+		if (!isWithoutSwitch)
+			switchState = InitialState == LightMountState.On;
+	}
+
+	public override void OnStartServer()
+	{
+		EnsureInit();
+		base.OnStartServer();
 		mState = InitialState;
 	}
+
+	public override void OnStartClient()
+	{
+		EnsureInit();
+		base.OnStartClient();
+		GetComponent<RegisterTile>().WaitForMatrixInit(InitClientValues);
+
+	}
+
+	void InitClientValues(MatrixInfo matrixInfo)
+	{
+		SyncLightState(mState, mState);
+	}
+
+	private void OnEnable()
+	{
+		integrity.OnApllyDamage.AddListener(OnDamageReceived);
+	}
+
+	private void OnDisable()
+	{
+		if(integrity != null) integrity.OnApllyDamage.RemoveListener(OnDamageReceived);
+	}
+
+	[Server]
+	public void ServerChangeLightState(LightMountState newState)
+	{
+		mState = newState;
+	}
+
+	private void SyncLightState(LightMountState oldState, LightMountState newState)
+	{
+		mState = newState;
+		ChangeCurrentState(newState);
+		SetAnimation();
+	}
+
+	private void ChangeCurrentState(LightMountState newState)
+	{
+		currentState = mountStatesMachine.LightMountStates[newState];
+		SetSprites();
+	}
+
+	//Editor only syncing
+	public void EditorDirectionChange()
+	{
+		directional = GetComponent<Directional>();
+		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		spriteRendererLightOn = GetComponentsInChildren<SpriteRenderer>().Length > 1
+			? GetComponentsInChildren<SpriteRenderer>()[1] : GetComponentsInChildren<SpriteRenderer>()[0];
+
+		var state = mountStatesMachine.LightMountStates[LightMountState.On];
+		spriteRenderer.sprite = state.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+		spriteRendererLightOn.sprite = spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+		RefreshBoxCollider();
+	}
+
+	public void RefreshBoxCollider()
+	{
+		directional = GetComponent<Directional>();
+		Vector2 offset = Vector2.zero;
+		Vector2 size = Vector2.zero;
+
+		switch (directional.CurrentDirection.AsEnum())
+		{
+			case OrientationEnum.Down:
+				offset = new Vector2(collDownSetting.x, collDownSetting.y);
+				size = new Vector2(collDownSetting.z, collDownSetting.w);
+				break;
+			case OrientationEnum.Right:
+				offset = new Vector2(collRightSetting.x, collRightSetting.y);
+				size = new Vector2(collRightSetting.z, collRightSetting.w);
+				break;
+			case OrientationEnum.Up:
+				offset = new Vector2(collUpSetting.x, collUpSetting.y);
+				size = new Vector2(collUpSetting.z, collUpSetting.w);
+				break;
+			case OrientationEnum.Left:
+				offset = new Vector2(collLeftSetting.x, collLeftSetting.y);
+				size = new Vector2(collLeftSetting.z, collLeftSetting.w);
+				break;
+		}
+
+		boxColl.offset = offset;
+		boxColl.size = size;
+	}
+
+	private void SetSprites()
+	{
+		EnsureInit();
+		spriteRenderer.sprite = currentState.SpritesDirectional.GetSpriteInDirection(directional.CurrentDirection.AsEnum());
+		spriteRendererLightOn.sprite = mState == LightMountState.On
+				? spritesStateOnEffect.GetSpriteInDirection(directional.CurrentDirection.AsEnum())
+				: null;
+
+		itemInMount = currentState.Tube;
+
+		var currentMultiplier = currentState.MultiplierIntegrity;
+		if (currentMultiplier > 0.15f)
+			integrityThreshBar = integrity.initialIntegrity * currentMultiplier;
+
+		RefreshBoxCollider();
+	}
+
+	private void SetAnimation()
+	{
+		lightSprite.Color = currentState.LightColor;
+		switch (mState)
+		{
+			case LightMountState.Emergency:
+				lightSprite.Color = Color.red;
+				mLightRendererObject.transform.localScale = Vector3.one * 3.0f;
+				mLightRendererObject.SetActive(true);
+				if (emergencyLightAnimator != null)
+				{
+					emergencyLightAnimator.StartAnimation();
+				}
+				break;
+			case LightMountState.On:
+				if (emergencyLightAnimator != null)
+				{
+					emergencyLightAnimator.StopAnimation();
+				}
+				lightSprite.Color = Color.white;
+				mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
+				mLightRendererObject.SetActive(true);
+				break;
+			default:
+				if (emergencyLightAnimator != null)
+				{
+					emergencyLightAnimator.StopAnimation();
+				}
+				mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
+				mLightRendererObject.SetActive(false);
+				break;
+		}
+	}
+
+	#region ICheckedInteractable<HandApply>
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
+		return true;
+	}
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		if (isInCoolDown) return;
+		StartCoroutine(CoolDown());
+		var handObject = interaction.HandObject;
+		var performer = interaction.Performer;
+		if (handObject == null)
+		{
+			if (mState == LightMountState.On &&
+			    !Validations.HasItemTrait(interaction.PerformerPlayerScript.Equipment.GetClothingItem(NamedSlot.hands).GameObjectReference, CommonTraits.Instance.BlackGloves))
+			{
+				interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, 10f, AttackType.Energy, DamageType.Burn,
+					interaction.HandSlot.NamedSlot == NamedSlot.leftHand ? BodyPartType.LeftArm : BodyPartType.RightArm);
+				Chat.AddExamineMsgFromServer(performer, $"<color=red>You burn your hand while attempting to remove the light</color>");
+				return;
+			}
+			Spawn.ServerPrefab(itemInMount,performer.WorldPosServer());
+			ServerChangeLightState(LightMountState.MissingBulb);
+		}
+		else if (Validations.HasItemTrait(handObject, CommonTraits.Instance.LightReplacer) && mState  != LightMountState.MissingBulb)
+		{
+			Spawn.ServerPrefab(itemInMount,performer.WorldPosServer());
+			ServerChangeLightState(LightMountState.MissingBulb);
+		}
+		else if (Validations.HasItemTrait(handObject, traitRequired) && mState  == LightMountState.MissingBulb)
+		{
+
+			if (Validations.HasItemTrait(handObject, CommonTraits.Instance.Broken))
+			{
+				ServerChangeLightState(LightMountState.Broken);
+			}
+			else
+			{
+				ServerChangeLightState(
+					(switchState && (powerState == PowerStates.On))
+					? LightMountState.On : (powerState != PowerStates.OverVoltage)
+					? LightMountState.Emergency : LightMountState.Off);
+			}
+			Despawn.ServerSingle(handObject);
+		}
+	}
+
+	#endregion
+
+	#region IAPCPowered
+	public void PowerNetworkUpdate(float Voltage)
+	{
+
+	}
+
+	public void StateUpdate(PowerStates newPowerState)
+	{
+		if (!isServer) return;
+		powerState = newPowerState;
+		if(mState == LightMountState.Broken
+		   || mState == LightMountState.MissingBulb) return;
+
+		switch (newPowerState)
+		{
+			case PowerStates.On:
+				ServerChangeLightState(LightMountState.On);
+				return;
+			case PowerStates.LowVoltage:
+				ServerChangeLightState(LightMountState.Emergency);
+				return;
+			case PowerStates.OverVoltage:
+				ServerChangeLightState(LightMountState.BurnedOut);
+				return;
+			case PowerStates.Off:
+				ServerChangeLightState(LightMountState.Emergency);
+				return;
+		}
+	}
+	#endregion
+
+	#region SwitchRelatedLogic
 
 	public bool SubscribeToSwitchEvent(LightSwitchV2 lightSwitch)
 	{
@@ -91,36 +337,42 @@ public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 
 	public override void Trigger(bool newState)
 	{
-		SwitchState = newState;
-		if (wallMount != null)
+		if (!isServer) return;
+		switchState = newState;
+		if(powerState == PowerStates.On)
+			ServerChangeLightState(newState ? LightMountState.On : LightMountState.Off);
+	}
+
+	#endregion
+
+	private void OnDamageReceived(DamageInfo arg0)
+	{
+		CheckIntegrityState();
+	}
+
+	private void CheckIntegrityState()
+	{
+		if (integrity.integrity > integrityThreshBar || mState == LightMountState.MissingBulb) return;
+		Vector3 pos = gameObject.AssumedWorldPosServer();
+
+		if (mState == LightMountState.Broken)
 		{
-			wallMount.SwitchChangeState(newState);
+
+			ServerChangeLightState(LightMountState.MissingBulb);
+			SoundManager.PlayNetworkedAtPos("GlassStep", pos, sourceObj: gameObject);
 		}
 		else
 		{
-			ServerChangeLightState(newState ? LightState.On : LightState.Off);
+			ServerChangeLightState(LightMountState.Broken);
+			Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(0, 2),
+				scatterRadius: Random.Range(0, 2));
 		}
 	}
 
-	public override void OnStartClient()
+	public void OnDespawnServer(DespawnInfo info)
 	{
-		SyncLightState(mState, mState);
-		base.OnStartClient();
-	}
-
-	[Server]
-	public void ServerChangeLightState(LightState newState)
-	{
-		mState = newState;
-	}
-
-	private void SyncLightState(LightState oldState, LightState newState)
-	{
-		mState = newState;
-		if (mLightRendererObject != null)
-		{
-			mLightRendererObject.SetActive(mState == LightState.On);
-		}
+		Spawn.ServerPrefab(currentState.LootDrop, gameObject.RegisterTile().WorldPositionServer);
+		UnSubscribeFromSwitchEvent();
 	}
 
 	void OnDrawGizmosSelected()
@@ -143,31 +395,10 @@ public class LightSource : ObjectTrigger,IAPCPowered, IServerDespawn
 
 	}
 
-	public void PowerNetworkUpdate(float Voltage)
+	private IEnumerator CoolDown()
 	{
-
-	}
-	public void StateUpdate(PowerStates State)
-	{
-		switch (State)
-		{
-			case PowerStates.On:
-				Trigger(true);
-				return;
-			case PowerStates.LowVoltage:
-				Trigger(false);
-				return;
-			case PowerStates.OverVoltage:
-				Trigger(true);
-				return;
-			default:
-				Trigger(false);
-				return;
-		}
-	}
-
-	public void OnDespawnServer(DespawnInfo info)
-	{
-		UnSubscribeFromSwitchEvent();
+		isInCoolDown = true;
+		yield return WaitFor.Seconds(coolDownTime);
+		isInCoolDown = false;
 	}
 }

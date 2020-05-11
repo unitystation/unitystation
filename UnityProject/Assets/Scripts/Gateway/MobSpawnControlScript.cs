@@ -2,19 +2,90 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 
 public class MobSpawnControlScript : NetworkBehaviour
 {
-	public List<GameObject> MobSpawners;
+	public List<MobSpawnScript> MobSpawners = new List<MobSpawnScript>();
+
+	public bool DetectViaMatrix;
+
+	private bool SpawnedMobs;
+
+	private float timeElapsedServer = 0;
+
+	private const float PlayerCheckTime = 1f;
 
 	[Server]
 	public void SpawnMobs()
 	{
-		foreach (GameObject Spawner in MobSpawners)
+		if (SpawnedMobs) return;
+		SpawnedMobs = true;
+
+		foreach (var Spawner in MobSpawners)
 		{
 			if (Spawner != null)
 			{
-				Spawner.GetComponent<MobSpawnScript>().SpawnMob();
+				Spawner.SpawnMob();
+			}
+		}
+	}
+
+	[ContextMenu("Rebuild mob spawner list")]
+	void RebuildMobSpawnerList()
+	{
+		MobSpawners.Clear();
+		foreach (Transform t in transform.parent)
+		{
+			var mobSpawner = t.GetComponent<MobSpawnScript>();
+			if (mobSpawner != null)
+			{
+				MobSpawners.Add(mobSpawner);
+			}
+		}
+		#if UNITY_EDITOR
+		EditorUtility.SetDirty(gameObject);
+		#endif
+	}
+
+	protected virtual void UpdateMe()
+	{
+		if (isServer)
+		{
+			timeElapsedServer += Time.deltaTime;
+			if (timeElapsedServer > PlayerCheckTime && !SpawnedMobs)
+			{
+				DetectPlayer();
+				timeElapsedServer = 0;
+			}
+		}
+	}
+
+	private void OnEnable()
+	{
+		if (!DetectViaMatrix) return;
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+	void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	[Server]
+	private void DetectPlayer()
+	{
+		foreach (var player in PlayerList.Instance.InGamePlayers)
+		{
+			var script = player.Script;
+			if (script == null) return;
+
+			if (!script.IsGhost && script.registerTile.Matrix == gameObject.GetComponent<RegisterObject>().Matrix)
+			{
+				SpawnMobs();
+				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+				return;
 			}
 		}
 	}

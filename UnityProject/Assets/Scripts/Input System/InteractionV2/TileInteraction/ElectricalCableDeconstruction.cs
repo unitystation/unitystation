@@ -14,6 +14,7 @@ public class ElectricalCableDeconstruction : TileInteraction
 	[SerializeField]
 	private ItemTrait requiredTrait = null;
 
+	// TODO Unused. See https://github.com/unitystation/unitystation/issues/3903
 	[Tooltip("Action message to performer when they begin this interaction.")] [SerializeField]
 	private string performerStartActionMessage = null;
 
@@ -52,9 +53,10 @@ public class ElectricalCableDeconstruction : TileInteraction
 			// Electrocute the performer. If shock is painful enough, cancel the interaction.
 			ElectricityFunctions.WorkOutActualNumbers(ElectricalData.InData);
 			float voltage = ElectricalData.InData.Data.ActualVoltage;
-			var electrocutionSeverity = new Electrocution().ElectrocutePlayer(
-				interaction.Performer, interaction.WorldPositionTarget, "cable", voltage);
-			if (electrocutionSeverity > Electrocution.Severity.Mild) return;
+			var electrocution = new Electrocution(voltage, interaction.WorldPositionTarget, "cable");
+			var performerLHB = interaction.Performer.GetComponent<LivingHealthBehaviour>();
+			var severity = performerLHB.Electrocute(electrocution);
+			if (severity > LivingShockResponse.Mild) return;
 
 			ElectricalData.InData.DestroyThisPlease();
 			Spawn.ServerPrefab(ElectricalCable.SpawnOnDeconstruct, interaction.WorldPositionTarget,

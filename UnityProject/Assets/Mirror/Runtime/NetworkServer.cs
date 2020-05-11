@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace Mirror
 {
@@ -18,6 +19,11 @@ namespace Mirror
     {
         static bool initialized;
         static int maxConnections;
+
+        /// <summary>
+        /// The definitive list of scenes that a client connection is allowed to observe (Server only)
+        /// </summary>
+        public static Dictionary<NetworkConnection, List<Scene>> observerSceneList = new Dictionary<NetworkConnection, List<Scene>>();
 
         /// <summary>
         /// The connection to the host mode client (if any).
@@ -1171,8 +1177,10 @@ namespace Mirror
 
             foreach (NetworkIdentity identity in identities)
             {
-                if (ValidateSceneObject(identity))
-                    Spawn(identity.gameObject);
+	            if (ValidateSceneObject(identity))
+	            {
+		            Spawn(identity.gameObject);
+	            }
             }
             return true;
         }

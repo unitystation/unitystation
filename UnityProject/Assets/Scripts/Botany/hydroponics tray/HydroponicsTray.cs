@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Chemistry;
 using Mirror;
+using Chemistry.Components;
 
 /// <summary>
 /// Where the magic happens in botany. This tray grows all of the plants
@@ -42,7 +43,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 	private bool isWild = false;
 
 	[SerializeField] private List<DefaultPlantData> potentialWeeds = new List<DefaultPlantData>();
-	[SerializeField] private PlantTrayModification modification;
+	[SerializeField] private PlantTrayModification modification = PlantTrayModification.None;
 	[SerializeField] private ReagentContainer reagentContainer = null;
 	[SerializeField] private Chemistry.Reagent nutriment = null;
 	[SerializeField] private Chemistry.Reagent water = null;
@@ -446,7 +447,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 		{
 			var produceObject = Spawn
 				.ServerPrefab(plantData.ProduceObject, registerTile.WorldPositionServer, transform.parent)
-				.GameObject;
+				?.GameObject;
 
 			if (produceObject == null)
 			{

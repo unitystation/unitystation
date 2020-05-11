@@ -3,6 +3,7 @@ using UnityEngine;
 using System.IO;
 using UnityEditor;
 using Newtonsoft.Json;
+using Chemistry.Components;
 
 public class GeneratePlantSOs : EditorWindow
 {

@@ -1,7 +1,7 @@
 using System;
+using Mirror;
 using TMPro;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GUI_PreRoundWindow : MonoBehaviour
@@ -16,6 +16,12 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	[SerializeField]
 	private TMP_Text readyText = null;
 
+	[SerializeField] private TMP_Text loadingText = null;
+
+	[SerializeField] private Scrollbar loadingBar = null;
+
+	[SerializeField] private GameObject normalWindows = null;
+
 	// UI panels
 	[SerializeField]
 	private GameObject adminPanel = null;
@@ -27,16 +33,21 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	private GameObject timerPanel = null;
 	[SerializeField]
 	private GameObject joinPanel = null;
+
 	[SerializeField]
+	private GameObject mapLoadingPanel = null;
+
+	[SerializeField] private GameObject rejoiningRoundPanel = null;
 
 	// Character objects
+	[SerializeField]
 	private GameObject characterCustomization = null;
 	[SerializeField]
 	private Button characterButton = null;
 
 	// Internal variables
 	private bool doCountdown;
-	private float countdownTime;
+	private double countdownEndTime;
 	private bool isReady;
 
 	private void OnDisable()
@@ -56,7 +67,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 		if (doCountdown)
 		{
-			UpdateCountdown();
+			UpdateCountdownUI();
 		}
 	}
 
@@ -74,14 +85,16 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		}
 	}
 
-	private void UpdateCountdown()
+	/// <summary>
+	/// Update the UI based on the current countdown time
+	/// </summary>
+	private void UpdateCountdownUI()
 	{
-		countdownTime -= Time.deltaTime;
-		if (countdownTime <= 0)
+		if (NetworkTime.time >= countdownEndTime)
 		{
 			OnCountdownEnd();
 		}
-		timer.text = TimeSpan.FromSeconds(countdownTime).ToString(@"mm\:ss");
+		timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
 	}
 
 	public void UpdatePlayerCount(int count)
@@ -100,22 +113,22 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		GameManager.Instance.StartRound();
 	}
 
-	public void SyncCountdown(bool started, long endTime)
+	public void SyncCountdown(bool started, double endTime)
 	{
-		Logger.Log($"SyncCountdown called with: started={started}, endTime={endTime}", Category.Round);
-		TimeSpan timeTillEnd = DateTimeOffset.FromUnixTimeMilliseconds(endTime) - DateTimeOffset.UtcNow;
-		countdownTime = (float)timeTillEnd.TotalSeconds;
+		Logger.LogFormat("SyncCountdown called with: started={0}, endTime={1}, current NetworkTime={2}", Category.Round,
+			started, endTime, NetworkTime.time);
+		countdownEndTime = endTime;
 		doCountdown = started;
 		if (started)
 		{
 			SetUIForCountdown();
+			// Update the timer now so it doesn't flash 0:00
+			UpdateCountdownUI();
 		}
 		else
 		{
 			SetUIForWaiting();
 		}
-		// Update now so timer doesn't flash 0:00
-		UpdateCountdown();
 	}
 
 	public void OnCharacterButton()
@@ -167,6 +180,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		joinPanel.SetActive(false);
 		playerWaitPanel.SetActive(true);
 		mainPanel.SetActive(false);
+		rejoiningRoundPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -179,6 +193,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		joinPanel.SetActive(false);
 		playerWaitPanel.SetActive(false);
 		mainPanel.SetActive(true);
+		rejoiningRoundPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -190,5 +205,40 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		timerPanel.SetActive(false);
 		playerWaitPanel.SetActive(false);
 		mainPanel.SetActive(true);
+		rejoiningRoundPanel.SetActive(false);
+	}
+
+	public void ShowRejoiningPanel()
+	{
+		normalWindows.SetActive(false);
+		mapLoadingPanel.SetActive(false);
+		rejoiningRoundPanel.SetActive(true);
+	}
+
+	public void CloseRejoiningPanel()
+	{
+		normalWindows.SetActive(false);
+		mapLoadingPanel.SetActive(false);
+		rejoiningRoundPanel.SetActive(false);
+	}
+
+	public void SetUIForMapLoading()
+	{
+		rejoiningRoundPanel.SetActive(false);
+		normalWindows.SetActive(false);
+		mapLoadingPanel.SetActive(true);
+	}
+
+	public void UpdateLoadingBar(string text, float loadedAmt)
+	{
+		loadingText.text = text;
+		loadingBar.size = loadedAmt;
+	}
+
+	public void CloseMapLoadingPanel()
+	{
+		normalWindows.SetActive(true);
+		mapLoadingPanel.SetActive(false);
+		UpdateLoadingBar("Preparing..", 0.1f);
 	}
 }

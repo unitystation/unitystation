@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
 
 [Serializable]
 public struct TileState
@@ -34,7 +33,6 @@ public abstract class BasicTile : LayerTile
 	[SerializeField]
 	private OreCategory oreCategory;
 
-	public float MaxHealth;
 	public TileState[] HealthStates;
 
 	[Tooltip("Does this tile allow items / objects to pass through it?")]
@@ -56,12 +54,40 @@ public abstract class BasicTile : LayerTile
 	[SerializeField]
 	private PassableDictionary passableException = null;
 
-
 	[Tooltip("What is this tile's max health?")]
 	[FormerlySerializedAs("MaxHealth")]
 	[SerializeField]
-	private float maxHealth;
+	private float maxHealth = 0f;
+	public float MaxHealth => maxHealth;
 
+	[Tooltip("Armor of this tile")]
+	[FormerlySerializedAs("Armor")]
+	[SerializeField]
+	private Armor armor = new Armor
+	{
+		Melee = 90,
+		Bullet = 90,
+		Laser = 90,
+		Energy = 90,
+		Bomb = 90,
+		Bio = 100,
+		Rad = 100,
+		Fire = 100,
+		Acid = 90
+	};
+
+	/// <summary>
+	/// Armor of this tile
+	/// </summary>
+	public Armor Armor => armor;
+
+	[Tooltip("Sound this tile makes when hit")] [SerializeField]
+	private string[] hitSounds = null;
+	public string[] HitSounds => hitSounds;
+
+	[Tooltip("Set the remains this tile can spawn once destroyed")] [SerializeField]
+	private List<TileDestroyedRemains> tileDestroyedRemains = null;
+	public List<TileDestroyedRemains> TileDestroyedRemains => tileDestroyedRemains;
 
 	[Tooltip("How does the tile change as its health changes?")]
 	[FormerlySerializedAs("HealthStates")]
@@ -76,15 +102,6 @@ public abstract class BasicTile : LayerTile
 	/// Resistances of this tile.
 	/// </summary>
 	public Resistances Resistances => resistances;
-
-	[Tooltip("Armor of this tile")]
-	[FormerlySerializedAs("Armor")]
-	[SerializeField]
-	private Armor armor = null;
-	/// <summary>
-	/// Armor of this tile
-	/// </summary>
-	public Armor Armor => armor;
 
 	[Tooltip("Interactions which can occur on this tile. They will be checked in the order they appear in this list (top to bottom).")]
 	[SerializeField]
@@ -103,7 +120,7 @@ public abstract class BasicTile : LayerTile
 	public GameObject SpawnOnDeconstruct => spawnOnDeconstruct;
 
 	[Tooltip("How much of the object to spawn when it's deconstructed. Defaults to 1 if" +
-			 " an object is specified and this is 0.")]
+	         " an object is specified and this is 0.")]
 	[SerializeField]
 	private int spawnAmountOnDeconstruct = 1;
 	/// <summary>
@@ -146,4 +163,16 @@ public abstract class BasicTile : LayerTile
 	{
 		return IsAtmosPassable() && !isSealed;
 	}
+}
+
+[Serializable]
+public class TileDestroyedRemains
+{
+	[Tooltip("What game object to spawn as a remain")]
+	public GameObject Object = null;
+	[Tooltip("Amount of said game object")]
+	public int Amount = 1;
+	[Tooltip("We will make a roll from 0,0 to 1,0. If the roll value is inside this range, we will spawn the game object")]
+	[NaughtyAttributes.MinMaxSlider(0,1)]
+	public Vector2 ProbabilityRange;
 }

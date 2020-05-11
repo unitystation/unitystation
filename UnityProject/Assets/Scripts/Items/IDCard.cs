@@ -32,7 +32,7 @@ public class IDCard : NetworkBehaviour, IServerInventoryMove, IServerSpawn, IExa
 	         "if there are entries in ManuallyAddedAccess list")]
 	[FormerlySerializedAs("ManuallyAssignCardType")]
 	[SerializeField]
-	private IDCardType manuallyAssignCardType;
+	private IDCardType manuallyAssignCardType = IDCardType.standard;
 
 	[Tooltip("If true, will initialize itself with the correct access list, name, job, etc...based on the" +
 	         " first player whose inventory it is added to. Used for initial loadout.")]

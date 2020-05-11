@@ -9,50 +9,67 @@ using Mirror;
 /// </summary>
 public class WorldGateway : StationGateway
 {
-
 	[SerializeField]
 	private GameObject StationGateway = null;// doesnt have to be station just the gateway this one will connect to
 
-	public bool IsOnlineAtStart = false;
+	/// <summary>
+	/// Should the mobs spawn when gate connects
+	/// </summary>
+	public bool spawnMobsOnConnection;
 
+	/// <summary>
+	/// For world gate to world gate
+	/// </summary>
+	[SerializeField]
+	private bool ifWorldGateToWorldGate;
 
-	private void Start()
+	public override void OnStartServer()
 	{
-		if (StationGateway == null) return;
-
 		SetOffline();
-
-		if (!isServer) return;
-
-		SpawnedMobs = true;
-
+		registerTile = GetComponent<RegisterTile>();
+		Position = registerTile.WorldPosition;
 		ServerChangeState(false);
 
-		registerTile = GetComponent<RegisterTile>();
-
-		Position = registerTile.WorldPosition;
-		Message = "Teleporting to: " + StationGateway.GetComponent<StationGateway>().WorldName;
-
-		if (IsOnlineAtStart && StationGateway != null)
+		if (ifWorldGateToWorldGate && StationGateway != null)
 		{
-			SetOnline();
-			ServerChangeState(true);
-
-			if (GetComponent<MobSpawnControlScript>() != null)
-			{
-				GetComponent<MobSpawnControlScript>().SpawnMobs();
-			}
+			SetUpWorldToWorld();
+		}
+		else if (!ifWorldGateToWorldGate)
+		{
+			SubSceneManager.RegisterWorldGateway(this);
 		}
 	}
 
 	[Server]
-	public void SetUp()
+	public void SetUp(StationGateway stationGateway)
 	{
-		if (IsOnlineAtStart && StationGateway != null)
+		StationGateway = stationGateway.gameObject;
+		Message = "Teleporting to: " + stationGateway.WorldName;
+
+		SetOnline();
+		ServerChangeState(true);
+		if (GetComponent<MobSpawnControlScript>() != null)
 		{
-			SetOnline();
-			ServerChangeState(true);
+			GetComponent<MobSpawnControlScript>().SpawnMobs();
 		}
+
+		SpawnedMobs = true;
+	}
+
+	[Server]
+	public void SetUpWorldToWorld()
+	{
+		Message = "Teleporting...";
+
+		SetOnline();
+		ServerChangeState(true);
+
+		if (GetComponent<MobSpawnControlScript>() != null)
+		{
+			GetComponent<MobSpawnControlScript>().SpawnMobs();
+		}
+
+		SpawnedMobs = true;
 	}
 
 	[Server]

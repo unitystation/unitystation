@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 114952505639166698}
   - component: {fileID: 114258074719940616}
   - component: {fileID: -67410277551944801}
+  - component: {fileID: 5081379019061540127}
   m_Layer: 11
   m_Name: BODA
   m_TagString: Untagged
@@ -106,7 +107,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114810295364911794
@@ -122,12 +122,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   VendorContent:
-  - Item: {fileID: 6602018046170396259, guid: 0b768075af10f5842bda288041fc3981, type: 3}
-    Stock: 5
-  - Item: {fileID: 6602018046170396259, guid: d91cb246fc9a68b488fc089b2ee3facc, type: 3}
-    Stock: 5
-  - Item: {fileID: 6602018046170396259, guid: 3f42bf93060678d43b3858247bc0696f, type: 3}
-    Stock: 5
+  - Item: {fileID: 6546673936360135170, guid: b7831b25f6bc923458647be942a2609f, type: 3}
+    Stock: 30
+  - Item: {fileID: 6546673936360135170, guid: 9df8b42a3b7c7554ab9c48ba64b45d2e, type: 3}
+    Stock: 20
   HullColor: {r: 0.64705884, g: 0.63529414, b: 0.16078432, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -190,6 +188,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114952505639166698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -237,10 +237,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
 --- !u!114 &-67410277551944801
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,9 +257,22 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: BODA
   initialDescription: Old sweet water vending machine.
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &5081379019061540127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459620712919388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1855299798957980
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +283,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4383272766008090}
   - component: {fileID: 212917313431182876}
+  - component: {fileID: 4001047522268368142}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -305,6 +319,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -340,3 +355,32 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4001047522268368142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1855299798957980}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: f9c935cd8bdf606469fd52bfdc5884d6, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: f9c935cd8bdf606469fd52bfdc5884d6, type: 3}
+    - {fileID: 21300002, guid: f9c935cd8bdf606469fd52bfdc5884d6, type: 3}
+    - {fileID: 21300004, guid: f9c935cd8bdf606469fd52bfdc5884d6, type: 3}
+    - {fileID: 21300006, guid: f9c935cd8bdf606469fd52bfdc5884d6, type: 3}
+    - {fileID: 21300008, guid: f9c935cd8bdf606469fd52bfdc5884d6, type: 3}
+    - {fileID: 21300010, guid: f9c935cd8bdf606469fd52bfdc5884d6, type: 3}
+    - {fileID: 21300012, guid: f9c935cd8bdf606469fd52bfdc5884d6, type: 3}
+    - {fileID: 21300014, guid: f9c935cd8bdf606469fd52bfdc5884d6, type: 3}
+    EquippedData: {fileID: 4900000, guid: cd94e935c4728e14b99acf7a6cc53b53, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1

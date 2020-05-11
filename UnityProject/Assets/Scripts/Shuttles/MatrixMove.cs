@@ -30,6 +30,7 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 
 	[Tooltip("Does it require fuel in order to fly?")]
 	public bool RequiresFuel;
+
 	/// <summary>
 	/// Initial facing of the ship as mapped in the editor.
 	/// </summary>

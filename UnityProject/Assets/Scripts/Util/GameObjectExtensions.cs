@@ -112,4 +112,21 @@ public static class GameObjectExtensions
 			}
 		}
 	}
+
+	/// <summary>
+	/// performant, robust, alloc free way to check if the object is hidden (at hiddenpos), which occurs when it is pooled (despawned)
+	/// or otherwise obscured from players (items in inventory / things in lockers).
+	///
+	/// Merely checking if its transform is at hiddenpos won't work, because objects may be moved / rotated
+	/// when their parent matrix is moved (even hidden objects exist within a matrix)...instead we
+	/// just rely on the z coordinate
+	/// </summary>
+	/// <param name="gameObject"></param>
+	/// <returns></returns>
+	public static bool IsAtHiddenPos(this GameObject gameObject)
+	{
+		// just to be sure, we give a little buffer in z coordinate, so -90 or lower will
+		// be considered hidden (nothing in the game should be this low except hidden stuff)
+		return gameObject.transform.position.z <= (TransformState.HiddenPos.z + 10);
+	}
 }

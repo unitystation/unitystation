@@ -72,6 +72,19 @@ public class UnderFloorLayer : Layer
 			if (!Application.isPlaying) isServer = true;
 		}
 
+		//We do not want to duplicate under floor tiles if they are the same:
+		if (TileStore.ContainsKey(position.To2Int()))
+		{
+			foreach (var l in TileStore[position.To2Int()])
+			{
+				if (l == tile)
+				{
+					//duplicate found aborting
+					return;
+				}
+			}
+		}
+
 		if (isServer)
 		{
 			Vector2Int position2 = position.To2Int();

@@ -1,7 +1,8 @@
 ﻿﻿﻿using System;
   using System.Collections;
 using System.Collections.Generic;
- using Mirror;
+using Chemistry.Components;
+using Mirror;
  using UnityEngine;
 
 /// <summary>

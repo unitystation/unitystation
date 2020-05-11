@@ -191,7 +191,7 @@ public static class SweetExtensions
 	/// Good looking job name
 	public static string JobString(this JobType job)
 	{
-		return job.ToString().Equals("NULL") ? "*just joined" : textInfo.ToTitleCase(job.ToString().ToLower());
+		return job.ToString().Equals("NULL") ? "*just joined" : textInfo.ToTitleCase(job.ToString().ToLower()).Replace("_", " ");
 	}
 	//For job formatting purposes
 	private static readonly TextInfo textInfo = new CultureInfo("en-US", false).TextInfo;

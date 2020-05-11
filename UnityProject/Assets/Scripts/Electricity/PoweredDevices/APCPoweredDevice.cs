@@ -14,7 +14,7 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn
 	public DeviceType deviceType = DeviceType.None;
 
 	[SerializeField]
-	private bool isSelfPowered;
+	private bool isSelfPowered = false;
 
 	public bool IsSelfPowered => isSelfPowered;
 

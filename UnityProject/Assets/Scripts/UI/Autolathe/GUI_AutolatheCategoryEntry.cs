@@ -33,7 +33,7 @@ public class GUI_AutolatheCategoryEntry : DynamicEntry
 			switch (nameBeforeIndex)
 			{
 				case "CategoryName":
-					element.SetValueServer(ExoFabProducts.CategoryName);
+					((NetUIElement<string>)element).SetValueServer(ExoFabProducts.CategoryName);
 					break;
 			}
 		}

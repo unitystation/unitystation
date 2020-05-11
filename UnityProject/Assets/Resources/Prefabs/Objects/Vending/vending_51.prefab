@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4297212768425852}
   - component: {fileID: 212336432172114400}
+  - component: {fileID: 6650678940701090653}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -45,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -80,6 +82,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6650678940701090653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1363142207448964}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 76ef79b6f37d11b4b8eba5078afb90a7, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 76ef79b6f37d11b4b8eba5078afb90a7, type: 3}
+    - {fileID: 21300002, guid: 76ef79b6f37d11b4b8eba5078afb90a7, type: 3}
+    - {fileID: 21300004, guid: 76ef79b6f37d11b4b8eba5078afb90a7, type: 3}
+    - {fileID: 21300006, guid: 76ef79b6f37d11b4b8eba5078afb90a7, type: 3}
+    EquippedData: {fileID: 4900000, guid: 219eea9e7c38f264aa1712ef5587a709, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1699312583147682
 GameObject:
   m_ObjectHideFlags: 0
@@ -100,6 +127,7 @@ GameObject:
   - component: {fileID: 114620447940062844}
   - component: {fileID: 114343594154895826}
   - component: {fileID: -8914829415235956772}
+  - component: {fileID: 3479304296009916560}
   m_Layer: 11
   m_Name: vending_51
   m_TagString: Untagged
@@ -186,7 +214,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114608685007237984
@@ -270,6 +297,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114620447940062844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +312,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -317,10 +346,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
 --- !u!114 &-8914829415235956772
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -337,6 +366,19 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: SecTech
   initialDescription: A security equipment vendor.
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &3479304296009916560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699312583147682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

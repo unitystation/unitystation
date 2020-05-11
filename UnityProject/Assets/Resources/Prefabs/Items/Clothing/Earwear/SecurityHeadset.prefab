@@ -1,12 +1,34 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &6743866655740756593
+--- !u!1001 &2124444640098875784
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1041179462549308755, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: d84334d1f54004fed85513285d12222e,
+        type: 2}
+    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: initialName
+      value: security radio headset
+      objectReference: {fileID: 0}
+    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: initialDescription
+      value: This is used by your elite security force.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124838470649275786, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e0e07db11cde18822a3d1172b790f3af,
+        type: 3}
     - target: {fileID: 6200957232458716886, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
       propertyPath: m_Name
@@ -16,16 +38,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Clothing
-      objectReference: {fileID: 0}
-    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: serverOnly
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6205322156016085922, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
@@ -82,27 +94,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
-      propertyPath: initialName
-      value: security radio headset
-      objectReference: {fileID: 0}
-    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: initialDescription
-      value: This is used by your elite security force.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1041179462549308755, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: clothData
+      propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 11400000, guid: d81ff42a8ea91754b95541d07403cfbe,
-        type: 2}
-    - target: {fileID: 6124838470649275786, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 2276e5afac687c643ac37823a5744d1b,
-        type: 3}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abf4818425fa84c67a62abb4425a4dcb, type: 3}

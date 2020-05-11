@@ -474,8 +474,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerRespawnPlayer()
+	public void ServerRespawnPlayer(string occupation = null)
 	{
+		if (occupation != null)
+		{
+			foreach (var job in SOAdminJobsList.Instance.AdminAvailableJobs)
+			{
+				if (job.name != occupation)
+				{
+					continue;
+				}
+
+				playerScript.mind.occupation = job;
+				break;
+			}
+		}
+
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
@@ -483,6 +497,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleAllowCloning()
 	{
 		playerScript.mind.DenyCloning = !playerScript.mind.DenyCloning;
+
+		if (playerScript.mind.DenyCloning)
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You will no longer be cloned</color>");
+		}
+		else
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You can now be cloned</color>");
+		}
 	}
 
 	/// <summary>
@@ -836,17 +859,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			return;
 		}
 		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
-	}
-
-	//simulates despawning and immediately respawning this object, expectation
-	//being that it should properly initialize itself regardless of its previous state.
-	[Command]
-	public void CmdAdminRespawn(GameObject toRespawn, string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		Spawn.ServerPoolTestRespawn(toRespawn);
 	}
 
 	[Command]

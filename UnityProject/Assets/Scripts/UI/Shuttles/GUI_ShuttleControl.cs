@@ -23,7 +23,7 @@ public class GUI_ShuttleControl : NetTab
 		}
 	}
 	private MatrixMove matrixMove;
-	[HideInInspector]
+
 	public MatrixMove MatrixMove
 	{
 		get
@@ -37,10 +37,11 @@ public class GUI_ShuttleControl : NetTab
 		}
 	}
 
-	[SerializeField] private Image rcsLight;
-	[SerializeField] private Sprite rcsLightOn;
-	[SerializeField] private Sprite rcsLightOff;
-	[SerializeField] private ToggleButton rcsToggleButton;
+	[SerializeField] private Image rcsLight = null;
+	[SerializeField] private Sprite rcsLightOn = null;
+	[SerializeField] private Sprite rcsLightOff = null;
+	[SerializeField] private ToggleButton rcsToggleButton = null;
+	private ConnectedPlayer playerControllingRcs;
 
 	public GUI_CoordReadout CoordReadout;
 
@@ -56,6 +57,13 @@ public class GUI_ShuttleControl : NetTab
 	private TabState State => Trigger.State;
 
 	private bool Autopilot = true;
+
+	private NetUIElement<string> SafetyText => (NetUIElement<string>)this[nameof(SafetyText)];
+	private NetUIElement<string> StartButton => (NetUIElement<string>)this[nameof(StartButton)];
+	private NetColorChanger Crosshair => (NetColorChanger)this[nameof(Crosshair)];
+	private NetColorChanger RadarScanRay => (NetColorChanger)this[nameof(RadarScanRay)];
+	private NetColorChanger OffOverlay => (NetColorChanger)this[nameof(OffOverlay)];
+	private NetColorChanger Rulers => (NetColorChanger)this[nameof(Rulers)];
 
 	public override void OnEnable()
 	{
@@ -81,11 +89,12 @@ public class GUI_ShuttleControl : NetTab
 			EntryList.Origin = MatrixMove;
 			//Init listeners
 			string temp = "1";
-			this["StartButton"].SetValueServer(temp);
-			MatrixMove.MatrixMoveEvents.OnStartEnginesServer.AddListener(() => this["StartButton"].SetValueServer("1"));
+
+			StartButton.SetValueServer(temp);
+			MatrixMove.MatrixMoveEvents.OnStartEnginesServer.AddListener(() => StartButton.SetValueServer("1"));
 			MatrixMove.MatrixMoveEvents.OnStopEnginesServer.AddListener(() =>
 		   {
-			   this["StartButton"].SetValueServer("0");
+			   StartButton.SetValueServer("0");
 			   HideWaypoint();
 		   });
 
@@ -95,9 +104,9 @@ public class GUI_ShuttleControl : NetTab
 			}
 			HideWaypoint(false);
 
-			rulersColor = ((NetColorChanger)this["Rulers"]).Value;
-			rayColor = ((NetColorChanger)this["RadarScanRay"]).Value;
-			crosshairColor = ((NetColorChanger)this["Crosshair"]).Value;
+			rulersColor = Rulers.Value;
+			rayColor =RadarScanRay.Value;
+			crosshairColor = Crosshair.Value;
 
 			OnStateChange(State);
 		}
@@ -190,8 +199,9 @@ public class GUI_ShuttleControl : NetTab
 	public void SetSafetyProtocols(bool on)
 	{
 		MatrixMove.SafetyProtocolsOn = on;
-		this["SafetyText"].SetValueServer(@on ? "ON" : "OFF");
+		SafetyText.SetValueServer(@on ? "ON" : "OFF");
 	}
+
 
 	public void SetWaypoint(string position)
 	{
@@ -324,16 +334,17 @@ public class GUI_ShuttleControl : NetTab
 		{
 			return;
 		}
+
 		switch (newState)
 		{
 			case TabState.Normal:
 				PowerOff();
 				StartNormalOperation();
 				//Important: set values from server using SetValue and not Value
-				this["OffOverlay"].SetValueServer(Color.clear);
-				this["Rulers"].SetValueServer(rulersColor);
-				this["RadarScanRay"].SetValueServer(rayColor);
-				this["Crosshair"].SetValueServer(crosshairColor);
+				OffOverlay.SetValueServer(Color.clear);
+				Rulers.SetValueServer(rulersColor);
+				RadarScanRay.SetValueServer(rayColor);
+				Crosshair.SetValueServer(crosshairColor);
 				SetSafetyProtocols(true);
 
 				break;
@@ -341,11 +352,11 @@ public class GUI_ShuttleControl : NetTab
 				PowerOff();
 				StartNormalOperation();
 				//Remove overlay
-				this["OffOverlay"].SetValueServer(Color.clear);
+				OffOverlay.SetValueServer(Color.clear);
 				//Repaint radar to evil colours
-				this["Rulers"].SetValueServer(HSVUtil.ChangeColorHue(rulersColor, -80));
-				this["RadarScanRay"].SetValueServer(HSVUtil.ChangeColorHue(rayColor, -80));
-				this["Crosshair"].SetValueServer(HSVUtil.ChangeColorHue(crosshairColor, -80));
+				Rulers.SetValueServer(HSVUtil.ChangeColorHue(rulersColor, -80));
+				RadarScanRay.SetValueServer(HSVUtil.ChangeColorHue(rayColor, -80));
+				Crosshair.SetValueServer(HSVUtil.ChangeColorHue(crosshairColor, -80));
 				AddEmagItems();
 				SetSafetyProtocols(false);
 
@@ -353,7 +364,7 @@ public class GUI_ShuttleControl : NetTab
 			case TabState.Off:
 				PowerOff();
 				//Black screen overlay
-				this["OffOverlay"].SetValueServer(Color.black);
+				OffOverlay.SetValueServer(Color.black);
 				SetSafetyProtocols(true);
 
 				break;

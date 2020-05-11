@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Newtonsoft.Json;
 using UnityEngine;
@@ -55,15 +56,34 @@ public class PlayerManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 		EventManager.AddHandler(EVENT.PlayerDied, OnPlayerDeath);
+		EventManager.AddHandler(EVENT.PlayerRejoined, OnRejoinPlayer);
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 		EventManager.RemoveHandler(EVENT.PlayerDied, OnPlayerDeath);
+		EventManager.RemoveHandler(EVENT.PlayerRejoined, OnRejoinPlayer);
 		PlayerPrefs.Save();
+	}
+
+	private void OnRejoinPlayer()
+	{
+		StartCoroutine(WaitForCamera());
+	}
+
+	IEnumerator WaitForCamera()
+	{
+		while (LocalPlayer == null
+		       || Vector2.Distance(Camera2DFollow.followControl.transform.position,
+			       Camera2DFollow.followControl.target.position) > 5f)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		UIManager.Display.RejoinedEvent();
 	}
 
 	private void Update()
@@ -74,7 +94,7 @@ public class PlayerManager : MonoBehaviour
 		}
 	}
 
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
 		Reset();
 	}

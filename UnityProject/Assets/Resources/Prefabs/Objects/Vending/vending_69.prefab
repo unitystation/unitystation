@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 114214049433889708}
   - component: {fileID: 114839055633971704}
   - component: {fileID: 114712713531201044}
+  - component: {fileID: 6277538734889710698}
   m_Layer: 11
   m_Name: vending_69
   m_TagString: Untagged
@@ -105,7 +106,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114568226788970728
@@ -183,6 +183,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114839055633971704
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -197,6 +198,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -230,10 +232,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 1056677975
+--- !u!114 &6277538734889710698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566295957001540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1640601255468836
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,6 +259,7 @@ GameObject:
   - component: {fileID: 4203086179153578}
   - component: {fileID: 212825192952953774}
   - component: {fileID: 1986779257667095857}
+  - component: {fileID: 2210113598691933383}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -280,6 +295,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -330,3 +346,28 @@ MonoBehaviour:
   mIntensity: 0.5
   mAdditionalEmission: 0
   mScale: 1
+--- !u!114 &2210113598691933383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1640601255468836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 930306ef6eda7ce45b8606eb2d64c7f8, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 930306ef6eda7ce45b8606eb2d64c7f8, type: 3}
+    - {fileID: 21300002, guid: 930306ef6eda7ce45b8606eb2d64c7f8, type: 3}
+    - {fileID: 21300004, guid: 930306ef6eda7ce45b8606eb2d64c7f8, type: 3}
+    - {fileID: 21300006, guid: 930306ef6eda7ce45b8606eb2d64c7f8, type: 3}
+    EquippedData: {fileID: 4900000, guid: 99952e5a14e705749bef43d1c5decb93, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1

@@ -6,6 +6,7 @@ using Chemistry;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
+using Chemistry.Components;
 
 [RequireComponent(typeof(Pickupable))]
 public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpawn
@@ -59,7 +60,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 
 	private ReagentContainer reagentContainer;
 
-	private float FuelAmount => reagentContainer[fuel] ?? 0;
+	private float FuelAmount => reagentContainer[fuel];
 
 	void Awake()
 	{

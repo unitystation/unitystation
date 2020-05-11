@@ -21,7 +21,7 @@ public class PreBuildActions : IPreprocessBuild
 
 	public void PreChecks()
 	{
-		scene = EditorSceneManager.OpenScene("Assets/Scenes/Lobby.unity");
+		scene = EditorSceneManager.OpenScene("Assets/Scenes/ActiveScenes/Lobby.unity");
 
 		if (!SpawnListBuild())
 		{

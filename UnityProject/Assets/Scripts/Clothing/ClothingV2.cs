@@ -28,7 +28,7 @@ public class ClothingV2 : NetworkBehaviour
 
 	[Tooltip("Determine when a piece of clothing hides another")]
 	[SerializeField, EnumFlag]
-	private ClothingHideFlags hideClothingFlags;
+	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
 
 	private ItemAttributesV2 myItem;
 	private Pickupable myPickupable;

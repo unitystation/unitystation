@@ -38,6 +38,9 @@ public class ShootMessage : ServerMessage {
 			return;
 		}
 
+		//Not even spawned don't show bullets
+		if (PlayerManager.LocalPlayer == null) return;
+		
 		LoadMultipleObjects(new uint[] {Shooter, Weapon});
 
 		Gun wep = NetworkObjects[1].GetComponent<Gun>();

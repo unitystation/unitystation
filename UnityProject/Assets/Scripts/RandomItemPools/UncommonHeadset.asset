@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: UncommonHeadset
+  m_EditorClassIdentifier: 
+  pool:
+  - prefab: {fileID: 835768756810601639, guid: 455167e17d2dd4f24b32aaafea5e7fb2, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 835768756810601639, guid: 1fbcb2849c5f146458ba2aa13634279c, type: 3}
+    maxAmount: 1
+    probability: 100

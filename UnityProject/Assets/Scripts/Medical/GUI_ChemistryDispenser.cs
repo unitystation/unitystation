@@ -33,15 +33,15 @@ public class GUI_ChemistryDispenser : NetTab
 		"100",
 	};
 
-	private NetUIElementBase listOfReagents;
+	private NetUIElement<string> listOfReagents;
 
-	private NetUIElementBase ListOfReagents
+	private NetUIElement<string> ListOfReagents
 	{
 		get
 		{
 			if (!listOfReagents)
 			{
-				listOfReagents = this["IngredientList"];
+				listOfReagents = (NetUIElement<string>)this["IngredientList"];
 			}
 
 			return listOfReagents;
@@ -49,15 +49,15 @@ public class GUI_ChemistryDispenser : NetTab
 	}
 
 	//The thing that says 100U @ 10c
-	private NetUIElementBase totalAndTemperature;
+	private NetUIElement<string> totalAndTemperature;
 
-	private NetUIElementBase TotalAndTemperature
+	private NetUIElement<string> TotalAndTemperature
 	{
 		get
 		{
 			if (!totalAndTemperature)
 			{
-				totalAndTemperature = this["AmountAndTemperature"];
+				totalAndTemperature = (NetUIElement<string>)this["AmountAndTemperature"];
 			}
 
 			return totalAndTemperature;
@@ -66,7 +66,7 @@ public class GUI_ChemistryDispenser : NetTab
 
 	void Start()
 	{
-		this["20"].SetValueServer("1");
+		((NetUIElement<string>)this["20"]).SetValueServer("1");
 		if (Provider != null)
 		{
 			//Makes sure it connects with the dispenser properly
@@ -87,11 +87,11 @@ public class GUI_ChemistryDispenser : NetTab
 			if (DispenseAmounts[i] == Number.ToString()
 			) //Checks what button has been pressed  And sets the correct position appropriate
 			{
-				this[DispenseAmounts[i]].SetValueServer("1");
+				((NetUIElement<string>)this[DispenseAmounts[i]]).SetValueServer("1");
 			}
 			else
 			{
-				this[DispenseAmounts[i]].SetValueServer("0");
+				((NetUIElement<string>)this[DispenseAmounts[i]]).SetValueServer("0");
 			}
 		}
 
@@ -187,7 +187,7 @@ public class GUI_ChemistryDispenser : NetTab
 				newListOfReagents += $"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)} - {reagent.Value} U \n";
 			}
 
-			TotalAndTemperature.SetValueServer($"{ChemistryDispenser.Container.CurrentCapacity}U @ {(ChemistryDispenser.Container.Temperature)}°C");
+			TotalAndTemperature.SetValueServer($"{ChemistryDispenser.Container.ReagentMixTotal}U @ {(ChemistryDispenser.Container.Temperature)}°C");
 		}
 		else
 		{

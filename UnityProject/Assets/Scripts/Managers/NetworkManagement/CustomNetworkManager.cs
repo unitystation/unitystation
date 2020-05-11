@@ -170,6 +170,7 @@ public class CustomNetworkManager : NetworkManager
 
 		Logger.LogFormat("Client connecting to server {0}", Category.Connections, conn);
 		base.OnServerAddPlayer(conn);
+		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 	}
 
@@ -189,15 +190,17 @@ public class CustomNetworkManager : NetworkManager
 		OnClientDisconnected.Invoke();
 	}
 
-	///Sync some position data explicitly, if it is required
-	/// Warning: sending a lot of data, make sure client receives it only once
-	public void SyncPlayerData(GameObject playerGameObject)
+	///Sync init data with specific scenes
+	public void SyncPlayerData(GameObject playerGameObject, string sceneName)
 	{
-		Logger.LogFormat("SyncPlayerData (the big one). This server sending a bunch of sync data to new client {0}", Category.Connections, playerGameObject);
+		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new client {0} for scene {1}", Category.Connections, playerGameObject, sceneName);
+
+		var sceneContext = SceneManager.GetSceneByName(sceneName);
 		//All matrices
 		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
 		for (var i = 0; i < matrices.Length; i++)
 		{
+			if(matrices[i].gameObject.scene != sceneContext) continue;
 			matrices[i].NotifyPlayer(playerGameObject, true);
 		}
 
@@ -205,6 +208,7 @@ public class CustomNetworkManager : NetworkManager
 		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
 		for (var i = 0; i < scripts.Length; i++)
 		{
+			if(scripts[i].gameObject.scene != sceneContext) continue;
 			scripts[i].NotifyPlayer(playerGameObject);
 		}
 
@@ -212,8 +216,10 @@ public class CustomNetworkManager : NetworkManager
 		PlayerSync[] playerBodies = FindObjectsOfType<PlayerSync>();
 		for (var i = 0; i < playerBodies.Length; i++)
 		{
+			if(playerBodies[i].gameObject.scene != sceneContext) continue;
 			var playerBody = playerBodies[i];
 			playerBody.NotifyPlayer(playerGameObject, true);
+
 			var playerSprites = playerBody.GetComponent<PlayerSprites>();
 			if (playerSprites)
 			{
@@ -225,10 +231,12 @@ public class CustomNetworkManager : NetworkManager
 				equipment.NotifyPlayer(playerGameObject);
 			}
 		}
+
 		//TileChange Data
 		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
 		for (var i = 0; i < tcManagers.Length; i++)
 		{
+			if(tcManagers[i].gameObject.scene != sceneContext) continue;
 			tcManagers[i].NotifyPlayer(playerGameObject);
 		}
 
@@ -236,9 +244,13 @@ public class CustomNetworkManager : NetworkManager
 		DoorController[] doors = FindObjectsOfType<DoorController>();
 		for (var i = 0; i < doors.Length; i++)
 		{
+			if(doors[i].gameObject.scene != sceneContext) continue;
 			doors[i].NotifyPlayer(playerGameObject);
 		}
 		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
+
+		//all despawned objects in the pool
+
 	}
 
 	public override void OnServerConnect(NetworkConnection conn)

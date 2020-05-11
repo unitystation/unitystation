@@ -21,7 +21,7 @@ public class OpenPageValueNetMessage : ClientMessage
 	{
 		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
 		if (admin == null) return;
-		VariableViewer.RequestOpenPageValue(PageID, SentenceID, ISSentence, iskey);
+		VariableViewer.RequestOpenPageValue(PageID, SentenceID, ISSentence, iskey, SentByPlayer.GameObject);
 	}
 
 	public static OpenPageValueNetMessage Send(ulong _PageID, uint _SentenceID, string adminId, string adminToken,

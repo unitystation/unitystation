@@ -51,7 +51,7 @@ jobs:
   #       with:
   #         name: ${{ steps.getManualLicenseFile.outputs.filePath }}
   #         path: ${{ steps.getManualLicenseFile.outputs.filePath }}
-
+    
   # Perform build job
   performBuild:
     name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
@@ -68,6 +68,20 @@ jobs:
           - StandaloneOSX
           - StandaloneLinux64
     steps:
+      - name: free disk space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
+      # Remove old artifacts so we don't run out of space!
+#      - name: Remove old artifacts
+#        uses: c-hive/gha-remove-artifacts@v1
+#        with:
+#          age: '1 month'
+#          skip-tags: true
+
       # Checkout repository (required to test local actions)
       - name: Checkout repository
         uses: actions/checkout@v2.0.0

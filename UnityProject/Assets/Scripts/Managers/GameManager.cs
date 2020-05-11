@@ -28,7 +28,7 @@ public partial class GameManager : MonoBehaviour
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
 	[SerializeField]
-	private float RoundEndTime = 15f;
+	private float RoundEndTime = 60f;
 
 	/// <summary>
 	/// The current time left on the countdown timer
@@ -76,6 +76,8 @@ public partial class GameManager : MonoBehaviour
 	private bool loadedDirectlyToStation;
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
 
+	private bool QueueProcessing;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -95,8 +97,6 @@ public partial class GameManager : MonoBehaviour
 
 		//so respawn works when loading directly to outpost station
 		RespawnCurrentlyAllowed = RespawnAllowed;
-
-
 	}
 
 	private void OnEnable()
@@ -304,10 +304,6 @@ public partial class GameManager : MonoBehaviour
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
 		}
-		else
-		{
-			StartCoroutine(WaitToFireClientHooks());
-		}
 	}
 
 	void OnRoundStart()
@@ -320,14 +316,7 @@ public partial class GameManager : MonoBehaviour
 			{
 				s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
 			}
-			Spawn._CallAllClientSpawnHooksInScene();
 		}
-	}
-
-	private IEnumerator WaitToFireClientHooks()
-	{
-		yield return WaitFor.Seconds(3f);
-		Spawn._CallAllClientSpawnHooksInScene();
 	}
 
 	/// <summary>
@@ -552,9 +541,6 @@ public partial class GameManager : MonoBehaviour
 
 		yield return WaitFor.Seconds(0.2f);
 
-		var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
-			"maps.json")));
-
-		CustomNetworkManager.Instance.ServerChangeScene(maps.GetRandomMap());
+		CustomNetworkManager.Instance.ServerChangeScene("OnlineScene");
 	}
 }

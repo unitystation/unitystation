@@ -24,8 +24,7 @@ namespace Chemistry
 				return false;
 			}
 
-			var reagents = reagentMix.reagents;
-			if (!ingredients.All(reagent => reagents.TryGetValue(reagent.Key, out var amount) ? amount > 0 : false))
+			if (!ingredients.All(reagent => reagentMix[reagent.Key] > 0))
 			{
 				return false;
 			}
@@ -34,30 +33,23 @@ namespace Chemistry
 			{
 				return false;
 			}
-			var reactionAmount = ingredients.Min(i => reagents[i.Key] / i.Value);
+			var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
 
 			if (!catalysts.All(catalyst =>
-				reagents.TryGetValue(catalyst.Key, out var amount) && amount > catalyst.Value * reactionAmount))
+				reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))
 			{
 				return false;
 			}
 
 			foreach (var ingredient in ingredients)
 			{
-				reagents[ingredient.Key] -= reactionAmount * ingredient.Value;
+				reagentMix.Subtract(ingredient.Key, reactionAmount * ingredient.Value);
 			}
 
 			foreach (var result in results)
 			{
 				var reactionResult = reactionAmount * result.Value;
-				if (reagents.Contains(result.Key))
-				{
-					reagents[result.Key] += reactionResult;
-				}
-				else
-				{
-					reagents[result.Key] = reactionResult;
-				}
+				reagentMix.Add(result.Key, reactionResult);
 			}
 
 			foreach (var effect in effects)
