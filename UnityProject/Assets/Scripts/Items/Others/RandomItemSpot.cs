@@ -64,6 +64,7 @@ namespace Items
 
 		private void SpawnItems(PoolData poolData)
 		{
+			if (poolData == null) return;
 			var item = poolData.RandomItemPool.Pool.PickRandom();
 			var spread = fanOut ? Random.Range(-0.5f,0.5f) : (float?) null;
 
