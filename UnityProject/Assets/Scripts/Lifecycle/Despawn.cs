@@ -9,7 +9,8 @@ public static class Despawn
 {
 
 	/// <summary>
-	/// Despawn the specified game object, syncing to all clients. Despawning removes an
+	/// Despawn the specified game object, syncing to all clients. Should only be called
+	/// on networked objects (i.e. ones which have NetworkIdentity component). Despawning removes an
 	/// object from the game, but may not necessarilly destroy it completely - it may end up back in the
 	/// object pool to be later reused.
 	/// </summary>
@@ -25,7 +26,8 @@ public static class Despawn
 	}
 
 	/// <summary>
-	/// Despawn the object server side and sync the despawn to all clients. Despawning removes an
+	/// Despawn the object server side and sync the despawn to all clients. Should only be
+	/// called on networked objects (i.e. ones which have NetworkIdentity component). Despawning removes an
 	/// object from the game, but may not necessarilly destroy it completely - it may end up back in the
 	/// object pool to be later reused.
 	/// </summary>
@@ -59,10 +61,8 @@ public static class Despawn
 			}
 		}
 
-		//even if it has a pool prefab tracker, will still destroy it if it has no object behavior
-		var poolPrefabTracker = info.GameObject.GetComponent<PoolPrefabTracker>();
-		var transform = info.GameObject.GetComponent<IPushable>();
 		var Electrical = info.GameObject.GetComponent<ElectricalOIinheritance>();
+		//TODO: What's the purpose of this?
 		if (Electrical != null)
 		{
 			if (!Electrical.InData.DestroyAuthorised)
@@ -73,29 +73,21 @@ public static class Despawn
 		}
 
 		_ServerFireDespawnHooks(DespawnResult.Single(info));
-		if (transform != null)
-		{
-			transform.VisibleState = false;
-		}
 
-		if (poolPrefabTracker != null)
+		if (Spawn._ObjectPool.TryDespawnToPool(info.GameObject, false))
 		{
-			//pooled
-			Spawn._AddToPool(info.GameObject);
+			return DespawnResult.Single(info);
 		}
 		else
 		{
-			//not pooled
-			NetworkServer.Destroy(info.GameObject);
+			return DespawnResult.Fail(info);
 		}
-
-
-		return DespawnResult.Single(info);
 	}
 
 	/// <summary>
-	/// Despawn the specified game object locally, on this client only. Despawning removes an
-	/// object from the game, but may not necessarilly destroy it completely - it may end up back in the
+	/// Despawn the specified game object locally, on this client only. Should ONLY be called on non-networked objects
+	/// (i.e. ones which don't have NetworkIdentity component).
+	/// Despawning removes an object from the game, but may not necessarilly destroy it completely - it may end up back in the
 	/// object pool to be later reused.
 	/// </summary>
 	/// <param name="toDespawn"></param>
@@ -106,7 +98,8 @@ public static class Despawn
 	}
 
 	/// <summary>
-	/// Despawn the object locally, on this client only. Despawning removes an
+	/// Despawn the object locally, on this client only. Should ONLY be called on non-networked objects
+	/// (i.e. ones which don't have NetworkIdentity component). Despawning removes an
 	/// object from the game, but may not necessarilly destroy it completely - it may end up back in the
 	/// object pool to be later reused.
 	/// </summary>
@@ -120,25 +113,18 @@ public static class Despawn
 			return DespawnResult.Fail(info);
 		}
 
-		//fire despawn hooks
-		var hooks = info.GameObject.GetComponents<IClientDespawn>();
-		if (hooks != null)
+		if (Spawn._ObjectPool.TryDespawnToPool(info.GameObject, true))
 		{
-			foreach (var hook in hooks)
-			{
-				hook.OnDespawnClient(ClientDespawnInfo.Default());
-			}
+			return DespawnResult.Single(info);
 		}
-
-		Spawn._AddToPool(info.GameObject);
-		info.GameObject.SetActive(false);
-
-		return DespawnResult.Single(info);
+		else
+		{
+			return DespawnResult.Fail(info);
+		}
 	}
 
 	/// <summary>
-	/// Note - for internal use by spawn system only. Fires all server side despawn hooks then informs
-	/// client to call client side despawn hooks
+	/// Note - for internal use by spawn system only. Fires all server side despawn hooks
 	/// </summary>
 	/// <param name="result"></param>
 	public static void _ServerFireDespawnHooks(DespawnResult result)
@@ -152,8 +138,5 @@ public static class Despawn
 				comp.OnDespawnServer(result.DespawnInfo);
 			}
 		}
-
-		//fire client hooks
-		DespawnMessage.SendToAll(result);
 	}
 }

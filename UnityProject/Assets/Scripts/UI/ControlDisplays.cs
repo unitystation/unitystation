@@ -36,17 +36,15 @@ public class ControlDisplays : MonoBehaviour
 	{
 		EventManager.AddHandler(EVENT.PlayerSpawned, HumanUI);
 		EventManager.AddHandler(EVENT.GhostSpawned, GhostUI);
-		EventManager.AddHandler(EVENT.PlayerRejoined, RejoinedEvent);
 	}
 
 	void OnDisable()
 	{
 		EventManager.RemoveHandler(EVENT.PlayerSpawned, HumanUI);
 		EventManager.RemoveHandler(EVENT.GhostSpawned, GhostUI);
-		EventManager.RemoveHandler(EVENT.PlayerRejoined, RejoinedEvent);
 	}
 
-	void RejoinedEvent()
+	public void RejoinedEvent()
 	{
 		//for some reason this is getting called when ControlDisplays is already destroyed when client rejoins while
 		//a ghost, this check prevents a MRE

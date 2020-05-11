@@ -215,6 +215,7 @@ public class GameData : MonoBehaviour
 
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
+		Resources.UnloadUnusedAssets();
 		if (newScene.name == "Lobby")
 		{
 			IsInGame = false;

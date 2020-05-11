@@ -4,19 +4,19 @@ using Mirror;
 
 public class SpawnPoint : NetworkStartPosition
 {
-    private static readonly Dictionary<JobDepartment, JobType[]> DepartmentJobs
-        = new Dictionary<JobDepartment, JobType[]>
-        {
-	        {JobDepartment.TheGrayTide, new[] {JobType.ASSISTANT}},
-	        {JobDepartment.Captain, new[] {JobType.CAPTAIN}},
-	        {JobDepartment.HoP, new[] {JobType.HOP}},
-	        {JobDepartment.Cargo, new[] {JobType.CARGOTECH}},
+	private static readonly Dictionary<JobDepartment, JobType[]> DepartmentJobs
+		= new Dictionary<JobDepartment, JobType[]>
+		{
+			{JobDepartment.TheGrayTide, new[] {JobType.ASSISTANT}},
+			{JobDepartment.Captain, new[] {JobType.CAPTAIN}},
+			{JobDepartment.HoP, new[] {JobType.HOP}},
+			{JobDepartment.Cargo, new[] {JobType.CARGOTECH}},
 			{JobDepartment.CargoHead, new[] {JobType.QUARTERMASTER}},
 			{JobDepartment.Mining, new[] {JobType.MINER}},
-	        {JobDepartment.Medical, new[] {JobType.GENETICIST, JobType.DOCTOR, JobType.MEDSCI, JobType.VIROLOGIST}},
-	        {JobDepartment.CMO, new[] {JobType.CMO}},
-	        {JobDepartment.Chemist, new[] {JobType.CHEMIST}},
-	        {JobDepartment.Research, new[] {JobType.SCIENTIST}},
+			{JobDepartment.Medical, new[] {JobType.GENETICIST, JobType.DOCTOR, JobType.MEDSCI, JobType.VIROLOGIST}},
+			{JobDepartment.CMO, new[] {JobType.CMO}},
+			{JobDepartment.Chemist, new[] {JobType.CHEMIST}},
+			{JobDepartment.Research, new[] {JobType.SCIENTIST}},
 			{JobDepartment.ResearchHead, new[] {JobType.RD}},
 			{JobDepartment.Robotics, new[] {JobType.ROBOTICIST}},
 			{JobDepartment.Security, new[] {JobType.SECURITY_OFFICER}},
@@ -28,7 +28,7 @@ public class SpawnPoint : NetworkStartPosition
 			{JobDepartment.EngineeringHead, new[] {JobType.CHIEF_ENGINEER}},
 			{JobDepartment.Atmos, new[] {JobType.ATMOSTECH}},
 			{JobDepartment.Janitor, new[] {JobType.JANITOR}},
-	        {JobDepartment.Clown, new[] {JobType.CLOWN, }},
+			{JobDepartment.Clown, new[] {JobType.CLOWN, }},
 			{JobDepartment.Mime, new[] {JobType.MIME}},
 			{JobDepartment.Personnel, new[] {JobType.CURATOR}},
 			{JobDepartment.Kitchen, new[] {JobType.COOK}},
@@ -36,12 +36,15 @@ public class SpawnPoint : NetworkStartPosition
 			{JobDepartment.Botany, new[] {JobType.BOTANIST}},
 			{JobDepartment.Church, new[] {JobType.CHAPLAIN}},
 			{JobDepartment.Syndicate, new[] {JobType.SYNDICATE}},
-	};
+			{JobDepartment.CentCommCommander, new []{JobType.CENTCOMM_COMMANDER}},
+			{JobDepartment.DeathSquad, new [] {JobType.DEATHSQUAD}},
+			{JobDepartment.CentComm, new[] {JobType.CENTCOMM_OFFICER, JobType.CENTCOMM_INTERN}},
+		};
 
-    public IEnumerable<JobType> JobRestrictions =>
-	    DepartmentJobs.ContainsKey(Department) ? DepartmentJobs[Department] : new JobType[0];
+	public IEnumerable<JobType> JobRestrictions =>
+		DepartmentJobs.ContainsKey(Department) ? DepartmentJobs[Department] : new JobType[0];
 
-    public JobDepartment Department;
+	public JobDepartment Department;
 
 	public static JobDepartment GetJobDepartment(JobType job)
 	{

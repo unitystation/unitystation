@@ -711,6 +711,11 @@ namespace Machines
 
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleDescription(machine.MachineParts.DescriptionOfCircuitBoard); // Sets desc of board
 
+			if (machine.MachineParts.machineCircuitBoardSprite != null)
+			{
+				board.GetComponentInChildren<SpriteRenderer>().sprite = machine.MachineParts.machineCircuitBoardSprite;
+			}
+
 			// Basic items to the machine frame from the despawned machine
 			machineParts = machine.MachineParts;
 

@@ -615,7 +615,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//display the effects of the shot
 
 		//get the bullet prefab being shot
-		GameObject bullet = Spawn.ClientPrefab(Resources.Load(Projectile.name) as GameObject,
+		GameObject bullet = Spawn.ClientPrefab(Projectile.name,
 			shooter.transform.position).GameObject;
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 		if (isSuicideShot)
