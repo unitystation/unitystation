@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
@@ -79,6 +79,24 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		else
 		{
 			SendCloseAlerts();
+		}
+	}
+	
+	//Copied over from LightSwitchV2.cs
+	void OnDrawGizmosSelected()
+	{
+		var sprite = GetComponentInChildren<SpriteRenderer>();
+		if (sprite == null)
+			return;
+
+		//Highlighting all controlled FireLocks
+		Gizmos.color = new Color(1, 0.5f, 0, 1);
+		for (int i = 0; i < FireLockList.Count; i++)
+		{
+			var FireLock = FireLockList[i];
+			if(FireLock == null) continue;
+			Gizmos.DrawLine(sprite.transform.position, FireLock.transform.position);
+			Gizmos.DrawSphere(FireLock.transform.position, 0.25f);
 		}
 	}
 
