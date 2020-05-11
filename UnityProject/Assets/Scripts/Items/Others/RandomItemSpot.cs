@@ -37,7 +37,7 @@ namespace Items
 
 					if (rollAttempt >= MaxAmountRolls)
 					{
-						continue;
+						break;
 					}
 
 					var tryPool = poolList.PickRandom();
