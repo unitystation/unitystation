@@ -37,7 +37,7 @@ namespace Items
 
 					if (rollAttempt >= MaxAmountRolls)
 					{
-						continue;
+						break;
 					}
 
 					var tryPool = poolList.PickRandom();
@@ -49,6 +49,11 @@ namespace Items
 					{
 						rollAttempt ++;
 					}
+				}
+
+				if (pool == null)
+				{
+					return;
 				}
 
 				SpawnItems(pool);
