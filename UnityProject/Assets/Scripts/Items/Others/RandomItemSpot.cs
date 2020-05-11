@@ -51,6 +51,11 @@ namespace Items
 					}
 				}
 
+				if (pool == null)
+				{
+					return;
+				}
+
 				SpawnItems(pool);
 			}
 
