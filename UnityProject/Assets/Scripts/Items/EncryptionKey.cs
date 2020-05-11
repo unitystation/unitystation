@@ -27,6 +27,7 @@ public enum EncryptionKeyType
 	Mining,
 	Genetics,
 	SrvSec,
+	CentCommPlus,
 }
 
 /// <summary>
@@ -57,7 +58,9 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.Syndicate, ChatChannel.Syndicate },
 		{EncryptionKeyType.Mining, ChatChannel.Common | ChatChannel.Supply | ChatChannel.Science},
 		{EncryptionKeyType.Genetics, ChatChannel.Common | ChatChannel.Medical | ChatChannel.Science},
-		{EncryptionKeyType.SrvSec, ChatChannel.Common | ChatChannel.Security | ChatChannel.Service}
+		{EncryptionKeyType.SrvSec, ChatChannel.Common | ChatChannel.Security | ChatChannel.Service},
+		{EncryptionKeyType.CentCommPlus, ChatChannel.Common | ChatChannel.Command | ChatChannel.Security | ChatChannel.Engineering |
+									ChatChannel.Supply | ChatChannel.Service | ChatChannel.Medical | ChatChannel.Science | ChatChannel.CentComm},
 	};
 
 	/// <summary>
@@ -85,7 +88,8 @@ public class EncryptionKey : NetworkBehaviour
 		{EncryptionKeyType.Service, ChatChannel.Service },
 		{EncryptionKeyType.Supply, ChatChannel.Supply },
 		{EncryptionKeyType.Syndicate, ChatChannel.Syndicate },
-		{EncryptionKeyType.SrvSec, ChatChannel.Security}
+		{EncryptionKeyType.SrvSec, ChatChannel.Security},
+		{EncryptionKeyType.CentCommPlus, ChatChannel.CentComm}
 	};
 
 	private static readonly string genericDescription = "An encryption key for a radio headset. \n";
@@ -170,6 +174,7 @@ public class EncryptionKey : NetworkBehaviour
 	public Sprite supplySprite;
 	public Sprite syndicateSprite;
 	public Sprite srvsecSprite;
+	public Sprite centCommPlusSprite;
 
 	[SerializeField] //to show in inspector
 	private EncryptionKeyType type;
@@ -270,6 +275,9 @@ public class EncryptionKey : NetworkBehaviour
 				break;
 			case EncryptionKeyType.SrvSec:
 				spriteRenderer.sprite = srvsecSprite;
+				break;
+			case EncryptionKeyType.CentCommPlus:
+				spriteRenderer.sprite = centCommPlusSprite;
 				break;
 			default:
 				spriteRenderer.sprite = commonSprite;
