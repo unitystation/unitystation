@@ -4,12 +4,11 @@ using UnityEngine;
 /// <summary>
 /// Encapsulates the state of a matrix's motion / facing
 /// </summary>
-public struct MatrixState
+public struct MatrixState : IEquatable<MatrixState>
 {
-	[NonSerialized] public bool Inform;
 	public bool IsMoving;
 	public float Speed;
-	public int RotationTime; //in frames?
+	public float RotationTime;
 
 	public Vector3 Position;
 
@@ -44,7 +43,11 @@ public struct MatrixState
 
 	public bool Equals(MatrixState other)
 	{
-		return Position.Equals(other.Position) && FacingDirection.Equals(other.FacingDirection) && FlyingDirection.Equals(other.FlyingDirection);
+		return Position.Equals(other.Position)
+		       && FacingDirection.Equals(other.FacingDirection)
+		       && FlyingDirection.Equals(other.FlyingDirection) &&
+		       IsMoving.Equals(other.IsMoving) && Speed.Equals(other.Speed) &&
+		       RotationTime.Equals(other.RotationTime);
 	}
 
 	public override int GetHashCode()
@@ -54,6 +57,9 @@ public struct MatrixState
 			var hashCode = Position.GetHashCode();
 			hashCode = (hashCode * 397) ^ FacingDirection.GetHashCode();
 			hashCode = (hashCode * 397) ^ FlyingDirection.GetHashCode();
+			hashCode = (hashCode * 397) ^ Speed.GetHashCode();
+			hashCode = (hashCode * 397) ^ IsMoving.GetHashCode();
+			hashCode = (hashCode * 397) ^ RotationTime.GetHashCode();
 			return hashCode;
 		}
 	}
@@ -61,7 +67,7 @@ public struct MatrixState
 
 	public override string ToString()
 	{
-		return $"{nameof(Inform)}: {Inform}, {nameof(IsMoving)}: {IsMoving}, {nameof(Speed)}: {Speed}, " +
+		return $"{nameof(IsMoving)}: {IsMoving}, {nameof(Speed)}: {Speed}, " +
 		       $"{nameof(RotationTime)}: {RotationTime}, {nameof(Position)}: {Position}, {nameof(FacingDirection)}: " +
 		       $"{FacingDirection}, {nameof(FlyingDirection)}: {FlyingDirection}";
 	}

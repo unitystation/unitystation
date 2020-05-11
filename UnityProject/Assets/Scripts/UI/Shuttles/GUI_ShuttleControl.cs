@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mirror;
 using NPC;
 using UnityEngine;
 using UnityEngine.UI;
@@ -9,7 +10,6 @@ using UnityEngine.UI;
 /// Server only stuff
 public class GUI_ShuttleControl : NetTab
 {
-
 	private RadarList entryList;
 	private RadarList EntryList
 	{
@@ -52,6 +52,11 @@ public class GUI_ShuttleControl : NetTab
 
 	public bool RcsMode { get; private set; }
 
+	private bool RefreshRadar = false;
+	private ShuttleConsole Trigger;
+	private TabState State => Trigger.State;
+
+	private bool Autopilot = true;
 
 	private NetUIElement<string> SafetyText => (NetUIElement<string>)this[nameof(SafetyText)];
 	private NetUIElement<string> StartButton => (NetUIElement<string>)this[nameof(StartButton)];
@@ -84,9 +89,10 @@ public class GUI_ShuttleControl : NetTab
 			EntryList.Origin = MatrixMove;
 			//Init listeners
 			string temp = "1";
+
 			StartButton.SetValueServer(temp);
-			MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(() => StartButton.SetValueServer("1"));
-			MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener(() =>
+			MatrixMove.MatrixMoveEvents.OnStartEnginesServer.AddListener(() => StartButton.SetValueServer("1"));
+			MatrixMove.MatrixMoveEvents.OnStopEnginesServer.AddListener(() =>
 		   {
 			   StartButton.SetValueServer("0");
 			   HideWaypoint();
@@ -142,7 +148,6 @@ public class GUI_ShuttleControl : NetTab
 		StartRefresh();
 	}
 
-	private bool Autopilot = true;
 	public void SetAutopilot(bool on)
 	{
 		Autopilot = on;
@@ -160,16 +165,17 @@ public class GUI_ShuttleControl : NetTab
 	public void ServerToggleRcs(bool on, ConnectedPlayer subject)
 	{
 		RcsMode = on;
-		MatrixMove.ToggleRcs(on);
 		SetRcsLight(on);
+
+		var consoleId = Trigger.GetComponent<NetworkIdentity>().netId;
 
 		if (on)
 		{
-			playerControllingRcs = subject;
+			MatrixMove.ToggleRcs(on, subject, consoleId);
 		}
 		else
 		{
-			playerControllingRcs = null;
+			MatrixMove.ToggleRcs(false, null, consoleId);
 		}
 	}
 
@@ -232,10 +238,6 @@ public class GUI_ShuttleControl : NetTab
 		}
 	}
 
-	private bool RefreshRadar = false;
-	private ShuttleConsole Trigger;
-	private TabState State => Trigger.State;
-
 	private void StartRefresh()
 	{
 		RefreshRadar = true;
@@ -288,9 +290,9 @@ public class GUI_ShuttleControl : NetTab
 		yield return WaitFor.Seconds(1f);
 
 		//validate Player using Rcs
-		if (playerControllingRcs != null)
+		if (MatrixMove.playerControllingRcs != null)
 		{
-			bool validate = playerControllingRcs.Script && Validations.CanApply(playerControllingRcs.Script, Provider, NetworkSide.Server);
+			bool validate = MatrixMove.playerControllingRcs.Script && Validations.CanApply(MatrixMove.playerControllingRcs.Script, Provider, NetworkSide.Server);
 			if (!validate)
 			{
 				ServerToggleRcs(false, null);
@@ -375,14 +377,14 @@ public class GUI_ShuttleControl : NetTab
 	/// Starts or stops the shuttle.
 	/// </summary>
 	/// <param name="off">Toggle parameter</param>
-	public void TurnOnOff(bool on)
+	public void TurnOnOff(bool on, ConnectedPlayer subject = null)
 	{
 		if (on && State != TabState.Off)
 		{
-			MatrixMove.StartMovement();
+			MatrixMove.ToggleEngines(true, subject);
 		}
 		else {
-			MatrixMove.StopMovement();
+			MatrixMove.ToggleEngines(false);
 		}
 	}
 
@@ -421,8 +423,8 @@ public class GUI_ShuttleControl : NetTab
 			Logger.LogWarning("Matrix move is missing for some reason on this shuttle", Category.Matrix);
 			return;
 		}
-		float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1) + 1;
-		//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
+		float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1);
+
 		MatrixMove.SetSpeed(speed);
 	}
 }

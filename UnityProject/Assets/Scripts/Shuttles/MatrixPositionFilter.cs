@@ -19,18 +19,21 @@ public class MatrixPositionFilter
 	/// <param name="toClamp">transform whose position should be filtered</param>
 	/// <param name="curPosition">unfiltered position of the transform</param>
 	/// <param name="flyingDirection">current flying direction</param>
-	public void FilterPosition(Transform toClamp, Vector3 curPosition, Orientation flyingDirection)
+	public void FilterPosition(Transform toClamp, Vector3 curPosition, Orientation flyingDirection, bool disableLateralClamp = false)
 	{
 		Vector2 filteredPos = LightingSystem.GetPixelPerfectPosition(curPosition, mPreviousPosition, mPreviousFilteredPosition);
 
 		//pixel perfect position can induce lateral movement at the beginning of motion, so we must prevent that
-		if (flyingDirection == Orientation.Right || flyingDirection == Orientation.Left)
+		if (!disableLateralClamp)
 		{
-			filteredPos.y = (float) Math.Round(filteredPos.y);
-		}
-		else
-		{
-			filteredPos.x = (float) Math.Round(filteredPos.x);
+			if (flyingDirection == Orientation.Right || flyingDirection == Orientation.Left)
+			{
+				filteredPos.y = (float) Math.Round(filteredPos.y);
+			}
+			else
+			{
+				filteredPos.x = (float) Math.Round(filteredPos.x);
+			}
 		}
 
 		toClamp.position = filteredPos;

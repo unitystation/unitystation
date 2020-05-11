@@ -37,7 +37,7 @@ public partial class MatrixManager
 
 		if (matrixInfo.MatrixMove != null)
 		{
-			matrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
+			movableMatrix.MatrixMove.MatrixMoveEvents.OnStartEnginesServer.AddListener( () =>
 			{
 				if ( !movingMatrices.Contains( matrixInfo ) )
 				{
@@ -45,7 +45,7 @@ public partial class MatrixManager
 				}
 			} );
 
-			matrixInfo.MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener( () =>
+			movableMatrix.MatrixMove.MatrixMoveEvents.OnStopEnginesServer.AddListener( () =>
 			{
 				if ( movingMatrices.Contains( matrixInfo ) )
 				{

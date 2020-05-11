@@ -824,8 +824,9 @@ public partial class MatrixManager : MonoBehaviour
 
 		if (state.Equals(default(MatrixState)))
 		{
-			state = matrix.MatrixMove.ClientState;
+			state = matrix.MatrixMove.ServerState;
 		}
+
 
 		Vector3 unpivotedPos = localPos - matrix.MatrixMove.Pivot; //localPos - localPivot
 		Vector3 rotatedPos =  state.FacingOffsetFromInitial(matrix.MatrixMove).Quaternion * unpivotedPos; //unpivotedPos rotated by N degrees

@@ -56,7 +56,7 @@ public struct MatrixInfo
 
 		if (state.Equals(default(MatrixState)))
 		{
-			state = MatrixMove.ClientState;
+			state = MatrixMove.ServerState;
 		}
 
 		if (cachedPosition != state.Position)
