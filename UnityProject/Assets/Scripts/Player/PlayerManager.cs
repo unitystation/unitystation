@@ -77,7 +77,8 @@ public class PlayerManager : MonoBehaviour
 	IEnumerator WaitForCamera()
 	{
 		while (LocalPlayer == null
-		       || Vector2.Distance(Camera2DFollow.followControl.transform.position, LocalPlayer.transform.position) > 5f)
+		       || Vector2.Distance(Camera2DFollow.followControl.transform.position,
+			       Camera2DFollow.followControl.target.position) > 5f)
 		{
 			yield return WaitFor.EndOfFrame;
 		}
