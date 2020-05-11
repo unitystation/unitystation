@@ -154,9 +154,10 @@ public class PlayerHealth : LivingHealthBehaviour
 	///     make player unconscious upon crit
 	private void OnPlayerConsciousStateChangeServer( ConsciousState oldState, ConsciousState newState )
 	{
+		if (playerNetworkActions == null || registerPlayer == null) return;
+
 		if ( isServer )
 		{
-			if(playerNetworkActions != null)
 			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 		}
 
