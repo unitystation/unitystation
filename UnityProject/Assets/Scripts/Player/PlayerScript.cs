@@ -67,6 +67,11 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	private Vector3IntEvent onTileReached = new Vector3IntEvent();
 	public Vector3IntEvent OnTileReached() => onTileReached;
 
+	public float RTT;
+
+	private bool isUpdateRTT;
+	private float waitTimeForRTTUpdate = 0f;
+
 	public override void OnStartClient()
 	{
 		Init();
@@ -77,6 +82,8 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	public override void OnStartLocalPlayer()
 	{
 		Init();
+		waitTimeForRTTUpdate = 0f;
+		isUpdateRTT = true;
 	}
 
 	//You know the drill
@@ -92,6 +99,39 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		EventManager.AddHandler(EVENT.PlayerRejoined, Init);
 		EventManager.AddHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
 		EventManager.AddHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
+	}
+
+	public override void UpdateMe()
+	{
+		if (isUpdateRTT && !isServer)
+		{
+			RTTUpdate();
+		}
+	}
+
+	void RTTUpdate()
+	{
+		waitTimeForRTTUpdate += Time.deltaTime;
+		if (waitTimeForRTTUpdate > 0.5f)
+		{
+			waitTimeForRTTUpdate = 0f;
+			RTT = (float)NetworkTime.rtt;
+			if (playerHealth != null)
+			{
+				playerHealth.RTT = RTT;
+			}
+			CmdUpdateRTT(RTT);
+		}
+	}
+
+	[Command]
+	void CmdUpdateRTT(float rtt)
+	{
+		RTT = rtt;
+		if (playerHealth != null)
+		{
+			playerHealth.RTT = rtt;
+		}
 	}
 
 	/// <summary>
