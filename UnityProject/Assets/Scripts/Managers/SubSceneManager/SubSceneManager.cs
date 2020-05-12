@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,27 +8,28 @@ public partial class SubSceneManager : NetworkBehaviour
 {
 	private static SubSceneManager subSceneManager;
 
-	public static SubSceneManager Instance
-	{
-		get
-		{
-			if (subSceneManager == null)
-			{
-				subSceneManager = FindObjectOfType<SubSceneManager>();
-			}
-
-			return subSceneManager;
-		}
-	}
+	public static SubSceneManager Instance;
 
 	public AwayWorldListSO awayWorldList;
-	[SerializeField] private MainStationListSO mainStationList;
-	[SerializeField] private AsteroidListSO asteroidList;
+	[SerializeField] private MainStationListSO mainStationList = null;
+	[SerializeField] private AsteroidListSO asteroidList = null;
 
 	readonly ScenesSyncList loadedScenesList = new ScenesSyncList();
 
 	public bool AwaySiteLoaded { get; private set; }
 	public bool MainStationLoaded { get; private set; }
+
+	void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
 
 	void Update()
 	{
@@ -55,6 +57,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
+			yield return WaitFor.Seconds(0.1f);
 		}
 		else
 		{
@@ -62,6 +65,7 @@ public partial class SubSceneManager : NetworkBehaviour
 			yield return WaitFor.EndOfFrame;
 			RequestObserverRefresh.Send(sceneName);
 		}
+		yield return WaitFor.EndOfFrame;
 	}
 
 	public static void ProcessObserverRefreshReq(ConnectedPlayer connectedPlayer, Scene sceneContext)
@@ -96,10 +100,28 @@ public enum SceneType
 }
 
 [System.Serializable]
-public struct SceneInfo
+public struct SceneInfo : IEquatable<SceneInfo>
 {
 	public string SceneName;
 	public SceneType SceneType;
+
+	public bool Equals(SceneInfo other)
+	{
+		return SceneName == other.SceneName && SceneType == other.SceneType;
+	}
+
+	public override bool Equals(object obj)
+	{
+		return obj is SceneInfo other && Equals(other);
+	}
+
+	public override int GetHashCode()
+	{
+		unchecked
+		{
+			return ((SceneName != null ? SceneName.GetHashCode() : 0) * 397) ^ (int) SceneType;
+		}
+	}
 }
 
 [System.Serializable]

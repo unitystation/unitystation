@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+using Chemistry.Components;
+
 /// <summary>
 /// Syncs ReagentContainer visualisation (fill level and content color) between all clients
 /// </summary>

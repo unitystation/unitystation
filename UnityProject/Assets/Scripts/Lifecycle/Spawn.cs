@@ -22,7 +22,20 @@ public static class Spawn
 	private static Dictionary<string, GameObject> nameToSpawnablePrefab = new Dictionary<string, GameObject>();
 
 	//object pool
-	private static Dictionary<GameObject, List<GameObject>> pools = new Dictionary<GameObject, List<GameObject>>();
+	private static ObjectPool objectPool;
+
+	/// <summary>
+	/// Only to be used internally by lifecycle system.
+	/// Current object pool holding all pooled objects.
+	/// </summary>
+	public static ObjectPool _ObjectPool
+	{
+		get
+		{
+			EnsureInit();
+			return objectPool;
+		}
+	}
 
 	//stuff needed for cloths
 	//TODO: Consider refactoring so this stuff isn't needed or is injected somehow.
@@ -39,7 +52,7 @@ public static class Spawn
 
 	private static void EnsureInit()
 	{
-		if (nameToSpawnablePrefab.Count == 0)
+		if (objectPool == null)
 		{
 			//Search through our resources and find each prefab that has a CNT component
 			var spawnablePrefabs = Resources.FindObjectsOfTypeAll<GameObject>()
@@ -55,6 +68,8 @@ public static class Spawn
 					nameToSpawnablePrefab.Add(spawnablePrefab.name, spawnablePrefab);
 				}
 			}
+
+			objectPool = new ObjectPool(PoolConfig.Instance);
 		}
 	}
 	private static bool IsPrefab(GameObject toCheck) => !toCheck.transform.gameObject.scene.IsValid();
@@ -303,13 +318,9 @@ public static class Spawn
 
 	}
 
-	private static bool IsTotallyImpassable(Vector3Int tileWorldPosition)
-	{
-		return MatrixManager.IsTotallyImpassable(tileWorldPosition,true);
-	}
-
 	/// <summary>
-	/// Performs the specified spawn locally, for this client only.
+	/// Performs the specified spawn locally, for this client only. Must not be called on
+	/// networked objects (objects with NetworkIdentity), or you will get unpredictable behavior.
 	/// </summary>
 	/// <returns></returns>
 	public static SpawnResult Client(SpawnInfo info)
@@ -329,19 +340,6 @@ public static class Spawn
 				if (result.Successful)
 				{
 					spawnedObjects.Add(result.GameObject);
-				}
-			}
-
-			//fire client side lifecycle hooks
-			foreach (var spawnedObject in spawnedObjects)
-			{
-				var hooks = spawnedObject.GetComponents<IClientSpawn>();
-				if (hooks != null)
-				{
-					foreach (var hook in hooks)
-					{
-						hook.OnSpawnClient(ClientSpawnInfo.Default());
-					}
 				}
 			}
 
@@ -369,7 +367,6 @@ public static class Spawn
 	/// <param name="result"></param>
 	public static void _ServerFireClientServerSpawnHooks(SpawnResult result)
 	{
-
 		//fire server hooks
 		foreach (var spawnedObject in result.GameObjects)
 		{
@@ -381,169 +378,6 @@ public static class Spawn
 					comp.OnSpawnServer(result.SpawnInfo);
 				}
 			}
-		}
-
-		//fire client hooks
-		SpawnMessage.SendToAll(result);
-	}
-
-
-
-
-	/// <summary>
-	/// For internal use by lifecycle system only.
-	/// Instantiates the prefab at the specified location, taking from the pool if possible.
-	/// Does not call any hooks
-	/// </summary>
-	/// <param name="prefab">prefab to instantiate</param>
-	/// <param name="destination">destination to spawn</param>
-	/// <param name="pooledInstance">true if the object was taken from the pool. False if newly spawned</param>
-	/// <returns></returns>
-	public static GameObject _PoolInstantiate(GameObject prefab, SpawnDestination destination, out bool pooledInstance)
-	{
-		GameObject tempObject = null;
-		bool hide = destination.WorldPosition == TransformState.HiddenPos;
-		//Cut off Z-axis
-		Vector3 cleanPos = ( Vector2 ) destination.WorldPosition;
-		Vector3 pos = hide ? TransformState.HiddenPos : cleanPos;
-		if (CanLoadFromPool(prefab))
-		{
-			//pool exists and has unused instances
-			int index = pools[prefab].Count - 1;
-			tempObject = pools[prefab][index];
-			Logger.LogTraceFormat("Loading {0} from pool Pooled:{1} Index:{2}", Category.ItemSpawn, tempObject.GetInstanceID(), pools[prefab].Count, index);
-			pools[prefab].RemoveAt(index);
-			tempObject.SetActive(true);
-
-			tempObject.transform.position = pos;
-			tempObject.transform.localRotation = destination.LocalRotation;
-			tempObject.transform.localScale = prefab.transform.localScale;
-			tempObject.transform.parent = destination.Parent;
-			var cnt = tempObject.GetComponent<CustomNetTransform>();
-			if ( cnt )
-			{
-				cnt.ReInitServerState();
-				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
-			}
-
-			pooledInstance = true;
-		}
-		else
-		{
-			tempObject = Object.Instantiate(prefab, pos, destination.Parent.rotation * destination.LocalRotation, destination.Parent);
-			tempObject.name = prefab.name;
-
-			tempObject.GetComponent<CustomNetTransform>()?.ReInitServerState();
-
-			tempObject.AddComponent<PoolPrefabTracker>().myPrefab = prefab;
-
-			pooledInstance = false;
-		}
-
-		return tempObject;
-
-	}
-
-	private static bool CanLoadFromPool(GameObject prefab)
-	{
-		if (prefab == null) return false;
-		return pools.ContainsKey(prefab) && pools[prefab].Count > 0;
-	}
-
-	/// <summary>
-	/// For internal use (lifecycle system) only
-	/// </summary>
-	/// <param name="target"></param>
-	public static void _AddToPool(GameObject target)
-	{
-		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
-		if ( !poolPrefabTracker )
-		{
-			Logger.LogWarning($"PoolPrefabTracker not found on {target}",Category.ItemSpawn);
-			return;
-		}
-		GameObject prefab = poolPrefabTracker.myPrefab;
-		prefab.transform.position = Vector2.zero;
-
-		if (!pools.ContainsKey(prefab))
-		{
-			//pool for this prefab does not yet exist
-			pools.Add(prefab, new List<GameObject>());
-		}
-
-		pools[prefab].Add(target);
-		Logger.LogTraceFormat("Added {0} to pool, Pooled: {1} Index:{2}", Category.ItemSpawn, target.GetInstanceID(), pools[prefab].Count, pools[prefab].Count-1);
-	}
-
-
-	/// <summary>
-	/// FOR DEV / TESTING ONLY! Simulates destroying and recreating an item by putting it in the pool and taking it back
-	/// out again. If item is not pooled, simply destroys and recreates it as if calling Despawn and then Spawn
-	/// Can use this to validate that the object correctly re-initializes itself after spawning -
-	/// no state should be left over from its previous incarnation.
-	/// </summary>
-	/// <returns>the re-created object</returns>
-	public static GameObject ServerPoolTestRespawn(GameObject target)
-	{
-		var poolPrefabTracker = target.GetComponent<PoolPrefabTracker>();
-		if (poolPrefabTracker == null)
-		{
-			//destroy / create using normal approach with no pooling
-			Logger.LogWarningFormat("Object {0} has no pool prefab tracker, thus cannot be pooled. It will be destroyed / created" +
-			                        " without going through the pool.", Category.ItemSpawn, target.name);
-
-			//determine prefab
-			var position = target.TileWorldPosition();
-			var prefab = DeterminePrefab(target);
-			if (prefab == null)
-			{
-				Logger.LogErrorFormat("Object {0} at {1} cannot be respawned because it has no PoolPrefabTracker and its name" +
-				                      " does not match a prefab name, so we cannot" +
-				                      " determine the prefab to instantiate. Please fix this object so that it" +
-				                      " has an attached PoolPrefabTracker or so its name matches the prefab it was created from.", Category.ItemSpawn, target.name, position);
-				return null;
-			}
-
-			Despawn.ServerSingle(target);
-			return ServerPrefab(prefab, position.To3Int()).GameObject;
-		}
-		else
-		{
-			//destroy / create with pooling
-			//save previous position
-			var destination = SpawnDestination.At(target);
-			var worldPos = target.TileWorldPosition();
-			var transform = target.GetComponent<IPushable>();
-			var prevParent = target.transform.parent;
-
-			//this simulates going into the pool
-			Despawn._ServerFireDespawnHooks(DespawnResult.Single(DespawnInfo.Single(target)));
-
-			if (transform != null)
-			{
-				transform.VisibleState = false;
-			}
-
-			//this simulates coming back out of the pool
-			target.SetActive(true);
-
-			target.transform.parent = prevParent;
-			target.transform.position = worldPos.To3Int();
-
-			var cnt = target.GetComponent<CustomNetTransform>();
-			if (cnt)
-			{
-				cnt.ReInitServerState();
-				cnt.NotifyPlayers(); //Sending out clientState for already spawned items
-			}
-			var prefab = DeterminePrefab(target);
-			SpawnInfo spawnInfo = SpawnInfo.Spawnable(
-				SpawnablePrefab.For(prefab),
-				destination);
-
-
-			_ServerFireClientServerSpawnHooks(SpawnResult.Single(spawnInfo, target));
-			return target;
 		}
 	}
 
@@ -568,22 +402,23 @@ public static class Spawn
 		return nameToSpawnablePrefab.ContainsKey(prefabName) ? GetPrefabByName(prefabName) : null;
 	}
 
-	public static void _CallAllClientSpawnHooksInScene()
-	{
-		//client side, just call the hooks
-		foreach (var clientSpawn in FindUtils.FindInterfaceImplementersInScene<IClientSpawn>())
-		{
-			clientSpawn.OnSpawnClient(ClientSpawnInfo.Default());
-		}
-	}
-
+	/// <summary>
+	/// Clears out the object pools if necessary.
+	/// </summary>
 	public static void _ClearPools()
 	{
-		pools.Clear();
+		//we do this rather than using _ObjectPool to avoid EnsureInit() because
+		//otherwise at the start of the first round it would create, clear, and immediately
+		//re-create the pool.
+		objectPool?.Clear();
 	}
 }
 
-//not used for clients unless it is a client side pool object only
+/// <summary>
+/// ADded dynamically to objects when they are spawned from a prefab, to track which prefab
+/// they were spawned from. Should NEVER be manually added to a prefab via inspector.
+/// Only added to objects which can be pooled.
+/// </summary>
 public class PoolPrefabTracker : MonoBehaviour
 {
 	public GameObject myPrefab;

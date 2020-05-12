@@ -57,7 +57,7 @@ public abstract class BasicTile : LayerTile
 	[Tooltip("What is this tile's max health?")]
 	[FormerlySerializedAs("MaxHealth")]
 	[SerializeField]
-	private float maxHealth;
+	private float maxHealth = 0f;
 	public float MaxHealth => maxHealth;
 
 	[Tooltip("Armor of this tile")]

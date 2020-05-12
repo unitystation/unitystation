@@ -9,11 +9,35 @@ namespace Chemistry
 	[Serializable]
 	public class ReagentMix : IEnumerable<KeyValuePair<Reagent, float>>
 	{
-		public const float ZERO_CELSIUS_IN_KELVIN = 273.15f;
+		[Temperature]
+		[SerializeField] private float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN;
 
-		[Tooltip("In Kelvins")]
-		[SerializeField] private float temperature = ZERO_CELSIUS_IN_KELVIN;
+		[SerializeField]
+		private DictionaryReagentFloat reagents;
 
+		public ReagentMix(DictionaryReagentFloat reagents, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
+		{
+			Temperature = temperature;
+			this.reagents = reagents;
+		}
+
+		public ReagentMix(Reagent reagent, float amount, float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
+		{
+			Temperature = temperature;
+			reagents = new DictionaryReagentFloat { [reagent] = amount };
+		}
+
+		public ReagentMix(float temperature = TemperatureUtils.ZERO_CELSIUS_IN_KELVIN)
+		{
+			Temperature = temperature;
+			reagents = new DictionaryReagentFloat();
+		}
+
+		public float this[Reagent reagent] => reagents.TryGetValue(reagent, out var amount) ? amount : 0;
+
+		/// <summary>
+		/// Returns current temperature mix in Kelvin
+		/// </summary>
 		public float Temperature
 		{
 			get => temperature;
@@ -27,18 +51,15 @@ namespace Chemistry
 		{
 			get
 			{
-				var reag = reagents.OrderByDescending((p) => p.Value)
+				var reagent = reagents.OrderByDescending(p => p.Value)
 					.FirstOrDefault();
 
-				if (reag.Value > 0f)
-					return reag.Key;
-				else
-					return null;
+				return reagent.Value > 0 ? reagent.Key : null;
 			}
 		}
 
 		/// <summary>
-		/// Average of all reagent colors in a mix 
+		/// Average of all reagent colors in a mix
 		/// </summary>
 		public Color MixColor
 		{
@@ -47,10 +68,10 @@ namespace Chemistry
 				var avgColor = new Color();
 				var totalAmount = Total;
 
-				foreach (var reag in reagents)
+				foreach (var reagent in reagents)
 				{
-					var percent = reag.Value / totalAmount;
-					var colorStep = percent * reag.Key.color;
+					var percent = reagent.Value / totalAmount;
+					var colorStep = percent * reagent.Key.color;
 
 					avgColor += colorStep;
 				}
@@ -90,83 +111,111 @@ namespace Chemistry
 			}
 		}
 
-		public DictionaryReagentFloat reagents;
-
-		public ReagentMix(DictionaryReagentFloat reagents, float temperature = ZERO_CELSIUS_IN_KELVIN)
-		{
-			Temperature = temperature;
-			this.reagents = reagents;
-		}
-
-		public ReagentMix(Reagent reagent, float amount, float temperature = ZERO_CELSIUS_IN_KELVIN)
-		{
-			Temperature = temperature;
-			reagents = new DictionaryReagentFloat {[reagent] = amount};
-		}
-
-		public ReagentMix(float temperature = ZERO_CELSIUS_IN_KELVIN)
-		{
-			Temperature = temperature;
-			reagents = new DictionaryReagentFloat();
-		}
-
-		public float? this[Reagent reagent] => reagents.TryGetValue(reagent, out var val) ? val : (float?) null;
-
 		public void Add(ReagentMix b)
 		{
 			Temperature = (Temperature * Total + b.Temperature * b.Total) /
-			              (Total + b.Total);
+						  (Total + b.Total);
 
 			foreach (var reagent in b.reagents)
 			{
-				if (reagents.TryGetValue(reagent.Key, out var value))
-				{
-					reagents[reagent.Key] = reagent.Value + value;
-				}
-				else
-				{
-					reagents[reagent.Key] = reagent.Value;
-				}
+				Add(reagent.Key, reagent.Value);
+			}
+		}
+
+		public void Add(Reagent reagent, float amount)
+		{
+			if (amount < 0f)
+			{
+				Debug.LogError($"Trying to add negative {amount} amount of {reagent}");
+				return;
+			}
+
+			if (!reagents.ContainsKey(reagent))
+			{
+				reagents.Add(reagent, amount);
+			}
+			else
+			{
+				reagents[reagent] += amount;
 			}
 		}
 
 		public void Subtract(ReagentMix b)
 		{
-			// Pretty broken, many NaNs
-			// Temperature = (
-			// 	              Temperature * CalculateTotal() +
-			// 	              b.Temperature * b.CalculateTotal()
-			//               ) /
-			//               (CalculateTotal() - b.CalculateTotal());
-
 			foreach (var reagent in b.reagents)
 			{
-				if (reagents.TryGetValue(reagent.Key, out var value))
-				{
-					reagents[reagent.Key] = value - reagent.Value;
-				}
-				else
-				{
-					reagents[reagent.Key] = reagent.Value;
-				}
+				Subtract(reagent.Key, reagent.Value);
 			}
 		}
 
+		public float Subtract(Reagent reagent, float subAmount)
+		{
+			if (subAmount < 0)
+			{
+				Debug.LogErrorFormat("Trying to subtract negative {0} amount of {1}. Use positive amount instead.", subAmount, reagent);
+				return 0;
+			}
+
+			if (reagents.TryGetValue(reagent, out var amount))
+			{
+				var newAmount = amount - subAmount;
+
+				if (newAmount <= 0)
+				{
+					// nothing left, remove reagent - it became zero
+					// remove amount that was before
+					reagents.Remove(reagent);
+					return amount;
+				}
+
+				// change amount to subtraction result
+				reagents[reagent] = newAmount;
+				return amount;
+			}
+
+			// have nothing to remove, just return zero
+			return 0;
+		}
+
+		/// <summary>
+		/// Multiply each reagent amount by multiplier
+		/// </summary>
 		public void Multiply(float multiplier)
 		{
+			if (multiplier < 0f)
+			{
+				Debug.LogError($"Trying to multiply reagentmix by {multiplier}");
+				return;
+			}
+
+			if (multiplier == 0f)
+			{
+				// if multiply by zero - clear all reagents
+				Clear();
+				return;
+			}
+
 			foreach (var key in reagents.Keys.ToArray())
 			{
 				reagents[key] *= multiplier;
 			}
 		}
 
-		public ReagentMix TransferTo(ReagentMix b, float amount)
+		/// <summary>
+		/// Transfer part of reagent mix
+		/// </summary>
+		/// <returns>Transfered reagent mix</returns>
+		public ReagentMix TransferTo(ReagentMix toTransfer, float amount)
 		{
-			var transferred = Clone();
-			transferred.Max(Math.Min(amount, Total), out _);
-			Subtract(transferred);
-			b.Add(transferred);
-			return transferred;
+			var toTransferMix = Clone();
+
+			// can't allow to transfer more than Total
+			var toTransferAmount = Math.Min(amount, Total);
+			toTransferMix.Max(toTransferAmount, out _);
+
+			Subtract(toTransferMix);
+			toTransfer.Add(toTransferMix);
+			return toTransferMix;
 		}
 
 		public ReagentMix Take(float amount)
@@ -186,21 +235,13 @@ namespace Chemistry
 			Multiply(multiplier);
 		}
 
+		/// <summary>
+		/// Try to remove max avaliable amount of mix
+		/// </summary>
 		public void Max(float max, out float removed)
 		{
 			removed = Math.Max(Total - max, 0);
 			RemoveVolume(removed);
-		}
-
-		public void Clean()
-		{
-			foreach (var key in reagents.Keys.ToArray())
-			{
-				if (reagents[key] == 0)
-				{
-					reagents.Remove(key);
-				}
-			}
 		}
 
 		public void Clear()
@@ -213,26 +254,6 @@ namespace Chemistry
 		public float Total
 		{
 			get { return reagents.Sum(kvp => kvp.Value); }
-		}
-
-		public bool Contains(Reagent reagent, float amount)
-		{
-			if (reagents.TryGetValue(reagent, out var value))
-			{
-				return value >= amount;
-			}
-
-			return false;
-		}
-
-		public bool ContainsMoreThan(Reagent reagent, float amount)
-		{
-			if (reagents.TryGetValue(reagent, out var value))
-			{
-				return value > amount;
-			}
-
-			return false;
 		}
 
 		public ReagentMix Clone()

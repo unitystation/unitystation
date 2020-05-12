@@ -26,20 +26,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCapacity: 100
-  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
-  reagentMix:
-    temperature: 0
-    reagents:
-      m_keys: []
-      m_values: []
-  itemAttributes: {fileID: 0}
+  UseStandardExamine: 0
+  ExamineAmount: 0
+  ExamineContent: 0
   traitWhitelist:
   - {fileID: 11400000, guid: 40bbe2f167fff41efb1c05e17fb43e88, type: 2}
   reagentWhitelist: []
   transferMode: 3
   possibleTransferAmounts: []
   transferAmount: 25
+  maxCapacity: 25
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  initialReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
 --- !u!114 &2900683335283585837
 MonoBehaviour:
   m_ObjectHideFlags: 0

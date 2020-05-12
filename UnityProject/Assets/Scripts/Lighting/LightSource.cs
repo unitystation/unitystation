@@ -35,13 +35,13 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private Integrity integrity;
 	private Directional directional;
 
-	[SerializeField] private BoxCollider2D boxColl;
-	[SerializeField] private Vector4 collDownSetting;
-	[SerializeField] private Vector4 collRightSetting;
-	[SerializeField] private Vector4 collUpSetting;
-	[SerializeField] private Vector4 collLeftSetting;
-	[SerializeField] private SpritesDirectional spritesStateOnEffect;
-	[SerializeField] private SOLightMountStatesMachine mountStatesMachine;
+	[SerializeField] private BoxCollider2D boxColl = null;
+	[SerializeField] private Vector4 collDownSetting = Vector4.zero;
+	[SerializeField] private Vector4 collRightSetting = Vector4.zero;
+	[SerializeField] private Vector4 collUpSetting = Vector4.zero;
+	[SerializeField] private Vector4 collLeftSetting = Vector4.zero;
+	[SerializeField] private SpritesDirectional spritesStateOnEffect = null;
+	[SerializeField] private SOLightMountStatesMachine mountStatesMachine = null;
 	private SOLightMountState currentState;
 
 	private ItemTrait traitRequired;
@@ -371,6 +371,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	public void OnDespawnServer(DespawnInfo info)
 	{
+		Spawn.ServerPrefab(currentState.LootDrop, gameObject.RegisterTile().WorldPositionServer);
 		UnSubscribeFromSwitchEvent();
 	}
 

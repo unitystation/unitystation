@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Chemistry.Components;
+using UnityEngine;
 
 /// <summary>
 /// The component used on containers/reagentcontainers that can determine if they can be crafted into a simplebot and what type of bot

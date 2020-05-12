@@ -12,15 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
   m_Name: ContrabandGuns
   m_EditorClassIdentifier: 
-  probability: 100
-  lootCount: 1
-  fanOut: 0
   pool:
   - prefab: {fileID: 8582594776399167655, guid: 75bd7f17749d75542afa4d2395205c7b,
       type: 3}
     maxAmount: 1
     probability: 20
-  - prefab: {fileID: 1243752531234666437, guid: 7ed0ebc503149b4c09d3c2d60230b9d1,
+  - prefab: {fileID: 8582594776399167655, guid: 8aa9c1617fcf44905b26d836feca524f,
       type: 3}
     maxAmount: 1
     probability: 50

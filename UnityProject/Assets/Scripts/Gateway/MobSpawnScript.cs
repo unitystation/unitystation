@@ -5,7 +5,7 @@ public class MobSpawnScript : NetworkBehaviour
 {
 	public GameObject MobToSpawn;
 
-	[SerializeField] private GameObject icon;
+	[SerializeField] private GameObject icon = null;
 
 	private void OnEnable()
 	{

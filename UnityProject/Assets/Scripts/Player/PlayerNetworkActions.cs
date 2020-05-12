@@ -474,8 +474,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerRespawnPlayer()
+	public void ServerRespawnPlayer(string occupation = null)
 	{
+		if (occupation != null)
+		{
+			foreach (var job in SOAdminJobsList.Instance.AdminAvailableJobs)
+			{
+				if (job.name != occupation)
+				{
+					continue;
+				}
+
+				playerScript.mind.occupation = job;
+				break;
+			}
+		}
+
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
@@ -863,21 +877,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 
 		string msg = admin.ExpensiveName() + " smashed " + toSmash.ExpensiveName();
-
-		AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId);
-	}
-
-	//simulates despawning and immediately respawning this object, expectation
-	//being that it should properly initialize itself regardless of its previous state.
-	[Command]
-	public void CmdAdminRespawn(GameObject toRespawn, string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		Spawn.ServerPoolTestRespawn(toRespawn);
-
-		string msg = admin.ExpensiveName() + " respawned " + toRespawn.ExpensiveName();
 
 		AdminLogging.Instance.AddToAdminChatAndLog(msg, adminId);
 	}

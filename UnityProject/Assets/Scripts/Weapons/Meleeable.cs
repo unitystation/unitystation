@@ -128,12 +128,20 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 			//butcher check
 			GameObject victim = interaction.TargetObject;
 			var healthComponent = victim.GetComponent<LivingHealthBehaviour>();
-			if (healthComponent && healthComponent.allowKnifeHarvest && healthComponent.IsDead && Validations.HasItemTrait(handObject, CommonTraits.Instance.Knife) && interaction.Intent == Intent.Harm)
+			var playerMove = victim.GetComponent<PlayerMove>();
+			if (healthComponent
+			    && healthComponent.allowKnifeHarvest
+			    && healthComponent.IsDead
+			    && Validations.HasItemTrait(handObject, CommonTraits.Instance.Knife) && interaction.Intent == Intent.Harm)
 			{
 				GameObject performer = interaction.Performer;
 
 				void ProgressFinishAction()
 				{
+					if (playerMove != null && playerMove.IsBuckled)
+					{
+						playerMove.Unbuckle();
+					}
 					LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 					victimHealth.Harvest();
 					SoundManager.PlayNetworkedAtPos(butcherSound, victim.RegisterTile().WorldPositionServer);
