@@ -125,9 +125,9 @@ MonoBehaviour:
   VendorContent:
   - Item: {fileID: 0}
     Stock: 3
-  - Item: {fileID: 4188245363048309518, guid: 08cfe1b88b57ef54480353de29933380, type: 3}
+  - Item: {fileID: 5064226321362517998, guid: 08cfe1b88b57ef54480353de29933380, type: 3}
     Stock: 3
-  - Item: {fileID: 4188245363048309518, guid: 7623479ec0b5ad84c944b3c35021e5a3, type: 3}
+  - Item: {fileID: 5273891547540461841, guid: cd434f09e5742b6489500c1dae094e28, type: 3}
     Stock: 3
   - Item: {fileID: 0}
     Stock: 3
@@ -319,9 +319,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,6 +329,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4755961107440558}
   - component: {fileID: 212376886712965914}
+  - component: {fileID: 4769007989661700614}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -403,3 +401,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4769007989661700614
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1905444731887362}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: affbd98a58e35484bb4d9f4d0782fd92, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: affbd98a58e35484bb4d9f4d0782fd92, type: 3}
+    - {fileID: 21300002, guid: affbd98a58e35484bb4d9f4d0782fd92, type: 3}
+    - {fileID: 21300004, guid: affbd98a58e35484bb4d9f4d0782fd92, type: 3}
+    - {fileID: 21300006, guid: affbd98a58e35484bb4d9f4d0782fd92, type: 3}
+    EquippedData: {fileID: 4900000, guid: 5c5e61c24aea1114d92a6731c231ddf9, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1

@@ -16,10 +16,10 @@ public class RadioMessager : MonoBehaviour
 	private float frequency = 200;
 	[SerializeField]
 	[Tooltip("The minium frequency range that the signal should be sent at. Uses MHz.")]
-	private float frequencyMin;
+	private float frequencyMin = 0;
 	[SerializeField]
 	[Tooltip("The maximum frequency range the signal should be sent at. Uses MHz.")]
-	private float frequencyMax;
+	private float frequencyMax = 0;
 
 	[SerializeField]
 	private bool useFrequencyRange = false;
@@ -29,7 +29,7 @@ public class RadioMessager : MonoBehaviour
 	/// </summary>
 	[SerializeField]
 	[Tooltip("The amplitude of the signal. Used to determine effective range. Amplitude is the 'power' of the signal. Uses watts.")]
-	private float amplitude;
+	private float amplitude = 0;
 
 	[SerializeField]
 	[Tooltip("The instensity of the signal. The higher the intensity, the greater the range. Uses watts/m^2.")]

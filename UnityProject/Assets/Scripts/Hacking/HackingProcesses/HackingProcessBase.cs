@@ -10,7 +10,7 @@ using UnityEngine.Events;
 /// <summary>
 /// This is a controller for hacking an object. This compoenent being attached to an object means that the object is hackable.
 /// It will check interactions with the object, and once the goal interactions have been met, it will open a hacking UI prefab.
-/// e.g. check if interacted with a screw driver, then check if 
+/// e.g. check if interacted with a screw driver, then check if
 /// </summary>
 [RequireComponent(typeof(ItemStorage))]
 public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IServerSpawn, IServerDespawn
@@ -27,9 +27,10 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	private GUI_Hacking hackingGUI;
 	public GUI_Hacking HackingGUI => hackingGUI;
 
-	[SerializeField]
-	[Tooltip("What the initial stage of the hack should be when the object is spawned.")]
-	private int hackInitialStage = 0;
+	// Commented out because it is unused:
+	// [SerializeField]
+	// [Tooltip("What the initial stage of the hack should be when the object is spawned.")]
+	// private int hackInitialStage = 0;
 
 	/// <summary>
 	/// This is a convenience function. Since some devices need to have several steps be completed in order to expose their wiring, this just adds a simple way of
@@ -299,7 +300,7 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 
 	/// <summary>
 	/// This is called in the appropraite SyncVar hooks. Used to make stuff happen when progress is made on hacking the object.
-	/// Could update sprites, play sounds, etc. 
+	/// Could update sprites, play sounds, etc.
 	/// </summary>
 	/// <param name="oldStage"></param>
 	/// <param name="newStage"></param>

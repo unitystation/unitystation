@@ -77,6 +77,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public event Action OnDeathNotifyEvent;
 
+	public float RTT;
+
 	public ConsciousState ConsciousState
 	{
 		get => consciousState;
@@ -693,6 +695,84 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 			bodyPart.UpdateClientBodyPartStat(bruteDamage, burnDamage);
 		}
+	}
+
+	/// ---------------------------
+	/// Electrocution Methods
+	/// ---------------------------
+	/// Note: Electrocution for players is extended in PlayerHealth deriviative.
+	/// This is a generic electrocution implementation that just deals damage.
+
+	/// <summary>
+	/// Electrocutes a mob, applying damage to the victim depending on the electrocution power.
+	/// </summary>
+	/// <param name="electrocution">The object containing all information for this electrocution</param>
+	/// <returns>Returns an ElectrocutionSeverity for when the following logic depends on the elctrocution severity.</returns>
+	public virtual LivingShockResponse Electrocute(Electrocution electrocution)
+	{
+		float resistance = ApproximateElectricalResistance(electrocution.Voltage);
+		float shockPower = Electrocution.CalculateShockPower(electrocution.Voltage, resistance);
+		var severity = GetElectrocutionSeverity(shockPower);
+
+		switch (severity)
+		{
+			case LivingShockResponse.None:
+				break;
+			case LivingShockResponse.Mild:
+				MildElectrocution(electrocution, shockPower);
+				break;
+			case LivingShockResponse.Painful:
+				PainfulElectrocution(electrocution, shockPower);
+				break;
+			case LivingShockResponse.Lethal:
+				LethalElectrocution(electrocution, shockPower);
+				break;
+		}
+
+		return severity;
+	}
+
+	/// <summary>
+	/// Finds the severity of the electrocution.
+	/// In the future, this would depend on the victim's size. For now, assume humanoid size.
+	/// </summary>
+	/// <param name="shockPower">The power of the electrocution determines the shock response </param>
+	protected virtual LivingShockResponse GetElectrocutionSeverity(float shockPower)
+	{
+		LivingShockResponse severity;
+
+		if (shockPower >= 0.01 && shockPower < 1) severity = LivingShockResponse.Mild;
+		else if (shockPower >= 1 && shockPower < 100) severity = LivingShockResponse.Painful;
+		else if (shockPower >= 100) severity = LivingShockResponse.Lethal;
+		else severity = LivingShockResponse.None;
+
+		return severity;
+	}
+
+	// Overrideable for custom electrical resistance calculations.
+	protected virtual float ApproximateElectricalResistance(float voltage)
+	{
+		// TODO: Approximate mob's electrical resistance based on mob size.
+		return 500;
+	}
+
+	protected virtual void MildElectrocution(Electrocution electrocution, float shockPower)
+	{
+		return;
+	}
+
+	protected virtual void PainfulElectrocution(Electrocution electrocution, float shockPower)
+	{
+		LethalElectrocution(electrocution, shockPower);
+	}
+
+	protected virtual void LethalElectrocution(Electrocution electrocution, float shockPower)
+	{
+		// TODO: Add sparks VFX at shockSourcePos.
+		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
+
+		float damage = shockPower;
+		ApplyDamage(null, damage, AttackType.Internal, DamageType.Burn);
 	}
 
 	/// ---------------------------

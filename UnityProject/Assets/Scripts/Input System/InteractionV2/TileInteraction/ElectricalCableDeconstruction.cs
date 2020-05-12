@@ -53,9 +53,10 @@ public class ElectricalCableDeconstruction : TileInteraction
 			// Electrocute the performer. If shock is painful enough, cancel the interaction.
 			ElectricityFunctions.WorkOutActualNumbers(ElectricalData.InData);
 			float voltage = ElectricalData.InData.Data.ActualVoltage;
-			var electrocutionSeverity = new Electrocution().ElectrocutePlayer(
-				interaction.Performer, interaction.WorldPositionTarget, "cable", voltage);
-			if (electrocutionSeverity > Electrocution.Severity.Mild) return;
+			var electrocution = new Electrocution(voltage, interaction.WorldPositionTarget, "cable");
+			var performerLHB = interaction.Performer.GetComponent<LivingHealthBehaviour>();
+			var severity = performerLHB.Electrocute(electrocution);
+			if (severity > LivingShockResponse.Mild) return;
 
 			ElectricalData.InData.DestroyThisPlease();
 			Spawn.ServerPrefab(ElectricalCable.SpawnOnDeconstruct, interaction.WorldPositionTarget,

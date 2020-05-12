@@ -128,12 +128,14 @@ namespace NPC.AI
 			if (hitInfo.transform.gameObject.layer == playersLayer)
 			{
 				var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
-				if (healthBehaviour.IsDead)
+				if (healthBehaviour != null && healthBehaviour.IsDead)
 				{
 					return false;
 				}
 
 				mobAI.ActOnLiving(dir, healthBehaviour);
+
+				if (followTarget == null) return false;
 
 				if (followTarget.gameObject.layer != playersLayer)
 				{

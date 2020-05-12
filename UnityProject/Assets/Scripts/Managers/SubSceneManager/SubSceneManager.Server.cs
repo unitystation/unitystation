@@ -1,8 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Mirror;
-using UnityEditor;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
 using UnityEngine.SceneManagement;
 
 //Server
@@ -11,11 +14,30 @@ public partial class SubSceneManager
 	private string serverChosenAwaySite;
 	private string serverChosenMainStation;
 
+	public static string ServerChosenMainStation
+	{
+		get { return Instance.serverChosenMainStation; }
+	}
+
 	public override void OnStartServer()
 	{
+		NetworkServer.observerSceneList.Clear();
 		// Determine a Main station subscene and away site
 		StartCoroutine(RoundStartServerLoadSequence());
 		base.OnStartServer();
+	}
+
+	/// <summary>
+	/// Starts a collection of scenes that this connection is allowed to see
+	/// </summary>
+	public void AddNewObserverScenePermissions(NetworkConnection conn)
+	{
+		if (NetworkServer.observerSceneList.ContainsKey(conn))
+		{
+			NetworkServer.observerSceneList.Remove(conn);
+		}
+
+		NetworkServer.observerSceneList.Add(conn, new List<Scene> {SceneManager.GetActiveScene()});
 	}
 
 	IEnumerator RoundStartServerLoadSequence()
@@ -93,10 +115,28 @@ public partial class SubSceneManager
 			SceneType = SceneType.AwaySite
 		});
 
+		netIdentity.isDirty = true;
+
 		yield return WaitFor.Seconds(0.1f);
 		UIManager.Display.preRoundWindow.CloseMapLoadingPanel();
 
 		Logger.Log($"Server has loaded {serverChosenAwaySite} away site", Category.SubScenes);
+	}
+
+	/// <summary>
+	/// Add a new scene to a specific connections observable list
+	/// </summary>
+	void AddObservableSceneToConnection(NetworkConnection conn, Scene sceneContext)
+	{
+		if (!NetworkServer.observerSceneList.ContainsKey(conn))
+		{
+			AddNewObserverScenePermissions(conn);
+		}
+
+		if (!NetworkServer.observerSceneList[conn].Contains(sceneContext))
+		{
+			NetworkServer.observerSceneList[conn].Add(sceneContext);
+		}
 	}
 
 	/// <summary>
@@ -121,5 +161,88 @@ public partial class SubSceneManager
 				n.Value.AddPlayerObserver(connToAdd);
 			}
 		}
+
+		AddObservableSceneToConnection(connToAdd, sceneContext);
+
+		StartCoroutine(
+			SyncPlayerData(connToAdd.clientOwnedObjects.ElementAt(0).gameObject,
+				sceneContext.name));
+	}
+
+	/// Sync init data with specific scenes
+	/// staggered over multiple frames
+	public IEnumerator SyncPlayerData(GameObject playerGameObject, string sceneName)
+	{
+		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new " +
+		                 "client {0} for scene {1}", Category.Connections, playerGameObject, sceneName);
+
+		var sceneContext = SceneManager.GetSceneByName(sceneName);
+
+		yield return WaitFor.EndOfFrame;
+
+		//TileChange Data
+		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
+		for (var i = 0; i < tcManagers.Length; i++)
+		{
+			if(tcManagers[i].gameObject.scene != sceneContext) continue;
+			tcManagers[i].NotifyPlayer(playerGameObject);
+			yield return WaitFor.EndOfFrame;
+		}
+
+		yield return WaitFor.EndOfFrame;
+
+		//All matrices
+		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
+		for (var i = 0; i < matrices.Length; i++)
+		{
+			if(matrices[i].gameObject.scene != sceneContext) continue;
+			matrices[i].NotifyPlayer(playerGameObject, true);
+		}
+
+		yield return WaitFor.EndOfFrame;
+
+		//All transforms
+		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
+		for (var i = 0; i < scripts.Length; i++)
+		{
+			if(scripts[i].gameObject.scene != sceneContext) continue;
+			scripts[i].NotifyPlayer(playerGameObject);
+		}
+
+		yield return WaitFor.EndOfFrame;
+
+		//All player bodies
+		PlayerSync[] playerBodies = FindObjectsOfType<PlayerSync>();
+		for (var i = 0; i < playerBodies.Length; i++)
+		{
+			if(playerBodies[i].gameObject.scene != sceneContext) continue;
+			var playerBody = playerBodies[i];
+			playerBody.NotifyPlayer(playerGameObject, true);
+
+			var playerSprites = playerBody.GetComponent<PlayerSprites>();
+			if (playerSprites)
+			{
+				playerSprites.NotifyPlayer(playerGameObject);
+			}
+			var equipment = playerBody.GetComponent<Equipment>();
+			if (equipment)
+			{
+				equipment.NotifyPlayer(playerGameObject);
+			}
+			yield return WaitFor.EndOfFrame;
+		}
+
+		yield return WaitFor.EndOfFrame;
+
+		//Doors
+		DoorController[] doors = FindObjectsOfType<DoorController>();
+		for (var i = 0; i < doors.Length; i++)
+		{
+			if(doors[i].gameObject.scene != sceneContext) continue;
+			doors[i].NotifyPlayer(playerGameObject);
+		}
+		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
+
+		//all despawned objects in the pool
 	}
 }

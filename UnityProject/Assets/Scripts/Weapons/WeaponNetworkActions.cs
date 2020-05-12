@@ -214,7 +214,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 	[ClientRpc]
 	public void RpcMeleeAttackLerp(Vector2 stabDir, GameObject weapon)
 	{
-		if (lerping)
+		if (lerping || playerScript == null)
 		{
 			return;
 		}

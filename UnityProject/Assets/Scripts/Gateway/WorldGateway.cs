@@ -12,13 +12,32 @@ public class WorldGateway : StationGateway
 	[SerializeField]
 	private GameObject StationGateway = null;// doesnt have to be station just the gateway this one will connect to
 
+	/// <summary>
+	/// Should the mobs spawn when gate connects
+	/// </summary>
+	public bool spawnMobsOnConnection;
+
+	/// <summary>
+	/// For world gate to world gate
+	/// </summary>
+	[SerializeField]
+	private bool ifWorldGateToWorldGate;
+
 	public override void OnStartServer()
 	{
 		SetOffline();
 		registerTile = GetComponent<RegisterTile>();
 		Position = registerTile.WorldPosition;
-		SubSceneManager.RegisterWorldGateway(this);
 		ServerChangeState(false);
+
+		if (ifWorldGateToWorldGate && StationGateway != null)
+		{
+			SetUpWorldToWorld();
+		}
+		else if (!ifWorldGateToWorldGate)
+		{
+			SubSceneManager.RegisterWorldGateway(this);
+		}
 	}
 
 	[Server]
@@ -29,6 +48,22 @@ public class WorldGateway : StationGateway
 
 		SetOnline();
 		ServerChangeState(true);
+		if (GetComponent<MobSpawnControlScript>() != null)
+		{
+			GetComponent<MobSpawnControlScript>().SpawnMobs();
+		}
+
+		SpawnedMobs = true;
+	}
+
+	[Server]
+	public void SetUpWorldToWorld()
+	{
+		Message = "Teleporting...";
+
+		SetOnline();
+		ServerChangeState(true);
+
 		if (GetComponent<MobSpawnControlScript>() != null)
 		{
 			GetComponent<MobSpawnControlScript>().SpawnMobs();

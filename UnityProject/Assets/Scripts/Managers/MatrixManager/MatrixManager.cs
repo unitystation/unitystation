@@ -393,15 +393,21 @@ public partial class MatrixManager : MonoBehaviour
 	{
 		// Check door on the local tile first
 		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
-		InteractableDoor originDoor = Instance.GetFirst<InteractableDoor>(worldOrigin, isServer);
-		if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
-			return originDoor;
-
+		var originDoorList = GetAt<InteractableDoor>(worldOrigin, isServer);
+		foreach (InteractableDoor originDoor in originDoorList)
+		{
+			if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
+				return originDoor;
+		}
+		
 		// No closed door on local tile, check target tile
 		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
-		InteractableDoor targetDoor = Instance.GetFirst<InteractableDoor>(targetPos, isServer);
-		if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
-			return targetDoor;
+		var targetDoorList = GetAt<InteractableDoor>(targetPos, isServer);
+		foreach (InteractableDoor targetDoor in targetDoorList)
+		{
+			if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
+				return targetDoor;
+		}
 
 		// No closed doors on either tile
 		return null;

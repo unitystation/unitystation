@@ -111,7 +111,7 @@ public class BulletBehaviour : MonoBehaviour
 		{
 			return;
 		}
-		ReturnToPool();
+		DespawnThis();
 	}
 
 	/// <summary>
@@ -158,10 +158,10 @@ public class BulletBehaviour : MonoBehaviour
 			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms, livingHealth.gameObject.name, damage);
 		}
 
-		ReturnToPool();
+		DespawnThis();
 	}
 
-	protected virtual void ReturnToPool()
+	protected virtual void DespawnThis()
 	{
 		if (trailRenderer != null)
 		{

@@ -570,6 +570,8 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	public void DisplayShot(GameObject shooter, Vector2 finalDirection,
 		BodyPartType damageZone, bool isSuicideShot)
 	{
+		if (!MatrixManager.IsInitialized) return;
+
 		//if this is our gun (or server), last check to ensure we really can shoot
 		if ((isServer || PlayerManager.LocalPlayer == shooter) &&
 			CurrentMagazine.ClientAmmoRemains <= 0)
@@ -615,7 +617,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//display the effects of the shot
 
 		//get the bullet prefab being shot
-		GameObject bullet = Spawn.ClientPrefab(Resources.Load(Projectile.name) as GameObject,
+		GameObject bullet = Spawn.ClientPrefab(Projectile.name,
 			shooter.transform.position).GameObject;
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 		if (isSuicideShot)

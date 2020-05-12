@@ -170,6 +170,7 @@ public class CustomNetworkManager : NetworkManager
 
 		Logger.LogFormat("Client connecting to server {0}", Category.Connections, conn);
 		base.OnServerAddPlayer(conn);
+		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 	}
 
@@ -187,61 +188,6 @@ public class CustomNetworkManager : NetworkManager
 	{
 		base.OnClientDisconnect(conn);
 		OnClientDisconnected.Invoke();
-	}
-
-	///Sync some position data explicitly, if it is required
-	/// Warning: sending a lot of data, make sure client receives it only once
-	public void SyncPlayerData(GameObject playerGameObject)
-	{
-		Logger.LogFormat("SyncPlayerData (the big one). This server sending a bunch of sync data to new client {0}", Category.Connections, playerGameObject);
-		//All matrices
-		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
-		for (var i = 0; i < matrices.Length; i++)
-		{
-			matrices[i].NotifyPlayer(playerGameObject, true);
-		}
-
-		//All transforms
-		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
-		for (var i = 0; i < scripts.Length; i++)
-		{
-			scripts[i].NotifyPlayer(playerGameObject);
-		}
-
-		//All player bodies
-		PlayerSync[] playerBodies = FindObjectsOfType<PlayerSync>();
-		for (var i = 0; i < playerBodies.Length; i++)
-		{
-			var playerBody = playerBodies[i];
-			playerBody.NotifyPlayer(playerGameObject, true);
-			var playerSprites = playerBody.GetComponent<PlayerSprites>();
-			if (playerSprites)
-			{
-				playerSprites.NotifyPlayer(playerGameObject);
-			}
-			var equipment = playerBody.GetComponent<Equipment>();
-			if (equipment)
-			{
-				equipment.NotifyPlayer(playerGameObject);
-			}
-		}
-		//TileChange Data
-		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
-		for (var i = 0; i < tcManagers.Length; i++)
-		{
-			tcManagers[i].NotifyPlayer(playerGameObject);
-		}
-
-		//Doors
-		DoorController[] doors = FindObjectsOfType<DoorController>();
-		for (var i = 0; i < doors.Length; i++)
-		{
-			doors[i].NotifyPlayer(playerGameObject);
-		}
-		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
-
-		//all despawned objects in the pool
-
 	}
 
 	public override void OnServerConnect(NetworkConnection conn)

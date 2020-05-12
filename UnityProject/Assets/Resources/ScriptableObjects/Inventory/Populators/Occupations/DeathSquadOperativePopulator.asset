@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76afb59ec4485caa0a5cc0f2d142e9, type: 3}
+  m_Name: DeathSquadOperativePopulator
+  m_EditorClassIdentifier: 
+  Entries:
+  - NamedSlot: 12
+    Prefab: {fileID: 7368429894223322524, guid: e821287a1c78eafcd801c8a378830506,
+      type: 3}
+  - NamedSlot: 11
+    Prefab: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73,
+      type: 3}
+  - NamedSlot: 2
+    Prefab: {fileID: 7636118406116123594, guid: 0e745efd913ca124183b3b4ac17cb1de,
+      type: 3}
+  - NamedSlot: 3
+    Prefab: {fileID: 408259014417402298, guid: 110471ca947510c4abe2bb3e3295570c, type: 3}
+  - NamedSlot: 0
+    Prefab: {fileID: 3921521694364753778, guid: 885383a17b359de4d9f6aafd35a950b6,
+      type: 3}
+  - NamedSlot: 6
+    Prefab: {fileID: 2798299160117014978, guid: 0c722f8fdd00ce544b2dc844f4bfdb6e,
+      type: 3}
+  - NamedSlot: 10
+    Prefab: {fileID: 6150311403527200410, guid: 1a291489c8aa9da8598c8026ac53f935,
+      type: 3}
+  - NamedSlot: 18
+    Prefab: {fileID: 6507000735928756314, guid: 181620b7c6ca4c344b2c36d12f85c4b2,
+      type: 3}
+  - NamedSlot: 9
+    Prefab: {fileID: 3431291279286482953, guid: 5668f8777ce1a794980fbd35aa58f56b,
+      type: 3}
+  - NamedSlot: 1
+    Prefab: {fileID: 6700281191928912403, guid: 78cc0f9a4d927164b986aa34a81d2035,
+      type: 3}
+  - NamedSlot: 5
+    Prefab: {fileID: 601481542739936417, guid: 518823bf8eeebc848b0d18a293a1f56f, type: 3}
+  - NamedSlot: 16
+    Prefab: {fileID: 3576468486086989451, guid: 15c095e2f9c2c9cbcbb3dbb24ca61245,
+      type: 3}
+  - NamedSlot: 17
+    Prefab: {fileID: 100328150011014054, guid: 0be5d7918d0a16a4394474841c0dc985, type: 3}
+  skirtVariant: {fileID: 8329421511582390024, guid: 1c19022c926dd3a488a97c170d0a6199,
+    type: 3}
+  duffelVariant: {fileID: 5246620180480384242, guid: ed03c800dbd4d674d8f01df08a62ce57,
+    type: 3}
+  satchelVariant: {fileID: 4491607388275499144, guid: 1ed809e1bad45b44ea65b44c81764ca9,
+    type: 3}

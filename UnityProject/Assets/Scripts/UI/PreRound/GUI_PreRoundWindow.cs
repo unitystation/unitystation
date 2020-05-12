@@ -16,11 +16,11 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	[SerializeField]
 	private TMP_Text readyText = null;
 
-	[SerializeField] private TMP_Text loadingText;
+	[SerializeField] private TMP_Text loadingText = null;
 
-	[SerializeField] private Scrollbar loadingBar;
+	[SerializeField] private Scrollbar loadingBar = null;
 
-	[SerializeField] private GameObject normalWindows;
+	[SerializeField] private GameObject normalWindows = null;
 
 	// UI panels
 	[SerializeField]
@@ -36,6 +36,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	[SerializeField]
 	private GameObject mapLoadingPanel = null;
+
+	[SerializeField] private GameObject rejoiningRoundPanel = null;
 
 	// Character objects
 	[SerializeField]
@@ -178,6 +180,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		joinPanel.SetActive(false);
 		playerWaitPanel.SetActive(true);
 		mainPanel.SetActive(false);
+		rejoiningRoundPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -190,6 +193,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		joinPanel.SetActive(false);
 		playerWaitPanel.SetActive(false);
 		mainPanel.SetActive(true);
+		rejoiningRoundPanel.SetActive(false);
 	}
 
 	/// <summary>
@@ -201,10 +205,26 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		timerPanel.SetActive(false);
 		playerWaitPanel.SetActive(false);
 		mainPanel.SetActive(true);
+		rejoiningRoundPanel.SetActive(false);
+	}
+
+	public void ShowRejoiningPanel()
+	{
+		normalWindows.SetActive(false);
+		mapLoadingPanel.SetActive(false);
+		rejoiningRoundPanel.SetActive(true);
+	}
+
+	public void CloseRejoiningPanel()
+	{
+		normalWindows.SetActive(false);
+		mapLoadingPanel.SetActive(false);
+		rejoiningRoundPanel.SetActive(false);
 	}
 
 	public void SetUIForMapLoading()
 	{
+		rejoiningRoundPanel.SetActive(false);
 		normalWindows.SetActive(false);
 		mapLoadingPanel.SetActive(true);
 	}
@@ -219,5 +239,6 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	{
 		normalWindows.SetActive(true);
 		mapLoadingPanel.SetActive(false);
+		UpdateLoadingBar("Preparing..", 0.1f);
 	}
 }
