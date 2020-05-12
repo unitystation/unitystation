@@ -193,9 +193,9 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			Logger.LogTraceFormat("Auto-populate internal magazine for {0}", Category.Inventory, name);
 
 			//Make generic magazine and modify it to fit weapon
-			GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(AmmoType.Internal);
+			GameObject ammoPrefabOverride = AmmoPrefabs.GetAmmoPrefab(AmmoType.Internal);
 
-			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
+			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefabOverride).GameObject, magSlot);
 
 			CurrentMagazine.ChangeSize(MagSize);
 			CurrentMagazine.ammoType = ammoType;
