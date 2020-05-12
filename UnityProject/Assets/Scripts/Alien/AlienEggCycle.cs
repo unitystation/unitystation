@@ -37,12 +37,7 @@ namespace Alien
 		private bool noLongerAlive = false;
 		private bool initialized = false;
 
-		private void Awake()
-		{
-			Init();
-		}
-
-		void Init()
+		void EnsureInit()
 		{
 			if (initialized) return;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
@@ -62,12 +57,19 @@ namespace Alien
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
+			EnsureInit();
 			SyncState(currentState, currentState);
 		}
 
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
+			EnsureInit();
+			registerObject.WaitForMatrixInit(StartEggCycleServer);
+		}
+
+		void StartEggCycleServer(MatrixInfo info)
+		{
 			UpdateState(initialState);
 			noLongerAlive = false;
 			incubationTime = UnityEngine.Random.Range(60f, 400f);
@@ -115,8 +117,8 @@ namespace Alien
 
 		private void SyncState(EggState oldState, EggState newState)
 		{
+			EnsureInit();
 			currentState = newState;
-			if(!initialized) Init();
 
 			switch (currentState)
 			{
