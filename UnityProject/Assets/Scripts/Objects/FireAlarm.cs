@@ -12,11 +12,17 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public float coolDownTime = 1.0f;
 	public bool isInCooldown = false;
 
+	public SpriteHandler spriteHandler;
+	public Sprite topLightSpriteNormal;
+	public SpriteSheetAndData topLightSpriteAlert;
+
 	public void SendCloseAlerts()
 	{
 		if (!activated && !isInCooldown)
 		{
 			activated = true;
+			spriteHandler.SetSprite(topLightSpriteAlert, 0);
+			SoundManager.PlayNetworkedAtPos("FireAlarm", metaNode.Position);
 			StartCoroutine(SwitchCoolDown());
 			foreach (var firelock in FireLockList)
 			{
@@ -32,7 +38,9 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		AtmosManager.Instance.inGameFireAlarms.Add(this);
 		RegisterTile registerTile = GetComponent<RegisterTile>();
 		MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
-		metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+		var wallMount = GetComponent<WallmountBehavior>();
+		var direction = wallMount.CalculateFacing().CutToInt();
+		metaNode = metaDataLayer.Get(registerTile.LocalPositionServer + direction, false);
 		foreach (var firelock in FireLockList)
 		{
 			firelock.fireAlarm = this;
@@ -67,6 +75,7 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		if (activated && !isInCooldown)
 		{
 			activated = false;
+			spriteHandler.SetSprite(topLightSpriteNormal);
 			StartCoroutine(SwitchCoolDown());
 			foreach (var firelock in FireLockList)
 			{
@@ -81,7 +90,7 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 			SendCloseAlerts();
 		}
 	}
-	
+
 	//Copied over from LightSwitchV2.cs
 	void OnDrawGizmosSelected()
 	{

@@ -245,21 +245,14 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 		delayStartTimeTryOpen = Time.time;
 
 		// Sliding door is not passable according to matrix
-		if ( !IsClosed && !isPerformingAction && ( matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding ) )
+		if( !IsClosed && !isPerformingAction && (ignorePassableChecks || matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding) )
 		{
 			if (isHackable && hackingLoaded)
 			{
 				HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier("OnShouldClose");
 				onShouldClose.SendOutputToConnectedNodes();
 			}
-			// Sliding door is not passable according to matrix
-            if( !IsClosed && !isPerformingAction && (ignorePassableChecks || matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding) ) {
-	            ServerClose();
-            }
-			else
-			{
-				ServerClose();
-			}
+			ServerClose();
 		}
 		else
 		{
