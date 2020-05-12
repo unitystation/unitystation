@@ -4,8 +4,9 @@
 Material:
   serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_Name: LiberationSans SDF - Drop Shadow
   m_Shader: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
   m_ShaderKeywords: OUTLINE_ON UNDERLAY_ON
@@ -81,9 +82,9 @@ Material:
     - _StencilWriteMask: 255
     - _TextureHeight: 1024
     - _TextureWidth: 1024
-    - _UnderlayDilate: 0
-    - _UnderlayOffsetX: 0.5
-    - _UnderlayOffsetY: -0.5
+    - _UnderlayDilate: 0.5
+    - _UnderlayOffsetX: 0
+    - _UnderlayOffsetY: 0
     - _UnderlaySoftness: 0.05
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
