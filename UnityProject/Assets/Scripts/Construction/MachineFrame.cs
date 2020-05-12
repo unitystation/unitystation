@@ -65,6 +65,15 @@ namespace Machines
 			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
+
+			SetSprite();
+
+			if (!isServer) return;
+
+			if (CurrentState != partsAddedState)
+			{
+				stateful.ServerChangeState(initialState);
+			}
 		}
 
 		private void SyncState(SpriteStates oldVar, SpriteStates newVar)
@@ -72,6 +81,11 @@ namespace Machines
 			spriteForClient = newVar;
 			//do your thing
 			//all clients will be updated with this
+			SetSprite();
+		}
+
+		private void SetSprite()
+		{
 			switch (spriteForClient)
 			{
 				case SpriteStates.Box:
@@ -364,7 +378,7 @@ namespace Machines
 				{
 					foreach (var part in machineParts.machineParts)
 					{
-						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), count: part.amountOfThisPart);
+						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
 					}
 				}
 				else
@@ -423,6 +437,12 @@ namespace Machines
 			{
 				var spawnedObject = Spawn.ServerPrefab(machineParts.machine, SpawnDestination.At(gameObject)).GameObject.GetComponent<Machine>();
 
+				if (spawnedObject == null)
+				{
+					Logger.LogWarning(machineParts.machine + " is missing the machine script!", Category.ItemSpawn);
+					return;
+				}
+
 				//Send circuit board data to the new machine
 				spawnedObject.SetBasicPartsUsed(basicPartsUsed);
 				spawnedObject.SetPartsInFrame(partsInFrame);
@@ -445,7 +465,7 @@ namespace Machines
 				{
 					foreach (var part in machineParts.machineParts)
 					{
-						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), count: part.amountOfThisPart);
+						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
 					}
 				}
 				else
@@ -597,12 +617,22 @@ namespace Machines
 
 				newObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 
+				if (newObject.transform.parent != gameObject.transform.parent)
+				{
+					newObject.transform.parent = gameObject.transform.parent;
+				}
+
 				partsInFrame.Add(newObject, amount);
 			}
 			// If not stackable send to hidden pos
 			else
 			{
 				usedObject.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
+
+				if (usedObject.transform.parent != gameObject.transform.parent)
+				{
+					usedObject.transform.parent = gameObject.transform.parent;
+				}
 
 				partsInFrame.Add(usedObject, amount);
 			}
@@ -705,16 +735,17 @@ namespace Machines
 			// Create the circuit board
 			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
 
+			if (board == null)
+			{
+				Logger.LogWarning("MachineBoardPrefab was null", Category.ItemSpawn);
+				return;
+			}
+
 			board.GetComponent<MachineCircuitBoard>().SetMachineParts(machine.MachineParts); // Basic item requirements to the circuit board
 
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleName(machine.MachineParts.NameOfCircuitBoard); // Sets name of board
 
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleDescription(machine.MachineParts.DescriptionOfCircuitBoard); // Sets desc of board
-
-			if (machine.MachineParts.machineCircuitBoardSprite != null)
-			{
-				board.GetComponentInChildren<SpriteRenderer>().sprite = machine.MachineParts.machineCircuitBoardSprite;
-			}
 
 			// Basic items to the machine frame from the despawned machine
 			machineParts = machine.MachineParts;
@@ -736,6 +767,7 @@ namespace Machines
 			// Set initial state
 			objectBehaviour.ServerSetPushable(false);
 			stateful.ServerChangeState(partsAddedState);
+			putBoardInManually = false;
 		}
 
 		private enum SpriteStates

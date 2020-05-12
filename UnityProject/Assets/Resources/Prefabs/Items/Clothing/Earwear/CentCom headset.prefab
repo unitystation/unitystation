@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &3481232266369928010
+--- !u!1001 &9055305372616869239
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,33 +11,28 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 550f325bccae0b50a8b5e7fc52693aad,
+      objectReference: {fileID: 11400000, guid: 1b71a375db919c22ab7fb87ad8b9da77,
         type: 2}
     - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
       propertyPath: initialName
-      value: CentCom bowman headset
+      value: CentCom headset
       objectReference: {fileID: 0}
     - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
       propertyPath: initialDescription
-      value: A headset especially for emergency response personnel.
+      value: A headset for centcom personnel.
       objectReference: {fileID: 0}
     - target: {fileID: 6124838470649275786, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 36dec7dda6cdf71c7953b57ba6ffc66e,
+      objectReference: {fileID: 21300000, guid: a331272b39da37181bb2f0f0c6ad5bff,
         type: 3}
     - target: {fileID: 6200957232458716886, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
       propertyPath: m_Name
       value: CentCom headset
-      objectReference: {fileID: 0}
-    - target: {fileID: 6200957232458716886, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: m_TagString
-      value: Clothing
       objectReference: {fileID: 0}
     - target: {fileID: 6205322156016085922, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
