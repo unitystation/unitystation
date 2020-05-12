@@ -77,6 +77,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	public event Action OnDeathNotifyEvent;
 
+	public float RTT;
+
 	public ConsciousState ConsciousState
 	{
 		get => consciousState;

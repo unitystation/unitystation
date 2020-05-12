@@ -28,12 +28,13 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 	private Orientation orientation;
 	private float animSpriteTime;
 
+	private bool init = false;
+
 	public bool OverlayActive { get; private set; }
 
-	private void Awake()
+	private void OnEnable()
 	{
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		StopOverlay();
+		EnsureInit();
 	}
 
 	private void OnDisable()
@@ -44,13 +45,22 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 		}
 	}
 
+	void EnsureInit()
+	{
+		if (init) return;
+		init = true;
+
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		StopOverlay();
+	}
+
 	/// <summary>
 	/// Display the overlay animation in the specified direction
 	/// </summary>
 	/// <param name="direction"></param>
 	public void StartOverlay(Orientation direction)
 	{
-		if(spriteRenderer == null) return;
+		EnsureInit();
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		orientation = direction;
 		OverlayActive = true;
@@ -68,6 +78,7 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 
 	private void SetSprite(Sprite[] sprites, ref int directionalIndex)
 	{
+		EnsureInit();
 		int index;
 
 		if (randomOrder)
