@@ -367,6 +367,15 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         m_values: e8030000
       productionTime: 4
+    - name: Power Cell
+      product: {fileID: 2527188313238870147, guid: d84851eeb2ee38b4fab01c7a2cea13a5,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: bc02000032000000
+      productionTime: 0.8
     - name: Proximity Sensor
       product: {fileID: 3506820747392627008, guid: 1fa9f2d6fbcfef845bb2f5903ffcfd23,
         type: 3}
@@ -375,4 +384,4 @@ MonoBehaviour:
         - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: 20030000c8000000
-      productionTime: 4
+      productionTime: 0.8
