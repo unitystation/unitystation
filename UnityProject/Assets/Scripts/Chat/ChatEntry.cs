@@ -3,16 +3,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ChatEntry : MonoBehaviour
 {
-	[SerializeField] private Text visibleText = null;
+	[SerializeField] private TMP_Text visibleText = null;
 	[SerializeField] private GameObject adminOverlay = null;
-	[SerializeField] private Shadow shadow = null;
 	[SerializeField] private RectTransform rectTransform = null;
 	[SerializeField] private ContentSizeFitter contentFitter = null;
 	[SerializeField] private LayoutElement layoutElement = null;
 	[SerializeField] private List<Text> allText = new List<Text>();
+	[SerializeField] private List<TMP_Text> allTMPText = new List<TMP_Text>();
 	[SerializeField] private List<Image> allImages = new List<Image>();
 	[SerializeField] private List<Button> allButtons = new List<Button>();
 	public Transform thresholdMarkerBottom;
@@ -89,7 +90,6 @@ public class ChatEntry : MonoBehaviour
 		isAdminMsg = false;
 		visibleText.text = "";
 		adminOverlay.SetActive(false);
-		shadow.enabled = true;
 		stackPosSet = false;
 		stackTimes = 0;
 		stackTimesText.text = "";
@@ -148,7 +148,7 @@ public class ChatEntry : MonoBehaviour
 		float entryYPositionOutsideChatFeedParent = transform.localPosition.y + transform.parent.localPosition.y;
 
 		// Check to see if the chat entry is inside the VIEWPORT thresholds, and if so we will enable viewing it.
-		if (entryYPositionOutsideChatFeedParent > thresholdMarkerBottom.localPosition.y && entryYPositionOutsideChatFeedParent < thresholdMarkerTop.localPosition.y) 
+		if (entryYPositionOutsideChatFeedParent > thresholdMarkerBottom.localPosition.y && entryYPositionOutsideChatFeedParent < thresholdMarkerTop.localPosition.y)
 		{
 			ToggleUIElements(true);
 		}
@@ -170,11 +170,14 @@ public class ChatEntry : MonoBehaviour
 
 	void ToggleUIElements(bool enabled)
 	{
-		shadow.enabled = enabled;
-
 		foreach (var t in allText)
 		{
 			t.enabled = enabled;
+		}
+
+		foreach (var tmp in allTMPText)
+		{
+			tmp.enabled = enabled;
 		}
 
 		foreach (var i in allImages)
@@ -185,11 +188,6 @@ public class ChatEntry : MonoBehaviour
 		foreach (var b in allButtons)
 		{
 			b.enabled = enabled;
-		}
-
-		if (enabled && isAdminMsg)
-		{
-			shadow.enabled = false;
 		}
 	}
 
@@ -338,7 +336,8 @@ public class ChatEntry : MonoBehaviour
 
 		TextGenerator textGen = new TextGenerator(_text.Length);
 		Vector2 extents = visibleText.gameObject.GetComponent<RectTransform>().rect.size;
-		textGen.Populate(_text, visibleText.GetGenerationSettings(extents));
+		//textGen.Populate(_text, visibleText.GetGenerationSettings(extents));
+
 		if (textGen.vertexCount == 0)
 		{
 			return;
