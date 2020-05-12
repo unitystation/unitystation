@@ -36,6 +36,7 @@ namespace Alien
 		private float serverTimer = 0f;
 		private bool noLongerAlive = false;
 		private bool initialized = false;
+		private bool isUpdate = false;
 
 		void EnsureInit()
 		{
@@ -48,8 +49,9 @@ namespace Alien
 
 		private void OnDisable()
 		{
-			if (isServer)
+			if (isUpdate)
 			{
+				isUpdate = false;
 				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			}
 		}
@@ -74,7 +76,11 @@ namespace Alien
 			noLongerAlive = false;
 			incubationTime = UnityEngine.Random.Range(60f, 400f);
 			serverTimer = 0f;
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			if (isUpdate)
+			{
+				isUpdate = true;
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			}
 		}
 
 		void UpdateMe()
@@ -222,6 +228,11 @@ namespace Alien
 		[Server]
 		private void UpdateState(EggState state)
 		{
+			if (gameObject == null || !gameObject.activeInHierarchy)
+			{
+				return;
+			}
+
 			if (state == currentState)
 			{
 				UpdateExamineMessage();
