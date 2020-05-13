@@ -21,7 +21,6 @@ public class ControlDisplays : MonoBehaviour
 	public GameObject hudBottomGhost;
 	public GameObject hudBottomDrone;
 	public GameObject jobSelectWindow;
-	public GameObject preRoundWindow;
 	public GameObject midRoundAntags;
 	public GameObject teamSelectionWindow;
 	public GameObject disclaimer;
@@ -127,7 +126,7 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(true);
-		preRoundWindow.SetActive(false);
+		preRoundWindow.gameObject.SetActive(false);
 		SoundManager.SongTracker.Stop();
 	}
 	void DroneUI()
