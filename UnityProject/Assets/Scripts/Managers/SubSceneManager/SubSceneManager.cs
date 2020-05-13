@@ -51,21 +51,16 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 
 		if (loadTimer != null) loadTimer.IncrementLoadBar();
-		yield return WaitFor.EndOfFrame;
-
-		if (loadTimer != null) loadTimer.IncrementLoadBar();
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
-			yield return WaitFor.Seconds(0.1f);
 		}
 		else
 		{
 			ClientScene.PrepareToSpawnSceneObjects();
-			yield return WaitFor.EndOfFrame;
+			yield return WaitFor.Seconds(0.2f);
 			RequestObserverRefresh.Send(sceneName);
 		}
-		yield return WaitFor.EndOfFrame;
 	}
 
 	public static void ProcessObserverRefreshReq(ConnectedPlayer connectedPlayer, Scene sceneContext)
