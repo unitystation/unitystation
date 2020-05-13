@@ -303,6 +303,8 @@ public class SpriteHandler : MonoBehaviour
 
 	private void TryToggleAnimationState(bool turnOn)
 	{
+		if (Application.isEditor && !Application.isPlaying) return;
+
 		if (turnOn && !isAnimation)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
