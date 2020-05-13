@@ -29,10 +29,8 @@ public class DirectionalSprite : NetworkBehaviour
 	[FormerlySerializedAs("s_up")]
 	public Sprite Up;
 
-	[Tooltip("sprite renderer on which to render the base sprite")]
+	[Tooltip("Sprite renderer on which to render the base sprite")]
 	public SpriteRenderer spriteRenderer;
-
-	private const string BASE_SPRITE_LAYER_NAME = "Machines";
 
 	private Directional directional;
 
@@ -82,23 +80,8 @@ public class DirectionalSprite : NetworkBehaviour
 	{
 		if (Application.isEditor && !Application.isPlaying)
 		{
-			var dir = GetComponent<Directional>().InitialOrientation;
-			if (dir == Orientation.Up)
-			{
-				spriteRenderer.sprite = Up;
-			}
-			else if (dir == Orientation.Down)
-			{
-				spriteRenderer.sprite = Down;
-			}
-			else if (dir == Orientation.Left)
-			{
-				spriteRenderer.sprite = Left;
-			}
-			else
-			{
-				spriteRenderer.sprite = Right;
-			}
+			if (directional == null) directional = GetComponent<Directional>();
+			OnDirectionChanged(directional.InitialOrientation);
 		}
 	}
 #endif
