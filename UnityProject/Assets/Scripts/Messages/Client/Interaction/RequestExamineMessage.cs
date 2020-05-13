@@ -29,6 +29,8 @@ public class RequestExamineMessage : ClientMessage
 		}
 
 		LoadNetworkObject(examineTarget);
+
+		if (NetworkObject == null) return;
 		// Here we build the message to send, by looking at the target's components.
 		// anyone extending IExaminable gets a say in it.
 		// Look for examinables.
