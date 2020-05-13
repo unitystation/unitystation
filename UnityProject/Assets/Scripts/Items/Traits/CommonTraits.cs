@@ -48,6 +48,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait SolidPlasma;
 	public ItemTrait NukeDisk;
 	public ItemTrait Insulated;
+	public ItemTrait BudgetInsulated;
 	public ItemTrait InternalBattery;
 	public ItemTrait AntiFacehugger;
 	public ItemTrait PickUpProtection;

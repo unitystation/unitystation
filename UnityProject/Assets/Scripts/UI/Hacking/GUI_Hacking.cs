@@ -106,9 +106,9 @@ public class GUI_Hacking : NetTab
 			hackProcess = Provider.GetComponentInChildren<HackingProcessBase>();
 			hackProcess.RegisterHackingGUI(this);
 
-			if (hackProcess.isClient)
+			if (hackProcess.isClient && PlayerManager.LocalPlayer != null)
 			{
-				RequestHackingNodeConnections.Send(PlayerManager.LocalPlayerScript.gameObject, hackProcess.gameObject);
+				RequestHackingNodeConnections.Send(PlayerManager.LocalPlayer, hackProcess.gameObject);
 			}
 		}
 	}
