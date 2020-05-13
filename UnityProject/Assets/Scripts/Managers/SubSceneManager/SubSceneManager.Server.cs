@@ -11,8 +11,8 @@ using UnityEngine.SceneManagement;
 //Server
 public partial class SubSceneManager
 {
-	private string serverChosenAwaySite;
-	private string serverChosenMainStation;
+	private string serverChosenAwaySite = "loading";
+	private string serverChosenMainStation = "loading";
 
 	public static string ServerChosenMainStation
 	{
