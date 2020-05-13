@@ -39,10 +39,7 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 
 	private void OnDisable()
 	{
-		if (OverlayActive)
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
+		StopOverlay();
 	}
 
 	void EnsureInit()
@@ -61,9 +58,13 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 	public void StartOverlay(Orientation direction)
 	{
 		EnsureInit();
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (!OverlayActive)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			OverlayActive = true;
+		}
 		orientation = direction;
-		OverlayActive = true;
+
 		spriteRenderer.enabled = true;
 		ChangeOverlaySprite();
 	}
@@ -92,6 +93,7 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 			index = directionalIndex;
 		}
 
+		if (spriteRenderer == null || sprites.Length == 0) return;
 		spriteRenderer.sprite = sprites[index];
 	}
 
@@ -100,11 +102,13 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 	/// </summary>
 	public void StopOverlay()
 	{
+		if (!OverlayActive) return;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		spriteRenderer.sprite = null;
 		spriteRenderer.enabled = false;
 		OverlayActive = false;
 		leftIndex = rightIndex = upIndex = downIndex = 0;
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
 	}
 
 	private void UpdateMe()
