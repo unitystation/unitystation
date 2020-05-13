@@ -11,43 +11,8 @@ PrefabInstance:
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: 8165fb099aa3a71db87891c9b3c0508f,
+      objectReference: {fileID: 11400000, guid: b8e527d6ecb3b07489a17d7afe5e1538,
         type: 2}
-    - target: {fileID: 7521929656741835326, guid: 9445628fd16314b7388c7086f5fd2f26,
-        type: 3}
-      propertyPath: Armor.Melee
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 9445628fd16314b7388c7086f5fd2f26,
-        type: 3}
-      propertyPath: Armor.Bullet
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 9445628fd16314b7388c7086f5fd2f26,
-        type: 3}
-      propertyPath: Armor.Laser
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 9445628fd16314b7388c7086f5fd2f26,
-        type: 3}
-      propertyPath: Armor.Energy
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 9445628fd16314b7388c7086f5fd2f26,
-        type: 3}
-      propertyPath: Armor.Bomb
-      value: 25
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 9445628fd16314b7388c7086f5fd2f26,
-        type: 3}
-      propertyPath: Armor.Fire
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7521929656741835326, guid: 9445628fd16314b7388c7086f5fd2f26,
-        type: 3}
-      propertyPath: Armor.Acid
-      value: 50
-      objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: 9445628fd16314b7388c7086f5fd2f26,
         type: 3}
       propertyPath: m_AssetId
@@ -111,24 +76,23 @@ PrefabInstance:
     - target: {fileID: 7636118406116123594, guid: 9445628fd16314b7388c7086f5fd2f26,
         type: 3}
       propertyPath: m_Name
-      value: NoirBeret
+      value: VintageBeret
       objectReference: {fileID: 0}
     - target: {fileID: 7712700953546887318, guid: 9445628fd16314b7388c7086f5fd2f26,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 187f25111bb618f079cdc0478bb94d8c,
+      objectReference: {fileID: 21300000, guid: 8eaaa944cd04b7d4e8ba98a120e5e59f,
         type: 3}
     - target: {fileID: 8004422176852823208, guid: 9445628fd16314b7388c7086f5fd2f26,
         type: 3}
       propertyPath: initialName
-      value: noir beret
+      value: vintage beret
       objectReference: {fileID: 0}
     - target: {fileID: 8004422176852823208, guid: 9445628fd16314b7388c7086f5fd2f26,
         type: 3}
       propertyPath: initialDescription
-      value: A grey beret, typically worn by hard-boiled private investigators who
-        roam the streets of france at night, looking for crime
+      value: A well-worn beret.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9445628fd16314b7388c7086f5fd2f26, type: 3}
