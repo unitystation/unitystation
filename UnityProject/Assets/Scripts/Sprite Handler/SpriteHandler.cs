@@ -49,9 +49,41 @@ public class SpriteHandler : MonoBehaviour
 
 	void Awake()
 	{
-		AddSprites();
+		EnsureInit();
+	}
+
+	private void OnEnable()
+	{
+		EnsureInit();
+	}
+
+	private void OnDisable()
+	{
+		TryToggleAnimationState(false);
+	}
+
+	private void EnsureInit()
+	{
+		if (Initialised) return;
+		Initialised = true;
+
 		GetImageComponent();
-		TryInit();
+
+		ImageComponentStatus(false);
+
+		if (spriteData == null)
+		{
+			spriteData = new SpriteData();
+		}
+
+		AddSprites();
+
+		if (HasImageComponent() && SetSpriteOnStartUp && spriteData.HasSprite())
+		{
+			PushTexture();
+		}
+
+		ImageComponentStatus(true);
 	}
 
 	private void SetImageColor(Color value)
@@ -68,6 +100,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private void SetImageSprite(Sprite value)
 	{
+		EnsureInit();
 		if (spriteRenderer != null)
 		{
 			spriteRenderer.sprite = value;
@@ -106,24 +139,6 @@ public class SpriteHandler : MonoBehaviour
 		image = GetComponent<Image>();
 	}
 
-	private void TryInit()
-	{
-		ImageComponentStatus(false);
-		Initialised = true;
-		GetImageComponent();
-		if (spriteData == null)
-		{
-			spriteData = new SpriteData();
-		}
-
-		if (HasImageComponent() && SetSpriteOnStartUp && spriteData.HasSprite())
-		{
-			PushTexture();
-		}
-
-		ImageComponentStatus(true);
-	}
-
 	private void ImageComponentStatus(bool Status)
 	{
 		if (spriteRenderer != null)
@@ -134,16 +149,6 @@ public class SpriteHandler : MonoBehaviour
 		{
 			image.enabled = Status;
 		}
-	}
-
-	private void OnEnable()
-	{
-		GetImageComponent();
-	}
-
-	private void OnDisable()
-	{
-		TryToggleAnimationState(false);
 	}
 
 	public void SetColor(Color value)
@@ -189,32 +194,31 @@ public class SpriteHandler : MonoBehaviour
 
 	public void PushTexture()
 	{
-		if (Initialised)
+		EnsureInit();
+
+		if (spriteData != null && spriteData.List != null)
 		{
-			if (spriteData != null && spriteData.List != null)
+			if (spriteIndex < spriteData.List.Count &&
+			    variantIndex < spriteData.List[spriteIndex].Count &&
+			    animationIndex < spriteData.List[spriteIndex][variantIndex].Count)
 			{
-				if (spriteIndex < spriteData.List.Count &&
-				    variantIndex < spriteData.List[spriteIndex].Count &&
-				    animationIndex < spriteData.List[spriteIndex][variantIndex].Count)
-				{
-					SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
+				SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
 
-					SetSprite(curSpriteInfo);
+				SetSprite(curSpriteInfo);
 
-					TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
-					return;
-				}
-				else if (spriteIndex < spriteData.List.Count &&
-				         variantIndex < spriteData.List[spriteIndex].Count)
-				{
-					animationIndex = 0;
+				TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
+				return;
+			}
+			else if (spriteIndex < spriteData.List.Count &&
+			         variantIndex < spriteData.List[spriteIndex].Count)
+			{
+				animationIndex = 0;
 
-					SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
-					SetSprite(curSpriteInfo);
+				SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
+				SetSprite(curSpriteInfo);
 
-					TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
-					return;
-				}
+				TryToggleAnimationState(spriteData.List[spriteIndex][variantIndex].Count > 1);
+				return;
 			}
 
 			SetImageSprite(null);
@@ -247,6 +251,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private void SetSprite(SpriteInfo animationStills)
 	{
+		EnsureInit();
 		timeElapsed = 0;
 		waitTime = animationStills.waitTime;
 		SetImageSprite(animationStills.sprite);
@@ -254,6 +259,7 @@ public class SpriteHandler : MonoBehaviour
 
 	public void ChangeSprite(int newSprites)
 	{
+		EnsureInit();
 		if (spriteData.List != null)
 		{
 			if (newSprites < spriteData.List.Count &&
@@ -273,6 +279,7 @@ public class SpriteHandler : MonoBehaviour
 
 	public void ChangeSpriteVariant(int spriteVariant)
 	{
+		EnsureInit();
 		if (spriteData.List != null)
 		{
 			if (spriteIndex < spriteData.List.Count &&
@@ -296,7 +303,6 @@ public class SpriteHandler : MonoBehaviour
 
 	private void TryToggleAnimationState(bool turnOn)
 	{
-		//UpdateManager.Instance.Remove(UpdateMe);
 		if (turnOn && !isAnimation)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -315,6 +321,7 @@ public class SpriteHandler : MonoBehaviour
 	/// <param name="_sprite">Sprite.</param>
 	public void SetSprite(Sprite _sprite)
 	{
+		EnsureInit();
 		SetImageSprite(_sprite);
 		TryToggleAnimationState(false);
 	}
@@ -326,6 +333,7 @@ public class SpriteHandler : MonoBehaviour
 	/// <param name="_variantIndex">Variant index.</param>
 	public void SetSprite(SpriteSheetAndData _SpriteSheetAndData, int _variantIndex = 0)
 	{
+		EnsureInit();
 		spriteData.List.Clear();
 		spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(_SpriteSheetAndData));
 		variantIndex = _variantIndex;
@@ -347,6 +355,7 @@ public class SpriteHandler : MonoBehaviour
 	/// <param name="_variantIndex">Variant index.</param>
 	public void SetInfo(SpriteData _Info, int _spriteIndex = 0, int _variantIndex = 0)
 	{
+		EnsureInit();
 		spriteIndex = _spriteIndex;
 		variantIndex = _variantIndex;
 		spriteData = _Info;
@@ -369,6 +378,7 @@ public class SpriteHandler : MonoBehaviour
 	/// <param name="_variantIndex">Initial Variant index.</param>
 	public void SetInfo(List<SpriteSheetAndData> _Info, int _spriteIndex = 0, int _variantIndex = 0)
 	{
+		EnsureInit();
 		spriteIndex = _spriteIndex;
 		variantIndex = _variantIndex;
 		spriteData.List = new List<List<List<SpriteInfo>>>();
