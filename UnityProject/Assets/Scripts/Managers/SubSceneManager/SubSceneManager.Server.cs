@@ -145,31 +145,26 @@ public partial class SubSceneManager
 	/// <param name="connToAdd"></param>
 	void AddObserverToAllObjects(NetworkConnection connToAdd, Scene sceneContext)
 	{
+		AddObservableSceneToConnection(connToAdd, sceneContext);
+		StartCoroutine(SyncPlayerData(connToAdd, sceneContext));
+	}
+
+	/// Sync init data with specific scenes
+	/// staggered over multiple frames
+	public IEnumerator SyncPlayerData(NetworkConnection connToAdd, Scene sceneContext)
+	{
+		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new " +
+		                 "client {0} for scene {1}", Category.Connections, connToAdd.clientOwnedObjects.ElementAt(0).gameObject, sceneContext.name);
+
 		//Activate the matrices on the client first
 		foreach (var m in MatrixManager.Instance.ActiveMatrices)
 		{
 			if (m.Matrix.gameObject.scene == sceneContext)
 			{
 				m.Matrix.GetComponentInParent<NetworkIdentity>().AddPlayerObserver(connToAdd);
+				yield return WaitFor.EndOfFrame;
 			}
 		}
-
-		AddObservableSceneToConnection(connToAdd, sceneContext);
-
-		StartCoroutine(
-			SyncPlayerData(connToAdd.clientOwnedObjects.ElementAt(0).gameObject,
-				connToAdd,
-				sceneContext.name));
-	}
-
-	/// Sync init data with specific scenes
-	/// staggered over multiple frames
-	public IEnumerator SyncPlayerData(GameObject playerGameObject, NetworkConnection connToAdd, string sceneName)
-	{
-		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new " +
-		                 "client {0} for scene {1}", Category.Connections, playerGameObject, sceneName);
-
-		var sceneContext = SceneManager.GetSceneByName(sceneName);
 
 		yield return WaitFor.EndOfFrame;
 
@@ -179,11 +174,12 @@ public partial class SubSceneManager
 		//This should avoid massive spike in Physics2D when the colliders
 		//come active. We do this in lots of 20 every frame
 		int objCount = 0;
-		foreach (var n in NetworkIdentity.spawned)
+		var netIds = NetworkIdentity.spawned.Values.ToList();
+		foreach (var n in netIds)
 		{
-			if (n.Value.gameObject.scene == sceneContext)
+			if (n.gameObject.scene == sceneContext)
 			{
-				n.Value.AddPlayerObserver(connToAdd);
+				n.AddPlayerObserver(connToAdd);
 				objCount += 1;
 				if (objCount >= 20)
 				{
@@ -198,7 +194,7 @@ public partial class SubSceneManager
 		for (var i = 0; i < tcManagers.Length; i++)
 		{
 			if(tcManagers[i].gameObject.scene != sceneContext) continue;
-			tcManagers[i].NotifyPlayer(playerGameObject);
+			tcManagers[i].NotifyPlayer(connToAdd.clientOwnedObjects.ElementAt(0).gameObject);
 			yield return WaitFor.EndOfFrame;
 		}
 
@@ -209,7 +205,7 @@ public partial class SubSceneManager
 		for (var i = 0; i < matrices.Length; i++)
 		{
 			if(matrices[i].gameObject.scene != sceneContext) continue;
-			matrices[i].NotifyPlayer(playerGameObject, true);
+			matrices[i].NotifyPlayer(connToAdd.clientOwnedObjects.ElementAt(0).gameObject, true);
 		}
 
 		yield return WaitFor.EndOfFrame;
@@ -220,7 +216,7 @@ public partial class SubSceneManager
 		for (var i = 0; i < scripts.Length; i++)
 		{
 			if(scripts[i].gameObject.scene != sceneContext) continue;
-			scripts[i].NotifyPlayer(playerGameObject);
+			scripts[i].NotifyPlayer(connToAdd.clientOwnedObjects.ElementAt(0).gameObject);
 			//Again we are trying to limit physics 2d spikes on the client
 			//20 notifys a frame:
 			objCount += 1;
@@ -239,17 +235,17 @@ public partial class SubSceneManager
 		{
 			if(playerBodies[i].gameObject.scene != sceneContext) continue;
 			var playerBody = playerBodies[i];
-			playerBody.NotifyPlayer(playerGameObject, true);
+			playerBody.NotifyPlayer(connToAdd.clientOwnedObjects.ElementAt(0).gameObject, true);
 
 			var playerSprites = playerBody.GetComponent<PlayerSprites>();
 			if (playerSprites)
 			{
-				playerSprites.NotifyPlayer(playerGameObject);
+				playerSprites.NotifyPlayer(connToAdd.clientOwnedObjects.ElementAt(0).gameObject);
 			}
 			var equipment = playerBody.GetComponent<Equipment>();
 			if (equipment)
 			{
-				equipment.NotifyPlayer(playerGameObject);
+				equipment.NotifyPlayer(connToAdd.clientOwnedObjects.ElementAt(0).gameObject);
 			}
 		}
 
@@ -260,10 +256,9 @@ public partial class SubSceneManager
 		for (var i = 0; i < doors.Length; i++)
 		{
 			if(doors[i].gameObject.scene != sceneContext) continue;
-			doors[i].NotifyPlayer(playerGameObject);
+			doors[i].NotifyPlayer(connToAdd.clientOwnedObjects.ElementAt(0).gameObject);
 		}
-		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
-
-		//all despawned objects in the pool
+		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) " +
+		           $"to {connToAdd.clientOwnedObjects.ElementAt(0).gameObject.name}", Category.Connections);
 	}
 }
