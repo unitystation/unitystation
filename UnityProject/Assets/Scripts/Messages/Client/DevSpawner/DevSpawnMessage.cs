@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -8,8 +9,8 @@ using Mirror;
 /// </summary>
 public class DevSpawnMessage : ClientMessage
 {
-	// name of the prefab or hier string to spawn
-	public string Name;
+	// asset ID of the prefab to spawn
+	public Guid PrefabAssetID;
 	// position to spawn at.
 	public Vector2 WorldPosition;
 	public string AdminId;
@@ -25,41 +26,58 @@ public class DevSpawnMessage : ClientMessage
 		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
 		if (admin == null) return;
 		//no longer checks impassability, spawn anywhere, go hog wild.
-		Spawn.ServerPrefab(Name, WorldPosition);
+		if (ClientScene.prefabs.TryGetValue(PrefabAssetID, out var prefab))
+		{
+			Spawn.ServerPrefab(prefab, WorldPosition);
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+				$"{admin.ExpensiveName()} spawned a {prefab.name} at {WorldPosition}", AdminId);
+		}
+		else
+		{
+			Logger.LogWarningFormat("An admin attempted to spawn prefab with invalid asset ID {0}, which" +
+			                        " is not found in Mirror.ClientScene. Spawn will not" +
+			                        " occur.", Category.Admin, PrefabAssetID);
+		}
 
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
-			$"{admin.ExpensiveName()} spawned a {Name} at {WorldPosition}", AdminId);
 	}
 
 	public override string ToString()
 	{
-		return $"[DevSpawnMessage Name={Name} WorldPosition={WorldPosition}]";
+		return $"[DevSpawnMessage PrefabAssetID={PrefabAssetID} WorldPosition={WorldPosition}]";
 	}
 
 	/// <summary>
 	/// Ask the server to spawn a specific prefab
 	/// </summary>
-	/// <param name="name">name of the prefab to instantiate, or the hier of the unicloth to instantiate (network synced)</param>
-	/// <param name="isUniCloth">true iff name is a hier (for a unicloth), false if name is a prefab</param>
+	/// <param name="prefab">prefab to instantiate, must be networked (have networkidentity)</param>
 	/// <param name="worldPosition">world position to spawn it at</param>
+	/// <param name="adminId">user id of the admin trying to perform this action</param>
+	/// <param name="adminToken">token of the admin trying to perform this action</param>
 	/// <returns></returns>
-	public static void Send(string name, Vector2 worldPosition, string adminId, string adminToken)
+	public static void Send(GameObject prefab, Vector2 worldPosition, string adminId, string adminToken)
 	{
-
-		DevSpawnMessage msg = new DevSpawnMessage
+		if (prefab.TryGetComponent<NetworkIdentity>(out var networkIdentity))
 		{
-			Name = name,
-			WorldPosition = worldPosition,
-			AdminId = adminId,
-			AdminToken = adminToken
-		};
-		msg.Send();
+			DevSpawnMessage msg = new DevSpawnMessage
+			{
+				PrefabAssetID = networkIdentity.assetId,
+				WorldPosition = worldPosition,
+				AdminId = adminId,
+				AdminToken = adminToken
+			};
+			msg.Send();
+		}
+		else
+		{
+			Logger.LogWarningFormat("Prefab {0} which you are attempting to spawn has no NetworkIdentity, thus cannot" +
+			                        " be spawned.", Category.Admin, prefab);
+		}
 	}
 
 	public override void Deserialize(NetworkReader reader)
 	{
 		base.Deserialize(reader);
-		Name = reader.ReadString();
+		PrefabAssetID = reader.ReadGuid();
 		WorldPosition = reader.ReadVector2();
 		AdminId = reader.ReadString();
 		AdminToken = reader.ReadString();
@@ -68,7 +86,7 @@ public class DevSpawnMessage : ClientMessage
 	public override void Serialize(NetworkWriter writer)
 	{
 		base.Serialize(writer);
-		writer.WriteString(Name);
+		writer.WriteGuid(PrefabAssetID);
 		writer.WriteVector2(WorldPosition);
 		writer.WriteString(AdminId);
 		writer.WriteString(AdminToken);
