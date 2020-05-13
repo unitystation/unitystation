@@ -12,7 +12,6 @@ using UnityEngine.SceneManagement;
 	public class ResponsiveUI : MonoBehaviour
 	{
 //		private readonly float targetAspect = 1.777f; // 16 : 9 aspect
-		private CameraResizer camResizer;
 		private CanvasScaler canvasScaler;
 		private GraphicRaycaster graphicRaycaster;
 		private CameraZoomHandler cameraZoomHandler;
@@ -30,7 +29,6 @@ using UnityEngine.SceneManagement;
 		private void Start()
 		{
 			//cacheWidth = rightPanelResize.panelRectTransform.sizeDelta.x;
-			camResizer = FindObjectOfType<CameraResizer>();
 			parentCanvas = GetComponent<Canvas>();
 			canvasScaler = GetComponent<CanvasScaler>();
 			cameraZoomHandler = GetComponent<CameraZoomHandler>();
@@ -119,9 +117,6 @@ using UnityEngine.SceneManagement;
 
 			Logger.Log("Screen height after resizing: " + main.pixelHeight, Category.Camera);
 
-			if (camResizer != null) {
-				camResizer.AdjustCam();
-			}
 			screenWidthCache = Screen.width;
 			screenHeightCache = Screen.height;
 

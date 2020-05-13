@@ -532,7 +532,6 @@ GameObject:
   - component: {fileID: 114529064292813298}
   - component: {fileID: 20680082919460720}
   - component: {fileID: 124367701722432646}
-  - component: {fileID: 114804737859769914}
   - component: {fileID: 114239165020214558}
   - component: {fileID: 4251233521143295179}
   - component: {fileID: 5935000786866830145}
@@ -640,19 +639,6 @@ Behaviour:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1365047106309440}
   m_Enabled: 1
---- !u!114 &114804737859769914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1365047106309440}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2975bf9cf63f9904c899f8add85452e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fWidth: 9
 --- !u!114 &114239165020214558
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1591,7 +1577,6 @@ GameObject:
   - component: {fileID: 4000674500765372}
   - component: {fileID: 20893246273762820}
   - component: {fileID: 114936676006390284}
-  - component: {fileID: 114598608611931166}
   m_Layer: 0
   m_Name: Interact Camera(Do not turn on)
   m_TagString: Untagged
@@ -1670,19 +1655,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactCam: {fileID: 20893246273762820}
   mainCam: {fileID: 20680082919460720}
---- !u!114 &114598608611931166
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1967244435330278}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2975bf9cf63f9904c899f8add85452e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fWidth: 9
 --- !u!1 &1981950140328758
 GameObject:
   m_ObjectHideFlags: 0
