@@ -17,14 +17,34 @@ public class TileChangesNewClientSync : ServerMessage
 	{
 		//server doesn't need this message, it messes with its own tiles.
 		if (CustomNetworkManager.IsServer) return;
+		LoadNetworkObject(ManagerSubject);
 
-		SubSceneManager.Instance.WaitForSubScene(data, ManagerSubject);
+		TileChangeManager tm = NetworkObject.GetComponent<TileChangeManager>();
+		tm.InitServerSync(data);
+
+		Debug.Log("RECEIVE TILEMAP CHANGES: " + tm.name);
 	}
 
 	public static void Send(GameObject managerSubject, GameObject recipient, TileChangeList changeList)
 	{
 
-		if (changeList == null || changeList.List.Count == 0) return;
+		Debug.Log("PRE TRY GET IT SENT: " + managerSubject.name);
+
+		if (changeList == null || changeList.List.Count == 0)
+		{
+			if (changeList == null)
+			{
+				Debug.Log("CHANGE LIST IS NULL");
+			}
+			if (changeList.List.Count == 0)
+			{
+				Debug.Log("NO CHANGES FOR: " + managerSubject.name);
+			}
+			return;
+		}
+
+		Debug.Log("SEND IT OK TRY TO: " + managerSubject.name);
+		Debug.Log("chanmgelist amount: " + changeList.List.Count);
 		foreach (var changeChunk in changeList.List.ToArray().Chunk(MAX_CHANGES_PER_MESSAGE).Select(TileChangeList.FromList))
 		{
 			foreach (var entry in changeChunk.List)
@@ -35,6 +55,7 @@ public class TileChangesNewClientSync : ServerMessage
 
 			string jsondata = JsonUtility.ToJson (changeChunk);
 
+			Debug.Log("MANAGER: " + managerSubject.name + " netid: " + managerSubject.GetComponent<NetworkIdentity>().netId);
 			TileChangesNewClientSync msg =
 				new TileChangesNewClientSync
 				{ManagerSubject = managerSubject.GetComponent<NetworkIdentity>().netId,

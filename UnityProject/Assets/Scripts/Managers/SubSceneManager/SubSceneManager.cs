@@ -75,21 +75,6 @@ public partial class SubSceneManager : NetworkBehaviour
 			Instance.AddObserverToAllObjects(connectedPlayer.Connection, sceneContext);
 		}
 	}
-
-	public void WaitForSubScene(string data, uint id)
-	{
-		StartCoroutine(WaitForMapToLoad(data, id));
-	}
-	IEnumerator WaitForMapToLoad(string data, uint managerId)
-	{
-		while (!NetworkIdentity.spawned.ContainsKey(managerId))
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-
-		TileChangeManager tm = NetworkIdentity.spawned[managerId].GetComponent<TileChangeManager>();
-		tm.InitServerSync(data);
-	}
 }
 
 public enum SceneType

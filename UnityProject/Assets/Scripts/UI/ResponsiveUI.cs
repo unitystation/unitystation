@@ -116,7 +116,7 @@ using UnityEngine.SceneManagement;
 			main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
 
 			Logger.Log("Screen height after resizing: " + main.pixelHeight, Category.Camera);
-			
+
 			screenWidthCache = Screen.width;
 			screenHeightCache = Screen.height;
 
