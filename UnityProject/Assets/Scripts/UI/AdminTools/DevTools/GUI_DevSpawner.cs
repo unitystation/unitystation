@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using Lucene.Net.Documents;
-using Lucene.Unity;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
-using Object = UnityEngine.Object;
 
 /// <summary>
 /// Main logic for the dev spawner menu
@@ -30,19 +22,13 @@ public class GUI_DevSpawner : MonoBehaviour
 	public int minCharactersForSearch = 3;
 
 	// search index
-	private Lucene3D lucene;
+	private SpawnerSearch spawnerSearch;
 
 	private bool isFocused;
 
 	void Start()
     {
-	    ConfigureLucene();
-
-	    //get prefabs
-	    var toIndex = Spawn.SpawnablePrefabs().Select(DevSpawnerDocument.ForPrefab).ToList();
-
-	    //start indexing
-	    StartCoroutine(lucene.IndexCoroutine(toIndex));
+	    spawnerSearch = SpawnerSearch.ForPrefabs(Spawn.SpawnablePrefabs());
     }
 
     /// <summary>
@@ -74,11 +60,6 @@ public class GUI_DevSpawner : MonoBehaviour
 	    UIManager.IsInputFocus = false;
     }
 
-    private void OnLuceneProgress(object sender, LuceneProgressEventArgs e)
-    {
-	    Logger.LogFormat("Lucene indexing progress title: {0}, total: {1}", Category.ItemSpawn, e.Title, e.Total);
-    }
-
     public void OnSearchBoxChanged()
     {
 	    if (searchWhileTyping)
@@ -98,13 +79,7 @@ public class GUI_DevSpawner : MonoBehaviour
 		    Destroy(child.gameObject);
 	    }
 
-	    var search = searchBox.text;
-	    if (alwaysWildcard)
-	    {
-		    search = "*" + search + "*";
-	    }
-
-	    var docs = lucene.Search(search, true);
+	    var docs = spawnerSearch.Search(searchBox.text);
 
 	    //display new results
 	    foreach (var doc in docs)
@@ -113,25 +88,8 @@ public class GUI_DevSpawner : MonoBehaviour
 	    }
     }
 
-    private void ConfigureLucene()
-    {
-
-	    //dont reindex when reopening the spawner
-	    if (lucene == null)
-	    {
-		    lucene = new Lucene3D(deleteIfExists: true);
-
-		    lucene.Progress += OnLuceneProgress;
-
-		    lucene.DefineIndexField<DevSpawnerDocument>("id", doc => doc.Name, IndexOptions.PrimaryKey);
-		    lucene.DefineIndexField<DevSpawnerDocument>("name", doc => doc.Name, IndexOptions.IndexTermsAndStore);
-	    }
-    }
-
-
-
     //add a list item to the content panel for spawning the specified result
-    private void CreateListItem(Document doc)
+    private void CreateListItem(DevSpawnerDocument doc)
     {
 	    GameObject listItem = Instantiate(listItemPrefab);
 	    listItem.GetComponent<DevSpawnerListItemController>().Initialize(doc);
