@@ -45,8 +45,9 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 				}
 				else if (Supply.ProducingWatts != 0)
  				{
-	                float Current =(float) (Math.Sqrt(Supply.ProducingWatts) *
-	                Math.Sqrt(ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.InData.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom)));
+	                float Current =(float) (Math.Sqrt(Supply.ProducingWatts *
+	                ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.InData.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom))
+	                /ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.InData.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom));
 	                PushCurrentDownline(Supply, Current);
 				}
 			}

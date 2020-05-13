@@ -4,6 +4,6 @@ using UnityEngine;
 
 public class ControlRod : ReactorChamberRod
 {
-	public decimal AbsorptionPower = 2;
+	public decimal AbsorptionPower = 4;
 
 }

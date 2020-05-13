@@ -37,7 +37,7 @@ public class ElectricalOIinheritance : NetworkBehaviour, IServerDespawn
 		}
 		if (registerTile == null)
 		{
-			Logger.Log("Confused screaming! > " + this.name);
+			Logger.LogError("Confused screaming! > " + this.name, Category.Electrical);
 		}
 		else {
 			registerTile.SetElectricalData(this);

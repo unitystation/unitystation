@@ -79,13 +79,15 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		ControllingNode.Node.InData.FlushSupplyAndUp(ControllingNode.Node);
 	}
 
+
 	public override void PowerUpdateCurrentChange()
 	{
 		PowerSupplyFunction.PowerUpdateCurrentChange(this);
 	}
-
+	[RightClickMethod]
 	public override void TurnOnSupply()
 	{
+		Logger.Log("TurnOnSupply");
 		if (InternalResistance > 0)
 		{
 			foreach (PowerTypeCategory Connecting in ControllingNode.CanConnectTo)
@@ -97,6 +99,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 		PowerSupplyFunction.TurnOnSupply(this);
 	}
 
+	[RightClickMethod]
 	public override void TurnOffSupply()
 	{
 		if (InternalResistance > 0)
@@ -128,7 +131,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 
 			ControllingNode.Node.InData.Data.ProducingWatts = ProducingWatts;
 			PreviousProducingWatts = ProducingWatts;
-
+			//Logger.Log("Add ddddd");
 			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode.Node.InData.ControllingDevice);
 		}
 	}

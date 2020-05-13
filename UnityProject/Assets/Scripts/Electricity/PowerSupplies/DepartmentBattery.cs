@@ -68,7 +68,7 @@ public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandAppl
 		}
 
 		hasInit = true;
-		UpdateServerState(isOn);
+		UpdateServerState();
 	}
 
 	public override void OnStartClient()

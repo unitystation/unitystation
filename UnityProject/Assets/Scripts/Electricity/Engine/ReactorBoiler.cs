@@ -39,6 +39,7 @@ public class ReactorBoiler : MonoBehaviour
 
     public void CycleUpdate()
     {
+	    TotalEnergyInput = 0;
 	    foreach (var Chamber in  Chambers)
 	    {
 		    TotalEnergyInput += Chamber.EnergyReleased;

@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Light2D;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
+using Lighting;
 
 public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 {
+
+	public float EditorPresentNeutrons;
+	public float EditorEnergyReleased;
+
+
 	[SerializeField] private float tickRate = 1;
 	private float tickCount;
 
@@ -16,16 +23,20 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 
 	public decimal EnergyReleased = 0; //Wattsec
 
+
 	public float LikelihoodOfSpontaneousNeutron = 0.1f;
 
 	public System.Random RNG = new System.Random();
 
 	public decimal PresentNeutrons = 0;
 
+
+
+
 	public ReactorChamberRod[] ReactorRods = new ReactorChamberRod[16];
 	public List<FuelRod> ReactorFuelRods = new List<FuelRod>();
 
-	public decimal ControlRodDepthPercentage = 1M;
+	public float ControlRodDepthPercentage = 1;
 
 	public decimal KFactor
 	{
@@ -55,7 +66,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 			}
 		}
 
-		return (NumberOfRods / 16 + (AbsorptionPower * ControlRodDepthPercentage));
+		return (NumberOfRods / ReactorRods.Length + (AbsorptionPower * (decimal)ControlRodDepthPercentage));
 		return (0.71M);
 	}
 
@@ -84,8 +95,14 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 
 	private void OnEnable()
 	{
-		RodStorage = this.GetComponent<ItemStorage>();
+
+
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	}
+
+	private void Awake()
+	{
+		RodStorage = this.GetComponent<ItemStorage>();
 	}
 
 	private void OnDisable()
@@ -117,9 +134,26 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 
 		PresentNeutrons += ExternalNeutronGeneration();
 		PresentNeutrons *= KFactor;
-		Logger.Log(Time.time + ", CycleUpdatePresentNeutrons ," + PresentNeutrons);
+
 		GenerateExternalRadiation();
+		EditorPresentNeutrons = (float) PresentNeutrons;
 		PowerOutput();
+
+		//Rods Lock-up if Too much energy produced ( heat )
+		//Giger radiation
+		//power Emergency shunts kicking on the transformer after 10 seconds to divert  power for 2 Minutes (Have to be manually reset after that)
+		//add control system for power / some what
+		//If rods havent broken, Go in and  Shove them down
+		//Otherwise water panic, as it turned into a Malton
+		//If Fail explode
+		//Otherwise you got a controlled mess you have to clean up
+		//cleanup time, disassemble Throw radioactive fit into space
+		//Build new chambers And hook up
+
+		//################################  Radiation
+		// tile walk, pulses From each radiation source every so second
+		// on object that can receive radiation, Has a decaying amount of radiation level
+
 	}
 
 	public void GenerateExternalRadiation()
@@ -130,6 +164,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 	public void PowerOutput()
 	{
 		EnergyReleased = ProcessRodsHits(PresentNeutrons);
+		EditorEnergyReleased = (float) EnergyReleased;
 		//200 MeV * (PresentNeutrons * NeutronAbsorptionProbability());
 		//Temperature = Temperature + (EnergyReleased * Conversion Calculations With thermal mass)
 	}
@@ -146,11 +181,6 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 		}
 
 		PresentNeutrons = GeneratedNeutrons;
-		//Percentage into whatever purity
-		//degrade Fuel rods
-		//purity = 100
-		//(EnergyPerAtom  * AbsorbedNeutrons * purity);
-		//ProcessRodHit
 
 		return (TotalEnergy);
 	}
@@ -181,7 +211,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 			else
 			{
 				//slam control rods in Depending on size
-				ControlRodDepthPercentage = 1M;
+				ControlRodDepthPercentage = 1;
 			}
 		}
 		else

@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 97872b235e4e26d48b18ddc5927c52e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  color: {r: 0.22529562, g: 0.8867924, b: 0.12967247, a: 0}
+  EditorPresentNeutrons: 0
+  EditorEnergyReleased: 0
   tickRate: 1
-  reactorBoiler: {fileID: 0}
+  LikelihoodOfSpontaneousNeutron: 0.1
   ReactorRods:
   - {fileID: 0}
   - {fileID: 0}
@@ -32,6 +35,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   ReactorFuelRods: []
+  ControlRodDepthPercentage: 1
 --- !u!114 &5255741207357749315
 MonoBehaviour:
   m_ObjectHideFlags: 0

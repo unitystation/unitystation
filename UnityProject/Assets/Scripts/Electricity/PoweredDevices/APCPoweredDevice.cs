@@ -77,7 +77,7 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 
 	void Start()
 	{
-		Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
+		//Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
 		if (Wattusage > 0)
 		{
 			Resistance = 240 / (Wattusage / 240);
