@@ -39,6 +39,14 @@ public class DirectionalSprite : NetworkBehaviour
 		EnsureInit();
 	}
 
+	// Only runs in editor - useful for updating the sprite direction
+	// when the initial direction is altered via inspector.
+	private void OnValidate()
+	{
+		EnsureInit();
+		OnDirectionChanged(directional.InitialOrientation);
+	}
+
 	private void EnsureInit()
 	{
 		if (directional != null || gameObject == null) return;
@@ -73,16 +81,4 @@ public class DirectionalSprite : NetworkBehaviour
 			spriteRenderer.sprite = Right;
 		}
 	}
-
-//changes the rendered sprite in editor based on the value set in Directional
-#if UNITY_EDITOR
-	private void Update()
-	{
-		if (Application.isEditor && !Application.isPlaying)
-		{
-			if (directional == null) directional = GetComponent<Directional>();
-			OnDirectionChanged(directional.InitialOrientation);
-		}
-	}
-#endif
 }

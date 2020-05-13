@@ -43,6 +43,13 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if(isServer) UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
+	// Only runs in editor - useful for updating the sprite direction
+	// when the initial direction is altered via inspector.
+	private void OnValidate()
+	{
+		RefreshSprites();
+	}
+
 	//Avoiding the use of coroutines as this could run on many conveyor belts
 	//This is needed so items and players aren't getting yeeted from being pushed by belts
 	//each frame
@@ -310,15 +317,4 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				});
 		}
 	}
-
-	//changes the rendered sprite in editor based on the value set in Directional
-#if UNITY_EDITOR
-	private void Update()
-	{
-		if (Application.isEditor && !Application.isPlaying)
-		{
-			RefreshSprites();
-		}
-	}
-#endif
 }
