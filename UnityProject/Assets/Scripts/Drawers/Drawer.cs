@@ -138,7 +138,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		drawerOrientation = directional.CurrentDirection;
 	}
 
-	#region Sprite Sync
+	#region Sprite
 
 	/// <summary>
 	/// Called when drawerState [SyncVar] variable is altered or the client has just joined.
@@ -166,19 +166,30 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		UpdateSpriteDirection();
 	}
 
-	#endregion Sprite Sync
-
-	protected void UpdateSpriteDirection()
+	public void OnEditorDirectionChange()
 	{
-		int spriteVariant;
-		if (drawerOrientation == Orientation.Up) spriteVariant = (int)SpriteOrientation.North;
-		else if (drawerOrientation == Orientation.Down) spriteVariant = (int)SpriteOrientation.South;
-		else if (drawerOrientation == Orientation.Left) spriteVariant = (int)SpriteOrientation.West;
-		else spriteVariant = (int)SpriteOrientation.East;
+		drawerOrientation = directional.InitialOrientation;
+		int spriteVariant = GetSpriteDirectionVariant();
+		drawerSpriteHandler.ChangeSprite((int)DrawerState.Shut);
+		drawerSpriteHandler.ChangeSpriteVariant(spriteVariant);
+	}
 
+	private int GetSpriteDirectionVariant()
+	{
+		if (drawerOrientation == Orientation.Up) return (int)SpriteOrientation.North;
+		else if (drawerOrientation == Orientation.Down) return (int)SpriteOrientation.South;
+		else if (drawerOrientation == Orientation.Left) return (int)SpriteOrientation.West;
+		else return (int)SpriteOrientation.East;
+	}
+
+	private void UpdateSpriteDirection()
+	{
+		int spriteVariant = GetSpriteDirectionVariant();
 		drawerSpriteHandler.ChangeSpriteVariant(spriteVariant);
 		traySpriteHandler.ChangeSpriteVariant(spriteVariant);
 	}
+
+	#endregion Sprite
 
 	#region Interactions
 
