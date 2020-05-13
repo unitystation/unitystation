@@ -114,28 +114,27 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 		OnDirectionChanged(directional.InitialOrientation);
 	}
 
+	public void OnEditorDirectionChange()
+	{
+		if (directional == null) directional = GetComponent<Directional>();
+		SetDirectionalSprite(directional.InitialOrientation);
+	}
+
 	private void OnDirectionChanged(Orientation newDir)
 	{
-		if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
-		if (newDir == Orientation.Up)
-		{
-			spriteRenderer.sprite = Up;
-		}
-		else if (newDir == Orientation.Down)
-		{
-			spriteRenderer.sprite = Down;
-		}
-		else if (newDir == Orientation.Left)
-		{
-			spriteRenderer.sprite = Left;
-		}
-		else
-		{
-			spriteRenderer.sprite = Right;
-		}
-
+		SetDirectionalSprite(newDir);
 		UpdateFrontSprite();
 		EnsureSpriteLayer();
+	}
+
+	private void SetDirectionalSprite(Orientation orientation)
+	{
+		if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
+
+		if (orientation == Orientation.Up) spriteRenderer.sprite = Up;
+		else if (orientation == Orientation.Down) spriteRenderer.sprite = Down;
+		else if (orientation == Orientation.Left) spriteRenderer.sprite = Left;
+		else spriteRenderer.sprite = Right;
 	}
 
 	// Updates the sprite that's drawn over the occupant when the occupant is buckled in (e.g. the seatbelt)
@@ -220,24 +219,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	{
 		if (Application.isEditor && !Application.isPlaying)
 		{
-			var dir = GetComponent<Directional>().InitialOrientation;
-			if (spriteRenderer == null) spriteRenderer = GetComponent<SpriteRenderer>();
-			if (dir == Orientation.Up)
-			{
-				spriteRenderer.sprite = Up;
-			}
-			else if (dir == Orientation.Down)
-			{
-				spriteRenderer.sprite = Down;
-			}
-			else if (dir == Orientation.Left)
-			{
-				spriteRenderer.sprite = Left;
-			}
-			else
-			{
-				spriteRenderer.sprite = Right;
-			}
+			OnEditorDirectionChange();
 		}
 	}
 #endif
