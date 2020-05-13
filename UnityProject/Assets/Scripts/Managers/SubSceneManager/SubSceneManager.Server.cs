@@ -145,7 +145,7 @@ public partial class SubSceneManager
 	/// <param name="connToAdd"></param>
 	void AddObserverToAllObjects(NetworkConnection connToAdd, Scene sceneContext)
 	{
-		//Need to do matrices first:
+		//Activate the matrices on the client first
 		foreach (var m in MatrixManager.Instance.ActiveMatrices)
 		{
 			if (m.Matrix.gameObject.scene == sceneContext)
@@ -153,25 +153,18 @@ public partial class SubSceneManager
 				m.Matrix.GetComponentInParent<NetworkIdentity>().AddPlayerObserver(connToAdd);
 			}
 		}
-		//Now for all the items:
-		foreach (var n in NetworkIdentity.spawned)
-		{
-			if (n.Value.gameObject.scene == sceneContext)
-			{
-				n.Value.AddPlayerObserver(connToAdd);
-			}
-		}
 
 		AddObservableSceneToConnection(connToAdd, sceneContext);
 
 		StartCoroutine(
 			SyncPlayerData(connToAdd.clientOwnedObjects.ElementAt(0).gameObject,
+				connToAdd,
 				sceneContext.name));
 	}
 
 	/// Sync init data with specific scenes
 	/// staggered over multiple frames
-	public IEnumerator SyncPlayerData(GameObject playerGameObject, string sceneName)
+	public IEnumerator SyncPlayerData(GameObject playerGameObject, NetworkConnection connToAdd, string sceneName)
 	{
 		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new " +
 		                 "client {0} for scene {1}", Category.Connections, playerGameObject, sceneName);
@@ -179,6 +172,26 @@ public partial class SubSceneManager
 		var sceneContext = SceneManager.GetSceneByName(sceneName);
 
 		yield return WaitFor.EndOfFrame;
+
+		//Now start all of the networked objects on those matrices we
+		//activated earlier. We are doing it here in the coroutine
+		//so we can stagger the awake updates on the client
+		//This should avoid massive spike in Physics2D when the colliders
+		//come active. We do this in lots of 20 every frame
+		int objCount = 0;
+		foreach (var n in NetworkIdentity.spawned)
+		{
+			if (n.Value.gameObject.scene == sceneContext)
+			{
+				n.Value.AddPlayerObserver(connToAdd);
+				objCount += 1;
+				if (objCount >= 20)
+				{
+					objCount = 0;
+					yield return WaitFor.EndOfFrame;
+				}
+			}
+		}
 
 		//TileChange Data
 		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
@@ -202,11 +215,20 @@ public partial class SubSceneManager
 		yield return WaitFor.EndOfFrame;
 
 		//All transforms
+		objCount = 0;
 		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
 		for (var i = 0; i < scripts.Length; i++)
 		{
 			if(scripts[i].gameObject.scene != sceneContext) continue;
 			scripts[i].NotifyPlayer(playerGameObject);
+			//Again we are trying to limit physics 2d spikes on the client
+			//20 notifys a frame:
+			objCount += 1;
+			if (objCount >= 20)
+			{
+				objCount = 0;
+				yield return WaitFor.EndOfFrame;
+			}
 		}
 
 		yield return WaitFor.EndOfFrame;
@@ -229,7 +251,6 @@ public partial class SubSceneManager
 			{
 				equipment.NotifyPlayer(playerGameObject);
 			}
-			yield return WaitFor.EndOfFrame;
 		}
 
 		yield return WaitFor.EndOfFrame;
