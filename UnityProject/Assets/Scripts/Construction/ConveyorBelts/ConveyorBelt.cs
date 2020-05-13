@@ -4,6 +4,7 @@ using Mirror;
 using UnityEngine;
 
 [SelectionBase]
+[ExecuteInEditMode]
 public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SerializeField] private SpriteHandler spriteHandler = null;
@@ -309,4 +310,15 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				});
 		}
 	}
+
+	//changes the rendered sprite in editor based on the value set in Directional
+#if UNITY_EDITOR
+	private void Update()
+	{
+		if (Application.isEditor && !Application.isPlaying)
+		{
+			RefreshSprites();
+		}
+	}
+#endif
 }
