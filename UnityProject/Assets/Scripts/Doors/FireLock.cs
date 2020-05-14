@@ -51,6 +51,8 @@ public class FireLock : InteractableDoor
 		var sprite = GetComponentInChildren<SpriteRenderer>();
 		if (sprite == null)
 			return;
+		if (fireAlarm == null)
+			return;
 		//Highlight associated fireAlarm.
 		Gizmos.color = new Color(1, 0.5f, 0, 1);
 		Gizmos.DrawLine(fireAlarm.transform.position, gameObject.transform.position);
