@@ -65,6 +65,12 @@ MonoBehaviour:
         ingredientName: Meat Cutlet(Clone)
       Output: {fileID: 6532193109441330816, guid: dcb198c42e70def43a450ef925a6b4b5,
         type: 3}
+    - Name: Bread Roll
+      Ingredients:
+      - amount: 1
+        ingredientName: Dough
+      Output: {fileID: 6532193109441330816, guid: 94333a343b655f843aa04e39222a8445,
+        type: 3}
   cuts:
     recipeList:
     - Name: Meat Cutlet
@@ -72,6 +78,12 @@ MonoBehaviour:
       - amount: 1
         ingredientName: Meat
       Output: {fileID: 6532193109441330816, guid: f06058cd7ca4b944aa68f64125386e28,
+        type: 3}
+    - Name: Dough
+      Ingredients:
+      - amount: 3
+        ingredientName: Wheat
+      Output: {fileID: 6532193109441330816, guid: b1dd0aebf645e6946ab579ddd8c5f0e6,
         type: 3}
   logs:
     recipeList:
