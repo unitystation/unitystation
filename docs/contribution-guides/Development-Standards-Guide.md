@@ -22,7 +22,7 @@ For example, here's a well-documented method:
 
 2. Usually, use a separate .cs file for each public class or struct. It is sometimes preferable to have more than one in the same file, but if uncertain err on the side of using a separate file.
 
-3. Use PascalCase for all file and folder names. 
+3. Use PascalCase for all file names. 
 
 3. Use namespace declarations matching the script's folder path on all new or modified script files.
 
@@ -220,6 +220,7 @@ to just leave it as a public field without a property. As always, make sure to d
                 }
             }
         }  
+        
 4. Try to keep individual .cs files small. Shoot for less than 500 actual lines of code (ignoring comments / blank lines). You can use refactoring, design patterns, and other techniques to try to make them small by splitting logic up into other .cs files / classes.
 5. When deciding what type to use, strings should be used only as a last resort. Prefer other types, such as enums, numeric types, custom classes, etc...if they are more appropriate.
 6. Most string or numeric literals should be constants.
