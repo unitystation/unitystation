@@ -22,7 +22,7 @@ For example, here's a well-documented method:
 
 2. Usually, use a separate .cs file for each public class or struct. It is sometimes preferable to have more than one in the same file, but if uncertain err on the side of using a separate file.
 
-3. Use PascalCase for all file names. 
+3. Use PascalCase for all file and folder names. 
 
 3. Use namespace declarations matching the script's folder path on all new or modified script files.
 
