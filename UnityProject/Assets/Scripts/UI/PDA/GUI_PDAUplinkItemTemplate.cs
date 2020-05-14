@@ -1,37 +1,37 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class GUI_PDAUplinkItemTemplate : DynamicEntry
+namespace UI.PDA
 {
-	private GUI_PDA pdaMasterTab = null;
-
-	[SerializeField]
-	private NetLabel itemName;
-
-	[SerializeField]
-	private NetLabel itemCost;
-
-	private UplinkItems item;
-
-	private void Start()
+	public class GUI_PDAUplinkItemTemplate : DynamicEntry
 	{
-		pdaMasterTab = MasterTab.GetComponent<GUI_PDA>();
-	}
+		private GUI_PDA pdaMasterTab = null;
+
+		[SerializeField]
+		private NetLabel itemName;
+
+		[SerializeField]
+		private NetLabel itemCost;
+
+		private UplinkItems item;
+
+		private void Start()
+		{
+			pdaMasterTab = MasterTab.GetComponent<GUI_PDA>();
+		}
 
 
-	public void SelectItem()
-	{
-		if (pdaMasterTab == null) { MasterTab.GetComponent<GUI_PDA>().OnItemClickedEvent.Invoke(item); }
-		else { pdaMasterTab.OnItemClickedEvent.Invoke(item); }
-	}
+		public void SelectItem()
+		{
+			if (pdaMasterTab == null) { MasterTab.GetComponent<GUI_PDA>().OnItemClickedEvent.Invoke(item); }
+			else { pdaMasterTab.OnItemClickedEvent.Invoke(item); }
+		}
 
 
-	public void ReInit(UplinkItems assignedItem)
-	 {
-		item = assignedItem;
-		itemName.Value = item.Name;
-		itemCost.Value = $"Cost {item.Cost} TC";
+		public void ReInit(UplinkItems assignedItem)
+		{
+			item = assignedItem;
+			itemName.Value = item.Name;
+			itemCost.Value = $"Cost {item.Cost} TC";
+		}
 	}
 }

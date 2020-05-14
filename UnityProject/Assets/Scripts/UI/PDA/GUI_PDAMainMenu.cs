@@ -1,65 +1,74 @@
 ﻿using UnityEngine;
 
-public class GUI_PDAMainMenu : NetPage
+namespace UI.PDA
 {
-	/*[SerializeField]
+	public class GUI_PDAMainMenu : NetPage
+	{
+		/*[SerializeField]
 	[Tooltip("CrewManifest here")]
 	private GUI_PDA_CrewManifest manifestPage = null;  //The menuPage for reference*/
 
-	[SerializeField] private GUI_PDA controller;
+		[SerializeField] private GUI_PDA controller;
 
-	[SerializeField] private NetLabel idLabel;
+		[SerializeField] private NetPageSwitcher subSwitcher;
 
-	[SerializeField] private NetLabel lightLabel;
+		[SerializeField] private GUI_PDACrewManifest manifestPage;
 
-	[SerializeField] private NetLabel machineLabel;
+		[SerializeField] private NetLabel idLabel;
 
-	//[SerializeField] [Tooltip("Put the subswitcher here")]
-	//private NetPageSwitcher subSwitcher;
+		[SerializeField] private NetLabel lightLabel;
 
-	public void UpdateId()
-	{
-		var idCard = controller.Pda.IdCard;
-		var pdaName = controller.Pda.PdaRegisteredName;
-		if (idCard != null && pdaName != null)
+		[SerializeField] private NetLabel machineLabel;
+
+		//[SerializeField] [Tooltip("Put the subswitcher here")]
+		//private NetPageSwitcher subSwitcher;
+
+		public void UpdateId()
 		{
-			idLabel.Value = $"{idCard.RegisteredName}, {idCard.JobType}";
-			var editedString = pdaName.Replace(" ", "_");
-			machineLabel.Value = $"root/usr/home/{editedString}/Desktop";
+			var idCard = controller.Pda.IdCard;
+			var pdaName = controller.Pda.PdaRegisteredName;
+			if (idCard != null && pdaName != null)
+			{
+				idLabel.Value = $"{idCard.RegisteredName}, {idCard.JobType}";
+				var editedString = pdaName.Replace(" ", "_");
+				machineLabel.Value = $"root/usr/home/{editedString}/Desktop";
+			}
+			else
+			{
+				if (idCard == null) idLabel.Value = "<No ID inserted>";
+				if (pdaName == null) machineLabel.Value = "root/usr/home/guest/Desktop";
+			}
 		}
-		else
+
+
+		public void SettingsPage()
 		{
-			if (idCard == null) idLabel.Value = "<No ID inserted>";
-			if (pdaName == null) machineLabel.Value = "root/usr/home/guest/Desktop";
+			controller.OpenSettings();
+			UpdateId();
 		}
-	}
 
-	public void SettingsPage()
-	{
-		controller.OpenSettings();
-		UpdateId();
-	}
+		public void CrewManifestPage()
+		{
+			manifestPage.GenerateEntries();
+			subSwitcher.SetActivePage(manifestPage);
+		}
 
-	public void CrewManifestPage()
-	{
-		//subSwitcher.SetActivePage(manifestPage);
-	}
+		public void AtmosphericsPage()
+		{
+			//controller.OpenAtmospherics();
+		}
 
-	public void AtmosphericsPage()
-	{
-		//controller.OpenAtmospherics();
-	}
+		public void IdRemove()
+		{
+			controller.RemoveId();
+			UpdateId();
+		}
 
-	public void IdRemove()
-	{
-		controller.RemoveId();
-		UpdateId();
-	}
-
-	public void ToggleFlashLight()
-	{
-		controller.Pda.ToggleFlashlight();
-		// A condensed version of an if statement made by rider, basically it switches between off and on, pretty neato
-		lightLabel.Value = controller.Pda.FlashlightOn ? "Flashlight (ON)" : "Flashlight (OFF)";
+		public void ToggleFlashLight()
+		{
+			controller.Pda.ToggleFlashlight();
+			// A condensed version of an if statement made by rider, basically it switches between off and on, pretty neato
+			lightLabel.Value = controller.Pda.FlashlightOn ? "Flashlight (ON)" : "Flashlight (OFF)";
+		}
 	}
 }
