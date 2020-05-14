@@ -40,14 +40,14 @@ namespace Unitystation.Options
 	        }
 
 	        chatBubbleSizeSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize);
-	        camZoomSlider.value = zoomHandler.ZoomLevel;
+	        camZoomSlider.value = zoomHandler.ZoomLevel / 8;
             scrollWheelZoomToggle.isOn = zoomHandler.ScrollWheelZoom;
             frameRateTarget.text = PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate).ToString();
         }
 
         public void OnZoomLevelChange()
         {
-            zoomHandler.SetZoomLevel(camZoomSlider.value);
+	        zoomHandler.SetZoomLevel((int)camZoomSlider.value * 8);
             Refresh();
         }
 
