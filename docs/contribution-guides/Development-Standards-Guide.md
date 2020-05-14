@@ -142,9 +142,7 @@ public float LongMethod()
   float distance = CalculateDistance();
   bool isInRange = distance > MAX_RANGE;
 }
-```
-* When checking if something is null, use `something == null` rather than `!something` - it's easier for newer devs to understand.
-* When checking if a boolean is false, use `someBool == false` rather than `!someBool` - sometimes it's easy to miss that exclamation point.  
+```  
 
 
 ## Component and Scriptable Object Design
