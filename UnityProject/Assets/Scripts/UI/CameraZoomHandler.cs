@@ -1,25 +1,28 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.U2D;
 
 public class CameraZoomHandler : MonoBehaviour
 {
-    private float zoomLevel = 2f;
+    private int zoomLevel = 24;
     public float ZoomLevel => zoomLevel;
     private bool scrollWheelzoom = false;
     public bool ScrollWheelZoom => scrollWheelzoom;
+    private PixelPerfectCamera pixelPerfectCamera;
 
     void Start()
     {
+	    pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
         if (PlayerPrefs.HasKey(PlayerPrefKeys.CamZoomKey))
         {
-            zoomLevel = PlayerPrefs.GetFloat(PlayerPrefKeys.CamZoomKey);
+            zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
             scrollWheelzoom = PlayerPrefs.GetInt(PlayerPrefKeys.ScrollWheelZoom) == 1;
         }
         else
         {
-            zoomLevel = 2f;
-            PlayerPrefs.SetFloat(PlayerPrefKeys.CamZoomKey, 2f);
+            zoomLevel = 24;
+            PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, 24);
             PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 1);
             PlayerPrefs.Save();
         }
@@ -30,17 +33,17 @@ public class CameraZoomHandler : MonoBehaviour
 	/// <summary>
 	/// Maximum allowed zoom value.
 	/// </summary>
-	private static float maxZoom = 4f;
+	private static int maxZoom = 64;
 
 	/// <summary>
 	/// Minimum allowed zoom value.
 	/// </summary>
-	private readonly float minZoom = 0.6f;
+	private readonly int minZoom = 8;
 
 	/// <summary>
 	/// Increment at which zoom changes when using Increase / DecreaseZoomLevel().
 	/// </summary>
-	private readonly float zoomIncrement = 0.2f;
+	private readonly int zoomIncrement = 8;
 
     void Update()
     {
@@ -68,21 +71,20 @@ public class CameraZoomHandler : MonoBehaviour
     // Refreshes after setting zoom level.
     public void Refresh()
     {
-        var cam = Camera.main;
-
-        zoomLevel = Mathf.Clamp(zoomLevel, minZoom, maxZoom);
-        // Calculate orthographic size with full precision and then convert to float precision.
-        cam.orthographicSize = ((float)cam.pixelWidth / ((float)zoomLevel * 64f)) * 0.5f;
+	    if(pixelPerfectCamera == null) pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
+	    
+	    zoomLevel = Mathf.Clamp(zoomLevel, minZoom, maxZoom);
+        pixelPerfectCamera.assetsPPU = zoomLevel;
 
         // Recenter camera.
         DisplayManager.Instance.SetCameraFollowPos();
     }
 
-    public void SetZoomLevel(float _zoomLevel)
+    public void SetZoomLevel(int _zoomLevel)
     {
 	    zoomLevel = _zoomLevel;
 	    Refresh();
-	    PlayerPrefs.SetFloat(PlayerPrefKeys.CamZoomKey, Mathf.Clamp(zoomLevel, minZoom, maxZoom));
+	    PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, Mathf.Clamp(zoomLevel, minZoom, maxZoom));
         PlayerPrefs.Save();
     }
 
@@ -122,6 +124,6 @@ public class CameraZoomHandler : MonoBehaviour
     public void ResetDefaults()
     {
         ToggleScrollWheelZoom(false);
-        SetZoomLevel(2f);
+        SetZoomLevel(24);
     }
 }
