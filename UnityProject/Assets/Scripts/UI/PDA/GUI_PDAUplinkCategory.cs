@@ -1,42 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 
-public class GUI_PDAUplinkCategory : NetPage
+namespace UI.PDA
 {
-	[SerializeField]
-	private GUI_PDAUplinkMenu controller;
-
-	[SerializeField]
-	private EmptyItemList categoryTemplate;
-
-	[SerializeField]
-	[Tooltip("Just place the Uplinkitemlist object here")]
-	private UplinkCategoryList categories;
-	public void UpdateCategory()
+	public class GUI_PDAUplinkCategory : NetPage
 	{
-		categoryTemplate.Clear();
-		categoryTemplate.AddItems(categories.ItemCategoryList.Count);
-		for (int i = 0; i < categories.ItemCategoryList.Count; i++)
+		[SerializeField]
+		private GUI_PDAUplinkMenu controller;
+
+		[SerializeField]
+		private EmptyItemList categoryTemplate;
+
+		[SerializeField]
+		[Tooltip("Just place the Uplinkitemlist object here")]
+		private UplinkCategoryList categories;
+		public void UpdateCategory()
 		{
-			categoryTemplate.Entries[i].GetComponent<GUI_PDAUplinkCategoryTemplate>().ReInit(categories.ItemCategoryList[i]);
+			categoryTemplate.Clear();
+			categoryTemplate.AddItems(categories.ItemCategoryList.Count);
+			for (int i = 0; i < categories.ItemCategoryList.Count; i++)
+			{
+				categoryTemplate.Entries[i].GetComponent<GUI_PDAUplinkCategoryTemplate>().ReInit(categories.ItemCategoryList[i]);
+			}
 		}
-	}
-	public void ClearCategory()
-	{
-		categoryTemplate.Clear();
-	}
+		public void ClearCategory()
+		{
+			categoryTemplate.Clear();
+		}
 
-	public void Back()
-	{
-		ClearCategory();
-		controller.mainController.OpenSettings();
-	}
+		public void Back()
+		{
+			ClearCategory();
+			controller.mainController.OpenSettings();
+		}
 
-	public void Lock()
-	{
-		Back();
-		controller.mainController.Pda.LockUplink();
+		public void Lock()
+		{
+			Back();
+			controller.mainController.Pda.LockUplink();
+		}
 	}
 }

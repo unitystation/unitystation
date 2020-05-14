@@ -1,29 +1,30 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_PDAUplinkCategoryTemplate : DynamicEntry
+namespace UI.PDA
 {
-	private GUI_PDA masterTab;
-
-	[NonSerialized]
-	public UplinkCatagories Category;
-
-	[SerializeField]
-	private NetLabel categoryName;
-
-
-	public void OpenCategory()
+	public class GUI_PDAUplinkCategoryTemplate : DynamicEntry
 	{
-		masterTab.OnCategoryClickedEvent.Invoke(Category.ItemList);
-	}
+		private GUI_PDA masterTab;
+
+		[NonSerialized]
+		public UplinkCatagories Category;
+
+		[SerializeField]
+		private NetLabel categoryName;
 
 
-	public void ReInit(UplinkCatagories assignedcategory)
-	{
-		masterTab = MasterTab.GetComponent<GUI_PDA>();
-		Category = assignedcategory;
-		categoryName.Value = Category.CategoryName;
+		public void OpenCategory()
+		{
+			masterTab.OnCategoryClickedEvent.Invoke(Category.ItemList);
+		}
+
+
+		public void ReInit(UplinkCatagories assignedcategory)
+		{
+			masterTab = MasterTab.GetComponent<GUI_PDA>();
+			Category = assignedcategory;
+			categoryName.Value = Category.CategoryName;
+		}
 	}
 }

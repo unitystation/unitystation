@@ -15,36 +15,32 @@ MonoBehaviour:
   itemCategoryList:
   - categoryName: Hacking
     itemList:
-    - name: Cryptographic sequencer
+    - cost: 4
       item: {fileID: 5260985750374485318, guid: 36e3533550bd8a943ad05db76b83fdd3,
         type: 3}
-      cost: 4
+      name: Cryptographic sequencer
   - categoryName: Weapons
     itemList:
-    - name: Energy Sword
+    - cost: 8
       item: {fileID: 7781396554342910705, guid: bb89e4eb0756de04b8ab904221c23296,
         type: 3}
-      cost: 8
-    - name: Stechkin
+      name: Energy Sword
+    - cost: 7
       item: {fileID: 8582594776399167655, guid: 75bd7f17749d75542afa4d2395205c7b,
         type: 3}
-      cost: 7
-    - name: 10mm Handgun Magazine(Stechkin Ammo)
-      item: {fileID: 8582594776399167655, guid: 75bd7f17749d75542afa4d2395205c7b,
+      name: Stechkin
+    - cost: 1
+      item: {fileID: 6961538310405134957, guid: 0d9df74027a2dcde192f74b81f20cb60,
         type: 3}
-      cost: 1
-    - name: .357 Revolver
+      name: 10mm Handgun Magazine(Stechkin Ammo)
+    - cost: 13
       item: {fileID: 8582594776399167655, guid: 40613838c790c3f48bd441a6587bfd08,
         type: 3}
-      cost: 13
-    - name: .357 Speedloader
+      name: .357 Revolver
+    - cost: 4
       item: {fileID: 742292832060491855, guid: 9e8f0c4c21855a34f8ebe8ba3170f6de, type: 3}
-      cost: 4
+      name: .357 Speedloader
   - categoryName: Bundles
-    itemList:
-    - name: Syndicate Toolbox
-      item: {fileID: 6889139681302801520, guid: c7d8ece0f17b5ce42978455235ba5a89,
-        type: 3}
-      cost: 1
+    itemList: []
   - categoryName: Misc
     itemList: []

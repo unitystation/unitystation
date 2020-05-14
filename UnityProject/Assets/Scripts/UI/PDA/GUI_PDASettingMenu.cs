@@ -1,47 +1,49 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class GUI_PDASettingMenu : NetPage
+namespace UI.PDA
 {
-	[SerializeField] private GUI_PDA controller;
-
-	[SerializeField] public NetLabel reset;
-
-	private bool selectionCheck; // always set to false unless told otherwise
-
-	// It sends you back, what did you expect?
-	public void Back()
+	public class GUI_PDASettingMenu : NetPage
 	{
-		controller.OpenMainMenu();
-	}
+		[SerializeField] private GUI_PDA controller;
 
-	//Logic pushed to controller for safety checks, cant have client fucking shit up
-	public void SetNotificationSound(string notificationString)
-	{
-		if (controller.TestForUplink(notificationString) != true)
+		[SerializeField] public NetLabel reset;
+
+		private bool selectionCheck; // always set to false unless told otherwise
+
+		// It sends you back, what did you expect?
+		public void Back()
 		{
-			Debug.LogError("Sounds not implimented");
+			controller.OpenMainMenu();
 		}
-	}
-	// Makes the PDA  look like it just spawns and tells PDA class to make itself "Unknown" on messenger
-	public void FactoryReset()
-	{
-		if (selectionCheck)
-		{
-			selectionCheck = false;
-			reset.Value = "Factory Reset";
-			controller.ResetPda();
 
-		}
-		else
+		//Logic pushed to controller for safety checks, cant have client fucking shit up
+		public void SetNotificationSound(string notificationString)
 		{
-			selectionCheck = true;
-			reset.Value = "Click again to confirm factory reset";
+			if (controller.TestForUplink(notificationString) != true)
+			{
+				Debug.LogError("Sounds not implimented");
+			}
 		}
-	}
-	// Supposed to handle the changing of UI themes, might drop this one
-	public void Themes()
-	{
-		Debug.LogError("UI themes are not implimented yet!");
+		// Makes the PDA  look like it just spawns and tells PDA class to make itself "Unknown" on messenger
+		public void FactoryReset()
+		{
+			if (selectionCheck)
+			{
+				selectionCheck = false;
+				reset.Value = "Factory Reset";
+				controller.ResetPda();
+
+			}
+			else
+			{
+				selectionCheck = true;
+				reset.Value = "Click again to confirm factory reset";
+			}
+		}
+		// Supposed to handle the changing of UI themes, might drop this one
+		public void Themes()
+		{
+			Debug.LogError("UI themes are not implimented yet!");
+		}
 	}
 }
