@@ -93,11 +93,6 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-
-		var itemAttributes = GetComponent<ItemAttributesV2>();
-
-		var integrity = GetComponent<Integrity>();
-
 		var handObject = interaction.HandObject;
 
 		bool emptyHand = interaction.HandSlot.IsEmpty;
@@ -128,20 +123,22 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 			//butcher check
 			GameObject victim = interaction.TargetObject;
 			var healthComponent = victim.GetComponent<LivingHealthBehaviour>();
-			var playerMove = victim.GetComponent<PlayerMove>();
+
 			if (healthComponent
 			    && healthComponent.allowKnifeHarvest
 			    && healthComponent.IsDead
-			    && Validations.HasItemTrait(handObject, CommonTraits.Instance.Knife) && interaction.Intent == Intent.Harm)
+			    && Validations.HasItemTrait(handObject, CommonTraits.Instance.Knife)
+			    && interaction.Intent == Intent.Harm)
 			{
 				GameObject performer = interaction.Performer;
 
+				var playerMove = victim.GetComponent<PlayerMove>();
+				if (playerMove != null && playerMove.IsBuckled)
+				{
+					return;
+				}
 				void ProgressFinishAction()
 				{
-					if (playerMove != null && playerMove.IsBuckled)
-					{
-						playerMove.Unbuckle();
-					}
 					LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 					victimHealth.Harvest();
 					SoundManager.PlayNetworkedAtPos(butcherSound, victim.RegisterTile().WorldPositionServer);

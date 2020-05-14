@@ -190,69 +190,6 @@ public class CustomNetworkManager : NetworkManager
 		OnClientDisconnected.Invoke();
 	}
 
-	///Sync init data with specific scenes
-	public void SyncPlayerData(GameObject playerGameObject, string sceneName)
-	{
-		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new client {0} for scene {1}", Category.Connections, playerGameObject, sceneName);
-
-		var sceneContext = SceneManager.GetSceneByName(sceneName);
-		//All matrices
-		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
-		for (var i = 0; i < matrices.Length; i++)
-		{
-			if(matrices[i].gameObject.scene != sceneContext) continue;
-			matrices[i].NotifyPlayer(playerGameObject, true);
-		}
-
-		//All transforms
-		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
-		for (var i = 0; i < scripts.Length; i++)
-		{
-			if(scripts[i].gameObject.scene != sceneContext) continue;
-			scripts[i].NotifyPlayer(playerGameObject);
-		}
-
-		//All player bodies
-		PlayerSync[] playerBodies = FindObjectsOfType<PlayerSync>();
-		for (var i = 0; i < playerBodies.Length; i++)
-		{
-			if(playerBodies[i].gameObject.scene != sceneContext) continue;
-			var playerBody = playerBodies[i];
-			playerBody.NotifyPlayer(playerGameObject, true);
-
-			var playerSprites = playerBody.GetComponent<PlayerSprites>();
-			if (playerSprites)
-			{
-				playerSprites.NotifyPlayer(playerGameObject);
-			}
-			var equipment = playerBody.GetComponent<Equipment>();
-			if (equipment)
-			{
-				equipment.NotifyPlayer(playerGameObject);
-			}
-		}
-
-		//TileChange Data
-		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
-		for (var i = 0; i < tcManagers.Length; i++)
-		{
-			if(tcManagers[i].gameObject.scene != sceneContext) continue;
-			tcManagers[i].NotifyPlayer(playerGameObject);
-		}
-
-		//Doors
-		DoorController[] doors = FindObjectsOfType<DoorController>();
-		for (var i = 0; i < doors.Length; i++)
-		{
-			if(doors[i].gameObject.scene != sceneContext) continue;
-			doors[i].NotifyPlayer(playerGameObject);
-		}
-		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
-
-		//all despawned objects in the pool
-
-	}
-
 	public override void OnServerConnect(NetworkConnection conn)
 	{
 		if (!connectCoolDown.ContainsKey(conn.address))

@@ -339,7 +339,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	{
 		if (!isServer) return;
 		switchState = newState;
-		if(powerState == PowerStates.On)
+		if(mState == LightMountState.On ||  mState == LightMountState.Off)
 			ServerChangeLightState(newState ? LightMountState.On : LightMountState.Off);
 	}
 

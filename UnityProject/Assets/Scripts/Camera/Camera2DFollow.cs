@@ -84,7 +84,7 @@ public class Camera2DFollow : MonoBehaviour
 		starsBackground.parent = null;
 	}
 
-	private void LateUpdate()
+	private void Update()
 	{
 		if(!PlayerManager.LocalPlayerScript){
 			return;
@@ -155,6 +155,7 @@ public class Camera2DFollow : MonoBehaviour
 				newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;
 				newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
 			}
+
 			// ReSharper disable once HONK1002
 			transform.position = newPos + (Vector3)recoilOffset;
 			starsBackground.position = -newPos * starScroll;

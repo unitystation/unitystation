@@ -10,10 +10,9 @@
 	public static string ChatBubbleKey = "ChatBubble";
 
 	/// <summary>
-	/// Camera zoom. Keep values within 0 - 10 range
-	/// 0 = AutoZoom
+	/// Camera zoom.
 	/// <summary>
-	public static string CamZoomKey = "CamZoomSetting";
+	public static string CamZoomKey = "CamZoomSetting1";
 
 	/// <summary>
 	/// ScrollWheelZoom preference.

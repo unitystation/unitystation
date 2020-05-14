@@ -89,7 +89,7 @@ public class ClothingItem : MonoBehaviour
 				PushTexture();
 			}
 
-			if (!InHands)
+			if (!InHands && GameObjectReference != null)
 			{
 				// did we take off clothing?
 				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();

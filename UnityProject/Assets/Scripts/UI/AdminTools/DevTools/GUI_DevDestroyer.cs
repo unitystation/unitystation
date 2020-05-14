@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -49,7 +50,8 @@ public class GUI_DevDestroyer : MonoBehaviour
 				}
 				else
 				{
-					DevDestroyMessage.Send(hits.First().GetComponentInParent<CustomNetTransform>().gameObject);
+					DevDestroyMessage.Send(hits.First().GetComponentInParent<CustomNetTransform>().gameObject,
+						ServerData.UserID, PlayerList.Instance.AdminToken);
 				}
 			}
 		}

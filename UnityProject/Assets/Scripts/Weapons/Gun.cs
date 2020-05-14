@@ -570,6 +570,8 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	public void DisplayShot(GameObject shooter, Vector2 finalDirection,
 		BodyPartType damageZone, bool isSuicideShot)
 	{
+		if (!MatrixManager.IsInitialized) return;
+
 		//if this is our gun (or server), last check to ensure we really can shoot
 		if ((isServer || PlayerManager.LocalPlayer == shooter) &&
 			CurrentMagazine.ClientAmmoRemains <= 0)

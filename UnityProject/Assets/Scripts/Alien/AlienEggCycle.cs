@@ -36,13 +36,9 @@ namespace Alien
 		private float serverTimer = 0f;
 		private bool noLongerAlive = false;
 		private bool initialized = false;
+		private bool isUpdate = false;
 
-		private void Awake()
-		{
-			Init();
-		}
-
-		void Init()
+		void EnsureInit()
 		{
 			if (initialized) return;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
@@ -53,8 +49,9 @@ namespace Alien
 
 		private void OnDisable()
 		{
-			if (isServer)
+			if (isUpdate)
 			{
+				isUpdate = false;
 				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 			}
 		}
@@ -62,17 +59,28 @@ namespace Alien
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
+			EnsureInit();
 			SyncState(currentState, currentState);
 		}
 
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
+			EnsureInit();
+			registerObject.WaitForMatrixInit(StartEggCycleServer);
+		}
+
+		void StartEggCycleServer(MatrixInfo info)
+		{
 			UpdateState(initialState);
 			noLongerAlive = false;
 			incubationTime = UnityEngine.Random.Range(60f, 400f);
 			serverTimer = 0f;
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			if (isUpdate)
+			{
+				isUpdate = true;
+				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			}
 		}
 
 		void UpdateMe()
@@ -115,8 +123,8 @@ namespace Alien
 
 		private void SyncState(EggState oldState, EggState newState)
 		{
+			EnsureInit();
 			currentState = newState;
-			if(!initialized) Init();
 
 			switch (currentState)
 			{
@@ -220,6 +228,11 @@ namespace Alien
 		[Server]
 		private void UpdateState(EggState state)
 		{
+			if (gameObject == null || !gameObject.activeInHierarchy)
+			{
+				return;
+			}
+
 			if (state == currentState)
 			{
 				UpdateExamineMessage();

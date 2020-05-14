@@ -16,6 +16,7 @@ namespace Machines
 		public ItemTrait MicroLaser;
 		public ItemTrait ScanningModule;
 		public ItemTrait Capacitor;
+		public ItemTrait PowerCell;
 
 		public ItemTrait MicroManipulator;
 		public ItemTrait NanoManipulator;
@@ -41,5 +42,12 @@ namespace Machines
 		public ItemTrait AdvancedCapacitor;
 		public ItemTrait SuperCapacitor;
 		public ItemTrait QuadraticCapacitor;
+
+		public ItemTrait BasicPowerCell;
+		public ItemTrait HighCapacityPowerCell;
+		public ItemTrait HighCapacityPowerCellPlus;
+		public ItemTrait SuperCapacityPowerCell;
+		public ItemTrait HyperCapacityPowerCell;
+		public ItemTrait BluespacePowerCell;
 	}
 }

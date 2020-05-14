@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -17,6 +18,7 @@ public class MobMeleeAttack : MobFollow
 	         "should the mob then focus on the human blocking it?. Only works if mob is targeting" +
 	         "a player originally.")]
 	public bool targetOtherPlayersWhoGetInWay;
+
 	[Tooltip("Attack nothing but the target. No players in the way, no tiles, nada.")]
 	public bool onlyHitTarget;
 
@@ -88,7 +90,7 @@ public class MobMeleeAttack : MobFollow
 			var dirToTarget = (followTarget.position - transform.position).normalized;
 			RaycastHit2D hitInfo =
 				Physics2D.Linecast(transform.position + dirToTarget, followTarget.position, checkMask);
-		//	Debug.DrawLine(transform.position + dirToTarget, followTarget.position, Color.blue, 10f);
+			//	Debug.DrawLine(transform.position + dirToTarget, followTarget.position, Color.blue, 10f);
 			if (hitInfo.collider != null)
 			{
 				if (Vector3.Distance(transform.position, hitInfo.point) < 1.5f)
@@ -163,6 +165,7 @@ public class MobMeleeAttack : MobFollow
 						//Don't bother, the target is too far away to warrant a decision to break a tile
 						return false;
 					}
+
 					AttackTile(hitInfo.point.RoundToInt(), dir);
 					return true;
 				}
@@ -174,16 +177,47 @@ public class MobMeleeAttack : MobFollow
 
 	private void AttackFlesh(Vector2 dir, LivingHealthBehaviour healthBehaviour)
 	{
-		healthBehaviour.ApplyDamageToBodypart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute, defaultTarget.Randomize());
-		Chat.AddAttackMsgToChat(gameObject, healthBehaviour.gameObject, defaultTarget, null, attackVerb);
-		SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position, sourceObj: gameObject);
-		ServerDoLerpAnimation(dir);
+		StartCoroutine(AttackFleshRoutine(dir, healthBehaviour));
 	}
 
-	private void AttackTile( Vector3Int worldPos, Vector2 dir )
+	//We need to slow the attack down because clients are behind server
+	IEnumerator AttackFleshRoutine(Vector2 dir, LivingHealthBehaviour healthBehaviour)
 	{
-		var matrix = MatrixManager.AtPoint( worldPos, true );
-		matrix.MetaTileMap.ApplyDamage( MatrixManager.WorldToLocalInt( worldPos, matrix ), hitDamage*2, worldPos );
+		if (healthBehaviour.connectionToClient == null)
+		{
+			yield break;
+		}
+
+		ServerDoLerpAnimation(dir);
+
+		Debug.Log(
+			$"CONN CLIENT TIME: {healthBehaviour.connectionToClient.lastMessageTime} Network time: {(float) NetworkTime.time}");
+		if (PlayerManager.LocalPlayerScript != null
+		    && PlayerManager.LocalPlayerScript.playerHealth != null
+		    && PlayerManager.LocalPlayerScript.playerHealth == healthBehaviour ||
+		    healthBehaviour.RTT == 0f)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+		else
+		{
+			Debug.Log($"WAIT FOR ATTACK: {healthBehaviour.RTT / 2f}");
+			yield return WaitFor.Seconds(healthBehaviour.RTT / 2f);
+		}
+
+		if(Vector3.Distance(transform.position, healthBehaviour.transform.position) < 1.5f)
+		{
+			healthBehaviour.ApplyDamageToBodypart(gameObject, hitDamage, AttackType.Melee, DamageType.Brute,
+				defaultTarget.Randomize());
+			Chat.AddAttackMsgToChat(gameObject, healthBehaviour.gameObject, defaultTarget, null, attackVerb);
+			SoundManager.PlayNetworkedAtPos("BladeSlice", transform.position, sourceObj: gameObject);
+		}
+	}
+
+	private void AttackTile(Vector3Int worldPos, Vector2 dir)
+	{
+		var matrix = MatrixManager.AtPoint(worldPos, true);
+		matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPos, matrix), hitDamage * 2, worldPos);
 		ServerDoLerpAnimation(dir);
 	}
 
@@ -214,8 +248,10 @@ public class MobMeleeAttack : MobFollow
 			{
 				isAttacking = false;
 			}
+
 			yield return WaitFor.EndOfFrame;
 		}
+
 		yield return WaitFor.Seconds(meleeCoolDown);
 
 		DeterminePostAttackActions();
