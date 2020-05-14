@@ -81,8 +81,8 @@ MonoBehaviour:
         type: 3}
     - Name: Dough
       Ingredients:
-      - amount: 3
-        ingredientName: Wheat
+      - amount: 1
+        ingredientName: wheat
       Output: {fileID: 6532193109441330816, guid: b1dd0aebf645e6946ab579ddd8c5f0e6,
         type: 3}
   logs:
@@ -93,6 +93,8 @@ MonoBehaviour:
         ingredientName: Tower-cap log
       Output: {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175,
         type: 3}
+  roll:
+    recipeList: []
   techweb: {fileID: 8028218387555133124}
   designs: {fileID: 8028062986537714290}
 --- !u!114 &8028218387555133124
