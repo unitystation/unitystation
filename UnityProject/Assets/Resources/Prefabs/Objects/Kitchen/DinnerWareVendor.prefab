@@ -284,8 +284,6 @@ MonoBehaviour:
     Stock: 5
   - Item: {fileID: 7188868217503671157, guid: ecdfcc2ad92d8b846a04f0b050fdf377, type: 3}
     Stock: 5
-  - Item: {fileID: 7781396554342910705, guid: fd2b975bb2d60fb429c193f9ef1d31b0, type: 3}
-    Stock: 5
   HullColor: {r: 0.42745098, g: 0.62352943, b: 0.7529412, a: 1}
   EjectObjects: 0
   EjectDirection: 0
@@ -380,3 +378,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
