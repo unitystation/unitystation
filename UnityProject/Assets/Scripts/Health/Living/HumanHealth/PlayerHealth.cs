@@ -45,7 +45,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		init = true;
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		playerMove = GetComponent<PlayerMove>();
-    playerSprites = GetComponent<PlayerSprites>();
+		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 		itemStorage = GetComponent<ItemStorage>();
 
@@ -192,6 +192,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	private const int ELECTROCUTION_MAX_DAMAGE = 100; // -1 to disable limit
 	private const int ELECTROCUTION_STUN_PERIOD = 10; // In seconds.
 	private const int ELECTROCUTION_ANIM_PERIOD = 5; // Set less than stun period.
+	private const int ELECTROCUTION_MICROLERP_PERIOD = 15;
 	private BodyPartType electrocutedHand;
 
 	/// <summary>
@@ -276,25 +277,34 @@ public class PlayerHealth : LivingHealthBehaviour
 		// Slip is essentially a yelp SFX.
 		SoundManager.PlayNetworkedAtPos("Slip", registerPlayer.WorldPosition,
 				UnityEngine.Random.Range(0.4f, 1.2f), sourceObj: gameObject);
-		Chat.AddExamineMsgFromServer(gameObject,
-				(electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
-				" gives you a small electric shock!");
+
+		string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
+				" gives you a small electric shock!";
+		Chat.AddExamineMsgFromServer(gameObject, victimChatString);
 
 		DealElectrocutionDamage(5, electrocutedHand);
 	}
 
 	protected override void LethalElectrocution(Electrocution electrocution, float shockPower)
 	{
+		
+		playerMove.allowInput = false;
 		// TODO: Add sparks VFX at shockSourcePos.
-		// TODO: Consider adding a scream SFX.
 		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
-		registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD);
-		StartCoroutine(ElectrocutionAnimation());
-		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition,
-				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);
-		Chat.AddExamineMsgFromServer(gameObject,
-				(electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
-				" electrocutes you!");
+		StartCoroutine(ElectrocutionSequence());
+
+		string victimChatString, observerChatString;
+		if (electrocution.ShockSourceName != null)
+		{
+			victimChatString = $"The {electrocution.ShockSourceName} electrocutes you!";
+			observerChatString = $"{gameObject.ExpensiveName()} is electrocuted by the {electrocution.ShockSourceName}!";
+		}
+		else
+		{
+			victimChatString = $"Something electrocutes you!";
+			observerChatString = $"{gameObject.ExpensiveName()} is electrocuted by something!";
+		}
+		Chat.AddCombatMsgToChat(gameObject, victimChatString, observerChatString);
 
 		var damage = shockPower / ELECTROCUTION_BURNDAMAGE_MODIFIER;
 		if (ELECTROCUTION_MAX_DAMAGE != -1 && damage > ELECTROCUTION_MAX_DAMAGE) damage = ELECTROCUTION_MAX_DAMAGE;
@@ -304,11 +314,24 @@ public class PlayerHealth : LivingHealthBehaviour
 		DealElectrocutionDamage(damage * 0.175f, BodyPartType.RightLeg);
 	}
 
-	private IEnumerator ElectrocutionAnimation()
+	private IEnumerator ElectrocutionSequence()
 	{
+		float timeBeforeDrop = 0.5f;
+
 		RpcToggleElectrocutedOverlay();
-		yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD);
+		// TODO: Add micro-lerping here. (Player quick but short vertical, horizontal movements)
+
+		yield return WaitFor.Seconds(timeBeforeDrop); // Instantly dropping to ground looks odd.
+		// TODO: Add sparks VFX at shockSourcePos.
+		registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
+		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition,
+				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+
+		yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);
 		RpcToggleElectrocutedOverlay();
+
+		//yield return WaitFor.Seconds(ELECTROCUTION_MICROLERP_PERIOD - ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);
+		// TODO: End micro-lerping here.
 	}
 
 	[ClientRpc]
