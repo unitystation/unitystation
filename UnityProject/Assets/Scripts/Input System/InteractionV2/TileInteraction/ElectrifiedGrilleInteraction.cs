@@ -8,22 +8,51 @@ using UnityEngine;
 	menuName = "Interaction/TileInteraction/ElectrifiedGrilleInteraction")]
 public class ElectrifiedGrilleInteraction : TileInteraction
 {
+	TileApply interaction;
+
 	// We electrocute the performer in WillInteract() instead of ServerPerformInteraction()
 	// because we would like for the performer to be able to perform other interactions
 	// if the electrocution was merely mild.
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
+		this.interaction = interaction;
+
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
 		// Let only the server continue, as ServerGetGrilleVoltage() depends on the server-side-only electrical system.
 		if (side == NetworkSide.Client) return true;
 
-		// Check if grille meets electrified criteria.
-		float voltage = ServerGetGrilleVoltage(interaction);
-		if (voltage == 0) return false;
+		bool othersWillInteract = false;
+		foreach (var otherInteraction in interaction.BasicTile.TileInteractions)
+		{
+			if (otherInteraction == this) continue;
+			if (otherInteraction.WillInteract(interaction, side))
+			{
+				othersWillInteract = true;
+				break;
+			}
+		}
 
+		// If no other grille interactions were available, and the performer intends to harm: attack!
+		// This is somewhat of a hack; other interactions should be handled by InteractionUtils,
+		// however the server will not process other interactions (only other tile interactions) if this WillInteract()
+		// returns true on the client (which it must, as the electrical system runs server-side only).
+		// This means attack interactions would be incorrectly ignored.
+		if (!othersWillInteract && (interaction.Intent == Intent.Harm || interaction.HandObject != null))
+		{
+			var matrix = interaction.TileChangeManager.MetaTileMap.Layers[LayerType.Grills].matrix;
+			var weaponNA = interaction.Performer.GetComponent<WeaponNetworkActions>();
+			weaponNA.ServerPerformMeleeAttack(
+					matrix.transform.parent.gameObject, interaction.TargetVector, BodyPartType.None, interaction.BasicTile.LayerType);
+		}
+
+		return Electrocute(ServerGetGrilleVoltage());
+	}
+
+	bool Electrocute(float voltage)
+	{
 		var performerLHB = interaction.Performer.GetComponent<LivingHealthBehaviour>();
-		var electrocutionExposure = new Electrocution(voltage, interaction.TargetCellPos, interaction.BasicTile.DisplayName);
+		var electrocutionExposure = new Electrocution(voltage, interaction.WorldPositionTarget, interaction.BasicTile.DisplayName);
 		var severity = performerLHB.Electrocute(electrocutionExposure);
 
 		// If the electrocution was painful, return true to stop other interactions.
@@ -37,9 +66,8 @@ public class ElectrifiedGrilleInteraction : TileInteraction
 	/// that a cable overlap exists there,
 	/// and returns the highest voltage detected (for now).
 	/// </summary>
-	/// <param name="interaction">The requested interaction that contains information on the grille</param>
 	/// <returns>The voltage found on the cable</returns>
-	private float ServerGetGrilleVoltage(TileApply interaction)
+	private float ServerGetGrilleVoltage()
 	{
 		Vector3Int targetCellPos = interaction.TargetCellPos;
 		MetaTileMap metaTileMap = interaction.TileChangeManager.MetaTileMap;
