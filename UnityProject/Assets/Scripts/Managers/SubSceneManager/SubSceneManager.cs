@@ -51,21 +51,16 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 
 		if (loadTimer != null) loadTimer.IncrementLoadBar();
-		yield return WaitFor.EndOfFrame;
-
-		if (loadTimer != null) loadTimer.IncrementLoadBar();
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
-			yield return WaitFor.Seconds(0.1f);
 		}
 		else
 		{
 			ClientScene.PrepareToSpawnSceneObjects();
-			yield return WaitFor.EndOfFrame;
+			yield return WaitFor.Seconds(0.2f);
 			RequestObserverRefresh.Send(sceneName);
 		}
-		yield return WaitFor.EndOfFrame;
 	}
 
 	public static void ProcessObserverRefreshReq(ConnectedPlayer connectedPlayer, Scene sceneContext)
@@ -74,21 +69,6 @@ public partial class SubSceneManager : NetworkBehaviour
 		{
 			Instance.AddObserverToAllObjects(connectedPlayer.Connection, sceneContext);
 		}
-	}
-
-	public void WaitForSubScene(string data, uint id)
-	{
-		StartCoroutine(WaitForMapToLoad(data, id));
-	}
-	IEnumerator WaitForMapToLoad(string data, uint managerId)
-	{
-		while (!NetworkIdentity.spawned.ContainsKey(managerId))
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-
-		TileChangeManager tm = NetworkIdentity.spawned[managerId].GetComponent<TileChangeManager>();
-		tm.InitServerSync(data);
 	}
 }
 
