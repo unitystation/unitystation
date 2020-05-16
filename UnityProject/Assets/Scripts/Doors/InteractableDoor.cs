@@ -70,17 +70,17 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		this.interaction = interaction;
 
-		if (interaction.HandObject == null && !Controller.IsClosed)
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
+		{
+			TryCrowbar();
+		}
+		else if (!Controller.IsClosed)
 		{
 			TryClose(); // Close the door if it's open
 		}
 		else if (Validations.HasUsedActiveWelder(interaction))
 		{
 			TryWelder(); // Repair or un/weld door, or deconstruct false wall
-		}
-		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Welder))
-		{
-			TryCrowbar();
 		}
 		// Attempt to open if it's closed
 		//Tell the OnAttemptOpen node to activate.
