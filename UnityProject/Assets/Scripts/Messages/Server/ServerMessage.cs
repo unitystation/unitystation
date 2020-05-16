@@ -66,11 +66,8 @@ public abstract class ServerMessage : GameMessageBase
 
 	public void SendTo(NetworkConnection recipient)
 	{
-
-		if (PlayerList.Instance.ContainsConnection(recipient))
-		{
-			recipient.Send(this, 0);
-		}
+		if (recipient == null) return;
+		recipient.Send(this, 0);
 	}
 
 	/// <summary>

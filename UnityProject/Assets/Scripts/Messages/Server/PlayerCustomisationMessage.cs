@@ -24,7 +24,7 @@ public class PlayerCustomisationMessage : ServerMessage
 		return msg;
 	}
 
-	public static PlayerCustomisationMessage SendTo(GameObject equipmentObject,  GameObject recipient, CharacterSettings Character = null)
+	public static PlayerCustomisationMessage SendTo(GameObject equipmentObject,  NetworkConnection recipient, CharacterSettings Character = null)
 	{
 		var msg = CreateMsg(equipmentObject, Character);
 		msg.SendTo(recipient);

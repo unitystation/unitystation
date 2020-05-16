@@ -39,7 +39,7 @@ public class PlayerMoveMessage : ServerMessage
 		}
 	}
 
-	public static PlayerMoveMessage Send(GameObject recipient, GameObject subjectPlayer, PlayerState state)
+	public static PlayerMoveMessage Send(NetworkConnection recipient, GameObject subjectPlayer, PlayerState state)
 	{
 		var msg = new PlayerMoveMessage
 		{
@@ -61,7 +61,7 @@ public class PlayerMoveMessage : ServerMessage
 			{
 				if (PlayerUtils.IsGhost(connectedPlayer.GameObject))
 				{
-					Send(connectedPlayer.GameObject, subjectPlayer, state);
+					Send(connectedPlayer.Connection, subjectPlayer, state);
 				}
 			}
 		}

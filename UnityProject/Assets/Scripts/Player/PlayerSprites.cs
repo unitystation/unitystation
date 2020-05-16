@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Light2D;
+using Mirror;
 using UnityEngine;
 
 /// <summary>
@@ -290,7 +291,7 @@ public class PlayerSprites : MonoBehaviour
 		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
 	}
 
-	public void NotifyPlayer(GameObject recipient, bool clothItems = false)
+	public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)
 	{
 		if (!clothItems)
 		{
