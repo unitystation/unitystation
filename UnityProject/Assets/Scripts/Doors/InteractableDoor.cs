@@ -9,9 +9,6 @@ using System;
 /// </summary>
 public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
 {
-	private static readonly StandardProgressActionConfig ProgressConfig =
-	new StandardProgressActionConfig(StandardProgressActionType.Construction, allowMultiple: true);
-
 	private static readonly float weldTime = 5.0f;
 
 	public bool allowInput = true;
