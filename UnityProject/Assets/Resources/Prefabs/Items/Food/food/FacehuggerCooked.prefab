@@ -1,17 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2355202020846635420
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6532193109441330816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 421c3b18959bb624f8fe705eaad88216, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &6128081887975217483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19,53 +7,89 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: healAmount
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: NutrientsHealAmount
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: NutritionLevel
-      value: 80
-      objectReference: {fileID: 0}
-    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: initialName
-      value: Bread Roll
+      value: Fried Facehugger
       objectReference: {fileID: 0}
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: initialDescription
-      value: Who doesnt like a nice bread roll?
+      value: This looks... slightly less disgusting?
       objectReference: {fileID: 0}
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
-      propertyPath: initialTraits.Array.data[0]
+      propertyPath: itemSprites.LeftHand.Texture
       value: 
-      objectReference: {fileID: 11400000, guid: f4bf367b42a325c4dbf26b76591e0ef1,
-        type: 2}
+      objectReference: {fileID: 2800000, guid: e44b05f81c09fe441b71bdc9da4fdf3e, type: 3}
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
-      propertyPath: initialTraits.Array.data[1]
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 7b9f470d9aa5545ce87447d3cd3d61ce,
-        type: 2}
+      objectReference: {fileID: 21300000, guid: e44b05f81c09fe441b71bdc9da4fdf3e,
+        type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: e44b05f81c09fe441b71bdc9da4fdf3e,
+        type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: e44b05f81c09fe441b71bdc9da4fdf3e,
+        type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: e44b05f81c09fe441b71bdc9da4fdf3e,
+        type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: ca942c01e04ee0d4bb477fb734be53f3, type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 72244ede0078e814bb83e479189d744a, type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 72244ede0078e814bb83e479189d744a,
+        type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 72244ede0078e814bb83e479189d744a,
+        type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 72244ede0078e814bb83e479189d744a,
+        type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 72244ede0078e814bb83e479189d744a,
+        type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 7aa847bae2ec4b34ba311db354a0eb26, type: 3}
     - target: {fileID: 963106870793376919, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 44ccc9875b5b43e409a8c220786e186a,
+      objectReference: {fileID: 21300000, guid: 30d0387cd2cb2184f8ffab4aa3b749a9,
         type: 3}
     - target: {fileID: 1024679538077702783, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
@@ -75,7 +99,7 @@ PrefabInstance:
     - target: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Name
-      value: BreadRoll
+      value: FacehuggerCooked
       objectReference: {fileID: 0}
     - target: {fileID: 1134857784536455871, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
@@ -134,9 +158,3 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}
---- !u!1 &6532193109441330816 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
-    type: 3}
-  m_PrefabInstance: {fileID: 6128081887975217483}
-  m_PrefabAsset: {fileID: 0}
