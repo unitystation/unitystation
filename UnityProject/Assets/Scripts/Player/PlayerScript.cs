@@ -196,7 +196,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		{
 			EnableLighting(true);
 			UIManager.ResetAllUI();
-			UIManager.DisplayManager.SetCameraFollowPos();
 			GetComponent<MouseInputController>().enabled = true;
 
 			if (!UIManager.Instance.playerListUIControl.window.activeInHierarchy)

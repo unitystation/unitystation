@@ -114,6 +114,8 @@ public class ResponsiveUI : MonoBehaviour
 			yield break;
 		}
 
+		main.rect = new Rect(0, 0, width / (float)Screen.width, height / (float)Screen.height);
+
 		if (requiresChange && !Screen.fullScreen)
 		{
 			Screen.SetResolution(width, height, false);

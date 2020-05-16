@@ -76,8 +76,10 @@ public class CameraZoomHandler : MonoBehaviour
 	    zoomLevel = Mathf.Clamp(zoomLevel, minZoom, maxZoom);
         pixelPerfectCamera.assetsPPU = zoomLevel;
 
-        // Recenter camera.
-        DisplayManager.Instance.SetCameraFollowPos();
+        if (Camera2DFollow.followControl != null)
+        {
+	        Camera2DFollow.followControl.SetCameraXOffset();
+        }
     }
 
     public void SetZoomLevel(int _zoomLevel)

@@ -22,7 +22,6 @@ public class UIManager : MonoBehaviour
 	[FormerlySerializedAs("dragAndDrop")] public UIDragAndDrop uiDragAndDrop;
 	public ControlDisplays displayControl;
 	public ControlClothing controlClothing;
-	public DisplayManager displayManager;
 	public Hands hands;
 	public ControlIntent intentControl;
 	public PlayerHealthUI playerHealthUI;
@@ -131,8 +130,6 @@ public class UIManager : MonoBehaviour
 	public static ControlClothing ControlClothing => Instance.controlClothing;
 
 	public static PlayerListUI PlayerListUI => Instance.playerListUIControl;
-
-	public static DisplayManager DisplayManager => Instance.displayManager;
 
 	public static UI_StorageHandler StorageHandler
 	{
