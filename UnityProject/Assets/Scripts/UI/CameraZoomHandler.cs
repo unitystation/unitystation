@@ -72,7 +72,7 @@ public class CameraZoomHandler : MonoBehaviour
     public void Refresh()
     {
 	    if(pixelPerfectCamera == null) pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
-	    
+	    if (pixelPerfectCamera == null) return; //probably in the lobby
 	    zoomLevel = Mathf.Clamp(zoomLevel, minZoom, maxZoom);
         pixelPerfectCamera.assetsPPU = zoomLevel;
 
