@@ -356,7 +356,7 @@ public partial class PlayerSync
 	/// <param name="recipient">whom to inform</param>
 	/// <param name="noLerp">(for init) tells client to do no lerping when changing pos this time</param>
 	[Server]
-	public void NotifyPlayer(GameObject recipient, bool noLerp = false)
+	public void NotifyPlayer(NetworkConnection recipient, bool noLerp = false)
 	{
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.Send(recipient, gameObject, serverState);

@@ -109,6 +109,7 @@ public class JoinedViewer : NetworkBehaviour
 	/// </summary>
 	IEnumerator WaitForLoggedOffObserver(GameObject loggedOffPlayer)
 	{
+		TargetLocalPlayerRejoinUI(connectionToClient);
 		//TODO When we have scene network culling we will need to allow observers
 		// for the whole specific scene and the body before doing the logic below:
 		var netIdentity = loggedOffPlayer.GetComponent<NetworkIdentity>();

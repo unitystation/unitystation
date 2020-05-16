@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
-  m_Name: Grill
+  m_Name: GrilleInDoors
   m_EditorClassIdentifier: 
-  displayName: grille
+  displayName: 
   LayerType: 5
   TileType: 6
   RequiredTiles:
-  - {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1, type: 2}
+  - {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f, type: 2}
   floorTileType: 0
   atmosPassable: 1
   isSealed: 0
@@ -28,18 +28,18 @@ MonoBehaviour:
   passableException:
     m_keys: 
     m_values: 
-  maxHealth: 50
+  maxHealth: 0
   armor:
-    Melee: 50
-    Bullet: 70
-    Laser: 70
-    Energy: 100
-    Bomb: 10
-    Rad: 100
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
     Fire: 0
     Acid: 0
     Magic: 0
-    Bio: 100
+    Bio: 0
   hitSounds: []
   tileDestroyedRemains: []
   healthStates: []
@@ -52,8 +52,8 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   tileInteractions:
-  - {fileID: 11400000, guid: 8e5b0c6f1995489408133f815f767c27, type: 2}
-  - {fileID: 11400000, guid: 107560a7c6045ac478f5555e9487ba89, type: 2}
-  spawnOnDeconstruct: {fileID: 0}
+  - {fileID: 11400000, guid: 10228000f4d0b45ccbe54926e21b9cb0, type: 2}
+  spawnOnDeconstruct: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,
+    type: 3}
   spawnAmountOnDeconstruct: 1
   sprite: {fileID: 21300000, guid: 10623b9787a8d384b8d9825b3337ea04, type: 3}

@@ -5,21 +5,21 @@ using UnityEngine.Serialization;
 
 
 [Serializable]
-	public class Recipe
-	{
-		public string Name;
-		public Ingredient[] Ingredients;
-		public GameObject Output;
+public class Recipe
+{
+	public string Name;
+	public Ingredient[] Ingredients;
+	public GameObject Output;
 
-		public bool Check(List<Ingredient> other)
+	public bool Check(List<Ingredient> other)
+	{
+		foreach (Ingredient ingredient in Ingredients)
 		{
-			foreach (Ingredient ingredient in Ingredients)
+			if (!other.Contains(ingredient))
 			{
-				if (!other.Contains(ingredient))
-				{
-					return false;
-				}
+				return false;
 			}
-			return true;
 		}
+		return true;
 	}
+}

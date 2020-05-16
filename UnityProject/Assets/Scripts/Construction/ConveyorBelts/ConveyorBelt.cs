@@ -4,6 +4,7 @@ using Mirror;
 using UnityEngine;
 
 [SelectionBase]
+[ExecuteInEditMode]
 public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[SerializeField] private SpriteHandler spriteHandler = null;
@@ -40,6 +41,13 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void OnDisable()
 	{
 		if(isServer) UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	}
+
+	// Only runs in editor - useful for updating the sprite direction
+	// when the initial direction is altered via inspector.
+	private void OnValidate()
+	{
+		RefreshSprites();
 	}
 
 	//Avoiding the use of coroutines as this could run on many conveyor belts

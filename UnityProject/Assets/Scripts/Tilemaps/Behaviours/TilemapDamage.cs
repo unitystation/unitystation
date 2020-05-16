@@ -473,7 +473,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (data.GrillDamage != GrillDamageLevel.Damaged)
 			{
-				tileChangeManager.UpdateTile(cellPos, TileType.Grill, "GrillDestroyed");
+				tileChangeManager.UpdateTile(cellPos, TileType.Grill, "GrilleDestroyed");
 				data.GrillDamage = GrillDamageLevel.Damaged;
 
 				SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);

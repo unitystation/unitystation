@@ -23,7 +23,7 @@ public class TileChangesNewClientSync : ServerMessage
 		tm.InitServerSync(data);
 	}
 
-	public static void Send(GameObject managerSubject, GameObject recipient, TileChangeList changeList)
+	public static void Send(GameObject managerSubject, NetworkConnection recipient, TileChangeList changeList)
 	{
 		if (changeList == null || changeList.List.Count == 0) return;
 

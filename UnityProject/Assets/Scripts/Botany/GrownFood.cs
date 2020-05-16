@@ -21,7 +21,7 @@ public class GrownFood : NetworkBehaviour
 	[SerializeField]
 	private SpriteHandler Sprite;
 	[SerializeField]
-	private Edible edible = null;
+	private Edible edible;
 
 
 
@@ -80,7 +80,8 @@ public class GrownFood : NetworkBehaviour
 	/// </summary>
 	private void SetupEdible()
 	{
-		edible.NutritionLevel = Mathf.FloorToInt(reagentContainer[nutrient]);
+		//DOES NOT WORK! DO NOT USE THIS!
+		// edible.NutritionLevel = Mathf.FloorToInt(reagentContainer[nutrient]);
 	}
 
 }

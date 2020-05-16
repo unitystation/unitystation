@@ -141,7 +141,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	public void ServerRollbackClient(HandApply interaction)
 	{
 		//Rollback prediction (inform player about item's true state)
-		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer);
+		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer.GetComponent<NetworkIdentity>().connectionToClient);
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
