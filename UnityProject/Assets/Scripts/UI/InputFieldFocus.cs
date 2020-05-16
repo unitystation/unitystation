@@ -59,6 +59,8 @@ public class InputFieldFocus : InputField
 		IsFocused = false;
 		if(gameObject.activeInHierarchy)
 			StartCoroutine(DelayedEnableInput());
+		else
+			EnableInput();
 	}
 
 	public override void OnSelect( BaseEventData eventData )
