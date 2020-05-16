@@ -41,7 +41,7 @@ public class Equipment : NetworkBehaviour, IExaminable
 		UnregisisterInternals();
 	}
 
-	public void NotifyPlayer(GameObject recipient)
+	public void NotifyPlayer(NetworkConnection recipient)
 	{
 		foreach (var clothingItem in clothingItems)
 		{

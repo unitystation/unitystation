@@ -147,6 +147,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 	{
 		EnsureInit();
 		SyncIsWelded(isWelded, isWelded);
+		DoorNewPlayer.Send(netId);
 	}
 
 	/// <summary>
@@ -509,12 +510,11 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 	/// <summary>
 	/// Used when player is joining, tells player to open the door if it is opened.
 	/// </summary>
-	/// <param name="playerGameObject">game object of the player to inform</param>
-	public void NotifyPlayer(GameObject playerGameObject)
+	public void UpdateNewPlayer(NetworkConnection playerConn)
 	{
 		if (!IsClosed)
 		{
-			DoorUpdateMessage.Send(playerGameObject, gameObject, DoorUpdateType.Open, true);
+			DoorUpdateMessage.Send(playerConn, gameObject, DoorUpdateType.Open, true);
 		}
 	}
 
