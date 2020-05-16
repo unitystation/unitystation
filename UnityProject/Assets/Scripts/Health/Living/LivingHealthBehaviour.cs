@@ -438,7 +438,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 				if (fireStacks > 0)
 				{
 					//TODO: Burn clothes (see species.dm handle_fire)
-					ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Internal, DamageType.Burn);
+					ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn);
 					//gradually deplete fire stacks
 					SyncFireStacks(fireStacks, fireStacks-0.1f);
 					//instantly stop burning if there's no oxygen at this location
