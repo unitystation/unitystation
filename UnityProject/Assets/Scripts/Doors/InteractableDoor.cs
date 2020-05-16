@@ -35,14 +35,14 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TargetObject != gameObject) return false;
+		if (Validations.HasUsedActiveWelder(interaction)) return true;
+		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar)) return true;
+		if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false; // False to allow melee
 
 		return allowInput && Controller != null;
 	}
 
-	public void ClientPredictInteraction(HandApply interaction)
-	{
-		StartInputCoolDown();
-	}
+	public void ClientPredictInteraction(HandApply interaction) {}
 
 	//nothing to rollback
 	public void ServerRollbackClient(HandApply interaction) {}
@@ -93,8 +93,6 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		{
 			Controller.ServerTryOpen(interaction.Performer);
 		}
-
-		StartInputCoolDown();
 	}
 
 	/// <summary>

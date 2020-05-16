@@ -67,7 +67,7 @@ public class HackingProcessDoorSimple : HackingProcessBase
 		if (interaction.TargetObject != gameObject) return false;
 		if (IntDoor == null || !IntDoor.allowInput) return false;
 
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver) && interaction.Intent != Intent.Help)
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 		{
 			return true;
 		}
@@ -96,18 +96,15 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 		{
-			if (interaction.Intent != Intent.Help)
+			if (Controller != null)
 			{
-				if (Controller != null)
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer,
-						"You " + (WiresExposed ? "close" : "open") + " the " + doorName + "'s maintenance panel");
-					ServerTryTogglePanel();
-				}
-
-				IntDoor.StartInputCoolDown();
-				return;
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					"You " + (WiresExposed ? "close" : "open") + " the " + doorName + "'s maintenance panel");
+				ServerTryTogglePanel();
 			}
+
+			IntDoor.StartInputCoolDown();
+			return;
 		}
 	}
 
