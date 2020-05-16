@@ -65,13 +65,19 @@ public partial class SubSceneManager
 			}
 		}
 
+		var objCount = 0;
 		var netIds = NetworkIdentity.spawned.Values.ToList();
 		foreach (var n in netIds)
 		{
 			if (n.gameObject.scene != sceneContext) continue;
 
 			n.AddPlayerObserver(connToAdd);
-			yield return WaitFor.EndOfFrame;
+			objCount++;
+			if (objCount >= 20)
+			{
+				objCount = 0;
+				yield return WaitFor.EndOfFrame;
+			}
 		}
 
 		yield return WaitFor.EndOfFrame;
