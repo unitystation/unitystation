@@ -82,7 +82,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 	private int pressureThresholdCaution = 30; // kPa, both thresholds arbitrarily chosen
 	private int pressureThresholdWarning = 120;
 	private bool pressureWarnActive = false;
-	public PressureLevel pressureLevel = PressureLevel.Safe;
+	[HideInInspector] public PressureLevel pressureLevel = PressureLevel.Safe;
 
 	public OpeningDirection openingDirection;
 	private RegisterDoor registerTile;
