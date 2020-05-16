@@ -96,6 +96,11 @@ MonoBehaviour:
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 4
+  possibleTransferAmounts: []
+  transferAmount: 20
   maxCapacity: 100
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   initialReagentMix:
@@ -103,12 +108,6 @@ MonoBehaviour:
     reagents:
       m_keys: []
       m_values: []
-  itemAttributes: {fileID: 0}
-  traitWhitelist: []
-  reagentWhitelist: []
-  transferMode: 4
-  possibleTransferAmounts: []
-  transferAmount: 20
 --- !u!114 &2884347744520720850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +225,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialDescription
-      value: It's better than bad, it's good!
+      value: Wooden you believe it?
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

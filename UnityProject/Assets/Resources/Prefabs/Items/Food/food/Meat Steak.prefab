@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7096778352311293735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532193109441330816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421c3b18959bb624f8fe705eaad88216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6128081887975217483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -25,6 +37,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
       propertyPath: initialName
       value: Meat Steak
       objectReference: {fileID: 0}
@@ -33,6 +50,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f4bf367b42a325c4dbf26b76591e0ef1,
+        type: 2}
     - target: {fileID: 963106870793376919, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Sprite
@@ -106,3 +129,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}
+--- !u!1 &6532193109441330816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
+    type: 3}
+  m_PrefabInstance: {fileID: 6128081887975217483}
+  m_PrefabAsset: {fileID: 0}
