@@ -19,7 +19,7 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 
 		//make sure both items are ingredients!
 		if (!Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Ingredient)) return false;
-		if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Hatchet)) return false;
+		if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Ingredient)) return false;
 
 		//make sure at least the target is in a hand slot
 		if (!interaction.IsToHandSlot) return false;
@@ -31,8 +31,7 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 	}
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-
-		//is the target item chopable?
+		//is the target item another ingredient?
 		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
 		ItemAttributesV2 selfattr = interaction.UsedObject.GetComponent<ItemAttributesV2>();
 		Ingredient ingredient = new Ingredient(attr.ArticleName);
