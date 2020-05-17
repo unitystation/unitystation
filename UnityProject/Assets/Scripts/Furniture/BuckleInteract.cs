@@ -58,6 +58,8 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
 		playerMove.ServerBuckle(gameObject, OnUnbuckle);
 
+		gameObject.GetComponent<Integrity>().OnServerDespawnEvent += playerMove.Unbuckle;
+
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
 		occupiableDirectionalSprite?.SetOccupant(drop.UsedObject.NetId());
@@ -69,6 +71,9 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		if (interaction.TargetObject != gameObject) return false;
 		//can only do this empty handed
 		if (interaction.HandObject != null) return false;
+
+
+
 		//can only do this if there is a buckled player here
 		return MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
 			.Any(pm => pm.IsBuckled);

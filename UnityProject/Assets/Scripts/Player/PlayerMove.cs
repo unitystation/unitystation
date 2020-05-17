@@ -346,6 +346,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		//decide if we should fall back down when unbuckled
 		registerPlayer.ServerSetIsStanding(PlayerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS);
 		onUnbuckled?.Invoke();
+		previouslyBuckledTo.GetComponent<Integrity>().OnServerDespawnEvent -= Unbuckle;
 		if (previouslyBuckledTo)
 		{
 			//we are unbuckled but still will drift with the object.
