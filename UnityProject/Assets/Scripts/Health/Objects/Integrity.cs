@@ -58,6 +58,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[NonSerialized]
 	public UnityAction<DestructionInfo> OnBurnUpServer;
 
+	public Action OnServerDespawnEvent;
+
 	[Tooltip("Sound to play when damage applied.")]
 	public string soundOnHit;
 	/// <summary>
@@ -355,6 +357,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public void OnDespawnServer(DespawnInfo info)
 	{
+		OnServerDespawnEvent?.Invoke();
 		var cnt = GetComponent<CustomNetTransform>();
 		if (cnt != null)
 		{
