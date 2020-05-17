@@ -58,7 +58,8 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
 		playerMove.ServerBuckle(gameObject, OnUnbuckle);
 
-		gameObject.GetComponent<Integrity>().OnServerDespawnEvent += playerMove.Unbuckle;
+		var objectIntegrity = gameObject.GetComponent<Integrity>();
+		if(objectIntegrity != null) objectIntegrity.OnServerDespawnEvent += playerMove.Unbuckle;
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled

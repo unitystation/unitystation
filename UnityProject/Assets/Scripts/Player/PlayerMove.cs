@@ -346,21 +346,22 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		//decide if we should fall back down when unbuckled
 		registerPlayer.ServerSetIsStanding(PlayerScript.playerHealth.ConsciousState == ConsciousState.CONSCIOUS);
 		onUnbuckled?.Invoke();
-		previouslyBuckledTo.GetComponent<Integrity>().OnServerDespawnEvent -= Unbuckle;
-		if (previouslyBuckledTo)
-		{
-			//we are unbuckled but still will drift with the object.
-			var buckledCNT = previouslyBuckledTo.GetComponent<CustomNetTransform>();
-			if (buckledCNT.IsFloatingServer)
-			{
-				playerScript.PlayerSync.NewtonianMove(buckledCNT.ServerImpulse.NormalizeToInt(), buckledCNT.SpeedServer);
-			}
-			else
-			{
-				//stop in place because our object wasn't moving either.
-				playerScript.PlayerSync.Stop();
-			}
 
+		if (previouslyBuckledTo == null) return;
+
+		var integrityBuckledObject = previouslyBuckledTo.GetComponent<Integrity>();
+		if(integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
+
+		//we are unbuckled but still will drift with the object.
+		var buckledCNT = previouslyBuckledTo.GetComponent<CustomNetTransform>();
+		if (buckledCNT.IsFloatingServer)
+		{
+			playerScript.PlayerSync.NewtonianMove(buckledCNT.ServerImpulse.NormalizeToInt(), buckledCNT.SpeedServer);
+		}
+		else
+		{
+			//stop in place because our object wasn't moving either.
+			playerScript.PlayerSync.Stop();
 		}
 	}
 
