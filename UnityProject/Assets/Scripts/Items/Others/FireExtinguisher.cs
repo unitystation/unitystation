@@ -21,6 +21,9 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 	[Range(1, 50)]
 	private int reagentsPerUse = 1;
 
+	private bool isCoolDown = false;
+	[SerializeField] private float coolDownTime = 3f;
+
 	public SpriteRenderer spriteRenderer;
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
 	public Sprite[] spriteList;
@@ -66,20 +69,18 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 	public bool WillInteract(AimApply interaction, NetworkSide side)
 	{
-		if (interaction.MouseButtonState == MouseButtonState.PRESS)
-		{
-			return true;
-		}
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		return false;
+		if (reagentContainer.ReagentMixTotal < reagentsPerUse || safety) return false;
+
+		if (isCoolDown) return false;
+
+		return true;
 	}
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
-		if (reagentContainer.ReagentMixTotal < reagentsPerUse || safety)
-		{
-			return;
-		}
+		StartCoroutine(StartCoolDown());
 
 		Vector2 startPos = gameObject.AssumedWorldPosServer();
 		Vector2 targetPos = interaction.WorldPositionTarget.To2Int();
@@ -162,5 +163,12 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 			passableTiles.Add(positionList[i]);
 		}
 		return passableTiles;
+	}
+
+	private IEnumerator StartCoolDown()
+	{
+		isCoolDown = true;
+		yield return WaitFor.Seconds(coolDownTime);
+		isCoolDown = false;
 	}
 }
