@@ -64,12 +64,15 @@ public class HackingProcessDoorSimple : HackingProcessBase
 	public override bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-
 		if (interaction.TargetObject != gameObject) return false;
+		if (IntDoor == null || !IntDoor.allowInput) return false;
 
-		if (interaction.HandObject == null && !WiresExposed) return false;
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
+		{
+			return true;
+		}
 
-		return IntDoor != null && IntDoor.allowInput;
+		return WiresExposed;
 	}
 
 	public override void ClientPredictInteraction(HandApply interaction)
@@ -80,7 +83,6 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 	public override void ServerPerformInteraction(HandApply interaction)
 	{
-
 		//Do specific things when the wires are exposed.
 		if (WiresExposed)
 		{
@@ -94,23 +96,16 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 		{
-
-			var screwdriver = interaction.HandObject.GetComponent<Screwdriver>();
-			if (interaction.Intent != Intent.Help)
+			if (Controller != null)
 			{
-				if (Controller != null)
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer,
-						"You " + (WiresExposed ? "close" : "open") + " the " + doorName + "'s maintenance panel");
-					ServerTryTogglePanel();
-				}
-
-				IntDoor.StartInputCoolDown();
-				return;
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					"You " + (WiresExposed ? "close" : "open") + " the " + doorName + "'s maintenance panel");
+				ServerTryTogglePanel();
 			}
 
+			IntDoor.StartInputCoolDown();
+			return;
 		}
-
 	}
 
 	public void Shuffle(List<HackingNodeInfo> list)
