@@ -80,7 +80,6 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
-		if (isCoolDown) return;
 		StartCoroutine(StartCoolDown());
 
 		Vector2 startPos = gameObject.AssumedWorldPosServer();
