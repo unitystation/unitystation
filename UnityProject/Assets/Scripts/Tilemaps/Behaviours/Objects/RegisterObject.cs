@@ -13,6 +13,33 @@ public class RegisterObject : RegisterTile
 	[SyncVar]
 	public bool Passable = true;
 
+	private bool initialAtmosPassable;
+	private bool initialPassable;
+
+	protected override void Awake()
+	{
+		base.Awake();
+		initialPassable = Passable;
+		initialAtmosPassable = AtmosPassable;
+	}
+
+	/// <summary>
+	/// Restore all variables specific to RegisterObject to the state they were on creation
+	/// </summary>
+	public void RestoreAllToDefault()
+	{
+		AtmosPassable = initialAtmosPassable;
+		Passable = initialPassable;
+	}
+
+	/// <summary>
+	/// Restore the passable variable to the state it was on creation
+	/// </summary>
+	public void RestorePassableToDefault()
+	{
+		Passable = initialPassable;
+	}
+
 	public override bool IsPassable(Vector3Int from, bool isServer)
 	{
 		return Passable || (isServer ? LocalPositionServer == TransformState.HiddenPos : LocalPositionClient == TransformState.HiddenPos );
