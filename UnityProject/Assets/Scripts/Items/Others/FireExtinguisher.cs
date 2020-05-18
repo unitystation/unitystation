@@ -71,15 +71,12 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		if (reagentContainer.ReagentMixTotal < reagentsPerUse || safety) return false;
-
-		if (isCoolDown) return false;
-
 		return true;
 	}
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
+		if (reagentContainer.ReagentMixTotal < reagentsPerUse || safety) return;
 		if (isCoolDown) return;
 		StartCoroutine(StartCoolDown());
 
