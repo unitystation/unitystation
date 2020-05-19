@@ -11,6 +11,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait ReagentContainer;
 	public ItemTrait CanisterFillable;
 	public ItemTrait Gun;
+	public ItemTrait Ingredient;
 	public ItemTrait Food;
 	public ItemTrait Mask;
 	public ItemTrait Wirecutter;
@@ -36,6 +37,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Welder;
 	public ItemTrait Shovel;
 	public ItemTrait Knife;
+	public ItemTrait RollingPin;
 	public ItemTrait Transforamble;
 	public ItemTrait Squeaky;
 	public ItemTrait LightTube;
@@ -48,6 +50,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait SolidPlasma;
 	public ItemTrait NukeDisk;
 	public ItemTrait Insulated;
+	public ItemTrait BudgetInsulated;
 	public ItemTrait InternalBattery;
 	public ItemTrait AntiFacehugger;
 	public ItemTrait PickUpProtection;

@@ -113,7 +113,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		}
 		else
 		{
-			Inventory.ServerDespawn(feederSlot);
+			Inventory.ServerDespawn(gameObject);
 		}
 
 		if (leavings != null)

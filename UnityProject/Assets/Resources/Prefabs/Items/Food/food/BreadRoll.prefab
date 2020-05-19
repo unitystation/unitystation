@@ -1,5 +1,34 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-3163860398340025578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532193109441330816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7c30ca55ffa4467a421abf7a832a6a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialAmount: 1
+  maxAmount: 10
+  stacksWith: []
+--- !u!114 &-2355202020846635420
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532193109441330816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421c3b18959bb624f8fe705eaad88216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &6128081887975217483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20,7 +49,7 @@ PrefabInstance:
     - target: {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: NutritionLevel
-      value: 42
+      value: 80
       objectReference: {fileID: 0}
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
@@ -30,7 +59,7 @@ PrefabInstance:
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: initialName
-      value: BreadRoll
+      value: Bread Roll
       objectReference: {fileID: 0}
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
@@ -40,6 +69,12 @@ PrefabInstance:
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f4bf367b42a325c4dbf26b76591e0ef1,
+        type: 2}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 7b9f470d9aa5545ce87447d3cd3d61ce,
         type: 2}
@@ -116,3 +151,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}
+--- !u!1 &6532193109441330816 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
+    type: 3}
+  m_PrefabInstance: {fileID: 6128081887975217483}
+  m_PrefabAsset: {fileID: 0}

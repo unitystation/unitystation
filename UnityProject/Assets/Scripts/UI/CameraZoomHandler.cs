@@ -1,16 +1,19 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.U2D;
 
 public class CameraZoomHandler : MonoBehaviour
 {
-    private int zoomLevel = 2;
-    public int ZoomLevel => zoomLevel;
+    private int zoomLevel = 24;
+    public float ZoomLevel => zoomLevel;
     private bool scrollWheelzoom = false;
     public bool ScrollWheelZoom => scrollWheelzoom;
+    private PixelPerfectCamera pixelPerfectCamera;
 
     void Start()
     {
+	    pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
         if (PlayerPrefs.HasKey(PlayerPrefKeys.CamZoomKey))
         {
             zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
@@ -18,9 +21,9 @@ public class CameraZoomHandler : MonoBehaviour
         }
         else
         {
-            zoomLevel = 4;
-            PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, 4);
-            PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 0);
+            zoomLevel = 24;
+            PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, 24);
+            PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 1);
             PlayerPrefs.Save();
         }
 
@@ -30,17 +33,17 @@ public class CameraZoomHandler : MonoBehaviour
 	/// <summary>
 	/// Maximum allowed zoom value.
 	/// </summary>
-	private readonly int maxZoom = 10;
+	private static int maxZoom = 64;
 
 	/// <summary>
 	/// Minimum allowed zoom value.
 	/// </summary>
-	private readonly int minZoom = 2;
+	private readonly int minZoom = 8;
 
 	/// <summary>
 	/// Increment at which zoom changes when using Increase / DecreaseZoomLevel().
 	/// </summary>
-	private readonly int zoomIncrement = 1;
+	private readonly int zoomIncrement = 8;
 
     void Update()
     {
@@ -54,7 +57,7 @@ public class CameraZoomHandler : MonoBehaviour
 
             if (Input.mouseScrollDelta.y < 0f)
             {
-                if (!MouseOutside()) DecreaseZoomLevel(true);
+                if (!MouseOutside()) DecreaseZoomLevel();
             }
         }
     }
@@ -68,30 +71,22 @@ public class CameraZoomHandler : MonoBehaviour
     // Refreshes after setting zoom level.
     public void Refresh()
     {
-        // Calculate ratio.
-        double ratio = Camera.main.pixelHeight / (double) Camera.main.pixelWidth;
+	    if(pixelPerfectCamera == null) pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
+	    if (pixelPerfectCamera == null) return; //probably in the lobby
+	    zoomLevel = Mathf.Clamp(zoomLevel, minZoom, maxZoom);
+        pixelPerfectCamera.assetsPPU = zoomLevel;
 
-        // Calculate scaling factor. 409600 is a magic number.
-        double scaleFactor = Math.Sqrt(Camera.main.pixelHeight * Camera.main.pixelWidth / (409600 * ratio));
-
-        // Automatically set zoom level if it's less than the minimum zoom level.
-        if (zoomLevel < minZoom)
+        if (Camera2DFollow.followControl != null)
         {
-            zoomLevel = Mathf.RoundToInt((float) scaleFactor);
+	        Camera2DFollow.followControl.SetCameraXOffset();
         }
-
-        // Calculate orthographic size with full precision and then convert to float precision.
-        Camera.main.orthographicSize = Convert.ToSingle(ratio * 20 * scaleFactor / zoomLevel);
-
-        // Recenter camera.
-        DisplayManager.Instance.SetCameraFollowPos();
     }
 
-    public void SetZoomLevel(float zoomLevel)
+    public void SetZoomLevel(int _zoomLevel)
     {
-        this.zoomLevel = Mathf.Clamp((int) zoomLevel, 0, maxZoom); // 0 (instead of minZoom) to allow activating automatic zoom
-        Refresh();
-        PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, this.zoomLevel);
+	    zoomLevel = _zoomLevel;
+	    Refresh();
+	    PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, Mathf.Clamp(zoomLevel, minZoom, maxZoom));
         PlayerPrefs.Save();
     }
 
@@ -100,7 +95,7 @@ public class CameraZoomHandler : MonoBehaviour
     /// <summary>
     public void IncreaseZoomLevel()
     {
-		zoomLevel = Math.Min(maxZoom, zoomLevel + zoomIncrement);
+		zoomLevel += zoomIncrement;
         SetZoomLevel(zoomLevel);
     }
 
@@ -108,9 +103,9 @@ public class CameraZoomHandler : MonoBehaviour
     /// A convenient way to increase zoom level
     /// ZoomLevel of 0 = Auto Zoom
     /// <summary>
-    public void DecreaseZoomLevel(bool preventAuto = false)
+    public void DecreaseZoomLevel()
     {
-		zoomLevel = Math.Max(preventAuto ? minZoom : 0, zoomLevel - zoomIncrement);
+	    zoomLevel -= zoomIncrement;
         SetZoomLevel(zoomLevel);
     }
 
@@ -123,7 +118,7 @@ public class CameraZoomHandler : MonoBehaviour
         }
         else
         {
-            PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 1);
+            PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 0);
         }
         PlayerPrefs.Save();
     }
@@ -131,6 +126,6 @@ public class CameraZoomHandler : MonoBehaviour
     public void ResetDefaults()
     {
         ToggleScrollWheelZoom(false);
-        SetZoomLevel(2);
+        SetZoomLevel(24);
     }
 }

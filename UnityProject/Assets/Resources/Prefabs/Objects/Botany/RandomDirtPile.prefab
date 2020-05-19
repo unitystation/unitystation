@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1609685257496530, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}
       propertyPath: m_Name
-      value: random dirt pile
+      value: RandomDirtPile
       objectReference: {fileID: 0}
     - target: {fileID: 4409860773913266, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -96,5 +96,6 @@ PrefabInstance:
       propertyPath: isWild
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -5825847811397951141, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}

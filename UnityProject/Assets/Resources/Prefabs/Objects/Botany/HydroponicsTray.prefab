@@ -298,6 +298,11 @@ MonoBehaviour:
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
   maxCapacity: 200
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   initialReagentMix:
@@ -309,12 +314,6 @@ MonoBehaviour:
       m_values:
       - 100
       - 100
-  itemAttributes: {fileID: 0}
-  traitWhitelist: []
-  reagentWhitelist: []
-  transferMode: 0
-  possibleTransferAmounts: []
-  transferAmount: 20
 --- !u!114 &114193634347157676
 MonoBehaviour:
   m_ObjectHideFlags: 0

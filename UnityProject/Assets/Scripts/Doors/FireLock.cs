@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class FireLock : InteractableDoor
@@ -44,6 +44,18 @@ public class FireLock : InteractableDoor
 		metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
 		Controller.ServerOpen();
 	}
-
-
+	
+	//Copied over from LightSource.cs
+	void OnDrawGizmosSelected()
+	{
+		var sprite = GetComponentInChildren<SpriteRenderer>();
+		if (sprite == null)
+			return;
+		if (fireAlarm == null)
+			return;
+		//Highlight associated fireAlarm.
+		Gizmos.color = new Color(1, 0.5f, 0, 1);
+		Gizmos.DrawLine(fireAlarm.transform.position, gameObject.transform.position);
+		Gizmos.DrawSphere(fireAlarm.transform.position, 0.25f);
+	}
 }

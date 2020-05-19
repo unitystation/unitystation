@@ -366,6 +366,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		//prevents player temporarily showing up at 0,0 when they spawn before they receive their first position
 		playerState.WorldPosition = transform.localPosition;
+		PlayerNewPlayer.Send(netId);
 	}
 
 	public override void OnStartServer()

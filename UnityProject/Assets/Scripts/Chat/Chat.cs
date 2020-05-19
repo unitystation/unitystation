@@ -75,6 +75,12 @@ public partial class Chat : MonoBehaviour
 		if (channels.HasFlag(ChatChannel.OOC))
 		{
 			chatEvent.speaker = sentByPlayer.Username;
+
+			if (PlayerList.Instance.IsAdmin(sentByPlayer.UserId))
+			{
+				chatEvent.speaker = "[Admin] " + chatEvent.speaker;
+			}
+
 			Instance.addChatLogServer.Invoke(chatEvent);
 			return;
 		}

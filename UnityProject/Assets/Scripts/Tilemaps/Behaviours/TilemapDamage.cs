@@ -116,8 +116,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			return;
 		}
 		ContactPoint2D firstContact = coll.GetContact(0);
-		Vector2 dirOfForce = (firstContact.point - (Vector2)coll.transform.position).normalized;
-		DetermineAction(coll.gameObject, dirOfForce, firstContact.point);
+		DetermineAction(coll.gameObject, coll.relativeVelocity.normalized, firstContact.point);
 	}
 
 	private void DetermineAction(GameObject objectColliding, Vector2 forceDirection, Vector3 hitPos)
@@ -473,7 +472,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (data.GrillDamage != GrillDamageLevel.Damaged)
 			{
-				tileChangeManager.UpdateTile(cellPos, TileType.Grill, "GrillDestroyed");
+				tileChangeManager.UpdateTile(cellPos, TileType.Grill, "GrilleDestroyed");
 				data.GrillDamage = GrillDamageLevel.Damaged;
 
 				SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);

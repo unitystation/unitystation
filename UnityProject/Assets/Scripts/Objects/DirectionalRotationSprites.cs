@@ -1,6 +1,5 @@
 
 using System;
-using Lucene.Net.Support;
 using UnityEngine;
 
 /// <summary>

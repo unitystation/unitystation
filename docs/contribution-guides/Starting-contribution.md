@@ -150,7 +150,7 @@ A **P**ull **R**equest is the only way to get your changes into the official ver
 
 You will see a page where you can name your PR and fill a little form with the relevant information. Your PR will be tested and reviewed and then it could be approved to be merged into the game!
 
-
+Please ensure you are familiar with our [development standards](https://unitystation.github.io/unitystation/contribution-guides/Development-Standards-Guide) before submitting your PR.
 
 #### Updating your repo
 
@@ -193,6 +193,7 @@ Well, feeling confused after messing around with the scenes and all? well, it's 
 ##### Reading other Unitystation wikis
 Take a look at [other wiki pages we have](../index.md)
 
+In particular, please ensure you are familiar with our [development standards](https://unitystation.github.io/unitystation/contribution-guides/Development-Standards-Guide) before submitting your PR.
 ##### Learning unity
 There is a huge amount of resources around for learning Unity, and for the more experienced in the code area, it'll be a piece of cake!
 

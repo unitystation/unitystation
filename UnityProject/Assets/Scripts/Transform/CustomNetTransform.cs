@@ -159,6 +159,28 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 		MotionState = MotionStateEnum.Moving;
 	}
 
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		Collider2D[] colls = GetComponents<Collider2D>();
+		foreach (var c in colls)
+		{
+			c.enabled = false;
+		}
+
+		if ( !registerTile )
+		{
+			registerTile = GetComponent<RegisterTile>();
+		}
+
+		registerTile.WaitForMatrixInit(InitClientState);
+	}
+
+	private void InitClientState(MatrixInfo info)
+	{
+		CustomNetTransformNewPlayer.Send(netId);
+	}
+
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
@@ -498,6 +520,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 				registerTile.UnregisterServer();
 			}
 		}
+		Collider2D[] colls = GetComponents<Collider2D>();
+		foreach (var c in colls)
+		{
+			c.enabled = serverState.Active;
+		}
 	}
 		#endregion
 
@@ -513,6 +540,13 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			&& pushPull && pushPull.IsPulledByClient( PlayerManager.LocalPlayerScript?.pushPull) )
 		{
 			return;
+		}
+
+		//We want to toggle the colls before moving the transform
+		Collider2D[] colls = GetComponents<Collider2D>();
+		foreach (var c in colls)
+		{
+			c.enabled = newState.Active;
 		}
 
 		//Don't lerp (instantly change pos) if active state was changed
@@ -561,7 +595,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	/// </summary>
 	/// <param name="playerGameObject">Whom to notify</param>
 	[Server]
-	public void NotifyPlayer(GameObject playerGameObject) {
+	public void NotifyPlayer(NetworkConnection playerGameObject) {
 		TransformStateMessage.Send(playerGameObject, gameObject, serverState);
 	}
 

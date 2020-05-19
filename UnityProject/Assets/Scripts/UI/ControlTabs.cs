@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -70,15 +71,8 @@ public class ControlTabs : MonoBehaviour
 	{
 		get
 		{
-			if (tabsCache == null)
-			{
-				tabsCache = TabStorage.GetComponentsInChildren<Tab>(true);
-			}
-
-			if (popoutTabsCache == null)
-			{
-				popoutTabsCache = TabStoragePopOut.GetComponentsInChildren<Tab>(true);
-			}
+			tabsCache = TabStorage.GetComponentsInChildren<Tab>(true);
+			popoutTabsCache = TabStoragePopOut.GetComponentsInChildren<Tab>(true);
 
 			var list = new List<Tab>(tabsCache.Length + popoutTabsCache.Length);
 			for (var i = 0; i < tabsCache?.Length; i++)
@@ -106,15 +100,8 @@ public class ControlTabs : MonoBehaviour
 		{
 			var list = new List<Tab>();
 
-			if (tabsCache == null)
-			{
-				tabsCache = TabStorage.GetComponentsInChildren<Tab>(true);
-			}
-
-			if (popoutTabsCache == null)
-			{
-				popoutTabsCache = TabStoragePopOut.GetComponentsInChildren<Tab>(true);
-			}
+			tabsCache = TabStorage.GetComponentsInChildren<Tab>(true);
+			popoutTabsCache = TabStoragePopOut.GetComponentsInChildren<Tab>(true);
 
 			for (var i = 0; i < tabsCache?.Length; i++)
 			{
@@ -206,12 +193,6 @@ public class ControlTabs : MonoBehaviour
 		Instance.HideTab(ClientTabType.Admin);
 
 		SelectTab(ClientTabType.Stats);
-	}
-
-	private void Update()
-	{
-		tabsCache = null;
-		popoutTabsCache = null;
 	}
 
 	/// <summary>

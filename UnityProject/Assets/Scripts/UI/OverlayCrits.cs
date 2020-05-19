@@ -20,13 +20,19 @@ using System.Collections;
 		public Image shroudImg;
 		public ShroudPreference unconsciousSettings;
 
-		private void DoAdjust()
+		private bool MonitorTarget = false;
+		private Vector3 positionCache = Vector3.zero;
+
+		void LateUpdate()
 		{
-			if (PlayerManager.LocalPlayer != null)
+			if (MonitorTarget)
 			{
-				Vector3 playerPos =
-					Camera.main.WorldToScreenPoint(PlayerManager.LocalPlayer.transform.position);
-				shroud.position = playerPos;
+				if (PlayerManager.LocalPlayer != null)
+				{
+					Vector3 playerPos =
+						Camera.main.WorldToScreenPoint(PlayerManager.LocalPlayer.transform.position);
+					shroud.position = playerPos;
+				}
 			}
 		}
 
@@ -60,11 +66,11 @@ using System.Collections;
 			{
 
 				shroudImg.enabled = false;
-
+				MonitorTarget = false;
 				yield break;
 			}
 
-			DoAdjust();
+			MonitorTarget = true;
 			holeMat.SetColor("_Color", pref.shroudColor);
 			holeMat.SetFloat("_Radius", pref.holeRadius);
 			holeMat.SetFloat("_Shape", pref.holeShape);

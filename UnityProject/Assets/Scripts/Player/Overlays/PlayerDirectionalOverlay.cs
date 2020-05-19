@@ -28,20 +28,27 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 	private Orientation orientation;
 	private float animSpriteTime;
 
+	private bool init = false;
+
 	public bool OverlayActive { get; private set; }
 
-	private void Awake()
+	private void OnEnable()
 	{
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		StopOverlay();
+		EnsureInit();
 	}
 
 	private void OnDisable()
 	{
-		if (OverlayActive)
-		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		}
+		StopOverlay();
+	}
+
+	void EnsureInit()
+	{
+		if (init) return;
+		init = true;
+
+		spriteRenderer = GetComponent<SpriteRenderer>();
+		StopOverlay();
 	}
 
 	/// <summary>
@@ -50,10 +57,14 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 	/// <param name="direction"></param>
 	public void StartOverlay(Orientation direction)
 	{
-		if(spriteRenderer == null) return;
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		EnsureInit();
+		if (!OverlayActive)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			OverlayActive = true;
+		}
 		orientation = direction;
-		OverlayActive = true;
+
 		spriteRenderer.enabled = true;
 		ChangeOverlaySprite();
 	}
@@ -68,6 +79,7 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 
 	private void SetSprite(Sprite[] sprites, ref int directionalIndex)
 	{
+		EnsureInit();
 		int index;
 
 		if (randomOrder)
@@ -81,6 +93,7 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 			index = directionalIndex;
 		}
 
+		if (spriteRenderer == null || sprites.Length == 0) return;
 		spriteRenderer.sprite = sprites[index];
 	}
 
@@ -89,11 +102,13 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 	/// </summary>
 	public void StopOverlay()
 	{
+		if (!OverlayActive) return;
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		spriteRenderer.sprite = null;
 		spriteRenderer.enabled = false;
 		OverlayActive = false;
 		leftIndex = rightIndex = upIndex = downIndex = 0;
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+
 	}
 
 	private void UpdateMe()

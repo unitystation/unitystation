@@ -19,7 +19,18 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 	}
 
 	private AccessRestrictions accessRestrictions;
-	private OverlayTile ashOverlay;
+	private OverlayTile ashOverlay
+	{
+		get
+		{
+			if (ashOverlay == null)
+			{
+				return TileManager.GetTile(TileType.Effects, "SmallAsh") as OverlayTile;
+			}
+
+			return ashOverlay;
+		}
+	}
 
 	private const float BURNING_DURATION = 1.5f; // In seconds - timed to the Ding SFX.
 
@@ -29,7 +40,6 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 	{
 		base.Awake();
 		accessRestrictions = GetComponent<AccessRestrictions>();
-		ashOverlay = TileManager.GetTile(TileType.Effects, "SmallAsh") as OverlayTile;
 	}
 
 	// This region (Interaction-RightClick) shouldn't exist once TODO in class summary is done.

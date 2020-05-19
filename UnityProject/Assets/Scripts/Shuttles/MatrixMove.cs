@@ -108,6 +108,149 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 	private int moveCur = -1;
 	private int moveLimit = -1;
 
+	//tracks status of initializing this matrix move
+	private bool clientStarted;
+	private bool receivedInitialState;
+	private bool pendingInitialRotation;
+	/// <summary>
+	/// Has this matrix move finished receiving its initial state from the server and rotating into its correct
+	/// position?
+	/// </summary>
+	public bool Initialized => clientStarted && receivedInitialState;
+
+	public override void OnStartClient()
+	{
+		StartCoroutine(WaitForMatrixManager());
+	}
+
+	public override void OnStartServer()
+	{
+		StartCoroutine(WaitForMatrixManager());
+		base.OnStartServer();
+	}
+
+	IEnumerator WaitForMatrixManager()
+	{
+		while (!MatrixManager.IsInitialized)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		yield return WaitFor.EndOfFrame;
+		if (isServer)
+		{
+			InitServerState();
+
+			MatrixMoveEvents.OnStartMovementServer.AddListener(() =>
+			{
+				if (floatingSyncHandle == null)
+				{
+					this.StartCoroutine(FloatingAwarenessSync(), ref floatingSyncHandle);
+				}
+			});
+			MatrixMoveEvents.OnStopMovementServer.AddListener(() => this.TryStopCoroutine(ref floatingSyncHandle));
+
+			NotifyPlayers();
+		}
+		else
+		{
+			SyncPivot(pivot, pivot);
+			SyncInitialPosition(initialPosition, initialPosition);
+			MatrixMoveNewPlayer.Send(netId);
+			clientStarted = true;
+		}
+	}
+
+	[Server]
+	private void InitServerState()
+	{
+		serverState.FlyingDirection = InitialFacing;
+		serverState.FacingDirection = InitialFacing;
+		Logger.LogTraceFormat("{0} server initial facing / flying {1}", Category.Matrix, this, InitialFacing);
+
+		Vector3Int initialPositionInt =
+			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
+		SyncInitialPosition(initialPosition, initialPositionInt);
+
+		var child = transform.GetChild( 0 );
+		matrixInfo = MatrixManager.Get( child.gameObject );
+		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
+		SyncPivot(pivot, initialPosition - childPosition);
+
+		Logger.LogTraceFormat("{0}: pivot={1} initialPos={2}", Category.Matrix, gameObject.name,
+			pivot, initialPositionInt);
+		serverState.Speed = 1f;
+		serverState.Position = initialPosition;
+		serverTargetState = serverState;
+		clientState = serverState;
+
+		RecheckThrusters();
+		if ( thrusters.Count > 0 )
+		{
+			Logger.LogFormat( "{0}: Initializing {1} thrusters!", Category.Transform, matrixInfo.Matrix.name, thrusters.Count );
+			foreach ( var thruster in thrusters )
+			{
+				var integrity = thruster.GetComponent<Integrity>();
+				if ( integrity )
+				{
+					integrity.OnWillDestroyServer.AddListener( destructionInfo =>
+					{
+						if ( thrusters.Contains( thruster ) )
+						{
+							thrusters.Remove( thruster );
+						}
+
+						if ( thrusters.Count == 0 && IsMovingServer )
+						{
+							Logger.LogFormat( "All thrusters were destroyed! Stopping {0} soon!", Category.Transform, matrixInfo.Matrix.name );
+							StartCoroutine( StopWithDelay(1f) );
+						}
+					}	);
+				}
+			}
+		}
+
+		if (SensorPositions == null)
+		{
+			CollisionSensor[] sensors = GetComponentsInChildren<CollisionSensor>();
+			if (sensors.Length == 0)
+			{
+				SensorPositions = new Vector3Int[0];
+				return;
+			}
+
+			SensorPositions = sensors.Select(sensor => Vector3Int.RoundToInt(sensor.transform.localPosition)).ToArray();
+
+			Logger.Log($"Initialized sensors at {string.Join(",", SensorPositions)}," +
+			           $" direction is {ServerState.FlyingDirection}", Category.Matrix);
+		}
+
+		if (RotationSensors == null)
+		{
+			RotationCollisionSensor[] sensors = GetComponentsInChildren<RotationCollisionSensor>();
+			if (sensors.Length == 0)
+			{
+				RotationSensors = new GameObject[0];
+				return;
+			}
+
+			if (rotationSensorContainerObject == null)
+			{
+				rotationSensorContainerObject = sensors[0].transform.parent.gameObject;
+			}
+
+			RotationSensors = sensors.Select(sensor => sensor.gameObject).ToArray();
+		}
+
+		IEnumerator StopWithDelay( float delay )
+		{
+			SetSpeed( ServerState.Speed / 2 );
+			yield return WaitFor.Seconds( delay );
+			Logger.LogFormat( "{0}: Stopping due to missing thrusters!", Category.Transform, matrixInfo.Matrix.name );
+			StopMovement();
+		}
+	}
+
 	private void RecheckThrusters()
 	{
 		thrusters = GetComponentsInChildren<ShipThruster>(true).ToList();
@@ -220,6 +363,315 @@ public partial class MatrixMove : ManagedNetworkBehaviour, IPlayerControllable
 		}
 
 		return true;
+	}
+
+	/// Manually set matrix to a specific position.
+	[Server]
+	public void SetPosition(Vector3 pos, bool notify = true)
+	{
+		Vector3Int intPos = Vector3Int.RoundToInt(pos);
+		serverState.Position = intPos;
+		serverTargetState.Position = intPos;
+		serverState.Inform = true;
+		if (notify)
+		{
+			NotifyPlayers();
+		}
+	}
+
+	/// Called when MatrixMoveMessage is received
+	public void UpdateClientState(MatrixState newState)
+	{
+		var oldState = clientState;
+
+		clientState = newState;
+		Logger.LogTraceFormat("{0} setting client / client target state from message {1}", Category.Matrix, this, newState);
+
+
+		if (!Equals(oldState.FacingDirection, newState.FacingDirection))
+		{
+			if (!receivedInitialState && !pendingInitialRotation)
+			{
+				pendingInitialRotation = true;
+			}
+			inProgressRotation = oldState.FacingDirection.OffsetTo(newState.FacingDirection);
+			Logger.LogTraceFormat("{0} starting rotation progress to {1}", Category.Matrix, this, newState.FacingDirection);
+			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, RotationEvent.Start));
+		}
+
+		if (!oldState.IsMoving && newState.IsMoving)
+		{
+			MatrixMoveEvents.OnStartMovementClient.Invoke();
+		}
+
+		if (oldState.IsMoving && !newState.IsMoving)
+		{
+			MatrixMoveEvents.OnStopMovementClient.Invoke();
+		}
+
+		if ((int) oldState.Speed != (int) newState.Speed)
+		{
+			MatrixMoveEvents.OnSpeedChange.Invoke(oldState.Speed, newState.Speed);
+		}
+
+		if (!receivedInitialState && !pendingInitialRotation)
+		{
+			receivedInitialState = true;
+		}
+	}
+
+	/// Schedule notification for the next ServerPositionsMatch
+	/// And check if it's able to send right now
+	[Server]
+	private void RequestNotify()
+	{
+		serverTargetState.Inform = true;
+		TryNotifyPlayers();
+	}
+
+	///	Inform players when on integer position
+	[Server]
+	private void TryNotifyPlayers()
+	{
+		if (ServerPositionsMatch)
+		{
+//				When serverState reaches its planned destination,
+//				embrace all other updates like changed speed and rotation
+			serverState = serverTargetState;
+			Logger.LogTraceFormat("{0} setting server state from target state {1}", Category.Matrix, this, serverState);
+			NotifyPlayers();
+		}
+	}
+
+	///  Currently sending to everybody, but should be sent to nearby players only
+	[Server]
+	private void NotifyPlayers()
+	{
+		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
+		if (!IsMovingServer || serverState.Inform)
+		{
+			serverState.RotationTime = rotTime;
+
+			//fixme: this whole class behaves like ass!
+			if ( serverState.RotationTime != serverTargetState.RotationTime )
+			{ //Doesn't guarantee that matrix will stop
+				MatrixMoveMessage.SendToAll(gameObject, serverState);
+			} else
+			{ //Ends up in instant rotations
+				MatrixMoveMessage.SendToAll(gameObject, serverTargetState);
+			}
+			//Clear inform flags
+			serverTargetState.Inform = false;
+			serverState.Inform = false;
+		}
+	}
+
+	///     Sync with new player joining
+	/// <param name="playerGameObject">player to send to</param>
+	/// <param name="rotateImmediate">(for init) rotation should be applied immediately if true</param>
+	[Server]
+	public void UpdateNewPlayer(NetworkConnection playerConn, bool rotateImmediate = false)
+	{
+		serverState.RotationTime = rotateImmediate ? 0 : rotTime;
+		MatrixMoveMessage.Send(playerConn, gameObject, serverState);
+	}
+
+	///Only change orientation if rotation is finished
+	[Server]
+	public void TryRotate(bool clockwise)
+	{
+		if (!IsRotatingServer)
+		{
+			Steer(clockwise);
+		}
+	}
+
+	/// <summary>
+	/// Steer 90 degrees in a direction and change flying direction to match
+	/// </summary>
+	/// <param name="clockwise"></param>
+	[Server]
+	public void Steer(bool clockwise)
+	{
+		SteerTo(serverTargetState.FacingDirection.Rotate(clockwise ? 1 : -1));
+	}
+
+	/// <summary>
+	/// Change facing and flying direction to match specified direction if possible.
+	/// If blocked, returns false.
+	/// </summary>
+	/// <param name="desiredOrientation"></param>
+	[Server]
+	public bool SteerTo(Orientation desiredOrientation)
+	{
+		if (CanRotateTo(desiredOrientation))
+		{
+			serverTargetState.FacingDirection = desiredOrientation;
+			serverTargetState.FlyingDirection = desiredOrientation;
+			Logger.LogTraceFormat("{0} server target facing / flying {1}", Category.Matrix, this, desiredOrientation);
+
+			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(desiredOrientation), NetworkSide.Server, RotationEvent.Start));
+
+			RequestNotify();
+			return true;
+		}
+		return false;
+	}
+
+
+	/// Changes flying direction without rotating the shuttle, for use in reversing in EscapeShuttle
+	[Server]
+	public void ChangeFlyingDirection(Orientation newFlyingDirection)
+	{
+		serverTargetState.FlyingDirection = newFlyingDirection;
+		Logger.LogTraceFormat("{0} server target flying {1}", Category.Matrix, this, newFlyingDirection);
+	}
+
+	/// Changes facing direction without changing flying direction, for use in reversing in EscapeShuttle
+	[Server]
+	public bool ChangeFacingDirection(Orientation newFacingDirection)
+	{
+		if (CanRotateTo(newFacingDirection))
+		{
+			serverTargetState.FacingDirection = newFacingDirection;
+			Logger.LogTraceFormat("{0} server target facing  {1}", Category.Matrix, this, newFacingDirection);
+
+			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, serverState.FacingDirection.OffsetTo(newFacingDirection), NetworkSide.Server, RotationEvent.Start));
+
+			RequestNotify();
+			return true;
+		}
+		return false;
+	}
+
+	private Vector3 Target = TransformState.HiddenPos;
+
+	/// Makes matrix start moving towards given world pos
+	[Server]
+	public void AutopilotTo(Vector2 position)
+	{
+		Target = position;
+		StartCoroutine(TravelToTarget());
+	}
+
+	///Zero means 100% accurate, but will lead to peculiar behaviour (autopilot not reacting fast enough on high speed -> going back/in circles etc)
+	private int AccuracyThreshold = 1;
+
+	public void SetAccuracy(int newAccuracy)
+	{
+		AccuracyThreshold = newAccuracy;
+	}
+
+	private IEnumerator TravelToTarget()
+	{
+		if (IsAutopilotEngaged)
+		{
+			var pos = serverState.Position;
+			if (Vector3.Distance(pos, Target) <= AccuracyThreshold)
+			{
+				StopMovement();
+				yield break;
+			}
+
+			Orientation currentDir = serverState.FlyingDirection;
+
+			Vector3 xProjection = Vector3.Project(pos, Vector3.right);
+			int xProjectionX = (int) xProjection.x;
+			int targetX = (int) Target.x;
+
+			Vector3 yProjection = Vector3.Project(pos, Vector3.up);
+			int yProjectionY = (int) yProjection.y;
+			int targetY = (int) Target.y;
+
+			bool xNeedsChange = Mathf.Abs(xProjectionX - targetX) > AccuracyThreshold;
+			bool yNeedsChange = Mathf.Abs(yProjectionY - targetY) > AccuracyThreshold;
+
+			Orientation xDesiredDir = targetX - xProjectionX > 0 ? Orientation.Right : Orientation.Left;
+			Orientation yDesiredDir = targetY - yProjectionY > 0 ? Orientation.Up : Orientation.Down;
+
+			if (xNeedsChange || yNeedsChange)
+			{
+				int xRotationsTo = xNeedsChange ? currentDir.RotationsTo(xDesiredDir) : int.MaxValue;
+				int yRotationsTo = yNeedsChange ? currentDir.RotationsTo(yDesiredDir) : int.MaxValue;
+
+				//don't rotate if it's not needed
+				if (xRotationsTo != 0 && yRotationsTo != 0)
+				{
+					//if both need change determine faster rotation first
+					SteerTo(xRotationsTo < yRotationsTo ? xDesiredDir : yDesiredDir);
+					//wait till it rotates
+					yield return WaitFor.Seconds(1);
+				}
+			}
+
+			if (!serverState.IsMoving)
+			{
+				StartMovement();
+			}
+
+			//Relaunching self once in a while as CheckMovementServer check can fail in rare occasions
+			yield return WaitFor.Seconds(1);
+			StartCoroutine(TravelToTarget());
+		}
+
+		yield return null;
+	}
+
+	//Searches the matrix for RcsThrusters
+	public void CacheRcs()
+	{
+		ClearRcsCache();
+		foreach(Transform t in matrixInfo.Objects)
+		{
+			if (t.tag.Equals("Rcs"))
+			{
+				CacheRcs(t.GetComponent<DirectionalRotatesParent>().MappedOrientation,
+					t.GetComponent<RcsThruster>());
+			}
+		}
+	}
+
+	void CacheRcs(OrientationEnum mappedOrientation, RcsThruster thruster)
+	{
+		if (InitialFacing == Orientation.Up)
+		{
+			if(mappedOrientation == OrientationEnum.Up) bowRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Down) sternRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Right) portRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Left) starBoardRcsThrusters.Add(thruster);
+		}
+
+		if (InitialFacing == Orientation.Right)
+		{
+			if(mappedOrientation == OrientationEnum.Up) portRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Down) starBoardRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Right) sternRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Left) bowRcsThrusters.Add(thruster);
+		}
+
+		if (InitialFacing == Orientation.Down)
+		{
+			if(mappedOrientation == OrientationEnum.Up) sternRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Down) bowRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Right) starBoardRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Left) portRcsThrusters.Add(thruster);
+		}
+
+		if (InitialFacing == Orientation.Left)
+		{
+			if(mappedOrientation == OrientationEnum.Up) starBoardRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Down) portRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Right) bowRcsThrusters.Add(thruster);
+			if(mappedOrientation == OrientationEnum.Left) sternRcsThrusters.Add(thruster);
+		}
+	}
+
+	void ClearRcsCache()
+	{
+		bowRcsThrusters.Clear();
+		sternRcsThrusters.Clear();
+		portRcsThrusters.Clear();
+		starBoardRcsThrusters.Clear();
 	}
 
 #if UNITY_EDITOR

@@ -34,10 +34,10 @@ public class ElectricalCableDeconstruction : TileInteraction
 
 		return Validations.HasItemTrait(interaction.HandObject, requiredTrait);
 	}
-
 	public override void ServerPerformInteraction(TileApply interaction)
 	{
-		Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer);
+		string othersMessage = Chat.ReplacePerformer(othersStartActionMessage, interaction.Performer);
+		Chat.AddActionMsgToChat(interaction.Performer, performerStartActionMessage, othersMessage);
 		if (interaction.BasicTile.LayerType != LayerType.Underfloor) return;
 
 		var ElectricalCable = interaction.BasicTile as ElectricalCableTile;

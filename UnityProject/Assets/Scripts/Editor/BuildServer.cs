@@ -203,7 +203,7 @@ static class BuildScript
 
 		if (target == BuildTarget.StandaloneLinux64)
 		{
-			buildOptions.options = BuildOptions.Development;
+			buildOptions.options |= BuildOptions.Development;
 		}
 
 		ReportOptions(buildOptions);

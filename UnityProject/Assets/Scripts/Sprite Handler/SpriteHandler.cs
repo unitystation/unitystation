@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +13,7 @@ using UnityEngine.UI;
 ///	<summary>
 ///	for Handling sprite animations
 ///	</summary>
+[ExecuteInEditMode]
 public class SpriteHandler : MonoBehaviour
 {
 	public SpriteData spriteData = new SpriteData();
@@ -194,8 +195,8 @@ public class SpriteHandler : MonoBehaviour
 			if (spriteData != null && spriteData.List != null)
 			{
 				if (spriteIndex < spriteData.List.Count &&
-				    variantIndex < spriteData.List[spriteIndex].Count &&
-				    animationIndex < spriteData.List[spriteIndex][variantIndex].Count)
+					variantIndex < spriteData.List[spriteIndex].Count &&
+					animationIndex < spriteData.List[spriteIndex][variantIndex].Count)
 				{
 					SpriteInfo curSpriteInfo = spriteData.List[spriteIndex][variantIndex][animationIndex];
 
@@ -205,7 +206,7 @@ public class SpriteHandler : MonoBehaviour
 					return;
 				}
 				else if (spriteIndex < spriteData.List.Count &&
-				         variantIndex < spriteData.List[spriteIndex].Count)
+						 variantIndex < spriteData.List[spriteIndex].Count)
 				{
 					animationIndex = 0;
 
@@ -226,7 +227,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		timeElapsed += Time.deltaTime;
 		if (spriteData.List.Count > spriteIndex &&
-		    timeElapsed >= waitTime)
+			timeElapsed >= waitTime)
 		{
 			animationIndex++;
 			if (animationIndex >= spriteData.List[spriteIndex][variantIndex].Count)
@@ -257,8 +258,8 @@ public class SpriteHandler : MonoBehaviour
 		if (spriteData.List != null)
 		{
 			if (newSprites < spriteData.List.Count &&
-			    spriteIndex != newSprites &&
-			    variantIndex < spriteData.List[newSprites].Count)
+				spriteIndex != newSprites &&
+				variantIndex < spriteData.List[newSprites].Count)
 			{
 				spriteIndex = newSprites;
 				animationIndex = 0;
@@ -276,8 +277,8 @@ public class SpriteHandler : MonoBehaviour
 		if (spriteData.List != null)
 		{
 			if (spriteIndex < spriteData.List.Count &&
-			    spriteVariant < spriteData.List[spriteIndex].Count &&
-			    variantIndex != spriteVariant)
+				spriteVariant < spriteData.List[spriteIndex].Count &&
+				variantIndex != spriteVariant)
 			{
 				if (spriteData.List[spriteIndex][spriteVariant].Count <= animationIndex)
 				{
@@ -296,7 +297,8 @@ public class SpriteHandler : MonoBehaviour
 
 	private void TryToggleAnimationState(bool turnOn)
 	{
-		//UpdateManager.Instance.Remove(UpdateMe);
+		if (Application.isEditor && !Application.isPlaying) return;
+
 		if (turnOn && !isAnimation)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
@@ -362,7 +364,7 @@ public class SpriteHandler : MonoBehaviour
 
 
 	/// <summary>
-	/// Set this sprite handler to be capable of displaying the elements defined in _Info and sets it  to display as the element in _Info indicated by _spriteIndex and _variantIndex
+	/// Set this sprite handler to be capable of displaying the elements defined in _Info and sets it to display as the element in _Info indicated by _spriteIndex and _variantIndex
 	/// </summary>
 	/// <param name="_Info">The list of sprites</param>
 	/// <param name="_spriteIndex">Initial Sprite index.</param>
@@ -414,7 +416,7 @@ public class SpriteHandler : MonoBehaviour
 
 public class SpriteHandlerState
 {
-	//public string Name; //for  synchronising of network
+	//public string Name; //for synchronising of network
 	//public List<Something> The current Textures being used, idkW hat will be used fo networkingr them
 	public int spriteIndex;
 	public int variantIndex;

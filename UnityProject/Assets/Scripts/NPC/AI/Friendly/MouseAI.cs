@@ -14,8 +14,6 @@ namespace NPC
 
 		protected override void MonitorExtras()
 		{
-			//TODO eat cables if haven't eaten in a while
-
 			timeWaiting += Time.deltaTime;
 			if (timeWaiting < timeForNextRandomAction)
 			{
@@ -23,7 +21,6 @@ namespace NPC
 			}
 			timeWaiting = 0f;
 			timeForNextRandomAction = Random.Range(minTimeBetweenRandomActions, maxTimeBetweenRandomActions);
-
 
 			if (WIRECHEW_ENABLED && Random.Range(0, 100) < WIRECHEW_CHANCE)
 			{
@@ -66,9 +63,14 @@ namespace NPC
 
 		private void DoRandomWireChew()
 		{
-			var matrix = registerObject.TileChangeManager.MetaTileMap.Layers[LayerType.Underfloor].matrix;
-			var cables = matrix.GetElectricalConnections(registerObject.LocalPosition);
+			var metaTileMap = registerObject.TileChangeManager.MetaTileMap;
+			var matrix = metaTileMap.Layers[LayerType.Underfloor].matrix;
 
+			// Check if the floor plating is exposed.
+			if (metaTileMap.HasTile(registerObject.LocalPosition, LayerType.Floors, true)) return;
+
+			// Check if there's cables at this position
+			var cables = matrix.GetElectricalConnections(registerObject.LocalPosition);
 			if (cables == null || cables.Count < 1) return;
 
 			// Pick a random cable from the mouse's current tile position to chew from

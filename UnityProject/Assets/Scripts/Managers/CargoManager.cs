@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Lucene.Net.Support;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -33,7 +32,7 @@ public class CargoManager : MonoBehaviour
 	[SerializeField]
 	private float shuttleFlyDuration = 10f;
 
-	private HashMap<string, ExportedItem> exportedItems = new HashMap<string, ExportedItem>();
+	private Dictionary<string, ExportedItem> exportedItems = new Dictionary<string, ExportedItem>();
 
 	private void Awake()
 	{

@@ -64,7 +64,7 @@ public class WallmountBehavior : MonoBehaviour, IMatrixRotation
 		return difference >= 91 || difference <= -91;
 	}
 
-	private Vector3 CalculateFacing()
+	public Vector3 CalculateFacing()
 	{
 		//when a matrix is static, Directional can be used to determine facing, but when it is rotating,
 		//directional always points in a cardinal direction which doesn't match the actual facing.

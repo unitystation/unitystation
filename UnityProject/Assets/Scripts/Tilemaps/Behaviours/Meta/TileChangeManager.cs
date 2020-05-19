@@ -33,6 +33,12 @@ public class TileChangeManager : NetworkBehaviour
 		interactableTiles = GetComponent<InteractableTiles>();
 	}
 
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		TileChangeNewPlayer.Send(netId);
+	}
+
 	public void InitServerSync(string data)
 	{
 		//server doesn't ever need to run this because this will replay its own changes
@@ -57,7 +63,7 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void NotifyPlayer (GameObject requestedBy)
+	public void UpdateNewPlayer (NetworkConnection requestedBy)
 	{
 		if (changeList.List.Count > 0)
 		{

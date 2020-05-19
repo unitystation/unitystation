@@ -84,7 +84,15 @@ public class Camera2DFollow : MonoBehaviour
 		starsBackground.parent = null;
 	}
 
-	private void LateUpdate()
+	public void SetCameraXOffset()
+	{
+		float xOffSet =
+			(transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x) * 1.38f;
+
+		followControl.SetXOffset(xOffSet);
+	}
+
+	private void Update()
 	{
 		if(!PlayerManager.LocalPlayerScript){
 			return;
@@ -155,8 +163,10 @@ public class Camera2DFollow : MonoBehaviour
 				newPos.x = Mathf.RoundToInt(newPos.x * pixelAdjustment) / pixelAdjustment;
 				newPos.y = Mathf.RoundToInt(newPos.y * pixelAdjustment) / pixelAdjustment;
 			}
+
 			// ReSharper disable once HONK1002
 			transform.position = newPos + (Vector3)recoilOffset;
+			listenerObj.transform.position = target.position;
 			starsBackground.position = -newPos * starScroll;
 
 			lastTargetPosition = target.position;

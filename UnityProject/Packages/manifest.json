@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "com.darrentsung.dtcompiletimetracker": "https://github.com/DarrenTsung/DTCompileTimeTracker.git",
     "com.dbrizov.naughtyattributes": "https://github.com/dbrizov/NaughtyAttributes.git#upm",
+    "com.unity.2d.pixel-perfect": "2.0.4",
     "com.unity.2d.sprite": "1.0.0",
     "com.unity.2d.tilemap": "1.0.0",
     "com.unity.analytics": "3.3.5",
@@ -50,6 +52,10 @@
     "com.unity.test-framework.performance"
   ],
   "lock": {
+    "com.darrentsung.dtcompiletimetracker": {
+      "revision": "HEAD",
+      "hash": "276095b3b212d7c33106b53d71b93b5a72d1e1d3"
+    },
     "com.dbrizov.naughtyattributes": {
       "revision": "upm",
       "hash": "b46e9e8fde10448accd59ecabd09fbe296ef62f7"

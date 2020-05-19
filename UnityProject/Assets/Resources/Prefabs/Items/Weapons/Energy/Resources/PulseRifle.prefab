@@ -546,6 +546,12 @@ PrefabInstance:
       propertyPath: ammoType
       value: 14
       objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 1271333933859612166, guid: a7d5133a902792637a0a9a34499cfc91,
+        type: 3}
     - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Sprite
@@ -698,7 +704,7 @@ PrefabInstance:
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: initialName
-      value: pulse rifle
+      value: Disruptor Cannon
       objectReference: {fileID: 0}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
@@ -753,15 +759,15 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}
---- !u!1 &6507000735928756314 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
-    type: 3}
-  m_PrefabInstance: {fileID: 3520465010449138795}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6511642736210826542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3520465010449138795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6507000735928756314 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
     type: 3}
   m_PrefabInstance: {fileID: 3520465010449138795}
   m_PrefabAsset: {fileID: 0}

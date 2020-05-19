@@ -58,6 +58,12 @@ MonoBehaviour:
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist:
+  - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+  transferMode: 3
+  possibleTransferAmounts: []
+  transferAmount: 100
   maxCapacity: 20
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   initialReagentMix:
@@ -67,13 +73,6 @@ MonoBehaviour:
       - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
       m_values:
       - 20
-  itemAttributes: {fileID: 0}
-  traitWhitelist: []
-  reagentWhitelist:
-  - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
-  transferMode: 3
-  possibleTransferAmounts: []
-  transferAmount: 100
 --- !u!1 &7095945559787729905
 GameObject:
   m_ObjectHideFlags: 0
@@ -284,7 +283,7 @@ PrefabInstance:
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -410,6 +409,12 @@ PrefabInstance:
       propertyPath: throwRange
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
     - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_Sprite

@@ -30,8 +30,6 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	private float fleeingTime = 0f;
 	private float fleeTimeMax;
 
-	private bool initialPassableState;
-
 	//Events:
 	protected UnityEvent followingStopped = new UnityEvent();
 	protected UnityEvent exploringStopped = new UnityEvent();
@@ -44,18 +42,15 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	{
 		get
 		{
-			if (mobExplore.activated || mobFollow.activated || mobFlee.activated)
-			{
-				return true;
-			}
-
-			return false;
+			return (mobExplore.activated || mobFollow.activated || mobFlee.activated);
 		}
 	}
 
 	public bool IsDead => health.IsDead;
 
 	public bool IsUnconscious => health.IsCrit;
+
+	private bool isKnockedDown = false;
 
 	protected virtual void Awake()
 	{
@@ -67,7 +62,6 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		cnt = GetComponent<CustomNetTransform>();
 		registerObject = GetComponent<RegisterObject>();
 		uprightSprites = GetComponent<UprightSprites>();
-		initialPassableState = registerObject.Passable;
 	}
 
 	public virtual void OnEnable()
@@ -103,15 +97,8 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	/// </summary>
 	protected virtual void UpdateMe()
 	{
-		if (IsDead || IsUnconscious)
+		if (MonitorKnockedDown())
 		{
-			//Allow players to walk over the body:
-			if (!registerObject.Passable)
-			{
-				registerObject.Passable = true;
-				dirSprites.SetToBodyLayer();
-				MonitorUprightState();
-			}
 			return;
 		}
 
@@ -120,24 +107,54 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		MonitorFleeingTime();
 	}
 
-
-	//Should mob be knocked down?
-	void MonitorUprightState()
+	/// <summary>
+	/// Updates the mob to fall down or stand up where appropriate
+	/// </summary>
+	/// <returns>Whether the mob is currently knocked down</returns>
+	private bool MonitorKnockedDown()
 	{
 		if (IsDead || IsUnconscious)
 		{
-			if (dirSprites.spriteRend.transform.localEulerAngles.z == 0f)
-			{
-				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
-				dirSprites.SetRotationServer(knockedDownRotation);
-			}
+			Knockdown();
+			return true;
 		}
 		else
 		{
-			if (dirSprites.spriteRend.transform.localEulerAngles.z != 0f)
-			{
-				dirSprites.SetRotationServer(0f);
-			}
+			GetUp();
+			return false;
+		}
+	}
+
+	/// <summary>
+	/// Make the mob fall to the ground if it isn't already there
+	/// </summary>
+	private void Knockdown()
+	{
+		if (!isKnockedDown)
+		{
+			isKnockedDown = true;
+
+			registerObject.Passable = true;
+			dirSprites.SetToBodyLayer();
+
+			SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
+			dirSprites.SetRotationServer(knockedDownRotation);
+		}
+	}
+
+	/// <summary>
+	/// Make the mob stand up if it isn't already stood
+	/// </summary>
+	private void GetUp()
+	{
+		if (isKnockedDown)
+		{
+			isKnockedDown = false;
+
+			registerObject.RestorePassableToDefault();
+			dirSprites.SetToNPCLayer();
+
+			dirSprites.SetRotationServer(0f);
 		}
 	}
 

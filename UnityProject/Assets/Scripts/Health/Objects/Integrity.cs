@@ -23,7 +23,8 @@ using Random = UnityEngine.Random;
 [RequireComponent(typeof(CustomNetTransform))]
 [RequireComponent(typeof(RegisterTile))]
 [RequireComponent(typeof(Meleeable))]
-public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable
+public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClickable, IServerSpawn, IExaminable,
+	IServerDespawn
 {
 
 	/// <summary>
@@ -56,6 +57,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <returns></returns>
 	[NonSerialized]
 	public UnityAction<DestructionInfo> OnBurnUpServer;
+
+	public Action OnServerDespawnEvent;
 
 	[Tooltip("Sound to play when damage applied.")]
 	public string soundOnHit;
@@ -350,6 +353,16 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private void AdminMakeHotspot()
 	{
 		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminMakeHotspot(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
+	}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		OnServerDespawnEvent?.Invoke();
+		var cnt = GetComponent<CustomNetTransform>();
+		if (cnt != null)
+		{
+			cnt.DisappearFromWorldServer();
+		}
 	}
 }
 

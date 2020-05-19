@@ -49,37 +49,79 @@ MonoBehaviour:
     recipeList:
     - Name: Meat Steak
       Ingredients:
-      - amount: 1
+      - requiredAmount: 1
         ingredientName: Meat
       Output: {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2,
         type: 3}
     - Name: Meat Cutlet
       Ingredients:
-      - amount: 1
+      - requiredAmount: 1
         ingredientName: Meat Cutlet
       Output: {fileID: 6532193109441330816, guid: dcb198c42e70def43a450ef925a6b4b5,
         type: 3}
-    - Name: Meat Cutlet (Clone)
+    - Name: Alien Steak
       Ingredients:
-      - amount: 1
-        ingredientName: Meat Cutlet(Clone)
-      Output: {fileID: 6532193109441330816, guid: dcb198c42e70def43a450ef925a6b4b5,
+      - requiredAmount: 1
+        ingredientName: Strange Meat
+      Output: {fileID: 6532193109441330816, guid: 0c6493696f88ed44ebf308db10791edc,
+        type: 3}
+    - Name: Bread Roll
+      Ingredients:
+      - requiredAmount: 1
+        ingredientName: Dough
+      Output: {fileID: 6532193109441330816, guid: 94333a343b655f843aa04e39222a8445,
+        type: 3}
+    - Name: Fried Facehugger
+      Ingredients:
+      - requiredAmount: 1
+        ingredientName: Dead Facehugger
+      Output: {fileID: 6532193109441330816, guid: c563467a495dc9f498ec7959f4b339d0,
         type: 3}
   cuts:
     recipeList:
     - Name: Meat Cutlet
       Ingredients:
-      - amount: 1
+      - requiredAmount: 1
         ingredientName: Meat
       Output: {fileID: 6532193109441330816, guid: f06058cd7ca4b944aa68f64125386e28,
+        type: 3}
+    - Name: Dough
+      Ingredients:
+      - requiredAmount: 1
+        ingredientName: wheat
+      Output: {fileID: 6532193109441330816, guid: b1dd0aebf645e6946ab579ddd8c5f0e6,
+        type: 3}
+    - Name: Alien Cutlet
+      Ingredients:
+      - requiredAmount: 1
+        ingredientName: Strange Meat
+      Output: {fileID: 6532193109441330816, guid: 26bedbdf41b93724698f98566254680b,
+        type: 3}
+    - Name: Facehugger Prep
+      Ingredients:
+      - requiredAmount: 1
+        ingredientName: Facehugger
+      Output: {fileID: 6532193109441330816, guid: ca71a88c859c70f40bbfa90932b285b7,
         type: 3}
   logs:
     recipeList:
     - Name: Wooden Plank
       Ingredients:
-      - amount: 1
+      - requiredAmount: 1
         ingredientName: Tower-cap log
       Output: {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175,
+        type: 3}
+  roll:
+    recipeList: []
+  simplemeal:
+    recipeList:
+    - Name: Burger
+      Ingredients:
+      - requiredAmount: 1
+        ingredientName: Meat Steak
+      - requiredAmount: 1
+        ingredientName: Bread Roll
+      Output: {fileID: 6532193109441330816, guid: eb8dffed09731b74da9448faff662fae,
         type: 3}
   techweb: {fileID: 8028218387555133124}
   designs: {fileID: 8028062986537714290}

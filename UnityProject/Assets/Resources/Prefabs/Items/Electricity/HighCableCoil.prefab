@@ -1,0 +1,244 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6705258602129204192
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'A thick coil of insulated high power cable. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: initialName
+      value: high power cable coil
+      objectReference: {fileID: 0}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 989533d216d886741b17ff8d078c45c2, type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 989533d216d886741b17ff8d078c45c2,
+        type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 989533d216d886741b17ff8d078c45c2,
+        type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 989533d216d886741b17ff8d078c45c2,
+        type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 989533d216d886741b17ff8d078c45c2,
+        type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 71ac3242aa6628840a01fa261acb45a5, type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 80034167c74a02e4d8ec14b1b0ac9d75, type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 80034167c74a02e4d8ec14b1b0ac9d75,
+        type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 80034167c74a02e4d8ec14b1b0ac9d75,
+        type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 80034167c74a02e4d8ec14b1b0ac9d75,
+        type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 80034167c74a02e4d8ec14b1b0ac9d75,
+        type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: a7d0d4e8832cb994aaa526cf0fe37f0e, type: 3}
+    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: CableType
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: CablePrefab
+      value: 
+      objectReference: {fileID: 1042895037894172, guid: e3cc6d69954ca7f44b1df783b70ee6e1,
+        type: 3}
+    - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: powerTypeCategory
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d691fbf7b667d4147bd94bb5699d0b54,
+        type: 3}
+    - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5485968982116442205, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5674645506955800181, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Name
+      value: High Cable Coil
+      objectReference: {fileID: 0}
+    - target: {fileID: 5712767464971415221, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745385122, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745389440, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d691fbf7b667d4147bd94bb5699d0b54,
+        type: 3}
+    - target: {fileID: 6201122676745389440, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745389440, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745389440, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6201122676745406775, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: m_Name
+      value: High Cable Coil
+      objectReference: {fileID: 0}
+    - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: maxAmount
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: stacksWith.Array.data[0]
+      value: 
+      objectReference: {fileID: 1431646644770877665}
+    - target: {fileID: 8345754989556495534, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: stacksWith.Array.data[1]
+      value: 
+      objectReference: {fileID: 4019383695740491213, guid: 930cb494644d9ed46b31e1ecf4222089,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c3e6805b264a935428b0de415ea57943, type: 3}
+--- !u!1 &1431646644770877665 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+    type: 3}
+  m_PrefabInstance: {fileID: 6705258602129204192}
+  m_PrefabAsset: {fileID: 0}

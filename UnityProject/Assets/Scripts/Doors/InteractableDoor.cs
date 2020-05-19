@@ -9,9 +9,6 @@ using System;
 /// </summary>
 public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
 {
-	private static readonly StandardProgressActionConfig ProgressConfig =
-	new StandardProgressActionConfig(StandardProgressActionType.Construction, allowMultiple: true);
-
 	private static readonly float weldTime = 5.0f;
 
 	public bool allowInput = true;
@@ -29,19 +26,20 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		}
 	}
 
+	HandApply interaction;
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-
 		if (interaction.TargetObject != gameObject) return false;
+		if (Validations.HasUsedActiveWelder(interaction)) return true;
+		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar)) return true;
+		if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false; // False to allow melee
 
 		return allowInput && Controller != null;
 	}
 
-	public void ClientPredictInteraction(HandApply interaction)
-	{
-		StartInputCoolDown();
-	}
+	public void ClientPredictInteraction(HandApply interaction) {}
 
 	//nothing to rollback
 	public void ServerRollbackClient(HandApply interaction) {}
@@ -67,78 +65,31 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		this.interaction = interaction;
+
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 		{
-			if (Controller.IsHackable)
-			{
-				HackingNode onAttemptClose = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptClose");
-				onAttemptClose.SendOutputToConnectedNodes(interaction.Performer);
-			}
-			else
-			{
-				TryCrowbar(interaction.Performer);
-			}	
+			TryCrowbar();
 		}
 		else if (!Controller.IsClosed)
 		{
 			TryClose(); // Close the door if it's open
 		}
+		else if (Validations.HasUsedActiveWelder(interaction))
+		{
+			TryWelder(); // Repair or un/weld door, or deconstruct false wall
+		}
+		// Attempt to open if it's closed
+		//Tell the OnAttemptOpen node to activate.
+		else if (Controller.IsHackable)
+		{
+			HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
+			onAttemptOpen.SendOutputToConnectedNodes(interaction.Performer);
+		}
 		else
 		{
-			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Welder)) // welding the door (only if closed and not helping)
-			{
-				if (Controller.IsWeldable)
-				{
-					var welder = interaction.HandObject.GetComponent<Welder>();
-					if (welder.IsOn && interaction.Intent != Intent.Help)
-					{
-						void ProgressComplete()
-						{
-							if (Controller != null)
-							{
-								Chat.AddExamineMsgFromServer(interaction.Performer,
-									"You " + (Controller.IsWelded ? "unweld" : "weld") + " the door.");
-								Controller.ServerTryWeld();
-							}
-						}
-
-						var bar = StandardProgressAction.CreateForWelder(ProgressConfig, ProgressComplete, welder)
-						.ServerStartProgress(interaction.Performer.transform.position, weldTime, interaction.Performer);
-						if (bar != null)
-						{
-							SoundManager.PlayNetworkedAtPos("Weld", interaction.Performer.transform.position, UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: interaction.Performer);
-							Chat.AddExamineMsgFromServer(interaction.Performer, "You start " + (Controller.IsWelded ? "unwelding" : "welding") + " the door...");
-						}
-
-						return;
-					}
-				}
-				else if (!Controller.IsAutomatic)
-				{
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 4f,
-					"You start to disassemble the false wall...",
-					$"{interaction.Performer.ExpensiveName()} starts to disassemble the false wall...",
-					"You disassemble the girder.",
-					$"{interaction.Performer.ExpensiveName()} disassembles the false wall.",
-					() => Controller.ServerDisassemble(interaction));
-					return;
-				}
-			}
-
-			// Attempt to open if it's closed
-			//Tell the OnAttemptOpen node to activate.
-			if (Controller.IsHackable)
-			{
-				HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
-				onAttemptOpen.SendOutputToConnectedNodes(interaction.Performer);
-			}
-			else
-			{
-				Controller.ServerTryOpen(interaction.Performer);
-			}
+			Controller.ServerTryOpen(interaction.Performer);
 		}
-
-		StartInputCoolDown();
 	}
 
 	/// <summary>
@@ -160,17 +111,57 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		Controller.ServerTryOpen(performer);
 	}
 
-	public void TryCrowbar(GameObject performer)
+	public void TryCrowbar()
 	{
-		//TODO: force the opening/close if powerless but make sure firelocks are unaffected
+		if (Controller == null) return;
 
-		if (!Controller.IsClosed)
+		if (Controller.IsHackable)
 		{
-			Controller.ServerTryClose();
+			HackingNode onAttemptClose = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptClose");
+			onAttemptClose.SendOutputToConnectedNodes(interaction.Performer);
 		}
 		else
 		{
-			Controller.ServerTryOpen(performer);
+			//TODO: force the opening/close if powerless but make sure firelocks are unaffected
+
+			if (!Controller.IsClosed)
+			{
+				Controller.ServerTryClose();
+			}
+			else
+			{
+				Controller.ServerTryOpen(interaction.Performer);
+			}
+		}
+	}
+
+	private void TryWelder()
+	{
+		if (Controller == null) return;
+
+		// We check if intent is harm so that later on, when implemented, we can repair the door.
+		if (Controller.IsWeldable && interaction.Intent == Intent.Harm)
+		{
+			ToolUtils.ServerUseToolWithActionMessages(
+					interaction, weldTime,
+					$"You start {(Controller.IsWelded ? "unwelding" : "welding")} the door...",
+					$"{interaction.Performer.ExpensiveName()} starts {(Controller.IsWelded ? "unwelding" : "welding")} the door...",
+					$"You {(Controller.IsWelded ? "unweld" : "weld")} the door.",
+					$"{interaction.Performer.ExpensiveName()} {(Controller.IsWelded ? "unwelds" : "welds")} the door.",
+					Controller.ServerTryWeld);
+		}
+
+		// Start deconstructing the false wall.
+		else if (!Controller.IsAutomatic)
+		{
+			ToolUtils.ServerUseToolWithActionMessages(
+					interaction, 4f,
+					"You start to disassemble the false wall...",
+					$"{interaction.Performer.ExpensiveName()} starts to disassemble the false wall...",
+					"You disassemble the girder.",
+					$"{interaction.Performer.ExpensiveName()} disassembles the false wall.",
+					() => Controller.ServerDisassemble(interaction));
+			return;
 		}
 	}
 
@@ -181,4 +172,3 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		allowInput = true;
 	}
 }
-

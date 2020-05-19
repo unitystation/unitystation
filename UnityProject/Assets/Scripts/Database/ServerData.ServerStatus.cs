@@ -104,7 +104,16 @@ namespace DatabaseAPI
             status.ServerName = config.ServerName;
             status.ForkName = buildInfo.ForkName;
             status.BuildVersion = buildInfo.BuildNumber;
-            status.CurrentMap = SubSceneManager.ServerChosenMainStation;
+
+            if (SubSceneManager.Instance == null)
+            {
+	            status.CurrentMap = "loading";
+            }
+            else
+            {
+	            status.CurrentMap = SubSceneManager.ServerChosenMainStation;
+            }
+
             status.GameMode = GameManager.Instance.GetGameModeName();
             status.IngameTime = GameManager.Instance.roundTimer.text;
             if (PlayerList.Instance != null)
