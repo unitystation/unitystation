@@ -27,7 +27,7 @@ public enum NetTabType
 	ExosuitFabricator = 17,
 	Autolathe = 18,
 	HackingPanel = 19,
-	BoozeDispenser
+	BoozeDispenser = 20
 	//add your tabs here
 }
 
