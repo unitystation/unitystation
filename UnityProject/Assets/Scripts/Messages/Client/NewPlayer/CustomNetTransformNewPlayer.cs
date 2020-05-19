@@ -8,7 +8,8 @@ public class CustomNetTransformNewPlayer: ClientMessage
 	public override void Process()
 	{
 		LoadNetworkObject(CNT);
-		NetworkObject.GetComponent<CustomNetTransform>().NotifyPlayer(
+		if (NetworkObject == null) return;
+		NetworkObject.GetComponent<CustomNetTransform>()?.NotifyPlayer(
 			SentByPlayer.Connection);
 	}
 

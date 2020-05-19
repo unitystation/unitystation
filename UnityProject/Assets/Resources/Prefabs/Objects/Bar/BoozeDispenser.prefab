@@ -15,6 +15,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
 --- !u!114 &553736562539033351
@@ -36,6 +39,19 @@ MonoBehaviour:
   Left: {fileID: 21300006, guid: 69f1f20089fb9ae499bc9aca582de209, type: 3}
   Up: {fileID: 21300002, guid: 69f1f20089fb9ae499bc9aca582de209, type: 3}
   spriteRenderer: {fileID: 6595474460572830946}
+--- !u!114 &2887353635162774965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406346259585755381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 20
 --- !u!114 &6957727407797718013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,6 +66,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+--- !u!114 &7719044269284788720
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406346259585755381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 14ba874224f65461b97794ca4c792e7f,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!1001 &5972872610322709877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -142,6 +175,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
