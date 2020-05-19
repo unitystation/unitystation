@@ -340,6 +340,7 @@ public static class Validations
 				//this should happen almost never
 				//note: we use transform position for both player and target (rather than registered position) because
 				//registered position and transform positions can be out of sync with each other esp. on moving matrices
+				if (playerScript == null || target == null) return false;
 				result = IsInReach(playerScript.transform.position, target.transform.position);
 			}
 
