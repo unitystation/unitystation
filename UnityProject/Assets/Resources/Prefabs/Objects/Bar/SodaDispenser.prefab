@@ -80,6 +80,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
+--- !u!114 &7829915617385470374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7095102647972717821}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 14ba874224f65461b97794ca4c792e7f,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!1001 &7526306905240367485
 PrefabInstance:
   m_ObjectHideFlags: 0
