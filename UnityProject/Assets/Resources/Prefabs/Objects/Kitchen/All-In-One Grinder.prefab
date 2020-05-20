@@ -104,7 +104,6 @@ GameObject:
   - component: {fileID: 2514974837828477566}
   - component: {fileID: -2094786560133369749}
   - component: {fileID: 8790646442014020747}
-  - component: {fileID: -1241795072104110810}
   m_Layer: 11
   m_Name: All-In-One Grinder
   m_TagString: Untagged
@@ -365,9 +364,10 @@ MonoBehaviour:
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 2
-  possibleTransferAmounts: []
-  transferAmount: 100
-  maxCapacity: 100
+  possibleTransferAmounts:
+  - 50
+  transferAmount: 50
+  maxCapacity: 200
   reactionSet: {fileID: 0}
   initialReagentMix:
     temperature: 273.15
@@ -470,23 +470,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &-1241795072104110810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012542722638}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  initialName: All-In-One Grinder
-  initialDescription: A grinder for grinding food.
-  willHighlight: 1
-  exportCost: 0
-  exportName: 
-  exportMessage: 
