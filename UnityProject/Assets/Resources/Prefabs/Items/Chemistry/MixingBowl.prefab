@@ -183,6 +183,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
+      propertyPath: reagentWhitelist.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
       propertyPath: MaxCapacity
       value: 70
       objectReference: {fileID: 0}
@@ -267,6 +272,18 @@ PrefabInstance:
       propertyPath: ExamineContent
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: reagentWhitelist.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31,
+        type: 2}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: reagentWhitelist.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c4cf985d57ba9ce18282581b4f45fe9,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 6745350564874167598, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}

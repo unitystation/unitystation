@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Chemistry.Components;
 
 /// <summary>
 /// Allows Microwave to be interacted with. Player can put food in the microwave to cook it.
@@ -10,9 +11,11 @@ using Mirror;
 public class InteractableGrinder : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	private AIOGrinder grinder;
+	private ReagentContainer grinderStorage;
 
 	private void Start()
 	{
+		grinderStorage = GetComponent<ReagentContainer>();
 		grinder = GetComponent<AIOGrinder>();
 	}
 
@@ -50,7 +53,26 @@ public class InteractableGrinder : MonoBehaviour, ICheckedInteractable<HandApply
 		}
 		else
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "The grinder is empty.");
+			if (!grinderStorage.IsEmpty)
+			{
+				if (grinderStorage.ReagentMixTotal == grinderStorage.AmountOfReagent(grinderStorage.MajorMixReagent))
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						$"The grinder currently contains {grinderStorage.ReagentMixTotal} " +
+		 $"of {grinderStorage.MajorMixReagent}.");
+				}
+				else if (grinderStorage.ReagentMixTotal != grinderStorage.AmountOfReagent(grinderStorage.MajorMixReagent))
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						$"The grinder currently contains {grinderStorage.AmountOfReagent(grinderStorage.MajorMixReagent)} " +
+		 $"of {grinderStorage.MajorMixReagent}, as well as " +
+   $"{grinderStorage.ReagentMixTotal - grinderStorage.AmountOfReagent(grinderStorage.MajorMixReagent)} of various other things.");
+				}
+			}
+			else
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The grinder is empty.");
+			}
 		}
 	}
 }
