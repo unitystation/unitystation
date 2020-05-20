@@ -147,11 +147,7 @@ public class Microwave : NetworkBehaviour
 					//If stckChanger is positive, remove stack.
 					stck.ServerConsume(-stckChanger);
 				}
-
 			}
-
-
-
 		}
 		meal = null;
 		mealCount = 0;
