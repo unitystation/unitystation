@@ -430,7 +430,7 @@ namespace NPC
 
 			XenoQueenAI.CurrentHuggerAmt++;
 			dirSprites.SetToNPCLayer();
-			registerObject.Passable = false;
+			registerObject.RestoreAllToDefault();
 			simpleAnimal.SetDeadState(false);
 			ResetBehaviours();
 			BeginSearch();

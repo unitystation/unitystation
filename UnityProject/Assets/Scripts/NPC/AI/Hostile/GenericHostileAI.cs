@@ -21,6 +21,7 @@ namespace NPC
 		[Tooltip("Amount of time to wait between each random sound. Decreasing this value could affect performance!")]
 		[SerializeField]
 		protected int playRandomSoundTimer = 3;
+
 		[SerializeField]
 		[Range(0,100)]
 		protected int randomSoundProbability = 20;
@@ -161,21 +162,17 @@ namespace NPC
 				return;
 			}
 
-			if (!force)
+			if (!force && !DMMath.Prob(randomSoundProbability))
 			{
-				if (!DMMath.Prob(randomSoundProbability))
-				{
-					return;
-				}
+				return;
 			}
 
-			{
-				SoundManager.PlayNetworkedAtPos(
-					randomSound.PickRandom(),
-					transform.position,
-					Random.Range(0.9f, 1.1f),
-					sourceObj: gameObject);
-			}
+			SoundManager.PlayNetworkedAtPos(
+				randomSound.PickRandom(),
+				transform.position,
+				Random.Range(0.9f, 1.1f),
+				sourceObj: gameObject);
+
 			Invoke(nameof(PlayRandomSound), playRandomSoundTimer);
 		}
 
@@ -316,7 +313,7 @@ namespace NPC
 		protected virtual void OnSpawnMob()
 		{
 			dirSprites.SetToNPCLayer();
-			registerObject.Passable = false;
+			registerObject.RestoreAllToDefault();
 			if (simpleAnimal != null)
 			{
 				simpleAnimal.SetDeadState(false);
