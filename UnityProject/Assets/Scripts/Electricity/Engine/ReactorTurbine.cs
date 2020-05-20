@@ -18,33 +18,20 @@ public class ReactorTurbine : MonoBehaviour, INodeControl
 
     private void OnEnable()
     {
-	    UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+	    UpdateManager.Add(CycleUpdate, 1);
 	    moduleSupplyingDevice.TurnOnSupply();
     }
 
     private void OnDisable()
     {
-	    UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+	    UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 	    moduleSupplyingDevice.TurnOffSupply();
-    }
-
-    public void UpdateMe()
-    {
-	    //Only update at set rate
-	    tickCount += Time.deltaTime;
-	    if (tickCount < tickRate)
-	    {
-		    return;
-	    }
-	    tickCount = 0;
-
-	    CycleUpdate();
     }
 
     // Update is called once per frame
     public void CycleUpdate()
     {
-	    Logger.Log("  moduleSupplyingDevice.ProducingWatts " +   moduleSupplyingDevice.ProducingWatts);
+	    //Logger.Log("  moduleSupplyingDevice.ProducingWatts " +   moduleSupplyingDevice.ProducingWatts);
 	    moduleSupplyingDevice.ProducingWatts = (float) Boiler.OutputEnergy;
     }
 

@@ -13,6 +13,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rodType: 0
+  EditorPresentAtomsfuel: 0
+  EditorPresentAtomsDecayProducts: 0
+  EditorPresentAtomsXenon: 0
+  EditorOutputtingEnergy: 0
+--- !u!114 &4735180267295107090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 70068185008237990}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff9632be38569c1479a5e962ace88b8c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  OutPuttingRadiation: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
+  ObjectID: 0
+  DotSprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
 --- !u!1001 &70783536388903196
 PrefabInstance:
   m_ObjectHideFlags: 0

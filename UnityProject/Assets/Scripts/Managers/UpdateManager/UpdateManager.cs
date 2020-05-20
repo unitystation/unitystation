@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine.Profiling;
+using System.Linq;
+using UnityEngine.Serialization;
 
 /// <summary>
 ///     Handles the update methods for in game objects
@@ -11,6 +13,7 @@ using UnityEngine.Profiling;
 public class UpdateManager : MonoBehaviour
 {
 	private static UpdateManager instance;
+
 	public static UpdateManager Instance
 	{
 		get { return instance; }
@@ -21,7 +24,25 @@ public class UpdateManager : MonoBehaviour
 	private List<Action> updateActions = new List<Action>();
 	private List<Action> fixedUpdateActions = new List<Action>();
 	private List<Action> lateUpdateActions = new List<Action>();
+	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();
 
+	public List<TimedUpdate> pooledTimedUpdates = new List<TimedUpdate>();
+
+	public TimedUpdate GetTimedUpdates()
+	{
+		if (pooledTimedUpdates.Count > 0)
+		{
+			var TimedUpdates = pooledTimedUpdates[0];
+			pooledTimedUpdates.RemoveAt(0);
+			return (TimedUpdates);
+		}
+		else
+		{
+			return (new TimedUpdate());
+		}
+	}
+
+	[Tooltip("For the editor to show more detailed logging in the profiler")]
 	public bool Profile = false;
 
 	public static bool IsInitialized
@@ -66,6 +87,14 @@ public class UpdateManager : MonoBehaviour
 		instance.AddCallbackInternal(type, action);
 	}
 
+	public static void Add(Action action, float TimeInterval)
+	{
+		TimedUpdate timedUpdate = Instance.GetTimedUpdates();
+		timedUpdate.SetUp(action, TimeInterval);
+		Instance.periodicUpdateActions.Add(timedUpdate);
+	}
+
+
 	public static void Add(ManagedNetworkBehaviour networkBehaviour)
 	{
 		instance.AddCallbackInternal(CallbackType.UPDATE, networkBehaviour.UpdateMe);
@@ -88,20 +117,23 @@ public class UpdateManager : MonoBehaviour
 
 		if (type == CallbackType.FIXED_UPDATE)
 		{
-			if (Instance.fixedUpdateActions.Contains(action))
-			{
-				Instance.fixedUpdateActions.Remove(action);
-				return;
-			}
+			Instance.fixedUpdateActions.Remove(action);
+			return;
 		}
 
 		if (type == CallbackType.LATE_UPDATE)
 		{
-			if (Instance.lateUpdateActions.Contains(action))
-			{
-				Instance.lateUpdateActions.Remove(action);
-				return;
-			}
+			Instance.lateUpdateActions.Remove(action);
+			return;
+		}
+
+		if (type == CallbackType.PERIODIC_UPDATE)
+		{
+			var RemovingAction = Instance.periodicUpdateActions.First(x => x.Action == action);
+			RemovingAction.Pool();
+			Instance.periodicUpdateActions.Remove(RemovingAction);
+
+			return;
 		}
 	}
 
@@ -215,7 +247,38 @@ public class UpdateManager : MonoBehaviour
 #endif
 			}
 		}
+
+#if UNITY_EDITOR
+		if (Profile)
+		{
+			Profiler.BeginSample(" Periodic update Process ");
+		}
+#endif
+		ProcessDelayUpdate();
+#if UNITY_EDITOR
+		if (Profile)
+		{
+			Profiler.EndSample();
+		}
+#endif
 	}
+
+	/// <summary>
+	///  Used to do increment the Time on Periodic updates to know when to Call them
+	/// </summary>
+	private void ProcessDelayUpdate()
+	{
+		for (int i = 0; i < periodicUpdateActions.Count; i++)
+		{
+			periodicUpdateActions[i].TimeTitleNext -= Time.deltaTime;
+			if (periodicUpdateActions[i].TimeTitleNext <= 0)
+			{
+				periodicUpdateActions[i].TimeTitleNext = periodicUpdateActions[i].TimeDelayPreUpdate;
+				periodicUpdateActions[i].Action();
+			}
+		}
+	}
+
 
 	private void FixedUpdate()
 	{
@@ -244,13 +307,36 @@ public class UpdateManager : MonoBehaviour
 		if (instance == this)
 			instance = null;
 	}
+
+	public class TimedUpdate
+	{
+		public float TimeDelayPreUpdate = 0;
+		public float TimeTitleNext = 0;
+		public Action Action;
+
+		public void SetUp(Action InAction, float InTimeDelayPreUpdate)
+		{
+			Action = InAction;
+			TimeDelayPreUpdate = InTimeDelayPreUpdate;
+			TimeTitleNext = InTimeDelayPreUpdate;
+		}
+
+		public void Pool()
+		{
+			TimeDelayPreUpdate = 0;
+			TimeTitleNext = 0;
+			Action = null;
+			UpdateManager.instance.pooledTimedUpdates.Add(this);
+		}
+	}
 }
 
 public enum CallbackType : byte
 {
 	UPDATE,
 	FIXED_UPDATE,
-	LATE_UPDATE
+	LATE_UPDATE,
+	PERIODIC_UPDATE,
 }
 
 /// <summary>

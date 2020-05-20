@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Atmospherics;
+using Radiation;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
@@ -13,13 +14,15 @@ public class MetaDataNode: IGasMixContainer
 {
 	public static readonly MetaDataNode None;
 
+	/// <summary>
+	/// Used for storing useful information for the radiation system and The radiation level
+	/// </summary>
+	public RadiationNode RadiationNode = new RadiationNode();
 
 	/// <summary>
 	/// Contains all electrical data for this tile
 	/// </summary>
 	public List<ElectricalMetaData> ElectricalData = new List<ElectricalMetaData>();
-
-
 
 	/// <summary>
 	/// Local position of this tile in its parent matrix.

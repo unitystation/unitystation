@@ -18,7 +18,7 @@ public class ReactorControlConsole : MonoBehaviour
 			}
 			Chamber.ControlRodDepthPercentage *= (1/Multiplier);
 			ControlRodDepthPercentage = Chamber.ControlRodDepthPercentage;
-
+//Change this to use SetControlRodDepth
 			if (Chamber.ControlRodDepthPercentage > 1)
 			{
 				Chamber.ControlRodDepthPercentage = 1;

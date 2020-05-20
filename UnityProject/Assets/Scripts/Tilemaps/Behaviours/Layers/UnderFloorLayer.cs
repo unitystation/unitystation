@@ -31,7 +31,7 @@ public class UnderFloorLayer : Layer
 							TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
 						}
 
-						TileStore[(Vector2Int)localPlace].Add(getTile);
+						TileStore[(Vector2Int) localPlace].Add(getTile);
 
 						var electricalCableTile = getTile as ElectricalCableTile;
 						if (getTile != null)
@@ -93,19 +93,42 @@ public class UnderFloorLayer : Layer
 				TileStore.Add(position2, new List<LayerTile>());
 			}
 
-			position.z = 1 - TileStore[position2].Count;
-			TileStore[position2].Add((LayerTile)tile);
+			int index = FindFirstEmpty(TileStore[position2]);
+			if ( index < 0)
+			{
+				position.z = 1 - TileStore[position2].Count;
+				TileStore[position2].Add((LayerTile) tile);
+			}
+			else
+			{
+				position.z = 1 - index;
+				TileStore[position2][index]= (LayerTile) tile;
+			}
+
 
 			if (Application.isPlaying)
 			{
 				matrix.TileChangeManager.UnderfloorUpdateTile(position, tile as BasicTile);
 			}
+
 			base.SetTile(position, tile, transformMatrix);
 		}
 		else
 		{
 			base.SetTile(position, tile, transformMatrix);
 		}
+	}
+
+	private int FindFirstEmpty(List<LayerTile> LookThroughList)
+	{
+		for (var i = 0; i < LookThroughList.Count; i++)
+		{
+			if (LookThroughList[i] == null)
+			{
+				return (i);
+			}
+		}
+		return (-1);
 	}
 
 	public override void RemoveTile(Vector3Int position, bool removeAll = false)
@@ -130,17 +153,17 @@ public class UnderFloorLayer : Layer
 
 	public void RemoveSpecifiedTile(Vector3Int position, LayerTile tile)
 	{
-		if (!TileStore.ContainsKey((Vector2Int)position)) return;
+		if (!TileStore.ContainsKey((Vector2Int) position)) return;
 
-		if (TileStore.ContainsKey((Vector2Int)position))
+		if (TileStore.ContainsKey((Vector2Int) position))
 		{
-			if (TileStore[(Vector2Int)position].Contains(tile))
+			if (TileStore[(Vector2Int) position].Contains(tile))
 			{
-				int index = TileStore[(Vector2Int)position].IndexOf(tile);
+				int index = TileStore[(Vector2Int) position].IndexOf(tile);
 				matrix.TileChangeManager.RemoveTile(new Vector3Int(position.x, position.y, (-index) + 1),
 					LayerType.Underfloor,
 					false);
-				TileStore[(Vector2Int)position][index] = null;
+				TileStore[(Vector2Int) position][index] = null;
 			}
 		}
 		else

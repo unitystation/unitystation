@@ -7,44 +7,44 @@ public class ReactorBoiler : MonoBehaviour
 	[SerializeField] private float tickRate = 1;
 	private float tickCount;
 
+	public decimal MaxPressureInput = 300000M;
+	public decimal CurrentPressureInput = 0;
 	public decimal OutputEnergy;
 	public decimal TotalEnergyInput;
-	public decimal Efficiency  = 0.9M;
+
+	public decimal Efficiency = 0.5M;
+
 	//public ReactorTurbine reactorTurbine;
 	public List<ReactorGraphiteChamber> Chambers;
 	// Start is called before the first frame update
 
-    private void OnEnable()
-    {
-	    UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-    }
+	private void OnEnable()
+	{
+		UpdateManager.Add(CycleUpdate, 1);
+	}
 
-    private void OnDisable()
-    {
-	    UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-    }
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
+	}
 
-    public void UpdateMe()
-    {
-	    //Only update at set rate
-	    tickCount += Time.deltaTime;
-	    if (tickCount < tickRate)
-	    {
-		    return;
-	    }
-	    tickCount = 0;
 
-	    CycleUpdate();
-    }
+	public void CycleUpdate()
+	{
+		//Maybe change equation later to something cool
+		CurrentPressureInput = 0;
+		foreach (var Chamber in Chambers)
+		{
+			CurrentPressureInput += (decimal) ((Chamber.reagentContainer.Temperature-293.15f) * Chamber.reagentContainer[Chamber.Water]);
+			Chamber.reagentContainer.Temperature =
+				(((Chamber.reagentContainer.Temperature - 293.15f) *(float)  Efficiency) + 293.15f);
+		}
 
-    public void CycleUpdate()
-    {
-	    TotalEnergyInput = 0;
-	    foreach (var Chamber in  Chambers)
-	    {
-		    TotalEnergyInput += Chamber.EnergyReleased;
-	    }
-	    //if Energy too great explode//Change to temperature water exchange
-	    OutputEnergy = TotalEnergyInput * Efficiency;
-    }
+		Logger.Log("CurrentPressureInput " + CurrentPressureInput);
+		if (CurrentPressureInput > MaxPressureInput)
+		{
+			Logger.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);
+		}
+		OutputEnergy = CurrentPressureInput * Efficiency;
+	}
 }

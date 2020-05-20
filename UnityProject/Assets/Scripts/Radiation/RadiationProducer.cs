@@ -1,34 +1,99 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 using Light2D;
+using UnityEngine;
+using UnityEngine.UI;
 
-public class RadiationProducer : MonoBehaviour
+namespace Radiation
 {
-	public float OutPuttingRadiation = 0;
-	public Color color = new Color();
-	private GameObject mLightRendererObject;
-
-	private void Awake()
+	public class RadiationProducer : MonoBehaviour
 	{
+		public float OutPuttingRadiation = 0;
+		public Color color = new Color(93f/255f, 202/255f, 49/255f, 0);
+		private GameObject mLightRendererObject;
+		private ObjectBehaviour objectBehaviour;
+		private RegisterObject registerObject;
+		public int ObjectID = 0;
+		private LightSprite lightSprite;
+		public Sprite DotSprite;
 
-		if (mLightRendererObject == null)
+		private void Awake()
 		{
+			//yeah dam Unity initial Conditions  is not updating
+			color = new Color(93f/255f, 202/255f, 49/255f, 0);
+
+			objectBehaviour = this.GetComponent<ObjectBehaviour>();
+			ObjectID = this.GetInstanceID();
+
 			mLightRendererObject = LightSpriteBuilder.BuildDefault(gameObject, color, 7);
-			mLightRendererObject.SetActive(false);
+			mLightRendererObject.SetActive(true);
+
+			lightSprite = mLightRendererObject.GetComponent<LightSprite>();
+			lightSprite.Sprite = DotSprite;
+			registerObject = this.GetComponent<RegisterObject>();
 		}
 
+		// Start is called before the first frame update
+		void Start()
+		{
+		}
+
+		private void OnEnable()
+		{
+			UpdateManager.Add(RequestPulse, 5);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RequestPulse);
+		}
+
+		/*private IEnumerator Refresh()
+		{
+			//Request pulse
+			yield return WaitFor.Seconds(5f);
+			if (OutPuttingRadiation > 0)
+			{
+				StartCoroutine(Refresh());
+			}
+		}*/
+		public void UpdateValues(float Invalue)
+		{
+			OutPuttingRadiation = Invalue;
+			float LightPower = OutPuttingRadiation / 24000;
+			if (LightPower > 1)
+			{
+				mLightRendererObject.transform.localScale = Vector3.one * 7 *  LightPower ;
+				LightPower = 1;
+			}
+
+			lightSprite.Color.a = LightPower;
+		}
+
+		void RequestPulse()
+		{
+			if (OutPuttingRadiation > 0.358f)
+			{
+				if (registerObject == null)
+				{
+					RadiationManager.Instance.RequestPulse(objectBehaviour.registerTile.Matrix,
+						objectBehaviour.registerTile.LocalPosition, OutPuttingRadiation, ObjectID);
+				}
+				else
+				{
+					RadiationManager.Instance.RequestPulse(registerObject.Matrix,
+						registerObject.LocalPosition, OutPuttingRadiation, ObjectID);
+				}
+
+			}
+
+			UpdateValues(OutPuttingRadiation);
+
+			//Logger.Log("RequestPulse!!" + Time.time);
+		}
+
+		// Update is called once per frame
+		void Update()
+		{
+		}
 	}
-
-    // Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
 }
