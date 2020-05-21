@@ -14,14 +14,6 @@ public class BulletKinetic : BulletBehaviour
 		StartCoroutine(countTiles());
 	}
 
-	private IEnumerator countTiles()
-	{
-		Vector2 startPos = gameObject.AssumedWorldPosServer();
-		float time = maxBulletDistance / weapon.ProjectileVelocity;
-		yield return WaitFor.Seconds(time);
-		DespawnThis();
-	}
-
 	public override void HandleCollisionEnter2D(Collision2D coll)
 	{
 		//This one is not working right now as intended

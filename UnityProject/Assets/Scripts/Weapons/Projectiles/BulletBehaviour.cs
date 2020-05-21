@@ -82,9 +82,8 @@ public class BulletBehaviour : MonoBehaviour
 		
 	}
 
-	private IEnumerator countTiles()
+	public IEnumerator countTiles()
 	{
-		Vector2 startPos = gameObject.AssumedWorldPosServer();
 		float time = maxBulletDistance / weapon.ProjectileVelocity;
 		yield return WaitFor.Seconds(time);
 		//Begin despawn
