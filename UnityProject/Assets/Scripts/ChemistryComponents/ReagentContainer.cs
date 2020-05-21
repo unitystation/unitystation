@@ -303,7 +303,8 @@ namespace Chemistry.Components
 			{
 				if (registerTile && registerTile.CustomTransform)
 				{
-					var worldPos = registerTile.CustomTransform.AssumedWorldPositionServer().CutToInt();
+					var worldPos = registerTile.CustomTransform.AssumedWorldPositionServer();
+					worldPos.z = 0;
 					SpillAll(worldPos, thrown);
 				}
 			}

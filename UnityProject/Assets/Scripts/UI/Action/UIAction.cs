@@ -32,20 +32,21 @@ public class UIAction : MonoBehaviour
 	public void ButtonPress()
 	{
 		SoundManager.Play("Click01");
+		//calling clientside code
 		if (iActionGUI.ActionData.CallOnClient)
 		{
 			iActionGUI.CallActionClient();
 		}
 
+		//sending a message to server asking to run serverside code
 		if (iActionGUI.ActionData.CallOnServer) {
 			if (iActionGUI is IServerActionGUI) {
-				if (iActionGUI is UIActionScriptableObject)
+				if (iActionGUI is UIActionScriptableObject actionSO)
 				{
-					var iIActionScriptableObject = iActionGUI as UIActionScriptableObject;
-					RequestGameActionSO.Send(iIActionScriptableObject);
+					RequestGameActionSO.Send(actionSO);
 				}
 				else
-				{ 
+				{
 					RequestGameAction.Send(iActionGUI as IServerActionGUI);
 				}
 			}

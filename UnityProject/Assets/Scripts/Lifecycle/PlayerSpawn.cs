@@ -273,7 +273,7 @@ public static class PlayerSpawn
 
 		Vector3Int spawnPosition = TransformState.HiddenPos;
 		var objBeh = body.GetComponent<ObjectBehaviour>();
-		if (objBeh != null) spawnPosition = objBeh.AssumedWorldPositionServer().RoundToInt();
+		if (objBeh != null) spawnPosition = objBeh.AssumedWorldPositionServer();
 
 		if (spawnPosition == TransformState.HiddenPos)
 		{

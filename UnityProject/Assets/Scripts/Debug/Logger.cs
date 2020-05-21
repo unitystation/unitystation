@@ -259,7 +259,8 @@ public enum Category
 	Botany,
 	SoundFX,
 	Character,
-	SubScenes
+	SubScenes,
+	Spells
 }
 
 [Serializable]

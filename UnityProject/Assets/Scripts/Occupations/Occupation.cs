@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -42,6 +43,11 @@ public class Occupation : ScriptableObject
 	[Tooltip("Default access allowed for this occupation.")]
 	private List<Access> allowedAccess = null;
 	public List<Access> AllowedAccess => allowedAccess;
+
+	[SerializeField]
+	[Tooltip("Default spells available for this occupation.")]
+	private List<MonoScript> spells = null;
+	public List<MonoScript> Spells => spells;
 
 	[Header("Description")]
 	// Information that has no real gameplay impact, but is very useful for the player to see.
