@@ -596,7 +596,7 @@ public partial class CustomNetTransform
 		for (var i = 0; i < tiles.Count; i++)
 		{
 			var tileDmg = tiles[i];
-			var damage = (int)(ItemAttributes.ServerThrowDamage);
+			var damage = (int)(ItemAttributes.ServerThrowDamage * 2);
 			tileDmg.DoThrowDamage(pos, info, damage);
 		}
 
@@ -606,7 +606,7 @@ public partial class CustomNetTransform
 			for (var i = 0; i < objects.Count; i++)
 			{
 				//Remove cast to int when moving health values to float
-				var damage = (int)(ItemAttributes.ServerThrowDamage);
+				var damage = (int)(ItemAttributes.ServerThrowDamage * 2);
 				var hitZone = info.Aim.Randomize();
 				objects[i].ApplyDamageToBodypart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 				Chat.AddThrowHitMsgToChat(gameObject,objects[i].gameObject, hitZone);

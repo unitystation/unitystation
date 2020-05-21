@@ -25,9 +25,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stackableMaterials: 0
-  materialCost: 0
-  reagentContainer: 0
   craftItem:
   - {fileID: 4010194602388370502, guid: e5ec5dc9591066d47a44185d4e8e9d66, type: 3}
   - {fileID: 6704733875890864299, guid: efa2c04573e08dd478e4b46c23747b75, type: 3}
@@ -104,7 +101,7 @@ PrefabInstance:
     - target: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: m_Name
-      value: FirstAidKit
+      value: First Aid Kit
       objectReference: {fileID: 0}
     - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -119,12 +116,12 @@ PrefabInstance:
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: initialName
-      value: first-aid kit
+      value: First Aid Kit
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: initialDescription
-      value: It's an emergency medical kit for those serious boo-boos.
+      value: stores healy things
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -133,13 +130,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
-      propertyPath: throwSpeed
-      value: 3
+      propertyPath: initialSize
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
-      propertyPath: initialSize
-      value: 1
+      propertyPath: hitDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: throwDamage
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4421781600494999209, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class BulletKinetic : BulletBehaviour
 {
 
+	public float maxBulletDistance;
 
 	//to control Kinetic animation with it
 	private bool isOnDespawn = false;
@@ -12,6 +13,14 @@ public class BulletKinetic : BulletBehaviour
 	{
 		base.Shoot(dir, controlledByPlayer, fromWeapon, targetZone);
 		StartCoroutine(countTiles());
+	}
+
+	private IEnumerator countTiles()
+	{
+		Vector2 startPos = gameObject.AssumedWorldPosServer();
+		float time = maxBulletDistance / weapon.ProjectileVelocity;
+		yield return WaitFor.Seconds(time);
+		DespawnThis();
 	}
 
 	public override void HandleCollisionEnter2D(Collision2D coll)
