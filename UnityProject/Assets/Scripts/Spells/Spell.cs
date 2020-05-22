@@ -13,7 +13,10 @@ public class Spell : MonoScript, IServerActionGUI
 {
 
 	public ActionData ActionData => SpellData;
-	public SpellData SpellData => spellData == null ? spellData = SpellList.Instance.GetDataForSpell(this) : spellData;
+	public SpellData SpellData =>
+		spellData == null ?
+			spellData = SpellList.GetDataForSpell(this) :
+			spellData;
 	[SerializeField] protected SpellData spellData = null;
 
 	public int ChargesLeft
@@ -33,9 +36,9 @@ public class Spell : MonoScript, IServerActionGUI
 
 	public void CallActionServer(ConnectedPlayer SentByPlayer)
 	{
-		if (ValidateCast(SentByPlayer))
+		if (ValidateCast(SentByPlayer) &&
+		    CastSpellServer(SentByPlayer))
 		{
-			CastSpellServer(SentByPlayer);
 			AfterCast(SentByPlayer);
 		}
 	}
@@ -68,8 +71,15 @@ public class Spell : MonoScript, IServerActionGUI
 		}
 	}
 
-	public virtual void CastSpellServer(ConnectedPlayer caster)
+
+	/// <returns>false if it was aborted for some reason</returns>
+	public virtual bool CastSpellServer(ConnectedPlayer caster)
 	{
+		if (SpellData.SummonType == SpellSummonType.None)
+		{ //don't want to summon anything physical and that's alright
+			return true;
+		}
+
 		Vector3Int castPosition = TransformState.HiddenPos;
 
 		Vector3Int casterPosition = caster.Script.AssumedWorldPos;
@@ -86,17 +96,14 @@ public class Spell : MonoScript, IServerActionGUI
 				castPosition = casterPosition + caster.Script.CurrentDirection.VectorInt.To3Int();
 				break;
 			case SpellSummonPosition.Custom:
-				castPosition = GetSummonPosition(caster);
+				castPosition = GetWorldSummonPosition(caster);
 				break;
 		}
 
-		if (SpellData.SummonType == SpellSummonType.None || castPosition == TransformState.HiddenPos)
-		{
-			//not summoning anything
-			return;
+		if ( castPosition == TransformState.HiddenPos)
+		{ //got invalid position, aborting
+			return false;
 		}
-
-		//also use range in "real" spells
 
 		bool shouldDespawn = SpellData.SummonLifespan > 0f;
 
@@ -110,7 +117,7 @@ public class Spell : MonoScript, IServerActionGUI
 				if (spawnResult.Successful && shouldDespawn)
 				{
 					//but also destroy when lifespan ends
-					caster.ViewerScript.StartCoroutine(DespawnAfterDelay(), ref handle);
+					caster.Script.StartCoroutine(DespawnAfterDelay(), ref handle);
 
 					IEnumerator DespawnAfterDelay()
 					{
@@ -127,13 +134,18 @@ public class Spell : MonoScript, IServerActionGUI
 				//spawn
 				var matrixInfo = MatrixManager.AtPoint(castPosition, true);
 				var localPos = MatrixManager.WorldToLocalInt(castPosition, matrixInfo);
-				// localPos.z = -10; //placing summoned tiles on a special z axis to avoid disturbances
+
+				if (matrixInfo.MetaTileMap.HasTile(localPos, tileToSummon.LayerType, true)
+				&& !SpellData.ReplaceExisting)
+				{
+					return false;
+				}
 
 				matrixInfo.TileChangeManager.UpdateTile(localPos, tileToSummon);
 				if (shouldDespawn)
 				{
 					//but also destroy when lifespan ends
-					caster.ViewerScript.StartCoroutine(DespawnAfterDelay(), ref handle);
+					caster.Script.StartCoroutine(DespawnAfterDelay(), ref handle);
 
 					IEnumerator DespawnAfterDelay()
 					{
@@ -143,12 +155,14 @@ public class Spell : MonoScript, IServerActionGUI
 				}
 			}
 		}
+
+		return true;
 	}
 
 	/// <summary>
 	/// Override this in your subclass for custom logic
 	/// </summary>
-	public virtual Vector3Int GetSummonPosition(ConnectedPlayer caster)
+	public virtual Vector3Int GetWorldSummonPosition(ConnectedPlayer caster)
 	{
 		return TransformState.HiddenPos;
 	}

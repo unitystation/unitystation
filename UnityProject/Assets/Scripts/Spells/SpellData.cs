@@ -58,107 +58,27 @@ public class SpellData : ActionData
 	[SerializeField] private int range = 0;
 	[SerializeField] private string invocationMessageSelf = "";
 
-	public string Name
-	{
-		get => spellName;
-		protected set => spellName = value;
-	}
+	[Header("Whether to replace existing tile")]
+	[SerializeField] private bool replaceExisting = false;
 
-	public string Description
-	{
-		get => description;
-		protected set => description = value;
-	}
-
-	public string StillRechargingMessage
-	{
-		get => stillRechargingMessage;
-		protected set => stillRechargingMessage = value;
-	}
-
-	public SpellChargeType ChargeType
-	{
-		get => chargeType;
-		protected set => chargeType = value;
-	}
-
-	public float CooldownTime
-	{
-		get => cooldownTime;
-		protected set => cooldownTime = value;
-	}
-
-	public int StartingCharges
-	{
-		get => startingCharges;
-		protected set => startingCharges = value;
-	}
-
-	public string AffectedMessage
-	{
-		get => affectedMessage;
-		protected set => affectedMessage = value;
-	}
-
-	public string CastSound
-	{
-		get => castSound;
-		protected set => castSound = value;
-	}
-
-	public SpellInvocationType InvocationType
-	{
-		get => invocationType;
-		protected set => invocationType = value;
-	}
-
-	public string InvocationMessage
-	{
-		get => invocationMessage;
-		protected set => invocationMessage = value;
-	}
-
-	public int Range
-	{
-		get => range;
-		protected set => range = value;
-	}
-
-	public string InvocationMessageSelf
-	{
-		get => invocationMessageSelf;
-		protected set => invocationMessageSelf = value;
-	}
-
-	public float SummonLifespan
-	{
-		get => summonLifespan;
-		protected set => summonLifespan = value;
-	}
-
-	public SpellSummonType SummonType
-	{
-		get => summonType;
-		protected set => summonType = value;
-	}
-
-	public List<GameObject> SummonObjects
-	{
-		get => summonObjects;
-		protected set => summonObjects = value;
-	}
-
-	public List<LayerTile> SummonTiles
-	{
-		get => summonTiles;
-		protected set => summonTiles = value;
-	}
-
-	public SpellSummonPosition SummonPosition
-	{
-		get => summonPosition;
-		protected set => summonPosition = value;
-	}
+	public string Name => spellName;
+	public string Description => description;
+	public string StillRechargingMessage => stillRechargingMessage;
+	public SpellChargeType ChargeType => chargeType;
+	public float CooldownTime => cooldownTime;
+	public int StartingCharges => startingCharges;
+	public string AffectedMessage => affectedMessage;
+	public string CastSound => castSound;
+	public SpellInvocationType InvocationType => invocationType;
+	public string InvocationMessage => invocationMessage;
+	public int Range => range;
+	public string InvocationMessageSelf => invocationMessageSelf;
+	public float SummonLifespan => summonLifespan;
+	public SpellSummonType SummonType => summonType;
+	public List<GameObject> SummonObjects => summonObjects;
+	public List<LayerTile> SummonTiles => summonTiles;
+	public SpellSummonPosition SummonPosition => summonPosition;
+	public bool ReplaceExisting => replaceExisting;
 }
 public enum SpellChargeType
 {

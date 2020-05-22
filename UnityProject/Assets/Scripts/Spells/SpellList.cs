@@ -28,7 +28,16 @@ public class SpellList : SingletonScriptableObject<SpellList>
 
 		initialized = true;
 	}
-	public SpellData GetDataForSpell(Spell spell)
+
+	public static SpellData GetDataForSpell(Spell spell)
+	{
+		if (Instance == null)
+		{
+			return null;
+		}
+		return Instance.InternalGetDataForSpell(spell);
+	}
+	private SpellData InternalGetDataForSpell(Spell spell)
 	{
 		if (!initialized)
 		{
