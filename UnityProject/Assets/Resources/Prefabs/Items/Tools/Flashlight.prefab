@@ -142,7 +142,7 @@ PrefabInstance:
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialDescription
-      value: 
+      value: A hand-held emergency light.
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -153,36 +153,36 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
-      objectReference: {fileID: 2800000, guid: 718fd258f24113246b9d3651b8eada7e, type: 3}
+      objectReference: {fileID: 2800000, guid: c85c1a453e6616f4aa2db1fdc7322872, type: 3}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
       value: 
-      objectReference: {fileID: 21300000, guid: 718fd258f24113246b9d3651b8eada7e,
+      objectReference: {fileID: 21300000, guid: c85c1a453e6616f4aa2db1fdc7322872,
         type: 3}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
       value: 
-      objectReference: {fileID: 21300002, guid: 718fd258f24113246b9d3651b8eada7e,
+      objectReference: {fileID: 21300002, guid: c85c1a453e6616f4aa2db1fdc7322872,
         type: 3}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
       value: 
-      objectReference: {fileID: 21300004, guid: 718fd258f24113246b9d3651b8eada7e,
+      objectReference: {fileID: 21300004, guid: c85c1a453e6616f4aa2db1fdc7322872,
         type: 3}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
       value: 
-      objectReference: {fileID: 21300006, guid: 718fd258f24113246b9d3651b8eada7e,
+      objectReference: {fileID: 21300006, guid: c85c1a453e6616f4aa2db1fdc7322872,
         type: 3}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
-      objectReference: {fileID: 4900000, guid: 8cd67ee28fb1e56428be8fa3697c61ab, type: 3}
+      objectReference: {fileID: 4900000, guid: 1f79a59f9fdfc594ca77d9986e89d3e8, type: 3}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.data[0]
@@ -195,6 +195,40 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 718fd258f24113246b9d3651b8eada7e, type: 3}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 718fd258f24113246b9d3651b8eada7e,
+        type: 3}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 718fd258f24113246b9d3651b8eada7e,
+        type: 3}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 718fd258f24113246b9d3651b8eada7e,
+        type: 3}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 718fd258f24113246b9d3651b8eada7e,
+        type: 3}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 8cd67ee28fb1e56428be8fa3697c61ab, type: 3}
     - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: m_Sprite
