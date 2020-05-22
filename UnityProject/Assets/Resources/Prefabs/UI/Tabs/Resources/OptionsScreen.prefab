@@ -11238,12 +11238,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f3b5e426cb7ce444bf260a747524d36, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  camZoomSlider: {fileID: 409163354096696072}
-  scrollWheelZoomToggle: {fileID: 7401857623655751299}
   fullscreenToggle: {fileID: 5829766539079802346}
   vSyncToggle: {fileID: 2242489747033056492}
   vSyncWarning: {fileID: 4234669143815524131}
   frameRateTarget: {fileID: 4837674139496565793}
+  camZoomSlider: {fileID: 409163354096696072}
+  scrollWheelZoomToggle: {fileID: 7401857623655751299}
   chatBubbleSizeSlider: {fileID: 411084898738235156}
 --- !u!1 &6487944468741698383
 GameObject:
@@ -12187,6 +12187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screen: {fileID: 7597910633178645888}
+  displayOptions: {fileID: 4451116723230981298}
 --- !u!114 &3825634513002827830
 MonoBehaviour:
   m_ObjectHideFlags: 0
