@@ -66,4 +66,11 @@
 	/// Sets the normal chat bubble size preference
 	/// </summary>
 	public static string ChatBubbleSize = "ChatBubbleSize";
+
+	/// <summary>
+	/// VSync preference.
+	/// 0 = disabled
+	/// 1 = enabled, every VBlank
+	/// <summary>
+	public static string EnableVSync = "EnableVSync";
 }
