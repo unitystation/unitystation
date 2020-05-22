@@ -20,12 +20,12 @@ PrefabInstance:
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: initialName
-      value: jug of milk
+      value: bottle of ketchup
       objectReference: {fileID: 0}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: initialDescription
-      value: A jug of calcium-rich milk.
+      value: The original fake blood.
       objectReference: {fileID: 0}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -35,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: m_Name
-      value: Milk Jug
+      value: Ketchup
       objectReference: {fileID: 0}
     - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -111,7 +111,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 5e8030e9f2813964fa41b86579228557,
+      objectReference: {fileID: 21300000, guid: c90d70f2528a3ad4e8efdf00feab0b8b,
         type: 3}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -142,14 +142,19 @@ PrefabInstance:
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1,
+      objectReference: {fileID: 11400000, guid: 7ace1bf0147f08919bb5c16a12fb72f3,
         type: 2}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: reagentWhitelist.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1,
+      objectReference: {fileID: 11400000, guid: 7ace1bf0147f08919bb5c16a12fb72f3,
         type: 2}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: ExamineContent
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]

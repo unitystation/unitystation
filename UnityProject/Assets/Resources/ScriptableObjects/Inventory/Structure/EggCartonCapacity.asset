@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 89423981fdf5b0d46af8718c36521ad8, type: 3}
-  m_Name: Alien Cutlets
+  m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
+  m_Name: EggCartonCapacity
   m_EditorClassIdentifier: 
-  Name: Alien Cutlets
-  Ingredients:
-  - requiredAmount: 1
-    ingredientName: Strange Meat
-  Output: {fileID: 6532193109441330816, guid: 26bedbdf41b93724698f98566254680b, type: 3}
+  MaxItemSize: 1
+  Whitelist:
+  - {fileID: 11400000, guid: b36590acbe2365b46a29079cda26216c, type: 2}
+  Required: []
+  Blacklist: []
