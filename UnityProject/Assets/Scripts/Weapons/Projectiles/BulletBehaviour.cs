@@ -35,7 +35,7 @@ public class BulletBehaviour : MonoBehaviour
 	//	public BodyPartType BodyPartAim { get; private set; };
 
 	public float maxBulletDistance;
-	public bool isRangeLimit;
+	public bool isRangeLimit = false;
 
 	private void Awake()
 	{
