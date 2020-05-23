@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c58d5c5a6190436e9d4ae8e32a26ee6a, type: 3}
+  m_Name: ERTChaplain
+  m_EditorClassIdentifier: 
+  jobType: 45
+  inventoryPopulator: {fileID: 11400000, guid: f59820e7cfb62604d8f527eb360f5fe4, type: 2}
+  limit: -1
+  priority: 0
+  allowedAccess: 01000000030000000400000005000000060000000700000008000000090000000a00000015000000160000001700000018000000190000001a0000001b0000001d0000001e0000001f000000200000002100000022000000230000002400000025000000260000002700000028000000290000002a0000002b0000002c0000002d0000002e0000002f00000030000000310000003200000033000000340000003500000036000000370000003a0000003b0000003c0000003d0000003e0000003f000000400000004200000043000000440000004500000046000000490000004a0000004b0000004c0000004d0000004e0000004f00000050000000
+  progress: 75
+  choiceColor: {r: 0.8, g: 0.8, b: 1, a: 1}
+  previewSprite: {fileID: 21300000, guid: b28046094f565534fb33fd7c050a3f22, type: 3}
+  displayName: ERT Chaplain
+  difficulty: 4
+  descriptionShort: "\u2022 Manage the station\n\u2022 Manage your staff\n\u2022
+    Keep the crew alive"
+  descriptionLong: 'You are the top of the Chain of Command. It is your duty to ensure
+    the stability and productivity of the station, as well as carrying out orders
+    issued to you by Centcom.
+
+
+
+    People expect you to be a leader and command
+    your crew to keep everyone alive, and more importantly, working. Make sure everyone
+    has a job to do and is collaborating to achieve the station objective. Pay attention
+    to possible threats and always be prepared to call the escape shuttle in case
+    things get too chaotic. A good grasp of station mechanics and Standard Operating
+    Procedure is required,  so only experienced players should play this role.
+
+
+
+    Not
+    sure what to do? Make announcements to keep the crew morale high, declare stuff
+    as illegal and see how security does nothing to support your order, chair meetings
+    with the other Department Heads, call the escape shuttle when there is no way
+    the station can keep producing, recall it when the clown is finally spaced.
+
+'
