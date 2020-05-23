@@ -184,7 +184,7 @@ PrefabInstance:
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: reagentWhitelist.Array.size
-      value: 2
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
@@ -283,6 +283,30 @@ PrefabInstance:
       propertyPath: reagentWhitelist.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 0c4cf985d57ba9ce18282581b4f45fe9,
+        type: 2}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: reagentWhitelist.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 81c39cb6183d269ba82af38936032f67,
+        type: 2}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: reagentWhitelist.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103,
+        type: 2}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: reagentWhitelist.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1,
+        type: 2}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: reagentWhitelist.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c793b26027c29a1cb5806c738a7a556,
         type: 2}
     m_RemovedComponents:
     - {fileID: 6745350564874167598, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
