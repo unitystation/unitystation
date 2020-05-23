@@ -31,6 +31,12 @@ public class Mind
 	/// </summary>
 	private Dictionary<string, object> properties = new Dictionary<string, object>();
 
+	public bool IsMiming
+	{
+		get => GetPropertyOrDefault("vowOfSilence", false);
+		set => SetProperty("vowOfSilence", value);
+	}
+
 	//use Create to create a mind.
 	private Mind()
 	{
@@ -97,6 +103,11 @@ public class Mind
 			{
 				Spell spellInstance = Activator.CreateInstance(spell.GetClass()) as Spell;
 				Spells.Add(spellInstance);
+			}
+
+			if (occupation.JobType == JobType.MIME)
+			{ //not sure if it should be set on body set or mind init...
+				SetProperty("vowOfSilence", true);
 			}
 		}
 		StopGhosting();

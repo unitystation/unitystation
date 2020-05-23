@@ -1,20 +1,22 @@
-public class MimeWall : Spell
+namespace Spells
 {
-
-	public override bool ValidateCast(ConnectedPlayer caster)
+	public class MimeWall : Spell
 	{
-		if (!base.ValidateCast(caster))
-		{
-			return false;
-		}
 
-		if (caster.Script.mind.occupation.JobType != JobType.MIME ||
-		    caster.Script.mind.GetPropertyOrDefault("brokeVowOfSilence", false))
+		public override bool ValidateCast(ConnectedPlayer caster)
 		{
-			Chat.AddExamineMsg(caster.GameObject, "You must dedicate yourself to silence first!");
-			return false;
-		}
+			if (!base.ValidateCast(caster))
+			{
+				return false;
+			}
 
-		return true;
+			if (!caster.Script.mind.IsMiming)
+			{
+				Chat.AddExamineMsg(caster.GameObject, "You must dedicate yourself to silence first!");
+				return false;
+			}
+
+			return true;
+		}
 	}
 }

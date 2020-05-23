@@ -60,8 +60,8 @@ public class Spell : MonoScript, IServerActionGUI
 					break;
 			}
 
-			Chat.AddActionMsgToChat(sentByPlayer.GameObject, SpellData.InvocationMessageSelf,
-				modPrefix+SpellData.InvocationMessage);
+			Chat.AddActionMsgToChat(sentByPlayer.GameObject, FormatInvocationMessageSelf(sentByPlayer),
+				FormatInvocationMessage(sentByPlayer, modPrefix));
 		}
 
 		if (SpellData.ChargeType == SpellChargeType.FixedCharges && --ChargesLeft <= 0)
@@ -70,7 +70,6 @@ public class Spell : MonoScript, IServerActionGUI
 			UIActionManager.Toggle(this, false, sentByPlayer.GameObject);
 		}
 	}
-
 
 	/// <returns>false if it was aborted for some reason</returns>
 	public virtual bool CastSpellServer(ConnectedPlayer caster)
@@ -175,7 +174,14 @@ public class Spell : MonoScript, IServerActionGUI
 			return false;
 		}
 
-		if (caster.Script.IsDeadOrGhost)
+		if (!caster.Script.mind.Spells.Contains(this))
+		{
+			Logger.LogWarningFormat("Illegal spell access: {0} tried to call spell they don't possess ({1})",
+				Category.Security, caster, this);
+			return false;
+		}
+
+		if (caster.Script.IsDeadOrGhost || caster.Script.playerHealth.IsCrit)
 		{
 			return false;
 		}
@@ -183,7 +189,7 @@ public class Spell : MonoScript, IServerActionGUI
 		bool isRecharging = Cooldowns.IsOnServer(caster.Script, CommonCooldowns.Instance.Spell);
 		if (isRecharging)
 		{
-			Chat.AddExamineMsg(caster.GameObject, SpellData.StillRechargingMessage);
+			Chat.AddExamineMsg(caster.GameObject, FormatStillRechargingMessage(caster));
 			return false;
 		}
 
@@ -196,4 +202,17 @@ public class Spell : MonoScript, IServerActionGUI
 		return true;
 	}
 
+	protected virtual string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
+	{
+		return modPrefix+SpellData.InvocationMessage;
+	}
+
+	protected virtual string FormatInvocationMessageSelf(ConnectedPlayer caster)
+	{
+		return SpellData.InvocationMessageSelf;
+	}
+	protected virtual string FormatStillRechargingMessage(ConnectedPlayer caster)
+	{
+		return SpellData.StillRechargingMessage;
+	}
 }

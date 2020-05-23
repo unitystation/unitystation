@@ -8,7 +8,8 @@ using Mirror;
 /// Buckle a player in when they are dragged and dropped while on this object, then unbuckle
 /// them when the object is hand-applied to.
 /// </summary>
-public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, ICheckedInteractable<HandApply>
+public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, ICheckedInteractable<HandApply>,
+	IServerLifecycle
 {
 	//may be null
 	private OccupiableDirectionalSprite occupiableDirectionalSprite;
@@ -53,14 +54,22 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 
 	public void ServerPerformInteraction(MouseDrop drop)
 	{
-		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer(), sourceObj: gameObject);
+		var playerScript = drop.UsedObject.GetComponent<PlayerScript>();
+		BucklePlayer(playerScript);
+	}
 
-		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
-		playerMove.ServerBuckle(gameObject, OnUnbuckle);
+	/// <summary>
+	/// Don't use it without proper validation!
+	/// </summary>
+	public void BucklePlayer(PlayerScript playerScript)
+	{
+		SoundManager.PlayNetworkedAtPos("Click01", gameObject.WorldPosServer(), sourceObj: gameObject);
+
+		playerScript.playerMove.ServerBuckle(gameObject, OnUnbuckle);
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
-		occupiableDirectionalSprite?.SetOccupant(drop.UsedObject.NetId());
+		occupiableDirectionalSprite?.SetOccupant(playerScript.netId);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -78,21 +87,35 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 	{
 		SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer(), sourceObj: gameObject);
 
-		var playerMoveAtPosition = MatrixManager
-			.GetAt<PlayerMove>(transform.position.CutToInt(), true)?
-			.FirstOrDefault(pm => pm.IsBuckled);
-		//cannot use the CmdUnrestrain because commands are only allowed to be invoked by local player
-		if (playerMoveAtPosition != null)
-		{
-			playerMoveAtPosition.Unbuckle();
-		}
+		Unbuckle();
+	}
 
-		//the above will then invoke onunbuckle as it was the callback passed to Restrain
+	/// <summary>
+	/// Eject whoever is buckled to this
+	/// </summary>
+	[Server]
+	public void Unbuckle()
+	{
+		foreach (var playerMove in MatrixManager.GetAt<PlayerMove>(gameObject, NetworkSide.Server))
+		{
+			if (playerMove.IsBuckled)
+			{
+				playerMove.Unbuckle();
+				return;
+			}
+		}
 	}
 
 	//delegate invoked from playerMove when they are unrestrained from this
 	private void OnUnbuckle()
 	{
 		occupiableDirectionalSprite?.SetOccupant(NetId.Empty);
+	}
+
+	public void OnSpawnServer(SpawnInfo info){}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		Unbuckle();
 	}
 }

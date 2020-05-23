@@ -45,7 +45,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	}
 
 	// make sure to call this in subclasses
-	public void Start()
+	public virtual void Start()
 	{
 		CheckSpriteOrder();
 	}
@@ -144,7 +144,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer.GetComponent<NetworkIdentity>().connectionToClient);
 	}
 
-	public void ServerPerformInteraction(HandApply interaction)
+	public virtual void ServerPerformInteraction(HandApply interaction)
 	{
 		//we validated, but object may only be in extended range
 		var cnt = GetComponent<CustomNetTransform>();

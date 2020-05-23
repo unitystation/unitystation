@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 527d04810ffb4855b86689bf64eb71a2, type: 3}
-  m_Name: MimeWall
+  m_Name: MimeChair
   m_EditorClassIdentifier: 
-  callOnClient: 1
-  callOnServer: 1
+  callOnClient: 0
+  callOnServer: 0
   Sprites:
-  - Texture: {fileID: 2800000, guid: ca93f2bb1433b4e5c973d1158ad71c09, type: 3}
+  - Texture: {fileID: 2800000, guid: 2a9f91f37fea6449b8a9c615122ef31a, type: 3}
     Sprites:
-    - {fileID: 21300000, guid: ca93f2bb1433b4e5c973d1158ad71c09, type: 3}
+    - {fileID: 21300000, guid: 2a9f91f37fea6449b8a9c615122ef31a, type: 3}
     EquippedData: {fileID: 0}
   Backgrounds:
   - Texture: {fileID: 2800000, guid: 6e3c794ac15d39040933b23625335f7a, type: 3}
@@ -26,22 +26,22 @@ MonoBehaviour:
     EquippedData: {fileID: 0}
   PreventBeingControlledBy: 
   DisableOnEvent: 
-  spellName: Invisible Wall
-  description: The mime's performance transmutates a wall into physical reality.
+  spellName: Invisible Chair
+  description: The mime's performance transmutates a chair into physical reality.
   stillRechargingMessage: The spell is still recharging
   chargeType: 0
   cooldownTime: 30
-  startingCharges: 0
-  summonType: 2
-  summonObjects: []
-  summonTiles:
-  - {fileID: 11400000, guid: 3dcd0ba6d54534f18ab6ba3cfacd1775, type: 2}
-  summonPosition: 1
-  summonLifespan: 30
+  startingCharges: 10
+  summonType: 1
+  summonObjects:
+  - {fileID: 1169897606440870, guid: bcc17bbba7bc94498846703488c8f166, type: 3}
+  summonTiles: []
+  summonPosition: 0
+  summonLifespan: 25
   affectedMessage: 
   castSound: 
   invocationType: 1
-  invocationMessage: ' looks as if a wall is in front of '
+  invocationMessage: '{0} pulls out an invisible chair and sits down.'
   range: 0
-  invocationMessageSelf: You form a wall in front of yourself.
+  invocationMessageSelf: You conjure an invisible chair and sit down.
   replaceExisting: 0
