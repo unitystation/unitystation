@@ -75,7 +75,7 @@ public class BulletBehaviour : MonoBehaviour
 	{
 		isSuicide = false;
 		StartShoot(dir, controlledByPlayer, fromWeapon, targetZone);
-		if (isRangeLimit);
+		if (isRangeLimit)
 		{
 			StartCoroutine(countTiles());
 		}
