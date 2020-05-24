@@ -5,28 +5,43 @@ using UnityEngine.U2D;
 
 public class CameraZoomHandler : MonoBehaviour
 {
-    private int zoomLevel = 24;
-    public float ZoomLevel => zoomLevel;
-    private bool scrollWheelzoom = false;
-    public bool ScrollWheelZoom => scrollWheelzoom;
+	public float ZoomLevel => zoomLevel;
+	private int zoomLevel = DEFAULT_ZOOMLEVEL;
+	private const int DEFAULT_ZOOMLEVEL = 24;
+	
+	public bool ScrollWheelZoom => scrollWheelzoom;
+	private bool scrollWheelzoom = DEFAULT_SCROLLWHEELZOOM;
+	private const bool DEFAULT_SCROLLWHEELZOOM = true;
+
     private PixelPerfectCamera pixelPerfectCamera;
 
-    void Start()
-    {
-	    pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
-        if (PlayerPrefs.HasKey(PlayerPrefKeys.CamZoomKey))
-        {
-            zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
-            scrollWheelzoom = PlayerPrefs.GetInt(PlayerPrefKeys.ScrollWheelZoom) == 1;
-        }
-        else
-        {
-            zoomLevel = 24;
-            PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, 24);
-            PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 1);
-            PlayerPrefs.Save();
-        }
+	void Awake()
+	{
+		pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
 
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.CamZoomKey))
+		{
+			zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
+		}
+		else
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, DEFAULT_ZOOMLEVEL);
+			PlayerPrefs.Save();
+		}
+
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.ScrollWheelZoom))
+		{
+			scrollWheelzoom = PlayerPrefs.GetInt(PlayerPrefKeys.ScrollWheelZoom) == 1;
+		}
+		else
+		{
+			PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, DEFAULT_SCROLLWHEELZOOM ? 1 : 0);
+			PlayerPrefs.Save();
+		}
+	}
+
+	void Start()
+    {
         Refresh();
     }
 
@@ -109,23 +124,16 @@ public class CameraZoomHandler : MonoBehaviour
         SetZoomLevel(zoomLevel);
     }
 
-    public void ToggleScrollWheelZoom(bool activeState)
+    public void SetScrollWheelZoom(bool activeState)
     {
         scrollWheelzoom = activeState;
-        if (activeState)
-        {
-            PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 1);
-        }
-        else
-        {
-            PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, 0);
-        }
+		PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, activeState ? 1 : 0);
         PlayerPrefs.Save();
     }
 
     public void ResetDefaults()
     {
-        ToggleScrollWheelZoom(false);
-        SetZoomLevel(24);
+        SetScrollWheelZoom(DEFAULT_SCROLLWHEELZOOM);
+        SetZoomLevel(DEFAULT_ZOOMLEVEL);
     }
 }
