@@ -72,5 +72,5 @@
 	/// 0 = disabled
 	/// 1 = enabled, every VBlank
 	/// <summary>
-	public static string EnableVSync = "EnableVSync";
+	public static string VSyncEnabled = "EnableVSync";
 }

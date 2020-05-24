@@ -18,8 +18,6 @@ namespace Unitystation.Options
 		//All the nav buttons in the left column
 		private List<OptionsButton> optionButtons = new List<OptionsButton>();
 
-		[SerializeField] private DisplayOptions displayOptions = null;
-
 		void Awake()
 		{
 			if (Instance == null)
@@ -38,7 +36,6 @@ namespace Unitystation.Options
 		{
 			var btns = GetComponentsInChildren<OptionsButton>(true);
 			optionButtons = new List<OptionsButton>(btns);
-			displayOptions.InitSettings(); // Load display settings even if we don't turn on the options menu
 			screen.SetActive(false);
 		}
 
