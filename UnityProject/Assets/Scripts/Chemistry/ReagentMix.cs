@@ -81,6 +81,19 @@ namespace Chemistry
 		}
 
 		/// <summary>
+		/// The name(s) of the reagents inside the container.
+		/// Note: Probably only use for containers that only hold one specific thing.
+		/// </summary>
+		public String MixName
+		{
+			get
+			{
+				return MajorMixReagent.Name;
+			}
+		}
+
+
+		/// <summary>
 		/// Average state of all reagents in mix
 		/// </summary>
 		public ReagentState MixState

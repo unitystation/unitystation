@@ -88,5 +88,15 @@ PrefabInstance:
       propertyPath: damage
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 8750900017165839274, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: isRangeLimit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8750900017165839274, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: maxBulletDistance
+      value: 3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}

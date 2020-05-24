@@ -1641,6 +1641,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1183557891911290
 GameObject:
   m_ObjectHideFlags: 0
@@ -1992,6 +1995,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1242486658726090
 GameObject:
   m_ObjectHideFlags: 0
@@ -5016,6 +5022,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1442725537366160
 GameObject:
   m_ObjectHideFlags: 0
@@ -6534,6 +6543,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!222 &222996116566301026
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6840,6 +6852,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1576420294694384
 GameObject:
   m_ObjectHideFlags: 0
@@ -6920,6 +6935,12 @@ MonoBehaviour:
   Provider: {fileID: 0}
   ProviderRegisterTile: {fileID: 0}
   Type: 5
+  OnTabOpened:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTabClosed:
+    m_PersistentCalls:
+      m_Calls: []
   HeaterTemperatureCelsius: 0
   DispensedTemperatureCelsius: 30
   DispensedNumber: 20
@@ -7147,6 +7168,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1595790102347564
 GameObject:
   m_ObjectHideFlags: 0
@@ -9836,6 +9860,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1752497000683092
 GameObject:
   m_ObjectHideFlags: 0
@@ -10104,11 +10131,14 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 50
+          m_IntArgument: 100
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1805848744898480
 GameObject:
   m_ObjectHideFlags: 0
@@ -11702,6 +11732,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1935064104177088
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -13,8 +14,14 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 {
 	//may be null
 	private OccupiableDirectionalSprite occupiableDirectionalSprite;
+	private Integrity integrity;
 
 	public bool forceLayingDown;
+
+	private void OnEnable()
+	{
+		integrity = GetComponent<Integrity>();
+	}
 
 	private void Start()
 	{
@@ -67,6 +74,8 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 
 		playerScript.playerMove.ServerBuckle(gameObject, OnUnbuckle);
 
+		if(integrity != null) integrity.OnServerDespawnEvent += playerMove.Unbuckle;
+
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
 		occupiableDirectionalSprite?.SetOccupant(playerScript.netId);
@@ -78,6 +87,9 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		if (interaction.TargetObject != gameObject) return false;
 		//can only do this empty handed
 		if (interaction.HandObject != null) return false;
+
+
+
 		//can only do this if there is a buckled player here
 		return MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
 			.Any(pm => pm.IsBuckled);

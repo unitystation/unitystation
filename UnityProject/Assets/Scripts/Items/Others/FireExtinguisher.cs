@@ -21,12 +21,11 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 	[Range(1, 50)]
 	private int reagentsPerUse = 1;
 
-	private bool isCoolDown = false;
-	[SerializeField] private float coolDownTime = 3f;
-
 	public SpriteRenderer spriteRenderer;
 	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
 	public Sprite[] spriteList;
+
+	private DateTime clientLastInteract = DateTime.Now;
 
 	public override void OnStartClient()
 	{
@@ -69,18 +68,15 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 
 	public bool WillInteract(AimApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-
-		if (reagentContainer.ReagentMixTotal < reagentsPerUse || safety) return false;
-
-		if (isCoolDown) return false;
-
+		if (!DefaultWillInteract.Default(interaction, side)
+		    || (!IsCoolDown() && !isServer)) return false;
 		return true;
 	}
 
 	public void ServerPerformInteraction(AimApply interaction)
 	{
-		StartCoroutine(StartCoolDown());
+		if (reagentContainer.ReagentMixTotal < reagentsPerUse || safety) return;
+
 
 		Vector2 startPos = gameObject.AssumedWorldPosServer();
 		Vector2 targetPos = interaction.WorldPositionTarget.To2Int();
@@ -165,10 +161,15 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 		return passableTiles;
 	}
 
-	private IEnumerator StartCoolDown()
+	private bool IsCoolDown()
 	{
-		isCoolDown = true;
-		yield return WaitFor.Seconds(coolDownTime);
-		isCoolDown = false;
+		var totalSeconds = (DateTime.Now - clientLastInteract).TotalSeconds;
+		if (totalSeconds < 1f)
+		{
+			return false;
+		}
+
+		clientLastInteract = DateTime.Now;
+		return true;
 	}
 }
