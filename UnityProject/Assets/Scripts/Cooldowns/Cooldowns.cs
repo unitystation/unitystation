@@ -13,7 +13,7 @@ public static class Cooldowns
 	/// <param name="side">indicates which side's cooldown should be started</param>
 	/// <param name="secondsOverride">custom cooldown time in seconds</param>
 	/// <returns>true if cooldown was successfully started, false if cooldown was already on.</returns>
-	public static bool TryStart(PlayerScript player, Cooldown cooldown, NetworkSide side, float secondsOverride=float.NaN)
+	public static bool TryStart(PlayerScript player, ICooldown cooldown, NetworkSide side, float secondsOverride=float.NaN)
 	{
 		return player.Cooldowns.TryStart(cooldown, side, secondsOverride);
 	}
@@ -25,7 +25,7 @@ public static class Cooldowns
 	/// <param name="cooldown">cooldown to try starting</param>
 	/// <param name="side">indicates which side's cooldown should be started</param>
 	/// <returns>true if cooldown was successfully started, false if cooldown was already on.</returns>
-	public static bool TryStart(Interaction interaction, Cooldown cooldown, NetworkSide side)
+	public static bool TryStart(Interaction interaction, ICooldown cooldown, NetworkSide side)
 	{
 		return TryStart(interaction.PerformerPlayerScript, cooldown, side);
 	}
@@ -33,7 +33,7 @@ public static class Cooldowns
 	/// <summary>
 	/// Same as TryStart with NetworkSide.Client
 	/// </summary>
-	public static bool TryStartClient(PlayerScript player, Cooldown cooldown, float secondsOverride=float.NaN)
+	public static bool TryStartClient(PlayerScript player, ICooldown cooldown, float secondsOverride=float.NaN)
 	{
 		return TryStart(player, cooldown, NetworkSide.Client, secondsOverride);
 	}
@@ -42,7 +42,7 @@ public static class Cooldowns
 	/// <summary>
 	/// Same as TryStart with NetworkSide.Client
 	/// </summary>
-	public static bool TryStartClient(Interaction interaction, Cooldown cooldown, float secondsOverride=float.NaN)
+	public static bool TryStartClient(Interaction interaction, ICooldown cooldown, float secondsOverride=float.NaN)
 	{
 		return TryStartClient(interaction.PerformerPlayerScript, cooldown, secondsOverride);
 	}
@@ -50,7 +50,7 @@ public static class Cooldowns
 	/// <summary>
 	/// Same as TryStart with NetworkSide.Server
 	/// </summary>
-	public static bool TryStartServer(PlayerScript player, Cooldown cooldown, float secondsOverride=float.NaN)
+	public static bool TryStartServer(PlayerScript player, ICooldown cooldown, float secondsOverride=float.NaN)
 	{
 		return TryStart(player, cooldown, NetworkSide.Server, secondsOverride);
 	}
@@ -58,7 +58,7 @@ public static class Cooldowns
 	/// <summary>
 	/// Same as TryStart with NetworkSide.Server
 	/// </summary>
-	public static bool TryStartServer(Interaction interaction, Cooldown cooldown, float secondsOverride=float.NaN)
+	public static bool TryStartServer(Interaction interaction, ICooldown cooldown, float secondsOverride=float.NaN)
 	{
 		return TryStartServer(interaction.PerformerPlayerScript, cooldown, secondsOverride);
 	}
@@ -125,7 +125,7 @@ public static class Cooldowns
 	/// <summary>
 	/// Same as IsOn for for indicated clientside Cooldown
 	/// </summary>
-	public static bool IsOnClient(PlayerScript player, Cooldown cooldown)
+	public static bool IsOnClient(PlayerScript player, ICooldown cooldown)
 	{
 		return IsOn(player, CooldownID.Asset(cooldown, NetworkSide.Client));
 	}
@@ -133,7 +133,7 @@ public static class Cooldowns
 	/// <summary>
 	/// Same as IsOn for for indicated clientside Cooldown
 	/// </summary>
-	public static bool IsOnClient(Interaction interaction, Cooldown cooldown)
+	public static bool IsOnClient(Interaction interaction, ICooldown cooldown)
 	{
 		return IsOnClient(interaction.PerformerPlayerScript, cooldown);
 	}
@@ -141,7 +141,7 @@ public static class Cooldowns
 	/// <summary>
 	/// Same as IsOn for for indicated serverside Cooldown
 	/// </summary>
-	public static bool IsOnServer(PlayerScript player, Cooldown cooldown)
+	public static bool IsOnServer(PlayerScript player, ICooldown cooldown)
 	{
 		return IsOn(player, CooldownID.Asset(cooldown, NetworkSide.Server));
 	}
@@ -149,7 +149,7 @@ public static class Cooldowns
 	/// <summary>
 	/// Same as IsOn for for indicated serverside Cooldown
 	/// </summary>
-	public static bool IsOnServer(Interaction interaction, Cooldown cooldown)
+	public static bool IsOnServer(Interaction interaction, ICooldown cooldown)
 	{
 		return IsOnServer(interaction.PerformerPlayerScript, cooldown);
 	}

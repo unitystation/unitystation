@@ -93,9 +93,12 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 	/// <summary>
 	/// Eject whoever is buckled to this
 	/// </summary>
-	[Server]
 	public void Unbuckle()
 	{
+		if (!CustomNetworkManager.IsServer)
+		{
+			return;
+		}
 		foreach (var playerMove in MatrixManager.GetAt<PlayerMove>(gameObject, NetworkSide.Server))
 		{
 			if (playerMove.IsBuckled)

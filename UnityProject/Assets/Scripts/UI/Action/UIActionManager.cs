@@ -132,10 +132,10 @@ public class UIActionManager : MonoBehaviour
 			Logger.Log("iActionGUI Not present", Category.UI);
 		}
 	}
- 
+
 	public void OnRoundEnd()
 	{
-		foreach (var _Action in DicIActionGUI) { 
+		foreach (var _Action in DicIActionGUI) {
 			_Action.Value.Pool();
 		}
 		DicIActionGUI = new Dictionary<IActionGUI, UIAction>();
@@ -177,11 +177,16 @@ public class UIActionManager : MonoBehaviour
 	public void CheckEvent(EVENT Event)
 	{
 		var TOremove = new List<IActionGUI>();
-		foreach (var _Action in DicIActionGUI)
+		foreach (var action in DicIActionGUI)
 		{
-			if (_Action.Key.ActionData.DisableOnEvent.Contains(Event)) { 
-				_Action.Value.Pool();
-				TOremove.Add(_Action.Key);
+			if (action.Key.ActionData == null)
+			{
+				Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UIAction, action.Key+":"+action.Value );
+				continue;
+			}
+			if (action.Key.ActionData.DisableOnEvent.Contains(Event)) {
+				action.Value.Pool();
+				TOremove.Add(action.Key);
 			}
 		}
 		foreach (var Remove in TOremove) {
@@ -202,7 +207,7 @@ public class UIActionManager : MonoBehaviour
 		EventManager.AddHandler(EVENT.RoundStarted, RoundStarted);
 		EventManager.AddHandler(EVENT.GhostSpawned, GhostSpawned);
 		EventManager.AddHandler(EVENT.PlayerRejoined, PlayerRejoined);
-	
+
 	}
 
 	private void OnDisable()

@@ -10,13 +10,20 @@ public class UIAction : MonoBehaviour
 
 	public IActionGUI iActionGUI;
 
-	public void SetUp(IActionGUI _iActionGUI)
+	public void SetUp(IActionGUI action)
 	{
 		this.gameObject.SetActive(true);
-		iActionGUI = _iActionGUI;
-		IconFront.SetInfo(_iActionGUI.ActionData.Sprites);
-		if (_iActionGUI.ActionData.Backgrounds.Count > 0) {
-			IconBackground.SetInfo(_iActionGUI.ActionData.Backgrounds);
+		iActionGUI = action;
+		var actionData = iActionGUI.ActionData;
+		if (actionData == null)
+		{
+			Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UIAction, iActionGUI );
+			return;
+		}
+
+		IconFront.SetInfo(actionData.Sprites);
+		if (actionData.Backgrounds.Count > 0) {
+			IconBackground.SetInfo(actionData.Backgrounds);
 		}
 	}
 

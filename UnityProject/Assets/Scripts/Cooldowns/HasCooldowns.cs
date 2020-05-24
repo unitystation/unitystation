@@ -35,7 +35,7 @@ public class HasCooldowns : MonoBehaviour
 	/// <param name="side">indicates which side's cooldown should be started</param>
 	/// <param name="secondsOverride">custom cooldown time in seconds</param>
 	/// <returns>true if cooldown was successfully started, false if cooldown was already on.</returns>
-	public bool TryStart(Cooldown cooldown, NetworkSide side, float secondsOverride = float.NaN)
+	public bool TryStart(ICooldown cooldown, NetworkSide side, float secondsOverride = float.NaN)
 	{
 		return TryStart(CooldownID.Asset(cooldown, side), float.IsNaN(secondsOverride) ? cooldown.DefaultTime : secondsOverride);
 	}
@@ -96,8 +96,10 @@ public class HasCooldowns : MonoBehaviour
 
 	private IEnumerator DoCooldown(CooldownID cooldownId, float seconds)
 	{
+		Logger.LogTraceFormat("Started cooldown {0}: {1} seconds", Category.Cooldowns, cooldownId, seconds);
 		onCooldowns.Add(cooldownId);
 		yield return WaitFor.Seconds(seconds);
 		onCooldowns.Remove(cooldownId);
+		Logger.LogTraceFormat("Finished cooldown {0}: {1} seconds", Category.Cooldowns, cooldownId, seconds);
 	}
 }

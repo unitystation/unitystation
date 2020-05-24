@@ -59,7 +59,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 	}
 
-	public void OnInventoryMoveServer(InventoryMove info)
+	public virtual void OnInventoryMoveServer(InventoryMove info)
 	{
 		/*
 		 * TODO: There is a security issue here which existed even prior to inventory refactor.

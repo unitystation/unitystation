@@ -1,3 +1,5 @@
+using System.Collections;
+
 namespace Spells
 {
 	public class MimeBox : Spell
@@ -25,7 +27,29 @@ namespace Spells
 
 		public override bool CastSpellServer(ConnectedPlayer caster)
 		{
-			var box = Spawn.ServerPrefab("mime_box").GameObject;
+			if (!base.CastSpellServer(caster))
+			{
+				return false;
+			}
+			//Using our own spawn logic for mime box and handling despawn ourselves as well
+			var box = Spawn.ServerPrefab("BoxMime").GameObject;
+			if (SpellData.ShouldDespawn)
+			{
+				//but also destroy when lifespan ends
+				caster.Script.StartCoroutine(DespawnAfterDelay(), ref handle);
+
+				IEnumerator DespawnAfterDelay()
+				{
+					yield return WaitFor.Seconds(SpellData.SummonLifespan);
+					var storage = box.GetComponent<ItemStorage>();
+					if (storage)
+					{
+						storage.ServerDropAll();
+					}
+					Despawn.ServerSingle(box);
+				}
+			}
+			//putting box in hand
 			Inventory.ServerAdd(box, caster.Script.ItemStorage.GetActiveHandSlot(), ReplacementStrategy.DropOther);
 
 			return true;

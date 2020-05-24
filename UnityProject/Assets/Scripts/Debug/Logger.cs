@@ -260,7 +260,9 @@ public enum Category
 	SoundFX,
 	Character,
 	SubScenes,
-	Spells
+	Spells,
+	UIAction,
+	Cooldowns
 }
 
 [Serializable]

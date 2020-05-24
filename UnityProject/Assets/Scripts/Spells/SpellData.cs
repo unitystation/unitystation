@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 /// All data related to a spell
 /// </summary>
 [CreateAssetMenu(fileName = "MySpell", menuName = "ScriptableObjects/SpellData")]
-public class SpellData : ActionData
+public class SpellData : ActionData, ICooldown
 {
 	//don't touch, assigned automatically in runtime
 	[NonSerialized] public int index = -1;
@@ -16,6 +16,8 @@ public class SpellData : ActionData
 	//we need both calls to always be executed for spells
 	public override bool CallOnClient => true;
 	public override bool CallOnServer => true;
+
+	public bool ShouldDespawn => SummonLifespan > 0f;
 
 	[SerializeField] private string spellName = "";
 	[SerializeField] private string description = "";
@@ -79,6 +81,8 @@ public class SpellData : ActionData
 	public List<LayerTile> SummonTiles => summonTiles;
 	public SpellSummonPosition SummonPosition => summonPosition;
 	public bool ReplaceExisting => replaceExisting;
+
+	public float DefaultTime => CooldownTime;
 }
 public enum SpellChargeType
 {

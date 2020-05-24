@@ -33,6 +33,7 @@ public class SpellList : SingletonScriptableObject<SpellList>
 	{
 		if (Instance == null)
 		{
+			Logger.LogError("SpellList instance not found!", Category.Spells);
 			return null;
 		}
 		return Instance.InternalGetDataForSpell(spell);

@@ -28,6 +28,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteToColor: {fileID: 8441880568126201350}
+  OnColorChange:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &8388977633140008013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -57,6 +60,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: e5b3a040a7f872b4da16138cffa8f234,
         type: 3}
+    - target: {fileID: 3486338153467046959, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486338153467046959, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3486338153467046959, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3639895484745261575, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: m_LocalPosition.x

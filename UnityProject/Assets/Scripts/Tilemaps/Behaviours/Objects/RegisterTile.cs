@@ -727,7 +727,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// Uses cached IFireExposable so no GC caused by GetComponent
 	/// </summary>
 	/// <param name="exposure"></param>
-	/// <exception cref="NotImplementedException"></exception>
 	public void OnExposed(FireExposure exposure)
 	{
 		if (fireExposables == null) return;

@@ -26,7 +26,7 @@ public class Spell : MonoScript, IServerActionGUI
 	}
 	private int chargesLeft = 0;
 
-	private Coroutine handle;
+	protected Coroutine handle;
 
 	public void CallActionClient()
 	{
@@ -45,7 +45,7 @@ public class Spell : MonoScript, IServerActionGUI
 
 	private void AfterCast(ConnectedPlayer sentByPlayer)
 	{
-		Cooldowns.TryStartServer(sentByPlayer.Script, CommonCooldowns.Instance.Spell, SpellData.CooldownTime);
+		Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, SpellData.CooldownTime);
 
 		if (SpellData.InvocationType != SpellInvocationType.None)
 		{
@@ -104,8 +104,6 @@ public class Spell : MonoScript, IServerActionGUI
 			return false;
 		}
 
-		bool shouldDespawn = SpellData.SummonLifespan > 0f;
-
 		//summon type
 		if (SpellData.SummonType == SpellSummonType.Object)
 		{
@@ -113,7 +111,7 @@ public class Spell : MonoScript, IServerActionGUI
 			{
 				//spawn
 				var spawnResult = Spawn.ServerPrefab(objectToSummon, castPosition);
-				if (spawnResult.Successful && shouldDespawn)
+				if (spawnResult.Successful && SpellData.ShouldDespawn)
 				{
 					//but also destroy when lifespan ends
 					caster.Script.StartCoroutine(DespawnAfterDelay(), ref handle);
@@ -141,7 +139,7 @@ public class Spell : MonoScript, IServerActionGUI
 				}
 
 				matrixInfo.TileChangeManager.UpdateTile(localPos, tileToSummon);
-				if (shouldDespawn)
+				if (SpellData.ShouldDespawn)
 				{
 					//but also destroy when lifespan ends
 					caster.Script.StartCoroutine(DespawnAfterDelay(), ref handle);
@@ -186,7 +184,7 @@ public class Spell : MonoScript, IServerActionGUI
 			return false;
 		}
 
-		bool isRecharging = Cooldowns.IsOnServer(caster.Script, CommonCooldowns.Instance.Spell);
+		bool isRecharging = Cooldowns.IsOnServer(caster.Script, SpellData);
 		if (isRecharging)
 		{
 			Chat.AddExamineMsg(caster.GameObject, FormatStillRechargingMessage(caster));

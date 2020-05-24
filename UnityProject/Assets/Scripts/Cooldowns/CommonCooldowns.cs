@@ -17,8 +17,4 @@ public class CommonCooldowns : SingletonScriptableObject<CommonCooldowns>
 	/// cannot be quickly spammed.
 	/// </summary>
 	public Cooldown Melee;
-	/// <summary>
-	/// Cooldown for casting spells
-	/// </summary>
-	public Cooldown Spell;
 }

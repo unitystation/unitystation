@@ -10,6 +10,7 @@ public class InvisibleBox : Pickupable
 	[SerializeField] private SpriteColorSync boxSpriteColor;
 	[SerializeField] private CustomNetTransform netTransform;
 	private readonly Color transparent = new Color(1f, 1f, 1f, 0f);
+	private readonly Color semiTransparent = new Color(1f, 1f, 1f, 0.5f);
 
 	public override void Start()
 	{
@@ -22,6 +23,12 @@ public class InvisibleBox : Pickupable
 
 		if (netTransform)
 		{
+			if (boxSpriteColor)
+			{
+				boxSpriteColor.SetTransitionTime(1f);
+				boxSpriteColor.SetColorServer(semiTransparent);
+			}
+
 			netTransform.OnTileReached().AddListener(pos =>
 			{
 				if (boxSpriteColor)
@@ -34,12 +41,24 @@ public class InvisibleBox : Pickupable
 
 	public override void ServerPerformInteraction(HandApply interaction)
 	{
-		base.ServerPerformInteraction(interaction);
 		if (interaction.PerformerPlayerScript.mind.IsMiming)
 		{
 			if (boxSpriteColor)
 			{
-				boxSpriteColor.SetColorServer(Color.white);
+				boxSpriteColor.SetColorServer(semiTransparent);
+			}
+		}
+		base.ServerPerformInteraction(interaction);
+	}
+
+	public override void OnInventoryMoveServer(InventoryMove info)
+	{
+		base.OnInventoryMoveServer(info);
+		if (info.RemoveType == InventoryRemoveType.Drop || info.RemoveType == InventoryRemoveType.Throw)
+		{
+			if (boxSpriteColor)
+			{
+				boxSpriteColor.SetColorServer(transparent);
 			}
 		}
 	}
