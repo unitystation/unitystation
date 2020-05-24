@@ -36,4 +36,5 @@
 	CentCommCommander,
 	CentComm,
 	DeathSquad,
+	EmergencyResponseTeam,
 }
