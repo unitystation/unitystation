@@ -8,6 +8,9 @@ using Mirror;
 
 public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
 {
+	[SerializeField][Tooltip("When the scene loads, snap this to the middle of the nearest tile?")]
+	private bool snapToGridOnStart = true;
+
 	//I think this is valid server side only
 	public bool VisibleState {
 		get => ServerPosition != TransformState.HiddenPos;
@@ -221,9 +224,17 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			{
 				serverState.MatrixId = matrixInfo.Id;
 			}
-			serverState.Position = ((Vector2)transform.localPosition).RoundToInt();
 
-		} else
+			if (snapToGridOnStart)
+			{
+				serverState.Position = ((Vector2)transform.localPosition).RoundToInt();
+			}
+			else
+			{
+				serverState.Position = ((Vector2)transform.localPosition);
+			}
+		}
+		else
 		{
 			serverState.MatrixId = 0;
 			Logger.LogWarning( $"{gameObject.name}: unable to detect MatrixId!", Category.Transform );
