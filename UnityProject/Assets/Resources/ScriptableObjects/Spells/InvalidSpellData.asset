@@ -22,6 +22,8 @@ MonoBehaviour:
   Backgrounds: []
   PreventBeingControlledBy: 
   DisableOnEvent: 
+  spellImplementation: {fileID: 7469762742606550612, guid: 49e831a8168854d889bea11fe37fc489,
+    type: 3}
   spellName: 
   description: 
   stillRechargingMessage: The spell is still recharging
@@ -39,3 +41,4 @@ MonoBehaviour:
   invocationMessage: 
   range: 0
   invocationMessageSelf: 
+  replaceExisting: 0

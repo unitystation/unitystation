@@ -9,29 +9,39 @@ using UnityEngine;
 /// Spell that can be cast via UI action button in top left
 /// </summary>
 [Serializable]
-public class Spell : MonoScript, IServerActionGUI
+[DisallowMultipleComponent]
+public class Spell : MonoBehaviour, IServerActionGUI
 {
-
+	private SpellData spellData = null;
+	public SpellData SpellData
+	{
+		get => spellData;
+		set => spellData = value;
+	}
 	public ActionData ActionData => SpellData;
-	public SpellData SpellData =>
-		spellData == null ?
-			spellData = SpellList.GetDataForSpell(this) :
-			spellData;
-	[SerializeField] protected SpellData spellData = null;
 
 	public int ChargesLeft
 	{
 		get => SpellData ? chargesLeft = SpellData.StartingCharges : chargesLeft;
 		set => chargesLeft = value;
 	}
+
 	private int chargesLeft = 0;
 
 	protected Coroutine handle;
 
+	private void Awake()
+	{
+		if (SpellData == null)
+		{
+			SpellData = SpellList.Instance.InvalidData;
+		}
+	}
+
 	public void CallActionClient()
 	{
 		//in the future: clientside cast info like cast click position
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.index);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index);
 	}
 
 	public void CallActionServer(ConnectedPlayer SentByPlayer)

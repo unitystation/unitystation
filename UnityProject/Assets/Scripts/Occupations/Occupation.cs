@@ -46,8 +46,8 @@ public class Occupation : ScriptableObject
 
 	[SerializeField]
 	[Tooltip("Default spells available for this occupation.")]
-	private List<MonoScript> spells = null;
-	public List<MonoScript> Spells => spells;
+	private List<SpellData> spells = null;
+	public List<SpellData> Spells => spells;
 
 	[Header("Description")]
 	// Information that has no real gameplay impact, but is very useful for the player to see.

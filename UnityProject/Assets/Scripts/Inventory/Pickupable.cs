@@ -116,7 +116,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		this.canPickup = canPickup;
 	}
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
+	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!canPickup) return false;
 		//we need to be the target

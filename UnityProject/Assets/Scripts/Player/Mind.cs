@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using Mirror;
 using Antagonists;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// IC character information (job role, antag info, real name, etc). A body and their ghost link to the same mind
@@ -99,15 +100,16 @@ public class Mind
 		bodyMobID = playerScript.GetComponent<LivingHealthBehaviour>().mobID;
 		if (occupation != null)
 		{
-			foreach (var spell in occupation.Spells)
+			int i = 0;
+			foreach (var spellData in occupation.Spells)
 			{
-				Spell spellInstance = Activator.CreateInstance(spell.GetClass()) as Spell;
-				Spells.Add(spellInstance);
+				var spellScript = spellData.AddToPlayer(playerScript);
+				Spells.Add(spellScript);
 			}
 
 			if (occupation.JobType == JobType.MIME)
 			{ //not sure if it should be set on body set or mind init...
-				SetProperty("vowOfSilence", true);
+				IsMiming = true;
 			}
 		}
 		StopGhosting();

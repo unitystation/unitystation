@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Object = UnityEngine.Object;
 
 /// <summary>
 /// All data related to a spell
@@ -9,15 +11,17 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(fileName = "MySpell", menuName = "ScriptableObjects/SpellData")]
 public class SpellData : ActionData, ICooldown
 {
-	//don't touch, assigned automatically in runtime
-	[NonSerialized] public int index = -1;
+	public int Index => SpellList.Instance.Spells.IndexOf(this);
 
 	//ignoring ticks from SO,
-	//we need both calls to always be executed for spells
+	//we use our own command-based invocation for spells
 	public override bool CallOnClient => true;
-	public override bool CallOnServer => true;
+	public override bool CallOnServer => false;
 
 	public bool ShouldDespawn => SummonLifespan > 0f;
+
+	[Header("Implementation prefab, defaults to SimpleSpell if null")]
+	[SerializeField] private GameObject spellImplementation = null;
 
 	[SerializeField] private string spellName = "";
 	[SerializeField] private string description = "";
@@ -81,8 +85,43 @@ public class SpellData : ActionData, ICooldown
 	public List<LayerTile> SummonTiles => summonTiles;
 	public SpellSummonPosition SummonPosition => summonPosition;
 	public bool ReplaceExisting => replaceExisting;
+	public GameObject SpellImplementation => spellImplementation;
 
 	public float DefaultTime => CooldownTime;
+
+	private void Awake()
+	{
+		CheckImplementation();
+	}
+
+	private void OnEnable()
+	{
+		CheckImplementation();
+	}
+
+	private void OnValidate()
+	{
+		CheckImplementation();
+	}
+
+	private void CheckImplementation()
+	{
+		if (spellImplementation == null)
+		{
+			spellImplementation = SpellList.Instance.DefaultImplementation;
+#if UNITY_EDITOR
+			EditorUtility.SetDirty(this);
+#endif
+		}
+	}
+
+	public Spell AddToPlayer(PlayerScript player)
+	{
+		var spellObject = Instantiate(SpellImplementation, player.gameObject.transform);
+		var spellComponent = spellObject.GetComponent<Spell>();
+		spellComponent.SpellData = this;
+		return spellComponent;
+	}
 }
 public enum SpellChargeType
 {
@@ -96,7 +135,7 @@ public enum SpellInvocationType
 
 public enum SpellSummonType
 {
-	None, Object, Tile, Mob
+	None, Object, Tile
 }
 
 public enum SpellSummonPosition

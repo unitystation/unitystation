@@ -891,7 +891,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		foreach (var spell in playerScript.mind.Spells)
 		{
-			if (spell.SpellData.index == spellIndex)
+			if (spell.SpellData.Index == spellIndex)
 			{
 				spell.CallActionServer(PlayerList.Instance.Get(gameObject));
 				return;
