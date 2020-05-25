@@ -21,7 +21,6 @@ namespace Unitystation.Options
 		[SerializeField] private InputField frameRateTarget = null;
 
 		[SerializeField] private Slider camZoomSlider = null;
-		private CameraZoomHandler zoomHandler;
 
 		[SerializeField] private Toggle scrollWheelZoomToggle = null;
 
@@ -48,10 +47,6 @@ namespace Unitystation.Options
 		private void Awake()
 		{
 			displaySettings = FindObjectOfType<DisplaySettings>();
-			if (zoomHandler == null)
-			{
-				zoomHandler = FindObjectOfType<CameraZoomHandler>();
-			}
 		}
 
 		/// <summary>
@@ -68,9 +63,9 @@ namespace Unitystation.Options
 			frameRateTarget.text = displaySettings.TargetFrameRate.ToString();
 			frameRateTarget.textComponent.color = VALIDCOLOR;
 
-			camZoomSlider.value = zoomHandler.ZoomLevel / 8;
+			camZoomSlider.value = displaySettings.ZoomLevel / 8;
 
-			scrollWheelZoomToggle.isOn = zoomHandler.ScrollWheelZoom;
+			scrollWheelZoomToggle.isOn = displaySettings.ScrollWheelZoom;
 
 			chatBubbleSizeSlider.value = displaySettings.ChatBubbleSize;
 		}
@@ -136,12 +131,13 @@ namespace Unitystation.Options
 
 		public void OnZoomLevelChange()
 		{
-			zoomHandler.SetZoomLevel((int)camZoomSlider.value * 8);
+			int value = (int)camZoomSlider.value * 8;
+			displaySettings.ZoomLevel = value;
 		}
 
 		public void OnScrollWheelToggle()
 		{
-			zoomHandler.SetScrollWheelZoom(scrollWheelZoomToggle.isOn);
+			displaySettings.ScrollWheelZoom = scrollWheelZoomToggle.isOn;
 		}
 
 		public void OnChatBubbleSizeChange()

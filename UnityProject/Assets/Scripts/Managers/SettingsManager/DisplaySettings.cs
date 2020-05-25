@@ -79,7 +79,6 @@ public class DisplaySettings : MonoBehaviour
 	}
 
 
-
 	private DisplaySettingsChangedEventArgs dsEventArgs = new DisplaySettingsChangedEventArgs();
 
 	/// <summary>
@@ -94,14 +93,26 @@ public class DisplaySettings : MonoBehaviour
 	{
 		get
 		{
-			return PlayerPrefs.GetInt(PlayerPrefKeys.VSyncEnabled) == 1;
+			return PlayerPrefs.GetInt(PlayerPrefKeys.VSyncEnabled, DEFAULT_VSYNCENABLED ? 1 : 0) == 1;
 		}
 		set
 		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.VSyncEnabled, value ? 1 : 0);
-			PlayerPrefs.Save();
-			ApplyEnableVSync();
-			dsEventArgs.VSyncChanged = true;
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.VSyncEnabled))
+			{
+				if (value != VSyncEnabled)
+				{
+					dsEventArgs.VSyncChanged = true;
+					PlayerPrefs.SetInt(PlayerPrefKeys.VSyncEnabled, value ? 1 : 0);
+					PlayerPrefs.Save();
+					ApplyEnableVSync();
+				}
+			}
+			else
+			{
+				PlayerPrefs.SetInt(PlayerPrefKeys.VSyncEnabled, value ? 1 : 0);
+				PlayerPrefs.Save();
+				ApplyEnableVSync();
+			}
 		}
 	}
 	private const bool DEFAULT_VSYNCENABLED = true;
@@ -110,14 +121,28 @@ public class DisplaySettings : MonoBehaviour
 	{
 		get
 		{
-			return PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate);
+			return PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate, DEFAULT_TARGETFRAMERATE);
 		}
 		set
 		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, value);
-			PlayerPrefs.Save();
-			ApplyTargetFrameRate();
-			dsEventArgs.TargetFrameRateChanged = true;
+			int clampedVal = Mathf.Clamp(value, MIN_TARGETFRAMERATE, MAX_TARGETFRAMERATE);
+
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.TargetFrameRate))
+			{
+				if (clampedVal != TargetFrameRate)
+				{
+					dsEventArgs.TargetFrameRateChanged = true;
+					PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, clampedVal);
+					PlayerPrefs.Save();
+					ApplyTargetFrameRate();
+				}
+			}
+			else
+			{
+				PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, clampedVal);
+				PlayerPrefs.Save();
+				ApplyTargetFrameRate();
+			}
 		}
 	}
 	private const int DEFAULT_TARGETFRAMERATE = 99;
@@ -130,13 +155,25 @@ public class DisplaySettings : MonoBehaviour
 	{
 		get
 		{
-			return PlayerPrefs.GetInt(PlayerPrefKeys.ScrollWheelZoom) == 1;
+			return PlayerPrefs.GetInt(PlayerPrefKeys.ScrollWheelZoom, DEFAULT_SCROLLWHEELZOOM ? 1 : 0) == 1;
 		}
 		set
 		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, value ? 1 : 0);
-			PlayerPrefs.Save();
-			dsEventArgs.ScrollWheelZoomChanged = true;
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.ScrollWheelZoom))
+			{
+				if (value != ScrollWheelZoom)
+				{
+					dsEventArgs.ScrollWheelZoomChanged = true;
+					PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, value ? 1 : 0);
+					PlayerPrefs.Save();
+				}
+			}
+			else
+			{
+				PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, value ? 1 : 0);
+				PlayerPrefs.Save();
+			}
+			
 		}
 	}
 	private const bool DEFAULT_SCROLLWHEELZOOM = true;
@@ -145,13 +182,26 @@ public class DisplaySettings : MonoBehaviour
 	{
 		get
 		{
-			return PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
+			return PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey, DEFAULT_ZOOMLEVEL);
 		}
 		set
 		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, Mathf.Clamp(value, MIN_ZOOMLEVEL, MAX_ZOOMLEVEL));
-			PlayerPrefs.Save();
-			dsEventArgs.ZoomLevelChanged = true;
+			int clampedVal = Mathf.Clamp(value, MIN_ZOOMLEVEL, MAX_ZOOMLEVEL);
+
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.CamZoomKey))
+			{
+				if (clampedVal != ZoomLevel)
+				{
+					dsEventArgs.ZoomLevelChanged = true;
+					PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, clampedVal);
+					PlayerPrefs.Save();
+				}
+			}
+			else
+			{
+				PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, clampedVal);
+				PlayerPrefs.Save();
+			}
 		}
 	}
 	private const int DEFAULT_ZOOMLEVEL = 24;
@@ -163,13 +213,24 @@ public class DisplaySettings : MonoBehaviour
 	{
 		get
 		{
-			return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize);
+			return PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize, DEFAULT_CHATBUBBLESIZE);
 		}
 		set
 		{
-			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, value);
-			PlayerPrefs.Save();
-			dsEventArgs.ChatBubbleSizeChanged = true;
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
+			{
+				if (value != ChatBubbleSize)
+				{
+					dsEventArgs.ChatBubbleSizeChanged = true;
+					PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, value);
+					PlayerPrefs.Save();
+				}
+			}
+			else
+			{
+				PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, value);
+				PlayerPrefs.Save();
+			}
 		}
 	}
 	private const float DEFAULT_CHATBUBBLESIZE = 2f;
@@ -307,8 +368,6 @@ public class DisplaySettings : MonoBehaviour
 		if (fullScreenOn)
 		{
 			Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
-			yield return null;
-			Screen.SetResolution(Screen.width, Screen.height, true);
 			yield return null;
 		}
 		else

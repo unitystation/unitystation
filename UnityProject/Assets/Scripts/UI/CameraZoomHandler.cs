@@ -22,6 +22,21 @@ public class CameraZoomHandler : MonoBehaviour
 		displaySettings.SettingsChanged -= DisplaySettings_SettingsChanged;
 	}
 
+	 
+
+	private void OnLevelWasLoaded(int level)
+	{
+		// Connect up to the PixelPerfectCamera in the OnlineScene
+		PixelPerfectCamera current = Camera.main.GetComponent<PixelPerfectCamera>();
+
+		// Discard our old reference if it is from an old OnlineScene
+		if (current != null && pixelPerfectCamera != current)
+		{
+			pixelPerfectCamera = current;
+			Refresh();
+		}
+	}
+
 	private void DisplaySettings_SettingsChanged(object sender, DisplaySettings.DisplaySettingsChangedEventArgs e)
 	{
 		if (e.ZoomLevelChanged)
@@ -33,12 +48,6 @@ public class CameraZoomHandler : MonoBehaviour
 	void Awake()
 	{
 		displaySettings = FindObjectOfType<DisplaySettings>();
-		pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
-	}
-
-	private void Start()
-	{
-		Refresh();
 	}
 
 	/// <summary>
