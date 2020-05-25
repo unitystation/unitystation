@@ -485,9 +485,10 @@ public class MetaTileMap : MonoBehaviour
 	{
 		var bounds = GetBounds();
 		//???
-		var min = CellToWorld( bounds.min ).RoundToInt();
-		var max = CellToWorld( bounds.max ).RoundToInt();
-		return new BoundsInt(min, max - min);
+		var min = CellToWorld(bounds.min);
+		var max = CellToWorld(bounds.max);
+
+		return new BoundsInt(min.RoundToInt(), (max - min).RoundToInt());
 	}
 
 	public BoundsInt GetBounds()
