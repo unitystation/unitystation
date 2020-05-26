@@ -9,6 +9,12 @@ using UnityEngine.UI;
 public class UIActionManager : MonoBehaviour
 {
 	public GameObject Panel;
+	public GameObject TooltipPrefab;
+
+	public ActionTooltip TooltipInstance => tooltipInstance == null
+		? tooltipInstance = Instantiate(TooltipPrefab, transform.parent).GetComponent<ActionTooltip>()
+		: tooltipInstance;
+	private ActionTooltip tooltipInstance;
 
 	private static UIActionManager uIActionManager;
 	public static UIActionManager Instance
