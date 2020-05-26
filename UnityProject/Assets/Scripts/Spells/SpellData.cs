@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 using Object = UnityEngine.Object;
 
@@ -23,8 +24,6 @@ public class SpellData : ActionData, ICooldown
 	[Header("Implementation prefab, defaults to SimpleSpell if null")]
 	[SerializeField] private GameObject spellImplementation = null;
 
-	[SerializeField] private string spellName = "";
-	[SerializeField] private string description = "";
 	[SerializeField] private string stillRechargingMessage = "The spell is still recharging";
 
 	[Header("Rechargeable has unlimited uses, LimitedCharges is limited by StartingCharges")]
@@ -67,8 +66,6 @@ public class SpellData : ActionData, ICooldown
 	[Header("Whether to replace existing tile")]
 	[SerializeField] private bool replaceExisting = false;
 
-	public string Name => spellName;
-	public string Description => description;
 	public string StillRechargingMessage => stillRechargingMessage;
 	public SpellChargeType ChargeType => chargeType;
 	public float CooldownTime => cooldownTime;

@@ -17,6 +17,12 @@ public class ActionData : ScriptableObject
 	public virtual bool CallOnClient => callOnClient;
 	public virtual bool CallOnServer => callOnServer;
 
+	[FormerlySerializedAs("spellName")]
+	[SerializeField] protected string actionName = "";
+	[SerializeField] protected string description = "";
+	public string Name => actionName;
+	public string Description => description;
+
 	public List<SpriteSheetAndData> Sprites = new List<SpriteSheetAndData>();
 	public List<SpriteSheetAndData> Backgrounds = new List<SpriteSheetAndData>();
 

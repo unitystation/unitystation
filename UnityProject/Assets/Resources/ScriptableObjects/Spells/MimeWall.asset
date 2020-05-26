@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   callOnClient: 1
   callOnServer: 1
+  actionName: Invisible Wall
+  description: The mime's performance transmutates a wall into physical reality.
   Sprites:
   - Texture: {fileID: 2800000, guid: ca93f2bb1433b4e5c973d1158ad71c09, type: 3}
     Sprites:
@@ -28,8 +30,6 @@ MonoBehaviour:
   DisableOnEvent: 
   spellImplementation: {fileID: 7469762742606550612, guid: 13ad67b8858d146d587fbd216359e85c,
     type: 3}
-  spellName: Invisible Wall
-  description: The mime's performance transmutates a wall into physical reality.
   stillRechargingMessage: The spell is still recharging
   chargeType: 0
   cooldownTime: 30
