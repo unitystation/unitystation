@@ -42,7 +42,7 @@ public enum ChatModifier
 	// The following comments are for easy reference. They may be out of date.
 	// See Chat.cs to see how a message's ChatModifier is determined.
 	None 	= 0,      // Default value
-	Drunk 	= 1 << 0,
+	Drunk 	= 1 << 0, // Slurred Speech
 	Stutter = 1 << 1,
 	Mute 	= 1 << 2, // Dead, unconcious or naturally mute
 	Hiss 	= 1 << 3,
