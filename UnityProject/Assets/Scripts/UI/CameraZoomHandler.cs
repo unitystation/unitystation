@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.U2D;
+using UnityEngine.SceneManagement;
 
 public class CameraZoomHandler : MonoBehaviour
 {
@@ -15,16 +16,22 @@ public class CameraZoomHandler : MonoBehaviour
 	void OnEnable()
 	{
 		displaySettings.SettingsChanged += DisplaySettings_SettingsChanged;
-		Refresh();
+		SceneManager.activeSceneChanged += SceneManager_activeSceneChanged;
+		UpdatePixelPerfectCamera();
 	}
+
 	private void OnDisable()
 	{
 		displaySettings.SettingsChanged -= DisplaySettings_SettingsChanged;
+		SceneManager.activeSceneChanged -= SceneManager_activeSceneChanged;
 	}
 
-	 
+	private void SceneManager_activeSceneChanged(Scene arg0, Scene arg1)
+	{
+		UpdatePixelPerfectCamera();
+	}
 
-	private void OnLevelWasLoaded(int level)
+	private void UpdatePixelPerfectCamera()
 	{
 		// Connect up to the PixelPerfectCamera in the OnlineScene
 		PixelPerfectCamera current = Camera.main.GetComponent<PixelPerfectCamera>();
@@ -33,8 +40,9 @@ public class CameraZoomHandler : MonoBehaviour
 		if (current != null && pixelPerfectCamera != current)
 		{
 			pixelPerfectCamera = current;
-			Refresh();
 		}
+
+		Refresh();
 	}
 
 	private void DisplaySettings_SettingsChanged(object sender, DisplaySettings.DisplaySettingsChangedEventArgs e)
@@ -81,8 +89,11 @@ public class CameraZoomHandler : MonoBehaviour
 	// Refreshes after setting zoom level.
 	public void Refresh()
 	{
-		if (pixelPerfectCamera == null) pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
-		if (pixelPerfectCamera == null) return; //probably in the lobby
+		if (pixelPerfectCamera == null)
+		{
+			return; //probably in the lobby
+		}
+
 		pixelPerfectCamera.assetsPPU = displaySettings.ZoomLevel;
 
 		if (Camera2DFollow.followControl != null)
