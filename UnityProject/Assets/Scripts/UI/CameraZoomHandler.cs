@@ -5,135 +5,116 @@ using UnityEngine.U2D;
 
 public class CameraZoomHandler : MonoBehaviour
 {
-	public float ZoomLevel => zoomLevel;
-	private int zoomLevel = DEFAULT_ZOOMLEVEL;
-	private const int DEFAULT_ZOOMLEVEL = 24;
-	
-	public bool ScrollWheelZoom => scrollWheelzoom;
-	private bool scrollWheelzoom = DEFAULT_SCROLLWHEELZOOM;
-	private const bool DEFAULT_SCROLLWHEELZOOM = true;
+	public float ZoomLevel => displaySettings.ZoomLevel;
 
-    private PixelPerfectCamera pixelPerfectCamera;
+	public bool ScrollWheelZoom => displaySettings.ScrollWheelZoom;
 
-	void Awake()
+	private DisplaySettings displaySettings = null;
+	private PixelPerfectCamera pixelPerfectCamera;
+
+	void OnEnable()
 	{
-		pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
+		displaySettings.SettingsChanged += DisplaySettings_SettingsChanged;
+		Refresh();
+	}
+	private void OnDisable()
+	{
+		displaySettings.SettingsChanged -= DisplaySettings_SettingsChanged;
+	}
 
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.CamZoomKey))
-		{
-			zoomLevel = PlayerPrefs.GetInt(PlayerPrefKeys.CamZoomKey);
-		}
-		else
-		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, DEFAULT_ZOOMLEVEL);
-			PlayerPrefs.Save();
-		}
+	 
 
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.ScrollWheelZoom))
+	private void OnLevelWasLoaded(int level)
+	{
+		// Connect up to the PixelPerfectCamera in the OnlineScene
+		PixelPerfectCamera current = Camera.main.GetComponent<PixelPerfectCamera>();
+
+		// Discard our old reference if it is from an old OnlineScene
+		if (current != null && pixelPerfectCamera != current)
 		{
-			scrollWheelzoom = PlayerPrefs.GetInt(PlayerPrefKeys.ScrollWheelZoom) == 1;
-		}
-		else
-		{
-			PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, DEFAULT_SCROLLWHEELZOOM ? 1 : 0);
-			PlayerPrefs.Save();
+			pixelPerfectCamera = current;
+			Refresh();
 		}
 	}
 
-	void Start()
-    {
-        Refresh();
-    }
+	private void DisplaySettings_SettingsChanged(object sender, DisplaySettings.DisplaySettingsChangedEventArgs e)
+	{
+		if (e.ZoomLevelChanged)
+		{
+			Refresh();
+		}
+	}
 
-	/// <summary>
-	/// Maximum allowed zoom value.
-	/// </summary>
-	private static int maxZoom = 64;
-
-	/// <summary>
-	/// Minimum allowed zoom value.
-	/// </summary>
-	private readonly int minZoom = 8;
+	void Awake()
+	{
+		displaySettings = FindObjectOfType<DisplaySettings>();
+	}
 
 	/// <summary>
 	/// Increment at which zoom changes when using Increase / DecreaseZoomLevel().
 	/// </summary>
 	private readonly int zoomIncrement = 8;
 
-    void Update()
-    {
-        //Process any scroll wheel zooming:
-        if (scrollWheelzoom && !EventSystem.current.IsPointerOverGameObject())
-        {
-            if (Input.mouseScrollDelta.y > 0f)
-            {
-                if (!MouseOutside()) IncreaseZoomLevel();
-            }
+	void Update()
+	{
+		//Process any scroll wheel zooming:
+		if (displaySettings.ScrollWheelZoom && !EventSystem.current.IsPointerOverGameObject())
+		{
+			if (Input.mouseScrollDelta.y > 0f)
+			{
+				if (!MouseOutside()) IncreaseZoomLevel();
+			}
 
-            if (Input.mouseScrollDelta.y < 0f)
-            {
-                if (!MouseOutside()) DecreaseZoomLevel();
-            }
-        }
-    }
+			if (Input.mouseScrollDelta.y < 0f)
+			{
+				if (!MouseOutside()) DecreaseZoomLevel();
+			}
+		}
+	}
 
-    bool MouseOutside()
-    {
-        var view = Camera.main.ScreenToViewportPoint(Input.mousePosition);
-        return view.x < 0 || view.x > 1 || view.y < 0 || view.y > 1;
-    }
+	bool MouseOutside()
+	{
+		var view = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+		return view.x < 0 || view.x > 1 || view.y < 0 || view.y > 1;
+	}
 
-    // Refreshes after setting zoom level.
-    public void Refresh()
-    {
-	    if(pixelPerfectCamera == null) pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
-	    if (pixelPerfectCamera == null) return; //probably in the lobby
-	    zoomLevel = Mathf.Clamp(zoomLevel, minZoom, maxZoom);
-        pixelPerfectCamera.assetsPPU = zoomLevel;
+	// Refreshes after setting zoom level.
+	public void Refresh()
+	{
+		if (pixelPerfectCamera == null) pixelPerfectCamera = Camera.main.GetComponent<PixelPerfectCamera>();
+		if (pixelPerfectCamera == null) return; //probably in the lobby
+		pixelPerfectCamera.assetsPPU = displaySettings.ZoomLevel;
 
-        if (Camera2DFollow.followControl != null)
-        {
-	        Camera2DFollow.followControl.SetCameraXOffset();
-        }
-    }
+		if (Camera2DFollow.followControl != null)
+		{
+			Camera2DFollow.followControl.SetCameraXOffset();
+		}
+	}
 
-    public void SetZoomLevel(int _zoomLevel)
-    {
-	    zoomLevel = _zoomLevel;
-	    Refresh();
-	    PlayerPrefs.SetInt(PlayerPrefKeys.CamZoomKey, Mathf.Clamp(zoomLevel, minZoom, maxZoom));
-        PlayerPrefs.Save();
-    }
+	public void SetZoomLevel(int _zoomLevel)
+	{
+		displaySettings.ZoomLevel = _zoomLevel;
+	}
 
-    /// <summary>
-    /// A convenient way to increase zoom level
-    /// <summary>
-    public void IncreaseZoomLevel()
-    {
-		zoomLevel += zoomIncrement;
-        SetZoomLevel(zoomLevel);
-    }
+	/// <summary>
+	/// A convenient way to increase zoom level
+	/// <summary>
+	public void IncreaseZoomLevel()
+	{
+		displaySettings.ZoomLevel += zoomIncrement;
+	}
 
-    /// <summary>
-    /// A convenient way to increase zoom level
-    /// ZoomLevel of 0 = Auto Zoom
-    /// <summary>
-    public void DecreaseZoomLevel()
-    {
-	    zoomLevel -= zoomIncrement;
-        SetZoomLevel(zoomLevel);
-    }
+	/// <summary>
+	/// A convenient way to increase zoom level
+	/// ZoomLevel of 0 = Auto Zoom
+	/// <summary>
+	public void DecreaseZoomLevel()
+	{
+		displaySettings.ZoomLevel -= zoomIncrement;
+	}
 
-    public void SetScrollWheelZoom(bool activeState)
-    {
-        scrollWheelzoom = activeState;
-		PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, activeState ? 1 : 0);
-        PlayerPrefs.Save();
-    }
-
-    public void ResetDefaults()
-    {
-        SetScrollWheelZoom(DEFAULT_SCROLLWHEELZOOM);
-        SetZoomLevel(DEFAULT_ZOOMLEVEL);
-    }
+	public void SetScrollWheelZoom(bool activeState)
+	{
+		displaySettings.ScrollWheelZoom = activeState;
+	}
 }
