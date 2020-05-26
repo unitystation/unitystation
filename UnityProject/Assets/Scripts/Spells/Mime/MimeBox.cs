@@ -6,7 +6,7 @@ namespace Spells
 	{
 		protected override string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
 		{
-			return modPrefix + string.Format(SpellData.InvocationMessage, caster.Script.characterSettings.PossessivePronoun());
+			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.TheirPronoun());
 		}
 
 		public override bool ValidateCast(ConnectedPlayer caster)

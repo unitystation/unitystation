@@ -7,7 +7,7 @@ namespace Spells
 	{
 		protected override string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
 		{
-			return modPrefix + string.Format(SpellData.InvocationMessage, caster.Name);
+			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.ThemPronoun());
 		}
 
 		public override bool CastSpellServer(ConnectedPlayer caster)
