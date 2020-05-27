@@ -8,6 +8,8 @@ using UnityEngine.UI;
 /// </summary>
 public class SongTracker : MonoBehaviour
 {
+	[SerializeField] private Slider volumeSlider = null;
+	[SerializeField] private Button trackButton = null;
 	[SerializeField] private Text trackName = null;
 	[SerializeField] private Text artist = null;
 	[SerializeField] private Image speakerImage = null;
@@ -25,7 +27,7 @@ public class SongTracker : MonoBehaviour
 	/// </summary>
 	public bool PlayingRandomPlayList { get; private set; }
 
-	void Awake()
+	private void Awake()
 	{
 		ToggleUI(false);
 		if (!PlayerPrefs.HasKey(PlayerPrefKeys.MuteMusic))
@@ -34,14 +36,22 @@ public class SongTracker : MonoBehaviour
 			PlayerPrefs.Save();
 		}
 
+		if (PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolume))
+		{
+			volumeSlider.value =  PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolume);
+		}
+		else
+		{
+			volumeSlider.value = 1f;
+		}
 	}
 
-	void Start()
+	private void Start()
 	{
 		DetermineMuteState();
 	}
 
-	void Update()
+	private void Update()
 	{
 		if (!PlayingRandomPlayList || CustomNetworkManager.isHeadless) return;
 
@@ -73,8 +83,10 @@ public class SongTracker : MonoBehaviour
 		MusicManager.StopMusic();
 	}
 
-	void ToggleUI(bool isActive)
+	private void ToggleUI(bool isActive)
 	{
+		volumeSlider.gameObject.SetActive(isActive);
+		trackButton.gameObject.SetActive(isActive);
 		trackName.gameObject.SetActive(isActive);
 		artist.gameObject.SetActive(isActive);
 		speakerImage.gameObject.SetActive(isActive);
@@ -98,7 +110,7 @@ public class SongTracker : MonoBehaviour
 
 	}
 
-	void DetermineMuteState()
+	private void DetermineMuteState()
 	{
 		var toggle = PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic);
 		switch (toggle)
@@ -116,7 +128,7 @@ public class SongTracker : MonoBehaviour
 		}
 	}
 
-	void PlayRandomTrack()
+	private void PlayRandomTrack()
 	{
 		if(CustomNetworkManager.isHeadless) return;
 
@@ -131,5 +143,15 @@ public class SongTracker : MonoBehaviour
 		{
 			artist.text = "";
 		}
+	}
+
+	public void OnVolumeSliderChange()
+	{
+		MusicManager.Instance.ChangeVolume(volumeSlider.value);
+	}
+
+	public void OnTrackButtonClick()
+	{
+		PlayRandomTrack();
 	}
 }

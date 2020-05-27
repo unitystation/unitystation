@@ -46,6 +46,16 @@ namespace Audio
 			{
 				isMusicMute = PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0;
 			}
+
+			if (PlayerPrefs.HasKey(PlayerPrefKeys.MusicVolume))
+			{
+				MusicVolume = PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolume);
+				currentLobbyAudioSource.volume =  PlayerPrefs.GetFloat(PlayerPrefKeys.MusicVolume);
+			}
+			else
+			{
+				SaveNewVolume(1f);
+			}
 		}
 
 		public static void StopMusic()
@@ -129,6 +139,20 @@ namespace Audio
 				return true;
 
 			return false;
+		}
+
+		public void ChangeVolume(float newVolume)
+		{
+			MusicVolume = newVolume;
+			currentLobbyAudioSource.volume = newVolume;
+
+			SaveNewVolume(newVolume);
+		}
+
+		private void SaveNewVolume(float newVolume)
+		{
+			PlayerPrefs.SetFloat(PlayerPrefKeys.MusicVolume, newVolume);
+			PlayerPrefs.Save();
 		}
 	}
 }
