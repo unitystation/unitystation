@@ -14,6 +14,7 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	private ActionData actionData;
 	private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
 	private ActionTooltip tooltip => UIActionManager.Instance.TooltipInstance;
+	private bool isMine = false;
 
 	public void SetUp(IActionGUI action)
 	{
@@ -71,10 +72,21 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		tooltip.gameObject.SetActive(true);
 		tooltip.transform.position = transform.position + tooltipOffset;
 		tooltip.ApplyActionData(actionData);
+		isMine = true;
 	}
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
 		tooltip.gameObject.SetActive(false);
+		isMine = false;
+	}
+
+	private void OnDisable()
+	{
+		if (isMine)
+		{
+			tooltip.gameObject.SetActive(false);
+			isMine = false;
+		}
 	}
 }
