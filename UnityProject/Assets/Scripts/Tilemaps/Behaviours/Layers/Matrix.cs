@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Light2D;
+using Pipes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
@@ -370,6 +371,35 @@ public class Matrix : MonoBehaviour
 		return (list);
 	}
 
+	public List<Pipes.PipeData> GetPipeConnections(Vector3Int position)
+	{
+		var list = new List<PipeData>();
+		if (ServerObjects != null)
+		{
+			var collection = ServerObjects.Get(position);
+			Logger.Log(collection.Count.ToString());
+			for (int i = 0; i < collection.Count; i++)
+			{
+				Logger.Log("AA");
+				if (collection[i].PipeData != null)
+				{
+					Logger.Log("AddED");
+					list.Add(collection[i].PipeData);
+				}
+			}
+		}
+
+		if (metaDataLayer.Get(position)?.PipeData != null)
+		{
+			foreach (var PipeNode in metaDataLayer.Get(position).PipeData)
+			{
+				list.Add(PipeNode.pipeData);
+			}
+		}
+
+		return (list);
+	}
+
 	public void AddElectricalNode(Vector3Int position, WireConnect wireConnect)
 	{
 		var metaData = metaDataLayer.Get(position, true);
@@ -393,15 +423,7 @@ public class Matrix : MonoBehaviour
 		{
 			if (electricalCableTile != null)
 			{
-				if (UnderFloorLayer == null)
-				{
-					underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
-				}
-
-				if (UnderFloorLayer != null)
-				{
-					UnderFloorLayer.SetTile(position, electricalCableTile, Matrix4x4.identity);
-				}
+				AddUnderFloorTile(position, electricalCableTile, Matrix4x4.identity, Color.white);
 			}
 		}
 	}
@@ -423,15 +445,7 @@ public class Matrix : MonoBehaviour
 
 		if (Tile != null)
 		{
-			if (UnderFloorLayer == null)
-			{
-				underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
-			}
-
-			if (UnderFloorLayer != null)
-			{
-				UnderFloorLayer.SetTile(position, Tile, Matrix4x4.identity);
-			}
+			AddUnderFloorTile(position, Tile, Matrix4x4.identity, Color.white);
 		}
 	}
 
@@ -442,8 +456,20 @@ public class Matrix : MonoBehaviour
 
 	public MetaDataNode GetMetaDataNode(Vector2Int localPosition, bool createIfNotExists = true)
 	{
-		return (metaDataLayer.Get(new Vector3Int(localPosition.x,localPosition.y,0), createIfNotExists));
+		return (metaDataLayer.Get(new Vector3Int(localPosition.x, localPosition.y, 0), createIfNotExists));
 	}
+
+
+	public void AddUnderFloorTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix, Color color)
+	{
+		if (UnderFloorLayer == null)
+		{
+			underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
+		}
+
+		UnderFloorLayer.SetTile(position, tile, transformMatrix, color);
+	}
+
 
 	public void RemoveUnderFloorTile(Vector3Int position, LayerTile tile)
 	{

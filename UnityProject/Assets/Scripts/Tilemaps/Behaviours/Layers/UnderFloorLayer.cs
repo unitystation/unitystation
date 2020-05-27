@@ -34,7 +34,7 @@ public class UnderFloorLayer : Layer
 						TileStore[(Vector2Int) localPlace].Add(getTile);
 
 						var electricalCableTile = getTile as ElectricalCableTile;
-						if (getTile != null)
+						if (electricalCableTile != null)
 						{
 							matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
 						}
@@ -60,7 +60,7 @@ public class UnderFloorLayer : Layer
 		return null;
 	}
 
-	public override void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
+	public override void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
 	{
 		var isServer = false;
 		if (CustomNetworkManager.Instance != null)
@@ -94,7 +94,7 @@ public class UnderFloorLayer : Layer
 			}
 
 			int index = FindFirstEmpty(TileStore[position2]);
-			if ( index < 0)
+			if (index < 0)
 			{
 				position.z = 1 - TileStore[position2].Count;
 				TileStore[position2].Add((LayerTile) tile);
@@ -102,7 +102,7 @@ public class UnderFloorLayer : Layer
 			else
 			{
 				position.z = 1 - index;
-				TileStore[position2][index]= (LayerTile) tile;
+				TileStore[position2][index] = (LayerTile) tile;
 			}
 
 
@@ -111,11 +111,11 @@ public class UnderFloorLayer : Layer
 				matrix.TileChangeManager.UnderfloorUpdateTile(position, tile as BasicTile);
 			}
 
-			base.SetTile(position, tile, transformMatrix);
+			base.SetTile(position, tile, transformMatrix, color);
 		}
 		else
 		{
-			base.SetTile(position, tile, transformMatrix);
+			base.SetTile(position, tile, transformMatrix, color);
 		}
 	}
 
@@ -128,6 +128,7 @@ public class UnderFloorLayer : Layer
 				return (i);
 			}
 		}
+
 		return (-1);
 	}
 
@@ -149,6 +150,36 @@ public class UnderFloorLayer : Layer
 				base.RemoveTile(position, removeAll);
 			}
 		}
+	}
+
+	public Color GetColour(Vector3Int position, LayerTile tile)
+	{
+		if (!TileStore.ContainsKey((Vector2Int) position)) return Color.white;
+		if (TileStore.ContainsKey((Vector2Int) position))
+		{
+			if (TileStore[(Vector2Int) position].Contains(tile))
+			{
+				int index = TileStore[(Vector2Int) position].IndexOf(tile);
+				return (tilemap.GetColor(new Vector3Int(position.x, position.y, (-index) + 1)));
+			}
+		}
+
+		return Color.white;
+	}
+
+	public Matrix4x4 GetMatrix4x4(Vector3Int position, LayerTile tile)
+	{
+		if (!TileStore.ContainsKey((Vector2Int) position)) return Matrix4x4.identity;
+		if (TileStore.ContainsKey((Vector2Int) position))
+		{
+			if (TileStore[(Vector2Int) position].Contains(tile))
+			{
+				int index = TileStore[(Vector2Int) position].IndexOf(tile);
+				return (tilemap.GetTransformMatrix(new Vector3Int(position.x, position.y, (-index) + 1)));
+			}
+		}
+
+		return Matrix4x4.identity;
 	}
 
 	public void RemoveSpecifiedTile(Vector3Int position, LayerTile tile)

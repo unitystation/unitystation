@@ -215,6 +215,31 @@ namespace Chemistry
 		}
 
 		/// <summary>
+		/// Multiply each reagent amount by multiplier
+		/// </summary>
+		public void Divide(float Divider)
+		{
+			if (Divider < 0f)
+			{
+				Debug.LogError($"Trying to Divide reagentmix by {Divider}");
+				return;
+			}
+
+			if (Divider == 0f)
+			{
+				//Better than dealing with errors
+				return;
+			}
+
+			foreach (var key in reagents.Keys.ToArray())
+			{
+				reagents[key] /= Divider;
+			}
+		}
+
+
+
+		/// <summary>
 		/// Transfer part of reagent mix
 		/// </summary>
 		/// <returns>Transfered reagent mix</returns>
@@ -282,6 +307,11 @@ namespace Chemistry
 		IEnumerator IEnumerable.GetEnumerator()
 		{
 			return GetEnumerator();
+		}
+
+		public override string ToString()
+		{
+			return "Temperature > " + Temperature + " reagents > " + "{" + string.Join(",", reagents.Select(kv => kv.Key + "=" + kv.Value).ToArray()) + "}";;
 		}
 	}
 

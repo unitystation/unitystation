@@ -56,7 +56,7 @@ public class LevelBrush : GridBrush
 			}
 			else
 			{
-				layer.GetComponent<Layer>().SetTile(position, null, Matrix4x4.identity);
+				layer.GetComponent<Layer>().SetTile(position, null, Matrix4x4.identity, Color.white);
 			}
 		}
 	}
@@ -100,7 +100,7 @@ public class LevelBrush : GridBrush
 		{
 			SetTile(metaTileMap, position, requiredTile);
 		}
-
-		metaTileMap.SetTile(position, tile, cells[0].matrix);
+		Logger.Log("yo >" + cells[0].tile + " DD > " +  cells[0].color);
+		metaTileMap.SetTile(position, tile, cells[0].matrix,cells[0].color);
 	}
 }

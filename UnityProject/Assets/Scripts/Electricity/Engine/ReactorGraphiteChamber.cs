@@ -173,7 +173,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 		PresentNeutrons += ExternalNeutronGeneration();
 		GenerateExternalRadiation();
 		PresentNeutrons *= KFactor;
-		Logger.Log("NeutronSingularity " + (NeutronSingularity - PresentNeutrons));
+		//Logger.Log("NeutronSingularity " + (NeutronSingularity - PresentNeutrons));
 		if (NeutronSingularity < PresentNeutrons)
 		{
 			Logger.LogError("DDFFR booommmm!!", Category.Electrical);
@@ -192,6 +192,10 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 		//cleanup time, disassemble Throw radioactive fit into space
 		//Build new chambers And hook up
 		//when add cool
+		//################################  Control panel
+		//Make sure to add sounds number one priority!! Best thing
+
+		//Add cooling loop work out how to do pipes
 
 		//################################  Radiation
 		// Stacks amount of radiation on player then slowly degrades it into Toxin

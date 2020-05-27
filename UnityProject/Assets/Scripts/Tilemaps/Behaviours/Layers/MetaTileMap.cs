@@ -198,11 +198,12 @@ public class MetaTileMap : MonoBehaviour
 		return false;
 	}
 
-	public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null)
+	public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null, Color? color = null)
 	{
 		if (Layers.TryGetValue(tile.LayerType, out var layer))
 		{
-			layer.SetTile(position, tile, matrixTransform.GetValueOrDefault(Matrix4x4.identity));
+			Logger.Log("1 " + color);
+			layer.SetTile(position, tile, matrixTransform.GetValueOrDefault(Matrix4x4.identity), color.GetValueOrDefault(Color.white));
 		}
 		else
 		{

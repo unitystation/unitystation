@@ -40,7 +40,7 @@ public class ReactorBoiler : MonoBehaviour
 				(((Chamber.reagentContainer.Temperature - 293.15f) *(float)  Efficiency) + 293.15f);
 		}
 
-		Logger.Log("CurrentPressureInput " + CurrentPressureInput);
+		//Logger.Log("CurrentPressureInput " + CurrentPressureInput);
 		if (CurrentPressureInput > MaxPressureInput)
 		{
 			Logger.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);

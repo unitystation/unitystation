@@ -159,9 +159,11 @@ public class Layer : MonoBehaviour
 		return !tilemap.HasTile(position) || tilemap.GetTile<BasicTile>(position).IsSpace();
 	}
 
-	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
+	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
 	{
 		InternalSetTile(position, tile);
+
+		tilemap.SetColor(position, color);
 		tilemap.SetTransformMatrix(position, transformMatrix);
 		subsystemManager?.UpdateAt(position);
 	}

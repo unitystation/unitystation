@@ -25,6 +25,12 @@ public class MetaDataNode: IGasMixContainer
 	public List<ElectricalMetaData> ElectricalData = new List<ElectricalMetaData>();
 
 	/// <summary>
+	/// This contains all the pipe data needed On the tile
+	/// </summary>
+	public List<Pipes.PipeNode> PipeData = new List<Pipes.PipeNode>();
+
+
+	/// <summary>
 	/// Local position of this tile in its parent matrix.
 	/// </summary>
 	public readonly Vector3Int Position;
