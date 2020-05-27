@@ -34,6 +34,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait ReinforcedGlassSheet;
 	public ItemTrait WoodenPlank;
 	public ItemTrait Cable;
+	public ItemTrait Egg;
 	public ItemTrait Welder;
 	public ItemTrait Shovel;
 	public ItemTrait Knife;

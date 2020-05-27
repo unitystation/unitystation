@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Chemistry;
 using UnityEngine;
 using UnityEngine.Serialization;
+using UnityEngine.Events;
 
 namespace Chemistry.Components
 {
@@ -319,6 +320,8 @@ namespace Chemistry.Components
 					: $"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.ExpensiveName()}.";
 			else
 				resultMessage = result.Message;
+			if (transferFrom.IsEmpty && transferFrom.destroyOnEmpty)
+				Despawn.ServerSingle(transferFrom.gameObject);
 			Chat.AddExamineMsg(performer, resultMessage);
 		}
 
