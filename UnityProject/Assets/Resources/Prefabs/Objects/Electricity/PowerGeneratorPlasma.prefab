@@ -53,7 +53,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 37
+  MaxDistance: 9.428909
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -231,7 +231,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 37
+  MaxDistance: 9.858582
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -5311,6 +5311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114093731737732554
 MonoBehaviour:

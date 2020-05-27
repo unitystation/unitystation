@@ -485,9 +485,10 @@ public class MetaTileMap : MonoBehaviour
 	{
 		var bounds = GetBounds();
 		//???
-		var min = CellToWorld( bounds.min ).RoundToInt();
-		var max = CellToWorld( bounds.max ).RoundToInt();
-		return new BoundsInt(min, max - min);
+		var min = CellToWorld(bounds.min);
+		var max = CellToWorld(bounds.max);
+
+		return new BoundsInt(min.RoundToInt(), (max - min).RoundToInt());
 	}
 
 	public BoundsInt GetBounds()
@@ -498,6 +499,10 @@ public class MetaTileMap : MonoBehaviour
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			BoundsInt layerBounds = LayersValues[i].Bounds;
+			if (layerBounds.x == 0 && layerBounds.y == 0)
+			{
+				continue; // Has no tiles
+			}
 
 			minPosition = Vector3Int.Min(layerBounds.min, minPosition);
 			maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);
