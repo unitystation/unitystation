@@ -27,9 +27,9 @@ namespace Audio
 		public static SongTracker SongTracker => Instance.songTracker;
 
 		private bool isMusicMute;
-		[Range(0f, 1f)] public float MusicVolume = 1;
+		[Range(0f, 1f)] public float MusicVolume = 0.5f;
 
-		private AudioSource currentLobbyAudioSource;
+		[SerializeField] private AudioSource currentLobbyAudioSource = null;
 
 		[SerializeField] private AudioClipsArray audioClips = null;
 
@@ -40,7 +40,11 @@ namespace Audio
 
 		private void Init()
 		{
-			currentLobbyAudioSource = GetComponent<AudioSource>();
+			if (currentLobbyAudioSource == null)
+			{
+				currentLobbyAudioSource = GetComponent<AudioSource>();
+			}
+
 			//Mute Music Preference
 			if (PlayerPrefs.HasKey(PlayerPrefKeys.MuteMusic))
 			{
@@ -54,7 +58,7 @@ namespace Audio
 			}
 			else
 			{
-				SaveNewVolume(1f);
+				SaveNewVolume(0.5f);
 			}
 		}
 
@@ -77,7 +81,7 @@ namespace Audio
 			currentLobbyAudioSource.volume = Instance.MusicVolume;
 			currentLobbyAudioSource.Play();
 
-			return currentLobbyAudioSource.clip.name.Split('_');;
+			return currentLobbyAudioSource.clip.name.Split('_');
 		}
 
 		public void ToggleMusicMute(bool mute)

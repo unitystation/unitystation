@@ -8,11 +8,18 @@ namespace Audio
 	[CreateAssetMenu(fileName = "AudioClipsArray", menuName = "ScriptableObjects/Audio/AudioClipsArray", order = 0)]
 	public class AudioClipsArray : ScriptableObject
 	{
-		[SerializeField] private AudioClip[] audioClips;
+		[SerializeField] private AudioClip[] audioClips = null;
 
 		public AudioClip GetRandomClip()
 		{
-			return audioClips[Random.Range(0, audioClips.Length)];
+			if (audioClips == null || audioClips.Length == 0)
+			{
+				return null;
+			}
+			else
+			{
+				return audioClips[Random.Range(0, audioClips.Length)];
+			}
 		}
 
 		private void OnValidate()

@@ -44,7 +44,7 @@ namespace Audio
 			}
 			else
 			{
-				volumeSlider.value = 1f;
+				volumeSlider.value = 0.5f;
 			}
 		}
 
