@@ -247,6 +247,10 @@ public class DisplaySettings : MonoBehaviour
 	private void Awake()
 	{
 		IsFullScreen = Screen.fullScreen;
+		if (IsFullScreen) // Ensure we are using the correct resolution
+		{
+			Screen.SetResolution(Screen.currentResolution.width, Screen.currentResolution.height, true);
+		}
 		SetupPrefs();
 	}
 
