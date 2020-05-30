@@ -6,6 +6,7 @@ using System.Linq;
 using DatabaseAPI;
 using Mirror;
 using UnityEngine;
+using DiscordWebhook;
 
 namespace AdminTools
 {
@@ -95,6 +96,11 @@ namespace AdminTools
 			{
 				var adminPlayer = PlayerList.Instance.GetByUserID(entry.fromUserid);
 				entryName = "[A] " + adminPlayer.Name;
+
+				if (!string.IsNullOrEmpty(ServerData.ServerConfig.DiscordWebhookAdminURL))
+				{
+					DiscordWebhookMessage.SendWebHookMessage(ServerData.ServerConfig.DiscordWebhookAdminURL, entry.Message, entryName);
+				}
 			}
 
 			File.AppendAllText(filePath, $"[{DateTime.Now.ToString("O")}] {entryName}: {entry.Message}");

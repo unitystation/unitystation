@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using DatabaseAPI;
+using DiscordWebhook;
 
 namespace AdminTools
 {
@@ -32,6 +34,11 @@ namespace AdminTools
 		void OnInputReceived(string message)
 		{
 			AdminReplyMessage.Send($"{PlayerManager.CurrentCharacterSettings.Username} replied: " + message);
+
+			if (!string.IsNullOrEmpty(ServerData.ServerConfig.DiscordWebhookAdminURL))
+			{
+				DiscordWebhookMessage.SendWebHookMessage(ServerData.ServerConfig.DiscordWebhookAdminURL, PlayerManager.CurrentCharacterSettings.Name +": " + message, PlayerManager.CurrentCharacterSettings.Username);
+			}
 		}
 	}
 }
