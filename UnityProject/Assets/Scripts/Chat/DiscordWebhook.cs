@@ -41,7 +41,6 @@ namespace DiscordWebhook
 				newmsg = Regex.Replace(newmsg, "(?i)@ServerAdmin", mentionID);
 			}
 
-			//<@&677800847391850496>
 			return newmsg;
 		}
 	}
