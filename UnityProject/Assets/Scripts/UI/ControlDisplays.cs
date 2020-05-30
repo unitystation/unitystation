@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Audio;
 using UnityEngine.Serialization;
 
 public class ControlDisplays : MonoBehaviour
@@ -106,7 +107,7 @@ public class ControlDisplays : MonoBehaviour
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(true);
 		preRoundWindow.gameObject.SetActive(false);
-		SoundManager.SongTracker.Stop();
+		MusicManager.SongTracker.Stop();
 	}
 
 	void GhostUI()
@@ -120,7 +121,7 @@ public class ControlDisplays : MonoBehaviour
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(true);
 		preRoundWindow.gameObject.SetActive(false);
-		SoundManager.SongTracker.Stop();
+		MusicManager.SongTracker.Stop();
 	}
 
 	/// <summary>
@@ -170,7 +171,7 @@ public class ControlDisplays : MonoBehaviour
 	public void SetScreenForLobby()
 	{
 		SoundManager.StopAmbient();
-		SoundManager.SongTracker.StartPlayingRandomPlaylist();
+		MusicManager.SongTracker.StartPlayingRandomPlaylist();
 		ResetUI(); //Make sure UI is back to default for next play
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		UIActionManager.Instance.OnRoundEnd();
