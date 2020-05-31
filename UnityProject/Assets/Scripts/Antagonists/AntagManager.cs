@@ -122,7 +122,7 @@ namespace Antagonists
 					message += $"The {antagType.Key.Name}s were:\n";
 					foreach (var antag in antagType)
 					{
-						message += $"\n{antag.GetObjectiveStatus()}\n";
+						message += $"\n{antag.GetObjectiveStatusNonRich()}\n";
 						statusSB.AppendLine(antag.GetObjectiveStatus());
 					}
 				}
