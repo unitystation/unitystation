@@ -51,7 +51,7 @@ namespace DiscordWebhook
 			//Removes <@ to stop unwanted pings
 			newmsg = Regex.Replace(newmsg, "<@", " ");
 
-			if (mentionID != null)
+			if (!string.IsNullOrEmpty(mentionID))
 			{
 				//Replaces the @ServerAdmin (non case sensitive), with the discord role ID, so it pings.
 				newmsg = Regex.Replace(newmsg, "(?i)@ServerAdmin", mentionID);
