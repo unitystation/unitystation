@@ -8,10 +8,11 @@ namespace DiscordWebhook
 {
 	public static class DiscordWebhookMessage
 	{
-		public static byte[] Post(string url, NameValueCollection pairs)
+		public static void Post(string url, NameValueCollection pairs)
 		{
 			using (WebClient webClient = new WebClient())
-				return webClient.UploadValues(url, pairs);
+
+			webClient.UploadValues(url, pairs);
 		}
 
 		public static void SendWebHookMessage(Urls urlToUse, string msg, string username, string mentionID = null)
@@ -61,21 +62,16 @@ namespace DiscordWebhook
 
 		public static string GetUrl(Urls url)
 		{
-			if (url == Urls.DiscordWebhookOOCURL)
+			switch(url)
 			{
-				return ServerData.ServerConfig.DiscordWebhookOOCURL;
-			}
-			else if (url == Urls.DiscordWebhookAdminURL)
-			{
-				return ServerData.ServerConfig.DiscordWebhookAdminURL;
-			}
-			else if (url == Urls.DiscordWebhookAnnouncementURL)
-			{
-				return ServerData.ServerConfig.DiscordWebhookAnnouncementURL;
-			}
-			else
-			{
-				return null;
+				case Urls.DiscordWebhookOOCURL:
+					return ServerData.ServerConfig.DiscordWebhookOOCURL;
+				case Urls.DiscordWebhookAdminURL:
+					return ServerData.ServerConfig.DiscordWebhookAdminURL;
+				case Urls.DiscordWebhookAnnouncementURL:
+					return ServerData.ServerConfig.DiscordWebhookAnnouncementURL;
+				default:
+					return null;
 			}
 		}
 	}
