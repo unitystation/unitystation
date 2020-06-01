@@ -26,7 +26,7 @@ namespace DiscordWebhook
 			}
 			else
 			{
-				Destroy(instance);
+				Destroy(this);
 			}
 		}
 
