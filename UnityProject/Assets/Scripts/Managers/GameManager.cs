@@ -445,7 +445,7 @@ public partial class GameManager : MonoBehaviour
 			message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\n\n There are {PlayerList.Instance.ConnectionCount} players online.\n";
 		}
 
-		DiscordWebhookMessage.Instance.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 
 		UpdateCountdownMessage.Send(waitForStart, CountdownTime);
 	}

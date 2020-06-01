@@ -86,10 +86,10 @@ public partial class Chat : MonoBehaviour
 			Instance.addChatLogServer.Invoke(chatEvent);
 
 			//Sends OOC message to a discord webhook
-			DiscordWebhookMessage.Instance.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
 
 			//Send it to All chat
-			DiscordWebhookMessage.Instance.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookAllChatURL, $"[{ChatChannel.OOC}]  {message}\n", chatEvent.speaker);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, $"[{ChatChannel.OOC}]  {message}\n", chatEvent.speaker);
 
 			return;
 		}
@@ -137,7 +137,7 @@ public partial class Chat : MonoBehaviour
 		}
 
 		//Sends All Chat messages to a discord webhook
-		DiscordWebhookMessage.Instance.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, chatEvent.speaker);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, chatEvent.speaker);
 	}
 
 	/// <summary>

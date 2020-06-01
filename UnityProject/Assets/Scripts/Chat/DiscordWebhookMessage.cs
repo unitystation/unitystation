@@ -8,6 +8,9 @@ using DatabaseAPI;
 
 namespace DiscordWebhook
 {
+	/// <summary>
+	/// Used to send messages to a discord webhook URLs, URLs need to be set up in the config.json file. Supports OOC, Ahelp, Announcements and All chat.
+	/// </summary>
 	public class DiscordWebhookMessage : MonoBehaviour
 	{
 		private static DiscordWebhookMessage instance;
@@ -17,8 +20,9 @@ namespace DiscordWebhook
 		private Queue<string> AdminAhelpMessageQueue = new Queue<string>();
 		private Queue<string> AnnouncementMessageQueue = new Queue<string>();
 		private Queue<string> AllChatMessageQueue = new Queue<string>();
+		private Dictionary<Queue<string>, string> DiscordWebhookURLQueueDict = null;
 		private float SendingTimer = 0;
-		private const float MessageTimeDelay = 1f;
+		private const float MessageTimeDelay = 1.5f;
 
 		private void Awake()
 		{
@@ -32,35 +36,39 @@ namespace DiscordWebhook
 			}
 		}
 
+		private void Start()
+		{
+			DiscordWebhookURLQueueDict = new Dictionary<Queue<string>, string>
+			{
+				{OOCMessageQueue, ServerData.ServerConfig.DiscordWebhookOOCURL},
+				{AdminAhelpMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminURL},
+				{AnnouncementMessageQueue, ServerData.ServerConfig.DiscordWebhookAnnouncementURL},
+				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL}
+			};
+		}
+
 		private void Update()
 		{
 			SendingTimer += Time.deltaTime;
 			if (SendingTimer > MessageTimeDelay)
 			{
-				var URL = GetUrl(DiscordWebhookURLs.DiscordWebhookOOCURL);
-				FormatMessage(URL.Item1, URL.Item2);
-
-				URL = GetUrl(DiscordWebhookURLs.DiscordWebhookAdminURL);
-				FormatMessage(URL.Item1, URL.Item2);
-
-				URL = GetUrl(DiscordWebhookURLs.DiscordWebhookAnnouncementURL);
-				FormatMessage(URL.Item1, URL.Item2);
-
-				URL = GetUrl(DiscordWebhookURLs.DiscordWebhookAllChatURL);
-				FormatMessage(URL.Item1, URL.Item2);
+				foreach (var entry in DiscordWebhookURLQueueDict)
+				{
+					FormatAndSendMessage(entry.Value, entry.Key);
+				}
 
 				SendingTimer --;
 			}
 		}
 
-		public void Post(string url, NameValueCollection pairs)
+		private void Post(string url, NameValueCollection pairs)
 		{
 			using (WebClient webClient = new WebClient())
 
 			webClient.UploadValues(url, pairs);
 		}
 
-		public void SendWebHookMessage(DiscordWebhookURLs urlToUse, string msg, string username, string mentionID = null)
+		public void AddWebHookMessageToQueue(DiscordWebhookURLs urlToUse, string msg, string username, string mentionID = null)
 		{
 			var urlAndQueue = GetUrl(urlToUse);
 
@@ -84,7 +92,7 @@ namespace DiscordWebhook
 			urlAndQueue.Item2.Enqueue(msg);
 		}
 
-		private void FormatMessage(string url, Queue<string> queue)
+		private void FormatAndSendMessage(string url, Queue<string> queue)
 		{
 			if (url == null) return;
 
@@ -96,8 +104,7 @@ namespace DiscordWebhook
 
 			for (var i = 1; i <= count; i++)
 			{
-				msg += queue.Peek() + "\n";
-				queue.Dequeue();
+				msg += queue.Dequeue() + "\n";
 			}
 
 			Post(url, new NameValueCollection()
@@ -125,7 +132,7 @@ namespace DiscordWebhook
 			return newmsg;
 		}
 
-		public (string, Queue<string>) GetUrl(DiscordWebhookURLs url)
+		private (string, Queue<string>) GetUrl(DiscordWebhookURLs url)
 		{
 			switch(url)
 			{

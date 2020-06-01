@@ -142,7 +142,7 @@ namespace Antagonists
 				message += $"\n There are {PlayerList.Instance.ConnectionCount} players online.\n";
 			}
 
-			DiscordWebhookMessage.Instance.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 
 			// Send the message
 			Chat.AddGameWideSystemMsgToChat(statusSB.ToString());
