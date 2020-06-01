@@ -9,8 +9,6 @@ public class Explosion : MonoBehaviour
 	public bool unstableRadius = false;
 	[TooltipAttribute("Explosion Damage")]
 	public int damage = 150;
-	[TooltipAttribute("Fire Damage")]
-	public int firedamage = 1;
 	[TooltipAttribute("Explosion Radius in tiles")]
 	public float radius = 4f;
 	[TooltipAttribute("Shape of the explosion")]
@@ -64,7 +62,6 @@ public class Explosion : MonoBehaviour
 
 				// Calculate damage from explosion
 				int damage = CalculateDamage(tilePos2d, explosionCenter2d);
-				int firedamage = CalculateDamageFire(tilePos2d, explosionCenter2d)
 
 				if (damage > 0)
 				{
@@ -78,17 +75,6 @@ public class Explosion : MonoBehaviour
 					DamageTiles(tilePos, damage);
 				}
 
-				if (firedamage > 0)
-				{
-					// Damage poor living things
-					DamageLivingThingsFire(tilePos, firedamage);
-
-					// Damage all objects
-					DamageObjectsFire(tilePos, firedamage);
-
-					// Damage all tiles
-					DamageTilesFire(tilePos, firedamage);
-				}
 				// Calculate fire effect time
 				var fireTime = DistanceFromCenter(explosionCenter2d, tilePos2d, minEffectDuration, maxEffectDuration);
 				var localTilePos = MatrixManager.WorldToLocalInt(tilePos, matrix.Id);
@@ -152,36 +138,6 @@ public class Explosion : MonoBehaviour
 		matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPosition, matrix), damage, worldPosition, AttackType.Bomb);
 	}
 
-	private void DamageLivingThings(Vector3Int worldPosition, int damage)
-	{
-		var damagedLivingThings = (MatrixManager.GetAt<LivingHealthBehaviour>(worldPosition, true)
-			//only damage each thing once
-			.Distinct());
-
-		foreach (var damagedLiving in damagedLivingThings)
-		{
-			damagedLiving.ApplyDamage(gameObject, damage, AttackType.Bomb, DamageType.Burn);
-		}
-	}
-
-	private void DamageObjects(Vector3Int worldPosition, int damage)
-	{
-		var damagedObjects = (MatrixManager.GetAt<Integrity>(worldPosition, true)
-			//only damage each thing once
-			.Distinct());
-
-		foreach (var damagedObject in damagedObjects)
-        {
-	        damagedObject.ApplyDamage(damage, AttackType.Bomb, DamageType.Burn);
-        }
-	}
-
-	private void DamageTiles(Vector3Int worldPosition, int damage)
-	{
-		var matrix = MatrixManager.AtPoint(worldPosition, true);
-		matrix.MetaTileMap.ApplyDamage(MatrixManager.WorldToLocalInt(worldPosition, matrix), damage, worldPosition, AttackType.Bomb);
-	}
-
 	/// <summary>
 	/// Plays explosion sound and shakes ground
 	/// </summary>
@@ -201,13 +157,6 @@ public class Explosion : MonoBehaviour
 		float distance = Vector2Int.Distance(explosionPos, damagePos);
 		float effect = 1 - ((distance + distance) / ((radius + radius) + minDamage));
 		return (int)(damage * effect);
-	}
-
-	private int CalculateDamageFire(Vector2Int damagePos, Vector2Int explosionPos)
-	{
-		float distance = Vector2Int.Distance(explosionPos, damagePos);
-		float effect = 1 - ((distance + distance) / ((radius + radius) + minDamage));
-		return (int)(firedamage * effect);
 	}
 
 	/// <summary>
