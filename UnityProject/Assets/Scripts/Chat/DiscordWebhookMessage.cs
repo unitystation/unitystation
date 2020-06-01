@@ -22,7 +22,7 @@ namespace DiscordWebhook
 		private Queue<string> AllChatMessageQueue = new Queue<string>();
 		private Dictionary<Queue<string>, string> DiscordWebhookURLQueueDict = null;
 		private float SendingTimer = 0;
-		private const float MessageTimeDelay = 1.5f;
+		private const float MessageTimeDelay = 1f;
 
 		private void Awake()
 		{
