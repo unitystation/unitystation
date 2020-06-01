@@ -2,6 +2,8 @@
 using System;
 using AdminTools;
 using Tilemaps.Behaviours.Meta;
+using DiscordWebhook;
+using DatabaseAPI;
 
 /// <summary>
 /// The Chat API
@@ -82,6 +84,10 @@ public partial class Chat : MonoBehaviour
 			}
 
 			Instance.addChatLogServer.Invoke(chatEvent);
+
+			//Sends OOC message to a discord webhook
+			DiscordWebhookMessage.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
+
 			return;
 		}
 

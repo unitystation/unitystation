@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DatabaseAPI;
+using DiscordWebhook;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -300,7 +302,6 @@ public partial class GameManager : MonoBehaviour
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
-
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
 		}
@@ -432,6 +433,11 @@ public partial class GameManager : MonoBehaviour
 	{
 		CountdownTime = PreRoundTime;
 		waitForStart = true;
+
+		var message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\n\n There are {PlayerList.Instance.ConnectionCount} players online.\n";
+
+		DiscordWebhookMessage.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "Server Status");
+
 		UpdateCountdownMessage.Send(waitForStart, CountdownTime);
 	}
 
