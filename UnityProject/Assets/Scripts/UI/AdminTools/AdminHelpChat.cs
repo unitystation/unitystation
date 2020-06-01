@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using DatabaseAPI;
-using DiscordWebhook;
 
 namespace AdminTools
 {
