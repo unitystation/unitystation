@@ -15,7 +15,7 @@ namespace DiscordWebhook
 			webClient.UploadValues(url, pairs);
 		}
 
-		public static void SendWebHookMessage(Urls urlToUse, string msg, string username, string mentionID = null)
+		public static void SendWebHookMessage(DiscordWebhookURLs urlToUse, string msg, string username, string mentionID = null)
 		{
 			var url = GetUrl(urlToUse);
 
@@ -60,15 +60,15 @@ namespace DiscordWebhook
 			return newmsg;
 		}
 
-		public static string GetUrl(Urls url)
+		public static string GetUrl(DiscordWebhookURLs url)
 		{
 			switch(url)
 			{
-				case Urls.DiscordWebhookOOCURL:
+				case DiscordWebhookURLs.DiscordWebhookOOCURL:
 					return ServerData.ServerConfig.DiscordWebhookOOCURL;
-				case Urls.DiscordWebhookAdminURL:
+				case DiscordWebhookURLs.DiscordWebhookAdminURL:
 					return ServerData.ServerConfig.DiscordWebhookAdminURL;
-				case Urls.DiscordWebhookAnnouncementURL:
+				case DiscordWebhookURLs.DiscordWebhookAnnouncementURL:
 					return ServerData.ServerConfig.DiscordWebhookAnnouncementURL;
 				default:
 					return null;
@@ -76,7 +76,7 @@ namespace DiscordWebhook
 		}
 	}
 
-	public enum Urls
+	public enum DiscordWebhookURLs
 	{
 		DiscordWebhookOOCURL,
 		DiscordWebhookAdminURL,

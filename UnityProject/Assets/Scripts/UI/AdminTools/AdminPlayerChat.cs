@@ -98,7 +98,7 @@ namespace AdminTools
 				entryName = "[A] " + adminPlayer.Name;
 			}
 
-			DiscordWebhookMessage.SendWebHookMessage(Urls.DiscordWebhookAdminURL, entry.Message, entryName);
+			DiscordWebhookMessage.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookAdminURL, entry.Message, entryName);
 
 			File.AppendAllText(filePath, $"[{DateTime.Now.ToString("O")}] {entryName}: {entry.Message}");
 		}
