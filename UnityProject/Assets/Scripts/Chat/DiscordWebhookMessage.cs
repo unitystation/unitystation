@@ -16,6 +16,7 @@ namespace DiscordWebhook
 		private Queue<string> OOCMessageQueue = new Queue<string>();
 		private Queue<string> AdminAhelpMessageQueue = new Queue<string>();
 		private Queue<string> AnnouncementMessageQueue = new Queue<string>();
+		private Queue<string> AllChatMessageQueue = new Queue<string>();
 		private float SendingTimer = 0;
 
 		private void Awake()
@@ -42,6 +43,9 @@ namespace DiscordWebhook
 				FormatMessage(URL.Item1, URL.Item2);
 
 				URL = GetUrl(DiscordWebhookURLs.DiscordWebhookAnnouncementURL);
+				FormatMessage(URL.Item1, URL.Item2);
+
+				URL = GetUrl(DiscordWebhookURLs.DiscordWebhookAllChatURL);
 				FormatMessage(URL.Item1, URL.Item2);
 
 				SendingTimer = 0f;
@@ -130,6 +134,8 @@ namespace DiscordWebhook
 					return (ServerData.ServerConfig.DiscordWebhookAdminURL, AdminAhelpMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAnnouncementURL:
 					return (ServerData.ServerConfig.DiscordWebhookAnnouncementURL, AnnouncementMessageQueue);
+				case DiscordWebhookURLs.DiscordWebhookAllChatURL:
+					return (ServerData.ServerConfig.DiscordWebhookAllChatURL, AllChatMessageQueue);
 				default:
 					return (null, null);
 			}
@@ -140,6 +146,7 @@ namespace DiscordWebhook
 	{
 		DiscordWebhookOOCURL,
 		DiscordWebhookAdminURL,
-		DiscordWebhookAnnouncementURL
+		DiscordWebhookAnnouncementURL,
+		DiscordWebhookAllChatURL
 	}
 }

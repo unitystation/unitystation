@@ -113,6 +113,8 @@ public partial class Chat : MonoBehaviour
 			}
 		}
 
+		string discordMessage = "";
+
 		// There could be multiple channels we need to send a message for each.
 		// We do this on the server side that local chans can be determined correctly
 		foreach (Enum value in Enum.GetValues(channels.GetType()))
@@ -126,8 +128,13 @@ public partial class Chat : MonoBehaviour
 
 				chatEvent.channels = (ChatChannel)value;
 				Instance.addChatLogServer.Invoke(chatEvent);
+
+				discordMessage += $"[{chatEvent.channels}]  {message}\n";
 			}
 		}
+
+		//Sends All Chat messages to a discord webhook
+		DiscordWebhookMessage.Instance.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, chatEvent.speaker);
 	}
 
 	/// <summary>
