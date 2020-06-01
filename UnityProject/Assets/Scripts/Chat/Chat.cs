@@ -86,7 +86,7 @@ public partial class Chat : MonoBehaviour
 			Instance.addChatLogServer.Invoke(chatEvent);
 
 			//Sends OOC message to a discord webhook
-			DiscordWebhookMessage.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
+			DiscordWebhookMessage.Instance.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
 
 			return;
 		}
