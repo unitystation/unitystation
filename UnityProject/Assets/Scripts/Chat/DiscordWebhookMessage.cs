@@ -36,19 +36,6 @@ namespace DiscordWebhook
 			}
 		}
 
-		private void Start()
-		{
-			if (!CustomNetworkManager.IsServer) return;
-
-			DiscordWebhookURLQueueDict = new Dictionary<Queue<string>, string>
-			{
-				{OOCMessageQueue, ServerData.ServerConfig.DiscordWebhookOOCURL},
-				{AdminAhelpMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminURL},
-				{AnnouncementMessageQueue, ServerData.ServerConfig.DiscordWebhookAnnouncementURL},
-				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL}
-			};
-		}
-
 		private void Update()
 		{
 			if (!CustomNetworkManager.IsServer) return;
@@ -56,6 +43,11 @@ namespace DiscordWebhook
 			SendingTimer += Time.deltaTime;
 			if (SendingTimer > MessageTimeDelay)
 			{
+				if (DiscordWebhookURLQueueDict == null)
+				{
+					InitDict();
+				}
+
 				foreach (var entry in DiscordWebhookURLQueueDict)
 				{
 					FormatAndSendMessage(entry.Value, entry.Key);
@@ -63,6 +55,17 @@ namespace DiscordWebhook
 
 				SendingTimer --;
 			}
+		}
+
+		private void InitDict()
+		{
+			DiscordWebhookURLQueueDict = new Dictionary<Queue<string>, string>
+			{
+				{OOCMessageQueue, ServerData.ServerConfig.DiscordWebhookOOCURL},
+				{AdminAhelpMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminURL},
+				{AnnouncementMessageQueue, ServerData.ServerConfig.DiscordWebhookAnnouncementURL},
+				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL}
+			};
 		}
 
 		private void Post(string url, NameValueCollection pairs)
