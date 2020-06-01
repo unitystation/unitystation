@@ -88,6 +88,9 @@ public partial class Chat : MonoBehaviour
 			//Sends OOC message to a discord webhook
 			DiscordWebhookMessage.Instance.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
 
+			//Send it to All chat
+			DiscordWebhookMessage.Instance.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookAllChatURL, $"[{ChatChannel.OOC}]  {message}\n", chatEvent.speaker);
+
 			return;
 		}
 

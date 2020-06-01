@@ -18,6 +18,7 @@ namespace DiscordWebhook
 		private Queue<string> AnnouncementMessageQueue = new Queue<string>();
 		private Queue<string> AllChatMessageQueue = new Queue<string>();
 		private float SendingTimer = 0;
+		private const float MessageTimeDelay = 1f;
 
 		private void Awake()
 		{
@@ -34,7 +35,7 @@ namespace DiscordWebhook
 		private void Update()
 		{
 			SendingTimer += Time.deltaTime;
-			if (SendingTimer > 1f)
+			if (SendingTimer > MessageTimeDelay)
 			{
 				var URL = GetUrl(DiscordWebhookURLs.DiscordWebhookOOCURL);
 				FormatMessage(URL.Item1, URL.Item2);
@@ -48,7 +49,7 @@ namespace DiscordWebhook
 				URL = GetUrl(DiscordWebhookURLs.DiscordWebhookAllChatURL);
 				FormatMessage(URL.Item1, URL.Item2);
 
-				SendingTimer = 0f;
+				SendingTimer --;
 			}
 		}
 
