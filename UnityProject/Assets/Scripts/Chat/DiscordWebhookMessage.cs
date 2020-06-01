@@ -38,6 +38,8 @@ namespace DiscordWebhook
 
 		private void Start()
 		{
+			if (!CustomNetworkManager.IsServer) return;
+
 			DiscordWebhookURLQueueDict = new Dictionary<Queue<string>, string>
 			{
 				{OOCMessageQueue, ServerData.ServerConfig.DiscordWebhookOOCURL},
@@ -49,6 +51,8 @@ namespace DiscordWebhook
 
 		private void Update()
 		{
+			if (!CustomNetworkManager.IsServer) return;
+
 			SendingTimer += Time.deltaTime;
 			if (SendingTimer > MessageTimeDelay)
 			{
