@@ -135,33 +135,23 @@ public class Microwave : NetworkBehaviour
 
 			if (stck != null)   // If the meal has a stackable component, set the correct number of meals
 			{
-				int spawnedSoFar = stck.InitialAmount;
+				int mealDeficit = mealCount - stck.InitialAmount;
 
-				while (spawnedSoFar < mealCount)
+				while (mealDeficit > 0)
 				{
-					int spaceInStack = stck.MaxAmount - stck.Amount;
+					mealDeficit = stck.ServerIncrease(mealDeficit);
 
-					if (spaceInStack > 0)
-					{
-						// Add all the missing meals to the stack, or as many as the stack can contain
-						int mealDeficit = mealCount - spawnedSoFar;
-						int stacksToAdd = Mathf.Min(spaceInStack, mealDeficit);
-						stck.ServerIncrease(stacksToAdd);
-						spawnedSoFar += stacksToAdd;
-					}
-
-					if (spawnedSoFar < mealCount) // Still not enough meals
+					if (mealDeficit > 0)
 					{
 						result = Spawn.ServerPrefab(mealPrefab, spawnPosition, transform.parent);
 						stck = result.GameObject.GetComponent<Stackable>();
-						spawnedSoFar += stck.InitialAmount;
+						mealDeficit -= stck.InitialAmount;
 					}
 				}
 
-				if (spawnedSoFar > mealCount) // Reduce the stack if our last spawned stackable results in too many meals
+				if (mealDeficit < 0) // Reduce the stack if our last spawned stackable results in too many meals
 				{
-					int mealSurplus = spawnedSoFar - mealCount;
-					stck.ServerConsume(mealSurplus);
+					stck.ServerConsume(-mealDeficit);
 				}
 			}
 			else if (mealCount > 1) // Spawn non-stackable meals
