@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4011814927229616220}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.094, y: -0.061, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5963736954311484605}
@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -70,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: 1af54fff6c6d86f499ec74813391ec2f, type: 3}
+  m_Sprite: {fileID: 21300000, guid: d5fa968094f21b74f91b1ee90e06fe78, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,7 +95,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteRenderer: {fileID: 0}
-  spriteUnlocked: {fileID: 21300000, guid: 1ef8430347061674d9b887099f3ce075, type: 3}
+  spriteUnlocked: {fileID: 21300000, guid: 0eb8ab71ada80c7489532b6be7c50fde, type: 3}
 --- !u!114 &4298676972133845906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,10 +116,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+    - target: {fileID: -8581425707620298580, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
-      propertyPath: m_Name
+      propertyPath: lockLight
+      value: 
+      objectReference: {fileID: 4427201325505430292}
+    - target: {fileID: -8581425707620298580, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: IsLockable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8581425707620298580, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: doorOpened
+      value: 
+      objectReference: {fileID: -2974541389233453972, guid: 661c70267891a1f4583c4fdc820306a6,
+        type: 3}
+    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: initialDescription
+      value: Can only be opened with Security Access.
+      objectReference: {fileID: 0}
+    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: exportCost
+      value: 750
+      objectReference: {fileID: 0}
+    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: exportName
       value: Security Ballistics Crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: initialName
+      value: A Security Ballistics Crate
       objectReference: {fileID: 0}
     - target: {fileID: 1621019177403175601, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
@@ -129,6 +161,23 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3918525054062759918, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2627357261279776875, guid: 661c70267891a1f4583c4fdc820306a6,
+        type: 3}
+    - target: {fileID: 6972391878964200388, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2627357261279776875, guid: 661c70267891a1f4583c4fdc820306a6,
+        type: 3}
+    - target: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: m_Name
+      value: Security Ballistics Crate
       objectReference: {fileID: 0}
     - target: {fileID: 7185317672090542345, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
@@ -185,54 +234,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: initialDescription
-      value: Can only be opened with Security Access.
-      objectReference: {fileID: 0}
-    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: exportCost
-      value: 750
-      objectReference: {fileID: 0}
-    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: exportName
-      value: Security Ballistics Crate
-      objectReference: {fileID: 0}
-    - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: initialName
-      value: A Security Ballistics Crate
-      objectReference: {fileID: 0}
-    - target: {fileID: -8581425707620298580, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: lockLight
-      value: 
-      objectReference: {fileID: 4427201325505430292}
-    - target: {fileID: -8581425707620298580, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: IsLockable
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -8581425707620298580, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: doorOpened
-      value: 
-      objectReference: {fileID: 21300000, guid: ec82e9c2a0296c246ae58acc3dcd4221,
-        type: 3}
-    - target: {fileID: 6972391878964200388, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 661c70267891a1f4583c4fdc820306a6,
-        type: 3}
-    - target: {fileID: 3918525054062759918, guid: 44071f490693c439896528fb8aca8917,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 661c70267891a1f4583c4fdc820306a6,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 44071f490693c439896528fb8aca8917, type: 3}
 --- !u!1 &1915535976018001213 stripped
