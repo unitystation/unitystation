@@ -30,7 +30,8 @@ public partial class GameManager : MonoBehaviour
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
 	[SerializeField]
-	private float RoundEndTime = 60f;
+	private float roundEndTime = 60f;
+	public float RoundEndTime => roundEndTime;
 
 	/// <summary>
 	/// The current time left on the countdown timer
@@ -399,8 +400,8 @@ public partial class GameManager : MonoBehaviour
 	/// </summary>
 	private IEnumerator WaitForRoundRestart()
 	{
-		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
-		yield return WaitFor.Seconds(RoundEndTime);
+		Logger.Log($"Waiting {roundEndTime} seconds to restart...", Category.Round);
+		yield return WaitFor.Seconds(roundEndTime);
 		RestartRound();
 	}
 

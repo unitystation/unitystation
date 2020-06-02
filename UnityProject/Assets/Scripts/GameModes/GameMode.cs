@@ -352,6 +352,9 @@ public abstract class GameMode : ScriptableObject
 	{
 		Logger.LogFormat("Ending {0} round!", Category.GameMode, Name);
 		AntagManager.Instance.ShowAntagStatusReport();
+
+		var msg = $"The round will restart in {GameManager.Instance.RoundEndTime} seconds.";
+		Chat.AddGameWideSystemMsgToChat(msg);
 	}
 
 	#endregion
