@@ -133,7 +133,16 @@ namespace Antagonists
 				statusSB.AppendLine("<size=24>There were no antagonists!</size>");
 			}
 
-			DiscordWebhookMessage.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message + $"\n There are {PlayerList.Instance.ConnectionCount} players online.\n", "Server Status");
+			if (PlayerList.Instance.ConnectionCount == 1)
+			{
+				message += $"\n There is 1 player online.\n";
+			}
+			else
+			{
+				message += $"\n There are {PlayerList.Instance.ConnectionCount} players online.\n";
+			}
+
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 
 			// Send the message
 			Chat.AddGameWideSystemMsgToChat(statusSB.ToString());
