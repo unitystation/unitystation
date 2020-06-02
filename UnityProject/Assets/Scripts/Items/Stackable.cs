@@ -13,6 +13,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	[Tooltip("Amount initially in the stack when this is spawned.")]
 	[SerializeField]
 	private int initialAmount = 1;
+	public int InitialAmount => initialAmount;
 
 	[Tooltip("Max amount allowed in the stack.")]
 	[SerializeField]
