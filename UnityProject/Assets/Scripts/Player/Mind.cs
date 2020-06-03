@@ -106,9 +106,9 @@ public class Mind
 				Spells.Add(spellScript);
 			}
 
-			if (occupation.JobType == JobType.MIME)
-			{ //not sure if it should be set on body set or mind init...
-				IsMiming = true;
+			foreach (var pair in occupation.CustomProperties)
+			{
+				SetProperty(pair.Key, pair.Value);
 			}
 		}
 		StopGhosting();

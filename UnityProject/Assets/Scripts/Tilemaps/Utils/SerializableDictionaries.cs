@@ -36,3 +36,8 @@ public class UISwapDictionary : SerializableDictionary<UIType, string>
 public class ItemDictionary : SerializableDictionary<GameObject, int>
 {
 }
+
+[Serializable]
+public class PropertyDictionary : SerializableDictionary<string, bool>
+{
+}

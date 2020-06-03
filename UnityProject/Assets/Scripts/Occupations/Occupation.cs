@@ -107,4 +107,8 @@ public class Occupation : ScriptableObject
 	[Tooltip("An elaborate job description for newcomers. Should say what playing this job usually entails, similar to descriptionShort.")]
 	private string descriptionLong = "";
 	public string DescriptionLong => descriptionLong;
+
+	[Header("Custom properties that will be applied\nto new bodies with this occupation")]
+	[SerializeField] private PropertyDictionary customProperties;
+	public PropertyDictionary CustomProperties => customProperties;
 }
