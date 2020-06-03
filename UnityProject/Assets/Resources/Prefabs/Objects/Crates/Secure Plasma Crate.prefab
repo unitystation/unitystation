@@ -7,11 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1915535976018001213, guid: d059b46ee78dde84b963769ba89d24cc,
+    - target: {fileID: 1870512524056631594, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
-      propertyPath: m_Name
-      value: Secure Plasma Crate
-      objectReference: {fileID: 0}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2578491355198861880, guid: a6dcda2de17c0814d8b03268ffa2fcd6,
+        type: 3}
     - target: {fileID: 1909785831965555687, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,11 +68,33 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1915535976018001213, guid: d059b46ee78dde84b963769ba89d24cc,
+        type: 3}
+      propertyPath: m_Name
+      value: Secure Plasma Crate
+      objectReference: {fileID: 0}
+    - target: {fileID: 4298676972133845906, guid: d059b46ee78dde84b963769ba89d24cc,
+        type: 3}
+      propertyPath: restriction
+      value: 32
+      objectReference: {fileID: 0}
+    - target: {fileID: 5717013532534068480, guid: d059b46ee78dde84b963769ba89d24cc,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -2578491355198861880, guid: a6dcda2de17c0814d8b03268ffa2fcd6,
+        type: 3}
     - target: {fileID: 8018808775326304351, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8205323822762117698, guid: d059b46ee78dde84b963769ba89d24cc,
+        type: 3}
+      propertyPath: doorOpened
+      value: 
+      objectReference: {fileID: -314645391749191705, guid: a6dcda2de17c0814d8b03268ffa2fcd6,
+        type: 3}
     - target: {fileID: 9092948125053428237, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
       propertyPath: initialName
@@ -87,28 +110,5 @@ PrefabInstance:
       propertyPath: exportName
       value: Secure Plasma Crate
       objectReference: {fileID: 0}
-    - target: {fileID: 8205323822762117698, guid: d059b46ee78dde84b963769ba89d24cc,
-        type: 3}
-      propertyPath: doorOpened
-      value: 
-      objectReference: {fileID: 21300000, guid: 8e6e26f56b983844e96706ffe5cbbfec,
-        type: 3}
-    - target: {fileID: 4298676972133845906, guid: d059b46ee78dde84b963769ba89d24cc,
-        type: 3}
-      propertyPath: restriction
-      value: 32
-      objectReference: {fileID: 0}
-    - target: {fileID: 1870512524056631594, guid: d059b46ee78dde84b963769ba89d24cc,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: a6dcda2de17c0814d8b03268ffa2fcd6,
-        type: 3}
-    - target: {fileID: 5717013532534068480, guid: d059b46ee78dde84b963769ba89d24cc,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: a6dcda2de17c0814d8b03268ffa2fcd6,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d059b46ee78dde84b963769ba89d24cc, type: 3}

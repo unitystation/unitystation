@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DatabaseAPI;
+using DiscordWebhook;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -28,7 +30,8 @@ public partial class GameManager : MonoBehaviour
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
 	[SerializeField]
-	private float RoundEndTime = 60f;
+	private float roundEndTime = 60f;
+	public float RoundEndTime => roundEndTime;
 
 	/// <summary>
 	/// The current time left on the countdown timer
@@ -300,7 +303,6 @@ public partial class GameManager : MonoBehaviour
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
-
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
 		}
@@ -398,8 +400,8 @@ public partial class GameManager : MonoBehaviour
 	/// </summary>
 	private IEnumerator WaitForRoundRestart()
 	{
-		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
-		yield return WaitFor.Seconds(RoundEndTime);
+		Logger.Log($"Waiting {roundEndTime} seconds to restart...", Category.Round);
+		yield return WaitFor.Seconds(roundEndTime);
 		RestartRound();
 	}
 
@@ -432,6 +434,20 @@ public partial class GameManager : MonoBehaviour
 	{
 		CountdownTime = PreRoundTime;
 		waitForStart = true;
+
+		string message;
+
+		if (PlayerList.Instance.ConnectionCount == 1)
+		{
+			message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\n\n There is 1 player online.\n";
+		}
+		else
+		{
+			message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\n\n There are {PlayerList.Instance.ConnectionCount} players online.\n";
+		}
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+
 		UpdateCountdownMessage.Send(waitForStart, CountdownTime);
 	}
 
