@@ -163,10 +163,14 @@ public class StandardProgressAction : IProgressAction
 		{
 			eventRegistry.Register(welder.OnWelderOffServer, OnWelderOff);
 		}
-		//if targeting an object, interrupt if object moves away
+
 		if (startProgressInfo.Target.IsObject)
 		{
+			//if targeting an object, interrupt if object moves away
 			eventRegistry.Register(startProgressInfo.Target.Target.OnLocalPositionChangedServer, OnLocalPositionChanged);
+
+			//interrupt if target is despawned
+			eventRegistry.Register(startProgressInfo.Target.Target.OnDespawnedServer, OnDespawned);
 		}
 		//interrupt if active hand slot changes
 		var activeSlot = playerScript.ItemStorage.GetActiveHandSlot();
@@ -288,6 +292,11 @@ public class StandardProgressAction : IProgressAction
 	{
 		//if player or target moves at all, interrupt
 		InterruptProgress("performer or target moved");
+	}
+
+	private void OnDespawned()
+	{
+		InterruptProgress("target was despawned");
 	}
 
 	private void OnConsciousStateChange(ConsciousState oldState, ConsciousState newState)

@@ -192,13 +192,21 @@ public class JoinedViewer : NetworkBehaviour
 
 		PlayerSpawn.ServerSpawnPlayer(spawnRequest);
 	}
+
+	public void Spectate()
+	{
+		var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
+		CmdSpectate(jsonCharSettings);
+	}
+
 	/// <summary>
 	/// Command to spectate a round instead of spawning as a player
 	/// </summary>
 	[Command]
-	public void CmdSpectate()
+	public void CmdSpectate(string jsonCharSettings)
 	{
-		PlayerSpawn.ServerSpawnGhost(this);
+		var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
+		PlayerSpawn.ServerSpawnGhost(this, characterSettings);
 	}
 
 	/// <summary>
