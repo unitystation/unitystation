@@ -12,8 +12,9 @@ public class MouseInputController : MonoBehaviour
 {
 	private const float MAX_AGE = 2f;
 
+
 	[Tooltip("When mouse button is pressed down and held for longer than this duration, we will" +
-	         " not perform a click on mouse up.")]
+			 " not perform a click on mouse up.")]
 	public float MaxClickDuration = 1f;
 	//tracks how long we've had the button down
 	private float clickDuration;
@@ -26,9 +27,9 @@ public class MouseInputController : MonoBehaviour
 	private MouseDraggable potentialDraggable;
 
 	[Tooltip("Seconds to wait before trying to trigger an aim apply while mouse is being held. There is" +
-	         " no need to re-trigger aim apply every frame and sometimes those triggers can be expensive, so" +
-	         " this can be set to avoid that. It should be set low enough so that every AimApply interaction" +
-	         " triggers frequently enough (for example, based on the fastest-firing gun).")]
+			 " no need to re-trigger aim apply every frame and sometimes those triggers can be expensive, so" +
+			 " this can be set to avoid that. It should be set low enough so that every AimApply interaction" +
+			 " triggers frequently enough (for example, based on the fastest-firing gun).")]
 	public float AimApplyInterval = 0.01f;
 	//value used to check against the above while mouse is being held down.
 	private float secondsSinceLastAimApplyTrigger;
@@ -44,6 +45,9 @@ public class MouseInputController : MonoBehaviour
 
 	private Vector3 MouseWorldPosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 
+	// last mouse position used in CheckHover() to determine if player hovers other tile
+	private Vector3Int lastMouseWordlPositionInt;
+
 	/// <summary>
 	/// currently triggering aimapply interactable - when mouse is clicked down this is set to the
 	/// interactable that was triggered, then it is re-triggered continuously while the button is held,
@@ -51,19 +55,25 @@ public class MouseInputController : MonoBehaviour
 	/// </summary>
 	private IBaseInteractable<AimApply> triggeredAimApply;
 
+	/// <summary>
+	/// Prefab used to visualise cable placement
+	/// </summary>
+	[SerializeField] private GameObject cableVisualisation;
+	private CablePlacementVisualisation cablePlacementVisualisation;
+
 	private void OnDrawGizmos()
 	{
 
-		if ( touchesToDitch.Count > 0 )
+		if (touchesToDitch.Count > 0)
 		{
-			foreach ( var touch in touchesToDitch )
+			foreach (var touch in touchesToDitch)
 			{
-				RecentTouches.Remove( touch );
+				RecentTouches.Remove(touch);
 			}
 			touchesToDitch.Clear();
 		}
 
-		if ( RecentTouches.Count == 0 )
+		if (RecentTouches.Count == 0)
 		{
 			return;
 		}
@@ -76,9 +86,9 @@ public class MouseInputController : MonoBehaviour
 			tempColor.a = Mathf.Clamp(MAX_AGE - age, 0f, 1f);
 			Gizmos.color = tempColor;
 			Gizmos.DrawCube(info.Key, sz);
-			if ( age >= MAX_AGE )
+			if (age >= MAX_AGE)
 			{
-				touchesToDitch.Add( info.Key );
+				touchesToDitch.Add(info.Key);
 			}
 		}
 
@@ -90,6 +100,9 @@ public class MouseInputController : MonoBehaviour
 		playerDirectional = gameObject.GetComponent<Directional>();
 		playerMove = GetComponent<PlayerMove>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
+
+		cablePlacementVisualisation = Instantiate(cableVisualisation).GetComponent<CablePlacementVisualisation>();
+		cablePlacementVisualisation.gameObject.SetActive(false);
 	}
 
 	void LateUpdate()
@@ -126,15 +139,15 @@ public class MouseInputController : MonoBehaviour
 				return;
 			}
 
-			if  (KeyboardInputManager.IsShiftPressed())
+			if (KeyboardInputManager.IsShiftPressed())
 			{
 				//like above, send shift-click request, then do nothing else.
 				CheckShiftClick();
 				return;
 			}
 
-            //check alt click and throw, which doesn't have any special logic. For alt clicks, continue normally.
-            CheckAltClick();
+			//check alt click and throw, which doesn't have any special logic. For alt clicks, continue normally.
+			CheckAltClick();
 			if (CheckThrow()) return;
 
 			if (loadedGun != null)
@@ -285,6 +298,7 @@ public class MouseInputController : MonoBehaviour
 			if (lastHoveredThing)
 			{
 				lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
+				cablePlacementVisualisation.gameObject.SetActive(false);
 			}
 
 			lastHoveredThing = null;
@@ -306,7 +320,65 @@ public class MouseInputController : MonoBehaviour
 			}
 
 			hit.transform.SendMessageUpwards("OnHover", SendMessageOptions.DontRequireReceiver);
+
+			// check if interaction is enabled
+			if (!UIManager.IsMouseInteractionDisabled)
+			{
+				// check if item in main hand is Cable
+				if (CheckIfCableInHand(out CableCoil cable))
+				{
+					// get mouse position
+					Vector3 mousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+					// round mouse position
+					Vector3Int roundedMousePosition = Vector3Int.RoundToInt(mousePosition);
+
+					if (roundedMousePosition != lastMouseWordlPositionInt)
+					{
+						lastMouseWordlPositionInt = roundedMousePosition;
+
+						// get metaTileMap and top tile
+						MetaTileMap metaTileMap = MatrixManager.AtPoint(roundedMousePosition, false).MetaTileMap;
+						LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true);
+
+						if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
+						{
+							// move cable placement visualisation to rounded mouse position and enable it
+							cablePlacementVisualisation.transform.position = roundedMousePosition - new Vector3(0.5f, 0.5f, 0);
+							cablePlacementVisualisation.gameObject.SetActive(true);
+						}
+						// disable visualisation if active
+						else if (cablePlacementVisualisation.gameObject.activeSelf)
+							cablePlacementVisualisation.gameObject.SetActive(false);
+					}
+				}
+				// disable visualisation if item in hand is not cable and cablePlacementVisualisation is active
+				else if (cablePlacementVisualisation.gameObject.activeSelf)
+					cablePlacementVisualisation.gameObject.SetActive(false);
+			}
 		}
+	}
+
+	/// <summary>
+	/// Check if item in main hand has CableCoil component
+	/// </summary>
+	/// <param name="cable">CableCoil component</param>
+	/// <returns>true if object has component</returns>
+	private bool CheckIfCableInHand(out CableCoil cable)
+	{
+		cable = null;
+		if (UIManager.Instance == null || UIManager.Hands == null || UIManager.Hands.CurrentSlot == null) return false;
+
+		var item = UIManager.Hands.CurrentSlot.Item;
+		if (item)
+		{
+			// TryGetComponent won't create alloc if object don't have component
+			if (item.TryGetComponent(out cable))
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private bool CheckClick()
@@ -522,7 +594,7 @@ public class MouseInputController : MonoBehaviour
 					Logger.LogFormat($"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
-				Chat.AddLocalMsgToChat("Ping "+DateTime.Now.ToFileTimeUtc(), (Vector3) position, PlayerManager.LocalPlayer );
+				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), (Vector3)position, PlayerManager.LocalPlayer);
 			}
 			return true;
 		}

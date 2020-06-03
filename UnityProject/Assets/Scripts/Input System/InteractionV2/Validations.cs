@@ -463,6 +463,8 @@ public static class Validations
 	public static bool CanApply(MouseDrop toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
 		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, isPlayerClick: isPlayerClick);
 
+	public static bool CanApply(CableApply toValidate, NetworkSide side, bool allowSoftCrit = false, ReachRange reachRange = ReachRange.Standard, bool isPlayerClick = false) =>
+		CanApply(toValidate.Performer, toValidate.TargetObject, side, allowSoftCrit, reachRange, Vector2.zero, isPlayerClick: isPlayerClick);
 	#endregion
 
 

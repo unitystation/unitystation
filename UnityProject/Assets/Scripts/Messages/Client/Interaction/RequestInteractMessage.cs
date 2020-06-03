@@ -51,6 +51,8 @@ public class RequestInteractMessage : ClientMessage
 	public int SlotIndex;
 	//named slot targeted in storage
 	public NamedSlot NamedSlot;
+	// connections used in CableApply
+	public Connection wireEndA, wireEndB;
 
 	private static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
 	private static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
@@ -225,6 +227,20 @@ public class RequestInteractMessage : ClientMessage
 			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
 				TargetVector, processorObj, null, usedObj, Intent,
 				TileApply.ApplyType.MouseDrop);
+		}
+		else if (InteractionType == typeof(CableApply))
+		{
+			//look up item in active hand slot
+			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var usedSlot = clientStorage.GetActiveHandSlot();
+			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+			LoadMultipleObjects(new uint[]{
+				TargetObject, ProcessorObject
+			});
+			var targetObj = NetworkObjects[0];
+			var processorObj = NetworkObjects[1];
+			var interaction = CableApply.ByClient(performer, usedObject, targetObj, wireEndA, wireEndB, TargetVector, usedSlot, Intent, TargetBodyPart);
+			ProcessInteraction(interaction, processorObj);
 		}
 	}
 
@@ -427,6 +443,14 @@ public class RequestInteractMessage : ClientMessage
 			msg.UsedObject = casted.UsedObject.NetId();
 			msg.IsAltUsed = casted.IsAltClick;
 		}
+		else if (typeof(T) == typeof(CableApply))
+		{
+			var casted = interaction as CableApply;
+			msg.TargetObject = casted.TargetObject.NetId();
+			msg.TargetVector = casted.WorldPositionTarget;
+			msg.wireEndA = casted.WireEndA;
+			msg.wireEndB = casted.WireEndB;
+		}
 		msg.Send();
 	}
 
@@ -549,6 +573,13 @@ public class RequestInteractMessage : ClientMessage
 			UsedObject = reader.ReadUInt32();
 			TargetVector = reader.ReadVector2();
 		}
+		else if (InteractionType == typeof(CableApply))
+		{
+			TargetObject = reader.ReadUInt32();
+			TargetVector = reader.ReadVector2();
+			wireEndA = (Connection)reader.ReadByte();
+			wireEndB = (Connection)reader.ReadByte();
+		}
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -609,6 +640,18 @@ public class RequestInteractMessage : ClientMessage
 		{
 			writer.WriteUInt32(UsedObject);
 			writer.WriteVector2(TargetVector);
+		}
+		else if (InteractionType == typeof(TileMouseDrop))
+		{
+			writer.WriteUInt32(UsedObject);
+			writer.WriteVector2(TargetVector);
+		}
+		else if(InteractionType == typeof(CableApply))
+		{
+			writer.WriteUInt32(TargetObject);
+			writer.WriteVector2(TargetVector);
+			writer.WriteByte((byte)wireEndA);
+			writer.WriteByte((byte)wireEndB);
 		}
 	}
 

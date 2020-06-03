@@ -847,6 +847,7 @@ MonoBehaviour:
   syncInterval: 0.1
   playerName: ' '
   visibleName: ' '
+  RTT: 0
 --- !u!114 &114285118255153820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -890,6 +891,8 @@ MonoBehaviour:
   MaxClickDuration: 1
   MouseDragDeadzone: 0.2
   AimApplyInterval: 0.01
+  cableVisualisation: {fileID: 2325577835732532071, guid: 4e2e9173bf345d845afb67464dba5155,
+    type: 3}
 --- !u!114 &114407246905810916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -990,6 +993,7 @@ MonoBehaviour:
   butcherResults:
   - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
   - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
+  RTT: 0
   metabolism: {fileID: 0}
 --- !u!114 &114418639699052366
 MonoBehaviour:
@@ -1075,6 +1079,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 0
   DisableSyncing: 0
 --- !u!50 &50851566022184656
@@ -1331,9 +1338,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4379,7 +4383,8 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 16
   m_SortingOrder: 20
-  m_Sprite: {fileID: 21300000, guid: 4713bd3c8ac12ad4c847a7b3d17d95dc, type: 3}
+  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
