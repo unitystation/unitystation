@@ -15,4 +15,15 @@ public class SpellList : SingletonScriptableObject<SpellList>
 	public GameObject DefaultImplementation;
 
 	public List<SpellData> Spells = new List<SpellData>();
+
+	public SpellData FromIndex(short index)
+	{
+		if (index < 0 || index > Spells.Count-1)
+		{
+			Logger.LogErrorFormat("SpellList: no spell found at index {0}", Category.Spells, index);
+			return InvalidData;
+		}
+
+		return Spells[index];
+	}
 }

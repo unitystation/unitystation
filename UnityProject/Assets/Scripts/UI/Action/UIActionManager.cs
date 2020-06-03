@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -37,10 +38,13 @@ public class UIActionManager : MonoBehaviour
 	public Dictionary<IActionGUI, UIAction> DicIActionGUI = new Dictionary<IActionGUI, UIAction>();
 
 
-	public static void Toggle(IActionGUI iActionGUI, bool Add, GameObject recipient = null)
+	/// <summary>
+	/// Toggle it locally (clientside)
+	/// </summary>
+	public static void ToggleLocal(IActionGUI iActionGUI, bool show)
 	{
 
-		if (Add)
+		if (show)
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
@@ -52,6 +56,29 @@ public class UIActionManager : MonoBehaviour
 		else {
 			Hide(iActionGUI);
 		}
+	}
+
+	/// <summary>
+	/// Toggle with network sync
+	/// </summary>
+	public static void Toggle(IActionGUI iActionGUI, bool show, GameObject recipient)
+	{
+		SetActionUIMessage.SetAction(recipient, iActionGUI, show);
+	}
+
+	public static bool HasActionData(ActionData actionData, [CanBeNull] out IActionGUI actionInstance)
+	{
+		foreach (var key in Instance.DicIActionGUI.Keys)
+		{
+			if (key.ActionData == actionData)
+			{
+				actionInstance = key;
+				return true;
+			}
+		}
+
+		actionInstance = null;
+		return false;
 	}
 
 

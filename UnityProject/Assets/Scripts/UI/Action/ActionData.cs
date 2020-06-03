@@ -31,6 +31,14 @@ public class ActionData : ScriptableObject
 
 	public List<EVENT> DisableOnEvent = new List<EVENT>();
 
+	public override string ToString()
+	{
+		if (SpellList.Instance && this == SpellList.Instance.InvalidData)
+		{
+			return "[InvalidData]";
+		}
+		return $"[ActionData '{Name}' ({Description})]";
+	}
 }
 
 

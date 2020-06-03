@@ -47,7 +47,7 @@ public class RequestGameAction : ClientMessage
 		}
 	}
 
-	public static void Send(IServerActionGUI iServerActionGUI )
+	public static void Send(IActionGUI iServerActionGUI )
 	{
 		if (iServerActionGUI is Component)
 		{
@@ -56,7 +56,7 @@ public class RequestGameAction : ClientMessage
 		//else not doing anything, implying custom sending
 	}
 
-	private static void SendToComponent(IServerActionGUI actionComponent)
+	private static void SendToComponent(IActionGUI actionComponent)
 	{
 		var netObject = ((Component) actionComponent).GetComponent<NetworkIdentity>();
 		var componentType = actionComponent.GetType();

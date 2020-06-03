@@ -100,7 +100,6 @@ public class Mind
 		bodyMobID = playerScript.GetComponent<LivingHealthBehaviour>().mobID;
 		if (occupation != null)
 		{
-			int i = 0;
 			foreach (var spellData in occupation.Spells)
 			{
 				var spellScript = spellData.AddToPlayer(playerScript);

@@ -10,7 +10,7 @@ using UnityEngine;
 /// </summary>
 [Serializable]
 [DisallowMultipleComponent]
-public class Spell : MonoBehaviour, IServerActionGUI
+public class Spell : MonoBehaviour, IActionGUI
 {
 	private SpellData spellData = null;
 	public SpellData SpellData

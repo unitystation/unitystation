@@ -12,7 +12,7 @@ using Object = UnityEngine.Object;
 [CreateAssetMenu(fileName = "MySpell", menuName = "ScriptableObjects/SpellData")]
 public class SpellData : ActionData, ICooldown
 {
-	public int Index => SpellList.Instance.Spells.IndexOf(this);
+	public short Index => (short) SpellList.Instance.Spells.IndexOf(this);
 
 	//ignoring ticks from SO,
 	//we use our own command-based invocation for spells
