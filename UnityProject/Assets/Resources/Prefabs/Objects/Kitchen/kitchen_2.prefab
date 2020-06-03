@@ -101,6 +101,7 @@ GameObject:
   - component: {fileID: 114237837769881030}
   - component: {fileID: 114058516359569840}
   - component: {fileID: -1285723560536332439}
+  - component: {fileID: -3349918852084078641}
   m_Layer: 11
   m_Name: kitchen_2
   m_TagString: Untagged
@@ -207,6 +208,7 @@ MonoBehaviour:
   HullColor: {r: 0.81960785, g: 0.02745098, b: 0.02745098, a: 1}
   EjectObjects: 1
   EjectDirection: 3
+  CurrentPowerState: 0
 --- !u!114 &114392787270580666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &69478300063108000
 MonoBehaviour:
@@ -331,6 +334,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3349918852084078641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1751984553619856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forceHidden: 0
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1

@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: 114430213137055408}
   - component: {fileID: -5194193326582353321}
   - component: {fileID: -4055719543417172584}
+  - component: {fileID: 6108340017713445561}
   m_Layer: 11
   m_Name: mining_machines_54
   m_TagString: Untagged
@@ -227,6 +228,7 @@ MonoBehaviour:
   HullColor: {r: 0.5882353, g: 0.4392157, b: 0.19607843, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  CurrentPowerState: 0
 --- !u!114 &114030207048474028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,6 +261,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114774815397134544
 MonoBehaviour:
@@ -358,6 +361,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6108340017713445561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148151089360074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forceHidden: 0
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1

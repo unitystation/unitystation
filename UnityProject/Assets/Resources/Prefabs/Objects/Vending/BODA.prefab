@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 114258074719940616}
   - component: {fileID: -67410277551944801}
   - component: {fileID: 5081379019061540127}
+  - component: {fileID: 9109909446965148889}
   m_Layer: 11
   m_Name: BODA
   m_TagString: Untagged
@@ -129,6 +130,7 @@ MonoBehaviour:
   HullColor: {r: 0.64705884, g: 0.63529414, b: 0.16078432, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  CurrentPowerState: 0
 --- !u!114 &114739519536560000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -161,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &1799849713025885935
 MonoBehaviour:
@@ -273,6 +276,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &9109909446965148889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1459620712919388}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1
 --- !u!1 &1855299798957980
 GameObject:
   m_ObjectHideFlags: 0
