@@ -16,6 +16,7 @@ public class Matrix : MonoBehaviour
 {
 	private MetaTileMap metaTileMap;
 	private MetaTileMap MetaTileMap => metaTileMap ? metaTileMap : metaTileMap = GetComponent<MetaTileMap>();
+
 	private TileList serverObjects;
 
 	private TileList ServerObjects => serverObjects ??
@@ -374,28 +375,23 @@ public class Matrix : MonoBehaviour
 	public List<Pipes.PipeData> GetPipeConnections(Vector3Int position)
 	{
 		var list = new List<PipeData>();
-		if (ServerObjects != null)
+
+		var collection = ServerObjects.Get(position);
+		//Logger.Log(collection.Count.ToString());
+		foreach (var t in collection)
 		{
-			var collection = ServerObjects.Get(position);
-			Logger.Log(collection.Count.ToString());
-			for (int i = 0; i < collection.Count; i++)
+			if (t.PipeData != null)
 			{
-				Logger.Log("AA");
-				if (collection[i].PipeData != null)
-				{
-					Logger.Log("AddED");
-					list.Add(collection[i].PipeData);
-				}
+				list.Add(t.PipeData);
 			}
 		}
 
-		if (metaDataLayer.Get(position)?.PipeData != null)
+
+		foreach (var PipeNode in metaDataLayer.Get(position).PipeData)
 		{
-			foreach (var PipeNode in metaDataLayer.Get(position).PipeData)
-			{
-				list.Add(PipeNode.pipeData);
-			}
+			list.Add(PipeNode.pipeData);
 		}
+
 
 		return (list);
 	}

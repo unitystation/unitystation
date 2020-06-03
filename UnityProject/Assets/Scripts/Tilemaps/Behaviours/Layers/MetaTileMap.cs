@@ -202,7 +202,6 @@ public class MetaTileMap : MonoBehaviour
 	{
 		if (Layers.TryGetValue(tile.LayerType, out var layer))
 		{
-			Logger.Log("1 " + color);
 			layer.SetTile(position, tile, matrixTransform.GetValueOrDefault(Matrix4x4.identity), color.GetValueOrDefault(Color.white));
 		}
 		else

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Pipes;
 using UnityEngine;
 
 /// <summary>
@@ -38,11 +39,22 @@ public class UnderFloorLayer : Layer
 						{
 							matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
 						}
+
+						var PipeTile = getTile as PipeTile;
+						if (PipeTile != null)
+						{
+							Logger.Log("PipeTile.InitialiseNode");
+							PipeTile.InitialiseNode(new Vector3Int(n, p, localPlace.z), matrix);
+						}
 					}
 				}
 			}
 		}
 	}
+
+
+
+
 
 	public override LayerTile GetTile(Vector3Int position)
 	{
@@ -90,7 +102,26 @@ public class UnderFloorLayer : Layer
 			Vector2Int position2 = position.To2Int();
 			if (!TileStore.ContainsKey(position2))
 			{
-				TileStore.Add(position2, new List<LayerTile>());
+				for (int i = 0; i < 50; i++)
+				{
+					var localPlace = position;
+					localPlace.z = -i + 1;
+					var getTile = tilemap.GetTile(localPlace) as LayerTile;
+					if (getTile != null)
+					{
+						if (!TileStore.ContainsKey((Vector2Int) localPlace))
+						{
+							TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
+						}
+
+						TileStore[(Vector2Int) localPlace].Add(getTile);
+					}
+				}
+
+				if (!TileStore.ContainsKey(position2))
+				{
+					TileStore[position2] = new List<LayerTile>();
+				}
 			}
 
 			int index = FindFirstEmpty(TileStore[position2]);

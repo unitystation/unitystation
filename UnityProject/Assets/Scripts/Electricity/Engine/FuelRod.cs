@@ -11,10 +11,10 @@ public class FuelRod : ReactorChamberRod
 	public float EditorOutputtingEnergy;
 
 
-	public decimal energyPerAtom = 0.0000053333333333M;
+	public decimal energyPerAtom = 0.0053333333333M;
 
 	private const decimal PresentAtoms = 100000000000000000;
-	public decimal fuelNeutronGeneration = 1.75M;
+	public decimal fuelNeutronGeneration = 2.5M;
 	public decimal PresentAtomsfuel = 100000000000000000;
 	public decimal PresentAtomsDecayProducts = 0;
 	public decimal PresentAtomsXenon = 0;
@@ -73,5 +73,10 @@ public class FuelRod : ReactorChamberRod
 		EditorPresentAtomsDecayProducts =  (float) PresentAtomsDecayProducts ;
 		EditorPresentAtomsXenon =  (float) PresentAtomsXenon;
 		EditorOutputtingEnergy  =  (float) OutputtingEnergy;
+	}
+
+	public override RodType GetRodType()
+	{
+		return (RodType.Fuel);
 	}
 }

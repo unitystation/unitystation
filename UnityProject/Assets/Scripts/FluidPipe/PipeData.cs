@@ -11,7 +11,7 @@ namespace Pipes
 	{
 		public PipeLayer PipeLayer = PipeLayer.Second;
 		public Connections Connections;
-		public Connections OutConnections;
+		public CustomLogic CustomLogic;
 		public CorePipeType PipeType;
 		public LiquidPipeNet OnNet;
 		public PipeActions PipeAction;
@@ -31,6 +31,7 @@ namespace Pipes
 
 		public PipeNode pipeNode;
 		public MonoPipe MonoPipe;
+
 		public Vector3Int MatrixPos
 		{
 			get
@@ -43,6 +44,7 @@ namespace Pipes
 				{
 					return (MonoPipe.MatrixPos);
 				}
+
 				Logger.Log("Vector3Int null!!");
 				return (Vector3Int.zero);
 			}
@@ -55,10 +57,12 @@ namespace Pipes
 				if (pipeNode != null)
 				{
 					return (pipeNode.LocatedOn);
-				}else if (MonoPipe != null)
+				}
+				else if (MonoPipe != null)
 				{
 					return (MonoPipe.Matrix);
 				}
+
 				Logger.Log("Matrix null!!");
 				return (null);
 			}
@@ -96,10 +100,11 @@ namespace Pipes
 					if (Pipe.NetCompatible == false)
 					{
 						//What is connecting to is a special pipe
-						if (PipeFunctions.IsPipeOutputTo(this, Pipe))
+						if (PipeFunctions.IsPipeOutputTo(this, Pipe) && PipeFunctions.CanEqualiseWith(this, Pipe))
 						{
 							Outputs.Add(Pipe);
 						}
+
 						//Shouldn't need to register outputs on Pipe Since it could handle itself
 					}
 					else
@@ -109,19 +114,21 @@ namespace Pipes
 						{
 							Outputs.Add(Pipe);
 						}
-						else
+
+						//Can it accept input?
+						if (this.Connections.Directions[(int) PipeFunctions.PipesToDirections(this, Pipe)].PortType
+							.HasFlag(OutputType.Can_Equalise_With))
 						{
-							Pipe.OnNet.AddOutput(this);
+							Pipe.OnNet.AddEqualiseWith(this);
 						}
 					}
 				}
 			}
-
-
 		}
 
 		public virtual void OnDisable()
 		{
+			Logger.Log("OnDisable()");
 			AtmosManager.Instance.inGameNewPipes.Remove(this);
 			foreach (var Pipe in ConnectedPipes)
 			{
@@ -137,7 +144,7 @@ namespace Pipes
 					{
 						Outputs.Remove(Pipe);
 						//Removes itself if it is connected to a network and its a output for the network
-						Pipe.OnNet.RemoveOutput(this);
+						Pipe.OnNet.RemoveEqualiseWith(this);
 					}
 				}
 			}
@@ -147,6 +154,7 @@ namespace Pipes
 			{
 				OnNet.RemovePipe(this);
 			}
+			//MatrixManager.ReagentReact(mixAndVolume.Mix, MatrixPos); //TODO AAAAAAAA Get the correct location
 		}
 
 		public void NetHookUp(PipeData NewConnection)
@@ -166,7 +174,7 @@ namespace Pipes
 				if (NewConnection.NetCompatible == false)
 				{
 					//NewConnection is a special pipe
-					if (PipeFunctions.IsPipeOutputTo(this, NewConnection))
+					if (PipeFunctions.IsPipeOutputTo(this, NewConnection) && PipeFunctions.CanEqualiseWith(this, NewConnection))
 					{
 						Outputs.Add(NewConnection);
 					}
@@ -179,13 +187,14 @@ namespace Pipes
 						//An input to the pipe net it does not need to be recorded
 						Outputs.Add(NewConnection);
 					}
-					else
+
+					if (this.Connections.Directions[(int) PipeFunctions.PipesToDirections(this, NewConnection)].PortType
+						.HasFlag(OutputType.Can_Equalise_With))
 					{
-						NewConnection.OnNet.AddOutput(this);
+						NewConnection.OnNet.AddEqualiseWith(this);
 					}
 				}
 			}
-
 		}
 
 		public void ConnectedRemove(PipeData OldConnection)
@@ -194,10 +203,9 @@ namespace Pipes
 
 			if (NetCompatible == false)
 			{
-
 				Outputs.Remove(OldConnection);
-
 			}
+
 			//What about net outputs then That should be handle as part of the Reconstruction of the net
 		}
 
@@ -206,18 +214,24 @@ namespace Pipes
 			return ((mixAndVolume.Mix.Total * mixAndVolume.Mix.Temperature) - Takeaway_Pressure);
 		}
 
-		public void SetUp(PipeItem DataToTake, int RotationOffset)
+		public void SetUp(PipeTile PipeTile, int RotationOffset)
 		{
-			Connections = DataToTake.Connections.Copy();
+			Connections = PipeTile.Connections.Copy();
 			Connections.Rotate(RotationOffset);
 
-			OutConnections = DataToTake.OutConnections.Copy();
-			OutConnections.Rotate(RotationOffset);
+			PipeType = PipeTile.PipeType;
+			PipeLayer = PipeTile.PipeLayer;
+			NetCompatible = PipeTile.NetCompatible;
+			switch (PipeTile.CustomLogic)
+			{
+				case CustomLogic.None:
+					//Awaiting custom logic
+					//PipeAction = new Action(); //However
+					break;
+			}
 
-			PipeType = DataToTake.PipeType;
-			PipeLayer = DataToTake.PipeLayer;
-			NetCompatible = DataToTake.NetCompatible;
-			PipeAction = DataToTake.PipeAction;
+
+			CustomLogic = PipeTile.CustomLogic;
 		}
 
 
@@ -226,12 +240,13 @@ namespace Pipes
 			var ToLog = "Connections > " + Connections + " PipeType > " + PipeType + "\n";
 			if (OnNet != null)
 			{
-				ToLog = ToLog + "On net > " + OnNet.ToString() +  "\n";
+				ToLog = ToLog + "On net > " + OnNet.ToString() + "\n";
 			}
 			else
 			{
-				ToLog = ToLog + " Mix " + mixAndVolume.ToString() +  "\n";
+				ToLog = ToLog + " Mix " + mixAndVolume.ToString() + "\n";
 			}
+
 			return ToLog;
 		}
 
@@ -239,10 +254,10 @@ namespace Pipes
 		{
 			if (NetCompatible)
 			{
-				if (OnNet == null)
+				/*if (OnNet == null)
 				{
 					OnNet = LiquidPipeNet.MakeNewNet(this);
-				}
+				}*/
 
 				foreach (var pipe in ConnectedPipes)
 				{

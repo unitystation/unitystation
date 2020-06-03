@@ -44,7 +44,6 @@ namespace Pipes
 		public override void TickUpdate()
 		{
 			base.TickUpdate();
-			Logger.Log("ReservoirAction  Outputs > " + pipeData.Outputs.Count);
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 		}
 	}

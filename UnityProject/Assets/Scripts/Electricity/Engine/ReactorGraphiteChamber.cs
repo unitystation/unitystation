@@ -8,6 +8,7 @@ using UnityEngine;
 using UnityEngine.PlayerLoop;
 using UnityEngine.UIElements;
 using Lighting;
+using Pipes;
 using Radiation;
 
 public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
@@ -34,8 +35,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 
 	public RadiationProducer radiationProducer;
 	private RegisterObject registerObject;
-	public ReagentContainer reagentContainer;
-	public Chemistry.Reagent Water;
+	public ReactorPipe ReactorPipe;
 
 	private float WaterEnergyDensityPer1 = 6.5f;
 	private float RodDensityPer1 = 7.5f;
@@ -51,11 +51,11 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 	private float RodTemperatureK = 293.15f;
 	private float BoilingPoint = 373.15f;
 
-	public decimal MaximumOutputPressure = 5000M;
+	public decimal MaximumOutputPressure = 50000M;
 	public bool MeltedDown = false;
 
 	public decimal NeutronSingularity = 7648830000000M;
-
+	public decimal CurrentPressureInput = 0;
 	public decimal KFactor
 	{
 		get { return (CalculateKFactor()); }
@@ -63,7 +63,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 
 	public decimal CalculateKFactor()
 	{
-		decimal K = 0.85217022M * NeutronAbsorptionProbability();
+		decimal K = 0.85217022M * NonNeutronAbsorptionProbability();
 		return (K);
 	}
 
@@ -75,7 +75,15 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 		}
 	}
 
-	public decimal NeutronAbsorptionProbability()
+	public float Temperature => GetTemperature();
+
+	public float GetTemperature()
+	{
+		return (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature);
+
+	}
+
+	public decimal NonNeutronAbsorptionProbability()
 	{
 		decimal AbsorptionPower = 0;
 		decimal NumberOfRods = 0;
@@ -94,13 +102,13 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 
 		if (MeltedDown == false)
 		{
-			return (NumberOfRods / ReactorRods.Length + (AbsorptionPower * (decimal) ControlRodDepthPercentage));
+			return (NumberOfRods / (ReactorRods.Length + (AbsorptionPower * (decimal) ControlRodDepthPercentage)));
 		}
 		else
 		{
 
 			//Logger.Log("M > " + ((decimal)(100f / (100f + reagentContainer[Water])) * (NumberOfRods / ReactorRods.Length)));
-			return ((decimal) (100f / (100f + reagentContainer[Water])) * (NumberOfRods / ReactorRods.Length));
+			return ((decimal) (100f / (100f + ReactorPipe.pipeData.mixAndVolume.Mix.Total)) * (NumberOfRods / ReactorRods.Length));
 		}
 
 		return (0.71M);
@@ -138,7 +146,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 		RodStorage = this.GetComponent<ItemStorage>();
 		radiationProducer = this.GetComponent<RadiationProducer>();
 		registerObject = this.GetComponent<RegisterObject>();
-		reagentContainer = this.GetComponent<ReagentContainer>();
+		ReactorPipe = this.GetComponent<ReactorPipe>();
 	}
 
 
@@ -153,12 +161,13 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 		if (reactorBoiler == null) //Its blown up so not connected so vent to steam
 		{
 			Logger.LogError("steam!!" , Category.Electrical);
-			if (reagentContainer[Water] > 0)
+			if (ReactorPipe.pipeData.mixAndVolume.Mix.Total > 0)
 			{
-				if (reagentContainer.Temperature > BoilingPoint)
+				if (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature > BoilingPoint)
 				{
-					var ExcessEnergy = (reagentContainer.Temperature - BoilingPoint);
-					reagentContainer.Subtract(new ReagentMix(Water, (EnergyToEvaporateWaterPer1 * ExcessEnergy*(WaterEnergyDensityPer1*reagentContainer[Water]))));
+					var ExcessEnergy = (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - BoilingPoint);
+					ReactorPipe.pipeData.mixAndVolume.Mix.TransferTo(new ReagentMix(),  (EnergyToEvaporateWaterPer1
+					                                                                        * ExcessEnergy*(WaterEnergyDensityPer1*ReactorPipe.pipeData.mixAndVolume.Mix.Total)));
 				}
 			}
 		}
@@ -195,10 +204,14 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 		//################################  Control panel
 		//Make sure to add sounds number one priority!! Best thing
 
-		//Add cooling loop work out how to do pipes
+		//
+		//humm Explosions
+		//make it clear that the slider controls Rod depth
+		//Add more buttons forced gram and that type of thing and some on the turbine/Boiler control and self
 
 		//################################  Radiation
 		// Stacks amount of radiation on player then slowly degrades it into Toxin
+
 	}
 
 	public void GenerateExternalRadiation()
@@ -211,6 +224,14 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 				  0.5M) * 2 * 36000);
 			radiationProducer.UpdateValues((float) LeakedNeutrons);
 		}
+	}
+
+
+	public float RadiationAboveCore()
+	{
+		return (registerObject.Matrix.GetMetaDataNode(registerObject.LocalPosition)
+			.RadiationNode
+			.CalculateRadiationLevel());
 	}
 
 	public decimal ExternalNeutronGeneration()
@@ -234,13 +255,13 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 			}
 		}
 
-		var ExtraEnergyGained   = (float) EnergyReleased / ((RodDensityPer1 * rods)+  (WaterEnergyDensityPer1 * reagentContainer[Water])) ; //when add cool
+		var ExtraEnergyGained   = (float) EnergyReleased / ((RodDensityPer1 * rods)+  (WaterEnergyDensityPer1 *ReactorPipe.pipeData.mixAndVolume.Mix.Total)) ; //when add cool
 
-		RodTemperatureK = RodTemperatureK + ExtraEnergyGained;
+		ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy = ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy  + ExtraEnergyGained;
 		//Logger.Log("ExtraEnergyGained " +  (ExtraEnergyGained) );
 		//Logger.Log("RodTemperatureK " +  (RodTemperatureK) );
-		reagentContainer.Temperature = RodTemperatureK;
-		decimal CurrentPressureInput = (decimal) ((reagentContainer.Temperature-293.15f) * reagentContainer[Water]);
+		RodTemperatureK = ReactorPipe.pipeData.mixAndVolume.Mix.Temperature;
+		CurrentPressureInput = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature * ReactorPipe.pipeData.mixAndVolume.Mix.Total)/ReactorPipe.pipeData.mixAndVolume.Volume);
 		//Logger.Log("CurrentPressureInput " + CurrentPressureInput );
 		if (CurrentPressureInput > MaximumOutputPressure)
 		{
@@ -311,8 +332,10 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 						ReactorFuelRods.Remove(fuelRod);
 					}
 
+					ReactorRods[i] = null;
 					var EmptySlot = RodStorage.GetIndexedItemSlot(i);
 					Inventory.ServerTransfer(EmptySlot, interaction.HandSlot);
+					return;
 				}
 			}
 		}

@@ -5,7 +5,6 @@ using UnityEngine;
 public class ReactorControlConsole : MonoBehaviour
 {
 	public List<ReactorGraphiteChamber> ReactorChambers = new List<ReactorGraphiteChamber>();
-
 	public void RequestRelativeChange(float Multiplier)
 	{
 		Logger.Log("Multiplier " + Multiplier);
@@ -26,4 +25,22 @@ public class ReactorControlConsole : MonoBehaviour
 		}
 		Logger.Log("ControlRodDepthPercentage " + ControlRodDepthPercentage);
 	}
+
+	public void SuchControllRodDepth(float Specified)
+	{
+		if (Specified > 1)
+		{
+			Specified = 1;
+		}
+		else if (0 > Specified)
+		{
+			Specified = 0;
+		}
+
+		foreach (var Chamber in ReactorChambers)
+		{
+			Chamber.ControlRodDepthPercentage = (Specified);
+		}
+	}
+
 }

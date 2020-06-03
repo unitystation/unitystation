@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Google.Protobuf.WellKnownTypes;
 using UnityEngine;
 
 namespace Chemistry
@@ -42,6 +43,36 @@ namespace Chemistry
 		{
 			get => temperature;
 			set => temperature = value;
+		}
+
+		public float WholeHeatCapacity	//this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
+		{
+			get
+			{
+				float capacity = 0f;
+				foreach (var reagent in reagents)
+				{
+					capacity += reagent.Key.heatDensity * reagent.Value;
+				}
+				return capacity;
+			}
+		}
+
+
+		/// <summary>
+		/// Returns current temperature mix in Kelvin
+		/// </summary>
+		public float InternalEnergy
+		{
+			get
+			{
+				return (WholeHeatCapacity *Temperature);
+			}
+
+			set
+			{
+				Temperature = (value / WholeHeatCapacity);
+			}
 		}
 
 		/// <summary>
@@ -126,8 +157,15 @@ namespace Chemistry
 
 		public void Add(ReagentMix b)
 		{
-			Temperature = (Temperature * Total + b.Temperature * b.Total) /
-						  (Total + b.Total);
+			if (Total == 0)
+			{
+				Temperature = b.Temperature;
+			}
+			else
+			{
+				Temperature = (Temperature * Total + b.Temperature * b.Total) / (Total + b.Total); //TODO Change to use different formula Involving Heat capacity of each Reagent
+			}
+
 
 			foreach (var reagent in b.reagents)
 			{
@@ -245,7 +283,7 @@ namespace Chemistry
 		/// <returns>Transfered reagent mix</returns>
 		public ReagentMix TransferTo(ReagentMix toTransfer, float amount)
 		{
-			var toTransferMix = Clone();
+			var toTransferMix = this.Clone();
 
 			// can't allow to transfer more than Total
 			var toTransferAmount = Math.Min(amount, Total);

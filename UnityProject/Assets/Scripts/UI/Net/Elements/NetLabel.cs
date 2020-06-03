@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 ///Text label, not modifiable by clients directly
-[RequireComponent(typeof(Text))]
+[RequireComponent(typeof(TMPro.TMP_Text))]
 [Serializable]
 public class NetLabel : NetUIStringElement
 {
@@ -11,11 +11,29 @@ public class NetLabel : NetUIStringElement
 
 	public override string Value
 	{
-		get { return Element.text; }
+		get
+		{
+			if (ElementTMP != null)
+			{
+				return (ElementTMP.text);
+			}
+			else
+			{
+				return (Element.text);
+			}
+		}
 		set
 		{
 			externalChange = true;
-			Element.text = value;
+			if (ElementTMP != null)
+			{
+				ElementTMP.text = value;
+			}
+			else if (Element != null)
+			{
+				Element.text = value;
+			}
+
 			externalChange = false;
 		}
 	}
@@ -33,6 +51,21 @@ public class NetLabel : NetUIStringElement
 			return element;
 		}
 	}
+
+	private TMPro.TMP_Text elementTMP;
+
+	public TMPro.TMP_Text ElementTMP
+	{
+		get
+		{
+			if (!elementTMP)
+			{
+				elementTMP = GetComponent<TMPro.TMP_Text>();
+			}
+			return elementTMP;
+		}
+	}
+
 
 	public override void ExecuteServer(ConnectedPlayer subject)
 	{

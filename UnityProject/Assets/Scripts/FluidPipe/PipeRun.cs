@@ -10,21 +10,18 @@ namespace Pipes
 
 		public int BentVariantLocation = 4;
 		public int StraightVariantLocation = 0;
+		public bool IsBent = false;
 
+		public PipeTile StraightPipe;
+		public PipeTile BentPipe;
 
 		public override void ServerPerformInteraction(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Crowbar))
 			{
-				if (Connections.Directions[(int)PipeDirection.East].Bool)//This assumes that the connections never get changed around/rotated
+				if (IsBent)//This assumes that the connections never get changed around/rotated
 				{
-					var tmp = Connections.Directions[(int) PipeDirection.East];
-
-					Connections.Directions[(int)PipeDirection.East]  =
-						Connections.Directions[(int) PipeDirection.North];
-
-					Connections.Directions[(int) PipeDirection.North] = tmp;
-
+					IsBent = false;
 					SpriteHandler.ChangeSpriteVariant(StraightVariantLocation);
 					Chat.AddExamineMsgFromServer(interaction.Performer,
 						"You straighten the pipe with the " + interaction.UsedObject.ExpensiveName());
@@ -32,13 +29,7 @@ namespace Pipes
 				}
 				else
 				{
-					var tmp = Connections.Directions[(int) PipeDirection.North];
-
-					Connections.Directions[(int) PipeDirection.North] =
-						Connections.Directions[(int) PipeDirection.East];
-
-					Connections.Directions[(int)PipeDirection.East] = tmp;
-
+					IsBent = true;
 					SpriteHandler.ChangeSpriteVariant(BentVariantLocation);
 					Chat.AddExamineMsgFromServer(interaction.Performer,
 						"You Bend the pipe with the " + interaction.UsedObject.ExpensiveName());
@@ -51,7 +42,7 @@ namespace Pipes
 
 		public override void Setsprite()
 		{
-			if (Connections.Directions[(int)PipeDirection.East].Bool)//This assumes that the connections never get changed around/rotated
+			if (IsBent)//This assumes that the connections never get changed around/rotated
 			{
 				SpriteHandler.ChangeSpriteVariant(BentVariantLocation);
 
@@ -60,6 +51,18 @@ namespace Pipes
 			{
 				SpriteHandler.ChangeSpriteVariant(StraightVariantLocation);
 
+			}
+		}
+
+		public override PipeTile GetPipeTile()
+		{
+			if (IsBent)
+			{
+				return (BentPipe);
+			}
+			else
+			{
+				return (StraightPipe);
 			}
 		}
 

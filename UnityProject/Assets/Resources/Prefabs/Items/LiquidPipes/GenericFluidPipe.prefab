@@ -20,22 +20,16 @@ MonoBehaviour:
     Directions:
     - Bool: 1
       pipeType: 1
+      PortType: 0
     - Bool: 0
       pipeType: 1
+      PortType: 0
     - Bool: 1
       pipeType: 1
+      PortType: 0
     - Bool: 0
       pipeType: 1
-  InConnections:
-    Directions:
-    - Bool: 0
-      pipeType: 1
-    - Bool: 0
-      pipeType: 1
-    - Bool: 0
-      pipeType: 1
-    - Bool: 0
-      pipeType: 1
+      PortType: 0
   SpriteHandler: {fileID: 0}
   objectBehaviour: {fileID: 0}
   BentVariantLocation: 4
@@ -49,7 +43,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: Pipe
+      value: GenericFluidPipe
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -104,7 +98,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 902af1734390c1345a9109b0827525b8,
+      objectReference: {fileID: 21300000, guid: 66305a19e3614694f868c75a982e6b68,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

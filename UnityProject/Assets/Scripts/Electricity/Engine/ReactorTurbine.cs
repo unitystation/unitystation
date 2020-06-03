@@ -7,7 +7,7 @@ public class ReactorTurbine : MonoBehaviour, INodeControl
 	[SerializeField] private float tickRate = 1;
 	private float tickCount;
 
-	private ModuleSupplyingDevice moduleSupplyingDevice;
+	public ModuleSupplyingDevice moduleSupplyingDevice;
 
 	public ReactorBoiler Boiler;
     // Start is called before the first frame update
@@ -19,7 +19,8 @@ public class ReactorTurbine : MonoBehaviour, INodeControl
     private void OnEnable()
     {
 	    UpdateManager.Add(CycleUpdate, 1);
-	    moduleSupplyingDevice.TurnOnSupply();
+	    //moduleSupplyingDevice = this.GetComponent<ModuleSupplyingDevice>();
+	    moduleSupplyingDevice?.TurnOnSupply();
     }
 
     private void OnDisable()

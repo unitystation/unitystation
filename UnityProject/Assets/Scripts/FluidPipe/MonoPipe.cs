@@ -17,6 +17,7 @@ namespace Pipes
 
 		private void EnsureInit()
 		{
+			Logger.Log("EnsureInit!!!");
 			if (registerTile == null)
 			{
 				registerTile = GetComponent<RegisterTile>();

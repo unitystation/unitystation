@@ -25,7 +25,7 @@ namespace Pipes
 			float AvailableReagents = 0;
 			foreach (var Pipe in pipeData.ConnectedPipes)
 			{
-				if (pipeData.Outputs.Contains(Pipe) == false)
+				if (pipeData.Outputs.Contains(Pipe) == false && CanEqualiseWithThis( Pipe))
 				{
 					var Data = PipeFunctions.PipeOrNet(Pipe);
 					AvailableReagents += Data.Mix.Total;
@@ -44,15 +44,25 @@ namespace Pipes
 
 			foreach (var Pipe in pipeData.ConnectedPipes)
 			{
-				if (pipeData.Outputs.Contains(Pipe) == false)
+				if (pipeData.Outputs.Contains(Pipe) == false && CanEqualiseWithThis(Pipe))
 				{
 					var Data = PipeFunctions.PipeOrNet(Pipe);
 					Data.Mix.TransferTo(pipeData.mixAndVolume.Mix,
-						(Data.Mix.Total / AvailableReagents) * (UnitPerTick * PowerPercentage));
+						(Data.Mix.Total / AvailableReagents) * TotalRemove);
 				}
 			}
 
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
+		}
+
+		public bool CanEqualiseWithThis(PipeData Pipe)
+		{
+			if (Pipe.NetCompatible == false)
+			{
+				return PipeFunctions.CanEqualiseWith(this.pipeData, Pipe);
+			}
+
+			return true;
 		}
 	}
 }

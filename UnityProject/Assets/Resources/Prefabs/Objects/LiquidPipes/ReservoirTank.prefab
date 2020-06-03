@@ -99,30 +99,16 @@ MonoBehaviour:
       Directions:
       - Bool: 1
         pipeType: 1
-        OutputType: 0
+        PortType: 3
       - Bool: 1
         pipeType: 1
-        OutputType: 0
+        PortType: 3
       - Bool: 1
         pipeType: 1
-        OutputType: 0
+        PortType: 3
       - Bool: 1
         pipeType: 1
-        OutputType: 0
-    OutConnections:
-      Directions:
-      - Bool: 1
-        pipeType: 1
-        OutputType: 0
-      - Bool: 1
-        pipeType: 1
-        OutputType: 0
-      - Bool: 1
-        pipeType: 1
-        OutputType: 0
-      - Bool: 1
-        pipeType: 1
-        OutputType: 0
+        PortType: 3
     PipeType: 2
     NetCompatible: 0
     mixAndVolume:

@@ -1,7 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Atmospherics;
 using Chemistry;
+using Google.Protobuf.WellKnownTypes;
 using UnityEngine;
 
 namespace Pipes
@@ -11,12 +14,16 @@ namespace Pipes
 		public NetUpdateProxy NetUpdateProxy = new NetUpdateProxy();
 		public MixAndVolume mixAndVolume = new MixAndVolume();
 		public List<PipeData> Covering = new List<PipeData>();
-		public List<PipeData> Outputs = new List<PipeData>();
+		public List<PipeData> CanEqualiseWith = new List<PipeData>();
 		//public List<PipeData> Inputs = new List<PipeData>();
+		public PipeNetAction pipeNetAction = null;
 
-		public void AddOutput(PipeData pipeData)
+		public void AddEqualiseWith(PipeData pipeData)
 		{
-			Outputs.Add(pipeData);
+			if (CanEqualiseWith.Contains(pipeData) == false)
+			{
+				CanEqualiseWith.Add(pipeData);
+			}
 		}
 
 		/*public void AddInput(PipeData pipeData)
@@ -24,9 +31,9 @@ namespace Pipes
 			Inputs.Add(pipeData);
 		}*/
 
-		public void RemoveOutput(PipeData pipeData)
+		public void RemoveEqualiseWith(PipeData pipeData)
 		{
-			Outputs.Remove(pipeData);
+			CanEqualiseWith.Remove(pipeData);
 			//Inputs.Remove(pipeData);
 		}
 
@@ -62,11 +69,11 @@ namespace Pipes
 
 		public void CombinePipeNets(LiquidPipeNet LiquidPipeNet)
 		{
-			Outputs.AddRange(LiquidPipeNet.Covering);
+			CanEqualiseWith = CanEqualiseWith.Union(LiquidPipeNet.CanEqualiseWith).ToList();
 			Covering.AddRange(LiquidPipeNet.Covering);
 			foreach (var pipe in LiquidPipeNet.Covering)
 			{
-				pipe.OnNet = LiquidPipeNet;
+				pipe.OnNet = this;
 			}
 			mixAndVolume.Volume += LiquidPipeNet.mixAndVolume.Volume;
 			mixAndVolume.Mix.Add(LiquidPipeNet.mixAndVolume.Mix);
@@ -98,10 +105,16 @@ namespace Pipes
 			var Net = new LiquidPipeNet();
 			pipeData.OnNet = Net;
 			Net.mixAndVolume.Mix.Add(pipeData.mixAndVolume.Mix);
-			Net.mixAndVolume.Volume += pipeData.mixAndVolume.Volume;
+			Net.mixAndVolume.Volume = pipeData.mixAndVolume.Volume;
 			Net.Covering.Add(pipeData);
 			Net.NetUpdateProxy.OnNet = Net;
 			Net.NetUpdateProxy.OnEnable();
+			if (pipeData.CustomLogic == CustomLogic.CoolingPipe)
+			{
+				Net.pipeNetAction = new CoolingNet();
+				Net.pipeNetAction.LiquidPipeNet = Net;
+
+			}
 			return (Net);
 		}
 
@@ -112,12 +125,16 @@ namespace Pipes
 
 		public void TickUpdate()
 		{
-			mixAndVolume.EqualiseWithOutputs(Outputs);
+			mixAndVolume.EqualiseWithOutputs(CanEqualiseWith);
+			if (pipeNetAction != null)
+			{
+				pipeNetAction.TickUpdate();
+			}
 		}
 
 		public override string ToString()
 		{
-			return "Covering > " + Covering.Count + " Outputs " + Outputs.Count + " mixAndVolume > " +
+			return "Covering > " + Covering.Count + " Outputs " + CanEqualiseWith.Count + " mixAndVolume > " +
 			       mixAndVolume.ToString();
 		}
 
@@ -139,5 +156,82 @@ namespace Pipes
 		{
 			OnNet.TickUpdate();
 		}
+	}
+
+	public class PipeNetAction
+	{
+		public LiquidPipeNet LiquidPipeNet;
+		public virtual void TickUpdate()
+		{
+		}
+	}
+
+	public class CoolingNet : PipeNetAction
+	{
+		public override void TickUpdate()
+		{
+			float EnergyChange = 0;
+			if (LiquidPipeNet.mixAndVolume.Mix.Total > 0)
+			{
+				var SmallMix = LiquidPipeNet.mixAndVolume.Mix.Clone();
+				SmallMix.Divide(LiquidPipeNet.Covering.Count);
+				foreach (var pipe in LiquidPipeNet.Covering)
+				{
+					var Node = pipe.matrix.GetMetaDataNode(pipe.MatrixPos);
+					EnergyChange += EqualisePipe(Node, SmallMix);
+				}
+				//needs a better equation for this so It doesnt go to minus
+				LiquidPipeNet.mixAndVolume.Mix.InternalEnergy += (EnergyChange);
+				if (LiquidPipeNet.mixAndVolume.Mix.InternalEnergy < 0)
+				{
+					LiquidPipeNet.mixAndVolume.Mix.InternalEnergy = LiquidPipeNet.mixAndVolume.Mix.Total;
+				}
+			}
+
+		}
+
+		public const float StefanBoltzmannConstant = 0.5f;
+		public float EqualisePipe(MetaDataNode Node,ReagentMix Mix )
+		{
+			//add Radiation of Heat
+
+			float EnergyChange = 0f; //Minuses energy taken away, + is energy added to the pipe
+			if (Node.IsSpace)
+			{
+				//Radiation
+				//Invisible pipes to radiation
+				EnergyChange = -(StefanBoltzmannConstant * (Mix.InternalEnergy));
+				Node.GasMix = GasMixes.Space;
+			}
+
+			float EnergyTransfered =
+				((390 * (Node.GasMix.Temperature -Mix.Temperature)) / 0.01f);
+
+			float EqualiseTemperature = (Node.GasMix.InternalEnergy + Mix.InternalEnergy) /
+				(Node.GasMix.WholeHeatCapacity + Mix.WholeHeatCapacity);
+
+			var ChangeInInternalEnergy = Mix.WholeHeatCapacity* (EqualiseTemperature -Mix.Temperature);
+
+			if (Math.Abs( EnergyTransfered) > Math.Abs( ChangeInInternalEnergy))
+			{
+				EnergyChange += ChangeInInternalEnergy;
+			}
+			else
+			{
+				EnergyChange += EnergyTransfered;
+			}
+			//Logger.Log("EnergyChange > " + EnergyChange);
+			var gas = Node.GasMix;
+			gas.InternalEnergy = gas.InternalEnergy + (-EnergyChange);
+			if (gas.InternalEnergy < 0)
+			{
+				Logger.LogWarning("OHHHH", Category.Atmos);
+				gas.InternalEnergy = 1;
+			}
+			Node.GasMix = gas;
+			return (EnergyChange);
+		}
+
+
 	}
 }

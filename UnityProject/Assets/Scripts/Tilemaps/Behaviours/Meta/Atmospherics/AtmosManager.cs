@@ -25,7 +25,7 @@ public class AtmosManager : MonoBehaviour
 	public static float tickRateComplete = 1f; //currently set to update every second
 	public static float tickRate;
 	private static float tickCount = 0f;
-	private const int Steps = 5;
+	private const int Steps = 1;
 
 	public static AtmosManager Instance;
 
@@ -185,7 +185,7 @@ public class AtmosManager : MonoBehaviour
 		{
 			roundStartedServer = false;
 		}
-		inGameNewPipes.Clear();
+		//inGameNewPipes.Clear();
 		inGamePipes.Clear();
 		inGameFireAlarms.Clear();
 	}

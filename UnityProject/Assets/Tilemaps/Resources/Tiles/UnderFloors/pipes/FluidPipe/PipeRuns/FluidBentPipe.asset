@@ -17,12 +17,12 @@ MonoBehaviour:
   TileType: 10
   RequiredTiles: []
   floorTileType: 0
-  atmosPassable: 0
+  atmosPassable: 1
   isSealed: 0
   SpawnWithNoAir: 0
   oreCategory: 0
   HealthStates: []
-  passable: 0
+  passable: 1
   mineable: 0
   passableException:
     m_keys: 
@@ -52,18 +52,25 @@ MonoBehaviour:
     FreezeProof: 0
   tileInteractions:
   - {fileID: 11400000, guid: f3cbdc8fa952d8f41b14bcf1de66e64e, type: 2}
-  spawnOnDeconstruct: {fileID: 4290798399627566040, guid: 59bffb44a6861484ca22d6edb4fbf5e5,
+  spawnOnDeconstruct: {fileID: 4647210557908431391, guid: 6570631d2789f0e44a7651b137a127d2,
     type: 3}
   spawnAmountOnDeconstruct: 1
+  PipeLayer: 1
   PipeType: 2
+  CustomLogic: 0
   Connections:
     Directions:
     - Bool: 0
-      pipeType: 1
+      pipeType: 0
+      PortType: 0
     - Bool: 1
       pipeType: 1
+      PortType: 0
     - Bool: 1
       pipeType: 1
+      PortType: 0
     - Bool: 0
       pipeType: 1
+      PortType: 0
+  NetCompatible: 1
   sprite: {fileID: 21300008, guid: 902af1734390c1345a9109b0827525b8, type: 3}
