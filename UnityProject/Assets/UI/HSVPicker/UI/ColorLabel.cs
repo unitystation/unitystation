@@ -20,6 +20,7 @@ public class ColorLabel : MonoBehaviour
 		inputField = GetComponentInParent<InputField>();
 		inputField.characterValidation = InputField.CharacterValidation.Integer;
     }
+
     private void OnEnable()
     {
         if (Application.isPlaying && picker != null)
@@ -39,15 +40,14 @@ public class ColorLabel : MonoBehaviour
         }
 		inputField.onEndEdit.RemoveListener(UpdateColor);
 	}
+
     private void ColorChanged(Color color)
     {
-		Debug.Log("Color called");
 		UpdateValue();
     }
 
     private void HSVChanged(float hue, float sateration, float value)
     {
-		Debug.Log("HSV called");
 		UpdateValue();
     }
 
@@ -88,6 +88,7 @@ public class ColorLabel : MonoBehaviour
 				break;
 		}
 	}
+
 	private float ConvertInputValueToRGBFloat(string newRGB)
 	{
 		float value = float.Parse(newRGB);
