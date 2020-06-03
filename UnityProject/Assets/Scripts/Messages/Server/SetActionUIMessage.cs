@@ -83,7 +83,7 @@ public class SetActionUIMessage : ServerMessage
 				showAlert = show,
 				SpriteLocation = location,
 				ProposedAction = ProposedAction,
-				ComponentType = actionFromSO.GetType(),
+				ComponentType = actionFromSO.GetType()
 			};
 			msg.SendTo(recipient);
 			return msg;
@@ -97,6 +97,7 @@ public class SetActionUIMessage : ServerMessage
 				showAlert = show,
 				SpriteLocation = location,
 				ProposedAction = ProposedAction,
+				ComponentType = spellAction.GetType()
 			};
 			msg.SendTo(recipient);
 			return msg;
