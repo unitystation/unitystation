@@ -1,4 +1,5 @@
-﻿using TMPro;
+﻿using Audio;
+using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -83,7 +84,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 		{
 			// Job selection is finished, close the window.
 			waitForSpawnTimer = 0;
-			SoundManager.SongTracker.Stop();
+			MusicManager.SongTracker.Stop();
 			gameObject.SetActive(false);
 			waitMessage.SetActive(false);
 			screen_Jobs.SetActive(true);
@@ -170,7 +171,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 		occupationGO.GetComponent<Image>().color = Color.white;
 		occupationGO.GetComponentInChildren<TextMeshProUGUI>().text = "Spectate";
 		occupationGO.transform.localScale = new Vector3(1.0f, 1f, 1.0f);
-		occupationGO.GetComponent<Button>().onClick.AddListener(() => { PlayerManager.LocalViewerScript.CmdSpectate(); });
+		occupationGO.GetComponent<Button>().onClick.AddListener(() => { PlayerManager.LocalViewerScript.Spectate(); });
 
 	}
 }

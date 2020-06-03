@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdminTools;
+using Audio;
 using UnityEngine;
 using Mirror;
 
@@ -366,7 +367,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[TargetRpc]
 	public void TargetStopMusic(NetworkConnection target)
 	{
-		SoundManager.SongTracker.Stop();
+		MusicManager.SongTracker.Stop();
 	}
 
 	/// <summary>

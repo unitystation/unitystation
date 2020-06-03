@@ -1,11 +1,11 @@
-﻿﻿using System;
- using System.Collections.Generic;
- using UnityEngine;
- using UnityEngine.Events;
- using Mirror;
- using UnityEngine.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using Mirror;
+using UnityEngine.Serialization;
 
- public enum ObjectType
+public enum ObjectType
 {
 	Item,
 	Object,
@@ -115,6 +115,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	[NonSerialized]
 	public UnityEvent OnAppearClient = new UnityEvent();
+
+	/// <summary>
+	/// Invoked serverside when object is despawned
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnDespawnedServer = new UnityEvent();
 
 
 	[SyncVar(hook = nameof(SyncNetworkedMatrixNetId))]
@@ -286,6 +292,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				SpatialRelationship.ServerEnd(relationship);
 			}
 		}
+
+		OnDespawnedServer.Invoke();
 	}
 
 	public void SetElectricalData(ElectricalOIinheritance inElectricalData)
