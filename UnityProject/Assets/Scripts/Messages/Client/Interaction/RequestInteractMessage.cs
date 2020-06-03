@@ -52,7 +52,7 @@ public class RequestInteractMessage : ClientMessage
 	//named slot targeted in storage
 	public NamedSlot NamedSlot;
 	// connections used in CableApply
-	public Connection wireEndA, wireEndB;
+	public Connection connectionPointA, connectionPointB;
 
 	private static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
 	private static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
@@ -228,7 +228,7 @@ public class RequestInteractMessage : ClientMessage
 				TargetVector, processorObj, null, usedObj, Intent,
 				TileApply.ApplyType.MouseDrop);
 		}
-		else if (InteractionType == typeof(CableApply))
+		else if (InteractionType == typeof(ConnectionApply))
 		{
 			//look up item in active hand slot
 			var clientStorage = SentByPlayer.Script.ItemStorage;
@@ -239,7 +239,7 @@ public class RequestInteractMessage : ClientMessage
 			});
 			var targetObj = NetworkObjects[0];
 			var processorObj = NetworkObjects[1];
-			var interaction = CableApply.ByClient(performer, usedObject, targetObj, wireEndA, wireEndB, TargetVector, usedSlot, Intent, TargetBodyPart);
+			var interaction = ConnectionApply.ByClient(performer, usedObject, targetObj, connectionPointA, connectionPointB, TargetVector, usedSlot, Intent);
 			ProcessInteraction(interaction, processorObj);
 		}
 	}
@@ -443,13 +443,13 @@ public class RequestInteractMessage : ClientMessage
 			msg.UsedObject = casted.UsedObject.NetId();
 			msg.IsAltUsed = casted.IsAltClick;
 		}
-		else if (typeof(T) == typeof(CableApply))
+		else if (typeof(T) == typeof(ConnectionApply))
 		{
-			var casted = interaction as CableApply;
+			var casted = interaction as ConnectionApply;
 			msg.TargetObject = casted.TargetObject.NetId();
-			msg.TargetVector = casted.WorldPositionTarget;
-			msg.wireEndA = casted.WireEndA;
-			msg.wireEndB = casted.WireEndB;
+			msg.TargetVector = casted.TargetVector;
+			msg.connectionPointA = casted.WireEndA;
+			msg.connectionPointB = casted.WireEndB;
 		}
 		msg.Send();
 	}
@@ -573,12 +573,12 @@ public class RequestInteractMessage : ClientMessage
 			UsedObject = reader.ReadUInt32();
 			TargetVector = reader.ReadVector2();
 		}
-		else if (InteractionType == typeof(CableApply))
+		else if (InteractionType == typeof(ConnectionApply))
 		{
 			TargetObject = reader.ReadUInt32();
 			TargetVector = reader.ReadVector2();
-			wireEndA = (Connection)reader.ReadByte();
-			wireEndB = (Connection)reader.ReadByte();
+			connectionPointA = (Connection)reader.ReadByte();
+			connectionPointB = (Connection)reader.ReadByte();
 		}
 	}
 
@@ -646,12 +646,12 @@ public class RequestInteractMessage : ClientMessage
 			writer.WriteUInt32(UsedObject);
 			writer.WriteVector2(TargetVector);
 		}
-		else if(InteractionType == typeof(CableApply))
+		else if(InteractionType == typeof(ConnectionApply))
 		{
 			writer.WriteUInt32(TargetObject);
 			writer.WriteVector2(TargetVector);
-			writer.WriteByte((byte)wireEndA);
-			writer.WriteByte((byte)wireEndB);
+			writer.WriteByte((byte)connectionPointA);
+			writer.WriteByte((byte)connectionPointB);
 		}
 	}
 

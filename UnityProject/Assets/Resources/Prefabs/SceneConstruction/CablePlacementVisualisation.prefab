@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 892497520981681897}
   - component: {fileID: 6526913661831303319}
   m_Layer: 0
-  m_Name: bot_right
+  m_Name: south_east
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5516620483889729455}
-  m_RootOrder: 8
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6526913661831303319
 SpriteRenderer:
@@ -90,7 +90,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5516620483889729455}
-  - component: {fileID: 2749814674246514685}
   - component: {fileID: 9193591595767524627}
   m_Layer: 0
   m_Name: CablePlacementVisualisation
@@ -110,32 +109,18 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 9020035028653046550}
   - {fileID: 8270101559351124438}
   - {fileID: 7792457520659203642}
-  - {fileID: 4276868837034706820}
-  - {fileID: 4428321623338469927}
   - {fileID: 2002656085023921266}
-  - {fileID: 9141716829417779113}
-  - {fileID: 434538301153432004}
   - {fileID: 892497520981681897}
+  - {fileID: 434538301153432004}
+  - {fileID: 9141716829417779113}
+  - {fileID: 4276868837034706820}
+  - {fileID: 9020035028653046550}
+  - {fileID: 4428321623338469927}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2749814674246514685
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2325577835732532071}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 375ae528a4096694c9b91de24c01973d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startPointColor: {r: 0.4716981, g: 0, b: 0, a: 1}
-  onHoverPointColor: {r: 0.0029093798, g: 0.47058824, b: 0, a: 1}
 --- !u!120 &9193591595767524627
 LineRenderer:
   m_ObjectHideFlags: 0
@@ -244,7 +229,7 @@ GameObject:
   - component: {fileID: 2002656085023921266}
   - component: {fileID: 3246306559460346453}
   m_Layer: 0
-  m_Name: mid_right
+  m_Name: east
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -262,7 +247,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5516620483889729455}
-  m_RootOrder: 5
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3246306559460346453
 SpriteRenderer:
@@ -325,7 +310,7 @@ GameObject:
   - component: {fileID: 9020035028653046550}
   - component: {fileID: 907544148036212596}
   m_Layer: 0
-  m_Name: top_left
+  m_Name: north_west
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -343,7 +328,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5516620483889729455}
-  m_RootOrder: 0
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &907544148036212596
 SpriteRenderer:
@@ -406,7 +391,7 @@ GameObject:
   - component: {fileID: 8270101559351124438}
   - component: {fileID: 289964340847308159}
   m_Layer: 0
-  m_Name: top_center
+  m_Name: north
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -424,7 +409,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5516620483889729455}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &289964340847308159
 SpriteRenderer:
@@ -487,7 +472,7 @@ GameObject:
   - component: {fileID: 4428321623338469927}
   - component: {fileID: 2323222204537204978}
   m_Layer: 0
-  m_Name: mid_center
+  m_Name: overlap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -505,7 +490,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5516620483889729455}
-  m_RootOrder: 4
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2323222204537204978
 SpriteRenderer:
@@ -568,7 +553,7 @@ GameObject:
   - component: {fileID: 7792457520659203642}
   - component: {fileID: 4069487141960349309}
   m_Layer: 0
-  m_Name: top_right
+  m_Name: north_east
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -586,7 +571,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5516620483889729455}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4069487141960349309
 SpriteRenderer:
@@ -649,7 +634,7 @@ GameObject:
   - component: {fileID: 4276868837034706820}
   - component: {fileID: 1482360117727244436}
   m_Layer: 0
-  m_Name: mid_left
+  m_Name: west
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -667,7 +652,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5516620483889729455}
-  m_RootOrder: 3
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1482360117727244436
 SpriteRenderer:
@@ -730,7 +715,7 @@ GameObject:
   - component: {fileID: 434538301153432004}
   - component: {fileID: 3918204807092849267}
   m_Layer: 0
-  m_Name: bot_center
+  m_Name: south
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -748,7 +733,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5516620483889729455}
-  m_RootOrder: 7
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3918204807092849267
 SpriteRenderer:
@@ -811,7 +796,7 @@ GameObject:
   - component: {fileID: 9141716829417779113}
   - component: {fileID: 5369131278595874306}
   m_Layer: 0
-  m_Name: bot_left
+  m_Name: south_west
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -829,7 +814,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 5516620483889729455}
-  m_RootOrder: 6
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &5369131278595874306
 SpriteRenderer:

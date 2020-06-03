@@ -45,21 +45,12 @@ public class MouseInputController : MonoBehaviour
 
 	private Vector3 MouseWorldPosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 
-	// last mouse position used in CheckHover() to determine if player hovers other tile
-	private Vector3Int lastMouseWordlPositionInt;
-
 	/// <summary>
 	/// currently triggering aimapply interactable - when mouse is clicked down this is set to the
 	/// interactable that was triggered, then it is re-triggered continuously while the button is held,
 	/// then set back to null when the button is released.
 	/// </summary>
 	private IBaseInteractable<AimApply> triggeredAimApply;
-
-	/// <summary>
-	/// Prefab used to visualise cable placement
-	/// </summary>
-	[SerializeField] private GameObject cableVisualisation;
-	private CablePlacementVisualisation cablePlacementVisualisation;
 
 	private void OnDrawGizmos()
 	{
@@ -100,9 +91,6 @@ public class MouseInputController : MonoBehaviour
 		playerDirectional = gameObject.GetComponent<Directional>();
 		playerMove = GetComponent<PlayerMove>();
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
-
-		cablePlacementVisualisation = Instantiate(cableVisualisation).GetComponent<CablePlacementVisualisation>();
-		cablePlacementVisualisation.gameObject.SetActive(false);
 	}
 
 	void LateUpdate()
@@ -298,7 +286,7 @@ public class MouseInputController : MonoBehaviour
 			if (lastHoveredThing)
 			{
 				lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
-				cablePlacementVisualisation.gameObject.SetActive(false);
+				transform.SendMessage("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
 			}
 
 			lastHoveredThing = null;
@@ -315,70 +303,13 @@ public class MouseInputController : MonoBehaviour
 					lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
 				}
 				hit.transform.SendMessageUpwards("OnHoverStart", SendMessageOptions.DontRequireReceiver);
-
+				transform.SendMessage("OnHoverStart", SendMessageOptions.DontRequireReceiver);
 				lastHoveredThing = hit;
 			}
 
 			hit.transform.SendMessageUpwards("OnHover", SendMessageOptions.DontRequireReceiver);
-
-			// check if interaction is enabled
-			if (!UIManager.IsMouseInteractionDisabled)
-			{
-				// check if item in main hand is Cable
-				if (CheckIfCableInHand(out CableCoil cable))
-				{
-					// get mouse position
-					Vector3 mousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
-					// round mouse position
-					Vector3Int roundedMousePosition = Vector3Int.RoundToInt(mousePosition);
-
-					if (roundedMousePosition != lastMouseWordlPositionInt)
-					{
-						lastMouseWordlPositionInt = roundedMousePosition;
-
-						// get metaTileMap and top tile
-						MetaTileMap metaTileMap = MatrixManager.AtPoint(roundedMousePosition, false).MetaTileMap;
-						LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true);
-
-						if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
-						{
-							// move cable placement visualisation to rounded mouse position and enable it
-							cablePlacementVisualisation.transform.position = roundedMousePosition - new Vector3(0.5f, 0.5f, 0);
-							cablePlacementVisualisation.gameObject.SetActive(true);
-						}
-						// disable visualisation if active
-						else if (cablePlacementVisualisation.gameObject.activeSelf)
-							cablePlacementVisualisation.gameObject.SetActive(false);
-					}
-				}
-				// disable visualisation if item in hand is not cable and cablePlacementVisualisation is active
-				else if (cablePlacementVisualisation.gameObject.activeSelf)
-					cablePlacementVisualisation.gameObject.SetActive(false);
-			}
+			transform.SendMessage("OnHover", SendMessageOptions.DontRequireReceiver);
 		}
-	}
-
-	/// <summary>
-	/// Check if item in main hand has CableCoil component
-	/// </summary>
-	/// <param name="cable">CableCoil component</param>
-	/// <returns>true if object has component</returns>
-	private bool CheckIfCableInHand(out CableCoil cable)
-	{
-		cable = null;
-		if (UIManager.Instance == null || UIManager.Hands == null || UIManager.Hands.CurrentSlot == null) return false;
-
-		var item = UIManager.Hands.CurrentSlot.Item;
-		if (item)
-		{
-			// TryGetComponent won't create alloc if object don't have component
-			if (item.TryGetComponent(out cable))
-			{
-				return true;
-			}
-		}
-
-		return false;
 	}
 
 	private bool CheckClick()

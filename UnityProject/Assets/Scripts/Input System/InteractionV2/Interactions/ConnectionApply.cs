@@ -3,10 +3,10 @@
 /// <summary>
 /// Useful for placing cables on grid
 /// </summary>
-public class CableApply : BodyPartTargetedInteraction
+public class ConnectionApply : TargetedInteraction
 {
-	public static readonly CableApply Invalid = new CableApply(null, null,
-		null, Connection.NA, Connection.NA, Vector2.zero, null, Intent.Help, BodyPartType.None);
+	public static readonly ConnectionApply Invalid = new ConnectionApply(null, null,
+		null, Connection.NA, Connection.NA, Vector2.zero, null, Intent.Help);
 
 	private readonly ItemSlot handSlot;
 
@@ -17,22 +17,29 @@ public class CableApply : BodyPartTargetedInteraction
 	/// </summary>
 	public GameObject HandObject => UsedObject;
 
-	private Vector2 tileWorldPosition;
-	private readonly Connection wireEndA, wireEndB;
+	private readonly Connection connectionPointA, connectionPointB;
+
+	private readonly Vector2 targetVector;
 
 	/// <summary>
-	/// Targeted tile position (world space).
+	/// Targeted world position deduced from target vector and performer position.
 	/// </summary>
-	public Vector2 WorldPositionTarget => tileWorldPosition;
+	public Vector2 WorldPositionTarget => (Vector2)Performer.transform.position + targetVector;
+
+	/// <summary>
+	/// Vector pointing from the performer to the targeted position. Set to Vector2.zero if aiming at self.
+	/// </summary>
+	public Vector2 TargetVector => targetVector;
+
 
 	/// <summary>
 	/// Cable connection point
 	/// </summary>
-	public Connection WireEndA => wireEndA;
+	public Connection WireEndA => connectionPointA;
 	/// <summary>
 	/// Cable connection point
 	/// </summary>
-	public Connection WireEndB => wireEndB;
+	public Connection WireEndB => connectionPointB;
 
 	/// <summary>
 	/// 
@@ -42,15 +49,15 @@ public class CableApply : BodyPartTargetedInteraction
 	/// <param name="targetObject">Object that the player clicked on</param>
 	/// <param name="startPoint">cable start connection</param>
 	/// <param name="endPoint">cable end connection</param>
-	/// <param name="tileWorldPosition">position of target tile (world space)</param>
+	/// <param name="worldPositionTarget">position of target tile (world space)</param>
 	/// <param name="handSlot">active hand slot that is being used</param>
-	private CableApply(GameObject performer, GameObject handObject, GameObject targetObject, Connection startPoint, Connection endPoint, Vector2 tileWorldPosition,
-		ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart) :
-		base(performer, handObject, targetObject, targetBodyPart, intent)
+	private ConnectionApply(GameObject performer, GameObject handObject, GameObject targetObject, Connection startPoint, Connection endPoint, Vector2 targetVec,
+		ItemSlot handSlot, Intent intent) :
+		base(performer, handObject, targetObject, intent)
 	{
-		this.tileWorldPosition = tileWorldPosition;
-		this.wireEndA = startPoint;
-		this.wireEndB = endPoint;
+		this.targetVector = targetVec;
+		this.connectionPointA = startPoint;
+		this.connectionPointB = endPoint;
 		this.handSlot = handSlot;
 	}
 
@@ -60,22 +67,24 @@ public class CableApply : BodyPartTargetedInteraction
 	/// <param name="targetObject">object targeted by the interaction, null to target empty space</param>
 	/// <param name="wireEndA">cable start connection</param>
 	/// <param name="wireEndB">cable end connection</param>
-	/// <param name="tileWorldPosition">position of target tile (world space)</param>
+	/// <param name="worldPositionTarget">position of target tile (world space)</param>
 	/// <returns></returns>
-	public static CableApply ByLocalPlayer(GameObject targetObject, Connection wireEndA, Connection wireEndB, Vector2 tileWorldPosition)
+	public static ConnectionApply ByLocalPlayer(GameObject targetObject, Connection wireEndA, Connection wireEndB, Vector2? targetVector)
 	{
 		if (PlayerManager.LocalPlayerScript.IsGhost) return Invalid;
 
-		return new CableApply(
+		var targetVec = targetVector ?? Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) -
+						PlayerManager.LocalPlayer.transform.position;
+
+		return new ConnectionApply(
 			PlayerManager.LocalPlayer,
 			UIManager.Hands.CurrentSlot.ItemObject,
 			targetObject,
 			wireEndA,
 			wireEndB,
-			tileWorldPosition,
+			targetVec,
 			UIManager.Instance.hands.CurrentSlot.ItemSlot,
-			UIManager.CurrentIntent,
-			UIManager.DamageZone
+			UIManager.CurrentIntent
 		);
 	}
 
@@ -85,22 +94,21 @@ public class CableApply : BodyPartTargetedInteraction
 	/// <param name="targetObject">object targeted by the interaction, null to target empty space</param>
 	/// <param name="wireEndA">cable start connection</param>
 	/// <param name="wireEndB">cable end connection</param>
-	/// <param name="tileWorldPosition">position of target tile (world space)</param>
+	/// <param name="worldPositionTarget">position of target tile (world space)</param>
 	/// <param name="handSlot">active hand slot that is being used</param>
 	/// <returns></returns>
-	public static CableApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject, Connection startPoint, Connection endPoint, Vector2 tileWorldPosition,
-		ItemSlot handSlot, Intent intent, BodyPartType targetBodyPart)
+	public static ConnectionApply ByClient(GameObject clientPlayer, GameObject handObject, GameObject targetObject, Connection startPoint, Connection endPoint, Vector2 targetVec,
+		ItemSlot handSlot, Intent intent)
 	{
-		return new CableApply(
+		return new ConnectionApply(
 			clientPlayer,
 			handObject,
 			targetObject,
 			startPoint,
 			endPoint,
-			tileWorldPosition,
+			targetVec,
 			handSlot,
-			intent,
-			targetBodyPart
+			intent
 		);
 	}
 }

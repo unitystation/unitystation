@@ -753,6 +753,7 @@ GameObject:
   - component: {fileID: 7831221530082840597}
   - component: {fileID: -5817005449759474551}
   - component: {fileID: -4232167787565634782}
+  - component: {fileID: 4174611152458090807}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -891,8 +892,6 @@ MonoBehaviour:
   MaxClickDuration: 1
   MouseDragDeadzone: 0.2
   AimApplyInterval: 0.01
-  cableVisualisation: {fileID: 2325577835732532071, guid: 4e2e9173bf345d845afb67464dba5155,
-    type: 3}
 --- !u!114 &114407246905810916
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1338,6 +1337,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4174611152458090807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 375ae528a4096694c9b91de24c01973d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cablePlacementVisualisationPrefab: {fileID: 2325577835732532071, guid: 4e2e9173bf345d845afb67464dba5155,
+    type: 3}
+  startPointColor: {r: 0.07142841, g: 0.47058824, b: 0, a: 1}
+  onHoverPointColor: {r: 0.4716981, g: 0, b: 0, a: 1}
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -4935,12 +4950,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4300145449095171559}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &4304794156734570639 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
-    type: 3}
-  m_PrefabInstance: {fileID: 4300145449095171559}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4196149980577959187 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
@@ -4953,3 +4962,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &4304794156734570639 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}

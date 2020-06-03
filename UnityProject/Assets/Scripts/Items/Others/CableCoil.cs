@@ -7,7 +7,7 @@ using UnityEngine;
 /// Cable coil which can be applied to the ground to lay cable.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class CableCoil : NetworkBehaviour, ICheckedInteractable<CableApply>
+public class CableCoil : NetworkBehaviour, ICheckedInteractable<ConnectionApply>
 {
 	public WiringColor CableType;
 	public GameObject CablePrefab;
@@ -39,8 +39,7 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<CableApply>
 		return (Connection.NA);
 	}
 
-
-	public bool WillInteract(CableApply interaction, NetworkSide side)
+	public bool WillInteract(ConnectionApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//can only be used on tiles
@@ -53,7 +52,7 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<CableApply>
 		return true;
 	}
 
-	public void ServerPerformInteraction(CableApply interaction)
+	public void ServerPerformInteraction(ConnectionApply interaction)
 	{
 		var cableCoil = interaction.HandObject.GetComponent<CableCoil>();
 		if (cableCoil != null)
@@ -141,14 +140,14 @@ public class CableCoil : NetworkBehaviour, ICheckedInteractable<CableApply>
 		}
 	}
 
-	private void BuildCable(Vector3 position, Transform parent, Connection WireEndA, Connection WireEndB, CableApply interaction)
+	private void BuildCable(Vector3 position, Transform parent, Connection WireEndA, Connection WireEndB, ConnectionApply interaction)
 	{
 		ElectricalManager.Instance.electricalSync.StructureChange = true;
 		FindOverlapsAndCombine(position, WireEndA, WireEndB, interaction);
 	}
 
 	public void FindOverlapsAndCombine(Vector3 position, Connection WireEndA, Connection WireEndB,
-		CableApply interaction)
+		ConnectionApply interaction)
 	{
 		if (WireEndA == Connection.Overlap | WireEndB == Connection.Overlap)
 		{

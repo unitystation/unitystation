@@ -5,38 +5,40 @@ using System.Linq;
 /// <summary>
 /// [Client Side Only] MonoBehaviour for handling cable placement visualisation
 /// </summary>
-[RequireComponent(typeof(LineRenderer))]
 public class CablePlacementVisualisation : MonoBehaviour
 {
-	private const int gridSize = 3;
-	private const int maxIndex = gridSize - 1;
+	/// <summary>
+	/// Prefab used to visualise cable placement
+	/// </summary>
+	[SerializeField] private GameObject cablePlacementVisualisationPrefab;
+	private GameObject cablePlacementVisualisation;
 
 	/// <summary>
 	/// color of startPoint(point on which you press mouse button down)
 	/// </summary>
 	[SerializeField] private Color startPointColor;
 	/// <summary>
-	/// color of currentlyHoveredPoint(point below mouse)
+	/// color of point below mouse
 	/// </summary>
 	[SerializeField] private Color onHoverPointColor;
 
 	/// <summary>
 	/// point on which player has pressed mouse button
 	/// </summary>
-	private Vector2Int startPoint;
+	private Connection startPoint;
 	/// <summary>
 	/// point on which player has released mouse button
 	/// </summary>
-	private Vector2Int endPoint;
+	private Connection endPoint;
 	/// <summary>
-	/// point that is currently below mouse
+	/// point that was below mouse in last update
 	/// </summary>
-	private Vector2Int currentlyHoveredPoint;
+	private Connection lastConnection;
 
 	/// <summary>
 	/// grid of points
 	/// </summary>
-	private SpriteRenderer[,] connectionPoints = new SpriteRenderer[gridSize, gridSize];
+	private Dictionary<Connection, SpriteRenderer> connectionPointRenderers;
 	/// <summary>
 	/// lineRenderer used to render line between points
 	/// </summary>
@@ -47,76 +49,93 @@ public class CablePlacementVisualisation : MonoBehaviour
 	/// </summary>
 	private Color defaultPointColor;
 
+	/// <summary>
+	/// last mouse position used in OnHover() to determine if player hovers other tile
+	/// </summary>
+	private Vector3Int lastMouseWordlPositionInt;
+	/// <summary>
+	/// Vector used to check distance between connections
+	/// </summary>
+	private Vector2Int startPointVector;
+	/// <summary>
+	/// Vector used to check distance between connections
+	/// </summary>
+	private Vector2Int endPointVector;
+
 	private void Awake()
 	{
-		// initialize grid
-		for (int y = 0; y < gridSize; y++)
+		// instantiate prefab
+		cablePlacementVisualisation = Instantiate(cablePlacementVisualisationPrefab);
+		cablePlacementVisualisation.SetActive(false);
+
+		// init grid
+		connectionPointRenderers = new Dictionary<Connection, SpriteRenderer>();
+		for (int i = 0; i < 9; i++)
 		{
-			for (int x = 0; x < gridSize; x++)
-			{
-				connectionPoints[x, y] = transform.GetChild(y * gridSize + x).GetComponent<SpriteRenderer>();
-			}
+			connectionPointRenderers[(Connection)i+1] = cablePlacementVisualisation.transform.GetChild(i).GetComponent<SpriteRenderer>();
 		}
 
 		// get default color from first point
-		defaultPointColor = connectionPoints[0, 0].color;
+		defaultPointColor = connectionPointRenderers[Connection.Overlap].color;
 		// get line renderer
-		lineRenderer = GetComponent<LineRenderer>();
-	}
-
-	private void OnEnable()
-	{
-		// reset positions on enable
-		ResetValues();
+		lineRenderer = cablePlacementVisualisation.GetComponent<LineRenderer>();
 	}
 
 	private void Update()
 	{
-		// get releative mouse position
-		Vector2 releativeMousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) - transform.position;
-		// get nearest point
-		int x = Mathf.RoundToInt(releativeMousePosition.x * maxIndex);
-		int y = gridSize - 1 - Mathf.RoundToInt(releativeMousePosition.y * maxIndex);
+		// return if visualisation is disabled or distance is greater than interaction distance
+		if (!cablePlacementVisualisation.activeSelf) return;
 
-		// clamp to be sure that value is in range <0, maxIndex>
-		x = Mathf.Clamp(x, 0, maxIndex);
-		y = Mathf.Clamp(y, 0, maxIndex);
+		// get releative mouse position
+		Vector2 releativeMousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition) - cablePlacementVisualisation.transform.position;
+		// get nearest point
+		int x = Mathf.RoundToInt(releativeMousePosition.x * 2);
+		int y = 2 - Mathf.RoundToInt(releativeMousePosition.y * 2);
+
+		// clamp to be sure that value is in range <0, 2>
+		x = Mathf.Clamp(x, 0, 2);
+		y = Mathf.Clamp(y, 0, 2);
 		Vector2Int point = new Vector2Int(x, y);
 
-		// if hover point has changed
-		if (point != currentlyHoveredPoint)
-		{
-			// check if current point isn't startPoint or endPoint (to not override color)
-			if (currentlyHoveredPoint != startPoint && currentlyHoveredPoint != endPoint)
-				SetConnectionPointColor(currentlyHoveredPoint.x, currentlyHoveredPoint.y, defaultPointColor);
-
-			SetConnectionPointColor(point.x, point.y, onHoverPointColor);
-			currentlyHoveredPoint = point;
-		}
+		Connection currentConnection = GetConnectionByPoint(point);
 
 		// if mouse down - start drawing
 		if (CommonInput.GetMouseButtonDown(0))
 		{
-			startPoint = currentlyHoveredPoint;
-			SetConnectionPointColor(startPoint.x, startPoint.y, startPointColor);
+			startPoint = currentConnection;
+			startPointVector = point;
+
+			SetConnectionPointColor(startPoint, startPointColor);
 		}
 		// if mouse up - stop drawing and check if can build
 		else if (CommonInput.GetMouseButtonUp(0))
 		{
-			endPoint = currentlyHoveredPoint;
-			// TODO: check if correct and build
+			endPoint = currentConnection;
+			endPointVector = point;
+
 			Build();
 			ResetValues();
 		}
 
-		// check if startPoint has changed (-Vector2Int.one is default value)
-		if (startPoint != -Vector2Int.one)
+		// check if position has changed
+		if (currentConnection != lastConnection)
 		{
-			lineRenderer.SetPositions(new Vector3[]
+			// check if last point isn't startPoint or endPoint (to not override color)
+			if (lastConnection != startPoint && lastConnection != endPoint)
+				SetConnectionPointColor(lastConnection, defaultPointColor);
+
+			SetConnectionPointColor(currentConnection, onHoverPointColor);
+
+			if (startPoint != Connection.NA)
 			{
-				connectionPoints[startPoint.x, startPoint.y].transform.localPosition,                        // position of start point
-                connectionPoints[currentlyHoveredPoint.x, currentlyHoveredPoint.y].transform.localPosition   // position of current point
-            });
+				lineRenderer.SetPositions(new Vector3[]
+				{
+					connectionPointRenderers[startPoint].transform.localPosition,		// position of start point
+					connectionPointRenderers[currentConnection].transform.localPosition	// position of current point
+				});
+			}
+
+			lastConnection = currentConnection;
 		}
 	}
 
@@ -125,26 +144,21 @@ public class CablePlacementVisualisation : MonoBehaviour
 	/// </summary>
 	private void Build()
 	{
-		if (startPoint == endPoint || Mathf.Abs(startPoint.x - endPoint.x) > 1 || Mathf.Abs(startPoint.y - endPoint.y) > 1) return;
+		if (startPoint == endPoint || Mathf.Abs(startPointVector.x - endPointVector.x) > 1 || Mathf.Abs(startPointVector.y - endPointVector.y) > 1) return;
 
 		GameObject target = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
-		Vector2 targetVector = new Vector2(startPoint.x - endPoint.x, startPoint.y - endPoint.y);
-
-
-		Connection start = GetConnectionByPoint(startPoint);
-		Connection end = GetConnectionByPoint(endPoint);
-		CableApply cableApply = CableApply.ByLocalPlayer(target, start, end, Vector2Int.RoundToInt(transform.position + new Vector3(0.5f, 0.5f, 0)));
+		ConnectionApply cableApply = ConnectionApply.ByLocalPlayer(target, startPoint, endPoint, null);
 
 		//if HandObject is null, then its an empty hand apply so we only need to check the receiving object
 		if (cableApply.HandObject != null)
 		{
 			//get all components that can contains CableApply interaction
 			var cableAppliables = cableApply.HandObject.GetComponents<MonoBehaviour>()
-				.Where(c => c != null && c.enabled && (c is IBaseInteractable<CableApply>));
+				.Where(c => c != null && c.enabled && (c is IBaseInteractable<ConnectionApply>));
 
 			foreach (var cableAppliable in cableAppliables.Reverse())
 			{
-				var hap = cableAppliable as IBaseInteractable<CableApply>;
+				var hap = cableAppliable as IBaseInteractable<ConnectionApply>;
 				if (hap.ClientCheckAndTrigger(cableApply)) return;
 			}
 		}
@@ -162,13 +176,29 @@ public class CablePlacementVisualisation : MonoBehaviour
 			Vector3.zero
 		});
 
+
 		// reset colors
-		foreach (var point in connectionPoints)
+		foreach (var point in connectionPointRenderers.Values)
 			point.color = defaultPointColor;
 
 		// reset points
-		startPoint = -Vector2Int.one;
-		endPoint = -Vector2Int.one;
+		startPoint = Connection.NA;
+		startPointVector = -Vector2Int.one;
+
+		endPoint = Connection.NA;
+		endPointVector = -Vector2Int.one;
+
+		lastMouseWordlPositionInt = Vector3Int.zero;
+		lastConnection = Connection.NA;
+	}
+
+	private void DisableVisualisation()
+	{
+		if (cablePlacementVisualisation.activeSelf)
+		{
+			cablePlacementVisualisation.SetActive(false);
+			ResetValues();
+		}
 	}
 
 	/// <summary>
@@ -177,16 +207,15 @@ public class CablePlacementVisualisation : MonoBehaviour
 	/// <param name="x">x position</param>
 	/// <param name="y">y position</param>
 	/// <param name="color">target color</param>
-	private void SetConnectionPointColor(int x, int y, Color color)
+	private void SetConnectionPointColor(Connection connection, Color color)
 	{
-		// get sprite renderer
-		SpriteRenderer spriteRenderer = connectionPoints[x, y];
-		// change color
-		spriteRenderer.color = color;
+		// get sprite renderer and set color
+		connectionPointRenderers[connection].color = color;
 	}
+
 	/// <summary>
 	/// Convert Vector2Int point to Connection based on position
-	/// (point values should be in range from 0 to <see cref="maxIndex"/>)
+	/// (point values should be in range <0, 2>)
 	/// </summary>
 	/// <param name="point">target point</param>
 	/// <returns></returns>
@@ -235,5 +264,47 @@ public class CablePlacementVisualisation : MonoBehaviour
 			default:
 				return Connection.NA;
 		}
+	}
+
+	public void OnHover()
+	{
+		if (!UIManager.IsMouseInteractionDisabled)
+		{
+			// get mouse position
+			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			// round mouse position
+			Vector3Int roundedMousePosition = Vector3Int.RoundToInt(mousePosition);
+
+			// if distance is greater than interaction distance
+			if (Mathf.Abs(Vector2.Distance(transform.position, (Vector3)roundedMousePosition)) > PlayerScript.interactionDistance)
+			{
+				DisableVisualisation();
+				return;
+			}
+
+			// if position has changed and player has cable in hand
+			if (roundedMousePosition != lastMouseWordlPositionInt
+				&& UIManager.Hands.CurrentSlot.ItemObject
+				&& UIManager.Hands.CurrentSlot.ItemObject.TryGetComponent(out CableCoil cable))
+			{
+				lastMouseWordlPositionInt = roundedMousePosition;
+
+				// get metaTileMap and top tile
+				MetaTileMap metaTileMap = MatrixManager.AtPoint(roundedMousePosition, false).MetaTileMap;
+				LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true);
+
+				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
+				{
+					// move cable placement visualisation to rounded mouse position and enable it
+					cablePlacementVisualisation.transform.position = roundedMousePosition - new Vector3(0.5f, 0.5f, 0); ;
+					cablePlacementVisualisation.SetActive(true);
+				}
+				// disable visualisation if active
+				else
+					DisableVisualisation();
+			}
+		}
+		else
+			DisableVisualisation();
 	}
 }
