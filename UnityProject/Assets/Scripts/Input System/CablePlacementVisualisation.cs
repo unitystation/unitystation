@@ -276,7 +276,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 			Vector3Int roundedMousePosition = Vector3Int.RoundToInt(mousePosition);
 
 			// if distance is greater than interaction distance
-			if (Mathf.Abs(Vector2.Distance(transform.position, (Vector3)roundedMousePosition)) > PlayerScript.interactionDistance)
+			if (Vector2.Distance(transform.position, (Vector3)roundedMousePosition) > PlayerScript.interactionDistance)
 			{
 				DisableVisualisation();
 				return;
