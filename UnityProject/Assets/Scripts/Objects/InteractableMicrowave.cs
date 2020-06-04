@@ -37,10 +37,13 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 			// Check if the player is holding food that can be cooked
 			ItemAttributesV2 attr = interaction.HandObject.GetComponent<ItemAttributesV2>();
 			Ingredient ingredient = new Ingredient(attr.ArticleName);
+
 			GameObject meal = CraftingManager.Meals.FindRecipe(new List<Ingredient> { ingredient });
 
 			if (meal)
 			{
+				// HACK: Currently DOES NOT check how many items are used per meal
+				// Blindly assumes each single item in a stack produces a meal
 
 				//If food item is stackable, set output amount to equal input amount.
 				Stackable stck = interaction.HandObject.GetComponent<Stackable>();
@@ -48,7 +51,10 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 				{
 					microwave.ServerSetOutputStackAmount(stck.Amount);
 				}
-
+				else
+				{
+					microwave.ServerSetOutputStackAmount(1);
+				}
 
 				microwave.ServerSetOutputMeal(meal.name);
 				Despawn.ServerSingle(interaction.HandObject);
