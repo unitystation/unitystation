@@ -38,7 +38,7 @@ public class ConnectedTile : BasicTile
 	/// </summary>
 	private Layer layer;
 
-	public override Sprite PreviewSprite => sprites[0];
+	public override Sprite PreviewSprite => sprites != null && sprites.Length > 0 ? sprites[0] : null;
 
 	private Sprite[] sprites
 	{
@@ -112,7 +112,10 @@ public class ConnectedTile : BasicTile
 
 		if (i >= 0)
 		{
-			tileData.sprite = sprites[i];
+			if (sprites != null && sprites.Length > i)
+			{
+				tileData.sprite = sprites[i];
+			}
 			tileData.flags = TileFlags.None;
 			// create collider for tiles, None, Sprite or Grid
 			tileData.colliderType = Tile.ColliderType.Grid;

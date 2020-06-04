@@ -126,13 +126,13 @@ public class ItemMagBoots : NetworkBehaviour,
 			{
 				ServerChangeState(player);
 			}
-			UIActionManager.Toggle(this, false);
+			UIActionManager.ToggleLocal(this, false);
 			player.Script.playerHealth.OnDeathNotifyEvent -= OnPlayerDeath;
 			player = null;
 		}
 		else
 		{
-			UIActionManager.Toggle(this, false);
+			UIActionManager.ToggleLocal(this, false);
 		}
 	}
 
@@ -144,11 +144,11 @@ public class ItemMagBoots : NetworkBehaviour,
 		switch (info.ClientInventoryMoveType)
 		{
 			case ClientInventoryMoveType.Added when pna.GetActiveItemInSlot(NamedSlot.feet)?.gameObject == gameObject:
-				UIActionManager.Toggle(this, true);
+				UIActionManager.ToggleLocal(this, true);
 				UIActionManager.SetSprite(this, (sprites[0]));
 				break;
 			case ClientInventoryMoveType.Removed when pna.GetActiveItemInSlot(NamedSlot.feet)?.gameObject != gameObject:
-				UIActionManager.Toggle(this, false);
+				UIActionManager.ToggleLocal(this, false);
 				break;
 		}
 	}
