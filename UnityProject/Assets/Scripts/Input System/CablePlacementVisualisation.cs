@@ -72,7 +72,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 		connectionPointRenderers = new Dictionary<Connection, SpriteRenderer>();
 		for (int i = 0; i < 9; i++)
 		{
-			connectionPointRenderers[(Connection)i+1] = cablePlacementVisualisation.transform.GetChild(i).GetComponent<SpriteRenderer>();
+			connectionPointRenderers[(Connection)i + 1] = cablePlacementVisualisation.transform.GetChild(i).GetComponent<SpriteRenderer>();
 		}
 
 		// get default color from first point
@@ -284,8 +284,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 			// if position has changed and player has cable in hand
 			if (roundedMousePosition != lastMouseWordlPositionInt
-				&& UIManager.Hands.CurrentSlot.ItemObject
-				&& UIManager.Hands.CurrentSlot.ItemObject.TryGetComponent(out CableCoil cable))
+				&& Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Cable))
 			{
 				lastMouseWordlPositionInt = roundedMousePosition;
 
