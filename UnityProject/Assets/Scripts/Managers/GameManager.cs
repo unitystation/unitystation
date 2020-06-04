@@ -79,7 +79,13 @@ public partial class GameManager : MonoBehaviour
 	private bool loadedDirectlyToStation;
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
 
+	public Queue<PlayerSpawnRequest> SpawnPlayerRequestQueue = new Queue<PlayerSpawnRequest>();
+
 	private bool QueueProcessing;
+
+	private float timeElapsedQueueCheckServer = 0;
+
+	private const float QueueCheckTimeServer = 1f;
 
 	private void Awake()
 	{
@@ -287,6 +293,13 @@ public partial class GameManager : MonoBehaviour
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
 		}
+
+		timeElapsedQueueCheckServer += Time.deltaTime;
+		if (timeElapsedQueueCheckServer > QueueCheckTimeServer)
+		{
+			ProcessSpawnPlayerQueue();
+			timeElapsedQueueCheckServer -= QueueCheckTimeServer;
+		}
 	}
 
 	/// <summary>
@@ -449,6 +462,48 @@ public partial class GameManager : MonoBehaviour
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 
 		UpdateCountdownMessage.Send(waitForStart, CountdownTime);
+	}
+
+	public void ProcessSpawnPlayerQueue()
+	{
+		if (QueueProcessing) return;
+
+		QueueProcessing = true;
+
+		var count = SpawnPlayerRequestQueue.Count;
+
+		if (count == 0)
+		{
+			QueueProcessing = false;
+			return;
+		}
+
+		for(var i = 1; i <= count; i++)
+		{
+			var player = SpawnPlayerRequestQueue.Peek();
+
+			int slotsTaken = GameManager.Instance.GetOccupationsCount(player.RequestedOccupation.JobType);
+			int slotsMax = GameManager.Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
+			if (slotsTaken >= slotsMax)
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			//regardless of their chosen occupation, they might spawn as an antag instead.
+			//If they do, bypass the normal spawn logic.
+			if (GameManager.Instance.TrySpawnAntag(player))
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			PlayerSpawn.ServerSpawnPlayer(player);
+
+			SpawnPlayerRequestQueue.Dequeue();
+		}
+
+		QueueProcessing = false;
 	}
 
 	public int GetOccupationsCount(JobType jobType)
