@@ -34,8 +34,6 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 
 	[Tooltip("SpriteHandler used for blinking animation")]
 	public SpriteHandler spriteHandler;
-	[Tooltip("Used for inventory animation")]
-	public Pickupable pickupable;
 
 	// Zero and one sprites reserved for left and right hands
 	private const int LOCKED_SPRITE = 2;
@@ -133,20 +131,6 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 		spriteHandler?.ChangeSprite(sprite);
 	}
 
-	/// <summary>
-	/// This coroutines make sure that sprite in hands is animated
-	/// TODO: replace this with more general aproach for animated icons
-	/// </summary>
-	/// <returns></returns>
-	private IEnumerator AnimateSpriteInHands()
-	{
-		while (timerRunning && !hasExploded)
-		{
-			pickupable.RefreshUISlotImage();
-			yield return null;
-		}
-	}
-
 	public void Explode()
 	{
 		if (hasExploded)
@@ -215,8 +199,6 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 		{
 			// Start playing arm animation
 			UpdateSprite(ARMED_SPRITE);
-			// Update grenade icon in hands
-			StartCoroutine(AnimateSpriteInHands());
 		}
 		else
 		{
