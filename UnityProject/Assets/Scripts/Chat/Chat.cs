@@ -62,7 +62,17 @@ public partial class Chat : MonoBehaviour
 		// This step is skipped when speaking in the OOC channel.
 		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
 		bool isOOC = channels.HasFlag(ChatChannel.OOC);
-		if (!isOOC) processedMessage = ProcessMessage(sentByPlayer, message);
+		if (!isOOC)
+		{
+			processedMessage = ProcessMessage(sentByPlayer, message);
+
+			if (player.mind.occupation.JobType == JobType.MIME && player.mind.IsMiming
+				&& !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+			{
+				AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
+				return;
+			}
+		}
 
 		var chatEvent = new ChatEvent
 		{
