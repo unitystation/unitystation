@@ -23,7 +23,13 @@ public class GrownFood : NetworkBehaviour
 	[SerializeField]
 	private Edible edible;
 
+	///For when another script needs the plant's potency value.
+	public int plantpotency;
 
+	private void plantpotenc()
+	{
+		plantpotency = plantData.Potency;
+	}
 
 	[SyncVar(hook = nameof(SyncSize))]
 	public float SizeScale;

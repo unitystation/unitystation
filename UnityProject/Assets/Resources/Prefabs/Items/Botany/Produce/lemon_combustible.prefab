@@ -24,7 +24,7 @@ GameObject:
   - component: {fileID: 6297191340185498654}
   - component: {fileID: 2383114736845898972}
   - component: {fileID: 4854732588198120122}
-  - component: {fileID: -4931459150147201972}
+  - component: {fileID: 8315558304877829770}
   m_Layer: 10
   m_Name: lemon_combustible
   m_TagString: Abstract
@@ -396,6 +396,7 @@ MonoBehaviour:
   SpriteSizeAdjustment: {fileID: 6845515435948111746}
   Sprite: {fileID: 628184727406542681}
   edible: {fileID: 0}
+  plantpotency: 0
   SizeScale: 0
 --- !u!114 &2383114736845898972
 MonoBehaviour:
@@ -441,7 +442,7 @@ MonoBehaviour:
   backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   iconOverride: {fileID: 0}
   backgroundSprite: {fileID: 0}
---- !u!114 &-4931459150147201972
+--- !u!114 &8315558304877829770
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -450,12 +451,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 6769435367495353566}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 136fb3d786941f649a6b2426ca00ec00, type: 3}
+  m_Script: {fileID: 11500000, guid: fc7c06bdea2cb45f7bd5b868d67ad589, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  explosionPrefab: {fileID: 503338041199445092, guid: 7442edc5f98954af09587a7233e5a7c5,
+  explosionPrefab1: {fileID: 503338041199445092, guid: 7442edc5f98954af09587a7233e5a7c5,
+    type: 3}
+  explosionPrefab2: {fileID: 6747118300316481954, guid: c1066fd09421346dca51a6dba7fcc233,
+    type: 3}
+  explosionPrefab3: {fileID: 2622680018121505380, guid: 56f8fdf50f0bd4b43bc91bbc1b5d833e,
+    type: 3}
+  explosionPrefab4: {fileID: 3350399831920852823, guid: 1d10162435c524e85b69e1f67f9e8f29,
+    type: 3}
+  explosionPrefab5: {fileID: 2930850949309643807, guid: 34928029d1aae4b779423a233c3f681e,
     type: 3}
   unstableFuse: 1
   fuseLength: 4

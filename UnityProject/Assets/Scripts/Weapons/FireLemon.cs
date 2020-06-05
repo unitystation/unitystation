@@ -10,10 +10,22 @@ using Mirror;
 /// Generic grenade base.
 /// </summary>
 [RequireComponent(typeof(Pickupable))]
-public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IServerDespawn
+public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>, IServerDespawn
 {
-	[Tooltip("Explosion effect prefab, which creates when timer ends")]
-	public Explosion explosionPrefab;
+	[Tooltip("Lowest potency explosion")]
+	public Explosion explosionPrefab1;
+
+	[Tooltip("Second lowest potency explosion")]
+	public Explosion explosionPrefab2;
+
+	[Tooltip("Medium potency explosion")]
+	public Explosion explosionPrefab3;
+
+	[Tooltip("Second highest potency explosion")]
+	public Explosion explosionPrefab4;
+
+	[Tooltip("Highest potency explosion")]
+	public Explosion explosionPrefab5;
 
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	public bool unstableFuse = false;
@@ -28,6 +40,17 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 	// Zero and one sprites reserved for left and right hands
 	private const int LOCKED_SPRITE = 2;
 	private const int ARMED_SPRITE = 3;
+
+	private GrownFood GrownFood;
+
+	private int lemonPotency;
+
+	///Getting Grownfood so we can get the potency of the plant.
+	private void Awake()
+	{
+		GrownFood = GetComponent<GrownFood>();
+		lemonPotency = GrownFood.plantpotency;
+	}
 
 	//whether this object has exploded
 	private bool hasExploded;
@@ -142,9 +165,40 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 			Despawn.ServerSingle(gameObject);
 
 			// Explosion here
-			var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
-			explosionGO.transform.position = worldPos;
-			explosionGO.Explode(explosionMatrix);
+			if(lemonPotency < 30)
+			{
+				var explosionGO = Instantiate(explosionPrefab1, explosionMatrix.transform);
+				explosionGO.transform.position = worldPos;
+				explosionGO.Explode(explosionMatrix);
+			}
+
+			if(lemonPotency >= 31 && lemonPotency <= 50)
+			{
+				var explosionGO = Instantiate(explosionPrefab2, explosionMatrix.transform);
+				explosionGO.transform.position = worldPos;
+				explosionGO.Explode(explosionMatrix);
+			}
+
+			if(lemonPotency >= 51 && lemonPotency <= 70)
+			{
+				var explosionGO = Instantiate(explosionPrefab3, explosionMatrix.transform);
+				explosionGO.transform.position = worldPos;
+				explosionGO.Explode(explosionMatrix);
+			}
+
+			if(lemonPotency >= 71 && lemonPotency <= 90)
+			{
+				var explosionGO = Instantiate(explosionPrefab4, explosionMatrix.transform);
+				explosionGO.transform.position = worldPos;
+				explosionGO.Explode(explosionMatrix);
+			}
+
+			if(lemonPotency > 90)
+			{
+				var explosionGO = Instantiate(explosionPrefab5, explosionMatrix.transform);
+				explosionGO.transform.position = worldPos;
+				explosionGO.Explode(explosionMatrix);
+			}
 		}
 	}
 
