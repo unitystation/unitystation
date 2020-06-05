@@ -15,7 +15,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 7790500238027954597, guid: daa8a4d6cad4441f79bed8f0fb275672,
       type: 3}
     Name: lemon
     Plantname: Lemon Tree
@@ -69,7 +69,8 @@ MonoBehaviour:
     Lifespan: 55
     PlantTrays: 00000000
     ReagentProduction: []
-    MutatesInTo: []
+    MutatesInTo:
+    - {fileID: 11400000, guid: 2b12a8a694ad1344eac44283986f9f12, type: 2}
     Age: 0
     NextGrowthStageProgress: 0
     Health: 0
@@ -80,6 +81,7 @@ MonoBehaviour:
   SpriteSizeAdjustment: {fileID: 7992938450538310393}
   Sprite: {fileID: 4133026307562938914}
   edible: {fileID: 4784545385014217823}
+  plantpotency: 0
   SizeScale: 0
 --- !u!114 &2785554390837465345
 MonoBehaviour:
