@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>
+public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>
 {
 	public List<FireLock> FireLockList = new List<FireLock>();
 	private MetaDataNode metaNode;
@@ -14,10 +14,19 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public SpriteHandler spriteHandler;
 	public Sprite topLightSpriteNormal;
+	public Sprite openEmptySprite;
+	public Sprite openCabledSprite;
 	public SpriteSheetAndData topLightSpriteAlert;
+
+	public bool coverOpen;
+	public bool hasCables = true;
+
+
 
 	public void SendCloseAlerts()
 	{
+		if (!hasCables)
+			return;
 		if (!activated && !isInCooldown)
 		{
 			activated = true;
@@ -45,6 +54,13 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		{
 			firelock.fireAlarm = this;
 		}
+		if (!info.SpawnItems)
+		{
+			hasCables = false;
+			coverOpen = true;
+			spriteHandler.SetSprite(openEmptySprite);
+		}
+
 	}
 
 	public void TickUpdate()
@@ -66,29 +82,95 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
+		if (interaction.Intent == Intent.Harm) return false;
 		return true;
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (activated && !isInCooldown)
+		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 		{
-			activated = false;
-			spriteHandler.SetSprite(topLightSpriteNormal);
-			StartCoroutine(SwitchCoolDown());
-			foreach (var firelock in FireLockList)
+			if (coverOpen)
 			{
-				if (firelock.Controller.IsClosed)
+				coverOpen = false;
+				if (activated)
 				{
-					firelock.Controller.ServerOpen();
+					spriteHandler.SetSprite(topLightSpriteAlert, 0);
+				}
+				else
+				{
+					spriteHandler.SetSprite(topLightSpriteNormal);
 				}
 			}
+			else
+			{
+				coverOpen = true;
+				if (hasCables)
+				{
+					spriteHandler.SetSprite(openCabledSprite);
+				}
+				else
+				{
+					spriteHandler.SetSprite(openEmptySprite);
+				}
+			}
+			SoundManager.PlayNetworkedAtPos("screwdriver1", interaction.Performer.WorldPosServer());
+			return;
+		}
+		if (coverOpen)
+		{
+			if (hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+			{
+				//cut out cables
+				Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
+					$"{interaction.Performer.ExpensiveName()} removes the cables.");
+				ToolUtils.ServerPlayToolSound(interaction);
+				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
+				spriteHandler.SetSprite(openEmptySprite);
+				hasCables = false;
+				activated = false;
+				return;
+			}
+
+			if (!hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
+			    Validations.HasUsedAtLeast(interaction, 5))
+			{
+				//add 5 cables
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+					"You start adding cables to the frame...",
+					$"{interaction.Performer.ExpensiveName()} starts adding cables to the frame...",
+					"You add cables to the frame.",
+					$"{interaction.Performer.ExpensiveName()} adds cables to the frame.",
+					() =>
+					{
+						Inventory.ServerConsume(interaction.HandSlot, 5);
+						hasCables = true;
+						spriteHandler.SetSprite(openCabledSprite);
+					});
+			}
+
 		}
 		else
 		{
-			SendCloseAlerts();
+			if (activated && !isInCooldown)
+			{
+				activated = false;
+				spriteHandler.SetSprite(topLightSpriteNormal);
+				StartCoroutine(SwitchCoolDown());
+				foreach (var firelock in FireLockList)
+				{
+					if (firelock.Controller.IsClosed)
+					{
+						firelock.Controller.ServerOpen();
+					}
+				}
+			}
+			else
+			{
+				SendCloseAlerts();
+			}
 		}
+
 	}
 
 	//Copied over from LightSwitchV2.cs

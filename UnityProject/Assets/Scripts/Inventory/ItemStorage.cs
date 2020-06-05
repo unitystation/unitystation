@@ -196,6 +196,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		if (populator == null) return;
 		if (!CustomNetworkManager.IsServer) return;
+		if (!context.SpawnInfo.SpawnItems) return;
 		populator.PopulateItemStorage(this, context);
 	}
 

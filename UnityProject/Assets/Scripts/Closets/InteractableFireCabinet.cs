@@ -81,14 +81,14 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 
 			if (IsClosed)
 			{
-				if(isFull && interaction.HandObject == null) {
+				if(slot.Item != null && interaction.HandObject == null) {
 					ServerRemoveExtinguisher(interaction.HandSlot);
 				}
 				IsClosed = false;
 			}
 			else
 			{
-				if (isFull)
+				if (slot.Item != null)
 				{
 					if (interaction.HandObject == null)
 					{
@@ -165,7 +165,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	private void Open()
 	{
 		SoundManager.PlayAtPosition("OpenClose", transform.position, gameObject);
-		if (isFull)
+		if (slot.Item != null)
 		{
 			spriteRenderer.sprite = spriteOpenedOccupied;
 		}
