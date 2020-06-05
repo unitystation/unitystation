@@ -25,14 +25,13 @@ public class Microwave : NetworkBehaviour
 	/// Meal currently being cooked.
 	/// </summary>
 	[HideInInspector]
-	public string meal;
+	public Recipe recipe;
 
 	/// <summary>
-	/// When a stackable food goes into the microwave, hold onto the stack number so that stack.amount in = stack.amount out
+	/// Number of meals being produced
 	/// </summary>
 	[HideInInspector]
 	public int mealCount = 0;
-
 
 	// Sprites for when the microwave is on or off.
 	public Sprite SPRITE_ON;
@@ -67,12 +66,12 @@ public class Microwave : NetworkBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE,UpdateMe);
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE,UpdateMe);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	/// <summary>
@@ -97,14 +96,14 @@ public class Microwave : NetworkBehaviour
 		}
 	}
 
-	public void ServerSetOutputMeal(string mealName)
+	public void ServerSetOutputMeal(Recipe meal)
 	{
-		meal = mealName;
+		recipe = meal;
 	}
 
-		public void ServerSetOutputStackAmount(int stackCount)
+	public void ServerSetOutputMealAmount(int count)
 	{
-		mealCount = stackCount;
+		mealCount = count;
 	}
 
 	/// <summary>
@@ -127,40 +126,10 @@ public class Microwave : NetworkBehaviour
 
 		if (isServer && mealCount > 0)
 		{
-			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
 			Vector3Int spawnPosition = GetComponent<RegisterTile>().WorldPosition;
-
-			SpawnResult result = Spawn.ServerPrefab(mealPrefab, spawnPosition, transform.parent);
-			Stackable stck = result.GameObject.GetComponent<Stackable>();
-
-			if (stck != null)   // If the meal has a stackable component, set the correct number of meals
-			{
-				int mealDeficit = mealCount - stck.InitialAmount;
-
-				while (mealDeficit > 0)
-				{
-					mealDeficit = stck.ServerIncrease(mealDeficit);
-
-					if (mealDeficit > 0)
-					{
-						result = Spawn.ServerPrefab(mealPrefab, spawnPosition, transform.parent);
-						stck = result.GameObject.GetComponent<Stackable>();
-						mealDeficit -= stck.InitialAmount;
-					}
-				}
-
-				if (mealDeficit < 0) // Reduce the stack if our last spawned stackable results in too many meals
-				{
-					stck.ServerConsume(-mealDeficit);
-				}
-			}
-			else if (mealCount > 1) // Spawn non-stackable meals
-			{
-				Spawn.ServerPrefab(mealPrefab, spawnPosition, transform.parent, count: mealCount - 1);
-			}
+			Spawn.ServerPrefab(recipe.Output, spawnPosition, transform.parent, count: recipe.OutputAmount * mealCount);
 		}
-		meal = null;
+		recipe = null;
 		mealCount = 0;
 	}
-
 }

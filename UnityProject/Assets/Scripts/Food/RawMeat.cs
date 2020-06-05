@@ -20,7 +20,13 @@ public class RawMeat : MonoBehaviour
 	private void OnBurnUpServer(DestructionInfo info)
 	{
 		//cook the meat by destroying this meat and spawning a meat steak
-		Spawn.ServerPrefab(meatSteakPrefab, registerTile.WorldPosition, transform.parent);
+		Stackable stck = gameObject.GetComponent<Stackable>();
+		int numResults = 1;
+		if (stck != null)
+		{
+			numResults = stck.Amount;
+		}
+		Spawn.ServerPrefab(meatSteakPrefab, registerTile.WorldPosition, transform.parent, count: numResults);
 		Despawn.ServerSingle(gameObject);
 	}
 }

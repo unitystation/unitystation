@@ -30,34 +30,9 @@ public class Hatchet : MonoBehaviour, ICheckedInteractable<InventoryApply>
 	}
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-
-		//is the target item chopable?
-		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
-		Ingredient ingredient = new Ingredient(attr.ArticleName);
-		GameObject cut = CraftingManager.Logs.FindRecipe(new List<Ingredient> { ingredient });
-		if (cut)
+		if (!CraftingManager.InventoryApplyInteraction(interaction, CraftingManager.Logs))
 		{
-			Inventory.ServerDespawn(interaction.TargetSlot);
-
-			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Logs.FindOutputMeal(cut.name), 
-			SpawnDestination.At(), 1);
-
-			if (spwn.Successful)
-			{
-				
-				//foreach (GameObject obj in spwn.GameObjects)
-				//{
-				//	Inventory.ServerAdd(obj,interaction.TargetSlot);
-				//}
-
-				Inventory.ServerAdd(spwn.GameObject ,interaction.TargetSlot);
-
-			}
-
-		} else {
-
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You can't chop this.");
 		}
-
 	}
 }

@@ -30,44 +30,38 @@ public class InteractableMicrowave : MonoBehaviour, ICheckedInteractable<HandApp
 	{
 		if (microwave.MicrowaveTimer > 0)
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, $"{microwave.MicrowaveTimer:0} seconds until the {microwave.meal} is cooked.");
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"{microwave.MicrowaveTimer:0} seconds until the {microwave.recipe.Output.name} is cooked.");
 		}
 		else if (interaction.HandObject != null)
 		{
-			// Check if the player is holding food that can be cooked
 			ItemAttributesV2 attr = interaction.HandObject.GetComponent<ItemAttributesV2>();
-			Ingredient ingredient = new Ingredient(attr.ArticleName);
+			List<ItemAttributesV2> ingredient = new List<ItemAttributesV2>() { attr };
+			Recipe recipe = CraftingManager.Meals.FindRecipeFromIngredients(ingredient);
 
-			GameObject meal = CraftingManager.Meals.FindRecipe(new List<Ingredient> { ingredient });
-
-			if (meal)
+			if (recipe != null)
 			{
-				// HACK: Currently DOES NOT check how many items are used per meal
-				// Blindly assumes each single item in a stack produces a meal
+				int outputMeals = 0;
 
-				//If food item is stackable, set output amount to equal input amount.
-				Stackable stck = interaction.HandObject.GetComponent<Stackable>();
-				if (stck != null)
+				// Currently lets you make as many as possible at the same time, instead of just one meal
+				while (recipe.Consume(ingredient, out List<ItemAttributesV2> remains))
 				{
-					microwave.ServerSetOutputStackAmount(stck.Amount);
-				}
-				else
-				{
-					microwave.ServerSetOutputStackAmount(1);
+					outputMeals++;
+
+					if (remains.Count == 0)
+					{
+						break;
+					}
 				}
 
-				microwave.ServerSetOutputMeal(meal.name);
-				Despawn.ServerSingle(interaction.HandObject);
+				microwave.ServerSetOutputMealAmount(outputMeals);
+				microwave.ServerSetOutputMeal(recipe);
 				microwave.RpcStartCooking();
 				microwave.MicrowaveTimer = microwave.COOK_TIME;
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"You microwave the {microwave.meal} for {microwave.COOK_TIME} seconds.");
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You microwave the {microwave.recipe.Output.name} for {microwave.COOK_TIME} seconds.");
 			}
 			else
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, $"Your {attr.ArticleName} can not be microwaved.");
-				// Alternative suggestions:
-				// "$"The microwave is not programmed to cook your {attr.ArticleName}."
-				// "$"The microwave does not know how to cook your{attr.ArticleName}."
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"Your {attr.ArticleName} cannot be microwaved.");
 			}
 		}
 		else

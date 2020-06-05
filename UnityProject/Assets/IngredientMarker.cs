@@ -31,39 +31,6 @@ public class IngredientMarker : MonoBehaviour, ICheckedInteractable<InventoryApp
 	}
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-		//is the target item another ingredient?
-		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
-		ItemAttributesV2 selfattr = interaction.UsedObject.GetComponent<ItemAttributesV2>();
-		Ingredient ingredient = new Ingredient(attr.ArticleName);
-		Ingredient self = new Ingredient(selfattr.ArticleName);
-		GameObject cut = CraftingManager.SimpleMeal.FindRecipe(new List<Ingredient> { ingredient, self });
-		GameObject cut2 = CraftingManager.SimpleMeal.FindRecipe(new List<Ingredient> { self, ingredient });
-		if (cut)
-		{
-			Inventory.ServerDespawn(interaction.TargetObject);
-			Inventory.ServerDespawn(interaction.UsedObject);
-
-			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.SimpleMeal.FindOutputMeal(cut.name),
-			SpawnDestination.At(), 1);
-
-			if (spwn.Successful)
-			{
-				Inventory.ServerAdd(spwn.GameObject, interaction.TargetSlot);
-			}
-		}
-		else if (cut2)
-		{
-			Inventory.ServerDespawn(interaction.TargetSlot);
-			Inventory.ServerDespawn(interaction.Performer);
-
-			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.SimpleMeal.FindOutputMeal(cut2.name),
-			SpawnDestination.At(), 1);
-
-			if (spwn.Successful)
-			{
-				Inventory.ServerAdd(spwn.GameObject, interaction.TargetSlot);
-			}
-
-		}
+		CraftingManager.MergeInteraction(interaction, CraftingManager.SimpleMeal);
 	}
 }

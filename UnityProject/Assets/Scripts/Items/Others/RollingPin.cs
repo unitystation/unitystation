@@ -27,30 +27,12 @@ public class RollingPin : MonoBehaviour, ICheckedInteractable<InventoryApply>
 
 		return true;
 	}
+
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-
-		//is the target item cuttable?
-		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
-		Ingredient ingredient = new Ingredient(attr.ArticleName);
-		GameObject roll = CraftingManager.Roll.FindRecipe(new List<Ingredient> { ingredient });
-		if (roll)
+		if (!CraftingManager.InventoryApplyInteraction(interaction, CraftingManager.Roll))
 		{
-			Inventory.ServerDespawn(interaction.TargetSlot);
-
-			SpawnResult spwn = Spawn.ServerPrefab(CraftingManager.Roll.FindOutputMeal(roll.name), 
-			SpawnDestination.At(), 1);
-
-			if (spwn.Successful)
-			{
-				Inventory.ServerAdd(spwn.GameObject ,interaction.TargetSlot);
-
-			}
-
-		} else {
-
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You can't roll this out.");
 		}
-
 	}
 }
