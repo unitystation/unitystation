@@ -112,7 +112,6 @@ public class CablePlacementVisualisation : MonoBehaviour
 		{
 			endPoint = currentConnection;
 			endPointVector = point;
-
 			Build();
 			ResetValues();
 		}
@@ -144,7 +143,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 	/// </summary>
 	private void Build()
 	{
-		if (startPoint == endPoint || Mathf.Abs(startPointVector.x - endPointVector.x) > 1 || Mathf.Abs(startPointVector.y - endPointVector.y) > 1) return;
+		if (startPoint == endPoint || Mathf.Abs(startPointVector.x - endPointVector.x) > 2.5 || Mathf.Abs(startPointVector.y - endPointVector.y) > 2.5) return;
 
 		GameObject target = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
 		ConnectionApply cableApply = ConnectionApply.ByLocalPlayer(target, startPoint, endPoint, null);
