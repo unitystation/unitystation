@@ -20,8 +20,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	private int maxAmount = 50;
 
 	[Tooltip("Other prefabs which can stack with this object. By default a stackable can stack with its own" +
-	         " prefab, but if you create any variants which have a different initial amount you can assign them" +
-	         " in this list on either prefab to allow it to recognize that it's stackable with the parent.")]
+			 " prefab, but if you create any variants which have a different initial amount you can assign them" +
+			 " in this list on either prefab to allow it to recognize that it's stackable with the parent.")]
 	[SerializeField]
 	private List<GameObject> stacksWith;
 
@@ -98,7 +98,8 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	public override void OnStartServer()
 	{
-		SyncAmount(amount, this.amount);
+		SyncAmount(amount, initialAmount);
+		amountInit = true;
 	}
 
 	public bool IsFull()
@@ -110,8 +111,6 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	{
 		Logger.LogTraceFormat("Spawning {0}", Category.Inventory, GetInstanceID());
 		InitStacksWith();
-		SyncAmount(amount, initialAmount);
-		amountInit = true;
 		//check for stacking with things on the ground
 		ServerStackOnGround(registerTile.LocalPositionServer);
 	}
@@ -231,7 +230,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		if (!StacksWith(toAdd))
 		{
 			Logger.LogErrorFormat("toAdd {0} doesn't stack with this {2}, cannot combine. Consider adding" +
-			                      " this prefab to stacksWith if these really should be stackable.",
+								  " this prefab to stacksWith if these really should be stackable.",
 				Category.Inventory, toAdd, this);
 			return;
 		}

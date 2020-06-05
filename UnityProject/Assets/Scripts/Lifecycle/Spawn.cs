@@ -273,39 +273,82 @@ public static class Spawn
 		Logger.LogTraceFormat("Server spawning {0}", Category.ItemSpawn, info);
 
 		List<GameObject> spawnedObjects = new List<GameObject>();
-		for (int i = 0; i < info.Count; i++)
-		{
-			var result = info.SpawnableToSpawn.SpawnAt(info.SpawnDestination);
 
-			if (result.Successful)
+		// Spawn the first object to work with
+		var result = info.SpawnableToSpawn.SpawnAt(info.SpawnDestination);
+		if (result.Successful == false)
+		{
+			return SpawnResult.Fail(info);
+		}
+		spawnedObjects.Add(result.GameObject);
+		Stackable stck = result.GameObject.GetComponent<Stackable>();
+		bool fullSpawnSuccess = true;
+		int numSpawned = info.Count;
+
+		if (stck != null)   // If the object has a stackable component, use this before spawning extras
+		{
+			int countDeficit = info.Count - stck.InitialAmount;
+
+			while (countDeficit > 0)
 			{
-				spawnedObjects.Add(result.GameObject);
-				//apply scattering if it was specified
-				if (info.ScatterRadius != null)
+				countDeficit = stck.ServerIncrease(countDeficit);
+
+				if (countDeficit > 0)
 				{
-					foreach (var spawned in spawnedObjects)
+					result = info.SpawnableToSpawn.SpawnAt(info.SpawnDestination);
+					if (result.Successful == false)
 					{
-						var cnt = spawned.GetComponent<CustomNetTransform>();
-						var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
-						if (cnt != null)
-						{
-							cnt.SetPosition(info.SpawnDestination.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
-						}
+						fullSpawnSuccess = false;
+						numSpawned -= countDeficit;
+						break;
 					}
+					spawnedObjects.Add(result.GameObject);
+					countDeficit -= stck.InitialAmount;
 				}
 			}
-			else
+
+			// Reduce the stack if our last spawned stackable results in too many items
+			if (fullSpawnSuccess && countDeficit < 0)
 			{
-				return SpawnResult.Fail(info);
+				stck.ServerConsume(-countDeficit);
+			}
+		}
+		else // Spawn non-stackable items
+		{
+			for (int i = 1; i < info.Count; i++)
+			{
+				result = info.SpawnableToSpawn.SpawnAt(info.SpawnDestination);
+
+				if (result.Successful == false)
+				{
+					fullSpawnSuccess = false;
+					numSpawned = i;
+					break;
+				}
+
+				spawnedObjects.Add(result.GameObject);
 			}
 		}
 
-		//fire hooks for all spawned objects
-		SpawnResult spawnResult = null;
+		//apply scattering if it was specified
+		if (info.ScatterRadius != null)
+		{
+			foreach (var spawned in spawnedObjects)
+			{
+				var cnt = spawned.GetComponent<CustomNetTransform>();
+				var scatterRadius = info.ScatterRadius.GetValueOrDefault(0);
+				if (cnt != null)
+				{
+					cnt.SetPosition(info.SpawnDestination.WorldPosition + new Vector3(Random.Range(-scatterRadius, scatterRadius), Random.Range(-scatterRadius, scatterRadius)));
+				}
+			}
+		}
+
+		// HACK: Should handle a partial success in some way
+		SpawnResult spawnResult;
 		if (spawnedObjects.Count == 1)
 		{
 			spawnResult = SpawnResult.Single(info, spawnedObjects[0]);
-
 		}
 		else
 		{
@@ -313,9 +356,7 @@ public static class Spawn
 		}
 
 		_ServerFireClientServerSpawnHooks(spawnResult);
-
 		return spawnResult;
-
 	}
 
 	/// <summary>
