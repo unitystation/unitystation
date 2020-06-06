@@ -17,7 +17,7 @@ public class ActionControlInventory : MonoBehaviour, IClientInventoryMove
 						pna.GetOffHandItem() == gameObject;
 		foreach (var _IActionGUI in ControllingActions)
 		{
-			UIActionManager.Toggle(_IActionGUI, showAlert);
+			UIActionManager.ToggleLocal(_IActionGUI, showAlert);
 		}
 	}
 

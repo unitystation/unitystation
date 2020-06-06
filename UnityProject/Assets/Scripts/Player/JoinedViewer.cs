@@ -186,11 +186,9 @@ public class JoinedViewer : NetworkBehaviour
 		var spawnRequest =
 			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
 
-		//regardless of their chosen occupation, they might spawn as an antag instead.
-		//If they do, bypass the normal spawn logic.
-		if (GameManager.Instance.TrySpawnAntag(spawnRequest)) return;
+		GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
 
-		PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+		GameManager.Instance.ProcessSpawnPlayerQueue();
 	}
 
 	public void Spectate()

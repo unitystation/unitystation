@@ -315,4 +315,16 @@ public static class SweetExtensions
 			if (input.HasFlag(value))
 				yield return value;
 	}
+
+	/// <summary>
+	/// direct port of java's Map.getOrDefault
+	/// </summary>
+	public static V GetOrDefault<T,V>(this Dictionary<T, V> dic, T key, V defaultValue)
+	{
+		V v;
+		return (dic.ContainsKey(key) && ((v = dic[key]) != null))
+			? v
+			: defaultValue;
+
+	}
 }
