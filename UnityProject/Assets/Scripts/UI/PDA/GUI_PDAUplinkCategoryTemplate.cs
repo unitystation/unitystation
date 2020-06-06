@@ -7,8 +7,7 @@ namespace UI.PDA
 	{
 		private GUI_PDA masterTab;
 
-		[NonSerialized]
-		public UplinkCatagories Category;
+		private UplinkCatagories category;
 
 		[SerializeField]
 		private NetLabel categoryName;
@@ -16,15 +15,15 @@ namespace UI.PDA
 
 		public void OpenCategory()
 		{
-			masterTab.OnCategoryClickedEvent.Invoke(Category.ItemList);
+			masterTab.OnCategoryClickedEvent.Invoke(category.ItemList);
 		}
 
 
 		public void ReInit(UplinkCatagories assignedcategory)
 		{
 			masterTab = MasterTab.GetComponent<GUI_PDA>();
-			Category = assignedcategory;
-			categoryName.Value = Category.CategoryName;
+			category = assignedcategory;
+			categoryName.Value = category.CategoryName;
 		}
 	}
 }

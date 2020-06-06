@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI.PDA
@@ -25,6 +26,7 @@ namespace UI.PDA
 		/// </summary>
 		public void ShowCategories()
 		{
+			UpdateCounter();
 			itemPage.ClearItems();
 			categoryPage.ClearCategory();
 			categoryPage.UpdateCategory();
@@ -36,6 +38,7 @@ namespace UI.PDA
 		/// </summary>
 		public void OpenSelectedCategory(List<UplinkItems> items)
 		{
+			UpdateCounter();
 			itemPage.ClearItems();
 			categoryPage.ClearCategory();
 			itemPage.GenerateEntries(items);
@@ -45,6 +48,9 @@ namespace UI.PDA
 		/// <summary>
 		/// Updates the TCcounter
 		/// </summary>
-
+		public void UpdateCounter()
+		{
+			tcCounter.Value = $"TC: {mainController.Pda.TeleCrystals}";
+		}
 	}
 }

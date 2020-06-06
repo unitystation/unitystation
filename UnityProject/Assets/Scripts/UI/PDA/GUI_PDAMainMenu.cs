@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace UI.PDA
 {
@@ -10,60 +11,39 @@ namespace UI.PDA
 
 		[SerializeField] private GUI_PDA controller;
 
-		[SerializeField] private NetPageSwitcher subSwitcher;
-
-		[SerializeField] private GUI_PDACrewManifest manifestPage;
-
 		[SerializeField] private NetLabel idLabel;
 
 		[SerializeField] private NetLabel lightLabel;
 
 		[SerializeField] private NetLabel machineLabel;
 
-		//[SerializeField] [Tooltip("Put the subswitcher here")]
-		//private NetPageSwitcher subSwitcher;
+		private string pdaName;
 
+
+		/// <summary>
+		/// Updates the ID on the MainMenu
+		/// </summary>
 		public void UpdateId()
 		{
-			var idCard = controller.Pda.IdCard;
-			var pdaName = controller.Pda.PdaRegisteredName;
-			if (idCard != null && pdaName != null)
-			{
-				idLabel.Value = $"{idCard.RegisteredName}, {idCard.JobType}";
-				var editedString = pdaName.Replace(" ", "_");
-				machineLabel.Value = $"root/usr/home/{editedString}/Desktop";
-			}
-			else
-			{
-				if (idCard == null) idLabel.Value = "<No ID inserted>";
-				if (pdaName == null) machineLabel.Value = "root/usr/home/guest/Desktop";
-			}
+			var tempName = controller.Pda.PdaRegisteredName;
 		}
-
-
 		public void SettingsPage()
 		{
 			controller.OpenSettings();
-			UpdateId();
 		}
 
-		public void CrewManifestPage()
-		{
-			manifestPage.GenerateEntries();
-			subSwitcher.SetActivePage(manifestPage);
-		}
-
-		public void AtmosphericsPage()
-		{
-			//controller.OpenAtmospherics();
-		}
-
+		/// <summary>
+		/// Tells the PDA to eject the ID and updates the menu
+		/// </summary>
 		public void IdRemove()
 		{
 			controller.RemoveId();
 			UpdateId();
 		}
 
+		/// <summary>
+		/// Toggles the flashlight
+		/// </summary>
 		public void ToggleFlashLight()
 		{
 			controller.Pda.ToggleFlashlight();

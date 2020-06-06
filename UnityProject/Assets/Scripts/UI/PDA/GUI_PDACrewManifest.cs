@@ -18,7 +18,9 @@ namespace UI.PDA
 			storedRecords = SecurityRecordsManager.Instance.SecurityRecords;
 		}
 
-
+		/// <summary>
+		/// Generates new Entries for the manifest, making sure to update it just incase it changed
+		/// </summary>
 		public void GenerateEntries()
 		{
 			storedRecords = SecurityRecordsManager.Instance.SecurityRecords;
@@ -31,7 +33,7 @@ namespace UI.PDA
 			}
 		}
 
-		public void ClearEntries()
+		private void ClearEntries()
 		{
 			crewManifestTemplate.Clear();
 		}

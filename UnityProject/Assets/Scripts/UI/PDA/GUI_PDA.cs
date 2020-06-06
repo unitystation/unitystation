@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -19,14 +20,21 @@ namespace UI.PDA
 		[SerializeField] [Tooltip("Uplink here")]
 		private GUI_PDAUplinkMenu uplinkPage; //The uplinkPage for reference
 
+		[SerializeField] [Tooltip("CrewManifest here")]
+		private GUI_PDACrewManifest crewManifestPage; //The uplinkPage for reference
+
+		[SerializeField] [Tooltip("Notes Page")]
+		private GUI_PDANotes notesPage; //The uplinkPage for reference
+
 		[NonSerialized]
-		public Items.PDA.PDA Pda;
+		public Items.PDA.PDALogic Pda;
 
 		private UplinkItemClickedEvent onItemClicked;
 		public UplinkItemClickedEvent OnItemClickedEvent {get => onItemClicked;}
 
 		private UplinkCategoryClickedEvent onCategoryClicked;
 		public UplinkCategoryClickedEvent OnCategoryClickedEvent {get => onCategoryClicked;}
+
 
 
 		// Grabs the PDA component and opens the mainmenu
@@ -36,7 +44,7 @@ namespace UI.PDA
 			OnItemClickedEvent.AddListener(SpawnUplinkItem);
 			onCategoryClicked = new UplinkCategoryClickedEvent();
 			OnCategoryClickedEvent.AddListener(OpenUplinkCategory);
-			Pda = Provider.GetComponent<global::Items.PDA.PDA>();
+			Pda = Provider.GetComponent<Items.PDA.PDALogic>();
 			Pda.AntagCheck(Pda.TabOnGameObject.LastInteractedPlayer().GetComponent<PlayerScript>().mind.GetAntag());
 			OpenMainMenu();
 		}
@@ -58,35 +66,47 @@ namespace UI.PDA
 			mainSwitcher.SetActivePage(settingPage);
 		}
 
+		public void OpenManifest()
+		{
+			crewManifestPage.GenerateEntries();
+			mainSwitcher.SetActivePage(crewManifestPage);
+		}
+
+		public void OpenNotes()
+		{
+			mainSwitcher.SetActivePage(notesPage);
+		}
+
 		/// <summary>
 		/// Asks the PDA to test the notification string against its Uplinkstring server side
 		/// </summary>
 		public bool TestForUplink(string notificationString)
 		{
-			if (Pda.ActivateUplink(notificationString) != true || IsServer != true)
-			{
-				return false;
-			}
-			if (IsServer && Pda.ActivateUplink(notificationString) )
-			{
-				OpenUplink();
-				return true;
-			}
-
-			return false;
+			if (!IsServer || !Pda.ActivateUplink(notificationString)) return false;
+			OpenUplink();
+			return true;
 		}
 
+		/// <summary>
+		/// Opens the uplink
+		/// </summary>
 		public void OpenUplink()
 		{
 			uplinkPage.ShowCategories();
 			mainSwitcher.SetActivePage(uplinkPage);
 		}
 
+		/// <summary>
+		/// Generates a list of items to select from using a list containing said items
+		/// </summary>
 		public void OpenUplinkCategory(List<UplinkItems> items)
 		{
 			uplinkPage.OpenSelectedCategory(items);
 		}
 
+		/// <summary>
+		/// //Tells the PDA script to spawn an item at the cost of TC
+		/// </summary>
 		public void SpawnUplinkItem(UplinkItems itemRequested)
 		{
 			Pda.SpawnUplinkItem(itemRequested.Item, itemRequested.Cost);
@@ -97,7 +117,7 @@ namespace UI.PDA
 		/// </summary>
 		public void OpenMessenger()
 		{
-			Debug.LogError("Not implimented");
+			throw new NotImplementedException();
 		}
 		/// <summary>
 		/// Closes the PDA

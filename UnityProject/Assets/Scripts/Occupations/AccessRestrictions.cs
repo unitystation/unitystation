@@ -31,7 +31,7 @@ public class AccessRestrictions : MonoBehaviour
 	{
 		if (idCardObj == null) return false;
 		var idcard = idCardObj.GetComponent<IDCard>();
-		var pda = idCardObj.GetComponent<PDA>();
+		var pda = idCardObj.GetComponent<PDALogic>();
 		if (idcard != null) return idcard.HasAccess(restriction);
 		// Not an ID card? Perhaps its a PDA.
 		if ((pda != null) & (pda.IdCard != null))

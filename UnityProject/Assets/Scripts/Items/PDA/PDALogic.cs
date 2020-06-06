@@ -3,14 +3,18 @@ using Antagonists;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Serialization;
+using Random = UnityEngine.Random;
+
 
 namespace Items.PDA
 {
 	[RequireComponent(typeof(ItemStorage))]
 	[RequireComponent(typeof(PlayerLightControl))]
 	[RequireComponent(typeof(HasNetworkTabItem))]
-	public class PDA : NetworkBehaviour, ICheckedInteractable<HandApply>
+	[RequireComponent(typeof(ItemAttributesV2))]
+	public class PDALogic : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
+		// for messenger system
 		//MessengerSyncDictionary pdas;
 
 		//The actual list of access allowed set via the server and synced to all clients
@@ -41,33 +45,46 @@ namespace Items.PDA
 		[FormerlySerializedAs("OnServerIDCardChanged")] [FormerlySerializedAs("IdEvent")]
 		public IDEvent onServerIdCardChanged = new IDEvent();
 
-		private GameObject pda;
-
+		//The cartridge loaded into the PDA, acts like a container of methods
 		[Tooltip("The cartridge loaded into the PDA")]
 		public GameObject pdaCartridge;
 
+		//The netID of the PDA, will be used later for the messenger
 		private NetworkIdentity pdaId;
 
-		// The anme of the first person who put their ID into the PDA
+		// The name of the first person who put their ID into the PDA
 		[NonSerialized] public string PdaRegisteredName;
 
 		//Local storage of the PDA
 		private ItemStorage storage;
 
-		public bool uplinkLocked;
+		// a simple bool to see if the uplink is locked, remove Serialize field when done
+		[SerializeField]
+		private bool uplinkLocked;
 
 		// The string that must be entered into the ringtone slot
 		[Tooltip("Default uplink string here, only for testing reasons")]
 		public string uplinkString;
 
-		[Tooltip("The amount of telecrystals in the PDA")]
-		public int teleCrystals;
+		// A public readonly accessor for the TC
+		public int TeleCrystals => teleCrystals;
+
+		//Initial TC value, only assigned if antag
+		[SerializeField]
+		private int initalTeleCrystal;
+
+		//The actual TC used, it's a syncvar so people cant to blackmagic fuckery to it
+		[SyncVar]
+		private int teleCrystals;
 
 		[NonSerialized]
 		public HasNetworkTabItem TabOnGameObject;
 
+		//What antag the PDA should look for when running antagcheck
 		[SerializeField]
 		private Antagonist antagSet;
+
+		[SerializeField] private UplinkPasswordList passlist;
 
 
 		//Checks weather the player is trying to insert a cartridge or a new ID
@@ -130,16 +147,24 @@ namespace Items.PDA
 			//messengerSystem = GameObject.Find("MessengerManager").GetComponent<MessengerManager>();
 			//AddSelf();
 		}
+		// checks to see if the character is the antag set in editor, if so enables uplink and gives TC
 		[Server]
 		public void AntagCheck(SpawnedAntag antag)
 		{
-			if (antag != null)
+			if (antag == null) return;
+			string antagName = antag.Antagonist.AntagName;
+			if (antagName != antagSet.AntagName || !isServer) return;
+			UplinkGenerate();
+			teleCrystals = initalTeleCrystal;
+			uplinkLocked = false;
+		}
+		[Server]
+		private void UplinkGenerate()
+		{
+			for (int i = 0; i < 2; i++)
 			{
-				string name = antag.Antagonist.AntagName;
-				if (name == antagSet.AntagName && isServer)
-				{
-					uplinkLocked = false;
-				}
+				string word = passlist.WordList[Random.Range(0,passlist.WordList.Count)];
+				uplinkString += word;
 			}
 		}
 		//The methods bellow are general functions of the PDA
@@ -168,16 +193,10 @@ namespace Items.PDA
 		[Server]
 		public bool ActivateUplink(string notificationString)
 		{
-			if (notificationString == uplinkString && isServer && uplinkLocked != true)
-			{
-				return true;
-			}
-
-			return false;
+			return notificationString == uplinkString && isServer && uplinkLocked != true;
 		}
-
 		/// <summary>
-		/// Warning! This method could be exploited, do not use in public till I implement security checks
+		/// Spawns the item requested by the uplink
 		/// </summary>
 		[Server]
 		public void SpawnUplinkItem(GameObject objectRequested, int cost)
@@ -196,7 +215,6 @@ namespace Items.PDA
 				}
 				Inventory.ServerAdd(item, player.GetNamedItemSlot(NamedSlot.leftHand),
 					ReplacementStrategy.DropOther);
-
 			}
 		}
 
@@ -259,7 +277,7 @@ namespace Items.PDA
 			}
 		}
 
-		//The methods below handle any PDA messages that get sent to this PDA, not being used
+		//The methods below handle any PDA messages that get sent to this PDA, not being used please come back later
 		/*
 	[Client]
 	//This only runs once and it's to tell the MessengerManager that this PDA exists
