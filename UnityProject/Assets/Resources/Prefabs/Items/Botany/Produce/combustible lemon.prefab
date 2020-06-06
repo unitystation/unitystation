@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 4854732588198120122}
   - component: {fileID: 8315558304877829770}
   m_Layer: 10
-  m_Name: lemon_combustible
+  m_Name: combustible lemon
   m_TagString: Abstract
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -466,9 +466,8 @@ MonoBehaviour:
   explosionPrefab5: {fileID: 2930850949309643807, guid: 34928029d1aae4b779423a233c3f681e,
     type: 3}
   unstableFuse: 1
-  fuseLength: 4
+  fuseLength: 3
   spriteHandler: {fileID: 0}
-  pickupable: {fileID: 0}
 --- !u!1 &6770754434974323192
 GameObject:
   m_ObjectHideFlags: 0
