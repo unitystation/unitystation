@@ -2,6 +2,8 @@
 using System;
 using AdminTools;
 using Tilemaps.Behaviours.Meta;
+using DiscordWebhook;
+using DatabaseAPI;
 
 /// <summary>
 /// The Chat API
@@ -60,7 +62,17 @@ public partial class Chat : MonoBehaviour
 		// This step is skipped when speaking in the OOC channel.
 		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
 		bool isOOC = channels.HasFlag(ChatChannel.OOC);
-		if (!isOOC) processedMessage = ProcessMessage(sentByPlayer, message);
+		if (!isOOC)
+		{
+			processedMessage = ProcessMessage(sentByPlayer, message);
+
+			if (player.mind.occupation.JobType == JobType.MIME && player.mind.IsMiming
+				&& !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+			{
+				AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
+				return;
+			}
+		}
 
 		var chatEvent = new ChatEvent
 		{
@@ -82,6 +94,13 @@ public partial class Chat : MonoBehaviour
 			}
 
 			Instance.addChatLogServer.Invoke(chatEvent);
+
+			//Sends OOC message to a discord webhook
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
+
+			//Send it to All chat
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, $"[{ChatChannel.OOC}]  {message}\n", chatEvent.speaker);
+
 			return;
 		}
 
@@ -107,6 +126,8 @@ public partial class Chat : MonoBehaviour
 			}
 		}
 
+		string discordMessage = "";
+
 		// There could be multiple channels we need to send a message for each.
 		// We do this on the server side that local chans can be determined correctly
 		foreach (Enum value in Enum.GetValues(channels.GetType()))
@@ -120,8 +141,13 @@ public partial class Chat : MonoBehaviour
 
 				chatEvent.channels = (ChatChannel)value;
 				Instance.addChatLogServer.Invoke(chatEvent);
+
+				discordMessage += $"[{chatEvent.channels}]  {message}\n";
 			}
 		}
+
+		//Sends All Chat messages to a discord webhook
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, chatEvent.speaker);
 	}
 
 	/// <summary>

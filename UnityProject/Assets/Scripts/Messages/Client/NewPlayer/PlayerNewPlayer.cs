@@ -8,11 +8,12 @@ public class PlayerNewPlayer: ClientMessage
 	public override void Process()
 	{
 		LoadNetworkObject(Player);
-		NetworkObject.GetComponent<PlayerSync>().NotifyPlayer(
+		if (NetworkObject == null) return;
+		NetworkObject.GetComponent<PlayerSync>()?.NotifyPlayer(
 			SentByPlayer.Connection);
-		NetworkObject.GetComponent<PlayerSprites>().NotifyPlayer(
+		NetworkObject.GetComponent<PlayerSprites>()?.NotifyPlayer(
 			SentByPlayer.Connection);
-		NetworkObject.GetComponent<Equipment>().NotifyPlayer(
+		NetworkObject.GetComponent<Equipment>()?.NotifyPlayer(
 			SentByPlayer.Connection);
 	}
 

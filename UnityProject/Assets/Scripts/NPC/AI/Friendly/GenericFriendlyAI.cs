@@ -84,7 +84,7 @@ namespace NPC
 		protected virtual void OnSpawnMob()
 		{
 			dirSprites.SetToNPCLayer();
-			registerObject.Passable = false;
+			registerObject.RestoreAllToDefault();
 			if (simpleAnimal != null)
 			{
 				simpleAnimal.SetDeadState(false);

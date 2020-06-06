@@ -20,8 +20,26 @@ TextureImporter:
   - first:
       213: 8581163739486645557
     second: megacannabis-harvest_5
+  - first:
+      213: 3108200226251645087
+    second: megacannabis-harvest_0
+  - first:
+      213: 8221592010189304828
+    second: megacannabis-harvest_1
+  - first:
+      213: -8404430901953126081
+    second: megacannabis-harvest_2
+  - first:
+      213: 5479652009007412861
+    second: megacannabis-harvest_3
+  - first:
+      213: 8208061547658215835
+    second: megacannabis-harvest_4
+  - first:
+      213: -6687619272551261599
+    second: megacannabis-harvest_5
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -75,13 +93,14 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: 4
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -109,8 +128,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -118,8 +137,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 2271194230493385335
+      spriteID: f90a48843ab822b20800000000000000
+      internalID: 3108200226251645087
       vertices: []
       indices: 
       edges: []
@@ -128,10 +147,10 @@ TextureImporter:
       name: megacannabis-harvest_1
       rect:
         serializedVersion: 2
-        x: 32
+        x: 64
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -139,8 +158,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: -2487127142305408914
+      spriteID: cf3f5879f56f81270800000000000000
+      internalID: 8221592010189304828
       vertices: []
       indices: 
       edges: []
@@ -149,10 +168,10 @@ TextureImporter:
       name: megacannabis-harvest_2
       rect:
         serializedVersion: 2
-        x: 64
+        x: 128
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,8 +179,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: -4401924610618428265
+      spriteID: f31a4cd8f967d5b80800000000000000
+      internalID: -8404430901953126081
       vertices: []
       indices: 
       edges: []
@@ -170,10 +189,10 @@ TextureImporter:
       name: megacannabis-harvest_3
       rect:
         serializedVersion: 2
-        x: 96
+        x: 192
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,8 +200,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: -5416178128048673814
+      spriteID: d7674a14872ab0c40800000000000000
+      internalID: 5479652009007412861
       vertices: []
       indices: 
       edges: []
@@ -191,10 +210,10 @@ TextureImporter:
       name: megacannabis-harvest_4
       rect:
         serializedVersion: 2
-        x: 128
+        x: 256
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,8 +221,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 8416195929775280776
+      spriteID: b9106ba4d74e8e170800000000000000
+      internalID: 8208061547658215835
       vertices: []
       indices: 
       edges: []
@@ -212,10 +231,10 @@ TextureImporter:
       name: megacannabis-harvest_5
       rect:
         serializedVersion: 2
-        x: 160
+        x: 320
         y: 0
-        width: 32
-        height: 32
+        width: 64
+        height: 64
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -223,8 +242,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 8581163739486645557
+      spriteID: 16a968244bdc033a0800000000000000
+      internalID: -6687619272551261599
       vertices: []
       indices: 
       edges: []

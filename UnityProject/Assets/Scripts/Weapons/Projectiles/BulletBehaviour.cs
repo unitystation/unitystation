@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
-
+using System.Collections;
+using System.Collections.Generic;
 /// <summary>
 /// Main behavior for a bullet, handles shooting and managing the trail rendering. Collision events are fired on
 /// the child gameobject's BulletColliderBehavior and passed up to this component.
@@ -32,6 +33,9 @@ public class BulletBehaviour : MonoBehaviour
 	/// </summary>
 	protected Rigidbody2D rigidBody;
 	//	public BodyPartType BodyPartAim { get; private set; };
+
+	public float maxBulletDistance;
+	public bool isRangeLimit = false;
 
 	private void Awake()
 	{
@@ -71,6 +75,19 @@ public class BulletBehaviour : MonoBehaviour
 	{
 		isSuicide = false;
 		StartShoot(dir, controlledByPlayer, fromWeapon, targetZone);
+		if (isRangeLimit)
+		{
+			StartCoroutine(countTiles());
+		}
+		
+	}
+
+	public IEnumerator countTiles()
+	{
+		float time = maxBulletDistance / weapon.ProjectileVelocity;
+		yield return WaitFor.Seconds(time);
+		//Begin despawn
+		DespawnThis();
 	}
 
 	protected void StartShoot(Vector2 dir, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone)

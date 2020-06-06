@@ -273,7 +273,7 @@ public static class PlayerSpawn
 
 		Vector3Int spawnPosition = TransformState.HiddenPos;
 		var objBeh = body.GetComponent<ObjectBehaviour>();
-		if (objBeh != null) spawnPosition = objBeh.AssumedWorldPositionServer().RoundToInt();
+		if (objBeh != null) spawnPosition = objBeh.AssumedWorldPositionServer();
 
 		if (spawnPosition == TransformState.HiddenPos)
 		{
@@ -313,7 +313,7 @@ public static class PlayerSpawn
 	/// <summary>
 	/// Spawns as a ghost for spectating the Round
 	/// </summary>
-	public static void ServerSpawnGhost(JoinedViewer joinedViewer)
+	public static void ServerSpawnGhost(JoinedViewer joinedViewer, CharacterSettings characterSettings)
 	{
 		//Hard coding to assistant
 		Vector3Int spawnPosition = GetSpawnForJob(JobType.ASSISTANT).transform.position.CutToInt();
@@ -327,8 +327,7 @@ public static class PlayerSpawn
 
 		//Create the mind without a job refactor this to make it as a ghost mind
 		Mind.Create(newPlayer);
-		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, EVENT.GhostSpawned, PlayerManager.CurrentCharacterSettings);
-
+		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, EVENT.GhostSpawned, characterSettings);
 	}
 
 	/// <summary>

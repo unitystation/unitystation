@@ -28,7 +28,9 @@ public enum NetTabType
 	ExosuitFabricator = 17,
 	Autolathe = 18,
 	HackingPanel = 19,
-	PDA = 20
+	BoozeDispenser = 20,
+	SodaDispenser = 21,
+	PDA = 22
 	//add your tabs here
 }
 
@@ -223,5 +225,5 @@ public class NetTab : Tab
 	}
 }
 
-[Serializable]
-public class ConnectedPlayerEvent : UnityEvent<ConnectedPlayer> {}
+[System.Serializable]
+public class ConnectedPlayerEvent : UnityEvent<ConnectedPlayer> { }

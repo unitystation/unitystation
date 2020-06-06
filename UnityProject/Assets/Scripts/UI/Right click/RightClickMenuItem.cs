@@ -11,6 +11,7 @@ public class RightClickMenuItem
 {
 	public readonly Color BackgroundColor;
 	public readonly Sprite IconSprite;
+	public readonly Color IconColor;
 	public readonly Sprite BackgroundSprite;
 	public readonly string Label;
 	public readonly List<Color> palette;
@@ -19,10 +20,12 @@ public class RightClickMenuItem
 	public readonly Action Action;
 
 
-	private RightClickMenuItem(Color backgroundColor, Sprite iconSprite, Sprite backgroundSprite, string label, List<RightClickMenuItem> subMenus, Action action, List<Color> palette = null)
+	private RightClickMenuItem(Sprite iconSprite, Color iconColor, Sprite backgroundSprite, Color backgroundColor,
+		string label, List<RightClickMenuItem> subMenus, Action action, List<Color> palette = null)
 	{
 		this.BackgroundColor = backgroundColor;
 		this.IconSprite = iconSprite;
+		this.IconColor = iconColor;
 		this.Label = label;
 		this.Action = action;
 		this.SubMenus = subMenus;
@@ -40,7 +43,7 @@ public class RightClickMenuItem
 	/// <param name="action">action to invoke when it is clicked</param>
 	public static RightClickMenuItem CreateSubMenuItem(Color color, Sprite sprite, Sprite backgroundSprite, string label, Action action, List<Color> palette = null)
 	{
-		return new RightClickMenuItem(color, sprite, backgroundSprite, label, null, action, palette);
+		return new RightClickMenuItem(sprite, Color.white, backgroundSprite, color, label, null, action, palette);
 	}
 
 	/// <summary>
@@ -55,6 +58,13 @@ public class RightClickMenuItem
 	public static RightClickMenuItem CreateObjectMenuItem(Color color, Sprite sprite, Sprite backgroundSprite, string label,
 		List<RightClickMenuItem> subMenus, List<Color> palette = null)
 	{
-		return new RightClickMenuItem(color, sprite, backgroundSprite,  label, subMenus, null, palette);
+		return new RightClickMenuItem(sprite, Color.white, backgroundSprite,  color, label, subMenus, null, palette);
 	}
+	public static RightClickMenuItem CreateObjectMenuItem(Color color, Sprite sprite, Sprite backgroundSprite, string label,
+		List<RightClickMenuItem> subMenus, Color iconColor, List<Color> palette = null)
+	{
+		return new RightClickMenuItem(sprite, iconColor, backgroundSprite,  color, label, subMenus, null, palette);
+	}
+
+
 }

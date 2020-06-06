@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-
+[CreateAssetMenu(fileName = "Recipe", menuName = "ScriptableObjects/Recipe/GenericRecipe")]
 [Serializable]
-public class Recipe
+public class Recipe : ScriptableObject
 {
 	public string Name;
 	public Ingredient[] Ingredients;

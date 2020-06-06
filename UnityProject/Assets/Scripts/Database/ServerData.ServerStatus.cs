@@ -185,7 +185,7 @@ namespace DatabaseAPI
         public string OSXDownload;
         public string LinuxDownload;
         public int fps;
-    }
+	}
 
     //Read from Streaming Assets/config/config.json on the server
     [Serializable]
@@ -203,7 +203,13 @@ namespace DatabaseAPI
         public string WinDownload;
         public string OSXDownload;
         public string LinuxDownload;
-    }
+		//Discord Webhook URL
+		public string DiscordWebhookOOCURL;
+		public string DiscordWebhookOOCMentionsID;
+		public string DiscordWebhookAdminURL;
+		public string DiscordWebhookAnnouncementURL;
+		public string DiscordWebhookAllChatURL;
+	}
 
     //Used to identify the build and fork of this client/server
     [Serializable]

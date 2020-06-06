@@ -485,7 +485,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			var showAlert = pna.GetActiveHandItem() == gameObject ||
 							pna.GetOffHandItem() == gameObject;
 
-			UIActionManager.Toggle(this, showAlert);
+			UIActionManager.ToggleLocal(this, showAlert);
 		}
 	}
 
