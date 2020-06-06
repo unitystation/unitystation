@@ -177,8 +177,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	/// <param name="color">color tint to apply</param>
 	public void UpdateImage(GameObject item = null, Color? color = null)
 	{
-		var nullItem = item == null;
-		var forceColor = color != null;
+		bool nullItem = item == null;
+		bool forceColor = color != null;
 
 		if (nullItem && Item != null)
 		{ // Case for when we have a hovered image and insert, then stop hovering
@@ -199,6 +199,21 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			if (image == null)
 			{
 				image = GetComponent<Image>();
+			}
+
+			var colorSync = item.GetComponent<SpriteColorSync>();
+			if (colorSync != null)
+			{	//later find a way to remove this listener when no longer needed
+				colorSync.OnColorChange.AddListener(TrackColor);
+
+				void TrackColor(Color newColor)
+				{
+					if (colorSync.SpriteRenderer != null
+					    && colorSync.SpriteRenderer.sprite == image.sprite)
+					{
+						image.color = newColor;
+					}
+				}
 			}
 
 			ItemAttributesV2 itemAttrs = item.GetComponent<ItemAttributesV2>();

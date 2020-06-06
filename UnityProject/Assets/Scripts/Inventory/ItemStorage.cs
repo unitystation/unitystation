@@ -345,7 +345,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// The item slot representing the active hand. Null if this is not a player.
 	/// </summary>
 	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
 	public ItemSlot GetActiveHandSlot()
 	{
 		if (playerNetworkActions == null) return null;
@@ -410,7 +409,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// </summary>
 	/// <param name="observer"></param>
 	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
 	public bool ServerIsObserver(GameObject observer)
 	{
 		return serverObserverPlayers.Contains(observer);
@@ -419,7 +417,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <summary>
 	/// Drops all items in all slots at our current position.
 	/// </summary>
-	/// <exception cref="NotImplementedException"></exception>
 	public void ServerDropAll()
 	{
 		foreach (var itemSlot in GetItemSlots())

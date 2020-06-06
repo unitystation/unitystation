@@ -169,7 +169,7 @@ public partial class PlayerList : NetworkBehaviour
 		if (loggedOffClient  != null)
 		{
 			Logger.Log(
-				$"ConnectedPlayer {player} already exists in this server's PlayerList as {loggedOff}. " +
+				$"ConnectedPlayer Username({player.Username}) already exists in this server's PlayerList as Character({loggedOffClient.Name}) " +
 				$"Will update existing player instead of adding this new connected player.");
 
 			if (loggedOffClient.GameObject == null)

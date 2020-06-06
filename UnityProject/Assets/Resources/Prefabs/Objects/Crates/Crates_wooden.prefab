@@ -101,7 +101,8 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 6a780383c82fa00499f4cbea84184220, type: 3}
+  m_Sprite: {fileID: -4919412325277987323, guid: 6a780383c82fa00499f4cbea84184220,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -184,7 +185,8 @@ MonoBehaviour:
   playerLimit: 3
   metalDroppedOnDestroy: 0
   soundOnOpenOrClose: OpenClose
-  doorOpened: {fileID: 21300000, guid: 8b75ea37b7a9e204084edc6b0beb11a0, type: 3}
+  doorOpened: {fileID: 8045877738558317864, guid: 6a780383c82fa00499f4cbea84184220,
+    type: 3}
   spriteRenderer: {fileID: 3918525054062759918}
 --- !u!114 &-797998084699582951
 MonoBehaviour:
@@ -270,7 +272,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6a780383c82fa00499f4cbea84184220,
+      objectReference: {fileID: -4919412325277987323, guid: 6a780383c82fa00499f4cbea84184220,
         type: 3}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

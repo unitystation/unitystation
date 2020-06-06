@@ -18,6 +18,14 @@ public abstract class SingletonScriptableObject<T> : ScriptableObject where T : 
 			{
 				_instance = Resources.FindObjectsOfTypeAll<T>().FirstOrDefault();
 			}
+			if (!_instance)
+			{
+				_instance = Resources.LoadAll<T>("ScriptableObjects/SOs singletons").FirstOrDefault();
+			}
+			if (!_instance)
+			{
+				Logger.LogErrorFormat("SingletonScriptableObject instance for {0} not found!", Category.Unknown, typeof(T));
+			}
 
 			return _instance;
 		}
