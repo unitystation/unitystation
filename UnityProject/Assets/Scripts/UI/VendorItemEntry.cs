@@ -45,13 +45,13 @@ public class VendorItemEntry : DynamicEntry
 		}
 	}
 
-	public void VendorItem()
+	public void OnVendItemButtonPressed(ConnectedPlayer player)
 	{
 		if (vendorItem == null || vendorWindow == null)
 		{
 			return;
 		}
 
-		vendorWindow.OnVendItemButtonPressed(vendorItem);
+		vendorWindow.OnVendItemButtonPressed(vendorItem, player);
 	}
 }

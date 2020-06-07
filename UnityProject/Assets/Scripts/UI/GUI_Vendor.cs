@@ -49,11 +49,11 @@ public class GUI_Vendor : NetTab
 	/// <summary>
 	/// Buy UI button was pressed by client
 	/// </summary>
-	public void OnVendItemButtonPressed(VendorItem vendorItem)
+	public void OnVendItemButtonPressed(VendorItem vendorItem, ConnectedPlayer player)
 	{
 		if (vendor)
 		{
-			vendor.TryVendItem(vendorItem);
+			vendor.TryVendItem(vendorItem, player);
 		}
 	}
 

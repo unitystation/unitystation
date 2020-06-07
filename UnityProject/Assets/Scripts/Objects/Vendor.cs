@@ -13,12 +13,12 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 	/// <summary>
 	/// Scatter spawned items a bit to not allow stacking in one position
 	/// </summary>
-	private const float DispenseScatterRadius = 0.1f;
+	private const float DispenseScatterRadius = 0.2f;
 
 	[FormerlySerializedAs("VendorContent")]
 	public List<VendorItem> InitialVendorContent = new List<VendorItem>();
 
-	[Tooltip("Background UI color")]
+	[Tooltip("Background color for UI")]
 	public Color HullColor = Color.white;
 
 	[Tooltip("Should vended items be thrown and possible injure user?")]
@@ -29,9 +29,7 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 	public EjectDirection EjectDirection = EjectDirection.None;
 
 	[Tooltip("Sound when object vends from vendor")]
-	public string VendingSound = "BinOpen";
-	[Tooltip("Time between vendings attemps (to avoid spaming)")]
-	public float VendingDelay;
+	public string VendingSound = "MachineVend";
 
 	[SerializeField]
 	private string restockMessage = "Items restocked.";
@@ -101,24 +99,51 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 		}
 	}
 
-	private bool CanSell(VendorItem itemToSpawn)
+	/// <summary>
+	/// Default cooldown for vending
+	/// </summary>
+	protected Cooldown VendingCooldown
 	{
-		return (allowSell && itemToSpawn != null && itemToSpawn.Stock > 0);
+		get
+		{
+			if (!CommonCooldowns.Instance)
+			{
+				return null;
+			}
+
+			return CommonCooldowns.Instance.Vending;
+		}
+	}
+
+	private bool CanSell(VendorItem itemToSpawn, ConnectedPlayer player)
+	{
+		// check if this player has vending cooldown right now
+		var hasCooldown = false;
+		if (VendingCooldown)
+		{
+			if (player != null && player.Script)
+			{
+				hasCooldown = !Cooldowns.TryStartServer(player.Script, VendingCooldown);
+			}
+		}
+		// check if selected item is valid
+		var isSelectionValid = (itemToSpawn != null && itemToSpawn.Stock > 0);
+
+		return isSelectionValid && !hasCooldown;
 	}
 
 	/// <summary>
 	/// Try spawn vending item and reduce items count in stock
 	/// </summary>
-	public void TryVendItem(VendorItem vendorItem)
+	public void TryVendItem(VendorItem vendorItem, ConnectedPlayer player = null)
 	{
 		if (vendorItem == null)
 		{
 			return;
 		}
 
-		if (!CanSell(vendorItem))
+		if (!CanSell(vendorItem, player))
 		{
-			//SendToChat(deniedMessage);
 			return;
 		}
 
@@ -138,8 +163,8 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 		var itemNameStr = TextUtils.UppercaseFirst(spawnedItem.ExpensiveName());
 		Chat.AddLocalMsgToChat($"{itemNameStr} was dispensed from the vending machine", gameObject);
 
-		// Play sound
-		SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), Random.Range(.8f, 1.2f), sourceObj: gameObject);
+		// Play vending sound
+		SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), Random.Range(.75f, 1.1f), sourceObj: gameObject);
 
 		//Ejecting in direction
 		if (EjectObjects && EjectDirection != EjectDirection.None &&
@@ -169,9 +194,6 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 		}
 
 		OnItemVended.Invoke(vendorItem);
-
-		//allowSell = false;
-		//StartCoroutine(VendorInputCoolDown());
 	}
 }
 
