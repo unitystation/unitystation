@@ -28,18 +28,9 @@ public class VendorItemEntry : DynamicEntry
 		var itemAttr = itemGO.GetComponent<ItemAttributesV2>();
 
 		// try get human-readable item name
-		string itemNameStr;
-		if (itemAttr && itemAttr.InitialName != null)
-		{
-			// we should take initial name of prefab
-			itemNameStr = TextUtils.UppercaseFirst(itemAttr.InitialName);
-		}
-		else
-		{
-			itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
-		}
-
+		var itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
 		itemName.SetValueServer(itemNameStr);
+
 		itemIcon.SetValueServer(itemGO.name);
 
 		itemCount.SetValueServer($"({vendorItem.Stock.ToString()})");

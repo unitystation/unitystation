@@ -122,7 +122,8 @@ public class GUI_Vendor : NetTab
 
 		itemToSpawn.Stock--;
 
-		SendToChat($"{spawnedItem.ExpensiveName()} was dispensed from the vending machine");
+		var itemNameStr = TextUtils.UppercaseFirst(spawnedItem.ExpensiveName());
+		SendToChat($"{itemNameStr} was dispensed from the vending machine");
 
 		//Ejecting in direction
 		if (vendor.EjectObjects && vendor.EjectDirection != EjectDirection.None &&
