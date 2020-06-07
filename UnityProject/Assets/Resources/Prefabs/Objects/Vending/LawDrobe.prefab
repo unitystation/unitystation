@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   - component: {fileID: 5889386339405297635}
+  - component: {fileID: 7549802743094024197}
   m_Layer: 11
   m_Name: LawDrobe
   m_TagString: Untagged
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
+  InitialVendorContent:
   - Item: {fileID: 0}
     Stock: 1
   - Item: {fileID: 5044818797694645434, guid: 65eab09d2aab23342a31649bae60bc93, type: 3}
@@ -176,6 +177,60 @@ MonoBehaviour:
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 0}
+    Stock: 1
+  - Item: {fileID: 5044818797694645434, guid: 65eab09d2aab23342a31649bae60bc93, type: 3}
+    Stock: 1
+  - Item: {fileID: 0}
+    Stock: 1
+  - Item: {fileID: 1992656631147830107, guid: 6861c2a7b893541488ad7e9e51c4d119, type: 3}
+    Stock: 1
+  - Item: {fileID: 4427291013977649474, guid: 4b9b555f5b302244fb1235845e92dc3f, type: 3}
+    Stock: 1
+  - Item: {fileID: 3921521694364753778, guid: c6a7074451cf5634783832221e9b8e75, type: 3}
+    Stock: 1
+  - Item: {fileID: 2262651372276479178, guid: e585654aca660b04298c0256d0f33b3c, type: 3}
+    Stock: 1
+  - Item: {fileID: 8701009116104039739, guid: 0a933270d4c4d6545b3e7043f324a84a, type: 3}
+    Stock: 1
+  - Item: {fileID: 5465670587632719396, guid: ee492cd2d07eb1848a6b1bb6325f5602, type: 3}
+    Stock: 1
+  - Item: {fileID: 3011710637427380133, guid: dff9b7e8f22ff9b4cb9e2f035702e875, type: 3}
+    Stock: 1
+  - Item: {fileID: 1268281847278913779, guid: 73a102ba242379c4b92c25800ea7976a, type: 3}
+    Stock: 1
+  - Item: {fileID: 8147068681370657815, guid: 2c0b855ad3ee093408a42685b3407613, type: 3}
+    Stock: 1
+  - Item: {fileID: 2424092949808625863, guid: cc8ff9ea40dc642448c2ff8860ac2c9b, type: 3}
+    Stock: 1
+  - Item: {fileID: 8616276870168769456, guid: eac3e67aff750324182932333b7a3624, type: 3}
+    Stock: 1
+  - Item: {fileID: 6179510555677923175, guid: 119a19b7af9f24a4eae413817fdef76d, type: 3}
+    Stock: 1
+  - Item: {fileID: 2560471778974185141, guid: 48c00b66f5992a24286217287c104f4b, type: 3}
+    Stock: 1
+  - Item: {fileID: 4262665523380157268, guid: 9e1795c845a20134abc7b0eed8f2f750, type: 3}
+    Stock: 1
+  - Item: {fileID: 6140895010394082659, guid: 02bec04043bbbea48b517d42f7df674f, type: 3}
+    Stock: 1
+  - Item: {fileID: 4947012438125509461, guid: 06e70572528debe4cadc549115f1443c, type: 3}
+    Stock: 1
+  - Item: {fileID: 3164486558502274994, guid: 13d2153fed29afa47936895ab1fe27fe, type: 3}
+    Stock: 1
+  - Item: {fileID: 3011710637427380133, guid: 6e6c876b4d53442588042c04884308f2, type: 3}
+    Stock: 1
+  - Item: {fileID: 5502800332140862390, guid: 45c3cbada4660604e8fb72afd758c4e2, type: 3}
+    Stock: 1
+  - Item: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
+    Stock: 2
+  - Item: {fileID: 3708231617607487601, guid: dcb36ae56960eb34a8988e485be4515e, type: 3}
+    Stock: 2
+  - Item: {fileID: 0}
+    Stock: 2
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -234,6 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:
@@ -347,6 +403,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7549802743094024197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 46
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

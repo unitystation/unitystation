@@ -13,7 +13,7 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 	/// <summary>
 	/// Scatter spawned items a bit to not allow stacking in one position
 	/// </summary>
-	private const float DispenseScatterRadius = 0.2f;
+	private const float DispenseScatterRadius = 0.1f;
 
 	[FormerlySerializedAs("VendorContent")]
 	public List<VendorItem> InitialVendorContent = new List<VendorItem>();
@@ -31,11 +31,16 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 	[Tooltip("Sound when object vends from vendor")]
 	public string VendingSound = "MachineVend";
 
+	[Header("Text messages")]
 	[SerializeField]
 	private string restockMessage = "Items restocked.";
+	[SerializeField]
+	private string noAccessMessage = "Access denied!";
 
 	[HideInInspector]
 	public List<VendorItem> VendorContent = new List<VendorItem>();
+
+	private AccessRestrictions accessRestrictions;
 
 	public VendorUpdateEvent OnRestockUsed = new VendorUpdateEvent();
 	public VendorItemUpdateEvent OnItemVended = new VendorItemUpdateEvent();
@@ -49,6 +54,8 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 		{
 			gameObject.AddComponent<HasNetworkTab>();
 		}
+
+		accessRestrictions = GetComponent<AccessRestrictions>();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -117,19 +124,38 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 
 	private bool CanSell(VendorItem itemToSpawn, ConnectedPlayer player)
 	{
+		// check if selected item is valid
+		var isSelectionValid = (itemToSpawn != null && itemToSpawn.Stock > 0);
+		if (!isSelectionValid)
+		{
+			return false;
+		}
+
 		// check if this player has vending cooldown right now
-		var hasCooldown = false;
 		if (VendingCooldown)
 		{
 			if (player != null && player.Script)
 			{
-				hasCooldown = !Cooldowns.TryStartServer(player.Script, VendingCooldown);
+				var hasCooldown = !Cooldowns.TryStartServer(player.Script, VendingCooldown);
+				if (hasCooldown)
+				{
+					return false;
+				}
 			}
 		}
-		// check if selected item is valid
-		var isSelectionValid = (itemToSpawn != null && itemToSpawn.Stock > 0);
 
-		return isSelectionValid && !hasCooldown;
+		// check player access
+		if (player != null && accessRestrictions)
+		{
+			var hasAccess = accessRestrictions.CheckAccess(player.GameObject);
+			if (!hasAccess)
+			{
+				Chat.AddWarningMsgFromServer(player.GameObject, noAccessMessage);
+				return false;
+			}
+		}
+
+		return isSelectionValid;
 	}
 
 	/// <summary>
