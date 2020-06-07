@@ -8,7 +8,8 @@ public class VendorItemEntry : DynamicEntry
 	private Color regularColor = Color.gray;
 	[SerializeField]
 	private Color emptyStockColor = Color.red;
-	private VendorItem vendorItem;
+	[HideInInspector]
+	public VendorItem vendorItem;
 	private GUI_Vendor vendorWindow;
 	[SerializeField]
 	private NetLabel itemName = null;

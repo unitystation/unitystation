@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -46,7 +47,7 @@ public class GUI_Vendor : NetTab
 		hullColor.SetValueServer(vendor.HullColor);
 		inited = true;
 		GenerateContentList();
-		UpdateList();
+		UpdateAllItems();
 		vendor.OnRestockUsed.AddListener(RestockItems);
 	}
 
@@ -75,18 +76,21 @@ public class GUI_Vendor : NetTab
 		{
 			return;
 		}
-		UpdateList();
+		UpdateAllItems();
 		allowSell = true;
 	}
 
 	public void RestockItems()
 	{
 		GenerateContentList();
-		UpdateList();
+		UpdateAllItems();
 		SendToChat(restockMessage);
 	}
 
-	private void UpdateList()
+	/// <summary>
+	/// Clear all items and send new vendor state to clients UI
+	/// </summary>
+	private void UpdateAllItems()
 	{
 		itemList.Clear();
 		itemList.AddItems(vendorContent.Count);
@@ -95,6 +99,29 @@ public class GUI_Vendor : NetTab
 			VendorItemEntry item = itemList.Entries[i] as VendorItemEntry;
 			item.SetItem(vendorContent[i], this);
 		}
+	}
+
+	/// <summary>
+	/// Updates only single item in vendor UI
+	/// </summary>
+	private void UpdateItem(VendorItem itemToUpdate)
+	{
+		// find entry for this item
+		var vendorItems = itemList.Entries;
+		var vendorItemEntry = vendorItems.FirstOrDefault((listEntry) =>
+		{
+			var itemEntry = listEntry as VendorItemEntry;
+			return itemEntry && (itemEntry.vendorItem == itemToUpdate);
+		}) as VendorItemEntry;
+
+		if (!vendorItemEntry)
+		{
+			Logger.LogError($"Can't find {itemToUpdate} to update in {this.gameObject} vendor. " +
+				$"UpdateAllItems wasn't called before?", Category.UI);
+			return;
+		}
+
+		vendorItemEntry.SetItem(itemToUpdate, this);
 	}
 
 	public void VendItem(VendorItem item)
@@ -152,7 +179,7 @@ public class GUI_Vendor : NetTab
 			});
 		}
 
-		UpdateList();
+		UpdateItem(item);
 		allowSell = false;
 		StartCoroutine(VendorInputCoolDown());
 	}
