@@ -51,6 +51,7 @@ public class VendorItemEntry : DynamicEntry
 		{
 			return;
 		}
-		vendorWindow.VendItem(vendorItem);
+
+		vendorWindow.OnVendItemButtonPressed(vendorItem);
 	}
 }
