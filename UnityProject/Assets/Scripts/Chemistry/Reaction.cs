@@ -10,6 +10,7 @@ namespace Chemistry
 	public class Reaction : ScriptableObject
 	{
 		public DictionaryReagentInt ingredients;
+		public bool useExactAmounts = false;
 		public DictionaryReagentInt catalysts;
 		public float? tempMin;
 		public float? tempMax;
@@ -19,7 +20,7 @@ namespace Chemistry
 		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
 			if ((tempMin != null || reagentMix.Temperature >= tempMin) &&
-			    (tempMax != null || reagentMix.Temperature <= tempMax))
+				(tempMax != null || reagentMix.Temperature <= tempMax))
 			{
 				return false;
 			}
@@ -33,28 +34,62 @@ namespace Chemistry
 			{
 				return false;
 			}
-			var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
-
-			if (!catalysts.All(catalyst =>
-				reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))
+			if (useExactAmounts == false)
 			{
-				return false;
+				var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
+
+				if (!catalysts.All(catalyst =>
+					reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))
+				{
+					return false;
+				}
+
+				foreach (var ingredient in ingredients)
+				{
+					reagentMix.Subtract(ingredient.Key, reactionAmount * ingredient.Value);
+				}
+
+				foreach (var result in results)
+				{
+					var reactionResult = reactionAmount * result.Value;
+					reagentMix.Add(result.Key, reactionResult);
+				}
+
+				foreach (var effect in effects)
+				{
+					effect.Apply(sender, reactionAmount);
+				}
 			}
-
-			foreach (var ingredient in ingredients)
+			else if (useExactAmounts == true)
 			{
-				reagentMix.Subtract(ingredient.Key, reactionAmount * ingredient.Value);
-			}
+				var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
 
-			foreach (var result in results)
-			{
-				var reactionResult = reactionAmount * result.Value;
-				reagentMix.Add(result.Key, reactionResult);
-			}
+				if (!catalysts.All(catalyst =>
+					reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))
+				{
+					return false;
+				}
 
-			foreach (var effect in effects)
-			{
-				effect.Apply(sender, reactionAmount);
+				if (!ingredients.All(ingredient => reagentMix[ingredient.Key] >= ingredient.Value))
+				{
+					return false;
+				}
+
+				foreach (var ingredient in ingredients)
+				{
+					reagentMix.Subtract(ingredient.Key, reactionAmount * ingredient.Value);
+				}
+
+				foreach (var result in results)
+				{
+					var reactionResult = reactionAmount * result.Value;
+					reagentMix.Add(result.Key, reactionResult);
+				}
+
+				foreach (var effect in effects)
+				{
+					effect.Apply(sender, reactionAmount);
+				}
 			}
 
 			return true;
