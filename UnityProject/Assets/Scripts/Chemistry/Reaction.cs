@@ -34,62 +34,34 @@ namespace Chemistry
 			{
 				return false;
 			}
-			if (useExactAmounts == false)
+
+
+			if (!ingredients.All(ingredient => reagentMix[ingredient.Key] >= ingredient.Value) && useExactAmounts == true)
 			{
-				var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
-
-				if (!catalysts.All(catalyst =>
-					reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))
-				{
-					return false;
-				}
-
-				foreach (var ingredient in ingredients)
-				{
-					reagentMix.Subtract(ingredient.Key, reactionAmount * ingredient.Value);
-				}
-
-				foreach (var result in results)
-				{
-					var reactionResult = reactionAmount * result.Value;
-					reagentMix.Add(result.Key, reactionResult);
-				}
-
-				foreach (var effect in effects)
-				{
-					effect.Apply(sender, reactionAmount);
-				}
+				return false;
 			}
-			else if (useExactAmounts == true)
+			var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
+
+			if (!catalysts.All(catalyst =>
+				reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))
 			{
-				var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
+				return false;
+			}
 
-				if (!catalysts.All(catalyst =>
-					reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))
-				{
-					return false;
-				}
+			foreach (var ingredient in ingredients)
+			{
+				reagentMix.Subtract(ingredient.Key, reactionAmount * ingredient.Value);
+			}
 
-				if (!ingredients.All(ingredient => reagentMix[ingredient.Key] >= ingredient.Value))
-				{
-					return false;
-				}
+			foreach (var result in results)
+			{
+				var reactionResult = reactionAmount * result.Value;
+				reagentMix.Add(result.Key, reactionResult);
+			}
 
-				foreach (var ingredient in ingredients)
-				{
-					reagentMix.Subtract(ingredient.Key, reactionAmount * ingredient.Value);
-				}
-
-				foreach (var result in results)
-				{
-					var reactionResult = reactionAmount * result.Value;
-					reagentMix.Add(result.Key, reactionResult);
-				}
-
-				foreach (var effect in effects)
-				{
-					effect.Apply(sender, reactionAmount);
-				}
+			foreach (var effect in effects)
+			{
+				effect.Apply(sender, reactionAmount);
 			}
 
 			return true;
