@@ -79,9 +79,7 @@ public class JoinedViewer : NetworkBehaviour
 		{
 			if (GameManager.Instance.waitForStart)
 			{
-				// Calculate when the countdown will end relative to the NetworkTime
-				double endTime = NetworkTime.time + GameManager.Instance.CountdownTime;
-				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, endTime);
+				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, GameManager.Instance.CountdownEndTime);
 			}
 			else
 			{

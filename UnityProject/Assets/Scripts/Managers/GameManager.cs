@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DatabaseAPI;
 using DiscordWebhook;
+using Mirror;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -37,6 +38,7 @@ public partial class GameManager : MonoBehaviour
 	/// The current time left on the countdown timer
 	/// </summary>
 	public float CountdownTime { get; private set; }
+	public double CountdownEndTime { get; private set; }
 
 	/// <summary>
 	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
@@ -282,8 +284,7 @@ public partial class GameManager : MonoBehaviour
 
 		if (waitForStart)
 		{
-			CountdownTime -= Time.deltaTime;
-			if (CountdownTime <= 0f)
+			if (NetworkTime.time >= CountdownEndTime)
 			{
 				StartRound();
 			}
@@ -445,23 +446,24 @@ public partial class GameManager : MonoBehaviour
 
 	public void StartCountdown()
 	{
-		CountdownTime = PreRoundTime;
+		// Calculate when the countdown will end relative to the NetworkTime
+		CountdownEndTime = NetworkTime.time + PreRoundTime;
 		waitForStart = true;
 
-		string message;
+		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\n\n";
 
 		if (PlayerList.Instance.ConnectionCount == 1)
 		{
-			message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\n\n There is 1 player online.\n";
+			message += "There is 1 player online.\n";
 		}
 		else
 		{
-			message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\n\n There are {PlayerList.Instance.ConnectionCount} players online.\n";
+			message += $"There are {PlayerList.Instance.ConnectionCount} players online.\n";
 		}
 
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 
-		UpdateCountdownMessage.Send(waitForStart, CountdownTime);
+		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
 	}
 
 	public void ProcessSpawnPlayerQueue()
