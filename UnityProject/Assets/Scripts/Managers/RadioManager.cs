@@ -50,6 +50,8 @@ public class RadioManager : MonoBehaviour
 
 	private bool CanReceiverReceiverSignal(RadioReceiver rec, RadioSignal signal, RadioMessager originator)
 	{
+		if (rec ==null || signal == null || originator == null) return false;
+
 		//Prevent a receiver picking up a signal if it was the one that sent it.
 		if (rec.gameObject.Equals(originator.gameObject)) return false;
 

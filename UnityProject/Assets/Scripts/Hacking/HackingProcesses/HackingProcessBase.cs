@@ -193,11 +193,11 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	{
 		if (connection.Length != 2) return;
 
-		if (hackNodes[connection[0]] == null) return;
+		if(hackNodes.ElementAtOrDefault(connection[0]) == null || hackNodes[connection[0]] == null) return;
 
 		HackingNode outputNode = hackNodes[connection[0]];
 
-		if (hackNodes[connection[1]] == null) return;
+		if (hackNodes.ElementAtOrDefault(connection[1]) == null || hackNodes[connection[1]] == null) return;
 
 		HackingNode inputNode = hackNodes[connection[1]];
 
@@ -241,6 +241,12 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	/// <param name="device"></param>
 	public virtual void AddHackingDevice(HackingDevice device)
 	{
+		//This is because you can connect signallers together which can cause server crash.
+		if (devices.Count >= 1)
+		{
+			return;
+		}
+
 		devices.Add(device);
 		hackNodes.Add(device.InputNode);
 		hackNodes.Add(device.OutputNode);
@@ -390,6 +396,12 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		}
 
 		if (!WiresExposed)
+		{
+			return false;
+		}
+
+		//This is because you can connect signallers together which can cause server crash.
+		if (devices.Count >= 1)
 		{
 			return false;
 		}
