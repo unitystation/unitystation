@@ -10,7 +10,8 @@ namespace Chemistry.Effects
 		public GameObject spawnItem;
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
-			Spawn.ServerPrefab(spawnItem, sender.gameObject.RegisterTile().WorldPositionServer, null, null, 1);
+			amount = (int)Math.Floor(amount);
+			Spawn.ServerPrefab(spawnItem, sender.gameObject.RegisterTile().WorldPositionServer, null, null, (int)amount);
 		}
 	}
 }
