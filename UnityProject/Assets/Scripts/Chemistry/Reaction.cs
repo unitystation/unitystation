@@ -34,13 +34,16 @@ namespace Chemistry
 			{
 				return false;
 			}
-
-
-			if (!ingredients.All(ingredient => reagentMix[ingredient.Key] >= ingredient.Value) && useExactAmounts == true)
-			{
-				return false;
-			}
 			var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
+
+			if (useExactAmounts == true)
+			{
+				reactionAmount = (float)Math.Floor(reactionAmount);
+				if (reactionAmount == 0)
+				{
+					return false;
+				}
+			}
 
 			if (!catalysts.All(catalyst =>
 				reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))
