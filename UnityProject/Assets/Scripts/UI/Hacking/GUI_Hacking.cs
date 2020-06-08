@@ -408,6 +408,8 @@ public class GUI_Hacking : NetTab
 			return;
 		}
 
+		if (wireUI.StartNode == null || wireUI.EndNode == null) return;
+
 		HackingNode outputNode = wireUI.StartNode.HackNode;
 		HackingNode inputNode = wireUI.EndNode.HackNode;
 
