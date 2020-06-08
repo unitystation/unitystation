@@ -241,12 +241,6 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	/// <param name="device"></param>
 	public virtual void AddHackingDevice(HackingDevice device)
 	{
-		//This is because you can connect signallers together which can cause server crash.
-		if (devices.Count >= 1)
-		{
-			return;
-		}
-
 		devices.Add(device);
 		hackNodes.Add(device.InputNode);
 		hackNodes.Add(device.OutputNode);
@@ -396,12 +390,6 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		}
 
 		if (!WiresExposed)
-		{
-			return false;
-		}
-
-		//This is because you can connect signallers together which can cause server crash.
-		if (devices.Count >= 1)
 		{
 			return false;
 		}
