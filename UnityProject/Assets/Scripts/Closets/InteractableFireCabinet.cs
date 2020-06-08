@@ -44,7 +44,6 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 			spriteRenderer = transform.Find("Sprite").GetComponent<SpriteRenderer>();
 		}
 		IsClosed = true;
-		isFull = true;
 		base.OnStartServer();
 	}
 
