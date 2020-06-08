@@ -106,7 +106,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	[SyncVar(hook=nameof(SyncFireStacks))]
 	private float fireStacks;
 	private float maxFireStacks = 20f;
-	private bool isOnFire = false;
+	private bool maxFireStacksReached = false;
 
 	/// <summary>
 	/// How on fire we are. Exists client side - synced with server.
@@ -381,15 +381,20 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		if (attackType == AttackType.Fire)
 		{
-			if (fireStacks <= maxFireStacks && !isOnFire)
+			// TODO: issue here is that fire stacks need to apply freely when inside a fire source but not forever from self sources
+			if (fireStacks <= maxFireStacks && !maxFireStacksReached)
 			{
 				SyncFireStacks(fireStacks, fireStacks+1);
-				isOnFire = true;
+			}
+
+			if (fireStacks >= maxFireStacks)
+			{
+				maxFireStacksReached = true;
 			}
 
 			if (fireStacks <= 0f)
 			{
-				isOnFire = false;
+				maxFireStacksReached = false;
 			}
 		}
 
