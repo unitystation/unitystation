@@ -193,7 +193,12 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 	{
 		if (connection.Length != 2) return;
 
+		if(hackNodes.ElementAtOrDefault(connection[0]) == null || hackNodes[connection[0]] == null) return;
+
 		HackingNode outputNode = hackNodes[connection[0]];
+
+		if (hackNodes.ElementAtOrDefault(connection[1]) == null || hackNodes[connection[1]] == null) return;
+
 		HackingNode inputNode = hackNodes[connection[1]];
 
 		bool nodeNotNull = outputNode != null && inputNode != null;
