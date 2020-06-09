@@ -381,17 +381,19 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		if (attackType == AttackType.Fire)
 		{
-			// TODO: issue here is that fire stacks need to apply freely when inside a fire source but not forever from self sources
+			// fire stacks should not exceed 20, and not apply if already at the cap
 			if (fireStacks <= maxFireStacks && !maxFireStacksReached)
 			{
 				SyncFireStacks(fireStacks, fireStacks+1);
 			}
 
+			// fire stacks should not exceed max fire stacks
 			if (fireStacks >= maxFireStacks)
 			{
 				maxFireStacksReached = true;
 			}
 
+			// fire stacks hit 0 remove flag
 			if (fireStacks <= 0f)
 			{
 				maxFireStacksReached = false;
