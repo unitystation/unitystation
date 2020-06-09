@@ -141,6 +141,7 @@ GameObject:
   - component: {fileID: 114082324132692910}
   - component: {fileID: 114796018723647982}
   - component: {fileID: 7348327996754135131}
+  - component: {fileID: 7202271844426462295}
   m_Layer: 11
   m_Name: vending_34
   m_TagString: Untagged
@@ -241,10 +242,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent: []
+  InitialVendorContent: []
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 2
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent: []
 --- !u!114 &114994836355027986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,6 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &2474263029294650900
 MonoBehaviour:
@@ -369,3 +375,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7202271844426462295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1430744253466650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 51

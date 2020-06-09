@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   - component: {fileID: 297770323375995100}
+  - component: {fileID: 5540236878160341080}
   m_Layer: 11
   m_Name: RoboDrobe
   m_TagString: Untagged
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
+  InitialVendorContent:
   - Item: {fileID: 0}
     Stock: 2
   - Item: {fileID: 3011710637427380133, guid: 2a2d871db32f24302b1aeb03f3652c48, type: 3}
@@ -150,6 +151,34 @@ MonoBehaviour:
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 0}
+    Stock: 2
+  - Item: {fileID: 3011710637427380133, guid: 2a2d871db32f24302b1aeb03f3652c48, type: 3}
+    Stock: 2
+  - Item: {fileID: 6710415053653577436, guid: 676e9af4e37de5645a97d7ad338cfcef, type: 3}
+    Stock: 2
+  - Item: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
+    Stock: 2
+  - Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+    Stock: 2
+  - Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
+    Stock: 2
+  - Item: {fileID: 3116170454584013683, guid: db265d83fcf1bbb46aedc59510228a5d, type: 3}
+    Stock: 2
+  - Item: {fileID: 1924955219277933708, guid: ebb0ac9609fb25343a446115d914a444, type: 3}
+    Stock: 2
+  - Item: {fileID: 835768756810601639, guid: 9acc02a92f57c48a6ab94a5f9cd68b57, type: 3}
+    Stock: 2
+  - Item: {fileID: 4396341318306884477, guid: 1d54376f0c6f4474b8839a8847d19a9f, type: 3}
+    Stock: 2
+  - Item: {fileID: 7636118406116123594, guid: 93c3b540119b16945b32d1d69bc3a786, type: 3}
+    Stock: 2
+  - Item: {fileID: 0}
+    Stock: 2
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +237,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:
@@ -321,6 +351,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5540236878160341080
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 64
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

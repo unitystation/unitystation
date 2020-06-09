@@ -406,6 +406,7 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="worldPos">The position of the local message</param>
+	/// <param name="originator">The object (i.e. vending machine) that said message</param>
 	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator)
 	{
 		if (!IsServer()) return;
@@ -418,6 +419,19 @@ public partial class Chat : MonoBehaviour
 			position = worldPos,
 			originator = originator
 		});
+	}
+
+	/// <summary>
+	/// For any other local messages that are not an Action or a Combat Action.
+	/// I.E for machines
+	/// Server side only
+	/// </summary>
+	/// <param name="message">The message to show in the chat stream</param>
+	/// <param name="originator">The object (i.e. vending machine) that said message</param>
+	public static void AddLocalMsgToChat(string message, GameObject originator)
+	{
+		if (!IsServer()) return;
+		AddLocalMsgToChat(message, originator.WorldPosServer(), originator);
 	}
 
 	/// <summary>
