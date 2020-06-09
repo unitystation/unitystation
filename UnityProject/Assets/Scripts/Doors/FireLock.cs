@@ -9,30 +9,6 @@ public class FireLock : InteractableDoor
 	public override void ServerPerformInteraction(HandApply interaction)
 	{
 		this.interaction = interaction;
-
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
-		{
-			TryCrowbar();
-		}
-		else if (!Controller.IsClosed)
-		{
-			TryClose(); // Close the door if it's open
-		}
-		else if (Validations.HasUsedActiveWelder(interaction))
-		{
-			TryWelder(); // Repair or un/weld door, or deconstruct false wall
-		}
-		// Attempt to open if it's closed
-		//Tell the OnAttemptOpen node to activate.
-		else if (Controller.IsHackable)
-		{
-			HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
-			onAttemptOpen.SendOutputToConnectedNodes(interaction.Performer);
-		}
-		else
-		{
-			return;
-		}
 	}
 	public override void TryClose()
 	{
