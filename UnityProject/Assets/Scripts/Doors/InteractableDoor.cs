@@ -126,11 +126,11 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 
 			if (!Controller.IsClosed)
 			{
-				TryClose();
+				Controller.ServerTryClose();
 			}
 			else
 			{
-				TryOpen(interaction.Performer);
+				Controller.ServerTryOpen(interaction.Performer);
 			}
 		}
 	}
