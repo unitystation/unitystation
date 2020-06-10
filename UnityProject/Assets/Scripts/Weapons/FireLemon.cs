@@ -149,7 +149,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 			return;
 		}
 
-		lemonPotency = grownFood.plantPotency;
+		lemonPotency = grownFood.plantData.Potency;
 		finalDamage = maxDamage * (lemonPotency / 100);
 		finalRadius = maxRadius * (lemonPotency / 100);
 
