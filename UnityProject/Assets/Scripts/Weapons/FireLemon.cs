@@ -1,4 +1,5 @@
 using System.Collections;
+using System;
 using UnityEngine;
 using Mirror;
 
@@ -44,7 +45,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 
 	private int lemonPotency;
 
-	private int finalDamage;
+	private float finalDamage;
 
 	private float finalRadius;
 
@@ -158,8 +159,8 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 			lemonPotency = lemonPotencyOverride;
 		}
 
-		finalDamage = maxDamage * (lemonPotency / 100);
-		finalRadius = maxRadius * (lemonPotency / 100);
+		finalDamage = maxDamage * (lemonPotency / 100f);
+		finalRadius = maxRadius * (lemonPotency / 100f);
 
 		// Get data from grenade before despawning
 		var explosionMatrix = registerItem.Matrix;
@@ -171,7 +172,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 		// Explosion here
 		var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
 		explosionGO.transform.position = worldPos;
-		explosionGO.SetExplosionData(finalDamage, finalRadius);
+		explosionGO.SetExplosionData(Mathf.RoundToInt(finalDamage), finalRadius);
 		explosionGO.Explode(explosionMatrix);
 	}
 
