@@ -1,9 +1,6 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Light2D;
+using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Mirror;
 
 /// <summary>
@@ -36,6 +33,10 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 	[Tooltip("SpriteHandler used for blinking animation")]
 	private SpriteHandler spriteHandler;
 
+	[SerializeField]
+	[Tooltip("Used to override the potency values of the plant data")]
+	private int lemonPotencyOverride = 0;
+
 	// Zero and one sprites reserved for left and right hands
 	private const int LOCKED_SPRITE = 2;
 	private const int ARMED_SPRITE = 3;
@@ -44,7 +45,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 
 	private int lemonPotency;
 
-	private int finalDamage;
+	private float finalDamage;
 
 	private float finalRadius;
 
@@ -52,9 +53,6 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 	private void Awake()
 	{
 		grownFood = GetComponent<GrownFood>();
-		lemonPotency = grownFood.plantPotency;
-		finalDamage = maxDamage * (lemonPotency / 100);
-		finalRadius = maxRadius * (lemonPotency / 100);
 	}
 
 	//whether this object has exploded
@@ -138,39 +136,44 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 		spriteHandler?.ChangeSprite(sprite);
 	}
 
-	private void ActualExplosion(int theDamage, float theRadius, Matrix explosionMatrix, UnityEngine.Vector3Int worldPos)
-	{
-		var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
-		explosionGO.transform.position = worldPos;
-		var damage = theDamage;
-		var radius = theRadius;
-		explosionGO.SetExplosionData(damage, radius);
-		explosionGO.Explode(explosionMatrix);
-	}
-
 	public void Explode()
 	{
 		if (hasExploded)
 		{
 			return;
 		}
+
 		hasExploded = true;
 
 		if (!CustomNetworkManager.IsServer)
 		{
 			return;
 		}
+
+		if (lemonPotencyOverride == 0)
 		{
-			// Get data from grenade before despawning
-			var explosionMatrix = registerItem.Matrix;
-			var worldPos = objectBehaviour.AssumedWorldPositionServer();
-
-			// Despawn grenade
-			Despawn.ServerSingle(gameObject);
-
-			// Explosion here
-			ActualExplosion(finalDamage, finalRadius, explosionMatrix, worldPos);
+			lemonPotency = grownFood.plantData.Potency;
 		}
+		else
+		{
+			lemonPotency = lemonPotencyOverride;
+		}
+
+		finalDamage = maxDamage * (lemonPotency / 100f);
+		finalRadius = maxRadius * (lemonPotency / 100f);
+
+		// Get data from grenade before despawning
+		var explosionMatrix = registerItem.Matrix;
+		var worldPos = objectBehaviour.AssumedWorldPositionServer();
+
+		// Despawn grenade
+		Despawn.ServerSingle(gameObject);
+
+		// Explosion here
+		var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
+		explosionGO.transform.position = worldPos;
+		explosionGO.SetExplosionData(Mathf.RoundToInt(finalDamage), finalRadius);
+		explosionGO.Explode(explosionMatrix);
 	}
 
 	private void PlayPinSFX(Vector3 position)
