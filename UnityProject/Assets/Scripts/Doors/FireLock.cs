@@ -6,10 +6,6 @@ public class FireLock : InteractableDoor
 	private MetaDataNode metaNode;
 	public FireAlarm fireAlarm;
 
-	public override void ServerPerformInteraction(HandApply interaction)
-	{
-		this.interaction = interaction;
-	}
 	public override void TryClose()
 	{
 	}
