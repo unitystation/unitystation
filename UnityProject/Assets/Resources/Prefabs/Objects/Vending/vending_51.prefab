@@ -128,6 +128,7 @@ GameObject:
   - component: {fileID: 114343594154895826}
   - component: {fileID: -8914829415235956772}
   - component: {fileID: 3479304296009916560}
+  - component: {fileID: 6730574539565738311}
   m_Layer: 11
   m_Name: vending_51
   m_TagString: Untagged
@@ -228,7 +229,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
+  InitialVendorContent:
   - Item: {fileID: 8127442588295923452, guid: 706cc1f035332384c96f001de4760563, type: 3}
     Stock: 5
   - Item: {fileID: 6507000735928756314, guid: c8db81d5fc87fc5409a6f7c00e5ebc96, type: 3}
@@ -238,6 +239,16 @@ MonoBehaviour:
   HullColor: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 8127442588295923452, guid: 706cc1f035332384c96f001de4760563, type: 3}
+    Stock: 5
+  - Item: {fileID: 6507000735928756314, guid: c8db81d5fc87fc5409a6f7c00e5ebc96, type: 3}
+    Stock: 1
+  - Item: {fileID: 6507000735928756314, guid: 66e26e048c0ee0448878c27b37dc685f, type: 3}
+    Stock: 2
 --- !u!114 &114778853778945220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &8759977713929278339
 MonoBehaviour:
@@ -382,3 +394,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6730574539565738311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699312583147682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 68

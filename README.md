@@ -1,6 +1,6 @@
 # unitystation
-![Tests](https://github.com/unitystation/unitystation/workflows/Tests/badge.svg)![Build Project](https://github.com/unitystation/unitystation/workflows/Build%20Project/badge.svg?branch=develop)
-[![GitHub last commit](https://img.shields.io/github/last-commit/unitystation/unitystation.svg)](https://github.com/unitystation/unitystation/commits/develop) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
+![Tests](https://github.com/unitystation/unitystation/workflows/Tests/badge.svg) ![Build Project](https://github.com/unitystation/unitystation/workflows/Build%20Project/badge.svg?branch=develop)
+[![GitHub last commit](https://img.shields.io/github/last-commit/unitystation/unitystation.svg)](https://github.com/unitystation/unitystation/commits/develop) [![Discord](https://img.shields.io/discord/273774715741667329.svg)](https://discord.gg/H6EunER) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0)
 <br>
 ![built-with-resentment](http://forthebadge.com/images/badges/built-with-resentment.svg) ![contains-technical-debt](http://forthebadge.com/images/badges/contains-technical-debt.svg)<br />
 
@@ -15,8 +15,6 @@ See project updates on Patreon:<br>
 ## Talk to us
 Please join us on Discord:<br>
 [<img src="https://www.seoclerk.com/pics/want57772-1PlHGI1515438378.png" width="75">](https://discord.gg/H6EunER)
-
-<img src="https://img.shields.io/discord/273774715741667329.svg"></a>
 
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://unitystation.github.io/unitystation/contribution-guides/Starting-contribution/)
