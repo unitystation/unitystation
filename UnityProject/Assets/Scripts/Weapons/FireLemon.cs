@@ -1,9 +1,5 @@
 using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using Light2D;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using Mirror;
 
 /// <summary>
@@ -35,6 +31,10 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 	[SerializeField]
 	[Tooltip("SpriteHandler used for blinking animation")]
 	private SpriteHandler spriteHandler;
+
+	[SerializeField]
+	[Tooltip("Used to override the potency values of the plant data")]
+	private int lemonPotencyOverride = 0;
 
 	// Zero and one sprites reserved for left and right hands
 	private const int LOCKED_SPRITE = 2;
@@ -149,7 +149,15 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 			return;
 		}
 
-		lemonPotency = grownFood.plantData.Potency;
+		if (lemonPotencyOverride == 0)
+		{
+			lemonPotency = grownFood.plantData.Potency;
+		}
+		else
+		{
+			lemonPotency = lemonPotencyOverride;
+		}
+
 		finalDamage = maxDamage * (lemonPotency / 100);
 		finalRadius = maxRadius * (lemonPotency / 100);
 
