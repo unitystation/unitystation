@@ -12,42 +12,49 @@ using Mirror;
 [RequireComponent(typeof(Pickupable))]
 public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>, IServerDespawn
 {
-	[Tooltip("Lowest potency explosion")]
-	public Explosion explosionPrefab1;
+	[SerializeField]
+	[Tooltip("Explosion prefab")]
+	private Explosion explosionPrefab;
 
-	[Tooltip("Second lowest potency explosion")]
-	public Explosion explosionPrefab2;
-
-	[Tooltip("Medium potency explosion")]
-	public Explosion explosionPrefab3;
-
-	[Tooltip("Second highest potency explosion")]
-	public Explosion explosionPrefab4;
-
-	[Tooltip("Highest potency explosion")]
-	public Explosion explosionPrefab5;
-
+	[SerializeField]
 	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
-	public bool unstableFuse = false;
-	[TooltipAttribute("fuse timer in seconds")]
-	public float fuseLength = 3;
+	private bool unstableFuse = false;
 
+	[SerializeField]
+	[TooltipAttribute("fuse timer in seconds")]
+	private float fuseLength = 3;
+
+	[SerializeField]
+	[TooltipAttribute("Damage at epicenter of explosion if potency is 100.")]
+	private int maxDamage = 125;
+
+	[SerializeField]
+	[TooltipAttribute("Radius of explosion of explosion if potency is 100.")]
+	private float maxRadius = 5f;
+
+	[SerializeField]
 	[Tooltip("SpriteHandler used for blinking animation")]
-	public SpriteHandler spriteHandler;
+	private SpriteHandler spriteHandler;
 
 	// Zero and one sprites reserved for left and right hands
 	private const int LOCKED_SPRITE = 2;
 	private const int ARMED_SPRITE = 3;
 
-	private GrownFood GrownFood;
+	private GrownFood grownFood;
 
 	private int lemonPotency;
 
-	///Getting Grownfood so we can get the potency of the plant.
+	private int finalDamage;
+
+	private float finalRadius;
+
+	///Getting Grownfood so we can get the potency of the plant, and calculates damage/radius.
 	private void Awake()
 	{
-		GrownFood = GetComponent<GrownFood>();
-		lemonPotency = GrownFood.plantpotency;
+		grownFood = GetComponent<GrownFood>();
+		lemonPotency = grownFood.plantPotency;
+		finalDamage = maxDamage * (lemonPotency / 100);
+		finalRadius = maxRadius * (lemonPotency / 100);
 	}
 
 	//whether this object has exploded
@@ -131,6 +138,16 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 		spriteHandler?.ChangeSprite(sprite);
 	}
 
+	private void ActualExplosion(int theDamage, float theRadius, Matrix explosionMatrix, UnityEngine.Vector3Int worldPos)
+	{
+		var explosionGO = Instantiate(explosionPrefab, explosionMatrix.transform);
+		explosionGO.transform.position = worldPos;
+		var damage = theDamage;
+		var radius = theRadius;
+		explosionGO.SetExplosionData(damage, radius);
+		explosionGO.Explode(explosionMatrix);
+	}
+
 	public void Explode()
 	{
 		if (hasExploded)
@@ -139,7 +156,10 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 		}
 		hasExploded = true;
 
-		if (isServer)
+		if (!CustomNetworkManager.IsServer)
+		{
+			return;
+		}
 		{
 			// Get data from grenade before despawning
 			var explosionMatrix = registerItem.Matrix;
@@ -149,40 +169,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 			Despawn.ServerSingle(gameObject);
 
 			// Explosion here
-			if(lemonPotency < 30)
-			{
-				var explosionGO = Instantiate(explosionPrefab1, explosionMatrix.transform);
-				explosionGO.transform.position = worldPos;
-				explosionGO.Explode(explosionMatrix);
-			}
-
-			if(lemonPotency >= 31 && lemonPotency <= 50)
-			{
-				var explosionGO = Instantiate(explosionPrefab2, explosionMatrix.transform);
-				explosionGO.transform.position = worldPos;
-				explosionGO.Explode(explosionMatrix);
-			}
-
-			if(lemonPotency >= 51 && lemonPotency <= 70)
-			{
-				var explosionGO = Instantiate(explosionPrefab3, explosionMatrix.transform);
-				explosionGO.transform.position = worldPos;
-				explosionGO.Explode(explosionMatrix);
-			}
-
-			if(lemonPotency >= 71 && lemonPotency <= 90)
-			{
-				var explosionGO = Instantiate(explosionPrefab4, explosionMatrix.transform);
-				explosionGO.transform.position = worldPos;
-				explosionGO.Explode(explosionMatrix);
-			}
-
-			if(lemonPotency > 90)
-			{
-				var explosionGO = Instantiate(explosionPrefab5, explosionMatrix.transform);
-				explosionGO.transform.position = worldPos;
-				explosionGO.Explode(explosionMatrix);
-			}
+			ActualExplosion(finalDamage, finalRadius, explosionMatrix, worldPos);
 		}
 	}
 

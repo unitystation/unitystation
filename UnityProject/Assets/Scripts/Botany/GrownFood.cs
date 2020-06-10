@@ -24,11 +24,11 @@ public class GrownFood : NetworkBehaviour
 	private Edible edible;
 
 	///For when another script needs the plant's potency value.
-	public int plantpotency;
+	public int plantPotency;
 
 	private void plantpotenc()
 	{
-		plantpotency = plantData.Potency;
+		plantPotency = plantData.Potency;
 	}
 
 	[SyncVar(hook = nameof(SyncSize))]

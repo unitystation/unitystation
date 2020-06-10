@@ -34,6 +34,18 @@ public class Explosion : MonoBehaviour
 		StartCoroutine(ExplosionRoutine(matrix));
 	}
 
+	public void SetExplosionData(int damage = 150, float radius = 4f, bool unstableRadius = false, EffectShapeType explosionType = EffectShapeType.Circle, float shakeDistance = 8, int minDamage = 2, float maxEffectDuration = .25f, float minEffectDuration = .05f)
+	{
+		this.damage = damage;
+		this.radius = radius;
+		this.unstableRadius = unstableRadius;
+		this.explosionType = explosionType;
+		this.shakeDistance = shakeDistance;
+		this.minDamage = minDamage;
+		this.maxEffectDuration = maxEffectDuration;
+		this.minEffectDuration = minEffectDuration;
+	}
+
 	private IEnumerator ExplosionRoutine(Matrix matrix)
 	{
 		var explosionCenter = transform.position.RoundToInt();
