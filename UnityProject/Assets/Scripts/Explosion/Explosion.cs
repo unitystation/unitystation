@@ -89,6 +89,12 @@ public class Explosion : MonoBehaviour
 
 				// Calculate fire effect time
 				var fireTime = DistanceFromCenter(explosionCenter2d, tilePos2d, minEffectDuration, maxEffectDuration);
+
+				if (float.IsNaN(fireTime))
+				{
+					fireTime = 0f;
+				}
+
 				var localTilePos = MatrixManager.WorldToLocalInt(tilePos, matrix.Id);
 				StartCoroutine(TimedFireEffect(localTilePos, fireTime, tileManager));
 
