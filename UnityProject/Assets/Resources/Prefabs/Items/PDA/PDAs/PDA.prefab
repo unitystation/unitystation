@@ -189,6 +189,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &387454684232661762
 MonoBehaviour:
@@ -509,7 +510,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a69951b025439433aaae48b3e8c4017b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 20
+  NetTabType: 22
 --- !u!1 &6299654059842681095
 GameObject:
   m_ObjectHideFlags: 0

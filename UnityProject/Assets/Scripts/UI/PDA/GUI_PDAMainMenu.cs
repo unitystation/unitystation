@@ -17,7 +17,11 @@ namespace UI.PDA
 
 		[SerializeField] private NetLabel machineLabel;
 
-		private string pdaName;
+		private void Start()
+		{
+			idLabel.Value = "<No ID Inserted>";
+			machineLabel.Value = "/home/Guest/Desktop";
+		}
 
 
 		/// <summary>
@@ -25,7 +29,29 @@ namespace UI.PDA
 		/// </summary>
 		public void UpdateId()
 		{
-			var tempName = controller.Pda.PdaRegisteredName;
+			Debug.LogError("Button Pressed!");
+			IDCard idCard = controller.Pda.IdCard;
+			// Not "Optimized" by rider for readability
+			//Checks to see if the ID card is not null, if so then display the owner of the ID and their job
+			if (idCard != null)
+			{
+				idLabel.Value = $"{idCard.RegisteredName},{idCard.Occupation}";
+			}
+			else
+			{
+				idLabel.Value = "<No ID Inserted>";
+			}
+			//Checks to see if the PDA has a registerd name, if it does make that the Desktop name
+			if (controller.Pda.PdaRegisteredName != null)
+			{
+				string editedstring = controller.Pda.PdaRegisteredName.Replace(" ","_");
+
+				machineLabel.Value = $"/home/{editedstring}/Desktop";
+			}
+			else
+			{
+				machineLabel.Value = "/home/Guest/Desktop";
+			}
 		}
 		public void SettingsPage()
 		{
