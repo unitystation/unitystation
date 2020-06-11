@@ -891,7 +891,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		var cs = GetComponentInParent<PlayerScript>()?.characterSettings;
 		if (cs != null)
 		{
-			pronoun = cs.PersonalPronoun();
+			pronoun = cs.TheyPronoun();
 			pronoun = pronoun[0].ToString().ToUpper() + pronoun.Substring(1);
 		}
 

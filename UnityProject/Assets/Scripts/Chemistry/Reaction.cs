@@ -10,6 +10,7 @@ namespace Chemistry
 	public class Reaction : ScriptableObject
 	{
 		public DictionaryReagentInt ingredients;
+		public bool useExactAmounts = false;
 		public DictionaryReagentInt catalysts;
 		public float? tempMin;
 		public float? tempMax;
@@ -19,7 +20,7 @@ namespace Chemistry
 		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
 			if ((tempMin != null || reagentMix.Temperature >= tempMin) &&
-			    (tempMax != null || reagentMix.Temperature <= tempMax))
+				(tempMax != null || reagentMix.Temperature <= tempMax))
 			{
 				return false;
 			}
@@ -34,6 +35,15 @@ namespace Chemistry
 				return false;
 			}
 			var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
+
+			if (useExactAmounts == true)
+			{
+				reactionAmount = (float)Math.Floor(reactionAmount);
+				if (reactionAmount == 0)
+				{
+					return false;
+				}
+			}
 
 			if (!catalysts.All(catalyst =>
 				reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))

@@ -53,6 +53,16 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public ChatIcon chatIcon { get; private set;}
 
+	/// <summary>
+	/// Serverside world position.
+	/// Outputs correct world position even if you're hidden (e.g. in a locker)
+	/// </summary>
+	public Vector3Int AssumedWorldPos => pushPull.AssumedWorldPositionServer();
+
+	/// <summary>
+	/// Serverside world position.
+	/// Returns InvalidPos if you're hidden (e.g. in a locker)
+	/// </summary>
 	public Vector3Int WorldPos => registerTile.WorldPositionServer;
 
 	/// <summary>

@@ -12,7 +12,6 @@ public class FireLock : InteractableDoor
 
 	public override void TryOpen(GameObject performer)
 	{
-
 	}
 
 	void TriggerAlarm()

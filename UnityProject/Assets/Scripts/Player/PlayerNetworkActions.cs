@@ -884,4 +884,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		AdminOverlay.RequestFullUpdate(adminId, adminToken);
 	}
 	#endregion
+
+	[Command]
+	public void CmdRequestSpell(int spellIndex)
+	{
+		foreach (var spell in playerScript.mind.Spells)
+		{
+			if (spell.SpellData.Index == spellIndex)
+			{
+				spell.CallActionServer(PlayerList.Instance.Get(gameObject));
+				return;
+			}
+		}
+	}
 }

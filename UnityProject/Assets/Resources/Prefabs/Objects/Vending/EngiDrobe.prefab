@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   - component: {fileID: -279789094728912233}
+  - component: {fileID: 1542165866278557613}
   m_Layer: 11
   m_Name: EngiDrobe
   m_TagString: Untagged
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
+  InitialVendorContent:
   - Item: {fileID: 0}
     Stock: 3
   - Item: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff, type: 3}
@@ -152,6 +153,36 @@ MonoBehaviour:
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 0}
+    Stock: 3
+  - Item: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff, type: 3}
+    Stock: 3
+  - Item: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
+    Stock: 3
+  - Item: {fileID: 6682071155640065413, guid: 99480f95d67c6cc4c852e3e388dc70df, type: 3}
+    Stock: 3
+  - Item: {fileID: 261889401176459054, guid: c432d0b09f765e440a39dea62e9a423e, type: 3}
+    Stock: 3
+  - Item: {fileID: 3011710637427380133, guid: 669c8831af14a4225968399b65b23461, type: 3}
+    Stock: 3
+  - Item: {fileID: 5068148558929777541, guid: cab0ec567d4192b4fb04ae3e9bcd3cbf, type: 3}
+    Stock: 3
+  - Item: {fileID: 7600537285617727737, guid: 0fb5b023412da224eb30c4702c2c22c2, type: 3}
+    Stock: 3
+  - Item: {fileID: 3921521694364753778, guid: 35cd853acdce0094f9462e049e31ed8e, type: 3}
+    Stock: 3
+  - Item: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
+    Stock: 3
+  - Item: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}
+    Stock: 3
+  - Item: {fileID: 0}
+    Stock: 3
+  - Item: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
+    Stock: 3
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:
@@ -322,6 +354,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1542165866278557613
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 32
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

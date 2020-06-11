@@ -43,6 +43,10 @@ public static class DefaultWillInteract
 		{
 			return TileApply(interaction as TileApply, side);
 		}
+		else if(typeof(T) == typeof(ConnectionApply))
+		{
+			return ConnectionApply(interaction as ConnectionApply, side);
+		}
 		Logger.LogError("Unable to recognize interaction type.");
 		return false;
 	}
@@ -120,4 +124,11 @@ public static class DefaultWillInteract
 		return Validations.CanApply(interaction, side);
 	}
 
+	/// <summary>
+	/// Default WIllInteract logic for ConnectionApply interactions
+	/// </summary>
+	public static bool ConnectionApply(ConnectionApply interaction, NetworkSide side)
+	{
+		return Validations.CanApply(interaction, side);
+	}
 }

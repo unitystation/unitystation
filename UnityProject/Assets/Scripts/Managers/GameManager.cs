@@ -10,6 +10,7 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using DatabaseAPI;
 using DiscordWebhook;
+using Mirror;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -30,12 +31,14 @@ public partial class GameManager : MonoBehaviour
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
 	[SerializeField]
-	private float RoundEndTime = 60f;
+	private float roundEndTime = 60f;
+	public float RoundEndTime => roundEndTime;
 
 	/// <summary>
 	/// The current time left on the countdown timer
 	/// </summary>
 	public float CountdownTime { get; private set; }
+	public double CountdownEndTime { get; private set; }
 
 	/// <summary>
 	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
@@ -78,7 +81,13 @@ public partial class GameManager : MonoBehaviour
 	private bool loadedDirectlyToStation;
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
 
+	public Queue<PlayerSpawnRequest> SpawnPlayerRequestQueue = new Queue<PlayerSpawnRequest>();
+
 	private bool QueueProcessing;
+
+	private float timeElapsedQueueCheckServer = 0;
+
+	private const float QueueCheckTimeServer = 1f;
 
 	private void Awake()
 	{
@@ -275,8 +284,7 @@ public partial class GameManager : MonoBehaviour
 
 		if (waitForStart)
 		{
-			CountdownTime -= Time.deltaTime;
-			if (CountdownTime <= 0f)
+			if (NetworkTime.time >= CountdownEndTime)
 			{
 				StartRound();
 			}
@@ -285,6 +293,13 @@ public partial class GameManager : MonoBehaviour
 		{
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
+		}
+
+		timeElapsedQueueCheckServer += Time.deltaTime;
+		if (timeElapsedQueueCheckServer > QueueCheckTimeServer)
+		{
+			ProcessSpawnPlayerQueue();
+			timeElapsedQueueCheckServer -= QueueCheckTimeServer;
 		}
 	}
 
@@ -399,8 +414,8 @@ public partial class GameManager : MonoBehaviour
 	/// </summary>
 	private IEnumerator WaitForRoundRestart()
 	{
-		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
-		yield return WaitFor.Seconds(RoundEndTime);
+		Logger.Log($"Waiting {roundEndTime} seconds to restart...", Category.Round);
+		yield return WaitFor.Seconds(roundEndTime);
 		RestartRound();
 	}
 
@@ -431,14 +446,66 @@ public partial class GameManager : MonoBehaviour
 
 	public void StartCountdown()
 	{
-		CountdownTime = PreRoundTime;
+		// Calculate when the countdown will end relative to the NetworkTime
+		CountdownEndTime = NetworkTime.time + PreRoundTime;
 		waitForStart = true;
 
-		var message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\n\n There are {PlayerList.Instance.ConnectionCount} players online.\n";
+		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\n\n";
 
-		DiscordWebhookMessage.SendWebHookMessage(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "Server Status");
+		if (PlayerList.Instance.ConnectionCount == 1)
+		{
+			message += "There is 1 player online.\n";
+		}
+		else
+		{
+			message += $"There are {PlayerList.Instance.ConnectionCount} players online.\n";
+		}
 
-		UpdateCountdownMessage.Send(waitForStart, CountdownTime);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+
+		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
+	}
+
+	public void ProcessSpawnPlayerQueue()
+	{
+		if (QueueProcessing) return;
+
+		QueueProcessing = true;
+
+		var count = SpawnPlayerRequestQueue.Count;
+
+		if (count == 0)
+		{
+			QueueProcessing = false;
+			return;
+		}
+
+		for(var i = 1; i <= count; i++)
+		{
+			var player = SpawnPlayerRequestQueue.Peek();
+
+			int slotsTaken = GameManager.Instance.GetOccupationsCount(player.RequestedOccupation.JobType);
+			int slotsMax = GameManager.Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
+			if (slotsTaken >= slotsMax)
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			//regardless of their chosen occupation, they might spawn as an antag instead.
+			//If they do, bypass the normal spawn logic.
+			if (GameManager.Instance.TrySpawnAntag(player))
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			PlayerSpawn.ServerSpawnPlayer(player);
+
+			SpawnPlayerRequestQueue.Dequeue();
+		}
+
+		QueueProcessing = false;
 	}
 
 	public int GetOccupationsCount(JobType jobType)

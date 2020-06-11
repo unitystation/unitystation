@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   - component: {fileID: -6086739156095187934}
+  - component: {fileID: 7594331227309748916}
   m_Layer: 11
   m_Name: MediDrobe
   m_TagString: Untagged
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
+  InitialVendorContent:
   - Item: {fileID: 6700281191928912403, guid: 0ad6b406825f747548ae2f66be19e5bd, type: 3}
     Stock: 4
   - Item: {fileID: 3961673132676458627, guid: c57257234670e0e44a8b4f2b83801b45, type: 3}
@@ -172,6 +173,56 @@ MonoBehaviour:
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 6700281191928912403, guid: 0ad6b406825f747548ae2f66be19e5bd, type: 3}
+    Stock: 4
+  - Item: {fileID: 3961673132676458627, guid: c57257234670e0e44a8b4f2b83801b45, type: 3}
+    Stock: 4
+  - Item: {fileID: 7425210154282081895, guid: c271fd63aa2bed245926cf071649e942, type: 3}
+    Stock: 4
+  - Item: {fileID: 6247235260549825398, guid: d3d13a092fe1468f39f64019ed6cda47, type: 3}
+    Stock: 4
+  - Item: {fileID: 6220654682088235423, guid: 14f12e8e60a402947a0ce63c3cb12501, type: 3}
+    Stock: 4
+  - Item: {fileID: 6132127289375276769, guid: f27991fd74b5f6941a1ad2f9e161a022, type: 3}
+    Stock: 4
+  - Item: {fileID: 3011710637427380133, guid: 604161a1d792749539a5f1b0eb6e4749, type: 3}
+    Stock: 4
+  - Item: {fileID: 5920421737069179531, guid: 4d0474175ab0fcc49acc7daf8c3dc271, type: 3}
+    Stock: 4
+  - Item: {fileID: 3011710637427380133, guid: 091e9109cd71d5c4f9760883e85fe866, type: 3}
+    Stock: 4
+  - Item: {fileID: 8711982915321370836, guid: d3017b0e77acb7a4698a95281de92f44, type: 3}
+    Stock: 4
+  - Item: {fileID: 5628543767998948467, guid: c36814fb35b346c4bb4c655939943986, type: 3}
+    Stock: 4
+  - Item: {fileID: 7636118406116123594, guid: bb118b34602036247a9e597743e4e0a4, type: 3}
+    Stock: 4
+  - Item: {fileID: 1853682798720230140, guid: 42b8312937564f84ca906c22a8aa23b7, type: 3}
+    Stock: 4
+  - Item: {fileID: 1853682798720230140, guid: b7293f2ee1e4b5b408a9c76ca1f03f0a, type: 3}
+    Stock: 4
+  - Item: {fileID: 1853682798720230140, guid: 1c4a4e2e7d6a9ce4e9135ceb57d872b8, type: 3}
+    Stock: 4
+  - Item: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
+    Stock: 4
+  - Item: {fileID: 7950450905082407941, guid: ae6a4b707a3e192449843e8b3196b67c, type: 3}
+    Stock: 4
+  - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+    Stock: 4
+  - Item: {fileID: 7106618204054676533, guid: 7ca9937224493ae47be250db23caef24, type: 3}
+    Stock: 4
+  - Item: {fileID: 2877682655692791251, guid: 9818845d510044c45878180a25f836b7, type: 3}
+    Stock: 4
+  - Item: {fileID: 4017285472711692952, guid: 1d20e3f3f09719d46870ba3554189ec1, type: 3}
+    Stock: 4
+  - Item: {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
+    Stock: 4
+  - Item: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09, type: 3}
+    Stock: 4
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -230,6 +281,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:
@@ -343,6 +395,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7594331227309748916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 51
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

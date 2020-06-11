@@ -124,29 +124,39 @@ public class Microwave : NetworkBehaviour
 	private void FinishCooking()
 	{
 		spriteRenderer.sprite = SPRITE_OFF;
-		if (isServer)
+
+		if (isServer && mealCount > 0)
 		{
 			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
-			SpawnResult result = Spawn.ServerPrefab(mealPrefab, GetComponent<RegisterTile>().WorldPosition, transform.parent);
+			Vector3Int spawnPosition = GetComponent<RegisterTile>().WorldPosition;
 
-			//If the resulting meal has a stackable component, set the amount to mealCount to ensure that food in = food out.
+			SpawnResult result = Spawn.ServerPrefab(mealPrefab, spawnPosition, transform.parent);
 			Stackable stck = result.GameObject.GetComponent<Stackable>();
 
-			if (stck != null && mealCount != 0)
+			if (stck != null)   // If the meal has a stackable component, set the correct number of meals
 			{
-				//Get difference between new item's initial amount and the amount held by mealCount (amount of ingredient).
-				int stckChanger = mealCount-stck.Amount;
+				int mealDeficit = mealCount - stck.InitialAmount;
 
-				//If stckChanger is 0, do nothing.
-				//If stckChanger is positive, add to stack.
-				if (stckChanger > 0)
+				while (mealDeficit > 0)
 				{
-					stck.ServerIncrease(stckChanger);
-				} else if (stckChanger < 0)
-				{
-					//If stckChanger is positive, remove stack.
-					stck.ServerConsume(-stckChanger);
+					mealDeficit = stck.ServerIncrease(mealDeficit);
+
+					if (mealDeficit > 0)
+					{
+						result = Spawn.ServerPrefab(mealPrefab, spawnPosition, transform.parent);
+						stck = result.GameObject.GetComponent<Stackable>();
+						mealDeficit -= stck.InitialAmount;
+					}
 				}
+
+				if (mealDeficit < 0) // Reduce the stack if our last spawned stackable results in too many meals
+				{
+					stck.ServerConsume(-mealDeficit);
+				}
+			}
+			else if (mealCount > 1) // Spawn non-stackable meals
+			{
+				Spawn.ServerPrefab(mealPrefab, spawnPosition, transform.parent, count: mealCount - 1);
 			}
 		}
 		meal = null;

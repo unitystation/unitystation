@@ -78,6 +78,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 4698281609986587030, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 4700669166950225366, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: m_AssetId
@@ -97,7 +112,8 @@ PrefabInstance:
     - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: initialDescription
-      value: It's a jumpsuit worn by atmospheric technicians.
+      value: It's a jumpsuit worn by atmospheric technicians. It has minor protection
+        from fire.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de234d793cfd842599c9c8726207f217, type: 3}

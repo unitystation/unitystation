@@ -208,6 +208,7 @@ namespace DatabaseAPI
 		public string DiscordWebhookOOCMentionsID;
 		public string DiscordWebhookAdminURL;
 		public string DiscordWebhookAnnouncementURL;
+		public string DiscordWebhookAllChatURL;
 	}
 
     //Used to identify the build and fork of this client/server
