@@ -9,6 +9,7 @@ using DatabaseAPI;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Diagnostics;
+using DiscordWebhook;
 
 /// <summary>
 /// Admin Controller for players
@@ -409,9 +410,24 @@ public partial class PlayerList
 		{
 			foreach (var p in players)
 			{
-				Logger.Log(
-					$"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}");
+				var message = $"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+
+				Logger.Log(message);
+
 				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
+
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminURL, message + $"\nReason: {reason}", "");
+
+				if (isBan)
+				{
+					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Name}, has been banned for {banMinutes}";
+				}
+				else
+				{
+					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Name}, has been kicked for {banMinutes}";
+				}
+
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 			}
 		}
 		else
