@@ -15,23 +15,18 @@ public class AmbientSoundArea : MonoBehaviour
 
 	public void OnTriggerEnter2D(Collider2D coll)
 	{
-		if (coll.gameObject.layer == LayerMask.NameToLayer("Players"))
-		{
-			ValidatePlayer(coll.gameObject, true);
-		}
+		ValidatePlayer(coll.gameObject, true);
 	}
 
 	public void OnTriggerExit2D(Collider2D coll)
 	{
-		if (coll.gameObject.layer == LayerMask.NameToLayer("Players"))
-		{
-			ValidatePlayer(coll.gameObject, false);
-		}
+		ValidatePlayer(coll.gameObject, false);
 	}
 
 	private void ValidatePlayer(GameObject player, bool isEntering)
 	{
 		if (player == null) return;
+		if (player != PlayerManager.LocalPlayer) return;
 
 		if (isEntering)
 		{
