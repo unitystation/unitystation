@@ -12,6 +12,21 @@ PrefabInstance:
       propertyPath: bodyPartsCovered
       value: 240
       objectReference: {fileID: 0}
+    - target: {fileID: 2904835841959583313, guid: 7836d5b8852b74938820fb198f01e5ba,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2904835841959583313, guid: 7836d5b8852b74938820fb198f01e5ba,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2904835841959583313, guid: 7836d5b8852b74938820fb198f01e5ba,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2909197017712554513, guid: 7836d5b8852b74938820fb198f01e5ba,
         type: 3}
       propertyPath: m_AssetId
@@ -91,7 +106,8 @@ PrefabInstance:
     - target: {fileID: 3397443007502491847, guid: 7836d5b8852b74938820fb198f01e5ba,
         type: 3}
       propertyPath: initialDescription
-      value: It's a jumpskirt worn by atmospheric technicians.
+      value: It's a jumpskirt worn by atmospheric technicians. It has minor protection
+        from fire.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 7836d5b8852b74938820fb198f01e5ba,
         type: 3}
