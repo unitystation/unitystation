@@ -119,7 +119,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 			if (unstableFuse)
 			{
 				float fuseVariation = fuseLength / 4;
-				fuseLength = Random.Range(fuseLength - fuseVariation, fuseLength + fuseVariation);
+				fuseLength = UnityEngine.Random.Range(fuseLength - fuseVariation, fuseLength + fuseVariation);
 			}
 
 			yield return WaitFor.Seconds(fuseLength);
@@ -160,7 +160,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 		}
 
 		finalDamage = maxDamage * (lemonPotency / 100f);
-		finalRadius = maxRadius * (lemonPotency / 100f);
+		finalRadius = Convert.ToSingle(Math.Ceiling(maxRadius * (lemonPotency / 100f)));
 
 		// Get data from grenade before despawning
 		var explosionMatrix = registerItem.Matrix;

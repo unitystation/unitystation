@@ -395,7 +395,6 @@ MonoBehaviour:
   SpriteSizeAdjustment: {fileID: 6845515435948111746}
   Sprite: {fileID: 628184727406542681}
   edible: {fileID: 0}
-  plantPotency: 0
   SizeScale: 0
 --- !u!114 &2383114736845898972
 MonoBehaviour:
@@ -462,6 +461,7 @@ MonoBehaviour:
   maxDamage: 125
   maxRadius: 5
   spriteHandler: {fileID: 0}
+  lemonPotencyOverride: 0
 --- !u!1 &6770754434974323192
 GameObject:
   m_ObjectHideFlags: 0
