@@ -35,6 +35,8 @@ public partial class Chat : MonoBehaviour
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
+	public static bool OOCMute = false;
+
 	/// <summary>
 	/// Set the scene based chat relay at the start of every round
 	/// </summary>
@@ -88,10 +90,14 @@ public partial class Chat : MonoBehaviour
 		{
 			chatEvent.speaker = sentByPlayer.Username;
 
-			if (PlayerList.Instance.IsAdmin(sentByPlayer.UserId))
+			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
+
+			if (isAdmin)
 			{
 				chatEvent.speaker = "[Admin] " + chatEvent.speaker;
 			}
+
+			if (OOCMute || !isAdmin) return;
 
 			Instance.addChatLogServer.Invoke(chatEvent);
 
