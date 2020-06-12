@@ -256,4 +256,63 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 		return false;
 	}
+
+	public static bool instanceActive = false;
+	public void OnHoverStart()
+	{
+		OnHover();
+	}
+
+	public void OnHover()
+	{
+		if (checkWallMountOverlay())
+		{
+			Vector2 cameraPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+			var tilePos = cameraPos.RoundToInt();
+			if (!MatrixManager.IsWallAt(tilePos, false))
+			{
+				if (instanceActive)
+				{
+					instanceActive = false;
+					Highlight.DeHighlight();
+				}
+				return;
+			}
+
+			if (!instanceActive)
+			{
+				instanceActive = true;
+				Highlight.ShowHighlight(UIManager.Hands.CurrentSlot.ItemObject, true);
+			}
+			Highlight.instance.spriteRenderer.transform.position = tilePos;
+		}
+	}
+
+	bool checkWallMountOverlay()
+	{
+		var handItem = UIManager.Hands.CurrentSlot.ItemObject;
+		if (handItem == null)
+		{
+			return false;
+		}
+		var wallMount = handItem.GetComponent<WallMountHandApplySpawn>();
+		if (wallMount == null)
+		{
+			return false;
+		}
+
+		return true;
+
+	}
+	public void OnHoverEnd()
+	{
+		if (instanceActive)
+		{
+			instanceActive = false;
+			Highlight.DeHighlight();
+		}
+	}
+
+
+
 }
