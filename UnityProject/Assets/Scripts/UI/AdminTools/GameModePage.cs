@@ -65,5 +65,10 @@ namespace AdminTools
 				nextDropDown.value = index;
 			}
 		}
+
+		public void ToggleOOCMute()
+		{
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleOOCMute(ServerData.UserID, PlayerList.Instance.AdminToken);
+		}
 	}
 }

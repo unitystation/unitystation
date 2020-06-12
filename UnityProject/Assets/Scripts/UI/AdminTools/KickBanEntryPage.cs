@@ -16,6 +16,9 @@ namespace AdminTools
 		[SerializeField] private InputField banReasonField = null;
 		[SerializeField] private InputField minutesField = null;
 
+		[SerializeField] private Toggle kickAnnounceToggle = null;
+		[SerializeField] private Toggle banAnnounceToggle = null;
+
 		private AdminPlayerEntryData playerToKickCache;
 
 		public void SetPage(bool isBan, AdminPlayerEntryData playerToKick)
@@ -51,7 +54,7 @@ namespace AdminTools
 			}
 
 			RequestKickMessage.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerToKickCache.uid,
-				kickReasonField.text);
+				kickReasonField.text, kickAnnounceToggle.isOn);
 
 			ClosePage();
 		}
@@ -73,7 +76,7 @@ namespace AdminTools
 			int minutes;
 			int.TryParse(minutesField.text, out minutes);
 			RequestKickMessage.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerToKickCache.uid,
-				banReasonField.text, true, minutes);
+				banReasonField.text, true, minutes, banAnnounceToggle.isOn);
 			ClosePage();
 		}
 

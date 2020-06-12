@@ -401,7 +401,7 @@ public partial class PlayerList
 		}
 	}
 
-	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes)
+	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes, bool announceBan)
 	{
 		if (!adminUsers.Contains(admin)) return;
 
@@ -417,6 +417,8 @@ public partial class PlayerList
 				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminURL, message + $"\nReason: {reason}", "");
+
+				if (!announceBan) return;
 
 				if (isBan)
 				{
