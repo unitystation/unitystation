@@ -97,7 +97,7 @@ public partial class Chat : MonoBehaviour
 				chatEvent.speaker = "[Admin] " + chatEvent.speaker;
 			}
 
-			if (OOCMute || !isAdmin) return;
+			if (OOCMute && !isAdmin) return;
 
 			Instance.addChatLogServer.Invoke(chatEvent);
 
