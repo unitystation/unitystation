@@ -1,8 +1,7 @@
-using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
 using Mirror;
 using System;
+using Audio.Managers;
 
 public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 {
@@ -230,8 +229,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			{
 				UIManager.LinkUISlots();
 				//play the spawn sound
-				SoundManager.Play("Ambient#");
-				SoundManager.PlayAmbience("ShipAmbience");
+				SoundAmbientManager.PlayAudio("ambigen8");
 				//Hide ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));

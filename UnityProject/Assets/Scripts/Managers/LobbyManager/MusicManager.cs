@@ -2,7 +2,7 @@
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Audio
+namespace Audio.Containers
 {
 	public class MusicManager : MonoBehaviour
 	{

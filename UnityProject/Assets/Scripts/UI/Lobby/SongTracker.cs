@@ -1,9 +1,7 @@
-﻿using Audio;
-using Mirror;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-namespace Audio
+namespace Audio.Containers
 {
 	/// <summary>
 	/// Class used to display the information of the song being played in the lobby screen.
