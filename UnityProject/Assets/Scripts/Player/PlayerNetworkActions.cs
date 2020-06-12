@@ -904,7 +904,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			msg = "OOC has been muted";
 		}
 
-		Chat.AddGameWideSystemMsgToChat($"<color = blue>{msg}</color>");
+		Chat.AddGameWideSystemMsgToChat($"<color=blue>{msg}</color>");
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
 	}
 	#endregion
