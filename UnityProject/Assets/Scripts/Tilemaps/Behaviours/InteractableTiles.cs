@@ -265,7 +265,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	public void OnHover()
 	{
-		if (checkWallMountOverlay())
+		if (CheckWallMountOverlay())
 		{
 			Vector2 cameraPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 			var tilePos = cameraPos.RoundToInt();
@@ -288,7 +288,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		}
 	}
 
-	bool checkWallMountOverlay()
+	private bool CheckWallMountOverlay()
 	{
 		var handItem = UIManager.Hands.CurrentSlot;
 		if (handItem == null || handItem.ItemObject == null)

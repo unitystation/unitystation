@@ -16,6 +16,7 @@ namespace AdminTools
 		[SerializeField] private Button teleportAdminToPlayer = null;
 		[SerializeField] private Button teleportPlayerToAdmin = null;
 		[SerializeField] private Button teleportAdminToPlayerAghost = null;
+		[SerializeField] private Button teleportAllPlayersToPlayer = null;
 		private AdminPlayerEntry playerEntry;
 
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
@@ -141,7 +142,8 @@ namespace AdminTools
 				null,
 				playerEntry.PlayerData.uid,
 				true,
-				false
+				false,
+				new Vector3(0, 0, 0)
 				);
 		}
 
@@ -160,7 +162,8 @@ namespace AdminTools
 				playerEntry.PlayerData.uid,
 				null,
 				false,
-				false
+				false,
+				PlayerManager.LocalPlayerScript.PlayerSync.ClientPosition
 				);
 		}
 
@@ -184,7 +187,43 @@ namespace AdminTools
 				null,
 				playerEntry.PlayerData.uid,
 				true,
-				true
+				true,
+				new Vector3 (0,0,0)
+				);
+		}
+
+		public void OnTeleportAllPlayersToPlayer()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Teleport EVERYONE to {playerEntry.PlayerData.name}?",
+				SendTeleportAllPlayersToPlayer);
+		}
+
+		private void SendTeleportAllPlayersToPlayer()
+		{
+			Vector3 coord;
+
+			bool isAghost;
+
+			if (PlayerManager.LocalPlayerScript.IsGhost && playerEntry.PlayerData.uid == ServerData.UserID)
+			{
+				coord = PlayerManager.LocalPlayerScript.PlayerSync.ClientPosition;
+				isAghost = true;
+			}
+			else
+			{
+				coord = new Vector3(0, 0, 0);
+				isAghost = false;
+			}
+
+			RequestAdminTeleport.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				null,
+				playerEntry.PlayerData.uid,
+				true,
+				isAghost,
+				coord
 				);
 		}
 	}

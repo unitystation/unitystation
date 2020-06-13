@@ -12,6 +12,9 @@ public class RequestAdminTeleport : ClientMessage
 	public string UserToTeleportTo;
 	public bool IsAdminToPlayer;
 	public bool IsAghost;
+	public float vectorX;
+	public float vectorY;
+	public float vectorZ;
 
 	public override void Process()
 	{
@@ -27,6 +30,9 @@ public class RequestAdminTeleport : ClientMessage
 
 	private void DoPlayerToAdminTeleport()
 	{
+		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		if (admin == null) return;
+
 		PlayerScript userToTeleport = null;
 
 		foreach (var player in PlayerList.Instance.AllPlayers)
@@ -41,18 +47,9 @@ public class RequestAdminTeleport : ClientMessage
 
 		if (userToTeleport == null) return;
 
-		Vector3 pos;
+		var coord = new Vector3 {x = vectorX, y = vectorY, z = vectorZ };
 
-		if (SentByPlayer.Script.pushPull == null)
-		{
-			pos = SentByPlayer.Script.WorldPos;
-		}
-		else
-		{
-			pos = SentByPlayer.Script.AssumedWorldPos;
-		}
-
-		userToTeleport.PlayerSync.SetPosition(pos);
+		userToTeleport.PlayerSync.SetPosition(coord, true);
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
 				$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", Userid);
@@ -60,6 +57,9 @@ public class RequestAdminTeleport : ClientMessage
 
 	private void DoAdminToPlayerTeleport()
 	{
+		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		if (admin == null) return;
+
 		PlayerScript userToTeleportTo = null;
 
 		foreach (var player in PlayerList.Instance.AllPlayers)
@@ -78,18 +78,7 @@ public class RequestAdminTeleport : ClientMessage
 
 		if (playerScript == null) return;
 
-		Vector3 pos;
-
-		if (userToTeleportTo.pushPull == null)
-		{
-			pos = userToTeleportTo.WorldPos;
-		}
-		else
-		{
-			pos = userToTeleportTo.AssumedWorldPos;
-		}
-
-		playerScript.PlayerSync.SetPosition(pos);
+		playerScript.PlayerSync.SetPosition(userToTeleportTo.gameObject.AssumedWorldPosServer(), true);
 
 		string msg;
 
@@ -105,7 +94,49 @@ public class RequestAdminTeleport : ClientMessage
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, Userid);
 	}
 
-	public static RequestAdminTeleport Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, bool isAdminToPlayer, bool isAghost)
+	private void DoAllPlayersToPlayerTeleport()
+	{
+		var admin = PlayerList.Instance.GetAdmin(Userid, AdminToken);
+		if (admin == null) return;
+
+		PlayerScript destinationPlayer = null;
+
+		foreach (var player in PlayerList.Instance.AllPlayers)
+		{
+			if (player.UserId == UserToTeleportTo)
+			{
+				destinationPlayer = player.Script;
+
+				break;
+			}
+		}
+
+		if (destinationPlayer == null) return;
+
+		foreach (var player in PlayerList.Instance.AllPlayers)
+		{
+			PlayerScript userToTeleport = player.Script;
+
+			if (userToTeleport == null) continue;
+
+			if (IsAghost)
+			{
+				var coord = new Vector3 { x = vectorX, y = vectorY, z = vectorZ };
+
+				userToTeleport.PlayerSync.SetPosition(coord, true);
+			}
+			else
+			{
+				userToTeleport.PlayerSync.SetPosition(destinationPlayer.gameObject.AssumedWorldPosServer(), true);
+			}
+		}
+
+		var msg = $"{SentByPlayer.Username} teleported all players to {destinationPlayer.playerName}";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, Userid);
+	}
+
+	public static RequestAdminTeleport Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, bool isAdminToPlayer, bool isAghost, Vector3 Coord)
 	{
 		RequestAdminTeleport msg = new RequestAdminTeleport
 		{
@@ -114,7 +145,10 @@ public class RequestAdminTeleport : ClientMessage
 			UserToTeleport = userToTeleport,
 			UserToTeleportTo = userToTelportTo,
 			IsAdminToPlayer = isAdminToPlayer,
-			IsAghost = isAghost
+			IsAghost = isAghost,
+			vectorX = Coord.x,
+			vectorY = Coord.y,
+			vectorZ = Coord.z
 		};
 		msg.Send();
 		return msg;
@@ -129,6 +163,9 @@ public class RequestAdminTeleport : ClientMessage
 		UserToTeleportTo = reader.ReadString();
 		IsAdminToPlayer = reader.ReadBoolean();
 		IsAghost = reader.ReadBoolean();
+		vectorX = reader.ReadSingle();
+		vectorY = reader.ReadSingle();
+		vectorZ = reader.ReadSingle();
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -140,5 +177,8 @@ public class RequestAdminTeleport : ClientMessage
 		writer.WriteString(UserToTeleportTo);
 		writer.WriteBoolean(IsAdminToPlayer);
 		writer.WriteBoolean(IsAghost);
+		writer.WriteSingle(vectorX);
+		writer.WriteSingle(vectorY);
+		writer.WriteSingle(vectorZ);
 	}
 }
