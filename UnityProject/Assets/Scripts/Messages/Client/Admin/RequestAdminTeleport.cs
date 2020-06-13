@@ -41,7 +41,18 @@ public class RequestAdminTeleport : ClientMessage
 
 		if (userToTeleport == null) return;
 
-		userToTeleport.PlayerSync.SetPosition(SentByPlayer.Script.AssumedWorldPos);
+		Vector3 pos;
+
+		if (SentByPlayer.Script.pushPull == null)
+		{
+			pos = SentByPlayer.Script.WorldPos;
+		}
+		else
+		{
+			pos = SentByPlayer.Script.AssumedWorldPos;
+		}
+
+		userToTeleport.PlayerSync.SetPosition(pos);
 
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
 				$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", Userid);
@@ -67,7 +78,18 @@ public class RequestAdminTeleport : ClientMessage
 
 		if (playerScript == null) return;
 
-		playerScript.PlayerSync.SetPosition(userToTeleportTo.AssumedWorldPos);
+		Vector3 pos;
+
+		if (userToTeleportTo.pushPull == null)
+		{
+			pos = userToTeleportTo.WorldPos;
+		}
+		else
+		{
+			pos = userToTeleportTo.AssumedWorldPos;
+		}
+
+		playerScript.PlayerSync.SetPosition(pos);
 
 		string msg;
 

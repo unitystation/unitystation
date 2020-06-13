@@ -173,7 +173,10 @@ namespace AdminTools
 
 		private void SendTeleportAdminToPlayerAghost()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
+			if (!PlayerManager.LocalPlayerScript.IsGhost)
+			{
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
+			}
 
 			RequestAdminTeleport.Send(
 				ServerData.UserID,
