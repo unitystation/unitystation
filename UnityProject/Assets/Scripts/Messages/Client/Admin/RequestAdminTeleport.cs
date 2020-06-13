@@ -11,6 +11,7 @@ public class RequestAdminTeleport : ClientMessage
 	public string UserToTeleport;
 	public string UserToTeleportTo;
 	public bool IsAdminToPlayer;
+	public bool IsAghost;
 
 	public override void Process()
 	{
@@ -26,13 +27,13 @@ public class RequestAdminTeleport : ClientMessage
 
 	private void DoPlayerToAdminTeleport()
 	{
-		PlayerSync userToTeleport = null;
+		PlayerScript userToTeleport = null;
 
 		foreach (var player in PlayerList.Instance.AllPlayers)
 		{
 			if (player.UserId == UserToTeleport)
 			{
-				userToTeleport = player.Script.PlayerSync;
+				userToTeleport = player.Script;
 
 				break;
 			}
@@ -40,7 +41,10 @@ public class RequestAdminTeleport : ClientMessage
 
 		if (userToTeleport == null) return;
 
-		userToTeleport.SetPosition(SentByPlayer.Script.AssumedWorldPos);
+		userToTeleport.PlayerSync.SetPosition(SentByPlayer.Script.AssumedWorldPos);
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+				$"{SentByPlayer.Username} teleported {userToTeleport.playerName} to themselves", Userid);
 	}
 
 	private void DoAdminToPlayerTeleport()
@@ -64,9 +68,22 @@ public class RequestAdminTeleport : ClientMessage
 		if (playerScript == null) return;
 
 		playerScript.PlayerSync.SetPosition(userToTeleportTo.AssumedWorldPos);
+
+		string msg;
+
+		if (IsAghost)
+		{
+			msg = $"{SentByPlayer.Username} teleported to {userToTeleportTo.playerName} as a ghost";
+		}
+		else
+		{
+			msg = $"{SentByPlayer.Username} teleported to {userToTeleportTo.playerName} as a player";
+		}
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, Userid);
 	}
 
-	public static RequestAdminTeleport Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, bool isAdminToPlayer)
+	public static RequestAdminTeleport Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, bool isAdminToPlayer, bool isAghost)
 	{
 		RequestAdminTeleport msg = new RequestAdminTeleport
 		{
@@ -74,7 +91,8 @@ public class RequestAdminTeleport : ClientMessage
 			AdminToken = adminToken,
 			UserToTeleport = userToTeleport,
 			UserToTeleportTo = userToTelportTo,
-			IsAdminToPlayer = isAdminToPlayer
+			IsAdminToPlayer = isAdminToPlayer,
+			IsAghost = isAghost
 		};
 		msg.Send();
 		return msg;
@@ -88,6 +106,7 @@ public class RequestAdminTeleport : ClientMessage
 		UserToTeleport = reader.ReadString();
 		UserToTeleportTo = reader.ReadString();
 		IsAdminToPlayer = reader.ReadBoolean();
+		IsAghost = reader.ReadBoolean();
 	}
 
 	public override void Serialize(NetworkWriter writer)
@@ -98,5 +117,6 @@ public class RequestAdminTeleport : ClientMessage
 		writer.WriteString(UserToTeleport);
 		writer.WriteString(UserToTeleportTo);
 		writer.WriteBoolean(IsAdminToPlayer);
+		writer.WriteBoolean(IsAghost);
 	}
 }

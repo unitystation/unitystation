@@ -128,7 +128,7 @@ namespace AdminTools
 		public void OnTeleportAdminToPlayer()
 		{
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Teleport yourself to: {playerEntry.PlayerData.name}?",
+				$"Teleport yourself to {playerEntry.PlayerData.name}?",
 				SendTeleportAdminToPlayerRequest);
 		}
 
@@ -140,7 +140,8 @@ namespace AdminTools
 				PlayerList.Instance.AdminToken,
 				null,
 				playerEntry.PlayerData.uid,
-				true
+				true,
+				false
 				);
 		}
 
@@ -158,6 +159,7 @@ namespace AdminTools
 				PlayerList.Instance.AdminToken,
 				playerEntry.PlayerData.uid,
 				null,
+				false,
 				false
 				);
 		}
@@ -165,7 +167,7 @@ namespace AdminTools
 		public void OnTeleportAdminToPlayerAghost()
 		{
 			adminTools.areYouSurePage.SetAreYouSurePage(
-				$"Teleport yourself to: {playerEntry.PlayerData.name} as a ghost?",
+				$"Teleport yourself to {playerEntry.PlayerData.name} as a ghost?",
 				SendTeleportAdminToPlayerAghost);
 		}
 
@@ -178,6 +180,7 @@ namespace AdminTools
 				PlayerList.Instance.AdminToken,
 				null,
 				playerEntry.PlayerData.uid,
+				true,
 				true
 				);
 		}
