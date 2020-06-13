@@ -129,6 +129,12 @@ public class RequestAdminTeleport : ClientMessage
 
 				userToTeleport.PlayerSync.SetPosition(coord, true);
 			}
+			else if (destinationPlayer.IsGhost)
+			{
+				//if the  destination player player is a ghost the system breaks as for some reason ghost position is not accurate on server.
+				//if admin is ghost top condition is used as the admin can pass their position from client to server.
+				return;
+			}
 			else
 			{
 				userToTeleport.PlayerSync.SetPosition(destinationPlayer.gameObject.AssumedWorldPosServer(), true);
