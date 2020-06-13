@@ -13,6 +13,9 @@ namespace AdminTools
 		[SerializeField] private Button respawnBtn = null;
 		[SerializeField] private Button respawnAsBtn = null;
 		[SerializeField] private Dropdown adminJobsDropdown = null;
+		[SerializeField] private Button teleportAdminToPlayer = null;
+		[SerializeField] private Button teleportPlayerToAdmin = null;
+		[SerializeField] private Button teleportAdminToPlayerAghost = null;
 		private AdminPlayerEntry playerEntry;
 
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
@@ -120,6 +123,63 @@ namespace AdminTools
 				occupation);
 
 			RefreshPage();
+		}
+
+		public void OnTeleportAdminToPlayer()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Teleport yourself to: {playerEntry.PlayerData.name}?",
+				SendTeleportAdminToPlayerRequest);
+		}
+
+		private void SendTeleportAdminToPlayerRequest()
+		{
+
+			RequestAdminTeleport.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				null,
+				playerEntry.PlayerData.uid,
+				true
+				);
+		}
+
+		public void OnTeleportPlayerToAdmin()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Teleport {playerEntry.PlayerData.name} to you?",
+				SendTeleportPlayerToAdmin);
+		}
+
+		private void SendTeleportPlayerToAdmin()
+		{
+			RequestAdminTeleport.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				playerEntry.PlayerData.uid,
+				null,
+				false
+				);
+		}
+
+		public void OnTeleportAdminToPlayerAghost()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Teleport yourself to: {playerEntry.PlayerData.name} as a ghost?",
+				SendTeleportAdminToPlayerAghost);
+		}
+
+		private void SendTeleportAdminToPlayerAghost()
+		{
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
+
+			RequestAdminTeleport.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				null,
+				playerEntry.PlayerData.uid,
+				true
+				);
 		}
 	}
 }
