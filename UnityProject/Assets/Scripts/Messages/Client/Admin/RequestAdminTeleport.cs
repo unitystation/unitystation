@@ -10,7 +10,7 @@ public class RequestAdminTeleport : ClientMessage
 	public string AdminToken;
 	public string UserToTeleport;
 	public string UserToTeleportTo;
-	public bool IsAdminToPlayer;
+	public int OpperationNumber;
 	public bool IsAghost;
 	public float vectorX;
 	public float vectorY;
@@ -18,13 +18,17 @@ public class RequestAdminTeleport : ClientMessage
 
 	public override void Process()
 	{
-		if (IsAdminToPlayer)
+		if (OpperationNumber == 1)
 		{
 			DoAdminToPlayerTeleport();
 		}
-		else
+		else if (OpperationNumber == 2)
 		{
 			DoPlayerToAdminTeleport();
+		}
+		else if (OpperationNumber == 3)
+		{
+			DoAllPlayersToPlayerTeleport();
 		}
 	}
 
@@ -136,7 +140,7 @@ public class RequestAdminTeleport : ClientMessage
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, Userid);
 	}
 
-	public static RequestAdminTeleport Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, bool isAdminToPlayer, bool isAghost, Vector3 Coord)
+	public static RequestAdminTeleport Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, int opperationNumber, bool isAghost, Vector3 Coord)
 	{
 		RequestAdminTeleport msg = new RequestAdminTeleport
 		{
@@ -144,7 +148,7 @@ public class RequestAdminTeleport : ClientMessage
 			AdminToken = adminToken,
 			UserToTeleport = userToTeleport,
 			UserToTeleportTo = userToTelportTo,
-			IsAdminToPlayer = isAdminToPlayer,
+			OpperationNumber = opperationNumber,
 			IsAghost = isAghost,
 			vectorX = Coord.x,
 			vectorY = Coord.y,
@@ -161,7 +165,7 @@ public class RequestAdminTeleport : ClientMessage
 		AdminToken = reader.ReadString();
 		UserToTeleport = reader.ReadString();
 		UserToTeleportTo = reader.ReadString();
-		IsAdminToPlayer = reader.ReadBoolean();
+		OpperationNumber = reader.ReadInt32();
 		IsAghost = reader.ReadBoolean();
 		vectorX = reader.ReadSingle();
 		vectorY = reader.ReadSingle();
@@ -175,7 +179,7 @@ public class RequestAdminTeleport : ClientMessage
 		writer.WriteString(AdminToken);
 		writer.WriteString(UserToTeleport);
 		writer.WriteString(UserToTeleportTo);
-		writer.WriteBoolean(IsAdminToPlayer);
+		writer.WriteInt32(OpperationNumber);
 		writer.WriteBoolean(IsAghost);
 		writer.WriteSingle(vectorX);
 		writer.WriteSingle(vectorY);
