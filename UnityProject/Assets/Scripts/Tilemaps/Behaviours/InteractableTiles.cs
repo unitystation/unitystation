@@ -290,12 +290,12 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	bool checkWallMountOverlay()
 	{
-		var handItem = UIManager.Hands.CurrentSlot.ItemObject;
-		if (handItem == null)
+		var handItem = UIManager.Hands.CurrentSlot;
+		if (handItem == null || handItem.ItemObject == null)
 		{
 			return false;
 		}
-		var wallMount = handItem.GetComponent<WallMountHandApplySpawn>();
+		var wallMount = handItem.ItemObject.GetComponent<WallMountHandApplySpawn>();
 		if (wallMount == null)
 		{
 			return false;
@@ -312,7 +312,4 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			Highlight.DeHighlight();
 		}
 	}
-
-
-
 }
