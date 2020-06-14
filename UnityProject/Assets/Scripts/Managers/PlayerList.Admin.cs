@@ -426,7 +426,7 @@ public partial class PlayerList
 				}
 				else
 				{
-					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Name}, has been kicked for {banMinutes}";
+					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Name}, has been kicked.";
 				}
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
