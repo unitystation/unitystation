@@ -334,7 +334,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 
 		if (VotingManager.Instance == null) return;
-		VotingManager.Instance.VetoVote();
+		VotingManager.Instance.VetoVote(adminId);
 	}
 
 	/// <summary>

@@ -121,14 +121,18 @@ public class VotingManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void VetoVote()
+	public void VetoVote(string adminId)
 	{
 		voteInProgress = false;
 		FinishVote();
 		votes.Clear();
 
 		Chat.AddGameWideSystemMsgToChat("<color=blue>Vote was Vetoed by admin</color>");
-		Logger.Log("Vote was vetoed ", Category.Admin);
+
+		var msg = $"Vote was vetoed by {PlayerList.Instance.GetByUserID(adminId).Username}";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
+		Logger.Log(msg, Category.Admin);
 	}
 
 	void Update()
