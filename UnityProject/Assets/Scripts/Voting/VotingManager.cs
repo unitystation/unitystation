@@ -147,7 +147,7 @@ public class VotingManager : NetworkBehaviour
 				RpcUpdateVoteStats((30 - prevSecond).ToString(), CountAmountString());
 
 				//If there are admins online, dont complete vote untill after 15 seconds even if it will pass to allow for veto
-				if (PlayerList.Instance.GetAllAdmins().Count > 0 && (30 - prevSecond) < 15) return;
+				if (PlayerList.Instance.GetAllAdmins().Count > 0 && (30 - prevSecond) > 15) return;
 
 				CheckVoteCriteria();
 			}
