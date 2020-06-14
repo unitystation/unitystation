@@ -53,9 +53,9 @@ public class VotePopUp : MonoBehaviour
 		}
 
 		buttonPresses ++;
-		ToggleButtons(false);
 		yesBtn.interactable = false;
 		noBtn.interactable = true;
+		ToggleButtons(false);
 	}
 
 	public void VoteNo()
@@ -66,9 +66,9 @@ public class VotePopUp : MonoBehaviour
 			PlayerManager.PlayerScript.playerNetworkActions.CmdRegisterVote(false);
 		}
 		buttonPresses++;
-		ToggleButtons(false);
 		yesBtn.interactable = true;
 		noBtn.interactable = false;
+		ToggleButtons(false);
 	}
 
 	public void AdminVeto()
