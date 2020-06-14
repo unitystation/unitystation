@@ -80,7 +80,7 @@ public class VotePopUp : MonoBehaviour
 
 	void ToggleButtons(bool isOn)
 	{
-		if (buttonPresses > 10) return;
+		if (buttonPresses < 10) return;
 
 		yesBtn.interactable = isOn;
 		noBtn.interactable = isOn;
