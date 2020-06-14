@@ -18,13 +18,13 @@ public class VotePopUp : MonoBehaviour
 
 	public void ShowVotePopUp(string title, string instigator, string currentCount, string timer)
 	{
+		buttonPresses = 0;
 		ToggleButtons(true);
 		gameObject.SetActive(true);
 		voteTitle.text = title;
 		voteInstigator.text = instigator;
 		voteCount.text = currentCount;
 		voteTimer.text = timer;
-		buttonPresses = 0;
 
 		if (PlayerList.Instance.AdminToken == null) return;
 
@@ -54,6 +54,8 @@ public class VotePopUp : MonoBehaviour
 
 		buttonPresses ++;
 		ToggleButtons(false);
+		yesBtn.interactable = false;
+		noBtn.interactable = true;
 	}
 
 	public void VoteNo()
@@ -65,6 +67,8 @@ public class VotePopUp : MonoBehaviour
 		}
 		buttonPresses++;
 		ToggleButtons(false);
+		yesBtn.interactable = true;
+		noBtn.interactable = false;
 	}
 
 	public void AdminVeto()
