@@ -10,7 +10,7 @@ public class RequestAdminTeleport : ClientMessage
 	public string AdminToken;
 	public string UserToTeleport;
 	public string UserToTeleportTo;
-	public int OpperationNumber;
+	public OpperationList OpperationNumber;
 	public bool IsAghost;
 	public float vectorX;
 	public float vectorY;
@@ -20,13 +20,13 @@ public class RequestAdminTeleport : ClientMessage
 	{
 		switch (OpperationNumber)
 		{
-			case (int)OpperationList.AdminToPlayer:
+			case OpperationList.AdminToPlayer:
 				DoAdminToPlayerTeleport();
 				return;
-			case (int)OpperationList.PlayerToAdmin:
+			case OpperationList.PlayerToAdmin:
 				DoPlayerToAdminTeleport();
 				return;
-			case (int)OpperationList.AllPlayersToPlayer:
+			case OpperationList.AllPlayersToPlayer:
 				DoAllPlayersToPlayerTeleport();
 				return;
 		}
@@ -155,7 +155,7 @@ public class RequestAdminTeleport : ClientMessage
 			AdminToken = adminToken,
 			UserToTeleport = userToTeleport,
 			UserToTeleportTo = userToTelportTo,
-			OpperationNumber = (int)opperation,
+			OpperationNumber = opperation,
 			IsAghost = isAghost,
 			vectorX = Coord.x,
 			vectorY = Coord.y,
