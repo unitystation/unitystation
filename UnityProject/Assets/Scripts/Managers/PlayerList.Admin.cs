@@ -416,9 +416,9 @@ public partial class PlayerList
 
 				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
 
-				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminURL, message + $"\nReason: {reason}", "");
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLog, message + $"\nReason: {reason}", "");
 
-				if (!announceBan) return;
+				if (!announceBan && ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
 
 				if (isBan)
 				{
