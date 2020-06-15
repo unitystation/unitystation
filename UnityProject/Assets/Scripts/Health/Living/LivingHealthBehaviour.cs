@@ -105,7 +105,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	//can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
 	[SyncVar(hook=nameof(SyncFireStacks))]
 	private float fireStacks;
-	private float maxFireStacks = 20f;
+	private float maxFireStacks = 5f;
 	private bool maxFireStacksReached = false;
 
 	/// <summary>
