@@ -224,7 +224,7 @@ namespace DatabaseAPI
 		public bool DiscordWebhookSendOOCToAllChat;
 
 		//Sends Admin actions to a webhook
-		public string DiscordWebhookAdminLog;
+		public string DiscordWebhookAdminLogURL;
 	}
 
     //Used to identify the build and fork of this client/server

@@ -80,7 +80,7 @@ namespace DiscordWebhook
 				{AdminAhelpMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminURL},
 				{AnnouncementMessageQueue, ServerData.ServerConfig.DiscordWebhookAnnouncementURL},
 				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL},
-				{AdminLogMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminLog}
+				{AdminLogMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminLogURL}
 			};
 		}
 
@@ -168,8 +168,8 @@ namespace DiscordWebhook
 					return (ServerData.ServerConfig.DiscordWebhookAnnouncementURL, AnnouncementMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAllChatURL:
 					return (ServerData.ServerConfig.DiscordWebhookAllChatURL, AllChatMessageQueue);
-				case DiscordWebhookURLs.DiscordWebhookAdminLog:
-					return (ServerData.ServerConfig.DiscordWebhookAdminLog, AdminLogMessageQueue);
+				case DiscordWebhookURLs.DiscordWebhookAdminLogURL:
+					return (ServerData.ServerConfig.DiscordWebhookAdminLogURL, AdminLogMessageQueue);
 				default:
 					return (null, null);
 			}
@@ -182,6 +182,6 @@ namespace DiscordWebhook
 		DiscordWebhookAdminURL,
 		DiscordWebhookAnnouncementURL,
 		DiscordWebhookAllChatURL,
-		DiscordWebhookAdminLog
+		DiscordWebhookAdminLogURL
 	}
 }
