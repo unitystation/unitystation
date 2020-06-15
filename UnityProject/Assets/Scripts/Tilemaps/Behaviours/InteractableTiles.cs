@@ -265,7 +265,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	public void OnHover()
 	{
-		if (checkWallMountOverlay())
+		if (CheckWallMountOverlay())
 		{
 			Vector2 cameraPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 			var tilePos = cameraPos.RoundToInt();
@@ -288,14 +288,14 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		}
 	}
 
-	bool checkWallMountOverlay()
+	private bool CheckWallMountOverlay()
 	{
-		var handItem = UIManager.Hands.CurrentSlot.ItemObject;
-		if (handItem == null)
+		var handItem = UIManager.Hands.CurrentSlot;
+		if (handItem == null || handItem.ItemObject == null)
 		{
 			return false;
 		}
-		var wallMount = handItem.GetComponent<WallMountHandApplySpawn>();
+		var wallMount = handItem.ItemObject.GetComponent<WallMountHandApplySpawn>();
 		if (wallMount == null)
 		{
 			return false;
@@ -312,7 +312,4 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			Highlight.DeHighlight();
 		}
 	}
-
-
-
 }
