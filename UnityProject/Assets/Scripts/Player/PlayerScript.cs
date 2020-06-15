@@ -383,13 +383,13 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	}
 
 	//Tooltips inspector bar
-	public void OnHoverStart()
+	public void OnMouseEnter()
 	{
 		if (gameObject.IsAtHiddenPos()) return;
 		UIManager.SetToolTip = visibleName;
 	}
 
-	public void OnHoverEnd()
+	public void OnMouseExit()
 	{
 		UIManager.SetToolTip = "";
 	}
