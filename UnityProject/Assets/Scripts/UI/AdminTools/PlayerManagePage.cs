@@ -141,7 +141,7 @@ namespace AdminTools
 				PlayerList.Instance.AdminToken,
 				null,
 				playerEntry.PlayerData.uid,
-				1,
+				RequestAdminTeleport.OpperationList.AdminToPlayer,
 				false,
 				new Vector3(0, 0, 0)
 				);
@@ -161,7 +161,7 @@ namespace AdminTools
 				PlayerList.Instance.AdminToken,
 				playerEntry.PlayerData.uid,
 				null,
-				2,
+				RequestAdminTeleport.OpperationList.PlayerToAdmin,
 				false,
 				PlayerManager.LocalPlayerScript.PlayerSync.ClientPosition
 				);
@@ -186,7 +186,7 @@ namespace AdminTools
 				PlayerList.Instance.AdminToken,
 				null,
 				playerEntry.PlayerData.uid,
-				1,
+				RequestAdminTeleport.OpperationList.AdminToPlayer,
 				true,
 				new Vector3 (0,0,0)
 				);
@@ -221,7 +221,7 @@ namespace AdminTools
 				PlayerList.Instance.AdminToken,
 				null,
 				playerEntry.PlayerData.uid,
-				3,
+				RequestAdminTeleport.OpperationList.AllPlayersToPlayer,
 				isAghost,
 				coord
 				);

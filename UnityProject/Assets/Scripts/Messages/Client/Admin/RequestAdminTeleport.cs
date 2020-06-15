@@ -18,17 +18,17 @@ public class RequestAdminTeleport : ClientMessage
 
 	public override void Process()
 	{
-		if (OpperationNumber == 1)
+		switch (OpperationNumber)
 		{
-			DoAdminToPlayerTeleport();
-		}
-		else if (OpperationNumber == 2)
-		{
-			DoPlayerToAdminTeleport();
-		}
-		else if (OpperationNumber == 3)
-		{
-			DoAllPlayersToPlayerTeleport();
+			case (int)OpperationList.AdminToPlayer:
+				DoAdminToPlayerTeleport();
+				return;
+			case (int)OpperationList.PlayerToAdmin:
+				DoPlayerToAdminTeleport();
+				return;
+			case (int)OpperationList.AllPlayersToPlayer:
+				DoAllPlayersToPlayerTeleport();
+				return;
 		}
 	}
 
@@ -132,6 +132,7 @@ public class RequestAdminTeleport : ClientMessage
 			else if (destinationPlayer.IsGhost)
 			{
 				//if the  destination player player is a ghost the system breaks as for some reason ghost position is not accurate on server.
+				//To test for future reference: test coord on headless, works fine in editor.
 				//if admin is ghost top condition is used as the admin can pass their position from client to server.
 				return;
 			}
@@ -146,7 +147,7 @@ public class RequestAdminTeleport : ClientMessage
 		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, Userid);
 	}
 
-	public static RequestAdminTeleport Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, int opperationNumber, bool isAghost, Vector3 Coord)
+	public static RequestAdminTeleport Send(string userId, string adminToken, string userToTeleport, string userToTelportTo, OpperationList opperation, bool isAghost, Vector3 Coord)
 	{
 		RequestAdminTeleport msg = new RequestAdminTeleport
 		{
@@ -154,7 +155,7 @@ public class RequestAdminTeleport : ClientMessage
 			AdminToken = adminToken,
 			UserToTeleport = userToTeleport,
 			UserToTeleportTo = userToTelportTo,
-			OpperationNumber = opperationNumber,
+			OpperationNumber = (int)opperation,
 			IsAghost = isAghost,
 			vectorX = Coord.x,
 			vectorY = Coord.y,
@@ -164,31 +165,10 @@ public class RequestAdminTeleport : ClientMessage
 		return msg;
 	}
 
-	public override void Deserialize(NetworkReader reader)
+	public enum OpperationList
 	{
-		base.Deserialize(reader);
-		Userid = reader.ReadString();
-		AdminToken = reader.ReadString();
-		UserToTeleport = reader.ReadString();
-		UserToTeleportTo = reader.ReadString();
-		OpperationNumber = reader.ReadInt32();
-		IsAghost = reader.ReadBoolean();
-		vectorX = reader.ReadSingle();
-		vectorY = reader.ReadSingle();
-		vectorZ = reader.ReadSingle();
-	}
-
-	public override void Serialize(NetworkWriter writer)
-	{
-		base.Serialize(writer);
-		writer.WriteString(Userid);
-		writer.WriteString(AdminToken);
-		writer.WriteString(UserToTeleport);
-		writer.WriteString(UserToTeleportTo);
-		writer.WriteInt32(OpperationNumber);
-		writer.WriteBoolean(IsAghost);
-		writer.WriteSingle(vectorX);
-		writer.WriteSingle(vectorY);
-		writer.WriteSingle(vectorZ);
+		AdminToPlayer = 1,
+		PlayerToAdmin = 2,
+		AllPlayersToPlayer = 3
 	}
 }
