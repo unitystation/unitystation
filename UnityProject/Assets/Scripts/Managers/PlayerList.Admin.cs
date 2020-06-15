@@ -418,7 +418,7 @@ public partial class PlayerList
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLog, message + $"\nReason: {reason}", "");
 
-				if (!announceBan && ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
+				if (!announceBan && !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
 
 				if (isBan)
 				{
