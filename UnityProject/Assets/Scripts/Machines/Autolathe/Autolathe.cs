@@ -21,6 +21,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 	private SpriteSheetAndData acceptingMaterialsSprite = null;
 
 	private RegisterObject registerObject = null;
+	private Vector3Int position;
 
 	[SerializeField]
 	private MaterialStorage materialStorage = null;
@@ -54,6 +55,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
+		position = registerObject.WorldPositionServer;
 		EnsureInit();
 	}
 
@@ -144,7 +146,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		if (materialStorage.TryRemoveMaterialSheet(materialType, amountOfSheets))
 		{
 			Spawn.ServerPrefab(materialStorage.ItemTraitToMaterialRecord[materialType].materialPrefab,
-			registerObject.WorldPositionServer, transform.parent, count: amountOfSheets);
+				position, transform.parent, count: amountOfSheets);
 
 			UpdateGUI();
 		}
@@ -172,7 +174,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		stateSync = AutolatheState.Production;
 		yield return WaitFor.Seconds(productionTime);
 
-		Spawn.ServerPrefab(productObject, registerObject.WorldPositionServer, transform.parent, count: 1);
+		Spawn.ServerPrefab(productObject, position, transform.parent, count: 1);
 		stateSync = AutolatheState.Idle;
 	}
 
@@ -187,7 +189,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 
 			if (amountToSpawn > 0)
 			{
-				Spawn.ServerPrefab(materialToSpawn, registerObject.WorldPositionServer, transform.parent, count: amountToSpawn);
+				Spawn.ServerPrefab(materialToSpawn, position, transform.parent, count: amountToSpawn);
 			}
 		}
 	}
