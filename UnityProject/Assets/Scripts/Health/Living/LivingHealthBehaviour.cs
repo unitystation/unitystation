@@ -105,6 +105,8 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	//can go up or down based on possible sources of being on fire. Max seems to be 20 in tg.
 	[SyncVar(hook=nameof(SyncFireStacks))]
 	private float fireStacks;
+	private float maxFireStacks = 5f;
+	private bool maxFireStacksReached = false;
 
 	/// <summary>
 	/// How on fire we are. Exists client side - synced with server.
@@ -379,7 +381,23 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		if (attackType == AttackType.Fire)
 		{
-			SyncFireStacks(fireStacks, fireStacks+1);
+			// fire stacks should not exceed 20, and not apply if already at the cap
+			if (fireStacks <= maxFireStacks && !maxFireStacksReached)
+			{
+				SyncFireStacks(fireStacks, fireStacks+1);
+			}
+
+			// fire stacks should not exceed max fire stacks
+			if (fireStacks >= maxFireStacks)
+			{
+				maxFireStacksReached = true;
+			}
+
+			// fire stacks hit 0 remove flag
+			if (fireStacks <= 0f)
+			{
+				maxFireStacksReached = false;
+			}
 		}
 
 		//For special effects spawning like blood:
