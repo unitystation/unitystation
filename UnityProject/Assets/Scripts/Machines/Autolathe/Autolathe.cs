@@ -144,13 +144,9 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		if (materialStorage.TryRemoveMaterialSheet(materialType, amountOfSheets))
 		{
 			Spawn.ServerPrefab(materialStorage.ItemTraitToMaterialRecord[materialType].materialPrefab,
-			registerObject.WorldPositionServer, transform.parent, count: amountOfSheets);
+				registerObject.WorldPositionServer, transform.parent, count: amountOfSheets);
 
 			UpdateGUI();
-		}
-		else
-		{
-			//Not enough materials to dispense
 		}
 	}
 
@@ -187,7 +183,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 
 			if (amountToSpawn > 0)
 			{
-				Spawn.ServerPrefab(materialToSpawn, registerObject.WorldPositionServer, transform.parent, count: amountToSpawn);
+				Spawn.ServerPrefab(materialToSpawn, gameObject.transform.position, transform.parent, count: amountToSpawn);
 			}
 		}
 	}
@@ -206,10 +202,6 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		else if (stateNew == AutolatheState.AcceptingMaterials)
 		{
 			spriteHandler.SetSprite(acceptingMaterialsSprite, 0);
-		}
-		else
-		{
-			//Do nothing
 		}
 	}
 
