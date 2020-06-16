@@ -54,7 +54,7 @@ namespace AdminTools
 			}
 
 			RequestKickMessage.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerToKickCache.uid,
-				kickReasonField.text, kickAnnounceToggle.isOn);
+				kickReasonField.text, announceBan: kickAnnounceToggle.isOn);
 
 			ClosePage();
 		}
@@ -76,7 +76,7 @@ namespace AdminTools
 			int minutes;
 			int.TryParse(minutesField.text, out minutes);
 			RequestKickMessage.Send(ServerData.UserID, PlayerList.Instance.AdminToken, playerToKickCache.uid,
-				banReasonField.text, true, minutes, banAnnounceToggle.isOn);
+				banReasonField.text, true, minutes, announceBan: banAnnounceToggle.isOn);
 			ClosePage();
 		}
 
