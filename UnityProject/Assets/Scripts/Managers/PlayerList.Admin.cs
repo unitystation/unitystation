@@ -410,7 +410,7 @@ public partial class PlayerList
 		{
 			foreach (var p in players)
 			{
-				var message = $"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+				var message = $"A kick/ban has been processed by {admin}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 
 				Logger.Log(message);
 
@@ -422,11 +422,11 @@ public partial class PlayerList
 
 				if (isBan)
 				{
-					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Name}, has been banned for {banMinutes} minutes.";
+					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Username}, has been banned for {banMinutes} minutes.";
 				}
 				else
 				{
-					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Name}, has been kicked.";
+					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Username}, has been kicked.";
 				}
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");

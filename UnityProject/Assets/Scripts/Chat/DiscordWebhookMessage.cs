@@ -4,7 +4,7 @@ using UnityEngine;
 using System.Net;
 using System.Text.RegularExpressions;
 using DatabaseAPI;
-
+using System.Collections;
 
 namespace DiscordWebhook
 {
@@ -28,6 +28,8 @@ namespace DiscordWebhook
 		private float SendingTimer = 0;
 		private const float SpamTimeLimit = 150f;
 		private const float MessageTimeDelay = 1f;
+
+		private bool MessageSendingInProgress = false;
 
 		private void Awake()
 		{
@@ -53,12 +55,14 @@ namespace DiscordWebhook
 					InitDict();
 				}
 
-				foreach (var entry in DiscordWebhookURLQueueDict)
+				if (!MessageSendingInProgress)
 				{
-					FormatAndSendMessage(entry.Value, entry.Key);
+					MessageSendingInProgress = true;
+
+					_ = StartCoroutine(SendQueuedMessagesToWebhooks());
 				}
 
-				SendingTimer --;
+				SendingTimer = 0;
 			}
 
 			if (!SpamPrevention) return;
@@ -70,6 +74,19 @@ namespace DiscordWebhook
 
 				SpamPreventionTimer = 0f;
 			}
+		}
+
+		private IEnumerator SendQueuedMessagesToWebhooks()
+		{
+			foreach (var entry in DiscordWebhookURLQueueDict)
+			{
+
+				FormatAndSendMessage(entry.Value, entry.Key);
+			}
+
+			MessageSendingInProgress = false;
+
+			yield break;
 		}
 
 		private void InitDict()
