@@ -422,7 +422,7 @@ public partial class PlayerList
 
 				if (isBan)
 				{
-					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Name}, has been banned for {banMinutes}";
+					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Name}, has been banned for {banMinutes} minutes.";
 				}
 				else
 				{
