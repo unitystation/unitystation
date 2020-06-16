@@ -5,6 +5,7 @@ using UnityEngine;
 using Antagonists;
 using UI.CharacterCreator;
 using UnityEngine.Serialization;
+using DiscordWebhook;
 
 /// <summary>
 /// Contains the definition of a game mode. To create a new one you should
@@ -355,6 +356,8 @@ public abstract class GameMode : ScriptableObject
 
 		var msg = $"The round will restart in {GameManager.Instance.RoundEndTime} seconds.";
 		Chat.AddGameWideSystemMsgToChat(msg);
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "\n	A round has ended	\n", "");
 	}
 
 	#endregion

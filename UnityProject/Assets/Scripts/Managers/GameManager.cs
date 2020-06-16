@@ -463,6 +463,8 @@ public partial class GameManager : MonoBehaviour
 
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "\n	A new round has started		\n", "");
+
 		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
 	}
 

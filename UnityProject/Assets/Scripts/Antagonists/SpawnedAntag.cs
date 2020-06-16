@@ -101,8 +101,8 @@ namespace Antagonists
 			message += "Their objectives were:\n";
 			for (int i = 0; i < objectiveList.Count; i++)
 			{
-				message += $"{i + 1}. {objectiveList[i].Description}: \n";
-				message += objectiveList[i].IsComplete() ? "Completed" : "Failed";
+				message += $"{i + 1}. {objectiveList[i].Description}: ";
+				message += objectiveList[i].IsComplete() ? "Completed\n" : "Failed\n";
 			}
 			return message;
 		}

@@ -20,8 +20,13 @@ namespace DiscordWebhook
 		private Queue<string> AdminAhelpMessageQueue = new Queue<string>();
 		private Queue<string> AnnouncementMessageQueue = new Queue<string>();
 		private Queue<string> AllChatMessageQueue = new Queue<string>();
+		private Queue<string> AdminLogMessageQueue = new Queue<string>();
+
 		private Dictionary<Queue<string>, string> DiscordWebhookURLQueueDict = null;
+		private float SpamPreventionTimer = 0f;
+		private bool SpamPrevention = false;
 		private float SendingTimer = 0;
+		private const float SpamTimeLimit = 150f;
 		private const float MessageTimeDelay = 1f;
 
 		private void Awake()
@@ -55,6 +60,16 @@ namespace DiscordWebhook
 
 				SendingTimer --;
 			}
+
+			if (!SpamPrevention) return;
+
+			SpamPreventionTimer += Time.deltaTime;
+			if (SpamPreventionTimer > SpamTimeLimit)
+			{
+				SpamPrevention = false;
+
+				SpamPreventionTimer = 0f;
+			}
 		}
 
 		private void InitDict()
@@ -64,7 +79,8 @@ namespace DiscordWebhook
 				{OOCMessageQueue, ServerData.ServerConfig.DiscordWebhookOOCURL},
 				{AdminAhelpMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminURL},
 				{AnnouncementMessageQueue, ServerData.ServerConfig.DiscordWebhookAnnouncementURL},
-				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL}
+				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL},
+				{AdminLogMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminLogURL}
 			};
 		}
 
@@ -130,10 +146,11 @@ namespace DiscordWebhook
 			//Removes <@ to stop unwanted pings
 			newmsg = Regex.Replace(newmsg, "<@", " ");
 
-			if (!string.IsNullOrEmpty(mentionID))
+			if (!string.IsNullOrEmpty(mentionID) && !SpamPrevention)
 			{
 				//Replaces the @ServerAdmin (non case sensitive), with the discord role ID, so it pings.
 				newmsg = Regex.Replace(newmsg, "(?i)@ServerAdmin", mentionID);
+				SpamPrevention = true;
 			}
 
 			return newmsg;
@@ -151,6 +168,8 @@ namespace DiscordWebhook
 					return (ServerData.ServerConfig.DiscordWebhookAnnouncementURL, AnnouncementMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAllChatURL:
 					return (ServerData.ServerConfig.DiscordWebhookAllChatURL, AllChatMessageQueue);
+				case DiscordWebhookURLs.DiscordWebhookAdminLogURL:
+					return (ServerData.ServerConfig.DiscordWebhookAdminLogURL, AdminLogMessageQueue);
 				default:
 					return (null, null);
 			}
@@ -162,6 +181,7 @@ namespace DiscordWebhook
 		DiscordWebhookOOCURL,
 		DiscordWebhookAdminURL,
 		DiscordWebhookAnnouncementURL,
-		DiscordWebhookAllChatURL
+		DiscordWebhookAllChatURL,
+		DiscordWebhookAdminLogURL
 	}
 }
