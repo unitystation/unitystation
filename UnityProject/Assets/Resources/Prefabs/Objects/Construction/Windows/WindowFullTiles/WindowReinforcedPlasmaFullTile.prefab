@@ -35,16 +35,16 @@ MonoBehaviour:
   layerTile: {fileID: 11400000, guid: 7e4862f8c5d385d448754a86a2f73169, type: 2}
   matsOnDeconstruct: {fileID: 5680136605834777345, guid: 336f7dfb535e752438244ccb536899a9,
     type: 3}
-  countOfMatsOnDissasemle: 4
+  countOfMatsOnDissasemle: 2
   soundOnDeconstruct: Wrench
   shardsOnDestroy: {fileID: 3508732299770147791, guid: f610372b0de613b499d0e53b49c4e605,
     type: 3}
   minCountOfShardsOnDestroy: 1
-  maxCountOfShardsOnDestroy: 4
+  maxCountOfShardsOnDestroy: 2
   rodsOnDestroy: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,
     type: 3}
-  minCountOfRodsOnDestroy: 2
-  maxCountOfRodsOnDestroy: 8
+  minCountOfRodsOnDestroy: 1
+  maxCountOfRodsOnDestroy: 4
   soundOnDestroy: GlassBreak01
 --- !u!1001 &2837126099607863622
 PrefabInstance:
