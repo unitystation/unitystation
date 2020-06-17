@@ -448,7 +448,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
 			data.WindowDamage = WindowDamageLevel.Broken;
 
-			//Spawn 3 glass shards with different sprites:
+			//Spawn up to 2 glass shards with different sprites:
 			if (spawnPieces)
 			{
 				SpawnGlassShards(hitPos);
@@ -541,8 +541,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private void SpawnGlassShards(Vector3 pos)
 	{
-		//Spawn 2-4 glass shards
-		Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(1, 4),
+		//Spawn 1-2 glass shards
+		Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(1, 3), //I know it says three but using two as the max makes it so that you never actually get two shards sometimes.
 			scatterRadius: Random.Range(0, 3));
 
 		//Play the breaking window sfx:
