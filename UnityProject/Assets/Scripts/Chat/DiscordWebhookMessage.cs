@@ -5,6 +5,7 @@ using System.Net;
 using System.Text.RegularExpressions;
 using DatabaseAPI;
 using System.Collections;
+using Newtonsoft.Json;
 
 namespace DiscordWebhook
 {
@@ -30,6 +31,8 @@ namespace DiscordWebhook
 		private const float MessageTimeDelay = 1f;
 
 		private bool MessageSendingInProgress = false;
+
+		private IList<string> RoleList = new List<string>();
 
 		private void Awake()
 		{
@@ -101,11 +104,14 @@ namespace DiscordWebhook
 			};
 		}
 
-		private void Post(string url, NameValueCollection pairs)
+		private void Post(string url, JsonPayloadContent playload)
 		{
 			using (WebClient webClient = new WebClient())
-
-			webClient.UploadValues(url, pairs);
+			{
+				var dataString = JsonConvert.SerializeObject(playload);
+				webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+				webClient.UploadString(url, dataString);
+			}
 		}
 
 		public void AddWebHookMessageToQueue(DiscordWebhookURLs urlToUse, string msg, string username, string mentionID = null)
@@ -147,24 +153,30 @@ namespace DiscordWebhook
 				msg += queue.Dequeue() + "\n";
 			}
 
-			Post(url, new NameValueCollection()
+			var Payload = new JsonPayloadContent()
 			{
+				content = msg,
+
+				allowed_mentions =
 				{
-					"content",
-					msg
+					roles = RoleList
 				}
-			});
+			};
+
+			Post(url, Payload);
 		}
 
 		private string MsgMentionProcess(string msg, string mentionID = null)
 		{
 			var newmsg = msg;
 
-			//Removes <@ to stop unwanted pings
-			newmsg = Regex.Replace(newmsg, "<@", " ");
-
 			if (!string.IsNullOrEmpty(mentionID) && !SpamPrevention)
 			{
+				if (!RoleList.Contains(mentionID))
+				{
+					RoleList.Add(mentionID);
+				}
+
 				//Replaces the @ServerAdmin (non case sensitive), with the discord role ID, so it pings.
 				newmsg = Regex.Replace(newmsg, "(?i)@ServerAdmin", mentionID);
 				SpamPrevention = true;
@@ -200,5 +212,17 @@ namespace DiscordWebhook
 		DiscordWebhookAnnouncementURL,
 		DiscordWebhookAllChatURL,
 		DiscordWebhookAdminLogURL
+	}
+
+	public class AllowedMentions
+	{
+		public IList<string> roles { get; set; }
+	}
+
+	public class JsonPayloadContent
+	{
+		public string content { get; set; }
+
+		public AllowedMentions allowed_mentions = new AllowedMentions();
 	}
 }
