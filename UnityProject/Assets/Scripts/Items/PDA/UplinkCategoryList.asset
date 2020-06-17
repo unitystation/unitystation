@@ -9,38 +9,31 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 14f7b754063058b4ca02d26832ca5f31, type: 3}
-  m_Name: UplinkItemList
+  m_Script: {fileID: 11500000, guid: 0a1db02fc145294dd82c6a56ba9e00ed, type: 3}
+  m_Name: UplinkCategoryList
   m_EditorClassIdentifier: 
   itemCategoryList:
   - categoryName: Hacking
     itemList:
-    - cost: 4
+    - cost: 2
       item: {fileID: 5260985750374485318, guid: 36e3533550bd8a943ad05db76b83fdd3,
         type: 3}
-      name: Cryptographic sequencer
+      name: Electro-Magnetic-Card (Emag)
   - categoryName: Weapons
     itemList:
-    - cost: 8
+    - cost: 10
       item: {fileID: 7781396554342910705, guid: bb89e4eb0756de04b8ab904221c23296,
         type: 3}
-      name: Energy Sword
-    - cost: 7
+      name: Energy Sword(E-Sword)
+    - cost: 5
       item: {fileID: 8582594776399167655, guid: 75bd7f17749d75542afa4d2395205c7b,
         type: 3}
-      name: Stechkin
+      name: Stechkin Pistol
     - cost: 1
       item: {fileID: 6961538310405134957, guid: 0d9df74027a2dcde192f74b81f20cb60,
         type: 3}
-      name: 10mm Handgun Magazine(Stechkin Ammo)
-    - cost: 13
-      item: {fileID: 8582594776399167655, guid: 40613838c790c3f48bd441a6587bfd08,
-        type: 3}
-      name: .357 Revolver
-    - cost: 4
-      item: {fileID: 742292832060491855, guid: 9e8f0c4c21855a34f8ebe8ba3170f6de, type: 3}
-      name: .357 Speedloader
-  - categoryName: Bundles
-    itemList: []
+      name: 10mm Ammo (Stechkin Ammo)
   - categoryName: Misc
+    itemList: []
+  - categoryName: Bundles
     itemList: []

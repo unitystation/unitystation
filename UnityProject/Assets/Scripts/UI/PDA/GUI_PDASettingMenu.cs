@@ -10,14 +10,7 @@ namespace UI.PDA
 
 		[SerializeField] public NetLabel input;
 
-
 		private bool selectionCheck; // a simple variable to make sure the PDA asks the player to confirm the reset
-
-		// It sends you back to the main menu, what did you expect?
-		public void Back()
-		{
-			controller.OpenMainMenu();
-		}
 
 		//Logic pushed to controller for safety checks, cant have client fucking shit up
 		public void SetNotificationSound(string notificationString)

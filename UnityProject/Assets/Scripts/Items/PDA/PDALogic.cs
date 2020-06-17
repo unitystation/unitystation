@@ -62,9 +62,10 @@ namespace Items.PDA
 		[SerializeField]
 		private bool uplinkLocked;
 
-		// The string that must be entered into the ringtone slot
-		[Tooltip("Default uplink string here, only for testing reasons")]
-		public string uplinkString;
+		// The string that must be entered into the ringtone slot for the uplink
+		[SyncVar]
+		private string uplinkString;
+		public string UplinkString => uplinkString;
 
 		// A public readonly accessor for the TC
 		public int TeleCrystals => teleCrystals;
@@ -84,7 +85,7 @@ namespace Items.PDA
 		[SerializeField]
 		private Antagonist antagSet;
 
-		[SerializeField] private UplinkPasswordList passlist;
+		private UplinkPasswordList passlist;
 
 
 		//Checks weather the player is trying to insert a cartridge or a new ID
@@ -144,28 +145,41 @@ namespace Items.PDA
 			var slot = storage.GetIndexedItemSlot(0);
 			if (slot.IsEmpty != true) IdCard = slot.Item.GetComponent<IDCard>();
 			slot.OnSlotContentsChangeServer.AddListener(SlotChange);
+			passlist = UplinkPasswordList.Instance;
 			//messengerSystem = GameObject.Find("MessengerManager").GetComponent<MessengerManager>();
 			//AddSelf();
 		}
 		// checks to see if the character is the antag set in editor, if so enables uplink and gives TC
 		[Server]
-		public void AntagCheck(SpawnedAntag antag)
+		public void AntagCheck(GameObject player)
 		{
-			if (antag == null) return;
-			string antagName = antag.Antagonist.AntagName;
-			if (antagName != antagSet.AntagName || !isServer) return;
-			UplinkGenerate();
+			//TODO This is a hacky fix someone please figure out why the GUI start fix runs twice
+			uplinkString = null;
+			SpawnedAntag antag = player.GetComponent<PlayerScript>().mind.GetAntag();
+			//if (antag == null) return;
+			//string antagName = antag.Antagonist.AntagName;
+			//if (antagName != antagSet.AntagName || !isServer) return;
 			teleCrystals = initalTeleCrystal;
+			UplinkGenerate();
 			uplinkLocked = false;
+			PlayerCodeRemind(player);
 		}
 		[Server]
 		private void UplinkGenerate()
 		{
-			for (int i = 0; i < 2; i++)
+			for (int i = 0; i < 3; i++)
 			{
 				string word = passlist.WordList[Random.Range(0,passlist.WordList.Count)];
 				uplinkString += word;
 			}
+
+			string nums = Random.Range(111, 999).ToString();
+			uplinkString += nums;
+		}
+
+		private void PlayerCodeRemind(GameObject playerref)
+		{
+			Chat.AddExamineMsgFromServer(playerref, $"You suddenly remember reading an ominous message saying UplinkString: {uplinkString}");
 		}
 		//The methods bellow are general functions of the PDA
 

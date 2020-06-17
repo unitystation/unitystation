@@ -1,3 +1,4 @@
+using Items.PDA;
 using UnityEngine;
 using Machines;
 
@@ -26,4 +27,6 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public MachinePartsPrefabs MachinePartsPrefabs;
 	public SOAdminJobsList AdminJobsList;
 	public PoolConfig PoolConfig;
+	public UplinkCategoryList UplinkCategoryList;
+	public UplinkPasswordList UplinkPasswordList;
 }

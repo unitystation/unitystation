@@ -2,10 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UI.PDA
-{
 	[CreateAssetMenu(fileName = "UplinkItemList", menuName = "ScriptableObjects/PDA/UplinkItemList")]
-	public class UplinkCategoryList : ScriptableObject
+	public class UplinkCategoryList : SingletonScriptableObject<UplinkCategoryList>
 	{
 		[SerializeField] [Tooltip("A list of Item categories.")]
 		private List<UplinkCatagories> itemCategoryList = new List<UplinkCatagories>();
@@ -45,4 +43,3 @@ namespace UI.PDA
 
 		public int Cost => cost;
 	}
-}

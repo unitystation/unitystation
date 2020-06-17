@@ -45,7 +45,7 @@ namespace UI.PDA
 			onCategoryClicked = new UplinkCategoryClickedEvent();
 			OnCategoryClickedEvent.AddListener(OpenUplinkCategory);
 			Pda = Provider.GetComponent<Items.PDA.PDALogic>();
-			Pda.AntagCheck(Pda.TabOnGameObject.LastInteractedPlayer().GetComponent<PlayerScript>().mind.GetAntag());
+			Pda.AntagCheck(Pda.TabOnGameObject.LastInteractedPlayer());
 			OpenMainMenu();
 		}
 
@@ -90,7 +90,7 @@ namespace UI.PDA
 		/// <summary>
 		/// Opens the uplink
 		/// </summary>
-		public void OpenUplink()
+		private void OpenUplink()
 		{
 			uplinkPage.ShowCategories();
 			mainSwitcher.SetActivePage(uplinkPage);
@@ -99,7 +99,7 @@ namespace UI.PDA
 		/// <summary>
 		/// Generates a list of items to select from using a list containing said items
 		/// </summary>
-		public void OpenUplinkCategory(List<UplinkItems> items)
+		private void OpenUplinkCategory(List<UplinkItems> items)
 		{
 			uplinkPage.OpenSelectedCategory(items);
 		}
@@ -107,7 +107,7 @@ namespace UI.PDA
 		/// <summary>
 		/// //Tells the PDA script to spawn an item at the cost of TC
 		/// </summary>
-		public void SpawnUplinkItem(UplinkItems itemRequested)
+		private void SpawnUplinkItem(UplinkItems itemRequested)
 		{
 			Pda.SpawnUplinkItem(itemRequested.Item, itemRequested.Cost);
 		}
@@ -117,6 +117,7 @@ namespace UI.PDA
 		/// </summary>
 		public void OpenMessenger()
 		{
+			Debug.LogError("This needs to be added soon");
 			throw new NotImplementedException();
 		}
 		/// <summary>

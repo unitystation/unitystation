@@ -30,7 +30,7 @@ public enum NetTabType
 	HackingPanel = 19,
 	BoozeDispenser = 20,
 	SodaDispenser = 21,
-	PDA = 22
+	PDA = 22,
 	//add your tabs here
 }
 

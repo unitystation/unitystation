@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 namespace UI.PDA
@@ -12,11 +13,6 @@ namespace UI.PDA
 		private EmptyItemList crewManifestTemplate;
 
 		private List<SecurityRecord> storedRecords;
-
-		private void Start()
-		{
-			storedRecords = SecurityRecordsManager.Instance.SecurityRecords;
-		}
 
 		/// <summary>
 		/// Generates new Entries for the manifest, making sure to update it just incase it changed

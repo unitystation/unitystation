@@ -52,5 +52,11 @@ namespace UI.PDA
 		{
 			tcCounter.Value = $"TC: {mainController.Pda.TeleCrystals}";
 		}
+
+		public void LockUplink()
+		{
+			mainController.OpenMainMenu();
+			mainController.Pda.LockUplink();
+		}
 	}
 }

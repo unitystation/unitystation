@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace UI.PDA
 {
@@ -10,11 +11,13 @@ namespace UI.PDA
 		[SerializeField]
 		private EmptyItemList categoryTemplate;
 
-		[SerializeField]
-		[Tooltip("Just place the Uplinkitemlist object here")]
 		private UplinkCategoryList categories;
 		public void UpdateCategory()
 		{
+			if (categories == null)
+			{
+				categories = UplinkCategoryList.Instance;
+			}
 			categoryTemplate.Clear();
 			categoryTemplate.AddItems(categories.ItemCategoryList.Count);
 			for (int i = 0; i < categories.ItemCategoryList.Count; i++)

@@ -5,10 +5,6 @@ namespace UI.PDA
 {
 	public class GUI_PDAMainMenu : NetPage
 	{
-		/*[SerializeField]
-	[Tooltip("CrewManifest here")]
-	private GUI_PDA_CrewManifest manifestPage = null;  //The menuPage for reference*/
-
 		[SerializeField] private GUI_PDA controller;
 
 		[SerializeField] private NetLabel idLabel;
@@ -16,6 +12,7 @@ namespace UI.PDA
 		[SerializeField] private NetLabel lightLabel;
 
 		[SerializeField] private NetLabel machineLabel;
+
 
 		private void Start()
 		{
@@ -29,33 +26,29 @@ namespace UI.PDA
 		/// </summary>
 		public void UpdateId()
 		{
-			Debug.LogError("Button Pressed!");
+			if (!controller.Pda) return;
 			IDCard idCard = controller.Pda.IdCard;
 			// Not "Optimized" by rider for readability
 			//Checks to see if the ID card is not null, if so then display the owner of the ID and their job
 			if (idCard != null)
 			{
-				idLabel.Value = $"{idCard.RegisteredName},{idCard.Occupation}";
+				idLabel.Value = $"{idCard.RegisteredName},{idCard.JobType}";
 			}
 			else
 			{
 				idLabel.Value = "<No ID Inserted>";
 			}
-			//Checks to see if the PDA has a registerd name, if it does make that the Desktop name
+			//Checks to see if the PDA has a registered name, if it does make that the Desktop name
 			if (controller.Pda.PdaRegisteredName != null)
 			{
-				string editedstring = controller.Pda.PdaRegisteredName.Replace(" ","_");
+				string editedString = controller.Pda.PdaRegisteredName.Replace(" ","_");
 
-				machineLabel.Value = $"/home/{editedstring}/Desktop";
+				machineLabel.Value = $"/home/{editedString}/Desktop";
 			}
 			else
 			{
 				machineLabel.Value = "/home/Guest/Desktop";
 			}
-		}
-		public void SettingsPage()
-		{
-			controller.OpenSettings();
 		}
 
 		/// <summary>
