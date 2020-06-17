@@ -32,7 +32,7 @@ namespace DiscordWebhook
 
 		private bool MessageSendingInProgress = false;
 
-		private IList<string> RoleList = new List<string>();
+		IList<string> RoleList = null;
 
 		private void Awake()
 		{
@@ -178,7 +178,7 @@ namespace DiscordWebhook
 				}
 
 				//Replaces the @ServerAdmin (non case sensitive), with the discord role ID, so it pings.
-				newmsg = Regex.Replace(newmsg, "(?i)@ServerAdmin", mentionID);
+				newmsg = Regex.Replace(newmsg, "(?i)@ServerAdmin", "<@&" + mentionID + ">");
 				SpamPrevention = true;
 			}
 

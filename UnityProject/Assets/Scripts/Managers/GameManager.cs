@@ -450,7 +450,9 @@ public partial class GameManager : MonoBehaviour
 		CountdownEndTime = NetworkTime.time + PreRoundTime;
 		waitForStart = true;
 
-		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\n\n";
+		string msg = GameManager.Instance.SecretGameMode ? "Secret" : $"{GameManager.Instance.GameMode}";
+
+		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\n";
 
 		if (PlayerList.Instance.ConnectionCount == 1)
 		{
