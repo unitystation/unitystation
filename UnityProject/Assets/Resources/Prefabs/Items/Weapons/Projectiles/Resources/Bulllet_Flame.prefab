@@ -13,11 +13,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4331555194852958, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4331555194852958, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4331555194852958, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
       propertyPath: m_LocalScale.z
@@ -71,7 +71,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 8d68853332b99464693cc42850851279,
+      objectReference: {fileID: 21300000, guid: e135524543291dd4a989bcb81728c6ed,
         type: 3}
     - target: {fileID: 212330207800450856, guid: a95e157dbe676bd4b82190a9deaba4c4,
         type: 3}
@@ -96,7 +96,7 @@ PrefabInstance:
     - target: {fileID: 8750900017165839274, guid: a95e157dbe676bd4b82190a9deaba4c4,
         type: 3}
       propertyPath: maxBulletDistance
-      value: 3
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
