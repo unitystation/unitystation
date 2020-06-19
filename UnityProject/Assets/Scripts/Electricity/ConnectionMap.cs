@@ -15,59 +15,59 @@ public static class ConnectionMap
 		switch (ConnectionDirection)
 		{
 			case Connection.North:
-				{
-					validDirection = Connection.South;
-					break;
-				}
+			{
+				validDirection = Connection.South;
+				break;
+			}
 			case Connection.NorthEast:
-				{
-					validDirection = Connection.SouthWest;
-					break;
-				}
+			{
+				validDirection = Connection.SouthWest;
+				break;
+			}
 			case Connection.East:
-				{
-					validDirection = Connection.West;
-					break;
-				}
+			{
+				validDirection = Connection.West;
+				break;
+			}
 			case Connection.SouthEast:
-				{
-					validDirection = Connection.NorthWest;
-					break;
-				}
+			{
+				validDirection = Connection.NorthWest;
+				break;
+			}
 			case Connection.South:
-				{
-					validDirection = Connection.North;
-					break;
-				}
+			{
+				validDirection = Connection.North;
+				break;
+			}
 			case Connection.SouthWest:
-				{
-					validDirection = Connection.NorthEast;
-					break;
-				}
+			{
+				validDirection = Connection.NorthEast;
+				break;
+			}
 			case Connection.West:
-				{
-					validDirection = Connection.East;
-					break;
-				}
+			{
+				validDirection = Connection.East;
+				break;
+			}
 			case Connection.NorthWest:
-				{
-					validDirection = Connection.SouthEast;
-					break;
-				}
+			{
+				validDirection = Connection.SouthEast;
+				break;
+			}
 			case Connection.Overlap:
-				{
-					validDirection = Connection.Overlap;
-					break;
-				}
+			{
+				validDirection = Connection.Overlap;
+				break;
+			}
 			case Connection.MachineConnect:
-				{
-					validDirection = Connection.MachineConnect;
-					break;
-				}
+			{
+				validDirection = Connection.MachineConnect;
+				break;
+			}
 			default:
-				{
-					return false;
-				}
+			{
+				return false;
+			}
 		}
 
 		// check if our connection is pointing towards tile with "SurroundingTiles" connection
@@ -84,7 +84,7 @@ public static class ConnectionMap
 	public static bool IsConnectedToTileOverlap(Connection ConnectionDirection, ConnPoint AdjacentConnections)
 	{
 		switch (ConnectionDirection)
-		{   // Intentional Fallthrough for these cases
+		{	// Intentional Fallthrough for these cases
 			case Connection.North:
 			case Connection.NorthEast:
 			case Connection.East:
@@ -95,13 +95,13 @@ public static class ConnectionMap
 			case Connection.NorthWest:
 			case Connection.Overlap:
 			case Connection.MachineConnect:
-				{   // All of the cases above run this code
-					return (AdjacentConnections.pointA == ConnectionDirection || AdjacentConnections.pointB == ConnectionDirection);
-				}
+			{	// All of the cases above run this code
+				return (AdjacentConnections.pointA == ConnectionDirection || AdjacentConnections.pointB == ConnectionDirection);
+			}
 			default:
-				{   // Unspecified behavior in all other cases
-					return false;
-				}
+			{	// Unspecified behavior in all other cases
+				return false;
+			}
 		}
 	}
 

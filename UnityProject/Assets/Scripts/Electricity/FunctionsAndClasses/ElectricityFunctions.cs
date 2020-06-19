@@ -43,7 +43,7 @@ public static class ElectricityFunctions
 		Connection connectionPoint,
 		IntrinsicElectronicData OIinheritance,
 		HashSet<IntrinsicElectronicData> connections,
-		// point to exclude in AnyNeighbour connection
+		// used in SurroundingTiles connection
 		Connection otherConnectionPoint = Connection.NA)
 	{
 		var searchVecInt = new Vector3Int((int)searchVec.x, (int)searchVec.y, 0);
@@ -73,7 +73,7 @@ public static class ElectricityFunctions
 		{
 			foreach (var dir in NeighbourDirections)
 			{
-				// check all nearby connections except connections that is specified in other wire end
+				// check all nearby connections except connection that is specified in other wire end
 				if (dir.Key == otherConnectionPoint) continue;
 
 				var pos = searchVecInt + dir.Value;
@@ -547,20 +547,20 @@ public static class ElectricityFunctions
 		switch (powerTypeCategory)
 		{
 			case PowerTypeCategory.StandardCable:
-				{
-					Tile = ElectricalManager.Instance.MediumVoltageCables.Tiles[spriteIndex];
-					break;
-				}
+			{
+				Tile = ElectricalManager.Instance.MediumVoltageCables.Tiles[spriteIndex];
+				break;
+			}
 			case PowerTypeCategory.LowVoltageCable:
-				{
-					Tile = ElectricalManager.Instance.LowVoltageCables.Tiles[spriteIndex];
-					break;
-				}
+			{
+				Tile = ElectricalManager.Instance.LowVoltageCables.Tiles[spriteIndex];
+				break;
+			}
 			case PowerTypeCategory.HighVoltageCable:
-				{
-					Tile = ElectricalManager.Instance.HighVoltageCables.Tiles[spriteIndex];
-					break;
-				}
+			{
+				Tile = ElectricalManager.Instance.HighVoltageCables.Tiles[spriteIndex];
+				break;
+			}
 		}
 
 		return (Tile);
