@@ -308,6 +308,8 @@ public class CablePlacementVisualisation : MonoBehaviour
 					else
 						DisableVisualisation();
 				}
+				else
+					DisableVisualisation();
 			}
 		}
 		else
