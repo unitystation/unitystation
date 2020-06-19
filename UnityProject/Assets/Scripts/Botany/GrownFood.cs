@@ -23,8 +23,6 @@ public class GrownFood : NetworkBehaviour
 	[SerializeField]
 	private Edible edible;
 
-
-
 	[SyncVar(hook = nameof(SyncSize))]
 	public float SizeScale;
 

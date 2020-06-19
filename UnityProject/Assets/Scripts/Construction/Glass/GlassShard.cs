@@ -12,7 +12,7 @@ public class GlassShard : NetworkBehaviour
 	[SyncVar(hook = nameof(SpriteChange))]
 	public int spriteIndex;
 
-	private SpriteRenderer spriteRenderer;
+	public SpriteRenderer spriteRenderer;
 
 	void Awake()
 	{
