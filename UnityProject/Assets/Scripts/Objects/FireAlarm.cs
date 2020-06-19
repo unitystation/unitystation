@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
-public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>
+public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>
 {
 	public List<FireLock> FireLockList = new List<FireLock>();
 	private MetaDataNode metaNode;
@@ -12,6 +12,7 @@ public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<H
 	public float coolDownTime = 1.0f;
 	public bool isInCooldown = false;
 
+	[SyncVar(hook = nameof(SyncSprite))] private FireAlarmState stateSync;
 	public SpriteHandler spriteHandler;
 	public Sprite topLightSpriteNormal;
 	public Sprite openEmptySprite;
@@ -21,6 +22,13 @@ public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<H
 	public bool coverOpen;
 	public bool hasCables = true;
 
+	public enum FireAlarmState
+	{
+		TopLightSpriteAlert,
+		OpenEmptySprite,
+		TopLightSpriteNormal,
+		OpenCabledSprite
+	};
 
 
 	public void SendCloseAlerts()
@@ -30,7 +38,7 @@ public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<H
 		if (!activated && !isInCooldown)
 		{
 			activated = true;
-			spriteHandler.SetSprite(topLightSpriteAlert, 0);
+			stateSync = FireAlarmState.TopLightSpriteAlert;
 			SoundManager.PlayNetworkedAtPos("FireAlarm", metaNode.Position);
 			StartCoroutine(SwitchCoolDown());
 			foreach (var firelock in FireLockList)
@@ -58,7 +66,7 @@ public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<H
 		{
 			hasCables = false;
 			coverOpen = true;
-			spriteHandler.SetSprite(openEmptySprite);
+			stateSync = FireAlarmState.OpenEmptySprite;
 		}
 
 	}
@@ -95,11 +103,11 @@ public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<H
 				coverOpen = false;
 				if (activated)
 				{
-					spriteHandler.SetSprite(topLightSpriteAlert, 0);
+					stateSync = FireAlarmState.TopLightSpriteAlert;
 				}
 				else
 				{
-					spriteHandler.SetSprite(topLightSpriteNormal);
+					stateSync = FireAlarmState.TopLightSpriteNormal;
 				}
 			}
 			else
@@ -107,11 +115,11 @@ public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<H
 				coverOpen = true;
 				if (hasCables)
 				{
-					spriteHandler.SetSprite(openCabledSprite);
+					stateSync = FireAlarmState.OpenCabledSprite;
 				}
 				else
 				{
-					spriteHandler.SetSprite(openEmptySprite);
+					stateSync = FireAlarmState.OpenEmptySprite;
 				}
 			}
 			SoundManager.PlayNetworkedAtPos("screwdriver1", interaction.Performer.WorldPosServer());
@@ -126,7 +134,7 @@ public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<H
 					$"{interaction.Performer.ExpensiveName()} removes the cables.");
 				ToolUtils.ServerPlayToolSound(interaction);
 				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
-				spriteHandler.SetSprite(openEmptySprite);
+				stateSync = FireAlarmState.OpenEmptySprite;
 				hasCables = false;
 				activated = false;
 				return;
@@ -145,7 +153,7 @@ public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<H
 					{
 						Inventory.ServerConsume(interaction.HandSlot, 5);
 						hasCables = true;
-						spriteHandler.SetSprite(openCabledSprite);
+						stateSync = FireAlarmState.OpenCabledSprite;
 					});
 			}
 
@@ -155,7 +163,7 @@ public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<H
 			if (activated && !isInCooldown)
 			{
 				activated = false;
-				spriteHandler.SetSprite(topLightSpriteNormal);
+				stateSync = FireAlarmState.TopLightSpriteNormal;
 				StartCoroutine(SwitchCoolDown());
 				foreach (var firelock in FireLockList)
 				{
@@ -197,5 +205,25 @@ public class FireAlarm : MonoBehaviour, IServerLifecycle, ICheckedInteractable<H
 		yield return WaitFor.Seconds(coolDownTime);
 		isInCooldown = false;
 	}
-}
 
+	public void SyncSprite(FireAlarmState stateOld, FireAlarmState stateNew)
+	{
+		stateSync = stateNew;
+		if (stateNew == FireAlarmState.TopLightSpriteAlert)
+		{
+			spriteHandler.SetSprite(topLightSpriteAlert, 0);
+		}
+		else if (stateNew == FireAlarmState.OpenEmptySprite)
+		{
+			spriteHandler.SetSprite(openEmptySprite);
+		}
+		else if (stateNew == FireAlarmState.TopLightSpriteNormal)
+		{
+			spriteHandler.SetSprite(topLightSpriteNormal);
+		}
+		else if (stateNew == FireAlarmState.OpenCabledSprite)
+		{
+			spriteHandler.SetSprite(openCabledSprite);
+		}
+	}
+}
