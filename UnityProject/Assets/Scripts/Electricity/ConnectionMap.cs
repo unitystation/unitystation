@@ -70,6 +70,14 @@ public static class ConnectionMap
 				}
 		}
 
+		// check if our connection is pointing towards tile with "SurroundingTiles" connection
+		// Overlap will never point towards other tile
+		if (validDirection != Connection.Overlap)
+		{
+			return	(AdjacentConnections.pointA == validDirection || AdjacentConnections.pointB == validDirection)
+				||	(AdjacentConnections.pointA == Connection.SurroundingTiles || AdjacentConnections.pointB == Connection.SurroundingTiles);
+		}
+
 		return (AdjacentConnections.pointA == validDirection || AdjacentConnections.pointB == validDirection);
 	}
 
@@ -128,67 +136,76 @@ public static class ConnectionMap
 	}
 
 	/// <summary>
-	/// Get connections pointing towards tile (ex. if direction equals north, get all south connections from tile at north)
+	/// Get connections pointing towards tile [ex. if direction equals north, get all south connections(SW, S, SE) from tile at north]
 	/// </summary>
 	/// <param name="direction">direction to target tile</param>
 	/// <param name="connections">possible connections</param>
-	/// <returns>true if found any connections</returns>
-	public static bool GetConnectionsTargeting(Connection direction, out HashSet<Connection> connections)
+	/// <returns>HashSet of possible connections</returns>
+	public static HashSet<Connection> GetConnectionsTargeting(Connection direction)
 	{
+		HashSet<Connection> result = null;
 		switch (direction)
 		{
 			case Connection.North:
-				connections = new HashSet<Connection>() {
+				result = new HashSet<Connection>() {
 					Connection.South,
 					Connection.SouthEast,
 					Connection.SouthWest
 				};
-				return true;
+				break;
 			case Connection.NorthEast:
-				connections = new HashSet<Connection>() {
+				result =  new HashSet<Connection>() {
 					Connection.SouthWest
 				};
-				return true;
+				break;
 			case Connection.East:
-				connections = new HashSet<Connection>() {
+				result =  new HashSet<Connection>() {
 					Connection.West,
 					Connection.NorthWest,
 					Connection.SouthWest
 				};
-				return true;
+				break;
 			case Connection.SouthEast:
-				connections = new HashSet<Connection>() {
+				result =  new HashSet<Connection>() {
 					Connection.NorthWest
 				};
-				return true;
+				break;
 			case Connection.South:
-				connections = new HashSet<Connection>() {
+				result =  new HashSet<Connection>() {
 					Connection.North,
 					Connection.NorthEast,
 					Connection.NorthWest
 				};
-				return true;
+				break;
 			case Connection.SouthWest:
-				connections = new HashSet<Connection>() {
+				result =  new HashSet<Connection>() {
 					Connection.NorthEast
 				};
-				return true;
+				break;
 			case Connection.West:
-				connections = new HashSet<Connection>() {
+				result =  new HashSet<Connection>() {
 					Connection.East,
 					Connection.NorthEast,
 					Connection.SouthEast
 				};
-				return true;
+				break;
 			case Connection.NorthWest:
-				connections = new HashSet<Connection>() {
+				result =  new HashSet<Connection>() {
 					Connection.SouthEast
 				};
-				return true;
+				break;
+			case Connection.Overlap:
+				result = new HashSet<Connection>()
+				{
+					Connection.Overlap
+				};
+				break;
 		}
 
-		connections = null;
-		return false;
+		// if result != null add new connection
+		result?.Add(Connection.SurroundingTiles);
+
+		return result;
 	}
 
 }
@@ -206,7 +223,7 @@ public enum Connection
 	NorthWest,
 	Overlap,
 	MachineConnect,
-	AnyNeighbour
+	SurroundingTiles
 }
 
 public struct ConnPoint

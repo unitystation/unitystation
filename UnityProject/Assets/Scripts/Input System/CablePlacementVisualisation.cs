@@ -288,18 +288,26 @@ public class CablePlacementVisualisation : MonoBehaviour
 				lastMouseWordlPositionInt = roundedMousePosition;
 
 				// get metaTileMap and top tile
-				MetaTileMap metaTileMap = MatrixManager.AtPoint(roundedMousePosition, false).MetaTileMap;
-				LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true);
+				// MetaTileMap metaTileMap = MatrixManager.AtPoint(roundedMousePosition, false).MetaTileMap;
+				// LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true);
+				// *code above works only on Station matrix
+				// TODO: replace GetComponent solution with some built-in method?
 
-				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
+				var hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
+				MetaTileMap metaTileMap = hit.GetComponentInChildren<MetaTileMap>();
+				if (metaTileMap)
 				{
-					// move cable placement visualisation to rounded mouse position and enable it
-					cablePlacementVisualisation.transform.position = roundedMousePosition - new Vector3(0.5f, 0.5f, 0); ;
-					cablePlacementVisualisation.SetActive(true);
+					LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(roundedMousePosition), true);
+					if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
+					{
+						// move cable placement visualisation to rounded mouse position and enable it
+						cablePlacementVisualisation.transform.position = roundedMousePosition - new Vector3(0.5f, 0.5f, 0); ;
+						cablePlacementVisualisation.SetActive(true);
+					}
+					// disable visualisation if active
+					else
+						DisableVisualisation();
 				}
-				// disable visualisation if active
-				else
-					DisableVisualisation();
 			}
 		}
 		else

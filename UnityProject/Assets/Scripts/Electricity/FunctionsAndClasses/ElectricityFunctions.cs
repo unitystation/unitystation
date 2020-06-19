@@ -13,6 +13,19 @@ public static class ElectricityFunctions
 		Vector3Int.left
 	};
 
+	// dictionary of connections checked in "SurroundingTiles" connection
+	public static readonly Dictionary<Connection, Vector3Int> NeighbourDirections = new Dictionary<Connection, Vector3Int>()
+	{
+		{ Connection.North,     new Vector3Int(0,1,0)   },		// north
+		{ Connection.NorthEast, new Vector3Int(1,1,0)   },		// north east
+		{ Connection.East,      new Vector3Int(1,0,0)   },		// east
+		{ Connection.SouthEast, new Vector3Int(1,-1,0)  },		// south east
+		{ Connection.South,     new Vector3Int(0,-1,0)  },		// south
+		{ Connection.SouthWest, new Vector3Int(-1,-1,0) },		// south west
+		{ Connection.West,      new Vector3Int(-1,0,0)  },		// west
+		{ Connection.NorthWest, new Vector3Int(-1,1,0)  }       // north west
+	};
+
 	public static void FindPossibleConnections(Matrix matrix,
 		HashSet<PowerTypeCategory> CanConnectTo,
 		ConnPoint ConnPoints,
@@ -56,30 +69,19 @@ public static class ElectricityFunctions
 			ElectricalPool.PooledFPCList.Add(eConnsAtSearchVec);
 		}
 
-		if (connectionPoint == Connection.AnyNeighbour)
+		if (connectionPoint == Connection.SurroundingTiles)
 		{
-			// dictionary of nearby tiles
-			Dictionary<Connection, Vector3Int> NeighbourDirections = new Dictionary<Connection, Vector3Int>()
-			{
-				{ Connection.North, new Vector3Int(0,1,0) },		// north
-				{ Connection.NorthEast,new Vector3Int(1,1,0) },		// north east
-				{ Connection.East,new Vector3Int(1,0,0) },			// east
-				{ Connection.SouthEast,new Vector3Int(1,-1,0) },	// south east
-				{ Connection.South,new Vector3Int(0,-1,0) },		// south
-				{ Connection.SouthWest,new Vector3Int(-1,-1,0) },	// south west
-				{ Connection.West,new Vector3Int(-1,0,0) },			// west
-				{ Connection.NorthWest,new Vector3Int(-1,1,0) }		// north west
-			};
-
 			foreach (var dir in NeighbourDirections)
 			{
-				// check all nearby direcions except direction that is specified in wireEnd A/B
+				// check all nearby connections except connections that is specified in other wire end
 				if (dir.Key == otherConnectionPoint) continue;
 
 				var pos = searchVecInt + dir.Value;
 				var conns = matrix.GetElectricalConnections(pos);
-				// get connections pointing towards our tile (ex. if neighbour is at north, get all south connections)
-				if (ConnectionMap.GetConnectionsTargeting(dir.Key, out HashSet<Connection> possibleConnections))
+
+				// get connections pointing towards our tile [ex. if neighbour is at north, get all south connections(SW, S, SE)]
+				HashSet<Connection> possibleConnections = ConnectionMap.GetConnectionsTargeting(dir.Key);
+				if (possibleConnections != null)
 				{
 					foreach (var con in conns)
 					{
@@ -98,6 +100,7 @@ public static class ElectricityFunctions
 				conns.Clear();
 				ElectricalPool.PooledFPCList.Add(conns);
 			}
+
 			return connections;
 		}
 
@@ -111,7 +114,7 @@ public static class ElectricityFunctions
 				foreach (var con in conns)
 				{
 					if (OIinheritance != con && CanConnectTo.Contains(con.Categorytype) &&
-						ConnectionMap.IsConnectedToTile(Connection.MachineConnect, con.GetConnPoints()))
+						ConnectionMap.IsConnectedToTile(Connection.MachineConnect, con.GetConnPoints()) && !connections.Contains(con))
 					{
 						connections.Add(con);
 					}
