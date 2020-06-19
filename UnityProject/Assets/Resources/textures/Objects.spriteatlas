@@ -43,7 +43,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 102900000, guid: 30a7a1119ea109a4ea0d228bbb9f5297, type: 3}
-    totalSpriteSurfaceArea: 21640496
+    totalSpriteSurfaceArea: 21642544
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -7949,6 +7949,7 @@ SpriteAtlas:
   - {fileID: 21300010, guid: 4a7ccc7678478df48a8cbef9833ac57c, type: 3}
   - {fileID: 21300012, guid: 4a7ccc7678478df48a8cbef9833ac57c, type: 3}
   - {fileID: 21300014, guid: 4a7ccc7678478df48a8cbef9833ac57c, type: 3}
+  - {fileID: 21300000, guid: ffe91d76691c7b240a3c58915e2b3594, type: 3}
   - {fileID: 21300000, guid: 79b83d760f118a445b44698cba820940, type: 3}
   - {fileID: 21300000, guid: e0814d76f7d9f614f841b3b3e7d63087, type: 3}
   - {fileID: 21300000, guid: 601ded761dd4f0241a22cb4fec58ad44, type: 3}
@@ -13461,6 +13462,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 83cdf90bf720a20459a40631bcf942b2, type: 3}
   - {fileID: 21300002, guid: 83cdf90bf720a20459a40631bcf942b2, type: 3}
   - {fileID: 21300000, guid: 139ef90b169cff54c8448aee05074d15, type: 3}
+  - {fileID: 21300000, guid: dd877a0b53912f6448b02714240bd9b2, type: 3}
   - {fileID: 21300000, guid: 055dea0bdb6b8084a9ae002b4774282a, type: 3}
   - {fileID: 21300000, guid: 71e7bb0b09abe244eb16c1929914aa5e, type: 3}
   - {fileID: 21300002, guid: 71e7bb0b09abe244eb16c1929914aa5e, type: 3}
@@ -27112,6 +27114,7 @@ SpriteAtlas:
   - opening_5
   - opening_6
   - opening_7
+  - status_display_frame_cabled
   - telecomms_message_server_o_off
   - modular_laptop_security
   - poster_wanted_missing_foreground
@@ -32624,6 +32627,7 @@ SpriteAtlas:
   - rd_key_off_0
   - rd_key_off_1
   - command_construction
+  - status_display_frame_cabled_empty
   - seed-firelemon
   - turbinecomp_0
   - turbinecomp_1

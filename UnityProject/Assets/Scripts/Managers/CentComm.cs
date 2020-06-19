@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
 
 ///------------
@@ -14,6 +13,21 @@ public class CentComm : MonoBehaviour
 	public GameManager gameManager;
 
 	public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
+	public string CommandStatusString;
+	public string EscapeShuttleTimeString;
+
+	public void UpdateStatusDisplay(StatusDisplayChannel channel, string text)
+	{
+		if (channel == StatusDisplayChannel.EscapeShuttle)
+		{
+			EscapeShuttleTimeString = text;
+		}
+		else if(channel == StatusDisplayChannel.Command)
+		{
+			CommandStatusString = text;
+		}
+		OnStatusDisplayUpdate.Invoke(channel, text);
+	}
 
 	public AlertLevel CurrentAlertLevel = AlertLevel.Green;
 
