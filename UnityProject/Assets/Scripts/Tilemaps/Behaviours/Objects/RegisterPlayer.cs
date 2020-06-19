@@ -33,6 +33,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 
 	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
+	private PlayerSprites playerSprites;
 	private Directional playerDirectional;
 	private UprightSprites uprightSprites;
 
