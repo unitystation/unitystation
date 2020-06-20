@@ -86,10 +86,5 @@ namespace Radiation
 
 			//Logger.Log("RequestPulse!!" + Time.time);
 		}
-
-		// Update is called once per frame
-		void Update()
-		{
-		}
 	}
 }
