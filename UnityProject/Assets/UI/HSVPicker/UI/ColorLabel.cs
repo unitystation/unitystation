@@ -14,69 +14,86 @@ public class ColorLabel : MonoBehaviour
 
     public int precision = 0;
 
-    private Text label;
-
+	private InputField inputField;
     private void Awake()
     {
-        label = GetComponent<Text>();
-
+		inputField = GetComponentInParent<InputField>();
+		inputField.characterValidation = InputField.CharacterValidation.Integer;
     }
 
     private void OnEnable()
     {
         if (Application.isPlaying && picker != null)
         {
-            picker.onValueChanged.AddListener(ColorChanged);
+			picker.onValueChanged.AddListener(ColorChanged);
             picker.onHSVChanged.AddListener(HSVChanged);
         }
-    }
+		inputField.onEndEdit.AddListener(UpdateColor);
+	}
 
-    private void OnDestroy()
+	private void OnDestroy()
     {
         if (picker != null)
         {
             picker.onValueChanged.RemoveListener(ColorChanged);
             picker.onHSVChanged.RemoveListener(HSVChanged);
         }
-    }
-
-#if UNITY_EDITOR
-    private void OnValidate()
-    {
-        label = GetComponent<Text>();
-        UpdateValue();
-    }
-#endif
+		inputField.onEndEdit.RemoveListener(UpdateColor);
+	}
 
     private void ColorChanged(Color color)
     {
-        UpdateValue();
+		UpdateValue();
     }
 
     private void HSVChanged(float hue, float sateration, float value)
     {
-        UpdateValue();
+		UpdateValue();
     }
 
     private void UpdateValue()
     {
         if (picker == null)
         {
-            label.text = prefix + "-";
+			inputField.text = prefix + "-";
         }
         else
         {
             float value = minValue + (picker.GetValue(type) * (maxValue - minValue));
+			inputField.text = prefix + ConvertToDisplayString(value);
+		}
+	}
+	private string ConvertToDisplayString(float value)
+	{
+		if (precision > 0)
+			return value.ToString("f " + precision);
+		else
+			return Mathf.FloorToInt(value).ToString();
+	}
+	private void UpdateColor(string newRGB)
+	{
+		float value = ConvertInputValueToRGBFloat(newRGB);
+		switch (type)
+		{
+			case ColorValues.R:
+				picker.R = value;
+				break;
+			case ColorValues.G:
+				picker.G = value;
+				break;
+			case ColorValues.B:
+				picker.B = value;
+				break;
+			default:
+				break;
+		}
+	}
 
-            label.text = prefix + ConvertToDisplayString(value);
-        }
-    }
-
-    private string ConvertToDisplayString(float value)
-    {
-        if (precision > 0)
-            return value.ToString("f " + precision);
-        else
-            return Mathf.FloorToInt(value).ToString();
-    }
+	private float ConvertInputValueToRGBFloat(string newRGB)
+	{
+		float value = float.Parse(newRGB);
+		if(value > maxValue)
+			value = maxValue;
+		return value / maxValue;
+	}
 }

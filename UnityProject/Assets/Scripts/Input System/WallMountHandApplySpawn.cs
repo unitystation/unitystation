@@ -5,25 +5,29 @@ using UnityEngine;
 public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	public GameObject WallMountToSpawn;
-	public bool IsAPC = false;
+	public bool IsAPC;
+
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (interaction.TargetObject == this.gameObject) return false;
+		if (interaction.TargetObject == gameObject) return false;
 		//can only be used on tiles
 		return true;
 	}
 
-
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
-		MatrixInfo matrix = MatrixManager.AtPoint(worldPosInt, true);
-		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrix);
-		if (matrix.Matrix == null) return;
-		//no matrix found to place wires in
-
 		var roundTargetWorldPosition = interaction.WorldPositionTarget.RoundToInt();
+		MatrixInfo matrix = MatrixManager.AtPoint(roundTargetWorldPosition, true);
+		if (matrix.Matrix == null)
+		{
+			return;
+		}
+		if (!MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), true))
+		{
+			return;
+		}
+		var localPosInt = MatrixManager.WorldToLocalInt(roundTargetWorldPosition, matrix);
 		Vector3 PlaceDirection = interaction.Performer.Player().Script.WorldPos - (Vector3) roundTargetWorldPosition;
 		OrientationEnum FaceDirection = OrientationEnum.Down;
 
@@ -57,9 +61,7 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 				}
 			}
 		}
-		//BuildCable(roundTargetWorldPosition, interaction.Performer.transform.parent, WireEndB);
-		GameObject WallMount = Spawn.ServerPrefab(WallMountToSpawn, roundTargetWorldPosition,  interaction.Performer.transform.parent).GameObject;
-		//ElectricalCableMessage.Send(Cable, WireEndA, WireEndB, CableType);
+		GameObject WallMount = Spawn.ServerPrefab(WallMountToSpawn, roundTargetWorldPosition,  interaction.Performer.transform.parent, spawnItems: false).GameObject;
 		var Directional = WallMount.GetComponent<Directional>();
 		Directional.FaceDirection(Orientation.FromEnum(FaceDirection));
 		Inventory.ServerConsume(interaction.HandSlot, 1);

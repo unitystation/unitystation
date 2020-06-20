@@ -33,6 +33,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 
 	private PlayerScript playerScript;
 	public PlayerScript PlayerScript => playerScript;
+	private PlayerSprites playerSprites;
 	private Directional playerDirectional;
 	private UprightSprites uprightSprites;
 
@@ -182,12 +183,19 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	/// <param name="stunDuration">Time before the stun is removed.</param>
 	/// <param name="dropItem">If items in the hand slots should be dropped on stun.</param>
 	[Server]
-	public void ServerStun(float stunDuration = 4f, bool dropItem = true)
+	public void ServerStun(float stunDuration = 4f, bool dropItem = true, bool doSlip = true)
 	{
 		var oldVal = IsSlippingServer;
-		IsSlippingServer = true;
-		SyncIsLayingDown(isLayingDown, true);
-		OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
+		if (doSlip)
+		{
+			IsSlippingServer = true;
+			SyncIsLayingDown(isLayingDown, true);
+			OnSlipChangeServer.Invoke(oldVal, IsSlippingServer);
+		}
+		else //currently only used for taser
+		{
+			playerSprites.ToggleElectrocutedOverlay();
+		}
 		if (dropItem)
 		{
 			Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.leftHand));
@@ -195,12 +203,16 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		}
 		playerScript.playerMove.allowInput = false;
 
-		this.RestartCoroutine(StunTimer(stunDuration), ref unstunHandle);
+		this.RestartCoroutine(StunTimer(stunDuration, doSlip), ref unstunHandle);
 	}
-	private IEnumerator StunTimer(float stunTime)
+	private IEnumerator StunTimer(float stunTime, bool doSlip)
 	{
 		yield return WaitFor.Seconds(stunTime);
 		ServerRemoveStun();
+		if (!doSlip) //remove overlay if it was triggered
+		{
+			playerSprites.ToggleElectrocutedOverlay();
+		}
 	}
 
 	private void ServerRemoveStun()

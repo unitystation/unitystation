@@ -369,8 +369,14 @@ public class GUI_Hacking : NetTab
 		DeleteOldWires();
 		foreach (int[] connection in connectionList)
 		{
+			if (connection.Length != 2) return;
+
 			int outputIndex = connection[0];
 			int inputIndex = connection[1];
+
+			if (hackNodes.ElementAtOrDefault(connection[0]) == null || hackNodes[connection[0]] == null) return;
+			if (hackNodes.ElementAtOrDefault(connection[1]) == null || hackNodes[connection[1]] == null) return;
+
 			GUI_HackingNode outputUINode = GetUIComponentOfNode(hackNodes[outputIndex]);
 			GUI_HackingNode inputUINode = GetUIComponentOfNode(hackNodes[inputIndex]);
 
@@ -407,6 +413,8 @@ public class GUI_Hacking : NetTab
 		{
 			return;
 		}
+
+		if (wireUI.StartNode == null || wireUI.EndNode == null) return;
 
 		HackingNode outputNode = wireUI.StartNode.HackNode;
 		HackingNode inputNode = wireUI.EndNode.HackNode;

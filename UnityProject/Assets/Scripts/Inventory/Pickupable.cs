@@ -45,7 +45,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	}
 
 	// make sure to call this in subclasses
-	public void Start()
+	public virtual void Start()
 	{
 		CheckSpriteOrder();
 	}
@@ -59,7 +59,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 	}
 
-	public void OnInventoryMoveServer(InventoryMove info)
+	public virtual void OnInventoryMoveServer(InventoryMove info)
 	{
 		/*
 		 * TODO: There is a security issue here which existed even prior to inventory refactor.
@@ -116,7 +116,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		this.canPickup = canPickup;
 	}
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
+	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!canPickup) return false;
 		//we need to be the target
@@ -144,7 +144,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer.GetComponent<NetworkIdentity>().connectionToClient);
 	}
 
-	public void ServerPerformInteraction(HandApply interaction)
+	public virtual void ServerPerformInteraction(HandApply interaction)
 	{
 		//we validated, but object may only be in extended range
 		var cnt = GetComponent<CustomNetTransform>();

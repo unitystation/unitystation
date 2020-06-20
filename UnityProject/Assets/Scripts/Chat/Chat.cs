@@ -35,6 +35,8 @@ public partial class Chat : MonoBehaviour
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
+	public static bool OOCMute = false;
+
 	/// <summary>
 	/// Set the scene based chat relay at the start of every round
 	/// </summary>
@@ -62,7 +64,17 @@ public partial class Chat : MonoBehaviour
 		// This step is skipped when speaking in the OOC channel.
 		(string message, ChatModifier chatModifiers) processedMessage = (string.Empty, ChatModifier.None); // Placeholder values
 		bool isOOC = channels.HasFlag(ChatChannel.OOC);
-		if (!isOOC) processedMessage = ProcessMessage(sentByPlayer, message);
+		if (!isOOC)
+		{
+			processedMessage = ProcessMessage(sentByPlayer, message);
+
+			if (player.mind.occupation.JobType == JobType.MIME && player.mind.IsMiming
+				&& !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+			{
+				AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
+				return;
+			}
+		}
 
 		var chatEvent = new ChatEvent
 		{
@@ -78,15 +90,21 @@ public partial class Chat : MonoBehaviour
 		{
 			chatEvent.speaker = sentByPlayer.Username;
 
-			if (PlayerList.Instance.IsAdmin(sentByPlayer.UserId))
+			var isAdmin = PlayerList.Instance.IsAdmin(sentByPlayer.UserId);
+
+			if (isAdmin)
 			{
 				chatEvent.speaker = "[Admin] " + chatEvent.speaker;
 			}
+
+			if (OOCMute && !isAdmin) return;
 
 			Instance.addChatLogServer.Invoke(chatEvent);
 
 			//Sends OOC message to a discord webhook
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, message, chatEvent.speaker, ServerData.ServerConfig.DiscordWebhookOOCMentionsID);
+
+			if (!ServerData.ServerConfig.DiscordWebhookSendOOCToAllChat) return;
 
 			//Send it to All chat
 			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, $"[{ChatChannel.OOC}]  {message}\n", chatEvent.speaker);
@@ -132,12 +150,14 @@ public partial class Chat : MonoBehaviour
 				chatEvent.channels = (ChatChannel)value;
 				Instance.addChatLogServer.Invoke(chatEvent);
 
-				discordMessage += $"[{chatEvent.channels}]  {message}\n";
+				discordMessage += $"[{chatEvent.channels}] ";
 			}
 		}
 
+		discordMessage += $"\n{chatEvent.speaker}: {message}\n";
+
 		//Sends All Chat messages to a discord webhook
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, chatEvent.speaker);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, "");
 	}
 
 	/// <summary>
@@ -396,6 +416,7 @@ public partial class Chat : MonoBehaviour
 	/// </summary>
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="worldPos">The position of the local message</param>
+	/// <param name="originator">The object (i.e. vending machine) that said message</param>
 	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator)
 	{
 		if (!IsServer()) return;
@@ -408,6 +429,19 @@ public partial class Chat : MonoBehaviour
 			position = worldPos,
 			originator = originator
 		});
+	}
+
+	/// <summary>
+	/// For any other local messages that are not an Action or a Combat Action.
+	/// I.E for machines
+	/// Server side only
+	/// </summary>
+	/// <param name="message">The message to show in the chat stream</param>
+	/// <param name="originator">The object (i.e. vending machine) that said message</param>
+	public static void AddLocalMsgToChat(string message, GameObject originator)
+	{
+		if (!IsServer()) return;
+		AddLocalMsgToChat(message, originator.WorldPosServer(), originator);
 	}
 
 	/// <summary>

@@ -16,7 +16,7 @@ public class RequestGameActionSO : ClientMessage
 	}
 
 
-	public static RequestGameActionSO Send(UIActionScriptableObject uIActionScriptableObject)
+	public static void Send(UIActionScriptableObject uIActionScriptableObject)
 	{
 
 		RequestGameActionSO msg = new RequestGameActionSO
@@ -24,6 +24,5 @@ public class RequestGameActionSO : ClientMessage
 			soID = UIActionSOSingleton.ActionsTOID[uIActionScriptableObject]
 		};
 		msg.Send();
-		return msg;
 	}
 }

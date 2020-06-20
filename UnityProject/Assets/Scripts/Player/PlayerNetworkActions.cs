@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdminTools;
-using Audio;
+using Audio.Containers;
 using UnityEngine;
 using Mirror;
+using DiscordWebhook;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -326,6 +325,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var connectedPlayer = PlayerList.Instance.Get(gameObject);
 		if (connectedPlayer == ConnectedPlayer.Invalid) return;
 		VotingManager.Instance.RegisterVote(connectedPlayer.UserId, isFor);
+	}
+
+	[Command]
+	public void CmdVetoRestartVote(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.VetoVote(adminId);
 	}
 
 	/// <summary>
@@ -885,5 +894,41 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		AdminOverlay.RequestFullUpdate(adminId, adminToken);
 	}
+
+	[Command]
+	public void CmdToggleOOCMute(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		string msg;
+
+		if (Chat.OOCMute)
+		{
+			Chat.OOCMute = false;
+			msg = "OOC has been unmuted";
+		}
+		else
+		{
+			Chat.OOCMute = true;
+			msg = "OOC has been muted";
+		}
+
+		Chat.AddGameWideSystemMsgToChat($"<color=blue>{msg}</color>");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
+	}
 	#endregion
+
+	[Command]
+	public void CmdRequestSpell(int spellIndex)
+	{
+		foreach (var spell in playerScript.mind.Spells)
+		{
+			if (spell.SpellData.Index == spellIndex)
+			{
+				spell.CallActionServer(PlayerList.Instance.Get(gameObject));
+				return;
+			}
+		}
+	}
 }

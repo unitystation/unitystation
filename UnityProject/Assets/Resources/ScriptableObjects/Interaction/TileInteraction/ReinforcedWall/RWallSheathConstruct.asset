@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78698377d6a4aaf8d6e3a304a6cbc5e, type: 3}
   m_Name: RWallSheathConstruct
   m_EditorClassIdentifier: 
-  requiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+  requiredTrait: {fileID: 11400000, guid: aaed69546e98a47d8b488a046d00ebe7, type: 2}
+  harmIntentRequired: 0
   performerStartActionMessage: You begin welding the support rods back together...
   othersStartActionMessage: '{performer} begins welding the support rods back together...'
   seconds: 10
+  objectsToSpawn: {fileID: 0}
   toTile: {fileID: 11400000, guid: b43b0c919cddd46bea60e744d7d6e757, type: 2}
   performerFinishActionMessage: You weld the support rods back together.
   othersFinishActionMessage: '{performer} welds the support rods back together.'
