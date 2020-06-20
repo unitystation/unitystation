@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Pipes
 {
-	public class MonoPipe : MonoBehaviour
+	public class MonoPipe : MonoBehaviour,IServerDespawn
 	{
 		private RegisterTile registerTile;
 		public PipeData pipeData;
@@ -41,6 +41,13 @@ namespace Pipes
 
 		public virtual void TickUpdate()
 		{
+		}
+		/// <summary>
+		/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+		/// </summary>
+		public virtual void OnDespawnServer(DespawnInfo info)
+		{
+			pipeData.OnDisable();
 		}
 
 	}

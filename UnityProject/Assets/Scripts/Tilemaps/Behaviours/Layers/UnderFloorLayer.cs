@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Pipes;
 using UnityEngine;
 
@@ -141,6 +142,14 @@ public class UnderFloorLayer : Layer
 			{
 				matrix.TileChangeManager.UnderfloorUpdateTile(position, tile as BasicTile);
 			}
+			else
+			{
+				if (position.z < -49)
+				{
+					Logger.LogError("Tile has reached maximum Meta data system depth This could be from accidental placing of multiple tiles", Category.Editor);
+					return;
+				}
+			}
 
 			base.SetTile(position, tile, transformMatrix, color);
 		}
@@ -167,6 +176,14 @@ public class UnderFloorLayer : Layer
 	{
 		if (Application.isPlaying)
 		{
+			if (TileStore.ContainsKey((Vector2Int) position))
+			{
+				if (TileStore[(Vector2Int) position].Count > Math.Abs(position.z - 1))
+				{
+					TileStore[(Vector2Int) position][Math.Abs(position.z - 1)] = null;
+				}
+
+			}
 			base.RemoveTile(position, removeAll);
 			return;
 		}
@@ -180,6 +197,11 @@ public class UnderFloorLayer : Layer
 			{
 				base.RemoveTile(position, removeAll);
 			}
+		}
+
+		if (TileStore.ContainsKey((Vector2Int) position))
+		{
+			TileStore[(Vector2Int) position] = new List<LayerTile>();
 		}
 	}
 

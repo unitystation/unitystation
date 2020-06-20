@@ -78,7 +78,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tickRate: 1
+  moduleSupplyingDevice: {fileID: 0}
   Boiler: {fileID: 0}
+  conType: 3
 --- !u!114 &3582693408804968190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,7 +95,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModuleType: 0
   ControllingNode: {fileID: 0}
-  StartOnStartUp: 0
+  StartOnStartUp: 1
   Previouscurrent: 0
   current: 0
   PreviousSupplyingVoltage: 0

@@ -11,9 +11,9 @@ public class FuelRod : ReactorChamberRod
 	public float EditorOutputtingEnergy;
 
 
-	public decimal energyPerAtom = 0.0053333333333M;
+	public decimal energyPerAtom = 53.333333333M;
 
-	private const decimal PresentAtoms = 100000000000000000;
+	public decimal PresentAtoms = 100000000000000000;
 	public decimal fuelNeutronGeneration = 2.5M;
 	public decimal PresentAtomsfuel = 100000000000000000;
 	public decimal PresentAtomsDecayProducts = 0;

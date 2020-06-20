@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Google.Protobuf.WellKnownTypes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Profiling;
@@ -96,6 +97,32 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		return dmgAmt;
 	}
+
+	private float CalculateAbsorbDamaged(Vector3Int cellPos, AttackType attackType, MetaDataNode data, BasicTile tile = null)
+	{
+		if (tile == null)
+		{
+			tile= metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
+		}
+
+		float currentDamage = data.Damage;
+		if (tile.MaxHealth < data.Damage)
+		{
+			currentDamage = tile.MaxHealth;
+			data.ResetDamage();
+		}
+
+		if (tile.Armor.GetRatingValue(attackType) > 0 && (currentDamage - data.GetPreviousDamage()) > 0)
+		{
+			return ((currentDamage - data.GetPreviousDamage() ) / tile.Armor.GetRatingValue(attackType));
+		}
+		else
+		{
+			return (0);
+		}
+
+	}
+
 
 	private float GetMaxDamage(Vector3Int cellPos)
 	{
@@ -278,22 +305,22 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (metaTileMap.HasTile(cellPos, LayerType.Base, true))
 			{
-				//				SoundManager.PlayNetworkedAtPos( "FloorHit", worldPos, Random.Range( 0.9f, 1.1f ) );
+				//SoundManager.PlayNetworkedAtPos( "FloorHit", worldPos, Random.Range( 0.9f, 1.1f ) );
 				return AddPlatingDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
 
-		return dmgAmt;
+		return 0;
 	}
 
 	private float AddTableDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
 		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-
+		BasicTile tile = null;
 		if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			//watch out! must not accidentally destroy other objects like player!
-			tileChangeManager.RemoveTile(cellPos, LayerType.Objects);
+			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Objects) as BasicTile;
 
 			//			SoundManager.PlayNetworkedAtPos("TableHit", worldPos, 1f);
 
@@ -307,19 +334,18 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				SpawnMetal(worldPos);
 			}
 
-			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
 
-		return 0;
+		return CalculateAbsorbDamaged(cellPos, attackType,data, tile);
 	}
 
 	private float AddWallDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
 		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-
+		BasicTile tile = null;
 		if (data.Damage >= GetMaxDamage(cellPos))
 		{
-			tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
+			tile =  tileChangeManager.RemoveTile(cellPos, LayerType.Walls) as BasicTile;
 
 			//			SoundManager.PlayNetworkedAtPos("WallHit", worldPos, 1f);
 
@@ -332,39 +358,36 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			{
 				SpawnMetal(worldPos);
 			}
-
-			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
 
-		return 0;
+		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
 
 	private float AddFloorDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
 		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-
+		BasicTile tile = null;
 		if (data.Damage >= 30 && data.Damage < 70)
 		{
 			TryScorch(cellPos);
 		}
 		else if (data.Damage >= GetMaxDamage(cellPos))
 		{
-			var removed = tileChangeManager.RemoveTile(cellPos, LayerType.Floors);
+			tile  = tileChangeManager.RemoveTile(cellPos, LayerType.Floors) as BasicTile;
 			if (Random.value < 0.25f)
 			{
-				if (removed is BasicTile basicTile)
+				if (tile is BasicTile basicTile)
 				{
 					var toSpawn = basicTile.SpawnOnDeconstruct;
-					Spawn.ServerPrefab(toSpawn, worldPos);
+					Spawn.ServerPrefab(toSpawn, worldPos, count : basicTile.SpawnAmountOnDeconstruct);
 				}
 			}
 
 			//			SoundManager.PlayNetworkedAtPos("FloorHit", worldPos, 1f);
 
-			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
 
-		return 0;
+		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
 
 	/// <summary>
@@ -378,14 +401,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private float AddPlatingDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
 		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-
+		BasicTile tile = null;
 		if (data.Damage >= 30 && data.Damage < GetMaxDamage(cellPos))
 		{
 			TryScorch(cellPos);
 		}
 		else if (data.Damage >= GetMaxDamage(cellPos))
 		{
-			tileChangeManager.RemoveTile(cellPos, LayerType.Base);
+			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Base, false) as BasicTile;
 			//Spawn remains:
 			if (Random.value < 0.25f)
 			{
@@ -395,13 +418,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			{
 				SpawnMetal(worldPos);
 			}
-
-			//			SoundManager.PlayNetworkedAtPos("PlatingHit", worldPos, 1f);
-
-			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
-
-		return 0;
+		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
 
 	public void RepairWindow(Vector3Int cellPos)
@@ -423,6 +441,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	/// <returns>The remaining damage to apply to the tile if the window is broken, 0 otherwise.</returns>
 	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType, bool spawnPieces = true)
 	{
+		BasicTile tile = null;
 		data.Damage += GetReducedDamage(cellPos, damage, attackType);
 
 		if (data.Damage >= 20 && data.Damage < 50)
@@ -445,7 +464,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (data.Damage >= GetMaxDamage(cellPos))
 		{
-			tileChangeManager.RemoveTile(cellPos, LayerType.Windows);
+			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Windows) as BasicTile;
 			data.WindowDamage = WindowDamageLevel.Broken;
 
 			//Spawn up to 2 glass shards with different sprites:
@@ -457,16 +476,16 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			//Play the breaking window sfx:
 			SoundManager.PlayNetworkedAtPos("GlassBreak0#", hitPos, 1f);
 
-			return data.ResetDamage() - GetMaxDamage(cellPos);
+
 		}
 
-		return 0; // The remaining damage after cracking the window.
+		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
 
 	private float AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType, bool spawnPieces = true)
 	{
 		data.Damage += GetReducedDamage(cellPos, damage, attackType);
-
+		BasicTile tile = null;
 		//At half health change image of grill to damaged
 		if (data.Damage >= GetMaxDamage(cellPos) / 2 && data.Damage < GetMaxDamage(cellPos))
 		{
@@ -488,7 +507,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		//Make grills a little bit weaker (set to 60 hp):
 		if (data.Damage >= GetMaxDamage(cellPos))
 		{
-			tileChangeManager.RemoveTile(cellPos, LayerType.Grills);
+			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Grills) as BasicTile;
 
 			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
 
@@ -497,11 +516,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			{
 				SpawnRods(bulletHitTarget);
 			}
-
-			return data.ResetDamage() - GetMaxDamage(cellPos);
 		}
 
-		return 0;
+		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
 
 	//Only works server side:

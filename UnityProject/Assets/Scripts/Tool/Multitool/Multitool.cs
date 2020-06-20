@@ -60,10 +60,10 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 	{
 		if (!Validations.IsTarget(gameObject, interaction))
 		{
-			ISetMultitoolBase MultitoolBase = interaction.TargetObject.GetComponent<ISetMultitoolBase>();
-			if (MultitoolBase != null)
+			var MultitoolBases = interaction.TargetObject.GetComponents<ISetMultitoolBase>();
+			foreach (var MultitoolBase in MultitoolBases)
 			{
-				Logger.Log("Buffer > " + Buffer + " MultiMaster > "  + MultiMaster);
+				Logger.Log("Buffer > " + Buffer + " MultiMaster > " + MultiMaster);
 				if (Buffer == null || MultiMaster)
 				{
 					ISetMultitoolMaster Master = (MultitoolBase as ISetMultitoolMaster);
@@ -101,17 +101,13 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 						{
 							SlaveMultiMaster.SetMasters(ListBuffer);
 							Chat.AddExamineMsgFromServer(interaction.Performer,
-								"You set the" +  interaction.TargetObject.ExpensiveName()  +" to use the devices in the buffer");
+								"You set the" + interaction.TargetObject.ExpensiveName() +
+								" to use the devices in the buffer");
 							return;
 						}
+
 						Chat.AddExamineMsgFromServer(interaction.Performer,
-								"This only seems to have the capability of accepting Writing to buffer");
-							return;
-					}
-					else
-					{
-						Chat.AddExamineMsgFromServer(interaction.Performer,
-							"You need to empty the buffer to set it to a new buffer type");
+							"This only seems to have the capability of accepting Writing to buffer");
 						return;
 					}
 				}
@@ -178,5 +174,7 @@ public enum MultitoolConnectionType
 {
 	Empty,
 	APC,
-	Conveyor
+	Conveyor,
+	BoilerTurbine,
+	ReactorChamber
 }

@@ -15,7 +15,7 @@ using UnityEngine.Tilemaps;
 public class Matrix : MonoBehaviour
 {
 	private MetaTileMap metaTileMap;
-	private MetaTileMap MetaTileMap => metaTileMap ? metaTileMap : metaTileMap = GetComponent<MetaTileMap>();
+	public MetaTileMap MetaTileMap => metaTileMap ? metaTileMap : metaTileMap = GetComponent<MetaTileMap>();
 
 	private TileList serverObjects;
 
@@ -296,7 +296,6 @@ public class Matrix : MonoBehaviour
 
 		return null;
 	}
-
 	public IEnumerable<T> Get<T>(Vector3Int localPosition, ObjectType type, bool isServer) where T : MonoBehaviour
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
@@ -453,6 +452,22 @@ public class Matrix : MonoBehaviour
 	public MetaDataNode GetMetaDataNode(Vector2Int localPosition, bool createIfNotExists = true)
 	{
 		return (metaDataLayer.Get(new Vector3Int(localPosition.x, localPosition.y, 0), createIfNotExists));
+	}
+
+
+	public float GetRadiationLevel(Vector3Int localPosition)
+	{
+		var Node = metaDataLayer.Get(localPosition);
+		if (Node != null)
+		{
+			return (Node.RadiationNode.RadiationLevel);
+		}
+		return (0);
+	}
+
+	public float GetRadiationLevel(Vector2Int localPosition)
+	{
+		return (GetRadiationLevel(new Vector3Int(localPosition.x, localPosition.y, 0)));
 	}
 
 

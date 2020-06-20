@@ -25,8 +25,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d980d97bb1cc3d40ad1da4de37765b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  State: 0
   ReactorBoiler: {fileID: 0}
   ReactorTurbine: {fileID: 0}
+  conType: 3
 --- !u!1001 &3111376745928128602
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -34,6 +36,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1128924040738795512, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: circuitBoardPrefab
+      value: 
+      objectReference: {fileID: 506264321251827180, guid: ede1c8f45fe20d249b24bca909bb56ec,
+        type: 3}
     - target: {fileID: 2256398892695137214, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
       propertyPath: m_Mesh

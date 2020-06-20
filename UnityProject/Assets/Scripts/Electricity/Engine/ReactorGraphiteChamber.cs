@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Chemistry;
 using Chemistry.Components;
 using Light2D;
@@ -10,22 +11,26 @@ using UnityEngine.UIElements;
 using Lighting;
 using Pipes;
 using Radiation;
+using UnityEngine.Serialization;
 
-public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
+public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, ISetMultitoolMaster, IServerDespawn
 {
 	public float EditorPresentNeutrons;
 	public float EditorEnergyReleased;
+	public GameObject UraniumOre;
+	public GameObject MetalOre;
+	public GameObject PlasSteel;
 
-
-	[SerializeField] private float tickRate = 1;
 	private float tickCount;
 
-	private ItemStorage RodStorage;
+	[SerializeField] private ItemStorage RodStorage;
+	[SerializeField] private ItemStorage PipeStorage;
 
 	private decimal NeutronLeakingChance = 0.0397M;
 
 	public decimal EnergyReleased = 0; //Wattsec
-	public ReactorBoiler reactorBoiler;
+
+	public ItemTrait PipeItemTrait = null;
 
 	public float LikelihoodOfSpontaneousNeutron = 0.1f;
 
@@ -43,19 +48,26 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 
 	public ReactorChamberRod[] ReactorRods = new ReactorChamberRod[16];
 	public List<FuelRod> ReactorFuelRods = new List<FuelRod>();
+	public List<EngineStarter> ReactorEngineStarters = new List<EngineStarter>();
+
 
 	public float ControlRodDepthPercentage = 1;
-	private float EnergyToEvaporateWaterPer1 = 200;
-	private float RodLockingTemperatureK = 448.15f;
-	private float RodMeltingTemperatureK = 1273.15f;
-	private float RodTemperatureK = 293.15f;
+
+	private float EnergyToEvaporateWaterPer1 = 2000;
+
+	//public float RodLockingTemperatureK = 700f;
+	public float RodMeltingTemperatureK = 1100;
 	private float BoilingPoint = 373.15f;
 
-	public decimal MaximumOutputPressure = 50000M;
 	public bool MeltedDown = false;
+	public bool PoppedPipes = false;
 
-	public decimal NeutronSingularity = 7648830000000M;
-	public decimal CurrentPressureInput = 0;
+	public decimal NeutronSingularity = 76488300000M;
+	public decimal CurrentPressure = 0;
+
+	public decimal MaxPressure = 120000;
+
+
 	public decimal KFactor
 	{
 		get { return (CalculateKFactor()); }
@@ -69,10 +81,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 
 	public void SetControlRodDepth(float RequestedDepth)
 	{
-		if (RodTemperatureK < RodLockingTemperatureK)
-		{
-			ControlRodDepthPercentage = RequestedDepth;
-		}
+		ControlRodDepthPercentage = RequestedDepth;
 	}
 
 	public float Temperature => GetTemperature();
@@ -80,7 +89,6 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 	public float GetTemperature()
 	{
 		return (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature);
-
 	}
 
 	public decimal NonNeutronAbsorptionProbability()
@@ -106,9 +114,9 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 		}
 		else
 		{
-
 			//Logger.Log("M > " + ((decimal)(100f / (100f + reagentContainer[Water])) * (NumberOfRods / ReactorRods.Length)));
-			return ((decimal) (100f / (100f + ReactorPipe.pipeData.mixAndVolume.Mix.Total)) * (NumberOfRods / ReactorRods.Length));
+			return ((decimal) (100f / (100f + ReactorPipe.pipeData.mixAndVolume.Mix.Total)) *
+			        (NumberOfRods / ReactorRods.Length));
 		}
 
 		return (0.71M);
@@ -143,7 +151,6 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 
 	private void Awake()
 	{
-		RodStorage = this.GetComponent<ItemStorage>();
 		radiationProducer = this.GetComponent<RadiationProducer>();
 		registerObject = this.GetComponent<RegisterObject>();
 		ReactorPipe = this.GetComponent<ReactorPipe>();
@@ -152,22 +159,26 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 
 	public void CycleUpdate()
 	{
-		if (RodTemperatureK > RodMeltingTemperatureK && !MeltedDown)
+		if (GetTemperature() > RodMeltingTemperatureK && !MeltedDown)
 		{
-			Logger.LogError("MeltedDown!!" , Category.Electrical);
+			Logger.LogError("MeltedDown!!", Category.Electrical);
 			MeltedDown = true;
 		}
 
-		if (reactorBoiler == null) //Its blown up so not connected so vent to steam
+
+		if (PoppedPipes) //Its blown up so not connected so vent to steam
 		{
-			Logger.LogError("steam!!" , Category.Electrical);
+			Logger.LogError("steam!!", Category.Electrical);
 			if (ReactorPipe.pipeData.mixAndVolume.Mix.Total > 0)
 			{
 				if (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature > BoilingPoint)
 				{
 					var ExcessEnergy = (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - BoilingPoint);
-					ReactorPipe.pipeData.mixAndVolume.Mix.TransferTo(new ReagentMix(),  (EnergyToEvaporateWaterPer1
-					                                                                        * ExcessEnergy*(WaterEnergyDensityPer1*ReactorPipe.pipeData.mixAndVolume.Mix.Total)));
+					ReactorPipe.pipeData.mixAndVolume.Mix.TransferTo(new ReagentMix(), (EnergyToEvaporateWaterPer1
+					                                                                    * ExcessEnergy *
+					                                                                    (WaterEnergyDensityPer1 *
+					                                                                     ReactorPipe.pipeData
+						                                                                     .mixAndVolume.Mix.Total)));
 				}
 			}
 		}
@@ -179,6 +190,11 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 			PresentNeutrons += 1;
 		}
 
+		foreach (var Starter in ReactorEngineStarters)
+		{
+			PresentNeutrons += (decimal) Starter.NeutronGenerationPerSecond;
+		}
+
 		PresentNeutrons += ExternalNeutronGeneration();
 		GenerateExternalRadiation();
 		PresentNeutrons *= KFactor;
@@ -186,32 +202,13 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 		if (NeutronSingularity < PresentNeutrons)
 		{
 			Logger.LogError("DDFFR booommmm!!", Category.Electrical);
+			Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 50000, registerObject.Matrix);
 		}
 
 		EditorPresentNeutrons = (float) PresentNeutrons;
 		PowerOutput();
 
-
-		//power Emergency shunts kicking on the transformer after 10 seconds to divert  power for 2 Minutes (Have to be manually reset after that)
-		//add control system for power / some what
-
-		//Otherwise water panic, as it turned into a Malton
-		//If Fail explode
-		//Otherwise you got a controlled mess you have to clean up
-		//cleanup time, disassemble Throw radioactive fit into space
-		//Build new chambers And hook up
-		//when add cool
-		//################################  Control panel
-		//Make sure to add sounds number one priority!! Best thing
-
-		//
-		//humm Explosions
-		//make it clear that the slider controls Rod depth
-		//Add more buttons forced gram and that type of thing and some on the turbine/Boiler control and self
-
-		//################################  Radiation
-		// Stacks amount of radiation on player then slowly degrades it into Toxin
-
+		//Sprites
 	}
 
 	public void GenerateExternalRadiation()
@@ -255,18 +252,22 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 			}
 		}
 
-		var ExtraEnergyGained   = (float) EnergyReleased / ((RodDensityPer1 * rods)+  (WaterEnergyDensityPer1 *ReactorPipe.pipeData.mixAndVolume.Mix.Total)) ; //when add cool
+		var ExtraEnergyGained = (float) EnergyReleased /
+		                        ((RodDensityPer1 * rods) +
+		                         (WaterEnergyDensityPer1 *
+		                          ReactorPipe.pipeData.mixAndVolume.Mix.Total)); //when add cool
 
-		ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy = ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy  + ExtraEnergyGained;
-		//Logger.Log("ExtraEnergyGained " +  (ExtraEnergyGained) );
-		//Logger.Log("RodTemperatureK " +  (RodTemperatureK) );
-		RodTemperatureK = ReactorPipe.pipeData.mixAndVolume.Mix.Temperature;
-		CurrentPressureInput = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature * ReactorPipe.pipeData.mixAndVolume.Mix.Total)/ReactorPipe.pipeData.mixAndVolume.Volume);
-		//Logger.Log("CurrentPressureInput " + CurrentPressureInput );
-		if (CurrentPressureInput > MaximumOutputPressure)
+		ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy =
+			ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy + ExtraEnergyGained;
+
+
+		CurrentPressure = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) *
+		                             ReactorPipe.pipeData.mixAndVolume.Mix.Total);
+		if (CurrentPressure > MaxPressure)
 		{
-			Logger.LogError("BOOOMMMS MaximumOutputPressure", Category.Electrical);
-			reactorBoiler = null;
+			PoppedPipes = true;
+			var EmptySlot = PipeStorage.GetIndexedItemSlot(0);
+			Inventory.ServerDrop(EmptySlot);
 		}
 	}
 
@@ -307,7 +308,50 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 					{
 						ReactorFuelRods.Add(fuelRod);
 					}
+
+					var engineStarter = Rod as EngineStarter;
+					if (engineStarter != null)
+					{
+						ReactorEngineStarters.Add(engineStarter);
+					}
 				}
+			}
+			else if (Validations.HasItemTrait(interaction.UsedObject, PipeItemTrait))
+			{
+				var EmptySlot = PipeStorage.GetIndexedItemSlot(0);
+				if (EmptySlot.Item == null)
+				{
+					Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
+					PoppedPipes = false;
+				}
+			}
+			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder) &&
+			         MeltedDown == false)
+			{
+				if (ReactorRods.All(x => x == null))
+				{
+					ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
+						"You start to deconstruct the empty core...",
+						$"{interaction.Performer.ExpensiveName()} starts to deconstruct the empty core...",
+						"You deconstruct the empty core.",
+						$"{interaction.Performer.ExpensiveName()} deconstruct the empty core.",
+						() => { Despawn.ServerSingle(gameObject); });
+				}
+				else
+				{
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						"The inserted rods make it impossible to deconstruct");
+				}
+			}
+			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Pickaxe) &&
+			         MeltedDown == true)
+			{
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
+					"You start to hack away at the molten core...",
+					$"{interaction.Performer.ExpensiveName()} starts to hack away at the molten core...",
+					"You break the molten core to pieces.",
+					$"{interaction.Performer.ExpensiveName()} breaks the molten core to pieces.",
+					() => { Despawn.ServerSingle(gameObject); });
 			}
 			else
 			{
@@ -321,7 +365,8 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 		else
 		{
 			//pull out rod
-			for (int i = 0; i < ReactorRods.Length; i++)
+
+			for (int i = ReactorRods.Length; i-- > 0;)
 			{
 				if (ReactorRods[i] != null)
 				{
@@ -332,6 +377,12 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 						ReactorFuelRods.Remove(fuelRod);
 					}
 
+					var engineStarter = Rod as EngineStarter;
+					if (engineStarter != null)
+					{
+						ReactorEngineStarters.Remove(engineStarter);
+					}
+
 					ReactorRods[i] = null;
 					var EmptySlot = RodStorage.GetIndexedItemSlot(i);
 					Inventory.ServerTransfer(EmptySlot, interaction.HandSlot);
@@ -339,5 +390,54 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>
 				}
 			}
 		}
+	}
+
+	/// <summary>
+	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
+	/// </summary>
+	void IServerDespawn.OnDespawnServer(DespawnInfo info)
+	{
+		if (MeltedDown)
+		{
+			foreach (var Rod in ReactorRods)
+			{
+				switch (Rod.GetRodType())
+				{
+					case RodType.Fuel:
+						Spawn.ServerPrefab(UraniumOre, registerObject.WorldPositionServer);
+						break;
+					case RodType.Control:
+						Spawn.ServerPrefab(MetalOre, registerObject.WorldPositionServer);
+						break;
+				}
+			}
+		}
+		else
+		{
+			foreach (var Rod in RodStorage.GetItemSlots())
+			{
+				Inventory.ServerDespawn(Rod);
+			}
+
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, registerObject.WorldPositionServer, count: 40);
+		}
+
+		MeltedDown = false;
+		PoppedPipes = false;
+		PresentNeutrons = 0;
+		Array.Clear(ReactorRods, 0, ReactorRods.Length);
+		ReactorFuelRods.Clear();
+		ReactorEngineStarters.Clear();
+	}
+
+
+	//######################################## Multitool interaction ##################################
+	private MultitoolConnectionType conType = MultitoolConnectionType.ReactorChamber;
+	public MultitoolConnectionType ConType => conType;
+	private bool multiMaster = false;
+	public bool MultiMaster => multiMaster;
+
+	public void AddSlave(object SlaveObjectThis)
+	{
 	}
 }

@@ -24,7 +24,7 @@ public class NetSlider : NetUIStringElement
 
 	public FloatEvent ServerMethod;
 
-	private Slider element;
+	public Slider element;
 	public Slider Element
 	{
 		get

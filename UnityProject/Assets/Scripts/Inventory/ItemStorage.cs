@@ -13,8 +13,7 @@ using UnityEngine.Serialization;
 ///
 /// The ways in which the storage can be interacted with is handled by other components.
 ///
-/// Note that items stored in an ItemStorage can themselves have ItemStorage (for example, storing a backpack
-/// in a player's inventory)!
+/// Note that items stored in an ItemStorage can themselveOnDespawnServer
 /// </summary>
 public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove
 {

@@ -135,4 +135,37 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(ControllingNode.Node.InData.ControllingDevice);
 		}
 	}
+
+	public float GetVoltage()
+	{
+		if (ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(ControllingNode.Node) && ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.Count > 0)
+		{
+			var DownNode = ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.PickRandom();
+			ElectricityFunctions.WorkOutActualNumbers(DownNode);
+			return (DownNode.Data.ActualVoltage);
+		}
+		return (0);
+	}
+	public float GetCurrente()
+	{
+		if (ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(ControllingNode.Node) && ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.Count > 0)
+		{
+			var DownNode = ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.PickRandom();
+			ElectricityFunctions.WorkOutActualNumbers(DownNode);
+			return (DownNode.Data.CurrentInWire);
+		}
+		return (0);
+	}
+
+	public float GetResistance()
+	{
+		if (ControllingNode.Node.InData.Data.SupplyDependent.ContainsKey(ControllingNode.Node) && ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.Count > 0)
+		{
+			var DownNode = ControllingNode.Node.InData.Data.SupplyDependent[ControllingNode.Node].Downstream.PickRandom();
+			ElectricityFunctions.WorkOutActualNumbers(DownNode);
+			return (DownNode.Data.EstimatedResistance);
+		}
+		return (0);
+	}
+
 }

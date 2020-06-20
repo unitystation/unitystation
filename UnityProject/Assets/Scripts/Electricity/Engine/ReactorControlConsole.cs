@@ -2,27 +2,30 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReactorControlConsole : MonoBehaviour
+public class ReactorControlConsole : MonoBehaviour, ISetMultitoolSlave
 {
-	public List<ReactorGraphiteChamber> ReactorChambers = new List<ReactorGraphiteChamber>();
+	public float Target = 0;
+
+	public ReactorGraphiteChamber ReactorChambers = null;
+
 	public void RequestRelativeChange(float Multiplier)
 	{
 		Logger.Log("Multiplier " + Multiplier);
 		float ControlRodDepthPercentage = 0;
-		foreach (var Chamber in ReactorChambers)
+
+		if (ReactorChambers.ControlRodDepthPercentage == 0)
 		{
-			if (Chamber.ControlRodDepthPercentage == 0)
-			{
-				Chamber.ControlRodDepthPercentage = 0.001f;
-			}
-			Chamber.ControlRodDepthPercentage *= (1/Multiplier);
-			ControlRodDepthPercentage = Chamber.ControlRodDepthPercentage;
-//Change this to use SetControlRodDepth
-			if (Chamber.ControlRodDepthPercentage > 1)
-			{
-				Chamber.ControlRodDepthPercentage = 1;
-			}
+			ReactorChambers.ControlRodDepthPercentage = 0.001f;
 		}
+
+		ReactorChambers.ControlRodDepthPercentage *= (1 / Multiplier);
+		ControlRodDepthPercentage = ReactorChambers.ControlRodDepthPercentage;
+//Change this to use SetControlRodDepth
+		if (ReactorChambers.ControlRodDepthPercentage > 1)
+		{
+			ReactorChambers.ControlRodDepthPercentage = 1;
+		}
+
 		Logger.Log("ControlRodDepthPercentage " + ControlRodDepthPercentage);
 	}
 
@@ -37,9 +40,21 @@ public class ReactorControlConsole : MonoBehaviour
 			Specified = 0;
 		}
 
-		foreach (var Chamber in ReactorChambers)
+
+		ReactorChambers.SetControlRodDepth(Specified);
+	}
+
+	//######################################## Multitool interaction ##################################
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.ReactorChamber;
+	public MultitoolConnectionType ConType  => conType;
+
+	public void SetMaster(ISetMultitoolMaster Imaster)
+	{
+		var Chamber  = (Imaster as Component)?.gameObject.GetComponent<ReactorGraphiteChamber>();
+		if (Chamber != null)
 		{
-			Chamber.ControlRodDepthPercentage = (Specified);
+			ReactorChambers = Chamber;
 		}
 	}
 

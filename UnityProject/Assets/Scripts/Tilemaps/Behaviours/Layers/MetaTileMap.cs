@@ -84,17 +84,25 @@ public class MetaTileMap : MonoBehaviour
 	/// <summary>
 	/// Apply damage to damageable layers, top to bottom.
 	/// If tile gets destroyed, remaining damage is applied to the layer below
+	/// Returns how much damage was absorbed
 	/// </summary>
-	public void ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
+	public float ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
 	{
+		float RemainingDamage = damage;
 		foreach ( var damageableLayer in DamageableLayers )
 		{
-			if ( damage <= 0f )
+			if ( RemainingDamage <= 0f )
 			{
-				return;
+				return (damage);
 			}
-			damage = damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos, attackType );
+			RemainingDamage -= damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos, attackType);
 		}
+
+		if (RemainingDamage > damage)
+		{
+			return (damage);
+		}
+		return (damage - RemainingDamage);
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer)

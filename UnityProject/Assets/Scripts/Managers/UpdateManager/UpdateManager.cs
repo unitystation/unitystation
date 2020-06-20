@@ -129,9 +129,20 @@ public class UpdateManager : MonoBehaviour
 
 		if (type == CallbackType.PERIODIC_UPDATE)
 		{
-			var RemovingAction = Instance.periodicUpdateActions.First(x => x.Action == action);
-			RemovingAction.Pool();
-			Instance.periodicUpdateActions.Remove(RemovingAction);
+			TimedUpdate RemovingAction = null;
+			foreach (var periodicUpdateAction in Instance.periodicUpdateActions)
+			{
+				if (periodicUpdateAction.Action == action)
+				{
+					RemovingAction = periodicUpdateAction;
+				}
+			}
+			if (RemovingAction != null)
+			{
+				RemovingAction.Pool();
+				Instance.periodicUpdateActions.Remove(RemovingAction);
+
+			}
 
 			return;
 		}

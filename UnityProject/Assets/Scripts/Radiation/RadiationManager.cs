@@ -229,12 +229,18 @@ namespace Radiation
 			float RadiationOnStep = RadiationStrength;
 			for (;;)
 			{
-				var NodePoint = Pulse.Matrix.GetMetaDataNode(new Vector2Int(x0, y0)).RadiationNode;
-				if (NodePoint != null)
+				var NodePoint = Pulse.Matrix.GetMetaDataNode(new Vector2Int(x0, y0));
+				var RadiationNode = NodePoint?.RadiationNode;
+				if (RadiationNode != null)
 				{
-					RadiationOnStep *= NodePoint.RadiationPassability;
-					CircleArea.Add(NodePoint);
-					NodePoint.MidCalculationNumbers += RadiationOnStep;
+					if (NodePoint.IsOccupied)
+					{
+						RadiationOnStep *= 0.15f;
+					}
+					//RadiationOnStep *= RadiationNode.RadiationPassability;
+
+					CircleArea.Add(RadiationNode);
+					RadiationNode.MidCalculationNumbers += RadiationOnStep;
 				}
 				if (x0 == x1 && y0 == y1) break;
 				e2 = err;

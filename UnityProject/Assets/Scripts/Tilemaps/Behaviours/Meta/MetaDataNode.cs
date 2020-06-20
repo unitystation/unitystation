@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Atmospherics;
+using Explosions;
 using Radiation;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
@@ -13,6 +14,11 @@ using UnityEngine;
 public class MetaDataNode: IGasMixContainer
 {
 	public static readonly MetaDataNode None;
+
+	/// <summary>
+	/// Used for calculating explosion data
+	/// </summary>
+	public ExplosionNode ExplosionNode = null;
 
 	/// <summary>
 	/// Used for storing useful information for the radiation system and The radiation level
@@ -175,6 +181,22 @@ public class MetaDataNode: IGasMixContainer
 		}
 	}
 
+	public bool IsNeighbourToNonSpace()
+	{
+		lock (neighborList)
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (neighborList[i].IsSpace == false)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
 	public void AddNeighbor(MetaDataNode neighbor, Vector3Int direction)
 	{
 		if (neighbor != this)
@@ -235,6 +257,11 @@ public class MetaDataNode: IGasMixContainer
 		IsScorched = false;
 		WindowDamage = WindowDamageLevel.Undamaged;
 		GrillDamage = GrillDamageLevel.Undamaged;
+		return previousDamage;
+	}
+
+	public float GetPreviousDamage()
+	{
 		return previousDamage;
 	}
 

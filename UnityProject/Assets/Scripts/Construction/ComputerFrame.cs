@@ -86,7 +86,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 							"You start wrenching the frame into place...",
 							$"{interaction.Performer.ExpensiveName()} starts wrenching the frame into place...",
 							"You wrench the frame into place.",
-							$"{interaction.Performer.ExpensiveName()} wrenches the frame into place.",
+							$"{interaction.Performer.ExpensiveName()} wrenches the frame into placthise.",
 							() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
 					}
 				}
@@ -226,7 +226,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 			}
 		}
 
-		
+
 	}
 
 	public string Examine(Vector3 worldPos)
@@ -238,7 +238,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 			{
 				msg = "Use a wrench to secure the frame to the floor, or a welder to deconstruct it.";
 			}
-				
+
 			else
 			{
 				msg = "Use a wrench to unfasten the frame from the floor.";
@@ -246,7 +246,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 				{
 					msg += " A circuit board must be added to continue.";
 				}
-					
+
 				if (circuitBoardSlot.IsOccupied)
 				{
 					msg += " Use a screwdriver to screw in the circuitboard, or a crowbar to remove it.";
@@ -264,7 +264,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 		{
 			msg = "Add two glass sheets to mount the glass panel. Use a wirecutter to remove cables.";
 		}
-		
+
 		if (CurrentState == glassAddedState)
 		{
 			msg = "Connect the monitor with a screwdriver to finish construction. Use a crowbar to remove glass panel.";

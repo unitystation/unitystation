@@ -12,7 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ff8f5207c4eb747b27837977ae373b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ReactorChambers: []
+  Target: 0
+  ReactorChambers: {fileID: 0}
+  conType: 4
 --- !u!114 &4474616092106316759
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,6 +35,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1128924040738795512, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: circuitBoardPrefab
+      value: 
+      objectReference: {fileID: 889570471362432620, guid: 63a3644e9645d1e42a8bacc418429199,
+        type: 3}
     - target: {fileID: 2256398892695137214, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
       propertyPath: m_Mesh

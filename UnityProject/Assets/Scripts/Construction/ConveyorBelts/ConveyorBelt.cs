@@ -319,6 +319,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 	}
 
 	//######################################## Multitool interaction ##################################
+
 	[SerializeField]
 	private MultitoolConnectionType conType = MultitoolConnectionType.Conveyor;
 	public MultitoolConnectionType ConType  => conType;

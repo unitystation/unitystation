@@ -20,5 +20,6 @@ public class ReactorChamberRod : MonoBehaviour
 public enum RodType
 {
 	Fuel,
-	Control
+	Control,
+	Starter
 }

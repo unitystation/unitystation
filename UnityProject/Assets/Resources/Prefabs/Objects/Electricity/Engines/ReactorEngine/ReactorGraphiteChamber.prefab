@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6392628326379791579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8390320911816615196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: a986bb3fd0f355e4aae506dc47fc8da0,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: 572919feded9e5a4c8717df84f50a1f9,
+    type: 2}
 --- !u!114 &1384298704471992277
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14,12 +32,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EditorPresentNeutrons: 0
   EditorEnergyReleased: 0
-  tickRate: 1
-  reactorBoiler: {fileID: 0}
+  UraniumOre: {fileID: 5776497215191974577, guid: 34f7d74d5d846bd4a8f3960a42f298f3,
+    type: 3}
+  MetalOre: {fileID: 5776497215191974577, guid: 9ac648da14e680a4a9873997a26aff32,
+    type: 3}
+  PlasSteel: {fileID: 0}
+  RodStorage: {fileID: 5255741207357749315}
+  PipeStorage: {fileID: -6392628326379791579}
+  PipeItemTrait: {fileID: 11400000, guid: 066fee8b180af6c47a2bf6cb99f725a5, type: 2}
   LikelihoodOfSpontaneousNeutron: 0.1
   radiationProducer: {fileID: 0}
-  reagentContainer: {fileID: 3033393858997830747}
-  Water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+  ReactorPipe: {fileID: 0}
   ReactorRods:
   - {fileID: 0}
   - {fileID: 0}
@@ -38,8 +61,12 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   ReactorFuelRods: []
+  ReactorEngineStarters: []
   ControlRodDepthPercentage: 1
+  RodLockingTemperatureK: 700
+  RodMeltingTemperatureK: 1100
   MeltedDown: 0
+  PoppedPipes: 0
 --- !u!114 &3033393858997830747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -69,6 +96,7 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
       m_values:
       - 100
+  destroyOnEmpty: 0
 --- !u!114 &4059444369323570419
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,7 +185,7 @@ MonoBehaviour:
           m_keys:
           - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
           m_values:
-          - 100
+          - 200
     MaxPressure: 15805.5
     ConnectedPipes: []
     Outputs: []
