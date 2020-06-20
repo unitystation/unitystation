@@ -190,7 +190,7 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 		RemoveFromAPC();
 	}
 
-	public static bool IsOn(PowerStates States)
+	public static bool  IsOn(PowerStates States)
 	{
 		return (States == PowerStates.On || States == PowerStates.LowVoltage || States == PowerStates.OverVoltage);
 	}
