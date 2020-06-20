@@ -6,7 +6,6 @@ public class PowerControlConsole : MonoBehaviour, IAPCPowered
 {
 	public ResistanceSourceModule ThisDevice;
 	public ReactorControlConsole ControlConsole;
-	private float TargetsSupplyOutputVoltage = 275000;
 
 	private float PreviousVoltage = 0;
 

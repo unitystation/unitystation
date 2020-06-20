@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Atmospherics;
 
-public class Scrubber : AdvancedPipe, IAPCPowered
+public class Scrubber : AdvancedPipe
 {
 	// minimum pressure needs to be a little higher because of floating point inaccuracies
 	public float MinimumPressure = 101.3251f;
@@ -57,14 +57,4 @@ public class Scrubber : AdvancedPipe, IAPCPowered
 			metaDataLayer.UpdateSystemsAt(RegisterTile.LocalPositionServer);
 		}
 	}
-
-	void IAPCPowered.PowerNetworkUpdate(float Voltage)
-	{
-	}
-
-	void IAPCPowered.StateUpdate(PowerStates State)
-	{
-		CurrentState = State;
-	}
-
 }

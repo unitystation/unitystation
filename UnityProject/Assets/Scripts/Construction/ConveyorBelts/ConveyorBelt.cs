@@ -324,7 +324,6 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 	private MultitoolConnectionType conType = MultitoolConnectionType.Conveyor;
 	public MultitoolConnectionType ConType  => conType;
 
-	//[SerializeField]
 	private bool multiMaster = true;
 	public bool MultiMaster => multiMaster;
 

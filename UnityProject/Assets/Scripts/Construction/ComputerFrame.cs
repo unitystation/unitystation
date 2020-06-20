@@ -86,7 +86,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 							"You start wrenching the frame into place...",
 							$"{interaction.Performer.ExpensiveName()} starts wrenching the frame into place...",
 							"You wrench the frame into place.",
-							$"{interaction.Performer.ExpensiveName()} wrenches the frame into placthise.",
+							$"{interaction.Performer.ExpensiveName()} wrenches the frame into place.",
 							() => objectBehaviour.ServerSetAnchored(true, interaction.Performer));
 					}
 				}

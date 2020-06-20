@@ -9,13 +9,8 @@ public class BoilerTurbineController : MonoBehaviour, ISetMultitoolSlave
 	public bool State = false;
 	public ReactorBoiler ReactorBoiler = null;
 	public ReactorTurbine ReactorTurbine = null;
-    // Start is called before the first frame update
-    void Start()
-    {
 
-    }
-
-    [RightClickMethod]
+	[RightClickMethod]
     public void ChangeState()
     {
 	    State = !State;

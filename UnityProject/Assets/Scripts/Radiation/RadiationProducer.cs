@@ -32,10 +32,6 @@ namespace Radiation
 			registerObject = this.GetComponent<RegisterObject>();
 		}
 
-		// Start is called before the first frame update
-		void Start()
-		{
-		}
 
 		private void OnEnable()
 		{

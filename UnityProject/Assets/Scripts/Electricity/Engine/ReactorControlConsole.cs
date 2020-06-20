@@ -4,30 +4,7 @@ using UnityEngine;
 
 public class ReactorControlConsole : MonoBehaviour, ISetMultitoolSlave
 {
-	public float Target = 0;
-
 	public ReactorGraphiteChamber ReactorChambers = null;
-
-	public void RequestRelativeChange(float Multiplier)
-	{
-		Logger.Log("Multiplier " + Multiplier);
-		float ControlRodDepthPercentage = 0;
-
-		if (ReactorChambers.ControlRodDepthPercentage == 0)
-		{
-			ReactorChambers.ControlRodDepthPercentage = 0.001f;
-		}
-
-		ReactorChambers.ControlRodDepthPercentage *= (1 / Multiplier);
-		ControlRodDepthPercentage = ReactorChambers.ControlRodDepthPercentage;
-//Change this to use SetControlRodDepth
-		if (ReactorChambers.ControlRodDepthPercentage > 1)
-		{
-			ReactorChambers.ControlRodDepthPercentage = 1;
-		}
-
-		Logger.Log("ControlRodDepthPercentage " + ControlRodDepthPercentage);
-	}
 
 	public void SuchControllRodDepth(float Specified)
 	{

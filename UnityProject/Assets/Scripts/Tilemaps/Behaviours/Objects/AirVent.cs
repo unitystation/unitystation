@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Atmospherics;
 
-public class AirVent : AdvancedPipe, IAPCPowered
+public class AirVent : AdvancedPipe
 {
 	// minimum pressure needs to be a little lower because of floating point inaccuracies
 	public float MinimumPressure = 101.3249f;
@@ -54,14 +54,5 @@ public class AirVent : AdvancedPipe, IAPCPowered
 			metaNode.GasMix = new GasMix(GasMixes.Air);
 			metaDataLayer.UpdateSystemsAt(RegisterTile.LocalPositionServer);
 		}
-	}
-
-	void IAPCPowered.PowerNetworkUpdate(float Voltage)
-	{
-	}
-
-	void IAPCPowered.StateUpdate(PowerStates State)
-	{
-		CurrentState = State;
 	}
 }

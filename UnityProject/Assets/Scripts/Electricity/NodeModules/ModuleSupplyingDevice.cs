@@ -87,7 +87,7 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 	[RightClickMethod]
 	public override void TurnOnSupply()
 	{
-		Logger.Log("TurnOnSupply");
+		//Logger.Log("TurnOnSupply");
 		if (InternalResistance > 0)
 		{
 			foreach (PowerTypeCategory Connecting in ControllingNode.CanConnectTo)

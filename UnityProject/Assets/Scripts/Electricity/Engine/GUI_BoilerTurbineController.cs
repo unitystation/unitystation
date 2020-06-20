@@ -9,15 +9,16 @@ public class GUI_BoilerTurbineController : NetTab
 	public GUI_BoilerAnnunciators GUIBoilerAnnunciators;
 	public GUI_TurbineAnnunciators GUITurbineAnnunciators;
 	public decimal CapacityPercent = 0;
-	[SerializeField] private NetSliderDial BoilerTemperature;
-	[SerializeField] private NetSliderDial BoilerPressure;
-	[SerializeField] private NetSliderDial BoilerCapacity;
-	[SerializeField] private NetLabel TurbinePowerGenerating;
-	[SerializeField] private NetLabel TurbineVoltage;
-	[SerializeField] private NetLabel TurbineCurrent;
+	[SerializeField] private NetSliderDial BoilerTemperature = null;
+	[SerializeField] private NetSliderDial BoilerPressure= null;
+	[SerializeField] private NetSliderDial BoilerCapacity= null;
+	[SerializeField] private NetLabel TurbinePowerGenerating= null;
+	[SerializeField] private NetLabel TurbineVoltage= null;
+	[SerializeField] private NetLabel TurbineCurrent= null;
 
 	void Start()
 	{
+
 		if (Provider != null)
 		{
 			//Makes sure it connects with the dispenser properly

@@ -10,13 +10,11 @@ public class GUI_ReactorControler : NetTab
 
 	public GUI_ReactorLayout GUIReactorLayout = new GUI_ReactorLayout();
 	public GUI_ReactorAnnunciator GUIReactorAnnunciator = new GUI_ReactorAnnunciator();
-	[SerializeField] private NetSliderDial ReactorCoreTemperature;
-	[SerializeField] private NetLabel RadiationLevelAboveCore;
-	[SerializeField] private NetSliderDial CorePressure;
-	[SerializeField] private NetLabel CoreControlRodDepth;
-	[SerializeField] private NetSliderDial CoreWaterLevel;
-	[SerializeField] private NetSliderDial CoreKValue;
-	[SerializeField] private NetSliderDial CoreFluxLevel;
+	[SerializeField] private NetSliderDial ReactorCoreTemperature =null;
+	[SerializeField] private NetSliderDial CorePressure =null;
+	[SerializeField] private NetSliderDial CoreWaterLevel =null;
+	[SerializeField] private NetSliderDial CoreKValue =null;
+	[SerializeField] private NetSliderDial CoreFluxLevel =null;
 	private decimal PreviousRADlevel = 0;
 	public decimal PercentageChange = 0;
 
@@ -24,7 +22,6 @@ public class GUI_ReactorControler : NetTab
 	{
 		if (Provider != null)
 		{
-			//Makes sure it connects with the dispenser properly
 			ReactorControlConsole = Provider.GetComponentInChildren<ReactorControlConsole>();
 		}
 
@@ -91,7 +88,6 @@ public class GUI_ReactorControler : NetTab
 
 			PreviousRADlevel = ReactorControlConsole.ReactorChambers.PresentNeutrons;
 
-			//CorePressure.SetValueServer(Math.Round(ReactorControlConsole.Target).ToString());
 			decimal Value = 0;
 
 			if (PreviousRADlevel > 1000000000000)
@@ -155,7 +151,7 @@ public class GUI_ReactorControler : NetTab
 	}
 
 	/// <summary> As
-	/// Sets shuttle speed.
+	///  Set the control rod Depth percentage
 	/// </summary>
 	/// <param name="speedMultiplier"></param>
 	public void SetControlDepth(float Depth)

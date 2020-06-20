@@ -44,9 +44,7 @@ public class PipeDeconstruction : TileInteraction
 		var metaDataNode = matrix.GetMetaDataNode(interaction.TargetCellPos);
 		for (var i = 0; i < metaDataNode.PipeData.Count; i++)
 		{
-			Logger.Log("OH?");
 			if (metaDataNode.PipeData[i].RelatedTile != PipeTile) continue;
-			Logger.Log("YES");
 			var Transform =  matrix.UnderFloorLayer.GetMatrix4x4(metaDataNode.PipeData[i].NodeLocation, metaDataNode.PipeData[i].RelatedTile);
 			var pipe = Spawn.ServerPrefab(PipeTile.SpawnOnDeconstruct, interaction.WorldPositionTarget, localRotation : QuaternionFromMatrix(Transform)).GameObject;
 			var itempipe = pipe.GetComponent<PipeItem>();
