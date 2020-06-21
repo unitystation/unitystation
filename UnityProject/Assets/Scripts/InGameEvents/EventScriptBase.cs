@@ -66,7 +66,7 @@ namespace InGameEvents
 
 		public virtual void OnEventEnd()
 		{
-			Invoke(nameof(OnEventEndTimed), StartTimer);
+			Invoke(nameof(OnEventEndTimed), EndTimer);
 		}
 
 		public virtual void OnEventEndTimed()
