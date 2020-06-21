@@ -30,7 +30,7 @@ namespace InGameEvents
 		public int ChanceToHappen = 100;
 
 		/// <summary>
-		/// If they event is fake, you'll need to integrate into own script
+		/// If the event is fake, you'll need to integrate into own script
 		/// </summary>
 		[HideInInspector]
 		public bool FakeEvent = false;

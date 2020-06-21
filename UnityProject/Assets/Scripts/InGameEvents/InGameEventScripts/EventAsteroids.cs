@@ -45,7 +45,7 @@ namespace InGameEvents
 
 			if (queueCount == 0 || ExplosionPrefab == null) return;
 
-			_ = StartCoroutine(WaitTime(queueCount));
+			_ = StartCoroutine(SpawnMeteorsWithDelay(queueCount));
 		}
 
 		public override void OnEventEnd()
@@ -55,7 +55,7 @@ namespace InGameEvents
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
 		}
 
-		private IEnumerator WaitTime(float queueCount)
+		private IEnumerator SpawnMeteorsWithDelay(float queueCount)
 		{
 			for (var i = 1; i <= queueCount; i++)
 			{
