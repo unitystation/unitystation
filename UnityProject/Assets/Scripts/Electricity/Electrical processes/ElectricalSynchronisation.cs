@@ -372,20 +372,14 @@ public class ElectricalSynchronisation : MonoBehaviour
 	{
 		for (int i = InitialiseResistanceChange.Count - 1; i >= 0; i--)
 		{
-			if (i < InitialiseResistanceChange.Count)
-			{
-				InitialiseResistanceChange.ElementAt(i).InitialPowerUpdateResistance();
-			}
+			InitialiseResistanceChange.ElementAt(i).InitialPowerUpdateResistance();
 		}
 
 		InitialiseResistanceChange.Clear();
 
 		for (int i = ResistanceChange.Count - 1; i >= 0; i--)
 		{
-			if (i < ResistanceChange.Count)
-			{
-				ResistanceChange.ElementAt(i).PowerUpdateResistanceChange();
-			}
+			ResistanceChange.ElementAt(i).PowerUpdateResistanceChange();
 		}
 
 		ResistanceChange.Clear();
