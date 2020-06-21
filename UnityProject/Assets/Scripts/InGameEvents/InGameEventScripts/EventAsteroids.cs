@@ -13,6 +13,24 @@ namespace InGameEvents
 
 		public GameObject ExplosionPrefab = null;
 
+		[SerializeField]
+		private int MinMeteorAmount = 2;
+
+		[SerializeField]
+		private int MaxMeteorAmount = 10;
+
+		[SerializeField]
+		private float MinRadius = 8f;
+
+		[SerializeField]
+		private float MaxRadius = 20f;
+
+		[SerializeField]
+		private int MinDamage = 100;
+
+		[SerializeField]
+		private int MaxDamage = 500;
+
 		private void Start()
 		{
 			InGameEventsManager.Instance.AddEventToList(this);
@@ -33,7 +51,7 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			int asteroidAmount = UnityEngine.Random.Range(2, 10);
+			int asteroidAmount = UnityEngine.Random.Range(MinMeteorAmount, MaxMeteorAmount);
 
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
@@ -61,8 +79,8 @@ namespace InGameEvents
 			{
 				var explosionObject = Instantiate(ExplosionPrefab, position: ImpactCoords.Dequeue(), rotation: StationMatrix.ObjectParent.rotation, parent: StationMatrix.ObjectParent).GetComponent<Explosion>();
 
-				var radius = UnityEngine.Random.Range(8f, 20f);
-				var damage = UnityEngine.Random.Range(100, 500);
+				var radius = UnityEngine.Random.Range(MinRadius, MaxRadius);
+				var damage = UnityEngine.Random.Range(MinDamage, MaxDamage);
 
 				explosionObject.SetExplosionData(radius: radius, damage: damage);
 
