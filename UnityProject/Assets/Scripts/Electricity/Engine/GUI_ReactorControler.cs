@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GUI_ReactorControler : NetTab
 {
@@ -49,10 +50,7 @@ public class GUI_ReactorControler : NetTab
 
 	public void Refresh()
 	{
-		//
-		//optimise
-		//Change to dials and things
-		if (ReactorControlConsole != null)
+		if (ReactorControlConsole != null && ReactorControlConsole.ReactorChambers != null)
 		{
 			var tep = ReactorControlConsole.ReactorChambers.Temperature;
 			ReactorCoreTemperature.SetValueServer(Math.Round((tep / 1200) * 100).ToString());
@@ -88,66 +86,22 @@ public class GUI_ReactorControler : NetTab
 
 			PreviousRADlevel = ReactorControlConsole.ReactorChambers.PresentNeutrons;
 
-			decimal Value = 0;
-
-			if (PreviousRADlevel > 1000000000000)
-			{
-				Value = (100m / 13m) * 12 + ((100m / 13m) * PreviousRADlevel / 10000000000000);
-			}
-			else if (PreviousRADlevel > 100000000000)
-			{
-				Value = (100m / 13m) * 11 + ((100m / 13m) * PreviousRADlevel / 1000000000000);
-			}
-			else if (PreviousRADlevel > 10000000000)
-			{
-				Value = (100m / 13m) * 10 + ((100m / 13m) * PreviousRADlevel / 100000000000);
-			}
-			else if (PreviousRADlevel > 1000000000)
-			{
-				Value = (100m / 13m) * 9 + ((100m / 13m) * PreviousRADlevel / 10000000000);
-			}
-			else if (PreviousRADlevel > 100000000)
-			{
-				Value = (100m / 13m) * 8 + ((100m / 13m) * PreviousRADlevel / 1000000000);
-			}
-			else if (PreviousRADlevel > 10000000)
-			{
-				Value = (100m / 13m) * 7 + ((100m / 13m) * PreviousRADlevel / 100000000);
-			}
-			else if (PreviousRADlevel > 1000000)
-			{
-				Value = (100m / 13m) * 6 + ((100m / 13m) * PreviousRADlevel / 10000000);
-			}
-			else if (PreviousRADlevel > 100000)
-			{
-				Value = (100m / 13m) * 5 + ((100m / 13m) * PreviousRADlevel / 1000000);
-			}
-			else if (PreviousRADlevel > 10000)
-			{
-				Value = (100m / 13m) * 4 + ((100m / 13m) * PreviousRADlevel / 100000);
-			}
-			else if (PreviousRADlevel > 1000)
-			{
-				Value = (100m / 13m) * 3 + ((100m / 13m) * PreviousRADlevel / 10000);
-			}
-			else if (PreviousRADlevel > 100)
-			{
-				Value = (100m / 13m) * 2 + ((100m / 13m) * PreviousRADlevel / 1000);
-			}
-			else if (PreviousRADlevel > 10)
-			{
-				Value = (100m / 13m) * 1 + ((100m / 13m) * PreviousRADlevel / 100);
-			}
-			else if (PreviousRADlevel > 0)
-			{
-				Value = ((100m / 13m) * PreviousRADlevel / 10);
-			}
-
-
+			float Value = SetLogScale((float) PreviousRADlevel);
 			CoreFluxLevel.SetValueServer((Math.Round(Value).ToString()));
 			GUIReactorLayout.Refresh();
 			GUIReactorAnnunciator.Refresh();
 		}
+	}
+
+
+	public float SetLogScale(float INNum)
+	{
+		if (INNum == 0)
+		{
+			return 0;
+		}
+		int Power = (int) Math.Floor(Math.Log10(INNum));
+		return (100f / 12f) * Mathf.Clamp(Power, 0, 100)  + ((100f / 12f) * (INNum / (Mathf.Pow(10, Power+1))));
 	}
 
 	/// <summary> As

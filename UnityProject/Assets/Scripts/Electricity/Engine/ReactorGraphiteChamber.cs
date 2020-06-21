@@ -114,7 +114,6 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 		}
 		else
 		{
-			//Logger.Log("M > " + ((decimal)(100f / (100f + reagentContainer[Water])) * (NumberOfRods / ReactorRods.Length)));
 			return ((decimal) (100f / (100f + ReactorPipe.pipeData.mixAndVolume.Mix.Total)) *
 			        (NumberOfRods / ReactorRods.Length));
 		}
@@ -161,25 +160,21 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 	{
 		if (GetTemperature() > RodMeltingTemperatureK && !MeltedDown)
 		{
-			Logger.LogError("MeltedDown!!", Category.Electrical);
 			MeltedDown = true;
 		}
 
 
 		if (PoppedPipes) //Its blown up so not connected so vent to steam
 		{
-			Logger.LogError("steam!!", Category.Electrical);
-			if (ReactorPipe.pipeData.mixAndVolume.Mix.Total > 0)
+			if (ReactorPipe.pipeData.mixAndVolume.Mix.Total > 0 &&
+			    ReactorPipe.pipeData.mixAndVolume.Mix.Temperature > BoilingPoint)
 			{
-				if (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature > BoilingPoint)
-				{
-					var ExcessEnergy = (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - BoilingPoint);
-					ReactorPipe.pipeData.mixAndVolume.Mix.TransferTo(new ReagentMix(), (EnergyToEvaporateWaterPer1
-					                                                                    * ExcessEnergy *
-					                                                                    (WaterEnergyDensityPer1 *
-					                                                                     ReactorPipe.pipeData
-						                                                                     .mixAndVolume.Mix.Total)));
-				}
+				var ExcessEnergy = (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - BoilingPoint);
+				ReactorPipe.pipeData.mixAndVolume.Mix.TransferTo(new ReagentMix(), (EnergyToEvaporateWaterPer1
+				                                                                    * ExcessEnergy *
+				                                                                    (WaterEnergyDensityPer1 *
+				                                                                     ReactorPipe.pipeData
+					                                                                     .mixAndVolume.Mix.Total)));
 			}
 		}
 
@@ -257,8 +252,16 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 		                         (WaterEnergyDensityPer1 *
 		                          ReactorPipe.pipeData.mixAndVolume.Mix.Total)); //when add cool
 
-		ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy =
-			ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy + ExtraEnergyGained;
+		if (ReactorPipe.pipeData.mixAndVolume.Mix.WholeHeatCapacity == 0)
+		{
+			ReactorPipe.pipeData.mixAndVolume.Mix.Temperature += ExtraEnergyGained / 90000;
+		}
+		else
+		{
+			ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy =
+				ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy + ExtraEnergyGained;
+		}
+
 
 
 		CurrentPressure = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) *
@@ -290,76 +293,111 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 	//0.000000000032 = Wsec
 	//1 eV = 0.00000000000000000016 Wsec
 
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		if (interaction.UsedObject != null)
-		{
-			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.ReactorRod))
-			{
-				var Rod = interaction.UsedObject.gameObject.GetComponent<ReactorChamberRod>();
-				int pos = Array.IndexOf(ReactorRods, null);
-				if (pos > -1)
-				{
-					ReactorRods[pos] = Rod;
-					var EmptySlot = RodStorage.GetIndexedItemSlot(pos);
-					Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
-					var fuelRod = Rod as FuelRod;
-					if (fuelRod != null)
-					{
-						ReactorFuelRods.Add(fuelRod);
-					}
 
-					var engineStarter = Rod as EngineStarter;
-					if (engineStarter != null)
-					{
-						ReactorEngineStarters.Add(engineStarter);
-					}
-				}
-			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, PipeItemTrait))
+	public bool TryInsertRod(HandApply interaction)
+	{
+		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.ReactorRod))
+		{
+			var Rod = interaction.UsedObject.gameObject.GetComponent<ReactorChamberRod>();
+			int pos = Array.IndexOf(ReactorRods, null);
+			if (pos > -1)
 			{
-				var EmptySlot = PipeStorage.GetIndexedItemSlot(0);
-				if (EmptySlot.Item == null)
+				ReactorRods[pos] = Rod;
+				var EmptySlot = RodStorage.GetIndexedItemSlot(pos);
+				Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
+				var fuelRod = Rod as FuelRod;
+				if (fuelRod != null)
 				{
-					Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
-					PoppedPipes = false;
+					ReactorFuelRods.Add(fuelRod);
+				}
+
+				var engineStarter = Rod as EngineStarter;
+				if (engineStarter != null)
+				{
+					ReactorEngineStarters.Add(engineStarter);
 				}
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder) &&
-			         MeltedDown == false)
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public bool TryInsertPipe(HandApply interaction)
+	{
+		if (Validations.HasItemTrait(interaction.UsedObject, PipeItemTrait))
+		{
+			var EmptySlot = PipeStorage.GetIndexedItemSlot(0);
+			if (EmptySlot.Item == null)
 			{
-				if (ReactorRods.All(x => x == null))
-				{
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
-						"You start to deconstruct the empty core...",
-						$"{interaction.Performer.ExpensiveName()} starts to deconstruct the empty core...",
-						"You deconstruct the empty core.",
-						$"{interaction.Performer.ExpensiveName()} deconstruct the empty core.",
-						() => { Despawn.ServerSingle(gameObject); });
-				}
-				else
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer,
-						"The inserted rods make it impossible to deconstruct");
-				}
+				Inventory.ServerTransfer(interaction.HandSlot, EmptySlot);
+				PoppedPipes = false;
 			}
-			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Pickaxe) &&
-			         MeltedDown == true)
+
+			return true;
+		}
+
+		return false;
+	}
+
+	public bool TryDeconstructCore(HandApply interaction)
+	{
+		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder) &&
+		    MeltedDown == false)
+		{
+			if (ReactorRods.All(x => x == null))
 			{
 				ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
-					"You start to hack away at the molten core...",
-					$"{interaction.Performer.ExpensiveName()} starts to hack away at the molten core...",
-					"You break the molten core to pieces.",
-					$"{interaction.Performer.ExpensiveName()} breaks the molten core to pieces.",
+					"You start to deconstruct the empty core...",
+					$"{interaction.Performer.ExpensiveName()} starts to deconstruct the empty core...",
+					"You deconstruct the empty core.",
+					$"{interaction.Performer.ExpensiveName()} deconstruct the empty core.",
 					() => { Despawn.ServerSingle(gameObject); });
 			}
 			else
 			{
-				//slam control rods in Depending on size
-				if (MeltedDown == false)
-				{
-					ControlRodDepthPercentage = 1;
-				}
+				Chat.AddExamineMsgFromServer(interaction.Performer,
+					"The inserted rods make it impossible to deconstruct");
+			}
+
+			return true;
+		}
+
+		return false;
+	}
+
+
+	public bool TryAxeCore(HandApply interaction)
+	{
+		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Pickaxe) &&
+		    MeltedDown == true)
+		{
+			ToolUtils.ServerUseToolWithActionMessages(interaction, 10,
+				"You start to hack away at the molten core...",
+				$"{interaction.Performer.ExpensiveName()} starts to hack away at the molten core...",
+				"You break the molten core to pieces.",
+				$"{interaction.Performer.ExpensiveName()} breaks the molten core to pieces.",
+				() => { Despawn.ServerSingle(gameObject); });
+			return true;
+		}
+
+		return false;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		if (interaction.UsedObject != null)
+		{
+			if (TryInsertRod(interaction)) return;
+			if (TryInsertPipe(interaction)) return;
+			if (TryDeconstructCore(interaction)) return;
+			if (TryAxeCore(interaction)) return;
+
+			//slam control rods in
+			if (MeltedDown == false)
+			{
+				ControlRodDepthPercentage = 1;
 			}
 		}
 		else
