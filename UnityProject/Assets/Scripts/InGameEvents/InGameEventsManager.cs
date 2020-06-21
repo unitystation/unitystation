@@ -42,6 +42,8 @@ namespace InGameEvents
 
 		private void Update()
 		{
+			if (!CustomNetworkManager.Instance._isServer) return;
+
 			if (GameManager.Instance.CurrentRoundState == RoundState.Started)
 			{
 				timer += Time.deltaTime;
