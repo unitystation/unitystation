@@ -42,7 +42,7 @@ namespace InGameEvents
 
 		private void Update()
 		{
-			if (!CustomNetworkManager.Instance._isServer) return;
+			if (!CustomNetworkManager.IsServer) return;
 
 			if (GameManager.Instance.CurrentRoundState == RoundState.Started)
 			{

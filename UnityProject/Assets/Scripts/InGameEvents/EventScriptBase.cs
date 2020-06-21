@@ -51,8 +51,6 @@ namespace InGameEvents
 
 		private void Start()
 		{
-			if (!CustomNetworkManager.Instance._isServer) return;
-
 			InGameEventsManager.Instance.AddEventToList(this);
 		}
 
