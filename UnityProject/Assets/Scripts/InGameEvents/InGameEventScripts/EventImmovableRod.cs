@@ -101,8 +101,6 @@ namespace InGameEvents
 				impactCoords.Enqueue(new Vector3() {x = nextCoord.x, y = nextCoord.y, z = 0 });
 			}
 
-			Logger.Log("impact amount "+ amountOfImpactsNeeded);
-
 			_ = StartCoroutine(SpawnMeteorsWithDelay(amountOfImpactsNeeded));
 		}
 
