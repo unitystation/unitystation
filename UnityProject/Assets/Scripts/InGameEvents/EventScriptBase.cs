@@ -5,14 +5,9 @@ using UnityEngine;
 namespace InGameEvents
 {
 	/// <summary>
-	/// The base script that events can be inherited from, But in order for the events to be added to the event list a start method must be added to the new script:
+	/// The base script that events can be inherited from.
 	///
-	///	private void Start()
-	///	{
-	///		InGameEventsManager.Instance.AddEventToList(this);
-	///	}
-	///
-	/// Also you'll need to add a condition for if the event is fake, as the bool in the base file here isnt used anywhere, to allow for the scripts to be customisable.
+	/// Also you'll need to add a condition for if the event is fake, as the bool in the base file here isnt used anywhere, to allow for the scripts to be more customisable.
 	///
 	///	The script must also be put on a gameobject in the EventManager prefab.
 	///
@@ -47,6 +42,11 @@ namespace InGameEvents
 		/// </summary>
 		[HideInInspector]
 		public bool FakeEvent = false;
+
+		private void Start()
+		{
+			InGameEventsManager.Instance.AddEventToList(this);
+		}
 
 		public virtual void OnEventStart()
 		{
