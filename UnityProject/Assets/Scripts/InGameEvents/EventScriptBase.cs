@@ -43,6 +43,12 @@ namespace InGameEvents
 		[HideInInspector]
 		public bool FakeEvent = false;
 
+		/// <summary>
+		/// If the event is fake, you'll need to integrate into own script
+		/// </summary>
+		[HideInInspector]
+		public bool AnnounceEvent = true;
+
 		private void Start()
 		{
 			InGameEventsManager.Instance.AddEventToList(this);

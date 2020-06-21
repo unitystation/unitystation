@@ -41,9 +41,12 @@ namespace InGameEvents
 		{
 			StationMatrix = MatrixManager.MainStationMatrix;
 
-			var text = "Proximity Alert:\nInbound Meteors have been detected.\nBrace for impact!";
+			if (AnnounceEvent)
+			{
+				var text = "Proximity Alert:\nInbound Meteors have been detected.\nBrace for impact!";
 
-			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+				CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+			}
 
 			if (FakeEvent) return;
 
@@ -67,9 +70,12 @@ namespace InGameEvents
 
 		public override void OnEventEnd()
 		{
-			var text = "Situation Update:\nNo more Meteors have been detected.";
+			if (AnnounceEvent)
+			{
+				var text = "Situation Update:\nNo more Meteors have been detected.";
 
-			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+				CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+			}
 		}
 
 		private IEnumerator SpawnMeteorsWithDelay(float asteroidAmount)

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6277872687871681347}
   - component: {fileID: 1165683735219187906}
+  - component: {fileID: 1650995718794956169}
   m_Layer: 0
   m_Name: FunEvents
   m_TagString: Untagged
@@ -49,6 +50,7 @@ MonoBehaviour:
   EventType: 0
   ChanceToHappen: 1
   FakeEvent: 0
+  AnnounceEvent: 1
   ExplosionPrefab: {fileID: 1059518790872729420, guid: 048e03a155f6ed04bb8cc8984479ee4d,
     type: 3}
   MinMeteorAmount: 2
@@ -59,6 +61,31 @@ MonoBehaviour:
   MaxDamage: 500
   MinTimeBetweenMeteors: 1
   MaxTimeBetweenMeteors: 10
+--- !u!114 &1650995718794956169
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3022207007842459343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3324aafa434fe154b942ac5afdacb402, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Give Players Guns
+  StartTimer: 0
+  EndTimer: 10
+  EventType: 0
+  ChanceToHappen: 25
+  FakeEvent: 0
+  AnnounceEvent: 1
+  GunList:
+  - {fileID: 8582594776399167655, guid: 8aa9c1617fcf44905b26d836feca524f, type: 3}
+  - {fileID: 2618338097683306550, guid: e9bd779d1352e9a4f8109be04118a8e3, type: 3}
+  - {fileID: 2436724837340589176, guid: b079c584e036a68ea904d4878c6acc6d, type: 3}
+  - {fileID: 8582594776399167655, guid: b517a912908f00746a9350db884f3ea7, type: 3}
+  - {fileID: 8582594776399167655, guid: 40613838c790c3f48bd441a6587bfd08, type: 3}
 --- !u!1 &8929341582706713524
 GameObject:
   m_ObjectHideFlags: 0
@@ -103,3 +130,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238710bf5371ddd49ad9ac4d929a4114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TriggerEventInterval: 600
+  ChanceItIsFake: 25

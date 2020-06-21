@@ -920,12 +920,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake)
+	public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake, bool announceEvent)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, isFake, PlayerList.Instance.GetByUserID(adminId).Username);
+		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, isFake, PlayerList.Instance.GetByUserID(adminId).Username, announceEvent);
 	}
 	#endregion
 

@@ -16,10 +16,13 @@ public class EventsManagerPage : MonoBehaviour
 	[SerializeField]
 	private Toggle isFakeToggle = null;
 
+	[SerializeField]
+	private Toggle announceToggle = null;
+
 
 	public void TriggerEvent()
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTriggerGameEvent(ServerData.UserID, PlayerList.Instance.AdminToken, nextDropDown.value, isFakeToggle.isOn);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTriggerGameEvent(ServerData.UserID, PlayerList.Instance.AdminToken, nextDropDown.value, isFakeToggle.isOn, announceToggle.isOn);
 	}
 
 	public void GenerateDropDownOptions()

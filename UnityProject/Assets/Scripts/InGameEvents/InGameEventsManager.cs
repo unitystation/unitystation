@@ -70,22 +70,23 @@ namespace InGameEvents
 			listOfFunEventScripts.Add(eventToAdd);
 		}
 
-		public void TriggerSpecificEvent(int eventIndex, bool isFake = false, string AdminName = null)
+		public void TriggerSpecificEvent(int eventIndex, bool isFake = false, string AdminName = null, bool announceEvent = true)
 		{
 			if (eventIndex == 0)
 			{
-				StartRandomFunEvent(true, isFake, AdminName: AdminName);
+				StartRandomFunEvent(true, isFake, AdminName: AdminName, announceEvent: announceEvent);
 			}
 			else
 			{
 				var eventChosen = listOfFunEventScripts[eventIndex - 1];
 				eventChosen.FakeEvent = isFake;
+				eventChosen.AnnounceEvent = announceEvent;
 				eventChosen.TriggerEvent();
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"{AdminName}: triggered a random event, {eventChosen.EventName} was choosen. Is fake: {isFake}", "");
 			}
 		}
 
-		public void StartRandomFunEvent(bool AnEventMustHappen = false, bool isFake = false, bool serverTriggered = false, string AdminName = null)
+		public void StartRandomFunEvent(bool AnEventMustHappen = false, bool isFake = false, bool serverTriggered = false, string AdminName = null, bool announceEvent = true)
 		{
 			foreach (var eventInList in listOfFunEventScripts.Shuffle())
 			{
@@ -94,6 +95,7 @@ namespace InGameEvents
 				if (chanceToHappen <= eventInList.ChanceToHappen)
 				{
 					eventInList.FakeEvent = isFake;
+					eventInList.AnnounceEvent = announceEvent;
 					eventInList.TriggerEvent();
 
 					if (serverTriggered)
