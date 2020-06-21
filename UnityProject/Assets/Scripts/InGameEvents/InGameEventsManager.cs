@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DiscordWebhook;
 
 namespace InGameEvents
 {
@@ -11,6 +12,20 @@ namespace InGameEvents
 	{
 		private static InGameEventsManager instance;
 		public static InGameEventsManager Instance => instance;
+
+		private float Timer = 0f;
+
+		/// <summary>
+		/// How long between each event check
+		/// </summary>
+		[SerializeField]
+		private float TriggerEventInterval = 600f;
+
+		/// <summary>
+		/// Chance the random event is fake as a %
+		/// </summary>
+		[SerializeField]
+		private int ChanceItIsFake = 25;
 
 
 		private void Awake()
@@ -25,6 +40,27 @@ namespace InGameEvents
 			}
 		}
 
+		private void Update()
+		{
+			if (GameManager.Instance.CurrentRoundState == RoundState.Started)
+			{
+				Timer += Time.deltaTime;
+				if (Timer > TriggerEventInterval)
+				{
+					bool isFake = false;
+
+					if (UnityEngine.Random.Range(0,100) < ChanceItIsFake)
+					{
+						isFake = true;
+					}
+
+					StartRandomFunEvent(isFake: isFake, serverTriggered: true);
+
+					Timer -= TriggerEventInterval;
+				}
+			}
+		}
+
 		private List<EventScriptBase> listOfFunEventScripts = new List<EventScriptBase>();
 
 		public List<EventScriptBase> ListOfFunEventScripts => listOfFunEventScripts;
@@ -34,21 +70,22 @@ namespace InGameEvents
 			listOfFunEventScripts.Add(eventToAdd);
 		}
 
-		public void TriggerSpecificEvent(int eventIndex, bool isFake = false)
+		public void TriggerSpecificEvent(int eventIndex, bool isFake = false, string AdminName = null)
 		{
 			if (eventIndex == 0)
 			{
-				StartRandomFunEvent(true, isFake);
+				StartRandomFunEvent(true, isFake, AdminName: AdminName);
 			}
 			else
 			{
 				var eventChosen = listOfFunEventScripts[eventIndex - 1];
 				eventChosen.FakeEvent = isFake;
 				eventChosen.TriggerEvent();
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"{AdminName}: triggered a random event, {eventChosen.EventName} was choosen. Is fake: {isFake}", "");
 			}
 		}
 
-		public void StartRandomFunEvent(bool AnEventMustHappen = false, bool isFake = false)
+		public void StartRandomFunEvent(bool AnEventMustHappen = false, bool isFake = false, bool serverTriggered = false, string AdminName = null)
 		{
 			foreach (var eventInList in listOfFunEventScripts.Shuffle())
 			{
@@ -58,6 +95,15 @@ namespace InGameEvents
 				{
 					eventInList.FakeEvent = isFake;
 					eventInList.TriggerEvent();
+
+					if (serverTriggered)
+					{
+						DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"A random event, {eventInList.EventName} has been triggered by the server. Is fake: {isFake}", "[Server]");
+						return;
+					}
+
+					DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"{AdminName}: triggered a random event, {eventInList.EventName} was choosen. Is fake: {isFake}", "");
+
 					return;
 				}
 			}

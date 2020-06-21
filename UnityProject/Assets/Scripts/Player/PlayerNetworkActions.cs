@@ -925,7 +925,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, isFake);
+		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, isFake, PlayerList.Instance.GetByUserID(adminId).Username);
 	}
 	#endregion
 
