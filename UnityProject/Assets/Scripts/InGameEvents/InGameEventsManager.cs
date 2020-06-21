@@ -50,7 +50,7 @@ namespace InGameEvents
 
 		public void StartRandomFunEvent(bool AnEventMustHappen = false, bool isFake = false)
 		{
-			foreach (var eventInList in listOfFunEventScripts)
+			foreach (var eventInList in listOfFunEventScripts.Shuffle())
 			{
 				var chanceToHappen = UnityEngine.Random.Range(0, 100);
 
