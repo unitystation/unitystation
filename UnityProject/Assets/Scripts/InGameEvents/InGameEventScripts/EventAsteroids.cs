@@ -22,7 +22,7 @@ namespace InGameEvents
 		{
 			StationMatrix = MatrixManager.MainStationMatrix;
 
-			var text = "Proximity Alert:\nInbound Asteroids have been detected.\nBrace for impact!";
+			var text = "Proximity Alert:\nInbound Meteors have been detected.\nBrace for impact!";
 
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
 
@@ -50,7 +50,7 @@ namespace InGameEvents
 
 		public override void OnEventEnd()
 		{
-			var text = "Situtation Update:\nNo more asteroids have been detected.";
+			var text = "Situation Update:\nNo more Meteors have been detected.";
 
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
 		}
