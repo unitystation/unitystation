@@ -13,19 +13,19 @@ namespace InGameEvents
 		private static InGameEventsManager instance;
 		public static InGameEventsManager Instance => instance;
 
-		private float Timer = 0f;
+		private float timer = 0f;
 
 		/// <summary>
 		/// How long between each event check
 		/// </summary>
 		[SerializeField]
-		private float TriggerEventInterval = 600f;
+		private float triggerEventInterval = 600f;
 
 		/// <summary>
 		/// Chance the random event is fake as a %
 		/// </summary>
 		[SerializeField]
-		private int ChanceItIsFake = 25;
+		private int chanceItIsFake = 25;
 
 
 		private void Awake()
@@ -44,19 +44,19 @@ namespace InGameEvents
 		{
 			if (GameManager.Instance.CurrentRoundState == RoundState.Started)
 			{
-				Timer += Time.deltaTime;
-				if (Timer > TriggerEventInterval)
+				timer += Time.deltaTime;
+				if (timer > triggerEventInterval)
 				{
 					bool isFake = false;
 
-					if (UnityEngine.Random.Range(0,100) < ChanceItIsFake)
+					if (UnityEngine.Random.Range(0,100) < chanceItIsFake)
 					{
 						isFake = true;
 					}
 
 					StartRandomFunEvent(isFake: isFake, serverTriggered: true);
 
-					Timer -= TriggerEventInterval;
+					timer -= triggerEventInterval;
 				}
 			}
 		}

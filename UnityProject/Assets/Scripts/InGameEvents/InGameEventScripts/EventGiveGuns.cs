@@ -11,7 +11,10 @@ namespace InGameEvents
 
 		public override void OnEventStart()
 		{
-			SpawnGuns();
+			if (!FakeEvent)
+			{
+				SpawnGuns();
+			}
 
 			base.OnEventStart();
 		}
@@ -45,7 +48,7 @@ namespace InGameEvents
 		{
 			if (AnnounceEvent)
 			{
-				var text = "Why are the metal detectors going crazy?";
+				var text = "Incoming Report:\nA weapons convoy got caught in a blue space anomaly near your location. ";
 
 				CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
 			}

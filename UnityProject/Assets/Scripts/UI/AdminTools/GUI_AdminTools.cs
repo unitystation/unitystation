@@ -17,7 +17,7 @@ namespace AdminTools
 		[SerializeField] private GameObject playerChatPage = null;
 		[SerializeField] private GameObject playersScrollView = null;
 		[SerializeField] private GameObject CentCommPage = null;
-		[SerializeField] private GameObject EventsManagerPage = null;
+		[SerializeField] private GameObject eventsManagerPage = null;
 		[SerializeField] private AdminChatButtons adminChatButtons;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
@@ -106,8 +106,8 @@ namespace AdminTools
 		public void ShowEventsManagerPage()
 		{
 			DisableAllPages();
-			EventsManagerPage.SetActive(true);
-			EventsManagerPage.GetComponent<EventsManagerPage>().GenerateDropDownOptions();
+			eventsManagerPage.SetActive(true);
+			eventsManagerPage.GetComponent<EventsManagerPage>().GenerateDropDownOptions();
 			backBtn.SetActive(true);
 			windowTitle.text = "EVENTS MANAGER";
 		}
@@ -121,7 +121,7 @@ namespace AdminTools
 			playerManagePage.SetActive(false);
 			playerChatPage.SetActive(false);
 			CentCommPage.SetActive(false);
-			EventsManagerPage.SetActive(false);
+			eventsManagerPage.SetActive(false);
 			playersScrollView.SetActive(false);
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);
