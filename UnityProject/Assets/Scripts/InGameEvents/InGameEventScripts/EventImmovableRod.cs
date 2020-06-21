@@ -11,7 +11,8 @@ namespace InGameEvents
 
 		private Queue<Vector2> impactCoords = new Queue<Vector2>();
 
-		public GameObject ExplosionPrefab = null;
+		[SerializeField]
+		private GameObject explosionPrefab = null;
 
 		[SerializeField]
 		private float minRadius = 4f;
@@ -46,7 +47,7 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			if (ExplosionPrefab == null) return;
+			if (explosionPrefab == null) return;
 
 			var MaxCoord = new Vector2() { x = stationMatrix.WorldBounds.xMax , y = stationMatrix.WorldBounds.yMax };
 
@@ -118,7 +119,7 @@ namespace InGameEvents
 		{
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
-				var explosionObject = Instantiate(ExplosionPrefab, position: impactCoords.Dequeue(), rotation: stationMatrix.ObjectParent.rotation, parent: stationMatrix.ObjectParent).GetComponent<Explosion>();
+				var explosionObject = Instantiate(explosionPrefab, position: impactCoords.Dequeue(), rotation: stationMatrix.ObjectParent.rotation, parent: stationMatrix.ObjectParent).GetComponent<Explosion>();
 
 				var radius = UnityEngine.Random.Range(minRadius, maxRadius);
 				var damage = UnityEngine.Random.Range(minDamage, maxDamage);

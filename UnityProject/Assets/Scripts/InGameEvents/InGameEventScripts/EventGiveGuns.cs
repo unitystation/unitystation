@@ -6,8 +6,8 @@ namespace InGameEvents
 {
 	public class EventGiveGuns : EventScriptBase
 	{
-
-		public List<GameObject> GunList = new List<GameObject>();
+		[SerializeField]
+		private List<GameObject> gunList = new List<GameObject>();
 
 		public override void OnEventStart()
 		{
@@ -21,7 +21,7 @@ namespace InGameEvents
 
 		private void SpawnGuns()
 		{
-			if (GunList.Count == 0) return;
+			if (gunList.Count == 0) return;
 
 			foreach (var player in PlayerList.Instance.InGamePlayers)
 			{
@@ -33,13 +33,13 @@ namespace InGameEvents
 
 				if (slot.Item == null)
 				{
-					var gun = Spawn.ServerPrefab(GunList[UnityEngine.Random.Range(1, GunList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
+					var gun = Spawn.ServerPrefab(gunList[UnityEngine.Random.Range(1, gunList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
 
 					Inventory.ServerAdd(gun.GameObject.GetComponent<Pickupable>(), slot);
 				}
 				else
 				{
-					Spawn.ServerPrefab(GunList[UnityEngine.Random.Range(1, GunList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
+					Spawn.ServerPrefab(gunList[UnityEngine.Random.Range(1, gunList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
 				}
 			}
 		}
