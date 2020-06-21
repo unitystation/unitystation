@@ -7,6 +7,10 @@ namespace InGameEvents
 	public class EventScriptBase : MonoBehaviour
 	{
 		/// <summary>
+		/// Event name to be displayed in admin UI
+		/// </summary>
+		public string EventName = null;
+		/// <summary>
 		/// Delayed method start time
 		/// </summary>
 		public float StartTimer = 0f;
@@ -24,6 +28,12 @@ namespace InGameEvents
 		/// Chance to happen 1-100%
 		/// </summary>
 		public int ChanceToHappen = 100;
+
+		/// <summary>
+		/// If they event is fake, you'll need to integrate into own script
+		/// </summary>
+		[HideInInspector]
+		public bool FakeEvent = false;
 
 		public virtual void OnEventStart()
 		{

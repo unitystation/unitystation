@@ -6,6 +6,7 @@ using Audio.Containers;
 using UnityEngine;
 using Mirror;
 using DiscordWebhook;
+using InGameEvents;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -916,6 +917,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		Chat.AddGameWideSystemMsgToChat($"<color=blue>{msg}</color>");
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
+	}
+
+	[Command]
+	public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, isFake);
 	}
 	#endregion
 

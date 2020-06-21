@@ -26,6 +26,8 @@ namespace InGameEvents
 
 			CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
 
+			if (FakeEvent) return;
+
 			base.OnEventStart();
 		}
 

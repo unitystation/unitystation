@@ -25,34 +25,46 @@ namespace InGameEvents
 			}
 		}
 
-		private List<EventScriptBase> listOfEventScripts = new List<EventScriptBase>();
+		private List<EventScriptBase> listOfFunEventScripts = new List<EventScriptBase>();
 
-		public List<EventScriptBase> ListOfEventScripts => listOfEventScripts;
+		public List<EventScriptBase> ListOfFunEventScripts => listOfFunEventScripts;
 
-		public void AddEventToList(EventScriptBase action)
+		public void AddEventToList(EventScriptBase eventToAdd)
 		{
-			ListOfEventScripts.Add(action);
+			listOfFunEventScripts.Add(eventToAdd);
 		}
 
-		public void StartRandomEvent()
+		public void TriggerSpecificEvent(int eventIndex, bool isFake = false)
 		{
-			foreach (var eventInList in listOfEventScripts)
+			if (eventIndex == 0)
+			{
+				StartRandomFunEvent(true, isFake);
+			}
+			else
+			{
+				var eventChosen = listOfFunEventScripts[eventIndex - 1];
+				eventChosen.FakeEvent = isFake;
+				eventChosen.TriggerEvent();
+			}
+		}
+
+		public void StartRandomFunEvent(bool AnEventMustHappen = false, bool isFake = false)
+		{
+			foreach (var eventInList in listOfFunEventScripts)
 			{
 				var chanceToHappen = UnityEngine.Random.Range(0, 100);
 
 				if (chanceToHappen <= eventInList.ChanceToHappen)
 				{
+					eventInList.FakeEvent = isFake;
 					eventInList.TriggerEvent();
-					break;
+					return;
 				}
 			}
-		}
 
-		private void Update()
-		{
-			if (Input.GetKeyDown(KeyCode.P))
+			if (AnEventMustHappen)
 			{
-				StartRandomEvent();
+				StartRandomFunEvent(true, isFake);
 			}
 		}
 	}
