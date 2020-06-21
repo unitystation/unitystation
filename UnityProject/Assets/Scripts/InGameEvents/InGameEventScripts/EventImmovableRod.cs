@@ -7,30 +7,30 @@ namespace InGameEvents
 {
 	public class EventImmovableRod : EventScriptBase
 	{
-		private MatrixInfo StationMatrix;
+		private MatrixInfo stationMatrix;
 
-		private Queue<Vector2> ImpactCoords = new Queue<Vector2>();
+		private Queue<Vector2> impactCoords = new Queue<Vector2>();
 
 		public GameObject ExplosionPrefab = null;
 
 		[SerializeField]
-		private float MinRadius = 4f;
+		private float minRadius = 4f;
 
 		[SerializeField]
-		private float MaxRadius = 8f;
+		private float maxRadius = 8f;
 
 		[SerializeField]
-		private int MinDamage = 200;
+		private int minDamage = 200;
 
 		[SerializeField]
-		private int MaxDamage = 500;
+		private int maxDamage = 500;
 
 		[SerializeField]
-		private int TimeBetweenExplosions = 1;
+		private int timeBetweenExplosions = 1;
 
 		public override void OnEventStart()
 		{
-			StationMatrix = MatrixManager.MainStationMatrix;
+			stationMatrix = MatrixManager.MainStationMatrix;
 
 			if (AnnounceEvent)
 			{
@@ -48,9 +48,9 @@ namespace InGameEvents
 		{
 			if (ExplosionPrefab == null) return;
 
-			var MaxCoord = new Vector2() { x = StationMatrix.WorldBounds.xMax , y = StationMatrix.WorldBounds.yMax };
+			var MaxCoord = new Vector2() { x = stationMatrix.WorldBounds.xMax , y = stationMatrix.WorldBounds.yMax };
 
-			var MinCoord = new Vector2() { x = StationMatrix.WorldBounds.xMin, y = StationMatrix.WorldBounds.yMin };
+			var MinCoord = new Vector2() { x = stationMatrix.WorldBounds.xMin, y = stationMatrix.WorldBounds.yMin };
 
 			var biggestDistancePosible = (int)Vector2.Distance(MaxCoord, MinCoord);
 
@@ -87,18 +87,18 @@ namespace InGameEvents
 			var target = new Vector2() { x = (float)secondNewX, y = (float)secondNewY } + midPoint;
 
 			//Adds original vector
-			ImpactCoords.Enqueue(new Vector3() { x = beginning.x, y = beginning.y, z = 0 });
+			impactCoords.Enqueue(new Vector3() { x = beginning.x, y = beginning.y, z = 0 });
 
 			Vector2 nextCoord = beginning;
 
-			var amountOfImpactsNeeded = (biggestDistancePosible / MinRadius);
+			var amountOfImpactsNeeded = (biggestDistancePosible / minRadius);
 
 			//Fills list of Vectors all along rods path
 			for (int i = 0; i < amountOfImpactsNeeded; i++)
 			{
 				//Vector 50 distance apart from prev vector
-				nextCoord = Vector2.MoveTowards(nextCoord, target, MinRadius);
-				ImpactCoords.Enqueue(new Vector3() {x = nextCoord.x, y = nextCoord.y, z = 0 });
+				nextCoord = Vector2.MoveTowards(nextCoord, target, minRadius);
+				impactCoords.Enqueue(new Vector3() {x = nextCoord.x, y = nextCoord.y, z = 0 });
 			}
 
 			Logger.Log("impact amount "+ amountOfImpactsNeeded);
@@ -120,16 +120,16 @@ namespace InGameEvents
 		{
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
-				var explosionObject = Instantiate(ExplosionPrefab, position: ImpactCoords.Dequeue(), rotation: StationMatrix.ObjectParent.rotation, parent: StationMatrix.ObjectParent).GetComponent<Explosion>();
+				var explosionObject = Instantiate(ExplosionPrefab, position: impactCoords.Dequeue(), rotation: stationMatrix.ObjectParent.rotation, parent: stationMatrix.ObjectParent).GetComponent<Explosion>();
 
-				var radius = UnityEngine.Random.Range(MinRadius, MaxRadius);
-				var damage = UnityEngine.Random.Range(MinDamage, MaxDamage);
+				var radius = UnityEngine.Random.Range(minRadius, maxRadius);
+				var damage = UnityEngine.Random.Range(minDamage, maxDamage);
 
 				explosionObject.SetExplosionData(radius: radius, damage: damage);
 
-				explosionObject.Explode(StationMatrix.Matrix);
+				explosionObject.Explode(stationMatrix.Matrix);
 
-				yield return new WaitForSeconds(TimeBetweenExplosions);
+				yield return new WaitForSeconds(timeBetweenExplosions);
 			}
 
 			base.OnEventStartTimed();

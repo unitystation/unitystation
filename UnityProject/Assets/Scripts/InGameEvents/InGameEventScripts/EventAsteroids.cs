@@ -7,39 +7,39 @@ namespace InGameEvents
 {
 	public class EventAsteroids : EventScriptBase
 	{
-		private MatrixInfo StationMatrix;
+		private MatrixInfo stationMatrix;
 
-		private Queue<Vector3> ImpactCoords = new Queue<Vector3>();
+		private Queue<Vector3> impactCoords = new Queue<Vector3>();
 
 		public GameObject ExplosionPrefab = null;
 
 		[SerializeField]
-		private int MinMeteorAmount = 2;
+		private int minMeteorAmount = 2;
 
 		[SerializeField]
-		private int MaxMeteorAmount = 10;
+		private int maxMeteorAmount = 10;
 
 		[SerializeField]
-		private float MinRadius = 8f;
+		private float minRadius = 8f;
 
 		[SerializeField]
-		private float MaxRadius = 20f;
+		private float maxRadius = 20f;
 
 		[SerializeField]
-		private int MinDamage = 100;
+		private int minDamage = 100;
 
 		[SerializeField]
-		private int MaxDamage = 500;
+		private int maxDamage = 500;
 
 		[SerializeField]
-		private int MinTimeBetweenMeteors = 1;
+		private int minTimeBetweenMeteors = 1;
 
 		[SerializeField]
-		private int MaxTimeBetweenMeteors = 10;
+		private int maxTimeBetweenMeteors = 10;
 
 		public override void OnEventStart()
 		{
-			StationMatrix = MatrixManager.MainStationMatrix;
+			stationMatrix = MatrixManager.MainStationMatrix;
 
 			if (AnnounceEvent)
 			{
@@ -55,14 +55,14 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			int asteroidAmount = UnityEngine.Random.Range(MinMeteorAmount, MaxMeteorAmount);
+			int asteroidAmount = UnityEngine.Random.Range(minMeteorAmount, maxMeteorAmount);
 
 			if (ExplosionPrefab == null) return;
 
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
-				Vector3 position = new Vector3(UnityEngine.Random.Range(StationMatrix.WorldBounds.xMin, StationMatrix.WorldBounds.xMax), UnityEngine.Random.Range(StationMatrix.WorldBounds.yMin, StationMatrix.WorldBounds.yMax), 0);
-				ImpactCoords.Enqueue(position);
+				Vector3 position = new Vector3(UnityEngine.Random.Range(stationMatrix.WorldBounds.xMin, stationMatrix.WorldBounds.xMax), UnityEngine.Random.Range(stationMatrix.WorldBounds.yMin, stationMatrix.WorldBounds.yMax), 0);
+				impactCoords.Enqueue(position);
 			}
 
 			_ = StartCoroutine(SpawnMeteorsWithDelay(asteroidAmount));
@@ -82,16 +82,16 @@ namespace InGameEvents
 		{
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
-				var explosionObject = Instantiate(ExplosionPrefab, position: ImpactCoords.Dequeue(), rotation: StationMatrix.ObjectParent.rotation, parent: StationMatrix.ObjectParent).GetComponent<Explosion>();
+				var explosionObject = Instantiate(ExplosionPrefab, position: impactCoords.Dequeue(), rotation: stationMatrix.ObjectParent.rotation, parent: stationMatrix.ObjectParent).GetComponent<Explosion>();
 
-				var radius = UnityEngine.Random.Range(MinRadius, MaxRadius);
-				var damage = UnityEngine.Random.Range(MinDamage, MaxDamage);
+				var radius = UnityEngine.Random.Range(minRadius, maxRadius);
+				var damage = UnityEngine.Random.Range(minDamage, maxDamage);
 
 				explosionObject.SetExplosionData(radius: radius, damage: damage);
 
-				explosionObject.Explode(StationMatrix.Matrix);
+				explosionObject.Explode(stationMatrix.Matrix);
 
-				yield return new WaitForSeconds(UnityEngine.Random.Range(MinTimeBetweenMeteors, MaxTimeBetweenMeteors));
+				yield return new WaitForSeconds(UnityEngine.Random.Range(minTimeBetweenMeteors, maxTimeBetweenMeteors));
 			}
 
 			base.OnEventStartTimed();
