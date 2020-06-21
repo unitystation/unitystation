@@ -47,10 +47,18 @@ MonoBehaviour:
   StartTimer: 10
   EndTimer: 0
   EventType: 0
-  ChanceToHappen: 100
+  ChanceToHappen: 10
   FakeEvent: 0
   ExplosionPrefab: {fileID: 1059518790872729420, guid: 048e03a155f6ed04bb8cc8984479ee4d,
     type: 3}
+  MinMeteorAmount: 2
+  MaxMeteorAmount: 10
+  MinRadius: 8
+  MaxRadius: 20
+  MinDamage: 100
+  MaxDamage: 500
+  MinTimeBetweenMeteors: 1
+  MaxTimeBetweenMeteors: 10
 --- !u!1 &8929341582706713524
 GameObject:
   m_ObjectHideFlags: 0
