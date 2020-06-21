@@ -31,6 +31,12 @@ namespace InGameEvents
 		[SerializeField]
 		private int MaxDamage = 500;
 
+		[SerializeField]
+		private int MinTimeBetweenMeteors = 1;
+
+		[SerializeField]
+		private int MaxTimeBetweenMeteors = 10;
+
 		private void Start()
 		{
 			InGameEventsManager.Instance.AddEventToList(this);
@@ -86,7 +92,7 @@ namespace InGameEvents
 
 				explosionObject.Explode(StationMatrix.Matrix);
 
-				yield return new WaitForSeconds(UnityEngine.Random.Range(1, 5));
+				yield return new WaitForSeconds(UnityEngine.Random.Range(MinTimeBetweenMeteors, MaxTimeBetweenMeteors));
 			}
 
 			base.OnEventStartTimed();
