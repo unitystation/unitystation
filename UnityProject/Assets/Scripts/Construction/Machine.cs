@@ -38,6 +38,8 @@ namespace Machines
 		[SerializeField]
 		private float secondsToScrewdrive = 2f;
 
+		private Integrity integrity;
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -59,26 +61,41 @@ namespace Machines
 				$"{interaction.Performer.ExpensiveName()} deconstructs the machine.",
 				() =>
 				{
-					//drop all our contents
-					ItemStorage itemStorage = null;
-
-					// rare cases were gameObject is destroyed for some reason and then the method is called
-					if (gameObject != null)
-					{
-						itemStorage = GetComponent<ItemStorage>();
-					}
-
-					if (itemStorage != null)
-					{
-						itemStorage.ServerDropAll();
-					}
-
-					var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
-
-					frame.GetComponent<MachineFrame>().ServerInitFromComputer(this);
-
-					Despawn.ServerSingle(gameObject);
+					WhenDestroyed(null);
 				});
+		}
+
+		private void Awake()
+		{
+			if (!CustomNetworkManager.IsServer) return;
+
+			integrity = GetComponent<Integrity>();
+
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
+		}
+
+		public void WhenDestroyed(DestructionInfo info)
+		{
+			//drop all our contents
+			ItemStorage itemStorage = null;
+
+			// rare cases were gameObject is destroyed for some reason and then the method is called
+			if (gameObject == null) return;
+
+			itemStorage = GetComponent<ItemStorage>();
+
+			if (itemStorage != null)
+			{
+				itemStorage.ServerDropAll();
+			}
+
+			var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
+
+			frame.GetComponent<MachineFrame>().ServerInitFromComputer(this);
+
+			Despawn.ServerSingle(gameObject);
+
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}
 
 		public void SetMachineParts(MachineParts machineParts)
