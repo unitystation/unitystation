@@ -12,7 +12,6 @@ using Tilemaps.Behaviours.Meta;
 using UnityEngine.Profiling;
 using Object = System.Object;
 using Random = UnityEngine.Random;
-using Machines;
 /// <summary>
 /// Component which allows an object to have an integrity value (basically an object's version of HP),
 /// take damage, and do things in response to integrity changes. Objects are destroyed when their integrity
