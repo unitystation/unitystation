@@ -54,6 +54,8 @@ namespace Machines
 
 		private bool putBoardInManually;
 
+		private Integrity integrity;
+
 		private StatefulState CurrentState => stateful.CurrentState;
 		private ObjectBehaviour objectBehaviour;
 
@@ -70,7 +72,9 @@ namespace Machines
 
 			if (!isServer) return;
 
-			GetComponent<Integrity>().OnWillDestroyServer.AddListener(WhenDestroyed);
+			integrity = GetComponent<Integrity>();
+
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 
 			if (CurrentState != partsAddedState)
 			{
@@ -718,6 +722,8 @@ namespace Machines
 			{
 				RemoveCircuitAndParts();
 			}
+
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}
 
 		private void RemoveCircuitAndParts()

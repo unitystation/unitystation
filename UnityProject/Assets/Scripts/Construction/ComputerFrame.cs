@@ -18,6 +18,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 	private Stateful stateful;
 	private StatefulState CurrentState => stateful.CurrentState;
 	private ObjectBehaviour objectBehaviour;
+	private Integrity integrity;
 
 	private void Awake()
 	{
@@ -27,7 +28,9 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 
 		if (!CustomNetworkManager.IsServer) return;
 
-		GetComponent<Integrity>().OnWillDestroyServer.AddListener(WhenDestroyed);
+		integrity = GetComponent<Integrity>();
+
+		integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -309,5 +312,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 		}
 
 		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1,5));
+
+		integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 	}
 }

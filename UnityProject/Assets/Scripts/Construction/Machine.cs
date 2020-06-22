@@ -38,6 +38,8 @@ namespace Machines
 		[SerializeField]
 		private float secondsToScrewdrive = 2f;
 
+		private Integrity integrity;
+
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -67,7 +69,9 @@ namespace Machines
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
-			GetComponent<Integrity>().OnWillDestroyServer.AddListener(WhenDestroyed);
+			integrity = GetComponent<Integrity>();
+
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 		}
 
 		public void WhenDestroyed(DestructionInfo info)
@@ -91,6 +95,8 @@ namespace Machines
 			frame.GetComponent<MachineFrame>().ServerInitFromComputer(this);
 
 			Despawn.ServerSingle(gameObject);
+
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 		}
 
 		public void SetMachineParts(MachineParts machineParts)
