@@ -23,6 +23,7 @@ namespace DiscordWebhook
 		private Queue<string> AllChatMessageQueue = new Queue<string>();
 		private Queue<string> AdminLogMessageQueue = new Queue<string>();
 		private Queue<string> ErrorLogMessageQueue = new Queue<string>();
+		private HashSet<string> ErrorMessageHashSet = new HashSet<string>();
 
 		private Dictionary<Queue<string>, string> DiscordWebhookURLQueueDict = null;
 		private float SpamPreventionTimer = 0f;
@@ -37,14 +38,24 @@ namespace DiscordWebhook
 
 		private void Awake()
 		{
+
 			if (instance == null)
 			{
 				instance = this;
+
+				if (!CustomNetworkManager.IsServer) return;
+
+				ErrorMessageHashSet.Clear();
 				Application.logMessageReceived += HandleLog;
 			}
 			else
 			{
-				Application.logMessageReceived -= HandleLog;
+				if (CustomNetworkManager.IsServer)
+				{
+					ErrorMessageHashSet.Clear();
+					Application.logMessageReceived -= HandleLog;
+				}
+
 				Destroy(this);
 			}
 		}
@@ -80,6 +91,23 @@ namespace DiscordWebhook
 
 				SpamPreventionTimer = 0f;
 			}
+		}
+
+		void OnEnable()
+		{
+			if (!CustomNetworkManager.IsServer) return;
+			EventManager.AddHandler(EVENT.PreRoundStarted, ResetHashSet);
+		}
+
+		void OnDisable()
+		{
+			if (!CustomNetworkManager.IsServer) return;
+			EventManager.RemoveHandler(EVENT.PreRoundStarted, ResetHashSet);
+		}
+
+		void ResetHashSet()
+		{
+			ErrorMessageHashSet.Clear();
 		}
 
 		private IEnumerator SendQueuedMessagesToWebhooks()
@@ -214,9 +242,10 @@ namespace DiscordWebhook
 
 		void HandleLog(string logString, string stackTrace, LogType type)
 		{
-			if (type == LogType.Exception)
+			if ((type == LogType.Exception || type == LogType.Error) && !ErrorMessageHashSet.Contains(stackTrace))
 			{
-				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, logString + stackTrace, "");
+				ErrorMessageHashSet.Add(stackTrace);
+				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, $"{logString}\n{stackTrace}", "");
 			}
 		}
 	}
