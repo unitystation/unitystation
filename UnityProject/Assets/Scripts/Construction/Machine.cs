@@ -59,11 +59,18 @@ namespace Machines
 				$"{interaction.Performer.ExpensiveName()} deconstructs the machine.",
 				() =>
 				{
-					WhenDestroyed();
+					WhenDestroyed(null);
 				});
 		}
 
-		public void WhenDestroyed()
+		private void Awake()
+		{
+			if (!CustomNetworkManager.IsServer) return;
+
+			GetComponent<Integrity>().OnWillDestroyServer.AddListener(WhenDestroyed);
+		}
+
+		public void WhenDestroyed(DestructionInfo info)
 		{
 			//drop all our contents
 			ItemStorage itemStorage = null;

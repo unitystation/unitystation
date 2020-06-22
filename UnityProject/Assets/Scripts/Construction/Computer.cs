@@ -43,11 +43,18 @@ public class Computer : MonoBehaviour, ICheckedInteractable<HandApply>
 			$"{interaction.Performer.ExpensiveName()} disconnects the monitor.",
 			() =>
 			{
-				WhenDestroyed();
+				WhenDestroyed(null);
 			});
 	}
 
-	public void WhenDestroyed()
+	private void Awake()
+	{
+		if (!CustomNetworkManager.IsServer) return;
+
+		GetComponent<Integrity>().OnWillDestroyServer.AddListener(WhenDestroyed);
+	}
+
+	public void WhenDestroyed(DestructionInfo info)
 	{
 		//drop all our contents
 		ItemStorage itemStorage = null;

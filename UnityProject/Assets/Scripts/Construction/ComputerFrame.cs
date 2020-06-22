@@ -24,6 +24,10 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 		circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 		stateful = GetComponent<Stateful>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+
+		if (!CustomNetworkManager.IsServer) return;
+
+		GetComponent<Integrity>().OnWillDestroyServer.AddListener(WhenDestroyed);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -286,7 +290,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 		stateful.ServerChangeState(glassAddedState);
 	}
 
-	public void WhenDestroyed()
+	public void WhenDestroyed(DestructionInfo info)
 	{
 		if (circuitBoardSlot.IsOccupied)
 		{

@@ -70,6 +70,8 @@ namespace Machines
 
 			if (!isServer) return;
 
+			GetComponent<Integrity>().OnWillDestroyServer.AddListener(WhenDestroyed);
+
 			if (CurrentState != partsAddedState)
 			{
 				stateful.ServerChangeState(initialState);
@@ -710,7 +712,7 @@ namespace Machines
 			putBoardInManually = false;
 		}
 
-		public void WhenDestroyed()
+		public void WhenDestroyed(DestructionInfo info)
 		{
 			if (CurrentState == partsAddedState || CurrentState == circuitAddedState)
 			{

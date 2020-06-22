@@ -266,34 +266,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 				SyncOnFire(onFire, false);
 			}
 
-			var computer = gameObject.GetComponent<Computer>();
-
-			if (computer !=null)
-			{
-				computer.WhenDestroyed();
-			}
-
-			var computerFrame = gameObject.GetComponent<ComputerFrame>();
-
-			if (computerFrame != null)
-			{
-				computerFrame.WhenDestroyed();
-			}
-
-			var machine = gameObject.GetComponent<Machine>();
-
-			if (machine != null)
-			{
-				machine.WhenDestroyed();
-			}
-
-			var machineframe = gameObject.GetComponent<MachineFrame>();
-
-			if (machineframe != null)
-			{
-				machineframe.WhenDestroyed();
-			}
-
 			if (destructInfo.DamageType == DamageType.Burn)
 			{
 				if (OnBurnUpServer != null)
