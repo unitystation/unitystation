@@ -70,6 +70,8 @@ public class Spell : MonoBehaviour, IActionGUI
 					break;
 			}
 
+			if (sentByPlayer == null || sentByPlayer.CharacterSettings == null) return;
+
 			Chat.AddActionMsgToChat(sentByPlayer.GameObject, FormatInvocationMessageSelf(sentByPlayer),
 				FormatInvocationMessage(sentByPlayer, modPrefix));
 		}
