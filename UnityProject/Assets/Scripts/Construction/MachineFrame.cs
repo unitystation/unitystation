@@ -70,7 +70,7 @@ namespace Machines
 
 			SetSprite();
 
-			if (!isServer) return;
+			if (!CustomNetworkManager.IsServer) return;
 
 			integrity = GetComponent<Integrity>();
 
