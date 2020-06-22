@@ -14,6 +14,9 @@ You will need these to start your journey:
 
 - [Unity Hub](https://unity3d.com/get-unity/download) Manages your Unity installations. It will install the proper Unity version for you, so you don't really need to worry about that. (but if you really want to know, it is **2019.3.8f1** at the time of writing this guide 04/07/20).
 - A [GitHub account](https://github.com/).
+
+- You'll also need to download Git from this link https://git-scm.com/, this is different from github and will allow unity to download its dependencies. 
+
 - An SSD drive is *highly* recommended to store project files on – this will greatly affect first import time.
 
 
@@ -62,7 +65,9 @@ Are you done downloading? Awesome! Now your local repo is automagically soul-lin
 | :------------------------: | :----------------------------------------------------------: |
 | This is automagically done | Navigate to the folder where your local repo is<br />``git remote add upstream https://github.com/unitystation/unitystation.git``<br />Now to make sure everything is in order we do<br />``git remote -v``<br />and it should show both repos, yours in **origin** and official in **upstream** |
 
-
+### downloading required dependencies
+first of all you need to download Git from this link https://git-scm.com/ ,
+then after that's finished installing, restart your computer then you can continue on with setting up the project in unity
 
 ### Opening the project in Unity
 
