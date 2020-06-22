@@ -62,7 +62,9 @@ Are you done downloading? Awesome! Now your local repo is automagically soul-lin
 | :------------------------: | :----------------------------------------------------------: |
 | This is automagically done | Navigate to the folder where your local repo is<br />``git remote add upstream https://github.com/unitystation/unitystation.git``<br />Now to make sure everything is in order we do<br />``git remote -v``<br />and it should show both repos, yours in **origin** and official in **upstream** |
 
-
+### downloading required dependencies
+first of all you need to download Git from this link https://git-scm.com/ ,
+then after that's finished installing, restart your computer then you can continue on with setting up the project in unity
 
 ### Opening the project in Unity
 
