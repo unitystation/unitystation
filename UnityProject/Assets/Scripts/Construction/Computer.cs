@@ -43,21 +43,26 @@ public class Computer : MonoBehaviour, ICheckedInteractable<HandApply>
 			$"{interaction.Performer.ExpensiveName()} disconnects the monitor.",
 			() =>
 			{
-				//drop all our contents
-				ItemStorage itemStorage = null;
-				// rare cases were gameObject is destroyed for some reason and then the method is called
-				if (gameObject != null)
-				{
-					itemStorage = GetComponent<ItemStorage>();
-				}
-
-				if (itemStorage != null)
-				{
-					itemStorage.ServerDropAll();
-				}
-				var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
-				frame.GetComponent<ComputerFrame>().ServerInitFromComputer(this);
-				Despawn.ServerSingle(gameObject);
+				WhenDestroyed();
 			});
+	}
+
+	public void WhenDestroyed()
+	{
+		//drop all our contents
+		ItemStorage itemStorage = null;
+		// rare cases were gameObject is destroyed for some reason and then the method is called
+		if (gameObject != null)
+		{
+			itemStorage = GetComponent<ItemStorage>();
+		}
+
+		if (itemStorage != null)
+		{
+			itemStorage.ServerDropAll();
+		}
+		var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
+		frame.GetComponent<ComputerFrame>().ServerInitFromComputer(this);
+		Despawn.ServerSingle(gameObject);
 	}
 }

@@ -371,35 +371,8 @@ namespace Machines
 				Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
 					$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
 				ToolUtils.ServerPlayToolSound(interaction);
-				Inventory.ServerDrop(circuitBoardSlot);
-				stateful.ServerChangeState(wrenchedState);
 
-				if (partsInFrame.Count == 0 && !putBoardInManually)//technically never true as this state cannot happen for a mapped machine
-				{
-					foreach (var part in machineParts.machineParts)
-					{
-						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
-					}
-				}
-				else
-				{
-					foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
-					{
-						if (item.Key == null) return;
-
-						item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(gameObject.GetComponent<CustomNetTransform>().ServerPosition);
-					}
-				}
-
-				putBoardInManually = false;
-
-				//Sprite change
-				spriteRender.sprite = boxCable;
-				ServerChangeSprite(SpriteStates.BoxCable);
-
-				//Reset frame data
-				partsInFrame.Clear();
-				basicPartsUsed.Clear();
+				RemoveCircuitAndParts();
 			}
 			else if (ItemTraitCheck(interaction)) //Adding parts validation
 			{
@@ -457,41 +430,8 @@ namespace Machines
 				Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
 					$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
 				ToolUtils.ServerPlayToolSound(interaction);
-				Inventory.ServerDrop(circuitBoardSlot);
-				stateful.ServerChangeState(wrenchedState);
 
-				//If frame in mapped; count == 0 and its the only time putBoardInManually will be false as putting in board makes it true
-				if (partsInFrame.Count == 0 && !putBoardInManually)
-				{
-					foreach (var part in machineParts.machineParts)
-					{
-						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
-					}
-				}
-				else
-				{
-					foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
-					{
-						if (item.Key == null)//Shouldnt ever happen, but just incase
-						{
-							continue;
-						}
-
-						var pos = gameObject.GetComponent<CustomNetTransform>().ServerPosition;
-
-						item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(pos);
-					}
-				}
-
-				putBoardInManually = false;
-
-				//Sprite change
-				spriteRender.sprite = boxCable;
-				ServerChangeSprite(SpriteStates.BoxCable);
-
-				//Reset data
-				partsInFrame.Clear();
-				basicPartsUsed.Clear();
+				RemoveCircuitAndParts();
 			}
 		}
 
@@ -768,6 +708,53 @@ namespace Machines
 			objectBehaviour.ServerSetPushable(false);
 			stateful.ServerChangeState(partsAddedState);
 			putBoardInManually = false;
+		}
+
+		public void WhenDestroyed()
+		{
+			if (CurrentState == partsAddedState || CurrentState == circuitAddedState)
+			{
+				RemoveCircuitAndParts();
+			}
+		}
+
+		private void RemoveCircuitAndParts()
+		{
+			Inventory.ServerDrop(circuitBoardSlot);
+			stateful.ServerChangeState(wrenchedState);
+
+			//If frame in mapped; count == 0 and its the only time putBoardInManually will be false as putting in board makes it true
+			if (partsInFrame.Count == 0 && !putBoardInManually)
+			{
+				foreach (var part in machineParts.machineParts)
+				{
+					Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
+				}
+			}
+			else
+			{
+				foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
+				{
+					if (item.Key == null)//Shouldnt ever happen, but just incase
+					{
+						continue;
+					}
+
+					var pos = gameObject.GetComponent<CustomNetTransform>().ServerPosition;
+
+					item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(pos);
+				}
+			}
+
+			putBoardInManually = false;
+
+			//Sprite change
+			spriteRender.sprite = boxCable;
+			ServerChangeSprite(SpriteStates.BoxCable);
+
+			//Reset data
+			partsInFrame.Clear();
+			basicPartsUsed.Clear();
 		}
 
 		private enum SpriteStates

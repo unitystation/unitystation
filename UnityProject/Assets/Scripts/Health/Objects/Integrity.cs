@@ -12,6 +12,7 @@ using Tilemaps.Behaviours.Meta;
 using UnityEngine.Profiling;
 using Object = System.Object;
 using Random = UnityEngine.Random;
+using Machines;
 /// <summary>
 /// Component which allows an object to have an integrity value (basically an object's version of HP),
 /// take damage, and do things in response to integrity changes. Objects are destroyed when their integrity
@@ -263,6 +264,34 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			{
 				//ensure we stop burning
 				SyncOnFire(onFire, false);
+			}
+
+			var computer = gameObject.GetComponent<Computer>();
+
+			if (computer !=null)
+			{
+				computer.WhenDestroyed();
+			}
+
+			var computerFrame = gameObject.GetComponent<ComputerFrame>();
+
+			if (computerFrame != null)
+			{
+				computerFrame.WhenDestroyed();
+			}
+
+			var machine = gameObject.GetComponent<Machine>();
+
+			if (machine != null)
+			{
+				machine.WhenDestroyed();
+			}
+
+			var machineframe = gameObject.GetComponent<MachineFrame>();
+
+			if (machineframe != null)
+			{
+				machineframe.WhenDestroyed();
 			}
 
 			if (destructInfo.DamageType == DamageType.Burn)
