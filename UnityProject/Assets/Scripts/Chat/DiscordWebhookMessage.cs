@@ -42,20 +42,9 @@ namespace DiscordWebhook
 			if (instance == null)
 			{
 				instance = this;
-
-				if (!CustomNetworkManager.IsServer) return;
-
-				ErrorMessageHashSet.Clear();
-				Application.logMessageReceived += HandleLog;
 			}
 			else
 			{
-				if (CustomNetworkManager.IsServer)
-				{
-					ErrorMessageHashSet.Clear();
-					Application.logMessageReceived -= HandleLog;
-				}
-
 				Destroy(this);
 			}
 		}
@@ -96,12 +85,16 @@ namespace DiscordWebhook
 		void OnEnable()
 		{
 			if (!CustomNetworkManager.IsServer) return;
+
+			Application.logMessageReceived += HandleLog;
 			EventManager.AddHandler(EVENT.PreRoundStarted, ResetHashSet);
 		}
 
 		void OnDisable()
 		{
 			if (!CustomNetworkManager.IsServer) return;
+
+			Application.logMessageReceived -= HandleLog;
 			EventManager.RemoveHandler(EVENT.PreRoundStarted, ResetHashSet);
 		}
 
