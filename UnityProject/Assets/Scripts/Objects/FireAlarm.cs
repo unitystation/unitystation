@@ -43,6 +43,7 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 			StartCoroutine(SwitchCoolDown());
 			foreach (var firelock in FireLockList)
 			{
+				if (firelock == null) continue;
 				firelock.ReceiveAlert();
 			}
 		}
