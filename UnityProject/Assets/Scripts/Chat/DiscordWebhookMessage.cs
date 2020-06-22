@@ -22,6 +22,7 @@ namespace DiscordWebhook
 		private Queue<string> AnnouncementMessageQueue = new Queue<string>();
 		private Queue<string> AllChatMessageQueue = new Queue<string>();
 		private Queue<string> AdminLogMessageQueue = new Queue<string>();
+		private Queue<string> ErrorLogMessageQueue = new Queue<string>();
 
 		private Dictionary<Queue<string>, string> DiscordWebhookURLQueueDict = null;
 		private float SpamPreventionTimer = 0f;
@@ -39,9 +40,11 @@ namespace DiscordWebhook
 			if (instance == null)
 			{
 				instance = this;
+				Application.logMessageReceived += HandleLog;
 			}
 			else
 			{
+				Application.logMessageReceived -= HandleLog;
 				Destroy(this);
 			}
 		}
@@ -100,7 +103,8 @@ namespace DiscordWebhook
 				{AdminAhelpMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminURL},
 				{AnnouncementMessageQueue, ServerData.ServerConfig.DiscordWebhookAnnouncementURL},
 				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL},
-				{AdminLogMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminLogURL}
+				{AdminLogMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminLogURL},
+				{ErrorLogMessageQueue, ServerData.ServerConfig.DiscordWebhookErrorLogURL}
 			};
 		}
 
@@ -201,8 +205,18 @@ namespace DiscordWebhook
 					return (ServerData.ServerConfig.DiscordWebhookAllChatURL, AllChatMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAdminLogURL:
 					return (ServerData.ServerConfig.DiscordWebhookAdminLogURL, AdminLogMessageQueue);
+				case DiscordWebhookURLs.DiscordWebhookErrorLogURL:
+					return (ServerData.ServerConfig.DiscordWebhookErrorLogURL, ErrorLogMessageQueue);
 				default:
 					return (null, null);
+			}
+		}
+
+		void HandleLog(string logString, string stackTrace, LogType type)
+		{
+			if (type == LogType.Exception)
+			{
+				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, logString + stackTrace, "");
 			}
 		}
 	}
@@ -213,7 +227,8 @@ namespace DiscordWebhook
 		DiscordWebhookAdminURL,
 		DiscordWebhookAnnouncementURL,
 		DiscordWebhookAllChatURL,
-		DiscordWebhookAdminLogURL
+		DiscordWebhookAdminLogURL,
+		DiscordWebhookErrorLogURL
 	}
 
 	public class AllowedMentions
