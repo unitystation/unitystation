@@ -83,8 +83,6 @@ namespace DiscordWebhook
 
 		void OnEnable()
 		{
-			if (!CustomNetworkManager.IsServer) return;
-
 			Application.logMessageReceived += HandleLog;
 			EventManager.AddHandler(EVENT.PreRoundStarted, ResetHashSet);
 		}
@@ -234,6 +232,12 @@ namespace DiscordWebhook
 
 		void HandleLog(string logString, string stackTrace, LogType type)
 		{
+			if (!CustomNetworkManager.IsServer)
+			{
+				Application.logMessageReceived -= HandleLog;
+				EventManager.RemoveHandler(EVENT.PreRoundStarted, ResetHashSet);
+			}
+
 			if ((type == LogType.Exception || type == LogType.Error) && !ErrorMessageHashSet.Contains(stackTrace))
 			{
 				ErrorMessageHashSet.Add(stackTrace);
