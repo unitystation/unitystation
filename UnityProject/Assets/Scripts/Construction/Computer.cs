@@ -63,10 +63,9 @@ public class Computer : MonoBehaviour, ICheckedInteractable<HandApply>
 		//drop all our contents
 		ItemStorage itemStorage = null;
 		// rare cases were gameObject is destroyed for some reason and then the method is called
-		if (gameObject != null)
-		{
-			itemStorage = GetComponent<ItemStorage>();
-		}
+		if (gameObject == null) return;
+
+		itemStorage = GetComponent<ItemStorage>();
 
 		if (itemStorage != null)
 		{

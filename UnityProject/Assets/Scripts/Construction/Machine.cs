@@ -80,10 +80,9 @@ namespace Machines
 			ItemStorage itemStorage = null;
 
 			// rare cases were gameObject is destroyed for some reason and then the method is called
-			if (gameObject != null)
-			{
-				itemStorage = GetComponent<ItemStorage>();
-			}
+			if (gameObject == null) return;
+
+			itemStorage = GetComponent<ItemStorage>();
 
 			if (itemStorage != null)
 			{
