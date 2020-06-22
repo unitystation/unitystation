@@ -38,7 +38,6 @@ namespace DiscordWebhook
 
 		private void Awake()
 		{
-
 			if (instance == null)
 			{
 				instance = this;
