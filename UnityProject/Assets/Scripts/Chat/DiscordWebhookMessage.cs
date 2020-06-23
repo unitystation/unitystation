@@ -191,10 +191,10 @@ namespace DiscordWebhook
 			var newmsg = msg;
 
 			//Disable \ and \n
-			newmsg = Regex.Replace(newmsg, @"\\n?", "");
+			newmsg = Regex.Replace(newmsg, @"\\n?", " ");
 
 			//Disable links
-			newmsg = Regex.Replace(newmsg, "(?i)http", "");
+			newmsg = Regex.Replace(newmsg, "(?i)http", " ");
 
 			if (!string.IsNullOrEmpty(mentionID) && !SpamPrevention)
 			{
