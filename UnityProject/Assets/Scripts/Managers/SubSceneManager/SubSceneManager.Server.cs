@@ -43,8 +43,11 @@ public partial class SubSceneManager
 	/// staggered over multiple frames
 	public IEnumerator SyncPlayerData(NetworkConnection connToAdd, Scene sceneContext)
 	{
+
+		var scene = connToAdd.clientOwnedObjects.ElementAt(0) != null ? connToAdd.clientOwnedObjects.ElementAt(0).gameObject : null;
+
 		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new " +
-		                 "client {0} for scene {1}", Category.Connections, connToAdd.clientOwnedObjects.ElementAt(0).gameObject, sceneContext.name);
+		                 "client {0} for scene {1}", Category.Connections, scene, sceneContext.name);
 
 		//Add connection as observer to the scene objects:
 		yield return StartCoroutine(AddObserversForClient(connToAdd, sceneContext));
