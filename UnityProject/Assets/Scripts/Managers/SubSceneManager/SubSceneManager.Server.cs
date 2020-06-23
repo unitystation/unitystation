@@ -44,10 +44,10 @@ public partial class SubSceneManager
 	public IEnumerator SyncPlayerData(NetworkConnection connToAdd, Scene sceneContext)
 	{
 
-		var scene = connToAdd.clientOwnedObjects.Count == 0 ? null : connToAdd.clientOwnedObjects.ElementAt(0).gameObject;
+		var client = connToAdd.clientOwnedObjects.Count == 0 ? null : connToAdd.clientOwnedObjects.ElementAt(0).gameObject;
 
 		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new " +
-		                 "client {0} for scene {1}", Category.Connections, scene, sceneContext.name);
+		                 "client {0} for scene {1}", Category.Connections, client, sceneContext.name);
 
 		//Add connection as observer to the scene objects:
 		yield return StartCoroutine(AddObserversForClient(connToAdd, sceneContext));
