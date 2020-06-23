@@ -44,7 +44,7 @@ public partial class SubSceneManager
 	public IEnumerator SyncPlayerData(NetworkConnection connToAdd, Scene sceneContext)
 	{
 
-		var scene = connToAdd.clientOwnedObjects.ElementAt(0) != null ? connToAdd.clientOwnedObjects.ElementAt(0).gameObject : null;
+		var scene = connToAdd.clientOwnedObjects.Count == 0 ? null : connToAdd.clientOwnedObjects.ElementAt(0).gameObject;
 
 		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new " +
 		                 "client {0} for scene {1}", Category.Connections, scene, sceneContext.name);
