@@ -69,7 +69,7 @@ public partial class SubSceneManager
 		var netIds = NetworkIdentity.spawned.Values.ToList();
 		foreach (var n in netIds)
 		{
-			if (n.gameObject == null ||
+			if (n == null || n.gameObject == null ||
 			n.gameObject.scene != sceneContext) continue;
 
 			n.AddPlayerObserver(connToAdd);
