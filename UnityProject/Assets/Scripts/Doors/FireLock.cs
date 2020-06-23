@@ -28,6 +28,8 @@ public class FireLock : InteractableDoor
 
 	public void ReceiveAlert()
 	{
+		if (Controller == null) return;
+
 		if (!Controller.IsClosed)
 		{
 			Controller.ServerTryClose();
@@ -43,7 +45,7 @@ public class FireLock : InteractableDoor
 		metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
 		Controller.ServerOpen();
 	}
-	
+
 	//Copied over from LightSource.cs
 	void OnDrawGizmosSelected()
 	{
