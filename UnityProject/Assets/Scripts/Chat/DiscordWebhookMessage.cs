@@ -22,6 +22,8 @@ namespace DiscordWebhook
 		private Queue<string> AnnouncementMessageQueue = new Queue<string>();
 		private Queue<string> AllChatMessageQueue = new Queue<string>();
 		private Queue<string> AdminLogMessageQueue = new Queue<string>();
+		private Queue<string> ErrorLogMessageQueue = new Queue<string>();
+		private HashSet<string> ErrorMessageHashSet = new HashSet<string>();
 
 		private Dictionary<Queue<string>, string> DiscordWebhookURLQueueDict = null;
 		private float SpamPreventionTimer = 0f;
@@ -79,6 +81,23 @@ namespace DiscordWebhook
 			}
 		}
 
+		void OnEnable()
+		{
+			Application.logMessageReceived += HandleLog;
+			EventManager.AddHandler(EVENT.PreRoundStarted, ResetHashSet);
+		}
+
+		void OnDisable()
+		{
+			Application.logMessageReceived -= HandleLog;
+			EventManager.RemoveHandler(EVENT.PreRoundStarted, ResetHashSet);
+		}
+
+		void ResetHashSet()
+		{
+			ErrorMessageHashSet.Clear();
+		}
+
 		private IEnumerator SendQueuedMessagesToWebhooks()
 		{
 			foreach (var entry in DiscordWebhookURLQueueDict)
@@ -100,7 +119,8 @@ namespace DiscordWebhook
 				{AdminAhelpMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminURL},
 				{AnnouncementMessageQueue, ServerData.ServerConfig.DiscordWebhookAnnouncementURL},
 				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL},
-				{AdminLogMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminLogURL}
+				{AdminLogMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminLogURL},
+				{ErrorLogMessageQueue, ServerData.ServerConfig.DiscordWebhookErrorLogURL}
 			};
 		}
 
@@ -201,8 +221,19 @@ namespace DiscordWebhook
 					return (ServerData.ServerConfig.DiscordWebhookAllChatURL, AllChatMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAdminLogURL:
 					return (ServerData.ServerConfig.DiscordWebhookAdminLogURL, AdminLogMessageQueue);
+				case DiscordWebhookURLs.DiscordWebhookErrorLogURL:
+					return (ServerData.ServerConfig.DiscordWebhookErrorLogURL, ErrorLogMessageQueue);
 				default:
 					return (null, null);
+			}
+		}
+
+		void HandleLog(string logString, string stackTrace, LogType type)
+		{
+			if ((type == LogType.Exception || type == LogType.Error) && !ErrorMessageHashSet.Contains(stackTrace))
+			{
+				ErrorMessageHashSet.Add(stackTrace);
+				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, $"{logString}\n{stackTrace}", "");
 			}
 		}
 	}
@@ -213,7 +244,8 @@ namespace DiscordWebhook
 		DiscordWebhookAdminURL,
 		DiscordWebhookAnnouncementURL,
 		DiscordWebhookAllChatURL,
-		DiscordWebhookAdminLogURL
+		DiscordWebhookAdminLogURL,
+		DiscordWebhookErrorLogURL
 	}
 
 	public class AllowedMentions
