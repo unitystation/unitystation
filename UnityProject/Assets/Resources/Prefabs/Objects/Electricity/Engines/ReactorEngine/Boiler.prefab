@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 809dea13faec1484897e1aacd09e9f29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tickRate: 1
   ReactorPipe: {fileID: 0}
   Chambers: []
 --- !u!114 &3579875241807105875
@@ -51,8 +50,10 @@ MonoBehaviour:
       Mix:
         temperature: 273.15
         reagents:
-          m_keys: []
-          m_values: []
+          m_keys:
+          - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+          m_values:
+          - 100
     MaxPressure: 15805.5
     ConnectedPipes: []
     Outputs: []
