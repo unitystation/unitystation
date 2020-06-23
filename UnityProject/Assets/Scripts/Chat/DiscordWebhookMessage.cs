@@ -190,6 +190,12 @@ namespace DiscordWebhook
 		{
 			var newmsg = msg;
 
+			//Disable \ and \n
+			newmsg = Regex.Replace(newmsg, @"\\n?", "");
+
+			//Disable links
+			newmsg = Regex.Replace(newmsg, "(?i)http", "");
+
 			if (!string.IsNullOrEmpty(mentionID) && !SpamPrevention)
 			{
 				if (!RoleList.Contains(mentionID))
@@ -201,6 +207,7 @@ namespace DiscordWebhook
 
 				//Replaces the @ServerAdmin (non case sensitive), with the discord role ID, so it pings.
 				newmsg = Regex.Replace(newmsg, "(?i)@ServerAdmin", mentionID);
+
 				SpamPrevention = true;
 			}
 
