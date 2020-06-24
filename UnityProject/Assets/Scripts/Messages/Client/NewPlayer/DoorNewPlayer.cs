@@ -8,8 +8,12 @@ public class DoorNewPlayer: ClientMessage
 	public override void Process()
 	{
 		LoadNetworkObject(Door);
-		NetworkObject.GetComponent<DoorController>().UpdateNewPlayer(
-			SentByPlayer.Connection);
+		var doorController = NetworkObject.GetComponent<DoorController>();
+
+		if (doorController != null)
+		{
+			doorController.UpdateNewPlayer(SentByPlayer.Connection);
+		}
 	}
 
 	public static DoorNewPlayer Send(uint netId)

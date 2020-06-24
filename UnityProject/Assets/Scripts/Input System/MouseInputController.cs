@@ -492,6 +492,10 @@ public class MouseInputController : MonoBehaviour
 
 		// TODO Prepare and send requestexaminemessage
 		// todo:  check if netid = 0.
+
+		//Shift clicking on space created NRE
+		if (!clickedObject) return;
+
 		RequestExamineMessage.Send(clickedObject.GetComponent<NetworkIdentity>().netId, MouseWorldPosition);
 	}
 
