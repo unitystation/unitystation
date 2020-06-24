@@ -345,7 +345,7 @@ public class PlayerSprites : MonoBehaviour
 				{
 					overflow |= 1UL << n;
 				}
-				else //otherwise just set the n'th bit to 1
+				else if (IsBitSet((ulong)clothing.HideClothingFlags,n)) //check if n'th bit is set to 1
 				{
 					ulong bytechange = (ulong)hideClothingFlags;
 					bytechange |= 1UL << n; //set n'th bit to 1
@@ -376,7 +376,7 @@ public class PlayerSprites : MonoBehaviour
 
 	private bool IsBitSet(ulong b, int pos)
 	{
-   		return (b & (1Ul << pos)) != 0;
+   		return ((b >> pos) & 1) != 0;
 	}
 	private void ValidateHideFlags()
 	{
