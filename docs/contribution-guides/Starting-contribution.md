@@ -209,7 +209,7 @@ There is a huge amount of resources around for learning Unity, and for the more 
 ##### Downloading a code editor
 There is a lot you can accomplish through editors available from Unity, but if you plan on contributing seriously to the code/scripts, you'll do better if you have a development environment set-up.
 
-Editors that you might like to include:
+Editors that you might like to use:
 
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [JetBrains Rider](https://www.jetbrains.com/rider/)
