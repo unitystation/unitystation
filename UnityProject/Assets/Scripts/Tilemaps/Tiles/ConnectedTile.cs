@@ -74,7 +74,10 @@ public class ConnectedTile : BasicTile
 		}
 		if (layer != null)
 		{
-			rotation = layer.RotationOffset.QuaternionInverted;
+			//I dont really get the need for this since
+			//to make a rotation makes sense you would have to rotate The tile positionally
+			//rotation = layer.RotationOffset.QuaternionInverted;
+			rotation = Quaternion.identity;
 		}
 		else
 		{
