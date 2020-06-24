@@ -77,6 +77,11 @@ namespace Light2D
 
         protected override void UpdateMeshData(bool forceUpdate = false)
         {
+	        if (Application.isPlaying == false)
+	        {
+		        return;
+	        }
+	        
             if (IsPartOfStaticBatch)
                 return;
 
