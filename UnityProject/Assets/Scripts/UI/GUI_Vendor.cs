@@ -90,7 +90,7 @@ public class GUI_Vendor : NetTab
 		{
 			return;
 		}
-		if (!APCPoweredDevice.IsOn(vendor.CurrentPowerState))  return;
+		if (!APCPoweredDevice.IsOn(vendor.ActualCurrentPowerState))  return;
 		// find entry for this item
 		var vendorItems = itemList.Entries;
 		var vendorItemEntry = vendorItems.FirstOrDefault((listEntry) =>

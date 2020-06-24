@@ -128,7 +128,6 @@ namespace Pipes
 
 		public virtual void OnDisable()
 		{
-			Logger.Log("OnDisable()");
 			AtmosManager.Instance.inGameNewPipes.Remove(this);
 			foreach (var Pipe in ConnectedPipes)
 			{

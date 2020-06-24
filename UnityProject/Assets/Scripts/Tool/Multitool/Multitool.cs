@@ -63,16 +63,13 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 			var MultitoolBases = interaction.TargetObject.GetComponents<ISetMultitoolBase>();
 			foreach (var MultitoolBase in MultitoolBases)
 			{
-				Logger.Log("Buffer > " + Buffer + " MultiMaster > " + MultiMaster);
 				if (Buffer == null || MultiMaster)
 				{
 					ISetMultitoolMaster Master = (MultitoolBase as ISetMultitoolMaster);
 					if (Master != null)
 					{
-						Logger.Log(Master.ToString());
 						ConfigurationBuffer = Master.ConType;
 						ListBuffer.Add(Master);
-						Logger.Log(Master.MultiMaster.ToString());
 						MultiMaster = Master.MultiMaster;
 						Chat.AddExamineMsgFromServer(interaction.Performer,
 							"You add the master component " + interaction.TargetObject.ExpensiveName() +

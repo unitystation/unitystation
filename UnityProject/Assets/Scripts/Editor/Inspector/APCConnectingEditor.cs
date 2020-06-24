@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Mirror;
 using UnityEngine;
 using UnityEditor;
@@ -65,10 +66,11 @@ public class APCConnectingEditor : Editor
 			Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
 			RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction);
 
+			var hashits = new HashSet<GameObject>(hits.Select(x => x.transform.gameObject));
 			// scan all hit objects for door controllers
-			for (int i = 0; i < hits.Length; i++)
+			foreach (var Hit in hashits)
 			{
-				var objectTrigger = hits[i].transform.GetComponent<APCPoweredDevice>();
+				var objectTrigger = Hit.transform.GetComponent<APCPoweredDevice>();
 				if (objectTrigger != null)
 					ToggleObjectTrigger(switchBase, objectTrigger);
 			}

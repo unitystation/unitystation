@@ -44,9 +44,8 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 
 	public VendorUpdateEvent OnRestockUsed = new VendorUpdateEvent();
 	public VendorItemUpdateEvent OnItemVended = new VendorItemUpdateEvent();
-	public PowerStates CurrentPowerState;
-
-
+	public PowerStates ActualCurrentPowerState = PowerStates.On;
+	public bool DoesntRequirePower = false;
 	private void Awake()
 	{
 		// ensure we have a net tab set up with the correct type
@@ -231,7 +230,7 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 
 	public void StateUpdate(PowerStates State)
 	{
-		CurrentPowerState = State;
+		ActualCurrentPowerState = State;
 	}
 }
 

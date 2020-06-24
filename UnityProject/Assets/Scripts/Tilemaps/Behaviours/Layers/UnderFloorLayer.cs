@@ -44,7 +44,6 @@ public class UnderFloorLayer : Layer
 						var PipeTile = getTile as PipeTile;
 						if (PipeTile != null)
 						{
-							Logger.Log("PipeTile.InitialiseNode");
 							PipeTile.InitialiseNode(new Vector3Int(n, p, localPlace.z), matrix);
 						}
 					}
