@@ -22,6 +22,9 @@ public class RequestRespawnPlayer : ClientMessage
 		if (player != null)
 		{
 			var deadPlayer = PlayerList.Instance.GetByUserID(UserToRespawn);
+
+			if (deadPlayer == null || deadPlayer.Script == null) return;
+
 			if (deadPlayer.Script.playerHealth == null)
 			{
 				TryRespawn(deadPlayer, OccupationToRespawn);

@@ -225,6 +225,9 @@ namespace DatabaseAPI
 
 		//Sends Admin actions to a webhook
 		public string DiscordWebhookAdminLogURL;
+
+		//Sends Admin actions to a webhook
+		public string DiscordWebhookErrorLogURL;
 	}
 
     //Used to identify the build and fork of this client/server
