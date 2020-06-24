@@ -159,7 +159,7 @@ Please ensure you are familiar with our [development standards](https://unitysta
 
 #### Updating your repo
 
-This is a chaotic project and stuff happens ** every day** so it is very important that you keep your repo up-to-date, especially when mapping.
+This is a chaotic project and stuff happens **every day** so it is very important that you keep your repo up-to-date, especially when mapping.
 
 
 
