@@ -154,6 +154,12 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	{
 		// Get Tile at position
 		LayerTile tile = LayerTileAt(pos);
+
+		if (tile == null)
+		{
+			return "Space";
+		}
+
 		return "A " + tile.DisplayName;
 	}
 

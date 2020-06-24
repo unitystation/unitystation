@@ -68,8 +68,7 @@ public partial class Chat : MonoBehaviour
 		{
 			processedMessage = ProcessMessage(sentByPlayer, message);
 
-			if (player.mind.occupation.JobType == JobType.MIME && player.mind.IsMiming
-				&& !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+			if (!player.IsDeadOrGhost && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
 			{
 				AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
 				return;
