@@ -25,14 +25,14 @@ namespace DiscordWebhook
 		private Queue<string> ErrorLogMessageQueue = new Queue<string>();
 		private HashSet<string> ErrorMessageHashSet = new HashSet<string>();
 
-		private Dictionary<Queue<string>, string> DiscordWebhookURLQueueDict = null;
-		private float SpamPreventionTimer = 0f;
-		private bool SpamPrevention = false;
-		private float SendingTimer = 0;
+		private Dictionary<Queue<string>, string> discordWebhookURLQueueDict = null;
+		private float spamPreventionTimer = 0f;
+		private bool spamPrevention = false;
+		private float sendingTimer = 0;
 		private const float SpamTimeLimit = 150f;
-		private const float MessageTimeDelay = 1f;
+		private const float MessageTimeDelay = 1.5f;
 
-		private bool MessageSendingInProgress = false;
+		private bool messageSendingInProgress = false;
 
 		IList<string> RoleList = new List<string>();
 
@@ -52,32 +52,32 @@ namespace DiscordWebhook
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
-			SendingTimer += Time.deltaTime;
-			if (SendingTimer > MessageTimeDelay)
+			sendingTimer += Time.deltaTime;
+			if (sendingTimer > MessageTimeDelay)
 			{
-				if (DiscordWebhookURLQueueDict == null)
+				if (discordWebhookURLQueueDict == null)
 				{
 					InitDict();
 				}
 
-				if (!MessageSendingInProgress)
+				if (!messageSendingInProgress)
 				{
-					MessageSendingInProgress = true;
+					messageSendingInProgress = true;
 
 					_ = StartCoroutine(SendQueuedMessagesToWebhooks());
 				}
 
-				SendingTimer = 0;
+				sendingTimer = 0;
 			}
 
-			if (!SpamPrevention) return;
+			if (!spamPrevention) return;
 
-			SpamPreventionTimer += Time.deltaTime;
-			if (SpamPreventionTimer > SpamTimeLimit)
+			spamPreventionTimer += Time.deltaTime;
+			if (spamPreventionTimer > SpamTimeLimit)
 			{
-				SpamPrevention = false;
+				spamPrevention = false;
 
-				SpamPreventionTimer = 0f;
+				spamPreventionTimer = 0f;
 			}
 		}
 
@@ -100,20 +100,20 @@ namespace DiscordWebhook
 
 		private IEnumerator SendQueuedMessagesToWebhooks()
 		{
-			foreach (var entry in DiscordWebhookURLQueueDict)
+			foreach (var entry in discordWebhookURLQueueDict)
 			{
 
 				FormatAndSendMessage(entry.Value, entry.Key);
 			}
 
-			MessageSendingInProgress = false;
+			messageSendingInProgress = false;
 
 			yield break;
 		}
 
 		private void InitDict()
 		{
-			DiscordWebhookURLQueueDict = new Dictionary<Queue<string>, string>
+			discordWebhookURLQueueDict = new Dictionary<Queue<string>, string>
 			{
 				{OOCMessageQueue, ServerData.ServerConfig.DiscordWebhookOOCURL},
 				{AdminAhelpMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminURL},
@@ -170,10 +170,22 @@ namespace DiscordWebhook
 
 			for (var i = 1; i <= count; i++)
 			{
+				//Discord character limit is 2000
+				if (msg.Length > 1950)
+				{
+					msg = msg.Substring(0, 1950);
+					break;
+				}
+
+				if (msg.Length + queue.Peek().Length > 1950)
+				{
+					break;
+				}
+
 				msg += queue.Dequeue() + "\n";
 			}
 
-			var Payload = new JsonPayloadContent()
+			var payLoad = new JsonPayloadContent()
 			{
 				content = msg,
 
@@ -183,7 +195,7 @@ namespace DiscordWebhook
 				}
 			};
 
-			Post(url, Payload);
+			Post(url, payLoad);
 		}
 
 		private string MsgMentionProcess(string msg, string mentionID = null)
@@ -196,7 +208,7 @@ namespace DiscordWebhook
 			//Disable links
 			newmsg = Regex.Replace(newmsg, "(?i)http", " ");
 
-			if (!string.IsNullOrEmpty(mentionID) && !SpamPrevention)
+			if (!string.IsNullOrEmpty(mentionID) && !spamPrevention)
 			{
 				if (!RoleList.Contains(mentionID))
 				{
@@ -208,7 +220,7 @@ namespace DiscordWebhook
 				//Replaces the @ServerAdmin (non case sensitive), with the discord role ID, so it pings.
 				newmsg = Regex.Replace(newmsg, "(?i)@ServerAdmin", mentionID);
 
-				SpamPrevention = true;
+				spamPrevention = true;
 			}
 
 			return newmsg;
@@ -240,7 +252,16 @@ namespace DiscordWebhook
 			if ((type == LogType.Exception || type == LogType.Error) && !ErrorMessageHashSet.Contains(stackTrace))
 			{
 				ErrorMessageHashSet.Add(stackTrace);
-				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, $"{logString}\n{stackTrace}", "");
+
+				var logToSend = $"{logString}\n{stackTrace}";
+
+				//Discord character limit is 2000
+				if (logToSend.Length > 1950)
+				{
+					logToSend = logToSend.Substring(0, 1950);
+				}
+
+				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, logToSend, "");
 			}
 		}
 	}
