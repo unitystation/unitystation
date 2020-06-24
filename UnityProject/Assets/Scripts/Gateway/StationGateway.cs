@@ -12,7 +12,7 @@ public class StationGateway : NetworkBehaviour, IAPCPowered
 	private SpriteRenderer[] Sprites = null;
 	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
 
-	private PowerStates CurrentState;
+	private PowerStates CurrentState =PowerStates.On ;
 	private float OnWatts = 1000;
 	private float OffWatts = 0.1f;
 	private APCPoweredDevice PoweredDevice;
@@ -277,6 +277,7 @@ public class StationGateway : NetworkBehaviour, IAPCPowered
 	{
 		if (CurrentState != State)
 		{
+			CurrentState = State;
 			if (State == PowerStates.Off)
 			{
 				PoweredDevice.Wattusage = OffWatts;
