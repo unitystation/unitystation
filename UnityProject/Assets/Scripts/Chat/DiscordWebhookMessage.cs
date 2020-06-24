@@ -102,7 +102,6 @@ namespace DiscordWebhook
 		{
 			foreach (var entry in discordWebhookURLQueueDict)
 			{
-
 				FormatAndSendMessage(entry.Value, entry.Key);
 			}
 
