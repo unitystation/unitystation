@@ -74,7 +74,7 @@ namespace Tests
 					    countSelfPowered++;
 					    continue;
 				    }
-				    if (device.RelatedAPC == null)
+				    if (device.RelatedAPC == null && device.SelfPowered == false)
 				    {
 					    countMissingAPC++;
 					    missingAPCinDeviceReport.Add((currentSceneName,objectDevice.name));

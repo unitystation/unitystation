@@ -138,7 +138,9 @@ PrefabInstance:
       propertyPath: onSprites.EquippedData
       value: 
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2657092281442712949, guid: 1a85cead3efc3d047b2f84c197e26eff, type: 3}
+    - {fileID: 9032347336055072273, guid: 1a85cead3efc3d047b2f84c197e26eff, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1a85cead3efc3d047b2f84c197e26eff, type: 3}
 --- !u!1 &8139968364419029489 stripped
 GameObject:

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4734855229797344}
   - component: {fileID: 61344596048250936}
-  - component: {fileID: 61366423541260584}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
   - component: {fileID: 1302529419740996430}
@@ -65,32 +64,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61366423541260584
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114038174743996046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -123,6 +96,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &1302529419740996430
 MonoBehaviour:
@@ -151,13 +125,14 @@ MonoBehaviour:
       SupplyingCurrent: 0
       InternalResistance: 0
       SupplyingVoltage: 0
+      ProducingWatts: 0
       ChangeToOff: 0
       CurrentStoreValue: 0
+    DestroyQueueing: 0
+    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
-  DestroyQueueing: 0
-  DestroyAuthorised: 0
 --- !u!114 &2683382063024116834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +269,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

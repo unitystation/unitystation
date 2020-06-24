@@ -191,6 +191,16 @@ public class Microwave : NetworkBehaviour, IAPCPowered
 	public void StateUpdate(PowerStates State)
 	{
 		CurrentState = State;
+		if (spriteRenderer == null)
+		{
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		}
+
+		if (APCConnectionHandler == null)
+		{
+			APCConnectionHandler = GetComponentInChildren<APCPoweredDevice>();
+		}
+
 		if (spriteRenderer.sprite == SPRITE_ON)
 		{
 			APCConnectionHandler.Wattusage = InUseWattUsage;

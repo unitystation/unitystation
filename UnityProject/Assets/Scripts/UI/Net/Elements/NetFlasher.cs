@@ -99,10 +99,8 @@ public class NetFlasher : NetUIStringElement
 	/// </summary>
 	public override void SetValueServer(string value)
 	{
-		Logger.Log("Check flash");
 		if (Value != value)
 		{
-			Logger.Log("Updated flash");
 			Value = value;
 			UpdatePeepers();
 		}
