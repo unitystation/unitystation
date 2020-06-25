@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 
 namespace Pipes
 {
@@ -36,6 +37,10 @@ namespace Pipes
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 			{
+				var ZeroedLocation = new Vector3Int(x:objectBehaviour.registerTile.LocalPosition.x, y:objectBehaviour.registerTile.LocalPosition.y,0);
+				var metaData = objectBehaviour.registerTile.Matrix.MetaDataLayer.Get(ZeroedLocation);
+				var Tile = GetPipeTile();
+				if (metaData.PipeData.Any(x => x.pipeData.PipeLayer == Tile.PipeLayer)) return;
 				BuildPipe();
 				return;
 			}
@@ -47,10 +52,8 @@ namespace Pipes
 		{
 			var searchVec = objectBehaviour.registerTile.LocalPosition;
 			var Tile = (GetPipeTile());
-			Logger.Log("Tile " + Tile);
 			if (Tile != null)
 			{
-				Logger.Log("Building!!");
 				int Offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
 				Quaternion rot = Quaternion.Euler(0.0f, 0.0f,Offset );
 				var Matrix = Matrix4x4.TRS(Vector3.zero, rot, Vector3.one);
