@@ -19,11 +19,11 @@ namespace UI.PDA
 		}
 
 
-		public void ReInit(UplinkCatagories assignedcategory)
+		public void ReInit(UplinkCatagories assignedCategory)
 		{
 			masterTab = MasterTab.GetComponent<GUI_PDA>();
-			category = assignedcategory;
-			categoryName.Value = category.CategoryName;
+			category = assignedCategory;
+			categoryName.SetValueServer(category.CategoryName);
 		}
 	}
 }

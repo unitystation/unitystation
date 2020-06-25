@@ -50,7 +50,7 @@ namespace UI.PDA
 		/// </summary>
 		public void UpdateCounter()
 		{
-			tcCounter.Value = $"TC: {mainController.Pda.TeleCrystals}";
+			tcCounter.SetValueServer($"TC: {mainController.Pda.TeleCrystals}");
 		}
 
 		public void LockUplink()

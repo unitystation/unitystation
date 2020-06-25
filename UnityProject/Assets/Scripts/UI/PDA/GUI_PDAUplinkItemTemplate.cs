@@ -30,8 +30,8 @@ namespace UI.PDA
 		public void ReInit(UplinkItems assignedItem)
 		{
 			item = assignedItem;
-			itemName.Value = item.Name;
-			itemCost.Value = $"Cost {item.Cost} TC";
+			itemName.SetValueServer(item.Name);;
+			itemCost.SetValueServer($"Cost {item.Cost} TC");
 		}
 	}
 }

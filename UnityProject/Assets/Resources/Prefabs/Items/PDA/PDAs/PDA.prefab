@@ -126,6 +126,7 @@ GameObject:
   - component: {fileID: 6297061700949062686}
   - component: {fileID: 7119076902569573273}
   - component: {fileID: 5495137814006892205}
+  - component: {fileID: 2827089245972962627}
   m_Layer: 10
   m_Name: PDA
   m_TagString: Abstract
@@ -494,7 +495,6 @@ MonoBehaviour:
   flashlight: {fileID: 2783742198044377375}
   pdaCartridge: {fileID: 0}
   uplinkLocked: 0
-  uplinkString: 
   initalTeleCrystal: 25
   antagSet: {fileID: 11400000, guid: c060c33698c0f81449f0735a800740ca, type: 2}
 --- !u!114 &5495137814006892205
@@ -510,6 +510,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 22
+--- !u!114 &2827089245972962627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 255888583153570912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94bec88efbf512356950f95cd943c7b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  serverString: 
 --- !u!1 &6299654059842681095
 GameObject:
   m_ObjectHideFlags: 0

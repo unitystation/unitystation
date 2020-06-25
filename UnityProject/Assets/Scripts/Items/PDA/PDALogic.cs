@@ -12,6 +12,7 @@ namespace Items.PDA
 	[RequireComponent(typeof(PlayerLightControl))]
 	[RequireComponent(typeof(HasNetworkTabItem))]
 	[RequireComponent(typeof(ItemAttributesV2))]
+	[RequireComponent(typeof(PDANotesNetworkHandler))]
 	public class PDALogic : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		// for messenger system
@@ -153,12 +154,12 @@ namespace Items.PDA
 		[Server]
 		public void AntagCheck(GameObject player)
 		{
-			//TODO This is a hacky fix someone please figure out why the GUI start fix runs twice
+			//TODO This is a hacky fix someone please figure out why the GUI start method runs twice
 			uplinkString = null;
 			SpawnedAntag antag = player.GetComponent<PlayerScript>().mind.GetAntag();
-			//if (antag == null) return;
-			//string antagName = antag.Antagonist.AntagName;
-			//if (antagName != antagSet.AntagName || !isServer) return;
+			if (antag == null) return;
+			string antagName = antag.Antagonist.AntagName;
+			if (antagName != antagSet.AntagName || !isServer) return;
 			teleCrystals = initalTeleCrystal;
 			UplinkGenerate();
 			uplinkLocked = false;

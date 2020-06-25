@@ -5,6 +5,7 @@ namespace UI.PDA
 {
 	public class GUI_PDAMainMenu : NetPage
 	{
+		//references to essential MainMenu elements
 		[SerializeField] private GUI_PDA controller;
 
 		[SerializeField] private NetLabel idLabel;
@@ -13,13 +14,27 @@ namespace UI.PDA
 
 		[SerializeField] private NetLabel machineLabel;
 
+		//These keep the current text cached for text refresh purposes
+		private string cachedidText;
+		private string cachedMachineLabelText;
+		private string cachedFalshlightText;
 
+
+		/// <summary>
+		/// This runs to make sure that the code is actually working, doesnt do much else
+		/// </summary>
 		private void Start()
 		{
-			idLabel.Value = "<No ID Inserted>";
-			machineLabel.Value = "/home/Guest/Desktop";
+			idLabel.SetValueServer("<No ID Inserted>");
+			machineLabel.SetValueServer("/home/Guest/Desktop");
 		}
 
+		public void RefreshText()
+		{
+			if (gameObject.activeInHierarchy != true) return;
+			idLabel.SetValueServer(cachedidText);
+			machineLabel.SetValueServer(cachedMachineLabelText);
+		}
 
 		/// <summary>
 		/// Updates the ID on the MainMenu
@@ -32,22 +47,25 @@ namespace UI.PDA
 			//Checks to see if the ID card is not null, if so then display the owner of the ID and their job
 			if (idCard != null)
 			{
-				idLabel.Value = $"{idCard.RegisteredName},{idCard.JobType}";
+				cachedidText = $"{idCard.RegisteredName},{idCard.JobType}";
+				idLabel.SetValueServer(cachedidText);
 			}
 			else
 			{
-				idLabel.Value = "<No ID Inserted>";
+				cachedidText = "<No ID Inserted>";
+				idLabel.SetValueServer(cachedidText);
 			}
 			//Checks to see if the PDA has a registered name, if it does make that the Desktop name
 			if (controller.Pda.PdaRegisteredName != null)
 			{
 				string editedString = controller.Pda.PdaRegisteredName.Replace(" ","_");
-
-				machineLabel.Value = $"/home/{editedString}/Desktop";
+				cachedMachineLabelText = $"/home/{editedString}/Desktop";
+				machineLabel.SetValueServer(cachedMachineLabelText);
 			}
 			else
 			{
-				machineLabel.Value = "/home/Guest/Desktop";
+				cachedMachineLabelText = "/home/Guest/Desktop";
+				machineLabel.SetValueServer(cachedMachineLabelText);
 			}
 		}
 
@@ -67,7 +85,7 @@ namespace UI.PDA
 		{
 			controller.Pda.ToggleFlashlight();
 			// A condensed version of an if statement made by rider, basically it switches between off and on, pretty neato
-			lightLabel.Value = controller.Pda.FlashlightOn ? "Flashlight (ON)" : "Flashlight (OFF)";
+			lightLabel.SetValueServer(controller.Pda.FlashlightOn ? "Flashlight (ON)" : "Flashlight (OFF)");
 		}
 	}
 }

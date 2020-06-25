@@ -1,5 +1,8 @@
 ﻿using Mirror;
 
-public class MessageHandler : NetworkBehaviour
+namespace Items.PDA
 {
+	public class MessageHandler : NetworkBehaviour
+	{
+	}
 }

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
-public class PDACartridge : MonoBehaviour
+namespace Items.PDA
 {
+	public class PDACartridge : MonoBehaviour
+	{
+	}
 }

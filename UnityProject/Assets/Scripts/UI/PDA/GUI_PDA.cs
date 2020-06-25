@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.Events;
@@ -38,15 +40,35 @@ namespace UI.PDA
 
 
 		// Grabs the PDA component and opens the mainmenu
+		[SuppressMessage("ReSharper", "UEA0006")] // Supresses the couroutine allocation warning, because it's annoying
 		private void Start()
 		{
 			onItemClicked = new UplinkItemClickedEvent();
 			OnItemClickedEvent.AddListener(SpawnUplinkItem);
 			onCategoryClicked = new UplinkCategoryClickedEvent();
 			OnCategoryClickedEvent.AddListener(OpenUplinkCategory);
-			Pda = Provider.GetComponent<Items.PDA.PDALogic>();
+			StartCoroutine(WaitForProvider());
 			Pda.AntagCheck(Pda.TabOnGameObject.LastInteractedPlayer());
 			OpenMainMenu();
+		}
+
+		/// <summary>
+		/// Refreshes the strings of tabs if they're active
+		/// </summary>
+		public override void RefreshTab()
+		{
+			menuPage.RefreshText();
+			notesPage.RefreshText();
+			base.RefreshTab();
+		}
+
+		IEnumerator WaitForProvider()
+		{
+			while (Provider == null)
+			{
+				yield return WaitFor.EndOfFrame;
+			}
+			Pda = Provider.GetComponent<Items.PDA.PDALogic>();
 		}
 
 		/// <summary>
@@ -82,6 +104,7 @@ namespace UI.PDA
 		/// </summary>
 		public bool TestForUplink(string notificationString)
 		{
+
 			if (!IsServer || !Pda.ActivateUplink(notificationString)) return false;
 			OpenUplink();
 			return true;

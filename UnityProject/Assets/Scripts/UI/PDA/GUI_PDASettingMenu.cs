@@ -19,7 +19,7 @@ namespace UI.PDA
 			{
 				Debug.LogError("Sounds not implimented");
 			}
-			input.Value = "";
+			input.SetValueServer("");
 		}
 		/// <summary>
 		/// Tells the PDA to unregister the name and tell the messenger that it is "unknown"
@@ -29,14 +29,14 @@ namespace UI.PDA
 			if (selectionCheck)
 			{
 				selectionCheck = false;
-				reset.Value = "Factory Reset";
+				reset.SetValueServer("Factory Reset");
 				controller.ResetPda();
 
 			}
 			else
 			{
 				selectionCheck = true;
-				reset.Value = "Click again to confirm factory reset";
+				reset.SetValueServer("Click again to confirm factory reset");
 			}
 		}
 		// Supposed to handle the changing of UI themes, might drop this one
