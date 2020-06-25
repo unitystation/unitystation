@@ -12,20 +12,38 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public float coolDownTime = 1.0f;
 	public bool isInCooldown = false;
 
+	[SyncVar(hook = nameof(SyncSprite))] private FireAlarmState stateSync;
 	public SpriteHandler spriteHandler;
 	public Sprite topLightSpriteNormal;
+	public Sprite openEmptySprite;
+	public Sprite openCabledSprite;
 	public SpriteSheetAndData topLightSpriteAlert;
+
+	public bool coverOpen;
+	public bool hasCables = true;
+
+	public enum FireAlarmState
+	{
+		TopLightSpriteAlert,
+		OpenEmptySprite,
+		TopLightSpriteNormal,
+		OpenCabledSprite
+	};
+
 
 	public void SendCloseAlerts()
 	{
+		if (!hasCables)
+			return;
 		if (!activated && !isInCooldown)
 		{
 			activated = true;
-			spriteHandler.SetSprite(topLightSpriteAlert, 0);
+			stateSync = FireAlarmState.TopLightSpriteAlert;
 			SoundManager.PlayNetworkedAtPos("FireAlarm", metaNode.Position);
 			StartCoroutine(SwitchCoolDown());
 			foreach (var firelock in FireLockList)
 			{
+				if (firelock == null) continue;
 				firelock.ReceiveAlert();
 			}
 		}
@@ -45,6 +63,13 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		{
 			firelock.fireAlarm = this;
 		}
+		if (!info.SpawnItems)
+		{
+			hasCables = false;
+			coverOpen = true;
+			stateSync = FireAlarmState.OpenEmptySprite;
+		}
+
 	}
 
 	public void TickUpdate()
@@ -66,29 +91,95 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (interaction.HandObject != null && interaction.Intent == Intent.Harm) return false;
+		if (interaction.Intent == Intent.Harm) return false;
 		return true;
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (activated && !isInCooldown)
+		if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 		{
-			activated = false;
-			spriteHandler.SetSprite(topLightSpriteNormal);
-			StartCoroutine(SwitchCoolDown());
-			foreach (var firelock in FireLockList)
+			if (coverOpen)
 			{
-				if (firelock.Controller.IsClosed)
+				coverOpen = false;
+				if (activated)
 				{
-					firelock.Controller.ServerOpen();
+					stateSync = FireAlarmState.TopLightSpriteAlert;
+				}
+				else
+				{
+					stateSync = FireAlarmState.TopLightSpriteNormal;
 				}
 			}
+			else
+			{
+				coverOpen = true;
+				if (hasCables)
+				{
+					stateSync = FireAlarmState.OpenCabledSprite;
+				}
+				else
+				{
+					stateSync = FireAlarmState.OpenEmptySprite;
+				}
+			}
+			SoundManager.PlayNetworkedAtPos("screwdriver1", interaction.Performer.WorldPosServer());
+			return;
+		}
+		if (coverOpen)
+		{
+			if (hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wirecutter))
+			{
+				//cut out cables
+				Chat.AddActionMsgToChat(interaction, $"You remove the cables.",
+					$"{interaction.Performer.ExpensiveName()} removes the cables.");
+				ToolUtils.ServerPlayToolSound(interaction);
+				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
+				stateSync = FireAlarmState.OpenEmptySprite;
+				hasCables = false;
+				activated = false;
+				return;
+			}
+
+			if (!hasCables && Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Cable) &&
+			    Validations.HasUsedAtLeast(interaction, 5))
+			{
+				//add 5 cables
+				ToolUtils.ServerUseToolWithActionMessages(interaction, 2f,
+					"You start adding cables to the frame...",
+					$"{interaction.Performer.ExpensiveName()} starts adding cables to the frame...",
+					"You add cables to the frame.",
+					$"{interaction.Performer.ExpensiveName()} adds cables to the frame.",
+					() =>
+					{
+						Inventory.ServerConsume(interaction.HandSlot, 5);
+						hasCables = true;
+						stateSync = FireAlarmState.OpenCabledSprite;
+					});
+			}
+
 		}
 		else
 		{
-			SendCloseAlerts();
+			if (activated && !isInCooldown)
+			{
+				activated = false;
+				stateSync = FireAlarmState.TopLightSpriteNormal;
+				StartCoroutine(SwitchCoolDown());
+				foreach (var firelock in FireLockList)
+				{
+					if (firelock.Controller.IsClosed)
+					{
+						firelock.Controller.ServerOpen();
+					}
+				}
+			}
+			else
+			{
+				SendCloseAlerts();
+			}
 		}
+
 	}
 
 	//Copied over from LightSwitchV2.cs
@@ -115,5 +206,25 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		yield return WaitFor.Seconds(coolDownTime);
 		isInCooldown = false;
 	}
-}
 
+	public void SyncSprite(FireAlarmState stateOld, FireAlarmState stateNew)
+	{
+		stateSync = stateNew;
+		if (stateNew == FireAlarmState.TopLightSpriteAlert)
+		{
+			spriteHandler.SetSprite(topLightSpriteAlert, 0);
+		}
+		else if (stateNew == FireAlarmState.OpenEmptySprite)
+		{
+			spriteHandler.SetSprite(openEmptySprite);
+		}
+		else if (stateNew == FireAlarmState.TopLightSpriteNormal)
+		{
+			spriteHandler.SetSprite(topLightSpriteNormal);
+		}
+		else if (stateNew == FireAlarmState.OpenCabledSprite)
+		{
+			spriteHandler.SetSprite(openCabledSprite);
+		}
+	}
+}

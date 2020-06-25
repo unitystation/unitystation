@@ -30,7 +30,7 @@ public class DefaultPlantData : ScriptableObject
 	public static void getDatas(List<DefaultPlantData> Datas)
 	{
 		Datas.Clear();
-		var Data = Resources.LoadAll<DefaultPlantData>("ScriptableObjects");
+		var Data = Resources.LoadAll<DefaultPlantData>("ScriptableObjects/Plant default");
 		foreach (var DataObj in Data)
 		{
 			Datas.Add(DataObj);
@@ -43,7 +43,7 @@ public class DefaultPlantData : ScriptableObject
 		{
 			if (DefaultPlantDataSOs.Instance == null)
 			{
-				Resources.LoadAll<DefaultPlantDataSOs>("ScriptableObjects/SOs singletons");
+				Resources.Load<DefaultPlantDataSOs>("ScriptableObjects/SOs singletons/DefaultPlantDataSOs");
 			}
 			if (!DefaultPlantDataSOs.Instance.DefaultPlantDatas.Contains(this))
 			{

@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   waysToPlace:
-  - layerTile: {fileID: 11400000, guid: 07799a628a422b2499225cf11a41312d, type: 2}
+  - layerTile: {fileID: 11400000, guid: 89c3b362ccb4f2247920d71193c1a876, type: 2}
     placeableOn: 5
     placeableOnlyOnTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28,
       type: 2}
-    itemCost: 4
+    itemCost: 2
   placeTime: 6
   placeSound: GlassHit
 --- !u!114 &-2579858806210337748
@@ -32,7 +32,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e3ac583a1e4eddb2808ce1a2fc3b37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  buildList: {fileID: 11400000, guid: 4b2894ddb3868fe49b6156f0f1cf2e2a, type: 2}
+  buildList: {fileID: 11400000, guid: 9abb51aeeda12854bb41b677a45e01e2, type: 2}
 --- !u!1001 &6201122676745358930
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -109,6 +109,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ReinforcedGlassSheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821288291537931431, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821288291537931431, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821288291537931431, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
@@ -262,7 +277,7 @@ PrefabInstance:
     - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
         type: 3}
       propertyPath: initialDescription
-      value: That is a lot of reinforced glass.
+      value: Glass which seems to have rods or something stuck in them.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}

@@ -24,24 +24,7 @@ public class SoundManager : MonoBehaviour
 
 	private static readonly System.Random RANDOM = new System.Random();
 
-	private static AudioSource currentLobbyAudioSource;
-
 	private static bool Step;
-	private bool isMusicMute;
-
-	private List<AudioSource> ambientTracks = new List<AudioSource>();
-	public AudioSource ambientTrack;
-
-	// Use this for initialization
-	//public AudioSource[] sounds;
-	public List<AudioSource> musicTracks = new List<AudioSource>();
-
-	[SerializeField] private SongTracker songTracker = null;
-
-	/// <summary>
-	/// For controlling the song play list. Includes random shuffle and auto play
-	/// </summary>
-	public static SongTracker SongTracker => soundManager.songTracker;
 
 	[SerializeField] private GameObject soundSpawnPrefab = null;
 	private List<SoundSpawn> pooledSources = new List<SoundSpawn>();
@@ -58,8 +41,6 @@ public class SoundManager : MonoBehaviour
 			return soundManager;
 		}
 	}
-
-	[Range(0f, 1f)] public float MusicVolume = 1;
 
 	[SerializeField] private string[] RoundEndSounds = new string[]
 	{
@@ -82,29 +63,13 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	void Awake()
+	private void Awake()
 	{
 		Init();
 	}
 
 	private void Init()
 	{
-		//Mute Music Preference
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.MuteMusic))
-		{
-			isMusicMute = PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0;
-		}
-
-		//Ambient Volume Preference
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.AmbientVolumeKey))
-		{
-			AmbientVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey));
-		}
-		else
-		{
-			AmbientVolume(1f);
-		}
-
 		//Master Volume
 		if (PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey))
 		{
@@ -121,17 +86,6 @@ public class SoundManager : MonoBehaviour
 		for (int i = 0; i < audioSources.Length; i++)
 		{
 			var audioSource = audioSources[i];
-			if (audioSource.gameObject.CompareTag("AmbientSound"))
-			{
-				ambientTracks.Add(audioSource);
-				continue;
-			}
-
-			if (audioSource.gameObject.CompareTag("Music"))
-			{
-				musicTracks.Add(audioSource);
-				continue;
-			}
 
 			if (audioSource.gameObject.CompareTag("SoundFX"))
 			{
@@ -158,12 +112,12 @@ public class SoundManager : MonoBehaviour
 		SceneManager.activeSceneChanged -= OnSceneChange;
 	}
 
-	void OnSceneChange(Scene oldScene, Scene newScene)
+	private void OnSceneChange(Scene oldScene, Scene newScene)
 	{
 		ReinitSoundPool();
 	}
 
-	void ReinitSoundPool()
+	private void ReinitSoundPool()
 	{
 		for (int i = Instance.pooledSources.Count - 1; i > 0; i--)
 		{
@@ -510,146 +464,6 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	public static void StopMusic()
-	{
-		foreach (AudioSource track in Instance.musicTracks)
-		{
-			track.Stop();
-		}
-
-		Synth.Instance.StopMusic();
-	}
-
-	public static void StopAmbient()
-	{
-		foreach (AudioSource source in Instance.ambientTracks)
-		{
-			source.Stop();
-		}
-	}
-
-	[ContextMenu("PlayRandomMusicTrack")]
-	public void PlayRndTrackEditor()
-	{
-		PlayRandomTrack();
-	}
-
-	/// <summary>
-	/// Plays a random music track.
-	/// Using two diiferent ways to play tracks, some tracks are normal audio and some are tracker files played by sunvox.
-	/// <returns>String[] that represents the picked song's name.</returns>
-	/// </summary>
-	public static String[] PlayRandomTrack()
-	{
-		StopMusic();
-		String[] songInfo;
-
-		// To make sure not to play the last song that just played,
-		// every time a track is played, it's either a normal audio or track played by sunvox, alternatively.
-		if (currentLobbyAudioSource == null)
-		{
-			//Traditional music
-			int randTrack = Random.Range(0, Instance.musicTracks.Count);
-			currentLobbyAudioSource = Instance.musicTracks[randTrack];
-			var volume = Instance.MusicVolume;
-			if (Instance.isMusicMute)
-			{
-				volume = 0f;
-			}
-
-			currentLobbyAudioSource.volume = volume;
-			currentLobbyAudioSource.Play();
-			songInfo = currentLobbyAudioSource.clip.name.Split('_'); // Spliting to get the song and artist name
-		}
-		else
-		{
-			currentLobbyAudioSource = null;
-			//Tracker music
-			var trackerMusic = new[]
-			{
-				"Spaceman_HERB.xm",
-				"Echo sound_4mat.xm",
-				"Tintin on the Moon_Jeroen Tel.xm"
-			};
-			var songPicked = trackerMusic.Wrap(Random.Range(1, 100));
-			var vol = 255 * Instance.MusicVolume;
-
-			if (Instance.isMusicMute)
-			{
-				vol = 0f;
-			}
-
-			Synth.Instance.PlayMusic(songPicked, false, (byte) (int) vol);
-			songPicked = songPicked.Split('.')[0]; // Throwing away the .xm extension in the string
-			songInfo = songPicked.Split('_'); // Spliting to get the song and artist name
-		}
-
-		return songInfo;
-	}
-
-	public void ToggleMusicMute(bool mute)
-	{
-		isMusicMute = mute;
-		foreach (var m in musicTracks)
-		{
-			m.mute = mute;
-		}
-
-		if (mute)
-		{
-			Synth.Instance.SetMusicVolume(Byte.MinValue);
-		}
-		else
-		{
-			var vol = 255 * Instance.MusicVolume;
-			Synth.Instance.SetMusicVolume((byte) (int) vol);
-		}
-	}
-
-	public static void PlayAmbience(string ambientTrackName)
-	{
-		void PlayAmbientTrack(AudioSource track)
-		{
-			Logger.Log($"Playing ambient track: {track.name}", Category.SoundFX);
-			Instance.ambientTrack = track;
-			//Ambient Volume
-			if (PlayerPrefs.HasKey("AmbientVol"))
-			{
-				track.volume = Mathf.Clamp(PlayerPrefs.GetFloat("AmbientVol"), 0f, 0.25f);
-			}
-
-			track.Play();
-		}
-
-		foreach (var track in Instance.ambientTracks)
-		{
-			if (track.name == ambientTrackName)
-			{
-				PlayAmbientTrack(track);
-			}
-			else
-			{
-				track.Stop();
-			}
-		}
-	}
-
-	/// <summary>
-	/// Sets all ambient tracks to a certain volume
-	/// </summary>
-	/// <param name="volume"></param>
-	public static void AmbientVolume(float volume)
-	{
-		volume = Mathf.Clamp(volume, 0f, 0.25f);
-		foreach (AudioSource s in Instance.ambientTracks)
-		{
-			s.volume = volume;
-		}
-
-		PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, volume);
-		PlayerPrefs.Save();
-	}
-
 	/// <summary>
 	/// Sets all Sounds volume
 	/// </summary>
@@ -659,20 +473,6 @@ public class SoundManager : MonoBehaviour
 		AudioListener.volume = volume;
 		PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, volume);
 		PlayerPrefs.Save();
-	}
-
-	/// <summary>
-	/// Checks if music in lobby is being played or not.
-	/// <returns> true if music is being played.</returns>
-	/// </summary>
-	public static bool isLobbyMusicPlaying()
-	{
-		// Checks if an audiosource or a track by sunvox is being played(Since there are two diiferent ways to play tracks)
-		if (currentLobbyAudioSource != null && currentLobbyAudioSource.isPlaying ||
-		    !(SunVox.sv_end_of_song((int) Slot.Music) == 1))
-			return true;
-
-		return false;
 	}
 
 	public double GetRandomNumber(double minimum, double maximum)

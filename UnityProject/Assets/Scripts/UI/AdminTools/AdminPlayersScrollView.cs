@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
@@ -52,6 +51,7 @@ namespace AdminTools
 
 		void RefreshPlayerList()
 		{
+			if (ServerData.UserID == null || PlayerList.Instance.AdminToken == null) return;
 			RequestAdminPlayerList.Send(ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
 

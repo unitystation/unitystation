@@ -95,7 +95,7 @@ public static class PlayerSpawn
 		var settings = oldBody.GetComponent<PlayerScript>().characterSettings;
 		forMind.stepType = GetStepType(forMind.body);
 
-		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, true);
+		ServerSpawnInternal(connection, occupation, settings, forMind, worldPosition, false);
 	}
 
 	//Jobs that should always use their own spawn points regardless of current round time
@@ -119,13 +119,13 @@ public static class PlayerSpawn
 	/// <param name="existingMind">existing mind to transfer to the new player, if null new mind will be created
 	/// and assigned to the new player character</param>
 	/// <param name="spawnPos">world position to spawn at</param>
-	/// <param name="naked">If spawning a player, should the player spawn without the defined initial equipment for their occupation?</param>
+	/// <param name="spawnItems">If spawning a player, should the player spawn without the defined initial equipment for their occupation?</param>
 	/// <param name="willDestroyOldBody">if true, indicates the old body is going to be destroyed rather than pooled,
 	/// thus we shouldn't send any network message which reference's the old body's ID since it won't exist.</param>
 	///
 	/// <returns>the spawned object</returns>
 	private static GameObject ServerSpawnInternal(NetworkConnection connection, Occupation occupation, CharacterSettings characterSettings,
-		Mind existingMind, Vector3Int? spawnPos = null, bool naked = false, bool willDestroyOldBody = false)
+		Mind existingMind, Vector3Int? spawnPos = null, bool spawnItems = true, bool willDestroyOldBody = false)
 	{
 		//determine where to spawn them
 		if (spawnPos == null)
@@ -190,7 +190,7 @@ public static class PlayerSpawn
 
 		//fire all hooks
 		var info = SpawnInfo.Player(occupation, characterSettings, CustomNetworkManager.Instance.humanPlayerPrefab,
-			SpawnDestination.At(spawnPos), naked: naked);
+			SpawnDestination.At(spawnPos), spawnItems: spawnItems);
 		Spawn._ServerFireClientServerSpawnHooks(SpawnResult.Single(info, newPlayer));
 
 		return newPlayer;
@@ -273,7 +273,7 @@ public static class PlayerSpawn
 
 		Vector3Int spawnPosition = TransformState.HiddenPos;
 		var objBeh = body.GetComponent<ObjectBehaviour>();
-		if (objBeh != null) spawnPosition = objBeh.AssumedWorldPositionServer().RoundToInt();
+		if (objBeh != null) spawnPosition = objBeh.AssumedWorldPositionServer();
 
 		if (spawnPosition == TransformState.HiddenPos)
 		{
@@ -313,7 +313,7 @@ public static class PlayerSpawn
 	/// <summary>
 	/// Spawns as a ghost for spectating the Round
 	/// </summary>
-	public static void ServerSpawnGhost(JoinedViewer joinedViewer)
+	public static void ServerSpawnGhost(JoinedViewer joinedViewer, CharacterSettings characterSettings)
 	{
 		//Hard coding to assistant
 		Vector3Int spawnPosition = GetSpawnForJob(JobType.ASSISTANT).transform.position.CutToInt();
@@ -327,8 +327,7 @@ public static class PlayerSpawn
 
 		//Create the mind without a job refactor this to make it as a ghost mind
 		Mind.Create(newPlayer);
-		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, EVENT.GhostSpawned, PlayerManager.CurrentCharacterSettings);
-
+		ServerTransferPlayer(joinedViewer.connectionToClient, newPlayer, null, EVENT.GhostSpawned, characterSettings);
 	}
 
 	/// <summary>

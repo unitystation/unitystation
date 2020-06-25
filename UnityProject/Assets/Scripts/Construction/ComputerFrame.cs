@@ -18,12 +18,19 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 	private Stateful stateful;
 	private StatefulState CurrentState => stateful.CurrentState;
 	private ObjectBehaviour objectBehaviour;
+	private Integrity integrity;
 
 	private void Awake()
 	{
 		circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 		stateful = GetComponent<Stateful>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
+
+		if (!CustomNetworkManager.IsServer) return;
+
+		integrity = GetComponent<Integrity>();
+
+		integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -225,8 +232,6 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 				stateful.ServerChangeState(cablesAddedState);
 			}
 		}
-
-		
 	}
 
 	public string Examine(Vector3 worldPos)
@@ -238,7 +243,6 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 			{
 				msg = "Use a wrench to secure the frame to the floor, or a welder to deconstruct it.";
 			}
-				
 			else
 			{
 				msg = "Use a wrench to unfasten the frame from the floor.";
@@ -246,7 +250,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 				{
 					msg += " A circuit board must be added to continue.";
 				}
-					
+
 				if (circuitBoardSlot.IsOccupied)
 				{
 					msg += " Use a screwdriver to screw in the circuitboard, or a crowbar to remove it.";
@@ -264,7 +268,7 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 		{
 			msg = "Add two glass sheets to mount the glass panel. Use a wirecutter to remove cables.";
 		}
-		
+
 		if (CurrentState == glassAddedState)
 		{
 			msg = "Connect the monitor with a screwdriver to finish construction. Use a crowbar to remove glass panel.";
@@ -287,5 +291,28 @@ public class ComputerFrame : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 		//set initial state
 		objectBehaviour.ServerSetPushable(false);
 		stateful.ServerChangeState(glassAddedState);
+	}
+
+	public void WhenDestroyed(DestructionInfo info)
+	{
+		if (circuitBoardSlot.IsOccupied)
+		{
+			Inventory.ServerDrop(circuitBoardSlot);
+		}
+
+		if (CurrentState == glassAddedState)
+		{
+			Spawn.ServerPrefab(CommonPrefabs.Instance.GlassSheet, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 2));
+			Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 5));
+		}
+
+		if (CurrentState == cablesAddedState)
+		{
+			Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1, 5));
+		}
+
+		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), UnityEngine.Random.Range(1,5));
+
+		integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
 	}
 }

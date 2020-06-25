@@ -202,6 +202,62 @@ MonoBehaviour:
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: 64000000
       productionTime: 1
+    - name: Plasma + Iron Alloy
+      product: {fileID: 3642454299424425929, guid: 7d23f839f141d4c99a6bfe9c8bfceca1,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+        m_values: d0070000d0070000
+      productionTime: 0.5
+    - name: Plasma + Titanium Alloy
+      product: {fileID: 3642454299424425929, guid: 9225e397ae2d6b944bf978966c80f83a,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 78dc359894fa18744acf5862e480dd75, type: 2}
+        - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+        m_values: d0070000d0070000
+      productionTime: 0.5
+    - name: Plasma + Glass Alloy
+      product: {fileID: 5680136605834777345, guid: 74c9d3aa100fca24d830d213df433dbf,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+        m_values: d0070000e8030000
+      productionTime: 0.5
+    - name: Plasma + Metal + Glass Alloy
+      product: {fileID: 5680136605834777345, guid: 336f7dfb535e752438244ccb536899a9,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+        m_values: d0070000e8030000e8030000
+      productionTime: 0.5
+    - name: Titanium + Glass Alloy
+      product: {fileID: 5680136605834777345, guid: bcc6015fca64ba54bb981da695833053,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 78dc359894fa18744acf5862e480dd75, type: 2}
+        m_values: d0070000e8030000
+      productionTime: 0.5
+    - name: Plasma + Titanium + Glass Alloy
+      product: {fileID: 5680136605834777345, guid: 4290212beee28a545b253f88f147b029,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+        - {fileID: 11400000, guid: 78dc359894fa18744acf5862e480dd75, type: 2}
+        m_values: d0070000e8030000e8030000
+      productionTime: 0.5
   - categoryName: Security
     products:
     - name: Beanbag Slug

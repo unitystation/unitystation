@@ -231,7 +231,7 @@ public class RightClickManager : MonoBehaviour
 	}
 
 	//creates the top-level menu item for this object. If object has a RightClickAppearance, uses that to
-	//define the appeareance. Otherwise sticks to defaults. Doesn't populate the sub menus though.
+	//define the appearance. Otherwise sticks to defaults. Doesn't populate the sub menus though.
 	private RightClickMenuItem CreateObjectMenu(GameObject forObject, List<RightClickMenuItem> subMenus)
 	{
 		RightClickAppearance rightClickAppearance = forObject.GetComponent<RightClickAppearance>();
@@ -268,6 +268,6 @@ public class RightClickManager : MonoBehaviour
 			                        " on this object.", Category.UI, forObject.name);
 		}
 
-		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, null, label, subMenus, palette);
+		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, null, label, subMenus, firstSprite.color, palette);
 	}
 }

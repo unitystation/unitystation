@@ -5,14 +5,15 @@ using UnityEngine;
 using Mirror;
 using Random = UnityEngine.Random;
 
-public class GlassShard : NetworkBehaviour
+public class GlassShard : NetworkBehaviour, IServerSpawn
 {
 	public Sprite[] glassSprites;
 
-	[SyncVar(hook = nameof(SpriteChange))]
-	public int spriteIndex;
+	[SyncVar(hook = nameof(SyncSpriteIndex))]
+	private int spriteIndex;
 
 	private SpriteRenderer spriteRenderer;
+	private CustomNetTransform netTransform;
 
 	void Awake()
 	{
@@ -22,48 +23,42 @@ public class GlassShard : NetworkBehaviour
 	private void EnsureInit()
 	{
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		netTransform = GetComponent<CustomNetTransform>();
 	}
 
 	public override void OnStartClient()
 	{
-		EnsureInit();
 		base.OnStartClient();
-		SpriteChange(spriteIndex, spriteIndex);
+		SyncSpriteIndex(spriteIndex, spriteIndex);
 	}
 
 	[Server]
-	public void SetSpriteAndScatter(int index){
-		//Set the syncvar and update to all clientS:
-		SpriteChange(spriteIndex, index);
-
-		var netTransform = GetComponent<CustomNetTransform>();
-
+	public void SetSpriteAndScatter(int index)
+	{
+		SyncSpriteIndex(spriteIndex, index);
 		netTransform?.SetPosition(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.4f, 0.4f), Random.Range(-0.4f, 0.4f)));
 	}
 
-	[Server]
-	public void SetRandomSprite()
-	{
-		SpriteChange(spriteIndex, Random.Range(0, glassSprites.Length));
-	}
-
-	public void SpriteChange(int oldValue, int index)
+	public void OnSpawnServer(SpawnInfo info)
 	{
 		EnsureInit();
+		SetSpriteAndScatter(Random.Range(0, glassSprites.Length));
+	}
+
+	private void SyncSpriteIndex(int oldValue, int index)
+	{
+		EnsureInit();
+
 		spriteIndex = index;
-		spriteRenderer.sprite = glassSprites[spriteIndex];
 
+		if (spriteRenderer != null)
+		{
+			spriteRenderer.sprite = glassSprites[spriteIndex];
 
-
-		//Scatter them around (just for visual candy, no need to network sync as they are on the same grid co-ord anyway):
-		// spriteRenderer.transform.localPosition = new Vector3(
-		// 	Random.Range(-0.4f, 0.4f), Random.Range(-0.4f, 0.4f), 0f);
-
-		//Also add a bit of rotation variance to the sprite obj:
-		var axis = new Vector3(0,0,1);
-		spriteRenderer.transform.localRotation = Quaternion.AngleAxis(Random.Range(-180f, 180f), axis);
-
-
+			//Add a bit of rotation variance to the sprite obj:
+			var axis = new Vector3(0, 0, 1);
+			spriteRenderer.transform.localRotation = Quaternion.AngleAxis(Random.Range(-180f, 180f), axis);
+		}
 	}
 
 	//Serverside only

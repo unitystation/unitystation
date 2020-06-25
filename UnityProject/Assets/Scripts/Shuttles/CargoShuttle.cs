@@ -11,6 +11,8 @@ public class CargoShuttle : MonoBehaviour
 	public Vector2 StationDest = new Vector2(4, 85);
 	[SerializeField]
 	private int dockOffset = 23;
+	[SerializeField]
+	private bool ChangeDirectionAtOffset = false;
 	private Vector3 destination;
 	private List<Vector3Int> availableSpawnSlots = new List<Vector3Int>();
 	//It is actually (cargoZoneWidth - 1) / 2
@@ -94,6 +96,12 @@ public class CargoShuttle : MonoBehaviour
 
 	IEnumerator ReverseIntoStation()
 	{
+		if (ChangeDirectionAtOffset)
+		{
+			mm.SteerTo(Orientation.Down);
+			mm.ChangeFlyingDirection(Orientation.Up);
+		}
+
 		if (dockOffset != 0)
 		{
 			yield return new WaitForSeconds(3f);

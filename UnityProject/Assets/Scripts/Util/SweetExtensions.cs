@@ -23,13 +23,32 @@ public static class SweetExtensions
 		return go.GetComponent<ItemAttributesV2>();
 	}
 
+	/// <summary>
+	/// Returns human-readable object name for IC texts
+	/// </summary>
 	public static string ExpensiveName(this GameObject go)
 	{
 		var item = go.Item();
-		if (item != null && !String.IsNullOrWhiteSpace(item.ArticleName)) return item.ArticleName;
+		if (item)
+		{
+			// try get current instance name
+			if (!String.IsNullOrWhiteSpace(item.ArticleName))
+			{
+				return item.ArticleName;
+			}
+
+			// maybe it's non-instanced prefab - get initial name
+			if (!String.IsNullOrWhiteSpace(item.InitialName))
+			{
+				return item.InitialName;
+			}
+		}
 
 		var player = go.Player();
-		if (player != null && !String.IsNullOrWhiteSpace(player.Name)) return player.Name;
+		if (player != null && !String.IsNullOrWhiteSpace(player.Name))
+		{
+			return player.Name;
+		}
 
 		return go.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
 	}
@@ -314,5 +333,17 @@ public static class SweetExtensions
 		foreach (Enum value in Enum.GetValues(input.GetType()))
 			if (input.HasFlag(value))
 				yield return value;
+	}
+
+	/// <summary>
+	/// direct port of java's Map.getOrDefault
+	/// </summary>
+	public static V GetOrDefault<T,V>(this Dictionary<T, V> dic, T key, V defaultValue)
+	{
+		V v;
+		return (dic.ContainsKey(key) && ((v = dic[key]) != null))
+			? v
+			: defaultValue;
+
 	}
 }

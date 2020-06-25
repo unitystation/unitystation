@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   - component: {fileID: 8635323487059791696}
+  - component: {fileID: 6139384763133108844}
   m_Layer: 11
   m_Name: CargoDrobe
   m_TagString: Untagged
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
+  InitialVendorContent:
   - Item: {fileID: 9204123767053120434, guid: f12be30eb7f2ac9488b987831b29a6e9, type: 3}
     Stock: 3
   - Item: {fileID: 3011710637427380133, guid: efbc8c2ff833d4924a01c0a134819dd7, type: 3}
@@ -142,6 +143,26 @@ MonoBehaviour:
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 9204123767053120434, guid: f12be30eb7f2ac9488b987831b29a6e9, type: 3}
+    Stock: 3
+  - Item: {fileID: 3011710637427380133, guid: efbc8c2ff833d4924a01c0a134819dd7, type: 3}
+    Stock: 3
+  - Item: {fileID: 1966734932007505171, guid: d0f1a9b75fd9b4c4498f65e576a9d815, type: 3}
+    Stock: 3
+  - Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+    Stock: 3
+  - Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
+    Stock: 3
+  - Item: {fileID: 7636118406116123594, guid: 788649a7f84574c48a54361479106732, type: 3}
+    Stock: 3
+  - Item: {fileID: 835768756810601639, guid: 455167e17d2dd4f24b32aaafea5e7fb2, type: 3}
+    Stock: 3
+  - Item: {fileID: 3240567849674671610, guid: 5e60c8d094f22e34288e8e180e8632e9, type: 3}
+    Stock: 3
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +221,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:
@@ -313,6 +335,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6139384763133108844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 8
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

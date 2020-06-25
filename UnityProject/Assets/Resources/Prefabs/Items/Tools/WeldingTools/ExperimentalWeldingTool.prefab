@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7122471403829571703, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 0b87c53e5c7ea644caf0b18c4c67d119,
+        type: 2}
     - target: {fileID: 200070983791577357, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: SpeedMultiplier
@@ -147,7 +153,7 @@ PrefabInstance:
     - target: {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: m_Name
-      value: ExperimentalWeldingTool2
+      value: ExperimentalWeldingTool
       objectReference: {fileID: 0}
     - target: {fileID: 7019565730922564163, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
@@ -163,7 +169,7 @@ PrefabInstance:
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
@@ -181,12 +187,6 @@ PrefabInstance:
       propertyPath: initialName
       value: experimental welding tool
       objectReference: {fileID: 0}
-    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
-        type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: dddaaca292cc8a05eb38c8cd5ae2bb0e,
-        type: 2}
     - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
@@ -303,6 +303,12 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 797828cd5bb13944ca1410a75437b4e1, type: 3}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: dddaaca292cc8a05eb38c8cd5ae2bb0e,
+        type: 2}
     - target: {fileID: 9051842671118403817, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]

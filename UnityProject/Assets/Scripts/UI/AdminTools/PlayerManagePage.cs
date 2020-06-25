@@ -13,6 +13,10 @@ namespace AdminTools
 		[SerializeField] private Button respawnBtn = null;
 		[SerializeField] private Button respawnAsBtn = null;
 		[SerializeField] private Dropdown adminJobsDropdown = null;
+		[SerializeField] private Button teleportAdminToPlayer = null;
+		[SerializeField] private Button teleportPlayerToAdmin = null;
+		[SerializeField] private Button teleportAdminToPlayerAghost = null;
+		[SerializeField] private Button teleportAllPlayersToPlayer = null;
 		private AdminPlayerEntry playerEntry;
 
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)
@@ -120,6 +124,107 @@ namespace AdminTools
 				occupation);
 
 			RefreshPage();
+		}
+
+		public void OnTeleportAdminToPlayer()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Teleport yourself to {playerEntry.PlayerData.name}?",
+				SendTeleportAdminToPlayerRequest);
+		}
+
+		private void SendTeleportAdminToPlayerRequest()
+		{
+
+			RequestAdminTeleport.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				null,
+				playerEntry.PlayerData.uid,
+				RequestAdminTeleport.OpperationList.AdminToPlayer,
+				false,
+				new Vector3(0, 0, 0)
+				);
+		}
+
+		public void OnTeleportPlayerToAdmin()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Teleport {playerEntry.PlayerData.name} to you?",
+				SendTeleportPlayerToAdmin);
+		}
+
+		private void SendTeleportPlayerToAdmin()
+		{
+			RequestAdminTeleport.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				playerEntry.PlayerData.uid,
+				null,
+				RequestAdminTeleport.OpperationList.PlayerToAdmin,
+				false,
+				PlayerManager.LocalPlayerScript.PlayerSync.ClientPosition
+				);
+		}
+
+		public void OnTeleportAdminToPlayerAghost()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Teleport yourself to {playerEntry.PlayerData.name} as a ghost?",
+				SendTeleportAdminToPlayerAghost);
+		}
+
+		private void SendTeleportAdminToPlayerAghost()
+		{
+			if (!PlayerManager.LocalPlayerScript.IsGhost)
+			{
+				PlayerManager.LocalPlayerScript.playerNetworkActions.CmdAGhost(ServerData.UserID, PlayerList.Instance.AdminToken);
+			}
+
+			RequestAdminTeleport.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				null,
+				playerEntry.PlayerData.uid,
+				RequestAdminTeleport.OpperationList.AdminToPlayer,
+				true,
+				new Vector3 (0,0,0)
+				);
+		}
+
+		public void OnTeleportAllPlayersToPlayer()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage(
+				$"Teleport EVERYONE to {playerEntry.PlayerData.name}?",
+				SendTeleportAllPlayersToPlayer);
+		}
+
+		private void SendTeleportAllPlayersToPlayer()
+		{
+			Vector3 coord;
+
+			bool isAghost;
+
+			if (PlayerManager.LocalPlayerScript.IsGhost && playerEntry.PlayerData.uid == ServerData.UserID)
+			{
+				coord = PlayerManager.LocalPlayerScript.PlayerSync.ClientPosition;
+				isAghost = true;
+			}
+			else
+			{
+				coord = new Vector3(0, 0, 0);
+				isAghost = false;
+			}
+
+			RequestAdminTeleport.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				null,
+				playerEntry.PlayerData.uid,
+				RequestAdminTeleport.OpperationList.AllPlayersToPlayer,
+				isAghost,
+				coord
+				);
 		}
 	}
 }

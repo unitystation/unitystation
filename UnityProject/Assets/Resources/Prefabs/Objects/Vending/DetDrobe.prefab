@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
+  InitialVendorContent:
   - Item: {fileID: 3011710637427380133, guid: de7c66806376e49fd871dfce32fb6d26, type: 3}
     Stock: 2
   - Item: {fileID: 5302982331206035619, guid: bb7d1020ce10a7348b237ddd07a02fc2, type: 3}
@@ -166,6 +166,50 @@ MonoBehaviour:
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 3011710637427380133, guid: de7c66806376e49fd871dfce32fb6d26, type: 3}
+    Stock: 2
+  - Item: {fileID: 5302982331206035619, guid: bb7d1020ce10a7348b237ddd07a02fc2, type: 3}
+    Stock: 2
+  - Item: {fileID: 7106618204054676533, guid: f61a15e56150d45e78d9458034719cbb, type: 3}
+    Stock: 2
+  - Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
+    Stock: 2
+  - Item: {fileID: 7636118406116123594, guid: 5dd96f5e685214da19f65b06f2463aa2, type: 3}
+    Stock: 2
+  - Item: {fileID: 5977298191026215751, guid: 5c40f1e282a3589419bfcca5e7c95320, type: 3}
+    Stock: 2
+  - Item: {fileID: 1171842931862335605, guid: 6c9c26df204b0f94f8be3ae03e8051ca, type: 3}
+    Stock: 2
+  - Item: {fileID: 3921521694364753778, guid: b046050b01e425d4b937899facb6aaf4, type: 3}
+    Stock: 2
+  - Item: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
+    Stock: 2
+  - Item: {fileID: 684762946367608382, guid: 5020827e4b280bd4384aa06dda5649bd, type: 3}
+    Stock: 2
+  - Item: {fileID: 5347176894764292324, guid: 9901a08af652ad04dbbf4519ea57e575, type: 3}
+    Stock: 2
+  - Item: {fileID: 6980020022460415521, guid: e00c6afc5648f951aac2a8d6dfcc4620, type: 3}
+    Stock: 2
+  - Item: {fileID: 7636118406116123594, guid: 59b6ec971c7da824b83117e8faa53db3, type: 3}
+    Stock: 2
+  - Item: {fileID: 6804612781048497285, guid: 7783baf2677b3a844aff37585692717e, type: 3}
+    Stock: 2
+  - Item: {fileID: 3862752096800770460, guid: 5719a72c573a068478eaf6400b4f4c22, type: 3}
+    Stock: 2
+  - Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
+    Stock: 2
+  - Item: {fileID: 6373161644663410599, guid: 47e758de6e8330e8ba5c0cf96801afa8, type: 3}
+    Stock: 2
+  - Item: {fileID: 8684129920059976793, guid: 0010029d500bcc9469c05ec34573f8de, type: 3}
+    Stock: 2
+  - Item: {fileID: 0}
+    Stock: 2
+  - Item: {fileID: 7636118406116123594, guid: 63587900698efce47a648bd987aef283, type: 3}
+    Stock: 2
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +268,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:

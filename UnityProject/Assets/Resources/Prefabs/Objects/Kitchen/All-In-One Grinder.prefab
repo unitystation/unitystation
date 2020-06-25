@@ -210,6 +210,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114489739355773536
 MonoBehaviour:
@@ -368,12 +369,13 @@ MonoBehaviour:
   - 50
   transferAmount: 50
   maxCapacity: 200
-  reactionSet: {fileID: 0}
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   initialReagentMix:
     temperature: 273.15
     reagents:
       m_keys: []
       m_values: []
+  destroyOnEmpty: 0
 --- !u!82 &8790646442014020747
 AudioSource:
   m_ObjectHideFlags: 0
