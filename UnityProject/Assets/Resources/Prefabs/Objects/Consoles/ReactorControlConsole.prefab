@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41ff8f5207c4eb747b27837977ae373b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Target: 0
   ReactorChambers: {fileID: 0}
   conType: 4
 --- !u!114 &4474616092106316759
@@ -50,6 +49,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575326566585499291, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: initialName
+      value: Reactor Control Console
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575326566585499291, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: initialDescription
+      value: Controls the control rods in a reactor chamber. A sticker on it says
+        "Trained Personnel Only".
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575326566585499291, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: exportName
+      value: Reactor Control Console
       objectReference: {fileID: 0}
     - target: {fileID: 6131886329820758859, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
