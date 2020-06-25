@@ -35,7 +35,7 @@ namespace InGameEvents
 
 				if (slot.Item == null)
 				{
-					var item = Spawn.ServerPrefab(itemList[UnityEngine.Random.Range(1, itemList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
+					var item = Spawn.ServerPrefab(itemList[UnityEngine.Random.Range(0, itemList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
 
 					Inventory.ServerAdd(item.GameObject.GetComponent<Pickupable>(), slot);
 				}
