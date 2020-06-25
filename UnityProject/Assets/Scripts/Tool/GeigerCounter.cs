@@ -1,10 +1,68 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>
 {
+	private Dictionary<GeigerCounter.Level, List<string>> Noise = new Dictionary<Level, List<string>>()
+	{
+		{ Level.Low, new List<string>(){ "low1", "low2", "low3", "low4" } },
+		{ Level.Mid, new List<string>(){ "med1", "med2", "med3", "med4" } },
+		{ Level.High, new List<string>(){ "high1", "high2", "high3", "high4" } },
+		{ Level.Extreme, new List<string>(){ "ext1", "ext2", "ext3", "ext4" } },
 
+	};
+	System.Random RNG = new System.Random();
+
+	private enum Level
+	{
+		Low,
+		Mid,
+		High,
+		Extreme
+	}
+
+	private RegisterItem registerItem = null;
+	private void OnEnable()
+	{
+		UpdateManager.Add(CycleUpdate, 1f);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
+	}
+
+	public void Awake()
+	{
+		registerItem = this.GetComponent<RegisterItem>();
+	}
+
+	public void CycleUpdate()
+	{
+		//TODO optimise by having a loop on the client side that picks the random noises and only get updates when it changes intensity or turns off
+
+		var node =  registerItem.Matrix.GetMetaDataNode(registerItem.LocalPosition);
+		if (node  == null) return;
+		if (node.RadiationNode.RadiationLevel > 1000)
+		{
+			SoundManager.PlayNetworked(Noise[Level.Extreme][RNG.Next(0,3)]);
+		}
+		else if (node.RadiationNode.RadiationLevel > 500)
+		{
+			SoundManager.PlayNetworked(Noise[Level.High][RNG.Next(0,3)]);
+		}
+		else if (node.RadiationNode.RadiationLevel > 100)
+		{
+			SoundManager.PlayNetworked(Noise[Level.Mid][RNG.Next(0,3)]);
+		}
+		else if (node.RadiationNode.RadiationLevel > 20)
+		{
+			SoundManager.PlayNetworked(Noise[Level.Low][RNG.Next(0,3)]);
+		}
+	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{

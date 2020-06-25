@@ -196,8 +196,10 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 		//Logger.Log("NeutronSingularity " + (NeutronSingularity - PresentNeutrons));
 		if (NeutronSingularity < PresentNeutrons)
 		{
-			Logger.LogError("DDFFR booommmm!!", Category.Electrical);
+			//Logger.LogError("DDFFR booommmm!!", Category.Electrical);
 			Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
+			PresentNeutrons = 0;
+			Despawn.ServerSingle(this.gameObject);
 		}
 
 		EditorPresentNeutrons = (float) PresentNeutrons;
