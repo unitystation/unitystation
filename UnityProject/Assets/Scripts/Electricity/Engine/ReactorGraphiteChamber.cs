@@ -199,6 +199,8 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 			//Logger.LogError("DDFFR booommmm!!", Category.Electrical);
 			Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
 			PresentNeutrons = 0;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
+			OnDespawnServer(null);
 			Despawn.ServerSingle(this.gameObject);
 		}
 

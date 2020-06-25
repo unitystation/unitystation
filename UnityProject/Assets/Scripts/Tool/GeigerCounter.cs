@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>
+public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServerInventoryMove
 {
 	private Dictionary<GeigerCounter.Level, List<string>> Noise = new Dictionary<Level, List<string>>()
 	{
@@ -15,7 +15,7 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>
 
 	};
 	System.Random RNG = new System.Random();
-
+	private RegisterPlayer registerPlayer;
 	private enum Level
 	{
 		Low,
@@ -43,8 +43,17 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>
 	public void CycleUpdate()
 	{
 		//TODO optimise by having a loop on the client side that picks the random noises and only get updates when it changes intensity or turns off
+		//TODO should integrate this into register item
+		MetaDataNode node = null;
+		if (registerPlayer == null)
+		{
+			node = registerItem.Matrix.GetMetaDataNode(registerItem.LocalPosition);
+		}
+		else
+		{
+			node = registerItem.Matrix.GetMetaDataNode(registerPlayer.LocalPosition);
+		}
 
-		var node =  registerItem.Matrix.GetMetaDataNode(registerItem.LocalPosition);
 		if (node  == null) return;
 		if (node.RadiationNode.RadiationLevel > 1000)
 		{
@@ -73,6 +82,18 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>
 		var MetaDataNode = matrix.GetMetaDataNode(localPosInt);
 		Chat.AddExamineMsgFromServer(interaction.Performer,
 			" The Geiger counter reads " + MetaDataNode.RadiationNode.RadiationLevel);
+	}
+
+	public void OnInventoryMoveServer(InventoryMove info)
+	{
+		if (info.ToPlayer == null)
+		{
+			registerPlayer = null;
+		}
+		else
+		{
+			registerPlayer = info.ToPlayer;
+		}
 	}
 
 }
