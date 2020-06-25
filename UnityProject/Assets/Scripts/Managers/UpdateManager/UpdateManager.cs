@@ -89,6 +89,7 @@ public class UpdateManager : MonoBehaviour
 
 	public static void Add(Action action, float TimeInterval)
 	{
+		if (Instance.periodicUpdateActions.Any(x => x.Action == action)) return;
 		TimedUpdate timedUpdate = Instance.GetTimedUpdates();
 		timedUpdate.SetUp(action, TimeInterval);
 		Instance.periodicUpdateActions.Add(timedUpdate);

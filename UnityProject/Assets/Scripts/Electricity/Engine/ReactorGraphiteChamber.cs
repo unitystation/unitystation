@@ -13,7 +13,7 @@ using Pipes;
 using Radiation;
 using UnityEngine.Serialization;
 
-public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, ISetMultitoolMaster, IServerDespawn
+public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, ISetMultitoolMaster, IServerDespawn, IServerSpawn
 {
 	public float EditorPresentNeutrons;
 	public float EditorEnergyReleased;
@@ -197,7 +197,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 		if (NeutronSingularity < PresentNeutrons)
 		{
 			Logger.LogError("DDFFR booommmm!!", Category.Electrical);
-			Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 50000, registerObject.Matrix);
+			Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 120000, registerObject.Matrix);
 		}
 
 		EditorPresentNeutrons = (float) PresentNeutrons;
@@ -433,7 +433,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 	/// <summary>
 	/// is the function to denote that it will be pooled or destroyed immediately after this function is finished, Used for cleaning up anything that needs to be cleaned up before this happens
 	/// </summary>
-	void IServerDespawn.OnDespawnServer(DespawnInfo info)
+	public void OnDespawnServer(DespawnInfo info)
 	{
 		if (MeltedDown)
 		{
@@ -460,12 +460,19 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Plasteel, registerObject.WorldPositionServer, count: 40);
 		}
 
+
 		MeltedDown = false;
 		PoppedPipes = false;
 		PresentNeutrons = 0;
 		Array.Clear(ReactorRods, 0, ReactorRods.Length);
 		ReactorFuelRods.Clear();
 		ReactorEngineStarters.Clear();
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		UpdateManager.Add(CycleUpdate, 1);
 	}
 
 
