@@ -4,8 +4,9 @@ using UnityEngine;
 using DatabaseAPI;
 using UnityEngine.UI;
 using InGameEvents;
+using AdminTools;
 
-public class EventsManagerPage : MonoBehaviour
+public class EventsManagerPage : AdminPage
 {
 	[SerializeField]
 	private Dropdown nextDropDown = null;
@@ -19,10 +20,24 @@ public class EventsManagerPage : MonoBehaviour
 	[SerializeField]
 	private Toggle announceToggle = null;
 
+	[SerializeField]
+	private Toggle randomEventToggle = null;
 
 	public void TriggerEvent()
 	{
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTriggerGameEvent(ServerData.UserID, PlayerList.Instance.AdminToken, nextDropDown.value, isFakeToggle.isOn, announceToggle.isOn);
+	}
+
+	public void ToggleRandomEvents()
+	{
+		currentData.randomEventsAllowed = randomEventToggle.isOn;
+		RequestRandomEventAllowedChange.Send(ServerData.UserID, PlayerList.Instance.AdminToken, randomEventToggle.isOn);
+	}
+
+	public override void OnPageRefresh(AdminPageRefreshData adminPageData)
+	{
+		base.OnPageRefresh(adminPageData);
+		randomEventToggle.isOn = adminPageData.randomEventsAllowed;
 	}
 
 	public void GenerateDropDownOptions()
