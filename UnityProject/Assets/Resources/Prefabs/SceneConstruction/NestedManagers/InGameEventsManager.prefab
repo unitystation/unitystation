@@ -104,7 +104,7 @@ MonoBehaviour:
   StartTimer: 5
   EndTimer: 0
   EventType: 0
-  ChanceToHappen: 10
+  ChanceToHappen: 1
   FakeEvent: 0
   AnnounceEvent: 1
   explosionPrefab: {fileID: 1059518790872729420, guid: 048e03a155f6ed04bb8cc8984479ee4d,
@@ -159,4 +159,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   triggerEventInterval: 600
-  chanceItIsFake: 25
+  chanceItIsFake: 50
