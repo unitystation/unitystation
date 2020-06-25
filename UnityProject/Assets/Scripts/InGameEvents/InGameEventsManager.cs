@@ -92,9 +92,9 @@ namespace InGameEvents
 		{
 			foreach (var eventInList in listOfFunEventScripts.Shuffle())
 			{
-				var chanceToHappen = UnityEngine.Random.Range(0, 100);
+				var chanceToHappen = UnityEngine.Random.Range(0f, 100f);
 
-				if (chanceToHappen <= eventInList.ChanceToHappen)
+				if (chanceToHappen < eventInList.ChanceToHappen)
 				{
 					eventInList.FakeEvent = isFake;
 					eventInList.AnnounceEvent = announceEvent;
