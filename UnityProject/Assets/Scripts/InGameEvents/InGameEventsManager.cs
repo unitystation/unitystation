@@ -46,7 +46,7 @@ namespace InGameEvents
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
-			if (GameManager.Instance.CurrentRoundState == RoundState.Started && RandomEventsAllowed)
+			if (RandomEventsAllowed && GameManager.Instance.CurrentRoundState == RoundState.Started )
 			{
 				timer += Time.deltaTime;
 				if (timer > triggerEventInterval)
