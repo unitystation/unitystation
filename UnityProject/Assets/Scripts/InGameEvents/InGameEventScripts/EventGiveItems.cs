@@ -41,7 +41,7 @@ namespace InGameEvents
 				}
 				else
 				{
-					Spawn.ServerPrefab(itemList[UnityEngine.Random.Range(1, itemList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
+					Spawn.ServerPrefab(itemList[UnityEngine.Random.Range(0, itemList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
 				}
 			}
 		}
