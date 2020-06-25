@@ -19,7 +19,7 @@ public class RequestRandomEventAllowedChange : ClientMessage
 
 		var state = RandomEventsAllowed ? "ON" : "OFF";
 
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"{PlayerList.Instance.GetByUserID(Userid).Username}: Turned random events {state}", "");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"Admin: {PlayerList.Instance.GetByUserID(Userid).Username}, Turned random events {state}", "");
 	}
 
 	public static RequestRandomEventAllowedChange Send(string userId, string adminToken, bool randomEventsAllowed)
