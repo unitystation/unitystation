@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 1165683735219187906}
   - component: {fileID: 1650995718794956169}
   - component: {fileID: 5017832222299659044}
+  - component: {fileID: 5056261323787470261}
+  - component: {fileID: 2507893404645622395}
   m_Layer: 0
   m_Name: FunEvents
   m_TagString: Untagged
@@ -49,7 +51,7 @@ MonoBehaviour:
   StartTimer: 10
   EndTimer: 0
   EventType: 0
-  ChanceToHappen: 1
+  ChanceToHappen: 0.5
   FakeEvent: 0
   AnnounceEvent: 1
   explosionPrefab: {fileID: 1059518790872729420, guid: 048e03a155f6ed04bb8cc8984479ee4d,
@@ -78,7 +80,7 @@ MonoBehaviour:
   StartTimer: 0
   EndTimer: 10
   EventType: 0
-  ChanceToHappen: 25
+  ChanceToHappen: 5
   FakeEvent: 0
   AnnounceEvent: 1
   gunList:
@@ -104,7 +106,7 @@ MonoBehaviour:
   StartTimer: 5
   EndTimer: 0
   EventType: 0
-  ChanceToHappen: 1
+  ChanceToHappen: 0.5
   FakeEvent: 0
   AnnounceEvent: 1
   explosionPrefab: {fileID: 1059518790872729420, guid: 048e03a155f6ed04bb8cc8984479ee4d,
@@ -114,6 +116,54 @@ MonoBehaviour:
   minDamage: 200
   maxDamage: 500
   timeBetweenExplosions: 1
+--- !u!114 &5056261323787470261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3022207007842459343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d16b50667139142a97de599b0f039e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Give Players Melee
+  StartTimer: 0
+  EndTimer: 10
+  EventType: 0
+  ChanceToHappen: 5
+  FakeEvent: 0
+  AnnounceEvent: 1
+  itemList:
+  - {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
+  - {fileID: 7781396554342910705, guid: bffa4f7b47979d445854af572064d36b, type: 3}
+  - {fileID: 7781396554342910705, guid: 6ec2cf5e4acf23543ba1612545d2fca4, type: 3}
+  - {fileID: 7881540825094338729, guid: 8e2977953ed34c84c82792c99d2549b5, type: 3}
+  - {fileID: 7781396554342910705, guid: fd2b975bb2d60fb429c193f9ef1d31b0, type: 3}
+  announceText: Did someone drop a bat?
+--- !u!114 &2507893404645622395
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3022207007842459343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d16b50667139142a97de599b0f039e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Give players a cookie
+  StartTimer: 0
+  EndTimer: 2
+  EventType: 0
+  ChanceToHappen: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  itemList:
+  - {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+  announceText: A gift from the gods!
 --- !u!1 &8929341582706713524
 GameObject:
   m_ObjectHideFlags: 0
@@ -158,5 +208,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 238710bf5371ddd49ad9ac4d929a4114, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  triggerEventInterval: 600
+  triggerEventInterval: 1200
   chanceItIsFake: 50
