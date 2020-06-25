@@ -265,11 +265,45 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	public void OnHover()
 	{
-		if (checkWallMountOverlay())
+		var wallMount = checkWallMountOverlay();
+		if (wallMount)
 		{
 			Vector2 cameraPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 			var tilePos = cameraPos.RoundToInt();
-			if (!MatrixManager.IsWallAt(tilePos, false))
+			OrientationEnum orientation = OrientationEnum.Down;
+			Vector3Int PlaceDirection = PlayerManager.LocalPlayerScript.WorldPos - tilePos;
+			bool isWallBlocked = false;
+			if (PlaceDirection.x != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(PlaceDirection.x > 0 ? 1 : -1, 0, 0), true))
+			{
+				if (PlaceDirection.x > 0)
+				{
+					orientation = OrientationEnum.Right;
+				}
+				else
+				{
+					orientation = OrientationEnum.Left;
+				}
+			}
+			else
+			{
+				if (PlaceDirection.y != 0 && !MatrixManager.IsWallAt(tilePos + new Vector3Int(0, PlaceDirection.y > 0 ? 1 : -1, 0), true))
+				{
+					if (PlaceDirection.y > 0)
+					{
+						orientation = OrientationEnum.Up;
+					}
+					else
+					{
+						orientation = OrientationEnum.Down;
+					}
+				}
+				else
+				{
+					isWallBlocked = true;
+				}
+			}
+
+			if (!MatrixManager.IsWallAt(tilePos, false) || isWallBlocked)
 			{
 				if (instanceActive)
 				{
@@ -284,24 +318,44 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 				instanceActive = true;
 				Highlight.ShowHighlight(UIManager.Hands.CurrentSlot.ItemObject, true);
 			}
-			Highlight.instance.spriteRenderer.transform.position = tilePos;
+
+			Vector3 spritePos = tilePos;
+			if (wallMount.IsWallProtrusion) //for light bulbs, tubes, cameras, etc. move the sprite towards the floor
+			{
+				if(orientation == OrientationEnum.Right)
+				{
+					spritePos.x += 0.5f;
+					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,270);
+				}
+				else if(orientation == OrientationEnum.Left)
+				{
+						spritePos.x -= 0.5f;
+						Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,90);
+				}
+				else if(orientation == OrientationEnum.Up)
+				{
+					spritePos.y += 0.5f;
+					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,0);
+				}
+				else
+				{
+					spritePos.y -= 0.5f;
+					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,0);
+				}
+			}
+			Highlight.instance.spriteRenderer.transform.position = spritePos;
 		}
 	}
 
-	bool checkWallMountOverlay()
+	WallMountHandApplySpawn checkWallMountOverlay()
 	{
 		var handItem = UIManager.Hands.CurrentSlot.ItemObject;
 		if (handItem == null)
 		{
-			return false;
+			return null;
 		}
 		var wallMount = handItem.GetComponent<WallMountHandApplySpawn>();
-		if (wallMount == null)
-		{
-			return false;
-		}
-
-		return true;
+		return wallMount;
 
 	}
 	public void OnHoverEnd()

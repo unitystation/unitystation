@@ -6,6 +6,7 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 {
 	public GameObject WallMountToSpawn;
 	public bool IsAPC;
+	public bool IsWallProtrusion;
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -23,33 +24,55 @@ public class WallMountHandApplySpawn : MonoBehaviour, ICheckedInteractable<Posit
 		{
 			return;
 		}
-		if (!MatrixManager.IsWallAt(interaction.WorldPositionTarget.RoundToInt(), true))
+		if (!MatrixManager.IsWallAt(roundTargetWorldPosition, true))
 		{
 			return;
 		}
-		var localPosInt = MatrixManager.WorldToLocalInt(roundTargetWorldPosition, matrix);
-		Vector3 PlaceDirection = interaction.Performer.Player().Script.WorldPos - (Vector3) roundTargetWorldPosition;
-		OrientationEnum FaceDirection = OrientationEnum.Down;
 
-		if (PlaceDirection == Vector3.up)
+		Vector3Int PlaceDirection = interaction.Performer.Player().Script.WorldPos - roundTargetWorldPosition;
+		OrientationEnum FaceDirection;
+
+		//is there a wall in the direction of the new wallmount? taking into account diagonal clicking
+		var tileInFront = roundTargetWorldPosition + new Vector3Int(PlaceDirection.x, 0, 0);
+		if (!MatrixManager.IsWallAt(tileInFront, true))
 		{
-			FaceDirection = OrientationEnum.Up;
+			if (PlaceDirection.x > 0)
+			{
+				FaceDirection = OrientationEnum.Right;
+			}
+			else
+			{
+				FaceDirection = OrientationEnum.Left;
+			}
 		}
-		else if (PlaceDirection == Vector3.down)
+		else
 		{
-			FaceDirection = OrientationEnum.Down;
+			tileInFront = roundTargetWorldPosition + new Vector3Int(0, PlaceDirection.y, 0);
+			if (!MatrixManager.IsWallAt(tileInFront, true))
+			{
+				if (PlaceDirection.y > 0)
+				{
+					FaceDirection = OrientationEnum.Up;
+				}
+				else
+				{
+					FaceDirection = OrientationEnum.Down;
+				}
+			}
+			else
+			{
+				return;
+			}
 		}
-		else if (PlaceDirection == Vector3.right)
+
+		if (IsWallProtrusion)
 		{
-			FaceDirection = OrientationEnum.Right;
-		}
-		else if (PlaceDirection == Vector3.left)
-		{
-			FaceDirection = OrientationEnum.Left;
+			roundTargetWorldPosition = tileInFront;
 		}
 
 		if (IsAPC)
 		{
+			var localPosInt = MatrixManager.WorldToLocalInt(roundTargetWorldPosition, matrix);
 			var econs = interaction.Performer.GetComponentInParent<Matrix>().GetElectricalConnections(localPosInt);
 			foreach (var Connection in econs)
 			{
