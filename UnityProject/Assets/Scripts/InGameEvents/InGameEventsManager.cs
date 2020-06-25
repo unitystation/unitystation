@@ -27,6 +27,8 @@ namespace InGameEvents
 		[SerializeField]
 		private int chanceItIsFake = 25;
 
+		public bool RandomEventsAllowed = true;
+
 
 		private void Awake()
 		{
@@ -44,7 +46,7 @@ namespace InGameEvents
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
-			if (GameManager.Instance.CurrentRoundState == RoundState.Started)
+			if (GameManager.Instance.CurrentRoundState == RoundState.Started && RandomEventsAllowed)
 			{
 				timer += Time.deltaTime;
 				if (timer > triggerEventInterval)

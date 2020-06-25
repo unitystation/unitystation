@@ -42,6 +42,9 @@ namespace AdminTools
 		public bool isSecret;
 		public string nextGameMode;
 
+		//Event Manager Updates:
+		public bool randomEventsAllowed;
+
 		//Player Management:
 		public List<AdminPlayerEntryData> players = new List<AdminPlayerEntryData>();
 	}
