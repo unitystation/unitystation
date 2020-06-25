@@ -52,6 +52,21 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4575326566585499291, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: initialName
+      value: Boiler and Turbine console
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575326566585499291, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: initialDescription
+      value: Controls and records data from the boiler and turbine.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575326566585499291, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: exportName
+      value: Boiler and Turbine console
+      objectReference: {fileID: 0}
     - target: {fileID: 6131886329820758859, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
