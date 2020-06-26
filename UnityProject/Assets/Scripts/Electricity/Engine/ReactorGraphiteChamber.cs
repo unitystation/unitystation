@@ -140,11 +140,15 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 
 	private void OnEnable()
 	{
+		if (CustomNetworkManager.Instance._isServer == false ) return;
+
 		UpdateManager.Add(CycleUpdate, 1);
 	}
 
 	private void OnDisable()
 	{
+		if (CustomNetworkManager.Instance._isServer == false ) return;
+
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 	}
 
