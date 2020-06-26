@@ -355,12 +355,12 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	WallMountHandApplySpawn CheckWallMountOverlay()
 	{
-		var handItem = UIManager.Hands.CurrentSlot;
-		if (handItem == null || handItem.ItemObject == null)
+		var itemSlot = UIManager.Hands.CurrentSlot;
+		if (itemSlot == null || itemSlot.ItemObject == null)
 		{
 			return null;
 		}
-		var wallMount = handItem.GetComponent<WallMountHandApplySpawn>();
+		var wallMount = itemSlot.ItemObject.GetComponent<WallMountHandApplySpawn>();
 		return wallMount;
 	}
 
