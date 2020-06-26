@@ -6,7 +6,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 
-public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn
+public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn, ISetMultitoolMaster
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -368,7 +368,35 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 			Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
 		}
 	}
+	//######################################## Multitool interaction ##################################
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.APC;
+	public MultitoolConnectionType ConType  => conType;
 
+	[SerializeField]
+	private bool multiMaster = false;
+	public bool MultiMaster  => multiMaster;
+
+	public void AddSlave(object SlaveObject)
+	{
+	}
+
+	public void RemoveDevice(APCPoweredDevice APCPoweredDevice)
+	{
+		if (ConnectedDevices.Contains(APCPoweredDevice))
+		{
+			ConnectedDevices.Remove(APCPoweredDevice);
+			APCPoweredDevice.PowerNetworkUpdate(0.1f);
+
+		}
+	}
+	public void AddDevice(APCPoweredDevice APCPoweredDevice)
+	{
+		if (!ConnectedDevices.Contains(APCPoweredDevice))
+		{
+			ConnectedDevices.Add(APCPoweredDevice);
+		}
+	}
 
 }
 

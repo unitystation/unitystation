@@ -217,6 +217,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private ElectricalOIinheritance electricalData;
 	public ElectricalOIinheritance ElectricalData => electricalData;
 
+	private Pipes.PipeData pipeData;
+	public Pipes.PipeData PipeData => pipeData;
+
 	protected virtual void Awake()
 	{
 		EnsureInit();
@@ -296,10 +299,18 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		OnDespawnedServer.Invoke();
 	}
 
+	//This makes it so electrical Stuff can be done on its own thread
 	public void SetElectricalData(ElectricalOIinheritance inElectricalData)
 	{
 		//Logger.Log("seting " + this.name);
 		electricalData = inElectricalData;
+	}
+
+	//This makes it so electrical Stuff can be done on its own thread
+	public void SetPipeData(Pipes.PipeData InPipeData)
+	{
+		//Logger.Log("seting " + this.name);
+		pipeData = InPipeData;
 	}
 
 

@@ -8,7 +8,7 @@ using UnityEngine.Serialization;
 /// when clicking on vendor with a VendingRestock item in hand.
 /// </summary>
 [RequireComponent(typeof(HasNetworkTab))]
-public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpawn
+public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowered, IServerSpawn
 {
 	/// <summary>
 	/// Scatter spawned items a bit to not allow stacking in one position
@@ -44,7 +44,8 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 
 	public VendorUpdateEvent OnRestockUsed = new VendorUpdateEvent();
 	public VendorItemUpdateEvent OnItemVended = new VendorItemUpdateEvent();
-
+	public PowerStates ActualCurrentPowerState = PowerStates.On;
+	public bool DoesntRequirePower = false;
 	private void Awake()
 	{
 		// ensure we have a net tab set up with the correct type
@@ -220,6 +221,16 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IServerSpa
 		}
 
 		OnItemVended.Invoke(vendorItem);
+
+	}
+
+	public void PowerNetworkUpdate(float Voltage)
+	{
+	}
+
+	public void StateUpdate(PowerStates State)
+	{
+		ActualCurrentPowerState = State;
 	}
 }
 

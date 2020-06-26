@@ -248,12 +248,13 @@ MonoBehaviour:
   MaximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
-  wattusage: 0.01
+  wattusage: 95
   Resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
   State: 0
+  conType: 1
 --- !u!114 &5073811291310827968
 MonoBehaviour:
   m_ObjectHideFlags: 0

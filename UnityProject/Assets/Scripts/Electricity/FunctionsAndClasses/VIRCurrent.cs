@@ -42,7 +42,8 @@ public class WrapCurrent
 	{
 		return string.Format("(" + Current.current + "*" + Strength + ")");
 	}
-	public void Pool()
+
+	public void Pool()
 	{
 		if (!inPool)
 		{
@@ -74,13 +75,14 @@ public class VIRCurrent
 	}
 
 	public void addCurrent(VIRCurrent NewWrapCurrent)
-	{		foreach (var inCurrent in NewWrapCurrent.CurrentSources)
+	{
+		foreach (var inCurrent in NewWrapCurrent.CurrentSources)
 		{
 			foreach (var wrapCurrent in CurrentSources)
 			{
 				if (wrapCurrent.Current == inCurrent.Current)
 				{
-					wrapCurrent.CombineCurrent(inCurrent);
+					//wrapCurrent.CombineCurrent(inCurrent);
 					return;
 				}
 			}
@@ -107,7 +109,8 @@ public class VIRCurrent
 	}
 
 	public double Current()
-	{		double Current = 0;
+	{
+		double Current = 0;
 		foreach (var wrapCurrent in CurrentSources)
 		{
 			Current = Current + wrapCurrent.GetCurrent();

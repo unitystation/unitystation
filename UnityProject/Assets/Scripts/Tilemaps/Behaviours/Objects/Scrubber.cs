@@ -9,6 +9,7 @@ public class Scrubber : AdvancedPipe
 	public float MinimumPressure = 101.3251f;
 	private MetaDataNode metaNode;
 	private MetaDataLayer metaDataLayer;
+	private PowerStates CurrentState;
 
 	public override bool ServerAttach()
 	{
@@ -31,7 +32,10 @@ public class Scrubber : AdvancedPipe
 		base.TickUpdate();
 		if (anchored)
 		{
-			CheckAtmos();
+			if (APCPoweredDevice.IsOn(CurrentState))
+			{
+				CheckAtmos();
+			}
 		}
 	}
 
@@ -53,5 +57,4 @@ public class Scrubber : AdvancedPipe
 			metaDataLayer.UpdateSystemsAt(RegisterTile.LocalPositionServer);
 		}
 	}
-
 }

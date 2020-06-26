@@ -40,8 +40,6 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 	public float EditorResistance;
 	public bool NotEditorResistanceset = true;
 
-	public Resistance RR = new Resistance();
-
 	/// <summary>
 	/// Flag to determine if ElectricalSynchronisation has processed the resistance change yet
 	/// </summary>
@@ -125,7 +123,7 @@ public class ResistanceSourceModule : ElectricalModuleInheritance
 	{
 		if (dirtyResistance)
 		{
-			if (NotEditorResistanceset)
+			if (NotEditorResistanceset )
 			{
 				NotEditorResistanceset = false;
 				if (EditorResistance != 0)

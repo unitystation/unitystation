@@ -32,13 +32,19 @@ public class Armor
 	/// <returns>new damage after applying protection values</returns>
 	public float GetDamage(float damage, AttackType attackType)
 	{
+		return damage * GetRatingValue(attackType);
+	}
+
+	public float GetRatingValue(AttackType attackType)
+	{
 		float rating = GetRating(attackType);
 		if (rating > 100)
 		{
 			rating = 100;
 		}
-		return damage * (1 - rating / 100);
+		return  (1 - rating / 100);
 	}
+
 
 	/// <summary>
 	/// Get the armor rating against a certain type of attack

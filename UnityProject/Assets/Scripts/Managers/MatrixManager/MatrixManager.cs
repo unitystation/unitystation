@@ -399,7 +399,7 @@ public partial class MatrixManager : MonoBehaviour
 			if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
 				return originDoor;
 		}
-		
+
 		// No closed door on local tile, check target tile
 		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
 		var targetDoorList = GetAt<InteractableDoor>(targetPos, isServer);
@@ -801,7 +801,7 @@ public partial class MatrixManager : MonoBehaviour
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
+	public static Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
 	{
 		return LocalToWorld(localPos, Get(matrix));
 	}

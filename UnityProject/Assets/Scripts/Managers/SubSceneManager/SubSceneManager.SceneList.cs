@@ -2,6 +2,7 @@
 using Mirror;
 using UnityEditor;
 using UnityEngine.SceneManagement;
+using WebSocketSharp;
 
 //The scene list on the server
 public partial class SubSceneManager
@@ -90,13 +91,16 @@ public partial class SubSceneManager
 			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
 		}
 		loadTimer.IncrementLoadBar("Loading Away Site");
-		yield return StartCoroutine(LoadSubScene(serverChosenAwaySite, loadTimer));
-		AwaySiteLoaded = true;
-		loadedScenesList.Add(new SceneInfo
+		if (serverChosenAwaySite.IsNullOrEmpty() == false)
 		{
-			SceneName = serverChosenAwaySite,
-			SceneType = SceneType.AwaySite
-		});
+			yield return StartCoroutine(LoadSubScene(serverChosenAwaySite, loadTimer));
+			AwaySiteLoaded = true;
+			loadedScenesList.Add(new SceneInfo
+			{
+				SceneName = serverChosenAwaySite,
+				SceneType = SceneType.AwaySite
+			});
+		}
 	}
 
 	string GetEditorPrevScene()

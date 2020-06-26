@@ -6,7 +6,7 @@ using Mirror;
 /// A machine into which players can insert certain food items.
 /// After some time the food is cooked and gets ejected from the microwave.
 /// </summary>
-public class Microwave : NetworkBehaviour
+public class Microwave : NetworkBehaviour, IAPCPowered
 {
 	/// <summary>
 	/// Time it takes for the microwave to cook a meal (in seconds).
@@ -32,6 +32,26 @@ public class Microwave : NetworkBehaviour
 	/// </summary>
 	[HideInInspector]
 	public int mealCount = 0;
+
+	/// <summary>
+	/// The current state of the microwave powered/overpowered/underpowered/no power
+	/// </summary>
+	[HideInInspector] public PowerStates CurrentState;
+
+	/// <summary>
+	/// The current state of the microwave powered/overpowered/underpowered/no power
+	/// </summary>
+	[HideInInspector] private APCPoweredDevice APCConnectionHandler;
+
+	/// <summary>
+	/// How many watts at 240 V the microwave uses when not in use
+	/// </summary>
+	public int StandByWattUsage = 5;
+
+	/// <summary>
+	/// How many watts at 240 V the microwave uses when it is in use
+	/// </summary>
+	public int InUseWattUsage = 700;
 
 
 	// Sprites for when the microwave is on or off.
@@ -63,6 +83,7 @@ public class Microwave : NetworkBehaviour
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		audioSourceDing = GetComponent<AudioSource>();
 		SPRITE_OFF = spriteRenderer.sprite;
+		APCConnectionHandler =  GetComponent<APCPoweredDevice>();
 	}
 
 	private void OnEnable()
@@ -162,5 +183,31 @@ public class Microwave : NetworkBehaviour
 		meal = null;
 		mealCount = 0;
 	}
+	//########################## Power stuff ####################
+	public void PowerNetworkUpdate(float Voltage)
+	{
+	}
 
+	public void StateUpdate(PowerStates State)
+	{
+		CurrentState = State;
+		if (spriteRenderer == null)
+		{
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		}
+
+		if (APCConnectionHandler == null)
+		{
+			APCConnectionHandler = GetComponentInChildren<APCPoweredDevice>();
+		}
+
+		if (spriteRenderer.sprite == SPRITE_ON)
+		{
+			APCConnectionHandler.Wattusage = InUseWattUsage;
+		}
+		else
+		{
+			APCConnectionHandler.Wattusage = StandByWattUsage;
+		}
+	}
 }
