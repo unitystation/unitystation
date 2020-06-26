@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using Light2D;
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Radiation
 {
-	public class RadiationProducer : MonoBehaviour
+	public class RadiationProducer : NetworkBehaviour
 	{
 		public float OutPuttingRadiation = 0;
 		public Color color = new Color(93f/255f, 202/255f, 49/255f, 0);
@@ -15,6 +16,21 @@ namespace Radiation
 		public int ObjectID = 0;
 		private LightSprite lightSprite;
 		public Sprite DotSprite;
+
+
+		[SyncVar(hook = nameof(SynchStrength))]
+		public float SynchroniseStrength = 0;
+
+		private void SynchStrength(float old, float newv)
+		{
+			if (old != newv)
+			{
+				SynchroniseStrength = newv;
+				UpdateValues(SynchroniseStrength);
+			}
+
+		}
+
 
 		private void Awake()
 		{
@@ -52,7 +68,13 @@ namespace Radiation
 				StartCoroutine(Refresh());
 			}
 		}*/
-		public void UpdateValues(float Invalue)
+
+		public void Setlevel(float Invalue)
+		{
+			SynchStrength(SynchroniseStrength, Invalue);
+		}
+
+		private void UpdateValues(float Invalue)
 		{
 			OutPuttingRadiation = Invalue;
 			float LightPower = OutPuttingRadiation / 24000;

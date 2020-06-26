@@ -212,6 +212,12 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 		PowerOutput();
 
 		//Sprites
+		//Reduce  sound of geiger counter
+		//Coloring numbers in UI with red - bad, green - good.
+		//2) Tooltips when hovering on buttons/slider, like foma did with action buttons.
+		//1) Damage for RWalls and players from explosions
+		//2)Nerf easy sabotage for Reactor or people will be blowing it too fast
+		//Synchronise radiation
 	}
 
 	public void GenerateExternalRadiation()
@@ -222,7 +228,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 			LeakedNeutrons =
 				(((LeakedNeutrons / (LeakedNeutrons + ((decimal) Math.Pow((double) LeakedNeutrons, (double) 0.82M)))) -
 				  0.5M) * 2 * 36000);
-			radiationProducer.UpdateValues((float) LeakedNeutrons);
+			radiationProducer.Setlevel((float) LeakedNeutrons);
 		}
 	}
 
