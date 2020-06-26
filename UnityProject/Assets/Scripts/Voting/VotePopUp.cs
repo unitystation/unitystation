@@ -20,7 +20,8 @@ public class VotePopUp : MonoBehaviour
 	{
 		buttonPresses = 0;
 		gameObject.SetActive(true);
-		ToggleButtons(true);
+		yesBtn.interactable = true;
+		noBtn.interactable = true;
 		voteTitle.text = title;
 		voteInstigator.text = instigator;
 		voteCount.text = currentCount;
