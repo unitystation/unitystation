@@ -1,11 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdminTools;
+using Audio.Containers;
 using UnityEngine;
 using Mirror;
+using DiscordWebhook;
+using InGameEvents;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -327,6 +328,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		VotingManager.Instance.RegisterVote(connectedPlayer.UserId, isFor);
 	}
 
+	[Command]
+	public void CmdVetoRestartVote(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.VetoVote(adminId);
+	}
+
 	/// <summary>
 	/// Switches the pickup mode for the InteractableStorage in the players hands
 	/// TODO should probably be turned into some kind of UIAction component which can hold all these functions
@@ -366,7 +377,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[TargetRpc]
 	public void TargetStopMusic(NetworkConnection target)
 	{
-		SoundManager.SongTracker.Stop();
+		MusicManager.SongTracker.Stop();
 	}
 
 	/// <summary>
@@ -884,5 +895,50 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		AdminOverlay.RequestFullUpdate(adminId, adminToken);
 	}
+
+	[Command]
+	public void CmdToggleOOCMute(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		string msg;
+
+		if (Chat.OOCMute)
+		{
+			Chat.OOCMute = false;
+			msg = "OOC has been unmuted";
+		}
+		else
+		{
+			Chat.OOCMute = true;
+			msg = "OOC has been muted";
+		}
+
+		Chat.AddGameWideSystemMsgToChat($"<color=blue>{msg}</color>");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
+	}
+
+	[Command]
+	public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake, bool announceEvent)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, isFake, PlayerList.Instance.GetByUserID(adminId).Username, announceEvent);
+	}
 	#endregion
+
+	[Command]
+	public void CmdRequestSpell(int spellIndex)
+	{
+		foreach (var spell in playerScript.mind.Spells)
+		{
+			if (spell.SpellData.Index == spellIndex)
+			{
+				spell.CallActionServer(PlayerList.Instance.Get(gameObject));
+				return;
+			}
+		}
+	}
 }

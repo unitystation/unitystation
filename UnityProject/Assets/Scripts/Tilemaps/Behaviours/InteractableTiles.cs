@@ -154,6 +154,12 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 	{
 		// Get Tile at position
 		LayerTile tile = LayerTileAt(pos);
+
+		if (tile == null)
+		{
+			return "Space";
+		}
+
 		return "A " + tile.DisplayName;
 	}
 
@@ -265,7 +271,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	public void OnHover()
 	{
-		var wallMount = checkWallMountOverlay();
+		var wallMount = CheckWallMountOverlay();
 		if (wallMount)
 		{
 			Vector2 cameraPos = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
@@ -347,17 +353,17 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		}
 	}
 
-	WallMountHandApplySpawn checkWallMountOverlay()
+	WallMountHandApplySpawn CheckWallMountOverlay()
 	{
-		var handItem = UIManager.Hands.CurrentSlot.ItemObject;
-		if (handItem == null)
+		var handItem = UIManager.Hands.CurrentSlot;
+		if (handItem == null || handItem.ItemObject == null)
 		{
 			return null;
 		}
 		var wallMount = handItem.GetComponent<WallMountHandApplySpawn>();
 		return wallMount;
-
 	}
+
 	public void OnHoverEnd()
 	{
 		if (instanceActive)
@@ -366,7 +372,4 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			Highlight.DeHighlight();
 		}
 	}
-
-
-
 }

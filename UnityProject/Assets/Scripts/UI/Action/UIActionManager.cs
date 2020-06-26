@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using JetBrains.Annotations;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,6 +10,12 @@ using UnityEngine.UI;
 public class UIActionManager : MonoBehaviour
 {
 	public GameObject Panel;
+	public GameObject TooltipPrefab;
+
+	public ActionTooltip TooltipInstance => tooltipInstance == null
+		? tooltipInstance = Instantiate(TooltipPrefab, transform.parent).GetComponent<ActionTooltip>()
+		: tooltipInstance;
+	private ActionTooltip tooltipInstance;
 
 	private static UIActionManager uIActionManager;
 	public static UIActionManager Instance
@@ -31,10 +38,13 @@ public class UIActionManager : MonoBehaviour
 	public Dictionary<IActionGUI, UIAction> DicIActionGUI = new Dictionary<IActionGUI, UIAction>();
 
 
-	public static void Toggle(IActionGUI iActionGUI, bool Add, GameObject recipient = null)
+	/// <summary>
+	/// Toggle it locally (clientside)
+	/// </summary>
+	public static void ToggleLocal(IActionGUI iActionGUI, bool show)
 	{
 
-		if (Add)
+		if (show)
 		{
 			if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 			{
@@ -46,6 +56,29 @@ public class UIActionManager : MonoBehaviour
 		else {
 			Hide(iActionGUI);
 		}
+	}
+
+	/// <summary>
+	/// Toggle with network sync
+	/// </summary>
+	public static void Toggle(IActionGUI iActionGUI, bool show, GameObject recipient)
+	{
+		SetActionUIMessage.SetAction(recipient, iActionGUI, show);
+	}
+
+	public static bool HasActionData(ActionData actionData, [CanBeNull] out IActionGUI actionInstance)
+	{
+		foreach (var key in Instance.DicIActionGUI.Keys)
+		{
+			if (key.ActionData == actionData)
+			{
+				actionInstance = key;
+				return true;
+			}
+		}
+
+		actionInstance = null;
+		return false;
 	}
 
 
@@ -132,10 +165,10 @@ public class UIActionManager : MonoBehaviour
 			Logger.Log("iActionGUI Not present", Category.UI);
 		}
 	}
- 
+
 	public void OnRoundEnd()
 	{
-		foreach (var _Action in DicIActionGUI) { 
+		foreach (var _Action in DicIActionGUI) {
 			_Action.Value.Pool();
 		}
 		DicIActionGUI = new Dictionary<IActionGUI, UIAction>();
@@ -177,11 +210,16 @@ public class UIActionManager : MonoBehaviour
 	public void CheckEvent(EVENT Event)
 	{
 		var TOremove = new List<IActionGUI>();
-		foreach (var _Action in DicIActionGUI)
+		foreach (var action in DicIActionGUI)
 		{
-			if (_Action.Key.ActionData.DisableOnEvent.Contains(Event)) { 
-				_Action.Value.Pool();
-				TOremove.Add(_Action.Key);
+			if (action.Key.ActionData == null)
+			{
+				Logger.LogWarningFormat("UIAction {0}: action data is null!", Category.UIAction, action.Key+":"+action.Value );
+				continue;
+			}
+			if (action.Key.ActionData.DisableOnEvent.Contains(Event)) {
+				action.Value.Pool();
+				TOremove.Add(action.Key);
 			}
 		}
 		foreach (var Remove in TOremove) {
@@ -202,7 +240,7 @@ public class UIActionManager : MonoBehaviour
 		EventManager.AddHandler(EVENT.RoundStarted, RoundStarted);
 		EventManager.AddHandler(EVENT.GhostSpawned, GhostSpawned);
 		EventManager.AddHandler(EVENT.PlayerRejoined, PlayerRejoined);
-	
+
 	}
 
 	private void OnDisable()

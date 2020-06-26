@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   - component: {fileID: 7149238559222713249}
+  - component: {fileID: 4637827490710136155}
   m_Layer: 11
   m_Name: ViroDrobe
   m_TagString: Untagged
@@ -122,7 +123,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
+  InitialVendorContent:
   - Item: {fileID: 0}
     Stock: 2
   - Item: {fileID: 9131202711572530880, guid: 0c198ac94169aed40ab72b2afc2d4cc5, type: 3}
@@ -144,6 +145,28 @@ MonoBehaviour:
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 0}
+    Stock: 2
+  - Item: {fileID: 9131202711572530880, guid: 0c198ac94169aed40ab72b2afc2d4cc5, type: 3}
+    Stock: 2
+  - Item: {fileID: 516347036442809227, guid: e128aa90b7c4cd741bc16b385d99f54a, type: 3}
+    Stock: 2
+  - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+    Stock: 2
+  - Item: {fileID: 3011710637427380133, guid: aab6051d13dac4be8a3ca172d9b74051, type: 3}
+    Stock: 2
+  - Item: {fileID: 4172758320385125961, guid: 7294d72d86040fa45a54a16e2c0a36bf, type: 3}
+    Stock: 2
+  - Item: {fileID: 7374481989050852271, guid: 22ce62e388fa84ff098d72a7856ea506, type: 3}
+    Stock: 2
+  - Item: {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
+    Stock: 2
+  - Item: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09, type: 3}
+    Stock: 2
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:
@@ -314,6 +338,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &4637827490710136155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 78
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

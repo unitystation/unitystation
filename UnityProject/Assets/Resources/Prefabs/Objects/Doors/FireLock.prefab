@@ -150,7 +150,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1883797623
   m_SortingLayer: 13
-  m_SortingOrder: 10
+  m_SortingOrder: 9
   m_Sprite: {fileID: 7753097122267521372, guid: befb538d97e62884abc1efd14793651c,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -647,6 +647,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 1
 --- !u!114 &5440071253851819884
 MonoBehaviour:
@@ -746,6 +747,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0

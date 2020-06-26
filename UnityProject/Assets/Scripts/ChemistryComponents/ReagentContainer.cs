@@ -38,6 +38,8 @@ namespace Chemistry.Components
 		[Tooltip("Initial mix of reagent inside container")]
 		[FormerlySerializedAs("reagentMix")]
 		[SerializeField] private ReagentMix initialReagentMix = new ReagentMix();
+		[SerializeField]
+		private bool destroyOnEmpty;
 
 		private ItemAttributesV2 itemAttributes;
 		private RegisterTile registerTile;
@@ -303,7 +305,8 @@ namespace Chemistry.Components
 			{
 				if (registerTile && registerTile.CustomTransform)
 				{
-					var worldPos = registerTile.CustomTransform.AssumedWorldPositionServer().CutToInt();
+					var worldPos = registerTile.CustomTransform.AssumedWorldPositionServer();
+					worldPos.z = 0;
 					SpillAll(worldPos, thrown);
 				}
 			}

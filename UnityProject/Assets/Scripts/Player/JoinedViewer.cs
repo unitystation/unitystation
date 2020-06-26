@@ -79,9 +79,7 @@ public class JoinedViewer : NetworkBehaviour
 		{
 			if (GameManager.Instance.waitForStart)
 			{
-				// Calculate when the countdown will end relative to the NetworkTime
-				double endTime = NetworkTime.time + GameManager.Instance.CountdownTime;
-				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, endTime);
+				TargetSyncCountdown(connectionToClient, GameManager.Instance.waitForStart, GameManager.Instance.CountdownEndTime);
 			}
 			else
 			{
@@ -186,19 +184,25 @@ public class JoinedViewer : NetworkBehaviour
 		var spawnRequest =
 			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
 
-		//regardless of their chosen occupation, they might spawn as an antag instead.
-		//If they do, bypass the normal spawn logic.
-		if (GameManager.Instance.TrySpawnAntag(spawnRequest)) return;
+		GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
 
-		PlayerSpawn.ServerSpawnPlayer(spawnRequest);
+		GameManager.Instance.ProcessSpawnPlayerQueue();
 	}
+
+	public void Spectate()
+	{
+		var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
+		CmdSpectate(jsonCharSettings);
+	}
+
 	/// <summary>
 	/// Command to spectate a round instead of spawning as a player
 	/// </summary>
 	[Command]
-	public void CmdSpectate()
+	public void CmdSpectate(string jsonCharSettings)
 	{
-		PlayerSpawn.ServerSpawnGhost(this);
+		var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
+		PlayerSpawn.ServerSpawnGhost(this, characterSettings);
 	}
 
 	/// <summary>

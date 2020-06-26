@@ -8,7 +8,8 @@ public class VendorItemEntry : DynamicEntry
 	private Color regularColor = Color.gray;
 	[SerializeField]
 	private Color emptyStockColor = Color.red;
-	private VendorItem vendorItem;
+	[HideInInspector]
+	public VendorItem vendorItem;
 	private GUI_Vendor vendorWindow;
 	[SerializeField]
 	private NetLabel itemName = null;
@@ -23,8 +24,16 @@ public class VendorItemEntry : DynamicEntry
 	{
 		vendorItem = item;
 		vendorWindow = correspondingWindow;
-		itemName.SetValueServer(vendorItem.Item.name);
-		itemIcon.SetValueServer(vendorItem.Item.name);
+
+		var itemGO = vendorItem.Item;
+		var itemAttr = itemGO.GetComponent<ItemAttributesV2>();
+
+		// try get human-readable item name
+		var itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
+		itemName.SetValueServer(itemNameStr);
+
+		itemIcon.SetValueServer(itemGO.name);
+
 		itemCount.SetValueServer($"({vendorItem.Stock.ToString()})");
 		if (vendorItem.Stock <= 0)
 		{
@@ -36,12 +45,13 @@ public class VendorItemEntry : DynamicEntry
 		}
 	}
 
-	public void VendorItem()
+	public void OnVendItemButtonPressed(ConnectedPlayer player)
 	{
 		if (vendorItem == null || vendorWindow == null)
 		{
 			return;
 		}
-		vendorWindow.VendItem(vendorItem);
+
+		vendorWindow.OnVendItemButtonPressed(vendorItem, player);
 	}
 }

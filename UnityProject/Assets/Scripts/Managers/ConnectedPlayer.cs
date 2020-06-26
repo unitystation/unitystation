@@ -135,4 +135,13 @@ public class ConnectedPlayer
 			UpdateConnectedPlayersMessage.Send();
 		}
 	}
+
+	public override string ToString()
+	{
+		if (this == Invalid)
+		{
+			return "Invalid player";
+		}
+		return $"ConnectedPlayer {nameof(Username)}: {Username}, {nameof(ClientId)}: {ClientId}, {nameof(UserId)}: {UserId}, {nameof(Connection)}: {Connection}, {nameof(Name)}: {Name}, {nameof(Job)}: {Job}";
+	}
 }

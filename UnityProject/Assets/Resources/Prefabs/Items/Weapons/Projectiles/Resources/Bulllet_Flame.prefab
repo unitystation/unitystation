@@ -13,11 +13,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4331555194852958, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
       propertyPath: m_LocalScale.x
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4331555194852958, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
       propertyPath: m_LocalScale.y
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4331555194852958, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
       propertyPath: m_LocalScale.z
@@ -71,12 +71,47 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 8d68853332b99464693cc42850851279,
+      objectReference: {fileID: 21300002, guid: d37093960d9f5db4aa51980dfebf99ab,
         type: 3}
     - target: {fileID: 212330207800450856, guid: a95e157dbe676bd4b82190a9deaba4c4,
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1362337848749108363, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1413177501036919949, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2445061274856817092, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: Color.r
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2445061274856817092, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5640758690054150176, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: Color.r
+      value: 0.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5640758690054150176, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7470130649246693551, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8750900017165839274, guid: a95e157dbe676bd4b82190a9deaba4c4,
         type: 3}
@@ -87,6 +122,16 @@ PrefabInstance:
         type: 3}
       propertyPath: damage
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8750900017165839274, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: isRangeLimit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8750900017165839274, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: maxBulletDistance
+      value: 7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}

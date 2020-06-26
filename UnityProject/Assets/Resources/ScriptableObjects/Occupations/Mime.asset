@@ -17,11 +17,26 @@ MonoBehaviour:
   limit: 1
   priority: 99
   allowedAccess: 220000001a0000004c00000034000000
-  progress: 50
+  spells:
+  - {fileID: 11400000, guid: 14882d5d2a29c46d1b37de26d1da3cb6, type: 2}
+  - {fileID: 11400000, guid: a7e67c94fce9149d4b9ba746fa0a23e8, type: 2}
+  - {fileID: 11400000, guid: 65a4413cd65894296bfc06d174d28ce4, type: 2}
+  - {fileID: 11400000, guid: 70771701ec046427c90808f8ada9aae9, type: 2}
+  progress: 80
   choiceColor: {r: 0.8666667, g: 0.8666667, b: 0.8666667, a: 1}
   previewSprite: {fileID: 21300000, guid: bdcafa2993e52804e8ca9f6a20e03da3, type: 3}
   displayName: Mime
   difficulty: 1
-  descriptionShort: "\u2022 Entertain the crew\n\u2022 Maintain your vow of silence\n\u2022
-    Use /me to emote"
-  descriptionLong: 
+  descriptionShort: "\u2022 Silently stalk the crew \n\u2022 Maintain your vow of
+    silence\n\u2022 Use /me to emote"
+  descriptionLong: "You are the mime. Your job is to entertain the crew and give
+    them a show. Being a professional mime requires being polite and respectful,
+    unlike that silly clown. Keeping your vow of silence if the ultimate goal,<i>even
+    if that means not screaming for help.</i>  \r\n\r\nInstead of using words use
+    gesticulation, communicate through your art! The mime has no official responsibility, 
+    execept to silently stalk and entertain the crew.\r\n\r\nNot sure what to do?
+    Try to stay alive, eat invisible food, stalk the crew, and STAY SILENT!\r\n\r\n"
+  customProperties:
+    m_keys:
+    - vowOfSilence
+    m_values: 01

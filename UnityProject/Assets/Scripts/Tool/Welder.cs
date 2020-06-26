@@ -211,7 +211,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 				reagentContainer.TakeReagents(.041f);
 
 				//Ran out of fuel
-				if (FuelAmount < 0f)
+				if (FuelAmount <= 0f)
 				{
 					SyncIsOn(isOn, false);
 				}

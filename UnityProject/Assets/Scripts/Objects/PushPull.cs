@@ -87,7 +87,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	/// how many levels deep.
 	/// </summary>
 	/// <returns></returns>
-	public Vector3 AssumedWorldPositionServer()
+	public Vector3Int AssumedWorldPositionServer()
 	{
 		//If this object is contained in another, run until highest layer layer is reached
 		if (parentContainer)

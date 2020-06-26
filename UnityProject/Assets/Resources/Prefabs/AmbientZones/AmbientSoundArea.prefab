@@ -44,11 +44,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 56727f01562ebd546b94cc2d79a65abc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enteringSoundTrack:
-  - ShipAmbience
-  leavingSoundTrack:
-  - SpaceAmbience
-  - SpaceAmbience2
+  enteringSoundTrack: {fileID: 11400000, guid: badf90167da9bba4fa049fac3e2912eb, type: 2}
+  leavingSoundTrack: {fileID: 11400000, guid: 887547c1601288541a8cf751bf33fbc1, type: 2}
 --- !u!58 &6034095428633112819
 CircleCollider2D:
   m_ObjectHideFlags: 0

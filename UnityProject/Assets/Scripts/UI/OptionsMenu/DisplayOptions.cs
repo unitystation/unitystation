@@ -5,97 +5,144 @@ using UnityEngine.UI;
 
 namespace Unitystation.Options
 {
-    /// <summary>
-    /// Controller for the display options view
-    /// <summary>
-    public class DisplayOptions : MonoBehaviour
-    {
-        [SerializeField]
-        private Slider camZoomSlider = null;
-        [SerializeField]
-        private Toggle scrollWheelZoomToggle = null;
-		[SerializeField]
-		private Toggle fullscreenToggle = null;
-		private CameraZoomHandler zoomHandler;
+	/// <summary>
+	/// Controller for the display options view
+	/// <summary>
+	public class DisplayOptions : MonoBehaviour
+	{
+		private Color VALIDCOLOR = Color.white;
+		private Color INVALIDCOLOR = Color.red;
+
+		[SerializeField] private Toggle fullscreenToggle = null;
+
+		[SerializeField] private Toggle vSyncToggle = null;
+		[SerializeField] private GameObject vSyncWarning = null;
+
 		[SerializeField] private InputField frameRateTarget = null;
-		[SerializeField]
-		private Slider chatBubbleSizeSlider = null;
 
-        void OnEnable()
-        {
-            if (zoomHandler == null)
-            {
-                zoomHandler = FindObjectOfType<CameraZoomHandler>();
-            }
+		[SerializeField] private Slider camZoomSlider = null;
 
-            Refresh();
-        }
+		[SerializeField] private Toggle scrollWheelZoomToggle = null;
 
-        void Refresh()
-        {
-	        if (!PlayerPrefs.HasKey(PlayerPrefKeys.ChatBubbleSize))
-	        {
-		        PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, 2f);
-		        PlayerPrefs.Save();
-	        }
+		[SerializeField] private Slider chatBubbleSizeSlider = null;
 
-	        chatBubbleSizeSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.ChatBubbleSize);
-	        camZoomSlider.value = zoomHandler.ZoomLevel / 8;
-            scrollWheelZoomToggle.isOn = zoomHandler.ScrollWheelZoom;
-            frameRateTarget.text = PlayerPrefs.GetInt(PlayerPrefKeys.TargetFrameRate).ToString();
-        }
+		private DisplaySettings displaySettings = null;
 
-        public void OnZoomLevelChange()
-        {
-	        zoomHandler.SetZoomLevel((int)camZoomSlider.value * 8);
-            Refresh();
-        }
+		void OnEnable()
+		{
+			displaySettings.SettingsChanged += DisplaySettings_SettingsChanged;
+			RefreshForm();
+		}
 
-        public void OnChatBubbleSizeChange()
-        {
-			PlayerPrefs.SetFloat(PlayerPrefKeys.ChatBubbleSize, chatBubbleSizeSlider.value);
-			PlayerPrefs.Save();
-	        Refresh();
-        }
+		private void OnDisable()
+		{
+			displaySettings.SettingsChanged -= DisplaySettings_SettingsChanged;
+		}
 
-        public void OnScrollWheelToggle()
-        {
-            zoomHandler.ToggleScrollWheelZoom(scrollWheelZoomToggle.isOn);
-            Refresh();
-        }
+		private void DisplaySettings_SettingsChanged(object sender, DisplaySettings.DisplaySettingsChangedEventArgs e)
+		{
+			RefreshForm();
+		}
+
+		private void Awake()
+		{
+			displaySettings = FindObjectOfType<DisplaySettings>();
+		}
 
 		/// <summary>
-		/// Toggles fullscreen. Fullscreen uses native resolution, windowed always uses 720p.
+		/// Update the form to match currently used values
+		/// </summary>
+		void RefreshForm()
+		{
+			fullscreenToggle.isOn = displaySettings.IsFullScreen;
+
+			bool vSync = displaySettings.VSyncEnabled;
+			vSyncToggle.isOn = vSync;
+			vSyncWarning.SetActive(vSync);
+
+			frameRateTarget.text = displaySettings.TargetFrameRate.ToString();
+			frameRateTarget.textComponent.color = VALIDCOLOR;
+
+			camZoomSlider.value = displaySettings.ZoomLevel / 8;
+
+			scrollWheelZoomToggle.isOn = displaySettings.ScrollWheelZoom;
+
+			chatBubbleSizeSlider.value = displaySettings.ChatBubbleSize;
+		}
+
+		/// <summary>
+		/// Reset DisplayOptions settings to their default values and apply them
+		/// </summary>
+		public void ResetDefaults()
+		{
+			ModalPanelManager.Instance.Confirm(
+				"Are you sure?",
+				() =>
+				{
+					displaySettings.SetPrefDefaults();
+					RefreshForm();
+				},
+				"Reset"
+			);
+		}
+
+		/// <summary>
+		/// Toggles fullscreen. Fullscreen uses native resolution, windowed uses a default resolution.
 		/// </summary>
 		public void OnFullscreenToggle()
 		{
-			int hRes = Screen.fullScreen ? 1280 : Display.main.systemWidth;
-			int vRes = Screen.fullScreen ? 720  : Display.main.systemHeight;
-			fullscreenToggle.isOn = !Screen.fullScreen; //This can't go into Refresh() because going fullscreen happens 1 too late
-			Screen.SetResolution(hRes, vRes, !Screen.fullScreen);
+			// Ensure this togglebox isn't triggered by attempts to fullscreen with Alt-Enter
+			if (Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+			{
+				if (Input.GetKey(KeyCode.LeftAlt))
+				{
+					return;
+				}
+			}
 
+			displaySettings.SetFullscreen(fullscreenToggle.isOn);
 		}
 
-        public void ResetDefaults()
-        {
-            ModalPanelManager.Instance.Confirm(
-                "Are you sure?",
-                () =>
-                {
-                    zoomHandler.ResetDefaults();
-                    Refresh();
-                },
-                "Reset"
-            );
-        }
+		/// <summary>
+		/// Sets a new VSync setting and shows the TargetFrameRate warning if enabled
+		/// </summary>
+		public void OnVSyncToggle()
+		{
+			displaySettings.VSyncEnabled = vSyncToggle.isOn;
+			vSyncWarning.SetActive(vSyncToggle.isOn);
+		}
 
-        public void OnFrameRateTargetEdit()
-        {
-	        int newTarget = 99;
-	        int.TryParse(frameRateTarget.text, out newTarget);
-			PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, newTarget);
-			PlayerPrefs.Save();
-			Application.targetFrameRate = Mathf.Clamp(newTarget, 30, 144);
-        }
-    }
+		/// <summary>
+		/// Validates FrameRateTarget input, indicated with colored text. Use the new value if valid.
+		/// </summary>
+		public void OnFrameRateTargetEdit()
+		{
+			if (int.TryParse(frameRateTarget.text, out int newTarget) && newTarget >= displaySettings.Min_TargetFrameRate && newTarget <= displaySettings.Max_TargetFrameRate)
+			{
+				frameRateTarget.textComponent.color = VALIDCOLOR;
+				displaySettings.TargetFrameRate = newTarget;
+			}
+			else
+			{
+				frameRateTarget.textComponent.color = INVALIDCOLOR;
+				return;
+			}
+		}
+
+		public void OnZoomLevelChange()
+		{
+			int value = (int)camZoomSlider.value * 8;
+			displaySettings.ZoomLevel = value;
+		}
+
+		public void OnScrollWheelToggle()
+		{
+			displaySettings.ScrollWheelZoom = scrollWheelZoomToggle.isOn;
+		}
+
+		public void OnChatBubbleSizeChange()
+		{
+			displaySettings.ChatBubbleSize = chatBubbleSizeSlider.value;
+		}
+	}
 }

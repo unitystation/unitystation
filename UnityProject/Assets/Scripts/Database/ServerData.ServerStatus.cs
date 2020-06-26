@@ -185,7 +185,7 @@ namespace DatabaseAPI
         public string OSXDownload;
         public string LinuxDownload;
         public int fps;
-    }
+	}
 
     //Read from Streaming Assets/config/config.json on the server
     [Serializable]
@@ -203,7 +203,32 @@ namespace DatabaseAPI
         public string WinDownload;
         public string OSXDownload;
         public string LinuxDownload;
-    }
+
+		//Discord Webhook URL//
+
+		//OOC chat
+		public string DiscordWebhookOOCURL;
+
+		//ID that can be pinged in OOC chat
+		public string DiscordWebhookOOCMentionsID;
+
+		//Webhook where Ahelps are sent
+		public string DiscordWebhookAdminURL;
+
+		//Announcements for round start/end, also public Ban/Kick if enabled
+		public string DiscordWebhookAnnouncementURL;
+		public bool DiscordWebhookEnableBanKickAnnouncement;
+
+		//Sends all chat messages from each channel, also OOC if enabled
+		public string DiscordWebhookAllChatURL;
+		public bool DiscordWebhookSendOOCToAllChat;
+
+		//Sends Admin actions to a webhook
+		public string DiscordWebhookAdminLogURL;
+
+		//Sends Admin actions to a webhook
+		public string DiscordWebhookErrorLogURL;
+	}
 
     //Used to identify the build and fork of this client/server
     [Serializable]

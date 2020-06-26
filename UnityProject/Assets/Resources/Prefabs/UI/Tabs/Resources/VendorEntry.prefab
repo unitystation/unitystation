@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5930595930881405012}
   - component: {fileID: 1412187662411479117}
   - component: {fileID: 8251781297190946761}
-  - component: {fileID: 2002222919132823929}
+  - component: {fileID: 3674742737576757580}
   m_Layer: 5
   m_Name: BuyButton
   m_TagString: Untagged
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2002222919132823929}
+      - m_Target: {fileID: 3674742737576757580}
         m_MethodName: ExecuteClient
         m_Mode: 1
         m_Arguments:
@@ -130,7 +130,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2002222919132823929
+--- !u!114 &3674742737576757580
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -139,15 +139,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 3372396283312367227}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d944563c429d450484b555ba9b1304fa, type: 3}
+  m_Script: {fileID: 11500000, guid: f41ce54e3adddc243a63e91303c43614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ServerMethod:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 2261207741470223167}
-        m_MethodName: VendorItem
-        m_Mode: 1
+        m_MethodName: OnVendItemButtonPressed
+        m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -482,7 +482,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Can of worms
+  m_Text: ...
 --- !u!114 &2138705174456770129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -572,7 +572,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: (10)
+  m_Text: (0)
 --- !u!114 &5403648510788221165
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -649,6 +649,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   regularColor: {r: 0.5764706, g: 0.5764706, b: 0.5764706, a: 0.37254903}
   emptyStockColor: {r: 0.38679248, g: 0.38679248, b: 0.38679248, a: 0.15294118}
+  vendorItem:
+    Item: {fileID: 0}
+    Stock: 0
   itemName: {fileID: 2138705174456770129}
   itemCount: {fileID: 5403648510788221165}
   itemIcon: {fileID: 7972774968059638083}
