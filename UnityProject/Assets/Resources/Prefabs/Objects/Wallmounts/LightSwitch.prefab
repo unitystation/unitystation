@@ -331,15 +331,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   MinimumWorkingVoltage: 220
+  ExpectedRunningVoltage: 240
   MaximumWorkingVoltage: 600
   deviceType: 6
   isSelfPowered: 0
-  wattusage: 0.01
+  wattusage: 10
   Resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
+  SelfPowered: 0
   State: 2
+  conType: 1
 --- !u!114 &-2046554790018608125
 MonoBehaviour:
   m_ObjectHideFlags: 0

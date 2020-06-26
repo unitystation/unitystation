@@ -55,4 +55,6 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait InternalBattery;
 	public ItemTrait AntiFacehugger;
 	public ItemTrait PickUpProtection;
+	public ItemTrait ReactorRod;
+	public ItemTrait Pickaxe;
 }

@@ -19,22 +19,8 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 	}
 
 	private AccessRestrictions accessRestrictions;
-	private OverlayTile ashOverlay
-	{
-		get
-		{
-			if (ashOverlay == null)
-			{
-				return TileManager.GetTile(TileType.Effects, "SmallAsh") as OverlayTile;
-			}
-
-			return ashOverlay;
-		}
-	}
 
 	private const float BURNING_DURATION = 1.5f; // In seconds - timed to the Ding SFX.
-
-	private bool containsAsh = false;
 
 	protected override void Awake()
 	{
@@ -86,16 +72,6 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 
 	#region Server Only
 
-	protected override void OpenDrawer()
-	{
-		base.OpenDrawer();
-		if (containsAsh)
-		{
-			registerObject.TileChangeManager.UpdateOverlay(TrayLocalPosition, ashOverlay);
-			containsAsh = false;
-		}
-	}
-
 	protected override void CloseDrawer()
 	{
 		base.CloseDrawer();
@@ -120,8 +96,6 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 		StartCoroutine(PlayIncineratingAnim());
 		SoundManager.PlayNetworkedAtPos("Ding", DrawerWorldPosition, sourceObj: gameObject);
 		DestroyItems();
-
-		if (serverHeldItems.Count > 0 || serverHeldPlayers.Count > 0) containsAsh = true;		
 	}
 
 	private void DestroyItems()

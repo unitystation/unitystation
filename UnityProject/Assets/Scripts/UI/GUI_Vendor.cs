@@ -90,7 +90,7 @@ public class GUI_Vendor : NetTab
 		{
 			return;
 		}
-
+		if (!APCPoweredDevice.IsOn(vendor.ActualCurrentPowerState))  return;
 		// find entry for this item
 		var vendorItems = itemList.Entries;
 		var vendorItemEntry = vendorItems.FirstOrDefault((listEntry) =>
@@ -103,7 +103,7 @@ public class GUI_Vendor : NetTab
 		if (!vendorItemEntry)
 		{
 			Logger.LogError($"Can't find {itemToUpdate} to update in {this.gameObject} vendor. " +
-				$"UpdateAllItems wasn't called before?", Category.UI);
+			                $"UpdateAllItems wasn't called before?", Category.UI);
 			return;
 		}
 

@@ -53,10 +53,10 @@ namespace Light2D
 
             if (Shape == LightShape.Point)
             {
-                // LightOrigin needs to be send in world position instead of local because 
+                // LightOrigin needs to be send in world position instead of local because
                 // Unity non uniform scaling is breaking model matrix in shader.
                 var pos = mat.MultiplyPoint(((Vector2)LightOrigin).Mul(size));
-        
+
                     for (int i = 0; i < _uv1.Length; i++)
                         _uv1[i] = pos;
 
@@ -66,17 +66,22 @@ namespace Light2D
                 var lpos = mat.MultiplyPoint(new Vector2(-0.5f, LightOrigin.y).Mul(size));
                 var rpos = mat.MultiplyPoint(new Vector2(0.5f, LightOrigin.y).Mul(size));
 
-                
+
                 _uv1[0] = lpos;
                 _uv1[1] = rpos;
                 _uv1[2] = lpos;
                 _uv1[3] = rpos;
-                
+
             }
         }
 
         protected override void UpdateMeshData(bool forceUpdate = false)
         {
+	        if (Application.isPlaying == false)
+	        {
+		        return;
+	        }
+	        
             if (IsPartOfStaticBatch)
                 return;
 
@@ -174,7 +179,7 @@ namespace Light2D
             var v2 = _modelMatrix.MultiplyPoint3x4(_vertices[2]);
             var v3 = _modelMatrix.MultiplyPoint3x4(_vertices[3]);
             var v4 = _modelMatrix.MultiplyPoint3x4(_vertices[1]);
-            
+
             GL.Begin(GL.QUADS);
             GL.Vertex(v1);
             GL.Vertex(v2);

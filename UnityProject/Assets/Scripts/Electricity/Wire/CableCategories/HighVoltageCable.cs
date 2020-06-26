@@ -12,10 +12,11 @@ public class HighVoltageCable : CableInheritance
 			PowerTypeCategory.HighVoltageCable,
 			PowerTypeCategory.Transformer,
 			PowerTypeCategory.PowerSink,
+			PowerTypeCategory.VoltageProbe,
 	};
 
 	void Awake()
-	{		
+	{
 		ApplianceType = PowerTypeCategory.HighVoltageCable;
 		CableType = WiringColor.high;
 		wireConnect.InData.CanConnectTo = CanConnectTo;

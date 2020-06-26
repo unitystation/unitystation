@@ -21,7 +21,6 @@ MonoBehaviour:
   isSealed: 0
   SpawnWithNoAir: 0
   oreCategory: 0
-  MaxHealth: 0
   HealthStates: []
   passable: 1
   mineable: 0
@@ -29,15 +28,6 @@ MonoBehaviour:
     m_keys: 
     m_values: 
   maxHealth: 0
-  healthStates: []
-  resistances:
-    LavaProof: 0
-    FireProof: 0
-    Flammable: 0
-    UnAcidable: 0
-    AcidProof: 0
-    Indestructable: 0
-    FreezeProof: 0
   armor:
     Melee: 0
     Bullet: 0
@@ -49,12 +39,23 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 0
+  hitSounds: []
+  tileDestroyedRemains: []
+  healthStates: []
+  resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
   tileInteractions:
   - {fileID: 11400000, guid: 75c463bff74ba104c83113bc4102735f, type: 2}
   spawnOnDeconstruct: {fileID: 4019383695740491213, guid: 930cb494644d9ed46b31e1ecf4222089,
     type: 3}
   spawnAmountOnDeconstruct: 2
-  CanConnectTo: 0d000000050000000b0000000600000010000000
+  CanConnectTo: 0d000000050000000b000000060000001000000012000000
   PowerType: 11
   WireEndB: 2
   WireEndA: 6

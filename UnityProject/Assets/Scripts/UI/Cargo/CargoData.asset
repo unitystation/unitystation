@@ -212,6 +212,34 @@ MonoBehaviour:
         type: 3}
       Items:
       - {fileID: 1853426429102140, guid: 69c27c4a07b053d458c6fec363e66403, type: 3}
+    - OrderName: Reactor Starting Rod Crate
+      CreditsCost: 1000
+      Crate: {fileID: 3701635295295868414, guid: d2e38660b0ae0450ab25b2a61ac10c46,
+        type: 3}
+      Items:
+      - {fileID: 1562249808724683428, guid: 90d47e2251b9b6943b78a010f6b58909, type: 3}
+      - {fileID: 1562249808724683428, guid: 90d47e2251b9b6943b78a010f6b58909, type: 3}
+    - OrderName: Reactor Control Rod Crate
+      CreditsCost: 2000
+      Crate: {fileID: 3701635295295868414, guid: d2e38660b0ae0450ab25b2a61ac10c46,
+        type: 3}
+      Items:
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+    - OrderName: Reactor Fuel Rod Crate
+      CreditsCost: 2500
+      Crate: {fileID: 3701635295295868414, guid: d2e38660b0ae0450ab25b2a61ac10c46,
+        type: 3}
+      Items:
+      - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
+      - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
+      - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
+      - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
+      - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
   - CategoryName: Service
     Supplies:
     - OrderName: Cleaning supplies Crate
@@ -688,6 +716,19 @@ MonoBehaviour:
       - {fileID: 3921521694364753778, guid: 9b9719f429d074520881b66fea884d24, type: 3}
       - {fileID: 7106618204054676533, guid: afe0b0cc9e24249c1aaf8b7b2c4b3a3c, type: 3}
       - {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
+    - OrderName: Radiation Protection crate
+      CreditsCost: 800
+      Crate: {fileID: 3701635295295868414, guid: d2e38660b0ae0450ab25b2a61ac10c46,
+        type: 3}
+      Items:
+      - {fileID: 6404652678407139925, guid: dce8e376d2eca40eabe3f055b41a021c, type: 3}
+      - {fileID: 132773863777131159, guid: 7a4abc9d5e36bb14cb203248884ef037, type: 3}
+      - {fileID: 7636118406116123594, guid: ab405146ae5965447b922b2cf95bc7fe, type: 3}
+      - {fileID: 7636118406116123594, guid: ab405146ae5965447b922b2cf95bc7fe, type: 3}
+      - {fileID: 3921521694364753778, guid: e3a0238ef8323eb4caadcb2e19bbcf41, type: 3}
+      - {fileID: 3921521694364753778, guid: e3a0238ef8323eb4caadcb2e19bbcf41, type: 3}
+      - {fileID: 4705670883515168300, guid: 46cceb9511b6bba4cb747e67a7f2b70d, type: 3}
+      - {fileID: 4705670883515168300, guid: 46cceb9511b6bba4cb747e67a7f2b70d, type: 3}
   - CategoryName: Materials
     Supplies:
     - OrderName: Metal Crate

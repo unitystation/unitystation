@@ -2,13 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
+using Antagonists;
 using UnityEngine;
 using Mirror;
 using Debug = UnityEngine.Debug;
 
-public class APCPoweredDevice : NetworkBehaviour, IServerDespawn
+public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolSlave
 {
 	public float MinimumWorkingVoltage = 190;
+	public float ExpectedRunningVoltage = 240;
 	public float MaximumWorkingVoltage = 300;
 
 	public DeviceType deviceType = DeviceType.None;
@@ -38,8 +41,34 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn
 
 	public bool StateUpdateOnClient = true;
 
+	public bool SelfPowered = false;
+
 	[SyncVar(hook = nameof(UpdateSynchronisedState))]
 	public PowerStates State;
+
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.APC;
+	public MultitoolConnectionType ConType  => conType;
+
+	public void SetMaster(ISetMultitoolMaster Imaster)
+	{
+		var InAPC = (Imaster as Component)?.gameObject.GetComponent<APC>();
+		if (RelatedAPC != null)
+		{
+			RemoveFromAPC();
+		}
+		RelatedAPC = InAPC;
+		RelatedAPC.AddDevice(this);
+	}
+
+	/// <summary>
+	/// In case is a bit more tidy up needed when removing APC so not doing it it from APC end
+	/// </summary>
+	public void RemoveFromAPC()
+	{
+		if (RelatedAPC == null) return;
+		RelatedAPC.RemoveDevice(this);
+	}
 
 	private void Awake()
 	{
@@ -48,7 +77,7 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn
 
 	void Start()
 	{
-		Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
+		//Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
 		if (Wattusage > 0)
 		{
 			Resistance = 240 / (Wattusage / 240);
@@ -59,23 +88,18 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn
 	{
 		if (Powered != null) return;
 		Powered = GetComponent<IAPCPowered>();
-	}
-
-	public void SetAPC(APC _APC)
-	{
-		if (_APC == null) return;
-		RemoveFromAPC();
-		RelatedAPC = _APC;
-		RelatedAPC.ConnectedDevices.Add(this);
-	}
-
-	public void RemoveFromAPC()
-	{
-		if (RelatedAPC == null) return;
-		if (RelatedAPC.ConnectedDevices.Contains(this))
+		if (Powered == null) return;
+		if (SelfPowered)
 		{
-			RelatedAPC.ConnectedDevices.Remove(this);
-			PowerNetworkUpdate(0.1f);
+			if (AdvancedControlToScript)
+			{
+				Powered.PowerNetworkUpdate(ExpectedRunningVoltage);
+			}
+			else
+			{
+				Powered.StateUpdate( PowerStates.On );
+			}
+
 		}
 	}
 
@@ -134,7 +158,14 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn
 		State = _State;
 		if (Powered != null && StateUpdateOnClient)
 		{
-			Powered.StateUpdate(State);
+			if (SelfPowered)
+			{
+				Powered.StateUpdate( PowerStates.On );
+			}
+			else
+			{
+				Powered.StateUpdate(State);
+			}
 		}
 	}
 
@@ -158,6 +189,11 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn
 	{
 		RemoveFromAPC();
 	}
+
+	public static bool  IsOn(PowerStates States)
+	{
+		return (States == PowerStates.On || States == PowerStates.LowVoltage || States == PowerStates.OverVoltage);
+	}
 }
 
 public enum DeviceType
@@ -175,3 +211,4 @@ public enum PowerStates
 	On,
 	OverVoltage,
 }
+

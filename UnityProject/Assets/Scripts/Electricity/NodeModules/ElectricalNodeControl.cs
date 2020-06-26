@@ -45,6 +45,25 @@ public class ElectricalNodeControl : NetworkBehaviour, IServerDespawn
 		ElectricalManager.Instance.electricalSync.StructureChange = true;
 	}
 
+	public float GetVoltage()
+	{
+		ElectricityFunctions.WorkOutActualNumbers(Node.InData);
+		return (Node.InData.Data.ActualVoltage);
+	}
+
+	public float GetCurrente()
+	{
+		ElectricityFunctions.WorkOutActualNumbers(Node.InData);
+		return (Node.InData.Data.CurrentInWire);
+	}
+
+	public float GetResistance()
+	{
+		ElectricityFunctions.WorkOutActualNumbers(Node.InData);
+		return (Node.InData.Data.EstimatedResistance);
+	}
+
+
 	public void PotentialDestroyed()
 	{
 		UpPotentialDestroyed();

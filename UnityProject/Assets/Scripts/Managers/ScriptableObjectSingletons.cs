@@ -1,5 +1,6 @@
 using UnityEngine;
 using Machines;
+using Pipes;
 
 /// <summary>
 /// In order for the SingletonScriptableObject to work, the singleton instance must
@@ -26,4 +27,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public MachinePartsPrefabs MachinePartsPrefabs;
 	public SOAdminJobsList AdminJobsList;
 	public PoolConfig PoolConfig;
+	public PipeTileSingleton PipeTileSingleton;
 }

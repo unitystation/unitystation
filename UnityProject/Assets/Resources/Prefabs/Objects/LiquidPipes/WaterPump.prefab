@@ -1,0 +1,232 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1802137627213019286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372823301344523609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8bcb4d76605debd40aa28d5b8fcfc99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  InData:
+    WireEndB: 0
+    WireEndA: 0
+    Categorytype: 0
+    ControllingDevice: {fileID: 0}
+    Present: {fileID: 0}
+    Data:
+      CurrentInWire: 0
+      ActualVoltage: 0
+      EstimatedResistance: 0
+      SupplyingCurrent: 0
+      InternalResistance: 0
+      SupplyingVoltage: 0
+      ProducingWatts: 0
+      ChangeToOff: 0
+      CurrentStoreValue: 0
+    DestroyQueueing: 0
+    DestroyAuthorised: 0
+  registerTile: {fileID: 0}
+  connected: 0
+  Logall: 0
+--- !u!114 &6083734570694129782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372823301344523609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Node: {fileID: 0}
+  ApplianceType: 19
+  WireEndB: 0
+  WireEndA: 10
+  ListCanConnectTo: 
+  SelfDestruct: 0
+  Reactions: []
+--- !u!114 &6460706829780667847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372823301344523609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 635c13cf3a579d94ba01e835f0e5d7c9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pipeData:
+    PipeLayer: 1
+    Connections:
+      Directions:
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+      - Bool: 1
+        pipeType: 1
+        PortType: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+      - Bool: 1
+        pipeType: 1
+        PortType: 3
+    CustomLogic: 0
+    PipeType: 2
+    NetCompatible: 0
+    mixAndVolume:
+      Volume: 50
+      Mix:
+        temperature: 273.15
+        reagents:
+          m_keys: []
+          m_values: []
+    MaxPressure: 15805.5
+    ConnectedPipes: []
+    Outputs: []
+    MonoPipe: {fileID: 0}
+  UnitPerTick: 100
+  PowerPercentage: 100
+--- !u!114 &7179003153346352318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2372823301344523609}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6674578bb1278de4c9af970c45c78d9d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ModuleType: 0
+  ControllingNode: {fileID: 0}
+  resistance:
+    Ohms: 0
+    ResistanceAvailable: 1
+  EditorResistance: 0
+  NotEditorResistanceset: 1
+  ReactionTo:
+    ConnectingDevice: 1
+    DirectionReaction: 0
+    ResistanceReaction: 1
+    DirectionReactionA:
+      YouShallNotPass: 0
+    ResistanceReactionA:
+      Resistance:
+        Ohms: 9999
+        ResistanceAvailable: 1
+--- !u!1001 &1923004834671751952
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cd9cdb14cf18f1c41a85831fd79801e3,
+        type: 3}
+    - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Name
+      value: WaterPump
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialName
+      value: Water pump
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: initialDescription
+      value: increases liquid pipe pressure
+      objectReference: {fileID: 0}
+    - target: {fileID: 6838691275677014393, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: exportName
+      value: water pump
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
+--- !u!1 &2372823301344523609 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+    type: 3}
+  m_PrefabInstance: {fileID: 1923004834671751952}
+  m_PrefabAsset: {fileID: 0}
