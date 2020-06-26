@@ -1,10 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using Electric.Inheritance;
 using Mirror;
 using UnityEngine;
 
-public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>
+public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>
 {
 	public List<FireLock> FireLockList = new List<FireLock>();
 	private MetaDataNode metaNode;
@@ -182,24 +182,6 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	}
 
-	//Copied over from LightSwitchV2.cs
-	void OnDrawGizmosSelected()
-	{
-		var sprite = GetComponentInChildren<SpriteRenderer>();
-		if (sprite == null)
-			return;
-
-		//Highlighting all controlled FireLocks
-		Gizmos.color = new Color(1, 0.5f, 0, 1);
-		for (int i = 0; i < FireLockList.Count; i++)
-		{
-			var FireLock = FireLockList[i];
-			if(FireLock == null) continue;
-			Gizmos.DrawLine(sprite.transform.position, FireLock.transform.position);
-			Gizmos.DrawSphere(FireLock.transform.position, 0.25f);
-		}
-	}
-
 	private IEnumerator SwitchCoolDown()
 	{
 		isInCooldown = true;
@@ -227,4 +209,54 @@ public class FireAlarm : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 			spriteHandler.SetSprite(openCabledSprite);
 		}
 	}
+
+	#region Editor
+
+	void OnDrawGizmosSelected()
+	{
+		var sprite = GetComponentInChildren<SpriteRenderer>();
+		if (sprite == null)
+			return;
+
+		//Highlighting all controlled FireLocks
+		Gizmos.color = new Color(1, 0.5f, 0, 1);
+		for (int i = 0; i < FireLockList.Count; i++)
+		{
+			var FireLock = FireLockList[i];
+			if(FireLock == null) continue;
+			Gizmos.DrawLine(sprite.transform.position, FireLock.transform.position);
+			Gizmos.DrawSphere(FireLock.transform.position, 0.25f);
+		}
+	}
+
+	public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+	{
+		var approvedObjects = new List<GameObject>();
+
+		foreach (var potentialObject in potentialObjects)
+		{
+			var fireLock = potentialObject.GetComponent<FireLock>();
+			if (fireLock == null) continue;
+			AddFireLockFromScene(fireLock);
+			approvedObjects.Add(potentialObject);
+		}
+
+		return approvedObjects;
+	}
+
+	private void AddFireLockFromScene(FireLock fireLock)
+	{
+		if (FireLockList.Contains(fireLock))
+		{
+			FireLockList.Remove(fireLock);
+			fireLock.fireAlarm = null;
+		}
+		else
+		{
+			FireLockList.Add(fireLock);
+			fireLock.fireAlarm = this;
+		}
+	}
+
+	#endregion
 }
