@@ -88,7 +88,7 @@ namespace InGameEvents
 				eventChosen.AnnounceEvent = announceEvent;
 				eventChosen.TriggerEvent();
 
-				var msg = $"{adminName}: triggered a random event, {eventChosen.EventName} was chosen. Is fake: {isFake}. Announce: {announceEvent}";
+				var msg = $"{adminName}: triggered the event: {eventChosen.EventName}. Is fake: {isFake}. Announce: {announceEvent}";
 
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
