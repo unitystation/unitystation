@@ -12,21 +12,27 @@ public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInterac
 	public decimal TotalEnergyInput;
 
 	public decimal Efficiency = 0.5M;
+
 	public ReactorPipe ReactorPipe;
+
 	//public ReactorTurbine reactorTurbine;
 	public List<ReactorGraphiteChamber> Chambers;
+
 	private RegisterObject registerObject;
 	// Start is called before the first frame update
 
 
-
 	private void OnEnable()
 	{
+		if (CustomNetworkManager.Instance._isServer == false) return;
+
 		UpdateManager.Add(CycleUpdate, 1);
 	}
 
 	private void OnDisable()
 	{
+		if (CustomNetworkManager.Instance._isServer == false) return;
+
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 	}
 
@@ -40,16 +46,19 @@ public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInterac
 	{
 		//Maybe change equation later to something cool
 		CurrentPressureInput = 0;
-		CurrentPressureInput = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) * ReactorPipe.pipeData.mixAndVolume.Mix.Temperature);
+		CurrentPressureInput = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) *
+		                                  ReactorPipe.pipeData.mixAndVolume.Mix.Temperature);
 		if (CurrentPressureInput > 0)
 		{
-			ReactorPipe.pipeData.mixAndVolume.Mix.Temperature = ((((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature  - 293.15f) *(float)  Efficiency) + 293.15f));
+			ReactorPipe.pipeData.mixAndVolume.Mix.Temperature =
+				((((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) * (float) Efficiency) + 293.15f));
 			//Logger.Log("CurrentPressureInput " + CurrentPressureInput);
 			if (CurrentPressureInput > MaxPressureInput)
 			{
 				Logger.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);
 				Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 800, registerObject.Matrix);
 			}
+
 			OutputEnergy = CurrentPressureInput * Efficiency;
 		}
 		else
@@ -58,9 +67,8 @@ public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInterac
 		}
 	}
 
-	public bool WillInteract( HandApply interaction, NetworkSide side )
+	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder)) return false;
 
@@ -76,10 +84,7 @@ public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInterac
 				$"{interaction.Performer.ExpensiveName()} starts to deconstruct the ReactorBoiler...",
 				"You deconstruct the ReactorBoiler",
 				$"{interaction.Performer.ExpensiveName()} deconstruct the ReactorBoiler.",
-				() =>
-				{
-					Despawn.ServerSingle(gameObject);
-				});
+				() => { Despawn.ServerSingle(gameObject); });
 		}
 	}
 
@@ -88,7 +93,8 @@ public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInterac
 	/// </summary>
 	void IServerDespawn.OnDespawnServer(DespawnInfo info)
 	{
-		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 15 );
+		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer,
+			count: 15);
 	}
 
 
@@ -97,5 +103,8 @@ public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInterac
 	public MultitoolConnectionType ConType => conType;
 	private bool multiMaster = false;
 	public bool MultiMaster => multiMaster;
-	public void AddSlave(object SlaveObjectThis) { }
+
+	public void AddSlave(object SlaveObjectThis)
+	{
+	}
 }

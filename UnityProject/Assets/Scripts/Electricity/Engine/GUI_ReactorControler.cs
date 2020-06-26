@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -34,6 +35,7 @@ public class GUI_ReactorControler : NetTab
 	private void OnEnable()
 	{
 		base.OnEnable();
+		if (CustomNetworkManager.Instance._isServer == false ) return;
 		UpdateManager.Add(Refresh, 1);
 	}
 
@@ -45,6 +47,7 @@ public class GUI_ReactorControler : NetTab
 
 	private void OnDisable()
 	{
+		if (CustomNetworkManager.Instance._isServer == false ) return;
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Refresh);
 	}
 
@@ -62,7 +65,6 @@ public class GUI_ReactorControler : NetTab
 			CoreWaterLevel.SetValueServer((Math.Round((ReactorControlConsole.ReactorChambers.ReactorPipe.pipeData
 				.mixAndVolume.Mix
 				.Total / 240) * 100)).ToString());
-
 
 			if (PreviousRADlevel != 0 && ReactorControlConsole.ReactorChambers.PresentNeutrons != 0)
 			{

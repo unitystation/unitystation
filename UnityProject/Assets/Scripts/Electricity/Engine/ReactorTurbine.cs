@@ -18,6 +18,8 @@ public class ReactorTurbine : MonoBehaviour, INodeControl, ISetMultitoolSlave, I
 
     private void OnEnable()
     {
+	    if (CustomNetworkManager.Instance._isServer == false ) return;
+
 	    UpdateManager.Add(CycleUpdate, 1);
 	    //moduleSupplyingDevice = this.GetComponent<ModuleSupplyingDevice>();
 	    moduleSupplyingDevice?.TurnOnSupply();
@@ -25,6 +27,8 @@ public class ReactorTurbine : MonoBehaviour, INodeControl, ISetMultitoolSlave, I
 
     private void OnDisable()
     {
+	    if (CustomNetworkManager.Instance._isServer == false ) return;
+
 	    UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 	    moduleSupplyingDevice?.TurnOffSupply();
     }

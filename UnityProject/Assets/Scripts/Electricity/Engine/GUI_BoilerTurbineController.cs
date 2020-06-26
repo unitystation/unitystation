@@ -31,11 +31,13 @@ public class GUI_BoilerTurbineController : NetTab
 	private void OnEnable()
 	{
 		base.OnEnable();
+		if (CustomNetworkManager.Instance._isServer == false ) return;
 		UpdateManager.Add(Refresh, 1);
 	}
 
 	private void OnDisable()
 	{
+		if (CustomNetworkManager.Instance._isServer == false ) return;
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Refresh);
 	}
 

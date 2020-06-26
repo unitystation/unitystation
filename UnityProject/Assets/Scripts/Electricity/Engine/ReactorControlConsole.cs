@@ -5,7 +5,6 @@ using UnityEngine;
 public class ReactorControlConsole : MonoBehaviour, ISetMultitoolSlave
 {
 	public ReactorGraphiteChamber ReactorChambers = null;
-
 	public void SuchControllRodDepth(float Specified)
 	{
 		if (Specified > 1)
