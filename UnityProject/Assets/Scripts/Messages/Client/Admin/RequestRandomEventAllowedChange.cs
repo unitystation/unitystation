@@ -18,8 +18,10 @@ public class RequestRandomEventAllowedChange : ClientMessage
 		InGameEventsManager.Instance.RandomEventsAllowed = RandomEventsAllowed;
 
 		var state = RandomEventsAllowed ? "ON" : "OFF";
+		var msg = $"Admin: {PlayerList.Instance.GetByUserID(Userid).Username}, Turned random events {state}";
 
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"Admin: {PlayerList.Instance.GetByUserID(Userid).Username}, Turned random events {state}", "");
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 	}
 
 	public static RequestRandomEventAllowedChange Send(string userId, string adminToken, bool randomEventsAllowed)
