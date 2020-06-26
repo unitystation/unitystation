@@ -88,7 +88,7 @@ namespace InGameEvents
 				eventChosen.AnnounceEvent = announceEvent;
 				eventChosen.TriggerEvent();
 
-				var msg = $"{adminName}: triggered a random event, {eventChosen.EventName} was chosen. Is fake: {isFake}";
+				var msg = $"{adminName}: triggered a random event, {eventChosen.EventName} was chosen. Is fake: {isFake}. Announce: {announceEvent}";
 
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
@@ -111,14 +111,14 @@ namespace InGameEvents
 
 					if (serverTriggered)
 					{
-						msg = $"A random event, {eventInList.EventName} has been triggered by the server. Is fake: {isFake}";
+						msg = $"A random event, {eventInList.EventName} has been triggered by the server. Is fake: {isFake}. Announce: {announceEvent}";
 
 						UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
 						DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "[Server]");
 						return;
 					}
 
-					msg = $"{adminName}: triggered a random event, {eventInList.EventName} was chosen. Is fake: {isFake}";
+					msg = $"{adminName}: triggered a random event, {eventInList.EventName} was chosen. Is fake: {isFake}. Announce: {announceEvent}";
 
 					UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
 					DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
