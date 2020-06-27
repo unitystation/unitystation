@@ -31,11 +31,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
-      propertyPath: HeatResistance
-      value: 300
-      objectReference: {fileID: 0}
-    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
-        type: 3}
       propertyPath: Armor.Melee
       value: 10
       objectReference: {fileID: 0}
@@ -74,10 +69,15 @@ PrefabInstance:
       propertyPath: Armor.Acid
       value: 75
       objectReference: {fileID: 0}
+    - target: {fileID: 7419978175686084007, guid: 5269bbb43ef5a0b40a2676310664d6c6,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 7449724294196008019, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
       propertyPath: m_Name
-      value: HardsuitHelmet
+      value: HardsuitHelmetBase
       objectReference: {fileID: 0}
     - target: {fileID: 7453808017583302951, guid: 5269bbb43ef5a0b40a2676310664d6c6,
         type: 3}
