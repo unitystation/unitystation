@@ -23,7 +23,7 @@ PrefabInstance:
     - target: {fileID: 3495234765619245072, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3495234765619245072, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
@@ -36,12 +36,6 @@ PrefabInstance:
       propertyPath: initialName
       value: hardsuit
       objectReference: {fileID: 0}
-    - target: {fileID: 3495234765619245072, guid: bb9351dcbe298544e9475ae3e599f329,
-        type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1213038ef37bbdf498fd3434a3459ce0,
-        type: 2}
     - target: {fileID: 3791466462619397166, guid: bb9351dcbe298544e9475ae3e599f329,
         type: 3}
       propertyPath: m_Sprite
