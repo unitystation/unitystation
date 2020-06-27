@@ -19,8 +19,9 @@ public class VotePopUp : MonoBehaviour
 	public void ShowVotePopUp(string title, string instigator, string currentCount, string timer)
 	{
 		buttonPresses = 0;
-		ToggleButtons(true);
 		gameObject.SetActive(true);
+		yesBtn.interactable = true;
+		noBtn.interactable = true;
 		voteTitle.text = title;
 		voteInstigator.text = instigator;
 		voteCount.text = currentCount;
