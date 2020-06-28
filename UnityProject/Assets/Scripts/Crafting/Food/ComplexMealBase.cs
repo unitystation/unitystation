@@ -6,24 +6,6 @@ using Machines;
 
 namespace Cooking
 {
-	[System.Serializable]
-	public class AllowedTraitList
-	{
-		public AllowedTraitList()
-		{
-
-		}
-		public AllowedTraitList(ItemTrait allowedTrait)
-		{
-			AllowedTrait = allowedTrait;
-		}
-
-		public ItemTrait AllowedTrait;
-	}
-
-	[System.Serializable]
-	public class SyncListItem : SyncList<AllowedTraitList> { }
-
 	/// <summary>
 	/// Main Component for Machine Construction
 	/// </summary>
@@ -32,28 +14,18 @@ namespace Cooking
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState ingredientsAddedState = null;
 		[SerializeField] private StatefulState completeMeal = null;
-
-		private ItemSlot circuitBoardSlot;//Index 0
 		private IDictionary<ItemTrait, int> ingredientsUsed = new Dictionary<ItemTrait, int>();
 		private IDictionary<GameObject, int> ingredientsInBase = new Dictionary<GameObject, int>();
 		private Stateful stateful;
 
 		private ComplexMealRecipe mealIngredients;
-
-		private readonly SyncListItem allowedTraits = new SyncListItem();
-
-		private List<AllowedTraitList> listOfAllowedTraits = new List<AllowedTraitList>();
-
 		private ComplexMealRecipe.ComplexMealIngredients mealIngredientList;
-
-		private bool putBoardInManually;
 
 		private StatefulState CurrentState => stateful.CurrentState;
 		private ObjectBehaviour objectBehaviour;
 
 		private void Awake()
 		{
-			circuitBoardSlot = GetComponent<ItemStorage>().GetIndexedItemSlot(0);
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 
@@ -68,37 +40,6 @@ namespace Cooking
 		public override void OnStartClient()
 		{
 			base.OnStartClient();
-
-			//tracks change for client
-			allowedTraits.Callback += AllowedTraitsCallBack;
-		}
-
-		/// <summary>
-		/// Client calls this when the list is changed
-		/// </summary>
-		/// <param name="op"></param>
-		/// <param name="itemIndex"></param>
-		/// <param name="oldItem"></param>
-		/// <param name="newItem"></param>
-		private void AllowedTraitsCallBack(SyncListItem.Operation op, int itemIndex, AllowedTraitList oldItem, AllowedTraitList newItem)
-		{
-			switch (op)
-			{
-				case SyncListItem.Operation.OP_ADD:
-					listOfAllowedTraits.Add(newItem);
-					break;
-				case SyncListItem.Operation.OP_CLEAR:
-					listOfAllowedTraits.Clear();
-					break;
-				case SyncListItem.Operation.OP_INSERT:
-					break;
-				case SyncListItem.Operation.OP_REMOVEAT:
-					break;
-				case SyncListItem.Operation.OP_SET:
-					break;
-				default:
-					break;
-			}
 		}
 
 		/// <summary>
@@ -176,7 +117,7 @@ namespace Cooking
 		/// <param name="interaction"></param>
 		private void MealCompleteInteraction(HandApply interaction)
 		{
-			//Complete construction, spawn new machine and send data over to it.
+			//Complete construction, spawn new meal and send data over to it.
 			if (interaction.Intent == Intent.Help && interaction.UsedObject == null)
 			{
 				var spawnedObject = Spawn.ServerPrefab(mealIngredients.meal, SpawnDestination.At(gameObject)).GameObject.GetComponent<ComplexMeal>();
@@ -187,7 +128,7 @@ namespace Cooking
 					return;
 				}
 
-				//Send circuit board data to the new machine
+				//Send circuit board data to the new meal
 				spawnedObject.SetIngredientsUsed(ingredientsUsed);
 				spawnedObject.SetIngredientsInBase(ingredientsInBase);
 				spawnedObject.SetIngredients(mealIngredients);
@@ -233,13 +174,13 @@ namespace Cooking
 		/// <param name="interaction"></param>
 		private void PartCheck(GameObject usedObject, HandApply interaction)
 		{
-			// For all the list of data(itemtraits, amounts needed) in machine parts
+			// For all the list of data(itemtraits, amounts needed) in meal parts
 			for(int i = 0; i < mealIngredients.mealIngredients.Length; i++)
 			{
-				// If the interaction object has an itemtrait thats in the list, set the list machinePartsList variable as the list from the machineParts data from the circuit board.
+				// If the interaction object has an itemtrait thats in the list, set the list mealIngredientList variable as the list from the mealIngredients data from the circuit board.
 				if (usedObject.GetComponent<ItemAttributesV2>().HasTrait(mealIngredients.mealIngredients[i].itemTrait))
 				{
-					machinePartsList = mealIngredients.mealIngredients[i];
+					mealIngredientList = mealIngredients.mealIngredients[i];
 					break;
 
 					// IF YOU WANT AN ITEM TO HAVE TWO ITEMTTRAITS WHICH CONTRIBUTE TO THE MACHINE BUILIDNG PROCESS, THIS NEEDS TO BE REFACTORED
@@ -247,31 +188,31 @@ namespace Cooking
 				}
 			}
 
-			// Amount of the itemtrait that is needed for the machine to be buildable
-			var needed = machinePartsList.amountOfThisPart;
+			// Amount of the itemtrait that is needed for the meal to be buildable
+			var needed = mealIngredientList.amountOfThisIngredient;
 
 			// Itemtrait currently being looked at.
-			var itemTrait = machinePartsList.itemTrait;
+			var itemTrait = mealIngredientList.itemTrait;
 
 			// If theres already the itemtrait how many more do we need
-			if (basicPartsUsed.ContainsKey(itemTrait))
+			if (ingredientsUsed.ContainsKey(itemTrait))
 			{
-				needed -= basicPartsUsed[itemTrait];
+				needed -= ingredientsUsed[itemTrait];
 			}
 
 			//Main logic for tallying up and moving parts to hidden pos
-			if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait already exists, and its stackable and some of it is needed.
+			if (ingredientsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait already exists, and its stackable and some of it is needed.
 			{
-				basicPartsUsed[itemTrait] = machinePartsList.amountOfThisPart;
+				ingredientsUsed[itemTrait] = mealIngredientList.amountOfThisIngredient;
 
 				Inventory.ServerDrop(interaction.HandSlot);
 
 				AddItemToDict(usedObject, needed, interaction);
 			}
-			else if (basicPartsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the itemTrait already exists, and its stackable and all of its needed.
+			else if (ingredientsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the itemTrait already exists, and its stackable and all of its needed.
 			{
 				var used = usedObject.GetComponent<Stackable>().Amount;
-				basicPartsUsed[itemTrait] += used;
+				ingredientsUsed[itemTrait] += used;
 
 				Inventory.ServerDrop(interaction.HandSlot);
 
@@ -280,7 +221,7 @@ namespace Cooking
 			}
 			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait doesnt exists, and its stackable and some of it is needed.
 			{
-				basicPartsUsed.Add(itemTrait, needed);
+				ingredientsUsed.Add(itemTrait, needed);
 
 				Inventory.ServerDrop(interaction.HandSlot);
 
@@ -290,15 +231,15 @@ namespace Cooking
 			else if (usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount < needed)//if the itemTrait doesnt exists, and its stackable and all of its needed.
 			{
 				var used = usedObject.GetComponent<Stackable>().Amount;
-				basicPartsUsed.Add(itemTrait, used);
+				ingredientsUsed.Add(itemTrait, used);
 
 				Inventory.ServerDrop(interaction.HandSlot);
 
 				AddItemToDict(usedObject, used, interaction);
 			}
-			else if (basicPartsUsed.ContainsKey(itemTrait))// ItemTrait already exists but isnt stackable
+			else if (ingredientsUsed.ContainsKey(itemTrait))// ItemTrait already exists but isnt stackable
 			{
-				basicPartsUsed[itemTrait] ++;
+				ingredientsUsed[itemTrait] ++;
 
 				Inventory.ServerDrop(interaction.HandSlot);
 
@@ -306,7 +247,7 @@ namespace Cooking
 			}
 			else// ItemTrait doesnt exist but isnt stackable
 			{
-				basicPartsUsed.Add(itemTrait, 1);
+				ingredientsUsed.Add(itemTrait, 1);
 
 				Inventory.ServerDrop(interaction.HandSlot);
 
@@ -353,7 +294,7 @@ namespace Cooking
 					newObject.transform.parent = gameObject.transform.parent;
 				}
 
-				partsInFrame.Add(newObject, amount);
+				ingredientsInBase.Add(newObject, amount);
 			}
 			// If not stackable send to hidden pos
 			else
@@ -365,7 +306,7 @@ namespace Cooking
 					usedObject.transform.parent = gameObject.transform.parent;
 				}
 
-				partsInFrame.Add(usedObject, amount);
+				ingredientsInBase.Add(usedObject, amount);
 			}
 		}
 
@@ -378,7 +319,7 @@ namespace Cooking
 		{
 			foreach (var part in mealIngredients.mealIngredients)
 			{
-				if (Validations.HasUsedItemTrait(interaction, part.itemTrait) && (!basicPartsUsed.ContainsKey(part.itemTrait) || basicPartsUsed[part.itemTrait] != part.amountOfThisIngredient)) // Has items trait and we dont have enough yet
+				if (Validations.HasUsedItemTrait(interaction, part.itemTrait) && (!ingredientsUsed.ContainsKey(part.itemTrait) || ingredientsUsed[part.itemTrait] != part.amountOfThisIngredient)) // Has items trait and we dont have enough yet
 				{
 					return true;
 				}
@@ -427,57 +368,20 @@ namespace Cooking
 		}
 
 		/// <summary>
-		/// Initializes this frame's state to be from a just-deconstructed machine
+		/// Initializes this frame's state to be from a just-deconstructed meal
 		/// </summary>
-		/// <param name="machine"></param>
-		public void ServerInitFromComputer(ComplexMeal machine)
+		/// <param name="meal"></param>
+		public void ServerInitFromComputer(ComplexMeal meal)
 		{
-			spriteRender.sprite = boxCircuit;
-			ServerChangeSprite(SpriteStates.BoxCircuit);
+			mealIngredients = meal.MealIngredients;
 
-			// Create the circuit board
-			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
+			ingredientsInBase = meal.IngredientsInBase;
 
-			if (board == null)
-			{
-				Logger.LogWarning("MachineBoardPrefab was null", Category.ItemSpawn);
-				return;
-			}
-
-			board.GetComponent<MachineCircuitBoard>().SetMachineParts(machine.MachineParts); // Basic item requirements to the circuit board
-
-			board.GetComponent<ItemAttributesV2>().ServerSetArticleName(machine.MachineParts.NameOfCircuitBoard); // Sets name of board
-
-			board.GetComponent<ItemAttributesV2>().ServerSetArticleDescription(machine.MachineParts.DescriptionOfCircuitBoard); // Sets desc of board
-
-			// Basic items to the machine frame from the despawned machine
-			machineParts = machine.MachineParts;
-
-			allowedTraits.Clear();
-
-			foreach (var list in machineParts.machineParts)
-			{
-				allowedTraits.Add(new AllowedTraitList(list.itemTrait));
-			}
-
-			partsInFrame = machine.PartsInFrame;
-
-			basicPartsUsed = machine.BasicPartsUsed;
-
-			// Put it in
-			Inventory.ServerAdd(board, circuitBoardSlot);
+			ingredientsUsed = meal.IngredientsUsed;
 
 			// Set initial state
 			objectBehaviour.ServerSetPushable(false);
-			stateful.ServerChangeState(partsAddedState);
-			putBoardInManually = false;
-		}
-
-		private enum SpriteStates
-		{
-			Box = 0,
-			BoxCable = 1,
-			BoxCircuit = 2
+			stateful.ServerChangeState(ingredientsAddedState);
 		}
 	}
 }

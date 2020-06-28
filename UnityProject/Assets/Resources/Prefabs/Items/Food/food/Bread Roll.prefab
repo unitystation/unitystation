@@ -29,6 +29,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 421c3b18959bb624f8fe705eaad88216, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3020401660743038067
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532193109441330816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b848d53dc4762d243ade2d12ea9c3eac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialState: {fileID: 11400000, guid: e2e07beccd2dd264d92138afc0092ad9, type: 2}
+  ingredientsAddedState: {fileID: 11400000, guid: bc167dd9d4d581744b1a72731a3a1ffc,
+    type: 2}
+  completeMeal: {fileID: 11400000, guid: ac06e6ad7d31a3f429b443743452a44f, type: 2}
+--- !u!114 &4645401853849444778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532193109441330816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c89d0d426a7494092fa829cce24578, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialState: {fileID: 11400000, guid: e2e07beccd2dd264d92138afc0092ad9, type: 2}
+  states:
+  - {fileID: 11400000, guid: e2e07beccd2dd264d92138afc0092ad9, type: 2}
+  - {fileID: 11400000, guid: bc167dd9d4d581744b1a72731a3a1ffc, type: 2}
+  - {fileID: 11400000, guid: ac06e6ad7d31a3f429b443743452a44f, type: 2}
 --- !u!1001 &6128081887975217483
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -59,12 +96,12 @@ PrefabInstance:
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: initialName
-      value: Bread Roll
+      value: Bun
       objectReference: {fileID: 0}
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: initialDescription
-      value: Who doesnt like a nice bread roll?
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
@@ -92,7 +129,7 @@ PrefabInstance:
     - target: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Name
-      value: BreadRoll
+      value: Bread Roll
       objectReference: {fileID: 0}
     - target: {fileID: 1134857784536455871, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
