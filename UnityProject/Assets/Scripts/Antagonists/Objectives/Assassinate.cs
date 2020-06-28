@@ -45,11 +45,10 @@ namespace Antagonists
 			}
 
 			// Pick a random target and add them to the targeted list
-			// If null try once more
-			Target = playerPool.PickRandom().Script ?? playerPool.PickRandom().Script;
+			Target = playerPool.PickRandom().Script;
 
 			//If still null then its a free objective
-			if(Target == null)
+			if(Target == null || Target.mind.occupation == null)
 			{
 				FreeObjective();
 				return;

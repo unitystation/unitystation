@@ -12,9 +12,10 @@ public class ActionControlInventory : MonoBehaviour, IClientInventoryMove
 
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
+		if(PlayerManager.LocalPlayerScript == null) return;
 		var pna = PlayerManager.LocalPlayerScript.playerNetworkActions;
 		var showAlert = pna.GetActiveHandItem() == gameObject ||
-						pna.GetOffHandItem() == gameObject;
+		                pna.GetOffHandItem() == gameObject;
 		foreach (var _IActionGUI in ControllingActions)
 		{
 			UIActionManager.ToggleLocal(_IActionGUI, showAlert);
