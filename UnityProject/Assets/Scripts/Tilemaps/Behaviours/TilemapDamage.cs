@@ -192,11 +192,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 
 		//look up layer tile so we can calculate damage
-		var basicTile = metaTileMap.GetTile(cellPos, true) as BasicTile;
+		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
 
 		if (basicTile == null) return 0;
-
-		if (basicTile.LayerType != Layer.LayerType) return 0;
 
 		if (basicTile.Resistances.Indestructable ||
 		    basicTile.Resistances.FireProof && attackType == AttackType.Fire ||
