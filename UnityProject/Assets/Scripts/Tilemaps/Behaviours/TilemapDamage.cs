@@ -246,11 +246,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
 		BasicTile tile = null;
-		if (data.Damage >= 30 && data.Damage < GetMaxDamage(cellPos))
-		{
-			TryScorch(cellPos);
-		}
-		else if (data.Damage >= GetMaxDamage(cellPos))
+		if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Base, false) as BasicTile;
 		}
