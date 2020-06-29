@@ -86,54 +86,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		});
 	}
 
-	private float GetReducedDamage(Vector3Int cellPos, float dmgAmt, AttackType attackType)
-	{
-
-		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
-		if (layerTile is BasicTile tile)
-		{
-			return tile.Armor.GetDamage(dmgAmt, attackType);
-		}
-
-		return dmgAmt;
-	}
-
-	private float CalculateAbsorbDamaged(Vector3Int cellPos, AttackType attackType, MetaDataNode data, BasicTile tile = null)
-	{
-		if (tile == null)
-		{
-			tile= metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
-		}
-
-		float currentDamage = data.Damage;
-		if (tile.MaxHealth < data.Damage)
-		{
-			currentDamage = tile.MaxHealth;
-			data.ResetDamage();
-		}
-
-		if (tile.Armor.GetRatingValue(attackType) > 0 && (currentDamage - data.GetPreviousDamage()) > 0)
-		{
-			return ((currentDamage - data.GetPreviousDamage() ) / tile.Armor.GetRatingValue(attackType));
-		}
-		else
-		{
-			return (0);
-		}
-
-	}
-
-	private float GetMaxDamage(Vector3Int cellPos)
-	{
-		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
-		if (layerTile is BasicTile tile)
-		{
-			return tile.MaxHealth;
-		}
-
-		return 0;
-	}
-
 	//Server Only:
 	public void OnCollisionEnter2D(Collision2D coll)
 	{
@@ -426,6 +378,54 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Base, false) as BasicTile;
 		}
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
+	}
+
+	private float GetReducedDamage(Vector3Int cellPos, float dmgAmt, AttackType attackType)
+	{
+
+		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
+		if (layerTile is BasicTile tile)
+		{
+			return tile.Armor.GetDamage(dmgAmt, attackType);
+		}
+
+		return dmgAmt;
+	}
+
+	private float GetMaxDamage(Vector3Int cellPos)
+	{
+		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
+		if (layerTile is BasicTile tile)
+		{
+			return tile.MaxHealth;
+		}
+
+		return 0;
+	}
+
+	private float CalculateAbsorbDamaged(Vector3Int cellPos, AttackType attackType, MetaDataNode data, BasicTile tile = null)
+	{
+		if (tile == null)
+		{
+			tile= metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
+		}
+
+		float currentDamage = data.Damage;
+		if (tile.MaxHealth < data.Damage)
+		{
+			currentDamage = tile.MaxHealth;
+			data.ResetDamage();
+		}
+
+		if (tile.Armor.GetRatingValue(attackType) > 0 && (currentDamage - data.GetPreviousDamage()) > 0)
+		{
+			return ((currentDamage - data.GetPreviousDamage() ) / tile.Armor.GetRatingValue(attackType));
+		}
+		else
+		{
+			return (0);
+		}
+
 	}
 
 	public void RepairWindow(Vector3Int cellPos)
