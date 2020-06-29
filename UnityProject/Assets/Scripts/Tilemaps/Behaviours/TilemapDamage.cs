@@ -205,57 +205,38 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		dmgAmt = basicTile.Armor.GetDamage(dmgAmt, attackType);
 
-
 		if (Layer.LayerType == LayerType.Walls)
 		{
-			if (metaTileMap.HasTile(cellPos, LayerType.Walls, true))
-			{
-				return AddWallDamage(dmgAmt, data, cellPos, worldPos, attackType);
-			}
+			return AddWallDamage(dmgAmt, data, cellPos, worldPos, attackType);
 		}
 
 		if (Layer.LayerType == LayerType.Windows)
 		{
-			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
-			{
-				return AddWindowDamage(dmgAmt, data, cellPos, worldPos, attackType);
-			}
+
+			return AddWindowDamage(dmgAmt, data, cellPos, worldPos, attackType);
 		}
 
 		if (Layer.LayerType == LayerType.Grills)
 		{
-			//Make sure a window is not protecting it first:
-			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
-			{
-				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
-				{
-					return AddGrillDamage(dmgAmt, data, cellPos, worldPos, attackType);
-				}
-			}
+			return AddGrillDamage(dmgAmt, data, cellPos, worldPos, attackType);
 		}
 
 		if (Layer.LayerType == LayerType.Objects)
 		{
-			if (metaTileMap.GetTile(cellPos, LayerType.Objects)?.TileType == TileType.Table)
-			{
-				return AddTableDamage(dmgAmt, data, cellPos, worldPos, attackType);
-			}
+
+			return AddTableDamage(dmgAmt, data, cellPos, worldPos, attackType);
 		}
 
 		if (Layer.LayerType == LayerType.Floors)
 		{
-			if (metaTileMap.HasTile(cellPos, LayerType.Floors, true))
-			{
-				return AddFloorDamage(dmgAmt, data, cellPos, worldPos, attackType);
-			}
+
+			return AddFloorDamage(dmgAmt, data, cellPos, worldPos, attackType);
 		}
 
 		if (Layer.LayerType == LayerType.Base)
 		{
-			if (metaTileMap.HasTile(cellPos, LayerType.Base, true))
-			{
-				return AddPlatingDamage(dmgAmt, data, cellPos, worldPos, attackType);
-			}
+
+			return AddPlatingDamage(dmgAmt, data, cellPos, worldPos, attackType);
 		}
 
 		return 0;
