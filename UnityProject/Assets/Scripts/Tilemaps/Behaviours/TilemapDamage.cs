@@ -196,6 +196,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (basicTile == null) return 0;
 
+		if (basicTile.LayerType != Layer.LayerType) return 0;
+
 		if (basicTile.Resistances.Indestructable ||
 		    basicTile.Resistances.FireProof && attackType == AttackType.Fire ||
 		    basicTile.Resistances.AcidProof && attackType == AttackType.Acid)
