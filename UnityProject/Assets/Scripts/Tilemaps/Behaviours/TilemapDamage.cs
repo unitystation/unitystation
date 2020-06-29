@@ -192,20 +192,19 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 
 		//look up layer tile so we can calculate damage
-		var layerTile = metaTileMap.GetTile(cellPos, true);
+		var basicTile = metaTileMap.GetTile(cellPos, true) as BasicTile;
 
+		if (basicTile == null) return 0;
 
-		if (layerTile is BasicTile basicTile)
+		if (basicTile.Resistances.Indestructable ||
+		    basicTile.Resistances.FireProof && attackType == AttackType.Fire ||
+		    basicTile.Resistances.AcidProof && attackType == AttackType.Acid)
 		{
-			if (basicTile.Resistances.Indestructable ||
-			    basicTile.Resistances.FireProof && attackType == AttackType.Fire ||
-			    basicTile.Resistances.AcidProof && attackType == AttackType.Acid)
-			{
-				return 0;
-			}
-
-			dmgAmt = basicTile.Armor.GetDamage(dmgAmt, attackType);
+			return 0;
 		}
+
+		dmgAmt = basicTile.Armor.GetDamage(dmgAmt, attackType);
+
 
 		if (Layer.LayerType == LayerType.Walls)
 		{
@@ -327,14 +326,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
 
-	/// <summary>
-	/// Damage Plating/Catwalk/Lattice
-	/// </summary>
-	/// <param name="dmgAmt"></param>
-	/// <param name="data"></param>
-	/// <param name="cellPos"></param>
-	/// <param name="worldPos"></param>
-	/// <param name="attackType"></param>
 	private float AddPlatingDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
 		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
