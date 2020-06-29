@@ -200,19 +200,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		return basicTile.AddDamage(dmgAmt, data, cellPos, attackType, tileChangeManager);
-
-	}
-
-	private float AddWallDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
-	{
-		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-		BasicTile tile = null;
-		if (data.Damage >= GetMaxDamage(cellPos))
-		{
-			tile =  tileChangeManager.RemoveTile(cellPos, LayerType.Walls) as BasicTile;
-		}
-
-		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
 
 	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType, bool spawnPieces = true)
@@ -240,19 +227,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
-	}
-
-	private float AddTableDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
-	{
-		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-		BasicTile tile = null;
-		if (data.Damage >= GetMaxDamage(cellPos))
-		{
-			//watch out! must not accidentally destroy other objects like player!
-			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Objects) as BasicTile;
-		}
-
-		return CalculateAbsorbDamaged(cellPos, attackType,data, tile);
 	}
 
 	private float AddFloorDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
