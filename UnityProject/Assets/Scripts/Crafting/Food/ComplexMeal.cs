@@ -15,14 +15,14 @@ namespace Cooking
 		public ComplexMealRecipe MealIngredients;
 
 		//Not needed on all machine prefabs
-		private IDictionary<ItemTrait, int> ingredientsUsed = new Dictionary<ItemTrait, int>();
+		private IDictionary<GameObject, int> ingredientsUsed = new Dictionary<GameObject, int>();
 		private IDictionary<GameObject, int> ingredientsInBase = new Dictionary<GameObject, int>();
 
 		[Tooltip("Meal base this should be pulled apart into.")]
 		[SerializeField]
 		private GameObject basePrefab = null;
 
-		public IDictionary<ItemTrait, int> IngredientsUsed => ingredientsUsed;
+		public IDictionary<GameObject, int> IngredientsUsed => ingredientsUsed;
 		public IDictionary<GameObject, int> IngredientsInBase => ingredientsInBase;
 
 		[Tooltip("Time taken to pull it apart.")]
@@ -50,20 +50,6 @@ namespace Cooking
 				$"{interaction.Performer.ExpensiveName()} pulls apart the meal.",
 				() =>
 				{
-					//drop all our contents
-					ItemStorage itemStorage = null;
-
-					// rare cases were gameObject is destroyed for some reason and then the method is called
-					if (gameObject != null)
-					{
-						itemStorage = GetComponent<ItemStorage>();
-					}
-
-					if (itemStorage != null)
-					{
-						itemStorage.ServerDropAll();
-					}
-
 					var frame = Spawn.ServerPrefab(basePrefab, SpawnDestination.At(gameObject)).GameObject;
 
 					frame.GetComponent<ComplexMealBase>().ServerInitFromComputer(this);
@@ -77,7 +63,7 @@ namespace Cooking
 			MealIngredients = mealIngredients;
 		}
 
-		public void SetIngredientsUsed(IDictionary<ItemTrait, int> ingredientsUsed)
+		public void SetIngredientsUsed(IDictionary<GameObject, int> ingredientsUsed)
 		{
 			this.ingredientsUsed = ingredientsUsed;
 		}

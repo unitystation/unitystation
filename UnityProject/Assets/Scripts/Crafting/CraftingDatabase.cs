@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cooking;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,6 +8,7 @@ using UnityEngine;
 public class CraftingDatabase
 {
 	public Recipe[] recipeList;
+	public ComplexMealRecipe[] complexRecipeList;
 
 	public GameObject FindRecipe(List<Ingredient> ingredients)
 	{
@@ -16,9 +18,17 @@ public class CraftingDatabase
 			{
 				return recipe.Output;
 			}
-		
 		}
 		return null;
+	}
+
+	public bool ComplexRecipeCheck(List<ComplexMealRecipe.ComplexMealIngredients> ingredients)
+	{
+		foreach (ComplexMealRecipe recipe in complexRecipeList)
+		{
+			if (recipe.Check(ingredients)) return true;
+		}
+		return false;
 	}
 
 	public GameObject FindOutputMeal(string mealName)

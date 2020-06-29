@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Machines;
+using System.Linq;
 
 namespace Cooking
 {
@@ -14,7 +15,7 @@ namespace Cooking
 		[SerializeField] private StatefulState initialState = null;
 		[SerializeField] private StatefulState ingredientsAddedState = null;
 		[SerializeField] private StatefulState completeMeal = null;
-		private IDictionary<ItemTrait, int> ingredientsUsed = new Dictionary<ItemTrait, int>();
+		private IDictionary<ComplexMealRecipe.ComplexMealIngredients, int> ingredientsUsed = new Dictionary<ComplexMealRecipe.ComplexMealIngredients, int>();
 		private IDictionary<GameObject, int> ingredientsInBase = new Dictionary<GameObject, int>();
 		private Stateful stateful;
 
@@ -22,12 +23,10 @@ namespace Cooking
 		private ComplexMealRecipe.ComplexMealIngredients mealIngredientList;
 
 		private StatefulState CurrentState => stateful.CurrentState;
-		private ObjectBehaviour objectBehaviour;
 
 		private void Awake()
 		{
 			stateful = GetComponent<Stateful>();
-			objectBehaviour = GetComponent<ObjectBehaviour>();
 
 			if (!isServer) return;
 
@@ -35,11 +34,6 @@ namespace Cooking
 			{
 				stateful.ServerChangeState(initialState);
 			}
-		}
-
-		public override void OnStartClient()
-		{
-			base.OnStartClient();
 		}
 
 		/// <summary>
@@ -54,17 +48,10 @@ namespace Cooking
 
 			if (!Validations.IsTarget(gameObject, interaction)) return false;
 
-			//different logic depending on state
-			if (CurrentState == initialState)
-			{
-				//Add 5 cables or deconstruct
-				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Ingredient);
-			}
-			else if (CurrentState == ingredientsAddedState)
+			if (CurrentState != completeMeal)
 			{
 				return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Ingredient);
 			}
-
 			return false;
 		}
 
@@ -84,31 +71,20 @@ namespace Cooking
 			}
 			else if (interaction.UsedObject == null)
 			{
-				foreach (var parts in mealIngredients.mealIngredients)
-				{
-					if (!ingredientsUsed.ContainsKey(parts.itemTrait)) return;
-
-					if (ingredientsUsed[parts.itemTrait] != parts.amountOfThisIngredient)
-					{
-						return;
-					}
-				}
+				CraftingManager.ComplexMeal.ComplexRecipeCheck( ingredientsUsed.ToList<ComplexMealRecipe.ComplexMealIngredients> );
 				stateful.ServerChangeState(completeMeal);
 			}
 		}
 
 		private void AddIngredientsInteraction(HandApply interaction)
 		{
-			if (ItemTraitCheck(interaction))
-			{
-				var usedObject = interaction.UsedObject;
+			var usedObject = interaction.UsedObject;
 
-				Chat.AddActionMsgToChat(interaction, $"You place the {usedObject.ExpensiveName()} into the {GetComponent<ItemAttributesV2>().ArticleName}.",
-					$"{interaction.Performer.ExpensiveName()} places the {usedObject.ExpensiveName()} into the {GetComponent<ItemAttributesV2>().ArticleName}.");
+			Chat.AddActionMsgToChat(interaction, $"You place the {usedObject.ExpensiveName()} into the {GetComponent<ItemAttributesV2>().ArticleName}.",
+				$"{interaction.Performer.ExpensiveName()} places the {usedObject.ExpensiveName()} into the {GetComponent<ItemAttributesV2>().ArticleName}.");
 
-				//Process Part
-				PartCheck(usedObject, interaction);
-			}
+			//Process Part
+			PartCheck(usedObject, interaction);
 		}
 
 		/// <summary>
@@ -175,35 +151,21 @@ namespace Cooking
 		private void PartCheck(GameObject usedObject, HandApply interaction)
 		{
 			// For all the list of data(itemtraits, amounts needed) in meal parts
-			for(int i = 0; i < mealIngredients.mealIngredients.Length; i++)
+			for (int i = 0; i < mealIngredients.mealIngredients.Length; i++)
 			{
-				// If the interaction object has an itemtrait thats in the list, set the list mealIngredientList variable as the list from the mealIngredients data from the circuit board.
-				if (usedObject.GetComponent<ItemAttributesV2>().HasTrait(mealIngredients.mealIngredients[i].itemTrait))
+				if (usedObject.GetComponent<ItemAttributesV2>() == mealIngredients.mealIngredients[i].basicItem)
 				{
 					mealIngredientList = mealIngredients.mealIngredients[i];
 					break;
-
-					// IF YOU WANT AN ITEM TO HAVE TWO ITEMTTRAITS WHICH CONTRIBUTE TO THE MACHINE BUILIDNG PROCESS, THIS NEEDS TO BE REFACTORED
-					// all the stuff below needs to go into its own method which gets called here, replace the break;
 				}
 			}
-
-			// Amount of the itemtrait that is needed for the meal to be buildable
-			var needed = mealIngredientList.amountOfThisIngredient;
-
 			// Itemtrait currently being looked at.
-			var itemTrait = mealIngredientList.itemTrait;
-
-			// If theres already the itemtrait how many more do we need
-			if (ingredientsUsed.ContainsKey(itemTrait))
-			{
-				needed -= ingredientsUsed[itemTrait];
-			}
+			var ingredient = mealIngredientList.basicItem;
 
 			//Main logic for tallying up and moving parts to hidden pos
-			if (ingredientsUsed.ContainsKey(itemTrait) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait already exists, and its stackable and some of it is needed.
+			if (ingredientsUsed.ContainsKey(ingredient) && usedObject.GetComponent<Stackable>() != null && usedObject.GetComponent<Stackable>().Amount >= needed) //if the itemTrait already exists, and its stackable and some of it is needed.
 			{
-				ingredientsUsed[itemTrait] = mealIngredientList.amountOfThisIngredient;
+				ingredientsUsed[ingredient] = mealIngredientList.amountOfThisIngredient;
 
 				Inventory.ServerDrop(interaction.HandSlot);
 
@@ -239,7 +201,7 @@ namespace Cooking
 			}
 			else if (ingredientsUsed.ContainsKey(itemTrait))// ItemTrait already exists but isnt stackable
 			{
-				ingredientsUsed[itemTrait] ++;
+				ingredientsUsed[itemTrait]++;
 
 				Inventory.ServerDrop(interaction.HandSlot);
 
@@ -311,24 +273,6 @@ namespace Cooking
 		}
 
 		/// <summary>
-		/// Used to validate the interaction for the server.
-		/// </summary>
-		/// <param name="interaction"></param>
-		/// <returns></returns>
-		private bool ItemTraitCheck(HandApply interaction)
-		{
-			foreach (var part in mealIngredients.mealIngredients)
-			{
-				if (Validations.HasUsedItemTrait(interaction, part.itemTrait) && (!ingredientsUsed.ContainsKey(part.itemTrait) || ingredientsUsed[part.itemTrait] != part.amountOfThisIngredient)) // Has items trait and we dont have enough yet
-				{
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		/// <summary>
 		/// Examine messages
 		/// </summary>
 		/// <param name="worldPos"></param>
@@ -361,7 +305,7 @@ namespace Cooking
 
 			if (CurrentState == completeMeal)
 			{
-				msg = "Use a screwdriver to finish construction or use crowbar to remove circuit board.\n";
+				msg = "Use an empty hand on help intent to finish, or on harm intent to pull it apart.\n";
 			}
 
 			return msg;
@@ -379,8 +323,6 @@ namespace Cooking
 
 			ingredientsUsed = meal.IngredientsUsed;
 
-			// Set initial state
-			objectBehaviour.ServerSetPushable(false);
 			stateful.ServerChangeState(ingredientsAddedState);
 		}
 	}
