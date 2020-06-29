@@ -11,7 +11,7 @@ public struct TileState
 	public float Damage;
 }
 
-public abstract class BasicTile : LayerTile
+public abstract class BasicTile : LayerTile, IDamageableTile
 {
 	[Tooltip("What it sounds like when walked over")]
 	public FloorTileType floorTileType = FloorTileType.floor;
@@ -162,6 +162,37 @@ public abstract class BasicTile : LayerTile
 	public bool IsSpace()
 	{
 		return IsAtmosPassable() && !isSealed;
+	}
+
+	public float AddDamage(float damage, MetaDataNode data, Vector3Int cellPos, AttackType attackType, TileChangeManager tileChangeManager)
+	{
+		data.Damage += Armor.GetDamage(damage, attackType);
+
+		if (data.Damage >= MaxHealth)
+		{
+			tileChangeManager.RemoveTile(cellPos, LayerType);
+		}
+
+		return CalculateAbsorbDamaged(attackType,data);
+	}
+
+	private float CalculateAbsorbDamaged(AttackType attackType, MetaDataNode data)
+	{
+		float currentDamage = data.Damage;
+		if (MaxHealth < data.Damage)
+		{
+			currentDamage = MaxHealth;
+			data.ResetDamage();
+		}
+
+		if (Armor.GetRatingValue(attackType) > 0 && (currentDamage - data.GetPreviousDamage()) > 0)
+		{
+			return ((currentDamage - data.GetPreviousDamage() ) / Armor.GetRatingValue(attackType));
+		}
+		else
+		{
+			return (0);
+		}
 	}
 }
 
