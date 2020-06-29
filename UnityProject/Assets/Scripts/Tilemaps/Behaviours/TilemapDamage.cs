@@ -205,28 +205,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		dmgAmt = basicTile.Armor.GetDamage(dmgAmt, attackType);
 
-		if (Layer.LayerType == LayerType.Walls)
-		{
-			return AddWallDamage(dmgAmt, data, cellPos, worldPos, attackType);
-		}
-
-		if (Layer.LayerType == LayerType.Windows)
-		{
-
-			return AddWindowDamage(dmgAmt, data, cellPos, worldPos, attackType);
-		}
-
-		if (Layer.LayerType == LayerType.Grills)
-		{
-			return AddGrillDamage(dmgAmt, data, cellPos, worldPos, attackType);
-		}
-
-		if (Layer.LayerType == LayerType.Objects)
-		{
-
-			return AddTableDamage(dmgAmt, data, cellPos, worldPos, attackType);
-		}
-
 		if (Layer.LayerType == LayerType.Floors)
 		{
 
@@ -239,7 +217,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			return AddPlatingDamage(dmgAmt, data, cellPos, worldPos, attackType);
 		}
 
-		return 0;
+		return basicTile.AddDamage(dmgAmt, data, cellPos, attackType, tileChangeManager);
+
 	}
 
 	private float AddWallDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
