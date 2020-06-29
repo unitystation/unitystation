@@ -273,28 +273,11 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
+
 	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType, bool spawnPieces = true)
 	{
 		BasicTile tile = null;
 		data.Damage += GetReducedDamage(cellPos, damage, attackType);
-
-		if (data.Damage >= 20 && data.Damage < 50)
-		{
-			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack01");
-			data.WindowDamage = WindowDamageLevel.Crack01;
-		}
-
-		if (data.Damage >= 50 && data.Damage < 75)
-		{
-			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack02");
-			data.WindowDamage = WindowDamageLevel.Crack02;
-		}
-
-		if (data.Damage >= 75 && data.Damage < GetMaxDamage(cellPos))
-		{
-			tileChangeManager.UpdateTile(cellPos, TileType.WindowDamaged, "crack03");
-			data.WindowDamage = WindowDamageLevel.Crack03;
-		}
 
 		if (data.Damage >= GetMaxDamage(cellPos))
 		{
@@ -309,16 +292,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		data.Damage += GetReducedDamage(cellPos, damage, attackType);
 		BasicTile tile = null;
-		//At half health change image of grill to damaged
-		if (data.Damage >= GetMaxDamage(cellPos) / 2 && data.Damage < GetMaxDamage(cellPos))
-		{
-			if (data.GrillDamage != GrillDamageLevel.Damaged)
-			{
-				tileChangeManager.UpdateTile(cellPos, TileType.Grill, "GrilleDestroyed");
-				data.GrillDamage = GrillDamageLevel.Damaged;
-			}
-		}
-
 		//Make grills a little bit weaker (set to 60 hp):
 		if (data.Damage >= GetMaxDamage(cellPos))
 		{
@@ -345,11 +318,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
 		BasicTile tile = null;
-		if (data.Damage >= 30 && data.Damage < 70)
-		{
-			TryScorch(cellPos);
-		}
-		else if (data.Damage >= GetMaxDamage(cellPos))
+
+		if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			tile  = tileChangeManager.RemoveTile(cellPos, LayerType.Floors) as BasicTile;
 		}
