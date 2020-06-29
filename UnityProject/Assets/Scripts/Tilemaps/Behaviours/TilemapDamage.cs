@@ -255,7 +255,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			dmgAmt = basicTile.Armor.GetDamage(dmgAmt, attackType);
 		}
 
-
 		if (Layer.LayerType == LayerType.Walls)
 		{
 			if (metaTileMap.HasTile(cellPos, LayerType.Walls, true))
@@ -311,19 +310,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return 0;
 	}
 
-	private float AddTableDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
-	{
-		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-		BasicTile tile = null;
-		if (data.Damage >= GetMaxDamage(cellPos))
-		{
-			//watch out! must not accidentally destroy other objects like player!
-			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Objects) as BasicTile;
-		}
-
-		return CalculateAbsorbDamaged(cellPos, attackType,data, tile);
-	}
-
 	private float AddWallDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
 		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
@@ -335,63 +321,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
-
-	private float AddFloorDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
-	{
-		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-		BasicTile tile = null;
-		if (data.Damage >= 30 && data.Damage < 70)
-		{
-			TryScorch(cellPos);
-		}
-		else if (data.Damage >= GetMaxDamage(cellPos))
-		{
-			tile  = tileChangeManager.RemoveTile(cellPos, LayerType.Floors) as BasicTile;
-		}
-
-		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
-	}
-
-	/// <summary>
-	/// Damage Plating/Catwalk/Lattice
-	/// </summary>
-	/// <param name="dmgAmt"></param>
-	/// <param name="data"></param>
-	/// <param name="cellPos"></param>
-	/// <param name="worldPos"></param>
-	/// <param name="attackType"></param>
-	private float AddPlatingDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
-	{
-		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-		BasicTile tile = null;
-		if (data.Damage >= 30 && data.Damage < GetMaxDamage(cellPos))
-		{
-			TryScorch(cellPos);
-		}
-		else if (data.Damage >= GetMaxDamage(cellPos))
-		{
-			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Base, false) as BasicTile;
-		}
-		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
-	}
-
-	public void RepairWindow(Vector3Int cellPos)
-	{
-		var data = metaDataLayer.Get(cellPos);
-		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
-		data.WindowDamage = WindowDamageLevel.Undamaged;
-		data.Damage = 0;
-	}
-
-	/// <summary>
-	/// Damage a window tile, incrementaly
-	/// </summary>
-	/// <param name="damage">The amount of damage the window received</param>
-	/// <param name="data">The data about the current state of this window</param>
-	/// <param name="cellPos">The position of the window tile</param>
-	/// <param name="hitPos">Where exactly the bullet hit</param>
-	/// <param name="attackType">The type of attack that did the damage</param>
-	/// <returns>The remaining damage to apply to the tile if the window is broken, 0 otherwise.</returns>
 	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType, bool spawnPieces = true)
 	{
 		BasicTile tile = null;
@@ -447,25 +376,64 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
 
-	private void SpawnMetal(Vector3 pos)
+	private float AddTableDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
-		Spawn.ServerPrefab("Metal", pos.CutToInt(), count: 1,
-			scatterRadius: Spawn.DefaultScatterRadius);
-	}
-	private void SpawnRods(Vector3 pos)
-	{
-		Spawn.ServerPrefab("Rods", pos.CutToInt(), count: 1,
-			scatterRadius: Spawn.DefaultScatterRadius);
+		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
+		BasicTile tile = null;
+		if (data.Damage >= GetMaxDamage(cellPos))
+		{
+			//watch out! must not accidentally destroy other objects like player!
+			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Objects) as BasicTile;
+		}
+
+		return CalculateAbsorbDamaged(cellPos, attackType,data, tile);
 	}
 
-	private void SpawnGlassShards(Vector3 pos)
+	private float AddFloorDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
 	{
-		//Spawn 1-2 glass shards
-		Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(1, 3), //I know it says three but using two as the max makes it so that you never actually get two shards sometimes.
-			scatterRadius: Random.Range(0, 3));
+		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
+		BasicTile tile = null;
+		if (data.Damage >= 30 && data.Damage < 70)
+		{
+			TryScorch(cellPos);
+		}
+		else if (data.Damage >= GetMaxDamage(cellPos))
+		{
+			tile  = tileChangeManager.RemoveTile(cellPos, LayerType.Floors) as BasicTile;
+		}
 
-		//Play the breaking window sfx:
-		SoundManager.PlayNetworkedAtPos("GlassBreak0#", pos, 1f);
+		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
+	}
+
+	/// <summary>
+	/// Damage Plating/Catwalk/Lattice
+	/// </summary>
+	/// <param name="dmgAmt"></param>
+	/// <param name="data"></param>
+	/// <param name="cellPos"></param>
+	/// <param name="worldPos"></param>
+	/// <param name="attackType"></param>
+	private float AddPlatingDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
+	{
+		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
+		BasicTile tile = null;
+		if (data.Damage >= 30 && data.Damage < GetMaxDamage(cellPos))
+		{
+			TryScorch(cellPos);
+		}
+		else if (data.Damage >= GetMaxDamage(cellPos))
+		{
+			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Base, false) as BasicTile;
+		}
+		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
+	}
+
+	public void RepairWindow(Vector3Int cellPos)
+	{
+		var data = metaDataLayer.Get(cellPos);
+		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
+		data.WindowDamage = WindowDamageLevel.Undamaged;
+		data.Damage = 0;
 	}
 
 	public void OnExposed(FireExposure exposure)
