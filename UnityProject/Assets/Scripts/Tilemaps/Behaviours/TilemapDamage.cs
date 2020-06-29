@@ -113,48 +113,30 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		Vector3Int cellPos = metaTileMap.WorldToCell(Vector3Int.RoundToInt(bulletHitTarget));
 		MetaDataNode data = metaDataLayer.Get(cellPos);
 
-		if (Layer.LayerType == LayerType.Windows)
-		{
-			LayerTile getTile = metaTileMap.GetTile(cellPos, LayerType.Windows);
-			if (getTile != null)
-			{
-				//TODO damage amt based off type of bullet
-				AddWindowDamage(bullet.damage, data, cellPos, bulletHitTarget, AttackType.Bullet);
-				return;
-			}
-		}
+		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
 
-		if (Layer.LayerType == LayerType.Grills)
-		{
-			//Make sure a window is not protecting it first:
-			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
-			{
-				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
-				{
-					//TODO damage amt based off type of bullet
-					AddGrillDamage(bullet.damage, data, cellPos, bulletHitTarget, AttackType.Bullet);
-				}
-			}
-		}
+		if (basicTile == null) return;
+
 		if (bullet.isMiningBullet)
 		{
 			if (Layer.LayerType == LayerType.Walls)
 			{
-				LayerTile getTile = metaTileMap.GetTile(cellPos, LayerType.Walls);
-				if (getTile != null)
+
+				if (basicTile != null)
 				{
 					if (Validations.IsMineableAt(bulletHitTarget, metaTileMap))
 					{
 						SoundManager.PlayNetworkedAtPos("BreakStone", bulletHitTarget);
-						var tile = getTile as BasicTile;
-						Spawn.ServerPrefab(tile.SpawnOnDeconstruct, bulletHitTarget, count: tile.SpawnAmountOnDeconstruct);
+						Spawn.ServerPrefab(basicTile.SpawnOnDeconstruct, bulletHitTarget,
+							count: basicTile.SpawnAmountOnDeconstruct);
 						tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
+						return;
 					}
 				}
-
 			}
 		}
 
+		basicTile.AddDamage(bullet.damage, data, cellPos, AttackType.Bullet, tileChangeManager);
 	}
 
 	public void DoThrowDamage(Vector3Int worldTargetPos, ThrowInfo throwInfo, int dmgAmt)
