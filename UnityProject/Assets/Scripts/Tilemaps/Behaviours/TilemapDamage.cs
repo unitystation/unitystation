@@ -319,19 +319,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			//watch out! must not accidentally destroy other objects like player!
 			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Objects) as BasicTile;
-
-			//			SoundManager.PlayNetworkedAtPos("TableHit", worldPos, 1f);
-
-			//Spawn remains:
-			if (Random.value < 0.25f)
-			{
-				SpawnRods(worldPos);
-			}
-			else if (Random.value > 0.75f)
-			{
-				SpawnMetal(worldPos);
-			}
-
 		}
 
 		return CalculateAbsorbDamaged(cellPos, attackType,data, tile);
@@ -344,18 +331,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			tile =  tileChangeManager.RemoveTile(cellPos, LayerType.Walls) as BasicTile;
-
-			//			SoundManager.PlayNetworkedAtPos("WallHit", worldPos, 1f);
-
-			//Spawn remains:
-			if (Random.value < 0.05f)
-			{
-				SpawnRods(worldPos);
-			}
-			else if (Random.value > 0.95f)
-			{
-				SpawnMetal(worldPos);
-			}
 		}
 
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
@@ -372,17 +347,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		else if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			tile  = tileChangeManager.RemoveTile(cellPos, LayerType.Floors) as BasicTile;
-			if (Random.value < 0.25f)
-			{
-				if (tile is BasicTile basicTile)
-				{
-					var toSpawn = basicTile.SpawnOnDeconstruct;
-					Spawn.ServerPrefab(toSpawn, worldPos, count : basicTile.SpawnAmountOnDeconstruct);
-				}
-			}
-
-			//			SoundManager.PlayNetworkedAtPos("FloorHit", worldPos, 1f);
-
 		}
 
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
@@ -407,15 +371,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		else if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Base, false) as BasicTile;
-			//Spawn remains:
-			if (Random.value < 0.25f)
-			{
-				SpawnRods(worldPos);
-			}
-			else if (Random.value > 0.75f)
-			{
-				SpawnMetal(worldPos);
-			}
 		}
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
 	}
@@ -464,17 +419,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Windows) as BasicTile;
 			data.WindowDamage = WindowDamageLevel.Broken;
-
-			//Spawn up to 2 glass shards with different sprites:
-			if (spawnPieces)
-			{
-				SpawnGlassShards(hitPos);
-			}
-
-			//Play the breaking window sfx:
-			SoundManager.PlayNetworkedAtPos("GlassBreak0#", hitPos, 1f);
-
-
 		}
 
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
@@ -491,14 +435,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			{
 				tileChangeManager.UpdateTile(cellPos, TileType.Grill, "GrilleDestroyed");
 				data.GrillDamage = GrillDamageLevel.Damaged;
-
-				SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
-
-				//Spawn rods
-				if (Random.value < 0.7f && spawnPieces)
-				{
-					SpawnRods(bulletHitTarget);
-				}
 			}
 		}
 
@@ -506,14 +442,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		if (data.Damage >= GetMaxDamage(cellPos))
 		{
 			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Grills) as BasicTile;
-
-			SoundManager.PlayNetworkedAtPos("GrillHit", bulletHitTarget, 1f);
-
-			//Spawn rods
-			if (Random.value < 0.7f && spawnPieces)
-			{
-				SpawnRods(bulletHitTarget);
-			}
 		}
 
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
