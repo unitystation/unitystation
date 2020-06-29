@@ -123,7 +123,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	}
 
-
 	private float GetMaxDamage(Vector3Int cellPos)
 	{
 		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
@@ -228,9 +227,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return DoDamageInternal(cellPos, dmgAmt, worldPos, attackType); //idk if collision can be classified as "melee"
 	}
 
-	/// <returns>Damage in excess of the tile's current health, 0 if tile was not destroyed or health equaled
-	/// <paramref name="attackType"/>
-	/// damage done.</returns>
+	/// <summary>
+	/// Damage in excess of the tile's current health, 0 if tile was not destroyed or health equaled damage done
+	/// </summary>
+	/// <param name="cellPos"></param>
+	/// <param name="dmgAmt"></param>
+	/// <param name="worldPos"></param>
+	/// <param name="attackType"></param>
+	/// <returns></returns>
 	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType)
 	{
 		MetaDataNode data = metaDataLayer.Get(cellPos);
@@ -256,7 +260,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (metaTileMap.HasTile(cellPos, LayerType.Walls, true))
 			{
-				//				SoundManager.PlayNetworkedAtPos( "WallHit", worldPos, Random.Range( 0.9f, 1.1f ) );
 				return AddWallDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
@@ -265,7 +268,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
 			{
-				SoundManager.PlayNetworkedAtPos("GlassHit", worldPos, Random.Range(0.9f, 1.1f));
 				return AddWindowDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
@@ -277,7 +279,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			{
 				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
 				{
-					SoundManager.PlayNetworkedAtPos("GrillHit", worldPos, Random.Range(0.9f, 1.1f));
 					return AddGrillDamage(dmgAmt, data, cellPos, worldPos, attackType);
 				}
 			}
@@ -287,7 +288,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (metaTileMap.GetTile(cellPos, LayerType.Objects)?.TileType == TileType.Table)
 			{
-				//				SoundManager.PlayNetworkedAtPos( "TableHit", worldPos, Random.Range( 0.9f, 1.1f ) );
 				return AddTableDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
@@ -296,7 +296,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (metaTileMap.HasTile(cellPos, LayerType.Floors, true))
 			{
-				//				SoundManager.PlayNetworkedAtPos( "FloorHit", worldPos, Random.Range( 0.9f, 1.1f ) );
 				return AddFloorDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
@@ -305,7 +304,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (metaTileMap.HasTile(cellPos, LayerType.Base, true))
 			{
-				//SoundManager.PlayNetworkedAtPos( "FloorHit", worldPos, Random.Range( 0.9f, 1.1f ) );
 				return AddPlatingDamage(dmgAmt, data, cellPos, worldPos, attackType);
 			}
 		}
@@ -519,30 +517,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
-	}
-
-	//Only works server side:
-	public void WireCutGrill(Vector3 snipPosition)
-	{
-		Vector3Int cellPos = metaTileMap.WorldToCell(snipPosition);
-		MetaDataNode data = metaDataLayer.Get(cellPos);
-
-		if (Layer.LayerType == LayerType.Grills)
-		{
-			//Make sure a window is not protecting it first:
-			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
-			{
-				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
-				{
-					tileChangeManager.RemoveTile(cellPos, LayerType.Grills);
-
-					SoundManager.PlayNetworkedAtPos("WireCutter", snipPosition, 1f);
-					SpawnRods(snipPosition);
-				}
-			}
-		}
-
-		data.ResetDamage();
 	}
 
 	private void SpawnMetal(Vector3 pos)
