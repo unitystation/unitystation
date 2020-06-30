@@ -311,54 +311,15 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	public void OnExposed(FireExposure exposure)
 	{
-		Profiler.BeginSample("TileExpose");
 		var cellPos = exposure.ExposedLocalPosition;
-		if (Layer.LayerType == LayerType.Floors)
-		{
-			//floor scorching
-			if (exposure.IsSideExposure)
-			{
-				Profiler.EndSample();
-				return;
-			}
+		MetaDataNode data = metaDataLayer.Get(cellPos);
 
-			if (!(exposure.Temperature > TILE_MIN_SCORCH_TEMPERATURE))
-			{
-				Profiler.EndSample();
-				return;
-			}
+		//look up layer tile so we can calculate damage
+		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
 
-			if (!metaTileMap.HasTile(cellPos, true))
-			{
-				Profiler.EndSample();
-				return;
-			}
-			TryScorch(cellPos);
-		}
-		else if (Layer.LayerType == LayerType.Windows)
-		{
-			if (metaTileMap.HasTile(cellPos, LayerType.Windows, true))
-			{
-				//window damage
-				SoundManager.PlayNetworkedAtPos("GlassHit", exposure.ExposedWorldPosition, Random.Range(0.9f, 1.1f));
-				AddWindowDamage(exposure.StandardDamage(), metaDataLayer.Get(cellPos), cellPos, exposure.ExposedWorldPosition, AttackType.Fire, false);
-			}
+		if (basicTile == null) return;
 
-		}
-		else if (Layer.LayerType == LayerType.Grills)
-		{
-			//grill damage
-			//Make sure a window is not protecting it first:
-			if (!metaTileMap.HasTile(cellPos, LayerType.Windows, true))
-			{
-				if (metaTileMap.HasTile(cellPos, LayerType.Grills, true))
-				{
-					SoundManager.PlayNetworkedAtPos("GrillHit", exposure.ExposedWorldPosition, Random.Range(0.9f, 1.1f));
-					AddGrillDamage(exposure.StandardDamage(), metaDataLayer.Get(cellPos), cellPos, exposure.ExposedWorldPosition, AttackType.Fire, false);
-				}
-			}
-		}
-		Profiler.EndSample();
+		basicTile.AddDamage(exposure.StandardDamage(), data, cellPos, AttackType.Fire, tileChangeManager);
 	}
 
 	public void TryScorch(Vector3Int cellPos)
