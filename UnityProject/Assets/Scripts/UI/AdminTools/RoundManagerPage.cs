@@ -10,7 +10,15 @@ public class RoundManagerPage : AdminPage
 	[SerializeField]
 	private Dropdown nextMapDropDown = null;
 
+	[SerializeField]
+	private Dropdown nextAwaySiteDropDown = null;
+
 	public void ChangeMap()
+	{
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdChangeNextMap(ServerData.UserID, PlayerList.Instance.AdminToken, nextMapDropDown.options[nextMapDropDown.value].text);
+	}
+
+	public void ChangeAwaySite()
 	{
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdChangeNextMap(ServerData.UserID, PlayerList.Instance.AdminToken, nextMapDropDown.options[nextMapDropDown.value].text);
 	}
@@ -19,6 +27,7 @@ public class RoundManagerPage : AdminPage
 	{
 		base.OnPageRefresh(adminPageData);
 		GenerateDropDownOptions(adminPageData);
+		GenerateDropDownOptionsAwaySite(adminPageData);
 	}
 
 	private void GenerateDropDownOptions(AdminPageRefreshData adminPageData)
@@ -47,6 +56,37 @@ public class RoundManagerPage : AdminPage
 			if (optionData[i].text == adminPageData.nextMap)
 			{
 				nextMapDropDown.value = i;
+				return;
+			}
+		}
+	}
+
+	private void GenerateDropDownOptionsAwaySite(AdminPageRefreshData adminPageData)
+	{
+		//generate the drop down options:
+		var optionData = new List<Dropdown.OptionData>();
+
+		//Add random entry:
+		optionData.Add(new Dropdown.OptionData
+		{
+			text = "Random"
+		});
+
+		foreach (var awaySiteName in SubSceneManager.Instance.awayWorldList.AwayWorlds)
+		{
+			optionData.Add(new Dropdown.OptionData
+			{
+				text = awaySiteName
+			});
+		}
+
+		nextAwaySiteDropDown.options = optionData;
+
+		for (var i = 0; i < optionData.Count; i++)
+		{
+			if (optionData[i].text == adminPageData.nextAwaySite)
+			{
+				nextAwaySiteDropDown.value = i;
 				return;
 			}
 		}

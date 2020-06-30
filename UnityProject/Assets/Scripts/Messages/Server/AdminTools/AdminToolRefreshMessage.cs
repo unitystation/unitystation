@@ -39,6 +39,7 @@ public class AdminToolRefreshMessage : ServerMessage
 
 		//Round Manager
 		pageData.nextMap = SubSceneManager.AdminForcedMainStation;
+		pageData.nextAwaySite = SubSceneManager.AdminForcedAwaySite;
 
 		//Player list info:
 		pageData.players = GetAllPlayerStates(adminID);

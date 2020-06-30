@@ -943,6 +943,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		SubSceneManager.AdminForcedMainStation = nextMap;
 	}
+
+	[Command]
+	public void CmdChangeAwaySite(string adminId, string adminToken, string nextAwaySite)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (SubSceneManager.AdminForcedAwaySite == nextAwaySite) return;
+
+		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round away site from {SubSceneManager.AdminForcedAwaySite} to {nextAwaySite}.";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
+
+		SubSceneManager.AdminForcedAwaySite = nextAwaySite;
+	}
 	#endregion
 
 	[Command]

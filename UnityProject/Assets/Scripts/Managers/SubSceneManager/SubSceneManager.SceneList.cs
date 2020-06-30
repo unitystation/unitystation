@@ -16,6 +16,7 @@ public partial class SubSceneManager
 	}
 
 	public static string AdminForcedMainStation = "Random";
+	public static string AdminForcedAwaySite = "Random";
 
 	IEnumerator RoundStartServerLoadSequence()
 	{
@@ -92,14 +93,21 @@ public partial class SubSceneManager
 	{
 		var prevEditorScene = GetEditorPrevScene();
 		//Load the away site
-		if (awayWorldList.AwayWorlds.Contains(prevEditorScene))
+		if (awayWorldList.AwayWorlds.Contains(prevEditorScene) && AdminForcedAwaySite == "Random")
 		{
 			serverChosenAwaySite = prevEditorScene;
 		}
-		else
+		else if(AdminForcedAwaySite == "Random")
 		{
 			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
 		}
+		else
+		{
+			serverChosenAwaySite = AdminForcedAwaySite;
+		}
+
+		AdminForcedAwaySite = "Random";
+
 		loadTimer.IncrementLoadBar("Loading Away Site");
 		if (serverChosenAwaySite.IsNullOrEmpty() == false)
 		{

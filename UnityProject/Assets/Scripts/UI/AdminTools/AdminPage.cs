@@ -47,6 +47,7 @@ namespace AdminTools
 
 		//Round Manager
 		public string nextMap;
+		public string nextAwaySite;
 
 		//Player Management:
 		public List<AdminPlayerEntryData> players = new List<AdminPlayerEntryData>();
