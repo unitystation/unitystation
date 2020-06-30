@@ -127,8 +127,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			return 0;
 		}
 
-		dmgAmt = basicTile.Armor.GetDamage(dmgAmt, attackType);
-
 		return basicTile.AddDamage(dmgAmt, data, cellPos, attackType, tileChangeManager);
 	}
 
