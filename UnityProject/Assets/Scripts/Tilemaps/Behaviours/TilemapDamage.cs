@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using Google.Protobuf.WellKnownTypes;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.Profiling;
-using UnityEngine.Tilemaps;
-using Random = UnityEngine.Random;
+﻿using UnityEngine;
 
-/// <summary>
-/// The level of damage that a window has received
-/// </summary>
 public enum WindowDamageLevel
 {
 	Undamaged,
@@ -20,42 +9,17 @@ public enum WindowDamageLevel
 	Broken
 }
 
-/// <summary>
-/// The level of damage that a grill has received
-/// </summary>
 public enum GrillDamageLevel
 {
 	Undamaged,
 	Damaged
 }
 
-/// <summary>
-/// Allows for damaging tiles and updating tiles based on damage taken.
-/// </summary>
 public class TilemapDamage : MonoBehaviour, IFireExposable
 {
-	//TODO: this needs a refactor. BaseTile has useful fields that should be used instead of this.
-	//also this implementation isn't designed for tile variations, essentially being limited to one tile kind per layer
-
-	private static readonly float TILE_MIN_SCORCH_TEMPERATURE = 100f;
-
-	public float Integrity(Vector3Int pos)
-	{
-		if (!Layer.HasTile(pos, true))
-		{
-			return 0;
-		}
-		float maxDamage = 0;
-
-		maxDamage = GetMaxDamage(pos);
-
-		return Mathf.Clamp(maxDamage - metaDataLayer.Get(pos).Damage, 0, float.MaxValue);
-	}
-
 	private TileChangeManager tileChangeManager;
 	private MetaDataLayer metaDataLayer;
 	private MetaTileMap metaTileMap;
-
 	public Layer Layer { get; private set; }
 
 	private Matrix matrix;
@@ -86,7 +50,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		});
 	}
 
-	//Server Only:
 	public void OnCollisionEnter2D(Collision2D coll)
 	{
 		if (!CustomNetworkManager.Instance._isServer)
@@ -190,6 +153,18 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return basicTile.AddDamage(dmgAmt, data, cellPos, attackType, tileChangeManager);
 	}
 
+	public float Integrity(Vector3Int pos)
+	{
+		if (!Layer.HasTile(pos, true))
+		{
+			return 0;
+		}
+		float maxDamage = 0;
+
+		maxDamage = GetMaxDamage(pos);
+
+		return Mathf.Clamp(maxDamage - metaDataLayer.Get(pos).Damage, 0, float.MaxValue);
+	}
 	private float GetMaxDamage(Vector3Int cellPos)
 	{
 		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
