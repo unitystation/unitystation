@@ -1,20 +1,5 @@
 ﻿using UnityEngine;
 
-public enum WindowDamageLevel
-{
-	Undamaged,
-	Crack01,
-	Crack02,
-	Crack03,
-	Broken
-}
-
-public enum GrillDamageLevel
-{
-	Undamaged,
-	Damaged
-}
-
 public class TilemapDamage : MonoBehaviour, IFireExposable
 {
 	private TileChangeManager tileChangeManager;
@@ -159,6 +144,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		return Mathf.Clamp(maxDamage - metaDataLayer.Get(pos).Damage, 0, float.MaxValue);
 	}
+
 	private float GetMaxDamage(Vector3Int cellPos)
 	{
 		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
@@ -174,7 +160,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	{
 		var data = metaDataLayer.Get(cellPos);
 		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
-		data.WindowDamage = WindowDamageLevel.Undamaged;
 		data.Damage = 0;
 	}
 
