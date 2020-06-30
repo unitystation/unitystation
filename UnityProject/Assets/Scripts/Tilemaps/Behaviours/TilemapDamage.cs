@@ -221,24 +221,4 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		basicTile.AddDamage(exposure.StandardDamage(), data, cellPos, AttackType.Fire, tileChangeManager);
 	}
-
-	public void TryScorch(Vector3Int cellPos)
-	{
-		//is it already scorched
-		var metaData = metaDataLayer.Get(cellPos);
-		if (metaData.IsScorched)
-			return;
-
-		//TODO: This should be done using an overlay system which hasn't been implemented yet, this replaces the tile's original appearance
-		if (metaTileMap.HasTile(cellPos, LayerType.Floors, true))
-		{ //Scorch floors
-			tileChangeManager.UpdateTile(cellPos, TileType.Floor, "floorscorched" + Random.Range(1, 3));
-		}
-		else
-		{ //Scorch base
-			tileChangeManager.UpdateTile(cellPos, TileType.Base, "platingdmg" + Random.Range(1, 4));
-		}
-
-		metaData.IsScorched = true;
-	}
 }
