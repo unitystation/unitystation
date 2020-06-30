@@ -101,7 +101,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType)
 	{
-		return DealDamageAt(dmgAmt, cellPos);
+		return DealDamageAt(dmgAmt, attackType, cellPos);
 	}
 
 	public float Integrity(Vector3Int pos)
@@ -125,16 +125,16 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void OnExposed(FireExposure exposure)
 	{
 		var cellPos = exposure.ExposedLocalPosition;
-		DealDamageAt(exposure.StandardDamage(), cellPos);
+		DealDamageAt(exposure.StandardDamage(), AttackType.Fire, cellPos);
 	}
 
-	private float DealDamageAt(float damage, Vector3Int cellPos)
+	private float DealDamageAt(float damage, AttackType attackType, Vector3Int cellPos)
 	{
 		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
 
 		if (basicTile == null) return 0;
 
 		MetaDataNode data = metaDataLayer.Get(cellPos);
-		return basicTile.AddDamage(damage, data, cellPos, AttackType.Fire, tileChangeManager);
+		return basicTile.AddDamage(damage, data, cellPos, attackType, tileChangeManager);
 	}
 }
