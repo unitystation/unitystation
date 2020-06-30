@@ -11,6 +11,7 @@ namespace Chemistry.Effects
 		public GameObject spawnItem;
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
+			amount = (int)Math.Floor(amount);
 			if (sender.gameObject.GetComponent<MixingBowl>() != null)
 			{
 				playerHolding = sender.gameObject.GetComponent<MixingBowl>().playerHolding;
