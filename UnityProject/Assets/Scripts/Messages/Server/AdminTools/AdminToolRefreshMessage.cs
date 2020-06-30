@@ -37,6 +37,9 @@ public class AdminToolRefreshMessage : ServerMessage
 		//Event Manager
 		pageData.randomEventsAllowed = InGameEventsManager.Instance.RandomEventsAllowed;
 
+		//Round Manager
+		pageData.nextMap = SubSceneManager.AdminForcedMainStation;
+
 		//Player list info:
 		pageData.players = GetAllPlayerStates(adminID);
 

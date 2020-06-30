@@ -15,6 +15,8 @@ public partial class SubSceneManager
 		get { return Instance.serverChosenMainStation; }
 	}
 
+	public static string AdminForcedMainStation = "Random";
+
 	IEnumerator RoundStartServerLoadSequence()
 	{
 		var loadTimer = new SubsceneLoadTimer();
@@ -47,10 +49,18 @@ public partial class SubSceneManager
 		{
 			serverChosenMainStation = prevEditorScene;
 		}
-		else
+		else if(AdminForcedMainStation == "Random")
 		{
 			serverChosenMainStation = mainStationList.GetRandomMainStation();
 		}
+		else
+		{
+			serverChosenMainStation = AdminForcedMainStation;
+		}
+
+		//Reset map selector
+		AdminForcedMainStation = "Random";
+
 		loadTimer.IncrementLoadBar($"Loading {serverChosenMainStation}");
 		//load main station
 		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer));

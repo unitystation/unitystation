@@ -45,6 +45,9 @@ namespace AdminTools
 		//Event Manager Updates:
 		public bool randomEventsAllowed;
 
+		//Round Manager
+		public string nextMap;
+
 		//Player Management:
 		public List<AdminPlayerEntryData> players = new List<AdminPlayerEntryData>();
 	}

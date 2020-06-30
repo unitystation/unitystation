@@ -927,6 +927,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, isFake, PlayerList.Instance.GetByUserID(adminId).Username, announceEvent);
 	}
+
+	[Command]
+	public void CmdChangeNextMap(string adminId, string adminToken, string nextMap)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		SubSceneManager.AdminForcedMainStation = nextMap;
+	}
 	#endregion
 
 	[Command]
