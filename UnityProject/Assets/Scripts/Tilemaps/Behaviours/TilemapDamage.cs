@@ -134,26 +134,13 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	public float Integrity(Vector3Int pos)
 	{
-		if (!Layer.HasTile(pos, true))
+		var layerTile = metaTileMap.GetTile(pos, Layer.LayerType) as BasicTile;
+		if (layerTile == null)
 		{
 			return 0;
 		}
-		float maxDamage = 0;
 
-		maxDamage = GetMaxDamage(pos);
-
-		return Mathf.Clamp(maxDamage - metaDataLayer.Get(pos).Damage, 0, float.MaxValue);
-	}
-
-	private float GetMaxDamage(Vector3Int cellPos)
-	{
-		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
-		if (layerTile is BasicTile tile)
-		{
-			return tile.MaxHealth;
-		}
-
-		return 0;
+		return Mathf.Clamp(layerTile.MaxHealth - metaDataLayer.Get(pos).Damage, 0, float.MaxValue);
 	}
 
 	public void RepairWindow(Vector3Int cellPos)
