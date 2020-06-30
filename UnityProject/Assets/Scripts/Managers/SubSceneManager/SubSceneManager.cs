@@ -16,6 +16,8 @@ public partial class SubSceneManager : NetworkBehaviour
 
 	readonly ScenesSyncList loadedScenesList = new ScenesSyncList();
 
+	public MainStationListSO MainStationList => mainStationList;
+
 	public bool AwaySiteLoaded { get; private set; }
 	public bool MainStationLoaded { get; private set; }
 

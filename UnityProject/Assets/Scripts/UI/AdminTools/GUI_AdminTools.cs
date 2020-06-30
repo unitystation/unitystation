@@ -16,9 +16,9 @@ namespace AdminTools
 		[SerializeField] private GameObject playerManagePage = null;
 		[SerializeField] private GameObject playerChatPage = null;
 		[SerializeField] private GameObject playersScrollView = null;
-		[SerializeField] private GameObject CentCommPage = null;
+		[SerializeField] private GameObject centCommPage = null;
 		[SerializeField] private GameObject eventsManagerPage = null;
-		[SerializeField] private AdminChatButtons adminChatButtons;
+		[SerializeField] private GameObject roundManagerPage = null;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
@@ -98,7 +98,7 @@ namespace AdminTools
 		public void ShowCentCommPage()
 		{
 			DisableAllPages();
-			CentCommPage.SetActive(true);
+			centCommPage.SetActive(true);
 			backBtn.SetActive(true);
 			windowTitle.text = "CENTCOMM";
 		}
@@ -112,6 +112,14 @@ namespace AdminTools
 			windowTitle.text = "EVENTS MANAGER";
 		}
 
+		public void ShowRoundManagerPage()
+		{
+			DisableAllPages();
+			roundManagerPage.SetActive(true);
+			backBtn.SetActive(true);
+			windowTitle.text = "ROUND MANAGER";
+		}
+
 		void DisableAllPages()
 		{
 			retrievingDataScreen.SetActive(false);
@@ -120,9 +128,10 @@ namespace AdminTools
 			backBtn.SetActive(false);
 			playerManagePage.SetActive(false);
 			playerChatPage.SetActive(false);
-			CentCommPage.SetActive(false);
+			centCommPage.SetActive(false);
 			eventsManagerPage.SetActive(false);
 			playersScrollView.SetActive(false);
+			roundManagerPage.SetActive(false);
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);
 		}

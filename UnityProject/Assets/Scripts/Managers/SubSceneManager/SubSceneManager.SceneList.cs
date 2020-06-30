@@ -15,6 +15,9 @@ public partial class SubSceneManager
 		get { return Instance.serverChosenMainStation; }
 	}
 
+	public static string AdminForcedMainStation = "Random";
+	public static string AdminForcedAwaySite = "Random";
+
 	IEnumerator RoundStartServerLoadSequence()
 	{
 		var loadTimer = new SubsceneLoadTimer();
@@ -43,14 +46,22 @@ public partial class SubSceneManager
 		MainStationLoaded = true;
 		//Auto scene load stuff in editor:
 		var prevEditorScene = GetEditorPrevScene();
-		if (mainStationList.MainStations.Contains(prevEditorScene))
+		if (mainStationList.MainStations.Contains(prevEditorScene) && AdminForcedMainStation == "Random")
 		{
 			serverChosenMainStation = prevEditorScene;
 		}
-		else
+		else if(AdminForcedMainStation == "Random")
 		{
 			serverChosenMainStation = mainStationList.GetRandomMainStation();
 		}
+		else
+		{
+			serverChosenMainStation = AdminForcedMainStation;
+		}
+
+		//Reset map selector
+		AdminForcedMainStation = "Random";
+
 		loadTimer.IncrementLoadBar($"Loading {serverChosenMainStation}");
 		//load main station
 		yield return StartCoroutine(LoadSubScene(serverChosenMainStation, loadTimer));
@@ -82,14 +93,21 @@ public partial class SubSceneManager
 	{
 		var prevEditorScene = GetEditorPrevScene();
 		//Load the away site
-		if (awayWorldList.AwayWorlds.Contains(prevEditorScene))
+		if (awayWorldList.AwayWorlds.Contains(prevEditorScene) && AdminForcedAwaySite == "Random")
 		{
 			serverChosenAwaySite = prevEditorScene;
 		}
-		else
+		else if(AdminForcedAwaySite == "Random")
 		{
 			serverChosenAwaySite = awayWorldList.GetRandomAwaySite();
 		}
+		else
+		{
+			serverChosenAwaySite = AdminForcedAwaySite;
+		}
+
+		AdminForcedAwaySite = "Random";
+
 		loadTimer.IncrementLoadBar("Loading Away Site");
 		if (serverChosenAwaySite.IsNullOrEmpty() == false)
 		{
