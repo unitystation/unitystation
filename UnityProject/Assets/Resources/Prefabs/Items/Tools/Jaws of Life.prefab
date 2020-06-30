@@ -18,6 +18,18 @@ MonoBehaviour:
   variantIndex: -1
   variantType: 0
   hideClothingFlags: 0
+--- !u!114 &6603776508560279397
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6918947953705996213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1418c7e2d4af82eae90248862cf99f5f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1691278609676860386
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -33,7 +45,7 @@ PrefabInstance:
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 4
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -133,7 +145,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644,
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
