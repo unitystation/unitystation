@@ -31,10 +31,14 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[Tooltip("Max amount of players that can fit in it at once.")]
 	[SerializeField]
 	private int playerLimit = 3;
-
-	[Tooltip("How much metal to drop when destroyed")]
+	
+	[Tooltip("Type of material to drop when destroyed")]
+	public GameObject matsOnDestroy;
+	
+	[FormerlySerializedAs("metalDroppedOnDestroy")]
+	[Tooltip("How much material to drop when destroyed")]
 	[SerializeField]
-	private int metalDroppedOnDestroy = 2;
+	private int matsDroppedOnDestroy = 2;
 
 	[FormerlySerializedAs("soundOnOpen")]
 	[Tooltip("Name of sound to play when opened / closed")]
@@ -147,9 +151,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		SyncLocked(isLocked, false);
 		SyncStatus(statusSync, ClosetStatus.Open);
 
-		if (metalDroppedOnDestroy > 0)
+		if (matsDroppedOnDestroy > 0)
 		{
-			Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: metalDroppedOnDestroy,
+			Spawn.ServerPrefab(matsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: matsDroppedOnDestroy,
 				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		}
 	}

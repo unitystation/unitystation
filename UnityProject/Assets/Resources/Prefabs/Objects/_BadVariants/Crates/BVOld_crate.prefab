@@ -131,7 +131,8 @@ MonoBehaviour:
   lockLight: {fileID: 0}
   IsLockable: 0
   playerLimit: 3
-  metalDroppedOnDestroy: 2
+  matsOnDestroy: {fileID: 0}
+  matsDroppedOnDestroy: 2
   soundOnOpenOrClose: OpenClose
   doorOpened: {fileID: -4692825688617060892, guid: ad630dd22d239c34ea762522e0325288,
     type: 3}
@@ -245,7 +246,7 @@ PrefabInstance:
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
-      value: crate
+      value: BVOld_crate
       objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
