@@ -96,25 +96,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	public float ApplyDamage(Vector3Int cellPos, float dmgAmt, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
 	{
-		return DoDamageInternal(cellPos, dmgAmt, worldPos, attackType); //idk if collision can be classified as "melee"
+		return DoDamageInternal(cellPos, dmgAmt, worldPos, attackType);
 	}
 
-	/// <summary>
-	/// Damage in excess of the tile's current health, 0 if tile was not destroyed or health equaled damage done
-	/// </summary>
-	/// <param name="cellPos"></param>
-	/// <param name="dmgAmt"></param>
-	/// <param name="worldPos"></param>
-	/// <param name="attackType"></param>
-	/// <returns></returns>
 	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType)
 	{
-		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
-
-		if (basicTile == null) return 0;
-
-		MetaDataNode data = metaDataLayer.Get(cellPos);
-		return basicTile.AddDamage(dmgAmt, data, cellPos, attackType, tileChangeManager);
+		return DealDamageAt(dmgAmt, cellPos);
 	}
 
 	public float Integrity(Vector3Int pos)
@@ -138,11 +125,16 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void OnExposed(FireExposure exposure)
 	{
 		var cellPos = exposure.ExposedLocalPosition;
+		DealDamageAt(exposure.StandardDamage(), cellPos);
+	}
+
+	private float DealDamageAt(float damage, Vector3Int cellPos)
+	{
 		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
 
-		if (basicTile == null) return;
+		if (basicTile == null) return 0;
 
 		MetaDataNode data = metaDataLayer.Get(cellPos);
-		basicTile.AddDamage(exposure.StandardDamage(), data, cellPos, AttackType.Fire, tileChangeManager);
+		return basicTile.AddDamage(damage, data, cellPos, AttackType.Fire, tileChangeManager);
 	}
 }
