@@ -59,7 +59,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		forceDir.z = 0;
 		Vector3 bulletHitTarget = hitPos + (forceDir * 0.2f);
 		Vector3Int cellPos = metaTileMap.WorldToCell(Vector3Int.RoundToInt(bulletHitTarget));
-		MetaDataNode data = metaDataLayer.Get(cellPos);
 
 		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
 
@@ -69,21 +68,18 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		{
 			if (Layer.LayerType == LayerType.Walls)
 			{
-
-				if (basicTile != null)
+				if (Validations.IsMineableAt(bulletHitTarget, metaTileMap))
 				{
-					if (Validations.IsMineableAt(bulletHitTarget, metaTileMap))
-					{
-						SoundManager.PlayNetworkedAtPos("BreakStone", bulletHitTarget);
-						Spawn.ServerPrefab(basicTile.SpawnOnDeconstruct, bulletHitTarget,
-							count: basicTile.SpawnAmountOnDeconstruct);
-						tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-						return;
-					}
+					SoundManager.PlayNetworkedAtPos("BreakStone", bulletHitTarget);
+					Spawn.ServerPrefab(basicTile.SpawnOnDeconstruct, bulletHitTarget,
+						count: basicTile.SpawnAmountOnDeconstruct);
+					tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
+					return;
 				}
 			}
 		}
 
+		MetaDataNode data = metaDataLayer.Get(cellPos);
 		basicTile.AddDamage(bullet.damage, data, cellPos, AttackType.Bullet, tileChangeManager);
 	}
 
@@ -113,13 +109,11 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	/// <returns></returns>
 	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType)
 	{
-		MetaDataNode data = metaDataLayer.Get(cellPos);
-
-		//look up layer tile so we can calculate damage
 		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
 
 		if (basicTile == null) return 0;
 
+		MetaDataNode data = metaDataLayer.Get(cellPos);
 		return basicTile.AddDamage(dmgAmt, data, cellPos, attackType, tileChangeManager);
 	}
 
@@ -144,13 +138,11 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void OnExposed(FireExposure exposure)
 	{
 		var cellPos = exposure.ExposedLocalPosition;
-		MetaDataNode data = metaDataLayer.Get(cellPos);
-
-		//look up layer tile so we can calculate damage
 		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
 
 		if (basicTile == null) return;
 
+		MetaDataNode data = metaDataLayer.Get(cellPos);
 		basicTile.AddDamage(exposure.StandardDamage(), data, cellPos, AttackType.Fire, tileChangeManager);
 	}
 }
