@@ -934,6 +934,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
+		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: changed the next round map from {SubSceneManager.AdminForcedMainStation} to {nextMap}.";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
+
 		SubSceneManager.AdminForcedMainStation = nextMap;
 	}
 	#endregion
