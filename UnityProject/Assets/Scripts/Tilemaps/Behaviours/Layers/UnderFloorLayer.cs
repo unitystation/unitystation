@@ -139,7 +139,7 @@ public class UnderFloorLayer : Layer
 
 			if (Application.isPlaying)
 			{
-				matrix.TileChangeManager.UnderfloorUpdateTile(position, tile as BasicTile, transformMatrix,color);
+				matrix.TileChangeManager.UnderfloorUpdateTile(position, tile as BasicTile);
 			}
 			else
 			{

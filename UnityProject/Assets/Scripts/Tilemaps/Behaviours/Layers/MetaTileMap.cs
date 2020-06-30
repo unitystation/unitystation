@@ -269,30 +269,6 @@ public class MetaTileMap : MonoBehaviour
 		return null;
 	}
 
-
-	/// <summary>
-	/// used to check if the tiles are same for networking
-	/// </summary>
-	/// <param name="position"></param>
-	/// <param name="layerTile"></param>
-	/// <param name="transformMatrix"></param>
-	/// <param name="color"></param>
-	/// <returns></returns>
-	public bool IsDifferent(Vector3Int cellPosition,LayerTile layerTile , LayerType layerType, Matrix4x4? transformMatrix = null,
-		Color? color = null)
-	{
-		if (Layers.TryGetValue(layerType, out var layer))
-		{
-			return layer.IsDifferent(cellPosition, layerTile, transformMatrix,color );
-		}
-		else
-		{
-			LogMissingLayer(cellPosition, layerType);
-		}
-
-		return true;
-	}
-
 	/// <summary>
 	/// Gets the topmost tile at the specified cell position
 	/// </summary>
