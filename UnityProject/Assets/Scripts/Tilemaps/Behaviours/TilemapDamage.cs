@@ -120,13 +120,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (basicTile == null) return 0;
 
-		if (basicTile.Resistances.Indestructable ||
-		    basicTile.Resistances.FireProof && attackType == AttackType.Fire ||
-		    basicTile.Resistances.AcidProof && attackType == AttackType.Acid)
-		{
-			return 0;
-		}
-
 		return basicTile.AddDamage(dmgAmt, data, cellPos, attackType, tileChangeManager);
 	}
 
