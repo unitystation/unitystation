@@ -44,9 +44,11 @@ public class RoundManagerPage : AdminPage
 
 		for (var i = 0; i < optionData.Count; i++)
 		{
-			optionData[i].text = adminPageData.nextMap;
-			nextMapDropDown.value = i;
-			return;
+			if (optionData[i].text == adminPageData.nextMap)
+			{
+				nextMapDropDown.value = i;
+				return;
+			}
 		}
 	}
 }
