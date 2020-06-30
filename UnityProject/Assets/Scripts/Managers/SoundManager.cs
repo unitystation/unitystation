@@ -18,151 +18,16 @@ public class SoundManager : MonoBehaviour
 
 	private static SoundManager soundManager;
 
-	private readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+	public readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
 
 	private readonly Dictionary<string, string[]> soundPatterns = new Dictionary<string, string[]>();
 
 	private static readonly System.Random RANDOM = new System.Random();
 
-	private static AudioSource currentLobbyAudioSource;
-
-	private readonly Dictionary<Footstep, List<string>> FootSteps = new Dictionary<Footstep, List<string>>(){
-		{ Footstep.floor,
-			 new List<string> {"floor1","floor2","floor3","floor4","floor5"}},
-		{Footstep.asteroid,
-			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
-		{Footstep.carpet,
-			 new List<string> {"carpet1","carpet2","carpet3","carpet4","carpet5"}},
-		{Footstep.catwalk,
-			 new List<string> {"catwalk1","catwalk2","catwalk3","catwalk4","catwalk5"}},
-		{Footstep.grass,
-			 new List<string> {"grass1","grass2","grass3","grass4"}},
-		{Footstep.lava, //not literally
-			 new List<string> {"lava1","lava2","lava3"}},
-		{Footstep.plating,
-			 new List<string> {"plating1","plating2","plating3","plating4", "plating5" }},
-		{Footstep.wood,
-			 new List<string> {"wood1","wood2","wood3","wood4", "wood5" }},
-		{Footstep.sand,
-			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
-		{Footstep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}},
-		{Footstep.clownstep,
-			 new List<string> {"clownstep1","clownstep2" }},
-	};
-
-	private readonly Dictionary<BareFootstep, List<string>> BareFootsteps = new Dictionary<BareFootstep, List<string>>(){
-		{BareFootstep.floor,
-			 new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}},
-		{BareFootstep.asteroid,
-			 new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}},
-		{BareFootstep.carpet,
-			 new List<string> {"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}},
-		{BareFootstep.catwalk,
-			 new List<string> {"catwalk1","catwalk2","catwalk3","catwalk4","catwalk5"}},
-		{BareFootstep.grass,
-			 new List<string> {"grass1","grass2","grass3","grass4"}},
-		{BareFootstep.lava, //not literally
-			 new List<string> {"lava1","lava2","lava3"}},
-		{BareFootstep.plating,
-			new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}},
-		{BareFootstep.wood,
-			 new List<string> {"woodbarefoot1", "woodbarefoot2", "woodbarefoot3", "woodbarefoot4", "woodbarefoot5"}},
-		{BareFootstep.sand,
-			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
-		{BareFootstep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}},
-		{BareFootstep.clownstep,
-			 new List<string> {"clownstep1","clownstep2" }}
-	};
-
-	private readonly Dictionary<ClawFootstep, List<string>> ClawFootsteps = new Dictionary<ClawFootstep, List<string>>(){
-		{ClawFootstep.floor,
-			 new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}},
-		{ClawFootstep.asteroid,
-			 new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}},
-		{ClawFootstep.carpet,
-			 new List<string> {"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}},
-		{ClawFootstep.catwalk,
-			 new List<string> {"catwalk1","catwalk2","catwalk3","catwalk4","catwalk5"}},
-		{ClawFootstep.grass,
-			 new List<string> {"grass1","grass2","grass3","grass4"}},
-		{ClawFootstep.lava, //not literally
-			 new List<string> {"lava1","lava2","lava3"}},
-		{ClawFootstep.plating,
-			new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}},
-		{ClawFootstep.wood,
-			 new List<string> {"woodclaw1", "woodclaw2", "woodclaw3", "woodclaw4", "woodclaw5"}},
-		{ClawFootstep.sand,
-			 new List<string> {"asteroid1","asteroid2","asteroid3","asteroid4","asteroid5"}},
-		{ClawFootstep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}}
-	};
-
-	private readonly Dictionary<HeavyFootstep, List<string>> HeavyFootsteps = new Dictionary<HeavyFootstep, List<string>>(){
-		{HeavyFootstep.floor,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.asteroid,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.carpet,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.catwalk,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.grass,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.lava,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.plating,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.wood,
-			 new List<string> {"suitstep1", "suitstep2"}},
-		{HeavyFootstep.sand,
-			 new List<string> {"lava1", "lava2", "lava3"}},
-		{HeavyFootstep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}}
-
-	};
-
-	private readonly Dictionary<ClownFoostep, List<string>> ClownFootsteps = new Dictionary<ClownFoostep, List<string>>(){
-		{ClownFoostep.floor,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.asteroid,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.carpet,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.catwalk,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.grass,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.lava,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.plating,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.wood,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.sand,
-			 new List<string> {"clownstep1", "clownstep2"}},
-		{ClownFoostep.water,
-			 new List<string> {"water1", "water2", "water3", "water4"}}
-
-	};
-
 	private static bool Step;
-	private bool isMusicMute;
 
-	private List<AudioSource> ambientTracks = new List<AudioSource>();
-	public AudioSource ambientTrack;
-
-	// Use this for initialization
-	//public AudioSource[] sounds;
-	public List<AudioSource> musicTracks = new List<AudioSource>();
-
-	[SerializeField]
-	private SongTracker songTracker = null;
-	/// <summary>
-	/// For controlling the song play list. Includes random shuffle and auto play
-	/// </summary>
-	public static SongTracker SongTracker => soundManager.songTracker;
+	[SerializeField] private GameObject soundSpawnPrefab = null;
+	private List<SoundSpawn> pooledSources = new List<SoundSpawn>();
 
 	public static SoundManager Instance
 	{
@@ -177,11 +42,7 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	[Range(0f, 1f)]
-	public float MusicVolume = 1;
-
-	[SerializeField]
-	private string[] RoundEndSounds = new string[]
+	[SerializeField] private string[] RoundEndSounds = new string[]
 	{
 		"ApcDestroyed",
 		"BanginDonk",
@@ -202,34 +63,17 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	void Awake()
+	private void Awake()
 	{
 		Init();
 	}
 
 	private void Init()
 	{
-		//Mute Music Preference
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.MuteMusic))
-		{
-			isMusicMute = PlayerPrefs.GetInt(PlayerPrefKeys.MuteMusic) == 0;
-		}
-
-		//Ambient Volume Preference
-		if (PlayerPrefs.HasKey(PlayerPrefKeys.AmbientVolumeKey))
-		{
-			AmbientVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey));
-		}
-		else
-		{
-			AmbientVolume(1f);
-		}
-
-		//Master Volume 
+		//Master Volume
 		if (PlayerPrefs.HasKey(PlayerPrefKeys.MasterVolumeKey))
 		{
 			MasterVolume(PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey));
-			
 		}
 		else
 		{
@@ -242,28 +86,112 @@ public class SoundManager : MonoBehaviour
 		for (int i = 0; i < audioSources.Length; i++)
 		{
 			var audioSource = audioSources[i];
-			if (audioSource.gameObject.CompareTag("AmbientSound"))
-			{
-				ambientTracks.Add(audioSource);
-				continue;
 
-			}
-			if (audioSource.gameObject.CompareTag("Music"))
-			{
-				musicTracks.Add(audioSource);
-				continue;
-			}
 			if (audioSource.gameObject.CompareTag("SoundFX"))
 			{
 				if (sounds.ContainsKey(audioSource.name))
 				{
-					Logger.LogErrorFormat("SoundManager: Duplicate sound name {0} on scene {1}, skipping!", Category.SoundFX,
+					Logger.LogErrorFormat("SoundManager: Duplicate sound name {0} on scene {1}, skipping!",
+						Category.SoundFX,
 						audioSource.name, SceneManager.GetActiveScene().name);
 					continue;
 				}
+
 				sounds.Add(audioSource.name, audioSource);
 			}
 		}
+	}
+
+	private void OnEnable()
+	{
+		SceneManager.activeSceneChanged += OnSceneChange;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneChange;
+	}
+
+	private void OnSceneChange(Scene oldScene, Scene newScene)
+	{
+		ReinitSoundPool();
+	}
+
+	private void ReinitSoundPool()
+	{
+		for (int i = Instance.pooledSources.Count - 1; i > 0; i--)
+		{
+			if (Instance.pooledSources[i] != null)
+			{
+				Destroy(Instance.pooledSources[i].gameObject);
+			}
+		}
+
+		Instance.pooledSources.Clear();
+
+		// Cache some pooled sources:
+		for (int i = 0; i < 20; i++)
+		{
+			var soundObj = Instantiate(soundSpawnPrefab, transform);
+			pooledSources.Add(soundObj.GetComponent<SoundSpawn>());
+		}
+	}
+
+	/// <summary>
+	/// Uses a pooled AudioSource instead of the origianl one.
+	/// This copies the sourceToCopy settings to a source taken from the pool
+	/// and return it.
+	/// </summary>
+	private SoundSpawn GetSourceFromPool(AudioSource sourceToCopy)
+	{
+		for (int i = pooledSources.Count - 1; i > 0; i--)
+		{
+			if (pooledSources[i] != null && pooledSources[i].gameObject != null
+			                             && !pooledSources[i].isPlaying)
+			{
+				pooledSources[i].isPlaying = true;
+				CopySource(pooledSources[i].audioSource, sourceToCopy);
+				return pooledSources[i];
+			}
+		}
+
+		var soundObj = Instantiate(soundSpawnPrefab, transform);
+		var source = soundObj.GetComponent<SoundSpawn>();
+		pooledSources.Add(source);
+		source.isPlaying = true;
+		CopySource(source.audioSource, sourceToCopy);
+		return source;
+	}
+
+	private void CopySource(AudioSource newSource, AudioSource sourceToCopy)
+	{
+		newSource.clip = sourceToCopy.clip;
+		newSource.loop = sourceToCopy.loop;
+		newSource.pitch = sourceToCopy.pitch;
+		newSource.mute = sourceToCopy.mute;
+		newSource.spatialize = sourceToCopy.spatialize;
+		newSource.spread = sourceToCopy.spread;
+		newSource.volume = sourceToCopy.volume;
+		newSource.bypassEffects = sourceToCopy.bypassEffects;
+		newSource.dopplerLevel = sourceToCopy.dopplerLevel;
+		newSource.maxDistance = sourceToCopy.maxDistance;
+		newSource.minDistance = sourceToCopy.minDistance;
+		newSource.panStereo = sourceToCopy.panStereo;
+		newSource.rolloffMode = sourceToCopy.rolloffMode;
+		newSource.spatialBlend = sourceToCopy.spatialBlend;
+		newSource.bypassListenerEffects = sourceToCopy.bypassListenerEffects;
+		newSource.bypassReverbZones = sourceToCopy.bypassReverbZones;
+		newSource.reverbZoneMix = sourceToCopy.reverbZoneMix;
+		newSource.spatializePostEffects = sourceToCopy.spatializePostEffects;
+		newSource.outputAudioMixerGroup = sourceToCopy.outputAudioMixerGroup;
+		newSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff,
+			sourceToCopy.GetCustomCurve(AudioSourceCurveType.CustomRolloff));
+		newSource.SetCustomCurve(AudioSourceCurveType.Spread,
+			sourceToCopy.GetCustomCurve(AudioSourceCurveType.Spread));
+		newSource.SetCustomCurve(AudioSourceCurveType.SpatialBlend,
+			sourceToCopy.GetCustomCurve(AudioSourceCurveType.SpatialBlend));
+		newSource.SetCustomCurve(AudioSourceCurveType.ReverbZoneMix,
+			sourceToCopy.GetCustomCurve(AudioSourceCurveType.ReverbZoneMix));
 	}
 
 	/// <summary>
@@ -280,6 +208,7 @@ public class SoundManager : MonoBehaviour
 				return soundNames[Random.Range(0, soundNames.Length)];
 			}
 		}
+
 		return sndName;
 	}
 
@@ -292,8 +221,9 @@ public class SoundManager : MonoBehaviour
 		{
 			return soundPatterns[pattern];
 		}
+
 		var regex = new Regex(Regex.Escape(pattern).Replace(@"\#", @"\d+"));
-		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>)regex.IsMatch).ToArray();
+		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>) regex.IsMatch).ToArray();
 	}
 
 	/// <summary>
@@ -305,7 +235,8 @@ public class SoundManager : MonoBehaviour
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.SendToAll(sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+		PlaySoundMessage.SendToAll(sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity,
+			shakeRange);
 	}
 
 	/// <summary>
@@ -314,15 +245,17 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool Global = true)
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool Global = true, GameObject sourceObj = null)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
 		if (Global)
 		{
-			PlaySoundMessage.SendToAll(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+			PlaySoundMessage.SendToAll(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange, sourceObj);
 		}
-		else {
-			PlaySoundMessage.SendToNearbyPlayers(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+		else
+		{
+			PlaySoundMessage.SendToNearbyPlayers(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity,
+				shakeRange, sourceObj);
 		}
 	}
 
@@ -333,10 +266,11 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static void PlayNetworkedForPlayer(GameObject recipient, string sndName, float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+		PlaySoundMessage.Send(recipient, sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround,
+			shakeIntensity, shakeRange, sourceObj);
 	}
 
 	/// <summary>
@@ -344,29 +278,33 @@ public class SoundManager : MonoBehaviour
 	/// ("Doctor, there are voices in my head!")
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos, string sndName, float pitch = -1,
+	public static void PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos, string sndName,
+		float pitch = -1,
 		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange);
+		PlaySoundMessage.Send(recipient, sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange, sourceObj);
 	}
 
 	/// <summary>
 	/// Play sound locally.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void Play(string name, float volume, float pitch = -1, float time = 0, bool oneShot = false, float pan = 0)
+	public static void Play(string name, float volume, float pitch = -1, float time = 0, bool oneShot = false,
+		float pan = 0)
 	{
 		name = Instance.ResolveSoundPattern(name);
+		var sound = Instance.GetSourceFromPool(Instance.sounds[name]);
 		if (pitch > 0)
 		{
-			Instance.sounds[name].pitch = pitch;
+			sound.audioSource.pitch = pitch;
 		}
-		Instance.sounds[name].time = time;
-		Instance.sounds[name].volume = volume;
-		Instance.sounds[name].panStereo = pan;
-		Play(name, oneShot);
+
+		sound.audioSource.time = time;
+		sound.audioSource.volume = volume;
+		sound.audioSource.panStereo = pan;
+		Instance.PlaySource(sound, oneShot);
 	}
 
 	/// <summary>
@@ -381,8 +319,6 @@ public class SoundManager : MonoBehaviour
 		return Instance.sounds[name];
 	}
 
-
-
 	/// <summary>
 	/// Play sound locally.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
@@ -390,114 +326,102 @@ public class SoundManager : MonoBehaviour
 	public static void Play(string name, bool polyphonic = false, bool Global = true)
 	{
 		name = Instance.ResolveSoundPattern(name);
-		var sound = Instance.sounds[name];
+		Instance.PlaySource(Instance.GetSourceFromPool(Instance.sounds[name]));
+	}
 
+	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true)
+	{
 		if (!Global
-			&& PlayerManager.LocalPlayer != null
-			&& Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), sound.transform.position, layerMask))
+		    && PlayerManager.LocalPlayer != null
+		    && Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), source.transform.position, layerMask))
 		{
 			//Logger.Log("MuffledMixer");
-			sound.outputAudioMixerGroup = soundManager.MuffledMixer;
-		}
-		else {
-			sound.outputAudioMixerGroup = soundManager.DefaultMixer;
-		}
-		if (polyphonic)
-		{
-			sound.PlayOneShot(sound.clip);
+			source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
 		}
 		else
 		{
-			sound.Play();
+			source.audioSource.outputAudioMixerGroup = soundManager.DefaultMixer;
 		}
-	}
 
-	/// <summary>
-	/// Play Footstep at given world position.
-	/// </summary>
-
-	//TODO creature has claws
-
-	// Creature is barefoot (with humanlike foot)
-	private static void BarefootAtPosition(Vector3 worldPos, BasicTile tile)
-	{
-		var WalkingSoundCategory = tile.BarefootWalkingSoundCategory;
-		PlayNetworkedAtPos(Instance.BareFootsteps[WalkingSoundCategory][RANDOM.Next(Instance.BareFootsteps[WalkingSoundCategory].Count)],
-									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-									Global: false, polyphonic: true);
-	}
-
-	// TODO Creature is wearing hardsuit
-
-	// Creature is wearing clown shoes
-	private static void ClownStepAtPos(Vector3 worldPos, BasicTile tile)
-	{
-		var WalkingSoundCategory = tile.ClownFootstepSoundCategory;
-		PlayNetworkedAtPos(Instance.ClownFootsteps[WalkingSoundCategory][RANDOM.Next(Instance.ClownFootsteps[WalkingSoundCategory].Count)],
-									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-									Global: false, polyphonic: true);
-	}
-
-	// Normal footsteps
-	public static void FootstepAtPosition(Vector3 worldPos, Pickupable feetSlot)
-	{
-		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
-
-		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
-		var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
-
-		if (tile != null)
+		if (polyphonic)
 		{
-			if (Step)
-			{
-				if (feetSlot == null) 
-				{
-					//TODO when we have creatures with claws, check here to make proper claw sound
-					BarefootAtPosition(worldPos, tile);
-				}
-				else if (Validations.HasItemTrait(feetSlot.gameObject, CommonTraits.Instance.Squeaky))
-				{
-					ClownStepAtPos(worldPos, tile);
-				}
-				else
-				{
-					PlayNetworkedAtPos(Instance.FootSteps[tile.WalkingSoundCategory][RANDOM.Next(Instance.FootSteps[tile.WalkingSoundCategory].Count)],
-									worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-									Global: false, polyphonic: true);
-				}
-			}
-			Step = !Step;
+			source.PlayOneShot();
+		}
+		else
+		{
+			source.PlayNormally();
 		}
 	}
-
 
 	/// <summary>
 	/// Play Glassknock at given world position.
 	/// </summary>
-	public static void GlassknockAtPosition(Vector3 worldPos)
+	public static void GlassknockAtPosition(Vector3 worldPos, GameObject performer = null)
 	{
-		PlayNetworkedAtPos("GlassKnock", worldPos, (float)Instance.GetRandomNumber(0.7d, 1.2d),
-						   Global: false, polyphonic: true);
+		PlayNetworkedAtPos("GlassKnock", worldPos, (float) Instance.GetRandomNumber(0.7d, 1.2d),
+			Global: false, polyphonic: true, sourceObj: performer);
 	}
 
+	/// <summary>
+	/// Play sound locally at given world position.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// This static method is for specifically attaching sound play to a target object (it will
+	/// parent itself to the target and set its local position to Vector3.zero before playing)
+	/// This is useful for moving objects that play sounds
+	/// </summary>
+	public static void PlayAtPosition(string name, Vector3 worldPos, GameObject sourceObj, float pitch = -1,
+		bool polyphonic = false,
+		bool isGlobal = false)
+	{
+		var netId = NetId.Empty;
+		if (sourceObj != null)
+		{
+			var netB = sourceObj.GetComponent<NetworkBehaviour>();
+			if (netB != null)
+			{
+				netId = netB.netId;
+			}
+		}
+
+		PlayAtPosition(name, worldPos, pitch, polyphonic, isGlobal, netId);
+	}
 
 	/// <summary>
 	/// Play sound locally at given world position.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayAtPosition(string name, Vector3 worldPos, float pitch = -1, bool polyphonic = false)
+	public static void PlayAtPosition(string name, Vector3 worldPos, float pitch = -1, bool polyphonic = false,
+		bool isGlobal = false, uint netId = NetId.Empty)
 	{
 		name = Instance.ResolveSoundPattern(name);
-		if (Instance.sounds.ContainsKey(name))
+		if (!Instance.sounds.ContainsKey(name)) return;
+		var sound = Instance.GetSourceFromPool(Instance.sounds[name]);
+
+		if (pitch > 0)
 		{
-			var sound = Instance.sounds[name];
-			if (pitch > 0)
-			{
-				sound.pitch = pitch;
-			}
-			sound.transform.position = worldPos;
-			Play(name, polyphonic, false);
+			sound.audioSource.pitch = pitch;
 		}
+
+		if (netId != NetId.Empty)
+		{
+			if (NetworkIdentity.spawned.ContainsKey(netId))
+			{
+				sound.transform.parent = NetworkIdentity.spawned[netId].transform;
+				sound.transform.localPosition = Vector3.zero;
+			}
+			else
+			{
+				sound.transform.parent = Instance.transform;
+				sound.transform.position = worldPos;
+			}
+		}
+		else
+		{
+			sound.transform.parent = Instance.transform;
+			sound.transform.position = worldPos;
+		}
+
+		Instance.PlaySource(sound, polyphonic, isGlobal);
 	}
 
 	/// <summary>
@@ -508,151 +432,36 @@ public class SoundManager : MonoBehaviour
 	{
 		if (Instance.sounds.ContainsKey(name))
 		{
-			Instance.sounds[name].Stop();
+			var sound = Instance.sounds[name];
+
+			for (int i = Instance.pooledSources.Count - 1; i > 0; i--)
+			{
+				if (Instance.pooledSources[i] == null) continue;
+
+				if (Instance.pooledSources[i].isPlaying && Instance.pooledSources[i].audioSource.clip == sound.clip)
+				{
+					Instance.pooledSources[i].audioSource.Stop();
+				}
+			}
+
+			sound.Stop();
 		}
 		else
 		{
 			foreach (var sound in Instance.GetMatchingSounds(name))
 			{
-				Instance.sounds[sound].Stop();
+				var s = Instance.sounds[sound];
+				for (int i = Instance.pooledSources.Count - 1; i > 0; i--)
+				{
+					if (Instance.pooledSources[i] == null) continue;
+					if (Instance.pooledSources[i].isPlaying && Instance.pooledSources[i].audioSource.clip == s.clip)
+					{
+						Instance.pooledSources[i].audioSource.Stop();
+					}
+				}
+				s.Stop();
 			}
 		}
-	}
-
-	public static void StopMusic()
-	{
-		foreach (AudioSource track in Instance.musicTracks)
-		{
-			track.Stop();
-		}
-		Synth.Instance.StopMusic();
-	}
-
-	public static void StopAmbient()
-	{
-		foreach (AudioSource source in Instance.ambientTracks)
-		{
-			source.Stop();
-		}
-	}
-
-	[ContextMenu("PlayRandomMusicTrack")]
-	public void PlayRndTrackEditor()
-	{
-		PlayRandomTrack();
-	}
-
-	/// <summary>
-	/// Plays a random music track.
-	/// Using two diiferent ways to play tracks, some tracks are normal audio and some are tracker files played by sunvox.
-	/// <returns>String[] that represents the picked song's name.</returns>
-	/// </summary>
-	public static String[] PlayRandomTrack()
-	{
-		StopMusic();
-		String[] songInfo;
-
-		// To make sure not to play the last song that just played,
-		// every time a track is played, it's either a normal audio or track played by sunvox, alternatively.
-		if (currentLobbyAudioSource == null)
-		{
-			//Traditional music
-			int randTrack = Random.Range(0, Instance.musicTracks.Count);
-			currentLobbyAudioSource = Instance.musicTracks[randTrack];
-			var volume = Instance.MusicVolume;
-			if (Instance.isMusicMute)
-			{
-				volume = 0f;
-			}
-			currentLobbyAudioSource.volume = volume;
-			currentLobbyAudioSource.Play();
-			songInfo = currentLobbyAudioSource.clip.name.Split('_'); // Spliting to get the song and artist name
-		}
-		else
-		{
-			currentLobbyAudioSource = null;
-			//Tracker music
-			var trackerMusic = new[]
-			{
-				"Spaceman_HERB.xm",
-				"Echo sound_4mat.xm",
-				"Tintin on the Moon_Jeroen Tel.xm"
-			};
-			var songPicked = trackerMusic.Wrap(Random.Range(1, 100));
-			var vol = 255 * Instance.MusicVolume;
-
-			if (Instance.isMusicMute)
-			{
-				vol = 0f;
-			}
-
-			Synth.Instance.PlayMusic(songPicked, false, (byte)(int)vol);
-			songPicked = songPicked.Split('.')[0]; // Throwing away the .xm extension in the string
-			songInfo = songPicked.Split('_'); // Spliting to get the song and artist name
-		}
-		return songInfo;
-	}
-
-	public void ToggleMusicMute(bool mute)
-	{
-		isMusicMute = mute;
-		foreach (var m in musicTracks)
-		{
-			m.mute = mute;
-		}
-
-		if (mute)
-		{
-			Synth.Instance.SetMusicVolume(Byte.MinValue);
-		}
-		else
-		{
-			var vol = 255 * Instance.MusicVolume;
-			Synth.Instance.SetMusicVolume((byte) (int) vol);
-		}
-	}
-
-	public static void PlayAmbience(string ambientTrackName)
-	{
-		void PlayAmbientTrack(AudioSource track)
-		{
-			Logger.Log($"Playing ambient track: {track.name}", Category.SoundFX);
-			Instance.ambientTrack = track;
-			//Ambient Volume
-			if (PlayerPrefs.HasKey("AmbientVol"))
-			{
-				track.volume = Mathf.Clamp(PlayerPrefs.GetFloat("AmbientVol"),0f,0.25f);
-			}
-			track.Play();
-		}
-
-		foreach (var track in Instance.ambientTracks)
-		{
-			if (track.name == ambientTrackName)
-			{
-				PlayAmbientTrack(track);
-			}
-			else
-			{
-				track.Stop();
-			}
-		}
-	}
-
-	/// <summary>
-	/// Sets all ambient tracks to a certain volume
-	/// </summary>
-	/// <param name="volume"></param>
-	public static void AmbientVolume(float volume)
-	{
-		volume = Mathf.Clamp(volume, 0f, 0.25f);
-		foreach (AudioSource s in Instance.ambientTracks)
-		{
-			s.volume = volume;
-		}
-
-		PlayerPrefs.SetFloat(PlayerPrefKeys.AmbientVolumeKey, volume);
-		PlayerPrefs.Save();
 	}
 
 	/// <summary>
@@ -666,22 +475,9 @@ public class SoundManager : MonoBehaviour
 		PlayerPrefs.Save();
 	}
 
-	/// <summary>
-	/// Checks if music in lobby is being played or not.
-	/// <returns> true if music is being played.</returns>
-	/// </summary>
-	public static bool isLobbyMusicPlaying()
-    {
-		// Checks if an audiosource or a track by sunvox is being played(Since there are two diiferent ways to play tracks)
-		if (currentLobbyAudioSource != null && currentLobbyAudioSource.isPlaying || !(SunVox.sv_end_of_song((int)Slot.Music) == 1))
-			return true;
-
-		return false;
-	}
-
 	public double GetRandomNumber(double minimum, double maximum)
 	{
-		return  RANDOM.NextDouble() * (maximum - minimum) + minimum;
+		return RANDOM.NextDouble() * (maximum - minimum) + minimum;
 	}
 
 	/// <summary>
@@ -693,77 +489,342 @@ public class SoundManager : MonoBehaviour
 		PlayNetworked(RoundEndSounds[rand], 1f);
 	}
 
-}
+	//TODO Please someone who knows what he's doing, take all of this outside this class!
+	private static bool step;
 
-public enum Footstep
-{
-	floor,
-	asteroid,
-	carpet,
-	catwalk,
-	grass,
-	lava,
-	plating,
-	wood,
-	sand,
-	water,
-	clownstep
-}
-public enum BareFootstep
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
-	clownstep = Footstep.clownstep
-}
+	/// <summary>
+	/// Play footsteps at given position. It will handle all the logic to determine
+	/// the proper sound to use.
+	/// </summary>
+	/// <param name="worldPos">Where in the world is this sound coming from. Also used to get the type of tile</param>
+	/// <param name="stepType">What kind of step does the creature walking have</param>
+	/// <param name="performer">The creature making the sound</param>
+	public static void FootstepAtPosition(Vector3 worldPos, StepType stepType, GameObject performer)
+	{
+		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
+		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
+		var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
 
-public enum HeavyFootstep
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
-	clownstep = Footstep.clownstep
-}
+		if (tile != null)
+		{
+			if (step)
+			{
+				PlayNetworkedAtPos(
+					Instance.stepSounds[stepType][tile.floorTileType].PickRandom(),
+					worldPos,
+					Random.Range(0.7f, 1.2f),
+					Global: false,
+					polyphonic: true,
+					sourceObj: performer
+				);
+			}
 
-public enum ClawFootstep
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
-	clownstep = Footstep.clownstep
-}
+			step = !step;
+		}
+	}
 
-public enum ClownFoostep 
-{
-	floor = Footstep.floor,
-	asteroid = Footstep.asteroid,
-	carpet = Footstep.carpet,
-	catwalk = Footstep.catwalk,
-	grass = Footstep.grass,
-	lava = Footstep.lava,
-	plating = Footstep.plating,
-	wood = Footstep.wood,
-	sand = Footstep.sand,
-	water = Footstep.water,
+	private readonly Dictionary<StepType, Dictionary<FloorTileType, List<string>>> stepSounds = new Dictionary<StepType, Dictionary<FloorTileType, List<string>>>()
+	{
+		{
+			StepType.Barefoot,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string>
+						{"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"grass1", "grass2", "grass3", "grass4"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"lava1", "lava2", "lava3"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"woodbarefoot1", "woodbarefoot2", "woodbarefoot3", "woodbarefoot4", "woodbarefoot5"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				}
+			}
+		},
+		{
+			StepType.Claw,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string> {"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"grass1", "grass2", "grass3", "grass4"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"lava1", "lava2", "lava3"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"woodclaw1", "woodclaw2", "woodclaw3", "woodclaw4", "woodclaw5"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				}
+			}
+		},
+		{
+			StepType.Shoes,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"floor1", "floor2", "floor3", "floor4", "floor5"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string> {"carpet1", "carpet2", "carpet3", "carpet4", "carpet5"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"grass1", "grass2", "grass3", "grass4"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"lava1", "lava2", "lava3"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"plating1", "plating2", "plating3", "plating4", "plating5"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"wood1", "wood2", "wood3", "wood4", "wood5"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+			}
+		},
+		{
+			StepType.Suit,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"lava1", "lava2", "lava3"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+			}
+		},
+		{
+			StepType.Heavy,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"heavystep1", "heavystep2"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"lava1", "lava2", "lava3"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+			}
+		},
+		{
+			StepType.Clown,
+			new Dictionary<FloorTileType, List<string>>
+			{
+				{
+					FloorTileType.floor,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.asteroid,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.carpet,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.catwalk,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.grass,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.lava,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.plating,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.wood,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.sand,
+					new List<string> {"clownstep1", "clownstep2"}
+				},
+				{
+					FloorTileType.water,
+					new List<string> {"water1", "water2", "water3", "water4"}
+				},
+				{
+					FloorTileType.bananium,
+					new List<string> {"clownstep1", "clownstep2"}
+				}
+			}
+		}
+	};
 }

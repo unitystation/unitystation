@@ -32,7 +32,7 @@ public class UIActionSOSingleton : SingletonScriptableObject<UIActionSOSingleton
 		Initialised = true;
 	}
 
-	public IServerActionGUI ReturnFromID(ushort ID)
+	public IActionGUI FromID(ushort ID)
 	{
 		if (!Initialised)
 		{

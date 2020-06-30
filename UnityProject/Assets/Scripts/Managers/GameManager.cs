@@ -8,6 +8,9 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DatabaseAPI;
+using DiscordWebhook;
+using Mirror;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -22,15 +25,21 @@ public partial class GameManager : MonoBehaviour
 	/// How long the pre-round stage should last
 	/// </summary>
 	[SerializeField]
-	private readonly float PreRoundTime = 30f;
+	private float PreRoundTime = 120f;
 
 	/// <summary>
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
 	[SerializeField]
-	private readonly float RoundEndTime = 15f;
+	private float roundEndTime = 60f;
+	public float RoundEndTime => roundEndTime;
 
-	public float startTime;
+	/// <summary>
+	/// The current time left on the countdown timer
+	/// </summary>
+	public float CountdownTime { get; private set; }
+	public double CountdownEndTime { get; private set; }
+
 	/// <summary>
 	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
 	/// Reset to the server setting of RespawnAllowed when the level loads.
@@ -52,15 +61,15 @@ public partial class GameManager : MonoBehaviour
 	public DateTime stationTime;
 	public int RoundsPerMap = 10;
 
-	private int MapRotationCount = 0;
-	private int MapRotationMapsCounter = 0;
-
 	//Space bodies in the solar system <Only populated ServerSide>:
 	//---------------------------------
 	public List<MatrixMove> SpaceBodies = new List<MatrixMove>();
 	private Queue<MatrixMove> PendingSpaceBodies = new Queue<MatrixMove>();
 	private bool isProcessingSpaceBody = false;
 	public float minDistanceBetweenSpaceBodies;
+
+	private List<Vector3> EscapeShuttlePath = new List<Vector3>();
+	private bool EscapeShuttlePathGenerated = false;
 
 	[Header("Define the default size of all SolarSystems here:")]
 	public float solarSystemRadius = 600f;
@@ -71,6 +80,14 @@ public partial class GameManager : MonoBehaviour
 	//whether the game was launched directly to a station, skipping lobby
 	private bool loadedDirectlyToStation;
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
+
+	public Queue<PlayerSpawnRequest> SpawnPlayerRequestQueue = new Queue<PlayerSpawnRequest>();
+
+	private bool QueueProcessing;
+
+	private float timeElapsedQueueCheckServer = 0;
+
+	private const float QueueCheckTimeServer = 1f;
 
 	private void Awake()
 	{
@@ -91,8 +108,6 @@ public partial class GameManager : MonoBehaviour
 
 		//so respawn works when loading directly to outpost station
 		RespawnCurrentlyAllowed = RespawnAllowed;
-
-
 	}
 
 	private void OnEnable()
@@ -135,15 +150,48 @@ public partial class GameManager : MonoBehaviour
 		{
 			minDistanceBetweenSpaceBodies = 200f;
 		}
+
+		//Fills list of Vectors all along shuttle path
+		var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
+		var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
+
+
+		var distance = (int)Vector2.Distance(beginning, target);
+
+		if (!EscapeShuttlePathGenerated)//Only generated once
+		{
+			EscapeShuttlePath.Add(beginning);//Adds original vector
+			for (int i = 0; i < (distance/50); i++)
+			{
+				beginning = Vector2.MoveTowards(beginning, target, 50);//Vector 50 distance apart from prev vector
+				EscapeShuttlePath.Add(beginning);
+			}
+			EscapeShuttlePathGenerated = true;
+		}
+
+
 		bool validPos = false;
 		while (!validPos)
 		{
 			Vector3 proposedPosition = RandomPositionInSolarSystem();
+
 			bool failedChecks =
 				Vector3.Distance(proposedPosition, MatrixManager.Instance.spaceMatrix.transform.parent.transform.position) <
 				minDistanceBetweenSpaceBodies;
+
 			//Make sure it is away from the middle of space matrix
 
+
+			//Checks whether position is near (100 distance) any of the shuttle path vectors
+			foreach (var vectors in EscapeShuttlePath)
+			{
+				if (Vector3.Distance(proposedPosition, vectors) < 100)
+				{
+					failedChecks = true;
+				}
+			}
+
+			//Checks whether the other spacebodies are near
 			for (int i = 0; i < SpaceBodies.Count; i++)
 			{
 				if (Vector3.Distance(proposedPosition, SpaceBodies[i].transform.position) < minDistanceBetweenSpaceBodies)
@@ -151,6 +199,7 @@ public partial class GameManager : MonoBehaviour
 					failedChecks = true;
 				}
 			}
+
 			if (!failedChecks)
 			{
 				validPos = true;
@@ -213,7 +262,7 @@ public partial class GameManager : MonoBehaviour
 
 	public void ResetRoundTime()
 	{
-		stationTime = DateTime.Today.AddHours(12);
+		stationTime = new DateTime().AddHours(12);
 		counting = true;
 		StartCoroutine(NotifyClientsRoundTime());
 	}
@@ -228,14 +277,14 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (!isProcessingSpaceBody && PendingSpaceBodies.Count > 0)
 		{
+			InitEscapeShuttle();
 			isProcessingSpaceBody = true;
 			StartCoroutine(ProcessSpaceBody(PendingSpaceBodies.Dequeue()));
 		}
 
 		if (waitForStart)
 		{
-			startTime -= Time.deltaTime;
-			if (startTime <= 0f)
+			if (NetworkTime.time >= CountdownEndTime)
 			{
 				StartRound();
 			}
@@ -244,6 +293,13 @@ public partial class GameManager : MonoBehaviour
 		{
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
+		}
+
+		timeElapsedQueueCheckServer += Time.deltaTime;
+		if (timeElapsedQueueCheckServer > QueueCheckTimeServer)
+		{
+			ProcessSpawnPlayerQueue();
+			timeElapsedQueueCheckServer -= QueueCheckTimeServer;
 		}
 	}
 
@@ -261,13 +317,8 @@ public partial class GameManager : MonoBehaviour
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
-
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
-		}
-		else
-		{
-			StartCoroutine(WaitToFireClientHooks());
 		}
 	}
 
@@ -275,19 +326,13 @@ public partial class GameManager : MonoBehaviour
 	{
 		if (CustomNetworkManager.Instance._isServer)
 		{
+			// Execute server-side OnSpawn hooks for mapped objects
 			var iServerSpawns = FindObjectsOfType<MonoBehaviour>().OfType<IServerSpawn>();
 			foreach (var s in iServerSpawns)
 			{
 				s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
 			}
-			Spawn._CallAllClientSpawnHooksInScene();
 		}
-	}
-
-	private IEnumerator WaitToFireClientHooks()
-	{
-		yield return WaitFor.Seconds(3f);
-		Spawn._CallAllClientSpawnHooksInScene();
 	}
 
 	/// <summary>
@@ -311,16 +356,19 @@ public partial class GameManager : MonoBehaviour
 				//TODO set default game modes
 				NextGameMode = "Random";
 			}
+
 			// Game mode specific setup
 			GameMode.SetupRound();
-			GameMode.StartRound();
-			// TODO make job selection stuff
 
 			// Standard round start setup
-			stationTime = DateTime.Today.AddHours(12);
+			stationTime = new DateTime().AddHours(12);
 			counting = true;
 			RespawnCurrentlyAllowed = GameMode.CanRespawn;
 			StartCoroutine(WaitToInitEscape());
+			StartCoroutine(WaitToStartGameMode());
+
+			// Tell all clients that the countdown has finished
+			UpdateCountdownMessage.Send(true, 0);
 
 			CurrentRoundState = RoundState.Started;
 			EventManager.Broadcast(EVENT.RoundStarted);
@@ -353,6 +401,11 @@ public partial class GameManager : MonoBehaviour
 
 			GameMode.EndRound();
 			StartCoroutine(WaitForRoundRestart());
+
+			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
+			{
+				SoundManager.Instance.PlayRandomRoundEndSound();
+			}
 		}
 	}
 
@@ -361,15 +414,8 @@ public partial class GameManager : MonoBehaviour
 	/// </summary>
 	private IEnumerator WaitForRoundRestart()
 	{
-		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
-		yield return WaitFor.Seconds(RoundEndTime);
-		// Prevents annoying sound duplicate when testing
-		if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
-		{
-			SoundManager.Instance.PlayRandomRoundEndSound();
-		}
-
-		yield return WaitFor.Seconds(2.5f);
+		Logger.Log($"Waiting {roundEndTime} seconds to restart...", Category.Round);
+		yield return WaitFor.Seconds(roundEndTime);
 		RestartRound();
 	}
 
@@ -382,6 +428,8 @@ public partial class GameManager : MonoBehaviour
 		{
 			yield return WaitFor.EndOfFrame;
 		}
+		// Clear the list of ready players so they have to ready up again
+		PlayerList.Instance.ClearReadyPlayers();
 		CheckPlayerCount();
 	}
 
@@ -398,9 +446,70 @@ public partial class GameManager : MonoBehaviour
 
 	public void StartCountdown()
 	{
-		startTime = PreRoundTime;
+		// Calculate when the countdown will end relative to the NetworkTime
+		CountdownEndTime = NetworkTime.time + PreRoundTime;
 		waitForStart = true;
-		UpdateCountdownMessage.Send(waitForStart, startTime);
+
+		string msg = GameManager.Instance.SecretGameMode ? "Secret" : $"{GameManager.Instance.GameMode}";
+
+		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\n";
+
+		if (PlayerList.Instance.ConnectionCount == 1)
+		{
+			message += "There is 1 player online.\n";
+		}
+		else
+		{
+			message += $"There are {PlayerList.Instance.ConnectionCount} players online.\n";
+		}
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "\n	A new round has started		\n", "");
+
+		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
+	}
+
+	public void ProcessSpawnPlayerQueue()
+	{
+		if (QueueProcessing) return;
+
+		QueueProcessing = true;
+
+		var count = SpawnPlayerRequestQueue.Count;
+
+		if (count == 0)
+		{
+			QueueProcessing = false;
+			return;
+		}
+
+		for(var i = 1; i <= count; i++)
+		{
+			var player = SpawnPlayerRequestQueue.Peek();
+
+			int slotsTaken = GameManager.Instance.GetOccupationsCount(player.RequestedOccupation.JobType);
+			int slotsMax = GameManager.Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
+			if (slotsTaken >= slotsMax)
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			//regardless of their chosen occupation, they might spawn as an antag instead.
+			//If they do, bypass the normal spawn logic.
+			if (GameManager.Instance.TrySpawnAntag(player))
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			PlayerSpawn.ServerSpawnPlayer(player);
+
+			SpawnPlayerRequestQueue.Dequeue();
+		}
+
+		QueueProcessing = false;
 	}
 
 	public int GetOccupationsCount(JobType jobType)
@@ -509,9 +618,6 @@ public partial class GameManager : MonoBehaviour
 
 		yield return WaitFor.Seconds(0.2f);
 
-		var maps = JsonUtility.FromJson<MapList>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
-			"maps.json")));
-
-		CustomNetworkManager.Instance.ServerChangeScene(maps.GetRandomMap());
+		CustomNetworkManager.Instance.ServerChangeScene("OnlineScene");
 	}
 }

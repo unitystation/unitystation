@@ -1,49 +1,52 @@
 using UnityEngine;
 using Antagonists;
+using System.Collections;
+using System.Collections.Generic;
+using System;
 
 [CreateAssetMenu(menuName="ScriptableObjects/GameModes/Cargonia")]
 public class Cargonia : GameMode
 {
-	/// <summary>
-	/// Set up the station for the game mode
-	/// </summary>
+	private List<JobType> rebelJob;
+
 	public override void SetupRound()
 	{
-		Logger.Log("Setting up traitor round!", Category.GameMode);
+		base.SetupRound();
+
+		//Select a random department
+		var rnd = new System.Random();
+		var rebelDep = (Departments) rnd.Next(Enum.GetNames(typeof(Departments)).Length);
+		rebelJob = rebelJobs[rebelDep];
+		GameManager.Instance.Rebels = rebelJob;
+		Logger.LogFormat("The using {0} as the rebel department!", Category.GameMode, rebelDep);
+
 	}
-	/// <summary>
-	/// Begin the round
-	/// </summary>
-	public override void StartRound()
+
+	// TODO switch this for the Department ScriptableObjects
+	private  enum Departments
 	{
-		Logger.Log("Starting traitor round!", Category.GameMode);
-		base.StartRound();
+		Engineering,
+		Science,
+		Medical,
+		Service,
+		Supply
 	}
-	// /// <summary>
-	// /// Check if the round should end yet
-	// /// </summary>
-	// public override void CheckEndCondition()
-	// {
-	// 	Logger.Log("Check end round conditions!", Category.GameMode);
-	// }
 
-	// /// <summary>
-	// /// End the round and display any relevant reports
-	// /// </summary>
-	// public override void EndRound()
-	// {
-
-	// }
+	private readonly Dictionary<Departments, List<JobType>> rebelJobs = new Dictionary<Departments, List<JobType>>() {
+		{Departments.Engineering,
+		new List<JobType>{JobType.CHIEF_ENGINEER, JobType.ENGINEER, JobType.ATMOSTECH}},
+		{Departments.Science,
+		new List<JobType>{JobType.RD, JobType.GENETICIST, JobType.SCIENTIST, JobType.ROBOTICIST}},
+		{Departments.Medical,
+		new List<JobType>{JobType.CMO, JobType.DOCTOR, JobType.CHEMIST, JobType.VIROLOGIST}},
+		{Departments.Service,
+		new List<JobType>{JobType.CLOWN, JobType.JANITOR, JobType.BARTENDER, JobType.COOK, JobType.BOTANIST, JobType.MIME, JobType.CHAPLAIN, JobType.CURATOR}},
+		{Departments.Supply,
+		new List<JobType>{JobType.QUARTERMASTER, JobType.CARGOTECH, JobType.MINER}}
+	};
 
 	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
-		if (spawnRequest.RequestedOccupation.JobType == JobType.CARGOTECH
-		    || spawnRequest.RequestedOccupation.JobType == JobType.QUARTERMASTER
-		    || spawnRequest.RequestedOccupation.JobType == JobType.MINER)
-		{
-			return true;
-		}
-
-		return false;
+		return rebelJob.Contains(spawnRequest.RequestedOccupation.JobType);
 	}
 }

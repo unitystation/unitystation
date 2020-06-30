@@ -13,7 +13,7 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// How long to stun for (in seconds)
 	/// </summary>
 	[SerializeField]
-	private float stunTime;
+	private float stunTime = 0;
 
 	/// <summary>
 	/// Sounds to play when stunning someone
@@ -62,7 +62,7 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (registerPlayerVictim)
 		{
 			registerPlayerVictim.ServerStun(stunTime);
-			SoundManager.PlayNetworkedAtPos(stunSound, target.transform.position);
+			SoundManager.PlayNetworkedAtPos(stunSound, target.transform.position, sourceObj: target.gameObject);
 
 			// Special case: If we're on help intent (only stun), we should still show the lerp (unless we're hitting ourselves)
 			if (interaction.Intent == Intent.Help && performer != target)

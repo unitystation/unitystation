@@ -10,4 +10,15 @@ public class VariableViewerManager : MonoBehaviour
 		VVUIElementHandler.VariableViewerManager = this;
 		VVUIElementHandler.Initialise(AvailableElementsToInitialise);
 	}
+
+	void OnEnable()
+	{
+		EventManager.AddHandler(EVENT.RoundEnded, Librarian.Reset);
+	}
+
+	void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.RoundEnded, Librarian.Reset);
+	}
+
 }

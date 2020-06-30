@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Audio.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,17 +13,17 @@ namespace Unitystation.Options
         private Toggle ttsToggle = null;
 
 		[SerializeField]
-		private Slider masterSlider;
+		private Slider masterSlider = null;
 
 		void OnEnable()
-        {      
+        {
             Refresh();
-			
+
 		}
 
         public void OnAmbientVolumeChange()
         {
-            SoundManager.AmbientVolume(ambientSlider.value);
+	        SoundAmbientManager.SetVolumeForAllAudioSources(ambientSlider.value);
         }
 
 		public void OnMasterVolumeChange()
@@ -42,7 +41,7 @@ namespace Unitystation.Options
             ambientSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.AmbientVolumeKey);
             ttsToggle.isOn = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
 			masterSlider.value = PlayerPrefs.GetFloat(PlayerPrefKeys.MasterVolumeKey);
-			
+
 		}
 
         public void ResetDefaults()
@@ -52,7 +51,7 @@ namespace Unitystation.Options
                 () =>
                 {
                     UIManager.ToggleTTS(false);
-                    SoundManager.AmbientVolume(1f);
+                    SoundAmbientManager.SetVolumeForAllAudioSources(1f);
 					AudioListener.volume = 1;
                     Refresh();
                 },

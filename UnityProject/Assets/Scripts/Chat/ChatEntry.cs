@@ -15,7 +15,8 @@ public class ChatEntry : MonoBehaviour
 	[SerializeField] private List<Text> allText = new List<Text>();
 	[SerializeField] private List<Image> allImages = new List<Image>();
 	[SerializeField] private List<Button> allButtons = new List<Button>();
-	public Transform thresholdMarker;
+	public Transform thresholdMarkerBottom;
+	public Transform thresholdMarkerTop;
 	private Coroutine waitToCheck;
 
 
@@ -34,7 +35,6 @@ public class ChatEntry : MonoBehaviour
 	public Text stackTimesText;
 	private Image stackCircle;
 	private int stackTimes = 1;
-	private string adminId;
 	private Vector3 localScaleCache;
 
 	void Awake()
@@ -88,7 +88,6 @@ public class ChatEntry : MonoBehaviour
 		isCoolingDown = false;
 		isAdminMsg = false;
 		visibleText.text = "";
-		adminId = "";
 		adminOverlay.SetActive(false);
 		shadow.enabled = true;
 		stackPosSet = false;
@@ -105,17 +104,6 @@ public class ChatEntry : MonoBehaviour
 		StartCoroutine(UpdateMinHeight());
 	}
 
-	public void SetAdminPrivateMsg(string msg, string adminID)
-	{
-		adminId = adminID;
-		isAdminMsg = true;
-		SetText(msg);
-		visibleText.text += "\r\n    \r\n   ";
-		adminOverlay.SetActive(true);
-		shadow.enabled = false;
-		StartCoroutine(UpdateMinHeight());
-	}
-
 	IEnumerator UpdateMinHeight()
 	{
 		contentFitter.enabled = true;
@@ -125,15 +113,10 @@ public class ChatEntry : MonoBehaviour
 		contentFitter.enabled = false;
 	}
 
-	public void ReplyToAdminMessage()
-	{
-		ChatUI.Instance.OpenAdminReply(visibleText.text, adminId);
-	}
-
 	public void OnChatFocused()
 	{
-		//Revist fades in chat system v2
-		return;
+		// TODO Revisit fades in chat system v2
+		/*
 		if (isCoolingDown)
 		{
 			if (coCoolDown != null)
@@ -148,6 +131,7 @@ public class ChatEntry : MonoBehaviour
 		{
 			ToggleVisibleState(false);
 		}
+		*/
 	}
 
 	void CheckPosition()
@@ -159,8 +143,12 @@ public class ChatEntry : MonoBehaviour
 	IEnumerator WaitToCheckPos()
 	{
 		yield return WaitFor.EndOfFrame;
-		var offset = thresholdMarker.position - transform.position;
-		if (offset.y > -427f && offset.y < -0f)
+
+		// Get the chat entry's position outside of it's child position under ChatFeed.
+		float entryYPositionOutsideChatFeedParent = transform.localPosition.y + transform.parent.localPosition.y;
+
+		// Check to see if the chat entry is inside the VIEWPORT thresholds, and if so we will enable viewing it.
+		if (entryYPositionOutsideChatFeedParent > thresholdMarkerBottom.localPosition.y && entryYPositionOutsideChatFeedParent < thresholdMarkerTop.localPosition.y) 
 		{
 			ToggleUIElements(true);
 		}
@@ -170,7 +158,6 @@ public class ChatEntry : MonoBehaviour
 		}
 
 		waitToCheck = null;
-
 	}
 
 	void ToggleVisibleState(bool hidden, bool fromCoolDown = false)
@@ -208,8 +195,8 @@ public class ChatEntry : MonoBehaviour
 
 	public void OnChatUnfocused()
 	{
-		//Revist fades in chat system v2
-		return;
+		// TODO Revisit fades in chat system v2
+		/*
 		if (isCoolingDown)
 		{
 			if (coCoolDown != null) StopCoroutine(coCoolDown);
@@ -224,6 +211,7 @@ public class ChatEntry : MonoBehaviour
 				ToggleVisibleState(true);
 			}
 		}
+		*/
 	}
 
 //	IEnumerator CoolDown()
@@ -262,8 +250,8 @@ public class ChatEntry : MonoBehaviour
 	public void AddChatDuplication()
 	{
 		stackTimes++;
-		//Switched off until we do ChatSystem V2
-		return;
+		// TODO Switched off until we do ChatSystem V2
+		/*
 		stackTimesText.text = $"x{stackTimes}";
 		stackTimesObj.SetActive(true);
 		StartCoroutine(StackPumpAnim());
@@ -278,6 +266,7 @@ public class ChatEntry : MonoBehaviour
 			isCoolingDown = true;
 			//coCoolDown = StartCoroutine(CoolDown());
 		}
+		*/
 	}
 
 	IEnumerator StackPumpAnim()
@@ -369,10 +358,12 @@ public class ChatEntry : MonoBehaviour
 
 	void SetCrossFadeAlpha(float amt, float time)
 	{
-		//Revist fades in chat system v2
+		// TODO Revisit fades in chat system v2
+		/*
 		return;
 		visibleText.CrossFadeAlpha(amt, time, false);
 		stackTimesText.CrossFadeAlpha(amt, time, false);
 		stackCircle.CrossFadeAlpha(amt, time, false);
+		*/
 	}
 }

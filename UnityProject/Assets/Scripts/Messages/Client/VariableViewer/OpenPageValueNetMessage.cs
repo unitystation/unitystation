@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class OpenPageValueNetMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.OpenPageValueNetMessage;
 	public ulong PageID;
 	public uint SentenceID;
 	public bool ISSentence;
@@ -13,17 +12,16 @@ public class OpenPageValueNetMessage : ClientMessage
 	public string AdminId;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		ValidateAdmin();
-		yield return null;
 	}
 
 	void ValidateAdmin()
 	{
 		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
 		if (admin == null) return;
-		VariableViewer.RequestOpenPageValue(PageID, SentenceID, ISSentence, iskey);
+		VariableViewer.RequestOpenPageValue(PageID, SentenceID, ISSentence, iskey, SentByPlayer.GameObject);
 	}
 
 	public static OpenPageValueNetMessage Send(ulong _PageID, uint _SentenceID, string adminId, string adminToken,

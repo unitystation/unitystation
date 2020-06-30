@@ -8,7 +8,8 @@ public class VendorItemEntry : DynamicEntry
 	private Color regularColor = Color.gray;
 	[SerializeField]
 	private Color emptyStockColor = Color.red;
-	private VendorItem vendorItem;
+	[HideInInspector]
+	public VendorItem vendorItem;
 	private GUI_Vendor vendorWindow;
 	[SerializeField]
 	private NetLabel itemName = null;
@@ -23,25 +24,34 @@ public class VendorItemEntry : DynamicEntry
 	{
 		vendorItem = item;
 		vendorWindow = correspondingWindow;
-		itemName.SetValue = vendorItem.Item.name;
-		itemIcon.SetValue = vendorItem.Item.name;
-		itemCount.SetValue = $"({vendorItem.Stock.ToString()})";
+
+		var itemGO = vendorItem.Item;
+		var itemAttr = itemGO.GetComponent<ItemAttributesV2>();
+
+		// try get human-readable item name
+		var itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
+		itemName.SetValueServer(itemNameStr);
+
+		itemIcon.SetValueServer(itemGO.name);
+
+		itemCount.SetValueServer($"({vendorItem.Stock.ToString()})");
 		if (vendorItem.Stock <= 0)
 		{
-			itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(emptyStockColor);
+			itemBackground.SetValueServer(emptyStockColor);
 		}
 		else
 		{
-			itemBackground.SetValue = ColorUtility.ToHtmlStringRGB(regularColor);
+			itemBackground.SetValueServer(regularColor);
 		}
 	}
 
-	public void VendorItem()
+	public void OnVendItemButtonPressed(ConnectedPlayer player)
 	{
 		if (vendorItem == null || vendorWindow == null)
 		{
 			return;
 		}
-		vendorWindow.VendItem(vendorItem);
+
+		vendorWindow.OnVendItemButtonPressed(vendorItem, player);
 	}
 }

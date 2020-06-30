@@ -3,16 +3,15 @@ using UnityEngine;
 using Mirror;
 
 public class DoorUpdateMessage : ServerMessage {
-	public static short MessageType = (short) MessageTypes.DoorUpdateMessage;
 
 	public DoorUpdateType Type;
 	public uint Door;
 	// whether the update should occur instantaneously
 	public bool SkipAnimation;
 
-	public override IEnumerator Process() {
+	public override void Process() {
 //		Logger.Log("Processed " + ToString());
-		yield return WaitFor( Door );
+		LoadNetworkObject(Door);
 
 		if ( NetworkObject != null ) {
 			NetworkObject.GetComponent<DoorAnimator>()?.PlayAnimation( Type, SkipAnimation );
@@ -32,7 +31,7 @@ public class DoorUpdateMessage : ServerMessage {
 	/// <param name="skipAnimation">if true, all sound and animations will be skipped, leaving it in its end position.
 	/// 	Currently only used for when players are joining and there are open doors.</param>
 	/// <returns></returns>
-	public static DoorUpdateMessage Send( GameObject recipient, GameObject door, DoorUpdateType type, bool skipAnimation = false ) {
+	public static DoorUpdateMessage Send( NetworkConnection recipient, GameObject door, DoorUpdateType type, bool skipAnimation = false ) {
 		var msg = new DoorUpdateMessage {
 			Door = door.NetId(),
 			Type = type,
@@ -56,5 +55,6 @@ public class DoorUpdateMessage : ServerMessage {
 public enum DoorUpdateType {
 	Open = 0,
 	Close = 1,
-	AccessDenied = 2
+	AccessDenied = 2,
+	PressureWarn = 3
 }

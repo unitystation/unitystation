@@ -26,7 +26,6 @@ public class ClothingItem : MonoBehaviour
 	private Orientation currentDirection = Orientation.Down;
 
 	protected int referenceOffset;
-	private int variantIndex = 0;
 
 	public SpriteHandler spriteHandler;
 
@@ -90,7 +89,7 @@ public class ClothingItem : MonoBehaviour
 				PushTexture();
 			}
 
-			if (!InHands)
+			if (!InHands && GameObjectReference != null)
 			{
 				// did we take off clothing?
 				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();

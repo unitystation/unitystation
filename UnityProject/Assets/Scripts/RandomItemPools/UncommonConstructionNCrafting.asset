@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: UncommonConstructionNCrafting
+  m_EditorClassIdentifier: 
+  pool:
+  - prefab: {fileID: 229541522769283845, guid: b7b563c4ee7c20e459dbe3a9511a244d, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175,
+      type: 3}
+    maxAmount: 50
+    probability: 100

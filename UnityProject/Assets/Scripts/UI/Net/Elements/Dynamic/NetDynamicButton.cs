@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// Intended for dynamic lists
 [RequireComponent(typeof( Button ))]
 [Serializable]
-public class NetDynamicButton : NetUIElement
+public class NetDynamicButton : NetUIStringElement
 {
 	public override string Value {
 		get { return gameObject.transform.parent.gameObject.name; }
@@ -40,7 +40,7 @@ public class NetDynamicButton : NetUIElement
 		ServerMethod.AddListener (execute);
 	}
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke(Value);
 	}
 

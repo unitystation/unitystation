@@ -44,13 +44,9 @@ namespace Lobby
 		public Toggle hostServerToggle;
 		public Toggle autoLoginToggle;
 
-		private CustomNetworkManager networkManager;
-
 		// Lifecycle
 		void Start()
 		{
-			networkManager = CustomNetworkManager.Instance;
-			networkManager.OnClientDisconnected.AddListener(OnClientDisconnect);
 			OnHostToggle();
 			// Init Lobby UI
 			InitPlayerName();
@@ -58,7 +54,9 @@ namespace Lobby
 
 		public void OnClientDisconnect()
 		{
+			LoadingScreenManager.Instance.CloseLoadingScreen();
 			gameObject.SetActive(true);
+			ShowConnectionPanel();
 			StartCoroutine(FlashConnectionFailedText());
 		}
 
@@ -297,7 +295,7 @@ namespace Lobby
 			}
 			else
 			{
-				networkManager.StartHost();
+				LoadingScreenManager.LoadFromLobby(CustomNetworkManager.Instance.StartHost);
 			}
 
 			// Hide dialogue and show status text
@@ -326,11 +324,30 @@ namespace Lobby
 
 		public void OnCharacterButton()
 		{
-			ShowCharacterEditor();
+			ShowCharacterEditor(OnCharacterExit);
+		}
+
+		private void OnCharacterExit()
+		{
+			gameObject.SetActive(true);
+			if (ServerData.Auth.CurrentUser != null)
+			{
+				ShowConnectionPanel();
+			}
+			else
+			{
+				Logger.LogWarning("User is not logged in! Returning to login screen.");
+				ShowLoginScreen();
+			}
 		}
 
 		// Game handlers
 		public void ConnectToServer()
+		{
+			LoadingScreenManager.LoadFromLobby(DoServerConnect);
+		}
+
+		void DoServerConnect()
 		{
 			// Set network address
 			string serverAddress = serverAddressInput.text;
@@ -349,9 +366,21 @@ namespace Lobby
 			// Init network client
 			Logger.LogFormat("Client trying to connect to {0}:{1}", Category.Connections, serverAddress, serverPort);
 
-			networkManager.networkAddress = serverAddress;
-			networkManager.GetComponent<TelepathyTransport>().port = serverPort;
-			networkManager.StartClient();
+			CustomNetworkManager.Instance.networkAddress = serverAddress;
+
+			var telepathy = CustomNetworkManager.Instance.GetComponent<TelepathyTransport>();
+			if (telepathy != null)
+			{
+				telepathy.port = serverPort;
+			}
+
+			var booster = CustomNetworkManager.Instance.GetComponent<BoosterTransport>();
+			if (booster != null)
+			{
+				booster.port = serverPort;
+			}
+
+			CustomNetworkManager.Instance.StartClient();
 		}
 
 		void InitPlayerName()

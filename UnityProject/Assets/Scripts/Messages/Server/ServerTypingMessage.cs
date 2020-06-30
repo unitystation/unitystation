@@ -8,29 +8,34 @@ using UnityEngine;
 /// </summary>
 public class ServerTypingMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.ServerTypingMessage;
-
 	public TypingState state;
 	public uint targetID;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		// other client try to find networked identity that's typing
-		yield return WaitFor(targetID);
+		LoadNetworkObject(targetID);
 		if (!NetworkObject)
-			yield break;
+			return;
 
 		// than we change it typing icon
 		var player = NetworkObject.GetComponent<PlayerScript>();
 		if (!player)
-			yield break;
+			return;
 
 		var icon = player.chatIcon;
 		if (!icon)
-			yield break;
+			return;
 
 		var showTyping = state == TypingState.TYPING;
-		icon.ToggleTypingIcon(showTyping);
+
+		// check if player is conscious before generating typing icon
+		bool isPlayerConscious = (player.playerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
+								  player.playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
+		if (isPlayerConscious)
+		{
+			icon.ToggleTypingIcon(showTyping);
+		}
 	}
 
 	public static ServerTypingMessage Send(PlayerScript player, TypingState state)

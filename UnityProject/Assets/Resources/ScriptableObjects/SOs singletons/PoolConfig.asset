@@ -1,0 +1,49 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e73c49b43bfd49a486bacafb6816867c, type: 3}
+  m_Name: PoolConfig
+  m_EditorClassIdentifier: 
+  prefabPools:
+  - Prefab: {fileID: 1932369758612010, guid: 40ea4aea218be439eaf29f853612870c, type: 3}
+    Capacity: 10
+  - Prefab: {fileID: 1932369758612010, guid: 72d39cead02d7314bb5b4f8321aa9154, type: 3}
+    Capacity: 10
+  - Prefab: {fileID: 1932369758612010, guid: 4bcdc5dec532a42dba701d5162dab2ba, type: 3}
+    Capacity: 10
+  - Prefab: {fileID: 1932369758612010, guid: e65e865eee668308fa669a5d96b4cb84, type: 3}
+    Capacity: 10
+  - Prefab: {fileID: 1932369758612010, guid: 008fa24b13fdb4e98971489ecee9218c, type: 3}
+    Capacity: 10
+  - Prefab: {fileID: 1932369758612010, guid: 75499c80465c3c6b8bd43ea699e8f9e7, type: 3}
+    Capacity: 10
+  - Prefab: {fileID: 1560634355228308, guid: 3a5f33fb4348d74429ba2cf1a1d4821d, type: 3}
+    Capacity: 5
+  - Prefab: {fileID: 1560634355228308, guid: 904d4b4cb2c22314b82de3393f1cb254, type: 3}
+    Capacity: 5
+  - Prefab: {fileID: 1553142956179786, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
+    Capacity: 5
+  - Prefab: {fileID: 1932369758612010, guid: 40ea4aea218be439eaf29f853612870c, type: 3}
+    Capacity: 5
+  - Prefab: {fileID: 1553142956179786, guid: 41f55839a0468e24fb4a109e2fcb01b2, type: 3}
+    Capacity: 10
+  - Prefab: {fileID: 1932369758612010, guid: 1508ddac0ee0e46d5b6ec0f94ffb4179, type: 3}
+    Capacity: 5
+  - Prefab: {fileID: 1932369758612010, guid: 2d68b38eff81cc749affc92747b9bc66, type: 3}
+    Capacity: 5
+  - Prefab: {fileID: 1932369758612010, guid: c4f47edad32bd47c2b4a1643227aadf6, type: 3}
+    Capacity: 5
+  - Prefab: {fileID: 6928256385168923100, guid: 23e6e4c96a5d0b049bb6d1af9f2de6e7,
+      type: 3}
+    Capacity: 20
+  - Prefab: {fileID: 6278072555636713134, guid: 13ac83c739521fb119a816ea475c4c37,
+      type: 3}
+    Capacity: 20

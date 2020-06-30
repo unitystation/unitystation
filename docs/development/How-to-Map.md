@@ -14,7 +14,7 @@ You should have the following windows open. To open a window, go to the _Window_
 
 ### Introduction to Scenes
 Unity uses [scenes](https://docs.unity3d.com/Manual/CreatingScenes.html) to define environments and menus. Let's look at one.
-* Open an existing scene: Project > Assets > Scenes > OutpostStation
+* Open an existing scene: UnityProject > Assets > Scenes > Mainstations > OutpostStation
 * Make sure you have your Scene window focused
 * Look around the Scene with the [Hand Tool](https://docs.unity3d.com/Manual/SceneViewNavigation.html)
 

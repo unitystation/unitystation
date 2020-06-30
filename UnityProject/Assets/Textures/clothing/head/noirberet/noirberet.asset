@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
+  m_Name: noirberet
+  m_EditorClassIdentifier: 
+  Base:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 324f0c9688fe2be40b2033bf0c464f7a, type: 3}
+      Sprites:
+      - {fileID: -4648566830400703545, guid: 324f0c9688fe2be40b2033bf0c464f7a, type: 3}
+      - {fileID: -6683126067521924728, guid: 324f0c9688fe2be40b2033bf0c464f7a, type: 3}
+      - {fileID: -6996915797213883148, guid: 324f0c9688fe2be40b2033bf0c464f7a, type: 3}
+      - {fileID: -3167930070325151074, guid: 324f0c9688fe2be40b2033bf0c464f7a, type: 3}
+      EquippedData: {fileID: 4900000, guid: 398b82802367f1ae0b8e2fb2534b36be, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: fa5946686cd0b1541a1366e85ea2c40b, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: fa5946686cd0b1541a1366e85ea2c40b, type: 3}
+      - {fileID: 21300002, guid: fa5946686cd0b1541a1366e85ea2c40b, type: 3}
+      - {fileID: 21300004, guid: fa5946686cd0b1541a1366e85ea2c40b, type: 3}
+      - {fileID: 21300006, guid: fa5946686cd0b1541a1366e85ea2c40b, type: 3}
+      EquippedData: {fileID: 4900000, guid: 2b75533fe2f42e0418862cca0371f8f3, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: b24c446f587994e4cad70c25534bf2a6, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: b24c446f587994e4cad70c25534bf2a6, type: 3}
+      - {fileID: 21300002, guid: b24c446f587994e4cad70c25534bf2a6, type: 3}
+      - {fileID: 21300004, guid: b24c446f587994e4cad70c25534bf2a6, type: 3}
+      - {fileID: 21300006, guid: b24c446f587994e4cad70c25534bf2a6, type: 3}
+      EquippedData: {fileID: 4900000, guid: 12fdd422b0613e94aab3646ae5c49dc9, type: 3}
+    ItemIcon:
+      Texture: {fileID: 2800000, guid: 187f25111bb618f079cdc0478bb94d8c, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 187f25111bb618f079cdc0478bb94d8c, type: 3}
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  Base_Adjusted:
+    Equipped:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  DressVariant:
+    Equipped:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsLeft:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    InHandsRight:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  Variants: []

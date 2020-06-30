@@ -7,10 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43,
+    - target: {fileID: 200070983791577357, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
-      propertyPath: m_Name
-      value: Speedy Welder
+      propertyPath: SpeedMultiplier
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6984298448623192707, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
@@ -66,6 +66,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: m_Name
+      value: Speedy Welder
       objectReference: {fileID: 0}
     - target: {fileID: 7019565730922564163, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}

@@ -5,22 +5,21 @@ using UnityEngine;
 
 public class RequestToViewObjectsAtTile : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestToViewObjectsAtTile;
 	public Vector3 Location;
 	public string AdminId;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		ValidateAdmin();
-		yield return null;
 	}
 
 	void ValidateAdmin()
 	{
 		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
 		if (admin == null) return;
-		VariableViewer.ProcessTile(Location);
+
+		VariableViewer.ProcessTile(Location,SentByPlayer.GameObject);
 	}
 
 	public static RequestToViewObjectsAtTile Send(Vector3 _Location, string adminId, string adminToken)

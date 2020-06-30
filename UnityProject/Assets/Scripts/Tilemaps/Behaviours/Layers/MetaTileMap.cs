@@ -17,6 +17,8 @@ public class MetaTileMap : MonoBehaviour
 	public Layer[] LayersValues { get; private set; }
 	public ObjectLayer ObjectLayer { get; private set; }
 
+
+	public List<Layer> ffLayersValues;
 	/// <summary>
 	/// Array of only layers that can ever contain solid stuff
 	/// </summary>
@@ -82,17 +84,25 @@ public class MetaTileMap : MonoBehaviour
 	/// <summary>
 	/// Apply damage to damageable layers, top to bottom.
 	/// If tile gets destroyed, remaining damage is applied to the layer below
+	/// Returns how much damage was absorbed
 	/// </summary>
-	public void ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
+	public float ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
 	{
+		float RemainingDamage = damage;
 		foreach ( var damageableLayer in DamageableLayers )
 		{
-			if ( damage <= 0f )
+			if ( RemainingDamage <= 0f )
 			{
-				return;
+				return (damage);
 			}
-			damage = damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos, attackType );
+			RemainingDamage -= damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos, attackType);
 		}
+
+		if (RemainingDamage > damage)
+		{
+			return (damage);
+		}
+		return (damage - RemainingDamage);
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer)
@@ -101,32 +111,39 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
 	{
 		Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 		Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
 
-		return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context) &&
-		       _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context) ||
-		       _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context) &&
-		       _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context);
+		return _IsPassableAt(origin, toX, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles) &&
+			   _IsPassableAt(toX, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles) ||
+			   _IsPassableAt(origin, toY, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles) &&
+			   _IsPassableAt(toY, to, isServer, collisionType, inclPlayers, context, excludeLayers, excludeTiles);
 	}
 
+
 	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
 	{
 		for (var i = 0; i < SolidLayersValues.Length; i++)
 		{
 			// Skip floor & base collisions if this is not a shuttle
 			if (collisionType != CollisionType.Shuttle &&
-			    (SolidLayersValues[i].LayerType == LayerType.Floors ||
-			     SolidLayersValues[i].LayerType == LayerType.Base))
+				(SolidLayersValues[i].LayerType == LayerType.Floors ||
+				 SolidLayersValues[i].LayerType == LayerType.Base))
+			{
+				continue;
+			}
+
+			// Skip if the current tested layer is being excluded.
+			if (excludeLayers != null && excludeLayers.Contains(SolidLayersValues[i].LayerType))
 			{
 				continue;
 			}
 
 			if (!SolidLayersValues[i].IsPassableAt(origin, to, isServer, collisionType: collisionType,
-				inclPlayers: inclPlayers, context: context))
+				inclPlayers: inclPlayers, context: context, excludeTiles))
 			{
 				return false;
 			}
@@ -189,14 +206,24 @@ public class MetaTileMap : MonoBehaviour
 		return false;
 	}
 
-	public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4 transformMatrix)
+	public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null, Color? color = null)
 	{
-		Layers[tile.LayerType].SetTile(position, tile, transformMatrix);
+		if (Layers.TryGetValue(tile.LayerType, out var layer))
+		{
+			layer.SetTile(position, tile, matrixTransform.GetValueOrDefault(Matrix4x4.identity), color.GetValueOrDefault(Color.white));
+		}
+		else
+		{
+			LogMissingLayer(position, tile.LayerType);
+		}
+
 	}
 
-	public void SetTile(Vector3Int position, LayerTile tile)
+	private void LogMissingLayer(Vector3Int position, LayerType layerType)
 	{
-		Layers[tile.LayerType].SetTile(position, tile, Matrix4x4.identity);
+		Logger.LogErrorFormat("Modifying tile at cellPos {0} for layer type {1} failed because matrix {2} " +
+		                      "has no layer of that type. Please add this layer to this matrix in" +
+		                      " the scene.", Category.TileMaps, position, layerType, name);
 	}
 
 	/// <summary>
@@ -230,9 +257,16 @@ public class MetaTileMap : MonoBehaviour
 	/// <returns></returns>
 	public LayerTile GetTile(Vector3Int cellPosition, LayerType layerType)
 	{
-		Layer layer = null;
-		Layers.TryGetValue(layerType, out layer);
-		return layer ? Layers[layerType].GetTile(cellPosition) : null;
+		if (Layers.TryGetValue(layerType, out var layer))
+		{
+			return layer.GetTile(cellPosition);
+		}
+		else
+		{
+			LogMissingLayer(cellPosition, layerType);
+		}
+
+		return null;
 	}
 
 	/// <summary>
@@ -256,6 +290,29 @@ public class MetaTileMap : MonoBehaviour
 
 		return null;
 	}
+
+	/// <summary>
+	/// Gets the topmost tile at the specified cell position , Whilst ignoring the specified tiles in the ExcludedLayers
+	/// </summary>
+	/// <param name="cellPosition">cell position within the tilemap to get the tile of. NOT the same
+	/// as world position.</param>
+	/// <returns></returns>
+	public LayerTile GetTile(Vector3Int cellPosition, LayerTypeSelection ExcludedLayers)
+	{
+		for (var i = 0; i < LayersValues.Length; i++)
+		{
+			LayerTile tile = LayersValues[i].GetTile(cellPosition);
+			if (tile != null)
+			{
+				if (LTSUtil.IsLayerIn(ExcludedLayers,tile.LayerType)) continue;
+
+				return tile;
+			}
+		}
+
+		return null;
+	}
+
 
 	/// <summary>
 	/// Checks if tile is empty of objects (only solid by default)
@@ -381,13 +438,13 @@ public class MetaTileMap : MonoBehaviour
 	}
 	public bool HasTile(Vector3Int position, LayerType layerType, bool isServer)
 	{
-		//protection against nonexistent layers
-		for ( var i = 0; i < LayersKeys.Length; i++ )
+		if (Layers.TryGetValue(layerType, out var layer))
 		{
-			if ( layerType == LayersKeys[i] )
-			{
-				return Layers[layerType].HasTile( position, isServer );
-			}
+			return layer.HasTile(position, isServer);
+		}
+		else
+		{
+			LogMissingLayer(position, layerType);
 		}
 
 		return false;
@@ -397,10 +454,10 @@ public class MetaTileMap : MonoBehaviour
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
-			Layer layer = LayersValues[i];
-			if (layer.LayerType < refLayer &&
-			    !(refLayer == LayerType.Objects &&
-			      layer.LayerType == LayerType.Floors) &&
+			Layer layer = LayersValues[i]; //layer.LayerType < refLayer &&
+			//TODO: @Bod9001 What is the purpose of this strange conditional logic?
+			if (
+			    !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors) &&
 			    refLayer != LayerType.Grills)
 			{
 				layer.RemoveTile(position);
@@ -410,11 +467,14 @@ public class MetaTileMap : MonoBehaviour
 
 	public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll)
 	{
-		if (!Layers.ContainsKey(refLayer))
+		if (Layers.TryGetValue(refLayer, out var layer))
 		{
-			return;
+			layer.RemoveTile(position, removeAll);
 		}
-		Layers[refLayer].RemoveTile(position, removeAll);
+		else
+		{
+			LogMissingLayer(position, refLayer);
+		}
 	}
 
 	public void ClearAllTiles()
@@ -433,9 +493,10 @@ public class MetaTileMap : MonoBehaviour
 	{
 		var bounds = GetBounds();
 		//???
-		var min = CellToWorld( bounds.min ).RoundToInt();
-		var max = CellToWorld( bounds.max ).RoundToInt();
-		return new BoundsInt(min, max - min);
+		var min = CellToWorld(bounds.min);
+		var max = CellToWorld(bounds.max);
+
+		return new BoundsInt(min.RoundToInt(), (max - min).RoundToInt());
 	}
 
 	public BoundsInt GetBounds()
@@ -446,6 +507,10 @@ public class MetaTileMap : MonoBehaviour
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
 			BoundsInt layerBounds = LayersValues[i].Bounds;
+			if (layerBounds.x == 0 && layerBounds.y == 0)
+			{
+				continue; // Has no tiles
+			}
 
 			minPosition = Vector3Int.Min(layerBounds.min, minPosition);
 			maxPosition = Vector3Int.Max(layerBounds.max, maxPosition);

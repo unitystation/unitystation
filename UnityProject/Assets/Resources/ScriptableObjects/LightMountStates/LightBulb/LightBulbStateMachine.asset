@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec9e64dc9ec847c4837c5a67a2e29325, type: 3}
+  m_Name: LightBulbStateMachine
+  m_EditorClassIdentifier: 
+  LightMountStates:
+    m_keys: 010000000200000003000000040000000500000006000000
+    m_values:
+    - {fileID: 11400000, guid: 996291111aa54d242bdf5a2ae9d7ae8a, type: 2}
+    - {fileID: 11400000, guid: 8ab13a2a71c64db439325f07d81427b7, type: 2}
+    - {fileID: 11400000, guid: 767ec4ff4aab72948879ef802e209b52, type: 2}
+    - {fileID: 11400000, guid: ba6f4dfe25f49514b886dd0262eb0deb, type: 2}
+    - {fileID: 11400000, guid: af9129140171c4f4cbdd9042a5a1f156, type: 2}
+    - {fileID: 11400000, guid: 3b5c01db557b3c14d89be5ab0164765e, type: 2}

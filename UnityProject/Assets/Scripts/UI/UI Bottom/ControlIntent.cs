@@ -54,7 +54,7 @@ using UnityEngine.EventSystems;
 			}
 
 			UIManager.CurrentIntent = (Intent) intent;
-			thisImg.sprite = sprites[intent];
+			if(thisImg != null) thisImg.sprite = sprites[intent];
 		}
 
 		//Hotkey method
@@ -62,6 +62,9 @@ using UnityEngine.EventSystems;
 		{
 			UIManager.CurrentIntent = intent;
 
-			thisImg.sprite = sprites[(int)intent];
+			if (thisImg != null)
+			{
+				thisImg.sprite = sprites[(int)intent];
+			}
 		}
 	}

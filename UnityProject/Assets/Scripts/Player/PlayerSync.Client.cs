@@ -42,6 +42,10 @@ public partial class PlayerSync
 	private bool ClientPositionReady => Vector2.Distance( predictedState.Position, transform.localPosition ) < 0.001f
 	                                    || playerState.WorldPosition == TransformState.HiddenPos;
 
+	//Pending Init state cache when the client is still loading in
+	private Queue<PlayerState> pendingInitStates = new Queue<PlayerState>();
+	private bool isWaitingForMatrix = false;
+
 	private bool IsWeightlessClient
 	{
 		get
@@ -84,24 +88,7 @@ public partial class PlayerSync
 	private bool blockClientMovement = false;
 
 	private bool MoveCooldown = false; //cooldown is here just for client performance
-	private void DoAction()
-	{
-		PlayerAction action = playerMove.SendAction();
-		if (action.moveActions.Length != 0 && !MoveCooldown)
-		{
-			StartCoroutine(DoProcess(action));
-		}
-	}
 
-	public bool DoAction(PlayerAction action)
-	{
-		if (action.moveActions.Length != 0 && !MoveCooldown)
-		{
-			StartCoroutine(DoProcess(action));
-			return true;
-		}
-		return false;
-	}
 	//Extracted to its own function, to make reasoning about it easier for me.
 	private bool ShouldPlayerMove()
 	{
@@ -184,7 +171,7 @@ public partial class PlayerSync
 				}
 				else
 				{
-					
+
 					//cannot move but it's not due to bumping, so don't even send it.
 					cancelMove = true;
 					Logger.LogTraceFormat( "Can't enqueue move: block = {0}, pseudoFloating = {1}, floating = {2}\nclientState = {3}\npredictedState = {4}"
@@ -379,9 +366,37 @@ public partial class PlayerSync
 		return nextState;
 	}
 
+	IEnumerator WaitForMatrix()
+	{
+		isWaitingForMatrix = true;
+		while (!MatrixManager.IsInitialized)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
+		isWaitingForMatrix = false;
+
+		while (pendingInitStates.Count > 0)
+		{
+			UpdateClientState(pendingInitStates.Dequeue());
+		}
+	}
+
 	/// Called when PlayerMoveMessage is received
 	public void UpdateClientState(PlayerState newState)
 	{
+		if (!MatrixManager.IsInitialized)
+		{
+			newState.NoLerp = true;
+			pendingInitStates.Enqueue(newState);
+			if (!isWaitingForMatrix)
+			{
+				StartCoroutine(WaitForMatrix());
+			}
+
+			return;
+		}
+
 		var newWorldPos = Vector3Int.RoundToInt(newState.WorldPosition);
 		OnUpdateRecieved().Invoke(newWorldPos);
 

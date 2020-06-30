@@ -45,7 +45,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	}
 
 	// make sure to call this in subclasses
-	public void Start()
+	public virtual void Start()
 	{
 		CheckSpriteOrder();
 	}
@@ -59,7 +59,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 	}
 
-	public void OnInventoryMoveServer(InventoryMove info)
+	public virtual void OnInventoryMoveServer(InventoryMove info)
 	{
 		/*
 		 * TODO: There is a security issue here which existed even prior to inventory refactor.
@@ -116,7 +116,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		this.canPickup = canPickup;
 	}
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
+	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!canPickup) return false;
 		//we need to be the target
@@ -124,7 +124,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		//hand needs to be empty for pickup
 		if (interaction.HandObject != null) return false;
 		//instead of the base logic, we need to use extended range check for CanApply
-		if (!Validations.CanApply(interaction, side, true, ReachRange.Standard)) return false;
+		if (!Validations.CanApply(interaction, side, true, ReachRange.Standard, isPlayerClick: true)) return false;
 
 		return true;
 	}
@@ -141,10 +141,10 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 	public void ServerRollbackClient(HandApply interaction)
 	{
 		//Rollback prediction (inform player about item's true state)
-		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer);
+		GetComponent<CustomNetTransform>().NotifyPlayer(interaction.Performer.GetComponent<NetworkIdentity>().connectionToClient);
 	}
 
-	public void ServerPerformInteraction(HandApply interaction)
+	public virtual void ServerPerformInteraction(HandApply interaction)
 	{
 		//we validated, but object may only be in extended range
 		var cnt = GetComponent<CustomNetTransform>();
@@ -191,15 +191,14 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		//would the interaction validate locally?
-		var valid = WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client);
-		if (valid)
-		{
-			return RightClickableResult.Create()
-				.AddElement("PickUp", RightClickInteract);
-		}
+		if (!canPickup) return null;
+		var interaction = HandApply.ByLocalPlayer(gameObject);
+		if (interaction.TargetObject != gameObject) return null;
+		if (interaction.HandObject != null) return null;
+		if (!Validations.CanApply(interaction, NetworkSide.Client, true, ReachRange.Standard, isPlayerClick: false)) return null;
 
-		return null;
+		return RightClickableResult.Create()
+				.AddElement("PickUp", RightClickInteract);
 	}
 
 	private void RightClickInteract()

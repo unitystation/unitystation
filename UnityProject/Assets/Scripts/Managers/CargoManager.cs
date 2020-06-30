@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Lucene.Net.Support;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -19,6 +18,8 @@ public class CargoManager : MonoBehaviour
 	public List<CargoOrder> CurrentOrders = new List<CargoOrder>(); // Orders - payed orders that will spawn in shuttle on centcom arrival
 	public List<CargoOrder> CurrentCart = new List<CargoOrder>(); // Cart - current orders, that haven't been payed for/ordered yet
 
+	public int cartSizeLimit = 20;
+
 	public CargoUpdateEvent OnCartUpdate = new CargoUpdateEvent();
 	public CargoUpdateEvent OnShuttleUpdate = new CargoUpdateEvent();
 	public CargoUpdateEvent OnCreditsUpdate = new CargoUpdateEvent();
@@ -31,7 +32,7 @@ public class CargoManager : MonoBehaviour
 	[SerializeField]
 	private float shuttleFlyDuration = 10f;
 
-	private HashMap<string, ExportedItem> exportedItems = new HashMap<string, ExportedItem>();
+	private Dictionary<string, ExportedItem> exportedItems = new Dictionary<string, ExportedItem>();
 
 	private void Awake()
 	{
@@ -47,15 +48,15 @@ public class CargoManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnRoundRestart;
+		SceneManager.activeSceneChanged += OnRoundRestart;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnRoundRestart;
+		SceneManager.activeSceneChanged -= OnRoundRestart;
 	}
 
-	void OnRoundRestart(Scene scene, LoadSceneMode mode)
+	void OnRoundRestart(Scene oldScene, Scene newScene)
 	{
 		Supplies.Clear();
 		CurrentOrders.Clear();
@@ -77,7 +78,8 @@ public class CargoManager : MonoBehaviour
 			return;
 		}
 
-		if (CurrentFlyTime > 0f)
+		if (CurrentFlyTime > 0f || ShuttleStatus == ShuttleStatus.OnRouteCentcom
+		                        || ShuttleStatus == ShuttleStatus.OnRouteStation)
 		{
 			return;
 		}
@@ -125,6 +127,7 @@ public class CargoManager : MonoBehaviour
 			yield return WaitFor.Seconds(1);
 		}
 
+		CurrentFlyTime = 0f;
 		if (launchToStation)
 		{
 			CargoShuttle.Instance.MoveToStation();
@@ -287,6 +290,11 @@ public class CargoManager : MonoBehaviour
 	public void AddToCart(CargoOrder orderToAdd)
 	{
 		if (!CustomNetworkManager.Instance._isServer)
+		{
+			return;
+		}
+
+		if (CurrentCart.Count > cartSizeLimit)
 		{
 			return;
 		}

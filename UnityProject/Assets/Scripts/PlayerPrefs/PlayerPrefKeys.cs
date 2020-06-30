@@ -10,10 +10,9 @@
 	public static string ChatBubbleKey = "ChatBubble";
 
 	/// <summary>
-	/// Camera zoom. Keep values within 0 - 10 range
-	/// 0 = AutoZoom
+	/// Camera zoom.
 	/// <summary>
-	public static string CamZoomKey = "CamZoomSetting";
+	public static string CamZoomKey = "CamZoomSetting1";
 
 	/// <summary>
 	/// ScrollWheelZoom preference.
@@ -47,19 +46,18 @@
 	public static string ChatBubbleThemeKey = "ChatBubbleTheme";
 
 	/// <summary>
-	/// ClientID is a unique identifier that allows a player to reclaim
-	/// their body on a reconnect. An id is given to each client so that
-	/// we are not relying on SteamID as the identifier.
-	/// </summary>
-	public static string ClientID = "ClientID";
-
-	/// <summary>
 	/// MuteMusic toggle
 	/// 0 = disabled
 	/// 1 = enabled
 	/// </summary>
 	public static string MuteMusic = "MuteMusic";
 
+	/// <summary>
+	/// MuteMusic toggle
+	/// 0 = disabled
+	/// 1 = enabled
+	/// </summary>
+	public static string MusicVolume = "MusicVolume";
 
 	/// <summary>
 	/// Whether or not to show highlights on items
@@ -75,4 +73,11 @@
 	/// Sets the normal chat bubble size preference
 	/// </summary>
 	public static string ChatBubbleSize = "ChatBubbleSize";
+
+	/// <summary>
+	/// VSync preference.
+	/// 0 = disabled
+	/// 1 = enabled, every VBlank
+	/// <summary>
+	public static string VSyncEnabled = "EnableVSync";
 }

@@ -1,13 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using DatabaseAPI;
-using Lucene.Net.Documents;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UIElements;
 using UnityEngine.UI;
-using Button = UnityEngine.UI.Button;
 using Image = UnityEngine.UI.Image;
 
 [RequireComponent(typeof(EscapeKeyTarget))]
@@ -53,9 +48,9 @@ public class DevSpawnerListItemController : MonoBehaviour
 	/// Initializes it to display the document
 	/// </summary>
 	/// <param name="resultDoc">document to display</param>
-	public void Initialize(Document resultDoc)
+	public void Initialize(DevSpawnerDocument resultDoc)
 	{
-		prefab = Spawn.GetPrefabByName(resultDoc.Get("name"));
+		prefab = resultDoc.Prefab;
 		Sprite toUse = prefab.GetComponentInChildren<SpriteRenderer>()?.sprite;
 		if (toUse != null)
 		{
@@ -65,7 +60,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 
 		detailText.text = "Prefab";
 
-		titleText.text = resultDoc.Get("name");
+		titleText.text = resultDoc.Prefab.name;
 	}
 
 	private void Update()
@@ -130,7 +125,7 @@ public class DevSpawnerListItemController : MonoBehaviour
 				block.SetInt("_IsPaletted", 1);
 				curRend.SetPropertyBlock(block);
 			}
-			
+
 			UIManager.IsMouseInteractionDisabled = true;
 			escapeKeyTarget.enabled = true;
 			selectedItem = this;
@@ -176,10 +171,12 @@ public class DevSpawnerListItemController : MonoBehaviour
 		if (CustomNetworkManager.IsServer)
 		{
 			Spawn.ServerPrefab(prefab, position);
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
+				$"{PlayerManager.LocalPlayer.ExpensiveName()} spawned a {prefab.name} at {position}", ServerData.UserID);
 		}
 		else
 		{
-			DevSpawnMessage.Send(prefab.name, (Vector3) position, ServerData.UserID, PlayerList.Instance.AdminToken);
+			DevSpawnMessage.Send(prefab, (Vector3) position, ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
 	}
 }

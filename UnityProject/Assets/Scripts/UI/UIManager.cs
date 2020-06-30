@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using AdminTools;
+using Audio.Managers;
 using Mirror;
 using UI.UI_Bottom;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Unitystation.Options;
 
 public class UIManager : MonoBehaviour
 {
@@ -19,7 +19,6 @@ public class UIManager : MonoBehaviour
 	[FormerlySerializedAs("dragAndDrop")] public UIDragAndDrop uiDragAndDrop;
 	public ControlDisplays displayControl;
 	public ControlClothing controlClothing;
-	public DisplayManager displayManager;
 	public Hands hands;
 	public ControlIntent intentControl;
 	public PlayerHealthUI playerHealthUI;
@@ -38,6 +37,9 @@ public class UIManager : MonoBehaviour
 	public static GamePad GamePad => Instance.gamePad;
 	public GamePad gamePad;
 	public AnimationCurve strandedZoomOutCurve;
+	public AdminChatButtons adminChatButtons;
+	public AdminChatWindows adminChatWindows;
+	public PlayerAlerts playerAlerts;
 	private bool preventChatInput;
 
 	public static bool PreventChatInput
@@ -126,8 +128,6 @@ public class UIManager : MonoBehaviour
 
 	public static PlayerListUI PlayerListUI => Instance.playerListUIControl;
 
-	public static DisplayManager DisplayManager => Instance.displayManager;
-
 	public static UI_StorageHandler StorageHandler
 	{
 		get
@@ -210,9 +210,25 @@ public class UIManager : MonoBehaviour
 			ttsToggle = PlayerPrefs.GetInt(PlayerPrefKeys.TTSToggleKey) == 1;
 		}
 
-
-
+		adminChatButtons.transform.parent.gameObject.SetActive(false);
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
+	}
+
+	private void OnEnable()
+	{
+		SceneManager.activeSceneChanged += OnSceneChange;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnSceneChange;
+	}
+
+	void OnSceneChange(Scene oldScene, Scene newScene)
+	{
+		adminChatButtons.ClearAllNotifications();
+		adminChatWindows.ResetAll();
+		playerAlerts.ClearLogs();
 	}
 
 	void DetermineInitialTargetFrameRate()
@@ -434,7 +450,7 @@ public class UIManager : MonoBehaviour
 			yield return null;
 		}
 
-		SoundManager.StopAmbient();
+		SoundAmbientManager.StopAllAudio();
 
 	}
 

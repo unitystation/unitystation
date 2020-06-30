@@ -1,21 +1,33 @@
 ﻿using System.Collections;
 using Mirror;
+using NPC.AI;
 using UnityEngine;
 
 public class MobMeleeLerpMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.MobMeleeLerpMessage;
-
 	public uint mob;
 	public Vector2 dir;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return null;
-		if (mob == NetId.Empty) yield break;
+		LoadNetworkObject(mob);
 
-		var getMob = NetworkIdentity.spawned[mob];
+		if (NetworkObject == null) return;
+		
+		var getMob = NetworkObject;
 		var mobMelee = getMob.GetComponent<MobMeleeAttack>();
+		var mobAction = getMob.GetComponent<MobMeleeAction>();
+		if (mobMelee == null & mobAction == null)
+		{
+			return;
+		}
+
+		if (mobMelee == null)
+		{
+			mobAction.ClientDoLerpAnimation(dir);
+			return;
+		}
+
 		mobMelee.ClientDoLerpAnimation(dir);
 	}
 

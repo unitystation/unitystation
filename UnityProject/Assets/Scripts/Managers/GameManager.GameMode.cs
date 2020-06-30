@@ -33,6 +33,11 @@ public partial class GameManager
 	public bool SecretGameMode = true;
 
 	/// <summary>
+	/// Array of jobs from a randomized department. Used for Rebels gamemode (ex Cargonia)
+	/// </summary>
+	public List<JobType> Rebels;
+
+	/// <summary>
 	/// The state of the current round
 	/// </summary>
 	public RoundState CurrentRoundState
@@ -118,5 +123,14 @@ public partial class GameManager
 	public bool TrySpawnAntag(PlayerSpawnRequest spawnRequest)
 	{
 		return GameMode.TrySpawnAntag(spawnRequest);
+	}
+
+	/// <summary>
+	/// Waits before starting the game mode (to stop players being spawned in before everything has initialised)
+	/// </summary>
+	private IEnumerator WaitToStartGameMode()
+	{
+		yield return WaitFor.EndOfFrame;
+		GameMode.StartRound();
 	}
 }

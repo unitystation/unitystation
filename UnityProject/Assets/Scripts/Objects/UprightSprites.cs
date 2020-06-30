@@ -8,14 +8,14 @@ using UnityEngine;
 /// Allows defining what should happen to the sprites during a matrix rotation,
 /// </summary>
 [ExecuteInEditMode]
-public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
+public class UprightSprites : MonoBehaviour, IMatrixRotation
 {
 	[Tooltip("Defines how this object's sprites should behave during a matrix rotation")]
 	public SpriteMatrixRotationBehavior spriteMatrixRotationBehavior =
 		SpriteMatrixRotationBehavior.RotateUprightAtEndOfMatrixRotation;
 
 	[Tooltip("Ignore additional rotation (for example, when object is knocked down)")]
-	public SpriteRenderer[] ignoreExtraRotation;
+	public SpriteRenderer[] ignoreExtraRotation = new SpriteRenderer[0];
 
 	/// <summary>
 	/// Client side only! additional rotation to apply to the sprites. Can be used to give the object an appearance
@@ -59,12 +59,7 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 		SetSpritesUpright();
 	}
 
-	public void OnSpawnClient(ClientSpawnInfo info)
-	{
-		SetSpritesUpright();
-	}
-
-	public void OnDespawnClient(ClientDespawnInfo info)
+	private void OnDestroy()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, SetSpritesUpright);
 	}
@@ -132,8 +127,11 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 	}
 	//changes the rendered sprite in editor so its always upright
 #if UNITY_EDITOR
-	private void Update()
+	private void OnValidate()
 	{
+		if (spriteRenderers == null)
+			return;
+
 		if (Application.isEditor && !Application.isPlaying)
 		{
 			foreach (var spriteRenderer in spriteRenderers)

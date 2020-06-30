@@ -4,16 +4,16 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using AdminTools;
+using InGameEvents;
 
 public class AdminToolRefreshMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.AdminToolRefreshMessage;
 	public string JsonData;
 	public uint Recipient;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(Recipient);
+		LoadNetworkObject(Recipient);
 		var adminPageData = JsonUtility.FromJson<AdminPageRefreshData>(JsonData);
 
 		var pages = GameObject.FindObjectsOfType<AdminPage>();
@@ -25,8 +25,6 @@ public class AdminToolRefreshMessage : ServerMessage
 
 	public static AdminToolRefreshMessage Send(GameObject recipient, string adminID)
 	{
-
-
 		//Gather the data:
 		var pageData = new AdminPageRefreshData();
 
@@ -35,6 +33,9 @@ public class AdminToolRefreshMessage : ServerMessage
 		pageData.isSecret = GameManager.Instance.SecretGameMode;
 		pageData.currentGameMode = GameManager.Instance.GetGameModeName(true);
 		pageData.nextGameMode = GameManager.Instance.NextGameMode;
+
+		//Event Manager
+		pageData.randomEventsAllowed = InGameEventsManager.Instance.RandomEventsAllowed;
 
 		//Player list info:
 		pageData.players = GetAllPlayerStates(adminID);
@@ -52,8 +53,6 @@ public class AdminToolRefreshMessage : ServerMessage
 	{
 		var playerList = new List<AdminPlayerEntryData>();
 		if (string.IsNullOrEmpty(adminID)) return playerList;
-
-		var checkMessages = PlayerList.Instance.CheckAdminInbox(adminID);
 		foreach (var player in PlayerList.Instance.AllPlayers)
 		{
 			if (player == null) continue;
@@ -75,14 +74,6 @@ public class AdminToolRefreshMessage : ServerMessage
 			entry.isAntag = PlayerList.Instance.AntagPlayers.Contains(player);
 			entry.isAdmin = PlayerList.Instance.IsAdmin(player.UserId);
 			entry.isOnline = true;
-
-			foreach (var msg in checkMessages)
-			{
-				if (msg.fromUserid == entry.uid)
-				{
-					entry.newMessages.Add(msg);
-				}
-			}
 
 			playerList.Add(entry);
 		}

@@ -29,7 +29,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4612996799587298}
-  - {fileID: 5624681504523552055}
+  - {fileID: 2513941683694770322}
   m_Father: {fileID: 4354794864428666}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -47,6 +47,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -92,7 +93,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4354794864428666}
   - component: {fileID: 61442980425183844}
-  - component: {fileID: 61828718115089044}
   - component: {fileID: 114026821851648828}
   - component: {fileID: 114873780379729372}
   - component: {fileID: 114239634461430000}
@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 114920841608507116}
   - component: {fileID: 4910682177347678223}
   - component: {fileID: 2643916384223477428}
+  - component: {fileID: -1268954813384469641}
   m_Layer: 11
   m_Name: Closet_Locker_mining
   m_TagString: Untagged
@@ -118,7 +119,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1615565101381030}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1843, y: 1139, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4625006096954862}
@@ -152,32 +153,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.83569336, y: 0.9217529}
   m_EdgeRadius: 0
---- !u!61 &61828718115089044
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615565101381030}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.011474609, y: 0.011474609}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.5410156, y: 0.8852539}
-  m_EdgeRadius: 0
 --- !u!114 &114026821851648828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114873780379729372
 MonoBehaviour:
@@ -205,7 +181,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114239634461430000
@@ -223,7 +198,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialContents: {fileID: 11400000, guid: 7f9e2aba4336a4c89a6506db8fe75a9d, type: 2}
-  lockLight: {fileID: 6955667430383497270}
+  lockLight: {fileID: 3165866683389779742}
   IsLockable: 1
   playerLimit: 3
   metalDroppedOnDestroy: 2
@@ -286,6 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114169189415504790
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 20
     Bullet: 10
@@ -333,6 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -352,6 +330,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: mining locker
   initialDescription: A locker for mining equipment.
+  willHighlight: 1
   exportCost: 200
   exportName: locker
   exportMessage: 
@@ -368,6 +347,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restriction: 53
+--- !u!114 &-1268954813384469641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615565101381030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1660108514398418
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,6 +404,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -478,7 +470,7 @@ Transform:
   m_Father: {fileID: 4625006096954862}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &8374075837344158030
+--- !u!1 &4781996746974490380
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -486,9 +478,9 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 5624681504523552055}
-  - component: {fileID: 5345165551740166485}
-  - component: {fileID: 6955667430383497270}
+  - component: {fileID: 2513941683694770322}
+  - component: {fileID: 8709674447284563547}
+  - component: {fileID: 3165866683389779742}
   m_Layer: 0
   m_Name: LockLight
   m_TagString: Untagged
@@ -496,27 +488,27 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5624681504523552055
+--- !u!4 &2513941683694770322
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8374075837344158030}
+  m_GameObject: {fileID: 4781996746974490380}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.03, y: -0.02, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.10000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4625006096954862}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!212 &5345165551740166485
+--- !u!212 &8709674447284563547
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8374075837344158030}
+  m_GameObject: {fileID: 4781996746974490380}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -524,6 +516,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -559,13 +552,13 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &6955667430383497270
+--- !u!114 &3165866683389779742
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8374075837344158030}
+  m_GameObject: {fileID: 4781996746974490380}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8c21a6af2c615b34993352ed3e5e8aba, type: 3}

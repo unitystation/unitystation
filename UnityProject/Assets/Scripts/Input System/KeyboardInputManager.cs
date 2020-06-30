@@ -42,7 +42,7 @@ public class KeyboardInputManager : MonoBehaviour
 			}
 
 			// Only check for keyboard input once in-game
-			if (GameData.IsInGame && CustomNetworkManager.Instance.IsClientConnected())
+			if (GameData.IsInGame && Mirror.NetworkClient.active)
 			{
 				CheckInGameKeybinds();
 			}
@@ -81,7 +81,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	/// <param name="keyAction">The action to check</param>
 	/// <param name="keyEventType">The type of key event to check for</param>
-	private bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
+	public bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
 	{
 		DualKeyCombo action = keybindManager.userKeybinds[keyAction];
 		return CheckComboEvent(action.PrimaryCombo, keyEventType) || CheckComboEvent(action.SecondaryCombo, keyEventType);
@@ -189,6 +189,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.ChatLocal,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Local); }},
 		{ KeyAction.ChatRadio,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.Common); }},
 		{ KeyAction.ChatOOC,		() => { ChatUI.Instance.OpenChatWindow(ChatChannel.OOC); }},
+		{ KeyAction.ToggleAHelp,    () => { ChatUI.Instance.OnAdminHelpButton(); }},
 
 		// Body part selection
 		{ KeyAction.TargetHead,		() => { UIManager.ZoneSelector.CycleHead(); }},

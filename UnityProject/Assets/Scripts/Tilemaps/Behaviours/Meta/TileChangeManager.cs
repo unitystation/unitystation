@@ -33,6 +33,12 @@ public class TileChangeManager : NetworkBehaviour
 		interactableTiles = GetComponent<InteractableTiles>();
 	}
 
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		TileChangeNewPlayer.Send(netId);
+	}
+
 	public void InitServerSync(string data)
 	{
 		//server doesn't ever need to run this because this will replay its own changes
@@ -42,7 +48,7 @@ public class TileChangeManager : NetworkBehaviour
 		var dataList = JsonUtility.FromJson<TileChangeList>(data);
 		foreach (TileChangeEntry entry in dataList.List)
 		{
-			Logger.LogTraceFormat("Received update for {0} layer {1}", Category.TileMaps, entry.Position,
+			Logger.LogTraceFormat("Received update for {0} layer {1} " + entry.TileName , Category.TileMaps, entry.Position,
 				entry.LayerType);
 			// load tile & apply
 			if (entry.TileType.Equals(TileType.None))
@@ -57,7 +63,7 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void NotifyPlayer (GameObject requestedBy)
+	public void UpdateNewPlayer (NetworkConnection requestedBy)
 	{
 		if (changeList.List.Count > 0)
 		{
@@ -90,6 +96,18 @@ public class TileChangeManager : NetworkBehaviour
 
 			AddToChangeList(cellPosition, layerTile);
 		}
+	}
+
+	/// <summary>
+	/// Used for the underfloor layer to reduce complexity on the main UpdateTile Function
+	/// </summary>
+	/// <param name="cellPosition"></param>
+	/// <param name="layerTile"></param>
+	[Server]
+	public void UnderfloorUpdateTile(Vector3Int cellPosition, LayerTile layerTile)
+	{
+		RpcUpdateTile(cellPosition, layerTile.TileType, layerTile.name);
+		AddToChangeList(cellPosition, layerTile);
 	}
 
 	/// <summary>
@@ -137,6 +155,7 @@ public class TileChangeManager : NetworkBehaviour
 	[Server]
 	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType, bool removeAll=true)
 	{
+
 		var layerTile = metaTileMap.GetTile(cellPosition, layerType);
 		if(metaTileMap.HasTile(cellPosition, layerType, true))
 		{
@@ -146,10 +165,15 @@ public class TileChangeManager : NetworkBehaviour
 
 			AddToChangeList(cellPosition, layerType);
 
-			if ( layerType == LayerType.Floors || layerType == LayerType.Base )
+			if (layerType == LayerType.Floors || layerType == LayerType.Base )
 			{
 				OnFloorOrPlatingRemoved.Invoke( cellPosition );
 			}
+			else if (layerType == LayerType.Windows)
+			{
+				RemoveTile(cellPosition, LayerType.Effects);
+			}
+
 			return layerTile;
 		}
 
@@ -221,12 +245,15 @@ public class TileChangeManager : NetworkBehaviour
 
 		//TODO: OVERLAYS - right now it only removes at z = -1, but we will eventually need
 		//to allow multiple overlays on a given location which would require multiple z levels.
-		if (position.z == 0)
+		if (layerTile.TileType != TileType.UnderFloor)
 		{
-			position.z = -1;
-			if (metaTileMap.HasTile(position, layerTile.LayerType, true))
+			if (position.z == 0)
 			{
-				metaTileMap.RemoveTile(position, layerTile.LayerType);
+				position.z = -1;
+				if (metaTileMap.HasTile(position, layerTile.LayerType, true))
+				{
+					metaTileMap.RemoveTile(position, layerTile.LayerType);
+				}
 			}
 		}
 	}

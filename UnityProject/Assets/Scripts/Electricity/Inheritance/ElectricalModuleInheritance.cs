@@ -43,21 +43,23 @@ public class ElectricalModuleInheritance : MonoBehaviour, IServerDespawn
 	public virtual void PotentialDestroyed(){
 	}
 
-	public virtual void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalNodeControl ComplexPassOn){
+	public virtual void DirectionInput(ElectricalOIinheritance SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalNodeControl ComplexPassOn){
 	}
 
-	public virtual float ModifyElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom){
+	public virtual VIRCurrent  ModifyElectricityInput(VIRCurrent Current,
+										 ElectricalOIinheritance SourceInstance,
+										 IntrinsicElectronicData ComingFromm){
 		return (Current);
 	}
 
-	public virtual float ModifyElectricityOutput(float Current, GameObject SourceInstance){
+	public virtual VIRCurrent  ModifyElectricityOutput(VIRCurrent  Current, ElectricalOIinheritance SourceInstance){
 		return (Current);
 	}
 
-	public virtual float ModifyResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom){
+	public virtual ResistanceWrap ModifyResistanceInput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance, IntrinsicElectronicData ComingFrom){
 		return (Resistance);
 	}
-	public virtual float ModifyResistancyOutput(float Resistance, GameObject SourceInstance){
+	public virtual ResistanceWrap ModifyResistancyOutput(ResistanceWrap Resistance, ElectricalOIinheritance SourceInstance){
 		return (Resistance);
 	}
 }

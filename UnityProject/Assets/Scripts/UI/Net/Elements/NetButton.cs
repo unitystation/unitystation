@@ -5,12 +5,12 @@ using UnityEngine.UI;
 /// Simple button, has no special value
 [RequireComponent(typeof( Button ))]
 [Serializable]
-public class NetButton : NetUIElement
+public class NetButton : NetUIStringElement
 {
 	public UnityEvent ServerMethod;
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke();
 	}
-	
+
 }

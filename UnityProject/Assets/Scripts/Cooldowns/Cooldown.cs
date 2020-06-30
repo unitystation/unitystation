@@ -6,11 +6,11 @@ using UnityEngine;
 /// can have its own tracked cooldowns via the Cooldowns component.
 /// </summary>
 [CreateAssetMenu(fileName = "Cooldown", menuName = "Cooldown")]
-public class Cooldown : ScriptableObject
+public class Cooldown : ScriptableObject, ICooldown
 {
 	[Tooltip("Default time in seconds this cooldown takes to countdown.")]
 	[SerializeField]
-	private float defaultTime;
+	private float defaultTime = 0;
 
 	/// <summary>
 	/// Default time in seconds this cooldown takes to countdown.

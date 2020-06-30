@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -30,7 +30,7 @@ using UnityEditor;
 				return;
 			}
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition("AccessDenied", transform.position);
+			SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
 
 			// check if door uses a simple denied animation (flashes 1 frame on and off)
 			if (doorController.useSimpleDeniedAnimation)
@@ -51,6 +51,19 @@ using UnityEditor;
 			}
 		}
 
+		public override void PressureWarn(bool skipAnimation)
+		{
+			if (skipAnimation)
+			{
+				//do nothing
+				return;
+			}
+
+			doorController.isPerformingAction = true;
+			SoundManager.PlayAtPosition("TripleBeep", transform.position, gameObject, polyphonic: true, isGlobal: true);
+			StartCoroutine(PlayPressureWarnAnim());
+		}
+
 		public override void OpenDoor(bool skipAnimation)
 		{
 			doorController.isPerformingAction = true;
@@ -58,30 +71,42 @@ using UnityEditor;
 			{
 				doorController.PlayOpenSound();
 			}
-			//open animation
+
+			// Opening animation.
 			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset, animSize, false, true, true, skipAnimation));
 
-			//light animation
-			// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
-			if (doorController.useSimpleLightAnimation)
+			// Light animation.
+			// If the airlock has overlay_Lights sprites, play the overlay_Lights sprite animation.
+			if (overlayLights.Length != 0)
 			{
-				if (!skipAnimation)
+				// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
+				if (doorController.useSimpleLightAnimation)
 				{
-					StartCoroutine(PlaySimpleLightAnim());
-				}
-			}
-			else
-			{
-				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
-				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, skipToEnd: skipAnimation));
+					if (!skipAnimation)
+					{
+						StartCoroutine(PlaySimpleLightAnim());
+					}
 				}
 				else
 				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, animSize, true, skipToEnd: skipAnimation));
+					if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
+					{
+						StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, skipToEnd: skipAnimation));
+					}
+					else
+					{
+						StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, animSize, true, skipToEnd: skipAnimation));
+					}
 				}
 			}
-			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset, skipToEnd: skipAnimation));
+
+			// Glass/cover animation.
+			// If the airlock has overlay_Glass sprites, play the overlay_Glass sprite animation.
+			if (overlaySprites.Length != 0)
+			{
+				StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset, skipToEnd: skipAnimation));
+			}
+			
 			//mabe the boxColliderStuff should be on the DoorController.
 			StartCoroutine(MakePassable(skipAnimation));
 		}
@@ -105,28 +130,42 @@ using UnityEditor;
 			{
 				doorController.PlayCloseSound();
 			}
+
+			// Closing animation.
 			StartCoroutine(PlayAnim(doorbase, doorBaseSprites, doorController.DoorSpriteOffset + animSize, animSize, false, true, true, skipAnimation));
 
-			// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
-			if (doorController.useSimpleLightAnimation)
+			// Light animation.
+			// If the airlock has overlay_Lights sprites, play the overlay_Lights sprite animation.
+			if (overlayLights.Length != 0)
 			{
-				if (!skipAnimation)
+				// check if door uses a simple light animation (turn on 1 frame, turn it off at the end)
+				if (doorController.useSimpleLightAnimation)
 				{
-					StartCoroutine(PlaySimpleLightAnim());
-				}
-			}
-			else
-			{
-				if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
-				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true, skipToEnd: skipAnimation));
+					if (!skipAnimation)
+					{
+						StartCoroutine(PlaySimpleLightAnim());
+					}
 				}
 				else
 				{
-					StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true, skipToEnd: skipAnimation));
+					if (doorController.openingDirection == DoorController.OpeningDirection.Vertical)
+					{
+						StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset, 1, true, skipToEnd: skipAnimation));
+					}
+					else
+					{
+						StartCoroutine(PlayAnim(overlay_Lights, overlayLights, doorController.DoorLightSpriteOffset + animSize, animSize, true, skipToEnd: skipAnimation));
+					}
 				}
 			}
-			StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6, skipToEnd: skipAnimation));
+
+			// Glass/cover animation.
+			// If the airlock has overlay_Glass sprites, play the overlay_Glass sprite animation.
+			if (overlaySprites.Length != 0)
+			{
+				StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6, skipToEnd: skipAnimation));
+			}
+			
 			StartCoroutine(MakeSolid(skipAnimation));
 		}
 
@@ -229,6 +268,36 @@ using UnityEditor;
 			doorController.isPerformingAction = false;
 		}
 
+		/// <summary>
+        /// Flashes the door's emergency access (yellow) lights several times,
+        /// or the door bolts, depending on the pressure difference over the door.
+        /// Sprite offset varies depending on door type - set in each door prefab.
+        /// </summary>
+        /// <returns></returns>
+		private IEnumerator PlayPressureWarnAnim()
+		{
+			int flashCount = 3;
+
+			// Choose emergency lights sprite, overwrite with door bolt lights if
+			// pressureLevel is Warning and not Caution.
+			int spriteOffset = doorController.DoorPressureSpriteOffset;
+			if (doorController.pressureLevel == DoorController.PressureLevel.Warning)
+			{
+				spriteOffset = doorController.DoorDeniedSpriteOffset;
+			}
+			var sprite = overlayLights[spriteOffset];
+
+			for (int i = 0; i < flashCount; i++)
+			{
+				overlay_Lights.sprite = sprite;
+				yield return WaitFor.Seconds(0.1f);
+				overlay_Lights.sprite = null;
+				yield return WaitFor.Seconds(0.1f);
+			}
+
+			doorController.isPerformingAction = false;
+		}
+
 #if UNITY_EDITOR
 		/// <summary>
 		///     Via the editor check for the required child gObjs
@@ -274,6 +343,13 @@ using UnityEditor;
 		//only works in editor, so sprites are cached before play
 		public Sprite[] GetListOfSpritesFromLoadedSprite(Sprite sprite)
 		{
+			// If the sprite renderer has no sprite applied, return null.
+			// Otherwise every sprite in "Assets/Resources/" will be returned.
+			if (AssetDatabase.GetAssetPath(sprite).Equals(""))
+			{
+				return null;
+			}
+
 			string basepath = AssetDatabase.GetAssetPath(sprite).Replace("Assets/Resources/", "");
 			return Resources.LoadAll<Sprite>(basepath.Replace(".png", ""));
 		}

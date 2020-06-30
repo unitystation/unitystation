@@ -20,9 +20,9 @@ MonoBehaviour:
       Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       Items:
-      - {fileID: 6602018046170396259, guid: 629f349d213af5f47b3e32d88c1c65cd, type: 3}
-      - {fileID: 6602018046170396259, guid: 629f349d213af5f47b3e32d88c1c65cd, type: 3}
-      - {fileID: 6602018046170396259, guid: 629f349d213af5f47b3e32d88c1c65cd, type: 3}
+      - {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
+      - {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
+      - {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
       - {fileID: 340110790840061811, guid: 94cdd99b9585e034e9801570c39512b2, type: 3}
     - OrderName: Meat kit
       CreditsCost: 600
@@ -138,8 +138,16 @@ MonoBehaviour:
       Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       Items:
-      - {fileID: 5313833756698493227, guid: 2d6f4fef721c0dc4787288d67494e06b, type: 3}
-      - {fileID: 5313833756698493227, guid: 2d6f4fef721c0dc4787288d67494e06b, type: 3}
+      - {fileID: 6354141011021534515, guid: de5178dc540b92244acea8e15022313a, type: 3}
+      - {fileID: 6354141011021534515, guid: de5178dc540b92244acea8e15022313a, type: 3}
+    - OrderName: Beaker Box Crate
+      CreditsCost: 700
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 5162418143041738271, guid: f25a6f263584e6848819e145b53ee65b, type: 3}
+      - {fileID: 5162418143041738271, guid: f25a6f263584e6848819e145b53ee65b, type: 3}
+      - {fileID: 5162418143041738271, guid: f25a6f263584e6848819e145b53ee65b, type: 3}
   - CategoryName: Science
     Supplies:
     - OrderName: Chemistry kit Crate
@@ -147,8 +155,8 @@ MonoBehaviour:
       Crate: {fileID: 7880601349656009979, guid: 907d16a099bbf496d9fc11b8c260ccf9,
         type: 3}
       Items:
-      - {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
-      - {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
+      - {fileID: 8748682074694926391, guid: c3ae2df5429c2ee4e8992b7c33661f78, type: 3}
+      - {fileID: 8748682074694926391, guid: c3ae2df5429c2ee4e8992b7c33661f78, type: 3}
       - {fileID: 7374481989050852271, guid: 1fada2a01fe5e49208acb17e93095002, type: 3}
       - {fileID: 7516689663430431150, guid: 8aa459a6447baed4a95b189f4950f59f, type: 3}
       - {fileID: 0}
@@ -159,8 +167,10 @@ MonoBehaviour:
       Crate: {fileID: 658481186047158928, guid: 7703bcfa4ada3480095b5c7b68673f61,
         type: 3}
       Items:
-      - {fileID: 1387665324668345695, guid: 371b9c216382844659c05791957b28c8, type: 3}
-      - {fileID: 1387665324668345695, guid: 371b9c216382844659c05791957b28c8, type: 3}
+      - {fileID: 20384307089368758, guid: 371b9c216382844659c05791957b28c8, type: 3}
+      - {fileID: 20384307089368758, guid: 371b9c216382844659c05791957b28c8, type: 3}
+      - {fileID: 7331803544451838430, guid: d554409601a0f744090f24e47955cb9a, type: 3}
+      - {fileID: 7331803544451838430, guid: d554409601a0f744090f24e47955cb9a, type: 3}
     - OrderName: Low voltage cable Crate
       CreditsCost: 800
       Crate: {fileID: 6439324441883113404, guid: 4ff388f72fc794b1fab838a88a5d115e,
@@ -202,6 +212,34 @@ MonoBehaviour:
         type: 3}
       Items:
       - {fileID: 1853426429102140, guid: 69c27c4a07b053d458c6fec363e66403, type: 3}
+    - OrderName: Reactor Starting Rod Crate
+      CreditsCost: 1000
+      Crate: {fileID: 3701635295295868414, guid: d2e38660b0ae0450ab25b2a61ac10c46,
+        type: 3}
+      Items:
+      - {fileID: 1562249808724683428, guid: 90d47e2251b9b6943b78a010f6b58909, type: 3}
+      - {fileID: 1562249808724683428, guid: 90d47e2251b9b6943b78a010f6b58909, type: 3}
+    - OrderName: Reactor Control Rod Crate
+      CreditsCost: 2000
+      Crate: {fileID: 3701635295295868414, guid: d2e38660b0ae0450ab25b2a61ac10c46,
+        type: 3}
+      Items:
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+      - {fileID: 6658728792277159638, guid: f035a877ddd6fa8458a3ad86fd4069ee, type: 3}
+    - OrderName: Reactor Fuel Rod Crate
+      CreditsCost: 2500
+      Crate: {fileID: 3701635295295868414, guid: d2e38660b0ae0450ab25b2a61ac10c46,
+        type: 3}
+      Items:
+      - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
+      - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
+      - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
+      - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
+      - {fileID: 70068185008237990, guid: 2c62bf4b8bd1b13409822a00ad8cb214, type: 3}
   - CategoryName: Service
     Supplies:
     - OrderName: Cleaning supplies Crate
@@ -211,7 +249,7 @@ MonoBehaviour:
       Items:
       - {fileID: 2419386692754613975, guid: e632378292aa9a645bf4a8745061e44d, type: 3}
       - {fileID: 2419386692754613975, guid: 72539a60f847bd248bec932a82058e0b, type: 3}
-      - {fileID: 1726396646920325504, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03, type: 3}
+      - {fileID: 359432221073519209, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03, type: 3}
       - {fileID: 7516689663430431150, guid: 8aa459a6447baed4a95b189f4950f59f, type: 3}
     - OrderName: Wet floor signs Crate
       CreditsCost: 800
@@ -258,6 +296,14 @@ MonoBehaviour:
       - {fileID: 8635195139948178778, guid: 26e69f383ef501b4987c0b649f07f9ca, type: 3}
       - {fileID: 8635195139948178778, guid: 26e69f383ef501b4987c0b649f07f9ca, type: 3}
       - {fileID: 8635195139948178778, guid: 26e69f383ef501b4987c0b649f07f9ca, type: 3}
+    - OrderName: Replacement Lights
+      CreditsCost: 1000
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 8062332028689852436, guid: 8edc1f3642b9f28429c21e6c30566791, type: 3}
+      - {fileID: 8062332028689852436, guid: 8edc1f3642b9f28429c21e6c30566791, type: 3}
+      - {fileID: 8062332028689852436, guid: 8edc1f3642b9f28429c21e6c30566791, type: 3}
   - CategoryName: Botany
     Supplies:
     - OrderName: Hydroponics Crate
@@ -288,6 +334,8 @@ MonoBehaviour:
       - {fileID: 2654578771155045139, guid: 5a7fa3c926dc42141889e9b72c5d314d, type: 3}
       - {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
       - {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
+      - {fileID: 6507000735928756314, guid: 672dc44f4c052d746aefa06b301785bd, type: 3}
+      - {fileID: 6507000735928756314, guid: 672dc44f4c052d746aefa06b301785bd, type: 3}
   - CategoryName: Uniform Sets
     Supplies:
     - OrderName: Assistant Set
@@ -376,7 +424,7 @@ MonoBehaviour:
       Items:
       - {fileID: 3011710637427380133, guid: 6e6c876b4d53442588042c04884308f2, type: 3}
       - {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
-      - {fileID: 835768756810601639, guid: 68fe03d4a037a47408299f59a19d8339, type: 3}
+      - {fileID: 3708231617607487601, guid: dcb36ae56960eb34a8988e485be4515e, type: 3}
       - {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
     - OrderName: Chaplain Set
       CreditsCost: 600
@@ -517,8 +565,8 @@ MonoBehaviour:
       Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       Items:
-      - {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
-      - {fileID: 1993060742229998770, guid: 1616ac23693dc4adf88af91d3ea84856, type: 3}
+      - {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
+      - {fileID: 4378271014137224303, guid: af6be5511dead5243992d41249e1f1c5, type: 3}
       - {fileID: 835768756810601639, guid: e3f1e3ca1346b4530930972e42524982, type: 3}
       - {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
       - {fileID: 1052293997073687485, guid: 4d1d96d4187b0497a91fd915d358d354, type: 3}
@@ -528,7 +576,7 @@ MonoBehaviour:
       Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       Items:
-      - {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
+      - {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
       - {fileID: 1387665324668345695, guid: 371b9c216382844659c05791957b28c8, type: 3}
       - {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
       - {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
@@ -539,10 +587,10 @@ MonoBehaviour:
       Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       Items:
-      - {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
+      - {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
       - {fileID: 3011710637427380133, guid: 7836d5b8852b74938820fb198f01e5ba, type: 3}
       - {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
-      - {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+      - {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
     - OrderName: Head of Security Set
       CreditsCost: 4000
       Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
@@ -550,7 +598,7 @@ MonoBehaviour:
       Items:
       - {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
       - {fileID: 3011710637427380133, guid: d2a5503a9764c49ed9a7b1a5c4e4c547, type: 3}
-      - {fileID: 835768756810601639, guid: cbb088b408dd144688326b8eefb45f5d, type: 3}
+      - {fileID: 835768756810601639, guid: ff62b9235c6434fc0a2a11aafc40d036, type: 3}
       - {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9, type: 3}
       - {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da, type: 3}
       - {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
@@ -563,7 +611,7 @@ MonoBehaviour:
       Items:
       - {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
       - {fileID: 3011710637427380133, guid: e6fa54b0b29a6437eb102c7605b5dab3, type: 3}
-      - {fileID: 835768756810601639, guid: cbb088b408dd144688326b8eefb45f5d, type: 3}
+      - {fileID: 5437448505016987486, guid: 3f0da6473d897f11f88cf172ed0c5f30, type: 3}
       - {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9, type: 3}
       - {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da, type: 3}
       - {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
@@ -574,7 +622,7 @@ MonoBehaviour:
       Items:
       - {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
       - {fileID: 3011710637427380133, guid: e6fa54b0b29a6437eb102c7605b5dab3, type: 3}
-      - {fileID: 835768756810601639, guid: cbb088b408dd144688326b8eefb45f5d, type: 3}
+      - {fileID: 5437448505016987486, guid: 3f0da6473d897f11f88cf172ed0c5f30, type: 3}
       - {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9, type: 3}
       - {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da, type: 3}
       - {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
@@ -586,7 +634,7 @@ MonoBehaviour:
         type: 3}
       Items:
       - {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
-      - {fileID: 835768756810601639, guid: cbb088b408dd144688326b8eefb45f5d, type: 3}
+      - {fileID: 5437448505016987486, guid: 3f0da6473d897f11f88cf172ed0c5f30, type: 3}
       - {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9, type: 3}
       - {fileID: 7106618204054676533, guid: f61a15e56150d45e78d9458034719cbb, type: 3}
       - {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
@@ -609,7 +657,7 @@ MonoBehaviour:
       Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       Items:
-      - {fileID: 4188245363048309518, guid: 239b294a1763f4db3b815f580ce23521, type: 3}
+      - {fileID: 4977207862586972967, guid: 239b294a1763f4db3b815f580ce23521, type: 3}
       - {fileID: 835768756810601639, guid: abc31c8bb060f48aa9503d37fd4afb9b, type: 3}
       - {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9, type: 3}
       - {fileID: 7106618204054676533, guid: f61a15e56150d45e78d9458034719cbb, type: 3}
@@ -617,6 +665,17 @@ MonoBehaviour:
       - {fileID: 7636118406116123594, guid: 97b4b6e6d0aac46f6ad3fb58fb826008, type: 3}
       - {fileID: 3921521694364753778, guid: 1f5c642823aec460a8c4867390c89849, type: 3}
       - {fileID: 3011710637427380133, guid: cda0c7d60b6a643279489d6c9a64d208, type: 3}
+    - OrderName: Prisoner Uniform Set
+      CreditsCost: 500
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 3011710637427380133, guid: f1436853dd14162fe97690f8e7714773, type: 3}
+      - {fileID: 3011710637427380133, guid: f1436853dd14162fe97690f8e7714773, type: 3}
+      - {fileID: 3011710637427380133, guid: f1436853dd14162fe97690f8e7714773, type: 3}
+      - {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+      - {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+      - {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
   - CategoryName: Emergency
     Supplies:
     - OrderName: Internals Crate
@@ -653,14 +712,27 @@ MonoBehaviour:
       Items:
       - {fileID: 6404652678407139925, guid: dce8e376d2eca40eabe3f055b41a021c, type: 3}
       - {fileID: 132773863777131159, guid: 7a4abc9d5e36bb14cb203248884ef037, type: 3}
-      - {fileID: 7636118406116123594, guid: cc98a7e88a7cf4076a333c6346d7a8bf, type: 3}
-      - {fileID: 3921521694364753778, guid: 9b9719f429d074520881b66fea884d24, type: 3}
+      - {fileID: 2833764884087251606, guid: 63c3fd2e57a93dc4a921082eac8835ef, type: 3}
+      - {fileID: 5285738701257476823, guid: 5b03000bed50be045b14e7dc9186fd97, type: 3}
       - {fileID: 7106618204054676533, guid: afe0b0cc9e24249c1aaf8b7b2c4b3a3c, type: 3}
       - {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
+    - OrderName: Radiation Protection crate
+      CreditsCost: 800
+      Crate: {fileID: 3701635295295868414, guid: d2e38660b0ae0450ab25b2a61ac10c46,
+        type: 3}
+      Items:
+      - {fileID: 6404652678407139925, guid: dce8e376d2eca40eabe3f055b41a021c, type: 3}
+      - {fileID: 132773863777131159, guid: 7a4abc9d5e36bb14cb203248884ef037, type: 3}
+      - {fileID: 7636118406116123594, guid: ab405146ae5965447b922b2cf95bc7fe, type: 3}
+      - {fileID: 7636118406116123594, guid: ab405146ae5965447b922b2cf95bc7fe, type: 3}
+      - {fileID: 3921521694364753778, guid: e3a0238ef8323eb4caadcb2e19bbcf41, type: 3}
+      - {fileID: 3921521694364753778, guid: e3a0238ef8323eb4caadcb2e19bbcf41, type: 3}
+      - {fileID: 4705670883515168300, guid: 46cceb9511b6bba4cb747e67a7f2b70d, type: 3}
+      - {fileID: 4705670883515168300, guid: 46cceb9511b6bba4cb747e67a7f2b70d, type: 3}
   - CategoryName: Materials
     Supplies:
     - OrderName: Metal Crate
-      CreditsCost: 700
+      CreditsCost: 850
       Crate: {fileID: 658481186047158928, guid: 7703bcfa4ada3480095b5c7b68673f61,
         type: 3}
       Items:
@@ -725,7 +797,7 @@ MonoBehaviour:
       - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
       - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
     - OrderName: Glass Crate
-      CreditsCost: 700
+      CreditsCost: 850
       Crate: {fileID: 658481186047158928, guid: 7703bcfa4ada3480095b5c7b68673f61,
         type: 3}
       Items:
@@ -833,6 +905,12 @@ MonoBehaviour:
       - {fileID: 3642454299424425929, guid: 7d23f839f141d4c99a6bfe9c8bfceca1, type: 3}
       - {fileID: 3642454299424425929, guid: 7d23f839f141d4c99a6bfe9c8bfceca1, type: 3}
       - {fileID: 3642454299424425929, guid: 7d23f839f141d4c99a6bfe9c8bfceca1, type: 3}
+    - OrderName: Vending Resupply
+      CreditsCost: 1500
+      Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      Items:
+      - {fileID: 266178104534119887, guid: 1aff7456d9fe31693a6705676cb722f6, type: 3}
   - CategoryName: Miscellaneous
     Supplies:
     - OrderName: Monkey Crate
@@ -851,11 +929,11 @@ MonoBehaviour:
       Crate: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       Items:
-      - {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
-      - {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
-      - {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
-      - {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
-      - {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
-      - {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
-      - {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
-      - {fileID: 8568672687853555390, guid: 92f03e009825cf846aec48e0fa9ee6e4, type: 3}
+      - {fileID: 7331803544451838430, guid: d554409601a0f744090f24e47955cb9a, type: 3}
+      - {fileID: 7331803544451838430, guid: d554409601a0f744090f24e47955cb9a, type: 3}
+      - {fileID: 7331803544451838430, guid: d554409601a0f744090f24e47955cb9a, type: 3}
+      - {fileID: 7331803544451838430, guid: d554409601a0f744090f24e47955cb9a, type: 3}
+      - {fileID: 7331803544451838430, guid: d554409601a0f744090f24e47955cb9a, type: 3}
+      - {fileID: 7331803544451838430, guid: d554409601a0f744090f24e47955cb9a, type: 3}
+      - {fileID: 7331803544451838430, guid: d554409601a0f744090f24e47955cb9a, type: 3}
+      - {fileID: 7331803544451838430, guid: d554409601a0f744090f24e47955cb9a, type: 3}

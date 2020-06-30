@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 114276172641375114}
   - component: {fileID: -1233506647488304563}
   - component: {fileID: 6583049513569107849}
+  - component: {fileID: -175933217164935847}
   m_Layer: 10
   m_Name: Scrubber
   m_TagString: Untagged
@@ -84,6 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114172504531317518
 MonoBehaviour:
@@ -97,7 +99,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &493655120697083372
@@ -205,6 +206,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -218,7 +220,7 @@ MonoBehaviour:
     Bio: 0
   Resistances:
     LavaProof: 0
-    FireProof: 0
+    FireProof: 1
     Flammable: 0
     UnAcidable: 0
     AcidProof: 0
@@ -241,7 +243,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &114276172641375114
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,10 +260,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
 --- !u!114 &-1233506647488304563
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,6 +280,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Scrubber
   initialDescription: 
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
@@ -285,6 +292,7 @@ MonoBehaviour:
   throwSpeed: 2
   throwRange: 7
   hitSound: GenericHit
+  hitSoundSettings: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -301,6 +309,16 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
 --- !u!114 &6583049513569107849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,6 +332,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
+--- !u!114 &-175933217164935847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000011763452766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3223271260076572928
 GameObject:
   m_ObjectHideFlags: 0
@@ -359,6 +390,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -380,8 +412,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -24161425
-  m_SortingLayer: 4
+  m_SortingLayerID: 322132419
+  m_SortingLayer: 2
   m_SortingOrder: 70
   m_Sprite: {fileID: 21300000, guid: 320ec0ebfcc2f234c85188ef36b2de8f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

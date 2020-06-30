@@ -28,31 +28,31 @@ public partial class MatrixManager
 	private static LayerType[] layersToRemove = { LayerType.Effects };
 	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills, LayerType.Objects };
 
-	private void InitCollisions()
+	private void InitCollisions(MatrixInfo matrixInfo)
 	{
 		if (!Application.isPlaying || !CustomNetworkManager.Instance._isServer)
 		{
 			return;
 		}
 
-		foreach ( var movableMatrix in MovableMatrices )
+		if (matrixInfo.MatrixMove != null)
 		{
-			movableMatrix.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
+			matrixInfo.MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener( () =>
 			{
-				if ( !movingMatrices.Contains( movableMatrix ) )
+				if ( !movingMatrices.Contains( matrixInfo ) )
 				{
-					movingMatrices.Add( movableMatrix );
+					movingMatrices.Add( matrixInfo );
 				}
 			} );
 
-			movableMatrix.MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener( () =>
+			matrixInfo.MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener( () =>
 			{
-				if ( movingMatrices.Contains( movableMatrix ) )
+				if ( movingMatrices.Contains( matrixInfo ) )
 				{
-					var participatingIntersections = trackedIntersections.FindAll( intersection => intersection.Matrix1 == movableMatrix );
-					movableMatrix.MatrixMove.MatrixMoveEvents.OnFullStopClient.AddListener( CollideBeforeStop( movableMatrix, participatingIntersections ) );
-					movingMatrices.Remove( movableMatrix );
-					trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == movableMatrix );
+					var participatingIntersections = trackedIntersections.FindAll( intersection => intersection.Matrix1 == matrixInfo );
+					matrixInfo.MatrixMove.MatrixMoveEvents.OnFullStopClient.AddListener( CollideBeforeStop( matrixInfo, participatingIntersections ) );
+					movingMatrices.Remove( matrixInfo );
+					trackedIntersections.RemoveAll( intersection => intersection.Matrix1 == matrixInfo );
 				}
 			} );
 		}
@@ -364,8 +364,23 @@ public partial class MatrixManager
 			//TilemapDamage
 			ApplyTilemapDamage( victimMatrix, cellPos, 9001, worldPos);
 
-//			//Integrity
+			//Integrity
 			ApplyIntegrityDamage( victimMatrix, cellPos, 9001 );
+
+			//Underfloor
+			RemoveUnderfloor(victimMatrix, cellPos);
+		}
+
+		void RemoveUnderfloor(MatrixInfo matrix, Vector3Int cellPos)
+		{
+			var Node = matrix.Matrix.GetMetaDataNode(cellPos);
+			if (Node != null)
+			{
+				foreach (var electricalData in Node.ElectricalData)
+				{
+					electricalData.InData.DestroyThisPlease();
+				}
+			}
 		}
 
 		void ApplyTilemapDamage( MatrixInfo matrix, Vector3Int cellPos, float damage, Vector3Int worldPos )
@@ -375,7 +390,7 @@ public partial class MatrixManager
 			{
 				foreach ( var damageableLayer in matrix.MetaTileMap.LayersValues )
 				{
-					matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType );
+					matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType);
 				}
 			}
 		}

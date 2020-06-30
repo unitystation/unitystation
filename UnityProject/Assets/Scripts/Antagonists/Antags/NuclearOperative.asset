@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: NuclearOperative
   m_EditorClassIdentifier: 
   antagName: Nuclear Operative
-  NumberOfObjectives: 1
+  numberOfObjectives: 2
   canUseSharedObjectives: 0
   needsEscapeObjective: 0
   coreObjectives:
   - {fileID: 11400000, guid: 1a15330eccadc7044b35b5a49a4154b4, type: 2}
-  nuclearOperativeOccupation: {fileID: 11400000, guid: 2b5314e7e17be4700b025e39af217ff2,
-    type: 2}
+  - {fileID: 11400000, guid: b6107e1c868bada4da25dc2fc840e411, type: 2}
+  antagOccupation: {fileID: 11400000, guid: 2b5314e7e17be4700b025e39af217ff2, type: 2}

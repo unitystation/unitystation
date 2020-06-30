@@ -14,7 +14,8 @@ public class MobExplore : MobAgent
 		food,
 		dirtyFloor,
 		missingFloor,
-		injuredPeople
+		injuredPeople,
+		players
 	}
 
 	public Target target;
@@ -103,8 +104,12 @@ protected Vector3Int actionPosition;
 				return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
 			case Target.missingFloor:
 				// Checks the topmost tile if its the base layer (below the floor)
-				return interactableTiles.MetaTileMap.GetTile(checkPos).LayerType == LayerType.Base;
+				return interactableTiles.MetaTileMap.GetTile(checkPos)?.LayerType == LayerType.Base;
 			case Target.injuredPeople:
+				return false;
+			// this includes ghosts!
+			case Target.players:
+				if (registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true) != null) return true;
 				return false;
 		}
 		return false;
@@ -124,7 +129,7 @@ protected Vector3Int actionPosition;
 		{
 			case Target.food:
 				var edible = registerObj.Matrix.GetFirst<Edible>(checkPos, true);
-				if(edible != null) edible.NPCTryEat();
+				if(edible != null) edible.TryConsume(gameObject);
 				break;
 			case Target.dirtyFloor:
 				var floorDecal = registerObj.Matrix.Get<FloorDecal>(checkPos, true).FirstOrDefault(p => p.Cleanable);
@@ -134,6 +139,10 @@ protected Vector3Int actionPosition;
 				interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");
 				break;
 			case Target.injuredPeople:
+				break;
+			case Target.players:
+				var people = registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true);
+				if(people != null) gameObject.GetComponent<MobAI>().ExplorePeople(people);
 				break;
 		}
 	}

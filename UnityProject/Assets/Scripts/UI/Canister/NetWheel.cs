@@ -5,7 +5,7 @@ using UnityEngine;
 /**
  * NetUI component for Wheel, handles syncing the value.
  */
-public class NetWheel : NetUIElement
+public class NetWheel : NetUIStringElement
 {
 	public Wheel Element;
 
@@ -22,7 +22,7 @@ public class NetWheel : NetUIElement
 
 	public IntEvent ServerMethod;
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke(Element.KPA);
 	}
 }

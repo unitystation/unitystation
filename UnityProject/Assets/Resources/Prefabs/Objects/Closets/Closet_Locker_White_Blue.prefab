@@ -47,6 +47,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -92,7 +93,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4354794864428666}
   - component: {fileID: 61442980425183844}
-  - component: {fileID: 61828718115089044}
   - component: {fileID: 114819687656175812}
   - component: {fileID: 114098304295291438}
   - component: {fileID: 114239634461430000}
@@ -103,6 +103,7 @@ GameObject:
   - component: {fileID: 114635920524582264}
   - component: {fileID: -5827031967781418075}
   - component: {fileID: 1190762607956886646}
+  - component: {fileID: -7602633341557394883}
   m_Layer: 11
   m_Name: Closet_Locker_White_Blue
   m_TagString: Untagged
@@ -118,7 +119,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1615565101381030}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1843, y: 1139, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4625006096954862}
@@ -152,32 +153,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.83569336, y: 0.9217529}
   m_EdgeRadius: 0
---- !u!61 &61828718115089044
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1615565101381030}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.011474609, y: 0.011474609}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.5410156, y: 0.8852539}
-  m_EdgeRadius: 0
 --- !u!114 &114819687656175812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -192,6 +167,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114098304295291438
 MonoBehaviour:
@@ -221,7 +197,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  initialContents: {fileID: 11400000, guid: 912b2b5a6fefc4c97b6cd53506caf1ac, type: 2}
+  initialContents: {fileID: 11400000, guid: 087a799fa1b352ed4933fea41e4bd34a, type: 2}
   lockLight: {fileID: 5256432704198374381}
   IsLockable: 1
   playerLimit: 3
@@ -285,6 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114467813415429724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +276,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 20
     Bullet: 10
@@ -332,6 +310,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -350,7 +329,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialName: Medical locker
-  initialDescription: A container made of metal.
+  initialDescription: A container for doctors
   willHighlight: 1
   exportCost: 200
   exportName: locker
@@ -368,6 +347,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restriction: 51
+--- !u!114 &-7602633341557394883
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1615565101381030}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1660108514398418
 GameObject:
   m_ObjectHideFlags: 0
@@ -413,6 +404,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -504,7 +496,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2868844276167481100}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.03, y: -0.02, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: -0.10000002}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4625006096954862}
@@ -524,6 +516,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

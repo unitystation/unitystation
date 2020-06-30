@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4255469279988742}
   - component: {fileID: 61646266593179672}
-  - component: {fileID: 61361413312787530}
   - component: {fileID: 114632102212996150}
   - component: {fileID: 114743727474145656}
   - component: {fileID: 114932710023623188}
@@ -20,6 +19,8 @@ GameObject:
   - component: {fileID: 114677574260028866}
   - component: {fileID: 114706761793951438}
   - component: {fileID: 100695007281472595}
+  - component: {fileID: -4150579695890537260}
+  - component: {fileID: 5871547199523569063}
   m_Layer: 11
   m_Name: vending_16
   m_TagString: Untagged
@@ -68,32 +69,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61361413312787530
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1098428341378092}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114632102212996150
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114743727474145656
@@ -121,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
+  InitialVendorContent:
   - Item: {fileID: 6532193109441330816, guid: db7cd7b4544fd9b44b751a043a6b2e53, type: 3}
     Stock: 5
   - Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
@@ -133,6 +107,20 @@ MonoBehaviour:
   HullColor: {r: 0.7294118, g: 0.06666667, b: 0.23529413, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 6532193109441330816, guid: db7cd7b4544fd9b44b751a043a6b2e53, type: 3}
+    Stock: 5
+  - Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+    Stock: 5
+  - Item: {fileID: 6532193109441330816, guid: cd60162658a8c12479da578b14efa79e, type: 3}
+    Stock: 5
+  - Item: {fileID: 6532193109441330816, guid: 6366d9ab2983aa44aa585fd0f7557e17, type: 3}
+    Stock: 5
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114932710023623188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +153,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &3364178406384650387
 MonoBehaviour:
@@ -192,6 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114677574260028866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -206,6 +196,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -239,10 +230,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
 --- !u!114 &100695007281472595
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -259,9 +250,49 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Getmore Chocolate Corp
   initialDescription: A snack machine which does not sell chocolate.
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &-4150579695890537260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098428341378092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5871547199523569063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1098428341378092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1
 --- !u!1 &1744033224997864
 GameObject:
   m_ObjectHideFlags: 0
@@ -272,6 +303,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4880013504118684}
   - component: {fileID: 212231906178566622}
+  - component: {fileID: 1615507521913243896}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -307,6 +339,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -342,3 +375,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1615507521913243896
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744033224997864}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 6f8612a65d41a3147919c3485b1e4f29, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 6f8612a65d41a3147919c3485b1e4f29, type: 3}
+    - {fileID: 21300002, guid: 6f8612a65d41a3147919c3485b1e4f29, type: 3}
+    - {fileID: 21300004, guid: 6f8612a65d41a3147919c3485b1e4f29, type: 3}
+    - {fileID: 21300006, guid: 6f8612a65d41a3147919c3485b1e4f29, type: 3}
+    EquippedData: {fileID: 4900000, guid: 598eef589a8fdf04183ab26dce4e05a1, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1

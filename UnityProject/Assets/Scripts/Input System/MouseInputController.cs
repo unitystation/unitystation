@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Tilemaps;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -13,8 +12,9 @@ public class MouseInputController : MonoBehaviour
 {
 	private const float MAX_AGE = 2f;
 
+
 	[Tooltip("When mouse button is pressed down and held for longer than this duration, we will" +
-	         " not perform a click on mouse up.")]
+			 " not perform a click on mouse up.")]
 	public float MaxClickDuration = 1f;
 	//tracks how long we've had the button down
 	private float clickDuration;
@@ -27,9 +27,9 @@ public class MouseInputController : MonoBehaviour
 	private MouseDraggable potentialDraggable;
 
 	[Tooltip("Seconds to wait before trying to trigger an aim apply while mouse is being held. There is" +
-	         " no need to re-trigger aim apply every frame and sometimes those triggers can be expensive, so" +
-	         " this can be set to avoid that. It should be set low enough so that every AimApply interaction" +
-	         " triggers frequently enough (for example, based on the fastest-firing gun).")]
+			 " no need to re-trigger aim apply every frame and sometimes those triggers can be expensive, so" +
+			 " this can be set to avoid that. It should be set low enough so that every AimApply interaction" +
+			 " triggers frequently enough (for example, based on the fastest-firing gun).")]
 	public float AimApplyInterval = 0.01f;
 	//value used to check against the above while mouse is being held down.
 	private float secondsSinceLastAimApplyTrigger;
@@ -55,16 +55,16 @@ public class MouseInputController : MonoBehaviour
 	private void OnDrawGizmos()
 	{
 
-		if ( touchesToDitch.Count > 0 )
+		if (touchesToDitch.Count > 0)
 		{
-			foreach ( var touch in touchesToDitch )
+			foreach (var touch in touchesToDitch)
 			{
-				RecentTouches.Remove( touch );
+				RecentTouches.Remove(touch);
 			}
 			touchesToDitch.Clear();
 		}
 
-		if ( RecentTouches.Count == 0 )
+		if (RecentTouches.Count == 0)
 		{
 			return;
 		}
@@ -77,9 +77,9 @@ public class MouseInputController : MonoBehaviour
 			tempColor.a = Mathf.Clamp(MAX_AGE - age, 0f, 1f);
 			Gizmos.color = tempColor;
 			Gizmos.DrawCube(info.Key, sz);
-			if ( age >= MAX_AGE )
+			if (age >= MAX_AGE)
 			{
-				touchesToDitch.Add( info.Key );
+				touchesToDitch.Add(info.Key);
 			}
 		}
 
@@ -127,15 +127,15 @@ public class MouseInputController : MonoBehaviour
 				return;
 			}
 
-			if  (KeyboardInputManager.IsShiftPressed())
+			if (KeyboardInputManager.IsShiftPressed())
 			{
-				//like above, send shift-click request, then do nothing else.  
+				//like above, send shift-click request, then do nothing else.
 				CheckShiftClick();
 				return;
 			}
 
-            //check alt click and throw, which doesn't have any special logic
-            if (CheckAltClick()) return;
+			//check alt click and throw, which doesn't have any special logic. For alt clicks, continue normally.
+			CheckAltClick();
 			if (CheckThrow()) return;
 
 			if (loadedGun != null)
@@ -286,6 +286,7 @@ public class MouseInputController : MonoBehaviour
 			if (lastHoveredThing)
 			{
 				lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
+				transform.SendMessage("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
 			}
 
 			lastHoveredThing = null;
@@ -302,11 +303,12 @@ public class MouseInputController : MonoBehaviour
 					lastHoveredThing.transform.SendMessageUpwards("OnHoverEnd", SendMessageOptions.DontRequireReceiver);
 				}
 				hit.transform.SendMessageUpwards("OnHoverStart", SendMessageOptions.DontRequireReceiver);
-
+				transform.SendMessage("OnHoverStart", SendMessageOptions.DontRequireReceiver);
 				lastHoveredThing = hit;
 			}
 
 			hit.transform.SendMessageUpwards("OnHover", SendMessageOptions.DontRequireReceiver);
+			transform.SendMessage("OnHover", SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
@@ -363,12 +365,12 @@ public class MouseInputController : MonoBehaviour
 				if (handAppliable is IBaseInteractable<HandApply>)
 				{
 					var hap = handAppliable as IBaseInteractable<HandApply>;
-					if (hap.ClientCheckAndRequestInteract(handApply)) return true;
+					if (hap.ClientCheckAndTrigger(handApply)) return true;
 				}
 				else
 				{
 					var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
-					if (hap.ClientCheckAndRequestInteract(posHandApply)) return true;
+					if (hap.ClientCheckAndTrigger(posHandApply)) return true;
 				}
 			}
 		}
@@ -381,12 +383,12 @@ public class MouseInputController : MonoBehaviour
 			if (targetHandAppliable is IBaseInteractable<HandApply>)
 			{
 				var hap = targetHandAppliable as IBaseInteractable<HandApply>;
-				if (hap.ClientCheckAndRequestInteract(handApply)) return true;
+				if (hap.ClientCheckAndTrigger(handApply)) return true;
 			}
 			else
 			{
 				var hap = targetHandAppliable as IBaseInteractable<PositionalHandApply>;
-				if (hap.ClientCheckAndRequestInteract(posHandApply)) return true;
+				if (hap.ClientCheckAndTrigger(posHandApply)) return true;
 			}
 		}
 
@@ -436,7 +438,7 @@ public class MouseInputController : MonoBehaviour
 				secondsSinceLastAimApplyTrigger += Time.deltaTime;
 				if (secondsSinceLastAimApplyTrigger > AimApplyInterval)
 				{
-					if (triggeredAimApply.ClientCheckAndRequestInteract(aimApplyInfo))
+					if (triggeredAimApply.ClientCheckAndTrigger(aimApplyInfo))
 					{
 						//only reset timer if it was actually triggered
 						secondsSinceLastAimApplyTrigger = 0;
@@ -480,16 +482,20 @@ public class MouseInputController : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Fires if shift is pressed on click, initiates examine. Assumes inanimate object, but upgrades to checking health if living, and id if target has 
+	/// Fires if shift is pressed on click, initiates examine. Assumes inanimate object, but upgrades to checking health if living, and id if target has
 	/// storage and an ID card in-slot.
 	/// </summary>
 	private void CheckShiftClick()
 	{
 		// Get clickedObject from mousepos
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
-		
+
 		// TODO Prepare and send requestexaminemessage
 		// todo:  check if netid = 0.
+
+		//Shift clicking on space created NRE
+		if (!clickedObject) return;
+
 		RequestExamineMessage.Send(clickedObject.GetComponent<NetworkIdentity>().netId, MouseWorldPosition);
 	}
 
@@ -523,7 +529,7 @@ public class MouseInputController : MonoBehaviour
 					Logger.LogFormat($"Forcefully updated atmos at worldPos {position}/ localPos {localPos} of {matrix.Name}");
 				});
 
-				Chat.AddLocalMsgToChat("Ping "+DateTime.Now.ToFileTimeUtc(), (Vector3) position, PlayerManager.LocalPlayer );
+				Chat.AddLocalMsgToChat("Ping " + DateTime.Now.ToFileTimeUtc(), (Vector3)position, PlayerManager.LocalPlayer);
 			}
 			return true;
 		}

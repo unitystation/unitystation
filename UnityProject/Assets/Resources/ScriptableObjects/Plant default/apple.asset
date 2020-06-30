@@ -13,78 +13,69 @@ MonoBehaviour:
   m_Name: apple
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    ProduceObject: {fileID: 1225252759033022674, guid: 292e0342aeea7ff48943c01da878c434,
       type: 3}
     Name: apple
     Plantname: Apple Tree
     Description: These seeds grow into apple trees.
     PacketsSprite:
-      Texture: {fileID: 2800000, guid: abe76cb49a48cd140af7bd0d0e718307, type: 3}
+      Texture: {fileID: 2800000, guid: 2e2bebb02f499b6468194e3f15438170, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: abe76cb49a48cd140af7bd0d0e718307, type: 3}
-      EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 2800000, guid: ba623bb07b2776646b07b9cc5a946081, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: ba623bb07b2776646b07b9cc5a946081, type: 3}
+      - {fileID: 21300000, guid: 2e2bebb02f499b6468194e3f15438170, type: 3}
       EquippedData: {fileID: 0}
     GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 8cf151fbede7e694ab006ff344755be2, type: 3}
+    - Texture: {fileID: 2800000, guid: ac638fe376224f04a8c7880ce4565632, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8cf151fbede7e694ab006ff344755be2, type: 3}
+      - {fileID: 21300000, guid: ac638fe376224f04a8c7880ce4565632, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 8499b2aa874f8b54ca0c1ae70768e0e7, type: 3}
+    - Texture: {fileID: 2800000, guid: 5857fbbe4613340438d14620215b114e, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 8499b2aa874f8b54ca0c1ae70768e0e7, type: 3}
+      - {fileID: 21300000, guid: 5857fbbe4613340438d14620215b114e, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: dffe85143d639d74f92fd68e44bd3288, type: 3}
+    - Texture: {fileID: 2800000, guid: bc692dd8a0e0d1a4394c25838b4c6708, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: dffe85143d639d74f92fd68e44bd3288, type: 3}
+      - {fileID: 21300000, guid: bc692dd8a0e0d1a4394c25838b4c6708, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 624201946ed15a5439250b32317943d4, type: 3}
+    - Texture: {fileID: 2800000, guid: db0c8f3bbd58ea24d8f05e5374945c16, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 624201946ed15a5439250b32317943d4, type: 3}
+      - {fileID: 21300000, guid: db0c8f3bbd58ea24d8f05e5374945c16, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 0b0be3f274c4f764caf46a73afc0626a, type: 3}
+    - Texture: {fileID: 2800000, guid: fbedcf49b2816574bb605daa1d390630, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 0b0be3f274c4f764caf46a73afc0626a, type: 3}
+      - {fileID: 21300000, guid: fbedcf49b2816574bb605daa1d390630, type: 3}
       EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 4f1d686056f048946aedddd02ed8d6cc, type: 3}
+    - Texture: {fileID: 2800000, guid: bc30db9a5eceb5d4ea0e52c3bd053584, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: 4f1d686056f048946aedddd02ed8d6cc, type: 3}
+      - {fileID: 21300000, guid: bc30db9a5eceb5d4ea0e52c3bd053584, type: 3}
       EquippedData: {fileID: 0}
     FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: ff13d68d61cc739418e444e60ac0ee27, type: 3}
+      Texture: {fileID: 2800000, guid: 3959ee3893ad25a4e84048a386047378, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: ff13d68d61cc739418e444e60ac0ee27, type: 3}
+      - {fileID: 21300000, guid: 3959ee3893ad25a4e84048a386047378, type: 3}
       EquippedData: {fileID: 0}
     DeadSprite:
-      Texture: {fileID: 2800000, guid: d4b46fd80b396d444aa5ecffcd4f0245, type: 3}
+      Texture: {fileID: 2800000, guid: b1325a0105092b54f84e677115b0d2c8, type: 3}
       Sprites:
-      - {fileID: 21300000, guid: d4b46fd80b396d444aa5ecffcd4f0245, type: 3}
+      - {fileID: 21300000, guid: b1325a0105092b54f84e677115b0d2c8, type: 3}
       EquippedData: {fileID: 0}
     WeedResistance: 50
     WeedGrowthRate: 10
     GrowthSpeed: 60
     Potency: 10
-    Endurance: 35
-    Yield: 50
-    Lifespan: 55
+    Endurance: 30
+    Yield: 30
+    Lifespan: 40
     PlantTrays: 00000000
-    ReagentProduction:
-    - Name: vitamin
-      Ammount: 3
-    - Name: nutriment
-      Ammount: 10
+    ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: 4c02d7049024367408d35facef2df7a7, type: 2}
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0
   PotencyChange: 0
-  EnduranceChange: 0
-  YieldChange: 0
-  LifespanChange: 0
+  EnduranceChange: 30
+  YieldChange: 30
+  LifespanChange: 40
   PlantTrays: 
   ReagentProduction: []
   RemovePlantTrays: 

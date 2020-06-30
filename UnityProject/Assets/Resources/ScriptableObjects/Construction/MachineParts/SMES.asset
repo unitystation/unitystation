@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7616af8b1aca87f4f83d0af4e2f8aeb8, type: 3}
+  m_Name: SMES
+  m_EditorClassIdentifier: 
+  machine: {fileID: 1575520830166772, guid: 35eed4273d90143b0926de4715bbc06e, type: 3}
+  NameOfCircuitBoard: SMES Board
+  DescriptionOfCircuitBoard: Used to build SMES.
+  machineParts:
+  - itemTrait: {fileID: 11400000, guid: 6745069dc8b5c0e44939b2b4795e997f, type: 2}
+    basicItem: {fileID: 2527188313238870147, guid: bb147b9bf5a66eb40b94bd8853aaf9ea,
+      type: 3}
+    amountOfThisPart: 1
+  - itemTrait: {fileID: 11400000, guid: 6dfa39f936b18f24b833015a255aa6f2, type: 2}
+    basicItem: {fileID: 229541522769283845, guid: b7b563c4ee7c20e459dbe3a9511a244d,
+      type: 3}
+    amountOfThisPart: 5
+  - itemTrait: {fileID: 11400000, guid: e39c048ec864b47a495a40f9c76af764, type: 2}
+    basicItem: {fileID: 4435676122793348777, guid: c567e6c3b003a2b488534a8766866cb0,
+      type: 3}
+    amountOfThisPart: 5

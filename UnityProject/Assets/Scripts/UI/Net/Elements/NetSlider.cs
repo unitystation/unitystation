@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// Slider, used to call methods with float as arg
 [RequireComponent(typeof(Slider))]
 [Serializable]
-public class NetSlider : NetUIElement
+public class NetSlider : NetUIStringElement
 {
 	public override string Value
 	{
@@ -37,7 +37,7 @@ public class NetSlider : NetUIElement
 		}
 	}
 
-	public override void ExecuteServer()
+	public override void ExecuteServer(ConnectedPlayer subject)
 	{
 		ServerMethod.Invoke(Element.value);
 	}

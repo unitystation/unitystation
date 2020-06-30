@@ -87,7 +87,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	/// how many levels deep.
 	/// </summary>
 	/// <returns></returns>
-	public Vector3 AssumedWorldPositionServer()
+	public Vector3Int AssumedWorldPositionServer()
 	{
 		//If this object is contained in another, run until highest layer layer is reached
 		if (parentContainer)
@@ -368,7 +368,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
-				SoundManager.PlayNetworkedAtPos( "Rustle#", pullable.transform.position );
+				SoundManager.PlayNetworkedAtPos( "Rustle#", pullable.transform.position , sourceObj: pullableObject);
 
 				PulledObjectServer = pullable;
 
@@ -707,7 +707,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 			// If there is a sound to be played
 			if (!string.IsNullOrWhiteSpace(pushPullSound) && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
 			{
-				SoundManager.PlayNetworkedAtPos(pushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance));
+				SoundManager.PlayNetworkedAtPos(pushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance), sourceObj: gameObject);
 				lastPlayedSoundTime = Time.time * 1000;
 			}
 

@@ -6,16 +6,13 @@ using Mirror;
 
 public class RequestAdminBwoink : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestAdminBwoink;
-
 	public string Userid;
 	public string AdminToken;
 	public string UserToBwoink;
 	public string Message;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return new WaitForEndOfFrame();
 		VerifyAdminStatus();
 	}
 
@@ -24,14 +21,11 @@ public class RequestAdminBwoink : ClientMessage
 		var player = PlayerList.Instance.GetAdmin(Userid, AdminToken);
 		if (player != null)
 		{
-			Logger.Log($"Admin {PlayerList.Instance.GetByUserID(Userid).Name} sent a message to {PlayerList.Instance.GetByUserID(UserToBwoink).Name}: " +
-			           $"{Message}", Category.Admin);
-			var msg = $"<color=red><b><size=24>-- Administrator private message --</size></b>\r\n" +
-			          $"\r\n" + Message + "</color>";
 			var recipient = PlayerList.Instance.GetAllByUserID(UserToBwoink);
 			foreach (var r in recipient)
 			{
-				AdminBwoinkMessage.Send(r.GameObject, Userid, msg);
+				AdminBwoinkMessage.Send(r.GameObject, Userid, "<color=red>" + Message + "</color>");
+				UIManager.Instance.adminChatWindows.adminPlayerChat.ServerAddChatRecord(Message, UserToBwoink, Userid);
 			}
 		}
 	}

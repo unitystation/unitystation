@@ -6,7 +6,7 @@ using Mirror;
 /// A machine into which players can insert certain food items.
 /// After some time the food is cooked and gets ejected from the microwave.
 /// </summary>
-public class Microwave : NetworkBehaviour
+public class Microwave : NetworkBehaviour, IAPCPowered
 {
 	/// <summary>
 	/// Time it takes for the microwave to cook a meal (in seconds).
@@ -32,6 +32,26 @@ public class Microwave : NetworkBehaviour
 	/// </summary>
 	[HideInInspector]
 	public int mealCount = 0;
+
+	/// <summary>
+	/// The current state of the microwave powered/overpowered/underpowered/no power
+	/// </summary>
+	[HideInInspector] public PowerStates CurrentState;
+
+	/// <summary>
+	/// The current state of the microwave powered/overpowered/underpowered/no power
+	/// </summary>
+	[HideInInspector] private APCPoweredDevice APCConnectionHandler;
+
+	/// <summary>
+	/// How many watts at 240 V the microwave uses when not in use
+	/// </summary>
+	public int StandByWattUsage = 5;
+
+	/// <summary>
+	/// How many watts at 240 V the microwave uses when it is in use
+	/// </summary>
+	public int InUseWattUsage = 700;
 
 
 	// Sprites for when the microwave is on or off.
@@ -63,6 +83,7 @@ public class Microwave : NetworkBehaviour
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		audioSourceDing = GetComponent<AudioSource>();
 		SPRITE_OFF = spriteRenderer.sprite;
+		APCConnectionHandler =  GetComponent<APCPoweredDevice>();
 	}
 
 	private void OnEnable()
@@ -124,37 +145,69 @@ public class Microwave : NetworkBehaviour
 	private void FinishCooking()
 	{
 		spriteRenderer.sprite = SPRITE_OFF;
-		if (isServer)
+
+		if (isServer && mealCount > 0)
 		{
 			GameObject mealPrefab = CraftingManager.Meals.FindOutputMeal(meal);
-			SpawnResult result = Spawn.ServerPrefab(mealPrefab, GetComponent<RegisterTile>().WorldPosition, transform.parent);
+			Vector3Int spawnPosition = GetComponent<RegisterTile>().WorldPosition;
 
-			//If the resulting meal has a stackable component, set the amount to mealCount to ensure that food in = food out.
+			SpawnResult result = Spawn.ServerPrefab(mealPrefab, spawnPosition, transform.parent);
 			Stackable stck = result.GameObject.GetComponent<Stackable>();
 
-			if (stck != null && mealCount != 0)
+			if (stck != null)   // If the meal has a stackable component, set the correct number of meals
 			{
-				//Get difference between new item's initial amount and the amount held by mealCount (amount of ingredient).
-				int stckChanger = mealCount-stck.Amount;
+				int mealDeficit = mealCount - stck.InitialAmount;
 
-				//If stckChanger is 0, do nothing.
-				//If stckChanger is positive, add to stack.
-				if (stckChanger > 0)
+				while (mealDeficit > 0)
 				{
-					stck.ServerIncrease(stckChanger);
-				} else if (stckChanger < 0)
-				{
-					//If stckChanger is positive, remove stack.
-					stck.ServerConsume(-stckChanger);
+					mealDeficit = stck.ServerIncrease(mealDeficit);
+
+					if (mealDeficit > 0)
+					{
+						result = Spawn.ServerPrefab(mealPrefab, spawnPosition, transform.parent);
+						stck = result.GameObject.GetComponent<Stackable>();
+						mealDeficit -= stck.InitialAmount;
+					}
 				}
 
+				if (mealDeficit < 0) // Reduce the stack if our last spawned stackable results in too many meals
+				{
+					stck.ServerConsume(-mealDeficit);
+				}
 			}
-
-
-
+			else if (mealCount > 1) // Spawn non-stackable meals
+			{
+				Spawn.ServerPrefab(mealPrefab, spawnPosition, transform.parent, count: mealCount - 1);
+			}
 		}
 		meal = null;
 		mealCount = 0;
 	}
+	//########################## Power stuff ####################
+	public void PowerNetworkUpdate(float Voltage)
+	{
+	}
 
+	public void StateUpdate(PowerStates State)
+	{
+		CurrentState = State;
+		if (spriteRenderer == null)
+		{
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+		}
+
+		if (APCConnectionHandler == null)
+		{
+			APCConnectionHandler = GetComponentInChildren<APCPoweredDevice>();
+		}
+
+		if (spriteRenderer.sprite == SPRITE_ON)
+		{
+			APCConnectionHandler.Wattusage = InUseWattUsage;
+		}
+		else
+		{
+			APCConnectionHandler.Wattusage = StandByWattUsage;
+		}
+	}
 }

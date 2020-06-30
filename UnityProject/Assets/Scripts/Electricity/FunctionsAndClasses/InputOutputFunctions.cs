@@ -1,210 +1,200 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
+using Telepathy;
 
 public static class InputOutputFunctions //for all the date of formatting of   Output / Input
 {
-	public static void ElectricityOutput(float Current, GameObject SourceInstance, ElectricalOIinheritance Thiswire)
+
+	public static void ElectricityOutput(VIRCurrent Current,
+										 ElectricalOIinheritance SourceInstance,
+										 IntrinsicElectronicData Thiswire)
 	{
-		int SourceInstanceID = SourceInstance.GetInstanceID();
-		ElectricalSynchronisation.OutputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstanceID];
-		float SupplyingCurrent = 0;
-		float Voltage = Current * (ElectricityFunctions.WorkOutResistance(ElectricalSynchronisation.OutputSupplyingUsingData.ResistanceComingFrom));
-		foreach (KeyValuePair<ElectricalOIinheritance, float> JumpTo in ElectricalSynchronisation.OutputSupplyingUsingData.ResistanceComingFrom)
+		//Logger.Log("4 > " + Current);
+		//Logger.Log("poke > " + SourceInstance.InData.Data.SupplyDependent[SourceInstance].ToString());
+		var OutputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstance];
+		VIRCurrent SupplyingCurrent = null;
+		float Divider = (ElectricityFunctions.WorkOutResistance(OutputSupplyingUsingData.ResistanceComingFrom));
+		foreach (KeyValuePair<IntrinsicElectronicData, VIRResistances> JumpTo in OutputSupplyingUsingData.ResistanceComingFrom)
 		{
-			if (Voltage > 0)
+			if (OutputSupplyingUsingData.ResistanceComingFrom.Count > 1)
 			{
-				SupplyingCurrent = (Voltage / JumpTo.Value);
+				SupplyingCurrent = Current.SplitCurrent(Divider / JumpTo.Value.Resistance());
 			}
 			else
 			{
 				SupplyingCurrent = Current;
 			}
-			ElectricalSynchronisation.OutputSupplyingUsingData.CurrentGoingTo[JumpTo.Key] = SupplyingCurrent;
-			JumpTo.Key.ElectricityInput(SupplyingCurrent, SourceInstance, Thiswire);
-		}
-	}
-
-	public static void ElectricityInput(float Current, GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalOIinheritance Thiswire)
-	{
-		//Logger.Log (" <Current " + SourceInstance.ToString () + " <SourceInstance " + ComingFrom.ToString () + " <ComingFrom " + Thiswire.ToString () + " <Thiswire ", Category.Electrical);
-		int SourceInstanceID = SourceInstance.GetInstanceID();
-		ElectricalSynchronisation.InputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstanceID];
-		ElectricalSynchronisation.InputSupplyingUsingData.CurrentComingFrom[ComingFrom] = Current;
-		if (!(ElectricalSynchronisation.InputSupplyingUsingData.ResistanceComingFrom.Count > 0))
-		{
-			ElectricalSynchronisation.StructureChange = true;
-			ElectricalSynchronisation.NUStructureChangeReact.Add(Thiswire.InData.ControllingDevice);
-			ElectricalSynchronisation.NUResistanceChange.Add(Thiswire.InData.ControllingDevice);
-			ElectricalSynchronisation.NUCurrentChange.Add(Thiswire.InData.ControllingDevice);
-			//Logger.LogErrorFormat("Resistance isn't initialised on {1}", Category.Electrical, SourceInstance);
-			return;
-		}
-		ElectricalSynchronisation.InputSupplyingUsingData.SourceVoltages = Current * (ElectricityFunctions.WorkOutResistance(ElectricalSynchronisation.InputSupplyingUsingData.ResistanceComingFrom));
-		ELCurrent.CurrentWorkOnNextListADD(Thiswire);
-		Thiswire.Data.CurrentStoreValue = ElectricityFunctions.WorkOutCurrent(ElectricalSynchronisation.InputSupplyingUsingData.CurrentComingFrom);
-	}
-
-	public static void ResistancyOutput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance Thiswire)
-	{
-		int SourceInstanceID = SourceInstance.GetInstanceID();
-		ElectricalSynchronisation.OutputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstanceID];
-		float ResistanceSplit = 0;
-		if (Resistance == 0)
-		{
-			ResistanceSplit = 0;
-		}
-		else {
-			if (ElectricalSynchronisation.OutputSupplyingUsingData.Upstream.Count > 1)
+			OutputSupplyingUsingData.CurrentGoingTo[JumpTo.Key] = SupplyingCurrent;
+			if (JumpTo.Key != null && JumpTo.Key.Categorytype != PowerTypeCategory.DeadEndConnection)
 			{
-				ResistanceSplit = Resistance * ElectricalSynchronisation.OutputSupplyingUsingData.Upstream.Count;
+				JumpTo.Key.ElectricityInput(SupplyingCurrent, SourceInstance, Thiswire);
+			}
+		}
+	}
+
+	public static void ElectricityInput(VIRCurrent Current,
+										ElectricalOIinheritance SourceInstance,
+										IntrinsicElectronicData ComingFrom,
+										IntrinsicElectronicData Thiswire)
+	{
+		//Logger.Log("ElectricityInput" + Thiswire + "  ComingFrom  > " + ComingFrom);
+		//Logger.Log("5 > " + Current + "  Categorytype > " + Thiswire.Categorytype + "  ComingFrom  > " + ComingFrom.Categorytype);
+		//Logger.Log("poke > " + SourceInstance.InData.Data.SupplyDependent[SourceInstance].ToString());
+
+		if (Thiswire.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
+		{
+			if (supplyDep.CurrentComingFrom.TryGetValue(ComingFrom, out VIRCurrent currentComFrom))
+			{
+				currentComFrom.addCurrent(Current);
 			}
 			else
 			{
-				ResistanceSplit = Resistance;
+				supplyDep.CurrentComingFrom[ComingFrom] = Current;
 			}
-		}
-		foreach (ElectricalOIinheritance JumpTo in ElectricalSynchronisation.OutputSupplyingUsingData.Upstream)
-		{
-			if (ResistanceSplit == 0)
-			{
-				ElectricalSynchronisation.OutputSupplyingUsingData.ResistanceGoingTo.Remove(JumpTo);
-			}
-			else {
-				ElectricalSynchronisation.OutputSupplyingUsingData.ResistanceGoingTo[JumpTo] = ResistanceSplit;
-			}
-			JumpTo.ResistanceInput(ResistanceSplit, SourceInstance, Thiswire);
-		}
-	}
 
-	public static void ResistanceInput(float Resistance, GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalOIinheritance Thiswire, int ComingFromOverride = 0)
-	{
-		ElectricalOIinheritance IElec = SourceInstance.GetComponent<ElectricalOIinheritance>();
-		if (ComingFrom == null)
-		{
-			if (IElec != Thiswire)
+			if (!(supplyDep.ResistanceComingFrom.Count > 0))
 			{
-				if (Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(IElec))
-				{
-					if (Thiswire.Data.ResistanceToConnectedDevices[IElec].Count > 1)
-					{
-						Logger.LogErrorFormat("{0} has too many resistance reactions specified.", Category.Electrical, Thiswire.ToString());
-					}
-					foreach (PowerTypeCategory ConnectionFrom in Thiswire.Data.ResistanceToConnectedDevices[IElec])
-					{
-						Resistance = Thiswire.InData.ConnectionReaction[ConnectionFrom].ResistanceReactionA.Resistance.Ohms;
-						ComingFrom = ElectricalSynchronisation.DeadEnd;
-					}
-				}
-			}
-			else {
+				var sync = ElectricalManager.Instance.electricalSync;
+				sync.StructureChange = true;
+				sync.NUStructureChangeReact.Add(Thiswire.ControllingDevice);
+				sync.NUResistanceChange.Add(Thiswire.ControllingDevice);
+				sync.NUCurrentChange.Add(Thiswire.ControllingDevice);
+				Logger.LogErrorFormat("Resistance isn't initialised on", Category.Electrical);
 				return;
 			}
+
+			supplyDep.SourceVoltage = (float)Current.Current() * (ElectricityFunctions.WorkOutResistance(supplyDep.ResistanceComingFrom));
 		}
-		if (ComingFrom != null | ElectricalSynchronisation.DeadEnd == ComingFrom)
+
+		//ELCurrent.CurrentWorkOnNextListADD(Thiswire);
+		Thiswire.ElectricityOutput(Current, SourceInstance);
+	}
+
+	public static void ResistancyOutput(ResistanceWrap Resistance,
+										ElectricalOIinheritance SourceInstance,
+										IntrinsicElectronicData Thiswire)
+	{
+		if (Thiswire.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
 		{
-			int SourceInstanceID = SourceInstance.GetInstanceID();
-			ElectricalSynchronisation.InputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstanceID];
-			if (Resistance == 0)
+			foreach (var JumpTo in supplyDep.Upstream)
 			{
-				ElectricalSynchronisation.InputSupplyingUsingData.ResistanceComingFrom.Remove(ComingFrom);
-			}
-			else {
-				ElectricalSynchronisation.InputSupplyingUsingData.ResistanceComingFrom[ComingFrom] = Resistance;
-			}
-			if (Thiswire.Data.connections.Count > 2)
-			{
-				KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> edd = new KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>(IElec, Thiswire);
-				ElectricalSynchronisation.ResistanceWorkOnNextListWaitADD(edd);
-			}
-			else
-			{
-				KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance> edd = new KeyValuePair<ElectricalOIinheritance, ElectricalOIinheritance>(IElec, Thiswire);
-				ElectricalSynchronisation.ResistanceWorkOnNextListADD(edd);
+				if (!supplyDep.ResistanceGoingTo.TryGetValue(JumpTo, out VIRResistances resGoTo))
+				{
+					resGoTo = supplyDep.ResistanceGoingTo[JumpTo] = ElectricalPool.GetVIRResistances();
+				}
+				resGoTo.AddResistance(Resistance);
+				JumpTo.ResistanceInput(Resistance, SourceInstance, Thiswire);
 			}
 		}
 	}
 
-	public static void DirectionOutput(GameObject SourceInstance, ElectricalOIinheritance Thiswire, CableLine RelatedLine = null)
+	public static void ResistanceInput(ResistanceWrap Resistance,
+									   ElectricalOIinheritance SourceInstance,
+									   IntrinsicElectronicData ComingFrom,
+									   IntrinsicElectronicData Thiswire)
 	{
-		int SourceInstanceID = SourceInstance.GetInstanceID();
+		if (Thiswire.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
+		{
+			if (!supplyDep.ResistanceComingFrom.TryGetValue(ComingFrom, out VIRResistances resComeFrom))
+			{
+				resComeFrom = supplyDep.ResistanceComingFrom[ComingFrom] = ElectricalPool.GetVIRResistances();
+			}
+			resComeFrom.AddResistance(Resistance);
+		}
+
+		Thiswire.ResistancyOutput(Resistance, SourceInstance);
+	}
+
+	public static void DirectionOutput(ElectricalOIinheritance SourceInstance,
+									   IntrinsicElectronicData Thiswire,
+									   CableLine RelatedLine = null)
+	{
 		if (Thiswire.Data.connections.Count == 0)
 		{
 			Thiswire.FindPossibleConnections();
 		}
-		if (!(Thiswire.Data.SupplyDependent.ContainsKey(SourceInstanceID)))
+
+		if (!(Thiswire.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData outputSupplyingUsingData)))
 		{
-			Thiswire.Data.SupplyDependent[SourceInstanceID] = new ElectronicSupplyData();
+			outputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstance] = ElectricalPool.GetElectronicSupplyData();
 		}
-		ElectricalSynchronisation.OutputSupplyingUsingData = Thiswire.Data.SupplyDependent[SourceInstanceID];
-		foreach (ElectricalOIinheritance Related in Thiswire.Data.connections)
+
+		foreach (IntrinsicElectronicData Relatedindata in Thiswire.Data.connections)
 		{
-			if (!(ElectricalSynchronisation.OutputSupplyingUsingData.Upstream.Contains(Related)) && (!(Thiswire == Related)))
+			if (!(outputSupplyingUsingData.Upstream.Contains(Relatedindata)) && (!(Thiswire == Relatedindata)))
 			{
 				bool pass = true;
 				if (RelatedLine != null)
 				{
-					if (RelatedLine.Covering.Contains(Related))
+					if (RelatedLine.Covering.Contains(Relatedindata))
 					{
 						pass = false;
 					}
 				}
-				if (!(ElectricalSynchronisation.OutputSupplyingUsingData.Downstream.Contains(Related)) && pass)
+				if (!(outputSupplyingUsingData.Downstream.Contains(Relatedindata)) && pass)
 				{
-					ElectricalSynchronisation.OutputSupplyingUsingData.Downstream.Add(Related);
-					Related.DirectionInput(SourceInstance, Thiswire);
+					outputSupplyingUsingData.Downstream.Add(Relatedindata);
+					Relatedindata.DirectionInput(SourceInstance, Thiswire);
 				}
 			}
 		}
 	}
 
-	public static void DirectionInput(GameObject SourceInstance, ElectricalOIinheritance ComingFrom, ElectricalOIinheritance Thiswire)
+	public static void DirectionInput(ElectricalOIinheritance SourceInstance,
+									  IntrinsicElectronicData ComingFrom,
+									  IntrinsicElectronicData Thiswire)
 	{
 		if (Thiswire.Data.connections.Count == 0)
 		{
 			Thiswire.FindPossibleConnections(); //plz don't remove it is necessary for preventing incomplete cleanups when there has been multiple
 		}
-		int SourceInstanceID = SourceInstance.GetInstanceID();
-		if (!(Thiswire.Data.SupplyDependent.ContainsKey(SourceInstanceID))) {
-			Thiswire.Data.SupplyDependent[SourceInstanceID] = new ElectronicSupplyData();
-		}
-		if (ComingFrom != null)
+
+		if (!Thiswire.Data.SupplyDependent.TryGetValue(SourceInstance, out ElectronicSupplyData supplyDep))
 		{
-			Thiswire.Data.SupplyDependent[SourceInstanceID].Upstream.Add(ComingFrom);
+			supplyDep = Thiswire.Data.SupplyDependent[SourceInstance] = ElectricalPool.GetElectronicSupplyData();
 		}
 
-		bool CanPass = true;
-		if (Thiswire.InData.ConnectionReaction.ContainsKey(ComingFrom.InData.Categorytype))
+		if (ComingFrom != null)
 		{
-			if (Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].DirectionReaction || Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].ResistanceReaction)
+			supplyDep.Upstream.Add(ComingFrom);
+		}
+
+		if (Thiswire.ConnectionReaction.TryGetValue(ComingFrom.Categorytype, out PowerInputReactions reaction))
+		{
+			if (reaction.DirectionReaction || reaction.ResistanceReaction)
 			{
-				ElectricalOIinheritance SourceInstancPowerSupply = SourceInstance.GetComponent<ElectricalOIinheritance>();
-				if (SourceInstancPowerSupply != null)
+				if (SourceInstance != null)
 				{
-					if (!Thiswire.Data.ResistanceToConnectedDevices.ContainsKey(SourceInstancPowerSupply))
+					if (!Thiswire.Data.ResistanceToConnectedDevices.TryGetValue(SourceInstance, out var resToConDev))
 					{
-						Thiswire.Data.ResistanceToConnectedDevices[SourceInstancPowerSupply] = new HashSet<PowerTypeCategory>();
+						resToConDev = Thiswire.Data.ResistanceToConnectedDevices[SourceInstance] = new Dictionary<Resistance, HashSet<IntrinsicElectronicData>>();
 					}
-					Thiswire.Data.ResistanceToConnectedDevices[SourceInstancPowerSupply].Add(ComingFrom.InData.Categorytype);
-					SourceInstancPowerSupply.connectedDevices.Add(Thiswire);
-					ElectricalSynchronisation.InitialiseResistanceChange.Add(Thiswire.InData.ControllingDevice);
+
+					if (!resToConDev.TryGetValue(reaction.ResistanceReactionA.Resistance, out HashSet<IntrinsicElectronicData> resToConDevHash))
+					{
+						resToConDevHash = resToConDev[reaction.ResistanceReactionA.Resistance] = new HashSet<IntrinsicElectronicData>();
+					}
+					resToConDevHash.Add(ComingFrom);
+
+					SourceInstance.connectedDevices.Add(Thiswire);
+					ElectricalManager.Instance.electricalSync.InitialiseResistanceChange.Add(Thiswire.ControllingDevice);
 				}
-				if (Thiswire.InData.ConnectionReaction[ComingFrom.InData.Categorytype].DirectionReactionA.YouShallNotPass)
+				if (reaction.DirectionReactionA.YouShallNotPass)
 				{
-					CanPass = false;
+					return;
 				}
 			}
 		}
-		if (CanPass)
+
+		if (Thiswire.Data.connections.Count > 2)
 		{
-			if (Thiswire.Data.connections.Count > 2)
-			{
-				ElectricalSynchronisation.DirectionWorkOnNextListWaitADD(Thiswire);
-			}
-			else
-			{
-				ElectricalSynchronisation.DirectionWorkOnNextListADD(Thiswire);
-			}
+			ElectricalManager.Instance.electricalSync.DirectionWorkOnNextListWaitADD(Thiswire);
+		}
+		else
+		{
+			ElectricalManager.Instance.electricalSync.DirectionWorkOnNextListADD(Thiswire);
 		}
 	}
 }

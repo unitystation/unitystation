@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8028225034354838132}
   - component: {fileID: 8028218387555133124}
   - component: {fileID: 8028062986537714290}
-  - component: {fileID: 8028201868967402102}
   m_Layer: 0
   m_Name: CraftingManager
   m_TagString: Untagged
@@ -48,32 +47,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meals:
     recipeList:
-    - Name: Meat Steak
-      Ingredients:
-      - amount: 1
-        ingredientName: Meat
-      Output: {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2,
-        type: 3}
-    - Name: Meat Cutlet
-      Ingredients:
-      - amount: 1
-        ingredientName: Meat Cutlet
-      Output: {fileID: 6532193109441330816, guid: dcb198c42e70def43a450ef925a6b4b5,
-        type: 3}
-    - Name: Meat Cutlet (Clone)
-      Ingredients:
-      - amount: 1
-        ingredientName: Meat Cutlet(Clone)
-      Output: {fileID: 6532193109441330816, guid: dcb198c42e70def43a450ef925a6b4b5,
-        type: 3}
+    - {fileID: 11400000, guid: 0fc2d8e33cfe642418ef1a7c35174c96, type: 2}
+    - {fileID: 11400000, guid: 5b36f1eaff26b924789d5a542ee771dc, type: 2}
+    - {fileID: 11400000, guid: 07c23ee5e58fe0c468474084e263a13d, type: 2}
+    - {fileID: 11400000, guid: b8d89ef69d0c2d3448b95795ba988cdb, type: 2}
+    - {fileID: 11400000, guid: 93c250f6d5732e0459bddc3b05fdc1ea, type: 2}
   cuts:
     recipeList:
-    - Name: Meat Cutlet
-      Ingredients:
-      - amount: 1
-        ingredientName: Meat
-      Output: {fileID: 6532193109441330816, guid: f06058cd7ca4b944aa68f64125386e28,
-        type: 3}
+    - {fileID: 11400000, guid: 8ab36ba2fa29fed4095495a42862a009, type: 2}
+    - {fileID: 11400000, guid: 8726998c243ff9e4ba34d48d194e43c5, type: 2}
+    - {fileID: 11400000, guid: 9061e7b8dc3b3944389085de35950fc4, type: 2}
+    - {fileID: 11400000, guid: b54f04176f9e57b43aeea336e8d13345, type: 2}
+    - {fileID: 11400000, guid: 87523961a9c4ab3438aa218346a3cc9d, type: 2}
+  logs:
+    recipeList:
+    - {fileID: 11400000, guid: c255ff285353ff047b52b12f8dbdab9c, type: 2}
+  roll:
+    recipeList:
+    - {fileID: 11400000, guid: d7c1f44cbe965dd42a374ee4d590405a, type: 2}
+    - {fileID: 11400000, guid: fced439b8f1a9c74181181f67e754dea, type: 2}
+  simplemeal:
+    recipeList:
+    - {fileID: 11400000, guid: 9bdb180b795ad9443ab9f208722283a6, type: 2}
+    - {fileID: 11400000, guid: 1163b2361ae65f24baa6e538cad9f31a, type: 2}
+  grind:
+    grinderRecipeList:
+    - {fileID: 11400000, guid: f4127034a7647d349905b15cc11a0583, type: 2}
+    - {fileID: 11400000, guid: c767d87b756ec534f8308aaae8e54792, type: 2}
+    - {fileID: 11400000, guid: 5b9db94558e0630419966931d9f7d014, type: 2}
+    - {fileID: 11400000, guid: e1133dfbe304b234fb7823450b7c36a0, type: 2}
+  mix:
+    recipeList: []
   techweb: {fileID: 8028218387555133124}
   designs: {fileID: 8028062986537714290}
 --- !u!114 &8028218387555133124
@@ -98,17 +102,5 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0964b6137d3df4b4785958481d0e5db4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &8028201868967402102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7996566660215339404}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a319b263d0b91940ba50c0c230ea7d9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

@@ -23,7 +23,7 @@ public class GameData : MonoBehaviour
 	         " allows skipping login. Host player will also be given admin privs." +
 	         "Not supported in release builds.")]
 	[SerializeField]
-	private bool offlineMode;
+	private bool offlineMode = false;
 
 	/// <summary>
 	/// Whether --offlinemode command line argument is passed. Enforces offline mode.
@@ -205,17 +205,18 @@ public class GameData : MonoBehaviour
 	{
 		Logger.RefreshPreferences();
 
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 	}
 
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
-		if (scene.name == "Lobby")
+		Resources.UnloadUnusedAssets();
+		if (newScene.name == "Lobby")
 		{
 			IsInGame = false;
 			Managers.instance.SetScreenForLobby();

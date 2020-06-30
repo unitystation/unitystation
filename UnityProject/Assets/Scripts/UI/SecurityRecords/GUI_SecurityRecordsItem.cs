@@ -31,26 +31,26 @@ public class GUI_SecurityRecordsItem : DynamicEntry
 		}
 		securityRecord = record;
 		securityRecordsTab = recordsTab;
-		recordNameText.SetValue = record.EntryName;
-		recordIdText.SetValue = record.ID;
-		recordRankText.SetValue = record.Rank;
-		recordFingerprintsText.SetValue = record.Fingerprints;
-		recordStatusText.SetValue = record.Status.ToString();
-		recordBgColor.SetValue = GetStatusColor(record.Status);
+		recordNameText.SetValueServer(record.EntryName);
+		recordIdText.SetValueServer(record.ID);
+		recordRankText.SetValueServer(record.Rank);
+		recordFingerprintsText.SetValueServer(record.Fingerprints);
+		recordStatusText.SetValueServer(record.Status.ToString());
+		recordBgColor.SetValueServer(GetStatusColor(record.Status));
 	}
 
-	private string GetStatusColor(SecurityStatus status)
+	private Color GetStatusColor(SecurityStatus status)
 	{
 		switch (status)
 		{
 			case SecurityStatus.None:
-				return "424142";
+				return DebugTools.HexToColor("424142");
 			case SecurityStatus.Arrest:
-				return "C10000";
+				return DebugTools.HexToColor("C10000");
 			case SecurityStatus.Parole:
-				return "F57211";
+				return DebugTools.HexToColor("F57211");
 		}
-		return ("424142");
+		return DebugTools.HexToColor("424142");
 	}
 
 	public void OpenRecord()

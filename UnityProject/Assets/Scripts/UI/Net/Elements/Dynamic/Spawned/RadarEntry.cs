@@ -19,13 +19,11 @@ public class RadarEntry : DynamicEntry {
 	public void RefreshTrackedPos(Vector2 origin) {
 		if ( TrackedObject && TrackedObject.transform.position != TransformState.HiddenPos ) {
 //			Vector2 objectPos = (Vector2)TrackedObject.WorldPos() - origin; // WorldPos generates garbage :(
-			Vector2 objectPos = (Vector2)TrackedObject.transform.position - origin;
-			Value = (int)objectPos.x+"x"+(int)objectPos.y;
+			Value = (Vector2)TrackedObject.transform.position - origin;
 		}
 		else if ( StaticPosition != TransformState.HiddenPos )
 		{
-			Vector2 objectPos = (Vector2)StaticPosition - origin;
-			Value = (int)objectPos.x+"x"+(int)objectPos.y;
+			Value = (Vector2)StaticPosition - origin;
 		} else {
 			Position = TransformState.HiddenPos;
 		}
@@ -36,23 +34,20 @@ public class RadarEntry : DynamicEntry {
 	/// Update entry's internal elements to inform peepers about tracked object updates,
 	/// As this entry's value is simply its layout coordinates
 	/// </summary>
-	public void ReInit() {
-		for ( var i = 0; i < Elements.Length; i++ ) {
-			var element = Elements[i];
-			string nameBeforeIndex = element.name.Split( DELIMITER )[0];
-			switch ( nameBeforeIndex ) {
+	public void ReInit()
+	{
+		foreach (var element in Elements)
+		{
+			switch ( element ) {
 				//can be expanded in the future
-				case "MapIcon":
-					string spriteValue = Type.GetDescription();
-					element.Value = spriteValue;
+				case NetSpriteImage image:
+					image.Value = Type.GetDescription();
 					break;
-				case "MapRadius":
-					element.Value = Radius.ToString();
+				case NetRadiusCircle circle:
+					circle.Value = Radius.ToString();
 					break;
 			}
 		}
-
-//		Logger.Log( $"ItemEntry: Init success! Prefab={Prefab}, ItemName={itemAttributes.name}, ItemIcon={itemAttributes.gameObject.name}" );
 	}
 }
 

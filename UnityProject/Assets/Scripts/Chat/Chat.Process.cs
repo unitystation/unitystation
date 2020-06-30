@@ -85,40 +85,24 @@ public partial class Chat
 		}
 
 		// Emote
-		if (message.StartsWith("*"))
+		if (message.StartsWith("*") || message.StartsWith("/me ",true,CultureInfo.CurrentCulture))
 		{
-			message = message.Substring(1);
-			chatModifiers |= ChatModifier.Emote;
-		}
-		// Emote alias
-		else if (message.StartsWith("/me "))
-		{
-			message = message.Substring(4);
+			message = message.Replace("/me",""); // note that there is no space here as compared to the above if
+			message = message.Substring(1);      // so that this substring can properly cut off both * and the space
 			chatModifiers |= ChatModifier.Emote;
 		}
 		// Whisper
-		else if (message.StartsWith("#"))
+		else if (message.StartsWith("#") || message.StartsWith("/w ",true,CultureInfo.CurrentCulture))
 		{
+			message = message.Replace("/w","");
 			message = message.Substring(1);
-			chatModifiers |= ChatModifier.Whisper;
-		}
-		// Whisper alias
-		else if (message.StartsWith("/w "))
-		{
-			message = message.Substring(3);
 			chatModifiers |= ChatModifier.Whisper;
 		}
 		// Sing
-		else if (message.StartsWith("%"))
+		else if (message.StartsWith("%") || message.StartsWith("/s ",true,CultureInfo.CurrentCulture))
 		{
+			message = message.Replace("/s","");
 			message = message.Substring(1);
-			message = Sing(message);
-			chatModifiers |= ChatModifier.Sing;
-		}
-		// Sing alias
-		else if (message.StartsWith("/s "))
-		{
-			message = message.Substring(3);
 			message = Sing(message);
 			chatModifiers |= ChatModifier.Sing;
 		}
@@ -144,55 +128,17 @@ public partial class Chat
 			chatModifiers |= ChatModifier.Exclaim;
 		}
 
-		// Clown
-		if (sentByPlayer.Script.mind != null &&
-			sentByPlayer.Script.mind.occupation != null &&
-			sentByPlayer.Script.mind.occupation.JobType == JobType.CLOWN)
-		{
-			int intensity = UnityEngine.Random.Range(1, 4);
-			for (int i = 0; i < intensity; i++)
-			{
-				message += " HONK!";
-			}
-			chatModifiers |= ChatModifier.Clown;
-		}
-		// TODO None of the followinger modifiers are currently in use.
-		// They have been commented out to prevent compile warnings.
+		// Assign character trait speech mods
+		//TODO Assigning from character creation for now, they exclude each others
+		chatModifiers |= Instance.CharacterSpeech[sentByPlayer.Script.characterSettings.Speech];
 
-		// Stutter
-		//if (false) // TODO Currently players can not stutter.
-		//{
-		//	//Stuttering people randomly repeat beginnings of words
-		//	//Regex - find word boundary followed by non digit, non special symbol, non end of word letter. Basically find the start of words.
-		//	Regex rx = new Regex(@"(\b)+([^\d\W])\B");
-		//	message = rx.Replace(message, Stutter);
-		//	chatModifiers |= ChatModifier.Stutter;
-		//}
-		//
-		//// Hiss
-		//if (false) // TODO Currently players can never speak like a snek.
-		//{
-		//	Regex rx = new Regex("s+|S+");
-		//	message = rx.Replace(message, Hiss);
-		//	chatModifiers |= ChatModifier.Hiss;
-		//}
-		//
-		//// Drunk
-		//if (false) // TODO Currently players can not get drunk.
-		//{
-		//	//Regex - find 1 or more "s"
-		//	Regex rx = new Regex("s+|S+");
-		//	message = rx.Replace(message, Slur);
-		//	//Regex - find 1 or more whitespace
-		//	rx = new Regex(@"\s+");
-		//	message = rx.Replace(message, Hic);
-		//	//50% chance to ...hic!... at end of sentance
-		//	if (UnityEngine.Random.Range(1, 3) == 1)
-		//	{
-		//		message = message + " ...hic!...";
-		//	}
-		//	chatModifiers |= ChatModifier.Drunk;
-		//}
+		//TODO Assign racial speech mods
+
+		// Assign inventory speech mods
+		chatModifiers |= sentByPlayer.Script.mind.inventorySpeechModifiers;
+
+		/////// Process Speech mutations
+		message = SpeechModManager.Instance.ApplyMod(chatModifiers, message);
 
 		return (message, chatModifiers);
 	}
@@ -245,6 +191,12 @@ public partial class Chat
 		//Check for OOC. If selected, remove all other channels and modifiers (could happen if UI fucks up or someone tampers with it)
 		if (channels.HasFlag(ChatChannel.OOC))
 		{
+			//ooc name quick fix
+			var name = Regex.Replace(speaker, @"\t\n\r", "");
+			if (string.IsNullOrWhiteSpace(name))
+			{
+				name = "nerd";
+			}
 			message = AddMsgColor(channels, $"[ooc] <b>{speaker}: {message}</b>");
 			return message;
 		}
@@ -252,10 +204,10 @@ public partial class Chat
 		//Ghosts don't get modifiers
 		if (channels.HasFlag(ChatChannel.Ghost))
 		{
-			return AddMsgColor(channels, $"[dead] <b>{speaker}</b>: {message}");
+			string[] _ghostVerbs = {"cries", "moans"};
+			return AddMsgColor(channels, $"[dead] <b>{speaker}</b> {_ghostVerbs.PickRandom()}: {message}");
 		}
-
-		var verb = "says,";
+		string verb = "says,";
 
 		if ((modifiers & ChatModifier.Mute) == ChatModifier.Mute)
 		{
@@ -313,6 +265,8 @@ public partial class Chat
 		return output;
 	}
 
+
+//TODO move all these methods to a proper SpeechModifier SO
 	private static string Slur(Match m)
 	{
 		string x = m.ToString();
@@ -353,29 +307,6 @@ public partial class Chat
 		}
 
 		return x;
-	}
-
-	private static string Stutter(Match m)
-	{
-		string x = m.ToString();
-		string stutter = "";
-		//20% chance to stutter at any given consonant
-		if (Random.Range(1, 6) == 1)
-		{
-			//Randomly pick how bad is the stutter
-			int intensity = Random.Range(1, 4);
-			for (int i = 0; i < intensity; i++)
-			{
-				stutter = stutter + x + "... "; //h... h... h...
-			}
-
-			stutter = stutter + x; //h... h... h... h[ello]
-		}
-		else
-		{
-			stutter = x;
-		}
-		return stutter;
 	}
 
 	private static string Sing(string m)
@@ -645,4 +576,16 @@ public partial class Chat
 
 		return !string.IsNullOrEmpty(message.Trim());
 	}
+
+	private readonly Dictionary<Speech, ChatModifier> CharacterSpeech = new Dictionary<Speech, ChatModifier>()
+	{
+		{Speech.None, ChatModifier.None},
+		{Speech.Canadian, ChatModifier.Canadian},
+		{Speech.French, ChatModifier.French},
+		{Speech.Italian, ChatModifier.Italian},
+		{Speech.Swedish, ChatModifier.Swedish},
+		{Speech.Chav, ChatModifier.Chav},
+		{Speech.Stutter, ChatModifier.Stutter},
+		{Speech.Scotsman, ChatModifier.Scotsman}
+	};
 }

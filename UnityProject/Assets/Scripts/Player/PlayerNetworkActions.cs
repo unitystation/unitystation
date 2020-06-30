@@ -1,10 +1,12 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using AdminTools;
+using Audio.Containers;
 using UnityEngine;
 using Mirror;
+using DiscordWebhook;
+using InGameEvents;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -30,6 +32,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		playerMove = GetComponent<PlayerMove>();
 		playerScript = GetComponent<PlayerScript>();
 		itemStorage = GetComponent<ItemStorage>();
+	}
+
+	/// <summary>
+	/// Get the item in the player's slot
+	/// </summary>
+	/// <returns>the gameobject item in the player's slot, null if nothing </returns>
+	public GameObject GetActiveItemInSlot(NamedSlot slot)
+	{
+		var pu = itemStorage.GetNamedItemSlot(slot).Item;
+		return pu?.gameObject;
 	}
 
 	/// <summary>
@@ -90,8 +102,81 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void SyncEquipSprite(string slotName, GameObject Item)
 	{
-		NamedSlot enumA = (NamedSlot) Enum.Parse(typeof(NamedSlot), slotName);
-		equipment.SetReference((int) enumA, Item);
+		NamedSlot enumA = (NamedSlot)Enum.Parse(typeof(NamedSlot), slotName);
+		equipment.SetReference((int)enumA, Item);
+	}
+
+	/// <summary>
+	/// Server handling of the request to perform a resist action.
+	/// </summary>
+	[Command]
+	public void CmdResist()
+	{
+		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
+
+		// Handle the movement restricted actions first.
+		if (playerScript.playerMove.IsBuckled)
+		{
+			// Make sure we don't unbuckle if we are currently cuffed.
+			if (!playerScript.playerMove.IsCuffed)
+			{
+				playerScript.playerMove.Unbuckle();
+			}
+		}
+		else if (playerScript.playerHealth.FireStacks > 0) // Check if we are on fire. If we are perform a stop-drop-roll animation and reduce the fire stacks.
+		{
+			if (!playerScript.registerTile.IsLayingDown)
+			{
+				// Throw the player down to the floor for 15 seconds.
+				playerScript.registerTile.ServerStun(15);
+				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
+			}
+			else
+			{
+				// Remove 5 stacks(?) per roll action.
+				playerScript.playerHealth.ChangeFireStacks(-5.0f);
+				// Find the next in the roll sequence. Also unlock the facing direction temporarily since ServerStun locks it.
+				playerScript.playerDirectional.LockDirection = false;
+				Orientation faceDir = playerScript.playerDirectional.CurrentDirection;
+				OrientationEnum currentDir = faceDir.AsEnum();
+
+				switch (currentDir)
+				{
+					case OrientationEnum.Up:
+						faceDir = Orientation.Right;
+						break;
+					case OrientationEnum.Right:
+						faceDir = Orientation.Down;
+						break;
+					case OrientationEnum.Down:
+						faceDir = Orientation.Left;
+						break;
+					case OrientationEnum.Left:
+						faceDir = Orientation.Up;
+						break;
+				}
+
+				playerScript.playerDirectional.FaceDirection(faceDir);
+				playerScript.playerDirectional.LockDirection = true;
+			}
+
+			if (playerScript.playerHealth.FireStacks <= 0)
+			{
+				playerScript.playerHealth.Extinguish();
+			}
+		}
+		else if (playerScript.playerMove.IsCuffed) // Check if cuffed.
+		{
+			if (playerScript.playerSprites != null &&
+				playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+			{
+				if (cuffsClothingItem != null &&
+					cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+				{
+					restraintOverlay.ServerBeginUnCuffAttempt();
+				}
+			}
+		}
 	}
 
 	/// <summary>
@@ -184,7 +269,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerThrow(slot, worldTargetVector,
-			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType) aim);
+			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType)aim);
 	}
 
 	[Command]
@@ -207,7 +292,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		else
 		{
 			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
-			                        " this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
+									" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
 		}
 	}
 
@@ -217,10 +302,10 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
 		if (playerScript.playerSprites != null &&
-		    playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
+			playerScript.playerSprites.clothes.TryGetValue("handcuffs", out var cuffsClothingItem))
 		{
 			if (cuffsClothingItem != null &&
-			    cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
+				cuffsClothingItem.TryGetComponent<RestraintOverlay>(out var restraintOverlay))
 			{
 				restraintOverlay.ServerBeginUnCuffAttempt();
 			}
@@ -243,6 +328,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		VotingManager.Instance.RegisterVote(connectedPlayer.UserId, isFor);
 	}
 
+	[Command]
+	public void CmdVetoRestartVote(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.VetoVote(adminId);
+	}
+
 	/// <summary>
 	/// Switches the pickup mode for the InteractableStorage in the players hands
 	/// TODO should probably be turned into some kind of UIAction component which can hold all these functions
@@ -252,7 +347,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		// Switch the pickup mode of the storage in the active hand
 		var storage = GetActiveHandItem()?.GetComponent<InteractableStorage>() ??
-					  GetOffHandItem()?.GetComponent<InteractableStorage>();
+		              GetOffHandItem()?.GetComponent<InteractableStorage>();
 		storage.ServerSwitchPickupMode(gameObject);
 	}
 
@@ -282,7 +377,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[TargetRpc]
 	public void TargetStopMusic(NetworkConnection target)
 	{
-		SoundManager.SongTracker.Stop();
+		MusicManager.SongTracker.Stop();
 	}
 
 	/// <summary>
@@ -291,12 +386,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Server]
 	private void UpdateInventorySlots()
 	{
-		var body = playerScript.mind.body.gameObject;
-
-		if (this == null || itemStorage == null)
+		if (this == null || itemStorage == null || playerScript == null
+			|| playerScript.mind == null || playerScript.mind.body == null)
 		{
 			return;
 		}
+
+		var body = playerScript.mind.body.gameObject;
 
 		//player gets inventory slot updates again
 		foreach (var slot in itemStorage.GetItemSlotTree())
@@ -329,7 +425,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
+					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
 				}
 
 				break;
@@ -341,7 +437,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				if (oldState == ConsciousState.CONSCIOUS)
 				{
 					//only play the sound if we are falling
-					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
+					SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
 				}
 
 				break;
@@ -354,8 +450,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
-		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
-		                                        || playerScript.playerHealth.IsCardiacArrest)
+												|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
+												|| playerScript.playerHealth.IsCardiacArrest)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
@@ -389,8 +485,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Server]
-	public void ServerRespawnPlayer()
+	public void ServerRespawnPlayer(string occupation = null)
 	{
+		if (occupation != null)
+		{
+			foreach (var job in SOAdminJobsList.Instance.AdminAvailableJobs)
+			{
+				if (job.name != occupation)
+				{
+					continue;
+				}
+
+				playerScript.mind.occupation = job;
+				break;
+			}
+		}
+
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
@@ -398,6 +508,15 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleAllowCloning()
 	{
 		playerScript.mind.DenyCloning = !playerScript.mind.DenyCloning;
+
+		if (playerScript.mind.DenyCloning)
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You will no longer be cloned</color>");
+		}
+		else
+		{
+			Chat.AddExamineMsgFromServer(gameObject, "<color=red>You can now be cloned</color>");
+		}
 	}
 
 	/// <summary>
@@ -424,24 +543,35 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	/// <summary>
 	/// Asks the server to let the client rejoin into a logged off character.
 	/// </summary>
+	///
 	[Command]
-	public void CmdGhostEnterBody()
+	public void CmdGhostCheck()//specific check for if you want value returned
+	{
+		GhostEnterBody();
+	}
+
+	[Server]
+	public void GhostEnterBody()
 	{
 		PlayerScript body = playerScript.mind.body;
-		if ( !playerScript.IsGhost || !body.playerHealth.IsDead )
+
+		if (playerScript.mind.IsSpectator) return;
+
+		if (!playerScript.IsGhost )
 		{
-			Logger.LogWarningFormat( "Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body );
+			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);
 			return;
 		}
 
 		//body might be in a container, reentering should still be allowed in that case
-		if (body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos )
+		if (body.pushPull.parentContainer == null && body.WorldPos == TransformState.HiddenPos)
 		{
-			Logger.LogFormat( "There's nothing left of {0}'s body, not entering it", Category.Health, body );
+			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Health, body);
 			return;
 		}
 		playerScript.mind.StopGhosting();
 		PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
+		return;
 	}
 
 	/// <summary>
@@ -610,7 +740,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (5 >= rng.Next(1, 100))
 		{
 			disarmedPlayerRegister.ServerStun(6f, false);
-			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You have knocked {playerToDisarmName} down!",
 				$"{disarmerName} has knocked {playerToDisarmName} down!");
@@ -629,23 +759,83 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				Inventory.ServerDrop(rightHandSlot);
 			}
 
-			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You have disarmed {playerToDisarmName}!",
 				$"{disarmerName} has disarmed {playerToDisarmName}!");
 		}
 		else
 		{
-			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
 
 			Chat.AddCombatMsgToChat(gameObject, $"You attempted to disarm {playerToDisarmName}!",
 				$"{disarmerName} has attempted to disarm {playerToDisarmName}!");
 		}
 	}
 
-	//admin only commands
+	[Command]
+	public void CmdGhostPerformTeleport(Vector3 s3)
+	{
+		ServerGhostPerformTeleport(s3);
+	}
 
+	[Server]
+	public void ServerGhostPerformTeleport(Vector3 s3)
+	{
+		if (playerScript.IsGhost && Math.Abs(s3.x) <= 20000 && Math.Abs(s3.y) <= 20000)
+		{
+			playerScript.PlayerSync.SetPosition(s3); //server forces position on player
+		}
+	}
+
+	//admin only commands
 	#region Admin
+
+	[Command]
+	public void CmdAGhost(string adminId, string adminToken)
+	{
+		ServerAGhost(adminId, adminToken);
+	}
+
+	[Server]
+	public void ServerAGhost(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (!playerScript.IsGhost)//admin turns into ghost
+		{
+			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
+		}
+		else if (playerScript.IsGhost)//back to player
+		{
+			if (playerScript.mind.IsSpectator) return;
+
+			GhostEnterBody();
+		}
+	}
+
+	[Command]
+	public void CmdPlaySound(string index, string adminId, string adminToken)
+	{
+		PlaySound(index, adminId, adminToken);
+	}
+
+	[Server]
+	public void PlaySound(string index, string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		var players = FindObjectsOfType(typeof(PlayerScript));
+
+		if (players == null) return;//If list of Players is empty dont run rest of code.
+
+		foreach (PlayerScript player in players)
+		{
+			SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject, player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
+		}
+	}
 
 	[Command]
 	public void CmdAdminMakeHotspot(GameObject onObject, string adminId, string adminToken)
@@ -654,7 +844,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (admin == null) return;
 		if (onObject == null) return;
 		var reactionManager = onObject.GetComponentInParent<ReactionManager>();
-    if (reactionManager == null) return;
+		if (reactionManager == null) return;
 
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition(), 700, .5f);
 		reactionManager.ExposeHotspotWorldPosition(onObject.TileWorldPosition() + Vector2Int.down, 700, .05f);
@@ -669,47 +859,86 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		if ( toSmash == null )
+		if (toSmash == null)
 		{
 			return;
 		}
 
 		var integrity = toSmash.GetComponent<Integrity>();
-		if ( integrity == null )
+		if (integrity == null)
 		{
 			return;
 		}
 		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 	}
 
-	//simulates despawning and immediately respawning this object, expectation
-	//being that it should properly initialize itself regardless of its previous state.
 	[Command]
-	public void CmdAdminRespawn(GameObject toRespawn, string adminId, string adminToken)
+	public void CmdSendCentCommAnnouncement(string adminId, string adminToken, string text)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		Spawn.ServerPoolTestRespawn(toRespawn);
+		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.notice);
 	}
 
 	[Command]
-	public void CmdSendCentCommAnnouncement (string adminId, string adminToken, string text)
+	public void CmdSendCentCommReport(string adminId, string adminToken, string text)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
-		
-		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateType.announce);
+		GameManager.Instance.CentComm.MakeCommandReport(text,
+														CentComm.UpdateSound.notice);
 	}
 
 	[Command]
-	public void CmdSendCentCommReport (string adminId, string adminToken, string text)
+	public void CmdGetAdminOverlayFullUpdate(string adminId, string adminToken)
 	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return; 
-		GameManager.Instance.CentComm.MakeCommandReport(text, 
-														CentComm.UpdateType.notice);
+		AdminOverlay.RequestFullUpdate(adminId, adminToken);
 	}
 
+	[Command]
+	public void CmdToggleOOCMute(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		string msg;
+
+		if (Chat.OOCMute)
+		{
+			Chat.OOCMute = false;
+			msg = "OOC has been unmuted";
+		}
+		else
+		{
+			Chat.OOCMute = true;
+			msg = "OOC has been muted";
+		}
+
+		Chat.AddGameWideSystemMsgToChat($"<color=blue>{msg}</color>");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
+	}
+
+	[Command]
+	public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake, bool announceEvent)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, isFake, PlayerList.Instance.GetByUserID(adminId).Username, announceEvent);
+	}
 	#endregion
+
+	[Command]
+	public void CmdRequestSpell(int spellIndex)
+	{
+		foreach (var spell in playerScript.mind.Spells)
+		{
+			if (spell.SpellData.Index == spellIndex)
+			{
+				spell.CallActionServer(PlayerList.Instance.Get(gameObject));
+				return;
+			}
+		}
+	}
 }

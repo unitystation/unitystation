@@ -1,11 +1,11 @@
-﻿﻿using System;
- using System.Collections.Generic;
- using UnityEngine;
- using UnityEngine.Events;
- using Mirror;
- using UnityEngine.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using Mirror;
+using UnityEngine.Serialization;
 
- public enum ObjectType
+public enum ObjectType
 {
 	Item,
 	Object,
@@ -48,7 +48,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	[Tooltip("The kind of object this is.")]
 	[FormerlySerializedAs("ObjectType")] [SerializeField]
-	private ObjectType objectType;
+	private ObjectType objectType = ObjectType.Item;
 	/// <summary>
 	/// The kind of object this is.
 	/// </summary>
@@ -115,6 +115,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// </summary>
 	[NonSerialized]
 	public UnityEvent OnAppearClient = new UnityEvent();
+
+	/// <summary>
+	/// Invoked serverside when object is despawned
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnDespawnedServer = new UnityEvent();
 
 
 	[SyncVar(hook = nameof(SyncNetworkedMatrixNetId))]
@@ -205,7 +211,14 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private CustomNetTransform cnt;
 	//cached for fast fire exposure without gc
 	private IFireExposable[] fireExposables;
-	private bool hasCachedComponents;
+	private bool hasCachedComponents = false;
+
+
+	private ElectricalOIinheritance electricalData;
+	public ElectricalOIinheritance ElectricalData => electricalData;
+
+	private Pipes.PipeData pipeData;
+	public Pipes.PipeData PipeData => pipeData;
 
 	protected virtual void Awake()
 	{
@@ -228,6 +241,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LogMatrixDebug("OnEnable");
 		initialized = false;
 		ForceRegister();
+		EventManager.AddHandler(EVENT.MatrixManagerInit, MatrixManagerInit);
+	}
+
+	private void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.MatrixManagerInit, MatrixManagerInit);
 	}
 
 	public override void OnStartClient()
@@ -244,7 +263,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		ForceRegister();
 		if (Matrix != null)
 		{
-			SyncNetworkedMatrixNetId(networkedMatrixNetId, Matrix.transform.parent.gameObject.NetId());
+			networkedMatrixNetId = Matrix.transform.parent.gameObject.NetId();
 		}
 	}
 
@@ -276,8 +295,23 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				SpatialRelationship.ServerEnd(relationship);
 			}
 		}
+
+		OnDespawnedServer.Invoke();
 	}
 
+	//This makes it so electrical Stuff can be done on its own thread
+	public void SetElectricalData(ElectricalOIinheritance inElectricalData)
+	{
+		//Logger.Log("seting " + this.name);
+		electricalData = inElectricalData;
+	}
+
+	//This makes it so electrical Stuff can be done on its own thread
+	public void SetPipeData(Pipes.PipeData InPipeData)
+	{
+		//Logger.Log("seting " + this.name);
+		pipeData = InPipeData;
+	}
 
 
 	/// <summary>
@@ -288,7 +322,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	public void ServerSetNetworkedMatrixNetID(uint newNetworkedMatrixNetID)
 	{
 		LogMatrixDebug("ServerSetNetworkedMatrixNetID");
-		SyncNetworkedMatrixNetId(networkedMatrixNetId, newNetworkedMatrixNetID);
+		networkedMatrixNetId = newNetworkedMatrixNetID;
 	}
 
 
@@ -373,6 +407,60 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 			LocalPositionServer = Vector3Int.RoundToInt(transform.localPosition);
 			LocalPositionClient = Vector3Int.RoundToInt(transform.localPosition);
 		}
+	}
+
+	private List<Action<MatrixInfo>> matrixManagerDependantActions = new List<Action<MatrixInfo>>();
+	private bool listenerAdded = false;
+	private MatrixInfo pendingInfo;
+
+	/// <summary>
+	/// If your start initialization relies on Matrix being
+	/// initialized with the correct MatrixInfo then send the action here.
+	/// It will wait until the matrix is properly configured
+	/// before calling the action
+	/// </summary>
+	/// <param name="initAction">Action to call when the Matrix is configured</param>
+	public void WaitForMatrixInit(Action<MatrixInfo> initAction)
+	{
+		matrixManagerDependantActions.Add(initAction);
+		if (!matrix.MatrixInfoConfigured)
+		{
+			if (!listenerAdded)
+			{
+				listenerAdded = true;
+				matrix.OnConfigLoaded += MatrixManagerInitAction;
+			}
+		}
+		else
+		{
+			MatrixManagerInitAction(matrix.MatrixInfo);
+		}
+	}
+
+	private void MatrixManagerInitAction(MatrixInfo matrixInfo)
+	{
+		if (!MatrixManager.IsInitialized)
+		{
+			pendingInfo = matrixInfo;
+			return;
+		}
+
+		if (listenerAdded)
+		{
+			listenerAdded = false;
+			matrix.OnConfigLoaded -= MatrixManagerInitAction;
+		}
+
+		foreach (var a in matrixManagerDependantActions)
+		{
+			a.Invoke(matrixInfo);
+		}
+		matrixManagerDependantActions.Clear();
+	}
+
+	void MatrixManagerInit()
+	{
+		MatrixManagerInitAction(pendingInfo);
 	}
 
 	public void UnregisterClient()
@@ -658,7 +746,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// Uses cached IFireExposable so no GC caused by GetComponent
 	/// </summary>
 	/// <param name="exposure"></param>
-	/// <exception cref="NotImplementedException"></exception>
 	public void OnExposed(FireExposure exposure)
 	{
 		if (fireExposables == null) return;

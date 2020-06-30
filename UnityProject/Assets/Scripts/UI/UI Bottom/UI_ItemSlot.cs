@@ -20,7 +20,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	[SerializeField]
 	[FormerlySerializedAs("NamedSlot")]
 	[Tooltip("For player inventory, named slot in player's ItemStorage that this UI slot corresponds to.")]
-	private NamedSlot namedSlot;
+	private NamedSlot namedSlot = NamedSlot.back;
 	public NamedSlot NamedSlot => namedSlot;
 
 	[Tooltip("whether this is for the local player's top level inventory or will be instead used" +
@@ -34,7 +34,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	[Tooltip("Whether this slot is initially visible in the UI.")]
 	[SerializeField]
-	private bool initiallyHidden;
+	private bool initiallyHidden = false;
 
 
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
@@ -93,16 +93,16 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	private void OnEnable()
 	{
-		SceneManager.sceneLoaded += OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
 	}
 
 	private void OnDisable()
 	{
-		SceneManager.sceneLoaded -= OnLevelFinishedLoading;
+		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
 	}
 
 	//Reset Item slot sprite on game restart
-	private void OnLevelFinishedLoading(Scene scene, LoadSceneMode mode)
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
 		sprite = null;
 		image.sprite = null;
@@ -177,8 +177,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	/// <param name="color">color tint to apply</param>
 	public void UpdateImage(GameObject item = null, Color? color = null)
 	{
-		var nullItem = item == null;
-		var forceColor = color != null;
+		bool nullItem = item == null;
+		bool forceColor = color != null;
 
 		if (nullItem && Item != null)
 		{ // Case for when we have a hovered image and insert, then stop hovering
@@ -201,6 +201,21 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 				image = GetComponent<Image>();
 			}
 
+			var colorSync = item.GetComponent<SpriteColorSync>();
+			if (colorSync != null)
+			{	//later find a way to remove this listener when no longer needed
+				colorSync.OnColorChange.AddListener(TrackColor);
+
+				void TrackColor(Color newColor)
+				{
+					if (colorSync.SpriteRenderer != null
+					    && colorSync.SpriteRenderer.sprite == image.sprite)
+					{
+						image.color = newColor;
+					}
+				}
+			}
+
 			ItemAttributesV2 itemAttrs = item.GetComponent<ItemAttributesV2>();
 
 			spriteRends = spriteRends.Where(x => x.sprite != null && x != Highlight.instance.spriteRenderer).ToArray();
@@ -219,7 +234,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			{
 				image.material.SetInt("_IsPaletted", 0);
 			}
-			
+
 
 			if (spriteRends.Length > 1)
 			{
@@ -228,6 +243,11 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 					SetSecondaryImage(spriteRends[1].sprite);
 					secondaryImage.color = spriteRends[1].color;
 				}
+			}
+			else
+			{
+				// reset from prev secondary image
+				SetSecondaryImage(null);
 			}
 
 			//determine if we should show an amount
@@ -295,11 +315,9 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			return;
 		}
-
 		sprite = null;
 		image.enabled = false;
 		secondaryImage.enabled = false;
-		ControlTabs.CheckTabClose();
 		image.sprite = null;
 		secondarySprite = null;
 		secondaryImage.sprite = null;
@@ -307,6 +325,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			amountText.enabled = false;
 		}
+
 
 	}
 

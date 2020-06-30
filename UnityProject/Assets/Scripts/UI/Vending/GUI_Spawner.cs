@@ -11,11 +11,11 @@ public class GUI_Spawner : NetTab
 	private SpawnedObjectList spawnedObjectList;
 	private SpawnedObjectList SpawnedObjectList => spawnedObjectList ? spawnedObjectList : spawnedObjectList = this["MobList"] as SpawnedObjectList;
 
-	private NetUIElement infoDisplay;
-	private NetUIElement InfoDisplay => infoDisplay ? infoDisplay : infoDisplay = this["RandomText"];
+	private NetUIElement<string> infoDisplay;
+	private NetUIElement<string> InfoDisplay => infoDisplay ? infoDisplay : infoDisplay = (NetUIElement<string>)this["RandomText"];
 
-	private NetUIElement nestedPageName;
-	private NetUIElement NestedPageName => nestedPageName ? nestedPageName : nestedPageName = this["NestedPageName"];
+	private NetUIElement<string> nestedPageName;
+	private NetUIElement<string> NestedPageName => nestedPageName ? nestedPageName : nestedPageName = (NetUIElement<string>)this["NestedPageName"];
 
 	protected override void InitServer()
 	{
@@ -29,13 +29,14 @@ public class GUI_Spawner : NetTab
 		//Logic for updating mob entry's internal values to reflect set mob gameObject info
 		SpawnedObjectList.OnObjectChange.AddListener( ( newObject, elementName, element ) =>
 		{
+			var netElement = (NetUIElement<string>) element;
 			switch ( elementName )
 			{
 				case "MobName":
-					element.Value = newObject.ExpensiveName();
+					netElement.Value = newObject.ExpensiveName();
 					break;
 				case "MobIcon":
-					element.Value = newObject.NetId().ToString();
+					netElement.Value = newObject.NetId().ToString();
 					break;
 			}
 		} );
@@ -45,7 +46,7 @@ public class GUI_Spawner : NetTab
 	private IEnumerator Start()
 	{
 		yield return WaitFor.EndOfFrame;
-		
+
 		if ( IsServer )
 		{
 			//Storytelling
@@ -68,7 +69,7 @@ public class GUI_Spawner : NetTab
 
 	public void RefreshSubpageLabel( NetPage oldPage, NetPage newPage )
 	{
-		NestedPageName.SetValue = newPage.name;
+		NestedPageName.SetValueServer(newPage.name);
 	}
 
 	private static string[] tgt = ("One day while Andy was toggling, " +
@@ -77,7 +78,7 @@ public class GUI_Spawner : NetTab
 
 	private bool tgtMode;
 	private IEnumerator ToggleStory(int word) {
-		InfoDisplay.SetValue = tgt.Wrap(word);
+		InfoDisplay.SetValueServer(tgt.Wrap(word));
 		yield return WaitFor.Seconds(2);
 		if ( tgtMode ) {
 			StartCoroutine( ToggleStory(++word) );
@@ -152,7 +153,7 @@ public class GUI_Spawner : NetTab
 	}
 
 	private IEnumerator KeepFiring(int shot) {
-		var strings = PrefabEntryList.Value.Split( new[]{','}, StringSplitOptions.RemoveEmptyEntries );
+		var strings = PrefabEntryList.Value;
 		if ( strings.Length > 0 ) {
 			//See, this is pretty cool
 			string s = strings.Wrap( shot );

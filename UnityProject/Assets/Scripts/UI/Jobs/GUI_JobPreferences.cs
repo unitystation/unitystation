@@ -1,17 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using DatabaseAPI;
 
 /// <summary>
-/// Job priority enum used for setting job preferences
+/// A dictionary using JobType and Priority. Used to store a player's job preferences.
 /// </summary>
-public enum Priority
+public class JobPrefsDict : Dictionary<JobType, Priority>
 {
-	None = 0,
-	Low = 1,
-	Medium = 2,
-	High = 3
 }
 
 /// <summary>
@@ -26,15 +24,15 @@ public class GUI_JobPreferences : MonoBehaviour
 
 	[SerializeField]
 	[Tooltip("The job department template component")]
-	private JobDepartmentEntry departmentEntryTemplate;
+	private JobDepartmentEntry departmentEntryTemplate = null;
 
 	[SerializeField]
 	[Tooltip("The grid which contains all of the departments")]
-	private GameObject departmentGrid;
+	private GameObject departmentGrid = null;
 
 	[SerializeField]
 	[Tooltip("Image to hide the grid while it resizes")]
-	private GameObject gridShroud;
+	private GameObject gridShroud = null;
 
 	/// <summary>
 	/// A reference to each department entry so they can be destroyed later.
@@ -42,7 +40,7 @@ public class GUI_JobPreferences : MonoBehaviour
 	private Dictionary<Department, GameObject> departmentEntries = new Dictionary<Department, GameObject>();
 
 	/// <summary>
-	/// References to each JobListEntry by JobType which areused to
+	/// References to each JobListEntry by JobType which are used to
 	/// change the dropdown values.
 	/// </summary>
 	private Dictionary<JobType, JobListEntry> jobEntries = new Dictionary<JobType, JobListEntry>();
@@ -51,18 +49,22 @@ public class GUI_JobPreferences : MonoBehaviour
 	/// Stores the job with the 'High' priority.
 	/// Used to ensure only one job has 'High' priority.
 	/// </summary>
-	// private JobType highPreference;
-
 	private JobListEntry highEntry;
 
 	/// <summary>
 	/// Stores all of the player's job preferences, with job type and priority.
 	/// </summary>
-	private Dictionary<JobType, Priority> jobPreferences = new Dictionary<JobType, Priority>();
+	private JobPrefsDict jobPreferences = new JobPrefsDict();
 
 	private void OnEnable()
 	{
 		PopulateJobs();
+		LoadJobPreferences();
+	}
+
+	private void OnDisable()
+	{
+		SaveJobPreferences();
 	}
 
 	/// <summary>
@@ -129,6 +131,7 @@ public class GUI_JobPreferences : MonoBehaviour
 	public void ResetAllPriorities()
 	{
 		SetAllPriorities(Priority.None);
+		highEntry = null;
 	}
 
 	/// <summary>
@@ -162,8 +165,11 @@ public class GUI_JobPreferences : MonoBehaviour
 		{
 			if (priority == Priority.High)
 			{
-				// Downgrade the previous High priority job to Medium
-				highEntry?.SetPriority(Priority.Medium);
+				if (highEntry != null)
+				{
+					// Downgrade the previous High priority job to Medium
+					highEntry.SetPriority(Priority.Medium);
+				}
 				highEntry = entry;
 			}
 
@@ -180,5 +186,27 @@ public class GUI_JobPreferences : MonoBehaviour
 
 		Logger.Log("Current Job Preferences:\n" +
 			string.Join("\n", jobPreferences.Select(a => $"{a.Key}: {a.Value}")), Category.UI);
+	}
+
+	/// <summary>
+	/// Saves the current job preferences to CurrentCharacterSettings and updates the character profile
+	/// </summary>
+	private void SaveJobPreferences()
+	{
+		PlayerManager.CurrentCharacterSettings.JobPreferences = jobPreferences;
+		ServerData.UpdateCharacterProfile(PlayerManager.CurrentCharacterSettings);
+	}
+
+	/// <summary>
+	/// Loads the job preferences from the CurrentCharacterSettings and updates jobPreferences via OnPriorityChange.
+	/// </summary>
+	private void LoadJobPreferences()
+	{
+		// Loop through all jobs and set the dropdown to the specified priority.
+		// This will update the local jobPreferences variable using OnPriorityChange.
+		foreach (var jobPref in PlayerManager.CurrentCharacterSettings.JobPreferences)
+		{
+			jobEntries[jobPref.Key].SetPriority(jobPref.Value);
+		}
 	}
 }

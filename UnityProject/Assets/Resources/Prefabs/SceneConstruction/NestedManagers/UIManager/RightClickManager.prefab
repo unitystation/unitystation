@@ -9,10 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224773499843073022}
-  - component: {fileID: 114131307772584132}
   - component: {fileID: 114825888091262930}
+  - component: {fileID: 9057951774136607918}
   m_Layer: 5
-  m_Name: Right click canvas
+  m_Name: RightClickManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37,20 +37,6 @@ RectTransform:
   m_AnchoredPosition: {x: 615.5, y: 315}
   m_SizeDelta: {x: 1231, y: 630}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &114131307772584132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1075028059015538}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54eff5db6d9652f44b049ca7a931a4c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rightClickOptionOrder: {fileID: 11400000, guid: 69ad514d4b1e18944b47bad4e6dfcfa5,
-    type: 2}
 --- !u!114 &114825888091262930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -65,3 +51,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   menuPrefab: {fileID: 114717335588206916, guid: 5b514e1e0e5ff994c92091a33ecb7ec0,
     type: 3}
+--- !u!114 &9057951774136607918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1075028059015538}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 22b6a389301ee2045b529d9247cd13ea, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rightClickOptionOrder: {fileID: 11400000, guid: 69ad514d4b1e18944b47bad4e6dfcfa5,
+    type: 2}
+  VariableViewerOption: {fileID: 11400000, guid: c3d5ebc9676a5294787f59f29e369dcf,
+    type: 2}

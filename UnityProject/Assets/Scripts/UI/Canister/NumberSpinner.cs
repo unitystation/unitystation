@@ -5,7 +5,7 @@ using Mirror;
 /// <summary>
 /// Controls an entire number spinner - a display made up of DigitSpinners.
 /// </summary>
-public class NumberSpinner : NetUIElement
+public class NumberSpinner : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
@@ -89,7 +89,7 @@ public class NumberSpinner : NetUIElement
 				Category.UI, newValue, MaxValue);
 		}
 		//set the new value, to be propagated to clients.
-		SetValue = newValue.ToString();
+		SetValueServer(newValue.ToString());
 	}
 
 	public void DisplaySpinAdjust(int offset)
@@ -240,7 +240,7 @@ public class NumberSpinner : NetUIElement
 
 	public StringEvent ServerMethod;
 
-	public override void ExecuteServer() {
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke(Value);
 	}
 }

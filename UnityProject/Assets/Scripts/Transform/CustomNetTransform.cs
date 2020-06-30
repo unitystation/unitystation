@@ -6,8 +6,11 @@ using Mirror;
 
 // ReSharper disable CompareOfFloatsByEqualityOperator
 
-public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IRightClickable //see UpdateManager
+public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //see UpdateManager
 {
+	[SerializeField][Tooltip("When the scene loads, snap this to the middle of the nearest tile?")]
+	private bool snapToGridOnStart = true;
+
 	//I think this is valid server side only
 	public bool VisibleState {
 		get => ServerPosition != TransformState.HiddenPos;
@@ -74,7 +77,6 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	/// </summary>
 	private enum MotionStateEnum { Moving, Still }
 
-	private Coroutine limboHandle;
 	private MotionStateEnum motionState = MotionStateEnum.Moving;
 	/// <summary>
 	/// Used to determine if this transform is worth updating every frame
@@ -91,8 +93,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 
 			if ( value == MotionStateEnum.Moving )
 			{
-				StopCoroutine(limboHandle);
-
+				doMotionCheck = false;
 				// In the case we become Still and then Moving again in one second, we're still updating because freeze timer hasn't finished yet.
 				// Checking here if timer has passed yet (so we're no longer updating), if we are still updating we don't have to call OnEnable again.
 				if (!IsUpdating)
@@ -100,24 +101,16 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			}
 			else
 			{
-				this.RestartCoroutine( FreezeWithTimeout(), ref limboHandle );
+				motionCheckTime = 0f;
+				doMotionCheck = true;
 			}
 
 			motionState = value;
 		}
 	}
 
-	/// <summary>
-	/// Waits 5 seconds and unsubscribes this CNT from Update() cycle
-	/// </summary>
-	private IEnumerator FreezeWithTimeout()
-	{
-		yield return WaitFor.Seconds(5);
-		if ( MotionState == MotionStateEnum.Still )
-		{
-			base.OnDisable();
-		}
-	}
+	private bool doMotionCheck = false;
+	private float motionCheckTime = 0f;
 
 	private RegisterTile registerTile;
 	public RegisterTile RegisterTile => registerTile;
@@ -169,6 +162,28 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		MotionState = MotionStateEnum.Moving;
 	}
 
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		Collider2D[] colls = GetComponents<Collider2D>();
+		foreach (var c in colls)
+		{
+			c.enabled = false;
+		}
+
+		if ( !registerTile )
+		{
+			registerTile = GetComponent<RegisterTile>();
+		}
+
+		registerTile.WaitForMatrixInit(InitClientState);
+	}
+
+	private void InitClientState(MatrixInfo info)
+	{
+		CustomNetTransformNewPlayer.Send(netId);
+	}
+
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
@@ -178,19 +193,24 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	[Server]
 	private void InitServerState()
 	{
-
 		if ( IsHiddenOnInit ) {
 			return;
 		}
 
-		//If object is supposed to be hidden, keep it that way
-		serverState.Speed = 0;
-		serverState.SpinRotation = transform.localRotation.eulerAngles.z;
-		serverState.SpinFactor = 0;
 		if ( !registerTile )
 		{
 			registerTile = GetComponent<RegisterTile>();
 		}
+
+		registerTile.WaitForMatrixInit(PerformServerStateInit);
+	}
+
+	private void PerformServerStateInit(MatrixInfo info)
+	{
+		//If object is supposed to be hidden, keep it that way
+		serverState.Speed = 0;
+		serverState.SpinRotation = transform.localRotation.eulerAngles.z;
+		serverState.SpinFactor = 0;
 
 		if ( registerTile )
 		{
@@ -204,9 +224,17 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			{
 				serverState.MatrixId = matrixInfo.Id;
 			}
-			serverState.Position = ((Vector2)transform.localPosition).RoundToInt();
 
-		} else
+			if (snapToGridOnStart)
+			{
+				serverState.Position = ((Vector2)transform.localPosition).RoundToInt();
+			}
+			else
+			{
+				serverState.Position = ((Vector2)transform.localPosition);
+			}
+		}
+		else
 		{
 			serverState.MatrixId = 0;
 			Logger.LogWarning( $"{gameObject.name}: unable to detect MatrixId!", Category.Transform );
@@ -215,6 +243,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 		registerTile.UpdatePositionServer();
 
 		serverLerpState = serverState;
+		NotifyPlayers();
 	}
 
 	/// Is it supposed to be hidden? (For init purposes)
@@ -237,9 +266,25 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	//managed by UpdateManager
 	public override void UpdateMe()
 	{
+		if (doMotionCheck) DoMotionCheck();
+
 		if ( this != null && !Synchronize() )
 		{
 			MotionState = MotionStateEnum.Still;
+		}
+	}
+
+	void DoMotionCheck()
+	{
+		motionCheckTime += Time.deltaTime;
+		if (motionCheckTime > 5f)
+		{
+			motionCheckTime = 0f;
+			doMotionCheck = false;
+			if (MotionState == MotionStateEnum.Still)
+			{
+				base.OnDisable();
+			}
 		}
 	}
 
@@ -455,6 +500,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	/// Registers if unhidden, unregisters if hidden
 	private void UpdateActiveStatusClient()
 	{
+		if (registerTile == null) return;
 		if (predictedState.Active)
 		{
 			registerTile.UpdatePositionClient();
@@ -485,6 +531,11 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 				registerTile.UnregisterServer();
 			}
 		}
+		Collider2D[] colls = GetComponents<Collider2D>();
+		foreach (var c in colls)
+		{
+			c.enabled = serverState.Active;
+		}
 	}
 		#endregion
 
@@ -500,6 +551,13 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 			&& pushPull && pushPull.IsPulledByClient( PlayerManager.LocalPlayerScript?.pushPull) )
 		{
 			return;
+		}
+
+		//We want to toggle the colls before moving the transform
+		Collider2D[] colls = GetComponents<Collider2D>();
+		foreach (var c in colls)
+		{
+			c.enabled = newState.Active;
 		}
 
 		//Don't lerp (instantly change pos) if active state was changed
@@ -548,26 +606,8 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable, IR
 	/// </summary>
 	/// <param name="playerGameObject">Whom to notify</param>
 	[Server]
-	public void NotifyPlayer(GameObject playerGameObject) {
+	public void NotifyPlayer(NetworkConnection playerGameObject) {
 		TransformStateMessage.Send(playerGameObject, gameObject, serverState);
-	}
-
-	public RightClickableResult GenerateRightClickOptions()
-	{
-		if (string.IsNullOrEmpty(PlayerList.Instance.AdminToken))
-		{
-			return null;
-		}
-
-		return RightClickableResult.Create()
-			.AddAdminElement("Respawn", AdminRespawn);
-	}
-
-	//simulates despawning and immediately respawning this object, expectation
-	//being that it should properly initialize itself regardless of its previous state.
-	private void AdminRespawn()
-	{
-		PlayerManager.PlayerScript.playerNetworkActions.CmdAdminRespawn(gameObject, ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 
 	// Checks if the object is occupiable and update occupant position if it's occupied (ex: a chair)

@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -90,7 +91,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4565968712808758}
   - component: {fileID: 61967111112008582}
-  - component: {fileID: 61665323473156212}
   - component: {fileID: 114020636723924386}
   - component: {fileID: 114867396419559272}
   - component: {fileID: 114183243700281508}
@@ -100,6 +100,7 @@ GameObject:
   - component: {fileID: 114663309010729824}
   - component: {fileID: 3065337277714499866}
   - component: {fileID: -4444550712224746429}
+  - component: {fileID: 7458561619098169524}
   m_Layer: 11
   m_Name: WeldingFuel
   m_TagString: Untagged
@@ -148,32 +149,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.86083984, y: 0.76794434}
   m_EdgeRadius: 0
---- !u!61 &61665323473156212
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1942658981970304}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114020636723924386
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +163,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114867396419559272
 MonoBehaviour:
@@ -244,6 +220,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114281300273992844
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,7 +233,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114350845769575412
@@ -273,6 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -306,10 +283,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
-  m_AssetId: ecdfcc2ad92d8b846a04f0b050fdf377
-  m_SceneId: 0
+  m_AssetId: 
 --- !u!114 &3065337277714499866
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,17 +315,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 1000
-  itemAttributes: {fileID: 0}
-  InSolidForm: 0
-  Reagents:
-  - welding_fuel
-  Amounts:
-  - 1000
-  TraitWhitelist: []
-  ReagentWhitelist:
-  - welding_fuel
-  TransferMode: 2
-  InitialTransferAmount: 20
-  PossibleTransferAmounts: []
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist:
+  - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+  transferMode: 2
+  possibleTransferAmounts: []
+  transferAmount: 20
+  maxCapacity: 3000
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  initialReagentMix:
+    temperature: 273.15
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+      m_values:
+      - 3000
+  destroyOnEmpty: 0
+--- !u!114 &7458561619098169524
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942658981970304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

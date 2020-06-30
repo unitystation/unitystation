@@ -1,39 +1,54 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 /// <summary>
 /// The job entry script which allows setting the entry text and image.
+/// Also displays job info when hovering the mouse over it.
 /// </summary>
 public class JobListEntry : MonoBehaviour
 {
 	[SerializeField]
 	[Tooltip("The job TMP label component")]
-	private TMP_Text jobName;
+	private TMP_Text jobName = null;
+
 	[SerializeField]
 	[Tooltip("The job image component")]
-	private Image jobImage;
+	private Image jobImage = null;
 
 	[SerializeField]
 	[Tooltip("The priority dropdown component for this job")]
-	private TMP_Dropdown dropdown;
+	private TMP_Dropdown dropdown = null;
 
 	[SerializeField]
-	private GUI_JobPreferences jobPreferences;
+	[Tooltip("The main job preferences window")]
+	private GUI_JobPreferences jobPreferences = null;
 
-	private JobType jobType;
+	[SerializeField]
+	[Tooltip("The job info window")]
+	private GUI_JobInfo jobInfo = null;
+
+	[SerializeField]
+	[Tooltip("The EventTrigger Component")]
+	private EventTrigger eventTrigger = null;
+	private Occupation occupation;
 
 	/// <summary>
 	/// Sets all fields for this entry from an occupation
 	/// </summary>
-	/// <param name="occupation"></param>
-	public void Setup(Occupation occupation)
+	/// <param name="newOccupation"></param>
+	public void Setup(Occupation newOccupation)
 	{
-		jobType = occupation.JobType;
-		jobName.text = occupation.DisplayName;
-		jobImage.sprite = occupation.PreviewSprite;
+		occupation = newOccupation;
+		jobName.text = newOccupation.DisplayName;
+		jobImage.sprite = newOccupation.PreviewSprite;
+
+		// Job window listener
+		// Adds an OnPointerEnter event which updates the jobInfo window with this entry's occupation info
+		EventTrigger.Entry entry = new EventTrigger.Entry {eventID = EventTriggerType.PointerEnter};
+		entry.callback.AddListener((eventData) => { jobInfo.Job = occupation; });
+		eventTrigger.triggers.Add(entry);
 	}
 
 	/// <summary>
@@ -52,6 +67,6 @@ public class JobListEntry : MonoBehaviour
 	public void OnValueChanged(int value)
 	{
 		Priority priority = (Priority)value;
-		jobPreferences.OnPriorityChange(jobType, priority, this);
+		jobPreferences.OnPriorityChange(occupation.JobType, priority, this);
 	}
 }

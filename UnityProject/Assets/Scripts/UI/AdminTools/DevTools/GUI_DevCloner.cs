@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -166,7 +167,7 @@ public class GUI_DevCloner : MonoBehaviour
 					}
 					else
 					{
-						DevCloneMessage.Send(toClone, (Vector3) position);
+						DevCloneMessage.Send(toClone, (Vector3) position, ServerData.UserID, PlayerList.Instance.AdminToken);
 					}
 				}
 			}

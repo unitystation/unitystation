@@ -1,11 +1,14 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using Electric.Inheritance;
 using UnityEngine;
 using Mirror;
 
 /// <summary>
 /// Allows object to function as a door switch - opening / closing door when clicked.
 /// </summary>
-public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>
 {
 	private SpriteRenderer spriteRenderer;
 	public Sprite greenSprite;
@@ -76,6 +79,8 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		for (int i = 0; i < doorControllers.Length; i++)
 		{
+			if(doorControllers[i] == null) continue;
+
 			if (doorControllers[i].IsClosed)
 			{
 				if (doorControllers[i] != null)
@@ -146,6 +151,8 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 		spriteRenderer.sprite = greenSprite;
 	}
 
+	#region Editor
+
 	void OnDrawGizmosSelected()
 	{
 		var sprite = GetComponentInChildren<SpriteRenderer>();
@@ -153,12 +160,47 @@ public class DoorSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>
 			return;
 
 		//Highlighting all controlled doors with red lines and spheres
-		Gizmos.color = new Color(1, 0, 0, 1);
+		Gizmos.color = new Color(1, 0.5f, 0, 1);
 		for (int i = 0; i < doorControllers.Length; i++)
 		{
 			var doorController = doorControllers[i];
+			if(doorController == null) continue;
 			Gizmos.DrawLine(sprite.transform.position, doorController.transform.position);
 			Gizmos.DrawSphere(doorController.transform.position, 0.25f);
 		}
 	}
+
+	public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+	{
+		var approvedObjects = new List<GameObject>();
+
+		foreach (var potentialObject in potentialObjects)
+		{
+			var doorController = potentialObject.GetComponent<DoorController>();
+			if (doorController == null) continue;
+			AddDoorControllerFromScene(doorController);
+			approvedObjects.Add(potentialObject);
+		}
+
+		return approvedObjects;
+	}
+
+	private void AddDoorControllerFromScene(DoorController doorController)
+	{
+		if (doorControllers.Contains(doorController))
+		{
+			var list = doorControllers.ToList();
+			list.Remove(doorController);
+			doorControllers = list.ToArray();
+		}
+		else
+		{
+			var list = doorControllers.ToList();
+			list.Add(doorController);
+			doorControllers = list.ToArray();
+		}
+	}
+
+	#endregion
+
 }

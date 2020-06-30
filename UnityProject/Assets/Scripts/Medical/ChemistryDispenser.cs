@@ -1,17 +1,21 @@
-﻿﻿﻿using System;
-  using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
- using Mirror;
- using UnityEngine;
+using Chemistry.Components;
+using Mirror;
+using UnityEngine;
 
 /// <summary>
 /// Main component for chemistry dispenser.
 /// </summary>
-public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApply> {
+public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowered
+{
+	public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
+		? itemSlot.ItemObject.GetComponent<ReagentContainer>()
+		: null;
 
-	public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null ?
-	                                     itemSlot.ItemObject.GetComponent<ReagentContainer>() : null;
-	public delegate void ChangeEvent ();
+	public delegate void ChangeEvent();
+
 	public static event ChangeEvent changeEvent;
 
 	private ItemStorage itemStorage;
@@ -23,14 +27,14 @@ public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApp
 		itemSlot = itemStorage.GetIndexedItemSlot(0);
 	}
 
-	private void  UpdateGUI()
+	private void UpdateGUI()
 	{
 		// Change event runs updateAll in ChemistryGUI
-   		if(changeEvent!=null)
+		if (changeEvent != null)
 		{
 			changeEvent();
 		}
- 	}
+	}
 
 	public void EjectContainer()
 	{
@@ -52,5 +56,15 @@ public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApp
 		//put the reagant container inside me
 		Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 		UpdateGUI();
+	}
+
+	//############################## power stuff ########################################
+	public PowerStates ThisState;
+
+	public void PowerNetworkUpdate(float Voltage) { }
+
+	public void StateUpdate(PowerStates State)
+	{
+		ThisState = State;
 	}
 }

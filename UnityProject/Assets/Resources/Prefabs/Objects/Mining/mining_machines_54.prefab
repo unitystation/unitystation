@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -90,7 +91,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4600215391598352}
   - component: {fileID: 61553389341611554}
-  - component: {fileID: 61108834247246526}
   - component: {fileID: 114553154410610264}
   - component: {fileID: 6253077211462791056}
   - component: {fileID: 114770512620025736}
@@ -100,6 +100,8 @@ GameObject:
   - component: {fileID: 114698186089058472}
   - component: {fileID: 114430213137055408}
   - component: {fileID: -5194193326582353321}
+  - component: {fileID: -4055719543417172584}
+  - component: {fileID: 6108340017713445561}
   m_Layer: 11
   m_Name: mining_machines_54
   m_TagString: Untagged
@@ -148,32 +150,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61108834247246526
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148151089360074}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114553154410610264
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -186,7 +162,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &6253077211462791056
@@ -214,8 +189,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 5761721405755449850, guid: 51db727353f37334c9bfdbb512f2d530, type: 3}
+  InitialVendorContent:
+  - Item: {fileID: 6700281191928912403, guid: 51db727353f37334c9bfdbb512f2d530, type: 3}
     Stock: 5
   - Item: {fileID: 2654578771155045139, guid: 5a7fa3c926dc42141889e9b72c5d314d, type: 3}
     Stock: 5
@@ -223,9 +198,25 @@ MonoBehaviour:
     Stock: 5
   - Item: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
     Stock: 5
+  - Item: {fileID: 6507000735928756314, guid: 672dc44f4c052d746aefa06b301785bd, type: 3}
+    Stock: 5
   HullColor: {r: 0.5882353, g: 0.4392157, b: 0.19607843, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 6700281191928912403, guid: 51db727353f37334c9bfdbb512f2d530, type: 3}
+    Stock: 5
+  - Item: {fileID: 2654578771155045139, guid: 5a7fa3c926dc42141889e9b72c5d314d, type: 3}
+    Stock: 5
+  - Item: {fileID: 2654578771155045139, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}
+    Stock: 5
+  - Item: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
+    Stock: 5
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114030207048474028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,6 +249,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114774815397134544
 MonoBehaviour:
@@ -272,6 +264,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114698186089058472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -319,10 +313,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
 --- !u!114 &-5194193326582353321
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,6 +333,46 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: mining vendor
   initialDescription: for all your mining needs
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &-4055719543417172584
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148151089360074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6108340017713445561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148151089360074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1

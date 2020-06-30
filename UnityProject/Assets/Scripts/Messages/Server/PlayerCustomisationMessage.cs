@@ -4,14 +4,13 @@ using Mirror;
 
 public class PlayerCustomisationMessage : ServerMessage
 {
-	public static short MessageType = (short)MessageTypes.PlayerCustomisationMessage;
 	public CharacterSettings Character;
 	public BodyPartSpriteName Part = BodyPartSpriteName.Null;
 	public uint EquipmentObject;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(EquipmentObject);
+		LoadNetworkObject(EquipmentObject);
 		if (NetworkObject != null)
 		{
 			NetworkObject.GetComponent<PlayerSprites>().SetupCharacterData(Character);
@@ -25,7 +24,7 @@ public class PlayerCustomisationMessage : ServerMessage
 		return msg;
 	}
 
-	public static PlayerCustomisationMessage SendTo(GameObject equipmentObject,  GameObject recipient, CharacterSettings Character = null)
+	public static PlayerCustomisationMessage SendTo(GameObject equipmentObject,  NetworkConnection recipient, CharacterSettings Character = null)
 	{
 		var msg = CreateMsg(equipmentObject, Character);
 		msg.SendTo(recipient);

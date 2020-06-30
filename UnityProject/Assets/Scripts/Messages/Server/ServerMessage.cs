@@ -10,7 +10,7 @@ public abstract class ServerMessage : GameMessageBase
 {
 	public void SendToAll()
 	{
-		NetworkServer.SendToAll(GetMessageType(), this);
+		NetworkServer.SendToAll(this, 0);
 		Logger.LogTraceFormat("SentToAll {0}", Category.NetMessage, this);
 	}
 
@@ -28,7 +28,7 @@ public abstract class ServerMessage : GameMessageBase
 		{
 			if (connection.Value != null && connection.Value != excludedConnection)
 			{
-				connection.Value.Send(GetMessageType(), this);
+				connection.Value.Send(this, 0);
 			}
 		}
 
@@ -52,7 +52,7 @@ public abstract class ServerMessage : GameMessageBase
 //			only send to players that are currently controlled by a client
 		if (PlayerList.Instance.ContainsConnection(connection))
 		{
-			connection.Send(GetMessageType(), this);
+			connection.Send(this, 0);
 			Logger.LogTraceFormat("SentTo {0}: {1}", Category.NetMessage, recipient.name, this);
 		}
 		else
@@ -64,6 +64,12 @@ public abstract class ServerMessage : GameMessageBase
 		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
 	}
 
+	public void SendTo(NetworkConnection recipient)
+	{
+		if (recipient == null) return;
+		recipient.Send(this, 0);
+	}
+
 	/// <summary>
 	/// Sends the network message only to players who are visible from the
 	/// worldPosition
@@ -72,7 +78,6 @@ public abstract class ServerMessage : GameMessageBase
 	{
 		var players = PlayerList.Instance.AllPlayers;
 
-		RaycastHit2D hit;
 		LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
 		for (int i = players.Count - 1; i > 0; i--)
 		{
@@ -99,9 +104,9 @@ public abstract class ServerMessage : GameMessageBase
 		{
 			if (player == null || player.Script == null || player.Script.netIdentity == null) continue;
 
-			if (PlayerList.Instance.ContainsConnection(player.Script.netIdentity.connectionToClient))
+			if (PlayerList.Instance.ContainsConnection(player.Connection))
 			{
-				player.Script.netIdentity.connectionToClient.Send(GetMessageType(),this);
+				player.Connection.Send(this, 0);
 			}
 		}
 	}
@@ -128,9 +133,22 @@ public abstract class ServerMessage : GameMessageBase
 		{
 			if (player.Script == null) continue;
 
-			if (PlayerList.Instance.ContainsConnection(player.Script.netIdentity.connectionToClient))
+			if (PlayerList.Instance.ContainsConnection(player.Connection))
 			{
-				player.Script.netIdentity.connectionToClient.Send(GetMessageType(),this);
+				player.Connection.Send(this, 0);
+			}
+		}
+	}
+
+	public void SendToAdmins()
+	{
+		var admins = PlayerList.Instance.GetAllAdmins();
+
+		foreach (var admin in admins)
+		{
+			if (PlayerList.Instance.ContainsConnection(admin.Connection))
+			{
+				admin.Connection.Send(this, 0);
 			}
 		}
 	}

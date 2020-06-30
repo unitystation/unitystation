@@ -5,22 +5,20 @@ using UnityEngine;
 
 public class OpenBookIDNetMessage : ClientMessage
 {
-	public static short MessageType = (short) MessageTypes.RequestOpenBookIDNetMessage;
 	public ulong BookID;
 	public string AdminId;
 	public string AdminToken;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		ValidateAdmin();
-		yield return null;
 	}
 
 	void ValidateAdmin()
 	{
 		var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
 		if (admin == null) return;
-		VariableViewer.RequestSendBook(BookID);
+		VariableViewer.RequestSendBook(BookID, SentByPlayer.GameObject);
 	}
 
 

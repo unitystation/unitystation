@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// Holds value of what sprite to load
 /// sprite-based
 [RequireComponent(typeof(Image))]
-public class NetSpriteImage : NetUIElement
+public class NetSpriteImage : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	public static Dictionary<string, Sprite[]> Sprites = new Dictionary<string, Sprite[]>();
@@ -52,7 +52,7 @@ public class NetSpriteImage : NetUIElement
 	/// </summary>
 	public void SetComplicatedValue(string spriteSheet, int spriteOffset)
 	{
-		SetValue = $"{spriteSheet}@{spriteOffset.ToString()}";
+		SetValueServer($"{spriteSheet}@{spriteOffset.ToString()}");
 	}
 
 	private Image element;
@@ -66,5 +66,5 @@ public class NetSpriteImage : NetUIElement
 		}
 	}
 
-	public override void ExecuteServer() {}
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 }

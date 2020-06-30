@@ -18,10 +18,17 @@ using UnityEngine.Serialization;
 public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IClientInteractable<HandActivate>,
 	 IClientInteractable<InventoryApply>, IServerInventoryMove, IServerSpawn, IExaminable
 {
-	//constants for calculating screen shake due to recoil
+	//constants for calculating screen shake due to recoil. Currently unused.
+	/*
 	private static readonly float MAX_PROJECTILE_VELOCITY = 48f;
 	private static readonly float MAX_SHAKE_INTENSITY = 1f;
 	private static readonly float MIN_SHAKE_INTENSITY = 0.01f;
+	*/
+
+	[SerializeField]
+	private GameObject ammoPrefab = null;
+	[SerializeField]
+	private GameObject casingPrefab = null;
 
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
@@ -29,7 +36,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	[FormerlySerializedAs("AmmoType")] public AmmoType ammoType;
 
 	//server-side object indicating the player holding the weapon (null if none)
-	private GameObject serverHolder;
+	protected GameObject serverHolder;
 
 
 	/// <summary>
@@ -48,6 +55,12 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// </summary>
 	[HideInInspector]
 	public bool MagInternal = false;
+
+
+	/// <summary>
+	/// State whether or not you can remove the mag from the gun
+	/// </summary>
+	public bool CanRemovableMag = true;
 
 	/// <summary>
 	///     If the gun should eject it's magazine automatically (external-magazine-specific)
@@ -120,9 +133,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	///     Current Weapon Type
 	/// </summary>
 	public WeaponType WeaponType;
-
-	private GameObject casingPrefab;
-
 	/// <summary>
 	/// Used only in server, the queued up shots that need to be performed when the weapon FireCountDown hits
 	/// 0.
@@ -201,7 +211,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
 
 			//AmmoPrefabs
-			GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
+			//GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
 
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 		}
@@ -242,7 +252,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//firing countdown
 		if (Projectile != null && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 		{
-			if (SmartGun) // should be forced off when using an internal magazine
+			if (SmartGun && CanRemovableMag) // should be forced off when using an internal magazine
 			{
 				RequestUnload(CurrentMagazine);
 				OutOfAmmoSFX();
@@ -300,7 +310,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	//nothing to rollback
 	public void ServerRollbackClient(AimApply interaction) { }
 
-	public void ServerPerformInteraction(AimApply interaction)
+	public virtual void ServerPerformInteraction(AimApply interaction)
 	{
 		//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
 		//case 1 - we are beginning a new shot, need to see if we are shooting ourselves
@@ -323,7 +333,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	public bool Interact(HandActivate interaction)
 	{
 		//try ejecting the mag if external
-		if (CurrentMagazine != null && !MagInternal)
+		if (CurrentMagazine != null && !MagInternal && CanRemovableMag)
 		{
 			RequestUnload(CurrentMagazine);
 			return true;
@@ -398,7 +408,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			DequeueAndProcessServerShot();
 		}
 
-		if (queuedUnload && queuedShots.Count == 0)
+		if (queuedUnload && queuedShots.Count == 0 && CanRemovableMag)
 		{
 			// done processing shot queue,
 			// perform the queued unload action, causing all clients and server to update their version of this Weapon
@@ -560,6 +570,8 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	public void DisplayShot(GameObject shooter, Vector2 finalDirection,
 		BodyPartType damageZone, bool isSuicideShot)
 	{
+		if (!MatrixManager.IsInitialized) return;
+
 		//if this is our gun (or server), last check to ensure we really can shoot
 		if ((isServer || PlayerManager.LocalPlayer == shooter) &&
 			CurrentMagazine.ClientAmmoRemains <= 0)
@@ -605,7 +617,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//display the effects of the shot
 
 		//get the bullet prefab being shot
-		GameObject bullet = Spawn.ClientPrefab(Resources.Load(Projectile.name) as GameObject,
+		GameObject bullet = Spawn.ClientPrefab(Projectile.name,
 			shooter.transform.position).GameObject;
 		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
 		if (isSuicideShot)
@@ -616,7 +628,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			b.Shoot(finalDirection, shooter, this, damageZone);
 		}
-		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position);
+		SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
 		shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 	}
 
@@ -704,12 +716,12 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private void OutOfAmmoSFX()
 	{
-		SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position);
+		SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position, sourceObj: serverHolder);
 	}
 
 	private void PlayEmptySFX()
 	{
-		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position);
+		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
 	}
 
 	#endregion

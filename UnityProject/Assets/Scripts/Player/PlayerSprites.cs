@@ -1,12 +1,9 @@
-﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Light2D;
-using NUnit.Framework.Constraints;
-using UnityEngine;
-using Utility = UnityEngine.Networking.Utility;
 using Mirror;
+using UnityEngine;
 
 /// <summary>
 /// Handle displaying the sprites related to player, which includes underwear and the body.
@@ -19,6 +16,7 @@ public class PlayerSprites : MonoBehaviour
 {
 	private static GameObject ENGULFED_BURNING_OVERLAY_PREFAB;
 	private static GameObject PARTIAL_BURNING_OVERLAY_PREFAB;
+	private static GameObject ELECTROCUTED_OVERLAY_PREFAB;
 
 	/// <summary>
 	/// Threshold value where we switch from partial burning to fully engulfed sprite.
@@ -37,14 +35,16 @@ public class PlayerSprites : MonoBehaviour
 	public readonly Dictionary<string, ClothingItem> clothes = new Dictionary<string, ClothingItem>();
 
 	private Directional directional;
-	private BurningDirectionalOverlay engulfedBurningOverlay;
-	private BurningDirectionalOverlay partialBurningOverlay;
+	private PlayerDirectionalOverlay engulfedBurningOverlay;
+	private PlayerDirectionalOverlay partialBurningOverlay;
+	private PlayerDirectionalOverlay electrocutedOverlay;
 	private LivingHealthBehaviour livingHealthBehaviour;
 	private PlayerScript playerScript;
 	private PlayerHealth playerHealth;
 	private PlayerSync playerSync;
 
 	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
+	private	ulong overflow = 0UL;
 	/// <summary>
 	/// Define which piece of clothing are hidden (not rendering) right now
 	/// </summary>
@@ -55,222 +55,172 @@ public class PlayerSprites : MonoBehaviour
 
 	protected void Awake()
 	{
+		directional = GetComponent<Directional>();
+		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
+
+		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
+		{
+			clothes[c.name] = c;
+			// add listener in case clothing was changed
+			c.OnClothingEquiped += OnClothingEquipped;
+		}
+
+		//TODO: Remove Resources.Load calls, change to prefab references stored somewhere
 		if (ENGULFED_BURNING_OVERLAY_PREFAB == null)
 		{
 			ENGULFED_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("EngulfedBurningPlayer");
 			PARTIAL_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("PartialBurningPlayer");
+			ELECTROCUTED_OVERLAY_PREFAB = Resources.Load<GameObject>("ElectrocutedHumanoid");
 		}
 
-		if (engulfedBurningOverlay == null)
-		{
-			engulfedBurningOverlay = GameObject.Instantiate(ENGULFED_BURNING_OVERLAY_PREFAB, transform)
-				.GetComponent<BurningDirectionalOverlay>();
-			engulfedBurningOverlay.enabled = true;
-			engulfedBurningOverlay.StopBurning();
-			partialBurningOverlay = GameObject.Instantiate(PARTIAL_BURNING_OVERLAY_PREFAB, transform)
-				.GetComponent<BurningDirectionalOverlay>();
-			partialBurningOverlay.enabled = true;
-			partialBurningOverlay.StopBurning();
-		}
+		AddOverlayGameObjects();
 
-		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
+		directional.OnDirectionChange.AddListener(OnDirectionChange);
 		livingHealthBehaviour.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
 		OnClientFireStacksChange(livingHealthBehaviour.FireStacks);
+	}
 
-		//StaticSpriteHandler
-
-		directional = GetComponent<Directional>();
-		directional.OnDirectionChange.AddListener(OnDirectionChange);
-		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
+	/// <summary>
+	/// Instantiate and attach the sprite overlays if they don't exist
+	/// </summary>
+	private void AddOverlayGameObjects()
+	{
+		if (engulfedBurningOverlay == null)
 		{
-			clothes[c.name] = c;
-			// add listner in case clothing was changed
-			c.OnClothingEquiped += OnClothingEquipped;
+			engulfedBurningOverlay = Instantiate(ENGULFED_BURNING_OVERLAY_PREFAB, transform).GetComponent<PlayerDirectionalOverlay>();
+			engulfedBurningOverlay.enabled = true;
+			engulfedBurningOverlay.StopOverlay();
 		}
-
-		SetupBodySprites();
+		if (partialBurningOverlay == null)
+		{
+			partialBurningOverlay = Instantiate(PARTIAL_BURNING_OVERLAY_PREFAB, transform).GetComponent<PlayerDirectionalOverlay>();
+			partialBurningOverlay.enabled = true;
+			partialBurningOverlay.StopOverlay();
+		}
+		if (electrocutedOverlay == null)
+		{
+			electrocutedOverlay = Instantiate(ELECTROCUTED_OVERLAY_PREFAB, transform).GetComponent<PlayerDirectionalOverlay>();
+			electrocutedOverlay.enabled = true;
+			electrocutedOverlay.StopOverlay();
+		}
 	}
 
 	public void SetupCharacterData(CharacterSettings Character)
 	{
 		ThisCharacter = Character;
 		RaceTexture = Spawn.RaceData["human"];
-		SetupBodySprites();
-		SetupCustomisations();
+		SetupBodySpritesByGender();
+		SetupAllCustomisationSprites();
 		OnDirectionChange(directional.CurrentDirection);
-
 	}
 
-	public void SetupCustomisations()
+	/// <summary>
+	/// Sets up the sprites for all customisations (Hair and underclothes)
+	/// </summary>
+	public void SetupAllCustomisationSprites()
 	{
-		if (ThisCharacter.underwearName != "None")
-		{
-			clothes["underwear"].spriteHandler.spriteData = new SpriteData();
-			clothes["underwear"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
-				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.Underwear][ThisCharacter.underwearName].Equipped));
-			clothes["underwear"].spriteHandler.PushTexture();
-		}
-
-		if (ThisCharacter.socksName != "None")
-		{
-			clothes["socks"].spriteHandler.spriteData = new SpriteData();
-			clothes["socks"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
-				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.Socks][ThisCharacter.socksName].Equipped));
-			clothes["socks"].spriteHandler.PushTexture();
-		}
-
-
-		if (ThisCharacter.facialHairName != "None")
-		{
-			ColorUtility.TryParseHtmlString(ThisCharacter.facialHairColor, out var newColor);
-			clothes["beard"].spriteHandler.spriteData = new SpriteData();
-			clothes["beard"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
-				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.FacialHair][ThisCharacter.facialHairName].Equipped));
-			clothes["beard"].spriteHandler.SetColor(newColor);
-			clothes["beard"].spriteHandler.PushTexture();
-		}
-
-		if (ThisCharacter.hairStyleName != "None")
-		{
-			ColorUtility.TryParseHtmlString(ThisCharacter.hairColor, out var newColor);
-			clothes["Hair"].spriteHandler.spriteData = new SpriteData();
-			clothes["Hair"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(
-				Spawn.PlayerCustomisationData[
-					PlayerCustomisation.HairStyle][ThisCharacter.hairStyleName].Equipped));
-			clothes["Hair"].spriteHandler.SetColor(newColor);
-			clothes["Hair"].spriteHandler.PushTexture();
-		}
+		SetupCustomisationSprite(CustomisationType.Underwear, "underwear", ThisCharacter.UnderwearName);
+		SetupCustomisationSprite(CustomisationType.Socks, "socks", ThisCharacter.SocksName);
+		SetupCustomisationSprite(CustomisationType.FacialHair, "beard", ThisCharacter.FacialHairName, ThisCharacter.FacialHairColor);
+		SetupCustomisationSprite(CustomisationType.HairStyle, "Hair", ThisCharacter.HairStyleName, ThisCharacter.HairColor);
 	}
 
-	public void SetupBodySprites()
+	/// <summary>
+	/// Sets up the sprite for a specific customisation
+	/// </summary>
+	private void SetupCustomisationSprite(CustomisationType customisationType, string customisationKey, string customisationName, string htmlColor)
 	{
-		//RaceVariantTextureData
-		//Assuming male for now
-		SexSetupBodySprites(RaceTexture.Base);
-		if (ThisCharacter.Gender == Gender.Female)
+		if (ColorUtility.TryParseHtmlString(htmlColor, out var newColor))
 		{
-			SexSetupBodySprites(RaceTexture.Female);
+			SetupCustomisationSprite(customisationType, customisationKey, customisationName, newColor);
 		}
 		else
 		{
-			SexSetupBodySprites(RaceTexture.Male);
+			SetupCustomisationSprite(customisationType, customisationKey, customisationName);
 		}
 	}
 
-
-	public void SexSetupBodySprites(RaceVariantTextureData Variant)
+	/// <summary>
+	/// Sets up the sprite for a specific customisation
+	/// </summary>
+	private void SetupCustomisationSprite(CustomisationType customisationType, string customisationKey, string customisationName, Color? color = null)
 	{
-		ColorUtility.TryParseHtmlString(ThisCharacter.skinTone, out var newColor);
-
-		if (Variant.Torso.Texture != null)
+		if (customisationName != "None")
 		{
-			clothes["body_torso"].spriteHandler.spriteData = new SpriteData();
-			clothes["body_torso"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Variant.Torso));
-			clothes["body_torso"].spriteHandler.SetColor(newColor);
-			clothes["body_torso"].spriteHandler.PushTexture();
+			SpriteSheetAndData spriteSheetAndData = PlayerCustomisationDataSOs.Instance.Get(customisationType, ThisCharacter.Gender, customisationName).Equipped;
+			SetupSprite(spriteSheetAndData, customisationKey, color);
+		}
+	}
+
+	public void SetupBodySpritesByGender()
+	{
+		SetupAllBodySprites(RaceTexture.Base);
+		if (ThisCharacter.Gender == Gender.Female)
+		{
+			SetupAllBodySprites(RaceTexture.Female);
+		}
+		else
+		{
+			SetupAllBodySprites(RaceTexture.Male);
+		}
+	}
+
+	/// <summary>
+	/// Sets up the sprites for all body parts using the given RaceVariantTextureData
+	/// </summary>
+	public void SetupAllBodySprites(RaceVariantTextureData Variant)
+	{
+		Color? newSkinColor = null;
+		if (ColorUtility.TryParseHtmlString(ThisCharacter.SkinTone, out var tempSkinColor))
+		{
+			newSkinColor = tempSkinColor;
 		}
 
+		SetupBodySprite(Variant.Torso, "body_torso", newSkinColor);
+		SetupBodySprite(Variant.LegRight, "body_rightleg", newSkinColor);
+		SetupBodySprite(Variant.LegLeft, "body_leftleg", newSkinColor);
+		SetupBodySprite(Variant.ArmRight, "body_rightarm", newSkinColor);
+		SetupBodySprite(Variant.ArmLeft, "body_leftarm", newSkinColor);
+		SetupBodySprite(Variant.Head, "body_head", newSkinColor);
+		SetupBodySprite(Variant.HandRight, "body_right_hand", newSkinColor);
+		SetupBodySprite(Variant.HandLeft, "body_left_hand", newSkinColor);
 
-		if (Variant.LegRight.Texture != null)
+		Color? newEyeColor = null;
+		if (ColorUtility.TryParseHtmlString(ThisCharacter.EyeColor, out var tempEyeColor))
 		{
-			clothes["body_rightleg"].spriteHandler.spriteData = new SpriteData();
-			clothes["body_rightleg"].spriteHandler.spriteData.List
-				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.LegRight));
-			clothes["body_rightleg"].spriteHandler.SetColor(newColor);
-			clothes["body_rightleg"].spriteHandler.PushTexture();
+			newEyeColor = tempEyeColor;
 		}
 
+		SetupBodySprite(Variant.Eyes, "eyes", newEyeColor);
+	}
 
-		if (Variant.LegLeft.Texture != null)
+	/// <summary>
+	/// Sets up the sprite for a specific body part
+	/// </summary>
+	private void SetupBodySprite(SpriteSheetAndData variantBodypart, string bodypartKey, Color? color = null)
+	{
+		if (variantBodypart.Texture != null)
 		{
-			clothes["body_leftleg"].spriteHandler.spriteData = new SpriteData();
-			clothes["body_leftleg"].spriteHandler.spriteData.List
-				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.LegLeft));
-			clothes["body_leftleg"].spriteHandler.SetColor(newColor);
-			clothes["body_leftleg"].spriteHandler.PushTexture();
+			SetupSprite(variantBodypart, bodypartKey, color);
+		}
+	}
+
+	private void SetupSprite(SpriteSheetAndData spriteSheetAndData, string clothesDictKey, Color? color = null)
+	{
+		clothes[clothesDictKey].spriteHandler.spriteData = new SpriteData();
+		clothes[clothesDictKey].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(spriteSheetAndData));
+
+		if (color != null)
+		{
+			clothes[clothesDictKey].spriteHandler.SetColor(color.Value);
 		}
 
-		if (Variant.ArmRight.Texture != null)
-		{
-			clothes["body_rightarm"].spriteHandler.spriteData = new SpriteData();
-			clothes["body_rightarm"].spriteHandler.spriteData.List
-				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.ArmRight));
-			clothes["body_rightarm"].spriteHandler.SetColor(newColor);
-			clothes["body_rightarm"].spriteHandler.PushTexture();
-		}
-
-
-		if (Variant.ArmLeft.Texture != null)
-		{
-			clothes["body_leftarm"].spriteHandler.spriteData = new SpriteData();
-			clothes["body_leftarm"].spriteHandler.spriteData.List
-				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.ArmLeft));
-			clothes["body_leftarm"].spriteHandler.SetColor(newColor);
-			clothes["body_leftarm"].spriteHandler.PushTexture();
-		}
-
-
-		if (Variant.Head.Texture != null)
-		{
-			clothes["body_head"].spriteHandler.spriteData = new SpriteData();
-			clothes["body_head"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Variant.Head));
-			clothes["body_head"].spriteHandler.SetColor(newColor);
-			clothes["body_head"].spriteHandler.PushTexture();
-		}
-
-
-		if (Variant.HandRight.Texture != null)
-		{
-			clothes["body_right_hand"].spriteHandler.spriteData = new SpriteData();
-			clothes["body_right_hand"].spriteHandler.spriteData.List
-				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.HandRight));
-			clothes["body_right_hand"].spriteHandler.SetColor(newColor);
-			clothes["body_right_hand"].spriteHandler.PushTexture();
-		}
-
-
-		if (Variant.HandLeft.Texture != null)
-		{
-			clothes["body_left_hand"].spriteHandler.spriteData = new SpriteData();
-			clothes["body_left_hand"].spriteHandler.spriteData.List
-				.Add(SpriteFunctions.CompleteSpriteSetup(Variant.HandLeft));
-			clothes["body_left_hand"].spriteHandler.SetColor(newColor);
-			clothes["body_left_hand"].spriteHandler.PushTexture();
-		}
-
-		ColorUtility.TryParseHtmlString(ThisCharacter.eyeColor, out newColor);
-		if (Variant.Eyes.Texture != null)
-		{
-			clothes["eyes"].spriteHandler.spriteData = new SpriteData();
-			clothes["eyes"].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(Variant.Eyes));
-			clothes["eyes"].spriteHandler.SetColor(newColor);
-			clothes["eyes"].spriteHandler.PushTexture();
-		}
+		clothes[clothesDictKey].spriteHandler.PushTexture();
 	}
 
 	private void OnClientFireStacksChange(float newStacks)
 	{
-		if (newStacks <= 0)
-		{
-			engulfedBurningOverlay.StopBurning();
-			partialBurningOverlay.StopBurning();
-		}
-		else
-		{
-			if (newStacks >= FIRE_STACK_ENGULF_THRESHOLD)
-			{
-				engulfedBurningOverlay.Burn(directional.CurrentDirection);
-				partialBurningOverlay.StopBurning();
-			}
-			else
-			{
-				partialBurningOverlay.Burn(directional.CurrentDirection);
-				engulfedBurningOverlay.StopBurning();
-			}
-		}
+		UpdateBurningOverlays(newStacks, directional.CurrentDirection);
 	}
 
 	private void OnDirectionChange(Orientation direction)
@@ -281,20 +231,68 @@ public class PlayerSprites : MonoBehaviour
 			c.Direction = direction;
 		}
 
-		if (livingHealthBehaviour.FireStacks > 0)
+		UpdateBurningOverlays(livingHealthBehaviour.FireStacks, direction);
+		UpdateElectrocutionOverlay(direction);
+	}
+
+	/// <summary>
+	/// Toggle the electrocuted overlay for the player's mob. Assumes player mob is humanoid.
+	/// </summary>
+	public void ToggleElectrocutedOverlay()
+	{
+		if (electrocutedOverlay.OverlayActive)
 		{
-			if (livingHealthBehaviour.FireStacks >= FIRE_STACK_ENGULF_THRESHOLD)
-			{
-				engulfedBurningOverlay.Burn(direction);
-			}
-			else
-			{
-				partialBurningOverlay.Burn(direction);
-			}
+			electrocutedOverlay.StopOverlay();
+		}
+		else
+		{
+			electrocutedOverlay.StartOverlay(directional.CurrentDirection);
 		}
 	}
 
-	public void NotifyPlayer(GameObject recipient, bool clothItems = false)
+	private void UpdateElectrocutionOverlay(Orientation currentFacing)
+	{
+		if (electrocutedOverlay.OverlayActive)
+		{
+			electrocutedOverlay.StartOverlay(currentFacing);
+		}
+	}
+
+	/// <summary>
+	/// Updates whether burning sprites are showing and sets their facing
+	/// </summary>
+	private void UpdateBurningOverlays(float fireStacks, Orientation currentFacing)
+	{
+		if (fireStacks <= 0)
+		{
+			engulfedBurningOverlay.StopOverlay();
+			partialBurningOverlay.StopOverlay();
+		}
+		else if (fireStacks < FIRE_STACK_ENGULF_THRESHOLD)
+		{
+			partialBurningOverlay.StartOverlay(currentFacing);
+			engulfedBurningOverlay.StopOverlay();
+		}
+		else
+		{
+			engulfedBurningOverlay.StartOverlay(currentFacing);
+			partialBurningOverlay.StopOverlay();
+		}
+	}
+
+	public void OnCharacterSettingsChange(CharacterSettings characterSettings)
+	{
+		if (characterSettings == null)
+		{
+			characterSettings = new CharacterSettings();
+		}
+
+		SetupCharacterData(characterSettings);
+		// FIXME: this probably shouldn't send ALL of the character settings to everyone
+		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
+	}
+
+	public void NotifyPlayer(NetworkConnection recipient, bool clothItems = false)
 	{
 		if (!clothItems)
 		{
@@ -309,47 +307,6 @@ public class PlayerSprites : MonoBehaviour
 			}
 		}
 	}
-
-	public void OnCharacterSettingsChange(CharacterSettings characterSettings)
-	{
-		if (characterSettings == null)
-		{
-			characterSettings = new CharacterSettings();
-		}
-
-		SetupCharacterData(characterSettings);
-		//Torso
-		PlayerCustomisationMessage.SendToAll(gameObject, characterSettings);
-		//right leg
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_rightleg", characterSettings.rightLegSpriteIndex, newColor, characterSettings);
-		////left leg
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_leftleg", characterSettings.leftLegSpriteIndex, newColor, characterSettings);
-		////right arm
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_rightarm", characterSettings.rightArmSpriteIndex, newColor, characterSettings);
-		////left arm
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_leftarm", characterSettings.leftArmSpriteIndex, newColor, characterSettings);
-		////Head
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_head", characterSettings.headSpriteIndex, newColor, characterSettings);
-
-
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_right_hand", characterSettings.headSpriteIndex, newColor, characterSettings);
-		//PlayerCustomisationMessage.SendToAll(gameObject, "body_left_hand", characterSettings.headSpriteIndex, newColor, characterSettings);
-
-		//Eyes
-		//ColorUtility.TryParseHtmlString(characterSettings.eyeColor, out newColor);
-		//PlayerCustomisationMessage.SendToAll(gameObject, "eyes", 1, newColor);
-		////Underwear
-		//PlayerCustomisationMessage.SendToAll(gameObject, "underwear", characterSettings.underwearOffset, Color.white);
-		////Socks
-		//PlayerCustomisationMessage.SendToAll(gameObject, "socks", characterSettings.socksOffset, Color.white);
-		////Beard
-		//ColorUtility.TryParseHtmlString(characterSettings.facialHairColor, out newColor);
-		//PlayerCustomisationMessage.SendToAll(gameObject, "beard", characterSettings.facialHairOffset, newColor);
-		////Hair
-		//ColorUtility.TryParseHtmlString(characterSettings.hairColor, out newColor);
-		//PlayerCustomisationMessage.SendToAll(gameObject, "Hair", characterSettings.hairStyleOffset, newColor);
-	}
-
 
 	/// <summary>
 	/// Display the muzzle flash animation
@@ -367,15 +324,12 @@ public class PlayerSprites : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Returns true iff this playersprites has a clothing item for the specified named slot
+	/// Returns true if this playersprites has a clothing item for the specified named slot
 	/// </summary>
-	/// <param name="namedSlot"></param>
-	/// <returns></returns>
 	public bool HasClothingItem(NamedSlot? namedSlot)
 	{
 		return characterSprites.FirstOrDefault(ci => ci.Slot == namedSlot) != null;
 	}
-
 
 	private void OnClothingEquipped(ClothingV2 clothing, bool isEquiped)
 	{
@@ -383,15 +337,47 @@ public class PlayerSprites : MonoBehaviour
 
 		// if new clothes equiped, add new hide flags
 		if (isEquiped)
-			hideClothingFlags |= clothing.HideClothingFlags;
+		{
+			for (int n = 0; n < 11; n++)
+			{
+				//if both bits are enabled set the n'th bit in the overflow string
+				if (IsBitSet((ulong)clothing.HideClothingFlags,n) && (IsBitSet((ulong)hideClothingFlags,n)))
+				{
+					overflow |= 1UL << n;
+				}
+				else if (IsBitSet((ulong)clothing.HideClothingFlags,n)) //check if n'th bit is set to 1
+				{
+					ulong bytechange = (ulong)hideClothingFlags;
+					bytechange |= 1UL << n; //set n'th bit to 1
+					hideClothingFlags = (ClothingHideFlags)bytechange;
+				}
+			}
+		}
 		// if player get off old clothes, we need to remove old flags
 		else
-			hideClothingFlags ^= clothing.HideClothingFlags;
-
+		{
+			for (int n = 0; n < 11; n++) //repeat 11 times, once for each hide flag
+			{
+				if (IsBitSet(overflow,n)) //check if n'th bit in overflow is set to 1
+				{
+					overflow &= ~(1UL << n); //set n'th bit to 0
+				}
+				else if (IsBitSet((ulong)clothing.HideClothingFlags,n)) //check if n'th bit is set to 1
+				{
+					ulong bytechange = (ulong)hideClothingFlags;
+					bytechange &= ~(1UL << n); //set n'th bit to 0
+					hideClothingFlags = (ClothingHideFlags)bytechange;
+				}
+			}
+		}
 		// Update hide flags
 		ValidateHideFlags();
 	}
 
+	private bool IsBitSet(ulong b, int pos)
+	{
+   		return ((b >> pos) & 1) != 0;
+	}
 	private void ValidateHideFlags()
 	{
 		// Need to check all flags with their gameobject names...
@@ -424,22 +410,4 @@ public class PlayerSprites : MonoBehaviour
 		var isVisible = !hideClothingFlags.HasFlag(hideFlag);
 		clothes[name].gameObject.SetActive(isVisible);
 	}
-
-}
-
-public enum ClothingSprite
-{
-	body_torso,
-	body_rightleg,
-	body_leftleg,
-	body_rightarm,
-	body_leftarm,
-	body_head,
-	body_right_hand,
-	body_left_hand,
-	eyes,
-	underwear,
-	socks,
-	beard,
-	Hair,
 }

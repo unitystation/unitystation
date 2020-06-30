@@ -110,7 +110,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// Decrease ammo count by given number.
 	/// </summary>
 	/// <returns></returns>
-	public void ExpendAmmo(int amount = 1)
+	public virtual void ExpendAmmo(int amount = 1)
 	{
 		if (ClientAmmoRemains < amount)
 		{
@@ -166,6 +166,10 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		return ("Loaded " + toTransfer + (toTransfer == 1 ? " piece" : " pieces") + " of ammunition.");
 	}
 
+	/// <summary>
+	/// Returns true if it is possible to fill this magazine with the interaction target object,
+	/// which occurs when the interaction target is a clip of the same ammo type.
+	/// </summary>
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -173,7 +177,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
 
 		if (mag == null) return false;
-
+		if (mag == this) return false;
 		if (mag.ammoType != ammoType || !isClip) return false;
 
 		return true;
@@ -193,6 +197,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// </summary>
 	/// <returns></returns>
 	public double CurrentRNG()
+
 	{
 		double currentRNG = RNGContents[clientAmmoRemains];
 		Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, currentRNG, serverAmmoRemains, clientAmmoRemains);
@@ -207,18 +212,23 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 public enum AmmoType
 {
-	_12mm,
-	_5Point56mm,
 	_9mm,
-	_38,
-	_46x30mmtT,
+	uzi9mm,
+	smg9mm,
+	tommy9mm,
+	_10mm,
+	_46mm,
 	_50mm,
-	_357mm,
+	_556mm,
+	_38,
+	_45,
+	_50,
+	_357,
+	_762,
 	A762,
 	FusionCells,
 	Slug,
-	smg9mm,
 	Syringe,
-	uzi9mm,
+	Gasoline,
 	Internal
 }

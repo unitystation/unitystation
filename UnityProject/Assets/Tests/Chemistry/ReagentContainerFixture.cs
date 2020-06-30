@@ -1,82 +1,239 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using global::Chemistry;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
+using Chemistry.Components;
 
 namespace Tests.Chemistry
 {
-    public class ReactionContainerFixture
-    {
-		[SetUp]
-		public void SetUp() { }
-
-		private static ReagentContainer GetContainer(int maxCapacity, Dictionary<string, float> contents)
+	public class ReactionContainerFixture
+	{
+		private static ReagentContainer GetContainer(int maxCapacity, ReagentMix contents)
 		{
-			GameObject obj = new GameObject();
-			obj.AddComponent<ReagentContainer>();
-			ReagentContainer container = obj.GetComponent<ReagentContainer>();
-			container.MaxCapacity = maxCapacity;
-			container.AddReagents(contents);
+			var set = ScriptableObject.CreateInstance<ReactionSet>();
+			var container = ReagentContainer.Create(set, maxCapacity);
+			container.Add(contents);
+
 			return container;
 		}
 
-		private static void AssertContainerContentsEqualTo(ReagentContainer container, Dictionary<string, float> expected)
+		private static void AssertContainerContentsEqualTo(ReagentContainer container, ReagentMix expected)
 		{
-			Assert.AreEqual(expected.Count, container.Contents.Count);
+			Assert.AreEqual(expected.Count(), container.Count());
 			foreach (var pair in expected)
 			{
-				Assert.IsTrue(container.Contents.TryGetValue(pair.Key, out float val));
-				Assert.AreEqual(pair.Value, val, 0.00000001, $"Wrong amount of {pair.Key}.");
+				var val = container[pair.Key];
+
+				if (pair.Key)
+					Assert.AreEqual(pair.Value, val, 0.00000001, $"Wrong amount of {pair.Key}.");
+				else
+					Assert.AreEqual(pair.Value, val, 0.00000001);
 			}
 		}
 
-		private static readonly object[] ContainerInitialStateAndReagentsToAddAndFinalState = {
-			//Test adding without overflow
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 } }, new Dictionary<string, float>{ {"A", 10 } }, new Dictionary<string, float>{ {"A", 20} } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 } }, new Dictionary<string, float>{ {"B", 10 } }, new Dictionary<string, float>{ {"A", 10 }, { "B", 10 } } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 10 } }, new Dictionary<string, float>{ {"A", 5 } }, new Dictionary<string, float>{ {"A", 15 }, { "B", 10 } } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 10 } }, new Dictionary<string, float>{ {"A", 5 }, { "B", 20 } }, new Dictionary<string, float>{ {"A", 15 }, { "B", 30 } } },
-			new object[] { 50, new Dictionary<string, float>{ }, new Dictionary<string, float>{ {"A", 8 }, { "B", 22 } }, new Dictionary<string, float>{ {"A", 8 }, { "B", 22 } } },
-			//Test overflow
-			new object[] { 20, new Dictionary<string, float>{ { "A", 10 } }, new Dictionary<string, float>{ {"A", 10 } }, new Dictionary<string, float>{ {"A", 20} } },
-			new object[] { 20, new Dictionary<string, float>{ { "A", 10 } }, new Dictionary<string, float>{ {"A", 15 } }, new Dictionary<string, float>{ {"A", 20} } },
-			new object[] { 20, new Dictionary<string, float>{ { "A", 20 } }, new Dictionary<string, float>{ {"A", 10 } }, new Dictionary<string, float>{ {"A", 20} } },
-			//Test multiple overflow
-			new object[] { 20, new Dictionary<string, float>{ { "A", 10 } }, new Dictionary<string, float>{ {"A", 10 }, { "B", 10 } }, new Dictionary<string, float>{ {"A", 15}, { "B", 5 } } },
-			new object[] { 100, new Dictionary<string, float>{ { "A", 90 } }, new Dictionary<string, float>{ {"A", 90 }, { "B", 10 } }, new Dictionary<string, float>{ {"A", 99}, { "B", 1 } } },
-			new object[] { 10, new Dictionary<string, float>{ }, new Dictionary<string, float>{ { "A", 60 }, { "B", 10 }, { "C", 30 } }, new Dictionary<string, float>{ {"A", 6}, { "B", 1 }, { "C", 3 } } },
-		};
+		private static IEnumerable AdditionTestData()
+		{
+			var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			a.Name = "a";
+			var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			b.Name = "b";
+			var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			c.Name = "c";
 
-		[TestCaseSource(nameof(ContainerInitialStateAndReagentsToAddAndFinalState))]
-		public void GivenContainerWithReagents_WhenAddReagents_ThenContainerContainsCorrectAmountsOfReagents(int capacity,
-			Dictionary<string, float> initial, Dictionary<string, float> toAdd, Dictionary<string, float> final)
-        {
+			//Test adding without overflow
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(a, 10),
+				new ReagentMix(a, 10),
+				new ReagentMix(a, 20)
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(a, 10),
+				new ReagentMix(b, 10),
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}})
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				new ReagentMix(a, 5),
+				new ReagentMix(new DictionaryReagentFloat {{a, 15}, {b, 10}})
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				new ReagentMix(new DictionaryReagentFloat {{a, 5}, {b, 20}}),
+				new ReagentMix(new DictionaryReagentFloat {{a, 15}, {b, 30}})
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(),
+				new ReagentMix(new DictionaryReagentFloat {{a, 8}, {b, 22}}),
+				new ReagentMix(new DictionaryReagentFloat {{a, 8}, {b, 22}})
+			};
+			//Test overflow
+			yield return new object[]
+			{
+				20,
+				new ReagentMix(a, 10),
+				new ReagentMix(a, 10),
+				new ReagentMix(a, 20)
+			};
+			yield return new object[]
+			{
+				20,
+				new ReagentMix(a, 10),
+				new ReagentMix(a, 15),
+				new ReagentMix(a, 20)
+			};
+			yield return new object[]
+			{
+				20,
+				new ReagentMix(a, 20),
+				new ReagentMix(a, 10),
+				new ReagentMix(a, 20)
+			};
+			//Test multiple overflow
+			yield return new object[]
+			{
+				10,
+				new ReagentMix(),
+				new ReagentMix(new DictionaryReagentFloat {{a, 60}, {b, 10}, {c, 30}}),
+				new ReagentMix(new DictionaryReagentFloat {{a, 6}, {b, 1}, {c, 3}})
+			};
+		}
+
+		[TestCaseSource(nameof(AdditionTestData))]
+		public void AdditionTest(
+			int capacity,
+			ReagentMix initial,
+			ReagentMix toAdd,
+			ReagentMix final)
+		{
 			var container = GetContainer(capacity, initial);
-			container.AddReagents(toAdd);
+			container.Add(toAdd);
 			AssertContainerContentsEqualTo(container, final);
 		}
 
-		private static readonly object[] ContainerInitialStateAndReagentsToMoveAndFinalState = {
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 } }, 5, new Dictionary<string, float>{ { "A", 5 } } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 } }, 10, new Dictionary<string, float>{ } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 } }, 20, new Dictionary<string, float>{ } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 10 } }, 10, new Dictionary<string, float>{ {"A", 5 }, { "B", 5 } } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 10 } }, 16, new Dictionary<string, float>{ {"A", 2 }, { "B", 2 } } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 10 } }, 20, new Dictionary<string, float>{ } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 10 } }, 30, new Dictionary<string, float>{ } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 10 }, { "C", 10 } }, 15, new Dictionary<string, float>{ {"A", 5 }, { "B", 5 }, { "C", 5 } } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 10 }, { "C", 10 } }, 21, new Dictionary<string, float>{ {"A", 3 }, { "B", 3 }, { "C", 3 } } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 10 }, { "C", 10 } }, 30, new Dictionary<string, float>{ } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 10 }, { "C", 10 } }, 100, new Dictionary<string, float>{ } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 10 }, { "B", 20 } }, 6, new Dictionary<string, float>{ {"A", 8 }, { "B", 16 } } },
-			new object[] { 50, new Dictionary<string, float>{ { "A", 5 }, { "B", 10 }, { "C", 15 } }, 12, new Dictionary<string, float>{ {"A", 3 }, { "B", 6 }, { "C", 9 } } },
-		};
+		private static IEnumerable RemovalTestData()
+		{
+			var a = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			a.Name = "a";
+			var b = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			b.Name = "b";
+			var c = ScriptableObject.CreateInstance<global::Chemistry.Reagent>();
+			c.Name = "c";
 
-		[TestCaseSource(nameof(ContainerInitialStateAndReagentsToMoveAndFinalState))]
-		public void GivenContainerWithReagents_WhenMoveReagentsTo_ThenContainerContainsCorrectAmountsOfReagents(int capacity, Dictionary<string, float> initial, int amountToMove, Dictionary<string, float> final)
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(a, 10),
+				5,
+				new ReagentMix(a, 5)
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(a, 10),
+				10,
+				new ReagentMix()
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(a, 10),
+				20,
+				new ReagentMix()
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				10,
+				new ReagentMix(new DictionaryReagentFloat {{a, 5}, {b, 5}})
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				16,
+				new ReagentMix(new DictionaryReagentFloat {{a, 2}, {b, 2}})
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				20,
+				new ReagentMix()
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}}),
+				30,
+				new ReagentMix()
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}, {c, 10}}),
+				15,
+				new ReagentMix(new DictionaryReagentFloat {{a, 5}, {b, 5}, {c, 5}})
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}, {c, 10}}),
+				21,
+				new ReagentMix(new DictionaryReagentFloat {{a, 3}, {b, 3}, {c, 3}})
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}, {c, 10}}),
+				30,
+				new ReagentMix()
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 10}, {c, 10}}),
+				100,
+				new ReagentMix()
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 10}, {b, 20}}),
+				6,
+				new ReagentMix(new DictionaryReagentFloat {{a, 8}, {b, 16}})
+			};
+			yield return new object[]
+			{
+				50,
+				new ReagentMix(new DictionaryReagentFloat {{a, 5}, {b, 10}, {c, 15}}),
+				12,
+				new ReagentMix(new DictionaryReagentFloat {{a, 3}, {b, 6}, {c, 9}})
+			};
+		}
+
+		[TestCaseSource(nameof(RemovalTestData))]
+		public void RemovalTest(
+			int capacity,
+			ReagentMix initial,
+			int amountToMove,
+			ReagentMix final)
 		{
 			var container = GetContainer(capacity, initial);
-			container.MoveReagentsTo(amountToMove, null);
+			container.TakeReagents(amountToMove);
 			AssertContainerContentsEqualTo(container, final);
 		}
 	}

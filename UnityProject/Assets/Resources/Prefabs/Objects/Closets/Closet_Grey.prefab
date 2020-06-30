@@ -76,6 +76,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -121,7 +122,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4753244445202896}
   - component: {fileID: 61809843329405100}
-  - component: {fileID: 61355010685805950}
   - component: {fileID: 114881239354733470}
   - component: {fileID: 114123421790055112}
   - component: {fileID: 114859863419137498}
@@ -131,6 +131,7 @@ GameObject:
   - component: {fileID: 114678415081477658}
   - component: {fileID: 114706465110969542}
   - component: {fileID: 4707275914383363325}
+  - component: {fileID: -8361954735868765447}
   m_Layer: 11
   m_Name: Closet_Grey
   m_TagString: Untagged
@@ -146,7 +147,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1180280463732794}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1828, y: 1125, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4576008068696914}
@@ -180,32 +181,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.83569336, y: 0.9217529}
   m_EdgeRadius: 0
---- !u!61 &61355010685805950
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1180280463732794}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.011474609, y: 0.011474609}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.5410156, y: 0.8852539}
-  m_EdgeRadius: 0
 --- !u!114 &114881239354733470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,6 +195,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114123421790055112
 MonoBehaviour:
@@ -233,7 +209,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114859863419137498
@@ -251,13 +226,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialContents: {fileID: 0}
-  IsClosed: 0
-  IsLocked: 0
   lockLight: {fileID: 0}
+  IsLockable: 0
   playerLimit: 3
   metalDroppedOnDestroy: 2
-  soundOnOpen: OpenClose
-  statusSync: 0
+  soundOnOpenOrClose: OpenClose
   doorOpened: {fileID: 21300000, guid: 64b240e12ad22cb448e547c57af09f62, type: 3}
   spriteRenderer: {fileID: 212172245744083514}
 --- !u!114 &7776293278677718898
@@ -316,6 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114678415081477658
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,6 +304,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 20
     Bullet: 10
@@ -363,10 +338,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 551286361
 --- !u!114 &4707275914383363325
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,9 +358,22 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: closet
   initialDescription: A container made of metal.
+  willHighlight: 1
   exportCost: 200
   exportName: closet
   exportMessage: 
+--- !u!114 &-8361954735868765447
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1180280463732794}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1588453877446412
 GameObject:
   m_ObjectHideFlags: 0
@@ -431,6 +419,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

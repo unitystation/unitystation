@@ -112,7 +112,7 @@ public class Pipe : NetworkBehaviour, IServerLifecycle
 			}
 		}
 
-		SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f);
+		SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 	}
 
 	[Server]
@@ -430,7 +430,7 @@ public class Pipe : NetworkBehaviour, IServerLifecycle
 	{
 		if (anchoredLayer)
 		{
-			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Objects");
+			spriteRenderer.sortingLayerID = SortingLayer.NameToID("Floors");
 		}
 		else
 		{

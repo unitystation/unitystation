@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Linq;
 
 namespace Lobby
 {
@@ -14,6 +13,9 @@ namespace Lobby
 		public InputField ageField;
 		public Text errorLabel;
 		public Text genderText;
+		public Text clothingText;
+		public Text backpackText;
+		public Text accentText;
 		public Image hairColor;
 		public Image eyeColor;
 		public Image facialColor;
@@ -52,8 +54,6 @@ namespace Lobby
 
 		private CharacterSettings lastSettings;
 
-		public Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>> playerCustomisationData = new Dictionary<PlayerCustomisation, Dictionary<string, PlayerCustomisationData>>();
-
 		public Action onCloseAction;
 
 		void OnEnable()
@@ -79,6 +79,11 @@ namespace Lobby
 		void OnDisable()
 		{
 			colorPicker.onValueChanged.RemoveListener(OnColorChange);
+			if (onCloseAction != null)
+			{
+				onCloseAction.Invoke();
+				onCloseAction = null;
+			}
 		}
 		private void LoadSettings()
 		{
@@ -96,9 +101,9 @@ namespace Lobby
 		//First time setting up this character etc?
 		private void DoInitChecks()
 		{
-			if (string.IsNullOrEmpty(currentCharacter.username))
+			if (string.IsNullOrEmpty(currentCharacter.Username))
 			{
-				currentCharacter.username = ServerData.Auth.CurrentUser.DisplayName;
+				currentCharacter.Username = ServerData.Auth.CurrentUser.DisplayName;
 				RollRandomCharacter();
 				SaveData();
 			}
@@ -113,6 +118,8 @@ namespace Lobby
 		{
 			RefreshName();
 			RefreshGender();
+			RefreshClothing();
+			RefreshBackpack();
 			RefreshHair();
 			RefreshFacialHair();
 			RefreshUnderwear();
@@ -120,19 +127,17 @@ namespace Lobby
 			RefreshEyes();
 			RefreshSkinColor();
 			RefreshAge();
+			RefreshAccent();
 		}
 
 		public void RollRandomCharacter()
 		{
-			currentCharacter.Gender = (Gender)UnityEngine.Random.Range(0, 2);
-
-			// Repopulate underwear and facialhair dropdown boxes incase gender changes
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.FacialHair))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.FacialHair], facialHairDropdown); }
-
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Underwear))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Underwear], underwearDropdown); }
-
+			// Randomise gender
+			var changeGender = (UnityEngine.Random.Range(0, 2) == 0);
+			if (changeGender)
+			{
+				OnGenderChange();
+			}
 
 			// Select a random value from each dropdown
 			hairDropdown.value = UnityEngine.Random.Range(0, hairDropdown.options.Count - 1);
@@ -144,7 +149,7 @@ namespace Lobby
 			if (currentCharacter.Gender == Gender.Male)
 			{
 				currentCharacter.Name = StringManager.GetRandomMaleName();
-				currentCharacter.facialHairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+				currentCharacter.FacialHairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
 			}
 			else
 			{
@@ -152,9 +157,9 @@ namespace Lobby
 			}
 
 			// Randomise rest of data
-			currentCharacter.eyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			currentCharacter.hairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
-			currentCharacter.skinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
+			currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+			currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(UnityEngine.Random.ColorHSV());
+			currentCharacter.SkinTone = availableSkinColors[UnityEngine.Random.Range(0, availableSkinColors.Count - 1)];
 			currentCharacter.Age = UnityEngine.Random.Range(19, 78);
 
 			RefreshAll();
@@ -165,45 +170,22 @@ namespace Lobby
 		//------------------
 		private void PopulateAllDropdowns()
 		{
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.HairStyle))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.HairStyle], hairDropdown); }
-
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.FacialHair))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.FacialHair], facialHairDropdown); }
-
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Underwear))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Underwear], underwearDropdown); }
-
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Socks))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Socks], socksDropdown); }
-
+			PopulateDropdown(CustomisationType.HairStyle, hairDropdown);
+			PopulateDropdown(CustomisationType.FacialHair, facialHairDropdown);
+			PopulateDropdown(CustomisationType.Underwear, underwearDropdown);
+			PopulateDropdown(CustomisationType.Socks, socksDropdown);
 		}
 
-		private void PopulateDropdown(Dictionary<string, PlayerCustomisationData> itemCollection, Dropdown itemDropdown, bool constrainGender = false)
+		private void PopulateDropdown(CustomisationType type, Dropdown itemDropdown)
 		{
 			// Clear out old options
 			itemDropdown.ClearOptions();
 
 			// Make a list of all available options which can then be passed to the dropdown box
-			List<string> itemOptions = new List<string>();
-
-			foreach (var item in itemCollection)
-			{
-				// Check if options are being constrained by gender, only add valid gender options if so
-				if (constrainGender)
-				{
-					if (item.Value.gender == currentCharacter.Gender || item.Value.gender == Gender.Neuter)
-					{
-						itemOptions.Add(item.Key);
-					}
-				}
-				else
-				{
-					itemOptions.Add(item.Key);
-				}
-
-			}
+			var itemOptions = PlayerCustomisationDataSOs.Instance.GetAll(type, currentCharacter.Gender)
+				.Select(pcd => pcd.Name).ToList();
 			itemOptions.Sort();
+
 			// Ensure "None" is at the top of the option lists
 			itemOptions.Insert(0, "None");
 			itemDropdown.AddOptions(itemOptions);
@@ -211,10 +193,10 @@ namespace Lobby
 
 		private void SetAllDropdowns()
 		{
-			SetDropdownValue(hairDropdown, currentCharacter.hairStyleName);
-			SetDropdownValue(facialHairDropdown, currentCharacter.facialHairName);
-			SetDropdownValue(underwearDropdown, currentCharacter.underwearName);
-			SetDropdownValue(socksDropdown, currentCharacter.socksName);
+			SetDropdownValue(hairDropdown, currentCharacter.HairStyleName);
+			SetDropdownValue(facialHairDropdown, currentCharacter.FacialHairName);
+			SetDropdownValue(underwearDropdown, currentCharacter.UnderwearName);
+			SetDropdownValue(socksDropdown, currentCharacter.SocksName);
 		}
 
 		private void SetDropdownValue(Dropdown itemDropdown, string currentSetting)
@@ -229,8 +211,10 @@ namespace Lobby
 			}
 			else
 			{
-				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.UI);
+				Logger.LogWarning($"Unable to find index of {currentSetting}! Using default", Category.Character);
 				itemDropdown.value = 0;
+				// Needs to be called manually since value is probably already 0, so onValueChanged might not be invoked
+				itemDropdown.onValueChanged.Invoke(0);
 			}
 		}
 
@@ -268,7 +252,7 @@ namespace Lobby
 		//------------------
 		private void SaveData()
 		{
-			ServerData.UpdateCharacterProfile(JsonUtility.ToJson(currentCharacter)); // TODO Consider adding await. Otherwise this causes a compile warning.
+			ServerData.UpdateCharacterProfile(currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
 		}
 
 		//------------------
@@ -284,53 +268,17 @@ namespace Lobby
 			}
 			catch (InvalidOperationException e)
 			{
-				Logger.LogFormat("Invalid character settings: {0}", Category.UI, e.Message);
+				Logger.LogFormat("Invalid character settings: {0}", Category.Character, e.Message);
 				DisplayErrorText(e.Message);
 				return;
 			}
 			SaveData();
-			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
-			if (ServerData.Auth.CurrentUser != null)
-			{
-				if (onCloseAction != null)
-				{
-					onCloseAction.Invoke();
-					onCloseAction = null;
-				}
-				else
-				{
-					LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
-				}
-			}
-			else
-			{
-				Logger.LogWarning("User is not logged in! Returning to login screen.");
-				LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
-			}
 			gameObject.SetActive(false);
 		}
 
 		public void OnCancelBtn()
 		{
-			currentCharacter = lastSettings;
-			RefreshAll();
-			LobbyManager.Instance.lobbyDialogue.gameObject.SetActive(true);
-			if (ServerData.Auth.CurrentUser != null)
-			{
-				if (onCloseAction != null)
-				{
-					onCloseAction.Invoke();
-					onCloseAction = null;
-				}
-				else
-				{
-					LobbyManager.Instance.lobbyDialogue.ShowConnectionPanel();
-				}
-			}
-			else
-			{
-				LobbyManager.Instance.lobbyDialogue.ShowLoginScreen();
-			}
+			PlayerManager.CurrentCharacterSettings = lastSettings;
 			gameObject.SetActive(false);
 		}
 
@@ -390,15 +338,12 @@ namespace Lobby
 			currentCharacter.Gender = (Gender)gender;
 
 			// Repopulate underwear and facial hair dropdown boxes
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.FacialHair))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.FacialHair], facialHairDropdown); }
-
-			if (playerCustomisationData.ContainsKey(PlayerCustomisation.Underwear))
-			{ PopulateDropdown(playerCustomisationData[PlayerCustomisation.Underwear], underwearDropdown); }
+			PopulateDropdown(CustomisationType.FacialHair, facialHairDropdown);
+			PopulateDropdown(CustomisationType.Underwear, underwearDropdown);
 
 			// Set underwear and facial hair to default setting (None)
-			SetDropdownValue(underwearDropdown, "None");
-			SetDropdownValue(facialHairDropdown, "None");
+			FacialHairDropdownChange(0);
+			UnderwearDropdownChange(0);
 
 			RefreshGender();
 		}
@@ -406,9 +351,6 @@ namespace Lobby
 		private void RefreshGender()
 		{
 			genderText.text = currentCharacter.Gender.ToString();
-			currentCharacter.RefreshGenderBodyParts();
-
-
 			if (currentCharacter.Gender == Gender.Female)
 			{
 				headSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Female.Head);
@@ -435,8 +377,7 @@ namespace Lobby
 
 		public void OnAgeChange()
 		{
-			int tryInt = 22;
-			int.TryParse(ageField.text, out tryInt);
+			int.TryParse(ageField.text, out int tryInt);
 			tryInt = Mathf.Clamp(tryInt, 18, 99);
 			currentCharacter.Age = tryInt;
 			RefreshAge();
@@ -449,20 +390,20 @@ namespace Lobby
 		{
 			if (!colorPicker.gameObject.activeInHierarchy)
 			{
-				OpenColorPicker(eyeColor.color, EyeColorChange, 364f);
+				OpenColorPicker(eyeColor.color, EyeColorChange, 182f);
 			}
 		}
 
 		private void EyeColorChange(Color newColor)
 		{
-			currentCharacter.eyeColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+			currentCharacter.EyeColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
 			RefreshEyes();
 		}
 
 		private void RefreshEyes()
 		{
 			Color setColor = Color.black;
-			ColorUtility.TryParseHtmlString(currentCharacter.eyeColor, out setColor);
+			ColorUtility.TryParseHtmlString(currentCharacter.EyeColor, out setColor);
 			eyesSpriteController.image.color = setColor;
 			eyeColor.color = setColor;
 		}
@@ -473,7 +414,7 @@ namespace Lobby
 
 		public void HairDropdownChange(int index)
 		{
-			currentCharacter.LoadHairSetting(hairDropdown.options[index].text);
+			currentCharacter.HairStyleName = hairDropdown.options[index].text;
 			RefreshHair();
 		}
 
@@ -481,31 +422,28 @@ namespace Lobby
 		{
 			if (!colorPicker.gameObject.activeInHierarchy)
 			{
-				OpenColorPicker(hairColor.color, HairColorChange, 374f);
+				OpenColorPicker(hairColor.color, HairColorChange, 276f);
 			}
 		}
 
 		private void HairColorChange(Color newColor)
 		{
 			hairColor.color = newColor;
-			currentCharacter.hairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+			currentCharacter.HairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
 			RefreshHair();
 		}
 
 		private void RefreshHair()
 		{
-			if (playerCustomisationData[PlayerCustomisation.HairStyle].ContainsKey(currentCharacter.hairStyleName))
-			{
-				hairSpriteController.sprites =
-										SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.HairStyle][currentCharacter.hairStyleName].Equipped);
-			}
-			else
-			{
-				hairSpriteController.sprites = null;
-			}
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.HairStyle,
+				currentCharacter.Gender,
+				currentCharacter.HairStyleName
+			);
+			hairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			hairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
-			ColorUtility.TryParseHtmlString(currentCharacter.hairColor, out setColor);
+			ColorUtility.TryParseHtmlString(currentCharacter.HairColor, out setColor);
 			hairSpriteController.image.color = setColor;
 			hairColor.color = setColor;
 		}
@@ -516,22 +454,22 @@ namespace Lobby
 
 		public void FacialHairDropdownChange(int index)
 		{
-
-			currentCharacter.LoadFacialHairSetting(facialHairDropdown.options[index].text);
+			currentCharacter.FacialHairName = facialHairDropdown.options[index].text;
 			RefreshFacialHair();
 		}
 
 		private void RefreshFacialHair()
 		{
-			if (playerCustomisationData[PlayerCustomisation.FacialHair].ContainsKey(currentCharacter.facialHairName))
-			{
-				facialHairSpriteController.sprites =
-				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.FacialHair][currentCharacter.facialHairName].Equipped);
-			}
-			else { facialHairSpriteController.sprites = null; }
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.FacialHair,
+				currentCharacter.Gender,
+				currentCharacter.FacialHairName
+			);
+			facialHairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			facialHairSpriteController.UpdateSprite();
+
 			Color setColor = Color.black;
-			ColorUtility.TryParseHtmlString(currentCharacter.facialHairColor, out setColor);
+			ColorUtility.TryParseHtmlString(currentCharacter.FacialHairColor, out setColor);
 			facialHairSpriteController.image.color = setColor;
 			facialColor.color = setColor;
 		}
@@ -540,13 +478,13 @@ namespace Lobby
 		{
 			if (!colorPicker.gameObject.activeInHierarchy)
 			{
-				OpenColorPicker(facialColor.color, FacialHairColorChange, 334f);
+				OpenColorPicker(facialColor.color, FacialHairColorChange, 64f);
 			}
 		}
 
 		private void FacialHairColorChange(Color newColor)
 		{
-			currentCharacter.facialHairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
+			currentCharacter.FacialHairColor = "#" + ColorUtility.ToHtmlStringRGB(newColor);
 			RefreshFacialHair();
 		}
 
@@ -556,7 +494,7 @@ namespace Lobby
 		private void RefreshSkinColor()
 		{
 			Color setColor = Color.black;
-			ColorUtility.TryParseHtmlString(currentCharacter.skinTone, out setColor);
+			ColorUtility.TryParseHtmlString(currentCharacter.SkinTone, out setColor);
 			skinColor.color = setColor;
 			for (int i = 0; i < skinControllers.Length; i++)
 			{
@@ -566,25 +504,25 @@ namespace Lobby
 
 		public void SkinToneScrollRight()
 		{
-			int index = availableSkinColors.IndexOf(currentCharacter.skinTone);
+			int index = availableSkinColors.IndexOf(currentCharacter.SkinTone);
 			index++;
 			if (index == availableSkinColors.Count)
 			{
 				index = 0;
 			}
-			currentCharacter.skinTone = availableSkinColors[index];
+			currentCharacter.SkinTone = availableSkinColors[index];
 			RefreshSkinColor();
 		}
 
 		public void SkinToneScrollLeft()
 		{
-			int index = availableSkinColors.IndexOf(currentCharacter.skinTone);
+			int index = availableSkinColors.IndexOf(currentCharacter.SkinTone);
 			index--;
 			if (index < 0)
 			{
 				index = availableSkinColors.Count - 1;
 			}
-			currentCharacter.skinTone = availableSkinColors[index];
+			currentCharacter.SkinTone = availableSkinColors[index];
 			RefreshSkinColor();
 		}
 
@@ -594,17 +532,17 @@ namespace Lobby
 
 		public void UnderwearDropdownChange(int index)
 		{
-			currentCharacter.LoadUnderwearSetting(underwearDropdown.options[index].text);
+			currentCharacter.UnderwearName = underwearDropdown.options[index].text;
 			RefreshUnderwear();
 		}
 		private void RefreshUnderwear()
 		{
-			if (playerCustomisationData[PlayerCustomisation.Underwear].ContainsKey(currentCharacter.underwearName)){
-				underwearSpriteController.sprites =
-				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Underwear][currentCharacter.underwearName].Equipped);}
-			else
-			{underwearSpriteController.sprites = null;}
-
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.Underwear,
+				currentCharacter.Gender,
+				currentCharacter.UnderwearName
+			);
+			underwearSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			underwearSpriteController.UpdateSprite();
 		}
 
@@ -614,17 +552,17 @@ namespace Lobby
 
 		public void SocksDropdownChange(int index)
 		{
-			currentCharacter.LoadSocksSetting(socksDropdown.options[index].text);
+			currentCharacter.SocksName = socksDropdown.options[index].text;
 			RefreshSocks();
 		}
 		private void RefreshSocks()
 		{
-
-			if (playerCustomisationData[PlayerCustomisation.Socks].ContainsKey(currentCharacter.socksName)){
-				socksSpriteController.sprites =
-				SpriteFunctions.CompleteSpriteSetup(playerCustomisationData[PlayerCustomisation.Socks][currentCharacter.socksName].Equipped);}
-
-			else { socksSpriteController.sprites = null; }
+			var pcd = PlayerCustomisationDataSOs.Instance.Get(
+				CustomisationType.Socks,
+				currentCharacter.Gender,
+				currentCharacter.SocksName
+			);
+			socksSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			socksSpriteController.UpdateSprite();
 		}
 
@@ -648,146 +586,69 @@ namespace Lobby
 		{
 			colorChangedEvent.Invoke(newColor);
 		}
-	}
-}
 
-[Serializable]
-public class CharacterSettings
-{							//stuff  Marked with # is  no longer used and can be removed
-	public const int MAX_NAME_LENGTH = 28; //Arbitrary limit, but it seems reasonable
-	public string username;
-	public string Name = "Cuban Pete";
-	public Gender Gender = Gender.Male;
-	public int Age = 22;
-	public int hairStyleOffset = -1;  //#
-	public string hairStyleName = "None";
-	public int hairCollectionIndex = 4; //#
-	public string hairColor = "black";
-	public string eyeColor = "black";
-	public int facialHairOffset = -1; //#
-	public string facialHairName = "None";
-	public int facialHairCollectionIndex = 4; //#
-	public string facialHairColor = "black";
-	public string skinTone = "#ffe0d1";
-	public int underwearOffset = 20; //#
-	public string underwearName = "Mankini";
-	public int underwearCollectionIndex = 1; //#
-	public int socksOffset = 376; //#
-	public string socksName = "Knee-High (Freedom)";
-	public int socksCollectionIndex = 3; //#
+		//------------------
+		//CLOTHING PREFERENCE:
+		//------------------
 
-	int maleHeadIndex = 20; //#
-	int femaleHeadIndex = 24; //#
-	int maleTorsoIndex = 28; //#
-	int femaleTorsoIndex = 32; //#
-
-	public int headSpriteIndex = 20; //#
-	public int torsoSpriteIndex = 28; //#
-	public int rightLegSpriteIndex = 12; //#
-	public int leftLegSpriteIndex = 16; //#
-	public int rightArmSpriteIndex = 4; //#
-	public int leftArmSpriteIndex = 8; //#
-									   //add Reference to player race Data, When you can select different races
-
-	public void LoadHairSetting(string hair)
-	{
-
-		hairStyleName = hair;
-
-	}
-
-	public void LoadFacialHairSetting(string facialHair)
-	{
-		facialHairName = facialHair;
-	}
-
-	public void LoadUnderwearSetting(string underwear)
-	{
-		underwearName = underwear;
-	}
-
-	public void LoadSocksSetting(string socks)
-	{
-		socksName = socks;
-	}
-
-	public void RefreshGenderBodyParts()
-	{
-		if (Gender == Gender.Male)
+		public void OnClothingChange()
 		{
-			torsoSpriteIndex = maleTorsoIndex;
-			headSpriteIndex = maleHeadIndex;
-		}
-		else
-		{
-			torsoSpriteIndex = femaleTorsoIndex;
-			headSpriteIndex = femaleHeadIndex;
-		}
-	}
-
-	/// <summary>
-	/// Does nothing if all the character's properties are valides
-	/// <exception cref="InvalidOperationException">If the charcter settings are not valid</exception>
-	/// </summary>
-	public void ValidateSettings()
-	{
-
-		ValidateName();
-	}
-
-	/// <summary>
-	/// Checks if the character name follows all rules
-	/// </summary>
-	/// <exception cref="InvalidOperationException">If the name not valid</exception>
-	public void ValidateName()
-	{
-		if (String.IsNullOrWhiteSpace(Name))
-		{
-			throw new InvalidOperationException("Name cannot be blank");
+			int clothing = (int)currentCharacter.ClothingStyle;
+			clothing++;
+			if (clothing == (int)ClothingStyle.None)
+			{
+				clothing = 0;
+			}
+			currentCharacter.ClothingStyle = (ClothingStyle)clothing;
+			RefreshClothing();
 		}
 
-		if (Name.Length > MAX_NAME_LENGTH)
+		private void RefreshClothing()
 		{
-			throw new InvalidOperationException("Name cannot exceed " + MAX_NAME_LENGTH + " characters");
+			clothingText.text = currentCharacter.ClothingStyle.ToString();
+		}
+
+		//------------------
+		//BACKPACK PREFERENCE:
+		//------------------
+
+		public void OnBackpackChange()
+		{
+			int backpack = (int)currentCharacter.BagStyle;
+			backpack++;
+			if (backpack == (int)BagStyle.None)
+			{
+				backpack = 0;
+			}
+			currentCharacter.BagStyle = (BagStyle)backpack;
+			RefreshBackpack();
+		}
+
+		private void RefreshBackpack()
+		{
+			backpackText.text = currentCharacter.BagStyle.ToString();
+		}
+
+		//------------------
+		//ACCENT PREFERENCE:
+		//------------------
+		// This will be a temporal thing until we have proper character traits
+
+		public void OnAccentChange()
+		{
+			int accent = (int)currentCharacter.Speech;
+			accent++;
+			if (accent == (int)Speech.Unintelligible)
+			{
+				accent = 0;
+			}
+			currentCharacter.Speech = (Speech)accent;
+			RefreshAccent();
+		}
+
+		private void RefreshAccent()
+		{
+			accentText.text = currentCharacter.Speech.ToString();
 		}
 	}
-
-	/// <summary>
-	/// Returns a possessive string (i.e. "their", "his", "her") for the provided gender enum.
-	/// </summary>
-	public string PossessivePronoun()
-	{
-		switch (Gender)
-		{
-			case Gender.Male:
-				return "his";
-			case Gender.Female:
-				return "her";
-			default:
-				return "their";
-		}
-	}
-
-	/// <summary>
-	/// Returns a personal pronoun string (i.e. "he", "she", "they") for the provided gender enum.
-	/// </summary>
-	public string PersonalPronoun()
-	{
-		switch (Gender)
-		{
-			case Gender.Male:
-				return "he";
-			case Gender.Female:
-				return "she";
-			default:
-				return "they";
-		}
-	}
-}
-
-public enum Gender
-{
-	Male,
-	Female,
-	Neuter //adding anymore genders will break things do not edit
 }

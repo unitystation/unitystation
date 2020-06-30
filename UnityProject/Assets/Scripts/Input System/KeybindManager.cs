@@ -49,6 +49,7 @@ public enum KeyAction
 	ChatLocal,
 	ChatRadio,
 	ChatOOC,
+	ToggleAHelp,
 
 	// Body Part Targeting
 	TargetHead,
@@ -57,7 +58,11 @@ public enum KeyAction
 	TargetRightArm,
 	TargetLeftLeg,
 	TargetRightLeg,
-	TargetGroin
+	TargetGroin,
+
+	//Right click stuff
+	ShowAdminOptions
+
 }
 
 /// <summary>
@@ -215,6 +220,7 @@ public class KeybindManager : MonoBehaviour {
 		Chat,
 		Intent,
 		Targeting,
+		RightClick,
 	}
 
 	/// <summary>
@@ -286,9 +292,10 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.IntentHarm, 	new KeybindMetadata("Harm Intent", ActionType.Intent)},
 
 		// Chat
-		{ KeyAction.ChatLocal, new KeybindMetadata("Chat", ActionType.Chat)},
-		{ KeyAction.ChatRadio, new KeybindMetadata("Radio Chat", ActionType.Chat)},
-		{ KeyAction.ChatOOC,   new KeybindMetadata("OOC Chat", ActionType.Chat)},
+		{ KeyAction.ChatLocal,   new KeybindMetadata("Chat", ActionType.Chat)},
+		{ KeyAction.ChatRadio,   new KeybindMetadata("Radio Chat", ActionType.Chat)},
+		{ KeyAction.ChatOOC,     new KeybindMetadata("OOC Chat", ActionType.Chat)},
+		{ KeyAction.ToggleAHelp, new KeybindMetadata("Toggle AHelp", ActionType.Chat)},
 
 		// Body part selection
 		{ KeyAction.TargetHead, 	new KeybindMetadata("Target Head, Eyes and Mouth", ActionType.Targeting)},
@@ -297,7 +304,11 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.TargetRightArm, new KeybindMetadata("Target Right Arm", ActionType.Targeting)},
 		{ KeyAction.TargetLeftLeg,  new KeybindMetadata("Target Left Leg", ActionType.Targeting)},
 		{ KeyAction.TargetRightLeg, new KeybindMetadata("Target Right Leg", ActionType.Targeting)},
-		{ KeyAction.TargetGroin, 	new KeybindMetadata("Target Groin", ActionType.Targeting)}
+		{ KeyAction.TargetGroin, 	new KeybindMetadata("Target Groin", ActionType.Targeting)},
+
+		//Right click stuff
+		{ KeyAction.ShowAdminOptions, 	new KeybindMetadata("Show Admin Options", ActionType.RightClick)}
+
 	};
 
 	private readonly KeybindDict defaultKeybinds = new KeybindDict
@@ -331,6 +342,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ChatLocal, 		new DualKeyCombo(new KeyCombo(KeyCode.T), new KeyCombo(KeyCode.Return))},
 		{ KeyAction.ChatRadio,		new DualKeyCombo(new KeyCombo(KeyCode.Y), null)},
 		{ KeyAction.ChatOOC,   		new DualKeyCombo(new KeyCombo(KeyCode.U), null)},
+		{ KeyAction.ToggleAHelp,    new DualKeyCombo(new KeyCombo(KeyCode.F1), null)},
 
 		// Body part selection
 		{ KeyAction.TargetHead, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad8), null)},
@@ -339,7 +351,10 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.TargetRightArm, new DualKeyCombo(new KeyCombo(KeyCode.Keypad4), null)},
 		{ KeyAction.TargetLeftLeg,  new DualKeyCombo(new KeyCombo(KeyCode.Keypad3), null)},
 		{ KeyAction.TargetRightLeg, new DualKeyCombo(new KeyCombo(KeyCode.Keypad1), null)},
-		{ KeyAction.TargetGroin, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad2), null)}
+		{ KeyAction.TargetGroin, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad2), null)},
+
+		//Right click stuff
+		{ KeyAction.ShowAdminOptions, new DualKeyCombo(new KeyCombo(KeyCode.LeftControl), null)}
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
 

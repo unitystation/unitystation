@@ -1,79 +1,49 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using Audio.Containers;
+using Audio.Managers;
 using UnityEngine;
 
 /// <summary>
-/// Only works serverside.
 /// This will trigger ambience for players entering or leaving
 /// its trigger area. Drag and drop the prefab to start setting up
 /// an ambient controlled zone
 /// </summary>
 public class AmbientSoundArea : MonoBehaviour
 {
-	private List<GameObject> enteredPlayers = new List<GameObject>();
-	[SerializeField] private List<string> enteringSoundTrack = new List<string>();
-	[SerializeField] private List<string> leavingSoundTrack = new List<string>();
+	[SerializeField] private AudioClipsArray enteringSoundTrack = null;
+	[SerializeField] private AudioClipsArray leavingSoundTrack = null;
+	private AudioClip currentTrack = null;
 
 	public void OnTriggerEnter2D(Collider2D coll)
 	{
-		if (coll.gameObject.layer == LayerMask.NameToLayer("Players"))
-		{
-			ValidatePlayer(coll.gameObject, true);
-		}
+		ValidatePlayer(coll.gameObject, true);
 	}
 
 	public void OnTriggerExit2D(Collider2D coll)
 	{
-		if (coll.gameObject.layer == LayerMask.NameToLayer("Players"))
-		{
-			ValidatePlayer(coll.gameObject, false);
-		}
+		ValidatePlayer(coll.gameObject, false);
 	}
 
-	IEnumerator Start()
-	{
-		yield return WaitFor.EndOfFrame;
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			Destroy(gameObject);
-		}
-	}
-
-	void ValidatePlayer(GameObject player, bool isEntering)
+	private void ValidatePlayer(GameObject player, bool isEntering)
 	{
 		if (player == null) return;
+		if (player != PlayerManager.LocalPlayer) return;
 
 		if (isEntering)
 		{
-			if (enteredPlayers.Contains(player))
-			{
-				return;
-			}
-
-			enteredPlayers.Add(player);
-			PlayTrack(player, enteringSoundTrack);
+			PlayAudio(enteringSoundTrack.GetRandomClip());
 		}
 		else
 		{
-			if (enteredPlayers.Contains(player))
-			{
-				PlayTrack(player, leavingSoundTrack);
-				enteredPlayers.Remove(player);
-			}
+			PlayAudio(leavingSoundTrack.GetRandomClip());
 		}
 	}
 
-	void PlayTrack(GameObject player, List<string> possibleTracks)
+	private void PlayAudio(AudioClip clipToPlay)
 	{
-		if (possibleTracks == null || possibleTracks.Count == 0) return;
+		if (clipToPlay == null) return;
 
-		if (possibleTracks.Count == 1)
-		{
-			PlayAmbientTrack.Send(player, possibleTracks[0]);
-			return;
-		}
-
-		var randTrack = Random.Range(0, possibleTracks.Count);
-		PlayAmbientTrack.Send(player, possibleTracks[randTrack]);
+		SoundAmbientManager.StopAudio(currentTrack);
+		currentTrack = clipToPlay;
+		SoundAmbientManager.PlayAudio(currentTrack, isLooped: true);
 	}
 }

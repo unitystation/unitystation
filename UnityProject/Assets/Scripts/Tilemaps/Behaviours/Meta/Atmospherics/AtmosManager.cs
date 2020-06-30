@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Pipes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,13 +19,17 @@ public class AtmosManager : MonoBehaviour
 
 	public bool roundStartedServer = false;
 	public HashSet<Pipe> inGamePipes = new HashSet<Pipe>();
+	public HashSet<PipeData> inGameNewPipes = new HashSet<PipeData>();
+	public HashSet<FireAlarm> inGameFireAlarms = new HashSet<FireAlarm>();
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
 	public static float tickRate;
 	private static float tickCount = 0f;
-	private const int Steps = 5;
+	private const int Steps = 1;
 
 	public static AtmosManager Instance;
+
+	public bool StopPipes = false;
 
 	private void Awake()
 	{
@@ -35,14 +40,6 @@ public class AtmosManager : MonoBehaviour
 		else
 		{
 			Destroy(this);
-		}
-	}
-
-	private void Start()
-	{
-		if (Mode != AtmosMode.Manual)
-		{
-			StartSimulation();
 		}
 	}
 
@@ -82,9 +79,23 @@ public class AtmosManager : MonoBehaviour
 
 	void DoTick()
 	{
+		if (StopPipes == false)
+		{
+			foreach (var p in inGameNewPipes)
+			{
+				p.TickUpdate();
+			}
+		}
+
+
 		foreach (Pipe p in inGamePipes)
 		{
 			p.TickUpdate();
+		}
+
+		foreach (FireAlarm firealarm in inGameFireAlarms)
+		{
+			firealarm.TickUpdate();
 		}
 	}
 
@@ -104,6 +115,10 @@ public class AtmosManager : MonoBehaviour
 
 	void OnRoundStart()
 	{
+		if (Mode != AtmosMode.Manual)
+		{
+			StartSimulation();
+		}
 		StartCoroutine(SetPipes());
 	}
 
@@ -122,6 +137,8 @@ public class AtmosManager : MonoBehaviour
 	{
 		roundStartedServer = false;
 		AtmosThread.ClearAllNodes();
+		inGameNewPipes.Clear();
+		inGamePipes.Clear();
 	}
 
 
@@ -132,6 +149,8 @@ public class AtmosManager : MonoBehaviour
 
 	public void StartSimulation()
 	{
+		if (!CustomNetworkManager.Instance._isServer) return;
+
 		Running = true;
 
 		if (Mode == AtmosMode.Threaded)
@@ -143,6 +162,8 @@ public class AtmosManager : MonoBehaviour
 
 	public void StopSimulation()
 	{
+		if (!CustomNetworkManager.Instance._isServer) return;
+
 		Running = false;
 
 		AtmosThread.Stop();
@@ -164,7 +185,9 @@ public class AtmosManager : MonoBehaviour
 		{
 			roundStartedServer = false;
 		}
+		//inGameNewPipes.Clear();
 		inGamePipes.Clear();
+		inGameFireAlarms.Clear();
 	}
 }
 

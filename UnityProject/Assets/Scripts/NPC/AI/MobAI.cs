@@ -30,8 +30,6 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	private float fleeingTime = 0f;
 	private float fleeTimeMax;
 
-	private bool initialPassableState;
-
 	//Events:
 	protected UnityEvent followingStopped = new UnityEvent();
 	protected UnityEvent exploringStopped = new UnityEvent();
@@ -44,24 +42,15 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	{
 		get
 		{
-			if (mobExplore.activated || mobFollow.activated || mobFlee.activated)
-			{
-				return true;
-			}
-
-			return false;
+			return (mobExplore.activated || mobFollow.activated || mobFlee.activated);
 		}
 	}
 
-	public bool IsDead
-	{
-		get { return health.IsDead; }
-	}
+	public bool IsDead => health.IsDead;
 
-	public bool IsUnconscious
-	{
-		get { return health.IsCrit; }
-	}
+	public bool IsUnconscious => health.IsCrit;
+
+	private bool isKnockedDown = false;
 
 	protected virtual void Awake()
 	{
@@ -73,7 +62,6 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		cnt = GetComponent<CustomNetTransform>();
 		registerObject = GetComponent<RegisterObject>();
 		uprightSprites = GetComponent<UprightSprites>();
-		initialPassableState = registerObject.Passable;
 	}
 
 	public virtual void OnEnable()
@@ -109,15 +97,8 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	/// </summary>
 	protected virtual void UpdateMe()
 	{
-		if (IsDead || IsUnconscious)
+		if (MonitorKnockedDown())
 		{
-			//Allow players to walk over the body:
-			if (!registerObject.Passable)
-			{
-				registerObject.Passable = true;
-				dirSprites.SetToBodyLayer();
-				MonitorUprightState();
-			}
 			return;
 		}
 
@@ -126,24 +107,54 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		MonitorFleeingTime();
 	}
 
-
-	//Should mob be knocked down?
-	void MonitorUprightState()
+	/// <summary>
+	/// Updates the mob to fall down or stand up where appropriate
+	/// </summary>
+	/// <returns>Whether the mob is currently knocked down</returns>
+	private bool MonitorKnockedDown()
 	{
 		if (IsDead || IsUnconscious)
 		{
-			if (dirSprites.spriteRend.transform.localEulerAngles.z == 0f)
-			{
-				SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position);
-				dirSprites.SetRotationServer(knockedDownRotation);
-			}
+			Knockdown();
+			return true;
 		}
 		else
 		{
-			if (dirSprites.spriteRend.transform.localEulerAngles.z != 0f)
-			{
-				dirSprites.SetRotationServer(0f);
-			}
+			GetUp();
+			return false;
+		}
+	}
+
+	/// <summary>
+	/// Make the mob fall to the ground if it isn't already there
+	/// </summary>
+	private void Knockdown()
+	{
+		if (!isKnockedDown)
+		{
+			isKnockedDown = true;
+
+			registerObject.Passable = true;
+			dirSprites.SetToBodyLayer();
+
+			SoundManager.PlayNetworkedAtPos("Bodyfall", transform.position, sourceObj: gameObject);
+			dirSprites.SetRotationServer(knockedDownRotation);
+		}
+	}
+
+	/// <summary>
+	/// Make the mob stand up if it isn't already stood
+	/// </summary>
+	private void GetUp()
+	{
+		if (isKnockedDown)
+		{
+			isKnockedDown = false;
+
+			registerObject.RestorePassableToDefault();
+			dirSprites.SetToNPCLayer();
+
+			dirSprites.SetRotationServer(0f);
 		}
 	}
 
@@ -193,7 +204,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	/// Called on the server whenever the NPC is physically attacked
 	/// </summary>
 	/// <param name="damagedBy"></param>
-	protected virtual void OnAttackReceived(GameObject damagedBy) { }
+	protected virtual void OnAttackReceived(GameObject damagedBy = null) { }
 
 	/// <summary>
 	/// Call this to begin following a target.
@@ -244,10 +255,16 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	/// <summary>
 	/// Start fleeing from the target
 	/// </summary>
-	protected void StartFleeing(Transform fleeTarget, float fleeDuration = -1f)
+	protected void StartFleeing(GameObject fleeTarget, float fleeDuration = -1f)
 	{
 		ResetBehaviours();
-		mobFlee.FleeFromTarget(fleeTarget);
+
+		if (fleeTarget == null) //run from itself?
+		{
+			fleeTarget = gameObject;
+		}
+
+		mobFlee.FleeFromTarget(fleeTarget.transform);
 		fleeTimeMax = fleeDuration;
 		fleeingTime = 0f;
 	}
@@ -340,6 +357,26 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	}
 
 	/// <summary>
+	/// Common behavior to flee from attacker if health is less than X
+	/// Call this within OnAttackedReceive method
+	/// </summary>
+	/// <param name="healthThreshold">If health is less than this, RUN!</param>
+	/// <param name="attackedBy">Gameobject from the attacker. This can be null on fire!</param>
+	/// <param name="fleeDuration">Time in seconds the flee behavior will last. Defaults to forever</param>
+	protected void FleeIfHealthLessThan(float healthThreshold, GameObject attackedBy = null, float fleeDuration = -1f)
+	{
+		if (attackedBy == null)
+		{
+			attackedBy = gameObject;
+		}
+
+		if (health.OverallHealth < healthThreshold)
+		{
+			StartFleeing(attackedBy, fleeDuration);
+		}
+	}
+
+	/// <summary>
 	/// Resets all the behaviours when choosing another action.
 	/// Do not use this for a hard reset (for when reusing from a pool etc)
 	/// use GoingOffStageServer instead
@@ -369,6 +406,39 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		followTimeMax = -1f;
 		followingTime = 0f;
 	}
+
+	///<summary>
+	/// Triggers on creatures with Pettable component when petted.
+	///</summary>
+	///<param name="performer">The player petting</param>
+	public virtual void OnPetted(GameObject performer)
+	{
+		// face performer
+		var dir = (performer.transform.position - transform.position).normalized;
+		dirSprites.ChangeDirection(dir);
+	}
+
+	///<summary>
+	/// Triggers when the explorer targets people and found one
+	///</summary>
+	///<param name="player">PlayerScript from the found player</param>
+	public virtual void ExplorePeople (PlayerScript player){}
+
+	/// <summary>
+	/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction
+	/// </summary>
+	/// <param name="dir"></param>
+	/// <param name="healthBehaviour"></param>
+	/// <param name="doLerpAnimation"></param>
+	public virtual void ActOnLiving(Vector3 dir, LivingHealthBehaviour healthBehaviour) {}
+
+	/// <summary>
+	/// Virtual method to override on extensions of this class. Called when paired with MobMeleeAction
+	/// </summary>
+	/// <param name="roundToInt"></param>
+	/// <param name="dir"></param>
+	/// <param name="doLerpAnimation"></param>
+	public virtual void ActOnTile(Vector3Int roundToInt, Vector3 dir) {}
 
 	public virtual void OnDespawnServer(DespawnInfo info)
 	{

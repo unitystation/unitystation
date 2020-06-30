@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 114262681174990446}
   - component: {fileID: 114758807010794188}
   - component: {fileID: 114116087744016572}
+  - component: {fileID: -1006162040715695989}
   m_Layer: 0
   m_Name: MedXenoBloodSplat
   m_TagString: Untagged
@@ -51,6 +52,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  IsFixedMatrix: 0
 --- !u!114 &5908745450454926434
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -66,7 +68,8 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   Cleanable: 1
-  SecondsUntilDisappear: -1
+  CanDryUp: 0
+  color: {r: 0, g: 0, b: 0, a: 0}
   PossibleSprites:
   - {fileID: 21300000, guid: d52b8d9c63e92a54d8a74afca424d599, type: 3}
   - {fileID: 21300000, guid: f863ee7dde503bd4d99151e8b8194b26, type: 3}
@@ -86,11 +89,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  layer: {fileID: 0}
-  ObjectType: 1
-  crossed:
-    m_PersistentCalls:
-      m_Calls: []
+  matrixDebugLogging: 0
+  objectType: 1
 --- !u!114 &114262681174990446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +106,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   registerTile: {fileID: 0}
-  isNotPushable: 1
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 1
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &114758807010794188
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114116087744016572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -132,10 +141,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3489399925
+--- !u!114 &-1006162040715695989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1069497300762596}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0
 --- !u!1 &1230737790073880
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,13 +198,14 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1230737790073880}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

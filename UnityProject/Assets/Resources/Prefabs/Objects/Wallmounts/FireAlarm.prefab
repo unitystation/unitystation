@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -107,7 +108,7 @@ GameObject:
   - component: {fileID: 4000011119182976}
   - component: {fileID: 61000010130597256}
   - component: {fileID: 114234539136935032}
-  - component: {fileID: 114874730882314834}
+  - component: {fileID: 1858633288062230997}
   - component: {fileID: 114450786801091896}
   - component: {fileID: 114789676302844992}
   - component: {fileID: 114034692067134764}
@@ -115,6 +116,8 @@ GameObject:
   - component: {fileID: 114265084883189168}
   - component: {fileID: 114949534438748220}
   - component: {fileID: 114146168231498696}
+  - component: {fileID: 2360582274513324799}
+  - component: {fileID: 8759964297267644194}
   m_Layer: 19
   m_Name: FireAlarm
   m_TagString: Untagged
@@ -130,11 +133,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000012425957516}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1868, y: 1139, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4000011015354084}
   - {fileID: 4000013626496842}
+  - {fileID: 4000011015354084}
   - {fileID: 4000012060440392}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -177,10 +180,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
---- !u!114 &114874730882314834
+--- !u!114 &1858633288062230997
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -189,10 +191,32 @@ MonoBehaviour:
   m_GameObject: {fileID: 1000012425957516}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58b822814682f460baa30059c4fd7f42, type: 3}
+  m_Script: {fileID: 11500000, guid: 7aa8c34adfb884646b01b21e62173b62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Message: The automatic firealarm is locked
+  FireLockList: []
+  activated: 0
+  coolDownTime: 1
+  isInCooldown: 0
+  spriteHandler: {fileID: 8923557852116195065}
+  topLightSpriteNormal: {fileID: 21300000, guid: 23890d1fdf7434443ae128ad29a885c0,
+    type: 3}
+  openEmptySprite: {fileID: 21300000, guid: 6c911a9ed4c82f44aa252825428fe0ee, type: 3}
+  openCabledSprite: {fileID: 21300000, guid: c3971b2f8f3d3a34eae4d775786708b0, type: 3}
+  topLightSpriteAlert:
+    Texture: {fileID: 2800000, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
+    - {fileID: 21300002, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
+    - {fileID: 21300004, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
+    - {fileID: 21300006, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
+    - {fileID: 21300008, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
+    - {fileID: 21300010, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
+    - {fileID: 21300012, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
+    - {fileID: 21300014, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
+    EquippedData: {fileID: 4900000, guid: 6dac1410eae58ef4fa57cc9b837a3550, type: 3}
+  coverOpen: 0
+  hasCables: 1
 --- !u!114 &114450786801091896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,6 +247,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directional: {fileID: 114774275199163462}
 --- !u!114 &114034692067134764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -236,6 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114774275199163462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,7 +277,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
 --- !u!114 &114265084883189168
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -281,6 +311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -294,7 +325,7 @@ MonoBehaviour:
     Bio: 0
   Resistances:
     LavaProof: 0
-    FireProof: 0
+    FireProof: 1
     Flammable: 0
     UnAcidable: 0
     AcidProof: 0
@@ -314,10 +345,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3079428713
+--- !u!114 &2360582274513324799
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012425957516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 1
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  State: 0
+--- !u!114 &8759964297267644194
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012425957516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1000013647327112
 GameObject:
   m_ObjectHideFlags: 0
@@ -328,8 +395,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013626496842}
   - component: {fileID: 212000013751545988}
+  - component: {fileID: 8923557852116195065}
   m_Layer: 19
-  m_Name: Monitor_LightsBottom
+  m_Name: Monitor_LightsTop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -347,7 +415,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000011119182976}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212000013751545988
 SpriteRenderer:
@@ -363,6 +431,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -398,6 +467,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8923557852116195065
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013647327112}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites: []
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1
 --- !u!1 &1000014173103480
 GameObject:
   m_ObjectHideFlags: 0
@@ -409,7 +496,7 @@ GameObject:
   - component: {fileID: 4000011015354084}
   - component: {fileID: 212000010569588554}
   m_Layer: 19
-  m_Name: Monitor_LightsTop
+  m_Name: Monitor_LightsBottom
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -424,10 +511,10 @@ Transform:
   m_GameObject: {fileID: 1000014173103480}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 0.6800191}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000011119182976}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &212000010569588554
 SpriteRenderer:
@@ -443,6 +530,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

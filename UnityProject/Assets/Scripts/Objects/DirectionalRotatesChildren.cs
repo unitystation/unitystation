@@ -1,5 +1,4 @@
 using System;
-using Lucene.Net.Support;
 using UnityEngine;
 
 /// <summary>
@@ -25,6 +24,17 @@ public class DirectionalRotatesChildren : MonoBehaviour
 		OnDirectionChanged(directional.CurrentDirection);
 	}
 
+	public void EditorDirectionChanged()
+	{
+		var dir = GetComponent<Directional>().InitialOrientation;
+		var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(dir);
+
+		foreach (Transform child in transform)
+		{
+			child.rotation = offset.Quaternion;
+		}
+	}
+
 	private void OnDirectionChanged(Orientation newDir)
 	{
 		//rotate our sprite renderers based on the deviation from
@@ -43,13 +53,7 @@ public class DirectionalRotatesChildren : MonoBehaviour
 	{
 		if (Application.isEditor && !Application.isPlaying)
 		{
-			var dir = GetComponent<Directional>().InitialOrientation;
-			var offset = Orientation.FromEnum(prefabChildrenOrientation).OffsetTo(dir);
-
-			foreach (Transform child in transform)
-			{
-				child.rotation = offset.Quaternion;
-			}
+			EditorDirectionChanged();
 		}
 	}
 #endif

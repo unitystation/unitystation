@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78698377d6a4aaf8d6e3a304a6cbc5e, type: 3}
+  m_Name: Resecuring_WindowReinforced_Step_4_To_0
+  m_EditorClassIdentifier: 
+  requiredTrait: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
+  performerStartActionMessage: You begin to lever the reinforced window into the
+    frame...
+  othersStartActionMessage: '{performer} begins to lever the reinforced window into
+    the frame...'
+  seconds: 12
+  objectsToSpawn: {fileID: 0}
+  toTile: {fileID: 11400000, guid: 0928ea19fb08346cbb0efa5178c62dae, type: 2}
+  performerFinishActionMessage: You pry the window into the frame.
+  othersFinishActionMessage: '{performer} pries the window back into the frame.'

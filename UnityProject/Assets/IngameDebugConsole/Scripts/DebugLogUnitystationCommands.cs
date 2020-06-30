@@ -38,6 +38,13 @@ namespace IngameDebugConsole
 			Logger.Log($"{ServerData.UserID}");
 		}
 
+		[ConsoleMethod("copyid", "Copies your uuid to your clipboard.")]
+		public static void CopyUserID()
+		{
+			TextUtils.CopyTextToClipboard($"{ServerData.UserID}");
+			Logger.Log($"UUID Copied to clipboard.");
+		}
+
 		[ConsoleMethod("damage-self", "Server only cmd.\nUsage:\ndamage-self <bodyPart> <brute amount> <burn amount>\nExample: damage-self LeftArm 40 20.Insert")]
 		public static void RunDamageSelf(string bodyPartString, int burnDamage, int bruteDamage)
 		{
@@ -354,11 +361,13 @@ namespace IngameDebugConsole
 					var suit = Spawn.ServerPrefab("MiningHardsuit").GameObject;
 					var mask = Spawn.ServerPrefab(CommonPrefabs.Instance.Mask).GameObject;
 					var oxyTank = Spawn.ServerPrefab(CommonPrefabs.Instance.EmergencyOxygenTank).GameObject;
+					var MagBoots = Spawn.ServerPrefab("MagBoots").GameObject;
 
 					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01), ReplacementStrategy.DropOther);
+					Inventory.ServerAdd(MagBoots, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.feet), ReplacementStrategy.DropOther);
 					player.Script.Equipment.IsInternalsEnabled = true;
 				}
 

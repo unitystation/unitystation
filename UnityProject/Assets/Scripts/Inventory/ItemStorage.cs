@@ -13,10 +13,9 @@ using UnityEngine.Serialization;
 ///
 /// The ways in which the storage can be interacted with is handled by other components.
 ///
-/// Note that items stored in an ItemStorage can themselves have ItemStorage (for example, storing a backpack
-/// in a player's inventory)!
+/// Note that items stored in an ItemStorage can themselveOnDespawnServer
 /// </summary>
-public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove, IClientDespawn
+public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove
 {
 	[SerializeField]
 	[FormerlySerializedAs("ItemStorageStructure")]
@@ -86,13 +85,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		ItemSlot.Free(this);
 	}
 
-
-	public void OnDespawnClient(ClientDespawnInfo info)
-	{
-		//free the slots
-		ItemSlot.Free(this);
-	}
-
 	private void OnDestroy()
 	{
 		//free the slots
@@ -144,7 +136,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void OnInventoryMoveClient(ClientInventoryMove info)
 	{
 		if (UIManager.StorageHandler == null) return;
-		
+
 		//if we were currently looking at this storage, close the storage UI if this item was moved at all.
 		if (UIManager.StorageHandler.CurrentOpenStorage == this)
 		{
@@ -184,7 +176,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	}
 
 	/// <summary>
-	/// 
+	///
 	/// </summary>
 	/// <param name="namedSlot"></param>
 	/// <returns>true iff this item storage has the slot with the specified identifier</returns>
@@ -203,6 +195,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	{
 		if (populator == null) return;
 		if (!CustomNetworkManager.IsServer) return;
+		if (!context.SpawnInfo.SpawnItems) return;
 		populator.PopulateItemStorage(this, context);
 	}
 
@@ -352,7 +345,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// The item slot representing the active hand. Null if this is not a player.
 	/// </summary>
 	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
 	public ItemSlot GetActiveHandSlot()
 	{
 		if (playerNetworkActions == null) return null;
@@ -417,7 +409,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// </summary>
 	/// <param name="observer"></param>
 	/// <returns></returns>
-	/// <exception cref="NotImplementedException"></exception>
 	public bool ServerIsObserver(GameObject observer)
 	{
 		return serverObserverPlayers.Contains(observer);
@@ -426,7 +417,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <summary>
 	/// Drops all items in all slots at our current position.
 	/// </summary>
-	/// <exception cref="NotImplementedException"></exception>
 	public void ServerDropAll()
 	{
 		foreach (var itemSlot in GetItemSlots())

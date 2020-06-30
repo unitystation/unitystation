@@ -28,19 +28,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  temperatureKelvin: 293.15
-  MaxCapacity: 100
-  itemAttributes: {fileID: 0}
-  InSolidForm: 0
-  Reagents:
-  - cleaner
-  Amounts:
-  - 100
-  TraitWhitelist: []
-  ReagentWhitelist: []
-  TransferMode: 0
-  PossibleTransferAmounts: []
-  InitialTransferAmount: 20
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 1
+  traitWhitelist: []
+  reagentWhitelist: []
+  transferMode: 0
+  possibleTransferAmounts: []
+  transferAmount: 20
+  maxCapacity: 100
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  initialReagentMix:
+    temperature: 0
+    reagents:
+      m_keys:
+      - {fileID: 11400000, guid: 11dd09fc0e79f0391a03cea4eac8b16d, type: 2}
+      m_values:
+      - 100
 --- !u!114 &4872181358128779540
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4842,6 +4846,7 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -4865,7 +4870,7 @@ ParticleSystemRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 16
+  m_SortingLayer: 17
   m_SortingOrder: 0
   m_RenderMode: 1
   m_SortMode: 0
@@ -4959,7 +4964,7 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -5054,6 +5059,12 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 58fb39d3789532541a56acc786a8a620,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 175ef43f5edbe4b76b865068ed381c58,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}

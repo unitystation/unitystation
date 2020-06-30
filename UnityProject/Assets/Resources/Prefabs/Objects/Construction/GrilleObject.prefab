@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -98,6 +99,7 @@ GameObject:
   - component: {fileID: 114876689548865824}
   - component: {fileID: 8501056774758602355}
   - component: {fileID: 8402624206278935752}
+  - component: {fileID: 5807791750556871521}
   m_Layer: 11
   m_Name: GrilleObject
   m_TagString: Untagged
@@ -206,6 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114590610092742494
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -222,16 +225,16 @@ MonoBehaviour:
   syncInterval: 0.1
   soundOnHit: GrillHit
   Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
+    Melee: 50
+    Bullet: 70
+    Laser: 70
+    Energy: 100
+    Bomb: 10
+    Rad: 100
     Fire: 0
     Acid: 0
     Magic: 0
-    Bio: 0
+    Bio: 100
   Resistances:
     LavaProof: 0
     FireProof: 0
@@ -241,7 +244,7 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 200
+  initialIntegrity: 50
 --- !u!114 &114876689548865824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -254,6 +257,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
   m_AssetId: 
@@ -296,3 +300,15 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   layerTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28, type: 2}
+--- !u!114 &5807791750556871521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376449702682419346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

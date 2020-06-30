@@ -44,14 +44,14 @@ jobs:
   #       uses: webbertakken/unity-request-manual-activation-file@v1.1
   #       id: getManualLicenseFile
   #       with:
-  #         unityVersion: 2019.2.19f1
+  #         unityVersion: 2019.3.8f1
   #     # Upload artifact (Unity_v20XX.X.XXXX.alf)
   #     - name: Expose as artifact
   #       uses: actions/upload-artifact@v1
   #       with:
   #         name: ${{ steps.getManualLicenseFile.outputs.filePath }}
   #         path: ${{ steps.getManualLicenseFile.outputs.filePath }}
-
+    
   # Perform build job
   performBuild:
     name: Build for ${{ matrix.targetPlatform }} on version ${{ matrix.unityVersion }}
@@ -62,12 +62,26 @@ jobs:
         projectPath:
           - UnityProject
         unityVersion:
-          - 2019.2.19f1
+          - 2019.3.8f1
         targetPlatform:
           - StandaloneWindows64
           - StandaloneOSX
           - StandaloneLinux64
     steps:
+      - name: free disk space
+        run: |
+          sudo swapoff -a
+          sudo rm -f /swapfile
+          sudo apt clean
+          docker rmi $(docker image ls -aq)
+          df -h
+      # Remove old artifacts so we don't run out of space!
+#      - name: Remove old artifacts
+#        uses: c-hive/gha-remove-artifacts@v1
+#        with:
+#          age: '1 month'
+#          skip-tags: true
+
       # Checkout repository (required to test local actions)
       - name: Checkout repository
         uses: actions/checkout@v2.0.0
@@ -77,11 +91,11 @@ jobs:
         uses: actions/cache@v1.1.0
         with:
           path: ${{ matrix.projectPath }}/Library
-          key: Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+          key: Library4-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
           restore-keys: |
-            Library-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-            Library-${{ matrix.projectPath }}-
-            Library-
+            Library4-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+            Library4-${{ matrix.projectPath }}-
+            Library4-
 
       # Set the UNITY_LICENSE environment variable
       - name: Setup license

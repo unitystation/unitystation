@@ -9,8 +9,6 @@ using System.Reflection;
 
 public class RequestGameAction : ClientMessage
 {
-	public static short MessageType = (short)MessageTypes.RequestGameAction;
-
 	public int ComponentLocation;
 	public uint NetObject;
 	public Type ComponentType;
@@ -32,19 +30,12 @@ public class RequestGameAction : ClientMessage
 			componentTypeToComponentID.Add(componentType, i);
 			i++;
 		}
-	
+
 	}
 
-
-
-
-
-
-
-
-	public override IEnumerator Process()
+	public override void Process()
 	{
-		yield return WaitFor(NetObject);
+		LoadNetworkObject(NetObject);
 		//Logger.Log("ComponentLocation > " + ComponentLocation  + " NetworkObject > " +  NetworkObject + " ComponentType > " + ComponentType);
 		if (SentByPlayer != ConnectedPlayer.Invalid)
 		{
@@ -56,37 +47,41 @@ public class RequestGameAction : ClientMessage
 		}
 	}
 
-
-	public static RequestGameAction Send(IServerActionGUI iServerActionGUI )
+	public static void Send(IActionGUI iServerActionGUI )
 	{
-		var netObject = (iServerActionGUI as Component).GetComponent<NetworkIdentity>();
-		var _ComponentType = iServerActionGUI.GetType();
-		var iServerActionGUIs = netObject.GetComponentsInChildren(_ComponentType);
-		var _ComponentLocation = 0;
-		bool Found = false;
-		foreach (var _iServerActionGUI in iServerActionGUIs) {
-			if ((_iServerActionGUI as IServerActionGUI) == iServerActionGUI) {
-				Found = true;
+		if (iServerActionGUI is Component)
+		{
+			SendToComponent(iServerActionGUI);
+		}
+		//else not doing anything, implying custom sending
+	}
+
+	private static void SendToComponent(IActionGUI actionComponent)
+	{
+		var netObject = ((Component) actionComponent).GetComponent<NetworkIdentity>();
+		var componentType = actionComponent.GetType();
+		var childActions = netObject.GetComponentsInChildren(componentType);
+		int componentLocation = 0;
+		bool found = false;
+		foreach (var action in childActions) {
+			if ((action as IServerActionGUI) == actionComponent) {
+				found = true;
 				break;
 			}
-			_ComponentLocation++;
+			componentLocation++;
 		}
-		if (Found)
+		if (found)
 		{
-			RequestGameAction msg = new RequestGameAction
+			var msg = new RequestGameAction
 			{
 				NetObject = netObject.netId,
-				ComponentLocation = _ComponentLocation,
-				ComponentType =	_ComponentType,
+				ComponentLocation = componentLocation,
+				ComponentType =	componentType,
 			};
 			msg.Send();
-			return msg;
 		}
-		else {
 
-			Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity");
-		}
-		return (null);
+		Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity");
 	}
 
 	public override void Deserialize(NetworkReader reader)
@@ -104,5 +99,4 @@ public class RequestGameAction : ClientMessage
 		writer.WriteUInt32(NetObject);
 		writer.WriteInt32(ComponentLocation);
 	}
-
 }

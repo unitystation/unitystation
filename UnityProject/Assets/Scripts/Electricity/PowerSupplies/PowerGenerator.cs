@@ -53,7 +53,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	/// </summary>
 	IEnumerator CheckStartingPlasma()
 	{
-		yield return WaitFor.Seconds(5); //Todo: figure out a robust way to init such things, don't rely on timeouts
+		yield return WaitFor.Seconds(1); //Todo: figure out a robust way to init such things, don't rely on timeouts
 		var plasmaObjs = registerTile.Matrix.Get<SolidPlasma>(registerTile.LocalPositionServer, true);
 		foreach (SolidPlasma plasma in plasmaObjs)
 		{
@@ -100,13 +100,10 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	public void UpdateServerState(bool _isOn)
 	{
-		if (_isOn)
+		if (_isOn && TryBurnFuel())
 		{
-			if (TryBurnFuel())
-			{
-				ElectricalNodeControl.TurnOnSupply();
-				isOn = true;
-			}
+			ElectricalNodeControl.TurnOnSupply();
+			isOn = true;
 		}
 		else
 		{
@@ -128,23 +125,22 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			objectBehaviour.ServerSetPushable(!isSecured);
 		}
 
+		SoundManager.PlayAtPosition("Wrench", transform.position, gameObject);
 
-		SoundManager.PlayAtPosition("Wrench", transform.position);
-
-		if (!isSecured)
+		if (isSecured)
 		{
-			spriteRend.sprite = generatorUnSecuredSprite;
-		}
-		else
-		{
-			if (!isOn)
-			{
-				spriteRend.sprite = generatorSecuredSprite;
-			}
-			else
+			if (isOn)
 			{
 				spriteRend.sprite = generatorOnSprite;
 			}
+			else
+			{
+				spriteRend.sprite = generatorSecuredSprite;
+			}
+		}
+		else
+		{
+			spriteRend.sprite = generatorUnSecuredSprite;
 		}
 	}
 
@@ -162,8 +158,11 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	//Server Only
 	void FuelExhaustedEvent()
 	{
-		var pFuel = plasmaFuel[0];
-		plasmaFuel.Remove(pFuel);
+		if (plasmaFuel.Count > 0)
+		{
+			plasmaFuel.RemoveAt(0);
+		}
+
 		if (isOn)
 		{
 			if (!TryBurnFuel())
@@ -172,22 +171,23 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			}
 		}
 	}
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TargetObject != gameObject) return false;
-		if (interaction.HandObject != null && 
+		if (interaction.HandObject != null &&
 		!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
 		!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
 		return true;
 	}
+
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			UpdateSecured(isSecured, !isSecured);
-			ElectricalNodeControl.PowerUpdateStructureChange();
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			if (!isSecured && isOn)
 			{
 				isOn = !isOn;
@@ -208,5 +208,4 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			UpdateServerState(!isOn);
 		}
 	}
-
 }

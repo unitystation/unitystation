@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using UnityEngine;
 using Mirror;
@@ -10,15 +12,17 @@ public class SubsystemManager : NetworkBehaviour
 
 	private void Start()
 	{
-		if (isServer)
-		{
-			systems = systems.OrderByDescending(s => s.Priority).ToList();
-			Initialize();
-		}
+		systems = systems.OrderByDescending(s => s.Priority).ToList();
+		StartCoroutine(Initialize());
 	}
 
-	private void Initialize()
+	IEnumerator Initialize()
 	{
+		while (!MatrixManager.IsInitialized)
+		{
+			yield return WaitFor.EndOfFrame;
+		}
+
 		for (int i = 0; i < systems.Count; i++)
 		{
 			systems[i].Initialize();

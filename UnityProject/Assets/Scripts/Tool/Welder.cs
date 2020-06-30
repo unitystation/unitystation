@@ -2,9 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
+using Chemistry;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
+using Chemistry.Components;
 
 [RequireComponent(typeof(Pickupable))]
 public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpawn
@@ -21,6 +23,8 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 
 	public SpriteRenderer flameRenderer;
 
+	public Chemistry.Reagent fuel;
+
 	/// <summary>
 	/// Invoked server side when welder turns off for any reason.
 	/// </summary>
@@ -28,13 +32,12 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	public UnityEvent OnWelderOffServer = new UnityEvent();
 
 	//Inhands
-	private int leftHandOriginal;
+	private int leftHandOriginal = 0;
 	private int rightHandOriginal = 0;
 	private int leftHandFlame;
 	private int rightHandFlame;
 
 	private bool isBurning = false;
-	private float burnRate = 0.2f;
 
 	public float damageOn;
 	private float damageOff;
@@ -57,7 +60,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 
 	private ReagentContainer reagentContainer;
 
-	private float FuelAmount => reagentContainer.AmountOfReagent("welding_fuel");
+	private float FuelAmount => reagentContainer[fuel];
 
 	void Awake()
 	{
@@ -208,7 +211,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 				reagentContainer.TakeReagents(.041f);
 
 				//Ran out of fuel
-				if (FuelAmount < 0f)
+				if (FuelAmount <= 0f)
 				{
 					SyncIsOn(isOn, false);
 				}

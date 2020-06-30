@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,7 +16,7 @@ public class GeneralDoorAnimator : DoorAnimator
 	public string spritePath;
 
 	[Tooltip("A list of frame numbers for the open/close animation, not including the openFrame and closeFrame")]
-	public int[] animFrames; 
+	public int[] animFrames;
 
 	public int animLength;
 	public int closeFrame;
@@ -94,8 +94,19 @@ public class GeneralDoorAnimator : DoorAnimator
 		}
 
 		doorController.isPerformingAction = true;
-		SoundManager.PlayAtPosition("AccessDenied", transform.position);
+		SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
 		StartCoroutine(PlayDeniedAnim());
+	}
+
+	/// <summary>
+    /// Not implemented
+    /// For doors that aren't airlocks: WinDoors, shutters, etc.
+    /// Not needed for what's currently available but this may change in the future.
+    /// </summary>
+    /// <param name="skipAnimation"></param>
+	public override void PressureWarn(bool skipAnimation)
+	{
+		return;
 	}
 
 	private IEnumerator Delay()

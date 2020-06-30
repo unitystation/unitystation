@@ -46,6 +46,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -70,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 630
-  m_Sprite: {fileID: 21300000, guid: f82f591c6456b6247a6282bcca82179b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b0ac13a2ab7fb4242b28801066de55ab, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -93,6 +94,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
   Sprites: []
   spriteIndex: 0
   variantIndex: 0
@@ -119,6 +122,7 @@ GameObject:
   - component: {fileID: 1635926354344122938}
   - component: {fileID: -1649124960678938281}
   - component: {fileID: -3547164563803669629}
+  - component: {fileID: 6192722859107522757}
   m_Layer: 10
   m_Name: seed packet_old
   m_TagString: Untagged
@@ -234,7 +238,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114079509811454882
@@ -258,12 +261,13 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1519710982558066}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114596150240161284
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -311,10 +316,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 2276494383
 --- !u!114 &7775367136764396337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -339,10 +344,6 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     GrowthSprites: []
     FullyGrownSprite:
       Texture: {fileID: 0}
@@ -362,6 +363,9 @@ MonoBehaviour:
     PlantTrays: 
     ReagentProduction: []
     MutatesInTo: []
+    Age: 0
+    NextGrowthStageProgress: 0
+    Health: 0
   defaultPlantData: {fileID: 0}
   PlantSyncString: 
 --- !u!114 &1635926354344122938
@@ -392,6 +396,7 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: seed packet
   initialDescription: a packet of seeds
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
@@ -403,6 +408,7 @@ MonoBehaviour:
   throwSpeed: 2
   throwRange: 7
   hitSound: GenericHit
+  hitSoundSettings: 0
   canConnectToTank: 0
   isEVACapable: 0
   attackVerbs: []
@@ -419,6 +425,16 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
 --- !u!114 &-3547164563803669629
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,3 +450,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 0}
+--- !u!114 &6192722859107522757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519710982558066}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  forceHidden: 0

@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
+  m_Name: Grille
+  m_EditorClassIdentifier: 
+  displayName: grille
+  LayerType: 5
+  TileType: 6
+  RequiredTiles:
+  - {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1, type: 2}
+  floorTileType: 0
+  atmosPassable: 1
+  isSealed: 0
+  SpawnWithNoAir: 0
+  oreCategory: 0
+  HealthStates: []
+  passable: 0
+  mineable: 0
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 50
+  armor:
+    Melee: 50
+    Bullet: 70
+    Laser: 70
+    Energy: 100
+    Bomb: 10
+    Rad: 100
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 100
+  hitSounds: []
+  tileDestroyedRemains: []
+  healthStates: []
+  resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  tileInteractions:
+  - {fileID: 11400000, guid: 433fa20f26ef08d4a844cf98c3a923f3, type: 2}
+  - {fileID: 11400000, guid: 8e5b0c6f1995489408133f815f767c27, type: 2}
+  - {fileID: 11400000, guid: 107560a7c6045ac478f5555e9487ba89, type: 2}
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
+  sprite: {fileID: 21300000, guid: 10623b9787a8d384b8d9825b3337ea04, type: 3}

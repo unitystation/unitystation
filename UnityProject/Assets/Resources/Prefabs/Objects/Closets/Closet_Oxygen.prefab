@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4833550011112600}
   - component: {fileID: 61073988275347620}
-  - component: {fileID: 61187366832375296}
   - component: {fileID: 114836981699317108}
   - component: {fileID: 114523164427909220}
   - component: {fileID: 114325905384881024}
@@ -21,6 +20,7 @@ GameObject:
   - component: {fileID: 114238733534567912}
   - component: {fileID: 114132597043430612}
   - component: {fileID: 1699124073807824496}
+  - component: {fileID: 2791875198955994983}
   m_Layer: 11
   m_Name: Closet_Oxygen
   m_TagString: Untagged
@@ -36,7 +36,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1146263997293372}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 1844, y: 1139, z: -0.1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4206511474878270}
@@ -70,32 +70,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.83569336, y: 0.9217529}
   m_EdgeRadius: 0
---- !u!61 &61187366832375296
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1146263997293372}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.011474609, y: 0.011474609}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.5410156, y: 0.8852539}
-  m_EdgeRadius: 0
 --- !u!114 &114836981699317108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114523164427909220
 MonoBehaviour:
@@ -123,7 +98,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114325905384881024
@@ -141,13 +115,11 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   initialContents: {fileID: 11400000, guid: 133558ddd198d490f836732ad1b9c8a2, type: 2}
-  IsClosed: 0
-  IsLocked: 0
   lockLight: {fileID: 0}
+  IsLockable: 0
   playerLimit: 3
   metalDroppedOnDestroy: 2
-  soundOnOpen: OpenClose
-  statusSync: 0
+  soundOnOpenOrClose: OpenClose
   doorOpened: {fileID: 21300000, guid: 0406667426b565044a998d50c037fb64, type: 3}
   spriteRenderer: {fileID: 212309241971002690}
 --- !u!114 &3578799147172016980
@@ -218,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114238733534567912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -232,6 +205,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 20
     Bullet: 10
@@ -265,10 +239,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 3830676504
 --- !u!114 &1699124073807824496
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,9 +259,22 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: oxygen closet
   initialDescription: Stores emergency breathing equipment.
+  willHighlight: 1
   exportCost: 200
   exportName: closet
   exportMessage: 
+--- !u!114 &2791875198955994983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1146263997293372}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1324576255968780
 GameObject:
   m_ObjectHideFlags: 0
@@ -334,6 +321,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -444,6 +432,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

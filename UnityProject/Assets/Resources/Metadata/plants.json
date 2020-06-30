@@ -19,14 +19,16 @@
             "ambrosia_deus"
         ],
         "reagents_add": {
+            "aiuri": 0.1,
+            "libital": 0.1,
             "space_drugs": 0.15,
-            "bicaridine": 0.1,
-            "kelotane": 0.1,
             "vitamin": 0.04,
             "nutriment": 0.05,
             "toxin": 0.1
         },
-        "species": "ambrosiavulgaris"
+        "species": "ambrosiavulgaris",
+        "produce_name": "ambrosia branch",
+        "description": "This is a plant."
     },
     {
         "name": "ambrosia_deus",
@@ -54,7 +56,9 @@
             "vitamin": 0.04,
             "nutriment": 0.05
         },
-        "species": "ambrosiadeus"
+        "species": "ambrosiadeus",
+        "produce_name": "ambrosia deus branch",
+        "description": "Eating this makes you feel immortal!"
     },
     {
         "name": "ambrosia_gaia",
@@ -104,33 +108,9 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "apple"
-    },
-    {
-        "name": "apple_poisoned",
-        "plantname": "Apple Tree",
-        "Description": "These seeds grow into apple trees.",
-        "seed_packet": "seed-apple",
-        "lifespan": 55,
-        "endurance": 35,
-        "production": 60,
-        "plant_yield": 50,
-        "potency": 10,
-        "weed_growth_rate": 10,
-        "weed_resistance": 50,
-        "growing_icon": "growing_fruits",
-        "dead_Sprite": "apple-dead",
-        "genes": [
-            "Perennial_Growth"
-        ],
-        "mutates_into": [
-            ""
-        ],
-        "reagents_add": {
-            "zombiepowder": 0.5,
-            "vitamin": 0.04,
-            "nutriment": 0.1
-        }
+        "species": "apple",
+        "produce_name": "apple",
+        "description": "It's a little piece of Eden."
     },
     {
         "name": "apple_gold",
@@ -187,7 +167,9 @@
             "vitamin": 0.04,
             "nutriment": 0.02
         },
-        "species": "banana"
+        "species": "banana",
+        "produce_name": "banana",
+        "description": "It's an excellent prop for a clown."
     },
     {
         "name": "banana_mime",
@@ -215,7 +197,9 @@
             "mutetoxin": 0.1,
             "nutriment": 0.02
         },
-        "species": "mimana"
+        "species": "mimana",
+        "produce_name": "mimana",
+        "description": "It's an excellent prop for a mime."
     },
     {
         "name": "banana_bluespace",
@@ -245,7 +229,9 @@
             "vitamin": 0.04,
             "nutriment": 0.02
         },
-        "species": "bluespacebanana"
+        "species": "bluespacebanana",
+        "produce_name": "bluespace banana",
+        "description": ""
     },
     {
         "name": "soya",
@@ -269,7 +255,8 @@
         ],
         "reagents_add": {
             "vitamin": 0.04,
-            "nutriment": 0.05
+            "nutriment": 0.05,
+            "cooking_oil": 0.03
         },
         "species": "soybean"
     },
@@ -349,7 +336,7 @@
         ],
         "reagents_add": {
             "cyanide": 0.15,
-            "tirizene": 0.2,
+            "staminatoxin": 0.2,
             "vitamin": 0.04,
             "nutriment": 0.1
         },
@@ -377,7 +364,7 @@
         ],
         "reagents_add": {
             "coniine": 0.08,
-            "tirizene": 0.1,
+            "staminatoxin": 0.1,
             "vitamin": 0.04,
             "nutriment": 0.1
         },
@@ -398,8 +385,7 @@
         "growing_icon": "growing_fruits",
         "dead_Sprite": "berry-dead",
         "genes": [
-            "Strong Bioluminescence",
-            "Separated Chemicals",
+            "Bioluminescence/white",
             "Perennial_Growth"
         ],
         "mutates_into": [
@@ -431,7 +417,8 @@
             "Perennial_Growth"
         ],
         "mutates_into": [
-            "cherry_blue"
+            "cherry_blue",
+            "cherry_bulb"
         ],
         "reagents_add": {
             "nutriment": 0.07,
@@ -464,6 +451,33 @@
             "sugar": 0.07
         },
         "species": "bluecherry"
+    },
+    {
+        "name": "cherry_bulb",
+        "plantname": "Cherry Bulb Tree",
+        "Description": "The glowy kind of cherries.",
+        "seed_packet": "seed-cherrybulb",
+        "lifespan": 35,
+        "endurance": 35,
+        "production": 50,
+        "plant_yield": 30,
+        "potency": 10,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing_fruits",
+        "dead_Sprite": "cherry-dead",
+        "genes": [
+            "Perennial_Growth",
+            "Bioluminescence/pink"
+        ],
+        "mutates_into": [
+            ""
+        ],
+        "reagents_add": {
+            "nutriment": 0.07,
+            "sugar": 0.07
+        },
+        "species": "cherrybulb"
     },
     {
         "name": "grape",
@@ -509,14 +523,11 @@
         "genes": [
             "Perennial_Growth"
         ],
-        "mutates_into": [
-            ""
-        ],
         "reagents_add": {
-            "kelotane": 0.2,
             "vitamin": 0.04,
             "nutriment": 0.1,
-            "sugar": 0.1
+            "sugar": 0.1,
+            "aiuri": 0.2
         },
         "species": "greengrape"
     },
@@ -538,21 +549,20 @@
             "Perennial_Growth"
         ],
         "mutates_into": [
-            "cannabis_rainbow",
-            "cannabis_death",
-            "cannabis_white",
-            "cannabis_ultimate"
+            "cannabis_rainbow"
         ],
         "reagents_add": {
             "space_drugs": 0.15,
             "lipolicide": 0.35
         },
-        "species": "cannabis"
+        "species": "cannabis",
+        "produce_name": "cannabis leaf",
+        "description": "Recently legalized in most galaxies."
     },
     {
         "name": "cannabis_rainbow",
         "plantname": "Rainbow Weed",
-        "Description": "These seeds grow into rainbow weed. Groovy.",
+        "Description": "These seeds grow into rainbow weed. Groovy... and also highly addictive.",
         "seed_packet": "seed-megacannabis",
         "lifespan": 25,
         "endurance": 15,
@@ -570,10 +580,15 @@
             ""
         ],
         "reagents_add": {
-            "mindbreaker": 0.15,
-            "lipolicide": 0.35
+            "colorful_reagent": 0.05,
+            "psicodine": 0.03,
+            "happiness": 0.1,
+            "mindbreaker": 0.1,
+            "lipolicide": 0.15
         },
-        "species": "megacannabis"
+        "species": "megacannabis",
+        "produce_name": "rainbow cannabis leaf",
+        "description": "Is it supposed to be glowing like that...?"
     },
     {
         "name": "cannabis_death",
@@ -600,7 +615,9 @@
             "space_drugs": 0.15,
             "lipolicide": 0.15
         },
-        "species": "blackcannabis"
+        "species": "blackcannabis",
+        "produce_name": "death cannabis leaf",
+        "description": "Looks a bit dark. Oh well."
     },
     {
         "name": "cannabis_white",
@@ -627,7 +644,9 @@
             "space_drugs": 0.15,
             "lipolicide": 0.15
         },
-        "species": "whitecannabis"
+        "species": "whitecannabis",
+        "produce_name": "white cannabis leaf",
+        "description": "It feels smooth and nice to the touch."
     },
     {
         "name": "cannabis_ultimate",
@@ -688,7 +707,9 @@
         "reagents_add": {
             "nutriment": 0.04
         },
-        "species": "wheat"
+        "species": "wheat",
+        "produce_name": "wheat",
+        "description": "Sigh... wheat... a-grain?"
     },
     {
         "name": "wheat_oat",
@@ -779,12 +800,14 @@
             "vitamin": 0.04,
             "nutriment": 0.04
         },
-        "species": "chili"
+        "species": "chili",
+        "produce_name": "chili",
+        "description": "It's spicy! Wait... IT'S BURNING ME!!"
     },
     {
         "name": "chili_ice",
-        "plantname": "Ice Pepper Plants",
-        "Description": "These seeds grow into ice pepper plants.",
+        "plantname": "Chilly Pepper Plants",
+        "Description": "These seeds grow into chilly pepper plants.",
         "seed_packet": "seed-icepepper",
         "lifespan": 25,
         "endurance": 15,
@@ -878,7 +901,8 @@
             "Perennial_Growth"
         ],
         "mutates_into": [
-            "lime"
+            "lime",
+            "orange_3d"
         ],
         "reagents_add": {
             "vitamin": 0.04,
@@ -913,7 +937,7 @@
         "species": "lemon"
     },
     {
-        "name": "firelemon",
+        "name": "firelemon ",
         "plantname": "Combustible Lemon Tree",
         "Description": "When life gives you lemons, don't make lemonade. Make life take the lemons back! Get mad! I don't want your damn lemons!",
         "seed_packet": "seed-firelemon",
@@ -935,6 +959,30 @@
         "species": "firelemon"
     },
     {
+        "name": "orange_3d",
+        "plantname": "Extradimensional Orange Tree",
+        "Description": "Polygonal seeds.",
+        "seed_packet": "seed-orange",
+        "lifespan": 60,
+        "endurance": 50,
+        "production": 60,
+        "plant_yield": 50,
+        "potency": 20,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing_fruits",
+        "dead_Sprite": "lime-dead",
+        "genes": [
+            "Perennial_Growth"
+        ],
+        "reagents_add": {
+            "vitamin": 0.04,
+            "nutriment": 0.05,
+            "haloperidol": 0.15
+        },
+        "species": "orange"
+    },
+    {
         "name": "cocoapod",
         "plantname": "Cocao Tree",
         "Description": "These seeds grow into cacao trees. They look fattening.",
@@ -952,13 +1000,16 @@
             "Perennial_Growth"
         ],
         "mutates_into": [
-            "cocoapod_vanillapod"
+            "cocoapod_vanillapod",
+            "cocoapod_bungotree"
         ],
         "reagents_add": {
-            "cocoa": 0.25,
+            "coco": 0.25,
             "nutriment": 0.1
         },
-        "species": "cocoapod"
+        "species": "cocoapod",
+        "produce_name": "cocoa pod",
+        "description": "Fattening... Mmmmm... chucklate."
     },
     {
         "name": "cocoapod_vanillapod",
@@ -987,6 +1038,32 @@
         "species": "vanillapod"
     },
     {
+        "name": "cocoapod_bungotree",
+        "plantname": "Bungo Tree",
+        "Description": "These seeds grow into bungo trees. They appear to be heavy and almost perfectly spherical.",
+        "seed_packet": "seed-bungotree",
+        "lifespan": 30,
+        "endurance": 15,
+        "production": 70,
+        "plant_yield": 30,
+        "potency": 10,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing_fruits",
+        "dead_Sprite": "bungotree-dead",
+        "genes": [
+            "Perennial_Growth"
+        ],
+        "mutates_into": [
+            ""
+        ],
+        "reagents_add": {
+            "enzyme": 0.1,
+            "nutriment": 0.1
+        },
+        "species": "bungotree"
+    },
+    {
         "name": "corn",
         "plantname": "Corn Stalks",
         "Description": "I don't mean to sound corny...",
@@ -1008,7 +1085,9 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "corn"
+        "species": "corn",
+        "produce_name": "ear of corn",
+        "description": "Needs some butter!"
     },
     {
         "name": "corn_snapcorn",
@@ -1035,6 +1114,41 @@
         "species": "snapcorn"
     },
     {
+        "name": "cotton",
+        "plantname": "Cotton",
+        "Description": "A pack of seeds that'll grow into a cotton plant. Assistants make good free labor if neccesary.",
+        "seed_packet": "seed-cotton",
+        "lifespan": 35,
+        "endurance": 25,
+        "production": 10,
+        "plant_yield": 20,
+        "potency": 50,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing",
+        "dead_Sprite": "cotton-dead",
+        "mutates_into": [
+            "cotton_durathread"
+        ],
+        "species": "cotton"
+    },
+    {
+        "name": "cotton_durathread",
+        "plantname": "Durathread",
+        "Description": "A pack of seeds that'll grow into an extremely durable thread that could easily rival plasteel if woven properly.",
+        "seed_packet": "seed-durathread",
+        "lifespan": 80,
+        "endurance": 50,
+        "production": 10,
+        "plant_yield": 20,
+        "potency": 50,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing",
+        "dead_Sprite": "cotton-dead",
+        "species": "durathread"
+    },
+    {
         "name": "eggplant",
         "plantname": "Eggplants",
         "Description": "These seeds grow to produce berries that look nothing like eggs.",
@@ -1058,16 +1172,18 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "eggplant"
+        "species": "eggplant",
+        "produce_name": "eggplant",
+        "description": "Maybe there's a chicken inside?"
     },
     {
         "name": "eggplant_eggy",
-        "plantname": "Eggplants",
+        "plantname": "Egg-Plants",
         "Description": "These seeds grow to produce berries that look a lot like eggs.",
         "seed_packet": "seed-eggy",
         "lifespan": 75,
         "endurance": 15,
-        "production": 12,
+        "production": 120,
         "plant_yield": 20,
         "potency": 20,
         "weed_growth_rate": 10,
@@ -1104,10 +1220,12 @@
             "poppy_lily"
         ],
         "reagents_add": {
-            "bicaridine": 0.2,
+            "libital": 0.2,
             "nutriment": 0.05
         },
-        "species": "poppy"
+        "species": "poppy",
+        "produce_name": "poppy",
+        "description": "Long-used as a symbol of rest, peace, and death."
     },
     {
         "name": "poppy_lily",
@@ -1124,13 +1242,40 @@
         "growing_icon": "growing_flowers",
         "dead_Sprite": "poppy-dead",
         "mutates_into": [
+            "poppy_lily_trumpet"
+        ],
+        "reagents_add": {
+            "libital": 0.2,
+            "nutriment": 0.05
+        },
+        "species": "lily",
+        "produce_name": "lily",
+        "description": "A beautiful orange flower."
+    },
+    {
+        "name": "poppy_lily_trumpet",
+        "plantname": "Spaceman's Trumpet Plant",
+        "Description": "A plant sculped by extensive genetic engineering. The spaceman's trumpet is said to bear no resemblance to its wild ancestors. Inside NT AgriSci circles it is better known as NTPW-0372.",
+        "seed_packet": "seed-trumpet",
+        "lifespan": 80,
+        "endurance": 10,
+        "production": 50,
+        "plant_yield": 40,
+        "potency": 20,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing_flowers",
+        "dead_Sprite": "spacemanstrumpet-dead",
+        "genes": [
+            "polypyr"
+        ],
+        "mutates_into": [
             ""
         ],
         "reagents_add": {
-            "bicaridine": 0.2,
             "nutriment": 0.05
         },
-        "species": "lily"
+        "species": "spacemanstrumpet"
     },
     {
         "name": "poppy_geranium",
@@ -1150,10 +1295,12 @@
             ""
         ],
         "reagents_add": {
-            "bicaridine": 0.2,
+            "libital": 0.2,
             "nutriment": 0.05
         },
-        "species": "geranium"
+        "species": "geranium",
+        "produce_name": "geranium",
+        "description": "A beautiful blue flower."
     },
     {
         "name": "harebell",
@@ -1174,7 +1321,9 @@
         "reagents_add": {
             "nutriment": 0.04
         },
-        "species": "harebell"
+        "species": "harebell",
+        "produce_name": "harebell",
+        "description": "\"I'll sweeten thy sad grave: thou shalt not lack the flower that's like thy face, pale primrose, nor the azured hare-bell, like thy veins; no, nor the leaf of eglantine, whom not to slander, out-sweeten'd not thy breath.\""
     },
     {
         "name": "sunflower",
@@ -1214,11 +1363,14 @@
         "weed_resistance": 50,
         "growing_icon": "growing_flowers",
         "dead_Sprite": "sunflower-dead",
+        "genes": [
+            "Bioluminescence/purple"
+        ],
         "mutates_into": [
             ""
         ],
         "reagents_add": {
-            "moonshine": 0.2,
+            "ethanol/moonshine": 0.2,
             "vitamin": 0.02,
             "nutriment": 0.02
         },
@@ -1249,6 +1401,25 @@
         "species": "novaflower"
     },
     {
+        "name": "garlic",
+        "plantname": "Garlic Sprouts",
+        "Description": "A packet of extremely pungent seeds.",
+        "seed_packet": "seed-garlic",
+        "lifespan": 25,
+        "endurance": 15,
+        "production": 60,
+        "plant_yield": 60,
+        "potency": 25,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing_vegetables",
+        "reagents_add": {
+            "garlic": 0.15,
+            "nutriment": 0.1
+        },
+        "species": "garlic"
+    },
+    {
         "name": "grass",
         "plantname": "Grass",
         "Description": "These seeds grow into grass. Yummy!",
@@ -1265,13 +1436,42 @@
             "Perennial_Growth"
         ],
         "mutates_into": [
-            "grass_carpet"
+            "grass_carpet",
+            "grass_fairy"
         ],
         "reagents_add": {
             "nutriment": 0.02,
             "hydrogen": 0.05
         },
-        "species": "grass"
+        "species": "grass",
+        "produce_name": "grass",
+        "description": "Green and lush."
+    },
+    {
+        "name": "grass_fairy",
+        "plantname": "Fairygrass",
+        "Description": "These seeds grow into a more mystical grass.",
+        "seed_packet": "seed-fairygrass",
+        "lifespan": 40,
+        "endurance": 40,
+        "production": 50,
+        "plant_yield": 50,
+        "potency": 10,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "dead_Sprite": "fairygrass-dead",
+        "genes": [
+            "Perennial_Growth",
+            "Bioluminescence/blue"
+        ],
+        "reagents_add": {
+            "nutriment": 0.02,
+            "hydrogen": 0.05,
+            "space_drugs": 0.15
+        },
+        "species": "fairygrass",
+        "produce_name": "fairygrass",
+        "description": "Blue, glowing, and smells fainly of mushrooms."
     },
     {
         "name": "grass_carpet",
@@ -1315,7 +1515,7 @@
             "Weed Adaptation"
         ],
         "reagents_add": {
-            "charcoal": 0.04,
+            "multiver": 0.04,
             "nutriment": 0.02
         },
         "species": "kudzu"
@@ -1345,7 +1545,9 @@
             "vitamin": 0.04,
             "nutriment": 0.2
         },
-        "species": "watermelon"
+        "species": "watermelon",
+        "produce_name": "watermelon",
+        "description": "It's full of watery goodness."
     },
     {
         "name": "watermelon_holy",
@@ -1362,13 +1564,13 @@
         "growing_icon": "growing_fruits",
         "dead_Sprite": "watermelon-dead",
         "genes": [
-            "Perennial_Growth"
+            "Bioluminescence/yellow"
         ],
         "mutates_into": [
             ""
         ],
         "reagents_add": {
-            "holywater": 0.2,
+            "water/holywater": 0.2,
             "vitamin": 0.04,
             "nutriment": 0.1
         },
@@ -1391,9 +1593,57 @@
             "Weed Adaptation"
         ],
         "mutates_into": [
-            "harebell"
+            "starthistle_corpse_flower",
+            "galaxythistle"
         ],
         "species": "starthistle"
+    },
+    {
+        "name": "starthistle_corpse_flower",
+        "plantname": "Corpse flower",
+        "Description": "A species of plant that emits a horrible odor. The odor stops being produced in difficult atmospheric conditions.",
+        "seed_packet": "seed-corpse-flower",
+        "lifespan": 70,
+        "endurance": 50,
+        "production": 20,
+        "plant_yield": 20,
+        "potency": 10,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing_flowers",
+        "genes": [],
+        "mutates_into": [
+            ""
+        ],
+        "species": "corpse-flower"
+    },
+    {
+        "name": "galaxythistle",
+        "plantname": "Galaxythistle",
+        "Description": "An impressive species of weed that is thought to have evolved from the simple milk thistle. Contains flavolignans that can help repair a damaged liver.",
+        "seed_packet": "seed-galaxythistle",
+        "lifespan": 70,
+        "endurance": 40,
+        "production": 20,
+        "plant_yield": 20,
+        "potency": 25,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing_flowers",
+        "genes": [
+            "Weed Adaptation",
+            "invasive"
+        ],
+        "mutates_into": [
+            ""
+        ],
+        "reagents_add": {
+            "nutriment": 0.05,
+            "silibinin": 0.1
+        },
+        "species": "galaxythistle",
+        "produce_name": "galaxythistle flower head",
+        "description": "This spiny cluster of florets reminds you of the highlands."
     },
     {
         "name": "cabbage",
@@ -1418,7 +1668,9 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "cabbage"
+        "species": "cabbage",
+        "produce_name": "cabbage",
+        "description": "Ewwwwwwwwww. Cabbage."
     },
     {
         "name": "sugarcane",
@@ -1435,10 +1687,15 @@
         "genes": [
             "Perennial_Growth"
         ],
+        "mutates_into": [
+            "bamboo"
+        ],
         "reagents_add": {
             "sugar": 0.25
         },
-        "species": "sugarcane"
+        "species": "sugarcane",
+        "produce_name": "sugarcane",
+        "description": "Sickly sweet."
     },
     {
         "name": "gatfruit",
@@ -1487,9 +1744,11 @@
         "reagents_add": {
             "nutriment": 0.1,
             "sugar": 0.1,
-            "blackpowder": 0.7
+            "gunpowder": 0.7
         },
-        "species": "cherry_bomb"
+        "species": "cherry_bomb",
+        "produce_name": "cherry bombs",
+        "description": "You think you can hear the hissing of a tiny fuse."
     },
     {
         "name": "reishi",
@@ -1509,7 +1768,7 @@
         ],
         "reagents_add": {
             "morphine": 0.35,
-            "charcoal": 0.35,
+            "multiver": 0.35,
             "nutriment": 0
         },
         "species": "reishi"
@@ -1653,10 +1912,36 @@
         "genes": [
             "Fungal Vitality"
         ],
+        "mutates_into": [
+            "chanter_jupitercup"
+        ],
         "reagents_add": {
             "nutriment": 0.1
         },
         "species": "chanter"
+    },
+    {
+        "name": "chanter_jupitercup",
+        "plantname": "Jupiter Cups",
+        "Description": "This mycelium grows into jupiter cups. Zeus would be envious at the power at your fingertips.",
+        "seed_packet": "mycelium-jupitercup",
+        "lifespan": 40,
+        "endurance": 8,
+        "production": 40,
+        "plant_yield": 40,
+        "potency": 15,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing_mushrooms",
+        "genes": [
+            "Fungal Vitality",
+            "liquidelectricity",
+            "Carnivory"
+        ],
+        "reagents_add": {
+            "nutriment": 0.1
+        },
+        "species": "jupitercup"
     },
     {
         "name": "glowshroom",
@@ -1680,7 +1965,7 @@
             "glowshroom_shadowshroom"
         ],
         "reagents_add": {
-            "radium": 0.1,
+            "uranium/radium": 0.1,
             "phosphorus": 0.1,
             "nutriment": 0.04
         },
@@ -1699,7 +1984,6 @@
         "weed_growth_rate": 10,
         "weed_resistance": 50,
         "growing_icon": "growing_mushrooms",
-        "dead_Sprite": "glowshroom-dead",
         "genes": [
             "Red Electrical Glow",
             "Electrical Activity",
@@ -1736,73 +2020,10 @@
             ""
         ],
         "reagents_add": {
-            "radium": 0.2,
+            "uranium/radium": 0.2,
             "nutriment": 0.04
         },
         "species": "shadowshroom"
-    },
-    {
-        "name": "lavaland_polypore",
-        "plantname": "Polypore Mushrooms",
-        "Description": "This mycelium grows into bracket mushrooms, also known as polypores. Woody and firm, shaft miners often use them for makeshift crafts.",
-        "seed_packet": "mycelium-polypore",
-        "lifespan": 50,
-        "endurance": 25,
-        "production": 40,
-        "plant_yield": 40,
-        "potency": 15,
-        "weed_growth_rate": 10,
-        "weed_resistance": 50,
-        "growing_icon": "growing_mushrooms",
-        "genes": [
-            "Fungal Vitality"
-        ],
-        "reagents_add": {
-            "nutriment": 0.1
-        },
-        "species": "polypore"
-    },
-    {
-        "name": "lavaland_porcini",
-        "plantname": "Porcini Mushrooms",
-        "Description": "This mycelium grows into Boletus edulus, also known as porcini. Native to the late Earth, but discovered on Lavaland. Has culinary, medicinal and relaxant effects.",
-        "seed_packet": "mycelium-porcini",
-        "lifespan": 50,
-        "endurance": 25,
-        "production": 40,
-        "plant_yield": 40,
-        "potency": 15,
-        "weed_growth_rate": 10,
-        "weed_resistance": 50,
-        "growing_icon": "growing_mushrooms",
-        "genes": [
-            "Fungal Vitality"
-        ],
-        "reagents_add": {
-            "nutriment": 0.1
-        },
-        "species": "porcini"
-    },
-    {
-        "name": "lavaland_inocybe",
-        "plantname": "Inocybe Mushrooms",
-        "Description": "This mycelium grows into an inocybe mushroom, a species of Lavaland origin with hallucinatory and toxic effects.",
-        "seed_packet": "mycelium-inocybe",
-        "lifespan": 50,
-        "endurance": 25,
-        "production": 40,
-        "plant_yield": 40,
-        "potency": 15,
-        "weed_growth_rate": 10,
-        "weed_resistance": 50,
-        "growing_icon": "growing_mushrooms",
-        "genes": [
-            "Fungal Vitality"
-        ],
-        "reagents_add": {
-            "nutriment": 0.1
-        },
-        "species": "inocybe"
     },
     {
         "name": "nettle",
@@ -1824,7 +2045,7 @@
             "nettle_death"
         ],
         "reagents_add": {
-            "sacid": 0.5
+            "acid": 0.5
         },
         "species": "nettle"
     },
@@ -1849,8 +2070,8 @@
             ""
         ],
         "reagents_add": {
-            "facid": 0.5,
-            "sacid": 0.5
+            "acid/fluacid": 0.5,
+            "acid": 0.5
         },
         "species": "deathnettle"
     },
@@ -1874,7 +2095,9 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "onion"
+        "species": "onion",
+        "produce_name": "onion",
+        "description": "Nothing to cry over."
     },
     {
         "name": "onion_red",
@@ -1894,7 +2117,35 @@
             "nutriment": 0.1,
             "tearjuice": 0.05
         },
-        "species": "onion_red"
+        "species": "onion_red",
+        "produce_name": "red onion",
+        "description": "Purple despite the pretty_name."
+    },
+    {
+        "name": "pineapple",
+        "plantname": "Pineapple Plant",
+        "Description": "Oooooooooooooh!",
+        "seed_packet": "seed-pineapple",
+        "lifespan": 40,
+        "endurance": 30,
+        "production": 60,
+        "plant_yield": 30,
+        "potency": 10,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing_fruits",
+        "genes": [
+            "Perennial_Growth"
+        ],
+        "mutates_into": [
+            "apple"
+        ],
+        "reagents_add": {
+            "vitamin": 0.02,
+            "nutriment": 0.2,
+            "water": 0.04
+        },
+        "species": "pineapple"
     },
     {
         "name": "potato",
@@ -1920,7 +2171,9 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "potato"
+        "species": "potato",
+        "produce_name": "potato",
+        "description": "Boil 'em! Mash 'em! Stick 'em in a stew!"
     },
     {
         "name": "potato_sweet",
@@ -1973,7 +2226,9 @@
             "vitamin": 0.04,
             "nutriment": 0.2
         },
-        "species": "pumpkin"
+        "species": "pumpkin",
+        "produce_name": "pumpkin",
+        "description": "It's large and scary."
     },
     {
         "name": "pumpkin_blumpkin",
@@ -2001,6 +2256,28 @@
             "nutriment": 0.2
         },
         "species": "blumpkin"
+    },
+    {
+        "name": "rainbow_bunch",
+        "plantname": "Rainbow Flowers",
+        "Description": "A pack of seeds that'll grow into a beautiful bush of various colored flowers.",
+        "seed_packet": "seed-rainbowbunch",
+        "lifespan": 25,
+        "endurance": 10,
+        "production": 30,
+        "plant_yield": 50,
+        "potency": 20,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing_flowers",
+        "dead_Sprite": "rainbowbunch-dead",
+        "genes": [
+            "Perennial_Growth"
+        ],
+        "reagents_add": {
+            "nutriment": 0.05
+        },
+        "species": "rainbowbunch"
     },
     {
         "name": "random",
@@ -2052,7 +2329,9 @@
             "vitamin": 0.04,
             "nutriment": 0.05
         },
-        "species": "carrot"
+        "species": "carrot",
+        "produce_name": "carrot",
+        "description": "It's good for the eyes!"
     },
     {
         "name": "carrot_parsnip",
@@ -2099,7 +2378,9 @@
             "sugar": 0.2,
             "nutriment": 0.05
         },
-        "species": "whitebeet"
+        "species": "whitebeet",
+        "produce_name": "white-beet",
+        "description": "You can't beat white-beet."
     },
     {
         "name": "redbeet",
@@ -2143,11 +2424,9 @@
         "mutates_into": [
             "tea_astra"
         ],
-        "reagents_add": {
-            "vitamin": 0.04,
-            "teapowder": 0.1
-        },
-        "species": "teaaspera"
+        "species": "teaaspera",
+        "produce_name": "Tea Aspera tips",
+        "description": "These aromatic tips of the tea plant can be dried to make tea."
     },
     {
         "name": "tea_astra",
@@ -2173,7 +2452,9 @@
             "vitamin": 0.04,
             "teapowder": 0.1
         },
-        "species": "teaastra"
+        "species": "teaastra",
+        "produce_name": "Tea Astra tips",
+        "description": ""
     },
     {
         "name": "coffee",
@@ -2198,7 +2479,9 @@
             "vitamin": 0.04,
             "coffeepowder": 0.1
         },
-        "species": "coffeea"
+        "species": "coffeea",
+        "produce_name": "coffee arabica beans",
+        "description": "Dry them out to make coffee."
     },
     {
         "name": "coffee_robusta",
@@ -2246,7 +2529,9 @@
             "nicotine": 0.03,
             "nutriment": 0.03
         },
-        "species": "tobacco"
+        "species": "tobacco",
+        "produce_name": "tobacco leaves",
+        "description": "Dry them out to make some smokes."
     },
     {
         "name": "tobacco_space",
@@ -2298,7 +2583,9 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "tomato"
+        "species": "tomato",
+        "produce_name": "tomato",
+        "description": "I say to-mah-to, you say tom-mae-to."
     },
     {
         "name": "tomato_blood",
@@ -2326,7 +2613,9 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "bloodtomato"
+        "species": "bloodtomato",
+        "produce_name": "blood-tomato",
+        "description": "So bloody...so...very...bloody....AHHHH!!!!"
     },
     {
         "name": "tomato_blue",
@@ -2354,7 +2643,9 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "bluetomato"
+        "species": "bluetomato",
+        "produce_name": "blue-tomato",
+        "description": "I say blue-mah-to, you say blue-mae-to."
     },
     {
         "name": "tomato_blue_bluespace",
@@ -2385,7 +2676,9 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "bluespacetomato"
+        "species": "bluespacetomato",
+        "produce_name": "bluespace tomato",
+        "description": "So lubricated, you might slip through space-time."
     },
     {
         "name": "tomato_killer",
@@ -2411,7 +2704,9 @@
             "vitamin": 0.04,
             "nutriment": 0.1
         },
-        "species": "killertomato"
+        "species": "killertomato",
+        "produce_name": "killer-tomato",
+        "description": "I say to-mah-to, you say tom-mae-to... OH GOD IT'S EATING MY LEGS!!"
     },
     {
         "name": "tower",
@@ -2456,5 +2751,24 @@
             ""
         ],
         "species": "steelcap"
+    },
+    {
+        "name": "bamboo",
+        "plantname": "Bamboo",
+        "Description": "A plant known for its flexible and resistant logs.",
+        "seed_packet": "seed-bamboo",
+        "lifespan": 80,
+        "endurance": 70,
+        "production": 20,
+        "plant_yield": 50,
+        "potency": 50,
+        "weed_growth_rate": 10,
+        "weed_resistance": 50,
+        "growing_icon": "growing",
+        "dead_Sprite": "bamboo-dead",
+        "genes": [
+            "Perennial_Growth"
+        ],
+        "species": "bamboo"
     }
 ]

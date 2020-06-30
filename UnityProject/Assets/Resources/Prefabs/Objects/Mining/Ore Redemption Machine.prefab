@@ -1,12 +1,41 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7207538277679673550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2473681083921309212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+    - {fileID: 21300002, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+    - {fileID: 21300004, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+    - {fileID: 21300006, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+    - {fileID: 21300008, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+    - {fileID: 21300010, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+    - {fileID: 21300012, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+    - {fileID: 21300014, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+    EquippedData: {fileID: 4900000, guid: cbe20f1541f640d408cb8185d77f9f95, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1
 --- !u!114 &1892107992577685649
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1735666357076621607}
+  m_GameObject: {fileID: 2473681083921311120}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ed1afb988e22a0445a9ebcf788bf0110, type: 3}
@@ -37,33 +66,24 @@ MonoBehaviour:
   - Trait: {fileID: 11400000, guid: 6097f8423a1b255468e2285de46bc3d3, type: 2}
     Material: {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d,
       type: 3}
---- !u!114 &7207538277679673550
+--- !u!114 &5600573209671788888
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7537901516811143965}
+  m_GameObject: {fileID: 2473681083921311120}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
-    - {fileID: 21300002, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
-    - {fileID: 21300004, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
-    - {fileID: 21300006, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
-    - {fileID: 21300008, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
-    - {fileID: 21300010, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
-    - {fileID: 21300012, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
-    - {fileID: 21300014, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
-    EquippedData: {fileID: 4900000, guid: cbe20f1541f640d408cb8185d77f9f95, type: 3}
-  spriteIndex: 0
-  variantIndex: 0
-  SetSpriteOnStartUp: 1
+  MachineParts: {fileID: 11400000, guid: d7b92dbb9bdd1c543a43dbc82c7fdc57, type: 2}
+  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+    type: 3}
+  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+    type: 3}
+  secondsToScrewdrive: 2
 --- !u!1001 &2473681083921268590
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -159,13 +179,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
---- !u!1 &1735666357076621607 stripped
+--- !u!1 &2473681083921311120 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}
   m_PrefabInstance: {fileID: 2473681083921268590}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &7537901516811143965 stripped
+--- !u!1 &2473681083921309212 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}

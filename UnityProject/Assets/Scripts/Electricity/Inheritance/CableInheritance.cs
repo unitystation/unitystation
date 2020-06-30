@@ -3,20 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Mirror;
+using UnityEngine.Serialization;
 
-public class CableInheritance : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>, IDeviceControl
+public class CableInheritance : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	public bool SelfDestruct = false;
 	public WiringColor CableType;
 	public SpriteSheetAndData CableSprites;
-	public Connection WireEndA { get { return wireConnect.WireEndA; } set { wireConnect.WireEndA = value; } }
-	public Connection WireEndB { get { return wireConnect.WireEndB; } set { wireConnect.WireEndB = value; } }
+	public Connection WireEndA { get { return wireConnect.InData.WireEndA; } set { wireConnect.InData.WireEndA = value; } }
+	public Connection WireEndB { get { return wireConnect.InData.WireEndB; } set { wireConnect.InData.WireEndB = value; } }
 	public WireConnect wireConnect;
 	public PowerTypeCategory ApplianceType;
 	public HashSet<PowerTypeCategory> CanConnectTo;
 
-	public ParticleSystem Sparks;
-	public ParticleSystem Smoke;
+	[SerializeField]
+	[FormerlySerializedAs("Sparks")]
+	private ParticleSystem sparksPrefab = null;
+
+	[SerializeField]
+	[FormerlySerializedAs("Sparks")]
+	private ParticleSystem smokePrefab = null;
 
 	public float MaximumInstantBreakCurrent;
 	public float MaximumBreakdownCurrent;
@@ -25,6 +31,10 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	public float DestructionPriority;
 	public bool CanOverCurrent = true;
 
+	private bool BeingDestroyed = false;
+
+	private bool CheckOverlap = false;
+	public bool IsInGamePlaced = false;
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -44,69 +54,66 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 		{
 			if (!matrix.Matrix.IsClearUnderfloorConstruction(localPosInt, true))
 			{
+
 				return;
 			}
 		}
 		else {
+
 			return;
 		}
-
-		toDestroy();
-	}
-
-	public void PotentialDestroyed()
-	{
-		if (SelfDestruct)
-		{
-			//Then you can destroy
-		}
+		wireConnect.DestroyThisPlease();
 	}
 
 	public void toDestroy()
 	{
 		if (wireConnect.RelatedLine != null)
 		{
-			foreach ( var CB in wireConnect.RelatedLine.Covering )
+			foreach (var CB in wireConnect.RelatedLine.Covering)
 			{
-				if ( CB == null )
+				if (CB == null)
 				{
 					return;
 				}
-				CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
+				CB.Present.GetComponent<CableInheritance>()?.Smoke.Stop();
 			}
 		}
 		GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 		SelfDestruct = true;
 		//gameObject.GetComponentInChildren<SpriteRenderer>().enabled = false;
 		//ElectricalSynchronisation.StructureChange = true;
-		ElectricalSynchronisation.NUCableStructureChange.Add(this);
-	}
-
-	void Awake()
-	{
-		wireConnect = GetComponent<WireConnect>();
-		wireConnect.ControllingCable = this;
-		wireConnect.InData.ElectricityOverride = true;
+		PowerUpdateStructureChange();
 	}
 
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
+		wireConnect = GetComponent<WireConnect>();
+		wireConnect.ControllingCable = this;
+		StartCoroutine(WaitForLoad());
 		_OnStartServer();
 	}
+
 	public virtual void _OnStartServer()
 	{
+		//wireConnect.ControllingCable = this;
+		//StartCoroutine(WaitForLoad());
+		//var searchVec = wireConnect.registerTile.LocalPosition;
 	}
+
+
 	public virtual void PowerUpdateStructureChange()
 	{
-		wireConnect.FlushConnectionAndUp();
+		wireConnect.InData.FlushConnectionAndUp();
 		wireConnect.FindPossibleConnections();
-		wireConnect.FlushConnectionAndUp();
-		if (SelfDestruct) {
+		wireConnect.InData.FlushConnectionAndUp();
+		if (SelfDestruct)
+		{
 			wireConnect.registerTile.UnregisterClient();
 			wireConnect.registerTile.UnregisterServer();
 			if (this != null)
 			{
+				wireConnect.DestroyThisPlease();
 				Despawn.ServerSingle(gameObject);
 			}
 		}
@@ -115,71 +122,63 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public virtual void PowerNetworkUpdate()
 	{
-		ElectricityFunctions.WorkOutActualNumbers(wireConnect);
-		if (MaximumInstantBreakCurrent != 0 && CanOverCurrent)
+		ElectricityFunctions.WorkOutActualNumbers(wireConnect.InData);
+		if (CheckOverlap)
 		{
-			if (MaximumInstantBreakCurrent < wireConnect.Data.CurrentInWire)
-			{
-				QueueForDemolition(this);
-				return;
-			}
-			if (MaximumBreakdownCurrent < wireConnect.Data.CurrentInWire) {
-				if (CheckDestruction)
-				{
-					if (wireConnect.RelatedLine != null)
-					{
-						foreach (var CB in wireConnect.RelatedLine.Covering)
-							CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
-					}
-					QueueForDemolition(this);
-					return;
-				}
-				else
-				{
-					if (wireConnect.RelatedLine != null) {
-						foreach (var CB in wireConnect.RelatedLine.Covering)
-							CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Play();
-					}
-					Smoke.Play();
-					StartCoroutine(WaitForDemolition());
-					return;
-				}
-			}
-			if (CheckDestruction)
-			{
-				CheckDestruction = false;
-				if (wireConnect.RelatedLine != null)
-				{
-					foreach (var CB in wireConnect.RelatedLine.Covering)
-						CB.gameObject.GetComponent<CableInheritance>()?.Smoke.Stop();
-				}
-				Smoke.Stop();
-			}
+			CheckOverlap = false;
+			FindOverlapsAndCombine();
 
-			if ( Sparks )
-			{
-				Sparks.Stop();
-			}
+			ConvertToTile();
+
 		}
+		//if (MaximumInstantBreakCurrent != 0 && CanOverCurrent)
+		//{
+		//	if (MaximumInstantBreakCurrent < wireConnect.Data.CurrentInWire)
+		//	{
+		//		QueueForDemolition(this);
+		//		return;
+		//	}
+		//	if (MaximumBreakdownCurrent < wireConnect.Data.CurrentInWire) {
+		//		if (CheckDestruction)
+		//		{
+		//			QueueForDemolition(this);
+		//			return;
+		//		}
+		//		else
+		//		{
+		//			Smoke.Play();
+		//			StartCoroutine(WaitForDemolition());
+		//			return;
+		//		}
+		//	}
+		//	if (CheckDestruction)
+		//	{
+		//		CheckDestruction = false;
+		//		Smoke.Stop();
+		//	}
+		//	Sparks.Stop();
+		//}
 	}
 
 	public void QueueForDemolition(CableInheritance CableToDestroy)
 	{
-		Sparks.Play();
-		DestructionPriority = wireConnect.Data.CurrentInWire * MaximumBreakdownCurrent;
-		if (ElectricalSynchronisation.CableToDestroy != null)
+		var sync = ElectricalManager.Instance.electricalSync;
+		DestructionPriority = wireConnect.InData.Data.CurrentInWire * MaximumBreakdownCurrent;
+		if (sync.CableToDestroy != null)
 		{
-			if (DestructionPriority > ElectricalSynchronisation.CableToDestroy.DestructionPriority)
+			if (DestructionPriority >= sync.CableToDestroy.DestructionPriority)
 			{
-				ElectricalSynchronisation.CableUpdates.Add(ElectricalSynchronisation.CableToDestroy);
-				ElectricalSynchronisation.CableToDestroy = this;
+				sync.CableToDestroy.Smoke.Stop();
+				sync.CableToDestroy.Sparks.Stop();
+				sync.CableUpdates.Add(sync.CableToDestroy);
+				sync.CableToDestroy = this;
 			}
 			else {
-				ElectricalSynchronisation.CableUpdates.Add(this);
+				sync.CableUpdates.Add(this);
 			}
 		}
 		else {
-			ElectricalSynchronisation.CableToDestroy = this;
+			sync.CableToDestroy = this;
 		}
 	}
 
@@ -188,19 +187,59 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	{
 		yield return WaitFor.Seconds(TimeDeforeDestructiveBreakdown);
 		CheckDestruction = true;
-		ElectricalSynchronisation.CableUpdates.Add(this);
+		ElectricalManager.Instance.electricalSync.CableUpdates.Add(this);
 	}
 
-	//FIXME: Objects at runtime do not get destroyed. Instead they are returned back to pool
-	//FIXME: that also renderers IDevice useless. Please reassess
-	public void OnDestroy()
+	IEnumerator WaitForLoad()
 	{
-		SelfDestruct = true;
-		//Making Invisible
+		yield return WaitFor.Seconds(1);
+		//Logger.Log("AddElectricalNode");
+		if (!IsInGamePlaced)
+		{
+			ConvertToTile();
+		}
 	}
-	public void TurnOffCleanup()
+
+
+	public void ConvertToTile(bool editor = false)
 	{
+		if (this != null && !BeingDestroyed)
+		{
+			if (wireConnect.InData.WireEndA != Connection.NA | wireConnect.InData.WireEndB != Connection.NA)
+			{
+				var searchVec = wireConnect.registerTile.LocalPosition;
+				if (wireConnect.SpriteHandler == null)
+				{
+					BeingDestroyed = true;
+					if (editor)
+					{
+						wireConnect.registerTile.Matrix.EditorAddElectricalNode(searchVec, wireConnect);
+					}
+					else
+					{
+						wireConnect.registerTile.Matrix.AddElectricalNode(searchVec, wireConnect);
+					}
+
+					//wireConnect.InData = new IntrinsicElectronicData();
+					wireConnect.InData.DestroyAuthorised = true;
+					wireConnect.InData.DestroyQueueing = true;
+					if (editor)
+					{
+						DestroyImmediate(gameObject);
+					}
+					else
+					{
+						Despawn.ServerSingle(gameObject);
+
+					}
+					wireConnect.InData.DestroyAuthorised = false;
+					wireConnect.InData.DestroyQueueing = false;
+					//DestroyImmediate(gameObject); ##d
+				}
+			}
+		}
 	}
+
 	/// <summary>
 	///     If you have some tray goggles on then set this bool to true to get the right sprite.
 	///     I guess you still need to faff about with display layers but that isn't my issue.
@@ -209,70 +248,54 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public void damEditor()
 	{
-
 		SetSprite();
 	}
-	// Use this for initialization
-	private void Start()
-	{
-		ElectricalSynchronisation.NUCableStructureChange.Add(this);
-		SetDirection(WireEndB, WireEndA, CableType);
-	}
+
+
 
 	public void FindOverlapsAndCombine()
 	{
 		if (WireEndA == Connection.Overlap | WireEndB == Connection.Overlap)
 		{
-			bool isA;
-			if (WireEndA == Connection.Overlap)
-			{
-				isA = true;
-			}
-			else {
-				isA = false;
-			}
-			List<ElectricalOIinheritance> Econns = new List<ElectricalOIinheritance>();
+			List<IntrinsicElectronicData> Econns = new List<IntrinsicElectronicData>();
+
 			var IEnumerableEconns = wireConnect.Matrix.GetElectricalConnections(wireConnect.registerTile.LocalPositionServer);
-			foreach (var T in IEnumerableEconns) {
+			foreach (var T in IEnumerableEconns)
+			{
 				Econns.Add(T);
 			}
-			int i = 0;
-			if (Econns != null)
+			IEnumerableEconns.Clear();
+			ElectricalPool.PooledFPCList.Add(IEnumerableEconns);
+
+			for (int i = 0; i < Econns.Count; i++)
 			{
-				while (!(i >= Econns.Count)){
-					if (ApplianceType == Econns[i].InData.Categorytype)
+				if (ApplianceType == Econns[i].Categorytype && wireConnect.InData != Econns[i])
+				{
+					Connection replacementConnection;
+					if (Econns[i].WireEndA == Connection.Overlap)
 					{
-						if (wireConnect != Econns[i])
-						{
-							if (Econns[i].WireEndA == Connection.Overlap)
-							{
-								if (isA)
-								{
-									WireEndA = Econns[i].WireEndB;
-								}
-								else {
-									WireEndB = Econns[i].WireEndB;
-								}
-								SetDirection(WireEndB, WireEndA, CableType);
-								ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
-								Econns[i].gameObject.GetComponent<CableInheritance>().toDestroy();
-							}
-							else if (Econns[i].WireEndB == Connection.Overlap)
-							{
-								if (isA)
-								{
-									WireEndA = Econns[i].WireEndA;
-								}
-								else {
-									WireEndB = Econns[i].WireEndA;
-								}
-								SetDirection(WireEndB, WireEndA, CableType);
-								ElectricalCableMessage.Send(gameObject, WireEndA, WireEndB, CableType);
-								Econns[i].gameObject.GetComponent<CableInheritance>().toDestroy();
-							}
-						}
+						replacementConnection = Econns[i].WireEndB;
 					}
-					i++;
+					else if (Econns[i].WireEndB == Connection.Overlap)
+					{
+						replacementConnection = Econns[i].WireEndA;
+					}
+					else
+					{
+						continue;
+					}
+
+					if (WireEndA == Connection.Overlap)
+					{
+						WireEndA = replacementConnection;
+					}
+					else
+					{
+						WireEndB = replacementConnection;
+					}
+					SetDirection(WireEndB, WireEndA, CableType);
+					Econns[i].DestroyThisPlease();
+					return;
 				}
 			}
 		}
@@ -280,20 +303,22 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 
 	public void SetDirection(Connection REWireEndA, Connection REWireEndB, WiringColor RECableType = WiringColor.unknown)
 	{
-		if (REWireEndA == REWireEndB) {
+		if (REWireEndA == REWireEndB)
+		{
 			Logger.LogWarningFormat("Wire connection both starts ({0}) and ends ({1}) in the same place!", Category.Electrical, REWireEndA, REWireEndB);
 			return;
 		}
-		if (!(RECableType == WiringColor.unknown))
+		if (RECableType != WiringColor.unknown)
 		{
 			CableType = RECableType;
 		}
 		WireEndA = REWireEndA;
 		WireEndB = REWireEndB;
-		//Logger.Log(WireEndB.ToString() + " <WireEndB and WireEndA> " + WireEndA.ToString(), Category.Electrical);
 		SetSprite();
-		if (isServer) {
-			FindOverlapsAndCombine();
+		if (isServer)
+		{
+			CheckOverlap = true;
+			ElectricalManager.Instance.electricalSync.CableUpdates.Add(this);
 		}
 	}
 
@@ -302,25 +327,38 @@ public class CableInheritance : NetworkBehaviour, ICheckedInteractable<Positiona
 	private void SetSprite()
 	{
 		SpriteRenderer SR = gameObject.GetComponentInChildren<SpriteRenderer>();
-		//the red sprite is spliced differently than the rest for some reason :^(
-		string Compound;
-		if (WireEndA < WireEndB)
-		{
-			Compound = WireEndA + "_" + WireEndB;
-		}
-		else {
-			Compound = WireEndB + "_" + WireEndA;
-		}
-		int spriteIndex = WireDirections.GetSpriteIndex(Compound);
-		if (TRay)
-		{
-			spriteIndex += 36;
-		}
-
+		int spriteIndex = WireDirections.GetSpriteIndex(WireEndA, WireEndB, TRay);
 		SR.sprite = CableSprites.Sprites[spriteIndex];
 		if (SR.sprite == null)
 		{
 			Logger.LogError("SetSprite: Couldn't find wire sprite, sprite value didn't return anything!", Category.Electrical);
+		}
+	}
+
+	private ParticleSystem sparks;
+	public ParticleSystem Sparks
+	{
+		get
+		{
+			if (!sparks)
+				sparks = Instantiate(sparksPrefab, transform);
+			return sparks;
+		}
+	}
+
+	public bool IsSparking()
+	{
+		return sparks != null && sparks.isPlaying;
+	}
+
+	private ParticleSystem smoke;
+	public ParticleSystem Smoke
+	{
+		get
+		{
+			if (!smoke)
+				smoke = Instantiate(smokePrefab, transform);
+			return smoke;
 		}
 	}
 }

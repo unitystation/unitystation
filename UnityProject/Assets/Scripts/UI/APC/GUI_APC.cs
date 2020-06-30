@@ -13,12 +13,13 @@ public class GUI_APC : NetTab
 	/// <summary>
 	/// Colours which will be used for foregrounds and backgrounds (in hex format)
 	/// </summary>
-	private const string fullBackground 	= "82FF4C",
-						 chargingBackground = "A8B0F8",
-						 criticalBackground = "F86060",
-						 fullForeground 	= "00CC00",
-						 chargingForeground = "6070F8",
-						 criticalForeground = "F0F8A8";
+	private static readonly Color
+		fullBackground 	   = DebugTools.HexToColor("82FF4C"),
+		chargingBackground = DebugTools.HexToColor("A8B0F8"),
+		criticalBackground = DebugTools.HexToColor("F86060"),
+		fullForeground 	   = DebugTools.HexToColor("00CC00"),
+		chargingForeground = DebugTools.HexToColor("6070F8"),
+		criticalForeground = DebugTools.HexToColor("F0F8A8");
 
 	// Elements that we want to visually update:
 	private NetColorChanger _backgroundColor;
@@ -261,46 +262,46 @@ public class GUI_APC : NetTab
 	{
 		if (LocalAPC.State != APC.APCState.Dead)
 		{
-			OffOverlayColor.SetValue = DebugTools.ColorToHex(Color.clear);
+			OffOverlayColor.SetValueServer(Color.clear);
 			Logger.LogTrace("Updating APC display", Category.NetUI);
 			// Display the electrical values using engineering notation
 			string voltage = LocalAPC.Voltage.ToEngineering("V");
 			string current = LocalAPC.Current.ToEngineering("A");
 			string power = (LocalAPC.Voltage * LocalAPC.Current).ToEngineering("W");
-			ElectricalValues.SetValue = $"{voltage}\n{current}\n{power}";
-			StatusText.SetValue = LocalAPC.State.ToString();
-			ChargePercentage.SetValue = CalculateChargePercentage();
+			ElectricalValues.SetValueServer($"{voltage}\n{current}\n{power}");
+			StatusText.SetValueServer(LocalAPC.State.ToString());
+			ChargePercentage.SetValueServer(CalculateChargePercentage());
 			// State specific updates
 			switch (LocalAPC.State)
 			{
 				case APC.APCState.Full:
-					BackgroundColor.SetValue = fullBackground;
+					BackgroundColor.SetValueServer(fullBackground);
 					UpdateForegroundColours(fullForeground);
-					ChargeBar.SetValue = "100";
+					ChargeBar.SetValueServer("100");
 					break;
 				case APC.APCState.Charging:
-					BackgroundColor.SetValue = chargingBackground;
+					BackgroundColor.SetValueServer(chargingBackground);
 					UpdateForegroundColours(chargingForeground);
 					AnimateChargeBar();
 					break;
 				case APC.APCState.Critical:
-					BackgroundColor.SetValue = criticalBackground;
+					BackgroundColor.SetValueServer(criticalBackground);
 					UpdateForegroundColours(criticalForeground);
-					ChargeBar.SetValue = "0";
+					ChargeBar.SetValueServer("0");
 					break;
 			}
 		}
 		else
 		{
-			BackgroundColor.SetValue = DebugTools.ColorToHex(Color.clear); // Also changing the background since it bleeds through on the edges
-			OffOverlayColor.SetValue = DebugTools.ColorToHex(Color.black);
+			BackgroundColor.SetValueServer(Color.clear); // Also changing the background since it bleeds through on the edges
+			OffOverlayColor.SetValueServer(Color.black);
 		}
 	}
 
-	private void UpdateForegroundColours(string hexColor)
+	private void UpdateForegroundColours(Color hexColor)
 	{
-		ElectricalLabelsColor.SetValue = hexColor;
-		ChargeFillColor.SetValue = hexColor;
+		ElectricalLabelsColor.SetValueServer(hexColor);
+		ChargeFillColor.SetValueServer(hexColor);
 		// TODO These colors can't be updated until a solution for updating colors and text is figured out
 		// ElectricalValuesColor.SetValue = hexColor;
 		// StatusTextColor.SetValue = hexColor;
@@ -310,6 +311,6 @@ public class GUI_APC : NetTab
 	{
 		int chargeVal = int.Parse(ChargeBar.Value) + 10;
 		// Update the charge bar animation
-		ChargeBar.SetValue = chargeVal > 100 ? "0" : chargeVal.ToString();
+		ChargeBar.SetValueServer(chargeVal > 100 ? "0" : chargeVal.ToString());
 	}
 }

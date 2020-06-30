@@ -53,7 +53,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 37
+  MaxDistance: 9.428909
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -231,7 +231,7 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 1
-  MaxDistance: 37
+  MaxDistance: 9.858582
   Pan2D: 0
   rolloffMode: 2
   BypassEffects: 0
@@ -401,6 +401,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -5141,6 +5142,7 @@ ParticleSystemRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -5210,6 +5212,8 @@ GameObject:
   - component: {fileID: 114102132577365772}
   - component: {fileID: 114904772816368656}
   - component: {fileID: 1348606562097783112}
+  - component: {fileID: -3599987768168059985}
+  - component: {fileID: 7951845945411301283}
   m_Layer: 11
   m_Name: PowerGeneratorPlasma
   m_TagString: Untagged
@@ -5307,6 +5311,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114093731737732554
 MonoBehaviour:
@@ -5376,27 +5381,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  WireEndB: 8
-  WireEndA: 9
-  Data:
-    CurrentInWire: 0
-    ActualVoltage: 0
-    EstimatedResistance: 0
-    SupplyingCurrent: 0
-    InternalResistance: 0
-    SupplyingVoltage: 0
-    ChangeToOff: 0
-    CurrentStoreValue: 0
   InData:
-    Categorytype: 0
+    WireEndB: 10
+    WireEndA: 8
+    Categorytype: 13
     ControllingDevice: {fileID: 0}
-    DirectionOverride: 0
-    ResistanceOverride: 0
-    ElectricityOverride: 0
+    Present: {fileID: 0}
+    Data:
+      CurrentInWire: 0
+      ActualVoltage: 0
+      EstimatedResistance: 0
+      SupplyingCurrent: 0
+      InternalResistance: 0
+      SupplyingVoltage: 0
+      ChangeToOff: 0
+      CurrentStoreValue: 0
+    DestroyQueueing: 0
+    DestroyAuthorised: 0
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
-  registerTile3: {fileID: 114738137265545768}
 --- !u!114 &6324674111779620640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5413,6 +5417,8 @@ MonoBehaviour:
   syncInterval: 0.1
   Node: {fileID: 7281671087508858390}
   ApplianceType: 13
+  WireEndB: 9
+  WireEndA: 0
   ListCanConnectTo: 010000000b000000
   SelfDestruct: 0
   Reactions:
@@ -5448,6 +5454,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ModuleType: 0
   ControllingNode: {fileID: 0}
+  StartOnStartUp: 0
   current: 0
   Previouscurrent: 0
   SupplyingVoltage: 760000
@@ -5480,9 +5487,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
   sceneId: 0
   serverOnly: 0
-  m_AssetId: 69c27c4a07b053d458c6fec363e66403
+  m_AssetId: 
 --- !u!114 &1348606562097783112
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5519,3 +5527,33 @@ MonoBehaviour:
     FreezeProof: 0
   HeatResistance: 100
   initialIntegrity: 300
+--- !u!114 &-3599987768168059985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7951845945411301283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 52fff1ebf0dfdce40beab5e2d39dd722, type: 2}
+  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+    type: 3}
+  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+    type: 3}
+  secondsToScrewdrive: 2

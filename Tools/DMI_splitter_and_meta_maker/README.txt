@@ -1,8 +1,9 @@
-Requires
+Requires:
 python 3
-shutil
-PIL (pillow)
-
+And module dependencies:
+simplejson
+pillow
+(use `pip3 install pillow simplejson` to install dependencies)
 
 The equation for getting the right sprite from the sprite sheets 
 SpriteIndex = (AnimationIndex * NumberOfDirectionVariants) + WhichDirectionVariant

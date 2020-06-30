@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// Toggle for bool-based methods
 [RequireComponent(typeof(Toggle))]
 [Serializable]
-public class NetToggle : NetUIElement
+public class NetToggle : NetUIStringElement
 {
 	public override string Value {
 		get { return Element.isOn ? "1" : "0"; }
@@ -18,11 +18,13 @@ public class NetToggle : NetUIElement
 	}
 
 	public BoolEvent ServerMethod;
+	public BoolEventWithSubject ServerMethodWithSubject;
 
 	private Toggle element;
 
-	public override void ExecuteServer() {
-		ServerMethod.Invoke(Element.isOn);
+	public override void ExecuteServer(ConnectedPlayer subject) {
+		ServerMethod?.Invoke(Element.isOn);
+		ServerMethodWithSubject?.Invoke(Element.isOn, subject);
 	}
 
 	public Toggle Element {
@@ -38,3 +40,6 @@ public class NetToggle : NetUIElement
 /// "If you wish to use a generic UnityEvent type you must override the class type."
 [Serializable]
 public class BoolEvent : UnityEvent<bool>{}
+
+[Serializable]
+public class BoolEventWithSubject : UnityEvent<bool, ConnectedPlayer>{}

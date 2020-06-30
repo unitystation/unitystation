@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -7,10 +7,10 @@ using UnityEngine.UI;
 /// Sends client's InputField value to server method
 [RequireComponent(typeof( Button ))]
 [Serializable]
-public class NetSubmitButton : NetUIElement
+public class NetSubmitButton : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ClientWrite;
-	
+
 	public override string Value {
 		get { return SourceInputField?.text ?? "-1"; }
 		set {
@@ -21,8 +21,8 @@ public class NetSubmitButton : NetUIElement
 	}
 	public StringEvent ServerMethod;
 	public InputField SourceInputField;
-	
-	public override void ExecuteServer() {
+
+	public override void ExecuteServer(ConnectedPlayer subject) {
 		ServerMethod.Invoke(Value);
 	}
 }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Mirror;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,51 +8,41 @@ public class Tools : Editor
 {
 	class Conn
 	{
-		public Vector3 worldPos;
-		public Connection wireEndA;
-		public Connection wireEndB;
-		public PowerTypeCategory wireType;
+		public Vector3 worldPos = Vector3.zero;
+		public Connection wireEndA = Connection.East;
+		public Connection wireEndB = Connection.East;
+		public PowerTypeCategory wireType = PowerTypeCategory.Transformer;
 
 	}
 
-	[MenuItem("Tools/Clean Up Wire Dupes")]
-	private static void RemoveWireDupes()
+	[MenuItem("Tools/Refresh Directionals")]
+	private static void RefreshDirectionals()
 	{
-		List<Conn> testConns = new List<Conn>();
-		var allWires = FindObjectsOfType<WireConnect>();
+		var allDirs = FindObjectsOfType<Directional>();
 
-		int wireDupes = 0;
-		for (int i = allWires.Length - 1; i > 0; i--)
+		for (int i = allDirs.Length - 1; i > 0; i--)
 		{
-			var w = allWires[i];
-			var cable = w.GetComponent<CableInheritance>();
-			if (cable == null) continue;
+			if(allDirs[i].onEditorDirectionChange != null)
+				allDirs[i].onEditorDirectionChange.Invoke();
 
-			var c = new Conn
-			{
-				worldPos = w.transform.position,
-				wireEndA = w.WireEndA,
-				wireEndB = w.WireEndB,
-				wireType = cable.ApplianceType
-			};
-
-			var index = testConns.FindIndex(x => x.worldPos == c.worldPos &&
-			                                     x.wireEndA == c.wireEndA &&
-			                                     x.wireEndB == c.wireEndB &&
-												 x.wireType == c.wireType);
-
-			if (index == -1)
-			{
-				testConns.Add(c);
-			}
-			else
-			{
-				DestroyImmediate(w.gameObject);
-				wireDupes++;
-			}
+			allDirs[i].transform.localEulerAngles = Vector3.zero;
 		}
 
-		Debug.Log($"Removed {wireDupes} wire dupes");
+		Debug.Log($"Refreshed {allDirs.Length} directionals");
+	}
+
+	[MenuItem("Networking/Set all sceneids to 0")]
+	private static void SetAllSceneIdsToNull()
+	{
+		var allNets = FindObjectsOfType<NetworkIdentity>();
+
+		for (int i = allNets.Length - 1; i > 0; i--)
+		{
+			allNets[i].sceneId = 0;
+			EditorUtility.SetDirty(allNets[i]);
+		}
+
+		Debug.Log($"Set {allNets.Length} scene ids");
 	}
 
 	//this is just for migrating from old way of setting wallmount directions to the new way
@@ -155,7 +146,7 @@ public class Tools : Editor
 			}
 
 			//does component exist in it or any children?
-			var melees = rootPrefabGO.GetComponents<Meleeable>();
+			var melees = rootPrefabGO.GetComponents<BoxCollider2D>();
 
 			if (melees == null || melees.Length <= 1) continue;
 

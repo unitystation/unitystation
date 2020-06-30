@@ -20,10 +20,10 @@ public class GUI_SecurityRecordsCrime : DynamicEntry
 		crime = crimeToInit;
 		entryPage = entryPageToInit;
 
-		crimeText.SetValue = crime.Crime;
-		detailsText.SetValue = crime.Details;
-		authorText.SetValue = crime.Author;
-		timeText.SetValue = crime.Time;
+		crimeText.SetValueServer(crime.Crime);
+		detailsText.SetValueServer(crime.Details);
+		authorText.SetValueServer(crime.Author);
+		timeText.SetValueServer(crime.Time);
 	}
 
 	public void DeleteCrime()
@@ -36,12 +36,12 @@ public class GUI_SecurityRecordsCrime : DynamicEntry
 		entryPage.SetEditingField(fieldToEdit, crime);
 	}
 
-	public void OpenPopup()
+	public void OpenPopup(NetLabel fieldToEdit)
 	{
 		//Previously we set entryPage only server-side, but popup is opening client-side
 		if (entryPage == null)
 			entryPage = GetComponentInParent<GUI_SecurityRecordsEntryPage>();
-		entryPage.OpenPopup();
+		entryPage.OpenPopup(fieldToEdit);
 	}
 }
 

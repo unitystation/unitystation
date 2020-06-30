@@ -45,7 +45,7 @@ public class GUI_Cloning : NetTab
 		DisplayCurrentRecord();
 		DisplayPodStatus();
 		DisplayScannerStatus();
-		buttonTextViewRecord.SetValue = $"View Records({CloningConsole.CloningRecords.Count()})";
+		buttonTextViewRecord.SetValueServer($"View Records({CloningConsole.CloningRecords.Count()})");
 	}
 
 	public void OnDestroy()
@@ -103,13 +103,13 @@ public class GUI_Cloning : NetTab
 	{
 		if(specificRecord != null)
 		{
-			recordName.SetValue = specificRecord.name;
-			recordScanID.SetValue = "Scan ID " + specificRecord.scanID;
-			recordOxy.SetValue = specificRecord.oxyDmg + "\tOxygen Damage";
-			recordBurn.SetValue = specificRecord.burnDmg + "\tBurn Damage";
-			recordToxin.SetValue = specificRecord.toxinDmg + "\tToxin Damage";
-			recordBrute.SetValue = specificRecord.bruteDmg + "\tBrute Damage";
-			recordUniqueID.SetValue = specificRecord.uniqueIdentifier;
+			recordName.SetValueServer(specificRecord.name);
+			recordScanID.SetValueServer("Scan ID " + specificRecord.scanID);
+			recordOxy.SetValueServer(specificRecord.oxyDmg + "\tOxygen Damage");
+			recordBurn.SetValueServer(specificRecord.burnDmg + "\tBurn Damage");
+			recordToxin.SetValueServer(specificRecord.toxinDmg + "\tToxin Damage");
+			recordBrute.SetValueServer(specificRecord.bruteDmg + "\tBrute Damage");
+			recordUniqueID.SetValueServer(specificRecord.uniqueIdentifier);
 		}
 	}
 
@@ -142,7 +142,7 @@ public class GUI_Cloning : NetTab
 		}
 		for (int i = 0; i < cloningPodStatus.Length; i++)
 		{
-			cloningPodStatus[i].SetValue = text;
+			cloningPodStatus[i].SetValueServer(text);
 		}
 	}
 
@@ -150,11 +150,11 @@ public class GUI_Cloning : NetTab
 	{
 		if(CloningConsole.Scanner)
 		{
-			scannerStatus.SetValue = CloningConsole.Scanner.statusString;
+			scannerStatus.SetValueServer(CloningConsole.Scanner.statusString);
 		}
 		else
 		{
-			scannerStatus.SetValue = "ERROR: no DNA scanner detected.";
+			scannerStatus.SetValueServer("ERROR: no DNA scanner detected.");
 		}
 	}
 

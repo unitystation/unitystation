@@ -45,6 +45,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -125,6 +126,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -205,6 +207,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -285,6 +288,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -365,6 +369,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -409,23 +414,24 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
         type: 3}
-      propertyPath: ProjectileVelocity
-      value: 17
-      objectReference: {fileID: 0}
-    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
-        type: 3}
-      propertyPath: AmmoType
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
-        type: 3}
-      propertyPath: SpawnsCaseing
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
-        type: 3}
       propertyPath: FiringSound
       value: ShootTazer
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: FireRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 1560634355228308, guid: 3a5f33fb4348d74429ba2cf1a1d4821d,
+        type: 3}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: ProjectileVelocity
+      value: 18
       objectReference: {fileID: 0}
     - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
         type: 3}
@@ -501,7 +507,7 @@ PrefabInstance:
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: initialName
-      value: Taser
+      value: Hybrid Taser v43
       objectReference: {fileID: 0}
     - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
         type: 3}

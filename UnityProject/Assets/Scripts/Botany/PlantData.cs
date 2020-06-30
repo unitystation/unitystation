@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using System;
 
 [System.Serializable]
 public class PlantData
 {
+	private static readonly System.Random random = new System.Random();
+
 	public GameObject ProduceObject;
 	public string Name;
 	public string Plantname;
 	public string Description;
 	public SpriteSheetAndData PacketsSprite;
-	public SpriteSheetAndData ProduceSprite;
+	//public SpriteSheetAndData ProduceSprite;
 	public List<SpriteSheetAndData> GrowthSprites = new List<SpriteSheetAndData>();
 	public SpriteSheetAndData FullyGrownSprite;
 	public SpriteSheetAndData DeadSprite;
@@ -27,6 +30,51 @@ public class PlantData
 	public List<Reagent> ReagentProduction = new List<Reagent>();
 	public List<DefaultPlantData> MutatesInTo = new List<DefaultPlantData>();
 
+	public int Age;
+	public int NextGrowthStageProgress;
+	public float Health;
+
+	//Use static methods to create new instances of PlantData
+	private PlantData() { }
+
+	/// <summary>
+	/// Gets a new instance of PlantData based on param
+	/// </summary>
+	/// <param name="defaultPlantData">DefaultPlantData to copy</param>
+	/// <returns></returns>
+	public static PlantData CreateNewPlant(DefaultPlantData defaultPlantData)
+	{
+		PlantData newPlant = new PlantData();
+		newPlant.SetValues(defaultPlantData);
+		newPlant.Health = 100;
+		newPlant.Age = 0;
+		return newPlant;
+	}
+
+	/// <summary>
+	/// Gets a new instance of PlantData based on param
+	/// </summary>
+	/// <param name="plantData">PlantData to copy</param>
+	/// <returns></returns>
+	public static PlantData CreateNewPlant(PlantData plantData)
+	{
+		PlantData newPlant = new PlantData();
+		newPlant.SetValues(plantData);
+		newPlant.Health = 100;
+		newPlant.Age = 0;
+		return newPlant;
+	}
+
+	public static PlantData MutateNewPlant(PlantData plantData, PlantTrayModification modification)
+	{
+		PlantData newPlant = new PlantData();
+		newPlant.SetValues(plantData);
+		newPlant.Health = 100;
+		newPlant.Age = 0;
+		newPlant.NaturalMutation(modification);
+		return newPlant;
+	}
+
 	/// <summary>
 	/// Mutates the plant instance this is run against
 	/// </summary>
@@ -39,7 +87,7 @@ public class PlantData
 		Name = _DefaultPlantData.plantData.Name;
 		ProduceObject = _DefaultPlantData.plantData.ProduceObject;
 		PacketsSprite = _DefaultPlantData.plantData.PacketsSprite;
-		ProduceSprite = _DefaultPlantData.plantData.ProduceSprite;
+		//ProduceSprite = _DefaultPlantData.plantData.ProduceSprite;
 		GrowthSprites = _DefaultPlantData.plantData.GrowthSprites;
 		FullyGrownSprite = _DefaultPlantData.plantData.FullyGrownSprite;
 		DeadSprite = _DefaultPlantData.plantData.DeadSprite;
@@ -63,14 +111,14 @@ public class PlantData
 	/// Initializes plant with data another plant object
 	/// </summary>
 	/// <param name="_PlantData">data to copy</param>
-	public void SetValues(PlantData _PlantData)
+	private void SetValues(PlantData _PlantData)
 	{
 		Plantname = _PlantData.Plantname;
 		Description = _PlantData.Description;
 		Name = _PlantData.Name;
 		ProduceObject = _PlantData.ProduceObject;
 		PacketsSprite = _PlantData.PacketsSprite;
-		ProduceSprite = _PlantData.ProduceSprite;
+		//ProduceSprite = _PlantData.ProduceSprite;
 		GrowthSprites = _PlantData.GrowthSprites;
 		FullyGrownSprite = _PlantData.FullyGrownSprite;
 		DeadSprite = _PlantData.DeadSprite;
@@ -90,7 +138,7 @@ public class PlantData
 	/// Initializes plant with data from default plant
 	/// </summary>
 	/// <param name="DefaultPlantData">DefaultPlantData.plantdata's values are copied</param>
-	public void SetValues(DefaultPlantData DefaultPlantData)
+	private void SetValues(DefaultPlantData DefaultPlantData)
 	{
 		var _PlantData = DefaultPlantData.plantData;
 		Name = _PlantData.Name;
@@ -104,10 +152,10 @@ public class PlantData
 		{
 			PacketsSprite = _PlantData.PacketsSprite;
 		}
-		if (ProduceSprite?.Texture == null)
-		{
-			ProduceSprite = _PlantData.ProduceSprite;
-		}
+		//if (ProduceSprite?.Texture == null)
+		//{
+		//	ProduceSprite = _PlantData.ProduceSprite;
+		//}
 
 		if (GrowthSprites.Count == 0)
 		{
@@ -141,7 +189,7 @@ public class PlantData
 	/// Combine plants reagents removing any duplicates, Keeps highest yield
 	/// </summary>
 	/// <param name="Reagents">New reagents to combine</param>
-	public void CombineReagentProduction(List<Reagent> Reagents)
+	private void CombineReagentProduction(List<Reagent> Reagents)
 	{
 		var ToRemove = new List<Reagent>();
 		Reagents.AddRange(ReagentProduction);
@@ -169,6 +217,111 @@ public class PlantData
 			Reagents.Remove(Reagent);
 		}
 		ReagentProduction = Reagents;
+	}
+
+	/// <summary>
+	/// Triggers plant in tray to mutate if possible
+	/// Loads a random mutation out of the plants MutatesInTo list
+	/// </summary>
+	public void Mutation()
+	{
+		if (MutatesInTo.Count == 0) return;
+
+
+		var newPlantData = MutatesInTo.Where(mutation => mutation.plantData.ProduceObject != null).PickRandom();
+		if (newPlantData == null) { return; }
+		//var oldPlantData = plantData;
+		MutateTo(newPlantData);
+		//UpdatePlant(oldPlantData.Name, Name);
+	}
+
+	/// <summary>
+	/// Triggers stat mutation and chance to mutate into new plant
+	/// </summary>
+	/// <param name="modification"></param>
+	public void NaturalMutation(PlantTrayModification modification)
+	{
+		//Chance to actually mutate
+		//if (random.Next(1, 2) != 1) return;
+
+		//Stat mutations
+		WeedResistance = StatMutation(WeedResistance, 100);
+		WeedGrowthRate = BadStatMutation(WeedGrowthRate, 100);
+		GrowthSpeed = StatMutation(GrowthSpeed, 100);
+		Potency = StatMutation(Potency, 100);
+		Endurance = StatMutation(Endurance, 100);
+		Yield = StatMutation(Yield, 100);
+		Lifespan = StatMutation(Lifespan, 100);
+		switch (modification)
+		{
+			case PlantTrayModification.None:
+				break;
+			case PlantTrayModification.WeedResistance:
+				WeedResistance = SpecialStatMutation(WeedResistance, 100);
+				break;
+			case PlantTrayModification.WeedGrowthRate:
+				WeedGrowthRate = SpecialStatMutation(WeedGrowthRate, 100);
+				break;
+			case PlantTrayModification.GrowthSpeed:
+				GrowthSpeed = SpecialStatMutation(GrowthSpeed, 100);
+				break;
+			case PlantTrayModification.Potency:
+				Potency = SpecialStatMutation(Potency, 100);
+				break;
+			case PlantTrayModification.Endurance:
+				Endurance = SpecialStatMutation(Endurance, 100);
+				break;
+			case PlantTrayModification.Yield:
+				Yield = SpecialStatMutation(Yield, 100);
+				break;
+			case PlantTrayModification.Lifespan:
+				Lifespan = SpecialStatMutation(Lifespan, 100);
+				break;
+		}
+
+		CheckMutation(WeedResistance, 0, 100);
+		CheckMutation(WeedGrowthRate, 0, 100);
+		CheckMutation(GrowthSpeed, 0, 100);
+		CheckMutation(Potency, 0, 100);
+		CheckMutation(Endurance, 0, 100);
+		CheckMutation(Yield, 0, 100);
+		CheckMutation(Lifespan, 0, 100);
+		if (random.Next(100) > 95)
+		{
+			Mutation();
+		}
+	}
+
+	private int CheckMutation(int num, int min, int max)
+	{
+		if (num < min)
+		{
+			return (min);
+		}
+
+		else if (num > max)
+		{
+			return (max);
+		}
+
+		return (num);
+	}
+
+	private static int BadStatMutation(float stat, float maxStat)
+	{
+		return ((int)stat + random.Next(-(int)Math.Ceiling((maxStat / 100f) * 5),
+					(int)Math.Ceiling((maxStat / 100f) * 2)));
+	}
+
+	private static int SpecialStatMutation(float stat, float maxStat)
+	{
+		return ((int)stat + random.Next(0, (int)Math.Ceiling((maxStat / 100f) * 7)));
+	}
+
+	private static int StatMutation(float stat, float maxStat)
+	{
+		return ((int)stat + random.Next(-(int)Math.Ceiling((maxStat / 100f) * 2),
+					(int)Math.Ceiling((maxStat / 100f) * 5)));
 	}
 }
 

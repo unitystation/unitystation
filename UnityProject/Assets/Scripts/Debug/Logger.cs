@@ -124,7 +124,7 @@ public static class Logger
 			Debug.Log(message);
 			return;
 		}
-		
+
 		LogLevel referenceLevel = LogLevel;
 		if (LogOverrides.ContainsKey(category))
 		{
@@ -257,7 +257,12 @@ public enum Category
 	BuckledMovement,
 	ProgressAction,
 	Botany,
-	SoundFX
+	SoundFX,
+	Character,
+	SubScenes,
+	Spells,
+	UIAction,
+	Cooldowns
 }
 
 [Serializable]

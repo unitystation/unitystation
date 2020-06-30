@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e76afb59ec4485caa0a5cc0f2d142e9, type: 3}
+  m_Name: ERTMedic
+  m_EditorClassIdentifier: 
+  Entries:
+  - NamedSlot: 3
+    Prefab: {fileID: 6882223381654481943, guid: 0752564faba63e84389f3aacd5c19bfb,
+      type: 3}
+  - NamedSlot: 6
+    Prefab: {fileID: 3011710637427380133, guid: 2364289c293fa6744bacf25005359952,
+      type: 3}
+  - NamedSlot: 12
+    Prefab: {fileID: 7368429894223322524, guid: e821287a1c78eafcd801c8a378830506,
+      type: 3}
+  - NamedSlot: 5
+    Prefab: {fileID: 6404652678407139925, guid: e560948fdd6edc3448ac06d10906c4fc,
+      type: 3}
+  - NamedSlot: 11
+    Prefab: {fileID: 6373161644663410599, guid: cf31a682867c234409b80f763fc9a1b9,
+      type: 3}
+  - NamedSlot: 0
+    Prefab: {fileID: 1289584965744326573, guid: 71e67f4efcfd0c14b829a79dbdb3fcfe,
+      type: 3}
+  - NamedSlot: 2
+    Prefab: {fileID: 1246821582960951891, guid: a0157c94b5f0e784898ce3ccff5af197,
+      type: 3}
+  - NamedSlot: 10
+    Prefab: {fileID: 2015050775720392236, guid: 7f9781eb01dfc2e4d8a302826e1ad492,
+      type: 3}
+  - NamedSlot: 9
+    Prefab: {fileID: 3431291279286482953, guid: ddd85a66da8b22448806f0f8454c01ab,
+      type: 3}
+  - NamedSlot: 1
+    Prefab: {fileID: 6700281191928912403, guid: 0ad6b406825f747548ae2f66be19e5bd,
+      type: 3}
+  - NamedSlot: 8
+    Prefab: {fileID: 8635195139948178778, guid: d0eb5dacbdcd4844e8c76aabde50434f,
+      type: 3}
+  skirtVariant: {fileID: 0}
+  duffelVariant: {fileID: 2015050775720392236, guid: 7f9781eb01dfc2e4d8a302826e1ad492,
+    type: 3}
+  satchelVariant: {fileID: 2015050775720392236, guid: 7f9781eb01dfc2e4d8a302826e1ad492,
+    type: 3}

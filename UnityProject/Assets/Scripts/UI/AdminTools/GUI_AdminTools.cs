@@ -8,24 +8,26 @@ namespace AdminTools
 {
 	public class GUI_AdminTools : MonoBehaviour
 	{
-		[SerializeField] private GameObject retrievingDataScreen;
+		[SerializeField] private GameObject retrievingDataScreen = null;
 
-		[SerializeField] private GameObject backBtn;
-		[SerializeField] private GameObject gameModePage;
-		[SerializeField] private GameObject mainPage;
-		[SerializeField] private GameObject playerManagePage;
-		[SerializeField] private GameObject playerChatPage;
-		[SerializeField] private GameObject playersScrollView;
-		[SerializeField] private GameObject CentCommPage;
+		[SerializeField] private GameObject backBtn = null;
+		[SerializeField] private GameObject gameModePage = null;
+		[SerializeField] private GameObject mainPage = null;
+		[SerializeField] private GameObject playerManagePage = null;
+		[SerializeField] private GameObject playerChatPage = null;
+		[SerializeField] private GameObject playersScrollView = null;
+		[SerializeField] private GameObject CentCommPage = null;
+		[SerializeField] private GameObject eventsManagerPage = null;
+		[SerializeField] private AdminChatButtons adminChatButtons;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
 		public AreYouSurePage areYouSurePage;
 
-		[SerializeField] private Transform playerListContent;
-		[SerializeField] private GameObject playerEntryPrefab;
+		[SerializeField] private Transform playerListContent = null;
+		[SerializeField] private GameObject playerEntryPrefab = null;
 
-		[SerializeField] private Text windowTitle;
+		[SerializeField] private Text windowTitle = null;
 
 		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
 		public string SelectedPlayer { get; private set; }
@@ -40,6 +42,11 @@ namespace AdminTools
 		public void ClosePanel()
 		{
 			gameObject.SetActive(false);
+		}
+
+		public void ToggleOnOff()
+		{
+			gameObject.SetActive(!gameObject.activeInHierarchy);
 		}
 
 		public void OnBackButton()
@@ -96,6 +103,15 @@ namespace AdminTools
 			windowTitle.text = "CENTCOMM";
 		}
 
+		public void ShowEventsManagerPage()
+		{
+			DisableAllPages();
+			eventsManagerPage.SetActive(true);
+			eventsManagerPage.GetComponent<EventsManagerPage>().GenerateDropDownOptions();
+			backBtn.SetActive(true);
+			windowTitle.text = "EVENTS MANAGER";
+		}
+
 		void DisableAllPages()
 		{
 			retrievingDataScreen.SetActive(false);
@@ -105,6 +121,7 @@ namespace AdminTools
 			playerManagePage.SetActive(false);
 			playerChatPage.SetActive(false);
 			CentCommPage.SetActive(false);
+			eventsManagerPage.SetActive(false);
 			playersScrollView.SetActive(false);
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);
@@ -128,7 +145,7 @@ namespace AdminTools
 			{
 				var e = Instantiate(playerEntryPrefab, playerListContent);
 				var entry = e.GetComponent<AdminPlayerEntry>();
-				entry.UpdateButton(p, this);
+				entry.UpdateButton(p, SelectPlayerInList);
 
 				if (p.isOnline)
 				{
@@ -150,7 +167,6 @@ namespace AdminTools
 					{
 						playerChatPageScript.SetData(entry);
 						SelectedPlayer = entry.PlayerData.uid;
-						AddPendingMessagesToLogs(entry.PlayerData.uid, entry.GetPendingMessage());
 					}
 
 					if (playerManagePage.activeInHierarchy)
@@ -186,7 +202,6 @@ namespace AdminTools
 			if (playerChatPage.activeInHierarchy)
 			{
 				playerChatPageScript.SetData(selectedEntry);
-				AddPendingMessagesToLogs(selectedEntry.PlayerData.uid, selectedEntry.GetPendingMessage());
 			}
 
 			if (playerManagePage.activeInHierarchy)

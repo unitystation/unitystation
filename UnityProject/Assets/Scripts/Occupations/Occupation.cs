@@ -1,5 +1,6 @@
 
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,7 +16,7 @@ public class Occupation : ScriptableObject
 	[FormerlySerializedAs("JobType")]
 	[SerializeField]
 	[Tooltip("Type of occupation.")]
-	private JobType jobType;
+	private JobType jobType = JobType.NULL;
 	public JobType JobType => jobType;
 
 	[FormerlySerializedAs("InventoryPopulator")]
@@ -34,7 +35,7 @@ public class Occupation : ScriptableObject
 	[SerializeField]
 	[Tooltip("Priority for selecting this occupation when requested occupation is not" +
 			 " available.")]
-	private int priority;
+	private int priority = 0;
 	public int Priority => priority;
 
 	[FormerlySerializedAs("AllowedAccess")]
@@ -42,6 +43,11 @@ public class Occupation : ScriptableObject
 	[Tooltip("Default access allowed for this occupation.")]
 	private List<Access> allowedAccess = null;
 	public List<Access> AllowedAccess => allowedAccess;
+
+	[SerializeField]
+	[Tooltip("Default spells available for this occupation.")]
+	private List<SpellData> spells = null;
+	public List<SpellData> Spells => spells;
 
 	[Header("Description")]
 	// Information that has no real gameplay impact, but is very useful for the player to see.
@@ -98,7 +104,11 @@ public class Occupation : ScriptableObject
 
 	[SerializeField]
 	[TextArea(10, 20)]
-	[Tooltip("An elaborate job description for newcomers. Should say what playing this job usually entails, similar to descriptionShort.")] 
+	[Tooltip("An elaborate job description for newcomers. Should say what playing this job usually entails, similar to descriptionShort.")]
 	private string descriptionLong = "";
 	public string DescriptionLong => descriptionLong;
+
+	[Header("Custom properties that will be applied\nto new bodies with this occupation")]
+	[SerializeField] private PropertyDictionary customProperties;
+	public PropertyDictionary CustomProperties => customProperties;
 }

@@ -39,6 +39,19 @@ namespace Atmospherics
 			}
 		}
 
+		public float InternalEnergy //This is forgetting the amount of energy inside of the Gas
+		{
+			get
+			{
+				return (WholeHeatCapacity*Temperature);
+			}
+
+			set
+			{
+				Temperature = (value / WholeHeatCapacity);
+			}
+		}
+
 		private GasMix(float[] gases, float pressure, float volume = AtmosConstants.TileVolume)
 		{
 			Gases = gases;

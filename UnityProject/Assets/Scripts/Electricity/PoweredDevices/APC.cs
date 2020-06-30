@@ -1,9 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using Electric.Inheritance;
 using UnityEngine;
 using Mirror;
 
-public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
+public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -32,6 +33,9 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 
 	public ResistanceSourceModule ResistanceSourceModule;
 
+
+
+
 	/// <summary>
 	/// Function for setting the voltage via the property. Used for the voltage SyncVar hook.
 	/// </summary>
@@ -39,6 +43,24 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	{
 		voltageSync = newVoltage;
 		UpdateDisplay();
+	}
+
+	private void Start()
+	{
+		CheckListOfDevicesForNulls();
+	}
+
+	private void CheckListOfDevicesForNulls()
+	{
+		if (ConnectedDevices.Count == 0) return;
+		for (int i = ConnectedDevices.Count -1; i >= 0; i--)
+		{
+			if (ConnectedDevices[i] == null)
+			{
+				UnityEngine.Debug.Log($"{this.name} has a null value in {i}.");
+				ConnectedDevices.RemoveAt(i);
+			}
+		}
 	}
 
 	public override void OnStartServer()
@@ -53,8 +75,12 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 
 	private void OnDisable()
 	{
-		ElectricalSynchronisation.PoweredDevices.Remove(ElectricalNodeControl);
+		if (ElectricalNodeControl == null) return;
+		if(ElectricalManager.Instance == null)return;
+		if(ElectricalManager.Instance.electricalSync == null)return;
+		ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ElectricalNodeControl);
 	}
+
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -62,20 +88,21 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 		if (interaction.HandObject != null) return false;
 		return true;
 	}
+
 	public void PowerNetworkUpdate()
 	{
 		//Logger.Log("humm...");
-		if (!(CashOfConnectedDevices == ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices.Count))
+		if (!(CashOfConnectedDevices == ElectricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices.Count))
 		{
-			CashOfConnectedDevices = ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices.Count;
+			CashOfConnectedDevices = ElectricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices.Count;
 			ConnectedDepartmentBatteries.Clear();
-			foreach (KeyValuePair<ElectricalOIinheritance, HashSet<PowerTypeCategory>> Device in ElectricalNodeControl.Node.Data.ResistanceToConnectedDevices)
+			foreach (var Device in ElectricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices)
 			{
 				if (Device.Key.InData.Categorytype == PowerTypeCategory.DepartmentBattery)
 				{
-					if (!(ConnectedDepartmentBatteries.Contains(Device.Key.GameObject().GetComponent<DepartmentBattery>())))
+					if (!(ConnectedDepartmentBatteries.Contains(Device.Key.GetComponent<DepartmentBattery>())))
 					{
-						ConnectedDepartmentBatteries.Add(Device.Key.GameObject().GetComponent<DepartmentBattery>());
+						ConnectedDepartmentBatteries.Add(Device.Key.GetComponent<DepartmentBattery>());
 					}
 				}
 			}
@@ -88,8 +115,9 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 				BatteryCharging = true;
 			}
 		}
-		SyncVoltage(voltageSync, ElectricalNodeControl.Node.Data.ActualVoltage);
-		Current = ElectricalNodeControl.Node.Data.CurrentInWire;
+		ElectricityFunctions.WorkOutActualNumbers(ElectricalNodeControl.Node.InData);
+		SyncVoltage(voltageSync, ElectricalNodeControl.Node.InData.Data.ActualVoltage);
+		Current = ElectricalNodeControl.Node.InData.Data.CurrentInWire;
 		HandleDevices();
 		UpdateDisplay();
 	}
@@ -123,86 +151,21 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	/// </summary>
 	public void HandleDevices()
 	{
-		//Lights
 		float Voltages = Voltage;
 		if (Voltages > 270)
 		{
 			Voltages = 0.001f;
 		}
 		float CalculatingResistance = new float();
-		if (PowerLights)
+
+		foreach (APCPoweredDevice Device in ConnectedDevices)
 		{
-			foreach (KeyValuePair<LightSwitch, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
-			{
-				//TODO: This check is needed because destroyed lightswitches aren't being de-registered from the APC.
-				//Instead, it should be ensured that they are deregistered when destroyed. Doing
-				//it after this loop would create GC so it should instead be done via a destruction / despawn hook
-				if (SwitchTrigger.Key == null) continue;
-				SwitchTrigger.Key.PowerNetworkUpdate(Voltages);
-				if (SwitchTrigger.Key.isOn == LightSwitch.States.On)
-				{
-					for (int i = 0; i < SwitchTrigger.Value.Count; i++)
-					{
-						SwitchTrigger.Value[i].PowerLightIntensityUpdate(Voltages);
-						CalculatingResistance += (1 / SwitchTrigger.Value[i].Resistance);
-					}
-				}
-			}
-		}
-		else {
-			foreach (KeyValuePair<LightSwitch, List<LightSource>> SwitchTrigger in ConnectedSwitchesAndLights)
-			{
-				SwitchTrigger.Key.PowerNetworkUpdate(0);
-				if (SwitchTrigger.Key.isOn == LightSwitch.States.On)
-				{
-					for (int i = 0; i < SwitchTrigger.Value.Count; i++)
-					{
-						SwitchTrigger.Value[i].PowerLightIntensityUpdate(0);
-					}
-				}
-			}
+			Device.PowerNetworkUpdate(Voltages);
+			CalculatingResistance += (1 / Device.Resistance);
 		}
 
-		//Machinery
-		if (PowerMachinery)
-		{
-			foreach (APCPoweredDevice Device in ConnectedDevices)
-			{
-
-				Device.PowerNetworkUpdate(Voltages);
-				CalculatingResistance += (1 / Device.Resistance);
-			}
-		}
-		else {
-			foreach (APCPoweredDevice Device in ConnectedDevices)
-			{
-				Device.PowerNetworkUpdate(0);
-			}
-		}
-		//Environment
-		if (PowerEnvironment)
-		{
-			foreach (APCPoweredDevice Device in EnvironmentalDevices)
-			{
-				Device.PowerNetworkUpdate(Voltages);
-				CalculatingResistance += (1 / Device.Resistance);
-			}
-		}
-		else {
-			foreach (APCPoweredDevice Device in EnvironmentalDevices)
-			{
-				Device.PowerNetworkUpdate(0);
-			}
-		}
 		ResistanceSourceModule.Resistance = (1 / CalculatingResistance);
 	}
-
-	public void FindPoweredDevices()
-	{
-		//yeah They be manually assigned for now
-		//needs a way of checking that doesn't cause too much lag and  can respond adequately to changes in the environment E.G a device getting destroyed/a new device being made
-	}
-
 
 	public NetTabType NetTabType;
 
@@ -306,6 +269,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 
 	private void StartRefresh()
 	{
+		gameObject.SetActive(true);
 		RefreshDisplay = true;
 		StartCoroutine(Refresh());
 	}
@@ -349,19 +313,9 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	private List<EmergencyLightAnimator> ConnectedEmergencyLights = new List<EmergencyLightAnimator>();
 
 	/// <summary>
-	/// Dictionary of all the light switches and their lights connected to this APC
-	/// </summary>
-	public Dictionary<LightSwitch, List<LightSource>> ConnectedSwitchesAndLights = new Dictionary<LightSwitch, List<LightSource>>();
-
-	/// <summary>
-	/// list of connected machines to the APC
+	/// Devices connected to APC
 	/// </summary>
 	public List<APCPoweredDevice> ConnectedDevices = new List<APCPoweredDevice>();
-
-	/// <summary>
-	/// list of connected machines to the APC
-	/// </summary>
-	public List<APCPoweredDevice> EnvironmentalDevices = new List<APCPoweredDevice>();
 
 	// TODO make apcs detect connected department batteries
 	/// <summary>
@@ -370,6 +324,13 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 	public List<DepartmentBattery> ConnectedDepartmentBatteries = new List<DepartmentBattery>();
 
 	private bool _emergencyState = false;
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		for (int i = ConnectedDevices.Count-1; i >= 0; i--)
+		{
+			ConnectedDevices[i].RemoveFromAPC();
+		}
+	}
 	/// <summary>
 	/// The state of the emergency lights. Calls SetEmergencyLights when changes.
 	/// </summary>
@@ -384,40 +345,87 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 			if (_emergencyState != value)
 			{
 				_emergencyState = value;
-				SetEmergencyLights(value);
 			}
 		}
 	}
 
-	/// <summary>
-	/// Register the light with this APC, so that it will be toggled based on emergency status
-	/// </summary>
-	/// <param name="newLight"></param>
-	public void ConnectEmergencyLight(EmergencyLightAnimator newLight)
-	{
-		if (!ConnectedEmergencyLights.Contains(newLight))
-		{
-			ConnectedEmergencyLights.Add(newLight);
-			SetEmergencyLights(EmergencyState);
-		}
-	}
+	#region Editor
 
-	/// <summary>
-	/// Set the state of the emergency lights associated with this APC
-	/// </summary>
-	void SetEmergencyLights(bool isOn)
+	void OnDrawGizmosSelected()
 	{
-		if (ConnectedEmergencyLights.Count == 0)
-		{
+		var sprite = GetComponentInChildren<SpriteRenderer>();
+		if (sprite == null)
 			return;
-		}
-		for (int i = 0; i < ConnectedEmergencyLights.Count; i++)
+
+		//Highlighting all controlled lightSources
+		Gizmos.color = new Color(0.5f, 0.5f, 1, 1);
+		for (int i = 0; i < ConnectedDevices.Count; i++)
 		{
-			if (ConnectedEmergencyLights[i]) //might be destroyed
-			{
-				ConnectedEmergencyLights[i].Toggle(isOn);
-			}
+			var lightSource = ConnectedDevices[i];
+			if(lightSource == null) continue;
+			Gizmos.DrawLine(sprite.transform.position, lightSource.transform.position);
+			Gizmos.DrawSphere(lightSource.transform.position, 0.25f);
 		}
 	}
+	//######################################## Multitool interaction ##################################
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.APC;
+	public MultitoolConnectionType ConType  => conType;
+
+	[SerializeField]
+	private bool multiMaster = false;
+	public bool MultiMaster  => multiMaster;
+
+	public void AddSlave(object SlaveObject)
+	{
+	}
+
+	public void RemoveDevice(APCPoweredDevice APCPoweredDevice)
+	{
+		if (ConnectedDevices.Contains(APCPoweredDevice))
+		{
+			ConnectedDevices.Remove(APCPoweredDevice);
+			APCPoweredDevice.PowerNetworkUpdate(0.1f);
+
+		}
+	}
+	public void AddDevice(APCPoweredDevice APCPoweredDevice)
+	{
+		if (!ConnectedDevices.Contains(APCPoweredDevice))
+		{
+			ConnectedDevices.Add(APCPoweredDevice);
+		}
+	}
+
+	public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+	{
+		var approvedObjects = new List<GameObject>();
+
+		foreach (var potentialObject in potentialObjects)
+		{
+			var poweredDevice = potentialObject.GetComponent<APCPoweredDevice>();
+			if (poweredDevice == null) continue;
+			AddDeviceFromScene(poweredDevice);
+			approvedObjects.Add(potentialObject);
+		}
+
+		return approvedObjects;
+	}
+
+	private void AddDeviceFromScene(APCPoweredDevice poweredDevice)
+	{
+		if (ConnectedDevices.Contains(poweredDevice))
+		{
+			ConnectedDevices.Remove(poweredDevice);
+			poweredDevice.RelatedAPC = null;
+		}
+		else
+		{
+			ConnectedDevices.Add(poweredDevice);
+			poweredDevice.RelatedAPC = this;
+		}
+	}
+	#endregion
 
 }
+

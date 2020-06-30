@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4975988611288262}
   - component: {fileID: 61263359288714902}
-  - component: {fileID: 61679316691894918}
   - component: {fileID: 114071187995863296}
   - component: {fileID: 114950690755873480}
   - component: {fileID: 114522046351845882}
@@ -20,6 +19,8 @@ GameObject:
   - component: {fileID: 114224870589388836}
   - component: {fileID: 114014873698230268}
   - component: {fileID: -8322187858729700080}
+  - component: {fileID: -7928560066648561600}
+  - component: {fileID: -2255941777277100191}
   m_Layer: 11
   m_Name: vending_185
   m_TagString: Untagged
@@ -68,32 +69,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61679316691894918
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1367764145107636}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114071187995863296
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -106,7 +81,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  butcherKnifeTrait: {fileID: 0}
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114950690755873480
@@ -121,7 +95,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
+  InitialVendorContent:
   - Item: {fileID: 6532193109441330816, guid: cd60162658a8c12479da578b14efa79e, type: 3}
     Stock: 5
   - Item: {fileID: 6532193109441330816, guid: db7cd7b4544fd9b44b751a043a6b2e53, type: 3}
@@ -131,6 +105,18 @@ MonoBehaviour:
   HullColor: {r: 0.25882354, g: 0.25882354, b: 0.25882354, a: 1}
   EjectObjects: 1
   EjectDirection: 2
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - Item: {fileID: 6532193109441330816, guid: cd60162658a8c12479da578b14efa79e, type: 3}
+    Stock: 5
+  - Item: {fileID: 6532193109441330816, guid: db7cd7b4544fd9b44b751a043a6b2e53, type: 3}
+    Stock: 2
+  - Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+    Stock: 2
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114522046351845882
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -163,6 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &455838319051819710
 MonoBehaviour:
@@ -190,6 +177,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &114224870589388836
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,6 +192,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  soundOnHit: 
   Armor:
     Melee: 0
     Bullet: 0
@@ -237,10 +226,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
   serverOnly: 0
-  localPlayerAuthority: 0
   m_AssetId: 
-  m_SceneId: 0
 --- !u!114 &-8322187858729700080
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,9 +246,49 @@ MonoBehaviour:
   syncInterval: 0.1
   initialName: Raisin The Bar
   initialDescription: A vending machines for raisins.
+  willHighlight: 1
   exportCost: 0
   exportName: 
   exportMessage: 
+--- !u!114 &-7928560066648561600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367764145107636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2255941777277100191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367764145107636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1
 --- !u!1 &1439271476217088
 GameObject:
   m_ObjectHideFlags: 0
@@ -270,6 +299,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4976689475778618}
   - component: {fileID: 212161819290034380}
+  - component: {fileID: 7581374606737078963}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -305,6 +335,7 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -340,3 +371,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7581374606737078963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1439271476217088}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 2aead3ece6567f54296a244cb65cdb57, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: 2aead3ece6567f54296a244cb65cdb57, type: 3}
+    - {fileID: 21300002, guid: 2aead3ece6567f54296a244cb65cdb57, type: 3}
+    - {fileID: 21300004, guid: 2aead3ece6567f54296a244cb65cdb57, type: 3}
+    - {fileID: 21300006, guid: 2aead3ece6567f54296a244cb65cdb57, type: 3}
+    EquippedData: {fileID: 4900000, guid: bb2cf912de71dff4091c4810c99caea7, type: 3}
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1

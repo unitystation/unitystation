@@ -155,6 +155,8 @@ public partial class PlayerSync
 
 	public void SetVisibleServer(bool visible)
 	{
+		if (!isServer) return;
+
 		if ( visible )
 		{
 			AppearAtPositionServer( pushPull.AssumedWorldPositionServer() );
@@ -354,7 +356,7 @@ public partial class PlayerSync
 	/// <param name="recipient">whom to inform</param>
 	/// <param name="noLerp">(for init) tells client to do no lerping when changing pos this time</param>
 	[Server]
-	public void NotifyPlayer(GameObject recipient, bool noLerp = false)
+	public void NotifyPlayer(NetworkConnection recipient, bool noLerp = false)
 	{
 		serverState.NoLerp = noLerp;
 		var msg = PlayerMoveMessage.Send(recipient, gameObject, serverState);
@@ -555,10 +557,8 @@ public partial class PlayerSync
 		nextState.Speed = SpeedServer;
 		if (!playerScript.IsGhost)
 		{
-			var inventory = playerScript.GetComponent<ItemStorage>();
-			var feetSlot = inventory.GetNamedItemSlot(NamedSlot.feet).Item;
 			playerScript.OnTileReached().Invoke(nextState.WorldPosition.RoundToInt());
-			SoundManager.FootstepAtPosition(nextState.WorldPosition, feetSlot);
+			SoundManager.FootstepAtPosition(nextState.WorldPosition, playerScript.mind.stepType, gameObject);
 		}
 
 		return nextState;
@@ -717,6 +717,14 @@ public partial class PlayerSync
 					//note: since this is a local position, the impulse needs to be converted to a local rotation,
 					//hence the multiplication
 					Vector3Int newGoal = Vector3Int.RoundToInt(serverState.Position + (Vector3)serverState.LocalImpulse(this));
+					Vector3Int intOrigin = Vector3Int.RoundToInt(registerPlayer.WorldPosition + (Vector3)serverState.LocalImpulse(this));
+
+					if (intOrigin.x > 18000 || intOrigin.x < -18000 || intOrigin.y > 18000 || intOrigin.y < -18000)
+					{
+						Stop();
+						Logger.Log($"Player {transform.name} was forced to stop at {intOrigin}", Category.Movement);
+						return;
+					}
 					serverState.Position = newGoal;
 					ClearQueueServer();
 

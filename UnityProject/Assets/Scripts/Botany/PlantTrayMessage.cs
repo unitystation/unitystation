@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 /*public class PlantTrayMessage : ServerMessage
 {
-	public static short MessageType = (short) MessageTypes.PlantTrayMessage;
+	public override short MessageType => (short) MessageTypes.PlantTrayMessage;
 	public string PlantSyncString;
 	public int GrowingPlantStage;
 	public PlantSpriteStage PlantSyncStage;
@@ -17,7 +17,7 @@ using UnityEngine;
 
 	public uint Tray;
 
-	public override IEnumerator Process()
+	public override void Process()
 	{
 		yield return WaitFor(Tray);
 

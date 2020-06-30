@@ -10,7 +10,7 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(Image))]
 [RequireComponent(typeof(ObjectImageSnapshot))]
-public class NetCompositeImage : NetUIElement
+public class NetCompositeImage : NetUIStringElement
 {
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 	public FilterMode FilterMode = FilterMode.Point;
@@ -86,7 +86,7 @@ public class NetCompositeImage : NetUIElement
 		}
 
 		int tries = 0;
-		while ((ResolvedObject = ClientScene.FindLocalObject(id)) == null)
+		while (!NetworkIdentity.spawned.ContainsKey(id))
 		{
 			if (tries++ > 10)
 			{
@@ -96,7 +96,9 @@ public class NetCompositeImage : NetUIElement
 
 			yield return WaitFor.EndOfFrame;
 		}
+
+		ResolvedObject = NetworkIdentity.spawned[id].gameObject;
 	}
 
-	public override void ExecuteServer() {}
+	public override void ExecuteServer(ConnectedPlayer subject) {}
 }
