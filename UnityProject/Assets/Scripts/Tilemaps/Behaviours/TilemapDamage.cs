@@ -187,82 +187,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		dmgAmt = basicTile.Armor.GetDamage(dmgAmt, attackType);
 
-		if (Layer.LayerType == LayerType.Floors)
-		{
-
-			return AddFloorDamage(dmgAmt, data, cellPos, worldPos, attackType);
-		}
-
-		if (Layer.LayerType == LayerType.Base)
-		{
-
-			return AddPlatingDamage(dmgAmt, data, cellPos, worldPos, attackType);
-		}
-
 		return basicTile.AddDamage(dmgAmt, data, cellPos, attackType, tileChangeManager);
-	}
-
-	private float AddWindowDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 hitPos, AttackType attackType, bool spawnPieces = true)
-	{
-		BasicTile tile = null;
-		data.Damage += GetReducedDamage(cellPos, damage, attackType);
-
-		if (data.Damage >= GetMaxDamage(cellPos))
-		{
-			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Windows) as BasicTile;
-			data.WindowDamage = WindowDamageLevel.Broken;
-		}
-
-		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
-	}
-
-	private float AddGrillDamage(float damage, MetaDataNode data, Vector3Int cellPos, Vector3 bulletHitTarget, AttackType attackType, bool spawnPieces = true)
-	{
-		data.Damage += GetReducedDamage(cellPos, damage, attackType);
-		BasicTile tile = null;
-		//Make grills a little bit weaker (set to 60 hp):
-		if (data.Damage >= GetMaxDamage(cellPos))
-		{
-			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Grills) as BasicTile;
-		}
-
-		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
-	}
-
-	private float AddFloorDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
-	{
-		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-		BasicTile tile = null;
-
-		if (data.Damage >= GetMaxDamage(cellPos))
-		{
-			tile  = tileChangeManager.RemoveTile(cellPos, LayerType.Floors) as BasicTile;
-		}
-
-		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
-	}
-
-	private float AddPlatingDamage(float dmgAmt, MetaDataNode data, Vector3Int cellPos, Vector2 worldPos, AttackType attackType)
-	{
-		data.Damage += GetReducedDamage(cellPos, dmgAmt, attackType);
-		BasicTile tile = null;
-		if (data.Damage >= GetMaxDamage(cellPos))
-		{
-			tile = tileChangeManager.RemoveTile(cellPos, LayerType.Base, false) as BasicTile;
-		}
-		return CalculateAbsorbDamaged(cellPos, attackType,data,tile);
-	}
-
-	private float GetReducedDamage(Vector3Int cellPos, float dmgAmt, AttackType attackType)
-	{
-
-		var layerTile = metaTileMap.GetTile(cellPos, Layer.LayerType);
-		if (layerTile is BasicTile tile)
-		{
-			return tile.Armor.GetDamage(dmgAmt, attackType);
-		}
-
-		return dmgAmt;
 	}
 
 	private float GetMaxDamage(Vector3Int cellPos)
@@ -274,31 +199,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		return 0;
-	}
-
-	private float CalculateAbsorbDamaged(Vector3Int cellPos, AttackType attackType, MetaDataNode data, BasicTile tile = null)
-	{
-		if (tile == null)
-		{
-			tile= metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
-		}
-
-		float currentDamage = data.Damage;
-		if (tile.MaxHealth < data.Damage)
-		{
-			currentDamage = tile.MaxHealth;
-			data.ResetDamage();
-		}
-
-		if (tile.Armor.GetRatingValue(attackType) > 0 && (currentDamage - data.GetPreviousDamage()) > 0)
-		{
-			return ((currentDamage - data.GetPreviousDamage() ) / tile.Armor.GetRatingValue(attackType));
-		}
-		else
-		{
-			return (0);
-		}
-
 	}
 
 	public void RepairWindow(Vector3Int cellPos)
