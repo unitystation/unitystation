@@ -112,6 +112,14 @@ namespace AdminTools
 			windowTitle.text = "EVENTS MANAGER";
 		}
 
+		public void ShowRoundManagerPage()
+		{
+			DisableAllPages();
+			roundManagerPage.SetActive(true);
+			backBtn.SetActive(true);
+			windowTitle.text = "ROUND MANAGER";
+		}
+
 		void DisableAllPages()
 		{
 			retrievingDataScreen.SetActive(false);
