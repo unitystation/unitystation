@@ -24,7 +24,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	private Matrix matrix;
 
-	void Awake()
+	private void Awake()
 	{
 		tileChangeManager = transform.GetComponentInParent<TileChangeManager>();
 		metaDataLayer = transform.GetComponentInParent<MetaDataLayer>();
@@ -107,12 +107,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		DoMeleeDamage(new Vector2(worldTargetPos.x, worldTargetPos.y), throwInfo.ThrownBy, dmgAmt);
 	}
 
-	/// <summary>
-	/// Only works server side, applies the indicated melee damage to the tile, respecting armor.
-	/// </summary>
-	/// <param name="worldPos"></param>
-	/// <param name="originator"></param>
-	/// <param name="dmgAmt"></param>
 	public void DoMeleeDamage(Vector2 worldPos, GameObject originator, int dmgAmt)
 	{
 		Vector3Int cellPos = metaTileMap.WorldToCell(worldPos);
