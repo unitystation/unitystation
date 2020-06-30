@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -28,6 +29,8 @@ public class CargoManager : MonoBehaviour
 
 	[SerializeField]
 	private CargoData cargoData = null;
+
+	public CargoData CargoData => cargoData;
 
 	[SerializeField]
 	private float shuttleFlyDuration = 10f;
@@ -386,6 +389,9 @@ public class CargoOrder
 	public int CreditsCost = 1000;
 	public GameObject Crate = null;
 	public List<GameObject> Items = new List<GameObject>();
+
+	[ReadOnly]
+	public int TotalCreditExport = 0;
 }
 
 [System.Serializable]

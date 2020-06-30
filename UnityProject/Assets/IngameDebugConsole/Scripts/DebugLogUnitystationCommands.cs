@@ -547,5 +547,52 @@ namespace IngameDebugConsole
 
 			PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
 		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Calculate Cargo Export Costs")]
+		private static void SetCargoExportValues()
+		{
+			foreach (var cargoDataList in CargoManager.Instance.CargoData.Supplies)
+			{
+				foreach (var items in cargoDataList.Supplies)
+				{
+					int value = 0;
+					foreach (var item in items.Items)
+					{
+						if(item == null) continue;
+
+						if (item.GetComponent<ItemAttributesV2>() != null)
+						{
+							value += item.GetComponent<ItemAttributesV2>().ExportCost;
+						}
+
+						if (item.GetComponent<ObjectAttributes>() != null)
+						{
+							value += item.GetComponent<ObjectAttributes>().ExportCost;
+						}
+					}
+
+					if (items.Crate != null && items.Crate.GetComponent<ItemAttributesV2>() != null)
+					{
+						value += items.Crate.GetComponent<ItemAttributesV2>().ExportCost;
+					}
+
+					if (items.Crate != null && items.Crate.GetComponent<ObjectAttributes>() != null)
+					{
+						value += items.Crate.GetComponent<ObjectAttributes>().ExportCost;
+					}
+
+					items.TotalCreditExport = value;
+
+					if (value > items.CreditsCost)
+					{
+						Debug.LogError($"{items.OrderName}'s credit cost: {items.CreditsCost} is less than its export value: {value}, exploit possible!");
+					}
+
+					Debug.Log($"value: {value}, cost: {items.CreditsCost}, {items.OrderName}");
+				}
+			}
+			Debug.Log("Cost Calculation Complete");
+		}
+#endif
 	}
 }
