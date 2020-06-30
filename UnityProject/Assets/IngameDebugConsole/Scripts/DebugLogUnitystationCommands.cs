@@ -560,25 +560,33 @@ namespace IngameDebugConsole
 					{
 						if(item == null) continue;
 
-						if (item.GetComponent<ItemAttributesV2>() != null)
+						var itemAttribute = item.GetComponent<ItemAttributesV2>();
+
+						if (itemAttribute != null)
 						{
-							value += item.GetComponent<ItemAttributesV2>().ExportCost;
+							value += itemAttribute.ExportCost;
 						}
 
-						if (item.GetComponent<ObjectAttributes>() != null)
+						var objectAttribute = item.GetComponent<ObjectAttributes>();
+
+						if (objectAttribute != null)
 						{
-							value += item.GetComponent<ObjectAttributes>().ExportCost;
+							value += objectAttribute.ExportCost;
 						}
 					}
 
-					if (items.Crate != null && items.Crate.GetComponent<ItemAttributesV2>() != null)
+					var itemAttributeCrate = items.Crate.GetComponent<ItemAttributesV2>();
+
+					if (items.Crate != null && itemAttributeCrate != null)
 					{
-						value += items.Crate.GetComponent<ItemAttributesV2>().ExportCost;
+						value += itemAttributeCrate.ExportCost;
 					}
 
-					if (items.Crate != null && items.Crate.GetComponent<ObjectAttributes>() != null)
+					var objectAttributesCrate = items.Crate.GetComponent<ObjectAttributes>();
+
+					if (items.Crate != null && objectAttributesCrate != null)
 					{
-						value += items.Crate.GetComponent<ObjectAttributes>().ExportCost;
+						value += objectAttributesCrate.ExportCost;
 					}
 
 					items.TotalCreditExport = value;
