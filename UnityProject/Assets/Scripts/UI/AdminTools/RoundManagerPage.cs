@@ -20,7 +20,7 @@ public class RoundManagerPage : AdminPage
 
 	public void ChangeAwaySite()
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdChangeNextMap(ServerData.UserID, PlayerList.Instance.AdminToken, nextMapDropDown.options[nextMapDropDown.value].text);
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdChangeAwaySite(ServerData.UserID, PlayerList.Instance.AdminToken, nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
 	}
 
 	public override void OnPageRefresh(AdminPageRefreshData adminPageData)
