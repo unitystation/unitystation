@@ -109,7 +109,12 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 				ControllingNode.RestoreResistance(Connecting);
 			}
 		}
-		ElectricalManager.Instance.electricalSync.NUResistanceChange.Add(ControllingNode);
+
+		if (ElectricalManager.Instance?.electricalSync?.NUResistanceChange != null)
+		{
+			ElectricalManager.Instance.electricalSync.NUResistanceChange.Add(ControllingNode);
+		}
+
 		PowerSupplyFunction.TurnOffSupply(this);
 	}
 	public override void PowerNetworkUpdate()
