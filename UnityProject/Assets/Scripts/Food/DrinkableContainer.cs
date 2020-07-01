@@ -72,22 +72,29 @@ public class DrinkableContainer : Consumable
 		var drinkAmount = container.TransferAmount;
 		container.TakeReagents(drinkAmount);
 
-		var playerEatDrinkEffects = eater.GetComponent<PlayerEatDrinkEffects>();
-
-		foreach (var reagent in container.CurrentReagentMixGet)
-		{
-			if (AlcoholicDrinksSOScript.Instance.AlcoholicReagents.Contains(reagent.Key))
-			{
-				Debug.Log("drink amount " + (int)drinkAmount);
-				playerEatDrinkEffects.SyncServer((int)drinkAmount);
-			}
-		}
+		DoDrinkEffects(eater, drinkAmount);
 
 		// Play sound
 		if (item && !string.IsNullOrEmpty(sound))
 		{
 			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 		}
+	}
 
+	private void DoDrinkEffects(PlayerScript eater, float drinkAmount)
+	{
+		var playerEatDrinkEffects = eater.GetComponent<PlayerEatDrinkEffects>();
+
+		if(playerEatDrinkEffects == null) return;
+
+		foreach (var reagent in container.CurrentReagentMixGet)
+		{
+			//if its not alcoholic skip
+			if (!AlcoholicDrinksSOScript.Instance.AlcoholicReagents.Contains(reagent.Key)) continue;
+
+			//The more different types of alcohol in a drink the longer you get drunk for each sip.
+			playerEatDrinkEffects.SyncServer((int)drinkAmount);
+			playerEatDrinkEffects.SyncServer(0);
+		}
 	}
 }
