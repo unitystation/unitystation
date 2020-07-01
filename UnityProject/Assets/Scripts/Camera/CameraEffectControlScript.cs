@@ -39,8 +39,6 @@ namespace CameraEffects
 
 			if (timer < TIMER_INTERVAL) return;
 
-			Debug.Log("drunkCameraTime "+ drunkCameraTime);
-
 			if (drunkCameraTime > 0)
 			{
 				drunkCamera.enabled = true;
