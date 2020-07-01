@@ -41,7 +41,7 @@ public class GUI_ChemistryDispenser : NetTab
 		{
 			if (!listOfReagents)
 			{
-				listOfReagents = (NetUIElement<string>)this["IngredientList"];
+				listOfReagents = (NetUIElement<string>) this["IngredientList"];
 			}
 
 			return listOfReagents;
@@ -57,7 +57,7 @@ public class GUI_ChemistryDispenser : NetTab
 		{
 			if (!totalAndTemperature)
 			{
-				totalAndTemperature = (NetUIElement<string>)this["AmountAndTemperature"];
+				totalAndTemperature = (NetUIElement<string>) this["AmountAndTemperature"];
 			}
 
 			return totalAndTemperature;
@@ -66,7 +66,7 @@ public class GUI_ChemistryDispenser : NetTab
 
 	void Start()
 	{
-		((NetUIElement<string>)this["20"]).SetValueServer("1");
+		((NetUIElement<string>) this["20"]).SetValueServer("1");
 		if (Provider != null)
 		{
 			//Makes sure it connects with the dispenser properly
@@ -87,11 +87,11 @@ public class GUI_ChemistryDispenser : NetTab
 			if (DispenseAmounts[i] == Number.ToString()
 			) //Checks what button has been pressed  And sets the correct position appropriate
 			{
-				((NetUIElement<string>)this[DispenseAmounts[i]]).SetValueServer("1");
+				((NetUIElement<string>) this[DispenseAmounts[i]]).SetValueServer("1");
 			}
 			else
 			{
-				((NetUIElement<string>)this[DispenseAmounts[i]]).SetValueServer("0");
+				((NetUIElement<string>) this[DispenseAmounts[i]]).SetValueServer("0");
 			}
 		}
 
@@ -114,10 +114,31 @@ public class GUI_ChemistryDispenser : NetTab
 	{
 		if (ChemistryDispenser.Container != null)
 		{
-			//Logger.Log (Chemical);
-			if (dispensableReagents.Contains(reagent)) //Checks if the the dispenser can dispense this chemical
+			if (ChemistryDispenser.ThisState == PowerStates.On
+			    || ChemistryDispenser.ThisState == PowerStates.LowVoltage
+			    || ChemistryDispenser.ThisState == PowerStates.OverVoltage)
 			{
-				ChemistryDispenser.Container.Add(new ReagentMix(reagent,DispensedNumber, DispensedTemperatureCelsius));
+				//Logger.Log (Chemical);
+				if (dispensableReagents.Contains(reagent)) //Checks if the the dispenser can dispense this chemical
+				{
+					float OutDispensedNumber = 0;
+					switch (ChemistryDispenser.ThisState)
+					{
+						case (PowerStates.OverVoltage):
+							OutDispensedNumber = DispensedNumber * 2;
+							break;
+						case (PowerStates.LowVoltage):
+							OutDispensedNumber = DispensedNumber * 0.5f;
+							break;
+
+						default:
+							OutDispensedNumber = DispensedNumber;
+							break;
+					}
+
+					ChemistryDispenser.Container.Add(new ReagentMix(reagent, OutDispensedNumber,
+						DispensedTemperatureCelsius));
+				}
 			}
 		}
 
@@ -161,10 +182,15 @@ public class GUI_ChemistryDispenser : NetTab
 	{
 		if (ChemistryDispenser.Container != null)
 		{
-			if (HeaterOn)
+			if (ChemistryDispenser.ThisState == PowerStates.On
+			    || ChemistryDispenser.ThisState == PowerStates.LowVoltage
+			    || ChemistryDispenser.ThisState == PowerStates.OverVoltage)
 			{
-				//Sets the temperature of the liquid. Could be more smooth/gradual change
-				ChemistryDispenser.Container.Temperature = HeaterTemperatureCelsius;
+				if (HeaterOn)
+				{
+					//Sets the temperature of the liquid. Could be more smooth/gradual change
+					ChemistryDispenser.Container.Temperature = HeaterTemperatureCelsius;
+				}
 			}
 		}
 	}
@@ -184,7 +210,8 @@ public class GUI_ChemistryDispenser : NetTab
 			var roundedReagents = ChemistryDispenser.Container; // Round the contents to look better in the UI
 			foreach (var reagent in roundedReagents)
 			{
-				newListOfReagents += $"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)} - {reagent.Value} U \n";
+				newListOfReagents +=
+					$"{char.ToUpper(reagent.Key.Name[0])}{reagent.Key.Name.Substring(1)} - {reagent.Value} U \n";
 			}
 
 			TotalAndTemperature.SetValueServer($"{ChemistryDispenser.Container.ReagentMixTotal}U @ {(ChemistryDispenser.Container.Temperature)}°C");

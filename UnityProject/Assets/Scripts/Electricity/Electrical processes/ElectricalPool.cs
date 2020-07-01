@@ -91,6 +91,7 @@ public class ElectricalPool
 		{
 			var FPCList = PooledFPCList[0];
 			PooledFPCList.RemoveAt(0);
+			FPCList.Clear();
 			return (FPCList);
 		}
 		else {

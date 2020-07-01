@@ -170,13 +170,13 @@ namespace DiscordWebhook
 			for (var i = 1; i <= count; i++)
 			{
 				//Discord character limit is 2000
-				if (msg.Length > 1950)
+				if (msg.Length > 1970)
 				{
-					msg = msg.Substring(0, 1950);
+					msg = msg.Substring(0, 1970);
 					break;
 				}
 
-				if (msg.Length + queue.Peek().Length > 1950)
+				if (msg.Length + queue.Peek().Length > 1970)
 				{
 					break;
 				}
@@ -252,6 +252,8 @@ namespace DiscordWebhook
 			{
 				ErrorMessageHashSet.Add(stackTrace);
 
+				if(logString.Contains("Can't get home directory!")) return;
+
 				var logToSend = $"{logString}\n{stackTrace}";
 
 				//Discord character limit is 2000
@@ -259,6 +261,8 @@ namespace DiscordWebhook
 				{
 					logToSend = logToSend.Substring(0, 1950);
 				}
+
+				logToSend = $"```\n{logToSend}\n```\n";
 
 				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, logToSend, "");
 			}

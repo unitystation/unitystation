@@ -1,5 +1,20 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &4496233817727916202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6918947953705996213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76265263b12ffbbc0ab21ee84affc2ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  toolTraits:
+  - {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
+  - {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
 --- !u!114 &6996102117196664092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,7 +48,7 @@ PrefabInstance:
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -59,7 +74,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91,
+      objectReference: {fileID: 11400000, guid: dddaaca292cc8a05eb38c8cd5ae2bb0e,
         type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -133,14 +148,13 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644,
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: dddaaca292cc8a05eb38c8cd5ae2bb0e,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.data[3]

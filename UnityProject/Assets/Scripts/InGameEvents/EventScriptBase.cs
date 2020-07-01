@@ -35,7 +35,7 @@ namespace InGameEvents
 		/// <summary>
 		/// Chance to happen 1-100%
 		/// </summary>
-		public int ChanceToHappen = 100;
+		public float ChanceToHappen = 100f;
 
 		/// <summary>
 		/// If the event is fake, you'll need to integrate into own script

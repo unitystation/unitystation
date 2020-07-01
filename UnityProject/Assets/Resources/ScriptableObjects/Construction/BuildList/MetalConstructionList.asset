@@ -164,3 +164,45 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 0
+  - name: Light Tube Fixture Frame
+    prefab: {fileID: 7187812193856883994, guid: de58f144ae6ff79468a9ade48faecd43,
+      type: 3}
+    cost: 2
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Light Bulb Fixture Frame
+    prefab: {fileID: 7187812193856883994, guid: 7e815097a7c80ed42b9d8cf1297154ea,
+      type: 3}
+    cost: 1
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Water pump L to R
+    prefab: {fileID: 2372823301344523609, guid: 1be8bfa36ee455345a8f27806cda3f2a,
+      type: 3}
+    cost: 25
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
+  - name: FluidTank
+    prefab: {fileID: 3407542624209996665, guid: 5eb0441fd1e97844189c28a3633d2cb9,
+      type: 3}
+    cost: 20
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Boiler Tank
+    prefab: {fileID: 8390320911816615196, guid: 212fb4f9ee5822c4c8584d1e7fc90905,
+      type: 3}
+    cost: 15
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Fire Alarm Frame
+    prefab: {fileID: 7187812193856883994, guid: db136d83c6a92b743935ef8168fd12fc,
+      type: 3}
+    cost: 2
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1

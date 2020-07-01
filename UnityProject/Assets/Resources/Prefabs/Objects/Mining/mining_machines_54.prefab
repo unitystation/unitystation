@@ -91,7 +91,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4600215391598352}
   - component: {fileID: 61553389341611554}
-  - component: {fileID: 61108834247246526}
   - component: {fileID: 114553154410610264}
   - component: {fileID: 6253077211462791056}
   - component: {fileID: 114770512620025736}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114430213137055408}
   - component: {fileID: -5194193326582353321}
   - component: {fileID: -4055719543417172584}
+  - component: {fileID: 6108340017713445561}
   m_Layer: 11
   m_Name: mining_machines_54
   m_TagString: Untagged
@@ -135,32 +135,6 @@ BoxCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
---- !u!61 &61108834247246526
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1148151089360074}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -241,6 +215,8 @@ MonoBehaviour:
     Stock: 5
   - Item: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
     Stock: 5
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114030207048474028
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,3 +349,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6108340017713445561
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148151089360074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1

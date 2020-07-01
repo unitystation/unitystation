@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4683593748146636}
   - component: {fileID: 61921485825753430}
-  - component: {fileID: 61576283321298232}
   - component: {fileID: 114524032623094572}
   - component: {fileID: 114568226788970728}
   - component: {fileID: 114734017414174382}
@@ -20,6 +19,7 @@ GameObject:
   - component: {fileID: 114839055633971704}
   - component: {fileID: 114712713531201044}
   - component: {fileID: 6277538734889710698}
+  - component: {fileID: 5932629110566897951}
   m_Layer: 11
   m_Name: vending_69
   m_TagString: Untagged
@@ -68,32 +68,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61576283321298232
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1566295957001540}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114524032623094572
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,10 +94,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent: []
+  InitialVendorContent: []
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 2
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent: []
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114734017414174382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +136,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &7374880474366726541
 MonoBehaviour:
@@ -248,6 +229,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5932629110566897951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1566295957001540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1
 --- !u!1 &1640601255468836
 GameObject:
   m_ObjectHideFlags: 0

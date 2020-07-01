@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using AdminTools;
 using UnityEngine;
 using DiscordWebhook;
 
@@ -27,6 +28,8 @@ namespace InGameEvents
 		[SerializeField]
 		private int chanceItIsFake = 25;
 
+		public bool RandomEventsAllowed = true;
+
 
 		private void Awake()
 		{
@@ -44,7 +47,7 @@ namespace InGameEvents
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
-			if (GameManager.Instance.CurrentRoundState == RoundState.Started)
+			if (RandomEventsAllowed && GameManager.Instance.CurrentRoundState == RoundState.Started )
 			{
 				timer += Time.deltaTime;
 				if (timer > triggerEventInterval)
@@ -72,11 +75,11 @@ namespace InGameEvents
 			listOfFunEventScripts.Add(eventToAdd);
 		}
 
-		public void TriggerSpecificEvent(int eventIndex, bool isFake = false, string AdminName = null, bool announceEvent = true)
+		public void TriggerSpecificEvent(int eventIndex, bool isFake = false, string adminName = null, bool announceEvent = true)
 		{
 			if (eventIndex == 0)
 			{
-				StartRandomFunEvent(true, isFake, AdminName: AdminName, announceEvent: announceEvent);
+				StartRandomFunEvent(true, isFake, false, adminName, announceEvent);
 			}
 			else
 			{
@@ -84,37 +87,49 @@ namespace InGameEvents
 				eventChosen.FakeEvent = isFake;
 				eventChosen.AnnounceEvent = announceEvent;
 				eventChosen.TriggerEvent();
-				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"{AdminName}: triggered a random event, {eventChosen.EventName} was choosen. Is fake: {isFake}", "");
+
+				var msg = $"{adminName}: triggered the event: {eventChosen.EventName}. Is fake: {isFake}. Announce: {announceEvent}";
+
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 			}
 		}
 
-		public void StartRandomFunEvent(bool AnEventMustHappen = false, bool isFake = false, bool serverTriggered = false, string AdminName = null, bool announceEvent = true)
+		public void StartRandomFunEvent(bool anEventMustHappen = false, bool isFake = false, bool serverTriggered = false, string adminName = null, bool announceEvent = true)
 		{
 			foreach (var eventInList in listOfFunEventScripts.Shuffle())
 			{
-				var chanceToHappen = UnityEngine.Random.Range(0, 100);
+				var chanceToHappen = UnityEngine.Random.Range(0f, 100f);
 
-				if (chanceToHappen <= eventInList.ChanceToHappen)
+				if (chanceToHappen < eventInList.ChanceToHappen)
 				{
 					eventInList.FakeEvent = isFake;
 					eventInList.AnnounceEvent = announceEvent;
 					eventInList.TriggerEvent();
 
+					string msg;
+
 					if (serverTriggered)
 					{
-						DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"A random event, {eventInList.EventName} has been triggered by the server. Is fake: {isFake}", "[Server]");
+						msg = $"A random event, {eventInList.EventName} has been triggered by the server. Is fake: {isFake}. Announce: {announceEvent}";
+
+						UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+						DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "[Server]");
 						return;
 					}
 
-					DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, $"{AdminName}: triggered a random event, {eventInList.EventName} was choosen. Is fake: {isFake}", "");
+					msg = $"{adminName}: triggered a random event, {eventInList.EventName} was chosen. Is fake: {isFake}. Announce: {announceEvent}";
+
+					UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+					DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 
 					return;
 				}
 			}
 
-			if (AnEventMustHappen)
+			if (anEventMustHappen)
 			{
-				StartRandomFunEvent(true, isFake);
+				StartRandomFunEvent(true, isFake, serverTriggered, adminName, announceEvent);
 			}
 		}
 	}

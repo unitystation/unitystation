@@ -33,13 +33,13 @@ namespace InGameEvents
 
 				if (slot.Item == null)
 				{
-					var gun = Spawn.ServerPrefab(gunList[UnityEngine.Random.Range(1, gunList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
+					var gun = Spawn.ServerPrefab(gunList[UnityEngine.Random.Range(0, gunList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
 
 					Inventory.ServerAdd(gun.GameObject.GetComponent<Pickupable>(), slot);
 				}
 				else
 				{
-					Spawn.ServerPrefab(gunList[UnityEngine.Random.Range(1, gunList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
+					Spawn.ServerPrefab(gunList[UnityEngine.Random.Range(0, gunList.Count)], player.Script.WorldPos, player.Script.gameObject.transform.parent, player.Script.transform.rotation);
 				}
 			}
 		}

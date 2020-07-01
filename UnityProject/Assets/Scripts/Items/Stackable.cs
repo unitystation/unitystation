@@ -303,6 +303,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 		{
 			//spawn a new one and put it into the from slot with a stack size of 1
 			var single = Spawn.ServerPrefab(prefab).GameObject;
+			if (single == null || single.GetComponent<Stackable>() == null) return;
 			single.GetComponent<Stackable>().SyncAmount(amount, 1);
 			Inventory.ServerAdd(single, interaction.FromSlot);
 			ServerConsume(1);

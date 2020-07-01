@@ -15,11 +15,9 @@ public class BulletStunOnHit : BulletHitTrigger
 	private float stunTime = 4.0f;
 	[SerializeField]
 	private bool dropItem = true;
-	[SerializeField]
-	private bool doSlip = true;
 
 	public override void BulletHitInteract(GameObject target)
 	{
-		target?.GetComponent<RegisterPlayer>()?.ServerStun(stunTime, dropItem, doSlip);
+		target?.GetComponent<RegisterPlayer>()?.ServerStun(stunTime, dropItem);
 	}
 }
