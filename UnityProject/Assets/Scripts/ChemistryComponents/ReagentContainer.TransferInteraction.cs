@@ -154,6 +154,13 @@ namespace Chemistry.Components
 				var one = interaction.HandObject.GetComponent<ReagentContainer>();
 				var two = interaction.TargetObject.GetComponent<ReagentContainer>();
 
+				var reagentContainerObjectInteractionScript = interaction.TargetObject.GetComponent<ReagentContainerObjectInteractionScript>();
+
+				if (reagentContainerObjectInteractionScript != null)
+				{
+					reagentContainerObjectInteractionScript.TriggerEvent(interaction);
+				}
+
 				ServerTransferInteraction(one, two, interaction.Performer);
 			}
 			else
