@@ -1,10 +1,25 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class FireLock : InteractableDoor
+public class FireLock : InteractableDoor, ISetMultitoolSlave
 {
 	private MetaDataNode metaNode;
 	public FireAlarm fireAlarm;
+
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.FireAlarm;
+	public MultitoolConnectionType ConType  => conType;
+
+	public void SetMaster(ISetMultitoolMaster Imaster)
+	{
+		if (fireAlarm)
+		{
+			fireAlarm.FireLockList.Remove(this);
+		}
+		fireAlarm = (Imaster as Component)?.gameObject.GetComponent<FireAlarm>();
+		fireAlarm.FireLockList.Add(this);
+
+	}
 
 	public override void TryClose()
 	{

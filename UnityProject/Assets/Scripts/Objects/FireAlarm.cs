@@ -4,7 +4,7 @@ using Electric.Inheritance;
 using Mirror;
 using UnityEngine;
 
-public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>
+public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster
 {
 	public List<FireLock> FireLockList = new List<FireLock>();
 	private MetaDataNode metaNode;
@@ -21,6 +21,17 @@ public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInter
 
 	public bool coverOpen;
 	public bool hasCables = true;
+
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.FireAlarm;
+	public MultitoolConnectionType ConType  => conType;
+
+	private bool multiMaster = true;
+	public bool MultiMaster => multiMaster;
+
+	public void AddSlave(object SlaveObject)
+	{
+	}
 
 	public enum FireAlarmState
 	{
