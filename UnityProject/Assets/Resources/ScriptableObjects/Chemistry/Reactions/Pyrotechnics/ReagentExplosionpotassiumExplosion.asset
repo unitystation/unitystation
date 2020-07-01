@@ -17,10 +17,12 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
     - {fileID: 11400000, guid: 7b6a18c45b96273d39d6db9ebb2830ac, type: 2}
     m_values: 0100000001000000
+  useExactAmounts: 0
   catalysts:
     m_keys: []
     m_values: 
   results:
     m_keys: []
     m_values: 
-  effects: []
+  effects:
+  - {fileID: 11400000, guid: 9e563eef533023d47b4596fa10583f3a, type: 2}
