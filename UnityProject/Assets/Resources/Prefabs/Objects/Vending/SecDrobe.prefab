@@ -97,39 +97,56 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 4947898699112671526, guid: 6920da5d154527242970c7c2f00fcd16, type: 3}
+  - ItemName: Security Winter Coat
+    Item: {fileID: 4947898699112671526, guid: 6920da5d154527242970c7c2f00fcd16, type: 3}
     Stock: 3
-  - Item: {fileID: 6150311403527200410, guid: 1a291489c8aa9da8598c8026ac53f935, type: 3}
+  - ItemName: Security Backpack
+    Item: {fileID: 6150311403527200410, guid: 1a291489c8aa9da8598c8026ac53f935, type: 3}
     Stock: 3
-  - Item: {fileID: 4491607388275499144, guid: 1ed809e1bad45b44ea65b44c81764ca9, type: 3}
+  - ItemName: Security Satchel
+    Item: {fileID: 4491607388275499144, guid: 1ed809e1bad45b44ea65b44c81764ca9, type: 3}
     Stock: 3
-  - Item: {fileID: 5246620180480384242, guid: ed03c800dbd4d674d8f01df08a62ce57, type: 3}
+  - ItemName: Security Duffel Bag
+    Item: {fileID: 5246620180480384242, guid: ed03c800dbd4d674d8f01df08a62ce57, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 56b3a5e4aaeeac7409c2ce3816b0c339, type: 3}
+  - ItemName: Security Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 56b3a5e4aaeeac7409c2ce3816b0c339, type: 3}
     Stock: 3
-  - Item: {fileID: 7778659549401236757, guid: 8087f011fc841754da147d221e5c2fe8, type: 3}
+  - ItemName: Security Jumpskirt
+    Item: {fileID: 7778659549401236757, guid: 8087f011fc841754da147d221e5c2fe8, type: 3}
     Stock: 3
-  - Item: {fileID: 7641241167666149781, guid: 917bee919ce4fb54593ed1120ba407af, type: 3}
+  - ItemName: Grey Security Jumpsuit
+    Item: {fileID: 7641241167666149781, guid: 917bee919ce4fb54593ed1120ba407af, type: 3}
     Stock: 3
-  - Item: {fileID: 2737947386721379442, guid: 6642e0b20df9dc743b1885dcd01e3024, type: 3}
+  - ItemName: Blue Shirt And Tie
+    Item: {fileID: 2737947386721379442, guid: 6642e0b20df9dc743b1885dcd01e3024, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: db6925c2066e4fb49a396bacd6dc7552, type: 3}
+  - ItemName: Khaki Pants
+    Item: {fileID: 3011710637427380133, guid: db6925c2066e4fb49a396bacd6dc7552, type: 3}
     Stock: 3
-  - Item: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da, type: 3}
+  - ItemName: Jack Boots
+    Item: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da, type: 3}
     Stock: 3
-  - Item: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce, type: 3}
+  - ItemName: Security Beret
+    Item: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce, type: 3}
     Stock: 3
-  - Item: {fileID: 6275557669645425591, guid: 97f84dca143c7fb4fbd86610313472a0, type: 3}
+  - ItemName: Security Cap
+    Item: {fileID: 6275557669645425591, guid: 97f84dca143c7fb4fbd86610313472a0, type: 3}
     Stock: 3
-  - Item: {fileID: 5346501866518943165, guid: ab2acbff0b11d6d4aa18a2211082f330, type: 3}
+  - ItemName: Red Bandana
+    Item: {fileID: 5346501866518943165, guid: ab2acbff0b11d6d4aa18a2211082f330, type: 3}
     Stock: 3
-  - Item: {fileID: 5437448505016987486, guid: 3f0da6473d897f11f88cf172ed0c5f30, type: 3}
+  - ItemName: Security Headset
+    Item: {fileID: 5437448505016987486, guid: 3f0da6473d897f11f88cf172ed0c5f30, type: 3}
     Stock: 3
-  - Item: {fileID: 1070110363393237790, guid: 591574bb7d99d2245b5f15166ea5be76, type: 3}
+  - ItemName: Security Officers Formal Uniform
+    Item: {fileID: 1070110363393237790, guid: 591574bb7d99d2245b5f15166ea5be76, type: 3}
     Stock: 3
-  - Item: {fileID: 3921521694364753778, guid: 453dfbebf99d34049a240acec7a49706, type: 3}
+  - ItemName: Security Officers Formal Jacket
+    Item: {fileID: 3921521694364753778, guid: 453dfbebf99d34049a240acec7a49706, type: 3}
     Stock: 3
-  - Item: {fileID: 8054706762914598631, guid: 14669856ddf44564fac40935a5a8e2b4, type: 3}
+  - ItemName: Security Navy Beret
+    Item: {fileID: 8054706762914598631, guid: 14669856ddf44564fac40935a5a8e2b4, type: 3}
     Stock: 3
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -138,39 +155,56 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 4947898699112671526, guid: 6920da5d154527242970c7c2f00fcd16, type: 3}
+  - ItemName: 
+    Item: {fileID: 4947898699112671526, guid: 6920da5d154527242970c7c2f00fcd16, type: 3}
     Stock: 3
-  - Item: {fileID: 6150311403527200410, guid: 1a291489c8aa9da8598c8026ac53f935, type: 3}
+  - ItemName: 
+    Item: {fileID: 6150311403527200410, guid: 1a291489c8aa9da8598c8026ac53f935, type: 3}
     Stock: 3
-  - Item: {fileID: 4491607388275499144, guid: 1ed809e1bad45b44ea65b44c81764ca9, type: 3}
+  - ItemName: 
+    Item: {fileID: 4491607388275499144, guid: 1ed809e1bad45b44ea65b44c81764ca9, type: 3}
     Stock: 3
-  - Item: {fileID: 5246620180480384242, guid: ed03c800dbd4d674d8f01df08a62ce57, type: 3}
+  - ItemName: 
+    Item: {fileID: 5246620180480384242, guid: ed03c800dbd4d674d8f01df08a62ce57, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 56b3a5e4aaeeac7409c2ce3816b0c339, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 56b3a5e4aaeeac7409c2ce3816b0c339, type: 3}
     Stock: 3
-  - Item: {fileID: 7778659549401236757, guid: 8087f011fc841754da147d221e5c2fe8, type: 3}
+  - ItemName: 
+    Item: {fileID: 7778659549401236757, guid: 8087f011fc841754da147d221e5c2fe8, type: 3}
     Stock: 3
-  - Item: {fileID: 7641241167666149781, guid: 917bee919ce4fb54593ed1120ba407af, type: 3}
+  - ItemName: 
+    Item: {fileID: 7641241167666149781, guid: 917bee919ce4fb54593ed1120ba407af, type: 3}
     Stock: 3
-  - Item: {fileID: 2737947386721379442, guid: 6642e0b20df9dc743b1885dcd01e3024, type: 3}
+  - ItemName: 
+    Item: {fileID: 2737947386721379442, guid: 6642e0b20df9dc743b1885dcd01e3024, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: db6925c2066e4fb49a396bacd6dc7552, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: db6925c2066e4fb49a396bacd6dc7552, type: 3}
     Stock: 3
-  - Item: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da, type: 3}
     Stock: 3
-  - Item: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce, type: 3}
+  - ItemName: 
+    Item: {fileID: 3164270768286331101, guid: a4d736b34e26278479563c6bf5f121ce, type: 3}
     Stock: 3
-  - Item: {fileID: 6275557669645425591, guid: 97f84dca143c7fb4fbd86610313472a0, type: 3}
+  - ItemName: 
+    Item: {fileID: 6275557669645425591, guid: 97f84dca143c7fb4fbd86610313472a0, type: 3}
     Stock: 3
-  - Item: {fileID: 5346501866518943165, guid: ab2acbff0b11d6d4aa18a2211082f330, type: 3}
+  - ItemName: 
+    Item: {fileID: 5346501866518943165, guid: ab2acbff0b11d6d4aa18a2211082f330, type: 3}
     Stock: 3
-  - Item: {fileID: 5437448505016987486, guid: 3f0da6473d897f11f88cf172ed0c5f30, type: 3}
+  - ItemName: 
+    Item: {fileID: 5437448505016987486, guid: 3f0da6473d897f11f88cf172ed0c5f30, type: 3}
     Stock: 3
-  - Item: {fileID: 1070110363393237790, guid: 591574bb7d99d2245b5f15166ea5be76, type: 3}
+  - ItemName: 
+    Item: {fileID: 1070110363393237790, guid: 591574bb7d99d2245b5f15166ea5be76, type: 3}
     Stock: 3
-  - Item: {fileID: 3921521694364753778, guid: 453dfbebf99d34049a240acec7a49706, type: 3}
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 453dfbebf99d34049a240acec7a49706, type: 3}
     Stock: 3
-  - Item: {fileID: 8054706762914598631, guid: 14669856ddf44564fac40935a5a8e2b4, type: 3}
+  - ItemName: 
+    Item: {fileID: 8054706762914598631, guid: 14669856ddf44564fac40935a5a8e2b4, type: 3}
     Stock: 3
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

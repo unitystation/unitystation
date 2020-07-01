@@ -96,15 +96,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+  - ItemName: Black Shoes
+    Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
     Stock: 5
-  - Item: {fileID: 7106618204054676533, guid: f61a15e56150d45e78d9458034719cbb, type: 3}
+  - ItemName: Brown Shoes
+    Item: {fileID: 7106618204054676533, guid: f61a15e56150d45e78d9458034719cbb, type: 3}
     Stock: 5
-  - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+  - ItemName: White Shoes
+    Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
     Stock: 5
-  - Item: {fileID: 7636118406116123594, guid: 5a6e2e3a0a44146198136e4fa2798db5, type: 3}
+  - ItemName: Kitty Ears
+    Item: {fileID: 7636118406116123594, guid: 5a6e2e3a0a44146198136e4fa2798db5, type: 3}
     Stock: 1
-  - Item: {fileID: 7636118406116123594, guid: 489b0e24de7b7dc4ea31a401aadb3779, type: 3}
+  - ItemName: Top Hat
+    Item: {fileID: 7636118406116123594, guid: 489b0e24de7b7dc4ea31a401aadb3779, type: 3}
     Stock: 2
   HullColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   EjectObjects: 0
@@ -113,15 +118,20 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
     Stock: 5
-  - Item: {fileID: 7106618204054676533, guid: f61a15e56150d45e78d9458034719cbb, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: f61a15e56150d45e78d9458034719cbb, type: 3}
     Stock: 5
-  - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
     Stock: 5
-  - Item: {fileID: 7636118406116123594, guid: 5a6e2e3a0a44146198136e4fa2798db5, type: 3}
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 5a6e2e3a0a44146198136e4fa2798db5, type: 3}
     Stock: 1
-  - Item: {fileID: 7636118406116123594, guid: 489b0e24de7b7dc4ea31a401aadb3779, type: 3}
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 489b0e24de7b7dc4ea31a401aadb3779, type: 3}
     Stock: 2
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

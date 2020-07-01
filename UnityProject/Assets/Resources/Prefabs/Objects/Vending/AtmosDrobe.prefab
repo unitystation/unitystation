@@ -97,23 +97,32 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 3
-  - Item: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff, type: 3}
+  - ItemName: Industrial Duffel Bag
+    Item: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff, type: 3}
     Stock: 3
-  - Item: {fileID: 6682071155640065413, guid: 99480f95d67c6cc4c852e3e388dc70df, type: 3}
+  - ItemName: Industrial Satchel
+    Item: {fileID: 6682071155640065413, guid: 99480f95d67c6cc4c852e3e388dc70df, type: 3}
     Stock: 3
-  - Item: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
+  - ItemName: Industrial Backpack
+    Item: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
     Stock: 3
-  - Item: {fileID: 7775834299501801313, guid: eb6e678136f03fe4896e35207b70e1cc, type: 3}
+  - ItemName: 
+    Item: {fileID: 7775834299501801313, guid: eb6e678136f03fe4896e35207b70e1cc, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 7836d5b8852b74938820fb198f01e5ba, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 7836d5b8852b74938820fb198f01e5ba, type: 3}
     Stock: 3
-  - Item: {fileID: 3893929246494869355, guid: 6c0b4e12999405741b9fd74d47c66001, type: 3}
+  - ItemName: 
+    Item: {fileID: 3893929246494869355, guid: 6c0b4e12999405741b9fd74d47c66001, type: 3}
     Stock: 3
-  - Item: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
     Stock: 3
-  - Item: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
     Stock: 3
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -122,23 +131,32 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 3
-  - Item: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff, type: 3}
+  - ItemName: 
+    Item: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff, type: 3}
     Stock: 3
-  - Item: {fileID: 6682071155640065413, guid: 99480f95d67c6cc4c852e3e388dc70df, type: 3}
+  - ItemName: 
+    Item: {fileID: 6682071155640065413, guid: 99480f95d67c6cc4c852e3e388dc70df, type: 3}
     Stock: 3
-  - Item: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
+  - ItemName: 
+    Item: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
     Stock: 3
-  - Item: {fileID: 7775834299501801313, guid: eb6e678136f03fe4896e35207b70e1cc, type: 3}
+  - ItemName: 
+    Item: {fileID: 7775834299501801313, guid: eb6e678136f03fe4896e35207b70e1cc, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 7836d5b8852b74938820fb198f01e5ba, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 7836d5b8852b74938820fb198f01e5ba, type: 3}
     Stock: 3
-  - Item: {fileID: 3893929246494869355, guid: 6c0b4e12999405741b9fd74d47c66001, type: 3}
+  - ItemName: 
+    Item: {fileID: 3893929246494869355, guid: 6c0b4e12999405741b9fd74d47c66001, type: 3}
     Stock: 3
-  - Item: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
     Stock: 3
-  - Item: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
     Stock: 3
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

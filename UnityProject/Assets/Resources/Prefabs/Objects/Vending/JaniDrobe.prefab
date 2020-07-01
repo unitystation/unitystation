@@ -97,43 +97,62 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 3011710637427380133, guid: 8fd881065be8b411d84cfc10b38be725, type: 3}
+  - ItemName: Janitors Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 8fd881065be8b411d84cfc10b38be725, type: 3}
     Stock: 2
-  - Item: {fileID: 4011149429169960813, guid: cad85b5dad5b95d468fc34d2c6a01947, type: 3}
+  - ItemName: Janitos Jumpskirt
+    Item: {fileID: 4011149429169960813, guid: cad85b5dad5b95d468fc34d2c6a01947, type: 3}
     Stock: 2
-  - Item: {fileID: 2502055301998392637, guid: d77ca13e6df71a4468e5a524d3c698bc, type: 3}
+  - ItemName: Maid Uniform
+    Item: {fileID: 2502055301998392637, guid: d77ca13e6df71a4468e5a524d3c698bc, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
+  - ItemName: Black Gloves
+    Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
     Stock: 2
-  - Item: {fileID: 1454153603153415932, guid: bcf175e4b2e739a47a94808c336aaa33, type: 3}
+  - ItemName: Purple Cap
+    Item: {fileID: 1454153603153415932, guid: bcf175e4b2e739a47a94808c336aaa33, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 7781396554342910705, guid: bffa4f7b47979d445854af572064d36b, type: 3}
+  - ItemName: Fly Swatter
+    Item: {fileID: 7781396554342910705, guid: bffa4f7b47979d445854af572064d36b, type: 3}
     Stock: 2
-  - Item: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
+  - ItemName: Flash Light
+    Item: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
     Stock: 2
-  - Item: {fileID: 2419386692754613975, guid: 6603caafe8df84b4da1c797343cdf8c6, type: 3}
+  - ItemName: Wet Floor Sign
+    Item: {fileID: 2419386692754613975, guid: 6603caafe8df84b4da1c797343cdf8c6, type: 3}
     Stock: 6
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 6694482156107280369, guid: f9e1c882fbe2384428dd2e8cca1f375c, type: 3}
+  - ItemName: Soap Nanotrasen
+    Item: {fileID: 6694482156107280369, guid: f9e1c882fbe2384428dd2e8cca1f375c, type: 3}
     Stock: 2
-  - Item: {fileID: 359432221073519209, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03, type: 3}
+  - ItemName: Trash Bag
+    Item: {fileID: 359432221073519209, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: 7a2370ed5124e4897ba86392a2d9052b, type: 3}
+  - ItemName: Golashes
+    Item: {fileID: 7106618204054676533, guid: 7a2370ed5124e4897ba86392a2d9052b, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 1069655924402247308, guid: 43a2f25b1176348c68d5d896d48d2fc6, type: 3}
+  - ItemName: Janitor Belt Full
+    Item: {fileID: 1069655924402247308, guid: 43a2f25b1176348c68d5d896d48d2fc6, type: 3}
     Stock: 2
-  - Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
+  - ItemName: Service Headset
+    Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
     Stock: 2
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -142,43 +161,62 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 3011710637427380133, guid: 8fd881065be8b411d84cfc10b38be725, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 8fd881065be8b411d84cfc10b38be725, type: 3}
     Stock: 2
-  - Item: {fileID: 4011149429169960813, guid: cad85b5dad5b95d468fc34d2c6a01947, type: 3}
+  - ItemName: 
+    Item: {fileID: 4011149429169960813, guid: cad85b5dad5b95d468fc34d2c6a01947, type: 3}
     Stock: 2
-  - Item: {fileID: 2502055301998392637, guid: d77ca13e6df71a4468e5a524d3c698bc, type: 3}
+  - ItemName: 
+    Item: {fileID: 2502055301998392637, guid: d77ca13e6df71a4468e5a524d3c698bc, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
+  - ItemName: 
+    Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
     Stock: 2
-  - Item: {fileID: 1454153603153415932, guid: bcf175e4b2e739a47a94808c336aaa33, type: 3}
+  - ItemName: 
+    Item: {fileID: 1454153603153415932, guid: bcf175e4b2e739a47a94808c336aaa33, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 7781396554342910705, guid: bffa4f7b47979d445854af572064d36b, type: 3}
+  - ItemName: 
+    Item: {fileID: 7781396554342910705, guid: bffa4f7b47979d445854af572064d36b, type: 3}
     Stock: 2
-  - Item: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
+  - ItemName: 
+    Item: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
     Stock: 2
-  - Item: {fileID: 2419386692754613975, guid: 6603caafe8df84b4da1c797343cdf8c6, type: 3}
+  - ItemName: 
+    Item: {fileID: 2419386692754613975, guid: 6603caafe8df84b4da1c797343cdf8c6, type: 3}
     Stock: 6
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 6694482156107280369, guid: f9e1c882fbe2384428dd2e8cca1f375c, type: 3}
+  - ItemName: 
+    Item: {fileID: 6694482156107280369, guid: f9e1c882fbe2384428dd2e8cca1f375c, type: 3}
     Stock: 2
-  - Item: {fileID: 359432221073519209, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03, type: 3}
+  - ItemName: 
+    Item: {fileID: 359432221073519209, guid: 4dddcb74ff9a3ee4ca69bc6d757dca03, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: 7a2370ed5124e4897ba86392a2d9052b, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 7a2370ed5124e4897ba86392a2d9052b, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 1069655924402247308, guid: 43a2f25b1176348c68d5d896d48d2fc6, type: 3}
+  - ItemName: 
+    Item: {fileID: 1069655924402247308, guid: 43a2f25b1176348c68d5d896d48d2fc6, type: 3}
     Stock: 2
-  - Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
     Stock: 2
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

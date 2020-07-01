@@ -97,57 +97,83 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 2631301970094974667, guid: 4a7edcb6b0aa41f4f812fc2b11ac6ba0, type: 3}
+  - ItemName: Trophy Rack
+    Item: {fileID: 2631301970094974667, guid: 4a7edcb6b0aa41f4f812fc2b11ac6ba0, type: 3}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 3011710637427380133, guid: 46e9a65fa189a4ae98dc1686675a6fab, type: 3}
+  - ItemName: Chaplains Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 46e9a65fa189a4ae98dc1686675a6fab, type: 3}
     Stock: 1
-  - Item: {fileID: 3694014063137355943, guid: eef5ab2615dd4924184c5c1f2ebddd96, type: 3}
+  - ItemName: Chaplains Jumpskirt
+    Item: {fileID: 3694014063137355943, guid: eef5ab2615dd4924184c5c1f2ebddd96, type: 3}
     Stock: 1
-  - Item: {fileID: 7106618204054676533, guid: faf3ae6d19eb7d6179472f49c1c5e7b3, type: 3}
+  - ItemName: Magic Sandals
+    Item: {fileID: 7106618204054676533, guid: faf3ae6d19eb7d6179472f49c1c5e7b3, type: 3}
     Stock: 1
-  - Item: {fileID: 4396341318306884477, guid: e244af83de9c4b34e81a92b8fc49d697, type: 3}
+  - ItemName: Nub Robe
+    Item: {fileID: 4396341318306884477, guid: e244af83de9c4b34e81a92b8fc49d697, type: 3}
     Stock: 1
-  - Item: {fileID: 5928712846358127699, guid: 57dc1686331ca564e808b94f84fe8fb0, type: 3}
+  - ItemName: Nun Hood
+    Item: {fileID: 5928712846358127699, guid: 57dc1686331ca564e808b94f84fe8fb0, type: 3}
     Stock: 1
-  - Item: {fileID: 4396341318306884477, guid: 952fcc0a66cc10f4dabc47ee13d626ef, type: 3}
+  - ItemName: Holiday Priests Robes
+    Item: {fileID: 4396341318306884477, guid: 952fcc0a66cc10f4dabc47ee13d626ef, type: 3}
     Stock: 1
-  - Item: {fileID: 3921521694364753778, guid: 3a12db5b378157d44850130a940fcccc, type: 3}
+  - ItemName: Monks Habit
+    Item: {fileID: 3921521694364753778, guid: 3a12db5b378157d44850130a940fcccc, type: 3}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 7636118406116123594, guid: 2676698809287454ca982a60b8310752, type: 3}
+  - ItemName: Kippah
+    Item: {fileID: 7636118406116123594, guid: 2676698809287454ca982a60b8310752, type: 3}
     Stock: 3
-  - Item: {fileID: 3921521694364753778, guid: 6168a00e66ca21f45b31140fb85e3527, type: 3}
+  - ItemName: White Robe
+    Item: {fileID: 3921521694364753778, guid: 6168a00e66ca21f45b31140fb85e3527, type: 3}
     Stock: 1
-  - Item: {fileID: 7636118406116123594, guid: d3a4af0eb408c32499a7fdbd285001f2, type: 3}
+  - ItemName: White Taqiyah
+    Item: {fileID: 7636118406116123594, guid: d3a4af0eb408c32499a7fdbd285001f2, type: 3}
     Stock: 1
-  - Item: {fileID: 7636118406116123594, guid: 99972b6fb78d35245885d5917704db00, type: 3}
+  - ItemName: Red Taqiyah
+    Item: {fileID: 7636118406116123594, guid: 99972b6fb78d35245885d5917704db00, type: 3}
     Stock: 3
-  - Item: {fileID: 3921521694364753778, guid: b3e9e115e52513c4eb88129b029216ef, type: 3}
+  - ItemName: Eastern Monks Robes
+    Item: {fileID: 3921521694364753778, guid: b3e9e115e52513c4eb88129b029216ef, type: 3}
     Stock: 1
-  - Item: {fileID: 616735813865956089, guid: 48f01c8a7b7848048a0ba8fa85a07a7d, type: 3}
+  - ItemName: Rasta Cap
+    Item: {fileID: 616735813865956089, guid: 48f01c8a7b7848048a0ba8fa85a07a7d, type: 3}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 7636118406116123594, guid: 7727aa2611c63c343bc1366c82ac77b6, type: 3}
+  - ItemName: Medieval Jew Hat
+    Item: {fileID: 7636118406116123594, guid: 7727aa2611c63c343bc1366c82ac77b6, type: 3}
     Stock: 3
-  - Item: {fileID: 3921521694364753778, guid: 2a4b15314ed79284390ffd3d350bde37, type: 3}
+  - ItemName: Robes Of The Honk Mother
+    Item: {fileID: 3921521694364753778, guid: 2a4b15314ed79284390ffd3d350bde37, type: 3}
     Stock: 1
-  - Item: {fileID: 7636118406116123594, guid: 84d03d866a1ee8d48a83c8ccef547e21, type: 3}
+  - ItemName: Hat Of The Honk Mother
+    Item: {fileID: 7636118406116123594, guid: 84d03d866a1ee8d48a83c8ccef547e21, type: 3}
     Stock: 1
-  - Item: {fileID: 4396341318306884477, guid: e707afa4977956141a62cc6890d088ca, type: 3}
+  - ItemName: Bishops Robes
+    Item: {fileID: 4396341318306884477, guid: e707afa4977956141a62cc6890d088ca, type: 3}
     Stock: 1
-  - Item: {fileID: 5928712846358127699, guid: 0c2a702923a3e6346933f0c6d52fed5d, type: 3}
+  - ItemName: Bishop Mitre
+    Item: {fileID: 5928712846358127699, guid: 0c2a702923a3e6346933f0c6d52fed5d, type: 3}
     Stock: 1
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -156,57 +182,83 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 2631301970094974667, guid: 4a7edcb6b0aa41f4f812fc2b11ac6ba0, type: 3}
+  - ItemName: 
+    Item: {fileID: 2631301970094974667, guid: 4a7edcb6b0aa41f4f812fc2b11ac6ba0, type: 3}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 3011710637427380133, guid: 46e9a65fa189a4ae98dc1686675a6fab, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 46e9a65fa189a4ae98dc1686675a6fab, type: 3}
     Stock: 1
-  - Item: {fileID: 3694014063137355943, guid: eef5ab2615dd4924184c5c1f2ebddd96, type: 3}
+  - ItemName: 
+    Item: {fileID: 3694014063137355943, guid: eef5ab2615dd4924184c5c1f2ebddd96, type: 3}
     Stock: 1
-  - Item: {fileID: 7106618204054676533, guid: faf3ae6d19eb7d6179472f49c1c5e7b3, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: faf3ae6d19eb7d6179472f49c1c5e7b3, type: 3}
     Stock: 1
-  - Item: {fileID: 4396341318306884477, guid: e244af83de9c4b34e81a92b8fc49d697, type: 3}
+  - ItemName: 
+    Item: {fileID: 4396341318306884477, guid: e244af83de9c4b34e81a92b8fc49d697, type: 3}
     Stock: 1
-  - Item: {fileID: 5928712846358127699, guid: 57dc1686331ca564e808b94f84fe8fb0, type: 3}
+  - ItemName: 
+    Item: {fileID: 5928712846358127699, guid: 57dc1686331ca564e808b94f84fe8fb0, type: 3}
     Stock: 1
-  - Item: {fileID: 4396341318306884477, guid: 952fcc0a66cc10f4dabc47ee13d626ef, type: 3}
+  - ItemName: 
+    Item: {fileID: 4396341318306884477, guid: 952fcc0a66cc10f4dabc47ee13d626ef, type: 3}
     Stock: 1
-  - Item: {fileID: 3921521694364753778, guid: 3a12db5b378157d44850130a940fcccc, type: 3}
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 3a12db5b378157d44850130a940fcccc, type: 3}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 7636118406116123594, guid: 2676698809287454ca982a60b8310752, type: 3}
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 2676698809287454ca982a60b8310752, type: 3}
     Stock: 3
-  - Item: {fileID: 3921521694364753778, guid: 6168a00e66ca21f45b31140fb85e3527, type: 3}
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 6168a00e66ca21f45b31140fb85e3527, type: 3}
     Stock: 1
-  - Item: {fileID: 7636118406116123594, guid: d3a4af0eb408c32499a7fdbd285001f2, type: 3}
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: d3a4af0eb408c32499a7fdbd285001f2, type: 3}
     Stock: 1
-  - Item: {fileID: 7636118406116123594, guid: 99972b6fb78d35245885d5917704db00, type: 3}
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 99972b6fb78d35245885d5917704db00, type: 3}
     Stock: 3
-  - Item: {fileID: 3921521694364753778, guid: b3e9e115e52513c4eb88129b029216ef, type: 3}
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: b3e9e115e52513c4eb88129b029216ef, type: 3}
     Stock: 1
-  - Item: {fileID: 616735813865956089, guid: 48f01c8a7b7848048a0ba8fa85a07a7d, type: 3}
+  - ItemName: 
+    Item: {fileID: 616735813865956089, guid: 48f01c8a7b7848048a0ba8fa85a07a7d, type: 3}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 7636118406116123594, guid: 7727aa2611c63c343bc1366c82ac77b6, type: 3}
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 7727aa2611c63c343bc1366c82ac77b6, type: 3}
     Stock: 3
-  - Item: {fileID: 3921521694364753778, guid: 2a4b15314ed79284390ffd3d350bde37, type: 3}
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 2a4b15314ed79284390ffd3d350bde37, type: 3}
     Stock: 1
-  - Item: {fileID: 7636118406116123594, guid: 84d03d866a1ee8d48a83c8ccef547e21, type: 3}
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 84d03d866a1ee8d48a83c8ccef547e21, type: 3}
     Stock: 1
-  - Item: {fileID: 4396341318306884477, guid: e707afa4977956141a62cc6890d088ca, type: 3}
+  - ItemName: 
+    Item: {fileID: 4396341318306884477, guid: e707afa4977956141a62cc6890d088ca, type: 3}
     Stock: 1
-  - Item: {fileID: 5928712846358127699, guid: 0c2a702923a3e6346933f0c6d52fed5d, type: 3}
+  - ItemName: 
+    Item: {fileID: 5928712846358127699, guid: 0c2a702923a3e6346933f0c6d52fed5d, type: 3}
     Stock: 1
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

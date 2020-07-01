@@ -97,21 +97,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 9204123767053120434, guid: f12be30eb7f2ac9488b987831b29a6e9, type: 3}
+  - ItemName: Cargo Winter Coat
+    Item: {fileID: 9204123767053120434, guid: f12be30eb7f2ac9488b987831b29a6e9, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: efbc8c2ff833d4924a01c0a134819dd7, type: 3}
+  - ItemName: Cargo Technicians Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: efbc8c2ff833d4924a01c0a134819dd7, type: 3}
     Stock: 3
-  - Item: {fileID: 1966734932007505171, guid: d0f1a9b75fd9b4c4498f65e576a9d815, type: 3}
+  - ItemName: Cargo Technicians Jumskirt
+    Item: {fileID: 1966734932007505171, guid: d0f1a9b75fd9b4c4498f65e576a9d815, type: 3}
     Stock: 3
-  - Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+  - ItemName: Black Shoes
+    Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
     Stock: 3
-  - Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
+  - ItemName: Fingerless Gloves
+    Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
     Stock: 3
-  - Item: {fileID: 7636118406116123594, guid: 788649a7f84574c48a54361479106732, type: 3}
+  - ItemName: Cargo Cap
+    Item: {fileID: 7636118406116123594, guid: 788649a7f84574c48a54361479106732, type: 3}
     Stock: 3
-  - Item: {fileID: 835768756810601639, guid: 455167e17d2dd4f24b32aaafea5e7fb2, type: 3}
+  - ItemName: Cargo Headset
+    Item: {fileID: 835768756810601639, guid: 455167e17d2dd4f24b32aaafea5e7fb2, type: 3}
     Stock: 3
-  - Item: {fileID: 3240567849674671610, guid: 5e60c8d094f22e34288e8e180e8632e9, type: 3}
+  - ItemName: Shaft Miners Jumpsuit
+    Item: {fileID: 3240567849674671610, guid: 5e60c8d094f22e34288e8e180e8632e9, type: 3}
     Stock: 3
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -120,21 +128,29 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 9204123767053120434, guid: f12be30eb7f2ac9488b987831b29a6e9, type: 3}
+  - ItemName: 
+    Item: {fileID: 9204123767053120434, guid: f12be30eb7f2ac9488b987831b29a6e9, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: efbc8c2ff833d4924a01c0a134819dd7, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: efbc8c2ff833d4924a01c0a134819dd7, type: 3}
     Stock: 3
-  - Item: {fileID: 1966734932007505171, guid: d0f1a9b75fd9b4c4498f65e576a9d815, type: 3}
+  - ItemName: 
+    Item: {fileID: 1966734932007505171, guid: d0f1a9b75fd9b4c4498f65e576a9d815, type: 3}
     Stock: 3
-  - Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
     Stock: 3
-  - Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
+  - ItemName: 
+    Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
     Stock: 3
-  - Item: {fileID: 7636118406116123594, guid: 788649a7f84574c48a54361479106732, type: 3}
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 788649a7f84574c48a54361479106732, type: 3}
     Stock: 3
-  - Item: {fileID: 835768756810601639, guid: 455167e17d2dd4f24b32aaafea5e7fb2, type: 3}
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: 455167e17d2dd4f24b32aaafea5e7fb2, type: 3}
     Stock: 3
-  - Item: {fileID: 3240567849674671610, guid: 5e60c8d094f22e34288e8e180e8632e9, type: 3}
+  - ItemName: 
+    Item: {fileID: 3240567849674671610, guid: 5e60c8d094f22e34288e8e180e8632e9, type: 3}
     Stock: 3
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0
