@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+// THIS COMPONENT HAS BEEN REPLACED BY TOOLSWAPCOMPONENT.CS!
+
 // some context behind this component: i'm making this as a start for my contributions
 // to unitystation, so there's probably going to be a lot of weird things here.
 // please let me know if you have any advice for my code.
