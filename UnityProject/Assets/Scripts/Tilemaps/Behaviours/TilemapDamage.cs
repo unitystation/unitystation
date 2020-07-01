@@ -86,18 +86,13 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void DoMeleeDamage(Vector2 worldPos, GameObject originator, int dmgAmt)
 	{
 		Vector3Int cellPos = metaTileMap.WorldToCell(worldPos);
-		DoDamageInternal(cellPos, dmgAmt, worldPos, AttackType.Melee);
+		DealDamageAt(dmgAmt, AttackType.Melee, cellPos, worldPos);
 	}
 
 	public float ApplyDamage(Vector3Int cellPos, float dmgAmt, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
 	{
 		Vector3Int worldToCellcellPos = metaTileMap.WorldToCell(worldPos);
-		return DoDamageInternal(worldToCellcellPos, dmgAmt, worldPos, attackType);
-	}
-
-	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType)
-	{
-		return DealDamageAt(dmgAmt, attackType, cellPos, worldPos);
+		return DealDamageAt(dmgAmt, attackType, worldToCellcellPos, worldPos);
 	}
 
 	public float Integrity(Vector3Int pos)
