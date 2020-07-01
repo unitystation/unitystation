@@ -186,9 +186,10 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 			data.ResetDamage();
 		}
 
-		if (Armor.GetRatingValue(attackType) > 0 && (currentDamage - data.GetPreviousDamage()) > 0)
+		var damage = currentDamage - data.GetPreviousDamage();
+		if (Armor.GetRatingValue(attackType) > 0 && damage > 0)
 		{
-			return ((currentDamage - data.GetPreviousDamage() ) / Armor.GetRatingValue(attackType));
+			return (damage  / Armor.GetRatingValue(attackType));
 		}
 		else
 		{
