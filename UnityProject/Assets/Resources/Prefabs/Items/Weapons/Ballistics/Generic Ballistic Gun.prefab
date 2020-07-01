@@ -15,13 +15,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   ammoPrefab: {fileID: 0}
-  internalMagPrefab: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
+  genericInternalMag: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
     type: 3}
-  casingPrefab: {fileID: 0}
+  casingPrefabOverride: {fileID: 0}
   ammoType: 357
-  SpawnsCaseing: 1
+  SpawnsCasing: 1
   MagInternal: 0
-  CanRemovableMag: 1
   SmartGun: 0
   MagSize: 10
   CurrentRecoilVariance: 0
