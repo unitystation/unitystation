@@ -164,10 +164,11 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 		return IsAtmosPassable() && !isSealed;
 	}
 
-	public float AddDamage(float damage, MetaDataNode data, Vector3Int cellPos, AttackType attackType, TileChangeManager tileChangeManager)
+	public float AddDamage(float damage, AttackType attackType, Vector3Int cellPos, Vector3 worldPosition,
+		MetaDataNode data, TileChangeManager tileChangeManager)
 	{
 		data.Damage += Armor.GetDamage(damage, attackType);
-
+		SoundManager.PlayNetworkedAtPos("GlassHit",worldPosition);
 		if (data.Damage >= MaxHealth)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType);

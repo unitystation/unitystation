@@ -80,7 +80,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		MetaDataNode data = metaDataLayer.Get(cellPos);
-		basicTile.AddDamage(bullet.damage, data, cellPos, AttackType.Bullet, tileChangeManager);
+		basicTile.AddDamage(bullet.damage, AttackType.Bullet, cellPos, hitPos, data, tileChangeManager);
 	}
 
 	public void DoThrowDamage(Vector3Int worldTargetPos, ThrowInfo throwInfo, int dmgAmt)
@@ -96,12 +96,13 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	public float ApplyDamage(Vector3Int cellPos, float dmgAmt, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
 	{
-		return DoDamageInternal(cellPos, dmgAmt, worldPos, attackType);
+		Vector3Int worldToCellcellPos = metaTileMap.WorldToCell(worldPos);
+		return DoDamageInternal(worldToCellcellPos, dmgAmt, worldPos, attackType);
 	}
 
 	private float DoDamageInternal(Vector3Int cellPos, float dmgAmt, Vector3 worldPos, AttackType attackType)
 	{
-		return DealDamageAt(dmgAmt, attackType, cellPos);
+		return DealDamageAt(dmgAmt, attackType, cellPos, worldPos);
 	}
 
 	public float Integrity(Vector3Int pos)
@@ -125,16 +126,16 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	public void OnExposed(FireExposure exposure)
 	{
 		var cellPos = exposure.ExposedLocalPosition;
-		DealDamageAt(exposure.StandardDamage(), AttackType.Fire, cellPos);
+		DealDamageAt(exposure.StandardDamage(), AttackType.Fire, cellPos, exposure.ExposedWorldPosition);
 	}
 
-	private float DealDamageAt(float damage, AttackType attackType, Vector3Int cellPos)
+	private float DealDamageAt(float damage, AttackType attackType, Vector3Int cellPos, Vector3 worldPosition)
 	{
 		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
 
 		if (basicTile == null) return 0;
 
 		MetaDataNode data = metaDataLayer.Get(cellPos);
-		return basicTile.AddDamage(damage, data, cellPos, attackType, tileChangeManager);
+		return basicTile.AddDamage(damage, attackType, cellPos, worldPosition, data, tileChangeManager);
 	}
 }

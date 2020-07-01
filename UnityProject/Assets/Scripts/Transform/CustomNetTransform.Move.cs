@@ -685,7 +685,7 @@ public partial class CustomNetTransform
 		foreach (var tileDmg in tiles)
 		{
 			var damage = (int) (ItemAttributes.ServerThrowDamage);
-			tileDmg.DoThrowDamage(pos, info, damage);
+			tileDmg.ApplyDamage(pos, damage, pos);
 		}
 	}
 

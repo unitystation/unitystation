@@ -2,5 +2,6 @@
 
 public interface IDamageableTile
 {
-	float AddDamage(float damage, MetaDataNode data, Vector3Int cellPos, AttackType attackType, TileChangeManager tileChangeManager);
+	float AddDamage(float damage, AttackType attackType, Vector3Int cellPos, Vector3 worldPosition, MetaDataNode data,
+		TileChangeManager tileChangeManager);
 }
