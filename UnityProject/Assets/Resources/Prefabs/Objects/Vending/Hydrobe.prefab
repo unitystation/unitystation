@@ -96,31 +96,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 5002772168956495688, guid: d43607a44ab318a4b8d4c67c1d1be07b, type: 3}
+  - ItemName: Botany Backpack
+    Item: {fileID: 5002772168956495688, guid: d43607a44ab318a4b8d4c67c1d1be07b, type: 3}
     Stock: 2
-  - Item: {fileID: 4939012316700738046, guid: bf31902c0ee77334baa8871ced8aa3e5, type: 3}
+  - ItemName: Bonanist Satchel
+    Item: {fileID: 4939012316700738046, guid: bf31902c0ee77334baa8871ced8aa3e5, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 2152560991686967986, guid: 235c4b516e37ca441a0a0d9763f7f152, type: 3}
+  - ItemName: Hydroponics Winter Coat
+    Item: {fileID: 2152560991686967986, guid: 235c4b516e37ca441a0a0d9763f7f152, type: 3}
     Stock: 2
-  - Item: {fileID: 3921521694364753778, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3, type: 3}
+  - ItemName: Apron
+    Item: {fileID: 3921521694364753778, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3, type: 3}
     Stock: 3
-  - Item: {fileID: 2376803533225964856, guid: 62d22c2cb38aaac43a7aa56d55e3d14f, type: 3}
+  - ItemName: Coveralls
+    Item: {fileID: 2376803533225964856, guid: 62d22c2cb38aaac43a7aa56d55e3d14f, type: 3}
     Stock: 3
-  - Item: {fileID: 3294504280138469786, guid: 64f782a949afec64f84132ffb98b2a58, type: 3}
+  - ItemName: Horticultural Waders
+    Item: {fileID: 3294504280138469786, guid: 64f782a949afec64f84132ffb98b2a58, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 489cb478de43746cda8af4fd63be9282, type: 3}
+  - ItemName: Botanists Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 489cb478de43746cda8af4fd63be9282, type: 3}
     Stock: 3
-  - Item: {fileID: 1706925151317036771, guid: f10fbf4f4a9d423449ef84f1a38684b1, type: 3}
+  - ItemName: Botanists Jumpskirt
+    Item: {fileID: 1706925151317036771, guid: f10fbf4f4a9d423449ef84f1a38684b1, type: 3}
     Stock: 3
-  - Item: {fileID: 6404652678407139925, guid: ff09e60d118a31e478d827be7faa2f0b, type: 3}
+  - ItemName: Botany Bandana
+    Item: {fileID: 6404652678407139925, guid: ff09e60d118a31e478d827be7faa2f0b, type: 3}
     Stock: 3
-  - Item: {fileID: 6373161644663410599, guid: 676cb7a2be9be4f458d53d0a197a35cd, type: 3}
+  - ItemName: Botanists Leather Gloves
+    Item: {fileID: 6373161644663410599, guid: 676cb7a2be9be4f458d53d0a197a35cd, type: 3}
     Stock: 3
-  - Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
+  - ItemName: Service Headset
+    Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
     Stock: 3
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 3
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -129,31 +142,44 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 5002772168956495688, guid: d43607a44ab318a4b8d4c67c1d1be07b, type: 3}
+  - ItemName: 
+    Item: {fileID: 5002772168956495688, guid: d43607a44ab318a4b8d4c67c1d1be07b, type: 3}
     Stock: 2
-  - Item: {fileID: 4939012316700738046, guid: bf31902c0ee77334baa8871ced8aa3e5, type: 3}
+  - ItemName: 
+    Item: {fileID: 4939012316700738046, guid: bf31902c0ee77334baa8871ced8aa3e5, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 2152560991686967986, guid: 235c4b516e37ca441a0a0d9763f7f152, type: 3}
+  - ItemName: 
+    Item: {fileID: 2152560991686967986, guid: 235c4b516e37ca441a0a0d9763f7f152, type: 3}
     Stock: 2
-  - Item: {fileID: 3921521694364753778, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3, type: 3}
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3, type: 3}
     Stock: 3
-  - Item: {fileID: 2376803533225964856, guid: 62d22c2cb38aaac43a7aa56d55e3d14f, type: 3}
+  - ItemName: 
+    Item: {fileID: 2376803533225964856, guid: 62d22c2cb38aaac43a7aa56d55e3d14f, type: 3}
     Stock: 3
-  - Item: {fileID: 3294504280138469786, guid: 64f782a949afec64f84132ffb98b2a58, type: 3}
+  - ItemName: 
+    Item: {fileID: 3294504280138469786, guid: 64f782a949afec64f84132ffb98b2a58, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 489cb478de43746cda8af4fd63be9282, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 489cb478de43746cda8af4fd63be9282, type: 3}
     Stock: 3
-  - Item: {fileID: 1706925151317036771, guid: f10fbf4f4a9d423449ef84f1a38684b1, type: 3}
+  - ItemName: 
+    Item: {fileID: 1706925151317036771, guid: f10fbf4f4a9d423449ef84f1a38684b1, type: 3}
     Stock: 3
-  - Item: {fileID: 6404652678407139925, guid: ff09e60d118a31e478d827be7faa2f0b, type: 3}
+  - ItemName: 
+    Item: {fileID: 6404652678407139925, guid: ff09e60d118a31e478d827be7faa2f0b, type: 3}
     Stock: 3
-  - Item: {fileID: 6373161644663410599, guid: 676cb7a2be9be4f458d53d0a197a35cd, type: 3}
+  - ItemName: 
+    Item: {fileID: 6373161644663410599, guid: 676cb7a2be9be4f458d53d0a197a35cd, type: 3}
     Stock: 3
-  - Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
     Stock: 3
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 3
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

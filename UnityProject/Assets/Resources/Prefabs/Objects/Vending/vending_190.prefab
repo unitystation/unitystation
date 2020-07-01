@@ -177,17 +177,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+  - ItemName: Grey Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
     Stock: 5
-  - Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
+  - ItemName: Trenchcoat
+    Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+  - ItemName: Grey Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
     Stock: 5
-  - Item: {fileID: 8977591776819106885, guid: cae650b8120e1f04a840374168f5169e, type: 3}
+  - ItemName: Grey Duffel Bag
+    Item: {fileID: 8977591776819106885, guid: cae650b8120e1f04a840374168f5169e, type: 3}
     Stock: 5
-  - Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
+  - ItemName: Grey Backpack
+    Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
     Stock: 5
-  - Item: {fileID: 7440297224124026255, guid: a168a3bbdfd796d48bf524dd9bef1803, type: 3}
+  - ItemName: Grey Satchel
+    Item: {fileID: 7440297224124026255, guid: a168a3bbdfd796d48bf524dd9bef1803, type: 3}
     Stock: 5
   HullColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   EjectObjects: 0
@@ -196,17 +202,23 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
     Stock: 5
-  - Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
     Stock: 5
-  - Item: {fileID: 8977591776819106885, guid: cae650b8120e1f04a840374168f5169e, type: 3}
+  - ItemName: 
+    Item: {fileID: 8977591776819106885, guid: cae650b8120e1f04a840374168f5169e, type: 3}
     Stock: 5
-  - Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
+  - ItemName: 
+    Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
     Stock: 5
-  - Item: {fileID: 7440297224124026255, guid: a168a3bbdfd796d48bf524dd9bef1803, type: 3}
+  - ItemName: 
+    Item: {fileID: 7440297224124026255, guid: a168a3bbdfd796d48bf524dd9bef1803, type: 3}
     Stock: 5
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

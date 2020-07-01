@@ -97,25 +97,35 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 1129040505000015364, guid: 86141c7e9c63dd840a578746cb3c53c4, type: 3}
+  - ItemName: Chemistry Backpack
+    Item: {fileID: 1129040505000015364, guid: 86141c7e9c63dd840a578746cb3c53c4, type: 3}
     Stock: 2
-  - Item: {fileID: 4827279270293072794, guid: f3772ed991e136c44844cff068e0116d, type: 3}
+  - ItemName: Chemist Satchel
+    Item: {fileID: 4827279270293072794, guid: f3772ed991e136c44844cff068e0116d, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+  - ItemName: White Shoes
+    Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
     Stock: 2
-  - Item: {fileID: 3011710637427380133, guid: 54c252491fc58478aac029a841777c90, type: 3}
+  - ItemName: Chemists Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 54c252491fc58478aac029a841777c90, type: 3}
     Stock: 2
-  - Item: {fileID: 6618757841128137006, guid: 0a840a47782653a47a8bcefb93b92131, type: 3}
+  - ItemName: Chemists Jumpskirt
+    Item: {fileID: 6618757841128137006, guid: 0a840a47782653a47a8bcefb93b92131, type: 3}
     Stock: 2
-  - Item: {fileID: 7374481989050852271, guid: 1fada2a01fe5e49208acb17e93095002, type: 3}
+  - ItemName: Chemists Labcoat
+    Item: {fileID: 7374481989050852271, guid: 1fada2a01fe5e49208acb17e93095002, type: 3}
     Stock: 2
-  - Item: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09, type: 3}
+  - ItemName: Medical Headset
+    Item: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -124,25 +134,35 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 1129040505000015364, guid: 86141c7e9c63dd840a578746cb3c53c4, type: 3}
+  - ItemName: 
+    Item: {fileID: 1129040505000015364, guid: 86141c7e9c63dd840a578746cb3c53c4, type: 3}
     Stock: 2
-  - Item: {fileID: 4827279270293072794, guid: f3772ed991e136c44844cff068e0116d, type: 3}
+  - ItemName: 
+    Item: {fileID: 4827279270293072794, guid: f3772ed991e136c44844cff068e0116d, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
     Stock: 2
-  - Item: {fileID: 3011710637427380133, guid: 54c252491fc58478aac029a841777c90, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 54c252491fc58478aac029a841777c90, type: 3}
     Stock: 2
-  - Item: {fileID: 6618757841128137006, guid: 0a840a47782653a47a8bcefb93b92131, type: 3}
+  - ItemName: 
+    Item: {fileID: 6618757841128137006, guid: 0a840a47782653a47a8bcefb93b92131, type: 3}
     Stock: 2
-  - Item: {fileID: 7374481989050852271, guid: 1fada2a01fe5e49208acb17e93095002, type: 3}
+  - ItemName: 
+    Item: {fileID: 7374481989050852271, guid: 1fada2a01fe5e49208acb17e93095002, type: 3}
     Stock: 2
-  - Item: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09, type: 3}
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

@@ -97,31 +97,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 3
-  - Item: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff, type: 3}
+  - ItemName: Industrial Duffel Bag
+    Item: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff, type: 3}
     Stock: 3
-  - Item: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
+  - ItemName: Industrial Backpack
+    Item: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
     Stock: 3
-  - Item: {fileID: 6682071155640065413, guid: 99480f95d67c6cc4c852e3e388dc70df, type: 3}
+  - ItemName: Industrial Satchel
+    Item: {fileID: 6682071155640065413, guid: 99480f95d67c6cc4c852e3e388dc70df, type: 3}
     Stock: 3
-  - Item: {fileID: 261889401176459054, guid: c432d0b09f765e440a39dea62e9a423e, type: 3}
+  - ItemName: Engineering Winter Coat
+    Item: {fileID: 261889401176459054, guid: c432d0b09f765e440a39dea62e9a423e, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 669c8831af14a4225968399b65b23461, type: 3}
+  - ItemName: Engineers Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 669c8831af14a4225968399b65b23461, type: 3}
     Stock: 3
-  - Item: {fileID: 5068148558929777541, guid: cab0ec567d4192b4fb04ae3e9bcd3cbf, type: 3}
+  - ItemName: Engineers Jumpskirt
+    Item: {fileID: 5068148558929777541, guid: cab0ec567d4192b4fb04ae3e9bcd3cbf, type: 3}
     Stock: 3
-  - Item: {fileID: 7600537285617727737, guid: 0fb5b023412da224eb30c4702c2c22c2, type: 3}
+  - ItemName: Engineers Hazard Jumpsuit
+    Item: {fileID: 7600537285617727737, guid: 0fb5b023412da224eb30c4702c2c22c2, type: 3}
     Stock: 3
-  - Item: {fileID: 3921521694364753778, guid: 35cd853acdce0094f9462e049e31ed8e, type: 3}
+  - ItemName: Hazard Vest
+    Item: {fileID: 3921521694364753778, guid: 35cd853acdce0094f9462e049e31ed8e, type: 3}
     Stock: 3
-  - Item: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
+  - ItemName: Work Boots
+    Item: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
     Stock: 3
-  - Item: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}
+  - ItemName: Hard Hat
+    Item: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}
     Stock: 3
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 3
-  - Item: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
+  - ItemName: Engineering Headset
+    Item: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
     Stock: 3
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -130,31 +143,44 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 3
-  - Item: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff, type: 3}
+  - ItemName: 
+    Item: {fileID: 2814261017750131953, guid: 3d586d5738df167469974943cd4a69ff, type: 3}
     Stock: 3
-  - Item: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
+  - ItemName: 
+    Item: {fileID: 6527078367214184808, guid: 9ece9b1c0b01fa46ab120b1b423b1739, type: 3}
     Stock: 3
-  - Item: {fileID: 6682071155640065413, guid: 99480f95d67c6cc4c852e3e388dc70df, type: 3}
+  - ItemName: 
+    Item: {fileID: 6682071155640065413, guid: 99480f95d67c6cc4c852e3e388dc70df, type: 3}
     Stock: 3
-  - Item: {fileID: 261889401176459054, guid: c432d0b09f765e440a39dea62e9a423e, type: 3}
+  - ItemName: 
+    Item: {fileID: 261889401176459054, guid: c432d0b09f765e440a39dea62e9a423e, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 669c8831af14a4225968399b65b23461, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 669c8831af14a4225968399b65b23461, type: 3}
     Stock: 3
-  - Item: {fileID: 5068148558929777541, guid: cab0ec567d4192b4fb04ae3e9bcd3cbf, type: 3}
+  - ItemName: 
+    Item: {fileID: 5068148558929777541, guid: cab0ec567d4192b4fb04ae3e9bcd3cbf, type: 3}
     Stock: 3
-  - Item: {fileID: 7600537285617727737, guid: 0fb5b023412da224eb30c4702c2c22c2, type: 3}
+  - ItemName: 
+    Item: {fileID: 7600537285617727737, guid: 0fb5b023412da224eb30c4702c2c22c2, type: 3}
     Stock: 3
-  - Item: {fileID: 3921521694364753778, guid: 35cd853acdce0094f9462e049e31ed8e, type: 3}
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 35cd853acdce0094f9462e049e31ed8e, type: 3}
     Stock: 3
-  - Item: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 67eaf03d3dc08490c85f77c1aedf4a15, type: 3}
     Stock: 3
-  - Item: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}
     Stock: 3
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 3
-  - Item: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: ce8ad09737e5d47c0876505a3366d37d, type: 3}
     Stock: 3
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

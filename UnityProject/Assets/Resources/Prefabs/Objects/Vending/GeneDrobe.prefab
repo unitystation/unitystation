@@ -97,21 +97,29 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172, type: 3}
+  - ItemName: Geneticists Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172, type: 3}
     Stock: 2
-  - Item: {fileID: 2283914521931275349, guid: a925b6dda477c1148bfd2997307dec63, type: 3}
+  - ItemName: Geneticisits Jumpskirt
+    Item: {fileID: 2283914521931275349, guid: a925b6dda477c1148bfd2997307dec63, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+  - ItemName: White Shoes
+    Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
     Stock: 2
-  - Item: {fileID: 7374481989050852271, guid: 1eabf8d0cc67b4d04926dd8eb07bf946, type: 3}
+  - ItemName: Genetics Labcoat
+    Item: {fileID: 7374481989050852271, guid: 1eabf8d0cc67b4d04926dd8eb07bf946, type: 3}
     Stock: 2
-  - Item: {fileID: 8541207335635205697, guid: 3eb130e231b60914a8b231815835140b, type: 3}
+  - ItemName: Genetics Backpack
+    Item: {fileID: 8541207335635205697, guid: 3eb130e231b60914a8b231815835140b, type: 3}
     Stock: 2
-  - Item: {fileID: 4322743953814334108, guid: 1bc887b434113ae4781d4604fb619175, type: 3}
+  - ItemName: Geneticist Satchel
+    Item: {fileID: 4322743953814334108, guid: 1bc887b434113ae4781d4604fb619175, type: 3}
     Stock: 2
-  - Item: {fileID: 835768756810601639, guid: 34a45eaa0bb60420f8e508486a85c92f, type: 3}
+  - ItemName: Genetics Headset
+    Item: {fileID: 835768756810601639, guid: 34a45eaa0bb60420f8e508486a85c92f, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -120,21 +128,29 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172, type: 3}
     Stock: 2
-  - Item: {fileID: 2283914521931275349, guid: a925b6dda477c1148bfd2997307dec63, type: 3}
+  - ItemName: 
+    Item: {fileID: 2283914521931275349, guid: a925b6dda477c1148bfd2997307dec63, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
     Stock: 2
-  - Item: {fileID: 7374481989050852271, guid: 1eabf8d0cc67b4d04926dd8eb07bf946, type: 3}
+  - ItemName: 
+    Item: {fileID: 7374481989050852271, guid: 1eabf8d0cc67b4d04926dd8eb07bf946, type: 3}
     Stock: 2
-  - Item: {fileID: 8541207335635205697, guid: 3eb130e231b60914a8b231815835140b, type: 3}
+  - ItemName: 
+    Item: {fileID: 8541207335635205697, guid: 3eb130e231b60914a8b231815835140b, type: 3}
     Stock: 2
-  - Item: {fileID: 4322743953814334108, guid: 1bc887b434113ae4781d4604fb619175, type: 3}
+  - ItemName: 
+    Item: {fileID: 4322743953814334108, guid: 1bc887b434113ae4781d4604fb619175, type: 3}
     Stock: 2
-  - Item: {fileID: 835768756810601639, guid: 34a45eaa0bb60420f8e508486a85c92f, type: 3}
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: 34a45eaa0bb60420f8e508486a85c92f, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

@@ -96,11 +96,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
+  - ItemName: Grey Backpack
+    Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
     Stock: 5
-  - Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+  - ItemName: Grey Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
     Stock: 5
-  - Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+  - ItemName: Black Shoes
+    Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
     Stock: 5
   HullColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   EjectObjects: 0
@@ -109,11 +112,14 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
+  - ItemName: 
+    Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
     Stock: 5
-  - Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
     Stock: 5
-  - Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
     Stock: 5
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

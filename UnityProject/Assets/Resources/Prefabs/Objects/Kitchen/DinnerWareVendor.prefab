@@ -131,7 +131,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000013211423706}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -7, y: 4, z: -0.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -226,13 +226,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
+  - ItemName: Knife
+    Item: {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
     Stock: 5
-  - Item: {fileID: 7188868217503671157, guid: d90196f4e6b6a4e4a949960b6fafb464, type: 3}
+  - ItemName: Salt Shaker
+    Item: {fileID: 7188868217503671157, guid: d90196f4e6b6a4e4a949960b6fafb464, type: 3}
     Stock: 5
-  - Item: {fileID: 7188868217503671157, guid: ecdfcc2ad92d8b846a04f0b050fdf377, type: 3}
+  - ItemName: Pepper Shaker
+    Item: {fileID: 7188868217503671157, guid: ecdfcc2ad92d8b846a04f0b050fdf377, type: 3}
     Stock: 5
-  - Item: {fileID: 7781396554342910705, guid: fd2b975bb2d60fb429c193f9ef1d31b0, type: 3}
+  - ItemName: Rolling Pin
+    Item: {fileID: 7781396554342910705, guid: fd2b975bb2d60fb429c193f9ef1d31b0, type: 3}
+    Stock: 5
+  - ItemName: Mixing Bowl
+    Item: {fileID: 7516689663430431150, guid: 1bbe7e45a9c8b9a4da41c797e24ffc8d, type: 3}
+    Stock: 5
+  - ItemName: Drinking Glass
+    Item: {fileID: 5426160498802093876, guid: 73832b33f58924a40b5c771587f9707e, type: 3}
     Stock: 5
   HullColor: {r: 0.42745098, g: 0.62352943, b: 0.7529412, a: 1}
   EjectObjects: 0
@@ -241,13 +251,17 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
+  - ItemName: 
+    Item: {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997, type: 3}
     Stock: 5
-  - Item: {fileID: 7188868217503671157, guid: d90196f4e6b6a4e4a949960b6fafb464, type: 3}
+  - ItemName: 
+    Item: {fileID: 7188868217503671157, guid: d90196f4e6b6a4e4a949960b6fafb464, type: 3}
     Stock: 5
-  - Item: {fileID: 7188868217503671157, guid: ecdfcc2ad92d8b846a04f0b050fdf377, type: 3}
+  - ItemName: 
+    Item: {fileID: 7188868217503671157, guid: ecdfcc2ad92d8b846a04f0b050fdf377, type: 3}
     Stock: 5
-  - Item: {fileID: 7781396554342910705, guid: fd2b975bb2d60fb429c193f9ef1d31b0, type: 3}
+  - ItemName: 
+    Item: {fileID: 7781396554342910705, guid: fd2b975bb2d60fb429c193f9ef1d31b0, type: 3}
     Stock: 5
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

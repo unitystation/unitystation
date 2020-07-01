@@ -97,55 +97,80 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 5044818797694645434, guid: 65eab09d2aab23342a31649bae60bc93, type: 3}
+  - ItemName: Leather Satchel
+    Item: {fileID: 5044818797694645434, guid: 65eab09d2aab23342a31649bae60bc93, type: 3}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 1992656631147830107, guid: 6861c2a7b893541488ad7e9e51c4d119, type: 3}
+  - ItemName: Blue Suit
+    Item: {fileID: 1992656631147830107, guid: 6861c2a7b893541488ad7e9e51c4d119, type: 3}
     Stock: 1
-  - Item: {fileID: 4427291013977649474, guid: 4b9b555f5b302244fb1235845e92dc3f, type: 3}
+  - ItemName: Blue Suit Skirt
+    Item: {fileID: 4427291013977649474, guid: 4b9b555f5b302244fb1235845e92dc3f, type: 3}
     Stock: 1
-  - Item: {fileID: 3921521694364753778, guid: c6a7074451cf5634783832221e9b8e75, type: 3}
+  - ItemName: Blue Suit Jacket
+    Item: {fileID: 3921521694364753778, guid: c6a7074451cf5634783832221e9b8e75, type: 3}
     Stock: 1
-  - Item: {fileID: 2262651372276479178, guid: e585654aca660b04298c0256d0f33b3c, type: 3}
+  - ItemName: Purple Suit
+    Item: {fileID: 2262651372276479178, guid: e585654aca660b04298c0256d0f33b3c, type: 3}
     Stock: 1
-  - Item: {fileID: 8701009116104039739, guid: 0a933270d4c4d6545b3e7043f324a84a, type: 3}
+  - ItemName: Purple Suit Skirt
+    Item: {fileID: 8701009116104039739, guid: 0a933270d4c4d6545b3e7043f324a84a, type: 3}
     Stock: 1
-  - Item: {fileID: 5465670587632719396, guid: ee492cd2d07eb1848a6b1bb6325f5602, type: 3}
+  - ItemName: Purple Suit Jacket
+    Item: {fileID: 5465670587632719396, guid: ee492cd2d07eb1848a6b1bb6325f5602, type: 3}
     Stock: 1
-  - Item: {fileID: 3011710637427380133, guid: dff9b7e8f22ff9b4cb9e2f035702e875, type: 3}
+  - ItemName: Black Suit
+    Item: {fileID: 3011710637427380133, guid: dff9b7e8f22ff9b4cb9e2f035702e875, type: 3}
     Stock: 1
-  - Item: {fileID: 1268281847278913779, guid: 73a102ba242379c4b92c25800ea7976a, type: 3}
+  - ItemName: Black Suit Skirt
+    Item: {fileID: 1268281847278913779, guid: 73a102ba242379c4b92c25800ea7976a, type: 3}
     Stock: 1
-  - Item: {fileID: 8147068681370657815, guid: 2c0b855ad3ee093408a42685b3407613, type: 3}
+  - ItemName: Black Suit Jacket
+    Item: {fileID: 8147068681370657815, guid: 2c0b855ad3ee093408a42685b3407613, type: 3}
     Stock: 1
-  - Item: {fileID: 2424092949808625863, guid: cc8ff9ea40dc642448c2ff8860ac2c9b, type: 3}
+  - ItemName: Female Black Suit
+    Item: {fileID: 2424092949808625863, guid: cc8ff9ea40dc642448c2ff8860ac2c9b, type: 3}
     Stock: 1
-  - Item: {fileID: 8616276870168769456, guid: eac3e67aff750324182932333b7a3624, type: 3}
+  - ItemName: Female Black Suit Skirt
+    Item: {fileID: 8616276870168769456, guid: eac3e67aff750324182932333b7a3624, type: 3}
     Stock: 1
-  - Item: {fileID: 6179510555677923175, guid: 119a19b7af9f24a4eae413817fdef76d, type: 3}
+  - ItemName: Executive Suit
+    Item: {fileID: 6179510555677923175, guid: 119a19b7af9f24a4eae413817fdef76d, type: 3}
     Stock: 1
-  - Item: {fileID: 2560471778974185141, guid: 48c00b66f5992a24286217287c104f4b, type: 3}
+  - ItemName: Executive Suit Skirt
+    Item: {fileID: 2560471778974185141, guid: 48c00b66f5992a24286217287c104f4b, type: 3}
     Stock: 1
-  - Item: {fileID: 4262665523380157268, guid: 9e1795c845a20134abc7b0eed8f2f750, type: 3}
+  - ItemName: Lawyer Blue Suit
+    Item: {fileID: 4262665523380157268, guid: 9e1795c845a20134abc7b0eed8f2f750, type: 3}
     Stock: 1
-  - Item: {fileID: 6140895010394082659, guid: 02bec04043bbbea48b517d42f7df674f, type: 3}
+  - ItemName: Lawyer Blue Suit Skirt
+    Item: {fileID: 6140895010394082659, guid: 02bec04043bbbea48b517d42f7df674f, type: 3}
     Stock: 1
-  - Item: {fileID: 4947012438125509461, guid: 06e70572528debe4cadc549115f1443c, type: 3}
+  - ItemName: Lawyer Red Suit
+    Item: {fileID: 4947012438125509461, guid: 06e70572528debe4cadc549115f1443c, type: 3}
     Stock: 1
-  - Item: {fileID: 3164486558502274994, guid: 13d2153fed29afa47936895ab1fe27fe, type: 3}
+  - ItemName: Lawyer Red Suit Skirt
+    Item: {fileID: 3164486558502274994, guid: 13d2153fed29afa47936895ab1fe27fe, type: 3}
     Stock: 1
-  - Item: {fileID: 3011710637427380133, guid: 6e6c876b4d53442588042c04884308f2, type: 3}
+  - ItemName: Lawyer Black Suit
+    Item: {fileID: 3011710637427380133, guid: 6e6c876b4d53442588042c04884308f2, type: 3}
     Stock: 1
-  - Item: {fileID: 5502800332140862390, guid: 45c3cbada4660604e8fb72afd758c4e2, type: 3}
+  - ItemName: Lawyer Black Suit Skirt
+    Item: {fileID: 5502800332140862390, guid: 45c3cbada4660604e8fb72afd758c4e2, type: 3}
     Stock: 1
-  - Item: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
+  - ItemName: Laceup Shoes
+    Item: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
     Stock: 2
-  - Item: {fileID: 3708231617607487601, guid: dcb36ae56960eb34a8988e485be4515e, type: 3}
+  - ItemName: Lawyer Headset
+    Item: {fileID: 3708231617607487601, guid: dcb36ae56960eb34a8988e485be4515e, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -154,55 +179,80 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 5044818797694645434, guid: 65eab09d2aab23342a31649bae60bc93, type: 3}
+  - ItemName: 
+    Item: {fileID: 5044818797694645434, guid: 65eab09d2aab23342a31649bae60bc93, type: 3}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 1992656631147830107, guid: 6861c2a7b893541488ad7e9e51c4d119, type: 3}
+  - ItemName: 
+    Item: {fileID: 1992656631147830107, guid: 6861c2a7b893541488ad7e9e51c4d119, type: 3}
     Stock: 1
-  - Item: {fileID: 4427291013977649474, guid: 4b9b555f5b302244fb1235845e92dc3f, type: 3}
+  - ItemName: 
+    Item: {fileID: 4427291013977649474, guid: 4b9b555f5b302244fb1235845e92dc3f, type: 3}
     Stock: 1
-  - Item: {fileID: 3921521694364753778, guid: c6a7074451cf5634783832221e9b8e75, type: 3}
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: c6a7074451cf5634783832221e9b8e75, type: 3}
     Stock: 1
-  - Item: {fileID: 2262651372276479178, guid: e585654aca660b04298c0256d0f33b3c, type: 3}
+  - ItemName: 
+    Item: {fileID: 2262651372276479178, guid: e585654aca660b04298c0256d0f33b3c, type: 3}
     Stock: 1
-  - Item: {fileID: 8701009116104039739, guid: 0a933270d4c4d6545b3e7043f324a84a, type: 3}
+  - ItemName: 
+    Item: {fileID: 8701009116104039739, guid: 0a933270d4c4d6545b3e7043f324a84a, type: 3}
     Stock: 1
-  - Item: {fileID: 5465670587632719396, guid: ee492cd2d07eb1848a6b1bb6325f5602, type: 3}
+  - ItemName: 
+    Item: {fileID: 5465670587632719396, guid: ee492cd2d07eb1848a6b1bb6325f5602, type: 3}
     Stock: 1
-  - Item: {fileID: 3011710637427380133, guid: dff9b7e8f22ff9b4cb9e2f035702e875, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: dff9b7e8f22ff9b4cb9e2f035702e875, type: 3}
     Stock: 1
-  - Item: {fileID: 1268281847278913779, guid: 73a102ba242379c4b92c25800ea7976a, type: 3}
+  - ItemName: 
+    Item: {fileID: 1268281847278913779, guid: 73a102ba242379c4b92c25800ea7976a, type: 3}
     Stock: 1
-  - Item: {fileID: 8147068681370657815, guid: 2c0b855ad3ee093408a42685b3407613, type: 3}
+  - ItemName: 
+    Item: {fileID: 8147068681370657815, guid: 2c0b855ad3ee093408a42685b3407613, type: 3}
     Stock: 1
-  - Item: {fileID: 2424092949808625863, guid: cc8ff9ea40dc642448c2ff8860ac2c9b, type: 3}
+  - ItemName: 
+    Item: {fileID: 2424092949808625863, guid: cc8ff9ea40dc642448c2ff8860ac2c9b, type: 3}
     Stock: 1
-  - Item: {fileID: 8616276870168769456, guid: eac3e67aff750324182932333b7a3624, type: 3}
+  - ItemName: 
+    Item: {fileID: 8616276870168769456, guid: eac3e67aff750324182932333b7a3624, type: 3}
     Stock: 1
-  - Item: {fileID: 6179510555677923175, guid: 119a19b7af9f24a4eae413817fdef76d, type: 3}
+  - ItemName: 
+    Item: {fileID: 6179510555677923175, guid: 119a19b7af9f24a4eae413817fdef76d, type: 3}
     Stock: 1
-  - Item: {fileID: 2560471778974185141, guid: 48c00b66f5992a24286217287c104f4b, type: 3}
+  - ItemName: 
+    Item: {fileID: 2560471778974185141, guid: 48c00b66f5992a24286217287c104f4b, type: 3}
     Stock: 1
-  - Item: {fileID: 4262665523380157268, guid: 9e1795c845a20134abc7b0eed8f2f750, type: 3}
+  - ItemName: 
+    Item: {fileID: 4262665523380157268, guid: 9e1795c845a20134abc7b0eed8f2f750, type: 3}
     Stock: 1
-  - Item: {fileID: 6140895010394082659, guid: 02bec04043bbbea48b517d42f7df674f, type: 3}
+  - ItemName: 
+    Item: {fileID: 6140895010394082659, guid: 02bec04043bbbea48b517d42f7df674f, type: 3}
     Stock: 1
-  - Item: {fileID: 4947012438125509461, guid: 06e70572528debe4cadc549115f1443c, type: 3}
+  - ItemName: 
+    Item: {fileID: 4947012438125509461, guid: 06e70572528debe4cadc549115f1443c, type: 3}
     Stock: 1
-  - Item: {fileID: 3164486558502274994, guid: 13d2153fed29afa47936895ab1fe27fe, type: 3}
+  - ItemName: 
+    Item: {fileID: 3164486558502274994, guid: 13d2153fed29afa47936895ab1fe27fe, type: 3}
     Stock: 1
-  - Item: {fileID: 3011710637427380133, guid: 6e6c876b4d53442588042c04884308f2, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 6e6c876b4d53442588042c04884308f2, type: 3}
     Stock: 1
-  - Item: {fileID: 5502800332140862390, guid: 45c3cbada4660604e8fb72afd758c4e2, type: 3}
+  - ItemName: 
+    Item: {fileID: 5502800332140862390, guid: 45c3cbada4660604e8fb72afd758c4e2, type: 3}
     Stock: 1
-  - Item: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
     Stock: 2
-  - Item: {fileID: 3708231617607487601, guid: dcb36ae56960eb34a8988e485be4515e, type: 3}
+  - ItemName: 
+    Item: {fileID: 3708231617607487601, guid: dcb36ae56960eb34a8988e485be4515e, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0
