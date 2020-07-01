@@ -1,6 +1,7 @@
 ﻿using Chemistry.Components;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(ItemAttributesV2))]
@@ -70,6 +71,17 @@ public class DrinkableContainer : Consumable
 		// todo: actually transfer reagent mix inside player stomach
 		var drinkAmount = container.TransferAmount;
 		container.TakeReagents(drinkAmount);
+
+		var playerEatDrinkEffects = eater.GetComponent<PlayerEatDrinkEffects>();
+
+		foreach (var reagent in container.CurrentReagentMixGet)
+		{
+			if (AlcoholicDrinksSOScript.Instance.AlcoholicReagents.Contains(reagent.Key))
+			{
+				Debug.Log("drink amount " + (int)drinkAmount);
+				playerEatDrinkEffects.SyncServer((int)drinkAmount);
+			}
+		}
 
 		// Play sound
 		if (item && !string.IsNullOrEmpty(sound))

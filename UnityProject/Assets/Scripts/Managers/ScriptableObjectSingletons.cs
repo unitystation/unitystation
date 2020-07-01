@@ -28,4 +28,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public SOAdminJobsList AdminJobsList;
 	public PoolConfig PoolConfig;
 	public PipeTileSingleton PipeTileSingleton;
+	public AlcoholicDrinksSOScript AlcoholicDrinksSOScript;
 }
