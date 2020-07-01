@@ -134,7 +134,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				}
 				var worldPos = (Vector2)transform.position + attackDirection;
 				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos, true);
-				tileMapDamage.ApplyDamage((int)damage, AttackType.Melee, transform.position);
+				tileMapDamage.ApplyDamage((int)damage, AttackType.Melee, worldPos);
 				didHit = true;
 
 			}
