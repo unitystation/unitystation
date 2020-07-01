@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
     type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 6b5f254be9fd647e6a3dc1399aa47aeb,
+  itemStorageCapacity: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
     type: 2}
   itemStoragePopulator: {fileID: 0}
 --- !u!114 &-851605047464713454
@@ -33,11 +33,10 @@ MonoBehaviour:
   syncInterval: 0.1
   ammoPrefab: {fileID: 742292832060491855, guid: 65ed747e8d0f44242ba0c8eacae5e478,
     type: 3}
-  casingPrefab: {fileID: 0}
+  casingPrefabOverride: {fileID: 0}
   ammoType: 14
-  SpawnsCaseing: 0
+  SpawnsCasing: 0
   MagInternal: 0
-  CanRemovableMag: 0
   SmartGun: 0
   MagSize: 10
   CurrentRecoilVariance: 0
@@ -75,7 +74,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: Energy gun
+      value: Generic Energy Gun
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x

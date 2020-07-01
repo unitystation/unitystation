@@ -20,7 +20,6 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public DefaultPlantDataSOs DefaultPlantDataSOs;
 	public CommonPrefabs CommonPrefabs;
 	public CommonCooldowns CommonCooldowns;
-	public AmmoPrefabs AmmoPrefabs;
 	public UIActionSOSingleton UIActionSOSingleton;
 	public SpeechModManager SpeechModManager;
 	public MachinePartsItemTraits MachinePartsItemTraits;
