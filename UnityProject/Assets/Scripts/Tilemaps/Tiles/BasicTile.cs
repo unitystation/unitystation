@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
@@ -21,10 +20,6 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 
 	[Tooltip("Should this tile get initialized with Space gasmix at round start (e.g. asteroids)?")]
 	public bool SpawnWithNoAir;
-
-	[FormerlySerializedAs("OreCategorie")]
-	[SerializeField]
-	private OreCategory oreCategory;
 
 	[Tooltip("Does this tile allow items / objects to pass through it?")]
 	[FormerlySerializedAs("Passable")]

@@ -138,18 +138,3 @@ public class OreProbability
 	[FormerlySerializedAs("NumberBlocks")] public List<int> PossibleClusterSizes = new List<int>();
 
 }
-
-
-public enum OreCategory
-{
-	None,
-	Iron,
-	Plasma,
-	Silver,
-	Gold,
-	Uranium,
-	BlueSpace,
-	Titanium,
-	Diamond,
-	Bananium
-}
