@@ -7,25 +7,34 @@ using CameraEffects;
 
 public class PlayerEatDrinkEffects : NetworkBehaviour
 {
-	[SyncVar(hook = nameof(ClientSide))]
-	private int alcoholValue;
-
-	private Camera camera;
-
-	private void Awake()
-	{
-		camera = Camera.main;
-	}
-
-	private void ClientSide(int oldValue, int newValue)
-	{
-		if (camera == null) return;
-		camera.GetComponent<CameraEffectControlScript>().drunkCameraTime += newValue;
-	}
-
 	[Server]
-	public void SyncServer(int newValue)
+	public void ServerSendMessageToClient(GameObject client, int newValue)
 	{
-		alcoholValue = newValue;
+		PlayerEatDrinkEffectsServerMessage.Send(client, newValue);
+	}
+}
+
+public class PlayerEatDrinkEffectsServerMessage : ServerMessage
+{
+	public int alcoholValue;
+
+	public override void Process()
+	{
+		var camera = Camera.main;
+		if (camera == null) return;
+		camera.GetComponent<CameraEffectControlScript>().drunkCameraTime += alcoholValue;
+	}
+
+	/// <summary>
+	/// Send full update to a client
+	/// </summary>
+	public static PlayerEatDrinkEffectsServerMessage Send(GameObject clientConn, int newAlcoholValue)
+	{
+		PlayerEatDrinkEffectsServerMessage msg = new PlayerEatDrinkEffectsServerMessage
+		{
+			alcoholValue = newAlcoholValue
+		};
+		msg.SendTo(clientConn);
+		return msg;
 	}
 }

@@ -87,14 +87,16 @@ public class DrinkableContainer : Consumable
 
 		if(playerEatDrinkEffects == null) return;
 
+		if ((int) drinkAmount == 0) return;
+
 		foreach (var reagent in container.CurrentReagentMixGet)
 		{
 			//if its not alcoholic skip
 			if (!AlcoholicDrinksSOScript.Instance.AlcoholicReagents.Contains(reagent.Key)) continue;
 
 			//The more different types of alcohol in a drink the longer you get drunk for each sip.
-			playerEatDrinkEffects.SyncServer((int)drinkAmount);
-			playerEatDrinkEffects.SyncServer(0);
+			playerEatDrinkEffects.ServerSendMessageToClient(eater.gameObject, (int)drinkAmount);
+			playerEatDrinkEffects.ServerSendMessageToClient(eater.gameObject, 0);
 		}
 	}
 }
