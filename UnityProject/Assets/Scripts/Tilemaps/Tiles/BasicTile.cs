@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
+using Tilemaps.Behaviours;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-public abstract class BasicTile : LayerTile, IDamageableTile
+public abstract class BasicTile : LayerTile, IDamageableTile, IOnFireExpose
 {
 	[Tooltip("What it sounds like when walked over")]
 	public FloorTileType floorTileType = FloorTileType.floor;
@@ -62,6 +63,8 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 		Acid = 90
 	};
 
+	[SerializeField] private float maxMeltingTemperature = 1000;
+
 	/// <summary>
 	/// Armor of this tile
 	/// </summary>
@@ -87,6 +90,7 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 	         " an object is specified and this is 0.")]
 	[SerializeField]
 	private int spawnAmountOnDeconstruct = 1;
+
 	/// <summary>
 	/// How many of the object to spawn when it's deconstructed.
 	/// </summary>
@@ -132,7 +136,7 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 		MetaDataNode data, TileChangeManager tileChangeManager)
 	{
 		data.Damage += Armor.GetDamage(damage, attackType);
-		SoundManager.PlayNetworkedAtPos("GlassHit",worldPosition);
+		//SoundManager.PlayNetworkedAtPos("GlassHit",worldPosition);
 		if (data.Damage >= MaxHealth)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType);
@@ -159,5 +163,12 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 		{
 			return (0);
 		}
+	}
+
+	public void ExposeToFire(FireExposure fireExposure, MetaDataNode data, TileChangeManager tileChangeManager)
+	{
+		if (fireExposure.Temperature < maxMeltingTemperature) return;
+		AddDamage(fireExposure.StandardDamage(), AttackType.Fire, fireExposure.ExposedLocalPosition,
+			fireExposure.ExposedWorldPosition, data, tileChangeManager);
 	}
 }

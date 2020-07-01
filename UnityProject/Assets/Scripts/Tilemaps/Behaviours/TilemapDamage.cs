@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Tilemaps.Behaviours;
+using UnityEngine;
 
 public class TilemapDamage : MonoBehaviour, IFireExposable
 {
@@ -109,8 +110,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	public void OnExposed(FireExposure exposure)
 	{
-		var cellPos = exposure.ExposedLocalPosition;
-		DealDamageAt(exposure.StandardDamage(), AttackType.Fire, cellPos, exposure.ExposedWorldPosition);
+		var basicTile = metaTileMap.GetTile(exposure.ExposedLocalPosition, Layer.LayerType) as IOnFireExpose;
+
+		if (basicTile == null) return;
+
+		MetaDataNode data = metaDataLayer.Get(exposure.ExposedLocalPosition);
+		basicTile.ExposeToFire(exposure,data,tileChangeManager);
 	}
 
 	private float DealDamageAt(float damage, AttackType attackType, Vector3Int cellPos, Vector3 worldPosition)
