@@ -4,13 +4,6 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-[Serializable]
-public struct TileState
-{
-	public Sprite Sprite;
-	public float Damage;
-}
-
 public abstract class BasicTile : LayerTile, IDamageableTile
 {
 	[Tooltip("What it sounds like when walked over")]
@@ -32,8 +25,6 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 	[FormerlySerializedAs("OreCategorie")]
 	[SerializeField]
 	private OreCategory oreCategory;
-
-	public TileState[] HealthStates;
 
 	[Tooltip("Does this tile allow items / objects to pass through it?")]
 	[FormerlySerializedAs("Passable")]
@@ -80,28 +71,6 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 	/// Armor of this tile
 	/// </summary>
 	public Armor Armor => armor;
-
-	[Tooltip("Sound this tile makes when hit")] [SerializeField]
-	private string[] hitSounds = null;
-	public string[] HitSounds => hitSounds;
-
-	[Tooltip("Set the remains this tile can spawn once destroyed")] [SerializeField]
-	private List<TileDestroyedRemains> tileDestroyedRemains = null;
-	public List<TileDestroyedRemains> TileDestroyedRemains => tileDestroyedRemains;
-
-	[Tooltip("How does the tile change as its health changes?")]
-	[FormerlySerializedAs("HealthStates")]
-	[SerializeField]
-	private TileState[] healthStates;
-
-	[Tooltip("Resistances of this tile.")]
-	[FormerlySerializedAs("Resistances")]
-	[SerializeField]
-	private Resistances resistances = null;
-	/// <summary>
-	/// Resistances of this tile.
-	/// </summary>
-	public Resistances Resistances => resistances;
 
 	[Tooltip("Interactions which can occur on this tile. They will be checked in the order they appear in this list (top to bottom).")]
 	[SerializeField]
@@ -196,16 +165,4 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 			return (0);
 		}
 	}
-}
-
-[Serializable]
-public class TileDestroyedRemains
-{
-	[Tooltip("What game object to spawn as a remain")]
-	public GameObject Object = null;
-	[Tooltip("Amount of said game object")]
-	public int Amount = 1;
-	[Tooltip("We will make a roll from 0,0 to 1,0. If the roll value is inside this range, we will spawn the game object")]
-	[NaughtyAttributes.MinMaxSlider(0,1)]
-	public Vector2 ProbabilityRange;
 }
