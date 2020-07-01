@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 746f8347d7fb9b14ebc1903b16df2a2f,
         type: 3}
+    - target: {fileID: 381971050139752040, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: initialContents
+      value: 
+      objectReference: {fileID: 11400000, guid: 12b6e911d3bc4cb40b59c725ba25d799,
+        type: 2}
     - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -71,7 +77,7 @@ PrefabInstance:
     - target: {fileID: 684083229040743669, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Name
-      value: Closet_Electricity
+      value: Closet_Locker_Electricity
       objectReference: {fileID: 0}
     - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}

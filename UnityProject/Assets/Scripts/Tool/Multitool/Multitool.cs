@@ -173,5 +173,6 @@ public enum MultitoolConnectionType
 	APC,
 	Conveyor,
 	BoilerTurbine,
-	ReactorChamber
+	ReactorChamber,
+	FireAlarm
 }
