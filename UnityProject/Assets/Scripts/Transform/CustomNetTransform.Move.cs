@@ -619,7 +619,7 @@ public partial class CustomNetTransform
 		if (serverState.Speed > SpeedHitThreshold)
 		{
 			OnHit(targetPosition, info, creaturesToHit);
-			DamageTiles( targetPosition, info,MatrixManager.GetDamageableTilemapsAt(targetPosition));
+			DamageTiles( goal, info,MatrixManager.GetDamageableTilemapsAt(targetPosition));
 		}
 
 		if (CanDriftTo(startPosition, targetPosition, isServer : true))
@@ -676,7 +676,7 @@ public partial class CustomNetTransform
 		}
 	}
 
-	private void DamageTiles(Vector3Int pos, ThrowInfo info, List<TilemapDamage> tiles)
+	private void DamageTiles(Vector3 pos, ThrowInfo info, List<TilemapDamage> tiles)
 	{
 		if (ItemAttributes == null) return;
 		if (tiles == null || tiles.Count <= 0) return;
@@ -685,7 +685,7 @@ public partial class CustomNetTransform
 		foreach (var tileDmg in tiles)
 		{
 			var damage = (int) (ItemAttributes.ServerThrowDamage);
-			tileDmg.ApplyDamage(pos, damage, pos);
+			tileDmg.ApplyDamage(damage, AttackType.Melee, pos);
 		}
 	}
 
