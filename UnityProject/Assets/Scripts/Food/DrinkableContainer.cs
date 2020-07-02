@@ -96,7 +96,6 @@ public class DrinkableContainer : Consumable
 
 			//The more different types of alcohol in a drink the longer you get drunk for each sip.
 			playerEatDrinkEffects.ServerSendMessageToClient(eater.gameObject, (int)drinkAmount);
-			playerEatDrinkEffects.ServerSendMessageToClient(eater.gameObject, 0);
 		}
 	}
 }

@@ -15,7 +15,6 @@ namespace CameraEffects
 
 		public NightVisionCamera nightVisionCamera;
 
-		private float timer;
 		private const float TIMER_INTERVAL = 1f;
 
 		public void ToggleDrunkEffectState()
@@ -33,12 +32,18 @@ namespace CameraEffects
 			nightVisionCamera.enabled = !nightVisionCamera.enabled;
 		}
 
-		private void Update()
+		private void OnEnable()
 		{
-			timer += Time.deltaTime;
+			UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
+		}
 
-			if (timer < TIMER_INTERVAL) return;
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DoEffectTimeCheck);
+		}
 
+		private void DoEffectTimeCheck()
+		{
 			if (drunkCameraTime > 0)
 			{
 				drunkCamera.enabled = true;
@@ -48,8 +53,6 @@ namespace CameraEffects
 			{
 				drunkCamera.enabled = false;
 			}
-
-			timer = 0f;
 		}
 	}
 }
