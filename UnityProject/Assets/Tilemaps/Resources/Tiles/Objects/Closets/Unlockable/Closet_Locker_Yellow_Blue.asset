@@ -3,19 +3,63 @@
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1f6d9c91341f45b9b64b432bc7100ddc, type: 3}
   m_Name: Closet_Locker_Yellow_Blue
   m_EditorClassIdentifier: 
+  displayName: 
   LayerType: 2
   TileType: 0
   RequiredTiles: []
-  Object: {fileID: 1615565101381030, guid: 3c989876a48e24f5295ba655c1c22142, type: 2}
-  Rotatable: 0
-  KeepOrientation: 0
-  Offset: 0
+  floorTileType: 0
+  atmosPassable: 0
+  isSealed: 0
+  SpawnWithNoAir: 0
+  oreCategory: 0
+  HealthStates: []
+  passable: 0
+  mineable: 0
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 0
+  armor:
+    Melee: 90
+    Bullet: 90
+    Laser: 90
+    Energy: 90
+    Bomb: 90
+    Rad: 100
+    Fire: 100
+    Acid: 90
+    Magic: 0
+    Bio: 100
+  hitSounds: []
+  tileDestroyedRemains: []
+  healthStates: []
+  resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  tileInteractions: []
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
   IsItem: 0
+  KeepOrientation: 0
+  Object: {fileID: 7718111527080943362, guid: 283bb4c07897c584d9a89c796c91aa65, type: 3}
+  Offset: 0
+  Rotatable: 0
+  IsWire: 0
+  WireEndA: 0
+  WireEndB: 0
+  CableType: 0
+  wireSprite: {fileID: 0}

@@ -245,6 +245,7 @@ public class VendorItemUpdateEvent : UnityEvent<VendorItem> { }
 [System.Serializable]
 public class VendorItem
 {
+	public string ItemName;
 	public GameObject Item;
 	public int Stock = 5;
 
@@ -252,5 +253,6 @@ public class VendorItem
 	{
 		this.Item = item.Item;
 		this.Stock = item.Stock;
+		this.ItemName = Item.name;
 	}
 }

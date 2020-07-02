@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4078466603596408740
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4324277455529423760, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_Name
+      value: VatOfCookingOil
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567449949114439559, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f80298d25db8caf47ad8751b57d0acc3,
+        type: 3}
+    - target: {fileID: 4623851299524474988, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623851299524474988, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4623851299524474988, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c1160dd86dc720e3eb0ed3dc2fc7338e,
+        type: 2}
+    - target: {fileID: 5323037765139105522, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388099446472322208, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: initialDescription
+      value: A huge metal vat with a tap on the front. Filled with cooking oil for
+        use in frying food.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388099446472322208, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: initialName
+      value: vat of cooking oil
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 39da184d881f73c48b25ae5921795c55, type: 3}

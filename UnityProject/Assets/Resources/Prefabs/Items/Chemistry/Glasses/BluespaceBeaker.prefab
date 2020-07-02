@@ -51,6 +51,11 @@ PrefabInstance:
       propertyPath: Sprites.Array.data[0].EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: d42d66e3bb6a0b946b15f8fb0e6e724e, type: 3}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: SetSpriteOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4004836250214930999, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: m_IsActive

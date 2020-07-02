@@ -100,6 +100,21 @@ MonoBehaviour:
   spriteIndex: 0
   variantIndex: 0
   SetSpriteOnStartUp: 0
+--- !u!114 &-7603655294526718679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3046611069451632629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 546289f3b11659d46a8e48dd409108c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  playerHolding: {fileID: 0}
 --- !u!114 &830124515704127092
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +225,12 @@ PrefabInstance:
       propertyPath: initialSize
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: reactionSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 701922900047cd742b7b5ede817b7837,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 364841a08150e9345b119e71191c8dcf, type: 3}
 --- !u!1 &3046611069451632629 stripped

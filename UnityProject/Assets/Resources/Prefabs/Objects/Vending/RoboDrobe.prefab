@@ -97,31 +97,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 3011710637427380133, guid: 2a2d871db32f24302b1aeb03f3652c48, type: 3}
+  - ItemName: Roboticists Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 2a2d871db32f24302b1aeb03f3652c48, type: 3}
     Stock: 2
-  - Item: {fileID: 6710415053653577436, guid: 676e9af4e37de5645a97d7ad338cfcef, type: 3}
+  - ItemName: Roboticists Jumpskirt
+    Item: {fileID: 6710415053653577436, guid: 676e9af4e37de5645a97d7ad338cfcef, type: 3}
     Stock: 2
-  - Item: {fileID: 4890432691518747385, guid: 430362c2798d81c43aca26b9da3f19b4, type: 3}
+  - ItemName: Roboticists Overalls
+    Item: {fileID: 4890432691518747385, guid: 430362c2798d81c43aca26b9da3f19b4, type: 3}
     Stock: 2
-  - Item: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
+  - ItemName: Labcoat
+    Item: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+  - ItemName: Black Shoes
+    Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
     Stock: 2
-  - Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
+  - ItemName: Fingerless Gloves
+    Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
     Stock: 2
-  - Item: {fileID: 3116170454584013683, guid: db265d83fcf1bbb46aedc59510228a5d, type: 3}
+  - ItemName: Black Cap
+    Item: {fileID: 3116170454584013683, guid: db265d83fcf1bbb46aedc59510228a5d, type: 3}
     Stock: 2
-  - Item: {fileID: 1924955219277933708, guid: ebb0ac9609fb25343a446115d914a444, type: 3}
+  - ItemName: Skull Bandana
+    Item: {fileID: 1924955219277933708, guid: ebb0ac9609fb25343a446115d914a444, type: 3}
     Stock: 2
-  - Item: {fileID: 835768756810601639, guid: 9acc02a92f57c48a6ab94a5f9cd68b57, type: 3}
+  - ItemName: Robotics Headset
+    Item: {fileID: 835768756810601639, guid: 9acc02a92f57c48a6ab94a5f9cd68b57, type: 3}
     Stock: 2
-  - Item: {fileID: 4396341318306884477, guid: 1d54376f0c6f4474b8839a8847d19a9f, type: 3}
+  - ItemName: Techpriest Robes
+    Item: {fileID: 4396341318306884477, guid: 1d54376f0c6f4474b8839a8847d19a9f, type: 3}
     Stock: 2
-  - Item: {fileID: 7636118406116123594, guid: 93c3b540119b16945b32d1d69bc3a786, type: 3}
+  - ItemName: Techpriest Hood
+    Item: {fileID: 7636118406116123594, guid: 93c3b540119b16945b32d1d69bc3a786, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
@@ -130,29 +143,41 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 3011710637427380133, guid: 2a2d871db32f24302b1aeb03f3652c48, type: 3}
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 2a2d871db32f24302b1aeb03f3652c48, type: 3}
     Stock: 2
-  - Item: {fileID: 6710415053653577436, guid: 676e9af4e37de5645a97d7ad338cfcef, type: 3}
+  - ItemName: 
+    Item: {fileID: 6710415053653577436, guid: 676e9af4e37de5645a97d7ad338cfcef, type: 3}
     Stock: 2
-  - Item: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
     Stock: 2
-  - Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
+  - ItemName: 
+    Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
     Stock: 2
-  - Item: {fileID: 3116170454584013683, guid: db265d83fcf1bbb46aedc59510228a5d, type: 3}
+  - ItemName: 
+    Item: {fileID: 3116170454584013683, guid: db265d83fcf1bbb46aedc59510228a5d, type: 3}
     Stock: 2
-  - Item: {fileID: 1924955219277933708, guid: ebb0ac9609fb25343a446115d914a444, type: 3}
+  - ItemName: 
+    Item: {fileID: 1924955219277933708, guid: ebb0ac9609fb25343a446115d914a444, type: 3}
     Stock: 2
-  - Item: {fileID: 835768756810601639, guid: 9acc02a92f57c48a6ab94a5f9cd68b57, type: 3}
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: 9acc02a92f57c48a6ab94a5f9cd68b57, type: 3}
     Stock: 2
-  - Item: {fileID: 4396341318306884477, guid: 1d54376f0c6f4474b8839a8847d19a9f, type: 3}
+  - ItemName: 
+    Item: {fileID: 4396341318306884477, guid: 1d54376f0c6f4474b8839a8847d19a9f, type: 3}
     Stock: 2
-  - Item: {fileID: 7636118406116123594, guid: 93c3b540119b16945b32d1d69bc3a786, type: 3}
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 93c3b540119b16945b32d1d69bc3a786, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: 
+    Item: {fileID: 0}
     Stock: 2
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

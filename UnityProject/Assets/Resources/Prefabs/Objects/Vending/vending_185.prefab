@@ -96,12 +96,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 6532193109441330816, guid: cd60162658a8c12479da578b14efa79e, type: 3}
+  - ItemName: 4no Raisins
+    Item: {fileID: 6532193109441330816, guid: cd60162658a8c12479da578b14efa79e, type: 3}
     Stock: 5
-  - Item: {fileID: 6532193109441330816, guid: db7cd7b4544fd9b44b751a043a6b2e53, type: 3}
+  - ItemName: Beef Jerky
+    Item: {fileID: 6532193109441330816, guid: db7cd7b4544fd9b44b751a043a6b2e53, type: 3}
     Stock: 2
-  - Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+  - ItemName: Cookie
+    Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
     Stock: 2
+  - ItemName: Donut
+    Item: {fileID: 6532193109441330816, guid: 6366d9ab2983aa44aa585fd0f7557e17, type: 3}
+    Stock: 5
   HullColor: {r: 0.25882354, g: 0.25882354, b: 0.25882354, a: 1}
   EjectObjects: 1
   EjectDirection: 2
@@ -109,11 +115,14 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 6532193109441330816, guid: cd60162658a8c12479da578b14efa79e, type: 3}
+  - ItemName: 
+    Item: {fileID: 6532193109441330816, guid: cd60162658a8c12479da578b14efa79e, type: 3}
     Stock: 5
-  - Item: {fileID: 6532193109441330816, guid: db7cd7b4544fd9b44b751a043a6b2e53, type: 3}
+  - ItemName: 
+    Item: {fileID: 6532193109441330816, guid: db7cd7b4544fd9b44b751a043a6b2e53, type: 3}
     Stock: 2
-  - Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+  - ItemName: 
+    Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
     Stock: 2
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0

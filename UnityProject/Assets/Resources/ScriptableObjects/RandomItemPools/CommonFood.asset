@@ -13,20 +13,17 @@ MonoBehaviour:
   m_Name: CommonFood
   m_EditorClassIdentifier: 
   pool:
-  - prefab: {fileID: 6602018046170396259, guid: 6744be6888ba21549a52eefcc270e0d5,
+  - prefab: {fileID: 198778007159947886, guid: 42541a231596b9048846974c482128fe, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4501053395374146654, guid: 1a8ca75092f9cdd4d9c6022e08419c9b,
       type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 6602018046170396259, guid: 629f349d213af5f47b3e32d88c1c65cd,
-      type: 3}
+  - prefab: {fileID: 5558746297286370, guid: 7433fede76bc68c40851a73d529d8b3a, type: 3}
     maxAmount: 1
     probability: 100
-  - prefab: {fileID: 6532193109441330816, guid: db7cd7b4544fd9b44b751a043a6b2e53,
-      type: 3}
-    maxAmount: 1
-    probability: 100
-  - prefab: {fileID: 6532193109441330816, guid: cd60162658a8c12479da578b14efa79e,
-      type: 3}
+  - prefab: {fileID: 5558746297286370, guid: fd49dd2cee50dce468c4545c460e75a9, type: 3}
     maxAmount: 1
     probability: 100
   - prefab: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37,

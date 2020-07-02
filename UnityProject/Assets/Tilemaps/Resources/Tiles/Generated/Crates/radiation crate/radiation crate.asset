@@ -16,9 +16,46 @@ MonoBehaviour:
   LayerType: 2
   TileType: 0
   RequiredTiles: []
+  floorTileType: 0
+  atmosPassable: 0
+  isSealed: 0
+  SpawnWithNoAir: 0
+  oreCategory: 0
+  HealthStates: []
+  passable: 0
+  mineable: 0
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 0
+  armor:
+    Melee: 90
+    Bullet: 90
+    Laser: 90
+    Energy: 90
+    Bomb: 90
+    Rad: 100
+    Fire: 100
+    Acid: 90
+    Magic: 0
+    Bio: 100
+  hitSounds: []
+  tileDestroyedRemains: []
+  healthStates: []
+  resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  tileInteractions: []
+  spawnOnDeconstruct: {fileID: 0}
+  spawnAmountOnDeconstruct: 1
   IsItem: 0
   KeepOrientation: 0
-  Object: {fileID: 3701635295295868414, guid: d2e38660b0ae0450ab25b2a61ac10c46, type: 3}
+  Object: {fileID: 3657931253695786815, guid: d38a25ea933e7a14c9c4c0134c741b6e, type: 3}
   Offset: 0
   Rotatable: 0
   IsWire: 0

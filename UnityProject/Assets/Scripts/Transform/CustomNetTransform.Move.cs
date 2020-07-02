@@ -636,7 +636,6 @@ public partial class CustomNetTransform
 	{
 		return MatrixManager.GetAt<LivingHealthBehaviour>(position, isServer: true)?
 				.Where(creature =>
-					creature.gameObject != gameObject &&
 					creature.IsDead == false &&
 					CanHitObject(creature))
 				.ToArray();
@@ -666,14 +665,14 @@ public partial class CustomNetTransform
 
 		foreach (var creature in hitCreatures)
 		{
+			if(creature.gameObject == info.ThrownBy) continue;
 			//Remove cast to int when moving health values to float
 			var damage = (int)(ItemAttributes.ServerThrowDamage);
 			var hitZone = info.Aim.Randomize();
 			creature.ApplyDamageToBodypart(info.ThrownBy, damage, AttackType.Melee, DamageType.Brute, hitZone);
 			Chat.AddThrowHitMsgToChat(gameObject,creature.gameObject, hitZone);
+			SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 1f, sourceObj: gameObject);
 		}
-
-		SoundManager.PlayNetworkedAtPos("GenericHit", transform.position, 1f, sourceObj: gameObject);
 	}
 
 	private void DamageTiles(Vector3Int pos, ThrowInfo info, List<TilemapDamage> tiles)
