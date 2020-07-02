@@ -75,6 +75,14 @@ namespace Chemistry.Components
 			}
 		}
 
+		public ReagentMix CurrentReagentMixGet
+		{
+			get
+			{
+				return CurrentReagentMix;
+			}
+		}
+
 		/// <summary>
 		/// Returns reagent amount in container
 		/// </summary>

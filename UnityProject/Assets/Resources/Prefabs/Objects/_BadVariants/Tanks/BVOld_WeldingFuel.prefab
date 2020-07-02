@@ -101,6 +101,8 @@ GameObject:
   - component: {fileID: 3065337277714499866}
   - component: {fileID: -4444550712224746429}
   - component: {fileID: 7458561619098169524}
+  - component: {fileID: -8072742234409378615}
+  - component: {fileID: 8891340200319041454}
   m_Layer: 11
   m_Name: WeldingFuel
   m_TagString: Untagged
@@ -344,5 +346,30 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-8072742234409378615
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942658981970304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae00192aac545674da4411099d589999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuel: {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+--- !u!114 &8891340200319041454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1942658981970304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ef005744ea48f4ba47888c2c597331, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

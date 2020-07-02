@@ -19,8 +19,10 @@ GameObject:
   - component: {fileID: 114536480436588622}
   - component: {fileID: 6622438585055889099}
   - component: {fileID: 6583254002094982938}
-  - component: {fileID: 9019940786057255883}
   - component: {fileID: -5562106454393771720}
+  - component: {fileID: -2029180449850996923}
+  - component: {fileID: 5354952563464335}
+  - component: {fileID: -2127529729460597781}
   m_Layer: 11
   m_Name: FuelTank
   m_TagString: Untagged
@@ -254,26 +256,6 @@ MonoBehaviour:
       m_values:
       - 1000
   destroyOnEmpty: 0
---- !u!114 &9019940786057255883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1677789019931390}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d25f701f64474544993c1372b83c1b0d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  initialName: fuel tank
-  initialDescription: A tank full of industrial welding fuel. Do not consume.
-  willHighlight: 1
-  exportCost: 0
-  exportName: 
-  exportMessage: 
 --- !u!114 &-5562106454393771720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +268,51 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2029180449850996923
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677789019931390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae00192aac545674da4411099d589999, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fuel: {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
+--- !u!114 &5354952563464335
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677789019931390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ef005744ea48f4ba47888c2c597331, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &-2127529729460597781
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677789019931390}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: fuel tank
+  initialDescription: A tank full of industrial welding fuel. Do not consume.
+  willHighlight: 1
+  exportCost: 0
+  exportName: 
+  exportMessage: 
 --- !u!1 &1754091207019976
 GameObject:
   m_ObjectHideFlags: 0
@@ -353,8 +380,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -1463207863
-  m_SortingLayer: 11
+  m_SortingLayerID: 142874271
+  m_SortingLayer: 10
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 185b88f5493eb6943be06789294c387f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

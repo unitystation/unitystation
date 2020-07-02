@@ -9,25 +9,18 @@ namespace InGameEvents
 	{
 		private MatrixInfo stationMatrix;
 
-		private Queue<Vector2> impactCoords = new Queue<Vector2>();
+		private Queue<Vector3> impactCoords = new Queue<Vector3>();
 
 		[SerializeField]
-		private GameObject explosionPrefab = null;
+		private int minStrength = 200;
 
 		[SerializeField]
-		private float minRadius = 4f;
+		private int maxStrength = 500;
 
 		[SerializeField]
-		private float maxRadius = 8f;
+		private float timeBetweenExplosions = 1f;
 
-		[SerializeField]
-		private int minDamage = 200;
-
-		[SerializeField]
-		private int maxDamage = 500;
-
-		[SerializeField]
-		private int timeBetweenExplosions = 1;
+		private const int DISTANCE_BETWEEN_EXPLOSIONS = 2;
 
 		public override void OnEventStart()
 		{
@@ -47,8 +40,6 @@ namespace InGameEvents
 
 		public override void OnEventStartTimed()
 		{
-			if (explosionPrefab == null) return;
-
 			var MaxCoord = new Vector2() { x = stationMatrix.WorldBounds.xMax , y = stationMatrix.WorldBounds.yMax };
 
 			var MinCoord = new Vector2() { x = stationMatrix.WorldBounds.xMin, y = stationMatrix.WorldBounds.yMin };
@@ -92,13 +83,13 @@ namespace InGameEvents
 
 			Vector2 nextCoord = beginning;
 
-			var amountOfImpactsNeeded = (biggestDistancePosible / minRadius);
+			var amountOfImpactsNeeded = (biggestDistancePosible / DISTANCE_BETWEEN_EXPLOSIONS);
 
 			//Fills list of Vectors all along rods path
 			for (int i = 0; i < amountOfImpactsNeeded; i++)
 			{
 				//Vector 50 distance apart from prev vector
-				nextCoord = Vector2.MoveTowards(nextCoord, target, minRadius);
+				nextCoord = Vector2.MoveTowards(nextCoord, target, DISTANCE_BETWEEN_EXPLOSIONS);
 				impactCoords.Enqueue(new Vector3() {x = nextCoord.x, y = nextCoord.y, z = 0 });
 			}
 
@@ -119,14 +110,10 @@ namespace InGameEvents
 		{
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
-				var explosionObject = Instantiate(explosionPrefab, position: impactCoords.Dequeue(), rotation: stationMatrix.ObjectParent.rotation, parent: stationMatrix.ObjectParent).GetComponent<Explosion>();
+				var strength = UnityEngine.Random.Range(minStrength, maxStrength);
 
-				var radius = UnityEngine.Random.Range(minRadius, maxRadius);
-				var damage = UnityEngine.Random.Range(minDamage, maxDamage);
-
-				explosionObject.SetExplosionData(radius: radius, damage: damage);
-
-				explosionObject.Explode(stationMatrix.Matrix);
+				Explosions.Explosion.StartExplosion(impactCoords.Dequeue().ToLocalInt(stationMatrix), strength,
+					stationMatrix.Matrix);
 
 				yield return new WaitForSeconds(timeBetweenExplosions);
 			}
