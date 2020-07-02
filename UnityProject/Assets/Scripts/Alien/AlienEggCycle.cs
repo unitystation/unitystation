@@ -129,26 +129,26 @@ namespace Alien
 			switch (currentState)
 			{
 				case EggState.Growing:
-					spriteHandler.SetSprite(spriteHandler.Sprites[SMALL_SPRITE]);
+					//FFGD spriteHandler.SetSprite(spriteHandler.Sprites[SMALL_SPRITE]);
 					break;
 				case EggState.Grown:
-					spriteHandler.SetSprite(spriteHandler.Sprites[BIG_SPRITE]);
+					//FFGD spriteHandler.SetSprite(spriteHandler.Sprites[BIG_SPRITE]);
 					break;
 				case EggState.Burst:
 					StopAllCoroutines();
 					StartCoroutine(OpenEgg());
 					break;
 				case EggState.Squished:
-					spriteHandler.SetSprite(spriteHandler.Sprites[SQUISHED_SPRITE]);
+					//FFGD spriteHandler.SetSprite(spriteHandler.Sprites[SQUISHED_SPRITE]);
 					break;
 			}
 		}
 
 		private IEnumerator OpenEgg()
 		{
-			spriteHandler.SetSprite(spriteHandler.Sprites[OPENING_SPRITE]);
+			//FFGD spriteHandler.SetSprite(spriteHandler.Sprites[OPENING_SPRITE]);
 			yield return WaitFor.Seconds(OPENING_ANIM_TIME);
-			spriteHandler.SetSprite(spriteHandler.Sprites[HATCHED_SPRITE]);
+			//FFGD spriteHandler.SetSprite(spriteHandler.Sprites[HATCHED_SPRITE]);
 		}
 
 		private void Squish(HandApply interaction)

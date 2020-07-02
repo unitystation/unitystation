@@ -279,7 +279,7 @@ public class GeneratePlantSOs : EditorWindow
 
 				//add sprite to food
 				var spriteRenderer = prefabVariant.GetComponentInChildren<SpriteRenderer>();
-				spriteRenderer.sprite = SpriteFunctions.SetupSingleSprite(produceSprite).ReturnFirstSprite();
+				//FFGD  spriteRenderer.sprite = SpriteFunctions.SetupSingleSprite(produceSprite).ReturnFirstSprite();
 
 				var newFood = prefabVariant.GetComponent<GrownFood>();
 

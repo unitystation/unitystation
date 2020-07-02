@@ -12,7 +12,7 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	public SpriteRenderer spriteRenderer;
 	public GameObject screenGlow;
 	public SpriteSheetAndData onSprites;
-	public List<List<SpriteHandler.SpriteInfo>> sprites = new List<List<SpriteHandler.SpriteInfo>>();
+	//FFGD public List<List<SpriteHandler.SpriteInfo>> sprites = new List<List<SpriteHandler.SpriteInfo>>();
 	private int sIndex = 0;
 	public float Delay;
 
@@ -78,21 +78,21 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 
 		while (isOn)
 		{
-			if (sprites.Count == 0)
-			{
-				if (onSprites.Texture != null)
-				{
-					sprites = SpriteFunctions.CompleteSpriteSetup(onSprites);
-				}
-			}
+			//FFGD if (sprites.Count == 0)
+			//FFGD {
+			//FFGD 	if (onSprites.Texture != null)
+			//FFGD 	{
+					//FFGD sprites = SpriteFunctions.CompleteSpriteSetup(onSprites);
+					//FFGD 	}
+					//FFGD }
 
-			spriteRenderer.sprite = sprites[0][sIndex].sprite;
-			Delay = sprites[0][sIndex].waitTime;
+					//FFGD spriteRenderer.sprite = sprites[0][sIndex].sprite;
+					//FFGD Delay = sprites[0][sIndex].waitTime;
 			sIndex++;
-			if (sIndex == sprites[0].Count)
-			{
-				sIndex = 0;
-			}
+			//FFGD if (sIndex == sprites[0].Count)
+			//FFGD {
+				//FFGD 	sIndex = 0;
+				//FFGD }
 
 			yield return WaitFor.Seconds(Delay);
 		}

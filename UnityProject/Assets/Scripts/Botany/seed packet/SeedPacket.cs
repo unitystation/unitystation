@@ -37,7 +37,7 @@ public class SeedPacket : NetworkBehaviour
 				plantData = DefaultPlantData.PlantDictionary[PlantSyncString].plantData;
 			}
 		}*/
-		Sprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.PacketsSprite);
+		//FFGD Sprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.PacketsSprite);
 		Sprite.PushTexture();
 	}
 

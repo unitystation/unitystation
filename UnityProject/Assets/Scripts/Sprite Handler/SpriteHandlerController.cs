@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 
 /// <summary>
-/// The main controller for each component of its Sprites 
+/// The main controller for each component of its Sprites
 /// </summary>
 public class SpriteHandlerController : NetworkBehaviour
 {
@@ -27,7 +27,7 @@ public class SpriteHandlerController : NetworkBehaviour
 
 	private bool Initialised;
 
-	private void Initialise() { 
+	private void Initialise() {
 		if (spriteHandler == null)
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
@@ -39,10 +39,10 @@ public class SpriteHandlerController : NetworkBehaviour
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		pickupable = GetComponent<Pickupable>();
 		Initialised = true;
-		if (itemAttributes.ItemSprites.InventoryIcon.Data.HasSprite())
-		{
-			SetIcon(itemAttributes.ItemSprites);
-		}
+		//FFGD if (itemAttributes.ItemSprites.InventoryIcon.Data.HasSprite())
+			//FFGD {
+			//FFGD SetIcon(itemAttributes.ItemSprites);
+			//FFGD }
 	}
 
 	private void Awake()
@@ -66,20 +66,20 @@ public class SpriteHandlerController : NetworkBehaviour
 	}
 
 	private void SetIcon(ItemsSprites newSprites) {
-		
+
 		if (!Initialised)
 		{
 			Initialise();
 		}
 		if (spriteHandler != null)
 		{
-			newSprites.InventoryIcon.Data.palettes = new List<List<Color>>(){ new List<Color>(newSprites.Palette) };
-			newSprites.InventoryIcon.Data.isPaletteds = new List<bool>() { newSprites.IsPaletted };
+			//FFGD newSprites.InventoryIcon.Data.palettes = new List<List<Color>>(){ new List<Color>(newSprites.Palette) };
+			//FFGD newSprites.InventoryIcon.Data.isPaletteds = new List<bool>() { newSprites.IsPaletted };
 
-			spriteHandler.SetInfo(newSprites.InventoryIcon.Data);
+			//FFGD spriteHandler.SetInfo(newSprites.InventoryIcon.Data);
 		}
 		else if (spriteRenderer != null){
-			spriteRenderer.sprite = newSprites.InventoryIcon.Data.ReturnFirstSprite();
+			//FFGD spriteRenderer.sprite = newSprites.InventoryIcon.Data.ReturnFirstSprite();
 		}
 	}
 

@@ -199,15 +199,15 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		stateSync = stateNew;
 		if (stateNew == AutolatheState.Idle)
 		{
-			spriteHandler.SetSprite(idleSprite);
+			//FFGD 	spriteHandler.SetSprite(idleSprite);
 		}
 		else if (stateNew == AutolatheState.Production)
 		{
-			spriteHandler.SetSprite(productionSprite, 0);
+			//FFGD spriteHandler.SetSprite(productionSprite, 0);
 		}
 		else if (stateNew == AutolatheState.AcceptingMaterials)
 		{
-			spriteHandler.SetSprite(acceptingMaterialsSprite, 0);
+			//FFGD spriteHandler.SetSprite(acceptingMaterialsSprite, 0);
 		}
 	}
 

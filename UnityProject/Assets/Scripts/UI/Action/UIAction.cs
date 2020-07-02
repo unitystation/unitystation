@@ -28,9 +28,9 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 			return;
 		}
 
-		IconFront.SetInfo(actionData.Sprites);
+		//FFGD IconFront.SetInfo(actionData.Sprites);
 		if (actionData.Backgrounds.Count > 0) {
-			IconBackground.SetInfo(actionData.Backgrounds);
+			//FFGD 	IconBackground.SetInfo(actionData.Backgrounds);
 		}
 	}
 
@@ -38,7 +38,7 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		IconBackground.ChangeSpriteVariant(0);
 		IconFront.ChangeSpriteVariant(0);
-		IconBackground.SetInfo(DefaultIconBackground.Data);
+		//FFGD IconBackground.SetInfo(DefaultIconBackground.Data);
 		IconFront.PushClear();
 		this.gameObject.SetActive(false);
 	}

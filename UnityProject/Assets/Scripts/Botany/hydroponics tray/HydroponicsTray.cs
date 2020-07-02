@@ -373,7 +373,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 			plantSprite.PushClear();
 			return;
 		}
-		
+
 		switch (plantCurrentStage)
 		{
 			case PlantSpriteStage.None:
@@ -381,11 +381,11 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 				break;
 
 			case PlantSpriteStage.FullyGrown:
-				plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.FullyGrownSprite);
+				//FFGD plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.FullyGrownSprite);
 				plantSprite.PushTexture();
 				break;
 			case PlantSpriteStage.Dead:
-				plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.DeadSprite);
+				//FFGD plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.DeadSprite);
 				plantSprite.PushTexture();
 				break;
 			case PlantSpriteStage.Growing:
@@ -396,7 +396,7 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 					return;
 				}
 
-				plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.GrowthSprites[growingPlantStage]);
+				//FFGD plantSprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.GrowthSprites[growingPlantStage]);
 				plantSprite.PushTexture();
 				break;
 		}

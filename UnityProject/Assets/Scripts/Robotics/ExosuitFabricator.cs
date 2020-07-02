@@ -189,15 +189,15 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		stateSync = stateNew;
 		if (stateNew == ExosuitFabricatorState.Idle)
 		{
-			spriteHandler.SetSprite(idleSprite);
+			//FFGD spriteHandler.SetSprite(idleSprite);
 		}
 		else if (stateNew == ExosuitFabricatorState.Production)
 		{
-			spriteHandler.SetSprite(productionSprite, 0);
+			//FFGD spriteHandler.SetSprite(productionSprite, 0);
 		}
 		else if (stateNew == ExosuitFabricatorState.AcceptingMaterials)
 		{
-			spriteHandler.SetSprite(acceptingMaterialsSprite, 0);
+			//FFGD spriteHandler.SetSprite(acceptingMaterialsSprite, 0);
 		}
 		else
 		{

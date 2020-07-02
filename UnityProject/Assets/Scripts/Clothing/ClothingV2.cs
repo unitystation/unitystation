@@ -98,19 +98,19 @@ public class ClothingV2 : NetworkBehaviour
 				break;
 
 			case ContainerData containerData:
-				this.spriteInfo = SpriteFunctions.SetupSingleSprite(containerData.Sprites.Equipped);
+				//FFGD this.spriteInfo = SpriteFunctions.SetupSingleSprite(containerData.Sprites.Equipped);
 				SetUpFromClothingData(containerData.Sprites);
 				break;
 
 			case BeltData beltData:
-				this.spriteInfo = SpriteFunctions.SetupSingleSprite(beltData.sprites.Equipped);
+				//FFGD this.spriteInfo = SpriteFunctions.SetupSingleSprite(beltData.sprites.Equipped);
 				SetUpFromClothingData(beltData.sprites);
 				break;
 
 			case HeadsetData headsetData:
 			{
 				var Headset = GetComponent<Headset>();
-				this.spriteInfo = SpriteFunctions.SetupSingleSprite(headsetData.Sprites.Equipped);
+				//FFGD this.spriteInfo = SpriteFunctions.SetupSingleSprite(headsetData.Sprites.Equipped);
 				SetUpFromClothingData(headsetData.Sprites);
 				Headset.EncryptionKey = headsetData.Key.EncryptionKey;
 				break;
@@ -146,8 +146,8 @@ public class ClothingV2 : NetworkBehaviour
 	{
 		var SpriteInfos = new SpriteData();
 
-		SpriteInfos.List = new List<List<List<SpriteHandler.SpriteInfo>>>();
-		SpriteInfos.isPaletteds = new List<bool>();
+		//FFGD SpriteInfos.List = new List<List<List<SpriteHandler.SpriteInfo>>>();
+		/*SpriteInfos.isPaletteds = new List<bool>();
 		SpriteInfos.palettes = new List<List<Color>>();
 		int c = 0;
 
@@ -185,7 +185,7 @@ public class ClothingV2 : NetworkBehaviour
 				variantStore[ClothingVariantType.Skirt] = c; // Doesn't make sense
 				c++;
 			}
-		}
+		}*/
 
 		return (SpriteInfos);
 	}

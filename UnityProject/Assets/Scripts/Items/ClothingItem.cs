@@ -85,7 +85,7 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteHandler != null) //need to remove
 			{
-				spriteHandler.spriteData = null;
+				//FFGD spriteHandler.spriteData = null;
 				PushTexture();
 			}
 
@@ -130,7 +130,7 @@ public class ClothingItem : MonoBehaviour
 
 	public void RefreshFromClothing(ClothingV2 clothing)
 	{
-		spriteHandler.spriteData = clothing.SpriteInfo;
+		//FFGD spriteHandler.spriteData = clothing.SpriteInfo;
 
 		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
 		if (palette != null)
@@ -170,10 +170,10 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null)
 		{
-			if (spriteHandler.spriteData != null)
-			{
-				spriteHandler.ChangeSpriteVariant(referenceOffset);
-			}
+			//FFGD if (spriteHandler.spriteData != null)
+			//FFGD 	{
+			//FFGD 	spriteHandler.ChangeSpriteVariant(referenceOffset);
+				//FFGD 	}
 		}
 	}
 
@@ -191,15 +191,15 @@ public class ClothingItem : MonoBehaviour
 			if (spriteType == SpriteHandType.RightHand)
 			{
 
-				spriteHandler.spriteData = _ItemsSprites.RightHand.Data;
+				//FFGD 	spriteHandler.spriteData = _ItemsSprites.RightHand.Data;
 			}
 			else
 			{
-				spriteHandler.spriteData = _ItemsSprites.LeftHand.Data;
+				//FFGD spriteHandler.spriteData = _ItemsSprites.LeftHand.Data;
 			}
 
-			spriteHandler.spriteData.isPaletteds = new List<bool>() { _ItemsSprites.IsPaletted };
-			spriteHandler.spriteData.palettes = new List<List<Color>>() { new List<Color>(_ItemsSprites.Palette) };
+			//FFGD spriteHandler.spriteData.isPaletteds = new List<bool>() { _ItemsSprites.IsPaletted };
+			//FFGD spriteHandler.spriteData.palettes = new List<List<Color>>() { new List<Color>(_ItemsSprites.Palette) };
 
 			PushTexture();
 		}

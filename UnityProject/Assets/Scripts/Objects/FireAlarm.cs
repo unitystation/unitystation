@@ -206,7 +206,7 @@ public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInter
 		stateSync = stateNew;
 		if (stateNew == FireAlarmState.TopLightSpriteAlert)
 		{
-			spriteHandler.SetSprite(topLightSpriteAlert, 0);
+			//FFGD spriteHandler.SetSprite(topLightSpriteAlert, 0);
 		}
 		else if (stateNew == FireAlarmState.OpenEmptySprite)
 		{

@@ -207,8 +207,8 @@ public class PlayerSprites : MonoBehaviour
 
 	private void SetupSprite(SpriteSheetAndData spriteSheetAndData, string clothesDictKey, Color? color = null)
 	{
-		clothes[clothesDictKey].spriteHandler.spriteData = new SpriteData();
-		clothes[clothesDictKey].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(spriteSheetAndData));
+		//FFGD clothes[clothesDictKey].spriteHandler.spriteData = new SpriteData();
+		//FFGD clothes[clothesDictKey].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(spriteSheetAndData));
 
 		if (color != null)
 		{

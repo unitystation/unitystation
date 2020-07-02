@@ -365,7 +365,7 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 			DisplaySpriteHandler.SetSprite(null);
 		}else if (stateNew == MountedMonitorState.Image)
 		{
-			DisplaySpriteHandler.SetSprite(joeNews, 0);
+			//FFGD DisplaySpriteHandler.SetSprite(joeNews, 0);
 			this.TryStopCoroutine( ref blinkHandle );
 			textField.text = "";
 		}
