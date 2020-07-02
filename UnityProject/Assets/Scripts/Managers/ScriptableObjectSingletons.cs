@@ -1,6 +1,7 @@
 using Items.PDA;
 using UnityEngine;
 using Machines;
+using Pipes;
 
 /// <summary>
 /// In order for the SingletonScriptableObject to work, the singleton instance must
@@ -29,4 +30,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public PoolConfig PoolConfig;
 	public UplinkCategoryList UplinkCategoryList;
 	public UplinkPasswordList UplinkPasswordList;
+	public PipeTileSingleton PipeTileSingleton;
 }

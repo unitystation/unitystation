@@ -117,7 +117,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4604100555381878}
   - component: {fileID: 61112155310572852}
-  - component: {fileID: 61000486868803618}
   - component: {fileID: 114772980839582424}
   - component: {fileID: 114975881549111064}
   - component: {fileID: 114518179293593798}
@@ -128,6 +127,7 @@ GameObject:
   - component: {fileID: 114775338284287122}
   - component: {fileID: 2621353704256442992}
   - component: {fileID: -4754010924819303601}
+  - component: {fileID: 8471499164680309566}
   m_Layer: 11
   m_Name: YouTool
   m_TagString: Untagged
@@ -176,32 +176,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61000486868803618
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1771454506785624}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114772980839582424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,46 +202,124 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943, type: 3}
+  InitialVendorContent:
+  - ItemName: Medium Cable Coil
+    Item: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943, type: 3}
     Stock: 10
-  - Item: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}
+  - ItemName: Pocket Crowbar
+    Item: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}
     Stock: 5
-  - Item: {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43, type: 3}
+  - ItemName: Welding Tool
+    Item: {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43, type: 3}
     Stock: 3
-  - Item: {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5, type: 3}
+  - ItemName: Wirecutter
+    Item: {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5, type: 3}
     Stock: 5
-  - Item: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a, type: 3}
+  - ItemName: Wrench
+    Item: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a, type: 3}
     Stock: 5
-  - Item: {fileID: 8238071069653876758, guid: bf74e8243028ec14ebeb6578ebd2fcf4, type: 3}
+  - ItemName: Atmospheric Analyzer
+    Item: {fileID: 8238071069653876758, guid: bf74e8243028ec14ebeb6578ebd2fcf4, type: 3}
     Stock: 5
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 5
-  - Item: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad, type: 3}
+  - ItemName: Screwdriver
+    Item: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad, type: 3}
     Stock: 5
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 5
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 5
-  - Item: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
+  - ItemName: Flashlight
+    Item: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
     Stock: 5
-  - Item: {fileID: 6200957232458716886, guid: 29d7ceeefbf3c484e82d37353cea673e, type: 3}
+  - ItemName: Earmuffs
+    Item: {fileID: 6200957232458716886, guid: 29d7ceeefbf3c484e82d37353cea673e, type: 3}
     Stock: 1
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 6700281191928912403, guid: 45d5212210f77468d9d791c1f922bdc6, type: 3}
+  - ItemName: Toolbelt
+    Item: {fileID: 6700281191928912403, guid: 45d5212210f77468d9d791c1f922bdc6, type: 3}
     Stock: 2
-  - Item: {fileID: 970193913688544828, guid: 32fcd56a575fd884ebae6deb79a43656, type: 3}
+  - ItemName: Multitool
+    Item: {fileID: 970193913688544828, guid: 32fcd56a575fd884ebae6deb79a43656, type: 3}
     Stock: 2
-  - Item: {fileID: 8139484074677452963, guid: d0c4b52b477e35e44a7e0c0a6876892c, type: 3}
+  - ItemName: Upgraded Industrial Welding Tool
+    Item: {fileID: 8139484074677452963, guid: d0c4b52b477e35e44a7e0c0a6876892c, type: 3}
     Stock: 2
-  - Item: {fileID: 7636118406116123594, guid: df90174791c3adda585b7cb6c9f01473, type: 3}
+  - ItemName: Welding Helmet
+    Item: {fileID: 7636118406116123594, guid: df90174791c3adda585b7cb6c9f01473, type: 3}
     Stock: 2
-  - Item: {fileID: 6373161644663410599, guid: 3ee7b87ce4e35534f9c3a2ccf747811e, type: 3}
+  - ItemName: Budget Insulated Gloves
+    Item: {fileID: 6373161644663410599, guid: 3ee7b87ce4e35534f9c3a2ccf747811e, type: 3}
     Stock: 1
   HullColor: {r: 0.79607844, g: 0.6509804, b: 0.20392157, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943, type: 3}
+    Stock: 10
+  - ItemName: 
+    Item: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 6989221924687263735, guid: b735ab74dab174a4f90c79558cd51e43, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 8238071069653876758, guid: bf74e8243028ec14ebeb6578ebd2fcf4, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 6200957232458716886, guid: 29d7ceeefbf3c484e82d37353cea673e, type: 3}
+    Stock: 1
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 6700281191928912403, guid: 45d5212210f77468d9d791c1f922bdc6, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 970193913688544828, guid: 32fcd56a575fd884ebae6deb79a43656, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 8139484074677452963, guid: d0c4b52b477e35e44a7e0c0a6876892c, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: df90174791c3adda585b7cb6c9f01473, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 6373161644663410599, guid: 3ee7b87ce4e35534f9c3a2ccf747811e, type: 3}
+    Stock: 1
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114518179293593798
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,6 +352,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &1925344920049629367
 MonoBehaviour:
@@ -412,3 +465,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8471499164680309566
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1771454506785624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1

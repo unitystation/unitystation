@@ -91,7 +91,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4787523133971860}
   - component: {fileID: 61320512918619720}
-  - component: {fileID: 61640401483045012}
   - component: {fileID: 114511614877201024}
   - component: {fileID: 114773434043782438}
   - component: {fileID: 114960973216336980}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114122805051230296}
   - component: {fileID: -3632559473304527257}
   - component: {fileID: 7506596695913976923}
+  - component: {fileID: -4447922125325837554}
   m_Layer: 11
   m_Name: vending_194
   m_TagString: Untagged
@@ -150,32 +150,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61640401483045012
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1843656487461944}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114511614877201024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,22 +176,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 6404652678407139925, guid: dce8e376d2eca40eabe3f055b41a021c, type: 3}
+  InitialVendorContent:
+  - ItemName: Breath Mask
+    Item: {fileID: 6404652678407139925, guid: dce8e376d2eca40eabe3f055b41a021c, type: 3}
     Stock: 5
-  - Item: {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9, type: 3}
+  - ItemName: Sunglasses
+    Item: {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9, type: 3}
     Stock: 5
-  - Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
+  - ItemName: Black Gloves
+    Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
     Stock: 5
-  - Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
+  - ItemName: Fingerless Gloves
+    Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
     Stock: 5
-  - Item: {fileID: 6404652678407139925, guid: abed35e9cfa734a00815cf8cda62687a, type: 3}
+  - ItemName: Clown Mask
+    Item: {fileID: 6404652678407139925, guid: abed35e9cfa734a00815cf8cda62687a, type: 3}
     Stock: 5
-  - Item: {fileID: 6404652678407139925, guid: 82493ba3850304e50a7d25606a4f59f1, type: 3}
+  - ItemName: Mime Mask
+    Item: {fileID: 6404652678407139925, guid: 82493ba3850304e50a7d25606a4f59f1, type: 3}
     Stock: 5
   HullColor: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 6404652678407139925, guid: dce8e376d2eca40eabe3f055b41a021c, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 3431291279286482953, guid: 0c3e7a0b25eff4d33a4f511cfc36b5d9, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 6373161644663410599, guid: 470aa22391333488fa49f383cc8c1a26, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 6404652678407139925, guid: abed35e9cfa734a00815cf8cda62687a, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 6404652678407139925, guid: 82493ba3850304e50a7d25606a4f59f1, type: 3}
+    Stock: 5
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114960973216336980
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &4095215754473161605
 MonoBehaviour:
@@ -362,6 +367,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4447922125325837554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1843656487461944}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forceHidden: 0
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1

@@ -58,7 +58,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 			}
 			else
 			{
-				Controller.ServerTryOpen(byPlayer);
+				TryOpen(byPlayer);
 			}
 		}
 	}
@@ -88,7 +88,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		}
 		else
 		{
-			Controller.ServerTryOpen(interaction.Performer);
+			TryOpen(interaction.Performer);
 		}
 	}
 

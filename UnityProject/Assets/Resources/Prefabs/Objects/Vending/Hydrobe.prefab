@@ -10,11 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4829133243816028}
   - component: {fileID: 61160545876568756}
-  - component: {fileID: 61362889932895036}
   - component: {fileID: 114460020317382532}
   - component: {fileID: 114445863860112362}
   - component: {fileID: 114744021291581812}
-  - component: {fileID: 61869229900283464}
   - component: {fileID: 114947365864617716}
   - component: {fileID: 171602551372974216}
   - component: {fileID: 114440441029515152}
@@ -22,6 +20,7 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   - component: {fileID: 2774005396623029337}
+  - component: {fileID: 7742202838144058117}
   m_Layer: 11
   m_Name: Hydrobe
   m_TagString: Untagged
@@ -70,32 +69,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61362889932895036
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093139424532032}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114460020317382532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,36 +95,94 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 5002772168956495688, guid: d43607a44ab318a4b8d4c67c1d1be07b, type: 3}
+  InitialVendorContent:
+  - ItemName: Botany Backpack
+    Item: {fileID: 5002772168956495688, guid: d43607a44ab318a4b8d4c67c1d1be07b, type: 3}
     Stock: 2
-  - Item: {fileID: 4939012316700738046, guid: bf31902c0ee77334baa8871ced8aa3e5, type: 3}
+  - ItemName: Bonanist Satchel
+    Item: {fileID: 4939012316700738046, guid: bf31902c0ee77334baa8871ced8aa3e5, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 2152560991686967986, guid: 235c4b516e37ca441a0a0d9763f7f152, type: 3}
+  - ItemName: Hydroponics Winter Coat
+    Item: {fileID: 2152560991686967986, guid: 235c4b516e37ca441a0a0d9763f7f152, type: 3}
     Stock: 2
-  - Item: {fileID: 3921521694364753778, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3, type: 3}
+  - ItemName: Apron
+    Item: {fileID: 3921521694364753778, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3, type: 3}
     Stock: 3
-  - Item: {fileID: 2376803533225964856, guid: 62d22c2cb38aaac43a7aa56d55e3d14f, type: 3}
+  - ItemName: Coveralls
+    Item: {fileID: 2376803533225964856, guid: 62d22c2cb38aaac43a7aa56d55e3d14f, type: 3}
     Stock: 3
-  - Item: {fileID: 3294504280138469786, guid: 64f782a949afec64f84132ffb98b2a58, type: 3}
+  - ItemName: Horticultural Waders
+    Item: {fileID: 3294504280138469786, guid: 64f782a949afec64f84132ffb98b2a58, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 489cb478de43746cda8af4fd63be9282, type: 3}
+  - ItemName: Botanists Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 489cb478de43746cda8af4fd63be9282, type: 3}
     Stock: 3
-  - Item: {fileID: 1706925151317036771, guid: f10fbf4f4a9d423449ef84f1a38684b1, type: 3}
+  - ItemName: Botanists Jumpskirt
+    Item: {fileID: 1706925151317036771, guid: f10fbf4f4a9d423449ef84f1a38684b1, type: 3}
     Stock: 3
-  - Item: {fileID: 6404652678407139925, guid: ff09e60d118a31e478d827be7faa2f0b, type: 3}
+  - ItemName: Botany Bandana
+    Item: {fileID: 6404652678407139925, guid: ff09e60d118a31e478d827be7faa2f0b, type: 3}
     Stock: 3
-  - Item: {fileID: 6373161644663410599, guid: 676cb7a2be9be4f458d53d0a197a35cd, type: 3}
+  - ItemName: Botanists Leather Gloves
+    Item: {fileID: 6373161644663410599, guid: 676cb7a2be9be4f458d53d0a197a35cd, type: 3}
     Stock: 3
-  - Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
+  - ItemName: Service Headset
+    Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
     Stock: 3
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 3
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 5002772168956495688, guid: d43607a44ab318a4b8d4c67c1d1be07b, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 4939012316700738046, guid: bf31902c0ee77334baa8871ced8aa3e5, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 2152560991686967986, guid: 235c4b516e37ca441a0a0d9763f7f152, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 34840ba56d91a4e4bb5c615fe3c2b1f3, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 2376803533225964856, guid: 62d22c2cb38aaac43a7aa56d55e3d14f, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 3294504280138469786, guid: 64f782a949afec64f84132ffb98b2a58, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 489cb478de43746cda8af4fd63be9282, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 1706925151317036771, guid: f10fbf4f4a9d423449ef84f1a38684b1, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 6404652678407139925, guid: ff09e60d118a31e478d827be7faa2f0b, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 6373161644663410599, guid: 676cb7a2be9be4f458d53d0a197a35cd, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 3
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -170,32 +201,6 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
---- !u!61 &61869229900283464
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093139424532032}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114947365864617716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -210,6 +215,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:
@@ -323,6 +329,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7742202838144058117
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

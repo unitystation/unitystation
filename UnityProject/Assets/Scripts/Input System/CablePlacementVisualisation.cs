@@ -61,6 +61,10 @@ public class CablePlacementVisualisation : MonoBehaviour
 	/// Vector used to check distance between connections
 	/// </summary>
 	private Vector2Int endPointVector;
+	/// <summary>
+	/// The target tile the cable will be placed on.
+	/// </summary>
+	private GameObject target;
 
 	private void Awake()
 	{
@@ -105,6 +109,8 @@ public class CablePlacementVisualisation : MonoBehaviour
 			startPoint = currentConnection;
 			startPointVector = point;
 
+			target = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
+
 			SetConnectionPointColor(startPoint, startPointColor);
 		}
 		// if mouse up - stop drawing and check if can build
@@ -143,9 +149,8 @@ public class CablePlacementVisualisation : MonoBehaviour
 	/// </summary>
 	private void Build()
 	{
-		if (startPoint == endPoint || Mathf.Abs(startPointVector.x - endPointVector.x) > 2.5 || Mathf.Abs(startPointVector.y - endPointVector.y) > 2.5) return;
+		if (startPoint == endPoint || Mathf.Abs(startPointVector.x - endPointVector.x) > 2.5 || Mathf.Abs(startPointVector.y - endPointVector.y) > 2.5 || target == null) return;
 
-		GameObject target = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
 		ConnectionApply cableApply = ConnectionApply.ByLocalPlayer(target, startPoint, endPoint, null);
 
 		//if HandObject is null, then its an empty hand apply so we only need to check the receiving object
@@ -189,6 +194,8 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 		lastMouseWordlPositionInt = Vector3Int.zero;
 		lastConnection = Connection.NA;
+
+		target = null;
 	}
 
 	private void DisableVisualisation()
@@ -267,7 +274,7 @@ public class CablePlacementVisualisation : MonoBehaviour
 
 	public void OnHover()
 	{
-		if (!UIManager.IsMouseInteractionDisabled)
+		if (!UIManager.IsMouseInteractionDisabled && UIManager.Hands.CurrentSlot != null)
 		{
 			// get mouse position
 			Vector3 mousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
@@ -288,16 +295,26 @@ public class CablePlacementVisualisation : MonoBehaviour
 				lastMouseWordlPositionInt = roundedMousePosition;
 
 				// get metaTileMap and top tile
-				MetaTileMap metaTileMap = MatrixManager.AtPoint(roundedMousePosition, false).MetaTileMap;
-				LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true);
+				// MetaTileMap metaTileMap = MatrixManager.AtPoint(roundedMousePosition, false).MetaTileMap;
+				// LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(mousePosition), true);
+				// *code above works only on Station matrix
+				// TODO: replace GetComponent solution with some built-in method?
 
-				if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
+				var hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
+				MetaTileMap metaTileMap = hit.GetComponentInChildren<MetaTileMap>();
+				if (metaTileMap)
 				{
-					// move cable placement visualisation to rounded mouse position and enable it
-					cablePlacementVisualisation.transform.position = roundedMousePosition - new Vector3(0.5f, 0.5f, 0); ;
-					cablePlacementVisualisation.SetActive(true);
+					LayerTile topTile = metaTileMap.GetTile(metaTileMap.WorldToCell(roundedMousePosition), true);
+					if (topTile && (topTile.LayerType == LayerType.Base || topTile.LayerType == LayerType.Underfloor))
+					{
+						// move cable placement visualisation to rounded mouse position and enable it
+						cablePlacementVisualisation.transform.position = roundedMousePosition - new Vector3(0.5f, 0.5f, 0); ;
+						cablePlacementVisualisation.SetActive(true);
+					}
+					// disable visualisation if active
+					else
+						DisableVisualisation();
 				}
-				// disable visualisation if active
 				else
 					DisableVisualisation();
 			}

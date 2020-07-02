@@ -40,6 +40,11 @@ public partial class PlayerList : NetworkBehaviour
 	public Dictionary<PlayerScript, List<PlayerScript>>
 		KillTracker = new Dictionary<PlayerScript, List<PlayerScript>>();
 
+	/// <summary>
+	/// Records the last round player count
+	/// </summary>
+	public static int LastRoundPlayerCount = 0;
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -50,6 +55,21 @@ public partial class PlayerList : NetworkBehaviour
 		{
 			Destroy(gameObject);
 		}
+	}
+
+	void OnEnable()
+	{
+		EventManager.AddHandler(EVENT.RoundEnded, SetEndOfRoundPlayerCount);
+	}
+
+	void OnDisable()
+	{
+		EventManager.RemoveHandler(EVENT.RoundEnded, SetEndOfRoundPlayerCount);
+	}
+
+	private void SetEndOfRoundPlayerCount()
+	{
+		LastRoundPlayerCount = Instance.ConnectionCount;
 	}
 
 	public override void OnStartServer()

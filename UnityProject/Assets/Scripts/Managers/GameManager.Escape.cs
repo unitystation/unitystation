@@ -64,7 +64,7 @@ public partial class GameManager
 			} else
 			{
 				PrimaryEscapeShuttle.OnTimerUpdate.RemoveListener( TrackETA );
-				CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, string.Empty);
+				CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, string.Empty);
 			}
 
 			if ( status == ShuttleStatus.DockedCentcom && beenToStation )
@@ -85,16 +85,16 @@ public partial class GameManager
 			{
 				beenToStation = true;
 				SoundManager.PlayNetworked("ShuttleDocked");
-				Chat.AddSystemMsgToChat("<color=white>Escape shuttle has arrived! Crew has 1 minute to get on it.</color>", MatrixManager.MainStationMatrix);
+				Chat.AddSystemMsgToChat("<color=white>Escape shuttle has arrived! Crew has 3 minutes to get on it.</color>", MatrixManager.MainStationMatrix);
 				//should be changed to manual send later
-				StartCoroutine( SendEscapeShuttle( 60 ) );
+				StartCoroutine( SendEscapeShuttle( 180 ) );
 			}
 		} );
 	}
 
 	private void TrackETA(int eta)
 	{
-		CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime( eta, "STATION\nETA: " ) );
+		CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, FormatTime( eta, "STATION\nETA: " ) );
 	}
 
 	private static string FormatTime( int timerSeconds, string prefix = "ETA: " )
@@ -112,7 +112,7 @@ public partial class GameManager
 		//departure countdown
 		for ( int i = seconds; i >= 0; i-- )
 		{
-			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "Depart\nETA: ") );
+			CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "Depart\nETA: ") );
 			yield return WaitFor.Seconds(1);
 		}
 
@@ -122,11 +122,11 @@ public partial class GameManager
 		int timeToCentcom = (seconds * 2 - 2);
 		for ( int i = timeToCentcom - 1; i >= 0; i-- )
 		{
-			CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "CENTCOM\nETA: ") );
+			CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, FormatTime(i, "CENTCOM\nETA: ") );
 			yield return WaitFor.Seconds(1);
 		}
 
-		CentComm.OnStatusDisplayUpdate.Invoke( StatusDisplayChannel.EscapeShuttle, string.Empty);
+		CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, string.Empty);
 
 		PrimaryEscapeShuttle.Status = ShuttleStatus.DockedCentcom; //pretending that we docked for round to end
 	}

@@ -5,7 +5,7 @@ using UnityEngine;
 
 [SelectionBase]
 [ExecuteInEditMode]
-public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolMaster
 {
 	[SerializeField] private SpriteHandler spriteHandler = null;
 
@@ -317,4 +317,18 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>
 				});
 		}
 	}
+
+	//######################################## Multitool interaction ##################################
+
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.Conveyor;
+	public MultitoolConnectionType ConType  => conType;
+
+	private bool multiMaster = true;
+	public bool MultiMaster => multiMaster;
+
+	public void AddSlave(object SlaveObject)
+	{
+	}
 }
+

@@ -84,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114469489843686000
 MonoBehaviour:
@@ -227,15 +228,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   MinimumWorkingVoltage: 220
+  ExpectedRunningVoltage: 240
   MaximumWorkingVoltage: 600
   deviceType: 1
   isSelfPowered: 0
-  wattusage: 0.01
+  wattusage: 5
   Resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
+  SelfPowered: 0
   State: 2
+  conType: 1
 --- !u!114 &-6310048276167888487
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,6 +277,10 @@ MonoBehaviour:
   isWithoutSwitch: 0
   spriteRenderer: {fileID: 212082969356704250}
   spriteRendererLightOn: {fileID: 6796822836624601522}
+  lightSprite: {fileID: 0}
+  emergencyLightAnimator: {fileID: -6310048276167888487}
+  integrity: {fileID: 114115352977703776}
+  directional: {fileID: 804569472849686567}
   boxColl: {fileID: 61294264368354326}
   collDownSetting: {x: 0, y: 0.3642767, z: 0.2374755, w: 0.2779311}
   collRightSetting: {x: -0.3346747, y: -0.001173973, z: 0.3067206, w: 0.3087062}

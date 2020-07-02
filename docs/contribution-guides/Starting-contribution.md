@@ -12,8 +12,11 @@ If you get lost at any point in this guide, don't be afraid to ask in our [Disco
 
 You will need these to start your journey:
 
-- [Unity Hub](https://unity3d.com/get-unity/download) Manages your Unity installations. It will install the proper Unity version for you, so you don't really need to worry about that. (but if you really want to know, it is **2019.3.8f1** at the time of writing this guide 04/07/20).
+- [Unity Hub](https://unity3d.com/get-unity/download) Manages your Unity installations. It will install the proper Unity version for you, so you don't really need to worry about that. (but if you want to know, it is **2019.3.8f1** at the time of writing this guide 04/07/20).
 - A [GitHub account](https://github.com/).
+
+- You'll also need to download Git from this link https://git-scm.com/, this is different from GitHub and will allow unity to download its dependencies. 
+
 - An SSD drive is *highly* recommended to store project files on – this will greatly affect first import time.
 
 
@@ -26,7 +29,7 @@ If you already know what you're doing, go to our [GitHub](https://github.com/uni
 
 
 
-What's that? You have no idea what any of that means? Worry not, my fellow contributor! As I will guide you step by step.
+What's that? You have no idea what any of that means? Worry not, my fellow contributor! I will guide you step by step.
 
 First, you did your [GitHub account](https://github.com/) account as suggested, right? Good. We will now visit the [Unitystation Official  Repository in GitHub](https://github.com/unitystation/unitystation) and click this little button located at the top right corner of the page:
 
@@ -34,7 +37,7 @@ First, you did your [GitHub account](https://github.com/) account as suggested, 
 
 As the hint suggests, this will create your very own copy of Unitystation under your account. This copy is yours and you can do whatever you want with it, but in order to contribute, you will need to comply with some good practices I'll tell you in a second.
 
-Good, now we just need GIT. You don't know what a GIT is? Well, GIT is a [Version Control Software](https://en.wikipedia.org/wiki/Version_control) designed to deal with the problem of having multiple people modifying the same files at the same time. In other words we need it. If we don't use it, project descend into chaos. 
+Good, now we just need GIT. You don't know what a GIT is? Well, GIT is a [Version Control Software](https://en.wikipedia.org/wiki/Version_control) designed to deal with the problem of having multiple people modifying the same files at the same time. In other words, we need it. If we don't use it, the project would descend into chaos. 
 
 At this point, you have a very important decision to make. It is like the type of Pokémon you choose to start your adventure... You want [GIT with GUI](https://desktop.github.com/) or [CLI](https://gitforwindows.org/)? I will describe the starting steps for both now, so you can make your mind. (OSX and Linux come with GIT CLI installed!)
 
@@ -42,7 +45,7 @@ At this point, you have a very important decision to make. It is like the type o
 
 **You are here**:  <img src="https://i.imgur.com/jLPqKL9.png" alt="cloning" style="zoom: 80%;" />
 
-After **Forking** from Unitystation official repo (**upstream**) we need to **clone** from our fork so we get the files into your computer (**Local repo**).
+After **Forking** from Unitystation official repo (**upstream**), we need to **clone** from our fork so we get the files into your computer (**Local repo**).
 
 
 
@@ -60,9 +63,11 @@ Are you done downloading? Awesome! Now your local repo is automagically soul-lin
 
 |       GitHub Desktop       |                           Git Bash                           |
 | :------------------------: | :----------------------------------------------------------: |
-| This is automagically done | Navigate to the folder where your local repo is<br />``git remote add upstream https://github.com/unitystation/unitystation.git``<br />Now to make sure everything is in order we do<br />``git remote -v``<br />and it should show both repos, yours in **origin** and official in **upstream** |
+| This is automagically done | Navigate to the folder where your local repo is<br />``git remote add upstream https://github.com/unitystation/unitystation.git``<br />Now to make sure everything is in order, we do<br />``git remote -v``<br />and it should show both repos, yours in **origin** and official in **upstream** |
 
-
+### downloading required dependencies
+First of all, you need to download Git from this link https://git-scm.com/ ,
+then after that's finished installing, restart your computer then you can continue with setting up the project in unity
 
 ### Opening the project in Unity
 
@@ -82,11 +87,11 @@ All you need to do is to try to open the project anyways and you will get this p
 
 Yeah, you just install it. It will ask you if you want to add some addons, but we don't need any of those. Just install!
 
-Is it done installing? Wonderful, now we need to actually open the project. Keep in mind the first time you open it it might take some time to finish importing stuff and generating files. Once that is ready, we can do our first play test!
+Is it done installing? Wonderful, now we need to open the project. Keep in mind the first time you open it, it might take some time to finish importing stuff and generating files. Once that is ready, we can do our first playtest!
 
 ![](https://image.prntscr.com/image/T7s9wVR7RhyXwwTxf4jEFg.png)
 
-Go to ``File`` and ``Open Scene`` then find the ``Lobby`` scene in ``Assets/Scenes`` folder. Then you can press `Play` button on the `Game` tab to start the game in editor.
+Go to ``File`` and ``Open Scene`` then find the ``Lobby`` scene in ``Assets/Scenes`` folder. Then you can press the `Play` button on the `Game` tab to start the game in the editor.
 
 ![](https://image.prntscr.com/image/G9xxyW59STqh14VslkpAzA.png)
 
@@ -100,21 +105,21 @@ Let's close Unity Editor for now. After our import/test play you will notice it 
 
 |                        GitHub Desktop                        |                           Git Bash                           |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| Go to the **changes** tab. In my case I have 2 Changes<br />![changes](https://i.imgur.com/0Vpe3MA.png)<br /> Now right click in the amount of changes and discard all ![discard](https://i.imgur.com/dlXn3k0.png) | ``git status`` will show you all the unstaged changes you currently have.<br />``git checkout .`` and ``git clean -f`` to get rid of all of them. |
+| Go to the **changes** tab. In my case, I have 2 changes<br />![changes](https://i.imgur.com/0Vpe3MA.png)<br /> Now right-click in the amount of changes and discard all![discard](https://i.imgur.com/dlXn3k0.png) | ``git status`` will show you all the unstaged changes you currently have.<br />``git checkout .`` and ``git clean -f`` to get rid of all of them. |
 
 You will be doing this **a lot** so make sure to learn it!
 
 Now that our **develop** branch is completely clean we will create a new branch from it. Try to always have a **feature branch** you can play with and keep **develop** pristine. 
 
-What's a branch? Well let's say it is like having a multiverse in your folder. In **branch A** you have a file called "greeting.txt" and its content is "hello world", while in **branch B** you have the same file but now its content is "hello universe". You can see how this is useful for us, so we have a version of the game that is common to everyone and you have your own version with the feature you're adding. We can later **merge** both branches and GIT will try its best to do it smoothly.
+What's a branch? Well, let's say it is like having a multiverse in your folder. In **branch A** you have a file called "greeting.txt" and its content is "hello world", while in **branch B** you have the same file but now its content is "hello universe". You can see how this is useful for us, so we have a version of the game that is common to everyone and you have your own version with the feature you're adding. We can later **merge** both branches and GIT will try its best to do it smoothly.
 
 So how do I create a new branch?
 
 |                        GitHub Desktop                        |                           Git Bash                           |
 | :----------------------------------------------------------: | :----------------------------------------------------------: |
-| Click the current branch button<br />![create branch 1](https://i.imgur.com/RxIZcYG.png)<br />![create new branch 2](C:\Users\filax\AppData\Roaming\Typora\typora-user-images\image-20200407211255362.png)<br />All that's missing is to publish the new branch so your remote in GitHub (**origin**) is up to date<br />![publish](https://i.imgur.com/1wCOCAB.png) | <br />``git branch mybranch``<br />Where "mybranch" is the name you chose for your branch (be more creative than this, please).<br />Then we do ``git checkout mybrach`` to change the current branch to **mybranch** instead of **develop**<br />Finally we publish our new branch doing ``git push`` |
+| Click the current branch button<br />![create branch 1](https://i.imgur.com/RxIZcYG.png)<br />![create new branch 2](C:\Users\filax\AppData\Roaming\Typora\typora-user-images\image-20200407211255362.png)<br />All that's missing is to publish the new branch so your remote in GitHub (**origin**) is up to date<br />![publish](https://i.imgur.com/1wCOCAB.png) | <br />``git branch mybranch``<br />Where "mybranch" is the name you chose for your branch (be more creative than this, please).<br />Then we do ``git checkout mybranch`` to change the current branch to **mybranch** instead of **develop**<br />Finally we publish our new branch doing ``git push`` |
 
-Here we're done setting your thing up. You're free to go now and modify the code using your favorite IDE or maybe map using nothing but the Unity Editor. What follows in this guide is how to get your changes into the game.
+Here we're done setting your thing up. You're free to go now and modify the code using your favourite IDE or maybe map using nothing but the Unity Editor. What follows in this guide is how to get your changes into the game.
 
 
 
@@ -128,7 +133,7 @@ You are here: ![committing and pushin](https://i.imgur.com/co15IxT.png)
 
 
 
-I strongly suggest you to handle your changes in your IDE or GitHub Desktop. Remember to only commit those files you intended to change and their respective meta files if there is any.
+I strongly suggest you handle your changes in your IDE or GitHub Desktop. Remember to only commit those files you intended to change and their respective meta files if there is any.
 
 In the case of GitHub Desktop, all you got to do is to select the files you wish to commit and click the commit button
 
@@ -154,7 +159,7 @@ Please ensure you are familiar with our [development standards](https://unitysta
 
 #### Updating your repo
 
-This is a chaotic project and stuff happens **everyday** so it is very important that you keep your repo up-to-date, specially when mapping.
+This is a chaotic project and stuff happens **every day** so it is very important that you keep your repo up-to-date, especially when mapping.
 
 
 
@@ -164,7 +169,7 @@ This is a chaotic project and stuff happens **everyday** so it is very important
 
 
 
-You did it, you completed the tutorial! Now go back to the first time you I showed you the **Contribution cycle** picture and see how you understand it a little better now!
+You did it, you completed the tutorial! Now go back to the first time I showed you the **Contribution cycle** picture and see how you understand it a little better now!
 
 Here is a little resume of what we just saw:
 
@@ -176,7 +181,7 @@ Here is a little resume of what we just saw:
 
 **Working**
 
-​	0. Update your repo from the official (upstream)
+​    0. Update your repo from the official (upstream)
 
 1. Start working in your feature
 2. Commit to your local repo
@@ -204,7 +209,7 @@ There is a huge amount of resources around for learning Unity, and for the more 
 ##### Downloading a code editor
 There is a lot you can accomplish through editors available from Unity, but if you plan on contributing seriously to the code/scripts, you'll do better if you have a development environment set-up.
 
-Editors that you might like include:
+Editors that you might like to use:
 
 - [Visual Studio Code](https://code.visualstudio.com/)
 - [JetBrains Rider](https://www.jetbrains.com/rider/)

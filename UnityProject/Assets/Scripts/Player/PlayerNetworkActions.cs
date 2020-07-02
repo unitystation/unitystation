@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdminTools;
@@ -9,6 +7,11 @@ using Items.PDA;
 using UnityEngine;
 using Mirror;
 using UI.PDA;
+using Audio.Containers;
+using UnityEngine;
+using Mirror;
+using DiscordWebhook;
+using InGameEvents;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -328,6 +331,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var connectedPlayer = PlayerList.Instance.Get(gameObject);
 		if (connectedPlayer == ConnectedPlayer.Invalid) return;
 		VotingManager.Instance.RegisterVote(connectedPlayer.UserId, isFor);
+	}
+
+	[Command]
+	public void CmdVetoRestartVote(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.VetoVote(adminId);
 	}
 
 	/// <summary>
@@ -900,6 +913,70 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdGetAdminOverlayFullUpdate(string adminId, string adminToken)
 	{
 		AdminOverlay.RequestFullUpdate(adminId, adminToken);
+	}
+
+	[Command]
+	public void CmdToggleOOCMute(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		string msg;
+
+		if (Chat.OOCMute)
+		{
+			Chat.OOCMute = false;
+			msg = "OOC has been unmuted";
+		}
+		else
+		{
+			Chat.OOCMute = true;
+			msg = "OOC has been muted";
+		}
+
+		Chat.AddGameWideSystemMsgToChat($"<color=blue>{msg}</color>");
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
+	}
+
+	[Command]
+	public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake, bool announceEvent)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, isFake, PlayerList.Instance.GetByUserID(adminId).Username, announceEvent);
+	}
+
+	[Command]
+	public void CmdChangeNextMap(string adminId, string adminToken, string nextMap)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (SubSceneManager.AdminForcedMainStation == nextMap) return;
+
+		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round map from {SubSceneManager.AdminForcedMainStation} to {nextMap}.";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
+
+		SubSceneManager.AdminForcedMainStation = nextMap;
+	}
+
+	[Command]
+	public void CmdChangeAwaySite(string adminId, string adminToken, string nextAwaySite)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (SubSceneManager.AdminForcedAwaySite == nextAwaySite) return;
+
+		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round away site from {SubSceneManager.AdminForcedAwaySite} to {nextAwaySite}.";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
+
+		SubSceneManager.AdminForcedAwaySite = nextAwaySite;
 	}
 	#endregion
 

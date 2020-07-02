@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Diagnostics;
+using System.Threading;
 using Atmospherics;
 using UnityEngine;
 
@@ -12,7 +13,7 @@ public class AtmosSystem : SubsystemBehaviour
 		{
 			//get toptile at pos to check if it should spawn with no air
 			bool spawnWithNoAir = false;
-			var topTile = metaTileMap.GetTile(position,true);
+			var topTile = metaTileMap.GetTile(position,LayerTypeSelection.Effects | LayerTypeSelection.Underfloor);
 			if (topTile is BasicTile)
 			{
 				spawnWithNoAir = (topTile as BasicTile).SpawnWithNoAir;

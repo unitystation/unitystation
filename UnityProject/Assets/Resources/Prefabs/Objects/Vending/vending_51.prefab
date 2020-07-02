@@ -117,7 +117,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4330041035155838}
   - component: {fileID: 61770703013218746}
-  - component: {fileID: 61661140852906130}
   - component: {fileID: 114272245637644638}
   - component: {fileID: 114608685007237984}
   - component: {fileID: 114778853778945220}
@@ -128,6 +127,8 @@ GameObject:
   - component: {fileID: 114343594154895826}
   - component: {fileID: -8914829415235956772}
   - component: {fileID: 3479304296009916560}
+  - component: {fileID: 6730574539565738311}
+  - component: {fileID: 3457690808742924177}
   m_Layer: 11
   m_Name: vending_51
   m_TagString: Untagged
@@ -176,32 +177,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61661140852906130
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1699312583147682}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114272245637644638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -228,16 +203,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 8127442588295923452, guid: 706cc1f035332384c96f001de4760563, type: 3}
+  InitialVendorContent:
+  - ItemName: Handcuffs
+    Item: {fileID: 8127442588295923452, guid: 706cc1f035332384c96f001de4760563, type: 3}
     Stock: 5
-  - Item: {fileID: 6507000735928756314, guid: c8db81d5fc87fc5409a6f7c00e5ebc96, type: 3}
+  - ItemName: Laser Gun
+    Item: {fileID: 6507000735928756314, guid: c8db81d5fc87fc5409a6f7c00e5ebc96, type: 3}
     Stock: 1
-  - Item: {fileID: 6507000735928756314, guid: 66e26e048c0ee0448878c27b37dc685f, type: 3}
+  - ItemName: Energy Gun
+    Item: {fileID: 6507000735928756314, guid: 66e26e048c0ee0448878c27b37dc685f, type: 3}
     Stock: 2
   HullColor: {r: 0.7490196, g: 0.7490196, b: 0.7490196, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 8127442588295923452, guid: 706cc1f035332384c96f001de4760563, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 6507000735928756314, guid: c8db81d5fc87fc5409a6f7c00e5ebc96, type: 3}
+    Stock: 1
+  - ItemName: 
+    Item: {fileID: 6507000735928756314, guid: 66e26e048c0ee0448878c27b37dc685f, type: 3}
+    Stock: 2
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114778853778945220
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -270,6 +263,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &8759977713929278339
 MonoBehaviour:
@@ -382,3 +376,43 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6730574539565738311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699312583147682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 68
+--- !u!114 &3457690808742924177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1699312583147682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1

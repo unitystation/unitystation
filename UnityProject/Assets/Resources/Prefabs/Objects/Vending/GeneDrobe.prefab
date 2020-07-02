@@ -10,11 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4829133243816028}
   - component: {fileID: 61160545876568756}
-  - component: {fileID: 61362889932895036}
   - component: {fileID: 114460020317382532}
   - component: {fileID: 114445863860112362}
   - component: {fileID: 114744021291581812}
-  - component: {fileID: 61869229900283464}
   - component: {fileID: 114947365864617716}
   - component: {fileID: 171602551372974216}
   - component: {fileID: 114440441029515152}
@@ -22,6 +20,8 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   - component: {fileID: 3983672337510370903}
+  - component: {fileID: 8501795274546436726}
+  - component: {fileID: 7976599852802295432}
   m_Layer: 11
   m_Name: GeneDrobe
   m_TagString: Untagged
@@ -70,32 +70,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61362889932895036
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093139424532032}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114460020317382532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,26 +96,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172, type: 3}
+  InitialVendorContent:
+  - ItemName: Geneticists Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172, type: 3}
     Stock: 2
-  - Item: {fileID: 2283914521931275349, guid: a925b6dda477c1148bfd2997307dec63, type: 3}
+  - ItemName: Geneticisits Jumpskirt
+    Item: {fileID: 2283914521931275349, guid: a925b6dda477c1148bfd2997307dec63, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+  - ItemName: White Shoes
+    Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
     Stock: 2
-  - Item: {fileID: 7374481989050852271, guid: 1eabf8d0cc67b4d04926dd8eb07bf946, type: 3}
+  - ItemName: Genetics Labcoat
+    Item: {fileID: 7374481989050852271, guid: 1eabf8d0cc67b4d04926dd8eb07bf946, type: 3}
     Stock: 2
-  - Item: {fileID: 8541207335635205697, guid: 3eb130e231b60914a8b231815835140b, type: 3}
+  - ItemName: Genetics Backpack
+    Item: {fileID: 8541207335635205697, guid: 3eb130e231b60914a8b231815835140b, type: 3}
     Stock: 2
-  - Item: {fileID: 4322743953814334108, guid: 1bc887b434113ae4781d4604fb619175, type: 3}
+  - ItemName: Geneticist Satchel
+    Item: {fileID: 4322743953814334108, guid: 1bc887b434113ae4781d4604fb619175, type: 3}
     Stock: 2
-  - Item: {fileID: 835768756810601639, guid: 34a45eaa0bb60420f8e508486a85c92f, type: 3}
+  - ItemName: Genetics Headset
+    Item: {fileID: 835768756810601639, guid: 34a45eaa0bb60420f8e508486a85c92f, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 2283914521931275349, guid: a925b6dda477c1148bfd2997307dec63, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 7374481989050852271, guid: 1eabf8d0cc67b4d04926dd8eb07bf946, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 8541207335635205697, guid: 3eb130e231b60914a8b231815835140b, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 4322743953814334108, guid: 1bc887b434113ae4781d4604fb619175, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: 34a45eaa0bb60420f8e508486a85c92f, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 2
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -160,32 +172,6 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
---- !u!61 &61869229900283464
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093139424532032}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114947365864617716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -200,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:
@@ -312,6 +299,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8501795274546436726
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 37
+--- !u!114 &7976599852802295432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

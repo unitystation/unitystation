@@ -33,7 +33,7 @@ MonoBehaviour:
     Bullet: 40
     Laser: 10
     Energy: 10
-    Bomb: 30
+    Bomb: 40
     Rad: 100
     Fire: 80
     Acid: 50
@@ -48,7 +48,7 @@ MonoBehaviour:
     Flammable: 0
     UnAcidable: 0
     AcidProof: 0
-    Indestructable: 1
+    Indestructable: 0
     FreezeProof: 0
   tileInteractions: []
   spawnOnDeconstruct: {fileID: 0}

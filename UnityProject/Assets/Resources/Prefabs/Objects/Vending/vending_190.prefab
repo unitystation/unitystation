@@ -91,7 +91,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4611671786400276}
   - component: {fileID: 61275453022780532}
-  - component: {fileID: 61532532345769602}
   - component: {fileID: 114047140382544820}
   - component: {fileID: 114982929168440566}
   - component: {fileID: 114783402830955602}
@@ -102,6 +101,7 @@ GameObject:
   - component: {fileID: 114665692247917754}
   - component: {fileID: -2234183320136273726}
   - component: {fileID: -8126535781423591139}
+  - component: {fileID: -6035604790917528140}
   m_Layer: 11
   m_Name: vending_190
   m_TagString: Untagged
@@ -150,32 +150,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61532532345769602
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1854253567727558}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114047140382544820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -202,22 +176,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+  InitialVendorContent:
+  - ItemName: Grey Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
     Stock: 5
-  - Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
+  - ItemName: Trenchcoat
+    Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
     Stock: 3
-  - Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+  - ItemName: Grey Jumpsuit
+    Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
     Stock: 5
-  - Item: {fileID: 8977591776819106885, guid: cae650b8120e1f04a840374168f5169e, type: 3}
+  - ItemName: Grey Duffel Bag
+    Item: {fileID: 8977591776819106885, guid: cae650b8120e1f04a840374168f5169e, type: 3}
     Stock: 5
-  - Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
+  - ItemName: Grey Backpack
+    Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
     Stock: 5
-  - Item: {fileID: 7440297224124026255, guid: a168a3bbdfd796d48bf524dd9bef1803, type: 3}
+  - ItemName: Grey Satchel
+    Item: {fileID: 7440297224124026255, guid: a168a3bbdfd796d48bf524dd9bef1803, type: 3}
     Stock: 5
   HullColor: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 5a4f48d58142749de92013eb1e1d0523, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 8977591776819106885, guid: cae650b8120e1f04a840374168f5169e, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 4188245363048309518, guid: da93b0f7c392d46ba85123e2516cfa49, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 7440297224124026255, guid: a168a3bbdfd796d48bf524dd9bef1803, type: 3}
+    Stock: 5
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114783402830955602
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -250,6 +254,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &6720625136746480622
 MonoBehaviour:
@@ -362,3 +367,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-6035604790917528140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1854253567727558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1

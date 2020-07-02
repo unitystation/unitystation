@@ -10,11 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4829133243816028}
   - component: {fileID: 61160545876568756}
-  - component: {fileID: 61362889932895036}
   - component: {fileID: 114460020317382532}
   - component: {fileID: 114445863860112362}
   - component: {fileID: 114744021291581812}
-  - component: {fileID: 61869229900283464}
   - component: {fileID: 114947365864617716}
   - component: {fileID: 171602551372974216}
   - component: {fileID: 114440441029515152}
@@ -22,6 +20,8 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   - component: {fileID: -8006291283465890766}
+  - component: {fileID: 302420354434530708}
+  - component: {fileID: 9066166800028820997}
   m_Layer: 11
   m_Name: ChefDrobe
   m_TagString: Untagged
@@ -70,32 +70,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61362889932895036
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093139424532032}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114460020317382532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,44 +96,118 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 5480900738568975519, guid: 9bb52425bd84e21469e37eb87c90e8eb, type: 3}
+  InitialVendorContent:
+  - ItemName: Waiters Outfit
+    Item: {fileID: 5480900738568975519, guid: 9bb52425bd84e21469e37eb87c90e8eb, type: 3}
     Stock: 2
-  - Item: {fileID: 3011710637427380133, guid: ab23fc0ba00b309459f2a039f0098d57, type: 3}
+  - ItemName: Maid Costume
+    Item: {fileID: 3011710637427380133, guid: ab23fc0ba00b309459f2a039f0098d57, type: 3}
     Stock: 2
-  - Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
+  - ItemName: Service Headset
+    Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
     Stock: 2
-  - Item: {fileID: 3921521694364753778, guid: b046050b01e425d4b937899facb6aaf4, type: 3}
+  - ItemName: Waistcoat
+    Item: {fileID: 3921521694364753778, guid: b046050b01e425d4b937899facb6aaf4, type: 3}
     Stock: 2
-  - Item: {fileID: 3921521694364753778, guid: de49a39e89fc6194aa45f7ffa599e023, type: 3}
+  - ItemName: Maid Apron
+    Item: {fileID: 3921521694364753778, guid: de49a39e89fc6194aa45f7ffa599e023, type: 3}
     Stock: 2
-  - Item: {fileID: 3921521694364753778, guid: 4dddb342829e74925b4e0ca0d8cc5150, type: 3}
+  - ItemName: Cooks Apron
+    Item: {fileID: 3921521694364753778, guid: 4dddb342829e74925b4e0ca0d8cc5150, type: 3}
     Stock: 3
-  - Item: {fileID: 2850241452416116279, guid: 3961caf40305bd741b8c919afd07fca2, type: 3}
+  - ItemName: White Cap
+    Item: {fileID: 2850241452416116279, guid: 3961caf40305bd741b8c919afd07fca2, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 3921521694364753778, guid: 3d7f780dd3e1311438048a6c387cc2e6, type: 3}
+  - ItemName: Chefs Apron
+    Item: {fileID: 3921521694364753778, guid: 3d7f780dd3e1311438048a6c387cc2e6, type: 3}
     Stock: 2
-  - Item: {fileID: 3011710637427380133, guid: 82223aa9f2653409893db380f44262de, type: 3}
+  - ItemName: Cooks Suit
+    Item: {fileID: 3011710637427380133, guid: 82223aa9f2653409893db380f44262de, type: 3}
     Stock: 2
-  - Item: {fileID: 8595759586749855722, guid: 20b5c706c9fa6d6488022b9b64d732b8, type: 3}
+  - ItemName: Cooks Skirt
+    Item: {fileID: 8595759586749855722, guid: 20b5c706c9fa6d6488022b9b64d732b8, type: 3}
     Stock: 2
-  - Item: {fileID: 7636118406116123594, guid: c1986e2665f9a413694ce37f09e0f17e, type: 3}
+  - ItemName: Chef Hat
+    Item: {fileID: 7636118406116123594, guid: c1986e2665f9a413694ce37f09e0f17e, type: 3}
     Stock: 2
-  - Item: {fileID: 3011710637427380133, guid: 02622c7083ed0ff489e3eee4e97e0d79, type: 3}
+  - ItemName: Grilling Shorts
+    Item: {fileID: 3011710637427380133, guid: 02622c7083ed0ff489e3eee4e97e0d79, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: 3c6a831db5491964b8410e18ee7f8a1d, type: 3}
+  - ItemName: Grilling Sandals
+    Item: {fileID: 7106618204054676533, guid: 3c6a831db5491964b8410e18ee7f8a1d, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 1
-  - Item: {fileID: 6557358717024540051, guid: caa7ec1293d63a74aa063307403f0c7e, type: 3}
+  - ItemName: Winter Coat
+    Item: {fileID: 6557358717024540051, guid: caa7ec1293d63a74aa063307403f0c7e, type: 3}
     Stock: 2
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 5480900738568975519, guid: 9bb52425bd84e21469e37eb87c90e8eb, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: ab23fc0ba00b309459f2a039f0098d57, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: b046050b01e425d4b937899facb6aaf4, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: de49a39e89fc6194aa45f7ffa599e023, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 4dddb342829e74925b4e0ca0d8cc5150, type: 3}
+    Stock: 3
+  - ItemName: 
+    Item: {fileID: 2850241452416116279, guid: 3961caf40305bd741b8c919afd07fca2, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 1
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 3d7f780dd3e1311438048a6c387cc2e6, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 82223aa9f2653409893db380f44262de, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 8595759586749855722, guid: 20b5c706c9fa6d6488022b9b64d732b8, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: c1986e2665f9a413694ce37f09e0f17e, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: 02622c7083ed0ff489e3eee4e97e0d79, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 3c6a831db5491964b8410e18ee7f8a1d, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 1
+  - ItemName: 
+    Item: {fileID: 6557358717024540051, guid: caa7ec1293d63a74aa063307403f0c7e, type: 3}
+    Stock: 2
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,32 +226,6 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
---- !u!61 &61869229900283464
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093139424532032}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114947365864617716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -218,6 +240,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:
@@ -331,6 +354,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &302420354434530708
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 45
+--- !u!114 &9066166800028820997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

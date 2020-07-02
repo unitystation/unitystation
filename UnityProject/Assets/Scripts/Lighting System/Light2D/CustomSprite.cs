@@ -68,12 +68,17 @@ namespace Light2D
 
         protected virtual void OnEnable()
         {
+	        if (Application.isPlaying == false)
+	        {
+		        TryReleaseMesh();
+		        return;
+	        }
             if (initialized)
             {
                 return;
             }
             initialized = true;
-            
+
             _colors = new Color[4];
             _uv1 = new Vector2[4];
             _uv0 = new Vector2[4];
@@ -120,7 +125,7 @@ namespace Light2D
             //if (Application.isPlaying && LightingSystem.Instance.EnableNormalMapping)
             //{
             //    RendererEnabled = _meshRenderer.enabled;
-            //    _meshRenderer.enabled = false; 
+            //    _meshRenderer.enabled = false;
             //}
         }
 
@@ -130,6 +135,11 @@ namespace Light2D
         /// <returns></returns>
         public Material GetOrCreateMaterial()
         {
+	        if (Application.isPlaying == false)
+	        {
+		        TryReleaseMesh();
+		        return null;
+	        }
             TryReleaseMaterial();
 
             if (Material == null || Sprite == null)
@@ -154,7 +164,7 @@ namespace Light2D
 
             return matValue.Material;
         }
-        
+
         /// <summary>
         /// Getting material from cache or instantiating new one.
         /// </summary>
@@ -181,7 +191,7 @@ namespace Light2D
             {
                 matValue.UsageCount++;
             }
-            
+
             return matValue.Material;
         }
 
@@ -241,14 +251,19 @@ namespace Light2D
         /// </summary>
         protected virtual void UpdateSprite()
         {
+	        if (Application.isPlaying == false)
+	        {
+		        TryReleaseMesh();
+		        return;
+	        }
             if (Sprite == null)
                 return;
-            
+
             var rect = Sprite.textureRect;
             var bounds = Sprite.bounds;
             var tex = Sprite.texture;
             var textureSize = new Point2(tex.width, tex.height);
-            
+
             // HACK: mipmap could cause texture padding sometimes so padded size of texture needs to be computed.
             var realSize =
 #if UNITY_EDITOR || UNITY_STANDALONE
@@ -300,6 +315,11 @@ namespace Light2D
         /// <param name="forceUpdate">Force update even if no changes found.</param>
         protected virtual void UpdateMeshData(bool forceUpdate = false)
         {
+	        if (Application.isPlaying == false)
+	        {
+		        TryReleaseMesh();
+		        return;
+	        }
             if (_meshRenderer == null || _meshFilter == null || IsPartOfStaticBatch)
                 return;
 

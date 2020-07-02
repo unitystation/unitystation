@@ -169,8 +169,7 @@ public class GUI_Comms : NetTab
 	public void SetStatusDisplay(string text)
 	{
 		Logger.Log( nameof(SetStatusDisplay), Category.NetUI );
-		GameManager.Instance.CentComm.OnStatusDisplayUpdate
-			.Invoke( StatusDisplayChannel.Command, text.Substring( 0,Mathf.Min(text.Length, 50) ) );
+		GameManager.Instance.CentComm.UpdateStatusDisplay(StatusDisplayChannel.Command, text.Substring( 0,Mathf.Min(text.Length, 50)));
 		OpenMenu();
 	}
 	public void MakeAnAnnouncement(string text)

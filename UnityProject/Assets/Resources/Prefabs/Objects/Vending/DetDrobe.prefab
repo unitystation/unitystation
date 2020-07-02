@@ -10,11 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4829133243816028}
   - component: {fileID: 61160545876568756}
-  - component: {fileID: 61362889932895036}
   - component: {fileID: 114460020317382532}
   - component: {fileID: 114445863860112362}
   - component: {fileID: 114744021291581812}
-  - component: {fileID: 61869229900283464}
   - component: {fileID: 114947365864617716}
   - component: {fileID: 171602551372974216}
   - component: {fileID: 114440441029515152}
@@ -22,6 +20,7 @@ GameObject:
   - component: {fileID: 114472266138859352}
   - component: {fileID: 2465683597721563053}
   - component: {fileID: 6810634282263841819}
+  - component: {fileID: -7678308101660995785}
   m_Layer: 11
   m_Name: DetDrobe
   m_TagString: Untagged
@@ -70,32 +69,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61362889932895036
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093139424532032}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114460020317382532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -122,50 +95,136 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 3011710637427380133, guid: de7c66806376e49fd871dfce32fb6d26, type: 3}
+  InitialVendorContent:
+  - ItemName: Hard Worn Suit
+    Item: {fileID: 3011710637427380133, guid: de7c66806376e49fd871dfce32fb6d26, type: 3}
     Stock: 2
-  - Item: {fileID: 5302982331206035619, guid: bb7d1020ce10a7348b237ddd07a02fc2, type: 3}
+  - ItemName: Hard Worn Suit Skirt
+    Item: {fileID: 5302982331206035619, guid: bb7d1020ce10a7348b237ddd07a02fc2, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: f61a15e56150d45e78d9458034719cbb, type: 3}
+  - ItemName: Brown Shoes
+    Item: {fileID: 7106618204054676533, guid: f61a15e56150d45e78d9458034719cbb, type: 3}
     Stock: 2
-  - Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
+  - ItemName: Trenchcoat
+    Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
     Stock: 2
-  - Item: {fileID: 7636118406116123594, guid: 5dd96f5e685214da19f65b06f2463aa2, type: 3}
+  - ItemName: Detectives Hat
+    Item: {fileID: 7636118406116123594, guid: 5dd96f5e685214da19f65b06f2463aa2, type: 3}
     Stock: 2
-  - Item: {fileID: 5977298191026215751, guid: 5c40f1e282a3589419bfcca5e7c95320, type: 3}
+  - ItemName: Nor Suit
+    Item: {fileID: 5977298191026215751, guid: 5c40f1e282a3589419bfcca5e7c95320, type: 3}
     Stock: 2
-  - Item: {fileID: 1171842931862335605, guid: 6c9c26df204b0f94f8be3ae03e8051ca, type: 3}
+  - ItemName: Noir Suit Skirt
+    Item: {fileID: 1171842931862335605, guid: 6c9c26df204b0f94f8be3ae03e8051ca, type: 3}
     Stock: 2
-  - Item: {fileID: 3921521694364753778, guid: b046050b01e425d4b937899facb6aaf4, type: 3}
+  - ItemName: Waistcoat
+    Item: {fileID: 3921521694364753778, guid: b046050b01e425d4b937899facb6aaf4, type: 3}
     Stock: 2
-  - Item: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
+  - ItemName: Laceup Shoes
+    Item: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
     Stock: 2
-  - Item: {fileID: 684762946367608382, guid: 5020827e4b280bd4384aa06dda5649bd, type: 3}
+  - ItemName: Noir Trenchcoat
+    Item: {fileID: 684762946367608382, guid: 5020827e4b280bd4384aa06dda5649bd, type: 3}
     Stock: 2
-  - Item: {fileID: 5347176894764292324, guid: 9901a08af652ad04dbbf4519ea57e575, type: 3}
+  - ItemName: Noir Suit Coat
+    Item: {fileID: 5347176894764292324, guid: 9901a08af652ad04dbbf4519ea57e575, type: 3}
     Stock: 2
-  - Item: {fileID: 6980020022460415521, guid: e00c6afc5648f951aac2a8d6dfcc4620, type: 3}
+  - ItemName: Noir Beret
+    Item: {fileID: 6980020022460415521, guid: e00c6afc5648f951aac2a8d6dfcc4620, type: 3}
     Stock: 2
-  - Item: {fileID: 7636118406116123594, guid: 59b6ec971c7da824b83117e8faa53db3, type: 3}
+  - ItemName: Fedora
+    Item: {fileID: 7636118406116123594, guid: 59b6ec971c7da824b83117e8faa53db3, type: 3}
     Stock: 2
-  - Item: {fileID: 6804612781048497285, guid: 7783baf2677b3a844aff37585692717e, type: 3}
+  - ItemName: Beige Fedora
+    Item: {fileID: 6804612781048497285, guid: 7783baf2677b3a844aff37585692717e, type: 3}
     Stock: 2
-  - Item: {fileID: 3862752096800770460, guid: 5719a72c573a068478eaf6400b4f4c22, type: 3}
+  - ItemName: White Fedora
+    Item: {fileID: 3862752096800770460, guid: 5719a72c573a068478eaf6400b4f4c22, type: 3}
     Stock: 2
-  - Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
+  - ItemName: Black Gloves
+    Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
     Stock: 2
-  - Item: {fileID: 6373161644663410599, guid: 47e758de6e8330e8ba5c0cf96801afa8, type: 3}
+  - ItemName: Latex Gloves
+    Item: {fileID: 6373161644663410599, guid: 47e758de6e8330e8ba5c0cf96801afa8, type: 3}
     Stock: 2
-  - Item: {fileID: 8684129920059976793, guid: 0010029d500bcc9469c05ec34573f8de, type: 3}
+  - ItemName: Detectives Flask
+    Item: {fileID: 8684129920059976793, guid: 0010029d500bcc9469c05ec34573f8de, type: 3}
     Stock: 2
-  - Item: {fileID: 0}
+  - ItemName: EMPTY SLOT
+    Item: {fileID: 0}
     Stock: 2
-  - Item: {fileID: 7636118406116123594, guid: 63587900698efce47a648bd987aef283, type: 3}
+  - ItemName: Flat Cap
+    Item: {fileID: 7636118406116123594, guid: 63587900698efce47a648bd987aef283, type: 3}
     Stock: 2
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 3011710637427380133, guid: de7c66806376e49fd871dfce32fb6d26, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 5302982331206035619, guid: bb7d1020ce10a7348b237ddd07a02fc2, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: f61a15e56150d45e78d9458034719cbb, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: 02d871d46281a42d1820f9b47a8124c6, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 5dd96f5e685214da19f65b06f2463aa2, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 5977298191026215751, guid: 5c40f1e282a3589419bfcca5e7c95320, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 1171842931862335605, guid: 6c9c26df204b0f94f8be3ae03e8051ca, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 3921521694364753778, guid: b046050b01e425d4b937899facb6aaf4, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 684762946367608382, guid: 5020827e4b280bd4384aa06dda5649bd, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 5347176894764292324, guid: 9901a08af652ad04dbbf4519ea57e575, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 6980020022460415521, guid: e00c6afc5648f951aac2a8d6dfcc4620, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 59b6ec971c7da824b83117e8faa53db3, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 6804612781048497285, guid: 7783baf2677b3a844aff37585692717e, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 3862752096800770460, guid: 5719a72c573a068478eaf6400b4f4c22, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 6373161644663410599, guid: 7cae22bda0476431ba677333bd759b73, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 6373161644663410599, guid: 47e758de6e8330e8ba5c0cf96801afa8, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 8684129920059976793, guid: 0010029d500bcc9469c05ec34573f8de, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 0}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 7636118406116123594, guid: 63587900698efce47a648bd987aef283, type: 3}
+    Stock: 2
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114744021291581812
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,32 +243,6 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
---- !u!61 &61869229900283464
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1093139424532032}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114947365864617716
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -224,6 +257,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &171602551372974216
 MonoBehaviour:
@@ -337,6 +371,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-7678308101660995785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093139424532032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 3
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1
 --- !u!1 &1905444731887362
 GameObject:
   m_ObjectHideFlags: 0

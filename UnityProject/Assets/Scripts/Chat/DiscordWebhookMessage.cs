@@ -4,7 +4,8 @@ using UnityEngine;
 using System.Net;
 using System.Text.RegularExpressions;
 using DatabaseAPI;
-
+using System.Collections;
+using Newtonsoft.Json;
 
 namespace DiscordWebhook
 {
@@ -20,9 +21,20 @@ namespace DiscordWebhook
 		private Queue<string> AdminAhelpMessageQueue = new Queue<string>();
 		private Queue<string> AnnouncementMessageQueue = new Queue<string>();
 		private Queue<string> AllChatMessageQueue = new Queue<string>();
-		private Dictionary<Queue<string>, string> DiscordWebhookURLQueueDict = null;
-		private float SendingTimer = 0;
-		private const float MessageTimeDelay = 1f;
+		private Queue<string> AdminLogMessageQueue = new Queue<string>();
+		private Queue<string> ErrorLogMessageQueue = new Queue<string>();
+		private HashSet<string> ErrorMessageHashSet = new HashSet<string>();
+
+		private Dictionary<Queue<string>, string> discordWebhookURLQueueDict = null;
+		private float spamPreventionTimer = 0f;
+		private bool spamPrevention = false;
+		private float sendingTimer = 0;
+		private const float SpamTimeLimit = 150f;
+		private const float MessageTimeDelay = 1.5f;
+
+		private bool messageSendingInProgress = false;
+
+		IList<string> RoleList = new List<string>();
 
 		private void Awake()
 		{
@@ -40,39 +52,85 @@ namespace DiscordWebhook
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
-			SendingTimer += Time.deltaTime;
-			if (SendingTimer > MessageTimeDelay)
+			sendingTimer += Time.deltaTime;
+			if (sendingTimer > MessageTimeDelay)
 			{
-				if (DiscordWebhookURLQueueDict == null)
+				if (discordWebhookURLQueueDict == null)
 				{
 					InitDict();
 				}
 
-				foreach (var entry in DiscordWebhookURLQueueDict)
+				if (!messageSendingInProgress)
 				{
-					FormatAndSendMessage(entry.Value, entry.Key);
+					messageSendingInProgress = true;
+
+					_ = StartCoroutine(SendQueuedMessagesToWebhooks());
 				}
 
-				SendingTimer --;
+				sendingTimer = 0;
 			}
+
+			if (!spamPrevention) return;
+
+			spamPreventionTimer += Time.deltaTime;
+			if (spamPreventionTimer > SpamTimeLimit)
+			{
+				spamPrevention = false;
+
+				spamPreventionTimer = 0f;
+			}
+		}
+
+		void OnEnable()
+		{
+			Application.logMessageReceived += HandleLog;
+			EventManager.AddHandler(EVENT.PreRoundStarted, ResetHashSet);
+		}
+
+		void OnDisable()
+		{
+			Application.logMessageReceived -= HandleLog;
+			EventManager.RemoveHandler(EVENT.PreRoundStarted, ResetHashSet);
+		}
+
+		void ResetHashSet()
+		{
+			ErrorMessageHashSet.Clear();
+		}
+
+		private IEnumerator SendQueuedMessagesToWebhooks()
+		{
+			foreach (var entry in discordWebhookURLQueueDict)
+			{
+				FormatAndSendMessage(entry.Value, entry.Key);
+			}
+
+			messageSendingInProgress = false;
+
+			yield break;
 		}
 
 		private void InitDict()
 		{
-			DiscordWebhookURLQueueDict = new Dictionary<Queue<string>, string>
+			discordWebhookURLQueueDict = new Dictionary<Queue<string>, string>
 			{
 				{OOCMessageQueue, ServerData.ServerConfig.DiscordWebhookOOCURL},
 				{AdminAhelpMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminURL},
 				{AnnouncementMessageQueue, ServerData.ServerConfig.DiscordWebhookAnnouncementURL},
-				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL}
+				{AllChatMessageQueue, ServerData.ServerConfig.DiscordWebhookAllChatURL},
+				{AdminLogMessageQueue, ServerData.ServerConfig.DiscordWebhookAdminLogURL},
+				{ErrorLogMessageQueue, ServerData.ServerConfig.DiscordWebhookErrorLogURL}
 			};
 		}
 
-		private void Post(string url, NameValueCollection pairs)
+		private void Post(string url, JsonPayloadContent playload)
 		{
 			using (WebClient webClient = new WebClient())
-
-			webClient.UploadValues(url, pairs);
+			{
+				var dataString = JsonConvert.SerializeObject(playload);
+				webClient.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+				webClient.UploadString(url, dataString);
+			}
 		}
 
 		public void AddWebHookMessageToQueue(DiscordWebhookURLs urlToUse, string msg, string username, string mentionID = null)
@@ -111,29 +169,57 @@ namespace DiscordWebhook
 
 			for (var i = 1; i <= count; i++)
 			{
+				//Discord character limit is 2000
+				if (msg.Length > 1970)
+				{
+					msg = msg.Substring(0, 1970);
+					break;
+				}
+
+				if (msg.Length + queue.Peek().Length > 1970)
+				{
+					break;
+				}
+
 				msg += queue.Dequeue() + "\n";
 			}
 
-			Post(url, new NameValueCollection()
+			var payLoad = new JsonPayloadContent()
 			{
+				content = msg,
+
+				allowed_mentions =
 				{
-					"content",
-					msg
+					roles = RoleList
 				}
-			});
+			};
+
+			Post(url, payLoad);
 		}
 
 		private string MsgMentionProcess(string msg, string mentionID = null)
 		{
 			var newmsg = msg;
 
-			//Removes <@ to stop unwanted pings
-			newmsg = Regex.Replace(newmsg, "<@", " ");
+			//Disable \ and \n
+			newmsg = Regex.Replace(newmsg, @"\\n?", " ");
 
-			if (!string.IsNullOrEmpty(mentionID))
+			//Disable links
+			newmsg = Regex.Replace(newmsg, "(?i)http", " ");
+
+			if (!string.IsNullOrEmpty(mentionID) && !spamPrevention)
 			{
+				if (!RoleList.Contains(mentionID))
+				{
+					RoleList.Add(mentionID);
+				}
+
+				mentionID = $"<@&{mentionID}>";
+
 				//Replaces the @ServerAdmin (non case sensitive), with the discord role ID, so it pings.
 				newmsg = Regex.Replace(newmsg, "(?i)@ServerAdmin", mentionID);
+
+				spamPrevention = true;
 			}
 
 			return newmsg;
@@ -151,8 +237,34 @@ namespace DiscordWebhook
 					return (ServerData.ServerConfig.DiscordWebhookAnnouncementURL, AnnouncementMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAllChatURL:
 					return (ServerData.ServerConfig.DiscordWebhookAllChatURL, AllChatMessageQueue);
+				case DiscordWebhookURLs.DiscordWebhookAdminLogURL:
+					return (ServerData.ServerConfig.DiscordWebhookAdminLogURL, AdminLogMessageQueue);
+				case DiscordWebhookURLs.DiscordWebhookErrorLogURL:
+					return (ServerData.ServerConfig.DiscordWebhookErrorLogURL, ErrorLogMessageQueue);
 				default:
 					return (null, null);
+			}
+		}
+
+		void HandleLog(string logString, string stackTrace, LogType type)
+		{
+			if ((type == LogType.Exception || type == LogType.Error) && !ErrorMessageHashSet.Contains(stackTrace))
+			{
+				ErrorMessageHashSet.Add(stackTrace);
+
+				if(logString.Contains("Can't get home directory!")) return;
+
+				var logToSend = $"{logString}\n{stackTrace}";
+
+				//Discord character limit is 2000
+				if (logToSend.Length > 1950)
+				{
+					logToSend = logToSend.Substring(0, 1950);
+				}
+
+				logToSend = $"```\n{logToSend}\n```\n";
+
+				AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookErrorLogURL, logToSend, "");
 			}
 		}
 	}
@@ -162,6 +274,20 @@ namespace DiscordWebhook
 		DiscordWebhookOOCURL,
 		DiscordWebhookAdminURL,
 		DiscordWebhookAnnouncementURL,
-		DiscordWebhookAllChatURL
+		DiscordWebhookAllChatURL,
+		DiscordWebhookAdminLogURL,
+		DiscordWebhookErrorLogURL
+	}
+
+	public class AllowedMentions
+	{
+		public IList<string> roles { get; set; }
+	}
+
+	public class JsonPayloadContent
+	{
+		public string content { get; set; }
+
+		public AllowedMentions allowed_mentions = new AllowedMentions();
 	}
 }

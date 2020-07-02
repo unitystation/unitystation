@@ -17,7 +17,7 @@ public class WallmountBehavior : MonoBehaviour, IMatrixRotation
 {
 	//cached spriteRenderers of this gameobject
 	private SpriteRenderer[] spriteRenderers;
-	private Directional directional;
+	public Directional directional;
 	private Transform child;
 	private Vector3 upVectorForRotation;
 

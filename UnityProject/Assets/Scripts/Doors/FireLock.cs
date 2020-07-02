@@ -1,10 +1,25 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class FireLock : InteractableDoor
+public class FireLock : InteractableDoor, ISetMultitoolSlave
 {
 	private MetaDataNode metaNode;
 	public FireAlarm fireAlarm;
+
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.FireAlarm;
+	public MultitoolConnectionType ConType  => conType;
+
+	public void SetMaster(ISetMultitoolMaster Imaster)
+	{
+		if (fireAlarm)
+		{
+			fireAlarm.FireLockList.Remove(this);
+		}
+		fireAlarm = (Imaster as Component)?.gameObject.GetComponent<FireAlarm>();
+		fireAlarm.FireLockList.Add(this);
+
+	}
 
 	public override void TryClose()
 	{
@@ -12,7 +27,6 @@ public class FireLock : InteractableDoor
 
 	public override void TryOpen(GameObject performer)
 	{
-
 	}
 
 	void TriggerAlarm()
@@ -29,6 +43,8 @@ public class FireLock : InteractableDoor
 
 	public void ReceiveAlert()
 	{
+		if (Controller == null) return;
+
 		if (!Controller.IsClosed)
 		{
 			Controller.ServerTryClose();
@@ -44,7 +60,7 @@ public class FireLock : InteractableDoor
 		metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
 		Controller.ServerOpen();
 	}
-	
+
 	//Copied over from LightSource.cs
 	void OnDrawGizmosSelected()
 	{

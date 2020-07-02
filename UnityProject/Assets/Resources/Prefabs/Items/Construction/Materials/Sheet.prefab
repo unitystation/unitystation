@@ -7,11 +7,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 169208106314823032, guid: a5ae289234c114e4faca591be88bdbb7,
-        type: 3}
-      propertyPath: m_Name
-      value: Sheet
-      objectReference: {fileID: 0}
     - target: {fileID: 165128780772706316, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,6 +62,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 169208106314823032, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: m_Name
+      value: Sheet
+      objectReference: {fileID: 0}
     - target: {fileID: 273893261506824396, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
       propertyPath: m_AssetId
@@ -121,6 +121,16 @@ PrefabInstance:
         type: 3}
       propertyPath: attackVerbs.Array.data[4]
       value: smashed
+      objectReference: {fileID: 0}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
+        type: 3}
+      propertyPath: initialName
+      value: sheet
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5ae289234c114e4faca591be88bdbb7, type: 3}

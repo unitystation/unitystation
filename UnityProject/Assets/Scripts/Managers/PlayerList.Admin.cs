@@ -9,6 +9,7 @@ using DatabaseAPI;
 using Mirror;
 using UnityEngine;
 using UnityEngine.Diagnostics;
+using DiscordWebhook;
 
 /// <summary>
 /// Admin Controller for players
@@ -400,7 +401,7 @@ public partial class PlayerList
 		}
 	}
 
-	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes)
+	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes, bool announceBan)
 	{
 		if (!adminUsers.Contains(admin)) return;
 
@@ -409,9 +410,26 @@ public partial class PlayerList
 		{
 			foreach (var p in players)
 			{
-				Logger.Log(
-					$"A kick/ban has been processed by {admin}: Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}");
+				var message = $"A kick/ban has been processed by {admin}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+
+				Logger.Log(message);
+
 				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
+
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
+
+				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
+
+				if (isBan)
+				{
+					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Username}, has been banned for {banMinutes} minutes.";
+				}
+				else
+				{
+					message = $"{ServerData.ServerConfig.ServerName}\nPlayer: {p.Username}, has been kicked.";
+				}
+
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 			}
 		}
 		else

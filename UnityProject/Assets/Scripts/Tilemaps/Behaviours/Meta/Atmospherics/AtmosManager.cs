@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Pipes;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -18,14 +19,17 @@ public class AtmosManager : MonoBehaviour
 
 	public bool roundStartedServer = false;
 	public HashSet<Pipe> inGamePipes = new HashSet<Pipe>();
+	public HashSet<PipeData> inGameNewPipes = new HashSet<PipeData>();
 	public HashSet<FireAlarm> inGameFireAlarms = new HashSet<FireAlarm>();
 	public static int currentTick;
 	public static float tickRateComplete = 1f; //currently set to update every second
 	public static float tickRate;
 	private static float tickCount = 0f;
-	private const int Steps = 5;
+	private const int Steps = 1;
 
 	public static AtmosManager Instance;
+
+	public bool StopPipes = false;
 
 	private void Awake()
 	{
@@ -75,6 +79,15 @@ public class AtmosManager : MonoBehaviour
 
 	void DoTick()
 	{
+		if (StopPipes == false)
+		{
+			foreach (var p in inGameNewPipes)
+			{
+				p.TickUpdate();
+			}
+		}
+
+
 		foreach (Pipe p in inGamePipes)
 		{
 			p.TickUpdate();
@@ -124,6 +137,8 @@ public class AtmosManager : MonoBehaviour
 	{
 		roundStartedServer = false;
 		AtmosThread.ClearAllNodes();
+		inGameNewPipes.Clear();
+		inGamePipes.Clear();
 	}
 
 
@@ -170,6 +185,7 @@ public class AtmosManager : MonoBehaviour
 		{
 			roundStartedServer = false;
 		}
+		//inGameNewPipes.Clear();
 		inGamePipes.Clear();
 		inGameFireAlarms.Clear();
 	}

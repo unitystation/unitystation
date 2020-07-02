@@ -308,8 +308,9 @@ public class RequestInteractMessage : ClientMessage
 			//check the target object if there is one
 			if (interaction is TargetedInteraction targetedInteraction)
 			{
+				if(targetedInteraction.TargetObject == null) return;
 				var interactables = targetedInteraction.TargetObject.GetComponents<IInteractable<T>>()
-					.Where(c => c != null && (c as MonoBehaviour).enabled);
+					.Where(c => c != null && (c as MonoBehaviour)?.enabled == true);
 				Logger.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
 					typeof(T).Name, targetedInteraction.TargetObject.name);
 				if (ServerCheckAndTrigger(interaction, interactables))

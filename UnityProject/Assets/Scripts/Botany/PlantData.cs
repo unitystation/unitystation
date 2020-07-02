@@ -34,6 +34,8 @@ public class PlantData
 	public int NextGrowthStageProgress;
 	public float Health;
 
+	private const int MAX_POTENCY = 100;
+
 	//Use static methods to create new instances of PlantData
 	private PlantData() { }
 
@@ -97,7 +99,7 @@ public class PlantData
 		WeedResistance = WeedResistance + _DefaultPlantData.WeedResistanceChange;
 		WeedGrowthRate = WeedGrowthRate + _DefaultPlantData.WeedGrowthRateChange;
 		GrowthSpeed = GrowthSpeed + _DefaultPlantData.GrowthSpeedChange;
-		Potency = Potency + _DefaultPlantData.PotencyChange;
+		Potency = Mathf.Clamp(Potency + _DefaultPlantData.PotencyChange, 0, MAX_POTENCY);
 		Endurance = Endurance + _DefaultPlantData.EnduranceChange;
 		Yield = Yield + _DefaultPlantData.YieldChange;
 		Lifespan = Lifespan + _DefaultPlantData.LifespanChange;

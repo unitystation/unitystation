@@ -1,16 +1,13 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using AdminTools;
+using Audio.Managers;
 using Mirror;
 using UI.UI_Bottom;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Unitystation.Options;
 
 public class UIManager : MonoBehaviour
 {
@@ -453,7 +450,7 @@ public class UIManager : MonoBehaviour
 			yield return null;
 		}
 
-		SoundManager.StopAmbient();
+		SoundAmbientManager.StopAllAudio();
 
 	}
 

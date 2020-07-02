@@ -159,9 +159,11 @@ public class Layer : MonoBehaviour
 		return !tilemap.HasTile(position) || tilemap.GetTile<BasicTile>(position).IsSpace();
 	}
 
-	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
+	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
 	{
 		InternalSetTile(position, tile);
+
+		tilemap.SetColor(position, color);
 		tilemap.SetTransformMatrix(position, transformMatrix);
 		subsystemManager?.UpdateAt(position);
 	}
@@ -179,6 +181,17 @@ public class Layer : MonoBehaviour
 	{
 		return tilemap.GetTile<LayerTile>(position);
 	}
+
+	public virtual bool IsDifferent(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+		Color? color = null)
+	{
+		if (tilemap.GetTile<LayerTile>(cellPosition) != layerTile) return true;
+
+		if (tilemap.GetColor(cellPosition) != color.GetValueOrDefault(Color.white)) return true;
+		if (tilemap.GetTransformMatrix(cellPosition) != transformMatrix.GetValueOrDefault(Matrix4x4.identity)) return true;
+		return false;
+	}
+
 
 	public virtual bool HasTile(Vector3Int position, bool isServer)
 	{

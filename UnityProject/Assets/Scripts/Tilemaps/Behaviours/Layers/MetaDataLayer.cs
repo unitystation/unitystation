@@ -26,6 +26,8 @@ public class MetaDataLayer : MonoBehaviour
 
 	public MetaDataNode Get(Vector3Int localPosition, bool createIfNotExists = true)
 	{
+		localPosition.z = 0; //Z Positions are always on 0
+
 		if (!nodes.ContainsKey(localPosition))
 		{
 			if (createIfNotExists)

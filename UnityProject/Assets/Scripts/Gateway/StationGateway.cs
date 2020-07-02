@@ -6,11 +6,16 @@ using UnityEditor;
 /// <summary>
 /// For Gateways inheritable class
 /// </summary>
-public class StationGateway : NetworkBehaviour
+public class StationGateway : NetworkBehaviour, IAPCPowered
 {
 	[SerializeField]
 	private SpriteRenderer[] Sprites = null;
 	//SpriteBaseBottom, SpriteBaseTop, SpriteBaseRightMiddle, SpriteBaseLeftMiddle, SpriteBaseRightBottom, SpriteBaseLeftBottom, SpriteBaseRightTop, SpriteBaseLeftTop, SpriteBaseCentre
+
+	private PowerStates CurrentState =PowerStates.On ;
+	private float OnWatts = 1000;
+	private float OffWatts = 0.1f;
+	private APCPoweredDevice PoweredDevice;
 
 	private int animationOffset = 0;
 
@@ -19,7 +24,7 @@ public class StationGateway : NetworkBehaviour
 	[SerializeField]
 	private Sprite[] Offline = null;
 	[SerializeField]
-	private Sprite[] PowerOff = null;//TODO connect gateway to APC
+	private Sprite[] PowerOff = null;
 
 	private WorldGateway selectedWorld;// The world from the list that was chosen
 
@@ -72,6 +77,8 @@ public class StationGateway : NetworkBehaviour
 	{
 		if (isServer)
 		{
+			if (!APCPoweredDevice.IsOn(CurrentState)) return;
+
 			timeElapsedServer += Time.deltaTime;
 			if (timeElapsedServer > DetectionTime && isOn)
 			{
@@ -107,6 +114,7 @@ public class StationGateway : NetworkBehaviour
 
 	private void OnEnable()
 	{
+		PoweredDevice = this.GetComponent<APCPoweredDevice>();
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
 	void OnDisable()
@@ -258,6 +266,28 @@ public class StationGateway : NetworkBehaviour
 		for (int i = 0; i < Sprites.Length; i++)
 		{
 			Sprites[i].sprite = spriteSet[i + animationOffset];
+		}
+	}
+
+	public void PowerNetworkUpdate(float Voltage)
+	{
+	}
+
+	public void StateUpdate(PowerStates State)
+	{
+		if (CurrentState != State)
+		{
+			CurrentState = State;
+			if (State == PowerStates.Off)
+			{
+				PoweredDevice.Wattusage = OffWatts;
+				SetPowerOff();
+			}
+			else
+			{
+				PoweredDevice.Wattusage = OnWatts;
+				SetOnline();
+			}
 		}
 	}
 }
