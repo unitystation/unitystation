@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using AdminTools;
 using UnityEngine;
 using DiscordWebhook;
+using System;
+using System.Linq;
+using Random = UnityEngine.Random;
 
 namespace InGameEvents
 {
@@ -30,6 +33,11 @@ namespace InGameEvents
 
 		public bool RandomEventsAllowed = true;
 
+		public int minPlayersForRandomEventsToHappen = 5;
+
+		[HideInInspector]
+		public List<string> EnumListCache = new List<string>();
+
 
 		private void Awake()
 		{
@@ -41,49 +49,84 @@ namespace InGameEvents
 			{
 				Destroy(this);
 			}
+
+			EnumListCache = Enum.GetNames(typeof(InGameEventType)).ToList();
 		}
 
 		private void Update()
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
-			if (RandomEventsAllowed && GameManager.Instance.CurrentRoundState == RoundState.Started )
+			if (!RandomEventsAllowed) return;
+
+			if(GameManager.Instance.CurrentRoundState != RoundState.Started) return;
+
+			if(PlayerList.Instance.InGamePlayers.Count < minPlayersForRandomEventsToHappen) return;
+
+			timer += Time.deltaTime;
+			if (timer > triggerEventInterval)
 			{
-				timer += Time.deltaTime;
-				if (timer > triggerEventInterval)
-				{
-					bool isFake = false;
+				var isFake = Random.Range(0,100) < chanceItIsFake;
 
-					if (UnityEngine.Random.Range(0,100) < chanceItIsFake)
-					{
-						isFake = true;
-					}
+				StartRandomEvent(GetRandomEventList(), isFake: isFake, serverTriggered: true);
 
-					StartRandomFunEvent(isFake: isFake, serverTriggered: true);
-
-					timer -= triggerEventInterval;
-				}
+				timer -= triggerEventInterval;
 			}
 		}
 
 		private List<EventScriptBase> listOfFunEventScripts = new List<EventScriptBase>();
-
 		public List<EventScriptBase> ListOfFunEventScripts => listOfFunEventScripts;
 
-		public void AddEventToList(EventScriptBase eventToAdd)
+
+		private List<EventScriptBase> listOfSpecialEventScripts = new List<EventScriptBase>();
+		public List<EventScriptBase> ListOfSpecialEventScripts => listOfSpecialEventScripts;
+
+
+		private List<EventScriptBase> listOfAntagonistEventScripts = new List<EventScriptBase>();
+		public List<EventScriptBase> ListOfAntagonistEventScripts => listOfAntagonistEventScripts;
+
+
+		private List<EventScriptBase> listOfDebugEventScripts = new List<EventScriptBase>();
+		public List<EventScriptBase> ListOfDebugEventScripts => listOfDebugEventScripts;
+
+		public void AddEventToList(EventScriptBase eventToAdd, InGameEventType eventType)
 		{
-			listOfFunEventScripts.Add(eventToAdd);
+			var list = GetListFromEnum(eventType);
+
+			if (list == null)
+			{
+				Debug.LogError("An event has been set to random type, random is a dummy type and cant be accessed.");
+			}
+
+			list?.Add(eventToAdd);
 		}
 
-		public void TriggerSpecificEvent(int eventIndex, bool isFake = false, string adminName = null, bool announceEvent = true)
+		public void TriggerSpecificEvent(int eventIndex, InGameEventType eventType, bool isFake = false, string adminName = null, bool announceEvent = true)
 		{
-			if (eventIndex == 0)
+			List<EventScriptBase> list;
+
+			if (eventType == InGameEventType.Random)
 			{
-				StartRandomFunEvent(true, isFake, false, adminName, announceEvent);
+				list = GetRandomEventList();
 			}
 			else
 			{
-				var eventChosen = listOfFunEventScripts[eventIndex - 1];
+				list = GetListFromEnum(eventType);
+			}
+
+			if (list == null)
+			{
+				Debug.LogError("Event List was null shouldn't happen unless new type wasn't added to switch");
+				return;
+			}
+
+			if (eventIndex == 0)
+			{
+				StartRandomEvent(list, true, isFake, false, adminName, announceEvent);
+			}
+			else
+			{
+				var eventChosen = list[eventIndex - 1];
 				eventChosen.FakeEvent = isFake;
 				eventChosen.AnnounceEvent = announceEvent;
 				eventChosen.TriggerEvent();
@@ -95,9 +138,11 @@ namespace InGameEvents
 			}
 		}
 
-		public void StartRandomFunEvent(bool anEventMustHappen = false, bool isFake = false, bool serverTriggered = false, string adminName = null, bool announceEvent = true)
+		public void StartRandomEvent(List<EventScriptBase> eventList, bool anEventMustHappen = false, bool isFake = false, bool serverTriggered = false, string adminName = null, bool announceEvent = true, int stackOverFlowProtection = 0)
 		{
-			foreach (var eventInList in listOfFunEventScripts.Shuffle())
+			if (eventList.Count == 0) return;
+
+			foreach (var eventInList in eventList.Shuffle())
 			{
 				//If there's not enough players try to trigger a different one
 				if(eventInList.MinPlayersToTrigger > PlayerList.Instance.InGamePlayers.Count) continue;
@@ -130,10 +175,52 @@ namespace InGameEvents
 				}
 			}
 
+			stackOverFlowProtection++;
+
+			if (stackOverFlowProtection > 100)
+			{
+				var msg = "A random event has failed to be triggered by the server due to overflow protection.";
+
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "[Server]");
+				return;
+			}
+
 			if (anEventMustHappen)
 			{
-				StartRandomFunEvent(true, isFake, serverTriggered, adminName, announceEvent);
+				StartRandomEvent(eventList, true, isFake, serverTriggered, adminName, announceEvent, stackOverFlowProtection);
 			}
+		}
+
+		public List<EventScriptBase> GetListFromEnum(InGameEventType enumValue)
+		{
+			switch (enumValue)
+			{
+				case InGameEventType.Random:
+					return null;
+				case InGameEventType.Fun:
+					return ListOfFunEventScripts;
+				case InGameEventType.Special:
+					return ListOfSpecialEventScripts;
+				case InGameEventType.Antagonist:
+					return listOfAntagonistEventScripts;
+				case InGameEventType.Debug:
+					return ListOfDebugEventScripts;
+				default: return null;
+			}
+		}
+
+		public List<EventScriptBase> GetRandomEventList()
+		{
+			var enumList = EnumListCache;
+			enumList.Remove("Random");
+			enumList.Remove("Debug");
+
+			if (InGameEventType.TryParse(enumList.GetRandom(), out InGameEventType result))
+			{
+				return GetListFromEnum(result);
+			}
+			return null;
 		}
 	}
 }
