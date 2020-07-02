@@ -79,11 +79,7 @@ namespace InGameEvents
 
 		private void GameConfigLoaded()
 		{
-			Debug.Log("2");
-			Debug.Log("bool "+ GameConfigManager.GameConfig.RandomEventsAllowed);
-			Debug.Log("bool2 "+ RandomEventsAllowed);
 			RandomEventsAllowed = GameConfigManager.GameConfig.RandomEventsAllowed;
-			Debug.Log("bool3 "+ RandomEventsAllowed);
 			GameConfigManager.Instance.gameConfigLoaded.RemoveListener(GameConfigLoaded);
 		}
 
