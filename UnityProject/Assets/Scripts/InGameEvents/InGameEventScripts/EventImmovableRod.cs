@@ -119,7 +119,7 @@ namespace InGameEvents
 
 				var nextCoord = impactCoords.Dequeue();
 
-				_ = StartCoroutine(MoveRodToPosition(rod.transform, nextCoord, timeBetweenExplosions));
+				StartCoroutine(MoveRodToPosition(rod.transform, nextCoord, timeBetweenExplosions));
 
 				Explosions.Explosion.StartExplosion(nextCoord.ToLocalInt(stationMatrix), strength,
 					stationMatrix.Matrix);
