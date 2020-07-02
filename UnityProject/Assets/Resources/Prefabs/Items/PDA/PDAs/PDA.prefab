@@ -425,6 +425,8 @@ MonoBehaviour:
   Colour: {r: 1, g: 0.99215686, b: 0.95686275, a: 0.8666667}
   EnumSprite: 0
   Size: 5
+  IsOn: 1
+  CachedIntensity: 1
   PlayerLightData:
     Intensity: 0
     Colour: {r: 0, g: 0, b: 0, a: 0}
@@ -510,7 +512,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a69951b025439433aaae48b3e8c4017b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 22
+  NetTabType: 24
 --- !u!114 &2827089245972962627
 MonoBehaviour:
   m_ObjectHideFlags: 0
