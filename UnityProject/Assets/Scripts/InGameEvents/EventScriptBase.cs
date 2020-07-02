@@ -38,6 +38,11 @@ namespace InGameEvents
 		public float ChanceToHappen = 100f;
 
 		/// <summary>
+		/// Minimum players needed to trigger event randomly
+		/// </summary>
+		public int MinPlayersToTrigger = 0;
+
+		/// <summary>
 		/// If the event is fake, you'll need to integrate into own script
 		/// </summary>
 		[HideInInspector]

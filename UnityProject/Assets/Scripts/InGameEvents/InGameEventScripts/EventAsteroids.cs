@@ -12,7 +12,7 @@ namespace InGameEvents
 		private Queue<Vector3> impactCoords = new Queue<Vector3>();
 
 		[SerializeField]
-		private GameObject explosionPrefab = null;
+		private AsteroidEventLevels asteroidEventLevels = AsteroidEventLevels.Normal;
 
 		[SerializeField]
 		private int minMeteorAmount = 2;
@@ -21,16 +21,10 @@ namespace InGameEvents
 		private int maxMeteorAmount = 10;
 
 		[SerializeField]
-		private float minRadius = 8f;
+		private int minStrength = 100;
 
 		[SerializeField]
-		private float maxRadius = 20f;
-
-		[SerializeField]
-		private int minDamage = 100;
-
-		[SerializeField]
-		private int maxDamage = 500;
+		private int maxStrength = 500;
 
 		[SerializeField]
 		private int minTimeBetweenMeteors = 1;
@@ -58,8 +52,6 @@ namespace InGameEvents
 		{
 			int asteroidAmount = UnityEngine.Random.Range(minMeteorAmount, maxMeteorAmount);
 
-			if (explosionPrefab == null) return;
-
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
 				Vector3 position = new Vector3(UnityEngine.Random.Range(stationMatrix.WorldBounds.xMin, stationMatrix.WorldBounds.xMax), UnityEngine.Random.Range(stationMatrix.WorldBounds.yMin, stationMatrix.WorldBounds.yMax), 0);
@@ -83,19 +75,37 @@ namespace InGameEvents
 		{
 			for (var i = 1; i <= asteroidAmount; i++)
 			{
-				var explosionObject = Instantiate(explosionPrefab, position: impactCoords.Dequeue(), rotation: stationMatrix.ObjectParent.rotation, parent: stationMatrix.ObjectParent).GetComponent<Explosion>();
+				int multiplier = 1;
 
-				var radius = UnityEngine.Random.Range(minRadius, maxRadius);
-				var damage = UnityEngine.Random.Range(minDamage, maxDamage);
+				switch (asteroidEventLevels)
+				{
+					case AsteroidEventLevels.Normal:
+						multiplier = 1;
+						break;
+					case AsteroidEventLevels.Threatening:
+						multiplier = 2;
+						break;
+					case AsteroidEventLevels.Catastrophic:
+						multiplier = 3;
+						break;
+				}
 
-				explosionObject.SetExplosionData(radius: radius, damage: damage);
+				var strength = UnityEngine.Random.Range(minStrength * multiplier, maxStrength * multiplier);
 
-				explosionObject.Explode(stationMatrix.Matrix);
+				Explosions.Explosion.StartExplosion(impactCoords.Dequeue().ToLocalInt(stationMatrix), strength,
+					stationMatrix.Matrix);
 
 				yield return new WaitForSeconds(UnityEngine.Random.Range(minTimeBetweenMeteors, maxTimeBetweenMeteors));
 			}
 
 			base.OnEventStartTimed();
 		}
+	}
+
+	public enum AsteroidEventLevels
+	{
+		Normal,
+		Threatening,
+		Catastrophic
 	}
 }

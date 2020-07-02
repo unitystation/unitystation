@@ -99,6 +99,9 @@ namespace InGameEvents
 		{
 			foreach (var eventInList in listOfFunEventScripts.Shuffle())
 			{
+				//If there's not enough players try to trigger a different one
+				if(eventInList.MinPlayersToTrigger > PlayerList.Instance.InGamePlayers.Count) continue;
+
 				var chanceToHappen = UnityEngine.Random.Range(0f, 100f);
 
 				if (chanceToHappen < eventInList.ChanceToHappen)
