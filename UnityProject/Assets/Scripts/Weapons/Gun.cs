@@ -31,6 +31,11 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	private GameObject genericInternalMag = null;
 	[SerializeField]
 	private GameObject casingPrefabOverride = null;
+	/// <summary>
+	/// If false prevents players from removing the magazine from their weapon.
+	/// </summary>
+	[SerializeField]
+	private bool allowMagazineRemoval = true;
 
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
@@ -245,7 +250,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//firing countdown
 		if (Projectile != null && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 		{
-			if (SmartGun) // smartGun is forced off when using an internal magazine
+			if (SmartGun && allowMagazineRemoval) // smartGun is forced off when using an internal magazine
 			{
 				RequestUnload(CurrentMagazine);
 				OutOfAmmoSFX();
@@ -326,7 +331,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	public bool Interact(HandActivate interaction)
 	{
 		//try ejecting the mag if external
-		if (CurrentMagazine != null && !MagInternal)
+		if (CurrentMagazine != null && !MagInternal && allowMagazineRemoval)
 		{
 			RequestUnload(CurrentMagazine);
 			return true;
@@ -401,7 +406,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			DequeueAndProcessServerShot();
 		}
 
-		if (queuedUnload && queuedShots.Count == 0)
+		if (queuedUnload && queuedShots.Count == 0 && allowMagazineRemoval)
 		{
 			// done processing shot queue,
 			// perform the queued unload action, causing all clients and server to update their version of this Weapon
