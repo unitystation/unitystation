@@ -9,7 +9,7 @@ using Random = UnityEngine.Random;
 namespace Items.PDA
 {
 	[RequireComponent(typeof(ItemStorage))]
-	[RequireComponent(typeof(PlayerLightControl))]
+	[RequireComponent(typeof(ItemLightControl))]
 	[RequireComponent(typeof(HasNetworkTabItem))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(PDANotesNetworkHandler))]
@@ -26,11 +26,11 @@ namespace Items.PDA
 
 		// The light the pda controls
 		[Tooltip("The light the pda controls")]
-		public PlayerLightControl flashlight;
+		public ItemLightControl flashlight;
 
 		// Is the flashlight on?
 		[NonSerialized]
-		public bool FlashlightOn;
+		public bool FlashlightOn = true;
 
 		// The ID that's inserted, if any.
 		[NonSerialized]
@@ -87,6 +87,10 @@ namespace Items.PDA
 		private Antagonist antagSet;
 
 		private UplinkPasswordList passlist;
+
+		[SerializeField] private ActionData actionData;
+
+		public ActionData ActionData => actionData;
 
 
 		//Checks weather the player is trying to insert a cartridge or a new ID
@@ -292,6 +296,7 @@ namespace Items.PDA
 			}
 		}
 
+		//TODO Get someone else to do the networking for the messenger
 		//The methods below handle any PDA messages that get sent to this PDA, not being used please come back later
 		/*
 	[Client]
@@ -334,7 +339,8 @@ namespace Items.PDA
 		messengerSystem.RemovePDA(pdaID);
 	}
 	*/
-		// All these methods handle ID card access, shoudl only be ran server side because we cant trust client
+		// All these methods handle ID card access, should only be ran server side because we cant trust client
+		//Note I I dont 100% understand all this but it works on the old code so im guessing its all fine
 		[Server]
 		public bool HasAccess(Access access)
 		{

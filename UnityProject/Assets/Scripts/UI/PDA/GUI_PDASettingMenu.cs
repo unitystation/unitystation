@@ -1,12 +1,11 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 namespace UI.PDA
 {
 	public class GUI_PDASettingMenu : NetPage
 	{
 		[SerializeField] private GUI_PDA controller;
-
-		[SerializeField] public NetLabel reset;
 
 		[SerializeField] public NetLabel input;
 
@@ -21,6 +20,13 @@ namespace UI.PDA
 			}
 			input.SetValueServer("");
 		}
+
+		private void ResetTimer()
+		{
+			WaitFor.Seconds(1);
+			selectionCheck = false;
+		}
+
 		/// <summary>
 		/// Tells the PDA to unregister the name and tell the messenger that it is "unknown"
 		/// </summary>
@@ -29,14 +35,13 @@ namespace UI.PDA
 			if (selectionCheck)
 			{
 				selectionCheck = false;
-				reset.SetValueServer("Factory Reset");
 				controller.ResetPda();
 
 			}
 			else
 			{
+				StartCoroutine("ResetTimer");
 				selectionCheck = true;
-				reset.SetValueServer("Click again to confirm factory reset");
 			}
 		}
 		// Supposed to handle the changing of UI themes, might drop this one

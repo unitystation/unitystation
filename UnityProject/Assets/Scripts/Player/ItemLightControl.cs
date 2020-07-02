@@ -4,6 +4,7 @@ using UnityEngine;
 using System;
 using Newtonsoft.Json;
 using Mirror;
+using UnityEngine.Serialization;
 
 [Serializable]
 public class PlayerLightData
@@ -14,6 +15,7 @@ public class PlayerLightData
 	//public Sprite Sprite;
 	public EnumSpriteLightData EnumSprite;
 	public float Size = 12;
+
 }
 
 public enum EnumSpriteLightData
@@ -24,7 +26,7 @@ public enum EnumSpriteLightData
 }
 
 [RequireComponent(typeof(Pickupable))]
-public class PlayerLightControl : NetworkBehaviour, IServerInventoryMove
+public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 {
 	public LightEmissionPlayer LightEmission;
 
@@ -46,9 +48,13 @@ public class PlayerLightControl : NetworkBehaviour, IServerInventoryMove
 	public EnumSpriteLightData EnumSprite;
 	public float Size;
 
+	public bool IsOn = true;
+
+	public float CachedIntensity = 1;
+
 	public PlayerLightData PlayerLightData;
 
-	void Start()
+	private void Start()
 	{
 		PlayerLightData = new PlayerLightData()
 		{
@@ -74,38 +80,64 @@ public class PlayerLightControl : NetworkBehaviour, IServerInventoryMove
 			if (CompatibleSlots.Contains(info.ToSlot.NamedSlot.GetValueOrDefault(NamedSlot.none)))
 			{
 				LightEmission = info.ToPlayer.GetComponent<LightEmissionPlayer>();
+				if (!IsOn) return;
 				LightEmission.AddLight(PlayerLightData);
 			}
 		}
 	}
 
-	public void Toggle(bool on, float intensity = -1)
+	/// <summary>
+	/// Allows you to toggle the light
+	/// </summary>
+	public void Toggle(bool on)
 	{
-		if (intensity > -1)
-		{
-			PlayerLightData.Intensity = intensity;
-		}
-
 		if (LightEmission == null)
 		{
+			Debug.LogError("LightEmission returned Null please check scripts");
 			return;
 		}
-
-		if (on)
+		if (on && IsOn != true)
 		{
-			if (LightEmission.ContainsLight(PlayerLightData))
-			{
-				LightEmission.UpdateLight(PlayerLightData);
-			}
-			else
-			{
-				LightEmission.AddLight(PlayerLightData);
-			}
+			IsOn = true;
+			LightEmission.AddLight(PlayerLightData);
+			LightToggleIntensity();
+		}
+		else if (!on && IsOn)
+		{
+			IsOn = false;
+			LightEmission.RemoveLight(PlayerLightData);
+		}
+	}
+	/// <summary>
+	/// Changes the intensity of the light, must be higher than -1
+	/// </summary>
+	/// <param name="intensity"></param>
+	public void SetIntensity(float intensity = -1)
+	{
+		if (PlayerLightData == null)
+		{
+			Debug.LogError("PlayerLightData returned Null please check scripts");
+			return;
+		}
+		if (IsOn && intensity > -1)
+		{
+			//caches the intensity just incase and sets intensity
+			CachedIntensity = intensity;
+			PlayerLightData.Intensity = intensity;
 		}
 		else
 		{
-			LightEmission.RemoveLight(PlayerLightData);
+			//Sets the cached intensity so it the light will be set to that intensity when it is toggled on
+			if(intensity <= -1) return;
+			CachedIntensity = intensity;
 		}
+	}
+	/// <summary>
+	/// Called when the light is toggled on so that it can set the intensity
+	/// </summary>
+	private void LightToggleIntensity()
+	{
+		PlayerLightData.Intensity = CachedIntensity;
 	}
 
 }

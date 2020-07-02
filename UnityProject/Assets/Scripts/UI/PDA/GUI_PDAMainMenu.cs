@@ -27,8 +27,10 @@ namespace UI.PDA
 		{
 			idLabel.SetValueServer("<No ID Inserted>");
 			machineLabel.SetValueServer("/home/Guest/Desktop");
+			lightLabel.SetValueServer("Flashlight (ON)");
+			ToggleFlashLight();
 		}
-
+		
 		public void RefreshText()
 		{
 			if (gameObject.activeInHierarchy != true) return;

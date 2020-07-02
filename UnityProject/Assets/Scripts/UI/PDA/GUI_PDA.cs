@@ -140,7 +140,7 @@ namespace UI.PDA
 		/// </summary>
 		public void OpenMessenger()
 		{
-			Debug.LogError("This needs to be added soon");
+			//TODO Get someone else to do messenger
 			throw new NotImplementedException();
 		}
 		/// <summary>

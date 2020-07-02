@@ -210,7 +210,7 @@ MonoBehaviour:
   initialDescription: A personal assistant and card-holder, all in one.
   willHighlight: 1
   exportCost: 0
-  exportName: 
+  exportName: PDA
   exportMessage: 
   initialTraits:
   - {fileID: 11400000, guid: 1dc47f324bdb1461b862b38cdb1e37d9, type: 2}
@@ -497,6 +497,7 @@ MonoBehaviour:
   uplinkLocked: 0
   initalTeleCrystal: 25
   antagSet: {fileID: 11400000, guid: c060c33698c0f81449f0735a800740ca, type: 2}
+  actionData: {fileID: 11400000, guid: cdcecaa96c17cbcb99c4a982c1fce206, type: 2}
 --- !u!114 &5495137814006892205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,7 +525,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  serverString: 
 --- !u!1 &6299654059842681095
 GameObject:
   m_ObjectHideFlags: 0
