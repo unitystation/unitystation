@@ -119,7 +119,7 @@ namespace InGameEvents
 
 				var nextCoord = impactCoords.Dequeue();
 
-				rod.transform.position = nextCoord;
+				_ = StartCoroutine(MoveRodToPosition(rod.transform, nextCoord, timeBetweenExplosions));
 
 				Explosions.Explosion.StartExplosion(nextCoord.ToLocalInt(stationMatrix), strength,
 					stationMatrix.Matrix);
@@ -130,6 +130,18 @@ namespace InGameEvents
 			Destroy(rod);
 
 			base.OnEventStartTimed();
+		}
+
+		public IEnumerator MoveRodToPosition(Transform transform, Vector3 position, float timeToMove)
+		{
+			var currentPos = transform.position;
+			var t = 0f;
+			while(t < 1)
+			{
+				t += Time.deltaTime / timeToMove;
+				transform.position = Vector3.Lerp(currentPos, position, t);
+				yield return null;
+			}
 		}
 	}
 }
