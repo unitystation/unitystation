@@ -21,7 +21,6 @@ public class DoorWedger : MonoBehaviour, IInteractable<HandApply>, ICheckedInter
 
         if (targetObject == null)
         {
-            Chat.AddExamineMsgFromServer(interaction.Performer, "DEBUG: You hit NULL.");
             return;
         }
 
