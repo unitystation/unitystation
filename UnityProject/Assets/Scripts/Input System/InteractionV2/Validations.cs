@@ -470,14 +470,8 @@ public static class Validations
 
 	public static bool IsMineableAt(Vector2 targetWorldPosition, MetaTileMap metaTileMap)
 	{
-		var wallTile = metaTileMap.GetTileAtWorldPos(targetWorldPosition, LayerType.Walls);
-		if (wallTile == null) return false;
-		if (wallTile is BasicTile basicWallTile)
-		{
-			return basicWallTile.Mineable;
-		}
-
-		return false;
+		var wallTile = metaTileMap.GetTileAtWorldPos(targetWorldPosition, LayerType.Walls) as BasicTile;
+		return wallTile != null && wallTile.Mineable;
 	}
 
 	/// <summary>
