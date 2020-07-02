@@ -57,7 +57,7 @@ namespace InGameEvents
 		private void Start()
 		{
 			if (InGameEventsManager.Instance.ListOfFunEventScripts.Contains(this)) return;
-			InGameEventsManager.Instance.AddEventToList(this);
+			InGameEventsManager.Instance.AddEventToList(this, EventType);
 		}
 
 		private void OnDestroy()
@@ -93,7 +93,10 @@ namespace InGameEvents
 
 	public enum InGameEventType
 	{
+		Random,
 		Fun,
+		Special,
+		Antagonist,
 		Debug
 	}
 }

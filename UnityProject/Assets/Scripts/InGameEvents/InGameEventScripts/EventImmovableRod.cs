@@ -9,7 +9,8 @@ namespace InGameEvents
 	{
 		private MatrixInfo stationMatrix;
 
-		private Queue<Vector3> impactCoords = new Queue<Vector3>();
+		[SerializeField]
+		private GameObject immovableRodPrefab = null;
 
 		[SerializeField]
 		private int minStrength = 200;
@@ -78,6 +79,8 @@ namespace InGameEvents
 
 			var target = new Vector2() { x = (float)secondNewX, y = (float)secondNewY } + midPoint;
 
+			var impactCoords = new Queue<Vector3>();
+
 			//Adds original vector
 			impactCoords.Enqueue(new Vector3() { x = beginning.x, y = beginning.y, z = 0 });
 
@@ -93,7 +96,7 @@ namespace InGameEvents
 				impactCoords.Enqueue(new Vector3() {x = nextCoord.x, y = nextCoord.y, z = 0 });
 			}
 
-			_ = StartCoroutine(SpawnMeteorsWithDelay(amountOfImpactsNeeded));
+			_ = StartCoroutine(SpawnMeteorsWithDelay(amountOfImpactsNeeded, impactCoords));
 		}
 
 		public override void OnEventEnd()
@@ -106,19 +109,39 @@ namespace InGameEvents
 			}
 		}
 
-		private IEnumerator SpawnMeteorsWithDelay(float asteroidAmount)
+		private IEnumerator SpawnMeteorsWithDelay(float immovableRodPathCoords, Queue<Vector3> impactCoords)
 		{
-			for (var i = 1; i <= asteroidAmount; i++)
+			var rod = Instantiate(immovableRodPrefab, position: impactCoords.Peek(), rotation: stationMatrix.ObjectParent.rotation, parent: stationMatrix.ObjectParent);
+
+			for (var i = 1; i <= immovableRodPathCoords; i++)
 			{
 				var strength = UnityEngine.Random.Range(minStrength, maxStrength);
 
-				Explosions.Explosion.StartExplosion(impactCoords.Dequeue().ToLocalInt(stationMatrix), strength,
+				var nextCoord = impactCoords.Dequeue();
+
+				StartCoroutine(MoveRodToPosition(rod.transform, nextCoord, timeBetweenExplosions));
+
+				Explosions.Explosion.StartExplosion(nextCoord.ToLocalInt(stationMatrix), strength,
 					stationMatrix.Matrix);
 
 				yield return new WaitForSeconds(timeBetweenExplosions);
 			}
 
+			Destroy(rod);
+
 			base.OnEventStartTimed();
+		}
+
+		public IEnumerator MoveRodToPosition(Transform transform, Vector3 position, float timeToMove)
+		{
+			var currentPos = transform.position;
+			var t = 0f;
+			while(t < 1)
+			{
+				t += Time.deltaTime / timeToMove;
+				transform.position = Vector3.Lerp(currentPos, position, t);
+				yield return null;
+			}
 		}
 	}
 }
