@@ -192,12 +192,12 @@ MonoBehaviour:
   EndTimer: 0
   EventType: 0
   ChanceToHappen: 0.5
-  MinPlayersToTrigger: 15
+  MinPlayersToTrigger: 25
   FakeEvent: 0
   AnnounceEvent: 1
   minStrength: 1000
   maxStrength: 1500
-  timeBetweenExplosions: 0.5
+  timeBetweenExplosions: 0.25
 --- !u!114 &5056261323787470261
 MonoBehaviour:
   m_ObjectHideFlags: 0

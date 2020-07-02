@@ -20,7 +20,7 @@ namespace InGameEvents
 		[SerializeField]
 		private float timeBetweenExplosions = 1f;
 
-		private const int DISTANCE_BETWEEN_EXPLOSIONS = 8;
+		private const int DISTANCE_BETWEEN_EXPLOSIONS = 2;
 
 		public override void OnEventStart()
 		{
