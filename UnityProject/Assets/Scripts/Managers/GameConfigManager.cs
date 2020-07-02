@@ -51,7 +51,6 @@ namespace GameConfig
 
 			if (File.Exists(path))
 			{
-				Debug.Log("1");
 				config = JsonUtility.FromJson<GameConfig>(File.ReadAllText(path));
 
 				//config loaded event
