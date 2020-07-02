@@ -100,6 +100,7 @@ public class LevelBrush : GridBrush
 		{
 			SetTile(metaTileMap, position, requiredTile);
 		}
-		metaTileMap.SetTile(position, tile, cells[0].matrix,cells[0].color);
+
+		metaTileMap.SetTile(position, tile, cells[0].matrix, cells[0].color);
 	}
 }

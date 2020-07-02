@@ -191,7 +191,7 @@ public partial class PlayerSync
 	/// (turns on tile snapping and removes player collision check)</param>
 	/// <returns>true if push was successful</returns>
 	[Server]
-	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false)
+	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false)
 	{
 		//if we are buckled, transfer the impulse to our buckled object.
 		if (playerMove.IsBuckled)
@@ -201,11 +201,12 @@ public partial class PlayerSync
 		}
 		else
 		{
-			return PushInternal(direction, false, speed, followMode);
+			return PushInternal(direction, false, speed, followMode, ignorePassable);
 		}
 	}
 
-	private bool PushInternal(Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN, bool followMode = false )
+	private bool PushInternal(
+			Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false)
 	{
 		if (!float.IsNaN(speed) && speed <= 0)
 		{
@@ -224,7 +225,7 @@ public partial class PlayerSync
 		Vector3Int origin = ServerPosition;
 		Vector3Int pushGoal = origin + direction.To3Int();
 
-		if ( !MatrixManager.IsPassableAt( origin, pushGoal, isServer: true, includingPlayers: !followMode ) ) {
+		if (!ignorePassable && !MatrixManager.IsPassableAt( origin, pushGoal, isServer: true, includingPlayers: !followMode ) ) {
 			return false;
 		}
 

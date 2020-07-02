@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8377800614638915820
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -7146803245469049995, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: isInitiallyNotPushable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676206105, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676206609, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676219337, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: initialDescription
+      value: A broken segment of disposal pipe. You should probably cut this off.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676219337, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: initialName
+      value: broken disposal pipe
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676240723, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676250686, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300004, guid: b9c2d7df7a7b58e45880288543504914,
+        type: 3}
+    - target: {fileID: 7176090347676251610, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300004, guid: b9c2d7df7a7b58e45880288543504914,
+        type: 3}
+    - target: {fileID: 7176090347676296559, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_Name
+      value: DisposalPipeBrokenRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7176090347676296583, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: m_Name
+      value: DisposalPipeBrokenRight
+      objectReference: {fileID: 0}
+    - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: Down
+      value: 
+      objectReference: {fileID: 21300000, guid: b9c2d7df7a7b58e45880288543504914,
+        type: 3}
+    - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: Right
+      value: 
+      objectReference: {fileID: 21300004, guid: b9c2d7df7a7b58e45880288543504914,
+        type: 3}
+    - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: Left
+      value: 
+      objectReference: {fileID: 21300006, guid: b9c2d7df7a7b58e45880288543504914,
+        type: 3}
+    - target: {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: Up
+      value: 
+      objectReference: {fileID: 21300002, guid: b9c2d7df7a7b58e45880288543504914,
+        type: 3}
+    m_RemovedComponents:
+    - {fileID: 5066112798346183791, guid: b9bb4cf2e55ac1249ae2afe0243cf436, type: 3}
+    - {fileID: 7692975016165225976, guid: b9bb4cf2e55ac1249ae2afe0243cf436, type: 3}
+    - {fileID: 4003302111046931253, guid: b9bb4cf2e55ac1249ae2afe0243cf436, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: b9bb4cf2e55ac1249ae2afe0243cf436, type: 3}

@@ -7,6 +7,12 @@ using UnityEngine.UI;
 [Serializable]
 public class NetLabel : NetUIStringElement
 {
+	/// <summary>
+	/// Invoked when the value synced between client / server is updated.
+	/// </summary>
+	[NonSerialized]
+	public StringEvent OnSyncedValueChanged = new StringEvent();
+
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
 	public override string Value
@@ -35,6 +41,7 @@ public class NetLabel : NetUIStringElement
 			}
 
 			externalChange = false;
+			OnSyncedValueChanged?.Invoke(Element.text);
 		}
 	}
 

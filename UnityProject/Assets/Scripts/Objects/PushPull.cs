@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using Mirror;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
+public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	/// <summary>
 	/// Maximum speed player can reach by throwing stuff in space
@@ -231,14 +231,14 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		this.isNotPushable = isNowNotPushable;
 	}
 
+	public override void OnStartServer()
+	{
+		isNotPushable = isInitiallyNotPushable;
+	}
+
 	public override void OnStartClient()
 	{
 		SyncIsNotPushable(isNotPushable, this.isNotPushable);
-	}
-
-	public void OnSpawnServer(SpawnInfo info)
-	{
-		SyncIsNotPushable(isNotPushable, isInitiallyNotPushable);
 	}
 
 	private void OnHighSpeedCollision( CollisionInfo collision )

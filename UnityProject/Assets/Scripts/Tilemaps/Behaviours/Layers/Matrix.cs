@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Light2D;
@@ -341,6 +341,12 @@ public class Matrix : MonoBehaviour
 		}
 
 		return (true);
+	}
+
+	public IEnumerable<Disposals.DisposalPipe> GetDisposalPipesAt(Vector3Int position)
+	{
+		// Return a list, because we may allow disposal pipes to overlap each other - NS with EW e.g.
+		return UnderFloorLayer.GetAllTilesByType<Disposals.DisposalPipe>(position);
 	}
 
 	public List<IntrinsicElectronicData> GetElectricalConnections(Vector3Int position)
