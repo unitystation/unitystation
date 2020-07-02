@@ -1,5 +1,119 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2929328024764174348
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5866069805973481999}
+  - component: {fileID: 3748124432481525740}
+  - component: {fileID: 6635215241995570004}
+  - component: {fileID: 5120446799834176700}
+  m_Layer: 0
+  m_Name: MeteorEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5866069805973481999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929328024764174348}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.0673392, y: 0.73924786, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8934140032923375002}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3748124432481525740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929328024764174348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e1a86f3a835204698dda37a5c88d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Meteor Shower (Normal)
+  StartTimer: 10
+  EndTimer: 0
+  EventType: 0
+  ChanceToHappen: 0.5
+  MinPlayersToTrigger: 15
+  FakeEvent: 0
+  AnnounceEvent: 1
+  asteroidEventLevels: 0
+  minMeteorAmount: 2
+  maxMeteorAmount: 10
+  minStrength: 750
+  maxStrength: 1750
+  minTimeBetweenMeteors: 1
+  maxTimeBetweenMeteors: 10
+--- !u!114 &6635215241995570004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929328024764174348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e1a86f3a835204698dda37a5c88d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Meteor Shower (Threatening)
+  StartTimer: 10
+  EndTimer: 0
+  EventType: 0
+  ChanceToHappen: 0.5
+  MinPlayersToTrigger: 25
+  FakeEvent: 0
+  AnnounceEvent: 1
+  asteroidEventLevels: 1
+  minMeteorAmount: 3
+  maxMeteorAmount: 8
+  minStrength: 750
+  maxStrength: 1750
+  minTimeBetweenMeteors: 1
+  maxTimeBetweenMeteors: 10
+--- !u!114 &5120446799834176700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929328024764174348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e1a86f3a835204698dda37a5c88d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Meteor Shower (Catastrophic)
+  StartTimer: 10
+  EndTimer: 0
+  EventType: 0
+  ChanceToHappen: 0.5
+  MinPlayersToTrigger: 35
+  FakeEvent: 0
+  AnnounceEvent: 1
+  asteroidEventLevels: 2
+  minMeteorAmount: 4
+  maxMeteorAmount: 8
+  minStrength: 750
+  maxStrength: 1500
+  minTimeBetweenMeteors: 1
+  maxTimeBetweenMeteors: 10
 --- !u!1 &3022207007842459343
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,7 +123,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6277872687871681347}
-  - component: {fileID: 1165683735219187906}
   - component: {fileID: 1650995718794956169}
   - component: {fileID: 5017832222299659044}
   - component: {fileID: 5056261323787470261}
@@ -35,35 +148,6 @@ Transform:
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1165683735219187906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022207007842459343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64e1a86f3a835204698dda37a5c88d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EventName: Meteor Shower
-  StartTimer: 10
-  EndTimer: 0
-  EventType: 0
-  ChanceToHappen: 0.5
-  FakeEvent: 0
-  AnnounceEvent: 1
-  explosionPrefab: {fileID: 1059518790872729420, guid: 048e03a155f6ed04bb8cc8984479ee4d,
-    type: 3}
-  minMeteorAmount: 2
-  maxMeteorAmount: 10
-  minRadius: 8
-  maxRadius: 20
-  minDamage: 100
-  maxDamage: 500
-  minTimeBetweenMeteors: 1
-  maxTimeBetweenMeteors: 10
 --- !u!114 &1650995718794956169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -81,6 +165,7 @@ MonoBehaviour:
   EndTimer: 10
   EventType: 0
   ChanceToHappen: 5
+  MinPlayersToTrigger: 0
   FakeEvent: 0
   AnnounceEvent: 1
   gunList:
@@ -107,15 +192,12 @@ MonoBehaviour:
   EndTimer: 0
   EventType: 0
   ChanceToHappen: 0.5
+  MinPlayersToTrigger: 15
   FakeEvent: 0
   AnnounceEvent: 1
-  explosionPrefab: {fileID: 1059518790872729420, guid: 048e03a155f6ed04bb8cc8984479ee4d,
-    type: 3}
-  minRadius: 4
-  maxRadius: 8
-  minDamage: 200
-  maxDamage: 500
-  timeBetweenExplosions: 1
+  minStrength: 1000
+  maxStrength: 1500
+  timeBetweenExplosions: 0.5
 --- !u!114 &5056261323787470261
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -133,6 +215,7 @@ MonoBehaviour:
   EndTimer: 10
   EventType: 0
   ChanceToHappen: 5
+  MinPlayersToTrigger: 5
   FakeEvent: 0
   AnnounceEvent: 1
   itemList:
@@ -159,6 +242,7 @@ MonoBehaviour:
   EndTimer: 2
   EventType: 0
   ChanceToHappen: 0
+  MinPlayersToTrigger: 0
   FakeEvent: 0
   AnnounceEvent: 1
   itemList:
@@ -193,6 +277,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6277872687871681347}
+  - {fileID: 5866069805973481999}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -210,3 +295,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerEventInterval: 1200
   chanceItIsFake: 50
+  RandomEventsAllowed: 1
