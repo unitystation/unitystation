@@ -472,10 +472,12 @@ public static class Validations
 	{
 		var wallTile = metaTileMap.GetTileAtWorldPos(targetWorldPosition, LayerType.Walls);
 		if (wallTile == null) return false;
-		if (!(wallTile is BasicTile)) return false;
+		if (wallTile is BasicTile basicWallTile)
+		{
+			return basicWallTile.Mineable;
+		}
 
-		var basicWallTile = wallTile as BasicTile;
-		return basicWallTile.Mineable;
+		return false;
 	}
 
 	/// <summary>
