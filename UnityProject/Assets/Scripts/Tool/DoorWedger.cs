@@ -26,7 +26,7 @@ public class DoorWedger : MonoBehaviour, IInteractable<HandApply>, ICheckedInter
 
         if (targetObject.IsWelded)
         {
-            Chat.AddExamineMsgFromServer(interaction.Performer, $"You can't force this door open with your {gameObject.name}, it's welded shut!");
+            Chat.AddExamineMsgFromServer(interaction.Performer, $"You can't force this door open with your {gameObject.ExpensiveName()}, it's welded shut!");
         }
 
         if (targetObject.IsClosed)
@@ -34,7 +34,7 @@ public class DoorWedger : MonoBehaviour, IInteractable<HandApply>, ICheckedInter
             ToolUtils.ServerUseToolWithActionMessages(interaction, openingDelay,
             "You start wedging open the door...",
             $"{interaction.Performer.ExpensiveName()} starts wedging open the door...",
-            $"You force the door open with your {gameObject.name}!",
+            $"You force the door open with your {gameObject.ExpensiveName()}!",
             $"{interaction.Performer.ExpensiveName()} forces the door open!",
             () =>
             {
