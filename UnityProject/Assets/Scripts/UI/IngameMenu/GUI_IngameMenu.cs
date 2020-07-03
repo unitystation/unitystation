@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.SceneManagement;
+using ServerInfo;
+using DatabaseAPI;
 
 public class GUI_IngameMenu : MonoBehaviour
 {
@@ -14,10 +16,14 @@ public class GUI_IngameMenu : MonoBehaviour
 
 	public VotePopUp VotePopUp;
 
+	public GameObject serverInfo;
+
 	private ModalPanelManager modalPanelManager => ModalPanelManager.Instance;
 
 	private CustomNetworkManager networkManager => CustomNetworkManager.Instance;
 	public static GUI_IngameMenu Instance;
+
+	private bool sentData;
 
 	// MonoBehaviour Functions
 	// ==================================================
@@ -79,6 +85,10 @@ public class GUI_IngameMenu : MonoBehaviour
 		Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 		menuWindow.SetActive(true);
 		UIManager.Display.disclaimer.SetActive(true);
+		serverInfo.SetActive(true);
+		if(sentData) return;
+		sentData = true;
+		ServerInfoMessageClient.Send(ServerData.UserID);
 	}
 
 	/// <summary>
@@ -173,6 +183,7 @@ public class GUI_IngameMenu : MonoBehaviour
 	private void HideAllMenus()
 	{
 		menuWindow.SetActive(false);
+		serverInfo.SetActive(false);
 		UIManager.Display.disclaimer.SetActive(false);
 	}
 }
