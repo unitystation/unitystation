@@ -17,8 +17,6 @@ namespace GameConfig
 
 		private GameConfig config;
 
-		public UnityEvent gameConfigLoaded = new UnityEvent();
-
 		public static GameConfig GameConfig
 		{
 			get
@@ -37,10 +35,7 @@ namespace GameConfig
 			{
 				Destroy(this);
 			}
-		}
 
-		private void Start()
-		{
 			//Load as well in start so other scripts can subscribe to event in their awake and let it still be called.
 			AttemptConfigLoad();
 		}
@@ -52,9 +47,6 @@ namespace GameConfig
 			if (File.Exists(path))
 			{
 				config = JsonUtility.FromJson<GameConfig>(File.ReadAllText(path));
-
-				//config loaded event
-				gameConfigLoaded.Invoke();
 			}
 		}
 	}

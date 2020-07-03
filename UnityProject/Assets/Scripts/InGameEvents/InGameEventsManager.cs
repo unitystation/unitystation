@@ -52,8 +52,11 @@ namespace InGameEvents
 			}
 
 			EnumListCache = Enum.GetNames(typeof(InGameEventType)).ToList();
+		}
 
-			GameConfigManager.Instance.gameConfigLoaded.AddListener(GameConfigLoaded);
+		public void Start()
+		{
+			RandomEventsAllowed = GameConfigManager.GameConfig.RandomEventsAllowed;
 		}
 
 		private void Update()
@@ -75,12 +78,6 @@ namespace InGameEvents
 
 				timer -= triggerEventInterval;
 			}
-		}
-
-		private void GameConfigLoaded()
-		{
-			RandomEventsAllowed = GameConfigManager.GameConfig.RandomEventsAllowed;
-			GameConfigManager.Instance.gameConfigLoaded.RemoveListener(GameConfigLoaded);
 		}
 
 		private List<EventScriptBase> listOfFunEventScripts = new List<EventScriptBase>();
