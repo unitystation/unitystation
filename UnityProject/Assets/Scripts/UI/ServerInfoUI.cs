@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using Mirror;
 using System.IO;
+using UnityEngine.UI;
 
 namespace ServerInfo
 {
@@ -15,6 +16,8 @@ namespace ServerInfo
     	public TMP_Text ServerDesc;
 
         public static string serverDesc;
+
+        public Scrollbar scrollbarOnServerInfo;
 
         public void Start()
         {
@@ -32,12 +35,14 @@ namespace ServerInfo
 	        ServerName.text = nameText;
 	        ServerDesc.text = descText;
 	        serverDesc = descText;
+	        scrollbarOnServerInfo.value = 1;
         }
 
         public void ClientSetValues(string newName, string newDesc)
         {
 	        ServerName.text = newName;
 	        ServerDesc.text = newDesc;
+	        scrollbarOnServerInfo.value = 1;
         }
     }
 

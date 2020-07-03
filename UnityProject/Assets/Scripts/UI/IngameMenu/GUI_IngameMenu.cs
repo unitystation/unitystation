@@ -6,6 +6,7 @@ using Mirror;
 using UnityEngine.SceneManagement;
 using ServerInfo;
 using DatabaseAPI;
+using UnityEngine.UI;
 
 public class GUI_IngameMenu : MonoBehaviour
 {
@@ -24,6 +25,8 @@ public class GUI_IngameMenu : MonoBehaviour
 	public static GUI_IngameMenu Instance;
 
 	private bool sentData;
+
+	public Scrollbar scrollbarOnServerInfo;
 
 	// MonoBehaviour Functions
 	// ==================================================
@@ -86,9 +89,15 @@ public class GUI_IngameMenu : MonoBehaviour
 		menuWindow.SetActive(true);
 		UIManager.Display.disclaimer.SetActive(true);
 		serverInfo.SetActive(true);
-		if(sentData) return;
-		sentData = true;
-		ServerInfoMessageClient.Send(ServerData.UserID);
+		serverInfo.GetComponentInChildren<ScrollUI>().Refresh();
+
+		if (!sentData)
+		{
+			sentData = true;
+			ServerInfoMessageClient.Send(ServerData.UserID);
+		}
+
+		scrollbarOnServerInfo.value = 1f;
 	}
 
 	/// <summary>
