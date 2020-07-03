@@ -29,9 +29,6 @@ namespace ServerInfo
 
 	        var nameText = ServerData.ServerConfig.ServerName;
 
-	        Debug.LogError("name1 "+ nameText);
-	        Debug.LogError("desc1 "+ descText);
-
 	        ServerName.text = nameText;
 	        ServerDesc.text = descText;
 	        serverDesc = descText;
