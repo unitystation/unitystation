@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reagentsPerUse: 5
-  useTime: 5
+  useTime: 1.5
 --- !u!114 &1580949991522562425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,6 +42,7 @@ MonoBehaviour:
     reagents:
       m_keys: []
       m_values: []
+  destroyOnEmpty: 0
 --- !u!114 &2900683335283585837
 MonoBehaviour:
   m_ObjectHideFlags: 0
