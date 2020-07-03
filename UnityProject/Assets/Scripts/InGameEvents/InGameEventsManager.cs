@@ -6,6 +6,7 @@ using DiscordWebhook;
 using System;
 using System.Linq;
 using Random = UnityEngine.Random;
+using GameConfig;
 
 namespace InGameEvents
 {
@@ -31,7 +32,7 @@ namespace InGameEvents
 		[SerializeField]
 		private int chanceItIsFake = 25;
 
-		public bool RandomEventsAllowed = true;
+		public bool RandomEventsAllowed;
 
 		public int minPlayersForRandomEventsToHappen = 5;
 
@@ -51,6 +52,11 @@ namespace InGameEvents
 			}
 
 			EnumListCache = Enum.GetNames(typeof(InGameEventType)).ToList();
+		}
+
+		public void Start()
+		{
+			RandomEventsAllowed = GameConfigManager.GameConfig.RandomEventsAllowed;
 		}
 
 		private void Update()
