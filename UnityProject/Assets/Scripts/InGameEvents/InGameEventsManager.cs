@@ -209,7 +209,7 @@ namespace InGameEvents
 				case InGameEventType.Special:
 					return ListOfSpecialEventScripts;
 				case InGameEventType.Antagonist:
-					return listOfAntagonistEventScripts;
+					return ListOfAntagonistEventScripts;
 				case InGameEventType.Debug:
 					return ListOfDebugEventScripts;
 				default: return null;

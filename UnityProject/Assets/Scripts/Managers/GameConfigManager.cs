@@ -36,7 +36,7 @@ namespace GameConfig
 				Destroy(this);
 			}
 
-			//Load as well in start so other scripts can subscribe to event in their awake and let it still be called.
+			//Load in awake so other scripts can get data in their start.
 			AttemptConfigLoad();
 		}
 
