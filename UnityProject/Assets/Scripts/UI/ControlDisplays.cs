@@ -2,6 +2,8 @@
 using System.Collections;
 using Audio.Managers;
 using Audio.Containers;
+using DatabaseAPI;
+using ServerInfo;
 
 public class ControlDisplays : MonoBehaviour
 {
@@ -211,6 +213,8 @@ public class ControlDisplays : MonoBehaviour
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.gameObject.SetActive(true);
 		preRoundWindow.SetUIForCountdown();
+
+		ServerInfoMessageClient.Send(ServerData.UserID);
 	}
 
 	public void SetScreenForJoining()
