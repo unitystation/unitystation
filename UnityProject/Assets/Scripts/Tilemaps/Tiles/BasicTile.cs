@@ -135,9 +135,9 @@ public abstract class BasicTile : LayerTile, IDamageableTile, IOnFireExpose
 	public float AddDamage(float damage, AttackType attackType, Vector3Int cellPos, Vector3 worldPosition,
 		MetaDataNode data, TileChangeManager tileChangeManager)
 	{
-		data.Damage += Armor.GetDamage(damage, attackType);
+		data.AddTileDamage(LayerType, Armor.GetDamage(damage, attackType));
 		//SoundManager.PlayNetworkedAtPos("GlassHit",worldPosition);
-		if (data.Damage >= MaxHealth)
+		if (data.GetTileDamage(LayerType) >= MaxHealth)
 		{
 			tileChangeManager.RemoveTile(cellPos, LayerType);
 		}
@@ -147,14 +147,12 @@ public abstract class BasicTile : LayerTile, IDamageableTile, IOnFireExpose
 
 	private float CalculateAbsorbDamaged(AttackType attackType, MetaDataNode data)
 	{
-		float currentDamage = data.Damage;
-		if (MaxHealth < data.Damage)
+		var damage = MaxHealth - data.GetTileDamage(LayerType);
+		if (MaxHealth < damage)
 		{
-			currentDamage = MaxHealth;
-			data.ResetDamage();
+			data.ResetDamage(LayerType);
 		}
 
-		var damage = currentDamage - data.GetPreviousDamage();
 		if (Armor.GetRatingValue(attackType) > 0 && damage > 0)
 		{
 			return (damage  / Armor.GetRatingValue(attackType));

@@ -98,14 +98,14 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 			return 0;
 		}
 
-		return Mathf.Clamp(layerTile.MaxHealth - metaDataLayer.Get(pos).Damage, 0, float.MaxValue);
+		return Mathf.Clamp(layerTile.MaxHealth - metaDataLayer.Get(pos).GetTileDamage(layerTile.LayerType), 0, float.MaxValue);
 	}
 
 	public void RepairWindow(Vector3Int cellPos)
 	{
 		var data = metaDataLayer.Get(cellPos);
 		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
-		data.Damage = 0;
+		data.ResetDamage(Layer.LayerType);
 	}
 
 	public void OnExposed(FireExposure exposure)

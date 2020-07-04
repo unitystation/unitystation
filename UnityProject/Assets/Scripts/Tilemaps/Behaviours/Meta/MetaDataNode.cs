@@ -62,21 +62,31 @@ public class MetaDataNode: IGasMixContainer
 	/// </summary>
 	public Hotspot Hotspot;
 
-	/// <summary>
-	/// Current damage inflicted on this tile.
-	/// </summary>
-	public float Damage
+	private Dictionary<LayerType, float> damageInfo  = new Dictionary<LayerType, float>();
+
+	public float GetTileDamage(LayerType layerType)
 	{
-		get => damage;
-		set
-		{
-			previousDamage = damage;
-			damage = value;
-		}
+		TryCreateDamageInfo(layerType);
+		return damageInfo[layerType];
 	}
 
-	private float damage;
-	private float previousDamage;
+	public void AddTileDamage(LayerType layerType, float damage)
+	{
+		TryCreateDamageInfo(layerType);
+		damageInfo[layerType] += damage;
+	}
+
+	public void TryCreateDamageInfo(LayerType layerType)
+	{
+		if (damageInfo.ContainsKey(layerType)) return;
+		damageInfo.Add(layerType, 0);
+	}
+
+	public void ResetDamage(LayerType layerType)
+	{
+		TryCreateDamageInfo(layerType);
+		damageInfo[layerType] = 0;
+	}
 
 	/// <summary>
 	/// Direction of wind in local coordinates
@@ -233,18 +243,6 @@ public class MetaDataNode: IGasMixContainer
 				SyncNeighbors();
 			}
 		}
-	}
-
-	/// <returns>Damage before reset</returns>
-	public float ResetDamage()
-	{
-		Damage = 0;
-		return previousDamage;
-	}
-
-	public float GetPreviousDamage()
-	{
-		return previousDamage;
 	}
 
 	public override string ToString()
