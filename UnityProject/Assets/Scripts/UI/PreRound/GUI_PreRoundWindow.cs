@@ -3,6 +3,8 @@ using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DatabaseAPI;
+using ServerInfo;
 
 public class GUI_PreRoundWindow : MonoBehaviour
 {
@@ -45,10 +47,30 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	[SerializeField]
 	private Button characterButton = null;
 
+	public GameObject serverInfo;
+
+	public Scrollbar scrollbarOnServerInfo;
+
 	// Internal variables
 	private bool doCountdown;
 	private double countdownEndTime;
 	private bool isReady;
+
+	private bool sentData;
+
+	public static GUI_PreRoundWindow Instance;
+
+	void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
 
 	private void OnDisable()
 	{
@@ -181,6 +203,16 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		playerWaitPanel.SetActive(true);
 		mainPanel.SetActive(false);
 		rejoiningRoundPanel.SetActive(false);
+		serverInfo.SetActive(true);
+		serverInfo.GetComponentInChildren<ScrollUI>().Refresh();
+
+		if (!sentData)
+		{
+			sentData = true;
+			ServerInfoMessageClient.Send(ServerData.UserID);
+		}
+
+		scrollbarOnServerInfo.value = 1f;
 	}
 
 	/// <summary>
@@ -194,6 +226,17 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		playerWaitPanel.SetActive(false);
 		mainPanel.SetActive(true);
 		rejoiningRoundPanel.SetActive(false);
+
+		serverInfo.SetActive(true);
+		serverInfo.GetComponentInChildren<ScrollUI>().Refresh();
+
+		if (!sentData)
+		{
+			sentData = true;
+			ServerInfoMessageClient.Send(ServerData.UserID);
+		}
+
+		scrollbarOnServerInfo.value = 1f;
 	}
 
 	/// <summary>
@@ -206,6 +249,17 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		playerWaitPanel.SetActive(false);
 		mainPanel.SetActive(true);
 		rejoiningRoundPanel.SetActive(false);
+
+		serverInfo.SetActive(true);
+		serverInfo.GetComponentInChildren<ScrollUI>().Refresh();
+
+		if (!sentData)
+		{
+			sentData = true;
+			ServerInfoMessageClient.Send(ServerData.UserID);
+		}
+
+		scrollbarOnServerInfo.value = 1f;
 	}
 
 	public void ShowRejoiningPanel()
