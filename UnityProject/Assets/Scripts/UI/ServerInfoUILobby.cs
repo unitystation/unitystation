@@ -41,6 +41,7 @@ namespace ServerInfo
         {
 	        ServerName.text = newName;
 	        ServerDesc.text = newDesc;
+	        if(string.IsNullOrEmpty(newDesc)) return;
 	        ServerInfoUILobbyObject.SetActive(true);
         }
     }
