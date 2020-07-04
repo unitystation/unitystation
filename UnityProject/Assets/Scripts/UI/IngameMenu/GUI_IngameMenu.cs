@@ -89,7 +89,6 @@ public class GUI_IngameMenu : MonoBehaviour
 		menuWindow.SetActive(true);
 		UIManager.Display.disclaimer.SetActive(true);
 		serverInfo.SetActive(true);
-		serverInfo.GetComponentInChildren<ScrollUI>().Refresh();
 
 		if (!sentData)
 		{

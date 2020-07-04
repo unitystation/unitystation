@@ -117,8 +117,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2947709321118111951}
   m_HandleRect: {fileID: 110244609745623891}
   m_Direction: 2
-  m_Value: 1
-  m_Size: 0.9464103
+  m_Value: 0
+  m_Size: 0.5
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -945,7 +945,7 @@ GameObject:
   - component: {fileID: 8291347043127183498}
   - component: {fileID: 7755981967131294789}
   - component: {fileID: 7356092877986841519}
-  - component: {fileID: 5234403850618374815}
+  - component: {fileID: 5968974503540431195}
   m_Layer: 5
   m_Name: ServerDesc (TMP)
   m_TagString: Untagged
@@ -969,8 +969,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 0, y: -292.5}
-  m_SizeDelta: {x: 625, y: 585}
+  m_AnchoredPosition: {x: 0, y: -276.825}
+  m_SizeDelta: {x: 625, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7755981967131294789
 CanvasRenderer:
@@ -1090,7 +1090,7 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &5234403850618374815
+--- !u!114 &5968974503540431195
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1099,12 +1099,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 7514708299873618353}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2e1dc0294252f04dbd5056eecf9c036, type: 3}
+  m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Text: {fileID: 7356092877986841519}
-  ResizeTextObject: 0
-  Padding: {x: 0, y: 10}
-  MaxSize: {x: 625, y: 5000}
-  MinSize: {x: 625, y: 575}
-  ControlAxes: 3
+  m_HorizontalFit: 0
+  m_VerticalFit: 2

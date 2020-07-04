@@ -75,7 +75,7 @@ namespace ServerInfo
 
 		public override void Process()
 		{
-			ServerInfoMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUI.serverDesc);
+			ServerInfoMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUILobby.serverDesc);
 		}
 
 		public static ServerInfoMessageClient Send(string playerId)

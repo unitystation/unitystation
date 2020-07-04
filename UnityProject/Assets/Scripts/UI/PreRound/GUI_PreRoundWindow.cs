@@ -193,6 +193,19 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		readyText.text = (!ready) ? "Ready" : "Unready";
 	}
 
+	private void SetInfoScreenOn()
+	{
+		serverInfo.SetActive(true);
+
+		if (!sentData)
+		{
+			sentData = true;
+			ServerInfoMessageClient.Send(ServerData.UserID);
+		}
+
+		scrollbarOnServerInfo.value = 1f;
+	}
+
 	/// <summary>
 	/// Show waiting for players text
 	/// </summary>
@@ -203,16 +216,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		playerWaitPanel.SetActive(true);
 		mainPanel.SetActive(false);
 		rejoiningRoundPanel.SetActive(false);
-		serverInfo.SetActive(true);
-		serverInfo.GetComponentInChildren<ScrollUI>().Refresh();
 
-		if (!sentData)
-		{
-			sentData = true;
-			ServerInfoMessageClient.Send(ServerData.UserID);
-		}
-
-		scrollbarOnServerInfo.value = 1f;
+		SetInfoScreenOn();
 	}
 
 	/// <summary>
@@ -227,16 +232,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		mainPanel.SetActive(true);
 		rejoiningRoundPanel.SetActive(false);
 
-		serverInfo.SetActive(true);
-		serverInfo.GetComponentInChildren<ScrollUI>().Refresh();
-
-		if (!sentData)
-		{
-			sentData = true;
-			ServerInfoMessageClient.Send(ServerData.UserID);
-		}
-
-		scrollbarOnServerInfo.value = 1f;
+		SetInfoScreenOn();
 	}
 
 	/// <summary>
@@ -250,16 +246,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		mainPanel.SetActive(true);
 		rejoiningRoundPanel.SetActive(false);
 
-		serverInfo.SetActive(true);
-		serverInfo.GetComponentInChildren<ScrollUI>().Refresh();
-
-		if (!sentData)
-		{
-			sentData = true;
-			ServerInfoMessageClient.Send(ServerData.UserID);
-		}
-
-		scrollbarOnServerInfo.value = 1f;
+		SetInfoScreenOn();
 	}
 
 	public void ShowRejoiningPanel()
