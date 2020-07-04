@@ -95,11 +95,6 @@ public class MetaDataNode: IGasMixContainer
 	public IEnumerator CurrentDrying;
 
 	/// <summary>
-	/// Whether tile is already scorched
-	/// </summary>
-	public bool IsScorched;
-
-	/// <summary>
 	/// The current neighbor nodes. Nodes can be Null!
 	/// </summary>
 	public readonly MetaDataNode[] Neighbors = new MetaDataNode[4];
@@ -244,7 +239,6 @@ public class MetaDataNode: IGasMixContainer
 	public float ResetDamage()
 	{
 		Damage = 0;
-		IsScorched = false;
 		return previousDamage;
 	}
 
