@@ -49,14 +49,10 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public GameObject serverInfo;
 
-	public Scrollbar scrollbarOnServerInfo;
-
 	// Internal variables
 	private bool doCountdown;
 	private double countdownEndTime;
 	private bool isReady;
-
-	private bool sentData;
 
 	public static GUI_PreRoundWindow Instance;
 
@@ -195,15 +191,10 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	private void SetInfoScreenOn()
 	{
+		ServerInfoLobbyMessageClient.Send(ServerData.UserID);
+		serverInfo.SetActive(false);
+		if(string.IsNullOrEmpty(ServerInfoUI.serverDesc)) return;
 		serverInfo.SetActive(true);
-
-		if (!sentData)
-		{
-			sentData = true;
-			ServerInfoMessageClient.Send(ServerData.UserID);
-		}
-
-		scrollbarOnServerInfo.value = 1f;
 	}
 
 	/// <summary>

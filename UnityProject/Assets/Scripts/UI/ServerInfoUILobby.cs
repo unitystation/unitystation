@@ -15,9 +15,9 @@ namespace ServerInfo
 
     	public TMP_Text ServerDesc;
 
-        public static string serverDesc;
+        public GameObject ServerInfoUILobbyObject;
 
-        public Scrollbar scrollbarOnServerInfo;
+        public static string serverDesc;
 
         public void Start()
         {
@@ -35,14 +35,13 @@ namespace ServerInfo
 	        ServerName.text = nameText;
 	        ServerDesc.text = descText;
 	        serverDesc = descText;
-	        scrollbarOnServerInfo.value = 1;
         }
 
         public void ClientSetValues(string newName, string newDesc)
         {
 	        ServerName.text = newName;
 	        ServerDesc.text = newDesc;
-	        scrollbarOnServerInfo.value = 1;
+	        ServerInfoUILobbyObject.SetActive(true);
         }
     }
 
@@ -54,12 +53,12 @@ namespace ServerInfo
 
 		public override void Process()
 		{
-			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUI>().ClientSetValues(ServerName, ServerDesc);
+			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(ServerName, ServerDesc);
 		}
 
-		public static ServerInfoMessageServer Send(NetworkConnection clientConn,string serverName, string serverDesc)
+		public static ServerInfoLobbyMessageServer Send(NetworkConnection clientConn,string serverName, string serverDesc)
 		{
-			ServerInfoMessageServer msg = new ServerInfoMessageServer
+			ServerInfoLobbyMessageServer msg = new ServerInfoLobbyMessageServer
 			{
 				ServerName = serverName,
 				ServerDesc = serverDesc
@@ -75,12 +74,12 @@ namespace ServerInfo
 
 		public override void Process()
 		{
-			ServerInfoMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUILobby.serverDesc);
+			ServerInfoLobbyMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUILobby.serverDesc);
 		}
 
-		public static ServerInfoMessageClient Send(string playerId)
+		public static ServerInfoLobbyMessageClient Send(string playerId)
 		{
-			ServerInfoMessageClient msg = new ServerInfoMessageClient
+			ServerInfoLobbyMessageClient msg = new ServerInfoLobbyMessageClient
 			{
 				PlayerId = playerId,
 			};

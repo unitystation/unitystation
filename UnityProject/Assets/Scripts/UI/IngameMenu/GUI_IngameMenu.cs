@@ -26,8 +26,6 @@ public class GUI_IngameMenu : MonoBehaviour
 
 	private bool sentData;
 
-	public Scrollbar scrollbarOnServerInfo;
-
 	// MonoBehaviour Functions
 	// ==================================================
 	void Awake()
@@ -88,7 +86,6 @@ public class GUI_IngameMenu : MonoBehaviour
 		Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 		menuWindow.SetActive(true);
 		UIManager.Display.disclaimer.SetActive(true);
-		serverInfo.SetActive(true);
 
 		if (!sentData)
 		{
@@ -96,7 +93,9 @@ public class GUI_IngameMenu : MonoBehaviour
 			ServerInfoMessageClient.Send(ServerData.UserID);
 		}
 
-		scrollbarOnServerInfo.value = 1f;
+		serverInfo.SetActive(false);
+		if(string.IsNullOrEmpty(GetComponent<ServerInfoUI>().ServerDesc.text)) return;
+		serverInfo.SetActive(true);
 	}
 
 	/// <summary>

@@ -17,8 +17,6 @@ namespace ServerInfo
 
         public static string serverDesc;
 
-        public Scrollbar scrollbarOnServerInfo;
-
         public void Start()
         {
 	        var path = Path.Combine(Application.streamingAssetsPath, "config", "serverDesc.txt");
@@ -35,14 +33,12 @@ namespace ServerInfo
 	        ServerName.text = nameText;
 	        ServerDesc.text = descText;
 	        serverDesc = descText;
-	        scrollbarOnServerInfo.value = 1;
         }
 
         public void ClientSetValues(string newName, string newDesc)
         {
 	        ServerName.text = newName;
 	        ServerDesc.text = newDesc;
-	        scrollbarOnServerInfo.value = 1;
         }
     }
 
