@@ -15,8 +15,11 @@ public class GUI_ReactorControler : NetTab
 	[SerializeField] private NetSliderDial ReactorCoreTemperature =null;
 	[SerializeField] private NetSliderDial CorePressure =null;
 	[SerializeField] private NetSliderDial CoreWaterLevel =null;
-	[SerializeField] private NetSliderDial CoreKValue =null;
+
 	[SerializeField] private NetSliderDial CoreFluxLevel =null;
+	[SerializeField] private NetSliderDial CoreKValue =null;
+	[SerializeField] private NetSliderDial CoreKValue0_1 =null;
+	[SerializeField] private NetSliderDial CoreKValue0_01 =null;
 	private decimal PreviousRADlevel = 0;
 	public decimal PercentageChange = 0;
 
@@ -72,17 +75,12 @@ public class GUI_ReactorControler : NetTab
 					((ReactorControlConsole.ReactorChambers.PresentNeutrons / PreviousRADlevel) * 100);
 
 				PercentageChange = PercentageChange - 100;
-				var ValuePercentageChange = 50 + (PercentageChange * 5);
-				if (ValuePercentageChange < 0)
-				{
-					ValuePercentageChange = 0;
-				}
-				else if (ValuePercentageChange > 100)
-				{
-					ValuePercentageChange = 100;
-				}
-
+				var ValuePercentageChange = Mathf.Clamp( (float)(50 + (PercentageChange * 5)),0,100);
+				var ValuePercentageChange0_1 = Mathf.Clamp( (float)(50 + (PercentageChange * 50)),0,100);
+				var ValuePercentageChange0_01 = Mathf.Clamp( (float)(50 + (PercentageChange * 500)),0,100);
 				CoreKValue.SetValueServer(Math.Round(ValuePercentageChange).ToString());
+				CoreKValue0_1.SetValueServer(Math.Round(ValuePercentageChange0_1).ToString());
+				CoreKValue0_01.SetValueServer(Math.Round(ValuePercentageChange0_01).ToString());
 			}
 
 
@@ -106,21 +104,35 @@ public class GUI_ReactorControler : NetTab
 		return (100f / 12f) * Mathf.Clamp(Power, 0, 100)  + ((100f / 12f) * (INNum / (Mathf.Pow(10, Power+1))));
 	}
 
-	/// <summary> As
+	private float MainSetControl = 1;
+	public void MainSetControlDepth(float Depth)
+	{
+		MainSetControl = Depth;
+		SetControlDepth();
+	}
+
+
+	private float SecondarySetControl = 1;
+	public void SecondarySetControlDepth(float Depth)
+	{
+		SecondarySetControl = Depth;
+		SetControlDepth();
+	}
+
+
+	/// <summary>
 	///  Set the control rod Depth percentage
 	/// </summary>
 	/// <param name="speedMultiplier"></param>
-	public void SetControlDepth(float Depth)
+	public void SetControlDepth()
 	{
 		//Logger.Log("YO " + Depth);
-		ReactorControlConsole.SuchControllRodDepth(Depth);
+		ReactorControlConsole.SuchControllRodDepth(MainSetControl+(SecondarySetControl/100));
 	}
 
 	[System.Serializable]
 	public class GUI_ReactorLayout
 	{
-		public Color RodFuel = Color.red;
-		public Color RodControl = Color.green;
 		public GUI_ReactorControler GUI_ReactorControler;
 
 		public List<NetColorChanger> RodChamber = new List<NetColorChanger>();

@@ -45,7 +45,7 @@ namespace Chemistry
 			set => temperature = value;
 		}
 
-		public float WholeHeatCapacity	//this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
+		public float WholeHeatCapacity	//this is the heat capacity for the entire Fluid mixture, in Joules/Kelvin. gets very big with lots of gas.
 		{
 			get
 			{
