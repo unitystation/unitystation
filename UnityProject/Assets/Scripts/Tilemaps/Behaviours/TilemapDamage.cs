@@ -81,7 +81,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		MetaDataNode data = metaDataLayer.Get(cellPos);
-		AddDamage(bullet.damage, AttackType.Bullet, cellPos, data, basicTile);
+		AddDamage(bullet.damage, AttackType.Bullet, data, basicTile, hitPos);
 	}
 
 	public float ApplyDamage(float dmgAmt, AttackType attackType, Vector3 worldPos)
@@ -114,10 +114,10 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (basicTile == null) return;
 
-		if (exposure.Temperature < basicTile.MaxMeltingTemperature) return;
+		if (exposure.Temperature < basicTile.MeltingTemperature) return;
 
 		MetaDataNode data = metaDataLayer.Get(exposure.ExposedLocalPosition);
-		AddDamage(exposure.StandardDamage(), AttackType.Fire, exposure.ExposedLocalPosition, data, basicTile);
+		AddDamage(exposure.StandardDamage(), AttackType.Fire, data, basicTile, exposure.ExposedWorldPosition);
 	}
 
 	private float DealDamageAt(float damage, AttackType attackType, Vector3Int cellPos, Vector3 worldPosition)
@@ -127,17 +127,17 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		if (basicTile == null) return 0;
 
 		MetaDataNode data = metaDataLayer.Get(cellPos);
-		return AddDamage(damage, attackType, cellPos, data, basicTile);
+		return AddDamage(damage, attackType, data, basicTile, worldPosition);
 	}
 
-	private float AddDamage(float damage, AttackType attackType, Vector3Int cellPos, MetaDataNode data,
-		BasicTile basicTile)
+	private float AddDamage(float damage, AttackType attackType, MetaDataNode data,
+		BasicTile basicTile, Vector3 worldPosition)
 	{
 		data.AddTileDamage(Layer.LayerType, basicTile.Armor.GetDamage(damage, attackType));
 		//SoundManager.PlayNetworkedAtPos("GlassHit",worldPosition);
 		if (data.GetTileDamage(Layer.LayerType) >= basicTile.MaxHealth)
 		{
-			tileChangeManager.RemoveTile(cellPos, Layer.LayerType);
+			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
 		}
 
 		return CalculateAbsorbDamaged(attackType,data,basicTile);
@@ -153,11 +153,9 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 		if (basicTile.Armor.GetRatingValue(attackType) > 0 && damage > 0)
 		{
-			return (damage  / basicTile.Armor.GetRatingValue(attackType));
+			return damage  / basicTile.Armor.GetRatingValue(attackType);
 		}
-		else
-		{
-			return (0);
-		}
+
+		return 0;
 	}
 }
