@@ -86,8 +86,8 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	public float ApplyDamage(float dmgAmt, AttackType attackType, Vector3 worldPos)
 	{
-		Vector3Int worldToCellcellPos = metaTileMap.WorldToCell(worldPos);
-		return DealDamageAt(dmgAmt, attackType, worldToCellcellPos, worldPos);
+		Vector3Int cellPosition = metaTileMap.WorldToCell(worldPos);
+		return DealDamageAt(dmgAmt, attackType, cellPosition, worldPos);
 	}
 
 	public float Integrity(Vector3Int pos)
