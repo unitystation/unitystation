@@ -110,12 +110,15 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 
 	public void OnExposed(FireExposure exposure)
 	{
-		var basicTile = metaTileMap.GetTile(exposure.ExposedLocalPosition, Layer.LayerType) as IOnFireExpose;
+		var basicTile = metaTileMap.GetTile(exposure.ExposedLocalPosition, Layer.LayerType) as BasicTile;
 
 		if (basicTile == null) return;
 
+		if (exposure.Temperature < basicTile.MaxMeltingTemperature) return;
+
 		MetaDataNode data = metaDataLayer.Get(exposure.ExposedLocalPosition);
-		basicTile.ExposeToFire(exposure,data,tileChangeManager);
+		basicTile.AddDamage(exposure.StandardDamage(), AttackType.Fire, exposure.ExposedLocalPosition,
+			exposure.ExposedWorldPosition, data, tileChangeManager);
 	}
 
 	private float DealDamageAt(float damage, AttackType attackType, Vector3Int cellPos, Vector3 worldPosition)

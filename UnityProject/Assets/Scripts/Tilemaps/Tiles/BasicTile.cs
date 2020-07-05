@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-public abstract class BasicTile : LayerTile, IDamageableTile, IOnFireExpose
+public abstract class BasicTile : LayerTile, IDamageableTile
 {
 	[Tooltip("What it sounds like when walked over")]
 	public FloorTileType floorTileType = FloorTileType.floor;
@@ -64,7 +64,7 @@ public abstract class BasicTile : LayerTile, IDamageableTile, IOnFireExpose
 	};
 
 	[SerializeField] private float maxMeltingTemperature = 1000;
-
+	public float MaxMeltingTemperature => maxMeltingTemperature;
 	/// <summary>
 	/// Armor of this tile
 	/// </summary>
@@ -161,12 +161,5 @@ public abstract class BasicTile : LayerTile, IDamageableTile, IOnFireExpose
 		{
 			return (0);
 		}
-	}
-
-	public void ExposeToFire(FireExposure fireExposure, MetaDataNode data, TileChangeManager tileChangeManager)
-	{
-		if (fireExposure.Temperature < maxMeltingTemperature) return;
-		AddDamage(fireExposure.StandardDamage(), AttackType.Fire, fireExposure.ExposedLocalPosition,
-			fireExposure.ExposedWorldPosition, data, tileChangeManager);
 	}
 }
