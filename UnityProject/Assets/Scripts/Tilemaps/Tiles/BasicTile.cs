@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
-public abstract class BasicTile : LayerTile, IDamageableTile
+public abstract class BasicTile : LayerTile
 {
 	[Tooltip("What it sounds like when walked over")]
 	public FloorTileType floorTileType = FloorTileType.floor;
@@ -130,36 +130,5 @@ public abstract class BasicTile : LayerTile, IDamageableTile
 	public bool IsSpace()
 	{
 		return IsAtmosPassable() && !isSealed;
-	}
-
-	public float AddDamage(float damage, AttackType attackType, Vector3Int cellPos, Vector3 worldPosition,
-		MetaDataNode data, TileChangeManager tileChangeManager)
-	{
-		data.AddTileDamage(LayerType, Armor.GetDamage(damage, attackType));
-		//SoundManager.PlayNetworkedAtPos("GlassHit",worldPosition);
-		if (data.GetTileDamage(LayerType) >= MaxHealth)
-		{
-			tileChangeManager.RemoveTile(cellPos, LayerType);
-		}
-
-		return CalculateAbsorbDamaged(attackType,data);
-	}
-
-	private float CalculateAbsorbDamaged(AttackType attackType, MetaDataNode data)
-	{
-		var damage = MaxHealth - data.GetTileDamage(LayerType);
-		if (MaxHealth < damage)
-		{
-			data.ResetDamage(LayerType);
-		}
-
-		if (Armor.GetRatingValue(attackType) > 0 && damage > 0)
-		{
-			return (damage  / Armor.GetRatingValue(attackType));
-		}
-		else
-		{
-			return (0);
-		}
 	}
 }

@@ -81,7 +81,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		MetaDataNode data = metaDataLayer.Get(cellPos);
-		basicTile.AddDamage(bullet.damage, AttackType.Bullet, cellPos, hitPos, data, tileChangeManager);
+		AddDamage(bullet.damage, AttackType.Bullet, cellPos, data, basicTile);
 	}
 
 	public float ApplyDamage(float dmgAmt, AttackType attackType, Vector3 worldPos)
@@ -117,8 +117,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		if (exposure.Temperature < basicTile.MaxMeltingTemperature) return;
 
 		MetaDataNode data = metaDataLayer.Get(exposure.ExposedLocalPosition);
-		basicTile.AddDamage(exposure.StandardDamage(), AttackType.Fire, exposure.ExposedLocalPosition,
-			exposure.ExposedWorldPosition, data, tileChangeManager);
+		AddDamage(exposure.StandardDamage(), AttackType.Fire, exposure.ExposedLocalPosition, data, basicTile);
 	}
 
 	private float DealDamageAt(float damage, AttackType attackType, Vector3Int cellPos, Vector3 worldPosition)
@@ -128,6 +127,37 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		if (basicTile == null) return 0;
 
 		MetaDataNode data = metaDataLayer.Get(cellPos);
-		return basicTile.AddDamage(damage, attackType, cellPos, worldPosition, data, tileChangeManager);
+		return AddDamage(damage, attackType, cellPos, data, basicTile);
+	}
+
+	private float AddDamage(float damage, AttackType attackType, Vector3Int cellPos, MetaDataNode data,
+		BasicTile basicTile)
+	{
+		data.AddTileDamage(Layer.LayerType, basicTile.Armor.GetDamage(damage, attackType));
+		//SoundManager.PlayNetworkedAtPos("GlassHit",worldPosition);
+		if (data.GetTileDamage(Layer.LayerType) >= basicTile.MaxHealth)
+		{
+			tileChangeManager.RemoveTile(cellPos, Layer.LayerType);
+		}
+
+		return CalculateAbsorbDamaged(attackType,data,basicTile);
+	}
+
+	private float CalculateAbsorbDamaged(AttackType attackType, MetaDataNode data, BasicTile basicTile)
+	{
+		var damage = basicTile.MaxHealth - data.GetTileDamage(Layer.LayerType);
+		if (basicTile.MaxHealth < damage)
+		{
+			data.ResetDamage(Layer.LayerType);
+		}
+
+		if (basicTile.Armor.GetRatingValue(attackType) > 0 && damage > 0)
+		{
+			return (damage  / basicTile.Armor.GetRatingValue(attackType));
+		}
+		else
+		{
+			return (0);
+		}
 	}
 }
