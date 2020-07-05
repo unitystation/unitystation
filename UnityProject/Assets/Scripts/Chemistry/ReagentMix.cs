@@ -329,7 +329,7 @@ namespace Chemistry
 
 		public float Total
 		{
-			get { return reagents.Sum(kvp => kvp.Value); }
+			get { return Mathf.Clamp( reagents.Sum(kvp => kvp.Value), 0, float.MaxValue); }
 		}
 
 		public ReagentMix Clone()

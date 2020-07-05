@@ -20,6 +20,7 @@ public class GUI_ReactorControler : NetTab
 	[SerializeField] private NetSliderDial CoreKValue =null;
 	[SerializeField] private NetSliderDial CoreKValue0_1 =null;
 	[SerializeField] private NetSliderDial CoreKValue0_01 =null;
+	[SerializeField] private NetLabel RodDepth = null;
 	private decimal PreviousRADlevel = 0;
 	public decimal PercentageChange = 0;
 
@@ -85,7 +86,7 @@ public class GUI_ReactorControler : NetTab
 
 
 			PreviousRADlevel = ReactorControlConsole.ReactorChambers.PresentNeutrons;
-
+			RodDepth.SetValueServer((ReactorControlConsole.ReactorChambers.ControlRodDepthPercentage * 100).ToString() + "%");
 			float Value = SetLogScale((float) PreviousRADlevel);
 			CoreFluxLevel.SetValueServer((Math.Round(Value).ToString()));
 			GUIReactorLayout.Refresh();
