@@ -1,15 +1,20 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DatabaseAPI;
 using UnityEngine.UI;
 using InGameEvents;
 using AdminTools;
+using System.Linq;
 
 public class EventsManagerPage : AdminPage
 {
 	[SerializeField]
 	private Dropdown nextDropDown = null;
+
+	[SerializeField]
+	private Dropdown eventTypeDropDown = null;
 
 	[SerializeField]
 	private Button triggerEvent = null;
@@ -23,9 +28,20 @@ public class EventsManagerPage : AdminPage
 	[SerializeField]
 	private Toggle randomEventToggle = null;
 
+	private bool generated = false;
+
 	public void TriggerEvent()
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTriggerGameEvent(ServerData.UserID, PlayerList.Instance.AdminToken, nextDropDown.value, isFakeToggle.isOn, announceToggle.isOn);
+		if (!InGameEventType.TryParse(eventTypeDropDown.options[eventTypeDropDown.value].text, out InGameEventType eventType)) return;
+
+		var index = nextDropDown.value;
+
+		if (eventType == InGameEventType.Random)
+		{
+			index = 0;
+		}
+
+		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdTriggerGameEvent(ServerData.UserID, PlayerList.Instance.AdminToken, index, isFakeToggle.isOn, announceToggle.isOn, eventType);
 	}
 
 	public void ToggleRandomEvents()
@@ -42,6 +58,41 @@ public class EventsManagerPage : AdminPage
 
 	public void GenerateDropDownOptions()
 	{
+		GenerateDropDownOptionsEventType();
+	}
+
+	private void GenerateDropDownOptionsEventType()
+	{
+		if (!generated)
+		{
+			generated = true;
+			EventTypeOptions();
+		}
+
+		if (!InGameEventType.TryParse(eventTypeDropDown.options[eventTypeDropDown.value].text, out InGameEventType eventType)) return;
+
+		GenerateDropDownOptionsEventList(eventType);
+
+	}
+
+	private void EventTypeOptions()
+	{
+		//generate the drop down options:
+		var optionData = new List<Dropdown.OptionData>();
+
+		foreach (var eventTypeInList in InGameEventsManager.Instance.EnumListCache )
+		{
+			optionData.Add(new Dropdown.OptionData
+			{
+				text = eventTypeInList
+			});
+		}
+
+		eventTypeDropDown.options = optionData;
+	}
+
+	private void GenerateDropDownOptionsEventList(InGameEventType eventType)
+	{
 		//generate the drop down options:
 		var optionData = new List<Dropdown.OptionData>();
 
@@ -51,7 +102,15 @@ public class EventsManagerPage : AdminPage
 			text = "Random"
 		});
 
-		foreach (var eventInList in InGameEventsManager.Instance.ListOfFunEventScripts)
+		var list = InGameEventsManager.Instance.GetListFromEnum(eventType);
+
+		if (list == null)
+		{
+			nextDropDown.options = optionData;
+			return;
+		}
+
+		foreach (var eventInList in list)
 		{
 			optionData.Add(new Dropdown.OptionData
 			{

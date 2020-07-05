@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0a01f6dd2ad544480e43f9a12f5fc7, type: 3}
+  m_Name: SmallCartonMorphable
+  m_EditorClassIdentifier: 
+  spritesData:
+    m_keys:
+    - {fileID: 11400000, guid: 5d8a1146358df3df6aa2716780276565, type: 2}
+    - {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
+    - {fileID: 11400000, guid: 9a2c3041e3ee688a6a26390cbf0ee75b, type: 2}
+    - {fileID: 11400000, guid: 66b060284646f0d1e8874ad08edf795a, type: 2}
+    - {fileID: 11400000, guid: 6028c725d3fd43c468f9bffaa7d74ec9, type: 2}
+    - {fileID: 11400000, guid: 5b5f8bbc79979ff58b9cbaa4a2a95eaf, type: 2}
+    m_values:
+    - CustomName: orange juice box
+      CustomDescription: A great source of vitamins. Stay healthy!
+      MainSprite: {fileID: 21300000, guid: d8fe1f544cde13746898509d55cc1d08, type: 3}
+    - CustomName: carton of milk
+      CustomDescription: An excellent source of calcium for growing space explorers.
+      MainSprite: {fileID: 21300000, guid: 7a123303328788643bfdec743a096d74, type: 3}
+    - CustomName: apple juice box
+      CustomDescription: Sweet apple juice. Don't be late for school!
+      MainSprite: {fileID: 21300000, guid: a7c1fc90b829a724493043079240a341, type: 3}
+    - CustomName: grape juice box
+      CustomDescription: Tasty grape juice in a fun little container. Non-alcoholic!
+      MainSprite: {fileID: 21300000, guid: 7ae1710284a44cc4c9f135ebb9cf27a6, type: 3}
+    - CustomName: pineapple juice box
+      CustomDescription: Why would you even want this?
+      MainSprite: {fileID: 21300000, guid: a17c3c5f3173d724a9567fde6d51046e, type: 3}
+    - CustomName: carton of chocolate milk
+      CustomDescription: 'Milk for cool kids!
+
+'
+      MainSprite: {fileID: 21300000, guid: 58451475e9873cf44a4b4cf29494f77e, type: 3}

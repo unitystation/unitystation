@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0a01f6dd2ad544480e43f9a12f5fc7, type: 3}
+  m_Name: CondimentPackMorphable
+  m_EditorClassIdentifier: 
+  spritesData:
+    m_keys:
+    - {fileID: 11400000, guid: 7ace1bf0147f08919bb5c16a12fb72f3, type: 2}
+    - {fileID: 11400000, guid: 35888fb2853c5f66abec0ff080f80481, type: 2}
+    - {fileID: 11400000, guid: 97473bb8bf264de35b63cbcb922a313e, type: 2}
+    - {fileID: 11400000, guid: 06591e0eee3251debaa74000df4682be, type: 2}
+    - {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
+    - {fileID: 11400000, guid: 2aaf2943c2bb469f7a9a7cc94d373ef5, type: 2}
+    - {fileID: 11400000, guid: 3dc3f81736a407fda8141be714d3e47f, type: 2}
+    - {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
+    - {fileID: 11400000, guid: aa764deec1710d02cb03c2a80d89324b, type: 2}
+    - {fileID: 11400000, guid: ad830833fe67f0a48ac1ea6ab6f42d75, type: 2}
+    m_values:
+    - CustomName: ketchup pack
+      CustomDescription: You feel more American already.
+      MainSprite: {fileID: 21300000, guid: 013076112ed076a4daa7dacdf94e6c24, type: 3}
+    - CustomName: hotsauce pack
+      CustomDescription: You can almost TASTE the stomach ulcers now!
+      MainSprite: {fileID: 21300000, guid: a57e911207b043e4c8d762f1bd059623, type: 3}
+    - CustomName: soy sauce pack
+      CustomDescription: A salty soy-based flavoring.
+      MainSprite: {fileID: 21300000, guid: 2291f2f13c4eaaf43b30dcd248c1389d, type: 3}
+    - CustomName: coldsauce pack
+      CustomDescription: Leaves the tongue numb in its passage
+      MainSprite: {fileID: 21300000, guid: dc89dd8f4b9b6a549a853cc3332482a9, type: 3}
+    - CustomName: salt pack
+      CustomDescription: Salt. From space oceans, presumably.
+      MainSprite: {fileID: 21300000, guid: ef49de2744fc1eb4a87559084690940b, type: 3}
+    - CustomName: pepper pack
+      CustomDescription: Often used to flavor food or to make people sneeze.
+      MainSprite: {fileID: 21300000, guid: 0a4039b10fd01354782e01132a9b6e70, type: 3}
+    - CustomName: corn oil pack
+      CustomDescription: A delicious oil used in cooking. Made from corn.
+      MainSprite: {fileID: 21300000, guid: 85aa9688fa13e4c439e115f6336048ae, type: 3}
+    - CustomName: sugar pack
+      CustomDescription: Tasty spacey sugar!
+      MainSprite: {fileID: 21300000, guid: f99e2ae9632eb7947ad83b33b66afb3f, type: 3}
+    - CustomName: astrotame pack
+      CustomDescription: The sweetness of a thousand sugars but none of the calories.
+      MainSprite: {fileID: 21300000, guid: 00a9dc7905a80794e890e27df29fa8e1, type: 3}
+    - CustomName: BBQ sauce pack
+      CustomDescription: Hand wipes not included.
+      MainSprite: {fileID: 21300000, guid: 08f40545097f8d54990564482484179a, type: 3}

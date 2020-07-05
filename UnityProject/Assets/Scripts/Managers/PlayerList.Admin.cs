@@ -410,7 +410,7 @@ public partial class PlayerList
 		{
 			foreach (var p in players)
 			{
-				var message = $"A kick/ban has been processed by {admin}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+				var message = $"A kick/ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 
 				Logger.Log(message);
 
