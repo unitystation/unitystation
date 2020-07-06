@@ -16,8 +16,10 @@ public class ReactorControlConsole : MonoBehaviour, ISetMultitoolSlave
 			Specified = 0;
 		}
 
-
-		ReactorChambers.SetControlRodDepth(Specified);
+		if (ReactorChambers != null)
+		{
+			ReactorChambers.SetControlRodDepth(Specified);
+		}
 	}
 
 	//######################################## Multitool interaction ##################################

@@ -28,7 +28,14 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	[SerializeField]
 	private GameObject ammoPrefab = null;
 	[SerializeField]
-	private GameObject casingPrefab = null;
+	private GameObject genericInternalMag = null;
+	[SerializeField]
+	private GameObject casingPrefabOverride = null;
+	/// <summary>
+	/// If false prevents players from removing the magazine from their weapon.
+	/// </summary>
+	[SerializeField]
+	private bool allowMagazineRemoval = true;
 
 	/// <summary>
 	///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
@@ -48,7 +55,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// <summary>
 	///     Checks if the weapon should spawn weapon casings
 	/// </summary>
-	public bool SpawnsCaseing = true;
+	public bool SpawnsCasing = true;
 
 	/// <summary>
 	///     Whether the gun uses an internal magazine.
@@ -56,11 +63,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	[HideInInspector]
 	public bool MagInternal = false;
 
-
-	/// <summary>
-	/// State whether or not you can remove the mag from the gun
-	/// </summary>
-	public bool CanRemovableMag = true;
 
 	/// <summary>
 	///     If the gun should eject it's magazine automatically (external-magazine-specific)
@@ -193,7 +195,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			Logger.LogTraceFormat("Auto-populate internal magazine for {0}", Category.Inventory, name);
 
 			//Make generic magazine and modify it to fit weapon
-			GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(AmmoType.Internal);
+			GameObject ammoPrefab = genericInternalMag;
 
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 
@@ -209,10 +211,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		{
 			//populate with a full external mag on spawn
 			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
-
-			//AmmoPrefabs
-			//GameObject ammoPrefab = AmmoPrefabs.GetAmmoPrefab(ammoType);
-
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 		}
 	}
@@ -252,7 +250,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//firing countdown
 		if (Projectile != null && CurrentMagazine.ClientAmmoRemains <= 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 		{
-			if (SmartGun && CanRemovableMag) // should be forced off when using an internal magazine
+			if (SmartGun && allowMagazineRemoval) // smartGun is forced off when using an internal magazine
 			{
 				RequestUnload(CurrentMagazine);
 				OutOfAmmoSFX();
@@ -333,7 +331,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	public bool Interact(HandActivate interaction)
 	{
 		//try ejecting the mag if external
-		if (CurrentMagazine != null && !MagInternal && CanRemovableMag)
+		if (CurrentMagazine != null && !MagInternal && allowMagazineRemoval)
 		{
 			RequestUnload(CurrentMagazine);
 			return true;
@@ -408,7 +406,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			DequeueAndProcessServerShot();
 		}
 
-		if (queuedUnload && queuedShots.Count == 0 && CanRemovableMag)
+		if (queuedUnload && queuedShots.Count == 0 && allowMagazineRemoval)
 		{
 			// done processing shot queue,
 			// perform the queued unload action, causing all clients and server to update their version of this Weapon
@@ -454,7 +452,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			if (this.ammoType == ammoType)
 			{
 				var hand = UIManager.Hands.CurrentSlot.NamedSlot;
-				RequestReload(magazine.gameObject, hand, true);
+				RequestReload(magazine.gameObject, hand);
 			}
 			if (this.ammoType != ammoType)
 			{
@@ -544,14 +542,15 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			//kickback
 			shooterScript.pushPull.Pushable.NewtonianMove((-nextShot.finalDirection).NormalizeToInt());
 
-			if (SpawnsCaseing)
+			if (SpawnsCasing)
 			{
-				if (casingPrefab == null)
+				if (casingPrefabOverride == null)
 				{
-					casingPrefab = Resources.Load("BulletCasing") as GameObject;
+					//no casing override set, use normal casing prefab
+					casingPrefabOverride = Resources.Load("BulletCasing") as GameObject;
 				}
 
-				Spawn.ServerPrefab(casingPrefab, nextShot.shooter.transform.position, nextShot.shooter.transform.parent);
+				Spawn.ServerPrefab(casingPrefabOverride, nextShot.shooter.transform.position, nextShot.shooter.transform.parent);
 			}
 		}
 	}
@@ -643,7 +642,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// <param name="m"></param>
 	/// <param name="hand"></param>
 	/// <param name="current"></param>
-	private void RequestReload(GameObject m, NamedSlot hand, bool current)
+	private void RequestReload(GameObject m, NamedSlot hand)
 	{
 		//TODO: Handle this using IF2 instead of Cmd
 

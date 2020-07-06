@@ -45,7 +45,7 @@ namespace Chemistry
 			set => temperature = value;
 		}
 
-		public float WholeHeatCapacity	//this is the heat capacity for the entire gas mixture, in Joules/Kelvin. gets very big with lots of gas.
+		public float WholeHeatCapacity	//this is the heat capacity for the entire Fluid mixture, in Joules/Kelvin. gets very big with lots of gas.
 		{
 			get
 			{
@@ -329,7 +329,7 @@ namespace Chemistry
 
 		public float Total
 		{
-			get { return reagents.Sum(kvp => kvp.Value); }
+			get { return Mathf.Clamp( reagents.Sum(kvp => kvp.Value), 0, float.MaxValue); }
 		}
 
 		public ReagentMix Clone()

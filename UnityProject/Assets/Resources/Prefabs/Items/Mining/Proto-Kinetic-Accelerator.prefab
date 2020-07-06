@@ -16,11 +16,12 @@ MonoBehaviour:
   syncInterval: 0.1
   ammoPrefab: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
     type: 3}
-  casingPrefab: {fileID: 0}
-  ammoType: 17
-  SpawnsCaseing: 0
+  genericInternalMag: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
+    type: 3}
+  casingPrefabOverride: {fileID: 0}
+  ammoType: 18
+  SpawnsCasing: 0
   MagInternal: 1
-  CanRemovableMag: 1
   SmartGun: 0
   MagSize: 1
   CurrentRecoilVariance: 0
@@ -222,6 +223,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e, type: 3}
+    - {fileID: 505251973963023168, guid: c456c86d5736aee499478a158376781e, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}
 --- !u!1 &6507000735928756314 stripped
 GameObject:

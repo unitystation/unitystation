@@ -33,11 +33,13 @@ MonoBehaviour:
   syncInterval: 0.1
   ammoPrefab: {fileID: 742292832060491855, guid: 65ed747e8d0f44242ba0c8eacae5e478,
     type: 3}
-  casingPrefab: {fileID: 0}
+  genericInternalMag: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
+    type: 3}
+  casingPrefabOverride: {fileID: 0}
+  allowMagazineRemoval: 0
   ammoType: 14
-  SpawnsCaseing: 0
+  SpawnsCasing: 0
   MagInternal: 0
-  CanRemovableMag: 0
   SmartGun: 0
   MagSize: 10
   CurrentRecoilVariance: 0
@@ -75,7 +77,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: Energy gun
+      value: Generic Energy Gun
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
