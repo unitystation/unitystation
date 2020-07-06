@@ -1132,6 +1132,7 @@ MonoBehaviour:
   ServerName: {fileID: 4978854986809719021}
   ServerDesc: {fileID: 4960288434609032632}
   ServerInfoUILobbyObject: {fileID: 4108103896394860700}
+  DiscordButton: {fileID: 2680606684762014311}
 --- !u!1 &3315581176011222418
 GameObject:
   m_ObjectHideFlags: 0
@@ -4193,15 +4194,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d78f213d9fe656d479ae7635fddf1d3c, type: 3}
---- !u!1 &4108103896394860700 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2000303885238257291, guid: d78f213d9fe656d479ae7635fddf1d3c,
-    type: 3}
-  m_PrefabInstance: {fileID: 2504119536621866519}
-  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8570566890264958004 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6066540420953922083, guid: d78f213d9fe656d479ae7635fddf1d3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2504119536621866519}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &2680606684762014311 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 572809139780144240, guid: d78f213d9fe656d479ae7635fddf1d3c,
     type: 3}
   m_PrefabInstance: {fileID: 2504119536621866519}
   m_PrefabAsset: {fileID: 0}
@@ -4217,6 +4218,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4108103896394860700 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2000303885238257291, guid: d78f213d9fe656d479ae7635fddf1d3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 2504119536621866519}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4978854986809719021 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7482758579037927162, guid: d78f213d9fe656d479ae7635fddf1d3c,

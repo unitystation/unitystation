@@ -1483,6 +1483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ServerName: {fileID: 2128651856857888401}
   ServerDesc: {fileID: 2036880072154891204}
+  DiscordButton: {fileID: 9052624740212263963}
 --- !u!1 &4113884316881524652
 GameObject:
   m_ObjectHideFlags: 0
@@ -2757,7 +2758,7 @@ PrefabInstance:
     - target: {fileID: 4193210461093525694, guid: d78f213d9fe656d479ae7635fddf1d3c,
         type: 3}
       propertyPath: m_Size
-      value: 0.15108827
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5636835805521262261, guid: d78f213d9fe656d479ae7635fddf1d3c,
         type: 3}
@@ -2992,3 +2993,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &9052624740212263963 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 572809139780144240, guid: d78f213d9fe656d479ae7635fddf1d3c,
+    type: 3}
+  m_PrefabInstance: {fileID: 8814218324053491819}
+  m_PrefabAsset: {fileID: 0}
