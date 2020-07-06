@@ -58,19 +58,19 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 		if (node  == null) return;
 		if (node.RadiationNode.RadiationLevel > 1000)
 		{
-			SoundManager.PlayNetworkedAtPos(Noise[Level.Extreme][RNG.Next(0,3)], registerItem.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos(Noise[Level.Extreme][RNG.Next(0,3)], registerItem.WorldPositionServer, sourceObj: gameObject);
 		}
 		else if (node.RadiationNode.RadiationLevel > 500)
 		{
-			SoundManager.PlayNetworkedAtPos(Noise[Level.High][RNG.Next(0,3)], registerItem.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos(Noise[Level.High][RNG.Next(0,3)], registerItem.WorldPositionServer, sourceObj: gameObject);
 		}
 		else if (node.RadiationNode.RadiationLevel > 100)
 		{
-			SoundManager.PlayNetworkedAtPos(Noise[Level.Mid][RNG.Next(0,3)], registerItem.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos(Noise[Level.Mid][RNG.Next(0,3)], registerItem.WorldPositionServer, sourceObj: gameObject);
 		}
 		else if (node.RadiationNode.RadiationLevel > 20)
 		{
-			SoundManager.PlayNetworkedAtPos(Noise[Level.Low][RNG.Next(0,3)], registerItem.WorldPositionServer);
+			SoundManager.PlayNetworkedAtPos(Noise[Level.Low][RNG.Next(0,3)], registerItem.WorldPositionServer, sourceObj: gameObject);
 		}
 	}
 
