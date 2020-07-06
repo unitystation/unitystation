@@ -42,6 +42,7 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 
 	public void CycleUpdate()
 	{
+		if(!CustomNetworkManager.IsServer) return;
 		//TODO optimise by having a loop on the client side that picks the random noises and only get updates when it changes intensity or turns off
 		//TODO should integrate this into register item
 		MetaDataNode node = null;
@@ -57,19 +58,19 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 		if (node  == null) return;
 		if (node.RadiationNode.RadiationLevel > 1000)
 		{
-			SoundManager.PlayNetworked(Noise[Level.Extreme][RNG.Next(0,3)]);
+			SoundManager.PlayNetworkedAtPos(Noise[Level.Extreme][RNG.Next(0,3)], registerItem.WorldPositionServer);
 		}
 		else if (node.RadiationNode.RadiationLevel > 500)
 		{
-			SoundManager.PlayNetworked(Noise[Level.High][RNG.Next(0,3)]);
+			SoundManager.PlayNetworkedAtPos(Noise[Level.High][RNG.Next(0,3)], registerItem.WorldPositionServer);
 		}
 		else if (node.RadiationNode.RadiationLevel > 100)
 		{
-			SoundManager.PlayNetworked(Noise[Level.Mid][RNG.Next(0,3)]);
+			SoundManager.PlayNetworkedAtPos(Noise[Level.Mid][RNG.Next(0,3)], registerItem.WorldPositionServer);
 		}
 		else if (node.RadiationNode.RadiationLevel > 20)
 		{
-			SoundManager.PlayNetworked(Noise[Level.Low][RNG.Next(0,3)]);
+			SoundManager.PlayNetworkedAtPos(Noise[Level.Low][RNG.Next(0,3)], registerItem.WorldPositionServer);
 		}
 	}
 
