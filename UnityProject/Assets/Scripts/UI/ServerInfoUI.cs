@@ -15,6 +15,8 @@ namespace ServerInfo
 
     	public TMP_Text ServerDesc;
 
+        public GameObject DiscordButton;
+
         public static string serverDesc;
 
         public void Start()
@@ -39,6 +41,9 @@ namespace ServerInfo
         {
 	        ServerName.text = newName;
 	        ServerDesc.text = newDesc;
+	        if(string.IsNullOrEmpty(ServerInfoUILobby.serverDiscordID)) return;
+	        DiscordButton.SetActive(true);
+	        DiscordButton.GetComponent<OpenURL>().url = "https://discord.gg/" + ServerInfoUILobby.serverDiscordID;
         }
     }
 
