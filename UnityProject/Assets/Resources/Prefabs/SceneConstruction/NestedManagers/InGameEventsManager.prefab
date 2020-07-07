@@ -672,7 +672,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c925148b6b47194ab4d135d924a6521, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  areaSO: {fileID: 11400000, guid: c71b9dc61e14cc249ad49ef817dcd349, type: 2}
+  areaSOs:
+  - {fileID: 11400000, guid: c71b9dc61e14cc249ad49ef817dcd349, type: 2}
+  - {fileID: 11400000, guid: fcdfb73152d731142ab320492c4bf193, type: 2}
+  - {fileID: 11400000, guid: 258d5246e90864e4eafbda95c09a003c, type: 2}
+  - {fileID: 11400000, guid: 643649e4a9a532746aa7cea048e5106a, type: 2}
+  - {fileID: 11400000, guid: 29b6a3039adeb8a468372af57a8d0ee0, type: 2}
 --- !u!1 &8985401255687248692
 GameObject:
   m_ObjectHideFlags: 0

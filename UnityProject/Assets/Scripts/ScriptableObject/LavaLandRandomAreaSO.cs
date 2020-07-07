@@ -6,6 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "LavaLandRandomArea", menuName = "ScriptableObjects/LavaLandRandomArea")]
 public class LavaLandRandomAreaSO : ScriptableObject
 {
+	public AreaSizes AreaSize;
 	public LavaLandData[] AreaPrefabData;
 }
 
@@ -13,7 +14,6 @@ public class LavaLandRandomAreaSO : ScriptableObject
 public class LavaLandData
 {
 	public GameObject AreaPrefab;
-	public AreaSizes AreaSize;
 	public bool SpawnOnceOnly;
 	public bool isSpecialSite;
 }

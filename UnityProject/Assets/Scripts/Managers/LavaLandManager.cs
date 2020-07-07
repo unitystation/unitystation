@@ -10,7 +10,7 @@ public class LavaLandManager : MonoBehaviour
 	private static LavaLandManager instance;
 	public static LavaLandManager Instance => instance;
 
-	public LavaLandRandomAreaSO areaSO;
+	public List<LavaLandRandomAreaSO> areaSOs = new List<LavaLandRandomAreaSO>();
 
 	private List<LavaLandData> dataList = new List<LavaLandData>();
 
@@ -28,8 +28,19 @@ public class LavaLandManager : MonoBehaviour
 		{
 			Destroy(this);
 		}
+	}
 
-		dataList = areaSO.AreaPrefabData.ToList();
+	public LavaLandRandomAreaSO GetCorrectSOFromSize(AreaSizes size)
+	{
+		foreach (var areaSO in areaSOs)
+		{
+			if (areaSO.AreaSize == size)
+			{
+				return areaSO;
+			}
+		}
+
+		return null;
 	}
 
 	private void OnEnable()
@@ -50,10 +61,13 @@ public class LavaLandManager : MonoBehaviour
 
 		foreach (var keyValuePair in SpawnScripts)
 		{
+			var SO = GetCorrectSOFromSize(keyValuePair.Value);
+			if(SO == null) continue;
+
+			dataList = SO.AreaPrefabData.ToList();
+
 			foreach (var data in dataList.Shuffle())
 			{
-				if (data.AreaSize != keyValuePair.Value) continue;
-
 				if(data.isSpecialSite && !keyValuePair.Key.allowSpecialSites) continue;
 
 				//Prefab cache
@@ -75,8 +89,10 @@ public class LavaLandManager : MonoBehaviour
 					Destroy(PrefabsUsed[data.AreaPrefab]);
 					PrefabsUsed.Remove(data.AreaPrefab);
 				}
+
+				break;
 			}
-			
+
 			Destroy(keyValuePair.Key.gameObject);
 		}
 
