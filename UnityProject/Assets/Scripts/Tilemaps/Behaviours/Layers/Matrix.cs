@@ -42,6 +42,7 @@ public class Matrix : MonoBehaviour
 
 	public bool IsSpaceMatrix;
 	public bool IsMainStation;
+	public bool IsLavaLand;
 
 	public MatrixMove MatrixMove { get; private set; }
 
@@ -114,7 +115,7 @@ public class Matrix : MonoBehaviour
 
 	void Start()
 	{
-		MatrixManager.RegisterMatrix(this, IsSpaceMatrix, IsMainStation);
+		MatrixManager.RegisterMatrix(this, IsSpaceMatrix, IsMainStation, IsLavaLand);
 	}
 
 	public void CompressAllBounds()

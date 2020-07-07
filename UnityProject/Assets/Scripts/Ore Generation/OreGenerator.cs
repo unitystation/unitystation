@@ -30,8 +30,16 @@ public class OreGenerator : MonoBehaviour
 	private Tilemap wallTilemap;
 	private TileChangeManager tileChangeManager;
 
+	public bool runOnStart = true;
+
 	// Start is called before the first frame update
 	void Start()
+	{
+		if(!runOnStart) return;
+		RunOreGenerator();
+	}
+
+	public void RunOreGenerator()
 	{
 		var metaTileMap = GetComponentInChildren<MetaTileMap>();
 		wallTilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();

@@ -617,6 +617,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8934140032923375002}
   - component: {fileID: 5415116575820819044}
+  - component: {fileID: 3416911991172850115}
   m_Layer: 0
   m_Name: InGameEventsManager
   m_TagString: Untagged
@@ -659,6 +660,19 @@ MonoBehaviour:
   RandomEventsAllowed: 1
   minPlayersForRandomEventsToHappen: 5
   EnumListCache: []
+--- !u!114 &3416911991172850115
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8929341582706713524}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c925148b6b47194ab4d135d924a6521, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  areaSO: {fileID: 11400000, guid: c71b9dc61e14cc249ad49ef817dcd349, type: 2}
 --- !u!1 &8985401255687248692
 GameObject:
   m_ObjectHideFlags: 0
