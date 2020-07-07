@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 using Mirror;
 using System.IO;
+using System;
 using UnityEngine.UI;
 
 namespace ServerInfo
@@ -17,9 +18,19 @@ namespace ServerInfo
 
         public GameObject ServerInfoUILobbyObject;
 
+        public GameObject DiscordButton;
+
         public static string serverDesc;
 
+        public static string serverDiscordID;
+
         public void Start()
+        {
+	        LoadNameAndDesc();
+	        LoadLinks();
+        }
+
+        private void LoadNameAndDesc()
         {
 	        var path = Path.Combine(Application.streamingAssetsPath, "config", "serverDesc.txt");
 
@@ -37,12 +48,34 @@ namespace ServerInfo
 	        serverDesc = descText;
         }
 
-        public void ClientSetValues(string newName, string newDesc)
+        private void LoadLinks()
+        {
+	        var path = Path.Combine(Application.streamingAssetsPath, "config", "serverDescLinks.json");
+
+	        if (!File.Exists(path)) return;
+
+	        var linkList = JsonUtility.FromJson<ServerInfoLinks>(File.ReadAllText(path));
+
+	        serverDiscordID = linkList.DiscordLinkID;
+        }
+
+        public void ClientSetValues(string newName, string newDesc, string newDiscordID)
         {
 	        ServerName.text = newName;
 	        ServerDesc.text = newDesc;
+	        serverDiscordID = newDiscordID;
+
 	        if(string.IsNullOrEmpty(newDesc)) return;
 	        ServerInfoUILobbyObject.SetActive(true);
+	        if(string.IsNullOrEmpty(newDiscordID)) return;
+	        DiscordButton.SetActive(true);
+	        DiscordButton.GetComponent<OpenURL>().url = "https://discord.gg/" + newDiscordID;
+        }
+
+        [Serializable]
+        public class ServerInfoLinks
+        {
+	        public string DiscordLinkID;
         }
     }
 
@@ -52,17 +85,20 @@ namespace ServerInfo
 
 		public string ServerDesc;
 
+		public string ServerDiscordID;
+
 		public override void Process()
 		{
-			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(ServerName, ServerDesc);
+			GUI_PreRoundWindow.Instance.GetComponent<ServerInfoUILobby>().ClientSetValues(ServerName, ServerDesc, ServerDiscordID);
 		}
 
-		public static ServerInfoLobbyMessageServer Send(NetworkConnection clientConn,string serverName, string serverDesc)
+		public static ServerInfoLobbyMessageServer Send(NetworkConnection clientConn,string serverName, string serverDesc, string serverDiscordID)
 		{
 			ServerInfoLobbyMessageServer msg = new ServerInfoLobbyMessageServer
 			{
 				ServerName = serverName,
-				ServerDesc = serverDesc
+				ServerDesc = serverDesc,
+				ServerDiscordID = serverDiscordID
 			};
 			msg.SendTo(clientConn);
 			return msg;
@@ -75,7 +111,7 @@ namespace ServerInfo
 
 		public override void Process()
 		{
-			ServerInfoLobbyMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUILobby.serverDesc);
+			ServerInfoLobbyMessageServer.Send(SentByPlayer.Connection, ServerData.ServerConfig.ServerName, ServerInfoUILobby.serverDesc, ServerInfoUILobby.serverDiscordID);
 		}
 
 		public static ServerInfoLobbyMessageClient Send(string playerId)

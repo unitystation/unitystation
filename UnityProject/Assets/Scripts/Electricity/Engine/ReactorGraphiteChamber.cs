@@ -42,7 +42,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 	private RegisterObject registerObject;
 	public ReactorPipe ReactorPipe;
 
-	private float WaterEnergyDensityPer1 = 6.5f;
+	private float WaterEnergyDensityPer1 = 10f;
 	private float RodDensityPer1 = 7.5f;
 
 
@@ -81,7 +81,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 
 	public void SetControlRodDepth(float RequestedDepth)
 	{
-		ControlRodDepthPercentage = RequestedDepth;
+		ControlRodDepthPercentage = Mathf.Clamp(RequestedDepth, 0.1f, 1f);;
 	}
 
 	public float Temperature => GetTemperature();
@@ -453,14 +453,17 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 		{
 			foreach (var Rod in ReactorRods)
 			{
-				switch (Rod.GetRodType())
+				if (Rod != null)
 				{
-					case RodType.Fuel:
-						Spawn.ServerPrefab(UraniumOre, registerObject.WorldPositionServer);
-						break;
-					case RodType.Control:
-						Spawn.ServerPrefab(MetalOre, registerObject.WorldPositionServer);
-						break;
+					switch (Rod.GetRodType())
+					{
+						case RodType.Fuel:
+							Spawn.ServerPrefab(UraniumOre, registerObject.WorldPositionServer);
+							break;
+						case RodType.Control:
+							Spawn.ServerPrefab(MetalOre, registerObject.WorldPositionServer);
+							break;
+					}
 				}
 			}
 		}

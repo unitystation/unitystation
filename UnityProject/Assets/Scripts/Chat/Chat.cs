@@ -67,12 +67,6 @@ public partial class Chat : MonoBehaviour
 		if (!isOOC)
 		{
 			processedMessage = ProcessMessage(sentByPlayer, message);
-
-			if (!player.IsDeadOrGhost && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
-			{
-				AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
-				return;
-			}
 		}
 
 		var chatEvent = new ChatEvent
@@ -115,6 +109,12 @@ public partial class Chat : MonoBehaviour
 		// Check if the player is allowed to talk:
 		if (player != null && player.playerHealth != null)
 		{
+			if (!player.IsDeadOrGhost && player.mind.IsMiming && !processedMessage.chatModifiers.HasFlag(ChatModifier.Emote))
+			{
+				AddWarningMsgFromServer(sentByPlayer.GameObject, "You can't talk because you made a vow of silence.");
+				return;
+			}
+
 			if (player.playerHealth.IsCrit || player.playerHealth.IsCardiacArrest)
 			{
 				if (!player.playerHealth.IsDead)
