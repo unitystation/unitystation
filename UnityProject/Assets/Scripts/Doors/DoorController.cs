@@ -5,7 +5,7 @@ using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
 
-public class DoorController : NetworkBehaviour, IServerSpawn
+public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 {
 	//public bool isWindowed = false;
 	public enum OpeningDirection
@@ -53,6 +53,16 @@ public class DoorController : NetworkBehaviour, IServerSpawn
 
 	[Tooltip("Does this door open automatically when you walk into it?")]
 	public bool IsAutomatic = true;
+
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
+	public MultitoolConnectionType ConType  => conType;
+
+	public void SetMaster(ISetMultitoolMaster Imaster)
+	{
+		var doorSwitch = (Imaster as Component)?.gameObject.GetComponent<DoorSwitch>();
+		doorSwitch.doorControllers.Add(this);
+	}
 
 	/// <summary>
 	/// Makes registerTile door closed state accessible
