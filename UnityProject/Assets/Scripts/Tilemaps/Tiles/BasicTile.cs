@@ -63,8 +63,6 @@ public abstract class BasicTile : LayerTile
 		Acid = 90
 	};
 
-	[SerializeField] private float meltingTemperature = 1000;
-	public float MeltingTemperature => meltingTemperature;
 	/// <summary>
 	/// Armor of this tile
 	/// </summary>

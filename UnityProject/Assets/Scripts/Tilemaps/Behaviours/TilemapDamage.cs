@@ -90,31 +90,15 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		return DealDamageAt(dmgAmt, attackType, cellPosition, worldPos);
 	}
 
-	public float Integrity(Vector3Int pos)
-	{
-		var layerTile = metaTileMap.GetTile(pos, Layer.LayerType) as BasicTile;
-		if (layerTile == null)
-		{
-			return 0;
-		}
-
-		return Mathf.Clamp(layerTile.MaxHealth - metaDataLayer.Get(pos).GetTileDamage(layerTile.LayerType), 0, float.MaxValue);
-	}
-
-	public void RepairWindow(Vector3Int cellPos)
-	{
-		var data = metaDataLayer.Get(cellPos);
-		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
-		data.ResetDamage(Layer.LayerType);
-	}
-
 	public void OnExposed(FireExposure exposure)
 	{
+		if (Layer.LayerType == LayerType.Floors ||
+		    Layer.LayerType == LayerType.Base ||
+		    Layer.LayerType == LayerType.Walls ) return;
+
 		var basicTile = metaTileMap.GetTile(exposure.ExposedLocalPosition, Layer.LayerType) as BasicTile;
 
 		if (basicTile == null) return;
-
-		if (exposure.Temperature < basicTile.MeltingTemperature) return;
 
 		MetaDataNode data = metaDataLayer.Get(exposure.ExposedLocalPosition);
 		AddDamage(exposure.StandardDamage(), AttackType.Fire, data, basicTile, exposure.ExposedWorldPosition);
@@ -157,5 +141,23 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		}
 
 		return 0;
+	}
+
+	public float Integrity(Vector3Int pos)
+	{
+		var layerTile = metaTileMap.GetTile(pos, Layer.LayerType) as BasicTile;
+		if (layerTile == null)
+		{
+			return 0;
+		}
+
+		return Mathf.Clamp(layerTile.MaxHealth - metaDataLayer.Get(pos).GetTileDamage(layerTile.LayerType), 0, float.MaxValue);
+	}
+
+	public void RepairWindow(Vector3Int cellPos)
+	{
+		var data = metaDataLayer.Get(cellPos);
+		tileChangeManager.RemoveTile(cellPos, LayerType.Effects);
+		data.ResetDamage(Layer.LayerType);
 	}
 }
