@@ -32,6 +32,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   slot: 2
   bodyPartsCovered: 2
+--- !u!114 &6812290110784052155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8724836040044288808}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbb5729ffc2e0b4f89279dcaf8110ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stackableMaterials: 0
+  materialCost: 0
+  reagentContainer: 1
+  craftItem:
+  - {fileID: 3506820747392627008, guid: 1fa9f2d6fbcfef845bb2f5903ffcfd23, type: 3}
+  assembly: {fileID: 5914959498962467419, guid: 487e0ccc7184595408fc207296ee20d9,
+    type: 3}
 --- !u!1001 &3540516328072298958
 PrefabInstance:
   m_ObjectHideFlags: 0
