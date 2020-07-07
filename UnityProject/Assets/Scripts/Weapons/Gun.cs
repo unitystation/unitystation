@@ -63,6 +63,13 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	[HideInInspector]
 	public bool MagInternal = false;
 
+	[HideInInspector]
+	public double burstCooldown = 0;
+
+	[HideInInspector]
+	public double burstCount = 3;
+	private double currentBurstCount = 0;
+	private bool isCooldown = false;
 
 	/// <summary>
 	///     If the gun should eject it's magazine automatically (external-magazine-specific)
@@ -266,16 +273,33 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			return false;
 		}
 
-		if (Projectile != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
+		if (Projectile != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0) && !isCooldown)
 		{
 			if (interaction.MouseButtonState == MouseButtonState.PRESS)
 			{
+				if (currentBurstCount != 0)
+				{
+					currentBurstCount = 0;
+				}
 				return true;
 			}
 			else
 			{
-				//being held, only can shoot if this is an automatic
-				return WeaponType == WeaponType.FullyAutomatic;
+				if (WeaponType == WeaponType.Burst && currentBurstCount <= burstCount)
+				{
+					currentBurstCount++;
+					return true;
+				}
+				else if (WeaponType == WeaponType.Burst && currentBurstCount > burstCount)
+				{
+					BurstCooldown();
+					return false;
+				}
+				else
+				{
+					//being held, only can shoot if this is an automatic
+					return WeaponType == WeaponType.FullyAutomatic;
+				}
 			}
 		}
 
@@ -285,6 +309,14 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 				interaction.MouseButtonState, CurrentMagazine.ClientAmmoRemains, WeaponType);
 		}
 		return false;
+	}
+
+		private IEnumerator BurstCooldown()
+	{
+		isCooldown = true;
+		currentBurstCount = 0;
+		yield return WaitFor.Seconds((float)burstCooldown);
+		isCooldown = false;
 	}
 
 	public void ClientPredictInteraction(AimApply interaction)
@@ -813,6 +845,12 @@ public enum WeaponType
 			}
 			else{
 				script.SmartGun = EditorGUILayout.Toggle("Smart Gun", script.SmartGun);
+			}
+
+			if (script.WeaponType == WeaponType.Burst)
+			{
+				script.burstCooldown = EditorGUILayout.DoubleField("Burst Cooldown", script.burstCooldown);
+				script.burstCount = EditorGUILayout.DoubleField("Burst Count", script.burstCount);
 			}
 		}
 	}
