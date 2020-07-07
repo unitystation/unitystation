@@ -54,6 +54,8 @@ public class LavaLandManager : MonoBehaviour
 			{
 				if (data.AreaSize != keyValuePair.Value) continue;
 
+				if(data.isSpecialSite && !keyValuePair.Key.allowSpecialSites) continue;
+
 				//Prefab cache
 				if (PrefabsUsed.ContainsKey(data.AreaPrefab))
 				{
@@ -74,7 +76,11 @@ public class LavaLandManager : MonoBehaviour
 					PrefabsUsed.Remove(data.AreaPrefab);
 				}
 			}
+			
+			Destroy(keyValuePair.Key.gameObject);
 		}
+
+		SpawnScripts.Clear();
 
 		//Delete prefab cache after use
 		foreach (var prefabPairs in PrefabsUsed)
@@ -83,7 +89,7 @@ public class LavaLandManager : MonoBehaviour
 		}
 
 		PrefabsUsed.Clear();
-		
+
 		MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
 
 		Debug.Log("Finished generating LavaLand");

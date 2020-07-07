@@ -15,6 +15,7 @@ public class LavaLandData
 	public GameObject AreaPrefab;
 	public AreaSizes AreaSize;
 	public bool SpawnOnceOnly;
+	public bool isSpecialSite;
 }
 
 public enum AreaSizes

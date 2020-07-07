@@ -9,8 +9,7 @@ public class LavaLandAreaSpawnerScript : MonoBehaviour
 {
 	public AreaSizes Size;
 
-	[HideInInspector]
-	public GameObject prefab;
+	public bool allowSpecialSites;
 
 	private void Start()
 	{
