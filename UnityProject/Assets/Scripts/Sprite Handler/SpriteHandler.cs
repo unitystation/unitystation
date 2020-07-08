@@ -576,6 +576,7 @@ public class SpriteHandler : MonoBehaviour
 		else if (!turnOn && isAnimation)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			animationIndex = 0;
 			isAnimation = false;
 		}
 	}

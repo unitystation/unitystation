@@ -5,7 +5,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
-
+using Weapons.Projectiles;
 #if UNITY_EDITOR
  using UnityEditor;
 #endif
@@ -108,7 +108,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// <summary>
 	///     If suicide shooting should be prevented (for when user inadvertently drags over themselves during a burst)
 	/// </summary>
-	private bool AllowSuicide;
+	protected bool AllowSuicide;
 
 	//TODO connect these with the actual shooting of a projectile
 	/// <summary>
@@ -647,7 +647,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//get the bullet prefab being shot
 		GameObject bullet = Spawn.ClientPrefab(Projectile.name,
 			shooter.transform.position).GameObject;
-		BulletBehaviour b = bullet.GetComponent<BulletBehaviour>();
+		var b = bullet.GetComponent<Projectile>();
 		if (isSuicideShot)
 		{
 			b.Suicide(shooter, this, damageZone);
