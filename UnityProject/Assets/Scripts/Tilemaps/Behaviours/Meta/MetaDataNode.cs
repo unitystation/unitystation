@@ -76,16 +76,21 @@ public class MetaDataNode: IGasMixContainer
 		damageInfo[layerType] += damage;
 	}
 
-	public void TryCreateDamageInfo(LayerType layerType)
+	public void RemoveTileDamage(LayerType layerType)
 	{
-		if (damageInfo.ContainsKey(layerType)) return;
-		damageInfo.Add(layerType, 0);
+		damageInfo.Remove(layerType);
 	}
 
 	public void ResetDamage(LayerType layerType)
 	{
 		TryCreateDamageInfo(layerType);
 		damageInfo[layerType] = 0;
+	}
+
+	public void TryCreateDamageInfo(LayerType layerType)
+	{
+		if (damageInfo.ContainsKey(layerType)) return;
+		damageInfo.Add(layerType, 0);
 	}
 
 	/// <summary>

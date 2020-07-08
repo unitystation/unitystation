@@ -121,6 +121,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		//SoundManager.PlayNetworkedAtPos("GlassHit",worldPosition);
 		if (data.GetTileDamage(Layer.LayerType) >= basicTile.MaxHealth)
 		{
+			data.RemoveTileDamage(Layer.LayerType);
 			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
 		}
 
