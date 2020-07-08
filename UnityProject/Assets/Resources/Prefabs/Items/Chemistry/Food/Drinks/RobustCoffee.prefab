@@ -172,5 +172,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 960da9a064883c4419f8d506ced980ff,
         type: 3}
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7536c223a16702e289aa3b3f8a3ebc5a,
+        type: 2}
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 46bb2fe95f4f66341aadfb4600751333, type: 3}
