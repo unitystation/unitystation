@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEditor;
+using Random = UnityEngine.Random;
 
 public class LavaLandManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class LavaLandManager : MonoBehaviour
 	public List<LavaLandRandomAreaSO> areaSOs = new List<LavaLandRandomAreaSO>();
 
 	private List<LavaLandData> dataList = new List<LavaLandData>();
+
+	[HideInInspector]
+	public List<LavaLandRandomGenScript> randomGenScripts = new List<LavaLandRandomGenScript>();
 
 	public IDictionary<LavaLandAreaSpawnerScript, AreaSizes> SpawnScripts = new Dictionary<LavaLandAreaSpawnerScript, AreaSizes>();
 
@@ -45,18 +49,40 @@ public class LavaLandManager : MonoBehaviour
 
 	private void OnEnable()
 	{
-		EventManager.AddHandler(EVENT.RoundStarted, SpawnAreas);
+		EventManager.AddHandler(EVENT.RoundStarted, SpawnLavaLand);
 	}
 
 	private void OnDisable()
 	{
-		EventManager.RemoveHandler(EVENT.RoundStarted, SpawnAreas);
+		EventManager.RemoveHandler(EVENT.RoundStarted, SpawnLavaLand);
 	}
 
-	public void SpawnAreas()
+	public void SpawnLavaLand()
 	{
 		if(!CustomNetworkManager.IsServer) return;
 
+		StartCoroutine(SpawnLavaLandCo());
+	}
+
+	public IEnumerator SpawnLavaLandCo()
+	{
+		foreach (var script in randomGenScripts)
+		{
+			script.numR = Random.Range(1,7);
+			script.DoSim();
+			yield return new WaitForEndOfFrame();
+		}
+
+		GenerateStructures();
+		yield return new WaitForEndOfFrame();
+
+		MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
+
+		Debug.Log("Finished generating LavaLand");
+	}
+
+	public void GenerateStructures()
+	{
 		if(SpawnScripts.Count == 0) return;
 
 		foreach (var keyValuePair in SpawnScripts)
@@ -105,10 +131,6 @@ public class LavaLandManager : MonoBehaviour
 		}
 
 		PrefabsUsed.Clear();
-
-		MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
-
-		Debug.Log("Finished generating LavaLand");
 	}
 
 	public void SpawnArea(GameObject prefab, LavaLandAreaSpawnerScript script)
@@ -136,10 +158,13 @@ public class LavaLandManager : MonoBehaviour
 
 		var meta = script.transform.parent.parent.GetComponent<MetaTileMap>();
 
+		var tileChangeManager = MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<TileChangeManager>();
+
 		var gameObjectPos = script.gameObject.WorldPosServer().RoundToInt();
 
 		foreach (var layer in layers)
 		{
+
 			foreach (var pos in bounds.allPositionsWithin)
 			{
 				var layerTile = metaMap.GetTile(metaMap.WorldToCell(metaMap.LocalToWorld(pos)), layer);
@@ -148,7 +173,7 @@ public class LavaLandManager : MonoBehaviour
 				{
 					var posTarget = gameObjectPos + pos - script.gameObject.transform.parent.parent.parent.position.RoundToInt();
 
-					meta.SetTile(posTarget, layerTile);
+					tileChangeManager.UpdateTile(posTarget, layerTile);
 				}
 			}
 

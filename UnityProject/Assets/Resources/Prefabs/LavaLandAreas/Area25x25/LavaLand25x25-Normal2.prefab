@@ -725,7 +725,6 @@ GameObject:
   - component: {fileID: 8656862843715264613}
   - component: {fileID: 1527566665199701641}
   - component: {fileID: 243867375584776727}
-  - component: {fileID: 808930866423062846}
   m_Layer: 0
   m_Name: LavaLand25x25-Normal2
   m_TagString: Untagged
@@ -862,20 +861,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &808930866423062846
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4915377602490990009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c91c941bdbb4ea04ca5c9dc2b6b9cf33, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  config: {fileID: 11400000, guid: 316fa4f2494e2b443b1160ddd1a53b6f, type: 2}
-  runOnStart: 1
 --- !u!1 &4940070950437113064
 GameObject:
   m_ObjectHideFlags: 0
