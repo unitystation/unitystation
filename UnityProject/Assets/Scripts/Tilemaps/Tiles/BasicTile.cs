@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Container;
 using Tilemaps.Behaviours;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -93,6 +94,14 @@ public abstract class BasicTile : LayerTile
 	/// How many of the object to spawn when it's deconstructed.
 	/// </summary>
 	public int SpawnAmountOnDeconstruct => SpawnOnDeconstruct == null ? 0 : Mathf.Max(1, spawnAmountOnDeconstruct);
+
+	[SerializeField] private LootOnDespawn lootOnDespawn;
+
+	public LootOnDespawn LootOnDespawn => lootOnDespawn;
+
+	[SerializeField] private string soundOnHit;
+
+	public string SoundOnHit => soundOnHit;
 
 	public override void RefreshTile(Vector3Int position, ITilemap tilemap)
 	{

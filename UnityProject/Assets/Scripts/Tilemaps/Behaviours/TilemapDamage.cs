@@ -118,11 +118,12 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 		BasicTile basicTile, Vector3 worldPosition)
 	{
 		data.AddTileDamage(Layer.LayerType, basicTile.Armor.GetDamage(damage, attackType));
-		//SoundManager.PlayNetworkedAtPos("GlassHit",worldPosition);
+		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
 		if (data.GetTileDamage(Layer.LayerType) >= basicTile.MaxHealth)
 		{
 			data.RemoveTileDamage(Layer.LayerType);
 			tileChangeManager.RemoveTile(data.Position, Layer.LayerType);
+			basicTile.LootOnDespawn?.SpawnLoot(worldPosition);
 		}
 
 		return CalculateAbsorbDamaged(attackType,data,basicTile);
