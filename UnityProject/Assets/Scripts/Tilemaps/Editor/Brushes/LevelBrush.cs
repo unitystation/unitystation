@@ -21,8 +21,6 @@ public class LevelBrush : GridBrush
 	{
 		if (cellCount > 0 && cells[0].tile != null)
 		{
-			TileBase tile = cells[0].tile;
-
 			MetaTileMap metaTileMap = grid.GetComponent<MetaTileMap>();
 
 			if (!metaTileMap)
@@ -32,6 +30,13 @@ public class LevelBrush : GridBrush
 
 			foreach (Vector3Int position in area.allPositionsWithin)
 			{
+				TileBase tile = cells[Random.Range(0, cells.Length)].tile;
+
+				if (tile == null)
+				{
+					tile = cells[0].tile;
+				}
+
 				if (tile is LayerTile)
 				{
 					PlaceLayerTile(metaTileMap, position, (LayerTile)tile);

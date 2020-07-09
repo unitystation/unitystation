@@ -17,6 +17,7 @@ public partial class SubSceneManager
 
 	public static string AdminForcedMainStation = "Random";
 	public static string AdminForcedAwaySite = "Random";
+	public static bool AdminAllowLavaland;
 
 	IEnumerator RoundStartServerLoadSequence()
 	{
@@ -31,6 +32,8 @@ public partial class SubSceneManager
 		yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
 		//Load away site:
 		yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
+		//Load Additional Scenes:
+		yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
 
 		netIdentity.isDirty = true;
 
@@ -84,6 +87,38 @@ public partial class SubSceneManager
 			{
 				SceneName = asteroid,
 				SceneType = SceneType.Asteroid
+			});
+		}
+	}
+
+	//Load all the asteroids on the server
+	IEnumerator ServerLoadAdditionalScenes(SubsceneLoadTimer loadTimer)
+	{
+		loadTimer.IncrementLoadBar("Loading Additional Scenes");
+		foreach (var additionalScene in additionalSceneList.AdditionalScenes)
+		{
+			//only spawn if game config allows
+			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand && !AdminAllowLavaland)
+			{
+				continue;
+			}
+
+			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand)
+			{
+				//reset back to false for the next round if false before.
+				AdminAllowLavaland = false;
+			}
+			else if (additionalScene == "LavaLand")
+			{
+				AdminAllowLavaland = true;
+			}
+
+			yield return StartCoroutine(LoadSubScene(additionalScene, loadTimer));
+
+			loadedScenesList.Add(new SceneInfo
+			{
+				SceneName = additionalScene,
+				SceneType = SceneType.AdditionalScenes
 			});
 		}
 	}

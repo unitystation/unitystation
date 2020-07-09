@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b362eafd58e44344d9431d861f7b5dc2, type: 3}
+  m_Name: LavaLandAreaSO20x20
+  m_EditorClassIdentifier: 
+  AreaSize: 3
+  AreaPrefabData:
+  - AreaPrefab: {fileID: 6328121121378470016, guid: 2ac62b1a78d2d954a8e15221dbdd5c14,
+      type: 3}
+    SpawnOnceOnly: 0
+    isSpecialSite: 0
+  - AreaPrefab: {fileID: 581510618653127522, guid: cdcfedf9965f7124e8cc71e81949fe6f,
+      type: 3}
+    SpawnOnceOnly: 0
+    isSpecialSite: 0
+  - AreaPrefab: {fileID: 1057986233283094974, guid: e0eb37fd7704b0340b5809defeed82a7,
+      type: 3}
+    SpawnOnceOnly: 0
+    isSpecialSite: 0
+  - AreaPrefab: {fileID: 9186532684736550542, guid: 61cf6a0986926fb46adf4aa27000d6ce,
+      type: 3}
+    SpawnOnceOnly: 0
+    isSpecialSite: 0

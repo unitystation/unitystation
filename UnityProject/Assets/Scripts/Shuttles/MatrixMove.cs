@@ -81,6 +81,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[NonSerialized]
 	public bool IsFueled;
 
+	public bool IsForceStopped;
+
 	[Tooltip("Does it require fuel in order to fly?")]
 	public bool RequiresFuel;
 
@@ -396,6 +398,9 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{
 			RecheckThrusters();
 		}
+
+		if (IsForceStopped) return;
+
 		//Not allowing movement without any thrusters:
 		if (HasWorkingThrusters && (IsFueled || !RequiresFuel))
 		{

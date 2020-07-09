@@ -55,5 +55,6 @@ namespace GameConfig
 	public class GameConfig
 	{
 		public bool RandomEventsAllowed;
+		public bool SpawnLavaLand;
 	}
 }
