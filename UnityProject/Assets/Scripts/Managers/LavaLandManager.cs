@@ -104,11 +104,17 @@ public class LavaLandManager : MonoBehaviour
 	//Temp until shuttle landings
 	private void SetQuantumPads()
 	{
-		LavaLandBase1.connectedPad = LavaLandBase1Connector;
-		LavaLandBase1Connector.connectedPad = LavaLandBase1;
+		if (LavaLandBase1 != null && LavaLandBase1Connector != null)
+		{
+			LavaLandBase1.connectedPad = LavaLandBase1Connector;
+			LavaLandBase1Connector.connectedPad = LavaLandBase1;
+		}
 
-		LavaLandBase2.connectedPad = LavaLandBase2Connector;
-		LavaLandBase2Connector.connectedPad = LavaLandBase2;
+		if (LavaLandBase2 != null && LavaLandBase2Connector != null)
+		{
+			LavaLandBase2.connectedPad = LavaLandBase2Connector;
+			LavaLandBase2Connector.connectedPad = LavaLandBase2;
+		}
 	}
 
 	public LavaLandRandomAreaSO GetCorrectSOFromSize(AreaSizes size)
