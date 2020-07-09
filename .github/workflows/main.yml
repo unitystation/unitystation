@@ -216,6 +216,7 @@ jobs:
         SSH_KNOWN_HOSTS: ${{ secrets.SSH_KNOWN_HOSTS }}
         HUB_USERNAME: ${{ secrets.HUB_USERNAME }}
         HUB_PASSWORD: ${{ secrets.HUB_PASSWORD }}
+        ERROR_WEBHOOK: ${{ secrets.ERROR_WEBHOOK }}
       run: |
         echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
         chmod 644 ~/.ssh/known_hosts
