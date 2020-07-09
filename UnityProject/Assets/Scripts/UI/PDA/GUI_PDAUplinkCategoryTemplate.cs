@@ -5,7 +5,7 @@ namespace UI.PDA
 {
 	public class GUI_PDAUplinkCategoryTemplate : DynamicEntry
 	{
-		private GUI_PDA masterTab;
+		private GUI_PDA mainTab;
 
 		private UplinkCatagories category;
 
@@ -15,13 +15,13 @@ namespace UI.PDA
 
 		public void OpenCategory()
 		{
-			masterTab.OnCategoryClickedEvent.Invoke(category.ItemList);
+			mainTab.OnCategoryClickedEvent.Invoke(category.ItemList);
 		}
 
 
 		public void ReInit(UplinkCatagories assignedCategory)
 		{
-			masterTab = MasterTab.GetComponent<GUI_PDA>();
+			mainTab = MasterTab.GetComponent<GUI_PDA>();
 			category = assignedCategory;
 			categoryName.SetValueServer(category.CategoryName);
 		}
