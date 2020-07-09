@@ -60,7 +60,7 @@ public static class ElectricityFunctions
 						Logger.LogErrorFormat("{0} < duplicate Please remove {1}",
 							Category.Electrical,
 							searchVecInt,
-							OIinheritance);
+							OIinheritance.Categorytype);
 					}
 				}
 			}

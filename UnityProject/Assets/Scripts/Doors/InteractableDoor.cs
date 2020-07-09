@@ -115,7 +115,20 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		if (Controller == null) return;
 
-		if (Controller.IsHackable)
+		if (Controller.IsClosed && Controller.IsHackable && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor ))
+        {
+			//allows the jaws of life to pry open doors
+            ToolUtils.ServerUseToolWithActionMessages(interaction, 4.5f,
+            "You start prying open the door...",
+            $"{interaction.Performer.ExpensiveName()} starts prying open the door...",
+            $"You force the door open with your {gameObject.ExpensiveName()}!",
+            $"{interaction.Performer.ExpensiveName()} forces the door open!",
+            () =>
+            {
+                Controller.ServerOpen();
+            });
+		}
+		else if (Controller.IsHackable)
 		{
 			HackingNode onAttemptClose = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptClose");
 			onAttemptClose.SendOutputToConnectedNodes(interaction.Performer);

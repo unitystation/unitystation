@@ -14,37 +14,40 @@ public class UnderFloorLayer : Layer
 
 	public void InitialiseUnderFloorUtilities()
 	{
-		BoundsInt bounds = Tilemap.cellBounds;
-
-		for (int n = bounds.xMin; n < bounds.xMax; n++)
+		if (CustomNetworkManager.Instance._isServer)
 		{
-			for (int p = bounds.yMin; p < bounds.yMax; p++)
+			BoundsInt bounds = Tilemap.cellBounds;
+
+			for (int n = bounds.xMin; n < bounds.xMax; n++)
 			{
-				Vector3Int localPlace = (new Vector3Int(n, p, 0));
-
-				for (int i = 0; i < 50; i++)
+				for (int p = bounds.yMin; p < bounds.yMax; p++)
 				{
-					localPlace.z = -i + 1;
-					var getTile = tilemap.GetTile(localPlace) as LayerTile;
-					if (getTile != null)
+					Vector3Int localPlace = (new Vector3Int(n, p, 0));
+
+					for (int i = 0; i < 50; i++)
 					{
-						if (!TileStore.ContainsKey((Vector2Int)localPlace))
+						localPlace.z = -i + 1;
+						var getTile = tilemap.GetTile(localPlace) as LayerTile;
+						if (getTile != null)
 						{
-							TileStore.Add((Vector2Int)localPlace, new List<LayerTile>());
-						}
+							if (!TileStore.ContainsKey((Vector2Int) localPlace))
+							{
+								TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
+							}
 
-						TileStore[(Vector2Int) localPlace].Add(getTile);
+							TileStore[(Vector2Int) localPlace].Add(getTile);
 
-						var electricalCableTile = getTile as ElectricalCableTile;
-						if (electricalCableTile != null)
-						{
-							matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
-						}
+							var electricalCableTile = getTile as ElectricalCableTile;
+							if (electricalCableTile != null)
+							{
+								matrix.AddElectricalNode(new Vector3Int(n, p, localPlace.z), electricalCableTile);
+							}
 
-						var PipeTile = getTile as PipeTile;
-						if (PipeTile != null)
-						{
-							PipeTile.InitialiseNode(new Vector3Int(n, p, localPlace.z), matrix);
+							var PipeTile = getTile as PipeTile;
+							if (PipeTile != null)
+							{
+								PipeTile.InitialiseNode(new Vector3Int(n, p, localPlace.z), matrix);
+							}
 						}
 					}
 				}
@@ -82,15 +85,34 @@ public class UnderFloorLayer : Layer
 		return tiles;
 	}
 
+
 	public override LayerTile GetTile(Vector3Int position)
 	{
-		if (TileStore.ContainsKey((Vector2Int)position))
+		if (CustomNetworkManager.Instance._isServer)
 		{
-			foreach (var Tile in TileStore[(Vector2Int)position])
+			if (TileStore.ContainsKey((Vector2Int) position) == false)
+			{
+				SetupNode(position);
+			}
+
+			foreach (var Tile in TileStore[(Vector2Int) position])
 			{
 				if (Tile != null)
 				{
 					return Tile;
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				var localPlace = position;
+				localPlace.z = -i + 1;
+				var getTile = tilemap.GetTile(localPlace) as LayerTile;
+				if (getTile != null)
+				{
+					return getTile;
 				}
 			}
 		}
@@ -128,26 +150,7 @@ public class UnderFloorLayer : Layer
 			Vector2Int position2 = position.To2Int();
 			if (!TileStore.ContainsKey(position2))
 			{
-				for (int i = 0; i < 50; i++)
-				{
-					var localPlace = position;
-					localPlace.z = -i + 1;
-					var getTile = tilemap.GetTile(localPlace) as LayerTile;
-					if (getTile != null)
-					{
-						if (!TileStore.ContainsKey((Vector2Int) localPlace))
-						{
-							TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
-						}
-
-						TileStore[(Vector2Int) localPlace].Add(getTile);
-					}
-				}
-
-				if (!TileStore.ContainsKey(position2))
-				{
-					TileStore[position2] = new List<LayerTile>();
-				}
+				SetupNode(position);
 			}
 
 			int index = FindFirstEmpty(TileStore[position2]);
@@ -165,13 +168,15 @@ public class UnderFloorLayer : Layer
 
 			if (Application.isPlaying)
 			{
-				matrix.TileChangeManager.UnderfloorUpdateTile(position, tile as BasicTile, transformMatrix,color);
+				matrix.TileChangeManager.UnderfloorUpdateTile(position, tile as BasicTile, transformMatrix, color);
 			}
 			else
 			{
 				if (position.z < -49)
 				{
-					Logger.LogError("Tile has reached maximum Meta data system depth This could be from accidental placing of multiple tiles", Category.Editor);
+					Logger.LogError(
+						"Tile has reached maximum Meta data system depth This could be from accidental placing of multiple tiles",
+						Category.Editor);
 					return;
 				}
 			}
@@ -207,8 +212,8 @@ public class UnderFloorLayer : Layer
 				{
 					TileStore[(Vector2Int) position][Math.Abs(position.z - 1)] = null;
 				}
-
 			}
+
 			base.RemoveTile(position, removeAll);
 			return;
 		}
@@ -243,6 +248,31 @@ public class UnderFloorLayer : Layer
 		}
 
 		return Color.white;
+	}
+
+	public void SetupNode(Vector3Int position)
+	{
+		Vector2Int position2 = position.To2Int();
+		for (int i = 0; i < 50; i++)
+		{
+			var localPlace = position;
+			localPlace.z = -i + 1;
+			var getTile = tilemap.GetTile(localPlace) as LayerTile;
+			if (getTile != null)
+			{
+				if (!TileStore.ContainsKey((Vector2Int) localPlace))
+				{
+					TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
+				}
+
+				TileStore[(Vector2Int) localPlace].Add(getTile);
+			}
+		}
+
+		if (!TileStore.ContainsKey(position2))
+		{
+			TileStore[position2] = new List<LayerTile>();
+		}
 	}
 
 	public Matrix4x4 GetMatrix4x4(Vector3Int position, LayerTile tile)

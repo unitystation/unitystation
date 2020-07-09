@@ -61,7 +61,7 @@ namespace Chemistry.Components
 		/// Server side only. Current reagent mix inside container.
 		/// Invoke OnReagentMixChanged if you change anything in reagent mix
 		/// </summary>
-		private ReagentMix CurrentReagentMix
+		public ReagentMix CurrentReagentMix
 		{
 			get
 			{

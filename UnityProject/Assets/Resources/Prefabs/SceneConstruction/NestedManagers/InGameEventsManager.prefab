@@ -1,5 +1,206 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1092207170390034217
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4748508647246467756}
+  - component: {fileID: 8538565605628696324}
+  m_Layer: 0
+  m_Name: Immovable Rod
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4748508647246467756
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092207170390034217}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.2508955, y: 0.74306184, z: -0.91875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8538565605628696324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1092207170390034217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42a1680a936ac544990d2d9061ebd7d7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Immovable Rod
+  StartTimer: 5
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 0.5
+  MinPlayersToTrigger: 25
+  FakeEvent: 0
+  AnnounceEvent: 1
+  immovableRodPrefab: {fileID: 7144248469089430455, guid: 92917100ffedb8446b152dfce67581f8,
+    type: 3}
+  minStrength: 1000
+  maxStrength: 1500
+  timeBetweenExplosions: 0.25
+--- !u!1 &2929328024764174348
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5866069805973481999}
+  - component: {fileID: 3748124432481525740}
+  - component: {fileID: 6635215241995570004}
+  - component: {fileID: 5120446799834176700}
+  m_Layer: 0
+  m_Name: MeteorEvents
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5866069805973481999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929328024764174348}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.0673392, y: 0.73924786, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3748124432481525740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929328024764174348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e1a86f3a835204698dda37a5c88d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Meteor Shower (Normal)
+  StartTimer: 10
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 0.5
+  MinPlayersToTrigger: 15
+  FakeEvent: 0
+  AnnounceEvent: 1
+  asteroidEventLevels: 0
+  minMeteorAmount: 2
+  maxMeteorAmount: 10
+  minStrength: 750
+  maxStrength: 1750
+  minTimeBetweenMeteors: 1
+  maxTimeBetweenMeteors: 10
+--- !u!114 &6635215241995570004
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929328024764174348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e1a86f3a835204698dda37a5c88d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Meteor Shower (Threatening)
+  StartTimer: 10
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 0.5
+  MinPlayersToTrigger: 25
+  FakeEvent: 0
+  AnnounceEvent: 1
+  asteroidEventLevels: 1
+  minMeteorAmount: 3
+  maxMeteorAmount: 8
+  minStrength: 750
+  maxStrength: 1750
+  minTimeBetweenMeteors: 1
+  maxTimeBetweenMeteors: 10
+--- !u!114 &5120446799834176700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2929328024764174348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64e1a86f3a835204698dda37a5c88d11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Meteor Shower (Catastrophic)
+  StartTimer: 10
+  EndTimer: 0
+  EventType: 1
+  ChanceToHappen: 0.5
+  MinPlayersToTrigger: 35
+  FakeEvent: 0
+  AnnounceEvent: 1
+  asteroidEventLevels: 2
+  minMeteorAmount: 4
+  maxMeteorAmount: 8
+  minStrength: 750
+  maxStrength: 1500
+  minTimeBetweenMeteors: 1
+  maxTimeBetweenMeteors: 10
+--- !u!1 &2976795245637686985
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 739026179657658727}
+  m_Layer: 0
+  m_Name: Antagonist
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &739026179657658727
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2976795245637686985}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.2508955, y: 0.74306184, z: -0.91875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2814037277566469169}
+  m_Father: {fileID: 8934140032923375002}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3022207007842459343
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,11 +210,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6277872687871681347}
-  - component: {fileID: 1165683735219187906}
-  - component: {fileID: 1650995718794956169}
-  - component: {fileID: 5017832222299659044}
-  - component: {fileID: 5056261323787470261}
-  - component: {fileID: 2507893404645622395}
   m_Layer: 0
   m_Name: FunEvents
   m_TagString: Untagged
@@ -31,46 +227,52 @@ Transform:
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 4748508647246467756}
+  - {fileID: 5866069805973481999}
+  - {fileID: 2229250345173143171}
   m_Father: {fileID: 8934140032923375002}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1165683735219187906
+--- !u!1 &4703966495968188789
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2229250345173143171}
+  - component: {fileID: 2842095842743565100}
+  - component: {fileID: 7640521655157332548}
+  m_Layer: 0
+  m_Name: GiveItems
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2229250345173143171
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4703966495968188789}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.8358982, y: 0.99273133, z: -0.09894371}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 6277872687871681347}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2842095842743565100
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022207007842459343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 64e1a86f3a835204698dda37a5c88d11, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EventName: Meteor Shower
-  StartTimer: 10
-  EndTimer: 0
-  EventType: 0
-  ChanceToHappen: 0.5
-  FakeEvent: 0
-  AnnounceEvent: 1
-  explosionPrefab: {fileID: 1059518790872729420, guid: 048e03a155f6ed04bb8cc8984479ee4d,
-    type: 3}
-  minMeteorAmount: 2
-  maxMeteorAmount: 10
-  minRadius: 8
-  maxRadius: 20
-  minDamage: 100
-  maxDamage: 500
-  minTimeBetweenMeteors: 1
-  maxTimeBetweenMeteors: 10
---- !u!114 &1650995718794956169
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022207007842459343}
+  m_GameObject: {fileID: 4703966495968188789}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3324aafa434fe154b942ac5afdacb402, type: 3}
@@ -79,8 +281,9 @@ MonoBehaviour:
   EventName: Give Players Guns
   StartTimer: 0
   EndTimer: 10
-  EventType: 0
+  EventType: 1
   ChanceToHappen: 5
+  MinPlayersToTrigger: 0
   FakeEvent: 0
   AnnounceEvent: 1
   gunList:
@@ -90,39 +293,13 @@ MonoBehaviour:
   - {fileID: 8582594776399167655, guid: b517a912908f00746a9350db884f3ea7, type: 3}
   - {fileID: 8582594776399167655, guid: 40613838c790c3f48bd441a6587bfd08, type: 3}
   - {fileID: 8582594776399167655, guid: a74cbb38ab9ab7c459eef728c98b21f0, type: 3}
---- !u!114 &5017832222299659044
+--- !u!114 &7640521655157332548
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022207007842459343}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 42a1680a936ac544990d2d9061ebd7d7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EventName: Immovable Rod
-  StartTimer: 5
-  EndTimer: 0
-  EventType: 0
-  ChanceToHappen: 0.5
-  FakeEvent: 0
-  AnnounceEvent: 1
-  explosionPrefab: {fileID: 1059518790872729420, guid: 048e03a155f6ed04bb8cc8984479ee4d,
-    type: 3}
-  minRadius: 4
-  maxRadius: 8
-  minDamage: 200
-  maxDamage: 500
-  timeBetweenExplosions: 1
---- !u!114 &5056261323787470261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022207007842459343}
+  m_GameObject: {fileID: 4703966495968188789}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1d16b50667139142a97de599b0f039e, type: 3}
@@ -131,8 +308,9 @@ MonoBehaviour:
   EventName: Give Players Melee
   StartTimer: 0
   EndTimer: 10
-  EventType: 0
+  EventType: 1
   ChanceToHappen: 5
+  MinPlayersToTrigger: 0
   FakeEvent: 0
   AnnounceEvent: 1
   itemList:
@@ -142,13 +320,132 @@ MonoBehaviour:
   - {fileID: 7881540825094338729, guid: 8e2977953ed34c84c82792c99d2549b5, type: 3}
   - {fileID: 7781396554342910705, guid: fd2b975bb2d60fb429c193f9ef1d31b0, type: 3}
   announceText: Did someone drop a bat?
---- !u!114 &2507893404645622395
+--- !u!1 &4769905310584923402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2814037277566469169}
+  - component: {fileID: 5238453998198822785}
+  m_Layer: 0
+  m_Name: Put antag events here
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2814037277566469169
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4769905310584923402}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 739026179657658727}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5238453998198822785
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3022207007842459343}
+  m_GameObject: {fileID: 4769905310584923402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d16b50667139142a97de599b0f039e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Dummy
+  StartTimer: 0
+  EndTimer: 2
+  EventType: 3
+  ChanceToHappen: 0
+  MinPlayersToTrigger: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  itemList:
+  - {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+  announceText: A gift from the gods!
+--- !u!1 &4938991384554239466
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8107851843940366990}
+  m_Layer: 0
+  m_Name: Debug
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8107851843940366990
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4938991384554239466}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -3.8358982, y: 0.99273133, z: -0.09894371}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 6475051549989528625}
+  m_Father: {fileID: 8934140032923375002}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &7299932607165905505
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 534459490156450071}
+  - component: {fileID: 636105449945791680}
+  - component: {fileID: 6505271862632814539}
+  - component: {fileID: 8544269558926079597}
+  - component: {fileID: 1489939094690509351}
+  m_Layer: 0
+  m_Name: GiveItems
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &534459490156450071
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7299932607165905505}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 1.4149973, y: 0.24966949, z: 0.8198063}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8619822432118796632}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &636105449945791680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7299932607165905505}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1d16b50667139142a97de599b0f039e, type: 3}
@@ -157,8 +454,154 @@ MonoBehaviour:
   EventName: Give players a cookie
   StartTimer: 0
   EndTimer: 2
-  EventType: 0
+  EventType: 2
   ChanceToHappen: 0
+  MinPlayersToTrigger: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  itemList:
+  - {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+  announceText: A gift from the gods!
+--- !u!114 &6505271862632814539
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7299932607165905505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d16b50667139142a97de599b0f039e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Give players alcoholic drink
+  StartTimer: 0
+  EndTimer: 10
+  EventType: 2
+  ChanceToHappen: 0
+  MinPlayersToTrigger: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  itemList:
+  - {fileID: 1150524617746403880, guid: eab2e016a76b9d844a1163cb42e86b6b, type: 3}
+  - {fileID: 1150524617746403880, guid: eab2e016a76b9d844a1163cb42e86b6b, type: 3}
+  - {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
+  - {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
+  - {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
+  - {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
+  - {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
+  - {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
+  - {fileID: 1150524617746403880, guid: 8293bf9edcadf604f82121a421203d88, type: 3}
+  - {fileID: 6248929123533218389, guid: 90c421bf39f2fa14c87a8164b227a76e, type: 3}
+  announceText: Have a drink on us!
+--- !u!114 &8544269558926079597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7299932607165905505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d16b50667139142a97de599b0f039e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Give players non-alcoholic drink
+  StartTimer: 0
+  EndTimer: 10
+  EventType: 2
+  ChanceToHappen: 0
+  MinPlayersToTrigger: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  itemList:
+  - {fileID: 6546673936360135170, guid: e87239ad02449c9448d296098720eee1, type: 3}
+  - {fileID: 6546673936360135170, guid: b7831b25f6bc923458647be942a2609f, type: 3}
+  - {fileID: 6546673936360135170, guid: 9df8b42a3b7c7554ab9c48ba64b45d2e, type: 3}
+  - {fileID: 6546673936360135170, guid: 473d54ef6d2278d4fb21703ff8c73856, type: 3}
+  - {fileID: 6248929123533218389, guid: c96c4c613bfa46b48a54292a517d13c2, type: 3}
+  - {fileID: 6248929123533218389, guid: 8ce1f633994ab084d8999c6c608105ec, type: 3}
+  - {fileID: 6248929123533218389, guid: 57821c0cc44f3824bafe246a644ce82f, type: 3}
+  - {fileID: 6248929123533218389, guid: 191fd33a71ba4a5499077c7f913c8e0a, type: 3}
+  announceText: Have a drink on us!
+--- !u!114 &1489939094690509351
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7299932607165905505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d16b50667139142a97de599b0f039e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Give players food
+  StartTimer: 0
+  EndTimer: 10
+  EventType: 2
+  ChanceToHappen: 0
+  MinPlayersToTrigger: 0
+  FakeEvent: 0
+  AnnounceEvent: 1
+  itemList:
+  - {fileID: 6532193109441330816, guid: cd60162658a8c12479da578b14efa79e, type: 3}
+  - {fileID: 6532193109441330816, guid: db7cd7b4544fd9b44b751a043a6b2e53, type: 3}
+  - {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2, type: 3}
+  - {fileID: 6532193109441330816, guid: 94333a343b655f843aa04e39222a8445, type: 3}
+  - {fileID: 6532193109441330816, guid: eb8dffed09731b74da9448faff662fae, type: 3}
+  - {fileID: 6532193109441330816, guid: dcb198c42e70def43a450ef925a6b4b5, type: 3}
+  - {fileID: 6532193109441330816, guid: 6366d9ab2983aa44aa585fd0f7557e17, type: 3}
+  announceText: A free buffet was distributed!
+--- !u!1 &7648139263688738906
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6475051549989528625}
+  - component: {fileID: 7210908154553613890}
+  m_Layer: 0
+  m_Name: Put debug events here
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6475051549989528625
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7648139263688738906}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -1.4149973, y: -0.24966949, z: -0.8198063}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 8107851843940366990}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7210908154553613890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7648139263688738906}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1d16b50667139142a97de599b0f039e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EventName: Dummy
+  StartTimer: 0
+  EndTimer: 2
+  EventType: 4
+  ChanceToHappen: 0
+  MinPlayersToTrigger: 0
   FakeEvent: 0
   AnnounceEvent: 1
   itemList:
@@ -193,6 +636,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 6277872687871681347}
+  - {fileID: 8619822432118796632}
+  - {fileID: 739026179657658727}
+  - {fileID: 8107851843940366990}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -210,3 +656,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   triggerEventInterval: 1200
   chanceItIsFake: 50
+  RandomEventsAllowed: 1
+  minPlayersForRandomEventsToHappen: 5
+  EnumListCache: []
+--- !u!1 &8985401255687248692
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8619822432118796632}
+  m_Layer: 0
+  m_Name: Special
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8619822432118796632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8985401255687248692}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -5.2508955, y: 0.74306184, z: -0.91875}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 534459490156450071}
+  m_Father: {fileID: 8934140032923375002}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

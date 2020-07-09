@@ -2,6 +2,11 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdminTools;
+using Audio;
+using Items.PDA;
+using UnityEngine;
+using Mirror;
+using UI.PDA;
 using Audio.Containers;
 using UnityEngine;
 using Mirror;
@@ -624,6 +629,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
+
+	/// <summary>
+	/// A variation of CmdRequestPaperEdit, but is used for the PDA notes system
+	/// </summary>
+	[Command]
+	public void CmdRequestNoteEdit(GameObject pdaObject, string newMsg)
+	{
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+		PDANotesNetworkHandler noteNetworkScript = pdaObject.GetComponent<PDANotesNetworkHandler>();
+		noteNetworkScript.SetServerString(newMsg);
+		noteNetworkScript.UpdatePlayer(gameObject);
+
+	}
+
 	[Command]
 	public void CmdRequestRename(GameObject target, string customName)
 	{
@@ -920,12 +939,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake, bool announceEvent)
+	public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake, bool announceEvent, InGameEventType eventType)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, isFake, PlayerList.Instance.GetByUserID(adminId).Username, announceEvent);
+		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, eventType, isFake, PlayerList.Instance.GetByUserID(adminId).Username, announceEvent);
 	}
 
 	[Command]

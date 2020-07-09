@@ -52,7 +52,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 16d5da13f2b40f2498638cd378f50d93, type: 3}
     - {fileID: 102900000, guid: 8381c5c30be223d4f8e407fe4d12f0da, type: 3}
     - {fileID: 102900000, guid: b06a43659ecdd2a4fb3bfb086eef2810, type: 3}
-    totalSpriteSurfaceArea: 14622642
+    totalSpriteSurfaceArea: 14668738
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -648,6 +648,7 @@ SpriteAtlas:
   - {fileID: 21300040, guid: 1835543166b07d845a6cd7e28bfe2942, type: 3}
   - {fileID: 21300046, guid: 1835543166b07d845a6cd7e28bfe2942, type: 3}
   - {fileID: 21300044, guid: 1835543166b07d845a6cd7e28bfe2942, type: 3}
+  - {fileID: 21300000, guid: a5ea1631672608a479f3c1d68e4e923b, type: 3}
   - {fileID: 21300000, guid: c7a789313b2d48644b33b3057366160a, type: 3}
   - {fileID: 21300042, guid: 2ce199316d471654aa3ebee953784986, type: 3}
   - {fileID: 21300040, guid: 2ce199316d471654aa3ebee953784986, type: 3}
@@ -1254,6 +1255,7 @@ SpriteAtlas:
   - {fileID: 21300004, guid: e1f88c8262981a647b4bf3210c2ec07c, type: 3}
   - {fileID: 21300002, guid: e1f88c8262981a647b4bf3210c2ec07c, type: 3}
   - {fileID: 21300000, guid: e1f88c8262981a647b4bf3210c2ec07c, type: 3}
+  - {fileID: 21300000, guid: 7a2bed82c1d5e5540890785c53b80858, type: 3}
   - {fileID: 21300002, guid: ff669f8275fd71345b47af599c525d53, type: 3}
   - {fileID: 21300000, guid: ff669f8275fd71345b47af599c525d53, type: 3}
   - {fileID: 21300010, guid: ff669f8275fd71345b47af599c525d53, type: 3}
@@ -2749,6 +2751,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8daac7365c0e04d31832f5d5ad3c05c7, type: 3}
   - {fileID: 21300000, guid: c960b83623143174b84dc35bcd501724, type: 3}
   - {fileID: 21300000, guid: 7826f836af9882c4b89d8accf265e120, type: 3}
+  - {fileID: 21300000, guid: e8fff836a27a4594ea229d4efd2ad468, type: 3}
   - {fileID: 21300000, guid: 3c429a36d177bae43bbd155bcb393522, type: 3}
   - {fileID: 21300002, guid: 3c429a36d177bae43bbd155bcb393522, type: 3}
   - {fileID: 21300004, guid: 3c429a36d177bae43bbd155bcb393522, type: 3}
@@ -4205,6 +4208,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: ba55b359e5acb474b91b9457662012bd, type: 3}
   - {fileID: 21300002, guid: 849894592f32e344b8d451d838a55a6c, type: 3}
   - {fileID: 21300000, guid: 849894592f32e344b8d451d838a55a6c, type: 3}
+  - {fileID: 21300000, guid: f7e2f559c0b07134c9eb276f60f3bcaa, type: 3}
   - {fileID: 21300000, guid: cc06ca59a18d1b146ae58ab5928ed49e, type: 3}
   - {fileID: 21300002, guid: cc06ca59a18d1b146ae58ab5928ed49e, type: 3}
   - {fileID: 21300004, guid: cc06ca59a18d1b146ae58ab5928ed49e, type: 3}
@@ -6136,6 +6140,10 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 918e2ecc05a4e134980fe925f6241aef, type: 3}
   - {fileID: 21300000, guid: 157920dc35301434a8466aef8265c003, type: 3}
   - {fileID: 21300000, guid: 8b4772dc9277a5748b6ca31a0614ef05, type: 3}
+  - {fileID: -3711270402874190533, guid: 1a9977dc395acf11f988094474e0cf5e, type: 3}
+  - {fileID: 4211307377537245155, guid: 1a9977dc395acf11f988094474e0cf5e, type: 3}
+  - {fileID: 7232190825748640305, guid: 1a9977dc395acf11f988094474e0cf5e, type: 3}
+  - {fileID: -6900742946240031366, guid: 1a9977dc395acf11f988094474e0cf5e, type: 3}
   - {fileID: 21300000, guid: e26b87dcba96c3344bf05c88c5e71876, type: 3}
   - {fileID: 21300000, guid: 72a918dcbd71e374691bfde049ce2fa4, type: 3}
   - {fileID: 21300000, guid: 92500adc2c023a045a9f241eaa014f6a, type: 3}
@@ -8361,6 +8369,7 @@ SpriteAtlas:
   - ratvarwindoorglow_20
   - ratvarwindoorglow_23
   - ratvarwindoorglow_22
+  - Dial_Base
   - construction_odysseus15
   - bloodsparkles_21
   - bloodsparkles_20
@@ -8967,6 +8976,7 @@ SpriteAtlas:
   - tracer_beam_2
   - tracer_beam_1
   - tracer_beam_0
+  - Dial_horizontal_base
   - fleshmend_fire_1
   - fleshmend_fire_0
   - fleshmend_fire_5
@@ -10462,6 +10472,7 @@ SpriteAtlas:
   - invisible_box
   - parts_honker_harness
   - actions_items_jetboot
+  - Dial_horizontal_pointer
   - fusion_gas_0
   - fusion_gas_1
   - fusion_gas_2
@@ -11918,6 +11929,7 @@ SpriteAtlas:
   - construction_durand8
   - prog_bar_65_fail_1
   - prog_bar_65_fail_0
+  - Dial_Pointer
   - kick_0
   - kick_1
   - kick_2
@@ -13849,6 +13861,10 @@ SpriteAtlas:
   - wrap_target_1562505403.7537956
   - screen_slimecore_act_rest
   - actions_clockcult_Vitality_Matrix
+  - impact_laser_yellow_1
+  - impact_laser_yellow_0
+  - impact_laser_yellow_3
+  - impact_laser_yellow_2
   - screen_alien_harm
   - blood cultist_rune4words
   - r_leg5_0

@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4399345930852480852
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b4a0dab98ad8f97dcb9efa0a3a7bee6b,
+        type: 2}
+    - target: {fileID: 145581183726909013, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1349684638700962633, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1382392464201793277, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_Name
+      value: SyringeSalicylicAcid
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1386190314498737033, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: initialDescription
+      value: Contains salicylic acid, used to treat severe brute damage.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: initialName
+      value: syringe (salicylic acid)
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bc948ccbd770fff438862a32cd45a867, type: 3}

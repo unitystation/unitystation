@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fab70c9bf9ee1d438e76270938c1092, type: 3}
+  m_Name: Steal
+  m_EditorClassIdentifier: 
+  objectiveName: Steal
+  IsUnique: 0
+  description: Steal something from the station
+  ItemPool:
+    m_keys:
+    - {fileID: 6254655335276451647, guid: 70a15a1bc92d10944878d2f52dfe2be0, type: 3}
+    - {fileID: 7781396554342910705, guid: 5215b03386bb16b47863b89009d46ba9, type: 3}
+    - {fileID: 7775365065952118728, guid: 89764f7b0bb9e743aa6e43433075a252, type: 3}
+    - {fileID: 6494520623657242347, guid: 561dab634d89fb0eb9f8e0dc82da82a1, type: 3}
+    - {fileID: 100328150011014054, guid: b998cf4e42b95ec4fbbb893c889010e8, type: 3}
+    - {fileID: 3921521694364753778, guid: 3bce251232ebb5a49a7a932420df0027, type: 3}
+    - {fileID: 3469891026679729664, guid: b032e09c1bd8c5449b888c4353d665ba, type: 3}
+    - {fileID: 5374960043103273218, guid: 5653131fc0c7f0b46af145251ab061d4, type: 3}
+    m_values: 0300000001000000010000000100000001000000010000000100000001000000

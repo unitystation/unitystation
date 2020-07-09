@@ -1,6 +1,7 @@
 ﻿using Chemistry.Components;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 [RequireComponent(typeof(ItemAttributesV2))]
@@ -71,11 +72,30 @@ public class DrinkableContainer : Consumable
 		var drinkAmount = container.TransferAmount;
 		container.TakeReagents(drinkAmount);
 
+		DoDrinkEffects(eater, drinkAmount);
+
 		// Play sound
 		if (item && !string.IsNullOrEmpty(sound))
 		{
 			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 		}
+	}
 
+	private void DoDrinkEffects(PlayerScript eater, float drinkAmount)
+	{
+		var playerEatDrinkEffects = eater.GetComponent<PlayerEatDrinkEffects>();
+
+		if(playerEatDrinkEffects == null) return;
+
+		if ((int) drinkAmount == 0) return;
+
+		foreach (var reagent in container.CurrentReagentMix)
+		{
+			//if its not alcoholic skip
+			if (!AlcoholicDrinksSOScript.Instance.AlcoholicReagents.Contains(reagent.Key)) continue;
+
+			//The more different types of alcohol in a drink the longer you get drunk for each sip.
+			playerEatDrinkEffects.ServerSendMessageToClient(eater.gameObject, (int)drinkAmount);
+		}
 	}
 }

@@ -31,13 +31,16 @@ public class FireLock : InteractableDoor, ISetMultitoolSlave
 
 	void TriggerAlarm()
 	{
-		if (fireAlarm)
+		if (!Controller.IsWelded)
 		{
-			fireAlarm.SendCloseAlerts();
-		}
-		else
-		{
-			ReceiveAlert();
+			if (fireAlarm)
+			{
+				fireAlarm.SendCloseAlerts();
+			}
+			else
+			{
+				ReceiveAlert();
+			}
 		}
 	}
 

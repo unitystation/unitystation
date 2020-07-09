@@ -1,0 +1,94 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5214873838911902747
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3401052610295717428, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: dec2c3059cbf02729b69145c8de2b675,
+        type: 2}
+    - target: {fileID: 3401052610295717428, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: fa60dedbe4f861e76a46f56f59987729,
+        type: 2}
+    - target: {fileID: 4104298991044524542, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: initialDescription
+      value: A modified stimulants autoinjector for use in combat situations. Has
+        a mild healing effect.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4470806400139422696, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4474603976032917148, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_Name
+      value: StimpackMedipenTraitor
+      objectReference: {fileID: 0}
+    - target: {fileID: 4579255939164547880, guid: deb84929dfe1d854894fd16fc6c260cc,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: deb84929dfe1d854894fd16fc6c260cc, type: 3}

@@ -1,0 +1,107 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4846480283505818399
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: initialDescription
+      value: A small bottle of pure ethanol.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2953435279983986442, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: initialName
+      value: ethanol bottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3315402667913958684, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3319486117027293288, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_Name
+      value: EthanolBottle
+      objectReference: {fileID: 0}
+    - target: {fileID: 3424172302466455004, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 04af0125ed6e69723a72d56c754e56a8,
+        type: 2}
+    - target: {fileID: 4556275883868545216, guid: e29b1fbcef2694d41b261271fecf09dc,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 30
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e29b1fbcef2694d41b261271fecf09dc, type: 3}

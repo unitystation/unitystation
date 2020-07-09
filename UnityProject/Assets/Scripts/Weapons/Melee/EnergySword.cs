@@ -12,7 +12,7 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	private SpriteHandlerController spriteHandlerController;
 	private ItemAttributesV2 itemAttributes;
 	public EswordSprites Sprites;
-	public PlayerLightControl playerLightControl;
+	public ItemLightControl playerLightControl;
 	public LightSprite worldLight;
 	public GameObject worldRenderer;
 
@@ -248,7 +248,8 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	private void UpdateLight()
 	{
-		playerLightControl.Toggle(activated, activated ? activatedLightIntensity : 0);
+		playerLightControl.Toggle(activated);
+		playerLightControl.SetIntensity(activated ? activatedLightIntensity : 0);
 		worldRenderer.SetActive(activated);
 	}
 
