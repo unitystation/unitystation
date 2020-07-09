@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace Lighting
 {
-	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>,IAPCPowered
+	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>,IAPCPowered, ISetMultitoolMaster
 	{
 		public List<LightSource> listOfLights;
 
@@ -28,6 +28,17 @@ namespace Lighting
 		private SpriteRenderer spriteRenderer = null;
 
 		private PowerStates powerState = PowerStates.On;
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
+		public MultitoolConnectionType ConType  => conType;
+
+		private bool multiMaster = true;
+		public bool MultiMaster => multiMaster;
+
+		public void AddSlave(object SlaveObject)
+		{
+		}
 
 		private void Awake()
 		{

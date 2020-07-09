@@ -5,7 +5,7 @@ using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowered, IServerLifecycle
+public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowered, IServerLifecycle, ISetMultitoolSlave
 {
 	public LightSwitchV2 relatedLightSwitch;
 	private float coolDownTime = 2.0f;
@@ -44,6 +44,19 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private ItemTrait traitRequired;
 	private GameObject itemInMount;
 	private float integrityThreshBar;
+
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
+	public MultitoolConnectionType ConType  => conType;
+
+	public void SetMaster(ISetMultitoolMaster Imaster)
+	{
+		var lightSwitch = (Imaster as Component)?.gameObject.GetComponent<LightSwitchV2>();
+		if (lightSwitch != relatedLightSwitch)
+		{
+			SubscribeToSwitchEvent(lightSwitch);
+		}
+	}
 
 	private void EnsureInit()
 	{
@@ -300,21 +313,19 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	#region SwitchRelatedLogic
 
-	public bool SubscribeToSwitchEvent(LightSwitchV2 lightSwitch)
+	public void SubscribeToSwitchEvent(LightSwitchV2 lightSwitch)
 	{
-		if (lightSwitch == null) return false;
 		UnSubscribeFromSwitchEvent();
 		relatedLightSwitch = lightSwitch;
 		lightSwitch.switchTriggerEvent += Trigger;
-		return true;
 	}
 
-	public bool UnSubscribeFromSwitchEvent()
+	public void UnSubscribeFromSwitchEvent()
 	{
-		if (relatedLightSwitch == null) return false;
+		if (relatedLightSwitch == null)
+			return;
 		relatedLightSwitch.switchTriggerEvent -= Trigger;
 		relatedLightSwitch = null;
-		return true;
 	}
 
 	public override void Trigger(bool newState)
