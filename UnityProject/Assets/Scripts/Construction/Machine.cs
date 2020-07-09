@@ -34,6 +34,11 @@ namespace Machines
 		/// </summary>
 		public GameObject MachineBoardPrefab => machineBoardPrefab;
 
+		/// <summary>
+		/// Can this machine not be deconstructed?
+		/// </summary>
+		public bool canNotBeDeconstructed;
+
 		[Tooltip("Time taken to screwdrive to deconstruct this.")]
 		[SerializeField]
 		private float secondsToScrewdrive = 2f;
@@ -52,6 +57,12 @@ namespace Machines
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			if (MachineParts == null) return;
+
+			if (canNotBeDeconstructed)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "This machine is too well built to be deconstructed.");
+				return;
+			}
 
 			//unscrew
 			ToolUtils.ServerUseToolWithActionMessages(interaction, secondsToScrewdrive,

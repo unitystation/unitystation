@@ -22,6 +22,31 @@ public class LavaLandManager : MonoBehaviour
 
 	private IDictionary<GameObject, GameObject> PrefabsUsed = new Dictionary<GameObject, GameObject>();
 
+	//temp stuff:
+	/// <summary>
+	/// Temp until shuttle landings possible
+	/// </summary>
+	[HideInInspector]
+	public QuantumPad LavaLandBase2;
+
+	/// <summary>
+	/// Temp until shuttle landings possible
+	/// </summary>
+	[HideInInspector]
+	public QuantumPad LavaLandBase1;
+
+	/// <summary>
+	/// Temp until shuttle landings possible
+	/// </summary>
+	[HideInInspector]
+	public QuantumPad LavaLandBase1Connector;
+
+	/// <summary>
+	/// Temp until shuttle landings possible
+	/// </summary>
+	[HideInInspector]
+	public QuantumPad LavaLandBase2Connector;
+
 	private void Awake()
 	{
 		if (instance == null)
@@ -61,6 +86,8 @@ public class LavaLandManager : MonoBehaviour
 	{
 		if(!CustomNetworkManager.IsServer) return;
 
+		if(MatrixManager.Instance.lavaLandMatrix == null) return;
+
 		StartCoroutine(SpawnLavaLandCo());
 	}
 
@@ -78,7 +105,19 @@ public class LavaLandManager : MonoBehaviour
 
 		MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
 
+		SetQuantumPads();
+
 		Debug.Log("Finished generating LavaLand");
+	}
+
+	//Temp until shuttle landings
+	private void SetQuantumPads()
+	{
+		LavaLandBase1.connectedPad = LavaLandBase1Connector;
+		LavaLandBase1Connector.connectedPad = LavaLandBase1;
+
+		LavaLandBase2.connectedPad = LavaLandBase2Connector;
+		LavaLandBase2Connector.connectedPad = LavaLandBase2;
 	}
 
 	public void GenerateStructures()

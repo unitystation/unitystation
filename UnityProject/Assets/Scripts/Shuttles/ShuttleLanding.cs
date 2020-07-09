@@ -27,7 +27,7 @@ public class ShuttleLanding : MonoBehaviour
 		matrixMove.SetPosition(teleportCoordinate);
 	}
 }
-
+#if Unity_Editor
 [CustomEditor(typeof(ShuttleLanding))]
 public class ShuttleLandingEditor : Editor
 {
@@ -49,3 +49,4 @@ public class ShuttleLandingEditor : Editor
 		}
 	}
 }
+#endif
