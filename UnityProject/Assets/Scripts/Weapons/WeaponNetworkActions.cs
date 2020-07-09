@@ -147,23 +147,25 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 			LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 
 			var integrity = victim.GetComponent<Integrity>();
+			var meleeable = victim.GetComponent<Meleeable>();
 			if (integrity != null)
 			{
-
-				//damaging an object
-				if(isWeapon && weaponStats != null &&
+				if (meleeable.GetMeleeable())
+				{//damaging an object
+					if(isWeapon && weaponStats != null &&
 					weaponStats.hitSoundSettings == SoundItemSettings.Both)
-				{
-					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+					{
+						SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+					}
+					else if (isWeapon && weaponStats != null &&
+				    	     weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.soundOnHit != "")
+					{
+						SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+						attackSoundName = "";
+					}
+					integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
+					didHit = true;
 				}
-				else if (isWeapon && weaponStats != null &&
-				         weaponStats.hitSoundSettings == SoundItemSettings.OnlyObject && integrity.soundOnHit != "")
-				{
-					SoundManager.PlayNetworkedAtPos(integrity.soundOnHit, gameObject.WorldPosServer(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-					attackSoundName = "";
-				}
-				integrity.ApplyDamage((int)damage, AttackType.Melee, damageType);
-				didHit = true;
 			}
 			else
 			{
