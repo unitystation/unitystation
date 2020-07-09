@@ -229,14 +229,26 @@ public class StationGateway : NetworkBehaviour, IAPCPowered
 	[Server]
 	public virtual void TransportPlayers(ObjectBehaviour player)
 	{
+		var newPosition = selectedWorld.Position;
+		if (selectedWorld.OverrideCoord != Vector3Int.zero)
+		{
+			newPosition = selectedWorld.OverrideCoord;
+		}
+
 		//teleports player to the front of the new gateway
-		player.GetComponent<PlayerSync>().SetPosition(selectedWorld.GetComponent<RegisterTile>().WorldPosition);
+		player.GetComponent<PlayerSync>().SetPosition(newPosition);
 	}
 
 	[Server]
 	public virtual void TransportObjectsItems(ObjectBehaviour objectsitems)
 	{
-		objectsitems.GetComponent<CustomNetTransform>().SetPosition(selectedWorld.GetComponent<RegisterTile>().WorldPosition);
+		var newPosition = selectedWorld.Position;
+		if (selectedWorld.OverrideCoord != Vector3Int.zero)
+		{
+			newPosition = selectedWorld.OverrideCoord;
+		}
+		//teleports objects/items to the front of the new gateway
+		objectsitems.GetComponent<CustomNetTransform>().SetPosition(newPosition);
 	}
 
 	public virtual void SetOnline()
