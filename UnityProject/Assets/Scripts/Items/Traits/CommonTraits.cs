@@ -57,4 +57,5 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait PickUpProtection;
 	public ItemTrait ReactorRod;
 	public ItemTrait Pickaxe;
+	public ItemTrait CanPryDoor;
 }
