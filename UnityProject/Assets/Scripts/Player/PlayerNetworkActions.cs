@@ -2,6 +2,11 @@
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdminTools;
+using Audio;
+using Items.PDA;
+using UnityEngine;
+using Mirror;
+using UI.PDA;
 using Audio.Containers;
 using UnityEngine;
 using Mirror;
@@ -622,6 +627,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				paperComponent.UpdatePlayer(gameObject);
 			}
 		}
+	}
+
+
+	/// <summary>
+	/// A variation of CmdRequestPaperEdit, but is used for the PDA notes system
+	/// </summary>
+	[Command]
+	public void CmdRequestNoteEdit(GameObject pdaObject, string newMsg)
+	{
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+		PDANotesNetworkHandler noteNetworkScript = pdaObject.GetComponent<PDANotesNetworkHandler>();
+		noteNetworkScript.SetServerString(newMsg);
+		noteNetworkScript.UpdatePlayer(gameObject);
+
 	}
 
 	[Command]

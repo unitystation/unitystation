@@ -201,6 +201,14 @@ public class Mind
 		Chat.AddExamineMsgFromServer(body.gameObject, Antag.GetObjectivesForPlayer());
 	}
 
+	/// <summary>
+	/// Simply returns what antag the player is, if any
+	/// </summary>
+	public SpawnedAntag GetAntag()
+	{
+		return Antag;
+	}
+
 	public void AddSpell(Spell spell)
 	{
 		if (spells.Contains(spell))
