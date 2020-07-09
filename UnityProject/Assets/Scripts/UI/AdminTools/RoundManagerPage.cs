@@ -13,6 +13,9 @@ public class RoundManagerPage : AdminPage
 	[SerializeField]
 	private Dropdown nextAwaySiteDropDown = null;
 
+	[SerializeField]
+	private Toggle lavaLandToggle = null;
+
 	public void ChangeMap()
 	{
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdChangeNextMap(ServerData.UserID, PlayerList.Instance.AdminToken, nextMapDropDown.options[nextMapDropDown.value].text);
@@ -23,9 +26,16 @@ public class RoundManagerPage : AdminPage
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdChangeAwaySite(ServerData.UserID, PlayerList.Instance.AdminToken, nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
 	}
 
+	public void ToggleLavaLand()
+	{
+		currentData.allowLavaLand = lavaLandToggle.isOn;
+		RequestLavaLandToggle.Send(ServerData.UserID, PlayerList.Instance.AdminToken, lavaLandToggle.isOn);
+	}
+
 	public override void OnPageRefresh(AdminPageRefreshData adminPageData)
 	{
 		base.OnPageRefresh(adminPageData);
+		lavaLandToggle.isOn = adminPageData.allowLavaLand;
 		GenerateDropDownOptions(adminPageData);
 		GenerateDropDownOptionsAwaySite(adminPageData);
 	}

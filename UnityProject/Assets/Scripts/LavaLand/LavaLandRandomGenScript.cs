@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+/// <summary>
+/// Lava Land Random Cave Generator, modified version from this: https://www.youtube.com/watch?v=xNqqfABXTNQ, https://www.dropbox.com/s/qggbs7hnapj6136/ProceduralTilemaps.zip?dl=0
+/// </summary>
 public class LavaLandRandomGenScript : MonoBehaviour
 {
 

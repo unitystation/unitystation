@@ -17,6 +17,7 @@ public partial class SubSceneManager
 
 	public static string AdminForcedMainStation = "Random";
 	public static string AdminForcedAwaySite = "Random";
+	public static bool AdminAllowLavaland;
 
 	IEnumerator RoundStartServerLoadSequence()
 	{
@@ -97,9 +98,19 @@ public partial class SubSceneManager
 		foreach (var additionalScene in additionalSceneList.AdditionalScenes)
 		{
 			//only spawn if game config allows
-			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand)
+			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand && !AdminAllowLavaland)
 			{
 				continue;
+			}
+
+			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand)
+			{
+				//reset back to false for the next round if false before.
+				AdminAllowLavaland = false;
+			}
+			else if (additionalScene == "LavaLand")
+			{
+				AdminAllowLavaland = true;
 			}
 
 			yield return StartCoroutine(LoadSubScene(additionalScene, loadTimer));

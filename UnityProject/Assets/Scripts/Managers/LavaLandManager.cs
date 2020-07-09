@@ -22,7 +22,9 @@ public class LavaLandManager : MonoBehaviour
 
 	private IDictionary<GameObject, GameObject> PrefabsUsed = new Dictionary<GameObject, GameObject>();
 
-	//temp stuff:
+	private TileChangeManager tileChangeManager;
+
+	//temp stuff, allows for maps to have a teleport to lava land mapped if they want it.:
 	/// <summary>
 	/// Temp until shuttle landings possible
 	/// </summary>
@@ -59,19 +61,6 @@ public class LavaLandManager : MonoBehaviour
 		}
 	}
 
-	public LavaLandRandomAreaSO GetCorrectSOFromSize(AreaSizes size)
-	{
-		foreach (var areaSO in areaSOs)
-		{
-			if (areaSO.AreaSize == size)
-			{
-				return areaSO;
-			}
-		}
-
-		return null;
-	}
-
 	private void OnEnable()
 	{
 		EventManager.AddHandler(EVENT.RoundStarted, SpawnLavaLand);
@@ -100,6 +89,8 @@ public class LavaLandManager : MonoBehaviour
 			yield return new WaitForEndOfFrame();
 		}
 
+		tileChangeManager = MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<TileChangeManager>();
+
 		GenerateStructures();
 		yield return new WaitForEndOfFrame();
 
@@ -118,6 +109,19 @@ public class LavaLandManager : MonoBehaviour
 
 		LavaLandBase2.connectedPad = LavaLandBase2Connector;
 		LavaLandBase2Connector.connectedPad = LavaLandBase2;
+	}
+
+	public LavaLandRandomAreaSO GetCorrectSOFromSize(AreaSizes size)
+	{
+		foreach (var areaSO in areaSOs)
+		{
+			if (areaSO.AreaSize == size)
+			{
+				return areaSO;
+			}
+		}
+
+		return null;
 	}
 
 	public void GenerateStructures()
@@ -195,10 +199,6 @@ public class LavaLandManager : MonoBehaviour
 
 		var bounds = new BoundsInt(minPosition, maxPosition - minPosition);
 
-		var meta = script.transform.parent.parent.GetComponent<MetaTileMap>();
-
-		var tileChangeManager = MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<TileChangeManager>();
-
 		var gameObjectPos = script.gameObject.WorldPosServer().RoundToInt();
 
 		foreach (var layer in layers)
@@ -216,12 +216,13 @@ public class LavaLandManager : MonoBehaviour
 				}
 			}
 
+			//Copy and create objects for the new area
 			if (layer.LayerType == LayerType.Objects)
 			{
 				foreach (Transform child in layer.gameObject.transform)
 				{
 					var childPrefab = Instantiate(child.gameObject, child.transform.position, script.transform.rotation, script.transform.parent);
-					childPrefab.transform.position = gameObjectPos + childPrefab.transform.position;
+					childPrefab.transform.position += gameObjectPos;
 				}
 			}
 		}
