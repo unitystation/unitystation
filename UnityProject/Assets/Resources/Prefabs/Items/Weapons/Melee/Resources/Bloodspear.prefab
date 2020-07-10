@@ -109,50 +109,37 @@ PrefabInstance:
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: hitDamage
-      value: 66.6
+      value: 25
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: throwDamage
-      value: 66.6
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: throwSpeed
-      value: 6.66
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: throwRange
-      value: 6.66
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: attackVerbs.Array.data[0]
-      value: "R\u0335\u0351\u0342\u0318 \u0334\u035B\u0309\u0355E\u0334\u0351\u030B\u0309\u0310\u032F
-        \u0336\u0300\u0308\u034A\u0314\u034E\u0324\u033B\u031D\u0319N\u0336\u0360\u0306\u033F\u033E\u0300\u032C\u0327\u0339\u0318\u031D
-        \u0336\u0340\u0314\u0323\u0326\u031E\u033CD\u0335\u0340\u033D\u0328\u0353\u0326\u031C\u031E
-        \u0338\u0302\u0344\u0301\u0350\u0356E\u0337\u030F\u033D\u030E\u0311\u035D\u032B\u032E\u0316\u0349
-        \u0334\u030A\u0317D\u0338\u0308\u0314\u030A\u031C\u032D"
+      value: RENDED
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: attackVerbs.Array.data[1]
-      value: "M\u0337\u030D\u033D\u0306\u035B\u0316\u0345\u0328\u0321\u032F \u0335\u0357\u0306\u0318\u0325\u0329\u0359U\u0337\u0313\u030E\u0305\u031B\u030E\u034E\u0359
-        \u0334\u0308\u0340\u0315\u0341\u032C\u035A\u032DT\u0336\u0350\u0307\u0357\u035B\u030C\u0320
-        \u0334\u035D\u030E\u0357\u0346\u0319\u0353\u0319\u035AI\u0335\u0313\u031B\u034C\u031F
-        \u0338\u031A\u0309\u034B\u0331L\u0335\u0301\u0350\u0342\u032A\u0326 \u0337\u0313\u035CA\u0335\u0300\u034B\u0340\u0314\u034C\u031C\u0348\u0323\u0328
-        \u0337\u031B\u030E\u0342\u0310\u0333\u0325\u032B\u0317T\u0336\u033D\u0341\u0300\u0343\u033D\u032E\u0330
-        \u0335\u0304\u031B\u0330\u0318\u0331\u031DE\u0338\u0314\u0304\u0356\u031C
-        \u0337\u0309\u0309\u0314\u0340\u0308\u0331D\u0334\u0346\u0301\u0315\u0348\u0339\u032E\u032F\u0355"
+      value: MUTILATED
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: attackVerbs.Array.data[2]
-      value: "G\u0338\u034C\u0344\u030F\u032F \u0335\u0303\u0307\u0322\u0345\u0356\u031EO\u0336\u0304\u0328\u034E
-        \u0338\u033E\u0309\u033CU\u0337\u034A\u0310\u0300\u0311\u0342\u0349\u032D\u0326\u0330\u0326
-        \u0335\u030F\u0348G\u0336\u0344\u0310\u035B\u0347 \u0334\u0311\u0304\u0315\u034A\u031B\u0325\u032CE\u0337\u0344\u0310\u034A\u035D\u0344\u035C
-        \u0335\u0313\u034C\u034A\u0312\u034D\u033BD\u0336\u034C\u030E\u033F\u031B\u031C\u0349\u034D\u032B"
+      value: GOUGED
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -582,11 +569,6 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.InventoryIcon.EquippedData
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: itemSprites.IsPaletted
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}

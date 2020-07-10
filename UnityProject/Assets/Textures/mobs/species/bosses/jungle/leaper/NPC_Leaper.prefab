@@ -348,12 +348,9 @@ MonoBehaviour:
   - {fileID: 6532193109441330816, guid: dfd7bbd166ff27a4ba6b4c004cc89369, type: 3}
   - {fileID: 6532193109441330816, guid: f4a7f2a5df1b98449bdf7af94d28ca29, type: 3}
   - {fileID: 6532193109441330816, guid: f4a7f2a5df1b98449bdf7af94d28ca29, type: 3}
-  - {fileID: 4826259315037707297}
-  - {fileID: 3011710637427380133, guid: 2364289c293fa6744bacf25005359952, type: 3}
-  - {fileID: 7106618204054676533, guid: 3e5e43af50c3e4b2d9b5e5ccbbde3ea2, type: 3}
-  - {fileID: 7636118406116123594, guid: a70cd8b8b4fc311449a8ca4478a66345, type: 3}
-  - {fileID: 8654279767492581603, guid: 98de935f80510c4468285ffd5a01d9e0, type: 3}
-  - {fileID: 3431291279286482953, guid: 0b3c99b2772bf5c45a9d3c14582651fb, type: 3}
+  - {fileID: 100328150011014054, guid: 0ce26c964edbf4648838e431a9b00af4, type: 3}
+  RTT: 0
+  RadiationStacks: 0
   aliveSprite: {fileID: 21300000, guid: 6f1a7dd20b7d3b64bb0ed22c4e2169e8, type: 3}
   deadSprite: {fileID: 21300000, guid: f3849565b7599634fb91a20ed01dc382, type: 3}
   deadState: 0
@@ -415,6 +412,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &4859381606111050923
 MonoBehaviour:
