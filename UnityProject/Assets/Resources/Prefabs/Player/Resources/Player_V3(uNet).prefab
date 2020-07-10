@@ -962,7 +962,7 @@ MonoBehaviour:
   - {fileID: 114859648697239420}
   - {fileID: 114645575864574208}
   - {fileID: 114626459693876662}
-  allowKnifeHarvest: 1
+  allowKnifeHarvest: 0
   butcherResults:
   - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
   - {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
@@ -1107,6 +1107,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &6017414943583453005
