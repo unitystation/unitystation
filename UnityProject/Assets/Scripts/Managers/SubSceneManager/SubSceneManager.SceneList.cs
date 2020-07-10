@@ -97,6 +97,7 @@ public partial class SubSceneManager
 		loadTimer.IncrementLoadBar("Loading Additional Scenes");
 		foreach (var additionalScene in additionalSceneList.AdditionalScenes)
 		{
+			//LAVALAND
 			//only spawn if game config allows
 			if (additionalScene == "LavaLand" && !GameConfig.GameConfigManager.GameConfig.SpawnLavaLand && !AdminAllowLavaland)
 			{
@@ -121,6 +122,33 @@ public partial class SubSceneManager
 				SceneType = SceneType.AdditionalScenes
 			});
 		}
+
+		foreach (var centComData in additionalSceneList.CentComScenes)
+		{
+			//CENTCOM
+			if (centComData.DependentScene == null)continue;
+
+			if (centComData.CentComSceneName != serverChosenMainStation) continue;
+
+			yield return StartCoroutine(LoadSubScene(centComData.CentComSceneName, loadTimer));
+
+			loadedScenesList.Add(new SceneInfo
+			{
+				SceneName = centComData.CentComSceneName,
+				SceneType = SceneType.AdditionalScenes
+			});
+
+			yield break;
+		}
+
+		//If no special CentCom load default.
+		yield return StartCoroutine(LoadSubScene(additionalSceneList.defaultCentComScene, loadTimer));
+
+		loadedScenesList.Add(new SceneInfo
+		{
+			SceneName = additionalSceneList.defaultCentComScene,
+			SceneType = SceneType.AdditionalScenes
+		});
 	}
 
 	//Load the away site on the server

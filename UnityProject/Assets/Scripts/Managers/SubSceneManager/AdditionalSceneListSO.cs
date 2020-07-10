@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
@@ -11,4 +12,14 @@ public class AdditionalSceneListSO : ScriptableObject
 	         "spawned at runtime. Remember to also add your scene to " +
 	         "the build settings list",EInfoBoxType.Normal)]
 	public List<string> AdditionalScenes = new List<string>();
+
+	public string defaultCentComScene;
+	public List<CentComData> CentComScenes = new List<CentComData>();
+
+	[Serializable]
+	public class CentComData
+	{
+		public string CentComSceneName;
+		public string DependentScene = null;
+	}
 }
