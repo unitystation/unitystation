@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -23,11 +24,17 @@ public class WorldGateway : StationGateway
 	[SerializeField]
 	private bool ifWorldGateToWorldGate;
 
+	/// <summary>
+	/// If you want a person traveling to this gate to go somewhere else. WORLD POS, not local
+	/// </summary>
+	public Vector3Int  OverrideCoord;
+
 	public override void OnStartServer()
 	{
 		SetOffline();
 		registerTile = GetComponent<RegisterTile>();
 		Position = registerTile.WorldPosition;
+
 		ServerChangeState(false);
 
 		if (ifWorldGateToWorldGate && StationGateway != null)
