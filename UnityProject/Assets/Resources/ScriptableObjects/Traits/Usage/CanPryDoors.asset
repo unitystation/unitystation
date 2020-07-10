@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28a963723fa0d1d48ad3cf52053703ce, type: 3}
-  m_Name: Assassinate
+  m_Script: {fileID: 11500000, guid: 4ccfe138752d4b66bcb7c56a0c9769c7, type: 3}
+  m_Name: CanPryDoors
   m_EditorClassIdentifier: 
-  objectiveName: Assassinate
-  description: Assassinate someone on the station
+  traitDescription: Allows items to pry open powered doors (not needed for firelocks)

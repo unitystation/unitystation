@@ -9,7 +9,6 @@ public class AirVent : AdvancedPipe
 	public float MinimumPressure = 101.3249f;
 	private MetaDataNode metaNode;
 	private MetaDataLayer metaDataLayer;
-	private PowerStates CurrentState;
 
 	public override bool ServerAttach()
 	{
@@ -33,10 +32,7 @@ public class AirVent : AdvancedPipe
 		base.TickUpdate();
 		if (anchored)
 		{
-			if (APCPoweredDevice.IsOn(CurrentState))
-			{
-				CheckAtmos();
-			}
+			CheckAtmos();
 		}
 	}
 

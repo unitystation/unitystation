@@ -341,6 +341,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	/// Client asks to toggle pulling of given object
 	[Command]
 	public void CmdPullObject(GameObject pullableObject) {
+		if(pullableObject == null) return;
 		PushPull pullable = pullableObject.GetComponent<PushPull>();
 		if ( !pullable ) {
 			return;

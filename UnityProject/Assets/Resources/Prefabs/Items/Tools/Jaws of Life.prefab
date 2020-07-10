@@ -33,19 +33,6 @@ MonoBehaviour:
   variantIndex: -1
   variantType: 0
   hideClothingFlags: 0
---- !u!114 &8280760454218284409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6918947953705996213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c5880da48629d4f086f5280f40e6e73, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  openingDelay: 10
 --- !u!1001 &1691278609676860386
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -61,7 +48,7 @@ PrefabInstance:
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -167,7 +154,8 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[2]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: bf45f5f358fa083d281cc05cdfd81580,
+        type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
       propertyPath: initialTraits.Array.data[3]
