@@ -242,7 +242,7 @@ public class EscapeShuttle : NetworkBehaviour
 				}
 			}
 
-			else if ( DistanceToDestination < 25)
+			else if ( DistanceToDestination < 50)
 			{
 				TryPark();
 			}
@@ -378,8 +378,6 @@ public class EscapeShuttle : NetworkBehaviour
 		//start ticking timer
 		this.TryStopCoroutine( ref timerHandle );
 		this.StartCoroutine( TickTimer(), ref timerHandle );
-
-		Debug.Log("time: " + Vector2.Distance(stationTeleportLocation, stationDockingLocation) / mm.MaxSpeed + 10f);
 
 		//adding a temporary listener:
 		//start actually moving ship if it's seconds before arrival is how much it moves by and it hasn't been recalled...
