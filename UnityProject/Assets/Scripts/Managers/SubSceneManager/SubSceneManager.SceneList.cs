@@ -126,9 +126,9 @@ public partial class SubSceneManager
 		foreach (var centComData in additionalSceneList.CentComScenes)
 		{
 			//CENTCOM
-			if (centComData.DependentScene == null)continue;
+			if (centComData.DependentScene == null || centComData.CentComSceneName == null)continue;
 
-			if (centComData.CentComSceneName != serverChosenMainStation) continue;
+			if (centComData.DependentScene != serverChosenMainStation) continue;
 
 			yield return StartCoroutine(LoadSubScene(centComData.CentComSceneName, loadTimer));
 
