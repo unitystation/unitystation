@@ -58,7 +58,7 @@ public class GUI_Comms : NetTab
 	{
 		string FormatTime( int timerSeconds )
 		{
-			if ( shuttle.Status == ShuttleStatus.DockedCentcom || shuttle.Status == ShuttleStatus.DockedStation )
+			if ( shuttle.Status == EscapeShuttleStatus.DockedCentcom || shuttle.Status == EscapeShuttleStatus.DockedStation )
 			{
 				return string.Empty;
 			}
@@ -111,7 +111,7 @@ public class GUI_Comms : NetTab
 	{
 		Logger.Log( nameof(CallOrRecallShuttle), Category.NetUI );
 
-		bool isRecall = shuttle.Status == ShuttleStatus.OnRouteStation;
+		bool isRecall = shuttle.Status == EscapeShuttleStatus.OnRouteStation;
 
 
 
@@ -156,7 +156,7 @@ public class GUI_Comms : NetTab
 
 	private void RefreshCallButtonText()
 	{
-		shuttleCallButtonLabel.SetValueServer(shuttle.Status == ShuttleStatus.OnRouteStation ? "Recall Emergency Shuttle" : "Call Emergency Shuttle");
+		shuttleCallButtonLabel.SetValueServer(shuttle.Status == EscapeShuttleStatus.OnRouteStation ? "Recall Emergency Shuttle" : "Call Emergency Shuttle");
 	}
 
 	private IEnumerator ShowSubmitResult( string callResult )

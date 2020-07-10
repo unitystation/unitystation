@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Mirror;
@@ -6,68 +7,32 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
 
-/// <summary>
-/// Non-unique escape shuttle. Serverside methods only
-/// </summary>
 public class EscapeShuttle : NetworkBehaviour
 {
-	// Indicates at which moment (in remaining seconds) the shuttle should really start moving
-	private const int StartMovingAtCount = 135;
-
 	public MatrixInfo MatrixInfo => mm.MatrixInfo;
 	private MatrixMove mm;
+
+	private CentComm centComm;
 
 	public ShuttleStatusEvent OnShuttleUpdate = new ShuttleStatusEvent();
 	public ShuttleTimerEvent OnTimerUpdate = new ShuttleTimerEvent();
 
-	void Start()
-	{
-		if (OrientationRight == true)
-		{
-			CentcomDest = new Destination { Orientation = Orientation.Right, Position = DockingLocationCentcom, ApproachReversed = CentcomApproachReversed };
-			StationDest = new Destination { Orientation = Orientation.Right, Position = DockingLocationStation, ApproachReversed = StationApproachReversed };
-		}
-		else if (OrientationUp == true)
-		{
-			CentcomDest = new Destination { Orientation = Orientation.Up, Position = DockingLocationCentcom, ApproachReversed = CentcomApproachReversed };
-			StationDest = new Destination { Orientation = Orientation.Up, Position = DockingLocationStation, ApproachReversed = StationApproachReversed };
-		}
-		else if (OrientationLeft == true)
-		{
-			CentcomDest = new Destination { Orientation = Orientation.Left, Position = DockingLocationCentcom, ApproachReversed = CentcomApproachReversed };
-			StationDest = new Destination { Orientation = Orientation.Left, Position = DockingLocationStation, ApproachReversed = StationApproachReversed };
-		}
-		else if (OrientationDown == true)
-		{
-			CentcomDest = new Destination { Orientation = Orientation.Down, Position = DockingLocationCentcom, ApproachReversed = CentcomApproachReversed };
-			StationDest = new Destination { Orientation = Orientation.Down, Position = DockingLocationStation, ApproachReversed = StationApproachReversed };
-		}
-		else
-		{
-			CentcomDest = new Destination { Orientation = Orientation.Right, Position = new Vector2(150, 6), ApproachReversed = false };
-			StationDest = new Destination { Orientation = Orientation.Right, Position = new Vector2(49, 6), ApproachReversed = true };
-		}
+	/// <summary>
+	/// Orientation for docking at station, eg Up if north to south.
+	/// </summary>
+	public OrientationEnum orientationForDocking = OrientationEnum.Up;
 
-		centComm = GameManager.Instance.GetComponent<CentComm>();
+	//Coord set in inspector
+	public Vector2 stationDockingLocation;
+	public Vector2 stationTeleportLocation;
 
-		AlertLevelInitialTimerSeconds = InitialTimerSeconds;
-		AlertLevelTooLateToRecallSeconds = TooLateToRecallSeconds;
-
-	}
-
-	public bool OrientationLeft;
-	public bool OrientationRight;
-	public bool OrientationUp;
-	public bool OrientationDown;
-
-	//When Setting up map only pick ONE of the orientation options, picking more than one does nothing.
-
-	public Vector2 DockingLocationStation;
-	public bool StationApproachReversed;
+	//Destination Stuff
+	[HideInInspector]
 	public Destination CentcomDest;
-	public Vector2 DockingLocationCentcom;
-	public bool CentcomApproachReversed;
-	public Destination StationDest;
+	private Destination StationDest;
+
+	[HideInInspector]
+	public Destination CentTeleportToCentDock;
 
 	private Destination currentDestination;
 
@@ -80,22 +45,21 @@ public class EscapeShuttle : NetworkBehaviour
 	private float escapeBlockedTime;
 	private bool isBlocked;
 
-	// Indicate if the shuttle really started moving toward station (It really starts moving in the StartMovingAtCount remaining seconds)
-	private bool startedMovingToStation;
-
 	// Checks if shuttle has docked at station
 	private bool HasShuttleDockedToStation = false;
+
+	// Indicate if the shuttle really started moving toward station (It really starts moving in the StartMovingAtCount remaining seconds)
+	private bool startedMovingToStation;
 
 	public float DistanceToDestination => Vector2.Distance( mm.ServerState.Position, currentDestination.Position );
 
 	/// <summary>
-	/// Sets a position for the escape shuttle to move to before moving to station, which will stop it from colliding with CentComm.
+	/// used for convenient control with our coroutine extensions
 	/// </summary>
-	[Tooltip("Sets a position for the escape shuttle to move to before moving to station, which will stop it from colliding with CentComm.")]
-	public Vector2 CentCommLeave = new Vector2(3890, 8);
+	private Coroutine timerHandle;
 
 	/// <summary>
-	/// Seconds for shuttle call
+	/// Seconds for shuttle call, affected by alert level
 	/// </summary>
 	public int InitialTimerSeconds
 	{
@@ -105,7 +69,7 @@ public class EscapeShuttle : NetworkBehaviour
 	[Range( 0, 2000 )] [SerializeField] private int initialTimerSeconds = 120;
 
 	/// <summary>
-	/// How many seconds should be left before arrival when recall should be blocked
+	/// How many seconds should be left before arrival when recall should be blocked, affected by alert level
 	/// </summary>
 	public int TooLateToRecallSeconds
 	{
@@ -131,7 +95,7 @@ public class EscapeShuttle : NetworkBehaviour
 	/// <summary>
 	/// Assign initial status via Editor
 	/// </summary>
-	public ShuttleStatus Status
+	public EscapeShuttleStatus Status
 	{
 		get => internalStatus;
 		set
@@ -147,13 +111,6 @@ public class EscapeShuttle : NetworkBehaviour
 	/// </summary>
 	public bool HasWorkingThrusters => thrusters != null && thrusters.Count > 0;
 
-	[SerializeField] private ShuttleStatus internalStatus = ShuttleStatus.DockedCentcom;
-
-	/// <summary>
-	/// used for convenient control with our coroutine extensions
-	/// </summary>
-	private Coroutine timerHandle;
-
 	/// <summary>
 	/// tracks the thrusters we have so we can check for game over when it's immobilized.
 	/// Note it's not currently possible to construct thrusters. This is only stored server side.
@@ -161,26 +118,48 @@ public class EscapeShuttle : NetworkBehaviour
 	/// </summary>
 	private List<ShipThruster> thrusters = new List<ShipThruster>();
 
-	private CentComm centComm;
+	[SerializeField] private EscapeShuttleStatus internalStatus = EscapeShuttleStatus.DockedCentcom;
 
-	private int AlertLevelInitialTimerSeconds;
-	private int AlertLevelTooLateToRecallSeconds;
+	private void Start()
+	{
+		switch (orientationForDocking)
+		{
+			case OrientationEnum.Right:
+				CentcomDest = new Destination { Orientation = Orientation.Right, Position = stationTeleportLocation};
+				StationDest = new Destination { Orientation = Orientation.Right, Position = stationDockingLocation};
+				break;
+			case OrientationEnum.Up:
+				CentcomDest = new Destination { Orientation = Orientation.Up, Position = stationTeleportLocation};
+				StationDest = new Destination { Orientation = Orientation.Up, Position = stationDockingLocation};
+				break;
+			case OrientationEnum.Left:
+				CentcomDest = new Destination { Orientation = Orientation.Left, Position = stationTeleportLocation};
+				StationDest = new Destination { Orientation = Orientation.Left, Position = stationDockingLocation};
+				break;
+			case OrientationEnum.Down:
+				CentcomDest = new Destination { Orientation = Orientation.Down, Position = stationTeleportLocation};
+				StationDest = new Destination { Orientation = Orientation.Down, Position = stationDockingLocation};
+				break;
+		}
+
+		centComm = GameManager.Instance.GetComponent<CentComm>();
+	}
+
+	public void InitDestination(Vector3 newPos)
+	{
+		CentTeleportToCentDock = new Destination { Orientation = Orientation.Right, Position = newPos};
+	}
 
 	private void Awake()
 	{
 		mm = GetComponent<MatrixMove>();
 
-		OnShuttleUpdate.AddListener( RemovePark );
-
-		//note:
 		thrusters = GetComponentsInChildren<ShipThruster>().ToList();
-		//subscribe to their integrity events so we can update when they are destroyed
 		foreach (var thruster in thrusters)
 		{
 			var integrity = thruster.GetComponent<Integrity>();
 			integrity.OnWillDestroyServer.AddListener(OnWillDestroyThruster);
 		}
-
 	}
 
 	//called when each thruster is destroyed
@@ -226,6 +205,7 @@ public class EscapeShuttle : NetworkBehaviour
 			return;
 		}
 
+
 		//arrived to destination
 		if ( mm.ServerState.IsMoving )
 		{
@@ -241,22 +221,33 @@ public class EscapeShuttle : NetworkBehaviour
 				mm.StopMovement();
 
 				//centcom docked state is set manually instead, as we should usually pretend that flight is longer than it is
-				if ( Status == ShuttleStatus.OnRouteStation )
+				if ( Status == EscapeShuttleStatus.OnRouteStation )
 				{
-					Status = ShuttleStatus.DockedStation;
+					Status = EscapeShuttleStatus.DockedStation;
 					HasShuttleDockedToStation = true;
 				}
-				else if(Status == ShuttleStatus.OnRouteCentcom)
+				else if(Status == EscapeShuttleStatus.OnRouteToStationTeleport)
 				{
-					Status = ShuttleStatus.DockedCentcom;
-					if (Status == ShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
+					Status = EscapeShuttleStatus.OnRouteToCentCom;
+
+					TeleportToCentTeleport();
+
+					if (Status == EscapeShuttleStatus.OnRouteToCentCom && HasShuttleDockedToStation == true)
+					{
+						SoundManager.PlayAtPosition("HyperSpaceEnd", transform.position, gameObject);
+					}
+				}
+				else if(Status == EscapeShuttleStatus.OnRouteToCentCom)
+				{
+					Status = EscapeShuttleStatus.DockedCentcom;
+					if (Status == EscapeShuttleStatus.DockedCentcom && HasShuttleDockedToStation == true)
 					{
 						SoundManager.PlayAtPosition("HyperSpaceEnd", transform.position, gameObject);
 					}
 				}
 			}
 
-			else if ( DistanceToDestination < 25 && currentDestination.ApproachReversed )
+			else if ( DistanceToDestination < 25)
 			{
 				TryPark();
 			}
@@ -265,7 +256,7 @@ public class EscapeShuttle : NetworkBehaviour
 		//check if we're trying to move but are unable to
 		if (!isBlocked)
 		{
-			if (Status != ShuttleStatus.DockedCentcom && Status != ShuttleStatus.DockedStation)
+			if (Status != EscapeShuttleStatus.DockedCentcom && Status != EscapeShuttleStatus.DockedStation)
 			{
 				if ((!mm.ServerState.IsMoving || mm.ServerState.Speed < 1f) && startedMovingToStation)
 				{
@@ -278,7 +269,7 @@ public class EscapeShuttle : NetworkBehaviour
 		else
 		{
 			//currently blocked, check if we are unblocked
-			if (Status == ShuttleStatus.DockedCentcom || Status == ShuttleStatus.DockedStation ||
+			if (Status == EscapeShuttleStatus.DockedCentcom || Status == EscapeShuttleStatus.DockedStation ||
 			    (mm.ServerState.IsMoving && mm.ServerState.Speed >= 1f))
 			{
 				Logger.LogTrace("Escape shuttle is unblocked.", Category.Matrix);
@@ -297,7 +288,6 @@ public class EscapeShuttle : NetworkBehaviour
 				}
 			}
 		}
-
 	}
 
 	//sorry, not really clean, robust or universal
@@ -343,6 +333,8 @@ public class EscapeShuttle : NetworkBehaviour
 
 	#endregion
 
+	#region Moving To Station
+
 	/// <summary>
 	/// Calls the shuttle from afar.
 	/// </summary>
@@ -350,7 +342,7 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		startedMovingToStation = false;
 
-		if ( Status != ShuttleStatus.DockedCentcom )
+		if ( Status != EscapeShuttleStatus.DockedCentcom )
 		{
 			callResult = "Can't call shuttle: not docked at Centcom!";
 			return false;
@@ -362,23 +354,19 @@ public class EscapeShuttle : NetworkBehaviour
 
 		if (Alert == CentComm.AlertLevel.Green)
 		{
-			InitialTimerSeconds = AlertLevelInitialTimerSeconds * 2;
-			TooLateToRecallSeconds = AlertLevelTooLateToRecallSeconds * 2;
+			//Double the Time
+			InitialTimerSeconds *= 2;
+			TooLateToRecallSeconds *= 2;
 		}
 		else if (Alert == CentComm.AlertLevel.Blue)
         {
-			InitialTimerSeconds = AlertLevelInitialTimerSeconds;
-			TooLateToRecallSeconds = AlertLevelTooLateToRecallSeconds;
+			//Default values set in inspector
 		}
 		else if (Alert == CentComm.AlertLevel.Red || Alert == CentComm.AlertLevel.Delta)
 		{
-			InitialTimerSeconds = AlertLevelInitialTimerSeconds / 2;
-			TooLateToRecallSeconds = AlertLevelTooLateToRecallSeconds / 2;
-		}
-        else
-        {
-			InitialTimerSeconds = AlertLevelInitialTimerSeconds;
-			TooLateToRecallSeconds = AlertLevelTooLateToRecallSeconds;
+			//Half the Time
+			InitialTimerSeconds /= 2;
+			TooLateToRecallSeconds /= 2;
 		}
 
 
@@ -390,19 +378,20 @@ public class EscapeShuttle : NetworkBehaviour
 
 		CurrentTimerSeconds = InitialTimerSeconds;
 		mm.StopMovement();
-		Status = ShuttleStatus.OnRouteStation;
+		Status = EscapeShuttleStatus.OnRouteStation;
 
 		//start ticking timer
 		this.TryStopCoroutine( ref timerHandle );
 		this.StartCoroutine( TickTimer(), ref timerHandle );
 
 		//adding a temporary listener:
-		//start actually moving ship if it's StartMovingAtCount seconds before arrival and it hasn't been recalled...
+		//start actually moving ship if it's seconds before arrival is how much it moves by and it hasn't been recalled...
 		void Action( int time )
 		{
-			if ( time <= StartMovingAtCount)
+			//Time = Distance/Speed
+			if ( time <= Vector2.Distance(stationTeleportLocation, stationDockingLocation) / 200f)
 			{
-				mm.SetPosition(CentCommLeave);
+				mm.SetPosition(stationTeleportLocation);
 				MoveToStation();
 				OnTimerUpdate.RemoveListener( Action ); //self-remove after firing once
 			}
@@ -413,7 +402,7 @@ public class EscapeShuttle : NetworkBehaviour
 		//...otherwise above thing gets aborted and never executes
 		OnShuttleUpdate.AddListener( newStatus =>
 		{
-			if ( newStatus != ShuttleStatus.OnRouteStation )
+			if ( newStatus != EscapeShuttleStatus.OnRouteStation )
 			{
 				OnTimerUpdate.RemoveListener( Action );
 			}
@@ -423,12 +412,24 @@ public class EscapeShuttle : NetworkBehaviour
 		return true;
 	}
 
+	public void MoveToStation()
+	{
+		startedMovingToStation = true;
+
+		mm.SetSpeed( 200 );
+		MoveTo(StationDest);
+	}
+
+	#endregion
+
+	#region Recall
+
 	public bool RecallShuttle(out string callResult)
 	{
 		startedMovingToStation = false;
 
-		if ( Status != ShuttleStatus.OnRouteStation
-		  || CurrentTimerSeconds < TooLateToRecallSeconds )
+		if ( Status != EscapeShuttleStatus.OnRouteStation
+		     || CurrentTimerSeconds < TooLateToRecallSeconds )
 		{
 			callResult = "Can't recall shuttle: not on route to Station or too late to recall!";
 			return false;
@@ -441,7 +442,7 @@ public class EscapeShuttle : NetworkBehaviour
 		{
 			if ( time >= InitialTimerSeconds )
 			{
-				Status = ShuttleStatus.DockedCentcom;
+				Status = EscapeShuttleStatus.DockedCentcom;
 				OnTimerUpdate.RemoveListener( Action ); //self-remove after firing once
 			}
 		}
@@ -449,26 +450,26 @@ public class EscapeShuttle : NetworkBehaviour
 		OnTimerUpdate.AddListener( Action );
 		OnShuttleUpdate.AddListener( newStatus =>
 		{
-			if ( newStatus != ShuttleStatus.OnRouteCentcom )
+			if ( newStatus != EscapeShuttleStatus.OnRouteToCentCom )
 			{
 				OnTimerUpdate.RemoveListener( Action );
 			}
 		} );
 
 		mm.StopMovement();
-		Status = ShuttleStatus.OnRouteCentcom;
+		Status = EscapeShuttleStatus.OnRouteToCentCom;
 
-		MoveToCentcom();
+		mm.SetPosition( CentTeleportToCentDock.Position - new Vector3(1000,0,0) );
+		MoveTo(CentTeleportToCentDock);
 
 		callResult = "Shuttle has been recalled.";
 		return true;
 	}
 
-	/// <summary>
-	/// Should send arrived shuttle to Centcom, with Heads' blessing or otherwise
-	/// But! it sends shuttle into abyss with increasing speed for now
-	/// </summary>
-	///
+	#endregion
+
+
+	#region Moving To CentCom
 
 	public void SendShuttle()
 	{
@@ -482,14 +483,36 @@ public class EscapeShuttle : NetworkBehaviour
 		yield return WaitFor.Seconds(7f);
 
 		SoundManager.PlayAtPosition("HyperSpaceProgress", transform.position, gameObject);
-	
-		Status = ShuttleStatus.OnRouteCentcom;
+
+		Status = EscapeShuttleStatus.OnRouteToStationTeleport;
 
 		mm.SetSpeed(100f);
 		mm.StartMovement();
 		mm.MaxSpeed = 100f;
-		MoveToCentcom();
+		MoveTo( CentcomDest );
 	}
+
+	/// <summary>
+	/// Send shuttle to centcom immediately.
+	/// Server only.
+	/// </summary>
+	public void MoveToCentcom()
+	{
+		mm.SetSpeed( 90 );
+		MoveTo( CentcomDest );
+
+	}
+
+	public void TeleportToCentTeleport()
+	{
+		mm.StopMovement();
+		mm.SetPosition(CentTeleportToCentDock.Position - new Vector3(1000,0,0) );
+		MoveTo(CentTeleportToCentDock);
+
+		Status = EscapeShuttleStatus.DockedCentcom;
+	}
+
+	#endregion
 
 	private IEnumerator TickTimer( bool inverse = false )
 	{
@@ -507,37 +530,22 @@ public class EscapeShuttle : NetworkBehaviour
 		}
 	}
 
-	/// <summary>
-	/// Send Shuttle to the station immediately.
-	/// Server only.
-	/// </summary>
-	public void MoveToStation()
-	{
-		startedMovingToStation = true;
-		
-		mm.SetSpeed( 200 );
-		MoveTo(StationDest);
-	}
-
-	/// <summary>
-	/// Send shuttle to centcom immediately.
-	/// Server only.
-	/// </summary>
-	public void MoveToCentcom()
-	{
-		mm.SetSpeed( 90 );
-		MoveTo( CentcomDest );
-
-	}
-
 	private void MoveTo( Destination dest )
 	{
 		currentDestination = dest;
 		mm.AutopilotTo( currentDestination.Position );
 	}
-
 }
 
-public class ShuttleStatusEvent : UnityEvent<ShuttleStatus> { }
+public enum EscapeShuttleStatus
+{
+	OnRouteStation = 0,
+	DockedStation = 1,
+	OnRouteToStationTeleport = 2,
+	OnRouteToCentCom = 3,
+	DockedCentcom = 4
+}
+
+public class ShuttleStatusEvent : UnityEvent<EscapeShuttleStatus> { }
 
 public class ShuttleTimerEvent : UnityEvent<int> { }

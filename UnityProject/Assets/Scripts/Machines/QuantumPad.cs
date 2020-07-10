@@ -9,7 +9,15 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	public QuantumPad connectedPad;
 
+	/// <summary>
+	/// Detects players/objects on itself every 1 second.
+	/// </summary>
 	public bool passiveDetect;
+
+	/// <summary>
+	/// If you dont want the link to be changed.
+	/// </summary>
+	public bool disallowLinkChange;
 
 	public string messageOnTravelToThis;
 

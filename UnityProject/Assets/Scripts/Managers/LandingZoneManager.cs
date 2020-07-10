@@ -12,6 +12,8 @@ public class LandingZoneManager : MonoBehaviour
 
 	public IDictionary<LandingZone, Vector3> spaceTeleportPoints = new Dictionary<LandingZone, Vector3>();
 
+	public Vector3 centcomDockingPos;
+
 	private void Awake()
 	{
 		if (instance == null)

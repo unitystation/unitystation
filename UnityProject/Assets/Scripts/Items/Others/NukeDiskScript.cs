@@ -97,7 +97,7 @@ public class NukeDiskScript : NetworkBehaviour
 		if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
 			.magnitude < boundRadius)) return false;
 
-		if (escapeShuttle != null && escapeShuttle.Status != ShuttleStatus.DockedCentcom)
+		if (escapeShuttle != null && escapeShuttle.Status != EscapeShuttleStatus.DockedCentcom)
 		{
 			if (escapeShuttle.MatrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
 			{
