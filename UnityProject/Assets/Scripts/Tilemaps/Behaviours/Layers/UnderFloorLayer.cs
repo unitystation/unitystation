@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Pipes;
 using UnityEngine;
@@ -53,6 +53,36 @@ public class UnderFloorLayer : Layer
 				}
 			}
 		}
+
+		UnderFloorUtilitiesInitialised = true;
+	}
+
+	public bool UnderFloorUtilitiesInitialised { get; private set; } = false;
+
+	public T GetFirstTileByType<T>(Vector3Int position) where T : LayerTile
+	{
+		if (!TileStore.ContainsKey((Vector2Int)position)) return default;
+
+		foreach (LayerTile Tile in TileStore[(Vector2Int)position])
+		{
+			if (Tile is T) return Tile as T;
+		}
+
+		return default;
+	}
+
+	public IEnumerable<T> GetAllTilesByType<T>(Vector3Int position) where T : LayerTile
+	{
+		List<T> tiles = new List<T>();
+
+		if (!TileStore.ContainsKey((Vector2Int)position)) return tiles;
+
+		foreach (LayerTile Tile in TileStore[(Vector2Int)position])
+		{
+			if (Tile is T) tiles.Add(Tile as T);
+		}
+
+		return tiles;
 	}
 
 

@@ -74,12 +74,13 @@ public partial class CustomNetTransform
 	/// (turns on tile snapping and removes player collision check)</param>
 	/// <returns>true if push was successful</returns>
 	[Server]
-	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false)
+	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false)
 	{
-		return PushInternal(direction, isNewtonian: false, speed: speed, followMode: followMode);
+		return PushInternal(direction, isNewtonian: false, speed: speed, followMode: followMode, ignorePassable: ignorePassable);
 	}
 
-	private bool PushInternal(Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN,	bool followMode = false)
+	private bool PushInternal(
+			Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false)
 	{
 		if (!float.IsNaN(speed) && speed <= 0)
 		{
@@ -90,7 +91,7 @@ public partial class CustomNetTransform
 		Vector3Int origin = ServerPosition;
 		Vector3Int roundedTarget = origin + clampedDir;
 
-		if (!MatrixManager.IsPassableAt(origin, roundedTarget, true, includingPlayers: !followMode))
+		if (!ignorePassable && !MatrixManager.IsPassableAt(origin, roundedTarget, true, includingPlayers: !followMode))
 		{
 			return false;
 		}

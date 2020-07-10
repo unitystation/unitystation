@@ -157,6 +157,9 @@ public class SpriteHandler : MonoBehaviour
 		SetImageColor(value);
 	}
 
+	/// <summary>
+	/// Sets the sprite to null and stops any animations.
+	/// </summary>
 	public void PushClear()
 	{
 		SetImageSprite(null);
