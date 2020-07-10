@@ -111,7 +111,8 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
 	{
 		Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 		Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
@@ -124,7 +125,8 @@ public class MetaTileMap : MonoBehaviour
 
 
 	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
 	{
 		for (var i = 0; i < SolidLayersValues.Length; i++)
 		{
@@ -210,13 +212,14 @@ public class MetaTileMap : MonoBehaviour
 	{
 		if (Layers.TryGetValue(tile.LayerType, out var layer))
 		{
-			layer.SetTile(position, tile, matrixTransform.GetValueOrDefault(Matrix4x4.identity), color.GetValueOrDefault(Color.white));
+			layer.SetTile(position, tile,
+					matrixTransform.GetValueOrDefault(Matrix4x4.identity),
+					color.GetValueOrDefault(Color.white));
 		}
 		else
 		{
 			LogMissingLayer(position, tile.LayerType);
 		}
-
 	}
 
 	private void LogMissingLayer(Vector3Int position, LayerType layerType)

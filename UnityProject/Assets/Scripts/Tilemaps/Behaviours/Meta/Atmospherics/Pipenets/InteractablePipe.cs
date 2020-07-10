@@ -6,7 +6,7 @@
 /// </summary>
 [RequireComponent(typeof(Pipe))]
 [RequireComponent(typeof(Pickupable))]
-public class InteractablePipe : MonoBehaviour, ICheckedInteractable<HandApply>
+public class InteractablePipe : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	Pipe pipe;
 
@@ -15,7 +15,7 @@ public class InteractablePipe : MonoBehaviour, ICheckedInteractable<HandApply>
 		pipe = GetComponent<Pipe>();
 	}
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		//only wrench can be used on this
@@ -23,7 +23,7 @@ public class InteractablePipe : MonoBehaviour, ICheckedInteractable<HandApply>
 		return true;
 	}
 
-	public void ServerPerformInteraction(HandApply interaction)
+	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
 		pipe.ServerWrenchAct();
 	}

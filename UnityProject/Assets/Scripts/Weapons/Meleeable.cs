@@ -8,7 +8,7 @@ using UnityEngine;
 public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 {
 	[SerializeField]
-	private bool isMeleeable = false;
+	private bool isMeleeable = true;
 
 	[SerializeField]
 	private static readonly StandardProgressActionConfig ProgressConfig
