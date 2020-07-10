@@ -152,8 +152,8 @@ public partial class GameManager : MonoBehaviour
 		}
 
 		//Fills list of Vectors all along shuttle path
-		var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
-		var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
+		var beginning = GameManager.Instance.PrimaryEscapeShuttle.stationTeleportLocation;
+		var target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
 
 
 		var distance = (int)Vector2.Distance(beginning, target);

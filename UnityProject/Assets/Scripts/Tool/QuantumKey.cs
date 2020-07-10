@@ -23,6 +23,12 @@ public class QuantumKey : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 		var pad = interaction.TargetObject.GetComponent<QuantumPad>();
 		if(pad == null) return;
 
+		if (pad.disallowLinkChange)
+		{
+			Chat.AddExamineMsgFromServer(interaction.Performer, "The link has been hard locked, you cannot change it.");
+			return;
+		}
+
 		if (pad == padInBuffer)
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You cannot link the same pad together, clear the buffer if you wish to add to it.");

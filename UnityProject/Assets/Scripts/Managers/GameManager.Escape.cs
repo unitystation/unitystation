@@ -51,14 +51,30 @@ public partial class GameManager
 		//later, maybe: keep a list of all computers and call the shuttle automatically with a 25 min timer if they are deleted
 
 		//Starting up at Centcom coordinates
-		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.SetPosition( PrimaryEscapeShuttle.CentcomDest.Position );
+		var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;
+		float width;
+
+		if (orientation== Orientation.Up || orientation == Orientation.Down)
+		{
+			width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.x;
+		}
+		else
+		{
+			width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.y;
+		}
+
+		var newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y - Mathf.Ceil(width/2f), 0);
+
+		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.ChangeFacingDirection(Orientation.Right);
+		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.SetPosition(newPos);
+		primaryEscapeShuttle.InitDestination(newPos);
 
 		bool beenToStation = false;
 
 		PrimaryEscapeShuttle.OnShuttleUpdate?.AddListener( status =>
 		{
 			//status display ETA tracking
-			if ( status == ShuttleStatus.OnRouteStation )
+			if ( status == EscapeShuttleStatus.OnRouteStation )
 			{
 				PrimaryEscapeShuttle.OnTimerUpdate.AddListener( TrackETA );
 			} else
@@ -67,7 +83,7 @@ public partial class GameManager
 				CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, string.Empty);
 			}
 
-			if ( status == ShuttleStatus.DockedCentcom && beenToStation )
+			if ( status == EscapeShuttleStatus.DockedCentcom && beenToStation )
 			{
 				Logger.Log("Shuttle arrived at Centcom", Category.Round);
 				Chat.AddSystemMsgToChat("<color=white>Escape shuttle has docked at Centcomm! Round will restart in 1 minute.</color>", MatrixManager.MainStationMatrix);
@@ -81,7 +97,7 @@ public partial class GameManager
 				EndRound();
 			}
 
-			if (status == ShuttleStatus.DockedStation)
+			if (status == EscapeShuttleStatus.DockedStation)
 			{
 				beenToStation = true;
 				SoundManager.PlayNetworked("ShuttleDocked");
@@ -127,8 +143,6 @@ public partial class GameManager
 		}
 
 		CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, string.Empty);
-
-		PrimaryEscapeShuttle.Status = ShuttleStatus.DockedCentcom; //pretending that we docked for round to end
 	}
 
 	private IEnumerator WaitToInitEscape()

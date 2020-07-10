@@ -131,6 +131,9 @@ namespace IngameDebugConsole
 
 		}
 
+#if UNITY_EDITOR
+		[MenuItem("Networking/Call shuttle")]
+#endif
 		[ConsoleMethod("call-shuttle", "Calls the escape shuttle. Server only command")]
 		public static void CallEscapeShuttle()
 		{
@@ -140,7 +143,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			if (GameManager.Instance.PrimaryEscapeShuttle.Status == ShuttleStatus.DockedCentcom)
+			if (GameManager.Instance.PrimaryEscapeShuttle.Status == EscapeShuttleStatus.DockedCentcom)
 			{
 				GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result, 40);
 				Logger.Log("Called Escape shuttle from DebugConsole: "+result);
