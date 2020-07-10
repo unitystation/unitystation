@@ -231,11 +231,6 @@ public class EscapeShuttle : NetworkBehaviour
 					Status = EscapeShuttleStatus.OnRouteToCentCom;
 
 					TeleportToCentTeleport();
-
-					if (Status == EscapeShuttleStatus.OnRouteToCentCom && HasShuttleDockedToStation == true)
-					{
-						SoundManager.PlayAtPosition("HyperSpaceEnd", transform.position, gameObject);
-					}
 				}
 				else if(Status == EscapeShuttleStatus.OnRouteToCentCom)
 				{
@@ -384,12 +379,14 @@ public class EscapeShuttle : NetworkBehaviour
 		this.TryStopCoroutine( ref timerHandle );
 		this.StartCoroutine( TickTimer(), ref timerHandle );
 
+		Debug.Log("time: " + Vector2.Distance(stationTeleportLocation, stationDockingLocation) / mm.MaxSpeed + 10f);
+
 		//adding a temporary listener:
 		//start actually moving ship if it's seconds before arrival is how much it moves by and it hasn't been recalled...
 		void Action( int time )
 		{
 			//Time = Distance/Speed
-			if ( time <= Vector2.Distance(stationTeleportLocation, stationDockingLocation) / 200f)
+			if ( time <= Vector2.Distance(stationTeleportLocation, stationDockingLocation) / mm.MaxSpeed + 10f)
 			{
 				mm.SetPosition(stationTeleportLocation);
 				MoveToStation();
@@ -416,7 +413,7 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		startedMovingToStation = true;
 
-		mm.SetSpeed( 200 );
+		mm.SetSpeed( mm.MaxSpeed );
 		MoveTo(StationDest);
 	}
 
@@ -460,6 +457,7 @@ public class EscapeShuttle : NetworkBehaviour
 		Status = EscapeShuttleStatus.OnRouteToCentCom;
 
 		mm.SetPosition( CentTeleportToCentDock.Position - new Vector3(1000,0,0) );
+		mm.SetSpeed( 90 );
 		MoveTo(CentTeleportToCentDock);
 
 		callResult = "Shuttle has been recalled.";
@@ -508,8 +506,6 @@ public class EscapeShuttle : NetworkBehaviour
 		mm.StopMovement();
 		mm.SetPosition(CentTeleportToCentDock.Position - new Vector3(1000,0,0) );
 		MoveTo(CentTeleportToCentDock);
-
-		Status = EscapeShuttleStatus.DockedCentcom;
 	}
 
 	#endregion
