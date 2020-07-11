@@ -17,8 +17,6 @@ public class GeneralSwitch : SubscriptionController, ICheckedInteractable<HandAp
 	[Tooltip("Access level to limit door if above is set.")]
 	public Access access;
 
-
-	//TODO make a controller whichc
 	public List<GeneralSwitchController> generalSwitchControllers = new List<GeneralSwitchController>();
 
 	private bool buttonCoolDown = false;

@@ -110,7 +110,7 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		massDriverOperating = true;
 
-		//detect players positioned on the portal bit of the gateway
+		//detect players positioned on the mass driver
 		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true);
 
 		var throwVector = orientation.Vector;
