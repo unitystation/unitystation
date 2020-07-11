@@ -176,5 +176,6 @@ public enum MultitoolConnectionType
 	ReactorChamber,
 	FireAlarm,
 	LightSwitch,
-	DoorButton
+	DoorButton,
+	GeneralSwitch
 }

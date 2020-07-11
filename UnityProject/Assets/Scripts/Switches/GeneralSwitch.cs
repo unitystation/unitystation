@@ -1,16 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using Electric.Inheritance;
 using UnityEngine;
 using Mirror;
 
-/// <summary>
-/// Allows object to function as a door switch - opening / closing door when clicked.
-/// </summary>
-public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster
+public class GeneralSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster
 {
-	private SpriteRenderer spriteRenderer;
+    private SpriteRenderer spriteRenderer;
 	public Sprite greenSprite;
 	public Sprite offSprite;
 	public Sprite redSprite;
@@ -22,13 +18,14 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 	public Access access;
 
 
-	public List<DoorController> doorControllers = new List<DoorController>();
+	//TODO make a controller whichc
+	public List<GeneralSwitchController> generalSwitchControllers = new List<GeneralSwitchController>();
 
 	private bool buttonCoolDown = false;
 	private AccessRestrictions accessRestrictions;
 
 	[SerializeField]
-	private MultitoolConnectionType conType = MultitoolConnectionType.DoorButton;
+	private MultitoolConnectionType conType = MultitoolConnectionType.GeneralSwitch;
 	public MultitoolConnectionType ConType  => conType;
 
 	private bool multiMaster = true;
@@ -84,18 +81,12 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 
 	private void RunDoorController()
 	{
-		for (int i = 0; i < doorControllers.Count; i++)
+		for (int i = 0; i < generalSwitchControllers.Count; i++)
 		{
-			if(doorControllers[i] == null) continue;
+			if(generalSwitchControllers[i] == null) continue;
 
-			if (doorControllers[i].IsClosed)
-			{
-				doorControllers[i].ServerOpen();
-			}
-			else
-			{
-				doorControllers[i].ServerClose();
-			}
+			//Trigger Event
+			generalSwitchControllers[i].SwitchPressedDoAction.Invoke();
 		}
 	}
 
@@ -162,12 +153,12 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 
 		//Highlighting all controlled doors with red lines and spheres
 		Gizmos.color = new Color(1, 0.5f, 0, 1);
-		for (int i = 0; i < doorControllers.Count; i++)
+		for (int i = 0; i < generalSwitchControllers.Count; i++)
 		{
-			var doorController = doorControllers[i];
-			if(doorController == null) continue;
-			Gizmos.DrawLine(sprite.transform.position, doorController.transform.position);
-			Gizmos.DrawSphere(doorController.transform.position, 0.25f);
+			var generalSwitchController = generalSwitchControllers[i];
+			if(generalSwitchController == null) continue;
+			Gizmos.DrawLine(sprite.transform.position, generalSwitchController.transform.position);
+			Gizmos.DrawSphere(generalSwitchController.transform.position, 0.25f);
 		}
 	}
 
@@ -177,27 +168,26 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 
 		foreach (var potentialObject in potentialObjects)
 		{
-			var doorController = potentialObject.GetComponent<DoorController>();
-			if (doorController == null) continue;
-			AddDoorControllerFromScene(doorController);
+			var generalSwitchController = potentialObject.GetComponent<GeneralSwitchController>();
+			if (generalSwitchController == null) continue;
+			AddDoorControllerFromScene(generalSwitchController);
 			approvedObjects.Add(potentialObject);
 		}
 
 		return approvedObjects;
 	}
 
-	private void AddDoorControllerFromScene(DoorController doorController)
+	private void AddDoorControllerFromScene(GeneralSwitchController generalSwitchController)
 	{
-		if (doorControllers.Contains(doorController))
+		if (generalSwitchControllers.Contains(generalSwitchController))
 		{
-			doorControllers.Remove(doorController);
+			generalSwitchControllers.Remove(generalSwitchController);
 		}
 		else
 		{
-			doorControllers.Add(doorController);
+			generalSwitchControllers.Add(generalSwitchController);
 		}
 	}
 
 	#endregion
-
 }
