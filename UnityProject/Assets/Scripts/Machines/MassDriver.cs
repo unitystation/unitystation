@@ -174,6 +174,7 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void PushObject(ObjectBehaviour entity, Vector3 pushVector)
     {
+	    //Push Twice
     	entity.QueuePush(pushVector.NormalizeTo2Int());
         entity.QueuePush(pushVector.NormalizeTo2Int());
     }
@@ -181,6 +182,8 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void PushPlayer(ObjectBehaviour player, Vector3 pushVector)
     {
     	player.GetComponent<RegisterPlayer>()?.ServerStun();
+
+        //Push Twice
     	player.QueuePush(pushVector.NormalizeTo2Int());
         player.QueuePush(pushVector.NormalizeTo2Int());
     }

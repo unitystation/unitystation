@@ -60,6 +60,21 @@ MonoBehaviour:
     type: 3}
   canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
+--- !u!114 &4528098261102880042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278827525492321370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ae1a16b6e347fb4dbf39f79fd0185a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  SwitchPressedDoAction:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4583094959117635624
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,21 +109,6 @@ MonoBehaviour:
       m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
---- !u!114 &4528098261102880042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6278827525492321370}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ae1a16b6e347fb4dbf39f79fd0185a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  SwitchPressedDoAction:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &314776949997883763
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,10 +185,30 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 00d7ad44b7f93584cacfa3a2d1c02ec3,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 322132419
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
       value: MassDriver
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
