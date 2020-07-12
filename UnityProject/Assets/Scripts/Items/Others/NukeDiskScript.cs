@@ -27,9 +27,14 @@ public class NukeDiskScript : NetworkBehaviour
 	private bool boundsConfigured = false;
 
 	/// <summary>
+	/// Pinpointers wont find this.
+	/// </summary>
+	public bool secondaryNukeDisk;
+
+	/// <summary>
 	/// Stops the disk from teleporting if moved off station matrix.
 	/// </summary>
-	public bool StopAutoTeleport;
+	public bool stopAutoTeleport;
 
 	public override void OnStartServer()
 	{
@@ -79,7 +84,7 @@ public class NukeDiskScript : NetworkBehaviour
 		{
 			timeCurrentDisk += Time.deltaTime;
 
-			if (timeCurrentDisk > timeCheckDiskLocation && !StopAutoTeleport)
+			if (timeCurrentDisk > timeCheckDiskLocation && !stopAutoTeleport)
 			{
 				if (DiskLost()) { Teleport();}
 				timeCurrentDisk = 0;
