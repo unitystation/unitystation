@@ -33,10 +33,17 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void Start()
 	{
-		var NukeDisk = FindObjectOfType<NukeDiskScript>();
-		if (NukeDisk != null)
+		var NukeDisks = FindObjectsOfType<NukeDiskScript>();
+
+		foreach (var nukeDisk in NukeDisks)
 		{
-			objectToTrack =  NukeDisk.gameObject;
+			if (nukeDisk == null) continue;
+
+			if(!nukeDisk.secondaryNukeDisk)
+			{
+				objectToTrack =  nukeDisk.gameObject;
+				break;
+			}
 		}
 	}
 
