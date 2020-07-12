@@ -32,6 +32,8 @@ public partial class SubSceneManager
 		yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
 		//Load away site:
 		yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
+		//Load CentCom Scene:
+		yield return StartCoroutine(ServerLoadCentCom(loadTimer));
 		//Load Additional Scenes:
 		yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
 
@@ -91,6 +93,38 @@ public partial class SubSceneManager
 		}
 	}
 
+	IEnumerator ServerLoadCentCom(SubsceneLoadTimer loadTimer)
+	{
+		loadTimer.IncrementLoadBar("Loading CentCom");
+		
+		//CENTCOM
+		foreach (var centComData in additionalSceneList.CentComScenes)
+		{
+			if (centComData.DependentScene == null || centComData.CentComSceneName == null)continue;
+
+			if (centComData.DependentScene != serverChosenMainStation) continue;
+
+			yield return StartCoroutine(LoadSubScene(centComData.CentComSceneName, loadTimer));
+
+			loadedScenesList.Add(new SceneInfo
+			{
+				SceneName = centComData.CentComSceneName,
+				SceneType = SceneType.AdditionalScenes
+			});
+
+			yield break;
+		}
+
+		//If no special CentCom load default.
+		yield return StartCoroutine(LoadSubScene(additionalSceneList.defaultCentComScene, loadTimer));
+
+		loadedScenesList.Add(new SceneInfo
+		{
+			SceneName = additionalSceneList.defaultCentComScene,
+			SceneType = SceneType.AdditionalScenes
+		});
+	}
+
 	//Load all the asteroids on the server
 	IEnumerator ServerLoadAdditionalScenes(SubsceneLoadTimer loadTimer)
 	{
@@ -122,33 +156,6 @@ public partial class SubSceneManager
 				SceneType = SceneType.AdditionalScenes
 			});
 		}
-
-		foreach (var centComData in additionalSceneList.CentComScenes)
-		{
-			//CENTCOM
-			if (centComData.DependentScene == null || centComData.CentComSceneName == null)continue;
-
-			if (centComData.DependentScene != serverChosenMainStation) continue;
-
-			yield return StartCoroutine(LoadSubScene(centComData.CentComSceneName, loadTimer));
-
-			loadedScenesList.Add(new SceneInfo
-			{
-				SceneName = centComData.CentComSceneName,
-				SceneType = SceneType.AdditionalScenes
-			});
-
-			yield break;
-		}
-
-		//If no special CentCom load default.
-		yield return StartCoroutine(LoadSubScene(additionalSceneList.defaultCentComScene, loadTimer));
-
-		loadedScenesList.Add(new SceneInfo
-		{
-			SceneName = additionalSceneList.defaultCentComScene,
-			SceneType = SceneType.AdditionalScenes
-		});
 	}
 
 	//Load the away site on the server
