@@ -26,6 +26,11 @@ public class NukeDiskScript : NetworkBehaviour
 	private bool isInit = false;
 	private bool boundsConfigured = false;
 
+	/// <summary>
+	/// Stops the disk from teleporting if moved off station matrix.
+	/// </summary>
+	public bool StopAutoTeleport;
+
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
@@ -74,7 +79,7 @@ public class NukeDiskScript : NetworkBehaviour
 		{
 			timeCurrentDisk += Time.deltaTime;
 
-			if (timeCurrentDisk > timeCheckDiskLocation)
+			if (timeCurrentDisk > timeCheckDiskLocation && !StopAutoTeleport)
 			{
 				if (DiskLost()) { Teleport();}
 				timeCurrentDisk = 0;
