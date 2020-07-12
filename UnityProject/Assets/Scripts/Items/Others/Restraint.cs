@@ -59,6 +59,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 			if(performer.GetComponent<PlayerScript>()?.IsInReach(target, true) ?? false)
 			{
 				target.GetComponent<PlayerMove>().Cuff(interaction);
+				Chat.AddExamineMsgFromServer(performer, $"You successfully restrain {target.ExpensiveName()}.");
 			}
 		}
 
@@ -67,6 +68,7 @@ public class Restraint : MonoBehaviour, ICheckedInteractable<HandApply>
 		if (bar != null)
 		{
 			SoundManager.PlayNetworkedAtPos(sound, target.transform.position, sourceObj: target.gameObject);
+			Chat.AddExamineMsgFromServer(performer, $"You begin restraining {target.ExpensiveName()} with your {target.gameObject.ExpensiveName()}...");
 		}
 	}
 }
