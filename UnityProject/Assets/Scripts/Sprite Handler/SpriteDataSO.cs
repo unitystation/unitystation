@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using MLAgents.CommunicatorObjects;
 using UnityEngine;
 
 
@@ -8,7 +9,7 @@ public class SpriteDataSO : ScriptableObject
 {
 	public List<Variant> Variance = new List<Variant>();
 	public bool IsPalette = false;
-
+	public uint ID;
 	[System.Serializable]
 	public class Variant
 	{

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class SpriteHandlerManager : NetworkBehaviour
 {
-
+	public static uint AvailableID = 1;
 	public static SpriteHandlerManager Instance
 	{
 		get
@@ -29,8 +29,10 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 		if (networkIdentity == null)
 		{
-			Logger.LogWarning(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name, Category.SpriteHandler);
+			Logger.LogError(" RegisterHandler networkIdentity is null on  > " + spriteHandler.transform.parent.name, Category.SpriteHandler);
+			return;
 		}
+
 
 		if (Instance.PresentSprites.ContainsKey(networkIdentity) == false)
 		{
@@ -41,7 +43,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		{
 			if (Instance.PresentSprites[networkIdentity][spriteHandler.name] != spriteHandler)
 			{
-				Logger.LogWarning("SpriteHandler has the same name as another SpriteHandler on the game object > " + spriteHandler.transform.parent.name, Category.SpriteHandler);
+				Logger.LogError("SpriteHandler has the same name as another SpriteHandler on the game object > " + spriteHandler.transform.parent.name, Category.SpriteHandler);
 			}
 		}
 		Instance.PresentSprites[networkIdentity][spriteHandler.name] = spriteHandler;
@@ -51,12 +53,38 @@ public class SpriteHandlerManager : NetworkBehaviour
 	// Start is called before the first frame update
     void Start()
     {
-
+	    AvailableID = 1;
+	    foreach (var Product in  SpriteCatalogue.Instance.Catalogue)
+	    {
+		    Product.ID = AvailableID;
+		    AvailableID++;
+	    }
     }
 
+
+    public static NetworkBehaviour GetRecursivelyANetworkBehaviour(GameObject gameObject)
+    {
+	    var Net = gameObject.GetComponent<NetworkBehaviour>();
+	    if (Net != null)
+	    {
+		    return (Net);
+	    }
+	    else if (gameObject.transform.parent != null)
+	    {
+		    return GetRecursivelyANetworkBehaviour(gameObject.transform.parent.gameObject);
+	    }
+	    else
+	    {
+		    Logger.LogError("Was unable to find A NetworkBehaviour for? yeah Youll have to look at this stack trace", Category.SpriteHandler);
+		    return null;
+	    }
+    }
     // Update is called once per frame
     void Update()
     {
 
     }
+
+
+
 }

@@ -10,17 +10,35 @@ using System.Reflection;
 public class GenerateSpriteSO : EditorWindow
 {
 
+	public static List<string> ToDel = new List<string>();
+	public static Dictionary<string,SpriteDataSO> ToSeve = new Dictionary<string, SpriteDataSO>();
+
+	public static SpriteCatalogue spriteCatalogue;
 	[MenuItem("Tools/GenerateSpriteSO")]
 	public static void Generate()
 	{
-		DirSearch_ex3(Application.dataPath);
+		spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
+			"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
+		DirSearch_ex3(Application.dataPath+"/textures"); //
+		AssetDatabase.StartAssetEditing();
+		foreach (var oDe in ToDel)
+		{
+			AssetDatabase.DeleteAsset(oDe);
+		}
+
+		foreach (var Seve in ToSeve)
+		{
+			AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
+			spriteCatalogue.Catalogue.Add(Seve.Value);
+		}
+		AssetDatabase.StopAssetEditing();
 	}
 
 	public static void DirSearch_ex3(string sDir)
 	{
 		//Console.WriteLine("DirSearch..(" + sDir + ")");
 
-			Logger.Log(sDir);
+			//Logger.Log(sDir);
 
 			var Files = Directory.GetFiles(sDir);
 			foreach (string f in Files)
@@ -41,94 +59,23 @@ public class GenerateSpriteSO : EditorWindow
 
 					//SpriteData.
 					SpriteData = FilloutData(EquippedData,Sprites,  SpriteData);
-					AssetDatabase.CreateAsset(SpriteData, f.Replace(".png",".asset").Replace(Application.dataPath,"Assets"));
-
+					ToSeve[f.Replace(".png", ".asset").Replace(Application.dataPath, "Assets")] = SpriteData;
+					ToDel.Add(path.Replace(".png", ".json").Replace(Application.dataPath,"Assets"));
 
 					//Gizmos.DrawIcon();
 					//DrawIcon(SpriteData,  Sprites[0].texture);
-//https://forum.unity.com/threads/editor-changing-an-items-icon-in-the-project-window.272061/
+					//https://forum.unity.com/threads/editor-changing-an-items-icon-in-the-project-window.272061/
 
 				}
-				Logger.Log(f);
+				//Logger.Log(f);
 			}
 
-			/*foreach (string d in Directory.GetDirectories(sDir))
+			foreach (string d in Directory.GetDirectories(sDir))
 			{
 				DirSearch_ex3(d);
-			}*/
-
-	}
-
-	/*
-	public static void DrawIcon(ScriptableObject gameObject, Texture texture)
-	{
-
-
-		var largeIcons = GetTextures("sv_label_", string.Empty, 0, 8);
-		var icon = largeIcons[0];
-		icon.image = texture;
-		var egu = typeof(EditorGUIUtility);
-		var flags = BindingFlags.InvokeMethod | BindingFlags.Static | BindingFlags.NonPublic;
-		var args = new object[] { gameObject, icon.image };
-		var setIcon = egu.GetMethod("SetIconForObject", flags, null, new System.Type[]{typeof(UnityEngine.Object), typeof(Texture2D)}, null);
-		setIcon.Invoke(null, args);
-	}
-	public static  GUIContent[] GetTextures(string baseName, string postFix, int startIndex, int count)
-	{
-		GUIContent[] array = new GUIContent[count];
-		for (int i = 0; i < count; i++)
-		{
-			array[i] = EditorGUIUtility.IconContent(baseName + (startIndex + i) + postFix);
-		}
-		return array;
-	}
-	*/
-
-
-	//######################
-
-	//Assets/Editor/ProjectIcons.cs
-	/*using UnityEngine;
-	using UnityEditor;
-	using System.Collections;
- 
-	public class ProjectIcons : Editor {
-		[MenuItem( "EDITORS/ProjectIcons/Enable" )]
-		static void EnableIcons () {
-			EditorApplication.projectWindowItemOnGUI -= ProjectIcons.MyCallback();
-			EditorApplication.projectWindowItemOnGUI += ProjectIcons.MyCallback();
-		}
-
-		[MenuItem( "EDITORS/ProjectIcons/Disable" )]
-		static void DisableIcons () {
-			EditorApplication.projectWindowItemOnGUI -= ProjectIcons.MyCallback();
-		}
-
-		static EditorApplication.ProjectWindowItemCallback MyCallback () {
-			EditorApplication.ProjectWindowItemCallback myCallback = new EditorApplication.ProjectWindowItemCallback( IconGUI );
-			return myCallback;
-		}
-
-		static void IconGUI ( string s, Rect r ) {
-			string fileName = AssetDatabase.GUIDToAssetPath( s );
-			int index = fileName.LastIndexOf( '.' );
-			if ( index == -1 ) return;
-			string fileType = fileName.Substring( fileName.LastIndexOf( "." ) + 1 );
-			r.width = r.height;
-			switch ( fileType ) {
-				case "cs":
-					//Put your icon images somewhere in the project, and refer to them with a string here
-					GUI.DrawTexture( r, (Texture2D) AssetDatabase.LoadAssetAtPath( "Assets/Editor/Icons/Icon1.psd", typeof( Texture2D ) ) );
-					break;
-				case "psd":
-					GUI.DrawTexture( r, (Texture2D) AssetDatabase.LoadAssetAtPath( "Assets/Editor/Icons/Icon2.psd", typeof( Texture2D ) ) );
-					break;
-				case "png":
-					GUI.DrawTexture( r, (Texture2D) AssetDatabase.LoadAssetAtPath( "Assets/Editor/Icons/Icon3.psd", typeof( Texture2D ) ) );
-					break;
 			}
-		}
-	}*/
+
+	}
 
 	public static SpriteDataSO FilloutData(TextAsset EquippedData, Sprite[]  Sprites, SpriteDataSO SpriteData)
 	{
@@ -177,15 +124,5 @@ public class GenerateSpriteSO : EditorWindow
 		}
 		return SpriteData;
 
-	}	// Start is called before the first frame update
-    void Start()
-    {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
+	}
 }
