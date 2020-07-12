@@ -86,19 +86,19 @@ public class LavaLandManager : MonoBehaviour
 		{
 			script.numR = Random.Range(1,7);
 			script.DoSim();
-			yield return new WaitForEndOfFrame();
 		}
 
 		tileChangeManager = MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<TileChangeManager>();
 
 		GenerateStructures();
-		yield return new WaitForEndOfFrame();
 
 		MatrixManager.Instance.lavaLandMatrix.transform.parent.GetComponent<OreGenerator>().RunOreGenerator();
 
 		SetQuantumPads();
 
 		Debug.Log("Finished generating LavaLand");
+
+		yield break;
 	}
 
 	//Temp until shuttle landings

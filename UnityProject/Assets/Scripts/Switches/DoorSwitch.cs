@@ -90,17 +90,11 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 
 			if (doorControllers[i].IsClosed)
 			{
-				if (doorControllers[i] != null)
-				{
-					doorControllers[i].ServerOpen();
-				}
+				doorControllers[i].ServerOpen();
 			}
 			else
 			{
-				if (doorControllers[i] != null)
-				{
-					doorControllers[i].ServerClose();
-				}
+				doorControllers[i].ServerClose();
 			}
 		}
 	}

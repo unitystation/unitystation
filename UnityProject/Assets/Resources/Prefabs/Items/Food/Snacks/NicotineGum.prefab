@@ -1,0 +1,133 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3752393240347179554
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1608437286450332735, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 188
+      objectReference: {fileID: 0}
+    - target: {fileID: 7019007050734954797, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialName
+      value: nicotine gum
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.3764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.64705884
+      objectReference: {fileID: 0}
+    - target: {fileID: 7310726006815077651, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.5176471
+      objectReference: {fileID: 0}
+    - target: {fileID: 7354706488053939195, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7459402500379575887, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_Name
+      value: NicotineGum
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7464326250923653947, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: c4e931cdd4b041652928e77065466e6b,
+        type: 2}
+    - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f35c3b79d1187213bc2c025391e96e9,
+        type: 2}
+    - target: {fileID: 8552077044633063143, guid: bda3a92c3bab16e4cb40374111199080,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bda3a92c3bab16e4cb40374111199080, type: 3}

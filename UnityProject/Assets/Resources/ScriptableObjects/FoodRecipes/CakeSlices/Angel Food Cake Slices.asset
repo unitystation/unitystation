@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89423981fdf5b0d46af8718c36521ad8, type: 3}
+  m_Name: Angel Food Cake Slices
+  m_EditorClassIdentifier: 
+  Name: Angel Food Cake Slices
+  Ingredients:
+  - requiredAmount: 1
+    ingredientName: angel food cake
+  Output: {fileID: 5994300555920195240, guid: 6e8a28bcb46b8854ca54a48da31c6431, type: 3}
+  OutputAmount: 1
