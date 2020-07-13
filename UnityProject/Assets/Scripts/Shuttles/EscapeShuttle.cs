@@ -26,6 +26,8 @@ public class EscapeShuttle : NetworkBehaviour
 	public Vector2 stationDockingLocation;
 	public Vector2 stationTeleportLocation;
 
+	public int reverseDockOffset = 50;
+
 	//Destination Stuff
 	[HideInInspector]
 	public Destination CentcomDest;
@@ -242,7 +244,7 @@ public class EscapeShuttle : NetworkBehaviour
 				}
 			}
 
-			else if ( DistanceToDestination < 50)
+			else if ( DistanceToDestination < reverseDockOffset)
 			{
 				TryPark();
 			}

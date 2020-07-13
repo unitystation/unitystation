@@ -15,6 +15,11 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public bool passiveDetect;
 
 	/// <summary>
+	/// Where should this pad drop you on the next pad?
+	/// </summary>
+	public PadDirection padDirection = PadDirection.OnTop;
+
+	/// <summary>
 	/// If you dont want the link to be changed.
 	/// </summary>
 	public bool disallowLinkChange;
@@ -144,9 +149,27 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		travelCoord = connectedPad.registerTile.WorldPositionServer;
 
-		if (connectedPad.passiveDetect)
+		switch (padDirection)
 		{
-			travelCoord += Vector3.down;
+			case PadDirection.OnTop:
+				break;
+			case PadDirection.Up:
+				travelCoord += Vector3.up;
+				break;
+			case PadDirection.Down:
+				travelCoord += Vector3.down;
+				break;
+			case PadDirection.Left:
+				travelCoord += Vector3.left;
+				break;
+			case PadDirection.Right:
+				travelCoord += Vector3.right;
+				break;
+		}
+
+		if (passiveDetect && padDirection == PadDirection.OnTop)
+		{
+			travelCoord += Vector3.up;
 		}
 
 		var message = connectedPad.messageOnTravelToThis;
@@ -210,5 +233,14 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public void TransportObjectsItems(ObjectBehaviour objectsItems)
 	{
 		objectsItems.GetComponent<CustomNetTransform>().SetPosition(travelCoord);
+	}
+
+	public enum PadDirection
+	{
+		OnTop,
+		Up,
+		Down,
+		Left,
+		Right
 	}
 }
