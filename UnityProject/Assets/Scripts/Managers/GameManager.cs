@@ -116,8 +116,8 @@ public partial class GameManager : MonoBehaviour
 	}
 
 	///<summary>
-	/// Loads what we need from the GameConfigManager.
-	/// If the JSON is configured incorrectly, uses default values.
+	/// Loads end user config settings for server defaults.
+	/// If the JSON is configured incorrectly (null entry), uses default values.
 	///</summary>
 	// TODO: Currently, there is no data validation to ensure the config has reasonable values, need to configure setters.
 	private void LoadConfig() 
