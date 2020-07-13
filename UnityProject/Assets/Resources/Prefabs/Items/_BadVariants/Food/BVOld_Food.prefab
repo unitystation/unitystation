@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   leavings: {fileID: 0}
-  NutrientsHealAmount: 50
+  sound: EatFood
+  NutritionLevel: 50
 --- !u!1001 &1130340699969248113
 PrefabInstance:
   m_ObjectHideFlags: 0

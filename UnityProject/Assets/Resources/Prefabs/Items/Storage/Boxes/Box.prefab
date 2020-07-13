@@ -107,12 +107,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1001 &4991786853530350121
 PrefabInstance:
   m_ObjectHideFlags: 0

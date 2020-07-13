@@ -72,6 +72,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5593473543981957206, guid: 4ff31457cca9d434fa5002e3cc47a379,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ec0b4a1d2efcae4d93b816acf99db9f,
+        type: 2}
+    - target: {fileID: 5593473543981957206, guid: 4ff31457cca9d434fa5002e3cc47a379,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9935983888621df448290a33c2f2e47a,
+        type: 2}
     - target: {fileID: 6514338071049381788, guid: 4ff31457cca9d434fa5002e3cc47a379,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size

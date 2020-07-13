@@ -167,5 +167,17 @@ PrefabInstance:
       value: A basic energy-based laser gun that fires concentrated beams of light
         which pass through glass and thin metal.
       objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9345883ec52da41428704940848d3e0f,
+        type: 2}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e107a495cc1b94c42bd5c52d4a90da5c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}

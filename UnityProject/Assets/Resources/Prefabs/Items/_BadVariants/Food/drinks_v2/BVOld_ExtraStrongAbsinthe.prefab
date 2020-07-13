@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8f0919186512e2b00840bdfc242942ff,
         type: 2}
+    - target: {fileID: 544171576806319005, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f0919186512e2b00840bdfc242942ff,
+        type: 2}
     - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: initialName
@@ -28,6 +34,18 @@ PrefabInstance:
       propertyPath: exportCost
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1830abd54ea321342b747714176cd89c,
+        type: 2}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 32de1f4d04e224f4399721f51621df9d,
+        type: 2}
     - target: {fileID: 1465560459664676969, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: m_Sprite

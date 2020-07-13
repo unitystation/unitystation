@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Sprites: []
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []
 --- !u!114 &2472774062389222616
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -40,10 +41,6 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
-    ProduceSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     GrowthSprites: []
     FullyGrownSprite:
       Texture: {fileID: 0}
@@ -63,6 +60,9 @@ MonoBehaviour:
     PlantTrays: 
     ReagentProduction: []
     MutatesInTo: []
+    Age: 0
+    NextGrowthStageProgress: 0
+    Health: 0
   defaultPlantData: {fileID: 0}
   PlantSyncString: 
 --- !u!114 &2774677908024262517
@@ -141,6 +141,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d5e4a075a3b9b43ec859b998b4e0819d,
+        type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
@@ -151,12 +157,6 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Y
       objectReference: {fileID: 0}
-    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: d5e4a075a3b9b43ec859b998b4e0819d,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &3867790606060242529 stripped

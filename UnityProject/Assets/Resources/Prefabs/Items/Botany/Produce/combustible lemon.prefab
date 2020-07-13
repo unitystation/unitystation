@@ -144,6 +144,10 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 82cfd024cb5627944b73e01a9abe0547, type: 3}
       EquippedData: {fileID: 0}
+    SpriteInventoryIcon: {fileID: 11400000, guid: 79557dda1b863f54891194179a2e7a64,
+      type: 2}
+    SpriteLeftHand: {fileID: 11400000, guid: 4b4c8b055d47e6f4c9ba18671e55c0bb, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: 5315a5aa643be0a45b39f7ae261d3a5a, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -557,12 +561,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!114 &2427945517095408565
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -575,9 +578,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []

@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   clothData: {fileID: 0}
-  variantIndex: -1
   variantType: 0
   hideClothingFlags: 0
+  SpriteDataSO: []
 --- !u!1001 &3020818611218779800
 PrefabInstance:
   m_ObjectHideFlags: 0

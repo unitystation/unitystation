@@ -12,12 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!114 &1709981260635841664
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -98,7 +97,6 @@ MonoBehaviour:
   SpriteSizeAdjustment: {fileID: 7992938450538310393}
   Sprite: {fileID: 4133026307562938914}
   edible: {fileID: 4784545385014217823}
-  plantpotency: 0
   SizeScale: 0
 --- !u!114 &2785554390837465345
 MonoBehaviour:
@@ -292,6 +290,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 640a4524e899c424bbc28f75f929f4c6,
         type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ab87f7c97317ed48affcc1c5b653d03,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &7790500238027954597 stripped

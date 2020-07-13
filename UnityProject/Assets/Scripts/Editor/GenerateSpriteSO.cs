@@ -9,19 +9,23 @@ using System.Reflection;
 
 public class GenerateSpriteSO : EditorWindow
 {
-
 	public static List<string> ToDel = new List<string>();
-	public static Dictionary<string,SpriteDataSO> ToSeve = new Dictionary<string, SpriteDataSO>();
+	public static Dictionary<string, SpriteDataSO> ToSeve = new Dictionary<string, SpriteDataSO>();
 
 	public static SpriteCatalogue spriteCatalogue;
+
 	[MenuItem("Tools/GenerateSpriteSO")]
 	public static void Generate()
 	{
 		//AssetDatabase.StopAssetEditing();
-		spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
-			"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
-		DirSearch_ex3(Application.dataPath+"/Resources/Prefabs/Items"); //
+		//spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
+		//	"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
 		AssetDatabase.StartAssetEditing();
+		DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
+		AssetDatabase.StopAssetEditing();
+		return;
+
+
 		foreach (var oDe in ToDel)
 		{
 			AssetDatabase.DeleteAsset(oDe);
@@ -32,21 +36,24 @@ public class GenerateSpriteSO : EditorWindow
 			AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
 			spriteCatalogue.Catalogue.Add(Seve.Value);
 		}
-		AssetDatabase.StopAssetEditing();
+
+
 	}
+
 	public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
 	{
 		List<T> assets = new List<T>();
 		string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
-		for( int i = 0; i < guids.Length; i++ )
+		for (int i = 0; i < guids.Length; i++)
 		{
-			string assetPath = AssetDatabase.GUIDToAssetPath( guids[i] );
-			T asset = AssetDatabase.LoadAssetAtPath<T>( assetPath );
-			if( asset != null )
+			string assetPath = AssetDatabase.GUIDToAssetPath(guids[i]);
+			T asset = AssetDatabase.LoadAssetAtPath<T>(assetPath);
+			if (asset != null)
 			{
 				assets.Add(asset);
 			}
 		}
+
 		return assets;
 	}
 
@@ -109,8 +116,63 @@ public class GenerateSpriteSO : EditorWindow
 	}
 
 
-
 	public static void DirSearch_ex3Prefab(string sDir)
+	{
+		//Console.WriteLine("DirSearch..(" + sDir + ")");
+
+		//Logger.Log(sDir);
+		var aDDll = LoadAllPrefabsOfType<ItemAttributesV2>(sDir);
+		foreach (var f in aDDll)
+		{
+			f.ItemSprites.SpriteInventoryIcon =
+				PullOutSO(f.ItemSprites.InventoryIcon.Texture);
+
+			f.ItemSprites.SpriteLeftHand =
+				PullOutSO(f.ItemSprites.LeftHand.Texture);
+
+			f.ItemSprites.SpriteRightHand =
+				PullOutSO(f.ItemSprites.RightHand.Texture);
+			PrefabUtility.SavePrefabAsset(f.gameObject);
+			//Logger.Log(f);
+
+		}
+	}
+
+	public static List<T> LoadAllPrefabsOfType<T>(string path) where T : MonoBehaviour
+	{
+		if (path != "")
+		{
+			if (path.EndsWith("/"))
+			{
+				path = path.TrimEnd('/');
+			}
+		}
+
+		DirectoryInfo dirInfo = new DirectoryInfo(path);
+		FileInfo[] fileInf = dirInfo.GetFiles("*.prefab",SearchOption.AllDirectories);
+
+		//loop through directory loading the game object and checking if it has the component you want
+		List<T> prefabComponents = new List<T>();
+		foreach (FileInfo fileInfo in fileInf)
+		{
+			string fullPath = fileInfo.FullName.Replace(@"\", "/");
+			string assetPath = "Assets" + fullPath.Replace(Application.dataPath, "");
+			GameObject prefab = AssetDatabase.LoadAssetAtPath(assetPath, typeof(GameObject)) as GameObject;
+
+			if (prefab != null)
+			{
+				T hasT = prefab.GetComponent<T>();
+				if (hasT != null)
+				{
+					prefabComponents.Add(hasT);
+				}
+			}
+		}
+
+		return prefabComponents;
+	}
+
+	public static void DirSearch_ex3(string sDir)
 	{
 		//Console.WriteLine("DirSearch..(" + sDir + ")");
 
@@ -119,85 +181,47 @@ public class GenerateSpriteSO : EditorWindow
 		var Files = Directory.GetFiles(sDir);
 		foreach (string f in Files)
 		{
-			if (f.Contains(".Prefab") && f.Contains(".meta") == false)
+			if (f.Contains(".png") && f.Contains(".meta") == false)
 			{
-				var path =  f;
+				var path = f;
+				var TT = path.Replace(Application.dataPath, "Assets");
+				var Sprites = AssetDatabase.LoadAllAssetsAtPath(TT).OfType<Sprite>().ToArray();
+				if (Sprites.Length > 1)
+				{
+					Sprites = Sprites.OrderBy(x => int.Parse(x.name.Substring(x.name.LastIndexOf('_') + 1))).ToArray();
+				}
 
-				var GameObject = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+				//yeah If you named your sub sprites rip, have to find another way of ordering them correctly since the editor doesnt want to do that		E
+				var EquippedData = (TextAsset) AssetDatabase.LoadAssetAtPath(
+					path.Replace(".png", ".json").Replace(Application.dataPath, "Assets"), typeof(TextAsset));
+				var SpriteData = ScriptableObject.CreateInstance<SpriteDataSO>();
 
-				var ItemAttributesV2 = GameObject.GetComponent<ItemAttributesV2>();
-				ItemAttributesV2.ItemSprites.SpriteInventoryIcon =
-					PullOutSO(ItemAttributesV2.ItemSprites.InventoryIcon.Texture);
 
-				ItemAttributesV2.ItemSprites.SpriteLeftHand =
-					PullOutSO(ItemAttributesV2.ItemSprites.LeftHand.Texture);
+				//SpriteData.
+				SpriteData = FilloutData(EquippedData, Sprites, SpriteData);
+				ToSeve[f.Replace(".png", ".asset").Replace(Application.dataPath, "Assets")] = SpriteData;
+				ToDel.Add(path.Replace(".png", ".json").Replace(Application.dataPath, "Assets"));
 
-				ItemAttributesV2.ItemSprites.SpriteRightHand =
-					PullOutSO(ItemAttributesV2.ItemSprites.RightHand.Texture);
-
-				AssetDatabase.CreateAsset(GameObject, path);
-
+				//Gizmos.DrawIcon();
+				//DrawIcon(SpriteData,  Sprites[0].texture);
+				//https://forum.unity.com/threads/editor-changing-an-items-icon-in-the-project-window.272061/
 			}
+
 			//Logger.Log(f);
 		}
 
 		foreach (string d in Directory.GetDirectories(sDir))
 		{
-			DirSearch_ex3Prefab(d);
+			DirSearch_ex3(d);
 		}
-
 	}
 
-
-
-	public static void DirSearch_ex3(string sDir)
-	{
-		//Console.WriteLine("DirSearch..(" + sDir + ")");
-
-			//Logger.Log(sDir);
-
-			var Files = Directory.GetFiles(sDir);
-			foreach (string f in Files)
-			{
-				if (f.Contains(".png") && f.Contains(".meta") == false)
-				{
-					var path =  f;
-					var TT = path.Replace(Application.dataPath,"Assets");
-					var Sprites = AssetDatabase.LoadAllAssetsAtPath(TT).OfType<Sprite>().ToArray();
-					if (Sprites.Length > 1)
-					{
-						Sprites = Sprites.OrderBy(x => int.Parse(x.name.Substring(x.name.LastIndexOf('_') + 1))).ToArray();
-					}
-					//yeah If you named your sub sprites rip, have to find another way of ordering them correctly since the editor doesnt want to do that		E
-					var EquippedData = (TextAsset)AssetDatabase.LoadAssetAtPath(path.Replace(".png", ".json").Replace(Application.dataPath,"Assets"), typeof(TextAsset));
-					var SpriteData = ScriptableObject.CreateInstance<SpriteDataSO>();
-
-
-					//SpriteData.
-					SpriteData = FilloutData(EquippedData,Sprites,  SpriteData);
-					ToSeve[f.Replace(".png", ".asset").Replace(Application.dataPath, "Assets")] = SpriteData;
-					ToDel.Add(path.Replace(".png", ".json").Replace(Application.dataPath,"Assets"));
-
-					//Gizmos.DrawIcon();
-					//DrawIcon(SpriteData,  Sprites[0].texture);
-					//https://forum.unity.com/threads/editor-changing-an-items-icon-in-the-project-window.272061/
-
-				}
-				//Logger.Log(f);
-			}
-
-			foreach (string d in Directory.GetDirectories(sDir))
-			{
-				DirSearch_ex3(d);
-			}
-
-	}
-
-	public static SpriteDataSO FilloutData(TextAsset EquippedData, Sprite[]  Sprites, SpriteDataSO SpriteData)
+	public static SpriteDataSO FilloutData(TextAsset EquippedData, Sprite[] Sprites, SpriteDataSO SpriteData)
 	{
 		SpriteJson spriteJson = null;
 
-		if (EquippedData != null) {
+		if (EquippedData != null)
+		{
 			spriteJson = JsonConvert.DeserializeObject<SpriteJson>(EquippedData.text);
 		}
 		else
@@ -206,11 +230,13 @@ public class GenerateSpriteSO : EditorWindow
 			{
 				Logger.LogError("OH NO json File wasn't found for " + Sprites[0].name, Category.Editor);
 			}
+
 			SpriteData.Variance.Add(new SpriteDataSO.Variant());
 			SpriteData.Variance[0].Frames.Add(new SpriteDataSO.Frame());
 			SpriteData.Variance[0].Frames[0].sprite = Sprites[0];
 			return SpriteData;
 		}
+
 		int variance = 0;
 		int frame = 0;
 		for (int J = 0; J < spriteJson.Number_Of_Variants; J++)
@@ -238,7 +264,7 @@ public class GenerateSpriteSO : EditorWindow
 				variance++;
 			}
 		}
-		return SpriteData;
 
+		return SpriteData;
 	}
 }

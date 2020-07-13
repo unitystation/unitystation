@@ -7,10 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
+    - target: {fileID: 1733181859376600693, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
         type: 3}
-      propertyPath: m_Name
-      value: Speedy Wirecutter
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1840503368461670069, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
         type: 3}
@@ -67,15 +67,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1733181859376600693, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
+    - target: {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
         type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8908459946260862267, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
-        type: 3}
-      propertyPath: SpeedMultiplier
-      value: 10
+      propertyPath: m_Name
+      value: Speedy Wirecutter
       objectReference: {fileID: 0}
     - target: {fileID: 1975039212701882525, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
         type: 3}
@@ -91,6 +86,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Color.r
       value: 0.99354744
+      objectReference: {fileID: 0}
+    - target: {fileID: 8908459946260862267, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
+        type: 3}
+      propertyPath: SpeedMultiplier
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3266ceefb65da2f4cb4bbfd297415ad5, type: 3}

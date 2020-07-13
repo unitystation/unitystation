@@ -23,6 +23,17 @@ PrefabInstance:
       propertyPath: reagentMix.reagents.m_values.Array.data[0]
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 544171576806319005, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1c7be66a31629112089340cafc6e7489,
+        type: 2}
+    - target: {fileID: 544171576806319005, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: initialName

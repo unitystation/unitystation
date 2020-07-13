@@ -10,9 +10,9 @@ public class ItemsSprites
 	public SpriteSheetAndData InventoryIcon = new SpriteSheetAndData();
 
 
-	public SpriteDataSO SpriteInventoryIcon = new SpriteDataSO();
-	public SpriteDataSO SpriteLeftHand = new SpriteDataSO();
-	public SpriteDataSO SpriteRightHand = new SpriteDataSO();
+	public SpriteDataSO SpriteInventoryIcon = null;
+	public SpriteDataSO SpriteLeftHand = null;
+	public SpriteDataSO SpriteRightHand = null;
 
 
 	public List<Color> Palette = new List<Color>(new Color[8]);

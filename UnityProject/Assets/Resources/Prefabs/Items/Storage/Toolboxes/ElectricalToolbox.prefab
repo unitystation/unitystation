@@ -85,6 +85,18 @@ PrefabInstance:
       propertyPath: initialName
       value: electrical toolbox
       objectReference: {fileID: 0}
+    - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 49333aa40cd221b4797ff14a13c34372,
+        type: 2}
+    - target: {fileID: 8072580136699404764, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a4c89f882a8889e41aebec8f94475380,
+        type: 2}
     - target: {fileID: 8366562164760083938, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
         type: 3}
       propertyPath: m_Sprite

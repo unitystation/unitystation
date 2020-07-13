@@ -12,28 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d0c65a5a6a422469c11f5fd5d6abeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PipeLayer: 1
-  PipeType: 2
-  NetCompatible: 1
   Colour: {r: 1, g: 1, b: 1, a: 1}
-  Connections:
-    Directions:
-    - Bool: 1
-      pipeType: 1
-      PortType: 0
-    - Bool: 0
-      pipeType: 1
-      PortType: 0
-    - Bool: 1
-      pipeType: 1
-      PortType: 0
-    - Bool: 0
-      pipeType: 1
-      PortType: 0
+  pipeTile: {fileID: 0}
   SpriteHandler: {fileID: 0}
   objectBehaviour: {fileID: 0}
   BentVariantLocation: 4
   StraightVariantLocation: 0
+  IsBent: 0
+  StraightPipe: {fileID: 0}
+  BentPipe: {fileID: 0}
 --- !u!1001 &4289799101313017698
 PrefabInstance:
   m_ObjectHideFlags: 0
