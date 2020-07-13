@@ -6,12 +6,14 @@ using Mirror;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(GeneralSwitchController))]
+[ExecuteInEditMode]
 public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	private const float ANIMATION_TIME = 0.5f;
 
 	private RegisterTile registerTile;
 
+	[SerializeField]
 	private Directional directional;
 
 	private Matrix Matrix => registerTile.Matrix;
@@ -23,7 +25,7 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 	[SyncVar(hook = nameof(OnSyncOutletState))]
 	bool massDriverOperating = false;
 	[SyncVar(hook = nameof(OnSyncOrientation))]
-	Orientation orientation;
+	private Orientation orientation;
 
 	private void Awake()
 	{
@@ -31,10 +33,8 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 		spriteHandler = GetComponentInChildren<SpriteHandler>();
 		switchController = GetComponent<GeneralSwitchController>();
 
-		if (TryGetComponent(out Directional directional))
+		if (directional != null)
 		{
-			this.directional = directional;
-			orientation = directional.InitialOrientation;
 			directional.OnDirectionChange.AddListener(OnDirectionChanged);
 		}
 	}
@@ -76,6 +76,12 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void OnSyncOrientation(Orientation oldState, Orientation newState)
 	{
 		orientation = newState;
+		UpdateSpriteOrientation();
+	}
+
+	public void EditorUpdate()
+	{
+		orientation = directional.InitialOrientation;
 		UpdateSpriteOrientation();
 	}
 
