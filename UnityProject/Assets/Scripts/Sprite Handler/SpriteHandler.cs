@@ -16,9 +16,10 @@ using UnityEngine.UI;
 public class SpriteHandler : MonoBehaviour
 {
 	[SerializeField]
+	private bool NetworkThis = true;
+
+	[SerializeField]
 	private List<SpriteDataSO> SubCatalogue = new List<SpriteDataSO>();
-
-
 
 	[SerializeField]
 	private SpriteDataSO PresentSpriteSet = null;
@@ -33,7 +34,7 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField]
 	private int variantIndex = 0;
 
-	private int cataloguePage = 0;
+	private int cataloguePage = -1;
 
 	private float timeElapsed = 0;
 
@@ -46,8 +47,6 @@ public class SpriteHandler : MonoBehaviour
 
 	public void ChangeSprite(int SubCataloguePage , bool Network = true)
 	{
-
-
 		if ((SubCatalogue.Count > SubCataloguePage) == false)
 		{
 			Logger.LogError("new SubCataloguePage Is out of bounds on " + this);
@@ -88,6 +87,15 @@ public class SpriteHandler : MonoBehaviour
 	{
 		//network it
 	}
+
+	//TODO
+	//Player
+	//customisation
+	//hydroponics
+	//console animators
+	//PlantData Need Script might as well be factor while I'm here
+	//EquippedData Clothing needs script
+	//Nuke SpriteHandlerController
 
 	/// <summary>
 	/// Used to set a singular sprite NOTE: This will not be networked
@@ -139,7 +147,16 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
-
+	public void Empty(bool Network = true)
+	{
+		PushClear(false);
+		PresentSpriteSet = null;
+		SubCatalogue = new List<SpriteDataSO>( );
+		if (Network)
+		{
+			NetUpdate();
+		}
+	}
 
 	public void PushClear(bool Network = true)
 	{
@@ -151,6 +168,21 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+
+	public void SetCatalogue(List<SpriteDataSO> NewCatalogue, int JumpToPage = -1, bool NetWork = true)
+	{
+		SubCatalogue = NewCatalogue;
+		cataloguePage = JumpToPage;
+		if (cataloguePage > -1)
+		{
+			ChangeSprite(JumpToPage, false);
+		}
+
+		if (NetWork)
+		{
+			NetUpdate();
+		}
+	}
 
 	public void SetPaletteOfCurrentSprite(List<Color> newPalette)
 	{

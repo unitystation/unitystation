@@ -12,9 +12,9 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 	private ExosuitFabricatorState stateSync;
 
 	[SerializeField] private SpriteHandler spriteHandler = null;
-	[SerializeField] private SpriteSheetAndData idleSprite = null;
-	[SerializeField] private SpriteSheetAndData acceptingMaterialsSprite = null;
-	[SerializeField] private SpriteSheetAndData productionSprite = null;
+	[SerializeField] private SpriteDataSO idleSprite = null;
+	[SerializeField] private SpriteDataSO acceptingMaterialsSprite = null;
+	[SerializeField] private SpriteDataSO productionSprite = null;
 	private RegisterObject registerObject = null;
 	public MaterialStorage materialStorage = null;
 	public MachineProductsCollection exoFabProducts = null;
@@ -189,15 +189,15 @@ public class ExosuitFabricator : NetworkBehaviour, ICheckedInteractable<HandAppl
 		stateSync = stateNew;
 		if (stateNew == ExosuitFabricatorState.Idle)
 		{
-			//FFGD spriteHandler.SetSprite(idleSprite);
+			spriteHandler.SetSpriteSO(idleSprite);
 		}
 		else if (stateNew == ExosuitFabricatorState.Production)
 		{
-			//FFGD spriteHandler.SetSprite(productionSprite, 0);
+			spriteHandler.SetSpriteSO(productionSprite);
 		}
 		else if (stateNew == ExosuitFabricatorState.AcceptingMaterials)
 		{
-			//FFGD spriteHandler.SetSprite(acceptingMaterialsSprite, 0);
+			spriteHandler.SetSpriteSO(acceptingMaterialsSprite);
 		}
 		else
 		{

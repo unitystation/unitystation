@@ -16,7 +16,6 @@ public delegate void OnClothingEquippedDelegate(ClothingV2 clothing, bool isEqui
 [RequireComponent(typeof(SpriteRenderer))]
 public class ClothingItem : MonoBehaviour
 {
-
 	[Tooltip("Slot this clothing item is equipped to.")]
 	public NamedSlot Slot;
 
@@ -59,10 +58,7 @@ public class ClothingItem : MonoBehaviour
 	/// </summary>
 	private bool InHands
 	{
-		get
-		{
-			return spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand;
-		}
+		get { return spriteType == SpriteHandType.RightHand || spriteType == SpriteHandType.LeftHand; }
 	}
 
 	private void Awake()
@@ -83,10 +79,9 @@ public class ClothingItem : MonoBehaviour
 		UpdateReferenceOffset();
 		if (Item == null)
 		{
-			if (spriteHandler != null) //need to remove
+			if (spriteHandler != null)
 			{
-				//FFGD spriteHandler.spriteData = null;
-				PushTexture();
+				spriteHandler.Empty();
 			}
 
 			if (!InHands && GameObjectReference != null)
@@ -130,7 +125,7 @@ public class ClothingItem : MonoBehaviour
 
 	public void RefreshFromClothing(ClothingV2 clothing)
 	{
-		//FFGD spriteHandler.spriteData = clothing.SpriteInfo;
+		spriteHandler.SetCatalogue(clothing.SpriteDataSO);
 
 		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
 		if (palette != null)
@@ -163,6 +158,7 @@ public class ClothingItem : MonoBehaviour
 		{
 			referenceOffset = 3;
 		}
+
 		UpdateSprite();
 	}
 
@@ -170,10 +166,7 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null)
 		{
-			//FFGD if (spriteHandler.spriteData != null)
-			//FFGD 	{
-			//FFGD 	spriteHandler.ChangeSpriteVariant(referenceOffset);
-				//FFGD 	}
+			spriteHandler.ChangeSpriteVariant(referenceOffset);
 		}
 	}
 
@@ -185,12 +178,12 @@ public class ClothingItem : MonoBehaviour
 		}
 	}
 
-	public void SetInHand(ItemsSprites _ItemsSprites) {
+	public void SetInHand(ItemsSprites _ItemsSprites)
+	{
 		if (_ItemsSprites != null)
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
-
 				//FFGD 	spriteHandler.spriteData = _ItemsSprites.RightHand.Data;
 			}
 			else

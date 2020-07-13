@@ -17,7 +17,7 @@ public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInter
 	public Sprite topLightSpriteNormal;
 	public Sprite openEmptySprite;
 	public Sprite openCabledSprite;
-	public SpriteSheetAndData topLightSpriteAlert;
+	public SpriteDataSO topLightSpriteAlert;
 
 	public bool coverOpen;
 	public bool hasCables = true;
@@ -206,7 +206,8 @@ public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInter
 		stateSync = stateNew;
 		if (stateNew == FireAlarmState.TopLightSpriteAlert)
 		{
-			//FFGD spriteHandler.SetSprite(topLightSpriteAlert, 0);
+
+			spriteHandler.SetSpriteSO(topLightSpriteAlert);
 		}
 		else if (stateNew == FireAlarmState.OpenEmptySprite)
 		{

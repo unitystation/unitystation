@@ -17,9 +17,10 @@ public class GenerateSpriteSO : EditorWindow
 	[MenuItem("Tools/GenerateSpriteSO")]
 	public static void Generate()
 	{
+		//AssetDatabase.StopAssetEditing();
 		spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
 			"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
-		DirSearch_ex3(Application.dataPath+"/textures"); //
+		DirSearch_ex3(Application.dataPath+"/Resources/Prefabs/Items"); //
 		AssetDatabase.StartAssetEditing();
 		foreach (var oDe in ToDel)
 		{
@@ -33,6 +34,121 @@ public class GenerateSpriteSO : EditorWindow
 		}
 		AssetDatabase.StopAssetEditing();
 	}
+	public static List<T> FindAssetsByType<T>() where T : UnityEngine.Object
+	{
+		List<T> assets = new List<T>();
+		string[] guids = AssetDatabase.FindAssets(string.Format("t:{0}", typeof(T)));
+		for( int i = 0; i < guids.Length; i++ )
+		{
+			string assetPath = AssetDatabase.GUIDToAssetPath( guids[i] );
+			T asset = AssetDatabase.LoadAssetAtPath<T>( assetPath );
+			if( asset != null )
+			{
+				assets.Add(asset);
+			}
+		}
+		return assets;
+	}
+
+
+	/*
+	  	var COols = FindAssetsByType<ClothingData>();
+		//AssetDatabase.StartAssetEditing();
+		foreach (var COol in COols)
+		{
+			PullOutEquippedData(COol.Base);
+			PullOutEquippedData(COol.Base_Adjusted);
+			//PullOutEquippedData(COol.DressVariant);
+			//foreach (var ariant in COol.Variants)
+			//{
+				//PullOutEquippedData(ariant);
+			//}
+
+			EditorUtility.SetDirty(COol);
+
+		}
+		var COolsBeltData = FindAssetsByType<BeltData>();
+		//AssetDatabase.StartAssetEditing();
+		foreach (var COol in COolsBeltData)
+		{
+			PullOutEquippedData(COol.sprites);
+			EditorUtility.SetDirty(COol);
+
+		}
+
+		var HeadsetDatas = FindAssetsByType<HeadsetData>();
+
+		foreach (var COol in HeadsetDatas)
+		{
+			PullOutEquippedData(COol.Sprites);
+			EditorUtility.SetDirty(COol);
+
+		}
+
+		var  ContainerDatas= FindAssetsByType<ContainerData>();
+		foreach (var COol in ContainerDatas)
+		{
+			PullOutEquippedData(COol.Sprites);
+			EditorUtility.SetDirty(COol);
+		}
+	 */
+
+	public static EquippedData PullOutEquippedData(EquippedData ToProcess)
+	{
+		//ToProcess.SpriteEquipped = PullOutSO(ToProcess.Equipped.Texture);
+		//ToProcess.SpriteItemIcon = PullOutSO(ToProcess.ItemIcon.Texture);
+		//ToProcess.SpriteInHandsLeft = PullOutSO(ToProcess.InHandsLeft.Texture);
+		//ToProcess.SpriteInHandsRight = PullOutSO(ToProcess.InHandsRight.Texture);
+		return ToProcess;
+	}
+
+	public static SpriteDataSO PullOutSO(Texture2D In2D)
+	{
+		var path = AssetDatabase.GetAssetPath(In2D);
+		return AssetDatabase.LoadAssetAtPath<SpriteDataSO>(path.Replace(".png", ".asset"));
+	}
+
+
+
+	public static void DirSearch_ex3Prefab(string sDir)
+	{
+		//Console.WriteLine("DirSearch..(" + sDir + ")");
+
+		//Logger.Log(sDir);
+
+		var Files = Directory.GetFiles(sDir);
+		foreach (string f in Files)
+		{
+			if (f.Contains(".Prefab") && f.Contains(".meta") == false)
+			{
+				var path =  f;
+
+				var GameObject = AssetDatabase.LoadAssetAtPath<GameObject>(path);
+
+				var ItemAttributesV2 = GameObject.GetComponent<ItemAttributesV2>();
+				ItemAttributesV2.ItemSprites.SpriteInventoryIcon =
+					PullOutSO(ItemAttributesV2.ItemSprites.InventoryIcon.Texture);
+
+				ItemAttributesV2.ItemSprites.SpriteLeftHand =
+					PullOutSO(ItemAttributesV2.ItemSprites.LeftHand.Texture);
+
+				ItemAttributesV2.ItemSprites.SpriteRightHand =
+					PullOutSO(ItemAttributesV2.ItemSprites.RightHand.Texture);
+
+				AssetDatabase.CreateAsset(GameObject, path);
+
+			}
+			//Logger.Log(f);
+		}
+
+		foreach (string d in Directory.GetDirectories(sDir))
+		{
+			DirSearch_ex3Prefab(d);
+		}
+
+	}
+
+
 
 	public static void DirSearch_ex3(string sDir)
 	{

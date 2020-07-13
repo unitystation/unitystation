@@ -147,7 +147,7 @@ public class PlayerSprites : MonoBehaviour
 	{
 		if (customisationName != "None")
 		{
-			SpriteDataSO spriteDataSO = PlayerCustomisationDataSOs.Instance.Get(customisationType, ThisCharacter.Gender, customisationName).Equipped;
+			SpriteDataSO spriteDataSO = PlayerCustomisationDataSOs.Instance.Get(customisationType, ThisCharacter.Gender, customisationName).SpriteEquipped;
 			SetupSprite(spriteDataSO, customisationKey, color);
 		}
 	}
@@ -199,7 +199,7 @@ public class PlayerSprites : MonoBehaviour
 	/// </summary>
 	private void SetupBodySprite(SpriteDataSO variantBodypart, string bodypartKey, Color? color = null)
 	{
-		if (variantBodypart.Variance.Count > 0)
+		if (variantBodypart != null && variantBodypart.Variance.Count > 0)
 		{
 			SetupSprite(variantBodypart, bodypartKey, color);
 		}
