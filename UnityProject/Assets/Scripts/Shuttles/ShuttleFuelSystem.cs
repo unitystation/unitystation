@@ -32,7 +32,7 @@ public class ShuttleFuelSystem : ManagedNetworkBehaviour
 	public override void UpdateMe()
 	{
 
-		if (Connector.canister != null)
+		if (this.Connector.canister != null)
 		{
 			FuelConsumption =  MatrixMove.ServerState.Speed / 25f;
 			if (MatrixMove.IsMovingServer && MatrixMove.RequiresFuel)
