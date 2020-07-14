@@ -54,8 +54,7 @@ public partial class GameManager : MonoBehaviour
 	/// <summary>
 	/// The game mode that the server will switch to at round end if no mode or an invalid mode is selected.
 	/// <summary>
-	// TODO: Add validation to ensure gamemode exists, currently unimplemented
-	public string DefaultGameMode { get; set; } = "Random";
+	public string InitialGameMode { get; set; } = "Random";
 
 	public Text roundTimer;
 
@@ -112,7 +111,7 @@ public partial class GameManager : MonoBehaviour
 		// Set up server defaults
 		LoadConfig();
 		RespawnCurrentlyAllowed = RespawnAllowed;
-		//NextGameMode = DefaultGameMode;
+		NextGameMode = InitialGameMode;
 	}
 
 	///<summary>
@@ -134,8 +133,8 @@ public partial class GameManager : MonoBehaviour
 		if(GameConfigManager.GameConfig.RoundsPerMap != null)
 			RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
 
-		if(GameConfigManager.GameConfig.DefaultGameMode != null)
-			DefaultGameMode = GameConfigManager.GameConfig.DefaultGameMode;
+		if(GameConfigManager.GameConfig.InitialGameMode != null)
+			InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
 
 		if(GameConfigManager.GameConfig.RespawnAllowed != null)
 			RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
@@ -375,17 +374,16 @@ public partial class GameManager : MonoBehaviour
 		// Only do this stuff on the server
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			if (string.IsNullOrEmpty(NextGameMode)
-			    || NextGameMode == "Random")
+			if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
 			{
 				SetRandomGameMode();
 			}
 			else
 			{
+				//Set game mode to the selected game mode
 				SetGameMode(NextGameMode);
-				//set it back to random when it has been loaded
-				//TODO set default game modes
-				NextGameMode = "Random";
+				//Then reset it to the default game mode set in the config for next round.
+				NextGameMode = InitialGameMode;
 			}
 
 			// Game mode specific setup

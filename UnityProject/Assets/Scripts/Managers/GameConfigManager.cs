@@ -60,7 +60,7 @@ namespace GameConfig
 		public float PreRoundTime;
 		public float RoundEndTime;
 		public int RoundsPerMap;
-		public string DefaultGameMode;
+		public string InitialGameMode;
 		public bool RespawnAllowed;
 	}
 }
