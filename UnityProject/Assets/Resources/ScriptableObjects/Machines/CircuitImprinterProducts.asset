@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a530723332345043ae218456ed72ca0, type: 3}
+  m_Name: CircuitImprinterProducts
+  m_EditorClassIdentifier: 
+  productCategoryList:
+  - categoryName: AI Modules
+    products: []
+  - categoryName: Computer Boards
+    products:
+    - name: Computer Design (Boiler-Turbine Console)
+      product: {fileID: 3045441120391826686, guid: 379c96459052d4645928363ef250ea18,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Cloning Console)
+      product: {fileID: 3678041455523351825, guid: a3073526fd40c7d42b394e3def74809b,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Communications Console)
+      product: {fileID: 3678041455523351825, guid: 35bfd43b017d64749bbe0ce4430d6c1e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (ID Console)
+      product: {fileID: 3678041455523351825, guid: d85dca3d9b11b9444909fb07406cd824,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Medical Records)
+      product: {fileID: 3678041455523351825, guid: 7cfa72a1e4d4f22479cff15451d91210,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Nuclear Reactor Console)
+      product: {fileID: 90229934546804531, guid: da999ad2065c8be47aafc00f610cdec1,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Security Records Console)
+      product: {fileID: 3678041455523351825, guid: 0fbbae3a2eb179546a6cbd7c92b4a1cb,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Shuttle Piloting Console)
+      product: {fileID: 3678041455523351825, guid: 6bd9037fbb19a79409aab54675bc363e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Supply Console)
+      product: {fileID: 3678041455523351825, guid: 697f700281ba39b499cc574561c68d45,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+  - categoryName: Teleportation Machinery
+    products: []
+  - categoryName: Medical Machinery
+    products:
+    - name: Machine Design (Clone Pod)
+      product: {fileID: 8027356675503168844, guid: 27fc1b3085c201f49914af0105be9480,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+  - categoryName: Engineering Machinery
+    products: []
+  - categoryName: Exosuit Modules
+    products: []
+  - categoryName: Hydroponics Machinery
+    products: []
+  - categoryName: Subspace Telecomms
+    products: []
+  - categoryName: Research Machinery
+    products: []
+  - categoryName: Misc. Machinery
+    products: []
+  - categoryName: Computer Parts
+    products: []
