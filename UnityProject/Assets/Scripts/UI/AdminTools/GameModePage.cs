@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
+using Mirror;
+using DiscordWebhook;
 
 namespace AdminTools
 {
@@ -68,7 +70,9 @@ namespace AdminTools
 
 		public void ToggleOOCMute()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleOOCMute(ServerData.UserID, PlayerList.Instance.AdminToken);
+			if(!AdminCommandsManager.Instance.netIdentity.hasAuthority) return;
+
+			AdminCommandsManager.Instance.CmdToggleOOCMute(ServerData.UserID, PlayerList.Instance.AdminToken);
 		}
 	}
 }

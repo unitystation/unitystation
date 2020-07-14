@@ -18,12 +18,64 @@ public class RoundManagerPage : AdminPage
 
 	public void ChangeMap()
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdChangeNextMap(ServerData.UserID, PlayerList.Instance.AdminToken, nextMapDropDown.options[nextMapDropDown.value].text);
+		if(!AdminCommandsManager.Instance.netIdentity.hasAuthority) return;
+
+		AdminCommandsManager.Instance.CmdChangeNextMap(ServerData.UserID, PlayerList.Instance.AdminToken, nextMapDropDown.options[nextMapDropDown.value].text);
 	}
 
 	public void ChangeAwaySite()
 	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdChangeAwaySite(ServerData.UserID, PlayerList.Instance.AdminToken, nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
+		if(!AdminCommandsManager.Instance.netIdentity.hasAuthority) return;
+
+		AdminCommandsManager.Instance.CmdChangeAwaySite(ServerData.UserID, PlayerList.Instance.AdminToken, nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
+	}
+
+	public void StartRoundButtonClick()
+	{
+		adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to START the round?", StartRound);
+	}
+
+	private void StartRound()
+	{
+		if(!AdminCommandsManager.Instance.netIdentity.hasAuthority) return;
+
+		AdminCommandsManager.Instance.CmdStartRound(ServerData.UserID, PlayerList.Instance.AdminToken);
+	}
+
+	public void EndRoundButtonClick()
+	{
+		adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to END the round?", EndRound);
+	}
+
+	private void EndRound()
+	{
+		if(!AdminCommandsManager.Instance.netIdentity.hasAuthority) return;
+
+		AdminCommandsManager.Instance.CmdEndRound(ServerData.UserID, PlayerList.Instance.AdminToken);
+	}
+
+	public void CallShuttleButtonClick()
+	{
+		adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to CALL the emergency shuttle?", CallShuttle);
+	}
+
+	private void CallShuttle()
+	{
+		if(!AdminCommandsManager.Instance.netIdentity.hasAuthority) return;
+
+		AdminCommandsManager.Instance.CmdCallShuttle(ServerData.UserID, PlayerList.Instance.AdminToken);
+	}
+
+	public void RecallShuttleButtonClick()
+	{
+		adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to RECALL the emergency shuttle?", RecallShuttle);
+	}
+
+	private void RecallShuttle()
+	{
+		if(!AdminCommandsManager.Instance.netIdentity.hasAuthority) return;
+
+		AdminCommandsManager.Instance.CmdRecallShuttle(ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 
 	public void ToggleLavaLand()

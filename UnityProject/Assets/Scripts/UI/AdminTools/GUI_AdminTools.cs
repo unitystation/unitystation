@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using DatabaseAPI;
 
 namespace AdminTools
 {
@@ -61,6 +62,7 @@ namespace AdminTools
 
 		public void ShowMainPage()
 		{
+			AdminCommandsManager.Instance.CheckAuthority(ServerData.UserID, PlayerList.Instance.AdminToken);
 			DisableAllPages();
 			mainPage.SetActive(true);
 			windowTitle.text = "ADMIN TOOL PANEL";
