@@ -184,17 +184,15 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
-				//FFGD 	spriteHandler.spriteData = _ItemsSprites.RightHand.Data;
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand);
 			}
 			else
 			{
-				//FFGD spriteHandler.spriteData = _ItemsSprites.LeftHand.Data;
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand);
 			}
 
-			//FFGD spriteHandler.spriteData.isPaletteds = new List<bool>() { _ItemsSprites.IsPaletted };
-			//FFGD spriteHandler.spriteData.palettes = new List<List<Color>>() { new List<Color>(_ItemsSprites.Palette) };
-
-			PushTexture();
+			//spriteHandler.isPaletteds = new List<bool>() { _ItemsSprites.IsPaletted };
+			//spriteHandler.spriteData.palettes = new List<List<Color>>() { new List<Color>(_ItemsSprites.Palette) };
 		}
 	}
 }

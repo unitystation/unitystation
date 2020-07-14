@@ -15,7 +15,7 @@ public class GrownFood : NetworkBehaviour
 	public GameObject SeedPacket => seedPacket;
 
 	[SerializeField]
-	private GameObject seedPacket = null;
+	public GameObject seedPacket = null;
 	[SerializeField]
 	private SpriteRenderer SpriteSizeAdjustment = null;
 	[SerializeField]

@@ -11,7 +11,6 @@ using Mirror;
 /// </summary>
 public class ClothingV2 : NetworkBehaviour
 {
-	private SpriteHandlerController spriteHandlerController;
 	//TODO: This can probably be migrated to this component rather than using a separate SO, since
 	//there's probably no situation where we'd want to re-use the same cloth data on more than one item.
 	[Tooltip("Clothing data describing the various sprites for this clothing.")]
@@ -29,7 +28,7 @@ public class ClothingV2 : NetworkBehaviour
 	private ItemAttributesV2 myItem;
 	private Pickupable myPickupable;
 
-	public List<SpriteDataSO>  SpriteDataSO = new List<SpriteDataSO>();
+	public List<SpriteDataSO> SpriteDataSO = new List<SpriteDataSO>();
 	private bool isAdjusted;
 	/// <summary>
 	/// Clothing item this is currently equipped to, if there is one. Will be updated when the data is synced.
@@ -56,7 +55,6 @@ public class ClothingV2 : NetworkBehaviour
 
 	private void Awake()
 	{
-		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		myItem = GetComponent<ItemAttributesV2>();
 		myPickupable = GetComponent<Pickupable>();
 		TryInit();
@@ -98,12 +96,12 @@ public class ClothingV2 : NetworkBehaviour
 	{
 		var SpriteSOData = new ItemsSprites();
 		SpriteSOData.Palette = new List<Color>(equippedData.Palette);
-		//SpriteSOData.LeftHand = (equippedData.InHandsLeft);
-		//SpriteSOData.RightHand = (equippedData.InHandsRight);
-		//SpriteSOData.InventoryIcon = (equippedData.ItemIcon);
+		SpriteSOData.SpriteLeftHand = (equippedData.SpriteInHandsLeft);
+		SpriteSOData.SpriteRightHand = (equippedData.SpriteInHandsRight);
+		SpriteSOData.SpriteInventoryIcon = (equippedData.SpriteItemIcon);
 		SpriteSOData.IsPaletted = equippedData.IsPaletted;
 
-		spriteHandlerController.SetSprites(SpriteSOData);
+		myItem.SetSprites(SpriteSOData);
 	}
 
 
@@ -111,7 +109,7 @@ public class ClothingV2 : NetworkBehaviour
 	{
 		if (myItem.ItemSprites.IsPaletted)
 		{
-			spriteHandlerController.SetPaletteOfCurrentSprite(palette);
+			//myItem.SetPaletteOfCurrentSprite(palette);
 			clothingItem?.spriteHandler.SetPaletteOfCurrentSprite(palette);
 			myPickupable.SetPalette(palette);
 		}

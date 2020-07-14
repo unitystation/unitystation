@@ -94,12 +94,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1 &255888583153570912
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,6 +246,9 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteInventoryIcon: {fileID: 0}
+    SpriteLeftHand: {fileID: 11400000, guid: 0914cbd24cf5e6a4daa42a4fe54b1f81, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: e5de2702745e01f42bc706258acfa2e8, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}

@@ -89,13 +89,10 @@ public class SpriteHandler : MonoBehaviour
 	}
 
 	//TODO
-	//Player
+	//Player?
 	//customisation
-	//hydroponics
 	//console animators
-	//PlantData Need Script might as well be factor while I'm here
-	//EquippedData Clothing needs script
-	//Nuke SpriteHandlerController
+	//PlantData Need Script might as well be factor while I'm here hydroponics
 
 	/// <summary>
 	/// Used to set a singular sprite NOTE: This will not be networked

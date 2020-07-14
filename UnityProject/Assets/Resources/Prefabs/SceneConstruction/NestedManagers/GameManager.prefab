@@ -61,6 +61,7 @@ MonoBehaviour:
   minDistanceBetweenSpaceBodies: 200
   solarSystemRadius: 600
   CentComm: {fileID: 5244294626086762232}
+  QuickLoad: 1
 --- !u!114 &5244294626086762232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,5 +75,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 5243784332070655206}
+  CommandStatusString: 
+  EscapeShuttleTimeString: 
   CurrentAlertLevel: 1
   coolDownAlertChange: 5

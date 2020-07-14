@@ -19,9 +19,12 @@ MonoBehaviour:
   genericInternalMag: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
     type: 3}
   casingPrefabOverride: {fileID: 0}
+  allowMagazineRemoval: 1
   ammoType: 18
   SpawnsCasing: 0
   MagInternal: 1
+  burstCooldown: 0
+  burstCount: 3
   SmartGun: 0
   MagSize: 1
   CurrentRecoilVariance: 0

@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2372073881477448940, guid: 904f665a3c5c7b14ba67257823e9db48,
         type: 3}
       propertyPath: m_Name
-      value: CutletPlain
+      value: CutletHuman
       objectReference: {fileID: 0}
     - target: {fileID: 2375875854742223256, guid: 904f665a3c5c7b14ba67257823e9db48,
         type: 3}
@@ -66,6 +66,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2413781209102170456, guid: 904f665a3c5c7b14ba67257823e9db48,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 904f665a3c5c7b14ba67257823e9db48, type: 3}

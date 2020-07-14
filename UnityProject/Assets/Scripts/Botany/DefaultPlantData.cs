@@ -53,8 +53,7 @@ public class DefaultPlantData : ScriptableObject
 		}
 
 #endif
-
-			InitializePool();
+		InitializePool();
 	}
 
 	private void OnEnable()

@@ -144,8 +144,7 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 82cfd024cb5627944b73e01a9abe0547, type: 3}
       EquippedData: {fileID: 0}
-    SpriteInventoryIcon: {fileID: 11400000, guid: 79557dda1b863f54891194179a2e7a64,
-      type: 2}
+    SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 11400000, guid: 4b4c8b055d47e6f4c9ba18671e55c0bb, type: 2}
     SpriteRightHand: {fileID: 11400000, guid: 5315a5aa643be0a45b39f7ae261d3a5a, type: 2}
     Palette:
@@ -170,6 +169,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &6657961525864459168

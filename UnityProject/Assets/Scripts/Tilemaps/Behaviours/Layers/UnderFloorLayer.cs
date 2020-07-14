@@ -200,29 +200,7 @@ public class UnderFloorLayer : Layer
 		}
 	}
 
-	public void SetupNode(Vector3Int position){
-		Vector2Int position2 = position.To2Int();
-		for (int i = 0; i < 50; i++)
-		{
-			var localPlace = position;
-			localPlace.z = -i + 1;
-			var getTile = tilemap.GetTile(localPlace) as LayerTile;
-			if (getTile != null)
-			{
-				if (!TileStore.ContainsKey((Vector2Int) localPlace))
-				{
-					TileStore.Add((Vector2Int) localPlace, new List<LayerTile>());
-				}
 
-				TileStore[(Vector2Int) localPlace].Add(getTile);
-			}
-		}
-		if (!TileStore.ContainsKey(position2))
-		{
-			TileStore[position2] = new List<LayerTile>();
-		}
-
-	}
 
 	private int FindFirstEmpty(List<LayerTile> LookThroughList)
 	{
