@@ -118,44 +118,6 @@ public class AdminCommandsManager : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdCallShuttle(string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
-
-		if (shuttle.Status == EscapeShuttleStatus.DockedCentcom)
-		{
-			shuttle.CallShuttle(out var result);
-
-			var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
-			CentComm.MakeShuttleCallAnnouncement( minutes, "Central Command has decided to end your station shift early." );
-
-			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: CALLED the emergency shuttle.";
-
-			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
-		}
-	}
-
-	[Command]
-	public void CmdRecallShuttle(string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		var success = GameManager.Instance.PrimaryEscapeShuttle.RecallShuttle(out var result, true);
-
-		if(!success) return;
-
-		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: RECALLED the emergency shuttle.";
-
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
-	}
-
-	[Command]
 	public void CmdChangeNextMap(string adminId, string adminToken, string nextMap)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
@@ -210,7 +172,69 @@ public class AdminCommandsManager : NetworkBehaviour
 
 	#endregion
 
-	#region Misc
+	#region CentCom
+
+	[Command]
+	public void CmdCallShuttle(string adminId, string adminToken, string text)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
+
+		if (shuttle.Status == EscapeShuttleStatus.DockedCentcom)
+		{
+			shuttle.CallShuttle(out var result);
+
+			var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
+			CentComm.MakeShuttleCallAnnouncement( minutes, text);
+
+			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: CALLED the emergency shuttle.";
+
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
+		}
+	}
+
+	[Command]
+	public void CmdRecallShuttle(string adminId, string adminToken, string text)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		var success = GameManager.Instance.PrimaryEscapeShuttle.RecallShuttle(out var result, true);
+
+		if(!success) return;
+
+		CentComm.MakeShuttleRecallAnnouncement(text);
+
+		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: RECALLED the emergency shuttle.";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
+	}
+
+	[Command]
+	public void CmdSendCentCommAnnouncement(string adminId, string adminToken, string text)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.notice);
+	}
+
+	[Command]
+	public void CmdSendCentCommReport(string adminId, string adminToken, string text)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		GameManager.Instance.CentComm.MakeCommandReport(text, CentComm.UpdateSound.notice);
+	}
+
+	#endregion
+
+	#region Sound
 
 	[Command]
 	public void CmdPlaySound(string index, string adminId, string adminToken)
@@ -232,24 +256,6 @@ public class AdminCommandsManager : NetworkBehaviour
 		{
 			SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject, player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
 		}
-	}
-
-	[Command]
-	public void CmdSendCentCommAnnouncement(string adminId, string adminToken, string text)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.notice);
-	}
-
-	[Command]
-	public void CmdSendCentCommReport(string adminId, string adminToken, string text)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-		GameManager.Instance.CentComm.MakeCommandReport(text,
-			CentComm.UpdateSound.notice);
 	}
 
 	#endregion

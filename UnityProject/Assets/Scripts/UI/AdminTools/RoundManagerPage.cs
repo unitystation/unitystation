@@ -66,30 +66,6 @@ public class RoundManagerPage : AdminPage
 		AdminCommandsManager.Instance.CmdEndRound(ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 
-	public void CallShuttleButtonClick()
-	{
-		adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to CALL the emergency shuttle?", CallShuttle, gameObject);
-	}
-
-	private void CallShuttle()
-	{
-		if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-		AdminCommandsManager.Instance.CmdCallShuttle(ServerData.UserID, PlayerList.Instance.AdminToken);
-	}
-
-	public void RecallShuttleButtonClick()
-	{
-		adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to RECALL the emergency shuttle?", RecallShuttle, gameObject);
-	}
-
-	private void RecallShuttle()
-	{
-		if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-		AdminCommandsManager.Instance.CmdRecallShuttle(ServerData.UserID, PlayerList.Instance.AdminToken);
-	}
-
 	public void ToggleLavaLand()
 	{
 		currentData.allowLavaLand = lavaLandToggle.isOn;

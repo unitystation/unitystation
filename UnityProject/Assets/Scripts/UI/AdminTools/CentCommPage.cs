@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DatabaseAPI;
 
 
 namespace AdminTools
@@ -9,27 +10,65 @@ namespace AdminTools
     {
         [SerializeField] InputFieldFocus CentCommInputBox = null;
 
-        public void SendCentCommAnnouncement()
+        public void SendCentCommAnnouncementButtonClick()
+        {
+	        adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to send an ANNOUNCEMENT?", SendCentCommAnnouncement, gameObject);
+        }
+
+        private void SendCentCommAnnouncement()
         {
 
-            string text = CentCommInputBox.text;
+	        var text = CentCommInputBox.text;
 
             if(!AdminCommandsManager.Instance.hasAuthority) return;
 
-            AdminCommandsManager.Instance.CmdSendCentCommAnnouncement(DatabaseAPI.ServerData.UserID, PlayerList.Instance.AdminToken, text);
+            AdminCommandsManager.Instance.CmdSendCentCommAnnouncement(ServerData.UserID, PlayerList.Instance.AdminToken, text);
 
             adminTools.ShowMainPage();
         }
 
-        public void SendCentCommReport()
+        public void SendCentCommReportButtonClick()
         {
-            string text = CentCommInputBox.text;
+	        adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to send a REPORT?", SendCentCommReport, gameObject);
+        }
+
+        private void SendCentCommReport()
+        {
+	        var text = CentCommInputBox.text;
 
             if(!AdminCommandsManager.Instance.hasAuthority) return;
 
-            AdminCommandsManager.Instance.CmdSendCentCommReport(DatabaseAPI.ServerData.UserID, PlayerList.Instance.AdminToken, text);
+            AdminCommandsManager.Instance.CmdSendCentCommReport(ServerData.UserID, PlayerList.Instance.AdminToken, text);
 
             adminTools.ShowMainPage();
+        }
+
+        public void CallShuttleButtonClick()
+        {
+	        adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to CALL the emergency shuttle?", CallShuttle, gameObject);
+        }
+
+        private void CallShuttle()
+        {
+	        var text = CentCommInputBox.text;
+
+	        if(!AdminCommandsManager.Instance.hasAuthority) return;
+
+	        AdminCommandsManager.Instance.CmdCallShuttle(ServerData.UserID, PlayerList.Instance.AdminToken, text);
+        }
+
+        public void RecallShuttleButtonClick()
+        {
+	        adminTools.areYouSurePage.SetAreYouSurePage("Are you sure you want to RECALL the emergency shuttle?", RecallShuttle, gameObject);
+        }
+
+        private void RecallShuttle()
+        {
+	        var text = CentCommInputBox.text;
+
+	        if(!AdminCommandsManager.Instance.hasAuthority) return;
+
+	        AdminCommandsManager.Instance.CmdRecallShuttle(ServerData.UserID, PlayerList.Instance.AdminToken, text);
         }
     }
 }
