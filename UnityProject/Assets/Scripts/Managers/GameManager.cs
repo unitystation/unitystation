@@ -107,8 +107,11 @@ public partial class GameManager : MonoBehaviour
 		{
 			Destroy(this);
 		}
+	}
 
-		// Set up server defaults
+	private void Start()
+	{
+		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
 		LoadConfig();
 		RespawnCurrentlyAllowed = RespawnAllowed;
 		NextGameMode = InitialGameMode;
