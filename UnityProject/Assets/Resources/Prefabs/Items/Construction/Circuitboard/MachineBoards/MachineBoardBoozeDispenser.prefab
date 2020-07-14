@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 645d2af232083e545930ac3d55f4a641,
         type: 2}
+    - target: {fileID: 5072271168613268864, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
+        type: 3}
+      propertyPath: machineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 645d2af232083e545930ac3d55f4a641,
+        type: 2}
     - target: {fileID: 6034605051001232213, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}
       propertyPath: machineParts
@@ -22,12 +28,7 @@ PrefabInstance:
     - target: {fileID: 6424364920686216284, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}
       propertyPath: initialName
-      value: booze Dispenser (Machine Board)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6424364920686216284, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
-        type: 3}
-      propertyPath: initialDescription
-      value: Used in booze dispenser construction.
+      value: Booze Dispenser (Machine Board)
       objectReference: {fileID: 0}
     - target: {fileID: 6799946118622369418, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
         type: 3}

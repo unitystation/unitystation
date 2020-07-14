@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7020825830201261370, guid: 9fb771d3f7501244bac44e589e8140a3,
         type: 3}
+    - target: {fileID: 773801843782410774, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: computerToSpawn
+      value: 
+      objectReference: {fileID: 642832443611212201, guid: 0a56d7747596df141be0aa6803f20980,
+        type: 3}
     - target: {fileID: 5950392808927779210, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: computerToSpawn
@@ -23,11 +29,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: Shuttle Piloting Console (Computer Board)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8817709132636593449, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: initialDescription
-      value: A circuit board for a shuttle piloting console.
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}

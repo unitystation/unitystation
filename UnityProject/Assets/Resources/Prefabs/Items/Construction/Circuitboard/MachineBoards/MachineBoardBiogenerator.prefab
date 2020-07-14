@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9144785475698281503, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: machineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: bb4786fe8ad1f4547910b14651b75b87,
+        type: 2}
     - target: {fileID: 1498670208897307956, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: machineParts
@@ -114,11 +120,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: Biogenerator (Machine Board)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2185525740609964605, guid: f8fbe534e67ffd048b68ffb59a80c10f,
-        type: 3}
-      propertyPath: initialDescription
-      value: Used in biogenerator construction.
       objectReference: {fileID: 0}
     - target: {fileID: 7203135652502286415, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}

@@ -7,12 +7,23 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9144785475698281503, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: machineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: a27f80a1ee4a1484689b6f639504b40f,
+        type: 2}
     - target: {fileID: 1498670208897307956, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: machineParts
       value: 
       objectReference: {fileID: 11400000, guid: a27f80a1ee4a1484689b6f639504b40f,
         type: 2}
+    - target: {fileID: 1781480007949509983, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: m_Name
+      value: MachineBoardSmartfridge
+      objectReference: {fileID: 0}
     - target: {fileID: 1781878732229222973, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: m_AssetId
@@ -82,6 +93,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MachineBoardSmartfridge
+      objectReference: {fileID: 0}
+    - target: {fileID: 1814144952489498859, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2185525740609964605, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: initialName
+      value: Smartfridge (Machine Board)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8fbe534e67ffd048b68ffb59a80c10f, type: 3}

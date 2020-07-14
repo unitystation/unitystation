@@ -13,6 +13,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 526953495684834121, guid: 5b16631d0f1fc764f9e5e274768e98a4,
         type: 3}
+    - target: {fileID: 773801843782410774, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: computerToSpawn
+      value: 
+      objectReference: {fileID: 3677348334658451422}
     - target: {fileID: 5950392808927779210, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: computerToSpawn
@@ -23,11 +28,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: Security Records Console (Computer Board)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8817709132636593449, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: initialDescription
-      value: A circuit board for a security records console.
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
@@ -128,3 +128,9 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7e1f76c9d673354f923f7906532be5b, type: 3}
+--- !u!1 &3677348334658451422 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8985614780216144459, guid: e7e1f76c9d673354f923f7906532be5b,
+    type: 3}
+  m_PrefabInstance: {fileID: 5745398897425548693}
+  m_PrefabAsset: {fileID: 0}

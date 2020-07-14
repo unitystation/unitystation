@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6549980994872306608, guid: 35ccff2839b3e96439ced231342b3df8,
         type: 3}
+    - target: {fileID: 773801843782410774, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: computerToSpawn
+      value: 
+      objectReference: {fileID: 798797528095585697, guid: 69dfd2945b85d4f42904f8b7a00ade80,
+        type: 3}
     - target: {fileID: 5950392808927779210, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: computerToSpawn
@@ -22,12 +28,7 @@ PrefabInstance:
     - target: {fileID: 8817709132636593449, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: initialName
-      value: Supply Console (Computer Board)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8817709132636593449, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: initialDescription
-      value: A circuit board for a supply console.
+      value: Medical Records Console (Computer Board)
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}

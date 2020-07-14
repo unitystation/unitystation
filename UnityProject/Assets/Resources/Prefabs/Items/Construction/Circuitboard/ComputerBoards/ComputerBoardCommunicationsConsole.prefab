@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: computerToSpawn
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 773801843782410774, guid: e7e1f76c9d673354f923f7906532be5b,
+        type: 3}
+      propertyPath: computerToSpawn
+      value: 
+      objectReference: {fileID: 2953466743776825113, guid: 9ee00dec6bcc89c41908f9f20efa9068,
+        type: 3}
     - target: {fileID: 5950392808927779210, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: computerToSpawn
@@ -21,12 +27,7 @@ PrefabInstance:
     - target: {fileID: 8817709132636593449, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: initialName
-      value: Communications (Computer Board)
-      objectReference: {fileID: 0}
-    - target: {fileID: 8817709132636593449, guid: e7e1f76c9d673354f923f7906532be5b,
-        type: 3}
-      propertyPath: initialDescription
-      value: A circuit board for a communications console.
+      value: Communications Console (Computer Board)
       objectReference: {fileID: 0}
     - target: {fileID: 8980409829913530175, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}

@@ -7,6 +7,22 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2941575332966207759, guid: db23d828345b6744485ee266629dfe9d,
+        type: 3}
+      propertyPath: machineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 9dde58721e227f64197968d763aee1a5,
+        type: 2}
+    - target: {fileID: 3524209753451330053, guid: db23d828345b6744485ee266629dfe9d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3565926771059640241, guid: db23d828345b6744485ee266629dfe9d,
+        type: 3}
+      propertyPath: m_Name
+      value: MachineBoardTransformerMTL
+      objectReference: {fileID: 0}
     - target: {fileID: 3566605050732182910, guid: db23d828345b6744485ee266629dfe9d,
         type: 3}
       propertyPath: m_Name
@@ -73,6 +89,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3566605050732245918, guid: db23d828345b6744485ee266629dfe9d,
+        type: 3}
+      propertyPath: initialName
+      value: Transformer MTL (Machine Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 4004031250789378259, guid: db23d828345b6744485ee266629dfe9d,
         type: 3}
       propertyPath: initialName
       value: Transformer MTL (Machine Board)

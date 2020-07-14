@@ -7,12 +7,23 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9144785475698281503, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: machineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: d7b92dbb9bdd1c543a43dbc82c7fdc57,
+        type: 2}
     - target: {fileID: 1498670208897307956, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: machineParts
       value: 
       objectReference: {fileID: 11400000, guid: d7b92dbb9bdd1c543a43dbc82c7fdc57,
         type: 2}
+    - target: {fileID: 1781480007949509983, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: m_Name
+      value: MachineBoardOreRedemption
+      objectReference: {fileID: 0}
     - target: {fileID: 1781878732229222973, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: m_AssetId
@@ -93,6 +104,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MachineBoardOreRedemption
+      objectReference: {fileID: 0}
+    - target: {fileID: 1814144952489498859, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1894013491118822915, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d6a35e6c9ec2eda4ca0bc92c6be5d284,
+        type: 3}
+    - target: {fileID: 2185525740609964605, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: initialName
+      value: Ore Redemption (Machine Board)
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8fbe534e67ffd048b68ffb59a80c10f, type: 3}

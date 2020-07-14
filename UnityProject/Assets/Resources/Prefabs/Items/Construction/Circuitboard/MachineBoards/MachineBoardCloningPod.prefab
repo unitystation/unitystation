@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -9144785475698281503, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: machineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 2f6f01c41ec0f4841aa63519acc366ef,
+        type: 2}
     - target: {fileID: 1498670208897307956, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: machineParts
@@ -114,11 +120,6 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: Cloning Pod (Machine Board)
-      objectReference: {fileID: 0}
-    - target: {fileID: 2185525740609964605, guid: f8fbe534e67ffd048b68ffb59a80c10f,
-        type: 3}
-      propertyPath: initialDescription
-      value: Used in cloning pod construction.
       objectReference: {fileID: 0}
     - target: {fileID: 7203135652502286415, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
