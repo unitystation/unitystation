@@ -13,11 +13,10 @@ namespace AdminTools
         {
 
             string text = CentCommInputBox.text;
-			var action = PlayerManager.LocalPlayerScript;
 
-			if (action == null) return;
+            if(!AdminCommandsManager.Instance.hasAuthority) return;
 
-			action.playerNetworkActions.CmdSendCentCommAnnouncement(DatabaseAPI.ServerData.UserID, PlayerList.Instance.AdminToken, text);
+            AdminCommandsManager.Instance.CmdSendCentCommAnnouncement(DatabaseAPI.ServerData.UserID, PlayerList.Instance.AdminToken, text);
 
             adminTools.ShowMainPage();
         }
@@ -25,11 +24,10 @@ namespace AdminTools
         public void SendCentCommReport()
         {
             string text = CentCommInputBox.text;
-			var action = PlayerManager.LocalPlayerScript;
 
-			if (action == null) return;
+            if(!AdminCommandsManager.Instance.hasAuthority) return;
 
-			action.playerNetworkActions.CmdSendCentCommReport(DatabaseAPI.ServerData.UserID, PlayerList.Instance.AdminToken, text);
+            AdminCommandsManager.Instance.CmdSendCentCommReport(DatabaseAPI.ServerData.UserID, PlayerList.Instance.AdminToken, text);
 
             adminTools.ShowMainPage();
         }

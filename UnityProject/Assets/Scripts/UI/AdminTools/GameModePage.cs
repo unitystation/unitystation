@@ -70,7 +70,7 @@ namespace AdminTools
 
 		public void ToggleOOCMute()
 		{
-			if(!AdminCommandsManager.Instance.netIdentity.hasAuthority) return;
+			if(!AdminCommandsManager.Instance.hasAuthority) return;
 
 			AdminCommandsManager.Instance.CmdToggleOOCMute(ServerData.UserID, PlayerList.Instance.AdminToken);
 		}

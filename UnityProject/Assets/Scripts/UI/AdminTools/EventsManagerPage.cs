@@ -40,7 +40,7 @@ public class EventsManagerPage : AdminPage
 			index = 0;
 		}
 
-		if(!AdminCommandsManager.Instance.netIdentity.hasAuthority) return;
+		if(!AdminCommandsManager.Instance.hasAuthority) return;
 
 		AdminCommandsManager.Instance.CmdTriggerGameEvent(ServerData.UserID, PlayerList.Instance.AdminToken, index, isFakeToggle.isOn, announceToggle.isOn, eventType);
 	}

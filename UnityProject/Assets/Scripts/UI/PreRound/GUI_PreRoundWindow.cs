@@ -77,9 +77,9 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	private void Update()
 	{
-		// TODO: remove once admin system is in
-		if (Input.GetKeyDown(KeyCode.F7) && !BuildPreferences.isForRelease)
+		if (Input.GetKeyDown(KeyCode.F7))
 		{
+			AdminCommandsManager.Instance.CheckAuthority(ServerData.UserID, PlayerList.Instance.AdminToken);
 			adminPanel.SetActive(true);
 		}
 
@@ -123,12 +123,9 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public void StartNowButton()
 	{
-		if (CustomNetworkManager.Instance._isServer == false)
-		{
-			Logger.LogError("Can only execute command from server.", Category.DebugConsole);
-			return;
-		}
-		GameManager.Instance.StartRound();
+		if(!AdminCommandsManager.Instance.hasAuthority) return;
+
+		AdminCommandsManager.Instance.CmdStartRound(ServerData.UserID, PlayerList.Instance.AdminToken);
 	}
 
 	public void SyncCountdown(bool started, double endTime)

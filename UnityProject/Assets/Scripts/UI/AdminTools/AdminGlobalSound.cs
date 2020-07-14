@@ -50,11 +50,9 @@ namespace AdminTools
 			var adminId = DatabaseAPI.ServerData.UserID;
 			var adminToken = PlayerList.Instance.AdminToken;
 
-			var action = PlayerManager.LocalPlayerScript;
+			if(!AdminCommandsManager.Instance.hasAuthority) return;
 
-			if (action == null) return;
-
-			action.playerNetworkActions.CmdPlaySound(index, adminId, adminToken);
+			AdminCommandsManager.Instance.CmdPlaySound(index, adminId, adminToken);
 		}
 	}
 }

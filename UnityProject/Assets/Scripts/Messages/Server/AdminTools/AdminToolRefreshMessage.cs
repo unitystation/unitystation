@@ -41,6 +41,7 @@ public class AdminToolRefreshMessage : ServerMessage
 		pageData.nextMap = SubSceneManager.AdminForcedMainStation;
 		pageData.nextAwaySite = SubSceneManager.AdminForcedAwaySite;
 		pageData.allowLavaLand = SubSceneManager.AdminAllowLavaland;
+		pageData.alertLevel = GameManager.Instance.CentComm.CurrentAlertLevel.ToString();
 
 		//Player list info:
 		pageData.players = GetAllPlayerStates(adminID);
