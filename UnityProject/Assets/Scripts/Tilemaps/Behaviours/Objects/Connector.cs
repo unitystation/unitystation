@@ -5,7 +5,7 @@ using Atmospherics;
 
 public class Connector : AdvancedPipe
 {
-	private Canister canister;
+	public Canister canister;
 
 	public void ConnectCanister(Canister newCanister)
 	{
