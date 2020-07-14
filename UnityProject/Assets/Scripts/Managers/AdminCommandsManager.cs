@@ -221,6 +221,11 @@ public class AdminCommandsManager : NetworkBehaviour
 		if (admin == null) return;
 
 		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.notice);
+
+		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command ANNOUNCEMENT.";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 	}
 
 	[Command]
@@ -230,6 +235,11 @@ public class AdminCommandsManager : NetworkBehaviour
 		if (admin == null) return;
 
 		GameManager.Instance.CentComm.MakeCommandReport(text, CentComm.UpdateSound.notice);
+
+		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: made a central command REPORT.";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 	}
 
 	#endregion
@@ -256,6 +266,11 @@ public class AdminCommandsManager : NetworkBehaviour
 		{
 			SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject, player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
 		}
+
+		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: played the global sound: {index}.";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
 	}
 
 	#endregion

@@ -122,7 +122,7 @@ public partial class GameManager : MonoBehaviour
 	/// If the JSON is configured incorrectly (null entry), uses default values.
 	///</summary>
 	// TODO: Currently, there is no data validation to ensure the config has reasonable values, need to configure setters.
-	private void LoadConfig() 
+	private void LoadConfig()
 	{
 		if(GameConfigManager.GameConfig.MinPlayersForCountdown != null)
 			MinPlayersForCountdown = GameConfigManager.GameConfig.MinPlayersForCountdown;
@@ -486,13 +486,17 @@ public partial class GameManager : MonoBehaviour
 
 		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\n";
 
-		if (PlayerList.Instance.ConnectionCount == 1)
+		var playerNumber = PlayerList.Instance.ConnectionCount > PlayerList.LastRoundPlayerCount
+			? PlayerList.Instance.ConnectionCount
+			: PlayerList.LastRoundPlayerCount;
+
+		if (playerNumber == 1)
 		{
 			message += "There is 1 player online.\n";
 		}
 		else
 		{
-			message += $"There are {PlayerList.Instance.ConnectionCount} players online.\n";
+			message += $"There are {playerNumber} players online.\n";
 		}
 
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
