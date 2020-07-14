@@ -11,6 +11,7 @@ using UnityEngine.UI;
 using DatabaseAPI;
 using DiscordWebhook;
 using Mirror;
+using GameConfig;
 
 public partial class GameManager : MonoBehaviour
 {
@@ -19,20 +20,17 @@ public partial class GameManager : MonoBehaviour
 	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
-	public int MinPlayersForCountdown = 1;
+	public int MinPlayersForCountdown { get; set; } = 1;
 
 	/// <summary>
 	/// How long the pre-round stage should last
 	/// </summary>
-	[SerializeField]
-	private float PreRoundTime = 120f;
+	public float PreRoundTime { get; set; } = 120f;
 
 	/// <summary>
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
-	[SerializeField]
-	private float roundEndTime = 60f;
-	public float RoundEndTime => roundEndTime;
+	public float RoundEndTime { get; set; } = 60f;
 
 	/// <summary>
 	/// The current time left on the countdown timer
@@ -44,22 +42,26 @@ public partial class GameManager : MonoBehaviour
 	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
 	/// Reset to the server setting of RespawnAllowed when the level loads.
 	/// </summary>
-	[NonSerialized]
-	public bool RespawnCurrentlyAllowed;
+	public bool RespawnCurrentlyAllowed { get; set; }
 
 	[HideInInspector] public string NextGameMode = "Random";
 
 	/// <summary>
-	/// Server setting - set in editor. Should not be changed in code.
+	/// True if the server allows respawning at round start by default.
 	/// </summary>
-	public bool RespawnAllowed;
+	public bool RespawnAllowed { get; set; }
+
+	/// <summary>
+	/// The game mode that the server will switch to at round end if no mode or an invalid mode is selected.
+	/// <summary>
+	public string InitialGameMode { get; set; } = "Random";
 
 	public Text roundTimer;
 
 	public bool waitForStart;
 
 	public DateTime stationTime;
-	public int RoundsPerMap = 10;
+	public int RoundsPerMap { get; set; } = 10;
 
 	//Space bodies in the solar system <Only populated ServerSide>:
 	//---------------------------------
@@ -105,9 +107,40 @@ public partial class GameManager : MonoBehaviour
 		{
 			Destroy(this);
 		}
+	}
 
-		//so respawn works when loading directly to outpost station
+	private void Start()
+	{
+		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
+		LoadConfig();
 		RespawnCurrentlyAllowed = RespawnAllowed;
+		NextGameMode = InitialGameMode;
+	}
+
+	///<summary>
+	/// Loads end user config settings for server defaults.
+	/// If the JSON is configured incorrectly (null entry), uses default values.
+	///</summary>
+	// TODO: Currently, there is no data validation to ensure the config has reasonable values, need to configure setters.
+	private void LoadConfig() 
+	{
+		if(GameConfigManager.GameConfig.MinPlayersForCountdown != null)
+			MinPlayersForCountdown = GameConfigManager.GameConfig.MinPlayersForCountdown;
+
+		if(GameConfigManager.GameConfig.PreRoundTime != null)
+			PreRoundTime = GameConfigManager.GameConfig.PreRoundTime;
+
+		if(GameConfigManager.GameConfig.RoundEndTime != null)
+			RoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
+
+		if(GameConfigManager.GameConfig.RoundsPerMap != null)
+			RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
+
+		if(GameConfigManager.GameConfig.InitialGameMode != null)
+			InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
+
+		if(GameConfigManager.GameConfig.RespawnAllowed != null)
+			RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
 	}
 
 	private void OnEnable()
@@ -344,17 +377,16 @@ public partial class GameManager : MonoBehaviour
 		// Only do this stuff on the server
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			if (string.IsNullOrEmpty(NextGameMode)
-			    || NextGameMode == "Random")
+			if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
 			{
 				SetRandomGameMode();
 			}
 			else
 			{
+				//Set game mode to the selected game mode
 				SetGameMode(NextGameMode);
-				//set it back to random when it has been loaded
-				//TODO set default game modes
-				NextGameMode = "Random";
+				//Then reset it to the default game mode set in the config for next round.
+				NextGameMode = InitialGameMode;
 			}
 
 			// Game mode specific setup
@@ -414,8 +446,8 @@ public partial class GameManager : MonoBehaviour
 	/// </summary>
 	private IEnumerator WaitForRoundRestart()
 	{
-		Logger.Log($"Waiting {roundEndTime} seconds to restart...", Category.Round);
-		yield return WaitFor.Seconds(roundEndTime);
+		Logger.Log($"Waiting {RoundEndTime} seconds to restart...", Category.Round);
+		yield return WaitFor.Seconds(RoundEndTime);
 		RestartRound();
 	}
 
