@@ -79,6 +79,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.F7))
 		{
+			if(PlayerList.Instance.AdminToken == null) return;
+
 			AdminCommandsManager.Instance.CheckAuthority(ServerData.UserID, PlayerList.Instance.AdminToken);
 			adminPanel.SetActive(true);
 		}

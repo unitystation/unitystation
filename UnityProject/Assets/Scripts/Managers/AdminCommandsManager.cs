@@ -17,12 +17,22 @@ public class AdminCommandsManager : NetworkBehaviour
 	{
 		get
 		{
-			if (!instance)
+			if (instance == null)
 			{
 				instance = FindObjectOfType<AdminCommandsManager>();
 			}
 
 			return instance;
+		}
+
+		set { instance = value; }
+	}
+
+	private void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
 		}
 	}
 
