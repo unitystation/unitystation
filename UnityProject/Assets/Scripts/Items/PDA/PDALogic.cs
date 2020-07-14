@@ -36,6 +36,7 @@ namespace Items.PDA
 		[NonSerialized]
 		public IDCard IdCard;
 
+
 		[NonSerialized]
 		public bool IdEject;
 
@@ -260,6 +261,7 @@ namespace Items.PDA
 		{
 			//Checks the slots again and will update the variables
 			var slot = storage.GetIndexedItemSlot(0);
+			IdCard = null;
 			if (slot.IsEmpty != true && isServer)
 			{
 				IdCard = slot.Item.GetComponent<IDCard>();
