@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4343989174440723700, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: circuitBoardPrefab
+      value: 
+      objectReference: {fileID: 3677348334658451422, guid: 6bd9037fbb19a79409aab54675bc363e,
+        type: 3}
     - target: {fileID: 345856930608096068, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -29,6 +35,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: NetTabType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509344053301837447, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
       value: 1
@@ -339,6 +350,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3677348334658451422, guid: 6bd9037fbb19a79409aab54675bc363e,
         type: 3}
+    - target: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Name
+      value: ShuttlePilotingConsole
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}

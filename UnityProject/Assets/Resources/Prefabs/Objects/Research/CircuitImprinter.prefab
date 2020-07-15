@@ -1,25 +1,12 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &4772700892270264114
+--- !u!114 &-7942213876400827127
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4469288616965280085}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 18
---- !u!114 &5184437559267221631
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4469288616965280085}
+  m_GameObject: {fileID: 307387015785611003}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a9cc33842e80b54aa608c12d31b8750, type: 3}
@@ -68,15 +55,15 @@ MonoBehaviour:
     Sprites:
     - {fileID: 21300000, guid: 0f654b1c2a36d3a45a6b5dfd318777e9, type: 3}
     EquippedData: {fileID: 0}
-  materialStorage: {fileID: 7477438468637418804}
+  materialStorage: {fileID: 3037224626631790655}
   autolatheProducts: {fileID: 11400000, guid: f4149bd30d5f03f4cb903a9418d550e3, type: 2}
---- !u!114 &7477438468637418804
+--- !u!114 &3037224626631790655
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4469288616965280085}
+  m_GameObject: {fileID: 307387015785611003}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
@@ -87,6 +74,19 @@ MonoBehaviour:
   materialsInMachines: {fileID: 11400000, guid: b6e83d10ca1eed247949504321b25658,
     type: 2}
   maximumTotalResourceStorage: 1000000
+--- !u!114 &2623882693397774114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 307387015785611003}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 18
 --- !u!1001 &3769997559527688213
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -187,6 +187,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8026946951644424067, guid: 23d78abe2740d804ca053640b8d7d10e,
         type: 3}
+    - target: {fileID: 3464875680645986030, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+        type: 3}
+      propertyPath: m_Name
+      value: CircuitImprinter
+      objectReference: {fileID: 0}
     - target: {fileID: 3708022675270210297, guid: 76c4b888beee06f4c9fda031b6e4d47b,
         type: 3}
       propertyPath: m_Sprite
@@ -210,9 +215,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 76c4b888beee06f4c9fda031b6e4d47b, type: 3}
---- !u!1 &4469288616965280085 stripped
+--- !u!1 &307387015785611003 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 745243067259640128, guid: 76c4b888beee06f4c9fda031b6e4d47b,
+  m_CorrespondingSourceObject: {fileID: 3464875680645986030, guid: 76c4b888beee06f4c9fda031b6e4d47b,
     type: 3}
   m_PrefabInstance: {fileID: 3769997559527688213}
   m_PrefabAsset: {fileID: 0}

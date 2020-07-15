@@ -11,7 +11,8 @@ PrefabInstance:
         type: 3}
       propertyPath: computerToSpawn
       value: 
-      objectReference: {fileID: 90943086939956732}
+      objectReference: {fileID: 676355976789840720, guid: b64a5d579b668bf4bb49fcad64b80b6a,
+        type: 3}
     - target: {fileID: 5950392808927779210, guid: e7e1f76c9d673354f923f7906532be5b,
         type: 3}
       propertyPath: computerToSpawn
@@ -122,9 +123,3 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e7e1f76c9d673354f923f7906532be5b, type: 3}
---- !u!1 &90943086939956732 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8985614780216144459, guid: e7e1f76c9d673354f923f7906532be5b,
-    type: 3}
-  m_PrefabInstance: {fileID: 9074833829459204023}
-  m_PrefabAsset: {fileID: 0}

@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4343989174440723700, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: circuitBoardPrefab
+      value: 
+      objectReference: {fileID: 3044437147240314417, guid: 379c96459052d4645928363ef250ea18,
+        type: 3}
     - target: {fileID: 345856930608096068, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -29,6 +35,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: NetTabType
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 3509344053301837447, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
       value: 23
@@ -172,6 +183,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3044437147240314417, guid: 379c96459052d4645928363ef250ea18,
         type: 3}
+    - target: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Name
+      value: BoilerTurbineConsole
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}
     - {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697, type: 3}

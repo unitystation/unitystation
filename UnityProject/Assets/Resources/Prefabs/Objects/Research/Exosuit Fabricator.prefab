@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5254507008022532627
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4420511487638158930}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
-  variantIndex: 0
-  SetSpriteOnStartUp: 1
 --- !u!114 &2888138114872845017
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -33,7 +15,7 @@ MonoBehaviour:
   MachineParts: {fileID: 11400000, guid: cef0acf9fcd0bf340ab79662a60de428, type: 2}
   framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 8767570001693066695, guid: 9eb314ae2fe82d0478d509ef99944ef6,
+  machineBoardPrefab: {fileID: 5118904567897562044, guid: 85745799887db29418a4ddc4fe68d535,
     type: 3}
   canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
@@ -142,6 +124,24 @@ MonoBehaviour:
     EquippedData: {fileID: 4900000, guid: b09b11b4369c4bf4c9df826864404911, type: 3}
   materialStorage: {fileID: 4345289403541654959}
   exoFabProducts: {fileID: 11400000, guid: 5de8c3642d9b41742bd0f830d07a5bd7, type: 2}
+--- !u!114 &5254507008022532627
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4420511487638158930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites: []
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1
 --- !u!1001 &8615537192462600737
 PrefabInstance:
   m_ObjectHideFlags: 0
