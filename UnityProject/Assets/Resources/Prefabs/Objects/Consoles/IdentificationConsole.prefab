@@ -30,12 +30,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f7da90fb2e8dc47469b2df4af03edf1f,
         type: 3}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialDescription
+      value: You can use this to manage jobs and ID access.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialName
+      value: identification console
+      objectReference: {fileID: 0}
+    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
       value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 76a04967956a3504d813cd6ff06fb4db,
+        type: 3}
+    - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f7da90fb2e8dc47469b2df4af03edf1f,
+        type: 3}
+    - target: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
@@ -183,7 +210,7 @@ PrefabInstance:
         type: 3}
       propertyPath: circuitBoardPrefab
       value: 
-      objectReference: {fileID: 3678041455523351825, guid: d85dca3d9b11b9444909fb07406cd824,
+      objectReference: {fileID: 3677348334658451422, guid: d85dca3d9b11b9444909fb07406cd824,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}

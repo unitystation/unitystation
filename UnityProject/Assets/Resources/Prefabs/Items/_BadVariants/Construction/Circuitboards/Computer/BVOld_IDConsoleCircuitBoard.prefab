@@ -7,10 +7,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2585783556006771808, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: computerToSpawn
+      value: 
+      objectReference: {fileID: 4694603921418549792, guid: 19dd1cfccb59c8245a70c4923037c950,
+        type: 3}
+    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: initialName
+      value: ID Console (Computer Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfd495e3b4de9468bbe3a9e06d8c8a0a,
+        type: 2}
+    - target: {fileID: 340348383388737153, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 372985771419607861, guid: d467e77f959574624aca44efa0e650e2,
         type: 3}
       propertyPath: m_Name
-      value: IDConsoleCircuitBoard
+      value: BVOld_IDConsoleCircuitBoard
       objectReference: {fileID: 0}
     - target: {fileID: 377913919602810433, guid: d467e77f959574624aca44efa0e650e2,
         type: 3}
@@ -67,38 +99,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 340348383388737153, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: initialName
-      value: ID Console (Computer Board)
-      objectReference: {fileID: 0}
-    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: initialDescription
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: dfd495e3b4de9468bbe3a9e06d8c8a0a,
-        type: 2}
-    - target: {fileID: -2585783556006771808, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: computerToSpawn
-      value: 
-      objectReference: {fileID: 5514185242108095534, guid: fe7830029b255694f826e807700cb24f,
-        type: 3}
     - target: {fileID: 566583881933295721, guid: d467e77f959574624aca44efa0e650e2,
         type: 3}
       propertyPath: m_Sprite

@@ -13,12 +13,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 426e52d188ad25c4e804773f8b661327,
         type: 3}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialName
+      value: boiler-turbine console
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialDescription
+      value: Controls and records data from the boiler and turbine.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
       value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d50cac701c34f834cbbb46e44c285c95,
+        type: 3}
+    - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 150d07398e8b9764ca0aead8c65a8e59,
+        type: 3}
+    - target: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
@@ -32,7 +59,7 @@ PrefabInstance:
     - target: {fileID: 5903546303531316036, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: initialName
-      value: boiler-turbine console
+      value: boiler-turbine consolef
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531316036, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -43,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 5903546303531339735, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Name
-      value: BoilerTurbineStatusConsole
+      value: BoilerTurbineConsole
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -143,7 +170,7 @@ PrefabInstance:
         type: 3}
       propertyPath: circuitBoardPrefab
       value: 
-      objectReference: {fileID: 3045441120391826686, guid: 379c96459052d4645928363ef250ea18,
+      objectReference: {fileID: 3044437147240314417, guid: 379c96459052d4645928363ef250ea18,
         type: 3}
     m_RemovedComponents:
     - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}

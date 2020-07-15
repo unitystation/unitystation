@@ -30,12 +30,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8e09ef403a226254ba2ae04e5c32efaa,
         type: 3}
+    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
       value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5112fc234b2397b4fbc53dd35ae70fb8,
+        type: 3}
+    - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8e09ef403a226254ba2ae04e5c32efaa,
+        type: 3}
+    - target: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
@@ -159,8 +176,7 @@ PrefabInstance:
         type: 3}
       propertyPath: circuitBoardPrefab
       value: 
-      objectReference: {fileID: 3678041455523351825, guid: 0fbbae3a2eb179546a6cbd7c92b4a1cb,
-        type: 3}
+      objectReference: {fileID: 4860484750141815990}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
 --- !u!1 &4860484750141815990 stripped

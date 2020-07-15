@@ -7,10 +7,42 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -2585783556006771808, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: computerToSpawn
+      value: 
+      objectReference: {fileID: 642832443611212201, guid: 0a56d7747596df141be0aa6803f20980,
+        type: 3}
+    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: initialName
+      value: Shuttle Console (Computer Board)
+      objectReference: {fileID: 0}
+    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfd495e3b4de9468bbe3a9e06d8c8a0a,
+        type: 2}
+    - target: {fileID: 340348383388737153, guid: d467e77f959574624aca44efa0e650e2,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 372985771419607861, guid: d467e77f959574624aca44efa0e650e2,
         type: 3}
       propertyPath: m_Name
-      value: ShuttleConsoleCircuitBoard
+      value: BVOld_ShuttleConsoleCircuitBoard
       objectReference: {fileID: 0}
     - target: {fileID: 377913919602810433, guid: d467e77f959574624aca44efa0e650e2,
         type: 3}
@@ -67,38 +99,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 340348383388737153, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: initialName
-      value: Shuttle Console (Computer Board)
-      objectReference: {fileID: 0}
-    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: initialDescription
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 270363454931487831, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: dfd495e3b4de9468bbe3a9e06d8c8a0a,
-        type: 2}
-    - target: {fileID: -2585783556006771808, guid: d467e77f959574624aca44efa0e650e2,
-        type: 3}
-      propertyPath: computerToSpawn
-      value: 
-      objectReference: {fileID: 1413862099450234, guid: 3545a60288a06864980b70ada5d081ee,
-        type: 3}
     - target: {fileID: 566583881933295721, guid: d467e77f959574624aca44efa0e650e2,
         type: 3}
       propertyPath: m_Sprite

@@ -27,12 +27,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 3564083850250109804, guid: db27137cd219bc34482c0756dddcf6f2,
         type: 3}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialName
+      value: nuclear reactor console
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialDescription
+      value: Controls the control rods in a nuclear reactor chamber.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
       value: 22
       objectReference: {fileID: 0}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -104033551261495246, guid: 45eaf4cbd7878664bb683aec21ad1e30,
+        type: 3}
+    - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 3564083850250109804, guid: db27137cd219bc34482c0756dddcf6f2,
+        type: 3}
+    - target: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
@@ -57,7 +84,7 @@ PrefabInstance:
     - target: {fileID: 5903546303531339735, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Name
-      value: NuclearReactorControlConsole
+      value: NuclearReactorConsole
       objectReference: {fileID: 0}
     - target: {fileID: 5903546303531366744, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
@@ -421,7 +448,7 @@ PrefabInstance:
         type: 3}
       propertyPath: circuitBoardPrefab
       value: 
-      objectReference: {fileID: 90229934546804531, guid: da999ad2065c8be47aafc00f610cdec1,
+      objectReference: {fileID: 90943086939956732, guid: da999ad2065c8be47aafc00f610cdec1,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}

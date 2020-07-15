@@ -30,12 +30,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ef7792cd0c5d03a47974c3a8a4038d5e,
         type: 3}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialDescription
+      value: A console used for high-priority announcements and emergencies.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialName
+      value: communications console
+      objectReference: {fileID: 0}
+    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
       value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d06e087543597fc44a9070b2c5279e85,
+        type: 3}
+    - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ef7792cd0c5d03a47974c3a8a4038d5e,
+        type: 3}
+    - target: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
@@ -183,7 +210,7 @@ PrefabInstance:
         type: 3}
       propertyPath: circuitBoardPrefab
       value: 
-      objectReference: {fileID: 3678041455523351825, guid: 35bfd43b017d64749bbe0ce4430d6c1e,
+      objectReference: {fileID: 3677348334658451422, guid: 35bfd43b017d64749bbe0ce4430d6c1e,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}

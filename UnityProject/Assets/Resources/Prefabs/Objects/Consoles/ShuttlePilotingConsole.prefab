@@ -13,12 +13,39 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 83da5f04981c86e4b808fc32aa424e9e,
         type: 3}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialName
+      value: shuttle piloting console
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083807778969337673, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: initialDescription
+      value: Used to pilot a shuttle.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3166760548704001533, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: NetTabType
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c3ef24cc70cab8d4eb9a5119d48c2eba,
+        type: 3}
+    - target: {fileID: 4571869433525098128, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 83da5f04981c86e4b808fc32aa424e9e,
+        type: 3}
+    - target: {fileID: 4739251602149975544, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
       value: 
@@ -310,7 +337,7 @@ PrefabInstance:
         type: 3}
       propertyPath: circuitBoardPrefab
       value: 
-      objectReference: {fileID: 3678041455523351825, guid: 6bd9037fbb19a79409aab54675bc363e,
+      objectReference: {fileID: 3677348334658451422, guid: 6bd9037fbb19a79409aab54675bc363e,
         type: 3}
     m_RemovedComponents:
     - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}
