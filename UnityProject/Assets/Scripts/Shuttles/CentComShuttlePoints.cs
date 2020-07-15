@@ -5,13 +5,14 @@ using UnityEngine;
 
 public class CentComShuttlePoints : MonoBehaviour
 {
-	public bool isDockingLocation;
+	/// <summary>
+	/// The SIDE of centcom the shuttle is docking at, NOT DIRECTION.
+	/// </summary>
+	public OrientationEnum orientation = OrientationEnum.Down;
 
 	private void Start()
 	{
-		if (isDockingLocation)
-		{
-			LandingZoneManager.Instance.centcomDockingPos = transform.position;
-		}
+		LandingZoneManager.Instance.centcomDockingPos = transform.position;
+		LandingZoneManager.Instance.centcomDocking = this;
 	}
 }

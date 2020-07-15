@@ -63,9 +63,25 @@ public partial class GameManager
 			width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.y;
 		}
 
-		var newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y - Mathf.Ceil(width/2f), 0);
+		Vector3 newPos;
 
-		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.ChangeFacingDirection(Orientation.Right);
+		switch (LandingZoneManager.Instance.centcomDocking.orientation)
+		{
+			case OrientationEnum.Right:
+				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x + Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
+				break;
+			case OrientationEnum.Up:
+				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y + Mathf.Ceil(width/2f), 0);
+				break;
+			case OrientationEnum.Left:
+				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x - Mathf.Ceil(width/2f),LandingZoneManager.Instance.centcomDockingPos.y, 0);
+				break;
+			default:
+				newPos = new Vector3(LandingZoneManager.Instance.centcomDockingPos.x ,LandingZoneManager.Instance.centcomDockingPos.y - Mathf.Ceil(width/2f), 0);
+				break;
+		}
+
+		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.ChangeFacingDirection(Orientation.FromEnum(PrimaryEscapeShuttle.orientationForDockingAtCentcom));
 		PrimaryEscapeShuttle.MatrixInfo.MatrixMove.SetPosition(newPos);
 		primaryEscapeShuttle.InitDestination(newPos);
 
@@ -86,13 +102,13 @@ public partial class GameManager
 			if ( status == EscapeShuttleStatus.DockedCentcom && beenToStation )
 			{
 				Logger.Log("Shuttle arrived at Centcom", Category.Round);
-				Chat.AddSystemMsgToChat("<color=white>Escape shuttle has docked at Centcomm! Round will restart in 1 minute.</color>", MatrixManager.MainStationMatrix);
+				Chat.AddSystemMsgToChat($"<color=white>Escape shuttle has docked at Centcomm! Round will restart in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute.</color>", MatrixManager.MainStationMatrix);
 				StartCoroutine(WaitForRoundEnd());
 			}
 
 			IEnumerator WaitForRoundEnd()
 			{
-				Logger.Log("Shuttle docked to Centcom, Round will end in 1 minute", Category.Round);
+				Logger.Log($"Shuttle docked to Centcom, Round will end in {TimeSpan.FromSeconds(RoundEndTime).Minutes} minute", Category.Round);
 				yield return WaitFor.Seconds(1f);
 				EndRound();
 			}
@@ -101,9 +117,9 @@ public partial class GameManager
 			{
 				beenToStation = true;
 				SoundManager.PlayNetworked("ShuttleDocked");
-				Chat.AddSystemMsgToChat("<color=white>Escape shuttle has arrived! Crew has 3 minutes to get on it.</color>", MatrixManager.MainStationMatrix);
+				Chat.AddSystemMsgToChat($"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>", MatrixManager.MainStationMatrix);
 				//should be changed to manual send later
-				StartCoroutine( SendEscapeShuttle( 180 ) );
+				StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
 			}
 		} );
 	}
