@@ -37,7 +37,7 @@ namespace AdminTools
 
 	        ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, text, "CmdSendCentCommReport");
 
-            adminTools.ShowMainPage();
+	        adminTools.ShowMainPage();
         }
 
         public void CallShuttleButtonClick()

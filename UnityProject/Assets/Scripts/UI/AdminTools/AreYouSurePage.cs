@@ -38,13 +38,13 @@ namespace AdminTools
 
 		public void OnProceed()
 		{
-			actionCache.Invoke();
-			gameObject.SetActive(false);
-
 			if (pageFromCache != null)
 			{
 				pageFromCache.SetActive(true);
 			}
+
+			actionCache.Invoke();
+			gameObject.SetActive(false);
 		}
 	}
 }
