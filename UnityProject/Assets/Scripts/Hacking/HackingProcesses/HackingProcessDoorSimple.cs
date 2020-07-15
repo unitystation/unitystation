@@ -98,8 +98,8 @@ public class HackingProcessDoorSimple : HackingProcessBase
 		{
 			if (Controller != null)
 			{
-				Chat.AddExamineMsgFromServer(interaction.Performer,
-					"You " + (WiresExposed ? "close" : "open") + " the " + doorName + "'s maintenance panel");
+				Chat.AddActionMsgToChat(interaction.Performer, "You " + (WiresExposed ? "close" : "open") + " the " + doorName + "'s maintenance panel.",
+					$"{interaction.Performer.ExpensiveName()} " + (WiresExposed ? "closes" : "opens") + " the " + doorName + "'s maintenance panel.");
 				ServerTryTogglePanel();
 			}
 

@@ -176,6 +176,11 @@ namespace Disposals
 			AllowEntry();
 		}
 
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
 		protected override void SetMachineUninstalled()
 		{
 			base.SetMachineUninstalled();

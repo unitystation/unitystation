@@ -12,7 +12,11 @@ public class LandingZoneManager : MonoBehaviour
 
 	public IDictionary<LandingZone, Vector3> spaceTeleportPoints = new Dictionary<LandingZone, Vector3>();
 
+	[HideInInspector]
 	public Vector3 centcomDockingPos;
+
+	[HideInInspector]
+	public CentComShuttlePoints centcomDocking;
 
 	private void Awake()
 	{

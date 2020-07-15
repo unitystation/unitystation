@@ -295,6 +295,34 @@ MonoBehaviour:
     type: 3}
   circuitBoardPrefab: {fileID: 0}
   secondsToScrewdrive: 2
+--- !u!114 &-1582709298849356269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7759570870767460473}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad8cac74219314e4e8ba276ffc22f95b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBetweenFrames: 0.1
+  spriteRenderer: {fileID: 4571869433525098128}
+  screenGlow: {fileID: 5150197525896963348}
+  onSprites:
+    Texture: {fileID: 2800000, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+    Sprites:
+    - {fileID: 21300000, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+    - {fileID: 21300002, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+    - {fileID: 21300004, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+    - {fileID: 21300006, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+    - {fileID: 21300008, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+    - {fileID: 21300010, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+    - {fileID: 21300012, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+    - {fileID: 21300014, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+    EquippedData: {fileID: 4900000, guid: ff066167177df5f40a2a7f17ec747d46, type: 3}
+  Delay: 0
 --- !u!114 &3509344053301837447
 MonoBehaviour:
   m_ObjectHideFlags: 0

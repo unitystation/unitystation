@@ -71,12 +71,12 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 40
-  m_Sprite: {fileID: 21300000, guid: ca8d48aef5864fe44a9e3788a4e41086, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 82b3130ba6eb4588bb385d6caa76b70e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -269,6 +269,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &151170123639225118
@@ -512,7 +513,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a69951b025439433aaae48b3e8c4017b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NetTabType: 24
+  NetTabType: 26
 --- !u!114 &2827089245972962627
 MonoBehaviour:
   m_ObjectHideFlags: 0

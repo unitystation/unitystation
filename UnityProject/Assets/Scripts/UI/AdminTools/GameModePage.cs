@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
+using AdminCommands;
 
 namespace AdminTools
 {
@@ -68,7 +69,7 @@ namespace AdminTools
 
 		public void ToggleOOCMute()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleOOCMute(ServerData.UserID, PlayerList.Instance.AdminToken);
+			ServerCommandVersionOneMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, "CmdToggleOOCMute");
 		}
 	}
 }

@@ -49,6 +49,7 @@ namespace AdminTools
 		public string nextMap;
 		public string nextAwaySite;
 		public bool allowLavaLand;
+		public string alertLevel;
 
 		//Player Management:
 		public List<AdminPlayerEntryData> players = new List<AdminPlayerEntryData>();
