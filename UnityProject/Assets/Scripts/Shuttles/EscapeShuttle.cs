@@ -421,12 +421,11 @@ public class EscapeShuttle : NetworkBehaviour
 
 	#region Recall
 
-	public bool RecallShuttle(out string callResult)
+	public bool RecallShuttle(out string callResult, bool ignoreTooLateToRecall = false)
 	{
 		startedMovingToStation = false;
 
-		if ( Status != EscapeShuttleStatus.OnRouteStation
-		     || CurrentTimerSeconds < TooLateToRecallSeconds )
+		if ( Status != EscapeShuttleStatus.OnRouteStation || (!ignoreTooLateToRecall && CurrentTimerSeconds < TooLateToRecallSeconds) )
 		{
 			callResult = "Can't recall shuttle: not on route to Station or too late to recall!";
 			return false;

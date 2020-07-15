@@ -835,28 +835,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdPlaySound(string index, string adminId, string adminToken)
-	{
-		PlaySound(index, adminId, adminToken);
-	}
-
-	[Server]
-	public void PlaySound(string index, string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		var players = FindObjectsOfType(typeof(PlayerScript));
-
-		if (players == null) return;//If list of Players is empty dont run rest of code.
-
-		foreach (PlayerScript player in players)
-		{
-			SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject, player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
-		}
-	}
-
-	[Command]
 	public void CmdAdminMakeHotspot(GameObject onObject, string adminId, string adminToken)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
@@ -892,92 +870,11 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdSendCentCommAnnouncement(string adminId, string adminToken, string text)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.notice);
-	}
-
-	[Command]
-	public void CmdSendCentCommReport(string adminId, string adminToken, string text)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-		GameManager.Instance.CentComm.MakeCommandReport(text,
-														CentComm.UpdateSound.notice);
-	}
-
-	[Command]
 	public void CmdGetAdminOverlayFullUpdate(string adminId, string adminToken)
 	{
 		AdminOverlay.RequestFullUpdate(adminId, adminToken);
 	}
 
-	[Command]
-	public void CmdToggleOOCMute(string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		string msg;
-
-		if (Chat.OOCMute)
-		{
-			Chat.OOCMute = false;
-			msg = "OOC has been unmuted";
-		}
-		else
-		{
-			Chat.OOCMute = true;
-			msg = "OOC has been muted";
-		}
-
-		Chat.AddGameWideSystemMsgToChat($"<color=blue>{msg}</color>");
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, msg, "");
-	}
-
-	[Command]
-	public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake, bool announceEvent, InGameEventType eventType)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, eventType, isFake, PlayerList.Instance.GetByUserID(adminId).Username, announceEvent);
-	}
-
-	[Command]
-	public void CmdChangeNextMap(string adminId, string adminToken, string nextMap)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		if (SubSceneManager.AdminForcedMainStation == nextMap) return;
-
-		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round map from {SubSceneManager.AdminForcedMainStation} to {nextMap}.";
-
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
-
-		SubSceneManager.AdminForcedMainStation = nextMap;
-	}
-
-	[Command]
-	public void CmdChangeAwaySite(string adminId, string adminToken, string nextAwaySite)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		if (SubSceneManager.AdminForcedAwaySite == nextAwaySite) return;
-
-		var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Changed the next round away site from {SubSceneManager.AdminForcedAwaySite} to {nextAwaySite}.";
-
-		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
-		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg, "");
-
-		SubSceneManager.AdminForcedAwaySite = nextAwaySite;
-	}
 	#endregion
 
 	[Command]
