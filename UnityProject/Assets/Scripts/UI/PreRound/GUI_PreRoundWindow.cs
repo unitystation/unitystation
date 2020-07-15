@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DatabaseAPI;
 using ServerInfo;
+using AdminCommands;
 
 public class GUI_PreRoundWindow : MonoBehaviour
 {
@@ -80,8 +81,6 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		if (Input.GetKeyDown(KeyCode.F7))
 		{
 			if(PlayerList.Instance.AdminToken == null) return;
-
-			AdminCommandsManager.Instance.CheckAuthority(ServerData.UserID, PlayerList.Instance.AdminToken);
 			adminPanel.SetActive(true);
 		}
 
@@ -125,9 +124,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public void StartNowButton()
 	{
-		if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-		AdminCommandsManager.Instance.CmdStartRound(ServerData.UserID, PlayerList.Instance.AdminToken);
+		ServerCommandVersionOneMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, "CmdStartRound");
 	}
 
 	public void SyncCountdown(bool started, double endTime)

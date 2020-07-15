@@ -62,7 +62,6 @@ namespace AdminTools
 
 		public void ShowMainPage()
 		{
-			AdminCommandsManager.Instance.CheckAuthority(ServerData.UserID, PlayerList.Instance.AdminToken);
 			DisableAllPages();
 			mainPage.SetActive(true);
 			windowTitle.text = "ADMIN TOOL PANEL";

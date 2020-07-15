@@ -6,6 +6,7 @@ using UnityEngine;
 using DatabaseAPI;
 using UnityEngine.UI;
 using AdminTools;
+using AdminCommands;
 
 public class RoundManagerPage : AdminPage
 {
@@ -30,16 +31,12 @@ public class RoundManagerPage : AdminPage
 
 	public void ChangeMap()
 	{
-		if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-		AdminCommandsManager.Instance.CmdChangeNextMap(ServerData.UserID, PlayerList.Instance.AdminToken, nextMapDropDown.options[nextMapDropDown.value].text);
+		ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, nextMapDropDown.options[nextMapDropDown.value].text, "CmdChangeNextMap");
 	}
 
 	public void ChangeAwaySite()
 	{
-		if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-		AdminCommandsManager.Instance.CmdChangeAwaySite(ServerData.UserID, PlayerList.Instance.AdminToken, nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text);
+		ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, nextAwaySiteDropDown.options[nextAwaySiteDropDown.value].text, "CmdChangeAwaySite");
 	}
 
 	public void StartRoundButtonClick()
@@ -49,9 +46,7 @@ public class RoundManagerPage : AdminPage
 
 	private void StartRound()
 	{
-		if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-		AdminCommandsManager.Instance.CmdStartRound(ServerData.UserID, PlayerList.Instance.AdminToken);
+		ServerCommandVersionOneMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, "CmdStartRound");
 	}
 
 	public void EndRoundButtonClick()
@@ -61,9 +56,7 @@ public class RoundManagerPage : AdminPage
 
 	private void EndRound()
 	{
-		if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-		AdminCommandsManager.Instance.CmdEndRound(ServerData.UserID, PlayerList.Instance.AdminToken);
+		ServerCommandVersionOneMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, "CmdEndRound");
 	}
 
 	public void ToggleLavaLand()
@@ -76,9 +69,7 @@ public class RoundManagerPage : AdminPage
 	{
 		if (!CentComm.AlertLevel.TryParse(alertLevelDropDown.options[alertLevelDropDown.value].text, out CentComm.AlertLevel alertLevel)) return;
 
-		if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-		AdminCommandsManager.Instance.CmdChangeAlertLevel(ServerData.UserID, PlayerList.Instance.AdminToken, alertLevel);
+		ServerCommandVersionThreeMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, alertLevel, "CmdChangeAlertLevel");
 	}
 
 	public override void OnPageRefresh(AdminPageRefreshData adminPageData)

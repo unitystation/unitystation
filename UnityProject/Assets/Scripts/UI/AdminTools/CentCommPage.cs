@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using DatabaseAPI;
+using AdminCommands;
 
 
 namespace AdminTools
@@ -20,11 +21,9 @@ namespace AdminTools
 
 	        var text = CentCommInputBox.text;
 
-            if(!AdminCommandsManager.Instance.hasAuthority) return;
+	        ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, text, "CmdSendCentCommAnnouncement");
 
-            AdminCommandsManager.Instance.CmdSendCentCommAnnouncement(ServerData.UserID, PlayerList.Instance.AdminToken, text);
-
-            adminTools.ShowMainPage();
+	        adminTools.ShowMainPage();
         }
 
         public void SendCentCommReportButtonClick()
@@ -36,9 +35,7 @@ namespace AdminTools
         {
 	        var text = CentCommInputBox.text;
 
-            if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-            AdminCommandsManager.Instance.CmdSendCentCommReport(ServerData.UserID, PlayerList.Instance.AdminToken, text);
+	        ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, text, "CmdSendCentCommReport");
 
             adminTools.ShowMainPage();
         }
@@ -52,9 +49,7 @@ namespace AdminTools
         {
 	        var text = CentCommInputBox.text;
 
-	        if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-	        AdminCommandsManager.Instance.CmdCallShuttle(ServerData.UserID, PlayerList.Instance.AdminToken, text);
+	        ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, text, "CmdCallShuttle");
         }
 
         public void RecallShuttleButtonClick()
@@ -66,9 +61,7 @@ namespace AdminTools
         {
 	        var text = CentCommInputBox.text;
 
-	        if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-	        AdminCommandsManager.Instance.CmdRecallShuttle(ServerData.UserID, PlayerList.Instance.AdminToken, text);
+	        ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, text, "CmdRecallShuttle");
         }
     }
 }

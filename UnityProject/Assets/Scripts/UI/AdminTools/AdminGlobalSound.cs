@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using AdminCommands;
+using DatabaseAPI;
 
 namespace AdminTools
 {
@@ -47,12 +49,7 @@ namespace AdminTools
 
 		public void PlaySound(string index) //send sound to sound manager
 		{
-			var adminId = DatabaseAPI.ServerData.UserID;
-			var adminToken = PlayerList.Instance.AdminToken;
-
-			if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-			AdminCommandsManager.Instance.CmdPlaySound(index, adminId, adminToken);
+			ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, index, "CmdPlaySound");
 		}
 	}
 }

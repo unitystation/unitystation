@@ -6,6 +6,7 @@ using DatabaseAPI;
 using UnityEngine.UI;
 using InGameEvents;
 using AdminTools;
+using AdminCommands;
 
 public class EventsManagerPage : AdminPage
 {
@@ -40,9 +41,7 @@ public class EventsManagerPage : AdminPage
 			index = 0;
 		}
 
-		if(!AdminCommandsManager.Instance.hasAuthority) return;
-
-		AdminCommandsManager.Instance.CmdTriggerGameEvent(ServerData.UserID, PlayerList.Instance.AdminToken, index, isFakeToggle.isOn, announceToggle.isOn, eventType);
+		ServerCommandVersionFourMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, index, isFakeToggle.isOn, announceToggle.isOn, eventType, "CmdTriggerGameEvent");
 	}
 
 	public void ToggleRandomEvents()
