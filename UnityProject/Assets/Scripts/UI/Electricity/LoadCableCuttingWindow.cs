@@ -29,10 +29,15 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	/// </summary>
 	private Vector3 targetWorldPosition;
 
+	/// <summary>
+	/// Reference to last item in hand to detect when item has changed
+	/// </summary>
+	private GameObject itemInHand;
+
 	private void Update()
 	{
-		// disable window if distance is greater than interaction distance
-		if (isWindowActive && Vector2.Distance(localPlayerTransform.position, targetWorldPosition) > PlayerScript.interactionDistance)
+		// check only if window is active to not waste cpu time
+		if (isWindowActive && !CanWindowBeEnabled())
 			CloseCableCuttingWindow();
 	}
 
@@ -40,6 +45,25 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	{
 		// store reference to player transform
 		localPlayerTransform = PlayerManager.LocalPlayer.transform;
+	}
+
+	/// <summary>
+	/// Check if player can open cable cutting window (Itemtrait & distance)
+	/// </summary>
+	public bool CanWindowBeEnabled()
+	{
+		// check only if object in player's hand has changed
+		// disable window if item is not wirecutter
+		if (itemInHand != UIManager.Hands.CurrentSlot.ItemObject
+			&& !Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Wirecutter))
+		{
+			return false;
+		}
+		// disable window if distance is greater than interaction distance
+		else if (Vector2.Distance(localPlayerTransform.position, targetWorldPosition) > PlayerScript.interactionDistance)
+			return false;
+
+		return true;
 	}
 
 	/// <summary>
@@ -51,6 +75,10 @@ public class LoadCableCuttingWindow : MonoBehaviour
 		Vector3 mousePosition = Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 		// round mouse position
 		Vector3Int roundedMousePosition = Vector3Int.RoundToInt(mousePosition);
+		targetWorldPosition = roundedMousePosition;
+
+		// check if window can be enabled, if not - return
+		if (!CanWindowBeEnabled()) return;
 
 		GameObject hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
 		MetaTileMap metaTileMap = hit.GetComponentInChildren<MetaTileMap>();
@@ -79,10 +107,11 @@ public class LoadCableCuttingWindow : MonoBehaviour
 			cableCuttingWindow.InitializeCableCuttingWindow(matrix, cellPosition, mousePosition);
 		}
 
+		// enable window
 		cableCuttingWindow.SetWindowActive(true);
 
 		isWindowActive = true;
-		targetWorldPosition = roundedMousePosition;
+		itemInHand = UIManager.Hands.CurrentSlot.ItemObject;
 	}
 
 	/// <summary>
@@ -90,6 +119,7 @@ public class LoadCableCuttingWindow : MonoBehaviour
 	/// </summary>
 	public void CloseCableCuttingWindow()
 	{
+		// disable window
 		cableCuttingWindow.SetWindowActive(false);
 
 		isWindowActive = false;

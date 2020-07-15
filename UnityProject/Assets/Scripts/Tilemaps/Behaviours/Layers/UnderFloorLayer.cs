@@ -120,6 +120,9 @@ public class UnderFloorLayer : Layer
 		return null;
 	}
 
+	/// <summary>
+	/// Get tile using Z position instead of searching through the Z levels 
+	/// </summary>
 	public LayerTile GetTileUsingZ(Vector3Int position)
 	{
 		var getTile = tilemap.GetTile(position) as LayerTile;
