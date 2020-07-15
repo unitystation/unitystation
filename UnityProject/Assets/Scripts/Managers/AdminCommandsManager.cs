@@ -195,7 +195,7 @@ namespace AdminCommands
 				shuttle.CallShuttle(out var result);
 
 				var minutes = TimeSpan.FromSeconds(shuttle.InitialTimerSeconds).ToString();
-				CentComm.MakeShuttleCallAnnouncement(minutes, text);
+				CentComm.MakeShuttleCallAnnouncement(minutes, text, true);
 
 				var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: CALLED the emergency shuttle.";
 
