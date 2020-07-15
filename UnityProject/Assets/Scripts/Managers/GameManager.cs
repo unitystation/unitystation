@@ -33,6 +33,11 @@ public partial class GameManager : MonoBehaviour
 	public float RoundEndTime { get; set; } = 60f;
 
 	/// <summary>
+	/// How long to wait between ending the round and starting a new one
+	/// </summary>
+	public int ShuttleDepartTime { get; set; } = 30;
+
+	/// <summary>
 	/// The current time left on the countdown timer
 	/// </summary>
 	public float CountdownTime { get; private set; }
@@ -141,6 +146,9 @@ public partial class GameManager : MonoBehaviour
 
 		if(GameConfigManager.GameConfig.RespawnAllowed != null)
 			RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
+
+		if(GameConfigManager.GameConfig.ShuttleDepartTime != null)
+			ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
 	}
 
 	private void OnEnable()

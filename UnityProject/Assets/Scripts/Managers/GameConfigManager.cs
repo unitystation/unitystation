@@ -62,5 +62,6 @@ namespace GameConfig
 		public int RoundsPerMap;
 		public string InitialGameMode;
 		public bool RespawnAllowed;
+		public int ShuttleDepartTime;
 	}
 }
