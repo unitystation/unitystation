@@ -37,10 +37,6 @@ MonoBehaviour:
     Name: 
     Plantname: 
     Description: 
-    PacketsSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     GrowthSprites: []
     FullyGrownSprite:
       Texture: {fileID: 0}
@@ -50,6 +46,9 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    DeadSpriteSO: {fileID: 0}
+    FullyGrownSpriteSO: {fileID: 0}
+    GrowthSpritesSOs: []
     WeedResistance: 0
     WeedGrowthRate: 0
     GrowthSpeed: 0
@@ -60,6 +59,19 @@ MonoBehaviour:
     PlantTrays: 
     ReagentProduction: []
     MutatesInTo: []
+    MutatesInToGameObject: []
+    plantEvolveStats:
+      WeedResistanceChange: 0
+      WeedGrowthRateChange: 0
+      GrowthSpeedChange: 0
+      PotencyChange: 0
+      EnduranceChange: 0
+      YieldChange: 0
+      LifespanChange: 0
+      PlantTrays: 
+      ReagentProduction: []
+      RemovePlantTrays: 
+      RemoveReagentProduction: []
     Age: 0
     NextGrowthStageProgress: 0
     Health: 0

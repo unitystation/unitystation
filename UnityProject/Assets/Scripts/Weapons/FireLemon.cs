@@ -152,7 +152,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 
 		if (lemonPotencyOverride == 0)
 		{
-			lemonPotency = grownFood.plantData.Potency;
+			lemonPotency = grownFood.GetPlantData().Potency;
 		}
 		else
 		{

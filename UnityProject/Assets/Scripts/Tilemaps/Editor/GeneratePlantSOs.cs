@@ -7,6 +7,7 @@ using Chemistry.Components;
 
 public class GeneratePlantSOs : EditorWindow
 {
+	/*
 	private static Dictionary<string, string> dictonaryErrors;
 
 	[MenuItem("Tools/GeneratePlantSOs")]
@@ -120,7 +121,7 @@ public class GeneratePlantSOs : EditorWindow
 					Namecheck = Namecheck.Replace("growing_fruits_", "");
 					Namecheck = Namecheck.Replace("growing_mushrooms_", "");
 					Namecheck = Namecheck.Replace("growing_vegetables_", "");
-					Namecheck = Namecheck.Replace("growing_", "");*/
+					Namecheck = Namecheck.Replace("growing_", "");
 					Namecheck = Namecheck.Split('-')[0];
 
 					if (Namecheck == species)
@@ -506,4 +507,5 @@ public class GeneratePlantSOs : EditorWindow
 		else
 			dictonaryErrors.Add(key, error);
 	}
+	*/
 }

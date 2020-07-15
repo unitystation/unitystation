@@ -35,11 +35,6 @@ MonoBehaviour:
     Name: tower
     Plantname: Tower Caps
     Description: This mycelium grows into tower-cap mushrooms.
-    PacketsSprite:
-      Texture: {fileID: 2800000, guid: 3686435fd5ccde34f89765c27cb9b71b, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 3686435fd5ccde34f89765c27cb9b71b, type: 3}
-      EquippedData: {fileID: 0}
     GrowthSprites:
     - Texture: {fileID: 2800000, guid: dfc18f5db27d6ab4689e11b66c0cc5be, type: 3}
       Sprites:
@@ -59,6 +54,9 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: de5805f6e6311fc4ab47a865623ca744, type: 3}
       EquippedData: {fileID: 0}
+    DeadSpriteSO: {fileID: 0}
+    FullyGrownSpriteSO: {fileID: 0}
+    GrowthSpritesSOs: []
     WeedResistance: 50
     WeedGrowthRate: 10
     GrowthSpeed: 10
@@ -70,6 +68,19 @@ MonoBehaviour:
     ReagentProduction: []
     MutatesInTo:
     - {fileID: 11400000, guid: edbd1e9dc89cce540ae541edf4f05b16, type: 2}
+    MutatesInToGameObject: []
+    plantEvolveStats:
+      WeedResistanceChange: 0
+      WeedGrowthRateChange: 0
+      GrowthSpeedChange: 0
+      PotencyChange: 0
+      EnduranceChange: 0
+      YieldChange: 0
+      LifespanChange: 0
+      PlantTrays: 
+      ReagentProduction: []
+      RemovePlantTrays: 
+      RemoveReagentProduction: []
     Age: 0
     NextGrowthStageProgress: 0
     Health: 0

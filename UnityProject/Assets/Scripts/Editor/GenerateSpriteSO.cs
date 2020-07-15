@@ -21,14 +21,102 @@ public class GenerateSpriteSO : EditorWindow
 		//spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>(
 		//	"Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
 		//
-		//DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
+	//	DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
 		//
+		AssetDatabase.StartAssetEditing();
+		var AAA = FindAssetsByType<SpriteDataSO>();
+		foreach (var a in AAA)
+		{
+			a.setID = a.setID;
+			//EditorUtility.SetDirty(a);
+		}
+		AssetDatabase.StopAssetEditing();
 
-		var DD = LoadAllPrefabsOfType<SeedPacket>("");
+		return;
+		var DD = LoadAllPrefabsOfType<SeedPacket>(Application.dataPath + "/Resources/Prefabs/Items/Botany");
 		//AssetDatabase.StartAssetEditing();
+		/*
+		var DDD = LoadAllPrefabsOfType<SeedPacket>(Application.dataPath + "/Resources/Prefabs/Items/Botany");
+		foreach (var d in DDD)
+		{
+			if (d == null ) continue;
+			if (d.plantData?.DeadSpriteSO == null && d.defaultPlantData != null)
+			{
+
+				d.plantData = d.defaultPlantData.plantData;
+				d.plantData.DeadSpriteSO = PullOutSO(d.plantData.DeadSprite.Texture);
+				d.plantData.FullyGrownSpriteSO = PullOutSO(d.plantData.FullyGrownSprite.Texture);
+
+				d.plantData.GrowthSpritesSOs.Clear();
+				foreach (var TT in d.plantData.GrowthSprites)
+				{
+					d.plantData.GrowthSpritesSOs.Add(PullOutSO(TT.Texture));
+				}
+
+				foreach (var Mutates in d.plantData.MutatesInTo)
+				{
+					if (Mutates.plantData.ProduceObject == null)
+					{
+						var Seepak = FindSeedPacket(Mutates);
+						if (Seepak == null)
+						{
+							Seepak = GenerateDummySeedPacket(Mutates);
+						}
+
+						Mutates.plantData.ProduceObject = GenerateDummyProduce(Mutates.plantData, Seepak);
+					}
+
+					var foodit = Mutates.plantData.ProduceObject.GetComponent<GrownFood>();
+
+
+					if (foodit != null)
+					{
+						var DSeepak = FindSeedPacket(Mutates);
+						if (DSeepak == null)
+						{
+							DSeepak = GenerateDummySeedPacket(Mutates);
+						}
+
+						foodit.seedPacket = DSeepak;
+						PrefabUtility.SavePrefabAsset(foodit.gameObject);
+					}
+
+					if (foodit != null && d.plantData.MutatesInToGameObject.Contains(foodit.seedPacket) == false)
+					{
+						d.plantData.MutatesInToGameObject.Add(Mutates.plantData.ProduceObject.GetComponent<GrownFood>().seedPacket);
+					}
+				}
+
+
+
+
+				PrefabUtility.SavePrefabAsset(d.gameObject);
+
+			}
+
+
+		}
+
+
+
+
+
 		foreach (var d in DD)
 		{
+			if (d.defaultPlantData == null) continue;
+			d.plantData.MutatesInToGameObject.Clear();
 			d.plantData = d.defaultPlantData.plantData;
+
+			d.plantData.DeadSpriteSO = PullOutSO(d.plantData.DeadSprite.Texture);
+			d.plantData.FullyGrownSpriteSO = PullOutSO(d.plantData.FullyGrownSprite.Texture);
+
+			d.plantData.GrowthSpritesSOs.Clear();
+			foreach (var TT in d.plantData.GrowthSprites)
+			{
+				d.plantData.GrowthSpritesSOs.Add(PullOutSO(TT.Texture));
+			}
+
+
 			foreach (var Mutates in d.plantData.MutatesInTo)
 			{
 				if (Mutates.plantData.ProduceObject == null)
@@ -41,7 +129,26 @@ public class GenerateSpriteSO : EditorWindow
 
 					Mutates.plantData.ProduceObject = GenerateDummyProduce(Mutates.plantData, Seepak);
 				}
-				d.plantData.MutatesInToGameObject.Add(Mutates.plantData.ProduceObject.GetComponent<GrownFood>().seedPacket);
+
+				var foodit = Mutates.plantData.ProduceObject.GetComponent<GrownFood>();
+
+
+				if (foodit != null)
+				{
+					var DSeepak = FindSeedPacket(Mutates);
+					if (DSeepak == null)
+					{
+						DSeepak = GenerateDummySeedPacket(Mutates);
+					}
+
+					foodit.seedPacket = DSeepak;
+					PrefabUtility.SavePrefabAsset(foodit.gameObject);
+				}
+
+				if (foodit != null && d.plantData.MutatesInToGameObject.Contains(foodit.seedPacket) == false)
+				{
+					d.plantData.MutatesInToGameObject.Add(Mutates.plantData.ProduceObject.GetComponent<GrownFood>().seedPacket);
+				}
 			}
 
 			PrefabUtility.SavePrefabAsset(d.gameObject);
@@ -61,14 +168,31 @@ public class GenerateSpriteSO : EditorWindow
 			AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
 			spriteCatalogue.Catalogue.Add(Seve.Value);
 		}
+		*/
+
 	}
 
 	public static GameObject FindSeedPacket(DefaultPlantData defaultPlantData)
 	{
-		var DD = LoadAllPrefabsOfType<SeedPacket>("");
+		var DD = LoadAllPrefabsOfType<SeedPacket>(Application.dataPath + "/Resources/Prefabs/Items/Botany");
 		foreach (var D in DD)
 		{
-			if (D.defaultPlantData == defaultPlantData)
+			//if (D.defaultPlantData == defaultPlantData)
+			//{
+				//return D.gameObject;
+			//}
+		}
+
+		return null;
+	}
+
+
+	public static GameObject FindProduce(SeedPacket seedPacket)
+	{
+		var DD = LoadAllPrefabsOfType<GrownFood>(Application.dataPath + "/Resources/Prefabs/Items/Botany");
+		foreach (var D in DD)
+		{
+			if (D.seedPacket.GetComponent<SeedPacket>() == seedPacket)
 			{
 				return D.gameObject;
 			}
@@ -83,9 +207,14 @@ public class GenerateSpriteSO : EditorWindow
 		AssetDatabase.CopyAsset("Assets/Resources/Prefabs/Items/Botany/Seeds/AutoGenerated/seed packet Variant.prefab",
 			"Assets/Resources/Prefabs/Items/Botany/Seeds/AutoGenerated/" + plantData.plantData.Name + ".prefab");
 		var gameObject =
-			AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Items/Botany/Seeds/AutoGenerated/" +
-			                                          plantData.plantData.Name + ".prefab");
-		gameObject.GetComponent<SeedPacket>().defaultPlantData  = plantData;
+			AssetDatabase.LoadAssetAtPath<GameObject>("Assets/Resources/Prefabs/Items/Botany/Seeds/AutoGenerated/" + plantData.plantData.Name + ".prefab");
+		var DDA = gameObject.GetComponent<SeedPacket>();
+		if (DDA == null)
+		{
+			DDA = DDA;
+		}
+		//DDA.defaultPlantData= plantData;
+		PrefabUtility.SavePrefabAsset(gameObject);
 		return gameObject;
 	}
 
@@ -97,6 +226,7 @@ public class GenerateSpriteSO : EditorWindow
 			"Assets/Resources/Prefabs/Items/Botany/Produce/AutoGenerated/" +
 			plantData.Name + ".prefab");
 		gameObject.GetComponent<GrownFood>().seedPacket = Seepdpakes;
+		PrefabUtility.SavePrefabAsset(gameObject);
 		return gameObject;
 		//seedPacket
 	}
