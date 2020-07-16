@@ -26,7 +26,7 @@ public class CentComm : MonoBehaviour
 		{
 			CommandStatusString = text;
 		}
-		OnStatusDisplayUpdate.Invoke(channel, text);
+		OnStatusDisplayUpdate.Invoke(channel);
 	}
 
 	public AlertLevel CurrentAlertLevel = AlertLevel.Green;
