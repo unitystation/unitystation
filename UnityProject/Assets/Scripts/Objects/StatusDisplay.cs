@@ -73,13 +73,6 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 		centComm.OnStatusDisplayUpdate.AddListener( OnTextBroadcastReceived );
 	}
 
-	public override void OnStartClient()
-	{
-		SyncStatusText(statusText, statusText);
-		SyncSprite(stateSync, stateSync);
-		//base.OnStartClient();
-	}
-
 	/// <summary>
 	/// cleaning up for reuse
 	/// </summary>
