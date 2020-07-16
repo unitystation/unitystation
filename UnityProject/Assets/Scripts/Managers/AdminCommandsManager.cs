@@ -97,6 +97,8 @@ namespace AdminCommands
 			{
 				GameManager.Instance.StartRound();
 
+				Chat.AddGameWideSystemMsgToChat("<color=blue>An Admin started the round early.</color>");
+
 				var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Force STARTED the round.";
 
 				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
