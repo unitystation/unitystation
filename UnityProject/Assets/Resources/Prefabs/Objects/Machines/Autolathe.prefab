@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &314776949997883763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857730195348512352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteData:
+    isPaletteds: 
+  Sprites: []
+  spriteIndex: 0
+  variantIndex: 0
+  SetSpriteOnStartUp: 1
 --- !u!114 &164375538979460037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,10 +133,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 4394c26a74214e64da4d9683de90400b, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 8026946951644424067, guid: 78caa60e5ab06b34abfae4aa8c2e0396,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
 --- !u!114 &4583094959117635624
 MonoBehaviour:
@@ -147,24 +166,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 18
---- !u!114 &314776949997883763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2857730195348512352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
-  variantIndex: 0
-  SetSpriteOnStartUp: 1
 --- !u!1001 &7881568538303212051
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -19,10 +19,13 @@ namespace Machines
 		}
 
 		public GameObject machine;// Machine which will be spawned
-
+		
+		//PM: Below is commented out because I've decided to make all the machines use appropriate machine board .prefabs instead of the blank board.
+		/*
 		public string NameOfCircuitBoard;
 
 		public string DescriptionOfCircuitBoard;
+		*/
 
 		public MachinePartList[] machineParts;
 	}

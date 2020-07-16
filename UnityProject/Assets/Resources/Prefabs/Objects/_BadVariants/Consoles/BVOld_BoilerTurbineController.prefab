@@ -1,0 +1,140 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3111376745928128602
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1128924040738795512, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: circuitBoardPrefab
+      value: 
+      objectReference: {fileID: 3044437147240314417, guid: 379c96459052d4645928363ef250ea18,
+        type: 3}
+    - target: {fileID: 2256398892695137214, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3316619073873073353, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575326566585499291, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: initialName
+      value: Boiler and Turbine console
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575326566585499291, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: initialDescription
+      value: Controls and records data from the boiler and turbine.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4575326566585499291, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: exportName
+      value: Boiler and Turbine console
+      objectReference: {fileID: 0}
+    - target: {fileID: 6131886329820758859, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6615395849750980465, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618935427903119787, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_Name
+      value: BoilerTurbineController
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032716331547122897, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7032716331547332101, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_Name
+      value: BVOld_BoilerTurbineController
+      objectReference: {fileID: 0}
+    - target: {fileID: 7372941373343172765, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 855f7a86a109f3342bc2dab29da45a2a,
+        type: 3}
+    - target: {fileID: 9032347336055072273, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: onSprites.Sprites.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9032347336055072273, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: onSprites.Texture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 9032347336055072273, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: onSprites.EquippedData
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2657092281442712949, guid: 1a85cead3efc3d047b2f84c197e26eff, type: 3}
+    - {fileID: 9032347336055072273, guid: 1a85cead3efc3d047b2f84c197e26eff, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 1a85cead3efc3d047b2f84c197e26eff, type: 3}
