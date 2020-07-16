@@ -33,7 +33,8 @@ public enum NetTabType
 	ReactorController = 22,
 	BoilerTurbineController = 23,
 	PipeDispenser = 24,
-	DisposalBin = 25
+	DisposalBin = 25,
+	PDA = 26,
 	//add your tabs here
 }
 

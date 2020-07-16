@@ -15,4 +15,6 @@ MonoBehaviour:
   AdditionalScenes:
   - LavaLand
   defaultCentComScene: CentCom
-  CentComScenes: []
+  CentComScenes:
+  - CentComSceneName: Fallstation Centcom
+    DependentScene: FallStation

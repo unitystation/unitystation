@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using DatabaseAPI;
 using ServerInfo;
+using AdminCommands;
 
 public class GUI_PreRoundWindow : MonoBehaviour
 {
@@ -77,9 +78,9 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	private void Update()
 	{
-		// TODO: remove once admin system is in
-		if (Input.GetKeyDown(KeyCode.F7) && !BuildPreferences.isForRelease)
+		if (Input.GetKeyDown(KeyCode.F7))
 		{
+			if(PlayerList.Instance.AdminToken == null) return;
 			adminPanel.SetActive(true);
 		}
 
@@ -123,12 +124,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public void StartNowButton()
 	{
-		if (CustomNetworkManager.Instance._isServer == false)
-		{
-			Logger.LogError("Can only execute command from server.", Category.DebugConsole);
-			return;
-		}
-		GameManager.Instance.StartRound();
+		ServerCommandVersionOneMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, "CmdStartRound");
 	}
 
 	public void SyncCountdown(bool started, double endTime)

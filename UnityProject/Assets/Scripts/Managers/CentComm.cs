@@ -278,9 +278,9 @@ public class CentComm : MonoBehaviour
 	/// <summary>
 	/// Text should be no less than 10 chars
 	/// </summary>
-	public static void MakeShuttleCallAnnouncement( string minutes, string text )
+	public static void MakeShuttleCallAnnouncement( string minutes, string text, bool bypassLength = false )
 	{
-		if ( text.Trim() == string.Empty || text.Trim().Length < 10)
+		if (!bypassLength && (text.Trim() == string.Empty || text.Trim().Length < 10))
 		{
 			return;
 		}
