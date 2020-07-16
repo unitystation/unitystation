@@ -60,8 +60,17 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 
 	public void SetMaster(ISetMultitoolMaster Imaster)
 	{
-		var doorSwitch = (Imaster as Component)?.gameObject.GetComponent<DoorSwitch>();
-		doorSwitch.doorControllers.Add(this);
+		var doorSwitch = (Imaster as DoorSwitch);
+		if (doorSwitch)
+		{
+			doorSwitch.doorControllers.Add(this);
+			return;
+		}
+		var statusDisplay = (Imaster as StatusDisplay);
+		if (statusDisplay)
+		{
+			statusDisplay.LinkDoor(this);
+		}
 	}
 
 	/// <summary>
@@ -362,14 +371,22 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 		}
 	}
 
-	public void ServerOpen()
+	public void HackingServerOpen()
+	{
+		ServerOpen();
+	}
+
+	public void ServerOpen(bool startCloseTimer = true)
 	{
 		if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
 		if (Time.time < delayStartTime + inputDelay) return;
 
 		delayStartTime = Time.time;
 
-		ResetWaiting();
+		if (startCloseTimer)
+		{
+			ResetWaiting();
+		}
 		IsClosed = false;
 
 		if (isHackable && hackingLoaded)
@@ -550,7 +567,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 	{
 
 		HackingNode openDoor = hackingProcess.GetNodeWithInternalIdentifier("OpenDoor");
-		openDoor.AddToInputMethods(ServerOpen);
+		openDoor.AddToInputMethods(HackingServerOpen);
 
 		HackingNode closeDoor = hackingProcess.GetNodeWithInternalIdentifier("CloseDoor");
 		closeDoor.AddToInputMethods(ServerClose);

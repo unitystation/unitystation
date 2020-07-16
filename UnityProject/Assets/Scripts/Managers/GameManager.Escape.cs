@@ -113,9 +113,9 @@ public partial class GameManager
 		CentComm.UpdateStatusDisplay( StatusDisplayChannel.EscapeShuttle, FormatTime( eta, "STATION\nETA: " ) );
 	}
 
-	private static string FormatTime( int timerSeconds, string prefix = "ETA: " )
+	public static string FormatTime( int timerSeconds, string prefix = "ETA: " )
 	{
-		if ( timerSeconds < 1 )
+		if ( timerSeconds < 0 )
 		{
 			return string.Empty;
 		}
