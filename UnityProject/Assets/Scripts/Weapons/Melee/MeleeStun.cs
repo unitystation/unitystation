@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 
 /// <summary>
@@ -14,6 +15,15 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// </summary>
 	[SerializeField]
 	private float stunTime = 0;
+	/// <summary>
+	/// how long till you can stun again
+	/// </summary>
+	[SerializeField]
+	private int delay = 3;
+	/// <summary>
+	/// if you can stun
+	/// </summary>
+	private bool canStun = true;
 
 	/// <summary>
 	/// Sounds to play when stunning someone
@@ -58,12 +68,14 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
 
-		// Stun the victim. We checke whether the baton is activated in WillInteract
-		if (registerPlayerVictim)
+		// Stun the victim. We checke whether the baton is activated in WillInteract and if the user has a charge to stun
+		if (registerPlayerVictim && canStun)
 		{
 			registerPlayerVictim.ServerStun(stunTime);
 			SoundManager.PlayNetworkedAtPos(stunSound, target.transform.position, sourceObj: target.gameObject);
-
+			// deactivates the stun and makes you wait;
+			canStun = false;
+			CreateTimer();
 			// Special case: If we're on help intent (only stun), we should still show the lerp (unless we're hitting ourselves)
 			if (interaction.Intent == Intent.Help && performer != target)
 			{
@@ -71,4 +83,20 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 			}
 		}
 	}
+	// creates the timer needed to let you stun again'
+	private void CreateTimer()
+	{
+		Timer stunTimer = new Timer();
+		stunTimer.Interval = delay * 1000;
+		stunTimer.Elapsed += StunTimer_Elapsed;
+		stunTimer.Enabled = true;
+	}
+	// lets you stun again
+	private void StunTimer_Elapsed(object sender, ElapsedEventArgs e)
+	{
+		canStun = true;
+	}
+
+
 }
+
