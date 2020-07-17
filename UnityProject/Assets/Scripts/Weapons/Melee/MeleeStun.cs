@@ -67,7 +67,6 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 		// we wouldn't deal damage to ourselves because CmdRequestMeleeAttack checks whether we're stunned
 		if (interaction.Intent != Intent.Help)
 		{
-			Debug.LogError("humm");
 			// Direction of attack towards the attack target.
 			wna.ServerPerformMeleeAttack(target, dir, interaction.TargetBodyPart, LayerType.None);
 		}
