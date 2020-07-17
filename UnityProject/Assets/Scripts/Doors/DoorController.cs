@@ -69,7 +69,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 		var statusDisplay = (Imaster as StatusDisplay);
 		if (statusDisplay)
 		{
-			statusDisplay.LinkDoor(this);
+			//statusDisplay.LinkDoor(this);
 		}
 	}
 
