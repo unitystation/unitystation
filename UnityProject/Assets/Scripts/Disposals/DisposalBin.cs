@@ -68,7 +68,7 @@ namespace Disposals
 		public override void OnStartServer()
 		{
 			// Assume bin starts unanchored and therefore UI is inaccessable.
-			netTab.enabled = false; 
+			netTab.enabled = false;
 			base.OnStartServer();
 		}
 
@@ -197,6 +197,8 @@ namespace Disposals
 			if (interaction.UsedObject == null) return;
 			if (!interaction.UsedObject.TryGetComponent<PlayerScript>(out var script)) return; // Test to see if player
 
+			//Dont store player unless secured so they dont get stuck.
+			if (!MachineSecured) return;
 			StartStoringPlayer(interaction);
 		}
 
