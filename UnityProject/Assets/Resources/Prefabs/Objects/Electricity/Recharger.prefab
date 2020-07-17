@@ -70,10 +70,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: f0fa3ba37105f0c47b3256c9b1a53029, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 7003283453982593561, guid: 057772381b5669948b32540d09f450d2,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
 --- !u!114 &5248956404812388229
 MonoBehaviour:
@@ -107,6 +108,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
   MaximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
@@ -115,7 +117,9 @@ MonoBehaviour:
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 1
   StateUpdateOnClient: 0
+  SelfPowered: 0
   State: 0
+  conType: 1
 --- !u!114 &7812584158791827984
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -130,6 +134,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  stateSecuredStatus: 1
+  RequireFloorPlatingExposed: 0
   secondsToSecure: 0
   secondsToUnsecure: 0
 --- !u!114 &7890775987687605318

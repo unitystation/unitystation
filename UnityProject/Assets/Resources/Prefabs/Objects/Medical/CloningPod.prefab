@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &8210323885322932869
@@ -241,6 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114272959470978344
 MonoBehaviour:
@@ -357,10 +359,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 2f6f01c41ec0f4841aa63519acc366ef, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 8026946951644424067, guid: 27fc1b3085c201f49914af0105be9480,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
 --- !u!114 &3226492502455936700
 MonoBehaviour:
