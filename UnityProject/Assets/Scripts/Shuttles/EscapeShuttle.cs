@@ -383,8 +383,6 @@ public class EscapeShuttle : NetworkBehaviour
 	/// </summary>
 	public bool CallShuttle(out string callResult, int seconds = 0, bool bypassLimits = false)
 	{
-		Debug.LogError("Block call: "+ blockCall);
-
 		if (blockCall && !bypassLimits)
 		{
 			callResult = "The emergency shuttle cannot be called at this time.";
@@ -477,8 +475,6 @@ public class EscapeShuttle : NetworkBehaviour
 
 	public bool RecallShuttle(out string callResult, bool ignoreTooLateToRecall = false)
 	{
-		Debug.LogError("Block recall: "+ blockRecall);
-
 		if (blockRecall && !ignoreTooLateToRecall)
 		{
 			callResult = "The emergency shuttle cannot be recalled at this time.";
