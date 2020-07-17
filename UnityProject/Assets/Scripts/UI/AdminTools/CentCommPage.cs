@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DatabaseAPI;
 using AdminCommands;
+using UnityEngine.UI;
 
 
 namespace AdminTools
@@ -10,6 +11,12 @@ namespace AdminTools
     public class CentCommPage : AdminPage
     {
         [SerializeField] InputFieldFocus CentCommInputBox = null;
+
+        [SerializeField]
+        private Toggle callBlockToggle = null;
+
+        [SerializeField]
+        private Toggle recallBlockToggle = null;
 
         public void SendCentCommAnnouncementButtonClick()
         {
@@ -62,6 +69,31 @@ namespace AdminTools
 	        var text = CentCommInputBox.text;
 
 	        ServerCommandVersionTwoMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, text, "CmdRecallShuttle");
+        }
+
+        public override void OnPageRefresh(AdminPageRefreshData adminPageData)
+        {
+	        base.OnPageRefresh(adminPageData);
+	        callBlockToggle.isOn = adminPageData.blockCall;
+	        recallBlockToggle.isOn = adminPageData.blockRecall;
+        }
+
+        public void ToggleCallShuttle()
+        {
+	        var toggleBool = callBlockToggle.isOn;
+
+	        currentData.blockCall = toggleBool;
+
+	        ServerCommandVersionFiveMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, toggleBool, "CmdSendBlockShuttleCall");
+        }
+
+        public void ToggleRecallShuttle()
+        {
+	        var toggleBool = recallBlockToggle.isOn;
+
+	        currentData.blockRecall = toggleBool;
+
+	        ServerCommandVersionFiveMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, toggleBool,"CmdSendBlockShuttleRecall");
         }
     }
 }

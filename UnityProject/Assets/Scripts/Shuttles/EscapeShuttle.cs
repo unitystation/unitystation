@@ -82,6 +82,8 @@ public class EscapeShuttle : NetworkBehaviour
 	}
 	[Range( 0, 2000 )] [SerializeField] private int initialTimerSeconds = 120;
 
+	private int initialTimerSecondsCache;
+
 	/// <summary>
 	/// How many seconds should be left before arrival when recall should be blocked, affected by alert level
 	/// </summary>
@@ -136,6 +138,12 @@ public class EscapeShuttle : NetworkBehaviour
 
 	private Vector3 centComTeleportPosOffset = Vector3.zero;
 
+	[HideInInspector]
+	public bool blockCall;
+
+	[HideInInspector]
+	public bool blockRecall;
+
 	private void Start()
 	{
 		switch (orientationForDocking)
@@ -159,6 +167,8 @@ public class EscapeShuttle : NetworkBehaviour
 		}
 
 		centComm = GameManager.Instance.GetComponent<CentComm>();
+
+		initialTimerSecondsCache = initialTimerSeconds;
 	}
 
 	public void InitDestination(Vector3 newPos)
@@ -371,15 +381,21 @@ public class EscapeShuttle : NetworkBehaviour
 	/// <summary>
 	/// Calls the shuttle from afar.
 	/// </summary>
-	public bool CallShuttle(out string callResult, int seconds = 0)
+	public bool CallShuttle(out string callResult, int seconds = 0, bool bypassLimits = false)
 	{
-		startedMovingToStation = false;
+		if (blockCall && !bypassLimits)
+		{
+			callResult = "The emergency shuttle cannot be called at this time.";
+			return false;
+		}
 
 		if ( Status != EscapeShuttleStatus.DockedCentcom )
 		{
 			callResult = "Can't call shuttle: not docked at Centcom!";
 			return false;
 		}
+
+		startedMovingToStation = false;
 
 		var Alert = centComm.CurrentAlertLevel;
 
@@ -388,8 +404,8 @@ public class EscapeShuttle : NetworkBehaviour
 		if (Alert == CentComm.AlertLevel.Green)
 		{
 			//Double the Time
-			InitialTimerSeconds *= 2;
-			TooLateToRecallSeconds *= 2;
+			InitialTimerSeconds = initialTimerSecondsCache * 2;
+			TooLateToRecallSeconds = initialTimerSecondsCache * 2;
 		}
 		else if (Alert == CentComm.AlertLevel.Blue)
         {
@@ -398,8 +414,8 @@ public class EscapeShuttle : NetworkBehaviour
 		else if (Alert == CentComm.AlertLevel.Red || Alert == CentComm.AlertLevel.Delta)
 		{
 			//Half the Time
-			InitialTimerSeconds /= 2;
-			TooLateToRecallSeconds /= 2;
+			InitialTimerSeconds = initialTimerSecondsCache / 2;
+			TooLateToRecallSeconds = initialTimerSecondsCache / 2;
 		}
 
 
@@ -459,13 +475,19 @@ public class EscapeShuttle : NetworkBehaviour
 
 	public bool RecallShuttle(out string callResult, bool ignoreTooLateToRecall = false)
 	{
-		startedMovingToStation = false;
+		if (blockRecall && !ignoreTooLateToRecall)
+		{
+			callResult = "The emergency shuttle cannot be recalled at this time.";
+			return false;
+		}
 
 		if ( Status != EscapeShuttleStatus.OnRouteStation || (!ignoreTooLateToRecall && CurrentTimerSeconds < TooLateToRecallSeconds) )
 		{
 			callResult = "Can't recall shuttle: not on route to Station or too late to recall!";
 			return false;
 		}
+
+		startedMovingToStation = false;
 
 		this.TryStopCoroutine( ref timerHandle );
 		this.StartCoroutine( TickTimer( true ), ref timerHandle );
@@ -490,6 +512,8 @@ public class EscapeShuttle : NetworkBehaviour
 
 		mm.StopMovement();
 		Status = EscapeShuttleStatus.OnRouteToCentCom;
+
+		HasShuttleDockedToStation = false;
 
 		mm.SetPosition( CentTeleportToCentDock.Position + centComTeleportPosOffset);
 		mm.SetSpeed( 90 );
