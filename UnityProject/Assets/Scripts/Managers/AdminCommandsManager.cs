@@ -520,7 +520,7 @@ namespace AdminCommands
 	}
 
 	/// <summary>
-	/// Generic net message for verification parameters only.
+	/// Generic net message with verification parameters, and a generic bool parameter.
 	/// </summary>
 	public class ServerCommandVersionFiveMessageClient : ClientMessage
 	{
