@@ -35,6 +35,9 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private int timer = 0;
 
+	//Send only one message per second.
+	private bool coolDownMessage;
+
 	public void Start()
 	{
 		stunBaton = GetComponent<StunBaton>();
@@ -92,6 +95,8 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 		}
 		else if (!canStun)
 		{
+			if (coolDownMessage) return;
+			coolDownMessage = true;
 			Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
 		}
 	}
@@ -111,6 +116,8 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 		if(timer == 0) return;
 
 		timer--;
+
+		coolDownMessage = false;
 
 		if (timer == 0)
 		{
