@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114743727474145656
@@ -100,13 +101,13 @@ MonoBehaviour:
     Item: {fileID: 5558746297286370, guid: 7433fede76bc68c40851a73d529d8b3a, type: 3}
     Stock: 5
   - ItemName: Cookie
-    Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+    Item: {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
     Stock: 5
   - ItemName: 4no Raisins
     Item: {fileID: 5558746297286370, guid: fd49dd2cee50dce468c4545c460e75a9, type: 3}
     Stock: 5
   - ItemName: Donut
-    Item: {fileID: 6532193109441330816, guid: 6366d9ab2983aa44aa585fd0f7557e17, type: 3}
+    Item: {fileID: 2167258747849165, guid: 270ed493bf3f6684388bc3ad5696003b, type: 3}
     Stock: 5
   HullColor: {r: 0.7294118, g: 0.06666667, b: 0.23529413, a: 1}
   EjectObjects: 0
