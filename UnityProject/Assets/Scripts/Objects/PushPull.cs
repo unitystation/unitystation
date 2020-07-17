@@ -251,7 +251,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		}
 		foreach ( var tile in MatrixManager.GetDamageableTilemapsAt( collision.CollisionTile ) )
 		{
-			tile.DoMeleeDamage( collision.CollisionTile.To2Int(), gameObject, (int)collision.Damage );
+			tile.ApplyDamage((int)collision.Damage, AttackType.Melee, collision.CollisionTile);
 			collided = true;
 		}
 

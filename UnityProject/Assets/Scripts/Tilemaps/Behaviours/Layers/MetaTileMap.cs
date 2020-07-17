@@ -95,7 +95,7 @@ public class MetaTileMap : MonoBehaviour
 			{
 				return (damage);
 			}
-			RemainingDamage -= damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos, attackType);
+			RemainingDamage -= damageableLayer.TilemapDamage.ApplyDamage(damage, attackType, worldPos);
 		}
 
 		if (RemainingDamage > damage)
