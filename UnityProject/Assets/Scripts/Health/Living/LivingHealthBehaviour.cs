@@ -138,6 +138,9 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// </summary>
 	public bool IsCardiacArrest => bloodSystem.HeartStopped;
 
+	private int damageEffectAttempts = 0;
+	private int maxDamageEffectAttempts = 1;
+
 
 	/// ---------------------------
 	/// INIT METHODS
@@ -150,11 +153,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	void OnEnable()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Add(PeriodicUpdate, 1f);
 	}
 
 	void OnDisable()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 	}
 
 	/// Add any missing systems:
@@ -487,6 +492,14 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		}
 	}
 
+	private void PeriodicUpdate()
+	{
+		if (damageEffectAttempts >= maxDamageEffectAttempts)
+		{
+			damageEffectAttempts = 0;
+		}
+	}
+
 
 	public float RadiationStacks = 0;
 
@@ -530,6 +543,13 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	[Server]
 	protected virtual void DetermineDamageEffects(DamageType damageType)
 	{
+		if (damageEffectAttempts >= maxDamageEffectAttempts)
+		{
+			return;
+		}
+
+		damageEffectAttempts++;
+
 		//Brute attacks
 		if (damageType == DamageType.Brute)
 		{
