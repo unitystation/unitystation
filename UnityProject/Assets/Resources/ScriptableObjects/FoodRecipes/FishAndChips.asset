@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89423981fdf5b0d46af8718c36521ad8, type: 3}
+  m_Name: FishAndChips
+  m_EditorClassIdentifier: 
+  Name: Fish And Chips
+  Ingredients:
+  - requiredAmount: 1
+    ingredientName: space fries
+  - requiredAmount: 1
+    ingredientName: carp fillet
+  Output: {fileID: 619069453893467040, guid: 845d84b426e36bc4095f7c85997c1d9f, type: 3}

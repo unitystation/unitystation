@@ -41,6 +41,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a511be8fad015234db57fb0086a16efa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  metal: 1
+  rods: 2
 --- !u!1001 &4386653123902484753
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -128,7 +132,7 @@ PrefabInstance:
     - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
       propertyPath: initialName
-      value: Rods
+      value: rods
       objectReference: {fileID: 0}
     - target: {fileID: 339106240779983386, guid: a5ae289234c114e4faca591be88bdbb7,
         type: 3}
