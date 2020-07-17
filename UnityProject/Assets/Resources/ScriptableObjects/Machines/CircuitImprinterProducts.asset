@@ -1,0 +1,318 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a530723332345043ae218456ed72ca0, type: 3}
+  m_Name: CircuitImprinterProducts
+  m_EditorClassIdentifier: 
+  productCategoryList:
+  - categoryName: Computer Boards
+    products:
+    - name: Computer Design (Boiler-Turbine Console)
+      product: {fileID: 3044437147240314417, guid: 379c96459052d4645928363ef250ea18,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Cloning Console)
+      product: {fileID: 3677348334658451422, guid: a3073526fd40c7d42b394e3def74809b,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Communications Console)
+      product: {fileID: 3677348334658451422, guid: 35bfd43b017d64749bbe0ce4430d6c1e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (ID Console)
+      product: {fileID: 3677348334658451422, guid: d85dca3d9b11b9444909fb07406cd824,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Medical Records)
+      product: {fileID: 3677348334658451422, guid: 7cfa72a1e4d4f22479cff15451d91210,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Nuclear Reactor Console)
+      product: {fileID: 90943086939956732, guid: da999ad2065c8be47aafc00f610cdec1,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Security Records Console)
+      product: {fileID: 3677348334658451422, guid: 0fbbae3a2eb179546a6cbd7c92b4a1cb,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Shuttle Piloting Console)
+      product: {fileID: 3677348334658451422, guid: 6bd9037fbb19a79409aab54675bc363e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Computer Design (Supply Console)
+      product: {fileID: 3677348334658451422, guid: 697f700281ba39b499cc574561c68d45,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+  - categoryName: Teleportation Machinery
+    products:
+    - name: Machine Design (Quantum Pad Board)
+      product: {fileID: 8858825759565460069, guid: 5d4ca840d60cf294f9d681a372052569,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+  - categoryName: Medical Machinery
+    products:
+    - name: Machine Design (Clone Pod)
+      product: {fileID: 8026946951644424067, guid: 27fc1b3085c201f49914af0105be9480,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Cryotube Board)
+      product: {fileID: 8026946951644424067, guid: cc328d3a4e0921542bcfe7e7d2310265,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (DNA Scanner)
+      product: {fileID: 8026946951644424067, guid: 35aff5c4f96600c4a84b436e8d5850e1,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+  - categoryName: Engineering Machinery
+    products:
+    - name: Machine Design (Department Battery Board)
+      product: {fileID: 8026946951644424067, guid: 1002c0247e412884e91c857ce6e51d9c,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Freezer/Heater Board)
+      product: {fileID: 5967373569650379141, guid: 837c89c8d01f2f1448f8d9eab06080dd,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (P.A.C.M.A.N.-type Generator Board)
+      product: {fileID: 4184383661120845852, guid: 23ae18d4d92f03a4faba5c8e2e04ab49,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (SMES Board)
+      product: {fileID: 8026946951644424067, guid: 7f7934b263cb23040ade0147d14b39aa,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Transformer HTM Board)
+      product: {fileID: 3565926771059640241, guid: db23d828345b6744485ee266629dfe9d,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Transformer MTL Board)
+      product: {fileID: 3228036655590114128, guid: 025f9c4810685f645804eb0b80b1b0ed,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+  - categoryName: Hydroponics Machinery
+    products:
+    - name: Machine Design (Biogenerator Board)
+      product: {fileID: 8026946951644424067, guid: 9fbd8dbfb604acf46a546a4b1ed1806c,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Hydroponics Tray Board)
+      product: {fileID: 3964132422398169974, guid: c0cbb1853d350404685a523d617f3458,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Seed Extractor Board)
+      product: {fileID: 554202251388157160, guid: 89f38936254ca964a85299ce289225ad,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Plant DNA Manipulator Board)
+      product: {fileID: 2695482244067536230, guid: 4690b98493f1ab64f85223bfebcb455e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+  - categoryName: Research Machinery
+    products:
+    - name: Machine Design (Circuit Imprinter Board)
+      product: {fileID: 8026946951644424067, guid: 23d78abe2740d804ca053640b8d7d10e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Exosuit Fabricator Board)
+      product: {fileID: 5118904567897562044, guid: 85745799887db29418a4ddc4fe68d535,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Protolathe Board)
+      product: {fileID: 7818414003113654592, guid: c7e51a61178506a45beecd9ba7c14e66,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+  - categoryName: Misc. Machinery
+    products:
+    - name: Machine Design (Autolathe Board)
+      product: {fileID: 8026946951644424067, guid: 78caa60e5ab06b34abfae4aa8c2e0396,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Food/Slime Processor Board)
+      product: {fileID: 647291457413040798, guid: 30b17e1fb1d57fa4d9a3f52459c077d2,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Gibber Board)
+      product: {fileID: 8191646375466536270, guid: 86141674efcedb74f8790919d22cabb5,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Mass Driver Board)
+      product: {fileID: 7892976733285366775, guid: c1006dd833b24694bbff470825fdf980,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Microwave Board)
+      product: {fileID: 2407683757881208479, guid: d556e5a451785514a95d4ccb15638366,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Ore Redemption Board)
+      product: {fileID: 5516146794827638060, guid: a565b378d835ddf478bee7e52e6b95dd,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Portable Booze Dispenser Board)
+      product: {fileID: 3394833129495955646, guid: 3c4ccc974a921654f884c3a90188d75e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Portable Soda Dispenser Board)
+      product: {fileID: 6902460699876158270, guid: 0068bc8f1fd50c54a978e30b4c416e2c,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Smartfridge Board)
+      product: {fileID: 2308564274286761204, guid: ad4815304c0789c42ac14447f35f807f,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Weapon Recharger Board)
+      product: {fileID: 7003283453982593561, guid: 057772381b5669948b32540d09f450d2,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: aad81582143ba4f4fb4f4c99563f715f, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 1
