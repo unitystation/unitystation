@@ -120,6 +120,20 @@ public class UnderFloorLayer : Layer
 		return null;
 	}
 
+	/// <summary>
+	/// Get tile using Z position instead of searching through the Z levels 
+	/// </summary>
+	public LayerTile GetTileUsingZ(Vector3Int position)
+	{
+		var getTile = tilemap.GetTile(position) as LayerTile;
+		if (getTile != null)
+		{
+			return getTile;
+		}
+
+		return null;
+	}
+
 	public override void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
 	{
 		var isServer = false;

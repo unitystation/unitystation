@@ -178,6 +178,16 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			// The underfloor layer can be composed of multiple tiles, iterate over them until interaction is found.
 			if (basicTile.LayerType == LayerType.Underfloor)
 			{
+				// if pointing at electrical cable tile and player holds Wirecutter in hand
+				if (basicTile is ElectricalCableTile &&
+					Validations.HasItemTrait(UIManager.Hands.CurrentSlot.ItemObject, CommonTraits.Instance.Wirecutter))
+				{
+					// open cable cutting ui window instead of cutting cable
+					EnableCableCuttingWindow();
+					// return false to not cut the cable
+					return false;
+				}
+
 				foreach (var underFloorTile in matrix.UnderFloorLayer.GetAllTilesByType<BasicTile>(localPosition))
 				{
 					var underFloorApply = new TileApply(interaction.Performer, interaction.UsedObject, interaction.Intent,
@@ -195,6 +205,24 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			}
 		}
 		return false;
+	}
+
+	/// <summary>
+	/// Instantiate/enable cable cutting window
+	/// </summary>
+	private void EnableCableCuttingWindow()
+	{
+		// if LoadCableCuttingWindow script is already added, just enable window
+		if (TryGetComponent(out LoadCableCuttingWindow cableCuttingWindow))
+		{
+			cableCuttingWindow.OpenCableCuttingWindow();
+		}
+		// else add component, init and enable window
+		else
+		{
+			LoadCableCuttingWindow window = (LoadCableCuttingWindow)gameObject.AddComponent(typeof(LoadCableCuttingWindow));
+			window.OpenCableCuttingWindow();
+		}
 	}
 
 	bool TryInteractWithTile(TileApply interaction)
