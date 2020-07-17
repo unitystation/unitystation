@@ -33,6 +33,8 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	private StunBaton stunBaton;
 
+	private int timer = 0;
+
 	public void Start()
 	{
 		stunBaton = GetComponent<StunBaton>();
@@ -62,42 +64,57 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 		// we wouldn't deal damage to ourselves because CmdRequestMeleeAttack checks whether we're stunned
 		if (interaction.Intent != Intent.Help)
 		{
+			Debug.LogError("humm");
 			// Direction of attack towards the attack target.
 			wna.ServerPerformMeleeAttack(target, dir, interaction.TargetBodyPart, LayerType.None);
 		}
 
 		RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
 
-		// Stun the victim. We checke whether the baton is activated in WillInteract and if the user has a charge to stun
+		// Stun the victim. We check whether the baton is activated in WillInteract and if the user has a charge to stun
 		if (registerPlayerVictim && canStun)
 		{
+			if (delay != 0)
+			{
+				canStun = false;
+				timer = delay;
+			}
+
 			registerPlayerVictim.ServerStun(stunTime);
 			SoundManager.PlayNetworkedAtPos(stunSound, target.transform.position, sourceObj: target.gameObject);
 			// deactivates the stun and makes you wait;
-			
-			DisableStun();
+
 			// Special case: If we're on help intent (only stun), we should still show the lerp (unless we're hitting ourselves)
 			if (interaction.Intent == Intent.Help && performer != target)
 			{
 				wna.RpcMeleeAttackLerp(dir, gameObject);
 			}
 		}
-	}
-	// creates the timer needed to let you stun again'
-	private void DisableStun()
-	{
-		canStun = false;
-		Timer stunTimer = new Timer();
-		stunTimer.Interval = delay * 1000;
-		stunTimer.Elapsed += StunTimer_Elapsed;
-		stunTimer.Enabled = true;
-	}
-	// lets you stun again
-	private void StunTimer_Elapsed(object sender, ElapsedEventArgs e)
-	{
-		canStun = true;
+		else if (!canStun)
+		{
+			Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+		}
 	}
 
+	private void OnEnable()
+	{
+		UpdateManager.Add(Timer, 1f);
+	}
 
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Timer);
+	}
+
+	private void Timer()
+	{
+		if(timer == 0) return;
+
+		timer--;
+
+		if (timer == 0)
+		{
+			canStun = true;
+		}
+	}
 }
-
