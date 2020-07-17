@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &5787332934185140899
@@ -144,16 +145,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - ItemName: 
-    Item: {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2, type: 3}
+  - ItemName: Steak
+    Item: {fileID: 3664851965229280547, guid: 7eeb39ee45a50e543ad74ff71631525c, type: 3}
     Stock: 5
-  - ItemName: 
-    Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+  - ItemName: Cookie
+    Item: {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
     Stock: 5
-  - ItemName: 
-    Item: {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
+  - ItemName: Meat
+    Item: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398, type: 3}
     Stock: 5
-  - ItemName: 
+  - ItemName: Space Cola
     Item: {fileID: 683694994805896424, guid: 51ddc7025f52f6e4e96d4410324d2bd0, type: 3}
     Stock: 5
   HullColor: {r: 0.98039216, g: 0.972549, b: 0.972549, a: 1}
@@ -292,6 +293,7 @@ MonoBehaviour:
     type: 3}
   machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
 --- !u!114 &3772588541069511424
 MonoBehaviour:
