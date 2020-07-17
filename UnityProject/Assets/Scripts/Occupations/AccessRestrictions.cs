@@ -34,9 +34,11 @@ public class AccessRestrictions : MonoBehaviour
 		var pda = idCardObj.GetComponent<PDALogic>();
 		if (idcard != null) return idcard.HasAccess(restriction);
 		// Not an ID card? Perhaps its a PDA.
-		if ((pda != null) & (pda.IdCard != null))
+		if (pda != null && pda.IdCard != null)
+		{
 			// Its a PDA, check the contents.
 			return pda.IdCard.HasAccess(restriction);
+		}
 		//The hell did it detect then?
 		return false;
 	}

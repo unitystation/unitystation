@@ -8,7 +8,7 @@ using Mirror;
 /// <summary>
 /// Allows object to function as a door switch - opening / closing door when clicked.
 /// </summary>
-public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster
+public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>//, ISetMultitoolMaster
 {
 	private SpriteRenderer spriteRenderer;
 	public Sprite greenSprite;
