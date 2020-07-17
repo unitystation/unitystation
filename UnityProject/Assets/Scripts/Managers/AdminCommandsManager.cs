@@ -256,6 +256,46 @@ namespace AdminCommands
 				"");
 		}
 
+		[Server]
+		public void CmdSendBlockShuttleCall(string adminId, string adminToken, bool toggleBool)
+		{
+			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+			if (admin == null) return;
+
+			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
+
+			if(shuttle.blockCall == toggleBool) return;
+
+			shuttle.blockCall = toggleBool;
+
+			var state = toggleBool ? "BLOCKED" : "UNBLOCKED";
+			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: {state} shuttle calling.";
+
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
+				"");
+		}
+
+		[Server]
+		public void CmdSendBlockShuttleRecall(string adminId, string adminToken, bool toggleBool)
+		{
+			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+			if (admin == null) return;
+
+			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
+
+			if(shuttle.blockRecall == toggleBool) return;
+
+			shuttle.blockRecall = toggleBool;
+
+			var state = toggleBool ? "BLOCKED" : "UNBLOCKED";
+			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: {state} shuttle recalling.";
+
+			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, null);
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, msg,
+				"");
+		}
+
 		#endregion
 
 		#region Sound
@@ -472,6 +512,50 @@ namespace AdminCommands
 				IsFake = isFake,
 				AnnounceEvent = announceEvent,
 				EventType = eventType,
+				Action = action
+			};
+			msg.Send();
+			return msg;
+		}
+	}
+
+	/// <summary>
+	/// Generic net message for verification parameters only.
+	/// </summary>
+	public class ServerCommandVersionFiveMessageClient : ClientMessage
+	{
+		public string AdminId;
+		public string AdminToken;
+		public bool GenericBool;
+		public string Action;
+
+		public override void Process()
+		{
+			var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
+			if (admin == null) return;
+
+			object[] paraObject =
+			{
+				AdminId,
+				AdminToken,
+				GenericBool
+			};
+
+			var instance = AdminCommandsManager.Instance;
+
+			//server stuff
+			if (instance == null) return;
+
+			instance.GetType().GetMethod(Action)?.Invoke(instance, paraObject);
+		}
+
+		public static ServerCommandVersionFiveMessageClient Send(string adminId, string adminToken, bool genericBool, string action)
+		{
+			ServerCommandVersionFiveMessageClient msg = new ServerCommandVersionFiveMessageClient
+			{
+				AdminId = adminId,
+				AdminToken = adminToken,
+				GenericBool = genericBool,
 				Action = action
 			};
 			msg.Send();
