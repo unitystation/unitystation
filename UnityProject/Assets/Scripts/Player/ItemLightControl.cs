@@ -28,7 +28,11 @@ public enum EnumSpriteLightData
 [RequireComponent(typeof(Pickupable))]
 public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 {
+	[Tooltip("Controls the light the player emits if they have this object equipped.")]
 	public LightEmissionPlayer LightEmission;
+	
+	[Tooltip("Controls the light the object emits while out of a player's or other object's inventory.")]
+	public GameObject objectLightEmission;
 
 	public HashSet<NamedSlot> CompatibleSlots = new HashSet<NamedSlot>() {
 		NamedSlot.leftHand,
@@ -101,11 +105,13 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 			IsOn = true;
 			LightEmission.AddLight(PlayerLightData);
 			LightToggleIntensity();
+			objectLightEmission.SetActive(true);
 		}
 		else if (!on && IsOn)
 		{
 			IsOn = false;
 			LightEmission.RemoveLight(PlayerLightData);
+			objectLightEmission.SetActive(false);
 		}
 	}
 	/// <summary>

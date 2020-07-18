@@ -18,7 +18,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &440387127209129005
 Transform:
   m_ObjectHideFlags: 0
@@ -27,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3320711171919508498}
   m_LocalRotation: {x: 0.00000031610085, y: 0.00000021073383, z: -0.70710677, w: 0.7071069}
-  m_LocalPosition: {x: -0.10100004, y: -0.13199997, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_Children: []
   m_Father: {fileID: 5730203012241659306}
@@ -131,11 +131,12 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   LightEmission: {fileID: 0}
+  objectLightEmission: {fileID: 3320711171919508498}
   Intensity: 0.9
   Colour: {r: 0.990566, g: 0.96984947, b: 0.88309896, a: 1}
   EnumSprite: 0
   Size: 8
-  IsOn: 1
+  IsOn: 0
   CachedIntensity: 1
   PlayerLightData:
     Intensity: 0
@@ -253,7 +254,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 19c6a7f51fa66be42b83695b469df3c3,
+      objectReference: {fileID: 21300000, guid: cd4c667db4d0ea343abde82ad04b471f,
         type: 3}
     - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}

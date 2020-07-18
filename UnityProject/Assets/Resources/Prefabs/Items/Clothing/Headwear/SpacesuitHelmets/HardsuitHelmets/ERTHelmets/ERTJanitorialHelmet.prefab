@@ -82,8 +82,20 @@ PrefabInstance:
     - target: {fileID: 6582560128087083069, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: m_Name
-      value: ERTJanitorHelmet
+      value: ERTJanitorialHelmet
       objectReference: {fileID: 0}
+    - target: {fileID: 6746541494595479454, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: c75d1ff8a9689e447af7769346cfe437,
+        type: 3}
+    - target: {fileID: 6746541494595479454, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: b261c01719b9b454d87b4f716ff48bfc,
+        type: 3}
     - target: {fileID: 6752137445666072415, guid: 4870238ed625c0e45839e280fab63823,
         type: 3}
       propertyPath: initialName

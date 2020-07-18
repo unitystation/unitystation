@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 493305885587545889, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: b06c9a84a39cecf4f907a787858e0dc9,
+        type: 3}
+    - target: {fileID: 493305885587545889, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: fd15daec664d95741b4e7ca36cd32d20,
+        type: 3}
     - target: {fileID: 788905237837345984, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -117,7 +129,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b06c9a84a39cecf4f907a787858e0dc9,
+      objectReference: {fileID: 21300000, guid: fd15daec664d95741b4e7ca36cd32d20,
         type: 3}
     - target: {fileID: 8004422176852823208, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
