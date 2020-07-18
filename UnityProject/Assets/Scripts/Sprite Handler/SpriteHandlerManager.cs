@@ -72,17 +72,8 @@ public class SpriteHandlerManager : NetworkBehaviour
 		//}
 	}
 
-	private void OnEnable()
-	{
-		UpdateManager.Add(CallbackType.LATE_UPDATE, LateUpdateMe);
-	}
 
-	private void OnDisable()
-	{
-		UpdateManager.Remove(CallbackType.LATE_UPDATE, LateUpdateMe);
-	}
-
-	void LateUpdateMe()
+	void LateUpdate()
 	{
 		UpdateClients();
 		MergeUpdates();
@@ -90,8 +81,11 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public void UpdateClients()
 	{
-		Logger.Log(QueueChanges.Count.ToString());
-
+		if (QueueChanges.Count > 0)
+		{
+			Logger.Log(QueueChanges.Count.ToString());
+			SpriteUpdateMessage.SendToAll(QueueChanges);
+		}
 	}
 
 	public void MergeUpdates()
@@ -170,7 +164,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 		public void Clean()
 		{
-			PresentSpriteSet = 0;
+			PresentSpriteSet = -1;
 			VariantIndex = -1;
 			CataloguePage = -1;
 			PushTexture = false;
@@ -222,5 +216,8 @@ public class SpriteHandlerManager : NetworkBehaviour
 				PooledSpriteChange.Add(spriteChange);
 			}
 		}
+
+
+
 	}
 }

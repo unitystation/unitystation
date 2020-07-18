@@ -24,13 +24,13 @@ public class GenerateSpriteSO : EditorWindow
 	//	DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
 		//
 		AssetDatabase.StartAssetEditing();
-		var AAA = FindAssetsByType<SpriteDataSO>();
+		var AAA = FindAssetsByType<SpriteCatalogue>();
 		foreach (var a in AAA)
 		{
-			a.setID = a.setID;
-			//EditorUtility.SetDirty(a);
+			EditorUtility.SetDirty(a);
 		}
 		AssetDatabase.StopAssetEditing();
+		AssetDatabase.SaveAssets();
 
 		return;
 		var DD = LoadAllPrefabsOfType<SeedPacket>(Application.dataPath + "/Resources/Prefabs/Items/Botany");

@@ -166,7 +166,7 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null)
 		{
-			spriteHandler.ChangeSpriteVariant(referenceOffset);
+			spriteHandler.ChangeSpriteVariant(referenceOffset, false);
 		}
 	}
 
@@ -174,7 +174,7 @@ public class ClothingItem : MonoBehaviour
 	{
 		if (spriteHandler != null)
 		{
-			spriteHandler.PushTexture();
+			spriteHandler.PushTexture(false);
 		}
 	}
 
@@ -184,11 +184,11 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand,Network: false);
 			}
 			else
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, Network:false);
 			}
 
 			//spriteHandler.isPaletteds = new List<bool>() { _ItemsSprites.IsPaletted };

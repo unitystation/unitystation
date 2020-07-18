@@ -22,6 +22,8 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private SpriteDataSO PresentSpriteSet = null;
 	private SpriteDataSO.Frame PresentFrame = null;
 
+	public List<TMPEE> Sprites;
+
 	private SpriteRenderer spriteRenderer;
 	private Image image;
 
@@ -43,13 +45,18 @@ public class SpriteHandler : MonoBehaviour
 
 	private NetworkIdentity NetworkIdentity;
 
+	public NetworkIdentity GetMasterNetID()
+	{
+		return NetworkIdentity;
+	}
+
 	public void ChangeSprite(int SubCataloguePage, bool Network = true)
 	{
 		if (SubCataloguePage == cataloguePage) return;
 
-		if ((SubCataloguePage > SubCatalogue.Count ))
+		if ((SubCataloguePage >= SubCatalogue.Count ))
 		{
-			Logger.LogError("new SubCataloguePage Is out of bounds on " + this);
+			Logger.LogError("new SubCataloguePage Is out of bounds on " + this.transform.parent.gameObject);
 			return;
 		}
 
@@ -242,8 +249,20 @@ public class SpriteHandler : MonoBehaviour
 		bool NewPushClear = false,
 		Color? NewSetColour = null)
 	{
+		if (SpriteHandlerManager.Instance == null) return;
+		if (NetworkIdentity == null)
+		{
+			NetworkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject)?.netIdentity;
+		}
+		if (NetworkIdentity.netId == 0)
+		{
+			//Logger.Log("ID hasn't been set for " + this.transform.parent);
+			return;
+		}
+		if (CustomNetworkManager.Instance._isServer == false) return;
 
 		SpriteHandlerManager.SpriteChange spriteChange = null;
+
 		if (SpriteHandlerManager.Instance.QueueChanges.ContainsKey(this))
 		{
 			spriteChange = SpriteHandlerManager.Instance.QueueChanges[this];
@@ -419,16 +438,6 @@ public class SpriteHandler : MonoBehaviour
 		TryToggleAnimationState(false);
 	}
 
-	public void SetColor(Color value)
-	{
-		if (!HasImageComponent())
-		{
-			GetImageComponent();
-		}
-
-		SetImageColor(value);
-	}
-
 	private bool isPaletted()
 	{
 		if (PresentSpriteSet == null) return false;
@@ -556,4 +565,10 @@ public class SpriteHandler : MonoBehaviour
 		return false;
 	}
 #endif
+
+	[System.Serializable]
+	public class TMPEE
+	{
+		public Texture2D Texture;
+	}
 }
