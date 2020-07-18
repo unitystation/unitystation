@@ -247,6 +247,8 @@ namespace AdminTools
 
 				foreach (var jobObject in KickBanEntryPage.instance.jobBanJobTypeListObjects)
 				{
+					jobObject.toBeBanned.isOn = false;
+
 					if (bans == null || bans.Count == 0)
 					{
 						jobObject.unbannedStatus.SetActive(true);
@@ -261,7 +263,11 @@ namespace AdminTools
 							jobObject.bannedStatus.SetActive(true);
 							jobObject.banTime.text = jobsBanned.isPerma ? "Perma Banned" : $"{jobsBanned.minutes}";
 							jobObject.unbannedStatus.SetActive(false);
+							break;
 						}
+
+						jobObject.unbannedStatus.SetActive(true);
+						jobObject.bannedStatus.SetActive(false);
 					}
 				}
 			}

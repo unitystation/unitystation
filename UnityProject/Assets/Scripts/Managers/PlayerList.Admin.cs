@@ -482,7 +482,14 @@ public partial class PlayerList
 		//Check each job to see if expired
 		foreach (var jobBan in jobBanPlayerEntry.Value.Item1.jobBanEntry)
 		{
-			JobBanExpireCheck(jobBan, index, connPlayer);
+			var entryTime = DateTime.ParseExact(jobBan.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
+			var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
+			if (totalMins > (float)jobBan.minutes && !jobBan.isPerma)
+			{
+				JobBanExpireCheck(jobBan, jobBanPlayerEntry.Value.Item2, connPlayer);
+			}
+
+			if(jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId).Item1.jobBanEntry.Count == 0) break;
 		}
 
 		var newJobBanPlayerEntry = jobBanList
@@ -577,6 +584,44 @@ public partial class PlayerList
 		return true;
 	}
 
+	/// <summary>
+	/// Client Side check
+	/// </summary>
+	/// <param name="job"></param>
+	/// <returns></returns>
+	public JobBanEntry ClientCheckBanReturn(JobType job)
+	{
+		if (Instance.clientSideBanEntries == null || Instance.clientSideBanEntries.Count == 0)
+		{
+			return null;
+		}
+
+		foreach (var banEntry in PlayerList.Instance.clientSideBanEntries)
+		{
+			if (banEntry.job != job) continue;
+
+			if (banEntry.isPerma)
+			{
+				//Perma Banned
+				return banEntry;
+			}
+
+			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
+			var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
+
+			if (totalMins < (float) banEntry.minutes)
+			{
+				//Time not up yet.
+				return banEntry;
+			}
+
+			//Is unbanned so try
+			break;
+		}
+
+		return null;
+	}
+
 	#endregion
 
 	#region JobBanNetMessages
@@ -589,9 +634,17 @@ public partial class PlayerList
 		{
 			//Server Stuff here
 
-			var jobBanEntries = PlayerList.Instance.ClientAskingAboutJobBans(SentByPlayer);
+			var conn = PlayerList.Instance.GetByUserID(PlayerID);
 
-			ServerSendsJobBanDataMessage.Send(SentByPlayer.Connection, jobBanEntries);
+			if (conn == null)
+			{
+				Debug.LogError("Connection was NULL");
+				return;
+			}
+
+			var jobBanEntries = PlayerList.Instance.ClientAskingAboutJobBans(conn);
+
+			ServerSendsJobBanDataMessage.Send(conn.Connection, jobBanEntries);
 		}
 
 		public static ClientJobBanDataMessage Send(string playerID)
@@ -854,24 +907,28 @@ public partial class PlayerList
 
 				if (isPerma)
 				{
-					message = $"A kick/ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} IsPerma: {isPerma} Time: {DateTime.Now}";
+					message = $"A job ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} IsPerma: {isPerma} Time: {DateTime.Now}";
 				}
 				else
 				{
-					message = $"A kick/ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+					message = $"A job ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 				}
 
 				Logger.Log(message);
 
 				StartCoroutine(JobBanPlayer(p, reason, isPerma, banMinutes, jobType));
 
-				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{PlayerList.Instance.GetByUserID(admin).Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
 
-				//TODO MAKE THEM TURN INTO GHOST/KICK AFTER JOB BAN
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
 				if (ghostAfter)
 				{
-
+					if (!p.Script.IsGhost)
+					{
+						PlayerSpawn.ServerSpawnGhost(p.Script.mind);
+						p.Script.mind.ghostLocked = true;
+					}
 				}
 
 				if (kickAfter)
