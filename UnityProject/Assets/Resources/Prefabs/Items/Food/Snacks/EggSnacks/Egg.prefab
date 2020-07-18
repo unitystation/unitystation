@@ -58,6 +58,16 @@ PrefabInstance:
       propertyPath: destroyOnEmpty
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: transferMode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 275102857289942383, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: transferAmount
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 1155915217242832539, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: m_Sprite
@@ -155,7 +165,8 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 38
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: -4748041340272161142, guid: eaf8c1f2a0f9374488e16061fd5b4dcd, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: eaf8c1f2a0f9374488e16061fd5b4dcd, type: 3}
 --- !u!1 &2897339443933191501 stripped
 GameObject:
