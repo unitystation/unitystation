@@ -41,7 +41,7 @@ public class NetLabel : NetUIStringElement
 			}
 
 			externalChange = false;
-			OnSyncedValueChanged?.Invoke(Element.text);
+			OnSyncedValueChanged?.Invoke(value);
 		}
 	}
 
