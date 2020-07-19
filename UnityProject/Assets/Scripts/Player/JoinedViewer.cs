@@ -165,42 +165,6 @@ public class JoinedViewer : NetworkBehaviour
 		ClientRequestJobMessage.Send(job, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 	}
 
-	/// <summary>
-	/// Used for requesting a job at round start.
-	/// Assigns the occupation to the player and spawns them on the station.
-	/// Fails if no more slots for that occupation are available.
-	/// </summary>
-	[Command]
-	private void CmdRequestJob(JobType jobType, string jsonCharSettings, string playerID)
-	{
-		var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
-		if (GameManager.Instance.CurrentRoundState != RoundState.Started)
-		{
-			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
-			return;
-		}
-
-		if (PlayerList.Instance.FindPlayerJobBanEntryServer(playerID, jobType, true) != null)
-		{
-			//Failed Job Ban Check
-			return;
-		}
-
-		int slotsTaken = GameManager.Instance.GetOccupationsCount(jobType);
-		int slotsMax = GameManager.Instance.GetOccupationMaxCount(jobType);
-		if (slotsTaken >= slotsMax)
-		{
-			return;
-		}
-
-		var spawnRequest =
-			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
-
-		GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
-
-		GameManager.Instance.ProcessSpawnPlayerQueue();
-	}
-
 	public void Spectate()
 	{
 		var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
