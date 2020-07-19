@@ -290,7 +290,7 @@ public class EscapeShuttle : NetworkBehaviour
 				}
 			}
 
-			else if ( DistanceToDestination < reverseDockOffset)
+			else if ( DistanceToDestination < reverseDockOffset && Status == EscapeShuttleStatus.OnRouteStation)
 			{
 				TryPark();
 			}
@@ -331,6 +331,11 @@ public class EscapeShuttle : NetworkBehaviour
 				}
 			}
 		}
+	}
+
+	private void OnDisable()
+	{
+		StopAllCoroutines();
 	}
 
 	//sorry, not really clean, robust or universal
