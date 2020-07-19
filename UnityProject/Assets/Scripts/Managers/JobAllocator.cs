@@ -131,7 +131,7 @@ public class JobAllocator
 		// Find any players that selected the job with the specified priority
 		candidates = playerPool.Where(player =>
 			player.CharacterSettings.JobPreferences.ContainsKey(occupation.JobType) &&
-			player.CharacterSettings.JobPreferences[occupation.JobType] == priority).ToList();
+			player.CharacterSettings.JobPreferences[occupation.JobType] == priority && PlayerList.Instance.FindPlayerJobBanEntry(player, occupation.JobType, false) == null).ToList();
 
 		return candidates.Any();
 	}

@@ -7,10 +7,43 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+    - target: {fileID: 493305885587545889, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: m_Name
-      value: WhiteHardHat
+      propertyPath: toggleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 05644881440f194468c66e2b928c197e,
+        type: 3}
+    - target: {fileID: 493305885587545889, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 4e9cd1d8fae3565449d5b438b2e9bbf6,
+        type: 3}
+    - target: {fileID: 788905237837345984, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2199116066298673672, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: b0c73d0e4d486c6429896647a1868de0,
+        type: 2}
+    - target: {fileID: 3714036432172209818, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: Intensity
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7524605284256423550, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7632320555952889534, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
@@ -67,42 +100,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 7524605284256423550, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+    - target: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: b0c73d0e4d486c6429896647a1868de0,
-        type: 2}
-    - target: {fileID: 3714036432172209818, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: Intensity
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3714036432172209818, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: Size
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 788905237837345984, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2199116066298673672, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: m_Mesh
-      value: 
+      propertyPath: m_Name
+      value: WhiteHardHat
       objectReference: {fileID: 0}
     - target: {fileID: 7712700953546887318, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 05644881440f194468c66e2b928c197e,
+      objectReference: {fileID: 21300000, guid: 4e9cd1d8fae3565449d5b438b2e9bbf6,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}

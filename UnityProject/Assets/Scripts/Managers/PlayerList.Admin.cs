@@ -10,6 +10,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using DiscordWebhook;
+using Newtonsoft.Json;
 
 /// <summary>
 /// Admin Controller for players
@@ -25,6 +26,12 @@ public partial class PlayerList
 	private string banPath;
 	private List<string> whiteListUsers = new List<string>();
 	private string whiteListPath;
+
+	private string jobBanPath;
+	private JobBanList jobBanList;
+
+	public List<JobBanEntry> clientSideBanEntries = new List<JobBanEntry>();
+
 	public string AdminToken { get; private set; }
 
 	[Server]
@@ -33,6 +40,7 @@ public partial class PlayerList
 		adminsPath = Path.Combine(Application.streamingAssetsPath, "admin", "admins.txt");
 		banPath = Path.Combine(Application.streamingAssetsPath, "admin", "banlist.json");
 		whiteListPath = Path.Combine(Application.streamingAssetsPath, "admin", "whitelist.txt");
+		jobBanPath = Path.Combine(Application.streamingAssetsPath, "admin", "jobBanlist.json");
 
 		if (!File.Exists(adminsPath))
 		{
@@ -47,6 +55,11 @@ public partial class PlayerList
 		if (!File.Exists(whiteListPath))
 		{
 			File.CreateText(whiteListPath).Close();
+		}
+
+		if (!File.Exists(jobBanPath))
+		{
+			File.WriteAllText(jobBanPath, JsonUtility.ToJson(new JobBanList()));
 		}
 
 		adminListWatcher = new FileSystemWatcher();
@@ -66,6 +79,7 @@ public partial class PlayerList
 		LoadBanList();
 		LoadCurrentAdmins();
 		LoadWhiteList();
+		LoadJobBanList();
 	}
 
 	void LoadBanList()
@@ -90,6 +104,18 @@ public partial class PlayerList
 	void LoadCurrentAdmins()
 	{
 		StartCoroutine(LoadAdmins());
+	}
+
+	void LoadJobBanList()
+	{
+		StartCoroutine(LoadJobBans());
+	}
+
+	IEnumerator LoadJobBans()
+	{
+		//ensure any writing has finished
+		yield return WaitFor.EndOfFrame;
+		jobBanList = JsonUtility.FromJson<JobBanList>(File.ReadAllText(jobBanPath));
 	}
 
 	IEnumerator LoadBans()
@@ -337,6 +363,368 @@ public partial class PlayerList
 		return true;
 	}
 
+	void SaveBanList()
+	{
+		File.WriteAllText(banPath, JsonUtility.ToJson(banList));
+	}
+
+	#region JobBans
+
+	public bool CheckJobBanState(string userID, JobType jobType)
+	{
+		//jobbanlist checking:
+		var jobBanEntry = FindPlayerJobBanEntryServer(userID, jobType);
+
+		if (jobBanEntry == null)
+		{
+			//No job ban so allowed
+			return true;
+		}
+
+		return false;
+	}
+
+	public JobBanEntry FindPlayerJobBanEntryServer(string userID, JobType jobType, bool serverSideCheck = false)
+	{
+		var players = GetAllByUserID(userID);
+		if (players.Count != 0)
+		{
+			foreach (var player in players)
+			{
+				var entry = FindPlayerJobBanEntry(player, jobType, serverSideCheck);
+
+				if (entry != null)
+				{
+					return entry;
+					break;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// Find the players job ban entry if it exists.
+	/// </summary>
+	/// <param name="connPlayer"></param>
+	/// <param name="jobType"></param>
+	/// <param name="serverSideCheck">Used for after round start selecting.</param>
+	/// <returns></returns>
+	public JobBanEntry FindPlayerJobBanEntry(ConnectedPlayer connPlayer, JobType jobType, bool serverSideCheck)
+	{
+		//jobbanlist checking:
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+
+		if (jobBanPlayerEntry.Value.Item1 == null)
+		{
+			//No job bans at all
+			return null;
+		}
+
+		var jobBanEntry = jobBanPlayerEntry.Value.Item1.CheckForSpecificJob(jobType);
+
+		if(jobBanEntry == null)
+		{
+			//Specific Job isnt banned
+			return null;
+		}
+
+		if (jobBanEntry.isPerma)
+		{
+			//Specific job has been perma banned
+			return jobBanEntry;
+		}
+
+		var entryTime = DateTime.ParseExact(jobBanEntry.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
+		var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
+		if ( totalMins > (float)jobBanEntry.minutes)
+		{
+			JobBanExpireCheck(jobBanEntry, jobBanPlayerEntry.Value.Item2, connPlayer);
+		}
+		else
+		{
+			if(!serverSideCheck) return jobBanEntry;
+
+			//User is still banned and has bypassed join data client check!!!!:
+			Logger.Log($"{connPlayer.Username} has bypassed the client side check for ban entry, possible hack attempt. " + $"IP: {connPlayer.Connection.address}", Category.Admin);
+			return jobBanEntry;
+		}
+
+		//Job has been removed as time elapsed
+		return null;
+	}
+
+	/// <summary>
+	/// Called on client join to server, to update their info.
+	/// </summary>
+	/// <param name="connPlayer"></param>
+	/// <returns></returns>
+	private List<JobBanEntry> ClientAskingAboutJobBans(ConnectedPlayer connPlayer)
+	{
+		//jobbanlist checking:
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+
+		if (jobBanPlayerEntry == null)
+		{
+			//No job bans at all
+			return null;
+		}
+
+		if (jobBanPlayerEntry.Value.Item1 == null)
+		{
+			//No job bans at all
+			return null;
+		}
+
+		var index = jobBanPlayerEntry.Value.Item2;
+
+		//Check each job to see if expired
+		foreach (var jobBan in jobBanPlayerEntry.Value.Item1.jobBanEntry)
+		{
+			var entryTime = DateTime.ParseExact(jobBan.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
+			var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
+			if (totalMins > (float)jobBan.minutes && !jobBan.isPerma)
+			{
+				JobBanExpireCheck(jobBan, jobBanPlayerEntry.Value.Item2, connPlayer);
+			}
+
+			if(jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId).Item1.jobBanEntry.Count == 0) break;
+		}
+
+		var newJobBanPlayerEntry = jobBanList
+			?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId).Item1.jobBanEntry;
+
+		if (newJobBanPlayerEntry == null)
+		{
+			//No job bans at all
+			return null;
+		}
+
+		if (newJobBanPlayerEntry.Count == 0)
+		{
+			//If theres now no entries delete player entry completely
+			jobBanList.jobBanEntries.Remove(jobBanPlayerEntry.Value.Item1);
+			SaveJobBanList();
+
+			//No job bans at all
+			return null;
+		}
+
+		return newJobBanPlayerEntry;
+	}
+
+	public List<JobBanEntry> ListOfBanEntries(string playerID)
+	{
+		var players = GetAllByUserID(playerID);
+		if (players.Count != 0)
+		{
+			foreach (var p in players)
+			{
+				var list = ClientAskingAboutJobBans(p);
+
+				if (list != null)
+				{
+					return list;
+				}
+			}
+		}
+
+		return null;
+	}
+
+	private void JobBanExpireCheck(JobBanEntry jobBanEntry, int index, ConnectedPlayer connPlayer)
+	{
+		//Old ban, remove it
+		jobBanList.jobBanEntries[index].jobBanEntry.Remove(jobBanEntry);
+		SaveJobBanList();
+		Logger.Log($"{connPlayer.Username} job ban for {jobBanEntry.job} has expired.", Category.Admin);
+	}
+
+	void SaveJobBanList()
+	{
+		File.WriteAllText(jobBanPath, JsonUtility.ToJson(jobBanList));
+	}
+
+	/// <summary>
+	/// Client Side check
+	/// </summary>
+	/// <param name="job"></param>
+	/// <returns></returns>
+	public bool ClientCheck(JobType job)
+	{
+		if (Instance.clientSideBanEntries == null || Instance.clientSideBanEntries.Count == 0)
+		{
+			return true;
+		}
+
+		foreach (var banEntry in PlayerList.Instance.clientSideBanEntries)
+		{
+			if (banEntry.job != job) continue;
+
+			if (banEntry.isPerma)
+			{
+				//Perma Banned
+				return false;
+			}
+
+			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
+			var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
+
+			if (totalMins < (float) banEntry.minutes)
+			{
+				//Time not up yet.
+				return false;
+			}
+
+			//Is unbanned so try
+			break;
+		}
+
+		return true;
+	}
+
+	/// <summary>
+	/// Client Side check
+	/// </summary>
+	/// <param name="job"></param>
+	/// <returns></returns>
+	public JobBanEntry ClientCheckBanReturn(JobType job)
+	{
+		if (Instance.clientSideBanEntries == null || Instance.clientSideBanEntries.Count == 0)
+		{
+			return null;
+		}
+
+		foreach (var banEntry in PlayerList.Instance.clientSideBanEntries)
+		{
+			if (banEntry.job != job) continue;
+
+			if (banEntry.isPerma)
+			{
+				//Perma Banned
+				return banEntry;
+			}
+
+			var entryTime = DateTime.ParseExact(banEntry.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
+			var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
+
+			if (totalMins < (float) banEntry.minutes)
+			{
+				//Time not up yet.
+				return banEntry;
+			}
+
+			//Is unbanned so try
+			break;
+		}
+
+		return null;
+	}
+
+	#endregion
+
+	#region JobBanNetMessages
+
+	public class ClientJobBanDataMessage : ClientMessage
+	{
+		public string PlayerID;
+
+		public override void Process()
+		{
+			//Server Stuff here
+
+			var conn = PlayerList.Instance.GetByUserID(PlayerID);
+
+			if (conn == null)
+			{
+				Debug.LogError("Connection was NULL");
+				return;
+			}
+
+			var jobBanEntries = PlayerList.Instance.ClientAskingAboutJobBans(conn);
+
+			ServerSendsJobBanDataMessage.Send(conn.Connection, jobBanEntries);
+		}
+
+		public static ClientJobBanDataMessage Send(string playerID)
+		{
+			ClientJobBanDataMessage msg = new ClientJobBanDataMessage
+			{
+				PlayerID = playerID
+			};
+			msg.Send();
+			return msg;
+		}
+	}
+
+	public class ServerSendsJobBanDataMessage : ServerMessage
+	{
+		public string JobBanEntries;
+
+		public override void Process()
+		{
+			//client Stuff here
+
+			PlayerList.Instance.clientSideBanEntries = JsonConvert.DeserializeObject<List<JobBanEntry>>(JobBanEntries);
+		}
+
+		public static ServerSendsJobBanDataMessage Send(NetworkConnection requestee, List<JobBanEntry> jobBanEntries)
+		{
+			ServerSendsJobBanDataMessage msg = new ServerSendsJobBanDataMessage
+			{
+				JobBanEntries = JsonConvert.SerializeObject(jobBanEntries)
+			};
+			msg.SendTo(requestee);
+			return msg;
+		}
+	}
+
+	public class RequestJobBan : ClientMessage
+	{
+		public string AdminID;
+		public string AdminToken;
+		public string PlayerID;
+		public string Reason;
+		public bool IsPerma;
+		public int Minutes;
+		public JobType JobType;
+		public bool KickAfter;
+		public bool GhostAfter;
+
+		public override void Process()
+		{
+			var admin = PlayerList.Instance.GetAdmin(AdminID, AdminToken);
+			if (admin == null) return;
+
+			//Server Stuff here
+
+			PlayerList.Instance.ProcessJobBanRequest(AdminID, PlayerID, Reason, IsPerma, Minutes, JobType, KickAfter, GhostAfter);
+		}
+
+		public static RequestJobBan Send(string adminID, string adminToken, string playerID, string reason, bool isPerma, int minutes, JobType jobType, bool kickAfter, bool ghostAfter)
+		{
+			RequestJobBan msg = new RequestJobBan
+			{
+				AdminID = adminID,
+				AdminToken = adminToken,
+				PlayerID = playerID,
+				Reason = reason,
+				IsPerma = isPerma,
+				Minutes = minutes,
+				JobType = jobType,
+				KickAfter = kickAfter,
+				GhostAfter = ghostAfter
+			};
+			msg.Send();
+			return msg;
+		}
+	}
+
+	#endregion
+
+	#region AdminChecks
+
 	public void CheckAdminState(ConnectedPlayer playerConn, string userid)
 	{
 		//full admin privs for local offline testing for host player
@@ -370,11 +758,6 @@ public partial class PlayerList
 		Logger.Log("You have logged in as an admin. Admin tools are now available.");
 	}
 
-	void SaveBanList()
-	{
-		File.WriteAllText(banPath, JsonUtility.ToJson(banList));
-	}
-
 	public void ProcessAdminEnableRequest(string admin, string userToPromote)
 	{
 		if (!adminUsers.Contains(admin)) return;
@@ -400,6 +783,9 @@ public partial class PlayerList
 			AdminEnableMessage.Send(user.Connection, newToken);
 		}
 	}
+	#endregion
+
+	#region Kick/Ban
 
 	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes, bool announceBan)
 	{
@@ -507,6 +893,130 @@ public partial class PlayerList
 
 		loggedOff.Remove(connPlayer);
 	}
+
+	public void ProcessJobBanRequest(string admin, string userToJobBan, string reason, bool isPerma, int banMinutes, JobType jobType, bool kickAfter = false, bool ghostAfter = false)
+	{
+		if (!adminUsers.Contains(admin)) return;
+
+		var players = GetAllByUserID(userToJobBan);
+		if (players.Count != 0)
+		{
+			foreach (var p in players)
+			{
+				var message = "";
+
+				if (isPerma)
+				{
+					message = $"A job ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} IsPerma: {isPerma} Time: {DateTime.Now}";
+				}
+				else
+				{
+					message = $"A job ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+				}
+
+				Logger.Log(message);
+
+				StartCoroutine(JobBanPlayer(p, reason, isPerma, banMinutes, jobType));
+
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{PlayerList.Instance.GetByUserID(admin).Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
+
+				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
+
+				if (ghostAfter)
+				{
+					if (!p.Script.IsGhost)
+					{
+						PlayerSpawn.ServerSpawnGhost(p.Script.mind);
+						p.Script.mind.ghostLocked = true;
+					}
+				}
+
+				if (kickAfter)
+				{
+					reason = "Player was kicked after job ban process.";
+					StartCoroutine(KickPlayer(p, reason, false));
+				}
+			}
+		}
+		else
+		{
+			Logger.Log($"job ban failed, can't find player: {userToJobBan}. Requested by {admin}");
+		}
+	}
+
+	IEnumerator JobBanPlayer(ConnectedPlayer connPlayer, string reason, bool isPermaBool, int banLengthInMinutes, JobType jobType)
+	{
+		if (jobBanList == null)
+		{
+			Debug.LogError("The job ban list loaded from the json was null, cant add new ban to it.");
+			yield break;
+		}
+
+		Logger.Log( "Processing job ban for "+ "\n"
+		                                            + "UserId " + connPlayer?.UserId + "\n"
+		                                            + "Username " + connPlayer?.Username + "\n"
+		                                            + "address " + connPlayer?.Connection?.address + "\n"
+		                                            + "clientId " + connPlayer?.ClientId + "\n"
+		                                            + "jobType " + jobType + "\n"
+		);
+
+		//jobbanlist checking:
+		var jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+
+		if (jobBanPlayerEntry.Value.Item1 == null)
+		{
+			//Doesnt have a job ban yet
+
+			jobBanList.jobBanEntries.Add(new JobBanPlayerEntry
+			{
+				userId = connPlayer?.UserId,
+				userName = connPlayer?.Username,
+				ipAddress = connPlayer?.Connection?.address,
+				clientId = connPlayer?.ClientId,
+				jobBanEntry = new List<JobBanEntry>()
+			});
+
+			jobBanPlayerEntry = jobBanList?.CheckForEntry(connPlayer.UserId, connPlayer.Connection.address, connPlayer.ClientId);
+		}
+
+		if (jobBanPlayerEntry.Value.Item1  == null)
+		{
+			Debug.LogError("New job ban list was null even though new one was generated");
+			yield break;
+		}
+
+		var jobBanEntry = jobBanPlayerEntry.Value.Item1.CheckForSpecificJob(jobType);
+
+		if(jobBanEntry == null)
+		{
+			//job ban entries doesnt have job, generate new ban
+			jobBanList.jobBanEntries[jobBanPlayerEntry.Value.Item2].jobBanEntry.Add(new JobBanEntry
+			{
+				job = jobType,
+				dateTimeOfBan = DateTime.Now.ToString("O"),
+				isPerma = isPermaBool,
+				minutes = banLengthInMinutes,
+				reason = reason
+			});
+		}
+		else
+		{
+			//Delete and add new if exists
+			jobBanList.jobBanEntries[jobBanPlayerEntry.Value.Item2].jobBanEntry.Remove(jobBanEntry);
+
+			jobBanList.jobBanEntries[jobBanPlayerEntry.Value.Item2].jobBanEntry.Add(new JobBanEntry
+			{
+				job = jobType,
+				dateTimeOfBan = DateTime.Now.ToString("O"),
+				isPerma = isPermaBool,
+				minutes = banLengthInMinutes,
+				reason = reason
+			});
+		}
+
+		SaveJobBanList();
+	}
+	#endregion
 }
 
 [Serializable]
@@ -546,4 +1056,54 @@ public class BanEntry
 		         + "clientId " + clientId + "\n"
 		         + "for reason" + reason);
 	}
+}
+
+[Serializable]
+public class JobBanList
+{
+	public List<JobBanPlayerEntry> jobBanEntries = new List<JobBanPlayerEntry>();
+
+	public (JobBanPlayerEntry, int) CheckForEntry(string userId, string ipAddress, string clientId)
+	{
+		var index = jobBanEntries.FindIndex(x => x.userId == userId
+		                                      || x.ipAddress == ipAddress
+		                                      || x.clientId == clientId);
+		if (index != -1)
+		{
+			return (jobBanEntries[index], index);
+		}
+
+		return (null, 0);
+	}
+}
+[Serializable]
+public class JobBanPlayerEntry
+{
+	public string userId;
+	public string userName;
+	public string ipAddress;
+	public string clientId;
+
+	public List<JobBanEntry> jobBanEntry = new List<JobBanEntry>();
+
+	public JobBanEntry CheckForSpecificJob(JobType jobType)
+	{
+		var index = jobBanEntry.FindIndex(x => x.job == jobType);
+		if (index != -1)
+		{
+			return jobBanEntry[index];
+		}
+
+		return null;
+	}
+}
+
+[Serializable]
+public class JobBanEntry
+{
+	public JobType job;
+	public bool isPerma;
+	public double minutes;
+	public string dateTimeOfBan;
+	public string reason;
 }

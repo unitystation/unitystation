@@ -562,6 +562,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		if (playerScript.mind.IsSpectator) return;
 
+		if(playerScript.mind.ghostLocked) return;
+
 		if (!playerScript.IsGhost )
 		{
 			Logger.LogWarningFormat("Either player {0} is not dead or not currently a ghost, ignoring EnterBody", Category.Health, body);

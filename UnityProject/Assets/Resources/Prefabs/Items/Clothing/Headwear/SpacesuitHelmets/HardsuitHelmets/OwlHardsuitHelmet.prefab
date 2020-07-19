@@ -13,11 +13,41 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ae9b583bff105154e848f667416eab22,
         type: 2}
+    - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: Color.g
+      value: 0.99215686
+      objectReference: {fileID: 0}
+    - target: {fileID: 7357085494083097413, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: Color.b
+      value: 0.95686275
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: Colour.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: Colour.g
+      value: 0.99215686
+      objectReference: {fileID: 0}
+    - target: {fileID: 8351188953273862774, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: Colour.b
+      value: 0.95686275
+      objectReference: {fileID: 0}
     - target: {fileID: 8724015864702849984, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: fdd0ea44fea1f124eb450fea7b246d53,
+      objectReference: {fileID: 21300000, guid: 38f3f9d7c16c4f4429ec86908442d257,
         type: 3}
     - target: {fileID: 8823728361263553832, guid: b05f31cc06e66ee43a22ce2771dba99d,
         type: 3}
@@ -95,5 +125,17 @@ PrefabInstance:
       propertyPath: initialName
       value: owl hardsuit helmet
       objectReference: {fileID: 0}
+    - target: {fileID: 9014358831195836223, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: fdd0ea44fea1f124eb450fea7b246d53,
+        type: 3}
+    - target: {fileID: 9014358831195836223, guid: b05f31cc06e66ee43a22ce2771dba99d,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 38f3f9d7c16c4f4429ec86908442d257,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b05f31cc06e66ee43a22ce2771dba99d, type: 3}

@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 493305885587545889, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: a586a296f87747e428ff8b13d7bbe140,
+        type: 3}
+    - target: {fileID: 493305885587545889, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 0199d560afe823e4b8056e121e013268,
+        type: 3}
     - target: {fileID: 788905237837345984, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -23,16 +35,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e350b95739d8b6d49a8145f9981cb8e8,
         type: 2}
-    - target: {fileID: 3714036432172209818, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: Intensity
-      value: 0.9
-      objectReference: {fileID: 0}
-    - target: {fileID: 3714036432172209818, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: Size
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 7524605284256423550, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: m_AssetId
@@ -102,7 +104,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a586a296f87747e428ff8b13d7bbe140,
+      objectReference: {fileID: 21300000, guid: 0199d560afe823e4b8056e121e013268,
         type: 3}
     - target: {fileID: 8004422176852823208, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
