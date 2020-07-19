@@ -80,19 +80,14 @@ public class LoadCableCuttingWindow : MonoBehaviour
 		// check if window can be enabled, if not - return
 		if (!CanWindowBeEnabled()) return;
 
-		GameObject hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
-		MetaTileMap metaTileMap = hit.GetComponentInChildren<MetaTileMap>();
-
-		Vector3Int cellPosition = metaTileMap.WorldToCell(mousePosition);
-
 		// get matrix
-		MatrixInfo matrixInfo = MatrixManager.AtPoint(roundedMousePosition, false);
-		Matrix matrix = matrixInfo.Matrix;
-		// get connections at target cell position
-		List<IntrinsicElectronicData> conns = matrix.GetElectricalConnections(cellPosition);
+		GameObject hit = MouseUtils.GetOrderedObjectsUnderMouse().FirstOrDefault();
+		Matrix matrix = hit.GetComponentInChildren<Matrix>();
 
-		// return if thera are no electrical connections
-		if (conns.Count < 1) return;
+		// return if matrix is null
+		if (matrix == null) return;
+
+		Vector3Int cellPosition = matrix.MetaTileMap.WorldToCell(mousePosition);
 
 		// if window exist, just initialize it
 		if (cableCuttingWindow != null)
