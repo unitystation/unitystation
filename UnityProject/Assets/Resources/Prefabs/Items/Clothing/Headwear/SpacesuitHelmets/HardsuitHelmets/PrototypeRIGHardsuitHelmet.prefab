@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1967846948629829625, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Size
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -113,6 +118,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: c437e383e8323b24fadbf4aad6ffff1a,
         type: 3}
+    - target: {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: c437e383e8323b24fadbf4aad6ffff1a,
+        type: 3}
+    - target: {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: fd17e85d41effb3459a2f2fab7084414,
+        type: 3}
     - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: initialDescription
@@ -124,6 +141,26 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: prototype RIG hardsuit helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Size
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160527399506739071, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160527399506739071, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 11
+      objectReference: {fileID: 0}
+    - target: {fileID: 8160527399506739071, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
