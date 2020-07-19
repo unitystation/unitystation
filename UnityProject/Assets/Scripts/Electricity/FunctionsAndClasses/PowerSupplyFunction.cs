@@ -1,13 +1,45 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
-public static class PowerSupplyFunction  { //Responsible for keeping the update and day to clean up off the supply in check
+/// <summary>
+/// Responsible for keeping the update and day to clean up off the supply in check
+/// </summary>
+public static class PowerSupplyFunction  {
+	/// <summary>
+	/// Called when a Supplying Device is turned off.
+	/// </summary>
+	/// <param name="Supply">The supplying device that is turned off</param>
 	public static void TurnOffSupply(ModuleSupplyingDevice Supply)
 	{
 		Supply.ControllingNode.Node.InData.Data.ChangeToOff = true;
-		ElectricalManager.Instance.electricalSync.NUCurrentChange.Add (Supply.ControllingNode);
+
+		try
+		{
+			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supply.ControllingNode);
+		}
+		catch(NullReferenceException ex)
+		{
+			// Temporary stuff to help debug a NullReferenceException, That code will be removed when the exception is fixed
+			StringBuilder sbError = new StringBuilder();
+
+			sbError.AppendLine($"\n\nRound Time: {GameManager.Instance.stationTime.ToString("O")}");
+			sbError.AppendLine($"Scene: {GameManager.Instance.gameObject.scene.name}");
+			sbError.AppendLine($"Supply : {Supply.name}");
+
+			if (ElectricalManager.Instance == null)
+				sbError.AppendLine("Instance was null");
+			else if (ElectricalManager.Instance.electricalSync == null)
+				sbError.AppendLine("electricalSync was null");
+			else if (ElectricalManager.Instance.electricalSync.NUCurrentChange == null)
+				sbError.AppendLine("NUCurrentChange was null");
+
+			sbError.AppendLine($"Original Exception : {ex.Message}\n\n{ex.StackTrace}");
+
+			throw new Exception(sbError.ToString(), ex);
+		}
 	}
 	public static void TurnOnSupply(ModuleSupplyingDevice Supply)
 	{
