@@ -55,12 +55,17 @@ namespace AdminTools
 
 		public void OnKickBtn()
 		{
-			adminTools.kickBanEntryPage.SetPage(false, playerEntry.PlayerData);
+			adminTools.kickBanEntryPage.SetPage(false, playerEntry.PlayerData, false);
 		}
 
 		public void OnBanBtn()
 		{
-			adminTools.kickBanEntryPage.SetPage(true, playerEntry.PlayerData);
+			adminTools.kickBanEntryPage.SetPage(true, playerEntry.PlayerData, false);
+		}
+
+		public void OnJobBanBtn()
+		{
+			adminTools.kickBanEntryPage.SetPage(false, playerEntry.PlayerData, true);
 		}
 
 		public void OnDeputiseBtn()

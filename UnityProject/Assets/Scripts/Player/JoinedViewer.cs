@@ -6,6 +6,7 @@ using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Globalization;
 
 /// <summary>
 /// This is the Viewer object for a joined player.
@@ -100,6 +101,8 @@ public class JoinedViewer : NetworkBehaviour
 		}
 
 		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, unverifiedUserid);
+
+		PlayerList.ClientJobBanDataMessage.Send(unverifiedUserid);
 	}
 
 	/// <summary>
@@ -156,7 +159,10 @@ public class JoinedViewer : NetworkBehaviour
 	public void RequestJob(JobType job)
 	{
 		var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
-		CmdRequestJob(job, jsonCharSettings);
+
+		if (!PlayerList.Instance.ClientCheck(job)) return;
+
+		CmdRequestJob(job, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 	}
 
 	/// <summary>
@@ -165,12 +171,18 @@ public class JoinedViewer : NetworkBehaviour
 	/// Fails if no more slots for that occupation are available.
 	/// </summary>
 	[Command]
-	private void CmdRequestJob(JobType jobType, string jsonCharSettings)
+	private void CmdRequestJob(JobType jobType, string jsonCharSettings, string playerID)
 	{
 		var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
 		if (GameManager.Instance.CurrentRoundState != RoundState.Started)
 		{
 			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
+			return;
+		}
+
+		if (PlayerList.Instance.FindPlayerJobBanEntryServer(playerID, jobType, true) != null)
+		{
+			//Failed Job Ban Check
 			return;
 		}
 

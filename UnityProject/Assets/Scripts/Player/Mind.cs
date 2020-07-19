@@ -24,6 +24,8 @@ public class Mind
 	//Current way to check if it's not actually a ghost but a spectator, should set this not have it be the below.
 	public bool IsSpectator => occupation == null || body == null;
 
+	public bool ghostLocked;
+
 	private ObservableCollection<Spell> spells = new ObservableCollection<Spell>();
 	public ObservableCollection<Spell> Spells => spells;
 
