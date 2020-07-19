@@ -20,16 +20,6 @@ public class CableCuttingWindow : MonoBehaviour
 	/// </summary>
 	private Dictionary<PowerTypeCategory, Sprite[]> cableSpritesDict;
 
-	// source: ElectricalCableDeconstruction.cs
-	[Tooltip("Action message to performer when they begin this interaction.")]
-	[SerializeField]
-	private string performerStartActionMessage = null;
-
-	// source: ElectricalCableDeconstruction.cs
-	[Tooltip("Use {performer} for performer name. Action message to others when the performer begins this interaction.")]
-	[SerializeField]
-	private string othersStartActionMessage = null;
-
 	/// <summary>
 	/// Paths to sprite atlases
 	/// </summary>
@@ -46,10 +36,7 @@ public class CableCuttingWindow : MonoBehaviour
 	/// Matrix on which target tile is placed
 	/// </summary>
 	private Matrix matrix;
-	/// <summary>
-	/// Cell position of target tile
-	/// </summary>
-	private Vector3Int targetCellPosition;
+
 	/// <summary>
 	/// World position of target tile
 	/// </summary>
@@ -62,9 +49,6 @@ public class CableCuttingWindow : MonoBehaviour
 	{
 		scrollViewLayoutGroupRect = scrollViewLayoutGroup.GetComponent<RectTransform>();
 		cableSpritesDict = new Dictionary<PowerTypeCategory, Sprite[]>();
-
-		// register message handler for server
-		NetworkServer.RegisterHandler<CableCuttingMessage>(ServerPerformInteraction);
 	}
 
 	/// <summary>
@@ -99,7 +83,6 @@ public class CableCuttingWindow : MonoBehaviour
 	public void InitializeCableCuttingWindow(Matrix matrix, Vector3Int targetCellPosition, Vector3 targetWorldPosition)
 	{
 		this.matrix = matrix;
-		this.targetCellPosition = targetCellPosition;
 		this.targetWorldPosition = targetWorldPosition;
 
 		// destroy all old cable ui cells
@@ -406,7 +389,6 @@ public class CableCuttingWindow : MonoBehaviour
 		{
 			// send message to destroy cable
 			SendCableCuttingMessage(targetWorldPosition, data.positionZ);
-
 			// destroy ui object
 			Destroy(cableUI);
 			// decrease cable count
@@ -430,64 +412,7 @@ public class CableCuttingWindow : MonoBehaviour
 	}
 
 	/// <summary>
-	/// [Message Handler] Perform interaction on server side
-	/// </summary>
-	public void ServerPerformInteraction(NetworkConnection conn, CableCuttingMessage message/*Connection WireEndA, Connection WireEndB*/)
-	{
-		// round target position
-		Vector3Int roundedWorldPosition = Vector3Int.RoundToInt(targetWorldPosition);
-
-		// get object at target position
-		GameObject hit = MouseUtils.GetOrderedObjectsAtPoint(targetWorldPosition).FirstOrDefault();
-		MetaTileMap metaTileMap = hit.GetComponentInChildren<MetaTileMap>();
-
-		// convert world position to cell position and set Z value to Z value from message
-		Vector3Int targetCellPosition = metaTileMap.WorldToCell(message.targetWorldPosition);
-		targetCellPosition.z = message.positionZ;
-
-		// get matrix
-		MatrixInfo matrixInfo = MatrixManager.AtPoint(roundedWorldPosition, false);
-		Matrix matrix = matrixInfo.Matrix;
-		// get connections at target cell position
-		List<IntrinsicElectronicData> conns = matrix.GetElectricalConnections(targetCellPosition);
-
-		// return if thera are no electrical connections
-		if (conns == null || conns.Count < 1) return;
-
-		// get electical tile from targetCellPosition
-		ElectricalCableTile electricalCable = matrix.UnderFloorLayer.GetTileUsingZ(targetCellPosition) as ElectricalCableTile;
-
-		if (electricalCable == null) return;
-
-		// add messages to chat
-		string othersMessage = Chat.ReplacePerformer(othersStartActionMessage, message.performer);
-		Chat.AddActionMsgToChat(message.performer, performerStartActionMessage, othersMessage);
-
-		// source: ElectricalCableDeconstruction.cs
-		var metaDataNode = matrix.GetMetaDataNode(targetCellPosition);
-		foreach (var ElectricalData in metaDataNode.ElectricalData)
-		{
-			if (ElectricalData.RelatedTile != electricalCable) continue;
-
-			// Electrocute the performer. If shock is painful enough, cancel the interaction.
-			ElectricityFunctions.WorkOutActualNumbers(ElectricalData.InData);
-			float voltage = ElectricalData.InData.Data.ActualVoltage;
-			var electrocution = new Electrocution(voltage, targetWorldPosition, "cable");
-			var performerLHB = PlayerManager.LocalPlayer.GetComponent<LivingHealthBehaviour>();
-			var severity = performerLHB.Electrocute(electrocution);
-			if (severity > LivingShockResponse.Mild) return;
-
-			ElectricalData.InData.DestroyThisPlease();
-			Spawn.ServerPrefab(electricalCable.SpawnOnDeconstruct, targetWorldPosition,
-				count: electricalCable.SpawnAmountOnDeconstruct);
-
-			return;
-		}
-
-	}
-
-	/// <summary>
-	/// [Sende Message] Send message to server to cut specified wire
+	/// [Send Message] Send message to server to cut specified wire
 	/// </summary>
 	/// <param name="targetWorldPosition">World position of target tile</param>
 	/// <param name="positionZ">Z position of target tile</param>
@@ -502,7 +427,7 @@ public class CableCuttingWindow : MonoBehaviour
 		};
 
 		// send message
-		NetworkClient.Send(message);
+		NetworkClient.Send(message, 0);
 	}
 
 	/// <summary>

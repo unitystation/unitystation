@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using YamlDotNet.Samples;
@@ -46,6 +47,16 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 
 	private Layer grillTileMap;
 
+	// source: ElectricalCableDeconstruction.cs
+	[Tooltip("Action message to performer when they begin cable cutting interaction.")]
+	[SerializeField]
+	private string performerStartActionMessage = null;
+
+	// source: ElectricalCableDeconstruction.cs
+	[Tooltip("Use {performer} for performer name. Action message to others when the performer begins cable cutting interaction.")]
+	[SerializeField]
+	private string othersStartActionMessage = null;
+
 	private void Start()
 	{
 		metaTileMap = GetComponentInChildren<MetaTileMap>();
@@ -53,6 +64,10 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		objectLayer = GetComponentInChildren<ObjectLayer>();
 		tileChangeManager = GetComponent<TileChangeManager>();
 		CacheTileMaps();
+
+		// register message handler for CableCuttingMessage here because CableCuttingWindow prefab won't be loaded on server
+		// so registration cannot be inside Start or Awake method inside CableCuttingWindow
+		NetworkServer.RegisterHandler<CableCuttingWindow.CableCuttingMessage>(ServerPerformCableCuttingInteraction);
 	}
 
 	/// <summary>
@@ -223,6 +238,55 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 			LoadCableCuttingWindow window = (LoadCableCuttingWindow)gameObject.AddComponent(typeof(LoadCableCuttingWindow));
 			window.OpenCableCuttingWindow();
 		}
+	}
+
+	/// <summary>
+	/// [Message Handler] Perform cable cutting interaction on server side
+	/// </summary>
+	private void ServerPerformCableCuttingInteraction(NetworkConnection conn, CableCuttingWindow.CableCuttingMessage message)
+	{
+		// get object at target position
+		GameObject hit = MouseUtils.GetOrderedObjectsAtPoint(message.targetWorldPosition).FirstOrDefault();
+		// get matrix
+		Matrix matrix = hit.GetComponentInChildren<Matrix>();
+
+		// return if matrix is null
+		if (matrix == null) return;
+
+		// convert world position to cell position and set Z value to Z value from message
+		Vector3Int targetCellPosition = matrix.MetaTileMap.WorldToCell(message.targetWorldPosition);
+		targetCellPosition.z = message.positionZ;
+
+		// get electical tile from targetCellPosition
+		ElectricalCableTile electricalCable = matrix.UnderFloorLayer.GetTileUsingZ(targetCellPosition) as ElectricalCableTile;
+
+		if (electricalCable == null) return;
+
+		// add messages to chat
+		string othersMessage = Chat.ReplacePerformer(othersStartActionMessage, message.performer);
+		Chat.AddActionMsgToChat(message.performer, performerStartActionMessage, othersMessage);
+
+		// source: ElectricalCableDeconstruction.cs
+		var metaDataNode = matrix.GetMetaDataNode(targetCellPosition);
+		foreach (var ElectricalData in metaDataNode.ElectricalData)
+		{
+			if (ElectricalData.RelatedTile != electricalCable) continue;
+
+			// Electrocute the performer. If shock is painful enough, cancel the interaction.
+			ElectricityFunctions.WorkOutActualNumbers(ElectricalData.InData);
+			float voltage = ElectricalData.InData.Data.ActualVoltage;
+			var electrocution = new Electrocution(voltage, message.targetWorldPosition, "cable");
+			var performerLHB = message.performer.GetComponent<LivingHealthBehaviour>();
+			var severity = performerLHB.Electrocute(electrocution);
+			if (severity > LivingShockResponse.Mild) return;
+
+			ElectricalData.InData.DestroyThisPlease();
+			Spawn.ServerPrefab(electricalCable.SpawnOnDeconstruct, message.targetWorldPosition,
+				count: electricalCable.SpawnAmountOnDeconstruct);
+
+			return;
+		}
+
 	}
 
 	bool TryInteractWithTile(TileApply interaction)
