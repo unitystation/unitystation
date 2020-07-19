@@ -206,7 +206,7 @@ PrefabInstance:
     - target: {fileID: 933576176691117832, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Name
-      value: Closet_Locker
+      value: SecureLockerBase
       objectReference: {fileID: 0}
     - target: {fileID: 1122670086388767519, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -264,6 +264,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Armor.Acid
       value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 8581740722262618261, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: damageDeflection
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8730627397065656938, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}

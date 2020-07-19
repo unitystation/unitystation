@@ -121,6 +121,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 896195843005683692, guid: c244495aa882da04fbcd48b8f3d1722e,
+        type: 3}
+      propertyPath: damageDeflection
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1380033905425106753, guid: c244495aa882da04fbcd48b8f3d1722e,
         type: 3}
       propertyPath: initialName
@@ -188,7 +193,7 @@ PrefabInstance:
     - target: {fileID: 8611762581646760049, guid: c244495aa882da04fbcd48b8f3d1722e,
         type: 3}
       propertyPath: m_Name
-      value: Closet_Locker_Engineering
+      value: BVOld_Closet_Locker_Engineering
       objectReference: {fileID: 0}
     - target: {fileID: 8617239565857955499, guid: c244495aa882da04fbcd48b8f3d1722e,
         type: 3}

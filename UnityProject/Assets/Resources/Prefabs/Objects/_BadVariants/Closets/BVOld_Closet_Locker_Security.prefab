@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 799417698451252133}
   - component: {fileID: -3534435620262470127}
   m_Layer: 11
-  m_Name: Closet_Locker_Security
+  m_Name: BVOld_Closet_Locker_Security
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -181,6 +181,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114239634461430000
@@ -201,7 +202,8 @@ MonoBehaviour:
   lockLight: {fileID: 7393468382065047371}
   IsLockable: 1
   playerLimit: 3
-  metalDroppedOnDestroy: 2
+  matsOnDestroy: {fileID: 0}
+  matsDroppedOnDestroy: 2
   soundOnOpenOrClose: OpenClose
   doorOpened: {fileID: 21300000, guid: d45d06cb86e993349b7adba36fde901e, type: 3}
   spriteRenderer: {fileID: 212255976647380646}
@@ -276,7 +278,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 500
   soundOnHit: 
+  damageDeflection: 20
   Armor:
     Melee: 30
     Bullet: 50
@@ -297,7 +301,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 1370
-  initialIntegrity: 500
 --- !u!114 &114959860031397196
 MonoBehaviour:
   m_ObjectHideFlags: 0
