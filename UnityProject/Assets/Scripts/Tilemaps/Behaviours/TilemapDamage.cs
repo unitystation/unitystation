@@ -117,7 +117,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private float AddDamage(float damage, AttackType attackType, MetaDataNode data,
 		BasicTile basicTile, Vector3 worldPosition)
 	{
-		data.AddTileDamage(Layer.LayerType, basicTile.Armor.GetDamage(damage, attackType));
+		data.AddTileDamage(Layer.LayerType, basicTile.Armor.GetDamage(damage < basicTile.damageDeflection? 0: damage, attackType));
 		SoundManager.PlayNetworkedAtPos(basicTile.SoundOnHit, worldPosition);
 		if (data.GetTileDamage(Layer.LayerType) >= basicTile.MaxHealth)
 		{
@@ -132,6 +132,7 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 	private float CalculateAbsorbDamaged(AttackType attackType, MetaDataNode data, BasicTile basicTile)
 	{
 		var damage = basicTile.MaxHealth - data.GetTileDamage(Layer.LayerType);
+
 		if (basicTile.MaxHealth < damage)
 		{
 			data.ResetDamage(Layer.LayerType);

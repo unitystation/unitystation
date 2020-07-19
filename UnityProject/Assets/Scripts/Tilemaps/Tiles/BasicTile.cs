@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Container;
+using NaughtyAttributes;
 using Tilemaps.Behaviours;
 using UnityEngine;
 using UnityEngine.Serialization;
@@ -7,7 +8,7 @@ using UnityEngine.Tilemaps;
 
 public abstract class BasicTile : LayerTile
 {
-	[Tooltip("What it sounds like when walked over")]
+	[Tooltip("What it sounds like when walked over")][ShowIf(nameof(passable))]
 	public FloorTileType floorTileType = FloorTileType.floor;
 
 	[Tooltip("Allow gases to pass through the cell this tile occupies?")]
@@ -47,6 +48,9 @@ public abstract class BasicTile : LayerTile
 	[SerializeField]
 	private float maxHealth = 0f;
 	public float MaxHealth => maxHealth;
+
+	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]
+	public float damageDeflection = 0;
 
 	[Tooltip("Armor of this tile")]
 	[FormerlySerializedAs("Armor")]
