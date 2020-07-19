@@ -15,31 +15,7 @@ public static class PowerSupplyFunction  {
 	public static void TurnOffSupply(ModuleSupplyingDevice Supply)
 	{
 		Supply.ControllingNode.Node.InData.Data.ChangeToOff = true;
-
-		try
-		{
-			ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supply.ControllingNode);
-		}
-		catch(NullReferenceException ex)
-		{
-			// Temporary stuff to help debug a NullReferenceException, That code will be removed when the exception is fixed
-			StringBuilder sbError = new StringBuilder();
-
-			sbError.AppendLine($"\n\nRound Time: {GameManager.Instance.stationTime.ToString("O")}");
-			sbError.AppendLine($"Scene: {GameManager.Instance.gameObject.scene.name}");
-			sbError.AppendLine($"Supply : {Supply.name}");
-
-			if (ElectricalManager.Instance == null)
-				sbError.AppendLine("Instance was null");
-			else if (ElectricalManager.Instance.electricalSync == null)
-				sbError.AppendLine("electricalSync was null");
-			else if (ElectricalManager.Instance.electricalSync.NUCurrentChange == null)
-				sbError.AppendLine("NUCurrentChange was null");
-
-			sbError.AppendLine($"Original Exception : {ex.Message}\n\n{ex.StackTrace}");
-
-			throw new Exception(sbError.ToString(), ex);
-		}
+		ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supply.ControllingNode);
 	}
 	public static void TurnOnSupply(ModuleSupplyingDevice Supply)
 	{
