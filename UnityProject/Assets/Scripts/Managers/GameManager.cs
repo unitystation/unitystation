@@ -663,5 +663,7 @@ public partial class GameManager : MonoBehaviour
 		yield return WaitFor.Seconds(0.2f);
 
 		CustomNetworkManager.Instance.ServerChangeScene("OnlineScene");
+
+		StopAllCoroutines();
 	}
 }
