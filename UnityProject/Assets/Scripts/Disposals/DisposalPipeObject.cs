@@ -13,6 +13,8 @@ namespace Disposals
 		TileChangeManager tileChangeManager;
 		ObjectBehaviour behaviour;
 
+// Ignore never-assigned-to warning as it is assigned via inspector
+#pragma warning disable CS0649
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Up orientation.")]
 		DisposalPipe disposalPipeTileUp;
@@ -28,6 +30,7 @@ namespace Disposals
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Right orientation.")]
 		DisposalPipe disposalPipeTileRight;
+#pragma warning disable CS0649
 
 		string objectName;
 		HandApply currentInteraction;

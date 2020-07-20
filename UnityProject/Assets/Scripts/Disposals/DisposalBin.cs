@@ -22,7 +22,10 @@ namespace Disposals
 		const int AUTO_FLUSH_DELAY = 2;
 		const float ANIMATION_TIME = 1.3f; // As per sprite sheet JSON file.
 
+// Ignore never-assigned-to warning as it is assigned via inspector
+#pragma warning disable CS0649
 		[SerializeField] AudioSource rechargeSFX;
+#pragma warning restore CS0649
 
 		HasNetworkTab netTab;
 		SpriteHandler overlaysSpriteHandler;
