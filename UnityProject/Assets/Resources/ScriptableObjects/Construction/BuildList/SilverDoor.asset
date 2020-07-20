@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba38351aa03f427e90c2f6010b4c1b05, type: 3}
+  m_Name: SilverDoor
+  m_EditorClassIdentifier: 
+  entries:
+  - name: Silver Door
+    prefab: {fileID: 7031905108076926725, guid: 6dad1248a16ebbd48a81433d413e37ec,
+      type: 3}
+    cost: 10
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Med Officer Statue
+    prefab: {fileID: 1387374511276318998, guid: fe080db714dc6564e83cbbe48f5cbd3d,
+      type: 3}
+    cost: 5
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Janitor Statue
+    prefab: {fileID: 1387374511276318998, guid: 753167997717f34419a72822fe51be91,
+      type: 3}
+    cost: 5
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Sec Officer
+    prefab: {fileID: 1387374511276318998, guid: ce7cba87749bfec438e125938f489ca6,
+      type: 3}
+    cost: 5
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Sec Borg Statue
+    prefab: {fileID: 1387374511276318998, guid: d8ff18244720d8a4690120b12c9c1291,
+      type: 3}
+    cost: 5
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Med Borg Statue
+    prefab: {fileID: 1387374511276318998, guid: 84fd32cb95eb15540acd42eeb5c0ecfc,
+      type: 3}
+    cost: 5
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
