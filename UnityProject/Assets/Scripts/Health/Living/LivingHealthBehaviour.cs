@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Atmospherics;
+using GameConfig;
 using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
@@ -367,7 +368,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
-		if (IsDead)
+		if (IsDead && GameManager.Instance.AllowGibbing)
 		{
 			afterDeathDamage += damage;
 			if (afterDeathDamage >= GIB_THRESHOLD)
