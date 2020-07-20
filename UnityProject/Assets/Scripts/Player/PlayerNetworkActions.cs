@@ -253,7 +253,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			{
 				//skip slots which have special uses
 				if (itemSlot.NamedSlot == NamedSlot.handcuffs) continue;
-						// breaks if player gets up
+						// cancels out of the loop if player gets up
 				if (!playerScript.playerHealth.IsCrit) break;
 
 				Inventory.ServerDrop(itemSlot);
