@@ -141,6 +141,7 @@ namespace Disposals
 		protected DisposalVirtualContainer SpawnNewContainer()
 		{
 			GameObject containerObject = DisposalsManager.SpawnVirtualContainer(registerObject.WorldPositionServer);
+			containerObject.GetComponent<ObjectBehaviour>().parentContainer = objectBehaviour;
 			return containerObject.GetComponent<DisposalVirtualContainer>();
 		}
 
