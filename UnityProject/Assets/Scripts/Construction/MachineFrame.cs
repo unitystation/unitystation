@@ -689,9 +689,12 @@ namespace Machines
 
 			board.GetComponent<MachineCircuitBoard>().SetMachineParts(machine.MachineParts); // Basic item requirements to the circuit board
 
+			//PM: Below is commented out because I've decided to make all the machines use appropriate machine board .prefabs instead of the blank board.
+			/*
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleName(machine.MachineParts.NameOfCircuitBoard); // Sets name of board
 
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleDescription(machine.MachineParts.DescriptionOfCircuitBoard); // Sets desc of board
+			*/
 
 			// Basic items to the machine frame from the despawned machine
 			machineParts = machine.MachineParts;

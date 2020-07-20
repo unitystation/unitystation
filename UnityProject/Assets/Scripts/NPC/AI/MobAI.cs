@@ -30,6 +30,10 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	private float fleeingTime = 0f;
 	private float fleeTimeMax;
 
+	//Limit number of damage calls
+	private int damageAttempts = 0;
+	private int maxDamageAttempts = 1;
+
 	//Events:
 	protected UnityEvent followingStopped = new UnityEvent();
 	protected UnityEvent exploringStopped = new UnityEvent();
@@ -72,7 +76,8 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			health.applyDamageEvent += OnAttackReceived;
+			UpdateManager.Add(PeriodicUpdate, 1f);
+			health.applyDamageEvent += AttackReceivedCoolDown;
 			isServer = true;
 			AIStartServer();
 		}
@@ -83,7 +88,8 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		if (isServer)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			health.applyDamageEvent += OnAttackReceived;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+			health.applyDamageEvent += AttackReceivedCoolDown;
 		}
 	}
 
@@ -105,6 +111,14 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		MonitorFollowingTime();
 		MonitorExploreTime();
 		MonitorFleeingTime();
+	}
+
+	protected void PeriodicUpdate()
+	{
+		if (damageAttempts >= maxDamageAttempts)
+		{
+			damageAttempts = 0;
+		}
 	}
 
 	/// <summary>
@@ -199,6 +213,18 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	/// by the NPC
 	/// </summary>
 	public virtual void LocalChatReceived(ChatEvent chatEvent) { }
+
+	protected void AttackReceivedCoolDown(GameObject damagedBy = null)
+	{
+		if (damageAttempts >= maxDamageAttempts)
+		{
+			return;
+		}
+
+		damageAttempts++;
+
+		OnAttackReceived(damagedBy);
+	}
 
 	/// <summary>
 	/// Called on the server whenever the NPC is physically attacked
