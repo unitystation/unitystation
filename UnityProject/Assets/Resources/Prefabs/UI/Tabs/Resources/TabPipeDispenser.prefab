@@ -2076,15 +2076,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Hidden: 0
   isPopOut: 1
-  Provider: {fileID: 0}
-  ProviderRegisterTile: {fileID: 0}
-  Type: 24
-  OnTabOpened:
-    m_PersistentCalls:
-      m_Calls: []
   OnTabClosed:
     m_PersistentCalls:
       m_Calls: []
+  OnTabOpened:
+    m_PersistentCalls:
+      m_Calls: []
+  Provider: {fileID: 0}
+  ProviderRegisterTile: {fileID: 0}
+  Type: 24
   categorySwitcher: {fileID: 5224746791700680373}
   dispensePageSwitcher: {fileID: 7035438463351932546}
   layerToggles:
@@ -9192,6 +9192,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TransitTubesText
+      objectReference: {fileID: 0}
+    - target: {fileID: 4735958661600894371, guid: 1d0d4cec35fffac458087b5a6f61520f,
+        type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4879831074043828582, guid: 1d0d4cec35fffac458087b5a6f61520f,
         type: 3}
