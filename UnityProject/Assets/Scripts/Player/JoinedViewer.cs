@@ -162,43 +162,7 @@ public class JoinedViewer : NetworkBehaviour
 
 		if (!PlayerList.Instance.ClientCheck(job)) return;
 
-		CmdRequestJob(job, jsonCharSettings, DatabaseAPI.ServerData.UserID);
-	}
-
-	/// <summary>
-	/// Used for requesting a job at round start.
-	/// Assigns the occupation to the player and spawns them on the station.
-	/// Fails if no more slots for that occupation are available.
-	/// </summary>
-	[Command]
-	private void CmdRequestJob(JobType jobType, string jsonCharSettings, string playerID)
-	{
-		var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
-		if (GameManager.Instance.CurrentRoundState != RoundState.Started)
-		{
-			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
-			return;
-		}
-
-		if (PlayerList.Instance.FindPlayerJobBanEntryServer(playerID, jobType, true) != null)
-		{
-			//Failed Job Ban Check
-			return;
-		}
-
-		int slotsTaken = GameManager.Instance.GetOccupationsCount(jobType);
-		int slotsMax = GameManager.Instance.GetOccupationMaxCount(jobType);
-		if (slotsTaken >= slotsMax)
-		{
-			return;
-		}
-
-		var spawnRequest =
-			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
-
-		GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
-
-		GameManager.Instance.ProcessSpawnPlayerQueue();
+		ClientRequestJobMessage.Send(job, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 	}
 
 	public void Spectate()
@@ -265,5 +229,72 @@ public class JoinedViewer : NetworkBehaviour
 			charSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
 		}
 		PlayerList.Instance.SetPlayerReady(player, isReady, charSettings);
+	}
+
+	/// <summary>
+	/// Used for requesting a job at round start.
+	/// Assigns the occupation to the player and spawns them on the station.
+	/// Fails if no more slots for that occupation are available.
+	/// </summary>
+	public class ClientRequestJobMessage : ClientMessage
+	{
+		public string PlayerID;
+		public JobType JobType;
+		public string JsonCharSettings;
+
+		public override void Process()
+		{
+			//Server Stuff here
+			if (SentByPlayer.UserId == null)
+			{
+				Logger.Log("User ID was null, cant spawn job.", Category.Admin);
+				return;
+			}
+
+			if (SentByPlayer.UserId != PlayerID)
+			{
+				Logger.Log($"User: {SentByPlayer.Username} ID: {SentByPlayer.UserId} used a different ID: {PlayerID} to request a job.", Category.Admin);
+				return;
+			}
+
+			var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(JsonCharSettings);
+			if (GameManager.Instance.CurrentRoundState != RoundState.Started)
+			{
+				Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, JobType, characterSettings);
+				return;
+			}
+
+			if (PlayerList.Instance.FindPlayerJobBanEntryServer(PlayerID, JobType, true) != null)
+			{
+				//Failed Job Ban Check
+				return;
+			}
+
+			int slotsTaken = GameManager.Instance.GetOccupationsCount(JobType);
+			int slotsMax = GameManager.Instance.GetOccupationMaxCount(JobType);
+			if (slotsTaken >= slotsMax)
+			{
+				return;
+			}
+
+			var spawnRequest =
+				PlayerSpawnRequest.RequestOccupation(SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(JobType), characterSettings);
+
+			GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
+
+			GameManager.Instance.ProcessSpawnPlayerQueue();
+		}
+
+		public static ClientRequestJobMessage Send(JobType jobType, string jsonCharSettings, string playerID)
+		{
+			ClientRequestJobMessage msg = new ClientRequestJobMessage
+			{
+				JobType = jobType,
+				JsonCharSettings = jsonCharSettings,
+				PlayerID = playerID
+			};
+			msg.Send();
+			return msg;
+		}
 	}
 }

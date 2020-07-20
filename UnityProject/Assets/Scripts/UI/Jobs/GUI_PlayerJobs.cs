@@ -162,7 +162,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 				var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
 
 				image.color = Color.red;
-				var msg = check.isPerma ? "Perma Banned" : $"banned for {check.minutes - totalMins}";
+				var msg = check.isPerma ? "Perma Banned" : $"banned for {Mathf.RoundToInt((float)check.minutes - totalMins)} minutes";
 				text.text = occupation.DisplayName + $" is {msg}";
 
 				occupationGO.GetComponent<Button>().interactable = false;
