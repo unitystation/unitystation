@@ -7,8 +7,6 @@ namespace Disposals
 	[CreateAssetMenu(fileName = "DisposalPipe", menuName = "Tiles/Disposal Pipe", order = 1)]
 	public class DisposalPipe : BasicTile, IExaminable
 	{
-// Ignore never-assigned-to warning as it is assigned via inspector
-#pragma warning disable CS0649
 		[Tooltip("Set the type of disposal pipe this is.")]
 		public DisposalPipeType PipeType;
 
@@ -21,8 +19,7 @@ namespace Disposals
 
 		[SerializeField]
 		[Tooltip("Set the sides available for connecting to other disposal pipes.")]
-		List<ConnectablePoint> _ConnectablePoints;
-#pragma warning restore CS0649
+		List<ConnectablePoint> _ConnectablePoints = new List<ConnectablePoint>();
 
 		Dictionary<OrientationEnum, DisposalPipeConnType> connectablePoints;
 		public Dictionary<OrientationEnum, DisposalPipeConnType> ConnectablePoints {

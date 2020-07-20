@@ -13,24 +13,21 @@ namespace Disposals
 		TileChangeManager tileChangeManager;
 		ObjectBehaviour behaviour;
 
-// Ignore never-assigned-to warning as it is assigned via inspector
-#pragma warning disable CS0649
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Up orientation.")]
-		DisposalPipe disposalPipeTileUp;
+		DisposalPipe disposalPipeTileUp = null;
 
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Down orientation.")]
-		DisposalPipe disposalPipeTileDown;
+		DisposalPipe disposalPipeTileDown = null;
 
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Left orientation.")]
-		DisposalPipe disposalPipeTileLeft;
+		DisposalPipe disposalPipeTileLeft = null;
 
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Right orientation.")]
-		DisposalPipe disposalPipeTileRight;
-#pragma warning disable CS0649
+		DisposalPipe disposalPipeTileRight = null;
 
 		string objectName;
 		HandApply currentInteraction;
