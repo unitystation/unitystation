@@ -33,7 +33,8 @@ public class WorldGateway : StationGateway
 	{
 		SetOffline();
 		registerTile = GetComponent<RegisterTile>();
-		Position = registerTile.WorldPosition;
+
+		Position = gameObject.transform.position.RoundToInt();
 
 		ServerChangeState(false);
 
