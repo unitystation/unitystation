@@ -53,7 +53,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		{
 			if (Controller.IsHackable)
 			{
-				HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
+				HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnAttemptOpen);
 				onAttemptOpen.SendOutputToConnectedNodes(byPlayer);
 			}
 			else
@@ -83,7 +83,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		//Tell the OnAttemptOpen node to activate.
 		else if (Controller.IsHackable)
 		{
-			HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
+			HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnAttemptOpen);
 			onAttemptOpen.SendOutputToConnectedNodes(interaction.Performer);
 		}
 		else
@@ -130,7 +130,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		}
 		else if (Controller.IsHackable)
 		{
-			HackingNode onAttemptClose = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptClose");
+			HackingNode onAttemptClose = Controller.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnAttemptClose);
 			onAttemptClose.SendOutputToConnectedNodes(interaction.Performer);
 		}
 		else

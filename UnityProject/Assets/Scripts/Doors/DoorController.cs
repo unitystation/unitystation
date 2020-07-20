@@ -269,7 +269,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 		{
 			if (isHackable && hackingLoaded)
 			{
-				HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier("OnShouldClose");
+				HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldClose);
 				onShouldClose.SendOutputToConnectedNodes();
 			}
 			ServerClose();
@@ -290,7 +290,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 
 		if (isHackable && hackingLoaded)
 		{
-			HackingNode onDoorClosed = hackingProcess.GetNodeWithInternalIdentifier("OnDoorOpened");
+			HackingNode onDoorClosed = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnDoorOpened);
 			onDoorClosed.SendOutputToConnectedNodes();
 		}
 
@@ -323,7 +323,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 				{
 					if (isHackable && hackingLoaded)
 					{
-						HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier("OnIDRejected");
+						HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnIdRejected);
 						onIDRejected.SendOutputToConnectedNodes(Originator);
 					}
 					else
@@ -341,7 +341,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 			{
 				if (isHackable && hackingLoaded)
 				{
-					HackingNode shouldDoPressureWarn = hackingProcess.GetNodeWithInternalIdentifier("ShouldDoPressureWarning");
+					HackingNode shouldDoPressureWarn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.ShouldDoPressureWarning);
 					shouldDoPressureWarn.SendOutputToConnectedNodes(Originator);
 				}
 				else
@@ -353,7 +353,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 			{
 				if (isHackable && hackingLoaded)
 				{
-					HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier("OnShouldOpen");
+					HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldOpen);
 					onShouldOpen.SendOutputToConnectedNodes(Originator);
 				}
 				else
@@ -391,7 +391,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 
 		if (isHackable && hackingLoaded)
 		{
-			HackingNode onDoorOpened = hackingProcess.GetNodeWithInternalIdentifier("OnDoorOpened");
+			HackingNode onDoorOpened = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnDoorOpened);
 			onDoorOpened.SendOutputToConnectedNodes();
 		}
 
@@ -566,59 +566,59 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 	public void LinkHackNodes()
 	{
 
-		HackingNode openDoor = hackingProcess.GetNodeWithInternalIdentifier("OpenDoor");
+		HackingNode openDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor);
 		openDoor.AddToInputMethods(HackingServerOpen);
 
-		HackingNode closeDoor = hackingProcess.GetNodeWithInternalIdentifier("CloseDoor");
+		HackingNode closeDoor = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor);
 		closeDoor.AddToInputMethods(ServerClose);
 
-		HackingNode beginOpenProcedure = hackingProcess.GetNodeWithInternalIdentifier("BeginOpenProcedure");
+		HackingNode beginOpenProcedure = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.BeginOpenProcedure);
 		beginOpenProcedure.AddToInputMethods(ServerTryOpen);
 
-		HackingNode beginCloseProcedure = hackingProcess.GetNodeWithInternalIdentifier("BeginCloseProcedure");
+		HackingNode beginCloseProcedure = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.BeginCloseProcedure);
 		beginCloseProcedure.AddToInputMethods(ServerTryClose);
 
-		HackingNode onAttemptOpen = hackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
+		HackingNode onAttemptOpen = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnAttemptOpen);
 		onAttemptOpen.AddConnectedNode(beginOpenProcedure);
 
-		HackingNode onAttemptClose = hackingProcess.GetNodeWithInternalIdentifier("OnAttemptClose");
+		HackingNode onAttemptClose = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnAttemptClose);
 		onAttemptClose.AddConnectedNode(beginCloseProcedure);
 
-		HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier("OnShouldOpen");
+		HackingNode onShouldOpen = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldOpen);
 		onShouldOpen.AddWireCutCallback(ServerElectrocute);
 		onShouldOpen.AddConnectedNode(openDoor);
 
-		HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier("OnShouldClose");
+		HackingNode onShouldClose = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnShouldClose);
 		onShouldClose.AddWireCutCallback(ServerElectrocute);
 		onShouldClose.AddConnectedNode(closeDoor);
 
-		HackingNode acceptID = hackingProcess.GetNodeWithInternalIdentifier("AcceptId");
+		HackingNode acceptID = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.AcceptId);
 
-		HackingNode rejectID = hackingProcess.GetNodeWithInternalIdentifier("RejectID");
+		HackingNode rejectID = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.RejectId);
 		rejectID.AddToInputMethods(ServerAccessDenied);
 
-		HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier("OnIDRejected");
+		HackingNode onIDRejected = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnIdRejected);
 		onIDRejected.AddConnectedNode(rejectID);
 
-		HackingNode doPressureWarning = hackingProcess.GetNodeWithInternalIdentifier("DoPressureWarning");
+		HackingNode doPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DoPressureWarning);
 		doPressureWarning.AddToInputMethods(ServerPressureWarn);
 
-		HackingNode shouldDoPressureWarning = hackingProcess.GetNodeWithInternalIdentifier("ShouldDoPressureWarning");
+		HackingNode shouldDoPressureWarning = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.ShouldDoPressureWarning);
 		shouldDoPressureWarning.AddConnectedNode(doPressureWarning);
 
-		HackingNode onDoorOpened = hackingProcess.GetNodeWithInternalIdentifier("OnDoorOpened");
+		HackingNode onDoorOpened = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnDoorOpened);
 
-		HackingNode onDoorClosed = hackingProcess.GetNodeWithInternalIdentifier("OnDoorClosed");
+		HackingNode onDoorClosed = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OnDoorClosed);
 
-		HackingNode powerIn = hackingProcess.GetNodeWithInternalIdentifier("PowerIn");
+		HackingNode powerIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerIn);
 
-		HackingNode powerOut = hackingProcess.GetNodeWithInternalIdentifier("PowerOut");
+		HackingNode powerOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.PowerOut);
 		powerOut.AddConnectedNode(powerIn);
 		powerOut.AddWireCutCallback(ServerElectrocute);
 
-		HackingNode dummyIn = hackingProcess.GetNodeWithInternalIdentifier("DummyIn");
+		HackingNode dummyIn = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyIn);
 
-		HackingNode dummyOut = hackingProcess.GetNodeWithInternalIdentifier("DummyOut");
+		HackingNode dummyOut = hackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.DummyOut);
 		dummyOut.AddConnectedNode(dummyIn);
 
 		hackingLoaded = true;

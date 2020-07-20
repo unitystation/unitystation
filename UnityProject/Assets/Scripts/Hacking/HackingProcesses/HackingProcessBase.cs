@@ -139,9 +139,9 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		}
 	}
 
-	public HackingNode GetNodeWithInternalIdentifier(string identifier)
+	public HackingNode GetNodeWithInternalIdentifier(HackingIdentifier identifier)
 	{
-		return hackNodes.Find(x => x.InternalIdentifier.Equals(identifier));
+		return hackNodes.Find(x => x.InternalIdentifier == identifier);
 	}
 
 	/// <summary>
