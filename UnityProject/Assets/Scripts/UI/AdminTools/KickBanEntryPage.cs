@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using System.Linq;
 using Mirror;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace AdminTools
 {
@@ -261,7 +262,22 @@ namespace AdminTools
 						if (jobObject.jobName.text == jobsBanned.job.ToString())
 						{
 							jobObject.bannedStatus.SetActive(true);
-							jobObject.banTime.text = jobsBanned.isPerma ? "Perma Banned" : $"{jobsBanned.minutes}";
+
+							var msg = "";
+
+							if (jobsBanned.isPerma)
+							{
+								msg = "Perma Banned";
+							}
+							else
+							{
+								var entryTime = DateTime.ParseExact(jobsBanned.dateTimeOfBan,"O",CultureInfo.InvariantCulture);
+								var totalMins = Mathf.Abs((float)(entryTime - DateTime.Now).TotalMinutes);
+
+								msg = $"{Mathf.RoundToInt((float)jobsBanned.minutes - totalMins)} minutes left";
+							}
+
+							jobObject.banTime.text = msg;
 							jobObject.unbannedStatus.SetActive(false);
 							break;
 						}

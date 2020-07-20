@@ -22,7 +22,7 @@ namespace Disposals
 		const int AUTO_FLUSH_DELAY = 2;
 		const float ANIMATION_TIME = 1.3f; // As per sprite sheet JSON file.
 
-		[SerializeField] AudioSource rechargeSFX;
+		[SerializeField] AudioSource rechargeSFX = null;
 
 		HasNetworkTab netTab;
 		SpriteHandler overlaysSpriteHandler;
@@ -224,6 +224,16 @@ namespace Disposals
 			return baseString;
 		}
 
+		public void PlayerTryClimbingOut(GameObject player)
+		{
+			if (BinFlushing) return;
+
+			if (player.TryGetComponent(out ObjectBehaviour playerBehaviour))
+			{
+				EjectPlayer(playerBehaviour);
+			}
+		}
+
 		#endregion Interactions
 
 		void StoreItem()
@@ -281,6 +291,12 @@ namespace Disposals
 			this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
 		}
 
+		void EjectPlayer(ObjectBehaviour playerBehaviour)
+		{
+			if (virtualContainer == null) return;
+			virtualContainer.RemovePlayer(playerBehaviour);
+		}
+
 		#region UI
 
 		public void FlushContents()
@@ -291,6 +307,7 @@ namespace Disposals
 		public void EjectContents()
 		{
 			if (autoFlushCoroutine != null) StopCoroutine(autoFlushCoroutine);
+			if (BinFlushing) return;
 			if (virtualContainer == null) return;
 
 			Despawn.ServerSingle(virtualContainer.gameObject);
@@ -362,8 +379,12 @@ namespace Disposals
 			// Bin orifice closed. Release the charge.
 			chargePressure = 0;
 			SoundManager.PlayNetworkedAtPos("DisposalMachineFlush", registerObject.WorldPositionServer, sourceObj: gameObject);
-			if (virtualContainer != null) DisposalsManager.Instance.NewDisposal(virtualContainer);
-			virtualContainer = null;
+			if (virtualContainer != null)
+			{
+				virtualContainer.GetComponent<ObjectBehaviour>().parentContainer = null;
+				DisposalsManager.Instance.NewDisposal(virtualContainer);
+				virtualContainer = null;
+			}
 
 			// Restore charge.
 			binState = BinState.Recharging;

@@ -229,7 +229,7 @@ public class StationGateway : NetworkBehaviour, IAPCPowered
 	[Server]
 	public virtual void TransportPlayers(ObjectBehaviour player)
 	{
-		var newPosition = selectedWorld.Position;
+		var newPosition = selectedWorld.registerTile.WorldPosition;
 		if (selectedWorld.OverrideCoord != Vector3Int.zero)
 		{
 			newPosition = selectedWorld.OverrideCoord;
@@ -242,7 +242,7 @@ public class StationGateway : NetworkBehaviour, IAPCPowered
 	[Server]
 	public virtual void TransportObjectsItems(ObjectBehaviour objectsitems)
 	{
-		var newPosition = selectedWorld.Position;
+		var newPosition = selectedWorld.registerTile.WorldPosition;
 		if (selectedWorld.OverrideCoord != Vector3Int.zero)
 		{
 			newPosition = selectedWorld.OverrideCoord;

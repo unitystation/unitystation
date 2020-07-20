@@ -131,6 +131,7 @@ namespace Disposals
 		public void ServerReceiveAndEjectContainer(DisposalVirtualContainer virtualContainer)
 		{
 			receivedContainers.Add(virtualContainer);
+			virtualContainer.GetComponent<ObjectBehaviour>().parentContainer = objectBehaviour;
 			if (!OutletOperating) StartCoroutine(RunEjectionSequence());
 		}
 

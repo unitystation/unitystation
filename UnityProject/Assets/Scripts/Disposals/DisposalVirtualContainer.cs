@@ -82,6 +82,34 @@ namespace Disposals
 
 		#endregion AddContents
 
+		#region RemoveContents
+
+		public void RemoveItem(ObjectBehaviour item)
+		{
+			if (containedItems.Remove(item))
+			{
+				EjectItemOrObject(item);
+			}
+		}
+
+		public void RemoveObject(ObjectBehaviour entity)
+		{
+			if (containedObjects.Remove(entity))
+			{
+				EjectItemOrObject(entity);
+			}
+		}
+
+		public void RemovePlayer(ObjectBehaviour player)
+		{
+			if (containedPlayers.Remove(player))
+			{
+				EjectPlayer(player);
+			}
+		}
+
+		#endregion RemoveContents
+
 		#region EjectContents
 
 		void EjectContainedItems()
@@ -214,6 +242,24 @@ namespace Disposals
 		}
 
 		#endregion EjectContents
+
+		public void PlayerTryEscaping(GameObject player)
+		{
+			if (!player.TryGetComponent(out ObjectBehaviour playerBehaviour)) return;
+			if (!containedPlayers.Contains(playerBehaviour)) return;
+
+			GameObject disposalMachine = ContainerBehaviour.parentContainer?.gameObject;
+			if (disposalMachine == null)
+			{
+				// Must be in the disposal pipes
+				SoundManager.PlayNetworkedAtPos("Clang", ContainerWorldPosition);
+			}
+			else if (disposalMachine.TryGetComponent(out DisposalBin disposalBin))
+			{
+				// In a disposal bin
+				disposalBin.PlayerTryClimbingOut(player);
+			}
+		}
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
