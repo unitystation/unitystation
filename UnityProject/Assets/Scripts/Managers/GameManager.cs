@@ -59,7 +59,7 @@ public partial class GameManager : MonoBehaviour
 	/// <summary>
 	/// True if the server allows gibbing people when they receive enough post-mortem damage.
 	/// </summary>
-	public bool AllowGibbing { get; set; }
+	public bool GibbingAllowed { get; set; }
 
 	/// <summary>
 	/// The game mode that the server will switch to at round end if no mode or an invalid mode is selected.
@@ -155,8 +155,8 @@ public partial class GameManager : MonoBehaviour
 		if(GameConfigManager.GameConfig.ShuttleDepartTime != null)
 			ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
 
-		if (GameConfigManager.GameConfig.AllowGibbing != null)
-			AllowGibbing = GameConfigManager.GameConfig.AllowGibbing;
+		if (GameConfigManager.GameConfig.GibbingAllowed != null)
+			GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
 	}
 
 	private void OnEnable()

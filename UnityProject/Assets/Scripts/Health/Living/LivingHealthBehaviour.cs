@@ -368,7 +368,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
-		if (IsDead && GameManager.Instance.AllowGibbing)
+		if (IsDead && GameManager.Instance.GibbingAllowed)
 		{
 			afterDeathDamage += damage;
 			if (afterDeathDamage >= GIB_THRESHOLD)
