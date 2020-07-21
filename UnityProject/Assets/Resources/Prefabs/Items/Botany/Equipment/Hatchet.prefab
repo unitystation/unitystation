@@ -96,7 +96,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: d498978eac9a5784eb974e6bf69db183, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &5970802900729141845
@@ -223,26 +224,6 @@ MonoBehaviour:
   - hacked
   - cut
   itemSprites:
-    LeftHand:
-      Texture: {fileID: 2800000, guid: 7f2449860690c2943aae8727fec3cf4f, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 7f2449860690c2943aae8727fec3cf4f, type: 3}
-      - {fileID: 21300002, guid: 7f2449860690c2943aae8727fec3cf4f, type: 3}
-      - {fileID: 21300004, guid: 7f2449860690c2943aae8727fec3cf4f, type: 3}
-      - {fileID: 21300006, guid: 7f2449860690c2943aae8727fec3cf4f, type: 3}
-      EquippedData: {fileID: 4900000, guid: b45ae6d579b7b324ca1398756e6406a4, type: 3}
-    RightHand:
-      Texture: {fileID: 2800000, guid: ec978adab3d379a49838bfdebd8aa951, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: ec978adab3d379a49838bfdebd8aa951, type: 3}
-      - {fileID: 21300002, guid: ec978adab3d379a49838bfdebd8aa951, type: 3}
-      - {fileID: 21300004, guid: ec978adab3d379a49838bfdebd8aa951, type: 3}
-      - {fileID: 21300006, guid: ec978adab3d379a49838bfdebd8aa951, type: 3}
-      EquippedData: {fileID: 4900000, guid: f079e87430ab5be4ca96494fd86c9942, type: 3}
-    InventoryIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 11400000, guid: 7b17c79f21e52db47a981330dabb2878, type: 2}
     SpriteRightHand: {fileID: 11400000, guid: e508df270368a364cba77dd5a3c99c60, type: 2}
@@ -405,7 +386,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!114 &-3445058822612490815
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -94,12 +94,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: dd6b907e4d87b644fbc22a5256ce14b8, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []
 --- !u!1 &1000014202525198
 GameObject:
   m_ObjectHideFlags: 0
@@ -182,6 +182,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114762163834158284
@@ -204,7 +205,6 @@ MonoBehaviour:
   spriteOpenedEmpty: {fileID: 21300000, guid: 72f3160d203064a47a9c8977f2ba6d55, type: 3}
   spriteOpenedOccupied: {fileID: 21300000, guid: 80f663137c3e2744b9c01da90bedacc9,
     type: 3}
-  spriteRenderer: {fileID: 212000010741384228}
 --- !u!114 &114838689195169320
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -284,6 +284,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114791282851611692
 MonoBehaviour:

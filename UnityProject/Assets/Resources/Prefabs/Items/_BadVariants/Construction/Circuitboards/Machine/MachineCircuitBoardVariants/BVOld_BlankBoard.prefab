@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
         type: 3}
       propertyPath: m_Name
-      value: BlankBoard
+      value: BVOld_BlankBoard
       objectReference: {fileID: 0}
     - target: {fileID: 377913919602810433, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
         type: 3}
@@ -78,5 +78,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d653fb3948ef33c4c9e28afd6689a069,
         type: 3}
+    - target: {fileID: 5794729342418229426, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1677f7d835d1df44cb20731065d5c039,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3882f9f8fa1bc0a48bcff27ead25d775, type: 3}

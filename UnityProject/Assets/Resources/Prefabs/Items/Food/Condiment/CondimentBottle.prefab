@@ -97,6 +97,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!114 &-5003536389538966795
@@ -296,6 +297,12 @@ PrefabInstance:
       propertyPath: ExamineContent
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6892427266313963264, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aa747bddfc05abe42befbe9631375bf2,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3, type: 3}
 --- !u!1 &8437426176302514975 stripped

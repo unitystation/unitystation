@@ -72,6 +72,16 @@ public class SpriteHandlerManager : NetworkBehaviour
 		//}
 	}
 
+	public void UpdateNewPlayer(NetworkConnection requestedBy)
+	{
+		SpriteUpdateMessage.SendToSpecified(requestedBy, NewClientChanges);
+	}
+
+	public override void OnStartClient()
+	{
+
+		base.OnStartClient();
+	}
 
 	void LateUpdate()
 	{
@@ -83,10 +93,16 @@ public class SpriteHandlerManager : NetworkBehaviour
 	{
 		if (QueueChanges.Count > 0)
 		{
-			Logger.Log(QueueChanges.Count.ToString());
+			//Logger.Log(QueueChanges.Count.ToString());
+			//32767 Number of management characters
+			//Assuming 50 characters per change
+			//655.34‬ changes
+			//worst-case scenario 600
+			//maybe bring down to 500
 			SpriteUpdateMessage.SendToAll(QueueChanges);
 		}
 	}
+
 
 	public void MergeUpdates()
 	{
@@ -160,7 +176,9 @@ public class SpriteHandlerManager : NetworkBehaviour
 		public bool PushTexture = false;
 		public bool Empty = false;
 		public bool PushClear = false;
+		public bool ClearPallet = false;
 		public Color? SetColour = null;
+		public List<Color> Pallet = null;
 
 		public void Clean()
 		{
@@ -170,7 +188,9 @@ public class SpriteHandlerManager : NetworkBehaviour
 			PushTexture = false;
 			Empty = false;
 			PushClear = false;
+			ClearPallet = false;
 			SetColour = null;
+			Pallet = null;
 		}
 
 
@@ -178,6 +198,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 		{
 			if (spriteChange.PresentSpriteSet != -1)
 			{
+				if (Empty) Empty = false;
 				PresentSpriteSet = spriteChange.PresentSpriteSet;
 			}
 
@@ -193,16 +214,25 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 			if (spriteChange.PushTexture)
 			{
+				if (PushClear) PushClear = false;
 				PushTexture = spriteChange.PushTexture;
 			}
 
 			if (spriteChange.Empty)
 			{
+				if (PresentSpriteSet != -1) PresentSpriteSet = -1;
 				Empty = spriteChange.Empty;
+			}
+
+			if (spriteChange.ClearPallet)
+			{
+				if (Pallet != null) Pallet = null;
+				ClearPallet = spriteChange.ClearPallet;
 			}
 
 			if (spriteChange.PushClear)
 			{
+				if (PushTexture) PushTexture = false;
 				PushClear = spriteChange.PushClear;
 			}
 
@@ -211,13 +241,57 @@ public class SpriteHandlerManager : NetworkBehaviour
 				SetColour = spriteChange.SetColour;
 			}
 
+			if (spriteChange.Pallet != null)
+			{
+				if (ClearPallet) ClearPallet = false;
+				Pallet = spriteChange.Pallet;
+			}
+
 			if (pool)
 			{
 				PooledSpriteChange.Add(spriteChange);
 			}
 		}
 
+		public override string ToString()
+		{
+			var ST = "";
+			if (PresentSpriteSet != -1)
+			{
+				ST = ST + " PresentSpriteSet > " + PresentSpriteSet;
+			}
 
+			if (VariantIndex != -1)
+			{
+				ST = ST + " VariantIndex > " + VariantIndex;
+			}
 
+			if (CataloguePage != -1)
+			{
+				ST = ST + " CataloguePage > " + CataloguePage;
+			}
+
+			if (PushTexture)
+			{
+				ST = ST + " PushTexture > " + PushTexture;
+			}
+
+			if (Empty)
+			{
+				ST = ST + " Empty > " + Empty;
+			}
+
+			if (PushClear)
+			{
+				ST = ST + " PushClear > " + PushClear;
+			}
+
+			if (SetColour != null)
+			{
+				ST = ST + " SetColour > " + SetColour;
+			}
+
+			return ST;
+		}
 	}
 }

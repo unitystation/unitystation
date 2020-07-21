@@ -96,7 +96,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 636d4fa9401f7f941aeeab177218ce2f, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &3316681435353372143
@@ -195,7 +196,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 636d4fa9401f7f941aeeab177218ce2f, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &3660446284187291226
@@ -294,7 +296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 636d4fa9401f7f941aeeab177218ce2f, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &4135708183126017425
@@ -394,6 +397,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &7612104657099383030
@@ -492,7 +496,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 636d4fa9401f7f941aeeab177218ce2f, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1001 &3520465010449138795
@@ -512,6 +517,12 @@ PrefabInstance:
       propertyPath: SmartGun
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4598361863285954486, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bd0a45a603c7cf14990a7d525ffb9bab,
+        type: 2}
     - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Sprite

@@ -22,8 +22,6 @@ public class SpriteHandler : MonoBehaviour
 	[SerializeField] private SpriteDataSO PresentSpriteSet = null;
 	private SpriteDataSO.Frame PresentFrame = null;
 
-	public List<TMPEE> Sprites;
-
 	private SpriteRenderer spriteRenderer;
 	private Image image;
 
@@ -45,6 +43,8 @@ public class SpriteHandler : MonoBehaviour
 
 	private NetworkIdentity NetworkIdentity;
 
+	private bool subCatalogueChanged = false;
+
 	public NetworkIdentity GetMasterNetID()
 	{
 		return NetworkIdentity;
@@ -54,18 +54,24 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (SubCataloguePage == cataloguePage) return;
 
-		if ((SubCataloguePage >= SubCatalogue.Count ))
+		if ((SubCataloguePage >= SubCatalogue.Count))
 		{
 			Logger.LogError("new SubCataloguePage Is out of bounds on " + this.transform.parent.gameObject);
 			return;
 		}
 
 		cataloguePage = SubCataloguePage;
-		SetSpriteSO(SubCatalogue[SubCataloguePage], Network: Network);
-
-		if (Network)
+		if (subCatalogueChanged)
 		{
-			NetUpdate(NewCataloguePage : SubCataloguePage);
+			SetSpriteSO(SubCatalogue[SubCataloguePage], Network: true);
+		}
+		else
+		{
+			SetSpriteSO(SubCatalogue[SubCataloguePage], Network: false);
+			if (Network)
+			{
+				NetUpdate(NewCataloguePage: SubCataloguePage);
+			}
 		}
 	}
 
@@ -85,14 +91,13 @@ public class SpriteHandler : MonoBehaviour
 
 		if (color != null)
 		{
-			SetColor(color.GetValueOrDefault(Color.white),Network);
+			SetColor(color.GetValueOrDefault(Color.white), Network);
 		}
 
 		if (NewvariantIndex > -1)
 		{
-			ChangeSpriteVariant(NewvariantIndex,Network);
+			ChangeSpriteVariant(NewvariantIndex, Network);
 		}
-
 	}
 
 
@@ -150,20 +155,36 @@ public class SpriteHandler : MonoBehaviour
 		SetImageColor(value);
 		if (NetWork)
 		{
-			NetUpdate(NewSetColour : value);
+			NetUpdate(NewSetColour: value);
 		}
 	}
 
-	public void Empty(bool Network = true)
+	public void ClearPallet(bool Network = true)
 	{
-		if (HasSpriteInImageComponent() == false && SubCatalogue.Count == 0 && PresentSpriteSet == null) return;
+		if (palette == null) return;
+		palette = null;
+
+		if (Network)
+		{
+			NetUpdate(NewClearPallet: true);
+		}
+	}
+
+	public void Empty(bool ClearSubCatalogue = false, bool Network = true)
+	{
+		if (ClearSubCatalogue)
+		{
+			SubCatalogue = new List<SpriteDataSO>();
+		}
+
+		if (HasSpriteInImageComponent() == false && PresentSpriteSet == null) return;
 
 		PushClear(false);
 		PresentSpriteSet = null;
-		SubCatalogue = new List<SpriteDataSO>();
+
 		if (Network)
 		{
-			NetUpdate(NewEmpty : true);
+			NetUpdate(NewEmpty: true);
 		}
 	}
 
@@ -175,36 +196,36 @@ public class SpriteHandler : MonoBehaviour
 		TryToggleAnimationState(false);
 		if (Network)
 		{
-			NetUpdate( NewPushClear : true );
+			NetUpdate(NewPushClear: true);
 		}
 	}
 
 
+	/// <summary>
+	/// Sets the sprite catalogue for server side only, Any calls to ChangeSprite Will automatically be networked In a different way
+	/// </summary>
+	/// <param name="NewCatalogue"></param>
+	/// <param name="JumpToPage"></param>
+	/// <param name="NetWork"></param>
 	public void SetCatalogue(List<SpriteDataSO> NewCatalogue, int JumpToPage = -1, bool NetWork = true)
 	{
-		Logger.LogError("Not networked yet SetCatalogue");
+		subCatalogueChanged = true;
 		SubCatalogue = NewCatalogue;
 		cataloguePage = JumpToPage;
 		if (cataloguePage > -1)
 		{
-			ChangeSprite(JumpToPage, false);
-		}
-
-		if (NetWork)
-		{
-			//NetUpdate();
+			ChangeSprite(JumpToPage, NetWork);
 		}
 	}
 
-	public void SetPaletteOfCurrentSprite(List<Color> newPalette)
+	public void SetPaletteOfCurrentSprite(List<Color> newPalette, bool Network = true)
 	{
-		if (isPaletted())
+		palette = newPalette;
+		PushTexture(false);
+		if (Network)
 		{
-			palette = newPalette;
-			PushTexture();
+			NetUpdate(NewPalette: palette);
 		}
-
-		Logger.LogError("Not networked yet SetPaletteOfCurrentSprite");
 	}
 
 	public void PushTexture(bool NetWork = true)
@@ -212,9 +233,13 @@ public class SpriteHandler : MonoBehaviour
 		if (Initialised == false) return;
 		if (PresentSpriteSet != null && PresentSpriteSet.Variance.Count > 0)
 		{
-			if (variantIndex < PresentSpriteSet.Variance.Count &&
-			    animationIndex < PresentSpriteSet.Variance[variantIndex].Frames.Count)
+			if (variantIndex < PresentSpriteSet.Variance.Count)
 			{
+				if (animationIndex >= PresentSpriteSet.Variance[variantIndex].Frames.Count)
+				{
+					animationIndex = 0;
+				}
+
 				var Frame = PresentSpriteSet.Variance[variantIndex].Frames[animationIndex];
 
 				SetSprite(Frame);
@@ -222,7 +247,7 @@ public class SpriteHandler : MonoBehaviour
 				TryToggleAnimationState(PresentSpriteSet.Variance[variantIndex].Frames.Count > 1);
 				if (NetWork)
 				{
-					NetUpdate( NewPushTexture : true );
+					NetUpdate(NewPushTexture: true);
 					//NetWork this a poke Basically
 				}
 
@@ -233,7 +258,7 @@ public class SpriteHandler : MonoBehaviour
 
 		if (NetWork && HasSpriteInImageComponent())
 		{
-			NetUpdate( NewPushTexture : true );
+			NetUpdate(NewPushTexture: true);
 		}
 
 		SetImageSprite(null);
@@ -247,18 +272,28 @@ public class SpriteHandler : MonoBehaviour
 		bool NewPushTexture = false,
 		bool NewEmpty = false,
 		bool NewPushClear = false,
-		Color? NewSetColour = null)
+		bool NewClearPallet = false,
+		Color? NewSetColour = null,
+		List<Color> NewPalette = null)
 	{
+		if (NetworkThis == false) return;
 		if (SpriteHandlerManager.Instance == null) return;
 		if (NetworkIdentity == null)
 		{
 			NetworkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject)?.netIdentity;
+			if (NetworkIdentity == null)
+			{
+				Logger.LogError("Was unable to find A NetworkBehaviour for " + gameObject.name,
+					Category.SpriteHandler);
+			}
 		}
+
 		if (NetworkIdentity.netId == 0)
 		{
 			//Logger.Log("ID hasn't been set for " + this.transform.parent);
 			return;
 		}
+
 		if (CustomNetworkManager.Instance._isServer == false) return;
 
 		SpriteHandlerManager.SpriteChange spriteChange = null;
@@ -278,6 +313,7 @@ public class SpriteHandler : MonoBehaviour
 			{
 				Logger.Log("NewSpriteDataSO NO ID!" + NewSpriteDataSO.name);
 			}
+			if (spriteChange.Empty) spriteChange.Empty = false;
 			spriteChange.PresentSpriteSet = NewSpriteDataSO.setID;
 		}
 
@@ -293,17 +329,26 @@ public class SpriteHandler : MonoBehaviour
 
 		if (NewPushTexture)
 		{
+			if (spriteChange.PushClear) spriteChange.PushClear = false;
 			spriteChange.PushTexture = NewPushTexture;
 		}
 
 		if (NewEmpty)
 		{
+			if (spriteChange.PresentSpriteSet != -1) spriteChange.PresentSpriteSet = -1;
 			spriteChange.Empty = NewEmpty;
 		}
 
 		if (NewPushClear)
 		{
+			if (spriteChange.PushTexture) spriteChange.PushTexture = false;
 			spriteChange.PushClear = NewPushClear;
+		}
+
+		if (NewClearPallet)
+		{
+			if (spriteChange.Pallet != null) spriteChange.Pallet = null;
+			spriteChange.ClearPallet = NewClearPallet;
 		}
 
 		if (NewSetColour != null)
@@ -311,9 +356,14 @@ public class SpriteHandler : MonoBehaviour
 			spriteChange.SetColour = NewSetColour;
 		}
 
+		if (NewPalette != null)
+		{
+			if (spriteChange.ClearPallet) spriteChange.ClearPallet = false;
+			spriteChange.Pallet = NewPalette;
+		}
+
 		SpriteHandlerManager.Instance.QueueChanges[this] = spriteChange;
 	}
-
 
 
 	void Awake()
@@ -342,7 +392,7 @@ public class SpriteHandler : MonoBehaviour
 			MaterialPropertyBlock block = new MaterialPropertyBlock();
 			spriteRenderer.GetPropertyBlock(block);
 			var palette = getPaletteOrNull();
-			if (palette != null)
+			if (palette != null && palette.Count == 8)
 			{
 				List<Vector4> pal = palette.ConvertAll<Vector4>((Color c) => new Vector4(c.r, c.g, c.b, c.a));
 				block.SetVectorArray("_ColorPalette", pal);
@@ -403,7 +453,7 @@ public class SpriteHandler : MonoBehaviour
 		{
 			if (HasImageComponent())
 			{
-				PushTexture();
+				PushTexture(false);
 			}
 		}
 
@@ -424,7 +474,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private void OnEnable()
 	{
-		if (Application.isPlaying)
+		if (Application.isPlaying && NetworkThis)
 		{
 			NetworkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject)?.netIdentity;
 			SpriteHandlerManager.RegisterHandler(this.NetworkIdentity, this);
@@ -566,9 +616,10 @@ public class SpriteHandler : MonoBehaviour
 	}
 #endif
 
-	[System.Serializable]
-	public class TMPEE
+	public int NumberOfCharacters;
+	[NaughtyAttributes.Button]
+	public void TestNetwork()
 	{
-		public Texture2D Texture;
+		Testmessage.SendToAll(NumberOfCharacters);
 	}
 }

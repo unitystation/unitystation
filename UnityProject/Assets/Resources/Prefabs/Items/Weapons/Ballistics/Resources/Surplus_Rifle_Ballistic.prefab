@@ -96,7 +96,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 3514c3344006bd84ba65fc06f443492d, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!114 &2223648138967057017
@@ -145,6 +146,12 @@ PrefabInstance:
       propertyPath: MagSize
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3623955159015093207, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 75774c38f08b435498e156af60149724,
+        type: 2}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialTraits.Array.size

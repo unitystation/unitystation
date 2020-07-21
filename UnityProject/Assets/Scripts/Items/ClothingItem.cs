@@ -126,14 +126,14 @@ public class ClothingItem : MonoBehaviour
 	public void RefreshFromClothing(ClothingV2 clothing)
 	{
 		spriteHandler.SetCatalogue(clothing.SpriteDataSO);
-
+		spriteHandler.ChangeSprite(clothing.SpriteInfoState);
 		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
 		if (palette != null)
 		{
-			spriteHandler.SetPaletteOfCurrentSprite(palette);
+			spriteHandler.SetPaletteOfCurrentSprite(palette,  Network:false);
 		}
 
-		spriteHandler.ChangeSprite(clothing.SpriteInfoState);
+
 		PushTexture();
 	}
 
@@ -191,8 +191,7 @@ public class ClothingItem : MonoBehaviour
 				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, Network:false);
 			}
 
-			//spriteHandler.isPaletteds = new List<bool>() { _ItemsSprites.IsPaletted };
-			//spriteHandler.spriteData.palettes = new List<List<Color>>() { new List<Color>(_ItemsSprites.Palette) };
+			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette,  Network:false);
 		}
 	}
 }

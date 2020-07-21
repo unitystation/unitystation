@@ -109,8 +109,8 @@ public class ClothingV2 : NetworkBehaviour
 	{
 		if (myItem.ItemSprites.IsPaletted)
 		{
-			//myItem.SetPaletteOfCurrentSprite(palette);
-			clothingItem?.spriteHandler.SetPaletteOfCurrentSprite(palette);
+			//	myItem.SetPaletteOfCurrentSprite(palette);
+			clothingItem?.spriteHandler.SetPaletteOfCurrentSprite(palette,  Network:false);
 			myPickupable.SetPalette(palette);
 		}
 	}

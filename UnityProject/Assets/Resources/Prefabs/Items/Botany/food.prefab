@@ -15,6 +15,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!114 &-9006715302198902684
@@ -36,15 +37,6 @@ MonoBehaviour:
     Name: 
     Plantname: 
     Description: 
-    GrowthSprites: []
-    FullyGrownSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     DeadSpriteSO: {fileID: 0}
     FullyGrownSpriteSO: {fileID: 0}
     GrowthSpritesSOs: []
@@ -57,7 +49,6 @@ MonoBehaviour:
     Lifespan: 25
     PlantTrays: 
     ReagentProduction: []
-    MutatesInTo: []
     MutatesInToGameObject: []
     plantEvolveStats:
       WeedResistanceChange: 0

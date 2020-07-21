@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 857255010654170825, guid: 715397a6849283647b0376831a94275f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9737a86db019e3f4a9ab8880703cddc1,
+        type: 2}
     - target: {fileID: 5731252857663708646, guid: 715397a6849283647b0376831a94275f,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -48,7 +54,7 @@ PrefabInstance:
     - target: {fileID: 6819448004560655694, guid: 715397a6849283647b0376831a94275f,
         type: 3}
       propertyPath: m_Name
-      value: CoffeeCup
+      value: BVOld_CoffeeCup
       objectReference: {fileID: 0}
     - target: {fileID: 6822964380556191802, guid: 715397a6849283647b0376831a94275f,
         type: 3}

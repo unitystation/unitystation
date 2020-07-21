@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 40
-  m_Sprite: {fileID: 21300000, guid: 82b3130ba6eb4588bb385d6caa76b70e, type: 3}
+  m_Sprite: {fileID: 21300000, guid: ca8d48aef5864fe44a9e3788a4e41086, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -79,7 +79,7 @@ SpriteRenderer:
   m_Size: {x: 0.32, y: 0.32}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &6254099620655329255
@@ -96,7 +96,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: f319abe1054c0a44f818e35c9ab66460, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &255888583153570912
@@ -226,26 +227,6 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   itemSprites:
-    LeftHand:
-      Texture: {fileID: 2800000, guid: 3f263511f60bd4349b739e2e1df263a2, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 3f263511f60bd4349b739e2e1df263a2, type: 3}
-      - {fileID: 21300002, guid: 3f263511f60bd4349b739e2e1df263a2, type: 3}
-      - {fileID: 21300004, guid: 3f263511f60bd4349b739e2e1df263a2, type: 3}
-      - {fileID: 21300006, guid: 3f263511f60bd4349b739e2e1df263a2, type: 3}
-      EquippedData: {fileID: 4900000, guid: 3cadb352ce456154ba15f9c39d50f233, type: 3}
-    RightHand:
-      Texture: {fileID: 2800000, guid: 3c4804e1c4f0732488c3696cbc1f9094, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 3c4804e1c4f0732488c3696cbc1f9094, type: 3}
-      - {fileID: 21300002, guid: 3c4804e1c4f0732488c3696cbc1f9094, type: 3}
-      - {fileID: 21300004, guid: 3c4804e1c4f0732488c3696cbc1f9094, type: 3}
-      - {fileID: 21300006, guid: 3c4804e1c4f0732488c3696cbc1f9094, type: 3}
-      EquippedData: {fileID: 4900000, guid: 8c67e4efa904b7c4ea0aa09594547d90, type: 3}
-    InventoryIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 11400000, guid: 0914cbd24cf5e6a4daa42a4fe54b1f81, type: 2}
     SpriteRightHand: {fileID: 11400000, guid: e5de2702745e01f42bc706258acfa2e8, type: 2}
@@ -408,7 +389,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!114 &2783742198044377375
 MonoBehaviour:
   m_ObjectHideFlags: 0

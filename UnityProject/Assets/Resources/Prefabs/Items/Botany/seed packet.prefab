@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: b52800fedcd7d334b8d5f9479c87340e, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!114 &2472774062389222616
@@ -37,15 +38,6 @@ MonoBehaviour:
     Name: 
     Plantname: 
     Description: 
-    GrowthSprites: []
-    FullyGrownSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     DeadSpriteSO: {fileID: 0}
     FullyGrownSpriteSO: {fileID: 0}
     GrowthSpritesSOs: []
@@ -58,7 +50,6 @@ MonoBehaviour:
     Lifespan: 0
     PlantTrays: 
     ReagentProduction: []
-    MutatesInTo: []
     MutatesInToGameObject: []
     plantEvolveStats:
       WeedResistanceChange: 0
@@ -75,8 +66,6 @@ MonoBehaviour:
     Age: 0
     NextGrowthStageProgress: 0
     Health: 0
-  defaultPlantData: {fileID: 0}
-  PlantSyncString: 
 --- !u!114 &2774677908024262517
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,6 +158,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Y
       objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b52800fedcd7d334b8d5f9479c87340e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &3867790606060242529 stripped

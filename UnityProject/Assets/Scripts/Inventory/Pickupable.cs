@@ -287,7 +287,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			var equipment = itemSlot.Player.GetComponent<Equipment>();
 			if (equipment == null) return;
 			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
-			CT.spriteHandler.SetPaletteOfCurrentSprite(palette);
+			CT.spriteHandler.SetPaletteOfCurrentSprite(palette, Network:false);
 		}
 	}
 }

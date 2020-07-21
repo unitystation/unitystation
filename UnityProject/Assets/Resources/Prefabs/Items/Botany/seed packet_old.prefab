@@ -96,7 +96,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: b4679363c2ed0fe42baa5a02f20cc240, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &1519710982558066
@@ -399,15 +400,6 @@ MonoBehaviour:
     Name: 
     Plantname: 
     Description: 
-    GrowthSprites: []
-    FullyGrownSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     DeadSpriteSO: {fileID: 0}
     FullyGrownSpriteSO: {fileID: 0}
     GrowthSpritesSOs: []
@@ -420,7 +412,6 @@ MonoBehaviour:
     Lifespan: 0
     PlantTrays: 
     ReagentProduction: []
-    MutatesInTo: []
     MutatesInToGameObject: []
     plantEvolveStats:
       WeedResistanceChange: 0
@@ -437,8 +428,6 @@ MonoBehaviour:
     Age: 0
     NextGrowthStageProgress: 0
     Health: 0
-  defaultPlantData: {fileID: 0}
-  PlantSyncString: 
 --- !u!114 &-3547164563803669629
 MonoBehaviour:
   m_ObjectHideFlags: 0

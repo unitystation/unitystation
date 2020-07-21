@@ -16,10 +16,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 
 	private Matrix Matrix => registerTile.Matrix;
 
-	[SyncVar(hook = nameof(SyncDirection))]
 	public ConveyorDirection CurrentDirection;
-
-	[SyncVar(hook = nameof(SyncStatus))]
 	public ConveyorStatus CurrentStatus;
 
 	Vector2Int[] searchDirs =

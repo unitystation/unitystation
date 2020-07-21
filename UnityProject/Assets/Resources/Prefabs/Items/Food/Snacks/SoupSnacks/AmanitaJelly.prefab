@@ -24,6 +24,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
       propertyPath: SetSpriteOnStartUp
       value: 1
       objectReference: {fileID: 0}
@@ -73,6 +78,18 @@ PrefabInstance:
       propertyPath: Sprites.Array.data[0].EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 75f71b26cb6fe3a46a5aa06a5908f470, type: 3}
+    - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8297b6db1e077e74c98f12753026b06e,
+        type: 2}
+    - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8297b6db1e077e74c98f12753026b06e,
+        type: 2}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]

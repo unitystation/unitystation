@@ -134,6 +134,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1001 &8049234173145106967
@@ -143,6 +144,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4101888782254060587, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 58a34b7963907d94fa6df9ac3078282a,
+        type: 2}
     - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
         type: 3}
       propertyPath: initialTraits.Array.size

@@ -97,6 +97,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &1797399610914514638
@@ -195,7 +196,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 3bedb1d24d41eba448cfdc7443cbdec2, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &3590867801792894552
@@ -294,7 +296,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 3bedb1d24d41eba448cfdc7443cbdec2, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &5298764134429400079
@@ -393,7 +396,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 3bedb1d24d41eba448cfdc7443cbdec2, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!1 &5824088874258883986
@@ -492,7 +496,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: 3bedb1d24d41eba448cfdc7443cbdec2, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!114 &8148534725741991052
@@ -547,6 +552,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1271333933859612166, guid: a7d5133a902792637a0a9a34499cfc91,
         type: 3}
+    - target: {fileID: 4598361863285954486, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: adbd4390cc873274bb1ea49821b18840,
+        type: 2}
     - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Sprite

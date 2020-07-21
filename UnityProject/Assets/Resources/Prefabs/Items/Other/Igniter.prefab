@@ -46,7 +46,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue: []
-  PresentSpriteSet: {fileID: 0}
+  PresentSpriteSet: {fileID: 11400000, guid: b117a2dc5dcc5ad4bbc5a343e4803b28, type: 2}
+  Sprites: []
   variantIndex: 0
   palette: []
 --- !u!212 &998952632507184908
@@ -226,7 +227,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!114 &2979056469783463524
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,18 +328,6 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   itemSprites:
-    LeftHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    RightHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InventoryIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     SpriteInventoryIcon: {fileID: 0}
     SpriteLeftHand: {fileID: 0}
     SpriteRightHand: {fileID: 0}
@@ -393,7 +381,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!114 &817688495238029135
 MonoBehaviour:
   m_ObjectHideFlags: 0
