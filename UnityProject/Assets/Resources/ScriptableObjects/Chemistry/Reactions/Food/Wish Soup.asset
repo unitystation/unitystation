@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: Wish Soup
   m_EditorClassIdentifier: 
   ingredients:
-    m_keys: []
-    m_values: 
-  useExactAmounts: 0
+    m_keys:
+    - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+    m_values: 14000000
+  useExactAmounts: 1
   catalysts:
     m_keys: []
     m_values: 
   results:
     m_keys: []
     m_values: 
-  effects: []
+  effects:
+  - {fileID: 11400000, guid: 7d3d56b54ab7a7d4c8db9f4cefd7d5c7, type: 2}
