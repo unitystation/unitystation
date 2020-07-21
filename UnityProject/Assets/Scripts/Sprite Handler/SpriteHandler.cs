@@ -615,11 +615,4 @@ public class SpriteHandler : MonoBehaviour
 		return false;
 	}
 #endif
-
-	public int NumberOfCharacters;
-	[NaughtyAttributes.Button]
-	public void TestNetwork()
-	{
-		Testmessage.SendToAll(NumberOfCharacters);
-	}
 }

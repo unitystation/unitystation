@@ -53,7 +53,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 			{
 				Logger.LogError(
 					"SpriteHandler has the same name as another SpriteHandler on the game object > " +
-					spriteHandler.transform.parent.name, Category.SpriteHandler);
+					spriteHandler.transform.parent.name + " with Net ID of " +  networkIdentity.netId , Category.SpriteHandler);
 			}
 		}
 
