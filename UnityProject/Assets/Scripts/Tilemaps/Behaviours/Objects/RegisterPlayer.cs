@@ -160,7 +160,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		}
 		// Don't slip while walking unless its enabled with "slipWhileWalking".
 		// Don't slip while player's consious state is crit, soft crit, or dead.
-		// Don't slip while the players hunger state is Malnourished, or Straving
+		// Don't slip while the players hunger state is Malnourished, or Strarving
 		if (IsSlippingServer
 			|| !slipWhileWalking && playerScript.PlayerSync.SpeedServer <= playerScript.playerMove.WalkSpeed
 			|| playerScript.playerHealth.IsCrit
