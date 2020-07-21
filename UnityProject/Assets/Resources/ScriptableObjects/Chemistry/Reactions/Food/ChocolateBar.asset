@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
-  m_Name: Meatification
+  m_Name: ChocolateBar
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7, type: 2}
-    - {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-    - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
-    m_values: 0a0000000a0000000a000000
-  useExactAmounts: 0
+    - {fileID: 11400000, guid: 0c793b26027c29a1cb5806c738a7a556, type: 2}
+    - {fileID: 11400000, guid: 0d70c7e3be7f9db159f739339ff04b3e, type: 2}
+    - {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
+    m_values: 020000000200000002000000
+  useExactAmounts: 1
   catalysts:
     m_keys: []
     m_values: 
@@ -26,4 +26,4 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   effects:
-  - {fileID: 11400000, guid: 04c77b8cd55304e45a6a4d05acf33673, type: 2}
+  - {fileID: 11400000, guid: 2c0172542abd51a499cb719cbb483e72, type: 2}

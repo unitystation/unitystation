@@ -10,20 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
-  m_Name: Meatification
+  m_Name: CheeseWheel
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7, type: 2}
-    - {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-    - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
-    m_values: 0a0000000a0000000a000000
-  useExactAmounts: 0
+    - {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
+    m_values: 28000000
+  useExactAmounts: 1
   catalysts:
-    m_keys: []
-    m_values: 
+    m_keys:
+    - {fileID: 11400000, guid: d634f341665a083d6b7627735a2c8635, type: 2}
+    m_values: 05000000
   results:
     m_keys: []
     m_values: 
   effects:
-  - {fileID: 11400000, guid: 04c77b8cd55304e45a6a4d05acf33673, type: 2}
+  - {fileID: 11400000, guid: ac772715941946d4eae9eca118a213e9, type: 2}
