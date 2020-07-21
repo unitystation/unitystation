@@ -187,6 +187,10 @@ namespace Disposals
 		public bool WillInteract(MouseDrop interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (!Validations.IsInReach(
+					interaction.Performer.RegisterTile(),
+					interaction.UsedObject.RegisterTile(),
+					side == NetworkSide.Server)) return false;
 
 			return true;
 		}
@@ -197,7 +201,7 @@ namespace Disposals
 			if (interaction.UsedObject == null) return;
 			if (!interaction.UsedObject.TryGetComponent<PlayerScript>(out var script)) return; // Test to see if player
 
-			//Dont store player unless secured so they dont get stuck.
+			// Don't store player unless secured.
 			if (!MachineSecured) return;
 			StartStoringPlayer(interaction);
 		}

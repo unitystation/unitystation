@@ -779,6 +779,27 @@ MonoBehaviour:
       TotalCreditExport: 600
   - CategoryName: Materials
     Supplies:
+    - OrderName: Firefighting Foam Tank Crate
+      CreditsCost: 1500
+      Crate: {fileID: 5015001732466038892, guid: 49467935b2f2a65438aac34a481bce03,
+        type: 3}
+      Items:
+      - {fileID: 0}
+      TotalCreditExport: 500
+    - OrderName: Fuel Tank Crate
+      CreditsCost: 800
+      Crate: {fileID: 3385388350690225477, guid: f223683e503b6d14e8ada71a7bab7247,
+        type: 3}
+      Items:
+      - {fileID: 0}
+      TotalCreditExport: 500
+    - OrderName: Large Water Tank Crate
+      CreditsCost: 1200
+      Crate: {fileID: 3126868273280614643, guid: 66f05879999b49141bbfc4e0fdc9903a,
+        type: 3}
+      Items:
+      - {fileID: 0}
+      TotalCreditExport: 500
     - OrderName: Metal Crate
       CreditsCost: 850
       Crate: {fileID: 1191069438927925888, guid: 007d9f81d20c55d479d86a1d7d4343db,
@@ -963,6 +984,13 @@ MonoBehaviour:
         type: 3}
       Items:
       - {fileID: 266178104534119887, guid: 1aff7456d9fe31693a6705676cb722f6, type: 3}
+      TotalCreditExport: 500
+    - OrderName: Water Tank Crate
+      CreditsCost: 600
+      Crate: {fileID: 9026303602175473701, guid: b087cae0f7059d946a59146ea8d0fb04,
+        type: 3}
+      Items:
+      - {fileID: 0}
       TotalCreditExport: 500
   - CategoryName: Miscellaneous
     Supplies:

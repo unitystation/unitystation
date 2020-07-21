@@ -1,0 +1,97 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &728478698268850665
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1581140313371191937, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300002, guid: cc068196e6678c0408b39c13be566079,
+        type: 3}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1622667636829309004, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1626197849799790230, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_Name
+      value: FalseWallReinforced
+      objectReference: {fileID: 0}
+    - target: {fileID: 5998840072448781685, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: spritePath
+      value: icons/obj/doors/reinf_fwall_closing
+      objectReference: {fileID: 0}
+    - target: {fileID: 7155300196636081140, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8229369143368323494, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: initialDescription
+      value: A huge chunk of reinforced metal used to separate rooms.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8229369143368323494, guid: e3fb07aeead92a74091216ef8df2c338,
+        type: 3}
+      propertyPath: initialName
+      value: reinforced wall
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e3fb07aeead92a74091216ef8df2c338, type: 3}
