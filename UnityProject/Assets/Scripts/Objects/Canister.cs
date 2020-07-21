@@ -27,6 +27,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 	public SpriteRenderer connectorRenderer;
 	public ShuttleFuelConnector connectorFuel;
 	public Sprite connectorSprite;
+	private HasNetworkTab networkTab;
 	/// <summary>
 	/// Invoked on server side when connection status changes, provides a bool indicating
 	/// if it is connected.
@@ -52,6 +53,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (container != null) return;
 		container = GetComponent<GasContainer>();
+		networkTab = GetComponent<HasNetworkTab>();
 		registerTile = GetComponent<RegisterTile>();
 		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
@@ -180,11 +182,12 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 				if (handObj.GetComponent<GasContainer>() != null)
 				{
 					//copy the containers properties over, delete the container from the player's hand
-					InsertedContainer = handObj;
 					hasContainerInserted = true;
 					Chat.AddActionMsgToChat(playerPerformer, $"You insert the {handObj.ExpensiveName()} into the canister.",
 											$"{playerPerformer.ExpensiveName()} inserts a tank into the {this.ContentsName} tank.");
-					Inventory.ServerDespawn(handObj);
+					Inventory.ServerDrop(interaction.HandSlot);
+					InsertedContainer = handObj;
+					handObj.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
 					ServerOnExternalTankInserted.Invoke(true);
 				}
 				else
@@ -227,8 +230,18 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public void EjectInsertedContainer()
 	{
-		//create a new container based on the one currently in the canister, copy the properties over to it
-		Spawn.ServerClone(InsertedContainer, this.registerTile.WorldPositionServer);
+		ItemStorage player = networkTab.LastInteractedPlayer().GetComponent<PlayerScript>().ItemStorage;
+		InsertedContainer.GetComponent<CustomNetTransform>().AppearAtPositionServer(gameObject.WorldPosServer());
+		if (player.GetNamedItemSlot(NamedSlot.rightHand) == null)
+		{
+			Inventory.ServerAdd(InsertedContainer, player.GetNamedItemSlot(NamedSlot.rightHand),
+				ReplacementStrategy.DropOther);
+		}
+		else
+		{
+			Inventory.ServerAdd(InsertedContainer, player.GetNamedItemSlot(NamedSlot.leftHand),
+				ReplacementStrategy.DropOther);
+		}
 		hasContainerInserted = false;
 		InsertedContainer = null;
 		ServerOnExternalTankInserted.Invoke(false);
