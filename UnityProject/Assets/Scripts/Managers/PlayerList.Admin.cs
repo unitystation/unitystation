@@ -804,6 +804,8 @@ public partial class PlayerList
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
+
 				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
 
 				if (isBan)
