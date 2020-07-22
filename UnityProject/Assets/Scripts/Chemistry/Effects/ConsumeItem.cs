@@ -18,8 +18,7 @@ namespace Chemistry.Effects
 			{
 				if (senderInfo.playerHolding != null)
 				{
-					InventoryMove.Despawn(senderInfo.currentSlot);
-					InventoryMove.Add(spawnItem, senderInfo.currentSlot, ReplacementStrategy.DespawnOther);
+					Inventory.ServerAdd(spawnItem, senderInfo.currentSlot, ReplacementStrategy.DespawnOther);
 				}
 				else
 				{
