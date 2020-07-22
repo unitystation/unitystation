@@ -58,6 +58,34 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 	public bool IsPlaying { get; set; } = false;
 
+
+	public string TrackPosition
+	{
+		get
+		{
+			return $"Track {currentSongTrackIndex + 1} / {audioClips.AudioClips.Length}";
+		}
+	}
+
+	public string SongName
+	{
+		get
+		{
+			string songName = audioClips.AudioClips[currentSongTrackIndex].name;
+			return $"Song : {songName.Split('_')[0]}";
+		}
+	}
+
+	public string Artist
+	{
+		get
+		{
+			string songName = audioClips.AudioClips[currentSongTrackIndex].name;
+			string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
+			return $"Artist : {artist}";
+		}
+	}
+
 	public int CurrentTrackIndex
 	{
 		get
@@ -166,7 +194,12 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	public void Stop()
 	{
 		IsPlaying = false;
-		spriteHandler.SetSprite(SpriteIdle);
+
+		if (integrity.integrity >= integrity.initialIntegrity / 2)
+			spriteHandler.SetSprite(SpriteIdle);
+		else
+			spriteHandler.SetSprite(SpriteDamaged);
+
 		audioSource.Stop();
 	}
 
@@ -200,43 +233,16 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		if (integrity.integrity <= integrity.initialIntegrity / 2)
 		{
-			spriteHandler.SetSprite(SpriteDamaged);
 			Stop();
 		}
 	}
 
-	//public void ServerPerformInteraction(HandApply interaction)
-	//{
-	//	//show the jukebox UI to the client
-	//	//TabUpdateMessage.Send(interaction.Performer, gameObject, NetTabType.Jukebox, TabAction.Open);
-	//}
-
-	//public bool WillInteract(HandApply interaction, NetworkSide side)
-	//{
-	//	if (!DefaultWillInteract.Default(interaction, side)) return false;
-
-	//	// For a future iteration, allow the jukebox to be connected to the power grid.
-	//	/*
-	//	if (interaction.HandObject == null && power.State < PowerStates.On)
-	//	{
-	//		Chat.AddLocalMsgToChat("The Jukebox doesn't seem to have power.", gameObject);
-	//		return false;
-	//	}
-	//	*/
-
-	//	return true;
-	//}
-
 	private void SetSongAndArtist()
 	{
 		List<ElementValue> valuesToSend = new List<ElementValue>();
-		valuesToSend.Add(new ElementValue() { Id = "TextTrack", Value = Encoding.UTF8.GetBytes($"Track {currentSongTrackIndex + 1} / {audioClips.AudioClips.Length}") });
-
-		string songName = audioClips.AudioClips[currentSongTrackIndex].name;
-		valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes($"Song : {songName.Split('_')[0]}") });
-
-		string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
-		valuesToSend.Add(new ElementValue() { Id = "TextArtist", Value = Encoding.UTF8.GetBytes($"Artist : {artist}") });
+		valuesToSend.Add(new ElementValue() { Id = "TextTrack", Value = Encoding.UTF8.GetBytes(TrackPosition) });
+		valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes(SongName) });
+		valuesToSend.Add(new ElementValue() { Id = "TextArtist", Value = Encoding.UTF8.GetBytes(Artist) });
 
 		// Update all UI currently opened.
 		TabUpdateMessage.SendToPeepers(gameObject, NetTabType.Jukebox, TabAction.Update, valuesToSend.ToArray());

@@ -28,6 +28,13 @@ public class GUI_Jukebox : NetTab
 		//spriteImagePlayStop.SetComplicatedValue(jukeboxController.IsPlaying ? spritePlay.name : spriteStop.name);
 	}
 
+	public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+	{
+		labelTrack.Value = jukeboxController.TrackPosition;
+		labelSong.Value = jukeboxController.SongName;
+		labelArtist.Value = jukeboxController.Artist;
+	}
+
 	// Start is called before the first frame update
 	public void Start()
 	{
