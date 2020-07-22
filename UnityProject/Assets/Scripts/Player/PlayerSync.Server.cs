@@ -849,18 +849,23 @@ public partial class PlayerSync
 		{
 			return;
 		}
-
+		
 		CheckTileSlip();
 
-		var crossedItems = MatrixManager.GetAt<ItemAttributesV2>(position, true);
-		foreach ( var crossedItem in crossedItems )
-		{
-			if ( crossedItem.HasTrait( CommonTraits.Instance.Slippery ) )
-			{
-				registerPlayer.ServerSlip( slipWhileWalking: true );
-			}
-		}
-	}
+		var shoeSlot = playerScript.ItemStorage.GetNamedItemSlot( NamedSlot.feet );
+
+		bool slipProtection = !shoeSlot.IsEmpty && shoeSlot.ItemAttributes.HasTrait( CommonTraits.Instance.NoSlip );
+
+		if (slipProtection) return;
+			var crossedItems = MatrixManager.GetAt<ItemAttributesV2>(position, true);
+            foreach ( var crossedItem in crossedItems )
+            {
+                if ( crossedItem.HasTrait( CommonTraits.Instance.Slippery ) )
+                {
+                    registerPlayer.ServerSlip( slipWhileWalking: true );
+                }
+            }
+        }
 
 	public void CheckTileSlip()
 	{
