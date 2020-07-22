@@ -24,6 +24,10 @@ public class GenerateSpriteSO : EditorWindow
 		//	DirSearch_ex3Prefab(Application.dataPath + "/Resources/Prefabs/Items"); //
 		//
 		AssetDatabase.StartAssetEditing();
+		DirSearch_ex3(Application.dataPath + "/Textures");
+		AssetDatabase.StopAssetEditing();
+		AssetDatabase.SaveAssets();
+		return;
 		var pathe = Application.dataPath + "/Resources/Prefabs";
 		var aDDll = LoadAllPrefabsOfType<SpriteHandler>(pathe);
 		foreach (var SH in aDDll)
@@ -56,8 +60,7 @@ public class GenerateSpriteSO : EditorWindow
 			}
 		}
 
-		AssetDatabase.StopAssetEditing();
-		AssetDatabase.SaveAssets();
+
 
 		return;
 		AssetDatabase.StartAssetEditing();
@@ -432,8 +435,10 @@ public class GenerateSpriteSO : EditorWindow
 		var Files = Directory.GetFiles(sDir);
 		foreach (string f in Files)
 		{
-			if (f.Contains(".png") && f.Contains(".meta") == false)
+			if (f.Contains(".json") && f.Contains(".meta") == false)
 			{
+				if (Files.Contains(f.Replace(".json", ".png")) == false) return;
+
 				var path = f;
 				var TT = path.Replace(Application.dataPath, "Assets");
 				var Sprites = AssetDatabase.LoadAllAssetsAtPath(TT).OfType<Sprite>().ToArray();
