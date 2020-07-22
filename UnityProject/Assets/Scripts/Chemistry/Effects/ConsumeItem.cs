@@ -3,9 +3,8 @@ using System;
 
 namespace Chemistry.Effects
 {
-	[CreateAssetMenu(fileName = "reaction", menuName = "ScriptableObjects/Chemistry/Effect/Item")]
-	[Serializable]
-	public class Item : Chemistry.Effect
+	[CreateAssetMenu(fileName = "reaction", menuName = "ScriptableObjects/Chemistry/Effect/ConsumeItem")]
+	public class ConsumeItem : Chemistry.Effect
 	{
 		private MixingBowl senderInfo;
 		private Vector3Int senderPosition;
@@ -18,13 +17,19 @@ namespace Chemistry.Effects
 			if (senderInfo != null)
 			{
 				if (senderInfo.playerHolding != null)
-					Spawn.ServerPrefab(spawnItem, senderInfo.playerHolding.WorldPositionServer, null, null, (int)amount);
+				{
+					Inventory.ServerAdd(spawnItem, senderInfo.currentSlot, ReplacementStrategy.DespawnOther);
+				}
 				else
+				{
 					Spawn.ServerPrefab(spawnItem, senderPosition, null, null, (int)amount);
+					Despawn.ServerSingle(sender.gameObject);
+				}
 			}
 			else
 			{
 				Spawn.ServerPrefab(spawnItem, senderPosition, null, null, (int)amount);
+				Despawn.ServerSingle(sender.gameObject);
 			}
 		}
 	}

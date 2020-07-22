@@ -10,14 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
-  m_Name: Meatification
+  m_Name: Synthmeat
   m_EditorClassIdentifier: 
   ingredients:
     m_keys:
-    - {fileID: 11400000, guid: 3afb1893f74fb775d806cbc4563ed1e7, type: 2}
-    - {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-    - {fileID: 11400000, guid: 82692ea8680693d459ad97993dbda0f3, type: 2}
-    m_values: 0a0000000a0000000a000000
+    - {fileID: 11400000, guid: eea05337a284c407e926bf3110b00916, type: 2}
+    - {fileID: 11400000, guid: e2f90c460b3c44d23bc300bfebb63e2c, type: 2}
+    m_values: 0500000001000000
   useExactAmounts: 0
   catalysts:
     m_keys: []
@@ -26,4 +25,4 @@ MonoBehaviour:
     m_keys: []
     m_values: 
   effects:
-  - {fileID: 11400000, guid: 04c77b8cd55304e45a6a4d05acf33673, type: 2}
+  - {fileID: 11400000, guid: 16d3b9d5b08c9cc40b347ba84af546da, type: 2}
