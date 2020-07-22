@@ -25,17 +25,7 @@ public class GUI_Jukebox : NetTab
 
 	private void SetPlayStopSprite()
 	{
-		spriteImagePlayStop.SetValueServer(jukeboxController.IsPlaying ? spritePlay.name : spriteStop.name);
-	}
-
-	private void SetSongAndArtist()
-	{
-		labelTrack.SetValueServer($"Track {jukeboxController.CurrentTrackIndex + 1} / {jukeboxController.TotalTrackCount}");
-
-		string songName = jukeboxController.CurrentSong;
-		labelSong.SetValueServer($"Song : {songName.Split('_')[0]}");
-		string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
-		labelArtist.SetValueServer($"Artist : {artist}");
+		//spriteImagePlayStop.SetComplicatedValue(jukeboxController.IsPlaying ? spritePlay.name : spriteStop.name);
 	}
 
 	// Start is called before the first frame update
@@ -45,7 +35,6 @@ public class GUI_Jukebox : NetTab
 		spriteStop = buttonPlayStop.transform.Find("SpritePlay").GetComponent<SpriteRenderer>().sprite;
 		jukeboxController = Provider.GetComponent<Jukebox>();
 
-		SetSongAndArtist();
 		SetPlayStopSprite();
 	}
 
@@ -57,19 +46,16 @@ public class GUI_Jukebox : NetTab
 			jukeboxController.Play();
 
 		SetPlayStopSprite();
-		SetSongAndArtist();
 	}
 
 	public void PreviousSong()
 	{
 		jukeboxController.PreviousSong();
-		SetSongAndArtist();
 	}
 
 	public void NextSong()
     {
 		jukeboxController.NextSong();
-		SetSongAndArtist();
 	}
 
 	public void ClosePanel()
