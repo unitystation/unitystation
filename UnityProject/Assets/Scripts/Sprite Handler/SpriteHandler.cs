@@ -45,6 +45,8 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool subCatalogueChanged = false;
 
+	private List<SerialisationStanding> Sprites =new List<SerialisationStanding>();
+
 	public NetworkIdentity GetMasterNetID()
 	{
 		return NetworkIdentity;
@@ -615,4 +617,9 @@ public class SpriteHandler : MonoBehaviour
 		return false;
 	}
 #endif
+	[System.Serializable]
+	public class SerialisationStanding
+	{
+		public Texture2D Texture;
+	}
 }

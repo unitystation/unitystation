@@ -50,6 +50,7 @@ public class MyProjectViewExtentions
 
 				if (spriteDataSO != null)
 				{
+					if (spriteDataSO?.Variance[0]?.Frames[0]?.sprite == null) return;
 					mainTex = CopySprite(GenerateNewTexture2D(), spriteDataSO.Variance[0].Frames[0].sprite);
 				}
 				else
