@@ -227,23 +227,39 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 			SetConnectedSprite(null);
 		}
 	}
-
+ 	/// <summary>
+ 	/// Respawns the modified container back into the world
+ 	/// </summary>
 	public void EjectInsertedContainer()
 	{
 		ItemStorage player = networkTab.LastInteractedPlayer().GetComponent<PlayerScript>().ItemStorage;
 		InsertedContainer.GetComponent<CustomNetTransform>().AppearAtPositionServer(gameObject.WorldPosServer());
-		if (player.GetNamedItemSlot(NamedSlot.rightHand) == null)
-		{
-			Inventory.ServerAdd(InsertedContainer, player.GetNamedItemSlot(NamedSlot.rightHand),
-				ReplacementStrategy.DropOther);
-		}
-		else
-		{
-			Inventory.ServerAdd(InsertedContainer, player.GetNamedItemSlot(NamedSlot.leftHand),
-				ReplacementStrategy.DropOther);
-		}
+		HandInsert(player);
 		hasContainerInserted = false;
 		InsertedContainer = null;
 		ServerOnExternalTankInserted.Invoke(false);
 	}
+
+	/// <summary>
+	/// Checks to see if it can put it in any hand, if it cant it will do nothing meaning the item should just drop.
+	/// </summary>
+	/// <param name="player"></param>
+	private void HandInsert(ItemStorage player)
+	{
+		ItemSlot activeHand = player.GetActiveHandSlot();
+		if (Inventory.ServerAdd(InsertedContainer, activeHand)) return;
+		switch (activeHand.NamedSlot)
+		{
+			case NamedSlot.leftHand:
+				ItemSlot rSlot = player.GetNamedItemSlot(NamedSlot.rightHand);
+				Inventory.ServerAdd(InsertedContainer, rSlot);
+				break;
+			
+			case NamedSlot.rightHand:
+				ItemSlot lSlot= player.GetNamedItemSlot(NamedSlot.leftHand);
+				Inventory.ServerAdd(InsertedContainer, lSlot);
+				break;
+		}
+	}
 }
+
