@@ -13,36 +13,22 @@ public class GUI_Jukebox : NetTab
 	private NetLabel labelTrack;
 
 	[SerializeField]
-	private NetButton buttonPlayStop;
-
-	[SerializeField]
-	private NetSpriteImage spriteImagePlayStop;
+	private NetPrefabImage prefabImagePlayStop;
 
 	private Jukebox jukeboxController;
-
-	private Sprite spritePlay;
-	private Sprite spriteStop;
-
-	private void SetPlayStopSprite()
-	{
-		//spriteImagePlayStop.SetComplicatedValue(jukeboxController.IsPlaying ? spritePlay.name : spriteStop.name);
-	}
 
 	public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
 	{
 		labelTrack.Value = jukeboxController.TrackPosition;
 		labelSong.Value = jukeboxController.SongName;
 		labelArtist.Value = jukeboxController.Artist;
+		prefabImagePlayStop.Value = jukeboxController.PlayStopButtonPrefabImage;
 	}
 
 	// Start is called before the first frame update
 	public void Start()
 	{
-		spritePlay = buttonPlayStop.transform.Find("SpritePlay").GetComponent<SpriteRenderer>().sprite;
-		spriteStop = buttonPlayStop.transform.Find("SpritePlay").GetComponent<SpriteRenderer>().sprite;
 		jukeboxController = Provider.GetComponent<Jukebox>();
-
-		SetPlayStopSprite();
 	}
 
 	public void PlayOrStop()
@@ -51,8 +37,6 @@ public class GUI_Jukebox : NetTab
 			jukeboxController.Stop();
 		else
 			jukeboxController.Play();
-
-		SetPlayStopSprite();
 	}
 
 	public void PreviousSong()

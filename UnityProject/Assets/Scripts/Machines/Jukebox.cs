@@ -110,6 +110,14 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		}
 	}
 
+	public string PlayStopButtonPrefabImage
+	{
+		get
+		{
+			return IsPlaying ? "GUI_Jukebox_Stop" : "GUI_Jukebox_Play";
+		}
+	}
+
 	public void PowerNetworkUpdate(float Voltage)
 	{
 		// Nothing really.  Only the state matters.  (See StateUpdate).
@@ -160,7 +168,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 		audioSource = GetComponent<AudioSource>();
 		audioSource.volume = 1;
-		SetSongAndArtist();
+		UpdateGUI();
 	}
 
 	void Awake()
@@ -175,7 +183,6 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		{
 			// The fun isn't over, we just finished the current track.  We just start playing the next one.
 			NextSong();
-			SetSongAndArtist();
 		}
 	}
 
@@ -188,6 +195,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			spriteHandler.SetSprite(SpritePlaying);
 			audioSource.clip = audioClips.AudioClips[currentSongTrackIndex];
 			audioSource.Play();
+			UpdateGUI();
 		}
 	}
 
@@ -201,6 +209,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			spriteHandler.SetSprite(SpriteDamaged);
 
 		audioSource.Stop();
+		UpdateGUI();
 	}
 
 	public void PreviousSong()
@@ -209,7 +218,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		{
 			currentSongTrackIndex--;
 			audioSource.clip = audioClips.AudioClips[currentSongTrackIndex];
-			SetSongAndArtist();
+			UpdateGUI();
 
 			if (IsPlaying)
 				audioSource.Play();
@@ -222,7 +231,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		{
 			currentSongTrackIndex++;
 			audioSource.clip = audioClips.AudioClips[currentSongTrackIndex];
-			SetSongAndArtist();
+			UpdateGUI();
 
 			if (IsPlaying)
 				audioSource.Play();
@@ -237,12 +246,15 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		}
 	}
 
-	private void SetSongAndArtist()
+	private void UpdateGUI()
 	{
 		List<ElementValue> valuesToSend = new List<ElementValue>();
 		valuesToSend.Add(new ElementValue() { Id = "TextTrack", Value = Encoding.UTF8.GetBytes(TrackPosition) });
 		valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes(SongName) });
 		valuesToSend.Add(new ElementValue() { Id = "TextArtist", Value = Encoding.UTF8.GetBytes(Artist) });
+
+
+		valuesToSend.Add(new ElementValue() { Id = "ImagePlayStop", Value = Encoding.UTF8.GetBytes(PlayStopButtonPrefabImage) });
 
 		// Update all UI currently opened.
 		TabUpdateMessage.SendToPeepers(gameObject, NetTabType.Jukebox, TabAction.Update, valuesToSend.ToArray());
