@@ -180,14 +180,10 @@ public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInter
 				foreach (var firelock in FireLockList)
 				{
 					if(firelock == null) continue;
-
 					var controller = firelock.Controller;
 					if (controller == null) continue;
 
-					if (controller.IsClosed)
-					{
-						controller.ServerOpen();
-					}
+					controller.TryOpen();
 				}
 			}
 			else

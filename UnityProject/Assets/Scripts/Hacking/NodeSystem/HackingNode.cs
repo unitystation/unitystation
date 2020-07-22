@@ -14,24 +14,23 @@ public class HackingNode
 	/// The public label is what a player sees when they view the name of this node in the hacking menu. This is important to have synced, as it should be the same serverside and clientside, and late joiners need to have the
 	/// correct public label to be on the same page as other players.
 	/// </summary>
-	public string PublicLabel { get; set; }
+	public string PublicLabel;
 
 	//Using an auto get-set for this for now. Will need to update how this functions when I figure out how the internal label should be shared. i.e. to the engineers somehow.`
-	public	string HiddenLabel { get; set; }
+	public	string HiddenLabel;
 
-	public string InternalIdentifier { get; set; }
+	public HackingIdentifier InternalIdentifier;
 
 	//Bools for whether the node is an input or output node. I'm not exactly sure how these will work, so maybe eventually there could be a situation where a node is both? Dunno
-	public	bool IsInput { get; set; }
+	public	bool IsInput;
 
-	public bool IsOutput { get; set; }
+	public bool IsOutput;
 
-	public bool IsDeviceNode { get; set; }
+	public bool IsDeviceNode;
 
 	private List<HackingNode> connectedInputNodes = new List<HackingNode>();
 
 	public List<HackingNode> ConnectedInputNodes => connectedInputNodes;
-
 
 	public Action<GameObject> inputCallBacks;
 
@@ -39,9 +38,7 @@ public class HackingNode
 
 	//This does not need to be synced between the server and client. As long as the server is sending correct data to the client, the object this is attached to should work fine.
 	//We only need to update the client on what nodes are doing what when they're in the hacking menu.
-	//private NodeInputCallback inputMethods = null;
-
-	public HackingNode(string publicLabel, string internalLabel, bool isInput, bool isOutput)
+	public HackingNode(string publicLabel, HackingIdentifier internalLabel, bool isInput, bool isOutput)
 	{
 		PublicLabel = publicLabel;
 		InternalIdentifier = internalLabel;
@@ -53,15 +50,10 @@ public class HackingNode
 	public HackingNode()
 	{
 		PublicLabel = "unset label";
-		InternalIdentifier = "unset internal label";
+		InternalIdentifier = HackingIdentifier.Unset;
 		IsInput = false;
 		IsOutput = false;
 		IsDeviceNode = false;
-	}
-
-	public static HackingNode GetNodeByInternalLabel(List<HackingNode> nodeList, string internalLabel)
-	{
-		return nodeList.Find(x => x.InternalIdentifier.Equals(internalLabel));
 	}
 
 	/// <summary>
