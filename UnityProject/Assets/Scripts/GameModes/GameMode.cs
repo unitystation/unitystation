@@ -292,6 +292,7 @@ public abstract class GameMode : ScriptableObject
 		{
 			if (PlayerList.Instance.CheckJobBanState(userID, antag.AntagJobType))
 			{
+				//True if at least one of the antags can be spawned by the player
 				return true;
 			}
 		}
