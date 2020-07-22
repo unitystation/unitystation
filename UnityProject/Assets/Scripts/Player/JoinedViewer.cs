@@ -278,7 +278,7 @@ public class JoinedViewer : NetworkBehaviour
 			}
 
 			var spawnRequest =
-				PlayerSpawnRequest.RequestOccupation(SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(JobType), characterSettings);
+				PlayerSpawnRequest.RequestOccupation(SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(JobType), characterSettings, SentByPlayer.UserId);
 
 			GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
 
