@@ -35,6 +35,7 @@ public enum NetTabType
 	PipeDispenser = 24,
 	DisposalBin = 25,
 	PDA = 26,
+	Jukebox = 27,
 	//add your tabs here
 }
 

@@ -106,12 +106,12 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void OnEnable()
 	{
-		integrity.OnApllyDamage.AddListener(OnDamageReceived);
+		integrity.OnApplyDamage.AddListener(OnDamageReceived);
 	}
 
 	private void OnDisable()
 	{
-		if(integrity != null) integrity.OnApllyDamage.RemoveListener(OnDamageReceived);
+		if(integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
 	}
 
 	[Server]
