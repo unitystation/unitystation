@@ -10,7 +10,7 @@ public class HasNetworkTabItem : MonoBehaviour, ICheckedInteractable<HandActivat
 	/// </summary>
 	[Tooltip("Network tab to display.")] public NetTabType NetTabType = NetTabType.None;
 
-	[NonSerialized] public GameObject playerInteracted;
+	[NonSerialized] private GameObject playerInteracted;
 
 	/// <summary>
 	/// This method simply tells the script what player last interacted, giving an reference to their gameobject
