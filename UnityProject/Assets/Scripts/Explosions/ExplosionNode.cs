@@ -58,11 +58,11 @@ namespace Explosions
 
 			foreach (var player in matrix.Get<ObjectBehaviour>(v3int, ObjectType.Player, true))
 			{
-				
+
 				// do damage
 				player.GetComponent<PlayerHealth>().ApplyDamage(null, DD, AttackType.Bomb, DamageType.Brute);
 
-
+			}
 
 				foreach (var line in PresentLines)
 				{
@@ -74,4 +74,4 @@ namespace Explosions
 		}
 
 	}
-}
+
