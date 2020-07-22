@@ -144,6 +144,13 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		return hackNodes.Find(x => x.InternalIdentifier == identifier);
 	}
 
+	public void SendOutputToConnectedNodes(HackingIdentifier identifier, GameObject originator = null)
+	{
+		HackingNode node = GetNodeWithInternalIdentifier(identifier);
+		node.SendOutputToConnectedNodes(originator);
+	}
+
+
 	/// <summary>
 	/// Add a connection between two nodes in the hacking device. keyOutput is the index of the output node, similar for key input.
 	/// </summary>
@@ -453,3 +460,24 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 
 }
 
+public enum HackingIdentifier
+{
+	Unset,
+	OnShouldOpen,
+	OpenDoor,
+	OnShouldClose,
+	CloseDoor,
+	OnIdRejected,
+	RejectId,
+	OnIdAccepted,
+	AcceptId,
+	ShouldDoPressureWarning,
+	DoPressureWarning,
+	PowerOut,
+	PowerIn,
+	DummyOut,
+	DummyIn,
+	OutsideSignalOpen,
+	OutsideSignalClose,
+	CancelCloseTimer
+}

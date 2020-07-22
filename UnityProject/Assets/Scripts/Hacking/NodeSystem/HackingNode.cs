@@ -144,28 +144,3 @@ public class HackingNode
 		inputCallBacks -= methodWrapped;
 	}
 }
-
-public enum HackingIdentifier
-{
-	Unset,
-	OnAttemptOpen,
-	OnAttemptClose,
-	OnShouldOpen,
-	OnShouldClose,
-	OnDoorOpened,
-	OnDoorClosed,
-	AcceptId,
-	RejectId,
-	OnIdAccepted,
-	OnIdRejected,
-	ShouldDoPressureWarning,
-	OpenDoor,
-	CloseDoor,
-	BeginOpenProcedure,
-	BeginCloseProcedure,
-	DoPressureWarning,
-	PowerIn,
-	PowerOut,
-	DummyIn,
-	DummyOut
-}

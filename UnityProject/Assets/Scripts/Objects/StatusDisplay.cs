@@ -31,6 +31,8 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 	public SpriteSheetAndData joeNews;
 	public List<DoorController> doorControllers = new List<DoorController>();
 	public CentComm centComm;
+	public int currentTimerSeconds;
+	public bool countingDown;
 
 	public enum MountedMonitorState
 	{
@@ -67,6 +69,18 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 		if (doorControllers.Count > 0)
 		{
 			OnTextBroadcastReceived(StatusDisplayChannel.DoorTimer);
+			foreach (var door in doorControllers)
+			{
+				if (door.IsHackable)
+				{
+					HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
+					outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor));
+					outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CancelCloseTimer));
+
+					HackingNode outsideSignalClose = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalClose);
+					outsideSignalClose.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor));
+				}
+			}
 		}
 		SyncSprite(stateSync, stateSync);
 		centComm = GameManager.Instance.CentComm;
@@ -209,7 +223,7 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 					currentTimerSeconds += 60;
 					if (currentTimerSeconds > 600)
 					{
-						currentTimerSeconds = 0;
+						currentTimerSeconds = 1;
 					}
 
 					if (!countingDown)
@@ -291,9 +305,6 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 		}
 	}
 
-	public int currentTimerSeconds;
-	public bool countingDown;
-
 	private IEnumerator TickTimer()
 	{
 		countingDown = true;
@@ -311,22 +322,29 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 
 	private void CloseDoors()
 	{
-		foreach (DoorController door in doorControllers)
+		foreach (var door in doorControllers)
 		{
-			if (!door.IsClosed)
+			if (door.IsHackable){
+				door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalClose);
+			}
+			else
 			{
-				door.ServerClose();
+				door.TryClose();
 			}
 		}
 	}
 
 	private void OpenDoors()
 	{
-		foreach (DoorController door in doorControllers)
+		foreach (var door in doorControllers)
 		{
-			if (door.IsClosed)
+			if (door.IsHackable)
 			{
-				door.ServerOpen(false);
+				door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalOpen);
+			}
+			else
+			{
+				door.TryOpen(blockClosing: true);
 			}
 		}
 	}
