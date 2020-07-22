@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2909314279984869432
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2416758669775616128, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: Resistances.LavaProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: Resistances.Indestructable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: Resistances.UnAcidable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526917778408936146, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: initialDescription
+      value: A heavy duty blast door that only opens for dire emergencies.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526917778408936146, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: initialName
+      value: hardened blast door
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077569209427463650, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Name
+      value: BlastDoorIndestructible
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 79cea07a5f8e66f49a554df1a003ecba, type: 3}
