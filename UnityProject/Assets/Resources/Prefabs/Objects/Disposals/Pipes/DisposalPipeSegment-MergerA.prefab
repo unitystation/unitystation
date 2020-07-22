@@ -7,6 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -6737674495113644073, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: isFlippable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6737674495113644073, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+        type: 3}
+      propertyPath: flippedObject
+      value: 
+      objectReference: {fileID: 2025448082421612283, guid: 583126a22bc8a9e409ca1b70c2ed0afd,
+        type: 3}
     - target: {fileID: 1499169744200704914, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
       propertyPath: m_Sprite
@@ -26,7 +37,7 @@ PrefabInstance:
     - target: {fileID: 1706338798251575173, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}
       propertyPath: m_Name
-      value: DisposalPipe-MergerA
+      value: DisposalPipeSegment-MergerA
       objectReference: {fileID: 0}
     - target: {fileID: 1710127415778951519, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
         type: 3}

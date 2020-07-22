@@ -86,6 +86,21 @@ MonoBehaviour:
   Left: {fileID: 21300006, guid: b21965a32f70e73419f2c12488812de8, type: 3}
   Up: {fileID: 21300002, guid: b21965a32f70e73419f2c12488812de8, type: 3}
   spriteRenderer: {fileID: 1499169744200704914}
+--- !u!114 &-6737674495113644073
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1706338798251575173}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b752b8671651846ba4fca8bf2c233a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isFlippable: 0
 --- !u!1001 &7176090347676343903
 PrefabInstance:
   m_ObjectHideFlags: 0

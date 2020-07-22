@@ -36,10 +36,10 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMen
 		RightClickableResult result = RightClickableResult.Create();
 		if (drawerState == DrawerState.Open) return result;
 		if (!accessRestrictions.CheckAccess(PlayerManager.LocalPlayer)) return result;
-		var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "Cremate");
+		var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);
 		if (!WillInteract(cremateInteraction, NetworkSide.Client)) return result;
 
-		return result.AddElement("Cremate", () => OnCremateClicked(cremateInteraction));
+		return result.AddElement("Activate", () => OnCremateClicked(cremateInteraction));
 	}
 
 	private void OnCremateClicked(ContextMenuApply interaction)
