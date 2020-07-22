@@ -26,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226,
         type: 3}
       propertyPath: m_Name
-      value: ParamedicLabcoat
+      value: ParamedicJacket
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: ed1b2998d2c424811881ca9c2cad1226,
         type: 3}
@@ -88,6 +88,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7145545764318209269, guid: ed1b2998d2c424811881ca9c2cad1226,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9fe8bc0581fabc646a022958fead05d1,
+        type: 2}
     - target: {fileID: 7931175119129480439, guid: ed1b2998d2c424811881ca9c2cad1226,
         type: 3}
       propertyPath: clothData

@@ -94,12 +94,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1 &1797399610914514638
 GameObject:
   m_ObjectHideFlags: 0
@@ -194,30 +194,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 3bedb1d24d41eba448cfdc7443cbdec2, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
---- !u!114 &8148534725741991052
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6507000735928756314}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  clothData: {fileID: 11400000, guid: 418707f5ca3e45c47ba16bd11fbbf78f, type: 2}
-  variantIndex: -1
-  variantType: 0
-  hideClothingFlags: 0
+  palette: []
 --- !u!1 &3590867801792894552
 GameObject:
   m_ObjectHideFlags: 0
@@ -312,12 +294,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 3bedb1d24d41eba448cfdc7443cbdec2, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1 &5298764134429400079
 GameObject:
   m_ObjectHideFlags: 0
@@ -412,12 +394,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 3bedb1d24d41eba448cfdc7443cbdec2, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1 &5824088874258883986
 GameObject:
   m_ObjectHideFlags: 0
@@ -512,12 +494,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 3bedb1d24d41eba448cfdc7443cbdec2, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
+--- !u!114 &8148534725741991052
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6507000735928756314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clothData: {fileID: 11400000, guid: 418707f5ca3e45c47ba16bd11fbbf78f, type: 2}
+  variantType: 0
+  hideClothingFlags: 0
+  SpriteDataSO: []
 --- !u!1001 &3520465010449138795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -552,6 +552,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1271333933859612166, guid: a7d5133a902792637a0a9a34499cfc91,
         type: 3}
+    - target: {fileID: 4598361863285954486, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: adbd4390cc873274bb1ea49821b18840,
+        type: 2}
     - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Sprite
@@ -757,17 +763,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b05bab692e98c487eb4996a0614d143d,
         type: 2}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d48707aae98c846458225d276bcbea2e,
+        type: 2}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ab9f68e569799b24aa1f789e6cc53568,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}
---- !u!4 &6511642736210826542 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
-    type: 3}
-  m_PrefabInstance: {fileID: 3520465010449138795}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &6507000735928756314 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3520465010449138795}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &6511642736210826542 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
     type: 3}
   m_PrefabInstance: {fileID: 3520465010449138795}
   m_PrefabAsset: {fileID: 0}

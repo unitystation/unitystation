@@ -109,5 +109,23 @@ PrefabInstance:
       value: Either Nanotrasen's water supply is contaminated, or this machine actually
         vends lemon, chocolate, and cherry snow cones.
       objectReference: {fileID: 0}
+    - target: {fileID: 3873346967570867177, guid: bf6659d0928edc74d87be58bb72f78d5,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 601a41ad233da884f9f8356dd1be24bc,
+        type: 2}
+    - target: {fileID: 3873346967570867177, guid: bf6659d0928edc74d87be58bb72f78d5,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ffae063639e98f241989b2e49ecfc54e,
+        type: 2}
+    - target: {fileID: 7380099102149359372, guid: bf6659d0928edc74d87be58bb72f78d5,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9737a86db019e3f4a9ab8880703cddc1,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf6659d0928edc74d87be58bb72f78d5, type: 3}

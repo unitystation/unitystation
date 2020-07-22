@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: ears_sci_headset_alt
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -9168335489895877667, guid: d6424953c85afb8f49986bfa007d129a,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 2489802715415402498, guid: d6424953c85afb8f49986bfa007d129a,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -2333053096817415598, guid: d6424953c85afb8f49986bfa007d129a,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -7865366486411320070, guid: d6424953c85afb8f49986bfa007d129a,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 19921

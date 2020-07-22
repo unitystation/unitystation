@@ -433,6 +433,12 @@ PrefabInstance:
       propertyPath: ProjectileVelocity
       value: 18
       objectReference: {fileID: 0}
+    - target: {fileID: 4598361863285954486, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 13f30754582ab0346804f3c210e349cd,
+        type: 2}
     - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Sprite
@@ -583,6 +589,18 @@ PrefabInstance:
       value: A low-capacity, energy-based stun gun used by security teams to subdue
         targets at range.
       objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: afca2ad5a55c4684e99cb2b9394407ee,
+        type: 2}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: fb4ec893cf4767741a7c3cae4df348c3,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}
 --- !u!4 &6511642736210826542 stripped

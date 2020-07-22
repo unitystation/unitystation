@@ -140,12 +140,12 @@ public class Morgue : Drawer
 
 		if (consciousnessPresent && !alarmBroken)
 		{
-			drawerState = (DrawerState)MorgueState.ShutWithPlayer;
+			OnSyncDrawerState((DrawerState)MorgueState.ShutWithPlayer);
 			StartCoroutine(PlayAlarm());
 		}
-		else if (serverHeldPlayers.Count > 0) drawerState = (DrawerState)MorgueState.ShutWithBraindead;
-		else if (serverHeldItems.Count > 0) drawerState = (DrawerState)MorgueState.ShutWithItems;
-		else drawerState = DrawerState.Shut;
+		else if (serverHeldPlayers.Count > 0) OnSyncDrawerState( (DrawerState)MorgueState.ShutWithBraindead);
+		else if (serverHeldItems.Count > 0) OnSyncDrawerState( (DrawerState)MorgueState.ShutWithItems);
+		else  OnSyncDrawerState( DrawerState.Shut);
 	}
 
 	private IEnumerator PlayAlarm()
@@ -167,19 +167,19 @@ public class Morgue : Drawer
 	{
 		var oldState = drawerState;
 
-		drawerState = (DrawerState)MorgueState.ShutWithItems;
+		OnSyncDrawerState((DrawerState)MorgueState.ShutWithItems);
 		yield return WaitFor.Seconds(stateDelay);
-		drawerState = (DrawerState)MorgueState.ShutWithPlayer;
+		OnSyncDrawerState((DrawerState)MorgueState.ShutWithPlayer);
 		yield return WaitFor.Seconds(stateDelay);
-		drawerState = (DrawerState)MorgueState.ShutWithItems;
+		OnSyncDrawerState((DrawerState)MorgueState.ShutWithItems);
 		yield return WaitFor.Seconds(stateDelay);
-		drawerState = (DrawerState)MorgueState.ShutWithPlayer;
+		OnSyncDrawerState((DrawerState)MorgueState.ShutWithPlayer);
 		yield return WaitFor.Seconds(stateDelay);
-		drawerState = (DrawerState)MorgueState.ShutWithBraindead;
+		OnSyncDrawerState((DrawerState)MorgueState.ShutWithBraindead);
 		yield return WaitFor.Seconds(stateDelay * 6);
 
 		if (oldState != DrawerState.Open) UpdateCloseState();
-		else drawerState = DrawerState.Open;
+		else OnSyncDrawerState(DrawerState.Open);
 	}
 
 	#endregion Server Only

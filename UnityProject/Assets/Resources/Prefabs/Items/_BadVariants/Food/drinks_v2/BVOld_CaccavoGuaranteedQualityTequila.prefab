@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9d9bb4f5cce78eb2bb8c259f2f9328fb,
         type: 2}
+    - target: {fileID: 544171576806319005, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9d9bb4f5cce78eb2bb8c259f2f9328fb,
+        type: 2}
     - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: initialName
@@ -29,6 +35,18 @@ PrefabInstance:
       propertyPath: exportCost
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1830abd54ea321342b747714176cd89c,
+        type: 2}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 32de1f4d04e224f4399721f51621df9d,
+        type: 2}
     - target: {fileID: 1465560459664676969, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: m_Sprite
@@ -38,7 +56,7 @@ PrefabInstance:
     - target: {fileID: 1632346945329490741, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: m_Name
-      value: CaccavoGuaranteedQualityTequila
+      value: BVOld_CaccavoGuaranteedQualityTequila
       objectReference: {fileID: 0}
     - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
@@ -105,5 +123,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4891293828191637682, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 02e93e461d9ffbc4ca21a135ff6874af,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcafad97f0ef7384793b303b782af31b, type: 3}

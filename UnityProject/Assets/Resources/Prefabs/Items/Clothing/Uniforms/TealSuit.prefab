@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 3011710637427380133, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
       propertyPath: m_Name
-      value: HeadOfPersonnelsSuit
+      value: TealSuit
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: cda0c7d60b6a643279489d6c9a64d208,
         type: 3}
@@ -93,6 +93,12 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 021d0c0fde9bc254880d0299d2a96894,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: cda0c7d60b6a643279489d6c9a64d208,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c4ac18731bdda342a08079ebb4bdb94,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cda0c7d60b6a643279489d6c9a64d208, type: 3}

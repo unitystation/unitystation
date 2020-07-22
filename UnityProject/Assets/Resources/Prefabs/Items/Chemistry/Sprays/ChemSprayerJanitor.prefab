@@ -178,6 +178,18 @@ PrefabInstance:
         area. It regenerates space cleaner by itself but it's unable to be fueled
         by normal means.
       objectReference: {fileID: 0}
+    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2b77560e69699b24e970634f3b81beff,
+        type: 2}
+    - target: {fileID: 1785356115490905863, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 80180e5aa79428840b2c1ec00272082c,
+        type: 2}
     - target: {fileID: 2079172937595798329, guid: 07120134cc41aa64791c8829078a7e78,
         type: 3}
       propertyPath: m_Sprite
@@ -254,5 +266,11 @@ PrefabInstance:
       propertyPath: reagentsPerUse
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 5435104152487676898, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 388b9abc1c550324789e833396b4f849,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07120134cc41aa64791c8829078a7e78, type: 3}

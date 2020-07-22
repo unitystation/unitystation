@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: eyes_trickblindfold
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -8539999036750876547, guid: dac2cc750c14eb344a02354c2274d020,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -8206266854146155948, guid: dac2cc750c14eb344a02354c2274d020,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -7887377669548124153, guid: dac2cc750c14eb344a02354c2274d020,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 2207990786093944094, guid: dac2cc750c14eb344a02354c2274d020,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 19944

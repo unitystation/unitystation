@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: belt_crowbar_red
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -2527702156952165471, guid: 70320e455dee09d489444e9d0d59ac49,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4545447466677457060, guid: 70320e455dee09d489444e9d0d59ac49,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -3108368716013539536, guid: 70320e455dee09d489444e9d0d59ac49,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 491417162151411849, guid: 70320e455dee09d489444e9d0d59ac49,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 19854

@@ -28,7 +28,7 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 	public Sprite openEmpty;
 	public Sprite openCabled;
 	public Sprite closedOff;
-	public SpriteSheetAndData joeNews;
+	public SpriteDataSO joeNews;
 	public List<DoorController> doorControllers = new List<DoorController>();
 	public CentComm centComm;
 	public int currentTimerSeconds;
@@ -365,7 +365,7 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 			DisplaySpriteHandler.SetSprite(null);
 		}else if (stateNew == MountedMonitorState.Image)
 		{
-			DisplaySpriteHandler.SetSprite(joeNews, 0);
+			DisplaySpriteHandler.SetSpriteSO(joeNews);
 			this.TryStopCoroutine( ref blinkHandle );
 			textField.text = "";
 		}

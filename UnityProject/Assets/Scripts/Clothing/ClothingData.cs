@@ -9,8 +9,6 @@ public class ClothingData : BaseClothData
 {
 	public EquippedData Base; //Your Basic clothing, If any missing data on any of the other points it will take it from here
 	public EquippedData Base_Adjusted; //Variant for if it is Worn differently
-	public EquippedData DressVariant; //humm yeah Dresses
-	public List<EquippedData> Variants; //For when you have 1 million colour variants
 
 	public static void getClothingDatas(List<ClothingData> DataPCD)
 	{
@@ -56,33 +54,33 @@ public class ClothingData : BaseClothData
 [System.Serializable]
 public class EquippedData
 {
-	public SpriteSheetAndData Equipped;
-	public SpriteSheetAndData InHandsLeft;
-	public SpriteSheetAndData InHandsRight;
-	public SpriteSheetAndData ItemIcon;
+	public SpriteDataSO SpriteEquipped;
+	public SpriteDataSO SpriteInHandsLeft;
+	public SpriteDataSO SpriteInHandsRight;
+	public SpriteDataSO SpriteItemIcon;
 	public Color[] Palette = new Color[8];
 	public bool IsPaletted = false;
 
 	public void Combine(EquippedData parent)
 	{
-		if (Equipped.Texture == null)
+		if (SpriteEquipped != null)
 		{
-			Equipped = parent.Equipped;
+			SpriteEquipped = parent.SpriteEquipped;
 		}
 
-		if (InHandsLeft.Texture == null)
+		if (SpriteInHandsLeft != null)
 		{
-			InHandsLeft = parent.InHandsLeft;
+			SpriteInHandsLeft = parent.SpriteInHandsLeft;
 		}
 
-		if (InHandsRight.Texture == null)
+		if (SpriteInHandsRight != null)
 		{
-			InHandsRight = parent.InHandsRight;
+			SpriteInHandsRight = parent.SpriteInHandsRight;
 		}
 
-		if (ItemIcon.Texture == null)
+		if (SpriteItemIcon != null)
 		{
-			ItemIcon = parent.ItemIcon;
+			SpriteItemIcon = parent.SpriteItemIcon;
 		}
 	}
 }

@@ -1,330 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &2350815963227468493
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7781396554342910705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  LightEmission: {fileID: 0}
-  Intensity: 0
-  Colour: {r: 0, g: 0, b: 0, a: 0}
-  EnumSprite: 0
-  Size: 3.5
-  PlayerLightData:
-    Intensity: 0
-    Colour: {r: 0, g: 0, b: 0, a: 0}
-    EnumSprite: 0
-    Size: 12
---- !u!114 &4821844458157436374
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7781396554342910705}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 248d0e8833af4f35917b5fc3503b256c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Sprites:
-    Blue:
-      LeftHand:
-        Texture: {fileID: 2800000, guid: 35f0bbfe23474664a908f18ac58f7d46, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 35f0bbfe23474664a908f18ac58f7d46, type: 3}
-        - {fileID: 21300002, guid: 35f0bbfe23474664a908f18ac58f7d46, type: 3}
-        - {fileID: 21300004, guid: 35f0bbfe23474664a908f18ac58f7d46, type: 3}
-        - {fileID: 21300006, guid: 35f0bbfe23474664a908f18ac58f7d46, type: 3}
-        - {fileID: 21300008, guid: 35f0bbfe23474664a908f18ac58f7d46, type: 3}
-        - {fileID: 21300010, guid: 35f0bbfe23474664a908f18ac58f7d46, type: 3}
-        - {fileID: 21300012, guid: 35f0bbfe23474664a908f18ac58f7d46, type: 3}
-        - {fileID: 21300014, guid: 35f0bbfe23474664a908f18ac58f7d46, type: 3}
-        EquippedData: {fileID: 4900000, guid: 5a519af58eed7d44594e4abd02ecec43, type: 3}
-      RightHand:
-        Texture: {fileID: 2800000, guid: 16b82bde1dbaf404da4d681e2c2c4384, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 16b82bde1dbaf404da4d681e2c2c4384, type: 3}
-        - {fileID: 21300002, guid: 16b82bde1dbaf404da4d681e2c2c4384, type: 3}
-        - {fileID: 21300004, guid: 16b82bde1dbaf404da4d681e2c2c4384, type: 3}
-        - {fileID: 21300006, guid: 16b82bde1dbaf404da4d681e2c2c4384, type: 3}
-        - {fileID: 21300008, guid: 16b82bde1dbaf404da4d681e2c2c4384, type: 3}
-        - {fileID: 21300010, guid: 16b82bde1dbaf404da4d681e2c2c4384, type: 3}
-        - {fileID: 21300012, guid: 16b82bde1dbaf404da4d681e2c2c4384, type: 3}
-        - {fileID: 21300014, guid: 16b82bde1dbaf404da4d681e2c2c4384, type: 3}
-        EquippedData: {fileID: 4900000, guid: 123d19c29f712664da5cfe71209020b4, type: 3}
-      InventoryIcon:
-        Texture: {fileID: 2800000, guid: b2ad039a8aa33534f81abb0fc8da060f, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: b2ad039a8aa33534f81abb0fc8da060f, type: 3}
-        - {fileID: 21300002, guid: b2ad039a8aa33534f81abb0fc8da060f, type: 3}
-        EquippedData: {fileID: 4900000, guid: 4bc6824c37b578f459547d3dacb9a92e, type: 3}
-    Green:
-      LeftHand:
-        Texture: {fileID: 2800000, guid: 4ebddb321c881f34b90210711dd8e807, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 4ebddb321c881f34b90210711dd8e807, type: 3}
-        - {fileID: 21300002, guid: 4ebddb321c881f34b90210711dd8e807, type: 3}
-        - {fileID: 21300004, guid: 4ebddb321c881f34b90210711dd8e807, type: 3}
-        - {fileID: 21300006, guid: 4ebddb321c881f34b90210711dd8e807, type: 3}
-        - {fileID: 21300008, guid: 4ebddb321c881f34b90210711dd8e807, type: 3}
-        - {fileID: 21300010, guid: 4ebddb321c881f34b90210711dd8e807, type: 3}
-        - {fileID: 21300012, guid: 4ebddb321c881f34b90210711dd8e807, type: 3}
-        - {fileID: 21300014, guid: 4ebddb321c881f34b90210711dd8e807, type: 3}
-        EquippedData: {fileID: 4900000, guid: b28a12024ea9e22489c536725f60f7ad, type: 3}
-      RightHand:
-        Texture: {fileID: 2800000, guid: c7bf440d247a65c4490d1b8cf9144479, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: c7bf440d247a65c4490d1b8cf9144479, type: 3}
-        - {fileID: 21300002, guid: c7bf440d247a65c4490d1b8cf9144479, type: 3}
-        - {fileID: 21300004, guid: c7bf440d247a65c4490d1b8cf9144479, type: 3}
-        - {fileID: 21300006, guid: c7bf440d247a65c4490d1b8cf9144479, type: 3}
-        - {fileID: 21300008, guid: c7bf440d247a65c4490d1b8cf9144479, type: 3}
-        - {fileID: 21300010, guid: c7bf440d247a65c4490d1b8cf9144479, type: 3}
-        - {fileID: 21300012, guid: c7bf440d247a65c4490d1b8cf9144479, type: 3}
-        - {fileID: 21300014, guid: c7bf440d247a65c4490d1b8cf9144479, type: 3}
-        EquippedData: {fileID: 4900000, guid: bf52c56b29738b742939d3bc9fdb81be, type: 3}
-      InventoryIcon:
-        Texture: {fileID: 2800000, guid: f849bd53fb06a744099de40145e6ffd5, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: f849bd53fb06a744099de40145e6ffd5, type: 3}
-        - {fileID: 21300002, guid: f849bd53fb06a744099de40145e6ffd5, type: 3}
-        EquippedData: {fileID: 4900000, guid: 7eb63b4a99e576340a324537aa715d34, type: 3}
-    Purple:
-      LeftHand:
-        Texture: {fileID: 2800000, guid: 51e523e60b03049488fd69250498b194, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 51e523e60b03049488fd69250498b194, type: 3}
-        - {fileID: 21300002, guid: 51e523e60b03049488fd69250498b194, type: 3}
-        - {fileID: 21300004, guid: 51e523e60b03049488fd69250498b194, type: 3}
-        - {fileID: 21300006, guid: 51e523e60b03049488fd69250498b194, type: 3}
-        - {fileID: 21300008, guid: 51e523e60b03049488fd69250498b194, type: 3}
-        - {fileID: 21300010, guid: 51e523e60b03049488fd69250498b194, type: 3}
-        - {fileID: 21300012, guid: 51e523e60b03049488fd69250498b194, type: 3}
-        - {fileID: 21300014, guid: 51e523e60b03049488fd69250498b194, type: 3}
-        EquippedData: {fileID: 4900000, guid: b44b0f0201096f54498083d21b42d1f6, type: 3}
-      RightHand:
-        Texture: {fileID: 2800000, guid: 3aa642de55d7b4340869288f381e8ee6, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 3aa642de55d7b4340869288f381e8ee6, type: 3}
-        - {fileID: 21300002, guid: 3aa642de55d7b4340869288f381e8ee6, type: 3}
-        - {fileID: 21300004, guid: 3aa642de55d7b4340869288f381e8ee6, type: 3}
-        - {fileID: 21300006, guid: 3aa642de55d7b4340869288f381e8ee6, type: 3}
-        - {fileID: 21300008, guid: 3aa642de55d7b4340869288f381e8ee6, type: 3}
-        - {fileID: 21300010, guid: 3aa642de55d7b4340869288f381e8ee6, type: 3}
-        - {fileID: 21300012, guid: 3aa642de55d7b4340869288f381e8ee6, type: 3}
-        - {fileID: 21300014, guid: 3aa642de55d7b4340869288f381e8ee6, type: 3}
-        EquippedData: {fileID: 4900000, guid: 3d22370e60f587749a4615cd6f4763e7, type: 3}
-      InventoryIcon:
-        Texture: {fileID: 2800000, guid: 779fda42abfd30647970a6fb98e4df3e, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 779fda42abfd30647970a6fb98e4df3e, type: 3}
-        - {fileID: 21300002, guid: 779fda42abfd30647970a6fb98e4df3e, type: 3}
-        EquippedData: {fileID: 4900000, guid: a41a154d0d060e741b2b71e9287d2684, type: 3}
-    Rainbow:
-      LeftHand:
-        Texture: {fileID: 2800000, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300002, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300004, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300006, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300008, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300010, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300012, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300014, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300016, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300018, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300020, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300022, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300024, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300026, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300028, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300030, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300032, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300034, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300036, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300038, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300040, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300042, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300044, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300046, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300048, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300050, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300052, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300054, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300056, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300058, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300060, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300062, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300064, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300066, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300068, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300070, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300072, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300074, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300076, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300078, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300080, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300082, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300084, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300086, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300088, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300090, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300092, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        - {fileID: 21300094, guid: 8137eaeb42ee47544ba310242d11493d, type: 3}
-        EquippedData: {fileID: 4900000, guid: 0633ae1c07605074e88a7842c6e88c53, type: 3}
-      RightHand:
-        Texture: {fileID: 2800000, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300002, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300004, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300006, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300008, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300010, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300012, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300014, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300016, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300018, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300020, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300022, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300024, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300026, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300028, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300030, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300032, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300034, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300036, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300038, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300040, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300042, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300044, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300046, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300048, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300050, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300052, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300054, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300056, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300058, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300060, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300062, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300064, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300066, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300068, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300070, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300072, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300074, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300076, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300078, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300080, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300082, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300084, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300086, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300088, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300090, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300092, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        - {fileID: 21300094, guid: 53e7223661cdd8b47824b31f28770d22, type: 3}
-        EquippedData: {fileID: 4900000, guid: 058889b281d2df549bb3195d9df1d9b2, type: 3}
-      InventoryIcon:
-        Texture: {fileID: 2800000, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300002, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300004, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300006, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300008, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300010, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300012, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300014, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300016, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300018, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300020, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        - {fileID: 21300022, guid: eb1d562c77dc7154ba4a043d7cb37fc5, type: 3}
-        EquippedData: {fileID: 4900000, guid: cb6eb585f26d40a43acd24196181bb50, type: 3}
-    Red:
-      LeftHand:
-        Texture: {fileID: 2800000, guid: 4179d7db6e1bac34482b0be4d6b70f20, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 4179d7db6e1bac34482b0be4d6b70f20, type: 3}
-        - {fileID: 21300002, guid: 4179d7db6e1bac34482b0be4d6b70f20, type: 3}
-        - {fileID: 21300004, guid: 4179d7db6e1bac34482b0be4d6b70f20, type: 3}
-        - {fileID: 21300006, guid: 4179d7db6e1bac34482b0be4d6b70f20, type: 3}
-        - {fileID: 21300008, guid: 4179d7db6e1bac34482b0be4d6b70f20, type: 3}
-        - {fileID: 21300010, guid: 4179d7db6e1bac34482b0be4d6b70f20, type: 3}
-        - {fileID: 21300012, guid: 4179d7db6e1bac34482b0be4d6b70f20, type: 3}
-        - {fileID: 21300014, guid: 4179d7db6e1bac34482b0be4d6b70f20, type: 3}
-        EquippedData: {fileID: 4900000, guid: f939f400efcd67c48a3f8ace92c0adfd, type: 3}
-      RightHand:
-        Texture: {fileID: 2800000, guid: bd0511727a3d7434d867171e36b85611, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: bd0511727a3d7434d867171e36b85611, type: 3}
-        - {fileID: 21300002, guid: bd0511727a3d7434d867171e36b85611, type: 3}
-        - {fileID: 21300004, guid: bd0511727a3d7434d867171e36b85611, type: 3}
-        - {fileID: 21300006, guid: bd0511727a3d7434d867171e36b85611, type: 3}
-        - {fileID: 21300008, guid: bd0511727a3d7434d867171e36b85611, type: 3}
-        - {fileID: 21300010, guid: bd0511727a3d7434d867171e36b85611, type: 3}
-        - {fileID: 21300012, guid: bd0511727a3d7434d867171e36b85611, type: 3}
-        - {fileID: 21300014, guid: bd0511727a3d7434d867171e36b85611, type: 3}
-        EquippedData: {fileID: 4900000, guid: 78e296c3ee66b8e47b3abe80ac36af5b, type: 3}
-      InventoryIcon:
-        Texture: {fileID: 2800000, guid: 99e9c87a38a642745be3077fe73a2498, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 99e9c87a38a642745be3077fe73a2498, type: 3}
-        - {fileID: 21300002, guid: 99e9c87a38a642745be3077fe73a2498, type: 3}
-        EquippedData: {fileID: 4900000, guid: 644dcbd43d206ed48bb540a2f7d0f713, type: 3}
-    Off:
-      LeftHand:
-        Texture: {fileID: 2800000, guid: 4831d7b11e2fbbe41a314d1939b2402c, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 4831d7b11e2fbbe41a314d1939b2402c, type: 3}
-        - {fileID: 21300002, guid: 4831d7b11e2fbbe41a314d1939b2402c, type: 3}
-        - {fileID: 21300004, guid: 4831d7b11e2fbbe41a314d1939b2402c, type: 3}
-        - {fileID: 21300006, guid: 4831d7b11e2fbbe41a314d1939b2402c, type: 3}
-        EquippedData: {fileID: 4900000, guid: 726d55215c54e7945842b1a4c7a5d640, type: 3}
-      RightHand:
-        Texture: {fileID: 2800000, guid: 8f376853d082bfe429ae1aa3798d1c87, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 8f376853d082bfe429ae1aa3798d1c87, type: 3}
-        - {fileID: 21300002, guid: 8f376853d082bfe429ae1aa3798d1c87, type: 3}
-        - {fileID: 21300004, guid: 8f376853d082bfe429ae1aa3798d1c87, type: 3}
-        - {fileID: 21300006, guid: 8f376853d082bfe429ae1aa3798d1c87, type: 3}
-        EquippedData: {fileID: 4900000, guid: 1cb0530ca524bfc4487e905a4d59dacb, type: 3}
-      InventoryIcon:
-        Texture: {fileID: 2800000, guid: 97e8ba546dc910e468cedb0c3566e0d2, type: 3}
-        Sprites:
-        - {fileID: 21300000, guid: 97e8ba546dc910e468cedb0c3566e0d2, type: 3}
-        EquippedData: {fileID: 0}
-  playerLightControl: {fileID: 2350815963227468493}
-  worldLight: {fileID: 6176213448508576191}
-  worldRenderer: {fileID: 5667522765297587855}
-  color: 0
-  activatedHitDamage: 30
-  activatedThrowDamage: 20
-  activatedVerbs:
-  - attacked
-  - slashed
-  - stabbed
-  - sliced
-  - torn
-  - ripped
-  - diced
-  - cut
-  activatedSize: 5
-  activatedHitSound: blade1
-  activatedLightIntensity: 1
-  activated: 0
 --- !u!1 &5667522765297587855
 GameObject:
   m_ObjectHideFlags: 0
@@ -390,6 +65,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -422,6 +98,150 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5667522765297587855}
   m_Mesh: {fileID: 0}
+--- !u!114 &2350815963227468493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d3d65b4ce352374ba2f4a8645c9476c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  LightEmission: {fileID: 0}
+  Intensity: 0
+  Colour: {r: 0, g: 0, b: 0, a: 0}
+  EnumSprite: 0
+  Size: 3.5
+  IsOn: 1
+  CachedIntensity: 1
+  PlayerLightData:
+    Intensity: 0
+    Colour: {r: 0, g: 0, b: 0, a: 0}
+    EnumSprite: 0
+    Size: 12
+--- !u!114 &4821844458157436374
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7781396554342910705}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 248d0e8833af4f35917b5fc3503b256c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Sprites:
+    Blue:
+      SpriteInventoryIcon: {fileID: 0}
+      SpriteLeftHand: {fileID: 0}
+      SpriteRightHand: {fileID: 0}
+      Palette:
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      IsPaletted: 0
+    Green:
+      SpriteInventoryIcon: {fileID: 0}
+      SpriteLeftHand: {fileID: 0}
+      SpriteRightHand: {fileID: 0}
+      Palette:
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      IsPaletted: 0
+    Purple:
+      SpriteInventoryIcon: {fileID: 0}
+      SpriteLeftHand: {fileID: 0}
+      SpriteRightHand: {fileID: 0}
+      Palette:
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      IsPaletted: 0
+    Rainbow:
+      SpriteInventoryIcon: {fileID: 0}
+      SpriteLeftHand: {fileID: 0}
+      SpriteRightHand: {fileID: 0}
+      Palette:
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      IsPaletted: 0
+    Red:
+      SpriteInventoryIcon: {fileID: 0}
+      SpriteLeftHand: {fileID: 0}
+      SpriteRightHand: {fileID: 0}
+      Palette:
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      IsPaletted: 0
+    Off:
+      SpriteInventoryIcon: {fileID: 0}
+      SpriteLeftHand: {fileID: 0}
+      SpriteRightHand: {fileID: 0}
+      Palette:
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      - {r: 0, g: 0, b: 0, a: 0}
+      IsPaletted: 0
+  playerLightControl: {fileID: 2350815963227468493}
+  worldLight: {fileID: 6176213448508576191}
+  worldRenderer: {fileID: 5667522765297587855}
+  color: 0
+  activatedHitDamage: 30
+  activatedThrowDamage: 20
+  activatedVerbs:
+  - attacked
+  - slashed
+  - stabbed
+  - sliced
+  - torn
+  - ripped
+  - diced
+  - cut
+  activatedSize: 5
+  activatedHitSound: blade1
+  activatedLightIntensity: 1
+  activated: 0
 --- !u!1001 &4236242615490559816
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -429,10 +249,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: m_Name
-      value: Energy Sword1
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ecf7a882f70db2040a4355d24e304b8e,
+        type: 2}
+    - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -489,6 +315,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_Name
+      value: Energy Sword
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 97e8ba546dc910e468cedb0c3566e0d2,
+        type: 3}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: attackVerbs.Array.size
@@ -534,17 +371,6 @@ PrefabInstance:
       propertyPath: attackVerbs.Array.data[1]
       value: poked
       objectReference: {fileID: 0}
-    - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 97e8ba546dc910e468cedb0c3566e0d2,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}
 --- !u!1 &7781396554342910705 stripped

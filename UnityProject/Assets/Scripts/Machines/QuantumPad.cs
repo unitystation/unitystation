@@ -34,7 +34,6 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private SpriteHandler spriteHandler;
 
-	[SyncVar(hook = nameof(ClientSync))]
 	private bool doingAnimation;
 
 	/// <summary>
@@ -56,20 +55,6 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 	/// Temp until shuttle landings possible
 	/// </summary>
 	public bool IsLavaLandBase2Connector;
-
-	private void ClientSync(bool oldVar, bool newVar)
-	{
-		doingAnimation = newVar;
-
-		if (newVar)
-		{
-			ClientAnimation(1);
-		}
-		else
-		{
-			ClientAnimation(0);
-		}
-	}
 
 	[Server]
 	private void ServerSync(bool newVar)
@@ -217,10 +202,6 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 		ServerSync(false);
 	}
 
-	public void ClientAnimation(int variant)
-	{
-		spriteHandler.ChangeSprite(variant);
-	}
 
 	[Server]
 	public void TransportPlayers(ObjectBehaviour player)

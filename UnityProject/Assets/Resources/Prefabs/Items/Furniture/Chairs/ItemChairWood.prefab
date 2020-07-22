@@ -84,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &499351249353511896
 MonoBehaviour:
@@ -118,26 +119,9 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   itemSprites:
-    LeftHand:
-      Texture: {fileID: 2800000, guid: d47ab28d1040734438cc9665b9f085f0, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: d47ab28d1040734438cc9665b9f085f0, type: 3}
-      - {fileID: 21300002, guid: d47ab28d1040734438cc9665b9f085f0, type: 3}
-      - {fileID: 21300004, guid: d47ab28d1040734438cc9665b9f085f0, type: 3}
-      - {fileID: 21300006, guid: d47ab28d1040734438cc9665b9f085f0, type: 3}
-      EquippedData: {fileID: 4900000, guid: 86923745c0319444fbf60a9deb3078ac, type: 3}
-    RightHand:
-      Texture: {fileID: 2800000, guid: 5ed01f83b9f20ad40afcd532f279b08d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 5ed01f83b9f20ad40afcd532f279b08d, type: 3}
-      - {fileID: 21300002, guid: 5ed01f83b9f20ad40afcd532f279b08d, type: 3}
-      - {fileID: 21300004, guid: 5ed01f83b9f20ad40afcd532f279b08d, type: 3}
-      - {fileID: 21300006, guid: 5ed01f83b9f20ad40afcd532f279b08d, type: 3}
-      EquippedData: {fileID: 4900000, guid: 760909c09f6f2c0419ea053a6654c310, type: 3}
-    InventoryIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+    SpriteInventoryIcon: {fileID: 0}
+    SpriteLeftHand: {fileID: 11400000, guid: 36fcaffe60c3d2448b6a827f9eafc323, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: e8e65e72e99582e4ab0e0d00921bcee1, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -160,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114734890905785284
@@ -296,7 +281,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!114 &3367823238823490735
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,9 +310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0
@@ -400,7 +381,7 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 40
-  m_Sprite: {fileID: 21300004, guid: e0bb66a27d79cbf44b08bcbe35409046, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e0bb66a27d79cbf44b08bcbe35409046, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -423,9 +404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 3e7793534207ccb4f8c0baf38313cf59, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []

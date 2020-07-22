@@ -11,16 +11,11 @@ using Mirror;
 /// </summary>
 public class ClothingV2 : NetworkBehaviour
 {
-	private SpriteHandlerController spriteHandlerController;
 	//TODO: This can probably be migrated to this component rather than using a separate SO, since
 	//there's probably no situation where we'd want to re-use the same cloth data on more than one item.
 	[Tooltip("Clothing data describing the various sprites for this clothing.")]
 	[SerializeField]
 	private BaseClothData clothData = null;
-
-	[Tooltip("Index of the variant to use. -1 for default.")]
-	[SerializeField]
-	private int variantIndex = -1;
 
 	[Tooltip("Type of variant to use of the clothing data.")]
 	[SerializeField][SyncVar(hook = nameof(SyncSprites))]
@@ -33,10 +28,8 @@ public class ClothingV2 : NetworkBehaviour
 	private ItemAttributesV2 myItem;
 	private Pickupable myPickupable;
 
-	private Dictionary<ClothingVariantType, int> variantStore = new Dictionary<ClothingVariantType, int>();
-	private List<int> variantList;
-	private SpriteData spriteInfo;
-
+	public List<SpriteDataSO> SpriteDataSO = new List<SpriteDataSO>();
+	private bool isAdjusted;
 	/// <summary>
 	/// Clothing item this is currently equipped to, if there is one. Will be updated when the data is synced.
 	/// </summary>
@@ -45,13 +38,13 @@ public class ClothingV2 : NetworkBehaviour
 	/// <summary>
 	/// The sprite info for this clothing. Describes all the sprites it has for various situations.
 	/// </summary>
-	public SpriteData SpriteInfo => spriteInfo;
+	//public SpriteData SpriteInfo => spriteInfo;
 
 	//TODO: Refactor this, quite confusing
 	/// <summary>
 	/// The index of the sprites that should currently be used for rendering this, an index into SpriteData.List
 	/// </summary>
-	public int SpriteInfoState => variantStore.ContainsKey(variantType) ? variantStore[variantType] : 0;
+	public int SpriteInfoState => isAdjusted ? 1 : 0;
 
 	/// <summary>
 	/// Determine when a piece of clothing hides another
@@ -62,7 +55,6 @@ public class ClothingV2 : NetworkBehaviour
 
 	private void Awake()
 	{
-		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		myItem = GetComponent<ItemAttributesV2>();
 		myPickupable = GetComponent<Pickupable>();
 		TryInit();
@@ -74,43 +66,25 @@ public class ClothingV2 : NetworkBehaviour
 		switch (clothData)
 		{
 			case ClothingData clothingData:
-				spriteInfo = SetUpSheetForClothingData(clothingData);
+				SpriteDataSO.Add(clothingData.Base.SpriteEquipped);
+				SpriteDataSO.Add(clothingData.Base_Adjusted.SpriteEquipped);
 				SetUpFromClothingData(clothingData.Base);
-
-				switch (variantType)
-				{
-					case ClothingVariantType.Default:
-						if (variantIndex > -1)
-						{
-							if (!(clothingData.Variants.Count >= variantIndex))
-							{
-								SetUpFromClothingData(clothingData.Variants[variantIndex]);
-							}
-						}
-						break;
-					case ClothingVariantType.Skirt:
-						SetUpFromClothingData(clothingData.DressVariant);
-						break;
-					case ClothingVariantType.Tucked:
-						SetUpFromClothingData(clothingData.Base_Adjusted);
-						break;
-				}
 				break;
 
 			case ContainerData containerData:
-				this.spriteInfo = SpriteFunctions.SetupSingleSprite(containerData.Sprites.Equipped);
+				SpriteDataSO.Add(containerData.Sprites.SpriteEquipped);
 				SetUpFromClothingData(containerData.Sprites);
 				break;
 
 			case BeltData beltData:
-				this.spriteInfo = SpriteFunctions.SetupSingleSprite(beltData.sprites.Equipped);
+				SpriteDataSO.Add(beltData.sprites.SpriteEquipped);
 				SetUpFromClothingData(beltData.sprites);
 				break;
 
 			case HeadsetData headsetData:
 			{
 				var Headset = GetComponent<Headset>();
-				this.spriteInfo = SpriteFunctions.SetupSingleSprite(headsetData.Sprites.Equipped);
+				SpriteDataSO.Add(headsetData.Sprites.SpriteEquipped);
 				SetUpFromClothingData(headsetData.Sprites);
 				Headset.EncryptionKey = headsetData.Key.EncryptionKey;
 				break;
@@ -122,12 +96,12 @@ public class ClothingV2 : NetworkBehaviour
 	{
 		var SpriteSOData = new ItemsSprites();
 		SpriteSOData.Palette = new List<Color>(equippedData.Palette);
-		SpriteSOData.LeftHand = (equippedData.InHandsLeft);
-		SpriteSOData.RightHand = (equippedData.InHandsRight);
-		SpriteSOData.InventoryIcon = (equippedData.ItemIcon);
+		SpriteSOData.SpriteLeftHand = (equippedData.SpriteInHandsLeft);
+		SpriteSOData.SpriteRightHand = (equippedData.SpriteInHandsRight);
+		SpriteSOData.SpriteInventoryIcon = (equippedData.SpriteItemIcon);
 		SpriteSOData.IsPaletted = equippedData.IsPaletted;
 
-		spriteHandlerController.SetSprites(SpriteSOData);
+		myItem.SetSprites(SpriteSOData);
 	}
 
 
@@ -135,59 +109,10 @@ public class ClothingV2 : NetworkBehaviour
 	{
 		if (myItem.ItemSprites.IsPaletted)
 		{
-			spriteHandlerController.SetPaletteOfCurrentSprite(palette);
-			clothingItem?.spriteHandler.SetPaletteOfCurrentSprite(palette);
+			//	myItem.SetPaletteOfCurrentSprite(palette);
+			clothingItem?.spriteHandler.SetPaletteOfCurrentSprite(palette,  Network:false);
 			myPickupable.SetPalette(palette);
 		}
-	}
-
-
-	private SpriteData SetUpSheetForClothingData(ClothingData clothingData)
-	{
-		var SpriteInfos = new SpriteData();
-
-		SpriteInfos.List = new List<List<List<SpriteHandler.SpriteInfo>>>();
-		SpriteInfos.isPaletteds = new List<bool>();
-		SpriteInfos.palettes = new List<List<Color>>();
-		int c = 0;
-
-		SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(clothingData.Base.Equipped));
-		SpriteInfos.isPaletteds.Add(clothingData.Base.IsPaletted);
-		SpriteInfos.palettes.Add(new List<Color>(clothingData.Base.Palette));
-
-		variantStore[ClothingVariantType.Default] = c;
-		c++;
-
-		if (clothingData.Base_Adjusted.Equipped.Texture != null)
-		{
-			SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(clothingData.Base_Adjusted.Equipped));
-			SpriteInfos.isPaletteds.Add(clothingData.Base_Adjusted.IsPaletted);
-			SpriteInfos.palettes.Add(new List<Color>(clothingData.Base_Adjusted.Palette));
-			variantStore[ClothingVariantType.Tucked] = c;
-			c++;
-		}
-
-		if (clothingData.DressVariant.Equipped.Texture != null)
-		{
-			SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(clothingData.DressVariant.Equipped));
-			SpriteInfos.isPaletteds.Add(clothingData.DressVariant.IsPaletted);
-			SpriteInfos.palettes.Add(new List<Color>(clothingData.DressVariant.Palette));
-			variantStore[ClothingVariantType.Skirt] = c;
-			c++;
-		}
-		if (clothingData.Variants.Count > 0)
-		{
-			foreach (var Variant in clothingData.Variants)
-			{
-				SpriteInfos.List.Add(SpriteFunctions.CompleteSpriteSetup(Variant.Equipped));
-				SpriteInfos.isPaletteds.Add(Variant.IsPaletted);
-				SpriteInfos.palettes.Add(new List<Color>(Variant.Palette));
-				variantStore[ClothingVariantType.Skirt] = c; // Doesn't make sense
-				c++;
-			}
-		}
-
-		return (SpriteInfos);
 	}
 
 
@@ -220,14 +145,13 @@ public class ClothingV2 : NetworkBehaviour
 
 	public List<Color> GetPaletteOrNull()
 	{
-		return clothData == null ? null : clothData.GetPaletteOrNull(variantIndex);
+		return clothData == null ? null : clothData.GetPaletteOrNull(0);
 	}
 
 	public enum ClothingVariantType
 	{
 		Default = 0,
 		Tucked = 1,
-		Skirt = 2
 	}
 }
 

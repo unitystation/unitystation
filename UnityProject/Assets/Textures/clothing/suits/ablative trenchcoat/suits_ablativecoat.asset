@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: suits_ablativecoat
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 3439455209659141063, guid: 3161f951d8d0dd3499fa569aa36abb47,
+        type: 3}
+      secondDelay: 0.5
+    - sprite: {fileID: -8495603921139501215, guid: 3161f951d8d0dd3499fa569aa36abb47,
+        type: 3}
+      secondDelay: 0.5
+  - Frames:
+    - sprite: {fileID: -8885038089760734150, guid: 3161f951d8d0dd3499fa569aa36abb47,
+        type: 3}
+      secondDelay: 0.5
+    - sprite: {fileID: 3373184668826348280, guid: 3161f951d8d0dd3499fa569aa36abb47,
+        type: 3}
+      secondDelay: 0.5
+  - Frames:
+    - sprite: {fileID: -6608304276669693891, guid: 3161f951d8d0dd3499fa569aa36abb47,
+        type: 3}
+      secondDelay: 0.5
+    - sprite: {fileID: 2785921676510788815, guid: 3161f951d8d0dd3499fa569aa36abb47,
+        type: 3}
+      secondDelay: 0.5
+  - Frames:
+    - sprite: {fileID: 7097116958859515021, guid: 3161f951d8d0dd3499fa569aa36abb47,
+        type: 3}
+      secondDelay: 0.5
+    - sprite: {fileID: -980370848950497714, guid: 3161f951d8d0dd3499fa569aa36abb47,
+        type: 3}
+      secondDelay: 0.5
+  IsPalette: 0
+  setID: 20782

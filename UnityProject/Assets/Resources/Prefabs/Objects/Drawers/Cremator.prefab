@@ -111,40 +111,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: f67b4356f23e54346a4c76c6a0414b03, type: 2}
+  - {fileID: 11400000, guid: 09b63097663eb2f41b62690b448cf86b, type: 2}
+  - {fileID: 11400000, guid: 71d9e22c85a39bc4db92114211e3c9b3, type: 2}
+  - {fileID: 11400000, guid: b25d6302278ad144a844caff05ff46e2, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: f67b4356f23e54346a4c76c6a0414b03, type: 2}
   Sprites:
   - Texture: {fileID: 2800000, guid: 1e21506b4fab4304da6adf6d18d3f873, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 1e21506b4fab4304da6adf6d18d3f873, type: 3}
-    - {fileID: 21300002, guid: 1e21506b4fab4304da6adf6d18d3f873, type: 3}
-    - {fileID: 21300004, guid: 1e21506b4fab4304da6adf6d18d3f873, type: 3}
-    - {fileID: 21300006, guid: 1e21506b4fab4304da6adf6d18d3f873, type: 3}
-    EquippedData: {fileID: 4900000, guid: b07c569c0762d6048bf267872f17513a, type: 3}
   - Texture: {fileID: 2800000, guid: 86517aa4d9ca47b4c8e77d3fe6bc00d7, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 86517aa4d9ca47b4c8e77d3fe6bc00d7, type: 3}
-    - {fileID: 21300002, guid: 86517aa4d9ca47b4c8e77d3fe6bc00d7, type: 3}
-    - {fileID: 21300004, guid: 86517aa4d9ca47b4c8e77d3fe6bc00d7, type: 3}
-    - {fileID: 21300006, guid: 86517aa4d9ca47b4c8e77d3fe6bc00d7, type: 3}
-    EquippedData: {fileID: 4900000, guid: dd2877e4ab9677e4b8b1592b87dc9596, type: 3}
   - Texture: {fileID: 2800000, guid: 4e8646721c528db45a7bed5a05fdb9d7, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 4e8646721c528db45a7bed5a05fdb9d7, type: 3}
-    - {fileID: 21300002, guid: 4e8646721c528db45a7bed5a05fdb9d7, type: 3}
-    - {fileID: 21300004, guid: 4e8646721c528db45a7bed5a05fdb9d7, type: 3}
-    - {fileID: 21300006, guid: 4e8646721c528db45a7bed5a05fdb9d7, type: 3}
-    EquippedData: {fileID: 4900000, guid: fb94029504cfd8443b437e029cd7b53c, type: 3}
   - Texture: {fileID: 2800000, guid: 21d6442fe237226459d69a59d4303724, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 21d6442fe237226459d69a59d4303724, type: 3}
-    - {fileID: 21300002, guid: 21d6442fe237226459d69a59d4303724, type: 3}
-    - {fileID: 21300004, guid: 21d6442fe237226459d69a59d4303724, type: 3}
-    - {fileID: 21300006, guid: 21d6442fe237226459d69a59d4303724, type: 3}
-    EquippedData: {fileID: 4900000, guid: 4e73f40f77779d54c87fccf1fb701b69, type: 3}
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []
 --- !u!1001 &2326953878361258396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -171,7 +151,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: 1e21506b4fab4304da6adf6d18d3f873,
+      objectReference: {fileID: 21300000, guid: 1e21506b4fab4304da6adf6d18d3f873,
         type: 3}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

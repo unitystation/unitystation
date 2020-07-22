@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17b2fb3ef6787a14ea8ae48d4b78cc60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  lootCount: 1
+  fanOut: 0
   poolList: []
 --- !u!1001 &2838674892618678586
 PrefabInstance:
@@ -79,6 +83,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 762be26fb5a93894b9b33ba5a6d6501a,
         type: 3}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3767d790c7352d640907b37e4211e696,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &2839352587806555520 stripped

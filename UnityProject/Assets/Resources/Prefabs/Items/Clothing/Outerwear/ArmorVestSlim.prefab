@@ -22,7 +22,7 @@ PrefabInstance:
     - target: {fileID: 3921521694364753778, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: m_Name
-      value: ArmorVestSlim1
+      value: ArmorVestSlim
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
@@ -84,6 +84,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7145545764318209269, guid: e606c25f8104ffa4e94b68151182a216,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 875040c45204b944584d66705349e36d,
+        type: 2}
     - target: {fileID: 7931175119129480439, guid: e606c25f8104ffa4e94b68151182a216,
         type: 3}
       propertyPath: clothData

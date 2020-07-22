@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 911625499023932587, guid: d7baf14ff3cf76f489318502c06c7f49,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bb6cc6a257a2c0649b2f7fe5d4b86256,
+        type: 2}
     - target: {fileID: 2797070323025255689, guid: d7baf14ff3cf76f489318502c06c7f49,
         type: 3}
       propertyPath: itemStoragePopulator
@@ -84,5 +90,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2b1d42a87c49a774b80174fe1ad35d64,
         type: 3}
+    - target: {fileID: 8960613963677380436, guid: d7baf14ff3cf76f489318502c06c7f49,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aada1f61d1ea0b446976c4ebb8a492fb,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d7baf14ff3cf76f489318502c06c7f49, type: 3}

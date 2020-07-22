@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: suits_shrine_maiden
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -8901715713436460861, guid: 449e731c2ab05c94d9de4725bb0ad8f6,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -3272502009758769781, guid: 449e731c2ab05c94d9de4725bb0ad8f6,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -24868379221297588, guid: 449e731c2ab05c94d9de4725bb0ad8f6,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -5114365601682176539, guid: 449e731c2ab05c94d9de4725bb0ad8f6,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 21077

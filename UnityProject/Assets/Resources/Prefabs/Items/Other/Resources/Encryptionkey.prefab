@@ -166,6 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114535661936412438
 MonoBehaviour:
@@ -219,6 +220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114736642641914970
@@ -286,6 +288,7 @@ MonoBehaviour:
   supplySprite: {fileID: 21300000, guid: 262d393c22bf6704dbd74aca6c34c5bb, type: 3}
   syndicateSprite: {fileID: 21300000, guid: 7f0a7e771115d3f4a8643ea77539c6b8, type: 3}
   srvsecSprite: {fileID: 21300000, guid: a70e977729c2c3a4590cf5aa623babb5, type: 3}
+  centCommPlusSprite: {fileID: 0}
   type: 1
 --- !u!114 &114386789575497412
 MonoBehaviour:
@@ -398,6 +401,9 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteInventoryIcon: {fileID: 0}
+    SpriteLeftHand: {fileID: 0}
+    SpriteRightHand: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -435,6 +441,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
