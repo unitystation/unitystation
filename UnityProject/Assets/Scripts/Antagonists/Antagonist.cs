@@ -12,6 +12,13 @@ namespace Antagonists
 		[Tooltip("The name of the antagonist type")]
 		[SerializeField]
 		private string antagName = "New Antag";
+
+		[Tooltip("The antag jobType")]
+		[SerializeField]
+		private JobType antagJobType;
+
+		public JobType AntagJobType => antagJobType;
+
 		/// <summary>
 		/// The name of the antagonist type
 		/// </summary>
