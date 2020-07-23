@@ -18,8 +18,9 @@ namespace Chemistry.Effects
 			{
 				if (senderInfo.playerHolding != null)
 				{
-					Inventory.ServerDespawn(sender.gameObject);
-					Inventory.ServerAdd(spawnItem, senderInfo.currentSlot);
+					var spawnInstance = Spawn.ServerPrefab(spawnItem).GameObject;
+					var pickupable = spawnInstance.GetComponent<Pickupable>();
+					Inventory.ServerAdd(pickupable, senderInfo.currentSlot, ReplacementStrategy.DespawnOther);
 				}
 				else
 				{
