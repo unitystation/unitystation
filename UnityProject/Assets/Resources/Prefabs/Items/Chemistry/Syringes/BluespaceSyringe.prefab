@@ -92,5 +92,23 @@ PrefabInstance:
       propertyPath: initialName
       value: bluespace syringe
       objectReference: {fileID: 0}
+    - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8a48d48c73b986c449c0829f13a80d56,
+        type: 2}
+    - target: {fileID: 1567996125810610591, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c6b648b1361bd78418d3ee578b0d3d1a,
+        type: 2}
+    - target: {fileID: 5073623463249184122, guid: bc948ccbd770fff438862a32cd45a867,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: eaf99639db15fef409e10f6d89480371,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bc948ccbd770fff438862a32cd45a867, type: 3}

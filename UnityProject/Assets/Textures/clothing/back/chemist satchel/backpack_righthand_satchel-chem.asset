@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: backpack_righthand_satchel-chem
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 7959341945674972311, guid: c0e582203c6e41e48b94a9f4b7b5afd1,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -8569665481846010075, guid: c0e582203c6e41e48b94a9f4b7b5afd1,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -2386036670381678294, guid: c0e582203c6e41e48b94a9f4b7b5afd1,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -5072913149032450483, guid: c0e582203c6e41e48b94a9f4b7b5afd1,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 19717

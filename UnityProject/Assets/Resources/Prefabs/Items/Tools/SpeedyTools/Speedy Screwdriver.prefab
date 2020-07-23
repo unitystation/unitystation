@@ -7,10 +7,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad,
+    - target: {fileID: 1814041240436128874, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
-      propertyPath: m_Name
-      value: Speedy Screwdriver
+      propertyPath: SpeedMultiplier
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891703331962291809, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891703331962291809, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891703331962291809, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.96111727
+      objectReference: {fileID: 0}
+    - target: {fileID: 8827211731076726564, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 8865118116160962532, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
@@ -67,30 +87,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8827211731076726564, guid: 366fb594c17e76346bbb29ad4ce021ad,
+    - target: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad,
         type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1814041240436128874, guid: 366fb594c17e76346bbb29ad4ce021ad,
-        type: 3}
-      propertyPath: SpeedMultiplier
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 4891703331962291809, guid: 366fb594c17e76346bbb29ad4ce021ad,
-        type: 3}
-      propertyPath: m_Color.r
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4891703331962291809, guid: 366fb594c17e76346bbb29ad4ce021ad,
-        type: 3}
-      propertyPath: m_Color.g
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4891703331962291809, guid: 366fb594c17e76346bbb29ad4ce021ad,
-        type: 3}
-      propertyPath: m_Color.b
-      value: 0.96111727
+      propertyPath: m_Name
+      value: Speedy Screwdriver
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 366fb594c17e76346bbb29ad4ce021ad, type: 3}

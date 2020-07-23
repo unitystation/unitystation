@@ -396,16 +396,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: e8271589fcb217c408a333742ec38504, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: e8271589fcb217c408a333742ec38504, type: 2}
   Sprites:
   - Texture: {fileID: 2800000, guid: 6f8612a65d41a3147919c3485b1e4f29, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 6f8612a65d41a3147919c3485b1e4f29, type: 3}
-    - {fileID: 21300002, guid: 6f8612a65d41a3147919c3485b1e4f29, type: 3}
-    - {fileID: 21300004, guid: 6f8612a65d41a3147919c3485b1e4f29, type: 3}
-    - {fileID: 21300006, guid: 6f8612a65d41a3147919c3485b1e4f29, type: 3}
-    EquippedData: {fileID: 4900000, guid: 598eef589a8fdf04183ab26dce4e05a1, type: 3}
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []

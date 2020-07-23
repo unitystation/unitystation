@@ -7,6 +7,7 @@ using Chemistry.Components;
 
 public class GeneratePlantSOs : EditorWindow
 {
+	/*
 	private static Dictionary<string, string> dictonaryErrors;
 
 	[MenuItem("Tools/GeneratePlantSOs")]
@@ -68,9 +69,9 @@ public class GeneratePlantSOs : EditorWindow
 				}
 			};
 
-			plantdata.PacketsSprite = new SpriteSheetAndData();
-			plantdata.PacketsSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\seeds\" + (plat["seed_packet"] as string) + ".png", typeof(Texture2D)) as Texture2D);
-			plantdata.PacketsSprite.setSprites();
+			//plantdata.PacketsSprite = new SpriteSheetAndData();
+			//plantdata.PacketsSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\seeds\" + (plat["seed_packet"] as string) + ".png", typeof(Texture2D)) as Texture2D);
+			//plantdata.PacketsSprite.setSprites();
 
 			SpriteSheetAndData produceSprite = new SpriteSheetAndData();
 			produceSprite.Texture = (AssetDatabase.LoadAssetAtPath(@"Assets\textures\objects\hydroponics\harvest\" + species + ".png", typeof(Texture2D)) as Texture2D);
@@ -120,7 +121,7 @@ public class GeneratePlantSOs : EditorWindow
 					Namecheck = Namecheck.Replace("growing_fruits_", "");
 					Namecheck = Namecheck.Replace("growing_mushrooms_", "");
 					Namecheck = Namecheck.Replace("growing_vegetables_", "");
-					Namecheck = Namecheck.Replace("growing_", "");*/
+					Namecheck = Namecheck.Replace("growing_", "");
 					Namecheck = Namecheck.Split('-')[0];
 
 					if (Namecheck == species)
@@ -163,7 +164,7 @@ public class GeneratePlantSOs : EditorWindow
 				progressbarState += progressbarStep;
 			}
 			//check if sprites are missing
-			if (plantdata.PacketsSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find seed packet sprite for plant {plantdata.Name}"); }
+			//if (plantdata.PacketsSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find seed packet sprite for plant {plantdata.Name}"); }
 			//if (plantdata.ProduceSprite.Texture == null) {  }
 			if (plantdata.DeadSprite.Texture == null) { AppendError(plantdata.Name, $"Unable to find dead sprite"); }
 			if (plantdata.GrowthSprites.Count == 0) { AppendError(plantdata.Name, $"Unable to find growth sprites for plant {plantdata.Name}"); }
@@ -279,7 +280,7 @@ public class GeneratePlantSOs : EditorWindow
 
 				//add sprite to food
 				var spriteRenderer = prefabVariant.GetComponentInChildren<SpriteRenderer>();
-				spriteRenderer.sprite = SpriteFunctions.SetupSingleSprite(produceSprite).ReturnFirstSprite();
+				//FFGD  spriteRenderer.sprite = SpriteFunctions.SetupSingleSprite(produceSprite).ReturnFirstSprite();
 
 				var newFood = prefabVariant.GetComponent<GrownFood>();
 
@@ -506,4 +507,5 @@ public class GeneratePlantSOs : EditorWindow
 		else
 			dictonaryErrors.Add(key, error);
 	}
+	*/
 }

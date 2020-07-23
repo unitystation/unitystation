@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2928706061312092434, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2999380b1259f6e4aab7a38c8f985185,
+        type: 2}
     - target: {fileID: 7227399156320994347, guid: 890d160c3b8aa074c844215d24be6881,
         type: 3}
       propertyPath: machineParts
@@ -103,6 +109,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: MachineBoardFreezer
+      objectReference: {fileID: 0}
+    - target: {fileID: 9156715304704664009, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9a3e95ba1c080e247bba711d5474a1b4,
+        type: 3}
+    - target: {fileID: 9156715304704664009, guid: 890d160c3b8aa074c844215d24be6881,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 890d160c3b8aa074c844215d24be6881, type: 3}

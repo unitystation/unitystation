@@ -6,7 +6,7 @@ using UnityEngine;
 public class HackingNodeInfo
 {
 	[Tooltip("This is used by the code to identifiy this kind of node, and will be used by scripts to initialise the links. Make sure this is unique!")]
-	public string InternalIdentifier = "unset";
+	public HackingIdentifier InternalIdentifier = HackingIdentifier.Unset;
 	public bool IsInput = false;
 	public bool IsOutput = false;
 	public bool IsDeviceNode = false;

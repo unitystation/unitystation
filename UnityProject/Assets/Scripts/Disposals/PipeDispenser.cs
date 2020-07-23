@@ -13,7 +13,6 @@ public class PipeDispenser : NetworkBehaviour
 
 	Coroutine animationRoutine;
 
-	[SyncVar(hook = nameof(OnMachineStatusChange))]
 	bool machineOperating = false;
 
 	public bool MachineOperating => machineOperating;
@@ -79,8 +78,10 @@ public class PipeDispenser : NetworkBehaviour
 	IEnumerator SetMachineOperating()
 	{
 		machineOperating = true;
+		UpdateSprite();
 		yield return WaitFor.Seconds(ANIMATION_TIME);
 		machineOperating = false;
+		UpdateSprite();
 	}
 
 	void OnAnchoredChange()

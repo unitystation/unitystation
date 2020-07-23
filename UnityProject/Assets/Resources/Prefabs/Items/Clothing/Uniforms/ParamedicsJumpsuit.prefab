@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1580212734361834469, guid: de234d793cfd842599c9c8726207f217,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bbc85f3366d71784ba7dd87e12841aee,
+        type: 2}
     - target: {fileID: 1789387693666696167, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: clothData
@@ -102,9 +108,9 @@ PrefabInstance:
     - target: {fileID: 5063610172518221568, guid: de234d793cfd842599c9c8726207f217,
         type: 3}
       propertyPath: initialDescription
-      value: It's made of a special fiber that provides minor protection against biohazards.
-        It has a dark blue cross on the chest denoting that the wearer is a trained
-        paramedic.
+      value: It's made of a special fiber that provides minor protection against
+        biohazards. It has a dark blue cross on the chest denoting that the wearer
+        is a trained paramedic.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: de234d793cfd842599c9c8726207f217, type: 3}

@@ -15,9 +15,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clothData: {fileID: 11400000, guid: eb343884b18cee7428553105a19c25fc, type: 2}
-  variantIndex: -1
   variantType: 0
   hideClothingFlags: 256
+  SpriteDataSO: []
 --- !u!114 &1141365726382165537
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,6 +58,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2121397489038221665, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 02c9f0bce16549c49b1c39bf7a01b06a,
+        type: 2}
     - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -248,6 +254,18 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: 40bbe2f167fff41efb1c05e17fb43e88,
+        type: 2}
+    - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c782bccf4653c38448e0e3c9f8e816a3,
+        type: 2}
+    - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 437395b32b52d534c805d0fa33d1d2ce,
         type: 2}
     - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
         type: 3}

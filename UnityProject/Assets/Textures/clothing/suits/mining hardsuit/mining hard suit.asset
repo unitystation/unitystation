@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
   m_Name: mining hard suit
   m_EditorClassIdentifier: 
-  PrefabVariant: {fileID: 0}
   Base:
     Equipped:
       Texture: {fileID: 2800000, guid: 8b877c5123fe75c4da84d5bd5d28fd1a, type: 3}
@@ -43,6 +42,22 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: b6265b678cb9a3c4b9b47d0ca43fcbcd, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: f9c486631fad6c141bd21af9f8d849b4, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: 23bbb3ee964bb8c4ba7645d9b9669daa,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: 00b3757a95db73d438b78251d50e7605,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: 02c4affd68b5b0d45bbdc19267f912bf, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   Base_Adjusted:
     Equipped:
       Texture: {fileID: 0}
@@ -60,6 +75,20 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   DressVariant:
     Equipped:
       Texture: {fileID: 0}
@@ -77,19 +106,18 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   Variants: []
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 6
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    IsEVACapable: 1
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []

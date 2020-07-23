@@ -59,7 +59,6 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 	private bool hasExploded;
 
 	// is timer finished or was interupted?
-	[SyncVar(hook = nameof(UpdateTimer))]
 	private bool timerRunning = false;
 
 	//this object's registerObject
@@ -81,6 +80,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 		UpdateSprite(LOCKED_SPRITE);
 		// Reset grenade timer
 		timerRunning = false;
+		UpdateTimer(timerRunning);
 		hasExploded = false;
 	}
 
@@ -114,6 +114,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 		if (!timerRunning)
 		{
 			timerRunning = true;
+			UpdateTimer(timerRunning);
 			PlayPinSFX(originator.transform.position);
 
 			if (unstableFuse)
@@ -152,7 +153,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 
 		if (lemonPotencyOverride == 0)
 		{
-			lemonPotency = grownFood.plantData.Potency;
+			lemonPotency = grownFood.GetPlantData().Potency;
 		}
 		else
 		{
@@ -181,7 +182,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 		SoundManager.PlayNetworkedAtPos("sizzle", position, sourceObj: gameObject);
 	}
 
-	private void UpdateTimer(bool wasTimerRunning, bool timerRunning)
+	private void UpdateTimer(bool timerRunning)
 	{
 		this.timerRunning = timerRunning;
 

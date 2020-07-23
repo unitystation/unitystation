@@ -205,6 +205,16 @@ PrefabInstance:
       propertyPath: willHighlight
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4421781600494999209, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: itemStorageCapacity
@@ -216,6 +226,12 @@ PrefabInstance:
       propertyPath: denyStorageOfStorageItems
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7482199438493803764, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aada1f61d1ea0b446976c4ebb8a492fb,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 3676074921659133965, guid: e46ba34aab52d654787ef10d896b0874, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: e46ba34aab52d654787ef10d896b0874, type: 3}

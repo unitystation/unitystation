@@ -15,13 +15,13 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 	private SpriteHandler spriteHandler = null;
 
 	[SerializeField]
-	private SpriteSheetAndData idleSprite = null;
+	private SpriteDataSO idleSprite = null;
 
 	[SerializeField]
-	private SpriteSheetAndData productionSprite = null;
+	private SpriteDataSO productionSprite = null;
 
 	[SerializeField]
-	private SpriteSheetAndData acceptingMaterialsSprite = null;
+	private SpriteDataSO acceptingMaterialsSprite = null;
 
 	private RegisterObject registerObject = null;
 
@@ -199,15 +199,15 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		stateSync = stateNew;
 		if (stateNew == AutolatheState.Idle)
 		{
-			spriteHandler.SetSprite(idleSprite);
+			spriteHandler.SetSpriteSO(idleSprite);
 		}
 		else if (stateNew == AutolatheState.Production)
 		{
-			spriteHandler.SetSprite(productionSprite, 0);
+			spriteHandler.SetSpriteSO(productionSprite);
 		}
 		else if (stateNew == AutolatheState.AcceptingMaterials)
 		{
-			spriteHandler.SetSprite(acceptingMaterialsSprite, 0);
+			spriteHandler.SetSpriteSO(acceptingMaterialsSprite);
 		}
 	}
 

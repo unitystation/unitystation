@@ -8,7 +8,7 @@ namespace Lobby
 	public class CharacterSprites : MonoBehaviour
 	{
 		private CharacterDir currentDir = CharacterDir.down;
-		public List<List<SpriteHandler.SpriteInfo>> sprites = new List<List<SpriteHandler.SpriteInfo>>();
+		//FFGD public List<List<SpriteHandler.SpriteInfo>> sprites = new List<List<SpriteHandler.SpriteInfo>>();
 
 		private int referenceOffset;
 		private CharacterView characterView;
@@ -72,20 +72,20 @@ namespace Lobby
 				image = GetComponent<Image>();
 			}
 
-			if (sprites != null && sprites.Count > 0)
-			{
-				image.enabled = true;
+			//FFGD if (sprites != null && sprites.Count > 0)
+			//FFGD {
+				//FFGD image.enabled = true;
 				//If reference -1 then clear the sprite
-				if (sprites != null)
-				{
-					image.sprite = sprites[referenceOffset][0].sprite;
-				}
-			}
-			else
-			{
-				image.sprite = null;
-				image.enabled = false;
-			}
+				//FFGD if (sprites != null)
+				//FFGD {
+					//FFGD 	image.sprite = sprites[referenceOffset][0].sprite;
+					//FFGD }
+				//FFGD 	}
+				//FFGD else
+				//FFGD 	{
+				//FFGD 	image.sprite = null;
+				//FFGD 	image.enabled = false;
+				//FFGD }
 		}
 
 	}

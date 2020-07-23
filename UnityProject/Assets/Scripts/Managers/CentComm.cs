@@ -276,6 +276,22 @@ public class CentComm : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Makes an announcement for all players, no sound. Must be called on server.
+	/// </summary>
+	/// <param name="template">String that will be the header of the annoucement. We have a couple ready to use </param>
+	/// <param name="text">String that will be the message body</param>
+	/// <param name="type">Value from the UpdateSound enum to play as sound when announcing</param>
+	public static void MakeAnnouncementNoSound( string template, string text)
+	{
+		if ( text.Trim() == string.Empty )
+		{
+			return;
+		}
+
+		Chat.AddSystemMsgToChat(string.Format( template, text ), MatrixManager.MainStationMatrix);
+	}
+
+	/// <summary>
 	/// Text should be no less than 10 chars
 	/// </summary>
 	public static void MakeShuttleCallAnnouncement( string minutes, string text, bool bypassLength = false )

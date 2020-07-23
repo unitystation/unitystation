@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b24ee62ea83af1abe8bd9e60b2407067,
         type: 2}
+    - target: {fileID: 544171576806319005, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b24ee62ea83af1abe8bd9e60b2407067,
+        type: 2}
     - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: initialName
@@ -91,6 +97,18 @@ PrefabInstance:
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 0020cbe03614e124284904f855713165, type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f180f9405f9ad24b8195dbc1b1681cf,
+        type: 2}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a15ebb6ad3276b40a5c74645251d0d1,
+        type: 2}
     - target: {fileID: 1465560459664676969, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: m_Sprite
@@ -100,7 +118,7 @@ PrefabInstance:
     - target: {fileID: 1632346945329490741, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: m_Name
-      value: MilkCream
+      value: BVOld_MilkCream
       objectReference: {fileID: 0}
     - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
@@ -167,5 +185,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4891293828191637682, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f85557f5fabcf76419e0cf7cc718ac87,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcafad97f0ef7384793b303b782af31b, type: 3}

@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   clothData: {fileID: 11400000, guid: bb0a16e9049b27b4abe5b002a0e9a9c1, type: 2}
-  variantIndex: -1
   variantType: 0
   hideClothingFlags: 0
+  SpriteDataSO: []
 --- !u!1001 &3836663719065982
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -194,6 +196,24 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[2]
       value: 
       objectReference: {fileID: 11400000, guid: a88f1555ca8abf643aea180c637f5329,
+        type: 2}
+    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9a98f29c619768146a0816fd6f41b2a5,
+        type: 2}
+    - target: {fileID: 520041481196620939, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 58d6e8fa67e53774b8b8f60286124b96,
+        type: 2}
+    - target: {fileID: 6096760620208494702, guid: cbf90b2e22f389941aaf3912f2b607ee,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d8afb28b83b259244a6348353f943eb4,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbf90b2e22f389941aaf3912f2b607ee, type: 3}

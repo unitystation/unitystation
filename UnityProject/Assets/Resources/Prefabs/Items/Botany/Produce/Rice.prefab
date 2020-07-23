@@ -11,7 +11,14 @@ PrefabInstance:
         type: 3}
       propertyPath: seedPacket
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1020831183681200399, guid: 5186709fe798b0f41850799bfda96a6b,
+        type: 3}
+    - target: {fileID: 1294793839381664232, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f3a3eb34f706d848a6d7184a97937ef,
+        type: 2}
     - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: Reagents.Array.size
@@ -129,5 +136,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 7640553959568001153, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f3a3eb34f706d848a6d7184a97937ef,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}

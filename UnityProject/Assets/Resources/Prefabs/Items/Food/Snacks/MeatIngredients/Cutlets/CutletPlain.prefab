@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 7541554960362008693, guid: 22153594ca62ee0418bb92cef2a1a384,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7579360259096719541, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 7583157834381544897, guid: 22153594ca62ee0418bb92cef2a1a384,
         type: 3}
       propertyPath: m_Name
-      value: CutletBase
+      value: CutletPlain
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 22153594ca62ee0418bb92cef2a1a384, type: 3}

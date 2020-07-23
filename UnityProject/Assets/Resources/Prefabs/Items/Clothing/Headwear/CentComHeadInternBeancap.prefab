@@ -15,8 +15,8 @@ PrefabInstance:
     - target: {fileID: 1778182844913246397, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
       propertyPath: initialDescription
-      value: A horrifying mix of beanie and softcap in CentCom green. You'd have to
-        be pretty desperate for power over your peers to agree to wear this.
+      value: A horrifying mix of beanie and softcap in CentCom green. You'd have
+        to be pretty desperate for power over your peers to agree to wear this.
       objectReference: {fileID: 0}
     - target: {fileID: 2067487341669760131, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
@@ -104,6 +104,12 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: b6de0f00337d2ce4d86e00f4028ec177,
+        type: 2}
+    - target: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 11e12f59c76e6514fb2d2684f0e3c184,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7a048f6c330048e9a2358fb6f71d385, type: 3}

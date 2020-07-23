@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
       propertyPath: Sprites.Array.data[0].Texture
       value: 
       objectReference: {fileID: 2800000, guid: f9aaeb5eb21343042937129efd9e9624, type: 3}
@@ -140,6 +145,18 @@ PrefabInstance:
       propertyPath: SetSpriteOnStartUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 60a35bc3c5bf15549b761cb003093926,
+        type: 2}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 60a35bc3c5bf15549b761cb003093926,
+        type: 2}
     - target: {fileID: 4004836250214930999, guid: 8fee22e722a3782408324281846ebd02,
         type: 3}
       propertyPath: m_IsActive

@@ -15,9 +15,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   clothData: {fileID: 11400000, guid: 808d5b6262848c949bffc703651f4589, type: 2}
-  variantIndex: -1
   variantType: 0
   hideClothingFlags: 0
+  SpriteDataSO: []
 --- !u!1001 &8252805953259510436
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -170,6 +170,12 @@ PrefabInstance:
       propertyPath: attackVerbs.Array.data[0]
       value: touche'd
       objectReference: {fileID: 0}
+    - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d4eec8993c7464b4f932a254893b6fbf,
+        type: 2}
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: NutritionLevel

@@ -81,8 +81,8 @@ PrefabInstance:
     - target: {fileID: 3397443007502491847, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
       propertyPath: initialDescription
-      value: It's made of a special fiber that provides minor protection against biohazards.
-        This one is in baby blue.
+      value: It's made of a special fiber that provides minor protection against
+        biohazards. This one is in baby blue.
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
@@ -98,8 +98,8 @@ PrefabInstance:
     - target: {fileID: 7594101368484477531, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
       propertyPath: initialDescription
-      value: It's made of a special fiber that provides minor protection against biohazards.
-        This one is in baby blue.
+      value: It's made of a special fiber that provides minor protection against
+        biohazards. This one is in baby blue.
       objectReference: {fileID: 0}
     - target: {fileID: 7594101368484477531, guid: 604161a1d792749539a5f1b0eb6e4749,
         type: 3}
@@ -133,5 +133,11 @@ PrefabInstance:
       propertyPath: variantIndex
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8975007657035133986, guid: 604161a1d792749539a5f1b0eb6e4749,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2ab2db34afe0dbd4a91965bcbef6542a,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 604161a1d792749539a5f1b0eb6e4749, type: 3}

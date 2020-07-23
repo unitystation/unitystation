@@ -1,5 +1,25 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &2508431932374448967
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2850985779635314150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 8f1ec9c7e481df24b893cf5dbbb625b4, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 8f1ec9c7e481df24b893cf5dbbb625b4, type: 2}
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 4658acee1f74e0f4daacac900e702fb4, type: 3}
+  variantIndex: 0
+  palette: []
 --- !u!114 &-7861159277022690619
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,31 +70,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spriteMatrixRotationBehavior: 1
   ignoreExtraRotation: []
---- !u!114 &2508431932374448967
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2850985779635314150}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 4658acee1f74e0f4daacac900e702fb4, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 4658acee1f74e0f4daacac900e702fb4, type: 3}
-    - {fileID: 21300002, guid: 4658acee1f74e0f4daacac900e702fb4, type: 3}
-    - {fileID: 21300004, guid: 4658acee1f74e0f4daacac900e702fb4, type: 3}
-    - {fileID: 21300006, guid: 4658acee1f74e0f4daacac900e702fb4, type: 3}
-    EquippedData: {fileID: 4900000, guid: dbce7c6af695bc54a898252174c512cc, type: 3}
-  spriteIndex: 0
-  variantIndex: 0
-  SetSpriteOnStartUp: 1
 --- !u!1001 &7879323375666506133
 PrefabInstance:
   m_ObjectHideFlags: 0

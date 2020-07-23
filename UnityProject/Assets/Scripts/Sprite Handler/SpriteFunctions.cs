@@ -16,9 +16,9 @@ public static class SpriteFunctions
 	/// </summary>
 	/// <returns>The sprite setup.</returns>
 	/// <param name="textureAndData">Texture and data.</param>
-	public static List<List<SpriteHandler.SpriteInfo>> CompleteSpriteSetup(SpriteSheetAndData textureAndData)
-	{
-		var SpriteInfos = new List<List<SpriteHandler.SpriteInfo>>();
+	//public static List<List<SpriteHandler.SpriteInfo>> CompleteSpriteSetup(SpriteSheetAndData textureAndData)
+	//{
+		/*var SpriteInfos = new List<List<SpriteHandler.SpriteInfo>>();
 
 		if (textureAndData.Sprites.Length > 1)
 		{
@@ -70,14 +70,14 @@ public static class SpriteFunctions
 			}
 
 		}
-		return (SpriteInfos);
-	}
+		return (SpriteInfos);*/
+	//}
 
 	/// <summary>
 	/// Used for generating [variant][animation frame] from a PlayerCustomisationData
 	/// </summary>
 	/// <returns>The sprite list</returns>
-	public static List<List<SpriteHandler.SpriteInfo>> CompleteSpriteSetup(PlayerCustomisationData pcd)
+	/*public static List<List<SpriteHandler.SpriteInfo>> CompleteSpriteSetup(PlayerCustomisationData pcd)
 	{
 		if (pcd)
 		{
@@ -86,19 +86,20 @@ public static class SpriteFunctions
 
 		return null;
 	}
+	*/
 
 	/// <summary>
 	/// Used for generating a single element within a The internal data holder
 	/// </summary>
 	/// <returns>The single sprite.</returns>
 	/// <param name="textureAndData">Texture and data.</param>
-	public static SpriteData SetupSingleSprite(SpriteSheetAndData textureAndData)
+	/*public static SpriteData SetupSingleSprite(SpriteSheetAndData textureAndData)
 	{
 		var SpriteInfos = new SpriteData();
 		SpriteInfos.List = new List<List<List<SpriteHandler.SpriteInfo>>>();
 		SpriteInfos.List.Add(CompleteSpriteSetup(textureAndData));
 		return (SpriteInfos);
-	}
+	}*/
 }
 
 public class SpriteJson

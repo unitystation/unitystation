@@ -7,10 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: m_Name
-      value: Baton
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 95e694dba5ed9204a91e57dcb1951da9,
+        type: 2}
+    - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -67,6 +73,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_Name
+      value: Baton
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 357b4c10ba04d0e4998c7b3d032229bc,
+        type: 3}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -166,16 +183,17 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: ff21238ea2597184ca57bfaf15397796, type: 3}
-    - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: m_AssetId
+      propertyPath: itemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
+      objectReference: {fileID: 11400000, guid: 7cf18178bc908124fa798ab10554edc2,
+        type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: itemSprites.SpriteRightHand
       value: 
-      objectReference: {fileID: 21300000, guid: 357b4c10ba04d0e4998c7b3d032229bc,
-        type: 3}
+      objectReference: {fileID: 11400000, guid: 99275d32e0f6ea749a3bbd0b33692478,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}

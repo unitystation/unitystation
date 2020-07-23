@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2164972540663452851, guid: a50a869ba3b67f64b8f2bec85df950a6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c6f9a8b1aeb7e064bbc213f49d46bbb5,
+        type: 2}
     - target: {fileID: 5313242217186319464, guid: a50a869ba3b67f64b8f2bec85df950a6,
         type: 3}
       propertyPath: m_Sprite
@@ -21,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 5426160498802093876, guid: a50a869ba3b67f64b8f2bec85df950a6,
         type: 3}
       propertyPath: m_Name
-      value: TBorgsTonicWater
+      value: BVOld_TBorgsTonicWater
       objectReference: {fileID: 0}
     - target: {fileID: 5430806898007773760, guid: a50a869ba3b67f64b8f2bec85df950a6,
         type: 3}
@@ -100,6 +106,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6514338071049381788, guid: a50a869ba3b67f64b8f2bec85df950a6,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514338071049381788, guid: a50a869ba3b67f64b8f2bec85df950a6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514338071049381788, guid: a50a869ba3b67f64b8f2bec85df950a6,
+        type: 3}
       propertyPath: reagentMix.reagents.m_keys.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 78dfd9d10630fc6e5841599215aa1023,
@@ -107,6 +123,17 @@ PrefabInstance:
     - target: {fileID: 6514338071049381788, guid: a50a869ba3b67f64b8f2bec85df950a6,
         type: 3}
       propertyPath: reagentMix.reagents.m_values.Array.data[0]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514338071049381788, guid: a50a869ba3b67f64b8f2bec85df950a6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 78dfd9d10630fc6e5841599215aa1023,
+        type: 2}
+    - target: {fileID: 6514338071049381788, guid: a50a869ba3b67f64b8f2bec85df950a6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 50
       objectReference: {fileID: 0}
     m_RemovedComponents: []

@@ -9,7 +9,6 @@ using Random = UnityEngine.Random;
 public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	ICheckedInteractable<InventoryApply>
 {
-	private SpriteHandlerController spriteHandlerController;
 	private ItemAttributesV2 itemAttributes;
 	public EswordSprites Sprites;
 	public ItemLightControl playerLightControl;
@@ -52,7 +51,6 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	{
 		if (itemAttributes != null) return;
 		itemAttributes = GetComponent<ItemAttributesV2>();
-		spriteHandlerController = GetComponent<SpriteHandlerController>();
 		pickupable = GetComponent<Pickupable>();
 		if (color == (int) SwordColor.Random)
 		{
@@ -195,25 +193,25 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 			switch ((SwordColor)color)
 			{
 				case SwordColor.Blue:
-					spriteHandlerController.SetSprites(Sprites.Blue);
+					itemAttributes.SetSprites(Sprites.Blue);
 					break;
 				case SwordColor.Green:
-					spriteHandlerController.SetSprites(Sprites.Green);
+					itemAttributes.SetSprites(Sprites.Green);
 					break;
 				case SwordColor.Purple:
-					spriteHandlerController.SetSprites(Sprites.Purple);
+					itemAttributes.SetSprites(Sprites.Purple);
 					break;
 				case SwordColor.Rainbow:
-					spriteHandlerController.SetSprites(Sprites.Rainbow);
+					itemAttributes.SetSprites(Sprites.Rainbow);
 					break;
 				case SwordColor.Red:
-					spriteHandlerController.SetSprites(Sprites.Red);
+					itemAttributes.SetSprites(Sprites.Red);
 					break;
 			}
 		}
 		else
 		{
-			spriteHandlerController.SetSprites(Sprites.Off);
+			itemAttributes.SetSprites(Sprites.Off);
 		}
 	}
 

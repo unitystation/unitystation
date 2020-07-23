@@ -7,10 +7,15 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2473701121889670674, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2576181618821966758, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Name
-      value: Low machine connector Variant
+      value: Low machine connector
       objectReference: {fileID: 0}
     - target: {fileID: 2581668318916269778, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
@@ -72,32 +77,6 @@ PrefabInstance:
       propertyPath: initialDescription
       value: used to connect  machines that are running on the 240V line
       objectReference: {fileID: 0}
-    - target: {fileID: 2473701121889670674, guid: d88c145d60cabfd4092f839650cea997,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 8995820581009048269, guid: d88c145d60cabfd4092f839650cea997,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 776718967
-      objectReference: {fileID: 0}
-    - target: {fileID: 8995820581009048269, guid: d88c145d60cabfd4092f839650cea997,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8995820581009048269, guid: d88c145d60cabfd4092f839650cea997,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 8995820581009048269, guid: d88c145d60cabfd4092f839650cea997,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 89c9549c5c0648a43bca9b77bfc6f8c7,
-        type: 3}
     - target: {fileID: 5422858671993271279, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_SortingLayerID
@@ -118,6 +97,27 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300002, guid: 89c9549c5c0648a43bca9b77bfc6f8c7,
+        type: 3}
+    - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 776718967
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300004, guid: 89c9549c5c0648a43bca9b77bfc6f8c7,
         type: 3}
     - target: {fileID: 5878003969928791920, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
@@ -140,26 +140,26 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: 89c9549c5c0648a43bca9b77bfc6f8c7,
         type: 3}
-    - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
+    - target: {fileID: 8995820581009048269, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_SortingLayerID
       value: 776718967
       objectReference: {fileID: 0}
-    - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
+    - target: {fileID: 8995820581009048269, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_SortingLayer
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
+    - target: {fileID: 8995820581009048269, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_SortingOrder
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 5876897435817811983, guid: d88c145d60cabfd4092f839650cea997,
+    - target: {fileID: 8995820581009048269, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300004, guid: 89c9549c5c0648a43bca9b77bfc6f8c7,
+      objectReference: {fileID: 21300000, guid: 89c9549c5c0648a43bca9b77bfc6f8c7,
         type: 3}
     - target: {fileID: 9102969064241332941, guid: d88c145d60cabfd4092f839650cea997,
         type: 3}

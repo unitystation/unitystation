@@ -51,15 +51,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		if (Controller.IsClosed && Controller.IsAutomatic)
 		{
-			if (Controller.IsHackable)
-			{
-				HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
-				onAttemptOpen.SendOutputToConnectedNodes(byPlayer);
-			}
-			else
-			{
-				TryOpen(byPlayer);
-			}
+			TryOpen(byPlayer);
 		}
 	}
 
@@ -81,15 +73,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		}
 		// Attempt to open if it's closed
 		//Tell the OnAttemptOpen node to activate.
-		else if (Controller.IsHackable)
-		{
-			HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
-			onAttemptOpen.SendOutputToConnectedNodes(interaction.Performer);
-		}
-		else
-		{
-			TryOpen(interaction.Performer);
-		}
+		TryOpen(interaction.Performer);
 	}
 
 	/// <summary>
@@ -103,12 +87,12 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 
 	public virtual void TryClose()
 	{
-		Controller.ServerTryClose();
+		Controller.CloseSignal();
 	}
 
 	public virtual void TryOpen(GameObject performer)
 	{
-		Controller.ServerTryOpen(performer);
+		Controller.MobTryOpen(performer);
 	}
 
 	public void TryCrowbar()
@@ -125,13 +109,8 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
             $"{interaction.Performer.ExpensiveName()} forces the door open!",
             () =>
             {
-                Controller.ServerOpen();
+                Controller.Open();
             });
-		}
-		else if (Controller.IsHackable)
-		{
-			HackingNode onAttemptClose = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptClose");
-			onAttemptClose.SendOutputToConnectedNodes(interaction.Performer);
 		}
 		else
 		{
@@ -139,11 +118,11 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 
 			if (!Controller.IsClosed)
 			{
-				Controller.ServerTryClose();
+				Controller.TryClose();
 			}
 			else
 			{
-				Controller.ServerTryOpen(interaction.Performer);
+				Controller.MobTryOpen(interaction.Performer);
 			}
 		}
 	}

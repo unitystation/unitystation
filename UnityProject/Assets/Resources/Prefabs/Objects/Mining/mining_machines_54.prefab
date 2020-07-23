@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &6253077211462791056
@@ -190,15 +191,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - Item: {fileID: 6700281191928912403, guid: 51db727353f37334c9bfdbb512f2d530, type: 3}
+  - ItemName: 
+    Item: {fileID: 6700281191928912403, guid: 51db727353f37334c9bfdbb512f2d530, type: 3}
     Stock: 5
-  - Item: {fileID: 2654578771155045139, guid: 5a7fa3c926dc42141889e9b72c5d314d, type: 3}
+  - ItemName: 
+    Item: {fileID: 6507000735928756314, guid: 672dc44f4c052d746aefa06b301785bd, type: 3}
     Stock: 5
-  - Item: {fileID: 2654578771155045139, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}
+  - ItemName: 
+    Item: {fileID: 2654136094092541073, guid: 5a7fa3c926dc42141889e9b72c5d314d, type: 3}
     Stock: 5
-  - Item: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
+  - ItemName: 
+    Item: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
     Stock: 5
-  - Item: {fileID: 6507000735928756314, guid: 672dc44f4c052d746aefa06b301785bd, type: 3}
+  - ItemName: 
+    Item: {fileID: 6507000735928756314, guid: 672dc44f4c052d746aefa06b301785bd, type: 3}
     Stock: 5
   HullColor: {r: 0.5882353, g: 0.4392157, b: 0.19607843, a: 1}
   EjectObjects: 0
@@ -207,13 +213,17 @@ MonoBehaviour:
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
   VendorContent:
-  - Item: {fileID: 6700281191928912403, guid: 51db727353f37334c9bfdbb512f2d530, type: 3}
+  - ItemName: 
+    Item: {fileID: 6700281191928912403, guid: 51db727353f37334c9bfdbb512f2d530, type: 3}
     Stock: 5
-  - Item: {fileID: 2654578771155045139, guid: 5a7fa3c926dc42141889e9b72c5d314d, type: 3}
+  - ItemName: 
+    Item: {fileID: 2654578771155045139, guid: 5a7fa3c926dc42141889e9b72c5d314d, type: 3}
     Stock: 5
-  - Item: {fileID: 2654578771155045139, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}
+  - ItemName: 
+    Item: {fileID: 2654578771155045139, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}
     Stock: 5
-  - Item: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
+  - ItemName: 
+    Item: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
     Stock: 5
   ActualCurrentPowerState: 2
   DoesntRequirePower: 0
@@ -279,7 +289,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -300,7 +312,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114430213137055408
 MonoBehaviour:
   m_ObjectHideFlags: 0

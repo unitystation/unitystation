@@ -22,8 +22,8 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private GeneralSwitchController switchController;
 
-	[SyncVar(hook = nameof(OnSyncOutletState))]
 	bool massDriverOperating = false;
+
 	[SyncVar(hook = nameof(OnSyncOrientation))]
 	private Orientation orientation;
 
@@ -49,11 +49,6 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 		switchController.SwitchPressedDoAction.RemoveListener(DoAction);
 	}
 
-	public override void OnStartClient()
-	{
-		UpdateSpriteOrientation();
-	}
-
 	#region Sync
 
 	private void UpdateSpriteOutletState()
@@ -65,12 +60,6 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void OnDirectionChanged(Orientation newDir)
 	{
 		orientation = newDir;
-	}
-
-	private void OnSyncOutletState(bool oldState, bool newState)
-	{
-		massDriverOperating = newState;
-		UpdateSpriteOutletState();
 	}
 
 	private void OnSyncOrientation(Orientation oldState, Orientation newState)
@@ -115,7 +104,7 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private IEnumerator DetectObjects()
 	{
 		massDriverOperating = true;
-
+		UpdateSpriteOutletState();
 		//detect players positioned on the mass driver
 		var playersFound = Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer, ObjectType.Player, true);
 
@@ -141,6 +130,7 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 		yield return WaitFor.Seconds(ANIMATION_TIME);
 
 		massDriverOperating = false;
+		UpdateSpriteOutletState();
 	}
 
 	private void ThrowItem(ObjectBehaviour item, Vector3 throwVector)

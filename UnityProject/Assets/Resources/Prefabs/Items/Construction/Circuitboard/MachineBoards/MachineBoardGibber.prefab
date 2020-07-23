@@ -116,10 +116,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 1540eff381c395144bca6b3d8d84fbd6,
         type: 3}
+    - target: {fileID: 1894013491118822915, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2185525740609964605, guid: f8fbe534e67ffd048b68ffb59a80c10f,
         type: 3}
       propertyPath: initialName
       value: Gibber (Machine Board)
       objectReference: {fileID: 0}
+    - target: {fileID: 5620221405395738328, guid: f8fbe534e67ffd048b68ffb59a80c10f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4ad91303937b50f478a6f5396532e6a8,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f8fbe534e67ffd048b68ffb59a80c10f, type: 3}

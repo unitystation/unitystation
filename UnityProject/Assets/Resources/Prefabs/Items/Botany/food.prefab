@@ -1,5 +1,23 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7640553959568001153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4952068174319894345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
+  Sprites: []
+  variantIndex: 0
+  palette: []
 --- !u!114 &-9006715302198902684
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -19,19 +37,9 @@ MonoBehaviour:
     Name: 
     Plantname: 
     Description: 
-    PacketsSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    GrowthSprites: []
-    FullyGrownSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+    DeadSpriteSO: {fileID: 0}
+    FullyGrownSpriteSO: {fileID: 0}
+    GrowthSpritesSOs: []
     WeedResistance: 5
     WeedGrowthRate: 1
     GrowthSpeed: 6
@@ -41,10 +49,25 @@ MonoBehaviour:
     Lifespan: 25
     PlantTrays: 
     ReagentProduction: []
-    MutatesInTo: []
+    MutatesInToGameObject: []
+    plantEvolveStats:
+      WeedResistanceChange: 0
+      WeedGrowthRateChange: 0
+      GrowthSpeedChange: 0
+      PotencyChange: 0
+      EnduranceChange: 0
+      YieldChange: 0
+      LifespanChange: 0
+      PlantTrays: 
+      ReagentProduction: []
+      RemovePlantTrays: 
+      RemoveReagentProduction: []
+    Age: 0
+    NextGrowthStageProgress: 0
+    Health: 0
   reagentContainer: {fileID: 3608205971236566501}
   nutrient: {fileID: 11400000, guid: 068bcb587110477558045ad0cfd78237, type: 2}
-  seedPacket: {fileID: 3867790606060242529, guid: 26abf4c2c542ffa4098216683cb5f652,
+  seedPacket: {fileID: 2168775886857505498, guid: 01c159bdb264b6b47884c88a657adc61,
     type: 3}
   SpriteSizeAdjustment: {fileID: 5066517181570930995}
   Sprite: {fileID: 1294793839381664232}
@@ -62,19 +85,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6adedb9416d7b647b6c3811ff2f0824, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxCapacity: 100
-  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
-  reagentMix:
-    temperature: 0
-    reagents:
-      m_keys: []
-      m_values: []
-  itemAttributes: {fileID: 0}
+  UseStandardExamine: 1
+  ExamineAmount: 0
+  ExamineContent: 0
   traitWhitelist: []
   reagentWhitelist: []
   transferMode: 4
   possibleTransferAmounts: []
   transferAmount: 20
+  maxCapacity: 100
+  reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  initialReagentMix:
+    temperature: 0
+    reagents:
+      m_keys: []
+      m_values: []
+  destroyOnEmpty: 0
 --- !u!114 &6259075970471028923
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -87,9 +113,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
   leavings: {fileID: 0}
+  sound: EatFood
   NutritionLevel: 10
 --- !u!114 &7234734607788621599
 MonoBehaviour:
@@ -107,24 +132,6 @@ MonoBehaviour:
   backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   iconOverride: {fileID: 0}
   backgroundSprite: {fileID: 0}
---- !u!114 &7640553959568001153
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4952068174319894345}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
-  variantIndex: 0
-  SetSpriteOnStartUp: 0
 --- !u!1001 &4953256935291295445
 PrefabInstance:
   m_ObjectHideFlags: 0

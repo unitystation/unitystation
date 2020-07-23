@@ -12,22 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29426ca7d955d2c429f6808f9fd5e786, type: 3}
   m_Name: genetics headset
   m_EditorClassIdentifier: 
-  PrefabVariant: {fileID: 0}
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 5
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    IsEVACapable: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []
   Sprites:
     Equipped:
       Texture: {fileID: 2800000, guid: 0953f57898a569e4081071c90d7885e6, type: 3}
@@ -58,5 +42,21 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 9d9c3a7ea1a06ed4b95898a260593bb9, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 7908706a8d937a4409f76118bc90503f, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: f6cdfdd6871648349a045be11f42af2b,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: b94e20227c573f945ab19acee6a2b483,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: e976f0d138b8be446853c7cf74ad2ced, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   Key:
     EncryptionKey: 19

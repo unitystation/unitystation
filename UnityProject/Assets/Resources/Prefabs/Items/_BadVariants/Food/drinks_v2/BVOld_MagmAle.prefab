@@ -28,6 +28,12 @@ PrefabInstance:
       propertyPath: reagentMix.reagents.m_values.Array.data[0]
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 544171576806319005, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a80a4097725f1257d8c0e7aaada54634,
+        type: 2}
     - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: initialName
@@ -120,7 +126,7 @@ PrefabInstance:
     - target: {fileID: 1632346945329490741, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: m_Name
-      value: MagmAle
+      value: BVOld_MagmAle
       objectReference: {fileID: 0}
     - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
@@ -187,5 +193,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4891293828191637682, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bff601b3547709b4aa2c347e1d0cf840,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcafad97f0ef7384793b303b782af31b, type: 3}
