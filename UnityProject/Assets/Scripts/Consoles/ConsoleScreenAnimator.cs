@@ -9,13 +9,31 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 
 	private bool isAnimating = false;
 	public float timeBetweenFrames = 0.1f;
-	public SpriteHandler SpriteHandler;
+
+	public SpriteHandler SpriteHandlerHere
+	{
+		get
+		{
+			if (spriteHandler == null)
+			{
+				spriteHandler = this.GetComponentInChildren<SpriteHandler>();
+			}
+			return spriteHandler;
+		}
+		set
+		{
+			spriteHandler = value;
+		}
+	}
+
+	[SerializeField]
+	private SpriteHandler spriteHandler;
 	public GameObject screenGlow;
 	private int sIndex = 0;
 
 	private void OnEnable()
 	{
-		SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
+
 	}
 
 	private void ToggleOn(bool turnOn)
@@ -24,12 +42,17 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 		{
 			isOn = true;
 			sIndex = 0;
-			SpriteHandler.PushTexture();
+			if (SpriteHandlerHere == null)
+			{
+				Logger.Log("this.gameopb " + this.gameObject);
+				return;
+			}
+			SpriteHandlerHere.PushTexture();
 		}
 		else
 		{
 			isOn = false;
-			SpriteHandler.PushClear();
+			SpriteHandlerHere.PushClear();
 			if (screenGlow != null)
 			{
 				screenGlow.SetActive(false);

@@ -45,6 +45,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool subCatalogueChanged = false;
 
+	[SerializeField]
 	private List<SerialisationStanding> Sprites =new List<SerialisationStanding>();
 
 	public NetworkIdentity GetMasterNetID()
