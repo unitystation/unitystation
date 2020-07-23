@@ -8,8 +8,6 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	private bool isOn;
 
 	private bool isAnimating = false;
-	public float timeBetweenFrames = 0.1f;
-
 	public SpriteHandler SpriteHandlerHere
 	{
 		get
@@ -28,7 +26,7 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 
 	[SerializeField]
 	private SpriteHandler spriteHandler;
-	public GameObject screenGlow;
+	public GameObject ScreenGlow;
 	private int sIndex = 0;
 
 	private void OnEnable()
@@ -53,9 +51,9 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 		{
 			isOn = false;
 			SpriteHandlerHere.PushClear();
-			if (screenGlow != null)
+			if (ScreenGlow != null)
 			{
-				screenGlow.SetActive(false);
+				ScreenGlow.SetActive(false);
 			}
 		}
 	}

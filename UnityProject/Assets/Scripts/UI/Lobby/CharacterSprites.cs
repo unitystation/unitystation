@@ -8,7 +8,7 @@ namespace Lobby
 	public class CharacterSprites : MonoBehaviour
 	{
 		private CharacterDir currentDir = CharacterDir.down;
-		//FFGD public List<List<SpriteHandler.SpriteInfo>> sprites = new List<List<SpriteHandler.SpriteInfo>>();
+		public SpriteHandler sprites = null;
 
 		private int referenceOffset;
 		private CharacterView characterView;
@@ -17,7 +17,7 @@ namespace Lobby
 
 		void Awake()
 		{
-			image = GetComponent<Image>();
+			sprites = GetComponent<SpriteHandler>();
 		}
 		private void Start()
 		{
@@ -65,27 +65,14 @@ namespace Lobby
 
 		public void UpdateSprite()
 		{
-			if (image == null)
+			if (sprites == null)
 			{
 				// It's possible that UpdateSprite gets called before Awake
 				// so grab the image here just in case that happens
-				image = GetComponent<Image>();
+				sprites = GetComponent<SpriteHandler>();
 			}
 
-			//FFGD if (sprites != null && sprites.Count > 0)
-			//FFGD {
-				//FFGD image.enabled = true;
-				//If reference -1 then clear the sprite
-				//FFGD if (sprites != null)
-				//FFGD {
-					//FFGD 	image.sprite = sprites[referenceOffset][0].sprite;
-					//FFGD }
-				//FFGD 	}
-				//FFGD else
-				//FFGD 	{
-				//FFGD 	image.sprite = null;
-				//FFGD 	image.enabled = false;
-				//FFGD }
+			sprites.ChangeSpriteVariant(referenceOffset , NetWork:false);
 		}
 
 	}

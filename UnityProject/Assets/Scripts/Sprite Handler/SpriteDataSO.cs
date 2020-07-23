@@ -28,7 +28,7 @@ public class SpriteDataSO : ScriptableObject
 	}
 
 #if UNITY_EDITOR
-	public void Awake()
+	void Awake()
 	{
 		{
 			if (setID == -1)
