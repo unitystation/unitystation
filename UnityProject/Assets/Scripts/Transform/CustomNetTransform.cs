@@ -306,7 +306,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 		bool changed = false;
 
-		if (IsFloatingClient)
+		if (!server && IsFloatingClient)
 		{
 			changed &= CheckFloatingClient();
 		}
@@ -316,12 +316,14 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			changed &= CheckFloatingServer();
 		}
 
+		//!server &&
 		if (predictedState.Position != transform.localPosition)
 		{
 			Lerp();
 			changed = true;
 		}
 
+		//server &&
 		if (serverState.Position != serverLerpState.Position)
 		{
 			ServerLerp();
@@ -341,7 +343,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 			changed = true;
 		}
 		//Registering
-		if (registerTile.LocalPositionClient != Vector3Int.RoundToInt(predictedState.Position) )
+		if (!server && registerTile.LocalPositionClient != Vector3Int.RoundToInt(predictedState.Position) )
 		{
 //			Logger.LogTraceFormat(  "registerTile updating {0}->{1} ", Category.Transform, registerTile.WorldPositionC, Vector3Int.RoundToInt( predictedState.WorldPosition ) );
 			registerTile.UpdatePositionClient();
