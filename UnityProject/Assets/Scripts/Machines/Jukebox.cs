@@ -35,7 +35,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	[SerializeField]
 	private SpriteSheetAndData SpriteDamaged;
 
-	[SerializeField] private AudioClipsArray audioClips = null;
+	private List<AudioSource> musics;
 
 	private SpriteRenderer spriteRenderer;
 
@@ -49,21 +49,19 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	/// </summary>
 	[HideInInspector] private APCPoweredDevice APCConnectionHandler;
 
-	private AudioSource audioSource;
-
 	private Integrity integrity;
 	private Jukebox jukebox;
 	private APCPoweredDevice power;
+	private RegisterTile registerTile;
 	private int currentSongTrackIndex = 0;
 
 	public bool IsPlaying { get; set; } = false;
-
 
 	public string TrackPosition
 	{
 		get
 		{
-			return $"Track {currentSongTrackIndex + 1} / {audioClips.AudioClips.Length}";
+			return $"Track {currentSongTrackIndex + 1} / {musics.Count}";
 		}
 	}
 
@@ -71,7 +69,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		get
 		{
-			string songName = audioClips.AudioClips[currentSongTrackIndex].name;
+			string songName = musics[currentSongTrackIndex].clip.name;
 			return $"Song : {songName.Split('_')[0]}";
 		}
 	}
@@ -80,33 +78,9 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		get
 		{
-			string songName = audioClips.AudioClips[currentSongTrackIndex].name;
+			string songName = musics[currentSongTrackIndex].clip.name;
 			string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
 			return $"Artist : {artist}";
-		}
-	}
-
-	public int CurrentTrackIndex
-	{
-		get
-		{
-			return currentSongTrackIndex;
-		}
-	}
-
-	public int TotalTrackCount
-	{
-		get
-		{
-			return audioClips.AudioClips.Length;
-		}
-	}
-
-	public string CurrentSong
-	{
-		get
-		{
-			return audioClips.AudioClips[currentSongTrackIndex].name;
 		}
 	}
 
@@ -146,7 +120,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		*/
 
 		// StateUpdate might happen before start
-		if (audioSource != null && audioSource.isPlaying)
+		if (IsPlaying)
 		{
 			APCConnectionHandler.Wattusage = InUseWattUsage;
 		}
@@ -165,9 +139,15 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		APCConnectionHandler = GetComponent<APCPoweredDevice>();
 		jukebox = GetComponent<Jukebox>();
 		power = GetComponent<APCPoweredDevice>();
+		registerTile = GetComponent<RegisterTile>();
+		musics = new List<AudioSource>();
 
-		audioSource = GetComponent<AudioSource>();
-		audioSource.volume = 1;
+		Transform transformAdminMusic = SoundManager.Instance.transform.Find("AdminMusic");
+		foreach (Transform transform in transformAdminMusic)
+		{
+			musics.Add(transform.GetComponent<AudioSource>());
+		}
+
 		UpdateGUI();
 	}
 
@@ -179,7 +159,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 	void Update()
 	{
-		if (IsPlaying && !audioSource.isPlaying)
+		if (IsPlaying && SoundManager.Instance.IsSoundPlaying(musics[currentSongTrackIndex].name))
 		{
 			// The fun isn't over, we just finished the current track.  We just start playing the next one.
 			NextSong();
@@ -193,8 +173,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		{
 			IsPlaying = true;
 			spriteHandler.SetSprite(SpritePlaying);
-			audioSource.clip = audioClips.AudioClips[currentSongTrackIndex];
-			audioSource.Play();
+			SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, -1, true, false, 0, 0, false, gameObject);
 			UpdateGUI();
 		}
 	}
@@ -208,7 +187,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		else
 			spriteHandler.SetSprite(SpriteDamaged);
 
-		audioSource.Stop();
+		SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
+
 		UpdateGUI();
 	}
 
@@ -216,25 +196,29 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		if (currentSongTrackIndex > 0)
 		{
-			currentSongTrackIndex--;
-			audioSource.clip = audioClips.AudioClips[currentSongTrackIndex];
+			if (IsPlaying)
+				SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
+
+			currentSongTrackIndex--;			
 			UpdateGUI();
 
 			if (IsPlaying)
-				audioSource.Play();
+				Play();
 		}
 	}
 
 	public void NextSong()
 	{
-		if (currentSongTrackIndex < audioClips.AudioClips.Length - 1)
+		if (currentSongTrackIndex < musics.Count - 1)
 		{
+			if (IsPlaying)
+				SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
+
 			currentSongTrackIndex++;
-			audioSource.clip = audioClips.AudioClips[currentSongTrackIndex];
 			UpdateGUI();
 
 			if (IsPlaying)
-				audioSource.Play();
+				Play();
 		}
 	}
 

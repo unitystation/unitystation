@@ -7,6 +7,7 @@ using Mirror;
 using Random = UnityEngine.Random;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Messages.Server.SoundMessages;
 
 public class SoundManager : MonoBehaviour
 {
@@ -138,7 +139,7 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Uses a pooled AudioSource instead of the origianl one.
+	/// Uses a pooled AudioSource instead of the original one.
 	/// This copies the sourceToCopy settings to a source taken from the pool
 	/// and return it.
 	/// </summary>
@@ -425,6 +426,15 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Tell all clients to stop playing a sound
+	/// </summary>
+	/// <param name="name">The sound to be stopped</param>
+	public static void StopNetworked(string name)
+	{
+		StopSoundMessage.SendToAll(name);
+	}
+
+	/// <summary>
 	/// Stops a given sound from playing locally.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
@@ -473,6 +483,16 @@ public class SoundManager : MonoBehaviour
 		AudioListener.volume = volume;
 		PlayerPrefs.SetFloat(PlayerPrefKeys.MasterVolumeKey, volume);
 		PlayerPrefs.Save();
+	}
+
+	/// <summary>
+	/// Indicate if a specific sound is currently playing.
+	/// </summary>
+	/// <returns>True if the specific sound is still playing.</returns>
+	public bool IsSoundPlaying(string name)
+	{
+		SoundSpawn sound = Instance.GetSourceFromPool(Instance.sounds[name]);
+		return sound.audioSource.isPlaying;
 	}
 
 	public double GetRandomNumber(double minimum, double maximum)
