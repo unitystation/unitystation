@@ -15,7 +15,17 @@ public class GUI_Jukebox : NetTab
 	[SerializeField]
 	private NetPrefabImage prefabImagePlayStop;
 
-	private Jukebox jukeboxController;
+	private Jukebox _JukeboxController;
+	private Jukebox jukeboxController
+	{
+		get
+		{
+			if (_JukeboxController == null)
+				_JukeboxController = Provider.GetComponent<Jukebox>();
+
+			return _JukeboxController;
+		}
+	}
 
 	public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
 	{
@@ -23,12 +33,6 @@ public class GUI_Jukebox : NetTab
 		labelSong.Value = jukeboxController.SongName;
 		labelArtist.Value = jukeboxController.Artist;
 		prefabImagePlayStop.Value = jukeboxController.PlayStopButtonPrefabImage;
-	}
-
-	// Start is called before the first frame update
-	public void Start()
-	{
-		jukeboxController = Provider.GetComponent<Jukebox>();
 	}
 
 	public void PlayOrStop()

@@ -54,6 +54,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	private APCPoweredDevice power;
 	private RegisterTile registerTile;
 	private int currentSongTrackIndex = 0;
+	private float startPlayTime;
 
 	public bool IsPlaying { get; set; } = false;
 
@@ -131,7 +132,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	}
 
 	// Start is called before the first frame update
-	void Start()
+	private void Start()
 	{
 		// We want the same musics that are in the lobby,
 		// so, I copy it's playlist here instead of managing two different playlists in UnityEditor.
@@ -151,18 +152,21 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		UpdateGUI();
 	}
 
-	void Awake()
+	private void Awake()
 	{
 		integrity = GetComponent<Integrity>();
 		integrity.OnApplyDamage.AddListener(OnDamageReceived);
 	}
 
-	void Update()
+	private void Update()
 	{
-		if (IsPlaying && SoundManager.Instance.IsSoundPlaying(musics[currentSongTrackIndex].name))
+		// Check if the jukebox is in play mode and if the sound is finished playing.
+		// We didn't use "AudioSource.isPlaying" here because of a racing condition between PlayNetworkAtPos latency and Update.
+		if (IsPlaying && Time.time > startPlayTime + musics[currentSongTrackIndex].clip.length)
 		{
-			// The fun isn't over, we just finished the current track.  We just start playing the next one.
-			NextSong();
+			// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
+			if (!NextSong())
+				Stop();
 		}
 	}
 
@@ -173,7 +177,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		{
 			IsPlaying = true;
 			spriteHandler.SetSprite(SpritePlaying);
-			SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, -1, true, false, 0, 0, false, gameObject);
+			SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, -1, false, false, 0, 0, false, gameObject);
+			startPlayTime = Time.time;
 			UpdateGUI();
 		}
 	}
@@ -207,7 +212,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		}
 	}
 
-	public void NextSong()
+	public bool NextSong()
 	{
 		if (currentSongTrackIndex < musics.Count - 1)
 		{
@@ -219,7 +224,11 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 			if (IsPlaying)
 				Play();
+
+			return true;
 		}
+		else
+			return false;
 	}
 
 	private void OnDamageReceived(DamageInfo damageInfo)
@@ -236,8 +245,6 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		valuesToSend.Add(new ElementValue() { Id = "TextTrack", Value = Encoding.UTF8.GetBytes(TrackPosition) });
 		valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes(SongName) });
 		valuesToSend.Add(new ElementValue() { Id = "TextArtist", Value = Encoding.UTF8.GetBytes(Artist) });
-
-
 		valuesToSend.Add(new ElementValue() { Id = "ImagePlayStop", Value = Encoding.UTF8.GetBytes(PlayStopButtonPrefabImage) });
 
 		// Update all UI currently opened.
