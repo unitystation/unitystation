@@ -62,6 +62,11 @@ public partial class GameManager : MonoBehaviour
 	public bool GibbingAllowed { get; set; }
 
 	/// <summary>
+	/// If true, it will allow shuttles from dealing 9001 damage and instantly gibbing people when crashed
+	/// </summary>
+	public bool ShuttleGibbingAllowed { get; set; }
+
+	/// <summary>
 	/// The game mode that the server will switch to at round end if no mode or an invalid mode is selected.
 	/// <summary>
 	public string InitialGameMode { get; set; } = "Random";
@@ -157,6 +162,9 @@ public partial class GameManager : MonoBehaviour
 
 		if (GameConfigManager.GameConfig.GibbingAllowed != null)
 			GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
+
+		if (GameConfigManager.GameConfig.ShuttleGibbingAllowed != null)
+			ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
 	}
 
 	private void OnEnable()
