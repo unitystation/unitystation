@@ -9,7 +9,7 @@ public class SpawnListMonitor : MonoBehaviour
 	void Start()
 	{
 #if UNITY_EDITOR
-		//GenerateSpawnList();
+		GenerateSpawnList();
 #endif
 	}
 
