@@ -161,7 +161,7 @@ public struct NetTabDescriptor {
 
 		if(toInstantiate == null)
 		{
-			Logger.LogWarning($"Couldn't load 'Tab{type}' from resources", Category.NetUI);
+			Logger.LogWarning($"[NetworkTabManager.Spawn] - Couldn't load 'Tab{type}' from resources", Category.NetUI);
 			return null;
 		}
 

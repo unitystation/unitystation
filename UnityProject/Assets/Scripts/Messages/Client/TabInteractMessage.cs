@@ -29,12 +29,12 @@ public class TabInteractMessage : ClientMessage
 	{
 		if (player == null)
 		{
-			Logger.LogWarning("Error - [TabInteractMessage.ProcessFurther] - player is null");
+			Logger.LogWarning("[TabInteractMessage.ProcessFurther] - player is null");
 			return;
 		}
 		else if (tabProvider == null)
 		{
-			Logger.LogWarning("Error - [TabInteractMessage.ProcessFurther] - tabProvider is null");
+			Logger.LogWarning("[TabInteractMessage.ProcessFurther] - tabProvider is null");
 			return;
 		}
 

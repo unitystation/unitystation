@@ -333,7 +333,7 @@ public class VariableViewerNetworking : MonoBehaviour
 			// if currentSize is greater than the maxPacketSize - break loop and send message 
 			if (currentSize > maxPacketSize)
 			{
-				Logger.Log("Book size is to big to send in one message. Removing last pages from book.", Category.NetMessage);
+				Logger.LogError("[VariableViewerNetworking.ProcessBook] - message is to big to send in one packet", Category.NetMessage);
 				break;
 			}
 			

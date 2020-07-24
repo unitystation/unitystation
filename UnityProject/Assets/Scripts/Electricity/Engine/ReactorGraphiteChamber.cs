@@ -285,6 +285,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 		// An arithmetic operation produces a result that is outside the range of the data type returned by the operation
 		catch (OverflowException)
 		{
+			Logger.LogError("[ReactorGraphiteChamber.PowerOutput] CurrentPressure is outside the range of decimal <-7.9228163e+28, 7.9228163e+28>", Category.Electrical);
 			// if result is outside the range of decimal - return
 			return;
 		}

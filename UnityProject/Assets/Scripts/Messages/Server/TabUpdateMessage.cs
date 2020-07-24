@@ -69,7 +69,10 @@ public class TabUpdateMessage : ServerMessage
 				currentSize += value.GetSize();
 
 				if (currentSize > maxPacketSize)
+				{
+					Logger.LogError("[TabUpdateMessage.Send] - message is to big to send in one packet", Category.NetMessage);
 					break;
+				}
 
 				elementValues.Add(value);
 			}
