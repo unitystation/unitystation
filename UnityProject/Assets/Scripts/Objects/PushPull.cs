@@ -39,12 +39,6 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		get => _parentContainer;
 		set
 		{
-			if(value == null)
-			{
-				Logger.LogError(gameObject.name + " tried to set parentContainer to null!", Category.Transform);
-				return;
-			}
-
 			if ( value == this )
 			{
 				Logger.LogError( gameObject.name + " tried to set parentContainer to itself!", Category.Transform );
