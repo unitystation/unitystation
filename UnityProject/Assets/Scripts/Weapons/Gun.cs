@@ -60,7 +60,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	/// <summary>
 	///     Whether the gun uses an internal magazine.
 	/// </summary>
-	[HideInInspector]
+	[HideInInspector] // will be shown by the code at the very end, if appropriate
 	public bool MagInternal = false;
 
 	[HideInInspector]
@@ -69,7 +69,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 	[HideInInspector]
 	public double burstCount = 3;
 	private double currentBurstCount = 0;
-	private bool isCooldown = false;
 
 	/// <summary>
 	///     If the gun should eject it's magazine automatically (external-magazine-specific)
@@ -166,12 +165,11 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 
 	private void Awake()
 	{
+		//init weapon with missing settings
 		GetComponent<ItemAttributesV2>().AddTrait(CommonTraits.Instance.Gun);
 		itemStorage = GetComponent<ItemStorage>();
 		magSlot = itemStorage.GetIndexedItemSlot(0);
 		registerTile = GetComponent<RegisterTile>();
-		//init weapon with missing settings
-
 
 		queuedShots = new Queue<QueuedShot>();
 	}
@@ -273,7 +271,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			return false;
 		}
 
-		if (Projectile != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0) && !isCooldown)
+		if (Projectile != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 		{
 			if (interaction.MouseButtonState == MouseButtonState.PRESS)
 			{
@@ -285,15 +283,22 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 			}
 			else
 			{
-				if (WeaponType == WeaponType.Burst && currentBurstCount <= burstCount)
+				if (WeaponType == WeaponType.Burst)
 				{
-					currentBurstCount++;
-					return true;
-				}
-				else if (WeaponType == WeaponType.Burst && currentBurstCount > burstCount)
-				{
-					BurstCooldown();
-					return false;
+					//being held and is a burst weapon, check how many shots have been fired our the current burst
+					if (currentBurstCount < burstCount)
+					{
+						//we have shot less then the max allowed shots in our current burst, increase and fire again
+						currentBurstCount++;
+						return true;
+					}
+					else if (currentBurstCount >= burstCount)
+					{
+						//we have shot the max allowed shots in our current burst, start cooldown and then fire the first shot
+						WaitFor.Seconds((float)burstCooldown);
+						currentBurstCount = 1;
+						return true;
+					}
 				}
 				else
 				{
@@ -311,14 +316,6 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		return false;
 	}
 
-		private IEnumerator BurstCooldown()
-	{
-		isCooldown = true;
-		currentBurstCount = 0;
-		yield return WaitFor.Seconds((float)burstCooldown);
-		isCooldown = false;
-	}
-
 	public void ClientPredictInteraction(AimApply interaction)
 	{
 		//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
@@ -327,7 +324,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//	ourselves.
 		var isSuicide = false;
 		if (interaction.MouseButtonState == MouseButtonState.PRESS ||
-			(WeaponType == WeaponType.FullyAutomatic && AllowSuicide))
+			(WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
 		{
 			isSuicide = interaction.IsAimingAtSelf;
 			AllowSuicide = isSuicide;
@@ -348,7 +345,7 @@ public class Gun : NetworkBehaviour, IPredictedCheckedInteractable<AimApply>, IC
 		//	ourselves.
 		var isSuicide = false;
 		if (interaction.MouseButtonState == MouseButtonState.PRESS ||
-			(WeaponType == WeaponType.FullyAutomatic && AllowSuicide))
+			(WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
 		{
 			isSuicide = interaction.IsAimingAtSelf;
 			AllowSuicide = isSuicide;
