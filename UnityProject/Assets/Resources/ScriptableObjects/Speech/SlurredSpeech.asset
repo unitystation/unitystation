@@ -12,17 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c302747b295f59d429cc78a122bcb51d, type: 3}
   m_Name: SlurredSpeech
   m_EditorClassIdentifier: 
-  activateReplacements: 0
+  activateReplacements: 1
   wordReplaceList: []
   letterReplaceList: []
-  activateAdditions: 1
+  activateAdditions: 0
   probability: 20
-  beginning:
-  - burp
-  - hic-
-  ending:
-  - burp
-  - hic
-  - hiccup
-  - buuuuurp
-  customCode: {fileID: 0}
+  beginning: []
+  ending: []
+  customCode: {fileID: 11400000, guid: a75389586d3041e4191df6bc8d2fa940, type: 2}
