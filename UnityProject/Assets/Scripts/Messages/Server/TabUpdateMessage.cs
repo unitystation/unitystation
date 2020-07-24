@@ -54,6 +54,30 @@ public class TabUpdateMessage : ServerMessage
 		GameObject changedBy = null,
 		ElementValue[] values = null)
 	{
+
+		if (values != null)
+		{
+			// get max possible packet size from current transform
+			int maxPacketSize = Transport.activeTransport.GetMaxPacketSize(0);
+			// set currentSize start value to max TCP header size (60b)
+			int currentSize = 60;
+
+			List<ElementValue> elementValues = new List<ElementValue>();
+
+			foreach (var value in values)
+			{
+				currentSize += value.GetSize();
+
+				if (currentSize > maxPacketSize)
+					break;
+
+				elementValues.Add(value);
+			}
+
+			values = elementValues.ToArray();
+		}
+
+
 		var msg = new TabUpdateMessage
 		{
 			Provider = provider.NetId(),
@@ -101,6 +125,16 @@ public struct ElementValue
 	public override string ToString()
 	{
 		return $"[{Id}={Value}]";
+	}
+
+	/// <summary>
+	/// Get size of this object (in bytes)
+	/// </summary>
+	/// <returns>size of this object (in bytes)</returns>
+	public int GetSize()
+	{
+		return sizeof(char) * Id.Length		// Id
+			+ sizeof(byte) * Value.Length;	// Value
 	}
 }
 
