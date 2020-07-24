@@ -25,7 +25,7 @@ PrefabInstance:
     - target: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
         type: 3}
       propertyPath: m_Name
-      value: MachineBoardWeaponRecharger
+      value: BVOld_MachineBoardWeaponRecharger
       objectReference: {fileID: 0}
     - target: {fileID: 377913919602810433, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
         type: 3}
@@ -88,6 +88,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 3e6a2e6baac961e4d85461e140eda02d,
         type: 3}
+    - target: {fileID: 5794729342418229426, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a7495eee0b2c22c4490acb35022c52ef,
+        type: 2}
     - target: {fileID: 7459522818185731930, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
         type: 3}
       propertyPath: machineParts

@@ -1,5 +1,33 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1054305907560639203
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532193109441330816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79c3795415b17514ca3b02088d0661e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActionControllerType: 0
+--- !u!114 &1828422834188109340
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6532193109441330816}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shadow: {fileID: 0}
+  draggerMustBeAdjacent: 1
+  allowDragWhileSoftCrit: 1
 --- !u!114 &3146623069027460855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31,34 +59,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   StorageItemName: 1
---- !u!114 &1828422834188109340
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6532193109441330816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shadow: {fileID: 0}
-  draggerMustBeAdjacent: 1
-  allowDragWhileSoftCrit: 1
---- !u!114 &1054305907560639203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6532193109441330816}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79c3795415b17514ca3b02088d0661e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ActionControllerType: 0
 --- !u!114 &8637909313807118855
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -165,6 +165,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 6c75a1a23b906534aa98f95359bedd45, type: 3}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a674b2a3e407f6e4f87a9f49850934bc,
+        type: 2}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ed0edd038937a6041b828f8560ff792f,
+        type: 2}
     - target: {fileID: 963106870793376919, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Sprite
@@ -179,7 +191,7 @@ PrefabInstance:
     - target: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Name
-      value: Egg Carton
+      value: BVOld_Egg Carton
       objectReference: {fileID: 0}
     - target: {fileID: 1134857784536455871, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
@@ -236,6 +248,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6551134592406330444, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ceb2edadb6e9c194fb0dd94fad04f0f2,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}

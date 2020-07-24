@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!1001 &6743866655740756593
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,6 +21,28 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1041179462549308755, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: e42365d7c816f6447b8b21c08ea99d71,
+        type: 2}
+    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: initialName
+      value: the head of personnel's headset
+      objectReference: {fileID: 0}
+    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: initialDescription
+      value: The headset of the guy who will one day be captain.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124838470649275786, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: fc16b10aa17b4874d98cc5c67955a5e1,
+        type: 3}
     - target: {fileID: 6200957232458716886, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
       propertyPath: m_Name
@@ -31,16 +52,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Clothing
-      objectReference: {fileID: 0}
-    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: serverOnly
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6205322156016085922, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
@@ -97,28 +108,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
-      propertyPath: initialName
-      value: the head of personnel's headset
-      objectReference: {fileID: 0}
-    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: initialDescription
-      value: The headset of the guy who will one day be captain.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1041179462549308755, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: clothData
+      propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 11400000, guid: e42365d7c816f6447b8b21c08ea99d71,
-        type: 2}
-    - target: {fileID: 6124838470649275786, guid: abf4818425fa84c67a62abb4425a4dcb,
+      objectReference: {fileID: 0}
+    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: fc16b10aa17b4874d98cc5c67955a5e1,
-        type: 3}
+      propertyPath: serverOnly
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abf4818425fa84c67a62abb4425a4dcb, type: 3}
 --- !u!1 &835768756810601639 stripped

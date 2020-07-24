@@ -117,6 +117,8 @@ MonoBehaviour:
   Colour: {r: 0.94509804, g: 0.9372549, b: 0.63529414, a: 1}
   EnumSprite: 0
   Size: 3
+  IsOn: 1
+  CachedIntensity: 1
   PlayerLightData:
     Intensity: 0
     Colour: {r: 0, g: 0, b: 0, a: 0}
@@ -194,7 +196,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: cb358061b400fb14c9193bea90bfacdb,
+      objectReference: {fileID: 21300000, guid: cb358061b400fb14c9193bea90bfacdb,
         type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -326,6 +328,30 @@ PrefabInstance:
       propertyPath: itemSprites.InventoryIcon.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 4b08013cd5681f44cbb2c47ca77f6d32, type: 3}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 678bfea435672434184dc92c0005bc54,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: de6ffb094dba6314397d3e7d7083412c,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c06618ba6d24a648908c406d60483da,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 678bfea435672434184dc92c0005bc54,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &2654136094092541073 stripped

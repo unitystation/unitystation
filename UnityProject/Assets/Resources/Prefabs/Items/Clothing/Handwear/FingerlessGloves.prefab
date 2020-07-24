@@ -7,17 +7,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5947731994596095198, guid: f819cf8b4a0534ec59570563e52c8508,
+    - target: {fileID: 561975284526649177, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
-      propertyPath: m_Name
-      value: FingerlessGloves
-      objectReference: {fileID: 0}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: b6316c709e270644ba72a321e9235667,
+        type: 2}
     - target: {fileID: 790289613151823707, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 635f4b881af45ee4db6f8403c0c4b14d,
         type: 2}
+    - target: {fileID: 5799337935409317762, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: e4ff1e237e4463a488dae5ca21c85b53,
+        type: 3}
+    - target: {fileID: 5947731994596095198, guid: f819cf8b4a0534ec59570563e52c8508,
+        type: 3}
+      propertyPath: m_Name
+      value: FingerlessGloves
+      objectReference: {fileID: 0}
     - target: {fileID: 5951811045126588842, guid: f819cf8b4a0534ec59570563e52c8508,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -88,11 +100,5 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Plain black gloves without fingertips for the hard working.
       objectReference: {fileID: 0}
-    - target: {fileID: 5799337935409317762, guid: f819cf8b4a0534ec59570563e52c8508,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: e4ff1e237e4463a488dae5ca21c85b53,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f819cf8b4a0534ec59570563e52c8508, type: 3}

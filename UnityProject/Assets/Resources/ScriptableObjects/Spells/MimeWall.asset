@@ -17,15 +17,9 @@ MonoBehaviour:
   actionName: Invisible Wall
   description: The mime's performance transmutates a wall into physical reality.
   Sprites:
-  - Texture: {fileID: 2800000, guid: ca93f2bb1433b4e5c973d1158ad71c09, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: ca93f2bb1433b4e5c973d1158ad71c09, type: 3}
-    EquippedData: {fileID: 0}
+  - {fileID: 11400000, guid: f9c869d740fa4eb44b225267503575b7, type: 2}
   Backgrounds:
-  - Texture: {fileID: 2800000, guid: 6e3c794ac15d39040933b23625335f7a, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 6e3c794ac15d39040933b23625335f7a, type: 3}
-    EquippedData: {fileID: 0}
+  - {fileID: 11400000, guid: cd061aeadba774a4396e72bdab2b52f3, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
   spellImplementation: {fileID: 7469762742606550612, guid: 13ad67b8858d146d587fbd216359e85c,

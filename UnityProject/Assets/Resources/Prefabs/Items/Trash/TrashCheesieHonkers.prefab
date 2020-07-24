@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 3939896346238461420, guid: 4303d0eb23d121949950815cebc03a0f,
         type: 3}
       propertyPath: m_Name
-      value: TrashBagCheesieHonkers
+      value: TrashCheesieHonkers
       objectReference: {fileID: 0}
     - target: {fileID: 3944820096442259608, guid: 4303d0eb23d121949950815cebc03a0f,
         type: 3}
@@ -83,5 +83,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7199934112176905835, guid: 4303d0eb23d121949950815cebc03a0f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 32732ac0738d2af4c9e8e263cce35c72,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4303d0eb23d121949950815cebc03a0f, type: 3}

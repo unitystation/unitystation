@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!1001 &6835028554750763478
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,17 +21,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 6700281191928912403, guid: 6078e17237b5b490eb379350287c5dd6,
-        type: 3}
-      propertyPath: m_Name
-      value: SecurityBeltFull
-      objectReference: {fileID: 0}
-    - target: {fileID: 6829797418136951606, guid: 6078e17237b5b490eb379350287c5dd6,
-        type: 3}
-      propertyPath: itemStoragePopulator
-      value: 
-      objectReference: {fileID: 11400000, guid: 5377557db35c44e9f9de1e2518aea5a2,
-        type: 2}
     - target: {fileID: 6696760418087675751, guid: 6078e17237b5b490eb379350287c5dd6,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -88,11 +76,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6700281191928912403, guid: 6078e17237b5b490eb379350287c5dd6,
+        type: 3}
+      propertyPath: m_Name
+      value: SecurityBeltFull
+      objectReference: {fileID: 0}
     - target: {fileID: 6730660045104179111, guid: 6078e17237b5b490eb379350287c5dd6,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6829797418136951606, guid: 6078e17237b5b490eb379350287c5dd6,
+        type: 3}
+      propertyPath: itemStoragePopulator
+      value: 
+      objectReference: {fileID: 11400000, guid: 5377557db35c44e9f9de1e2518aea5a2,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6078e17237b5b490eb379350287c5dd6, type: 3}
 --- !u!1 &155031686582991813 stripped

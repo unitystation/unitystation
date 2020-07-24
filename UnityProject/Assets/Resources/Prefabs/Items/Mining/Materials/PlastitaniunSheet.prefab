@@ -186,6 +186,18 @@ PrefabInstance:
       propertyPath: exportMessage
       value: cm3 of plastitanium
       objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 58c9ee32774032a4db455bb815f5024c,
+        type: 2}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 47ce9b63d8c531746872e58fb9c76aae,
+        type: 2}
     - target: {fileID: 4589911925418668612, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
       propertyPath: stacksWith.Array.size
@@ -196,6 +208,12 @@ PrefabInstance:
       propertyPath: stacksWith.Array.data[0]
       value: 
       objectReference: {fileID: 3642454299424425929}
+    - target: {fileID: 6338058294871387756, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 26f284681b2f9f647b83b5d52c505374,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 208d0d984a62d439babfcfb9d8bfe087, type: 3}
 --- !u!1 &3642454299424425929 stripped

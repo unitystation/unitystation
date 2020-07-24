@@ -143,6 +143,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b36590acbe2365b46a29079cda26216c,
         type: 2}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 21ca826f93f931e42a337460274a689a,
+        type: 2}
+    - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d55dd08cd963ce54eb6c95252a9ad313,
+        type: 2}
     - target: {fileID: 963106870793376919, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Sprite
@@ -157,7 +169,7 @@ PrefabInstance:
     - target: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Name
-      value: Egg
+      value: BVOld_Egg
       objectReference: {fileID: 0}
     - target: {fileID: 1134857784536455871, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
@@ -214,6 +226,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6551134592406330444, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 54ba86a4bf817a24594b804b56054cf2,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 658621036961164916, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}

@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1323011140707396627, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d7475e26d280e54429da3a94befa01cc,
+        type: 2}
     - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -98,6 +104,18 @@ PrefabInstance:
       propertyPath: initialName
       value: epinephrine medipen
       objectReference: {fileID: 0}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d285a1fcbfb758498753aeb0d3f9971,
+        type: 2}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e5cce7ed2b33a23439f7fef80c2ae7c8,
+        type: 2}
     - target: {fileID: 5038311047026975944, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: m_Sprite

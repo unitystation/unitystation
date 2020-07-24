@@ -245,7 +245,7 @@ public class MobAgent : Agent
 						dest, true);
 				if (tryGetDoor)
 				{
-					tryGetDoor.ServerTryOpen(gameObject);
+					tryGetDoor.MobTryOpen(gameObject);
 				}
 			}
 			else

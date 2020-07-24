@@ -23,8 +23,8 @@ public class ActionData : ScriptableObject
 	public string Name => actionName;
 	public string Description => description;
 
-	public List<SpriteSheetAndData> Sprites = new List<SpriteSheetAndData>();
-	public List<SpriteSheetAndData> Backgrounds = new List<SpriteSheetAndData>();
+	public List<SpriteDataSO>  Sprites = null;
+	public List<SpriteDataSO> Backgrounds = null;
 
 	public List<ActionController> PreventBeingControlledBy = new List<ActionController>();
 

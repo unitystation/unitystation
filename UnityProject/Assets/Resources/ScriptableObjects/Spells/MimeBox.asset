@@ -17,15 +17,9 @@ MonoBehaviour:
   actionName: Invisible Box
   description: The mime's performance transmutates a box into physical reality.
   Sprites:
-  - Texture: {fileID: 2800000, guid: 8daac7365c0e04d31832f5d5ad3c05c7, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 8daac7365c0e04d31832f5d5ad3c05c7, type: 3}
-    EquippedData: {fileID: 0}
+  - {fileID: 11400000, guid: dd4579a9bcecc724ea445912a7b84f54, type: 2}
   Backgrounds:
-  - Texture: {fileID: 2800000, guid: 6e3c794ac15d39040933b23625335f7a, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 6e3c794ac15d39040933b23625335f7a, type: 3}
-    EquippedData: {fileID: 0}
+  - {fileID: 11400000, guid: cd061aeadba774a4396e72bdab2b52f3, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
   spellImplementation: {fileID: 7469762742606550612, guid: 94547ba02cb3143d1ab12c8af38e0776,

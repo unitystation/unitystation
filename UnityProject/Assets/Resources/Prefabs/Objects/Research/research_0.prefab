@@ -231,45 +231,9 @@ MonoBehaviour:
   syncInterval: 0.1
   PoweredState: 2
   spriteHandler: {fileID: 1291619189881775208}
-  idleSprite:
-    Texture: {fileID: 2800000, guid: 0f654b1c2a36d3a45a6b5dfd318777e9, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 0f654b1c2a36d3a45a6b5dfd318777e9, type: 3}
-    EquippedData: {fileID: 0}
-  productionSprite:
-    Texture: {fileID: 2800000, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300002, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300004, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300006, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300008, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300010, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300012, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300014, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300016, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300018, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300020, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300022, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300024, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300026, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300028, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300030, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300032, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300034, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300036, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300038, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300040, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300042, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300044, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300046, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    - {fileID: 21300048, guid: a1e27439aa4c6c44e950fa5e4af24801, type: 3}
-    EquippedData: {fileID: 4900000, guid: b57cac46544d24e4ca1516570b5aadd6, type: 3}
-  acceptingMaterialsSprite:
-    Texture: {fileID: 2800000, guid: 0f654b1c2a36d3a45a6b5dfd318777e9, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 0f654b1c2a36d3a45a6b5dfd318777e9, type: 3}
-    EquippedData: {fileID: 0}
+  idleSprite: {fileID: 0}
+  productionSprite: {fileID: 0}
+  acceptingMaterialsSprite: {fileID: 0}
   materialStorage: {fileID: 4596431440032544948}
   autolatheProducts: {fileID: 11400000, guid: f4149bd30d5f03f4cb903a9418d550e3, type: 2}
 --- !u!114 &3389356315660204640
@@ -396,9 +360,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: d70277bfa0ca32049b0f6f1f24452b40, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []

@@ -97,10 +97,7 @@ public class UnderFloorLayer : Layer
 
 			foreach (var Tile in TileStore[(Vector2Int) position])
 			{
-				if (Tile != null)
-				{
-					return Tile;
-				}
+				return Tile;
 			}
 		}
 		else
@@ -202,6 +199,8 @@ public class UnderFloorLayer : Layer
 			base.SetTile(position, tile, transformMatrix, color);
 		}
 	}
+
+
 
 	private int FindFirstEmpty(List<LayerTile> LookThroughList)
 	{

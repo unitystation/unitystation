@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2063543918209415952, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_Name
+      value: R&DMachineProductionBase
+      objectReference: {fileID: 0}
     - target: {fileID: 2801585105273115838, guid: 84ac8abc1d963be42906a209a1b97350,
         type: 3}
       propertyPath: m_Name
@@ -81,6 +86,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: technology fabricator
+      objectReference: {fileID: 0}
+    - target: {fileID: 7601794184611008114, guid: 84ac8abc1d963be42906a209a1b97350,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 84ac8abc1d963be42906a209a1b97350, type: 3}

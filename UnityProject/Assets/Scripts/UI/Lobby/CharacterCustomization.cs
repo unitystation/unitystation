@@ -65,7 +65,7 @@ namespace Lobby
 			lastSettings = JsonUtility.FromJson<CharacterSettings>(copyStr);
 			DisplayErrorText("");
 
-			torsoSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Torso);
+			/*torsoSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Torso);
 			headSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Head);
 			RarmSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.ArmRight);
 			LarmSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.ArmLeft);
@@ -73,7 +73,7 @@ namespace Lobby
 			LlegSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.LegLeft);
 			RHandSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.HandRight);
 			LHandSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.HandLeft);
-			eyesSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Eyes);
+			eyesSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Eyes);*/
 		}
 
 		void OnDisable()
@@ -351,7 +351,7 @@ namespace Lobby
 		private void RefreshGender()
 		{
 			genderText.text = currentCharacter.Gender.ToString();
-			if (currentCharacter.Gender == Gender.Female)
+			/*if (currentCharacter.Gender == Gender.Female)
 			{
 				headSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Female.Head);
 				torsoSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Female.Torso);
@@ -360,7 +360,7 @@ namespace Lobby
 			{
 				headSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Male.Head);
 				torsoSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Male.Torso);
-			}
+			}*/
 
 			headSpriteController.UpdateSprite();
 			torsoSpriteController.UpdateSprite();
@@ -440,7 +440,7 @@ namespace Lobby
 				currentCharacter.Gender,
 				currentCharacter.HairStyleName
 			);
-			hairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
+			//FFGD hairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			hairSpriteController.UpdateSprite();
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.HairColor, out setColor);
@@ -465,7 +465,7 @@ namespace Lobby
 				currentCharacter.Gender,
 				currentCharacter.FacialHairName
 			);
-			facialHairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
+			//FFGD facialHairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			facialHairSpriteController.UpdateSprite();
 
 			Color setColor = Color.black;
@@ -542,7 +542,7 @@ namespace Lobby
 				currentCharacter.Gender,
 				currentCharacter.UnderwearName
 			);
-			underwearSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
+			//FFGD underwearSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			underwearSpriteController.UpdateSprite();
 		}
 
@@ -562,7 +562,7 @@ namespace Lobby
 				currentCharacter.Gender,
 				currentCharacter.SocksName
 			);
-			socksSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
+			//FFGD socksSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
 			socksSpriteController.UpdateSprite();
 		}
 

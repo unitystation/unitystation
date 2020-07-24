@@ -48,9 +48,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 	[Tooltip("Whether the drawer can store players.")]
 	protected bool storePlayers = true;
 
-	[SyncVar(hook = nameof(OnSyncDrawerState))]
 	protected DrawerState drawerState;
-	[SyncVar(hook = nameof(OnSyncOrientation))]
 	protected Orientation drawerOrientation;
 
 	// Inventory
@@ -90,8 +88,8 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		trayBehaviour.VisibleState = false;
 
 		// These two will sync drawer state/orientation and render appropriate sprite
-		drawerState = DrawerState.Shut;
-		drawerOrientation = directional.CurrentDirection;
+		OnSyncDrawerState(DrawerState.Shut);
+		OnSyncOrientation(  directional.CurrentDirection);
 	}
 
 	public override void OnStartClient()
@@ -135,19 +133,14 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		if (rotationInfo.IsClientside) return;
 		if (!rotationInfo.IsEnding) return;
 
-		drawerOrientation = directional.CurrentDirection;
+		OnSyncOrientation(  directional.CurrentDirection);
 	}
 
 	#region Sprite
 
-	/// <summary>
-	/// Called when drawerState [SyncVar] variable is altered or the client has just joined.
-	/// </summary>
-	/// <param name="oldState"></param>
-	/// <param name="newState"></param>
-	protected virtual void OnSyncDrawerState(DrawerState oldState, DrawerState newState)
+	protected virtual void OnSyncDrawerState(DrawerState newState)
 	{
-		drawerState = newState;
+		drawerState =  newState;
 		drawerSpriteHandler.ChangeSprite((int)drawerState);
 	}
 
@@ -156,19 +149,19 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 	/// </summary>
 	/// <param name="oldState"></param>
 	/// <param name="newState"></param>
-	protected void OnSyncOrientation(Orientation oldState, Orientation newState)
+	protected void OnSyncOrientation( Orientation newState)
 	{
 		// True when late client joins - [SyncVar] occured, but only
 		// usable after OnStartClient(). Hence manual call in OnStartClient().
 		if (traySpriteHandler == null) return;
 
-		drawerOrientation = newState;
+		drawerOrientation =  newState;
 		UpdateSpriteDirection();
 	}
 
 	public void OnEditorDirectionChange()
 	{
-		drawerOrientation = directional.InitialOrientation;
+		OnSyncOrientation(  directional.InitialOrientation);
 		int spriteVariant = GetSpriteDirectionVariant();
 		drawerSpriteHandler.ChangeSprite((int)DrawerState.Shut);
 		drawerSpriteHandler.ChangeSpriteVariant(spriteVariant);
@@ -216,7 +209,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 	/// <returns>The tray position</returns>
 	protected Vector3Int GetTrayPosition(Vector3Int vector)
 	{
-		if (drawerOrientation == Orientation.Up) vector += Vector3Int.up;
+		if (drawerOrientation ==  Orientation.Up) vector += Vector3Int.up;
 		else if (drawerOrientation == Orientation.Down) vector += Vector3Int.down;
 		else if (drawerOrientation == Orientation.Left) vector += Vector3Int.left;
 		else if (drawerOrientation == Orientation.Right) vector += Vector3Int.right;
@@ -235,7 +228,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		EjectPlayers();
 
 		SoundManager.PlayNetworkedAtPos("BinOpen", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
-		drawerState = DrawerState.Open; // [SyncVar] will update sprites
+		OnSyncDrawerState(DrawerState.Open);
 	}
 
 	protected virtual void CloseDrawer()
@@ -247,7 +240,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		if (storePlayers) GatherPlayers();
 
 		SoundManager.PlayNetworkedAtPos("BinClose", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
-		drawerState = DrawerState.Shut; // [SyncVar] will update sprites
+		OnSyncDrawerState(DrawerState.Shut);
 	}
 
 	/// <summary>

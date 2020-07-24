@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3544146241987281006, guid: 62f26940fb7e9704ca851c12f12fd6fc,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 06e95fd678727ef40917f3307ee80c23,
+        type: 2}
     - target: {fileID: 7099031704611804299, guid: 62f26940fb7e9704ca851c12f12fd6fc,
         type: 3}
       propertyPath: initialName
@@ -20,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 7235394596972444649, guid: 62f26940fb7e9704ca851c12f12fd6fc,
         type: 3}
       propertyPath: m_Name
-      value: Power-ON cartridge
+      value: Power-ON cartridge Variant
       objectReference: {fileID: 0}
     - target: {fileID: 7240322745160353437, guid: 62f26940fb7e9704ca851c12f12fd6fc,
         type: 3}

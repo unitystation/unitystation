@@ -87,9 +87,9 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMen
 	{
 		if (serverHeldItems.Count > 0 || serverHeldPlayers.Count > 0)
 		{
-			drawerState = (DrawerState)CrematorState.ShutWithContents;
+			OnSyncDrawerState((DrawerState)CrematorState.ShutWithContents);
 		}
-		else drawerState = DrawerState.Shut;
+		else OnSyncDrawerState(DrawerState.Shut);
 	}
 
 	private void Cremate()
@@ -145,7 +145,7 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMen
 
 	private IEnumerator PlayIncineratingAnim()
 	{
-		drawerState = (DrawerState)CrematorState.ShutAndActive;
+		OnSyncDrawerState((DrawerState)CrematorState.ShutAndActive);
 		yield return WaitFor.Seconds(BURNING_DURATION);
 		OnFinishPlayerCremation();
 		UpdateCloseState();

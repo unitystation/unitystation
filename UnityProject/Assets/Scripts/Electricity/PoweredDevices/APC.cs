@@ -226,6 +226,7 @@ public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INod
 			case APCState.Critical:
 				loadedScreenSprites = criticalSprites;
 				EmergencyState = true;
+				TriggerSoundOff();
 				if (!RefreshDisplay) StartRefresh();
 				break;
 			case APCState.Dead:
@@ -427,6 +428,22 @@ public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INod
 			ConnectedDevices.Add(poweredDevice);
 			poweredDevice.RelatedAPC = this;
 		}
+	}
+
+	public void TriggerSoundOff()
+	{
+		if(!CustomNetworkManager.IsServer) return;
+
+		StartCoroutine(TriggerSoundOffRoutine());
+	}
+
+	private IEnumerator TriggerSoundOffRoutine()
+	{
+		yield return new WaitForSeconds(1f);
+
+		if (State != APCState.Critical) yield break;
+
+		SoundManager.PlayNetworkedAtPos("APCPowerOff", gameObject.WorldPosServer());
 	}
 }
 

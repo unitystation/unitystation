@@ -9,13 +9,16 @@ using Chemistry.Components;
 [DisallowMultipleComponent]
 public class GrownFood : NetworkBehaviour
 {
-	public PlantData plantData;
+	[SerializeField]
+	private PlantData plantData;
+
+
 	public ReagentContainer reagentContainer;
 	public Chemistry.Reagent nutrient;
 	public GameObject SeedPacket => seedPacket;
 
 	[SerializeField]
-	private GameObject seedPacket = null;
+	public GameObject seedPacket = null;
 	[SerializeField]
 	private SpriteRenderer SpriteSizeAdjustment = null;
 	[SerializeField]
@@ -30,6 +33,22 @@ public class GrownFood : NetworkBehaviour
 	{
 		SizeScale = newScale;
 		SpriteSizeAdjustment.transform.localScale = new Vector3((SizeScale), (SizeScale), (SizeScale));
+	}
+
+
+	public PlantData GetPlantData()
+	{
+		PlantData _plantData = null;
+		if (plantData.FullyGrownSpriteSO == null)
+		{
+			_plantData = SeedPacket.GetComponent<SeedPacket>().plantData;
+		}
+		else
+		{
+			_plantData = plantData;
+		}
+
+		return _plantData;
 	}
 
 	/*private void Awake()

@@ -96,6 +96,8 @@ public partial class GameManager : MonoBehaviour
 
 	private const float QueueCheckTimeServer = 1f;
 
+	public bool QuickLoad = false;
+
 	private void Awake()
 	{
 		if (Instance == null)

@@ -212,7 +212,7 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 		tileChangeManager.UpdateTile(registerObject.LocalPositionServer, falseTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
-		doorController.ServerTryClose();
+		doorController.TryClose();
 	}
 
 	[Server]
@@ -223,6 +223,6 @@ public class Girder : NetworkBehaviour, ICheckedInteractable<HandApply>, IServer
 		tileChangeManager.UpdateTile(registerObject.LocalPositionServer, falseTile);
 		interaction.HandObject.GetComponent<Stackable>().ServerConsume(2);
 		Despawn.ServerSingle(gameObject);
-		doorController.ServerTryClose();
+		doorController.TryClose();
 	}
 }

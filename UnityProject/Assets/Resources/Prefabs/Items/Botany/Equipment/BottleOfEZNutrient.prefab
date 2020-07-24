@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1894789677739313904, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f717a8232afd319489869fc52fa63a4d,
+        type: 2}
     - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
       propertyPath: initialDescription
@@ -18,6 +24,18 @@ PrefabInstance:
       propertyPath: initialName
       value: bottle of E-Z-Nutrient
       objectReference: {fileID: 0}
+    - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8ec0b4a1d2efcae4d93b816acf99db9f,
+        type: 2}
+    - target: {fileID: 5323290699344764437, guid: 752790e3dadac94449e7417e35974da5,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9935983888621df448290a33c2f2e47a,
+        type: 2}
     - target: {fileID: 5663715803261177027, guid: 752790e3dadac94449e7417e35974da5,
         type: 3}
       propertyPath: m_AssetId

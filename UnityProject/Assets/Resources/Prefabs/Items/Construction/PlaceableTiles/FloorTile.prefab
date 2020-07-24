@@ -7,105 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 0}
-      propertyPath: entries.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: layerTile
+    - target: {fileID: 2008855533471951948, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb,
+      objectReference: {fileID: 11400000, guid: 9e802c2c99d231e4eb3819166e1f6f0f,
         type: 2}
-    - target: {fileID: 0}
-      propertyPath: entries.Array.data[0].layerTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb,
-        type: 2}
-    - target: {fileID: 0}
-      propertyPath: entries.Array.data[0].placeableOn
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: entries.Array.data[0].placeableOnlyOnTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-        type: 2}
-    - target: {fileID: 0}
-      propertyPath: entries.Array.data[1].layerTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-        type: 2}
-    - target: {fileID: 0}
-      propertyPath: entries.Array.data[1].placeableOn
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: entries.Array.data[1].placeableOnlyOnTile
-      value: 
-      objectReference: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1,
-        type: 2}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[0].layerTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb,
-        type: 2}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[0].placeableOn
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[0].placeableOnlyOnTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-        type: 2}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[1].layerTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
-        type: 2}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[1].placeableOn
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[1].placeableOnlyOnTile
-      value: 
-      objectReference: {fileID: 11400000, guid: e8a2685c8a14b7043bf58bde4374c6b1,
-        type: 2}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[1].itemCost
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[0].itemCost
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: placeTime
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[2].layerTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 055e0f95db6960e418ca4012af91afbb,
-        type: 2}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[2].placeableOn
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[2].placeableOnlyOnTile
-      value: 
-      objectReference: {fileID: 11400000, guid: 31cfe61a4fed5b44a8c509cfd52beab5,
-        type: 2}
-    - target: {fileID: 0}
-      propertyPath: waysToPlace.Array.data[2].itemCost
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 3004788566835106784, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: waysToPlace.Array.size

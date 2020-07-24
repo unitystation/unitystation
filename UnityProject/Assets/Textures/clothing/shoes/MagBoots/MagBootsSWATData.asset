@@ -42,6 +42,12 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: a5edae0a2564a864a8746373da7c76f9, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 0bd49da3f2cefad4f9eea917d4b7e4a3, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: f62241ea55bbe0341a80d8ea6f7e1fa5,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: b92f58aed15a97240b8a0c15de4ba83b,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: ca34816765d2db64bb0c7512377ebddc, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -69,6 +75,10 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -96,6 +106,10 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -136,6 +150,12 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: a5edae0a2564a864a8746373da7c76f9, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 0bd49da3f2cefad4f9eea917d4b7e4a3, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: f62241ea55bbe0341a80d8ea6f7e1fa5,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: b92f58aed15a97240b8a0c15de4ba83b,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: ca34816765d2db64bb0c7512377ebddc, type: 2}
     Palette: []
     IsPaletted: 0
   - Equipped:
@@ -167,5 +187,11 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 7d9c9d0bad065d5459fe8a4abaf656f8, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 0bd49da3f2cefad4f9eea917d4b7e4a3, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: f62241ea55bbe0341a80d8ea6f7e1fa5,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: b92f58aed15a97240b8a0c15de4ba83b,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: d0fc01ff2f1b80f41a89df0af4b7ddcb, type: 2}
     Palette: []
     IsPaletted: 0

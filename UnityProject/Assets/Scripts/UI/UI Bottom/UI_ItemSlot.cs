@@ -225,7 +225,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			MaterialPropertyBlock pb = new MaterialPropertyBlock();
 			spriteRends[0].GetPropertyBlock(pb);
 			bool isPaletted = pb.GetInt("_IsPaletted") > 0;
-			if (itemAttrs.ItemSprites.InventoryIcon != null && itemAttrs.ItemSprites.IsPaletted)
+			if (itemAttrs.ItemSprites.SpriteInventoryIcon != null && itemAttrs.ItemSprites.IsPaletted)
 			{
 				image.material.SetInt("_IsPaletted", 1);
 				image.material.SetColorArray("_ColorPalette", itemAttrs.ItemSprites.Palette.ToArray());
