@@ -76,11 +76,11 @@ jobs:
           docker rmi $(docker image ls -aq)
           df -h
       # Remove old artifacts so we don't run out of space!
-#      - name: Remove old artifacts
-#        uses: c-hive/gha-remove-artifacts@v1
-#        with:
-#          age: '1 month'
-#          skip-tags: true
+      - name: Remove old artifacts
+        uses: c-hive/gha-remove-artifacts@v1
+        with:
+          age: '1 month'
+          skip-tags: true
 
       # Checkout repository (required to test local actions)
       - name: Checkout repository
