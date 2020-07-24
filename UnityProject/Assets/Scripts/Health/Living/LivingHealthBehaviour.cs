@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Atmospherics;
+using GameConfig;
 using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
@@ -367,14 +368,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public virtual void ApplyDamageToBodypart(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType, BodyPartType bodyPartAim)
 	{
-		if (IsDead)
-		{
-			afterDeathDamage += damage;
-			if (afterDeathDamage >= GIB_THRESHOLD)
-			{
-				Harvest(); //Gib() instead when fancy gibs are in
-			}
-		}
+		TryGibbing(damage);
 
 		BodyPartBehaviour bodyPartBehaviour = GetBodyPart(damage, damageType, bodyPartAim);
 		if (bodyPartBehaviour == null)
@@ -418,6 +412,33 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 		Logger.LogTraceFormat("{3} received {0} {4} damage from {6} aimed for {5}. Health: {1}->{2}", Category.Health,
 			damage, prevHealth, OverallHealth, gameObject.name, damageType, bodyPartAim, damagedBy);
+	}
+
+	private void TryGibbing(float damage)
+	{
+		if (!IsDead)
+		{
+			return;
+		}
+
+		afterDeathDamage += damage;
+
+		// if damage IS OVER NINE THOUSAND!!!11!!!1 it means it is coming from a shuttle collision.
+		if (damage > 9000f && GameManager.Instance.ShuttleGibbingAllowed)
+		{
+			Harvest();
+			return;
+		}
+
+		if (!GameManager.Instance.GibbingAllowed)
+		{
+			return;
+		}
+
+		if (afterDeathDamage >= GIB_THRESHOLD)
+		{
+			Harvest();
+		}
 	}
 
 	/// <summary>

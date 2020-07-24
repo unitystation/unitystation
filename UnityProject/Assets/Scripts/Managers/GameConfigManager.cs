@@ -63,5 +63,7 @@ namespace GameConfig
 		public string InitialGameMode;
 		public bool RespawnAllowed;
 		public int ShuttleDepartTime;
+		public bool GibbingAllowed;
+		public bool ShuttleGibbingAllowed;
 	}
 }
