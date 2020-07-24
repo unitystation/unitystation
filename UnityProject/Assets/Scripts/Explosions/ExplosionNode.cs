@@ -16,6 +16,10 @@ namespace Explosions
 		public Vector2 AngleAndIntensity;
 
 
+
+
+
+
 		public void Initialise(Vector2Int Loc, Matrix Inmatrix)
 		{
 			Location = Loc;
@@ -24,14 +28,14 @@ namespace Explosions
 
 		public void Process()
 		{
-			float DD = AngleAndIntensity.magnitude;
+			float Damagedealt = AngleAndIntensity.magnitude;
 			float EnergyExpended = 0;
 			var v3int = new Vector3Int(Location.x, Location.y, 0);
 
-			EnergyExpended = matrix.MetaTileMap.ApplyDamage(v3int, AngleAndIntensity.magnitude,
-				MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb)*0.375f;
+			EnergyExpended = matrix.MetaTileMap.ApplyDamage(v3int, Damagedealt,
+				MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb) * 0.375f;
 
-			if (AngleAndIntensity.magnitude > 100)
+			if (Damagedealt > 100)
 			{
 				var Node = matrix.GetMetaDataNode(v3int);
 				if (Node != null)
@@ -49,18 +53,25 @@ namespace Explosions
 			{
 				//Throw items
 				//And do damage to objects
-				integrity.ApplyDamage(AngleAndIntensity.magnitude, AttackType.Bomb, DamageType.Brute);
+				integrity.ApplyDamage(Damagedealt, AttackType.Bomb, DamageType.Brute);
 			}
 
-
-
-			foreach (var line in PresentLines)
+			foreach (var player in matrix.Get<ObjectBehaviour>(v3int, ObjectType.Player, true))
 			{
-				line.ExplosionStrength -= EnergyExpended* (line.ExplosionStrength/AngleAndIntensity.magnitude);
+
+				// do damage
+				player.GetComponent<PlayerHealth>().ApplyDamage(null, Damagedealt, AttackType.Bomb, DamageType.Brute);
+
 			}
-			AngleAndIntensity = Vector2.zero;
+
+				foreach (var line in PresentLines)
+				{
+					line.ExplosionStrength -= EnergyExpended * (line.ExplosionStrength / Damagedealt);
+				}
+				AngleAndIntensity = Vector2.zero;
+			}
+
 		}
 
 	}
 
-}
