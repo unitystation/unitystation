@@ -6,6 +6,28 @@ using AdminTools;
 [CreateAssetMenu(fileName = "CustomSpeechModifierCode", menuName = "ScriptableObjects/SpeechModifiers/SlurredSpeech")]
 public class SlurredMod : CustomSpeechModifier
 {
+	public int drunkSpeechTime;
+	public Mind playerMind;
+	private void OnEnable()
+	{
+		
+	}
+	private void OnDisable()
+	{
+		
+	}
+	private void DoEffectTimeCheck()
+	{
+		if (drunkSpeechTime > 0)
+		{
+			playerMind.inventorySpeechModifiers |= ChatModifier.Drunk;
+			drunkSpeechTime--;
+		}
+		else
+		{
+			playerMind.inventorySpeechModifiers &= ~ChatModifier.Drunk;
+		}
+	}
 	private static string Slur(Match m)
 	{
 		string x = m.ToString();

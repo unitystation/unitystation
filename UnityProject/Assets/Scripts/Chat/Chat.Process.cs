@@ -267,33 +267,6 @@ public partial class Chat
 
 
 //TODO move all these methods to a proper SpeechModifier SO
-	private static string Slur(Match m)
-	{
-		string x = m.ToString();
-		if (char.IsLower(x[0]))
-		{
-			x = x + "h";
-		}
-		else
-		{
-			x = x + "H";
-		}
-
-		return x;
-	}
-
-	private static string Hic(Match m)
-	{
-		string x = m.ToString();
-		//10% chance to hic at any given space
-		if (Random.Range(1, 11) == 1)
-		{
-			x = " ...hic!... ";
-		}
-
-		return x;
-	}
-
 	private static string Hiss(Match m)
 	{
 		string x = m.ToString();
