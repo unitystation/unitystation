@@ -276,10 +276,19 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 				ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy + ExtraEnergyGained;
 		}
 
+		try
+		{
+			CurrentPressure = checked((decimal)((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) *
+									 ReactorPipe.pipeData.mixAndVolume.Mix.Total));
+		}
+		// An OverflowException is thrown at run time under the following condition:
+		// An arithmetic operation produces a result that is outside the range of the data type returned by the operation
+		catch (OverflowException)
+		{
+			// if result is outside the range of decimal - return
+			return;
+		}
 
-
-		CurrentPressure = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) *
-		                             ReactorPipe.pipeData.mixAndVolume.Mix.Total);
 		if (CurrentPressure > MaxPressure)
 		{
 			PoppedPipes = true;

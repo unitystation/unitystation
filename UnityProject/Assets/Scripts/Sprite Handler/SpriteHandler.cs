@@ -258,7 +258,7 @@ public class SpriteHandler : MonoBehaviour
 
 	public void ChangeSprite(int newSprites)
 	{
-		if (spriteData.List != null)
+		if (spriteData != null && spriteData.List != null)
 		{
 			if (newSprites < spriteData.List.Count &&
 				spriteIndex != newSprites &&
