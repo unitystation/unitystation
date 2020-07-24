@@ -11649,7 +11649,7 @@ PrefabInstance:
     - target: {fileID: 2967373415580766804, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -7.1000977
+      value: -7.1000366
       objectReference: {fileID: 0}
     - target: {fileID: 3024901877503547808, guid: 829f4ca992b848d6bb4d007fb9c112e1,
         type: 3}
@@ -12526,6 +12526,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  clientSideBanEntries: []
   ClientConnectedPlayers: []
 --- !u!114 &1626486382
 MonoBehaviour:
@@ -12729,6 +12730,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6076614350145050128, guid: 130e53c8b66d4ab49bb6a28cd6750751,
+        type: 3}
+      propertyPath: sceneId
+      value: 2863069267
       objectReference: {fileID: 0}
     - target: {fileID: 8079059354768383178, guid: 130e53c8b66d4ab49bb6a28cd6750751,
         type: 3}

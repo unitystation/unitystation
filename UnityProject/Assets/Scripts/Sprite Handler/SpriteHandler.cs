@@ -19,7 +19,7 @@ public class SpriteHandler : MonoBehaviour
 
 	[SerializeField] private List<SpriteDataSO> SubCatalogue = new List<SpriteDataSO>();
 
-	[SerializeField] private SpriteDataSO PresentSpriteSet = null;
+	[SerializeField] private SpriteDataSO PresentSpriteSet;
 	private SpriteDataSO.Frame PresentFrame = null;
 
 	private SpriteRenderer spriteRenderer;
@@ -43,8 +43,9 @@ public class SpriteHandler : MonoBehaviour
 
 	private NetworkIdentity NetworkIdentity;
 
-	private bool subCatalogueChanged = false;
+	private bool isSubCatalogueChanged = false;
 
+	[SerializeField]
 	private List<SerialisationStanding> Sprites =new List<SerialisationStanding>();
 
 	public NetworkIdentity GetMasterNetID()
@@ -63,7 +64,7 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		cataloguePage = SubCataloguePage;
-		if (subCatalogueChanged)
+		if (isSubCatalogueChanged)
 		{
 			SetSpriteSO(SubCatalogue[SubCataloguePage], Network: true);
 		}
@@ -192,6 +193,7 @@ public class SpriteHandler : MonoBehaviour
 
 	public void PushClear(bool Network = true)
 	{
+		if (Initialised == false) TryInit();
 		if (HasSpriteInImageComponent() == false) return;
 
 		SetImageSprite(null);
@@ -211,7 +213,7 @@ public class SpriteHandler : MonoBehaviour
 	/// <param name="NetWork"></param>
 	public void SetCatalogue(List<SpriteDataSO> NewCatalogue, int JumpToPage = -1, bool NetWork = true)
 	{
-		subCatalogueChanged = true;
+		isSubCatalogueChanged = true;
 		SubCatalogue = NewCatalogue;
 		cataloguePage = JumpToPage;
 		if (cataloguePage > -1)
@@ -232,7 +234,7 @@ public class SpriteHandler : MonoBehaviour
 
 	public void PushTexture(bool NetWork = true)
 	{
-		if (Initialised == false) return;
+		if (Initialised == false) TryInit();
 		if (PresentSpriteSet != null && PresentSpriteSet.Variance.Count > 0)
 		{
 			if (variantIndex < PresentSpriteSet.Variance.Count)
@@ -410,6 +412,11 @@ public class SpriteHandler : MonoBehaviour
 		else if (image != null)
 		{
 			image.sprite = value;
+			if (value == null)
+			{
+				image.enabled = false;
+			}
+
 		}
 	}
 
@@ -422,6 +429,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private bool HasSpriteInImageComponent()
 	{
+		if (Initialised == false) TryInit();
 		if (spriteRenderer != null)
 		{
 			if (spriteRenderer.sprite != null)
@@ -449,6 +457,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private void TryInit()
 	{
+		GetImageComponent();
 		ImageComponentStatus(false);
 		Initialised = true;
 		if (PresentSpriteSet != null)
@@ -578,14 +587,18 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (Application.isPlaying) return;
 
+
 		if (PresentSpriteSet == null || isAnimation || this == null || this.gameObject == null)
 		{
 			return;
 		}
-
-		Initialised = true;
-		GetImageComponent();
-		PushTexture();
+		if (this.gameObject.scene.path != null && this.gameObject.scene.path.Contains("Scenes") == false &&
+		    EditorAnimating == null)
+		{
+			Initialised = true;
+			GetImageComponent();
+			PushTexture();
+		}
 	}
 
 

@@ -119,7 +119,7 @@ GameObject:
   - component: {fileID: -4655658727303916461}
   - component: {fileID: 8830777886858929861}
   m_Layer: 11
-  m_Name: HealthRecords_Console
+  m_Name: BVOld_HealthRecords_Console
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -200,6 +200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114086219514807422
 MonoBehaviour:
@@ -214,33 +215,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenFrames: 0.2
-  spriteRenderer: {fileID: 212379632270881212}
+  spriteHandler: {fileID: 6381897997976848033}
   screenGlow: {fileID: 1570216273209756}
-  onSprites:
-    Texture: {fileID: 2800000, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300002, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300004, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300006, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300008, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300010, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300012, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300014, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300016, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300018, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300020, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300022, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300024, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300026, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300028, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300030, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300032, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300034, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300036, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    - {fileID: 21300038, guid: 9862d42c025498447ada85bb043eb227, type: 3}
-    EquippedData: {fileID: 4900000, guid: 9f403ee45301a864db1a925655a951b2, type: 3}
-  Delay: 0
 --- !u!114 &2716908385991569337
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -256,6 +232,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
   MaximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 0
@@ -264,6 +241,7 @@ MonoBehaviour:
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
+  SelfPowered: 0
   State: 2
   conType: 1
 --- !u!114 &114495635206412578
@@ -292,6 +270,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114341795367230546
@@ -308,7 +287,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -329,7 +310,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114084463108243954
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -378,9 +358,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &1866982737474172
 GameObject:
   m_ObjectHideFlags: 0
@@ -472,6 +449,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4805461479382236}
   - component: {fileID: 212379632270881212}
+  - component: {fileID: 6381897997976848033}
   m_Layer: 0
   m_Name: ScreenSprite
   m_TagString: Untagged
@@ -532,7 +510,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300002, guid: 9862d42c025498447ada85bb043eb227, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 303d8d63d05bdca4483d89aacbc92e86, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -543,3 +521,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6381897997976848033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1970353589130090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 9398d1926fd24704f8c8ea518acebecf, type: 2}
+  variantIndex: 0
+  palette: []

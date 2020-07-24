@@ -28,11 +28,11 @@ public class SpriteDataSO : ScriptableObject
 	}
 
 #if UNITY_EDITOR
-	public void Awake()
+	void Awake()
 	{
 		{
-			//if (setID == -1)
-			//{
+			if (setID == -1)
+			{
 				if (SpriteCatalogue.Instance == null)
 				{
 					Resources.LoadAll<SpriteCatalogue>("ScriptableObjects/SOs singletons");
@@ -46,7 +46,7 @@ public class SpriteDataSO : ScriptableObject
 				setID = SpriteCatalogue.Instance.Catalogue.IndexOf(this);
 				EditorUtility.SetDirty(this);
 
-			//}
+			}
 		}
 	}
 #endif
