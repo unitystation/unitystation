@@ -26,6 +26,9 @@
 				uv.y = 1.0 - uv.y;
 				uv.x += cos(uv.y * 2.0 + _Time.g) * 0.05;
 				uv.y += sin(uv.x * 2.0 + _Time.g) * 0.05;
+				
+				if (_ProjectionParams.x < 0)
+                    uv.y = 1 - uv.y;
 
 				float offset = sin(_Time.g * 0.5) * 0.01;
 				float4 a = tex2D(_MainTex,uv);

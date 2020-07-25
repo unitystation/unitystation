@@ -26,6 +26,13 @@ public class VendorItemEntry : DynamicEntry
 		vendorWindow = correspondingWindow;
 
 		var itemGO = vendorItem.Item;
+
+		if (itemGO == null)
+		{
+			Debug.LogError($"Item was null in {gameObject.name}");
+			return;
+		}
+
 		var itemAttr = itemGO.GetComponent<ItemAttributesV2>();
 
 		// try get human-readable item name
