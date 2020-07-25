@@ -8,7 +8,7 @@ using Mirror;
 /// <summary>
 /// Allows object to function as a door switch - opening / closing door when clicked.
 /// </summary>
-public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster
+public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster, IServerSpawn
 {
 	private SpriteRenderer spriteRenderer;
 	public Sprite greenSprite;
@@ -40,21 +40,17 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
-		if (doorControllers.Count > 0)
+		foreach (var door in doorControllers)
 		{
-			foreach (var door in doorControllers)
+			if (door.IsHackable)
 			{
-				if (door.IsHackable)
-				{
-					HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
-					outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor));
+				HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
+				outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor));
 
-					HackingNode outsideSignalClose = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalClose);
-					outsideSignalClose.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor));
-				}
+				HackingNode outsideSignalClose = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalClose);
+				outsideSignalClose.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor));
 			}
 		}
-
 	}
 
 

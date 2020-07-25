@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Mirror;
 using TMPro;
 using UnityEngine;
@@ -57,6 +58,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public static GUI_PreRoundWindow Instance;
 
+	private bool startedAlready = false;
+
 	void Awake()
 	{
 		if (Instance == null)
@@ -114,6 +117,20 @@ public class GUI_PreRoundWindow : MonoBehaviour
 			OnCountdownEnd();
 		}
 		timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
+
+		if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
+		{
+			if (startedAlready == true) return;
+			startedAlready = true;
+			StartCoroutine(WaitForInitialisationh());
+		}
+	}
+
+	private IEnumerator WaitForInitialisationh()
+	{
+		yield return null;
+		SetReady(true);
+		StartNowButton();
 	}
 
 	public void UpdatePlayerCount(int count)

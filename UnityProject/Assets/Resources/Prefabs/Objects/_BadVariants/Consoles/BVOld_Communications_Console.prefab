@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4046556115950124}
   - component: {fileID: 212321000830179558}
+  - component: {fileID: 7758362147484606453}
   m_Layer: 0
   m_Name: ScreenSprite
   m_TagString: Untagged
@@ -81,6 +82,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7758362147484606453
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1614935231502530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 4aaf3bc37e9c6d74ba515efc6ffb0f4a, type: 2}
+  variantIndex: 0
+  palette: []
 --- !u!1 &1693686192204054
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +383,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -386,7 +406,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &6354374949080783350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -400,21 +419,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenFrames: 0.1
-  spriteRenderer: {fileID: 212321000830179558}
+  spriteHandler: {fileID: 0}
   screenGlow: {fileID: 3145195423426570531}
-  onSprites:
-    Texture: {fileID: 2800000, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
-    - {fileID: 21300002, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
-    - {fileID: 21300004, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
-    - {fileID: 21300006, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
-    - {fileID: 21300008, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
-    - {fileID: 21300010, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
-    - {fileID: 21300012, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
-    - {fileID: 21300014, guid: ef7792cd0c5d03a47974c3a8a4038d5e, type: 3}
-    EquippedData: {fileID: 4900000, guid: 503b6f0f4adc4f54fbadb8ac51d1c8a1, type: 3}
-  Delay: 0
 --- !u!114 &114302809726908850
 MonoBehaviour:
   m_ObjectHideFlags: 0

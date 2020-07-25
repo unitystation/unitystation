@@ -51,6 +51,13 @@ public partial class GameManager
 		//later, maybe: keep a list of all computers and call the shuttle automatically with a 25 min timer if they are deleted
 
 		//Starting up at Centcom coordinates
+		if (GameManager.Instance.QuickLoad)
+		{
+			if (primaryEscapeShuttle?.MatrixInfo == null) return;
+			if (primaryEscapeShuttle?.MatrixInfo.MatrixMove == null) return;
+			if (primaryEscapeShuttle?.MatrixInfo.MatrixMove.InitialFacing == null) return;
+		}
+
 		var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;
 		float width;
 
