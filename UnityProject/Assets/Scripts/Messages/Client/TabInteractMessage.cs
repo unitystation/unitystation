@@ -27,6 +27,17 @@ public class TabInteractMessage : ClientMessage
 
 	private void ProcessFurther(ConnectedPlayer player, GameObject tabProvider)
 	{
+		if (player == null)
+		{
+			Logger.LogWarning("[TabInteractMessage.ProcessFurther] - player is null");
+			return;
+		}
+		else if (tabProvider == null)
+		{
+			Logger.LogWarning("[TabInteractMessage.ProcessFurther] - tabProvider is null");
+			return;
+		}
+
 		var playerScript = player.Script;
 		//First Validations is for objects in the world (computers, etc), second check is for items in active hand (null rod, PADs).
 		bool validate = Validations.CanApply(player.Script, tabProvider, NetworkSide.Server)

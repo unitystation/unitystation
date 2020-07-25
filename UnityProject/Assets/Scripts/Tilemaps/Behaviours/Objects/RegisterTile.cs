@@ -422,6 +422,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="initAction">Action to call when the Matrix is configured</param>
 	public void WaitForMatrixInit(Action<MatrixInfo> initAction)
 	{
+		if (matrix == null)
+		{
+			Logger.LogWarning("Error - [RegisterTile.WaitForMatrixInit] - Matrix is null", Category.Matrix);
+			return;
+		}
+
 		matrixManagerDependantActions.Add(initAction);
 		if (!matrix.MatrixInfoConfigured)
 		{
