@@ -17,7 +17,7 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 	private Coroutine blinkHandle;
 
 	[SerializeField]
-	private Text textField;
+	private Text textField = default;
 
 	[SyncVar(hook = nameof(SyncSprite))] public MountedMonitorState stateSync;
 	[SyncVar(hook = nameof(SyncStatusText))] private string statusText = string.Empty;
@@ -267,7 +267,6 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 
 		this.StartCoroutine( BlinkText(), ref blinkHandle);
 	}
-
 
 	private void OnTextBroadcastReceived(StatusDisplayChannel broadcastedChannel)
 	{

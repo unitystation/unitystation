@@ -4,14 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-
 /// <summary>
 /// Connects two portals together, can be separate from the station gateway.
 /// </summary>
 public class WorldGateway : StationGateway
 {
 	[SerializeField]
-	private GameObject StationGateway = null;// doesnt have to be station just the gateway this one will connect to
+	private GameObject StationGateway = null; // doesnt have to be station just the gateway this one will connect to
 
 	/// <summary>
 	/// Should the mobs spawn when gate connects
@@ -22,7 +21,7 @@ public class WorldGateway : StationGateway
 	/// For world gate to world gate
 	/// </summary>
 	[SerializeField]
-	private bool ifWorldGateToWorldGate;
+	private bool ifWorldGateToWorldGate = default;
 
 	/// <summary>
 	/// If you want a person traveling to this gate to go somewhere else. WORLD POS, not local

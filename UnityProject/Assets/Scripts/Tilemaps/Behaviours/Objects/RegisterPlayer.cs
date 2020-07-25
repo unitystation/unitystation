@@ -47,7 +47,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	//cached spriteRenderers of this gameobject
 	protected SpriteRenderer[] spriteRenderers;
 
-	private void Awake()
+	protected override void Awake()
 	{
 		base.Awake();
 		EnsureInit();

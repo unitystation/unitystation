@@ -396,7 +396,6 @@ public partial class PlayerList
 				if (entry != null)
 				{
 					return entry;
-					break;
 				}
 			}
 		}

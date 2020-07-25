@@ -14,7 +14,7 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private RegisterTile registerTile;
 
 	[SerializeField]
-	private Directional directional;
+	private Directional directional = default;
 
 	private Matrix Matrix => registerTile.Matrix;
 
@@ -92,6 +92,7 @@ public class MassDriver : NetworkBehaviour, ICheckedInteractable<HandApply>
 				break;
 		}
 	}
+
 	#endregion
 
 	public void DoAction()

@@ -12,7 +12,6 @@ public class GrownFood : NetworkBehaviour
 	[SerializeField]
 	private PlantData plantData;
 
-
 	public ReagentContainer reagentContainer;
 	public Chemistry.Reagent nutrient;
 	public GameObject SeedPacket => seedPacket;
@@ -24,7 +23,7 @@ public class GrownFood : NetworkBehaviour
 	[SerializeField]
 	private SpriteHandler Sprite;
 	[SerializeField]
-	private Edible edible;
+	private Edible edible = default;
 
 	[SyncVar(hook = nameof(SyncSize))]
 	public float SizeScale;
@@ -34,7 +33,6 @@ public class GrownFood : NetworkBehaviour
 		SizeScale = newScale;
 		SpriteSizeAdjustment.transform.localScale = new Vector3((SizeScale), (SizeScale), (SizeScale));
 	}
-
 
 	public PlantData GetPlantData()
 	{
@@ -100,6 +98,4 @@ public class GrownFood : NetworkBehaviour
 		//DOES NOT WORK! DO NOT USE THIS!
 		// edible.NutritionLevel = Mathf.FloorToInt(reagentContainer[nutrient]);
 	}
-
 }
-

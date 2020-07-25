@@ -29,7 +29,7 @@ public class CustomNetworkManager : NetworkManager
 	[NonSerialized]
 	public UnityEvent OnClientDisconnected = new UnityEvent();
 
-	void Awake()
+	public override void Awake()
 	{
 		if (Instance == null)
 		{

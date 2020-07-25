@@ -6,10 +6,10 @@ namespace UI.PDA
 	public class GUI_PDAUplinkCategory : NetPage
 	{
 		[SerializeField]
-		private GUI_PDAUplinkMenu controller;
+		private GUI_PDAUplinkMenu controller = null;
 
 		[SerializeField]
-		private EmptyItemList categoryTemplate;
+		private EmptyItemList categoryTemplate = null;
 
 		private UplinkCategoryList categories;
 		public void UpdateCategory()

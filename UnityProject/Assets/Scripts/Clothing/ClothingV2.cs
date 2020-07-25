@@ -29,7 +29,7 @@ public class ClothingV2 : NetworkBehaviour
 	private Pickupable myPickupable;
 
 	public List<SpriteDataSO> SpriteDataSO = new List<SpriteDataSO>();
-	private bool isAdjusted;
+	private bool isAdjusted; // Nothing is assigning to this variable, not serialized so SpriteInfoState is always false.
 	/// <summary>
 	/// Clothing item this is currently equipped to, if there is one. Will be updated when the data is synced.
 	/// </summary>
@@ -104,7 +104,6 @@ public class ClothingV2 : NetworkBehaviour
 		myItem.SetSprites(SpriteSOData);
 	}
 
-
 	public void AssignPaletteToSprites(List<Color> palette)
 	{
 		if (myItem.ItemSprites.IsPaletted)
@@ -114,7 +113,6 @@ public class ClothingV2 : NetworkBehaviour
 			myPickupable.SetPalette(palette);
 		}
 	}
-
 
 	public void LinkClothingItem(ClothingItem clothingItem)
 	{

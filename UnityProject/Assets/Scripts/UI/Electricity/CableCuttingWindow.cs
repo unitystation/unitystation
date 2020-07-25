@@ -10,8 +10,8 @@ using UnityEngine.UI;
 [RequireComponent(typeof(RectTransform))]
 public class CableCuttingWindow : MonoBehaviour
 {
-	[SerializeField] private GridLayoutGroup scrollViewLayoutGroup;
-	[SerializeField] private GameObject cableCellUIPrefab;
+	[SerializeField] private GridLayoutGroup scrollViewLayoutGroup = default;
+	[SerializeField] private GameObject cableCellUIPrefab = default;
 
 	private RectTransform scrollViewLayoutGroupRect;
 

@@ -10,7 +10,7 @@ namespace UI.PDA
 		private UplinkCatagories category;
 
 		[SerializeField]
-		private NetLabel categoryName;
+		private NetLabel categoryName = null;
 
 
 		public void OpenCategory()

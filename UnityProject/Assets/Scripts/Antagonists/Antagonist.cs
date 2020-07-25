@@ -15,7 +15,7 @@ namespace Antagonists
 
 		[Tooltip("The antag jobType")]
 		[SerializeField]
-		private JobType antagJobType;
+		private JobType antagJobType = default;
 
 		public JobType AntagJobType => antagJobType;
 
@@ -79,6 +79,5 @@ namespace Antagonists
 		/// <param name="spawnRequest">player's requested spawn</param>
 		/// <returns>gameobject of the spawned antag that he player is now in control of</returns>
 		public abstract GameObject ServerSpawn(PlayerSpawnRequest spawnRequest);
-
 	}
 }
