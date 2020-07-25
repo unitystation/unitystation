@@ -14,6 +14,34 @@ public class GenerateSpriteSO : EditorWindow
 
 	public static SpriteCatalogue spriteCatalogue;
 
+	[MenuItem("Tools/StopAssetEditing")]
+	public static void StopAssetEditing()
+	{
+		AssetDatabase.StopAssetEditing();
+		return;
+	}
+
+
+	[MenuItem("Tools/Convert Json Sprites")]
+	public static void ConvertJsonSprites()
+	{
+		spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>("Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
+		DirSearch_ex3(Application.dataPath + "/SpriteJsonToSO");
+
+		foreach (var oDe in ToDel)
+		{
+			AssetDatabase.DeleteAsset(oDe);
+		}
+
+		foreach (var Seve in ToSeve)
+		{
+			AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
+			Seve.Value.Awake();
+		}
+		AssetDatabase.SaveAssets();
+	}
+
+
 	[MenuItem("Tools/GenerateSpriteSO")]
 	public static void Generate()
 	{
@@ -435,9 +463,9 @@ public class GenerateSpriteSO : EditorWindow
 		var Files = Directory.GetFiles(sDir);
 		foreach (string f in Files)
 		{
-			if (f.Contains(".json") && f.Contains(".meta") == false)
+			if (f.Contains(".png") && f.Contains(".meta") == false)
 			{
-				if (Files.Contains(f.Replace(".json", ".png")) == false) return;
+				//if (Files.Contains(f.Replace(".json", ".png")) == false) return;
 
 				var path = f;
 				var TT = path.Replace(Application.dataPath, "Assets");
@@ -455,7 +483,9 @@ public class GenerateSpriteSO : EditorWindow
 
 				//SpriteData.
 				SpriteData = FilloutData(EquippedData, Sprites, SpriteData);
-				ToSeve[f.Replace(".png", ".asset").Replace(Application.dataPath, "Assets")] = SpriteData;
+
+				var saev = f.Replace(".png", ".asset").Replace(Application.dataPath, "Assets");
+				ToSeve[saev] = SpriteData;
 				ToDel.Add(path.Replace(".png", ".json").Replace(Application.dataPath, "Assets"));
 
 				//Gizmos.DrawIcon();
