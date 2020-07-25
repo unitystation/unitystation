@@ -6,13 +6,13 @@ namespace UI.PDA
 	public class GUI_PDAMainMenu : NetPage
 	{
 		//references to essential MainMenu elements
-		[SerializeField] private GUI_PDA controller;
+		[SerializeField] private GUI_PDA controller = null;
 
-		[SerializeField] private NetLabel idLabel;
+		[SerializeField] private NetLabel idLabel = null;
 
-		[SerializeField] private NetLabel lightLabel;
+		[SerializeField] private NetLabel lightLabel = null;
 
-		[SerializeField] private NetLabel machineLabel;
+		[SerializeField] private NetLabel machineLabel = null;
 
 		//These keep the current text cached for text refresh purposes
 		private string cachedidText;

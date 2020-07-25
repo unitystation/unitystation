@@ -11,22 +11,22 @@ namespace UI.PDA
 	public class GUI_PDA : NetTab
 	{
 		[SerializeField] [Tooltip("Put the main netpage switcher here")]
-		private NetPageSwitcher mainSwitcher; //The main switcher used to switch pages
+		private NetPageSwitcher mainSwitcher = null; //The main switcher used to switch pages
 
 		[SerializeField] [Tooltip("Main menu here")]
-		private GUI_PDAMainMenu menuPage; //The menuPage for reference
+		private GUI_PDAMainMenu menuPage = null; //The menuPage for reference
 
 		[SerializeField] [Tooltip("Setting Menu here")]
-		private GUI_PDASettingMenu settingPage; //The settingPage for reference
+		private GUI_PDASettingMenu settingPage = null; //The settingPage for reference
 
 		[SerializeField] [Tooltip("Uplink here")]
-		private GUI_PDAUplinkMenu uplinkPage; //The uplinkPage for reference
+		private GUI_PDAUplinkMenu uplinkPage = null; //The uplinkPage for reference
 
 		[SerializeField] [Tooltip("CrewManifest here")]
-		private GUI_PDACrewManifest crewManifestPage; //The uplinkPage for reference
+		private GUI_PDACrewManifest crewManifestPage = null; //The uplinkPage for reference
 
 		[SerializeField] [Tooltip("Notes Page")]
-		private GUI_PDANotes notesPage; //The uplinkPage for reference
+		private GUI_PDANotes notesPage = null; //The uplinkPage for reference
 
 		[NonSerialized]
 		public Items.PDA.PDALogic Pda;

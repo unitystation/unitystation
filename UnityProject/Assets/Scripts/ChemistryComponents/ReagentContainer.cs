@@ -16,7 +16,6 @@ namespace Chemistry.Components
 	public partial class ReagentContainer : MonoBehaviour, IServerSpawn, IRightClickable, ICheckedInteractable<ContextMenuApply>,
 		IEnumerable<KeyValuePair<Reagent, float>>
 	{
-
 		[Header("Container Parameters")]
 
 		[Tooltip("Max container capacity in units")]
@@ -39,9 +38,9 @@ namespace Chemistry.Components
 		[FormerlySerializedAs("reagentMix")]
 		[SerializeField] private ReagentMix initialReagentMix = new ReagentMix();
 		[SerializeField]
-		private bool destroyOnEmpty;
+		private bool destroyOnEmpty = default;
 
-		private ItemAttributesV2 itemAttributes;
+		private ItemAttributesV2 itemAttributes = default;
 		private RegisterTile registerTile;
 		private CustomNetTransform customNetTransform;
 		private Integrity integrity;

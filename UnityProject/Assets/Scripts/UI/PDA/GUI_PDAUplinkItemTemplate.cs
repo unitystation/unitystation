@@ -7,10 +7,10 @@ namespace UI.PDA
 		private GUI_PDA pdaMasterTab = null;
 
 		[SerializeField]
-		private NetLabel itemName;
+		private NetLabel itemName = null;
 
 		[SerializeField]
-		private NetLabel itemCost;
+		private NetLabel itemCost = null;
 
 		private UplinkItems item;
 

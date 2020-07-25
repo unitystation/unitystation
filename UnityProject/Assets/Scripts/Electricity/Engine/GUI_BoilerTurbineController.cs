@@ -28,7 +28,7 @@ public class GUI_BoilerTurbineController : NetTab
 		}
 	}
 
-	private void OnEnable()
+	public override void OnEnable()
 	{
 		base.OnEnable();
 		if (CustomNetworkManager.Instance._isServer == false ) return;

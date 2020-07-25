@@ -11,10 +11,10 @@ namespace UI.PDA
 {
 	public class GUI_PDANotes : NetPage
 	{
-		[SerializeField] private GUI_PDA controller;
+		[SerializeField] private GUI_PDA controller = null;
 		private GameObject cachedProvider;
-		[SerializeField] private InputField textField;
-		[SerializeField] private ContentSizeFitter contentSizeFitter;
+		[SerializeField] private InputField textField = null;
+		[SerializeField] private ContentSizeFitter contentSizeFitter = null;
 
 		/// <summary>
 		///Grabs the reference of the provider for later use

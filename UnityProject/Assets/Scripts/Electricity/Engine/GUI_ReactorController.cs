@@ -6,7 +6,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class GUI_ReactorControler : NetTab
+public class GUI_ReactorController : NetTab
 {
 	public ReactorControlConsole ReactorControlConsole;
 
@@ -36,7 +36,7 @@ public class GUI_ReactorControler : NetTab
 		GUIReactorLayout.Start();
 	}
 
-	private void OnEnable()
+	public override void OnEnable()
 	{
 		base.OnEnable();
 		if (CustomNetworkManager.Instance._isServer == false ) return;
@@ -134,7 +134,7 @@ public class GUI_ReactorControler : NetTab
 	[System.Serializable]
 	public class GUI_ReactorLayout
 	{
-		public GUI_ReactorControler GUI_ReactorControler;
+		public GUI_ReactorController GUI_ReactorControler;
 
 		public List<NetColorChanger> RodChamber = new List<NetColorChanger>();
 
@@ -169,7 +169,7 @@ public class GUI_ReactorControler : NetTab
 	[System.Serializable]
 	public class GUI_ReactorAnnunciator
 	{
-		public GUI_ReactorControler GUIReactorControler = null;
+		public GUI_ReactorController GUIReactorControler = null;
 
 		public NetFlasher HighTemperature;
 		public NetFlasher HighTemperatureDelta;

@@ -7,7 +7,7 @@ using UnityEngine;
 /// </summary>
 public class SpriteColorSync : NetworkBehaviour
 {
-	[SerializeField] private SpriteRenderer spriteToColor;
+	[SerializeField] private SpriteRenderer spriteToColor = default;
 
 	[SyncVar(hook = nameof(ColorChanged))]
 	private Color Color;

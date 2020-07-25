@@ -235,10 +235,9 @@ public class HydroponicsTray : ManagedNetworkBehaviour, IInteractable<HandApply>
 		}
 
 
-		UpdateNutrimentFlag(showNutrimenetFlag,
-			reagentContainer[nutriment] == null || reagentContainer[nutriment] < 25);
+		UpdateNutrimentFlag(showNutrimenetFlag, reagentContainer[nutriment] < 25);
 
-		UpdateWaterFlag(showWaterFlag, reagentContainer[water] == null || reagentContainer[water] < 25);
+		UpdateWaterFlag(showWaterFlag, reagentContainer[water] < 25);
 		UpdateWeedsFlag(showWeedsFlag, weedLevel > 5);
 	}
 
