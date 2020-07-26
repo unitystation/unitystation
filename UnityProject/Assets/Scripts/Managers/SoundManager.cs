@@ -544,7 +544,11 @@ public class SoundManager : MonoBehaviour
 			sound.audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Default ? Instance.DefaultMixer : Instance.MuffledMixer;
 			sound.audioSource.pitch = audioSourceParameters.Pitch > 0 ? audioSourceParameters.Pitch : 1;
 			sound.audioSource.time = audioSourceParameters.Time;
-			sound.audioSource.volume = audioSourceParameters.Volume;
+
+			// If volume is negative, default sound volume will be used.
+			if (audioSourceParameters.Volume > 0)
+				sound.audioSource.volume = audioSourceParameters.Volume;
+
 			sound.audioSource.panStereo = audioSourceParameters.Pan;
 			sound.audioSource.spatialBlend = audioSourceParameters.SpatialBlend;
 			sound.audioSource.minDistance = audioSourceParameters.MinDistance;
