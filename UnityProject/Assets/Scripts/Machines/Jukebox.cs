@@ -182,6 +182,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			{
 				MixerType = MixerType.Muffled,
 				SpatialBlend = 1, // 3D, we need it to attenuate with distance
+				Volume = 1,
 				MinDistance = 3,
 				MaxDistance = 10
 			};
