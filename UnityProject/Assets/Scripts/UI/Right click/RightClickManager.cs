@@ -244,11 +244,9 @@ public class RightClickManager : MonoBehaviour
 			//use right click menu to determine appearance
 			return rightClickAppearance.AsMenu(subMenus);
 		}
+		// else use defaults:
 
-		//use defaults
-		var label = forObject.name.Replace("(clone)","");
-		SpriteRenderer firstSprite = forObject.GetComponentInChildren<SpriteRenderer>();
-		Sprite sprite = null;
+		var label = forObject.ExpensiveName();
 
 		// check if is a paletted item
 		ItemAttributesV2 item = forObject.GetComponent<ItemAttributesV2>();
@@ -261,17 +259,20 @@ public class RightClickManager : MonoBehaviour
 			}
 		}
 
-		if (firstSprite != null)
+		// try get sprite
+		SpriteRenderer firstRenderer = forObject.GetComponentInChildren<SpriteRenderer>();
+		Sprite sprite = null;
+		if (firstRenderer != null)
 		{
-			sprite = firstSprite.sprite;
+			sprite = firstRenderer.sprite;
 		}
 		else
 		{
 			Logger.LogWarningFormat("Could not determine sprite to use for right click menu" +
-			                        " for object {0}. Please manually configure a sprite in a RightClickAppearance component" +
-			                        " on this object.", Category.UI, forObject.name);
+					" for object {0}. Please manually configure a sprite in a RightClickAppearance component" +
+					" on this object.", Category.UI, forObject.name);
 		}
 
-		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, null, label, subMenus, firstSprite.color, palette);
+		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, null, label, subMenus, firstRenderer.color, palette);
 	}
 }

@@ -3,30 +3,51 @@ using UnityEngine;
 /// <summary>
 /// Allows an object to be hugged by a player.
 /// </summary>
-public class Huggable : MonoBehaviour, IClientInteractable<PositionalHandApply>
+public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
-	public bool Interact(PositionalHandApply interaction)
-	{
-		var targetPlayerHealth = interaction.TargetObject.GetComponent<PlayerHealth>();
-		var performerPlayerHealth = interaction.Performer.GetComponent<PlayerHealth>();
-		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
+	private string performerName;
+	private string targetName;
 
-		// Is the target in range for a hug? Is the target conscious for the hug? Is the performer's intent set to help?
-		// Is the performer's hand empty? Is the performer not stunned/downed? Is the performer conscious to perform the interaction?
-		// Is the performer interacting with itself?
-		if (!PlayerManager.LocalPlayerScript.IsInReach(interaction.WorldPositionTarget, false) ||
-		    targetPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
-		    UIManager.CurrentIntent != Intent.Help ||
-		    interaction.HandObject != null ||
-		    performerPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
-		    performerRegisterPlayer.IsLayingDown ||
-		    interaction.Performer == interaction.TargetObject)
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (interaction.Intent != Intent.Help) return false;
+		if (interaction.HandObject != null) return false;
+		if (interaction.TargetObject == interaction.Performer) return false;
+
+		if (interaction.TargetObject.TryGetComponent(out PlayerHealth targetPlayerHealth))
 		{
-			return false;
+			if (targetPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS) return false;
 		}
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestHug(PlayerManager.LocalPlayerScript.playerName,
-			gameObject);
+		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
+		if (performerRegisterPlayer.IsLayingDown) return false;
+
 		return true;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		performerName = interaction.Performer.ExpensiveName();
+		targetName = interaction.TargetObject.ExpensiveName();
+
+		var performerLHB = interaction.Performer.GetComponent<LivingHealthBehaviour>();
+		var targetLHB = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+
+		if (performerLHB != null && targetLHB != null && (performerLHB.FireStacks > 0 || targetLHB.FireStacks > 0))
+		{
+			performerLHB.ApplyDamage(interaction.TargetObject, 1, AttackType.Fire, DamageType.Burn);
+			targetLHB.ApplyDamage(interaction.Performer, 1, AttackType.Fire, DamageType.Burn);
+
+			Chat.AddCombatMsgToChat(
+					interaction.Performer, $"You hug {targetName} with fire!", $"{performerName} hugs {targetName} with fire!");
+			Chat.AddExamineMsgFromServer(interaction.TargetObject, $"{performerName} hugs you with fire!");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(
+					interaction.Performer, $"You hug {targetName}.", $"{performerName} hugs {targetName}.");
+			Chat.AddExamineMsgFromServer(interaction.TargetObject, $"{performerName} hugs you.");
+		}
 	}
 }
