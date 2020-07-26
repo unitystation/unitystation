@@ -125,6 +125,11 @@ namespace NPC
 			level = Mathf.Clamp(level + amount, minMoodLevel, maxMoodLevel);
 		}
 
+		public void SetMoodLevel(int amount)
+		{
+			level = Mathf.Clamp(amount, minMoodLevel, maxMoodLevel);
+		}
+
 		public void OnSpawnServer(SpawnInfo info)
 		{
 			level = initialMoodLevel;
