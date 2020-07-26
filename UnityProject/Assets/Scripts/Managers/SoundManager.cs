@@ -470,8 +470,6 @@ public class SoundManager : MonoBehaviour
 
 	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true)
 	{
-		source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
-
 		if (!Global
 			&& PlayerManager.LocalPlayer != null
 			&& Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), source.transform.position, layerMask))
