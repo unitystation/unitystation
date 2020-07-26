@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 8093655862165673158}
   - component: {fileID: 8953132134925514141}
   - component: {fileID: -1536778056985268859}
+  - component: {fileID: 3479798237303417856}
   - component: {fileID: -3251195665219911144}
   m_Layer: 12
   m_Name: NPC_Jerry
@@ -502,6 +503,8 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
+  hasFoodPrefereces: 0
+  foodPreferences: []
 --- !u!114 &8953132134925514141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -516,49 +519,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobName: Mouse
   knockedDownRotation: 180
-  enableStress: 1
-  initialStressLevel: 0
-  maxStressLevel: 100
-  pettingDecreaseStress: 0
-  pettingCooldown: -1
-  foodAffectsStress: 1
-  foodPreferences:
-  - {fileID: 2100762529698844898, guid: a0efe5981eb9c1a4981af12d1eb1ea39, type: 3}
-  - {fileID: 770905702833930762, guid: 3ede8088b8e6f3e43a90cdc28055f000, type: 3}
-  - {fileID: 3722755314271837471, guid: 3b06fcecfcc6e8c40af68347c9644ba0, type: 3}
-  - {fileID: 6041984200622467946, guid: 02fd4b3f2a75ae74db68f80085ed0b48, type: 3}
-  - {fileID: 4043713673800239651, guid: 01b4b07fc0f73fc489e41d12542d7ad0, type: 3}
-  - {fileID: 773683976701909403, guid: dae0cbe22cdb0e6478da04587c4e38e1, type: 3}
-  - {fileID: 4574939532575719906, guid: 8e17c9d2a242e0b44b3aee4e531bf391, type: 3}
-  - {fileID: 4998208017804391878, guid: 05ed8f660caf3c4488c148436d487b56, type: 3}
-  - {fileID: 1931456197757473819, guid: 1eea6c0e153fb2343bf1097664784d9c, type: 3}
-  - {fileID: 57465164435145771, guid: 8d9c365f583671e4f8c4ca8bfcee494a, type: 3}
-  - {fileID: 4912214335510186018, guid: be31518b02dec6e459cc5ac4a4398ded, type: 3}
-  - {fileID: 5342993422408371182, guid: 0bf643131a7f0e3469673a5d636ae7c2, type: 3}
-  - {fileID: 7609372019108796657, guid: f97110c57d3787d4ba25081383446cc1, type: 3}
-  - {fileID: 5725882200388970429, guid: e1a7a3fe82e22174b89851be81a1ffdc, type: 3}
-  - {fileID: 4724295707837581091, guid: e890a42abb0446047a0516f271ebed29, type: 3}
-  - {fileID: 3394367362886323294, guid: c9aefb532cc70f44abd8ac39d9d784df, type: 3}
-  - {fileID: 2214687450486280385, guid: 0cb800d6ab549db49ac6e01d3e7970e4, type: 3}
-  - {fileID: 433502226432386780, guid: 748a567b1de90dc4a818b77c58c08558, type: 3}
-  - {fileID: 5491402170285736221, guid: a09b22cba1cc2524292c14edd7037211, type: 3}
-  - {fileID: 2726883159814567638, guid: 08fc0d9112e6a924da2265208b63f567, type: 3}
-  - {fileID: 8421089631845725742, guid: dbb1082f0389c244d89f153b379e31c4, type: 3}
-  - {fileID: 806837814538790395, guid: a621b6d54e49f0c429847b2346dd1c16, type: 3}
-  - {fileID: 6027159720349803130, guid: 17c6c3043e2f80247b8110ed8e260601, type: 3}
-  - {fileID: 318611213764659833, guid: 389a2004511530c4aba0ea257cae49e0, type: 3}
-  - {fileID: 3011982684033389663, guid: 27eeffd81471cf846bd801a92365cd75, type: 3}
-  - {fileID: 2402839922089584260, guid: 95626cf5e33ae0a45ad264cca316fad2, type: 3}
-  - {fileID: 4854555581424802525, guid: 56c2043ee23a6ab4192f2e8f4d8c3ff6, type: 3}
-  - {fileID: 9072725429194834912, guid: 0ce99ba5ac47e8e4f96313267983218a, type: 3}
-  - {fileID: 1195980258585240782, guid: 71b6b53819674ac499ee6dfcbaa14b73, type: 3}
-  - {fileID: 8820891359458226626, guid: e3db388746619344db4cdc07addc4f38, type: 3}
-  - {fileID: 863605331976281222, guid: 5ecf58ab2032b3847aa42f3bea0cec7d, type: 3}
-  - {fileID: 2635048175138463619, guid: 2051dd9e472d44140859bd686a1b9957, type: 3}
-  - {fileID: 1183914185710414931, guid: aa1efdb70671d874b8d13a06383a6d25, type: 3}
-  timeBetweenFoodCheck: 300
   minTimeBetweenRandomActions: 10
   maxTimeBetweenRandomActions: 30
+  doRandomActionWhenInTask: 1
+  angryMouseLevel: -30
+  deadMouse: {fileID: 4184658972748340991, guid: eb0c626c3a078634594555c4139784d4,
+    type: 3}
 --- !u!114 &-1536778056985268859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -571,6 +537,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3479798237303417856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198e62f73ad0d294699f0d7d013cefc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialMoodLevel: 0
+  minMoodLevel: -50
+  maxMoodLevel: 50
+  isAffectedByDamage: 1
+  moodOnHit: -10
+  isAffectedByPetting: 0
+  moodOnPetted: 10
+  pettingCooldown: -1
+  isAffectedByFood: 1
+  moodOnFood: 10
+  timeBetweenFoodCheck: 200
 --- !u!114 &-3251195665219911144
 MonoBehaviour:
   m_ObjectHideFlags: 0

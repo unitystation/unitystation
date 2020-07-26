@@ -6,28 +6,39 @@ namespace NPC
 	/// AI brain for mice
 	/// used to get hunted by Runtime and squeak also annoy engis by chewing cables
 	/// </summary>
+
 	public class MouseAI : GenericFriendlyAI
 	{
-		private const int AngryMouseLevel = 50;
+		[SerializeField, Tooltip("If this mouse get to this mood level, it will start chewing cables")]
+		private int angryMouseLevel = -30;
+
+		[SerializeField, Tooltip("Dead mouse item. Don't eat it, please.")]
+		private GameObject deadMouse = null;
+
+		private MobMood mood;
+
+		protected override void Awake()
+		{
+			base.Awake();
+			mood = GetComponent<MobMood>();
+		}
 
 		protected override void MonitorExtras()
 		{
-			timeWaiting += Time.deltaTime;
-			if (timeWaiting < timeForNextRandomAction)
+			if (health.IsDead)
 			{
-				return;
+				Spawn.ServerPrefab(deadMouse, gameObject.RegisterTile().WorldPosition);
+				Despawn.ServerSingle(gameObject);
 			}
-			timeWaiting = 0f;
-			timeForNextRandomAction = Random.Range(minTimeBetweenRandomActions, maxTimeBetweenRandomActions);
-			DoRandomSqueak();
 
+			base.MonitorExtras();
 			// If mouse not happy, mouse chew cable. Feed mouse. Or kill mouse, that would work too.
-			CheckStressLevel();
+			CheckMoodLevel();
 		}
 
-		private void CheckStressLevel()
+		private void CheckMoodLevel()
 		{
-			if (stressLevel >= AngryMouseLevel)
+			if (mood.Level <= angryMouseLevel)
 			{
 				DoRandomWireChew();
 			}
@@ -55,11 +66,6 @@ namespace NPC
 				gameObject,
 				$"{mobNameCap} squeaks!",
 				$"{mobNameCap} squeaks!");
-		}
-
-		private void DoRandomSqueak()
-		{
-			Squeak();
 		}
 
 		private void DoRandomWireChew()
@@ -109,10 +115,16 @@ namespace NPC
 			performerLHB.ApplyDamage(gameObject, 200, AttackType.Internal, DamageType.Tox);
 		}
 
+		protected override void DoRandomAction()
+		{
+			Squeak();
+		}
+
 		protected override void OnSpawnMob()
 		{
 			base.OnSpawnMob();
 			BeginExploring();
 		}
+
 	}
 }
