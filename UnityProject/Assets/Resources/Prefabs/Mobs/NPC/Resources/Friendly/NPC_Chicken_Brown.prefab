@@ -193,7 +193,7 @@ GameObject:
   - component: {fileID: 1482997015936521030}
   - component: {fileID: 5673662740140621782}
   m_Layer: 12
-  m_Name: NPC_Henrietta
+  m_Name: NPC_Chicken_Brown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -567,6 +567,7 @@ MonoBehaviour:
   doRandomActionWhenInTask: 1
   grownChicken: 1
   happyChicken: 50
+  maxEggsAmount: 4
   egg: {fileID: 2897339443933191501, guid: b12af25ca29fbde47882f31d6e84e6eb, type: 3}
   possibleGrownForms: []
 --- !u!114 &1482997015936521030
@@ -603,7 +604,7 @@ MonoBehaviour:
   pettingCooldown: 200
   isAffectedByFood: 1
   moodOnFood: 10
-  timeBetweenFoodCheck: 120
+  timeBetweenFoodCheck: 300
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0

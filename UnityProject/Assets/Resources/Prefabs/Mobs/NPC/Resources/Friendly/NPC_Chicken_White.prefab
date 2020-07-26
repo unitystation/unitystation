@@ -567,6 +567,7 @@ MonoBehaviour:
   doRandomActionWhenInTask: 1
   grownChicken: 1
   happyChicken: 50
+  maxEggsAmount: 4
   egg: {fileID: 2897339443933191501, guid: b12af25ca29fbde47882f31d6e84e6eb, type: 3}
   possibleGrownForms:
   - {fileID: 1722833055556988, guid: 5f8f4e2e4e606cd4d8530e22fa4f8619, type: 3}
@@ -606,7 +607,7 @@ MonoBehaviour:
   pettingCooldown: 200
   isAffectedByFood: 1
   moodOnFood: 10
-  timeBetweenFoodCheck: 120
+  timeBetweenFoodCheck: 300
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
