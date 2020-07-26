@@ -157,7 +157,7 @@ namespace Alien
 				"squish",
 				gameObject.RegisterTile().WorldPositionServer,
 				1f,
-				Global: false);
+				global: false);
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer.gameObject,

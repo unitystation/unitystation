@@ -1,4 +1,5 @@
-﻿using Audio.Containers;
+﻿using Assets.Scripts.Messages.Server.SoundMessages;
+using Audio.Containers;
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
@@ -167,7 +168,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
 			if (!NextSong())
 				Stop();
-		}
+		}	
 	}
 
 	public void Play()
@@ -177,7 +178,15 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		{
 			IsPlaying = true;
 			spriteHandler.SetSprite(SpritePlaying);
-			SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, -1, false, false, 0, 0, false, gameObject);
+			AudioSourceParameters audioSourceParameters = new AudioSourceParameters
+			{
+				MixerType = MixerType.Muffled,
+				SpatialBlend = 1, // 3D, we need it to attenuate with distance
+				MinDistance = 3,
+				MaxDistance = 10
+			};
+
+			SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
 			startPlayTime = Time.time;
 			UpdateGUI();
 		}

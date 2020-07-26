@@ -1,4 +1,5 @@
 ﻿using Mirror;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace Assets.Scripts.Messages.Server.SoundMessages
@@ -10,18 +11,18 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	{
 		public string SoundName;
 		public Vector3 Position;
-		public float Pitch;
-		public bool ShakeGround;
-		public byte ShakeIntensity;
-		public int ShakeRange;
 		///Allow this one to sound polyphonically
 		public bool Polyphonic;
-
 		public uint TargetNetId;
+
+		// Allow to perform a camera shake effect along with the sound.
+		public ShakeParameters ShakeParameters { get; set; }
+
+		// Allow to personalize Audio Source parameters for any sound to play.
+		public AudioSourceParameters AudioSourceParameters { get; set; }
 
 		public override void Process()
 		{
-
 			if (string.IsNullOrEmpty(SoundName))
 			{
 				Logger.LogError(ToString() + " has no SoundName!", Category.Audio);
@@ -30,32 +31,37 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			bool isPositionProvided = Position.RoundToInt() != TransformState.HiddenPos;
 
+			if (AudioSourceParameters == null)
+				AudioSourceParameters = new AudioSourceParameters();
+
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(SoundName, Position, Pitch, Polyphonic, netId: TargetNetId);
+				SoundManager.PlayAtPosition(SoundName, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioSourceParameters );
 			}
 			else
 			{
-				SoundManager.Play(SoundName, 1, Pitch, 0f, Polyphonic);
+				SoundManager.Play(SoundName, AudioSourceParameters, Polyphonic);
 			}
-
-			if (ShakeGround)
+		
+			if (ShakeParameters != null && ShakeParameters.ShakeGround)
 			{
 				if (isPositionProvided
 				 && PlayerManager.LocalPlayerScript
-				 && !PlayerManager.LocalPlayerScript.IsInReach(Position, false, ShakeRange))
+				 && !PlayerManager.LocalPlayerScript.IsInReach(Position, false, ShakeParameters.ShakeRange))
 				{
 					//Don't shake if local player is out of range
 					return;
 				}
-				float intensity = Mathf.Clamp(ShakeIntensity / (float)byte.MaxValue, 0.01f, 10f);
+				float intensity = Mathf.Clamp(ShakeParameters.ShakeIntensity / (float)byte.MaxValue, 0.01f, 10f);
 				Camera2DFollow.followControl.Shake(intensity, intensity);
 			}
 		}
 
-		public static PlaySoundMessage SendToNearbyPlayers(string sndName, Vector3 pos, float pitch,
+		public static PlaySoundMessage SendToNearbyPlayers(string sndName, Vector3 pos,
 			bool polyphonic = false,
-			bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
+			GameObject sourceObj = null,
+			ShakeParameters shakeParameters = null,
+			AudioSourceParameters audioSourceParameters = null)
 		{
 			var netId = NetId.Empty;
 			if (sourceObj != null)
@@ -71,23 +77,22 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			{
 				SoundName = sndName,
 				Position = pos,
-				Pitch = pitch,
-				ShakeGround = shakeGround,
-				ShakeIntensity = shakeIntensity,
-				ShakeRange = shakeRange,
 				Polyphonic = polyphonic,
-				TargetNetId = netId
+				TargetNetId = netId,
+				ShakeParameters = shakeParameters,
+				AudioSourceParameters = audioSourceParameters
 			};
 
 			msg.SendToNearbyPlayers(pos);
 			return msg;
 		}
 
-		public static PlaySoundMessage SendToAll(string sndName, Vector3 pos, float pitch,
+		public static PlaySoundMessage SendToAll(string sndName, Vector3 pos,
 			bool polyphonic = false,
-			bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
+			GameObject sourceObj = null,
+			ShakeParameters shakeParameters = null,
+			AudioSourceParameters audioSourceParameters = null)
 		{
-
 			var netId = NetId.Empty;
 			if (sourceObj != null)
 			{
@@ -102,23 +107,23 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			{
 				SoundName = sndName,
 				Position = pos,
-				Pitch = pitch,
-				ShakeGround = shakeGround,
-				ShakeIntensity = shakeIntensity,
-				ShakeRange = shakeRange,
 				Polyphonic = polyphonic,
-				TargetNetId = netId
+				TargetNetId = netId,
+				ShakeParameters = shakeParameters,
+				AudioSourceParameters = audioSourceParameters
 			};
 
 			msg.SendToAll();
 
 			return msg;
 		}
-		public static PlaySoundMessage Send(GameObject recipient, string sndName, Vector3 pos, float pitch,
-			bool polyphonic = false,
-			bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
-		{
 
+		public static PlaySoundMessage Send(GameObject recipient, string sndName, Vector3 pos,
+			bool polyphonic = false,
+			GameObject sourceObj = null,
+			ShakeParameters shakeParameters = null,
+			AudioSourceParameters audioSourceParameters = null)
+		{
 			var netId = NetId.Empty;
 			if (sourceObj != null)
 			{
@@ -133,12 +138,10 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			{
 				SoundName = sndName,
 				Position = pos,
-				Pitch = pitch,
-				ShakeGround = shakeGround,
-				ShakeIntensity = shakeIntensity,
-				ShakeRange = shakeRange,
 				Polyphonic = polyphonic,
-				TargetNetId = netId
+				TargetNetId = netId,
+				ShakeParameters = shakeParameters,
+				AudioSourceParameters = audioSourceParameters
 			};
 
 			msg.SendTo(recipient);
@@ -148,7 +151,27 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override string ToString()
 		{
-			return $"{nameof(SoundName)}: {SoundName}, {nameof(Position)}: {Position}, {nameof(Pitch)}: {Pitch}, {nameof(ShakeGround)}: {ShakeGround}, {nameof(ShakeIntensity)}: {ShakeIntensity}, {nameof(ShakeRange)}: {ShakeRange}, {nameof(Polyphonic)}: {Polyphonic}";
+			return $"{nameof(SoundName)}: {SoundName}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {ShakeParameters.ToString()}, {nameof(AudioSourceParameters)}: {AudioSourceParameters.ToString()}";
+		}
+
+		public override void Serialize(NetworkWriter writer)
+		{
+			writer.WriteString(SoundName);
+			writer.WriteVector3(Position);
+			writer.WriteBoolean(Polyphonic);
+			writer.WriteUInt32(TargetNetId);
+			writer.WriteString(JsonConvert.SerializeObject(ShakeParameters));
+			writer.WriteString(JsonConvert.SerializeObject(AudioSourceParameters));
+		}
+
+		public override void Deserialize(NetworkReader reader)
+		{
+			SoundName = reader.ReadString();
+			Position = reader.ReadVector3();
+			Polyphonic = reader.ReadBoolean();
+			TargetNetId = reader.ReadUInt32();
+			ShakeParameters = JsonConvert.DeserializeObject<ShakeParameters>(reader.ReadString());
+			AudioSourceParameters = JsonConvert.DeserializeObject<AudioSourceParameters>(reader.ReadString());
 		}
 	}
 }
