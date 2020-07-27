@@ -112,6 +112,12 @@ PrefabInstance:
       propertyPath: NetTabType
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c3eef609ec691442841c8075fdeb60d,
+        type: 2}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -204,6 +210,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: Color.r
+      value: 0.489
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: Color.g
+      value: 0.49
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: Color.b
+      value: 0.491
       objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
