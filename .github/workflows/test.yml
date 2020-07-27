@@ -70,11 +70,6 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2.0.0
       
-      - uses: kolpav/purge-artifacts-action@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          expire-in: 7days # Setting this to 0 will delete all artifacts
-
       # Cache the library directory to speed up builds
 #      - name: Cache library directory
 #        uses: actions/cache@v1.1.0
