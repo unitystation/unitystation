@@ -28,13 +28,13 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 	// Sprites for when the jukebox is idle, playing, damaged.
 	[SerializeField]
-	private Sprite SpriteIdle;
+	private SpriteDataSO SpriteIdle;
 
 	[SerializeField]
-	private SpriteSheetAndData SpritePlaying = null;
+	private SpriteDataSO SpritePlaying = null;
 
 	[SerializeField]
-	private SpriteSheetAndData SpriteDamaged;
+	private SpriteDataSO SpriteDamaged;
 
 	private List<AudioSource> musics;
 
@@ -177,7 +177,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		if (integrity.integrity > integrity.initialIntegrity / 2)
 		{
 			IsPlaying = true;
-			spriteHandler.SetSprite(SpritePlaying);
+			spriteHandler.SetSpriteSO(SpritePlaying);
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters
 			{
 				MixerType = MixerType.Muffled,
@@ -198,9 +198,9 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		IsPlaying = false;
 
 		if (integrity.integrity >= integrity.initialIntegrity / 2)
-			spriteHandler.SetSprite(SpriteIdle);
+			spriteHandler.SetSpriteSO(SpriteIdle);
 		else
-			spriteHandler.SetSprite(SpriteDamaged);
+			spriteHandler.SetSpriteSO(SpriteDamaged);
 
 		SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
 
