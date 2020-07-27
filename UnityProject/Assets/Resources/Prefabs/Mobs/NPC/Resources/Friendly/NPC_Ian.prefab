@@ -518,6 +518,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mobName: Ian
   knockedDownRotation: -180
+  enableStress: 0
+  initialStressLevel: 0
+  pettingDecreaseStress: 0
+  pettingCooldown: -1
+  foodAffectsStress: 0
+  foodPreferences: []
+  timeBetweenFoodCheck: 300
   minTimeBetweenRandomActions: 15
   maxTimeBetweenRandomActions: 30
   allowedToGiveCommands: 0600000016000000

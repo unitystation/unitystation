@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4046525160069288}
   - component: {fileID: 114804766488326296}
   m_Layer: 12
-  m_Name: JerryChest
+  m_Name: ChickenChest
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -77,7 +77,7 @@ GameObject:
   - component: {fileID: 4751586958383970}
   - component: {fileID: 114232649470732454}
   m_Layer: 12
-  m_Name: JerryHead
+  m_Name: ChickenHead
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -188,12 +188,12 @@ GameObject:
   - component: {fileID: 8251347940129356532}
   - component: {fileID: 8602547056562296912}
   - component: {fileID: 8093655862165673158}
-  - component: {fileID: 8953132134925514141}
-  - component: {fileID: -1536778056985268859}
-  - component: {fileID: 3479798237303417856}
-  - component: {fileID: -3251195665219911144}
+  - component: {fileID: 1430527032597229713}
+  - component: {fileID: 6697096454180026031}
+  - component: {fileID: 1482997015936521030}
+  - component: {fileID: 5673662740140621782}
   m_Layer: 12
-  m_Name: NPC_Jerry
+  m_Name: NPC_Chicken_White
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -207,7 +207,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722833055556988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 77, y: 55, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4152194380817414287}
@@ -267,11 +267,12 @@ MonoBehaviour:
   - {fileID: 114804766488326296}
   allowKnifeHarvest: 1
   butcherResults:
-  - {fileID: 4301451620404162702, guid: 0220e2b4d42274c4c8f2ef1af25f54a8, type: 3}
+  - {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a, type: 3}
+  - {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a, type: 3}
   RTT: 0
   RadiationStacks: 0
-  aliveSprite: {fileID: 21300016, guid: 1e7522c57ba5dfa4e9f08b4edccaaf4c, type: 3}
-  deadSprite: {fileID: 21300000, guid: 3aaa8665ad1552241bd8668da8a6e33f, type: 3}
+  aliveSprite: {fileID: 21300000, guid: 10aa5f6daddbd2644919a5f2f738573e, type: 3}
+  deadSprite: {fileID: 21300000, guid: 2dd30683608ff4346808b19aafa9d36b, type: 3}
   deadState: 0
   spriteRend: {fileID: 4890346600101626888}
   registerObject: {fileID: 0}
@@ -448,10 +449,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteRend: {fileID: 4890346600101626888}
-  upSprite: {fileID: 21300002, guid: 1e7522c57ba5dfa4e9f08b4edccaaf4c, type: 3}
-  rightSprite: {fileID: 21300004, guid: 1e7522c57ba5dfa4e9f08b4edccaaf4c, type: 3}
-  downSprite: {fileID: 21300000, guid: 1e7522c57ba5dfa4e9f08b4edccaaf4c, type: 3}
-  leftSprite: {fileID: 21300006, guid: 1e7522c57ba5dfa4e9f08b4edccaaf4c, type: 3}
+  upSprite: {fileID: 21300002, guid: 17cffeaf58e3ebb4caec1176eb1debfc, type: 3}
+  rightSprite: {fileID: 21300004, guid: 17cffeaf58e3ebb4caec1176eb1debfc, type: 3}
+  downSprite: {fileID: 21300000, guid: 17cffeaf58e3ebb4caec1176eb1debfc, type: 3}
+  leftSprite: {fileID: 21300006, guid: 17cffeaf58e3ebb4caec1176eb1debfc, type: 3}
 --- !u!114 &8602547056562296912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -495,17 +496,47 @@ MonoBehaviour:
     agentRenderTextures: []
     maxStep: 0
     resetOnDone: 1
-    onDemandDecision: 1
+    onDemandDecision: 0
     numberOfActionsBetweenDecisions: 1
   performingDecision: 0
   performingAction: 0
-  activated: 0
+  activated: 1
   tickRate: 1
   target: 0
   actionPerformTime: 0
-  hasFoodPrefereces: 0
-  foodPreferences: []
---- !u!114 &8953132134925514141
+  hasFoodPrefereces: 1
+  foodPreferences:
+  - {fileID: 3176528227185150432, guid: ab4143696c60d744684ddde0472e4516, type: 3}
+  - {fileID: 2434822937105005197, guid: accb8650901a5274ea6f9b4fc330a830, type: 3}
+  - {fileID: 4437149284043858270, guid: 1cfb37704e646da43bc2b79f292592d3, type: 3}
+  - {fileID: 11639533463445157, guid: 301047244e720e040b17d641c872719d, type: 3}
+  - {fileID: 7548090014962942804, guid: 95f9456b619a2194d99a75d11bd0e737, type: 3}
+  - {fileID: 11639533463445157, guid: 301047244e720e040b17d641c872719d, type: 3}
+  - {fileID: 7274953645499099385, guid: 394037cafd8e7314993ff56030057547, type: 3}
+  - {fileID: 6096225575505558569, guid: d942e8739f8acdb42b1c0d42ab2f0055, type: 3}
+  - {fileID: 4149237491488345207, guid: 26cc1c83ecf212144bf688a2ce01da35, type: 3}
+  - {fileID: 7646151630971901722, guid: d2bdc116655bd754299205a3f56c2042, type: 3}
+  - {fileID: 3966414541801369994, guid: 4545940ddd343664d9bc5a90362cb254, type: 3}
+  - {fileID: 8992516258240381432, guid: 3835fe39eb4faa3448f727fd8939344b, type: 3}
+  - {fileID: 8427045561111881020, guid: 053dc40c278f97942913e283cb37dfde, type: 3}
+  - {fileID: 4338447407288855963, guid: e4eb8fce6e9e3a3468fdc79695a41cf7, type: 3}
+  - {fileID: 4610161786656506823, guid: 1acaaad63f1a56349940173e8aeab2d8, type: 3}
+  - {fileID: 8234535844476778299, guid: f2c11f6c355dd4345b8acb112a58f298, type: 3}
+  - {fileID: 7233050634514354498, guid: 983de4a39af607647b694904d9e94ede, type: 3}
+  - {fileID: 3338615330144909657, guid: f0fe4b85465231b4d9cc64725b594405, type: 3}
+  - {fileID: 6384647378213985447, guid: 851aaf2916e98034aaf889c36f96ca30, type: 3}
+  - {fileID: 7288648939973306741, guid: a26a4eff862ae144dbd1631611c063b2, type: 3}
+  - {fileID: 4459359506746162445, guid: 103868fe2f90c944b94f6ca90c2cc28c, type: 3}
+  - {fileID: 6462090196669280728, guid: 6f5dd35799503894c92bbdeae0695430, type: 3}
+  - {fileID: 1594341212851182749, guid: 3d54c9fc1e01c4b42a6c8e2046b9604e, type: 3}
+  - {fileID: 4089708377625794130, guid: fc9c98d2b80c5ac4388684a5417cfb3a, type: 3}
+  - {fileID: 4383293123033439814, guid: 984636f7870a4214d90dcc30fd5ea101, type: 3}
+  - {fileID: 2072464820041694299, guid: 4762a01cff3514245b237036765aed2f, type: 3}
+  - {fileID: 1821778108977497467, guid: f0dad7d0aaf49a446a9b7633d070bc6d, type: 3}
+  - {fileID: 9187164059137228890, guid: c807ca64b8f5dc549a552362f9caaa6d, type: 3}
+  - {fileID: 7929132545395035327, guid: 6b278dfd25eca3a458046704b9670b4c, type: 3}
+  - {fileID: 2137730739785068106, guid: 136edf62b0583ca4bb9be826a8e06a54, type: 3}
+--- !u!114 &1430527032597229713
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -514,18 +545,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 1722833055556988}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7f6c589ccf330c5478854f4822f1d639, type: 3}
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mobName: Mouse
-  knockedDownRotation: 180
-  minTimeBetweenRandomActions: 10
-  maxTimeBetweenRandomActions: 30
+--- !u!114 &6697096454180026031
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36b4b64e6207463f90c2fd542e2cb2bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mobName: Chicken
+  knockedDownRotation: 90
+  minTimeBetweenRandomActions: 60
+  maxTimeBetweenRandomActions: 120
   doRandomActionWhenInTask: 1
-  angryMouseLevel: -30
-  deadMouse: {fileID: 4184658972748340991, guid: eb0c626c3a078634594555c4139784d4,
-    type: 3}
---- !u!114 &-1536778056985268859
+  grownChicken: 1
+  happyChicken: 50
+  maxEggsAmount: 4
+  egg: {fileID: 2897339443933191501, guid: b12af25ca29fbde47882f31d6e84e6eb, type: 3}
+  possibleGrownForms:
+  - {fileID: 1722833055556988, guid: 5f8f4e2e4e606cd4d8530e22fa4f8619, type: 3}
+  - {fileID: 1722833055556988}
+  - {fileID: 1722833055556988, guid: 6f3592e9e42146c4292dcb1d9eda6345, type: 3}
+--- !u!114 &1482997015936521030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -537,7 +585,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3479798237303417856
+--- !u!114 &5673662740140621782
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -550,28 +598,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initialMoodLevel: 0
-  minMoodLevel: -50
-  maxMoodLevel: 50
+  minMoodLevel: -100
+  maxMoodLevel: 100
   isAffectedByDamage: 1
   moodOnHit: -10
-  isAffectedByPetting: 0
+  isAffectedByPetting: 1
   moodOnPetted: 10
-  pettingCooldown: -1
+  pettingCooldown: 200
   isAffectedByFood: 1
   moodOnFood: 10
   timeBetweenFoodCheck: 300
---- !u!114 &-3251195665219911144
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1722833055556988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -642,7 +678,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 15
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300004, guid: 1e7522c57ba5dfa4e9f08b4edccaaf4c, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 17cffeaf58e3ebb4caec1176eb1debfc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
