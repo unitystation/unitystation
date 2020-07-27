@@ -76,7 +76,7 @@ PrefabInstance:
     - target: {fileID: 3330777552754972672, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_Name
-      value: CarbonDioxide
+      value: CanisterCarbonDioxide
       objectReference: {fileID: 0}
     - target: {fileID: 5376367218187274032, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -88,6 +88,12 @@ PrefabInstance:
       propertyPath: initialName
       value: co2 canister
       objectReference: {fileID: 0}
+    - target: {fileID: 6142982039284312315, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bb97f0e6cec6934459517f02882e6fe8,
+        type: 2}
     - target: {fileID: 6621590264234028386, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_AssetId
