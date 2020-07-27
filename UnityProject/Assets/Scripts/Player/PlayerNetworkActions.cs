@@ -8,8 +8,6 @@ using UnityEngine;
 using Mirror;
 using UI.PDA;
 using Audio.Containers;
-using UnityEngine;
-using Mirror;
 using DiscordWebhook;
 using InGameEvents;
 
@@ -248,11 +246,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var timeTaken = occupiedSlots * .4f;
 		void ProgressComplete()
-		{
+		{ var victimsHealth = toDisrobe.GetComponent < PlayerHealth >();
 			foreach (var itemSlot in itemStorage.GetItemSlots())
 			{
 				//skip slots which have special uses
 				if (itemSlot.NamedSlot == NamedSlot.handcuffs) continue;
+						// cancels out of the loop if player gets up
+				if (!victimsHealth.IsCrit) break;
+
 				Inventory.ServerDrop(itemSlot);
 			}
 		}

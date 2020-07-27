@@ -1,0 +1,125 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &4376987953643144521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 347706655283094457}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 10
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1
+--- !u!1001 &6020689945220916936
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2486924934493515795, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3745720770245761601, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: initialName
+      value: huge air scrubber
+      objectReference: {fileID: 0}
+    - target: {fileID: 6070491862844612966, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 26f45e078190e0c4b8c99a0dad9eec0f,
+        type: 3}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6290175237395923883, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6295615321316820337, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: m_Name
+      value: HugeAirScrubber
+      objectReference: {fileID: 0}
+    - target: {fileID: 8921956194705509959, guid: bde2e04457efae9448181975599790a5,
+        type: 3}
+      propertyPath: isInitiallyNotPushable
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bde2e04457efae9448181975599790a5, type: 3}
+--- !u!1 &347706655283094457 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6295615321316820337, guid: bde2e04457efae9448181975599790a5,
+    type: 3}
+  m_PrefabInstance: {fileID: 6020689945220916936}
+  m_PrefabAsset: {fileID: 0}

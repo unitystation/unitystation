@@ -33,7 +33,7 @@ public class NetSpriteImage : NetUIStringElement
 
 						Sprite[] spriteSheet = Sprites[spriteFile];
 						int index;
-						if ( int.TryParse( split[1], out index ) && spriteSheet?.Length > 0 ) {
+						if ( int.TryParse( split[1], out index ) && spriteSheet?.Length > index ) {
 							Element.sprite = spriteSheet[index];
 							spriteName = value;
 						} else {

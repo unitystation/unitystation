@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: talk-lawyer0
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -9158831977023676155, guid: d79bded0cde2d444da6b8dec935a566e,
+        type: 3}
+      secondDelay: 0.3
+    - sprite: {fileID: -1804914906611251293, guid: d79bded0cde2d444da6b8dec935a566e,
+        type: 3}
+      secondDelay: 0.3
+    - sprite: {fileID: 1363031064080143824, guid: d79bded0cde2d444da6b8dec935a566e,
+        type: 3}
+      secondDelay: 0.3
+    - sprite: {fileID: -499940764402660679, guid: d79bded0cde2d444da6b8dec935a566e,
+        type: 3}
+      secondDelay: 0.4
+  IsPalette: 0
+  setID: 2913

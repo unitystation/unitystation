@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 175001bada3c3ba47945b92e3bfa2bd2, type: 3}
   m_Name: BioBag
   m_EditorClassIdentifier: 
-  CallOnClient: 1
-  CallOnServer: 0
+  callOnClient: 1
+  callOnServer: 0
+  actionName: 
+  description: 
   Sprites:
-  - Texture: {fileID: 2800000, guid: 55b0e80c7364d5742bbf8fc10912a97f, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 55b0e80c7364d5742bbf8fc10912a97f, type: 3}
-    EquippedData: {fileID: 0}
+  - {fileID: 11400000, guid: c5ef2b086c810dc40b3974ae404e070d, type: 2}
   Backgrounds: []
   PreventBeingControlledBy: 
   DisableOnEvent: 

@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2164972540663452851, guid: e5194eace4d5b754b8671dee0aa516b0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3f7f64395fc5f2c46ae535dfac723543,
+        type: 2}
     - target: {fileID: 5313242217186319464, guid: e5194eace4d5b754b8671dee0aa516b0,
         type: 3}
       propertyPath: m_Sprite
@@ -21,7 +27,7 @@ PrefabInstance:
     - target: {fileID: 5426160498802093876, guid: e5194eace4d5b754b8671dee0aa516b0,
         type: 3}
       propertyPath: m_Name
-      value: DetectivesFlask
+      value: BVOld_DetectivesFlask
       objectReference: {fileID: 0}
     - target: {fileID: 5430806898007773760, guid: e5194eace4d5b754b8671dee0aa516b0,
         type: 3}

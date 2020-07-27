@@ -10,17 +10,17 @@ public class CablePlacementVisualisation : MonoBehaviour
 	/// <summary>
 	/// Prefab used to visualise cable placement
 	/// </summary>
-	[SerializeField] private GameObject cablePlacementVisualisationPrefab;
+	[SerializeField] private GameObject cablePlacementVisualisationPrefab = null;
 	private GameObject cablePlacementVisualisation;
 
 	/// <summary>
 	/// color of startPoint(point on which you press mouse button down)
 	/// </summary>
-	[SerializeField] private Color startPointColor;
+	[SerializeField] private Color startPointColor = default;
 	/// <summary>
 	/// color of point below mouse
 	/// </summary>
-	[SerializeField] private Color onHoverPointColor;
+	[SerializeField] private Color onHoverPointColor = default;
 
 	/// <summary>
 	/// point on which player has pressed mouse button

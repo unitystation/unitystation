@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 458389457831354121, guid: 802a90962afb0e44cbcc98f23c352222,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 92a17b9c03385ea4caacbdb0b2b5239e,
+        type: 2}
     - target: {fileID: 4705436589443679987, guid: 802a90962afb0e44cbcc98f23c352222,
         type: 3}
       propertyPath: prefabVariant
@@ -94,6 +100,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: bluespace body bag
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194423433699068908, guid: 802a90962afb0e44cbcc98f23c352222,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6194423433699068908, guid: 802a90962afb0e44cbcc98f23c352222,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 802a90962afb0e44cbcc98f23c352222, type: 3}

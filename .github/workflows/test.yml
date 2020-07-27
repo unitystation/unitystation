@@ -69,6 +69,13 @@ jobs:
       # Checkout repository (required to test local actions)
       - name: Checkout repository
         uses: actions/checkout@v2.0.0
+      
+      - name: Check space
+        run: df -h
+      - name: Clean space as per https://github.com/actions/virtual-environments/issues/709
+        run: sudo rm -rf "/usr/local/share/boost" && sudo rm -rf "$AGENT_TOOLSDIRECTORY"
+      - name: Check space
+        run: df -h
 
       # Cache the library directory to speed up builds
 #      - name: Cache library directory

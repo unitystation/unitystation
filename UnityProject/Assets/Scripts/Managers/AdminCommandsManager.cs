@@ -301,13 +301,7 @@ namespace AdminCommands
 		#region Sound
 
 		[Server]
-		public void CmdPlaySound(string index, string adminId, string adminToken)
-		{
-			PlaySound(index, adminId, adminToken);
-		}
-
-		[Server]
-		public void PlaySound(string index, string adminId, string adminToken)
+		public void CmdPlaySound(string adminId, string adminToken, string index)
 		{
 			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 			if (admin == null) return;

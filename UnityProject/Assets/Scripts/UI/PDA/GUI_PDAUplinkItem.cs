@@ -6,10 +6,10 @@ namespace UI.PDA
 	public class GUI_PDAUplinkItem : NetPage
 	{
 		[SerializeField]
-		private GUI_PDAUplinkMenu controller;
+		private GUI_PDAUplinkMenu controller = null;
 
 		[SerializeField]
-		private EmptyItemList itemTemplate;
+		private EmptyItemList itemTemplate = null;
 
 		public void GenerateEntries(List<UplinkItems> itementries)
 		{

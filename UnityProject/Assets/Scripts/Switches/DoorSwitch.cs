@@ -8,7 +8,7 @@ using Mirror;
 /// <summary>
 /// Allows object to function as a door switch - opening / closing door when clicked.
 /// </summary>
-public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>//, ISetMultitoolMaster
+public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster, IServerSpawn
 {
 	private SpriteRenderer spriteRenderer;
 	public Sprite greenSprite;
@@ -36,6 +36,21 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 
 	public void AddSlave(object SlaveObject)
 	{
+	}
+
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		foreach (var door in doorControllers)
+		{
+			if (door.IsHackable)
+			{
+				HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
+				outsideSignalOpen.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OpenDoor));
+
+				HackingNode outsideSignalClose = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalClose);
+				outsideSignalClose.AddConnectedNode(door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.CloseDoor));
+			}
+		}
 	}
 
 
@@ -84,17 +99,29 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 
 	private void RunDoorController()
 	{
-		for (int i = 0; i < doorControllers.Count; i++)
+		foreach (DoorController door in doorControllers)
 		{
-			if(doorControllers[i] == null) continue;
-
-			if (doorControllers[i].IsClosed)
+			if (door.IsClosed)
 			{
-				doorControllers[i].ServerOpen();
+				if (door.IsHackable)
+				{
+					door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalOpen);
+				}
+				else
+				{
+					door.TryOpen();
+				}
 			}
 			else
 			{
-				doorControllers[i].ServerClose();
+				if (door.IsHackable)
+				{
+					door.HackingProcess.SendOutputToConnectedNodes(HackingIdentifier.OutsideSignalClose);
+				}
+				else
+				{
+					door.TryClose();
+				}
 			}
 		}
 	}

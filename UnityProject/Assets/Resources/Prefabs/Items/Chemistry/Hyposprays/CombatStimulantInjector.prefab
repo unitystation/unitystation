@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1323011140707396627, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a3891c9ff2ee8f448b42adae933c0a1,
+        type: 2}
     - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
@@ -85,6 +91,16 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: combat stimulant injector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5038311047026975944, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}

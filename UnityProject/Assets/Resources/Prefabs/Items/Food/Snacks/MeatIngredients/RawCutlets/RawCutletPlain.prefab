@@ -65,7 +65,12 @@ PrefabInstance:
     - target: {fileID: 7537345380150340854, guid: eae3273562cc275408dc688bd15d2c87,
         type: 3}
       propertyPath: m_Name
-      value: RawCutlet
+      value: RawCutletPlain
+      objectReference: {fileID: 0}
+    - target: {fileID: 7570043172600205634, guid: eae3273562cc275408dc688bd15d2c87,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eae3273562cc275408dc688bd15d2c87, type: 3}

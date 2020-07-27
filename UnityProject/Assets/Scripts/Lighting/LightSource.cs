@@ -25,12 +25,12 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	private bool switchState;
 	private PowerStates powerState;
 
-	[SerializeField]private SpriteRenderer spriteRenderer;
-	[SerializeField]private SpriteRenderer spriteRendererLightOn;
+	[SerializeField] private SpriteRenderer spriteRenderer;
+	[SerializeField] private SpriteRenderer spriteRendererLightOn;
 	private LightSprite lightSprite;
-	[SerializeField]private EmergencyLightAnimator emergencyLightAnimator;
-	[SerializeField]private Integrity integrity;
-	[SerializeField]private Directional directional;
+	[SerializeField] private EmergencyLightAnimator emergencyLightAnimator = default;
+	[SerializeField] private Integrity integrity = default;
+	[SerializeField] private Directional directional;
 
 	[SerializeField] private BoxCollider2D boxColl = null;
 	[SerializeField] private Vector4 collDownSetting = Vector4.zero;

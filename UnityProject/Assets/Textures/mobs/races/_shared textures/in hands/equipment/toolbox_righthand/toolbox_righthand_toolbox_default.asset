@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: toolbox_righthand_toolbox_default
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -7559086704959380403, guid: 131f554ffd2d77a48855a401bce14573,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 2008009270865421326, guid: 131f554ffd2d77a48855a401bce14573,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -6523539976910130472, guid: 131f554ffd2d77a48855a401bce14573,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -2037572223505060330, guid: 131f554ffd2d77a48855a401bce14573,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 22258

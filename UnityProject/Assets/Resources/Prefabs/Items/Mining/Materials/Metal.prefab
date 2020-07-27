@@ -192,6 +192,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 321325784c5b29c468ba455dbfc144a7, type: 3}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4027a423c0c3d9a449a27f11d36c27b7,
+        type: 2}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ff8192db75b04b44aa84486dd196324e,
+        type: 2}
     - target: {fileID: 4589911925418668612, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
       propertyPath: stacksWith.Array.size
@@ -202,6 +214,12 @@ PrefabInstance:
       propertyPath: stacksWith.Array.data[0]
       value: 
       objectReference: {fileID: 6254655335276451647}
+    - target: {fileID: 6338058294871387756, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 38e19a7c32cdc6d428a3f8b8571bcbc2,
+        type: 2}
     - target: {fileID: 7218027344974714252, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
       propertyPath: buildList

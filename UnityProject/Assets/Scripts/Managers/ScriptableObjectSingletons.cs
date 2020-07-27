@@ -31,4 +31,5 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public UplinkPasswordList UplinkPasswordList;
 	public PipeTileSingleton PipeTileSingleton;
 	public AlcoholicDrinksSOScript AlcoholicDrinksSOScript;
+	public SpriteCatalogue SpriteCatalogue;
 }

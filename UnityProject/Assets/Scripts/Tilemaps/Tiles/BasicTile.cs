@@ -99,11 +99,11 @@ public abstract class BasicTile : LayerTile
 	/// </summary>
 	public int SpawnAmountOnDeconstruct => SpawnOnDeconstruct == null ? 0 : Mathf.Max(1, spawnAmountOnDeconstruct);
 
-	[SerializeField] private LootOnDespawn lootOnDespawn;
+	[SerializeField] private LootOnDespawn lootOnDespawn = default;
 
 	public LootOnDespawn LootOnDespawn => lootOnDespawn;
 
-	[SerializeField] private string soundOnHit;
+	[SerializeField] private string soundOnHit = default;
 
 	public string SoundOnHit => soundOnHit;
 

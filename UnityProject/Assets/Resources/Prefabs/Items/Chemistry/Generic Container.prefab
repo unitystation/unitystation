@@ -16,6 +16,19 @@ MonoBehaviour:
   backgroundColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   iconOverride: {fileID: 0}
   backgroundSprite: {fileID: 0}
+--- !u!114 &8249693547510685597
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7785875528613525472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e87ca80500964a91bd61d1a1a7ab3d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sound: Slurp
 --- !u!114 &9018167180428263240
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -50,19 +63,6 @@ MonoBehaviour:
       m_keys: []
       m_values: []
   destroyOnEmpty: 0
---- !u!114 &8249693547510685597
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7785875528613525472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e87ca80500964a91bd61d1a1a7ab3d6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sound: Slurp
 --- !u!1001 &7786560402941971290
 PrefabInstance:
   m_ObjectHideFlags: 0

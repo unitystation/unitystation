@@ -445,8 +445,9 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		}
 		else
 		{
-			//check if in range for pulling
-			if (Validations.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
+			// Check if in range for pulling, not trying to pull itself and it can be pulled.
+			if (Validations.IsInReach(registerTile, initiator.registerTile, false) &&
+				IsPushable && initiator != this)
 			{
 				return RightClickableResult.Create()
 					.AddElement("Pull", TryPullThis);

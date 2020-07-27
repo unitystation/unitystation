@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -28,7 +29,7 @@ public class RightClickManager : MonoBehaviour
 	private LightingSystem lightingSystem;
 
 	//cached methods attributed with RightClickMethod
-	private List<RightClickAttributedComponent> attributedTypes;
+	private static List<RightClickAttributedComponent> attributedTypes = new List<RightClickAttributedComponent>();
 	private List<RaycastResult> raycastResults = new List<RaycastResult>();
 
 	//defines a particular component that has one or more methods which have been attributed with RightClickMethod. Cached
@@ -42,7 +43,10 @@ public class RightClickManager : MonoBehaviour
 	private void Awake()
 	{
 		//cache all known usages of the RightClickMethod annotation
-		attributedTypes = GetRightClickAttributedMethods();
+		if (attributedTypes.Count == 0)
+		{
+			new Task(GetRightClickAttributedMethods).Start();
+		}
 
 		// Will be enabled by ControlDisplays when needed
 		gameObject.SetActive(false);
@@ -53,7 +57,7 @@ public class RightClickManager : MonoBehaviour
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
-	private  List<RightClickAttributedComponent> GetRightClickAttributedMethods()
+	private void GetRightClickAttributedMethods()
 	{
 		var result = new List<RightClickAttributedComponent>();
 
@@ -76,7 +80,7 @@ public class RightClickManager : MonoBehaviour
 			}
 		}
 
-		return result;
+		attributedTypes = result;
 	}
 
 	void Update()

@@ -6,7 +6,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347533324463470777}
+  m_GameObject: {fileID: 1781006999364248419}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef833cbcfcb900140b9770154b73160b, type: 3}
@@ -20,7 +20,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347533324463470777}
+  m_GameObject: {fileID: 1781006999364248419}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
@@ -40,7 +40,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347533324463470777}
+  m_GameObject: {fileID: 1781006999364248419}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
@@ -54,60 +54,22 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1347533324463458344}
+  m_GameObject: {fileID: 7511223838208348505}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 60a1d05f140abf148a564c6f25e7571c, type: 2}
+  - {fileID: 11400000, guid: a8c6fe96cee20b94cb83f70621e714f1, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 60a1d05f140abf148a564c6f25e7571c, type: 2}
   Sprites:
   - Texture: {fileID: 2800000, guid: 8fe14c5c45fedc24dbd1a34a13fdcc55, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 8fe14c5c45fedc24dbd1a34a13fdcc55, type: 3}
-    - {fileID: 21300002, guid: 8fe14c5c45fedc24dbd1a34a13fdcc55, type: 3}
-    - {fileID: 21300004, guid: 8fe14c5c45fedc24dbd1a34a13fdcc55, type: 3}
-    - {fileID: 21300006, guid: 8fe14c5c45fedc24dbd1a34a13fdcc55, type: 3}
-    EquippedData: {fileID: 4900000, guid: 6a573d40dde115e4c87b5079c7745759, type: 3}
   - Texture: {fileID: 2800000, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300002, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300004, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300006, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300008, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300010, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300012, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300014, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300016, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300018, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300020, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300022, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300024, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300026, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300028, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300030, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300032, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300034, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300036, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300038, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300040, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300042, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300044, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300046, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300048, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300050, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300052, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300054, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300056, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300058, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300060, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    - {fileID: 21300062, guid: e68f20dd70afcbb48bd29932e13753d8, type: 3}
-    EquippedData: {fileID: 4900000, guid: 0ff59cd970318fe41a8b1ea2aa5cda5e, type: 3}
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []
 --- !u!1001 &1347533324463388387
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -219,13 +181,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b06b702714bab49b9ad949eab1ca4534, type: 3}
---- !u!1 &1347533324463470777 stripped
+--- !u!1 &1781006999364248419 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 1347533324463388387}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1347533324463458344 stripped
+--- !u!1 &7511223838208348505 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8831097227523844026, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}

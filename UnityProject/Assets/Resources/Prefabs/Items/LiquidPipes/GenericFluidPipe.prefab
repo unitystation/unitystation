@@ -12,28 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d0c65a5a6a422469c11f5fd5d6abeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PipeLayer: 1
-  PipeType: 2
-  NetCompatible: 1
   Colour: {r: 1, g: 1, b: 1, a: 1}
-  Connections:
-    Directions:
-    - Bool: 1
-      pipeType: 1
-      PortType: 0
-    - Bool: 0
-      pipeType: 1
-      PortType: 0
-    - Bool: 1
-      pipeType: 1
-      PortType: 0
-    - Bool: 0
-      pipeType: 1
-      PortType: 0
+  pipeTile: {fileID: 0}
   SpriteHandler: {fileID: 0}
   objectBehaviour: {fileID: 0}
   BentVariantLocation: 4
   StraightVariantLocation: 0
+  IsBent: 0
+  StraightPipe: {fileID: 0}
+  BentPipe: {fileID: 0}
 --- !u!1001 &4289799101313017698
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -134,6 +121,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Sprites.Array.data[3].Sprites.Array.size
       value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
@@ -372,6 +364,30 @@ PrefabInstance:
       propertyPath: Sprites.Array.data[3].EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 6abcbc87496760d4c8e9b04f53693b5c, type: 3}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: fb9b0f659fcbf2949bea820a94136a69,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6ac0da04097adbb4aa0f173c2271b159,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: aee62d18eae3224468a738261fe4ba22,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4b31063689897324b8488fae45d8d9ef,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &4290798399627566040 stripped

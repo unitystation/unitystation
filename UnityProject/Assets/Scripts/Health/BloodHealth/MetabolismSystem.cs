@@ -59,9 +59,9 @@ public class MetabolismSystem : NetworkBehaviour
 	private float starvingRunDebuff = 2f;
 
 	[SerializeField]
-	[Tooltip("Speed debuff when walking and starting")]
+	[Tooltip("Speed debuff when walking and starving")]
 	private float starvingWalkDebuff = 1f;
-
+	
 	public int NutritionLevel => nutritionLevel;
 
 	private int nutritionLevel = 400;

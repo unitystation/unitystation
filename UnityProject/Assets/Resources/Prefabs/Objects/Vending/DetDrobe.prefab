@@ -81,6 +81,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114445863860112362
@@ -493,16 +494,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 39b1a138676dafb49ab10c5932419be2, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 39b1a138676dafb49ab10c5932419be2, type: 2}
   Sprites:
   - Texture: {fileID: 2800000, guid: b0e724f2c716c4d48a0060158d97a58b, type: 3}
-    Sprites:
-    - {fileID: -7186647468132015367, guid: b0e724f2c716c4d48a0060158d97a58b, type: 3}
-    - {fileID: -6306220791294966642, guid: b0e724f2c716c4d48a0060158d97a58b, type: 3}
-    - {fileID: -6082626668263232754, guid: b0e724f2c716c4d48a0060158d97a58b, type: 3}
-    - {fileID: 4024101216503610453, guid: b0e724f2c716c4d48a0060158d97a58b, type: 3}
-    EquippedData: {fileID: 4900000, guid: f14b3f0c78ead8d40918e5186454793f, type: 3}
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []

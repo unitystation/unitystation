@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 162704264883279580, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
       propertyPath: m_Name
-      value: DonutBase
+      value: DonutPlain
       objectReference: {fileID: 0}
     - target: {fileID: 167064790327061416, guid: c8966d5986e801548b806fb2ab2bbf3c,
         type: 3}
@@ -66,6 +66,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 276477913924184936, guid: c8966d5986e801548b806fb2ab2bbf3c,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c8966d5986e801548b806fb2ab2bbf3c, type: 3}

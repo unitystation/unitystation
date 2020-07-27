@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3469993313826393559, guid: bb2bcbb3619330d41965879e35f7c3ce,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 664395b52479f624cbe1495a91c1993a,
+        type: 2}
     - target: {fileID: 7173215006781413682, guid: bb2bcbb3619330d41965879e35f7c3ce,
         type: 3}
       propertyPath: initialDescription
@@ -18,6 +24,18 @@ PrefabInstance:
       propertyPath: initialName
       value: Badminka vodka
       objectReference: {fileID: 0}
+    - target: {fileID: 7173215006781413682, guid: bb2bcbb3619330d41965879e35f7c3ce,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ee3b2217b7c0d8d459d1eb3ab18a80ac,
+        type: 2}
+    - target: {fileID: 7173215006781413682, guid: bb2bcbb3619330d41965879e35f7c3ce,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 008ff497d2c82754db57ec850ab23e02,
+        type: 2}
     - target: {fileID: 7274947440120613860, guid: bb2bcbb3619330d41965879e35f7c3ce,
         type: 3}
       propertyPath: m_AssetId

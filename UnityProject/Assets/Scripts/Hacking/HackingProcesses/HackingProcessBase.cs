@@ -13,7 +13,7 @@ using UnityEngine.Events;
 /// e.g. check if interacted with a screw driver, then check if
 /// </summary>
 [RequireComponent(typeof(ItemStorage))]
-public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IServerSpawn, IServerDespawn
+public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>, IServerDespawn
 {
 	[SerializeField]
 	[Tooltip("Whether the wires used to hack the object are initially exposed when the object is spawned.")]
@@ -68,7 +68,7 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		SyncWiresExposed(wiresExposed, wiresExposed);
 	}
 
-	public void OnSpawnServer(SpawnInfo info)
+	public override void OnStartServer()
 	{
 		itemStorage = GetComponent<ItemStorage>();
 		ServerGenerateNodesFromNodeInfo();
@@ -139,10 +139,17 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 		}
 	}
 
-	public HackingNode GetNodeWithInternalIdentifier(string identifier)
+	public HackingNode GetNodeWithInternalIdentifier(HackingIdentifier identifier)
 	{
-		return hackNodes.Find(x => x.InternalIdentifier.Equals(identifier));
+		return hackNodes.Find(x => x.InternalIdentifier == identifier);
 	}
+
+	public void SendOutputToConnectedNodes(HackingIdentifier identifier, GameObject originator = null)
+	{
+		HackingNode node = GetNodeWithInternalIdentifier(identifier);
+		node.SendOutputToConnectedNodes(originator);
+	}
+
 
 	/// <summary>
 	/// Add a connection between two nodes in the hacking device. keyOutput is the index of the output node, similar for key input.
@@ -453,3 +460,24 @@ public abstract class HackingProcessBase : NetworkBehaviour, IPredictedCheckedIn
 
 }
 
+public enum HackingIdentifier
+{
+	Unset,
+	OnShouldOpen,
+	OpenDoor,
+	OnShouldClose,
+	CloseDoor,
+	OnIdRejected,
+	RejectId,
+	OnIdAccepted,
+	AcceptId,
+	ShouldDoPressureWarning,
+	DoPressureWarning,
+	PowerOut,
+	PowerIn,
+	DummyOut,
+	DummyIn,
+	OutsideSignalOpen,
+	OutsideSignalClose,
+	CancelCloseTimer
+}

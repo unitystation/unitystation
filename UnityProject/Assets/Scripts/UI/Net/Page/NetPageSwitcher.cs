@@ -109,6 +109,8 @@ public class NetPageSwitcher : NetUIStringElement
 	/// <param name="pageIndex">The index of the page to be activated (from Pages field)</param>
 	public void SetActivePage(int pageIndex)
 	{
+		if (Pages.ElementAtOrDefault(pageIndex) == null) return;
+
 		SetActivePage(Pages[pageIndex]);
 	}
 

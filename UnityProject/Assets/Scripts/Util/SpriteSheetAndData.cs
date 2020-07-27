@@ -45,13 +45,13 @@ public class SpriteSheetAndData
 	{
 		get
 		{
-			if (data.List.Count == 0)
+			/*if (data.List.Count == 0)
 			{
 				if (Texture != null)
 				{
 					data.List.Add(SpriteFunctions.CompleteSpriteSetup(this));
 				}
-			}
+			}*/
 			return data;
 		}
 		set

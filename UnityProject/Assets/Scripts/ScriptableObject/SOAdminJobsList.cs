@@ -5,6 +5,6 @@ using UnityEngine;
 // [CreateAssetMenu(fileName = "adminJobsList", menuName = "ScriptableObjects/AdminJobsList", order = 0)]
 public class SOAdminJobsList : SingletonScriptableObject<SOAdminJobsList>
 {
-	[SerializeField] [ReorderableList] private List<Occupation> adminAvailableJobs;
+	[SerializeField] [ReorderableList] private List<Occupation> adminAvailableJobs = new List<Occupation>();
 	public List<Occupation> AdminAvailableJobs => adminAvailableJobs;
 }

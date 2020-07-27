@@ -12,7 +12,7 @@ using UnityEngine.Serialization;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI
+public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI, ICheckedInteractable<ContextMenuApply>
 {
 	public PlayerScript PlayerScript => playerScript;
 
@@ -450,90 +450,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
 	}
 
-	[Server]
-	public void Cuff(HandApply interaction)
-	{
-		SyncCuffed(cuffed, true);
-
-		var targetStorage = interaction.TargetObject.GetComponent<ItemStorage>();
-
-		//transfer cuffs to the special cuff slot
-		ItemSlot handcuffSlot = targetStorage.GetNamedItemSlot(NamedSlot.handcuffs);
-		Inventory.ServerTransfer(interaction.HandSlot, handcuffSlot);
-
-		//drop hand items
-		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
-		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
-
-		if(connectionToClient != null) TargetPlayerUIHandCuffToggle(connectionToClient, true);
-	}
-
-	[TargetRpc]
-	private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool activeState)
-	{
-		Sprite leftSprite = null;
-		Sprite rightSprite = null;
-
-		if (activeState)
-		{
-			leftSprite = UIManager.Hands.LeftHand.GetComponentInParent<Handcuff>().HandcuffSprite;
-			rightSprite = UIManager.Hands.RightHand.GetComponentInParent<Handcuff>().HandcuffSprite;
-		}
-
-		UIManager.Hands.LeftHand.SetSecondaryImage(leftSprite);
-		UIManager.Hands.RightHand.SetSecondaryImage(rightSprite);
-	}
-
-	/// <summary>
-	/// Use RequestUncuff() instead for validation purposes. Use this method
-	/// if you have done validation else where (like the cool down for self
-	/// uncuffing). Calling this from client will break your client.
-	/// </summary>
-	[Server]
-	public void Uncuff()
-	{
-		SyncCuffed(cuffed, false);
-
-		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
-		TargetPlayerUIHandCuffToggle(connectionToClient, false);
-	}
-
-	private void SyncCuffed(bool wasCuffed, bool cuffed)
-	{
-		var oldCuffed = this.cuffed;
-		this.cuffed = cuffed;
-
-		if (isServer)
-		{
-			OnCuffChangeServer.Invoke(oldCuffed, this.cuffed);
-		}
-	}
-
-	/// <summary>
-	/// Called by RequestUncuffMessage after the progress bar completes
-	/// Uncuffs this player after performing some legitimacy checks
-	/// </summary>
-	/// <param name="uncuffingPlayer"></param>
-	[Server]
-	public void RequestUncuff(GameObject uncuffingPlayer)
-	{
-		if (!cuffed || !uncuffingPlayer)
-			return;
-
-		if (!Validations.CanApply(uncuffingPlayer, gameObject, NetworkSide.Server))
-			return;
-
-		Uncuff();
-	}
-
-	/// <summary>
-	/// Used for the right click action, sends a message requesting uncuffing
-	/// </summary>
-	public void TryUncuffThis()
-	{
-		RequestUncuffMessage.Send(gameObject);
-	}
-
 	/// <summary>
 	/// Tell the server we are now on or not on help intent. This only affects
 	/// whether we are swappable or not. Other than this the client never tells the
@@ -559,28 +475,119 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		              !PlayerScript.pushPull.IsPullingSomethingServer;
 	}
 
+	public void OnSpawnServer(SpawnInfo info)
+	{
+		SyncCuffed(cuffed, this.cuffed);
+	}
+
+	#region Cuffing
+
 	/// <summary>
 	/// Anything with PlayerMove can be cuffed and uncuffed. Might make sense to seperate that into its own behaviour
 	/// </summary>
 	/// <returns>The menu including the uncuff action if applicable, otherwise null</returns>
 	public RightClickableResult GenerateRightClickOptions()
 	{
-		var initiator = PlayerManager.LocalPlayerScript.playerMove;
+		var result = RightClickableResult.Create();
 
-		if (IsCuffed && initiator != this)
+		if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, "Uncuff"), NetworkSide.Client)) return result;
+
+		return result.AddElement("Uncuff", OnUncuffClicked);
+	}
+
+	/// <summary>
+	/// Used for the right click action, sends a message requesting uncuffing
+	/// </summary>
+	public void OnUncuffClicked()
+	{
+		RequestInteractMessage.Send(ContextMenuApply.ByLocalPlayer(gameObject, "Uncuff"), this);
+	}
+
+	/// <summary>
+	/// Determines if the interaction request for uncuffing is valid clientside and if true, then serverside
+	/// </summary>
+	public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		return cuffed;
+	}
+
+	/// <summary>
+	/// Handles the interaction request for uncuffing serverside
+	/// </summary>
+	public void ServerPerformInteraction(ContextMenuApply interaction)
+	{
+		var handcuffs = interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs).ItemObject;
+		if (handcuffs == null) return;
+
+		var restraint = handcuffs.GetComponent<Restraint>();
+		if (restraint == null) return;
+
+		var ProgressConfig = new StandardProgressActionConfig(StandardProgressActionType.Uncuff);
+		StandardProgressAction.Create(ProgressConfig, Uncuff)
+			.ServerStartProgress(interaction.TargetObject.RegisterTile(), restraint.RemoveTime, interaction.Performer);
+	}
+
+	[Server]
+	public void Cuff(HandApply interaction)
+	{
+		SyncCuffed(cuffed, true);
+
+		var targetStorage = interaction.TargetObject.GetComponent<ItemStorage>();
+
+		//transfer cuffs to the special cuff slot
+		ItemSlot handcuffSlot = targetStorage.GetNamedItemSlot(NamedSlot.handcuffs);
+		Inventory.ServerTransfer(interaction.HandSlot, handcuffSlot);
+
+		//drop hand items
+		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.leftHand));
+		Inventory.ServerDrop(targetStorage.GetNamedItemSlot(NamedSlot.rightHand));
+
+		if (connectionToClient != null) TargetPlayerUIHandCuffToggle(connectionToClient, true);
+	}
+
+	[TargetRpc]
+	private void TargetPlayerUIHandCuffToggle(NetworkConnection target, bool activeState)
+	{
+		Sprite leftSprite = null;
+		Sprite rightSprite = null;
+
+		if (activeState)
 		{
-			var result = RightClickableResult.Create();
-			result.AddElement("Uncuff", TryUncuffThis);
-			return result;
+			leftSprite = UIManager.Hands.LeftHand.GetComponentInParent<Handcuff>().HandcuffSprite;
+			rightSprite = UIManager.Hands.RightHand.GetComponentInParent<Handcuff>().HandcuffSprite;
 		}
 
-		return null;
+		UIManager.Hands.LeftHand.SetSecondaryImage(leftSprite);
+		UIManager.Hands.RightHand.SetSecondaryImage(rightSprite);
 	}
 
-	public void OnSpawnServer(SpawnInfo info)
+	/// <summary>
+	/// Request a ContextMenuApply interaction if you have not done your own validation.
+	/// Calling this clientside will break your client.
+	/// </summary>
+	[Server]
+	public void Uncuff()
 	{
-		SyncCuffed(cuffed, this.cuffed);
+		SyncCuffed(cuffed, false);
+
+		Inventory.ServerDrop(playerScript.ItemStorage.GetNamedItemSlot(NamedSlot.handcuffs));
+		TargetPlayerUIHandCuffToggle(connectionToClient, false);
 	}
+
+	private void SyncCuffed(bool wasCuffed, bool cuffed)
+	{
+		var oldCuffed = this.cuffed;
+		this.cuffed = cuffed;
+
+		if (isServer)
+		{
+			OnCuffChangeServer.Invoke(oldCuffed, this.cuffed);
+		}
+	}
+
+	#endregion Cuffing
 }
 
 /// <summary>

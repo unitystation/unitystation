@@ -5,7 +5,7 @@ namespace UI.PDA
 {
 	public class GUI_PDASettingMenu : NetPage
 	{
-		[SerializeField] private GUI_PDA controller;
+		[SerializeField] private GUI_PDA controller = null;
 
 		[SerializeField] public NetLabel input;
 

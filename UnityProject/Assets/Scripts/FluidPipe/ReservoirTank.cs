@@ -10,7 +10,7 @@ namespace Pipes
 	{
 
 		public ReagentContainer Container;
-		private void Start()
+		public override void Start()
 		{
 			pipeData.PipeAction = new ReservoirAction();
 			base.Start();

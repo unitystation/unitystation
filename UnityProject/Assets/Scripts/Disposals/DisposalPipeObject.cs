@@ -15,19 +15,19 @@ namespace Disposals
 
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Up orientation.")]
-		DisposalPipe disposalPipeTileUp;
+		DisposalPipe disposalPipeTileUp = null;
 
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Down orientation.")]
-		DisposalPipe disposalPipeTileDown;
+		DisposalPipe disposalPipeTileDown = null;
 
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Left orientation.")]
-		DisposalPipe disposalPipeTileLeft;
+		DisposalPipe disposalPipeTileLeft = null;
 
 		[SerializeField]
 		[Tooltip("Tile to spawn when pipe is welded in the Right orientation.")]
-		DisposalPipe disposalPipeTileRight;
+		DisposalPipe disposalPipeTileRight = null;
 
 		string objectName;
 		HandApply currentInteraction;

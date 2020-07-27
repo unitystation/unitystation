@@ -9,16 +9,16 @@ namespace UI.PDA
 		public GUI_PDA mainController;
 
 		[SerializeField]
-		private NetPageSwitcher subSwitcher;
+		private NetPageSwitcher subSwitcher = null;
 
 		[SerializeField]
-		private GUI_PDAUplinkItem itemPage;
+		private GUI_PDAUplinkItem itemPage = null;
 
 		[SerializeField]
-		private GUI_PDAUplinkCategory categoryPage;
+		private GUI_PDAUplinkCategory categoryPage = null;
 
 		[SerializeField]
-		private NetLabel tcCounter;
+		private NetLabel tcCounter = null;
 
 
 		/// <summary>

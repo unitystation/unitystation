@@ -10,10 +10,10 @@ public class ActionData : ScriptableObject
 {
 	[FormerlySerializedAs("CallOnClient")]
 	[SerializeField]
-	private bool callOnClient;
+	private bool callOnClient = default;
 	[FormerlySerializedAs("CallOnServer")]
 	[SerializeField]
-	private bool callOnServer;
+	private bool callOnServer = default;
 	public virtual bool CallOnClient => callOnClient;
 	public virtual bool CallOnServer => callOnServer;
 
@@ -23,11 +23,10 @@ public class ActionData : ScriptableObject
 	public string Name => actionName;
 	public string Description => description;
 
-	public List<SpriteSheetAndData> Sprites = new List<SpriteSheetAndData>();
-	public List<SpriteSheetAndData> Backgrounds = new List<SpriteSheetAndData>();
+	public List<SpriteDataSO>  Sprites = null;
+	public List<SpriteDataSO> Backgrounds = null;
 
 	public List<ActionController> PreventBeingControlledBy = new List<ActionController>();
-
 
 	public List<EVENT> DisableOnEvent = new List<EVENT>();
 
@@ -40,7 +39,6 @@ public class ActionData : ScriptableObject
 		return $"[ActionData '{Name}' ({Description})]";
 	}
 }
-
 
 public enum ActionController {
 	Inventory

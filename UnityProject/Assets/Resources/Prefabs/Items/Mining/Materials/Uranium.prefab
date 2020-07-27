@@ -139,11 +139,18 @@ PrefabInstance:
       propertyPath: stacksWith.Array.data[0]
       value: 
       objectReference: {fileID: 6254655335276451647}
+    - target: {fileID: 6338058294871387756, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 049b1548a73e2ab4f974250e1d11861b,
+        type: 2}
     - target: {fileID: 7218027344974714252, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
       propertyPath: buildList
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 5cf4c63ea5470f648a2a2f107874ed19,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 208d0d984a62d439babfcfb9d8bfe087, type: 3}
 --- !u!1 &6254655335276451647 stripped

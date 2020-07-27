@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 
 public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
-	public SpriteSheetAndData DefaultIconBackground;
+	public SpriteDataSO DefaultIconBackground;
 	public SpriteHandler IconBackground;
 	public SpriteHandler IconFront;
 
@@ -28,18 +28,18 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 			return;
 		}
 
-		IconFront.SetInfo(actionData.Sprites);
+		IconFront.SetCatalogue(actionData.Sprites,0, NetWork: false);
 		if (actionData.Backgrounds.Count > 0) {
-			IconBackground.SetInfo(actionData.Backgrounds);
+			IconBackground.SetCatalogue(actionData.Backgrounds,0 ,NetWork: false);
 		}
 	}
 
 	public void Pool()
 	{
-		IconBackground.ChangeSpriteVariant(0);
-		IconFront.ChangeSpriteVariant(0);
-		IconBackground.SetInfo(DefaultIconBackground.Data);
-		IconFront.PushClear();
+		IconBackground.ChangeSpriteVariant(0, false);
+		IconFront.ChangeSpriteVariant(0, false);
+		IconBackground.SetSpriteSO(DefaultIconBackground, Network : false);
+		IconFront.PushClear(false);
 		this.gameObject.SetActive(false);
 	}
 

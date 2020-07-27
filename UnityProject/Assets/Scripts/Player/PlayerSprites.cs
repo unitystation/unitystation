@@ -147,8 +147,8 @@ public class PlayerSprites : MonoBehaviour
 	{
 		if (customisationName != "None")
 		{
-			SpriteSheetAndData spriteSheetAndData = PlayerCustomisationDataSOs.Instance.Get(customisationType, ThisCharacter.Gender, customisationName).Equipped;
-			SetupSprite(spriteSheetAndData, customisationKey, color);
+			SpriteDataSO spriteDataSO = PlayerCustomisationDataSOs.Instance.Get(customisationType, ThisCharacter.Gender, customisationName).SpriteEquipped;
+			SetupSprite(spriteDataSO, customisationKey, color);
 		}
 	}
 
@@ -197,25 +197,17 @@ public class PlayerSprites : MonoBehaviour
 	/// <summary>
 	/// Sets up the sprite for a specific body part
 	/// </summary>
-	private void SetupBodySprite(SpriteSheetAndData variantBodypart, string bodypartKey, Color? color = null)
+	private void SetupBodySprite(SpriteDataSO variantBodypart, string bodypartKey, Color? color = null)
 	{
-		if (variantBodypart.Texture != null)
+		if (variantBodypart != null && variantBodypart.Variance.Count > 0)
 		{
 			SetupSprite(variantBodypart, bodypartKey, color);
 		}
 	}
 
-	private void SetupSprite(SpriteSheetAndData spriteSheetAndData, string clothesDictKey, Color? color = null)
+	private void SetupSprite(SpriteDataSO spriteSheetAndData, string clothesDictKey, Color? color = null)
 	{
-		clothes[clothesDictKey].spriteHandler.spriteData = new SpriteData();
-		clothes[clothesDictKey].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(spriteSheetAndData));
-
-		if (color != null)
-		{
-			clothes[clothesDictKey].spriteHandler.SetColor(color.Value);
-		}
-
-		clothes[clothesDictKey].spriteHandler.PushTexture();
+		clothes[clothesDictKey].spriteHandler.SetSpriteSO(spriteSheetAndData, color.GetValueOrDefault(Color.white));
 	}
 
 	private void OnClientFireStacksChange(float newStacks)

@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!1001 &6743866655740756593
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,6 +21,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 236481346396351825, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 341212a89d6dbff458c332402ecd9441,
+        type: 2}
     - target: {fileID: 1041179462549308755, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
       propertyPath: clothData

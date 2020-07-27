@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 234034479120620068, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2896c1e0775f3a94c8ef494bfe1a076e,
+        type: 2}
     - target: {fileID: 1128924040738795512, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
       propertyPath: circuitBoardPrefab
@@ -101,7 +107,7 @@ PrefabInstance:
     - target: {fileID: 6618935427903119787, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
       propertyPath: m_Name
-      value: BoilerTurbineController
+      value: BVOld_BoilerTurbineController
       objectReference: {fileID: 0}
     - target: {fileID: 7032716331547122897, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
@@ -117,7 +123,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 855f7a86a109f3342bc2dab29da45a2a,
+      objectReference: {fileID: 21300000, guid: 150d07398e8b9764ca0aead8c65a8e59,
         type: 3}
     - target: {fileID: 9032347336055072273, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}

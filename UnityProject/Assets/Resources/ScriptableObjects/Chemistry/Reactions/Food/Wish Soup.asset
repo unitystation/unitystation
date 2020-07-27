@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
+  m_Name: Wish Soup
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+    m_values: 14000000
+  useExactAmounts: 1
+  catalysts:
+    m_keys: []
+    m_values: 
+  results:
+    m_keys: []
+    m_values: 
+  effects:
+  - {fileID: 11400000, guid: 7d3d56b54ab7a7d4c8db9f4cefd7d5c7, type: 2}

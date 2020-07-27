@@ -857,8 +857,8 @@ namespace Mirror
         {
 	        //We are not using mirrors visibity methods
 	        return;
-	        foreach (Renderer rend in GetComponentsInChildren<Renderer>())
-		        rend.enabled = visible;
+	        //foreach (Renderer rend in GetComponentsInChildren<Renderer>())
+		    //    rend.enabled = visible;
         }
 
         /// <summary>

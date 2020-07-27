@@ -145,7 +145,7 @@ public class JobAllocator
 	{
 		// Update determined players and players left
 		determinedPlayers.AddRange(players.Select(player =>
-			PlayerSpawnRequest.RequestOccupation(player.ViewerScript, job, player.CharacterSettings)));
+			PlayerSpawnRequest.RequestOccupation(player.ViewerScript, job, player.CharacterSettings, player.UserId)));
 		playersLeft.RemoveAll(players.Contains);
 		missedOutPlayers.RemoveAll(players.Contains);
 

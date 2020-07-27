@@ -19,6 +19,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
       propertyPath: SetSpriteOnStartUp
       value: 1
       objectReference: {fileID: 0}
@@ -140,6 +145,11 @@ PrefabInstance:
       propertyPath: Sprites.Array.data[0].EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 8b85117a822068341bdb4e97cb513381, type: 3}
+    - target: {fileID: 3605183359545615039, guid: 4bf8c38cb85116e4babedf03228412de,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 7035654688744863322, guid: 4bf8c38cb85116e4babedf03228412de,
         type: 3}
       propertyPath: initialName

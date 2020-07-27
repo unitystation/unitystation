@@ -19,9 +19,12 @@ MonoBehaviour:
   genericInternalMag: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
     type: 3}
   casingPrefabOverride: {fileID: 0}
+  allowMagazineRemoval: 1
   ammoType: 18
   SpawnsCasing: 0
   MagInternal: 1
+  burstCooldown: 0
+  burstCount: 3
   SmartGun: 0
   MagSize: 1
   CurrentRecoilVariance: 0
@@ -72,6 +75,12 @@ PrefabInstance:
       propertyPath: ammoType
       value: 13
       objectReference: {fileID: 0}
+    - target: {fileID: 4598361863285954486, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a37f4b44b6ace3d4d93040981a8c9622,
+        type: 2}
     - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Sprite
@@ -221,6 +230,18 @@ PrefabInstance:
       propertyPath: initialDescription
       value: 'Miner''s best friend. '
       objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d8207bd9c629e0f4bbef0855255e82c8,
+        type: 2}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6fc2028aaacd7f548b2925a9801502dd,
+        type: 2}
     m_RemovedComponents:
     - {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e, type: 3}
     - {fileID: 505251973963023168, guid: c456c86d5736aee499478a158376781e, type: 3}

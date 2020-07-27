@@ -103,6 +103,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Controls and records data from the boiler and turbine.
       objectReference: {fileID: 0}
+    - target: {fileID: 1213303998874603650, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5caf4067de7298f408771832d3670a44,
+        type: 2}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
@@ -262,6 +268,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoilerTurbineConsole
       objectReference: {fileID: 0}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2896c1e0775f3a94c8ef494bfe1a076e,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}
     - {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697, type: 3}

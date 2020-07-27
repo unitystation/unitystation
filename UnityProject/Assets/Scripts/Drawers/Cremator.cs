@@ -7,7 +7,7 @@ using UnityEngine;
 /// TODO: Implement activation via button when buttons can be assigned a generic component instead of only a DoorController component
 /// and remove the activation by right-click option.
 /// </summary>
-public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
+public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMenuApply>
 {
 	// Extra states over the base DrawerState enum.
 	private enum CrematorState
@@ -36,16 +36,18 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 		RightClickableResult result = RightClickableResult.Create();
 		if (drawerState == DrawerState.Open) return result;
 		if (!accessRestrictions.CheckAccess(PlayerManager.LocalPlayer)) return result;
+		var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);
+		if (!WillInteract(cremateInteraction, NetworkSide.Client)) return result;
 
-		return result.AddElement("Activate Ignition", RightClickInteract);
+		return result.AddElement("Activate", () => OnCremateClicked(cremateInteraction));
 	}
 
-	private void RightClickInteract()
+	private void OnCremateClicked(ContextMenuApply interaction)
 	{
-		InteractionUtils.RequestInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayer), this);
+		InteractionUtils.RequestInteract(interaction, this);
 	}
 
-	public bool WillInteract(MouseDrop interaction, NetworkSide side)
+	public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (drawerState == (DrawerState)CrematorState.ShutAndActive) return false;
@@ -53,7 +55,7 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 		return true;
 	}
 
-	public void ServerPerformInteraction(MouseDrop interaction)
+	public void ServerPerformInteraction(ContextMenuApply interaction)
 	{
 		Cremate();
 	}
@@ -85,9 +87,9 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 	{
 		if (serverHeldItems.Count > 0 || serverHeldPlayers.Count > 0)
 		{
-			drawerState = (DrawerState)CrematorState.ShutWithContents;
+			OnSyncDrawerState((DrawerState)CrematorState.ShutWithContents);
 		}
-		else drawerState = DrawerState.Shut;
+		else OnSyncDrawerState(DrawerState.Shut);
 	}
 
 	private void Cremate()
@@ -143,7 +145,7 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 
 	private IEnumerator PlayIncineratingAnim()
 	{
-		drawerState = (DrawerState)CrematorState.ShutAndActive;
+		OnSyncDrawerState((DrawerState)CrematorState.ShutAndActive);
 		yield return WaitFor.Seconds(BURNING_DURATION);
 		OnFinishPlayerCremation();
 		UpdateCloseState();

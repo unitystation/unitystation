@@ -396,7 +396,6 @@ public partial class PlayerList
 				if (entry != null)
 				{
 					return entry;
-					break;
 				}
 			}
 		}
@@ -803,6 +802,8 @@ public partial class PlayerList
 				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
+
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null);
 
 				if (!announceBan || !ServerData.ServerConfig.DiscordWebhookEnableBanKickAnnouncement) return;
 
