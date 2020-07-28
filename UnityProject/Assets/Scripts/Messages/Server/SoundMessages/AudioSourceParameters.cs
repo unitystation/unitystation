@@ -4,7 +4,8 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 {
 	public enum MixerType
 	{
-		Default,
+		Unspecified,
+		Master,
 		Muffled
 	}
 
@@ -13,25 +14,25 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class AudioSourceParameters
 	{
-		public float Volume { get; set; } = -1; // -1 means to use the "ambient sound volume".  Any positive value will override the default sound volume.
-		public float Time { get; set; } = 0;
-		public float Pan { get; set; } = 0;
+		public float? Volume { get; set; } = null;
+		public float? Time { get; set; } = null;
+		public float? Pan { get; set; } = null;
 
 		// The Output Mixer to use
-		public MixerType MixerType { get; set; } = MixerType.Default;
+		public MixerType MixerType { get; set; } = MixerType.Unspecified;
 
 		// Pitch of the sound
-		public float Pitch { get; set; } = -1;
+		public float? Pitch { get; set; } = null;
 
 		// Spatial blend of the audio source (0 for 2D, 1 for 3D)
 		// Note:  2D spatial blend doesn't attenuate with distance
-		public float SpatialBlend { get; set; } = 0;
+		public float? SpatialBlend { get; set; } = null;
 
 		// Minimum distance in which the sound is at maximum volume
-		public float MinDistance { get; set; } = 1;
+		public float? MinDistance { get; set; } = null;
 
 		// (Logarithmic rolloff) MaxDistance is the distance a sound stops attenuating at.
-		public float MaxDistance { get; set; } = 10;
+		public float? MaxDistance { get; set; } = null;
 
 		public override string ToString()
 		{

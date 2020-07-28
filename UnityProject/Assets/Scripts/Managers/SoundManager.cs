@@ -394,30 +394,9 @@ public class SoundManager : MonoBehaviour
 		name = Instance.ResolveSoundPattern(name);
 		var sound = Instance.GetSourceFromPool(Instance.sounds[name]);
 
-		if (audioSourceParameters != null)
-		{
-			sound.audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Default ? Instance.DefaultMixer : Instance.MuffledMixer;
-			sound.audioSource.pitch = audioSourceParameters.Pitch > 0? audioSourceParameters.Pitch : 1;
-			sound.audioSource.time = audioSourceParameters.Time;
+		ApplyAudioSourceParameters(audioSourceParameters, sound);
 
-			// If volume is negative, default sound volume will be used.
-			if (audioSourceParameters.Volume > 0)
-				sound.audioSource.volume = audioSourceParameters.Volume;
-
-			sound.audioSource.panStereo = audioSourceParameters.Pan;
-			sound.audioSource.spatialBlend = audioSourceParameters.SpatialBlend;
-			sound.audioSource.minDistance = audioSourceParameters.MinDistance;
-			sound.audioSource.maxDistance = audioSourceParameters.MaxDistance;
-		}
-
-		if (polyphonic)
-		{
-			sound.PlayOneShot();
-		}
-		else
-		{
-			sound.PlayNormally();
-		}
+		Instance.PlaySource(sound, polyphonic, true, audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
 
 	/// <summary>
@@ -468,14 +447,17 @@ public class SoundManager : MonoBehaviour
 		Instance.PlaySource(Instance.GetSourceFromPool(Instance.sounds[name]), polyphonic, global);
 	}
 
-	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true)
+	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true, bool forceMixer = false)
 	{
-		if (!Global
-			&& PlayerManager.LocalPlayer != null
-			&& Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), source.transform.position, layerMask))
+		if (!forceMixer)
 		{
-			//Logger.Log("MuffledMixer");
-			source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+			if (!Global
+				&& PlayerManager.LocalPlayer != null
+				&& Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), source.transform.position, layerMask))
+			{
+				//Logger.Log("MuffledMixer");
+				source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+			}
 		}
 
 		if (polyphonic)
@@ -537,21 +519,7 @@ public class SoundManager : MonoBehaviour
 		if (!Instance.sounds.ContainsKey(name)) return;
 		var sound = Instance.GetSourceFromPool(Instance.sounds[name]);
 
-		if (audioSourceParameters != null)
-		{
-			sound.audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Default ? Instance.DefaultMixer : Instance.MuffledMixer;
-			sound.audioSource.pitch = audioSourceParameters.Pitch > 0 ? audioSourceParameters.Pitch : 1;
-			sound.audioSource.time = audioSourceParameters.Time;
-
-			// If volume is negative, default sound volume will be used.
-			if (audioSourceParameters.Volume > 0)
-				sound.audioSource.volume = audioSourceParameters.Volume;
-
-			sound.audioSource.panStereo = audioSourceParameters.Pan;
-			sound.audioSource.spatialBlend = audioSourceParameters.SpatialBlend;
-			sound.audioSource.minDistance = audioSourceParameters.MinDistance;
-			sound.audioSource.maxDistance = audioSourceParameters.MaxDistance;
-		}
+		ApplyAudioSourceParameters(audioSourceParameters, sound);
 
 		if (netId != NetId.Empty)
 		{
@@ -572,17 +540,39 @@ public class SoundManager : MonoBehaviour
 			sound.transform.position = worldPos;
 		}
 
-		if (polyphonic)
-		{
-			sound.PlayOneShot();
-		}
-		else
-		{
-			sound.PlayNormally();
-		}
+		Instance.PlaySource(sound, polyphonic, isGlobal, audioSourceParameters.MixerType != MixerType.Unspecified);
+	}
 
+	private static void ApplyAudioSourceParameters(AudioSourceParameters audioSourceParameters, SoundSpawn sound)
+	{
+		if (audioSourceParameters != null)
+		{
+			if (audioSourceParameters.MixerType != MixerType.Unspecified)
+			sound.audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master ? Instance.DefaultMixer : Instance.MuffledMixer;
 
-		Instance.PlaySource(sound, polyphonic, isGlobal);
+			if (audioSourceParameters.Pitch != null)
+				sound.audioSource.pitch = audioSourceParameters.Pitch.Value;
+			else
+				sound.audioSource.pitch = 1;
+
+			if (audioSourceParameters.Time != null)
+				sound.audioSource.time = audioSourceParameters.Time.Value;
+
+			if (audioSourceParameters.Volume != null)
+				sound.audioSource.volume = audioSourceParameters.Volume.Value;
+
+			if (audioSourceParameters.Pan != null)
+				sound.audioSource.panStereo = audioSourceParameters.Pan.Value;
+
+			if (audioSourceParameters.SpatialBlend != null)
+				sound.audioSource.spatialBlend = audioSourceParameters.SpatialBlend.Value;
+
+			if (audioSourceParameters.MinDistance != null)
+				sound.audioSource.minDistance = audioSourceParameters.MinDistance.Value;
+
+			if (audioSourceParameters.MaxDistance != null)
+				sound.audioSource.maxDistance = audioSourceParameters.MaxDistance.Value;
+		}
 	}
 
 	/// <summary>
