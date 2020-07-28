@@ -187,7 +187,8 @@ public class MobExplore : MobAgent
 				return;
 			}
 
-			SoundManager.PlayAtPosition("EatFood", gameObject.transform.position, gameObject, 1f);
+			// Send the sound to all nearby clients
+			SoundManager.PlayNetworkedAtPos("EatFood", transform.position, null, false, false, gameObject);
 
 			Despawn.ServerSingle(food.gameObject);
 			FoodEatenEvent?.Invoke();
