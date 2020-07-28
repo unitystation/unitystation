@@ -95,6 +95,7 @@ MonoBehaviour:
   pressureLevel: 0
   openingDirection: 0
   spriteRenderer: {fileID: 0}
+  BlockAutoClose: 0
 --- !u!114 &720260447592516819
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +140,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0e941b2bd5017964f8bdc17eff610fca,
+      objectReference: {fileID: 21300000, guid: 0a33e434490faee44880b0c1d1abeedb,
         type: 3}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -304,6 +305,7 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
     - {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
+    - {fileID: 7918371756561495367, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!1 &4813822218561835024 stripped
 GameObject:
