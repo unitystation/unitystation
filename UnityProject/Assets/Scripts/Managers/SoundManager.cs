@@ -396,7 +396,7 @@ public class SoundManager : MonoBehaviour
 
 		ApplyAudioSourceParameters(audioSourceParameters, sound);
 
-		Instance.PlaySource(sound, polyphonic, true, audioSourceParameters.MixerType != MixerType.Unspecified);
+		Instance.PlaySource(sound, polyphonic, true, audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
 
 	/// <summary>
@@ -540,7 +540,7 @@ public class SoundManager : MonoBehaviour
 			sound.transform.position = worldPos;
 		}
 
-		Instance.PlaySource(sound, polyphonic, isGlobal, audioSourceParameters.MixerType != MixerType.Unspecified);
+		Instance.PlaySource(sound, polyphonic, isGlobal, audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
 
 	private static void ApplyAudioSourceParameters(AudioSourceParameters audioSourceParameters, SoundSpawn sound)
