@@ -1,6 +1,10 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using NaughtyAttributes;
 using UnityEngine;
 using WebSocketSharp;
+using Random = UnityEngine.Random;
 
 namespace NPC
 {
@@ -13,6 +17,8 @@ namespace NPC
 		protected float minTimeBetweenRandomActions = 10f;
 		[SerializeField]
 		protected float maxTimeBetweenRandomActions = 30f;
+		[SerializeField]
+		protected bool doRandomActionWhenInTask = false;
 
 		protected SimpleAnimal simpleAnimal;
 
@@ -31,6 +37,8 @@ namespace NPC
 			base.UpdateMe();
 			MonitorExtras();
 		}
+
+
 		protected override void AIStartServer()
 		{
 			exploringStopped.AddListener(OnExploringStopped);
@@ -40,7 +48,10 @@ namespace NPC
 
 		protected virtual void MonitorExtras()
 		{
-			if (IsPerformingTask) return;
+			if (IsPerformingTask && !doRandomActionWhenInTask)
+			{
+				return;
+			}
 
 			timeWaiting += Time.deltaTime;
 			if (timeWaiting < timeForNextRandomAction) return;
@@ -68,16 +79,11 @@ namespace NPC
 			yield return WaitFor.EndOfFrame;
 		}
 
+
 		protected virtual void DoRandomAction() {}
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			//FIXME This shouldn't be called by client yet it seems it is
-			if (!isServer)
-			{
-				return;
-			}
-
 			OnSpawnMob();
 		}
 
@@ -99,5 +105,6 @@ namespace NPC
 		protected virtual void OnExploringStopped(){}
 		protected virtual void OnFleeingStopped(){}
 		protected virtual void OnFollowStopped(){}
+
 	}
 }

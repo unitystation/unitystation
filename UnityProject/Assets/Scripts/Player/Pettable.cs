@@ -7,17 +7,20 @@ public class Pettable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
 	public bool WillInteract( HandApply interaction, NetworkSide side )
 	{
-		var NPCHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
-		if (!DefaultWillInteract.Default(interaction, side) || NPCHealth.IsDead || interaction.Intent != Intent.Help) return false;
- 
-		return true;
+		var npcHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
+
+		return DefaultWillInteract.Default(interaction, side) &&
+		       interaction.HandObject == null &&
+		       !(npcHealth.IsDead || npcHealth.IsCrit || npcHealth.IsSoftCrit) &&
+		       interaction.Intent == Intent.Help;
+
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		string npcName;
 		var npc = interaction.TargetObject.GetComponent<MobAI>();
-		
+
 		if (npc == null)
 		{
 			npcName = interaction.TargetObject.name;
@@ -25,14 +28,14 @@ public class Pettable : MonoBehaviour, ICheckedInteractable<HandApply>
 		else
 		{
 			npcName = npc.mobName;
-		} 
+		}
 
 		Chat.AddActionMsgToChat(
 			interaction.Performer,
 			$"You pet {npcName}.",
 			$"{interaction.Performer.ExpensiveName()} pets {npcName}.");
-		
-		if(npc != null) 
+
+		if(npc != null)
 		{
 			gameObject.GetComponent<MobAI>().OnPetted(interaction.Performer.gameObject);
 		}

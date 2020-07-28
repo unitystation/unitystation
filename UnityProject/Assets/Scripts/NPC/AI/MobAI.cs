@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using NaughtyAttributes;
+using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(MobFollow))]
@@ -11,16 +14,16 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	         "be rotated to indicate a knocked down or dead NPC")]
 	public float knockedDownRotation = 90f;
 
+	public event Action PettedEvent;
 	protected MobFollow mobFollow;
 	protected MobExplore mobExplore;
 	protected MobFlee mobFlee;
-	protected LivingHealthBehaviour health;
+	[NonSerialized] public LivingHealthBehaviour health;
 	protected NPCDirectionalSprites dirSprites;
 	protected CustomNetTransform cnt;
 	protected RegisterObject registerObject;
 	protected UprightSprites uprightSprites;
 	protected bool isServer;
-
 	private float followingTime = 0f;
 	private float followTimeMax;
 
@@ -442,6 +445,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		// face performer
 		var dir = (performer.transform.position - transform.position).normalized;
 		dirSprites.ChangeDirection(dir);
+		PettedEvent?.Invoke();
 	}
 
 	///<summary>

@@ -3,31 +3,66 @@ using UnityEngine;
 /// <summary>
 /// Allows an object to be CPRed by a player.
 /// </summary>
-public class CPRable : MonoBehaviour, IClientInteractable<PositionalHandApply>
+public class CPRable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
-	public bool Interact(PositionalHandApply interaction)
-	{
-		var targetPlayerHealth = interaction.TargetObject.GetComponent<PlayerHealth>();
-		var performerPlayerHealth = interaction.Performer.GetComponent<PlayerHealth>();
-		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
+	const float CPR_TIME = 5;
+	const float OXYLOSS_HEAL_AMOUNT = 7;
 
-		// Is the target in range for CPR? Is the target unconscious? Is the intent set to help? Is the target a player?
-		// Is the performer's hand empty? Is the performer not stunned/downed? Is the performer conscious to perform the interaction?
-		// Is the performer interacting with itself?
-		if (!PlayerManager.LocalPlayerScript.IsInReach(interaction.WorldPositionTarget, false) ||
-		    targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
-		    targetPlayerHealth.ConsciousState == ConsciousState.DEAD ||
-		    UIManager.CurrentIntent != Intent.Help ||
-		    !targetPlayerHealth ||
-		    interaction.HandObject != null ||
-		    performerRegisterPlayer.IsLayingDown ||
-		    performerPlayerHealth.ConsciousState != ConsciousState.CONSCIOUS ||
-		    interaction.Performer == interaction.TargetObject)
+	private static readonly StandardProgressActionConfig CPRProgressConfig =
+			new StandardProgressActionConfig(StandardProgressActionType.CPR);
+
+	private string performerName;
+	private string targetName;
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (interaction.Intent != Intent.Help) return false;
+		if (interaction.HandObject != null) return false;
+		if (interaction.TargetObject == interaction.Performer) return false;
+
+		if (interaction.TargetObject.TryGetComponent(out PlayerHealth targetPlayerHealth))
 		{
-			return false;
+			if (targetPlayerHealth.ConsciousState == ConsciousState.CONSCIOUS ||
+				targetPlayerHealth.ConsciousState == ConsciousState.DEAD) return false;
 		}
 
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestCPR(interaction.TargetObject);
+		var performerRegisterPlayer = interaction.Performer.GetComponent<RegisterPlayer>();
+		if (performerRegisterPlayer.IsLayingDown) return false;
+
 		return true;
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		performerName = interaction.Performer.ExpensiveName();
+		targetName = interaction.TargetObject.ExpensiveName();
+
+		var cardiacArrestPlayerRegister = interaction.TargetObject.GetComponent<RegisterPlayer>();
+		void ProgressComplete()
+		{
+			ServerDoCPR(interaction.Performer, interaction.TargetObject);
+		}
+
+		var cpr = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
+				.ServerStartProgress(cardiacArrestPlayerRegister, CPR_TIME, interaction.Performer);
+		if (cpr != null)
+		{
+			Chat.AddActionMsgToChat(
+					interaction.Performer,
+					$"You begin performing CPR on {targetName}.",
+					$"{performerName} is trying to perform CPR on {targetName}.");
+		}
+	}
+
+	private void ServerDoCPR(GameObject performer, GameObject target)
+	{
+		target.GetComponent<PlayerHealth>().bloodSystem.oxygenDamage -= OXYLOSS_HEAL_AMOUNT;
+
+		Chat.AddActionMsgToChat(
+				performer,
+				$"You perform CPR on {targetName}.",
+				$"{performerName} performs CPR on {targetName}.");
+		Chat.AddExamineMsgFromServer(target, $"You feel fresh air enter your lungs. It feels good!");
 	}
 }
