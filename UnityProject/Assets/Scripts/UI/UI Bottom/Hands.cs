@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Hands : MonoBehaviour
 {
@@ -28,6 +29,25 @@ public class Hands : MonoBehaviour
 	{
 		IsRight = true;
 		hasSwitchedHands = false;
+	}
+
+	private void OnEnable()
+	{
+		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
+	}
+
+	private void OnDisable()
+	{
+		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
+	}
+
+	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
+	{
+		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.playerNetworkActions != null)
+		{
+			// Reset active hand on game restart - there may be a better event to subscribe to than OnLevelFinishLoading
+			SetHand(true);
+		}
 	}
 
 	/// <summary>
