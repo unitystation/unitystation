@@ -33,18 +33,14 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 		performerName = interaction.Performer.ExpensiveName();
 		targetName = interaction.TargetObject.ExpensiveName();
 
-		if (interaction.TargetObject.TryGetComponent(out RegisterPlayer targetRegisterPlayer))
+		if (interaction.TargetObject.TryGetComponent(out RegisterPlayer targetRegisterPlayer) && targetRegisterPlayer.IsLayingDown)
 		{
-			if (targetRegisterPlayer.IsLayingDown)
-			{
-				HelpUp();
-				return;
-			}
+			HelpUp();
 		}
-
-		if (TryFieryHug()) return;
-
-		Hug();
+		else if (!TryFieryHug())
+		{
+			Hug();
+		}
 
 		SoundManager.PlayNetworkedAtPos(
 				"ThudSwoosh", interaction.TargetObject.WorldPosServer(), Random.Range(0.8f, 1.2f), sourceObj: interaction.TargetObject);
