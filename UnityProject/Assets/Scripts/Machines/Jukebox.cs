@@ -1,7 +1,5 @@
 ﻿using Assets.Scripts.Messages.Server.SoundMessages;
-using Audio.Containers;
 using Mirror;
-using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
@@ -43,15 +41,14 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	/// <summary>
 	/// The current state of the jukebox powered/overpowered/underpowered/no power
 	/// </summary>
-	[HideInInspector] public PowerStates CurrentState;
+	private PowerStates CurrentState;
 
 	/// <summary>
 	/// The current state of the jukebox powered/overpowered/underpowered/no power
 	/// </summary>
-	[HideInInspector] private APCPoweredDevice APCConnectionHandler;
+	private APCPoweredDevice APCConnectionHandler;
 
 	private Integrity integrity;
-	private Jukebox jukebox;
 	private APCPoweredDevice power;
 	private RegisterTile registerTile;
 	private int currentSongTrackIndex = 0;
@@ -139,7 +136,6 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		// so, I copy it's playlist here instead of managing two different playlists in UnityEditor.
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		APCConnectionHandler = GetComponent<APCPoweredDevice>();
-		jukebox = GetComponent<Jukebox>();
 		power = GetComponent<APCPoweredDevice>();
 		registerTile = GetComponent<RegisterTile>();
 		musics = new List<AudioSource>();
