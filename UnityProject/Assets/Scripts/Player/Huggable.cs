@@ -5,6 +5,7 @@ using UnityEngine;
 /// </summary>
 public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 {
+	private HandApply interaction;
 	private string performerName;
 	private string targetName;
 
@@ -28,9 +29,37 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
+		this.interaction = interaction;
 		performerName = interaction.Performer.ExpensiveName();
 		targetName = interaction.TargetObject.ExpensiveName();
 
+		if (interaction.TargetObject.TryGetComponent(out RegisterPlayer targetRegisterPlayer) && targetRegisterPlayer.IsLayingDown)
+		{
+			HelpUp();
+		}
+		else if (!TryFieryHug())
+		{
+			Hug();
+		}
+
+		SoundManager.PlayNetworkedAtPos(
+				"ThudSwoosh", interaction.TargetObject.WorldPosServer(), Random.Range(0.8f, 1.2f), sourceObj: interaction.TargetObject);
+	}
+
+	// TODO Consider moving this into its own component, or merging Huggable, this and CPRable into
+	// one "Helpable" component.
+	private void HelpUp()
+	{
+		var targetRegisterPlayer = interaction.TargetObject.GetComponent<RegisterPlayer>();
+		targetRegisterPlayer.ServerHelpUp();
+
+		Chat.AddActionMsgToChat(interaction.Performer,
+				$"You try to help {targetName} up.", $"{performerName} tries to help {targetName} up.");
+		Chat.AddExamineMsgFromServer(interaction.TargetObject, $"{performerName} tries help you up!");
+	}
+
+	private bool TryFieryHug()
+	{
 		var performerLHB = interaction.Performer.GetComponent<LivingHealthBehaviour>();
 		var targetLHB = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
 
@@ -42,12 +71,16 @@ public class Huggable : MonoBehaviour, ICheckedInteractable<HandApply>
 			Chat.AddCombatMsgToChat(
 					interaction.Performer, $"You hug {targetName} with fire!", $"{performerName} hugs {targetName} with fire!");
 			Chat.AddExamineMsgFromServer(interaction.TargetObject, $"{performerName} hugs you with fire!");
+
+			return true;
 		}
-		else
-		{
-			Chat.AddActionMsgToChat(
-					interaction.Performer, $"You hug {targetName}.", $"{performerName} hugs {targetName}.");
-			Chat.AddExamineMsgFromServer(interaction.TargetObject, $"{performerName} hugs you.");
-		}
+
+		return false;
+	}
+
+	private void Hug()
+	{
+		Chat.AddActionMsgToChat(interaction.Performer, $"You hug {targetName}.", $"{performerName} hugs {targetName}.");
+		Chat.AddExamineMsgFromServer(interaction.TargetObject, $"{performerName} hugs you.");
 	}
 }

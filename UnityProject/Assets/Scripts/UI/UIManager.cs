@@ -361,24 +361,13 @@ public class UIManager : MonoBehaviour
 	/// <param name="player">player performing the action</param>
 	/// <returns>progress bar associated with this action (can use this to interrupt progress). Null if
 	/// progress was not started for some reason (such as already in progress for this action on the specified tile).</returns>
-	public static ProgressBar _ServerStartProgress(IProgressAction progressAction, ActionTarget actionTarget,
-		float timeForCompletion,
-		GameObject player)
+	public static ProgressBar _ServerStartProgress(
+			IProgressAction progressAction, ActionTarget actionTarget, float timeForCompletion, GameObject player)
 	{
-		//convert to an offset so local position ends up being correct even on moving matrix
-		var offsetFromPlayer = actionTarget.TargetWorldPosition.To2Int() - player.TileWorldPosition();
-		//convert to local position so it appears correct on moving matrix
-		//do not use tileworldposition for actual spawn position - bar will appear shifted on moving matrix
-		var targetWorldPosition = player.transform.position + offsetFromPlayer.To3Int();
-		var targetTilePosition = player.TileWorldPosition() + offsetFromPlayer;
-		var targetMatrixInfo = MatrixManager.AtPoint(targetTilePosition.To3Int(), true);
+		var targetMatrixInfo = MatrixManager.AtPoint(actionTarget.TargetWorldPosition.CutToInt(), true);
 		var targetParent = targetMatrixInfo.Objects;
-		//snap to local position
-		var targetLocalPosition = targetParent.transform.InverseTransformPoint(targetWorldPosition).RoundToInt();
 
-		//back to world so we can call PoolClientInstantiate
-		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
-		var barObject = Spawn.ClientPrefab("ProgressBar", targetWorldPosition, targetParent).GameObject;
+		var barObject = Spawn.ClientPrefab("ProgressBar", actionTarget.TargetWorldPosition, targetParent).GameObject;
 		var progressBar = barObject.GetComponent<ProgressBar>();
 
 		//make sure it should start and call start hooks
