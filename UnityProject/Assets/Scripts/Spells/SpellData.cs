@@ -103,7 +103,7 @@ public class SpellData : ActionData, ICooldown
 
 	private void CheckImplementation()
 	{
-		if (spellImplementation == null && SpellList.Instance.DefaultImplementation != null)
+		if (spellImplementation == null && SpellList.Instance != null)
 		{
 			spellImplementation = SpellList.Instance.DefaultImplementation;
 #if UNITY_EDITOR
