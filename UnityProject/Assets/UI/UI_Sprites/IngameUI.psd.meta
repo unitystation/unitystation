@@ -26,8 +26,11 @@ TextureImporter:
   - first:
       213: -6626686363572636342
     second: IngameUI_7
+  - first:
+      213: 2846621277928233973
+    second: IngameUI_8
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -81,6 +84,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -150,7 +154,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 32
-        y: 1384
+        y: 360
         width: 462
         height: 622
       alignment: 0
@@ -171,7 +175,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 33
-        y: 1307
+        y: 283
         width: 184
         height: 62
       alignment: 0
@@ -192,7 +196,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 100
-        y: 1295
+        y: 271
         width: 12
         height: 8
       alignment: 0
@@ -213,7 +217,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 33
-        y: 1273
+        y: 249
         width: 16
         height: 16
       alignment: 0
@@ -234,7 +238,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 53
-        y: 1273
+        y: 249
         width: 16
         height: 16
       alignment: 0
@@ -255,7 +259,7 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 73
-        y: 1273
+        y: 249
         width: 16
         height: 16
       alignment: 0
@@ -276,11 +280,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 26
-        y: 1197
+        y: 173
         width: 68
         height: 53
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -297,11 +301,11 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 26
-        y: 1120
+        y: 96
         width: 68
         height: 53
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
