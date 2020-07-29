@@ -40,7 +40,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// and Integrity is about to apply damage.
 	/// </summary>
 	[NonSerialized]
-	public DamagedEvent OnApllyDamage = new DamagedEvent();
+	public DamagedEvent OnApplyDamage = new DamagedEvent();
 
 	/// <summary>
 	/// event for hotspots
@@ -217,7 +217,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			}
 			integrity -= damage;
 			lastDamageType = damageType;
-			OnApllyDamage.Invoke(damageInfo);
+			OnApplyDamage.Invoke(damageInfo);
 			CheckDestruction();
 
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);
