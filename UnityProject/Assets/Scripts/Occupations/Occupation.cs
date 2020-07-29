@@ -111,4 +111,9 @@ public class Occupation : ScriptableObject
 	[Header("Custom properties that will be applied\nto new bodies with this occupation")]
 	[SerializeField] private PropertyDictionary customProperties;
 	public PropertyDictionary CustomProperties => customProperties;
+
+	[Header("If the job can be targeted by the antag")]
+	[SerializeField] private bool canNotTarget=false;
+
+	public bool CanNotTarget => canNotTarget;
 }

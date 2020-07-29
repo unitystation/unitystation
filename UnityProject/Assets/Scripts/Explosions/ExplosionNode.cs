@@ -44,6 +44,10 @@ namespace Explosions
 					{
 						electricalData.InData.DestroyThisPlease();
 					}
+					foreach (var pipeDate in Node.PipeData)
+					{
+						pipeDate.pipeData.OnDisable();
+					}
 				}
 			}
 
