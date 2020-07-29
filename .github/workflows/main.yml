@@ -99,7 +99,7 @@ jobs:
 
       # Change settings in editor before starting
       - name: Python Editor settings change
-        run: python ./UnityProject/SetEditorSettingsForBuild.py
+        run: python ./.github/workflows/SetEditorSettingsForBuild.py
       # Set the UNITY_LICENSE environment variable
       - name: Setup license
         # This step:
