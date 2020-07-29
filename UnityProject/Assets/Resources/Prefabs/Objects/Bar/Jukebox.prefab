@@ -104,7 +104,6 @@ MonoBehaviour:
   SpriteIdle: {fileID: 11400000, guid: f0ef570011ab3c3448bc70e91b398ef4, type: 2}
   SpritePlaying: {fileID: 11400000, guid: 92d17c50f2351c94cb27834ffd5b9009, type: 2}
   SpriteDamaged: {fileID: 11400000, guid: fcc308c26f6ee4044a16d7cb8764c24c, type: 2}
-  CurrentState: 0
 --- !u!114 &114977697586778270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -303,7 +302,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1000010906387252}
   m_LocalRotation: {x: -0, y: -0, z: 0.00000014901144, w: 1}
-  m_LocalPosition: {x: -0.09, y: 0.226, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4000011140861540}
