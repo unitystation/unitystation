@@ -34,6 +34,12 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	[SerializeField]
 	private SpriteDataSO SpriteDamaged;
 
+	[SerializeField]
+	private float MinSoundDistance;
+
+	[SerializeField]
+	private float MaxSoundDistance;
+
 	private List<AudioSource> musics;
 
 	private SpriteRenderer spriteRenderer;
@@ -179,8 +185,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 				MixerType = MixerType.Muffled,
 				SpatialBlend = 1, // 3D, we need it to attenuate with distance
 				Volume = 1,
-				MinDistance = 3,
-				MaxDistance = 10
+				MinDistance = MinSoundDistance,
+				MaxDistance = MaxSoundDistance
 			};
 
 			SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);

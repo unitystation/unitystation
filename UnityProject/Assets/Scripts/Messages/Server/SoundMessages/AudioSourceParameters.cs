@@ -36,7 +36,16 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override string ToString()
 		{
-			return $"{nameof(Volume)}: {Volume}, {nameof(Time)}: {Time}, {nameof(Pan)}: {Pan}, {nameof(MixerType)}: {MixerType}, {nameof(Pitch)}: {Pitch}, {nameof(SpatialBlend)}: {SpatialBlend}, {nameof(MinDistance)}: {MinDistance}, {nameof(MaxDistance)}: {MaxDistance}";
+			string volumeValue = Volume.HasValue ? Volume.Value.ToString() : "Null";
+			string timeValue = Time.HasValue ? Time.Value.ToString() : "Null";
+			string panValue = Pan.HasValue ? Pan.Value.ToString() : "Null";
+			string mixerTypeValue = MixerType.ToString();
+			string pitchValue = Pitch.HasValue ? Pitch.Value.ToString() : "Null";
+			string spatialBlendValue = SpatialBlend.HasValue ? SpatialBlend.Value.ToString() : "Null";
+			string minDistanceValue = MinDistance.HasValue ? MinDistance.Value.ToString() : "Null";
+			string maxDistanceValue = MaxDistance.HasValue ? MaxDistance.Value.ToString() : "Null";
+
+			return $"{nameof(Volume)}: {volumeValue}, {nameof(Time)}: {timeValue}, {nameof(Pan)}: {panValue}, {nameof(MixerType)}: {mixerTypeValue}, {nameof(Pitch)}: {pitchValue}, {nameof(SpatialBlend)}: {spatialBlendValue}, {nameof(MinDistance)}: {minDistanceValue}, {nameof(MaxDistance)}: {maxDistanceValue}";
 		}
 	}
 }
