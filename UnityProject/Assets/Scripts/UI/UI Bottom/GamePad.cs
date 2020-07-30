@@ -71,7 +71,6 @@ public class GamePad : MonoBehaviour
 	{
 		foreach ( var gameKey in Keys )
 		{
-			gameKey.OnKeyRelease.Invoke(); //release all keys
 			gameKey.OnKeyPress.RemoveAllListeners();
 			gameKey.OnKeyRelease.RemoveAllListeners();
 		}

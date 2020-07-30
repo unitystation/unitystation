@@ -374,8 +374,8 @@ public class DisplaySettings : MonoBehaviour
 		}
 		else
 		{
-			var windowWidth = (int)(Screen.width * windowSize);
-			var windowHeight = (int)(Screen.height * windowSize);
+			var windowWidth = (int)(Screen.currentResolution.width * windowSize);
+			var windowHeight = (int)(Screen.currentResolution.height * windowSize);
 
 			//making pixel perfect camera happy by not using odd resolutions
 			if (windowWidth % 2 != 0)

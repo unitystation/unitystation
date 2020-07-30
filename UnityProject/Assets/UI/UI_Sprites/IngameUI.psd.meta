@@ -29,6 +29,18 @@ TextureImporter:
   - first:
       213: 2846621277928233973
     second: IngameUI_8
+  - first:
+      213: -1230190734329141614
+    second: IngameUI_6
+  - first:
+      213: -6288847842610001883
+    second: IngameUI_7
+  - first:
+      213: 8346493018543048023
+    second: IngameUI_9
+  - first:
+      213: 2964099337182946470
+    second: IngameUI_10
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -97,7 +109,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Standalone
     maxTextureSize: 2048
@@ -109,7 +121,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: iPhone
     maxTextureSize: 2048
@@ -121,7 +133,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: Android
     maxTextureSize: 2048
@@ -133,7 +145,7 @@ TextureImporter:
     allowsAlphaSplitting: 0
     overridden: 0
     androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 1
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
     buildTarget: WebGL
     maxTextureSize: 2048
@@ -279,10 +291,10 @@ TextureImporter:
       name: IngameUI_6
       rect:
         serializedVersion: 2
-        x: 26
-        y: 173
-        width: 68
-        height: 53
+        x: 93
+        y: 249
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -290,8 +302,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4365f7ace24e4344c95ae17fa6c01b83
-      internalID: 7265871261569357676
+      spriteID: 296a5528b0c7deee0800000000000000
+      internalID: -1230190734329141614
       vertices: []
       indices: 
       edges: []
@@ -300,10 +312,10 @@ TextureImporter:
       name: IngameUI_7
       rect:
         serializedVersion: 2
-        x: 26
-        y: 96
-        width: 68
-        height: 53
+        x: 113
+        y: 249
+        width: 16
+        height: 16
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -311,8 +323,71 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 22fb52e1549965e46aaf9aaffeaeadf1
-      internalID: -6626686363572636342
+      spriteID: 528cfb6f43689b8a0800000000000000
+      internalID: -6288847842610001883
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IngameUI_8
+      rect:
+        serializedVersion: 2
+        x: 133
+        y: 249
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5fb1bf068fa318720800000000000000
+      internalID: 2846621277928233973
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IngameUI_9
+      rect:
+        serializedVersion: 2
+        x: 153
+        y: 249
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 3, y: 3, z: 3, w: 3}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7554982cd23b4d370800000000000000
+      internalID: 8346493018543048023
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IngameUI_10
+      rect:
+        serializedVersion: 2
+        x: 175
+        y: 247
+        width: 12
+        height: 20
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6a4a2c784a8922920800000000000000
+      internalID: 2964099337182946470
       vertices: []
       indices: 
       edges: []
