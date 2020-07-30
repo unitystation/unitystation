@@ -51,6 +51,9 @@ namespace Mirror
     {
         static readonly ILogger logger = LogFactory.GetLogger<NetworkIdentity>();
 
+        //CUSTOM UNTIYSTATION
+        public bool isDirty;
+
         // configuration
         NetworkBehaviour[] networkBehavioursCache;
 
@@ -1411,6 +1414,8 @@ namespace Mirror
             {
                 comp.ClearAllDirtyBits();
             }
+
+            isDirty = false;
         }
 
         // clear only dirty component's dirty bits. ignores components which
@@ -1424,6 +1429,8 @@ namespace Mirror
                     comp.ClearAllDirtyBits();
                 }
             }
+
+            isDirty = false;
         }
 
         void ResetSyncObjects()
