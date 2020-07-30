@@ -211,6 +211,10 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		readyText.text = (!ready) ? "Ready" : "Unready";
 	}
 
+	/// <summary>
+	/// Warns the player when they have no job selected and default their job preference
+	/// </summary>
+	/// <param name="noJob"></param>
 	private void NoJobWarn(bool noJob)
 	{
 		if (noJob)
