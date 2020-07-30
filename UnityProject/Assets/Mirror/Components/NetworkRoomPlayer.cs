@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel;
 using UnityEngine;
 
 namespace Mirror
@@ -11,6 +13,8 @@ namespace Mirror
     [HelpURL("https://mirror-networking.com/docs/Components/NetworkRoomPlayer.html")]
     public class NetworkRoomPlayer : NetworkBehaviour
     {
+        static readonly ILogger logger = LogFactory.GetLogger(typeof(NetworkRoomPlayer));
+
         /// <summary>
         /// This flag controls whether the default UI is shown for the room player.
         /// <para>As this UI is rendered using the old GUI system, it is only recommended for testing purposes.</para>
@@ -33,7 +37,7 @@ namespace Mirror
         /// Diagnostic index of the player, e.g. Player1, Player2, etc.
         /// </summary>
         [Tooltip("Diagnostic index of the player, e.g. Player1, Player2, etc.")]
-        [SyncVar]
+        [SyncVar(hook = nameof(IndexChanged))]
         public int index;
 
         #region Unity Callbacks
@@ -54,10 +58,11 @@ namespace Mirror
                 room.roomSlots.Add(this);
                 room.RecalculateRoomPlayerIndices();
 
-                OnClientEnterRoom();
+                if (NetworkClient.active)
+                    OnClientEnterRoom();
             }
             else
-                Debug.LogError("RoomPlayer could not find a NetworkRoomManager. The RoomPlayer requires a NetworkRoomManager object to function. Make sure that there is one in the scene.");
+                logger.LogError("RoomPlayer could not find a NetworkRoomManager. The RoomPlayer requires a NetworkRoomManager object to function. Make sure that there is one in the scene.");
         }
 
         #endregion
@@ -79,9 +84,23 @@ namespace Mirror
 
         #region SyncVar Hooks
 
-        void ReadyStateChanged(bool _, bool newReadyState)
+        /// <summary>
+        /// This is a hook that is invoked on clients when the index changes.
+        /// </summary>
+        /// <param name="oldIndex">The old index value</param>
+        /// <param name="newIndex">The new index value</param>
+        public virtual void IndexChanged(int oldIndex, int newIndex) { }
+
+        /// <summary>
+        /// This is a hook that is invoked on clients when a RoomPlayer switches between ready or not ready.
+        /// <para>This function is called when the a client player calls CmdChangeReadyState.</para>
+        /// </summary>
+        /// <param name="newReadyState">New Ready State</param>
+        public virtual void ReadyStateChanged(bool _, bool newReadyState)
         {
+#pragma warning disable CS0618 // Type or member is obsolete
             OnClientReady(newReadyState);
+#pragma warning restore CS0618 // Type or member is obsolete
         }
 
         #endregion
@@ -89,21 +108,21 @@ namespace Mirror
         #region Room Client Virtuals
 
         /// <summary>
-        /// This is a hook that is invoked on all player objects when entering the room.
+        /// This is a hook that is invoked on clients for all room player objects when entering the room.
         /// <para>Note: isLocalPlayer is not guaranteed to be set until OnStartLocalPlayer is called.</para>
         /// </summary>
         public virtual void OnClientEnterRoom() { }
 
         /// <summary>
-        /// This is a hook that is invoked on all player objects when exiting the room.
+        /// This is a hook that is invoked on clients for all room player objects when exiting the room.
         /// </summary>
         public virtual void OnClientExitRoom() { }
 
+        // Deprecated 05/18/2020
         /// <summary>
-        /// This is a hook that is invoked on clients when a RoomPlayer switches between ready or not ready.
-        /// <para>This function is called when the a client player calls CmdChangeReadyState.</para>
+        /// Obsolete: Override <see cref="ReadyStateChanged(bool, bool)">ReadyStateChanged(bool, bool)</see> instead.
         /// </summary>
-        /// <param name="readyState">Whether the player is ready or not.</param>
+        [EditorBrowsable(EditorBrowsableState.Never), Obsolete("Override ReadyStateChanged(bool, bool) instead")]
         public virtual void OnClientReady(bool readyState) { }
 
         #endregion
@@ -132,27 +151,6 @@ namespace Mirror
             }
         }
 
-        void DrawPlayerReadyButton()
-        {
-            if (NetworkClient.active && isLocalPlayer)
-            {
-                GUILayout.BeginArea(new Rect(20f, 300f, 120f, 20f));
-
-                if (readyToBegin)
-                {
-                    if (GUILayout.Button("Cancel"))
-                        CmdChangeReadyState(false);
-                }
-                else
-                {
-                    if (GUILayout.Button("Ready"))
-                        CmdChangeReadyState(true);
-                }
-
-                GUILayout.EndArea();
-            }
-        }
-
         void DrawPlayerReadyState()
         {
             GUILayout.BeginArea(new Rect(20f + (index * 100), 200f, 90f, 130f));
@@ -173,6 +171,27 @@ namespace Mirror
             }
 
             GUILayout.EndArea();
+        }
+
+        void DrawPlayerReadyButton()
+        {
+            if (NetworkClient.active && isLocalPlayer)
+            {
+                GUILayout.BeginArea(new Rect(20f, 300f, 120f, 20f));
+
+                if (readyToBegin)
+                {
+                    if (GUILayout.Button("Cancel"))
+                        CmdChangeReadyState(false);
+                }
+                else
+                {
+                    if (GUILayout.Button("Ready"))
+                        CmdChangeReadyState(true);
+                }
+
+                GUILayout.EndArea();
+            }
         }
 
         #endregion

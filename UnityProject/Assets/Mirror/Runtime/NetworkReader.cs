@@ -114,6 +114,8 @@ namespace Mirror
     // but they do all need to be extensions.
     public static class NetworkReaderExtensions
     {
+        static readonly ILogger logger = LogFactory.GetLogger(typeof(NetworkReaderExtensions));
+
         // cache encoding instead of creating it each time
         // 1000 readers before:  1MB GC, 30ms
         // 1000 readers after: 0.8MB GC, 18ms
@@ -352,7 +354,7 @@ namespace Mirror
                 return identity;
             }
 
-            if (LogFilter.Debug) Debug.Log("ReadNetworkIdentity netId:" + netId + " not found in spawned");
+            if (logger.WarnEnabled()) logger.LogFormat(LogType.Warning, "ReadNetworkIdentity netId:{0} not found in spawned", netId);
             return null;
         }
 

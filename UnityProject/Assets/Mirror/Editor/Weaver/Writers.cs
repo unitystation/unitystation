@@ -44,28 +44,38 @@ namespace Mirror.Weaver
             if (variable.IsByReference)
             {
                 // error??
-                Weaver.Error($"Cannot pass {variable} by reference");
+                Weaver.Error($"Cannot pass {variable.Name} by reference", variable);
                 return null;
             }
             TypeDefinition td = variable.Resolve();
             if (td == null)
             {
-                Weaver.Error($"{variable} is not a supported type. Use a supported type or provide a custom writer");
+                Weaver.Error($"{variable.Name} is not a supported type. Use a supported type or provide a custom writer", variable);
                 return null;
             }
             if (td.IsDerivedFrom(Weaver.ComponentType))
             {
-                Weaver.Error($"Cannot generate writer for component type {variable}. Use a supported type or provide a custom writer");
+                Weaver.Error($"Cannot generate writer for component type {variable.Name}. Use a supported type or provide a custom writer", variable);
+                return null;
+            }
+            if (variable.FullName == Weaver.ObjectType.FullName)
+            {
+                Weaver.Error($"Cannot generate writer for {variable.Name}. Use a supported type or provide a custom writer", variable);
+                return null;
+            }
+            if (variable.FullName == Weaver.ScriptableObjectType.FullName)
+            {
+                Weaver.Error($"Cannot generate writer for {variable.Name}. Use a supported type or provide a custom writer", variable);
                 return null;
             }
             if (td.HasGenericParameters && !td.FullName.StartsWith("System.ArraySegment`1", System.StringComparison.Ordinal))
             {
-                Weaver.Error($"Cannot generate writer for generic type {variable}. Use a concrete type or provide a custom writer");
+                Weaver.Error($"Cannot generate writer for generic type {variable.Name}. Use a supported type or provide a custom writer", variable);
                 return null;
             }
             if (td.IsInterface)
             {
-                Weaver.Error($"Cannot generate writer for interface {variable}. Use a concrete type or provide a custom writer");
+                Weaver.Error($"Cannot generate writer for interface {variable.Name}. Use a supported type or provide a custom writer", variable);
                 return null;
             }
 
@@ -104,12 +114,7 @@ namespace Mirror.Weaver
         {
             if (recursionCount > MaxRecursionCount)
             {
-                Weaver.Error($"{variable} can't be serialized because it references itself");
-                return null;
-            }
-
-            if (!Weaver.IsValidTypeToGenerate(variable.Resolve()))
-            {
+                Weaver.Error($"{variable.Name} can't be serialized because it references itself", variable);
                 return null;
             }
 
@@ -134,41 +139,56 @@ namespace Mirror.Weaver
 
             ILProcessor worker = writerFunc.Body.GetILProcessor();
 
-            uint fields = 0;
-            foreach (FieldDefinition field in variable.Resolve().Fields)
-            {
-                if (field.IsStatic || field.IsPrivate)
-                    continue;
+            if (!WriteAllFields(variable, recursionCount, worker))
+                return null;
 
-                MethodReference writeFunc = GetWriteFunc(field.FieldType, recursionCount + 1);
-                if (writeFunc != null)
-                {
-                    fields++;
-                    worker.Append(worker.Create(OpCodes.Ldarg_0));
-                    worker.Append(worker.Create(OpCodes.Ldarg_1));
-                    worker.Append(worker.Create(OpCodes.Ldfld, field));
-                    worker.Append(worker.Create(OpCodes.Call, writeFunc));
-                }
-                else
-                {
-                    Weaver.Error($"{field} has unsupported type. Use a type supported by Mirror instead");
-                    return null;
-                }
-            }
-            if (fields == 0)
-            {
-                Log.Warning($" {variable} has no no public or non-static fields to serialize");
-            }
             worker.Append(worker.Create(OpCodes.Ret));
             return writerFunc;
         }
 
+        /// <summary>
+        /// Fiends all fields in 
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <param name="recursionCount"></param>
+        /// <param name="worker"></param>
+        /// <returns>false if fail</returns>
+        static bool WriteAllFields(TypeReference variable, int recursionCount, ILProcessor worker)
+        {
+            uint fields = 0;
+            foreach (FieldDefinition field in variable.FindAllPublicFields())
+            {
+                MethodReference writeFunc = GetWriteFunc(field.FieldType, recursionCount + 1);
+                if (writeFunc != null)
+                {
+                    FieldReference fieldRef = Weaver.CurrentAssembly.MainModule.ImportReference(field);
+
+                    fields++;
+                    worker.Append(worker.Create(OpCodes.Ldarg_0));
+                    worker.Append(worker.Create(OpCodes.Ldarg_1));
+                    worker.Append(worker.Create(OpCodes.Ldfld, fieldRef));
+                    worker.Append(worker.Create(OpCodes.Call, writeFunc));
+                }
+                else
+                {
+                    Weaver.Error($"{field.Name} has unsupported type. Use a type supported by Mirror instead", field);
+                    return false;
+                }
+            }
+
+            if (fields == 0)
+            {
+                Log.Warning($"{variable} has no no public or non-static fields to serialize");
+            }
+
+            return true;
+        }
+
         static MethodDefinition GenerateArrayWriteFunc(TypeReference variable, int recursionCount)
         {
-
             if (!variable.IsArrayType())
             {
-                Weaver.Error($"{variable} is an unsupported type. Jagged and multidimensional arrays are not supported");
+                Weaver.Error($"{variable.Name} is an unsupported type. Jagged and multidimensional arrays are not supported", variable);
                 return null;
             }
 

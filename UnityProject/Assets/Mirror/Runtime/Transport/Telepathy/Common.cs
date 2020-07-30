@@ -143,21 +143,21 @@ namespace Telepathy
             }
             Logger.LogWarning("ReadMessageBlocking: possible allocation attack with a header of: " + size + " bytes.");
 
-			//THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
-			Logger.LogWarning("ReadMessageBlocking: possible allocation attack with a header of: " + size + " bytes.");
-			Logger.LogWarning($"Content: {content}");
-			Logger.LogWarning($"IP: {client.Client.RemoteEndPoint.ToString()}");
-			allocationAttackQueue.Enqueue(IPAddress.Parse(client.Client.RemoteEndPoint.ToString()).MapToIPv4().ToString());
+            //THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
+            Logger.LogWarning("ReadMessageBlocking: possible allocation attack with a header of: " + size + " bytes.");
+            Logger.LogWarning($"Content: {content}");
+            Logger.LogWarning($"IP: {client.Client.RemoteEndPoint.ToString()}");
+            allocationAttackQueue.Enqueue(IPAddress.Parse(client.Client.RemoteEndPoint.ToString()).MapToIPv4().ToString());
 
-			return false;
+            return false;
         }
 
-		//THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
-		public static Queue<string> allocationAttackQueue = new Queue<string>();
+        //THIS IS CUSTOM USTATION CODE (bring it with you if updating telepathy):
+        public static Queue<string> allocationAttackQueue = new Queue<string>();
 
-		// thread receive function is the same for client and server's clients
-		// (static to reduce state for maximum reliability)
-		protected static void ReceiveLoop(int connectionId, TcpClient client, ConcurrentQueue<Message> receiveQueue, int MaxMessageSize)
+        // thread receive function is the same for client and server's clients
+        // (static to reduce state for maximum reliability)
+        protected static void ReceiveLoop(int connectionId, TcpClient client, ConcurrentQueue<Message> receiveQueue, int MaxMessageSize)
         {
             // get NetworkStream from client
             NetworkStream stream = client.GetStream();

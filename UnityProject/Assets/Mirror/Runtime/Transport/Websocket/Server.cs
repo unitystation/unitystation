@@ -131,7 +131,8 @@ namespace Mirror.Websocket
                 WebSocketHttpContext context = await webSocketServerFactory.ReadHttpHeaderFromStreamAsync(tcpClient, stream, token);
                 if (context.IsWebSocketRequest)
                 {
-                    WebSocketServerOptions options = new WebSocketServerOptions() { KeepAliveInterval = TimeSpan.FromSeconds(30), SubProtocol = "binary" };
+                    // Force KeepAliveInterval to Zero, otherwise the transport is unstable and causes random disconnects.
+                    WebSocketServerOptions options = new WebSocketServerOptions() { KeepAliveInterval = TimeSpan.Zero, SubProtocol = "binary" };
 
                     WebSocket webSocket = await webSocketServerFactory.AcceptWebSocketAsync(context, options);
 
@@ -177,6 +178,8 @@ namespace Mirror.Websocket
             return true;
         }
 
+        public bool enabled;
+
         async Task ReceiveLoopAsync(WebSocket webSocket, CancellationToken token)
         {
             int connectionId = NextConnectionId();
@@ -192,6 +195,8 @@ namespace Mirror.Websocket
                 while (true)
                 {
                     WebSocketReceiveResult result = await webSocket.ReceiveAsync(new ArraySegment<byte>(buffer), token);
+
+                    await Task.Run(WaitForEnabled);
 
                     if (result.MessageType == WebSocketMessageType.Close)
                     {
@@ -225,6 +230,11 @@ namespace Mirror.Websocket
                 clients.Remove(connectionId);
                 Disconnected?.Invoke(connectionId);
             }
+        }
+
+        void WaitForEnabled()
+        {
+            while (!enabled) { Task.Delay(10); }
         }
 
         // a message might come splitted in multiple frames

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Mono.CecilX;
 
 namespace Mirror.Weaver
@@ -6,6 +7,11 @@ namespace Mirror.Weaver
     public static class Extensions
     {
         public static bool IsDerivedFrom(this TypeDefinition td, TypeReference baseClass)
+        {
+            return IsDerivedFrom(td, baseClass.FullName);
+        }
+
+        public static bool IsDerivedFrom(this TypeDefinition td, string baseClassFullName)
         {
             if (!td.IsClass)
                 return false;
@@ -23,7 +29,7 @@ namespace Mirror.Weaver
                     parentName = parentName.Substring(0, index);
                 }
 
-                if (parentName == baseClass.FullName)
+                if (parentName == baseClassFullName)
                 {
                     return true;
                 }
@@ -148,6 +154,26 @@ namespace Mirror.Weaver
             return null;
         }
 
+        public static CustomAttribute GetCustomAttribute(this ICustomAttributeProvider method, TypeReference attribute)
+        {
+            foreach (CustomAttribute ca in method.CustomAttributes)
+            {
+                if (ca.AttributeType.FullName == attribute.FullName)
+                    return ca;
+            }
+            return null;
+        }
+
+        public static bool HasCustomAttribute(this ICustomAttributeProvider attributeProvider, string attributeName)
+        {
+            foreach (CustomAttribute ca in attributeProvider.CustomAttributes)
+            {
+                if (ca.AttributeType.FullName == attributeName)
+                    return true;
+            }
+            return false;
+        }
+
         public static bool HasCustomAttribute(this ICustomAttributeProvider attributeProvider, TypeReference attribute)
         {
             foreach (CustomAttribute ca in attributeProvider.CustomAttributes)
@@ -158,7 +184,7 @@ namespace Mirror.Weaver
             return false;
         }
 
-        public static T GetField<T>(this CustomAttribute ca, string field, T def)
+        public static T GetField<T>(this CustomAttribute ca, string field, T defaultValue)
         {
             foreach (CustomAttributeNamedArgument customField in ca.Fields)
             {
@@ -168,7 +194,7 @@ namespace Mirror.Weaver
                 }
             }
 
-            return def;
+            return defaultValue;
         }
 
         public static MethodDefinition GetMethod(this TypeDefinition td, string methodName)
@@ -179,6 +205,94 @@ namespace Mirror.Weaver
                     return md;
             }
             return null;
+        }
+
+        public static List<MethodDefinition> GetMethods(this TypeDefinition td, string methodName)
+        {
+            List<MethodDefinition> methods = new List<MethodDefinition>();
+            foreach (MethodDefinition md in td.Methods)
+            {
+                if (md.Name == methodName)
+                    methods.Add(md);
+            }
+            return methods;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="td"></param>
+        /// <param name="methodName"></param>
+        /// <param name="stopAt"></param>
+        /// <returns></returns>
+        public static bool HasMethodInBaseType(this TypeDefinition td, string methodName, TypeReference stopAt)
+        {
+            TypeDefinition typedef = td;
+            while (typedef != null)
+            {
+                if (typedef.FullName == stopAt.FullName)
+                    break;
+
+                foreach (MethodDefinition md in typedef.Methods)
+                {
+                    if (md.Name == methodName)
+                        return true;
+                }
+
+                try
+                {
+                    TypeReference parent = typedef.BaseType;
+                    typedef = parent?.Resolve();
+                }
+                catch (AssemblyResolutionException)
+                {
+                    // this can happen for pluins.
+                    break;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Finds public fields in type and base type
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public static IEnumerable<FieldDefinition> FindAllPublicFields(this TypeReference variable)
+        {
+            return FindAllPublicFields(variable.Resolve());
+        }
+
+        /// <summary>
+        /// Finds public fields in type and base type
+        /// </summary>
+        /// <param name="variable"></param>
+        /// <returns></returns>
+        public static IEnumerable<FieldDefinition> FindAllPublicFields(this TypeDefinition typeDefinition)
+        {
+            while (typeDefinition != null)
+            {
+                foreach (FieldDefinition field in typeDefinition.Fields)
+                {
+                    if (field.IsStatic || field.IsPrivate)
+                        continue;
+
+                    if (field.IsNotSerialized)
+                        continue;
+
+                    yield return field;
+                }
+
+                try
+                {
+                    typeDefinition = typeDefinition.BaseType.Resolve();
+                }
+                catch
+                {
+                    break;
+                }
+            }
         }
     }
 }
