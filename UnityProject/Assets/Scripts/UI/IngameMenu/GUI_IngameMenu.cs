@@ -85,7 +85,7 @@ public class GUI_IngameMenu : MonoBehaviour
 		SoundManager.Play("Click01");
 		Logger.Log($"Opening {menuWindow.name} menu", Category.UI);
 		menuWindow.SetActive(true);
-		UIManager.Display.disclaimer.SetActive(true);
+		if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(true);
 
 		if (!sentData)
 		{
@@ -191,6 +191,6 @@ public class GUI_IngameMenu : MonoBehaviour
 	{
 		menuWindow.SetActive(false);
 		serverInfo.SetActive(false);
-		UIManager.Display.disclaimer.SetActive(false);
+		if (UIManager.Display.disclaimer != null) UIManager.Display.disclaimer.SetActive(false);
 	}
 }
