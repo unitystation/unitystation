@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -247,12 +247,14 @@ public class JoinedViewer : NetworkBehaviour
 			//Server Stuff here
 			if (SentByPlayer.UserId == null)
 			{
+				TargetNotifyJobRequestFailed(SentByPlayer.Connection, JobRequestError.InvalidUserID);
 				Logger.Log("User ID was null, cant spawn job.", Category.Admin);
 				return;
 			}
 
 			if (SentByPlayer.UserId != PlayerID)
 			{
+				TargetNotifyJobRequestFailed(SentByPlayer.Connection, JobRequestError.InvalidPlayerID);
 				Logger.Log($"User: {SentByPlayer.Username} ID: {SentByPlayer.UserId} used a different ID: {PlayerID} to request a job.", Category.Admin);
 				return;
 			}
@@ -260,13 +262,14 @@ public class JoinedViewer : NetworkBehaviour
 			var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(JsonCharSettings);
 			if (GameManager.Instance.CurrentRoundState != RoundState.Started)
 			{
+				TargetNotifyJobRequestFailed(SentByPlayer.Connection, JobRequestError.RoundNotReady);
 				Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, JobType, characterSettings);
 				return;
 			}
 
 			if (PlayerList.Instance.FindPlayerJobBanEntryServer(PlayerID, JobType, true) != null)
 			{
-				//Failed Job Ban Check
+				TargetNotifyJobRequestFailed(SentByPlayer.Connection, JobRequestError.JobBanned);
 				return;
 			}
 
@@ -274,11 +277,18 @@ public class JoinedViewer : NetworkBehaviour
 			int slotsMax = GameManager.Instance.GetOccupationMaxCount(JobType);
 			if (slotsTaken >= slotsMax)
 			{
+				TargetNotifyJobRequestFailed(SentByPlayer.Connection, JobRequestError.PositionsFilled);
 				return;
 			}
 
-			var spawnRequest =
-				PlayerSpawnRequest.RequestOccupation(SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(JobType), characterSettings, SentByPlayer.UserId);
+			var spawnRequest = PlayerSpawnRequest.RequestOccupation(
+					SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(JobType), characterSettings, SentByPlayer.UserId);
+
+			if (spawnRequest.JoinedViewer == null)
+			{
+				TargetNotifyJobRequestFailed(SentByPlayer.Connection, JobRequestError.JoinedViewerNull);
+				return;
+			}
 
 			GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
 
@@ -295,6 +305,24 @@ public class JoinedViewer : NetworkBehaviour
 			};
 			msg.Send();
 			return msg;
+		}
+
+		[TargetRpc]
+		private void TargetNotifyJobRequestFailed(NetworkConnection target, JobRequestError failReason)
+		{
+			var jobWindow = UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>();
+			jobWindow.ShowFailMessage(failReason);
+		}
+
+		public enum JobRequestError
+		{
+			None = 0,
+			InvalidUserID = 1,
+			InvalidPlayerID = 2,
+			RoundNotReady = 3,
+			JobBanned = 4,
+			PositionsFilled = 5,
+			JoinedViewerNull = 6
 		}
 	}
 }
