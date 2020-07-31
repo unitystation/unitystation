@@ -106,12 +106,20 @@ public static class SweetExtensions
 	/// Wraps provided index value if it's more than array length or is negative
 	public static T Wrap<T>(this T[] array, int index)
 	{
+		if (array == null || array.Length == 0)
+		{
+			return default(T);
+		}
 		return array[((index % array.Length) + array.Length) % array.Length];
 	}
 
 	/// Wraps provided index value if it's more than list length or is negative
 	public static T Wrap<T>(this List<T> list, int index)
 	{
+		if (list == null || list.Count == 0)
+		{
+			return default(T);
+		}
 		return list[((index % list.Count) + list.Count) % list.Count];
 	}
 

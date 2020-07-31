@@ -31,6 +31,6 @@ public class FPSCounter : MonoBehaviour
 
 	private void OnGUI()
 	{
-		GUI.Label(new Rect(60, 5, 16, 16), "" + lastFPS, textStyle);
+		GUI.Label(new Rect(80, 5, 16, 16), "" + lastFPS, textStyle);
 	}
 }
