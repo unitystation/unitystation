@@ -572,6 +572,20 @@ public class SoundManager : MonoBehaviour
 
 			if (audioSourceParameters.MaxDistance != null)
 				sound.audioSource.maxDistance = audioSourceParameters.MaxDistance.Value;
+
+			switch (audioSourceParameters.VolumeRolloffType)
+			{
+				case VolumeRolloffType.EaseInAndOut:
+					sound.audioSource.rolloffMode = AudioRolloffMode.Custom;
+					sound.audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, AnimationCurve.EaseInOut(0, 1, 1, 0));
+					break;
+				case VolumeRolloffType.Linear:
+					sound.audioSource.rolloffMode = AudioRolloffMode.Linear;
+					break;
+				case VolumeRolloffType.Logarithmic:
+					sound.audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+					break;
+			}
 		}
 	}
 
