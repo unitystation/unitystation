@@ -112,8 +112,8 @@ public class Occupation : ScriptableObject
 	[SerializeField] private PropertyDictionary customProperties;
 	public PropertyDictionary CustomProperties => customProperties;
 
-	[Header("If the job can be targeted by the antag")]
-	[SerializeField] private bool canNotTarget=false;
+	[Header("If enabled, players with this job can be targeted by antags")]
+	[SerializeField] private bool isTargeteable=true;
 
-	public bool CanNotTarget => canNotTarget;
+	public bool CanTarget => isTargeteable;
 }
