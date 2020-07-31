@@ -115,5 +115,5 @@ public class Occupation : ScriptableObject
 	[Header("If enabled, players with this job can be targeted by antags")]
 	[SerializeField] private bool isTargeteable=true;
 
-	public bool CanTarget => isTargeteable;
+	public bool IsTargeteable => isTargeteable;
 }
