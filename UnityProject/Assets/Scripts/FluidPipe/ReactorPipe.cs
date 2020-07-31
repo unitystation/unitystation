@@ -7,7 +7,7 @@ namespace Pipes
 	public class ReactorPipe : MonoPipe
 	{
 		public List<ReactorPipe> ConnectedCores = new List<ReactorPipe>(); //needs To check properly
-		public void Start()
+		public override void Start()
 		{
 			pipeData.PipeAction = new ReservoirAction();
 			base.Start();
@@ -19,4 +19,3 @@ namespace Pipes
 		}
 	}
 }
-

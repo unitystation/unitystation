@@ -15,7 +15,7 @@ public class FuelTank : MonoBehaviour
 	private bool BlewUp = false;
 
 	[SerializeField]
-	private Chemistry.Reagent fuel;
+	private Chemistry.Reagent fuel = default;
 
 	private void Awake()
 	{
@@ -67,7 +67,6 @@ public class FuelTank : MonoBehaviour
 
 		Explode(reagentContainerScript[fuel]);
 	}
-
 
 	private void Explode(float strength)
 	{

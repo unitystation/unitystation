@@ -11,27 +11,27 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 {
 	[SerializeField]
 	[Tooltip("Explosion prefab")]
-	private Explosion explosionPrefab;
+	private Explosion explosionPrefab = null;
 
 	[SerializeField]
-	[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
+	[Tooltip("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 	private bool unstableFuse = false;
 
 	[SerializeField]
-	[TooltipAttribute("fuse timer in seconds")]
+	[Tooltip("fuse timer in seconds")]
 	private float fuseLength = 3;
 
 	[SerializeField]
-	[TooltipAttribute("Damage at epicenter of explosion if potency is 100.")]
+	[Tooltip("Damage at epicenter of explosion if potency is 100.")]
 	private int maxDamage = 125;
 
 	[SerializeField]
-	[TooltipAttribute("Radius of explosion of explosion if potency is 100.")]
+	[Tooltip("Radius of explosion of explosion if potency is 100.")]
 	private float maxRadius = 5f;
 
 	[SerializeField]
 	[Tooltip("SpriteHandler used for blinking animation")]
-	private SpriteHandler spriteHandler;
+	private SpriteHandler spriteHandler = default;
 
 	[SerializeField]
 	[Tooltip("Used to override the potency values of the plant data")]

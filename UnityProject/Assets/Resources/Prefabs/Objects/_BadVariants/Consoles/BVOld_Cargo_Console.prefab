@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3359917755306417963}
   - component: {fileID: 3188862863326134089}
+  - component: {fileID: 6469498062227351229}
   m_Layer: 0
   m_Name: ScreenSprite
   m_TagString: Untagged
@@ -81,6 +82,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6469498062227351229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3365509902465807665}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: ce3b529746b461e4aa92e1298b9b6921, type: 2}
+  variantIndex: 0
+  palette: []
 --- !u!1 &3365708065215268791
 GameObject:
   m_ObjectHideFlags: 0
@@ -200,37 +218,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenFrames: 0.2
-  spriteRenderer: {fileID: 3188862863326134089}
+  spriteHandler: {fileID: 0}
   screenGlow: {fileID: 3366091159237444427}
-  onSprites:
-    Texture: {fileID: 2800000, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300002, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300004, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300006, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300008, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300010, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300012, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300014, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300016, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300018, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300020, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300022, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300024, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300026, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300028, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300030, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300032, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300034, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300036, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300038, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300040, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300042, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300044, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    - {fileID: 21300046, guid: f5308591cc4521f46b692728a503283e, type: 3}
-    EquippedData: {fileID: 4900000, guid: 358adbd5ff13fa94786d934434c6ec1a, type: 3}
-  Delay: 0
 --- !u!114 &5210483117512304919
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -314,7 +303,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -335,7 +326,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114251416167812810
 MonoBehaviour:
   m_ObjectHideFlags: 0

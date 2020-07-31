@@ -46,8 +46,7 @@ namespace Lobby
 
 		public PlayerTextureData playerTextureData;
 
-		[SerializeField]
-		public List<string> availableSkinColors = new List<string>();
+		[SerializeField] public List<string> availableSkinColors = new List<string>();
 		private CharacterSettings currentCharacter;
 
 		public ColorPicker colorPicker;
@@ -55,6 +54,8 @@ namespace Lobby
 		private CharacterSettings lastSettings;
 
 		public Action onCloseAction;
+
+		public SpriteDataSO BobTheEmptySprite;
 
 		void OnEnable()
 		{
@@ -65,15 +66,15 @@ namespace Lobby
 			lastSettings = JsonUtility.FromJson<CharacterSettings>(copyStr);
 			DisplayErrorText("");
 
-			/*torsoSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Torso);
-			headSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Head);
-			RarmSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.ArmRight);
-			LarmSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.ArmLeft);
-			RlegSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.LegRight);
-			LlegSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.LegLeft);
-			RHandSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.HandRight);
-			LHandSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.HandLeft);
-			eyesSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Base.Eyes);*/
+			//torsoSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Torso);
+			//headSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Head);
+			RarmSpriteController.sprites.SetSpriteSO(playerTextureData.Base.ArmRight);
+			LarmSpriteController.sprites.SetSpriteSO(playerTextureData.Base.ArmLeft);
+			RlegSpriteController.sprites.SetSpriteSO(playerTextureData.Base.LegRight);
+			LlegSpriteController.sprites.SetSpriteSO(playerTextureData.Base.LegLeft);
+			RHandSpriteController.sprites.SetSpriteSO(playerTextureData.Base.HandRight);
+			LHandSpriteController.sprites.SetSpriteSO(playerTextureData.Base.HandLeft);
+			eyesSpriteController.sprites.SetSpriteSO(playerTextureData.Base.Eyes);
 		}
 
 		void OnDisable()
@@ -85,6 +86,7 @@ namespace Lobby
 				onCloseAction = null;
 			}
 		}
+
 		private void LoadSettings()
 		{
 			currentCharacter = PlayerManager.CurrentCharacterSettings;
@@ -94,6 +96,7 @@ namespace Lobby
 				currentCharacter = new CharacterSettings();
 				PlayerManager.CurrentCharacterSettings = currentCharacter;
 			}
+
 			PopulateAllDropdowns();
 			DoInitChecks();
 		}
@@ -229,6 +232,7 @@ namespace Lobby
 			{
 				dropdown.value = 0;
 			}
+
 			// No need to call Refresh() since it gets called when value changes
 		}
 
@@ -252,7 +256,8 @@ namespace Lobby
 		//------------------
 		private void SaveData()
 		{
-			ServerData.UpdateCharacterProfile(currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
+			ServerData.UpdateCharacterProfile(
+				currentCharacter); // TODO Consider adding await. Otherwise this causes a compile warning.
 		}
 
 		//------------------
@@ -272,6 +277,7 @@ namespace Lobby
 				DisplayErrorText(e.Message);
 				return;
 			}
+
 			SaveData();
 			gameObject.SetActive(false);
 		}
@@ -305,6 +311,7 @@ namespace Lobby
 			{
 				currentCharacter.Name = TruncateName(StringManager.GetRandomFemaleName());
 			}
+
 			RefreshName();
 		}
 
@@ -320,6 +327,7 @@ namespace Lobby
 			{
 				return proposedName.Substring(0, CharacterSettings.MAX_NAME_LENGTH);
 			}
+
 			return proposedName;
 		}
 
@@ -329,13 +337,14 @@ namespace Lobby
 
 		public void OnGenderChange()
 		{
-			int gender = (int)currentCharacter.Gender;
+			int gender = (int) currentCharacter.Gender;
 			gender++;
-			if (gender == (int)Gender.Neuter)
+			if (gender == (int) Gender.Neuter)
 			{
 				gender = 0;
 			}
-			currentCharacter.Gender = (Gender)gender;
+
+			currentCharacter.Gender = (Gender) gender;
 
 			// Repopulate underwear and facial hair dropdown boxes
 			PopulateDropdown(CustomisationType.FacialHair, facialHairDropdown);
@@ -351,16 +360,16 @@ namespace Lobby
 		private void RefreshGender()
 		{
 			genderText.text = currentCharacter.Gender.ToString();
-			/*if (currentCharacter.Gender == Gender.Female)
+			if (currentCharacter.Gender == Gender.Female)
 			{
-				headSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Female.Head);
-				torsoSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Female.Torso);
+				headSpriteController.sprites.SetSpriteSO(playerTextureData.Female.Head);
+				torsoSpriteController.sprites.SetSpriteSO(playerTextureData.Female.Torso);
 			}
 			else
 			{
-				headSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Male.Head);
-				torsoSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(playerTextureData.Male.Torso);
-			}*/
+				headSpriteController.sprites.SetSpriteSO(playerTextureData.Male.Head);
+				torsoSpriteController.sprites.SetSpriteSO(playerTextureData.Male.Torso);
+			}
 
 			headSpriteController.UpdateSprite();
 			torsoSpriteController.UpdateSprite();
@@ -404,7 +413,7 @@ namespace Lobby
 		{
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.EyeColor, out setColor);
-			eyesSpriteController.image.color = setColor;
+			eyesSpriteController.sprites.SetColor(setColor);
 			eyeColor.color = setColor;
 		}
 
@@ -440,11 +449,20 @@ namespace Lobby
 				currentCharacter.Gender,
 				currentCharacter.HairStyleName
 			);
-			//FFGD hairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
-			hairSpriteController.UpdateSprite();
+			if (pcd == null)
+			{
+				hairSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+			}
+			else
+			{
+				hairSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				hairSpriteController.UpdateSprite();
+			}
+
+
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.HairColor, out setColor);
-			hairSpriteController.image.color = setColor;
+			hairSpriteController.sprites.SetColor(setColor);
 			hairColor.color = setColor;
 		}
 
@@ -465,12 +483,22 @@ namespace Lobby
 				currentCharacter.Gender,
 				currentCharacter.FacialHairName
 			);
-			//FFGD facialHairSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
-			facialHairSpriteController.UpdateSprite();
+
+			if (pcd == null)
+			{
+				facialHairSpriteController.sprites.SetSpriteSO(BobTheEmptySprite);
+			}
+			else
+			{
+				facialHairSpriteController.image.enabled = true;
+				facialHairSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				facialHairSpriteController.UpdateSprite();
+			}
+
 
 			Color setColor = Color.black;
 			ColorUtility.TryParseHtmlString(currentCharacter.FacialHairColor, out setColor);
-			facialHairSpriteController.image.color = setColor;
+			facialHairSpriteController.sprites.SetColor(setColor);
 			facialColor.color = setColor;
 		}
 
@@ -498,7 +526,7 @@ namespace Lobby
 			skinColor.color = setColor;
 			for (int i = 0; i < skinControllers.Length; i++)
 			{
-				skinControllers[i].image.color = setColor;
+				skinControllers[i].sprites.SetColor(setColor);
 			}
 		}
 
@@ -510,6 +538,7 @@ namespace Lobby
 			{
 				index = 0;
 			}
+
 			currentCharacter.SkinTone = availableSkinColors[index];
 			RefreshSkinColor();
 		}
@@ -522,6 +551,7 @@ namespace Lobby
 			{
 				index = availableSkinColors.Count - 1;
 			}
+
 			currentCharacter.SkinTone = availableSkinColors[index];
 			RefreshSkinColor();
 		}
@@ -535,6 +565,7 @@ namespace Lobby
 			currentCharacter.UnderwearName = underwearDropdown.options[index].text;
 			RefreshUnderwear();
 		}
+
 		private void RefreshUnderwear()
 		{
 			var pcd = PlayerCustomisationDataSOs.Instance.Get(
@@ -542,8 +573,16 @@ namespace Lobby
 				currentCharacter.Gender,
 				currentCharacter.UnderwearName
 			);
-			//FFGD underwearSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
-			underwearSpriteController.UpdateSprite();
+			if (pcd == null)
+			{
+				underwearSpriteController.sprites.SetSpriteSO(BobTheEmptySprite);
+			}
+			else
+			{
+				underwearSpriteController.image.enabled = true;
+				underwearSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				underwearSpriteController.UpdateSprite();
+			}
 		}
 
 		//------------------
@@ -555,6 +594,7 @@ namespace Lobby
 			currentCharacter.SocksName = socksDropdown.options[index].text;
 			RefreshSocks();
 		}
+
 		private void RefreshSocks()
 		{
 			var pcd = PlayerCustomisationDataSOs.Instance.Get(
@@ -562,8 +602,16 @@ namespace Lobby
 				currentCharacter.Gender,
 				currentCharacter.SocksName
 			);
-			//FFGD socksSpriteController.sprites = SpriteFunctions.CompleteSpriteSetup(pcd);
-			socksSpriteController.UpdateSprite();
+			if (pcd == null)
+			{
+				socksSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+			}
+			else
+			{
+				socksSpriteController.image.enabled = true;
+				socksSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				socksSpriteController.UpdateSprite();
+			}
 		}
 
 		//------------------
@@ -582,6 +630,7 @@ namespace Lobby
 		}
 
 		private Action<Color> colorChangedEvent;
+
 		private void OnColorChange(Color newColor)
 		{
 			colorChangedEvent.Invoke(newColor);
@@ -593,13 +642,14 @@ namespace Lobby
 
 		public void OnClothingChange()
 		{
-			int clothing = (int)currentCharacter.ClothingStyle;
+			int clothing = (int) currentCharacter.ClothingStyle;
 			clothing++;
-			if (clothing == (int)ClothingStyle.None)
+			if (clothing == (int) ClothingStyle.None)
 			{
 				clothing = 0;
 			}
-			currentCharacter.ClothingStyle = (ClothingStyle)clothing;
+
+			currentCharacter.ClothingStyle = (ClothingStyle) clothing;
 			RefreshClothing();
 		}
 
@@ -614,13 +664,14 @@ namespace Lobby
 
 		public void OnBackpackChange()
 		{
-			int backpack = (int)currentCharacter.BagStyle;
+			int backpack = (int) currentCharacter.BagStyle;
 			backpack++;
-			if (backpack == (int)BagStyle.None)
+			if (backpack == (int) BagStyle.None)
 			{
 				backpack = 0;
 			}
-			currentCharacter.BagStyle = (BagStyle)backpack;
+
+			currentCharacter.BagStyle = (BagStyle) backpack;
 			RefreshBackpack();
 		}
 
@@ -636,13 +687,14 @@ namespace Lobby
 
 		public void OnAccentChange()
 		{
-			int accent = (int)currentCharacter.Speech;
+			int accent = (int) currentCharacter.Speech;
 			accent++;
-			if (accent == (int)Speech.Unintelligible)
+			if (accent == (int) Speech.Unintelligible)
 			{
 				accent = 0;
 			}
-			currentCharacter.Speech = (Speech)accent;
+
+			currentCharacter.Speech = (Speech) accent;
 			RefreshAccent();
 		}
 

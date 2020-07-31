@@ -17,7 +17,8 @@ public class GUI_P_Collection : PageElement
 	public ulong ID;
 
 	public SUB_ElementHandler ElementHandler;
-	private VariableViewerNetworking.NetFriendlySentence _Sentence;
+
+	private VariableViewerNetworking.NetFriendlySentence _Sentence;
 	public VariableViewerNetworking.NetFriendlySentence Sentence
 	{
 		get { return _Sentence; }

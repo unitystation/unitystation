@@ -7,8 +7,8 @@ using UnityEngine;
 public class InvisibleBox : Pickupable
 {
 	[Header("Assign these to make it work")]
-	[SerializeField] private SpriteColorSync boxSpriteColor;
-	[SerializeField] private CustomNetTransform netTransform;
+	[SerializeField] private SpriteColorSync boxSpriteColor = default;
+	[SerializeField] private CustomNetTransform netTransform = default;
 	private readonly Color transparent = new Color(1f, 1f, 1f, 0f);
 	private readonly Color semiTransparent = new Color(1f, 1f, 1f, 0.5f);
 

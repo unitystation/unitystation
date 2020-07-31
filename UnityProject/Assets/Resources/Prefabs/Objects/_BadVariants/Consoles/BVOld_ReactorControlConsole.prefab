@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 234034479120620068, guid: 1a85cead3efc3d047b2f84c197e26eff,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 016029b2bcbc14e45a2505352bb1a147,
+        type: 2}
     - target: {fileID: 1128924040738795512, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
       propertyPath: circuitBoardPrefab
@@ -102,7 +108,7 @@ PrefabInstance:
     - target: {fileID: 6618935427903119787, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
       propertyPath: m_Name
-      value: ReactorControlConsole
+      value: BVOld_ReactorControlConsole
       objectReference: {fileID: 0}
     - target: {fileID: 7032716331547122897, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}
@@ -118,7 +124,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: b589e202f27c6854ea0a2046596ff21f,
+      objectReference: {fileID: 21300000, guid: 946eb2a4ecbe3494aae6b78818845f8c,
         type: 3}
     - target: {fileID: 9032347336055072273, guid: 1a85cead3efc3d047b2f84c197e26eff,
         type: 3}

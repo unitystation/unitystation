@@ -10,7 +10,7 @@ namespace Pipes
 		public PipeData pipeData;
 		public Matrix Matrix => registerTile.Matrix;
 		public Vector3Int MatrixPos => registerTile.LocalPosition;
-		public void Start()
+		public virtual void Start()
 		{
 			EnsureInit();
 		}
@@ -48,7 +48,5 @@ namespace Pipes
 		{
 			pipeData.OnDisable();
 		}
-
 	}
-
 }

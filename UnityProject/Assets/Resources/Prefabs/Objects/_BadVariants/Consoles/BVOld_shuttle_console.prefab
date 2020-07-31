@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4261346550607464}
   - component: {fileID: 212899688356890650}
+  - component: {fileID: 8191858246909972985}
   m_Layer: 0
   m_Name: ScreenSprite
   m_TagString: Untagged
@@ -70,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: 3d279a1cf3aa48743bb1d022e6834051, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 83da5f04981c86e4b808fc32aa424e9e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -81,6 +82,23 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8191858246909972985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1107446070914724}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 815203b91ae5c604a9ee9de3735d313e, type: 2}
+  variantIndex: 0
+  palette: []
 --- !u!1 &1413862099450234
 GameObject:
   m_ObjectHideFlags: 0
@@ -257,7 +275,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -278,7 +298,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114341681926248934
 MonoBehaviour:
   m_ObjectHideFlags: 0

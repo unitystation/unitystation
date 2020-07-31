@@ -23,8 +23,8 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 
 	private float tickCount;
 
-	[SerializeField] private ItemStorage RodStorage;
-	[SerializeField] private ItemStorage PipeStorage;
+	[SerializeField] private ItemStorage RodStorage = default;
+	[SerializeField] private ItemStorage PipeStorage = default;
 
 	private decimal NeutronLeakingChance = 0.0397M;
 
@@ -118,7 +118,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 			        (NumberOfRods / ReactorRods.Length));
 		}
 
-		return (0.71M);
+		//return (0.71M); // Unreachable
 	}
 
 	/*public decimal NeutronGenerationProbability()

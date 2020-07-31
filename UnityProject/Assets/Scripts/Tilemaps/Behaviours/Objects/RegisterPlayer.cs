@@ -10,6 +10,7 @@ using Random = UnityEngine.Random;
 [ExecuteInEditMode]
 public class RegisterPlayer : RegisterTile, IServerSpawn
 {
+	const int HELP_CHANCE = 33; // Percent.
 
 	// tracks whether player is down or upright.
 	[SyncVar(hook = nameof(SyncIsLayingDown))]
@@ -47,7 +48,7 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	//cached spriteRenderers of this gameobject
 	protected SpriteRenderer[] spriteRenderers;
 
-	private void Awake()
+	protected override void Awake()
 	{
 		base.Awake();
 		EnsureInit();
@@ -148,6 +149,20 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	}
 
 	/// <summary>
+	/// Try to help the player stand back up.
+	/// </summary>
+	[Server]
+	public void ServerHelpUp()
+	{
+		if (!IsLayingDown) return;
+
+		// Check if lying down because of stun. If stunned, there is a chance helping can fail.
+		if (IsSlippingServer && Random.Range(0, 100) > HELP_CHANCE) return;
+
+		ServerRemoveStun();
+	}
+
+	/// <summary>
 	/// Slips and stuns the player.
 	/// </summary>
 	/// <param name="slipWhileWalking">Enables slipping while walking.</param>
@@ -202,7 +217,13 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 	private IEnumerator StunTimer(float stunTime)
 	{
 		yield return WaitFor.Seconds(stunTime);
-		ServerRemoveStun();
+
+		// Check if player is still stunned when timer ends
+		// (may have been helped up by another player, for example)
+		if (IsSlippingServer)
+		{
+			ServerRemoveStun();
+		}
 	}
 
 	private void ServerRemoveStun()

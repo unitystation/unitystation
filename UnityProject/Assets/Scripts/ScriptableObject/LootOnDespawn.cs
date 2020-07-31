@@ -5,11 +5,11 @@ namespace Container
 	[CreateAssetMenu(fileName = "LootOnDespawn", menuName = "ScriptableObjects/LootOnDespawn", order = 0)]
 	public class LootOnDespawn : ScriptableObject
 	{
-		[SerializeField] private GameObject objectToSpawn;
-		[SerializeField] private int minAmount;
-		[SerializeField] private int maxAmount;
-		[SerializeField] private float minRadius;
-		[SerializeField] private float maxRadius;
+		[SerializeField] private GameObject objectToSpawn = default;
+		[SerializeField] private int minAmount = default;
+		[SerializeField] private int maxAmount = default;
+		[SerializeField] private float minRadius = default;
+		[SerializeField] private float maxRadius = default;
 
 		public void SpawnLoot(Vector3 worldPosition)
 		{

@@ -7,10 +7,10 @@ namespace UI.PDA
 	public class GUI_PDACrewManifest : NetPage
 	{
 		[SerializeField]
-		private GUI_PDA controller;
+		private GUI_PDA controller = null;
 
 		[SerializeField]
-		private EmptyItemList crewManifestTemplate;
+		private EmptyItemList crewManifestTemplate = null;
 
 		private List<SecurityRecord> storedRecords;
 

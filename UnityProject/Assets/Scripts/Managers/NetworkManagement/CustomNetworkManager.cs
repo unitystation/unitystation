@@ -29,7 +29,7 @@ public class CustomNetworkManager : NetworkManager
 	[NonSerialized]
 	public UnityEvent OnClientDisconnected = new UnityEvent();
 
-	void Awake()
+	public override void Awake()
 	{
 		if (Instance == null)
 		{
@@ -108,29 +108,6 @@ public class CustomNetworkManager : NetworkManager
 		foreach (NetworkIdentity netObj in networkObjects)
 		{
 			spawnPrefabs.Add(netObj.gameObject);
-		}
-
-		string[] dirs = Directory.GetDirectories(Application.dataPath, "Resources/Prefabs", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times
-		foreach (string dir in dirs)
-		{
-			//Should yield For a frame to Increase performance
-			LoadFolder(dir);
-			foreach (string subdir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
-			{
-				LoadFolder(subdir);
-			}
-		}
-	}
-
-	private void LoadFolder(string folderpath)
-	{
-		folderpath = folderpath.Substring(folderpath.IndexOf("Resources", StringComparison.Ordinal) + "Resources".Length);
-		foreach (NetworkIdentity netObj in Resources.LoadAll<NetworkIdentity>(folderpath))
-		{
-			if (!spawnPrefabs.Contains(netObj.gameObject))
-			{
-				spawnPrefabs.Add(netObj.gameObject);
-			}
 		}
 	}
 

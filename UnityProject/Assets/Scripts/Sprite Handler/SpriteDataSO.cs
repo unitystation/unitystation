@@ -31,8 +31,8 @@ public class SpriteDataSO : ScriptableObject
 	public void Awake()
 	{
 		{
-			//if (setID == -1)
-			//{
+			if (setID == -1)
+			{
 				if (SpriteCatalogue.Instance == null)
 				{
 					Resources.LoadAll<SpriteCatalogue>("ScriptableObjects/SOs singletons");
@@ -40,14 +40,22 @@ public class SpriteDataSO : ScriptableObject
 
 				if (!SpriteCatalogue.Instance.Catalogue.Contains(this))
 				{
-					SpriteCatalogue.Instance.Catalogue.Add(this);
+
+					SpriteCatalogue.Instance.AddToCatalogue(this);
 				}
 
 				setID = SpriteCatalogue.Instance.Catalogue.IndexOf(this);
-				EditorUtility.SetDirty(this);
-
-			//}
+				Unity.EditorCoroutines.Editor.EditorCoroutineUtility.StartCoroutine(EditorSave(), this);
+			}
 		}
+	}
+
+	IEnumerator EditorSave()
+	{
+		yield return new Unity.EditorCoroutines.Editor.EditorWaitForSeconds(3);
+		EditorUtility.SetDirty(this);
+		EditorUtility.SetDirty( SpriteCatalogue.Instance);
+		AssetDatabase.SaveAssets();
 	}
 #endif
 }

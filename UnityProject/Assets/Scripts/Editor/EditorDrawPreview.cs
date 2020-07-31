@@ -48,15 +48,10 @@ public class MyProjectViewExtentions
 			{
 				var spriteDataSO = AssetDatabase.LoadAssetAtPath<SpriteDataSO>(sTing);
 
-				if (spriteDataSO != null)
-				{
-					if (spriteDataSO?.Variance[0]?.Frames[0]?.sprite == null) return;
-					mainTex = CopySprite(GenerateNewTexture2D(), spriteDataSO.Variance[0].Frames[0].sprite);
-				}
-				else
-				{
-					return;
-				}
+				if (spriteDataSO == null) return;
+				if (spriteDataSO.Variance.Count <= 0 || spriteDataSO.Variance[0].Frames.Count <= 0) return;
+
+				mainTex = CopySprite(GenerateNewTexture2D(), spriteDataSO.Variance[0].Frames[0].sprite);
 
 				Dictionaryguid[guid] = mainTex;
 			}

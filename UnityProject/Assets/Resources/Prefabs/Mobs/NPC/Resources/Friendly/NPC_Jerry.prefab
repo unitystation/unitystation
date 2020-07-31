@@ -190,6 +190,7 @@ GameObject:
   - component: {fileID: 8093655862165673158}
   - component: {fileID: 8953132134925514141}
   - component: {fileID: -1536778056985268859}
+  - component: {fileID: 3479798237303417856}
   - component: {fileID: -3251195665219911144}
   m_Layer: 12
   m_Name: NPC_Jerry
@@ -502,6 +503,8 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
+  hasFoodPrefereces: 0
+  foodPreferences: []
 --- !u!114 &8953132134925514141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -518,6 +521,10 @@ MonoBehaviour:
   knockedDownRotation: 180
   minTimeBetweenRandomActions: 10
   maxTimeBetweenRandomActions: 30
+  doRandomActionWhenInTask: 1
+  angryMouseLevel: -30
+  deadMouse: {fileID: 4184658972748340991, guid: eb0c626c3a078634594555c4139784d4,
+    type: 3}
 --- !u!114 &-1536778056985268859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -530,6 +537,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fa5a8af31085e0498605a5f2590c985, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3479798237303417856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 198e62f73ad0d294699f0d7d013cefc1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialMoodLevel: 0
+  minMoodLevel: -50
+  maxMoodLevel: 50
+  isAffectedByDamage: 1
+  moodOnHit: -10
+  isAffectedByPetting: 0
+  moodOnPetted: 10
+  pettingCooldown: -1
+  isAffectedByFood: 1
+  moodOnFood: 10
+  timeBetweenFoodCheck: 300
 --- !u!114 &-3251195665219911144
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,6 +7,7 @@ using Mirror;
 using Random = UnityEngine.Random;
 using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
+using Assets.Scripts.Messages.Server.SoundMessages;
 
 public class SoundManager : MonoBehaviour
 {
@@ -42,7 +43,8 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	[SerializeField] private string[] RoundEndSounds = new string[]
+	[SerializeField]
+	private string[] RoundEndSounds = new string[]
 	{
 		"ApcDestroyed",
 		"BanginDonk",
@@ -138,7 +140,7 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Uses a pooled AudioSource instead of the origianl one.
+	/// Uses a pooled AudioSource instead of the original one.
 	/// This copies the sourceToCopy settings to a source taken from the pool
 	/// and return it.
 	/// </summary>
@@ -147,7 +149,7 @@ public class SoundManager : MonoBehaviour
 		for (int i = pooledSources.Count - 1; i > 0; i--)
 		{
 			if (pooledSources[i] != null && pooledSources[i].gameObject != null
-			                             && !pooledSources[i].isPlaying)
+										 && !pooledSources[i].isPlaying)
 			{
 				pooledSources[i].isPlaying = true;
 				CopySource(pooledSources[i].audioSource, sourceToCopy);
@@ -223,7 +225,7 @@ public class SoundManager : MonoBehaviour
 		}
 
 		var regex = new Regex(Regex.Escape(pattern).Replace(@"\#", @"\d+"));
-		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>) regex.IsMatch).ToArray();
+		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>)regex.IsMatch).ToArray();
 	}
 
 	/// <summary>
@@ -234,29 +236,84 @@ public class SoundManager : MonoBehaviour
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
+		ShakeParameters shakeParameters = null;
+		if (shakeGround == true)
+		{
+			shakeParameters = new ShakeParameters
+			{
+				ShakeGround = shakeGround,
+				ShakeIntensity = shakeIntensity,
+				ShakeRange = shakeRange
+			};
+		}
+
+		AudioSourceParameters audioSourceParameters = null;
+		if (pitch > 0)
+		{
+			audioSourceParameters = new AudioSourceParameters
+			{
+				Pitch = pitch
+			};
+		}
+
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.SendToAll(sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround, shakeIntensity,
-			shakeRange);
+		PlaySoundMessage.SendToAll(sndName, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
 	}
 
 	/// <summary>
 	/// Serverside: Play sound at given position for all clients.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, float pitch = -1,
-		bool polyphonic = false,
-		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool Global = true, GameObject sourceObj = null)
+	/// <param name="sndName">The name of the sound to be played</param>
+	/// <param name="worldPos">The position at which the sound is played</param>
+	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
+	/// <param name="audioSourceParameters">Extra parameters of the audio source.</param>
+	/// <param name="Global">Does everyone will receive the sound our just nearby players</param>
+	/// <param name="sourceObj">The object that is the source of the sound</param>
+	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
+	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, AudioSourceParameters audioSourceParameters, bool polyphonic = false, bool Global = true, GameObject sourceObj = null, ShakeParameters shakeParameters = null)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
 		if (Global)
 		{
-			PlaySoundMessage.SendToAll(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange, sourceObj);
+			PlaySoundMessage.SendToAll(sndName, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
 		}
 		else
 		{
-			PlaySoundMessage.SendToNearbyPlayers(sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity,
-				shakeRange, sourceObj);
+			PlaySoundMessage.SendToNearbyPlayers(sndName, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
 		}
+	}
+
+
+	/// <summary>
+	/// Serverside: Play sound at given position for all clients.
+	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// </summary>
+	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, float pitch = -1,
+	bool polyphonic = false,
+	bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool global = true, GameObject sourceObj = null)
+	{
+		ShakeParameters shakeParameters = null;
+		if (shakeGround == true)
+		{
+			shakeParameters = new ShakeParameters
+			{
+				ShakeGround = shakeGround,
+				ShakeIntensity = shakeIntensity,
+				ShakeRange = shakeRange
+			};
+		}
+
+		AudioSourceParameters audioSourceParameters = null;
+		if (pitch > 0)
+		{
+			audioSourceParameters = new AudioSourceParameters
+			{
+				Pitch = pitch
+			};
+		}
+
+		PlayNetworkedAtPos(sndName, worldPos, audioSourceParameters, polyphonic, global, sourceObj, shakeParameters);
 	}
 
 	/// <summary>
@@ -268,9 +325,28 @@ public class SoundManager : MonoBehaviour
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
+		ShakeParameters shakeParameters = null;
+		if (shakeGround == true)
+		{
+			shakeParameters = new ShakeParameters
+			{
+				ShakeGround = shakeGround,
+				ShakeIntensity = shakeIntensity,
+				ShakeRange = shakeRange
+			};
+		}
+
+		AudioSourceParameters audioSourceParameters = null;
+		if (pitch > 0)
+		{
+			audioSourceParameters = new AudioSourceParameters
+			{
+				Pitch = pitch
+			};
+		}
+
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, TransformState.HiddenPos, pitch, polyphonic, shakeGround,
-			shakeIntensity, shakeRange, sourceObj);
+		PlaySoundMessage.Send(recipient, sndName, TransformState.HiddenPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
 	}
 
 	/// <summary>
@@ -283,8 +359,44 @@ public class SoundManager : MonoBehaviour
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
+		ShakeParameters shakeParameters = null;
+		if (shakeGround)
+		{
+			shakeParameters = new ShakeParameters
+			{
+				ShakeGround = shakeGround,
+				ShakeIntensity = shakeIntensity,
+				ShakeRange = shakeRange
+			};
+		}
+
+		AudioSourceParameters audioSourceParameters = null;
+		if (pitch > 0)
+		{
+			audioSourceParameters = new AudioSourceParameters
+			{
+				Pitch = pitch
+			};
+		}
+
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, worldPos, pitch, polyphonic, shakeGround, shakeIntensity, shakeRange, sourceObj);
+		PlaySoundMessage.Send(recipient, sndName, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
+	}
+
+	/// <summary>
+	/// Play a sound locally
+	/// </summary>
+	/// <param name="name">Name of the sound to be played</param>
+	/// <param name="audioSourceParameters">Parameters for how to play the sound</param>
+	/// <param name="polyphonic">Should the sound be played polyphonically</param>
+	public static void Play(string name, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
+	{
+		name = Instance.ResolveSoundPattern(name);
+		var sound = Instance.GetSourceFromPool(Instance.sounds[name]);
+
+		ApplyAudioSourceParameters(audioSourceParameters, sound);
+
+		Instance.PlaySource(sound, polyphonic, true, audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
 
 	/// <summary>
@@ -323,24 +435,29 @@ public class SoundManager : MonoBehaviour
 	/// Play sound locally.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void Play(string name, bool polyphonic = false, bool Global = true)
+	/// <param name="name">Name of the sound to be played</param>
+	/// <param name="polyphonic">Should the sound be played polyphonically</param>
+	/// <param name="global">Should the sound be played for the default mixer or false to check if it should play muffled</param>
+	/// <remarks>
+	///		If Global is true, the sound may still be muffled if the source is configured with the muffled mixer.
+	/// </remarks>
+	public static void Play(string name, bool polyphonic = false, bool global = true)
 	{
 		name = Instance.ResolveSoundPattern(name);
-		Instance.PlaySource(Instance.GetSourceFromPool(Instance.sounds[name]));
+		Instance.PlaySource(Instance.GetSourceFromPool(Instance.sounds[name]), polyphonic, global);
 	}
 
-	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true)
+	private void PlaySource(SoundSpawn source, bool polyphonic = false, bool Global = true, bool forceMixer = false)
 	{
-		if (!Global
-		    && PlayerManager.LocalPlayer != null
-		    && Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), source.transform.position, layerMask))
+		if (!forceMixer)
 		{
-			//Logger.Log("MuffledMixer");
-			source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
-		}
-		else
-		{
-			source.audioSource.outputAudioMixerGroup = soundManager.DefaultMixer;
+			if (!Global
+				&& PlayerManager.LocalPlayer != null
+				&& Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), source.transform.position, layerMask))
+			{
+				//Logger.Log("MuffledMixer");
+				source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+			}
 		}
 
 		if (polyphonic)
@@ -358,8 +475,12 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	public static void GlassknockAtPosition(Vector3 worldPos, GameObject performer = null)
 	{
-		PlayNetworkedAtPos("GlassKnock", worldPos, (float) Instance.GetRandomNumber(0.7d, 1.2d),
-			Global: false, polyphonic: true, sourceObj: performer);
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters
+		{
+			Pitch = (float)Instance.GetRandomNumber(0.7d, 1.2d)
+		};
+
+		PlayNetworkedAtPos("GlassKnock", worldPos, audioSourceParameters, true, false, performer);
 	}
 
 	/// <summary>
@@ -369,9 +490,10 @@ public class SoundManager : MonoBehaviour
 	/// parent itself to the target and set its local position to Vector3.zero before playing)
 	/// This is useful for moving objects that play sounds
 	/// </summary>
-	public static void PlayAtPosition(string name, Vector3 worldPos, GameObject sourceObj, float pitch = -1,
+	public static void PlayAtPosition(string name, Vector3 worldPos, GameObject sourceObj,
 		bool polyphonic = false,
-		bool isGlobal = false)
+		bool isGlobal = false,
+		AudioSourceParameters audioSourceParameters = null)
 	{
 		var netId = NetId.Empty;
 		if (sourceObj != null)
@@ -383,24 +505,21 @@ public class SoundManager : MonoBehaviour
 			}
 		}
 
-		PlayAtPosition(name, worldPos, pitch, polyphonic, isGlobal, netId);
+		PlayAtPosition(name, worldPos, polyphonic, isGlobal, netId, audioSourceParameters);
 	}
 
 	/// <summary>
 	/// Play sound locally at given world position.
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
-	public static void PlayAtPosition(string name, Vector3 worldPos, float pitch = -1, bool polyphonic = false,
-		bool isGlobal = false, uint netId = NetId.Empty)
+	public static void PlayAtPosition(string name, Vector3 worldPos, bool polyphonic = false,
+		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = null)
 	{
 		name = Instance.ResolveSoundPattern(name);
 		if (!Instance.sounds.ContainsKey(name)) return;
 		var sound = Instance.GetSourceFromPool(Instance.sounds[name]);
 
-		if (pitch > 0)
-		{
-			sound.audioSource.pitch = pitch;
-		}
+		ApplyAudioSourceParameters(audioSourceParameters, sound);
 
 		if (netId != NetId.Empty)
 		{
@@ -421,7 +540,48 @@ public class SoundManager : MonoBehaviour
 			sound.transform.position = worldPos;
 		}
 
-		Instance.PlaySource(sound, polyphonic, isGlobal);
+		Instance.PlaySource(sound, polyphonic, isGlobal, audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
+	}
+
+	private static void ApplyAudioSourceParameters(AudioSourceParameters audioSourceParameters, SoundSpawn sound)
+	{
+		if (audioSourceParameters != null)
+		{
+			if (audioSourceParameters.MixerType != MixerType.Unspecified)
+			sound.audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master ? Instance.DefaultMixer : Instance.MuffledMixer;
+
+			if (audioSourceParameters.Pitch != null)
+				sound.audioSource.pitch = audioSourceParameters.Pitch.Value;
+			else
+				sound.audioSource.pitch = 1;
+
+			if (audioSourceParameters.Time != null)
+				sound.audioSource.time = audioSourceParameters.Time.Value;
+
+			if (audioSourceParameters.Volume != null)
+				sound.audioSource.volume = audioSourceParameters.Volume.Value;
+
+			if (audioSourceParameters.Pan != null)
+				sound.audioSource.panStereo = audioSourceParameters.Pan.Value;
+
+			if (audioSourceParameters.SpatialBlend != null)
+				sound.audioSource.spatialBlend = audioSourceParameters.SpatialBlend.Value;
+
+			if (audioSourceParameters.MinDistance != null)
+				sound.audioSource.minDistance = audioSourceParameters.MinDistance.Value;
+
+			if (audioSourceParameters.MaxDistance != null)
+				sound.audioSource.maxDistance = audioSourceParameters.MaxDistance.Value;
+		}
+	}
+
+	/// <summary>
+	/// Tell all clients to stop playing a sound
+	/// </summary>
+	/// <param name="name">The sound to be stopped</param>
+	public static void StopNetworked(string name)
+	{
+		StopSoundMessage.SendToAll(name);
 	}
 
 	/// <summary>
@@ -475,6 +635,19 @@ public class SoundManager : MonoBehaviour
 		PlayerPrefs.Save();
 	}
 
+	/// <summary>
+	/// Changes the mixer of a sound
+	/// </summary>
+	/// <param name="soundName">The name of the sound to change the mixer</param>
+	/// <param name="mixerName">The name of the mixer to apply</param>
+	public static void ChangeMixer(string soundName, string mixerName)
+	{
+		AudioSource audioSource = GetSound(soundName);
+
+		if (audioSource != null)
+			audioSource.outputAudioMixerGroup = mixerName == "Normal" ? Instance.DefaultMixer : Instance.MuffledMixer;
+	}
+
 	public double GetRandomNumber(double minimum, double maximum)
 	{
 		return RANDOM.NextDouble() * (maximum - minimum) + minimum;
@@ -509,13 +682,18 @@ public class SoundManager : MonoBehaviour
 		{
 			if (step)
 			{
+				AudioSourceParameters audioSourceParameters = new AudioSourceParameters
+				{
+					Pitch = Random.Range(0.7f, 1.2f)
+				};
+
 				PlayNetworkedAtPos(
 					Instance.stepSounds[stepType][tile.floorTileType].PickRandom(),
 					worldPos,
-					Random.Range(0.7f, 1.2f),
-					Global: false,
+					audioSourceParameters,
 					polyphonic: true,
-					sourceObj: performer
+					Global: false,
+					sourceObj: performer					
 				);
 			}
 

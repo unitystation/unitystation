@@ -219,21 +219,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBetweenFrames: 0.2
-  spriteRenderer: {fileID: 5652626683075892432}
+  spriteHandler: {fileID: 0}
   screenGlow: {fileID: 5514083760975472850}
-  onSprites:
-    Texture: {fileID: 2800000, guid: d25f10b565fd6c3418292d8560fbeccd, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: d25f10b565fd6c3418292d8560fbeccd, type: 3}
-    - {fileID: 21300002, guid: d25f10b565fd6c3418292d8560fbeccd, type: 3}
-    - {fileID: 21300004, guid: d25f10b565fd6c3418292d8560fbeccd, type: 3}
-    - {fileID: 21300006, guid: d25f10b565fd6c3418292d8560fbeccd, type: 3}
-    - {fileID: 21300008, guid: d25f10b565fd6c3418292d8560fbeccd, type: 3}
-    - {fileID: 21300010, guid: d25f10b565fd6c3418292d8560fbeccd, type: 3}
-    - {fileID: 21300012, guid: d25f10b565fd6c3418292d8560fbeccd, type: 3}
-    - {fileID: 21300014, guid: d25f10b565fd6c3418292d8560fbeccd, type: 3}
-    EquippedData: {fileID: 4900000, guid: 9da9190ae01d5f34eb7390d31d9f7116, type: 3}
-  Delay: 0
 --- !u!114 &3061441890875507342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -330,7 +317,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -351,7 +340,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114577545745324966
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -525,6 +513,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5518005213825217714}
   - component: {fileID: 5652626683075892432}
+  - component: {fileID: 6170874232120527870}
   m_Layer: 0
   m_Name: ScreenSprite
   m_TagString: Untagged
@@ -596,3 +585,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6170874232120527870
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5514524191066922664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
+  variantIndex: 0
+  palette: []
