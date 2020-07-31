@@ -17,6 +17,7 @@ public class PlayerEatDrinkEffects : NetworkBehaviour
 public class PlayerEatDrinkEffectsServerMessage : ServerMessage
 {
 	public int alcoholValue;
+	public GameObject clientPlayer = null;
 
 	public override void Process()
 	{
