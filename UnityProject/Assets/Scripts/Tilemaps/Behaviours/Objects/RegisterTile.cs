@@ -401,7 +401,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LogMatrixDebug("ForceRegister");
 		if (transform.parent != null)
 		{
-			objectLayer = transform.parent.GetComponentInParent<ObjectLayer>();
+			objectLayer = transform.parent.GetComponent<ObjectLayer>() ?? transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
 			LocalPositionServer = Vector3Int.RoundToInt(transform.localPosition);

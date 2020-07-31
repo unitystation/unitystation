@@ -7,9 +7,11 @@ public class MatrixMoveNewPlayer: ClientMessage
 
 	public override void Process()
 	{
-		LoadNetworkObject(MatrixMove);
-		NetworkObject.GetComponent<MatrixMove>().UpdateNewPlayer(
-			SentByPlayer.Connection);
+		if (LoadNetworkObject(MatrixMove))
+		{
+			NetworkObject.GetComponent<MatrixMove>()?.UpdateNewPlayer(
+				SentByPlayer.Connection);
+		}
 	}
 
 	public static MatrixMoveNewPlayer Send(uint matrixMoveNetId)

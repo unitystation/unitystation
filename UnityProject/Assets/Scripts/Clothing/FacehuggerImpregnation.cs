@@ -74,7 +74,8 @@ namespace Clothing
 
 		private void OnReleasing()
 		{
-			if (!isAlive || isToy)
+			// check if gameObject is active because gameObject needs to be active to StartCoroutine
+			if (!isAlive || isToy || !gameObject.activeInHierarchy)
 			{
 				return;
 			}

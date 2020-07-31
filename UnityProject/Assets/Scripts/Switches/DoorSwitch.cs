@@ -44,6 +44,8 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 		{
 			foreach (var door in doorControllers)
 			{
+				if (!door) continue;
+
 				if (door.IsHackable)
 				{
 					HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
@@ -105,6 +107,8 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 	{
 		foreach (DoorController door in doorControllers)
 		{
+			if (!door) continue;
+
 			if (door.IsClosed)
 			{
 				if (door.IsHackable)
