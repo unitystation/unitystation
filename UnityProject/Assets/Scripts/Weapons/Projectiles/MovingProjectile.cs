@@ -1,5 +1,6 @@
 ﻿using Container.Gun;
 using UnityEngine;
+using Weapons.Projectiles.Behaviours;
 
 namespace Weapons.Projectiles
 {
@@ -14,12 +15,13 @@ namespace Weapons.Projectiles
 		private LayerMaskData maskData;
 		private Transform thisTransform;
 
-		private Vector3 mPrevPos;
+		private Vector3 previousPosition;
 
 		private float velocity;
 
 		private void Awake()
 		{
+
 			projectile = GetComponentInParent<Bullet>();
 			maskData = projectile.MaskData;
 			thisTransform = transform;
@@ -45,36 +47,35 @@ namespace Weapons.Projectiles
 		{
 			CachePreviousPosition();
 
-			MoveBullet();
-
-			var hit = Raycast();
-
-			projectile.ProcessRaycastHit(hit);
+			if (ProcessMovement( MoveProjectile()))
+			{
+				SimulateCollision();
+			}
 		}
 
 		private void CachePreviousPosition()
 		{
-			mPrevPos = thisTransform.position;
+			previousPosition =  thisTransform.position;
 		}
 
-		/// <summary>
-		/// Moves child game object in local space of the bullet
-		/// </summary>
-		private void MoveBullet()
+		private Vector2 MoveProjectile()
 		{
 			var distanceToTravel = Vector2.up * (velocity * Time.deltaTime);
 			thisTransform.Translate(distanceToTravel, Space.Self);
+			return distanceToTravel;
 		}
 
-		/// <summary>
-		/// Raycasts line from previous bullet position in direction of the bullet
-		/// </summary>
-		/// <returns></returns>
-		private RaycastHit2D Raycast()
+		private bool ProcessMovement(Vector2 distanceToTravel)
 		{
-			var distanceDelta = thisTransform.position - mPrevPos;
-			var hit = Physics2D.Raycast(mPrevPos, distanceDelta.normalized, distanceDelta.magnitude, maskData.Layers);
-			return hit;
+			return projectile.ProcessMove(distanceToTravel, thisTransform.position);
+		}
+
+		private void SimulateCollision()
+		{
+			var distanceDelta = thisTransform.position - previousPosition;
+			var hit = Physics2D.Raycast(previousPosition, distanceDelta.normalized, distanceDelta.magnitude, maskData.Layers);
+
+			projectile.ProcessRaycastHit(hit);
 		}
 	}
 }

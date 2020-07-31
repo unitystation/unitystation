@@ -7,8 +7,10 @@ namespace Weapons.Projectiles
 	public class Bullet : Projectile
 	{
 		private IOnShoot[] behavioursOnShoot;
+		private IOnMove[] behavioursOnMove;
 		private IOnHit[] behavioursOnBulletHit;
 		private IOnDespawn[] behavioursOnBulletDespawn;
+
 		private MovingProjectile movingProjectile;
 
 		private Transform thisTransform;
@@ -23,8 +25,10 @@ namespace Weapons.Projectiles
 		private void Awake()
 		{
 			behavioursOnShoot = GetComponents<IOnShoot>();
+			behavioursOnMove = GetComponentsInParent<IOnMove>();
 			behavioursOnBulletHit = GetComponents<IOnHit>();
 			behavioursOnBulletDespawn = GetComponents<IOnDespawn>();
+
 			movingProjectile = GetComponentInChildren<MovingProjectile>();
 
 			thisTransform = transform;
@@ -57,6 +61,26 @@ namespace Weapons.Projectiles
 			{
 				behaviour.OnShoot(direction, controlledByPlayer,fromWeapon,targetZone);
 			}
+		}
+
+		/// <summary>
+		/// Despawns bullet if OnMove behaviours request it
+		/// </summary>
+		/// <param name="distanceTraveled"></param>
+		/// <param name="worldPosition"> Actual world position of the moving projectile </param>
+		/// <returns> Is despawning bullet? </returns>
+		public bool ProcessMove(Vector3 distanceTraveled, Vector3 worldPosition)
+		{
+			foreach (var behaviour in behavioursOnMove)
+			{
+				if (behaviour.OnMove(distanceTraveled))
+				{
+					DespawnThis(new RaycastHit2D(), worldPosition);
+					return false;
+				}
+			}
+
+			return true;
 		}
 
 		/// <summary>

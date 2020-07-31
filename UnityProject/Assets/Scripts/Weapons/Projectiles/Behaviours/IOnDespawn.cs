@@ -8,8 +8,8 @@ namespace Weapons.Projectiles.Behaviours
 		/// Interface for notifying components that
 		/// game object is about to be despawned
 		/// </summary>
-		/// /// <param name="hit"></param>
-		/// <param name="point"> End coordinate if nothing was hit </param>
+		/// /// <param name="hit"> Collider responsible for despawn, new RaycastHit if nothing was hit </param>
+		/// <param name="point"> Coordinate where object is about to despawn </param>
 		void OnDespawn(RaycastHit2D hit, Vector2 point);
 	}
 }
