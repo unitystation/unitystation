@@ -23,17 +23,8 @@ namespace Weapons.Projectiles.Behaviours
 
 		public bool OnHit(RaycastHit2D hit)
 		{
-			return ProcessHit(hit);
-		}
-
-		private bool ProcessHit(RaycastHit2D hit)
-		{
-			if (IsShooter(hit)) return false;
-
 			return TryStun(hit);
 		}
-
-		private bool IsShooter(RaycastHit2D hit) => hit.transform.gameObject == shooter;
 
 		private bool TryStun(RaycastHit2D hit)
 		{

@@ -13,9 +13,9 @@ namespace Weapons.Projectiles.Behaviours
 			{
 				var netTransform = GetComponent<CustomNetTransform>();
 
-if(netTransform != null)
-{
-netTransform.ForceDrop(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.6f, 0.6f), Random.Range(-0.6f, 0.6f)));
+				if(netTransform != null)
+				{
+					netTransform.ForceDrop(netTransform.ServerState.WorldPosition + new Vector3(Random.Range(-0.6f, 0.6f), Random.Range(-0.6f, 0.6f)));
 				}
 			}
 
