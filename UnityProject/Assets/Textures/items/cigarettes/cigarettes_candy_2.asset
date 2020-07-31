@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ccfe138752d4b66bcb7c56a0c9769c7, type: 3}
-  m_Name: Cigarettes
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: cigarettes_candy_2
   m_EditorClassIdentifier: 
-  traitDescription: A cigarete, for smoking.
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: 7832253f6e87d54438ebd3e752b1b487, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 22993
