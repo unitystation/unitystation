@@ -38,7 +38,7 @@ namespace Weapons.Projectiles.Behaviours
 			return true;
 		}
 
-		public void OnDespawn()
+		public void OnDespawn(RaycastHit2D hit, Vector2 point)
 		{
 			currentHitCount = 0;
 		}

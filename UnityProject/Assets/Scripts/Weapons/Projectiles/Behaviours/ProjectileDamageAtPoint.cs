@@ -6,7 +6,7 @@ namespace Weapons.Projectiles.Behaviours
 	/// Creates a raycast at a certain point and process IOnHit behaviours
 	/// Script is used by Proto-Kinetic-Accelerator for damaging everything on one tile
 	/// </summary>
-	public class ProjectileDamageAtPoint : MonoBehaviour, IOnShoot, IDespawn
+	public class ProjectileDamageAtPoint : MonoBehaviour, IOnShoot, IOnDespawn
 	{
 		private IOnHit[] behavioursOnBulletHit;
 		private Vector2 direction;
@@ -23,7 +23,7 @@ namespace Weapons.Projectiles.Behaviours
 			this.direction = direction;
 		}
 
-		public void Despawn(RaycastHit2D hit, Vector2 point)
+		public void OnDespawn(RaycastHit2D hit, Vector2 point)
 		{
 			if (hit.collider == null)
 			{

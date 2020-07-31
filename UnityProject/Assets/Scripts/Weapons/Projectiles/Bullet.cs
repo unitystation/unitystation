@@ -69,7 +69,7 @@ namespace Weapons.Projectiles
 
 			if(hitProcessor.ProcessHit(hit, behavioursOnBulletHit) == false) return;
 
-			DespawnThis();
+			DespawnThis(hit, hit.point);
 		}
 
 		/// <summary>
@@ -90,11 +90,11 @@ namespace Weapons.Projectiles
 		/// Despawn bullet and call all
 		/// on despawn behaviours
 		/// </summary>
-		private void DespawnThis()
+		private void DespawnThis(RaycastHit2D hit, Vector2 point)
 		{
 			foreach (var behaviour in behavioursOnBulletDespawn)
 			{
-				behaviour.OnDespawn();
+				behaviour.OnDespawn(hit, point);
 			}
 			Despawn.ClientSingle(gameObject);
 		}

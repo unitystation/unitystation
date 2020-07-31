@@ -41,13 +41,14 @@ namespace Weapons.Projectiles.Behaviours
 			{
 				foreach (var behaviours in behavioursOnDespawn)
 				{
-					behaviours.OnDespawn();
+					var position = transform.position;
+					behaviours.OnDespawn(new RaycastHit2D(), position);
 				}
 				Despawn.ClientSingle(gameObject);
 			}
 		}
 
-		public void OnDespawn()
+		public void OnDespawn(RaycastHit2D hit, Vector2 point)
 		{
 			ResetDistance();
 		}

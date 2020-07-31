@@ -1,4 +1,6 @@
-﻿namespace Weapons.Projectiles.Behaviours
+﻿using UnityEngine;
+
+namespace Weapons.Projectiles.Behaviours
 {
 	public interface IOnDespawn
 	{
@@ -6,6 +8,8 @@
 		/// Interface for notifying components that
 		/// game object is about to be despawned
 		/// </summary>
-		void OnDespawn();
+		/// /// <param name="hit"></param>
+		/// <param name="point"> End coordinate if nothing was hit </param>
+		void OnDespawn(RaycastHit2D hit, Vector2 point);
 	}
 }

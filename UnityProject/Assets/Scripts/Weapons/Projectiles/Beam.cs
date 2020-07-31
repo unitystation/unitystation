@@ -7,7 +7,7 @@ namespace Weapons.Projectiles
 	public class Beam : Projectile
 	{
 		private IOnShoot[] behavioursOnShoot;
-		private IDespawn[] behavioursOnBulletDespawn;
+		private IOnDespawn[] behavioursOnBulletDespawn;
 
 		[Tooltip("Beam length in tiles.")]
 		[SerializeField] private float distance = 10;
@@ -18,7 +18,7 @@ namespace Weapons.Projectiles
 		private void Awake()
 		{
 			behavioursOnShoot = GetComponents<IOnShoot>();
-			behavioursOnBulletDespawn = GetComponents<IDespawn>();
+			behavioursOnBulletDespawn = GetComponents<IOnDespawn>();
 		}
 
 		public override void Suicide(GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
@@ -45,7 +45,7 @@ namespace Weapons.Projectiles
 			var dis = ((Vector2) pos + (direction * distance));
 			foreach (var behaviour in behavioursOnBulletDespawn)
 			{
-				behaviour.Despawn(hit,dis);
+				behaviour.OnDespawn(hit,dis);
 			}
 
 			Despawn.ClientSingle(gameObject);

@@ -6,7 +6,7 @@ namespace Weapons.Projectiles.Behaviours
 	/// Draws a line from shooter to hit position or end
 	/// </summary>
 	[RequireComponent(typeof(LineRenderer))]
-	public class LineDrawer : MonoBehaviour, IOnShoot, IDespawn
+	public class LineDrawer : MonoBehaviour, IOnShoot, IOnDespawn
 	{
 		private Vector3 direction;
 		private LineRenderer lineRenderer;
@@ -21,7 +21,7 @@ namespace Weapons.Projectiles.Behaviours
 			this.direction = direction;
 		}
 
-		public void Despawn(RaycastHit2D hit, Vector2 point)
+		public void OnDespawn(RaycastHit2D hit, Vector2 point)
 		{
 			var pos = transform.position;
 			Vector3 startPos = new Vector3(direction.x, direction.y, pos.z) * 0.7f;

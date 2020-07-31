@@ -7,14 +7,14 @@ namespace Weapons.Projectiles.Behaviours
 	/// Creates an animated tile at a point of collision or end
 	/// After animation, applies old tile effect
 	/// </summary>
-	public class ProjectileAnimateTile : MonoBehaviour, IDespawn
+	public class ProjectileAnimateTile : MonoBehaviour, IOnDespawn
 	{
 		[SerializeField] private AnimatedTile animatedTile = null;
 
 		[Tooltip("Living time of animated tile.")]
 		[SerializeField] private float animationTime = 0;
 
-		public void Despawn(RaycastHit2D hit, Vector2 point)
+		public void OnDespawn(RaycastHit2D hit, Vector2 point)
 		{
 			if (hit.collider == null)
 			{
