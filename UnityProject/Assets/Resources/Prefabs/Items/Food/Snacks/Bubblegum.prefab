@@ -14,6 +14,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4808250800529090727, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808250800529090727, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
       propertyPath: initialDescription
       value: A rubbery strip of gum. Not exactly filling, but it keeps you busy.
       objectReference: {fileID: 0}
@@ -22,6 +27,12 @@ PrefabInstance:
       propertyPath: initialName
       value: bubblegum
       objectReference: {fileID: 0}
+    - target: {fileID: 4808250800529090727, guid: b9dc042fb6542ef4baea84b36c24b31a,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7823f825326168048bad5ebc65bb01d9,
+        type: 2}
     - target: {fileID: 4919142680965921457, guid: b9dc042fb6542ef4baea84b36c24b31a,
         type: 3}
       propertyPath: m_LocalPosition.x
