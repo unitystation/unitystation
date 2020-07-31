@@ -151,6 +151,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override string ToString()
 		{
+			// null.ToString() will result in error and $"{null}}" will work fine, so I just removed ToString()
 			return $"{nameof(SoundName)}: {SoundName}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {ShakeParameters}, {nameof(AudioSourceParameters)}: {AudioSourceParameters}";
 		}
 

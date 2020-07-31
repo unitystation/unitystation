@@ -7,6 +7,7 @@ public class MatrixMoveNewPlayer: ClientMessage
 
 	public override void Process()
 	{
+		// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
 		if (LoadNetworkObject(MatrixMove))
 		{
 			NetworkObject.GetComponent<MatrixMove>()?.UpdateNewPlayer(

@@ -401,6 +401,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LogMatrixDebug("ForceRegister");
 		if (transform.parent != null)
 		{
+			// in most scenes ObjectLayer script is placed on parent
 			objectLayer = transform.parent.GetComponent<ObjectLayer>() ?? transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
