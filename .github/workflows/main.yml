@@ -97,6 +97,9 @@ jobs:
             Library4-${{ matrix.projectPath }}-
             Library4-
 
+      # Change settings in editor before starting
+      - name: Python Editor settings change
+        run: python ./.github/workflows/SetEditorSettingsForBuild.py
       # Set the UNITY_LICENSE environment variable
       - name: Setup license
         # This step:
