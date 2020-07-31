@@ -26,19 +26,19 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 	// Sprites for when the jukebox is idle, playing, damaged.
 	[SerializeField]
-	private SpriteDataSO SpriteIdle;
+	private SpriteDataSO SpriteIdle = null;
 
 	[SerializeField]
 	private SpriteDataSO SpritePlaying = null;
 
 	[SerializeField]
-	private SpriteDataSO SpriteDamaged;
+	private SpriteDataSO SpriteDamaged = null;
 
 	[SerializeField]
-	private float MinSoundDistance;
+	private float MinSoundDistance = 2;
 
 	[SerializeField]
-	private float MaxSoundDistance;
+	private float MaxSoundDistance = 7;
 
 	private List<AudioSource> musics;
 
