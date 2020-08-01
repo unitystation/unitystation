@@ -1426,6 +1426,7 @@ GameObject:
   - component: {fileID: 223290611721111060}
   - component: {fileID: 114107919325378540}
   - component: {fileID: 114234576684998094}
+  - component: {fileID: 8185412755022767171}
   m_Layer: 5
   m_Name: System
   m_TagString: Untagged
@@ -1515,6 +1516,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!114 &8185412755022767171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1625392850373996}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2388181d31d8450591767ca5ff7cbe73, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1657666001891494
 GameObject:
   m_ObjectHideFlags: 0
@@ -1599,7 +1612,7 @@ GameObject:
   - component: {fileID: 224418813875917392}
   - component: {fileID: 222897002348029126}
   m_Layer: 5
-  m_Name: Panel_Chat
+  m_Name: SafeArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
