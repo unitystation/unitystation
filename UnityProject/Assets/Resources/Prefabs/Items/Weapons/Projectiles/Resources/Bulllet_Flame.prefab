@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8214923060312012444
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6278072555636713134}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26c0a551245f4560ba36facece84d1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageData: {fileID: 11400000, guid: 71814d72e667ee04cba22df2f741b447, type: 2}
+  layersToHit: 
 --- !u!1001 &6279624444460312548
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -108,6 +122,21 @@ PrefabInstance:
       propertyPath: Color.b
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6064106330675739834, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: layersToHit.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6064106330675739834, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: layersToHit.Array.data[0]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6064106330675739834, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: layersToHit.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7470130649246693551, guid: a95e157dbe676bd4b82190a9deaba4c4,
         type: 3}
       propertyPath: m_Mesh
@@ -133,5 +162,18 @@ PrefabInstance:
       propertyPath: maxBulletDistance
       value: 7
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8750900017165839274, guid: a95e157dbe676bd4b82190a9deaba4c4,
+        type: 3}
+      propertyPath: hitProcessor
+      value: 
+      objectReference: {fileID: 11400000, guid: e716d6839827d714bb51e6d52c4aa906,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 7226343453670401398, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: a95e157dbe676bd4b82190a9deaba4c4, type: 3}
+--- !u!1 &6278072555636713134 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1553142956179786, guid: a95e157dbe676bd4b82190a9deaba4c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 6279624444460312548}
+  m_PrefabAsset: {fileID: 0}
