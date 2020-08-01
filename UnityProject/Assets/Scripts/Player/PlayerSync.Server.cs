@@ -570,10 +570,13 @@ public partial class PlayerSync
 	///Revert client push prediction straight ahead if it's wrong
 	[Command]
 	private void CmdValidatePush( GameObject pushable ) {
-		var pushPull = pushable.GetComponent<PushPull>();
-		if ( Validations.CanInteract(playerScript, NetworkSide.Server) || pushPull && !playerScript.IsInReach(pushPull.registerTile, true) ) {
-			questionablePushables.Add( pushPull );
-			Logger.LogWarningFormat( "Added questionable {0}", Category.PushPull, pushPull );
+		if (pushable && pushable.TryGetComponent(out PushPull pushPull))
+		{
+			if (Validations.CanInteract(playerScript, NetworkSide.Server) || pushPull && !playerScript.IsInReach(pushPull.registerTile, true))
+			{
+				questionablePushables.Add(pushPull);
+				Logger.LogWarningFormat("Added questionable {0}", Category.PushPull, pushPull);
+			}
 		}
 	}
 

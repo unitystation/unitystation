@@ -462,6 +462,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		foreach (ObjectBehaviour item in serverHeldItems)
 		{
+			if (!item) continue;
+
 			CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
 			//avoids blinking of premapped items when opening first time in another place:
 			Vector3Int pos = registerTile.WorldPositionServer;

@@ -14,6 +14,12 @@ public static class PowerSupplyFunction  {
 	/// <param name="Supply">The supplying device that is turned off</param>
 	public static void TurnOffSupply(ModuleSupplyingDevice Supply)
 	{
+		if (Supply.ControllingNode == null)
+		{
+			Logger.LogError("Supply.ControllingNode == null");
+			return;
+		}
+
 		Supply.ControllingNode.Node.InData.Data.ChangeToOff = true;
 		ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supply.ControllingNode);
 	}

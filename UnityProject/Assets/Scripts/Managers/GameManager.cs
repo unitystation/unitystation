@@ -550,6 +550,12 @@ public partial class GameManager : MonoBehaviour
 		{
 			var player = SpawnPlayerRequestQueue.Peek();
 
+			if (player == null || player.JoinedViewer == null)
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
 			int slotsTaken = GameManager.Instance.GetOccupationsCount(player.RequestedOccupation.JobType);
 			int slotsMax = GameManager.Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
 			if (slotsTaken >= slotsMax)
