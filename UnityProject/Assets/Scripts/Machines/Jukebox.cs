@@ -35,10 +35,14 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	private SpriteDataSO SpriteDamaged = null;
 
 	[SerializeField]
-	private float MinSoundDistance = 2;
+	private float MinSoundDistance = 4;
 
 	[SerializeField]
-	private float MaxSoundDistance = 7;
+	private float MaxSoundDistance = 10;
+
+	[SerializeField]
+	[Range(0, 1)]
+	private float Volume = 1;
 
 	private List<AudioSource> musics;
 
@@ -185,7 +189,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			{
 				MixerType = MixerType.Muffled,
 				SpatialBlend = 1, // 3D, we need it to attenuate with distance
-				Volume = 1,
+				Volume = Volume,
 				MinDistance = MinSoundDistance,
 				MaxDistance = MaxSoundDistance,
 				VolumeRolloffType = VolumeRolloffType.EaseInAndOut
@@ -243,6 +247,18 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		}
 		else
 			return false;
+	}
+
+	public void VolumeChange(float newVolume)
+	{
+		Volume = newVolume;
+
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters
+		{
+			Volume = newVolume,
+		};
+
+		ChangeAudioSourceParametersMessage.SendToAll(musics[currentSongTrackIndex].name, audioSourceParameters);
 	}
 
 	private void OnDamageReceived(DamageInfo damageInfo)

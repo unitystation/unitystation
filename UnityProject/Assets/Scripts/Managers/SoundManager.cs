@@ -394,7 +394,7 @@ public class SoundManager : MonoBehaviour
 		name = Instance.ResolveSoundPattern(name);
 		var sound = Instance.GetSourceFromPool(Instance.sounds[name]);
 
-		ApplyAudioSourceParameters(audioSourceParameters, sound);
+		ApplyAudioSourceParameters(audioSourceParameters, sound.audioSource);
 
 		Instance.PlaySource(sound, polyphonic, true, audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
@@ -519,7 +519,7 @@ public class SoundManager : MonoBehaviour
 		if (!Instance.sounds.ContainsKey(name)) return;
 		var sound = Instance.GetSourceFromPool(Instance.sounds[name]);
 
-		ApplyAudioSourceParameters(audioSourceParameters, sound);
+		ApplyAudioSourceParameters(audioSourceParameters, sound.audioSource);
 
 		if (netId != NetId.Empty)
 		{
@@ -543,47 +543,47 @@ public class SoundManager : MonoBehaviour
 		Instance.PlaySource(sound, polyphonic, isGlobal, audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
 
-	private static void ApplyAudioSourceParameters(AudioSourceParameters audioSourceParameters, SoundSpawn sound)
+	private static void ApplyAudioSourceParameters(AudioSourceParameters audioSourceParameters, AudioSource audioSource)
 	{
 		if (audioSourceParameters != null)
 		{
 			if (audioSourceParameters.MixerType != MixerType.Unspecified)
-			sound.audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master ? Instance.DefaultMixer : Instance.MuffledMixer;
+			audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master ? Instance.DefaultMixer : Instance.MuffledMixer;
 
 			if (audioSourceParameters.Pitch != null)
-				sound.audioSource.pitch = audioSourceParameters.Pitch.Value;
+				audioSource.pitch = audioSourceParameters.Pitch.Value;
 			else
-				sound.audioSource.pitch = 1;
+				audioSource.pitch = 1;
 
 			if (audioSourceParameters.Time != null)
-				sound.audioSource.time = audioSourceParameters.Time.Value;
+				audioSource.time = audioSourceParameters.Time.Value;
 
 			if (audioSourceParameters.Volume != null)
-				sound.audioSource.volume = audioSourceParameters.Volume.Value;
+				audioSource.volume = audioSourceParameters.Volume.Value;
 
 			if (audioSourceParameters.Pan != null)
-				sound.audioSource.panStereo = audioSourceParameters.Pan.Value;
+				audioSource.panStereo = audioSourceParameters.Pan.Value;
 
 			if (audioSourceParameters.SpatialBlend != null)
-				sound.audioSource.spatialBlend = audioSourceParameters.SpatialBlend.Value;
+				audioSource.spatialBlend = audioSourceParameters.SpatialBlend.Value;
 
 			if (audioSourceParameters.MinDistance != null)
-				sound.audioSource.minDistance = audioSourceParameters.MinDistance.Value;
+				audioSource.minDistance = audioSourceParameters.MinDistance.Value;
 
 			if (audioSourceParameters.MaxDistance != null)
-				sound.audioSource.maxDistance = audioSourceParameters.MaxDistance.Value;
+				audioSource.maxDistance = audioSourceParameters.MaxDistance.Value;
 
 			switch (audioSourceParameters.VolumeRolloffType)
 			{
 				case VolumeRolloffType.EaseInAndOut:
-					sound.audioSource.rolloffMode = AudioRolloffMode.Custom;
-					sound.audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, AnimationCurve.EaseInOut(0, 1, 1, 0));
+					audioSource.rolloffMode = AudioRolloffMode.Custom;
+					audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, AnimationCurve.EaseInOut(0, 1, 1, 0));
 					break;
 				case VolumeRolloffType.Linear:
-					sound.audioSource.rolloffMode = AudioRolloffMode.Linear;
+					audioSource.rolloffMode = AudioRolloffMode.Linear;
 					break;
 				case VolumeRolloffType.Logarithmic:
-					sound.audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
+					audioSource.rolloffMode = AudioRolloffMode.Logarithmic;
 					break;
 			}
 		}
@@ -650,16 +650,29 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Changes the mixer of a sound
+	/// Changes the Audio Source Parameters of a sound
 	/// </summary>
 	/// <param name="soundName">The name of the sound to change the mixer</param>
-	/// <param name="mixerName">The name of the mixer to apply</param>
-	public static void ChangeMixer(string soundName, string mixerName)
+	/// <param name="audioSourceParameters">The Audio Source Parameters to apply</param>
+	public static void ChangeAudioSourceParameters(string soundName, AudioSourceParameters audioSourceParameters)
 	{
-		AudioSource audioSource = GetSound(soundName);
+		if (Instance.sounds.ContainsKey(soundName))
+		{
+			AudioSource sound = Instance.sounds[soundName];
 
-		if (audioSource != null)
-			audioSource.outputAudioMixerGroup = mixerName == "Normal" ? Instance.DefaultMixer : Instance.MuffledMixer;
+			for (int i = Instance.pooledSources.Count - 1; i > 0; i--)
+			{
+				if (Instance.pooledSources[i] == null) continue;
+
+				if (Instance.pooledSources[i].isPlaying && Instance.pooledSources[i].audioSource.clip == sound.clip)
+				{
+					ApplyAudioSourceParameters(audioSourceParameters, Instance.pooledSources[i].audioSource);
+				}
+			}
+
+			if (sound != null)
+				ApplyAudioSourceParameters(audioSourceParameters, sound);
+		}
 	}
 
 	public double GetRandomNumber(double minimum, double maximum)
