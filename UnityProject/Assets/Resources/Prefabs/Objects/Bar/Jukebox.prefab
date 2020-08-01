@@ -104,6 +104,8 @@ MonoBehaviour:
   SpriteIdle: {fileID: 11400000, guid: f0ef570011ab3c3448bc70e91b398ef4, type: 2}
   SpritePlaying: {fileID: 11400000, guid: 92d17c50f2351c94cb27834ffd5b9009, type: 2}
   SpriteDamaged: {fileID: 11400000, guid: fcc308c26f6ee4044a16d7cb8764c24c, type: 2}
+  MinSoundDistance: 2
+  MaxSoundDistance: 8
 --- !u!114 &114977697586778270
 MonoBehaviour:
   m_ObjectHideFlags: 0

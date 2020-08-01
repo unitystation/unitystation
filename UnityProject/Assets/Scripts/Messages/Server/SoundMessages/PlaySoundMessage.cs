@@ -151,8 +151,9 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override string ToString()
 		{
-			// null.ToString() will result in error and $"{null}}" will work fine, so I just removed ToString()
-			return $"{nameof(SoundName)}: {SoundName}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {ShakeParameters}, {nameof(AudioSourceParameters)}: {AudioSourceParameters}";
+			string audioSourceParametersValue = (AudioSourceParameters == null) ? "Null" : AudioSourceParameters.ToString();
+			string shakeParametersValue = (ShakeParameters == null) ? "Null" : ShakeParameters.ToString();
+			return $"{nameof(SoundName)}: {SoundName}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
 		}
 
 		public override void Serialize(NetworkWriter writer)

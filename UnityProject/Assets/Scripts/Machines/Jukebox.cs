@@ -26,13 +26,19 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 	// Sprites for when the jukebox is idle, playing, damaged.
 	[SerializeField]
-	private SpriteDataSO SpriteIdle;
+	private SpriteDataSO SpriteIdle = null;
 
 	[SerializeField]
 	private SpriteDataSO SpritePlaying = null;
 
 	[SerializeField]
-	private SpriteDataSO SpriteDamaged;
+	private SpriteDataSO SpriteDamaged = null;
+
+	[SerializeField]
+	private float MinSoundDistance = 2;
+
+	[SerializeField]
+	private float MaxSoundDistance = 7;
 
 	private List<AudioSource> musics;
 
@@ -174,13 +180,15 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		{
 			IsPlaying = true;
 			spriteHandler.SetSpriteSO(SpritePlaying);
+
 			AudioSourceParameters audioSourceParameters = new AudioSourceParameters
 			{
 				MixerType = MixerType.Muffled,
 				SpatialBlend = 1, // 3D, we need it to attenuate with distance
 				Volume = 1,
-				MinDistance = 3,
-				MaxDistance = 10
+				MinDistance = MinSoundDistance,
+				MaxDistance = MaxSoundDistance,
+				VolumeRolloffType = VolumeRolloffType.EaseInAndOut
 			};
 
 			SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
