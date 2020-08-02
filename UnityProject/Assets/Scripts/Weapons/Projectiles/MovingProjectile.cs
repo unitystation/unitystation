@@ -1,6 +1,5 @@
 ﻿using Container.Gun;
 using UnityEngine;
-using Weapons.Projectiles.Behaviours;
 
 namespace Weapons.Projectiles
 {
@@ -36,11 +35,19 @@ namespace Weapons.Projectiles
 		{
 			this.velocity = velocity;
 
-			var startPosition =  Vector3.zero;
-			var startRotation = Quaternion.AngleAxis(-Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg, Vector3.forward);
+			thisTransform.rotation =
+				Quaternion.AngleAxis(
+					-Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg,
+					Vector3.forward);
+		}
 
-			thisTransform.localPosition = startPosition;
-			thisTransform.rotation = startRotation;
+		/// <summary>
+		/// Move it to parent position
+		/// This one is called every time bullet is called from the pool
+		/// </summary>
+		private void OnEnable()
+		{
+			thisTransform.localPosition = Vector3.zero;
 		}
 
 		private void Update()

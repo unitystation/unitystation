@@ -52,7 +52,7 @@ namespace Weapons.Projectiles
 
 			thisTransform.parent = controlledByPlayer.transform.parent;
 
-			var startPosition = new Vector3(direction.x, direction.y, transform.position.z) * 0.7f;
+			var startPosition = new Vector3(direction.x, direction.y, thisTransform.position.z) * 0.7f;
 			thisTransform.position += startPosition;
 
 			movingProjectile.SetUpBulletTransform(direction, fromWeapon.ProjectileVelocity);
