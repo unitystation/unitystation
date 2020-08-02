@@ -40,7 +40,7 @@ public class GamePad : MonoBehaviour
 			pressedKeys.Add( key );
 			justPressed.Add( key );
 		}
-		
+
 		StartCoroutine( ClearPressed() );
 	}
 

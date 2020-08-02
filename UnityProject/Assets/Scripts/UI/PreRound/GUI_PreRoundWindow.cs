@@ -20,11 +20,14 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	[SerializeField]
 	private TMP_Text readyText = null;
 
+
 	[SerializeField] private TMP_Text loadingText = null;
 
 	[SerializeField] private Scrollbar loadingBar = null;
 
 	[SerializeField] private GameObject normalWindows = null;
+
+	[SerializeField] private GameObject warnText = null;
 
 	// UI panels
 	[SerializeField]
@@ -46,6 +49,10 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	// Character objects
 	[SerializeField]
 	private GameObject characterCustomization = null;
+
+	[SerializeField]
+	private GUI_JobPreferences localJobPref;
+
 	[SerializeField]
 	private Button characterButton = null;
 
@@ -62,6 +69,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	void Awake()
 	{
+		//localJobPref = null;
 		if (Instance == null)
 		{
 			Instance = this;
@@ -83,13 +91,20 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.F7))
 		{
-			if(PlayerList.Instance.AdminToken == null) return;
-			adminPanel.SetActive(true);
+			TryShowAdminPanel();
 		}
 
 		if (doCountdown)
 		{
 			UpdateCountdownUI();
+		}
+	}
+
+	private void TryShowAdminPanel()
+	{
+		if (PlayerList.Instance.AdminToken != null)
+		{
+			adminPanel.SetActive(true);
 		}
 	}
 
@@ -122,11 +137,11 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		{
 			if (startedAlready == true) return;
 			startedAlready = true;
-			StartCoroutine(WaitForInitialisationh());
+			StartCoroutine(WaitForInitialisation());
 		}
 	}
 
-	private IEnumerator WaitForInitialisationh()
+	private IEnumerator WaitForInitialisation()
 	{
 		yield return null;
 		SetReady(true);
@@ -175,6 +190,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	{
 		SoundManager.Play("Click01");
 		SetReady(!isReady);
+		TryShowAdminPanel();
 	}
 
 	/// <summary>
@@ -192,6 +208,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	/// <param name="ready"></param>
 	private void SetReady(bool ready)
 	{
+		NoJobWarn(localJobPref.JobPreferences.Count == 0);
 		if (isReady != ready)
 		{
 			// Ready status changed so tell the server
@@ -200,6 +217,23 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		isReady = ready;
 		characterButton.interactable = !ready;
 		readyText.text = (!ready) ? "Ready" : "Unready";
+	}
+
+	/// <summary>
+	/// Warns the player when they have no job selected and default their job preference
+	/// </summary>
+	/// <param name="noJob"></param>
+	private void NoJobWarn(bool noJob)
+	{
+		if (noJob)
+		{
+			warnText.SetActive(true);
+			localJobPref.SetAssistantDefault();
+		}
+		else
+		{
+			warnText.SetActive(false);
+		}
 	}
 
 	private void SetInfoScreenOn()

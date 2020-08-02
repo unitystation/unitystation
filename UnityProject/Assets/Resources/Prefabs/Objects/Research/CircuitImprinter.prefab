@@ -16,9 +16,10 @@ MonoBehaviour:
   syncInterval: 0.1
   PoweredState: 2
   spriteHandler: {fileID: 9168488590779125248}
-  idleSprite: {fileID: 0}
-  productionSprite: {fileID: 0}
-  acceptingMaterialsSprite: {fileID: 0}
+  idleSprite: {fileID: 11400000, guid: d70277bfa0ca32049b0f6f1f24452b40, type: 2}
+  productionSprite: {fileID: 11400000, guid: 2b81f2d46411ec24ea7ffd84d0461ce1, type: 2}
+  acceptingMaterialsSprite: {fileID: 11400000, guid: d70277bfa0ca32049b0f6f1f24452b40,
+    type: 2}
   materialStorage: {fileID: 3037224626631790655}
   autolatheProducts: {fileID: 11400000, guid: f4149bd30d5f03f4cb903a9418d550e3, type: 2}
 --- !u!114 &2623882693397774114

@@ -15,8 +15,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	private static readonly StandardProgressActionConfig DisrobeProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.Disrobe);
-	private static readonly StandardProgressActionConfig CPRProgressConfig =
-		new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
@@ -100,7 +98,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		return slot.SlotIdentifier.NamedSlot != null;
 	}
-
 
 	[Server]
 	private void SyncEquipSprite(string slotName, GameObject Item)
@@ -279,30 +276,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdToggleLightSwitch(GameObject switchObj)
-	{
-		if (!Validations.CanApply(playerScript, switchObj, NetworkSide.Server)) return;
-		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
-		{
-			if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-			LightSwitch s = switchObj.GetComponent<LightSwitch>();
-			if (s.isOn == LightSwitch.States.On)
-			{
-				s.isOn = LightSwitch.States.Off;
-			}
-			else if (s.isOn == LightSwitch.States.Off)
-			{
-				s.isOn = LightSwitch.States.On;
-			}
-		}
-		else
-		{
-			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
-									" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
-		}
-	}
-
-	[Command]
 	public void CmdTryUncuff()
 	{
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
@@ -355,18 +328,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var storage = GetActiveHandItem()?.GetComponent<InteractableStorage>() ??
 		              GetOffHandItem()?.GetComponent<InteractableStorage>();
 		storage.ServerSwitchPickupMode(gameObject);
-	}
-
-	/// <summary>
-	/// Validates that the player can interact with the specified wallmount
-	/// </summary>
-	/// <param name="wallmount">wallmount to check</param>
-	/// <returns>true iff interaction is allowed</returns>
-	[Server]
-	private bool CanInteractWallmount(WallmountBehavior wallmount)
-	{
-		//can only interact if the player is facing the wallmount
-		return wallmount.IsFacingPosition(transform.position);
 	}
 
 	/// <summary>
@@ -545,7 +506,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-
 	/// <summary>
 	/// Asks the server to let the client rejoin into a logged off character.
 	/// </summary>
@@ -632,7 +592,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-
 	/// <summary>
 	/// A variation of CmdRequestPaperEdit, but is used for the PDA notes system
 	/// </summary>
@@ -677,122 +636,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		Chat.AddExamineMsgFromServer(gameObject, "You set the " + handLabeler.Item().InitialName.ToLower() + "s text to '" + label + "'.");
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
-	}
-
-	/// <summary>
-	/// Performs a hug from one player to another.
-	/// </summary>
-	[Command]
-	public void CmdRequestHug(string hugger, GameObject huggedPlayer)
-	{
-		//validate that hug can be done
-		if (!Validations.CanApply(playerScript, huggedPlayer, NetworkSide.Server)) return;
-		//hugging is kind of a melee-type action, at least we wouldn't want to spam it quickly
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee)) return;
-
-		string hugged = huggedPlayer.GetComponent<PlayerScript>().playerName;
-		var lhb = gameObject.GetComponent<LivingHealthBehaviour>();
-		var lhbOther = huggedPlayer.GetComponent<LivingHealthBehaviour>();
-		if (lhb != null && lhbOther != null && (lhb.FireStacks > 0 || lhbOther.FireStacks > 0))
-		{
-			lhb.ApplyDamage(huggedPlayer, 1, AttackType.Fire, DamageType.Burn);
-			lhbOther.ApplyDamage(gameObject, 1, AttackType.Fire, DamageType.Burn);
-			Chat.AddCombatMsgToChat(gameObject, $"You give {hugged} a fiery hug.", $"{hugger} has given {hugged} a fiery hug.");
-		}
-		else
-		{
-			Chat.AddActionMsgToChat(gameObject, $"You hugged {hugged}.", $"{hugger} has hugged {hugged}.");
-		}
-	}
-
-	/// <summary>
-	///	Performs a CPR action from one player to another.
-	/// </summary>
-	[Command]
-	public void CmdRequestCPR(GameObject cardiacArrestPlayer)
-	{
-		//TODO: Probably refactor this to IF2
-		if (!Validations.CanApply(playerScript, cardiacArrestPlayer, NetworkSide.Server)) return;
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-
-		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
-
-		void ProgressComplete()
-		{
-			DoCPR(playerScript.gameObject, cardiacArrestPlayer);
-		}
-
-		var bar = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
-			.ServerStartProgress(cardiacArrestPlayerRegister, 5f, playerScript.gameObject);
-		if (bar != null)
-		{
-			Chat.AddActionMsgToChat(playerScript.gameObject, $"You begin performing CPR on {cardiacArrestPlayer.Player()?.Name}.",
-			$"{playerScript.gameObject.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.");
-		}
-	}
-
-	[Server]
-	private void DoCPR(GameObject rescuer, GameObject CardiacArrestPlayer)
-	{
-		CardiacArrestPlayer.GetComponent<PlayerHealth>().bloodSystem.oxygenDamage -= 7f;
-
-		Chat.AddActionMsgToChat(rescuer, $"You have performed CPR on {CardiacArrestPlayer.Player()?.Name}.",
-			$"{rescuer.Player()?.Name} has performed CPR on {CardiacArrestPlayer.Player()?.Name}.");
-	}
-
-	/// <summary>
-	/// Performs a disarm attempt from one player to another.
-	/// </summary>
-	[Command]
-	public void CmdRequestDisarm(GameObject playerToDisarm)
-	{
-		if (!Validations.CanApply(playerScript, playerToDisarm, NetworkSide.Server)) return;
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-		var rng = new System.Random();
-		string disarmerName = playerScript.gameObject.Player()?.Name;
-		string playerToDisarmName = playerToDisarm.Player()?.Name;
-		var disarmStorage = playerToDisarm.GetComponent<ItemStorage>();
-		var leftHandSlot = disarmStorage.GetNamedItemSlot(NamedSlot.leftHand);
-		var rightHandSlot = disarmStorage.GetNamedItemSlot(NamedSlot.rightHand);
-		var disarmedPlayerRegister = playerToDisarm.GetComponent<RegisterPlayer>();
-		var disarmedPlayerNetworkActions = playerToDisarm.GetComponent<PlayerNetworkActions>();
-
-		// This is based off the alien/humanoid/attack_hand disarm code of TGStation's codebase.
-		// Disarms have 5% chance to knock down, then it has a 50% chance to disarm.
-		if (5 >= rng.Next(1, 100))
-		{
-			disarmedPlayerRegister.ServerStun(6f, false);
-			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
-
-			Chat.AddCombatMsgToChat(gameObject, $"You have knocked {playerToDisarmName} down!",
-				$"{disarmerName} has knocked {playerToDisarmName} down!");
-		}
-
-		else if (50 >= rng.Next(1, 100))
-		{
-			// Disarms
-			if (leftHandSlot.Item != null)
-			{
-				Inventory.ServerDrop(leftHandSlot);
-			}
-
-			if (rightHandSlot.Item != null)
-			{
-				Inventory.ServerDrop(rightHandSlot);
-			}
-
-			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
-
-			Chat.AddCombatMsgToChat(gameObject, $"You have disarmed {playerToDisarmName}!",
-				$"{disarmerName} has disarmed {playerToDisarmName}!");
-		}
-		else
-		{
-			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
-
-			Chat.AddCombatMsgToChat(gameObject, $"You attempted to disarm {playerToDisarmName}!",
-				$"{disarmerName} has attempted to disarm {playerToDisarmName}!");
-		}
 	}
 
 	[Command]

@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 98485280082216606, guid: 7ac9a1237a9a84c429f91947b3594be0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dcd31b31287bea446bc66bfa445efc1d,
+        type: 2}
     - target: {fileID: 4986038043911402929, guid: 7ac9a1237a9a84c429f91947b3594be0,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]

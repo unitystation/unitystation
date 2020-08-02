@@ -1,5 +1,4 @@
-﻿using Tilemaps.Behaviours;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class TilemapDamage : MonoBehaviour, IFireExposable
 {
@@ -34,54 +33,6 @@ public class TilemapDamage : MonoBehaviour, IFireExposable
 				}
 			}
 		});
-	}
-
-	public void OnCollisionEnter2D(Collision2D coll)
-	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			return;
-		}
-		ContactPoint2D firstContact = coll.GetContact(0);
-		DetermineAction(coll.gameObject, coll.relativeVelocity.normalized, firstContact.point);
-	}
-
-	private void DetermineAction(GameObject objectColliding, Vector2 forceDirection, Vector3 hitPos)
-	{
-		BulletBehaviour bulletBehaviour = objectColliding.transform.parent.GetComponent<BulletBehaviour>();
-		if (bulletBehaviour != null)
-		{
-			DoBulletDamage(bulletBehaviour, forceDirection, hitPos);
-		}
-	}
-
-	private void DoBulletDamage(BulletBehaviour bullet, Vector3 forceDir, Vector3 hitPos)
-	{
-		forceDir.z = 0;
-		Vector3 bulletHitTarget = hitPos + (forceDir * 0.2f);
-		Vector3Int cellPos = metaTileMap.WorldToCell(Vector3Int.RoundToInt(bulletHitTarget));
-
-		var basicTile = metaTileMap.GetTile(cellPos, Layer.LayerType) as BasicTile;
-
-		if (basicTile == null) return;
-
-		if (bullet.isMiningBullet)
-		{
-			if (Layer.LayerType == LayerType.Walls)
-			{
-				if (Validations.IsMineableAt(bulletHitTarget, metaTileMap))
-				{
-					SoundManager.PlayNetworkedAtPos("BreakStone", bulletHitTarget);
-					Spawn.ServerPrefab(basicTile.SpawnOnDeconstruct, bulletHitTarget,
-						count: basicTile.SpawnAmountOnDeconstruct);
-					tileChangeManager.RemoveTile(cellPos, LayerType.Walls);
-					return;
-				}
-			}
-		}
-
-		MetaDataNode data = metaDataLayer.Get(cellPos);
-		AddDamage(bullet.damage, AttackType.Bullet, data, basicTile, hitPos);
 	}
 
 	public float ApplyDamage(float dmgAmt, AttackType attackType, Vector3 worldPos)

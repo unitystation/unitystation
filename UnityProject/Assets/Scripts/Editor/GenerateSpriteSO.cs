@@ -26,6 +26,8 @@ public class GenerateSpriteSO : EditorWindow
 	public static void ConvertJsonSprites()
 	{
 		spriteCatalogue = AssetDatabase.LoadAssetAtPath<SpriteCatalogue>("Assets/Resources/ScriptableObjects/SOs singletons/SpriteCatalogueSingleton.asset");
+		ToSeve.Clear();
+		ToDel.Clear();
 		DirSearch_ex3(Application.dataPath + "/SpriteJsonToSO");
 
 		foreach (var oDe in ToDel)
@@ -38,6 +40,8 @@ public class GenerateSpriteSO : EditorWindow
 			AssetDatabase.CreateAsset(Seve.Value, Seve.Key);
 			Seve.Value.Awake();
 		}
+		ToSeve.Clear();
+		ToDel.Clear();
 		AssetDatabase.SaveAssets();
 	}
 

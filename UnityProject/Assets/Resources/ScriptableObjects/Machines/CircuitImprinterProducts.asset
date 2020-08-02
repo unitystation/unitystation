@@ -243,6 +243,14 @@ MonoBehaviour:
         - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
         m_values: e8030000
       productionTime: 1
+    - name: Machine Design (Donksoft Toy Vendor Board)
+      product: {fileID: 8838765617791620604, guid: 8dbe8df31d6c7b447ab0f48a1c1b8ca0,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
     - name: Machine Design (Food/Slime Processor Board)
       product: {fileID: 647291457413040798, guid: 30b17e1fb1d57fa4d9a3f52459c077d2,
         type: 3}
@@ -301,6 +309,14 @@ MonoBehaviour:
       productionTime: 1
     - name: Machine Design (Smartfridge Board)
       product: {fileID: 2308564274286761204, guid: ad4815304c0789c42ac14447f35f807f,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000
+      productionTime: 1
+    - name: Machine Design (Vendor Board)
+      product: {fileID: 8031091669592220840, guid: 53c1066b5d991904aafa428058b16d1c,
         type: 3}
       materialToAmounts:
         m_keys:
