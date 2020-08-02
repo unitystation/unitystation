@@ -31,12 +31,12 @@ PrefabInstance:
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 10
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: VendorContent.Array.size
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -62,12 +62,12 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[0].Item
       value: 
-      objectReference: {fileID: 11639533463445157, guid: 301047244e720e040b17d641c872719d,
+      objectReference: {fileID: 6546673936360135170, guid: b7831b25f6bc923458647be942a2609f,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[0].Stock
-      value: 3
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -78,12 +78,12 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Item
       value: 
-      objectReference: {fileID: 7274953645499099385, guid: 394037cafd8e7314993ff56030057547,
+      objectReference: {fileID: 6546673936360135170, guid: 9df8b42a3b7c7554ab9c48ba64b45d2e,
         type: 3}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Stock
-      value: 3
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
@@ -267,6 +267,12 @@ PrefabInstance:
       propertyPath: VendorContent.Array.data[1].Stock
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 76fb41efbc809544581a76b1389dab1e,
+        type: 2}
     - target: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_Sprite

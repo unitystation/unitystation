@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
@@ -632,6 +632,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4545776733214585406, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 428a62f17dd841f489b3319f876d89cb,
+        type: 2}
     - target: {fileID: 5152460295084099983, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: initialDescription

@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1182286299311770263
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2295748375983491126}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 1
-  SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: b2b3d977e58e4c84a94ff488aa8612cf, type: 2}
-  variantIndex: 0
-  palette: []
-  Sprites: []
 --- !u!1001 &7963283841311327114
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4260,6 +4242,12 @@ PrefabInstance:
       propertyPath: InitialVendorContent.Array.data[167].Stock
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: bf2fbf8e0a6e8be4398aa9e455ea8f88,
+        type: 2}
     - target: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_Sprite
@@ -4334,9 +4322,3 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
---- !u!1 &2295748375983491126 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8169360993354599356, guid: 2f2954acc32d9d3468c620e34a625966,
-    type: 3}
-  m_PrefabInstance: {fileID: 7963283841311327114}
-  m_PrefabAsset: {fileID: 0}

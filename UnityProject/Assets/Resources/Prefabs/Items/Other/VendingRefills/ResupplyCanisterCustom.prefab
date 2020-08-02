@@ -86,8 +86,19 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
+        type: 3}
       propertyPath: initialName
       value: Custom Vendor restocking unit
       objectReference: {fileID: 0}
+    - target: {fileID: 8367238152491455025, guid: 5b03a0d328244a244bde82abc2b3e98a,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 356496cc0e8712643988546ef02252d4,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b03a0d328244a244bde82abc2b3e98a, type: 3}
