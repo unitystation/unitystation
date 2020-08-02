@@ -1,4 +1,5 @@
 ﻿using System;
+using Light2D;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
@@ -6,6 +7,7 @@ namespace Weapons.Projectiles.Behaviours
 	public class TimeLimitedDecal : MonoBehaviour
 	{
 		private SpriteHandler spriteHandler;
+		private LightSprite lightSprite;
 
 		private float lifeTime;
 		private float currentTime = 0;
@@ -13,12 +15,17 @@ namespace Weapons.Projectiles.Behaviours
 		private void Awake()
 		{
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
+			lightSprite = GetComponentInChildren<LightSprite>();
 		}
 
 		public void SetUpDecal(float timeToLive)
 		{
 			lifeTime = timeToLive;
 			spriteHandler.PushTexture(false);
+			if (lightSprite != null)
+			{
+				lightSprite.LightOrigin = transform.position;
+			}
 		}
 
 		private void Update()
