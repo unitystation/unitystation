@@ -15,13 +15,15 @@ namespace Weapons
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
+			if (Validations.HasItemTrait(interaction.HandObject,
+				CommonTraits.Instance.SolidPlasma) == false) return false;
 
 			return true;
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
 		{
+			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return;
 			var needAmmo = magazineBehaviour.magazineSize - magazineBehaviour.ServerAmmoRemains;
 			if (needAmmo <= 0) return;
 
@@ -48,8 +50,9 @@ namespace Weapons
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-			if (!Validations.HasItemTrait(interaction.FromSlot.Item.gameObject,
-				CommonTraits.Instance.SolidPlasma)) return false;
+			if (interaction.FromSlot.Item == null) return false;
+			if (Validations.HasItemTrait(interaction.FromSlot.Item.gameObject,
+				CommonTraits.Instance.SolidPlasma) == false) return false;
 
 			return true;
 		}
