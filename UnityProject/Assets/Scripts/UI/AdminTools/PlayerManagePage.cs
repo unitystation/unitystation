@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Assets.Scripts.Messages.Client.Admin;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -68,6 +69,13 @@ namespace AdminTools
 			adminTools.kickBanEntryPage.SetPage(false, playerEntry.PlayerData, true);
 		}
 
+		public void OnSmiteBtn()
+		{
+			adminTools.areYouSurePage.SetAreYouSurePage(
+			$"Are you sure you want to smite {playerEntry.PlayerData.name}?",
+			SendSmitePlayerRequest);
+		}
+
 		public void OnDeputiseBtn()
 		{
 			adminTools.areYouSurePage.SetAreYouSurePage(
@@ -94,6 +102,18 @@ namespace AdminTools
 		{
 			respawnAsBtn.interactable = !playerEntry.PlayerData.isAlive &&
 			                            adminJobsDropdown.value != 0;
+		}
+
+		/// <summary>
+		/// Sends the command to smite a player
+		/// </summary>
+		void SendSmitePlayerRequest()
+		{
+			AdminSmitePlayerMessage.Send(
+				ServerData.UserID,
+				PlayerList.Instance.AdminToken,
+				playerEntry.PlayerData.uid);
+			RefreshPage();
 		}
 
 		void SendMakePlayerAdminRequest()
