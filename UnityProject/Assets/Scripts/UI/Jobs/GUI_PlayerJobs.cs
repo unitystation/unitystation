@@ -83,7 +83,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 		waitMessage.SetActive(false);
 	}
 
-	public void ShowFailMessage(JoinedViewer.ClientRequestJobMessage.JobRequestError failReason)
+	public void ShowFailMessage(JoinedViewer.JobRequestError failReason)
 	{
 		waitForSpawnTimer = 0;
 		ShowJobSelection();
@@ -92,22 +92,20 @@ public class GUI_PlayerJobs : MonoBehaviour
 		errorInfoWindow.SetActive(true);
 	}
 
-	private string GetFailMessage(JoinedViewer.ClientRequestJobMessage.JobRequestError failReason)
+	private string GetFailMessage(JoinedViewer.JobRequestError failReason)
 	{
 		switch (failReason)
 		{
-			case JoinedViewer.ClientRequestJobMessage.JobRequestError.InvalidUserID:
+			case JoinedViewer.JobRequestError.InvalidUserID:
 				return "Invalid User ID.";
-			case JoinedViewer.ClientRequestJobMessage.JobRequestError.InvalidPlayerID:
+			case JoinedViewer.JobRequestError.InvalidPlayerID:
 				return "Invalid Player ID.";
-			case JoinedViewer.ClientRequestJobMessage.JobRequestError.RoundNotReady:
+			case JoinedViewer.JobRequestError.RoundNotReady:
 				return "New shift hasn't started yet.";
-			case JoinedViewer.ClientRequestJobMessage.JobRequestError.JobBanned:
+			case JoinedViewer.JobRequestError.JobBanned:
 				return "You were previously fired from this position. [Job-banned]";
-			case JoinedViewer.ClientRequestJobMessage.JobRequestError.PositionsFilled:
+			case JoinedViewer.JobRequestError.PositionsFilled:
 				return "All positions for this profession have been filled.";
-			case JoinedViewer.ClientRequestJobMessage.JobRequestError.JoinedViewerNull:
-				return "Processing error: spawnRequest.JoinedViewer was empty.";
 			default: return "Unspecified error.";
 		}
 	}
