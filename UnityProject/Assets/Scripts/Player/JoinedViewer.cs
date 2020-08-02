@@ -60,9 +60,11 @@ public class JoinedViewer : NetworkBehaviour
 			unverifiedUserid, unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
 		if (!isValidPlayer) return; //this validates Userid and Token
 
-		// Check if they have a player to rejoin. If not, assign them a new client ID
+		// Check if they have a player to rejoin. If not, assign them a new client ID.
 		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId);
 
+		// If the player does not yet have an in-game object to control, they'll probably have a
+		// JoinedViewer assigned as they were only in the lobby. If so, destroy it and use the new one.
 		if (loggedOffPlayer != null)
 		{
 			var checkForViewer = loggedOffPlayer.GetComponent<JoinedViewer>();
@@ -75,7 +77,7 @@ public class JoinedViewer : NetworkBehaviour
 
 		UpdateConnectedPlayersMessage.Send();
 
-		// Only sync the pre-round countdown if it's already started
+		// Only sync the pre-round countdown if it's already started.
 		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 		{
 			if (GameManager.Instance.waitForStart)
@@ -88,16 +90,15 @@ public class JoinedViewer : NetworkBehaviour
 			}
 		}
 
-		//if there's a logged off player, we will force them to rejoin. Previous logic allowed client to reenter
-		//their body or not, which should not be up to the client!
+		// If there's a logged off player, we will force them to rejoin. Previous logic allowed client to re-enter
+		// their body or not, which should not be up to the client!
 		if (loggedOffPlayer != null)
 		{
 			StartCoroutine(WaitForLoggedOffObserver(loggedOffPlayer));
 		}
 		else
 		{
-			TargetLocalPlayerSetupNewPlayer(connectionToClient,
-				GameManager.Instance.CurrentRoundState);
+			TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
 		}
 
 		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, unverifiedUserid);
