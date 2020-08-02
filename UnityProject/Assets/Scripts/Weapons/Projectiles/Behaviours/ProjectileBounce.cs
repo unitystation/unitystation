@@ -43,14 +43,15 @@ namespace Weapons.Projectiles.Behaviours
 
 			bullet.Shoot(newDirection * 2f, shooter, weapon, targetZone);
 
-			currentCount++;
-			if (currentCount >= maxHitCount)
-			{
-				currentCount = 0;
-				return true;
-			}
+			return IsCountReached();
+		}
 
-			return false;
+		private bool IsCountReached()
+		{
+			currentCount++;
+			if (currentCount < maxHitCount) return false;
+			currentCount = 0;
+			return true;
 		}
 
 		private void OnDisable()

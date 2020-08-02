@@ -8,12 +8,14 @@ namespace Weapons.Projectiles.Behaviours
 	[RequireComponent(typeof(LineRenderer))]
 	public class LineDrawer : MonoBehaviour, IOnShoot, IOnDespawn
 	{
+		private Transform thisTransform;
 		private LineRenderer lineRenderer;
 
 		private Vector3 direction;
 
 		private void Awake()
 		{
+			thisTransform = transform;
 			lineRenderer = GetComponent<LineRenderer>();
 		}
 
@@ -24,7 +26,7 @@ namespace Weapons.Projectiles.Behaviours
 
 		public void OnDespawn(RaycastHit2D hit, Vector2 point)
 		{
-			var pos = transform.position;
+			var pos = thisTransform.position;
 			Vector3 startPos = new Vector3(direction.x, direction.y, pos.z) * 0.7f;
 
 			if (hit.collider == null)
