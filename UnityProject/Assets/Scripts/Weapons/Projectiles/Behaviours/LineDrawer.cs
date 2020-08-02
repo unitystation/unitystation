@@ -8,8 +8,9 @@ namespace Weapons.Projectiles.Behaviours
 	[RequireComponent(typeof(LineRenderer))]
 	public class LineDrawer : MonoBehaviour, IOnShoot, IOnDespawn
 	{
-		private Vector3 direction;
 		private LineRenderer lineRenderer;
+
+		private Vector3 direction;
 
 		private void Awake()
 		{
@@ -36,6 +37,11 @@ namespace Weapons.Projectiles.Behaviours
 			var endPosition = hit.point;
 			lineRenderer.SetPosition(0, pos + startPos);
 			lineRenderer.SetPosition(1, endPosition);
+		}
+
+		private void OnDisable()
+		{
+			direction = Vector3.zero;
 		}
 	}
 }

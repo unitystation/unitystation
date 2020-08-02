@@ -2,7 +2,7 @@
 
 namespace Weapons.Projectiles.Behaviours
 {
-	public class ProjectileBounce : MonoBehaviour, IOnShoot, IOnHit, IOnDespawn
+	public class ProjectileBounce : MonoBehaviour, IOnShoot, IOnHit
 	{
 		private Bullet bullet;
 
@@ -53,8 +53,12 @@ namespace Weapons.Projectiles.Behaviours
 			return false;
 		}
 
-		public void OnDespawn(RaycastHit2D hit, Vector2 point)
+		private void OnDisable()
 		{
+			direction = Vector2.zero;
+			shooter = null;
+			weapon = null;
+			targetZone = BodyPartType.None;
 			currentCount = 0;
 		}
 	}

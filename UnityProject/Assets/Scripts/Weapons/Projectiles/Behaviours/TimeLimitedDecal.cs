@@ -1,5 +1,4 @@
-﻿using System;
-using Light2D;
+﻿using Light2D;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours

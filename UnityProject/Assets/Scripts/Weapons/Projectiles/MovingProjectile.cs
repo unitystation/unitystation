@@ -41,15 +41,6 @@ namespace Weapons.Projectiles
 					Vector3.forward);
 		}
 
-		/// <summary>
-		/// Move it to parent position
-		/// This one is called every time bullet is called from the pool
-		/// </summary>
-		private void OnEnable()
-		{
-			thisTransform.localPosition = Vector3.zero;
-		}
-
 		private void Update()
 		{
 			CachePreviousPosition();
@@ -83,6 +74,13 @@ namespace Weapons.Projectiles
 			var hit = Physics2D.Raycast(previousPosition, distanceDelta.normalized, distanceDelta.magnitude, maskData.Layers);
 
 			projectile.ProcessRaycastHit(hit);
+		}
+
+		private void OnDisable()
+		{
+			thisTransform.localPosition = Vector3.zero;
+			previousPosition = Vector3.zero;
+			velocity = 0;
 		}
 	}
 }

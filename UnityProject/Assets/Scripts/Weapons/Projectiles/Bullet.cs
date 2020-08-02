@@ -12,15 +12,15 @@ namespace Weapons.Projectiles
 		private IOnDespawn[] behavioursOnBulletDespawn;
 
 		private MovingProjectile movingProjectile;
-
 		private Transform thisTransform;
-		private GameObject shooter;
-		private bool isSuicide;
 
 		[SerializeField] private HitProcessor hitProcessor = null;
 		[SerializeField] private LayerMaskData maskData = null;
 
 		public LayerMaskData MaskData => maskData;
+
+		private GameObject shooter;
+		private bool isSuicide;
 
 		private void Awake()
 		{
@@ -121,6 +121,12 @@ namespace Weapons.Projectiles
 				behaviour.OnDespawn(hit, point);
 			}
 			Despawn.ClientSingle(gameObject);
+		}
+
+		private void OnDisable()
+		{
+			shooter = null;
+			isSuicide = false;
 		}
 	}
 }

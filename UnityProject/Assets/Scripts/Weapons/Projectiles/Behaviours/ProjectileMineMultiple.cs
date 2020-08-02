@@ -3,7 +3,7 @@
 namespace Weapons.Projectiles.Behaviours
 {
 	[RequireComponent(typeof(ProjectileRangeLimited))]
-	public class ProjectileMineMultiple : ProjectileMine, IOnDespawn
+	public class ProjectileMineMultiple : ProjectileMine
 	{
 		private ProjectileRangeLimited projectileRangeLimited;
 
@@ -38,7 +38,7 @@ namespace Weapons.Projectiles.Behaviours
 			return true;
 		}
 
-		public void OnDespawn(RaycastHit2D hit, Vector2 point)
+		private void OnDisable()
 		{
 			currentHitCount = 0;
 		}

@@ -38,5 +38,11 @@ namespace Weapons.Projectiles.Behaviours
 
 			return true;
 		}
+
+		private void OnDisable()
+		{
+			weapon = null;
+			shooter = null;
+		}
 	}
 }
