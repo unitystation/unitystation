@@ -1,9 +1,8 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Weapons
 {
-	public class PlasmaRefill : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class PlasmaRefill : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
 	{
 		private MagazineBehaviour magazineBehaviour;
 
@@ -27,6 +26,11 @@ namespace Weapons
 			if (needAmmo <= 0) return;
 
 			var stackable = interaction.HandObject.GetComponent<Stackable>();
+			Refill(stackable, needAmmo);
+		}
+
+		private void Refill(Stackable stackable, int needAmmo)
+		{
 			var plasmaInStack = stackable.Amount;
 			if (needAmmo >= plasmaInStack)
 			{
@@ -38,6 +42,25 @@ namespace Weapons
 				magazineBehaviour.ExpendAmmo(-needAmmo);
 				stackable.ServerConsume(needAmmo);
 			}
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+			if (!Validations.HasItemTrait(interaction.FromSlot.Item.gameObject,
+				CommonTraits.Instance.SolidPlasma)) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			var needAmmo = magazineBehaviour.magazineSize - magazineBehaviour.ServerAmmoRemains;
+			if (needAmmo <= 0) return;
+
+			var stackable = interaction.FromSlot.Item.GetComponent<Stackable>();
+			Refill(stackable, needAmmo);
 		}
 	}
 }
