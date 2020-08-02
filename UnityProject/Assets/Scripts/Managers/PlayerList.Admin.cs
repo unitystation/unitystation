@@ -368,25 +368,6 @@ public partial class PlayerList
 		File.WriteAllText(banPath, JsonUtility.ToJson(banList));
 	}
 
-	#region Smite
-	public void ProcessSmiteRequest(string admin, string userToKick)
-	{
-		if (!adminUsers.Contains(admin)) return;
-
-		var players = GetAllByUserID(userToKick);
-		if (players.Count != 0)
-		{
-			foreach (ConnectedPlayer player in players)
-			{
-				var message = $"{player.Name} has been smiten by {Instance.GetByUserID(admin).Username}: Username: {player.Username}";
-				Logger.Log(message);
-
-				player.Script.playerHealth.ServerGibPlayer();
-			}
-		}
-	}
-	#endregion
-
 	#region JobBans
 
 	public bool CheckJobBanState(string userID, JobType jobType)
