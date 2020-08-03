@@ -102,7 +102,7 @@ PrefabInstance:
     - target: {fileID: 6456552680048018471, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
       propertyPath: m_Name
-      value: PlasmaEnvirogloves
+      value: PlasmaEnviroglovesBase
       objectReference: {fileID: 0}
     - target: {fileID: 6587567686614447995, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
@@ -110,6 +110,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d3d3c01812a8cb548a7e9efd8130e144,
         type: 3}
+    - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
         type: 3}
       propertyPath: initialDescription
@@ -120,5 +125,11 @@ PrefabInstance:
       propertyPath: initialName
       value: plasma envirogloves
       objectReference: {fileID: 0}
+    - target: {fileID: 6879198679099910981, guid: 628668e5958fedc4bb4bf1685251aa9f,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: dc6132b132cd9a144b89a44943c1030d,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 628668e5958fedc4bb4bf1685251aa9f, type: 3}
