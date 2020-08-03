@@ -5,16 +5,16 @@
 	public static class LightSpriteBuilder
 	{
 		private const string MaterialLocation = "Effects/Light2D/Default Light Material";
-		private const string SpriteLocation = "Effects/Light2D/LightSquared"; //Effects/Light2D/Default Light Sprite
+		private const string SpriteLocation = "Effects/Light2D/Default Light Sprite"; //Effects/Light2D/Default Light Sprite
 
 		private static readonly Color DefaultColor = new Color(1,1,1, 0.6f);
 
 		private static Material mMaterial;
 		private static Sprite mSprite;
-		
+
 		private static Material material
 		{
-			get			
+			get
 			{
 				if (mMaterial == null)
 				{
@@ -51,7 +51,7 @@
 			_lightSprite.Material = material;
 			_lightSprite.Sprite = sprite;
 			_lightSprite.Color = iColor;
-			
+
 			return _gameObject;
 		}
 	}
