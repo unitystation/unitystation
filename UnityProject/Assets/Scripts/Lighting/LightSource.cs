@@ -7,6 +7,9 @@ using Random = UnityEngine.Random;
 
 public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowered, IServerLifecycle, ISetMultitoolSlave
 {
+	public Color ONColour;
+	public Color EmergencyColour;
+
 	public LightSwitchV2 relatedLightSwitch;
 	private float coolDownTime = 2.0f;
 	private bool isInCoolDown;
@@ -200,7 +203,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		switch (mState)
 		{
 			case LightMountState.Emergency:
-				lightSprite.Color = Color.red;
+				lightSprite.Color = EmergencyColour;
 				mLightRendererObject.transform.localScale = Vector3.one * 3.0f;
 				mLightRendererObject.SetActive(true);
 				if (emergencyLightAnimator != null)
@@ -213,7 +216,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 				{
 					emergencyLightAnimator.StopAnimation();
 				}
-				lightSprite.Color = Color.white;
+				lightSprite.Color = ONColour;
 				mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 				mLightRendererObject.SetActive(true);
 				break;

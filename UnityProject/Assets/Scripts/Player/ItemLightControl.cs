@@ -30,7 +30,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 {
 	[Tooltip("Controls the light the player emits if they have this object equipped.")]
 	public LightEmissionPlayer LightEmission;
-	
+
 	[Tooltip("Controls the light the object emits while out of a player's or other object's inventory.")]
 	public GameObject objectLightEmission;
 
@@ -54,7 +54,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 
 	public bool IsOn = true;
 
-	public float CachedIntensity = 1;
+	private float CachedIntensity = 0.5f;
 
 	public PlayerLightData PlayerLightData;
 
