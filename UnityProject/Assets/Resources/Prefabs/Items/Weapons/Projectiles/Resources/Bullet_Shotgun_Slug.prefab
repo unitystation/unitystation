@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 7761359532471853681}
   - component: {fileID: -3563591050296676917}
   - component: {fileID: 6672578963875890145}
+  - component: {fileID: -194477357195360946}
   m_Layer: 15
   m_Name: Bullet_Shotgun_Slug
   m_TagString: Untagged
@@ -293,3 +294,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decal: {fileID: 1069497300762596, guid: 7a621fe1cbbb4a7498aad5b4dc9f67fb, type: 3}
   animationTime: 0.3
+--- !u!114 &-194477357195360946
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932369758612010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf871ef24ba47c1820a9934ab8aa38d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 4161219872233400173}
   - component: {fileID: -468709154456504284}
   - component: {fileID: 6046397250259292954}
+  - component: {fileID: 1285694513545799433}
   m_Layer: 15
   m_Name: Bullet_9mm
   m_TagString: Untagged
@@ -293,3 +294,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decal: {fileID: 1069497300762596, guid: 7a621fe1cbbb4a7498aad5b4dc9f67fb, type: 3}
   animationTime: 0.3
+--- !u!114 &1285694513545799433
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932369758612010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf871ef24ba47c1820a9934ab8aa38d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

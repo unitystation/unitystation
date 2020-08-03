@@ -96,6 +96,8 @@ GameObject:
   - component: {fileID: 1976672812479171844}
   - component: {fileID: 6064106330675739834}
   - component: {fileID: 8845318186251451764}
+  - component: {fileID: -7090491690389216438}
+  - component: {fileID: -6948004964552301695}
   m_Layer: 15
   m_Name: Bullet_LaserShot
   m_TagString: Untagged
@@ -130,7 +132,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f675267d1792141f686e9eda7b1cfcac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitProcessor: {fileID: 11400000, guid: e716d6839827d714bb51e6d52c4aa906, type: 2}
+  hitProcessor: {fileID: 11400000, guid: 7f6813fe44dae6449977fd4a4ed8eef3, type: 2}
   maskData: {fileID: 11400000, guid: 1f27d6f13909584488e2bca02d0cfed4, type: 2}
 --- !u!114 &1192425624981897498
 MonoBehaviour:
@@ -199,6 +201,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decal: {fileID: 1069497300762596, guid: e02d7bdb1317e0a4ca0cc29f40c6cf53, type: 3}
   animationTime: 0.3
+--- !u!114 &-7090491690389216438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553142956179786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b57fdb823c7c4aadacb3b4b60d142572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHitCount: 4
+--- !u!114 &-6948004964552301695
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553142956179786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf871ef24ba47c1820a9934ab8aa38d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2442424702608227053
 GameObject:
   m_ObjectHideFlags: 0

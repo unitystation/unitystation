@@ -9,32 +9,21 @@ namespace Weapons.Projectiles.Behaviours
 	/// if tile is destroyed and not all damage was absorbed
 	/// next layer will be hit with damage left
 	/// </summary>
-	public class ProjectileDamageTopTile : MonoBehaviour, IOnHit
+	public class ProjectileDamageTopTile : MonoBehaviour, IOnHitInteractTile
 	{
 		[SerializeField] private DamageData damageData = null;
 
 		[Tooltip("Tile layers to damage(Walls, Window, etc.)")]
 		[SerializeField] private LayerType[] layersToHit = null;
 
-		public bool OnHit(RaycastHit2D hit)
+		public bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
-			return TryHit(hit);
-		}
-
-		private bool TryHit(RaycastHit2D hit)
-		{
-			var layerMetaTile = hit.collider.GetComponentInParent<MetaTileMap>();
-			var layers = layerMetaTile.DamageableLayers;
-
-			var bulletHitTarget = Vector3.zero;
-			bulletHitTarget.x = hit.point.x - 0.01f * hit.normal.x;
-			bulletHitTarget.y = hit.point.y - 0.01f * hit.normal.y;
-
+			var layers = interactableTiles.MetaTileMap.DamageableLayers;
 			foreach (var layer in layers)
 			{
 				if(IsHit(layer.LayerType) == false) continue;
 
-				if (layer.TilemapDamage.ApplyDamage(damageData.Damage, damageData.AttackType, bulletHitTarget) <= 0) continue;
+				if (layer.TilemapDamage.ApplyDamage(damageData.Damage, damageData.AttackType, worldPosition) <= 0) continue;
 
 				return true;
 			}

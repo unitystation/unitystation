@@ -2,7 +2,7 @@
 
 namespace Weapons.Projectiles.Behaviours
 {
-	public class ProjectileBounce : MonoBehaviour, IOnShoot, IOnHit
+	public class ProjectileBounce : MonoBehaviour, IOnShoot, IOnHitInteractTile
 	{
 		private Bullet bullet;
 
@@ -27,15 +27,9 @@ namespace Weapons.Projectiles.Behaviours
 			this.targetZone = targetZone;
 		}
 
-		public bool OnHit(RaycastHit2D hit)
+		public bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
-			var interactableTile = hit.collider.GetComponentInParent<InteractableTiles>();
-
-			var bulletHitTarget = Vector3.zero;
-			bulletHitTarget.x = hit.point.x - 0.01f * hit.normal.x;
-			bulletHitTarget.y = hit.point.y - 0.01f * hit.normal.y;
-
-			var tile = interactableTile.MetaTileMap.GetTileAtWorldPos(bulletHitTarget,LayerType.Walls);
+			var tile = interactableTiles.MetaTileMap.GetTileAtWorldPos(worldPosition,LayerType.Walls);
 			if (tile == null) return true;
 
 			var normal = hit.normal;
@@ -62,5 +56,6 @@ namespace Weapons.Projectiles.Behaviours
 			targetZone = BodyPartType.None;
 			currentCount = 0;
 		}
+
 	}
 }
