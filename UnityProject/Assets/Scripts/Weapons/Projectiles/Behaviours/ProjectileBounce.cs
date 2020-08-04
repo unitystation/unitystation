@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Container.HitConditions;
+using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
 {
@@ -10,6 +11,8 @@ namespace Weapons.Projectiles.Behaviours
 		private GameObject shooter;
 		private Gun weapon;
 		private BodyPartType targetZone;
+
+		[SerializeField] private HitInteractTileCondition[] hitInteractTileConditions;
 
 		[SerializeField] private int maxHitCount = 4;
 		private int currentCount = 0;
@@ -29,15 +32,37 @@ namespace Weapons.Projectiles.Behaviours
 
 		public bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
-			var tile = interactableTiles.MetaTileMap.GetTileAtWorldPos(worldPosition,LayerType.Walls);
-			if (tile == null) return true;
+			if (CheckConditions(hit, interactableTiles, worldPosition) == false) return true;
 
-			var normal = hit.normal;
-			var newDirection = direction - 2*(direction * normal) * normal;
-
-			bullet.Shoot(newDirection * 2f, shooter, weapon, targetZone);
+			RotateBullet(GetNewDirection(hit));
 
 			return IsCountReached();
+		}
+
+		private bool CheckConditions(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
+		{
+			bool isHit = false;
+			foreach (var condition in hitInteractTileConditions)
+			{
+				if (condition.CheckCondition(hit, interactableTiles, worldPosition))
+				{
+					isHit = true;
+				}
+			}
+
+			return isHit;
+		}
+
+		private void RotateBullet(Vector2 newDirection)
+		{
+			bullet.Shoot(newDirection * 2f, shooter, weapon, targetZone);
+		}
+
+		private Vector2 GetNewDirection(RaycastHit2D hit)
+		{
+			var normal = hit.normal;
+			var newDirection = direction - 2 * (direction * normal) * normal;
+			return newDirection;
 		}
 
 		private bool IsCountReached()
@@ -56,6 +81,5 @@ namespace Weapons.Projectiles.Behaviours
 			targetZone = BodyPartType.None;
 			currentCount = 0;
 		}
-
 	}
 }
