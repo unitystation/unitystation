@@ -45,7 +45,7 @@ namespace Weapons.Projectiles.Behaviours
 		}
 
 		/// <summary>
-		/// It is necessary to off set hit position
+		/// It is necessary to off set hit position of a raycast
 		/// If you won't do it, you will get wrong tile
 		/// when shooting up or left side of the tile
 		/// </summary>
