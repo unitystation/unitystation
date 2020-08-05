@@ -4,42 +4,42 @@
 
 Find bullet folder:
 
-![](../assets/images/Projectiles/FindBullet.gif)
+![](assets/images/Projectiles/FindBullet.gif)
 
 Click on a bullet prefab that's what you will see:
 
-![](../assets/images/Projectiles/BulletInspector.png)
+![](assets/images/Projectiles/BulletInspector.png)
 
 Double click on prefab in the folder or press "Open prefab":
 
-![](../assets/images/Projectiles/BulletOpened.png)
+![](assets/images/Projectiles/BulletOpened.png)
 
  "Bullet_9mm" with an arrow down is main game object that will have all behavior components on it.
  "projectile_87" is an actual moving game object in the world. It moves in the local space of the "Bullet_9mm".
 
-![](../assets/images/Projectiles/BulletOpenedChilds.png)
+![](assets/images/Projectiles/BulletOpenedChilds.png)
 
 Some bullets in the game emmit light or have a sprite. So if your new bullet requires a following light, you will need to add a new child game object to the moving game object.
 
-![](../assets/images/Projectiles/BulletPlasmaCutter.png)
+![](assets/images/Projectiles/BulletPlasmaCutter.png)
 
 "Bullet_9mm" does not have a sprite or a light attached to it, but it uses [**LocalTrailRenderer**](https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/LocalTrailRenderer.cs) component and `LineRenderer`.
 
 [**LocalTrailRenderer**](https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/LocalTrailRenderer.cs) controls drawing in local space.
 
-![](../assets/images/Projectiles/LocalTrailRenderer.png)
+![](assets/images/Projectiles/LocalTrailRenderer.png)
 
 [**LineRenderer**](https://docs.unity3d.com/Manual/class-LineRenderer.html) is unity build in component which renders trail.
 
-![](../assets/images/Projectiles/LineRenderer.png)
+![](assets/images/Projectiles/LineRenderer.png)
 
 Positions control how it will be drawn.
 
-![](../assets/images/Projectiles/Positions.png)
+![](assets/images/Projectiles/Positions.png)
 
 You can change values right there and see how it will look.
 
-![](../assets/images/Projectiles/PositionsChangeValue.png) ![](../assets/images/Projectiles/RenderedTrail.png)
+![](assets/images/Projectiles/PositionsChangeValue.png) ![](../assets/images/Projectiles/RenderedTrail.png)
 
 ## Projectile behaviours
 
@@ -271,17 +271,17 @@ For example:
 
 I want my Bullet to [**STUN**](https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Behaviours/ProjectileStun.cs)!
 
-![](../assets/images/Projectiles/BulletAddStun.gif)
+![](assets/images/Projectiles/BulletAddStun.gif)
 
 ## Creating a [**Projectile**](https://github.com/unitystation/unitystation/blob/develop/UnityProject/Assets/Scripts/Weapons/Projectiles/Projectile.cs)
 
 Check what bullet already has similar idea of what you want. Duplicate it with `ctrl + d`:
 
-![](../assets/images/Projectiles/BulletCreationTest.gif)
+![](assets/images/Projectiles/BulletCreationTest.gif)
 
 Remove game objects you won't need.
 
-![](../assets/images/Projectiles/BulletCreationRemoveLIghtSprite.gif)
+![](assets/images/Projectiles/BulletCreationRemoveLIghtSprite.gif)
 
 !!! warning
     Make sure the bullet is in the same folder as other bullets.
@@ -292,15 +292,15 @@ Remove game objects you won't need.
 
 Find pool with bullets:
 
-![](../assets/images/Projectiles/FindPool.gif)
+![](assets/images/Projectiles/FindPool.gif)
 
 Open the pool SO. Extend elements count.
 
-![](../assets/images/Projectiles/OpenPooAndCreate.gif)
+![](assets/images/Projectiles/OpenPooAndCreate.gif)
 
 Search for bullet again and drag and drop the prefab into the new created element in the pool list.
 
-![](../assets/images/Projectiles/DragAndDropbulletToPool.gif)
+![](assets/images/Projectiles/DragAndDropbulletToPool.gif)
 
 ## Hit Processor
 
@@ -308,7 +308,7 @@ Open up the [**Bullet**](https://github.com/unitystation/unitystation/blob/devel
 
 That's what you will see:
 
-![](../assets/images/Projectiles/BulletScript.png)
+![](assets/images/Projectiles/BulletScript.png)
 
 Hit processor is a [**Scriptable Objects**](https://docs.unity3d.com/Manual/class-ScriptableObject.html) which iterates through all components which are inheriting from `IOnHit` behaviour interface.
 
@@ -367,15 +367,15 @@ create a `class` and inherit from [**HitProcessor**](https://github.com/unitysta
 
 Contains layers which `Raycast` will hit. So if you don't have `Walls` layer specified for example, the bullets `Raycast` won't detect the that it hit the wall when colliding it which will result in returning `null` `RaycastHit`.
 
-![](../assets/images/Projectiles/BulletLayers.png)
+![](assets/images/Projectiles/BulletLayers.png)
 
 If you need your own data for the bullet, right click in this folder:
 
-![](../assets/images/Projectiles/FolderWithLayerData.png)
+![](assets/images/Projectiles/FolderWithLayerData.png)
 
 And follow those steps:
 
-![](../assets/images/Projectiles/LayerSOCreation.png)
+![](assets/images/Projectiles/LayerSOCreation.png)
 
 This will create [**Scriptable Objects**](https://docs.unity3d.com/Manual/class-ScriptableObject.html) with layer data which you can specify for your own needs and then reference in your bullet.
 
