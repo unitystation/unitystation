@@ -279,7 +279,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageData: {fileID: 11400000, guid: f2fd2bf590719c84aa20f46fa3892d4b, type: 2}
-  layersToHit: 0100000005000000
+  hitInteractTileConditions:
+  - {fileID: 11400000, guid: bf3b6b85dc4ab9f47b5ab0f7fa272c2f, type: 2}
 --- !u!114 &4528260155402479153
 MonoBehaviour:
   m_ObjectHideFlags: 0

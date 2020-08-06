@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Container.Gun;
+using Container.HitConditions;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
@@ -13,15 +14,14 @@ namespace Weapons.Projectiles.Behaviours
 	{
 		[SerializeField] private DamageData damageData = null;
 
-		[Tooltip("Tile layers to damage(Walls, Window, etc.)")]
-		[SerializeField] private LayerType[] layersToHit = null;
+		[SerializeField] private HitInteractTileCondition[] hitInteractTileConditions;
 
 		public bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
 			var layers = interactableTiles.MetaTileMap.DamageableLayers;
 			foreach (var layer in layers)
 			{
-				if(IsHit(layer.LayerType) == false) continue;
+				if (CheckConditions(hit, interactableTiles, worldPosition));
 
 				if (layer.TilemapDamage.ApplyDamage(damageData.Damage, damageData.AttackType, worldPosition) <= 0) continue;
 
@@ -31,6 +31,9 @@ namespace Weapons.Projectiles.Behaviours
 			return false;
 		}
 
-		private bool IsHit(LayerType layerType) => layersToHit.Any(l => l == layerType);
+		private bool CheckConditions(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
+		{
+			return hitInteractTileConditions.Any(condition => condition.CheckCondition(hit, interactableTiles, worldPosition));
+		}
 	}
 }

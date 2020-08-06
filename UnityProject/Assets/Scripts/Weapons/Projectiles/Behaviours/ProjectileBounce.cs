@@ -1,4 +1,5 @@
-﻿using Container.HitConditions;
+﻿using System.Linq;
+using Container.HitConditions;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
@@ -41,16 +42,7 @@ namespace Weapons.Projectiles.Behaviours
 
 		private bool CheckConditions(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
-			bool isHit = false;
-			foreach (var condition in hitInteractTileConditions)
-			{
-				if (condition.CheckCondition(hit, interactableTiles, worldPosition))
-				{
-					isHit = true;
-				}
-			}
-
-			return isHit;
+			return hitInteractTileConditions.Any(condition => condition.CheckCondition(hit, interactableTiles, worldPosition));
 		}
 
 		private void RotateBullet(Vector2 newDirection)
