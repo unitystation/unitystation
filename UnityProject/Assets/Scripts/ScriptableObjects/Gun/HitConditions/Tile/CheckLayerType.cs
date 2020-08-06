@@ -18,6 +18,6 @@ namespace ScriptableObjects.Gun.HitConditions.Tile
 			return false;
 		}
 
-		private bool CheckType(LayerType layerType) => layerTypes.Any(l => l == layerType);
+		public bool CheckType(LayerType layerType) => layerTypes.Any(l => l == layerType);
 	}
 }
