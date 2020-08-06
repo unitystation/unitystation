@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 328fc756bd3f4b09a89e08014e989519, type: 3}
-  m_Name: LayerTile_Bouncing
+  m_Script: {fileID: 11500000, guid: 0f60ce1ac7af40c3a04ad52dbe5690c9, type: 3}
+  m_Name: BulletDamageTileConditions
   m_EditorClassIdentifier: 
-  layerTiles:
-  - {fileID: 11400000, guid: 6914ec94ffd209d458c2be9f26f7e631, type: 2}
+  conditions:
+  - {fileID: 11400000, guid: bf3b6b85dc4ab9f47b5ab0f7fa272c2f, type: 2}

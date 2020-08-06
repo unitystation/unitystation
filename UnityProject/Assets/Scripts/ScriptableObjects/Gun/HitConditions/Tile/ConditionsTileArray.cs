@@ -3,9 +3,9 @@
 namespace ScriptableObjects.Gun.HitConditions.Tile
 {
 	[CreateAssetMenu(fileName = "ConditionArray", menuName = "ScriptableObjects/Gun/HitConditions/Tile/ConditionArray", order = 0)]
-	public class ConditionArray : ScriptableObject
+	public class ConditionsTileArray : ScriptableObject
 	{
-		private HitInteractTileCondition[] conditions;
+		[SerializeField] private HitInteractTileCondition[] conditions;
 		public HitInteractTileCondition[] Conditions => conditions;
 	}
 }

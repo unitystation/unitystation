@@ -13,7 +13,7 @@ namespace Weapons.Projectiles.Behaviours
 		private Gun weapon;
 		private BodyPartType targetZone;
 
-		[SerializeField] private HitInteractTileCondition[] hitInteractTileConditions;
+		[SerializeField] private ConditionsTileArray hitInteractTileConditions;
 
 		[SerializeField] private int maxHitCount = 4;
 		private int currentCount = 0;
@@ -42,7 +42,7 @@ namespace Weapons.Projectiles.Behaviours
 
 		private bool CheckConditions(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
-			return hitInteractTileConditions.Any(condition => condition.CheckCondition(hit, interactableTiles, worldPosition));
+			return hitInteractTileConditions.Conditions.Any(condition => condition.CheckCondition(hit, interactableTiles, worldPosition));
 		}
 
 		private void RotateBullet(Vector2 newDirection)
