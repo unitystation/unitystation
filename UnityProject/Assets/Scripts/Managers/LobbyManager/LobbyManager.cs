@@ -32,7 +32,7 @@ namespace Lobby
 			EventManager.AddHandler(EVENT.LoggedOut, SetOnLogOut);
 			CustomNetworkManager.Instance.OnClientDisconnected.AddListener(OnClientDisconnect);
 		}
-
+		
 		private void OnDisable()
 		{
 			EventManager.RemoveHandler(EVENT.LoggedOut, SetOnLogOut);
@@ -46,15 +46,7 @@ namespace Lobby
 
 		void DetermineUIScale()
 		{
-			if (Application.isMobilePlatform)
-			{
-				if (!UIManager.IsTablet)
-				{
-					characterCustomization.transform.localScale *= 1.25f;
-					lobbyDialogue.transform.localScale *= 2.0f;
-				}
-			}
-			else
+			if (!Application.isMobilePlatform)
 			{
 				if (Screen.height > 720f)
 				{
