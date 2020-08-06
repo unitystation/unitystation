@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,11 +9,7 @@ namespace Audio.Containers
 	{
 		[SerializeField] private AudioClip[] audioClips = null;
 
-		[NonSerialized] private AudioClip[] shuffledClips = null;
-
 		public AudioClip[] AudioClips => audioClips;
-
-		private int i = 0;
 
 		/// <summary>
 		/// Return null if there are no clips
@@ -22,26 +17,14 @@ namespace Audio.Containers
 		/// <returns> Random clip in range </returns>
 		public AudioClip GetRandomClip()
 		{
-			if (shuffledClips == null)
-			{
-				var hasTracks = Shuffle();
-				if (!hasTracks)
-				{
-					return null;
-				}
-			}
-
-			return shuffledClips.Wrap(i++);
-		}
-
-		private bool Shuffle()
-		{
 			if (audioClips == null || audioClips.Length == 0)
 			{
-				return false;
+				return null;
 			}
-			shuffledClips = audioClips.OrderBy(clip => Random.value).ToArray();
-			return true;
+			else
+			{
+				return audioClips[Random.Range(0, audioClips.Length)];
+			}
 		}
 
 		#region Editor
