@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Weapons;
 
 /// <summary>
 /// Main entry point for handling all input events
