@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Weapons.Projectiles.Behaviours;
 
-namespace Weapons.Projectiles.Behaviours
+namespace ScriptableObjects.Gun
 {
 	/// <summary>
 	/// Inherit from it to write your own hit processor logic for projectiles

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Container
+namespace ScriptableObjects
 {
 	[CreateAssetMenu(fileName = "LootOnDespawn", menuName = "ScriptableObjects/LootOnDespawn", order = 0)]
 	public class LootOnDespawn : ScriptableObject

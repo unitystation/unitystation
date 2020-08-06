@@ -1,7 +1,7 @@
 ﻿using System.Linq;
 using UnityEngine;
 
-namespace Container.HitConditions.Tile
+namespace ScriptableObjects.Gun.HitConditions.Tile
 {
 	[CreateAssetMenu(fileName = "CheckTileLayerTypes", menuName = "ScriptableObjects/Gun/HitConditions/Tile/CheckLayerTile", order = 0)]
 	public class CheckLayerTile : HitInteractTileCondition

@@ -1,6 +1,6 @@
 ﻿using System.Linq;
-using Container.Gun;
-using Container.HitConditions;
+using ScriptableObjects.Gun;
+using ScriptableObjects.Gun.HitConditions.Tile;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours

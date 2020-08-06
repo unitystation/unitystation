@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Container;
 using NaughtyAttributes;
-using Tilemaps.Behaviours;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;

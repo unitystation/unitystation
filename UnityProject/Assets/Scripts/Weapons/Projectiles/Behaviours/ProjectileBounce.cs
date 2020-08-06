@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using Container.HitConditions;
+using ScriptableObjects.Gun.HitConditions.Tile;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours

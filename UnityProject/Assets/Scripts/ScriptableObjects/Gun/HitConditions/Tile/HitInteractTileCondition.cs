@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Container.HitConditions
+namespace ScriptableObjects.Gun.HitConditions.Tile
 {
 	public abstract class HitInteractTileCondition : ScriptableObject
 	{

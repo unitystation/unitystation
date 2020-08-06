@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Weapons.Projectiles.Behaviours;
 
-namespace Weapons.Projectiles.Behaviours
+namespace ScriptableObjects.Gun
 {
 	/// <summary>
 	/// Returns true always

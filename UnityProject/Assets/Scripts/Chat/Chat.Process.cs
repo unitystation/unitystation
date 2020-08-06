@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Mirror;
+using ScriptableObjects;
 using Tilemaps.Behaviours.Meta;
 
 public partial class Chat

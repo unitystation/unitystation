@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace Container.Gun
+namespace ScriptableObjects.Gun
 {
 	/// <summary>
 	/// This scriptable object allows developers to change layers right at run time in play mode

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
+using Weapons.Projectiles.Behaviours;
 
-namespace Weapons.Projectiles.Behaviours
+namespace ScriptableObjects.Gun
 {
 	/// <summary>
 	/// Requests to despawn game object only if a hit behaviour returns true

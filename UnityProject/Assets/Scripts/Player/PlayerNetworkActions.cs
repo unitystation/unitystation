@@ -10,6 +10,7 @@ using UI.PDA;
 using Audio.Containers;
 using DiscordWebhook;
 using InGameEvents;
+using ScriptableObjects;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
