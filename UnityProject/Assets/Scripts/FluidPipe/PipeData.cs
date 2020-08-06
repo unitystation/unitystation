@@ -131,6 +131,8 @@ namespace Pipes
 			AtmosManager.Instance.inGameNewPipes.Remove(this);
 			foreach (var Pipe in ConnectedPipes)
 			{
+				if(Pipe == null) continue;
+				
 				Pipe.ConnectedRemove(this);
 				if (NetCompatible == false)
 				{
@@ -143,7 +145,12 @@ namespace Pipes
 					{
 						Outputs.Remove(Pipe);
 						//Removes itself if it is connected to a network and its a output for the network
-						Pipe.OnNet.RemoveEqualiseWith(this);
+
+						// this one probably require more work than just null check
+						if(Pipe.OnNet == null)
+							Logger.LogWarning("Pipe.OnNet == null", Category.Atmos);
+						else
+							Pipe.OnNet.RemoveEqualiseWith(this);
 					}
 				}
 			}

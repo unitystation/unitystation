@@ -203,11 +203,12 @@ public class SpriteUpdateMessage : ServerMessage
 		IEnumerable<KeyValuePair<SpriteHandler, SpriteHandlerManager.SpriteChange>> ToSend)
 	{
 		foreach (var VARIABLE in ToSend)
-
 		{
+			if(VARIABLE.Value == null) continue;
+
 			ToReturn.Append(VARIABLE.Key.GetMasterNetID().netId.ToString());
 			ToReturn.Append("@");
-			ToReturn.Append(VARIABLE.Key.name);
+			ToReturn.Append(VARIABLE.Key?.name ?? "default_name");
 			ToReturn.Append("{");
 			GenerateSerialisation(VARIABLE.Value);
 		}

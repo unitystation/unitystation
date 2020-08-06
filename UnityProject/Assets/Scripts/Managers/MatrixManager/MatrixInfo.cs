@@ -94,7 +94,7 @@ public struct MatrixInfo
 	{
 		return Equals(Invalid)
 			? "[Invalid matrix]"
-			: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.ServerState},netId={NetID}]";
+			: $"[({Id}){GameObject?.name ?? "MatrixInfo"},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.ServerState},netId={NetID}]";
 	}
 
 	public bool Equals(MatrixInfo other)
