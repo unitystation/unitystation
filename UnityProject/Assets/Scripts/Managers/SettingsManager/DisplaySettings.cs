@@ -86,10 +86,8 @@ public class DisplaySettings : MonoBehaviour
 	/// </summary>
 	public bool IsFullScreen { get; private set; }
 
-	/// <summary>
-	/// how much of the screen space window will take by default
-	/// </summary>
-	[SerializeField] [Range(0.1f, 1.0f)] private float windowSize = 0.5f;
+	private const int DEFAULT_WINDOWWIDTH = 1280;
+	private const int DEFAULT_WINDOWHEIGHT = 720;
 
 	public bool VSyncEnabled
 	{
@@ -175,7 +173,7 @@ public class DisplaySettings : MonoBehaviour
 				PlayerPrefs.SetInt(PlayerPrefKeys.ScrollWheelZoom, value ? 1 : 0);
 				PlayerPrefs.Save();
 			}
-
+			
 		}
 	}
 	private const bool DEFAULT_SCROLLWHEELZOOM = true;
@@ -310,7 +308,7 @@ public class DisplaySettings : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Resets all Display playerPrefs to defaults, alternatively provide specific PlayerPrefKeys entries to only reset those.
+	/// Resets all Display playerPrefs to defaults, alternatively provide specific PlayerPrefKeys entries to only reset those. 
 	/// </summary>
 	/// <param name="playerPrefKeysEntries">Set of PlayerPrefKeys strings associated with a setting, to reset</param>
 	public void SetPrefDefaults(params string[] playerPrefKeysEntries)
@@ -374,20 +372,7 @@ public class DisplaySettings : MonoBehaviour
 		}
 		else
 		{
-			var windowWidth = (int)(Screen.currentResolution.width * windowSize);
-			var windowHeight = (int)(Screen.currentResolution.height * windowSize);
-
-			//making pixel perfect camera happy by not using odd resolutions
-			if (windowWidth % 2 != 0)
-			{
-				windowWidth--;
-			}
-			if (windowHeight % 2 != 0)
-			{
-				windowHeight--;
-			}
-
-			Screen.SetResolution(windowWidth, windowHeight, false);
+			Screen.SetResolution(DEFAULT_WINDOWWIDTH, DEFAULT_WINDOWHEIGHT, false);
 			yield return null;
 		}
 		dsEventArgs.FullScreenChanged = true;

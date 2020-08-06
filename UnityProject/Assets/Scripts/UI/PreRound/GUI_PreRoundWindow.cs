@@ -91,20 +91,13 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	{
 		if (Input.GetKeyDown(KeyCode.F7))
 		{
-			TryShowAdminPanel();
+			if(PlayerList.Instance.AdminToken == null) return;
+			adminPanel.SetActive(true);
 		}
 
 		if (doCountdown)
 		{
 			UpdateCountdownUI();
-		}
-	}
-
-	private void TryShowAdminPanel()
-	{
-		if (PlayerList.Instance.AdminToken != null)
-		{
-			adminPanel.SetActive(true);
 		}
 	}
 
@@ -137,11 +130,11 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		{
 			if (startedAlready == true) return;
 			startedAlready = true;
-			StartCoroutine(WaitForInitialisation());
+			StartCoroutine(WaitForInitialisationh());
 		}
 	}
 
-	private IEnumerator WaitForInitialisation()
+	private IEnumerator WaitForInitialisationh()
 	{
 		yield return null;
 		SetReady(true);
@@ -190,7 +183,6 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	{
 		SoundManager.Play("Click01");
 		SetReady(!isReady);
-		TryShowAdminPanel();
 	}
 
 	/// <summary>

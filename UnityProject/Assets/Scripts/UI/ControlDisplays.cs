@@ -3,7 +3,6 @@ using System.Collections;
 using Audio.Managers;
 using Audio.Containers;
 using DatabaseAPI;
-using JetBrains.Annotations;
 using ServerInfo;
 
 public class ControlDisplays : MonoBehaviour
@@ -25,7 +24,7 @@ public class ControlDisplays : MonoBehaviour
 	public GameObject hudBottomGhost;
 	public GameObject jobSelectWindow;
 	public GameObject teamSelectionWindow;
-	[CanBeNull] public GameObject disclaimer;
+	public GameObject disclaimer;
 	public RectTransform panelRight;
 	public GUI_PreRoundWindow preRoundWindow;
 
@@ -185,7 +184,7 @@ public class ControlDisplays : MonoBehaviour
 		jobSelectWindow.SetActive(false);
 		teamSelectionWindow.SetActive(false);
 		preRoundWindow.gameObject.SetActive(false);
-		if (disclaimer != null) disclaimer.SetActive(true);
+		disclaimer.SetActive(true);
 		UIManager.Instance.adminChatButtons.transform.parent.gameObject.SetActive(false);
 	}
 
@@ -197,7 +196,7 @@ public class ControlDisplays : MonoBehaviour
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(false);
 		uiAnimator.Play("idle");
-		if (disclaimer != null) disclaimer.SetActive(false);
+		disclaimer.SetActive(false);
 		preRoundWindow.gameObject.SetActive(true);
 		preRoundWindow.SetUIForMapLoading();
 	}

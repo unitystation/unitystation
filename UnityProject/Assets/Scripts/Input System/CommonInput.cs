@@ -1,6 +1,4 @@
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 /// <summary>
 /// Barebones wrapper class for Input that takes virtual gamepad in mind. Work in progress
@@ -26,93 +24,49 @@ public class CommonInput
 	{
 		get
 		{
-#if UNITY_IOS || UNITY_ANDROID
 			if ( IsTouchscreen && Input.touchCount > 0 )
 			{
-				return GetNonGamePadTouch()?.position ?? -Vector2.one;
+				return Input.GetTouch( Input.touchCount - 1 ).position;
 			}
-#endif
 			return Input.mousePosition;
 		}
 	}
 
-	private static bool gameKeyDetected = false;
-	/// <summary>
-	/// Get first touch that's NOT a GameKey touch
-	/// </summary>
-	/// <returns></returns>
-	private static Touch? GetNonGamePadTouch()
-	{ //ok, this is expensive but it works for now
-		foreach (var touch in Input.touches)
-		{
-			gameKeyDetected = false;
-			List<RaycastResult> results = new List<RaycastResult>();
-
-			EventSystem.current.RaycastAll(new PointerEventData(EventSystem.current)
-			{
-				position = touch.position,
-				pointerId = touch.fingerId
-			}, results );
-
-			for (var i = 0; i < results.Count; i++)
-			{
-				if (results[i].gameObject.GetComponent<GameKey>() != null)
-				{
-					gameKeyDetected = true;
-					break;
-				}
-			}
-
-			if (!gameKeyDetected)
-			{
-				return touch;
-			}
-		}
-
-		return null;
-	}
-
 	public static bool GetMouseButtonDown( int buttonNumber ) //todo special case for rightclick: emulate it if touch is Still for 700ms
 	{
-#if UNITY_IOS || UNITY_ANDROID
 		if ( IsTouchscreen && Input.touchCount > 0 && buttonNumber == 0 )
 		{
-			bool mouseButtonDown = GetNonGamePadTouch()?.phase == TouchPhase.Began;
+			bool mouseButtonDown = Input.GetTouch( Input.touchCount - 1 ).phase == TouchPhase.Began;
 			if ( mouseButtonDown )
 			{
 				Logger.LogTraceFormat( "Touch Mouse button {0} has Begun", Category.UI, buttonNumber );
 			}
-			return mouseButtonDown;
+			return mouseButtonDown; 
 		}
-#endif
 		return Input.GetMouseButtonDown( buttonNumber );
 	}
 
 	public static bool GetMouseButtonUp( int buttonNumber )
 	{
-#if UNITY_IOS || UNITY_ANDROID
 		if ( IsTouchscreen && Input.touchCount > 0 && buttonNumber == 0 )
 		{
-			bool mouseButtonUp = GetNonGamePadTouch()?.phase == TouchPhase.Ended;
+			bool mouseButtonUp = Input.GetTouch( Input.touchCount - 1 ).phase == TouchPhase.Ended;
 			if ( mouseButtonUp )
 			{
 				Logger.LogTraceFormat( "Touch Mouse button {0} has Ended", Category.UI, buttonNumber );
 			}
 			return mouseButtonUp;
 		}
-#endif
 		return Input.GetMouseButtonUp( buttonNumber );
 	}
 
 	public static bool GetMouseButton( int buttonNumber )
 	{
-#if UNITY_IOS || UNITY_ANDROID
 		if ( IsTouchscreen && Input.touchCount > 0 && buttonNumber == 0 )
 		{
 //			Logger.LogTraceFormat( "Touch Mouse button {0} is pressed", Category.UI, buttonNumber );
-			return GetNonGamePadTouch()?.phase < (TouchPhase?) 3; //(Began/Moved/Stationary)
+			return true;
 		}
-#endif
 		return Input.GetMouseButton( buttonNumber );
 	}
 }
