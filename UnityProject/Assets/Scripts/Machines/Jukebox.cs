@@ -44,6 +44,9 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	[Range(0, 1)]
 	private float Volume = 1;
 
+	[SerializeField] [Range(0, 360)]
+	private float Spread = 0;
+
 	private List<AudioSource> musics;
 
 	private SpriteRenderer spriteRenderer;
@@ -174,7 +177,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
 			if (!NextSong())
 				Stop();
-		}	
+		}
 	}
 
 	public void Play()
@@ -192,7 +195,9 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 				Volume = Volume,
 				MinDistance = MinSoundDistance,
 				MaxDistance = MaxSoundDistance,
-				VolumeRolloffType = VolumeRolloffType.EaseInAndOut
+				VolumeRolloffType = VolumeRolloffType.EaseInAndOut,
+				Spread = Spread
+
 			};
 
 			SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
@@ -222,7 +227,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			if (IsPlaying)
 				SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
 
-			currentSongTrackIndex--;			
+			currentSongTrackIndex--;
 			UpdateGUI();
 
 			if (IsPlaying)

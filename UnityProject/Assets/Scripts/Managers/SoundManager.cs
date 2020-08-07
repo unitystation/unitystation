@@ -573,7 +573,10 @@ public class SoundManager : MonoBehaviour
 			if (audioSourceParameters.MaxDistance != null)
 				audioSource.maxDistance = audioSourceParameters.MaxDistance.Value;
 
-			switch (audioSourceParameters.VolumeRolloffType)
+			if (audioSourceParameters.Spread != null)
+				audioSource.spread = audioSourceParameters.Spread.Value;
+
+				switch (audioSourceParameters.VolumeRolloffType)
 			{
 				case VolumeRolloffType.EaseInAndOut:
 					audioSource.rolloffMode = AudioRolloffMode.Custom;
@@ -720,7 +723,7 @@ public class SoundManager : MonoBehaviour
 					audioSourceParameters,
 					polyphonic: true,
 					Global: false,
-					sourceObj: performer					
+					sourceObj: performer
 				);
 			}
 
