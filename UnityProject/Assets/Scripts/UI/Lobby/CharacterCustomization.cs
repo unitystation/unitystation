@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
@@ -451,7 +451,7 @@ namespace Lobby
 			);
 			if (pcd == null)
 			{
-				hairSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				hairSpriteController.sprites.SetSpriteSO(BobTheEmptySprite);
 			}
 			else
 			{
@@ -604,7 +604,7 @@ namespace Lobby
 			);
 			if (pcd == null)
 			{
-				socksSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				socksSpriteController.sprites.SetSpriteSO(BobTheEmptySprite);
 			}
 			else
 			{
