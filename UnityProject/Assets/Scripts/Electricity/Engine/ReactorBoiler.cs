@@ -47,16 +47,16 @@ public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInterac
 	{
 		//Maybe change equation later to something cool
 		CurrentPressureInput = 0;
-		CurrentPressureInput = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy - ReactorPipe.pipeData.mixAndVolume.Mix.WholeHeatCapacity * 293.15f));
+		CurrentPressureInput = (decimal) ((ReactorPipe.pipeData.mixAndVolume.InternalEnergy - (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity * 293.15f)));
 		if (CurrentPressureInput > 0)
 		{
-			ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy -= (float) (CurrentPressureInput * Efficiency);
+			ReactorPipe.pipeData.mixAndVolume.InternalEnergy -= (float) (CurrentPressureInput * Efficiency);
 
 			//Logger.Log("CurrentPressureInput " + CurrentPressureInput);
 			if (CurrentPressureInput > MaxPressureInput)
 			{
-				Logger.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);
-				Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 800, registerObject.Matrix);
+				//Logger.LogError(" ReactorBoiler !!!booommmm!!", Category.Editor);
+				//Explosions.Explosion.StartExplosion(registerObject.LocalPosition, 800, registerObject.Matrix);
 			}
 
 			OutputEnergy = CurrentPressureInput * Efficiency;

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Pipes
 {
-	public class PipeRun : PipeItem
+	public class PipeRun : PipeItemTile
 	{
 
 

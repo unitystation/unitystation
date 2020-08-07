@@ -118,7 +118,7 @@ public class UnderFloorLayer : Layer
 	}
 
 	/// <summary>
-	/// Get tile using Z position instead of searching through the Z levels 
+	/// Get tile using Z position instead of searching through the Z levels
 	/// </summary>
 	public LayerTile GetTileUsingZ(Vector3Int position)
 	{
@@ -148,7 +148,7 @@ public class UnderFloorLayer : Layer
 		{
 			foreach (var l in TileStore[position.To2Int()])
 			{
-				if (l == tile)
+				if ((tile as BasicTile).AreUnderfloorSame(l as BasicTile, GetMatrix4x4(position, l)))
 				{
 					//duplicate found aborting
 					return;
@@ -215,8 +215,9 @@ public class UnderFloorLayer : Layer
 		return (-1);
 	}
 
-	public override void RemoveTile(Vector3Int position, bool removeAll = false)
+	public override bool RemoveTile(Vector3Int position, bool removeAll = false)
 	{
+
 		if (Application.isPlaying)
 		{
 			if (TileStore.ContainsKey((Vector2Int) position))
@@ -227,17 +228,17 @@ public class UnderFloorLayer : Layer
 				}
 			}
 
-			base.RemoveTile(position, removeAll);
-			return;
+			return base.RemoveTile(position, removeAll);
 		}
 
+		bool HasTile = false;
 		//This is for the erase tool at edit time:
 		for (int i = 0; i < 50; i++)
 		{
 			position.z = -i + 1;
-			var getTile = tilemap.GetTile(position);
-			if (getTile != null)
+			if (tilemap.HasTile(position))
 			{
+				HasTile = true;
 				base.RemoveTile(position, removeAll);
 			}
 		}
@@ -246,6 +247,8 @@ public class UnderFloorLayer : Layer
 		{
 			TileStore[(Vector2Int) position] = new List<LayerTile>();
 		}
+
+		return HasTile;
 	}
 
 	public Color GetColour(Vector3Int position, LayerTile tile)

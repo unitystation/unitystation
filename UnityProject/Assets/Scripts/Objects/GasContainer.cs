@@ -11,21 +11,28 @@ namespace Objects
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
 
-		public GasMix GasMix { get; set; }
+		public GasMix GasMix
+		{
+			get => gasMix;
+			set => gasMix = value;
+		}
+
+		[SerializeField]
+		private GasMix gasMix = new GasMix(GasMixes.Empty);
 
 		public bool Opened;
+
 		[Tooltip("This is the maximum moles the container should be able to contain without exploding.")]
 		public float MaximumMoles = 0f;
+
 		public float ReleasePressure = 101.325f;
 
 		// Keeping a copy of these values for initialization and the editor
 		public float Volume;
 
 		//hide these values as they're defined in GasContainerEditor.cs
-		[HideInInspector]
-		public float Temperature;
-		[HideInInspector]
-		public float[] Gases = new float[Gas.Count];
+		[HideInInspector] public float Temperature;
+		[HideInInspector] public float[] Gases = new float[Gas.Count];
 
 		public float ServerInternalPressure => GasMix.Pressure;
 
@@ -58,7 +65,8 @@ namespace Objects
 			MetaDataLayer metaDataLayer = MatrixManager.AtPoint(tileWorldPosition, true).MetaDataLayer;
 			Vector3Int position = transform.localPosition.RoundToInt();
 			MetaDataNode node = metaDataLayer.Get(position, false);
-			var shakeIntensity = (byte) Mathf.Lerp( byte.MinValue, byte.MaxValue / 2, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
+			var shakeIntensity = (byte) Mathf.Lerp(byte.MinValue, byte.MaxValue / 2,
+				GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 			var shakeDistance = Mathf.Lerp(1, 64, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 			node.GasMix += GasMix;
 			metaDataLayer.UpdateSystemsAt(position);
@@ -83,7 +91,8 @@ namespace Objects
 		{
 			if (Opened)
 			{
-				MetaDataLayer metaDataLayer = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position), true).MetaDataLayer;
+				MetaDataLayer metaDataLayer = MatrixManager.AtPoint(Vector3Int.RoundToInt(transform.position), true)
+					.MetaDataLayer;
 
 				Vector3Int position = transform.localPosition.RoundToInt();
 				MetaDataNode node = metaDataLayer.Get(position, false);

@@ -17,6 +17,8 @@ public class NumberSpinner : NetUIStringElement
 	public DigitSpinner TenThousands;
 	public DigitSpinner HundredThousands;
 
+	public IntEvent OnValueChange = new IntEvent();
+
 	/// <summary>
 	/// Invoked when the value synced between client / server is updated.
 	/// </summary>
@@ -141,7 +143,7 @@ public class NumberSpinner : NetUIStringElement
 		{
 			HundredThousands.JumpToDigit(targetValue / 100000 % 10);
 		}
-
+		OnValueChange.Invoke(newValue);
 		return;
 
 		//NOTE: Previously tried to implement a spinning animation, but now am bypassing that stuff because it was

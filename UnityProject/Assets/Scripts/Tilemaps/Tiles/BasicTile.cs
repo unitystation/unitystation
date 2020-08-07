@@ -146,4 +146,17 @@ public abstract class BasicTile : LayerTile
 	{
 		return IsAtmosPassable() && !isSealed;
 	}
+
+
+	//yeah,This needs to be moved out into its own class
+	public virtual bool AreUnderfloorSame(BasicTile basicTile, Matrix4x4 TransformMatrix)
+	{
+		if (basicTile == this)
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
+

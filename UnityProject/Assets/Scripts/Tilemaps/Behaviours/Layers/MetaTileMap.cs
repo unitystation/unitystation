@@ -477,7 +477,7 @@ public class MetaTileMap : MonoBehaviour
 		return false;
 	}
 
-	public void RemoveTile(Vector3Int position, LayerType refLayer)
+	public void RemoveTile(Vector3Int position, LayerType refLayer, bool RemoveAll = true)
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
@@ -487,12 +487,15 @@ public class MetaTileMap : MonoBehaviour
 			    !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors) &&
 			    refLayer != LayerType.Grills)
 			{
-				layer.RemoveTile(position);
+				if (layer.RemoveTile(position) && RemoveAll == false)
+				{
+					return;
+				}
 			}
 		}
 	}
 
-	public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll)
+	public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool removeAll)
 	{
 		if (Layers.TryGetValue(refLayer, out var layer))
 		{

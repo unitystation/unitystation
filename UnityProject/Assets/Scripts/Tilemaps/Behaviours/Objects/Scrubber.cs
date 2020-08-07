@@ -3,54 +3,72 @@ using System.Collections.Generic;
 using UnityEngine;
 using Atmospherics;
 
-public class Scrubber : AdvancedPipe
+namespace Pipes
 {
-	// minimum pressure needs to be a little higher because of floating point inaccuracies
-	public float MinimumPressure = 101.3251f;
-	private MetaDataNode metaNode;
-	private MetaDataLayer metaDataLayer;
-
-	public override bool ServerAttach()
+	public class Scrubber : MonoPipe
 	{
-		if(base.ServerAttach() == false)
+		// minimum pressure needs to be a little lower because of floating point inaccuracies
+		public float MMinimumPressure = 80.00f;
+
+		public float MaxInternalPressure = 8000f;
+
+		public float MaxTransferMoles = 100;
+
+
+		private MetaDataNode metaNode;
+		private MetaDataLayer metaDataLayer;
+
+
+
+		private void Start()
 		{
-			return false;
+			pipeData.PipeAction = new MonoActions();
+			registerTile = this.GetComponent<RegisterTile>();
+
+
+			base.Start();
 		}
-		LoadTurf();
-		return true;
-	}
 
-	private void LoadTurf()
-	{
-		metaDataLayer = MatrixManager.AtPoint(RegisterTile.WorldPositionServer, true).MetaDataLayer;
-		metaNode = metaDataLayer.Get(RegisterTile.LocalPositionServer, false);
-	}
-
-	public override void TickUpdate()
-	{
-		base.TickUpdate();
-		if (anchored)
+		public override void TickUpdate()
 		{
+			if (metaDataLayer == null)
+			{
+				metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
+			}
+
+			if (metaNode == null)
+			{
+				metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
+			}
+
+
+			base.TickUpdate();
+			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 			CheckAtmos();
 		}
-	}
 
-	private void CheckAtmos()
-	{
-		if (metaNode.GasMix.Pressure > MinimumPressure)
+		private void CheckAtmos()
 		{
-			//TODO: Can restore this when pipenets are implemented so they actually pull from what
-			//they are connected to. In the meantime
-			//we are reverting scrubbers / airvents to the old behavior of just shoving or removing air
-			//regardless of what they are connected to.
-			// var suckedAir =  metaNode.GasMix / 2;
-			// pipenet.gasMix += suckedAir;
-			// metaNode.GasMix -= suckedAir;
 
-			//suck out a fraction of the current gasmix
-			var suckedAir = metaNode.GasMix / 4;
-			metaNode.GasMix -= suckedAir;
-			metaDataLayer.UpdateSystemsAt(RegisterTile.LocalPositionServer);
+			var PressureDensity = pipeData.mixAndVolume.Density();
+			if (PressureDensity.y > MaxInternalPressure || metaNode.GasMix.Pressure < MMinimumPressure )
+			{
+				return;
+			}
+
+			float Available = metaNode.GasMix.Moles;
+
+
+			if (MaxTransferMoles < Available)
+			{
+				Available = MaxTransferMoles;
+			}
+
+			var Gasonnnode = metaNode.GasMix;
+			var TransferringGas = Gasonnnode.RemoveMoles(Available);
+			metaNode.GasMix = Gasonnnode;
+			pipeData.mixAndVolume.Add(TransferringGas);
+			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer);
 		}
 	}
 }

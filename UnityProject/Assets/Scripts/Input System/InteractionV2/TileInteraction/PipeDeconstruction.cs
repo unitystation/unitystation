@@ -47,7 +47,7 @@ public class PipeDeconstruction : TileInteraction
 			if (metaDataNode.PipeData[i].RelatedTile != PipeTile) continue;
 			var Transform =  matrix.UnderFloorLayer.GetMatrix4x4(metaDataNode.PipeData[i].NodeLocation, metaDataNode.PipeData[i].RelatedTile);
 			var pipe = Spawn.ServerPrefab(PipeTile.SpawnOnDeconstruct, interaction.WorldPositionTarget, localRotation : QuaternionFromMatrix(Transform)).GameObject;
-			var itempipe = pipe.GetComponent<PipeItem>();
+			var itempipe = pipe.GetComponent<PipeItemTile>();
 			itempipe.Colour = matrix.UnderFloorLayer.GetColour(metaDataNode.PipeData[i].NodeLocation, metaDataNode.PipeData[i].RelatedTile);
 			itempipe.Setsprite();
 			matrix.RemoveUnderFloorTile( metaDataNode.PipeData[i].NodeLocation, metaDataNode.PipeData[i].RelatedTile);

@@ -9,22 +9,43 @@ namespace Pipes
 	{
 		//Remember this is all static
 		public PipeLayer PipeLayer = PipeLayer.Second;
-		public CorePipeType PipeType;
 
 		public CustomLogic CustomLogic;
-		public  Connections Connections = new Connections();
+		public Connections Connections = new Connections();
 		public bool NetCompatible = true;
 		public Sprite sprite;
 		public override Sprite PreviewSprite => sprite;
 
-		public void InitialiseNode(Vector3Int Location,Matrix matrix )
+		public override bool AreUnderfloorSame(BasicTile basicTile, Matrix4x4 TransformMatrix)
 		{
-			var ZeroedLocation = new Vector3Int(x:Location.x, y:Location.y,0);
+			if ((basicTile as PipeTile) != null)
+			{
+				var TilePipeTile = (PipeTile) basicTile;
+				var TheConnection = TilePipeTile.Connections.Copy();
+				int Offset = PipeFunctions.GetOffsetAngle(TransformMatrix.rotation.eulerAngles.z);
+				TheConnection.Rotate(Offset);
+				for (int i = 0; i < Connections.Directions.Length; i++)
+				{
+					if (Connections.Directions[i].Bool && TheConnection.Directions[i].Bool)
+					{
+						return true;
+					}
+				}
+				return false;
+			}
+
+			return base.AreUnderfloorSame(basicTile, TransformMatrix);
+		}
+
+
+		public void InitialiseNode(Vector3Int Location, Matrix matrix)
+		{
+			var ZeroedLocation = new Vector3Int(x: Location.x, y: Location.y, 0);
 			var metaData = matrix.MetaDataLayer.Get(ZeroedLocation);
 			var pipeNode = new PipeNode();
 			var rotation = matrix.UnderFloorLayer.GetMatrix4x4(Location, this);
 			int Offset = PipeFunctions.GetOffsetAngle(rotation.rotation.eulerAngles.z);
-			pipeNode.Initialise(this, metaData, ZeroedLocation, matrix,Offset);
+			pipeNode.Initialise(this, metaData, ZeroedLocation, matrix, Offset);
 			metaData.PipeData.Add(pipeNode);
 		}
 	}
