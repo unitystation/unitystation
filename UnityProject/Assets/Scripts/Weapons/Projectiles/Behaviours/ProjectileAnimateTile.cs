@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ScriptableObjects.Gun.TileAnimations;
+using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
 {
@@ -8,10 +9,7 @@ namespace Weapons.Projectiles.Behaviours
 	/// </summary>
 	public class ProjectileAnimateTile : MonoBehaviour, IOnDespawn
 	{
-		[SerializeField] private AnimatedTile animatedTile = null;
-
-		[Tooltip("Living time of animated tile.")]
-		[SerializeField] private float animationTime = 0;
+		[SerializeField] private AnimationTile animation;
 
 		public void OnDespawn(RaycastHit2D hit, Vector2 point)
 		{
@@ -29,7 +27,7 @@ namespace Weapons.Projectiles.Behaviours
 		{
 			var interactableTiles = GetComponentInParent<InteractableTiles>();
 
-			interactableTiles.CreateAnimatedTile(position, animatedTile, animationTime);
+			interactableTiles.CreateAnimatedTile(position, animation.Tile, animation.Time);
 		}
 
 		private void OnCollision(RaycastHit2D hit)
@@ -41,7 +39,7 @@ namespace Weapons.Projectiles.Behaviours
 			bulletHitTarget.x = hit.point.x - 0.01f * hit.normal.x;
 			bulletHitTarget.y = hit.point.y - 0.01f * hit.normal.y;
 
-			interactableTiles.CreateAnimatedTile(bulletHitTarget, animatedTile, animationTime);
+			interactableTiles.CreateAnimatedTile(bulletHitTarget, animation.Tile, animation.Time);
 		}
 
 	}
