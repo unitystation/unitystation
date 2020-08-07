@@ -19,9 +19,15 @@ public class FancyItemStorage : NetworkBehaviour
 	public Sprite[] spritesByCount;
 
 	private ItemStorage storage;
+	private Pickupable pickupable;
 
 	[SyncVar(hook = "OnObjectsCountChanged")]
 	private int objectsInsideCount;
+
+	private void Awake()
+	{
+		pickupable = GetComponent<Pickupable>();
+	}
 
 	[ServerCallback]
 	private void Start()
@@ -64,8 +70,13 @@ public class FancyItemStorage : NetworkBehaviour
 			newSprite = spritesByCount.Last();
 		}
 
-		// apply it to sprite handler
-		spriteHandler.SetSprite(newSprite);
+		if (newSprite)
+		{
+			// apply it to sprite handler
+			spriteHandler.SetSprite(newSprite);
+			// try to update in-hand sprite
+			pickupable?.RefreshUISlotImage();
+		}
 	}
 
 	[Server]
