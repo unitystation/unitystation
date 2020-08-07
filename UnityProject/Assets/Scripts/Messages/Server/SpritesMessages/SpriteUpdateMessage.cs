@@ -208,7 +208,12 @@ public class SpriteUpdateMessage : ServerMessage
 
 			ToReturn.Append(VARIABLE.Key.GetMasterNetID().netId.ToString());
 			ToReturn.Append("@");
-			ToReturn.Append(VARIABLE.Key?.name ?? "default_name");
+
+			if(VARIABLE.Key == null)
+				ToReturn.Append("default_name");
+			else
+				ToReturn.Append(VARIABLE.Key.name);
+				
 			ToReturn.Append("{");
 			GenerateSerialisation(VARIABLE.Value);
 		}
