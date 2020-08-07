@@ -55,6 +55,11 @@ namespace Lobby
 
 		public Action onCloseAction;
 
+		/// <summary>
+		/// Empty, blank sprite texture used for selecting null customizations
+		/// (e.g. selecting or scrolling to "None" for hair, facial hair, underwear,
+		/// or socks).
+		/// </summary>
 		public SpriteDataSO BobTheEmptySprite;
 
 		void OnEnable()
