@@ -63,31 +63,31 @@ public class ChatRelay : NetworkBehaviour
 	{
 		List<ConnectedPlayer> players;
 
-		if (chatEvent.matrix != MatrixInfo.Invalid)
-		{
+		//if (chatEvent.matrix != MatrixInfo.Invalid) //no, bad
+		//{
 			//get players only on provided matrix
-			players = PlayerList.Instance.GetPlayersOnMatrix(chatEvent.matrix);
-		}
-		else
-		{
+			//players = PlayerList.Instance.GetPlayersOnMatrix(chatEvent.matrix);
+		//}
+		//else
+		//{
 			//Try get the matrix first:
-			if (chatEvent.originator != null)
-			{
-				var regiTile = chatEvent.originator.GetComponent<RegisterTile>();
-				if (regiTile != null)
-				{
-					players = PlayerList.Instance.GetPlayersOnMatrix(MatrixManager.Get(regiTile.Matrix));
-				}
-				else
-				{
-					players = PlayerList.Instance.AllPlayers;
-				}
-			}
-			else
-			{
+			//if (chatEvent.originator != null)
+			//{
+				//var regiTile = chatEvent.originator.GetComponent<RegisterTile>();
+				//if (regiTile != null)
+				//{
+					//players = PlayerList.Instance.GetPlayersOnMatrix(MatrixManager.Get(regiTile.Matrix));
+				//}
+				//else
+				//{
+					//players = PlayerList.Instance.AllPlayers;
+				//}
+			//}
+			//else
+			//{
 				players = PlayerList.Instance.AllPlayers;
-			}
-		}
+			//}
+		//}
 
 		//Local chat range checks:
 		if (chatEvent.channels.HasFlag(ChatChannel.Local) || chatEvent.channels.HasFlag(ChatChannel.Combat)

@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 1917856994}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 3.5}
+  m_LocalScale: {x: 1.75, y: 1.75, z: 3.5}
   m_Children: []
   m_Father: {fileID: 4568765046733910}
   m_RootOrder: 7
@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0.29411766}
+  Color: {r: 0.990566, g: 0.990566, b: 0.990566, a: 0.13725491}
   Sprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: bb638c523f5b7064b9a032025a8db0a5, type: 2}
@@ -712,6 +712,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   drunkCamera: {fileID: 5935000786866830145}
+  drunkCameraTime: 0
   glitchEffect: {fileID: 1578675351978633491}
   nightVisionCamera: {fileID: 1620099701739618863}
 --- !u!114 &5935000786866830145

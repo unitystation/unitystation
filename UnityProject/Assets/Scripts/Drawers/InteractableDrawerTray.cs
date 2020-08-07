@@ -1,23 +1,32 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
-/// Interaction logic for drawer trays. Enables placing items on the tray.
+/// Interaction logic for drawer trays.
+/// Enables placing items on the tray and closing the drawer by clicking on the tray.
 /// </summary>
 public class InteractableDrawerTray : MonoBehaviour, ICheckedInteractable<PositionalHandApply>
 {
+	[NonSerialized]
+	public Drawer parentDrawer;
+
 	#region PositionalHandApply
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (interaction.HandObject != null) return true;
-
-		return false;
+		return DefaultWillInteract.Default(interaction, side);
 	}
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		Inventory.ServerDrop(interaction.HandSlot, interaction.TargetVector);
+		if (interaction.UsedObject == null)
+		{
+			parentDrawer.CloseDrawer();
+		}
+		else
+		{
+			Inventory.ServerDrop(interaction.HandSlot, interaction.TargetVector);
+		}
 	}
 
 	#endregion PositionalHandApply

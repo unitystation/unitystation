@@ -74,7 +74,7 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMen
 
 	#region Server Only
 
-	protected override void CloseDrawer()
+	public override void CloseDrawer()
 	{
 		base.CloseDrawer();
 		// Note: the sprite setting done in base.CloseDrawer() would be overridden (an unnecessary sprite call).
@@ -87,9 +87,9 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMen
 	{
 		if (serverHeldItems.Count > 0 || serverHeldPlayers.Count > 0)
 		{
-			OnSyncDrawerState((DrawerState)CrematorState.ShutWithContents);
+			SetDrawerState((DrawerState)CrematorState.ShutWithContents);
 		}
-		else OnSyncDrawerState(DrawerState.Shut);
+		else SetDrawerState(DrawerState.Shut);
 	}
 
 	private void Cremate()
@@ -145,7 +145,7 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMen
 
 	private IEnumerator PlayIncineratingAnim()
 	{
-		OnSyncDrawerState((DrawerState)CrematorState.ShutAndActive);
+		SetDrawerState((DrawerState)CrematorState.ShutAndActive);
 		yield return WaitFor.Seconds(BURNING_DURATION);
 		OnFinishPlayerCremation();
 		UpdateCloseState();

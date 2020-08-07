@@ -97,6 +97,11 @@ public class LightEmissionPlayer : NetworkBehaviour
 			//CurrentLight not updated yet
 			return;
 		}
+		if(lightSprite == null)
+		{
+			Logger.LogWarning("lightSprite is null (probably blank field in inspector)", Category.Lighting);
+			return;
+		}
 		lightSprite.Color = CurrentLight.Colour;
 		lightSprite.Sprite = DictionarySprites[CurrentLight.EnumSprite];
 		lightSprite.Color.a = CurrentLight.Intensity;

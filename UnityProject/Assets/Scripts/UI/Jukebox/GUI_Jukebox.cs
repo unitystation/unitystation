@@ -15,6 +15,9 @@ public class GUI_Jukebox : NetTab
 	[SerializeField]
 	private NetPrefabImage prefabImagePlayStop;
 
+	[SerializeField]
+	private NetSlider sliderVolume;
+
 	private Jukebox _JukeboxController;
 	private Jukebox jukeboxController
 	{
@@ -56,5 +59,10 @@ public class GUI_Jukebox : NetTab
 	public void ClosePanel()
 	{
 		ControlTabs.CloseTab(Type, Provider);
+	}
+
+	public void VolumeChange()
+	{
+		jukeboxController.VolumeChange(float.Parse(sliderVolume.Value) / 100);
 	}
 }
