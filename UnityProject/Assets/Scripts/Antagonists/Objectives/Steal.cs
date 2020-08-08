@@ -28,6 +28,11 @@ namespace Antagonists
 		private int Amount;
 
 		/// <summary>
+		/// The amount that has been found by the completion check so far.
+		/// </summary>
+		private int CheckAmount = 0;
+
+		/// <summary>
 		/// Make sure there's at least one item which hasn't been targeted
 		/// </summary>
 		public override bool IsPossible(PlayerScript candidate)
@@ -83,129 +88,66 @@ namespace Antagonists
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			int count = 0;
-			List<ItemStorage> storageList1 = new List<ItemStorage>();
-			List<ItemStorage> storageList2 = new List<ItemStorage>();
-			foreach (var slot in Owner.body.ItemStorage.GetItemSlots())
+			var check = CheckStorage(Owner.body.ItemStorage);
+
+			if (check) return true;
+
+			return false;
+		}
+
+		private bool CheckStorage(ItemStorage itemStorage)
+		{
+			foreach (var slot in itemStorage.GetItemSlots())
 			{
-				// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
-				// add itemstorages to a list
-				if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemStorage>() != null)
+				var check = CheckSlot(slot);
+
+				if (check)
 				{
-					storageList1.Add(slot.ItemObject.GetComponent<ItemStorage>());
-				}
-				else if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
-				{
-					if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
-					{
-						count += stackable.Amount;
-					}
-					else
-					{
-						count++;
-					}
+					return true;
 				}
 			}
-			// Check if the count is higher than the specified amount
-			if(count >= Amount)
-				return true;
-			// Check if any itemstorages were found
-			else if (storageList1.Count != 0)
+
+			return false;
+		}
+
+		private bool CheckSlot(ItemSlot slot)
+		{
+			if (slot.ItemObject == null) return false;
+
+			// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
+
+			//Check if current Item is the one we need
+			if (slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
 			{
-				foreach (var storage in storageList1)
+				//If stackable count stack
+				if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
 				{
-					foreach (var slot in storage.GetItemSlots())
-					{
-						// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
-						// more list adding
-						if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemStorage>() != null)
-						{
-							storageList2.Add(slot.ItemObject.GetComponent<ItemStorage>());
-						}
-						else if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
-						{
-							if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
-							{
-								count += stackable.Amount;
-							}
-							else
-							{
-								count++;
-							}
-						}
-					}
+					CheckAmount += stackable.Amount;
+				}
+				else
+				{
+					CheckAmount++;
+				}
+
+				//Check to see if count has been passed
+				if (CheckAmount >= Amount)
+				{
+					return true;
 				}
 			}
-			else return false; // if no itemstorages were found and no items were found, assume the player doesn't have it
-			// run a third check for safety
-			storageList1 = storageList2;
-			storageList2 = null;
-			// Check if the count is higher than the specified amount
-			if (count >= Amount)
-				return true;
-			// are there any itemstorages?
-			else if (storageList1.Count != 0)
+
+			//Check to see if this item has storage, and do checks on that
+			if (slot.ItemObject.TryGetComponent<ItemStorage>(out var itemStorage))
 			{
-				foreach (var storage in storageList1)
+				var check = CheckStorage(itemStorage);
+
+				if (check)
 				{
-					foreach (var slot in storage.GetItemSlots())
-					{
-						// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
-						if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemStorage>() != null)
-						{
-							storageList2.Add(slot.ItemObject.GetComponent<ItemStorage>());
-						}
-						else if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
-						{
-							if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
-							{
-								count += stackable.Amount;
-							}
-							else
-							{
-								count++;
-							}
-						}
-					}
+					return true;
 				}
 			}
-			else return false; // if no itemstorages were found and no items were found, assume the player doesn't have it
-			// run a fourth check to make absolute certain
-			storageList1 = storageList2;
-			storageList2 = null;
-			// Check if the count is higher than the specified amount
-			if (count >= Amount)
-				return true;
-			// last itemstorage check.
-			else if (storageList1.Count != 0)
-			{
-				foreach (var storage in storageList1)
-				{
-					foreach (var slot in storage.GetItemSlots())
-					{
-						// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
-						if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemStorage>() != null)
-						{
-							storageList2.Add(slot.ItemObject.GetComponent<ItemStorage>());
-						}
-						else if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
-						{
-							if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
-							{
-								count += stackable.Amount;
-							}
-							else
-							{
-								count++;
-							}
-						}
-					}
-				}
-			}
-			// does the player have the item?
-			if (count >= Amount)
-				return true;
-			else return false; // there is literally no way the player has it
+
+			return false;
 		}
 	}
 }
