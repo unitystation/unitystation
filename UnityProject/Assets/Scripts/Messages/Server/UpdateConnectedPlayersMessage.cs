@@ -66,6 +66,7 @@ public class UpdateConnectedPlayersMessage : ServerMessage
 
 			prepareConnectedPlayers.Add(new ClientConnectedPlayer
 			{
+				UserName = c.Username,
 				Name = c.Name,
 				Job = c.Job,
 				PendingSpawn = pendingSpawn

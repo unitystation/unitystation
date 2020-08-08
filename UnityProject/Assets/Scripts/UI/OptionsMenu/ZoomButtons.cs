@@ -75,5 +75,10 @@ namespace Unitystation.Options
             OptionsMenu.Instance.Open();
         }
 
+        public void OpenPlayerList()
+        {
+	        UIManager.Instance.lobbyUIPlayerListController.GenerateList();
+	        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(true);
+        }
     }
 }
