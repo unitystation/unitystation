@@ -37,6 +37,11 @@ public abstract class BasicTile : LayerTile
 	/// </summary>
 	public bool Mineable => mineable;
 
+	[Tooltip("Will bullets bounce from this tile?")]
+	[SerializeField] private bool doesReflectBullet = false;
+
+	public bool DoesReflectBullet => doesReflectBullet;
+
 	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
 	[FormerlySerializedAs("PassableException")]
 	[SerializeField]
