@@ -474,9 +474,11 @@ public partial class PlayerList : NetworkBehaviour
 [Serializable]/// Minimalistic connected player information that all clients can posess
 public struct ClientConnectedPlayer
 {
+	public string UserName;
 	public string Name;
 	public JobType Job;
 	public bool PendingSpawn;
+	public string Tag;
 
 	public override string ToString()
 	{
