@@ -47,8 +47,8 @@ namespace Weapons.Projectiles.Behaviours
 
 		private void RotateBullet(Vector2 newDirection)
 		{
-			bullet.WillHurtShooter = true;
 			bullet.Shoot(newDirection, shooter, weapon, targetZone);
+			bullet.WillHurtShooter = true;
 		}
 
 		private Vector2 GetNewDirection(RaycastHit2D hit)
