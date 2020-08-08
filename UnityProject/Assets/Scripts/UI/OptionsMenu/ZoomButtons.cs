@@ -77,8 +77,15 @@ namespace Unitystation.Options
 
         public void OpenPlayerList()
         {
-	        UIManager.Instance.lobbyUIPlayerListController.GenerateList();
-	        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(true);
+	        if (!UIManager.Instance.lobbyUIPlayerListController.gameObject.activeSelf)
+	        {
+		        UIManager.Instance.lobbyUIPlayerListController.GenerateList();
+		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(true);
+	        }
+	        else
+	        {
+		        UIManager.Instance.lobbyUIPlayerListController.gameObject.SetActive(false);
+	        }
         }
     }
 }
