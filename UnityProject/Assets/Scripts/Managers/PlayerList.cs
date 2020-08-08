@@ -478,6 +478,7 @@ public struct ClientConnectedPlayer
 	public string Name;
 	public JobType Job;
 	public bool PendingSpawn;
+	public string Tag;
 
 	public override string ToString()
 	{
