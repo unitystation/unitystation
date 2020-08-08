@@ -29,22 +29,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  buttPrefab: {fileID: 0}
-  smokeTimeSeconds: 180
-  litItemSprites:
-    SpriteInventoryIcon: {fileID: 0}
-    SpriteLeftHand: {fileID: 11400000, guid: a238d6d8b8c07984c8d06531ae40cb83, type: 2}
-    SpriteRightHand: {fileID: 11400000, guid: 1b73af8cb0b21284da72461aa4f02583, type: 2}
-    Palette:
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    - {r: 0, g: 0, b: 0, a: 0}
-    IsPaletted: 0
+  buttPrefab: {fileID: 9060380378923672138, guid: 76c1cf9465a29384faac0d9df2eec3c9,
+    type: 3}
+  smokeTimeSeconds: 10
   spriteHandler: {fileID: 3499719427789762796}
 --- !u!114 &6906566218431831969
 MonoBehaviour:

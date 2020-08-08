@@ -13,8 +13,11 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	private const int LIT_SPRITE = 1;
 
 	[SerializeField]
+	[Tooltip("Object to spawn after cigarette burnt")]
 	private GameObject buttPrefab;
+
 	[SerializeField]
+	[Tooltip("Time after cigarette will destroy and spawn butt")]
 	private float smokeTimeSeconds = 180;
 
 	public SpriteHandler spriteHandler;
@@ -32,16 +35,14 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	private void Update()
 	{
-		if (isClient)
+		if (isClient && isLit)
 		{
 			// update UI image on client (cigarette lit animation)
-			if (isLit)
-			{
-				pickupable?.RefreshUISlotImage();
-			}
+			pickupable?.RefreshUISlotImage();
 		}
 	}
 
+	#region Interactions
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		TryLightByObject(interaction.UsedObject);
@@ -54,34 +55,45 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
+		// standard validation for interaction
 		if (!DefaultWillInteract.Default(interaction, side))
 		{
 			return false;
 		}
-		if (interaction.UsedObject == null)
-		{
-			return false;
-		}
 
-		return true;
+		return CheckInteraction(interaction, side);
 	}
 
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
+		// standard validation for interaction
 		if (!DefaultWillInteract.Default(interaction, side))
 		{
 			return false;
 		}
-		if (interaction.UsedObject == null)
+
+		return CheckInteraction(interaction, side);
+	}
+
+	private bool CheckInteraction(Interaction interaction, NetworkSide side)
+	{
+		// check if player want to use some light-source
+		if (interaction.UsedObject)
 		{
-			return false;
+			var lightSource = interaction.UsedObject.GetComponent<FireSource>();
+			if (lightSource)
+			{
+				return true;
+			}
 		}
 
-		return true;
+		return false;
 	}
+	#endregion
 
 	private void ServerChangeLit(bool isLitNow)
 	{
+		// TODO: add support for in-hand and clothing animation
 		// update cigarette sprite to lit state
 		if (spriteHandler)
 		{
@@ -95,6 +107,7 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			fireSource.IsBurning = isLitNow;
 		}
 
+		StartCoroutine(FireRoutine());
 		isLit = isLitNow;
 	}
 
@@ -121,5 +134,25 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		}
 
 		return false;
+	}
+
+	private void Burn()
+	{
+		var worldPos = gameObject.AssumedWorldPosServer();
+		var tr = gameObject.transform.parent;
+		var rotation = RandomUtils.RandomRotatation2D();
+
+		// Despawn cigarette
+		Despawn.ServerSingle(gameObject);
+		// Spawn cigarette butt
+		Spawn.ServerPrefab(buttPrefab, worldPos, tr, rotation);
+	}
+
+	private IEnumerator FireRoutine()
+	{
+		// wait until cigarette will burn
+		yield return new WaitForSeconds(smokeTimeSeconds);
+		// despawn cigarette and spawn burn
+		Burn();
 	}
 }
