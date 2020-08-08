@@ -88,20 +88,14 @@ namespace Antagonists
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			var check = CheckStorage(Owner.body.ItemStorage);
-
-			if (check) return true;
-
-			return false;
+			return CheckStorage(Owner.body.ItemStorage);
 		}
 
 		private bool CheckStorage(ItemStorage itemStorage)
 		{
 			foreach (var slot in itemStorage.GetItemSlots())
 			{
-				var check = CheckSlot(slot);
-
-				if (check)
+				if (CheckSlot(slot))
 				{
 					return true;
 				}
@@ -139,9 +133,7 @@ namespace Antagonists
 			//Check to see if this item has storage, and do checks on that
 			if (slot.ItemObject.TryGetComponent<ItemStorage>(out var itemStorage))
 			{
-				var check = CheckStorage(itemStorage);
-
-				if (check)
+				if (CheckStorage(itemStorage))
 				{
 					return true;
 				}
