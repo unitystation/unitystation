@@ -84,7 +84,7 @@ namespace Antagonists
 		}
 
 		/// <summary>
-		/// yes it looks stupid as hell and very repetitive but it SHOULD work to fix the box bug
+		/// Checks through all the storage recursively
 		/// </summary>
 		protected override bool CheckCompletion()
 		{
@@ -107,8 +107,6 @@ namespace Antagonists
 		private bool CheckSlot(ItemSlot slot)
 		{
 			if (slot.ItemObject == null) return false;
-
-			// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
 
 			//Check if current Item is the one we need
 			if (slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
