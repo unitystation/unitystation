@@ -20,7 +20,8 @@ namespace Weapons.Projectiles
 		public LayerMaskData MaskData => maskData;
 
 		private GameObject shooter;
-		private bool isSuicide;
+
+		public bool WillHurtShooter { get; set; }
 
 		private void Awake()
 		{
@@ -36,13 +37,13 @@ namespace Weapons.Projectiles
 
 		public override void Suicide(GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
-			isSuicide = true;
+			WillHurtShooter = true;
 			StartShoot(Vector2.zero, controlledByPlayer, fromWeapon, targetZone);
 		}
 
 		public override void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
-			isSuicide = false;
+			WillHurtShooter = false;
 			StartShoot(direction, controlledByPlayer, fromWeapon, targetZone);
 		}
 
@@ -105,7 +106,7 @@ namespace Weapons.Projectiles
 		private bool IsHitValid(RaycastHit2D hit)
 		{
 			if (hit.collider == null) return false;
-			if (isSuicide) return true;
+			if (WillHurtShooter) return true;
 			if (hit.collider.gameObject == shooter) return false;
 			return true;
 		}
@@ -126,7 +127,7 @@ namespace Weapons.Projectiles
 		private void OnDisable()
 		{
 			shooter = null;
-			isSuicide = false;
+			WillHurtShooter = false;
 		}
 	}
 }
