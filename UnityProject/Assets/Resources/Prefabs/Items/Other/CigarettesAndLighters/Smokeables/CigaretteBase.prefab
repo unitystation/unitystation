@@ -1,5 +1,51 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1692546661789352544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338509426998086507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d408cfa84b1b6714c90e9c97d3f1733c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBurningOnSpawn: 0
+  flameTemperature: 700
+  flameVolume: 0.005
+--- !u!114 &5733160862123623072
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7338509426998086507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a639272f1958a4418bb81e65765aad1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  buttPrefab: {fileID: 0}
+  smokeTimeSeconds: 180
+  litItemSprites:
+    SpriteInventoryIcon: {fileID: 0}
+    SpriteLeftHand: {fileID: 11400000, guid: a238d6d8b8c07984c8d06531ae40cb83, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: 1b73af8cb0b21284da72461aa4f02583, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
+  spriteHandler: {fileID: 3499719427789762796}
 --- !u!114 &6906566218431831969
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -55,15 +101,47 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: SpriteDataSO.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3532393564309681412, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 1c69162b3a40fb14896b480602231cae,
         type: 2}
     - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: Sprites.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ef8586345eb0c3c47a23aeb676b3d708,
+        type: 2}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: variantIndex
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ef8586345eb0c3c47a23aeb676b3d708,
+        type: 2}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: fd9b131e114294a44a244a3f668a81e4,
         type: 2}
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -136,6 +214,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 6c410d74b7e71c74c9b761f9379640d9,
         type: 3}
+    - target: {fileID: 7748823779942372829, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -167,6 +250,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: de743c06b981846cb8d8457970385934,
         type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7200b79852101844aa394b1465cba17b,
+        type: 2}
+    - target: {fileID: 8040391005062056419, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c1d8e86307fb8db4da9da99a6cff3325,
+        type: 2}
     m_RemovedComponents:
     - {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
@@ -176,3 +271,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 914002857922276842}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3499719427789762796 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+    type: 3}
+  m_PrefabInstance: {fileID: 914002857922276842}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
