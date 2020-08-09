@@ -24,7 +24,7 @@ public class TabUpdateMessage : ServerMessage
 
 	public int ID;
 	public int UniqueID;
-	public int NumOfMessage;
+	public int NumOfMessages;
 
 	public override void Process()
 	{
@@ -40,7 +40,7 @@ public class TabUpdateMessage : ServerMessage
 				return;
 			}
 
-			if (NumOfMessage == ElementValuesCache[UniqueID].Item2)
+			if (NumOfMessages == ElementValuesCache[UniqueID].Item2)
 			{
 				Debug.LogError("This message didnt arrive in time before the end message!");
 				ElementValuesCache.Remove(UniqueID);
@@ -54,7 +54,7 @@ public class TabUpdateMessage : ServerMessage
 		//If end of message add
 		if(ID == 2)
 		{
-			if (NumOfMessage != ElementValuesCache[UniqueID].Item2 + 1)
+			if (NumOfMessages != ElementValuesCache[UniqueID].Item2 + 1)
 			{
 				Debug.LogError("Not all the messages arrived in time for the NetUI update.");
 				return;
@@ -231,7 +231,7 @@ public class TabUpdateMessage : ServerMessage
 				Touched = changedBy != null,
 				ID = value.Value,
 				UniqueID = uniqueID,
-				NumOfMessage = count
+				NumOfMessages = count
 			};
 
 			msg.SendTo(recipient);
