@@ -3,7 +3,7 @@
 namespace Weapons.Projectiles.Behaviours
 {
 	[RequireComponent(typeof(ProjectileRangeLimited))]
-	public class ProjectileMineMultiple : ProjectileMine, IOnDespawn
+	public class ProjectileMineMultiple : ProjectileMine
 	{
 		private ProjectileRangeLimited projectileRangeLimited;
 
@@ -16,9 +16,9 @@ namespace Weapons.Projectiles.Behaviours
 			projectileRangeLimited = GetComponent<ProjectileRangeLimited>();
 		}
 
-		protected override bool ProcessHit(RaycastHit2D hit)
+		public override bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
-			if (base.ProcessHit(hit) == false)
+			if (base.Interact(hit, interactableTiles, worldPosition) == false)
 			{
 				return true;
 			}
@@ -38,7 +38,7 @@ namespace Weapons.Projectiles.Behaviours
 			return true;
 		}
 
-		public void OnDespawn(RaycastHit2D hit, Vector2 point)
+		private void OnDisable()
 		{
 			currentHitCount = 0;
 		}

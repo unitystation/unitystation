@@ -1,6 +1,5 @@
-﻿using Container.Gun;
+﻿using ScriptableObjects.Gun;
 using UnityEngine;
-using Weapons.Projectiles.Behaviours;
 
 namespace Weapons.Projectiles
 {
@@ -36,11 +35,10 @@ namespace Weapons.Projectiles
 		{
 			this.velocity = velocity;
 
-			var startPosition =  Vector3.zero;
-			var startRotation = Quaternion.AngleAxis(-Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg, Vector3.forward);
-
-			thisTransform.localPosition = startPosition;
-			thisTransform.rotation = startRotation;
+			thisTransform.rotation =
+				Quaternion.AngleAxis(
+					-Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg,
+					Vector3.forward);
 		}
 
 		private void Update()
@@ -76,6 +74,13 @@ namespace Weapons.Projectiles
 			var hit = Physics2D.Raycast(previousPosition, distanceDelta.normalized, distanceDelta.magnitude, maskData.Layers);
 
 			projectile.ProcessRaycastHit(hit);
+		}
+
+		private void OnDisable()
+		{
+			thisTransform.localPosition = Vector3.zero;
+			previousPosition = Vector3.zero;
+			velocity = 0;
 		}
 	}
 }

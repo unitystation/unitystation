@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using ScriptableObjects;
 
 /// <summary>
 /// The main girder component

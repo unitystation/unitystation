@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Chemistry.Components;
+using ScriptableObjects;
 using UnityEngine;
 
 

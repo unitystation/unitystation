@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AdminTools;
+using ScriptableObjects;
 
 [CreateAssetMenu(fileName = "CustomSpeechModifierCode", menuName = "ScriptableObjects/SpeechModifiers/SlurredSpeech")]
 public class SlurredMod : CustomSpeechModifier

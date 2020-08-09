@@ -2,6 +2,7 @@
 using Light2D;
 using Lighting;
 using Mirror;
+using ScriptableObjects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
