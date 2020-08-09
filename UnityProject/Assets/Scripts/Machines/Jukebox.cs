@@ -1,4 +1,4 @@
-﻿using Assets.Scripts.Messages.Server.SoundMessages;
+using Assets.Scripts.Messages.Server.SoundMessages;
 using Mirror;
 using System.Collections.Generic;
 using System.Text;
@@ -174,7 +174,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
 			if (!NextSong())
 				Stop();
-		}	
+		}
 	}
 
 	public void Play()
@@ -222,7 +222,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			if (IsPlaying)
 				SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
 
-			currentSongTrackIndex--;			
+			currentSongTrackIndex--;
 			UpdateGUI();
 
 			if (IsPlaying)
