@@ -19,6 +19,9 @@ public class TabUpdateMessage : ServerMessage
 	private static readonly ElementValue[] NoValues = new ElementValue[0];
 
 	private static Dictionary<int, ElementValue[]> ElementValuesCache = new Dictionary<int, ElementValue[]>();
+
+	private static HashSet<int> ServerUniqueIdCache = new HashSet<int>();
+
 	public int ID;
 	public int UniqueID;
 
@@ -87,9 +90,26 @@ public class TabUpdateMessage : ServerMessage
 		ElementValue[] values = null)
 	{
 
-		if (tabAction == TabAction.Open)
+		switch (tabAction)
 		{
-			values = NetworkTabManager.Instance.Get(provider, type).ElementValues;
+			case TabAction.Open:
+				NetworkTabManager.Instance.Add(provider, type, recipient);
+				values = NetworkTabManager.Instance.Get(provider, type).ElementValues;
+				break;
+			case TabAction.Close:
+				NetworkTabManager.Instance.Remove(provider, type, recipient);
+				break;
+			case TabAction.Update:
+				//fixme: duplication of NetTab.ValidatePeepers
+				//Not sending updates and closing tab for players that don't pass the validation anymore
+				var validate = Validations.CanApply(recipient, provider, NetworkSide.Server);
+				if (!validate)
+				{
+					Send(recipient, provider, type, TabAction.Close);
+					return null;
+				}
+
+				break;
 		}
 
 		// SingleMessage: 0, start/middle: 1, end: 2
@@ -97,10 +117,12 @@ public class TabUpdateMessage : ServerMessage
 
 		var uniqueID = Random.Range(0, 2000);
 
-		if (ElementValuesCache.ContainsKey(uniqueID))
+		if (ServerUniqueIdCache.Contains(uniqueID))
 		{
 			uniqueID = Random.Range(2001, 20000);
 		}
+
+		ServerUniqueIdCache.Add(uniqueID);
 
 		var elementValuesLists = new Dictionary<List<ElementValue>, int>();
 
@@ -161,8 +183,6 @@ public class TabUpdateMessage : ServerMessage
 			}
 		}
 
-
-
 		if (elementValuesLists.Count == 0)
 		{
 			Debug.LogError("=0 Id: " + id);
@@ -177,7 +197,8 @@ public class TabUpdateMessage : ServerMessage
 				UniqueID = uniqueID
 			};
 
-			SendMessageOptions(recipient, provider, type, tabAction, msg);
+			msg.SendTo(recipient);
+			Logger.LogTraceFormat("{0}", Category.NetUI, msg);
 		}
 		else
 		{
@@ -195,39 +216,17 @@ public class TabUpdateMessage : ServerMessage
 					UniqueID = uniqueID
 				};
 
-				SendMessageOptions(recipient, provider, type, tabAction, msg);
+				msg.SendTo(recipient);
+				Logger.LogTraceFormat("{0}", Category.NetUI, msg);
+
+				if (value.Value == 2)
+				{
+					ServerUniqueIdCache.Remove(uniqueID);
+				}
 			}
 		}
 
 		return null;
-	}
-
-	public static void SendMessageOptions(GameObject recipient, GameObject provider, NetTabType type, TabAction tabAction,
-		TabUpdateMessage msg)
-	{
-		switch (tabAction)
-		{
-			case TabAction.Open:
-				NetworkTabManager.Instance.Add(provider, type, recipient);
-				break;
-			case TabAction.Close:
-				NetworkTabManager.Instance.Remove(provider, type, recipient);
-				break;
-			case TabAction.Update:
-				//fixme: duplication of NetTab.ValidatePeepers
-				//Not sending updates and closing tab for players that don't pass the validation anymore
-				var validate = Validations.CanApply(recipient, provider, NetworkSide.Server);
-				if (!validate)
-				{
-					Send(recipient, provider, type, TabAction.Close);
-					return;
-				}
-
-				break;
-		}
-
-		msg.SendTo(recipient);
-		Logger.LogTraceFormat("{0}", Category.NetUI, msg);
 	}
 
 	//Merge arrays together
