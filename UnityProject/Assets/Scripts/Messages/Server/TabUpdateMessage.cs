@@ -20,9 +20,9 @@ public class TabUpdateMessage : ServerMessage
 
 	private static Dictionary<int, Tuple<ElementValue[], int>> ElementValuesCache = new Dictionary<int, Tuple<ElementValue[], int>>();
 
-	private static HashSet<int> ServerUniqueIdCache = new HashSet<int>();
+	private static int Counter = 0;
 
-	public int ID;
+	public TabMessageType ID;
 	public int UniqueID;
 	public int NumOfMessages;
 
@@ -32,7 +32,7 @@ public class TabUpdateMessage : ServerMessage
 		LoadNetworkObject(Provider);
 
 		//If start or middle of message add to cache then stop
-		if (ID == 1)
+		if (ID == TabMessageType.MoreIncoming)
 		{
 			//If Unique Id doesnt exist make new entry
 			if (ElementValuesCache.Count == 0 || !ElementValuesCache.ContainsKey(UniqueID))
@@ -55,7 +55,7 @@ public class TabUpdateMessage : ServerMessage
 		}
 
 		//If end of message add and continue
-		if(ID == 2)
+		if(ID == TabMessageType.EndOfMessage)
 		{
 			//Add the arrays together
 			ElementValuesCache[UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[UniqueID].Item1, ElementValues), ElementValuesCache[UniqueID].Item2 + 1);
@@ -129,27 +129,26 @@ public class TabUpdateMessage : ServerMessage
 				break;
 		}
 
-		// SingleMessage: 0, start/middle: 1, end: 2
-		var id = 0;
+		// SingleMessage, MoreIncoming, EndOfMessage
+		var id = TabMessageType.SingleMessage;
 
-		var uniqueID = Random.Range(0, 2000);
+		Counter++;
+		var uniqueID = Counter;
 
-		if (ServerUniqueIdCache.Contains(uniqueID))
+		if (Counter > 10000)
 		{
-			uniqueID = Random.Range(2001, 20000);
+			Counter = 0;
 		}
 
-		ServerUniqueIdCache.Add(uniqueID);
-
-		var elementValuesLists = new Dictionary<List<ElementValue>, int>();
+		var elementValuesLists = new Dictionary<List<ElementValue>, TabMessageType>();
 
 		if (values != null && tabAction != TabAction.Close)
 		{
 			// get max possible packet size from current transform
-			int maxPacketSize = Transport.activeTransport.GetMaxPacketSize(0);
+			var maxPacketSize = Transport.activeTransport.GetMaxPacketSize(0);
 
 			// set currentSize start value to max TCP header size (60b)
-			float currentSize = 60f;
+			var currentSize = 100;
 
 			//Stores the current cycle of ElementValues
 			var elementValues = new List<ElementValue>();
@@ -158,7 +157,7 @@ public class TabUpdateMessage : ServerMessage
 			var length = values.Length;
 
 			//Total packet size if all values sent together
-			var totalSize = 0f;
+			var totalSize = 0;
 
 			//Work out totalSize
 			foreach (var value in values)
@@ -176,7 +175,7 @@ public class TabUpdateMessage : ServerMessage
 			}
 
 			//Rounds up to the max number of divisions of the max packet size will be needed for values
-			var divisions = (int)Math.Ceiling(totalSize / maxPacketSize);
+			var divisions = (int)Math.Ceiling((float)totalSize / maxPacketSize);
 
 			//Counter for which division is currently being made
 			var currentDivision = 0;
@@ -190,15 +189,15 @@ public class TabUpdateMessage : ServerMessage
 				if (currentSize > maxPacketSize)
 				{
 					currentDivision ++;
-					currentSize = 60f;
+					currentSize = 100;
 
-					//Id 1, means it is a multimessage but not the end.
-					id = 1;
+					//Id MoreIncoming, means it is a multimessage but not the end.
+					id = TabMessageType.MoreIncoming;
 
-					//If last division then this will be the end, set to end Id of 2
+					//If last division then this will be the end, set to end Id of EndOfMessage
 					if (currentDivision == divisions)
 					{
-						id = 2;
+						id = TabMessageType.EndOfMessage;
 					}
 
 					//Add value list to the message list
@@ -217,7 +216,7 @@ public class TabUpdateMessage : ServerMessage
 			//Multimessage, if end division hasnt been reached yet then this last list must be end.
 			else if (currentDivision != divisions)
 			{
-				elementValuesLists.Add(elementValues, 2);
+				elementValuesLists.Add(elementValues, TabMessageType.EndOfMessage);
 			}
 		}
 
@@ -258,12 +257,6 @@ public class TabUpdateMessage : ServerMessage
 
 			msg.SendTo(recipient);
 			Logger.LogTraceFormat("{0}", Category.NetUI, msg);
-
-			//If end message, then let ID be reused for another message since this message has been sent
-			if (value.Value == 2)
-			{
-				ServerUniqueIdCache.Remove(uniqueID);
-			}
 		}
 
 		return null;
@@ -297,7 +290,7 @@ public struct ElementValue
 	/// Get size of this object (in bytes)
 	/// </summary>
 	/// <returns>size of this object (in bytes)</returns>
-	public float GetSize()
+	public int GetSize()
 	{
 		return sizeof(char) * Id.Length		// Id
 			+ sizeof(byte) * Value.Length;	// Value
@@ -309,4 +302,11 @@ public enum TabAction
 	Open,
 	Close,
 	Update
+}
+
+public enum TabMessageType
+{
+	SingleMessage,
+	MoreIncoming,
+	EndOfMessage
 }
