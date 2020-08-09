@@ -7,6 +7,7 @@ namespace Weapons.Projectiles.Behaviours
 	public class ProjectileBounce : MonoBehaviour, IOnShoot, IOnHitInteractTile
 	{
 		private Bullet bullet;
+		private Transform movingProjectile;
 
 		private Vector2 direction;
 		private GameObject shooter;
@@ -18,9 +19,11 @@ namespace Weapons.Projectiles.Behaviours
 		[SerializeField] private int maxHitCount = 4;
 		private int currentCount = 0;
 
+
 		private void Awake()
 		{
 			bullet = GetComponent<Bullet>();
+			movingProjectile = GetComponentInChildren<MovingProjectile>().transform;
 		}
 
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
@@ -35,6 +38,7 @@ namespace Weapons.Projectiles.Behaviours
 		{
 			if (CheckConditions(hit, interactableTiles, worldPosition) == false) return true;
 
+			movingProjectile.position = hit.point;
 			RotateBullet(GetNewDirection(hit));
 
 			return IsCountReached();
@@ -47,6 +51,7 @@ namespace Weapons.Projectiles.Behaviours
 
 		private void RotateBullet(Vector2 newDirection)
 		{
+
 			bullet.Shoot(newDirection, shooter, weapon, targetZone);
 			bullet.WillHurtShooter = true;
 		}
