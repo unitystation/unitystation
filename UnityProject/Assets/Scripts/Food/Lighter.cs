@@ -3,6 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// Base class for lighters (cheap lighters, zippo)
+/// </summary>
 public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	IServerDespawn
 {
@@ -11,9 +14,10 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	public SpriteHandler[] spriteHandlers;
 	private Pickupable pickupable;
-
-	public bool isFancy;
 	private FireSource fireSource;
+
+	[Tooltip("Fancy lighters (like zippo) have different text and never burn users fingers")]
+	public bool isFancy;
 
 	[SyncVar]
 	private bool isLit;
@@ -26,25 +30,41 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 
 	private void Update()
 	{
-		// update UI image on client
-		// TODO: replace it with more general method
-		pickupable?.RefreshUISlotImage();
+		if (isClient)
+		{
+			// update UI image on client
+			// TODO: replace it with more general method
+			pickupable?.RefreshUISlotImage();
+		}
+	}
+
+	public bool WillInteract(HandActivate interaction, NetworkSide side)
+	{
+		return DefaultWillInteract.Default(interaction, side);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
+		// toggle lighters flame
 		isLit = !isLit;
 
 		// generate message for chat
+		// cheap lighter may burn user fingers in process
 		GenerateActivationMessage(interaction.PerformerPlayerScript, interaction.HandSlot);
 
-		// toggle flame
+		// update sprites and lighter logic
+		UpdateLit();
+	}
+
+	private void UpdateLit()
+	{
+		// toggle flame (will fire things around)
 		if (fireSource)
 		{
 			fireSource.IsBurning = isLit;
 		}
 
-		// set sprite
+		// set each render to new state
 		foreach (var handler in spriteHandlers)
 		{
 			if (handler)
@@ -53,7 +73,6 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 				handler.ChangeSprite(newSpriteID);
 			}
 		}
-
 	}
 
 	private void GenerateActivationMessage(PlayerScript player, ItemSlot slot)
@@ -71,6 +90,7 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		{
 			if (isFancy)
 			{
+				// edgy smoker
 				Chat.AddActionMsgToChat(player.gameObject,
 					$"Without even breaking stride, {playerName} flips open and lights {lighterName} in one smooth movement.",
 					$"Without even breaking stride, you flip open and light {lighterName} in one smooth movement.");
@@ -88,9 +108,11 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 				}
 				else
 				{
+					// burn user hand
 					var isLeftHand = slot.SlotIdentifier.NamedSlot == NamedSlot.leftHand;
 					var bodyPart = isLeftHand ? BodyPartType.LeftArm : BodyPartType.RightArm;
 
+					// AttackType.Fire will set character on fire
 					player.playerHealth?.
 						ApplyDamageToBodypart(gameObject, 5f, AttackType.Energy, DamageType.Burn, bodyPart);
 
@@ -138,13 +160,9 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		return false;
 	}
 
-	public bool WillInteract(HandActivate interaction, NetworkSide side)
-	{
-		return DefaultWillInteract.Default(interaction, side);
-	}
-
 	public void OnDespawnServer(DespawnInfo info)
 	{
 		isLit = false;
+		UpdateLit();
 	}
 }

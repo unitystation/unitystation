@@ -103,12 +103,32 @@ PrefabInstance:
       propertyPath: initialName
       value: cheap lighter
       objectReference: {fileID: 0}
+    - target: {fileID: 520028490647105340, guid: 41be4fe4e9ea29443a0731c3637687f9,
+        type: 3}
+      propertyPath: exportCost
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 1085431124986643835, guid: 41be4fe4e9ea29443a0731c3637687f9,
         type: 3}
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 1f0c3d31dbfdf7e459d0e80e8b0ff61a,
         type: 3}
+    - target: {fileID: 1085431124986643835, guid: 41be4fe4e9ea29443a0731c3637687f9,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1085431124986643835, guid: 41be4fe4e9ea29443a0731c3637687f9,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1085431124986643835, guid: 41be4fe4e9ea29443a0731c3637687f9,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1384802765471139370, guid: 41be4fe4e9ea29443a0731c3637687f9,
         type: 3}
       propertyPath: spriteHandlers.Array.size
@@ -124,6 +144,18 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ec6c93b2494dd354e8064839e4ba7eea,
+        type: 2}
+    - target: {fileID: 5373792201092528965, guid: 41be4fe4e9ea29443a0731c3637687f9,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ec6c93b2494dd354e8064839e4ba7eea,
+        type: 2}
+    - target: {fileID: 5373792201092528965, guid: 41be4fe4e9ea29443a0731c3637687f9,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: be58ab782f4d94c4b8d60e11d1e84ede,
         type: 2}
     - target: {fileID: 6096755329498168281, guid: 41be4fe4e9ea29443a0731c3637687f9,
         type: 3}
