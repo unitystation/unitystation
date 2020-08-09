@@ -40,7 +40,7 @@ public class TabUpdateMessage : ServerMessage
 				return;
 			}
 
-			if (NumOfMessages == ElementValuesCache[UniqueID].Item2)
+			if (NumOfMessages == ElementValuesCache[UniqueID].Item2 + 1)
 			{
 				Debug.LogError("This message didnt arrive in time before the end message!");
 				ElementValuesCache.Remove(UniqueID);
@@ -54,13 +54,15 @@ public class TabUpdateMessage : ServerMessage
 		//If end of message add
 		if(ID == 2)
 		{
-			if (NumOfMessages != ElementValuesCache[UniqueID].Item2 + 1)
+			ElementValuesCache[UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[UniqueID].Item1, ElementValues), ElementValuesCache[UniqueID].Item2 + 1);
+
+			if (NumOfMessages != ElementValuesCache[UniqueID].Item2)
 			{
 				Debug.LogError("Not all the messages arrived in time for the NetUI update.");
 				return;
 			}
 
-			ElementValues = Concat(ElementValuesCache[UniqueID].Item1, ElementValues);
+			ElementValues = ElementValuesCache[UniqueID].Item1;
 			ElementValuesCache.Remove(UniqueID);
 		}
 
