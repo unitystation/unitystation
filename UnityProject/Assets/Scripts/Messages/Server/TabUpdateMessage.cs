@@ -34,12 +34,14 @@ public class TabUpdateMessage : ServerMessage
 		//If start or middle of message add to cache then stop
 		if (ID == 1)
 		{
+			//If Unique Id doesnt exist make new entry
 			if (ElementValuesCache.Count == 0 || !ElementValuesCache.ContainsKey(UniqueID))
 			{
 				ElementValuesCache.Add(UniqueID, new Tuple<ElementValue[], int>(ElementValues, 1));
 				return;
 			}
 
+			//Sanity check to make sure this isnt the last message
 			if (NumOfMessages == ElementValuesCache[UniqueID].Item2 + 1)
 			{
 				Debug.LogError("This message didnt arrive in time before the end message!");
@@ -47,15 +49,18 @@ public class TabUpdateMessage : ServerMessage
 				return;
 			}
 
+			//Unique Id already exists so add arrays to each other
 			ElementValuesCache[UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[UniqueID].Item1, ElementValues), ElementValuesCache[UniqueID].Item2 + 1);
 			return;
 		}
 
-		//If end of message add
+		//If end of message add and continue
 		if(ID == 2)
 		{
+			//Add the arrays together
 			ElementValuesCache[UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[UniqueID].Item1, ElementValues), ElementValuesCache[UniqueID].Item2 + 1);
 
+			//Check to make sure its the last message
 			if (NumOfMessages != ElementValuesCache[UniqueID].Item2)
 			{
 				Debug.LogError("Not all the messages arrived in time for the NetUI update.");
@@ -146,16 +151,21 @@ public class TabUpdateMessage : ServerMessage
 			// set currentSize start value to max TCP header size (60b)
 			float currentSize = 60f;
 
+			//Stores the current cycle of ElementValues
 			var elementValues = new List<ElementValue>();
 
+			//How many values are being sent
 			var length = values.Length;
 
+			//Total packet size if all values sent together
 			var totalSize = 0f;
 
+			//Work out totalSize
 			foreach (var value in values)
 			{
 				var size = value.GetSize();
 
+				//If a single value is bigger than max packet size cannot proceed
 				if (size + 60 >= maxPacketSize)
 				{
 					Debug.LogError("This value is above the max mirror packet limit, and cannot be split.");
@@ -165,12 +175,16 @@ public class TabUpdateMessage : ServerMessage
 				totalSize += size;
 			}
 
+			//Rounds up to the max number of divisions of the max packet size will be needed for values
 			var divisions = (int)Math.Ceiling(totalSize / maxPacketSize);
 
+			//Counter for which division is currently being made
 			var currentDivision = 0;
 
+			//The loop for making the messages from the values
 			for (var i = 0; i < length; i++)
 			{
+				//Keep adding values until bigger than packet size
 				currentSize += values[i].GetSize();
 
 				if (currentSize > maxPacketSize)
@@ -178,13 +192,16 @@ public class TabUpdateMessage : ServerMessage
 					currentDivision ++;
 					currentSize = 60f;
 
+					//Id 1, means it is a multimessage but not the end.
 					id = 1;
 
+					//If last division then this will be the end, set to end Id of 2
 					if (currentDivision == divisions)
 					{
 						id = 2;
 					}
 
+					//Add value list to the message list
 					elementValuesLists.Add(elementValues, id);
 					elementValues = new List<ElementValue>();
 				}
@@ -192,10 +209,12 @@ public class TabUpdateMessage : ServerMessage
 				elementValues.Add(values[i]);
 			}
 
+			//Single message
 			if (elementValuesLists.Count == 0)
 			{
 				values = elementValues.ToArray();
 			}
+			//Multimessage, if end division hasnt been reached yet then this last list must be end.
 			else if (currentDivision != divisions)
 			{
 				elementValuesLists.Add(elementValues, 2);
@@ -204,6 +223,7 @@ public class TabUpdateMessage : ServerMessage
 
 		var count = elementValuesLists.Count;
 
+		//Single message
 		if (count == 0)
 		{
 			var msg = new TabUpdateMessage
@@ -239,6 +259,7 @@ public class TabUpdateMessage : ServerMessage
 			msg.SendTo(recipient);
 			Logger.LogTraceFormat("{0}", Category.NetUI, msg);
 
+			//If end message, then let ID be reused for another message since this message has been sent
 			if (value.Value == 2)
 			{
 				ServerUniqueIdCache.Remove(uniqueID);
