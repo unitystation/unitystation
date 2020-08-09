@@ -1,4 +1,4 @@
-using Assets.Scripts.Messages.Server.SoundMessages;
+﻿using Assets.Scripts.Messages.Server.SoundMessages;
 using Mirror;
 using System.Collections.Generic;
 using System.Text;
@@ -70,7 +70,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		get
 		{
-			return $"Track {currentSongTrackIndex + 1} / {musics.Count}";
+			return $"{currentSongTrackIndex + 1} / {musics.Count}";
 		}
 	}
 
@@ -79,7 +79,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		get
 		{
 			string songName = musics[currentSongTrackIndex].clip.name;
-			return $"Song : {songName.Split('_')[0]}";
+			return $"{songName.Split('_')[0]}";
 		}
 	}
 
@@ -89,7 +89,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		{
 			string songName = musics[currentSongTrackIndex].clip.name;
 			string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
-			return $"Artist : {artist}";
+			return $"{artist}";
 		}
 	}
 
