@@ -168,7 +168,7 @@ public class TabUpdateMessage : ServerMessage
 				//If a single value is bigger than max packet size cannot proceed
 				if (size + 60 >= maxPacketSize)
 				{
-					Debug.LogError("This value is above the max mirror packet limit, and cannot be split.");
+					Debug.LogError($"This value is above the max mirror packet limit, and cannot be split. Is {size + 60} bytes");
 					return null;
 				}
 
