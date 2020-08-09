@@ -98,7 +98,7 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		if (spriteHandler)
 		{
 			var newSpriteID = isLitNow ? LIT_SPRITE : DEFAULT_SPRITE;
-			spriteHandler.ChangeSprite(newSpriteID, false);
+			spriteHandler.ChangeSprite(newSpriteID);
 		}
 
 		// toggle flame from cigarette
