@@ -18,12 +18,13 @@ public class TabUpdateMessage : ServerMessage
 
 	private static readonly ElementValue[] NoValues = new ElementValue[0];
 
-	private static Dictionary<int, ElementValue[]> ElementValuesCache = new Dictionary<int, ElementValue[]>();
+	private static Dictionary<int, Tuple<ElementValue[], int>> ElementValuesCache = new Dictionary<int, Tuple<ElementValue[], int>>();
 
 	private static HashSet<int> ServerUniqueIdCache = new HashSet<int>();
 
 	public int ID;
 	public int UniqueID;
+	public int NumOfMessage;
 
 	public override void Process()
 	{
@@ -35,22 +36,32 @@ public class TabUpdateMessage : ServerMessage
 		{
 			if (ElementValuesCache.Count == 0 || !ElementValuesCache.ContainsKey(UniqueID))
 			{
-				ElementValuesCache.Add(UniqueID, ElementValues);
-				Debug.LogError("Id 0");
+				ElementValuesCache.Add(UniqueID, new Tuple<ElementValue[], int>(ElementValues, 1));
 				return;
 			}
 
-			ElementValuesCache[UniqueID] = Concat(ElementValuesCache[UniqueID], ElementValues);
-			Debug.LogError("Id 1");
+			if (NumOfMessage == ElementValuesCache[UniqueID].Item2)
+			{
+				Debug.LogError("This message didnt arrive in time before the end message!");
+				ElementValuesCache.Remove(UniqueID);
+				return;
+			}
+
+			ElementValuesCache[UniqueID] = new Tuple<ElementValue[], int>(Concat(ElementValuesCache[UniqueID].Item1, ElementValues), ElementValuesCache[UniqueID].Item2 + 1);
 			return;
 		}
 
 		//If end of message add
 		if(ID == 2)
 		{
-			ElementValues = Concat(ElementValuesCache[UniqueID], ElementValues);
+			if (NumOfMessage != ElementValuesCache[UniqueID].Item2 + 1)
+			{
+				Debug.LogError("Not all the messages arrived in time for the NetUI update.");
+				return;
+			}
+
+			ElementValues = Concat(ElementValuesCache[UniqueID].Item1, ElementValues);
 			ElementValuesCache.Remove(UniqueID);
-			Debug.LogError("Id 2");
 		}
 
 
@@ -108,7 +119,6 @@ public class TabUpdateMessage : ServerMessage
 					Send(recipient, provider, type, TabAction.Close);
 					return null;
 				}
-
 				break;
 		}
 
@@ -130,6 +140,7 @@ public class TabUpdateMessage : ServerMessage
 		{
 			// get max possible packet size from current transform
 			int maxPacketSize = Transport.activeTransport.GetMaxPacketSize(0);
+
 			// set currentSize start value to max TCP header size (60b)
 			float currentSize = 60f;
 
@@ -141,7 +152,15 @@ public class TabUpdateMessage : ServerMessage
 
 			foreach (var value in values)
 			{
-				totalSize += value.GetSize();
+				var size = value.GetSize();
+
+				if (size + 60 >= maxPacketSize)
+				{
+					Debug.LogError("This value is above the max mirror packet limit, and cannot be split.");
+					return null;
+				}
+
+				totalSize += size;
 			}
 
 			var divisions = (int)Math.Ceiling(totalSize / maxPacketSize);
@@ -156,8 +175,6 @@ public class TabUpdateMessage : ServerMessage
 				{
 					currentDivision ++;
 					currentSize = 60f;
-
-					Debug.LogError($"currentdivision: {currentDivision}   Divisions: {divisions}");
 
 					id = 1;
 
@@ -183,9 +200,10 @@ public class TabUpdateMessage : ServerMessage
 			}
 		}
 
-		if (elementValuesLists.Count == 0)
+		var count = elementValuesLists.Count;
+
+		if (count == 0)
 		{
-			Debug.LogError("=0 Id: " + id);
 			var msg = new TabUpdateMessage
 			{
 				Provider = provider.NetId(),
@@ -199,30 +217,29 @@ public class TabUpdateMessage : ServerMessage
 
 			msg.SendTo(recipient);
 			Logger.LogTraceFormat("{0}", Category.NetUI, msg);
+			return null;
 		}
-		else
+
+		foreach (var value in elementValuesLists)
 		{
-			foreach (var value in elementValuesLists)
+			var msg = new TabUpdateMessage
 			{
-				Debug.LogError("!=0 Id: " + value.Value);
-				var msg = new TabUpdateMessage
-				{
-					Provider = provider.NetId(),
-					Type = type,
-					Action = tabAction,
-					ElementValues = value.Key.ToArray(),
-					Touched = changedBy != null,
-					ID = value.Value,
-					UniqueID = uniqueID
-				};
+				Provider = provider.NetId(),
+				Type = type,
+				Action = tabAction,
+				ElementValues = value.Key.ToArray(),
+				Touched = changedBy != null,
+				ID = value.Value,
+				UniqueID = uniqueID,
+				NumOfMessage = count
+			};
 
-				msg.SendTo(recipient);
-				Logger.LogTraceFormat("{0}", Category.NetUI, msg);
+			msg.SendTo(recipient);
+			Logger.LogTraceFormat("{0}", Category.NetUI, msg);
 
-				if (value.Value == 2)
-				{
-					ServerUniqueIdCache.Remove(uniqueID);
-				}
+			if (value.Value == 2)
+			{
+				ServerUniqueIdCache.Remove(uniqueID);
 			}
 		}
 
