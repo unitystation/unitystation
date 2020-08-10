@@ -59,6 +59,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	private Coroutine coBurnFuel;
 
 	private ReagentContainer reagentContainer;
+	private FireSource fireSource;
 
 	private float FuelAmount => reagentContainer[fuel];
 
@@ -74,6 +75,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 		pickupable = GetComponent<Pickupable>();
 		itemAtts = GetComponent<ItemAttributesV2>();
 		registerTile = GetComponent<RegisterTile>();
+		fireSource = GetComponent<FireSource>();
 
 		reagentContainer = GetComponent<ReagentContainer>();
 		if (reagentContainer != null)
@@ -173,6 +175,12 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 		}
 
 		CheckHeldByPlayer();
+
+		// toogle firesource to burn things around
+		if (fireSource)
+		{
+			fireSource.IsBurning = isOn;
+		}
 	}
 
 	void CheckHeldByPlayer()
@@ -215,10 +223,6 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 				{
 					SyncIsOn(isOn, false);
 				}
-
-				Vector2Int position = gameObject.TileWorldPosition();
-
-				registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(position, 700, 0.005f);
 			}
 
 			yield return WaitFor.Seconds(.1f);

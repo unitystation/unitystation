@@ -74,6 +74,21 @@ MonoBehaviour:
       m_values:
       - 20
   destroyOnEmpty: 0
+--- !u!114 &3289426703443886021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6989221924687263735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d408cfa84b1b6714c90e9c97d3f1733c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isBurningOnSpawn: 0
+  flameTemperature: 700
+  flameVolume: 0.005
 --- !u!1 &7095945559787729905
 GameObject:
   m_ObjectHideFlags: 0
@@ -171,9 +186,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: cb9094433cfd404448d8fa567d22508c, type: 2}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &9166176503069144041
 GameObject:
   m_ObjectHideFlags: 0
@@ -271,9 +286,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 3607c9afef5b0f141b88da690283c96c, type: 2}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1001 &1694231013772067744
 PrefabInstance:
   m_ObjectHideFlags: 0
