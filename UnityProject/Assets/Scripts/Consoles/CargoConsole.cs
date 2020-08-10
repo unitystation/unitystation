@@ -13,18 +13,14 @@ public class CargoConsole : NetworkBehaviour,ICheckedInteractable<HandApply>
 	private GUI_Cargo associatedTab;
 
 	[SerializeField]
-	private List<JobType> allowedTypes = new List<JobType>();
+	private List<JobType> allowedTypes = null;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side))
-			return false;
+		return DefaultWillInteract.Default(interaction, side) &&
+		       Validations.HasComponent<IDCard>(interaction.HandObject);
 
-		//interaction only works if using an ID card on console
-		if (!Validations.HasComponent<IDCard>(interaction.HandObject))
-			return false;
 
-		return true;
 	}
 
 	/// <summary>
