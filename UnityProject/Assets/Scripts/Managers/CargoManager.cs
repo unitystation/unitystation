@@ -63,12 +63,12 @@ public class CargoManager : MonoBehaviour
 	/// Checks for any Lifeforms (dead or alive) that might be aboard the shuttle
 	/// </summary>
 	/// <returns>true if a lifeform is found, false if none is found</returns>
-	bool LifeformChecker()
+	bool CheckLifeforms()
 	{
 		Transform ObjectHolder = CargoShuttle.Instance.SearchForObjectsOnShuttle();
 		for (int i = 0; i < ObjectHolder.childCount; i++)
 		{
-			if (ObjectHolder.GetChild(i).GetComponent<LivingHealthBehaviour>() != null)
+			if (ObjectHolder.GetChild(i).transform.gameObject.layer == 12 || ObjectHolder.GetChild(i).transform.gameObject.layer == 8)
 			{
 				return true;
 			}
@@ -124,7 +124,7 @@ public class CargoManager : MonoBehaviour
 			//and will call OnShuttleArrival()
 			else if (ShuttleStatus == ShuttleStatus.DockedStation)
 			{
-				if (LifeformChecker())
+				if (CheckLifeforms())
 				{
 					CurrentFlyTime = 0;
 					CentcomMessage += "Due to safety and security reasons, the automatic cargo shuttle is unable to depart with any human, alien or animal organisms aboard." + "\n";
