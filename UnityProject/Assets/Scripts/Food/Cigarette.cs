@@ -14,18 +14,18 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	[SerializeField]
 	[Tooltip("Object to spawn after cigarette burnt")]
-	private GameObject buttPrefab;
+	private GameObject buttPrefab = null;
 
 	[SerializeField]
 	[Tooltip("Time after cigarette will destroy and spawn butt")]
 	private float smokeTimeSeconds = 180;
 
-	public SpriteHandler spriteHandler;
-	private FireSource fireSource;
-	private Pickupable pickupable;
+	public SpriteHandler spriteHandler = null;
+	private FireSource fireSource = null;
+	private Pickupable pickupable = null;
 
 	[SyncVar]
-	private bool isLit;
+	private bool isLit = false;
 
 	private void Awake()
 	{

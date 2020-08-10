@@ -64,6 +64,18 @@ public class FireSource : MonoBehaviour, IServerSpawn
 		pushPull = GetComponent<PushPull>();
 	}
 
+	private void OnDisable()
+	{
+		// unsubscribe hotspot from updates
+		if (pushPull && CustomNetworkManager.IsServer)
+		{
+			if (isBurning)
+			{
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CreateHotspot);
+			}
+		}
+	}
+
 	private void CreateHotspot()
 	{
 		// send some heat on firesource position

@@ -12,15 +12,15 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	private const int DEFAULT_SPRITE = 0;
 	private const int LIT_SPRITE = 1;
 
-	public SpriteHandler[] spriteHandlers;
-	private Pickupable pickupable;
-	private FireSource fireSource;
+	public SpriteHandler[] spriteHandlers = new SpriteHandler[] { };
+	private Pickupable pickupable = null;
+	private FireSource fireSource = null;
 
 	[Tooltip("Fancy lighters (like zippo) have different text and never burn users fingers")]
-	public bool isFancy;
+	public bool isFancy = false;
 
 	[SyncVar]
-	private bool isLit;
+	private bool isLit = false;
 
 	private void Awake()
 	{
