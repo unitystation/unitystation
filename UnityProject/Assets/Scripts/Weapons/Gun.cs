@@ -41,6 +41,7 @@ namespace Weapons
 
 		//server-side object indicating the player holding the weapon (null if none)
 		protected GameObject serverHolder;
+		private RegisterTile shooterRegisterTile;
 
 
 		/// <summary>
@@ -222,10 +223,12 @@ namespace Weapons
 			if (info.ToPlayer != null)
 			{
 				serverHolder = info.ToPlayer.gameObject;
+				shooterRegisterTile = serverHolder.GetComponent<RegisterTile>();
 			}
 			else
 			{
 				serverHolder = null;
+				shooterRegisterTile = null;
 			}
 		}
 
@@ -560,7 +563,7 @@ namespace Weapons
 				DisplayShot(nextShot.shooter, nextShot.finalDirection, nextShot.damageZone, nextShot.isSuicide);
 
 				//trigger a hotspot caused by gun firing
-				registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(nextShot.shooter.TileWorldPosition(), 3200, 0.005f);
+				shooterRegisterTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(nextShot.shooter.TileWorldPosition(), 3200, 0.005f);
 
 				//tell all the clients to display the shot
 				ShootMessage.SendToAll(nextShot.finalDirection, nextShot.damageZone, nextShot.shooter, this.gameObject, nextShot.isSuicide);
@@ -643,7 +646,7 @@ namespace Weapons
 
 			//get the bullet prefab being shot
 			GameObject bullet = Spawn.ClientPrefab(Projectile.name,
-				shooter.transform.position).GameObject;
+				shooter.transform.position, parent: shooter.transform.parent).GameObject;
 			var b = bullet.GetComponent<Projectile>();
 			if (isSuicideShot)
 			{
