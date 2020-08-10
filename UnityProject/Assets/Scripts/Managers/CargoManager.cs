@@ -66,9 +66,9 @@ public class CargoManager : MonoBehaviour
 	bool CheckLifeforms()
 	{
 		Transform ObjectHolder = CargoShuttle.Instance.SearchForObjectsOnShuttle();
-		for (int i = 0; i < ObjectHolder.childCount; i++)
+		foreach (Transform child in ObjectHolder)
 		{
-			if (ObjectHolder.GetChild(i).transform.gameObject.layer == 12 || ObjectHolder.GetChild(i).transform.gameObject.layer == 8)
+			if (child.transform.gameObject.layer == 12 || child.transform.gameObject.layer == 8)
 			{
 				return true;
 			}
