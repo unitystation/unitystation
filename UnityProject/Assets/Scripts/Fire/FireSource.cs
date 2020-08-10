@@ -10,7 +10,7 @@ public class FireSource : MonoBehaviour, IServerSpawn
 {
 	[SerializeField]
 	[Tooltip("Does this fire emit flame from start?")]
-	private bool isBurningOnSpawn;
+	private bool isBurningOnSpawn = false;
 
 	[Temperature]
 	[SerializeField]
@@ -21,37 +21,60 @@ public class FireSource : MonoBehaviour, IServerSpawn
 	[Tooltip("Volume of flamed gas in m3")]
 	public float flameVolume = 0.005f;
 
-	private PushPull pushPull;
+	private PushPull pushPull = null;
+	private bool isBurning = false;
 
 	/// <summary>
 	/// Does this object emit flame?
 	/// Flame may lead to ignite flamable objects or plasma fire
 	/// </summary>
-	public bool IsBurning { get; set; }
+	public bool IsBurning
+	{
+		get
+		{
+			return isBurning;
+		}
+		set
+		{
+			if (isBurning == value)
+			{
+				return;
+			}
+			isBurning = value;
+
+			// when item emits flame we need to send heat to surroundings
+			if (pushPull && CustomNetworkManager.IsServer)
+			{
+				if (isBurning)
+				{
+					// subscribe to peropdic update to send heat
+					UpdateManager.Add(CreateHotspot, 0.1f);
+				}
+				else
+				{
+					// don't need to send heat anymore
+					UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CreateHotspot);
+				}
+			}
+		}
+	}
 
 	private void Awake()
 	{
 		pushPull = GetComponent<PushPull>();
 	}
 
-	private void Update()
+	private void CreateHotspot()
 	{
-		if (!CustomNetworkManager.IsServer || !pushPull)
+		// send some heat on firesource position
+		var position = pushPull.AssumedWorldPositionServer();
+		if (position != TransformState.HiddenPos)
 		{
-			return;
-		}
-
-		if (IsBurning)
-		{
-			var position = pushPull.AssumedWorldPositionServer();
-			if (position != TransformState.HiddenPos)
+			var registerTile = pushPull.registerTile;
+			if (registerTile)
 			{
-				var registerTile = pushPull.registerTile;
-				if (registerTile)
-				{
-					var reactionManager = registerTile.Matrix.ReactionManager;
-					reactionManager.ExposeHotspotWorldPosition(position.To2Int(), flameTemperature, flameVolume);
-				}
+				var reactionManager = registerTile.Matrix.ReactionManager;
+				reactionManager.ExposeHotspotWorldPosition(position.To2Int(), flameTemperature, flameVolume);
 			}
 		}
 	}
