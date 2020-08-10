@@ -13,12 +13,30 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1af13f83286bbc745af2688fc062b25f,
         type: 2}
+    - target: {fileID: 3499719427789762796, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 0164aed91c4a15045a36d760cadcaef4,
+        type: 2}
+    - target: {fileID: 3499719427789762796, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1af13f83286bbc745af2688fc062b25f,
+        type: 2}
     - target: {fileID: 4443546477690345710, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 8a35a6e0d9bade94dbe5b7c943d9876c,
         type: 2}
+    - target: {fileID: 5733160862123623072, guid: 77b0f36047b1a0e48ba9f97f954035fd,
+        type: 3}
+      propertyPath: buttPrefab
+      value: 
+      objectReference: {fileID: 3118614214066566036, guid: e76d17836a8eb274b95b38b9e522e071,
+        type: 3}
     - target: {fileID: 7150033703578526729, guid: 77b0f36047b1a0e48ba9f97f954035fd,
         type: 3}
       propertyPath: initialTraits.Array.size
