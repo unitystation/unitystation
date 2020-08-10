@@ -83,6 +83,7 @@ public class GUI_Cargo : NetTab
 
 	public bool CurrentId()
 	{
+		if (cargoConsole == null) return false;
 		return cargoConsole.CorrectID;
 	}
 

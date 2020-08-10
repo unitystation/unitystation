@@ -38,17 +38,35 @@ public class CargoConsole : NetworkBehaviour,ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		CheckID(interaction.HandSlot.Item.GetComponent<IDCard>().JobType);
+		CheckID(interaction.HandSlot.Item.GetComponent<IDCard>().JobType,interaction.Performer);
 	}
 
-	private void CheckID(JobType usedID)
+	[Server]
+	private void CheckID(JobType usedID, GameObject playeref)
 	{
+		// Null checks people, always need them in the weirdest of places
+		if (associatedTab == null) return;
 		foreach (var aJob in allowedTypes.Where(aJob => usedID == aJob))
 		{
 			correctID = true;
 			associatedTab.UpdateId();
 			break;
 		}
+		// Not "optimized" for readability
+		if (correctID)
+		{
+			Chat.AddActionMsgToChat(playeref, "You swipe your ID through the supply console's ID slot, t" +
+			                                  "he console accepts your ID",
+				"swiped their ID through the supply console's ID slot");
+		}
+		else
+		{
+			Chat.AddActionMsgToChat(playeref, "You swipe your ID through the supply console's ID slot, t" +
+			                                  "he console denies your ID",
+				"swiped their ID through the supply console's ID slot");
+
+		}
+
 	}
 
 
