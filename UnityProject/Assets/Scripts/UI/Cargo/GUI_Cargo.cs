@@ -13,6 +13,11 @@ public class GUI_Cargo : NetTab
 	private NetLabel DirectoryText => directoryText ? directoryText : directoryText = this["HeaderDirectory"] as NetLabel;
 	private NetPageSwitcher nestedSwitcher;
 	private NetPageSwitcher NestedSwitcher => nestedSwitcher ? nestedSwitcher : nestedSwitcher = this["ScreenBounds"] as NetPageSwitcher;
+	private GameObject providerGameObject;
+	private CargoConsole cargoConsole;
+
+	[SerializeField]
+	private GUI_CargoPageCart pageCart;
 
 	protected override void InitServer()
 	{
@@ -24,6 +29,7 @@ public class GUI_Cargo : NetTab
 			page.GetComponent<GUI_CargoPage>().Init();
 		}
 		UpdateCreditsText();
+
 	}
 
 	public override void OnEnable()
@@ -38,6 +44,9 @@ public class GUI_Cargo : NetTab
 		{
 			yield return WaitFor.EndOfFrame;
 		}
+		providerGameObject = Provider;
+		cargoConsole = providerGameObject.GetComponent<CargoConsole>();
+		cargoConsole.NetTabRef(gameObject);
 	}
 
 	public void RefreshSubpage(NetPage oldPage, NetPage newPage)
@@ -65,5 +74,21 @@ public class GUI_Cargo : NetTab
 	public void CloseTab()
 	{
 		ControlTabs.CloseTab(Type, Provider);
+	}
+
+	public void ResetId()
+	{
+		cargoConsole.ResetID();
+	}
+
+	public bool CurrentId()
+	{
+		if (cargoConsole == null) return false;
+		return cargoConsole.CorrectID;
+	}
+
+	public void UpdateId()
+	{
+		pageCart.UpdateTab();
 	}
 }
