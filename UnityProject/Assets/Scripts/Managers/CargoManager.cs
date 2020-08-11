@@ -65,13 +65,15 @@ public class CargoManager : MonoBehaviour
 	/// <returns>true if a lifeform is found, false if none is found</returns>
 	bool CheckLifeforms()
 	{
+		LayerMask layersToCheck = LayerMask.GetMask("Player", "NPC");
 		Transform ObjectHolder = CargoShuttle.Instance.SearchForObjectsOnShuttle();
 		foreach (Transform child in ObjectHolder)
 		{
-			if (child.transform.gameObject.layer == 12 || child.transform.gameObject.layer == 8)
+			if(((1<<child.gameObject.layer) & layersToCheck) == 0)
 			{
-				return true;
+				continue;
 			}
+			return true;
 		}
 		return false;
 	}
