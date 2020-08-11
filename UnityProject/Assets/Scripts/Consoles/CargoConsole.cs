@@ -57,7 +57,7 @@ public class CargoConsole : NetworkBehaviour,ICheckedInteractable<HandApply>
 		}
 		else
 		{
-			Chat.AddActionMsgToChat(playeref, "You swipe your ID through the supply console's ID slot, t" +
+			Chat.AddActionMsgToChat(playeref, "You swipe your ID through the supply console's ID slot, " +
 			                                  "he console denies your ID",
 				"swiped their ID through the supply console's ID slot");
 
