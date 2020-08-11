@@ -65,9 +65,9 @@ public class SubscriptionControllerEditor : Editor
 			Ray ray = HandleUtility.GUIPointToWorldRay(e.mousePosition);
 			RaycastHit2D[] hits = Physics2D.RaycastAll(ray.origin, ray.direction);
 
-			var hashHits = new HashSet<GameObject>(hits.Select(x => x.transform.gameObject));
+			var objectHitRaycast = hits.Select(hit => hit.collider.gameObject).ToList();
 
-			var objectsToDirt = controller.SubscribeToController(hashHits);
+			var objectsToDirt = controller.SubscribeToController(objectHitRaycast);
 
 			EditorUtility.SetDirty(controller);
 			foreach (var objectToDirt in objectsToDirt)
