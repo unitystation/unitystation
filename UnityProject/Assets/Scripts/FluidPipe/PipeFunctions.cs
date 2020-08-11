@@ -333,6 +333,8 @@ namespace Pipes
 			float density = this.Density();
 			foreach (var Pipe in others)
 			{
+				if(Pipe == null) continue;
+
 				if (Math.Abs(PipeFunctions.PipeOrNet(Pipe).Density() - density) > 0.001f)
 				{
 					DifferenceInPressure = true;

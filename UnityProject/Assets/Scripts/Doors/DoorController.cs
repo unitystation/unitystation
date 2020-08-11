@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using System.Collections.Generic;
+using ScriptableObjects;
 
 public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 {

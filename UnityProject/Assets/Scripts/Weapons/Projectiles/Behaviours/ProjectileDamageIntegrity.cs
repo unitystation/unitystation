@@ -1,4 +1,4 @@
-﻿using Container.Gun;
+﻿using ScriptableObjects.Gun;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
@@ -37,6 +37,12 @@ namespace Weapons.Projectiles.Behaviours
 				integrity.gameObject.name, damageData.Damage);
 
 			return true;
+		}
+
+		private void OnDisable()
+		{
+			weapon = null;
+			shooter = null;
 		}
 	}
 }

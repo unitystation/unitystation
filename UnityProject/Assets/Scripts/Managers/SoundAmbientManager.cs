@@ -156,7 +156,7 @@ namespace Audio.Managers
 			}
 			else
 			{
-				SetVolumeForAllAudioSources(1f);
+				SetVolumeForAllAudioSources(0.2f);
 			}
 		}
 

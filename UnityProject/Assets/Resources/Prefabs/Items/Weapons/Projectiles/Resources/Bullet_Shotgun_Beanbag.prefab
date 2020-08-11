@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 6930333373199414411}
   - component: {fileID: 1499579627340029232}
   - component: {fileID: 2067591742924205333}
+  - component: {fileID: 6680723965907963042}
   m_Layer: 15
   m_Name: Bullet_Shotgun_Beanbag
   m_TagString: Untagged
@@ -278,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageData: {fileID: 11400000, guid: 05fe15843a9f83447b0180dcd3ce65e2, type: 2}
-  layersToHit: 0100000005000000
+  layerType: {fileID: 11400000, guid: bf3b6b85dc4ab9f47b5ab0f7fa272c2f, type: 2}
 --- !u!114 &2067591742924205333
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,3 +294,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decal: {fileID: 1069497300762596, guid: 7a621fe1cbbb4a7498aad5b4dc9f67fb, type: 3}
   animationTime: 0.3
+--- !u!114 &6680723965907963042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932369758612010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf871ef24ba47c1820a9934ab8aa38d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

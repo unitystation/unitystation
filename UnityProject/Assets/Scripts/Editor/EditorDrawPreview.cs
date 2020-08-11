@@ -49,8 +49,13 @@ public class MyProjectViewExtentions
 				var spriteDataSO = AssetDatabase.LoadAssetAtPath<SpriteDataSO>(sTing);
 
 				if (spriteDataSO == null) return;
-				if (spriteDataSO.Variance.Count <= 0 || spriteDataSO.Variance[0].Frames.Count <= 0) return;
-
+				if (spriteDataSO.Variance.Count <= 0 || spriteDataSO.Variance[0].Frames.Count <= 0 || spriteDataSO.Variance[0].Frames[0].sprite == null) return;
+				TextureImporter importer = AssetImporter.GetAtPath (AssetDatabase.GetAssetPath(spriteDataSO.Variance[0].Frames[0].sprite))as TextureImporter;
+				if (importer.isReadable == false)
+				{
+					Logger.Log("hey, Texture read and write is not enabled for this Sprite " + spriteDataSO.Variance[0].Frames[0].sprite + "Please update the values on the import settings to make it Read and write");
+					return;
+				}
 				mainTex = CopySprite(GenerateNewTexture2D(), spriteDataSO.Variance[0].Frames[0].sprite);
 
 				Dictionaryguid[guid] = mainTex;
@@ -75,6 +80,12 @@ public class MyProjectViewExtentions
 		{
 			if (SR.enabled && SR.sprite != null)
 			{
+				TextureImporter importer = AssetImporter.GetAtPath (AssetDatabase.GetAssetPath(SR.sprite))as TextureImporter;
+				if (importer.isReadable == false)
+				{
+					Logger.Log("hey, Texture read and write is not enabled for this Sprite " + SR.sprite + "Please update the values on the import settings to make it Read and write");
+					return T2D;
+				}
 				T2D = CopySprite(T2D, SR.sprite);
 			}
 		}
@@ -102,6 +113,8 @@ public class MyProjectViewExtentions
 	{
 		int xx = 0;
 		int yy = 0;
+
+
 
 		for (int x = (int) NewSprite.textureRect.position.x;
 			x < (int) NewSprite.textureRect.position.x + NewSprite.rect.width;

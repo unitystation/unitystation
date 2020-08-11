@@ -1,4 +1,5 @@
 ﻿using System.Text.RegularExpressions;
+using ScriptableObjects;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "CustomSpeechModifierCode", menuName = "ScriptableObjects/SpeechModifiers/Stuttering")]

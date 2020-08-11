@@ -11,6 +11,7 @@ using UnityEngine.UIElements;
 using Lighting;
 using Pipes;
 using Radiation;
+using ScriptableObjects;
 using UnityEngine.Serialization;
 
 public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, ISetMultitoolMaster, IServerDespawn, IServerSpawn

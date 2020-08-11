@@ -60,6 +60,7 @@ GameObject:
   - component: {fileID: 7667820033704064199}
   - component: {fileID: -4727675495507522874}
   - component: {fileID: 4528260155402479153}
+  - component: {fileID: -4044831368693876176}
   m_Layer: 15
   m_Name: Bullet_38
   m_TagString: Untagged
@@ -278,7 +279,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageData: {fileID: 11400000, guid: f2fd2bf590719c84aa20f46fa3892d4b, type: 2}
-  layersToHit: 0100000005000000
+  layerType: {fileID: 11400000, guid: bf3b6b85dc4ab9f47b5ab0f7fa272c2f, type: 2}
 --- !u!114 &4528260155402479153
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,3 +294,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decal: {fileID: 1069497300762596, guid: 7a621fe1cbbb4a7498aad5b4dc9f67fb, type: 3}
   animationTime: 0.3
+--- !u!114 &-4044831368693876176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1932369758612010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf871ef24ba47c1820a9934ab8aa38d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

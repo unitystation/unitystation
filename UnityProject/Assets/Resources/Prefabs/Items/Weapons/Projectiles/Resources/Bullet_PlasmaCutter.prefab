@@ -97,6 +97,7 @@ GameObject:
   - component: {fileID: 1511572145375843069}
   - component: {fileID: -9081271700006042322}
   - component: {fileID: -4648403302383284835}
+  - component: {fileID: -6586621632993670504}
   m_Layer: 15
   m_Name: Bullet_PlasmaCutter
   m_TagString: Untagged
@@ -198,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damageData: {fileID: 11400000, guid: cefe38d0c0bdcd548ae7e6575fce7842, type: 2}
-  layersToHit: 0100000005000000
+  layerType: {fileID: 11400000, guid: bf3b6b85dc4ab9f47b5ab0f7fa272c2f, type: 2}
 --- !u!114 &-4648403302383284835
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,6 +214,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decal: {fileID: 1069497300762596, guid: 675a077448cf5884da4a2654b8ae7e59, type: 3}
   animationTime: 0.2
+--- !u!114 &-6586621632993670504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1553142956179786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1cf871ef24ba47c1820a9934ab8aa38d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2442424702608227053
 GameObject:
   m_ObjectHideFlags: 0

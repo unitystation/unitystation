@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(SpriteRenderer))]
 public class LightEmissionBehaviour : MonoBehaviour
 {
 	private const int LightSourceLayer = 21;

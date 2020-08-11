@@ -28,6 +28,11 @@ namespace Antagonists
 		private int Amount;
 
 		/// <summary>
+		/// The amount that has been found by the completion check so far.
+		/// </summary>
+		private int CheckAmount = 0;
+
+		/// <summary>
 		/// Make sure there's at least one item which hasn't been targeted
 		/// </summary>
 		public override bool IsPossible(PlayerScript candidate)
@@ -78,26 +83,61 @@ namespace Antagonists
 			description = $"Steal {Amount} {ItemName}";
 		}
 
+		/// <summary>
+		/// Checks through all the storage recursively
+		/// </summary>
 		protected override bool CheckCompletion()
 		{
-			int count = 0;
-			foreach (var slot in Owner.body.ItemStorage.GetItemSlotTree())
+			return CheckStorage(Owner.body.ItemStorage);
+		}
+
+		private bool CheckStorage(ItemStorage itemStorage)
+		{
+			foreach (var slot in itemStorage.GetItemSlots())
 			{
-				// TODO find better way to determine item types (ScriptableObjects/item IDs could work but would need to refactor all items)
-				if (slot.ItemObject != null && slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
+				if (CheckSlot(slot))
 				{
-					if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
-					{
-						count += stackable.Amount;
-					}
-					else
-					{
-						count++;
-					}
+					return true;
 				}
 			}
-			// Check if the count is higher than the specified amount
-			return count >= Amount;
+
+			return false;
+		}
+
+		private bool CheckSlot(ItemSlot slot)
+		{
+			if (slot.ItemObject == null) return false;
+
+			//Check if current Item is the one we need
+			if (slot.ItemObject.GetComponent<ItemAttributesV2>()?.InitialName == ItemName)
+			{
+				//If stackable count stack
+				if (slot.ItemObject.TryGetComponent<Stackable>(out var stackable))
+				{
+					CheckAmount += stackable.Amount;
+				}
+				else
+				{
+					CheckAmount++;
+				}
+
+				//Check to see if count has been passed
+				if (CheckAmount >= Amount)
+				{
+					return true;
+				}
+			}
+
+			//Check to see if this item has storage, and do checks on that
+			if (slot.ItemObject.TryGetComponent<ItemStorage>(out var itemStorage))
+			{
+				if (CheckStorage(itemStorage))
+				{
+					return true;
+				}
+			}
+
+			return false;
 		}
 	}
 }

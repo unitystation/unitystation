@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mirror;
+using ScriptableObjects;
 using UnityEngine;
 
 [SelectionBase]

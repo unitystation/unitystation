@@ -2,6 +2,7 @@
 using Light2D;
 using Lighting;
 using Mirror;
+using ScriptableObjects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -25,7 +26,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	[SerializeField]
 	private bool isWithoutSwitch = true;
 	public bool IsWithoutSwitch => isWithoutSwitch;
-	private bool switchState;
+	private bool switchState = true;
 	private PowerStates powerState;
 
 	[SerializeField] private SpriteRenderer spriteRenderer;
