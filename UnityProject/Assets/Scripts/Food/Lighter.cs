@@ -92,8 +92,8 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 			{
 				// edgy smoker
 				Chat.AddActionMsgToChat(player.gameObject,
-					$"Without even breaking stride, {playerName} flips open and lights {lighterName} in one smooth movement.",
-					$"Without even breaking stride, you flip open and light {lighterName} in one smooth movement.");
+					$"Without even breaking stride, you flip open and light {lighterName} in one smooth movement.",
+					$"Without even breaking stride, {playerName} flips open and lights {lighterName} in one smooth movement.");
 			}
 			else
 			{
@@ -103,8 +103,8 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 				if (protection || random <= 0.75f)
 				{
 					Chat.AddActionMsgToChat(player.gameObject,
-						$"After a few attempts, {playerName} manages to light {lighterName}.",
-						$"After a few attempts, you manage to light {lighterName}.");
+						$"After a few attempts, you manage to light {lighterName}.",
+						$"After a few attempts, {playerName} manages to light {lighterName}.");
 				}
 				else
 				{
@@ -120,8 +120,8 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 					var their = player.characterSettings.TheirPronoun();
 
 					Chat.AddActionMsgToChat(player.gameObject,
-						$"After a few attempts, {playerName} manages to light {lighterName} - however, {they} burn {their} finger in the process.",
-						$"You burn yourself while lighting the lighter!");
+						$"You burn yourself while lighting the lighter!",
+						$"After a few attempts, {playerName} manages to light {lighterName} - however, {they} burn {their} finger in the process.");
 				}
 			}
 		}
@@ -131,14 +131,14 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 			{
 				var theyre = player.characterSettings.TheyrePronoun();
 				Chat.AddActionMsgToChat(player.gameObject,
-					$"You hear a quiet click, as {playerName} shuts off {lighterName} without even looking at what {theyre} doing. Wow.",
-					$"You quietly shut off {lighterName} without even looking at what you're doing. Wow.");
+					$"You quietly shut off {lighterName} without even looking at what you're doing. Wow.",
+					$"You hear a quiet click, as {playerName} shuts off {lighterName} without even looking at what {theyre} doing. Wow.");
 			}
 			else
 			{
 				Chat.AddActionMsgToChat(player.gameObject,
-					$"{playerName}  quietly shuts off {lighterName}.",
-					$"You quietly shut off {lighterName}.");
+					$"You quietly shut off {lighterName}.",
+					$"{playerName}  quietly shuts off {lighterName}.");
 			}
 		}
 	}
