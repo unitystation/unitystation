@@ -266,6 +266,7 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	protected override void MildElectrocution(Electrocution electrocution, float shockPower)
 	{
+		SoundManager.PlayNetworkedAtPos("SmallElectricShock#", electrocution.ShockSourcePos);
 		Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
 	}
 
