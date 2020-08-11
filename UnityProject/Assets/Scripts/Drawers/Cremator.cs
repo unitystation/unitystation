@@ -96,7 +96,7 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMen
 	{
 		OnStartPlayerCremation();
 		StartCoroutine(PlayIncineratingAnim());
-		SoundManager.PlayNetworkedAtPos("Ding", DrawerWorldPosition, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos("Microwave", DrawerWorldPosition, sourceObj: gameObject);
 		DestroyItems();
 	}
 
