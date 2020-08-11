@@ -142,6 +142,17 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		var tr = gameObject.transform.parent;
 		var rotation = RandomUtils.RandomRotatation2D();
 
+		// Print burn out message if in players inventory 
+		if (pickupable && pickupable.ItemSlot != null)
+		{
+			var player = pickupable.ItemSlot.Player;
+			if (player)
+			{
+				Chat.AddExamineMsgFromServer(player.gameObject,
+					$"Your {gameObject.ExpensiveName()} goes out.");
+			}
+		}
+
 		// Despawn cigarette
 		Despawn.ServerSingle(gameObject);
 		// Spawn cigarette butt
