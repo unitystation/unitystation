@@ -59,6 +59,25 @@ public class CargoManager : MonoBehaviour
 		SceneManager.activeSceneChanged -= OnRoundRestart;
 	}
 
+	/// <summary>
+	/// Checks for any Lifeforms (dead or alive) that might be aboard the shuttle
+	/// </summary>
+	/// <returns>true if a lifeform is found, false if none is found</returns>
+	bool CheckLifeforms()
+	{
+		LayerMask layersToCheck = LayerMask.GetMask("Player", "NPC");
+		Transform ObjectHolder = CargoShuttle.Instance.SearchForObjectsOnShuttle();
+		foreach (Transform child in ObjectHolder)
+		{
+			if(((1<<child.gameObject.layer) & layersToCheck) == 0)
+			{
+				continue;
+			}
+			return true;
+		}
+		return false;
+	}
+
 	void OnRoundRestart(Scene oldScene, Scene newScene)
 	{
 		Supplies.Clear();
@@ -99,16 +118,27 @@ public class CargoManager : MonoBehaviour
 				CentcomMessage += "Shuttle is sent back with goods." + "\n";
 				StartCoroutine(Timer(true));
 			}
-			//If we are at station - we start timer and launch shuttle at the same time.
+
+			//If we are at station - First checks for any people or animals aboard
+			//If any, refuses to depart until the lifeform is removed.
+			//If none, we start timer and launch shuttle at the same time.
 			//Once shuttle arrives centcomDest - CargoShuttle will wait till timer is done
 			//and will call OnShuttleArrival()
 			else if (ShuttleStatus == ShuttleStatus.DockedStation)
 			{
-				CargoShuttle.Instance.MoveToCentcom();
-				ShuttleStatus = ShuttleStatus.OnRouteCentcom;
-				CentcomMessage = "";
-				exportedItems.Clear();
-				StartCoroutine(Timer(false));
+				if (CheckLifeforms())
+				{
+					CurrentFlyTime = 0;
+					CentcomMessage += "Due to safety and security reasons, the automatic cargo shuttle is unable to depart with any human, alien or animal organisms aboard." + "\n";
+				}
+				else
+				{
+					CargoShuttle.Instance.MoveToCentcom();
+					ShuttleStatus = ShuttleStatus.OnRouteCentcom;
+					CentcomMessage = "";
+					exportedItems.Clear();
+					StartCoroutine(Timer(false));
+				}
 			}
 		}
 
