@@ -17,7 +17,7 @@ MonoBehaviour:
   initialAmount: 5
   maxAmount: 5
   stacksWith:
-  - {fileID: 6707079740263764080, guid: ea9f71beee1d2e54f8168f51528e72c5, type: 3}
+  - {fileID: 6707079740263764080}
 --- !u!1001 &5759824802831080887
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -138,6 +138,12 @@ PrefabInstance:
       propertyPath: initialName
       value: blumpkin pie
       objectReference: {fileID: 0}
+    - target: {fileID: 5169367590891271744, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 84c062e5b28dd254f943965bcdd669ce,
+        type: 2}
     - target: {fileID: 7146114630749491127, guid: eaf8c1f2a0f9374488e16061fd5b4dcd,
         type: 3}
       propertyPath: NutritionLevel

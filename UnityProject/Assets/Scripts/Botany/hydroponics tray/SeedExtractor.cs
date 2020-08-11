@@ -46,13 +46,12 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 			processingProgress += Time.deltaTime;
 			return;
 		}
-		
+
 		//Handle completed processing
 		processingProgress = 0;
 		var grownFood = foodToBeProcessed.Dequeue();
-		//grownFood.SeedPacket.GetComponent<SeedPacket>().plantData = PlantData.CreateNewPlant(grownFood.plantData);
 		var seedPacket = Spawn.ServerPrefab(grownFood.SeedPacket).GameObject.GetComponent<SeedPacket>();
-		seedPacket.plantData = PlantData.CreateNewPlant(grownFood.plantData);
+		seedPacket.plantData = PlantData.CreateNewPlant(grownFood.GetPlantData());
 
 		//Add seed packet to dispenser
 		seedPackets.Add(seedPacket);
@@ -77,7 +76,7 @@ public class SeedExtractor : ManagedNetworkBehaviour, IInteractable<HandApply>, 
 		CustomNetTransform netTransform = seedPacket.GetComponent<CustomNetTransform>();
 		netTransform.AppearAtPosition(spawnPos);
 		netTransform.AppearAtPositionServer(spawnPos);
-		
+
 		//Notify chat
 		Chat.AddLocalMsgToChat($"{seedPacket.gameObject.ExpensiveName()} was dispensed from the seed extractor", gameObject.RegisterTile().WorldPosition.To2Int(), gameObject);
 

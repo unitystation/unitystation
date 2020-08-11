@@ -401,7 +401,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LogMatrixDebug("ForceRegister");
 		if (transform.parent != null)
 		{
-			objectLayer = transform.parent.GetComponentInParent<ObjectLayer>();
+			// in most scenes ObjectLayer script is placed on parent
+			objectLayer = transform.parent.GetComponent<ObjectLayer>() ?? transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
 			LocalPositionServer = Vector3Int.RoundToInt(transform.localPosition);
@@ -422,6 +423,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="initAction">Action to call when the Matrix is configured</param>
 	public void WaitForMatrixInit(Action<MatrixInfo> initAction)
 	{
+		if (matrix == null)
+		{
+			Logger.LogWarning("Error - [RegisterTile.WaitForMatrixInit] - Matrix is null", Category.Matrix);
+			return;
+		}
+
 		matrixManagerDependantActions.Add(initAction);
 		if (!matrix.MatrixInfoConfigured)
 		{

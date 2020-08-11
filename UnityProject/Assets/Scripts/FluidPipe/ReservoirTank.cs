@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Chemistry.Components;
+using ScriptableObjects;
 using UnityEngine;
 
 
@@ -10,7 +11,7 @@ namespace Pipes
 	{
 
 		public ReagentContainer Container;
-		private void Start()
+		public override void Start()
 		{
 			pipeData.PipeAction = new ReservoirAction();
 			base.Start();

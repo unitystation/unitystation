@@ -74,7 +74,7 @@ namespace Items.PDA
 
 		//Initial TC value, only assigned if antag
 		[SerializeField]
-		private int initalTeleCrystal;
+		private int initalTeleCrystal = 0;
 
 		//The actual TC used, it's a syncvar so people cant to blackmagic fuckery to it
 		[SyncVar]
@@ -85,11 +85,11 @@ namespace Items.PDA
 
 		//What antag the PDA should look for when running antagcheck
 		[SerializeField]
-		private Antagonist antagSet;
+		private Antagonist antagSet = null;
 
 		private UplinkPasswordList passlist;
 
-		[SerializeField] private ActionData actionData;
+		[SerializeField] private ActionData actionData = null;
 
 		public ActionData ActionData => actionData;
 

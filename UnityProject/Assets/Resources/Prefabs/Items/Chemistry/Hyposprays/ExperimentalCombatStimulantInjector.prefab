@@ -9,53 +9,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
-      propertyPath: Sprites.Array.size
+      propertyPath: SubCatalogue.Array.size
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.size
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].Texture
-      value: 
-      objectReference: {fileID: 2800000, guid: eef946a8564bf414da34c0a8f95ac36c, type: 3}
-    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[0]
-      value: 
-      objectReference: {fileID: -2416157488532497590, guid: eef946a8564bf414da34c0a8f95ac36c,
-        type: 3}
-    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[1]
-      value: 
-      objectReference: {fileID: -6470090686708514761, guid: eef946a8564bf414da34c0a8f95ac36c,
-        type: 3}
-    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[2]
-      value: 
-      objectReference: {fileID: -7368925945459414868, guid: eef946a8564bf414da34c0a8f95ac36c,
-        type: 3}
-    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].Sprites.Array.data[3]
-      value: 
-      objectReference: {fileID: 4269016806039279362, guid: eef946a8564bf414da34c0a8f95ac36c,
-        type: 3}
-    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
-        type: 3}
-      propertyPath: Sprites.Array.data[0].EquippedData
-      value: 
-      objectReference: {fileID: 4900000, guid: cef3c78338df62240b5c606821657a48, type: 3}
     - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: SetSpriteOnStartUp
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e5e10e71e6028984d8db85dae3e530ef,
+        type: 2}
     - target: {fileID: 5202609555093908209, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: m_AssetId
@@ -125,7 +92,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -2416157488532497590, guid: eef946a8564bf414da34c0a8f95ac36c,
+      objectReference: {fileID: 4269016806039279362, guid: eef946a8564bf414da34c0a8f95ac36c,
         type: 3}
     - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
@@ -139,6 +106,18 @@ PrefabInstance:
         with experimental medical nanites and a stimulant for rapid healing and a
         combat boost.
       objectReference: {fileID: 0}
+    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e3a502e9a5eb5cd45a4397b5eef9f8e3,
+        type: 2}
+    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7f008347c1391234380975d4ea5dc8fc,
+        type: 2}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size

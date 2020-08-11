@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: b857e18c9f7feec42a790c672bab2c9b,
         type: 2}
+    - target: {fileID: 3193833963093172399, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e1e2992dc4f871c4e9580f4e3e7324b0,
+        type: 2}
     - target: {fileID: 8683201485798090396, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
         type: 3}
       propertyPath: m_AssetId
@@ -167,5 +173,17 @@ PrefabInstance:
       propertyPath: initialName
       value: wooden bucket
       objectReference: {fileID: 0}
+    - target: {fileID: 9221474911054230602, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 720fe2144158a8d4ab4c5d8703362d51,
+        type: 2}
+    - target: {fileID: 9221474911054230602, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e6b8d3efae0a894d916c3700e10f59e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ba46a81cbd3cd9c4faea0e047fbae79f, type: 3}

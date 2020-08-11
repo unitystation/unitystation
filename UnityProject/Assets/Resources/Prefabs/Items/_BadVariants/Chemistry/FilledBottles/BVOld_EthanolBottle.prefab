@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 5426160498802093876, guid: 4ff31457cca9d434fa5002e3cc47a379,
         type: 3}
       propertyPath: m_Name
-      value: EthanolBottle
+      value: BVOld_EthanolBottle
       objectReference: {fileID: 0}
     - target: {fileID: 5430806898007773760, guid: 4ff31457cca9d434fa5002e3cc47a379,
         type: 3}
@@ -94,6 +94,16 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6514338071049381788, guid: 4ff31457cca9d434fa5002e3cc47a379,
         type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514338071049381788, guid: 4ff31457cca9d434fa5002e3cc47a379,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514338071049381788, guid: 4ff31457cca9d434fa5002e3cc47a379,
+        type: 3}
       propertyPath: reagentMix.reagents.m_keys.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 04af0125ed6e69723a72d56c754e56a8,
@@ -101,6 +111,17 @@ PrefabInstance:
     - target: {fileID: 6514338071049381788, guid: 4ff31457cca9d434fa5002e3cc47a379,
         type: 3}
       propertyPath: reagentMix.reagents.m_values.Array.data[0]
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514338071049381788, guid: 4ff31457cca9d434fa5002e3cc47a379,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 04af0125ed6e69723a72d56c754e56a8,
+        type: 2}
+    - target: {fileID: 6514338071049381788, guid: 4ff31457cca9d434fa5002e3cc47a379,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
       value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []

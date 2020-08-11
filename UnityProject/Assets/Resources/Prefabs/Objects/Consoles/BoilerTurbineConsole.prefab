@@ -1,5 +1,21 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6663719256466352037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5115779151868333260}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d980d97bb1cc3d40ad1da4de37765b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  State: 0
+  ReactorBoiler: {fileID: 0}
+  ReactorTurbine: {fileID: 0}
+  conType: 3
 --- !u!1001 &3265512773498842293
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,6 +103,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Controls and records data from the boiler and turbine.
       objectReference: {fileID: 0}
+    - target: {fileID: 1213303998874603650, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5caf4067de7298f408771832d3670a44,
+        type: 2}
     - target: {fileID: 2193914177532499227, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_AssetId
@@ -102,6 +124,12 @@ PrefabInstance:
       propertyPath: NetTabType
       value: 23
       objectReference: {fileID: 0}
+    - target: {fileID: 3806105522999988684, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 850488255249c27448f2e45e835c4796,
+        type: 2}
     - target: {fileID: 4381392260290605791, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: m_Sprite
@@ -196,6 +224,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: Color.r
+      value: 0.408
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: Color.g
+      value: 0.578
+      objectReference: {fileID: 0}
+    - target: {fileID: 6092885030212132519, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: Color.b
+      value: 0.633
+      objectReference: {fileID: 0}
     - target: {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697,
         type: 3}
       propertyPath: onSprites.Sprites.Array.size
@@ -246,7 +289,19 @@ PrefabInstance:
       propertyPath: m_Name
       value: BoilerTurbineConsole
       objectReference: {fileID: 0}
+    - target: {fileID: 8201155816690774842, guid: b46887a995abc224aab70e21b9e53697,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2896c1e0775f3a94c8ef494bfe1a076e,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 6556397441920388693, guid: b46887a995abc224aab70e21b9e53697, type: 3}
     - {fileID: 7329940262870924101, guid: b46887a995abc224aab70e21b9e53697, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b46887a995abc224aab70e21b9e53697, type: 3}
+--- !u!1 &5115779151868333260 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7759570870767460473, guid: b46887a995abc224aab70e21b9e53697,
+    type: 3}
+  m_PrefabInstance: {fileID: 3265512773498842293}
+  m_PrefabAsset: {fileID: 0}

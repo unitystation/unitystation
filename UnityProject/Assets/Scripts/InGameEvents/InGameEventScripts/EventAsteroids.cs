@@ -40,7 +40,9 @@ namespace InGameEvents
 			{
 				var text = "Proximity Alert:\nInbound Meteors have been detected.\nBrace for impact!";
 
-				CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.alert);
+				CentComm.MakeAnnouncementNoSound(CentComm.CentCommAnnounceTemplate, text);
+
+				SoundManager.PlayNetworked("Meteors");
 			}
 
 			if (FakeEvent) return;

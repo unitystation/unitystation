@@ -19,7 +19,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1615565101381030, guid: 2259865de127b42cf8f28e25a6421cb0, type: 3}
       propertyPath: m_Name
-      value: Closet_Locker_Security_Prisoner
+      value: BVOld_Closet_Locker_Security_Prisoner
       objectReference: {fileID: 0}
     - target: {fileID: 4354794864428666, guid: 2259865de127b42cf8f28e25a6421cb0, type: 3}
       propertyPath: m_LocalPosition.x
@@ -77,6 +77,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 90a867d7513ab774a9929fb7ea442d16,
         type: 2}
+    - target: {fileID: 114921955171148146, guid: 2259865de127b42cf8f28e25a6421cb0,
+        type: 3}
+      propertyPath: damageDeflection
+      value: 20
+      objectReference: {fileID: 0}
     - target: {fileID: 114959860031397196, guid: 2259865de127b42cf8f28e25a6421cb0,
         type: 3}
       propertyPath: m_AssetId

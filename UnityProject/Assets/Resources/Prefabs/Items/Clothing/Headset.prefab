@@ -22,11 +22,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 8301815893407684614, guid: a9c4649a88c0143b68f95ac8adfa3067,
-        type: 3}
-      propertyPath: m_Name
-      value: Headset
-      objectReference: {fileID: 0}
     - target: {fileID: 8260107534447142322, guid: a9c4649a88c0143b68f95ac8adfa3067,
         type: 3}
       propertyPath: m_AssetId
@@ -86,6 +81,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8301815893407684614, guid: a9c4649a88c0143b68f95ac8adfa3067,
+        type: 3}
+      propertyPath: m_Name
+      value: Headset
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a9c4649a88c0143b68f95ac8adfa3067, type: 3}

@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-using Mirror;
 
 namespace Disposals
 {
@@ -13,16 +12,9 @@ namespace Disposals
 		const float FLUSH_DELAY = 1;
 
 		DirectionalPassable directionalPassable;
-
-		[SyncVar(hook = nameof(OnSyncIntakeState))]
-		bool intakeOperating = false;
-		[SyncVar(hook = nameof(OnSyncOrientation))]
-		OrientationEnum orientation;
-
-		Coroutine intakeSequence;
 		DisposalVirtualContainer virtualContainer;
 
-		public bool IntakeOperating => intakeOperating;
+		public bool IntakeOperating { get; private set; }
 
 		#region Initialisation
 
@@ -32,17 +24,15 @@ namespace Disposals
 
 			if (TryGetComponent(out Directional directional))
 			{
-				orientation = directional.InitialDirection;
 				directional.OnDirectionChange.AddListener(OnDirectionChanged);
 			}
 			directionalPassable = GetComponent<DirectionalPassable>();
 			DenyEntry();
 		}
 
-		public override void OnStartClient()
+		void Start()
 		{
-			base.OnStartClient();
-			UpdateSpriteOutletState();
+			UpdateSpriteState();
 			UpdateSpriteOrientation();
 		}
 
@@ -64,28 +54,18 @@ namespace Disposals
 
 		private void OnDirectionChanged(Orientation newDir)
 		{
-			orientation = newDir.AsEnum();
-		}
-
-		#region Sync
-
-		void OnSyncIntakeState(bool oldState, bool newState)
-		{
-			intakeOperating = newState;
-			UpdateSpriteOutletState();
-		}
-
-		void OnSyncOrientation(OrientationEnum oldState, OrientationEnum newState)
-		{
-			orientation = newState;
 			UpdateSpriteOrientation();
 		}
 
-		#endregion Sync
+		void SetIntakeOperating(bool isOperating)
+		{
+			IntakeOperating = isOperating;
+			UpdateSpriteState();
+		}
 
 		#region Sprites
 
-		void UpdateSpriteOutletState()
+		void UpdateSpriteState()
 		{
 			if (IntakeOperating) baseSpriteHandler.ChangeSprite(1);
 			else baseSpriteHandler.ChangeSprite(0);
@@ -93,7 +73,7 @@ namespace Disposals
 
 		void UpdateSpriteOrientation()
 		{
-			switch (orientation)
+			switch (directionalPassable.Directional.CurrentDirection.AsEnum())
 			{
 				case OrientationEnum.Up:
 					baseSpriteHandler.ChangeSpriteVariant(1);
@@ -151,7 +131,7 @@ namespace Disposals
 		IEnumerator RunIntakeSequence()
 		{
 			// Intake orifice closes...
-			intakeOperating = true;
+			SetIntakeOperating(true);
 			DenyEntry();
 			virtualContainer = SpawnNewContainer();
 			yield return WaitFor.Seconds(FLUSH_DELAY);
@@ -164,7 +144,7 @@ namespace Disposals
 			yield return WaitFor.Seconds(ANIMATION_TIME - FLUSH_DELAY);
 			virtualContainer = null;
 			AllowEntry();
-			intakeOperating = false;
+			SetIntakeOperating(false);
 		}
 
 		#region Construction

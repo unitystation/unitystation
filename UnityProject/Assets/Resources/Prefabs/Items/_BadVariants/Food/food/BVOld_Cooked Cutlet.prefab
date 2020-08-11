@@ -32,7 +32,7 @@ PrefabInstance:
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: initialName
-      value: Cooked Cutlets
+      value: cutlet
       objectReference: {fileID: 0}
     - target: {fileID: 667038178532149417, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
@@ -53,7 +53,7 @@ PrefabInstance:
     - target: {fileID: 1129366686127204299, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
       propertyPath: m_Name
-      value: Cooked Cutlet
+      value: BVOld_Cooked Cutlet
       objectReference: {fileID: 0}
     - target: {fileID: 1134857784536455871, guid: 9e24daf3783555e42b00f94e49d98357,
         type: 3}
@@ -110,6 +110,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6551134592406330444, guid: 9e24daf3783555e42b00f94e49d98357,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 846e0c7d59425e248bb9bd9924913509,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e24daf3783555e42b00f94e49d98357, type: 3}
 --- !u!1 &6532193109441330816 stripped

@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 6f9822853e7fef845a2cc817dd4c2938,
         type: 2}
+    - target: {fileID: 1237339817834502954, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0f1f2e454cd404d4fae5c568219ef93e,
+        type: 2}
     - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
       propertyPath: attackVerbs.Array.size
@@ -136,6 +142,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 392a6041830de8f42bf0167ec045f22d, type: 3}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c8f5adbb7e35c34abf77ff8b8e6983d,
+        type: 2}
+    - target: {fileID: 4791952605902770127, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: a0501631b430bf247a7ecc8e2f2665bc,
+        type: 2}
     - target: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a,
         type: 3}
       propertyPath: m_Name

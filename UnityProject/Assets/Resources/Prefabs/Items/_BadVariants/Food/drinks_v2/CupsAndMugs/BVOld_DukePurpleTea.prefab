@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2164972540663452851, guid: c40da6aa1482191448e2fa464eaf71ed,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a7312308d8a8f84ea673569ec90c95e,
+        type: 2}
     - target: {fileID: 5393532938189329024, guid: c40da6aa1482191448e2fa464eaf71ed,
         type: 3}
       propertyPath: m_AssetId
@@ -15,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 5426160498802093876, guid: c40da6aa1482191448e2fa464eaf71ed,
         type: 3}
       propertyPath: m_Name
-      value: DukePurpleTea
+      value: BVOld_DukePurpleTea
       objectReference: {fileID: 0}
     - target: {fileID: 5430806898007773760, guid: c40da6aa1482191448e2fa464eaf71ed,
         type: 3}
@@ -83,6 +89,18 @@ PrefabInstance:
       propertyPath: initialName
       value: Duke Purple tea
       objectReference: {fileID: 0}
+    - target: {fileID: 5593473543981957206, guid: c40da6aa1482191448e2fa464eaf71ed,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 601a41ad233da884f9f8356dd1be24bc,
+        type: 2}
+    - target: {fileID: 5593473543981957206, guid: c40da6aa1482191448e2fa464eaf71ed,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ffae063639e98f241989b2e49ecfc54e,
+        type: 2}
     - target: {fileID: 6514338071049381788, guid: c40da6aa1482191448e2fa464eaf71ed,
         type: 3}
       propertyPath: reagentMix.reagents.m_keys.Array.size
@@ -91,6 +109,16 @@ PrefabInstance:
     - target: {fileID: 6514338071049381788, guid: c40da6aa1482191448e2fa464eaf71ed,
         type: 3}
       propertyPath: reagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514338071049381788, guid: c40da6aa1482191448e2fa464eaf71ed,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6514338071049381788, guid: c40da6aa1482191448e2fa464eaf71ed,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6514338071049381788, guid: c40da6aa1482191448e2fa464eaf71ed,
@@ -110,5 +138,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
+    - target: {fileID: 6514338071049381788, guid: c40da6aa1482191448e2fa464eaf71ed,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 94c3837ba3b730aaba45772b8958ac9e,
+        type: 2}
+    - target: {fileID: 6514338071049381788, guid: c40da6aa1482191448e2fa464eaf71ed,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 30
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c40da6aa1482191448e2fa464eaf71ed, type: 3}

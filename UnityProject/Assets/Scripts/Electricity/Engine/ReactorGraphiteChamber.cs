@@ -11,6 +11,7 @@ using UnityEngine.UIElements;
 using Lighting;
 using Pipes;
 using Radiation;
+using ScriptableObjects;
 using UnityEngine.Serialization;
 
 public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, ISetMultitoolMaster, IServerDespawn, IServerSpawn
@@ -23,8 +24,8 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 
 	private float tickCount;
 
-	[SerializeField] private ItemStorage RodStorage;
-	[SerializeField] private ItemStorage PipeStorage;
+	[SerializeField] private ItemStorage RodStorage = default;
+	[SerializeField] private ItemStorage PipeStorage = default;
 
 	private decimal NeutronLeakingChance = 0.0397M;
 
@@ -118,7 +119,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 			        (NumberOfRods / ReactorRods.Length));
 		}
 
-		return (0.71M);
+		//return (0.71M); // Unreachable
 	}
 
 	/*public decimal NeutronGenerationProbability()
@@ -276,10 +277,20 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 				ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy + ExtraEnergyGained;
 		}
 
+		try
+		{
+			CurrentPressure = checked((decimal)((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) *
+									 ReactorPipe.pipeData.mixAndVolume.Mix.Total));
+		}
+		// An OverflowException is thrown at run time under the following condition:
+		// An arithmetic operation produces a result that is outside the range of the data type returned by the operation
+		catch (OverflowException)
+		{
+			Logger.LogError("[ReactorGraphiteChamber.PowerOutput] CurrentPressure is outside the range of decimal <-7.9228163e+28, 7.9228163e+28>", Category.Electrical);
+			// if result is outside the range of decimal - return
+			return;
+		}
 
-
-		CurrentPressure = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) *
-		                             ReactorPipe.pipeData.mixAndVolume.Mix.Total);
 		if (CurrentPressure > MaxPressure)
 		{
 			PoppedPipes = true;

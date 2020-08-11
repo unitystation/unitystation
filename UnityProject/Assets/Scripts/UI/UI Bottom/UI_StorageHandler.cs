@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Handles displaying the contents of an item storage, such as another player's inventory or a backpack.
@@ -75,6 +76,7 @@ public class UI_StorageHandler : MonoBehaviour
 				uiItemSlot.LinkSlot(CurrentOpenStorage.GetIndexedItemSlot(i));
 				currentOpenStorageUISlots.Add(uiItemSlot);
 			}
+			closeStorageUIButton.transform.SetAsLastSibling();
 			closeStorageUIButton.SetActive(true);
 		}
 	}
@@ -100,8 +102,6 @@ public class UI_StorageHandler : MonoBehaviour
 			Destroy(uiItemSlot.transform.parent.gameObject);
 		}
 		currentOpenStorageUISlots.Clear();
-		closeStorageUIButton.transform.SetParent(transform.parent);
 		closeStorageUIButton.SetActive(false);
-
 	}
 }

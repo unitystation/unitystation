@@ -143,11 +143,20 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A tactical SWAT helmet MK.II.
       objectReference: {fileID: 0}
+    - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 101d5d2d52663d94f96cec9b01bfaa4c,
+        type: 2}
     - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 5fe9354675ac1734c9f6fd28e27675c8,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}
+    - {fileID: 1967846948629829625, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}
+    - {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}

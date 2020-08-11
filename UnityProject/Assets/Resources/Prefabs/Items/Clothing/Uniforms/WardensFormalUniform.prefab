@@ -81,8 +81,8 @@ PrefabInstance:
     - target: {fileID: 3397443007502491847, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
       propertyPath: initialDescription
-      value: The insignia on this uniform tells you that this uniform belongs to the
-        Warden.
+      value: The insignia on this uniform tells you that this uniform belongs to
+        the Warden.
       objectReference: {fileID: 0}
     - target: {fileID: 3397443007502491847, guid: e6fa54b0b29a6437eb102c7605b5dab3,
         type: 3}
@@ -94,6 +94,12 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: c62cc4b101c5e4d4e9351a488ec9a154,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: e6fa54b0b29a6437eb102c7605b5dab3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c92b66cb996a0994d9a3a479079f8c84,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6fa54b0b29a6437eb102c7605b5dab3, type: 3}

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEditor;
 using Random = UnityEngine.Random;
@@ -84,6 +85,8 @@ public class LavaLandManager : MonoBehaviour
 	{
 		foreach (var script in randomGenScripts)
 		{
+			if (script == null) continue;
+
 			script.numR = Random.Range(1,7);
 			script.DoSim();
 		}

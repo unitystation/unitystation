@@ -33,7 +33,6 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 	private bool hasExploded;
 
 	// is timer finished or was interupted?
-	[SyncVar(hook = nameof(UpdateTimer))]
 	private bool timerRunning = false;
 
 	//this object's registerObject
@@ -55,6 +54,7 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 		UpdateSprite(LOCKED_SPRITE);
 		// Reset grenade timer
 		timerRunning = false;
+		UpdateTimer(timerRunning);
 		hasExploded = false;
 	}
 
@@ -88,6 +88,7 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 		if (!timerRunning)
 		{
 			timerRunning = true;
+			UpdateTimer(timerRunning);
 			PlayPinSFX(originator.transform.position);
 
 			if (unstableFuse)
@@ -138,6 +139,14 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 			var explosionMatrix = registerItem.Matrix;
 			var worldPos = objectBehaviour.AssumedWorldPositionServer();
 
+			// If the grenade was in a closet before despawning it,
+			// it would be useful to remove it from the closet item list to avoid NullReferenceExceptions
+			ClosetControl closetControl = null;
+			if ((objectBehaviour.parentContainer != null) && (objectBehaviour.parentContainer.TryGetComponent(out closetControl)))
+			{
+				closetControl.ServerHeldItems.Remove(objectBehaviour);
+			}
+
 			// Despawn grenade
 			Despawn.ServerSingle(gameObject);
 
@@ -153,7 +162,7 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 		SoundManager.PlayNetworkedAtPos("armbomb", position, sourceObj: gameObject);
 	}
 
-	private void UpdateTimer(bool wasTimerRunning, bool timerRunning)
+	private void UpdateTimer(bool timerRunning)
 	{
 		this.timerRunning = timerRunning;
 

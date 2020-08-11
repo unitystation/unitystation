@@ -27,12 +27,12 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (tooltipObject.activeSelf) {
             // Move tooltip to mouse
-            tooltipObject.transform.position = Input.mousePosition - new Vector3(0, 20, 0);
-        } else if (enterTime != 0 && Time.realtimeSinceStartup - enterTime > TOOLTIP_INTERVAL) { 
+            tooltipObject.transform.position = CommonInput.mousePosition - new Vector3(0, 20, 0);
+        } else if (enterTime != 0 && Time.realtimeSinceStartup - enterTime > TOOLTIP_INTERVAL) {
             // Move tooltip above all other layers. We do it now so new objects wont hide it.
             tooltipObject.transform.SetAsLastSibling();
             tooltipObject.SetActive(true);
-            tooltipObject.transform.position = Input.mousePosition - new Vector3(0, 20, 0);
+            tooltipObject.transform.position = CommonInput.mousePosition - new Vector3(0, 20, 0);
         }
     }
 
@@ -47,7 +47,7 @@ public class Tooltip : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public void OnPointerExit(PointerEventData eventData) {
         enterTime = 0;
-        
+
         tooltipObject.SetActive(false);
     }
 }

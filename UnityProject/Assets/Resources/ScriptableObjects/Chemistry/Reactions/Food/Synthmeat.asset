@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
+  m_Name: Synthmeat
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: eea05337a284c407e926bf3110b00916, type: 2}
+    - {fileID: 11400000, guid: e2f90c460b3c44d23bc300bfebb63e2c, type: 2}
+    m_values: 0500000001000000
+  useExactAmounts: 0
+  catalysts:
+    m_keys: []
+    m_values: 
+  results:
+    m_keys: []
+    m_values: 
+  effects:
+  - {fileID: 11400000, guid: 16d3b9d5b08c9cc40b347ba84af546da, type: 2}

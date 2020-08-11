@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Mirror;
+using ScriptableObjects;
 using UnityEngine;
 
 [SelectionBase]
@@ -16,10 +17,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 
 	private Matrix Matrix => registerTile.Matrix;
 
-	[SyncVar(hook = nameof(SyncDirection))]
 	public ConveyorDirection CurrentDirection;
-
-	[SyncVar(hook = nameof(SyncStatus))]
 	public ConveyorStatus CurrentStatus;
 
 	Vector2Int[] searchDirs =
@@ -83,7 +81,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 
 	public override void OnStartServer()
 	{
-		CurrentStatus = ConveyorStatus.Off;
+		SyncStatus( ConveyorStatus.Off);
 		RefreshSprites();
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
@@ -131,7 +129,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 				if (conveyorBelt.AssignedSwitch != null)
 				{
 					conveyorBelt.AssignedSwitch.AddConveyorBelt(new List<ConveyorBelt>{this});
-					CurrentStatus = conveyorBelt.CurrentStatus;
+					SyncStatus( conveyorBelt.CurrentStatus);
 					break;
 				}
 			}
@@ -160,13 +158,13 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 		switch (switchState)
 		{
 			case ConveyorBeltSwitch.State.Off:
-				CurrentStatus = ConveyorStatus.Off;
+				SyncStatus( ConveyorStatus.Off);
 				break;
 			case ConveyorBeltSwitch.State.Forward:
-				CurrentStatus = ConveyorStatus.Forward;
+				SyncStatus( ConveyorStatus.Forward);
 				break;
 			case ConveyorBeltSwitch.State.Backward:
-				CurrentStatus = ConveyorStatus.Backward;
+				SyncStatus( ConveyorStatus.Backward);
 				break;
 			default:
 				throw new ArgumentOutOfRangeException(nameof(switchState), switchState, null);
@@ -176,7 +174,7 @@ public class ConveyorBelt : NetworkBehaviour, ICheckedInteractable<HandApply>, I
 		RefreshSprites();
 	}
 
-	private void SyncStatus(ConveyorStatus oldStatus, ConveyorStatus newStatus)
+	private void SyncStatus( ConveyorStatus newStatus)
 	{
 		CurrentStatus = newStatus;
 		GetPositionOffset();

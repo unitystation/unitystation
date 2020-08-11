@@ -255,7 +255,7 @@ public class ProgressBar : MonoBehaviour
 	public void ServerInterruptProgress()
 	{
 		//already closed?
-		if (done) return;
+		if (done || progressAction == null) return;
 
 		progressAction.OnServerEndProgress(new EndProgressInfo(false));
 		Logger.LogTraceFormat("Server progress bar {0} interrupted.", Category.ProgressAction, ID);

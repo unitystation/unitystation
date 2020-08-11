@@ -372,7 +372,7 @@ MonoBehaviour:
   FakeEvent: 0
   AnnounceEvent: 1
   itemList:
-  - {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+  - {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
   announceText: A gift from the gods!
 --- !u!1 &4938991384554239466
 GameObject:
@@ -684,7 +684,7 @@ MonoBehaviour:
   FakeEvent: 0
   AnnounceEvent: 1
   itemList:
-  - {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+  - {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
   announceText: A gift from the gods!
 --- !u!1 &8929341582706713524
 GameObject:
@@ -776,6 +776,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   centcomDockingPos: {x: 0, y: 0, z: 0}
+  centcomDocking: {fileID: 0}
 --- !u!1 &8985401255687248692
 GameObject:
   m_ObjectHideFlags: 0

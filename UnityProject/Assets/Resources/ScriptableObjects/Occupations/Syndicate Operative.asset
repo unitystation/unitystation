@@ -17,6 +17,7 @@ MonoBehaviour:
   limit: 10
   priority: 99
   allowedAccess: 220000002300000031000000470000001b0000002d000000
+  spells: []
   progress: 50
   choiceColor: {r: 1, g: 1, b: 1, a: 1}
   previewSprite: {fileID: 0}
@@ -24,3 +25,7 @@ MonoBehaviour:
   difficulty: 2
   descriptionShort: 
   descriptionLong: 
+  customProperties:
+    m_keys: []
+    m_values: 
+  isTargeteable: 0

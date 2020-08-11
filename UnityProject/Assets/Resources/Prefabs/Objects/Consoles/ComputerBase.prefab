@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4212405279327074240}
   - component: {fileID: 4739251602149975544}
+  - component: {fileID: 3806105522999988684}
   m_Layer: 0
   m_Name: KeyboardSprite
   m_TagString: Untagged
@@ -81,6 +82,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3806105522999988684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4823608803993123803}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 8c4b8efd80c16bc44bfe7601db3bdf2f, type: 2}
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &5150197525896963348
 GameObject:
   m_ObjectHideFlags: 0
@@ -126,7 +145,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.14901961, g: 0.35686275, b: 0.64705884, a: 1}
+  Color: {r: 0.007, g: 0.459, b: 0.007, a: 1}
   Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -250,7 +269,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300000, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
+  m_Sprite: {fileID: 21300008, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -273,12 +292,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 3f4f7bc3b40d96840a26466122812deb, type: 2}
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []
+  Sprites: []
 --- !u!114 &-4343989174440723700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -307,22 +326,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ad8cac74219314e4e8ba276ffc22f95b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBetweenFrames: 0.1
-  spriteRenderer: {fileID: 4571869433525098128}
-  screenGlow: {fileID: 5150197525896963348}
-  onSprites:
-    Texture: {fileID: 2800000, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
-    - {fileID: 21300002, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
-    - {fileID: 21300004, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
-    - {fileID: 21300006, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
-    - {fileID: 21300008, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
-    - {fileID: 21300010, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
-    - {fileID: 21300012, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
-    - {fileID: 21300014, guid: d83cafad350511e4f9bf827042c0b441, type: 3}
-    EquippedData: {fileID: 4900000, guid: ff066167177df5f40a2a7f17ec747d46, type: 3}
-  Delay: 0
+  spriteHandler: {fileID: 8201155816690774842}
+  ScreenGlow: {fileID: 5150197525896963348}
 --- !u!114 &3509344053301837447
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -475,6 +480,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7918371756561495367, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5caf4067de7298f408771832d3670a44,
+        type: 2}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialName

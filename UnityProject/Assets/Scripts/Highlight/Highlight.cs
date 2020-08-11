@@ -95,9 +95,10 @@ public class Highlight : MonoBehaviour
 		instance.spriteRenderer.gameObject.SetActive(true);
 		instance.spriteRenderer.enabled = true;
 		var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
-		instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, false);
-		instance.spriteRenderer.transform.localPosition = new Vector3();
-		instance.spriteRenderer.transform.transform.rotation = Quaternion.Euler(0,0,0);
+
+		instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, true);
+		instance.spriteRenderer.transform.localPosition = Vector3.zero;
+		instance.spriteRenderer.transform.transform.localRotation = Quaternion.Euler(0,0,0);
 		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
 
 		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer).ToArray();

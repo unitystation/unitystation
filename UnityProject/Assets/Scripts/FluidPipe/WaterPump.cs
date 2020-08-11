@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Pipes;
+using ScriptableObjects;
 using UnityEngine;
 
 namespace Pipes
@@ -13,8 +14,7 @@ namespace Pipes
 		public int UnitPerTick = 100;
 		public int PowerPercentage = 100;
 
-
-		public void Start()
+		public override void Start()
 		{
 			pipeData.PipeAction = new WaterPumpAction();
 			base.Start();
@@ -98,9 +98,5 @@ namespace Pipes
 			base.OnDespawnServer(info);
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 25 );
 		}
-
-
 	}
-
-
 }

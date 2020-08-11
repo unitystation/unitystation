@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: statue_snowlegion_alive
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 1625417198175672216, guid: 67f04b23108cea6458830d52dbbb3870,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 7933919901471231180, guid: 67f04b23108cea6458830d52dbbb3870,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -8999461905566254262, guid: 67f04b23108cea6458830d52dbbb3870,
+        type: 3}
+      secondDelay: 0.2
+  IsPalette: 0
+  setID: 17155

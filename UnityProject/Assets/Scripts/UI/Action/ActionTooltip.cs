@@ -7,8 +7,8 @@ using UnityEngine.UI;
 /// </summary>
 public class ActionTooltip : MonoBehaviour
 {
-	[SerializeField] private Text nameText;
-	[SerializeField] private Text descriptionText;
+	[SerializeField] private Text nameText = default;
+	[SerializeField] private Text descriptionText = default;
 
 	public void ApplyActionData(ActionData actionData)
 	{

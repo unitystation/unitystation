@@ -13,7 +13,7 @@ public class RegisterCloset : RegisterObject
 	/// </summary>
 	private ClosetControl closetControl;
 
-	private void Awake()
+	protected override void Awake()
 	{
 		base.Awake();
 		closetControl = GetComponent<ClosetControl>();

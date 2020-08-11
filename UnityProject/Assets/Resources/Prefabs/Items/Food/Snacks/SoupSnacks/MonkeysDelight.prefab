@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 575
       objectReference: {fileID: 0}
+    - target: {fileID: 2881683467392410259, guid: 09d98d684f3dbe544a3f54331019cba1,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9773522f6e567db46b23a0127f6a75b0,
+        type: 2}
     - target: {fileID: 7174761012728533436, guid: 09d98d684f3dbe544a3f54331019cba1,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]

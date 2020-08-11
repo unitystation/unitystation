@@ -97,10 +97,7 @@ public class UnderFloorLayer : Layer
 
 			foreach (var Tile in TileStore[(Vector2Int) position])
 			{
-				if (Tile != null)
-				{
-					return Tile;
-				}
+				return Tile;
 			}
 		}
 		else
@@ -115,6 +112,20 @@ public class UnderFloorLayer : Layer
 					return getTile;
 				}
 			}
+		}
+
+		return null;
+	}
+
+	/// <summary>
+	/// Get tile using Z position instead of searching through the Z levels 
+	/// </summary>
+	public LayerTile GetTileUsingZ(Vector3Int position)
+	{
+		var getTile = tilemap.GetTile(position) as LayerTile;
+		if (getTile != null)
+		{
+			return getTile;
 		}
 
 		return null;
@@ -188,6 +199,8 @@ public class UnderFloorLayer : Layer
 			base.SetTile(position, tile, transformMatrix, color);
 		}
 	}
+
+
 
 	private int FindFirstEmpty(List<LayerTile> LookThroughList)
 	{

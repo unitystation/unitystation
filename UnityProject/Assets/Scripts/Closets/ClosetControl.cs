@@ -63,7 +63,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	/// <summary>
 	/// Currently held items, only valid server side
 	/// </summary>
-	public IEnumerable<ObjectBehaviour> ServerHeldItems => serverHeldItems;
+	public List<ObjectBehaviour> ServerHeldItems => serverHeldItems;
 
 	/// <summary>
 	/// Currently held players, only valid server side
@@ -103,7 +103,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	private bool isLocked;
 
 	//Inventory
-	private IEnumerable<ObjectBehaviour> serverHeldItems = new List<ObjectBehaviour>();
+	private List<ObjectBehaviour> serverHeldItems = new List<ObjectBehaviour>();
 	private List<ObjectBehaviour> serverHeldPlayers = new List<ObjectBehaviour>();
 
 	private RegisterCloset registerTile;
@@ -208,7 +208,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 		{
 			Despawn.ServerSingle(heldItem.gameObject);
 		}
-		serverHeldItems = Enumerable.Empty<ObjectBehaviour>();
+		serverHeldItems.Clear();
 	}
 
 	/// <summary>
@@ -232,7 +232,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	private void ServerAddInternalItemInternal(ObjectBehaviour toAdd, bool force = false)
 	{
 		if (toAdd == null || serverHeldItems.Contains(toAdd) || (!IsClosed && !force)) return;
-		serverHeldItems = serverHeldItems.Concat(new [] {toAdd});
+		serverHeldItems.Add(toAdd);
 		toAdd.parentContainer = pushPull;
 		toAdd.VisibleState = false;
 	}
@@ -462,6 +462,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	{
 		foreach (ObjectBehaviour item in serverHeldItems)
 		{
+			if (!item) continue;
+
 			CustomNetTransform netTransform = item.GetComponent<CustomNetTransform>();
 			//avoids blinking of premapped items when opening first time in another place:
 			Vector3Int pos = registerTile.WorldPositionServer;
@@ -479,7 +481,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			item.parentContainer = null;
 		}
 
-		serverHeldItems = Enumerable.Empty<ObjectBehaviour>();
+		serverHeldItems.Clear();
 	}
 
 	/// <summary>

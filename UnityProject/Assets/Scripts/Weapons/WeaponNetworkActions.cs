@@ -2,6 +2,7 @@
 using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
+using Weapons;
 
 public class WeaponNetworkActions : ManagedNetworkBehaviour
 {
@@ -134,8 +135,7 @@ public class WeaponNetworkActions : ManagedNetworkBehaviour
 				}
 				var worldPos = (Vector2)transform.position + attackDirection;
 				attackedTile = tileChangeManager.InteractableTiles.LayerTileAt(worldPos, true);
-				tileMapDamage.DoMeleeDamage(worldPos,
-					gameObject, (int)damage);
+				tileMapDamage.ApplyDamage((int)damage, AttackType.Melee, worldPos);
 				didHit = true;
 
 			}

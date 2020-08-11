@@ -77,8 +77,14 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300002, guid: ac8c9aa47b395184ab1ed1441589c8b2,
+      objectReference: {fileID: 21300000, guid: ac8c9aa47b395184ab1ed1441589c8b2,
         type: 3}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 60942022f971e0440a63456ee27fc478,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &7273362067198989452 stripped

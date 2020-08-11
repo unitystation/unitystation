@@ -1,23 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &314776949997883763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2857730195348512352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
-  variantIndex: 0
-  SetSpriteOnStartUp: 1
 --- !u!114 &164375538979460037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -61,46 +43,10 @@ MonoBehaviour:
   syncInterval: 0.1
   PoweredState: 2
   spriteHandler: {fileID: 314776949997883763}
-  idleSprite:
-    Texture: {fileID: 2800000, guid: cb6cc74aa021d3746aafef8fbf2c6dd7, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: cb6cc74aa021d3746aafef8fbf2c6dd7, type: 3}
-    EquippedData: {fileID: 0}
-  productionSprite:
-    Texture: {fileID: 2800000, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    Sprites:
-    - {fileID: 8703128856924854413, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: 965337075340090404, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: 1210377355069897012, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: 5979386791730379284, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: 5399270680963873595, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: -1061856799901130237, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: 6961802538447911207, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: 4106881395898673252, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: -4351150644770572491, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: 1251820693659632575, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: 4077288278973081940, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: -8982908389419522036, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: -8788106736673486409, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: -5489772963193932273, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: -2048358173489525685, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: 8647828239065918026, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: -4921068442906992512, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    - {fileID: 2313480792443481819, guid: dea63ba4c6c073e46a68c9c7ed6dd61d, type: 3}
-    EquippedData: {fileID: 4900000, guid: d93efd294c16a1047b333cfc7b831146, type: 3}
-  acceptingMaterialsSprite:
-    Texture: {fileID: 2800000, guid: b5eb08a68ad9a32488e1e99ee80d7891, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: b5eb08a68ad9a32488e1e99ee80d7891, type: 3}
-    - {fileID: 21300002, guid: b5eb08a68ad9a32488e1e99ee80d7891, type: 3}
-    - {fileID: 21300004, guid: b5eb08a68ad9a32488e1e99ee80d7891, type: 3}
-    - {fileID: 21300006, guid: b5eb08a68ad9a32488e1e99ee80d7891, type: 3}
-    - {fileID: 21300008, guid: b5eb08a68ad9a32488e1e99ee80d7891, type: 3}
-    - {fileID: 21300010, guid: b5eb08a68ad9a32488e1e99ee80d7891, type: 3}
-    - {fileID: 21300012, guid: b5eb08a68ad9a32488e1e99ee80d7891, type: 3}
-    - {fileID: 21300014, guid: b5eb08a68ad9a32488e1e99ee80d7891, type: 3}
-    - {fileID: 21300016, guid: b5eb08a68ad9a32488e1e99ee80d7891, type: 3}
-    EquippedData: {fileID: 4900000, guid: 839b1180a29edb44c9b7733436cdbe95, type: 3}
+  idleSprite: {fileID: 11400000, guid: 08e099632556f8643924f674320f698e, type: 2}
+  productionSprite: {fileID: 11400000, guid: 6453b4f4edb12784eafebe700d4dc3e3, type: 2}
+  acceptingMaterialsSprite: {fileID: 11400000, guid: 7988fd4d8b0936249bca1529ef12f9d6,
+    type: 2}
   materialStorage: {fileID: 3971876006832429833}
   autolatheProducts: {fileID: 11400000, guid: d1a052e3f8a86d0409f54e6f2f803fa5, type: 2}
 --- !u!114 &3971876006832429833
@@ -166,6 +112,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 18
+--- !u!114 &314776949997883763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2857730195348512352}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 08e099632556f8643924f674320f698e, type: 2}
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1001 &7881568538303212051
 PrefabInstance:
   m_ObjectHideFlags: 0

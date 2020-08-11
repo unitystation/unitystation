@@ -346,7 +346,9 @@ MonoBehaviour:
   - {fileID: 4858910464699741597}
   allowKnifeHarvest: 1
   butcherResults:
-  - {fileID: 6532193109441330816, guid: f4a7f2a5df1b98449bdf7af94d28ca29, type: 3}
+  - {fileID: 2434222561616808047, guid: ec415b83dd52aba48a8c3eb34564b8dc, type: 3}
+  RTT: 0
+  RadiationStacks: 0
   aliveSprite: {fileID: 21300000, guid: 4866054b12864074ca72678ebef13a7c, type: 3}
   deadSprite: {fileID: 21300000, guid: 405c4f6b1b830c64a9786c8bc4974a9a, type: 3}
   deadState: 0
@@ -408,6 +410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &4859381606111050923
 MonoBehaviour:
@@ -421,6 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &4859213822428636291
@@ -606,7 +610,7 @@ MonoBehaviour:
   randomSoundProbability: 20
   searchTickRate: 0.5
   currentStatus: 0
-  maskObject: {fileID: 1877733125468713880, guid: 6fecf534029349145b17735e15c9498c,
+  maskObject: {fileID: 8320299039891337921, guid: 6fecf534029349145b17735e15c9498c,
     type: 3}
 --- !u!114 &1894956765386061361
 MonoBehaviour:
@@ -620,6 +624,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -53,8 +54,7 @@ public class DefaultPlantData : ScriptableObject
 		}
 
 #endif
-
-			InitializePool();
+		InitializePool();
 	}
 
 	private void OnEnable()

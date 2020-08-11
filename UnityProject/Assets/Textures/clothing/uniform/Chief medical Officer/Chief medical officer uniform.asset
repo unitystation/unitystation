@@ -12,22 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
   m_Name: Chief medical officer uniform
   m_EditorClassIdentifier: 
-  PrefabVariant: {fileID: 0}
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 7
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    IsEVACapable: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []
   Base:
     Equipped:
       Texture: {fileID: 2800000, guid: 5826b8b2fc9f57c4ba2b39a7955d7ea8, type: 3}
@@ -58,6 +42,22 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 9c83d081f4299604e8dc77908c802e0a, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: ac7c23b52e4fe534ba96c5525274bee5, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: e6a71dd940af2b74395d96f5dea3118d,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: 6ed0b0ed7ba5c5546ae90c303cbf393b,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: af412ba877a822e4d85edccaa5f05199, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   Base_Adjusted:
     Equipped:
       Texture: {fileID: 2800000, guid: ab656d36b5c0a6847b6d3a8f0633dc84, type: 3}
@@ -79,6 +79,20 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: a32e99f5d38c91d499e3e802618de634, type: 2}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   DressVariant:
     Equipped:
       Texture: {fileID: 2800000, guid: 9fe0adbbbc5f40c40bb94aff9f9e0a07, type: 3}
@@ -109,4 +123,20 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 560f121e0aa993943b252d0f74004b1a, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 165dcae52c5b290448ea4fa9f73ed8ad, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: e6a71dd940af2b74395d96f5dea3118d,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: 6ed0b0ed7ba5c5546ae90c303cbf393b,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: 45103565c11dc944f856f0222185809f, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   Variants: []

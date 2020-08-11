@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3260335517349816954, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1ec8dba8bf946c040be171aed5402a80,
+        type: 2}
     - target: {fileID: 8625597999473072167, guid: dd97c290495c57e47b54b45eb7d49a38,
         type: 3}
       propertyPath: itemStoragePopulator
@@ -88,5 +94,17 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Contains pills to expunge radiation and toxins.
       objectReference: {fileID: 0}
+    - target: {fileID: 9121069500737191583, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d997ce31e7fb9a4081ce5909a9a876a,
+        type: 2}
+    - target: {fileID: 9121069500737191583, guid: dd97c290495c57e47b54b45eb7d49a38,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 91876baef4e3f084fa10d85d3c63cacd,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dd97c290495c57e47b54b45eb7d49a38, type: 3}

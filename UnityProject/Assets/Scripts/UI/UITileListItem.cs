@@ -22,7 +22,7 @@ public class UITileListItem : MonoBehaviour
 			itemSpriteRenderer = value.transform.GetComponentInChildren<SpriteRenderer>(false);
 			image.sprite = itemSpriteRenderer.sprite;
 			tileSprite = null;
-			text.text = value.name;
+			text.text = value.ExpensiveName();
 		}
 	}
 
@@ -36,7 +36,7 @@ public class UITileListItem : MonoBehaviour
 			itemSpriteRenderer = null;
 			tileSprite = tile?.PreviewSprite;
 			image.sprite = tileSprite;
-			text.text = value?.name;
+			text.text = value?.DisplayName;
 		}
 	}
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 
 	[CreateAssetMenu(fileName = "UplinkItemList", menuName = "ScriptableObjects/PDA/UplinkItemList")]
@@ -15,7 +16,7 @@ using UnityEngine;
 	public class UplinkCatagories
 	{
 		[SerializeField] [Tooltip("The name of the category for each uplink Item")]
-		private string categoryName;
+		private string categoryName = "";
 
 		[SerializeField] [Tooltip("The list of products in the category")]
 		private List<UplinkItems> itemList = new List<UplinkItems>();
@@ -29,13 +30,13 @@ using UnityEngine;
 	public class UplinkItems
 	{
 		[SerializeField] [Tooltip("Item TC cost")]
-		private int cost;
+		private int cost = 1;
 
 		[SerializeField] [Tooltip("The prefab for the item")]
-		private GameObject item;
+		private GameObject item = null;
 
 		[SerializeField] [Tooltip("Item Name")]
-		private string name;
+		private string name = "";
 
 		public string Name => name;
 

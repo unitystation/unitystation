@@ -72,6 +72,15 @@ public class MobFlee : MobPathFinder
 			attemptReset = false;
 			yield break;
 		}
+
+		// check fleeTarget again because it can be destroyed after waiting ^
+		if(!fleeTarget)
+		{
+			// set fleeTarget to itself if null
+			fleeTarget = transform;
+			oppositeDir = Vector2.zero;
+		}
+		
 		//First try to escape the room by looking for a door
 		var possibleDoors = Physics2D.OverlapCircleAll(transform.position, 20f, doorMask);
 

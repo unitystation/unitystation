@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using ScriptableObjects;
 
 [CreateAssetMenu(fileName = "UIActionSOSingleton", menuName = "Singleton/UIActionSOSingleton")]
 public class UIActionSOSingleton : SingletonScriptableObject<UIActionSOSingleton>

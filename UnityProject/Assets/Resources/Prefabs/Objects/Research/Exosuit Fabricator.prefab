@@ -78,50 +78,10 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 5254507008022532627}
-  idleSprite:
-    Texture: {fileID: 2800000, guid: 7dd7012b3105d144fa39633271f2d9da, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 7dd7012b3105d144fa39633271f2d9da, type: 3}
-    EquippedData: {fileID: 0}
-  acceptingMaterialsSprite:
-    Texture: {fileID: 2800000, guid: 841e95dadc7d7634a91ab8b6beedddc1, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 841e95dadc7d7634a91ab8b6beedddc1, type: 3}
-    - {fileID: 21300002, guid: 841e95dadc7d7634a91ab8b6beedddc1, type: 3}
-    - {fileID: 21300004, guid: 841e95dadc7d7634a91ab8b6beedddc1, type: 3}
-    - {fileID: 21300006, guid: 841e95dadc7d7634a91ab8b6beedddc1, type: 3}
-    - {fileID: 21300008, guid: 841e95dadc7d7634a91ab8b6beedddc1, type: 3}
-    - {fileID: 21300010, guid: 841e95dadc7d7634a91ab8b6beedddc1, type: 3}
-    - {fileID: 21300012, guid: 841e95dadc7d7634a91ab8b6beedddc1, type: 3}
-    - {fileID: 21300014, guid: 841e95dadc7d7634a91ab8b6beedddc1, type: 3}
-    - {fileID: 21300016, guid: 841e95dadc7d7634a91ab8b6beedddc1, type: 3}
-    EquippedData: {fileID: 4900000, guid: f521d84e4432e204db47753e250c448c, type: 3}
-  productionSprite:
-    Texture: {fileID: 2800000, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300002, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300004, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300006, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300008, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300010, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300012, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300014, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300016, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300018, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300020, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300022, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300024, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300026, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300028, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300030, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300032, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300034, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300036, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300038, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300040, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    - {fileID: 21300042, guid: da6571f2509d21f4792723654e3ea15d, type: 3}
-    EquippedData: {fileID: 4900000, guid: b09b11b4369c4bf4c9df826864404911, type: 3}
+  idleSprite: {fileID: 11400000, guid: c28dca4f44ef37849a23ff6d8976a5bc, type: 2}
+  acceptingMaterialsSprite: {fileID: 11400000, guid: 2dc805ead8817ae449f66efb16c4a809,
+    type: 2}
+  productionSprite: {fileID: 11400000, guid: 0e601845f1e569f45abe3c93b83a4ddb, type: 2}
   materialStorage: {fileID: 4345289403541654959}
   exoFabProducts: {fileID: 11400000, guid: 5de8c3642d9b41742bd0f830d07a5bd7, type: 2}
 --- !u!114 &5254507008022532627
@@ -136,12 +96,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites: []
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: c28dca4f44ef37849a23ff6d8976a5bc, type: 2}
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []
+  Sprites: []
 --- !u!1001 &8615537192462600737
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -188,6 +148,21 @@ PrefabInstance:
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,

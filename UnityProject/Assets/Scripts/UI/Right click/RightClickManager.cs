@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 using System.Reflection;
+using System.Threading.Tasks;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -28,7 +29,7 @@ public class RightClickManager : MonoBehaviour
 	private LightingSystem lightingSystem;
 
 	//cached methods attributed with RightClickMethod
-	private List<RightClickAttributedComponent> attributedTypes;
+	private static List<RightClickAttributedComponent> attributedTypes = new List<RightClickAttributedComponent>();
 	private List<RaycastResult> raycastResults = new List<RaycastResult>();
 
 	//defines a particular component that has one or more methods which have been attributed with RightClickMethod. Cached
@@ -42,7 +43,10 @@ public class RightClickManager : MonoBehaviour
 	private void Awake()
 	{
 		//cache all known usages of the RightClickMethod annotation
-		attributedTypes = GetRightClickAttributedMethods();
+		if (attributedTypes.Count == 0)
+		{
+			new Task(GetRightClickAttributedMethods).Start();
+		}
 
 		// Will be enabled by ControlDisplays when needed
 		gameObject.SetActive(false);
@@ -53,7 +57,7 @@ public class RightClickManager : MonoBehaviour
 		lightingSystem = Camera.main.GetComponent<LightingSystem>();
 	}
 
-	private  List<RightClickAttributedComponent> GetRightClickAttributedMethods()
+	private void GetRightClickAttributedMethods()
 	{
 		var result = new List<RightClickAttributedComponent>();
 
@@ -76,7 +80,7 @@ public class RightClickManager : MonoBehaviour
 			}
 		}
 
-		return result;
+		attributedTypes = result;
 	}
 
 	void Update()
@@ -240,11 +244,9 @@ public class RightClickManager : MonoBehaviour
 			//use right click menu to determine appearance
 			return rightClickAppearance.AsMenu(subMenus);
 		}
+		// else use defaults:
 
-		//use defaults
-		var label = forObject.name.Replace("(clone)","");
-		SpriteRenderer firstSprite = forObject.GetComponentInChildren<SpriteRenderer>();
-		Sprite sprite = null;
+		var label = forObject.ExpensiveName();
 
 		// check if is a paletted item
 		ItemAttributesV2 item = forObject.GetComponent<ItemAttributesV2>();
@@ -257,17 +259,20 @@ public class RightClickManager : MonoBehaviour
 			}
 		}
 
-		if (firstSprite != null)
+		// try get sprite
+		SpriteRenderer firstRenderer = forObject.GetComponentInChildren<SpriteRenderer>();
+		Sprite sprite = null;
+		if (firstRenderer != null)
 		{
-			sprite = firstSprite.sprite;
+			sprite = firstRenderer.sprite;
 		}
 		else
 		{
 			Logger.LogWarningFormat("Could not determine sprite to use for right click menu" +
-			                        " for object {0}. Please manually configure a sprite in a RightClickAppearance component" +
-			                        " on this object.", Category.UI, forObject.name);
+					" for object {0}. Please manually configure a sprite in a RightClickAppearance component" +
+					" on this object.", Category.UI, forObject.name);
 		}
 
-		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, null, label, subMenus, firstSprite.color, palette);
+		return RightClickMenuItem.CreateObjectMenuItem(Color.gray, sprite, null, label, subMenus, firstRenderer.color, palette);
 	}
 }

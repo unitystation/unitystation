@@ -20,6 +20,20 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 	//parent wallmount behavior
 	private WallmountBehavior wallmountBehavior;
 
+	private LightingSystem lightingSystem;
+	private LightingSystem LightingSystem
+	{
+		get
+		{
+			if (this.lightingSystem == null && Camera.main.TryGetComponent(out LightingSystem lightingSystem))
+			{
+				this.lightingSystem = lightingSystem;
+			}
+
+			return this.lightingSystem;
+		}
+	}
+
 	private void Start()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -29,14 +43,23 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 	// Handles rendering logic, only runs when this sprite is on camera
 	private void OnWillRenderObject()
 	{
-		//don't run check until player is created
+		// don't run check until player is created
 		if (PlayerManager.LocalPlayer == null || wallmountBehavior == null)
 		{
 			return;
 		}
 
-		//recalculate if it is facing the player
-		bool visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.followControl.target.position);
+		bool visible;
+		// If the lighting system is disabled, we're probably a ghost or have the dev spawner open.
+		if (!LightingSystem.enabled)
+		{
+			visible = true;
+		}
+		else
+		{
+			// recalculate if it is facing the player
+			visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.followControl.target.position);
+		}
 		spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, visible ? 1 : 0);
 	}
 }

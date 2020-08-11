@@ -269,16 +269,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 	}
 
-
-	public void SetPlayerSprites(SpriteData _Info, int _spriteIndex = 0, int _variantIndex = 0)
-	{
-		var equipment = itemSlot.Player.GetComponent<Equipment>();
-		if (equipment == null) return;
-		var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
-		CT.spriteHandler.SetInfo(_Info, _spriteIndex, _variantIndex);
-	}
-
-
 	public void SetPlayerItemsSprites(ItemsSprites _ItemsSprites, int _spriteIndex = 0, int _variantIndex = 0)
 	{
 		if (itemSlot != null)
@@ -297,7 +287,7 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 			var equipment = itemSlot.Player.GetComponent<Equipment>();
 			if (equipment == null) return;
 			var CT = equipment.GetClothingItem(itemSlot.NamedSlot.Value);
-			CT.spriteHandler.SetPaletteOfCurrentSprite(palette);
+			CT.spriteHandler.SetPaletteOfCurrentSprite(palette, Network:false);
 		}
 	}
 }

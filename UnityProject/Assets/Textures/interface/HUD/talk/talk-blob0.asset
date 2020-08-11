@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: talk-blob0
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 6795004962142631241, guid: 467b124c603f9cf4895d42748442b1f3,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -8818835336412159678, guid: 467b124c603f9cf4895d42748442b1f3,
+        type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: -3773661720998748824, guid: 467b124c603f9cf4895d42748442b1f3,
+        type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: 1850208630365777519, guid: 467b124c603f9cf4895d42748442b1f3,
+        type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: -5788373221082426033, guid: 467b124c603f9cf4895d42748442b1f3,
+        type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: -8808768723608743823, guid: 467b124c603f9cf4895d42748442b1f3,
+        type: 3}
+      secondDelay: 0.4
+  IsPalette: 0
+  setID: 2897

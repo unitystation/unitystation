@@ -6,9 +6,9 @@ using Mirror;
 /// <summary>
 /// A generic drawer component designed for multi-tile drawer objects.
 /// </summary>
-[RequireComponent(typeof(PushPull))] // For setting held items' containers to the drawer.
+[RequireComponent(typeof(ObjectBehaviour))] // For setting held items' containers to the drawer.
 [ExecuteInEditMode]
-public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<HandApply>, IServerDespawn//, System.IEquatable<>
+public class Drawer : NetworkBehaviour, IServerDespawn, ICheckedInteractable<HandApply>
 {
 	protected enum DrawerState
 	{
@@ -35,7 +35,6 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 	protected Vector3Int TrayWorldPosition => GetTrayPosition(DrawerWorldPosition); // Spawn requires world position
 	protected Vector3Int TrayLocalPosition => ((Vector3)TrayWorldPosition).ToLocalInt(Matrix);
 
-	[SyncVar]
 	protected GameObject tray;
 	protected CustomNetTransform trayTransform;
 	protected ObjectBehaviour trayBehaviour;
@@ -43,17 +42,15 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 
 	[SerializeField]
 	[Tooltip("The corresponding tray that the drawer will spawn.")]
-	protected GameObject trayPrefab;
+	protected GameObject trayPrefab = default;
 	[SerializeField]
 	[Tooltip("Whether the drawer can store players.")]
 	protected bool storePlayers = true;
 
-	[SyncVar(hook = nameof(OnSyncDrawerState))]
-	protected DrawerState drawerState;
-	[SyncVar(hook = nameof(OnSyncOrientation))]
-	protected Orientation drawerOrientation;
+	protected DrawerState drawerState = DrawerState.Shut;
 
 	// Inventory
+	// Using a dictionary for held items so we can have a messy drawer by keeping their original vectors.
 	protected Dictionary<ObjectBehaviour, Vector3> serverHeldItems = new Dictionary<ObjectBehaviour, Vector3>();
 	protected List<ObjectBehaviour> serverHeldPlayers = new List<ObjectBehaviour>();
 
@@ -72,6 +69,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		base.OnStartServer();
 		registerObject = GetComponent<RegisterObject>();
 		registerObject.WaitForMatrixInit(ServerInit);
+		directional.OnDirectionChange.AddListener(OnDirectionChanged);
 	}
 
 	void ServerInit(MatrixInfo matrixInfo)
@@ -83,32 +81,15 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		}
 		tray = traySpawn.GameObject;
 
+		tray.GetComponent<InteractableDrawerTray>().parentDrawer = this;
 		traySpriteHandler = tray.GetComponentInChildren<SpriteHandler>();
 		trayTransform = tray.GetComponent<CustomNetTransform>();
 		trayBehaviour = tray.GetComponent<ObjectBehaviour>();
 		trayBehaviour.parentContainer = drawerPushPull;
 		trayBehaviour.VisibleState = false;
 
-		// These two will sync drawer state/orientation and render appropriate sprite
-		drawerState = DrawerState.Shut;
-		drawerOrientation = directional.CurrentDirection;
-	}
-
-	public override void OnStartClient()
-	{
-		StartCoroutine(WaitForTray());
-		base.OnStartClient();
-	}
-
-	IEnumerator WaitForTray()
-	{
-		while (tray == null)
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-
-		traySpriteHandler = tray.GetComponentInChildren<SpriteHandler>();
-		UpdateSpriteDirection();
+		UpdateSpriteState();
+		UpdateSpriteOrientation();
 	}
 
 	#endregion Init Methods
@@ -127,66 +108,54 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		Despawn.ServerSingle(tray);
 	}
 
-	/// <summary>
-	/// As per IMatrixRotate interface - called when matrix is rotated, updates drawer orientation.
-	/// </summary>
-	public void OnMatrixRotate(MatrixRotationInfo rotationInfo)
-	{
-		if (rotationInfo.IsClientside) return;
-		if (!rotationInfo.IsEnding) return;
-
-		drawerOrientation = directional.CurrentDirection;
-	}
-
 	#region Sprite
 
-	/// <summary>
-	/// Called when drawerState [SyncVar] variable is altered or the client has just joined.
-	/// </summary>
-	/// <param name="oldState"></param>
-	/// <param name="newState"></param>
-	protected virtual void OnSyncDrawerState(DrawerState oldState, DrawerState newState)
+	private void OnDirectionChanged(Orientation newDirection)
 	{
-		drawerState = newState;
-		drawerSpriteHandler.ChangeSprite((int)drawerState);
-	}
-
-	/// <summary>
-	/// Called when drawerOrientation [SyncVar] variable is altered or the client has just joined.
-	/// </summary>
-	/// <param name="oldState"></param>
-	/// <param name="newState"></param>
-	protected void OnSyncOrientation(Orientation oldState, Orientation newState)
-	{
-		// True when late client joins - [SyncVar] occured, but only
-		// usable after OnStartClient(). Hence manual call in OnStartClient().
-		if (traySpriteHandler == null) return;
-
-		drawerOrientation = newState;
-		UpdateSpriteDirection();
+		UpdateSpriteOrientation();
 	}
 
 	public void OnEditorDirectionChange()
 	{
-		drawerOrientation = directional.InitialOrientation;
-		int spriteVariant = GetSpriteDirectionVariant();
-		drawerSpriteHandler.ChangeSprite((int)DrawerState.Shut);
-		drawerSpriteHandler.ChangeSpriteVariant(spriteVariant);
+		UpdateSpriteOrientation();
 	}
 
-	private int GetSpriteDirectionVariant()
+	/// <summary>
+	/// Updates the drawer to the given state and sets the sprites accordingly.
+	/// </summary>
+	/// <param name="newState">The new state the drawer should be set to</param>
+	protected void SetDrawerState(DrawerState newState)
 	{
-		if (drawerOrientation == Orientation.Up) return (int)SpriteOrientation.North;
-		else if (drawerOrientation == Orientation.Down) return (int)SpriteOrientation.South;
-		else if (drawerOrientation == Orientation.Left) return (int)SpriteOrientation.West;
-		else return (int)SpriteOrientation.East;
+		drawerState = newState;
+		UpdateSpriteState();
 	}
 
-	private void UpdateSpriteDirection()
+	private void UpdateSpriteState()
 	{
-		int spriteVariant = GetSpriteDirectionVariant();
+		drawerSpriteHandler.ChangeSprite((int)drawerState);
+	}
+
+	private void UpdateSpriteOrientation()
+	{
+		int spriteVariant = (int)GetSpriteDirection();
 		drawerSpriteHandler.ChangeSpriteVariant(spriteVariant);
-		traySpriteHandler.ChangeSpriteVariant(spriteVariant);
+
+		if (traySpriteHandler != null)
+		{
+			traySpriteHandler.ChangeSpriteVariant(spriteVariant);
+		}
+	}
+
+	private SpriteOrientation GetSpriteDirection()
+	{
+		switch (directional.CurrentDirection.AsEnum())
+		{
+			case OrientationEnum.Up: return SpriteOrientation.North;
+			case OrientationEnum.Down: return SpriteOrientation.South;
+			case OrientationEnum.Left: return SpriteOrientation.West;
+			case OrientationEnum.Right: return SpriteOrientation.East;
+			default: return SpriteOrientation.South;
+		}
 	}
 
 	#endregion Sprite
@@ -210,23 +179,18 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 	#endregion Interactions
 
 	/// <summary>
-	/// Returns the tray position from the given drawer position.
+	/// Returns the tray position from the current orientation and the given drawer position.
 	/// </summary>
-	/// <param name="vector">The drawer position</param>
+	/// <param name="drawerPosition">The drawer position</param>
 	/// <returns>The tray position</returns>
-	protected Vector3Int GetTrayPosition(Vector3Int vector)
+	protected Vector3Int GetTrayPosition(Vector3Int drawerPosition)
 	{
-		if (drawerOrientation == Orientation.Up) vector += Vector3Int.up;
-		else if (drawerOrientation == Orientation.Down) vector += Vector3Int.down;
-		else if (drawerOrientation == Orientation.Left) vector += Vector3Int.left;
-		else if (drawerOrientation == Orientation.Right) vector += Vector3Int.right;
-
-		return vector;
+		return (drawerPosition + directional.CurrentDirection.Vector).CutToInt();
 	}
 
 	#region Server Only
 
-	protected virtual void OpenDrawer()
+	public virtual void OpenDrawer()
 	{
 		trayBehaviour.parentContainer = null;
 		trayTransform.SetPosition(TrayWorldPosition);
@@ -235,10 +199,10 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		EjectPlayers();
 
 		SoundManager.PlayNetworkedAtPos("BinOpen", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
-		drawerState = DrawerState.Open; // [SyncVar] will update sprites
+		SetDrawerState(DrawerState.Open);
 	}
 
-	protected virtual void CloseDrawer()
+	public virtual void CloseDrawer()
 	{
 		trayBehaviour.parentContainer = drawerPushPull;
 		trayBehaviour.VisibleState = false;
@@ -247,7 +211,7 @@ public class Drawer : NetworkBehaviour, IMatrixRotation, ICheckedInteractable<Ha
 		if (storePlayers) GatherPlayers();
 
 		SoundManager.PlayNetworkedAtPos("BinClose", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
-		drawerState = DrawerState.Shut; // [SyncVar] will update sprites
+		SetDrawerState(DrawerState.Shut);
 	}
 
 	/// <summary>

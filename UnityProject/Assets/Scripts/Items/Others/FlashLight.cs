@@ -6,17 +6,17 @@ using UnityEngine;
 
 namespace Items.Others
 {
-		[RequireComponent(typeof(ItemLightControl))]
-		public class FlashLight : NetworkBehaviour, ICheckedInteractable<HandActivate>
+	[RequireComponent(typeof(ItemLightControl))]
+	public class FlashLight : NetworkBehaviour, ICheckedInteractable<HandActivate>
 	{
 		// The light the flashlight has access to
 		private ItemLightControl lightControl;
 
 		[SerializeField]
-		private SpriteHandler spriteHandler;
+		private SpriteHandler spriteHandler = default;
 
 		[Tooltip("The ON sprite should be in the first element (That's element 0)")]
-		[SerializeField] private Sprite [] toggleSprites;
+		[SerializeField] private Sprite [] toggleSprites = default;
 
 
 		/// <summary>

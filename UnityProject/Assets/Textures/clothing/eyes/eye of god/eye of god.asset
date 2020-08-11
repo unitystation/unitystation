@@ -98,6 +98,10 @@ MonoBehaviour:
       - {fileID: 21300006, guid: 1aba5a1cf89c2194382e1c448e33e2d5, type: 3}
       - {fileID: 21300008, guid: 1aba5a1cf89c2194382e1c448e33e2d5, type: 3}
       EquippedData: {fileID: 4900000, guid: fc728178cc4311243aa27d362021a4d0, type: 3}
+    SpriteEquipped: {fileID: 11400000, guid: aba6eec50bf4219479dc8c1e40d48ea5, type: 2}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 11400000, guid: 8829dff8b1e2ff246940d6c35483b83c, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -125,6 +129,10 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -152,6 +160,10 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -248,6 +260,10 @@ MonoBehaviour:
       - {fileID: 21300006, guid: 1aba5a1cf89c2194382e1c448e33e2d5, type: 3}
       - {fileID: 21300008, guid: 1aba5a1cf89c2194382e1c448e33e2d5, type: 3}
       EquippedData: {fileID: 4900000, guid: fc728178cc4311243aa27d362021a4d0, type: 3}
+    SpriteEquipped: {fileID: 11400000, guid: aba6eec50bf4219479dc8c1e40d48ea5, type: 2}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 11400000, guid: 8829dff8b1e2ff246940d6c35483b83c, type: 2}
     Palette: []
     IsPaletted: 0
   - Equipped:
@@ -335,5 +351,9 @@ MonoBehaviour:
       - {fileID: 21300006, guid: f8bfd1a64e6b56d4091d45491bcd6d51, type: 3}
       - {fileID: 21300008, guid: f8bfd1a64e6b56d4091d45491bcd6d51, type: 3}
       EquippedData: {fileID: 4900000, guid: 5f6f5efdc2a399c4a9e4ff00cdd3f2ea, type: 3}
+    SpriteEquipped: {fileID: 11400000, guid: d681c9d30ff9f7d4383af36bf93965ce, type: 2}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 11400000, guid: 7294615e7a26bc94fa94074095fec2f7, type: 2}
     Palette: []
     IsPaletted: 0

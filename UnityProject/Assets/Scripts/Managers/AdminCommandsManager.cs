@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine;
 using Mirror;
 using DiscordWebhook;
 using InGameEvents;
-using Object = System.Object;
+using UnityEngine;
 
 namespace AdminCommands
 {
@@ -264,7 +260,7 @@ namespace AdminCommands
 
 			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
-			if(shuttle.blockCall == toggleBool) return;
+			if (shuttle.blockCall == toggleBool) return;
 
 			shuttle.blockCall = toggleBool;
 
@@ -284,7 +280,7 @@ namespace AdminCommands
 
 			var shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
-			if(shuttle.blockRecall == toggleBool) return;
+			if (shuttle.blockRecall == toggleBool) return;
 
 			shuttle.blockRecall = toggleBool;
 
@@ -298,16 +294,40 @@ namespace AdminCommands
 
 		#endregion
 
+		#region PlayerCommands
+
+		/// <summary>
+		/// Smites the selected user, gibbing him instantly.
+		/// </summary>
+		/// <param name="adminId">Id of the admin performing the action</param>
+		/// <param name="adminToken">Token that proves the admin privileges</param>
+		/// <param name="userToSmite">User Id of the user to smite</param>
+		[Server]
+		public void CmdSmitePlayer(string adminId, string adminToken, string userToSmite)
+		{
+			GameObject admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+
+			if (admin == null)
+				return;
+
+			var players = PlayerList.Instance.GetAllByUserID(userToSmite);
+			if (players.Count != 0)
+			{
+				foreach (ConnectedPlayer player in players)
+				{
+					string message = $"{PlayerList.Instance.GetByUserID(adminId).Username}: Smited Username: {player.Username} ({player.Name})";
+					Logger.Log(message);
+					UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(message, null); DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message, "");
+					player.Script.playerHealth.ServerGibPlayer();
+				}
+			}
+		}
+		#endregion
+
 		#region Sound
 
 		[Server]
-		public void CmdPlaySound(string index, string adminId, string adminToken)
-		{
-			PlaySound(index, adminId, adminToken);
-		}
-
-		[Server]
-		public void PlaySound(string index, string adminId, string adminToken)
+		public void CmdPlaySound(string adminId, string adminToken, string index)
 		{
 			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 			if (admin == null) return;

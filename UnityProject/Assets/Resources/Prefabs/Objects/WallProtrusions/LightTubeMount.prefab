@@ -197,6 +197,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114153354409449902
@@ -213,7 +214,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -234,7 +237,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114545401147975254
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,13 +354,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  ONColour: {r: 1, g: 1, b: 1, a: 0.5019608}
+  EmergencyColour: {r: 1, g: 0, b: 0, a: 0.33333334}
   relatedLightSwitch: {fileID: 0}
   InitialState: 1
   mLightRendererObject: {fileID: 0}
   isWithoutSwitch: 0
   spriteRenderer: {fileID: 212685610322283746}
   spriteRendererLightOn: {fileID: 3971560341310276896}
-  lightSprite: {fileID: 0}
   emergencyLightAnimator: {fileID: -8775636696312819921}
   integrity: {fileID: 114153354409449902}
   directional: {fileID: -584882335963469257}
@@ -370,6 +373,7 @@ MonoBehaviour:
   spritesStateOnEffect: {fileID: 11400000, guid: eb6855ff2551ddc4abe1b264ca4bbb52,
     type: 2}
   mountStatesMachine: {fileID: 11400000, guid: 2049efbecd5fb44478e9830e1b970f84, type: 2}
+  conType: 6
 --- !u!114 &4347738222806098176
 MonoBehaviour:
   m_ObjectHideFlags: 0

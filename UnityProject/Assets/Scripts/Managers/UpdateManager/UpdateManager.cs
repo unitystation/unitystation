@@ -26,6 +26,8 @@ public class UpdateManager : MonoBehaviour
 	private List<Action> lateUpdateActions = new List<Action>();
 	private List<TimedUpdate> periodicUpdateActions = new List<TimedUpdate>();
 
+	private static int NumberOfUpdatesAdded = 0;
+
 	public List<TimedUpdate> pooledTimedUpdates = new List<TimedUpdate>();
 
 	public TimedUpdate GetTimedUpdates()
@@ -92,6 +94,8 @@ public class UpdateManager : MonoBehaviour
 		if (Instance.periodicUpdateActions.Any(x => x.Action == action)) return;
 		TimedUpdate timedUpdate = Instance.GetTimedUpdates();
 		timedUpdate.SetUp(action, TimeInterval);
+		timedUpdate.TimeTitleNext += NumberOfUpdatesAdded * 0.1f;
+		NumberOfUpdatesAdded++;
 		Instance.periodicUpdateActions.Add(timedUpdate);
 	}
 
@@ -280,6 +284,7 @@ public class UpdateManager : MonoBehaviour
 	/// </summary>
 	private void ProcessDelayUpdate()
 	{
+		NumberOfUpdatesAdded = 0;
 		for (int i = 0; i < periodicUpdateActions.Count; i++)
 		{
 			periodicUpdateActions[i].TimeTitleNext -= Time.deltaTime;

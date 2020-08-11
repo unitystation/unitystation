@@ -1,13 +1,27 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
-public static class PowerSupplyFunction  { //Responsible for keeping the update and day to clean up off the supply in check
+/// <summary>
+/// Responsible for keeping the update and day to clean up off the supply in check
+/// </summary>
+public static class PowerSupplyFunction  {
+	/// <summary>
+	/// Called when a Supplying Device is turned off.
+	/// </summary>
+	/// <param name="Supply">The supplying device that is turned off</param>
 	public static void TurnOffSupply(ModuleSupplyingDevice Supply)
 	{
+		if (Supply.ControllingNode == null)
+		{
+			Logger.LogError("Supply.ControllingNode == null");
+			return;
+		}
+
 		Supply.ControllingNode.Node.InData.Data.ChangeToOff = true;
-		ElectricalManager.Instance.electricalSync.NUCurrentChange.Add (Supply.ControllingNode);
+		ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supply.ControllingNode);
 	}
 	public static void TurnOnSupply(ModuleSupplyingDevice Supply)
 	{

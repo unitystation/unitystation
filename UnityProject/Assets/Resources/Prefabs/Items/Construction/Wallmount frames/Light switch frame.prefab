@@ -15,6 +15,7 @@ MonoBehaviour:
   WallMountToSpawn: {fileID: 1000014236108730, guid: 6b98e0a1341c4824a5457ef0e27020f8,
     type: 3}
   IsAPC: 0
+  IsWallProtrusion: 0
 --- !u!1001 &7188777443549737376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -101,6 +102,12 @@ PrefabInstance:
       propertyPath: initialSize
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1cb27847b182af74596d3f25ccbefe25,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &7187812193856883994 stripped

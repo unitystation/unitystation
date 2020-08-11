@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using Weapons;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -514,7 +515,8 @@ public class MouseInputController : MonoBehaviour
 					//remove hidden wallmounts
 					objects.RemoveAll(obj =>
 						obj.GetComponent<WallmountBehavior>() != null &&
-						obj.GetComponent<WallmountBehavior>().IsHiddenFromLocalPlayer());
+						obj.GetComponent<WallmountBehavior>().IsHiddenFromLocalPlayer() ||
+						obj.TryGetComponent(out NetworkedMatrix netMatrix)); // Test to see if station (or shuttle) itself.
 					LayerTile tile = UITileList.GetTileAtPosition(position);
 					ControlTabs.ShowItemListTab(objects, tile, position);
 				}

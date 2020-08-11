@@ -1,0 +1,290 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7406491961053828952
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3520465010449068854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65a8731c836944efb4baf302526fc662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &3520465010449138795
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5387393567893094126, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
+        type: 2}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: SmartGun
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: SpawnsCaseing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 1553142956179786, guid: dcb4c13ba5bccdb4f8373e48629e8577,
+        type: 3}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: ammoType
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: FiringSound
+      value: PlasmaCutter
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
+        type: 3}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: MagInternal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: MagSize
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: FireRate
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: CameraRecoilConfig.Distance
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: CameraRecoilConfig.RecoilDuration
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -851605047464713454, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: allowMagazineRemoval
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4598361863285954486, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a181fd23b03f30049b0879457111adcc,
+        type: 2}
+    - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 91747fb8a8ae72e4ba94f78e2d8f65b4,
+        type: 3}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7675599241638187333, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_Name
+      value: PlasmaCutter
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710870028303749509, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7711018358005986435, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: isMeleeable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 7618ae911c148ae4bac9ab34708fee20, type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7618ae911c148ae4bac9ab34708fee20,
+        type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 7618ae911c148ae4bac9ab34708fee20,
+        type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 7618ae911c148ae4bac9ab34708fee20,
+        type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 7618ae911c148ae4bac9ab34708fee20,
+        type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 12a02a8ae82aad045b8ea03f85381995, type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 1ccc06cc0452414479ff77d0d6f446b7, type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 1ccc06cc0452414479ff77d0d6f446b7,
+        type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 1ccc06cc0452414479ff77d0d6f446b7,
+        type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 1ccc06cc0452414479ff77d0d6f446b7,
+        type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 1ccc06cc0452414479ff77d0d6f446b7,
+        type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: feb16fc4ef375a641b12f47491a25188, type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: initialName
+      value: Plasma Cutter
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: initialDescription
+      value: 'Miner''s best friend. '
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: throwDamage
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: hitDamage
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d7a08fa7791b75642b60ee0346ed2df1,
+        type: 2}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c778f69ae7fe25d48aa47d9b4ea82d7f,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 505251973963023168, guid: c456c86d5736aee499478a158376781e, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}
+--- !u!1 &3520465010449068854 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
+    type: 3}
+  m_PrefabInstance: {fileID: 3520465010449138795}
+  m_PrefabAsset: {fileID: 0}

@@ -19,7 +19,7 @@ public class ItemBreakable : MonoBehaviour
 	{
 		integrity = GetComponent<Integrity>();
 
-		integrity.OnApllyDamage.AddListener(OnDamageReceived);
+		integrity.OnApplyDamage.AddListener(OnDamageReceived);
 	}
 
 	public void AddDamage()

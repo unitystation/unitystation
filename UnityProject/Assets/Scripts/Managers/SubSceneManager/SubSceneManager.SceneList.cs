@@ -28,14 +28,19 @@ public partial class SubSceneManager
 
 		//Choose and load a mainstation
 		yield return StartCoroutine(ServerLoadMainStation(loadTimer));
-		//Load Asteroids:
-		yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
-		//Load away site:
-		yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
-		//Load CentCom Scene:
-		yield return StartCoroutine(ServerLoadCentCom(loadTimer));
-		//Load Additional Scenes:
-		yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
+
+		if (GameManager.Instance.QuickLoad == false)
+		{
+			//Load Asteroids:
+			yield return StartCoroutine(ServerLoadAsteroids(loadTimer));
+			//Load away site:
+			yield return StartCoroutine(ServerLoadAwaySite(loadTimer));
+			//Load CentCom Scene:
+			yield return StartCoroutine(ServerLoadCentCom(loadTimer));
+			//Load Additional Scenes:
+			yield return StartCoroutine(ServerLoadAdditionalScenes(loadTimer));
+
+		}
 
 		netIdentity.isDirty = true;
 
@@ -81,6 +86,7 @@ public partial class SubSceneManager
 	IEnumerator ServerLoadAsteroids(SubsceneLoadTimer loadTimer)
 	{
 		loadTimer.IncrementLoadBar("Loading Asteroids");
+
 		foreach (var asteroid in asteroidList.Asteroids)
 		{
 			yield return StartCoroutine(LoadSubScene(asteroid, loadTimer));
@@ -95,8 +101,12 @@ public partial class SubSceneManager
 
 	IEnumerator ServerLoadCentCom(SubsceneLoadTimer loadTimer)
 	{
+		if (GameManager.Instance.QuickLoad)
+		{
+			yield return null;
+		}
 		loadTimer.IncrementLoadBar("Loading CentCom");
-		
+
 		//CENTCOM
 		foreach (var centComData in additionalSceneList.CentComScenes)
 		{
@@ -128,6 +138,10 @@ public partial class SubSceneManager
 	//Load all the asteroids on the server
 	IEnumerator ServerLoadAdditionalScenes(SubsceneLoadTimer loadTimer)
 	{
+		if (GameManager.Instance.QuickLoad)
+		{
+			yield return null;
+		}
 		loadTimer.IncrementLoadBar("Loading Additional Scenes");
 		foreach (var additionalScene in additionalSceneList.AdditionalScenes)
 		{
@@ -161,6 +175,10 @@ public partial class SubSceneManager
 	//Load the away site on the server
 	IEnumerator ServerLoadAwaySite(SubsceneLoadTimer loadTimer)
 	{
+		if (GameManager.Instance.QuickLoad)
+		{
+			yield return null;
+		}
 		var prevEditorScene = GetEditorPrevScene();
 		//Load the away site
 		if (awayWorldList.AwayWorlds.Contains(prevEditorScene) && AdminForcedAwaySite == "Random")

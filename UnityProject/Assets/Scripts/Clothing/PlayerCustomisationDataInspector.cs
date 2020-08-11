@@ -4,7 +4,7 @@ using System.Collections;
 using UnityEditor;
 
 [CustomEditor(typeof(ResourceTracker))]
-public class ResourceTrackerInspector : Editor
+public class ResourceTrackerInspector : UnityEditor.Editor
 {
 	public override void OnInspectorGUI()
 	{

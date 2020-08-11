@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 14daa1d8240a50042809a80d239ed753,
         type: 2}
+    - target: {fileID: 4377564325058947582, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0287527d229ef16459d28adea4e829a1,
+        type: 2}
     - target: {fileID: 7499075161934737357, guid: c947ef228fe12b44dad029156a74f62b,
         type: 3}
       propertyPath: m_AssetId
@@ -120,5 +126,17 @@ PrefabInstance:
       value: An advanced helmet designed for work in a hazardous, low pressure environment.
         Shines with a high polish.
       objectReference: {fileID: 0}
+    - target: {fileID: 8034228813080640986, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 18f81a75b12175e4dba3bd3a1fb700a0,
+        type: 3}
+    - target: {fileID: 8034228813080640986, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 25046d1cc9626fd40a6d2946b71eae3a,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c947ef228fe12b44dad029156a74f62b, type: 3}

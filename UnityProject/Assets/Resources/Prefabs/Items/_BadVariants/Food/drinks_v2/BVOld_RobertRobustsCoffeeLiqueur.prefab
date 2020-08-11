@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: d8b9bc35821b330168e659473e685d14,
         type: 2}
+    - target: {fileID: 544171576806319005, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: d8b9bc35821b330168e659473e685d14,
+        type: 2}
     - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: initialName
@@ -38,7 +44,7 @@ PrefabInstance:
     - target: {fileID: 1632346945329490741, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
       propertyPath: m_Name
-      value: RobertRobustsCoffeeLiquer
+      value: BVOld_RobertRobustsCoffeeLiqueur
       objectReference: {fileID: 0}
     - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
         type: 3}
@@ -105,5 +111,11 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4891293828191637682, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cbc74fdb4ec53a54b8e678280d656bd0,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bcafad97f0ef7384793b303b782af31b, type: 3}

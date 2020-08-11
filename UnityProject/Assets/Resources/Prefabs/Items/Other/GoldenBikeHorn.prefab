@@ -156,5 +156,23 @@ PrefabInstance:
       propertyPath: initialName
       value: golden bike horn
       objectReference: {fileID: 0}
+    - target: {fileID: 543235021644563652, guid: 4e87468c82c280b418f8bf0d5f3e7882,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 56c66469bccf951459a79e65d106fb6d,
+        type: 2}
+    - target: {fileID: 543235021644563652, guid: 4e87468c82c280b418f8bf0d5f3e7882,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 208dcaee377261b4790c7616548908b6,
+        type: 2}
+    - target: {fileID: 6062532139084304417, guid: 4e87468c82c280b418f8bf0d5f3e7882,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 616d8596e3a20cb429efa887e13867b6,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e87468c82c280b418f8bf0d5f3e7882, type: 3}

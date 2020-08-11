@@ -22,6 +22,18 @@ PrefabInstance:
       propertyPath: initialDescription
       value: ....It's green!
       objectReference: {fileID: 0}
+    - target: {fileID: 1870599752894753979, guid: 48bc65e3f41a48540af24bc4f96d2279,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ee3b2217b7c0d8d459d1eb3ab18a80ac,
+        type: 2}
+    - target: {fileID: 1870599752894753979, guid: 48bc65e3f41a48540af24bc4f96d2279,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 008ff497d2c82754db57ec850ab23e02,
+        type: 2}
     - target: {fileID: 2155495482901753989, guid: 48bc65e3f41a48540af24bc4f96d2279,
         type: 3}
       propertyPath: m_Color.r
@@ -100,7 +112,7 @@ PrefabInstance:
     - target: {fileID: 2240591548866905049, guid: 48bc65e3f41a48540af24bc4f96d2279,
         type: 3}
       propertyPath: m_Name
-      value: BadminBrewV2
+      value: BadminBrew
       objectReference: {fileID: 0}
     - target: {fileID: 3331106670661049236, guid: 48bc65e3f41a48540af24bc4f96d2279,
         type: 3}
@@ -122,5 +134,11 @@ PrefabInstance:
       propertyPath: backgroundColor.b
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5358774568034433118, guid: 48bc65e3f41a48540af24bc4f96d2279,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 664395b52479f624cbe1495a91c1993a,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 48bc65e3f41a48540af24bc4f96d2279, type: 3}

@@ -7,22 +7,24 @@ namespace Chemistry.Effects
 	[Serializable]
 	public class Item : Chemistry.Effect
 	{
-		public RegisterPlayer playerHolding;
+		private MixingBowl senderInfo;
+		private Vector3Int senderPosition;
 		public GameObject spawnItem;
 		public override void Apply(MonoBehaviour sender, float amount)
 		{
 			amount = (int)Math.Floor(amount);
-			if (sender.gameObject.GetComponent<MixingBowl>() != null)
+			senderPosition = sender.gameObject.RegisterTile().WorldPositionServer;
+			senderInfo = sender.gameObject.GetComponent<MixingBowl>();
+			if (senderInfo != null)
 			{
-				playerHolding = sender.gameObject.GetComponent<MixingBowl>().playerHolding;
-				if (playerHolding != null)
-					Spawn.ServerPrefab(spawnItem, playerHolding.WorldPositionServer, null, null, (int)amount);
+				if (senderInfo.playerHolding != null)
+					Spawn.ServerPrefab(spawnItem, senderInfo.playerHolding.WorldPositionServer, null, null, (int)amount);
 				else
-					Spawn.ServerPrefab(spawnItem, sender.gameObject.RegisterTile().WorldPositionServer, null, null, (int)amount);
+					Spawn.ServerPrefab(spawnItem, senderPosition, null, null, (int)amount);
 			}
 			else
 			{
-				Spawn.ServerPrefab(spawnItem, sender.gameObject.RegisterTile().WorldPositionServer, null, null, (int)amount);
+				Spawn.ServerPrefab(spawnItem, senderPosition, null, null, (int)amount);
 			}
 		}
 	}

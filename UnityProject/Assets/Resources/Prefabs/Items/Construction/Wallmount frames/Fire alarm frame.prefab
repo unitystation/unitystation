@@ -15,11 +15,7 @@ MonoBehaviour:
   WallMountToSpawn: {fileID: 1000012425957516, guid: d8ff8a6c4d044500806d2f0ab1cb6358,
     type: 3}
   IsAPC: 0
-  requireCables: 1
-  hasCables: 0
-  spriteHandler: {fileID: 3928865298054985373}
-  normalSprite: {fileID: 21300000, guid: 6c911a9ed4c82f44aa252825428fe0ee, type: 3}
-  cabledSprite: {fileID: 21300000, guid: c3971b2f8f3d3a34eae4d775786708b0, type: 3}
+  IsWallProtrusion: 0
 --- !u!1001 &7188777443549737376
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106,6 +102,12 @@ PrefabInstance:
       propertyPath: initialSize
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f36f465da2ff82f418c4394e69cffd57,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &7187812193856883994 stripped
@@ -114,15 +116,3 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7188777443549737376}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &3928865298054985373 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
-    type: 3}
-  m_PrefabInstance: {fileID: 7188777443549737376}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

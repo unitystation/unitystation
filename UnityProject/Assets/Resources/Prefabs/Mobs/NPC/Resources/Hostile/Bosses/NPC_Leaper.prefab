@@ -345,9 +345,9 @@ MonoBehaviour:
   - {fileID: 4858910464699741597}
   allowKnifeHarvest: 1
   butcherResults:
-  - {fileID: 6532193109441330816, guid: dfd7bbd166ff27a4ba6b4c004cc89369, type: 3}
-  - {fileID: 6532193109441330816, guid: f4a7f2a5df1b98449bdf7af94d28ca29, type: 3}
-  - {fileID: 6532193109441330816, guid: f4a7f2a5df1b98449bdf7af94d28ca29, type: 3}
+  - {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398, type: 3}
+  - {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398, type: 3}
+  - {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398, type: 3}
   - {fileID: 100328150011014054, guid: 0ce26c964edbf4648838e431a9b00af4, type: 3}
   RTT: 0
   RadiationStacks: 0
@@ -426,6 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &4859213822428636291

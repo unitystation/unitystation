@@ -110,12 +110,14 @@ public class ModuleSupplyingDevice : ElectricalModuleInheritance
 			}
 		}
 
+
+		// On some transitional scenes like the DontDestroyOnLoad scene, we don't have an ElectricalManager.
+		// We should not try to update it in those cases.
 		if (ElectricalManager.Instance?.electricalSync?.NUResistanceChange != null)
 		{
 			ElectricalManager.Instance.electricalSync.NUResistanceChange.Add(ControllingNode);
+			PowerSupplyFunction.TurnOffSupply(this);
 		}
-
-		PowerSupplyFunction.TurnOffSupply(this);
 	}
 	public override void PowerNetworkUpdate()
 	{

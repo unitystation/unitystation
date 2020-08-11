@@ -12,6 +12,7 @@ namespace Chemistry
 		public DictionaryReagentInt ingredients;
 		public bool useExactAmounts = false;
 		public DictionaryReagentInt catalysts;
+		public DictionaryReagentInt inhibitors;
 		public float? tempMin;
 		public float? tempMax;
 		public DictionaryReagentInt results;
@@ -47,6 +48,11 @@ namespace Chemistry
 
 			if (!catalysts.All(catalyst =>
 				reagentMix[catalyst.Key] > catalyst.Value * reactionAmount))
+			{
+				return false;
+			}
+
+			if (inhibitors.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
 			{
 				return false;
 			}

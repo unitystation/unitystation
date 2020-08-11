@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Weapons;
 
 public class GunPKA : Gun
 {
@@ -9,7 +10,17 @@ public class GunPKA : Gun
 	public float rechargeTime = 2.0f;
 	public override void ServerPerformInteraction(AimApply interaction)
 	{
-		ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, false);
+		var isSuicide = false;
+		if (interaction.MouseButtonState == MouseButtonState.PRESS ||
+		    (WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
+		{
+			isSuicide = interaction.IsAimingAtSelf;
+			AllowSuicide = isSuicide;
+		}
+
+		//enqueue the shot (will be processed in Update)
+		ServerShoot(interaction.Performer, interaction.TargetVector.normalized, UIManager.DamageZone, isSuicide);
+
 		if (allowRecharge)
 		{
 			StartCoroutine(StartCooldown());

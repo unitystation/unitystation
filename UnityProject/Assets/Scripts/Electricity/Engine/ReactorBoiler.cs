@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Pipes;
+using ScriptableObjects;
 using UnityEngine;
 
 public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInteractable<HandApply>, IServerDespawn

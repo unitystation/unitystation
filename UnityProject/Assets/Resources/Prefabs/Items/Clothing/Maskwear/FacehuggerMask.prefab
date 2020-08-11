@@ -6,7 +6,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1877733125468713880}
+  m_GameObject: {fileID: 8320299039891337921}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 66e7a7ed3ad74a8d9ce6e019bc076e8e, type: 3}
@@ -37,6 +37,12 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 909126ea3408f934d92c37ef1307b15c,
+        type: 2}
+    - target: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 4aa643bb597b9cc4881cd70a3cdf8994,
         type: 2}
     - target: {fileID: 7560587375320734517, guid: 05a135eab68164d34bb02b82fff3cde0,
         type: 3}
@@ -139,17 +145,17 @@ PrefabInstance:
         type: 3}
       propertyPath: spriteHandler
       value: 
-      objectReference: {fileID: 1877733125468500126}
+      objectReference: {fileID: 2752188463777155398}
     m_RemovedComponents:
     - {fileID: -9097270597331898786, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 05a135eab68164d34bb02b82fff3cde0, type: 3}
---- !u!1 &1877733125468713880 stripped
+--- !u!1 &8320299039891337921 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7600017545650087553, guid: 05a135eab68164d34bb02b82fff3cde0,
     type: 3}
   m_PrefabInstance: {fileID: 1877733125468623936}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1877733125468500126 stripped
+--- !u!114 &2752188463777155398 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4341101185987976454, guid: 05a135eab68164d34bb02b82fff3cde0,
     type: 3}

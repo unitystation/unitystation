@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2081027502392765634, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a60d8721143aafb49b92a814eb91b118,
+        type: 2}
     - target: {fileID: 5202609555093908209, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: m_AssetId
@@ -157,6 +163,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 8a799949ffd6bb5448798f2ebe58b6fa, type: 3}
+    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e0a6ea82ea82194191c1e0052b98080,
+        type: 2}
+    - target: {fileID: 5713606673845663783, guid: a753ad12f9c4b8847be33e910d2e18e5,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5c91482447b9d6442a9044889a3be091,
+        type: 2}
     - target: {fileID: 6380861271804977133, guid: a753ad12f9c4b8847be33e910d2e18e5,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size

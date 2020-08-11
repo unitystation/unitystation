@@ -156,7 +156,16 @@ public struct NetTabDescriptor {
 		if ( provider == null ) {
 			return null;
 		}
-		var tabObject = Object.Instantiate( Resources.Load( $"Tab{type}" ) as GameObject, parent );
+
+		GameObject toInstantiate = Resources.Load($"Tab{type}") as GameObject;
+
+		if(toInstantiate == null)
+		{
+			Logger.LogWarning($"[NetworkTabManager.Spawn] - Couldn't load 'Tab{type}' from resources", Category.NetUI);
+			return null;
+		}
+
+		var tabObject = Object.Instantiate(toInstantiate, parent );
 		NetTab netTab = tabObject.GetComponent<NetTab>();
 		netTab.Provider = provider.gameObject;
 		netTab.ProviderRegisterTile = provider.RegisterTile();

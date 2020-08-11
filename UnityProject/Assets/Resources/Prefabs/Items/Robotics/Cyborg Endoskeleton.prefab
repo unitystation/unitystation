@@ -33,18 +33,9 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   itemSprites:
-    LeftHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    RightHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InventoryIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+    SpriteInventoryIcon: {fileID: 0}
+    SpriteLeftHand: {fileID: 0}
+    SpriteRightHand: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -160,6 +151,12 @@ PrefabInstance:
       propertyPath: spriteHandler
       value: 
       objectReference: {fileID: 5325191094975340753}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3237962f1f2e2fa489264f6fd2b35651,
+        type: 2}
     m_RemovedComponents:
     - {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
     - {fileID: 114734890905785284, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}

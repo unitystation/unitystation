@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
+  m_Name: BBQSauce
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: 0196cc8cc2de8818b9d56bdb11582c6c, type: 2}
+    - {fileID: 11400000, guid: 009f1045026b48848b7eeb01060f8c18, type: 2}
+    - {fileID: 11400000, guid: f6cbd85684444265ab0e3a0f83bcfedc, type: 2}
+    - {fileID: 11400000, guid: 2aaf2943c2bb469f7a9a7cc94d373ef5, type: 2}
+    m_values: 01000000010000000300000001000000
+  useExactAmounts: 0
+  catalysts:
+    m_keys: []
+    m_values: 
+  results:
+    m_keys:
+    - {fileID: 11400000, guid: ad830833fe67f0a48ac1ea6ab6f42d75, type: 2}
+    m_values: 05000000
+  effects: []

@@ -2,11 +2,15 @@
 using Light2D;
 using Lighting;
 using Mirror;
+using ScriptableObjects;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowered, IServerLifecycle, ISetMultitoolSlave
 {
+	public Color ONColour;
+	public Color EmergencyColour;
+
 	public LightSwitchV2 relatedLightSwitch;
 	private float coolDownTime = 2.0f;
 	private bool isInCoolDown;
@@ -22,15 +26,15 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	[SerializeField]
 	private bool isWithoutSwitch = true;
 	public bool IsWithoutSwitch => isWithoutSwitch;
-	private bool switchState;
+	private bool switchState = true;
 	private PowerStates powerState;
 
-	[SerializeField]private SpriteRenderer spriteRenderer;
-	[SerializeField]private SpriteRenderer spriteRendererLightOn;
+	[SerializeField] private SpriteRenderer spriteRenderer;
+	[SerializeField] private SpriteRenderer spriteRendererLightOn;
 	private LightSprite lightSprite;
-	[SerializeField]private EmergencyLightAnimator emergencyLightAnimator;
-	[SerializeField]private Integrity integrity;
-	[SerializeField]private Directional directional;
+	[SerializeField] private EmergencyLightAnimator emergencyLightAnimator = default;
+	[SerializeField] private Integrity integrity = default;
+	[SerializeField] private Directional directional;
 
 	[SerializeField] private BoxCollider2D boxColl = null;
 	[SerializeField] private Vector4 collDownSetting = Vector4.zero;
@@ -106,12 +110,12 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 
 	private void OnEnable()
 	{
-		integrity.OnApllyDamage.AddListener(OnDamageReceived);
+		integrity.OnApplyDamage.AddListener(OnDamageReceived);
 	}
 
 	private void OnDisable()
 	{
-		if(integrity != null) integrity.OnApllyDamage.RemoveListener(OnDamageReceived);
+		if(integrity != null) integrity.OnApplyDamage.RemoveListener(OnDamageReceived);
 	}
 
 	[Server]
@@ -200,7 +204,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		switch (mState)
 		{
 			case LightMountState.Emergency:
-				lightSprite.Color = Color.red;
+				lightSprite.Color = EmergencyColour;
 				mLightRendererObject.transform.localScale = Vector3.one * 3.0f;
 				mLightRendererObject.SetActive(true);
 				if (emergencyLightAnimator != null)
@@ -213,7 +217,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 				{
 					emergencyLightAnimator.StopAnimation();
 				}
-				lightSprite.Color = Color.white;
+				lightSprite.Color = ONColour;
 				mLightRendererObject.transform.localScale = Vector3.one * 12.0f;
 				mLightRendererObject.SetActive(true);
 				break;

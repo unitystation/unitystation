@@ -71,6 +71,12 @@ PrefabInstance:
       propertyPath: Sprites.Array.data[0].EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 7f92b5807db8c6a45a3ca77692ca5739, type: 3}
+    - target: {fileID: 4520221803203555702, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c95b5c97f0b228a42a9aa53c0274638b,
+        type: 2}
     - target: {fileID: 7569679527290075565, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: m_Sprite
@@ -267,6 +273,18 @@ PrefabInstance:
       propertyPath: attackVerbs.Array.data[3]
       value: stabbed
       objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 23f9dd6436d18b44193bbf90e0ed9e28,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 74df197646e672a44ac9ccfa27cf9a85,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d70fb70bc4fe6534a85996e49221bb53, type: 3}
 --- !u!1 &9043734351365765745 stripped

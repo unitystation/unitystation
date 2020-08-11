@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -6,6 +6,7 @@ using Mirror;
 using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Globalization;
 
 /// <summary>
 /// This is the Viewer object for a joined player.
@@ -59,9 +60,11 @@ public class JoinedViewer : NetworkBehaviour
 			unverifiedUserid, unverifiedClientVersion, unverifiedConnPlayer, unverifiedToken);
 		if (!isValidPlayer) return; //this validates Userid and Token
 
-		// Check if they have a player to rejoin. If not, assign them a new client ID
+		// Check if they have a player to rejoin. If not, assign them a new client ID.
 		var loggedOffPlayer = PlayerList.Instance.TakeLoggedOffPlayerbyClientId(unverifiedClientId);
 
+		// If the player does not yet have an in-game object to control, they'll probably have a
+		// JoinedViewer assigned as they were only in the lobby. If so, destroy it and use the new one.
 		if (loggedOffPlayer != null)
 		{
 			var checkForViewer = loggedOffPlayer.GetComponent<JoinedViewer>();
@@ -74,7 +77,7 @@ public class JoinedViewer : NetworkBehaviour
 
 		UpdateConnectedPlayersMessage.Send();
 
-		// Only sync the pre-round countdown if it's already started
+		// Only sync the pre-round countdown if it's already started.
 		if (GameManager.Instance.CurrentRoundState == RoundState.PreRound)
 		{
 			if (GameManager.Instance.waitForStart)
@@ -87,19 +90,20 @@ public class JoinedViewer : NetworkBehaviour
 			}
 		}
 
-		//if there's a logged off player, we will force them to rejoin. Previous logic allowed client to reenter
-		//their body or not, which should not be up to the client!
+		// If there's a logged off player, we will force them to rejoin. Previous logic allowed client to re-enter
+		// their body or not, which should not be up to the client!
 		if (loggedOffPlayer != null)
 		{
 			StartCoroutine(WaitForLoggedOffObserver(loggedOffPlayer));
 		}
 		else
 		{
-			TargetLocalPlayerSetupNewPlayer(connectionToClient,
-				GameManager.Instance.CurrentRoundState);
+			TargetLocalPlayerSetupNewPlayer(connectionToClient, GameManager.Instance.CurrentRoundState);
 		}
 
 		PlayerList.Instance.CheckAdminState(unverifiedConnPlayer, unverifiedUserid);
+
+		PlayerList.ClientJobBanDataMessage.Send(unverifiedUserid);
 	}
 
 	/// <summary>
@@ -156,37 +160,10 @@ public class JoinedViewer : NetworkBehaviour
 	public void RequestJob(JobType job)
 	{
 		var jsonCharSettings = JsonConvert.SerializeObject(PlayerManager.CurrentCharacterSettings);
-		CmdRequestJob(job, jsonCharSettings);
-	}
 
-	/// <summary>
-	/// Used for requesting a job at round start.
-	/// Assigns the occupation to the player and spawns them on the station.
-	/// Fails if no more slots for that occupation are available.
-	/// </summary>
-	[Command]
-	private void CmdRequestJob(JobType jobType, string jsonCharSettings)
-	{
-		var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
-		if (GameManager.Instance.CurrentRoundState != RoundState.Started)
-		{
-			Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, jobType, characterSettings);
-			return;
-		}
+		if (!PlayerList.Instance.ClientCheck(job)) return;
 
-		int slotsTaken = GameManager.Instance.GetOccupationsCount(jobType);
-		int slotsMax = GameManager.Instance.GetOccupationMaxCount(jobType);
-		if (slotsTaken >= slotsMax)
-		{
-			return;
-		}
-
-		var spawnRequest =
-			PlayerSpawnRequest.RequestOccupation(this, GameManager.Instance.GetRandomFreeOccupation(jobType), characterSettings);
-
-		GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
-
-		GameManager.Instance.ProcessSpawnPlayerQueue();
+		ClientRequestJobMessage.Send(job, jsonCharSettings, DatabaseAPI.ServerData.UserID);
 	}
 
 	public void Spectate()
@@ -253,5 +230,101 @@ public class JoinedViewer : NetworkBehaviour
 			charSettings = JsonConvert.DeserializeObject<CharacterSettings>(jsonCharSettings);
 		}
 		PlayerList.Instance.SetPlayerReady(player, isReady, charSettings);
+	}
+
+	/// <summary>
+	/// Used for requesting a job at round start.
+	/// Assigns the occupation to the player and spawns them on the station.
+	/// Fails if no more slots for that occupation are available.
+	/// </summary>
+	public class ClientRequestJobMessage : ClientMessage
+	{
+		public string PlayerID;
+		public JobType JobType;
+		public string JsonCharSettings;
+
+		public override void Process()
+		{
+			// Server stuff here
+			if (SentByPlayer == null || SentByPlayer.ViewerScript == null) return;
+
+			if (SentByPlayer.UserId == null)
+			{
+				SentByPlayer.ViewerScript.NotifyJobRequestFailed(JobRequestError.InvalidUserID);
+				Logger.Log("User ID was null, cant spawn job.", Category.Admin);
+				return;
+			}
+
+			if (SentByPlayer.UserId != PlayerID)
+			{
+				SentByPlayer.ViewerScript.NotifyJobRequestFailed(JobRequestError.InvalidPlayerID);
+				Logger.Log($"User: {SentByPlayer.Username} ID: {SentByPlayer.UserId} used a different ID: {PlayerID} to request a job.", Category.Admin);
+				return;
+			}
+
+			var characterSettings = JsonConvert.DeserializeObject<CharacterSettings>(JsonCharSettings);
+			if (GameManager.Instance.CurrentRoundState != RoundState.Started)
+			{
+				SentByPlayer.ViewerScript.NotifyJobRequestFailed(JobRequestError.RoundNotReady);
+				Logger.LogWarningFormat("Round hasn't started yet, can't request job {0} for {1}", Category.Jobs, JobType, characterSettings);
+				return;
+			}
+
+			if (PlayerList.Instance.FindPlayerJobBanEntryServer(PlayerID, JobType, true) != null)
+			{
+				SentByPlayer.ViewerScript.NotifyJobRequestFailed(JobRequestError.JobBanned);
+				return;
+			}
+
+			int slotsTaken = GameManager.Instance.GetOccupationsCount(JobType);
+			int slotsMax = GameManager.Instance.GetOccupationMaxCount(JobType);
+			if (slotsTaken >= slotsMax)
+			{
+				SentByPlayer.ViewerScript.NotifyJobRequestFailed(JobRequestError.PositionsFilled);
+				return;
+			}
+
+			var spawnRequest = PlayerSpawnRequest.RequestOccupation(
+					SentByPlayer.ViewerScript, GameManager.Instance.GetRandomFreeOccupation(JobType), characterSettings, SentByPlayer.UserId);
+
+			GameManager.Instance.SpawnPlayerRequestQueue.Enqueue(spawnRequest);
+
+			GameManager.Instance.ProcessSpawnPlayerQueue();
+		}
+
+		public static ClientRequestJobMessage Send(JobType jobType, string jsonCharSettings, string playerID)
+		{
+			ClientRequestJobMessage msg = new ClientRequestJobMessage
+			{
+				JobType = jobType,
+				JsonCharSettings = jsonCharSettings,
+				PlayerID = playerID
+			};
+			msg.Send();
+			return msg;
+		}
+	}
+
+	[Server]
+	private void NotifyJobRequestFailed(JobRequestError failReason)
+	{
+		TargetNotifyJobRequestFailed(connectionToClient, failReason);
+	}
+
+	[TargetRpc]
+	private void TargetNotifyJobRequestFailed(NetworkConnection target, JobRequestError failReason)
+	{
+		var jobWindow = UIManager.Display.jobSelectWindow.GetComponent<GUI_PlayerJobs>();
+		jobWindow.ShowFailMessage(failReason);
+	}
+
+	public enum JobRequestError
+	{
+		None = 0,
+		InvalidUserID = 1,
+		InvalidPlayerID = 2,
+		RoundNotReady = 3,
+		JobBanned = 4,
+		PositionsFilled = 5
 	}
 }
