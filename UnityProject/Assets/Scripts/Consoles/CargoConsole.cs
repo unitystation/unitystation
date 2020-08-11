@@ -59,7 +59,7 @@ public class CargoConsole : NetworkBehaviour,ICheckedInteractable<HandApply>
 		{
 			Chat.AddActionMsgToChat(playeref, "You swipe your ID through the supply console's ID slot, " +
 			                                  "the console denies your ID",
-				"swiped their ID through the supply console's ID slot");
+				$"{playeref.ExpensiveName()} swiped their ID through the supply console's ID slot");
 
 		}
 
