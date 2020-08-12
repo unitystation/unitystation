@@ -1,4 +1,5 @@
-﻿using ScriptableObjects.Gun;
+﻿using PathFinding;
+using ScriptableObjects.Gun;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
@@ -11,6 +12,7 @@ namespace Weapons.Projectiles.Behaviours
 		private GameObject shooter;
 		private Gun weapon;
 		private BodyPartType targetZone;
+		
 
 		[SerializeField] private DamageData damageData = null;
 
@@ -28,9 +30,19 @@ namespace Weapons.Projectiles.Behaviours
 
 		private bool TryDamage(RaycastHit2D hit)
 		{
+			var newDamage = damageData.Damage;
 			var coll = hit.collider;
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
 			if (livingHealth == null) return false;
+			// checks if its a kinetic weapon is a high atmostphere
+			if (damageData.DamageType== DamageType.Kinetic)
+			{
+				
+				if(MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure <= 50)
+				{
+					newDamage=damageData.Damage * .25f;
+				}
+			}
 
 			livingHealth.ApplyDamageToBodypart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
 

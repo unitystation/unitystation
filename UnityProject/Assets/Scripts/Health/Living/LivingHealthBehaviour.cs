@@ -10,6 +10,7 @@ using UnityEngine.Events;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using UnityEngine.Profiling;
+using Barracuda;
 
 /// <summary>
 /// The Required component for all living creatures
@@ -264,6 +265,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	private BodyPartBehaviour GetBodyPart(float amount, DamageType damageType,
 		BodyPartType bodyPartAim = BodyPartType.Chest)
 	{
+
 		if (amount <= 0 || IsDead)
 		{
 			return null;
@@ -336,6 +338,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	public void ApplyDamage(GameObject damagedBy, float damage,
 		AttackType attackType, DamageType damageType)
 	{
+	
 		foreach (var bodyPart in BodyParts)
 		{
 			ApplyDamageToBodypart(damagedBy, damage / BodyParts.Count, attackType, damageType, bodyPart.Type);
