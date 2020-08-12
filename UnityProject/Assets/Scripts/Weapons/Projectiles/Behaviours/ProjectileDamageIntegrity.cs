@@ -30,7 +30,7 @@ namespace Weapons.Projectiles.Behaviours
 			var coll = hit.collider;
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null) return false;
-			// checks if its a kinetic weapon is a high atmostphere 
+			// checks if its a kinetic weapon is a high atmosphere 
 			if (damageData.DamageType == DamageType.Kinetic)
 			{
 

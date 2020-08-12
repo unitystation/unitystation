@@ -20,5 +20,5 @@
 	Stamina, /*= "stamina";*/
 
 	/*public const string */
-	Kinetic /*= "kinetci */
+	Kinetic /*= "kinetic */
 }

@@ -34,7 +34,7 @@ namespace Weapons.Projectiles.Behaviours
 			var coll = hit.collider;
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
 			if (livingHealth == null) return false;
-			// checks if its a kinetic weapon is a high atmostphere
+			// checks if its a kinetic weapon is a high atmosphere
 			if (damageData.DamageType== DamageType.Kinetic)
 			{
 				
