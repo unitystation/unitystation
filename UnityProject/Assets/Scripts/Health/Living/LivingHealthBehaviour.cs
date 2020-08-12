@@ -10,7 +10,6 @@ using UnityEngine.Events;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using UnityEngine.Profiling;
-using Barracuda;
 
 /// <summary>
 /// The Required component for all living creatures

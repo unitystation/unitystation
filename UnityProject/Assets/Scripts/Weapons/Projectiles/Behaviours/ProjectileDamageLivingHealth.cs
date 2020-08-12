@@ -44,7 +44,7 @@ namespace Weapons.Projectiles.Behaviours
 				}
 			}
 
-			livingHealth.ApplyDamageToBodypart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
+			livingHealth.ApplyDamageToBodypart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
 
 			Chat.AddAttackMsgToChat(shooter, coll.gameObject, targetZone, weapon.gameObject);
 			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
