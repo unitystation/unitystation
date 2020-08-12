@@ -129,7 +129,10 @@ public class CargoManager : MonoBehaviour
 				if (CheckLifeforms())
 				{
 					CurrentFlyTime = 0;
-					CentcomMessage += "Due to safety and security reasons, the automatic cargo shuttle is unable to depart with any human, alien or animal organisms aboard." + "\n";
+					if (CentcomMessage.EndsWith("organisms aboard." + "\n" == false))
+					{
+						CentcomMessage += "Due to safety and security reasons, the automatic cargo shuttle is unable to depart with any human, alien or animal organisms aboard." + "\n";
+					}
 				}
 				else
 				{
