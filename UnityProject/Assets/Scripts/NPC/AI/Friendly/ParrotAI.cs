@@ -72,9 +72,10 @@ namespace NPC
 		{
 			//TODO use the actual chat api when it allows it!
 			Chat.AddLocalMsgToChat(
-				$"<b>{mobNameCap} says</b>, \"{text}\"",
+				text,
 				gameObject.transform.position,
-				gameObject);
+				gameObject,
+				mobNameCap);
 			ChatBubbleManager.ShowAChatBubble(gameObject.transform, text);
 		}
 		private void SayRandomThing()
