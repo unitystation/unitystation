@@ -8,26 +8,10 @@ using UnityEngine.Profiling;
 
 namespace Radiation
 {
-	public class RadiationManager : MonoBehaviour
+	public class RadiationManager : MonoBehaviourSingleton<RadiationManager>
 	{
 		public List<RadiationPulse> PulseQueue = new List<RadiationPulse>();
 		private List<RadiationPulse> WorkingPulseQueue = new List<RadiationPulse>();
-
-		public static RadiationManager Instance
-		{
-			get
-			{
-				if (instance == null)
-				{
-					instance = FindObjectOfType<RadiationManager>();
-				}
-
-				return instance;
-			}
-			set { instance = value; }
-		}
-
-		private static RadiationManager instance;
 
 		public bool Running { get; private set; }
 		public float MSSpeed = 100;

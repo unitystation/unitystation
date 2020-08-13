@@ -24,7 +24,7 @@ public class FollowCameraMessage : ServerMessage
 		if (!PlayerManager.LocalPlayerScript.IsGhost)
 		{
 			Transform newTarget = objectToFollow ? objectToFollow.transform : PlayerManager.LocalPlayer.transform;
-			Camera2DFollow.followControl.target = newTarget;
+			Camera2DFollow.Instance.target = newTarget;
 		}
 	}
 

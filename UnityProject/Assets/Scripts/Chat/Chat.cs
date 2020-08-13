@@ -10,23 +10,8 @@ using DatabaseAPI;
 /// Use the public methods for anything related
 /// to chat stream
 /// </summary>
-public partial class Chat : MonoBehaviour
+public partial class Chat : MonoBehaviourSingleton<Chat>
 {
-	private static Chat chat;
-
-	public static Chat Instance
-	{
-		get
-		{
-			if (chat == null)
-			{
-				chat = FindObjectOfType<Chat>();
-			}
-
-			return chat;
-		}
-	}
-
 	//Connections to scene based ChatRelay. This is null if in the lobby
 	private ChatRelay chatRelay;
 	private Action<ChatEvent> addChatLogServer;

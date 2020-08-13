@@ -3,27 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using static KeybindManager;
 
-public class KeyboardInputManager : MonoBehaviour
+public class KeyboardInputManager : MonoBehaviourSingleton<KeyboardInputManager>
 {
-	public static KeyboardInputManager Instance;
-	private KeybindManager keybindManager => KeybindManager.Instance;
-
 	public enum KeyEventType
 	{
 		Down,
 		Up,
 		Hold
-	}
-	void Awake ()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
 	}
 
 	void Update()
@@ -55,7 +41,7 @@ public class KeyboardInputManager : MonoBehaviour
 	void CheckInGameKeybinds()
 	{
 		// Perform the checks for all key actions which have functions defined here
-		foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in keybindManager.userKeybinds)
+		foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in KeybindManager.Instance.userKeybinds)
 		{
 			if (!keyActionFunctions.ContainsKey(entry.Key)) continue;
 			if (CheckComboEvent(entry.Value.PrimaryCombo) || CheckComboEvent(entry.Value.SecondaryCombo))
@@ -83,7 +69,7 @@ public class KeyboardInputManager : MonoBehaviour
 	/// <param name="keyEventType">The type of key event to check for</param>
 	public bool CheckKeyAction(KeyAction keyAction, KeyEventType keyEventType = KeyEventType.Down)
 	{
-		DualKeyCombo action = keybindManager.userKeybinds[keyAction];
+		DualKeyCombo action = KeybindManager.Instance.userKeybinds[keyAction];
 		return CheckComboEvent(action.PrimaryCombo, keyEventType) || CheckComboEvent(action.SecondaryCombo, keyEventType);
 	}
 

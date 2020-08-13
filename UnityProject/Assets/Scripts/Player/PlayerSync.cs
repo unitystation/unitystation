@@ -413,11 +413,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 
 	private void TryEscapeContainer()
 	{
-		if (Camera2DFollow.followControl.target.TryGetComponent(out ClosetControl closet))
+		if (Camera2DFollow.Instance.target.TryGetComponent(out ClosetControl closet))
 		{
 			InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(closet.gameObject), closet);
 		}
-		else if (Camera2DFollow.followControl.target.TryGetComponent(out Disposals.DisposalVirtualContainer disposalContainer))
+		else if (Camera2DFollow.Instance.target.TryGetComponent(out Disposals.DisposalVirtualContainer disposalContainer))
 		{
 			CmdTryEscapeDisposals();
 		}
@@ -452,7 +452,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 						didWiggle = true;
 					}
 					// Player inside something
-					else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
+					else if (Camera2DFollow.Instance.target != PlayerManager.LocalPlayer.transform)
 					{
 						TryEscapeContainer();
 						didWiggle = true;

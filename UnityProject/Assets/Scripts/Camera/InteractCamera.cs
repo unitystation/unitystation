@@ -1,18 +1,9 @@
 ﻿using UnityEngine;
 
-public class InteractCamera : MonoBehaviour
+public class InteractCamera : MonoBehaviourSingleton<InteractCamera>
 {
-	public static InteractCamera Instance;
 	public Camera interactCam;
 	public Camera mainCam;
-
-	private void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-	}
 
 	private void Start()
 	{

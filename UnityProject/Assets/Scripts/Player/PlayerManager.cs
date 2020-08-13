@@ -5,10 +5,8 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class PlayerManager : MonoBehaviour
+public class PlayerManager : MonoBehaviourSingleton<PlayerManager>
 {
-	private static PlayerManager playerManager;
-
 	public static IPlayerControllable MovementControllable { get; private set; }
 	public static GameObject LocalPlayer { get; private set; }
 
@@ -25,19 +23,6 @@ public class PlayerManager : MonoBehaviour
 	public static CharacterSettings CurrentCharacterSettings { get; set; }
 
 	private int mobIDcount;
-
-	public static PlayerManager Instance
-	{
-		get
-		{
-			if (!playerManager)
-			{
-				playerManager = FindObjectOfType<PlayerManager>();
-			}
-
-			return playerManager;
-		}
-	}
 
 #if UNITY_EDITOR	//Opening the station scene instead of going through the lobby
 	private void Awake()
@@ -76,9 +61,7 @@ public class PlayerManager : MonoBehaviour
 
 	IEnumerator WaitForCamera()
 	{
-		while (LocalPlayer == null
-		       || Vector2.Distance(Camera2DFollow.followControl.transform.position,
-			       Camera2DFollow.followControl.target.position) > 5f)
+		while (LocalPlayer == null || Vector2.Distance(Camera2DFollow.Instance.transform.position, Camera2DFollow.Instance.target.position) > 5f)
 		{
 			yield return WaitFor.EndOfFrame;
 		}
@@ -115,11 +98,8 @@ public class PlayerManager : MonoBehaviour
 		LocalPlayer = playerObjToControl;
 		LocalPlayerScript = playerObjToControl.GetComponent<PlayerScript>();
 		Equipment = playerObjToControl.GetComponent<Equipment>();
-
-		PlayerScript =
-			LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
-		Camera2DFollow.followControl.target = LocalPlayer.transform;
-
+		PlayerScript = LocalPlayerScript; // Set this on the manager so it can be accessed by other components/managers
+		Camera2DFollow.Instance.target = LocalPlayer.transform;
 		HasSpawned = true;
 
 		SetMovementControllable(movementControllable);

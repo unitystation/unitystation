@@ -325,7 +325,7 @@ public class UIManager : MonoBehaviour
 
 		StorageHandler.CloseStorageUI();
 		Hands.SetHand(true);
-		Camera2DFollow.followControl.ZeroStars();
+		Camera2DFollow.Instance.ZeroStars();
 		IsOxygen = false;
 		GamePad.gameObject.SetActive(UseGamePad);
 	}

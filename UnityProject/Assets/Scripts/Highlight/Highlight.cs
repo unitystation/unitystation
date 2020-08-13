@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public class Highlight : MonoBehaviour
+public class Highlight : MonoBehaviourSingleton<Highlight>
 {
 	public static bool HighlightEnabled;
-	public static Highlight instance;
 
 	public SpriteRenderer prefabSpriteRenderer;
 	public SpriteRenderer spriteRenderer;
@@ -30,9 +29,8 @@ public class Highlight : MonoBehaviour
 			PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 1);
 			PlayerPrefs.Save();
 		}
-
-
 	}
+
 	public static void SetPreference(bool preference)
 	{
 		if (preference)
@@ -48,27 +46,16 @@ public class Highlight : MonoBehaviour
 		PlayerPrefs.Save();
 	}
 
-	private void Awake()
-	{
-		if (instance == null)
-		{
-			instance = this;
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
-	}
 	public static void DeHighlight()
 	{
 		if (HighlightEnabled)
 		{
-			if (instance.spriteRenderer == null)
+			if (Instance.spriteRenderer == null)
 			{
-				instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
+				Instance.spriteRenderer = Instantiate(Instance.prefabSpriteRenderer);
 			}
 
-			Texture2D mainTex = instance.spriteRenderer.sprite.texture;
+			Texture2D mainTex = Instance.spriteRenderer.sprite.texture;
 			Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
 			for (int xy = 0; xy < data.Length; xy++)
 			{
@@ -88,26 +75,28 @@ public class Highlight : MonoBehaviour
 
 	public static void ShowHighlight(GameObject Highlightobject, bool ignoreHandApply = false)
 	{
-		if (instance.spriteRenderer == null)
+		if (Instance.spriteRenderer == null)
 		{
-			instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
+			Instance.spriteRenderer = Instantiate(Instance.prefabSpriteRenderer);
 		}
-		instance.spriteRenderer.gameObject.SetActive(true);
-		instance.spriteRenderer.enabled = true;
+
+		Instance.spriteRenderer.gameObject.SetActive(true);
+		Instance.spriteRenderer.enabled = true;
 		var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
 
-		instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, true);
-		instance.spriteRenderer.transform.localPosition = Vector3.zero;
-		instance.spriteRenderer.transform.transform.localRotation = Quaternion.Euler(0,0,0);
-		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
+		Instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, true);
+		Instance.spriteRenderer.transform.localPosition = Vector3.zero;
+		Instance.spriteRenderer.transform.transform.localRotation = Quaternion.Euler(0,0,0);
+		Instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
 
-		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer).ToArray();
-		Texture2D mainTex = instance.spriteRenderer.sprite.texture;
+		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != Instance.spriteRenderer).ToArray();
+		Texture2D mainTex = Instance.spriteRenderer.sprite.texture;
+
 		if (ignoreHandApply || CheckHandApply(Highlightobject))
 		{
 			if (ignoreHandApply)
 			{
-				instance.material.SetColor("_OutlineColor", Color.green);
+				Instance.material.SetColor("_OutlineColor", Color.green);
 			}
 
 			foreach (var T in SpriteRenderers)
@@ -116,10 +105,9 @@ public class Highlight : MonoBehaviour
 			}
 
 			mainTex.Apply();
-			instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height), new Vector2(0.5f, 0.5f), 32, 1, SpriteMeshType.FullRect, new Vector4(32, 32, 32, 32));
+			Instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height), new Vector2(0.5f, 0.5f), 32, 1, SpriteMeshType.FullRect, new Vector4(32, 32, 32, 32));
 		}
 	}
-
 
 	static void RecursiveTextureStack(Texture2D mainTex, SpriteRenderer SpriteRenderers)
 	{
@@ -142,10 +130,8 @@ public class Highlight : MonoBehaviour
 		}
 	}
 
-
 	public static bool CheckHandApply(GameObject target)
 	{
-
 		//call the used object's handapply interaction methods if it has any, for each object we are applying to
 		var handApply = HandApply.ByLocalPlayer(target);
 		var posHandApply = PositionalHandApply.ByLocalPlayer(target);
@@ -166,7 +152,7 @@ public class Highlight : MonoBehaviour
 					var hap = handAppliable as IBaseInteractable<HandApply>;
 					if (CheckInteractInternal(hap, handApply, NetworkSide.Client))
 					{
-						instance.material.SetColor("_OutlineColor", Color.cyan);
+						Instance.material.SetColor("_OutlineColor", Color.cyan);
 						return true;
 					}
 				}
@@ -175,14 +161,13 @@ public class Highlight : MonoBehaviour
 					var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
 					if (CheckInteractInternal(hap, posHandApply, NetworkSide.Client))
 					{
-						instance.material.SetColor("_OutlineColor", Color.magenta);
+						Instance.material.SetColor("_OutlineColor", Color.magenta);
 						return true;
 					}
 
 				}
 			}
 		}
-
 
 		//call the hand apply interaction methods on the target object if it has any
 		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
@@ -194,7 +179,7 @@ public class Highlight : MonoBehaviour
 				//var hap = targetHandAppliable as IBaseInteractable<HandApply>;
 				if (CheckInteractInternal(Hap, handApply, NetworkSide.Client))
 				{
-					instance.material.SetColor("_OutlineColor", Color.green);
+					Instance.material.SetColor("_OutlineColor", Color.green);
 					return true;
 				}
 			}
@@ -203,42 +188,50 @@ public class Highlight : MonoBehaviour
 				var hap = targetHandAppliable as IBaseInteractable<PositionalHandApply>;
 				if (CheckInteractInternal(hap, posHandApply, NetworkSide.Client))
 				{
-					instance.material.SetColor("_OutlineColor", new Color(1, 0.647f, 0));
+					Instance.material.SetColor("_OutlineColor", new Color(1, 0.647f, 0));
 					return true;
 				}
 			}
 		}
-		//instance.material.SetColor("_OutlineColor", Color.grey);
+		//Instance.material.SetColor("_OutlineColor", Color.grey);
 		return false;
 	}
 
-
-	private static bool CheckInteractInternal<T>(IBaseInteractable<T> interactable, T interaction,
-	NetworkSide side)
-	where T : Interaction
+	private static bool CheckInteractInternal<T>(IBaseInteractable<T> interactable, T interaction, NetworkSide side) where T : Interaction
 	{
 		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Interaction, side))) return false;
 		var result = false;
+
 		//check if client side interaction should be triggered
 		if (side == NetworkSide.Client && interactable is IClientInteractable<T> clientInteractable)
 		{
 			result = clientInteractable.Interact(interaction);
+
 			if (result)
 			{
-				Logger.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
+				Logger.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}",
+					Category.Interaction,
+					typeof(T).Name,
+					clientInteractable.GetType().Name,
 					(clientInteractable as Component).gameObject.name);
+
 				Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction);
 				return true;
 			}
 		}
+
 		//check other kinds of interactions
 		if (interactable is ICheckable<T> checkable)
 		{
 			result = checkable.WillInteract(interaction, side);
 			if (result)
 			{
-				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, checkable.GetType().Name,
+				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}",
+					Category.Interaction,
+					typeof(T).Name,
+					checkable.GetType().Name,
 					(checkable as Component).gameObject.name);
+
 				return true;
 			}
 		}
@@ -246,16 +239,22 @@ public class Highlight : MonoBehaviour
 		{
 			//use default logic
 			result = DefaultWillInteract.Default(interaction, side);
+
 			if (result)
 			{
-				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, interactable.GetType().Name,
+				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}",
+					Category.Interaction, typeof(T).Name,
+					interactable.GetType().Name,
 					(interactable as Component).gameObject.name);
 
 				return true;
 			}
 		}
 
-		Logger.LogTraceFormat("No interaction triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, interactable.GetType().Name,
+		Logger.LogTraceFormat("No interaction triggered from {0} on {1} for object {2}",
+			Category.Interaction,
+			typeof(T).Name,
+			interactable.GetType().Name,
 			(interactable as Component).gameObject.name);
 
 		return false;

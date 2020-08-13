@@ -35,23 +35,8 @@ public class TilePathEntry
 	public List<LayerTile> layerTiles = new List<LayerTile>();
 }
 
-public class TileManager : MonoBehaviour
+public class TileManager : MonoBehaviourSingleton<TileManager>
 {
-	private static TileManager tileManager;
-
-	public static TileManager Instance
-	{
-		get
-		{
-			if (tileManager == null)
-			{
-				tileManager = FindObjectOfType<TileManager>();
-			}
-
-			return tileManager;
-		}
-	}
-
 	private int tilesToLoad = 0;
 	private int tilesLoaded = 0;
 	public static int TilesToLoad => Instance.tilesToLoad;

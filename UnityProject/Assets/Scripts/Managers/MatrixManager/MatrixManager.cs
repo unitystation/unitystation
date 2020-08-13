@@ -23,23 +23,8 @@ public enum CollisionType
 /// Contains world/local position conversion methods, as well as several cross-matrix adaptations of Matrix methods.
 /// Also very common use scenario is Get()'ting matrix info using matrixId from PlayerState
 [ExecuteInEditMode]
-public partial class MatrixManager : MonoBehaviour
+public partial class MatrixManager : MonoBehaviourSingleton<MatrixManager>
 {
-	private static MatrixManager matrixManager;
-
-	public static MatrixManager Instance
-	{
-		get
-		{
-			if (matrixManager == null)
-			{
-				matrixManager = FindObjectOfType<MatrixManager>();
-			}
-
-			return matrixManager;
-		}
-	}
-
 	private static LayerMask tileDmgMask;
 
 	public List<MatrixInfo> ActiveMatrices { get; private set; } = new List<MatrixInfo>();
