@@ -65,7 +65,7 @@ public class CargoManager : MonoBehaviour
 	/// <returns>true if a lifeform is found, false if none is found</returns>
 	bool CheckLifeforms()
 	{
-		LayerMask layersToCheck = LayerMask.GetMask("Player", "NPC");
+		LayerMask layersToCheck = LayerMask.GetMask("Players", "NPC");
 		Transform ObjectHolder = CargoShuttle.Instance.SearchForObjectsOnShuttle();
 		foreach (Transform child in ObjectHolder)
 		{
@@ -126,10 +126,14 @@ public class CargoManager : MonoBehaviour
 			//and will call OnShuttleArrival()
 			else if (ShuttleStatus == ShuttleStatus.DockedStation)
 			{
+				string warningMessageEnd = "organisms aboard." + "\n";
 				if (CheckLifeforms())
 				{
 					CurrentFlyTime = 0;
-					CentcomMessage += "Due to safety and security reasons, the automatic cargo shuttle is unable to depart with any human, alien or animal organisms aboard." + "\n";
+					if (CentcomMessage.EndsWith(warningMessageEnd) == false)
+					{
+						CentcomMessage += "Due to safety and security reasons, the automatic cargo shuttle is unable to depart with any human, alien or animal organisms aboard." + "\n";
+					}
 				}
 				else
 				{
