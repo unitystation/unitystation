@@ -416,7 +416,7 @@ public partial class Chat : MonoBehaviour
 	/// <param name="message">The message to show in the chat stream</param>
 	/// <param name="worldPos">The position of the local message</param>
 	/// <param name="originator">The object (i.e. vending machine) that said message</param>
-	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator)
+	public static void AddLocalMsgToChat(string message, Vector2 worldPos, GameObject originator, string speakerName = null)
 	{
 		if (!IsServer()) return;
 		Instance.TryStopCoroutine(ref composeMessageHandle);
@@ -426,7 +426,8 @@ public partial class Chat : MonoBehaviour
 			channels = ChatChannel.Local,
 			message = message,
 			position = worldPos,
-			originator = originator
+			originator = originator,
+			speaker = speakerName
 		});
 	}
 
