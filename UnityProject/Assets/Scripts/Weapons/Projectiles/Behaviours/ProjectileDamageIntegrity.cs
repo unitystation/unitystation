@@ -26,20 +26,12 @@ namespace Weapons.Projectiles.Behaviours
 
 		private bool TryDamage(RaycastHit2D hit)
 		{
-			var newDamage = damageData.Damage;
 			var coll = hit.collider;
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null) return false;
-			// checks if its a kinetic weapon is a high atmosphere 
-			if (damageData.DamageType == DamageType.Kinetic)
-			{
-
-				if (MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure <= 50)
-				{
-					newDamage = damageData.Damage * .25f;
-				}
-			}
-			integrity.ApplyDamage(newDamage, damageData.AttackType, damageData.DamageType);
+			 
+		
+			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
 			Chat.AddAttackMsgToChat(shooter, coll.gameObject, BodyPartType.None, weapon.gameObject);
 			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,

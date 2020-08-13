@@ -17,8 +17,6 @@
 	Clone, /*= "clone";*/
 
 	/*public const string*/
-	Stamina, /*= "stamina";*/
+	Stamina /*= "stamina";*/
 
-	/*public const string */
-	Kinetic /*= "kinetic */
 }
