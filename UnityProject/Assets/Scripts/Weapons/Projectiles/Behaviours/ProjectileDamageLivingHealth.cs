@@ -13,7 +13,6 @@ namespace Weapons.Projectiles.Behaviours
 		private Gun weapon;
 		private BodyPartType targetZone;
 		
-
 		[SerializeField] private DamageData damageData = null;
 
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
@@ -30,13 +29,12 @@ namespace Weapons.Projectiles.Behaviours
 
 		private bool TryDamage(RaycastHit2D hit)
 		{
-			var newDamage = damageData.Damage;
 			var coll = hit.collider;
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
 			if (livingHealth == null) return false;
 		
 
-			livingHealth.ApplyDamageToBodypart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
+			livingHealth.ApplyDamageToBodypart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
 
 			Chat.AddAttackMsgToChat(shooter, coll.gameObject, targetZone, weapon.gameObject);
 			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,

@@ -18,5 +18,4 @@
 
 	/*public const string*/
 	Stamina /*= "stamina";*/
-
 }
