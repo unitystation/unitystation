@@ -272,20 +272,6 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 				ReactorPipe.pipeData.mixAndVolume.InternalEnergy + ExtraEnergyGained;
 		}
 
-		try
-		{
-			CurrentPressure = checked((decimal)((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) *
-									 ReactorPipe.pipeData.mixAndVolume.Mix.Total));
-		}
-		// An OverflowException is thrown at run time under the following condition:
-		// An arithmetic operation produces a result that is outside the range of the data type returned by the operation
-		catch (OverflowException)
-		{
-			Logger.LogError("[ReactorGraphiteChamber.PowerOutput] CurrentPressure is outside the range of decimal <-7.9228163e+28, 7.9228163e+28>", Category.Electrical);
-			// if result is outside the range of decimal - return
-			return;
-		}
-
 		CurrentPressure = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Temperature - 293.15f) *
 		                             ReactorPipe.pipeData.mixAndVolume.Total.x);
 
