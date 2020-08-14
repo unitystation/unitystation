@@ -36,7 +36,7 @@ namespace Weapons.Projectiles.Behaviours
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
 			if (livingHealth == null) return false;
 			// checks  is a high atmosphere
-			newDamage = (1175 / 26) - ((15 - pressure) / 26);
+			newDamage = 40 * (Mathf.Clamp((-pressure / 135), -1.0f, 0.0f) + 1);
 
 			livingHealth.ApplyDamageToBodypart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
 
