@@ -5,9 +5,9 @@ namespace Weapons.Projectiles.Behaviours
 {
 	/// <summary>
 	/// Damages integrity on collision
-	/// only for kenetic weapons
+	/// only for kinetic weapons
 	/// </summary>
-	public class KeneticProjectileDamageInterity : MonoBehaviour, IOnShoot, IOnHit
+	public class ProjectileDamageIntegrityKinetic : MonoBehaviour, IOnShoot, IOnHit
 	{
 		private GameObject shooter;
 		private Gun weapon;
@@ -26,15 +26,14 @@ namespace Weapons.Projectiles.Behaviours
 		}
 
 		private bool TryDamage(RaycastHit2D hit)
-		{
-			float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
-			var newDamage = damageData.Damage;
+		{			
 			var coll = hit.collider;
 			var integrity = coll.GetComponent<Integrity>();
+			float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
 			if (integrity == null) return false;
 			// checks if its a high atmosphere 
 
-			newDamage = 40 * (Mathf.Clamp((-pressure / 135), -1.0f, 0.0f) + 1);
+			 var newDamage = 40 * (Mathf.Clamp((-pressure / 135), -1.0f, 0.0f) + 1);
 
 			integrity.ApplyDamage(newDamage, damageData.AttackType, damageData.DamageType);
 

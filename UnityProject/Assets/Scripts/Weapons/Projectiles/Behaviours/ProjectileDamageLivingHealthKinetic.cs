@@ -5,9 +5,9 @@ namespace Weapons.Projectiles.Behaviours
 {
 	/// <summary>
 	/// Damages health on collision
-	/// only for kenetic weapons
+	/// only for kinetic weapons
 	/// </summary>
-	public class KeneticProjectileDamageLivingHealth : MonoBehaviour, IOnShoot, IOnHit
+	public class ProjectileDamageLivingHealthKinetic : MonoBehaviour, IOnShoot, IOnHit
 	{
 		private GameObject shooter;
 		private Gun weapon;
@@ -30,13 +30,12 @@ namespace Weapons.Projectiles.Behaviours
 
 		private bool TryDamage(RaycastHit2D hit)
 		{
-			float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
-			var newDamage = damageData.Damage;
 			var coll = hit.collider;
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
+			float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
 			if (livingHealth == null) return false;
 			// checks  is a high atmosphere
-			newDamage = 40 * (Mathf.Clamp((-pressure / 135), -1.0f, 0.0f) + 1);
+			var newDamage = 40 * (Mathf.Clamp((-pressure / 135), -1.0f, 0.0f) + 1);
 
 			livingHealth.ApplyDamageToBodypart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
 
