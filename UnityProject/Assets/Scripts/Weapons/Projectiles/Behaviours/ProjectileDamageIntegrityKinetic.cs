@@ -29,11 +29,11 @@ namespace Weapons.Projectiles.Behaviours
 		{			
 			var coll = hit.collider;
 			var integrity = coll.GetComponent<Integrity>();
-			float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
 			if (integrity == null) return false;
+			float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
 			// checks if its a high atmosphere 
 
-			 var newDamage = 40 * (Mathf.Clamp((-pressure / 135), -1.0f, 0.0f) + 1);
+			var newDamage = 40 * (Mathf.Clamp((-pressure / 135), -1.0f, 0.0f) + 1);
 
 			integrity.ApplyDamage(newDamage, damageData.AttackType, damageData.DamageType);
 
