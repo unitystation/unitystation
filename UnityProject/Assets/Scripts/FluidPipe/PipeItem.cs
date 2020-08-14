@@ -2,14 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Mirror;
 using UnityEngine;
 
 namespace Pipes
 {
-	public class PipeItem : MonoBehaviour, ICheckedInteractable<HandApply>
+	public class PipeItem : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		public Color Colour = Color.white;
-		//This is to be never rotated on items
+
+		[SyncVar(hook = nameof(SetRotation))]
+		public float Netz = 0;
 
 
 		public SpriteHandler SpriteHandler;
@@ -19,6 +22,12 @@ namespace Pipes
 		{
 			SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerItem = this.GetComponent<RegisterItem>();
+		}
+
+		public void SetRotation(float Oldz, float Newz)
+		{
+			Netz = Newz;
+			transform.eulerAngles.Set(transform.eulerAngles.x, transform.eulerAngles.y, Newz);
 		}
 
 		public void Start()
@@ -65,6 +74,7 @@ namespace Pipes
 			}
 
 			this.transform.Rotate(0, 0, -90);
+			SetRotation(Netz,transform.eulerAngles.z);
 		}
 
 		public virtual void BuildPipe()
