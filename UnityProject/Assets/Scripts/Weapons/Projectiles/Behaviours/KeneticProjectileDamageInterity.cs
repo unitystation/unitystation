@@ -26,7 +26,8 @@ namespace Weapons.Projectiles.Behaviours
 		}
 
 		private bool TryDamage(RaycastHit2D hit)
-		{ float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
+		{
+			float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
 			var newDamage = damageData.Damage;
 			var coll = hit.collider;
 			var integrity = coll.GetComponent<Integrity>();
