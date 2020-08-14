@@ -42,7 +42,7 @@ namespace Weapons.Projectiles.Behaviours
 				true
 			).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
 
-			var newDamage = 40 * (Mathf.Clamp((-pressure / 135), -1.0f, 0.0f) + 1);
+			var newDamage = DamageByPressureModifier(pressure);
 
 			livingHealth.ApplyDamageToBodypart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
 
@@ -54,6 +54,12 @@ namespace Weapons.Projectiles.Behaviours
 				livingHealth.gameObject.name, damageData.Damage);
 
 			return true;
+		}
+
+		private float DamageByPressureModifier(float pressure)
+		{
+			float newDamage = damageData.Damage * (-pressure / 135);
+			return Mathf.Clamp(newDamage, -1.0f, 0.0f) + 1;
 		}
 
 		private void OnDisable()
