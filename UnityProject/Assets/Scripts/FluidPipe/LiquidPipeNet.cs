@@ -61,8 +61,9 @@ namespace Pipes
 
 			var Outmix = mixAndVolume.Take(pipeData.mixAndVolume);
 			Covering.Remove(pipeData);
-			MatrixManager.ReagentReact(Outmix.Item1, pipeData.MatrixPos); //TODO AAAAAAAA Get the correct location
-			//TODO add gas here
+
+			pipeData.SpillContent(Outmix);
+
 			SplitPipeNets();
 		}
 
@@ -82,10 +83,9 @@ namespace Pipes
 		{
 
 			//Not the most optimal way of doing it but the easiest TODO Optimise this
-			mixAndVolume.Divide(Covering.Count);
 			foreach (var pipe in Covering)
 			{
-				pipe.mixAndVolume = mixAndVolume.Clone();
+				mixAndVolume.Take(pipe.mixAndVolume);
 				pipe.OnNet = null;
 			}
 
@@ -127,6 +127,12 @@ namespace Pipes
 			{
 				pipeNetAction.TickUpdate();
 			}
+		}
+
+		public string ToAnalyserExamineString()
+		{
+			return " mixAndVolume > " +
+			       mixAndVolume.ToString();
 		}
 
 		public override string ToString()

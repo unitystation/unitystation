@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -7,7 +8,7 @@ namespace Pipes
 {
 	public class PipeItem : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
-		public Color Colour;
+		public Color Colour = Color.white;
 		//This is to be never rotated on items
 
 
@@ -18,6 +19,17 @@ namespace Pipes
 		{
 			SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerItem = this.GetComponent<RegisterItem>();
+		}
+
+		public void Start()
+		{
+			SpriteHandler.SetColor(Colour);
+		}
+
+		public void SetColour(Color newColour)
+		{
+			Colour = newColour;
+			SpriteHandler.SetColor(Colour);
 		}
 
 		public virtual bool WillInteract(HandApply interaction, NetworkSide side)
@@ -34,10 +46,22 @@ namespace Pipes
 			{
 				var ZeroedLocation = new Vector3Int(x:registerItem.LocalPosition.x, y:registerItem.LocalPosition.y,0);
 				var metaData = registerItem.Matrix.MetaDataLayer.Get(ZeroedLocation);
-				var INLayer = GetPipeLayer();
-				if (metaData.PipeData.Any(x => x.pipeData.PipeLayer == INLayer)) return;
+				var thisConnections = GetConnections();
+				int Offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
+				thisConnections.Rotate(Offset);
+
+				foreach (var Pipeo in metaData.PipeData)
+				{
+					var TheConnection = Pipeo.pipeData.Connections;
+					for (int i = 0; i < thisConnections.Directions.Length; i++)
+					{
+						if (thisConnections.Directions[i].Bool && TheConnection.Directions[i].Bool)
+						{
+							return;
+						}
+					}
+				}
 				BuildPipe();
-				return;
 			}
 
 			this.transform.Rotate(0, 0, -90);
@@ -47,9 +71,9 @@ namespace Pipes
 		{
 		}
 
-		public virtual PipeLayer GetPipeLayer()
+		public virtual Connections GetConnections()
 		{
-			return (PipeLayer.Second);
+			return (null);
 		}
 	}
 }

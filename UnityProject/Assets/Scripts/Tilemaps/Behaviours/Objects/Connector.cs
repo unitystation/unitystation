@@ -34,5 +34,13 @@ namespace Pipes
 		{
 			canister = Incanister;
 		}
+
+		public override void OnDisassembly(HandApply interaction)
+		{
+			if (canister != null)
+			{
+				canister.Disconnect();
+			}
+		}
 	}
 }

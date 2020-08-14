@@ -7,6 +7,11 @@ using Mirror;
 /// </summary>
 public class NumberSpinner : NetUIStringElement
 {
+
+
+	public int InitialValue = 9999;
+
+
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
 	public DigitSpinner Ones;
@@ -54,6 +59,8 @@ public class NumberSpinner : NetUIStringElement
 
 	private void Awake()
 	{
+		Value = InitialValue.ToString();
+
 		Ones.OnDigitChangeComplete.AddListener(OnOnesSpinComplete);
 		//we will jump directly to the first value we get
 		init = false;

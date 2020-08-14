@@ -66,5 +66,16 @@ namespace Pipes
 			}
 		}
 
+		public override  Connections GetConnections()
+		{
+			if (IsBent)
+			{
+				return (BentPipe.Connections.Copy());
+			}
+			else
+			{
+				return (StraightPipe.Connections.Copy());
+			}
+		}
 	}
 }

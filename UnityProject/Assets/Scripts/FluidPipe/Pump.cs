@@ -8,7 +8,7 @@ namespace Pipes
 	{
 		public SpriteHandler spriteHandlerOverlay = null;
 
-		private float MaxPressure = 4000f;
+		private float MaxPressure = 4500f;
 		private float TransferMoles = 500f;
 
 

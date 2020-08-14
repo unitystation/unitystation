@@ -7,14 +7,24 @@ namespace Pipes
 {
 	public class MonoPipe : MonoBehaviour,IServerDespawn, ICheckedInteractable<HandApply>
 	{
+		public SpriteHandler spritehandler;
 		public GameObject SpawnOnDeconstruct;
 		public RegisterTile registerTile;
 		public PipeData pipeData;
 		public Matrix Matrix => registerTile.Matrix;
 		public Vector3Int MatrixPos => registerTile.LocalPosition;
+
+		public Color Colour = Color.white;
+
 		public virtual void Start()
 		{
 			EnsureInit();
+		}
+
+		public void SetColour(Color newColour)
+		{
+			Colour = newColour;
+			spritehandler.SetColor(Colour);
 		}
 
 		private void EnsureInit()
@@ -29,7 +39,7 @@ namespace Pipes
 			int Offset = PipeFunctions.GetOffsetAngle(this.transform.localRotation.eulerAngles.z);
 			pipeData.Connections.Rotate(Offset);
 			pipeData.OnEnable();
-
+			spritehandler.SetColor(Colour);
 		}
 
 		void OnDisable()
@@ -66,8 +76,10 @@ namespace Pipes
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 				{
-					Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation : this.transform.localRotation);
-					//set Colour
+					var Item = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation : this.transform.localRotation);
+					Item.GameObject.GetComponent<PipeItem>().SetColour(Colour);
+					OnDisassembly(interaction);
+					pipeData.OnDisable();
 					Despawn.ServerSingle(this.gameObject);
 					return;
 				}
@@ -80,6 +92,12 @@ namespace Pipes
 		{
 
 		}
+
+		public virtual void OnDisassembly(HandApply interaction)
+		{
+
+		}
+
 		#region Editor
 
 		void OnDrawGizmos()
@@ -118,6 +136,5 @@ namespace Pipes
 		}
 
 		#endregion
-
 	}
 }

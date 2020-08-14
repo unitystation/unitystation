@@ -9,6 +9,8 @@ public class GUI_Filter : NetTab
 	public string CurrentlyFiltering = "O2";
 	public Pipes.Filter Filter;
 
+	public NetWheel NetWheel;
+
 	public NumberSpinner numberSpinner;
 
 	public NetToggle PToggle;
@@ -49,7 +51,9 @@ public class GUI_Filter : NetTab
 		{
 			Filter = Provider.GetComponentInChildren<Pipes.Filter>();
 		}
-		numberSpinner.ServerSpinTo( Filter.MaxPressure);
+		numberSpinner.ServerSpinTo( Filter.ToMaxPressure);
+		numberSpinner.DisplaySpinTo(Filter.ToMaxPressure);
+		NetWheel.SetValueServer(Filter.ToMaxPressure.ToString());
 		numberSpinner.OnValueChange.AddListener(SetMaxPressure);
 		PToggle.SetValueServer(BOOLTOstring(Filter.IsOn)) ;
 		((NetUIElement<string>) this["O2"]).SetValueServer("1");
@@ -76,6 +80,6 @@ public class GUI_Filter : NetTab
 
 	public void SetMaxPressure(int To)
 	{
-		Filter.MaxPressure = To;
+		Filter.ToMaxPressure = To;
 	}
 }

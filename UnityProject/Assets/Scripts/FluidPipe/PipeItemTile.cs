@@ -17,8 +17,7 @@ namespace Pipes
 				Quaternion rot = Quaternion.Euler(0.0f, 0.0f,Offset );
 				var Matrix = Matrix4x4.TRS(Vector3.zero, rot, Vector3.one);
 				registerItem.Matrix.AddUnderFloorTile(searchVec, Tile,Matrix,Colour);
-				Tile.InitialiseNode(searchVec,registerItem.Matrix);
-				//set Colour
+				Tile.InitialiseNodeNew(searchVec,registerItem.Matrix,Matrix );
 				Despawn.ServerSingle(this.gameObject);
 			}
 
@@ -34,13 +33,13 @@ namespace Pipes
 			return pipeTile;
 		}
 
-		public override PipeLayer GetPipeLayer()
+		public override  Connections GetConnections()
 		{
 			if (pipeTile != null)
 			{
-				return (pipeTile.PipeLayer);
+				return (pipeTile.Connections.Copy());
 			}
-			return PipeLayer.Second;
+			return null;
 		}
 	}
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 using Pipes;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Atmospherics
 	[System.Serializable]
 	public struct GasMix
 	{
+		[InfoBox("Plasma, oxygen, nitrogen, carbon dioxide", EInfoBoxType.Normal)]
 		public float[] Gases;
 
 		public float Pressure;// in kPA
@@ -241,10 +243,10 @@ namespace Atmospherics
 				otherGas.Gases[i] = gas * otherGas.Volume;
 			}
 
-			Temperature = Newtemperature;
-			otherGas.Temperature = Newtemperature;
-			Recalculate();
-			otherGas.Recalculate();
+			TemperatureCache = Newtemperature;
+			otherGas.TemperatureCache = Newtemperature;
+			RecalculateTemperatureCache();
+			otherGas.RecalculateTemperatureCache();
 			return otherGas;
 		}
 
@@ -285,14 +287,14 @@ namespace Atmospherics
 				}
 			}
 
-			Temperature = Newtemperature;
-			Recalculate();
+			TemperatureCache = Newtemperature;
+			RecalculateTemperatureCache();
 			foreach (var gasMix in otherGas)
 			{
 				var getMixAndVolume = gasMix.GetMixAndVolume;
 				var gasm = getMixAndVolume.GetGasMix();
-				gasm.SetTemperature(Newtemperature);
-				gasm.Recalculate();
+				gasm.TemperatureCache = (Newtemperature);
+				gasm.RecalculateTemperatureCache();
 				getMixAndVolume.SetGasMix(gasm);
 
 			}
@@ -301,6 +303,7 @@ namespace Atmospherics
 		public void SetTemperature(float NewTemperature)
 		{
 			Temperature = NewTemperature;
+			TemperatureCache = NewTemperature;
 		}
 
 

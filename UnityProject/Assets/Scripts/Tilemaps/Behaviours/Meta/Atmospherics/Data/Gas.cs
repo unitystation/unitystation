@@ -27,7 +27,7 @@ namespace Atmospherics
 			MolarHeatCapacity = molarHeatCapacity;
 			MolarMass = molarMass;
 			Name = name;
-			Index = Count;
+			Index = gases.Count;
 
 			gases.Add(this);
 		}

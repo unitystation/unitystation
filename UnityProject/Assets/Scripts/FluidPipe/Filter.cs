@@ -11,7 +11,7 @@ namespace Pipes
 
 		private MixAndVolume IntermediateMixAndVolume = new MixAndVolume();
 
-		public int MaxPressure = 4000;
+		public int ToMaxPressure = 9999;
 		private float TransferMoles = 500f;
 
 		public bool IsOn = false;
@@ -45,12 +45,14 @@ namespace Pipes
 
 		public override void TickUpdate()
 		{
+
+
+			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
+
 			if (IsOn == false)
 			{
 				return;
 			}
-
-			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 
 			if (pipeData.mixAndVolume.Density().x == 0 && pipeData.mixAndVolume.Density().y == 0)
 			{
@@ -67,13 +69,10 @@ namespace Pipes
 					}
 
 					var PressureDensity = Connection.Connected.GetMixAndVolume.Density();
-					if (PressureDensity.x > MaxPressure && PressureDensity.y > MaxPressure)
-					{
-						return;
-					}
 
-					var tomove = new Vector2(Mathf.Abs((PressureDensity.x / MaxPressure) - 1),
-						Mathf.Abs((PressureDensity.y / MaxPressure) - 1));
+
+					var tomove = new Vector2(Mathf.Abs((PressureDensity.x / ToMaxPressure) - 1),
+						Mathf.Abs((PressureDensity.y / ToMaxPressure) - 1));
 
 					Vector2 AvailableReagents = new Vector2(0f, 0f);
 					AvailableReagents+= pipeData.mixAndVolume.Total;
@@ -86,7 +85,6 @@ namespace Pipes
 					TotalRemove.x = tomove.x > 1 ? 0 : TotalRemove.x;
 					TotalRemove.y = tomove.y > 1 ? 0 : TotalRemove.y;
 					pipeData.mixAndVolume.TransferTo(IntermediateMixAndVolume, TotalRemove);
-
 					foreach (var GetConnection in pipeData.Connections.Directions)
 					{
 						if (GetConnection.flagLogic == FlagLogic.FilteredOutput)
@@ -98,14 +96,32 @@ namespace Pipes
 							}
 							var FilteredPressureDensity = GetConnection.Connected.GetMixAndVolume.Density();
 
-							if (FilteredPressureDensity.x > MaxPressure ||  FilteredPressureDensity.y > MaxPressure)
+							if (FilteredPressureDensity.x > ToMaxPressure ||  FilteredPressureDensity.y > ToMaxPressure)
 							{
-								IntermediateMixAndVolume.TransferTo(pipeData.mixAndVolume, IntermediateMixAndVolume.Total);
+								IntermediateMixAndVolume.TransferSpecifiedTo(pipeData.mixAndVolume,
+									GasIndex, FilterReagent);
+								if (PressureDensity.x > ToMaxPressure && PressureDensity.y > ToMaxPressure)
+								{
+									IntermediateMixAndVolume.TransferTo(pipeData.mixAndVolume, IntermediateMixAndVolume.Total);
+								}
+								else
+								{
+									IntermediateMixAndVolume.TransferTo(Connection.Connected.GetMixAndVolume, IntermediateMixAndVolume.Total);
+								}
+
 								return;
 							}
 
+							if (PressureDensity.x > ToMaxPressure && PressureDensity.y > ToMaxPressure)
+							{
+								IntermediateMixAndVolume.TransferSpecifiedTo(GetConnection.Connected.GetMixAndVolume,
+									GasIndex, FilterReagent);
+								IntermediateMixAndVolume.TransferTo(pipeData.mixAndVolume, IntermediateMixAndVolume.Total);
+								return;
+							}
 							IntermediateMixAndVolume.TransferSpecifiedTo(GetConnection.Connected.GetMixAndVolume,
 								GasIndex, FilterReagent);
+
 							IntermediateMixAndVolume.TransferTo(Connection.Connected.GetMixAndVolume, IntermediateMixAndVolume.Total);
 						}
 					}

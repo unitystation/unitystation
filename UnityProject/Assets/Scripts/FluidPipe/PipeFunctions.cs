@@ -319,6 +319,7 @@ namespace Pipes
 		}
 
 
+		public float TheVolume => Volume;
 		public float Temperature
 		{
 			get
@@ -396,13 +397,19 @@ namespace Pipes
 			}
 		}
 
-		public Tuple<ReagentMix, GasMix> Take(MixAndVolume InmixAndVolume)
+		public Tuple<ReagentMix, GasMix> Take(MixAndVolume InmixAndVolume, bool removeVolume = true)
 		{
 			float Percentage = Volume / InmixAndVolume.Volume;
-			Volume = Volume - InmixAndVolume.Volume;
+
 			var ReturnMix = Mix.Take(Mix.Total * Percentage);
+			if (removeVolume)
+			{
+				gasMix.ChangeVolumeValue(-InmixAndVolume.gasMix.Volume);
+				Volume = Volume - InmixAndVolume.Volume;
+			}
+
 			var ReturnGasMix = gasMix.RemoveVolume(InmixAndVolume.gasMix.Volume);
-			gasMix.ChangeVolumeValue(-InmixAndVolume.gasMix.Volume);
+
 			if (gasMix.Gases.Any(x => x < 0))
 			{
 				Logger.Log("0!!!");
@@ -410,6 +417,13 @@ namespace Pipes
 
 			return new Tuple<ReagentMix, GasMix>(ReturnMix, ReturnGasMix);
 
+		}
+
+		public void MultiSplit(MixAndVolume InmixAndVolume ,float TotalVolume)
+		{
+			float Multiplier = InmixAndVolume.Volume / TotalVolume;
+			InmixAndVolume.gasMix = InmixAndVolume.gasMix + (gasMix * Multiplier);
+			Mix.Clone().TransferTo(InmixAndVolume.Mix, Multiplier * Mix.Total);
 		}
 
 		public void Remove(Vector2 ToRemove)
@@ -431,6 +445,7 @@ namespace Pipes
 		{
 			Mix.Divide(DivideAmount);
 			gasMix = gasMix / DivideAmount;
+			gasMix.ChangeVolumeValue(gasMix.Volume-(gasMix.Volume / DivideAmount));
 			Volume = Volume / DivideAmount;
 			if (gasMix.Gases.Any(x => x < 0))
 			{
@@ -464,13 +479,12 @@ namespace Pipes
 				}
 
 				float TransferredEnergy = ToRemovegas * Gas.MolarHeatCapacity * gasMix.Temperature;
-				float CachedInternalEnergy = gasMix.InternalEnergy;
-				gasMix.RemoveGas(Gas,ToRemovegas );
-				gasMix.InternalEnergy = CachedInternalEnergy - TransferredEnergy;
 
-				CachedInternalEnergy = toTransfer.gasMix.InternalEnergy;
+				gasMix.RemoveGas(Gas,ToRemovegas );
+
+				float CachedInternalEnergy = toTransfer.InternalEnergy + TransferredEnergy; //- TransferredEnergy;
+
 				toTransfer.gasMix.AddGas(Gas,ToRemovegas );
-				CachedInternalEnergy += TransferredEnergy;
 				toTransfer.gasMix.InternalEnergy = CachedInternalEnergy;
 			}
 
@@ -507,6 +521,7 @@ namespace Pipes
 			if (float.IsNaN(amount.y) == false)
 			{
 				toTransfer.gasMix = toTransfer.gasMix + gasMix.RemoveMoles(amount.y);
+
 				if (toTransfer.gasMix.Gases.Any(x => x < 0))
 				{
 					Logger.Log("0!!!");
@@ -524,7 +539,7 @@ namespace Pipes
 		{
 			if (EqualiseGas)
 			{
-				gasMix.MergeGasMix(PipeFunctions.PipeOrNet(Another).gasMix);
+				PipeFunctions.PipeOrNet(Another).gasMix = gasMix.MergeGasMix(PipeFunctions.PipeOrNet(Another).gasMix);
 
 				if (gasMix.Gases.Any(x => x < 0))
 				{
@@ -634,6 +649,12 @@ namespace Pipes
 					EqualiseWith(others[0], DifferenceInPressure, DifferenceInDensity);
 				}
 			}
+		}
+
+		public void SetVolume(float NewVolume)
+		{
+			Volume = NewVolume;
+			gasMix.Volume = NewVolume;
 		}
 
 		public override string ToString()

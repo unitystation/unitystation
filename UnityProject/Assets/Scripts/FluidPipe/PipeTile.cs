@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,13 +11,15 @@ namespace Pipes
 		//Remember this is all static
 		public PipeLayer PipeLayer = PipeLayer.Second;
 
+		public float Volume = 0.1f;
+
 		public CustomLogic CustomLogic;
 		public Connections Connections = new Connections();
 		public bool NetCompatible = true;
 		public Sprite sprite;
 		public override Sprite PreviewSprite => sprite;
 
-		public override bool AreUnderfloorSame(BasicTile basicTile, Matrix4x4 TransformMatrix)
+		public override bool AreUnderfloorSame(Matrix4x4 thisTransformMatrix,BasicTile basicTile, Matrix4x4 TransformMatrix)
 		{
 			if ((basicTile as PipeTile) != null)
 			{
@@ -24,9 +27,14 @@ namespace Pipes
 				var TheConnection = TilePipeTile.Connections.Copy();
 				int Offset = PipeFunctions.GetOffsetAngle(TransformMatrix.rotation.eulerAngles.z);
 				TheConnection.Rotate(Offset);
-				for (int i = 0; i < Connections.Directions.Length; i++)
+
+				var thisConnection = Connections.Copy();
+				int thisOffset = PipeFunctions.GetOffsetAngle(thisTransformMatrix.rotation.eulerAngles.z);
+				thisConnection.Rotate(thisOffset);
+
+				for (int i = 0; i < thisConnection.Directions.Length; i++)
 				{
-					if (Connections.Directions[i].Bool && TheConnection.Directions[i].Bool)
+					if (thisConnection.Directions[i].Bool && TheConnection.Directions[i].Bool)
 					{
 						return true;
 					}
@@ -34,19 +42,31 @@ namespace Pipes
 				return false;
 			}
 
-			return base.AreUnderfloorSame(basicTile, TransformMatrix);
+			return base.AreUnderfloorSame(thisTransformMatrix, basicTile, TransformMatrix);
 		}
 
+		public void InitialiseNodeNew(Vector3Int Location, Matrix matrix, Matrix4x4 Matrix4x4)
+		{
+			var ZeroedLocation = new Vector3Int(x: Location.x, y: Location.y, 0);
+			var metaData = matrix.MetaDataLayer.Get(ZeroedLocation);
+			var pipeNode = new PipeNode();
+			var rotation = Matrix4x4;
+			int Offset = PipeFunctions.GetOffsetAngle(rotation.rotation.eulerAngles.z);
+			pipeNode.Initialise(this, metaData, ZeroedLocation, matrix, Offset);
+			metaData.PipeData.Add(pipeNode);
+		}
 
 		public void InitialiseNode(Vector3Int Location, Matrix matrix)
 		{
 			var ZeroedLocation = new Vector3Int(x: Location.x, y: Location.y, 0);
 			var metaData = matrix.MetaDataLayer.Get(ZeroedLocation);
 			var pipeNode = new PipeNode();
-			var rotation = matrix.UnderFloorLayer.GetMatrix4x4(Location, this);
+			var rotation = matrix.UnderFloorLayer.Tilemap.GetTransformMatrix(Location);
 			int Offset = PipeFunctions.GetOffsetAngle(rotation.rotation.eulerAngles.z);
 			pipeNode.Initialise(this, metaData, ZeroedLocation, matrix, Offset);
 			metaData.PipeData.Add(pipeNode);
 		}
+
+
 	}
 }

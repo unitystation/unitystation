@@ -71,7 +71,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 		Disconnect();
 	}
 
-	private void Disconnect()
+	public void Disconnect()
 	{
 		if (isConnected)
 		{

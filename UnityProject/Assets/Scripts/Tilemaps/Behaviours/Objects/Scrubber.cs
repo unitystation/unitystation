@@ -10,7 +10,7 @@ namespace Pipes
 		// minimum pressure needs to be a little lower because of floating point inaccuracies
 		public float MMinimumPressure = 80.00f;
 
-		public float MaxInternalPressure = 8000f;
+		public float MaxInternalPressure = 10000f;
 
 		public float MaxTransferMoles = 100;
 

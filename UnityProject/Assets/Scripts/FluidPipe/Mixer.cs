@@ -11,7 +11,7 @@ namespace Pipes
 
 		private MixAndVolume IntermediateMixAndVolume = new MixAndVolume();
 
-		public int MaxPressure = 4000;
+		public int MaxPressure = 10000;
 		private float TransferMoles = 500f;
 
 		public float ToTakeFromInputOne = 0.5f;
@@ -53,6 +53,11 @@ namespace Pipes
 			}
 
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
+
+			if (pipeData.mixAndVolume.Density().y > MaxPressure || pipeData.mixAndVolume.Density().x > MaxPressure)
+			{
+				return;
+			}
 
 			var InputOne = pipeData.Connections.GetFlagToDirection(FlagLogic.InputOne)?.Connected;
 			var InputTwo = pipeData.Connections.GetFlagToDirection(FlagLogic.InputTwo)?.Connected;

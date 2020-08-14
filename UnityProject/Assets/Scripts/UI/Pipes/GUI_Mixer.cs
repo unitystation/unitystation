@@ -12,6 +12,7 @@ public class GUI_Mixer  : NetTab
 
 	public NetToggle PToggle;
 
+	public NetWheel NetWheel;
 
 	public NetLabel ToTakeFromInputOne;
 	public NetLabel ToTakeFromInputTwo;
@@ -33,6 +34,8 @@ public class GUI_Mixer  : NetTab
 			Mixer = Provider.GetComponentInChildren<Pipes.Mixer>();
 		}
 		numberSpinner.ServerSpinTo( Mixer.MaxPressure);
+		numberSpinner.DisplaySpinTo(Mixer.MaxPressure);
+		NetWheel.SetValueServer(Mixer.MaxPressure.ToString());
 		numberSpinner.OnValueChange.AddListener(SetMaxPressure);
 		PToggle.SetValueServer(BOOLTOstring(Mixer.IsOn)) ;
 

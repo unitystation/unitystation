@@ -11,14 +11,7 @@ namespace Objects
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
 
-		public GasMix GasMix
-		{
-			get => gasMix;
-			set => gasMix = value;
-		}
-
-		[SerializeField]
-		private GasMix gasMix = new GasMix(GasMixes.Empty);
+		public GasMix GasMix { get; set; }
 
 		public bool Opened;
 

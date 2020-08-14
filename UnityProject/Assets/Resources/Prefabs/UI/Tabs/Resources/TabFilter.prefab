@@ -339,6 +339,7 @@ MonoBehaviour:
   Type: 27
   CurrentlyFiltering: O2
   Filter: {fileID: 0}
+  NetWheel: {fileID: 2098665982481398709}
   numberSpinner: {fileID: 6104432408500246029}
   PToggle: {fileID: 8436869059213354068}
 --- !u!1 &1695788374799260
@@ -1476,7 +1477,7 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
   KPAPerDegree: 6
-  MaxValue: 4000
+  MaxValue: 9999
   ReleasePressureDial: {fileID: 6104432408500246029}
   RotationSpeed: 10
   UprightSprites:
@@ -5183,6 +5184,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2316004072107948425}
     m_Modifications:
+    - target: {fileID: 1410941873314652019, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: m_Text
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 2266404730653743562, guid: 699a42dbe71855d49a99de302af0fc0f,
         type: 3}
       propertyPath: SecondsPerSpin
@@ -5303,10 +5309,25 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5000001
       objectReference: {fileID: 0}
+    - target: {fileID: 5131209205702154896, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: m_Text
+      value: 9
+      objectReference: {fileID: 0}
     - target: {fileID: 5463702692558937129, guid: 699a42dbe71855d49a99de302af0fc0f,
         type: 3}
       propertyPath: SecondsPerSpin
       value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7590590887214208226, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: m_Text
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7698378719471519496, guid: 699a42dbe71855d49a99de302af0fc0f,
+        type: 3}
+      propertyPath: m_Text
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 9015964894283925304, guid: 699a42dbe71855d49a99de302af0fc0f,
         type: 3}

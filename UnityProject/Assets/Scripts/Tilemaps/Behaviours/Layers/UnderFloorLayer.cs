@@ -97,7 +97,10 @@ public class UnderFloorLayer : Layer
 
 			foreach (var Tile in TileStore[(Vector2Int) position])
 			{
-				return Tile;
+				if (Tile != null)
+				{
+					return Tile;
+				}
 			}
 		}
 		else
@@ -148,7 +151,7 @@ public class UnderFloorLayer : Layer
 		{
 			foreach (var l in TileStore[position.To2Int()])
 			{
-				if ((tile as BasicTile).AreUnderfloorSame(l as BasicTile, GetMatrix4x4(position, l)))
+				if ((tile as BasicTile).AreUnderfloorSame(transformMatrix, l as BasicTile, GetMatrix4x4(position, l)))
 				{
 					//duplicate found aborting
 					return;
@@ -251,8 +254,12 @@ public class UnderFloorLayer : Layer
 		return HasTile;
 	}
 
-	public Color GetColour(Vector3Int position, LayerTile tile)
+	public Color GetColour(Vector3Int position, LayerTile tile, bool specifiedCoordinates = false)
 	{
+		if (specifiedCoordinates)
+		{
+			return tilemap.GetColor(position);
+		}
 		if (!TileStore.ContainsKey((Vector2Int) position)) return Color.white;
 		if (TileStore.ContainsKey((Vector2Int) position))
 		{
@@ -291,8 +298,12 @@ public class UnderFloorLayer : Layer
 		}
 	}
 
-	public Matrix4x4 GetMatrix4x4(Vector3Int position, LayerTile tile)
+	public Matrix4x4 GetMatrix4x4(Vector3Int position, LayerTile tile, bool specifiedCoordinates = false)
 	{
+		if (specifiedCoordinates)
+		{
+			return tilemap.GetTransformMatrix(position);
+		}
 		if (!TileStore.ContainsKey((Vector2Int) position)) return Matrix4x4.identity;
 		if (TileStore.ContainsKey((Vector2Int) position))
 		{
@@ -306,8 +317,14 @@ public class UnderFloorLayer : Layer
 		return Matrix4x4.identity;
 	}
 
-	public void RemoveSpecifiedTile(Vector3Int position, LayerTile tile)
+	public void RemoveSpecifiedTile(Vector3Int position, LayerTile tile, bool UseSpecifiedLocation = false)
 	{
+		if (UseSpecifiedLocation)
+		{
+			RemoveTile(position);
+			return;
+		}
+
 		if (!TileStore.ContainsKey((Vector2Int) position)) return;
 
 		if (TileStore.ContainsKey((Vector2Int) position))

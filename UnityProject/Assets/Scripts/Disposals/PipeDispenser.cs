@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
+using Pipes;
 
 public class PipeDispenser : NetworkBehaviour
 {
@@ -61,8 +62,11 @@ public class PipeDispenser : NetworkBehaviour
 
 		this.RestartCoroutine(SetMachineOperating(), ref animationRoutine);
 		SpawnResult spawnResult = Spawn.ServerPrefab(objectPrefab, objectBehaviour.AssumedWorldPositionServer());
+
 		if (spawnResult.Successful)
 		{
+			spawnResult.GameObject.GetComponent<PipeItem>()?.SetColour(pipeColor);
+
 			newPipe = new PipeObjectSettings {
 					pipeObject = spawnResult.GameObject,
 					pipeColor = pipeColor

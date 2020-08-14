@@ -16,7 +16,8 @@ namespace Pipes
 			{
 				int Offset = PipeFunctions.GetOffsetAngle(transform.localEulerAngles.z);
 				Quaternion? rot = Quaternion.Euler(0.0f, 0.0f,Offset );
-				Spawn.ServerPrefab(Pipe.gameObject,registerItem.WorldPositionServer, localRotation: rot );
+				var New = Spawn.ServerPrefab(Pipe.gameObject,registerItem.WorldPositionServer, localRotation: rot );
+				New.GameObject.GetComponent<MonoPipe>().SetColour(Colour);
 				Despawn.ServerSingle(this.gameObject);
 			}
 
@@ -32,13 +33,13 @@ namespace Pipes
 			return pipeObject;
 		}
 
-		public override PipeLayer GetPipeLayer()
+		public override Connections GetConnections()
 		{
 			if (pipeObject != null)
 			{
-				return (pipeObject.pipeData.PipeLayer);
+				return (pipeObject.pipeData.Connections.Copy());
 			}
-			return PipeLayer.Second;
+			return null;
 		}
 	}
 }
