@@ -19,16 +19,23 @@ public abstract class MonoBehaviourSingleton<T> : MonoBehaviour where T : MonoBe
 	}
 
 	/// <summary>
-	/// There can be only one of each singleton. If you override this then make sure you call base.Awake() somewhere in your Awake code.
+	/// If you override this then make sure you call base.Awake() somewhere in your Awake code.
 	/// </summary>
 	protected virtual void Awake()
 	{
 		if (Instance != null && Instance != this)
 		{
+#if UNITY_EDITOR
+			DestroyImmediate(this);
+#else
 			Destroy(this);
+#endif
 		}
 	}
 
+	/// <summary>
+	/// If you override this then make sure you call base.OnDestroy() somewhere in your OnDestroy code.
+	/// </summary>
 	protected virtual void OnDestroy()
 	{
 		if (Instance == this)
