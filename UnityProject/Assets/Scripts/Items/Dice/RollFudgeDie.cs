@@ -4,12 +4,12 @@ public class RollFudgeDie : RollSpecialDie
 {
 	public override string Examine(Vector3 worldPos = default)
 	{
-		return $"It is showing side{GetFudgeMessage()}";
+		return $"It is showing side {GetFudgeMessage()}";
 	}
 
 	protected override string GetMessage()
 	{
-		return $"The {dieName} lands a{GetFudgeMessage()}";
+		return $"The {dieName} lands a {GetFudgeMessage()}";
 	}
 
 	private string GetFudgeMessage()
@@ -19,6 +19,6 @@ public class RollFudgeDie : RollSpecialDie
 			return specialFaces[1].ToString();
 		}
 		
-		return $" {specialFaces[result - 1]}.";
+		return $"{specialFaces[result - 1]}.";
 	}
 }
