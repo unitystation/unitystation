@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -735950409198653472, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
+      propertyPath: sides
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3216665340718951548, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -22,6 +27,12 @@ PrefabInstance:
     - target: {fileID: 5127478345631143613, guid: 77d2a86d1e994c64485b5240c8f917ec,
         type: 3}
       propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d2d8a1cb01643c468ef28a562af2f28,
+        type: 2}
+    - target: {fileID: 5127478345631143613, guid: 77d2a86d1e994c64485b5240c8f917ec,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 8d2d8a1cb01643c468ef28a562af2f28,
         type: 2}
