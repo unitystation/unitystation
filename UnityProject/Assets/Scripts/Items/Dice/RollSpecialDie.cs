@@ -12,7 +12,7 @@ public class RollSpecialDie : RollDie
 
 	public override string Examine(Vector3 worldPos = default)
 	{
-		return $"It is showing side `{specialFaces[result - 1]}`.";
+		return $"It is showing side '{specialFaces[result - 1]}'.";
 	}
 
 	protected override string GetMessage()
