@@ -26,20 +26,34 @@ namespace Weapons.Projectiles.Behaviours
 		}
 
 		private bool TryDamage(RaycastHit2D hit)
-		{			
+		{
 			var coll = hit.collider;
 			var integrity = coll.GetComponent<Integrity>();
-			if (integrity == null) return false;
-			float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
-			// checks if its a high atmosphere 
+			if (integrity == null)
+			{
+				return false;
+			}
+
+			float pressure = MatrixManager.AtPoint(
+				(Vector3Int)hit.point.To2Int(),
+				true
+			).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
 
 			var newDamage = 40 * (Mathf.Clamp((-pressure / 135), -1.0f, 0.0f) + 1);
 
 			integrity.ApplyDamage(newDamage, damageData.AttackType, damageData.DamageType);
 
-			Chat.AddAttackMsgToChat(shooter, coll.gameObject, BodyPartType.None, weapon.gameObject);
-			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
-				integrity.gameObject.name, damageData.Damage);
+			Chat.AddAttackMsgToChat(
+				shooter,
+				coll.gameObject,
+				BodyPartType.None,
+				weapon.gameObject);
+
+			Logger.LogTraceFormat(
+				"Hit {0} for {1} with HealthBehaviour! bullet absorbed",
+				Category.Firearms,
+				integrity.gameObject.name,
+				damageData.Damage);
 
 			return true;
 		}

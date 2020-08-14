@@ -32,15 +32,25 @@ namespace Weapons.Projectiles.Behaviours
 		{
 			var coll = hit.collider;
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
-			if (livingHealth == null) return false;
-			float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
-			// checks  is a high atmosphere
+			if (livingHealth == null)
+			{
+				return false;
+			}
+
+			float pressure = MatrixManager.AtPoint(
+				(Vector3Int)hit.point.To2Int(),
+				true
+			).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
+
 			var newDamage = 40 * (Mathf.Clamp((-pressure / 135), -1.0f, 0.0f) + 1);
 
 			livingHealth.ApplyDamageToBodypart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
 
 			Chat.AddAttackMsgToChat(shooter, coll.gameObject, targetZone, weapon.gameObject);
-			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
+
+			Logger.LogTraceFormat(
+				"Hit {0} for {1} with HealthBehaviour! bullet absorbed",
+				Category.Firearms,
 				livingHealth.gameObject.name, damageData.Damage);
 
 			return true;
