@@ -10,9 +10,9 @@ using Random = UnityEngine.Random;
 public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActivate>
 {
 	[Tooltip("The amount of sides this die has.")]
-	public int sides = 6;
+	public int Sides = 6;
 	[Tooltip("Whether the die can be rigged to give flawed results.")]
-	public bool riggable = true;
+	public bool Riggable = true;
 
 	private Transform dieTransform;
 	private SpriteHandler faceOverlayHandler;
@@ -59,7 +59,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 		netTransform.OnThrowStart.AddListener(ThrowStart);
 		netTransform.OnThrowEnd.AddListener(ThrowEnd);
 
-		if (riggable)
+		if (Riggable)
 		{
 			cookable.OnCooked.AddListener(Cook);
 		}
@@ -97,7 +97,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 
 	public void Cook()
 	{
-		if (riggable)
+		if (Riggable)
 		{
 			rigged = true;
 			riggedValue = result;
@@ -180,7 +180,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 
 		if (rigged && result != riggedValue)
 		{
-			if (GetProbability(ClampInt((1 / sides) * 100, 25, 80)))
+			if (GetProbability(Mathf.Clamp((1 / sides) * 100, 25, 80)))
 			{
 				return riggedValue;
 			}
@@ -207,19 +207,5 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 		}
 
 		return false;
-	}
-
-	/// <summary>
-	/// Clamps the given integer to within the given minimum and maximum values.
-	/// </summary>
-	/// <param name="given">The value to be clamped</param>
-	/// <param name="min">The minimum possible value</param>
-	/// <param name="max">The maximum possible value</param>
-	/// <returns>A clamped value between the minimum and maximum values.</returns>
-	protected int ClampInt(int given, int min, int max)
-	{
-		if (given < min) return min;
-		else if (given > max) return max;
-		return given;
 	}
 }
