@@ -10,9 +10,9 @@ using Random = UnityEngine.Random;
 public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActivate>
 {
 	[Tooltip("The amount of sides this die has.")]
-	public int Sides = 6;
+	public int sides = 6;
 	[Tooltip("Whether the die can be rigged to give flawed results.")]
-	public bool Riggable = true;
+	public bool riggable = true;
 
 	private Transform dieTransform;
 	private SpriteHandler faceOverlayHandler;
@@ -59,7 +59,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 		netTransform.OnThrowStart.AddListener(ThrowStart);
 		netTransform.OnThrowEnd.AddListener(ThrowEnd);
 
-		if (Riggable)
+		if (riggable)
 		{
 			cookable.OnCooked.AddListener(Cook);
 		}
@@ -97,7 +97,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 
 	public void Cook()
 	{
-		if (Riggable)
+		if (riggable)
 		{
 			rigged = true;
 			riggedValue = result;
