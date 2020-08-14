@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 
-public class ElectricalManager : MonoBehaviour
+public class ElectricalManager : MonoBehaviourSingleton<ElectricalManager>
 {
 	public CableTileList HighVoltageCables;
 	public CableTileList MediumVoltageCables;
@@ -14,22 +14,6 @@ public class ElectricalManager : MonoBehaviour
 	public bool Running { get; private set; }
 	public float MSSpeed = 100;
 
-	public static ElectricalManager Instance
-	{
-		get
-		{
-			if (instance == null)
-			{
-				instance = FindObjectOfType<ElectricalManager>();
-			}
-
-			return instance;
-		}
-		set { instance = value; }
-	}
-
-	private static ElectricalManager instance;
-
 	public ElectricalMode Mode;
 
 	public bool DOCheck;
@@ -37,14 +21,6 @@ public class ElectricalManager : MonoBehaviour
 	private Object electricalLock = new Object();
 
 	public static Object ElectricalLock => Instance.electricalLock;
-
-	private void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-	}
 
 	private void Update()
 	{

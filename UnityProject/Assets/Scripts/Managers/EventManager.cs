@@ -32,33 +32,15 @@ public enum EVENT
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]
-public class EventManager : MonoBehaviour
+public class EventManager : MonoBehaviourSingleton<EventManager>
 {
 	// Stores the delegates that get called when an event is fired (Simple Events)
 	private static readonly Dictionary<EVENT, Action> eventTable
 		= new Dictionary<EVENT, Action>();
 
-	private static EventManager eventManager;
-
-	public static EventManager Instance
-	{
-		get
-		{
-			if (!eventManager)
-			{
-				eventManager = FindObjectOfType<EventManager>();
-			}
-			return eventManager;
-		}
-	}
-
 	public static void UpdateLights()
 	{
 	}
-
-	/*
-		* Below is for the simple event handlers and broast methods:
-		*/
 
 	// Adds a delegate to get called for a specific event
 	public static void AddHandler(EVENT evnt, Action action)

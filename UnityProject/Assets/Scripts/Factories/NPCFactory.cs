@@ -3,23 +3,9 @@
 /// <summary>
 /// Handles spawning of the NPCs
 /// </summary>
-public class NPCFactory : MonoBehaviour
+public class NPCFactory : MonoBehaviourSingleton<NPCFactory>
 {
-	public static NPCFactory Instance;
-
 	[SerializeField] private GameObject xenoPrefab = null;
-
-	void Awake()
-	{
-		if (Instance == null)
-		{
-			Instance = this;
-		}
-		else
-		{
-			Destroy(Instance);
-		}
-	}
 
 	/// <summary>
 	/// Spawns a xenomorph from the server

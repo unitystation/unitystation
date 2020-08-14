@@ -629,7 +629,7 @@ namespace Weapons
 						RecoveryDuration = 0.6f
 					};
 				}
-				Camera2DFollow.followControl.Recoil(-finalDirection, CameraRecoilConfig);
+				Camera2DFollow.Instance.Recoil(-finalDirection, CameraRecoilConfig);
 			}
 
 			if (CurrentMagazine == null)

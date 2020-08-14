@@ -9,13 +9,8 @@ using DatabaseAPI;
 
 namespace Antagonists
 {
-	public class AntagManager : MonoBehaviour
+	public class AntagManager : MonoBehaviourSingleton<AntagManager>
 	{
-		/// <summary>
-		/// The main static instance of this manager, use it for all operations
-		/// </summary>
-		public static AntagManager Instance;
-
 		/// <summary>
 		/// Stores all antag and objective data.
 		/// </summary>
@@ -36,18 +31,6 @@ namespace Antagonists
 		/// Keeps track of which items have already been targeted for objectives
 		/// </summary>
 		public List<GameObject> TargetedItems = new List<GameObject>();
-
-		private void Awake()
-		{
-			if ( Instance == null )
-			{
-				Instance = this;
-			}
-			else
-			{
-				Destroy(gameObject);
-			}
-		}
 
 		void OnEnable()
 		{

@@ -7,21 +7,8 @@ namespace Disposals
 	/// <summary>
 	/// Creates, updates, and removes all disposal instances.
 	/// </summary>
-	public class DisposalsManager : MonoBehaviour
+	public class DisposalsManager : MonoBehaviourSingleton<DisposalsManager>
 	{
-		static DisposalsManager instance;
-		public static DisposalsManager Instance {
-			get {
-				if (instance == null)
-				{
-					instance = FindObjectOfType<DisposalsManager>();
-				}
-
-				return instance;
-			}
-			set { instance = value; }
-		}
-
 		[SerializeField]
 		[Tooltip("Set the virtual container prefab to be used in disposal instances.")]
 		public GameObject VirtualContainerPrefab;

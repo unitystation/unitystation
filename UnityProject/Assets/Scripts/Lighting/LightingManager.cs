@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
+public class LightingManager : MonoBehaviour
+{
 
-	public class LightingManager : MonoBehaviour
-	{
-	}
+}

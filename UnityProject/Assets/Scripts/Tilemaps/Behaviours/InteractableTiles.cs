@@ -477,25 +477,25 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 				if(orientation == OrientationEnum.Right)
 				{
 					spritePos.x += 0.5f;
-					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,270);
+					Highlight.Instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,270);
 				}
 				else if(orientation == OrientationEnum.Left)
 				{
 						spritePos.x -= 0.5f;
-						Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,90);
+						Highlight.Instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,90);
 				}
 				else if(orientation == OrientationEnum.Up)
 				{
 					spritePos.y += 0.5f;
-					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,0);
+					Highlight.Instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,0);
 				}
 				else
 				{
 					spritePos.y -= 0.5f;
-					Highlight.instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,0);
+					Highlight.Instance.spriteRenderer.transform.rotation = Quaternion.Euler(0,0,0);
 				}
 			}
-			Highlight.instance.spriteRenderer.transform.position = spritePos;
+			Highlight.Instance.spriteRenderer.transform.position = spritePos;
 		}
 	}
 

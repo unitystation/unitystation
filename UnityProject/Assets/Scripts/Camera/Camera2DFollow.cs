@@ -1,11 +1,8 @@
 using System.Collections;
 using UnityEngine;
 
-public class Camera2DFollow : MonoBehaviour
+public class Camera2DFollow : MonoBehaviourSingleton<Camera2DFollow>
 {
-	//Static to make sure its the only cam in scene & for later access to camshake
-	public static Camera2DFollow followControl;
-
 	private readonly bool adjustPixel = false;
 	private readonly float lookAheadMoveThreshold = 0.05f;
 	private readonly float lookAheadReturnSpeed = 0.5f;
@@ -58,18 +55,12 @@ public class Camera2DFollow : MonoBehaviour
 	[HideInInspector]
 	public Camera cam;
 
-	private void Awake()
+	protected override void Awake()
 	{
-		if (followControl == null)
-		{
-			followControl = this;
-			cam = GetComponent<Camera>();
-			lightingSystem = GetComponent<LightingSystem>();
-		}
-		else
-		{
-			Destroy(gameObject);
-		}
+		base.Awake();
+
+		cam = GetComponent<Camera>();
+		lightingSystem = GetComponent<LightingSystem>();
 	}
 
 	private void Start()
@@ -89,7 +80,7 @@ public class Camera2DFollow : MonoBehaviour
 		float xOffSet =
 			(transform.position.x - Camera.main.ScreenToWorldPoint(UIManager.Hands.transform.position).x) * 1.38f;
 
-		followControl.SetXOffset(xOffSet);
+		Instance.SetXOffset(xOffSet);
 	}
 
 	private void Update()

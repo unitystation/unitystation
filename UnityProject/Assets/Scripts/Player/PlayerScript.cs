@@ -220,9 +220,9 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				SoundManager.Stop("Critstate");
 				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
 				//show ghosts
-				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				var mask = Camera2DFollow.Instance.cam.cullingMask;
 				mask |= 1 << LayerMask.NameToLayer("Ghosts");
-				Camera2DFollow.followControl.cam.cullingMask = mask;
+				Camera2DFollow.Instance.cam.cullingMask = mask;
 
 			}
 			else
@@ -231,9 +231,9 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				//play the spawn sound
 				SoundAmbientManager.PlayAudio("ambigen8");
 				//Hide ghosts
-				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				var mask = Camera2DFollow.Instance.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
-				Camera2DFollow.followControl.cam.cullingMask = mask;
+				Camera2DFollow.Instance.cam.cullingMask = mask;
 			}
 
 			EventManager.Broadcast(EVENT.UpdateChatChannels);
@@ -401,11 +401,11 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		{
 			if (rotationInfo.IsStarting)
 			{
-				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = true;
+				Camera2DFollow.Instance.lightingSystem.matrixRotationMode = true;
 			}
 			else if (rotationInfo.IsEnding)
 			{
-				Camera2DFollow.followControl.lightingSystem.matrixRotationMode = false;
+				Camera2DFollow.Instance.lightingSystem.matrixRotationMode = false;
 			}
 		}
 	}

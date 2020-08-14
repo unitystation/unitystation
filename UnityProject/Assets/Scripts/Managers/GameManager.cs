@@ -13,9 +13,8 @@ using DiscordWebhook;
 using Mirror;
 using GameConfig;
 
-public partial class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviourSingleton<GameManager>
 {
-	public static GameManager Instance;
 	public bool counting;
 	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
@@ -108,21 +107,13 @@ public partial class GameManager : MonoBehaviour
 
 	public bool QuickLoad = false;
 
-	private void Awake()
+	protected override void Awake()
 	{
-		if (Instance == null)
+		base.Awake();
+
+		if (SceneManager.GetActiveScene().name != "Lobby")
 		{
-			Instance = this;
-			//if loading directly to outpost station, need to call pre round start once CustomNetworkManager
-			//starts because no scene change occurs to trigger it
-			if (SceneManager.GetActiveScene().name != "Lobby")
-			{
-				loadedDirectlyToStation = true;
-			}
-		}
-		else
-		{
-			Destroy(this);
+			loadedDirectlyToStation = true;
 		}
 	}
 

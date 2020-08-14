@@ -1,9 +1,8 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class CraftingManager : MonoBehaviour
+public class CraftingManager : MonoBehaviourSingleton<CraftingManager>
 {
-	private static CraftingManager craftingManager;
 	[SerializeField] private CraftingDatabase meals = new CraftingDatabase();
 	[SerializeField] private CraftingDatabase cuts = new CraftingDatabase();
 	[SerializeField] private CraftingDatabase logs = new CraftingDatabase();
@@ -19,19 +18,6 @@ public class CraftingManager : MonoBehaviour
 	public static CraftingDatabase SimpleMeal => Instance.simplemeal;
 	public static GrinderDatabase Grind => Instance.grind;
 	public static CraftingDatabase Mix => Instance.mix;
-
-	public static CraftingManager Instance
-	{
-		get
-		{
-			if (!craftingManager)
-			{
-				craftingManager = FindObjectOfType<CraftingManager>();
-			}
-
-			return craftingManager;
-		}
-	}
 
 	public Techweb techweb;
 	public Designs designs;

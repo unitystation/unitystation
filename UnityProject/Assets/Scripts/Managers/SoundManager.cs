@@ -9,15 +9,13 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 using Assets.Scripts.Messages.Server.SoundMessages;
 
-public class SoundManager : MonoBehaviour
+public class SoundManager : MonoBehaviourSingleton<SoundManager>
 {
 	public AudioMixerGroup DefaultMixer;
 
 	public AudioMixerGroup MuffledMixer;
 
 	private static LayerMask layerMask;
-
-	private static SoundManager soundManager;
 
 	public readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
 
@@ -29,19 +27,6 @@ public class SoundManager : MonoBehaviour
 
 	[SerializeField] private GameObject soundSpawnPrefab = null;
 	private List<SoundSpawn> pooledSources = new List<SoundSpawn>();
-
-	public static SoundManager Instance
-	{
-		get
-		{
-			if (!soundManager)
-			{
-				soundManager = FindObjectOfType<SoundManager>();
-			}
-
-			return soundManager;
-		}
-	}
 
 	[SerializeField]
 	private string[] RoundEndSounds = new string[]
@@ -456,7 +441,7 @@ public class SoundManager : MonoBehaviour
 				&& Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), source.transform.position, layerMask))
 			{
 				//Logger.Log("MuffledMixer");
-				source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+				source.audioSource.outputAudioMixerGroup = Instance.MuffledMixer;
 			}
 		}
 
