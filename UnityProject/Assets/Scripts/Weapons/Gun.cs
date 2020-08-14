@@ -23,9 +23,9 @@ namespace Weapons
 	*/
 
 		[SerializeField]
-		private GameObject ammoPrefab = null;
+		protected private GameObject ammoPrefab = null;
 		[SerializeField]
-		private GameObject genericInternalMag = null;
+		protected private GameObject genericInternalMag = null;
 		[SerializeField]
 		private GameObject casingPrefabOverride = null;
 		/// <summary>
@@ -37,7 +37,8 @@ namespace Weapons
 		/// <summary>
 		///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
 		/// </summary>
-		[FormerlySerializedAs("AmmoType")] public AmmoType ammoType;
+		[FormerlySerializedAs("AmmoType")] 
+		public AmmoType ammoType;
 
 		//server-side object indicating the player holding the weapon (null if none)
 		protected GameObject serverHolder;
@@ -62,7 +63,7 @@ namespace Weapons
 		public bool MagInternal = false;
 
 		[HideInInspector]
-		public double burstCooldown = 0;
+		public double burstCooldown = 3; //cooldown between full bursts in seconds
 
 		[HideInInspector]
 		public double burstCount = 3;
@@ -122,7 +123,7 @@ namespace Weapons
 		/// <summary>
 		///     The amount of projectiles expended per shot
 		/// </summary>
-		public int ProjectilesFired;
+		public int ProjectilesFired = 1;
 
 		/// <summary>
 		///     The traveling speed for this weapons projectile
@@ -193,7 +194,8 @@ namespace Weapons
 			{
 				//automatic ejection always disabled
 				SmartGun = false;
-
+				//ejecting an internal mag should never be allowed
+				allowMagazineRemoval = false;
 				//populate with a full internal mag on spawn
 				Logger.LogTraceFormat("Auto-populate internal magazine for {0}", Category.Inventory, name);
 
@@ -273,7 +275,24 @@ namespace Weapons
 
 			if (Projectile != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 			{
-				if (interaction.MouseButtonState == MouseButtonState.PRESS)
+				if (WeaponType == WeaponType.Burst)
+				{
+					//being held and is a burst weapon, check how many shots have been fired our the current burst
+					if (currentBurstCount < burstCount)
+					{
+						//we have shot less then the max allowed shots in our current burst, increase and fire again
+						currentBurstCount++;
+						return true;
+					}
+					else if (currentBurstCount >= burstCount)
+					{
+						//we have shot the max allowed shots in our current burst, start cooldown and then fire the first shot
+						WaitFor.Seconds((float)burstCooldown);
+						currentBurstCount = 1;
+						return true;
+					}
+				}
+				else if (interaction.MouseButtonState == MouseButtonState.PRESS)
 				{
 					if (currentBurstCount != 0)
 					{
@@ -283,28 +302,8 @@ namespace Weapons
 				}
 				else
 				{
-					if (WeaponType == WeaponType.Burst)
-					{
-						//being held and is a burst weapon, check how many shots have been fired our the current burst
-						if (currentBurstCount < burstCount)
-						{
-							//we have shot less then the max allowed shots in our current burst, increase and fire again
-							currentBurstCount++;
-							return true;
-						}
-						else if (currentBurstCount >= burstCount)
-						{
-							//we have shot the max allowed shots in our current burst, start cooldown and then fire the first shot
-							WaitFor.Seconds((float)burstCooldown);
-							currentBurstCount = 1;
-							return true;
-						}
-					}
-					else
-					{
-						//being held, only can shoot if this is an automatic
-						return WeaponType == WeaponType.FullyAutomatic;
-					}
+					//being held, only can shoot if this is an automatic
+					return WeaponType == WeaponType.FullyAutomatic;
 				}
 			}
 
@@ -360,7 +359,7 @@ namespace Weapons
 		public bool Interact(HandActivate interaction)
 		{
 			//try ejecting the mag if external
-			if (CurrentMagazine != null && !MagInternal && allowMagazineRemoval)
+			if (CurrentMagazine != null && allowMagazineRemoval)
 			{
 				RequestUnload(CurrentMagazine);
 				return true;
@@ -602,7 +601,7 @@ namespace Weapons
 
 			//if this is our gun (or server), last check to ensure we really can shoot
 			if ((isServer || PlayerManager.LocalPlayer == shooter) &&
-			    CurrentMagazine.ClientAmmoRemains <= 0)
+				CurrentMagazine.ClientAmmoRemains <= 0)
 			{
 				if (isServer)
 				{
@@ -651,6 +650,13 @@ namespace Weapons
 			if (isSuicideShot)
 			{
 				b.Suicide(shooter, this, damageZone);
+			}
+			else if (ProjectilesFired != 1)
+			{
+				for (int n = 0; n > ProjectilesFired; n++)
+				{
+					b.Shoot(ApplyRecoil(finalDirection), shooter, this, damageZone);
+				}
 			}
 			else
 			{
