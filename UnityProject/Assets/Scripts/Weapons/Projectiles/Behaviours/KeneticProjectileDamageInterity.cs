@@ -26,18 +26,14 @@ namespace Weapons.Projectiles.Behaviours
 		}
 
 		private bool TryDamage(RaycastHit2D hit)
-		{
+		{ float pressure = MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
 			var newDamage = damageData.Damage;
 			var coll = hit.collider;
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null) return false;
 			// checks if its a high atmosphere 
 
-
-			if (MatrixManager.AtPoint((Vector3Int)hit.point.To2Int(), true).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure >= 50)
-			{
-				newDamage = damageData.Damage * .25f;
-			}
+			newDamage = (1175 / 26) - ((15 - pressure) / 26);
 
 			integrity.ApplyDamage(newDamage, damageData.AttackType, damageData.DamageType);
 
