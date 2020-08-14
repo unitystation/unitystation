@@ -1,0 +1,24 @@
+# Automation actions that run on every push and pr. Meant to help us to keep the thing cool because we're cool like that.
+
+name: Auto helpers
+on:
+  push:
+    branches: [ develop ]
+  pull_request:
+    branches: [ develop ]
+    
+jobs:
+  autohelpers:
+    runs-on: ubuntu-latest
+    steps:
+      - name: scene changes detector
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: mschilde/auto-label-merge-conflicts@v2.0
+        with:
+          repo-token: "${{ secrets.GITHUB_TOKEN }}"
+      - name: conflicts check
+        if: ${{ github.event_name == 'push' }}
+        uses: mschilde/auto-label-merge-conflicts@master
+        with:
+          CONFLICT_LABEL_NAME: "Merge Conflicts"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
