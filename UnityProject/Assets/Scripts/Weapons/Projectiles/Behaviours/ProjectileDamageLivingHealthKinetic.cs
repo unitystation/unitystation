@@ -51,7 +51,8 @@ namespace Weapons.Projectiles.Behaviours
 			Logger.LogTraceFormat(
 				"Hit {0} for {1} with HealthBehaviour! bullet absorbed",
 				Category.Firearms,
-				livingHealth.gameObject.name, damageData.Damage);
+				livingHealth.gameObject.name,
+				newDamage);
 
 			return true;
 		}

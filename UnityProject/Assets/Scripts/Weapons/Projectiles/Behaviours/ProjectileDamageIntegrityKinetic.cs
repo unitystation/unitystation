@@ -50,14 +50,14 @@ namespace Weapons.Projectiles.Behaviours
 				weapon.gameObject);
 
 			Logger.LogTraceFormat(
-				"Hit {0} for {1} with HealthBehaviour! bullet absorbed",
+				"Hit {0} for {1} with Integrity! bullet absorbed",
 				Category.Firearms,
 				integrity.gameObject.name,
-				damageData.Damage);
+				newDamage);
 
 			return true;
 		}
-		
+
 		private float DamageByPressureModifier(float pressure)
 		{
 			float newDamage = damageData.Damage * (-pressure / 135);
