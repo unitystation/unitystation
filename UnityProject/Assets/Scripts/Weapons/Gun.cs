@@ -651,19 +651,26 @@ namespace Weapons
 			{
 				b.Suicide(shooter, this, damageZone);
 			}
-			else if (ProjectilesFired != 1)
+			else
 			{
 				for (int n = 0; n > ProjectilesFired; n++)
 				{
-					b.Shoot(ApplyRecoil(finalDirection), shooter, this, damageZone);
+					var finalDirectionOverride = CalcDirection(finalDirection, n);
+					b.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}
-			}
-			else
-			{
-				b.Shoot(finalDirection, shooter, this, damageZone);
 			}
 			SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
+		}
+
+		private Vector2 CalcDirection(Vector2 direction, int iteration)
+		{
+			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+			float angleVariance = iteration/1.6f;
+			float angleDeviation = Random.Range(-angleVariance, angleVariance);
+			float newAngle = angle * Mathf.Deg2Rad + angleDeviation;
+			Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
+			return vec2;
 		}
 
 		#endregion
