@@ -19,9 +19,10 @@ public class GameData : MonoBehaviour
 {
 	private static GameData gameData;
 
-	[Tooltip("Only use this when offline or you can't reach the auth server! Allows the game to still work in that situation and " +
-	         " allows skipping login. Host player will also be given admin privs." +
-	         "Not supported in release builds.")]
+	[Tooltip(
+		"Only use this when offline or you can't reach the auth server! Allows the game to still work in that situation and " +
+		" allows skipping login. Host player will also be given admin privs." +
+		"Not supported in release builds.")]
 	[SerializeField]
 	private bool offlineMode = false;
 
@@ -44,7 +45,11 @@ public class GameData : MonoBehaviour
 	/// </summary>
 	public static bool IsInGame { get; private set; }
 
-	public static bool IsHeadlessServer { get; private set; }
+	public static bool IsHeadlessServer
+	{
+		get { return GameInfo.IsHeadlessServer; }
+		private set { GameInfo.IsHeadlessServer = value; }
+	}
 
 	public static string LoggedInUsername { get; set; }
 
@@ -71,11 +76,13 @@ public class GameData : MonoBehaviour
 
 	private void Init()
 	{
-		var buildInfo = JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath, "buildinfo.json")));
+		var buildInfo =
+			JsonUtility.FromJson<BuildInfo>(File.ReadAllText(Path.Combine(Application.streamingAssetsPath,
+				"buildinfo.json")));
 		BuildNumber = buildInfo.BuildNumber;
 		ForkName = buildInfo.ForkName;
 		forceOfflineMode = !string.IsNullOrEmpty(GetArgument("-offlinemode"));
-		Logger.Log($"Build Version is: {BuildNumber}. "+ (OfflineMode ? "Offline mode" : string.Empty) );
+		Logger.Log($"Build Version is: {BuildNumber}. " + (OfflineMode ? "Offline mode" : string.Empty));
 		CheckHeadlessState();
 
 		Environment.SetEnvironmentVariable("MONO_REFLECTION_SERIALIZER", "yes");
@@ -119,7 +126,8 @@ public class GameData : MonoBehaviour
 
 		if (LobbyManager.Instance == null) return;
 
-		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus($"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
+		LobbyManager.Instance.lobbyDialogue.ShowLoggingInStatus(
+			$"Loading user profile for {FirebaseAuth.DefaultInstance.CurrentUser.DisplayName}");
 
 		await FirebaseAuth.DefaultInstance.CurrentUser.TokenAsync(true).ContinueWithOnMainThread(
 			async task =>
@@ -131,7 +139,8 @@ public class GameData : MonoBehaviour
 				}
 			});
 
-		await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser, LobbyManager.Instance.lobbyDialogue.LoginSuccess,
+		await ServerData.ValidateUser(FirebaseAuth.DefaultInstance.CurrentUser,
+			LobbyManager.Instance.lobbyDialogue.LoginSuccess,
 			LobbyManager.Instance.lobbyDialogue.LoginError);
 	}
 
@@ -153,7 +162,8 @@ public class GameData : MonoBehaviour
 
 		if (response == null)
 		{
-			LobbyManager.Instance.lobbyDialogue.LoginError($"Unknown server error. Please check your logs for more information by press F5");
+			LobbyManager.Instance.lobbyDialogue.LoginError(
+				$"Unknown server error. Please check your logs for more information by press F5");
 			return;
 		}
 

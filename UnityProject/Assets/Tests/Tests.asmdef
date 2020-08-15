@@ -8,7 +8,8 @@
         "UnityEditor.TestRunner",
         "Editor",
         "Chemistry",
-        "SerializableDictionary"
+        "SerializableDictionary",
+        "Logger"
     ],
     "includePlatforms": [
         "Editor"
@@ -23,5 +24,6 @@
     "defineConstraints": [
         "UNITY_INCLUDE_TESTS"
     ],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }

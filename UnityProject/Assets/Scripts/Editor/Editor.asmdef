@@ -1,10 +1,11 @@
 {
     "name": "Editor",
     "references": [
-        "Assets",
         "Mirror",
         "Mirror.Components",
-        "Unity.TextMeshPro"
+        "Unity.TextMeshPro",
+        "Assets",
+        "Logger"
     ],
     "includePlatforms": [
         "Editor"
@@ -15,5 +16,6 @@
     "precompiledReferences": [],
     "autoReferenced": true,
     "defineConstraints": [],
-    "versionDefines": []
+    "versionDefines": [],
+    "noEngineReferences": false
 }
