@@ -2,10 +2,23 @@
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class Managers : MonoBehaviourSingleton<Managers>
+public class Managers : MonoBehaviour
 {
-	public string ServerIP;
+	public static Managers instance;
+
+	public string serverIP;
 	[Header("For turning UI on and off to free up the editor window")] public GameObject UIParent;
+	private void Awake()
+	{
+		if (instance == null)
+		{
+			instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
 
 	private void Start()
 	{

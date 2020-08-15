@@ -10,8 +10,11 @@ namespace GameConfig
 	/// <summary>
 	/// Config for in game stuff
 	/// </summary>
-	public class GameConfigManager : MonoBehaviourSingleton<GameConfigManager>
+	public class GameConfigManager : MonoBehaviour
 	{
+		private static GameConfigManager instance;
+		public static GameConfigManager Instance => instance;
+
 		private GameConfig config;
 
 		public static GameConfig GameConfig
@@ -22,9 +25,16 @@ namespace GameConfig
 			}
 		}
 
-		protected override void Awake()
+		private void Awake()
 		{
-			base.Awake();
+			if (instance == null)
+			{
+				instance = this;
+			}
+			else
+			{
+				Destroy(this);
+			}
 
 			//Load in awake so other scripts can get data in their start.
 			AttemptConfigLoad();

@@ -76,11 +76,19 @@ public enum MoveAction
 	MoveRight = KeyAction.MoveRight
 }
 
-public class KeybindManager : MonoBehaviourSingleton<KeybindManager>
-{
-	protected override void Awake()
+public class KeybindManager : MonoBehaviour {
+	public static KeybindManager Instance;
+
+	private void Awake()
 	{
-		base.Awake();
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
 
 		LoadKeybinds();
 	}

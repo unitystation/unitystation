@@ -143,7 +143,7 @@ public class GameData : MonoBehaviour
 
 		LobbyManager.Instance.lobbyDialogue.serverAddressInput.text = ip;
 		LobbyManager.Instance.lobbyDialogue.serverPortInput.text = port;
-		Managers.Instance.ServerIP = ip;
+		Managers.instance.serverIP = ip;
 
 		var refreshToken = new RefreshToken();
 		refreshToken.refreshToken = token;
@@ -219,12 +219,12 @@ public class GameData : MonoBehaviour
 		if (newScene.name == "Lobby")
 		{
 			IsInGame = false;
-			Managers.Instance.SetScreenForLobby();
+			Managers.instance.SetScreenForLobby();
 		}
 		else
 		{
 			IsInGame = true;
-			Managers.Instance.SetScreenForGame();
+			Managers.instance.SetScreenForGame();
 		}
 
 		if (CustomNetworkManager.Instance.isNetworkActive)

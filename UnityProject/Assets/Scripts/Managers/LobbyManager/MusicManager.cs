@@ -4,8 +4,21 @@ using Random = UnityEngine.Random;
 
 namespace Audio.Containers
 {
-	public class MusicManager : MonoBehaviourSingleton<MusicManager>
+	public class MusicManager : MonoBehaviour
 	{
+		private static MusicManager musicManager;
+		public static MusicManager Instance
+		{
+			get
+			{
+				if (musicManager == null)
+				{
+					musicManager = FindObjectOfType<MusicManager>();
+				}
+
+				return musicManager;
+			}
+		}
 
 		[SerializeField] private SongTracker songTracker = null;
 		/// <summary>

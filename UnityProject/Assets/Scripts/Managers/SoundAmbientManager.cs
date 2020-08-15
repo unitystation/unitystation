@@ -6,8 +6,22 @@ using UnityEngine.Audio;
 
 namespace Audio.Managers
 {
-	public class SoundAmbientManager : MonoBehaviourSingleton<SoundAmbientManager>
+	public class SoundAmbientManager : MonoBehaviour
 	{
+		private static SoundAmbientManager soundAmbientManager;
+		public static SoundAmbientManager Instance
+		{
+			get
+			{
+				if (soundAmbientManager == null)
+				{
+					soundAmbientManager = FindObjectOfType<SoundAmbientManager>();
+				}
+
+				return soundAmbientManager;
+			}
+		}
+
 		/// <summary>
 		/// Cache of audioSources on the Manager
 		/// </summary>
