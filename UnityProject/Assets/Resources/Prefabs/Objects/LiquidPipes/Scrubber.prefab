@@ -57,7 +57,8 @@ MonoBehaviour:
     Outputs: []
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
-  MMinimumPressure: 80
+  SelfSufficient: 0
+  MMinimumPressure: 90
   MaxInternalPressure: 8000
   MaxTransferMoles: 100
 --- !u!1001 &6024525759947000772

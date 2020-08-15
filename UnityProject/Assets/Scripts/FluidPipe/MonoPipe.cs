@@ -39,7 +39,7 @@ namespace Pipes
 			int Offset = PipeFunctions.GetOffsetAngle(this.transform.localRotation.eulerAngles.z);
 			pipeData.Connections.Rotate(Offset);
 			pipeData.OnEnable();
-			spritehandler.SetColor(Colour);
+			spritehandler?.SetColor(Colour);
 		}
 
 		void OnDisable()

@@ -8,9 +8,11 @@ namespace Pipes
 {
 	public class AirVent : MonoPipe
 	{
+		public bool SelfSufficient = false;
+
 		// minimum pressure needs to be a little lower because of floating point inaccuracies
 		public float MaxTransferMoles = 100;
-		public float MaxOutletPressure = 120;
+		public float MaxOutletPressure = 110;
 
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;
@@ -46,42 +48,56 @@ namespace Pipes
 		private void CheckAtmos()
 		{
 			//metaNode.GasMix = pipeData.mixAndVolume.EqualiseWithExternal(metaNode.GasMix);
-
-			var PressureDensity = pipeData.mixAndVolume.Density();
-			if (metaNode.GasMix.Pressure> MaxOutletPressure)
+			if (metaNode.GasMix.Pressure > MaxOutletPressure)
 			{
 				return;
 			}
 
-			float Available = pipeData.mixAndVolume.Density().y;
-			if (Available == 0)
-			{
-				return;
-			}
+			float Available =
+				((MaxOutletPressure / metaNode.GasMix.Pressure) * metaNode.GasMix.Moles) - metaNode.GasMix.Moles;
 
 			if (MaxTransferMoles < Available)
 			{
 				Available = MaxTransferMoles;
 			}
 
+			if (SelfSufficient)
+			{
+				if (Available > GasMixes.Air.Moles)
+				{
+					Available = GasMixes.Air.Moles;
+				}
+			}
+			else
+			{
+				if (Available > pipeData.mixAndVolume.Total.y)
+				{
+					Available = pipeData.mixAndVolume.Total.y;
+				}
+			}
+
+
 			var Gasonnnode = metaNode.GasMix;
-			var pipeMix = pipeData.mixAndVolume.GetGasMix();
+			var pipeMix = new GasMix(GasMixes.Empty);
+			if (SelfSufficient)
+			{
+				pipeMix = new GasMix(GasMixes.Air);
+			}
+			else
+			{
+				pipeMix = pipeData.mixAndVolume.GetGasMix();
+			}
+
+
 			var TransferringGas = pipeMix.RemoveMoles(Available);
-			pipeData.mixAndVolume.SetGasMix(pipeMix);
+			if (!SelfSufficient)
+			{
+				pipeData.mixAndVolume.SetGasMix(pipeMix);
+			}
+
+
 			metaNode.GasMix = (Gasonnnode + TransferringGas);
 			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer);
-			//if (metaNode.GasMix.Pressure < MinimumPressure)
-			//{
-				//TODO: Can restore this when pipenets are implemented so they actually pull from what
-				//they are connected to. In the meantime
-				//we are reverting scrubbers / airvents to the old behavior of just shoving or removing air
-				//regardless of what they are connected to.
-				// GasMix gasMix = pipenet.gasMix;
-				// pipenet.gasMix = gasMix / 2;
-				// metaNode.GasMix = metaNode.GasMix + gasMix;
-				//metaNode.GasMix = new GasMix(GasMixes.Air);
-
-			//}
 		}
 	}
 }

@@ -7,8 +7,9 @@ namespace Pipes
 {
 	public class Scrubber : MonoPipe
 	{
+		public bool SelfSufficient = false;
 		// minimum pressure needs to be a little lower because of floating point inaccuracies
-		public float MMinimumPressure = 80.00f;
+		public float MMinimumPressure = 90.00f;
 
 		public float MaxInternalPressure = 10000f;
 
@@ -49,14 +50,25 @@ namespace Pipes
 
 		private void CheckAtmos()
 		{
-
-			var PressureDensity = pipeData.mixAndVolume.Density();
-			if (PressureDensity.y > MaxInternalPressure || metaNode.GasMix.Pressure < MMinimumPressure )
+			if (SelfSufficient == false)
 			{
-				return;
+				var PressureDensity = pipeData.mixAndVolume.Density();
+				if (PressureDensity.y > MaxInternalPressure || metaNode.GasMix.Pressure < MMinimumPressure )
+				{
+					return;
+				}
+			}
+			else
+			{
+				if (metaNode.GasMix.Pressure < MMinimumPressure)
+				{
+					return;
+				}
 			}
 
-			float Available = metaNode.GasMix.Moles;
+
+			float Available = metaNode.GasMix.Moles -
+			                  ((MMinimumPressure / metaNode.GasMix.Pressure) * metaNode.GasMix.Moles);
 
 
 			if (MaxTransferMoles < Available)
@@ -67,7 +79,11 @@ namespace Pipes
 			var Gasonnnode = metaNode.GasMix;
 			var TransferringGas = Gasonnnode.RemoveMoles(Available);
 			metaNode.GasMix = Gasonnnode;
-			pipeData.mixAndVolume.Add(TransferringGas);
+			if (SelfSufficient == false)
+			{
+				pipeData.mixAndVolume.Add(TransferringGas);
+			}
+
 			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer);
 		}
 	}

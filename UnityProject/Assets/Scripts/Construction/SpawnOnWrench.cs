@@ -4,7 +4,11 @@ using UnityEngine;
 
 public class SpawnOnWrench : MonoBehaviour, ICheckedInteractable<HandApply>
 {
-	public GameObject toSpawn = null;
+	[Tooltip("what is Spawned when you wrench it")]
+	[SerializeField]
+	private GameObject toSpawn = null;
+
+	public GameObject gameObject => toSpawn;
 	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
