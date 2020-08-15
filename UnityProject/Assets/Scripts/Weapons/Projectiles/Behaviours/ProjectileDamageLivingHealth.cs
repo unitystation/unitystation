@@ -1,4 +1,5 @@
-﻿using ScriptableObjects.Gun;
+﻿using PathFinding;
+using ScriptableObjects.Gun;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
@@ -11,7 +12,7 @@ namespace Weapons.Projectiles.Behaviours
 		private GameObject shooter;
 		private Gun weapon;
 		private BodyPartType targetZone;
-
+		
 		[SerializeField] private DamageData damageData = null;
 
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
@@ -31,6 +32,7 @@ namespace Weapons.Projectiles.Behaviours
 			var coll = hit.collider;
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
 			if (livingHealth == null) return false;
+		
 
 			livingHealth.ApplyDamageToBodypart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
 
