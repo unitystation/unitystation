@@ -216,7 +216,9 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 			//Server fuel burning:
 			if (isServer)
 			{
-				reagentContainer.TakeReagents(.041f);
+				//With the variable below, it takes about 3:40 minutes (or 220 seconds) for a emergency welding tool (starts with 10 fuel) to run dry. In /tg/ it would have taken about 4:30 minutes (or 270 seconds). - PM
+				//Original variable below was 0.041f (emergency welder ran out after about 25 seconds with it). - PM
+				reagentContainer.TakeReagents(0.005f);
 
 				//Ran out of fuel
 				if (FuelAmount <= 0f)

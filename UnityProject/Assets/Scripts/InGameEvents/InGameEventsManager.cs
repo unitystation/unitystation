@@ -13,8 +13,11 @@ namespace InGameEvents
 	/// <summary>
 	/// The controller for in game events
 	/// </summary>
-	public class InGameEventsManager : MonoBehaviourSingleton<InGameEventsManager>
+	public class InGameEventsManager : MonoBehaviour
 	{
+		private static InGameEventsManager instance;
+		public static InGameEventsManager Instance => instance;
+
 		private float timer = 0f;
 
 		/// <summary>
@@ -36,9 +39,17 @@ namespace InGameEvents
 		[HideInInspector]
 		public List<string> EnumListCache = new List<string>();
 
-		protected override void Awake()
+
+		private void Awake()
 		{
-			base.Awake();
+			if (instance == null)
+			{
+				instance = this;
+			}
+			else
+			{
+				Destroy(this);
+			}
 
 			EnumListCache = Enum.GetNames(typeof(InGameEventType)).ToList();
 		}

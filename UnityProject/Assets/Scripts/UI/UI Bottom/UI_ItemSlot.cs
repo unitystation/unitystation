@@ -218,7 +218,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 			ItemAttributesV2 itemAttrs = item.GetComponent<ItemAttributesV2>();
 
-			spriteRends = spriteRends.Where(x => x.sprite != null && x != Highlight.Instance.spriteRenderer).ToArray();
+			spriteRends = spriteRends.Where(x => x.sprite != null && x != Highlight.instance.spriteRenderer).ToArray();
 			sprite = spriteRends[0].sprite;
 			image.sprite = sprite;
 			image.color = spriteRends[0].color;

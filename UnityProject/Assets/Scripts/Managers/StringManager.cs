@@ -2,8 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StringManager : MonoBehaviourSingleton<StringManager>
+public class StringManager : MonoBehaviour
 {
+	private static StringManager stringManager;
+	public static StringManager Instance
+	{
+		get
+		{
+			if (stringManager == null)
+			{
+				stringManager = FindObjectOfType<StringManager>();
+			}
+			return stringManager;
+		}
+	}
+
 	/// <summary>
 	/// The PlayerPref key for ChatBubble preference.
 	/// Use PlayerPrefs.GetInt(chatBubblePref) to determine the players
