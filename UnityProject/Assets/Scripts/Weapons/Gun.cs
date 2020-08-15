@@ -22,22 +22,34 @@ namespace Weapons
 	private static readonly float MIN_SHAKE_INTENSITY = 0.01f;
 	*/
 
+		/// <summary>
+		/// Prefab to be spawned within on roundstart
+		/// </summary>
+		[SerializeField, Tooltip("The prefab to be spawned within the weapon on roundstart")]
+		protected GameObject ammoPrefab = null;
+
+		/// <summary>
+		/// Link to the generic internal mag prefab, if this link is incorrect all internal mag weapons will not function!
+		/// </summary>
 		[SerializeField]
-		protected private GameObject ammoPrefab = null;
-		[SerializeField]
-		protected private GameObject genericInternalMag = null;
-		[SerializeField]
+		protected GameObject genericInternalMag = null;
+
+		/// <summary>
+		/// Optional ejected casing override, will default to the standard casing if left null and will only be used if SpawnsCasing is true
+		/// </summary>
+		[SerializeField, Tooltip("Optional casing override, defaults to standard casing when null")]
 		private GameObject casingPrefabOverride = null;
+
 		/// <summary>
 		/// If false prevents players from removing the magazine from their weapon.
 		/// </summary>
-		[SerializeField]
+		[SerializeField, Tooltip("If the player is allowed to remove a loaded mag")]
 		private bool allowMagazineRemoval = true;
 
 		/// <summary>
-		///     The type of ammo this weapon will allow, this is a string and not an enum for diversity
+		/// The type of ammo this weapon will allow, this is a string and not an enum for diversity
 		/// </summary>
-		[FormerlySerializedAs("AmmoType")] 
+		[FormerlySerializedAs("AmmoType"), Tooltip("The type of ammo this weapon will use")]
 		public AmmoType ammoType;
 
 		//server-side object indicating the player holding the weapon (null if none)
@@ -46,88 +58,102 @@ namespace Weapons
 
 
 		/// <summary>
-		///     The current magazine for this weapon, null means empty
+		/// The current magazine for this weapon, null means empty
 		/// </summary>
 		public MagazineBehaviour CurrentMagazine =>
 			magSlot.Item != null ? magSlot.Item.GetComponent<MagazineBehaviour>() : null;
 
 		/// <summary>
-		///     Checks if the weapon should spawn weapon casings
+		/// Checks if the weapon should spawn weapon casings
 		/// </summary>
+		[Tooltip("If the weapon should spawn casings ")]
 		public bool SpawnsCasing = true;
 
 		/// <summary>
-		///     Whether the gun uses an internal magazine.
+		/// Whether the gun uses an internal magazine.
 		/// </summary>
-		[HideInInspector] // will be shown by the code at the very end, if appropriate
+		[HideInInspector, Tooltip("Effects if the gun will use an internal mag")] // will be shown by the code at the very end, if appropriate
 		public bool MagInternal = false;
 
-		[HideInInspector]
-		public double burstCooldown = 3; //cooldown between full bursts in seconds
+		/// <summary>
+		/// The cooldown between full bursts in seconds
+		/// <summary>
+		[HideInInspector, Tooltip("The cooldown between full a burst in seconds")] // will be shown by the code at the very end, if appropriate
+		public double burstCooldown = 3;
 
-		[HideInInspector]
+		/// <summary>
+		/// The number of allowed shots in a burst
+		/// </summary>
+		[HideInInspector, Tooltip("The number of bullets in a full burst")] // will be shown by the code at the very end, if appropriate
 		public double burstCount = 3;
 		private double currentBurstCount = 0;
 
 		/// <summary>
-		///     If the gun should eject it's magazine automatically (external-magazine-specific)
+		/// If the gun should eject it's magazine automatically (external-magazine-specific)
 		/// </summary>
-		[HideInInspector] // will be shown by the code at the very end, if appropriate
+		[HideInInspector, Tooltip("If the gun should eject an empty mag automatically")] // will be shown by the code at the very end, if appropriate
 		public bool SmartGun = false;
 
 		/// <summary>
-		///     Size of the internal magazine (internal-magazine-specific)
+		/// Size of the internal magazine (internal-magazine-specific)
 		/// </summary>
-		[HideInInspector] // will be shown by the code at the very end, if appropriate
+		[HideInInspector, Tooltip("Size of the internal mag")] // will be shown by the code at the very end, if appropriate
 		public int MagSize = 10;
 
 		/// <summary>
-		///     The the current recoil variance this weapon has reached
+		/// The the current recoil variance this weapon has reached
 		/// </summary>
 		[HideInInspector]
 		public float CurrentRecoilVariance;
 
 		/// <summary>
-		///     The countdown untill we can shoot again (seconds)
+		/// The countdown untill we can shoot again (seconds)
 		/// </summary>
 		[HideInInspector]
 		public double FireCountDown;
 
 		/// <summary>
-		///     The the name of the sound this gun makes when shooting
+		/// The name of the sound this gun makes when shooting
 		/// </summary>
-		[FormerlySerializedAs("FireingSound")]
+		[FormerlySerializedAs("FireingSound"), Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
 		public string FiringSound;
 
 		/// <summary>
-		///     The amount of times per second this weapon can fire
+		/// The amount of times per second this weapon can fire
 		/// </summary>
+		[Tooltip("The amount of times per second this weapon can fire")]
 		public double FireRate;
 
 		/// <summary>
-		///     If suicide shooting should be prevented (for when user inadvertently drags over themselves during a burst)
+		/// If suicide shooting should be prevented (for when user inadvertently drags over themselves during a burst)
 		/// </summary>
+		[Tooltip("If suicide shots should be prevented (if the user accidentally mouses over themselves during a shot")]
 		protected bool AllowSuicide;
 
 		//TODO connect these with the actual shooting of a projectile
 		/// <summary>
-		///     The max recoil angle this weapon can reach with sustained fire
+		/// The max recoil angle this weapon can reach with sustained fire
 		/// </summary>
 		public float MaxRecoilVariance;
 
 		/// <summary>
-		///     The projectile fired from this weapon
+		/// The projectile fired from this weapon
 		/// </summary>
+		[Tooltip("The projectile fired from this weapon")]
 		public GameObject Projectile;
 
+		//TODO: make this dependent on the mag/projectile
 		/// <summary>
-		///     The amount of projectiles expended per shot
+		/// The amount of projectiles spawned per shot
 		/// </summary>
+		[HideInInspector]
 		public int ProjectilesFired = 1;
 
+		//TODO: make this dependent on the mag used/projectile fired
 		/// <summary>
-		///     The traveling speed for this weapons projectile
+		/// The traveling speed for this weapons projectile
 		/// </summary>
+		[Tooltip("The speed of the projectile")]
 		public int ProjectileVelocity;
 
 		/// <summary>
@@ -137,9 +163,11 @@ namespace Weapons
 		public CameraRecoilConfig CameraRecoilConfig;
 
 		/// <summary>
-		///     Current Weapon Type
+		/// The firemode this weapon will use (burst,semi,auto)
 		/// </summary>
+		[Tooltip("The firemode this weapon will use")]
 		public WeaponType WeaponType;
+
 		/// <summary>
 		/// Used only in server, the queued up shots that need to be performed when the weapon FireCountDown hits
 		/// 0.
@@ -828,7 +856,7 @@ namespace Weapons
 	}
 
 	/// <summary>
-	///     Generic weapon types
+	/// Generic weapon types
 	/// </summary>
 	public enum WeaponType
 	{
