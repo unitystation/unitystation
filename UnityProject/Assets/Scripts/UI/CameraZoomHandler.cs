@@ -96,9 +96,9 @@ public class CameraZoomHandler : MonoBehaviour
 
 		pixelPerfectCamera.assetsPPU = displaySettings.ZoomLevel;
 
-		if (Camera2DFollow.Instance != null)
+		if (Camera2DFollow.followControl != null)
 		{
-			Camera2DFollow.Instance.SetCameraXOffset();
+			Camera2DFollow.followControl.SetCameraXOffset();
 		}
 	}
 

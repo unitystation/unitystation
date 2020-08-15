@@ -11,12 +11,12 @@ GameObject:
   - component: {fileID: 4714298942886824}
   - component: {fileID: 9042530041850991039}
   - component: {fileID: 2209393079759289604}
-  - component: {fileID: 4300721534247589467}
-  - component: {fileID: 1359938737527134602}
   - component: {fileID: -8693131252183625486}
   - component: {fileID: 9003359558003690106}
   - component: {fileID: 1493011074598266216}
   - component: {fileID: -4913459525873161872}
+  - component: {fileID: -3158571087591883880}
+  - component: {fileID: -3976592693929525579}
   m_Layer: 15
   m_Name: Bullet_KineticShot
   m_TagString: Untagged
@@ -66,32 +66,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damageData: {fileID: 11400000, guid: 85c028573e7db4840a963fb98f8f51d5, type: 2}
   layersToHit: 0100000005000000
---- !u!114 &4300721534247589467
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560634355228308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d70ae2b37cb4b968940202a913ec83d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageData: {fileID: 11400000, guid: 85c028573e7db4840a963fb98f8f51d5, type: 2}
---- !u!114 &1359938737527134602
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1560634355228308}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adf0dc66e3234a3e981ce95ec474efa7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageData: {fileID: 11400000, guid: 85c028573e7db4840a963fb98f8f51d5, type: 2}
 --- !u!114 &-8693131252183625486
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -144,3 +118,29 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1cf871ef24ba47c1820a9934ab8aa38d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-3158571087591883880
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560634355228308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c947e60f3fd594e4f9766887455579e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageData: {fileID: 11400000, guid: 85c028573e7db4840a963fb98f8f51d5, type: 2}
+--- !u!114 &-3976592693929525579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1560634355228308}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ecc36869a26672d48879a8c70f8e0c11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageData: {fileID: 11400000, guid: 85c028573e7db4840a963fb98f8f51d5, type: 2}

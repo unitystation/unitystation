@@ -53,7 +53,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 					return;
 				}
 				float intensity = Mathf.Clamp(ShakeParameters.ShakeIntensity / (float)byte.MaxValue, 0.01f, 10f);
-				Camera2DFollow.Instance.Shake(intensity, intensity);
+				Camera2DFollow.followControl.Shake(intensity, intensity);
 			}
 		}
 

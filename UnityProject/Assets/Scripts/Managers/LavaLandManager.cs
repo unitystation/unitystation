@@ -7,8 +7,11 @@ using UnityEngine;
 using UnityEditor;
 using Random = UnityEngine.Random;
 
-public class LavaLandManager : MonoBehaviourSingleton<LavaLandManager>
+public class LavaLandManager : MonoBehaviour
 {
+	private static LavaLandManager instance;
+	public static LavaLandManager Instance => instance;
+
 	public List<LavaLandRandomAreaSO> areaSOs = new List<LavaLandRandomAreaSO>();
 
 	private List<LavaLandData> dataList = new List<LavaLandData>();
@@ -46,6 +49,18 @@ public class LavaLandManager : MonoBehaviourSingleton<LavaLandManager>
 	/// </summary>
 	[HideInInspector]
 	public QuantumPad LavaLandBase2Connector;
+
+	private void Awake()
+	{
+		if (instance == null)
+		{
+			instance = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+	}
 
 	private void OnEnable()
 	{

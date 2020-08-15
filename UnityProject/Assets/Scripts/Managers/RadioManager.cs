@@ -5,9 +5,26 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// Serverside radio management tool. Clients cannot send radio messages! If you wish to send a radio message, call it on the server!
 /// </summary>
-public class RadioManager : MonoBehaviourSingleton<RadioManager>
+public class RadioManager : MonoBehaviour
 {
+	private static RadioManager radioManager;
+
+
+	public static RadioManager Instance
+	{
+		get
+		{
+			if (!radioManager)
+			{
+				radioManager = FindObjectOfType<RadioManager>();
+			}
+
+			return radioManager;
+		}
+	}
+
 	private RadioMessager LastRadioMessager = null;
+
 
 	private List<RadioReceiver> receivers = new List<RadioReceiver>();
 

@@ -3,10 +3,11 @@ using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
 
-public class VersionCheck : MonoBehaviourSingleton<VersionCheck>
+public class VersionCheck : MonoBehaviour
 {
 	private const string VERSION_NUMBER = "0.1.3";
 	private const string urlCheck = "http://doobly.izz.moe/unitystation/checkversion.php";
+	private static VersionCheck versionCheck;
 	public GameObject errorWindow;
 
 	public GameObject loginWindow;
@@ -15,6 +16,18 @@ public class VersionCheck : MonoBehaviourSingleton<VersionCheck>
 
 	public Text versionText;
 	public Text yourVerText;
+
+	public static VersionCheck Instance
+	{
+		get
+		{
+			if (!versionCheck)
+			{
+				versionCheck = FindObjectOfType<VersionCheck>();
+			}
+			return versionCheck;
+		}
+	}
 
 	private void Start()
 	{

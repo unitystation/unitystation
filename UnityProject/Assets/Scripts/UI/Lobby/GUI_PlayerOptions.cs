@@ -105,7 +105,7 @@ public class GUI_PlayerOptions : MonoBehaviour
 	{
 		if (BuildPreferences.isForRelease)
 		{
-			networkManager.networkAddress = Managers.Instance.ServerIP;
+			networkManager.networkAddress = Managers.instance.serverIP;
 			networkManager.StartClient();
 			return;
 		}

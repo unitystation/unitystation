@@ -6,8 +6,17 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// For server.
 /// </summary>
-public class NetworkTabManager : MonoBehaviourSingleton<NetworkTabManager>
-{
+public class NetworkTabManager : MonoBehaviour {
+
+	private static NetworkTabManager networkTabManager;
+	public static NetworkTabManager Instance{
+		get {
+			if(networkTabManager == null){
+				networkTabManager = FindObjectOfType<NetworkTabManager>();
+			}
+			return networkTabManager;
+		}
+	}
 	private readonly Dictionary<NetTabDescriptor, NetTab> openTabs = new Dictionary<NetTabDescriptor, NetTab>();
 
 	public List<ConnectedPlayer> GetPeepers(GameObject provider, NetTabType type)

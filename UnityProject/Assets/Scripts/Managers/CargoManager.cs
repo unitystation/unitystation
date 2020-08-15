@@ -6,8 +6,10 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 
-public class CargoManager : MonoBehaviourSingleton<CargoManager>
+public class CargoManager : MonoBehaviour
 {
+	public static CargoManager Instance;
+
 	public int Credits;
 	public ShuttleStatus ShuttleStatus = ShuttleStatus.DockedStation;
 	public float CurrentFlyTime = 0f;
@@ -34,6 +36,18 @@ public class CargoManager : MonoBehaviourSingleton<CargoManager>
 	private float shuttleFlyDuration = 10f;
 
 	private Dictionary<string, ExportedItem> exportedItems = new Dictionary<string, ExportedItem>();
+
+	private void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(this);
+		}
+	}
 
 	private void OnEnable()
 	{
