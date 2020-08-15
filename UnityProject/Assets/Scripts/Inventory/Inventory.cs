@@ -553,24 +553,4 @@ public static class Inventory
 		}
 
 	}
-
-	/// <summary>
-	/// Use this to update the secondary image displayed in a local UI slot when the object's secondary sprite
-	/// has changed somehow.
-	/// If the provided object is in an item slot linked to a local UI slot, changes
-	/// the local UI slot's secondary image to the provided Sprite
-	///
-	/// If it's not in a slot, this has no effect.
-	/// </summary>
-	/// <param name="forObject"></param>
-	public static void UpdateSecondaryUISlotImage(GameObject forObject, Sprite newSecondaryImage)
-	{
-		if (forObject == null) return;
-		var pu = forObject.GetComponent<Pickupable>();
-		if (pu != null)
-		{
-			pu.UpdateSecondaryUISlotImage(newSecondaryImage);
-		}
-
-	}
 }
