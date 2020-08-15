@@ -4,7 +4,7 @@ name: Auto helpers
 on:
   push:
     branches: [ develop ]
-  pull_request:
+  pull_request_target:
     branches: [ develop ]
     
 jobs:
