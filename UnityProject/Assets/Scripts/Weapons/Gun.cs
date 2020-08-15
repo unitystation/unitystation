@@ -681,7 +681,7 @@ namespace Weapons
 			}
 			else
 			{
-				for (int n = 0; n > ProjectilesFired; n++)
+				for (int n = 0; n < ProjectilesFired; n++)
 				{
 					var finalDirectionOverride = CalcDirection(finalDirection, n);
 					b.Shoot(finalDirectionOverride, shooter, this, damageZone);

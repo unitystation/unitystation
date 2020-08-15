@@ -59,8 +59,8 @@ namespace Weapons.Projectiles.Behaviours
 
 		private float DamageByPressureModifier(float pressure)
 		{
-			float newDamage = damageData.Damage * (-pressure / 135);
-			return Mathf.Clamp(newDamage, -1.0f, 0.0f) + 1;
+			float newDamage = damageData.Damage - (damageData.Damage * (pressure / 135));
+			return Mathf.Clamp(newDamage, 0, damageData.Damage);
 		}
 
 		private void OnDisable()
