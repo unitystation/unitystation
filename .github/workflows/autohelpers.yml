@@ -11,17 +11,20 @@ jobs:
   autohelpers:
     runs-on: ubuntu-latest
     steps:
+    
       - name: scene changes detector
+        uses: actions/labeler@v3-preview
+        if: ${{ github.event_name == 'pull_request' }}
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: mschilde/auto-label-merge-conflicts@v2.0
         
       - name: conflicts check
+        if: ${{ github.event_name == 'push' }}
+        uses: mschilde/auto-label-merge-conflicts@v2.0
         with:
           CONFLICT_LABEL_NAME: "Merge Conflicts"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        if: ${{ github.event_name == 'push' }}
-        uses: mschilde/auto-label-merge-conflicts@master
+        
+        
         
         
