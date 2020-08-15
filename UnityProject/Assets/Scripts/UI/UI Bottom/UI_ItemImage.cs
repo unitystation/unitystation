@@ -3,6 +3,10 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// This class manages items sprites rendering for UI Images
+/// It creates new Image instances in root gameobject for each sprite render in item
+/// </summary>
 public class UI_ItemImage
 {
 	private readonly GameObject root;
@@ -10,7 +14,12 @@ public class UI_ItemImage
 
 	private Stack<Image> usedImages = new Stack<Image>();
 	private Stack<Image> freeImages = new Stack<Image>();
+	private Image overlay;
 
+	/// <summary>
+	/// The first sprite in rendered item
+	/// Null if there is no item
+	/// </summary>
 	public Sprite MainSprite
 	{
 		get
@@ -28,11 +37,22 @@ public class UI_ItemImage
 		}
 	}
 
+	/// <summary>
+	/// 
+	/// </summary>
+	/// <param name="root">Object to be used as parent for new Image instances</param>
 	public UI_ItemImage(GameObject root)
 	{
 		this.root = root;
+
+		// generate and hide overlay image
+		overlay = CreateNewImage("uiItemImageOverlay");
+		SetOverlay(null);
 	}
 
+	/// <summary>
+	/// Disable all sprites, but not reset their value
+	/// </summary>
 	public void SetHidden(bool hidden)
 	{
 		this.hidden = hidden;
@@ -43,6 +63,9 @@ public class UI_ItemImage
 		}
 	}
 
+	/// <summary>
+	/// Display item as a composition of Image objects in UI
+	/// </summary>
 	public void ShowItem(GameObject item, Color? forcedColor = null)
 	{
 		// hide previous image
@@ -101,6 +124,29 @@ public class UI_ItemImage
 		}
 	}
 
+	/// <summary>
+	/// Set overlay image for item (like handcufs icon)
+	/// Null to clear sprite and hide image
+	/// </summary>
+	/// <param name="sprite"></param>
+	public void SetOverlay(Sprite overlaySprite)
+	{
+		if (overlaySprite != null)
+		{
+			overlay.sprite = overlaySprite;
+			overlay.enabled = !hidden;
+			overlay.preserveAspect = true;
+		}
+		else
+		{
+			overlay.sprite = null;
+			overlay.enabled = false;
+		}
+	}
+
+	/// <summary>
+	/// Disable all images and reset their sprites
+	/// </summary>
 	public void ClearAll()
 	{
 		while (usedImages.Count != 0)
@@ -109,6 +155,8 @@ public class UI_ItemImage
 			freeImages.Push(img);
 			img.enabled = false;
 		}
+
+		SetOverlay(null);
 	}
 
 	private Image GetFreeImage()
@@ -127,9 +175,9 @@ public class UI_ItemImage
 		return ret;
 	}
 
-	private Image CreateNewImage()
+	private Image CreateNewImage(string name = "uiItemImage")
 	{
-		var go = new GameObject("image", typeof(RectTransform));
+		var go = new GameObject(name, typeof(RectTransform));
 
 		var rt = go.GetComponent<RectTransform>();
 		rt.SetParent(root.transform);

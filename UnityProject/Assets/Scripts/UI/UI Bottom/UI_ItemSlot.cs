@@ -62,7 +62,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	private bool hidden;
 	private UI_ItemImage image;
-	private Image overlay;
 	private ItemSlot itemSlot;
 	private Text amountText;
 
@@ -75,7 +74,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		}
 
 		image = new UI_ItemImage(gameObject);
-		overlay = GetComponentsInChildren<Image>()[1];
 		hidden = initiallyHidden;
 	}
 
@@ -204,17 +202,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	public void SetSecondaryImage(Sprite sprite)
 	{
-		if (overlay != null)
-		{
-			overlay.sprite = sprite;
-			overlay.enabled = !hidden;
-			overlay.preserveAspect = true;
-		}
-		else
-		{
-			overlay.sprite = null;
-			overlay.enabled = false;
-		}
+		image.SetOverlay(sprite);
 	}
 
 	/// <summary>
