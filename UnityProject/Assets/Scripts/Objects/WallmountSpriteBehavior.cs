@@ -58,7 +58,7 @@ public class WallmountSpriteBehavior : MonoBehaviour {
 		else
 		{
 			// recalculate if it is facing the player
-			visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.Instance.target.position);
+			visible = wallmountBehavior.IsFacingPosition(Camera2DFollow.followControl.target.position);
 		}
 		spriteRenderer.color = new Color(spriteRenderer.color.r, spriteRenderer.color.g, spriteRenderer.color.b, visible ? 1 : 0);
 	}

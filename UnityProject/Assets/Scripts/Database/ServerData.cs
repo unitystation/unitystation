@@ -6,13 +6,28 @@ using UnityEngine;
 
 namespace DatabaseAPI
 {
-	public partial class ServerData : MonoBehaviourSingleton<ServerData>
+	public partial class ServerData : MonoBehaviour
 	{
 		class Status
 		{
 			public bool error = false;
 			public bool profileSet = false;
 			public bool charReceived = false;
+		}
+
+		private static ServerData serverData;
+
+		public static ServerData Instance
+		{
+			get
+			{
+				if (serverData == null)
+				{
+					serverData = FindObjectOfType<ServerData>();
+				}
+
+				return serverData;
+			}
 		}
 
 		public static string UserFirestoreURL
@@ -52,10 +67,8 @@ namespace DatabaseAPI
 
 		public static HttpClient HttpClient => Instance.httpClient;
 
-		protected override void Awake()
+		void Awake()
 		{
-			base.Awake();
-
 			//Handles config for RCON and Server Status API for dedicated servers
 			AttemptConfigLoad();
 			InitializeFirebase();

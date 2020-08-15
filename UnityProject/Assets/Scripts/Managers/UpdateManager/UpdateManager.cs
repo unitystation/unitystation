@@ -10,8 +10,15 @@ using UnityEngine.Serialization;
 ///     Handling the updates from a single point decreases cpu time
 ///     and increases performance
 /// </summary>
-public class UpdateManager : MonoBehaviourSingleton<UpdateManager>
+public class UpdateManager : MonoBehaviour
 {
+	private static UpdateManager instance;
+
+	public static UpdateManager Instance
+	{
+		get { return instance; }
+	}
+
 	private Dictionary<CallbackType, CallbackCollection> collections;
 
 	private List<Action> updateActions = new List<Action>();
@@ -42,7 +49,7 @@ public class UpdateManager : MonoBehaviourSingleton<UpdateManager>
 
 	public static bool IsInitialized
 	{
-		get { return Instance != null; }
+		get { return instance != null; }
 	}
 
 	private class NamedAction
@@ -60,20 +67,26 @@ public class UpdateManager : MonoBehaviourSingleton<UpdateManager>
 		public readonly Dictionary<Action, NamedAction> ActionDictionary = new Dictionary<Action, NamedAction>(128);
 	}
 
-	protected override void Awake()
+	private void Awake()
 	{
-		base.Awake();
+		if (instance != null)
+		{
+			Destroy(gameObject);
+			return;
+		}
 
 		collections = new Dictionary<CallbackType, CallbackCollection>(3, new CallbackTypeComparer());
 		foreach (CallbackType callbackType in Enum.GetValues(typeof(CallbackType)))
 		{
 			collections.Add(callbackType, new CallbackCollection());
 		}
+
+		instance = this;
 	}
 
 	public static void Add(CallbackType type, Action action)
 	{
-		Instance.AddCallbackInternal(type, action);
+		instance.AddCallbackInternal(type, action);
 	}
 
 	public static void Add(Action action, float TimeInterval)
@@ -89,9 +102,9 @@ public class UpdateManager : MonoBehaviourSingleton<UpdateManager>
 
 	public static void Add(ManagedNetworkBehaviour networkBehaviour)
 	{
-		Instance.AddCallbackInternal(CallbackType.UPDATE, networkBehaviour.UpdateMe);
-		Instance.AddCallbackInternal(CallbackType.FIXED_UPDATE, networkBehaviour.FixedUpdateMe);
-		Instance.AddCallbackInternal(CallbackType.LATE_UPDATE, networkBehaviour.LateUpdateMe);
+		instance.AddCallbackInternal(CallbackType.UPDATE, networkBehaviour.UpdateMe);
+		instance.AddCallbackInternal(CallbackType.FIXED_UPDATE, networkBehaviour.FixedUpdateMe);
+		instance.AddCallbackInternal(CallbackType.LATE_UPDATE, networkBehaviour.LateUpdateMe);
 	}
 
 	public static void Remove(CallbackType type, Action action)
@@ -306,6 +319,12 @@ public class UpdateManager : MonoBehaviourSingleton<UpdateManager>
 		}
 	}
 
+	private void OnDestroy()
+	{
+		if (instance == this)
+			instance = null;
+	}
+
 	public class TimedUpdate
 	{
 		public float TimeDelayPreUpdate = 0;
@@ -324,7 +343,7 @@ public class UpdateManager : MonoBehaviourSingleton<UpdateManager>
 			TimeDelayPreUpdate = 0;
 			TimeTitleNext = 0;
 			Action = null;
-			UpdateManager.Instance.pooledTimedUpdates.Add(this);
+			UpdateManager.instance.pooledTimedUpdates.Add(this);
 		}
 	}
 }

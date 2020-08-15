@@ -4,13 +4,26 @@ using UnityEngine.UI;
 
 namespace Lobby
 {
-	public class LobbyManager : MonoBehaviourSingleton<LobbyManager>
+	public class LobbyManager : MonoBehaviour
 	{
+		public static LobbyManager Instance;
 		public AccountLogin accountLogin;
 		public CharacterCustomization characterCustomization;
 		public Toggle hostToggle;
 
 		public GUI_LobbyDialogue lobbyDialogue;
+
+		void Awake()
+		{
+			if (Instance == null)
+			{
+				Instance = this;
+			}
+			else
+			{
+				Destroy(this);
+			}
+		}
 
 		void Start()
 		{
