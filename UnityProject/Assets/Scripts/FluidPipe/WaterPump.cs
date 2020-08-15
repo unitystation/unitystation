@@ -22,33 +22,44 @@ namespace Pipes
 
 		public override void TickUpdate()
 		{
-			float AvailableReagents = 0;
+			Vector2 AvailableReagents = new Vector2(0f,0f);
 			foreach (var Pipe in pipeData.ConnectedPipes)
 			{
 				if (pipeData.Outputs.Contains(Pipe) == false && CanEqualiseWithThis( Pipe))
 				{
 					var Data = PipeFunctions.PipeOrNet(Pipe);
-					AvailableReagents += Data.Mix.Total;
+					AvailableReagents += Data.Total;
 				}
 			}
 
-			float TotalRemove = 0;
-			if ((UnitPerTick * PowerPercentage) > AvailableReagents)
+			Vector2 TotalRemove = Vector2.zero;
+			if ((UnitPerTick * PowerPercentage) > AvailableReagents.x)
 			{
-				TotalRemove = AvailableReagents;
+				TotalRemove.x = AvailableReagents.x;
 			}
 			else
 			{
-				TotalRemove = (UnitPerTick * PowerPercentage);
+				TotalRemove.x =  (UnitPerTick * PowerPercentage);
 			}
+
+			if ((UnitPerTick * PowerPercentage) > AvailableReagents.y)
+			{
+				TotalRemove.y = AvailableReagents.y;
+			}
+			else
+			{
+				TotalRemove.y =  (UnitPerTick * PowerPercentage);
+			}
+
 
 			foreach (var Pipe in pipeData.ConnectedPipes)
 			{
 				if (pipeData.Outputs.Contains(Pipe) == false && CanEqualiseWithThis(Pipe))
 				{
+					//TransferTo
 					var Data = PipeFunctions.PipeOrNet(Pipe);
-					Data.Mix.TransferTo(pipeData.mixAndVolume.Mix,
-						(Data.Mix.Total / AvailableReagents) * TotalRemove);
+					Data.TransferTo(pipeData.mixAndVolume,
+						(Data.Total / AvailableReagents) * TotalRemove);
 				}
 			}
 

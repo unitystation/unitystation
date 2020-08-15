@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>
+public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
 {
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
@@ -22,6 +22,29 @@ public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>
 				         + $"Carbon dioxide : {node.GasMix.GasRatio(Atmospherics.Gas.CarbonDioxide) * 100:0.###} %\n";
 			}
 		}
+		Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
+	}
+
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	{
+		if (interaction.HandObject == null) return false;
+		if (Validations.IsInReach(interaction.PerformerPlayerScript.WorldPos, interaction.WorldPositionTarget) == false) return false;
+		return true;
+	}
+
+	public void ServerPerformInteraction(PositionalHandApply interaction)
+	{
+		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
+		MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
+		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
+		var matrix = interaction.Performer.GetComponentInParent<Matrix>();
+		string toShow = "";
+		foreach (var pipeNode in matrix.GetPipeConnections(localPosInt))
+		{
+			toShow += pipeNode.ToAnalyserExamineString() + "\n";
+		}
+
+
 		Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
 	}
 }

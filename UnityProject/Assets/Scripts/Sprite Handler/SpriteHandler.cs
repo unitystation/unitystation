@@ -27,6 +27,9 @@ public class SpriteHandler : MonoBehaviour
 
 	private int animationIndex = 0;
 
+	[SerializeField]
+	private bool pushTextureOnStartUp = true;
+
 	[Range(0, 3)] [SerializeField] private int variantIndex = 0;
 
 	private int cataloguePage = -1;
@@ -372,7 +375,11 @@ public class SpriteHandler : MonoBehaviour
 
 	void Awake()
 	{
-		GetImageComponent();
+		TryInit();
+	}
+
+	void Start()
+	{
 		TryInit();
 	}
 
@@ -460,9 +467,10 @@ public class SpriteHandler : MonoBehaviour
 		GetImageComponent();
 		ImageComponentStatus(false);
 		Initialised = true;
+
 		if (PresentSpriteSet != null)
 		{
-			if (HasImageComponent())
+			if (HasImageComponent() && pushTextureOnStartUp)
 			{
 				PushTexture(false);
 			}

@@ -102,14 +102,14 @@ public class GasContainerEditor : Editor
 			EditorGUILayout.LabelField(label);
 		}
 
-		EditorGUI.indentLevel++;
 		foreach (Gas gas in Gas.All)
 		{
 			result[gas] = EditorGUILayout.FloatField(gas.Name, values[gas]);
 		}
 
-		EditorGUI.indentLevel--;
 
 		return result;
 	}
 }
+
+

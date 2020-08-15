@@ -42,8 +42,7 @@ namespace Pipes
 			if (pipeData.OnNet == null)
 			{
 				pipeData.OnNet = this;
-				mixAndVolume.Mix.Add(pipeData.mixAndVolume.Mix);
-				mixAndVolume.Volume += pipeData.mixAndVolume.Volume;
+				mixAndVolume.Add(pipeData.mixAndVolume);
 				Covering.Add(pipeData);
 			}
 			else
@@ -60,10 +59,11 @@ namespace Pipes
 		{
 			pipeData.OnNet = null;
 
-			var Outmix = mixAndVolume.Mix.Take(mixAndVolume.Mix.Total / Covering.Count);
+			var Outmix = mixAndVolume.Take(pipeData.mixAndVolume);
 			Covering.Remove(pipeData);
-			mixAndVolume.Volume -= pipeData.mixAndVolume.Volume;
-			MatrixManager.ReagentReact(Outmix, pipeData.MatrixPos); //TODO AAAAAAAA Get the correct location
+
+			pipeData.SpillContent(Outmix);
+
 			SplitPipeNets();
 		}
 
@@ -75,8 +75,7 @@ namespace Pipes
 			{
 				pipe.OnNet = this;
 			}
-			mixAndVolume.Volume += LiquidPipeNet.mixAndVolume.Volume;
-			mixAndVolume.Mix.Add(LiquidPipeNet.mixAndVolume.Mix);
+			mixAndVolume.Add(LiquidPipeNet.mixAndVolume);
 			LiquidPipeNet.DisableThis();
 		}
 
@@ -84,10 +83,9 @@ namespace Pipes
 		{
 
 			//Not the most optimal way of doing it but the easiest TODO Optimise this
-			mixAndVolume.Mix.Divide(Covering.Count);
 			foreach (var pipe in Covering)
 			{
-				pipe.mixAndVolume.Mix = mixAndVolume.Mix.Clone();
+				mixAndVolume.Take(pipe.mixAndVolume);
 				pipe.OnNet = null;
 			}
 
@@ -104,8 +102,7 @@ namespace Pipes
 		{
 			var Net = new LiquidPipeNet();
 			pipeData.OnNet = Net;
-			Net.mixAndVolume.Mix.Add(pipeData.mixAndVolume.Mix);
-			Net.mixAndVolume.Volume = pipeData.mixAndVolume.Volume;
+			Net.mixAndVolume = pipeData.mixAndVolume.Clone();
 			Net.Covering.Add(pipeData);
 			Net.NetUpdateProxy.OnNet = Net;
 			Net.NetUpdateProxy.OnEnable();
@@ -130,6 +127,12 @@ namespace Pipes
 			{
 				pipeNetAction.TickUpdate();
 			}
+		}
+
+		public string ToAnalyserExamineString()
+		{
+			return " mixAndVolume > " +
+			       mixAndVolume.ToString();
 		}
 
 		public override string ToString()
@@ -171,22 +174,22 @@ namespace Pipes
 		public override void TickUpdate()
 		{
 			float EnergyChange = 0;
-			if (LiquidPipeNet.mixAndVolume.Mix.Total > 0)
-			{
-				var SmallMix = LiquidPipeNet.mixAndVolume.Mix.Clone();
-				SmallMix.Divide(LiquidPipeNet.Covering.Count);
-				foreach (var pipe in LiquidPipeNet.Covering)
-				{
-					var Node = pipe.matrix.GetMetaDataNode(pipe.MatrixPos);
-					EnergyChange += EqualisePipe(Node, SmallMix);
-				}
-				//needs a better equation for this so It doesnt go to minus
-				LiquidPipeNet.mixAndVolume.Mix.InternalEnergy += (EnergyChange);
-				if (LiquidPipeNet.mixAndVolume.Mix.InternalEnergy < 0)
-				{
-					LiquidPipeNet.mixAndVolume.Mix.InternalEnergy = LiquidPipeNet.mixAndVolume.Mix.Total;
-				}
-			}
+			// if (LiquidPipeNet.mixAndVolume.Mix.Total > 0)
+			// {
+				// var SmallMix = LiquidPipeNet.mixAndVolume.Mix.Clone();
+				// SmallMix.Divide(LiquidPipeNet.Covering.Count);
+				// foreach (var pipe in LiquidPipeNet.Covering)
+				// {
+					// var Node = pipe.matrix.GetMetaDataNode(pipe.MatrixPos);
+					// EnergyChange += EqualisePipe(Node, SmallMix);
+				// }
+				// needs a better equation for this so It doesnt go to minus
+				// LiquidPipeNet.mixAndVolume.Mix.InternalEnergy += (EnergyChange);
+				// if (LiquidPipeNet.mixAndVolume.Mix.InternalEnergy < 0)
+				// {
+					// LiquidPipeNet.mixAndVolume.Mix.InternalEnergy = LiquidPipeNet.mixAndVolume.Mix.Total;
+				// }
+			// }
 
 		}
 
@@ -194,7 +197,7 @@ namespace Pipes
 		public float EqualisePipe(MetaDataNode Node,ReagentMix Mix )
 		{
 			//add Radiation of Heat
-
+/*
 			float EnergyChange = 0f; //Minuses energy taken away, + is energy added to the pipe
 			if (Node.IsSpace)
 			{
@@ -230,6 +233,8 @@ namespace Pipes
 			}
 			Node.GasMix = gas;
 			return (EnergyChange);
+			*/
+			return (0);
 		}
 
 
