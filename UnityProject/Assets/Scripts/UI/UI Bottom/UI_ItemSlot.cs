@@ -36,7 +36,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	[SerializeField]
 	private bool initiallyHidden = false;
 
-
 	/// pointer is over the actual item in the slot due to raycast target. If item ghost, return slot tooltip
 	public override string Tooltip => Item == null ? ExitTooltip : Item.GetComponent<ItemAttributesV2>().ArticleName;
 
@@ -59,36 +58,25 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	/// </summary>
 	public GameObject ItemObject => itemSlot.ItemObject;
 
-	/// <summary>
-	/// Current image displayed in this slot.
-	/// </summary>
-	public Image Image => image;
+	public UI_ItemImage Image => image;
 
 	private bool hidden;
+	private UI_ItemImage image;
+	private Image overlay;
 	private ItemSlot itemSlot;
-	private Image image;
-	private Image secondaryImage;
-	private Sprite sprite;
-	private Sprite secondarySprite;
 	private Text amountText;
 
 	private void Awake()
 	{
-
 		amountText = GetComponentInChildren<Text>();
 		if (amountText)
 		{
 			amountText.enabled = false;
 		}
-		image = GetComponent<Image>();
-		image.material = Instantiate(Resources.Load<Material>("Materials/Palettable UI"));
-		secondaryImage = GetComponentsInChildren<Image>()[1];
-		secondaryImage.alphaHitTestMinimumThreshold = 0.5f;
-		secondaryImage.enabled = false;
-		image.alphaHitTestMinimumThreshold = 0.5f;
-		image.enabled = false;
-		hidden = initiallyHidden;
 
+		image = new UI_ItemImage(gameObject);
+		overlay = GetComponentsInChildren<Image>()[1];
+		hidden = initiallyHidden;
 	}
 
 	private void OnEnable()
@@ -104,9 +92,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	//Reset Item slot sprite on game restart
 	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
 	{
-		sprite = null;
-		image.sprite = null;
-		image.enabled = false;
+		image.ClearAll();
 	}
 
 	/// <summary>
@@ -194,61 +180,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 		if (!nullItem)
 		{
-			//determine the sprites to display based on the new item
-			var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
-			if (image == null)
-			{
-				image = GetComponent<Image>();
-			}
-
-			var colorSync = item.GetComponent<SpriteColorSync>();
-			if (colorSync != null)
-			{	//later find a way to remove this listener when no longer needed
-				colorSync.OnColorChange.AddListener(TrackColor);
-
-				void TrackColor(Color newColor)
-				{
-					if (colorSync.SpriteRenderer != null
-					    && colorSync.SpriteRenderer.sprite == image.sprite)
-					{
-						image.color = newColor;
-					}
-				}
-			}
-
-			ItemAttributesV2 itemAttrs = item.GetComponent<ItemAttributesV2>();
-
-			spriteRends = spriteRends.Where(x => x.sprite != null && x != Highlight.instance.spriteRenderer).ToArray();
-			sprite = spriteRends[0].sprite;
-			image.sprite = sprite;
-			image.color = spriteRends[0].color;
-			MaterialPropertyBlock pb = new MaterialPropertyBlock();
-			spriteRends[0].GetPropertyBlock(pb);
-			bool isPaletted = pb.GetInt("_IsPaletted") > 0;
-			if (itemAttrs.ItemSprites.SpriteInventoryIcon != null && itemAttrs.ItemSprites.IsPaletted)
-			{
-				image.material.SetInt("_IsPaletted", 1);
-				image.material.SetColorArray("_ColorPalette", itemAttrs.ItemSprites.Palette.ToArray());
-			}
-			else
-			{
-				image.material.SetInt("_IsPaletted", 0);
-			}
-
-
-			if (spriteRends.Length > 1)
-			{
-				if (spriteRends[1].sprite != null)
-				{
-					SetSecondaryImage(spriteRends[1].sprite);
-					secondaryImage.color = spriteRends[1].color;
-				}
-			}
-			else
-			{
-				// reset from prev secondary image
-				SetSecondaryImage(null);
-			}
+			image.ShowItem(item, color);
 
 			//determine if we should show an amount
 			var stack = item.GetComponent<Stackable>();
@@ -268,40 +200,20 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 			//no object was passed, so clear out the sprites
 			Clear();
 		}
-
-		if (forceColor)
-		{
-			image.color = color.GetValueOrDefault(Color.white);
-		}
-
-		image.enabled = !nullItem && !hidden;
-		image.preserveAspect = !nullItem && !hidden;
-
-		if (secondaryImage)
-		{
-			if (forceColor)
-			{
-				secondaryImage.color = color.GetValueOrDefault(Color.white);
-			}
-
-			secondaryImage.enabled = secondaryImage.sprite != null && !nullItem && !hidden;
-			secondaryImage.preserveAspect = !nullItem && !hidden;
-		}
 	}
 
 	public void SetSecondaryImage(Sprite sprite)
 	{
-		secondarySprite = sprite;
-		if (secondarySprite != null)
+		if (overlay != null)
 		{
-			secondaryImage.sprite = secondarySprite;
-			secondaryImage.enabled = !hidden;
-			secondaryImage.preserveAspect = true;
+			overlay.sprite = sprite;
+			overlay.enabled = !hidden;
+			overlay.preserveAspect = true;
 		}
 		else
 		{
-			secondaryImage.sprite = null;
-			secondaryImage.enabled = false;
+			overlay.sprite = null;
+			overlay.enabled = false;
 		}
 	}
 
@@ -315,12 +227,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 		{
 			return;
 		}
-		sprite = null;
-		image.enabled = false;
-		secondaryImage.enabled = false;
-		image.sprite = null;
-		secondarySprite = null;
-		secondaryImage.sprite = null;
+
+		image.ClearAll();
 		if (amountText)
 		{
 			amountText.enabled = false;
@@ -331,12 +239,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 
 	public void Reset()
 	{
-		sprite = null;
-		image.sprite = null;
-		image.enabled = false;
-		secondarySprite = null;
-		secondaryImage.sprite = null;
-		secondaryImage.enabled = false;
+		image.ClearAll();
 		if (amountText)
 		{
 			amountText.enabled = false;
@@ -435,9 +338,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	public void SetHidden(bool hidden)
 	{
 		this.hidden = hidden;
-		image.sprite = sprite;
-		image.enabled = sprite != null && !hidden;
-		image.preserveAspect = sprite != null && !hidden;
+		image.SetHidden(hidden);
 		if (hidden && amountText)
 		{
 			amountText.enabled = false;
@@ -453,14 +354,6 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 					amountText.enabled = true;
 				}
 			}
-		}
-
-
-		if (secondaryImage)
-		{
-			secondaryImage.sprite = secondarySprite;
-			secondaryImage.enabled = secondarySprite != null && !hidden;
-			secondaryImage.preserveAspect = secondarySprite != null && !hidden;
 		}
 	}
 }

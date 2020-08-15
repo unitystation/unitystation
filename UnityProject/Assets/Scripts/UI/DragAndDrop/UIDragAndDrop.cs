@@ -45,7 +45,7 @@ public class UIDragAndDrop : MonoBehaviour
 			FromSlotCache = fromSlot;
 			isDragging = true;
 			dragDummy.enabled = true;
-			dragDummy.sprite = fromSlot.Image.sprite;
+			dragDummy.sprite = fromSlot.Image.MainSprite;
 			fromSlot.Clear();
 			DraggedItem = fromSlot.ItemObject;
 		}
