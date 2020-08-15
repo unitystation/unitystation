@@ -13,8 +13,8 @@ jobs:
     steps:
     
       - name: scene changes detector
+        if: ${{ github.event_name == 'pull_request_target' }}
         uses: actions/labeler@v3-preview
-        if: ${{ github.event_name == 'pull_request' }}
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
         
