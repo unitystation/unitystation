@@ -15,8 +15,8 @@ namespace Atmospherics
 			Space = GasMix.FromTemperature(gases, 2.7f);
 
 			gases[Gas.CarbonDioxide] = 0;
-			gases[Gas.Oxygen] = 16.628484400890768491815384755837f * 1.558f;
-			gases[Gas.Nitrogen] = 66.513937603563073967261539023347f * 1.558f;
+			gases[Gas.Oxygen] = 16.628484400890768491815384755837f / 2 * 2.5f;
+			gases[Gas.Nitrogen] = 66.513937603563073967261539023347f / 2 * 2.5f;
 
 			Air = GasMix.FromTemperature(gases, Reactions.KOffsetC + 20);
 
