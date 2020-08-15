@@ -158,6 +158,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 9b2e620f08bbf5040828d2f017c27292, type: 3}
+    - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: bb5bff19a5059524692ce06df4ead773,
+        type: 2}
+    - target: {fileID: 5295069687449651132, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7355a6f4be7e7e5438b984db678f38a9,
+        type: 2}
     - target: {fileID: 5334267868750357690, guid: 6f371050bff8b32438f91c7c680900bb,
         type: 3}
       propertyPath: Size
