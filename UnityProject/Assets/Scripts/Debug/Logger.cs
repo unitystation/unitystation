@@ -121,7 +121,21 @@ public static class Logger
 	{
 		if (category == Category.Unknown)
 		{
-			Debug.Log(message);
+			switch (messageLevel)
+			{
+				case LogLevel.Trace:
+					Debug.Log(message);
+					break;
+				case LogLevel.Warning:
+					Debug.LogWarning(message);
+					break;
+				case LogLevel.Error:
+					Debug.LogError(message);
+					break;
+				case LogLevel.Info:
+					Debug.Log(message);
+					break;
+			}
 			return;
 		}
 

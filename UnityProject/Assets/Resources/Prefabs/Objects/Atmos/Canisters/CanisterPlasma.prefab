@@ -12,6 +12,16 @@ PrefabInstance:
       propertyPath: Gases.Array.data[0]
       value: 60932.95
       objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Gases.Array.data[0]
+      value: 60932.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Pressure
+      value: 148516.98
+      objectReference: {fileID: 0}
     - target: {fileID: 3267766569577888791, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_Sprite
@@ -134,5 +144,11 @@ PrefabInstance:
       propertyPath: ContentsName
       value: Plasma
       objectReference: {fileID: 0}
+    - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e38b4751f8540f24cbaa8784947a0ae4,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0e96760c016b6140ba8c3979e9213f7, type: 3}

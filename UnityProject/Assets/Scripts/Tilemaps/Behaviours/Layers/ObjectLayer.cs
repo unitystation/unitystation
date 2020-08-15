@@ -39,7 +39,7 @@ public class ObjectLayer : Layer
 		return (isServer ? ServerObjects.HasObjects(position) : ClientObjects.HasObjects(position)) || base.HasTile(position, isServer);
 	}
 
-	public override void RemoveTile(Vector3Int position, bool removeAll = false)
+	public override bool RemoveTile(Vector3Int position, bool removeAll = false)
 	{
 //		if ( removeAll )
 //		{
@@ -62,7 +62,7 @@ public class ObjectLayer : Layer
 //			}
 //		}
 
-		base.RemoveTile(position, removeAll);
+		return  base.RemoveTile(position, removeAll);
 	}
 
 	public float GetObjectResistanceAt( Vector3Int position, bool isServer )

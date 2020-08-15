@@ -15,13 +15,43 @@ PrefabInstance:
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: Gases.Array.data[1]
-      value: 60932.95
+      value: 61029.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Gases.Array.data[1]
+      value: 61029.93
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Pressure
+      value: 148753.36
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Gases.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: Gases.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: gasMix.Gases.Array.data[2]
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3267766569577888791, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 682575001c0e7bc4d80b0a54fdf8442e,
+      objectReference: {fileID: 21300000, guid: cab18b84143aec1449106f23e83d3afc,
         type: 3}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -139,6 +169,12 @@ PrefabInstance:
       propertyPath: ContentsName
       value: Oxygen
       objectReference: {fileID: 0}
+    - target: {fileID: 7811982109262590682, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f1f9a726095bd8549a40e18a73ef2208,
+        type: 2}
     - target: {fileID: 8387653848795343260, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_IsActive
