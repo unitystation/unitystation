@@ -1,18 +1,30 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using UnityEngine;
 
 namespace Pipes
 {
-	public class MonoPipe : MonoBehaviour,IServerDespawn
+	public class MonoPipe : MonoBehaviour,IServerDespawn, ICheckedInteractable<HandApply>
 	{
-		private RegisterTile registerTile;
+		public SpriteHandler spritehandler;
+		public GameObject SpawnOnDeconstruct;
+		public RegisterTile registerTile;
 		public PipeData pipeData;
 		public Matrix Matrix => registerTile.Matrix;
 		public Vector3Int MatrixPos => registerTile.LocalPosition;
+
+		public Color Colour = Color.white;
+
 		public virtual void Start()
 		{
 			EnsureInit();
+		}
+
+		public void SetColour(Color newColour)
+		{
+			Colour = newColour;
+			spritehandler.SetColor(Colour);
 		}
 
 		private void EnsureInit()
@@ -23,9 +35,11 @@ namespace Pipes
 			}
 
 			registerTile.SetPipeData(pipeData);
-			Vector2 searchVec = this.registerTile.LocalPosition.To2Int();
 			pipeData.MonoPipe = this;
+			int Offset = PipeFunctions.GetOffsetAngle(this.transform.localRotation.eulerAngles.z);
+			pipeData.Connections.Rotate(Offset);
 			pipeData.OnEnable();
+			spritehandler.SetColor(Colour);
 		}
 
 		void OnDisable()
@@ -48,5 +62,79 @@ namespace Pipes
 		{
 			pipeData.OnDisable();
 		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.TargetObject != gameObject) return false;
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (SpawnOnDeconstruct != null)
+			{
+				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
+				{
+					var Item = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation : this.transform.localRotation);
+					Item.GameObject.GetComponent<PipeItem>().SetColour(Colour);
+					OnDisassembly(interaction);
+					pipeData.OnDisable();
+					Despawn.ServerSingle(this.gameObject);
+					return;
+				}
+			}
+
+			Interaction(interaction);
+		}
+
+		public virtual void Interaction(HandApply interaction)
+		{
+
+		}
+
+		public virtual void OnDisassembly(HandApply interaction)
+		{
+
+		}
+
+		#region Editor
+
+		void OnDrawGizmos()
+		{
+			Gizmos.color = Color.white;
+			DebugGizmoUtils.DrawText(pipeData.mixAndVolume.Density().ToString(), transform.position, 10);
+			Gizmos.color = Color.magenta;
+			if (pipeData.Connections.Directions[0].Bool)
+			{
+				var Toues = transform.position;
+				Toues.y += 0.25f;
+				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
+			}
+
+			if (pipeData.Connections.Directions[1].Bool)
+			{
+				var Toues = transform.position;
+				Toues.x += 0.25f;
+				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
+			}
+
+			if (pipeData.Connections.Directions[2].Bool)
+			{
+				var Toues = transform.position;
+				Toues.y += -0.25f;
+				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
+			}
+
+			if (pipeData.Connections.Directions[3].Bool)
+			{
+
+				var Toues = transform.position;
+				Toues.x += -0.25f;
+				Gizmos.DrawCube(Toues, Vector3.one*0.08f );
+			}
+		}
+
+		#endregion
 	}
 }

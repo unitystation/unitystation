@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Pipes
 {
-	public class PipeRun : PipeItem
+	public class PipeRun : PipeItemTile
 	{
 
 
@@ -66,5 +66,16 @@ namespace Pipes
 			}
 		}
 
+		public override  Connections GetConnections()
+		{
+			if (IsBent)
+			{
+				return (BentPipe.Connections.Copy());
+			}
+			else
+			{
+				return (StraightPipe.Connections.Copy());
+			}
+		}
 	}
 }
