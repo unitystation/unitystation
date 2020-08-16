@@ -11,20 +11,14 @@ jobs:
   autohelpers:
     runs-on: ubuntu-latest
     steps:
+      - name: conflicts check
+        uses: mschilde/auto-label-merge-conflicts@v2.0
+        with:
+          CONFLICT_LABEL_NAME: "Merge Conflicts"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
       - name: auto labeler
         if: ${{ github.event_name == 'pull_request_target' }}
         uses: actions/labeler@v3-preview
         with:
           repo-token: "${{ secrets.GITHUB_TOKEN }}"
-        
-      - name: conflicts check
-        if: ${{ github.event_name == 'push' }}
-        uses: mschilde/auto-label-merge-conflicts@v2.0
-        with:
-          CONFLICT_LABEL_NAME: "Merge Conflicts"
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        
-        
-        
-        

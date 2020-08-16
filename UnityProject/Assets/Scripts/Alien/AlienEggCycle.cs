@@ -52,7 +52,6 @@ namespace Alien
 		{
 			isAlive = true;
 			incubationTime = UnityEngine.Random.Range(60f, incubationTime);
-
 			UpdatePhase(initialState);
 			UpdateExamineMessage();
 			registerObject.Passable = false;
