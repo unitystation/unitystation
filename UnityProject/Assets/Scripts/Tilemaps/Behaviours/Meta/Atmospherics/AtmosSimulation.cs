@@ -215,9 +215,9 @@ namespace Atmospherics
 
 				var gasAmount = node.GasMix.GetMoles(gas);
 
-				if(gasAmount > gas.MinMolesToSee) 		//If node has an almost combustible ammount of plasma
+				if(gasAmount > gas.MinMolesToSee)
 				{
-					if(!fogTiles.ContainsKey(position)) 		//And if it hasn't already been identified as a tile that should have plasma fx
+					if(!fogTiles.ContainsKey(position))
 					{
 						node.ReactionManager.AddFogEvent(new ReactionManager.FogEffect {metaDataNode = node, tileName = gas.TileName, layerIndex = gas.OverlayIndex}); //Add it to the atmos vfx queue in ReactionManager
 						fogTiles.Add(new KeyValuePair<Vector3Int, HashSet<Gas>>(position, new HashSet<Gas>{gas})); //Add it to fogTiles
@@ -228,7 +228,7 @@ namespace Atmospherics
 						fogTiles[position].Add(gas);
 					}
 				}
-				else											//If there isn't 0.4 moles of plasma, remove the fx
+				else
 				{
 					if(fogTiles.ContainsKey(position))
 					{
