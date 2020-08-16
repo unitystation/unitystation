@@ -27,7 +27,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   layersToHit:
     serializedVersion: 2
-    m_Bits: 547314432
+    m_Bits: 538925824
+--- !u!114 &-3326923120961396218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5505111061477582247}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bfd6a460ba2f4e059e697e8df62ff18a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageData: {fileID: 11400000, guid: 85c028573e7db4840a963fb98f8f51d5, type: 2}
+  layersToHit: 0100000005000000
 --- !u!114 &-2717205848299333523
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -80,20 +94,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animation: {fileID: 11400000, guid: d9044ac5181f86a488375430cab297da, type: 2}
---- !u!114 &465622721886334836
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5505111061477582247}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfd6a460ba2f4e059e697e8df62ff18a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageData: {fileID: 11400000, guid: 85c028573e7db4840a963fb98f8f51d5, type: 2}
-  layersToHit: 0100000005000000
 --- !u!1001 &5504417117164796723
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -186,6 +186,8 @@ PrefabInstance:
     - {fileID: 8142109516355469475, guid: 5858b89c4790c084bb1915952309853d, type: 3}
     - {fileID: 107650308199448334, guid: 5858b89c4790c084bb1915952309853d, type: 3}
     - {fileID: -6130738676024284386, guid: 5858b89c4790c084bb1915952309853d, type: 3}
+    - {fileID: 8833570430820708407, guid: 5858b89c4790c084bb1915952309853d, type: 3}
+    - {fileID: 1766684164047083533, guid: 5858b89c4790c084bb1915952309853d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5858b89c4790c084bb1915952309853d, type: 3}
 --- !u!1 &5505111061477582247 stripped
 GameObject:

@@ -3,7 +3,7 @@
 namespace Weapons.Projectiles.Behaviours
 {
 	/// <summary>
-	/// Identical to ProjectileDecal.cs, but creates a decal upon despawning instead of hitting something.
+	/// Identical to ProjectileDecal.cs, but creates a decal upon despawning instead of on hitting something.
 	/// </summary>
 	public class ProjectileDecalOnDespawn : MonoBehaviour, IOnDespawn
 	{

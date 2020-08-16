@@ -98,6 +98,20 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3555369481859437115}
   m_Mesh: {fileID: 0}
+--- !u!114 &-5521305940371116071
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5076580856386662130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a8965dca76e724a86347f5c807dda0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  decal: {fileID: 1768049102699016128, guid: 5a6f8d5d734f7e74090a0d8e04413b56, type: 3}
+  animationTime: 0.4
 --- !u!114 &-4845278748113661770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -223,7 +237,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cefe38d0c0bdcd548ae7e6575fce7842,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8142109516355469475, guid: 5858b89c4790c084bb1915952309853d, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 5858b89c4790c084bb1915952309853d, type: 3}
 --- !u!1 &5076580856386662130 stripped
 GameObject:
