@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
@@ -27,12 +28,6 @@ namespace Weapons
 		/// </summary>
 		[SerializeField, Tooltip("The prefab to be spawned within the weapon on roundstart")]
 		protected GameObject ammoPrefab = null;
-
-		/// <summary>
-		/// Link to the generic internal mag prefab, if this link is incorrect all internal mag weapons will not function!
-		/// </summary>
-		[SerializeField]
-		protected GameObject genericInternalMag = null;
 
 		/// <summary>
 		/// Optional ejected casing override, will default to the standard casing if left null and will only be used if SpawnsCasing is true
@@ -79,7 +74,7 @@ namespace Weapons
 		/// The cooldown between full bursts in seconds
 		/// <summary>
 		[HideInInspector, Tooltip("The cooldown between full a burst in seconds")] // will be shown by the code at the very end, if appropriate
-		public double burstCooldown = 3;
+		public float burstCooldown = 3;
 
 		/// <summary>
 		/// The number of allowed shots in a burst
@@ -93,12 +88,6 @@ namespace Weapons
 		/// </summary>
 		[HideInInspector, Tooltip("If the gun should eject an empty mag automatically")] // will be shown by the code at the very end, if appropriate
 		public bool SmartGun = false;
-
-		/// <summary>
-		/// Size of the internal magazine (internal-magazine-specific)
-		/// </summary>
-		[HideInInspector, Tooltip("Size of the internal mag")] // will be shown by the code at the very end, if appropriate
-		public int MagSize = 10;
 
 		/// <summary>
 		/// The the current recoil variance this weapon has reached
@@ -181,6 +170,7 @@ namespace Weapons
 		/// the actual unload / load (updating MagNetID) once the shot queue is empty.
 		/// </summary>
 		private bool queuedUnload = false;
+		private bool isCooldown;
 		private uint queuedLoadMagNetID = NetId.Invalid;
 
 		private RegisterTile registerTile;
@@ -225,27 +215,10 @@ namespace Weapons
 				//ejecting an internal mag should never be allowed
 				allowMagazineRemoval = false;
 				//populate with a full internal mag on spawn
-				Logger.LogTraceFormat("Auto-populate internal magazine for {0}", Category.Inventory, name);
-
-				//Make generic magazine and modify it to fit weapon
-				GameObject ammoPrefab = genericInternalMag;
-
-				Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
-
-				CurrentMagazine.ChangeSize(MagSize);
-				CurrentMagazine.ammoType = ammoType;
-
-				if (isServer)
-				{
-					CurrentMagazine.ServerSetAmmoRemains(MagSize);
-				}
 			}
-			else
-			{
-				//populate with a full external mag on spawn
-				Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
-				Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
-			}
+			//populate with a full external mag on spawn
+			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
+			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 		}
 
 		public void OnInventoryMoveServer(InventoryMove info)
@@ -303,7 +276,7 @@ namespace Weapons
 
 			if (Projectile != null && CurrentMagazine.ClientAmmoRemains > 0 && (interaction.Performer != PlayerManager.LocalPlayer || FireCountDown <= 0))
 			{
-				if (WeaponType == WeaponType.Burst)
+				if (WeaponType == WeaponType.Burst && !isCooldown)
 				{
 					//being held and is a burst weapon, check how many shots have been fired our the current burst
 					if (currentBurstCount < burstCount)
@@ -315,8 +288,11 @@ namespace Weapons
 					else if (currentBurstCount >= burstCount)
 					{
 						//we have shot the max allowed shots in our current burst, start cooldown and then fire the first shot
-						WaitFor.Seconds((float)burstCooldown);
-						currentBurstCount = 1;
+						StartCoroutine(StartCooldown());
+						while (isCooldown)
+						{
+							WaitFor.Seconds(0.5f);
+						}
 						return true;
 					}
 				}
@@ -343,6 +319,14 @@ namespace Weapons
 			return false;
 		}
 
+	private IEnumerator StartCooldown()
+	{
+		isCooldown = true;
+		yield return WaitFor.Seconds(burstCooldown);
+		currentBurstCount = 1;
+		isCooldown = false;
+	}
+
 		public void ClientPredictInteraction(AimApply interaction)
 		{
 			//do we need to check if this is a suicide (want to avoid the check because it involves a raycast).
@@ -351,7 +335,7 @@ namespace Weapons
 			//	ourselves.
 			var isSuicide = false;
 			if (interaction.MouseButtonState == MouseButtonState.PRESS ||
-			    (WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
+				(WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
 			{
 				isSuicide = interaction.IsAimingAtSelf;
 				AllowSuicide = isSuicide;
@@ -372,7 +356,7 @@ namespace Weapons
 			//	ourselves.
 			var isSuicide = false;
 			if (interaction.MouseButtonState == MouseButtonState.PRESS ||
-			    (WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
+				(WeaponType != WeaponType.SemiAutomatic && AllowSuicide))
 			{
 				isSuicide = interaction.IsAimingAtSelf;
 				AllowSuicide = isSuicide;
@@ -387,12 +371,19 @@ namespace Weapons
 		public bool Interact(HandActivate interaction)
 		{
 			//try ejecting the mag if external
-			if (CurrentMagazine != null && allowMagazineRemoval)
+			if (CurrentMagazine != null)
 			{
-				RequestUnload(CurrentMagazine);
-				return true;
+				if (allowMagazineRemoval)
+				{
+					RequestUnload(CurrentMagazine);
+					return true;
+				}
+				else
+				{
+					CurrentMagazine.RemoveCartridgeToWorld(CurrentMagazine, interaction.Performer);
+					return true;
+				}
 			}
-
 			return false;
 		}
 
@@ -410,7 +401,6 @@ namespace Weapons
 						return true;
 					}
 				}
-
 			}
 			return false;
 		}
@@ -681,7 +671,7 @@ namespace Weapons
 			}
 			else
 			{
-				for (int n = 0; n > ProjectilesFired; n++)
+				for (int n = 0; n < ProjectilesFired; n++)
 				{
 					var finalDirectionOverride = CalcDirection(finalDirection, n);
 					b.Shoot(finalDirectionOverride, shooter, this, damageZone);
@@ -693,6 +683,10 @@ namespace Weapons
 
 		private Vector2 CalcDirection(Vector2 direction, int iteration)
 		{
+			if (iteration == 1)
+			{
+				return direction;
+			}
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 			float angleVariance = iteration/1.6f;
 			float angleDeviation = Random.Range(-angleVariance, angleVariance);
@@ -732,7 +726,7 @@ namespace Weapons
 			{
 				//can happen if client is spamming CmdLoadWeapon
 				Logger.LogWarning("Player tried to queue a load action while a load action was already queued, ignoring the" +
-				                  " second load.", Category.Firearms);
+								  " second load.", Category.Firearms);
 			}
 			else
 			{
@@ -750,7 +744,7 @@ namespace Weapons
 			{
 				//this can happen if client is spamming CmdUnloadWeapon
 				Logger.LogWarning("Player tried to queue an unload action while an unload action was already queued. Ignoring the" +
-				                  " second unload.", Category.Firearms);
+								  " second unload.", Category.Firearms);
 			}
 			else if (queuedLoadMagNetID != NetId.Invalid)
 			{
@@ -817,7 +811,7 @@ namespace Weapons
 			return (float)(CurrentMagazine.CurrentRNG() * (max - min) + min);
 		}
 
-		private void AppendRecoil()
+		public void AppendRecoil()
 		{
 			if (CurrentRecoilVariance < MaxRecoilVariance)
 			{
@@ -877,17 +871,14 @@ namespace Weapons
 
 			script.MagInternal = EditorGUILayout.Toggle("Magazine Internal", script.MagInternal);
 
-			if (script.MagInternal) // show exclusive fields depending on whether magazine is internal
+			if (!script.MagInternal) // show exclusive fields depending on whether magazine is internal
 			{
-				script.MagSize = EditorGUILayout.IntField("Internal Magazine Size", script.MagSize);
-			}
-			else{
 				script.SmartGun = EditorGUILayout.Toggle("Smart Gun", script.SmartGun);
 			}
 
 			if (script.WeaponType == WeaponType.Burst)
 			{
-				script.burstCooldown = EditorGUILayout.DoubleField("Burst Cooldown", script.burstCooldown);
+				script.burstCooldown = EditorGUILayout.FloatField("Burst Cooldown", script.burstCooldown);
 				script.burstCount = EditorGUILayout.DoubleField("Burst Count", script.burstCount);
 			}
 		}

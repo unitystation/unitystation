@@ -1,12 +1,13 @@
 ﻿using System;
 using Mirror;
+using UnityEditor;
 using UnityEngine;
 
 /// <summary>
 /// Tracks the ammo in a magazine. Note that if you are referencing the ammo count stored in this
 /// behavior, server and client ammo counts are stored separately but can be synced with SyncClientAmmoRemainsWithServer().
 /// </summary>
-public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, ICheckedInteractable<InventoryApply>
+public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, ICheckedInteractable<InventoryApply>, IClientInteractable<HandActivate>
 {
 	/*
 	We keep track of 2 ammo counts. The server's ammo count is authoritative, but when ammo is being
@@ -19,6 +20,9 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	[SyncVar(hook = "SyncServerAmmo")]
 	private int serverAmmoRemains;
 	private int clientAmmoRemains;
+
+	[SerializeField]
+	public GameObject containedCartridge = null;
 
 	/// <summary>
 	/// Remaining ammo, latest value synced from server. There will be lag in this while shooting a burst.
@@ -37,7 +41,11 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// <summary>
 	///	Whether this can be used to reload other (internal or external) magazines.
 	/// </summary>
+	[SerializeField, Tooltip("Defines if this can be used to reload other magazines, clips or be used as an internal mag")]
 	public bool isClip;
+
+	[SerializeField]
+	public bool isCartridge;
 
 	public AmmoType ammoType; //SET IT IN INSPECTOR
 	public int magazineSize = 20;
@@ -69,6 +77,18 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		clientAmmoRemains = -1;
 		SyncServerAmmo(magazineSize, magazineSize);
 		SetupRNG();
+	}
+
+	private void Init()
+	{
+		if (isCartridge)
+		{
+			isClip = true;
+		}
+		else if (isClip)
+		{
+			isCartridge = false;
+		}
 	}
 
 	/// <summary>
@@ -166,6 +186,13 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		return ("Loaded " + toTransfer + (toTransfer == 1 ? " piece" : " pieces") + " of ammunition.");
 	}
 
+	public String UnloadFromClip( MagazineBehaviour clip, int toTransfer)
+	{
+		if (clip == null) return "";
+		clip.ExpendAmmo(toTransfer);
+		ServerSetAmmoRemains(serverAmmoRemains - toTransfer);
+		return ("Unloaded " + toTransfer + (toTransfer == 1 ? " piece" : " pieces") + " of ammunition.");
+	}
 	/// <summary>
 	/// Returns true if it is possible to fill this magazine with the interaction target object,
 	/// which occurs when the interaction target is a clip of the same ammo type.
@@ -183,14 +210,131 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		return true;
 	}
 
+	public bool Interact(HandActivate interaction) //someone has pressed z or clicked on us
+	{
+		if (!isCartridge)
+		{
+			if (ServerAmmoRemains > 0)
+			{
+				//We are a clip/mag with atleast one cartridge inside us, unload it.
+				return true;
+			}
+			else
+			{
+				//We are a clip/mag with no cartridges inside us, get them from the world
+				return true;
+			}
+			
+		}
+		return false;
+	}
+
+	public bool Interact(InventoryApply interaction) // someone has used an object on us
+	{
+		if (interaction.TargetObject == gameObject && interaction.IsFromHandSlot)
+		{ 
+			MagazineBehaviour UsedObjectMagScript = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+			MagazineBehaviour TargetObjectMagScript = interaction.TargetObject.GetComponent<MagazineBehaviour>();
+
+			if (interaction.UsedObject == null)
+			{
+				//We are the target object and an empty hand has been used on us, unload cartridge into hand
+				return true;
+			}
+			else if (UsedObjectMagScript.isCartridge || !TargetObjectMagScript.isCartridge)
+			{
+				//We are the target object which is a clip or mag and a cartridge has been used on us, load it.;
+				return true;
+			}
+		}
+		return false;	
+	}
+
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
 		if (interaction.UsedObject == null || interaction.Performer == null) return;
-		MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
-		Chat.AddExamineMsg(interaction.Performer, LoadFromClip(clip));
+
+		MagazineBehaviour UsedObjectMagScript = interaction.UsedObject.GetComponent<MagazineBehaviour>();
+		MagazineBehaviour TargetObjectMagScript = interaction.TargetObject.GetComponent<MagazineBehaviour>();
+
+		if (interaction.UsedObject == null)
+		{
+			var yes = interaction.UsedObject.GetComponent<ItemStorage>();
+			//We are the target object and an empty hand has been used on us, unload cartridge into hand
+			RemoveCartridgeToHand(interaction.FromSlot);
+		}
+		else if (UsedObjectMagScript.isCartridge && !TargetObjectMagScript.isCartridge || UsedObjectMagScript.isClip && !TargetObjectMagScript.isCartridge)
+		{
+			//We are a clip/mag with a clip or cartridge being used on us
+			Chat.AddExamineMsg(interaction.Performer, LoadFromClip(UsedObjectMagScript));
+		}
 	}
 
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		if (!isCartridge)
+		{
+			if (ServerAmmoRemains > 0)
+			{
+				//We are a clip/mag with atleast one cartridge inside us, unload it.
+				RemoveCartridgeToWorld(interaction.UsedObject.GetComponent<MagazineBehaviour>(), interaction.Performer);
+			}
+			else
+			{
+				//We are a clip/mag with no cartridges inside us, get them from the world
+				InsertCartridgeFromWorld(interaction.Performer);
+			}
+			
+		}
+	}
 
+	public void RemoveCartridgeToHand(ItemSlot slot)
+	{
+		Inventory.ServerAdd(containedCartridge, slot, ReplacementStrategy.DropOther);
+	}
+
+	public void RemoveCartridgeToWorld(MagazineBehaviour clip, GameObject player)
+	{
+		UnloadFromClip(clip,1);
+		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: player);
+		Spawn.ServerPrefab(containedCartridge, transform.position, transform.parent);
+	}
+
+	public void InsertCartridgeFromWorld(GameObject player)
+	{
+
+		Vector3Int pos = V3ToV3I(player.transform.position);
+		var crossedItems = MatrixManager.GetAt<Pickupable>(pos, true);
+			int ammoCount = 0;
+			int maxadd = magazineSize - serverAmmoRemains;
+		foreach (var item in crossedItems)
+		{
+			var script = item.GetComponent<MagazineBehaviour>();
+			if (script.isCartridge && script.ammoType == ammoType)
+			{
+				if (ammoCount < maxadd)
+				{
+					Despawn.ServerSingle(gameObject);
+					ammoCount++;
+				}
+				else
+				{
+					break;
+				}
+			}
+			ServerSetAmmoRemains(serverAmmoRemains + ammoCount);
+			Chat.AddExamineMsg(player, ("Loaded " + ammoCount + (ammoCount == 1 ? " piece" : " pieces") + " of ammunition."));
+		}
+	}
+
+	public Vector3Int V3ToV3I(Vector3 V3)
+	{
+		int newX = (int)Math.Truncate(V3.x);
+		int newY = (int)Math.Truncate(V3.y);
+		int newZ = (int)Math.Truncate(V3.x);
+		Vector3Int V3I = new Vector3Int(newX, newY, newZ);
+		return V3I;
+	}
 	/// <summary>
 	/// Gets an RNG double which is based on the current ammo remaining and this mag's net ID so client
 	///  can predict deviation / recoil based on how many shots.
@@ -206,7 +350,14 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 	public String Examine(Vector3 pos)
 	{
-		return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0 ? (ServerAmmoRemains.ToString() + " left") : "empty") + ")";
+		if (!isCartridge)
+		{
+			return "Accepts " + ammoType + " rounds (" + (ServerAmmoRemains > 0 ? (ServerAmmoRemains.ToString() + " left") : "empty") + ")";
+		}
+		else
+		{
+			return "A single round of " + ammoType;
+		}
 	}
 }
 
@@ -232,3 +383,23 @@ public enum AmmoType
 	Gasoline,
 	Internal
 }
+
+#if UNITY_EDITOR
+	[CustomEditor(typeof(MagazineBehaviour), true)]
+	public class MagazineBehaviourEditor : Editor
+	{
+		public override void OnInspectorGUI()
+		{
+			DrawDefaultInspector(); // for other non-HideInInspector fields
+
+			MagazineBehaviour script = (MagazineBehaviour)target;
+
+			script.isClip = EditorGUILayout.Toggle("isClip", script.isClip);
+
+			if (!script.isClip) // show exclusive fields depending on whether magazine is internal
+			{
+				script.isCartridge = EditorGUILayout.Toggle("isCartridge", script.isCartridge);
+			}
+		}
+	}
+#endif
