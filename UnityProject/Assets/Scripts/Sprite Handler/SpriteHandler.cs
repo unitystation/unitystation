@@ -46,6 +46,8 @@ public class SpriteHandler : MonoBehaviour
 
 	private NetworkIdentity NetworkIdentity;
 
+	private Pickupable pickupable;
+
 	private bool isSubCatalogueChanged = false;
 
 	[SerializeField]
@@ -415,6 +417,9 @@ public class SpriteHandler : MonoBehaviour
 			}
 
 			spriteRenderer.SetPropertyBlock(block);
+
+			// update UI icon if avaliable
+			pickupable?.RefreshUISlotImage();
 		}
 		else if (image != null)
 		{
@@ -477,6 +482,11 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		ImageComponentStatus(true);
+
+		if (pickupable == null)
+		{
+			pickupable = GetComponentInParent<Pickupable>();
+		}
 	}
 
 	private void ImageComponentStatus(bool Status)
