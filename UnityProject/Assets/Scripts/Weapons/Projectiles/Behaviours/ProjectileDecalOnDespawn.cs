@@ -27,13 +27,12 @@ namespace Weapons.Projectiles.Behaviours
 			}
 		}
 
-		private bool OnBeamEnd(Vector2 position)
+		private void OnBeamEnd(Vector2 position)
 		{
 			var newDecal = Spawn.ClientPrefab(decal.name,
 				position).GameObject;
 			var timeLimitedDecal = newDecal.GetComponent<TimeLimitedDecal>();
 			timeLimitedDecal.SetUpDecal(animationTime);
-			return false;
 		}
 	}
 }
