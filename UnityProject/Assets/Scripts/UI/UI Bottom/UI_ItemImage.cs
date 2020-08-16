@@ -199,7 +199,7 @@ public class UI_ItemImage
 
 		var img = go.AddComponent<Image>();
 		var imgMat = Resources.Load<Material>("Materials/Palettable UI");
-		img.material = imgMat;
+		img.material = Object.Instantiate(imgMat);
 		img.alphaHitTestMinimumThreshold = 0.5f;
 
 		return img;
