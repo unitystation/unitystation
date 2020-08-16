@@ -26,8 +26,8 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 	public Pickupable pickupable;
 
 	// Zero and one sprites reserved for left and right hands
-	private const int LOCKED_SPRITE = 1;
-	private const int ARMED_SPRITE = 2;
+	private const int LOCKED_SPRITE = 2;
+	private const int ARMED_SPRITE = 3;
 
 	//whether this object has exploded
 	private bool hasExploded;
@@ -89,7 +89,7 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 		{
 			timerRunning = true;
 			UpdateTimer(timerRunning);
-			PlayPinSFX(gameObject.AssumedWorldPosServer());
+			PlayPinSFX(originator.transform.position);
 
 			if (unstableFuse)
 			{
@@ -107,10 +107,21 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 
 	private void UpdateSprite(int sprite)
 	{
-		if (isServer)
+		// Update sprite in game
+		spriteHandler?.ChangeSprite(sprite);
+	}
+
+	/// <summary>
+	/// This coroutines make sure that sprite in hands is animated
+	/// TODO: replace this with more general aproach for animated icons
+	/// </summary>
+	/// <returns></returns>
+	private IEnumerator AnimateSpriteInHands()
+	{
+		while (timerRunning && !hasExploded)
 		{
-			// Update sprite in game
-			spriteHandler?.ChangeSprite(sprite);
+			pickupable.RefreshUISlotImage();
+			yield return null;
 		}
 	}
 
@@ -148,7 +159,7 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 
 	private void PlayPinSFX(Vector3 position)
 	{
-		SoundManager.PlayNetworkedAtPos("armbomb", position);
+		SoundManager.PlayNetworkedAtPos("armbomb", position, sourceObj: gameObject);
 	}
 
 	private void UpdateTimer(bool timerRunning)
@@ -159,6 +170,8 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 		{
 			// Start playing arm animation
 			UpdateSprite(ARMED_SPRITE);
+			// Update grenade icon in hands
+			StartCoroutine(AnimateSpriteInHands());
 		}
 		else
 		{
