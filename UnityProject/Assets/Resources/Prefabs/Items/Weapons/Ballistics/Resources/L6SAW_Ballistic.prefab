@@ -97,9 +97,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 4f57749cea3a42f438cd8e62d34dd09d, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1001 &1159535383240640759
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -131,7 +132,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Projectile
       value: 
-      objectReference: {fileID: 1932369758612010, guid: 75499c80465c3c6b8bd43ea699e8f9e7,
+      objectReference: {fileID: 8102588510461803122, guid: b1795817e9b5b8949a120fba7a7fa53f,
         type: 3}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
