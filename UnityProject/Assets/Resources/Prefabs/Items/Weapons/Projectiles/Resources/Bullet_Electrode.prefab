@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   decal: {fileID: 4049119777014096371, guid: 21a934491a11a804ba82d73b7c923db2, type: 3}
   animationTime: 0.6
+  isTriggeredOnHit: 1
 --- !u!1001 &4945668767053694889
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29,7 +30,7 @@ PrefabInstance:
     - target: {fileID: 1365721336191138629, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
         type: 3}
       propertyPath: stunTime
-      value: 6
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1496159902752428983, guid: 33dfe2b5f12db3a43af6d409a2b599e5,
         type: 3}

@@ -12,15 +12,18 @@ namespace Weapons.Projectiles.Behaviours
 		[Tooltip("Living time of decal.")]
 		[SerializeField] private float animationTime = 0;
 
+		[Tooltip("Spawn decal on collision?")]
+		[SerializeField] private bool isTriggeredOnHit = true;
+
 		public void OnDespawn(RaycastHit2D hit, Vector2 point)
 		{
-			if (hit.collider == null)
+			if (isTriggeredOnHit && hit.collider != null)
 			{
-				OnBeamEnd(point);
+				OnBeamEnd(hit.point);
 			}
 			else
 			{
-				OnCollision(hit);
+				OnBeamEnd(point);
 			}
 		}
 
@@ -28,15 +31,6 @@ namespace Weapons.Projectiles.Behaviours
 		{
 			var newDecal = Spawn.ClientPrefab(decal.name,
 				position).GameObject;
-			var timeLimitedDecal = newDecal.GetComponent<TimeLimitedDecal>();
-			timeLimitedDecal.SetUpDecal(animationTime);
-			return false;
-		}
-
-		private bool OnCollision(RaycastHit2D hit)
-		{
-			var newDecal = Spawn.ClientPrefab(decal.name,
-				hit.point).GameObject;
 			var timeLimitedDecal = newDecal.GetComponent<TimeLimitedDecal>();
 			timeLimitedDecal.SetUpDecal(animationTime);
 			return false;
