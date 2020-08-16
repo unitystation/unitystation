@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using System;
 
 namespace Atmospherics
 {
@@ -41,7 +42,7 @@ namespace Atmospherics
 		/// Before we start telling the main thread to add/remove vfx, we can check to see if the tile has already been taken care of
 		/// While not nessecary for this feature to function, it should significantly reduce performance hits from this feature
 		/// </summary>
-		private HashSet<Vector3Int> fogTiles = new HashSet<Vector3Int>();
+		private IDictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
 
 		public bool IsInUpdateList(MetaDataNode node)
 		{
@@ -199,30 +200,48 @@ namespace Atmospherics
 
 		//Handles checking for vfx changes
 		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
-		private void GasVisualEffects(MetaDataNode node){
+		private void GasVisualEffects(MetaDataNode node)
+		{
 			if (node == null || node.ReactionManager == null)
 			{
 				return;
 			}
-			if(node.GasMix.GetMoles(Gas.Plasma) > 0.4) 		//If node has an almost combustible ammount of plasma
+
+			var position = node.Position;
+
+			foreach (var gas in Gas.All)
 			{
-				if(!fogTiles.Contains(node.Position)) 		//And if it hasn't already been identified as a tile that should have plasma fx
+				var gasAmount = node.GasMix.GetMoles(gas);
+
+				if(gasAmount > gas.MinMolesToSee) 		//If node has an almost combustible ammount of plasma
 				{
-					node.ReactionManager.AddFogEvent(node); //Add it to the atmos vfx queue in ReactionManager
-					fogTiles.Add(node.Position); 			//Add it to fogTiles
+					if(!fogTiles.ContainsKey(position)) 		//And if it hasn't already been identified as a tile that should have plasma fx
+					{
+						node.ReactionManager.AddFogEvent(new ReactionManager.FogEffect {metaDataNode = node, tileName = gas.TileName, layerIndex = gas.OverlayIndex}); //Add it to the atmos vfx queue in ReactionManager
+						fogTiles.Add(new KeyValuePair<Vector3Int, HashSet<Gas>>(position, new HashSet<Gas>{gas})); //Add it to fogTiles
+					}
+					else
+					{
+						node.ReactionManager.AddFogEvent(new ReactionManager.FogEffect {metaDataNode = node, tileName = gas.TileName, layerIndex = gas.OverlayIndex});
+						fogTiles[position].Add(gas);
+					}
+				}
+				else											//If there isn't 0.4 moles of plasma, remove the fx
+				{
+					if(fogTiles.ContainsKey(position))
+					{
+						node.ReactionManager.RemoveFogEvent(new ReactionManager.FogEffect {metaDataNode = node, tileName = gas.TileName, layerIndex = gas.OverlayIndex});
+
+						if (fogTiles[position].Count == 1)
+						{
+							fogTiles.Remove(position);
+							continue;
+						}
+
+						fogTiles[position].Remove(gas);
+					}
 				}
 			}
-
-			else											//If there isn't 0.4 moles of plasma, remove the fx
-			{
-				if(fogTiles.Contains(node.Position) && (node.GasMix.GetMoles(Gas.Plasma) < 0.3))
-				{
-					node.ReactionManager.RemoveFogEvent(node);
-					fogTiles.Remove(node.Position);
-				}
-			}
-
-
 		}
 	}
 }

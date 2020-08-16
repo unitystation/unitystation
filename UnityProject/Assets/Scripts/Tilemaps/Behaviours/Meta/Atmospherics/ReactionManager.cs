@@ -15,7 +15,6 @@ public class ReactionManager : MonoBehaviour
 {
 	public float n = 20;
 
-	private static readonly int PLASMA_FX_Z = -3;
 	private static readonly int FIRE_FX_Z = -2;
 
 	private TileChangeManager tileChangeManager;
@@ -25,8 +24,8 @@ public class ReactionManager : MonoBehaviour
 	private Dictionary<Vector3Int, MetaDataNode> hotspots;
 	private UniqueQueue<MetaDataNode> winds;
 
-	private UniqueQueue<MetaDataNode> addFog; //List of tiles to add chemcial fx to
-	private UniqueQueue<MetaDataNode> removeFog; //List of tiles to remove the chemical fx from
+	private UniqueQueue<FogEffect> addFog; //List of tiles to add chemcial fx to
+	private UniqueQueue<FogEffect> removeFog; //List of tiles to remove the chemical fx from
 
 	private List<Hotspot> hotspotsToAdd;
 	private List<Vector3Int> hotspotsToRemove;
@@ -50,8 +49,8 @@ public class ReactionManager : MonoBehaviour
 		hotspots = new Dictionary<Vector3Int, MetaDataNode>();
 		winds = new UniqueQueue<MetaDataNode>();
 
-		addFog = new UniqueQueue<MetaDataNode>();
-		removeFog = new UniqueQueue<MetaDataNode>();
+		addFog = new UniqueQueue<FogEffect>();
+		removeFog = new UniqueQueue<FogEffect>();
 
 		hotspotsToRemove = new List<Vector3Int>();
 		hotspotsToAdd = new List<Hotspot>();
@@ -203,8 +202,8 @@ public class ReactionManager : MonoBehaviour
 				if (addFog.TryDequeue(out var addFogNode))
 				{
 					tileChangeManager.UpdateTile(
-						new Vector3Int(addFogNode.Position.x, addFogNode.Position.y, PLASMA_FX_Z),
-						TileType.Effects, "PlasmaAir");
+						new Vector3Int(addFogNode.metaDataNode.Position.x, addFogNode.metaDataNode.Position.y, addFogNode.layerIndex),
+						TileType.Effects, addFogNode.tileName);
 				}
 			}
 		}
@@ -218,7 +217,7 @@ public class ReactionManager : MonoBehaviour
 				if (removeFog.TryDequeue(out var removeFogNode))
 				{
 					tileChangeManager.RemoveTile(
-						new Vector3Int(removeFogNode.Position.x, removeFogNode.Position.y, PLASMA_FX_Z),
+						new Vector3Int(removeFogNode.metaDataNode.Position.x, removeFogNode.metaDataNode.Position.y, removeFogNode.layerIndex),
 						LayerType.Effects, false);
 				}
 			}
@@ -375,14 +374,14 @@ public class ReactionManager : MonoBehaviour
 
 	//Add tile to add fog effect queue
 	//Being called by AtmosSimulation
-	public void AddFogEvent(MetaDataNode node)
+	public void AddFogEvent(FogEffect node)
 	{
 		addFog.Enqueue(node);
 	}
 
 	//Add tile to remove fog effect queue
 	//Being called by AtmosSimulation
-	public void RemoveFogEvent(MetaDataNode node)
+	public void RemoveFogEvent(FogEffect node)
 	{
 		removeFog.Enqueue(node);
 	}
@@ -425,5 +424,12 @@ public class ReactionManager : MonoBehaviour
 				registerTile.OnExposed(FireExposure);
 			}
 		}
+	}
+
+	public class FogEffect
+	{
+		public MetaDataNode metaDataNode;
+		public string tileName;
+		public int layerIndex;
 	}
 }

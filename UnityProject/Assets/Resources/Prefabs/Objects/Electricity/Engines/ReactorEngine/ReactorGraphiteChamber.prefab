@@ -108,10 +108,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff9632be38569c1479a5e962ace88b8c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   OutPuttingRadiation: 0
   color: {r: 0, g: 0, b: 0, a: 0}
   ObjectID: 0
   DotSprite: {fileID: 21300000, guid: 7d4ab37af9168d243a3eead2ef5b5758, type: 3}
+  SynchroniseStrength: 0
 --- !u!114 &4677844801462675530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,6 +160,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8e0d5635150f1249ad97e8674c561c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spritehandler: {fileID: 0}
+  SpawnOnDeconstruct: {fileID: 0}
+  registerTile: {fileID: 0}
   pipeData:
     PipeLayer: 1
     Connections:
@@ -164,17 +170,20 @@ MonoBehaviour:
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
     CustomLogic: 0
-    PipeType: 2
     NetCompatible: 0
     mixAndVolume:
       Volume: 100
@@ -185,10 +194,29 @@ MonoBehaviour:
           - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
           m_values:
           - 200
-    MaxPressure: 15805.5
+      gasMix:
+        Gases:
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        Pressure: 0
+        Volume: 2.5
     ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}
+  Colour: {r: 1, g: 1, b: 1, a: 1}
   ConnectedCores: []
 --- !u!1001 &5634703418540122965
 PrefabInstance:
