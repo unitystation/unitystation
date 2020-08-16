@@ -46,12 +46,58 @@ public class SpriteHandler : MonoBehaviour
 
 	private NetworkIdentity NetworkIdentity;
 
-	private Pickupable pickupable;
-
 	private bool isSubCatalogueChanged = false;
 
 	[SerializeField]
 	private List<SerialisationStanding> Sprites =new List<SerialisationStanding>();
+
+	/// <summary>
+	/// Invokes when sprite just changed by animation or other script
+	/// Null if sprite became hidden
+	/// </summary>
+	public event System.Action<Sprite> OnSpriteChanged;
+
+	/// <summary>
+	/// Current sprite from SpriteRender or Image
+	/// Null if sprite is hidden
+	/// </summary>
+	public Sprite CurrentSprite
+	{
+		get
+		{
+			if (spriteRenderer)
+			{
+				return spriteRenderer.sprite;
+			}
+			else if (image)
+			{
+				return image.sprite;
+			}
+
+			return null;
+		}
+	}
+
+	/// <summary>
+	/// Current sprite color from SpriteRender or Image
+	/// White means no color modification was added
+	/// </summary>
+	public Color CurrentColor
+	{
+		get
+		{
+			if (spriteRenderer)
+			{
+				return spriteRenderer.color;
+			}
+			else if (image)
+			{
+				return image.color;
+			}
+
+			return Color.white;
+		}
+	}
 
 	public NetworkIdentity GetMasterNetID()
 	{
@@ -417,9 +463,6 @@ public class SpriteHandler : MonoBehaviour
 			}
 
 			spriteRenderer.SetPropertyBlock(block);
-
-			// update UI icon if avaliable
-			pickupable?.RefreshUISlotImage();
 		}
 		else if (image != null)
 		{
@@ -428,8 +471,10 @@ public class SpriteHandler : MonoBehaviour
 			{
 				image.enabled = false;
 			}
-
 		}
+
+		// try to update UI icon if avaliable
+		OnSpriteChanged?.Invoke(value);
 	}
 
 	private bool HasImageComponent()
@@ -482,11 +527,6 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		ImageComponentStatus(true);
-
-		if (pickupable == null)
-		{
-			pickupable = GetComponentInParent<Pickupable>();
-		}
 	}
 
 	private void ImageComponentStatus(bool Status)
