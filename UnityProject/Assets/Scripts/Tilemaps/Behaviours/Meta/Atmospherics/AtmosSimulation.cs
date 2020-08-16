@@ -224,24 +224,27 @@ namespace Atmospherics
 					}
 					else
 					{
+						if(fogTiles[position].Contains(gas)) continue;
+
 						node.ReactionManager.AddFogEvent(new ReactionManager.FogEffect {metaDataNode = node, tileName = gas.TileName, layerIndex = gas.OverlayIndex});
 						fogTiles[position].Add(gas);
 					}
 				}
 				else
 				{
-					if(fogTiles.ContainsKey(position))
+					if (!fogTiles.ContainsKey(position)) continue;
+
+					if (!fogTiles[position].Contains(gas)) continue;
+
+					node.ReactionManager.RemoveFogEvent(new ReactionManager.FogEffect {metaDataNode = node, tileName = gas.TileName, layerIndex = gas.OverlayIndex});
+
+					if (fogTiles[position].Count == 1)
 					{
-						node.ReactionManager.RemoveFogEvent(new ReactionManager.FogEffect {metaDataNode = node, tileName = gas.TileName, layerIndex = gas.OverlayIndex});
-
-						if (fogTiles[position].Count == 1)
-						{
-							fogTiles.Remove(position);
-							continue;
-						}
-
-						fogTiles[position].Remove(gas);
+						fogTiles.Remove(position);
+						continue;
 					}
+
+					fogTiles[position].Remove(gas);
 				}
 			}
 		}
