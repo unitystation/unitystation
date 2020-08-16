@@ -71,13 +71,16 @@ public class UI_ItemImage
 		// hide previous image
 		ClearAll();
 		//determine the sprites to display based on the new item
-		var spriteHandlers = item.GetComponentsInChildren<SpriteHandler>();
+		var spriteHandlers = item.GetComponentsInChildren<SpriteHandler>(includeInactive: true);
 		spriteHandlers = spriteHandlers.Where(x => x.CurrentSprite != null && x != Highlight.instance.spriteRenderer).ToArray();
 
 		foreach (var handler in spriteHandlers)
 		{
 			// get unused image from stack and subscribe it handler updates
 			var image = ConnectFreeImageToHandler(handler);
+
+			// check if handler is hidden
+			image.gameObject.SetActive(!handler.IsHiden);
 
 			// set sprite
 			var sprite = handler.CurrentSprite;
@@ -242,7 +245,16 @@ public class UI_ItemImage
 
         private void OnHandlerSpriteChanged(Sprite sprite)
 		{
-			UIImage.sprite = sprite;
+			if (sprite)
+			{
+				UIImage.gameObject.SetActive (true);
+				UIImage.sprite = sprite;
+			}
+			else
+			{
+				UIImage.gameObject.SetActive(false);
+			}
+
 		}
 	}
 }

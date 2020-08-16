@@ -99,6 +99,17 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+	/// <summary>
+	/// Check if this sprite hander is rendering
+	/// </summary>
+	public bool IsHiden
+	{
+		get
+		{
+			return CurrentSprite == null || !gameObject.activeInHierarchy;
+		}
+	}
+
 	public NetworkIdentity GetMasterNetID()
 	{
 		return NetworkIdentity;
@@ -473,7 +484,6 @@ public class SpriteHandler : MonoBehaviour
 			}
 		}
 
-		// try to update UI icon if avaliable
 		OnSpriteChanged?.Invoke(value);
 	}
 
@@ -550,11 +560,13 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		GetImageComponent();
+		OnSpriteChanged?.Invoke(CurrentSprite);
 	}
 
 	private void OnDisable()
 	{
 		TryToggleAnimationState(false);
+		OnSpriteChanged?.Invoke(null);
 	}
 
 	private bool isPaletted()
