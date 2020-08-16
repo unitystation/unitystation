@@ -15,6 +15,13 @@ public class ReactionManager : MonoBehaviour
 {
 	public float n = 20;
 
+	[SerializeField]
+	private GameObject fireLight = null;
+
+	private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();
+
+	public Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
+
 	private static readonly int FIRE_FX_Z = -2;
 
 	private TileChangeManager tileChangeManager;
@@ -171,6 +178,14 @@ public class ReactionManager : MonoBehaviour
 				tileChangeManager.UpdateTile(
 					new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
 					TileType.Effects, "Fire");
+
+				if(fireLight == null) continue;
+
+				if(fireLightDictionary.ContainsKey(addedHotspot.node.Position)) continue;
+
+				var fireLightSpawn = Spawn.ServerPrefab(fireLight, addedHotspot.node.Position, transform);
+
+				fireLightDictionary.Add(addedHotspot.node.Position, fireLightSpawn.GameObject);
 			}
 		}
 
@@ -186,6 +201,17 @@ public class ReactionManager : MonoBehaviour
 					new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
 					LayerType.Effects, false);
 				hotspots.Remove(removedHotspot);
+
+				if(!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;
+
+				var fireObject = fireLightDictionary[affectedNode.Position];
+
+				if (fireObject != null)
+				{
+					Despawn.ServerSingle(fireLightDictionary[affectedNode.Position]);
+				}
+
+				fireLightDictionary.Remove(affectedNode.Position);
 			}
 		}
 
@@ -193,20 +219,37 @@ public class ReactionManager : MonoBehaviour
 		hotspotsToRemove.Clear();
 		Profiler.EndSample();
 
+		Profiler.BeginSample("FogModifyAdd");
 		//Here we check to see if chemical fog fx needs to be applied, and if so, add them. If not, we remove them
 		int addFogCount = addFog.Count;
 		if (addFogCount > 0)
 		{
+			Debug.LogError(addFogCount);
+
 			for (int i = 0; i < addFogCount; i++)
 			{
 				if (addFog.TryDequeue(out var addFogNode))
 				{
+					if (fogTiles.ContainsKey(addFogNode.metaDataNode.Position))
+					{
+						if (fogTiles[addFogNode.metaDataNode.Position].Contains(addFogNode.gas)) continue;
+
+						fogTiles[addFogNode.metaDataNode.Position].Add(addFogNode.gas); //Add it to fogTiles
+					}
+					else
+					{
+						fogTiles.Add(addFogNode.metaDataNode.Position, new HashSet<Gas>{addFogNode.gas}); //Add it to fogTiles
+					}
+
 					tileChangeManager.UpdateTile(
-						new Vector3Int(addFogNode.metaDataNode.Position.x, addFogNode.metaDataNode.Position.y, addFogNode.layerIndex),
-						TileType.Effects, addFogNode.tileName);
+						new Vector3Int(addFogNode.metaDataNode.Position.x, addFogNode.metaDataNode.Position.y, addFogNode.gas.OverlayIndex),
+						TileType.Effects, addFogNode.gas.TileName);
 				}
 			}
 		}
+
+		Profiler.EndSample();
+		Profiler.BeginSample("FogModifyRemove");
 
 		//Similar to above, but for removing chemical fog fx
 		int removeFogCount = removeFog.Count;
@@ -216,12 +259,26 @@ public class ReactionManager : MonoBehaviour
 			{
 				if (removeFog.TryDequeue(out var removeFogNode))
 				{
+					if (!fogTiles.ContainsKey(removeFogNode.metaDataNode.Position)) continue;
+
+					if (!fogTiles[removeFogNode.metaDataNode.Position].Contains(removeFogNode.gas)) continue;
+
 					tileChangeManager.RemoveTile(
-						new Vector3Int(removeFogNode.metaDataNode.Position.x, removeFogNode.metaDataNode.Position.y, removeFogNode.layerIndex),
+						new Vector3Int(removeFogNode.metaDataNode.Position.x, removeFogNode.metaDataNode.Position.y, removeFogNode.gas.OverlayIndex),
 						LayerType.Effects, false);
+
+					if (fogTiles[removeFogNode.metaDataNode.Position].Count == 1)
+					{
+						fogTiles.Remove(removeFogNode.metaDataNode.Position);
+						continue;
+					}
+
+					fogTiles[removeFogNode.metaDataNode.Position].Remove(removeFogNode.gas);
 				}
 			}
 		}
+
+		Profiler.EndSample();
 
 		timePassed = 0;
 	}
@@ -429,7 +486,6 @@ public class ReactionManager : MonoBehaviour
 	public class FogEffect
 	{
 		public MetaDataNode metaDataNode;
-		public string tileName;
-		public int layerIndex;
+		public Gas gas;
 	}
 }

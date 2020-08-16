@@ -207,44 +207,27 @@ namespace Atmospherics
 				return;
 			}
 
-			var position = node.Position;
-
 			foreach (var gas in Gas.All)
 			{
 				if(!gas.HasOverlay) continue;
 
 				var gasAmount = node.GasMix.GetMoles(gas);
 
+				if(gasAmount == 0) continue;
+
+				var data = new ReactionManager.FogEffect {metaDataNode = node, gas = gas};
+
 				if(gasAmount > gas.MinMolesToSee)
 				{
-					if(!fogTiles.ContainsKey(position))
-					{
-						node.ReactionManager.AddFogEvent(new ReactionManager.FogEffect {metaDataNode = node, tileName = gas.TileName, layerIndex = gas.OverlayIndex}); //Add it to the atmos vfx queue in ReactionManager
-						fogTiles.Add(new KeyValuePair<Vector3Int, HashSet<Gas>>(position, new HashSet<Gas>{gas})); //Add it to fogTiles
-					}
-					else
-					{
-						if(fogTiles[position].Contains(gas)) continue;
+					if (node.ReactionManager.fogTiles.ContainsKey(data.metaDataNode.Position)) continue;
 
-						node.ReactionManager.AddFogEvent(new ReactionManager.FogEffect {metaDataNode = node, tileName = gas.TileName, layerIndex = gas.OverlayIndex});
-						fogTiles[position].Add(gas);
-					}
+					node.ReactionManager.AddFogEvent(data);
 				}
 				else
 				{
-					if (!fogTiles.ContainsKey(position)) continue;
+					if (!node.ReactionManager.fogTiles.ContainsKey(data.metaDataNode.Position)) continue;
 
-					if (!fogTiles[position].Contains(gas)) continue;
-
-					node.ReactionManager.RemoveFogEvent(new ReactionManager.FogEffect {metaDataNode = node, tileName = gas.TileName, layerIndex = gas.OverlayIndex});
-
-					if (fogTiles[position].Count == 1)
-					{
-						fogTiles.Remove(position);
-						continue;
-					}
-
-					fogTiles[position].Remove(gas);
+					node.ReactionManager.RemoveFogEvent(data);
 				}
 			}
 		}
