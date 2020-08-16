@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using ScriptableObjects.Gun;
 
 namespace Weapons.Projectiles.Behaviours
@@ -11,6 +12,7 @@ namespace Weapons.Projectiles.Behaviours
 	{
 		private GameObject shooter;
 		private Gun weapon;
+		private ProjectileKineticDamageCalculation projectileKineticDamage;
 
 		[SerializeField] private DamageData damageData = null;
 
@@ -34,12 +36,7 @@ namespace Weapons.Projectiles.Behaviours
 				return false;
 			}
 
-			float pressure = MatrixManager.AtPoint(
-				(Vector3Int)hit.point.To2Int(),
-				true
-			).MetaDataLayer.Get(hit.transform.localPosition.RoundToInt()).GasMix.Pressure;
-
-			var newDamage = DamageByPressureModifier(pressure);
+			float newDamage = projectileKineticDamage.DamageByPressureModifier(damageData.Damage);
 
 			integrity.ApplyDamage(newDamage, damageData.AttackType, damageData.DamageType);
 
@@ -58,16 +55,15 @@ namespace Weapons.Projectiles.Behaviours
 			return true;
 		}
 
-		private float DamageByPressureModifier(float pressure)
-		{
-			float newDamage = damageData.Damage - (damageData.Damage * (pressure / 135));
-			return Mathf.Clamp(newDamage, 0, damageData.Damage);
-		}
-
 		private void OnDisable()
 		{
 			weapon = null;
 			shooter = null;
+		}
+
+		private void Awake()
+		{
+			projectileKineticDamage = GetComponent<ProjectileKineticDamageCalculation>();
 		}
 	}
 }
