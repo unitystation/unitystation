@@ -1,9 +1,7 @@
 {
-    "name": "TilemapsEditor",
+    "name": "MLEditor",
     "references": [
-        "Unity.2D.Tilemap.Editor",
-        "Assets",
-        "Logger"
+        "MLAgent"
     ],
     "includePlatforms": [
         "Editor"
