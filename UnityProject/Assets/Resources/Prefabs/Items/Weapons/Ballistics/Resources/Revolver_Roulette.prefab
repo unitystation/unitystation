@@ -1,0 +1,168 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1416298968525865487
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8957050799834478575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8343d0f678a24c949baac4bba12c2f59, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ammoPrefab: {fileID: 742292832060491855, guid: 9e8f0c4c21855a34f8ebe8ba3170f6de,
+    type: 3}
+  casingPrefabOverride: {fileID: 0}
+  allowMagazineRemoval: 0
+  ammoType: 11
+  SpawnsCasing: 1
+  MagInternal: 1
+  burstCooldown: 0
+  burstCount: 3
+  SmartGun: 0
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FiringSound: ShootGun04
+  FireRate: 3
+  MaxRecoilVariance: 0
+  Projectile: {fileID: 1932369758612010, guid: 008fa24b13fdb4e98971489ecee9218c, type: 3}
+  ProjectilesFired: 1
+  ProjectileVelocity: 10
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
+  WeaponType: 0
+--- !u!114 &8898125733531259580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8957050799834478575}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 01cc18069900892838167df8988ad149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ammoPrefab: {fileID: 742292832060491855, guid: 9e8f0c4c21855a34f8ebe8ba3170f6de,
+    type: 3}
+  casingPrefabOverride: {fileID: 0}
+  allowMagazineRemoval: 1
+  ammoType: 11
+  SpawnsCasing: 1
+  MagInternal: 0
+  burstCooldown: 3
+  burstCount: 3
+  SmartGun: 0
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FiringSound: Shootgun04
+  FireRate: 3
+  MaxRecoilVariance: 0
+  Projectile: {fileID: 0}
+  ProjectilesFired: 1
+  ProjectileVelocity: 10
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
+  WeaponType: 0
+  untestedChambers: 6
+--- !u!1001 &816935236585027400
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8211780442666872773, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: initialName
+      value: Roulette Revolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 8211780442666872773, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: initialDescription
+      value: Test your luck!
+      objectReference: {fileID: 0}
+    - target: {fileID: 8543247000716147987, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8577108076371459539, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8582594776399167655, guid: 40613838c790c3f48bd441a6587bfd08,
+        type: 3}
+      propertyPath: m_Name
+      value: Revolver_Roulette
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 3792137954170839874, guid: 40613838c790c3f48bd441a6587bfd08, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 40613838c790c3f48bd441a6587bfd08, type: 3}
+--- !u!1 &8957050799834478575 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8582594776399167655, guid: 40613838c790c3f48bd441a6587bfd08,
+    type: 3}
+  m_PrefabInstance: {fileID: 816935236585027400}
+  m_PrefabAsset: {fileID: 0}

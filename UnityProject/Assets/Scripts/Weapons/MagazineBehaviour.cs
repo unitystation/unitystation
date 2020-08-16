@@ -41,13 +41,15 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// <summary>
 	///	Whether this can be used to reload other (internal or external) magazines.
 	/// </summary>
-	[SerializeField, Tooltip("Defines if this can be used to reload other magazines, clips or be used as an internal mag")]
+	[HideInInspector, Tooltip("Defines if this can be used to reload other magazines, clips or be used as an internal mag")]
 	public bool isClip;
 
-	[SerializeField]
+	[HideInInspector]
 	public bool isCartridge;
 
 	public AmmoType ammoType; //SET IT IN INSPECTOR
+
+	[HideInInspector]
 	public int magazineSize = 20;
 
 	/// <summary>
@@ -81,13 +83,10 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 	private void Init()
 	{
-		if (isCartridge)
-		{
-			isClip = true;
-		}
-		else if (isClip)
+		if (isClip)
 		{
 			isCartridge = false;
+			magazineSize = 1;
 		}
 	}
 
@@ -152,7 +151,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 			else
 			{
 				SyncServerAmmo(serverAmmoRemains, serverAmmoRemains - amount);
-				if (isClip && serverAmmoRemains == 0)
+				if (isClip && serverAmmoRemains == 0 || isCartridge && serverAmmoRemains == 0)
 				{
 					Despawn.ServerSingle(gameObject);
 				}
@@ -205,7 +204,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 		if (mag == null) return false;
 		if (mag == this) return false;
-		if (mag.ammoType != ammoType || !isClip) return false;
+		if (mag.ammoType != ammoType || !isClip && !isCartridge) return false;
 
 		return true;
 	}
@@ -262,7 +261,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 			var yes = interaction.UsedObject.GetComponent<ItemStorage>();
 			//We are the target object and an empty hand has been used on us, unload cartridge into hand
 			RemoveCartridgeToHand(interaction.FromSlot);
-		}
+		} // mag or clip to cartridge or clip to mag
 		else if (UsedObjectMagScript.isCartridge && !TargetObjectMagScript.isCartridge || UsedObjectMagScript.isClip && !TargetObjectMagScript.isCartridge)
 		{
 			//We are a clip/mag with a clip or cartridge being used on us
@@ -390,16 +389,19 @@ public enum AmmoType
 	{
 		public override void OnInspectorGUI()
 		{
-			DrawDefaultInspector(); // for other non-HideInInspector fields
-
 			MagazineBehaviour script = (MagazineBehaviour)target;
 
-			script.isClip = EditorGUILayout.Toggle("isClip", script.isClip);
-
+			DrawDefaultInspector(); // for other non-HideInInspector fields
 			if (!script.isClip) // show exclusive fields depending on whether magazine is internal
 			{
 				script.isCartridge = EditorGUILayout.Toggle("isCartridge", script.isCartridge);
 			}
+			if (!script.isCartridge)
+			{
+				script.magazineSize = EditorGUILayout.IntField("Magazine Size", script.magazineSize);
+				script.isClip = EditorGUILayout.Toggle("isClip", script.isClip);			
+			}
+
 		}
 	}
 #endif

@@ -98,6 +98,17 @@ PrefabInstance:
       propertyPath: magazineSize
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: containedCartridge
+      value: 
+      objectReference: {fileID: 7472443705493557711, guid: baebc343daef6529787425dd029b5b0c,
+        type: 3}
+    - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: isClip
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3176908863337649637, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: initialTraits.Array.size

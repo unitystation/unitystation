@@ -91,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: magazineSize
-      value: 1
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
@@ -103,6 +103,12 @@ PrefabInstance:
       propertyPath: isClip
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: containedCartridge
+      value: 
+      objectReference: {fileID: 4027108272404837731, guid: fd9f079ea12bad128a75acc0b83426d3,
+        type: 3}
     - target: {fileID: 3176908863337649637, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: initialTraits.Array.size

@@ -683,14 +683,15 @@ namespace Weapons
 
 		private Vector2 CalcDirection(Vector2 direction, int iteration)
 		{
-			if (iteration == 1)
+			if (iteration == 0)
 			{
 				return direction;
 			}
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-			float angleVariance = iteration/1.6f;
-			float angleDeviation = Random.Range(-angleVariance, angleVariance);
-			float newAngle = angle * Mathf.Deg2Rad + angleDeviation;
+			float angleVariance = (iteration/1.6f);
+			float angleVHalf = angleVariance/2;
+			float angleDeviation = Random.Range(-angleVHalf, angleVHalf);
+			float newAngle = angle + angleDeviation * Mathf.Deg2Rad;
 			Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
 			return vec2;
 		}
