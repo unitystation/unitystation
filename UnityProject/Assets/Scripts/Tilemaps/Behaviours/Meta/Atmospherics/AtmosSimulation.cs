@@ -211,6 +211,8 @@ namespace Atmospherics
 
 			foreach (var gas in Gas.All)
 			{
+				if(!gas.HasOverlay) continue;
+
 				var gasAmount = node.GasMix.GetMoles(gas);
 
 				if(gasAmount > gas.MinMolesToSee) 		//If node has an almost combustible ammount of plasma
