@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: maxHits
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 4386802385261019217, guid: f65f1f0bd0295df468272b3d767985a7,
+        type: 3}
+      propertyPath: damageData
+      value: 
+      objectReference: {fileID: 11400000, guid: 180cb49037d5c494faa8b67fa5ca74e4,
+        type: 2}
     - target: {fileID: 5072908772116833230, guid: f65f1f0bd0295df468272b3d767985a7,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -72,11 +78,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: Bullet_PlasmaBlastAdvanced
       objectReference: {fileID: 0}
+    - target: {fileID: 5118441467300794216, guid: f65f1f0bd0295df468272b3d767985a7,
+        type: 3}
+      propertyPath: damageData
+      value: 
+      objectReference: {fileID: 11400000, guid: 180cb49037d5c494faa8b67fa5ca74e4,
+        type: 2}
     - target: {fileID: 5489480880279581688, guid: f65f1f0bd0295df468272b3d767985a7,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6841721982291159147, guid: f65f1f0bd0295df468272b3d767985a7,
+        type: 3}
+      propertyPath: damageData
+      value: 
+      objectReference: {fileID: 11400000, guid: 180cb49037d5c494faa8b67fa5ca74e4,
+        type: 2}
     - target: {fileID: 7826435505032354680, guid: f65f1f0bd0295df468272b3d767985a7,
         type: 3}
       propertyPath: maxDistance
