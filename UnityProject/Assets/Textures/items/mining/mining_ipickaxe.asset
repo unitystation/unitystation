@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 169bd54a2a7d466d9184283d53cdad77, type: 3}
-  m_Name: Bullet_PlasmaAdvanced
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: mining_ipickaxe
   m_EditorClassIdentifier: 
-  damage: 7
-  damageType: 0
-  attackType: 1
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: d9f1dd352f4da12428afd205ff9b1bcb, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 6304
