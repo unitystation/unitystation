@@ -7,7 +7,7 @@ using UnityEngine;
 [RequireComponent(typeof(Pickupable))]
 public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 {
-	public SpriteRenderer spriteRenderer;
+	public SpriteHandler spriteHandler;
 
 	/// <summary>
 	/// Sound played when turning this baton on/off
@@ -32,13 +32,6 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 
 	public bool isActive => active;
 
-	private Pickupable pickupable;
-
-	private void Awake()
-	{
-		pickupable = GetComponent<Pickupable>();
-	}
-
 	public void ToggleState()
 	{
 		UpdateState(active, !active);
@@ -55,14 +48,12 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 	{
 		if (active)
 		{
-			spriteRenderer.sprite = spriteActive;
+			spriteHandler?.SetSprite(spriteActive);
 		}
 		else
 		{
-			spriteRenderer.sprite = spriteInactive;
+			spriteHandler?.SetSprite(spriteInactive);
 		}
-
-		Inventory.RefreshUISlotImage(gameObject);
 	}
 
 	public void ClientPredictInteraction(HandActivate interaction)
@@ -77,7 +68,7 @@ public class StunBaton : NetworkBehaviour, IPredictedInteractable<HandActivate>
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
-		SoundManager.PlayNetworkedAtPos(soundToggle, interaction.Performer.transform.position, sourceObj: interaction.Performer);
+		SoundManager.PlayNetworkedAtPos(soundToggle, interaction.Performer.AssumedWorldPosServer(), sourceObj: interaction.Performer);
 		ToggleState();
 	}
 }

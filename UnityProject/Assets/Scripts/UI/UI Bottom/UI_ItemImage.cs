@@ -12,8 +12,8 @@ public class UI_ItemImage
 	private readonly GameObject root;
 	private bool hidden;
 
-	private Stack<Image> usedImages = new Stack<Image>();
-	private Stack<Image> freeImages = new Stack<Image>();
+	private Stack<ImageAndHandler> usedImages = new Stack<ImageAndHandler>();
+	private Stack<ImageAndHandler> freeImages = new Stack<ImageAndHandler>();
 	private Image overlay;
 
 	/// <summary>
@@ -27,9 +27,9 @@ public class UI_ItemImage
 			if (usedImages.Count != 0)
 			{
 				var firstImage = usedImages.Peek();
-				if (firstImage)
+				if (firstImage != null && firstImage.Handler)
 				{
-					return firstImage.sprite;
+					return firstImage.Handler.CurrentSprite;
 				}
 			}
 
@@ -56,10 +56,10 @@ public class UI_ItemImage
 	public void SetHidden(bool hidden)
 	{
 		this.hidden = hidden;
-		foreach (var image in usedImages)
+		foreach (var pair in usedImages)
 		{
-			image.enabled = !hidden;
-			image.preserveAspect = !hidden;
+			pair.UIImage.enabled = !hidden;
+			pair.UIImage.preserveAspect = !hidden;
 		}
 	}
 
@@ -71,21 +71,26 @@ public class UI_ItemImage
 		// hide previous image
 		ClearAll();
 		//determine the sprites to display based on the new item
-		var spriteRends = item.GetComponentsInChildren<SpriteRenderer>();
-		spriteRends = spriteRends.Where(x => x.sprite != null && x != Highlight.instance.spriteRenderer).ToArray();
+		var spriteHandlers = item.GetComponentsInChildren<SpriteHandler>(includeInactive: true);
+		spriteHandlers = spriteHandlers.Where(x => x.CurrentSprite != null && x != Highlight.instance.spriteRenderer).ToArray();
 
-		foreach (var render in spriteRends)
+		foreach (var handler in spriteHandlers)
 		{
-			var image = GetFreeImage();
+			// get unused image from stack and subscribe it handler updates
+			var image = ConnectFreeImageToHandler(handler);
+
+			// check if handler is hidden
+			image.gameObject.SetActive(!handler.IsHiden);
 
 			// set sprite
-			var sprite = render.sprite;
+			var sprite = handler.CurrentSprite;
 			image.sprite = sprite;
 
 			// set color
-			var color = image.color;
+			var color = handler.CurrentColor;
 			image.color = color;
 
+			// I don't have any idea what is happening here or how to test it
 			// set palleted and color palette
 			var itemAttrs = item.GetComponent<ItemAttributesV2>();
 			if (itemAttrs.ItemSprites.SpriteInventoryIcon != null && itemAttrs.ItemSprites.IsPaletted)
@@ -151,28 +156,34 @@ public class UI_ItemImage
 	{
 		while (usedImages.Count != 0)
 		{
-			var img = usedImages.Pop();
-			freeImages.Push(img);
-			img.enabled = false;
+			var usedImage = usedImages.Pop();
+			freeImages.Push(usedImage);
+
+			// reset and hide used image
+			usedImage.Handler = null;
+			usedImage.UIImage.enabled = false;
 		}
 
 		SetOverlay(null);
 	}
 
-	private Image GetFreeImage()
+	private Image ConnectFreeImageToHandler(SpriteHandler handler)
 	{
-		Image ret;
+		ImageAndHandler pair;
 		if (freeImages.Count > 0)
 		{
-			ret = freeImages.Pop();
+			pair = freeImages.Pop();
 		}
 		else
 		{
-			ret = CreateNewImage();
+			var img = CreateNewImage();
+			pair = new ImageAndHandler(img);
 		}
 
-		usedImages.Push(ret);
-		return ret;
+		pair.Handler = handler;
+		usedImages.Push(pair);
+
+		return pair.UIImage;
 	}
 
 	private Image CreateNewImage(string name = "uiItemImage")
@@ -188,9 +199,62 @@ public class UI_ItemImage
 
 		var img = go.AddComponent<Image>();
 		var imgMat = Resources.Load<Material>("Materials/Palettable UI");
-		img.material = imgMat;
+		img.material = Object.Instantiate(imgMat);
 		img.alphaHitTestMinimumThreshold = 0.5f;
 
 		return img;
+	}
+
+	/// <summary>
+	/// This class subscribe UIImage to SpriteHandler updates
+	/// If SpriteHandler updates sprite this will also update it for UIImage
+	/// </summary>
+	private class ImageAndHandler
+	{
+		public Image UIImage { get; private set; }
+		private SpriteHandler handler;
+
+		public ImageAndHandler(Image image)
+		{
+			UIImage = image;
+		}
+
+		public SpriteHandler Handler
+		{
+			get
+			{
+				return handler;
+			}
+			set
+			{
+				// unsubscribe from old handler changes
+				if (handler != null)
+				{
+					handler.OnSpriteChanged -= OnHandlerSpriteChanged;
+				}
+
+				handler = value;
+
+				// subscribe to new handler changes
+				if (handler)
+				{
+					handler.OnSpriteChanged += OnHandlerSpriteChanged;
+				}
+			}
+		}
+
+        private void OnHandlerSpriteChanged(Sprite sprite)
+		{
+			if (sprite)
+			{
+				UIImage.gameObject.SetActive (true);
+				UIImage.sprite = sprite;
+			}
+			else
+			{
+				UIImage.gameObject.SetActive(false);
+			}
+
+		}
 	}
 }
