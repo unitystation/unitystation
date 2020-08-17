@@ -20,8 +20,7 @@ public class Cookable : MonoBehaviour
 	/// <summary>
 	/// Raised when enough cooking time has been added (via <see cref="AddCookingTime(float)"/>)
 	/// </summary>
-	[NonSerialized]
-	public UnityEvent OnCooked = new UnityEvent();
+	public event Action OnCooked;
 
 	private float timeSpentCooking;
 

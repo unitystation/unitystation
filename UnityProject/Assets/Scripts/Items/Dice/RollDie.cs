@@ -61,7 +61,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 
 		if (cookable != null && isRiggable)
 		{
-			cookable.OnCooked.AddListener(Cook);
+			cookable.OnCooked += Cook;
 		}
 	}
 
@@ -72,7 +72,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 
 		if (cookable != null)
 		{
-			cookable.OnCooked.RemoveListener(Cook);
+			cookable.OnCooked -= Cook;
 		}
 	}
 

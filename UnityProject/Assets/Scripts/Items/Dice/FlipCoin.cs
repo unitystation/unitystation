@@ -8,6 +8,11 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 {
 	private const float FLIP_TIME = 1; // In seconds.
 
+	private const int SPRITE_RESTING = 0;
+	private const int SPRITE_FLIPPING = 1;
+	private const int SPRITE_VARIANT_RESTING_UPRIGHT = 0;
+	private const int SPRITE_VARIANT_RESTING_INVERTED = 1;
+
 	[SerializeField]
 	[Tooltip("The name of the top face. This is the default, upright position.")]
 	private string headName = "head";
@@ -45,8 +50,8 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 
 	private void UpdateSprite()
 	{
-		spriteHandler.ChangeSprite(0);
-		spriteHandler.ChangeSpriteVariant(IsUpright ? 0 : 1);
+		spriteHandler.ChangeSprite(SPRITE_RESTING);
+		spriteHandler.ChangeSpriteVariant(IsUpright ? SPRITE_VARIANT_RESTING_UPRIGHT : SPRITE_VARIANT_RESTING_INVERTED);
 	}
 
 	private string GetFaceName()
@@ -88,9 +93,9 @@ public class FlipCoin : MonoBehaviour, IExaminable, ICheckedInteractable<HandAct
 
 	private IEnumerator Flip()
 	{
-		// Sprite SO 1 is a flip animation.
+		// The flip animation sprite SO has only only one variant.
 		spriteHandler.ChangeSpriteVariant(0);
-		spriteHandler.ChangeSprite(1);
+		spriteHandler.ChangeSprite(SPRITE_FLIPPING);
 		yield return WaitFor.Seconds(FLIP_TIME);
 
 		IsUpright = Random.Range(0, 2) == 0;
