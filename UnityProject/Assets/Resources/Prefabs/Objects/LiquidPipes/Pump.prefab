@@ -81,7 +81,7 @@ GameObject:
   - component: {fileID: 1000024403345560943}
   - component: {fileID: 1400605827966281276}
   - component: {fileID: 7334614426899865614}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: overlayp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -140,8 +140,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300016, guid: 02663cdc96c04ce45bbc9a2a172da315, type: 3}
+  m_SortingOrder: -1
+  m_Sprite: {fileID: 21300032, guid: 02663cdc96c04ce45bbc9a2a172da315, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -184,10 +184,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: f204def9e151d9f40ba9f7f95c9d8c7e,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
       value: Pump
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -248,6 +258,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Passable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

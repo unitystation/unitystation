@@ -219,7 +219,7 @@ namespace Atmospherics
 
 				if(gasAmount > gas.MinMolesToSee)
 				{
-					if (node.ReactionManager.fogTiles.ContainsKey(data.metaDataNode.Position)) continue;
+					if (node.ReactionManager.fogTiles.ContainsKey(data.metaDataNode.Position) && node.ReactionManager.fogTiles[data.metaDataNode.Position].Contains(gas)) continue;
 
 					node.ReactionManager.AddFogEvent(data);
 				}

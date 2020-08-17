@@ -64,6 +64,11 @@ public class ReactionManager : MonoBehaviour
 		tilemapDamages = GetComponentsInChildren<TilemapDamage>();
 	}
 
+	private void Start()
+	{
+		fireLight = AtmosManager.Instance.fireLight;
+	}
+
 	private void Update()
 	{
 		timePassed += Time.deltaTime;
@@ -179,8 +184,6 @@ public class ReactionManager : MonoBehaviour
 					new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
 					TileType.Effects, "Fire");
 
-				if(fireLight == null) continue;
-
 				if(fireLightDictionary.ContainsKey(addedHotspot.node.Position)) continue;
 
 				var fireLightSpawn = Spawn.ServerPrefab(fireLight, addedHotspot.node.Position, transform);
@@ -224,8 +227,6 @@ public class ReactionManager : MonoBehaviour
 		int addFogCount = addFog.Count;
 		if (addFogCount > 0)
 		{
-			Debug.LogError(addFogCount);
-
 			for (int i = 0; i < addFogCount; i++)
 			{
 				if (addFog.TryDequeue(out var addFogNode))
