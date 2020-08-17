@@ -102,6 +102,7 @@ GameObject:
   - component: {fileID: -5194193326582353321}
   - component: {fileID: -4055719543417172584}
   - component: {fileID: 6108340017713445561}
+  - component: {fileID: 6697179338285310534}
   m_Layer: 11
   m_Name: mining_machines_54
   m_TagString: Untagged
@@ -191,20 +192,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   InitialVendorContent:
-  - ItemName: 
+  - ItemName: Mining Satchel
     Item: {fileID: 6700281191928912403, guid: 51db727353f37334c9bfdbb512f2d530, type: 3}
     Stock: 5
-  - ItemName: 
-    Item: {fileID: 6507000735928756314, guid: 672dc44f4c052d746aefa06b301785bd, type: 3}
+  - ItemName: Pickaxe
+    Item: {fileID: 2654136094092541073, guid: 82cb1c39112974a498a9756981eb07d0, type: 3}
     Stock: 5
-  - ItemName: 
-    Item: {fileID: 2654136094092541073, guid: 5a7fa3c926dc42141889e9b72c5d314d, type: 3}
+  - ItemName: Lantern
+    Item: {fileID: 3546095837535277525, guid: abe9c13902b62ce449fdfec99db8f554, type: 3}
     Stock: 5
-  - ItemName: 
+  - ItemName: Shovel
     Item: {fileID: 6507691273333881185, guid: 1488f67a55cb9b84098e095e65e5a2b3, type: 3}
     Stock: 5
-  - ItemName: 
-    Item: {fileID: 6507000735928756314, guid: 672dc44f4c052d746aefa06b301785bd, type: 3}
+  - ItemName: Proto-Kinetic Accelerator
+    Item: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4, type: 3}
     Stock: 5
   HullColor: {r: 0.5882353, g: 0.4392157, b: 0.19607843, a: 1}
   EjectObjects: 0
@@ -387,3 +388,16 @@ MonoBehaviour:
   SelfPowered: 0
   State: 0
   conType: 1
+--- !u!114 &6697179338285310534
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1148151089360074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 91b1f6111eb8ac243b137dc8a7e36d1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  restriction: 53
