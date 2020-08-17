@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 4169634540281777295}
   - component: {fileID: 4040190518005089304}
   - component: {fileID: 2284460129078176431}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: SpritePipe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -184,12 +184,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300024, guid: ab114164e53d9954dac5b33964df4cf3,
+      objectReference: {fileID: 21300160, guid: ab114164e53d9954dac5b33964df4cf3,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
       value: Scrubber
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -250,6 +260,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Passable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
