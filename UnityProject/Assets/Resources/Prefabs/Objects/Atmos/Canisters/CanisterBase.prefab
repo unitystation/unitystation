@@ -27,20 +27,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  gasMix:
-    Gases:
-    - 0
-    - 0
-    - 0
-    - 0
-    Pressure: 0
-    Volume: 1
   Opened: 0
   MaximumMoles: 60932.95
   ReleasePressure: 101.325
   Volume: 1
   Temperature: 293.15
   Gases:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   - 0
   - 0
   - 0
@@ -262,6 +265,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: c36dd00864f7a8e4fae6f5f083326a1c, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
