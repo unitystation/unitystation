@@ -227,8 +227,6 @@ public class ReactionManager : MonoBehaviour
 		int addFogCount = addFog.Count;
 		if (addFogCount > 0)
 		{
-			Debug.LogError(addFogCount);
-
 			for (int i = 0; i < addFogCount; i++)
 			{
 				if (addFog.TryDequeue(out var addFogNode))
