@@ -64,6 +64,11 @@ public class ReactionManager : MonoBehaviour
 		tilemapDamages = GetComponentsInChildren<TilemapDamage>();
 	}
 
+	private void Start()
+	{
+		fireLight = AtmosManager.Instance.fireLight;
+	}
+
 	private void Update()
 	{
 		timePassed += Time.deltaTime;
@@ -178,8 +183,6 @@ public class ReactionManager : MonoBehaviour
 				tileChangeManager.UpdateTile(
 					new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
 					TileType.Effects, "Fire");
-
-				if(fireLight == null) continue;
 
 				if(fireLightDictionary.ContainsKey(addedHotspot.node.Position)) continue;
 
