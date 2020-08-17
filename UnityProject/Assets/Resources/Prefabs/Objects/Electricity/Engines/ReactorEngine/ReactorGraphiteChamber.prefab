@@ -18,54 +18,6 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: 572919feded9e5a4c8717df84f50a1f9,
     type: 2}
---- !u!114 &1384298704471992277
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8390320911816615196}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97872b235e4e26d48b18ddc5927c52e2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  EditorPresentNeutrons: 0
-  EditorEnergyReleased: 0
-  UraniumOre: {fileID: 5776497215191974577, guid: 34f7d74d5d846bd4a8f3960a42f298f3,
-    type: 3}
-  MetalOre: {fileID: 5776497215191974577, guid: 9ac648da14e680a4a9873997a26aff32,
-    type: 3}
-  PlasSteel: {fileID: 0}
-  RodStorage: {fileID: 5255741207357749315}
-  PipeStorage: {fileID: -6392628326379791579}
-  PipeItemTrait: {fileID: 11400000, guid: 066fee8b180af6c47a2bf6cb99f725a5, type: 2}
-  LikelihoodOfSpontaneousNeutron: 0.1
-  radiationProducer: {fileID: 0}
-  ReactorPipe: {fileID: 0}
-  ReactorRods:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  ReactorFuelRods: []
-  ReactorEngineStarters: []
-  ControlRodDepthPercentage: 1
-  RodMeltingTemperatureK: 1100
-  MeltedDown: 0
-  PoppedPipes: 0
 --- !u!114 &3033393858997830747
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -217,7 +169,57 @@ MonoBehaviour:
     Outputs: []
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
+  Water: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
   ConnectedCores: []
+--- !u!114 &9056394620644044228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8390320911816615196}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97872b235e4e26d48b18ddc5927c52e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EditorPresentNeutrons: 0
+  EditorEnergyReleased: 0
+  UraniumOre: {fileID: 5776497215191974577, guid: 34f7d74d5d846bd4a8f3960a42f298f3,
+    type: 3}
+  MetalOre: {fileID: 5776497215191974577, guid: 9ac648da14e680a4a9873997a26aff32,
+    type: 3}
+  PlasSteel: {fileID: 3642454299424425929, guid: 7d23f839f141d4c99a6bfe9c8bfceca1,
+    type: 3}
+  RodStorage: {fileID: 5255741207357749315}
+  PipeStorage: {fileID: -6392628326379791579}
+  PipeItemTrait: {fileID: 11400000, guid: 066fee8b180af6c47a2bf6cb99f725a5, type: 2}
+  LikelihoodOfSpontaneousNeutron: 0.1
+  radiationProducer: {fileID: 0}
+  ReactorPipe: {fileID: 0}
+  ReactorRods:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  ReactorFuelRods: []
+  ReactorEngineStarters: []
+  ControlRodDepthPercentage: 1
+  RodMeltingTemperatureK: 1100
+  MeltedDown: 0
+  PoppedPipes: 0
 --- !u!1001 &5634703418540122965
 PrefabInstance:
   m_ObjectHideFlags: 0
