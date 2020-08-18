@@ -232,6 +232,12 @@ namespace Weapons
 
 				Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 
+				if (CurrentMagazine == null)
+				{
+					Debug.LogError($"{gameObject.name} has null current magazine");
+					return;
+				}
+
 				CurrentMagazine.ChangeSize(MagSize);
 				CurrentMagazine.ammoType = ammoType;
 
