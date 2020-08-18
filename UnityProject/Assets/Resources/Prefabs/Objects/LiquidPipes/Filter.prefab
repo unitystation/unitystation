@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 5334430592422950419}
   - component: {fileID: 2066461209940940582}
   - component: {fileID: 8067553572352720633}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Sprite (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -70,8 +70,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
-  m_SortingOrder: 1
-  m_Sprite: {fileID: 21300008, guid: 2573099eb6206b54fa8efdec29eeb81b, type: 3}
+  m_SortingOrder: -1
+  m_Sprite: {fileID: 21300000, guid: 2573099eb6206b54fa8efdec29eeb81b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -165,6 +165,17 @@ MonoBehaviour:
         - 0
         - 0
         - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
         Pressure: 0
         Volume: 0.1
     ConnectedPipes: []
@@ -172,7 +183,7 @@ MonoBehaviour:
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   spriteHandlerOverlay: {fileID: 8067553572352720633}
-  MaxPressure: 10000
+  ToMaxPressure: 9999
   IsOn: 0
   FilterReagent: {fileID: 0}
 --- !u!1001 &8121663795168480408
@@ -188,10 +199,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 2153187db89e7a94f9b841dc689ea12c,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -2
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
       value: Filter
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -252,6 +273,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Passable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

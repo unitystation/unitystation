@@ -51,6 +51,17 @@ MonoBehaviour:
         - 0
         - 0
         - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
         Pressure: 0
         Volume: 0.05
     ConnectedPipes: []
@@ -79,6 +90,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: GasConnector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -139,6 +155,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Passable
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

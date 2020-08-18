@@ -19,6 +19,7 @@ namespace Pipes
 		{
 			pipeData.PipeAction = new MonoActions();
 			base.Start();
+			spriteHandlerOverlay.PushClear();
 		}
 
 		public override void Interaction(HandApply interaction)

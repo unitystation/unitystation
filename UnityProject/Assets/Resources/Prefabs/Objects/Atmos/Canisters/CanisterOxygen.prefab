@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
+      propertyPath: Gases.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
       propertyPath: Gases.Array.data[2]
       value: 0
       objectReference: {fileID: 0}
@@ -47,11 +52,26 @@ PrefabInstance:
       propertyPath: gasMix.Gases.Array.data[2]
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: MaximumMoles
+      value: 60932.95
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: Volume
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3242550791702936155, guid: c0e96760c016b6140ba8c3979e9213f7,
+        type: 3}
+      propertyPath: Temperature
+      value: 293.15
+      objectReference: {fileID: 0}
     - target: {fileID: 3267766569577888791, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: cab18b84143aec1449106f23e83d3afc,
+      objectReference: {fileID: 21300000, guid: 682575001c0e7bc4d80b0a54fdf8442e,
         type: 3}
     - target: {fileID: 3327308291878936282, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}
@@ -173,7 +193,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: f1f9a726095bd8549a40e18a73ef2208,
+      objectReference: {fileID: 11400000, guid: 5ef0657d7830aa84fa605100aca50781,
         type: 2}
     - target: {fileID: 8387653848795343260, guid: c0e96760c016b6140ba8c3979e9213f7,
         type: 3}

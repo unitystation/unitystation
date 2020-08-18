@@ -12,7 +12,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 	[Tooltip("The amount of sides this die has.")]
 	public int sides = 6;
 	[Tooltip("Whether the die can be rigged to give flawed results.")]
-	public bool riggable = true;
+	public bool isRiggable = true;
 
 	private Transform dieTransform;
 	private SpriteHandler faceOverlayHandler;
@@ -21,7 +21,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 
 	private const float ROLL_TIME = 1; // In seconds.
 	protected string dieName = "die";
-	protected bool rigged = false;
+	protected bool isRigged = false;
 	protected int riggedValue;
 	protected int result;
 
@@ -59,9 +59,9 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 		netTransform.OnThrowStart.AddListener(ThrowStart);
 		netTransform.OnThrowEnd.AddListener(ThrowEnd);
 
-		if (riggable)
+		if (cookable != null && isRiggable)
 		{
-			cookable.OnCooked.AddListener(Cook);
+			cookable.OnCooked += Cook;
 		}
 	}
 
@@ -69,7 +69,11 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 	{
 		netTransform.OnThrowStart.RemoveListener(ThrowStart);
 		netTransform.OnThrowEnd.RemoveListener(ThrowEnd);
-		cookable.OnCooked.RemoveListener(Cook);
+
+		if (cookable != null)
+		{
+			cookable.OnCooked -= Cook;
+		}
 	}
 
 	#endregion Lifecycle
@@ -97,9 +101,9 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 
 	public void Cook()
 	{
-		if (riggable)
+		if (isRiggable)
 		{
-			rigged = true;
+			isRigged = true;
 			riggedValue = result;
 		}
 	}
@@ -107,9 +111,14 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 	private IEnumerator RollInHand()
 	{
 		Chat.AddExamineMsgFromServer(handRollInteraction.Performer, $"You roll the {dieName} in your hands...");
+
+		IsRolling = true;
+		this.RestartCoroutine(AnimateSides(), ref animateSides);
 		yield return WaitFor.Seconds(ROLL_TIME);
+		IsRolling = false;
 
 		result = GetSide();
+		UpdateOverlay();
 		Chat.AddExamineMsgFromServer(handRollInteraction.Performer, GetMessage());
 	}
 
@@ -142,7 +151,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 
 	#region Animations
 
-	private IEnumerator AnimateSides()
+	protected IEnumerator AnimateSides()
 	{
 		while (IsRolling)
 		{
@@ -151,7 +160,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 		}
 	}
 
-	private IEnumerator AnimateBounce()
+	protected IEnumerator AnimateBounce()
 	{
 		// Rotate some limited angle from north, bounce in that direction, return to original position.
 		// TODO: Pretty bad bounce. Some lerping would help.
@@ -178,7 +187,7 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 	{
 		int result = Random.Range(1, sides + 1);
 
-		if (rigged && result != riggedValue)
+		if (isRigged && result != riggedValue)
 		{
 			if (GetProbability(Mathf.Clamp((1 / sides) * 100, 25, 80)))
 			{
@@ -201,11 +210,6 @@ public class RollDie : MonoBehaviour, IExaminable, ICheckedInteractable<HandActi
 	/// <returns>True if the given value was less or equal to a random number between 0 and 100</returns>
 	protected bool GetProbability(int percent)
 	{
-		if (Random.Range(0, 100) <= percent)
-		{
-			return true;
-		}
-
-		return false;
+		return Random.Range(0, 100) <= percent;
 	}
 }

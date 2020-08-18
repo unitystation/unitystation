@@ -31,6 +31,8 @@ public class AtmosManager : MonoBehaviour
 
 	public bool StopPipes = false;
 
+	public GameObject fireLight = null;
+
 	private void Awake()
 	{
 		if (Instance == null)

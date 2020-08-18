@@ -15,7 +15,13 @@ public class ReactionManager : MonoBehaviour
 {
 	public float n = 20;
 
-	private static readonly int PLASMA_FX_Z = -3;
+	[SerializeField]
+	private GameObject fireLight = null;
+
+	private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();
+
+	public Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
+
 	private static readonly int FIRE_FX_Z = -2;
 
 	private TileChangeManager tileChangeManager;
@@ -25,8 +31,8 @@ public class ReactionManager : MonoBehaviour
 	private Dictionary<Vector3Int, MetaDataNode> hotspots;
 	private UniqueQueue<MetaDataNode> winds;
 
-	private UniqueQueue<MetaDataNode> addFog; //List of tiles to add chemcial fx to
-	private UniqueQueue<MetaDataNode> removeFog; //List of tiles to remove the chemical fx from
+	private UniqueQueue<FogEffect> addFog; //List of tiles to add chemcial fx to
+	private UniqueQueue<FogEffect> removeFog; //List of tiles to remove the chemical fx from
 
 	private List<Hotspot> hotspotsToAdd;
 	private List<Vector3Int> hotspotsToRemove;
@@ -50,12 +56,17 @@ public class ReactionManager : MonoBehaviour
 		hotspots = new Dictionary<Vector3Int, MetaDataNode>();
 		winds = new UniqueQueue<MetaDataNode>();
 
-		addFog = new UniqueQueue<MetaDataNode>();
-		removeFog = new UniqueQueue<MetaDataNode>();
+		addFog = new UniqueQueue<FogEffect>();
+		removeFog = new UniqueQueue<FogEffect>();
 
 		hotspotsToRemove = new List<Vector3Int>();
 		hotspotsToAdd = new List<Hotspot>();
 		tilemapDamages = GetComponentsInChildren<TilemapDamage>();
+	}
+
+	private void Start()
+	{
+		fireLight = AtmosManager.Instance.fireLight;
 	}
 
 	private void Update()
@@ -172,6 +183,12 @@ public class ReactionManager : MonoBehaviour
 				tileChangeManager.UpdateTile(
 					new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
 					TileType.Effects, "Fire");
+
+				if(fireLightDictionary.ContainsKey(addedHotspot.node.Position)) continue;
+
+				var fireLightSpawn = Spawn.ServerPrefab(fireLight, addedHotspot.node.Position, transform);
+
+				fireLightDictionary.Add(addedHotspot.node.Position, fireLightSpawn.GameObject);
 			}
 		}
 
@@ -187,6 +204,17 @@ public class ReactionManager : MonoBehaviour
 					new Vector3Int(affectedNode.Position.x, affectedNode.Position.y, FIRE_FX_Z),
 					LayerType.Effects, false);
 				hotspots.Remove(removedHotspot);
+
+				if(!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;
+
+				var fireObject = fireLightDictionary[affectedNode.Position];
+
+				if (fireObject != null)
+				{
+					Despawn.ServerSingle(fireLightDictionary[affectedNode.Position]);
+				}
+
+				fireLightDictionary.Remove(affectedNode.Position);
 			}
 		}
 
@@ -194,6 +222,7 @@ public class ReactionManager : MonoBehaviour
 		hotspotsToRemove.Clear();
 		Profiler.EndSample();
 
+		Profiler.BeginSample("FogModifyAdd");
 		//Here we check to see if chemical fog fx needs to be applied, and if so, add them. If not, we remove them
 		int addFogCount = addFog.Count;
 		if (addFogCount > 0)
@@ -202,12 +231,26 @@ public class ReactionManager : MonoBehaviour
 			{
 				if (addFog.TryDequeue(out var addFogNode))
 				{
+					if (fogTiles.ContainsKey(addFogNode.metaDataNode.Position))
+					{
+						if (fogTiles[addFogNode.metaDataNode.Position].Contains(addFogNode.gas)) continue;
+
+						fogTiles[addFogNode.metaDataNode.Position].Add(addFogNode.gas); //Add it to fogTiles
+					}
+					else
+					{
+						fogTiles.Add(addFogNode.metaDataNode.Position, new HashSet<Gas>{addFogNode.gas}); //Add it to fogTiles
+					}
+
 					tileChangeManager.UpdateTile(
-						new Vector3Int(addFogNode.Position.x, addFogNode.Position.y, PLASMA_FX_Z),
-						TileType.Effects, "PlasmaAir");
+						new Vector3Int(addFogNode.metaDataNode.Position.x, addFogNode.metaDataNode.Position.y, addFogNode.gas.OverlayIndex),
+						TileType.Effects, addFogNode.gas.TileName);
 				}
 			}
 		}
+
+		Profiler.EndSample();
+		Profiler.BeginSample("FogModifyRemove");
 
 		//Similar to above, but for removing chemical fog fx
 		int removeFogCount = removeFog.Count;
@@ -217,12 +260,26 @@ public class ReactionManager : MonoBehaviour
 			{
 				if (removeFog.TryDequeue(out var removeFogNode))
 				{
+					if (!fogTiles.ContainsKey(removeFogNode.metaDataNode.Position)) continue;
+
+					if (!fogTiles[removeFogNode.metaDataNode.Position].Contains(removeFogNode.gas)) continue;
+
 					tileChangeManager.RemoveTile(
-						new Vector3Int(removeFogNode.Position.x, removeFogNode.Position.y, PLASMA_FX_Z),
+						new Vector3Int(removeFogNode.metaDataNode.Position.x, removeFogNode.metaDataNode.Position.y, removeFogNode.gas.OverlayIndex),
 						LayerType.Effects, false);
+
+					if (fogTiles[removeFogNode.metaDataNode.Position].Count == 1)
+					{
+						fogTiles.Remove(removeFogNode.metaDataNode.Position);
+						continue;
+					}
+
+					fogTiles[removeFogNode.metaDataNode.Position].Remove(removeFogNode.gas);
 				}
 			}
 		}
+
+		Profiler.EndSample();
 
 		timePassed = 0;
 	}
@@ -375,14 +432,14 @@ public class ReactionManager : MonoBehaviour
 
 	//Add tile to add fog effect queue
 	//Being called by AtmosSimulation
-	public void AddFogEvent(MetaDataNode node)
+	public void AddFogEvent(FogEffect node)
 	{
 		addFog.Enqueue(node);
 	}
 
 	//Add tile to remove fog effect queue
 	//Being called by AtmosSimulation
-	public void RemoveFogEvent(MetaDataNode node)
+	public void RemoveFogEvent(FogEffect node)
 	{
 		removeFog.Enqueue(node);
 	}
@@ -425,5 +482,11 @@ public class ReactionManager : MonoBehaviour
 				registerTile.OnExposed(FireExposure);
 			}
 		}
+	}
+
+	public class FogEffect
+	{
+		public MetaDataNode metaDataNode;
+		public Gas gas;
 	}
 }
