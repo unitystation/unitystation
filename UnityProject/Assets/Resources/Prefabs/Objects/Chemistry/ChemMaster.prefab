@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 114004528399736214}
   - component: {fileID: 114145799171838922}
   - component: {fileID: 3834752797752007758}
+  - component: {fileID: 1650235541791159626}
   m_Layer: 11
   m_Name: ChemMaster
   m_TagString: Untagged
@@ -206,6 +207,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114004528399736214
@@ -222,7 +224,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -243,7 +247,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114145799171838922
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -272,3 +275,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1650235541791159626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1800839840428714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 451638b6b2b9c7d4b8850e1e42fea78d, type: 2}
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
+    type: 3}
+  machineBoardPrefab: {fileID: 8026946951644424067, guid: 1a647f4dd2f499d40b782ae9b88a5f51,
+    type: 3}
+  canNotBeDeconstructed: 0
+  secondsToScrewdrive: 2
