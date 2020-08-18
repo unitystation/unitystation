@@ -1109,6 +1109,12 @@ MonoBehaviour:
       - {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175, type: 3}
       - {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175, type: 3}
       TotalCreditExport: 500
+    - OrderName: BZ Canister
+      CreditsCost: 8000
+      Crate: {fileID: 5818151817506838785, guid: a7e39788d7a36384389f8e7f619dd9f3,
+        type: 3}
+      Items: []
+      TotalCreditExport: 500
     - OrderName: Carbon Dioxide Canister
       CreditsCost: 3000
       Crate: {fileID: 3321916833831160622, guid: 9759789a5180a46419c8a7e2e50748e2,
@@ -1141,67 +1147,19 @@ MonoBehaviour:
       CreditsCost: 2000
       Crate: {fileID: 4045535016109707588, guid: 9944313d68658b341966d43e2c218eaa,
         type: 3}
-      Items:
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
-      - {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c, type: 3}
+      Items: []
+      TotalCreditExport: 500
+    - OrderName: Nitrous Oxide Canister
+      CreditsCost: 3000
+      Crate: {fileID: 3300659230888592933, guid: 9f9ee7218e29057428d789e482e3477d,
+        type: 3}
+      Items: []
+      TotalCreditExport: 500
+    - OrderName: Oxygen Canister
+      CreditsCost: 1500
+      Crate: {fileID: 4045535016109707588, guid: dd86caf1f673b7642be83819773021d8,
+        type: 3}
+      Items: []
       TotalCreditExport: 500
     - OrderName: Vending Resupply
       CreditsCost: 1500
@@ -1214,6 +1172,12 @@ MonoBehaviour:
       CreditsCost: 600
       Crate: {fileID: 9026303602175473701, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
+      Items:
+      - {fileID: 0}
+      TotalCreditExport: 500
+    - OrderName: Water Vapor Canister
+      CreditsCost: 2500
+      Crate: {fileID: 24053578946406583, guid: c3b1e85e5c3e2e740bb058b62c306be4, type: 3}
       Items:
       - {fileID: 0}
       TotalCreditExport: 500
