@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3849634375313991090, guid: cbd3f306e709680479e723805d14feb6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fd7cb7bd0fdcdc74bacdc706b3cf82d9,
+        type: 2}
     - target: {fileID: 3928356012177466725, guid: cbd3f306e709680479e723805d14feb6,
         type: 3}
       propertyPath: m_AssetId
@@ -77,11 +83,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: AirlockTitaniumGlass
       objectReference: {fileID: 0}
+    - target: {fileID: 4853054318117326855, guid: cbd3f306e709680479e723805d14feb6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 4957212606073255579, guid: cbd3f306e709680479e723805d14feb6,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300150, guid: cfe50577f2e1047679a52b943cb1123f,
+      objectReference: {fileID: 21300000, guid: eb78129fb127f2544be85e452067b877,
         type: 3}
+    - target: {fileID: 8814346610145069336, guid: cbd3f306e709680479e723805d14feb6,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cbd3f306e709680479e723805d14feb6, type: 3}

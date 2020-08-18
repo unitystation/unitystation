@@ -7,11 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1527610678204293978, guid: f980b38515e0ce546bb8c115bec59dba,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3146466661775563993, guid: f980b38515e0ce546bb8c115bec59dba,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300118, guid: 5186da76a90ba4cfa9ca3f8229798e76,
+      objectReference: {fileID: 21300000, guid: 7ed6c63d31819bb40865c4b3375f1562,
         type: 3}
     - target: {fileID: 3183418906493500575, guid: f980b38515e0ce546bb8c115bec59dba,
         type: 3}
@@ -73,10 +78,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: AirlockUraniumGlass
       objectReference: {fileID: 0}
+    - target: {fileID: 3186423640948701765, guid: f980b38515e0ce546bb8c115bec59dba,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 6477762451494653735, guid: f980b38515e0ce546bb8c115bec59dba,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6488937517060018160, guid: f980b38515e0ce546bb8c115bec59dba,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 83e7069aacdb7864587c92e14b75f560,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f980b38515e0ce546bb8c115bec59dba, type: 3}

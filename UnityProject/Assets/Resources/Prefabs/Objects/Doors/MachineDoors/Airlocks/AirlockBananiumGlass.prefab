@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 825362534371456029, guid: a95921e116ec42a41bd88382a1c508b9,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3632902598406384600, guid: a95921e116ec42a41bd88382a1c508b9,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -67,12 +72,23 @@ PrefabInstance:
       propertyPath: m_Name
       value: AirlockBananiumGlass
       objectReference: {fileID: 0}
+    - target: {fileID: 3638658222915775746, guid: a95921e116ec42a41bd88382a1c508b9,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 3885781609783774110, guid: a95921e116ec42a41bd88382a1c508b9,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300118, guid: 5186da76a90ba4cfa9ca3f8229798e76,
+      objectReference: {fileID: 21300000, guid: 7ed6c63d31819bb40865c4b3375f1562,
         type: 3}
+    - target: {fileID: 4920808498205612215, guid: a95921e116ec42a41bd88382a1c508b9,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 83e7069aacdb7864587c92e14b75f560,
+        type: 2}
     - target: {fileID: 5161914254322194528, guid: a95921e116ec42a41bd88382a1c508b9,
         type: 3}
       propertyPath: m_AssetId

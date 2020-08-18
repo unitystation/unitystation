@@ -67,16 +67,32 @@ PrefabInstance:
       propertyPath: m_Name
       value: AirlockPlasmaGlass
       objectReference: {fileID: 0}
+    - target: {fileID: 60413412943923622, guid: 2c25d749b45d6af4abff8d881e00eee3,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
+      objectReference: {fileID: 0}
     - target: {fileID: 523732592213339962, guid: 2c25d749b45d6af4abff8d881e00eee3,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300118, guid: 5186da76a90ba4cfa9ca3f8229798e76,
+      objectReference: {fileID: 21300000, guid: 7ed6c63d31819bb40865c4b3375f1562,
         type: 3}
+    - target: {fileID: 4169764910007554233, guid: 2c25d749b45d6af4abff8d881e00eee3,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8433958317283720388, guid: 2c25d749b45d6af4abff8d881e00eee3,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 8566836653799717907, guid: 2c25d749b45d6af4abff8d881e00eee3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 83e7069aacdb7864587c92e14b75f560,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c25d749b45d6af4abff8d881e00eee3, type: 3}

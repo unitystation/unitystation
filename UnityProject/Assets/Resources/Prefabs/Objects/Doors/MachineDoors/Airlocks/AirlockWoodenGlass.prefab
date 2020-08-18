@@ -12,11 +12,22 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 1946478504122199874, guid: 054bc6c6bc9baf942a3c9a93e3efae43,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 83e7069aacdb7864587c92e14b75f560,
+        type: 2}
+    - target: {fileID: 6070069966018151400, guid: 054bc6c6bc9baf942a3c9a93e3efae43,
+        type: 3}
+      propertyPath: isWindowedDoor
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7684389366794271851, guid: 054bc6c6bc9baf942a3c9a93e3efae43,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300118, guid: 5186da76a90ba4cfa9ca3f8229798e76,
+      objectReference: {fileID: 21300000, guid: 7ed6c63d31819bb40865c4b3375f1562,
         type: 3}
     - target: {fileID: 7864365809181449261, guid: 054bc6c6bc9baf942a3c9a93e3efae43,
         type: 3}
@@ -77,6 +88,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: AirlockWoodenGlass
+      objectReference: {fileID: 0}
+    - target: {fileID: 7869585988628323063, guid: 054bc6c6bc9baf942a3c9a93e3efae43,
+        type: 3}
+      propertyPath: m_Layer
+      value: 18
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 054bc6c6bc9baf942a3c9a93e3efae43, type: 3}
