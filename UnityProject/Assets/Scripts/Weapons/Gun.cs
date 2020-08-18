@@ -239,7 +239,7 @@ namespace Weapons
 
 		#region Interaction
 
-		public bool WillInteract(AimApply interaction, NetworkSide side)
+		public virtual bool WillInteract(AimApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (CurrentMagazine == null)
@@ -368,7 +368,7 @@ namespace Weapons
 
 
 
-		public bool Interact(HandActivate interaction)
+		public virtual bool Interact(HandActivate interaction)
 		{
 			//try ejecting the mag if external
 			if (CurrentMagazine != null)
