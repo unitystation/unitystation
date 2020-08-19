@@ -42,7 +42,14 @@ namespace Chemistry
 		public float Temperature
 		{
 			get => temperature;
-			set => temperature = value;
+			set
+			{
+				temperature = value;
+				if (float.IsNaN(Temperature))
+				{
+					Debug.LogError("Temperature is NAN");
+				}
+			}
 		}
 
 		public float WholeHeatCapacity	//this is the heat capacity for the entire Fluid mixture, in Joules/Kelvin. gets very big with lots of gas.
@@ -71,7 +78,19 @@ namespace Chemistry
 
 			set
 			{
-				Temperature = (value / WholeHeatCapacity);
+				if (WholeHeatCapacity == 0)
+				{
+					Temperature = 0;
+				}
+				else
+				{
+					Temperature =(value / WholeHeatCapacity);
+					if (float.IsNaN(Temperature))
+					{
+						Debug.LogError($"Temperature is NAN");
+					}
+				}
+
 			}
 		}
 
@@ -303,8 +322,17 @@ namespace Chemistry
 
 		public void RemoveVolume(float amount)
 		{
+			if (amount == 0)
+			{
+				return;
+			}
 			var multiplier = (Total - amount) / Total;
 			if (float.IsNaN(multiplier))
+			{
+				multiplier = 1;
+			}
+
+			if (multiplier < 0)
 			{
 				multiplier = 0;
 			}

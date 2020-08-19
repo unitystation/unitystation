@@ -7,7 +7,7 @@ namespace Atmospherics
 {
 	public static class AtmosUtils
 	{
-		public static readonly Vector2Int MINUS_ONE = new Vector2Int( -1, -1 );
+		public static readonly Vector2Int MINUS_ONE = new Vector2Int(-1, -1);
 
 		public static bool IsPressureChanged(MetaDataNode node, out Vector2Int windDirection, out float windForce)
 		{
@@ -28,22 +28,22 @@ namespace Atmospherics
 					{
 						result = true;
 
-						if ( !neighbor.IsOccupied )
+						if (!neighbor.IsOccupied)
 						{
-							if ( absoluteDifference > windForce )
+							if (absoluteDifference > windForce)
 							{
 								windForce = absoluteDifference;
 							}
 
-							int neighborOffsetX = ( neighbor.Position.x - node.Position.x );
-							int neighborOffsetY = ( neighbor.Position.y - node.Position.y );
+							int neighborOffsetX = (neighbor.Position.x - node.Position.x);
+							int neighborOffsetY = (neighbor.Position.y - node.Position.y);
 
-							if ( pressureDifference > 0 )
+							if (pressureDifference > 0)
 							{
 								windDirection.x += neighborOffsetX;
 								windDirection.y += neighborOffsetY;
 							}
-							else if ( pressureDifference < 0 )
+							else if (pressureDifference < 0)
 							{
 								windDirection.x -= neighborOffsetX;
 								windDirection.y -= neighborOffsetY;
@@ -51,7 +51,6 @@ namespace Atmospherics
 
 							clampVector.x -= neighborOffsetX;
 							clampVector.y -= neighborOffsetY;
-
 						}
 					}
 					else
@@ -68,14 +67,14 @@ namespace Atmospherics
 							}
 						}
 					}
-
 				}
 			}
+
 			//not blowing in direction of tiles that aren't atmos passable
-			windDirection.y = Mathf.Clamp( windDirection.y, 	clampVector.y < 0? 0 : -1,
-																	clampVector.y > 0? 0 : 1);
-			windDirection.x = Mathf.Clamp( windDirection.x, 	clampVector.x < 0? 0 : -1,
-																	clampVector.x > 0? 0 : 1);
+			windDirection.y = Mathf.Clamp(windDirection.y, clampVector.y < 0 ? 0 : -1,
+				clampVector.y > 0 ? 0 : 1);
+			windDirection.x = Mathf.Clamp(windDirection.x, clampVector.x < 0 ? 0 : -1,
+				clampVector.x > 0 ? 0 : 1);
 
 			return result;
 		}
@@ -102,7 +101,7 @@ namespace Atmospherics
 
 		public static float CalcMoles(float pressure, float volume, float temperature)
 		{
-			if (temperature > 0 && pressure > 0  && volume > 0)
+			if (temperature > 0 && pressure > 0 && volume > 0)
 			{
 				return pressure * volume / (Gas.R * temperature) * 1000;
 			}
@@ -120,5 +119,15 @@ namespace Atmospherics
 			return 0;
 		}
 
+		public static float CalcHeatCapacity(float[] Gases)
+		{
+			float capacity = 0f;
+			foreach (Gas gas in Gas.All)
+			{
+				capacity += gas.MolarHeatCapacity * Gases[gas];
+			}
+
+			return capacity;
+		}
 	}
 }

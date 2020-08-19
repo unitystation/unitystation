@@ -33,15 +33,6 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		fireSource = GetComponent<FireSource>();
 	}
 
-	private void Update()
-	{
-		if (isClient && isLit)
-		{
-			// update UI image on client (cigarette lit animation)
-			pickupable?.RefreshUISlotImage();
-		}
-	}
-
 	#region Interactions
 	public void ServerPerformInteraction(HandApply interaction)
 	{

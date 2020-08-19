@@ -97,6 +97,12 @@ PrefabInstance:
       propertyPath: Resistances.FireProof
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2469720285121718043, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0d4262ebc584b614e9e874de37be4285,
+        type: 3}
     - target: {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: toggleSprites.Array.data[0]
@@ -117,11 +123,6 @@ PrefabInstance:
     - target: {fileID: 2932610463863930541, guid: c60440956ff96af4b84ba3e95e41c3e0,
         type: 3}
       propertyPath: Colour.a
-      value: 0.43137255
-      objectReference: {fileID: 0}
-    - target: {fileID: 4417545188675512222, guid: c60440956ff96af4b84ba3e95e41c3e0,
-        type: 3}
-      propertyPath: Color.a
       value: 0.43137255
       objectReference: {fileID: 0}
     - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,

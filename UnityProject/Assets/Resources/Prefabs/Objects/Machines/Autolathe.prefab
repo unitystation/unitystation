@@ -42,7 +42,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   PoweredState: 2
-  spriteHandler: {fileID: 314776949997883763}
+  spriteHandler: {fileID: 1545315772294334080}
   idleSprite: {fileID: 11400000, guid: 08e099632556f8643924f674320f698e, type: 2}
   productionSprite: {fileID: 11400000, guid: 6453b4f4edb12784eafebe700d4dc3e3, type: 2}
   acceptingMaterialsSprite: {fileID: 11400000, guid: 7988fd4d8b0936249bca1529ef12f9d6,
@@ -112,24 +112,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 18
---- !u!114 &314776949997883763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2857730195348512352}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 1
-  SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 08e099632556f8643924f674320f698e, type: 2}
-  variantIndex: 0
-  palette: []
-  Sprites: []
 --- !u!1001 &7881568538303212051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -233,6 +215,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: It produces items using metal and glass.
       objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 08e099632556f8643924f674320f698e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &6278827525492321370 stripped
@@ -241,9 +229,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 7881568538303212051}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &2857730195348512352 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
+--- !u!114 &1545315772294334080 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}
   m_PrefabInstance: {fileID: 7881568538303212051}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

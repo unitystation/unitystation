@@ -67,8 +67,8 @@ public class GUI_ReactorController : NetTab
 				        ReactorControlConsole.ReactorChambers.MaxPressure) * 100).ToString());
 
 			CoreWaterLevel.SetValueServer((Math.Round((ReactorControlConsole.ReactorChambers.ReactorPipe.pipeData
-				.mixAndVolume.Mix
-				.Total / 240) * 100)).ToString());
+				.mixAndVolume.Total.x
+				 / 240) * 100)).ToString());
 
 			if (PreviousRADlevel != 0 && ReactorControlConsole.ReactorChambers.PresentNeutrons != 0)
 			{
@@ -219,15 +219,15 @@ public class GUI_ReactorController : NetTab
 			var Chamber = GUIReactorControler.ReactorControlConsole.ReactorChambers;
 
 			HighTemperature.SetState(
-				(Chamber.RodMeltingTemperatureK - 200) < Chamber.ReactorPipe.pipeData.mixAndVolume.Mix.Temperature);
+				(Chamber.RodMeltingTemperatureK - 200) < Chamber.ReactorPipe.pipeData.mixAndVolume.Temperature);
 
-			Temperature_Delta = Math.Abs(Chamber.ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - Last_Temperature);
+			Temperature_Delta = Math.Abs(Chamber.ReactorPipe.pipeData.mixAndVolume.Temperature - Last_Temperature);
 
 			HighTemperatureDelta.SetState(Temperature_Delta > 10);
 
-			LowTemperature.SetState(Chamber.ReactorPipe.pipeData.mixAndVolume.Mix.Temperature < 373.15f);
+			LowTemperature.SetState(Chamber.ReactorPipe.pipeData.mixAndVolume.Temperature < 373.15f);
 
-			Last_Temperature = Chamber.ReactorPipe.pipeData.mixAndVolume.Mix.Temperature;
+			Last_Temperature = Chamber.ReactorPipe.pipeData.mixAndVolume.Temperature;
 		}
 
 
@@ -255,8 +255,8 @@ public class GUI_ReactorController : NetTab
 		public void WaterLevel()
 		{
 			var Chamber = GUIReactorControler.ReactorControlConsole.ReactorChambers;
-			LowWaterLevel.SetState(Chamber.ReactorPipe.pipeData.mixAndVolume.Mix.Total < 25);
-			HighWaterLevel.SetState(Chamber.ReactorPipe.pipeData.mixAndVolume.Mix.Total > 190);
+			LowWaterLevel.SetState(Chamber.ReactorPipe.pipeData.mixAndVolume.Total.x < 25);
+			HighWaterLevel.SetState(Chamber.ReactorPipe.pipeData.mixAndVolume.Total.x > 190);
 		}
 
 		public float Last_Pressure = 0;
@@ -265,8 +265,8 @@ public class GUI_ReactorController : NetTab
 		public void Pressure()
 		{
 			var Chamber = GUIReactorControler.ReactorControlConsole.ReactorChambers;
-			float Pressure = Chamber.ReactorPipe.pipeData.mixAndVolume.Mix.Temperature *
-			                 Chamber.ReactorPipe.pipeData.mixAndVolume.Mix.Total;
+			float Pressure = Chamber.ReactorPipe.pipeData.mixAndVolume.Temperature *
+			                 Chamber.ReactorPipe.pipeData.mixAndVolume.Total.x;
 
 			HighCorePressure.SetState(Pressure > (float) (Chamber.MaxPressure - 10000));
 

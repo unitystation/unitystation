@@ -89,7 +89,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 
 	public float GetTemperature()
 	{
-		return (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature);
+		return (ReactorPipe.pipeData.mixAndVolume.Temperature);
 	}
 
 	public decimal NonNeutronAbsorptionProbability()
@@ -115,7 +115,7 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 		}
 		else
 		{
-			return ((decimal) (100f / (100f + ReactorPipe.pipeData.mixAndVolume.Mix.Total)) *
+			return ((decimal) (100f / (100f + ReactorPipe.pipeData.mixAndVolume.Total.x)) *
 			        (NumberOfRods / ReactorRods.Length));
 		}
 
@@ -171,15 +171,13 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 
 		if (PoppedPipes) //Its blown up so not connected so vent to steam
 		{
-			if (ReactorPipe.pipeData.mixAndVolume.Mix.Total > 0 &&
-			    ReactorPipe.pipeData.mixAndVolume.Mix.Temperature > BoilingPoint)
+			if (ReactorPipe.pipeData.mixAndVolume.Total.x > 0 &&
+			    ReactorPipe.pipeData.mixAndVolume.Temperature > BoilingPoint)
 			{
-				var ExcessEnergy = (ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - BoilingPoint);
-				ReactorPipe.pipeData.mixAndVolume.Mix.TransferTo(new ReagentMix(), (EnergyToEvaporateWaterPer1
-				                                                                    * ExcessEnergy *
-				                                                                    (WaterEnergyDensityPer1 *
-				                                                                     ReactorPipe.pipeData
-					                                                                     .mixAndVolume.Mix.Total)));
+				var ExcessEnergy = (ReactorPipe.pipeData.mixAndVolume.Temperature - BoilingPoint);
+				ReactorPipe.pipeData.mixAndVolume.Remove( (ReactorPipe.pipeData
+					.mixAndVolume.Total * (EnergyToEvaporateWaterPer1
+					                       * ExcessEnergy * WaterEnergyDensityPer1)));
 			}
 		}
 
@@ -262,34 +260,20 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 			}
 		}
 
-		var ExtraEnergyGained = (float) EnergyReleased /
-		                        ((RodDensityPer1 * rods) +
-		                         (WaterEnergyDensityPer1 *
-		                          ReactorPipe.pipeData.mixAndVolume.Mix.Total)); //when add cool
-
-		if (ReactorPipe.pipeData.mixAndVolume.Mix.WholeHeatCapacity == 0)
+		var ExtraEnergyGained = (float) EnergyReleased;
+		if (ReactorPipe.pipeData.mixAndVolume.WholeHeatCapacity == 0)
 		{
-			ReactorPipe.pipeData.mixAndVolume.Mix.Temperature += ExtraEnergyGained / 90000;
+			ReactorPipe.pipeData.mixAndVolume.Temperature += ExtraEnergyGained / 90000;
+			var FF = ReactorPipe.pipeData.mixAndVolume.InternalEnergy;
 		}
 		else
 		{
-			ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy =
-				ReactorPipe.pipeData.mixAndVolume.Mix.InternalEnergy + ExtraEnergyGained;
+			ReactorPipe.pipeData.mixAndVolume.InternalEnergy =
+				ReactorPipe.pipeData.mixAndVolume.InternalEnergy + ExtraEnergyGained;
 		}
 
-		try
-		{
-			CurrentPressure = checked((decimal)((ReactorPipe.pipeData.mixAndVolume.Mix.Temperature - 293.15f) *
-									 ReactorPipe.pipeData.mixAndVolume.Mix.Total));
-		}
-		// An OverflowException is thrown at run time under the following condition:
-		// An arithmetic operation produces a result that is outside the range of the data type returned by the operation
-		catch (OverflowException)
-		{
-			Logger.LogError("[ReactorGraphiteChamber.PowerOutput] CurrentPressure is outside the range of decimal <-7.9228163e+28, 7.9228163e+28>", Category.Electrical);
-			// if result is outside the range of decimal - return
-			return;
-		}
+		CurrentPressure = (decimal) ((ReactorPipe.pipeData.mixAndVolume.Temperature - 293.15f) *
+		                             ReactorPipe.pipeData.mixAndVolume.Total.x);
 
 		if (CurrentPressure > MaxPressure)
 		{

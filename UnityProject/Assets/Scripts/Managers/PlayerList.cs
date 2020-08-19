@@ -318,9 +318,9 @@ public partial class PlayerList : NetworkBehaviour
 	[Server]
 	public void RemoveByConnection(NetworkConnection connection)
 	{
-		if (connection == null)
+		if (connection == null || connection.address == null || connection.identity.name == null)
 		{
-			Logger.Log($"Unknown player disconnected: verifying playerlists for integrity - connection was null.", Category.Connections);
+			Logger.Log($"Unknown player disconnected: verifying playerlists for integrity - connection, its address and identity was null.", Category.Connections);
 			ValidatePlayerListRecords();
 			return;
 		}

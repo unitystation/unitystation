@@ -28,16 +28,6 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		pickupable = GetComponent<Pickupable>();
 	}
 
-	private void Update()
-	{
-		if (isClient)
-		{
-			// update UI image on client
-			// TODO: replace it with more general method
-			pickupable?.RefreshUISlotImage();
-		}
-	}
-
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
 		return DefaultWillInteract.Default(interaction, side);
@@ -53,10 +43,10 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		GenerateActivationMessage(interaction.PerformerPlayerScript, interaction.HandSlot);
 
 		// update sprites and lighter logic
-		UpdateLit();
+		ServerUpdateLit();
 	}
 
-	private void UpdateLit()
+	private void ServerUpdateLit()
 	{
 		// toggle flame (will fire things around)
 		if (fireSource)
@@ -163,6 +153,6 @@ public class Lighter : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	public void OnDespawnServer(DespawnInfo info)
 	{
 		isLit = false;
-		UpdateLit();
+		ServerUpdateLit();
 	}
 }

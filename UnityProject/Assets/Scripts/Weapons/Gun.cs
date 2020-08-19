@@ -216,6 +216,13 @@ namespace Weapons
 				allowMagazineRemoval = false;
 				//populate with a full internal mag on spawn
 			}
+
+			if (CurrentMagazine == null)
+			{
+				Debug.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.");
+				return;
+			}
+
 			//populate with a full external mag on spawn
 			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
 			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);

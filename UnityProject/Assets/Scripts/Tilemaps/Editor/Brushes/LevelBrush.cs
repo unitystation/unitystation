@@ -1,19 +1,44 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor.Tilemaps;
+using Random = UnityEngine.Random;
 
 
 [CustomGridBrush(false, true, true, "Level Brush")]
 public class LevelBrush : GridBrush
 {
+	public class RecordedChimpEvent
+	{
+		public DateTime time = DateTime.Now;
+		public Vector3Int loc = Vector3Int.zero;
+	}
+
+	public static RecordedChimpEvent recordedChimpEvent = new RecordedChimpEvent();
+
+	public static bool ChimpEventTooRecent(Vector3Int position)
+	{
+		if ((DateTime.Now - recordedChimpEvent.time).Seconds > 0.2f || recordedChimpEvent.loc != position)
+		{
+			recordedChimpEvent.time = DateTime.Now;
+			recordedChimpEvent.loc = position;
+			//Logger.Log("successful chimp event");
+			return false;
+		}
+		//Logger.Log("no chimp event");
+		return true;
+	}
+
 	public override void Paint(GridLayout grid, GameObject layer, Vector3Int position)
 	{
+		if (ChimpEventTooRecent(position)) return;
 		BoxFill(grid, layer, new BoundsInt(position, Vector3Int.one));
 	}
 
 	public override void Erase(GridLayout grid, GameObject layer, Vector3Int position)
 	{
+		if (ChimpEventTooRecent(position)) return;
 		BoxErase(grid, layer, new BoundsInt(position, Vector3Int.one));
 	}
 
@@ -39,11 +64,11 @@ public class LevelBrush : GridBrush
 
 				if (tile is LayerTile)
 				{
-					PlaceLayerTile(metaTileMap, position, (LayerTile)tile);
+					PlaceLayerTile(metaTileMap, position, (LayerTile) tile);
 				}
 				else if (tile is MetaTile)
 				{
-					PlaceMetaTile(metaTileMap, position, (MetaTile)tile);
+					PlaceMetaTile(metaTileMap, position, (MetaTile) tile);
 				}
 			}
 		}
@@ -57,7 +82,7 @@ public class LevelBrush : GridBrush
 		{
 			if (metaTileMap)
 			{
-				metaTileMap.RemoveTile(position, LayerType.None);
+				metaTileMap.RemoveTile(position, LayerType.None, false);
 			}
 			else
 			{
@@ -88,14 +113,14 @@ public class LevelBrush : GridBrush
 	{
 		foreach (LayerTile tile in metaTile.GetTiles())
 		{
-			//metaTileMap.RemoveTile(position, tile.LayerType);
+			//metaTileMap.RemoveTileWithlayer(position, tile.LayerType);
 			metaTileMap.SetTile(position, tile, cells[0].matrix);
 		}
 	}
 
 	private void PlaceLayerTile(MetaTileMap metaTileMap, Vector3Int position, LayerTile tile)
 	{
-		//metaTileMap.RemoveTile(position, tile.LayerType);
+		//metaTileMap.RemoveTileWithlayer(position, tile.LayerType);
 		SetTile(metaTileMap, position, tile);
 	}
 

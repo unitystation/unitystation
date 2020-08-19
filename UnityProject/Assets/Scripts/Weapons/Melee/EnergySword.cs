@@ -14,8 +14,9 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	public ItemLightControl playerLightControl;
 	public LightSprite worldLight;
 	public GameObject worldRenderer;
+	public SpriteHandler spriteHandler;
 
-	[SyncVar(hook = nameof(SyncColor))]
+	[SyncVar(hook = nameof(ClientSyncColor))]
 	public int color;
 
 	[Range(0, 100)]
@@ -40,19 +41,10 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	[SyncVar(hook = nameof(UpdateState))]
 	public bool activated;
 
-	private Pickupable pickupable;
-
 	public void Awake()
 	{
-		EnsureInit();
-	}
-
-	private void EnsureInit()
-	{
-		if (itemAttributes != null) return;
 		itemAttributes = GetComponent<ItemAttributesV2>();
-		pickupable = GetComponent<Pickupable>();
-		if (color == (int) SwordColor.Random)
+		if (color == (int)SwordColor.Random)
 		{
 			color = Random.Range(1, 5);
 		}
@@ -60,23 +52,8 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		worldRenderer.SetActive(false);
 	}
 
-	public override void OnStartClient()
+	private void ClientSyncColor(int oldC, int c)
 	{
-		EnsureInit();
-		SyncColor(color, color);
-	}
-
-	public override void OnStartServer()
-	{
-		EnsureInit();
-		SyncColor(color, color);
-	}
-
-	private void SyncColor(int oldC, int c)
-	{
-		EnsureInit();
-		color = c;
-
 		var lightColor = Color.white;
 
 		switch ((SwordColor)color)
@@ -98,7 +75,6 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		playerLightControl.Colour = lightColor;
 		playerLightControl.PlayerLightData.Colour = lightColor;
 		worldLight.Color = lightColor;
-		pickupable.RefreshUISlotImage();
 	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -160,33 +136,30 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 				c = (int)SwordColor.Red;
 			}
 
-			SyncColor(color, c);
+			ClientSyncColor(color, c);
 		}
 		else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Multitool))
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "RNBW_ENGAGE");
-			SyncColor(color, (int)SwordColor.Rainbow);
+			ClientSyncColor(color, (int)SwordColor.Rainbow);
 		}
 	}
 
 	public void ToggleState(Vector3 position)
 	{
-		UpdateState(activated, !activated);
+		activated = !activated;
 
+		ServerUpdateValues();
 		SoundManager.PlayNetworkedAtPos(activated ? "saberon" : "saberoff", position, 1f);
 	}
 
 	private void UpdateState(bool oldState, bool newState)
 	{
-		activated = newState;
-
-		UpdateSprite();
-		UpdateValues();
-		UpdateLight();
-		pickupable.RefreshUISlotImage();
+		ClientUpdateSprite();
+		ClientUpdateLight();
 	}
 
-	private void UpdateSprite()
+	private void ClientUpdateSprite()
 	{
 		if (activated)
 		{
@@ -208,14 +181,17 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 					itemAttributes.SetSprites(Sprites.Red);
 					break;
 			}
+
+			spriteHandler?.ChangeSprite(color, false);
 		}
 		else
 		{
 			itemAttributes.SetSprites(Sprites.Off);
+			spriteHandler?.ChangeSprite(0, false);
 		}
 	}
 
-	private void UpdateValues()
+	private void ServerUpdateValues()
 	{
 		if (originalVerbs.Count == 0)
 		{ // Get the initial values before we replace
@@ -244,7 +220,7 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		}
 	}
 
-	private void UpdateLight()
+	private void ClientUpdateLight()
 	{
 		playerLightControl.Toggle(activated);
 		playerLightControl.SetIntensity(activated ? activatedLightIntensity : 0);

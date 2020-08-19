@@ -174,30 +174,13 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 			flameRenderer.sprite = null;
 		}
 
-		CheckHeldByPlayer();
+		pickupable?.RefreshUISlotImage();
 
 		// toogle firesource to burn things around
 		if (fireSource)
 		{
 			fireSource.IsBurning = isOn;
 		}
-	}
-
-	void CheckHeldByPlayer()
-	{
-		if (UIManager.Instance != null && UIManager.Hands != null && UIManager.Hands.CurrentSlot != null && UIManager.Hands.CurrentSlot.ItemObject == gameObject)
-		{
-			//TODO: Need a more systematic way to update inventory sprites.
-			Inventory.UpdateSecondaryUISlotImage(gameObject, flameRenderer.sprite);
-		}
-
-		//Server also needs to know which player is holding the item so that it can sync
-		//the inhand image when the player turns it on and off:
-		//if (isServer && heldByPlayer != null)
-		//{
-		//	var clientPNA = heldByPlayer.GetComponent<PlayerNetworkActions>();
-		//	heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, clientPNA.activeHand);
-		//}
 	}
 
 	IEnumerator BurnFuel()
