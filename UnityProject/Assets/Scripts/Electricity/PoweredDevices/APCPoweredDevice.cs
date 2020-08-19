@@ -49,6 +49,8 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 	[SerializeField]
 	private MultitoolConnectionType conType = MultitoolConnectionType.APC;
 	public MultitoolConnectionType ConType  => conType;
+	public Action<PowerStates> PowerStateChangedEvent;
+
 
 	public void SetMaster(ISetMultitoolMaster Imaster)
 	{
@@ -137,13 +139,15 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 			{
 				NewState = PowerStates.LowVoltage;
 			}
-			else {
+			else
+			{
 				NewState = PowerStates.On;
 			}
 
 			if (NewState == State) return;
 			State = NewState;
 			Powered.StateUpdate(State);
+			PowerStateChangedEvent?.Invoke(NewState);
 		}
 	}
 

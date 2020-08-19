@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Doors;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -672,11 +673,19 @@ public partial class PlayerSync
 	{
 		// Make sure there is a door which can be interacted with
 		InteractableDoor door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
+		DoorControllerV2 newDoor = MatrixManager.GetNewClosedDoorAt(currentPos, targetPos, true);
 
 		// Attempt to open door
 		if (door != null)
 		{
 			door.Bump(gameObject);
+		}
+		else
+		{
+			if (newDoor != null)
+			{
+				newDoor.Bump(gameObject);
+			}
 		}
 	}
 
@@ -852,7 +861,7 @@ public partial class PlayerSync
 		{
 			return;
 		}
-		
+
 		CheckTileSlip();
 
 		var shoeSlot = playerScript.ItemStorage.GetNamedItemSlot( NamedSlot.feet );

@@ -79,6 +79,11 @@ public class SpriteHandler : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Returns the current catalogue page
+	/// </summary>
+	public int CurrentSpriteIndex => cataloguePage;
+
+	/// <summary>
 	/// Current sprite color from SpriteRender or Image
 	/// White means no color modification was added
 	/// </summary>

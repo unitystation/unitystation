@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
+using Doors;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
@@ -392,6 +393,37 @@ public partial class MatrixManager : MonoBehaviour
 	public static BumpType GetBumpTypeAt(PlayerState playerState, PlayerAction playerAction, PlayerMove bumper, bool isServer)
 	{
 		return GetBumpTypeAt(playerState.WorldPosition.RoundToInt(), playerAction.Direction(), bumper, isServer);
+	}
+
+	/// <summary>
+	/// Copy of the old function. It is needed so we don't break all the doors in the world while mappers migrate.
+	/// </summary>
+	/// <param name="worldOrigin"></param>
+	/// <param name="targetPos"></param>
+	/// <param name="isServer"></param>
+	/// <returns></returns>
+	public static DoorControllerV2 GetNewClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
+	{
+		// Check door on the local tile first
+		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
+		var originDoorList = GetAt<DoorControllerV2>(worldOrigin, isServer);
+		foreach (DoorControllerV2 originDoor in originDoorList)
+		{
+			if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
+				return originDoor;
+		}
+
+		// No closed door on local tile, check target tile
+		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
+		var targetDoorList = GetAt<DoorControllerV2>(targetPos, isServer);
+		foreach (DoorControllerV2 targetDoor in targetDoorList)
+		{
+			if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
+				return targetDoor;
+		}
+
+		// No closed doors on either tile
+		return null;
 	}
 
 	/// <summary>

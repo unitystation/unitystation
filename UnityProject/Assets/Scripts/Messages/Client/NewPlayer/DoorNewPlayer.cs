@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Doors;
 using Mirror;
 
 public class DoorNewPlayer: ClientMessage
@@ -14,6 +15,10 @@ public class DoorNewPlayer: ClientMessage
 			if (NetworkObject.TryGetComponent(out DoorController doorController))
 			{
 				doorController.UpdateNewPlayer(SentByPlayer.Connection);
+			}
+			else if (NetworkObject.TryGetComponent(out DoorControllerV2 doorControllerV2))
+			{
+				doorControllerV2.UpdateNewPlayer(SentByPlayer.Connection);
 			}
 		}
 	}
