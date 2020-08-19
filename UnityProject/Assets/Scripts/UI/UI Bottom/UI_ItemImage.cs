@@ -245,6 +245,15 @@ public class UI_ItemImage
 
         private void OnHandlerSpriteChanged(Sprite sprite)
 		{
+			if (!UIImage)
+			{
+				// looks like image was deleted from scene
+				// this happens when item is moved in container
+				// and player close this container
+				handler.OnSpriteChanged -= OnHandlerSpriteChanged;
+				return;
+			}
+
 			if (sprite)
 			{
 				UIImage.gameObject.SetActive (true);
