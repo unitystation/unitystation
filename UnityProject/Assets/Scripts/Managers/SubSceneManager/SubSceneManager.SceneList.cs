@@ -142,6 +142,7 @@ public partial class SubSceneManager
 		{
 			yield return null;
 		}
+
 		loadTimer.IncrementLoadBar("Loading Additional Scenes");
 		foreach (var additionalScene in additionalSceneList.AdditionalScenes)
 		{
@@ -167,6 +168,39 @@ public partial class SubSceneManager
 			loadedScenesList.Add(new SceneInfo
 			{
 				SceneName = additionalScene,
+				SceneType = SceneType.AdditionalScenes
+			});
+		}
+
+		var defaultSyndi = true;
+
+		foreach (var syndicateData in additionalSceneList.SyndicateScenes)
+		{
+			if (syndicateData.DependentScene == null || syndicateData.SyndicateSceneName == null)continue;
+
+			if (syndicateData.DependentScene != serverChosenMainStation) continue;
+
+			yield return StartCoroutine(LoadSubScene(syndicateData.SyndicateSceneName, loadTimer));
+
+			loadedScenesList.Add(new SceneInfo
+			{
+				SceneName = syndicateData.SyndicateSceneName,
+				SceneType = SceneType.AdditionalScenes
+			});
+
+			defaultSyndi = false;
+			break;
+		}
+
+		if (defaultSyndi)
+		{
+			var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
+
+			yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer));
+
+			loadedScenesList.Add(new SceneInfo
+			{
+				SceneName = pickedMap,
 				SceneType = SceneType.AdditionalScenes
 			});
 		}
