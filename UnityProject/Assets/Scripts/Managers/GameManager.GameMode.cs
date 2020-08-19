@@ -132,9 +132,13 @@ public partial class GameManager
 	{
 		yield return WaitFor.EndOfFrame;
 
-		if (GameMode.Name == "Nuclear Emergency")
+		foreach (var job in GameMode.PossibleAntags)
 		{
-			yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
+			if (job.AntagOccupation != null && job.AntagOccupation.JobType == JobType.SYNDICATE)
+			{
+				yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
+				break;
+			}
 		}
 
 		GameMode.StartRound();

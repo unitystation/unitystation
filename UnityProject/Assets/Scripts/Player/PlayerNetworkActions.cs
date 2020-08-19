@@ -11,6 +11,7 @@ using Audio.Containers;
 using DiscordWebhook;
 using InGameEvents;
 using ScriptableObjects;
+using System.Collections;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -467,6 +468,17 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				playerScript.mind.occupation = job;
 				break;
 			}
+		}
+
+		StartCoroutine(CoRespawn());
+	}
+
+	[Server]
+	IEnumerator CoRespawn()
+	{
+		if (playerScript.mind.occupation.JobType == JobType.SYNDICATE && !SubSceneManager.Instance.SyndicateLoaded)
+		{
+			yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
 		}
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
