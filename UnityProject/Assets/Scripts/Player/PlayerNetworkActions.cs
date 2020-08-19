@@ -478,10 +478,12 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (playerScript.mind.occupation.JobType == JobType.SYNDICATE && !SubSceneManager.Instance.SyndicateLoaded)
 		{
-			yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
+			//yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
 		}
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+
+		yield break;
 	}
 
 	[Command]
