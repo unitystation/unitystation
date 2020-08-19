@@ -131,6 +131,12 @@ public partial class GameManager
 	private IEnumerator WaitToStartGameMode()
 	{
 		yield return WaitFor.EndOfFrame;
+
+		if (GameMode.Name == "Nuclear Emergency")
+		{
+			yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
+		}
+
 		GameMode.StartRound();
 	}
 }

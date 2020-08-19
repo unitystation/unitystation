@@ -22,6 +22,8 @@ public partial class SubSceneManager : NetworkBehaviour
 	public bool AwaySiteLoaded { get; private set; }
 	public bool MainStationLoaded { get; private set; }
 
+	public bool SyndicateLoaded { get; private set; }
+
 	void Awake()
 	{
 		if (Instance == null)
