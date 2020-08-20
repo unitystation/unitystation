@@ -217,7 +217,7 @@ namespace Weapons
 				//populate with a full internal mag on spawn
 			}
 
-			if (CurrentMagazine == null)
+			if (ammoPrefab == null)
 			{
 				Debug.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.");
 				return;
