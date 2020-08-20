@@ -43,7 +43,7 @@ public class MouseInputController : MonoBehaviour
 
 	public static readonly Vector3 sz = new Vector3(0.05f, 0.05f, 0.05f);
 
-	private Vector3 MouseWorldPosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
+	private static Vector3 MouseWorldPosition => Camera.main.ScreenToWorldPoint(CommonInput.mousePosition);
 
 	/// <summary>
 	/// currently triggering aimapply interactable - when mouse is clicked down this is set to the
@@ -130,7 +130,7 @@ public class MouseInputController : MonoBehaviour
 			if (KeyboardInputManager.IsShiftPressed())
 			{
 				//like above, send shift-click request, then do nothing else.
-				CheckShiftClick();
+				Inspect();
 				return;
 			}
 
@@ -481,11 +481,18 @@ public class MouseInputController : MonoBehaviour
 		return null;
 	}
 
+	public static void Point()
+	{
+		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
+		if (!clickedObject) return;
+		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
+	}
+
 	/// <summary>
 	/// Fires if shift is pressed on click, initiates examine. Assumes inanimate object, but upgrades to checking health if living, and id if target has
 	/// storage and an ID card in-slot.
 	/// </summary>
-	private void CheckShiftClick()
+	private void Inspect()
 	{
 		// Get clickedObject from mousepos
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();

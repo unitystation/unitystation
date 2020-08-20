@@ -61,8 +61,9 @@ public enum KeyAction
 	TargetGroin,
 
 	//Right click stuff
-	ShowAdminOptions
+	ShowAdminOptions,
 
+	Point
 }
 
 /// <summary>
@@ -221,6 +222,7 @@ public class KeybindManager : MonoBehaviour {
 		Intent,
 		Targeting,
 		RightClick,
+		Point
 	}
 
 	/// <summary>
@@ -282,6 +284,7 @@ public class KeybindManager : MonoBehaviour {
 		{  KeyAction.HandSwap, 		new KeybindMetadata("Swap Hands", ActionType.Hand)},
 		{  KeyAction.HandActivate,	new KeybindMetadata("Activate Item", ActionType.Hand)},
 		{  KeyAction.HandEquip, 	new KeybindMetadata("Equip Item", ActionType.Hand)},
+		{  KeyAction.Point, 		new KeybindMetadata("Point", ActionType.Point)},
 
 		// Intents
 		{ KeyAction.IntentLeft,		new KeybindMetadata("Cycle Intent Left", ActionType.Intent)},
@@ -329,6 +332,7 @@ public class KeybindManager : MonoBehaviour {
 		{  KeyAction.HandSwap, 		new DualKeyCombo(new KeyCombo(KeyCode.X),	new KeyCombo(KeyCode.Mouse2))},
 		{  KeyAction.HandActivate,	new DualKeyCombo(new KeyCombo(KeyCode.Z),	new KeyCombo(KeyCode.PageDown))},
 		{  KeyAction.HandEquip, 	new DualKeyCombo(new KeyCombo(KeyCode.E),	null)},
+		{  KeyAction.Point,			new DualKeyCombo(new KeyCombo(KeyCode.Mouse2, KeyCode.LeftShift), null)},
 
 		// Intents
 		{ KeyAction.IntentLeft,		new DualKeyCombo(new KeyCombo(KeyCode.F),		new KeyCombo(KeyCode.Insert))},

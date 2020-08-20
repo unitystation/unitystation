@@ -600,6 +600,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
+	public void CmdPoint(GameObject pointTarget, Vector3 mousePos)
+	{
+		string pointedName = pointTarget.name;
+		var interactableTiles = pointTarget.GetComponent<InteractableTiles>();
+		if (interactableTiles)
+		{
+			LayerTile tile = interactableTiles.LayerTileAt(mousePos);
+			pointedName = tile.DisplayName;
+		}
+		Effect.PlayParticleDirectional(gameObject, mousePos);
+		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {pointedName}.", $"{playerScript.gameObject.name} points at {pointTarget.name}.");
+	}
+
+	[Command]
 	public void CmdRequestPaperEdit(GameObject paper, string newMsg)
 	{
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;

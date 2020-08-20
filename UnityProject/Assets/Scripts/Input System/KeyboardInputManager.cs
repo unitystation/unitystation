@@ -176,6 +176,7 @@ public class KeyboardInputManager : MonoBehaviour
 		{  KeyAction.HandSwap, 		() => { UIManager.Hands.Swap(); }},
 		{  KeyAction.HandActivate,	() => { UIManager.Hands.Activate(); }},
 		{  KeyAction.HandEquip, 	() => { UIManager.Hands.Equip(); }},
+		{  KeyAction.Point, 		() => { MouseInputController.Point(); }},
 
 		// Intents
 		{ KeyAction.IntentLeft,		() => { UIManager.Intent.CycleIntent(true); }},
