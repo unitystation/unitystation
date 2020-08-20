@@ -59,7 +59,11 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		this.interaction = interaction;
 
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
+		if(Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+		{
+			TryEmag();
+		}
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 		{
 			TryCrowbar();
 		}
@@ -93,6 +97,17 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	public virtual void TryOpen(GameObject performer)
 	{
 		Controller.MobTryOpen(performer);
+	}
+
+	public void TryEmag()
+	{
+		if (Controller == null) return;
+
+		if (Controller.IsClosed)
+		{
+			Controller.isEmagged = true;
+			TryOpen(interaction.Performer);
+		}
 	}
 
 	public void TryCrowbar()
