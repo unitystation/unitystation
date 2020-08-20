@@ -91,10 +91,10 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 			}
 
 			if(livingHealthBehaviour.OverallHealth >= HealthThreshold.SoftCrit){
-				if (Breathe(node))
-					{
-						AtmosManager.Update(node);
-					}
+				//if (Breathe(node))
+				//	{
+				//		AtmosManager.Update(node);
+				//	}
 			}
 			else{
 				bloodSystem.OxygenDamage += 1;

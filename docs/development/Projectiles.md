@@ -29,7 +29,7 @@ Some bullets in the game emmit light or have a sprite. So if your new bullet req
 
 ![](../assets/images/Projectiles/LocalTrailRenderer.png)
 
-[**LineRenderer**](https://docs.unity3d.com/Manual/class-LineRenderer.html) is unity build in component which renders trail.
+[**LineRenderer**](https://docs.unity3d.com/Manual/class-LineRenderer.html) is unity built-in component which renders trail.
 
 ![](../assets/images/Projectiles/LineRenderer.png)
 

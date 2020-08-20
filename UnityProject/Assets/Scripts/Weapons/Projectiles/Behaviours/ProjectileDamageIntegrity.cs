@@ -29,7 +29,7 @@ namespace Weapons.Projectiles.Behaviours
 			var coll = hit.collider;
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null) return false;
-
+			 
 			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
 			Chat.AddAttackMsgToChat(shooter, coll.gameObject, BodyPartType.None, weapon.gameObject);

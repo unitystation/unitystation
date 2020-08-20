@@ -49,6 +49,10 @@ public partial class Chat
 	public const ChatChannel ServiceChannels = ChatChannel.Action | ChatChannel.Admin | ChatChannel.Combat
 		| ChatChannel.Examine | ChatChannel.OOC | ChatChannel.System | ChatChannel.Warning;
 
+	/// <summary>
+	/// This channels are either non verbal communication (Ghost, Binary) or some serivice channel (OOC, Action)
+	/// </summary>
+	public const ChatChannel NonSpeechChannels = Chat.NonVerbalChannels | Chat.ServiceChannels;
 
 	/// <summary>
 	/// Processes a message to be used in the chat log and chat bubbles.

@@ -48,7 +48,7 @@ public class GUI_BoilerTurbineController : NetTab
 			CapacityPercent = boilerTurbineController.ReactorBoiler.CurrentPressureInput /
 			                  boilerTurbineController.ReactorBoiler.MaxPressureInput;
 			BoilerTemperature.SetValueServer(Math
-				.Round((boilerTurbineController.ReactorBoiler.ReactorPipe.pipeData.mixAndVolume.Mix.Temperature /
+				.Round((boilerTurbineController.ReactorBoiler.ReactorPipe.pipeData.mixAndVolume.Temperature /
 				        12000) * 100).ToString());
 
 			BoilerPressure.SetValueServer(Math

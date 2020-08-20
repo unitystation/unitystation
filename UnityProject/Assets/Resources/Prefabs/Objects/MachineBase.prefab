@@ -45,24 +45,6 @@ MonoBehaviour:
   machineBoardPrefab: {fileID: 0}
   canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
---- !u!114 &7918371756561495367
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7354635586586802054}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 1
-  SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 92755c25016ee144bbe198cbf2edf6ab, type: 2}
-  Sprites: []
-  variantIndex: 0
-  palette: []
 --- !u!1001 &3231522615107585013
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -180,12 +162,6 @@ PrefabInstance:
 --- !u!1 &1628816798482564540 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
-    type: 3}
-  m_PrefabInstance: {fileID: 3231522615107585013}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7354635586586802054 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}
   m_PrefabInstance: {fileID: 3231522615107585013}
   m_PrefabAsset: {fileID: 0}

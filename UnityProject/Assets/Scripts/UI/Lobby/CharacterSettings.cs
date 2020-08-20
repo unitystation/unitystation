@@ -140,4 +140,20 @@ public class CharacterSettings
 				return "them";
 		}
 	}
+
+	/// <summary>
+	/// Returns an object pronoun string (i.e. "he's", "she's", "they're") for the provided gender enum.
+	/// </summary>
+	public string TheyrePronoun()
+	{
+		switch (Gender)
+		{
+			case Gender.Male:
+				return "he's";
+			case Gender.Female:
+				return "she's";
+			default:
+				return "they're";
+		}
+	}
 }

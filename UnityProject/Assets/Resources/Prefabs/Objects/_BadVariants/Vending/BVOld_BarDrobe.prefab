@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 3918369873534462626}
   - component: {fileID: -7736176027130130300}
   m_Layer: 11
-  m_Name: BarDrobe
+  m_Name: BVOld_BarDrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,9 +141,9 @@ MonoBehaviour:
     Item: {fileID: 1909889960012756402, guid: 2dcc926f902b2e44a802f217063efa15, type: 3}
     Stock: 1
   - ItemName: Armor Vest Slim
-    Item: {fileID: 8654279767492581603, guid: 98de935f80510c4468285ffd5a01d9e0, type: 3}
+    Item: {fileID: 8215266403122399935, guid: a9e6210024846bd47b0410272526dadb, type: 3}
     Stock: 1
-  - ItemName: EMPTY SLOT
+  - ItemName: fadsfsd
     Item: {fileID: 0}
     Stock: 1
   - ItemName: Beer Goggles
@@ -158,13 +158,13 @@ MonoBehaviour:
   - ItemName: EMPTY SLOT
     Item: {fileID: 0}
     Stock: 1
-  - ItemName: EMPTY SLOT
+  - ItemName: Dickens
     Item: {fileID: 0}
     Stock: 2
   - ItemName: EMPTY SLOT
     Item: {fileID: 0}
     Stock: 1
-  HullColor: {r: 1, g: 1, b: 1, a: 1}
+  HullColor: {r: 0.58431375, g: 0.58431375, b: 0.58431375, a: 1}
   EjectObjects: 0
   EjectDirection: 0
   VendingSound: MachineVend
@@ -314,7 +314,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -335,7 +337,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114472266138859352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -522,7 +523,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 33a3890a5b11e4d4e8f99aa616c26d9c, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 33a3890a5b11e4d4e8f99aa616c26d9c, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 7e4e4a84289e52c4f83c6deb88f32549, type: 3}
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 7e4e4a84289e52c4f83c6deb88f32549, type: 3}

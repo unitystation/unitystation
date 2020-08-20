@@ -53,18 +53,18 @@ MonoBehaviour:
   - name: Rack Parts
     prefab: {fileID: 6034371561869202664, guid: 5c6173d6c15c149ff82f936c14acb687,
       type: 3}
-    cost: 1
+    cost: 2
     buildTime: 5
     spawnAmount: 1
     onePerTile: 0
   - name: Closet
     prefab: {fileID: 933576176691117832, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73, type: 3}
-    cost: 2
+    cost: 10
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
   - name: Oxygen Canister
-    prefab: {fileID: 1810766273111493946, guid: 6b8afceaf6efbea778b48cb41f1fdb8a,
+    prefab: {fileID: 4045535016109707588, guid: dd86caf1f673b7642be83819773021d8,
       type: 3}
     cost: 10
     buildTime: 5

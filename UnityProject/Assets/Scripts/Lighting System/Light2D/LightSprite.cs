@@ -15,6 +15,7 @@ namespace Light2D
     /// Supports Point and Line light types.
     /// </summary>
     [ExecuteInEditMode]
+	[RequireComponent(typeof(MeshRenderer))]
     public class LightSprite : CustomSprite
     {
         public static List<LightSprite> AllLightSprites = new List<LightSprite>();

@@ -2,6 +2,7 @@ using System;
 using Objects;
 using UnityEngine;
 using Mirror;
+using Pipes;
 
 /// <summary>
 /// Main component for canister
@@ -9,25 +10,32 @@ using Mirror;
 [RequireComponent(typeof(Integrity))]
 public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
-	public static readonly int MAX_RELEASE_PRESSURE = 1000;
+	public static readonly int MAX_RELEASE_PRESSURE = 4000;
+
 	[Tooltip("Tint of the main background in the GUI")]
 	public Color UIBGTint;
+
 	[Tooltip("Tint of the inner panel in the GUI")]
 	public Color UIInnerPanelTint;
+
 	[Tooltip("Name to show for the contents of this canister in the GUI")]
 	public String ContentsName;
+
 	public ObjectBehaviour objectBehaviour;
 	public GasContainer container;
 	public bool hasContainerInserted;
-	public GameObject InsertedContainer {get; set;}
+	public GameObject InsertedContainer { get; set; }
 	public Connector connector;
+
 	[SyncVar(hook = nameof(SyncConnected))]
 	public bool isConnected;
+
 	private RegisterTile registerTile;
 	public SpriteRenderer connectorRenderer;
 	public ShuttleFuelConnector connectorFuel;
 	public Sprite connectorSprite;
 	private HasNetworkTab networkTab;
+
 	/// <summary>
 	/// Invoked on server side when connection status changes, provides a bool indicating
 	/// if it is connected.
@@ -37,10 +45,9 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 	/// it's always going to be a syncvar so I'm making this hook server only.
 	/// </summary>
 	/// <returns></returns>
-	[NonSerialized]
-	public BoolEvent ServerOnConnectionStatusChange = new BoolEvent();
-	[NonSerialized]
-	public BoolEvent ServerOnExternalTankInserted = new BoolEvent();
+	[NonSerialized] public BoolEvent ServerOnConnectionStatusChange = new BoolEvent();
+
+	[NonSerialized] public BoolEvent ServerOnExternalTankInserted = new BoolEvent();
 
 	private void Awake()
 	{
@@ -64,7 +71,7 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 		Disconnect();
 	}
 
-	private void Disconnect()
+	public void Disconnect()
 	{
 		if (isConnected)
 		{
@@ -72,10 +79,11 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 			{
 				connector.DisconnectCanister();
 			}
-			else if (connectorFuel != null){
-
+			else if (connectorFuel != null)
+			{
 				connectorFuel.DisconnectCanister();
 			}
+
 			isConnected = false;
 			connectorRenderer.sprite = null;
 			SetConnectedSprite(null);
@@ -113,11 +121,11 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		//using wrench
 		if (DefaultWillInteract.HandApply(interaction, side) &&
-			Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
+		    Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 			return true;
 		//using any fillable gas container
 		else if (DefaultWillInteract.HandApply(interaction, side) &&
-				 Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.CanisterFillable))
+		         Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.CanisterFillable))
 			return true;
 		else
 			return false;
@@ -125,7 +133,6 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-
 		PlayerNetworkActions pna = interaction.Performer.GetComponent<PlayerNetworkActions>();
 		var handObj = interaction.HandObject;
 		var playerPerformer = interaction.Performer;
@@ -145,23 +152,23 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 				var foundConnectors = registerTile.Matrix.Get<Connector>(registerTile.LocalPositionServer, true);
 				foreach (var conn in foundConnectors)
 				{
-					if (conn.ObjectBehavior.IsNotPushable)
-					{
-						SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
-						connector = conn;
-						isConnected = true;
-						connector.ConnectCanister(this);
-						SetConnectedSprite(connectorSprite);
-						objectBehaviour.ServerSetPushable(false);
-						ServerOnConnectionStatusChange.Invoke(true);
-						return;
-					}
+					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f,
+						sourceObj: gameObject);
+					connector = conn;
+					isConnected = true;
+					connector.ConnectCanister(this);
+					SetConnectedSprite(connectorSprite);
+					objectBehaviour.ServerSetPushable(false);
+					ServerOnConnectionStatusChange.Invoke(true);
+					return;
 				}
 
-				var foundFuelConnectors = registerTile.Matrix.Get<ShuttleFuelConnector>(registerTile.LocalPositionServer, true);
+				var foundFuelConnectors =
+					registerTile.Matrix.Get<ShuttleFuelConnector>(registerTile.LocalPositionServer, true);
 				foreach (var conn in foundFuelConnectors)
 				{
-					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+					SoundManager.PlayNetworkedAtPos("Wrench", registerTile.WorldPositionServer, 1f,
+						sourceObj: gameObject);
 					isConnected = true;
 					connectorFuel = conn;
 					conn.ConnectCanister(this);
@@ -183,8 +190,9 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 				{
 					//copy the containers properties over, delete the container from the player's hand
 					hasContainerInserted = true;
-					Chat.AddActionMsgToChat(playerPerformer, $"You insert the {handObj.ExpensiveName()} into the canister.",
-											$"{playerPerformer.ExpensiveName()} inserts a tank into the {this.ContentsName} tank.");
+					Chat.AddActionMsgToChat(playerPerformer,
+						$"You insert the {handObj.ExpensiveName()} into the canister.",
+						$"{playerPerformer.ExpensiveName()} inserts a tank into the {this.ContentsName} tank.");
 					Inventory.ServerDrop(interaction.HandSlot);
 					InsertedContainer = handObj;
 					handObj.GetComponent<CustomNetTransform>().DisappearFromWorldServer();
@@ -192,9 +200,10 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 				}
 				else
 				{
-					Logger.LogError("Player tried inserting a tank into a canister, but the tank didn't have a GasContainer "+
-									"component associated with it. Something terrible has happened, or an item that should not "+
-									"has the CanisterFillable ItemTrait.");
+					Logger.LogError(
+						"Player tried inserting a tank into a canister, but the tank didn't have a GasContainer " +
+						"component associated with it. Something terrible has happened, or an item that should not " +
+						"has the CanisterFillable ItemTrait.");
 				}
 			}
 			else
@@ -227,9 +236,10 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 			SetConnectedSprite(null);
 		}
 	}
- 	/// <summary>
- 	/// Respawns the modified container back into the world
- 	/// </summary>
+
+	/// <summary>
+	/// Respawns the modified container back into the world
+	/// </summary>
 	public void EjectInsertedContainer()
 	{
 		ItemStorage player = networkTab.LastInteractedPlayer().GetComponent<PlayerScript>().ItemStorage;
@@ -254,12 +264,11 @@ public class Canister : NetworkBehaviour, ICheckedInteractable<HandApply>
 				ItemSlot rSlot = player.GetNamedItemSlot(NamedSlot.rightHand);
 				Inventory.ServerAdd(InsertedContainer, rSlot);
 				break;
-			
+
 			case NamedSlot.rightHand:
-				ItemSlot lSlot= player.GetNamedItemSlot(NamedSlot.leftHand);
+				ItemSlot lSlot = player.GetNamedItemSlot(NamedSlot.leftHand);
 				Inventory.ServerAdd(InsertedContainer, lSlot);
 				break;
 		}
 	}
 }
-

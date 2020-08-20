@@ -11,6 +11,9 @@ namespace InGameEvents
 
 		public override void OnEventStart()
 		{
+
+
+
 			if (!FakeEvent)
 			{
 				SpawnGuns();

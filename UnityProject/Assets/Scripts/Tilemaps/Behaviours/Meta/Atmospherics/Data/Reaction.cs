@@ -67,6 +67,7 @@ namespace Atmospherics
 			var Ratio = 0.0f;
 			if (Oxygen > NeedOXtoplas)
 			{
+
 				Ratio = 1;
 			}
 			else {

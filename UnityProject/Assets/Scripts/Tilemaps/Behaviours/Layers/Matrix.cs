@@ -392,8 +392,8 @@ public class Matrix : MonoBehaviour
 			}
 		}
 
-
-		foreach (var PipeNode in metaDataLayer.Get(position).PipeData)
+		var pipes =  metaDataLayer.Get(position).PipeData;
+		foreach (var PipeNode in pipes)
 		{
 			list.Add(PipeNode.pipeData);
 		}
@@ -489,14 +489,14 @@ public class Matrix : MonoBehaviour
 	}
 
 
-	public void RemoveUnderFloorTile(Vector3Int position, LayerTile tile)
+	public void RemoveUnderFloorTile(Vector3Int position, LayerTile tile, bool UseSpecifiedLocation = false)
 	{
 		if (UnderFloorLayer == null)
 		{
 			underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
 		}
 
-		UnderFloorLayer.RemoveSpecifiedTile(position, tile);
+		UnderFloorLayer.RemoveSpecifiedTile(position, tile,UseSpecifiedLocation);
 	}
 
 	//Visual debug

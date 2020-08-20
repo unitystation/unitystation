@@ -329,14 +329,16 @@ public class VariableViewerNetworking : MonoBehaviour
 			}
 			Page.Sentences = Sentences.ToArray();
 
-			currentSize += Page.GetSize();
-			// if currentSize is greater than the maxPacketSize - break loop and send message 
+			//currentSize += Page.GetSize(); //TODO work out why this causes errors
+
+
+			// if currentSize is greater than the maxPacketSize - break loop and send message
 			if (currentSize > maxPacketSize)
 			{
 				Logger.LogError("[VariableViewerNetworking.ProcessBook] - message is to big to send in one packet", Category.NetMessage);
 				break;
 			}
-			
+
 			ListPages.Add(Page);
 		}
 		Book.BindedPages = ListPages.ToArray();

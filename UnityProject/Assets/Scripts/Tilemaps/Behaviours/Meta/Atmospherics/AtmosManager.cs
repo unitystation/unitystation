@@ -22,7 +22,7 @@ public class AtmosManager : MonoBehaviour
 	public HashSet<PipeData> inGameNewPipes = new HashSet<PipeData>();
 	public HashSet<FireAlarm> inGameFireAlarms = new HashSet<FireAlarm>();
 	public static int currentTick;
-	public static float tickRateComplete = 1f; //currently set to update every second
+	public static float tickRateComplete = 0.25f; //currently set to update every second
 	public static float tickRate;
 	private static float tickCount = 0f;
 	private const int Steps = 1;
@@ -30,6 +30,8 @@ public class AtmosManager : MonoBehaviour
 	public static AtmosManager Instance;
 
 	public bool StopPipes = false;
+
+	public GameObject fireLight = null;
 
 	private void Awake()
 	{

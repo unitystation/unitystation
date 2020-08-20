@@ -7,7 +7,6 @@ namespace Explosions
 {
 	public class ExplosionNode
 	{
-
 		public Vector2Int Location;
 		public Matrix matrix;
 
@@ -15,6 +14,7 @@ namespace Explosions
 		public HashSet<ExplosionPropagationLine> PresentLines = new HashSet<ExplosionPropagationLine>();
 		public Vector2 AngleAndIntensity;
 
+		public List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
 
 
 
@@ -33,7 +33,7 @@ namespace Explosions
 			var v3int = new Vector3Int(Location.x, Location.y, 0);
 
 			EnergyExpended = matrix.MetaTileMap.ApplyDamage(v3int, Damagedealt,
-				MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb) * 0.375f;
+			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb) * 0.375f;
 
 			if (Damagedealt > 100)
 			{
@@ -44,13 +44,15 @@ namespace Explosions
 					{
 						electricalData.InData.DestroyThisPlease();
 					}
-					foreach (var pipeDate in Node.PipeData)
+
+					SavedPipes.Clear();
+					SavedPipes.AddRange(Node.PipeData);
+					foreach (var Pipe in SavedPipes)
 					{
-						pipeDate.pipeData.OnDisable();
+						Pipe.pipeData.DestroyThis();
 					}
 				}
 			}
-
 
 
 			foreach (var integrity in matrix.Get<Integrity>(v3int, true))
@@ -68,14 +70,13 @@ namespace Explosions
 
 			}
 
-				foreach (var line in PresentLines)
-				{
-					line.ExplosionStrength -= EnergyExpended * (line.ExplosionStrength / Damagedealt);
-				}
-				AngleAndIntensity = Vector2.zero;
+			foreach (var line in PresentLines)
+			{
+				line.ExplosionStrength -= EnergyExpended * (line.ExplosionStrength / Damagedealt);
 			}
+			AngleAndIntensity = Vector2.zero;
 
 		}
-
 	}
+}
 

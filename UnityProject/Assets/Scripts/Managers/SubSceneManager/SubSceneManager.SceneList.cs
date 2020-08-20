@@ -110,7 +110,7 @@ public partial class SubSceneManager
 		//CENTCOM
 		foreach (var centComData in additionalSceneList.CentComScenes)
 		{
-			if (centComData.DependentScene == null || centComData.CentComSceneName == null)continue;
+			if (centComData.DependentScene == null || centComData.CentComSceneName == null) continue;
 
 			if (centComData.DependentScene != serverChosenMainStation) continue;
 
@@ -142,6 +142,7 @@ public partial class SubSceneManager
 		{
 			yield return null;
 		}
+
 		loadTimer.IncrementLoadBar("Loading Additional Scenes");
 		foreach (var additionalScene in additionalSceneList.AdditionalScenes)
 		{
@@ -208,6 +209,50 @@ public partial class SubSceneManager
 			});
 		}
 	}
+
+	#region SyndicateScene
+
+	public IEnumerator LoadSyndicate()
+	{
+		if (SyndicateLoaded) yield break;
+
+		var defaultSyndi = true;
+
+		foreach (var syndicateData in additionalSceneList.SyndicateScenes)
+		{
+			if (syndicateData.DependentScene == null || syndicateData.SyndicateSceneName == null) continue;
+
+			if (syndicateData.DependentScene != serverChosenMainStation) continue;
+
+			yield return StartCoroutine(LoadSubScene(syndicateData.SyndicateSceneName));
+
+			loadedScenesList.Add(new SceneInfo
+			{
+				SceneName = syndicateData.SyndicateSceneName,
+				SceneType = SceneType.AdditionalScenes
+			});
+
+			defaultSyndi = false;
+			break;
+		}
+
+		if (defaultSyndi)
+		{
+			var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
+
+			yield return StartCoroutine(LoadSubScene(pickedMap));
+
+			loadedScenesList.Add(new SceneInfo
+			{
+				SceneName = pickedMap,
+				SceneType = SceneType.AdditionalScenes
+			});
+		}
+
+		SyndicateLoaded = true;
+	}
+
+	#endregion
 
 	string GetEditorPrevScene()
 	{

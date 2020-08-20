@@ -56,13 +56,13 @@ namespace InGameEvents
 
 		private void Start()
 		{
-			if (InGameEventsManager.Instance.ListOfFunEventScripts.Contains(this)) return;
 			InGameEventsManager.Instance.AddEventToList(this, EventType);
 		}
 
 		private void OnDestroy()
 		{
-			InGameEventsManager.Instance.ListOfFunEventScripts.Remove(this);
+			InGameEventsManager.Instance.RemoveEventFromList(this, EventType);
+			CancelInvoke();
 		}
 
 		public virtual void OnEventStart()
