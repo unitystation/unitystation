@@ -1,78 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &1410963279338649197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3547153461055112373}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 805eeb2162a06ae499bfcfcb6956503d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spritehandler: {fileID: 8316729698138680943}
-  SpawnOnDeconstruct: {fileID: 574948493075495267, guid: f3c7b7569520f694cb13c4a36184aefb,
-    type: 3}
-  registerTile: {fileID: 0}
-  pipeData:
-    PipeLayer: 1
-    Connections:
-      Directions:
-      - Bool: 1
-        pipeType: 1
-        PortType: 0
-        flagLogic: 3
-      - Bool: 0
-        pipeType: 1
-        PortType: 0
-        flagLogic: 0
-      - Bool: 1
-        pipeType: 1
-        PortType: 3
-        flagLogic: 0
-      - Bool: 1
-        pipeType: 1
-        PortType: 0
-        flagLogic: 4
-    CustomLogic: 0
-    NetCompatible: 0
-    mixAndVolume:
-      Volume: 0.1
-      Mix:
-        temperature: 273.15
-        reagents:
-          m_keys: []
-          m_values: []
-      gasMix:
-        Gases:
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        - 0
-        Pressure: 0
-        Volume: 0.1
-    ConnectedPipes: []
-    Outputs: []
-    MonoPipe: {fileID: 0}
-  Colour: {r: 1, g: 1, b: 1, a: 1}
-  spriteHandlerOverlay: {fileID: 6677148349151024742}
-  MaxPressure: 10000
-  ToTakeFromInputOne: 0.5
-  ToTakeFromInputTwo: 0.5
-  IsOn: 0
 --- !u!1 &917328781365528523
 GameObject:
   m_ObjectHideFlags: 0
@@ -174,6 +101,92 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+--- !u!114 &1410963279338649197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3547153461055112373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 805eeb2162a06ae499bfcfcb6956503d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritehandler: {fileID: 8316729698138680943}
+  SpawnOnDeconstruct: {fileID: 574948493075495267, guid: f3c7b7569520f694cb13c4a36184aefb,
+    type: 3}
+  registerTile: {fileID: 0}
+  pipeData:
+    PipeLayer: 1
+    Connections:
+      Directions:
+      - Bool: 1
+        pipeType: 1
+        PortType: 0
+        flagLogic: 3
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 1
+        pipeType: 1
+        PortType: 3
+        flagLogic: 0
+      - Bool: 1
+        pipeType: 1
+        PortType: 0
+        flagLogic: 4
+    CustomLogic: 0
+    NetCompatible: 0
+    mixAndVolume:
+      Volume: 0.1
+      Mix:
+        temperature: 273.15
+        reagents:
+          m_keys: []
+          m_values: []
+      gasMix:
+        Gases:
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        Pressure: 0
+        Volume: 0.1
+    ConnectedPipes: []
+    Outputs: []
+    MonoPipe: {fileID: 0}
+  Colour: {r: 1, g: 1, b: 1, a: 1}
+  spriteHandlerOverlay: {fileID: 6677148349151024742}
+  MaxPressure: 10000
+  ToTakeFromInputOne: 0.5
+  ToTakeFromInputTwo: 0.5
+  IsOn: 0
+--- !u!114 &5856897883222940136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3547153461055112373}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 29
 --- !u!1001 &826430093477004028
 PrefabInstance:
   m_ObjectHideFlags: 0

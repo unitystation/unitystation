@@ -14,8 +14,7 @@ using Random = UnityEngine.Random;
 public class ReactionManager : MonoBehaviour
 {
 	public float n = 20;
-
-	[SerializeField]
+	
 	private GameObject fireLight = null;
 
 	private Dictionary<Vector3Int, GameObject> fireLightDictionary = new Dictionary<Vector3Int, GameObject>();

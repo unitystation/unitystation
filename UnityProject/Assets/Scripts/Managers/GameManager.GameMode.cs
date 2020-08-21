@@ -131,6 +131,16 @@ public partial class GameManager
 	private IEnumerator WaitToStartGameMode()
 	{
 		yield return WaitFor.EndOfFrame;
+
+		foreach (var job in GameMode.PossibleAntags)
+		{
+			if (job.AntagOccupation != null && job.AntagOccupation.JobType == JobType.SYNDICATE)
+			{
+				yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
+				break;
+			}
+		}
+
 		GameMode.StartRound();
 	}
 }

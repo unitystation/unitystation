@@ -22,7 +22,7 @@ public class GUI_Filter : NetTab
 		{"N2",Gas.Nitrogen},
 		{"PLS",Gas.Plasma},
 		{"CO2",Gas.CarbonDioxide},
-
+		{"NO2",Gas.NitrousOxide},
 	};
 
 

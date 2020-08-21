@@ -196,6 +196,7 @@ public class UI_ItemImage
 		rt.anchorMax = Vector2.one;
 		rt.sizeDelta = Vector2.zero;
 		rt.anchoredPosition = Vector2.zero;
+		rt.localScale = Vector3.one;
 
 		var img = go.AddComponent<Image>();
 		var imgMat = Resources.Load<Material>("Materials/Palettable UI");
@@ -245,6 +246,15 @@ public class UI_ItemImage
 
         private void OnHandlerSpriteChanged(Sprite sprite)
 		{
+			if (!UIImage)
+			{
+				// looks like image was deleted from scene
+				// this happens when item is moved in container
+				// and player close this container
+				handler.OnSpriteChanged -= OnHandlerSpriteChanged;
+				return;
+			}
+
 			if (sprite)
 			{
 				UIImage.gameObject.SetActive (true);
