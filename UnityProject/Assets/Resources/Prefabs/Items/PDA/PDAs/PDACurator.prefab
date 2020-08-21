@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300006, guid: 8f598aa089aa2cc4d9551c972abd6ab3,
+      objectReference: {fileID: 21300004, guid: 8f598aa089aa2cc4d9551c972abd6ab3,
         type: 3}
     - target: {fileID: 155110878826058362, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
@@ -94,11 +94,6 @@ PrefabInstance:
       value: A portable microcomputer by Thinktronic Systems, LTD. This model is
         a WGW-11 series e-reader.
       objectReference: {fileID: 0}
-    - target: {fileID: 869407092770183849, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.09375
-      objectReference: {fileID: 0}
     - target: {fileID: 1293357877581254245, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
       propertyPath: pdaCartridge
@@ -111,6 +106,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 5a3c7f221d113b84b9e71830b773cfe3,
         type: 3}
+    - target: {fileID: 2764472803529064531, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5359090116188643623, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
       propertyPath: m_IsActive
@@ -131,11 +131,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8617334757661968179, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.09375
       objectReference: {fileID: 0}
     - target: {fileID: 8656094623363462661, guid: 49b38681833f4d74ba6d4ab654a5d8cf,
         type: 3}
