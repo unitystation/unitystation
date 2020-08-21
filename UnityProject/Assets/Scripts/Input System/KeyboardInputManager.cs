@@ -54,14 +54,74 @@ public class KeyboardInputManager : MonoBehaviour
 	/// </summary>
 	void CheckInGameKeybinds()
 	{
+		var triggeredKeybinds = new Dictionary<KeyAction, KeyCombo>();
 		// Perform the checks for all key actions which have functions defined here
 		foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in keybindManager.userKeybinds)
 		{
 			if (!keyActionFunctions.ContainsKey(entry.Key)) continue;
-			if (CheckComboEvent(entry.Value.PrimaryCombo) || CheckComboEvent(entry.Value.SecondaryCombo))
+			if (CheckComboEvent(entry.Value.PrimaryCombo))
+			{
+				triggeredKeybinds.Add(entry.Key, entry.Value.PrimaryCombo);
+			}
+			if(CheckComboEvent(entry.Value.SecondaryCombo))
+			{
+				triggeredKeybinds.Add(entry.Key, entry.Value.SecondaryCombo);
+			}
+		}
+		if (triggeredKeybinds.Count == 0)
+			return;
+
+		foreach (KeyValuePair<KeyAction, KeyCombo> entry in triggeredKeybinds)
+		{
+			bool shouldTrigger = true;
+			foreach (KeyValuePair<KeyAction, KeyCombo> loopentry in triggeredKeybinds)
+			{
+				if (entry.Key == loopentry.Key)
+					continue;
+				if (KeyCombo.ShareKey(entry.Value, loopentry.Value))
+				{
+					if (KeyCombo.TotalKeys(entry.Value) <= KeyCombo.TotalKeys(loopentry.Value))
+					{
+						shouldTrigger = false;
+					}
+				}
+			}
+			if (shouldTrigger)
 			{
 				// Call the function associated with the KeyAction enum
 				keyActionFunctions[entry.Key]();
+			}
+		}
+
+	}
+
+
+	public void OrderKeybinds()
+	{
+		var tripleKeyCombos = new List<KeyCombo>();
+		var doubleKeyCombos = new List<KeyCombo>();
+		var singularKeyCombos = new List<KeyCombo>();
+		foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in keybindManager.userKeybinds)
+		{
+			var keyCombo = entry.Value.PrimaryCombo;
+			for (int i = 0; i < 2; i++)
+			{
+				if (keyCombo != KeyCombo.None)
+				{
+					if (keyCombo.ModKey1 != KeyCode.None && keyCombo.ModKey2 != KeyCode.None)
+					{
+						tripleKeyCombos.Add(keyCombo);
+					}
+					else if (keyCombo.ModKey1 != KeyCode.None)
+					{
+						doubleKeyCombos.Add(keyCombo);
+					}
+					else
+					{
+						singularKeyCombos.Add(keyCombo);
+					}
+				}
+				keyCombo = entry.Value.SecondaryCombo;
 			}
 		}
 	}
@@ -173,10 +233,10 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.ActionStopPull, () => { UIManager.Action.StopPulling(); }},
 		{ KeyAction.ToggleWalkRun,   () => { UIManager.WalkRun.RunWalk(); }},
 
+		{  KeyAction.Point, 		() => { MouseInputController.Point(); }},
 		{  KeyAction.HandSwap, 		() => { UIManager.Hands.Swap(); }},
 		{  KeyAction.HandActivate,	() => { UIManager.Hands.Activate(); }},
 		{  KeyAction.HandEquip, 	() => { UIManager.Hands.Equip(); }},
-		{  KeyAction.Point, 		() => { MouseInputController.Point(); }},
 
 		// Intents
 		{ KeyAction.IntentLeft,		() => { UIManager.Intent.CycleIntent(true); }},

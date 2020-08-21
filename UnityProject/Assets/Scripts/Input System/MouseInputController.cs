@@ -485,6 +485,8 @@ public class MouseInputController : MonoBehaviour
 	{
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
 		if (!clickedObject) return;
+		if (PlayerManager.PlayerScript.IsGhost || PlayerManager.PlayerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+			return;
 		PlayerManager.PlayerScript.playerNetworkActions.CmdPoint(clickedObject, MouseWorldPosition);
 	}
 

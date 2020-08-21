@@ -602,6 +602,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[Command]
 	public void CmdPoint(GameObject pointTarget, Vector3 mousePos)
 	{
+		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+			return;
 		string pointedName = pointTarget.name;
 		var interactableTiles = pointTarget.GetComponent<InteractableTiles>();
 		if (interactableTiles)
