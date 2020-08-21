@@ -95,37 +95,6 @@ public class KeyboardInputManager : MonoBehaviour
 
 	}
 
-
-	public void OrderKeybinds()
-	{
-		var tripleKeyCombos = new List<KeyCombo>();
-		var doubleKeyCombos = new List<KeyCombo>();
-		var singularKeyCombos = new List<KeyCombo>();
-		foreach (KeyValuePair<KeyAction, DualKeyCombo> entry in keybindManager.userKeybinds)
-		{
-			var keyCombo = entry.Value.PrimaryCombo;
-			for (int i = 0; i < 2; i++)
-			{
-				if (keyCombo != KeyCombo.None)
-				{
-					if (keyCombo.ModKey1 != KeyCode.None && keyCombo.ModKey2 != KeyCode.None)
-					{
-						tripleKeyCombos.Add(keyCombo);
-					}
-					else if (keyCombo.ModKey1 != KeyCode.None)
-					{
-						doubleKeyCombos.Add(keyCombo);
-					}
-					else
-					{
-						singularKeyCombos.Add(keyCombo);
-					}
-				}
-				keyCombo = entry.Value.SecondaryCombo;
-			}
-		}
-	}
-
 	/// <summary>
 	/// Check if either of the key combos for the selected action have been pressed
 	/// </summary>
