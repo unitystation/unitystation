@@ -5,6 +5,8 @@ using AdminTools;
 using UnityEngine;
 using Mirror;
 using UnityEditor;
+using Assets.Scripts.Health.Sickness;
+using System.Linq;
 
 /// <summary>
 /// Provides central access to the Players Health
@@ -12,9 +14,20 @@ using UnityEditor;
 public class PlayerHealth : LivingHealthBehaviour
 {
 	[SerializeField]
-	private MetabolismSystem metabolism;
+	private MetabolismSystem metabolism;	
 
 	public MetabolismSystem Metabolism { get => metabolism; }
+
+	/// <summary>
+	/// Current sicknesses status of the player and their current stage.
+	/// </summary>
+	private PlayerSickness playerSickness = null;
+
+	/// <summary>
+	/// List of sicknesses that player has gained immunity.
+	/// </summary>
+	private List<Sickness> immunedSickness;
+
 
 	private PlayerMove playerMove;
 	private PlayerSprites playerSprites;
@@ -36,6 +49,24 @@ public class PlayerHealth : LivingHealthBehaviour
 	{
 		base.Awake();
 		EnsureInit();
+		ApplyStartingAllergies();
+	}
+
+	// At round start, 30% of players start with mild allergy
+	// The purpose of this, is to make believe that coughing and sneezing at random is "probably" not a real sickness.
+	private void ApplyStartingAllergies()
+	{
+		if (UnityEngine.Random.Range(0, 100) < 100)
+		{
+			Sickness allergy = SicknessManager.Instance.Sicknesses.FirstOrDefault(p => p.Name == "Common Allergies");
+
+			if (allergy == null)
+				Logger.LogError("Common allergies sickness was not found.", Category.Health);
+			else
+			{
+				playerSickness.Add(allergy, Time.time);
+			}
+		}
 	}
 
 	void EnsureInit()
@@ -48,8 +79,11 @@ public class PlayerHealth : LivingHealthBehaviour
 		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 		itemStorage = GetComponent<ItemStorage>();
+		playerSickness = GetComponent<PlayerSickness>();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
+
+		immunedSickness = new List<Sickness>();
 
 		metabolism = GetComponent<MetabolismSystem>();
 		if (metabolism == null)
