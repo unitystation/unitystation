@@ -21,6 +21,10 @@ namespace Atmospherics
 		public static float FREON_BURN_RATE_DELTA = 4f;
 		public static float FIRE_FREON_ENERGY_RELEASED = -300000f; //amount of heat absorbed per mole of burnt freon in the tile
 
+		public static float FREON_MAXIMUM_BURN_TEMPERATURE = 293f;
+		public static float FREON_LOWER_TEMPERATURE = 60f; //minimum temperature allowed for the burn to go, we would have negative pressure otherwise
+		public static float FREON_OXYGEN_FULLBURN = 10f;
+
 		public static float N2O_DECOMPOSITION_MIN_ENERGY = 1400f;
 		public static float N2O_DECOMPOSITION_ENERGY_RELEASED = 200000f;
 

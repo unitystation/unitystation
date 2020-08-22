@@ -18,6 +18,42 @@ namespace Atmospherics
 
 		//list of gas reactions:
 
+		#region FreonFire
+
+		public static readonly GasReactions FreonFire = new GasReactions(
+
+			reaction: new FreonFireReaction(),
+
+			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			{
+				{
+					Gas.Oxygen,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 0.01f
+					}
+				},
+
+				{
+					Gas.Freon,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 0.01f
+					}
+				}
+			},
+
+			minimumTemperature: 0f,
+			maximumTemperature:10000000000f,
+			minimumPressure:0f,
+			maximumPressure: 10000000000f,
+			minimumMoles: 0.01f,
+			maximumMoles:10000000000f,
+			energyChange: 0f
+		);
+
+		#endregion
+
 		#region Fusion
 
 		public static readonly GasReactions Fusion = new GasReactions(
