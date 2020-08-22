@@ -140,6 +140,30 @@ namespace Atmospherics
 			energyChange: 0f
 		);
 
+		public static readonly GasReactions NO2Decomp = new GasReactions(
+
+			reaction: new NO2Decomposition(),
+
+			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			{
+				{
+					Gas.NitrousOxide,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 0.01f
+					}
+				}
+			},
+
+			minimumTemperature: AtmosDefines.N2O_DECOMPOSITION_MIN_ENERGY,
+			maximumTemperature:10000000000f,
+			minimumPressure:0f,
+			maximumPressure: 10000000000f,
+			minimumMoles: 0.01f,
+			maximumMoles:10000000000f,
+			energyChange: 0f
+		);
+
 		#endregion
 
 		#region Nitryl
@@ -256,6 +280,34 @@ namespace Atmospherics
 			},
 
 			minimumTemperature: 37315f,
+			maximumTemperature:10000000000f,
+			minimumPressure:0f,
+			maximumPressure: 10000000000f,
+			minimumMoles:0.01f,
+			maximumMoles:10000000000f,
+			energyChange: 0f
+		);
+
+		#endregion
+
+		#region WaterVapour
+
+		public static readonly GasReactions WaterVapour = new GasReactions(
+
+			reaction: new WaterVapourReaction(),
+
+			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			{
+				{
+					Gas.WaterVapor,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 0.01f
+					}
+				},
+			},
+
+			minimumTemperature: 0f,
 			maximumTemperature:10000000000f,
 			minimumPressure:0f,
 			maximumPressure: 10000000000f,

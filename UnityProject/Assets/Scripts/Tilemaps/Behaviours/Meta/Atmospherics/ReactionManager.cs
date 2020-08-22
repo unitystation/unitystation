@@ -79,6 +79,8 @@ public class ReactionManager : MonoBehaviour
 		timePassed += Time.deltaTime;
 		timePassed2 += Time.deltaTime;
 
+		#region wind
+
 		Profiler.BeginSample("Wind");
 
 		int count = winds.Count;
@@ -134,6 +136,8 @@ public class ReactionManager : MonoBehaviour
 		timePassed2 = 0;
 
 		Profiler.EndSample();
+
+		#endregion
 
 		if (timePassed < 0.5)
 		{
@@ -259,6 +263,8 @@ public class ReactionManager : MonoBehaviour
 
 		Profiler.EndSample();
 
+		#region TileOverlays
+
 		Profiler.BeginSample("FogModifyAdd");
 		//Here we check to see if chemical fog fx needs to be applied, and if so, add them. If not, we remove them
 		int addFogCount = addFog.Count;
@@ -317,6 +323,8 @@ public class ReactionManager : MonoBehaviour
 		}
 
 		Profiler.EndSample();
+
+		#endregion
 
 		timePassed = 0;
 	}
@@ -481,7 +489,7 @@ public class ReactionManager : MonoBehaviour
 		removeFog.Enqueue(node);
 	}
 
-	//Add tile to add fog effect queue
+	//Add tile to add reaction effect queue
 	//Being called by AtmosSimulation
 	public void AddReactionEvent(ReactionData node)
 	{

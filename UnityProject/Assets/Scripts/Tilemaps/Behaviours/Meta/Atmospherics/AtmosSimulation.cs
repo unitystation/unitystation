@@ -262,6 +262,9 @@ namespace Atmospherics
 
 				if (node.ReactionManager.reactions.ContainsKey(node.Position) && node.ReactionManager.reactions[node.Position].Contains(gasReaction)) continue;
 
+				//If too much Hyper-Noblium theres no reactions!!!
+				if(gasMix.GetMoles(Gas.HyperNoblium) >= AtmosDefines.REACTION_OPPRESSION_THRESHOLD) break;
+
 				node.ReactionManager.AddReactionEvent(new ReactionManager.ReactionData{gasReaction = gasReaction, metaDataNode = node});
 			}
 		}
