@@ -52,11 +52,10 @@ namespace Atmospherics
 
 					gasMix.AddGas(Gas.CarbonDioxide, freonBurnRate);
 
-					//Todo spawn Hot Ice :
-					// if (gasMix.Temperature < 160 && gasMix.Temperature > 120 && UnityEngine.Random.Range(0, 2) == 0)
-					// {
-					// 	   //Spawn hot ice
-					// }
+					if (gasMix.Temperature < 160 && gasMix.Temperature > 120 && UnityEngine.Random.Range(0, 2) == 0)
+					{
+						Spawn.ServerPrefab(AtmosManager.Instance.hotIce, tilePos, MatrixManager.GetDefaultParent(tilePos, true));
+					}
 
 					energyReleased += AtmosDefines.FIRE_FREON_ENERGY_RELEASED * freonBurnRate;
 				}

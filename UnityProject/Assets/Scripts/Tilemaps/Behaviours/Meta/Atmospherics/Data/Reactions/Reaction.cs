@@ -18,6 +18,42 @@ namespace Atmospherics
 
 		//list of gas reactions:
 
+		#region TritiumFire
+
+		public static readonly GasReactions TritiumFire = new GasReactions(
+
+			reaction: new TritiumFireReaction(),
+
+			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			{
+				{
+					Gas.Tritium,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 0.01f
+					}
+				},
+
+				{
+					Gas.Oxygen,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 0.01f
+					}
+				}
+			},
+
+			minimumTemperature: 373.15f,
+			maximumTemperature:10000000000f,
+			minimumPressure:0f,
+			maximumPressure: 10000000000f,
+			minimumMoles: 0.01f,
+			maximumMoles:10000000000f,
+			energyChange: 0f
+		);
+
+		#endregion
+
 		#region FreonFire
 
 		public static readonly GasReactions FreonFire = new GasReactions(
