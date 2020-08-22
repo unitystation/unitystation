@@ -25,7 +25,7 @@ namespace Atmospherics
 			}
 		}
 
-		public float React(ref GasMix gasMix, GasReactions gasReaction)
+		public float React(ref GasMix gasMix)
 		{
 			float consumed = 0;
 

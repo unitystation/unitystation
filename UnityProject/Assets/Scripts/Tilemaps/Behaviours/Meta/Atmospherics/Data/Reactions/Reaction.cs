@@ -9,7 +9,7 @@ namespace Atmospherics
 	{
 		bool Satisfies(GasMix gasMix);
 
-		float React(ref GasMix gasMix, GasReactions gasReaction);
+		float React(ref GasMix gasMix);
 	}
 
 	public struct GasReactions
@@ -18,45 +18,13 @@ namespace Atmospherics
 
 		//list of gas reactions:
 
-		public static readonly GasReactions BZ = new GasReactions(
-
-			gasCreated: Gas.BZ,
-
-			reaction: new BZFormationReaction(),
-
-			gasReactionData: new Dictionary<Gas, GasReactionData>()
-			{
-				{
-					Gas.NitrousOxide,
-					new GasReactionData()
-					{
-						minimumMolesToReact = 10f
-					}
-				},
-
-				{
-					Gas.Plasma,
-					new GasReactionData()
-					{
-						minimumMolesToReact = 10f
-					}
-				}
-			},
-
-			minimumTemperature: 1f,
-			maximumTemperature:10000000f,
-			minimumPressure:0f,
-			maximumPressure: 100000000f,
-			minimumMoles: 0.1f,
-			maximumMoles:10000000000f,
-			energyChange: 0f
-		);
+		#region NO2
 
 		public static readonly GasReactions NO2Form = new GasReactions(
 
 			gasCreated: Gas.NitrousOxide,
 
-			reaction: new BZFormationReaction(),
+			reaction: new NO2Formation(),
 
 			gasReactionData: new Dictionary<Gas, GasReactionData>()
 			{
@@ -93,6 +61,192 @@ namespace Atmospherics
 			maximumMoles:10000000000f,
 			energyChange: 0f
 		);
+
+		#endregion
+
+		#region Nitryl
+
+		public static readonly GasReactions NitrylForm = new GasReactions(
+
+			gasCreated: Gas.Nitryl,
+
+			reaction: new NitrylFormation(),
+
+			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			{
+				{
+					Gas.Oxygen,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 10f
+					}
+				},
+
+				{
+					Gas.Nitrogen,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 20f
+					}
+				},
+
+				{
+					Gas.BZ,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 5f
+					}
+				}
+			},
+
+			minimumTemperature: 600f,
+			maximumTemperature:100000000f,
+			minimumPressure:0f,
+			maximumPressure: 100000000f,
+			minimumMoles: 0.1f,
+			maximumMoles:10000000000f,
+			energyChange: 0f
+		);
+
+		#endregion
+
+		#region BZ
+
+		public static readonly GasReactions BZForm = new GasReactions(
+
+			gasCreated: Gas.BZ,
+
+			reaction: new BZFormation(),
+
+			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			{
+				{
+					Gas.NitrousOxide,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 10f
+					}
+				},
+
+				{
+					Gas.Plasma,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 10f
+					}
+				}
+			},
+
+			minimumTemperature: 1f,
+			maximumTemperature:10000000f,
+			minimumPressure:0f,
+			maximumPressure: 100000000f,
+			minimumMoles: 0.1f,
+			maximumMoles:10000000000f,
+			energyChange: 0f
+		);
+
+		#endregion
+
+		#region Freon
+
+		public static readonly GasReactions FreonForm = new GasReactions(
+
+			gasCreated: Gas.Freon,
+
+			reaction: new FreonFormation(),
+
+			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			{
+				{
+					Gas.Plasma,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 40f
+					}
+				},
+
+				{
+					Gas.CarbonDioxide,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 20f
+					}
+				},
+
+				{
+					Gas.BZ,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 20f
+					}
+				}
+			},
+
+			minimumTemperature: 37315f,
+			maximumTemperature:10000000f,
+			minimumPressure:0f,
+			maximumPressure: 100000000f,
+			minimumMoles: 0.1f,
+			maximumMoles:10000000000f,
+			energyChange: 0f
+		);
+
+		#endregion
+
+		#region Stimulum
+
+		public static readonly GasReactions StimulumForm = new GasReactions(
+
+			gasCreated: Gas.Stimulum,
+
+			reaction: new StimulumFormation(),
+
+			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			{
+				{
+					Gas.Tritium,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 30f
+					}
+				},
+
+				{
+					Gas.Plasma,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 10f
+					}
+				},
+
+				{
+					Gas.BZ,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 20f
+					}
+				},
+
+				{
+					Gas.Nitryl,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 30f
+					}
+				}
+			},
+
+			minimumTemperature: AtmosDefines.STIMULUM_HEAT_SCALE / 2,
+			maximumTemperature:10000000f,
+			minimumPressure:0f,
+			maximumPressure: 100000000f,
+			minimumMoles: 0.1f,
+			maximumMoles:10000000000f,
+			energyChange: 0f
+		);
+
+		#endregion
 
 		//Gas and minimum moles to react
 		public Dictionary<Gas, GasReactionData> GasReactionData;

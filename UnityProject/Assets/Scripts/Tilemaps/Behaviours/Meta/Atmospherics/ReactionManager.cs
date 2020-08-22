@@ -244,7 +244,7 @@ public class ReactionManager : MonoBehaviour
 
 					var gasMix = addReactionNode.metaDataNode.GasMix;
 
-					addReactionNode.gasReaction.Reaction.React(ref gasMix, addReactionNode.gasReaction);
+					addReactionNode.gasReaction.Reaction.React(ref gasMix);
 
 					if (reactions[addReactionNode.metaDataNode.Position].Count == 1)
 					{

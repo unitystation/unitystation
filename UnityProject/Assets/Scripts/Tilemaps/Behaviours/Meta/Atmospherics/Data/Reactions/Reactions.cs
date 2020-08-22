@@ -27,7 +27,7 @@ namespace Atmospherics
 			{
 				if (reaction.Satisfies(gasMix))
 				{
-					consumed += reaction.React(ref gasMix, GasReactions.BZ);
+					consumed += reaction.React(ref gasMix);
 				}
 			}
 
