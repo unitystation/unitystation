@@ -11,7 +11,7 @@ namespace Atmospherics
 			throw new System.NotImplementedException();
 		}
 
-		public float React(ref GasMix gasMix)
+		public float React(ref GasMix gasMix, Vector3 tilePos)
 		{
 			if (gasMix.GetMoles(Gas.WaterVapor) != 0 && gasMix.GetMoles(Gas.WaterVapor) / gasMix.Moles > 0.1)
 			{

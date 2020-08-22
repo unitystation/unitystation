@@ -9,7 +9,7 @@ namespace Atmospherics
 	{
 		bool Satisfies(GasMix gasMix);
 
-		float React(ref GasMix gasMix);
+		float React(ref GasMix gasMix, Vector3 tilePos);
 	}
 
 	public struct GasReactions
@@ -43,7 +43,7 @@ namespace Atmospherics
 				}
 			},
 
-			minimumTemperature: 0f,
+			minimumTemperature: 1f,
 			maximumTemperature:10000000000f,
 			minimumPressure:0f,
 			maximumPressure: 10000000000f,
@@ -307,8 +307,8 @@ namespace Atmospherics
 				},
 			},
 
-			minimumTemperature: 0f,
-			maximumTemperature:10000000000f,
+			minimumTemperature: 1f,
+			maximumTemperature: AtmosDefines.WATER_VAPOR_FREEZE + 1,
 			minimumPressure:0f,
 			maximumPressure: 10000000000f,
 			minimumMoles:0.01f,
@@ -500,7 +500,7 @@ namespace Atmospherics
 
 		public readonly int Index;
 
-		private GasReactions(Dictionary<Gas, GasReactionData> gasReactionData, Reaction reaction, float minimumTemperature, float maximumTemperature, float minimumPressure, float maximumPressure, float minimumMoles, float maximumMoles, float energyChange)
+		public GasReactions(Dictionary<Gas, GasReactionData> gasReactionData, Reaction reaction, float minimumTemperature, float maximumTemperature, float minimumPressure, float maximumPressure, float minimumMoles, float maximumMoles, float energyChange)
 		{
 			GasReactionData = gasReactionData;
 
@@ -517,6 +517,9 @@ namespace Atmospherics
 			Index = gasReactions.Count;
 
 			gasReactions.Add(this);
+
+			all = null;
+			numberOfGasReactions = 0;
 		}
 
 		public static GasReactions Get(int i)

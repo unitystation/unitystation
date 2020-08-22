@@ -25,7 +25,7 @@ namespace Atmospherics
 			}
 		}
 
-		public float React(ref GasMix gasMix)
+		public float React(ref GasMix gasMix, Vector3 tilePos)
 		{
 			float consumed = 0;
 

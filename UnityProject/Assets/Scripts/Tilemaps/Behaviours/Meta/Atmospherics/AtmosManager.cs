@@ -33,6 +33,10 @@ public class AtmosManager : MonoBehaviour
 
 	public GameObject fireLight = null;
 
+	public GameObject iceShard = null;
+
+	public GameObject hotIce = null;
+
 	private void Awake()
 	{
 		if (Instance == null)

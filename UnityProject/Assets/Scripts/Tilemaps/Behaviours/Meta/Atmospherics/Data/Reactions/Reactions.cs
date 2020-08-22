@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine;
 
 namespace Atmospherics
 {
@@ -27,7 +28,7 @@ namespace Atmospherics
 			{
 				if (reaction.Satisfies(gasMix))
 				{
-					consumed += reaction.React(ref gasMix);
+					consumed += reaction.React(ref gasMix, Vector3.zero);
 				}
 			}
 
