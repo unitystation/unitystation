@@ -73,20 +73,20 @@ namespace Weapons
 		/// <summary>
 		/// The cooldown between full bursts in seconds
 		/// <summary>
-		[HideInInspector, Tooltip("The cooldown between full a burst in seconds")] // will be shown by the code at the very end, if appropriate
+		[HideInInspector, Tooltip("The cooldown between full a burst in seconds"), ShowIf(nameof(WeaponType.Burst))] // will be shown by the code at the very end, if appropriate
 		public float burstCooldown = 3;
 
 		/// <summary>
 		/// The number of allowed shots in a burst
 		/// </summary>
-		[HideInInspector, Tooltip("The number of bullets in a full burst")] // will be shown by the code at the very end, if appropriate
+		[HideInInspector, Tooltip("The number of bullets in a full burst"), ShowIf(nameof(WeaponType.Burst))] // will be shown by the code at the very end, if appropriate
 		public double burstCount = 3;
 		private double currentBurstCount = 0;
 
 		/// <summary>
 		/// If the gun should eject it's magazine automatically (external-magazine-specific)
 		/// </summary>
-		[HideInInspector, Tooltip("If the gun should eject an empty mag automatically")] // will be shown by the code at the very end, if appropriate
+		[HideInInspector, Tooltip("If the gun should eject an empty mag automatically"), HideIf(nameof(MagInternal))] // will be shown by the code at the very end, if appropriate
 		public bool SmartGun = false;
 
 		/// <summary>
@@ -246,7 +246,7 @@ namespace Weapons
 
 		#region Interaction
 
-		public virtual bool WillInteract(AimApply interaction, NetworkSide side)
+		public bool WillInteract(AimApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (CurrentMagazine == null)
@@ -375,7 +375,7 @@ namespace Weapons
 
 
 
-		public virtual bool Interact(HandActivate interaction)
+		public bool Interact(HandActivate interaction)
 		{
 			//try ejecting the mag if external
 			if (CurrentMagazine != null)
@@ -866,30 +866,4 @@ namespace Weapons
 		FullyAutomatic = 1,
 		Burst = 2
 	}
-
-#if UNITY_EDITOR
-	[CustomEditor(typeof(Gun), true)]
-	public class GunEditor : Editor
-	{
-		public override void OnInspectorGUI()
-		{
-			DrawDefaultInspector(); // for other non-HideInInspector fields
-
-			Gun script = (Gun)target;
-
-			script.MagInternal = EditorGUILayout.Toggle("Magazine Internal", script.MagInternal);
-
-			if (!script.MagInternal) // show exclusive fields depending on whether magazine is internal
-			{
-				script.SmartGun = EditorGUILayout.Toggle("Smart Gun", script.SmartGun);
-			}
-
-			if (script.WeaponType == WeaponType.Burst)
-			{
-				script.burstCooldown = EditorGUILayout.FloatField("Burst Cooldown", script.burstCooldown);
-				script.burstCount = EditorGUILayout.DoubleField("Burst Count", script.burstCount);
-			}
-		}
-	}
-#endif
 }

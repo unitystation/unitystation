@@ -8,7 +8,24 @@ public class GunRoulette : Gun
 {
 	[HideInInspector]
 	public int untestedChambers = 6;
-	public override bool WillInteract(AimApply interaction, NetworkSide side)
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		if (isSound) return false; //prevent player spamming this action
+
+		isSound = true;
+		Chat.AddActionMsgToChat(interaction.Performer, "You spin the cylinder of the revolver", $"{interaction.Performer.ExpensiveName()} spins the cylinder of the revolver ");
+		SoundManager.PlayNetworkedAtPos("RevolverSpin", transform.position, sourceObj: serverHolder);
+		WaitFor.Seconds(0.2f);
+		untestedChambers = 6;
+		isSound = false;
+	}
+
+	private void PlayEmptySFX()
+	{
+		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
+	}
+
+	public override void ServerPerformInteraction(AimApply interaction)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (CurrentMagazine == null)
@@ -18,44 +35,26 @@ public class GunRoulette : Gun
 			{
 				Logger.LogTrace("Server rejected shot - No magazine being loaded", Category.Firearms);
 			}
-			return false;
+			return;
 		}
 		else
 		{
 			Chat.AddActionMsgToChat(interaction.Performer, "You point the revolver at your head, pulling the trigger", $"{interaction.Performer.ExpensiveName()} points the revolver at their head and pulls the trigger!");
 			int firedChamber = Random.Range(1,untestedChambers);
-			if (firedChamber == 1)
+			if (firedChamber == 1 && untestedChambers != 0)
 			{
 				untestedChambers = 6;
 				Chat.AddActionMsgToChat(interaction.Performer, "You shoot yourself point blank in the head!", $"{interaction.Performer.ExpensiveName()} shoots themself point blank in the head!");
-				return true;
+				//enqueue the shot (will be processed in Update)
+				ServerShoot(interaction.Performer, interaction.TargetVector.normalized, BodyPartType.Head, true);
 			}
 			else
 			{
 				untestedChambers--;
 				PlayEmptySFX();
 				Chat.AddActionMsgToChat(interaction.Performer, "The revolver makes a clicking sound", "The revolver makes a clicking sound");
-				return false;
+				return;
 			}
 		}
-	}
-
-	public override bool Interact(HandActivate interaction)
-	{
-		Chat.AddActionMsgToChat(interaction.Performer, "You spin the cylinder of the revolver", $"{interaction.Performer.ExpensiveName()} spins the cylinder of the revolver ");
-		SoundManager.PlayNetworkedAtPos("RevolverSpin", transform.position, sourceObj: serverHolder);
-		WaitFor.Seconds(0.2f);
-		untestedChambers = 6;
-		return true;
-	}
-	private void PlayEmptySFX()
-	{
-		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
-	}
-
-	public override void ServerPerformInteraction(AimApply interaction)
-	{
-		//enqueue the shot (will be processed in Update)
-		ServerShoot(interaction.Performer, interaction.TargetVector.normalized, BodyPartType.Head, true);
 	}
 }

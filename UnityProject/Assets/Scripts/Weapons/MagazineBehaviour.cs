@@ -41,15 +41,15 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// <summary>
 	///	Whether this can be used to reload other (internal or external) magazines.
 	/// </summary>
-	[HideInInspector, Tooltip("Defines if this can be used to reload other magazines, clips or be used as an internal mag")]
+	[HideInInspector, Tooltip("Defines if this can be used to reload other magazines, clips or be used as an internal mag"), HideIf(nameof(isCartridge))]
 	public bool isClip;
 
-	[HideInInspector]
+	[HideInInspector, HideIf(nameof(isClip))]
 	public bool isCartridge;
 
 	public AmmoType ammoType; //SET IT IN INSPECTOR
 
-	[HideInInspector]
+	[HideInInspector, HideIf(nameof(isCartridge))]
 	public int magazineSize = 20;
 
 	/// <summary>
