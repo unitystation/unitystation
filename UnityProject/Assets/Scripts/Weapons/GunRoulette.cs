@@ -20,6 +20,7 @@ public class GunRoulette : Gun
 		isSound = false;
 	}
 
+	[Server]
 	private void PlayEmptySFX()
 	{
 		SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
