@@ -18,6 +18,50 @@ namespace Atmospherics
 
 		//list of gas reactions:
 
+		#region Fusion
+
+		public static readonly GasReactions Fusion = new GasReactions(
+
+			reaction: new FusionReaction(),
+
+			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			{
+				{
+					Gas.Tritium,
+					new GasReactionData()
+					{
+						minimumMolesToReact = AtmosDefines.FUSION_TRITIUM_MOLES_USED
+					}
+				},
+
+				{
+					Gas.Plasma,
+					new GasReactionData()
+					{
+						minimumMolesToReact = AtmosDefines.FUSION_MOLE_THRESHOLD
+					}
+				},
+
+				{
+					Gas.CarbonDioxide,
+					new GasReactionData()
+					{
+						minimumMolesToReact = AtmosDefines.FUSION_MOLE_THRESHOLD
+					}
+				}
+			},
+
+			minimumTemperature: AtmosDefines.FUSION_TEMPERATURE_THRESHOLD,
+			maximumTemperature:10000000000f,
+			minimumPressure:0f,
+			maximumPressure: 10000000000f,
+			minimumMoles: 0.01f,
+			maximumMoles:10000000000f,
+			energyChange: 0f
+		);
+
+		#endregion
+
 		#region NO2
 
 		public static readonly GasReactions NO2Form = new GasReactions(
