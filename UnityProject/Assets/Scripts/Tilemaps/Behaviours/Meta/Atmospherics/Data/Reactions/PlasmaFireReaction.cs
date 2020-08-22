@@ -1,17 +1,10 @@
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using System;
 
 namespace Atmospherics
 {
-	public interface Reaction
-	{
-		bool Satisfies(GasMix gasMix);
-
-		float React(ref GasMix gasMix);
-	}
-
 	public class PlasmaFireReaction : Reaction
 	{
 		public bool Satisfies(GasMix gasMix)
@@ -32,7 +25,7 @@ namespace Atmospherics
 			}
 		}
 
-		public float React(ref GasMix gasMix)
+		public float React(ref GasMix gasMix, GasReactions gasReaction)
 		{
 			float consumed = 0;
 
