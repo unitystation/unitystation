@@ -188,9 +188,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1045510969552376
 GameObject:
   m_ObjectHideFlags: 0
@@ -306,9 +306,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1051931730128558
 GameObject:
   m_ObjectHideFlags: 0
@@ -483,9 +483,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1074894628694278
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,9 +710,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1133514949248654
 GameObject:
   m_ObjectHideFlags: 0
@@ -755,6 +755,7 @@ GameObject:
   - component: {fileID: 4174611152458090807}
   - component: {fileID: -7196392364410790442}
   - component: {fileID: -5061689181288922864}
+  - component: {fileID: 1254704757432938833}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -1366,6 +1367,19 @@ MonoBehaviour:
   syncInterval: 0.1
   isFlippable: 0
   flippedObject: {fileID: 0}
+--- !u!114 &1254704757432938833
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65d675f20bb354d4b8d5e20051f2f2ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sicknessAfflictions: []
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1481,9 +1495,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1152904469002598
 GameObject:
   m_ObjectHideFlags: 0
@@ -1698,9 +1712,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1219173009942028
 GameObject:
   m_ObjectHideFlags: 0
@@ -1816,9 +1830,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 868247c219909d54dadd08b5ceed7287, type: 2}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1308134912561008
 GameObject:
   m_ObjectHideFlags: 0
@@ -2007,9 +2021,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1392646042361530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2125,9 +2139,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1410239830885134
 GameObject:
   m_ObjectHideFlags: 0
@@ -2243,9 +2257,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1426161168093594
 GameObject:
   m_ObjectHideFlags: 0
@@ -2361,9 +2375,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1442926995363424
 GameObject:
   m_ObjectHideFlags: 0
@@ -2479,9 +2493,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1456517064699986
 GameObject:
   m_ObjectHideFlags: 0
@@ -2597,9 +2611,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1475777022527010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2788,9 +2802,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: ecb3c8eadcacc2947b080655a3e6b871, type: 2}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1562215114468348
 GameObject:
   m_ObjectHideFlags: 0
@@ -2906,9 +2920,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1626073062007556
 GameObject:
   m_ObjectHideFlags: 0
@@ -3024,9 +3038,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1646833726656528
 GameObject:
   m_ObjectHideFlags: 0
@@ -3142,9 +3156,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: f0594d5820b2ebd4d90a67a4b81c7ba0, type: 2}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1653009388007362
 GameObject:
   m_ObjectHideFlags: 0
@@ -3260,9 +3274,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1659484884520852
 GameObject:
   m_ObjectHideFlags: 0
@@ -3472,9 +3486,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1693036899965374
 GameObject:
   m_ObjectHideFlags: 0
@@ -3736,9 +3750,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 47ce1199e6a946842a2a987e048e4340, type: 2}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1800994486271254
 GameObject:
   m_ObjectHideFlags: 0
@@ -3854,9 +3868,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1854044545869142
 GameObject:
   m_ObjectHideFlags: 0
@@ -3972,9 +3986,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176, type: 2}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1889549945948160
 GameObject:
   m_ObjectHideFlags: 0
@@ -4090,9 +4104,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &1894933337466704
 GameObject:
   m_ObjectHideFlags: 0
@@ -4306,9 +4320,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234, type: 2}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &2496504889366734254
 GameObject:
   m_ObjectHideFlags: 0
@@ -4442,13 +4456,13 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d91c579b8bd73404fb1676ba7bf20c5d, type: 2}
   - {fileID: 11400000, guid: 3cc58aaaccdf34c499544ffeac4e7a56, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876, type: 2}
+  variantIndex: 0
+  palette: []
   Sprites:
   - Texture: {fileID: 2800000, guid: 2adbceb9cc674484cb9a2c58b41d5493, type: 3}
   - Texture: {fileID: 2800000, guid: 37e6c24b3c7e32f4e85502799da9c86b, type: 3}
   - Texture: {fileID: 2800000, guid: 1d6a4a738a10d7642afdbb67afc5bc14, type: 3}
   - Texture: {fileID: 2800000, guid: 4713bd3c8ac12ad4c847a7b3d17d95dc, type: 3}
-  variantIndex: 0
-  palette: []
 --- !u!1 &4560473325844253165
 GameObject:
   m_ObjectHideFlags: 0
@@ -4670,9 +4684,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 6d39396f08bdc9b4b8199916a5ab16a4, type: 2}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &6206995644603678740
 GameObject:
   m_ObjectHideFlags: 0
@@ -4788,9 +4802,9 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 13fa3e7a251a7b54aa67fd153c616ab7, type: 2}
-  Sprites: []
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1 &7239096805821863808
 GameObject:
   m_ObjectHideFlags: 0
@@ -4952,12 +4966,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 4300145449095171559}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &4304794156734570639 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
-    type: 3}
-  m_PrefabInstance: {fileID: 4300145449095171559}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4196149980577959187 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
@@ -4970,3 +4978,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &4304794156734570639 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}
