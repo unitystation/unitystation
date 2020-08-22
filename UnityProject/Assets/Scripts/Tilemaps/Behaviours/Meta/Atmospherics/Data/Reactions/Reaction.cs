@@ -30,8 +30,7 @@ namespace Atmospherics
 					Gas.NitrousOxide,
 					new GasReactionData()
 					{
-						minimumMolesToReact = 0.1f,
-						ratio = 1f
+						minimumMolesToReact = 10f
 					}
 				},
 
@@ -39,14 +38,55 @@ namespace Atmospherics
 					Gas.Plasma,
 					new GasReactionData()
 					{
-						minimumMolesToReact = 0.1f,
-						ratio = 1f
+						minimumMolesToReact = 10f
 					}
 				}
 			},
 
 			minimumTemperature: 1f,
 			maximumTemperature:10000000f,
+			minimumPressure:0f,
+			maximumPressure: 100000000f,
+			minimumMoles: 0.1f,
+			maximumMoles:10000000000f,
+			energyChange: 0f
+		);
+
+		public static readonly GasReactions NO2Form = new GasReactions(
+
+			gasCreated: Gas.NitrousOxide,
+
+			reaction: new BZFormationReaction(),
+
+			gasReactionData: new Dictionary<Gas, GasReactionData>()
+			{
+				{
+					Gas.Oxygen,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 10f
+					}
+				},
+
+				{
+					Gas.Nitrogen,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 20f
+					}
+				},
+
+				{
+					Gas.BZ,
+					new GasReactionData()
+					{
+						minimumMolesToReact = 5f
+					}
+				}
+			},
+
+			minimumTemperature: 200f,
+			maximumTemperature:250f,
 			minimumPressure:0f,
 			maximumPressure: 100000000f,
 			minimumMoles: 0.1f,
@@ -139,6 +179,8 @@ namespace Atmospherics
 	public struct GasReactionData
 	{
 		public float minimumMolesToReact;
+
+		//unused
 		public float ratio;
 	}
 }
