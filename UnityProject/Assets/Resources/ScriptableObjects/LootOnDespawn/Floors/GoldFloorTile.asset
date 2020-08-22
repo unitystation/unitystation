@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f32b14c7e333404f97b68edca6213850, type: 3}
+  m_Name: GoldFloorTile
+  m_EditorClassIdentifier: 
+  objectToSpawn: {fileID: 6863350945561242895, guid: eb87e043698e5c94c8438ea35742de65,
+    type: 3}
+  minAmount: 0
+  maxAmount: 1
+  minRadius: 1.1
+  maxRadius: 2
