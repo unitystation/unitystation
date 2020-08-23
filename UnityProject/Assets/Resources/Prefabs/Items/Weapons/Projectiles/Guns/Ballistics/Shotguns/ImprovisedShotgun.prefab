@@ -187,6 +187,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8378383212809989179, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8378383212809989179, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
+        type: 3}
       propertyPath: initialName
       value: improvised shotgun
       objectReference: {fileID: 0}
@@ -195,7 +200,13 @@ PrefabInstance:
       propertyPath: initialDescription
       value: Essentially a tube that aims shotgun shells.
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8378383212809989179, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6592943016510903438, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f, type: 3}
 --- !u!4 &4991229846198388754 stripped
 Transform:

@@ -215,6 +215,49 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3c925fcb059eb654e8954470589c49d0,
         type: 2}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: ammoType
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootSMG
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: FireRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: MaxRecoilVariance
+      value: 0.08
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: WeaponType
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 742292832060491855, guid: 8d67e765cfb4f7e4ea02b4bb99f12383,
+        type: 3}
+    - target: {fileID: 4614094803234074905, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 952139322937657728, guid: cc1c44d01fdcc26409ca9bb9c3cfba80,
+        type: 3}
+    - target: {fileID: 4729653154424643162, guid: a940a8ef1ee65024fb0a322703040d98,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: b9b7e2c863aad42f5bdc8d356e5fc42c,
+        type: 2}
     - target: {fileID: 8139349595194068454, guid: a940a8ef1ee65024fb0a322703040d98,
         type: 3}
       propertyPath: m_AssetId

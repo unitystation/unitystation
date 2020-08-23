@@ -13,38 +13,10 @@ MonoBehaviour:
   m_Name: pulse rifle
   m_EditorClassIdentifier: 
   Sprites:
-    Equipped:
-      Texture: {fileID: 2800000, guid: e54e30e16f76a2c46a597b3d963988ca, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: e54e30e16f76a2c46a597b3d963988ca, type: 3}
-      - {fileID: 21300002, guid: e54e30e16f76a2c46a597b3d963988ca, type: 3}
-      - {fileID: 21300004, guid: e54e30e16f76a2c46a597b3d963988ca, type: 3}
-      - {fileID: 21300006, guid: e54e30e16f76a2c46a597b3d963988ca, type: 3}
-      EquippedData: {fileID: 4900000, guid: 71ec336d51c224e4fa85e3bc6e7908c8, type: 3}
-    InHandsLeft:
-      Texture: {fileID: 2800000, guid: 98e122e468ecca547b2747db971d5b2e, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 98e122e468ecca547b2747db971d5b2e, type: 3}
-      - {fileID: 21300002, guid: 98e122e468ecca547b2747db971d5b2e, type: 3}
-      - {fileID: 21300004, guid: 98e122e468ecca547b2747db971d5b2e, type: 3}
-      - {fileID: 21300006, guid: 98e122e468ecca547b2747db971d5b2e, type: 3}
-      EquippedData: {fileID: 4900000, guid: 44b6d6adade79974da876c50bbd669e6, type: 3}
-    InHandsRight:
-      Texture: {fileID: 2800000, guid: 6be7be8561f6f6744bd2a4fe2535b765, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 6be7be8561f6f6744bd2a4fe2535b765, type: 3}
-      - {fileID: 21300002, guid: 6be7be8561f6f6744bd2a4fe2535b765, type: 3}
-      - {fileID: 21300004, guid: 6be7be8561f6f6744bd2a4fe2535b765, type: 3}
-      - {fileID: 21300006, guid: 6be7be8561f6f6744bd2a4fe2535b765, type: 3}
-      EquippedData: {fileID: 4900000, guid: e812e85140982d6449c60884e0f00297, type: 3}
-    ItemIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
     SpriteEquipped: {fileID: 11400000, guid: d44a4bf30bfec1d489cf6f88cd611aea, type: 2}
-    SpriteInHandsLeft: {fileID: 11400000, guid: a22585bf9d6d56b4fa6d7a5aa5aa4953,
+    SpriteInHandsLeft: {fileID: 11400000, guid: 352d2f2d4cdf6804a8e4db37f15e4ab5,
       type: 2}
-    SpriteInHandsRight: {fileID: 11400000, guid: fb1fb86b873811f4896d2ee8552dc82c,
+    SpriteInHandsRight: {fileID: 11400000, guid: cf1628de09208c845b8c85cf06f2e62a,
       type: 2}
     SpriteItemIcon: {fileID: 0}
     Palette:
