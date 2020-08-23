@@ -100,8 +100,14 @@ namespace Machines
 				itemStorage.ServerDropAll();
 			}
 
-			var frame = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject)).GameObject;
+			SpawnResult frameSpawn = Spawn.ServerPrefab(framePrefab, SpawnDestination.At(gameObject));
+			if (!frameSpawn.Successful)
+			{
+				Logger.LogError($"Failed to spawn frame! Is {this} missing reference to {nameof(framePrefab)} in the inspector?");
+				return;
+			}
 
+			GameObject frame = frameSpawn.GameObject;
 			frame.GetComponent<MachineFrame>().ServerInitFromComputer(this);
 
 			Despawn.ServerSingle(gameObject);
