@@ -1,53 +1,49 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5865673803328853950
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6433518719526052612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 65a8731c836944efb4baf302526fc662, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!1001 &7248905475842763370
+--- !u!1001 &7890523767225750679
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 96014042515403583, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: ammoType
-      value: 18
-      objectReference: {fileID: 0}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 834d9558e4194cd49a81052160678d36,
         type: 3}
-      propertyPath: MagInternal
+    - target: {fileID: 96014042515403583, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 617012563949353989, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: SmartGun
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 834d9558e4194cd49a81052160678d36,
+        type: 3}
+    - target: {fileID: 617012563949353989, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: MagSize
-      value: 28
-      objectReference: {fileID: 0}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a220108b6d0e024e9361bac550bd6ff,
+        type: 2}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: FiringSound
-      value: PlasmaCutter
+      value: ShootLaser
       objectReference: {fileID: 0}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: FireRate
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -56,90 +52,80 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: ammoPrefab
-      value: 
-      objectReference: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
-        type: 3}
+      propertyPath: ProjectileVelocity
+      value: 27
+      objectReference: {fileID: 0}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: Projectile
       value: 
-      objectReference: {fileID: 5076580856386662130, guid: f65f1f0bd0295df468272b3d767985a7,
+      objectReference: {fileID: 8211143321156392977, guid: 3a7cdc8971e174749acec7fe7ccb4923,
         type: 3}
-    - target: {fileID: 942046851822298982, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
-        type: 2}
-    - target: {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: m_IsActive
+      propertyPath: SpawnsCasing
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2220118134753059110, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 1848979366670267442, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 834d9558e4194cd49a81052160678d36,
+        type: 3}
+    - target: {fileID: 1848979366670267442, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2719026976851437719, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 834d9558e4194cd49a81052160678d36,
+        type: 3}
+    - target: {fileID: 2719026976851437719, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261677260032049300, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a220108b6d0e024e9361bac550bd6ff,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: initialName
+      value: X-ray carbine
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: attackVerbs.Array.size
-      value: 4
+      propertyPath: initialDescription
+      value: A high-power laser gun capable of expelling concentrated X-ray blasts
+        that pass through multiple soft targets and heavier materials
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
       value: 
-      objectReference: {fileID: 11400000, guid: d7a08fa7791b75642b60ee0346ed2df1,
-        type: 2}
-    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: itemSprites.SpriteInventoryIcon
-      value: 
-      objectReference: {fileID: 11400000, guid: a181fd23b03f30049b0879457111adcc,
+      objectReference: {fileID: 11400000, guid: c7547342c03051143892d5c22e6cecd1,
         type: 2}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: itemSprites.SpriteRightHand
       value: 
-      objectReference: {fileID: 11400000, guid: c778f69ae7fe25d48aa47d9b4ea82d7f,
+      objectReference: {fileID: 11400000, guid: 867ee9b12859add4397e9f5198dd268a,
         type: 2}
-    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 4318467024818780366, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: attackVerbs.Array.data[3]
-      value: sliced
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 4318467024818780366, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: attackVerbs.Array.data[0]
-      value: attacked
-      objectReference: {fileID: 0}
-    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[1]
-      value: slashed
-      objectReference: {fileID: 0}
-    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: attackVerbs.Array.data[2]
-      value: cut
-      objectReference: {fileID: 0}
-    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: hitDamage
-      value: 12
-      objectReference: {fileID: 0}
-    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: initialName
-      value: plasma cutter
-      objectReference: {fileID: 0}
-    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
-        type: 3}
-      propertyPath: initialDescription
-      value: A mining tool capable of expelling concentrated plasma bursts. You could
-        use it to cut limbs off xenos! Or, you know, mine stuff.
+      propertyPath: m_LocalPosition.x
+      value: 0.09375
       objectReference: {fileID: 0}
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -204,36 +190,56 @@ PrefabInstance:
     - target: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_Name
-      value: PlasmaCutter
+      value: XRayCarbine
       objectReference: {fileID: 0}
     - target: {fileID: 4548863991441914418, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 91747fb8a8ae72e4ba94f78e2d8f65b4,
+      objectReference: {fileID: 21300000, guid: 0ba2d49de4926954d8fee27621bd3a64,
         type: 3}
-    - target: {fileID: 6227234703256324225, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 4789836560011916208, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a220108b6d0e024e9361bac550bd6ff,
+        type: 2}
+    - target: {fileID: 5785640420543790341, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5785640420543790341, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.1875
+      objectReference: {fileID: 0}
+    - target: {fileID: 6093713910395123777, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a220108b6d0e024e9361bac550bd6ff,
+        type: 2}
+    - target: {fileID: 6288949174333782400, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: a181fd23b03f30049b0879457111adcc,
+      objectReference: {fileID: 11400000, guid: d422b1901cd14f14ea6a0da1d2a24c63,
         type: 2}
-    - target: {fileID: 8546303518654307076, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    - target: {fileID: 8763012772582486514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
-      propertyPath: m_IsActive
-      value: 0
+      propertyPath: m_RootOrder
+      value: 4
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4206346965545160429, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+    - target: {fileID: 8763012772582486514, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.28125
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
---- !u!1 &6433518719526052612 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
-    type: 3}
-  m_PrefabInstance: {fileID: 7248905475842763370}
-  m_PrefabAsset: {fileID: 0}
