@@ -72,6 +72,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
         type: 2}
+    - target: {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2220118134753059110, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: attackVerbs.Array.size
@@ -202,12 +212,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 91747fb8a8ae72e4ba94f78e2d8f65b4,
         type: 3}
+    - target: {fileID: 6227234703256324225, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: a181fd23b03f30049b0879457111adcc,
         type: 2}
+    - target: {fileID: 8546303518654307076, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 4206346965545160429, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}

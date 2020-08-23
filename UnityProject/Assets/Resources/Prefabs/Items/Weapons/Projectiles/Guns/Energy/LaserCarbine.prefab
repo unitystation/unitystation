@@ -1,0 +1,177 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6085390258132873772
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 617012563949353989, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ded6b99fa3566e84594aec32d4cf92a5,
+        type: 3}
+    - target: {fileID: 617012563949353989, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3851fec95598997479a060c4bf942ab7,
+        type: 2}
+    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: SmartGun
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: FireRate
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: ProjectilesFired
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
+        type: 3}
+    - target: {fileID: 2153160782301408824, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2220118134753059110, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: initialDescription
+      value: A basic energy-based laser gun that fires concentrated beams of light
+        which pass through glass and thin metal.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: initialName
+      value: laser carbine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318467024818780366, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_Name
+      value: LaserCarbine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4548863991441914418, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7ff9b33435841a54cac3a5d90c8cf4af,
+        type: 3}
+    - target: {fileID: 5785640420543790341, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6227234703256324225, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6288949174333782400, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 76fec605f06afb04ba16c5df0b57319e,
+        type: 2}
+    - target: {fileID: 8763012772582486514, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}

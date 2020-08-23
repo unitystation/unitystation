@@ -42,10 +42,6 @@ namespace Pipes
 			spritehandler?.SetColor(Colour);
 		}
 
-		void OnDisable()
-		{
-			pipeData.OnDisable();
-		}
 
 		void OnEnable()
 		{
