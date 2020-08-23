@@ -13,41 +13,12 @@ MonoBehaviour:
   m_Name: double-barreled shotgun
   m_EditorClassIdentifier: 
   Sprites:
-    Equipped:
-      Texture: {fileID: 2800000, guid: df336164b49f6dd42822ff9158227e07, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: df336164b49f6dd42822ff9158227e07, type: 3}
-      - {fileID: 21300002, guid: df336164b49f6dd42822ff9158227e07, type: 3}
-      - {fileID: 21300004, guid: df336164b49f6dd42822ff9158227e07, type: 3}
-      - {fileID: 21300006, guid: df336164b49f6dd42822ff9158227e07, type: 3}
-      EquippedData: {fileID: 4900000, guid: 128f93dd8a723784bb3fc227def050f5, type: 3}
-    InHandsLeft:
-      Texture: {fileID: 2800000, guid: 646e7f22ac40ffb44b34924e79c94488, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 646e7f22ac40ffb44b34924e79c94488, type: 3}
-      - {fileID: 21300002, guid: 646e7f22ac40ffb44b34924e79c94488, type: 3}
-      - {fileID: 21300004, guid: 646e7f22ac40ffb44b34924e79c94488, type: 3}
-      - {fileID: 21300006, guid: 646e7f22ac40ffb44b34924e79c94488, type: 3}
-      EquippedData: {fileID: 4900000, guid: 8057989b9be9bdc46a8f1d5d1540622e, type: 3}
-    InHandsRight:
-      Texture: {fileID: 2800000, guid: 336ec3896a4a9694e8080514559490e0, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 336ec3896a4a9694e8080514559490e0, type: 3}
-      - {fileID: 21300002, guid: 336ec3896a4a9694e8080514559490e0, type: 3}
-      - {fileID: 21300004, guid: 336ec3896a4a9694e8080514559490e0, type: 3}
-      - {fileID: 21300006, guid: 336ec3896a4a9694e8080514559490e0, type: 3}
-      EquippedData: {fileID: 4900000, guid: 530173ab2806149429b276e6407a1775, type: 3}
-    ItemIcon:
-      Texture: {fileID: 2800000, guid: 28868ddac4e1b8c4a8ec58f10e87dcb0, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 28868ddac4e1b8c4a8ec58f10e87dcb0, type: 3}
-      EquippedData: {fileID: 0}
-    SpriteEquipped: {fileID: 11400000, guid: f41266814f0211d4b99f1b2b041b6996, type: 2}
+    SpriteEquipped: {fileID: 11400000, guid: 15c2120e278f62e47acc476db81d71a3, type: 2}
     SpriteInHandsLeft: {fileID: 11400000, guid: cc3b8cc0098b09d45acbb325c5ec8337,
       type: 2}
     SpriteInHandsRight: {fileID: 11400000, guid: 7bba6409a20d3484aa1b6d42aa8b6e9f,
       type: 2}
-    SpriteItemIcon: {fileID: 11400000, guid: 1f15d43fd5c4eb146beecb5f50c745af, type: 2}
+    SpriteItemIcon: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}

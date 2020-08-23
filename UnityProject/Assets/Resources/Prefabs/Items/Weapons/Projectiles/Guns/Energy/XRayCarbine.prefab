@@ -7,6 +7,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 96014042515403583, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 834d9558e4194cd49a81052160678d36,
+        type: 3}
+    - target: {fileID: 96014042515403583, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 617012563949353989, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 834d9558e4194cd49a81052160678d36,
+        type: 3}
+    - target: {fileID: 617012563949353989, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 662008806780841884, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a220108b6d0e024e9361bac550bd6ff,
+        type: 2}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: FiringSound
@@ -38,16 +66,66 @@ PrefabInstance:
       propertyPath: SpawnsCasing
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1848979366670267442, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 834d9558e4194cd49a81052160678d36,
+        type: 3}
+    - target: {fileID: 1848979366670267442, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2719026976851437719, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 834d9558e4194cd49a81052160678d36,
+        type: 3}
+    - target: {fileID: 2719026976851437719, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4261677260032049300, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a220108b6d0e024e9361bac550bd6ff,
+        type: 2}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: initialName
-      value: X-ray laser gun
+      value: X-ray carbine
       objectReference: {fileID: 0}
     - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: initialDescription
       value: A high-power laser gun capable of expelling concentrated X-ray blasts
         that pass through multiple soft targets and heavier materials
+      objectReference: {fileID: 0}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c7547342c03051143892d5c22e6cecd1,
+        type: 2}
+    - target: {fileID: 4268463137979442700, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 867ee9b12859add4397e9f5198dd268a,
+        type: 2}
+    - target: {fileID: 4318467024818780366, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4318467024818780366, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.09375
       objectReference: {fileID: 0}
     - target: {fileID: 4342894697621943514, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -112,7 +190,7 @@ PrefabInstance:
     - target: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: m_Name
-      value: XRayLaserGun
+      value: XRayCarbine
       objectReference: {fileID: 0}
     - target: {fileID: 4548863991441914418, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -120,11 +198,48 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 0ba2d49de4926954d8fee27621bd3a64,
         type: 3}
+    - target: {fileID: 4789836560011916208, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a220108b6d0e024e9361bac550bd6ff,
+        type: 2}
+    - target: {fileID: 5785640420543790341, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 5785640420543790341, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.1875
+      objectReference: {fileID: 0}
+    - target: {fileID: 6093713910395123777, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a220108b6d0e024e9361bac550bd6ff,
+        type: 2}
+    - target: {fileID: 6288949174333782400, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: d422b1901cd14f14ea6a0da1d2a24c63,
         type: 2}
+    - target: {fileID: 8763012772582486514, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8763012772582486514, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.28125
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}

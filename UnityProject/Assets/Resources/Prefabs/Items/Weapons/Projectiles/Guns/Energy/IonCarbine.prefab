@@ -1,0 +1,173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5177751046163917382
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 548096211279601911, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9de88ef265661c54b8c9cc7d4f82b22e,
+        type: 3}
+    - target: {fileID: 1802656855541139700, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c2084704ba38b44d80a9187b599d5a1,
+        type: 2}
+    - target: {fileID: 1809451594324700780, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: initialDescription
+      value: The MK.II Prototype Ion Projector is a lightweight carbine version of
+        the larger ion rifle, built to be ergonomic and efficient.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809451594324700780, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: initialSize
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1809451594324700780, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 1809451594324700780, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: initialName
+      value: ion carbine
+      objectReference: {fileID: 0}
+    - target: {fileID: 1859582955508101294, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.0625
+      objectReference: {fileID: 0}
+    - target: {fileID: 2089698314249581138, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 745ab38c26cab664c8e5666ced95744f,
+        type: 3}
+    - target: {fileID: 2190396003286203578, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2297519943540112506, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2301880469654929678, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_Name
+      value: IonCarbine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2555170996864007007, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9de88ef265661c54b8c9cc7d4f82b22e,
+        type: 3}
+    - target: {fileID: 3076177970571162725, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9de88ef265661c54b8c9cc7d4f82b22e,
+        type: 3}
+    - target: {fileID: 3102764330273990652, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c2084704ba38b44d80a9187b599d5a1,
+        type: 2}
+    - target: {fileID: 4289734481835310162, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9de88ef265661c54b8c9cc7d4f82b22e,
+        type: 3}
+    - target: {fileID: 5384039202584509065, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f644c5538ea35794ab5ce57fe813bad1,
+        type: 2}
+    - target: {fileID: 6610351354510358930, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.1875
+      objectReference: {fileID: 0}
+    - target: {fileID: 6942365628612328400, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c2084704ba38b44d80a9187b599d5a1,
+        type: 2}
+    - target: {fileID: 8244524627318453605, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 8552879656260661281, guid: 1a6abc720c22574468cb49e878c0119a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c2084704ba38b44d80a9187b599d5a1,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1a6abc720c22574468cb49e878c0119a, type: 3}
