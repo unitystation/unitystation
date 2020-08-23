@@ -40,7 +40,13 @@ public class SpriteUpdateMessage : ServerMessage
 			{
 				Scanning = GoToIndexOfCharacter(SerialiseData, '@', Start);
 				uint NetID = uint.Parse(SerialiseData.Substring(Start, Scanning - Start));
-				if (!NetworkIdentity.spawned.ContainsKey(NetID) || NetworkIdentity.spawned[NetID] == null) continue;
+				if (!NetworkIdentity.spawned.ContainsKey(NetID) || NetworkIdentity.spawned[NetID] == null)
+				{
+					Scanning = SkipSection(Start);
+					Start = Scanning;
+					continue;
+				}
+
 
 				Start = Scanning + 1;
 				Scanning = GoToIndexOfCharacter(SerialiseData, '{', Scanning);
@@ -133,6 +139,72 @@ public class SpriteUpdateMessage : ServerMessage
 		}
 	}
 
+	public int SkipSection (int Start){
+		int Scanning;
+		Scanning = GoToIndexOfCharacter(SerialiseData, '@', Start);
+		Start = Scanning + 1;
+		Scanning = GoToIndexOfCharacter(SerialiseData, '{', Scanning);
+		Scanning++;
+
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '>')
+		{
+			Scanning += 1;
+			Start = Scanning;
+			Scanning = GotoIndexOfNextControlCharacter(SerialiseData, Scanning);
+		}
+
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '<')
+		{
+			Scanning += 1;
+			Start = Scanning;
+			Scanning = GotoIndexOfNextControlCharacter(SerialiseData, Scanning);
+		}
+
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '&')
+		{
+			Scanning += 1;
+			Start = Scanning;
+			Scanning = GotoIndexOfNextControlCharacter(SerialiseData, Scanning);
+		}
+
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == ',')
+		{
+			Scanning++;
+		}
+
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '?')
+		{
+			Scanning++;
+		}
+
+
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '~')
+		{
+			Scanning++;
+		}
+
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '^')
+		{
+			Scanning++;
+		}
+
+
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '`')
+		{
+			Scanning = Scanning + 4;
+			Scanning++;
+		}
+
+		if (SerialiseData.Length > Scanning && SerialiseData[Scanning] == '%')
+		{
+			Scanning = Scanning + 1;
+			Scanning = Scanning + 32;
+		}
+
+		Scanning++;
+		return Scanning;
+	}
+
 	/// <summary>
 	/// Starts on control character/previous character
 	/// </summary>
@@ -213,7 +285,7 @@ public class SpriteUpdateMessage : ServerMessage
 				ToReturn.Append("default_name");
 			else
 				ToReturn.Append(VARIABLE.Key.name);
-				
+
 			ToReturn.Append("{");
 			GenerateSerialisation(VARIABLE.Value);
 		}
