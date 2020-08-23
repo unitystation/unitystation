@@ -190,13 +190,13 @@ namespace Assets.Scripts.Health.Sickness
 
 			if (sicknessStage.RepeatMaxDelay < sicknessStage.RepeatMinDelay)
 			{
-				Logger.LogError($"Sickness: {sickness.Name}. Repeatable sickness symptoms should always have a RepeatMaxDelay ({sicknessStage.RepeatMaxDelay}) >= RepeatMinDelay ({sicknessStage.RepeatMinDelay})", Category.Health);
+				Logger.LogError($"Sickness: {sickness.SicknessName}. Repeatable sickness symptoms should always have a RepeatMaxDelay ({sicknessStage.RepeatMaxDelay}) >= RepeatMinDelay ({sicknessStage.RepeatMinDelay})", Category.Health);
 				return;
 			}
 
 			if (sicknessStage.RepeatMinDelay < 5)
 			{
-				Logger.LogError($"Sickness: {sickness.Name}. Repeatable sickness symptoms should have a RepeatMinDelay ({sicknessStage.RepeatMinDelay}) >= 5.  Think of the server performance.", Category.Health);
+				Logger.LogError($"Sickness: {sickness.SicknessName}. Repeatable sickness symptoms should have a RepeatMinDelay ({sicknessStage.RepeatMinDelay}) >= 5.  Think of the server performance.", Category.Health);
 				return;
 			}
 
@@ -239,10 +239,10 @@ namespace Assets.Scripts.Health.Sickness
 		{
 			GameObject performer = symptomManifestation.PlayerHealth.gameObject;
 
-			CustomMessageParameter customMessageParameter = (CustomMessageParameter)symptomManifestation.SicknessAffliction.Sickness.SicknessStages[symptomManifestation.Stage].SymptomParameter;
+			CustomMessageParameter customMessageParameter = (CustomMessageParameter)symptomManifestation.SicknessAffliction.Sickness.SicknessStages[symptomManifestation.Stage].ExtendedSymptomParameters;
 
-			int randomMessage = UnityEngine.Random.Range(0, customMessageParameter.customMessages.Count - 1);
-			CustomMessage customMessage = customMessageParameter.customMessages[randomMessage];
+			int randomMessage = UnityEngine.Random.Range(0, customMessageParameter.CustomMessages.Count - 1);
+			CustomMessage customMessage = customMessageParameter.CustomMessages[randomMessage];
 			Chat.AddActionMsgToChat(performer,
 					customMessage.privateMessage.Replace("%PLAYERNAME&", performer.name),
 					customMessage.publicMessage.Replace("%PLAYERNAME&", performer.name));

@@ -8,12 +8,14 @@ namespace Assets.Scripts.Health.Sickness
 		/// <summary>
 		/// Name of the sickness
 		/// </summary>
-		public string SicknessName;
+		[SerializeField]
+		private string sicknessName;
 
 		/// <summary>
 		/// Indicates if the sickness is contagious or not.
 		/// </summary>
-		public bool Contagious;
+		[SerializeField]
+		private bool contagious;
 
 		/// <summary>
 		/// List of all the stages of a particular sickness
@@ -29,14 +31,25 @@ namespace Assets.Scripts.Health.Sickness
 		/// <summary>
 		/// Name of the sickness
 		/// </summary>
-		public string Name
+		public string SicknessName
 		{
 			get
 			{
-				if (string.IsNullOrEmpty(name))
+				if (string.IsNullOrEmpty(sicknessName))
 					return "<Unnamed>";
 
-				return name;
+				return sicknessName;
+			}
+		}
+
+		/// <summary>
+		/// Indicates if the sickness is contagious or not.
+		/// </summary>
+		public bool Contagious
+		{
+			get
+			{
+				return contagious;
 			}
 		}
 

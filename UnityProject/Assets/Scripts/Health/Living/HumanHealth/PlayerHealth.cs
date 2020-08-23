@@ -58,7 +58,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	{
 		if (UnityEngine.Random.Range(0, 100) < 100)
 		{
-			Sickness allergy = SicknessManager.Instance.Sicknesses.FirstOrDefault(p => p.Name == "Common Allergies");
+			Sickness allergy = SicknessManager.Instance.Sicknesses.FirstOrDefault(p => p.SicknessName == "Common Allergies");
 
 			if (allergy == null)
 				Logger.LogError("Common allergies sickness was not found.", Category.Health);

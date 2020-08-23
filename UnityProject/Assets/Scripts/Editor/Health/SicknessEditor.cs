@@ -1,22 +1,37 @@
 ﻿using Assets.Scripts.Health.Sickness;
+using System;
 using UnityEditor;
 using UnityEngine;
 
 namespace Assets.Scripts.Editor.Health
 {
 	[CustomEditor(typeof(Sickness))]
-	public class SicknessEditor: UnityEditor.Editor
+	public class SicknessEditor : UnityEditor.Editor
 	{
 		public override void OnInspectorGUI()
 		{
 			serializedObject.Update();
+
 			Sickness sickness = (Sickness)target;
 
 			EditorGUILayout.HelpBox("Create stages of a sickness with their symptoms", MessageType.Info);
 
-			sickness.SicknessName = EditorGUILayout.TextField("Sickness name", sickness.Name);
-			sickness.Contagious = EditorGUILayout.Toggle("Contagious", sickness.Contagious);
+			EditorGUILayout.PropertyField(serializedObject.FindProperty("sicknessName"));
 
+			serializedObject.FindProperty("contagious").boolValue = EditorGUILayout.Toggle("Contagious", sickness.Contagious);
+
+			EditorGUI.BeginChangeCheck();
+			SicknessStages(sickness);
+			if (EditorGUI.EndChangeCheck())
+			{
+				EditorUtility.SetDirty(sickness);
+			}
+
+			serializedObject.ApplyModifiedProperties();
+		}
+
+		private void SicknessStages(Sickness sickness)
+		{
 			int stageCount = EditorGUILayout.IntField("Number of Stages", sickness.SicknessStages.Count);
 
 			if (stageCount != sickness.SicknessStages.Count)
@@ -31,55 +46,55 @@ namespace Assets.Scripts.Editor.Health
 				}
 			}
 
-			foreach (SicknessStage sicknessStage in sickness.SicknessStages)
-			{
-				sicknessStage.Symptom = (SymptomType)EditorGUILayout.EnumPopup(sicknessStage.Symptom);
+			for (int stage = 0; stage < sickness.SicknessStages.Count; stage++)
+			{				
+				SerializedProperty currentStage = serializedObject.FindProperty("sicknessStages").GetArrayElementAtIndex(stage);
+				SerializedProperty symptom = currentStage.FindPropertyRelative("symptom");
+				EditorGUILayout.PropertyField(symptom);
 
-				EditorGUI.indentLevel++;				
-				sicknessStage.RepeatSymptom = EditorGUILayout.Toggle("Repeatable symptom", sicknessStage.RepeatSymptom);
+				EditorGUI.indentLevel++;
 
-				if (sicknessStage.RepeatSymptom)
+				SerializedProperty repeatSymptom = currentStage.FindPropertyRelative("repeatSymptom");
+				EditorGUILayout.PropertyField(repeatSymptom);
+
+				if (repeatSymptom.boolValue)
 				{
-					sicknessStage.RepeatMinDelay = EditorGUILayout.IntField("Minimum Delay", sicknessStage.RepeatMinDelay);
-					sicknessStage.RepeatMaxDelay = EditorGUILayout.IntField("Maximum Delay", sicknessStage.RepeatMaxDelay);
+					EditorGUILayout.PropertyField(currentStage.FindPropertyRelative("repeatMinDelay"));
+					EditorGUILayout.PropertyField(currentStage.FindPropertyRelative("repeatMaxDelay"));
 				}
 
-				sicknessStage.SecondsBeforeNextStage = EditorGUILayout.IntField("Seconds before next stage", sicknessStage.SecondsBeforeNextStage);
+				EditorGUILayout.PropertyField(currentStage.FindPropertyRelative("secondsBeforeNextStage"));
 
-				if (sicknessStage.Symptom == SymptomType.CustomMessage)
+				if (symptom.intValue == (int)SymptomType.CustomMessage)
 				{
-					ShowCustomMessageOptions(sicknessStage);
+					ShowCustomMessageOptions((CustomMessageParameter)sickness.SicknessStages[stage].ExtendedSymptomParameters);
 				}
 
 				EditorGUI.indentLevel--;
 			}
-
-			serializedObject.Update();
 		}
 
-		private static void ShowCustomMessageOptions(SicknessStage sicknessStage)
+		private static void ShowCustomMessageOptions(CustomMessageParameter customMessageParameter)
 		{
 			EditorGUI.indentLevel++;
 			EditorGUILayout.HelpBox("Enter a list of message that can be shown at random\nIf a message is blank, only its public/private counterpart is shown\nYou can use %PLAYERNAME% expression to insert the player's name in the message", MessageType.Info);
 
-			CustomMessageParameter customMessageParameter = (CustomMessageParameter)sicknessStage.SymptomParameter;
+			int messageCount = EditorGUILayout.IntField("Number of messages", customMessageParameter.CustomMessages.Count);
 
-			int messageCount = EditorGUILayout.IntField("Number of messages", customMessageParameter.customMessages.Count);
-
-			if (messageCount != customMessageParameter.customMessages.Count)
+			if (messageCount != customMessageParameter.CustomMessages.Count)
 			{
-				while (messageCount > customMessageParameter.customMessages.Count)
+				while (messageCount > customMessageParameter.CustomMessages.Count)
 				{
-					customMessageParameter.customMessages.Insert(customMessageParameter.customMessages.Count, new CustomMessage());
+					customMessageParameter.CustomMessages.Insert(customMessageParameter.CustomMessages.Count, new CustomMessage());
 				}
-				while (messageCount < customMessageParameter.customMessages.Count)
+				while (messageCount < customMessageParameter.CustomMessages.Count)
 				{
-					customMessageParameter.customMessages.RemoveAt(customMessageParameter.customMessages.Count - 1);
+					customMessageParameter.CustomMessages.RemoveAt(customMessageParameter.CustomMessages.Count - 1);
 				}
 			}
 
 			int nCount = 0;
-			foreach (CustomMessage customMessage in customMessageParameter.customMessages)
+			foreach (CustomMessage customMessage in customMessageParameter.CustomMessages)
 			{
 				nCount++;
 				customMessage.privateMessage = EditorGUILayout.TextField($"Private message #{nCount}", customMessage.privateMessage);

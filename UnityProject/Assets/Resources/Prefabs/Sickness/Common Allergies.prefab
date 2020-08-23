@@ -43,18 +43,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0a24338e4bf074095f5275d3fc8a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Common Allergies
+  sicknessName: Common Allergies
   contagious: 1
   sicknessStages:
-  - symptom: 2
-    customMessage: 
-    repeatSymptom: 1
-    repeatMinDelay: 5
-    repeatMaxDelay: 20
-    secondsBeforeNextStage: 60
   - symptom: 3
-    customMessage: 
+    repeatSymptom: 1
+    repeatMinDelay: 80
+    repeatMaxDelay: 222
+    secondsBeforeNextStage: 300
+    extendedSymptomParametersSerialized: null
+  - symptom: 2
     repeatSymptom: 1
     repeatMinDelay: 5
-    repeatMaxDelay: 20
-    secondsBeforeNextStage: 0
+    repeatMaxDelay: 60
+    secondsBeforeNextStage: 300
+    extendedSymptomParametersSerialized: null
+  - symptom: 4
+    repeatSymptom: 1
+    repeatMinDelay: 6
+    repeatMaxDelay: 102
+    secondsBeforeNextStage: 2
+    extendedSymptomParametersSerialized: '{"CustomMessages":[{"privateMessage":"ssss","publicMessage":"sss"},{"privateMessage":"ddd","publicMessage":"Tutu"}]}'

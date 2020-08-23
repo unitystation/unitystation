@@ -17,6 +17,10 @@ namespace Assets.Scripts.Health.Sickness
 
 		private float spawnedTime;
 
+		private RegisterTile registerTile;
+
+		private Matrix tileMatrix => registerTile.Matrix;
+
 		public void Start()
 		{
 			spawnedTime = Time.time;
@@ -29,6 +33,41 @@ namespace Assets.Scripts.Health.Sickness
 			if (Time.time > spawnedTime + contagionTime)
 			{
 
+			}
+		}
+
+		public void Awake()
+		{
+			registerTile = GetComponent<RegisterTile>();
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+			if (Validations.IsTarget(gameObject, interaction)) return true;
+
+			return false;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			DetectObjectsOnTile();
+		}
+
+
+		public void DetectObjectsOnTile()
+		{
+			if (!CustomNetworkManager.IsServer) return;
+
+			var registerTileLocation = registerTile.LocalPositionServer;
+
+			//detect players positioned on the portal bit of the gateway
+			var playersFound = tileMatrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true);
+
+			foreach (ObjectBehaviour player in playersFound)
+			{
+				Chat.AddGameWideSystemMsgToChat($"Ilayer {player.name} inside contagion zone!");
 			}
 		}
 	}
