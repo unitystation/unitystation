@@ -32,7 +32,14 @@ namespace Explosions
 			float EnergyExpended = 0;
 			var v3int = new Vector3Int(Location.x, Location.y, 0);
 
-			EnergyExpended = matrix.MetaTileMap.ApplyDamage(v3int, Damagedealt,
+			var metaTileMap = matrix.MetaTileMap;
+
+			if (metaTileMap == null)
+			{
+				return;
+			}
+
+			EnergyExpended = metaTileMap.ApplyDamage(v3int, Damagedealt,
 			MatrixManager.LocalToWorldInt(v3int, matrix.MatrixInfo), AttackType.Bomb) * 0.375f;
 
 			if (Damagedealt > 100)
