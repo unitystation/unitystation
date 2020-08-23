@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Health.Sickness
 {
@@ -16,11 +17,7 @@ namespace Assets.Scripts.Health.Sickness
 		private int contagionTime;
 
 		private float spawnedTime;
-
-		private RegisterTile registerTile;
-
-		private Matrix tileMatrix => registerTile.Matrix;
-
+		
 		public void Start()
 		{
 			spawnedTime = Time.time;
@@ -36,39 +33,12 @@ namespace Assets.Scripts.Health.Sickness
 			}
 		}
 
-		public void Awake()
+		/// <summary>
+		/// Called from the Walkable component.  Handles what happens when a player enters the location of the contagion.
+		/// </summary>
+		public void OnWalkableEnter(BaseEventData eventData)
 		{
-			registerTile = GetComponent<RegisterTile>();
-		}
-
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			if (!DefaultWillInteract.Default(interaction, side)) return false;
-
-			if (Validations.IsTarget(gameObject, interaction)) return true;
-
-			return false;
-		}
-
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			DetectObjectsOnTile();
-		}
-
-
-		public void DetectObjectsOnTile()
-		{
-			if (!CustomNetworkManager.IsServer) return;
-
-			var registerTileLocation = registerTile.LocalPositionServer;
-
-			//detect players positioned on the portal bit of the gateway
-			var playersFound = tileMatrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true);
-
-			foreach (ObjectBehaviour player in playersFound)
-			{
-				Chat.AddGameWideSystemMsgToChat($"Ilayer {player.name} inside contagion zone!");
-			}
+			Chat.AddGameWideSystemMsgToChat($"Player {eventData.selectedObject.name} inside contagion zone!");
 		}
 	}
 }
