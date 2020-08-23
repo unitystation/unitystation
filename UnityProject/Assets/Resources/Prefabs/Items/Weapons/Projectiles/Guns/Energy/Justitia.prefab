@@ -181,6 +181,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 44e54af7ec604c14ebab1fd3191371ab,
         type: 2}
+    - target: {fileID: 7789201627290542266, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: SmartGun
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7789201627290542266, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: ProjectilesFired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8316631766976624318, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: PresentSpriteSet
