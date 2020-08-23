@@ -3677,7 +3677,7 @@ PrefabInstance:
     - target: {fileID: 5310848962886298822, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 409.29996
+      value: 409.30002
       objectReference: {fileID: 0}
     - target: {fileID: 5380185652939830920, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
@@ -3697,12 +3697,12 @@ PrefabInstance:
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Size
-      value: 0
+      value: 0.000000043596547
       objectReference: {fileID: 0}
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Value
-      value: 0.000000074560404
+      value: 0.00000014912086
       objectReference: {fileID: 0}
     - target: {fileID: 5420804678553840072, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
@@ -4471,7 +4471,12 @@ PrefabInstance:
     - target: {fileID: 2689092422846712754, guid: 256a5dacb7916ac4ebeae1af2d3f97c6,
         type: 3}
       propertyPath: m_AnchorMax.y
-      value: 0
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2689092422846712754, guid: 256a5dacb7916ac4ebeae1af2d3f97c6,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2689092423346807254, guid: 256a5dacb7916ac4ebeae1af2d3f97c6,
         type: 3}
@@ -4482,6 +4487,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoadingScreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8413821752787712297, guid: 256a5dacb7916ac4ebeae1af2d3f97c6,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 256a5dacb7916ac4ebeae1af2d3f97c6, type: 3}
