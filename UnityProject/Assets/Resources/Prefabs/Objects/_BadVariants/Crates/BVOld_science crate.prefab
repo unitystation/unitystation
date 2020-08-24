@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: 748666029195244984, guid: 77c34f812972d3d46820041f1ce15ccb,
+      objectReference: {fileID: 21300000, guid: b0342fc4a83f6414e8b6396e74ab0651,
         type: 3}
     - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
@@ -32,7 +32,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -3137904983901618740, guid: 77c34f812972d3d46820041f1ce15ccb,
+      objectReference: {fileID: 21300000, guid: 77c34f812972d3d46820041f1ce15ccb,
         type: 3}
     - target: {fileID: 3918525054062759918, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
@@ -43,12 +43,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -3137904983901618740, guid: 77c34f812972d3d46820041f1ce15ccb,
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972391878964200388, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       propertyPath: m_Name
-      value: science crate
+      value: BVOld_science crate
       objectReference: {fileID: 0}
     - target: {fileID: 7185317672090542345, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
