@@ -81,13 +81,18 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 7449342806321698287, guid: b3db8bbdd08038647a1ff950010c4a64,
+      objectReference: {fileID: 21300000, guid: b3db8bbdd08038647a1ff950010c4a64,
         type: 3}
+    - target: {fileID: 8293214028882204601, guid: f586bbb3df568ba4ba5af8e73c1da64d,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8954286801447678259, guid: f586bbb3df568ba4ba5af8e73c1da64d,
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: -6816543092149487259, guid: b3db8bbdd08038647a1ff950010c4a64,
+      objectReference: {fileID: 21300000, guid: aeb922549ccf46b4d8b73a07344cee68,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f586bbb3df568ba4ba5af8e73c1da64d, type: 3}

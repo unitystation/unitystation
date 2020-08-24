@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: -7267704535348507124, guid: 229bd1b330eeeda40a4932bc6e5e2e73,
+      objectReference: {fileID: 21300000, guid: 0d9954106a9a8104b96cf7a3a92ca28c,
         type: 3}
     - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
@@ -27,18 +27,22 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -8773457292166174621, guid: 229bd1b330eeeda40a4932bc6e5e2e73,
+      objectReference: {fileID: 21300000, guid: 229bd1b330eeeda40a4932bc6e5e2e73,
         type: 3}
     - target: {fileID: 6972391878964200388, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -8773457292166174621, guid: 229bd1b330eeeda40a4932bc6e5e2e73,
+      objectReference: {fileID: 0}
+    - target: {fileID: 6972391878964200388, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       propertyPath: m_Name
-      value: medical crate
+      value: BVOld_medical crate
       objectReference: {fileID: 0}
     - target: {fileID: 7185317672090542345, guid: 44071f490693c439896528fb8aca8917,
         type: 3}

@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: -4692825688617060892, guid: ad630dd22d239c34ea762522e0325288,
+      objectReference: {fileID: 21300000, guid: c8be939fc9d5380449139202a740b1f2,
         type: 3}
     - target: {fileID: -6909192434074767838, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -76,14 +76,24 @@ PrefabInstance:
     - target: {fileID: 933576176691117832, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Name
-      value: Crate
+      value: CrateBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 1122670086388767519, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1122670086388767519, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -3463311759458235833, guid: ad630dd22d239c34ea762522e0325288,
+      objectReference: {fileID: 21300000, guid: ad630dd22d239c34ea762522e0325288,
         type: 3}
+    - target: {fileID: 5666735912054379986, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 5839524082176549394, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Offset.x

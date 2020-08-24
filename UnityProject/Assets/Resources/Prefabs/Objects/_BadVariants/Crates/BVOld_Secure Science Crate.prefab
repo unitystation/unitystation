@@ -11,8 +11,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 7332060713531445518, guid: dbcc7423616c70644adb6ffe2f130439,
+      objectReference: {fileID: 0}
+    - target: {fileID: 1870512524056631594, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1909785831965555687, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -98,7 +102,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 7332060713531445518, guid: dbcc7423616c70644adb6ffe2f130439,
+      objectReference: {fileID: 21300000, guid: dbcc7423616c70644adb6ffe2f130439,
         type: 3}
     - target: {fileID: 7307600709799419825, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
@@ -115,7 +119,7 @@ PrefabInstance:
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: 462507072270096758, guid: dbcc7423616c70644adb6ffe2f130439,
+      objectReference: {fileID: 21300000, guid: f08acdd894e32f74ca42acd6bb155116,
         type: 3}
     - target: {fileID: 9092948125053428237, guid: d059b46ee78dde84b963769ba89d24cc,
         type: 3}
