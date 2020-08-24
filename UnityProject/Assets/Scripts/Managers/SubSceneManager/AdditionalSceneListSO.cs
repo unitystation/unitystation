@@ -14,9 +14,9 @@ public class AdditionalSceneListSO : ScriptableObject
 	public List<string> AdditionalScenes = new List<string>();
 
 	[Tooltip("Default Central Command scene used if no specific map is set")]
-	public string defaultCentComScene;
+	public List<string> defaultCentComScenes = new List<string>();
 
-	[Tooltip("Used to set a specific scene to load for a map")]
+	[Tooltip("List of CentCom scenes that will be picked randomly at round load unless specific map is set")]
 	public List<CentComData> CentComScenes = new List<CentComData>();
 
 	[Tooltip("List of Syndie bases that will be picked randomly at round load unless specific map is set")]

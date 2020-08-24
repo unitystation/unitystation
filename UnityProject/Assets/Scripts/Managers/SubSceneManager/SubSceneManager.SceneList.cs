@@ -125,12 +125,14 @@ public partial class SubSceneManager
 			yield break;
 		}
 
+		var pickedMap = additionalSceneList.defaultCentComScenes.PickRandom();
+
 		//If no special CentCom load default.
-		yield return StartCoroutine(LoadSubScene(additionalSceneList.defaultCentComScene, loadTimer));
+		yield return StartCoroutine(LoadSubScene(pickedMap, loadTimer));
 
 		loadedScenesList.Add(new SceneInfo
 		{
-			SceneName = additionalSceneList.defaultCentComScene,
+			SceneName = pickedMap,
 			SceneType = SceneType.AdditionalScenes
 		});
 	}
@@ -216,8 +218,6 @@ public partial class SubSceneManager
 	{
 		if (SyndicateLoaded) yield break;
 
-		var defaultSyndi = true;
-
 		foreach (var syndicateData in additionalSceneList.SyndicateScenes)
 		{
 			if (syndicateData.DependentScene == null || syndicateData.SyndicateSceneName == null) continue;
@@ -232,22 +232,18 @@ public partial class SubSceneManager
 				SceneType = SceneType.AdditionalScenes
 			});
 
-			defaultSyndi = false;
-			break;
+			yield break;
 		}
 
-		if (defaultSyndi)
+		var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
+
+		yield return StartCoroutine(LoadSubScene(pickedMap));
+
+		loadedScenesList.Add(new SceneInfo
 		{
-			var pickedMap = additionalSceneList.defaultSyndicateScenes.PickRandom();
-
-			yield return StartCoroutine(LoadSubScene(pickedMap));
-
-			loadedScenesList.Add(new SceneInfo
-			{
-				SceneName = pickedMap,
-				SceneType = SceneType.AdditionalScenes
-			});
-		}
+			SceneName = pickedMap,
+			SceneType = SceneType.AdditionalScenes
+		});
 
 		SyndicateLoaded = true;
 	}
