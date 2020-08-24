@@ -159,6 +159,10 @@ public class GUI_ShuttleControl : NetTab
 
 	public void ServerToggleRcs(bool on, ConnectedPlayer subject)
 	{
+		Debug.Log("[ServerToggleRcs] " + subject.Name + " " + on);
+
+		subject.Script.RcsMode = on;
+		subject.Script.RcsMatrixMove = on ? MatrixMove : null;
 		RcsMode = on;
 		MatrixMove.ToggleRcs(on);
 		SetRcsLight(on);
@@ -175,6 +179,11 @@ public class GUI_ShuttleControl : NetTab
 
 	public void ClientToggleRcs(bool on)
 	{
+		PlayerManager.LocalPlayerScript.RcsMode = on;
+		PlayerManager.LocalPlayerScript.RcsMatrixMove = on ? MatrixMove : null;
+
+		//MatrixMove.CacheRcs();
+
 		RcsMode = on;
 		SetRcsLight(on);
 		rcsToggleButton.isOn = on;
@@ -424,5 +433,13 @@ public class GUI_ShuttleControl : NetTab
 		float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1) + 1;
 		//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
 		MatrixMove.SetSpeed(speed);
+	}
+
+	/// <summary>
+	/// Handle input when in RCS mode
+	/// </summary>
+	public void HandleRCSInput()
+	{
+
 	}
 }

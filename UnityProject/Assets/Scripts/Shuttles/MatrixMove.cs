@@ -86,12 +86,23 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Tooltip("Does it require fuel in order to fly?")]
 	public bool RequiresFuel;
 
-	private List<RcsThruster> bowRcsThrusters = new List<RcsThruster>(); //front
-	private List<RcsThruster> sternRcsThrusters = new List<RcsThruster>(); //back
-	private List<RcsThruster> portRcsThrusters = new List<RcsThruster>(); //left
-	private List<RcsThruster> starBoardRcsThrusters = new List<RcsThruster>(); //right
+	/// <summary>
+	/// Dictionary containing lists of RCS thrusters.
+	/// [If you want to remove all thrusters clear the lists not dictionary]
+	/// </summary>
+	private Dictionary<OrientationEnum, List<RcsThruster>> rcsThrusters = new Dictionary<OrientationEnum, List<RcsThruster>>
+	{
+		{OrientationEnum.Up,    new List<RcsThruster>()},
+		{OrientationEnum.Down,  new List<RcsThruster>()},
+		{OrientationEnum.Left,  new List<RcsThruster>()},
+		{OrientationEnum.Right, new List<RcsThruster>()}
+	};
 
-	[SyncVar] [HideInInspector]
+	private Vector2Int rcsMovementStartPosition;
+	private Vector2Int rcsMovementTargetPosition;
+
+	[SyncVar]
+	[HideInInspector]
 	public bool rcsModeActive;
 
 	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
@@ -202,8 +213,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 			Vector3Int.RoundToInt(new Vector3(transform.position.x, transform.position.y, 0));
 		SyncInitialPosition(initialPosition, initialPositionInt);
 
-		var child = transform.GetChild( 0 );
-		matrixInfo = MatrixManager.Get( child.gameObject );
+		var child = transform.GetChild(0);
+		matrixInfo = MatrixManager.Get(child.gameObject);
 		var childPosition = Vector3Int.CeilToInt(new Vector3(child.transform.position.x, child.transform.position.y, 0));
 		SyncPivot(pivot, initialPosition - childPosition);
 
@@ -215,27 +226,27 @@ public class MatrixMove : ManagedNetworkBehaviour
 		clientState = serverState;
 
 		RecheckThrusters();
-		if ( thrusters.Count > 0 )
+		if (thrusters.Count > 0)
 		{
-			Logger.LogFormat( "{0}: Initializing {1} thrusters!", Category.Transform, matrixInfo.Matrix.name, thrusters.Count );
-			foreach ( var thruster in thrusters )
+			Logger.LogFormat("{0}: Initializing {1} thrusters!", Category.Transform, matrixInfo.Matrix.name, thrusters.Count);
+			foreach (var thruster in thrusters)
 			{
 				var integrity = thruster.GetComponent<Integrity>();
-				if ( integrity )
+				if (integrity)
 				{
-					integrity.OnWillDestroyServer.AddListener( destructionInfo =>
-					{
-						if ( thrusters.Contains( thruster ) )
-						{
-							thrusters.Remove( thruster );
-						}
+					integrity.OnWillDestroyServer.AddListener(destructionInfo =>
+				   {
+					   if (thrusters.Contains(thruster))
+					   {
+						   thrusters.Remove(thruster);
+					   }
 
-						if ( thrusters.Count == 0 && IsMovingServer )
-						{
-							Logger.LogFormat( "All thrusters were destroyed! Stopping {0} soon!", Category.Transform, matrixInfo.Matrix.name );
-							StartCoroutine( StopWithDelay(1f) );
-						}
-					}	);
+					   if (thrusters.Count == 0 && IsMovingServer)
+					   {
+						   Logger.LogFormat("All thrusters were destroyed! Stopping {0} soon!", Category.Transform, matrixInfo.Matrix.name);
+						   StartCoroutine(StopWithDelay(1f));
+					   }
+				   });
 				}
 			}
 		}
@@ -252,7 +263,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			SensorPositions = sensors.Select(sensor => Vector3Int.RoundToInt(sensor.transform.localPosition)).ToArray();
 
 			Logger.Log($"Initialized sensors at {string.Join(",", SensorPositions)}," +
-			           $" direction is {ServerState.FlyingDirection}", Category.Matrix);
+					   $" direction is {ServerState.FlyingDirection}", Category.Matrix);
 		}
 
 		if (RotationSensors == null)
@@ -272,11 +283,11 @@ public class MatrixMove : ManagedNetworkBehaviour
 			RotationSensors = sensors.Select(sensor => sensor.gameObject).ToArray();
 		}
 
-		IEnumerator StopWithDelay( float delay )
+		IEnumerator StopWithDelay(float delay)
 		{
-			SetSpeed( ServerState.Speed / 2 );
-			yield return WaitFor.Seconds( delay );
-			Logger.LogFormat( "{0}: Stopping due to missing thrusters!", Category.Transform, matrixInfo.Matrix.name );
+			SetSpeed(ServerState.Speed / 2);
+			yield return WaitFor.Seconds(delay);
+			Logger.LogFormat("{0}: Stopping due to missing thrusters!", Category.Transform, matrixInfo.Matrix.name);
 			StopMovement();
 		}
 	}
@@ -318,7 +329,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		yield return WaitFor.Seconds(1);
 		serverState.Inform = true;
 		NotifyPlayers();
-		this.RestartCoroutine( FloatingAwarenessSync(), ref floatingSyncHandle );
+		this.RestartCoroutine(FloatingAwarenessSync(), ref floatingSyncHandle);
 	}
 
 	///managed by UpdateManager
@@ -358,7 +369,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		if (isClient)
 		{
-			if(coordReadoutScript != null) coordReadoutScript.SetCoords(clientState.Position);
+			if (coordReadoutScript != null) coordReadoutScript.SetCoords(clientState.Position);
 			if (shuttleControlGUI != null && rcsModeActive != shuttleControlGUI.RcsMode)
 			{
 				shuttleControlGUI.ClientToggleRcs(rcsModeActive);
@@ -418,11 +429,41 @@ public class MatrixMove : ManagedNetworkBehaviour
 		}
 	}
 
+	[Server]
+	public void RcsStartMovementServer(Orientation flyingDirection)
+	{
+		if (IsForceStopped) return;
+
+		moveLimit = 0;
+		SetSpeed(1);
+
+		ChangeFlyingDirection(flyingDirection);
+
+		serverTargetState.IsMoving = true;
+		MatrixMoveEvents.OnStartMovementServer.Invoke();
+		RequestNotify();
+	}
+
+	[Client]
+	public void RcsStartMovementClient(Orientation flyingDirection)
+	{
+		if (IsForceStopped) return;
+
+		rcsMovementStartPosition = Vector2Int.RoundToInt(transform.position);
+		rcsMovementTargetPosition = rcsMovementStartPosition + flyingDirection.VectorInt;
+
+		clientState.Speed = 1;
+		clientState.FlyingDirection = flyingDirection;
+		clientState.IsMoving = true;
+
+		MatrixMoveEvents.OnStartMovementClient.Invoke();
+	}
+
 	/// Stop movement
 	[Server]
 	public void StopMovement()
 	{
-		Logger.LogTrace(gameObject.name+ " stopped movement", Category.Matrix);
+		Logger.LogTrace(gameObject.name + " stopped movement", Category.Matrix);
 		serverTargetState.IsMoving = false;
 		MatrixMoveEvents.OnStopMovementServer.Invoke();
 
@@ -554,6 +595,17 @@ public class MatrixMove : ManagedNetworkBehaviour
 			//Only move target if rotation is finished
 			//predict client state because we don't get constant updates when flying in one direction.
 			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.Vector;
+			if(rcsModeActive && clientState.IsMoving)
+			{
+				if(Vector2.Distance(clientState.Position, rcsMovementTargetPosition) < 0.05f)
+				{
+					clientState.Position = new Vector3(rcsMovementTargetPosition.x, rcsMovementTargetPosition.y, clientState.Position.z);
+					clientState.Speed = 0;
+					clientState.IsMoving = false;
+
+					MatrixMoveEvents.OnStopMovementClient.Invoke();
+				}
+			}
 		}
 
 		//finish rotation (rotation event will be fired in lateupdate
@@ -578,13 +630,13 @@ public class MatrixMove : ManagedNetworkBehaviour
 			transform.position = clientState.Position;
 
 			//If stopped then lerp to target (snap to grid)
-			if (!clientState.IsMoving )
+			if (!clientState.IsMoving)
 			{
-				if ( clientState.Position == transform.position )
+				if (clientState.Position == transform.position)
 				{
 					MatrixMoveEvents.OnFullStopClient.Invoke();
 				}
-				if ( distance > 0f )
+				if (distance > 0f)
 				{
 					//TODO: Why is this needed? Seems weird.
 					matrixPositionFilter.SetPosition(transform.position);
@@ -620,7 +672,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 			//actual position we should reach this update, regardless of if we passed through the target position
 			actualNewPosition = serverState.Position +
-			                    serverState.FlyingDirection.Vector * (serverState.Speed * Time.deltaTime);
+								serverState.FlyingDirection.Vector * (serverState.Speed * Time.deltaTime);
 			//update position without passing the target position
 			serverState.Position =
 				Vector3.MoveTowards(serverState.Position,
@@ -645,8 +697,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 			var goal = Vector3Int.RoundToInt(serverState.Position + serverTargetState.FlyingDirection.Vector);
 			//keep moving
 			serverTargetState.Position = goal;
-			if (IsAutopilotEngaged && ((int) serverState.Position.x == (int) Target.x
-			                           || (int) serverState.Position.y == (int) Target.y))
+			if (IsAutopilotEngaged && ((int)serverState.Position.x == (int)Target.x
+									   || (int)serverState.Position.y == (int)Target.y))
 			{
 				StartCoroutine(TravelToTarget());
 			}
@@ -659,7 +711,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 		}
 		else
 		{
-//			Logger.LogTrace( "Stopping due to safety protocols!",Category.Matrix );
+			//			Logger.LogTrace( "Stopping due to safety protocols!",Category.Matrix );
 			StopMovement();
 			TryNotifyPlayers();
 		}
@@ -687,7 +739,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			}
 		}
 
-//		Logger.LogTrace( $"Passing {serverTargetState.Position}->{serverTargetState.Position+dir} ", Category.Matrix );
+		//		Logger.LogTrace( $"Passing {serverTargetState.Position}->{serverTargetState.Position+dir} ", Category.Matrix );
 		return true;
 	}
 
@@ -756,6 +808,13 @@ public class MatrixMove : ManagedNetworkBehaviour
 			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, RotationEvent.Start));
 		}
 
+		if(rcsModeActive)
+		{
+			// dont teleport player back to start point
+			if(Vector2Int.RoundToInt(clientState.Position) == rcsMovementStartPosition)
+				clientState.Position = oldState.Position;
+		}
+
 		if (!oldState.IsMoving && newState.IsMoving)
 		{
 			MatrixMoveEvents.OnStartMovementClient.Invoke();
@@ -766,7 +825,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			MatrixMoveEvents.OnStopMovementClient.Invoke();
 		}
 
-		if ((int) oldState.Speed != (int) newState.Speed)
+		if ((int)oldState.Speed != (int)newState.Speed)
 		{
 			MatrixMoveEvents.OnSpeedChange.Invoke(oldState.Speed, newState.Speed);
 		}
@@ -790,10 +849,11 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	private void TryNotifyPlayers()
 	{
+		Debug.Log("TRY notify players " + ServerPositionsMatch);
 		if (ServerPositionsMatch)
 		{
-//				When serverState reaches its planned destination,
-//				embrace all other updates like changed speed and rotation
+			//				When serverState reaches its planned destination,
+			//				embrace all other updates like changed speed and rotation
 			serverState = serverTargetState;
 			Logger.LogTraceFormat("{0} setting server state from target state {1}", Category.Matrix, this, serverState);
 			NotifyPlayers();
@@ -804,16 +864,18 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	private void NotifyPlayers()
 	{
-		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)
+		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)\
 		if (!IsMovingServer || serverState.Inform)
 		{
+			Chat.AddGameWideSystemMsgToChat("NotifyPlayers " + serverState.Position);
 			serverState.RotationTime = rotTime;
 
 			//fixme: this whole class behaves like ass!
-			if ( serverState.RotationTime != serverTargetState.RotationTime )
+			if (serverState.RotationTime != serverTargetState.RotationTime)
 			{ //Doesn't guarantee that matrix will stop
 				MatrixMoveMessage.SendToAll(gameObject, serverState);
-			} else
+			}
+			else
 			{ //Ends up in instant rotations
 				MatrixMoveMessage.SendToAll(gameObject, serverTargetState);
 			}
@@ -933,12 +995,12 @@ public class MatrixMove : ManagedNetworkBehaviour
 			Orientation currentDir = serverState.FlyingDirection;
 
 			Vector3 xProjection = Vector3.Project(pos, Vector3.right);
-			int xProjectionX = (int) xProjection.x;
-			int targetX = (int) Target.x;
+			int xProjectionX = (int)xProjection.x;
+			int targetX = (int)Target.x;
 
 			Vector3 yProjection = Vector3.Project(pos, Vector3.up);
-			int yProjectionY = (int) yProjection.y;
-			int targetY = (int) Target.y;
+			int yProjectionY = (int)yProjection.y;
+			int targetY = (int)Target.y;
 
 			bool xNeedsChange = Mathf.Abs(xProjectionX - targetX) > AccuracyThreshold;
 			bool yNeedsChange = Mathf.Abs(yProjectionY - targetY) > AccuracyThreshold;
@@ -974,61 +1036,212 @@ public class MatrixMove : ManagedNetworkBehaviour
 		yield return null;
 	}
 
+	public void RcsMoveServer(Orientation orientation)
+	{
+		if (serverState.IsMoving || (!IsFueled && RequiresFuel)) return;
+
+		OrientationEnum releativeDirection = orientation.AsEnum();
+		// get releative direcion based on shutter facing
+		switch (serverState.FacingDirection.AsEnum())
+		{
+			case OrientationEnum.Up:
+				switch (releativeDirection)
+				{
+					case OrientationEnum.Down:
+						releativeDirection = OrientationEnum.Up;
+						break;
+					case OrientationEnum.Up:
+						releativeDirection = OrientationEnum.Down;
+						break;
+				}
+				break;
+			case OrientationEnum.Right:
+				switch (releativeDirection)
+				{
+					case OrientationEnum.Up:
+						releativeDirection = OrientationEnum.Left;
+						break;
+					case OrientationEnum.Right:
+						releativeDirection = OrientationEnum.Down;
+						break;
+					case OrientationEnum.Down:
+						releativeDirection = OrientationEnum.Right;
+						break;
+					case OrientationEnum.Left:
+						releativeDirection = OrientationEnum.Up;
+						break;
+				}
+				break;
+			case OrientationEnum.Down:
+				switch (releativeDirection)
+				{
+					case OrientationEnum.Up:
+						releativeDirection = OrientationEnum.Up;
+						break;
+					case OrientationEnum.Right:
+						releativeDirection = OrientationEnum.Left;
+						break;
+					case OrientationEnum.Down:
+						releativeDirection = OrientationEnum.Down;
+						break;
+					case OrientationEnum.Left:
+						releativeDirection = OrientationEnum.Right;
+						break;
+				}
+				break;
+			case OrientationEnum.Left:
+				switch (releativeDirection)
+				{
+					case OrientationEnum.Up:
+						releativeDirection = OrientationEnum.Right;
+						break;
+					case OrientationEnum.Right:
+						releativeDirection = OrientationEnum.Up;
+						break;
+					case OrientationEnum.Down:
+						releativeDirection = OrientationEnum.Left;
+						break;
+					case OrientationEnum.Left:
+						releativeDirection = OrientationEnum.Down;
+						break;
+				}
+				break;
+		}
+
+		// move only if shuttle has RCS thrusters pointing target direction
+		if (rcsThrusters[releativeDirection].Count > 0)
+		{
+			RcsStartMovementServer(orientation);
+			StartCoroutine(DisableRcsThrusters(releativeDirection));
+		}
+	}
+
+	public void RcsMoveClient(Orientation orientation)
+	{
+		if (clientState.IsMoving || (!IsFueled && RequiresFuel)) return;
+
+		OrientationEnum releativeDirection = orientation.AsEnum();
+		// get releative direcion based on shutter facing
+		switch (clientState.FacingDirection.AsEnum())
+		{
+			case OrientationEnum.Up:
+				switch (releativeDirection)
+				{
+					case OrientationEnum.Down:
+						releativeDirection = OrientationEnum.Up;
+						break;
+					case OrientationEnum.Up:
+						releativeDirection = OrientationEnum.Down;
+						break;
+				}
+				break;
+			case OrientationEnum.Right:
+				switch (releativeDirection)
+				{
+					case OrientationEnum.Up:
+						releativeDirection = OrientationEnum.Left;
+						break;
+					case OrientationEnum.Right:
+						releativeDirection = OrientationEnum.Down;
+						break;
+					case OrientationEnum.Down:
+						releativeDirection = OrientationEnum.Right;
+						break;
+					case OrientationEnum.Left:
+						releativeDirection = OrientationEnum.Up;
+						break;
+				}
+				break;
+			case OrientationEnum.Down:
+				switch (releativeDirection)
+				{
+					case OrientationEnum.Up:
+						releativeDirection = OrientationEnum.Up;
+						break;
+					case OrientationEnum.Right:
+						releativeDirection = OrientationEnum.Left;
+						break;
+					case OrientationEnum.Down:
+						releativeDirection = OrientationEnum.Down;
+						break;
+					case OrientationEnum.Left:
+						releativeDirection = OrientationEnum.Right;
+						break;
+				}
+				break;
+			case OrientationEnum.Left:
+				switch (releativeDirection)
+				{
+					case OrientationEnum.Up:
+						releativeDirection = OrientationEnum.Right;
+						break;
+					case OrientationEnum.Right:
+						releativeDirection = OrientationEnum.Up;
+						break;
+					case OrientationEnum.Down:
+						releativeDirection = OrientationEnum.Left;
+						break;
+					case OrientationEnum.Left:
+						releativeDirection = OrientationEnum.Down;
+						break;
+				}
+				break;
+		}
+
+		// move only if shuttle has RCS thrusters pointing target direction
+		// TODO: fix finding thrusters
+		//if (rcsThrusters[releativeDirection].Count > 0)
+		//{
+		RcsStartMovementClient(orientation);
+		//StartCoroutine(DisableRcsThrusters(releativeDirection));
+		//}
+	}
+
+	private IEnumerator DisableRcsThrusters(OrientationEnum releativeDirection)
+	{
+		// loop trough all thrusters
+		foreach (var item in rcsThrusters)
+		{
+			// enable particle if thruster is pointing in movement direction
+			// else disable
+			bool active = item.Key == releativeDirection;
+			foreach (var thruster in item.Value)
+			{
+				thruster.thrusterParticles.gameObject.SetActive(active);
+			}
+		}
+
+		yield return WaitFor.Seconds(1);
+
+		// disable all thrusters after 1 second
+		foreach (var thruster in rcsThrusters[releativeDirection])
+		{
+			thruster.thrusterParticles.gameObject.SetActive(false);
+		}
+	}
+
 	//Searches the matrix for RcsThrusters
 	public void CacheRcs()
 	{
 		ClearRcsCache();
-		foreach(Transform t in matrixInfo.Objects)
+		foreach (Transform child in matrixInfo.Objects)
 		{
-			if (t.tag.Equals("Rcs"))
+			if (child.CompareTag("Rcs"))
 			{
-				CacheRcs(t.GetComponent<DirectionalRotatesParent>().MappedOrientation,
-					t.GetComponent<RcsThruster>());
+				if (child.TryGetComponent(out RcsThruster thruster))
+				{
+					rcsThrusters[thruster.directional.MappedOrientation].Add(thruster);
+				}
 			}
-		}
-	}
-
-	void CacheRcs(OrientationEnum mappedOrientation, RcsThruster thruster)
-	{
-		if (InitialFacing == Orientation.Up)
-		{
-			if(mappedOrientation == OrientationEnum.Up) bowRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) sternRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) portRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) starBoardRcsThrusters.Add(thruster);
-		}
-
-		if (InitialFacing == Orientation.Right)
-		{
-			if(mappedOrientation == OrientationEnum.Up) portRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) starBoardRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) sternRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) bowRcsThrusters.Add(thruster);
-		}
-
-		if (InitialFacing == Orientation.Down)
-		{
-			if(mappedOrientation == OrientationEnum.Up) sternRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) bowRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) starBoardRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) portRcsThrusters.Add(thruster);
-		}
-
-		if (InitialFacing == Orientation.Left)
-		{
-			if(mappedOrientation == OrientationEnum.Up) starBoardRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Down) portRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Right) bowRcsThrusters.Add(thruster);
-			if(mappedOrientation == OrientationEnum.Left) sternRcsThrusters.Add(thruster);
 		}
 	}
 
 	void ClearRcsCache()
 	{
-		bowRcsThrusters.Clear();
-		sternRcsThrusters.Clear();
-		portRcsThrusters.Clear();
-		starBoardRcsThrusters.Clear();
+		rcsThrusters[OrientationEnum.Up].Clear();
+		rcsThrusters[OrientationEnum.Right].Clear();
+		rcsThrusters[OrientationEnum.Down].Clear();
+		rcsThrusters[OrientationEnum.Left].Clear();
 	}
 
 #if UNITY_EDITOR
@@ -1042,14 +1255,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 	private void OnDrawGizmos()
 	{
-		if ( !Application.isPlaying )
+		if (!Application.isPlaying)
 		{ //Showing matrix pivot if game is stopped
-			Gizmos.color = color1.WithAlpha( 0.6f );
-			Gizmos.DrawCube(transform.position, Vector3.one );
+			Gizmos.color = color1.WithAlpha(0.6f);
+			Gizmos.DrawCube(transform.position, Vector3.one);
 			Gizmos.color = color1;
-			Gizmos.DrawWireCube(transform.position, Vector3.one );
+			Gizmos.DrawWireCube(transform.position, Vector3.one);
 
-			DebugGizmoUtils.DrawArrow(transform.position, clientState.FlyingDirection.Vector*2);
+			DebugGizmoUtils.DrawArrow(transform.position, clientState.FlyingDirection.Vector * 2);
 			return;
 		}
 

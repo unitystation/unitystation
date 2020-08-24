@@ -2,6 +2,6 @@
 
 public class RcsThruster : MonoBehaviour
 {
-	[SerializeField] private ParticleSystem thrusterParticles;
-	[SerializeField] private DirectionalRotatesParent directional;
+	public ParticleSystem thrusterParticles;
+	public DirectionalRotatesParent directional;
 }

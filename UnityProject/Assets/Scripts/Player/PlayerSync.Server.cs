@@ -485,6 +485,15 @@ public partial class PlayerSync
 			return state;
 		}
 
+		if(playerScript.RcsMode && playerScript.RcsMatrixMove)
+		{
+			Vector2Int dir = action.Direction();
+			playerScript.RcsMatrixMove.RcsMoveServer(Orientation.From(dir));
+			Debug.Log("PLAYER IS IN RCS MODE");
+			//RollbackPosition();
+			return state;
+		}
+
 		//Check if there is a bump interaction according to the server
 		BumpType serverBump = CheckSlideAndBump(state, isServer: true, ref action);
 
