@@ -28,6 +28,12 @@ public class GUI_PlayerJobs : MonoBehaviour
 	/// </summary>
 	public GameObject footer = null;
 
+	[SerializeField]
+	private GameObject errorInfoWindow = null;
+
+	[SerializeField]
+	private Text errorReasonText = null;
+
 	/// <summary>
 	/// A gameobject that is shown after job selection when the player is waiting to spawn.
 	/// </summary>
@@ -69,12 +75,46 @@ public class GUI_PlayerJobs : MonoBehaviour
 		waitForSpawnTimer = waitForSpawnTimerMax;
 	}
 
+	private void ShowJobSelection()
+	{
+		SoundManager.Play("Click01");
+		screen_Jobs.SetActive(true);
+		footer.SetActive(true);
+		waitMessage.SetActive(false);
+	}
+
+	public void ShowFailMessage(JoinedViewer.JobRequestError failReason)
+	{
+		waitForSpawnTimer = 0;
+		ShowJobSelection();
+
+		errorReasonText.text = GetFailMessage(failReason);
+		errorInfoWindow.SetActive(true);
+	}
+
+	private string GetFailMessage(JoinedViewer.JobRequestError failReason)
+	{
+		switch (failReason)
+		{
+			case JoinedViewer.JobRequestError.InvalidUserID:
+				return "Invalid User ID.";
+			case JoinedViewer.JobRequestError.InvalidPlayerID:
+				return "Invalid Player ID.";
+			case JoinedViewer.JobRequestError.RoundNotReady:
+				return "New shift hasn't started yet.";
+			case JoinedViewer.JobRequestError.JobBanned:
+				return "You were previously fired from this position. [Job-banned]";
+			case JoinedViewer.JobRequestError.PositionsFilled:
+				return "All positions for this profession have been filled.";
+			default: return "Unspecified error.";
+		}
+	}
+
 	void OnEnable()
 	{
 		screen_Jobs.SetActive(true);
 		SetFooter();
 		footer.SetActive(true);
-
 	}
 
 	/// <summary>
@@ -99,10 +139,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 			if (waitForSpawnTimer <= 0)
 			{
 				// Job selection failed, re-open it.
-				SoundManager.Play("Click01");
-				screen_Jobs.SetActive(true);
-				footer.SetActive(true);
-				waitMessage.SetActive(false);
+				ShowJobSelection();
 			}
 		}
 	}

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Electric.Inheritance;
 using Mirror;
+using ScriptableObjects;
 using UnityEngine;
 
 public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster

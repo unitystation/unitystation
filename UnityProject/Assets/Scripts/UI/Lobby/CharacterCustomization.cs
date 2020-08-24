@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
@@ -55,6 +55,11 @@ namespace Lobby
 
 		public Action onCloseAction;
 
+		/// <summary>
+		/// Empty, blank sprite texture used for selecting null customizations
+		/// (e.g. selecting or scrolling to "None" for hair, facial hair, underwear,
+		/// or socks).
+		/// </summary>
 		public SpriteDataSO BobTheEmptySprite;
 
 		void OnEnable()
@@ -451,7 +456,7 @@ namespace Lobby
 			);
 			if (pcd == null)
 			{
-				hairSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				hairSpriteController.sprites.SetSpriteSO(BobTheEmptySprite);
 			}
 			else
 			{
@@ -604,7 +609,7 @@ namespace Lobby
 			);
 			if (pcd == null)
 			{
-				socksSpriteController.sprites.SetSpriteSO(pcd.SpriteEquipped);
+				socksSpriteController.sprites.SetSpriteSO(BobTheEmptySprite);
 			}
 			else
 			{

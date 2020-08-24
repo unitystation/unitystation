@@ -31,25 +31,6 @@ public class Hands : MonoBehaviour
 		hasSwitchedHands = false;
 	}
 
-	private void OnEnable()
-	{
-		SceneManager.activeSceneChanged += OnLevelFinishedLoading;
-	}
-
-	private void OnDisable()
-	{
-		SceneManager.activeSceneChanged -= OnLevelFinishedLoading;
-	}
-
-	private void OnLevelFinishedLoading(Scene oldScene, Scene newScene)
-	{
-		if (PlayerManager.LocalPlayerScript != null && PlayerManager.LocalPlayerScript.playerNetworkActions != null)
-		{
-			// Reset active hand on game restart - there may be a better event to subscribe to than OnLevelFinishLoading
-			SetHand(true);
-		}
-	}
-
 	/// <summary>
 	/// Action to swap hands
 	/// </summary>
@@ -183,17 +164,16 @@ public class Hands : MonoBehaviour
 	/// <returns>True if they can, false if they cannot</returns>
 	private bool isValidPlayer()
 	{
-		if (PlayerManager.LocalPlayerScript != null)
-		{
-			// TODO tidy up this if statement once it's working correctly
-			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+		if (PlayerManager.LocalPlayerScript == null) return false;
+
+		// TODO tidy up this if statement once it's working correctly
+		if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
 				PlayerManager.LocalPlayerScript.IsGhost)
-			{
-				Logger.Log("Invalid player, cannot perform action!", Category.UI);
-				return false;
-			}
+		{
+			Logger.Log("Invalid player, cannot perform action!", Category.UI);
+			return false;
 		}
+
 		return true;
 	}
-
 }

@@ -2,6 +2,7 @@ using Items.PDA;
 using UnityEngine;
 using Machines;
 using Pipes;
+using ScriptableObjects;
 
 /// <summary>
 /// In order for the SingletonScriptableObject to work, the singleton instance must

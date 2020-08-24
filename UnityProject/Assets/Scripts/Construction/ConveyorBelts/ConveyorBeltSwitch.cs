@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Mirror;
+using ScriptableObjects;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 

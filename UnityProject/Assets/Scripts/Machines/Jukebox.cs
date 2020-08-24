@@ -70,7 +70,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		get
 		{
-			return $"Track {currentSongTrackIndex + 1} / {musics.Count}";
+			return $"{currentSongTrackIndex + 1} / {musics.Count}";
 		}
 	}
 
@@ -79,7 +79,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		get
 		{
 			string songName = musics[currentSongTrackIndex].clip.name;
-			return $"Song : {songName.Split('_')[0]}";
+			return $"{songName.Split('_')[0]}";
 		}
 	}
 
@@ -89,7 +89,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		{
 			string songName = musics[currentSongTrackIndex].clip.name;
 			string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
-			return $"Artist : {artist}";
+			return $"{artist}";
 		}
 	}
 
@@ -174,7 +174,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
 			if (!NextSong())
 				Stop();
-		}	
+		}
 	}
 
 	public void Play()
@@ -222,7 +222,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			if (IsPlaying)
 				SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
 
-			currentSongTrackIndex--;			
+			currentSongTrackIndex--;
 			UpdateGUI();
 
 			if (IsPlaying)

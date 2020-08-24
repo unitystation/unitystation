@@ -86,34 +86,6 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &6077563798240462865
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7675055783983336943}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 1
-  SubCatalogue:
-  - {fileID: 11400000, guid: 07bc0a179fef95440a12da419f0f613f, type: 2}
-  - {fileID: 11400000, guid: 1b5769c2db75cc2489c006203107270d, type: 2}
-  - {fileID: 11400000, guid: b6c92a8d7cc26e6468460403d68fed78, type: 2}
-  - {fileID: 11400000, guid: 12cbdeead51b1dc49afae97b84e4dedd, type: 2}
-  - {fileID: 11400000, guid: b414608b6c8c7e74dbce20c71bf2ee42, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 07bc0a179fef95440a12da419f0f613f, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 9e9a7f44c8165e0448858954b6ed7658, type: 3}
-  - Texture: {fileID: 2800000, guid: 620b8ba6c17e0c546b3ffcc1f49292fe, type: 3}
-  - Texture: {fileID: 2800000, guid: 3b2388a126fcebe4fa2b2fd2a75a9a61, type: 3}
-  - Texture: {fileID: 2800000, guid: cdbd5b3827991f24bbc4f9da877490b7, type: 3}
-  - Texture: {fileID: 2800000, guid: 0757f1f988ceba94db25bfb406984659, type: 3}
-  variantIndex: 0
-  palette: []
 --- !u!1001 &2326953878361258396
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -258,17 +230,82 @@ PrefabInstance:
       value: Used to temporarily store corpses. Includes a high-tech sentience-detecting
         alert system. You spot a small electrical panel on one of the sides...
       objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Sprites.Array.size
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 07bc0a179fef95440a12da419f0f613f,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b5769c2db75cc2489c006203107270d,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: b6c92a8d7cc26e6468460403d68fed78,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 12cbdeead51b1dc49afae97b84e4dedd,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: b414608b6c8c7e74dbce20c71bf2ee42,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 07bc0a179fef95440a12da419f0f613f,
+        type: 2}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 9e9a7f44c8165e0448858954b6ed7658, type: 3}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Sprites.Array.data[1].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 620b8ba6c17e0c546b3ffcc1f49292fe, type: 3}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Sprites.Array.data[2].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 3b2388a126fcebe4fa2b2fd2a75a9a61, type: 3}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Sprites.Array.data[3].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: cdbd5b3827991f24bbc4f9da877490b7, type: 3}
+    - target: {fileID: 8652228875761003667, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: Sprites.Array.data[4].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 0757f1f988ceba94db25bfb406984659, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &1876053485803257813 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
-    type: 3}
-  m_PrefabInstance: {fileID: 2326953878361258396}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &7675055783983336943 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
     type: 3}
   m_PrefabInstance: {fileID: 2326953878361258396}
   m_PrefabAsset: {fileID: 0}

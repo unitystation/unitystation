@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using Container;
 using NaughtyAttributes;
-using Tilemaps.Behaviours;
+using ScriptableObjects;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
@@ -37,6 +36,11 @@ public abstract class BasicTile : LayerTile
 	/// Can this tile be mined?
 	/// </summary>
 	public bool Mineable => mineable;
+
+	[Tooltip("Will bullets bounce from this tile?")]
+	[SerializeField] private bool doesReflectBullet = false;
+
+	public bool DoesReflectBullet => doesReflectBullet;
 
 	[Tooltip("What things are allowed to pass through this even if it is not passable?")]
 	[FormerlySerializedAs("PassableException")]
@@ -142,4 +146,17 @@ public abstract class BasicTile : LayerTile
 	{
 		return IsAtmosPassable() && !isSealed;
 	}
+
+
+	//yeah,This needs to be moved out into its own class
+	public virtual bool AreUnderfloorSame( Matrix4x4 thisTransformMatrix,BasicTile basicTile, Matrix4x4 TransformMatrix)
+	{
+		if (basicTile == this)
+		{
+			return true;
+		}
+
+		return false;
+	}
 }
+

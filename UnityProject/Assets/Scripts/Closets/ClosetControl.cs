@@ -45,6 +45,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[SerializeField]
 	private string soundOnOpenOrClose = "OpenClose";
 
+	[Tooltip("Name of sound to play when emagged")]
+	[SerializeField]
+	private string soundOnEmag = "grillehit";
+
 	[Tooltip("Sprite to show when door is open.")]
 	[SerializeField]
 	private Sprite doorOpened = null;
@@ -80,6 +84,11 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	/// Whether locker is currently locked. Valid client / server side.
 	/// </summary>
 	public bool IsLocked => isLocked;
+
+	/// <summary>
+	/// Whether locker is emagged.
+	/// </summary>
+	public bool isEmagged;
 
 	/// <summary>
 	/// Current status of the closet, valid client / server side.
@@ -403,11 +412,19 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 				Vector3 performerPosition = interaction.Performer.WorldPosServer();
 				Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
 			}
+			else if (IsClosed && !isEmagged && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+			{
+				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+				ServerHandleContentsOnStatusChange(false);
+				isEmagged = true;
+				SyncLocked(isLocked, false);
+				SyncStatus(statusSync, ClosetStatus.Open);
+			}
 		}
 		else
 		{
 			// player want to close locker?
-			if (!isLocked)
+			if (!isLocked && !isEmagged)
 			{
 				ServerToggleClosed();
 			}

@@ -111,21 +111,21 @@ namespace Light2D
 			}
 		}
 
-		public static Rigidbody2D GetRigidbodyUnderCursor()
-		{
-			var mousePos = GetMousePosInUnits();
-			var click = Physics2D.OverlapPoint(mousePos);
-			return click != null ? click.attachedRigidbody : null;
-		}
+		//public static Rigidbody2D GetRigidbodyUnderCursor()
+		//{
+		//	var mousePos = GetMousePosInUnits();
+		//	var click = Physics2D.OverlapPoint(mousePos);
+		//	return click != null ? click.attachedRigidbody : null;
+		//}
 
-		public static Vector2 GetMousePosInUnits()
-		{
-			var mouse = CommonInput.mousePosition;
-			var camera = Camera.main;
-			var mouseWorld = camera.ScreenToWorldPoint(
-				new Vector3(mouse.x, mouse.y, -camera.transform.position.z));
-			return mouseWorld;
-		}
+		//public static Vector2 GetMousePosInUnits()
+		//{
+		//	var mouse = CommonInput.mousePosition;
+		//	var camera = Camera.main;
+		//	var mouseWorld = camera.ScreenToWorldPoint(
+		//		new Vector3(mouse.x, mouse.y, -camera.transform.position.z));
+		//	return mouseWorld;
+		//}
 
 		public static Vector2 ScreenToWorld(Vector2 screen)
 		{
@@ -362,7 +362,7 @@ namespace Light2D
 			}
 			catch (Exception ex)
 			{
-				Logger.LogErrorFormat("Deserialize: {0}", Category.Light2D, ex); 
+				Logger.LogErrorFormat("Deserialize: {0}", Category.Light2D, ex);
 				return default(T);
 			}
 		}

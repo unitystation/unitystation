@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &8344505454295158563
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7602444472548548205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9aeed4ca305164486a90c4ff2231e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!1001 &2821420188953315750
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -97,6 +83,18 @@ PrefabInstance:
       propertyPath: initialDescription
       value: An easy to fit wood floor tile.
       objectReference: {fileID: 0}
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 898572f3ef65dae498031b6fafdcad52,
+        type: 2}
+    - target: {fileID: 5209370598559660201, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 907647e109c5c5145b0283b4ff4c5a78,
+        type: 2}
     - target: {fileID: 5500876317600244887, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}
       propertyPath: m_Sprite
@@ -177,6 +175,11 @@ PrefabInstance:
         type: 3}
       propertyPath: Armor.Acid
       value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 5709806014564648511, guid: a435d5d64bc4b48baa27fecfcab9e111,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8333640173086716004, guid: a435d5d64bc4b48baa27fecfcab9e111,
         type: 3}

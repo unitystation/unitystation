@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using Chemistry.Components;
+using ScriptableObjects;
 using UnityEngine;
 
 
@@ -8,11 +9,12 @@ namespace Pipes
 {
 	public class ReservoirTank : MonoPipe,IServerDespawn , ICheckedInteractable<HandApply>
 	{
-
+		public Chemistry.Reagent Water;
 		public ReagentContainer Container;
 		public override void Start()
 		{
 			pipeData.PipeAction = new ReservoirAction();
+			pipeData.GetMixAndVolume.GetReagentMix().Add(Water, 1000);
 			base.Start();
 		}
 

@@ -1,4 +1,4 @@
-﻿using Container.Gun;
+﻿using ScriptableObjects.Gun;
 using UnityEngine;
 
 namespace Weapons.Projectiles.Behaviours
@@ -29,7 +29,7 @@ namespace Weapons.Projectiles.Behaviours
 			var coll = hit.collider;
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null) return false;
-
+			 
 			integrity.ApplyDamage(damageData.Damage, damageData.AttackType, damageData.DamageType);
 
 			Chat.AddAttackMsgToChat(shooter, coll.gameObject, BodyPartType.None, weapon.gameObject);
@@ -37,6 +37,12 @@ namespace Weapons.Projectiles.Behaviours
 				integrity.gameObject.name, damageData.Damage);
 
 			return true;
+		}
+
+		private void OnDisable()
+		{
+			weapon = null;
+			shooter = null;
 		}
 	}
 }

@@ -230,7 +230,7 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		Vector3Int p = position.RoundToInt();
 
-		metaTileMap.RemoveTile(p, layerType, removeAll);
+		metaTileMap.RemoveTileWithlayer(p, layerType, removeAll);
 	}
 
 	private void ChooseCorrectRpc(Vector3Int position, TileType tileType, string tileName,

@@ -5,7 +5,7 @@ namespace Weapons.Projectiles.Behaviours
 	/// <summary>
 	/// Limits projectiles travel distance
 	/// </summary>
-	public class ProjectileRangeLimited : MonoBehaviour, IOnMove, IOnDespawn
+	public class ProjectileRangeLimited : MonoBehaviour, IOnMove
 	{
 		[Tooltip("How many tiles it will travel.")]
 		[SerializeField] private float maxDistance = 15;
@@ -27,16 +27,14 @@ namespace Weapons.Projectiles.Behaviours
 			return false;
 		}
 
-		public void OnDespawn(RaycastHit2D hit, Vector2 point)
-		{
-			ResetDistance();
-		}
-
 		public void ResetDistance()
 		{
 			currentDistance = 0;
 		}
 
-
+		private void OnDisable()
+		{
+			currentDistance = 0;
+		}
 	}
 }

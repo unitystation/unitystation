@@ -92,9 +92,26 @@ public struct MatrixInfo
 
 	public override string ToString()
 	{
-		return Equals(Invalid)
-			? "[Invalid matrix]"
-			: $"[({Id}){GameObject.name},offset={Offset},pivot={MatrixMove?.Pivot},state={MatrixMove?.ServerState},netId={NetID}]";
+		if(Equals(Invalid))
+		{
+			return "[Invalid matrix]";
+		}
+		else
+		{
+			string objectName = "MatrixInfo";
+			if(GameObject != null)
+				objectName = GameObject.name;
+			
+			string pivot = "pivot";
+			string state = "state";
+			if(MatrixMove != null)
+			{
+				pivot = MatrixMove.Pivot.ToString();
+				state = MatrixMove.ServerState.ToString();
+			}
+
+			return $"[({Id}){objectName},offset={Offset},pivot={pivot},state={state},netId={NetID}]";
+		}
 	}
 
 	public bool Equals(MatrixInfo other)

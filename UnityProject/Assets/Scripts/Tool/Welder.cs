@@ -59,6 +59,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 	private Coroutine coBurnFuel;
 
 	private ReagentContainer reagentContainer;
+	private FireSource fireSource;
 
 	private float FuelAmount => reagentContainer[fuel];
 
@@ -74,6 +75,7 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 		pickupable = GetComponent<Pickupable>();
 		itemAtts = GetComponent<ItemAttributesV2>();
 		registerTile = GetComponent<RegisterTile>();
+		fireSource = GetComponent<FireSource>();
 
 		reagentContainer = GetComponent<ReagentContainer>();
 		if (reagentContainer != null)
@@ -172,24 +174,13 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 			flameRenderer.sprite = null;
 		}
 
-		CheckHeldByPlayer();
-	}
+		pickupable?.RefreshUISlotImage();
 
-	void CheckHeldByPlayer()
-	{
-		if (UIManager.Instance != null && UIManager.Hands != null && UIManager.Hands.CurrentSlot != null && UIManager.Hands.CurrentSlot.ItemObject == gameObject)
+		// toogle firesource to burn things around
+		if (fireSource)
 		{
-			//TODO: Need a more systematic way to update inventory sprites.
-			Inventory.UpdateSecondaryUISlotImage(gameObject, flameRenderer.sprite);
+			fireSource.IsBurning = isOn;
 		}
-
-		//Server also needs to know which player is holding the item so that it can sync
-		//the inhand image when the player turns it on and off:
-		//if (isServer && heldByPlayer != null)
-		//{
-		//	var clientPNA = heldByPlayer.GetComponent<PlayerNetworkActions>();
-		//	heldByPlayer.GetComponent<Equipment>().SetHandItemSprite(itemAtts, clientPNA.activeHand);
-		//}
 	}
 
 	IEnumerator BurnFuel()
@@ -208,17 +199,15 @@ public class Welder : NetworkBehaviour, IInteractable<HandActivate>, IServerSpaw
 			//Server fuel burning:
 			if (isServer)
 			{
-				reagentContainer.TakeReagents(.041f);
+				//With the variable below, it takes about 3:40 minutes (or 220 seconds) for a emergency welding tool (starts with 10 fuel) to run dry. In /tg/ it would have taken about 4:30 minutes (or 270 seconds). - PM
+				//Original variable below was 0.041f (emergency welder ran out after about 25 seconds with it). - PM
+				reagentContainer.TakeReagents(0.005f);
 
 				//Ran out of fuel
 				if (FuelAmount <= 0f)
 				{
 					SyncIsOn(isOn, false);
 				}
-
-				Vector2Int position = gameObject.TileWorldPosition();
-
-				registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(position, 700, 0.005f);
 			}
 
 			yield return WaitFor.Seconds(.1f);

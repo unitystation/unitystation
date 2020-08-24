@@ -248,6 +248,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// contained in this storage.
 	///
 	/// As you should expect, this can create a bit of garbage so use sparingly.
+	///
+	/// DOES NOT CHECK SUB-SUBSTORAGES.
 	/// </summary>
 	public IEnumerable<ItemSlot> GetItemSlotTree()
 	{

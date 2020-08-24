@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
@@ -37,6 +38,8 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 	[SerializeField]
 	private string noAccessMessage = "Access denied!";
 
+	public bool isEmagged;
+
 	[HideInInspector]
 	public List<VendorItem> VendorContent = new List<VendorItem>();
 
@@ -69,6 +72,7 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 	{
 		//Checking if avaliable for restock
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag)) return true;
 		if (!Validations.HasComponent<VendingRestock>(interaction.HandObject)) return false;
 		return true;
 	}
@@ -83,6 +87,10 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 		{
 			OnRestockUsed?.Invoke();
 			Inventory.ServerDespawn(interaction.HandSlot);
+		}
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+		{
+			isEmagged = true;
 		}
 	}
 
@@ -146,7 +154,7 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 		}
 
 		// check player access
-		if (player != null && accessRestrictions)
+		if (player != null && accessRestrictions && !isEmagged)
 		{
 			var hasAccess = accessRestrictions.CheckAccess(player.GameObject);
 			if (!hasAccess)

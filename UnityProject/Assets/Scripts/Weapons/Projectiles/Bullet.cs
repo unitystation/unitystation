@@ -1,4 +1,4 @@
-﻿using Container.Gun;
+﻿using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
 
@@ -12,15 +12,16 @@ namespace Weapons.Projectiles
 		private IOnDespawn[] behavioursOnBulletDespawn;
 
 		private MovingProjectile movingProjectile;
-
 		private Transform thisTransform;
-		private GameObject shooter;
-		private bool isSuicide;
 
 		[SerializeField] private HitProcessor hitProcessor = null;
 		[SerializeField] private LayerMaskData maskData = null;
 
 		public LayerMaskData MaskData => maskData;
+
+		private GameObject shooter;
+
+		public bool WillHurtShooter { get; set; }
 
 		private void Awake()
 		{
@@ -36,13 +37,13 @@ namespace Weapons.Projectiles
 
 		public override void Suicide(GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
-			isSuicide = true;
+			WillHurtShooter = true;
 			StartShoot(Vector2.zero, controlledByPlayer, fromWeapon, targetZone);
 		}
 
 		public override void Shoot(Vector2 direction, GameObject controlledByPlayer, Gun fromWeapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
-			isSuicide = false;
+			WillHurtShooter = false;
 			StartShoot(direction, controlledByPlayer, fromWeapon, targetZone);
 		}
 
@@ -50,9 +51,7 @@ namespace Weapons.Projectiles
 		{
 			shooter = controlledByPlayer;
 
-			thisTransform.parent = controlledByPlayer.transform.parent;
-
-			var startPosition = new Vector3(direction.x, direction.y, transform.position.z) * 0.7f;
+			var startPosition = new Vector3(direction.x, direction.y, thisTransform.position.z) * 0.2f;
 			thisTransform.position += startPosition;
 
 			movingProjectile.SetUpBulletTransform(direction, fromWeapon.ProjectileVelocity);
@@ -105,7 +104,7 @@ namespace Weapons.Projectiles
 		private bool IsHitValid(RaycastHit2D hit)
 		{
 			if (hit.collider == null) return false;
-			if (isSuicide) return true;
+			if (WillHurtShooter) return true;
 			if (hit.collider.gameObject == shooter) return false;
 			return true;
 		}
@@ -121,6 +120,12 @@ namespace Weapons.Projectiles
 				behaviour.OnDespawn(hit, point);
 			}
 			Despawn.ClientSingle(gameObject);
+		}
+
+		private void OnDisable()
+		{
+			shooter = null;
+			WillHurtShooter = false;
 		}
 	}
 }

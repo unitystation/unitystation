@@ -1,4 +1,4 @@
-﻿using Container.Gun;
+﻿using ScriptableObjects.Gun;
 using UnityEngine;
 using Weapons.Projectiles.Behaviours;
 

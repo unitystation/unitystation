@@ -7,6 +7,11 @@ using Mirror;
 /// </summary>
 public class NumberSpinner : NetUIStringElement
 {
+
+
+	public int InitialValue = 9999;
+
+
 	public override ElementMode InteractionMode => ElementMode.ServerWrite;
 
 	public DigitSpinner Ones;
@@ -16,6 +21,8 @@ public class NumberSpinner : NetUIStringElement
 	//below 2 are optional - only used in the 6-digit version
 	public DigitSpinner TenThousands;
 	public DigitSpinner HundredThousands;
+
+	public IntEvent OnValueChange = new IntEvent();
 
 	/// <summary>
 	/// Invoked when the value synced between client / server is updated.
@@ -52,6 +59,8 @@ public class NumberSpinner : NetUIStringElement
 
 	private void Awake()
 	{
+		Value = InitialValue.ToString();
+
 		Ones.OnDigitChangeComplete.AddListener(OnOnesSpinComplete);
 		//we will jump directly to the first value we get
 		init = false;
@@ -141,7 +150,7 @@ public class NumberSpinner : NetUIStringElement
 		{
 			HundredThousands.JumpToDigit(targetValue / 100000 % 10);
 		}
-
+		OnValueChange.Invoke(newValue);
 		return;
 
 		//NOTE: Previously tried to implement a spinning animation, but now am bypassing that stuff because it was

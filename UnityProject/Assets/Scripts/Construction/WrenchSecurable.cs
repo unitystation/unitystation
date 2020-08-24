@@ -66,9 +66,6 @@ public class WrenchSecurable : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (interaction.TargetObject != gameObject) return;
-		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) return;
-
 		currentInteraction = interaction;
 		TryWrench();
 	}

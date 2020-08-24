@@ -330,6 +330,10 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	[Command]
 	public void CmdUnbuckle()
 	{
+		if (IsCuffed)
+		{
+			return;
+		}
 		Unbuckle();
 	}
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -510,7 +510,7 @@ public partial class GameManager : MonoBehaviour
 
 		string msg = GameManager.Instance.SecretGameMode ? "Secret" : $"{GameManager.Instance.GameMode}";
 
-		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\n";
+		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\nThe current map is: {SubSceneManager.ServerChosenMainStation}\n";
 
 		var playerNumber = PlayerList.Instance.ConnectionCount > PlayerList.LastRoundPlayerCount
 			? PlayerList.Instance.ConnectionCount
@@ -680,6 +680,7 @@ public partial class GameManager : MonoBehaviour
 	IEnumerator ServerRoundRestart()
 	{
 		Logger.Log("Server restarting round now.", Category.Round);
+		Chat.AddGameWideSystemMsgToChat("The round is now restarting...");
 
 		//Notify all clients that the round has ended
 		ServerToClientEventsMsg.SendToAll(EVENT.RoundEnded);

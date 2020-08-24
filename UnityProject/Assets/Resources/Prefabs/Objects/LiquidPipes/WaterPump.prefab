@@ -68,6 +68,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 635c13cf3a579d94ba01e835f0e5d7c9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spritehandler: {fileID: 0}
+  SpawnOnDeconstruct: {fileID: 0}
+  registerTile: {fileID: 0}
   pipeData:
     PipeLayer: 1
     Connections:
@@ -75,17 +78,20 @@ MonoBehaviour:
       - Bool: 0
         pipeType: 1
         PortType: 0
+        flagLogic: 0
       - Bool: 1
         pipeType: 1
         PortType: 0
+        flagLogic: 0
       - Bool: 0
         pipeType: 1
         PortType: 0
+        flagLogic: 0
       - Bool: 1
         pipeType: 1
         PortType: 3
+        flagLogic: 0
     CustomLogic: 0
-    PipeType: 2
     NetCompatible: 0
     mixAndVolume:
       Volume: 50
@@ -94,10 +100,29 @@ MonoBehaviour:
         reagents:
           m_keys: []
           m_values: []
-    MaxPressure: 15805.5
+      gasMix:
+        Gases:
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        Pressure: 0
+        Volume: 2.5
     ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}
+  Colour: {r: 1, g: 1, b: 1, a: 1}
   UnitPerTick: 100
   PowerPercentage: 100
 --- !u!114 &7179003153346352318
@@ -142,10 +167,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: cd9cdb14cf18f1c41a85831fd79801e3,
         type: 3}
+    - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name
       value: WaterPump
+      objectReference: {fileID: 0}
+    - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 4204006106222477459, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -201,6 +236,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5388634654466307187, guid: ebb08cf966efc084aa918bd8d9429604,
+        type: 3}
+      propertyPath: m_Layer
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5737521361753715499, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

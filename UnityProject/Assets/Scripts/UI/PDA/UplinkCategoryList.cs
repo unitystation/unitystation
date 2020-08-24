@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 
 	[CreateAssetMenu(fileName = "UplinkItemList", menuName = "ScriptableObjects/PDA/UplinkItemList")]

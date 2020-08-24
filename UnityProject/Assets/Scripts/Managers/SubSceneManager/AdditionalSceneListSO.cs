@@ -13,13 +13,29 @@ public class AdditionalSceneListSO : ScriptableObject
 	         "the build settings list",EInfoBoxType.Normal)]
 	public List<string> AdditionalScenes = new List<string>();
 
+	[Tooltip("Default Central Command scene used if no specific map is set")]
 	public string defaultCentComScene;
+
+	[Tooltip("Used to set a specific scene to load for a map")]
 	public List<CentComData> CentComScenes = new List<CentComData>();
+
+	[Tooltip("List of Syndie bases that will be picked randomly at round load unless specific map is set")]
+	public List<string> defaultSyndicateScenes = new List<string>();
+
+	[Tooltip("Used to set a specific scene to load for a map")]
+	public List<SyndicateData> SyndicateScenes = new List<SyndicateData>();
 
 	[Serializable]
 	public class CentComData
 	{
 		public string CentComSceneName;
+		public string DependentScene = null;
+	}
+
+	[Serializable]
+	public class SyndicateData
+	{
+		public string SyndicateSceneName;
 		public string DependentScene = null;
 	}
 }

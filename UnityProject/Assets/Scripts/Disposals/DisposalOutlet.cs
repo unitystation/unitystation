@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
 namespace Disposals
 {
@@ -11,14 +10,10 @@ namespace Disposals
 		const float ANIMATION_TIME = 4.2f; // As per sprite sheet JSON file.
 		const float EJECTION_DELAY = 3;
 
-		[SyncVar(hook = nameof(OnSyncOutletState))]
-		bool outletOperating = false;
-		[SyncVar(hook = nameof(OnSyncOrientation))]
-		Orientation orientation;
-
+		Directional directional;
 		List<DisposalVirtualContainer> receivedContainers = new List<DisposalVirtualContainer>();
 
-		public bool OutletOperating => outletOperating;
+		public bool OutletOperating { get; private set; }
 		public bool ServerHasContainers => receivedContainers.Count > 0;
 
 		#region Initialisation
@@ -27,17 +22,13 @@ namespace Disposals
 		{
 			base.Awake();
 
-			if (TryGetComponent(out Directional directional))
-			{
-				orientation = directional.InitialOrientation;
-				directional.OnDirectionChange.AddListener(OnDirectionChanged);
-			}
+			directional = GetComponent<Directional>();
 		}
 
-		public override void OnStartClient()
+		void Start()
 		{
-			base.OnStartClient();
-			UpdateSpriteOutletState();
+			directional.OnDirectionChange.AddListener(OnDirectionChanged);
+			UpdateSpriteState();
 			UpdateSpriteOrientation();
 		}
 
@@ -53,28 +44,22 @@ namespace Disposals
 
 		void OnDirectionChanged(Orientation newDir)
 		{
-			orientation = newDir;
+			UpdateSpriteOrientation();
 		}
 
 		#region Sync
 
-		void OnSyncOutletState(bool oldState, bool newState)
+		void SetOutletOperating(bool isOperating)
 		{
-			outletOperating = newState;
-			UpdateSpriteOutletState();
-		}
-
-		void OnSyncOrientation(Orientation oldState, Orientation newState)
-		{
-			orientation = newState;
-			UpdateSpriteOrientation();
+			OutletOperating = isOperating;
+			UpdateSpriteState();
 		}
 
 		#endregion Sync
 
 		#region Sprites
 
-		void UpdateSpriteOutletState()
+		void UpdateSpriteState()
 		{
 			if (OutletOperating) baseSpriteHandler.ChangeSprite(1);
 			else baseSpriteHandler.ChangeSprite(0);
@@ -82,7 +67,7 @@ namespace Disposals
 
 		void UpdateSpriteOrientation()
 		{
-			switch (orientation.AsEnum())
+			switch (directional.CurrentDirection.AsEnum())
 			{
 				case OrientationEnum.Up:
 					baseSpriteHandler.ChangeSpriteVariant(1);
@@ -141,21 +126,21 @@ namespace Disposals
 			while (ServerHasContainers)
 			{
 				// Outlet orifice opens...
-				outletOperating = true;
+				SetOutletOperating(true);
 				SoundManager.PlayNetworkedAtPos("DisposalMachineBuzzer", registerObject.WorldPositionServer, sourceObj: gameObject);
 				yield return WaitFor.Seconds(EJECTION_DELAY);
 
 				// Outlet orifice open. Release the charge.
 				foreach (DisposalVirtualContainer container in receivedContainers)
 				{
-					container.EjectContentsAndThrow(orientation.Vector);
+					container.EjectContentsAndThrow(directional.CurrentDirection.Vector);
 					Despawn.ServerSingle(container.gameObject);
 				}
 				receivedContainers.Clear();
 
 				// Close orifice, restore charge (containers may be received during this period).
 				yield return WaitFor.Seconds(ANIMATION_TIME - EJECTION_DELAY);
-				outletOperating = false;
+				SetOutletOperating(false);
 			}
 		}
 	}

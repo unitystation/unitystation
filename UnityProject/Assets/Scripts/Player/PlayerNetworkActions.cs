@@ -10,6 +10,8 @@ using UI.PDA;
 using Audio.Containers;
 using DiscordWebhook;
 using InGameEvents;
+using ScriptableObjects;
+using System.Collections;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -468,7 +470,20 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 
+		StartCoroutine(CoRespawn());
+	}
+
+	[Server]
+	IEnumerator CoRespawn()
+	{
+		if (playerScript.mind.occupation.JobType == JobType.SYNDICATE && !SubSceneManager.Instance.SyndicateLoaded)
+		{
+			//yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
+		}
+
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+
+		yield break;
 	}
 
 	[Command]
@@ -557,6 +572,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdSetActiveHand(NamedSlot hand)
 	{
 		activeHand = hand;
+	}
+
+	[Command]
+	public void CmdPoint(GameObject pointTarget, Vector3 mousePos)
+	{
+		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+			return;
+		string pointedName = pointTarget.name;
+		var interactableTiles = pointTarget.GetComponent<InteractableTiles>();
+		if (interactableTiles)
+		{
+			LayerTile tile = interactableTiles.LayerTileAt(mousePos);
+			pointedName = tile.DisplayName;
+		}
+		Effect.PlayParticleDirectional(gameObject, mousePos);
+		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {pointedName}.", $"{playerScript.gameObject.name} points at {pointTarget.name}.");
 	}
 
 	[Command]

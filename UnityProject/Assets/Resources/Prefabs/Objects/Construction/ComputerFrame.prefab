@@ -17,6 +17,24 @@ MonoBehaviour:
   circuitScrewedState: {fileID: 11400000, guid: 333fbbb380e214ad5b76feb75aca2eef,
     type: 2}
   glassAddedState: {fileID: 11400000, guid: b0485d0b10d5c4a7e8c31a997e28cc2b, type: 2}
+--- !u!114 &358840949283844383
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8055150926084823785}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 72d3dc8969d25a74db896d9e369d3aff, type: 2}
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1001 &4113050514255528528
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -163,6 +181,12 @@ PrefabInstance:
 --- !u!1 &7744868707174103517 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5940019933891459981, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+    type: 3}
+  m_PrefabInstance: {fileID: 4113050514255528528}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8055150926084823785 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6259397308681656505, guid: aa11b93feb043fe4e84e2f313cc41f6b,
     type: 3}
   m_PrefabInstance: {fileID: 4113050514255528528}
   m_PrefabAsset: {fileID: 0}

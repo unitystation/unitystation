@@ -257,18 +257,6 @@ public class Pickupable : NetworkBehaviour, IPredictedCheckedInteractable<HandAp
 		}
 	}
 
-	/// <summary>
-	/// If this is currently in an item slot linked to the local UI, changes the secondary
-	/// sprite of that UI slot to use newSprite.
-	/// </summary>
-	public void UpdateSecondaryUISlotImage(Sprite newSecondaryImage)
-	{
-		if (itemSlot != null && itemSlot.LocalUISlot != null)
-		{
-			itemSlot.LocalUISlot.SetSecondaryImage(newSecondaryImage);
-		}
-	}
-
 	public void SetPlayerItemsSprites(ItemsSprites _ItemsSprites, int _spriteIndex = 0, int _variantIndex = 0)
 	{
 		if (itemSlot != null)

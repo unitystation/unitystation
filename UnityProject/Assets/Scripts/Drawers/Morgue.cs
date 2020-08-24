@@ -57,7 +57,7 @@ public class Morgue : Drawer
 
 	#region Server Only
 
-	protected override void CloseDrawer()
+	public override void CloseDrawer()
 	{
 		base.CloseDrawer();
 		// Note: the sprite setting done in base.CloseDrawer() would be overridden (an unnecessary sprite call).
@@ -140,12 +140,12 @@ public class Morgue : Drawer
 
 		if (consciousnessPresent && !alarmBroken)
 		{
-			OnSyncDrawerState((DrawerState)MorgueState.ShutWithPlayer);
+			SetDrawerState((DrawerState) MorgueState.ShutWithPlayer);
 			StartCoroutine(PlayAlarm());
 		}
-		else if (serverHeldPlayers.Count > 0) OnSyncDrawerState( (DrawerState)MorgueState.ShutWithBraindead);
-		else if (serverHeldItems.Count > 0) OnSyncDrawerState( (DrawerState)MorgueState.ShutWithItems);
-		else  OnSyncDrawerState( DrawerState.Shut);
+		else if (serverHeldPlayers.Count > 0) SetDrawerState((DrawerState) MorgueState.ShutWithBraindead);
+		else if (serverHeldItems.Count > 0) SetDrawerState((DrawerState) MorgueState.ShutWithItems);
+		else SetDrawerState(DrawerState.Shut);
 	}
 
 	private IEnumerator PlayAlarm()
@@ -167,19 +167,19 @@ public class Morgue : Drawer
 	{
 		var oldState = drawerState;
 
-		OnSyncDrawerState((DrawerState)MorgueState.ShutWithItems);
+		SetDrawerState((DrawerState)MorgueState.ShutWithItems);
 		yield return WaitFor.Seconds(stateDelay);
-		OnSyncDrawerState((DrawerState)MorgueState.ShutWithPlayer);
+		SetDrawerState((DrawerState)MorgueState.ShutWithPlayer);
 		yield return WaitFor.Seconds(stateDelay);
-		OnSyncDrawerState((DrawerState)MorgueState.ShutWithItems);
+		SetDrawerState((DrawerState)MorgueState.ShutWithItems);
 		yield return WaitFor.Seconds(stateDelay);
-		OnSyncDrawerState((DrawerState)MorgueState.ShutWithPlayer);
+		SetDrawerState((DrawerState)MorgueState.ShutWithPlayer);
 		yield return WaitFor.Seconds(stateDelay);
-		OnSyncDrawerState((DrawerState)MorgueState.ShutWithBraindead);
+		SetDrawerState((DrawerState)MorgueState.ShutWithBraindead);
 		yield return WaitFor.Seconds(stateDelay * 6);
 
 		if (oldState != DrawerState.Open) UpdateCloseState();
-		else OnSyncDrawerState(DrawerState.Open);
+		else SetDrawerState(DrawerState.Open);
 	}
 
 	#endregion Server Only

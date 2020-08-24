@@ -42,6 +42,7 @@ public class UIManager : MonoBehaviour
 	public PlayerAlerts playerAlerts;
 	private bool preventChatInput;
 	[SerializeField] [Range(0.1f,10f)] private float PhoneZoomFactor = 1.6f;
+	public LobbyUIPlayerListController lobbyUIPlayerListController = null;
 
 	public static bool PreventChatInput
 	{
@@ -323,6 +324,7 @@ public class UIManager : MonoBehaviour
 		}
 
 		StorageHandler.CloseStorageUI();
+		Hands.SetHand(true);
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
 		GamePad.gameObject.SetActive(UseGamePad);

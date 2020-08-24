@@ -105,7 +105,7 @@ public class VariableViewerNetworking : MonoBehaviour
 				+ sizeof(char) * ValueVariable.Length       // ValueVariable
 				+ sizeof(char) * ValueVariableType.Length   // ValueVariableType
 				+ sizeof(ulong)                             // HeldBySentenceID
-				+ Sentences.Sum(x => x.GetSize());          // Size of all sentences
+				+ (Sentences == null ? 0 : Sentences.Sum(x => x.GetSize()));          // Size of all sentences
 		}
 
 	}
@@ -171,7 +171,7 @@ public class VariableViewerNetworking : MonoBehaviour
 				+ sizeof(char) * VariableName.Length    // VariableName
 				+ sizeof(char) * Variable.Length        // Variable
 				+ sizeof(char) * VariableType.Length    // VariableType
-				+ Sentences.Sum(x => x.GetSize());		// Size of all sentences
+				+ (Sentences == null ? 0 : Sentences.Sum(x => x.GetSize()));		// Size of all sentences
 		}
 	}
 
@@ -205,7 +205,7 @@ public class VariableViewerNetworking : MonoBehaviour
 			return sizeof(ulong)
 				+ sizeof(char) * Title.Length
 				+ sizeof(char) * BookClassname.Length
-				+ BindedPages.Sum(x => x.GetSize())
+				+ (BindedPages == null ? 0 : BindedPages.Sum(x => x.GetSize()))
 				+ sizeof(bool);
 		}
 	}
@@ -329,14 +329,16 @@ public class VariableViewerNetworking : MonoBehaviour
 			}
 			Page.Sentences = Sentences.ToArray();
 
-			currentSize += Page.GetSize();
-			// if currentSize is greater than the maxPacketSize - break loop and send message 
+			//currentSize += Page.GetSize(); //TODO work out why this causes errors
+
+
+			// if currentSize is greater than the maxPacketSize - break loop and send message
 			if (currentSize > maxPacketSize)
 			{
 				Logger.LogError("[VariableViewerNetworking.ProcessBook] - message is to big to send in one packet", Category.NetMessage);
 				break;
 			}
-			
+
 			ListPages.Add(Page);
 		}
 		Book.BindedPages = ListPages.ToArray();

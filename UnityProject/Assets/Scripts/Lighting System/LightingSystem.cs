@@ -203,7 +203,7 @@ public class LightingSystem : MonoBehaviour
 	public bool IsScreenPointVisible(Vector2 iScreenPoint)
 	{
 		//don't run lighting system on headless
-		if (GameData.IsHeadlessServer)
+		if (GameInfo.IsHeadlessServer)
 		{
 			return true;
 		}
@@ -271,7 +271,7 @@ public class LightingSystem : MonoBehaviour
 	{
 		Logger.Log("Lighting system enabled.", Category.Lighting);
 		//don't run lighting system on headless
-		if (GameData.IsHeadlessServer)
+		if (GameInfo.IsHeadlessServer)
 		{
 			return;
 		}
@@ -335,7 +335,7 @@ public class LightingSystem : MonoBehaviour
 	{
 		Logger.Log("Lighting system disabled.", Category.Lighting);
 		//don't run lighting system on headless
-		if (GameData.IsHeadlessServer)
+		if (GameInfo.IsHeadlessServer)
 		{
 			return;
 		}
@@ -364,7 +364,7 @@ public class LightingSystem : MonoBehaviour
 	private void Update()
 	{
 		// Don't run lighting system on headless.
-		if (GameData.IsHeadlessServer)
+		if (GameInfo.IsHeadlessServer)
 		{
 			return;
 		}
@@ -413,7 +413,7 @@ public class LightingSystem : MonoBehaviour
 	private void OnPreRender()
 	{
 		//don't run lighting system on headless
-		if (GameData.IsHeadlessServer)
+		if (GameInfo.IsHeadlessServer)
 		{
 			return;
 		}
@@ -513,7 +513,7 @@ public class LightingSystem : MonoBehaviour
 	private void OnRenderImage(RenderTexture iSource, RenderTexture iDestination)
 	{
 		// Don't run lighting system on headless.
-		if (GameData.IsHeadlessServer)
+		if (GameInfo.IsHeadlessServer)
 		{
 			return;
 		}

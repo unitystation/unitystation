@@ -27,6 +27,9 @@ public class SpriteHandler : MonoBehaviour
 
 	private int animationIndex = 0;
 
+	[SerializeField]
+	private bool pushTextureOnStartUp = true;
+
 	[Range(0, 3)] [SerializeField] private int variantIndex = 0;
 
 	private int cataloguePage = -1;
@@ -47,6 +50,65 @@ public class SpriteHandler : MonoBehaviour
 
 	[SerializeField]
 	private List<SerialisationStanding> Sprites =new List<SerialisationStanding>();
+
+	/// <summary>
+	/// Invokes when sprite just changed by animation or other script
+	/// Null if sprite became hidden
+	/// </summary>
+	public event System.Action<Sprite> OnSpriteChanged;
+
+	/// <summary>
+	/// Current sprite from SpriteRender or Image
+	/// Null if sprite is hidden
+	/// </summary>
+	public Sprite CurrentSprite
+	{
+		get
+		{
+			if (spriteRenderer)
+			{
+				return spriteRenderer.sprite;
+			}
+			else if (image)
+			{
+				return image.sprite;
+			}
+
+			return null;
+		}
+	}
+
+	/// <summary>
+	/// Current sprite color from SpriteRender or Image
+	/// White means no color modification was added
+	/// </summary>
+	public Color CurrentColor
+	{
+		get
+		{
+			if (spriteRenderer)
+			{
+				return spriteRenderer.color;
+			}
+			else if (image)
+			{
+				return image.color;
+			}
+
+			return Color.white;
+		}
+	}
+
+	/// <summary>
+	/// Check if this sprite hander is rendering
+	/// </summary>
+	public bool IsHiden
+	{
+		get
+		{
+			return CurrentSprite == null || !gameObject.activeInHierarchy;
+		}
+	}
 
 	public NetworkIdentity GetMasterNetID()
 	{
@@ -372,7 +434,11 @@ public class SpriteHandler : MonoBehaviour
 
 	void Awake()
 	{
-		GetImageComponent();
+		TryInit();
+	}
+
+	void Start()
+	{
 		TryInit();
 	}
 
@@ -416,8 +482,9 @@ public class SpriteHandler : MonoBehaviour
 			{
 				image.enabled = false;
 			}
-
 		}
+
+		OnSpriteChanged?.Invoke(value);
 	}
 
 	private bool HasImageComponent()
@@ -460,9 +527,10 @@ public class SpriteHandler : MonoBehaviour
 		GetImageComponent();
 		ImageComponentStatus(false);
 		Initialised = true;
+
 		if (PresentSpriteSet != null)
 		{
-			if (HasImageComponent())
+			if (HasImageComponent() && pushTextureOnStartUp)
 			{
 				PushTexture(false);
 			}
@@ -492,11 +560,13 @@ public class SpriteHandler : MonoBehaviour
 		}
 
 		GetImageComponent();
+		OnSpriteChanged?.Invoke(CurrentSprite);
 	}
 
 	private void OnDisable()
 	{
 		TryToggleAnimationState(false);
+		OnSpriteChanged?.Invoke(null);
 	}
 
 	private bool isPaletted()
