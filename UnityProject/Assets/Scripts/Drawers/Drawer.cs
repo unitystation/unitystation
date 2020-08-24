@@ -77,7 +77,8 @@ public class Drawer : NetworkBehaviour, IServerDespawn, ICheckedInteractable<Han
 		SpawnResult traySpawn = Spawn.ServerPrefab(trayPrefab, DrawerWorldPosition);
 		if (!traySpawn.Successful)
 		{
-			throw new MissingReferenceException($"Failed to spawn tray! Is {name} prefab missing reference to tray prefab?");
+			Logger.LogError($"Failed to spawn tray! Is {name} prefab missing reference to {nameof(traySpawn)} prefab?");
+			return;
 		}
 		tray = traySpawn.GameObject;
 

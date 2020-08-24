@@ -74,8 +74,7 @@ public class PipeDispenser : NetworkBehaviour
 		}
 		else
 		{
-			throw new MissingReferenceException(
-					$"Failed to spawn an object from {name}! Is GUI_{name} missing reference to object prefab?");
+			Logger.LogError($"Failed to spawn an object from {name}! Is GUI_{name} missing reference to object prefab?");
 		}
 	}
 

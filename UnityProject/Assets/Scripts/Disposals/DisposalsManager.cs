@@ -59,8 +59,10 @@ namespace Disposals
 			SpawnResult virtualContainerSpawn = Spawn.ServerPrefab(Instance.VirtualContainerPrefab, worldPosition);
 			if (!virtualContainerSpawn.Successful)
 			{
-				throw new MissingReferenceException(
-						$"Failed to spawn disposal virtual container! Is DisposalsManager missing reference to virtual container prefab?");
+				Logger.LogError(
+						"Failed to spawn disposal virtual container! " +
+						$"Is {nameof(DisposalsManager)} missing reference to {nameof(Instance.VirtualContainerPrefab)}?");
+				return default;
 			}
 
 			return virtualContainerSpawn.GameObject;

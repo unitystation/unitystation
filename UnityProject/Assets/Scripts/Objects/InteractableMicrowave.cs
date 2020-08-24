@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using UnityEngine;
 
 /// <summary>
@@ -45,7 +45,9 @@ public class InteractableMicrowave : MonoBehaviour, IExaminable, ICheckedInterac
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
-		return DefaultWillInteract.Default(interaction, side);
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false;
 	}
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
