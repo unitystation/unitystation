@@ -188,6 +188,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -306,6 +307,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -483,6 +485,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -710,6 +713,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -755,6 +759,7 @@ GameObject:
   - component: {fileID: 4174611152458090807}
   - component: {fileID: -7196392364410790442}
   - component: {fileID: -5061689181288922864}
+  - component: {fileID: 7092917086790084979}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -916,6 +921,7 @@ MonoBehaviour:
   allowInput: 1
   actionData: {fileID: 11400000, guid: 967a13d2ea206e9448f6c6e2af11a3cf, type: 2}
   moveList: 05000000060000000700000008000000
+  PlayerDirectional: {fileID: 0}
   pna: {fileID: 0}
   RunSpeed: 6
   WalkSpeed: 3
@@ -977,6 +983,7 @@ MonoBehaviour:
   RTT: 0
   RadiationStacks: 0
   metabolism: {fileID: 0}
+  PlayerMove: {fileID: 0}
 --- !u!114 &114418639699052366
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1367,6 +1374,20 @@ MonoBehaviour:
   syncInterval: 0.1
   isFlippable: 0
   flippedObject: {fileID: 0}
+--- !u!114 &7092917086790084979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 65d675f20bb354d4b8d5e20051f2f2ae, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerHealth: {fileID: 0}
+  sicknessAfflictions: []
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1482,6 +1503,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -1699,6 +1721,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -1817,6 +1840,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 868247c219909d54dadd08b5ceed7287, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -2008,6 +2032,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -2126,6 +2151,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -2244,6 +2270,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -2362,6 +2389,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -2480,6 +2508,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -2598,6 +2627,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -2789,6 +2819,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: ecb3c8eadcacc2947b080655a3e6b871, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -2907,6 +2938,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -3025,6 +3057,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -3143,6 +3176,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: f0594d5820b2ebd4d90a67a4b81c7ba0, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -3261,6 +3295,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -3473,6 +3508,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -3737,6 +3773,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 47ce1199e6a946842a2a987e048e4340, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -3855,6 +3892,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -3973,6 +4011,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 017d1b29096f3444ca19a41866459176, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -4091,6 +4130,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -4307,6 +4347,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -9386,6 +9427,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d91c579b8bd73404fb1676ba7bf20c5d, type: 2}
   - {fileID: 11400000, guid: 3cc58aaaccdf34c499544ffeac4e7a56, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 0ae7d83d6d2e07041a08b251e147d876, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites:
@@ -9614,6 +9656,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 6d39396f08bdc9b4b8199916a5ab16a4, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -9732,6 +9775,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 13fa3e7a251a7b54aa67fd153c616ab7, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
