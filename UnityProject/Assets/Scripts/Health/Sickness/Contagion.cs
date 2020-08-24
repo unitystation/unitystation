@@ -10,13 +10,15 @@ namespace Assets.Scripts.Health.Sickness
 {
 	public class Contagion: MonoBehaviour
 	{
-		private Sickness sickness;
+		public Sickness Sickness;
 
 		[SerializeField]
 		[Tooltip("Time (in seconds) for the contagion to despawn itself")]
 		private int contagionTime;
 
 		private float spawnedTime;
+
+		private RegisterTile registerTile;
 		
 		public void Start()
 		{
@@ -29,8 +31,15 @@ namespace Assets.Scripts.Health.Sickness
 			// One day, we should hook this with the air scrubbers and general atmos system
 			if (Time.time > spawnedTime + contagionTime)
 			{
-
+				// Despawns itself
+				Despawn.ServerSingle(gameObject);
+				Chat.AddGameWideSystemMsgToChat($"Contagion zone despawned itself");
 			}
+		}
+
+		public void Awake()
+		{
+			registerTile = GetComponent<RegisterTile>();
 		}
 
 		/// <summary>
@@ -39,6 +48,14 @@ namespace Assets.Scripts.Health.Sickness
 		public void OnWalkableEnter(BaseEventData eventData)
 		{
 			Chat.AddGameWideSystemMsgToChat($"Player {eventData.selectedObject.name} inside contagion zone!");
+		}
+
+		/// <summary>
+		/// If we want to see where the contagion is
+		/// </summary>
+		void OnDrawGizmos()
+		{
+			DebugGizmoUtils.DrawText(Sickness.SicknessName, registerTile.WorldPositionServer);
 		}
 	}
 }

@@ -29,7 +29,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	private List<Sickness> immunedSickness;
 
 
-	private PlayerMove playerMove;
+	public PlayerMove PlayerMove;
 	private PlayerSprites playerSprites;
 
 	private PlayerNetworkActions playerNetworkActions;
@@ -75,7 +75,7 @@ public class PlayerHealth : LivingHealthBehaviour
 
 		init = true;
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
-		playerMove = GetComponent<PlayerMove>();
+		PlayerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 		itemStorage = GetComponent<ItemStorage>();
@@ -200,7 +200,7 @@ public class PlayerHealth : LivingHealthBehaviour
 			Inventory.ServerDrop(slot);
 		}
 
-		playerMove.PlayerScript.pushPull.VisibleState = false;
+		PlayerMove.PlayerScript.pushPull.VisibleState = false;
 		playerNetworkActions.ServerSpawnPlayerGhost();
 	}
 
@@ -215,7 +215,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		}
 
 		//we stay upright if buckled or conscious
-		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || playerMove.IsBuckled);
+		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
 	}
 
 	/// These electrocution methods are specific to players,
@@ -322,7 +322,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	protected override void LethalElectrocution(Electrocution electrocution, float shockPower)
 	{
 
-		playerMove.allowInput = false;
+		PlayerMove.allowInput = false;
 		// TODO: Add sparks VFX at shockSourcePos.
 		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
 		StartCoroutine(ElectrocutionSequence());

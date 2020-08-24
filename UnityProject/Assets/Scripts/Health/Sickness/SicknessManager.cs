@@ -264,10 +264,37 @@ namespace Assets.Scripts.Health.Sickness
 
 		}
 
+		/// <summary>
+		/// This will spawn a contagion spot with the specific sickness in it
+		/// at the player position and in the 3 spots in front of him.
+		/// Like so:
+		///     o
+		///    xo
+		///     o
+		/// </summary>
+		/// <param name="symptomManifestation"></param>
 		private void SpawnContagion(SymptomManifestation symptomManifestation)
 		{
 			Vector3Int position = symptomManifestation.PlayerHealth.gameObject.RegisterTile().WorldPositionServer;
-			SpawnResult sr = Spawn.ServerPrefab(contagionPrefab, position, null, null, 1, null, true);
+			Directional playerDirectional = symptomManifestation.PlayerHealth.PlayerMove.PlayerDirectional;
+
+			// Player position
+			SpawnResult spawnResult = Spawn.ServerPrefab(contagionPrefab, position, null, null, 1, null, true);
+			spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
+
+			// In front
+			spawnResult = Spawn.ServerPrefab(contagionPrefab, position + playerDirectional.CurrentDirection.Vector, null, null, 1, null, true);
+			spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
+
+			// Front left
+			Vector3 vector3 = Quaternion.Euler(0, 0, -45) * playerDirectional.CurrentDirection.Vector;
+			spawnResult = Spawn.ServerPrefab(contagionPrefab, position + vector3, null, null, 1, null, true);
+			spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
+
+			// Front Right
+			vector3 = Quaternion.Euler(0, 0, 45) * playerDirectional.CurrentDirection.Vector;
+			spawnResult = Spawn.ServerPrefab(contagionPrefab, position + vector3, null, null, 1, null, true);
+			spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
 		}
 
 		public void RegisterSickPlayer(PlayerSickness playerSickness)
