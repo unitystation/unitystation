@@ -21,14 +21,14 @@ MonoBehaviour:
   atmosPassable: 1
   isSealed: 1
   SpawnWithNoAir: 0
-  oreCategory: 0
-  HealthStates: []
   passable: 1
   mineable: 0
+  doesReflectBullet: 0
   passableException:
     m_keys: 01000000
     m_values: 00
   maxHealth: 70
+  damageDeflection: 0
   armor:
     Melee: 50
     Bullet: 50
@@ -40,22 +40,13 @@ MonoBehaviour:
     Acid: 0
     Magic: 0
     Bio: 50
-  hitSounds: []
-  tileDestroyedRemains: []
-  healthStates: []
-  resistances:
-    LavaProof: 0
-    FireProof: 0
-    Flammable: 0
-    UnAcidable: 0
-    AcidProof: 0
-    Indestructable: 0
-    FreezeProof: 0
   tileInteractions:
   - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
-  spawnOnDeconstruct: {fileID: 7602444472548548205, guid: e5cee1cf791d4ae44abd330269975110,
+  spawnOnDeconstruct: {fileID: 8108368654346562078, guid: bf35de76d70bec44aa8c96d7900cde2a,
     type: 3}
   spawnAmountOnDeconstruct: 1
+  lootOnDespawn: {fileID: 11400000, guid: b1a4143a41e0d3546a6b0b0b08bf9e00, type: 2}
+  soundOnHit: 
   connectCategory: 3
   connectType: 2
   spriteSheet:

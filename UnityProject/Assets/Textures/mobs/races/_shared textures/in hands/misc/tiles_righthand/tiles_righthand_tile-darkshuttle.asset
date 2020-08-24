@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: tiles_righthand_tile-darkshuttle
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -489807026096105083, guid: b11deab7f8719b240a7c7c127798f4f2,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -3312793605424257372, guid: b11deab7f8719b240a7c7c127798f4f2,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -1207472778893615926, guid: b11deab7f8719b240a7c7c127798f4f2,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4760389014394892928, guid: b11deab7f8719b240a7c7c127798f4f2,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 6383

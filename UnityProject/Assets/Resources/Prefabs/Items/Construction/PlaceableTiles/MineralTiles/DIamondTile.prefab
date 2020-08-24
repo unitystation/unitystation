@@ -1,0 +1,132 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3055980477006635874
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 582731376763406495, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 013fe47e07b2b4445984a2cfb6eae402,
+        type: 2}
+    - target: {fileID: 4198906432554661683, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: waysToPlace.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4198906432554661683, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: waysToPlace.Array.data[0].placeableOn
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 4198906432554661683, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: waysToPlace.Array.data[0].layerTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 2694744d8d8e55e4bb9480efd21cc417,
+        type: 2}
+    - target: {fileID: 4198906432554661683, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: waysToPlace.Array.data[0].placeableOnlyOnTile
+      value: 
+      objectReference: {fileID: 11400000, guid: 83855008e43a2674d8d6a006ce94326f,
+        type: 2}
+    - target: {fileID: 6610653795340409978, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: initialDescription
+      value: A tile made out of diamond. Wow, just, wow.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6610653795340409978, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: initialName
+      value: diamond tile
+      objectReference: {fileID: 0}
+    - target: {fileID: 6610653795340409978, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 49eab925489363846a1b12d388bb37b5,
+        type: 2}
+    - target: {fileID: 6610653795340409978, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 93da96b7116868b43881099b2d4b5ffb,
+        type: 2}
+    - target: {fileID: 6684588376263855788, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6720454823616171628, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6723971198869811992, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_Name
+      value: DiamondTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 6890979888983081028, guid: b122d05362087574ca3b106604026dd9,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 11a39bb17e13e664c8b514317ae71e34,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b122d05362087574ca3b106604026dd9, type: 3}
