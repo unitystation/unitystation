@@ -75,7 +75,7 @@ public class EventManager : MonoBehaviour
 
 	public static void RemoveHandler(EVENT evnt, Action action)
 	{
-		if (eventTable[evnt] != null)
+		if (eventTable.ContainsKey(evnt) && eventTable[evnt] != null)
 		{
 			eventTable[evnt] -= action;
 		}
