@@ -1,17 +1,10 @@
+﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using System;
 
 namespace Atmospherics
 {
-	public interface Reaction
-	{
-		bool Satisfies(GasMix gasMix);
-
-		float React(ref GasMix gasMix);
-	}
-
 	public class PlasmaFireReaction : Reaction
 	{
 		public bool Satisfies(GasMix gasMix)
@@ -32,7 +25,7 @@ namespace Atmospherics
 			}
 		}
 
-		public float React(ref GasMix gasMix)
+		public float React(ref GasMix gasMix, Vector3 tilePos)
 		{
 			float consumed = 0;
 
@@ -42,14 +35,30 @@ namespace Atmospherics
 			//Logger.Log(BurnRate.ToString() + "BurnRate");
 			if (BurnRate > 0)
 			{
+				var superSaturated = false;
+
 				float MolesPlasmaBurnt = gasMix.GetMoles(Gas.Plasma) * Reactions.BurningDelta * BurnRate;
 				if (MolesPlasmaBurnt * 2 > gasMix.GetMoles(Gas.Oxygen)) {
 					MolesPlasmaBurnt = (gasMix.GetMoles(Gas.Oxygen) * Reactions.BurningDelta * BurnRate)/2;
 				}
+
+				if (gasMix.GetMoles(Gas.Oxygen) / gasMix.GetMoles(Gas.Plasma) > AtmosDefines.SUPER_SATURATION_THRESHOLD)
+				{
+					superSaturated = true;
+				}
+
 				gasMix.RemoveGas(Gas.Plasma, MolesPlasmaBurnt);
 				gasMix.RemoveGas(Gas.Oxygen, MolesPlasmaBurnt * 2);
 				var TotalmolestoCO2 = MolesPlasmaBurnt + (MolesPlasmaBurnt * 2);
-				gasMix.AddGas(Gas.CarbonDioxide, TotalmolestoCO2 / 3);
+
+				if (superSaturated)
+				{
+					gasMix.AddGas(Gas.Tritium, TotalmolestoCO2 / 3);
+				}
+				else
+				{
+					gasMix.AddGas(Gas.CarbonDioxide, TotalmolestoCO2 / 3);
+				}
 
 				float heatCapacity = gasMix.WholeHeatCapacity;
 				gasMix.Temperature = (temperature * heatCapacity + (Reactions.EnergyPerMole * TotalmolestoCO2)) / gasMix.WholeHeatCapacity;
