@@ -14,28 +14,34 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   expectedOres:
   - Trait: {fileID: 11400000, guid: 3d402a2b597113b4a97ee3710288b408, type: 2}
-    Material: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
+    Material: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
       type: 3}
   - Trait: {fileID: 11400000, guid: b6d7aeb207e8c9d47a7744da79141799, type: 2}
-    Material: {fileID: 6254655335276451647, guid: 2d1e406ab4ff1174a94bc1a0de1b9704,
+    Material: {fileID: 2044367008419646583, guid: 7147422770216fc47b220e213ce8395c,
       type: 3}
   - Trait: {fileID: 11400000, guid: b52339a75d4b045469c79bd102bc98ea, type: 2}
-    Material: {fileID: 6254655335276451647, guid: db7e38821ee90cf45b4f7edbbece6900,
+    Material: {fileID: 3133677340243276592, guid: aca91ff2eea9cc64aa3bb9deb8964ab1,
       type: 3}
   - Trait: {fileID: 11400000, guid: 9f843295728958e48bcfe5215296ee90, type: 2}
-    Material: {fileID: 6254655335276451647, guid: 70a15a1bc92d10944878d2f52dfe2be0,
+    Material: {fileID: 9177804066296137559, guid: 25108e21a69d52c46a538e66eb85db0a,
       type: 3}
   - Trait: {fileID: 11400000, guid: 1e8921a11f65f9640afc3446c7cb9320, type: 2}
-    Material: {fileID: 6254655335276451647, guid: f6975ea06bbf7674a983c95f6796ef64,
+    Material: {fileID: 1455605835710910032, guid: 4f841c65f76fe974880847c01e7a432d,
       type: 3}
   - Trait: {fileID: 11400000, guid: e76a2305b1eac4c4786986115a5eb555, type: 2}
-    Material: {fileID: 6254655335276451647, guid: 8a2a9838ff2c91643a77af22d485b15f,
+    Material: {fileID: 50811173315437471, guid: 25625619713dba04296304a60f5f37c1,
       type: 3}
   - Trait: {fileID: 11400000, guid: d3b5f22c1469bf34a81e377227b2acf5, type: 2}
-    Material: {fileID: 6254655335276451647, guid: fdfebca06b77ef64898a68e1df0d3e9a,
+    Material: {fileID: 5079880465429418907, guid: e85621ccf37627c47bb04b501d86fb83,
       type: 3}
   - Trait: {fileID: 11400000, guid: 6097f8423a1b255468e2285de46bc3d3, type: 2}
-    Material: {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d,
+    Material: {fileID: 8579127030982015588, guid: 66a5287d0bf216847a2f4fe34228a0cf,
+      type: 3}
+  - Trait: {fileID: 11400000, guid: 5454ae301f8f02a43ae7496ed16f70bc, type: 2}
+    Material: {fileID: 8887578544498410888, guid: 680b02587c8343542a4b918d0dbae089,
+      type: 3}
+  - Trait: {fileID: 11400000, guid: 66ee6ece9a2945342a3013068032cc61, type: 2}
+    Material: {fileID: 6138400208043822838, guid: 340757c52c1e3c040900e72e4d4fc9c0,
       type: 3}
 --- !u!114 &5600573209671788888
 MonoBehaviour:
@@ -72,10 +78,11 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: e417ffb4aabe13546b3bfdf8bcabdd56, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: e417ffb4aabe13546b3bfdf8bcabdd56, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 7cd232d70698e2d4b856d70b22d3f223, type: 3}
 --- !u!1001 &2473681083921268590
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87,7 +94,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7cd232d70698e2d4b856d70b22d3f223,
+      objectReference: {fileID: 21300014, guid: 7cd232d70698e2d4b856d70b22d3f223,
         type: 3}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
