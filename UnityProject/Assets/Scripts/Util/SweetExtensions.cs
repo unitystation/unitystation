@@ -23,6 +23,11 @@ public static class SweetExtensions
 		return go.GetComponent<ItemAttributesV2>();
 	}
 
+	public static ObjectAttributes Object(this GameObject go)
+	{
+		return go.GetComponent<ObjectAttributes>();
+	}
+
 	/// <summary>
 	/// Returns human-readable object name for IC texts
 	/// </summary>
@@ -41,6 +46,15 @@ public static class SweetExtensions
 			if (!String.IsNullOrWhiteSpace(item.InitialName))
 			{
 				return item.InitialName;
+			}
+		}
+
+		var entityObject = go.Object();
+		if (entityObject != null)
+		{
+			if (!string.IsNullOrWhiteSpace(entityObject.InitialName))
+			{
+				return entityObject.InitialName;
 			}
 		}
 

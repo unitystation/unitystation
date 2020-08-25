@@ -1,5 +1,17 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-9131331760577836309
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6591574992795417555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e000406941c42b942a9b70c7d9482890, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5612402917976129135
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16,7 +28,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300014, guid: a8c3f4e398cf512499e14053efcffd4e,
+      objectReference: {fileID: 21300004, guid: a8c3f4e398cf512499e14053efcffd4e,
         type: 3}
     - target: {fileID: 1625533340043428710, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -76,7 +88,7 @@ PrefabInstance:
     - target: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_Name
-      value: AAS
+      value: AutomatedAnnouncer
       objectReference: {fileID: 0}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -87,32 +99,37 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 3644c184b9936e249bbe585339c0e784,
+      objectReference: {fileID: 11400000, guid: 287a3515c89cd1c469bfb8fb3ac3b85d,
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 3644c184b9936e249bbe585339c0e784,
+      objectReference: {fileID: 11400000, guid: 287a3515c89cd1c469bfb8fb3ac3b85d,
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: SubCatalogue.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 4973598af08f8234c90b8bf7c09df0ab,
+      objectReference: {fileID: 11400000, guid: a51701ed7a72a0445aaf783c267dc30b,
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: SubCatalogue.Array.data[2]
       value: 
-      objectReference: {fileID: 11400000, guid: f7bf84cf6d84d4343bc0c165ddef221f,
+      objectReference: {fileID: 11400000, guid: 52e147762bef7aa48a0bccd0f7e81cb9,
         type: 2}
     - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: SubCatalogue.Array.data[3]
       value: 
-      objectReference: {fileID: 11400000, guid: 23110c34b10abc6488560e0c3bfdade2,
+      objectReference: {fileID: 11400000, guid: 5f77e2908c15b604bbb67717243c818d,
         type: 2}
+    - target: {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: variantIndex
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7153803037707514078, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_AssetId
@@ -136,3 +153,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
+--- !u!1 &6591574992795417555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1628816798482564540, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+    type: 3}
+  m_PrefabInstance: {fileID: 5612402917976129135}
+  m_PrefabAsset: {fileID: 0}
