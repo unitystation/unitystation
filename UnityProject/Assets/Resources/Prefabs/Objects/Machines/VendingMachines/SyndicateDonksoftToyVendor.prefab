@@ -1,126 +1,126 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7814586019520220113
+--- !u!1001 &1641953932862955260
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 396145836350701281, guid: 2f2954acc32d9d3468c620e34a625966,
+    - target: {fileID: 677278099464021012, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
-      propertyPath: PresentSpriteSet
+      propertyPath: m_Name
+      value: SyndicateDonksoftToyVendor
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 681056321027285710, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 722282653443440643, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 11400000, guid: 3953f5b7e52f63a44b5a61004159bfba,
-        type: 2}
-    - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
+      objectReference: {fileID: 21300004, guid: 5e83c4361b0e8e34c91f80cd69ba9ee0,
         type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: initialName
-      value: Syndicate Donksoft Toy Vendor
-      objectReference: {fileID: 0}
-    - target: {fileID: 1919541056858231082, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: initialDescription
-      value: An ages 8 and up approved vendor that dispenses toys. If you were to
-        find the right wires, you can unlock the adult mode setting!
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: HullColor.r
-      value: 0.3254902
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: HullColor.g
-      value: 0.2784314
-      objectReference: {fileID: 0}
-    - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: HullColor.b
-      value: 0.3137255
-      objectReference: {fileID: 0}
-    - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: machineBoardPrefab
-      value: 
-      objectReference: {fileID: 2368661890258351188, guid: e24780af3a0e5ce4a95df51fb628f3c9,
-        type: 3}
-    - target: {fileID: 7077253877563091611, guid: 2f2954acc32d9d3468c620e34a625966,
+    - target: {fileID: 1537752417269350549, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
       propertyPath: MachineParts
       value: 
       objectReference: {fileID: 11400000, guid: 450c53f0f1e729c41b1d57a4e93c547b,
         type: 2}
-    - target: {fileID: 9036003665837402637, guid: 2f2954acc32d9d3468c620e34a625966,
+    - target: {fileID: 1537752417269350549, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: machineBoardPrefab
       value: 
-      objectReference: {fileID: 21300012, guid: 5e83c4361b0e8e34c91f80cd69ba9ee0,
+      objectReference: {fileID: 2368661890258351188, guid: e24780af3a0e5ce4a95df51fb628f3c9,
         type: 3}
-    - target: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
+    - target: {fileID: 3868250325507980753, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
-      propertyPath: m_Name
-      value: SyndicateDonksoftToyVendor
+      propertyPath: HullColor.r
+      value: 0.3254902
       objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+    - target: {fileID: 3868250325507980753, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
+      propertyPath: HullColor.g
+      value: 0.2784314
       objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+    - target: {fileID: 3868250325507980753, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
+      propertyPath: HullColor.b
+      value: 0.3137255
       objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+    - target: {fileID: 5419761128961461966, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3953f5b7e52f63a44b5a61004159bfba,
+        type: 2}
+    - target: {fileID: 7909395311387343652, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
+        type: 3}
+      propertyPath: initialName
+      value: Syndicate Donksoft Toy Vendor
       objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+    - target: {fileID: 7909395311387343652, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
+      propertyPath: initialDescription
+      value: An ages 8 and up approved vendor that dispenses toys. If you were to
+        find the right wires, you can unlock the adult mode setting!
       objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
+    - target: {fileID: 8988055784870957430, guid: fd07f1ca390dd8f48b0cf257cb070d2a,
         type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 9084847140033546432, guid: 2f2954acc32d9d3468c620e34a625966,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2f2954acc32d9d3468c620e34a625966, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: fd07f1ca390dd8f48b0cf257cb070d2a, type: 3}
