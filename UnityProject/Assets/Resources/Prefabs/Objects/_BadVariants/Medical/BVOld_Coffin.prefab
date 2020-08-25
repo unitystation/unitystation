@@ -15,13 +15,13 @@ PrefabInstance:
     - target: {fileID: 529109779100470021, guid: d6dc9ea3e3540427bb4c073d115b0137,
         type: 3}
       propertyPath: m_Name
-      value: Coffin
+      value: BVOld_Coffin
       objectReference: {fileID: 0}
     - target: {fileID: 5190175475481606144, guid: d6dc9ea3e3540427bb4c073d115b0137,
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: -3143980730783000571, guid: 045890c3a5ac48a4f95ce622277acc61,
+      objectReference: {fileID: 21300000, guid: 995eacacd0477a149a65dfbc0acfcfc4,
         type: 3}
     - target: {fileID: 5190175475481606144, guid: d6dc9ea3e3540427bb4c073d115b0137,
         type: 3}
@@ -32,8 +32,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 4956523451887690467, guid: 045890c3a5ac48a4f95ce622277acc61,
+      objectReference: {fileID: 21300000, guid: 045890c3a5ac48a4f95ce622277acc61,
         type: 3}
+    - target: {fileID: 5545555822932047339, guid: d6dc9ea3e3540427bb4c073d115b0137,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5549330274845593174, guid: d6dc9ea3e3540427bb4c073d115b0137,
         type: 3}
       propertyPath: m_AssetId
@@ -103,7 +108,7 @@ PrefabInstance:
         type: 3}
       propertyPath: shadow
       value: 
-      objectReference: {fileID: 4956523451887690467, guid: 045890c3a5ac48a4f95ce622277acc61,
+      objectReference: {fileID: 21300000, guid: 045890c3a5ac48a4f95ce622277acc61,
         type: 3}
     m_RemovedComponents:
     - {fileID: 3454878196567402495, guid: d6dc9ea3e3540427bb4c073d115b0137, type: 3}

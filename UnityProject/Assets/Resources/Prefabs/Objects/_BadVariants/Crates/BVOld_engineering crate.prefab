@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: 8326827535569846190, guid: f6c3517aa124274439574ee410937d50,
+      objectReference: {fileID: 21300000, guid: 267530fe0b2ddb44681c4288248aeed4,
         type: 3}
     - target: {fileID: 506417904455481571, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
@@ -67,12 +67,17 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 3107162397565093964, guid: f6c3517aa124274439574ee410937d50,
+      objectReference: {fileID: 21300000, guid: f6c3517aa124274439574ee410937d50,
         type: 3}
+    - target: {fileID: 3918525054062759918, guid: 44071f490693c439896528fb8aca8917,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7179535571258370003, guid: 44071f490693c439896528fb8aca8917,
         type: 3}
       propertyPath: m_Name
-      value: engineering crate
+      value: BVOld_engineering crate
       objectReference: {fileID: 0}
     - target: {fileID: 7185317672090542345, guid: 44071f490693c439896528fb8aca8917,
         type: 3}

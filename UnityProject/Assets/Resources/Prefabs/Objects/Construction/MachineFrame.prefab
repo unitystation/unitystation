@@ -19,10 +19,6 @@ MonoBehaviour:
   wrenchedState: {fileID: 11400000, guid: 58f920c5778516c469fd44836715ce0c, type: 2}
   circuitAddedState: {fileID: 11400000, guid: e0ac3c48fdc6a374b812dcf38f61c86a, type: 2}
   partsAddedState: {fileID: 11400000, guid: a9770efcfaef8a841bba9179224e0683, type: 2}
-  box: {fileID: 21300000, guid: 672ad47521ab2a447baa38319f1ea48f, type: 3}
-  boxCable: {fileID: 21300000, guid: 51590a1efc2acfd49b649b5e9197b385, type: 3}
-  boxCircuit: {fileID: 21300000, guid: a390b2979c2bd584c907808379cd2037, type: 3}
-  spriteRender: {fileID: 71127924925026925}
 --- !u!1001 &2723274827263646969
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -42,6 +38,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: cf1cb1cba739dee4a8ed30bdf05379a7,
         type: 2}
+    - target: {fileID: 2681812757184269972, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 672ad47521ab2a447baa38319f1ea48f,
+        type: 3}
     - target: {fileID: 2756835590118157401, guid: aa11b93feb043fe4e84e2f313cc41f6b,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -168,17 +170,45 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e0ac3c48fdc6a374b812dcf38f61c86a,
         type: 2}
+    - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 213fb3b2db65cc34684697d47bb8f7ad,
+        type: 2}
+    - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 87c4013f1f99c9749bf238404d3898e2,
+        type: 2}
+    - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 085f18e36927a034e9c7fe05071ad821,
+        type: 2}
+    - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 213fb3b2db65cc34684697d47bb8f7ad,
+        type: 2}
+    - target: {fileID: 7207864184339415129, guid: aa11b93feb043fe4e84e2f313cc41f6b,
+        type: 3}
+      propertyPath: variantIndex
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aa11b93feb043fe4e84e2f313cc41f6b, type: 3}
 --- !u!1 &8621073510343042932 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5940019933891459981, guid: aa11b93feb043fe4e84e2f313cc41f6b,
-    type: 3}
-  m_PrefabInstance: {fileID: 2723274827263646969}
-  m_PrefabAsset: {fileID: 0}
---- !u!212 &71127924925026925 stripped
-SpriteRenderer:
-  m_CorrespondingSourceObject: {fileID: 2681812757184269972, guid: aa11b93feb043fe4e84e2f313cc41f6b,
     type: 3}
   m_PrefabInstance: {fileID: 2723274827263646969}
   m_PrefabAsset: {fileID: 0}

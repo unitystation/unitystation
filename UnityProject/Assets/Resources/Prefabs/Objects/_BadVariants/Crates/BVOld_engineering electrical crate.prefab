@@ -7,6 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 909343536035209089, guid: 4ff388f72fc794b1fab838a88a5d115e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f6c3517aa124274439574ee410937d50,
+        type: 3}
+    - target: {fileID: 909343536035209089, guid: 4ff388f72fc794b1fab838a88a5d115e,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3206777048437244638, guid: 4ff388f72fc794b1fab838a88a5d115e,
         type: 3}
       propertyPath: m_AssetId
@@ -16,7 +27,7 @@ PrefabInstance:
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: 8326827535569846190, guid: f6c3517aa124274439574ee410937d50,
+      objectReference: {fileID: 21300000, guid: 267530fe0b2ddb44681c4288248aeed4,
         type: 3}
     - target: {fileID: 6433575395115086182, guid: 4ff388f72fc794b1fab838a88a5d115e,
         type: 3}
@@ -76,7 +87,7 @@ PrefabInstance:
     - target: {fileID: 6439324441883113404, guid: 4ff388f72fc794b1fab838a88a5d115e,
         type: 3}
       propertyPath: m_Name
-      value: engineering electrical crate
+      value: BVOld_engineering electrical crate
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4ff388f72fc794b1fab838a88a5d115e, type: 3}

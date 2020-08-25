@@ -16,14 +16,19 @@ PrefabInstance:
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: 2392259699849341621, guid: 9934525366b7b70498ce0da0554f3726,
+      objectReference: {fileID: 21300000, guid: 35552a0ebb293964283cc91e2ae2c49c,
         type: 3}
     - target: {fileID: 4164543352101994574, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -3655010247793085405, guid: 9934525366b7b70498ce0da0554f3726,
+      objectReference: {fileID: 21300000, guid: 9934525366b7b70498ce0da0554f3726,
         type: 3}
+    - target: {fileID: 4164543352101994574, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4227563891675702361, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
         type: 3}
       propertyPath: m_Name
@@ -99,5 +104,11 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A crate with a lock on it, painted in the scheme of the station's botanists.
       objectReference: {fileID: 0}
+    - target: {fileID: 8717739805835431555, guid: e9f5c9b81c30b4742b7859c8d2b045c3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ae92c59b123fd9e48b3793a951020691,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e9f5c9b81c30b4742b7859c8d2b045c3, type: 3}

@@ -96,8 +96,9 @@ public class PlayerRotatable : NetworkBehaviour, IRightClickable, ICheckedIntera
 		}
 		else
 		{
-			throw new MissingReferenceException(
-					$"Failed to spawn {name}'s flipped version! Is {name}'s prefab missing reference to flippedObject prefab?");
+			Logger.LogError(
+					$"Failed to spawn {name}'s flipped version! " +
+					$"Is {name}'s prefab missing reference to {nameof(flippedObject)} prefab?");		
 		}
 	}
 }

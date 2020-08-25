@@ -206,8 +206,10 @@ namespace Disposals
 				tileChangeManager.UpdateTile(registerTile.LocalPositionServer, pipeTileToSpawn);
 				Despawn.ServerSingle(gameObject);
 			}
-			else throw new MissingReferenceException(
-					$"Failed to spawn disposal pipe tile! Is {name} missing reference to tile asset for {orientation}?");
+			else
+			{
+				Logger.LogError($"Failed to spawn disposal pipe tile! Is {name} missing reference to tile asset for {orientation}?");
+			}
 		}
 
 		DisposalPipe GetPipeTileByOrientation(Orientation orientation)

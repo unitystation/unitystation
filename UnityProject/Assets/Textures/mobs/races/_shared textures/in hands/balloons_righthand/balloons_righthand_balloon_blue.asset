@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: balloons_righthand_balloon_blue
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -3286709806547048856, guid: 42774f1b4914af242b43f911c23ab0aa,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -957770002195885420, guid: 42774f1b4914af242b43f911c23ab0aa,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -4469101102824350560, guid: 42774f1b4914af242b43f911c23ab0aa,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 1694766716547919156, guid: 42774f1b4914af242b43f911c23ab0aa,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 10136

@@ -101,8 +101,7 @@ SpriteRenderer:
   m_SortingLayerID: -24161425
   m_SortingLayer: 4
   m_SortingOrder: 1
-  m_Sprite: {fileID: -3463311759458235833, guid: ad630dd22d239c34ea762522e0325288,
-    type: 3}
+  m_Sprite: {fileID: 21300000, guid: ad630dd22d239c34ea762522e0325288, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -134,9 +133,10 @@ MonoBehaviour:
   matsOnDestroy: {fileID: 0}
   matsDroppedOnDestroy: 2
   soundOnOpenOrClose: OpenClose
-  doorOpened: {fileID: -4692825688617060892, guid: ad630dd22d239c34ea762522e0325288,
-    type: 3}
+  soundOnEmag: grillehit
+  doorOpened: {fileID: 21300000, guid: c8be939fc9d5380449139202a740b1f2, type: 3}
   spriteRenderer: {fileID: 3918525054062759918}
+  isEmagged: 0
 --- !u!114 &-797998084699582951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,17 +220,17 @@ PrefabInstance:
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_WasSpriteAssigned
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Size.x
-      value: 1
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Size.y
-      value: 1
+      value: 0.32
       objectReference: {fileID: 0}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
@@ -241,8 +241,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -3463311759458235833, guid: ad630dd22d239c34ea762522e0325288,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 4197940402254186057, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}
       propertyPath: m_Name

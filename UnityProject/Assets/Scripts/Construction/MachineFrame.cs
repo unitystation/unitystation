@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -35,10 +35,9 @@ namespace Machines
 		[SerializeField] private StatefulState circuitAddedState = null;
 		[SerializeField] private StatefulState partsAddedState = null;
 
-		[SerializeField] private Sprite box = null;
-		[SerializeField] private Sprite boxCable = null;
-		[SerializeField] private Sprite boxCircuit = null;
-		[SerializeField] private SpriteRenderer spriteRender = null;
+		private ObjectBehaviour objectBehaviour;
+		private Integrity integrity;
+		private SpriteHandler spriteHandler;
 
 		private ItemSlot circuitBoardSlot;//Index 0
 		private IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();
@@ -55,13 +54,7 @@ namespace Machines
 
 		private bool putBoardInManually;
 
-		private Integrity integrity;
-
 		private StatefulState CurrentState => stateful.CurrentState;
-		private ObjectBehaviour objectBehaviour;
-
-		[SyncVar(hook =nameof(SyncState))]
-		private SpriteStates spriteForClient;
 
 		private void Awake()
 		{
@@ -69,11 +62,10 @@ namespace Machines
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 
-			SetSprite();
-
 			if (!CustomNetworkManager.IsServer) return;
 
 			integrity = GetComponent<Integrity>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
 
 			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 
@@ -81,36 +73,6 @@ namespace Machines
 			{
 				stateful.ServerChangeState(initialState);
 			}
-		}
-
-		private void SyncState(SpriteStates oldVar, SpriteStates newVar)
-		{
-			spriteForClient = newVar;
-			//do your thing
-			//all clients will be updated with this
-			SetSprite();
-		}
-
-		private void SetSprite()
-		{
-			switch (spriteForClient)
-			{
-				case SpriteStates.Box:
-					spriteRender.sprite = box;
-					break;
-				case SpriteStates.BoxCable:
-					spriteRender.sprite = boxCable;
-					break;
-				case SpriteStates.BoxCircuit:
-					spriteRender.sprite = boxCircuit;
-					break;
-			}
-		}
-
-		[Server]
-		private void ServerChangeSprite(SpriteStates newVar)
-		{
-			spriteForClient = newVar;
 		}
 
 		public override void OnStartClient()
@@ -256,9 +218,7 @@ namespace Machines
 						Inventory.ServerConsume(interaction.HandSlot, 5);
 						stateful.ServerChangeState(cablesAddedState);
 
-						//sprite change
-						spriteRender.sprite = boxCable;
-						ServerChangeSprite(SpriteStates.BoxCable);
+						spriteHandler.ChangeSprite((int) SpriteStates.BoxCable);
 					});
 			}
 			else if (Validations.HasUsedActiveWelder(interaction))
@@ -292,9 +252,7 @@ namespace Machines
 				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 				stateful.ServerChangeState(initialState);
 
-				//sprite change
-				spriteRender.sprite = box;
-				ServerChangeSprite(SpriteStates.Box);
+				spriteHandler.ChangeSprite((int)SpriteStates.Box);
 			}
 			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
@@ -349,9 +307,7 @@ namespace Machines
 				stateful.ServerChangeState(circuitAddedState);
 				putBoardInManually = true;
 
-				//sprite change
-				spriteRender.sprite = boxCircuit;
-				ServerChangeSprite(SpriteStates.BoxCircuit);
+				spriteHandler.ChangeSprite((int)SpriteStates.BoxCircuit);
 			}
 			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
@@ -676,8 +632,7 @@ namespace Machines
 		/// <param name="machine"></param>
 		public void ServerInitFromComputer(Machine machine)
 		{
-			spriteRender.sprite = boxCircuit;
-			ServerChangeSprite(SpriteStates.BoxCircuit);
+			spriteHandler.ChangeSprite((int) SpriteStates.BoxCircuit);
 
 			// Create the circuit board
 			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
@@ -759,10 +714,7 @@ namespace Machines
 			}
 
 			putBoardInManually = false;
-
-			//Sprite change
-			spriteRender.sprite = boxCable;
-			ServerChangeSprite(SpriteStates.BoxCable);
+			spriteHandler.ChangeSprite((int) SpriteStates.BoxCable);
 
 			//Reset data
 			partsInFrame.Clear();
