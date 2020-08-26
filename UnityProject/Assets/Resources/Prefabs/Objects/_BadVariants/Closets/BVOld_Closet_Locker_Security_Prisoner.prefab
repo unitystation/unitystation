@@ -69,7 +69,7 @@ PrefabInstance:
         type: 3}
       propertyPath: doorOpened
       value: 
-      objectReference: {fileID: 21300000, guid: e05f4a20d67bdc74ea8c900d3c38a811,
+      objectReference: {fileID: 21300000, guid: d0f206c5abe8d854c99c942b140d4724,
         type: 3}
     - target: {fileID: 114239634461430000, guid: 2259865de127b42cf8f28e25a6421cb0,
         type: 3}
@@ -87,11 +87,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 212094264515058204, guid: 2259865de127b42cf8f28e25a6421cb0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8dd967fcb93b49440bebffd0ef2a2265,
+        type: 3}
     - target: {fileID: 212255976647380646, guid: 2259865de127b42cf8f28e25a6421cb0,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: cc7dffb11633ea740a7c012ccd7962d2,
+      objectReference: {fileID: 21300000, guid: 9b87f63fcfd765246a10a302dfdf7454,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2259865de127b42cf8f28e25a6421cb0, type: 3}
