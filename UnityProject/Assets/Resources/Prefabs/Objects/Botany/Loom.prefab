@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 114790299673989822}
   - component: {fileID: 2479830652187628101}
   - component: {fileID: 4623953148747754900}
+  - component: {fileID: 5909048294155562786}
   m_Layer: 11
   m_Name: Loom
   m_TagString: Untagged
@@ -215,6 +216,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5909048294155562786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1449387945419676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40a6ca42ab7324829b2eea3fe2500146, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  bundles: 4
+  sheets: 1
+  cottonSheet: {fileID: 8766114959041811600, guid: e04b035c5758bbf479e3d67c638b1310,
+    type: 3}
+  durathreadSheet: {fileID: 6518234990418498199, guid: 55ab7eb20bc5aee4bbcac44ce16ab954,
+    type: 3}
 --- !u!1 &1611438165515314
 GameObject:
   m_ObjectHideFlags: 0
