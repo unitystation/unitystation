@@ -65,6 +65,7 @@ namespace Assets.Scripts.Editor.Health
 
 				EditorGUILayout.PropertyField(currentStage.FindPropertyRelative("secondsBeforeNextStage"));
 
+				sickness.SicknessStages[stage].Symptom = (SymptomType)symptom.intValue;
 				if (symptom.intValue == (int)SymptomType.CustomMessage)
 				{
 					ShowCustomMessageOptions((CustomMessageParameter)sickness.SicknessStages[stage].ExtendedSymptomParameters);

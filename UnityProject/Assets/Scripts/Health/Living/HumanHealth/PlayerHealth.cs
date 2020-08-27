@@ -14,7 +14,19 @@ using System.Linq;
 public class PlayerHealth : LivingHealthBehaviour
 {
 	[SerializeField]
-	private MetabolismSystem metabolism;	
+	private MetabolismSystem metabolism;
+
+	/// <summary>
+	/// The percentage of players that start with common allergies.
+	/// </summary>
+	[SerializeField]
+	private int percentAllergies;
+
+	/// <summary>
+	/// Common allergies.  A percent of players start with that.
+	/// </summary>
+	[SerializeField]
+	private Sickness commonAllergies;
 
 	public MetabolismSystem Metabolism { get => metabolism; }
 
@@ -27,7 +39,6 @@ public class PlayerHealth : LivingHealthBehaviour
 	/// List of sicknesses that player has gained immunity.
 	/// </summary>
 	private List<Sickness> immunedSickness;
-
 
 	public PlayerMove PlayerMove;
 	private PlayerSprites playerSprites;
@@ -52,20 +63,13 @@ public class PlayerHealth : LivingHealthBehaviour
 		ApplyStartingAllergies();
 	}
 
-	// At round start, 30% of players start with mild allergy
+	// At round start, a percent of players start with mild allergy
 	// The purpose of this, is to make believe that coughing and sneezing at random is "probably" not a real sickness.
 	private void ApplyStartingAllergies()
 	{
-		if (UnityEngine.Random.Range(0, 100) < 100)
+		if (UnityEngine.Random.Range(0, 100) < percentAllergies)
 		{
-			Sickness allergy = SicknessManager.Instance.Sicknesses.FirstOrDefault(p => p.SicknessName == "Common Allergies");
-
-			if (allergy == null)
-				Logger.LogError("Common allergies sickness was not found.", Category.Health);
-			else
-			{
-				playerSickness.Add(allergy, Time.time);
-			}
+			playerSickness.Add(commonAllergies, Time.time);
 		}
 	}
 

@@ -7,6 +7,8 @@ using UnityEngine.UI;
 using InGameEvents;
 using AdminTools;
 using AdminCommands;
+using Assets.Scripts.UI.AdminTools;
+using System.Linq;
 
 public class EventsManagerPage : AdminPage
 {
@@ -28,7 +30,17 @@ public class EventsManagerPage : AdminPage
 	[SerializeField]
 	private Toggle randomEventToggle = null;
 
+	/// <summary>
+	/// The pages to show for specifying extra parameters for an event type.
+	/// </summary>
+	private EventParameterPages eventsParametersPages = null;
+
 	private bool generated = false;
+
+	public void Awake()
+	{
+		eventsParametersPages = GetComponent<EventParameterPages>();
+	}
 
 	public void TriggerEvent()
 	{
@@ -41,6 +53,19 @@ public class EventsManagerPage : AdminPage
 			index = 0;
 		}
 
+		// Instead of triggering the event right away, if we have an extra parameter page, we show it
+		List<EventScriptBase> listEvents = InGameEventsManager.Instance.GetListFromEnum(eventType);
+		if (listEvents[index - 1].parametersPageType != ParametersPageType.None)
+		{
+			GameObject parameterPage = eventsParametersPages.eventParameterPages.FirstOrDefault(p => p.ParametersPageType == listEvents[index - 1].parametersPageType).ParameterPage;
+
+			if (parameterPage)
+			{
+				parameterPage.SetActive(true);
+				return;
+			}
+		}		
+		
 		ServerCommandVersionFourMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, index, isFakeToggle.isOn, announceToggle.isOn, eventType, "CmdTriggerGameEvent");
 	}
 

@@ -43,6 +43,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0a24338e4bf074095f5275d3fc8a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  SicknessName: Paranoia
-  Contagious: 0
-  sicknessStages: []
+  sicknessName: Paranoia
+  contagious: 0
+  sicknessStages:
+  - symptom: 4
+    repeatSymptom: 1
+    repeatMinDelay: 30
+    repeatMaxDelay: 60
+    secondsBeforeNextStage: 600
+    extendedSymptomParametersSerialized: '{"CustomMessages":[{"privateMessage":"You
+      feel like someone wants to hurt you.","publicMessage":null},{"privateMessage":"You
+      think someone is watching you.","publicMessage":null},{"privateMessage":"You
+      glance around nervously.","publicMessage":null}]}'
+  - symptom: 4
+    repeatSymptom: 1
+    repeatMinDelay: 30
+    repeatMaxDelay: 60
+    secondsBeforeNextStage: 0
+    extendedSymptomParametersSerialized: '{"CustomMessages":[{"privateMessage":"They
+      have eyes everywhere.","publicMessage":"%PLAYERNAME% is glancing around uneasily."},{"privateMessage":"They
+      are watching you.","publicMessage":"%PLAYERNAME% is glancing around uneasily."},{"privateMessage":"They
+      will come to get you.","publicMessage":"%PLAYERNAME% is glancing around uneasily."}]}'

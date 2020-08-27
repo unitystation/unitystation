@@ -44,17 +44,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sicknessName: Common Allergies
-  contagious: 1
+  contagious: 0
   sicknessStages:
   - symptom: 3
     repeatSymptom: 1
-    repeatMinDelay: 5
-    repeatMaxDelay: 60
+    repeatMinDelay: 40
+    repeatMaxDelay: 80
     secondsBeforeNextStage: 0
     extendedSymptomParametersSerialized: null
   - symptom: 2
     repeatSymptom: 1
-    repeatMinDelay: 5
-    repeatMaxDelay: 60
+    repeatMinDelay: 40
+    repeatMaxDelay: 80
     secondsBeforeNextStage: 0
     extendedSymptomParametersSerialized: null

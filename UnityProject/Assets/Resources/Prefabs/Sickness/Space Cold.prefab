@@ -43,24 +43,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6c0a24338e4bf074095f5275d3fc8a62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  name: Space Cold
-  contagious: 0
+  sicknessName: Space Cold
+  contagious: 1
   sicknessStages:
   - symptom: 3
-    customMessage: 
     repeatSymptom: 1
-    repeatMinDelay: 10
-    repeatMaxDelay: 30
+    repeatMinDelay: 30
+    repeatMaxDelay: 60
     secondsBeforeNextStage: 300
+    extendedSymptomParametersSerialized: null
   - symptom: 4
-    customMessage: You don't feel well.  Your nose is runny.
     repeatSymptom: 1
-    repeatMinDelay: 5
+    repeatMinDelay: 30
     repeatMaxDelay: 60
     secondsBeforeNextStage: 600
+    extendedSymptomParametersSerialized: '{"CustomMessages":[{"privateMessage":"Your
+      nose is stuffy.","publicMessage":null},{"privateMessage":"Your nose is runny.","publicMessage":"%PLAYERNAME%
+      snorts."}]}'
   - symptom: 0
-    customMessage: You feel better.  Your nose isn't runny anymore.
     repeatSymptom: 0
     repeatMinDelay: 0
     repeatMaxDelay: 0
-    secondsBeforeNextStage: 300
+    secondsBeforeNextStage: 0
+    extendedSymptomParametersSerialized: null
