@@ -98,6 +98,9 @@ namespace Atmospherics
 				}
 			}
 
+			//Check to see if any reactions are needed
+			DoReactions(node);
+
 			//Check to see if node needs vfx applied
 			GasVisualEffects(node);
 		}
@@ -198,6 +201,8 @@ namespace Atmospherics
 			return atmos;
 		}
 
+		#region GasVisualEffects
+
 		//Handles checking for vfx changes
 		//If needed, sends them to a queue in ReactionManager so that main thread will apply them
 		private void GasVisualEffects(MetaDataNode node)
@@ -231,5 +236,51 @@ namespace Atmospherics
 				}
 			}
 		}
+
+		#endregion
+
+		#region GasReactions
+
+		private void DoReactions(MetaDataNode node)
+		{
+			if (node == null || node.ReactionManager == null)
+			{
+				return;
+			}
+
+			var gasMix = node.GasMix;
+
+			foreach (var gasReaction in GasReactions.All)
+			{
+				if(ReactionMoleCheck(gasReaction, gasMix)) continue;
+
+				if (gasMix.Temperature < gasReaction.MinimumTemperature || gasMix.Temperature > gasReaction.MaximumTemperature) continue;
+
+				if (gasMix.Pressure < gasReaction.MinimumPressure || gasMix.Pressure > gasReaction.MaximumPressure) continue;
+
+				if (gasMix.Moles < gasReaction.MinimumMoles || gasMix.Moles > gasReaction.MaximumMoles) continue;
+
+				if (node.ReactionManager.reactions.ContainsKey(node.Position) && node.ReactionManager.reactions[node.Position].Contains(gasReaction)) continue;
+
+				//If too much Hyper-Noblium theres no reactions!!!
+				if(gasMix.GetMoles(Gas.HyperNoblium) >= AtmosDefines.REACTION_OPPRESSION_THRESHOLD) break;
+
+				node.ReactionManager.AddReactionEvent(new ReactionManager.ReactionData{gasReaction = gasReaction, metaDataNode = node});
+			}
+		}
+
+		private static bool ReactionMoleCheck(GasReactions gasReaction, GasMix gasMix)
+		{
+			foreach (var data in gasReaction.GasReactionData)
+			{
+				if(gasMix.GetMoles(data.Key) == 0) return true;
+
+				if(gasMix.GetMoles(data.Key) < data.Value.minimumMolesToReact) return true;
+			}
+
+			return false;
+		}
+
+		#endregion
 	}
 }

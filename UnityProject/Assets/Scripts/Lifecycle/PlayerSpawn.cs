@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -10,6 +11,10 @@ using Mirror;
 /// </summary>
 public static class PlayerSpawn
 {
+	public class SpawnEventArgs : EventArgs { public GameObject player; }
+	public delegate void SpawnHandler(object sender, SpawnEventArgs args);
+	public static event SpawnHandler SpawnEvent;
+
 	/// <summary>
 	/// Server-side only. For use when a player has only joined (as a JoinedViewer) and
 	/// is not in control of any mobs. Spawns the joined viewer as the indicated occupation and transfers control to it.
@@ -34,9 +39,14 @@ public static class PlayerSpawn
 			}
 		}
 
+		if (SpawnEvent != null)
+		{
+			SpawnEventArgs args = new SpawnEventArgs() { player = newPlayer };
+			SpawnEvent.Invoke(null, args);
+		}
+
 		return newPlayer;
 	}
-
 
 	/// <summary>
 	/// Server-side only. For use when a player has only joined (as a JoinedViewer) and
@@ -105,7 +115,7 @@ public static class PlayerSpawn
 			JobType.SYNDICATE
 		});
 	//Time to start spawning players at arrivals
-	private static readonly System.DateTime ARRIVALS_SPAWN_TIME = new System.DateTime().AddHours(12).AddMinutes(2);
+	private static readonly DateTime ARRIVALS_SPAWN_TIME = new DateTime().AddHours(12).AddMinutes(2);
 
 	/// <summary>
 	/// Spawns a new player character and transfers the connection's control into the new body.
@@ -295,7 +305,7 @@ public static class PlayerSpawn
 
 		//using parentTransform.rotation rather than Quaternion.identity because objects should always
 		//be upright w.r.t.  localRotation, NOT world rotation
-		var ghost = Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation,
+		var ghost = UnityEngine.Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation,
 			parentTransform);
 		ghost.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
@@ -322,7 +332,7 @@ public static class PlayerSpawn
 		var matrixInfo = MatrixManager.AtPoint(spawnPosition, true);
 		var parentNetId = matrixInfo.NetID;
 		var parentTransform = matrixInfo.Objects;
-		var newPlayer = Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation, parentTransform);
+		var newPlayer = UnityEngine.Object.Instantiate(CustomNetworkManager.Instance.ghostPrefab, spawnPosition, parentTransform.rotation, parentTransform);
 		newPlayer.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);
 
 		//Create the mind without a job refactor this to make it as a ghost mind
@@ -369,7 +379,7 @@ public static class PlayerSpawn
 
 		//using parentTransform.rotation rather than Quaternion.identity because objects should always
 		//be upright w.r.t.  localRotation, NOT world rotation
-		var player = Object.Instantiate(CustomNetworkManager.Instance.humanPlayerPrefab,
+		var player = UnityEngine.Object.Instantiate(CustomNetworkManager.Instance.humanPlayerPrefab,
 			spawnPosition, parentTransform.rotation,
 			parentTransform);
 		player.GetComponent<PlayerScript>().registerTile.ServerSetNetworkedMatrixNetID(parentNetId);

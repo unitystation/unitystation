@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: stack_objects_circuit_mess
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 729638842875252836, guid: 81931f879d9834341ac875ab5eb180d4,
+        type: 3}
+      secondDelay: 0.5
+    - sprite: {fileID: -4053637155644467105, guid: 81931f879d9834341ac875ab5eb180d4,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -2255532522851104082, guid: 81931f879d9834341ac875ab5eb180d4,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -5343576430679880524, guid: 81931f879d9834341ac875ab5eb180d4,
+        type: 3}
+      secondDelay: 0.5
+    - sprite: {fileID: 1961671990199903850, guid: 81931f879d9834341ac875ab5eb180d4,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -3354936646694810076, guid: 81931f879d9834341ac875ab5eb180d4,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -2257980468632360062, guid: 81931f879d9834341ac875ab5eb180d4,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 4417335294578096892, guid: 81931f879d9834341ac875ab5eb180d4,
+        type: 3}
+      secondDelay: 0.4
+    - sprite: {fileID: -3375179824516257478, guid: 81931f879d9834341ac875ab5eb180d4,
+        type: 3}
+      secondDelay: 0.4
+  IsPalette: 0
+  setID: 18027

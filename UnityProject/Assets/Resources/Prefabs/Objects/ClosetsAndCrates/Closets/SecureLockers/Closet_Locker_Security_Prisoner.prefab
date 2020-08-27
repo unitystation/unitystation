@@ -18,6 +18,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 90a867d7513ab774a9929fb7ea442d16,
         type: 2}
+    - target: {fileID: 381971050139752040, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: doorOpened
+      value: 
+      objectReference: {fileID: 21300000, guid: d0f206c5abe8d854c99c942b140d4724,
+        type: 3}
     - target: {fileID: 678899883157967407, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -78,11 +84,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Closet_Locker_Security_Prisoner
       objectReference: {fileID: 0}
+    - target: {fileID: 729133414860370146, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9b87f63fcfd765246a10a302dfdf7454,
+        type: 3}
     - target: {fileID: 4630238151158220691, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 19ea8d6b418092a4991384137a6d2765,
+      objectReference: {fileID: 21300000, guid: 8dd967fcb93b49440bebffd0ef2a2265,
         type: 3}
     - target: {fileID: 7916105367997844421, guid: 8f3b5940c1a9ba34c856057c8b910cbe,
         type: 3}

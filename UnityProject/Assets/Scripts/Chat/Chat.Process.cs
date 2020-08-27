@@ -234,6 +234,14 @@ public partial class Chat
 			verb = "yells,";
 			message = $"<b>{message}</b>";
 		}
+		else if ((modifiers & ChatModifier.State) == ChatModifier.State)
+		{
+			verb = "states,";
+		}
+		else if ((modifiers & ChatModifier.ColdlyState) == ChatModifier.ColdlyState)
+		{
+			verb = "coldly states,";
+		}
 		else if (message.EndsWith("!"))
 		{
 			verb = "exclaims,";
