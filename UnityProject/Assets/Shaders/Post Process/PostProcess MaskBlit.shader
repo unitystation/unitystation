@@ -79,7 +79,7 @@
 				
 				// Mix Background.
 				fixed4 background = tex2D(_BackgroundTex, i.uv);
-				float backgroundMask = clamp(occlusionSample.g-screen.a, 0, 1);
+				float backgroundMask = clamp(occlusionSample.g-(screen.a * 2), 0, 1);
 				fixed4 screenLitBackground = background * backgroundMask + screenLit;
 
 				return screenLitBackground;
