@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4734855229797344}
   - component: {fileID: 61344596048250936}
-  - component: {fileID: 61366423541260584}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
   - component: {fileID: 2612899668775311046}
@@ -71,32 +70,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61366423541260584
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114038174743996046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &2612899668775311046
 MonoBehaviour:
@@ -199,6 +173,7 @@ MonoBehaviour:
       SupplyingCurrent: 0
       InternalResistance: 0
       SupplyingVoltage: 0
+      ProducingWatts: 0
       ChangeToOff: 0
       CurrentStoreValue: 0
     DestroyQueueing: 0
@@ -234,6 +209,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &-1607867197496824203
@@ -297,10 +273,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 12c12df71c09fde4e83eba1917733b4a, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 3565926771059640241, guid: db23d828345b6744485ee266629dfe9d,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
 --- !u!1 &1744594665423798
 GameObject:
@@ -397,19 +374,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 0}
+  PresentSpriteSet: {fileID: 0}
   Sprites:
   - Texture: {fileID: 2800000, guid: c2088b604ffb10845a34477ca96f654f, type: 3}
-    Sprites:
-    - {fileID: -1152738003139098640, guid: c2088b604ffb10845a34477ca96f654f, type: 3}
-    - {fileID: 355180635901006062, guid: c2088b604ffb10845a34477ca96f654f, type: 3}
-    - {fileID: 2223632019422385217, guid: c2088b604ffb10845a34477ca96f654f, type: 3}
-    - {fileID: -9144930213960443528, guid: c2088b604ffb10845a34477ca96f654f, type: 3}
-    EquippedData: {fileID: 4900000, guid: ffe066cade7f8494f8d9c7f9c48f6f8f, type: 3}
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []
 --- !u!1 &2215391653596606113
 GameObject:
   m_ObjectHideFlags: 0

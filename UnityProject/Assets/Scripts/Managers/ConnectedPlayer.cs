@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using Mirror;
 
 /// <summary>
@@ -40,6 +40,8 @@ public class ConnectedPlayer
 			gameObject = value;
 			if (gameObject != null)
 			{
+				// If player is in lobby, their controlled GameObject is JoinedViewer (which has JoinedViewer component).
+				// Else they're in the game and so have a GameObject that has PlayerScript attached.
 				Script = value.GetComponent<PlayerScript>();
 				ViewerScript = value.GetComponent<JoinedViewer>();
 			}
@@ -134,5 +136,14 @@ public class ConnectedPlayer
 		{
 			UpdateConnectedPlayersMessage.Send();
 		}
+	}
+
+	public override string ToString()
+	{
+		if (this == Invalid)
+		{
+			return "Invalid player";
+		}
+		return $"ConnectedPlayer {nameof(Username)}: {Username}, {nameof(ClientId)}: {ClientId}, {nameof(UserId)}: {UserId}, {nameof(Connection)}: {Connection}, {nameof(Name)}: {Name}, {nameof(Job)}: {Job}";
 	}
 }

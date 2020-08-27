@@ -8,7 +8,7 @@ namespace Lobby
 	public class CharacterSprites : MonoBehaviour
 	{
 		private CharacterDir currentDir = CharacterDir.down;
-		public List<List<SpriteHandler.SpriteInfo>> sprites = new List<List<SpriteHandler.SpriteInfo>>();
+		public SpriteHandler sprites = null;
 
 		private int referenceOffset;
 		private CharacterView characterView;
@@ -17,7 +17,9 @@ namespace Lobby
 
 		void Awake()
 		{
-			image = GetComponent<Image>();
+			sprites = GetComponent<SpriteHandler>();
+			if(!sprites)
+				Logger.LogWarning("SpriteHandler component is missing!");
 		}
 		private void Start()
 		{
@@ -65,27 +67,10 @@ namespace Lobby
 
 		public void UpdateSprite()
 		{
-			if (image == null)
-			{
-				// It's possible that UpdateSprite gets called before Awake
-				// so grab the image here just in case that happens
-				image = GetComponent<Image>();
-			}
-
-			if (sprites != null && sprites.Count > 0)
-			{
-				image.enabled = true;
-				//If reference -1 then clear the sprite
-				if (sprites != null)
-				{
-					image.sprite = sprites[referenceOffset][0].sprite;
-				}
-			}
-			else
-			{
-				image.sprite = null;
-				image.enabled = false;
-			}
+			// It's possible that UpdateSprite gets called before Awake
+			// so try to grab the image here just in case that happens
+			if(sprites != null || TryGetComponent(out sprites))
+				sprites.ChangeSpriteVariant(referenceOffset , NetWork:false);
 		}
 
 	}

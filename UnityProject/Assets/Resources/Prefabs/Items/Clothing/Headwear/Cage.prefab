@@ -18,6 +18,12 @@ PrefabInstance:
       propertyPath: hideClothingFlags
       value: 256
       objectReference: {fileID: 0}
+    - target: {fileID: 4377197623706982477, guid: d3d950d792abb79fba51d3166022f581,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9be6ccf73249dc349b062115b73d6b47,
+        type: 2}
     - target: {fileID: 7524605284256423550, guid: d3d950d792abb79fba51d3166022f581,
         type: 3}
       propertyPath: m_AssetId
@@ -97,8 +103,8 @@ PrefabInstance:
     - target: {fileID: 8004422176852823208, guid: d3d950d792abb79fba51d3166022f581,
         type: 3}
       propertyPath: initialDescription
-      value: A cage that restrains the will of the self, allowing one to see the profane
-        world for what it is.
+      value: A cage that restrains the will of the self, allowing one to see the
+        profane world for what it is.
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d3d950d792abb79fba51d3166022f581, type: 3}

@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: FireRate
-      value: 1.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -30,7 +30,7 @@ PrefabInstance:
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: ProjectileVelocity
-      value: 8
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -45,13 +45,13 @@ PrefabInstance:
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: MagSize
-      value: 5
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: Projectile
       value: 
-      objectReference: {fileID: 1932369758612010, guid: 1508ddac0ee0e46d5b6ec0f94ffb4179,
+      objectReference: {fileID: 2003804624138751089, guid: 0db28ea7632de0b4593a32bba473e844,
         type: 3}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -70,6 +70,18 @@ PrefabInstance:
       propertyPath: MaxRecoilVariance
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: casingPrefabOverride
+      value: 
+      objectReference: {fileID: 7885110935015110955, guid: 4f1eb975ef940201eac8726b12289e87,
+        type: 3}
+    - target: {fileID: 3623955159015093207, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e6e1b10437cfaae48ab426a6bc2fa29c,
+        type: 2}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -164,6 +176,18 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: cc3b8cc0098b09d45acbb325c5ec8337,
+        type: 2}
+    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bba6409a20d3484aa1b6d42aa8b6e9f,
         type: 2}
     - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}

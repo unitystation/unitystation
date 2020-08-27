@@ -1,10 +1,25 @@
 using UnityEngine;
 using UnityEngine.Events;
 
-public class FireLock : InteractableDoor
+public class FireLock : InteractableDoor, ISetMultitoolSlave
 {
 	private MetaDataNode metaNode;
 	public FireAlarm fireAlarm;
+
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.FireAlarm;
+	public MultitoolConnectionType ConType  => conType;
+
+	public void SetMaster(ISetMultitoolMaster Imaster)
+	{
+		if (fireAlarm)
+		{
+			fireAlarm.FireLockList.Remove(this);
+		}
+		fireAlarm = (Imaster as Component)?.gameObject.GetComponent<FireAlarm>();
+		fireAlarm.FireLockList.Add(this);
+
+	}
 
 	public override void TryClose()
 	{
@@ -12,27 +27,28 @@ public class FireLock : InteractableDoor
 
 	public override void TryOpen(GameObject performer)
 	{
-
 	}
 
 	void TriggerAlarm()
 	{
-		if (fireAlarm)
+		if (!Controller.IsWelded)
 		{
-			fireAlarm.SendCloseAlerts();
-		}
-		else
-		{
-			ReceiveAlert();
+			if (fireAlarm)
+			{
+				fireAlarm.SendCloseAlerts();
+			}
+			else
+			{
+				ReceiveAlert();
+			}
 		}
 	}
 
 	public void ReceiveAlert()
 	{
-		if (!Controller.IsClosed)
-		{
-			Controller.ServerTryClose();
-		}
+		if (Controller == null)
+			return;
+		Controller.CloseSignal();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -42,9 +58,9 @@ public class FireLock : InteractableDoor
 		RegisterTile registerTile = GetComponent<RegisterTile>();
 		MetaDataLayer metaDataLayer = MatrixManager.AtPoint(registerTile.WorldPositionServer, true).MetaDataLayer;
 		metaNode = metaDataLayer.Get(registerTile.LocalPositionServer, false);
-		Controller.ServerOpen();
+		Controller.Open();
 	}
-	
+
 	//Copied over from LightSource.cs
 	void OnDrawGizmosSelected()
 	{

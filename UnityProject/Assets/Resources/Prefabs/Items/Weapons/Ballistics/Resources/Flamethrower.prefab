@@ -11,7 +11,7 @@ PrefabInstance:
         type: 3}
       propertyPath: Projectile
       value: 
-      objectReference: {fileID: 6278072555636713134, guid: 13ac83c739521fb119a816ea475c4c37,
+      objectReference: {fileID: 33938156593302122, guid: 9644e2fddc44a524b890dd6e8b9ffacf,
         type: 3}
     - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -49,6 +49,17 @@ PrefabInstance:
       propertyPath: FiringSound
       value: null
       objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: SpawnsCasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3623955159015093207, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c8c117885b3320841838fba24b5d4677,
+        type: 2}
     - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: itemSprites.LeftHand.Sprites.Array.size
@@ -156,6 +167,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: d96b2c361038a8c40af6929482dab370, type: 3}
+    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e34d5253da92bb0409dcfddec9041553,
+        type: 2}
+    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4c6c73fdf2105404f903aa17f7165d0b,
+        type: 2}
     - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_Sprite

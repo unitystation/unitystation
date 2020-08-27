@@ -7,10 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+    - target: {fileID: 320078766397443646, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
-      propertyPath: m_Name
-      value: Scalpel1
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 23f4f0e625b420b4da3213b9b9891d5e,
+        type: 2}
+    - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 5847001516606818509, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
@@ -67,6 +73,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5852210865295685049, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_Name
+      value: Scalpel
+      objectReference: {fileID: 0}
+    - target: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c1eebc48a2793ba43a07ac6d441f97b5,
+        type: 3}
     - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
         type: 3}
       propertyPath: initialTraits.Array.size
@@ -118,16 +135,5 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 30127bfedd67541a3afa2a5582daa98c,
         type: 2}
-    - target: {fileID: 5810504842801530893, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6036740337081534181, guid: 93af1c166793efb498012ddc7370f8ec,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: c1eebc48a2793ba43a07ac6d441f97b5,
-        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}

@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000010777369922}
   - component: {fileID: 61000011253900482}
-  - component: {fileID: 61065945433850934}
   - component: {fileID: 114312756739737956}
   - component: {fileID: 114010932235653022}
   - component: {fileID: 114781087812551048}
@@ -22,6 +21,7 @@ GameObject:
   - component: {fileID: -933767125163796166}
   - component: {fileID: -8513281049433112391}
   - component: {fileID: 1338911703771008310}
+  - component: {fileID: 3772588541069511424}
   m_Layer: 11
   m_Name: SmartFridge
   m_TagString: Untagged
@@ -70,32 +70,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61065945433850934
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000013344912928}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114312756739737956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -128,6 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114781087812551048
 MonoBehaviour:
@@ -141,6 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &5787332934185140899
@@ -168,18 +144,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2, type: 3}
+  InitialVendorContent:
+  - ItemName: Steak
+    Item: {fileID: 3664851965229280547, guid: 7eeb39ee45a50e543ad74ff71631525c, type: 3}
     Stock: 5
-  - Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+  - ItemName: Cookie
+    Item: {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
     Stock: 5
-  - Item: {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
+  - ItemName: Meat
+    Item: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398, type: 3}
     Stock: 5
-  - Item: {fileID: 6546673936360135170, guid: 9df8b42a3b7c7554ab9c48ba64b45d2e, type: 3}
+  - ItemName: Space Cola
+    Item: {fileID: 683694994805896424, guid: 51ddc7025f52f6e4e96d4410324d2bd0, type: 3}
     Stock: 5
   HullColor: {r: 0.98039216, g: 0.972549, b: 0.972549, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 6532193109441330816, guid: bd8e044768eca1d409b74dd7b4915e37, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
+    Stock: 5
+  - ItemName: 
+    Item: {fileID: 6546673936360135170, guid: 9df8b42a3b7c7554ab9c48ba64b45d2e, type: 3}
+    Stock: 5
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114893308072197662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -291,11 +289,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: a27f80a1ee4a1484689b6f639504b40f, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 2308564274286761204, guid: ad4815304c0789c42ac14447f35f807f,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
+--- !u!114 &3772588541069511424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013344912928}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 80
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 0
+  SelfPowered: 0
+  State: 0
+  conType: 1
 --- !u!1 &1000013897877296
 GameObject:
   m_ObjectHideFlags: 0

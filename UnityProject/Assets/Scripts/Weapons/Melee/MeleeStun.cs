@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Timers;
 using UnityEngine;
 
 /// <summary>
@@ -14,6 +15,15 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 	/// </summary>
 	[SerializeField]
 	private float stunTime = 0;
+	/// <summary>
+	/// how long till you can stun again
+	/// </summary>
+	[SerializeField]
+	private int delay = 3;
+	/// <summary>
+	/// if you can stun
+	/// </summary>
+	private bool canStun = true;
 
 	/// <summary>
 	/// Sounds to play when stunning someone
@@ -22,6 +32,11 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 	private string stunSound = "EGloves";
 
 	private StunBaton stunBaton;
+
+	private int timer = 0;
+
+	//Send only one message per second.
+	private bool coolDownMessage;
 
 	public void Start()
 	{
@@ -58,17 +73,54 @@ public class MeleeStun : MonoBehaviour, ICheckedInteractable<HandApply>
 
 		RegisterPlayer registerPlayerVictim = target.GetComponent<RegisterPlayer>();
 
-		// Stun the victim. We checke whether the baton is activated in WillInteract
-		if (registerPlayerVictim)
+		// Stun the victim. We check whether the baton is activated in WillInteract and if the user has a charge to stun
+		if (registerPlayerVictim && canStun)
 		{
+			if (delay != 0)
+			{
+				canStun = false;
+				timer = delay;
+			}
+
 			registerPlayerVictim.ServerStun(stunTime);
 			SoundManager.PlayNetworkedAtPos(stunSound, target.transform.position, sourceObj: target.gameObject);
+			// deactivates the stun and makes you wait;
 
 			// Special case: If we're on help intent (only stun), we should still show the lerp (unless we're hitting ourselves)
 			if (interaction.Intent == Intent.Help && performer != target)
 			{
 				wna.RpcMeleeAttackLerp(dir, gameObject);
 			}
+		}
+		else if (!canStun)
+		{
+			if (coolDownMessage) return;
+			coolDownMessage = true;
+			Chat.AddExamineMsg(performer, $"{gameObject.ExpensiveName()} is on cooldown.");
+		}
+	}
+
+	private void OnEnable()
+	{
+		UpdateManager.Add(Timer, 1f);
+	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, Timer);
+	}
+
+	private void Timer()
+	{
+		if(timer == 0) return;
+
+		timer--;
+
+		coolDownMessage = false;
+
+		if (timer == 0)
+		{
+			canStun = true;
 		}
 	}
 }

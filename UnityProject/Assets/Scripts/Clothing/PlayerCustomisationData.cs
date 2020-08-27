@@ -6,7 +6,7 @@
 [CreateAssetMenu(fileName = "PlayerCustomisationData", menuName = "ScriptableObjects/PlayerCustomisationData", order = 1)]
 public class PlayerCustomisationData : ScriptableObject
 {
-	public SpriteSheetAndData Equipped;
+	public SpriteDataSO SpriteEquipped;
 	public string Name;
 	public CustomisationType Type;
 	public Gender gender = Gender.Neuter;

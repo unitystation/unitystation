@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using ScriptableObjects;
 using UnityEngine;
 
 /// <summary>
@@ -10,24 +11,23 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PoolConfig", menuName = "Singleton/PoolConfig")]
 public class PoolConfig : SingletonScriptableObject<PoolConfig>
 {
-
-	[System.Serializable]
+	[Serializable]
 	private class PrefabPoolConfig
 	{
 		[Tooltip("Prefab this pool will hold instances of. Does not" +
 		         " apply to variants of this prefab. Each variant that should" +
 		         " be pooled needs its own entry.")]
-		public GameObject Prefab;
+		public GameObject Prefab = default;
 
 		[Tooltip("Amount of instances of the indicated prefab this pool can hold.")]
-		public int Capacity;
+		public int Capacity = default;
 	}
 
 	[Tooltip("Configuration for each prefab that can be pooled. Adding" +
 	         " a prefab to this list will make it pool-able.")]
 	[SerializeField]
 	[ArrayElementTitle("Prefab")]
-	private PrefabPoolConfig[] prefabPools;
+	private PrefabPoolConfig[] prefabPools = default;
 
 	// cached for fast lookup of prefab pool configs
 	private Dictionary<GameObject, PrefabPoolConfig> prefabToConfig;

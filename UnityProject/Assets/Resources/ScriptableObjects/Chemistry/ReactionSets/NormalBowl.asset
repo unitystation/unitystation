@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d6ae085312b071098d3dbb5d8da0511, type: 3}
+  m_Name: NormalBowl
+  m_EditorClassIdentifier: 
+  parents:
+  - {fileID: 11400000, guid: 701922900047cd742b7b5ede817b7837, type: 2}
+  reactions:
+  - {fileID: 11400000, guid: 7b923b829bfdf3149ae31aec2952c28b, type: 2}
+  - {fileID: 11400000, guid: ab75532cf857ce04693a6919bed87352, type: 2}

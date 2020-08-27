@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-238359742048531077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4624513969438007379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5657f3ab371d77f449cbbb38e86b7d4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  Right: {fileID: 2184369231605102292, guid: 04a50e1463b61a840a3b40f7f3b735fe, type: 3}
+  Down: {fileID: 2462642613590243484, guid: 04a50e1463b61a840a3b40f7f3b735fe, type: 3}
+  Left: {fileID: -4015839718948130319, guid: 04a50e1463b61a840a3b40f7f3b735fe, type: 3}
+  Up: {fileID: -3465074350597913015, guid: 04a50e1463b61a840a3b40f7f3b735fe, type: 3}
+  spriteRenderer: {fileID: 4849723812695442500}
+--- !u!114 &8042574876333050912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4624513969438007379}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
+  ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
+--- !u!1001 &6785340294229483108
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2118927204074543648, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 2462642613590243484, guid: 04a50e1463b61a840a3b40f7f3b735fe,
+        type: 3}
+    - target: {fileID: 2163924611188555319, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_Name
+      value: CollosalSkullHalf
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2166926528086522093, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7771555109272210261, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8836678258181005575, guid: feb9d6fcdf52ff040a33966fc9819a74,
+        type: 3}
+      propertyPath: initialDescription
+      value: The gaping maw of a dead, titanic monster. This one is cracked in half.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: feb9d6fcdf52ff040a33966fc9819a74, type: 3}
+--- !u!1 &4624513969438007379 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2163924611188555319, guid: feb9d6fcdf52ff040a33966fc9819a74,
+    type: 3}
+  m_PrefabInstance: {fileID: 6785340294229483108}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &4849723812695442500 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 2118927204074543648, guid: feb9d6fcdf52ff040a33966fc9819a74,
+    type: 3}
+  m_PrefabInstance: {fileID: 6785340294229483108}
+  m_PrefabAsset: {fileID: 0}

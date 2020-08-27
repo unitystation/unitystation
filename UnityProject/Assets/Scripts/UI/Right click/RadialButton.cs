@@ -20,6 +20,8 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 	private bool isSelected;
 	private bool isTopLevel;
 	public List<RadialButton> childButtons = new List<RadialButton>();
+	private static readonly int IsPaletted = Shader.PropertyToID("_IsPaletted");
+	private static readonly int ColorPalette = Shader.PropertyToID("_ColorPalette");
 
 	private void Awake()
 	{
@@ -38,15 +40,16 @@ public class RadialButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 		action = menuItem.Action;
 
 		icon.sprite = menuItem.IconSprite;
+		icon.color = menuItem.IconColor;
 		palette = menuItem.palette;
 		if (palette != null)
 		{
-			icon.material.SetInt("_IsPaletted", 1);
-			icon.material.SetColorArray("_ColorPalette", menuItem.palette.ToArray());
+			icon.material.SetInt(IsPaletted, 1);
+			icon.material.SetColorArray(ColorPalette, menuItem.palette.ToArray());
 		}
 		else
 		{
-			icon.material.SetInt("_IsPaletted", 0);
+			icon.material.SetInt(IsPaletted, 0);
 		}
 
 		if (menuItem.BackgroundSprite != null)

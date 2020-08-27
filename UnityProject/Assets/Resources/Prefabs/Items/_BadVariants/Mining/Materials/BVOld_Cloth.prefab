@@ -1,0 +1,202 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6088777242366952148
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 18758610003781303, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7abd3fd7c094ebc4d87e625daf9bfa02,
+        type: 3}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 189383627748944031, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 194588578257589739, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_Name
+      value: Cloth
+      objectReference: {fileID: 0}
+    - target: {fileID: 227261219375573087, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 227681744263398431, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: initialName
+      value: cloth
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: initialDescription
+      value: Is it cotton? Linen? Denim? Burlap? Canvas? You can't tell.
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: exportCost
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b9f111eed52a4d4fa8a3fbbd459fdf6,
+        type: 2}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: exportMessage
+      value: cm3 of cloth
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: hitDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: throwDamage
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 314913272470551177, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589911925418668612, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4589911925418668612, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: stacksWith.Array.data[0]
+      value: 
+      objectReference: {fileID: 6254655335276451647}
+    - target: {fileID: 4589911925418668612, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: stacksWith.Array.data[1]
+      value: 
+      objectReference: {fileID: 2896388321670978356, guid: abaa542679b67ff49bf73d0e7bd12644,
+        type: 3}
+    - target: {fileID: 4589911925418668612, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: stacksWith.Array.data[2]
+      value: 
+      objectReference: {fileID: 8400879856073776527, guid: 43e7a7405842c3b48bac0b58d36c7eff,
+        type: 3}
+    - target: {fileID: 6338058294871387756, guid: 208d0d984a62d439babfcfb9d8bfe087,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0e0a07bb09ba3bc4395226b6e429bcc9,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 208d0d984a62d439babfcfb9d8bfe087, type: 3}
+--- !u!1 &6254655335276451647 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 194588578257589739, guid: 208d0d984a62d439babfcfb9d8bfe087,
+    type: 3}
+  m_PrefabInstance: {fileID: 6088777242366952148}
+  m_PrefabAsset: {fileID: 0}

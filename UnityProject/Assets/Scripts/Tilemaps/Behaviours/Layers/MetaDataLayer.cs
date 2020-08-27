@@ -14,18 +14,18 @@ public class MetaDataLayer : MonoBehaviour
 	private SubsystemManager subsystemManager;
 	private ReactionManager reactionManager;
 	private Matrix matrix;
-	private MetaTileMap metaTileMap;
 
 	private void Awake()
 	{
 		subsystemManager = GetComponentInParent<SubsystemManager>();
 		reactionManager = GetComponentInParent<ReactionManager>();
 		matrix = GetComponent<Matrix>();
-		metaTileMap = GetComponent<MetaTileMap>();
 	}
 
 	public MetaDataNode Get(Vector3Int localPosition, bool createIfNotExists = true)
 	{
+		localPosition.z = 0; //Z Positions are always on 0
+
 		if (!nodes.ContainsKey(localPosition))
 		{
 			if (createIfNotExists)

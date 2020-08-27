@@ -49,18 +49,14 @@ MonoBehaviour:
   SecretGameMode: 1
   Rebels: 
   counting: 0
-  MinPlayersForCountdown: 1
-  PreRoundTime: 120
-  RoundEndTime: 15
   NextGameMode: Random
-  RespawnAllowed: 1
   roundTimer: {fileID: 0}
   waitForStart: 0
-  RoundsPerMap: 10
   SpaceBodies: []
   minDistanceBetweenSpaceBodies: 200
   solarSystemRadius: 600
   CentComm: {fileID: 5244294626086762232}
+  QuickLoad: 0
 --- !u!114 &5244294626086762232
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -74,5 +70,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 5243784332070655206}
+  CommandStatusString: 
+  EscapeShuttleTimeString: 
   CurrentAlertLevel: 1
   coolDownAlertChange: 5

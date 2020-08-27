@@ -15,6 +15,11 @@ public class ChangeTileWhenItemUsed : TileInteraction
 	[Tooltip("Trait required on the used item in order to deconstruct the tile. If welder, checks if it's on.")]
 	[SerializeField]
 	private ItemTrait requiredTrait = null;
+	
+	//First implemented for allowing players to both repair and unsecure reinforced windows using welders depending on intent.
+	[Tooltip("Do you need to be on harm intent to perform this interaction?")]
+	[SerializeField]
+	private bool harmIntentRequired = false;
 
 	[Tooltip("Action message to performer when they begin this interaction.")]
 	[SerializeField]
@@ -47,6 +52,11 @@ public class ChangeTileWhenItemUsed : TileInteraction
 	public override bool WillInteract(TileApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		
+		if (harmIntentRequired == true)
+		{
+			if (interaction.Intent != Intent.Harm) return false;
+		}
 
 		if (requiredTrait == CommonTraits.Instance.Welder)
 		{

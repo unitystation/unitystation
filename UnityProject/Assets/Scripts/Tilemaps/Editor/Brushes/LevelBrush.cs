@@ -1,19 +1,44 @@
-﻿using UnityEditor;
+﻿using System;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEditor.Tilemaps;
+using Random = UnityEngine.Random;
 
 
 [CustomGridBrush(false, true, true, "Level Brush")]
 public class LevelBrush : GridBrush
 {
+	public class RecordedChimpEvent
+	{
+		public DateTime time = DateTime.Now;
+		public Vector3Int loc = Vector3Int.zero;
+	}
+
+	public static RecordedChimpEvent recordedChimpEvent = new RecordedChimpEvent();
+
+	public static bool ChimpEventTooRecent(Vector3Int position)
+	{
+		if ((DateTime.Now - recordedChimpEvent.time).Seconds > 0.2f || recordedChimpEvent.loc != position)
+		{
+			recordedChimpEvent.time = DateTime.Now;
+			recordedChimpEvent.loc = position;
+			//Logger.Log("successful chimp event");
+			return false;
+		}
+		//Logger.Log("no chimp event");
+		return true;
+	}
+
 	public override void Paint(GridLayout grid, GameObject layer, Vector3Int position)
 	{
+		if (ChimpEventTooRecent(position)) return;
 		BoxFill(grid, layer, new BoundsInt(position, Vector3Int.one));
 	}
 
 	public override void Erase(GridLayout grid, GameObject layer, Vector3Int position)
 	{
+		if (ChimpEventTooRecent(position)) return;
 		BoxErase(grid, layer, new BoundsInt(position, Vector3Int.one));
 	}
 
@@ -21,8 +46,6 @@ public class LevelBrush : GridBrush
 	{
 		if (cellCount > 0 && cells[0].tile != null)
 		{
-			TileBase tile = cells[0].tile;
-
 			MetaTileMap metaTileMap = grid.GetComponent<MetaTileMap>();
 
 			if (!metaTileMap)
@@ -32,13 +55,20 @@ public class LevelBrush : GridBrush
 
 			foreach (Vector3Int position in area.allPositionsWithin)
 			{
+				TileBase tile = cells[Random.Range(0, cells.Length)].tile;
+
+				if (tile == null)
+				{
+					tile = cells[0].tile;
+				}
+
 				if (tile is LayerTile)
 				{
-					PlaceLayerTile(metaTileMap, position, (LayerTile)tile);
+					PlaceLayerTile(metaTileMap, position, (LayerTile) tile);
 				}
 				else if (tile is MetaTile)
 				{
-					PlaceMetaTile(metaTileMap, position, (MetaTile)tile);
+					PlaceMetaTile(metaTileMap, position, (MetaTile) tile);
 				}
 			}
 		}
@@ -52,11 +82,11 @@ public class LevelBrush : GridBrush
 		{
 			if (metaTileMap)
 			{
-				metaTileMap.RemoveTile(position, LayerType.None);
+				metaTileMap.RemoveTile(position, LayerType.None, false);
 			}
 			else
 			{
-				layer.GetComponent<Layer>().SetTile(position, null, Matrix4x4.identity);
+				layer.GetComponent<Layer>().SetTile(position, null, Matrix4x4.identity, Color.white);
 			}
 		}
 	}
@@ -83,14 +113,14 @@ public class LevelBrush : GridBrush
 	{
 		foreach (LayerTile tile in metaTile.GetTiles())
 		{
-			//metaTileMap.RemoveTile(position, tile.LayerType);
+			//metaTileMap.RemoveTileWithlayer(position, tile.LayerType);
 			metaTileMap.SetTile(position, tile, cells[0].matrix);
 		}
 	}
 
 	private void PlaceLayerTile(MetaTileMap metaTileMap, Vector3Int position, LayerTile tile)
 	{
-		//metaTileMap.RemoveTile(position, tile.LayerType);
+		//metaTileMap.RemoveTileWithlayer(position, tile.LayerType);
 		SetTile(metaTileMap, position, tile);
 	}
 
@@ -101,6 +131,6 @@ public class LevelBrush : GridBrush
 			SetTile(metaTileMap, position, requiredTile);
 		}
 
-		metaTileMap.SetTile(position, tile, cells[0].matrix);
+		metaTileMap.SetTile(position, tile, cells[0].matrix, cells[0].color);
 	}
 }

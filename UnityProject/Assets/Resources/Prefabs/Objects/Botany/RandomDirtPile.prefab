@@ -7,9 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1008563499804470, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}
+      propertyPath: m_Layer
+      value: 23
+      objectReference: {fileID: 0}
     - target: {fileID: 1609685257496530, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}
       propertyPath: m_Name
       value: RandomDirtPile
+      objectReference: {fileID: 0}
+    - target: {fileID: 1609685257496530, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}
+      propertyPath: m_Layer
+      value: 23
       objectReference: {fileID: 0}
     - target: {fileID: 4409860773913266, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}
       propertyPath: m_LocalPosition.x
@@ -95,6 +103,31 @@ PrefabInstance:
         type: 3}
       propertyPath: isWild
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1998759520953530410, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 2821288067960047100, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 3663177110161525043, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 5226030624696872044, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 8254462624725952794, guid: 1efec61511b50c844868cb49d1a711a1,
+        type: 3}
+      propertyPath: m_Layer
+      value: 23
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: -5825847811397951141, guid: 1efec61511b50c844868cb49d1a711a1, type: 3}

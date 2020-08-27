@@ -13,6 +13,19 @@ public static class ElectricityFunctions
 		Vector3Int.left
 	};
 
+	// dictionary of connections checked in "SurroundingTiles" connection
+	public static readonly Dictionary<Connection, Vector3Int> NeighbourDirections = new Dictionary<Connection, Vector3Int>()
+	{
+		{ Connection.North,     new Vector3Int(0,1,0)   },		// north
+		{ Connection.NorthEast, new Vector3Int(1,1,0)   },		// north east
+		{ Connection.East,      new Vector3Int(1,0,0)   },		// east
+		{ Connection.SouthEast, new Vector3Int(1,-1,0)  },		// south east
+		{ Connection.South,     new Vector3Int(0,-1,0)  },		// south
+		{ Connection.SouthWest, new Vector3Int(-1,-1,0) },		// south west
+		{ Connection.West,      new Vector3Int(-1,0,0)  },		// west
+		{ Connection.NorthWest, new Vector3Int(-1,1,0)  }       // north west
+	};
+
 	public static void FindPossibleConnections(Matrix matrix,
 		HashSet<PowerTypeCategory> CanConnectTo,
 		ConnPoint ConnPoints,
@@ -20,16 +33,18 @@ public static class ElectricityFunctions
 		HashSet<IntrinsicElectronicData> InPutHashSet)
 	{
 		Vector2 searchVec = OIinheritance.GetLocation();
-		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointA, OIinheritance, InPutHashSet);
-		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointB, OIinheritance, InPutHashSet);
+		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointA, OIinheritance, InPutHashSet, otherConnectionPoint: ConnPoints.pointB);
+		SwitchCaseConnections(searchVec, matrix, CanConnectTo, ConnPoints.pointB, OIinheritance, InPutHashSet, otherConnectionPoint: ConnPoints.pointA);
 	}
 
 	public static HashSet<IntrinsicElectronicData> SwitchCaseConnections(Vector2 searchVec,
 		Matrix matrix,
 		HashSet<PowerTypeCategory> CanConnectTo,
-		Connection ConnPoints,
+		Connection connectionPoint,
 		IntrinsicElectronicData OIinheritance,
-		HashSet<IntrinsicElectronicData> connections)
+		HashSet<IntrinsicElectronicData> connections,
+		// used in SurroundingTiles connection
+		Connection otherConnectionPoint = Connection.NA)
 	{
 		var searchVecInt = new Vector3Int((int)searchVec.x, (int)searchVec.y, 0);
 
@@ -45,7 +60,7 @@ public static class ElectricityFunctions
 						Logger.LogErrorFormat("{0} < duplicate Please remove {1}",
 							Category.Electrical,
 							searchVecInt,
-							OIinheritance);
+							OIinheritance.Categorytype);
 					}
 				}
 			}
@@ -54,8 +69,43 @@ public static class ElectricityFunctions
 			ElectricalPool.PooledFPCList.Add(eConnsAtSearchVec);
 		}
 
+		if (connectionPoint == Connection.SurroundingTiles)
+		{
+			foreach (var dir in NeighbourDirections)
+			{
+				// check all nearby connections except connection that is specified in other wire end
+				if (dir.Key == otherConnectionPoint) continue;
+
+				var pos = searchVecInt + dir.Value;
+				var conns = matrix.GetElectricalConnections(pos);
+
+				// get connections pointing towards our tile [ex. if neighbour is at north, get all south connections(SW, S, SE)]
+				HashSet<Connection> possibleConnections = ConnectionMap.GetConnectionsTargeting(dir.Key);
+				if (possibleConnections != null)
+				{
+					foreach (var con in conns)
+					{
+						if (OIinheritance != con
+							 && CanConnectTo.Contains(con.Categorytype)
+							 // check if possibleConnections contains our WireEnd A or B
+							 && (possibleConnections.Contains(con.WireEndA) || possibleConnections.Contains(con.WireEndB))
+							 // check if contains to avoid errors
+							 && !connections.Contains(con))
+						{
+							connections.Add(con);
+						}
+					}
+				}
+
+				conns.Clear();
+				ElectricalPool.PooledFPCList.Add(conns);
+			}
+
+			return connections;
+		}
+
 		// Connect to machine connnectors
-		if (ConnPoints == Connection.MachineConnect)
+		if (connectionPoint == Connection.MachineConnect)
 		{
 			foreach (var dir in MachineConnectorDirections)
 			{
@@ -64,7 +114,7 @@ public static class ElectricityFunctions
 				foreach (var con in conns)
 				{
 					if (OIinheritance != con && CanConnectTo.Contains(con.Categorytype) &&
-						ConnectionMap.IsConnectedToTile(Connection.MachineConnect, con.GetConnPoints()))
+						ConnectionMap.IsConnectedToTile(Connection.MachineConnect, con.GetConnPoints()) && !connections.Contains(con))
 					{
 						connections.Add(con);
 					}
@@ -77,61 +127,7 @@ public static class ElectricityFunctions
 		}
 
 		// Make a vector representing the connection direction
-		Vector3Int connVectorInt;
-		switch (ConnPoints)
-		{
-			case Connection.North:
-			{
-				connVectorInt = new Vector3Int(0, 1, 0);
-				break;
-			}
-			case Connection.NorthEast:
-			{
-				connVectorInt = new Vector3Int(1, 1, 0);
-				break;
-			}
-			case Connection.East:
-			{
-				connVectorInt = new Vector3Int(1, 0, 0);
-				break;
-			}
-			case Connection.SouthEast:
-			{
-				connVectorInt = new Vector3Int(1, -1, 0);
-				break;
-			}
-			case Connection.South:
-			{
-				connVectorInt = new Vector3Int(0, -1, 0);
-				break;
-			}
-			case Connection.SouthWest:
-			{
-				connVectorInt = new Vector3Int(-1, -1, 0);
-				break;
-			}
-			case Connection.West:
-			{
-				connVectorInt = new Vector3Int(-1, 0, 0);
-				break;
-			}
-			case Connection.NorthWest:
-			{
-				connVectorInt = new Vector3Int(-1, 1, 0);
-				break;
-			}
-			case Connection.Overlap:
-			{
-				connVectorInt = new Vector3Int(0, 0, 0);
-				break;
-			}
-			default:
-			{
-				// No defined behaviour for any other types
-				return connections;
-			}
-		}
-
+		Vector3Int connVectorInt = ConnectionMap.GetDirectionFromConnection(connectionPoint);
 		Vector3Int position = searchVecInt + connVectorInt;
 
 		// Connect wires
@@ -141,7 +137,7 @@ public static class ElectricityFunctions
 			foreach (var con in eConnsAtPosition)
 			{
 				if (CanConnectTo.Contains(con.Categorytype) &&
-					ConnectionMap.IsConnectedToTile(ConnPoints, con.GetConnPoints()))
+					ConnectionMap.IsConnectedToTile(connectionPoint, con.GetConnPoints()))
 				{
 					connections.Add(con);
 					connectionsAdded = true;
@@ -162,7 +158,7 @@ public static class ElectricityFunctions
 			foreach (var con in eConnsAtSearchVec)
 			{
 				if (OIinheritance != con && CanConnectTo.Contains(con.Categorytype) &&
-					ConnectionMap.IsConnectedToTileOverlap(ConnPoints, con.GetConnPoints()))
+					ConnectionMap.IsConnectedToTileOverlap(connectionPoint, con.GetConnPoints()))
 				{
 					connections.Add(con);
 				}

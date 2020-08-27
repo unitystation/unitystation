@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5622497640974276253
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2352077745602750771, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2357564171222291527, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_Name
+      value: CarpHelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2388022189226633715, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2390410913328498099, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2469720285121718043, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8a498cc50e06cec47854841592d900ca,
+        type: 3}
+    - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: initialDescription
+      value: Spaceworthy and it looks like a space carp's head, smells like one too.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2763621013712894757, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: initialName
+      value: carp helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8498819338256920512, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 7662531ce19545a40a1e8d32f435ce08,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b896706061e90148bcf59592a36eaf8,
+        type: 2}
+    - target: {fileID: 8704044746233661378, guid: c60440956ff96af4b84ba3e95e41c3e0,
+        type: 3}
+      propertyPath: hideClothingFlags
+      value: 800
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2760341733104991204, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}
+    - {fileID: 1967846948629829625, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: c60440956ff96af4b84ba3e95e41c3e0, type: 3}

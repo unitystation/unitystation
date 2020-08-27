@@ -1,0 +1,452 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a530723332345043ae218456ed72ca0, type: 3}
+  m_Name: AutolatheProducts
+  m_EditorClassIdentifier: 
+  productCategoryList:
+  - categoryName: Tools
+    products:
+    - name: Bucket
+      product: {fileID: 8724836040044288808, guid: ba46a81cbd3cd9c4faea0e047fbae79f,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: c8000000
+      productionTime: 4
+    - name: Mop
+      product: {fileID: 2419386692754613975, guid: e632378292aa9a645bf4a8745061e44d,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: e8030000
+      productionTime: 4
+    - name: Pocket Crowbar
+      product: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 32000000
+      productionTime: 4
+    - name: Flashlight
+      product: {fileID: 5734849685452875998, guid: 6f371050bff8b32438f91c7c680900bb,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 3200000014000000
+      productionTime: 4
+    - name: Fire Extinguisher
+      product: {fileID: 8889694606890058911, guid: a696fba1a403cfb4e8b3752a81bc205d,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 5a000000
+      productionTime: 4
+    - name: Pocket Fire Extinguisher
+      product: {fileID: 4829397422218618710, guid: fd46521c5d977d54ea8cc4aa528c7021,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 3200000028000000
+      productionTime: 4
+    - name: Multitool
+      product: {fileID: 970193913688544828, guid: 32fcd56a575fd884ebae6deb79a43656,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 3200000014000000
+      productionTime: 4
+    - name: Atmospheric Analyzer
+      product: {fileID: 8238071069653876758, guid: bf74e8243028ec14ebeb6578ebd2fcf4,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 1e00000014000000
+      productionTime: 4
+    - name: Welding Tool
+      product: {fileID: 7008480391185106659, guid: 0d17aafd7d4584d458769bf9c13b785d,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 4600000014000000
+      productionTime: 4
+    - name: Emergency Welding Tool
+      product: {fileID: 5849148787323493539, guid: 354f94a38c0cdcd4ab6e80ba7d983c74,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 1e0000000a000000
+      productionTime: 4
+    - name: Screwdriver
+      product: {fileID: 8868920090029130384, guid: 366fb594c17e76346bbb29ad4ce021ad,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 4b000000
+      productionTime: 4
+    - name: Wirecutters
+      product: {fileID: 1844587092189195201, guid: 3266ceefb65da2f4cb4bbfd297415ad5,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 50000000
+      productionTime: 4
+    - name: Wrench
+      product: {fileID: 4930866777566109869, guid: 7976a84ef9209f14697cdd941b913e2a,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 50000000
+      productionTime: 4
+    - name: Welding Helmet
+      product: {fileID: 7636118406116123594, guid: df90174791c3adda585b7cb6c9f01473,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: d606000090010000
+      productionTime: 4
+    - name: Cable Coil
+      product: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 0a00000005000000
+      productionTime: 4
+    - name: Toolbox
+      product: {fileID: 8568672687853555390, guid: 5e6f53b64c8b43c4285d171f4a9346a3,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: f4010000
+      productionTime: 4
+  - categoryName: Construction
+    products:
+    - name: Metal
+      product: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: d0070000
+      productionTime: 0.5
+    - name: Glass
+      product: {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: d0070000
+      productionTime: 0.5
+    - name: Reinforced Glass
+      product: {fileID: 5680136605834777345, guid: 4549e37f0d4967848a5f07a0913869fa,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: e8030000d0070000
+      productionTime: 0.5
+    - name: Metal Rod
+      product: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: e8030000
+      productionTime: 0.5
+    - name: Light Tube
+      product: {fileID: 2419386692754613975, guid: 55cd86212b6c71d468c98ff09f7bbd8a,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 64000000
+      productionTime: 1
+    - name: Light Bulb
+      product: {fileID: 2419386692754613975, guid: ae09a5f5cfaa8134cbf8800bab7e0739,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 64000000
+      productionTime: 1
+    - name: Plasma + Iron Alloy
+      product: {fileID: 3642454299424425929, guid: 7d23f839f141d4c99a6bfe9c8bfceca1,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+        m_values: d0070000d0070000
+      productionTime: 0.5
+    - name: Plasma + Titanium Alloy
+      product: {fileID: 3642454299424425929, guid: 9225e397ae2d6b944bf978966c80f83a,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 78dc359894fa18744acf5862e480dd75, type: 2}
+        - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+        m_values: d0070000d0070000
+      productionTime: 0.5
+    - name: Plasma + Glass Alloy
+      product: {fileID: 5680136605834777345, guid: 74c9d3aa100fca24d830d213df433dbf,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+        m_values: d0070000e8030000
+      productionTime: 0.5
+    - name: Plasma + Metal + Glass Alloy
+      product: {fileID: 5680136605834777345, guid: 336f7dfb535e752438244ccb536899a9,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+        m_values: d0070000e8030000e8030000
+      productionTime: 0.5
+    - name: Titanium + Glass Alloy
+      product: {fileID: 5680136605834777345, guid: bcc6015fca64ba54bb981da695833053,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 78dc359894fa18744acf5862e480dd75, type: 2}
+        m_values: d0070000e8030000
+      productionTime: 0.5
+    - name: Plasma + Titanium + Glass Alloy
+      product: {fileID: 5680136605834777345, guid: 4290212beee28a545b253f88f147b029,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        - {fileID: 11400000, guid: 01512fe0b1af9ff48ba20fec373b37e3, type: 2}
+        - {fileID: 11400000, guid: 78dc359894fa18744acf5862e480dd75, type: 2}
+        m_values: d0070000e8030000e8030000
+      productionTime: 0.5
+  - categoryName: Security
+    products:
+    - name: Beanbag Slug
+      product: {fileID: 742292832060491855, guid: 4fc03c4878e7c77478fe3635b8c52dc8,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: d0070000
+      productionTime: 4
+    - name: Speed Loader (.38)
+      product: {fileID: 742292832060491855, guid: 75d6cbaeec177404eb927dde307c1d36,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 204e0000
+      productionTime: 4
+  - categoryName: Medical
+    products:
+    - name: Beaker
+      product: {fileID: 8679969532050251905, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: f4010000
+      productionTime: 4
+    - name: Large Beaker
+      product: {fileID: 5188649654063371458, guid: 63a58edd1e5377040a9ea82e307c1f04,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: c4090000
+      productionTime: 4
+    - name: Health Analyzer
+      product: {fileID: 5914959498962467419, guid: 34a89eb06b04dc54eae02fc8048dd8f7,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: c800000064000000
+      productionTime: 4
+  - categoryName: Dinnerware
+    products:
+    - name: Kitchen Knife
+      product: {fileID: 7781396554342910705, guid: 229f1c93e0e4ada439cfe4b781f65997,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: e02e0000
+      productionTime: 4
+    - name: Drinking Glass
+      product: {fileID: 152655092904150459, guid: b11a6375f84ff814ea50a3309a00cc96,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: f4010000
+      productionTime: 4
+  - categoryName: Electronics
+    products:
+    - name: APC Module
+      product: {fileID: 7187812193856883994, guid: eb83c6edf05d1f24188f4c09edc90e47,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 6400000064000000
+      productionTime: 4
+  - categoryName: T-Comm
+    products:
+    - name: Remote Signaling Device
+      product: {fileID: 8610225452865205335, guid: c9d03be44229a74469be1b6738941ec3,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 9001000078000000
+      productionTime: 4
+    - name: Radio Headset
+      product: {fileID: 835768756810601639, guid: 3d08b6dbf08774e8681378945dec4edf,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 4b000000
+      productionTime: 4
+  - categoryName: Machinery
+    products:
+    - name: Basic Capacitor
+      product: {fileID: 2527188313238870147, guid: bb147b9bf5a66eb40b94bd8853aaf9ea,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 6400000064000000
+      productionTime: 0.8
+    - name: Basic Scanning Module
+      product: {fileID: 2527188313238870147, guid: 45433567aa3e67f44a4bf6ad15bc6c04,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 6400000032000000
+      productionTime: 0.8
+    - name: Micro Manipulator
+      product: {fileID: 2527188313238870147, guid: 73792b6d5257dfe4e85247bd61979cef,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 64000000
+      productionTime: 0.8
+    - name: Basic Micro-Laser
+      product: {fileID: 2527188313238870147, guid: 12e1033504f11d342867225fade01e88,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 6400000032000000
+      productionTime: 0.8
+    - name: Basic Matter Bin
+      product: {fileID: 2527188313238870147, guid: 1ca8c26ca2f61444bb8d374104ed2a02,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: 64000000
+      productionTime: 0.8
+  - categoryName: Misc
+    products:
+    - name: Earmuffs
+      product: {fileID: 6200957232458716886, guid: 29d7ceeefbf3c484e82d37353cea673e,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: f401000064000000
+      productionTime: 4
+    - name: Emergency Oxygen Tank
+      product: {fileID: 7243456001760246399, guid: a3dd5c5de5e35f24d94fe3615219fb87,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: f4010000
+      productionTime: 4
+    - name: Generic Gas Tank
+      product: {fileID: 132773863777131159, guid: 26fd2ca9f01943342baba2a03f0721ac,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        m_values: e8030000
+      productionTime: 4
+    - name: Igniter
+      product: {fileID: 3506820747392627008, guid: a417db40295ef264db403f38810bf817,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: f401000032000000
+      productionTime: 0.8
+    - name: Power Cell
+      product: {fileID: 2527188313238870147, guid: d84851eeb2ee38b4fab01c7a2cea13a5,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: bc02000032000000
+      productionTime: 0.8
+    - name: Proximity Sensor
+      product: {fileID: 3506820747392627008, guid: 1fa9f2d6fbcfef845bb2f5903ffcfd23,
+        type: 3}
+      materialToAmounts:
+        m_keys:
+        - {fileID: 11400000, guid: 80c7380282adee649aa0c255f79bc5f2, type: 2}
+        - {fileID: 11400000, guid: cde83a8cd1e2083479c40e5e1c19292b, type: 2}
+        m_values: 20030000c8000000
+      productionTime: 0.8

@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3837935182567797810, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c6f82da1e96fdcf4f967c9405c01ae6b,
+        type: 2}
     - target: {fileID: 6918947953705996213, guid: f709eab732189d6429ae3fa5beaf3fd3,
         type: 3}
       propertyPath: m_Name
@@ -161,5 +167,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300006, guid: bc9a9ce538359a043899819e2ce44a01,
         type: 3}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4564fb415499e5947a6cbc5782a438c7,
+        type: 2}
+    - target: {fileID: 7415335345799176407, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ea6e2caf592256c42a89f2cefc696fd6,
+        type: 2}
+    - target: {fileID: 8756140990652241181, guid: f709eab732189d6429ae3fa5beaf3fd3,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c27b3677e7528c94ea71bc19d0094bde,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f709eab732189d6429ae3fa5beaf3fd3, type: 3}

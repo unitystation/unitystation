@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Hands : MonoBehaviour
 {
@@ -163,17 +164,16 @@ public class Hands : MonoBehaviour
 	/// <returns>True if they can, false if they cannot</returns>
 	private bool isValidPlayer()
 	{
-		if (PlayerManager.LocalPlayerScript != null)
-		{
-			// TODO tidy up this if statement once it's working correctly
-			if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
+		if (PlayerManager.LocalPlayerScript == null) return false;
+
+		// TODO tidy up this if statement once it's working correctly
+		if (!PlayerManager.LocalPlayerScript.playerMove.allowInput ||
 				PlayerManager.LocalPlayerScript.IsGhost)
-			{
-				Logger.Log("Invalid player, cannot perform action!", Category.UI);
-				return false;
-			}
+		{
+			Logger.Log("Invalid player, cannot perform action!", Category.UI);
+			return false;
 		}
+
 		return true;
 	}
-
 }

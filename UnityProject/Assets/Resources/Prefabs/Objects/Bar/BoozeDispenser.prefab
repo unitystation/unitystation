@@ -20,6 +20,41 @@ MonoBehaviour:
       m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
+--- !u!114 &-7507215922892034232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406346259585755381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b752b8671651846ba4fca8bf2c233a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isFlippable: 0
+  flippedObject: {fileID: 0}
+--- !u!114 &-3828962447140280972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406346259585755381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 645d2af232083e545930ac3d55f4a641, type: 2}
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
+    type: 3}
+  machineBoardPrefab: {fileID: 3394833129495955646, guid: 3c4ccc974a921654f884c3a90188d75e,
+    type: 3}
+  canNotBeDeconstructed: 0
+  secondsToScrewdrive: 2
 --- !u!114 &553736562539033351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -52,6 +87,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetTabType: 20
+--- !u!114 &3793464284129170297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406346259585755381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  stateSecuredStatus: 1
+  RequireFloorPlatingExposed: 0
+  secondsToSecure: 0
+  secondsToUnsecure: 0
+--- !u!114 &6290354675217138062
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6406346259585755381}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2ac94ea034f589c46b4568ffe0d4d992, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ThisState: 0
 --- !u!114 &6957727407797718013
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -83,7 +151,7 @@ MonoBehaviour:
   itemStorageCapacity: {fileID: 11400000, guid: 14ba874224f65461b97794ca4c792e7f,
     type: 2}
   itemStoragePopulator: {fileID: 0}
---- !u!114 &6290354675217138062
+--- !u!114 &8632938316192302950
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,11 +160,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 6406346259585755381}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2ac94ea034f589c46b4568ffe0d4d992, type: 3}
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 300
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 0
+  SelfPowered: 0
+  State: 0
+  conType: 1
 --- !u!1001 &5972872610322709877
 PrefabInstance:
   m_ObjectHideFlags: 0

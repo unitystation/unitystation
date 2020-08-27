@@ -12,22 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f6001e9fdf4c400d809990a27b869c71, type: 3}
   m_Name: toolbeltSecurity
   m_EditorClassIdentifier: 
-  PrefabVariant: {fileID: 0}
-  ItemAttributes:
-    itemName: security belt
-    itemDescription: Can hold security gear like handcuffs and flashes.
-    itemType: 10
-    size: 3
-    spriteType: 1
-    CanConnectToTank: 0
-    IsEVACapable: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []
   sprites:
     Equipped:
       Texture: {fileID: 2800000, guid: 7f720b3d6d9cde949ad85eccb420d192, type: 3}
@@ -58,3 +42,19 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: f45c6c0a6056969498548382b09b036f, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 2a4b93c0255e24745b84ac5c9a0d91f9, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: ad58db3cc7b07444eadbd825dee63119,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: ae7fd5c44b2a0574f8b53978606b3a1d,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: 84113defcbb02d14280a91203688eb1a, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0

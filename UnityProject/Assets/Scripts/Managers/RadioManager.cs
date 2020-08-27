@@ -23,6 +23,8 @@ public class RadioManager : MonoBehaviour
 		}
 	}
 
+	private RadioMessager LastRadioMessager = null;
+
 
 	private List<RadioReceiver> receivers = new List<RadioReceiver>();
 
@@ -50,6 +52,13 @@ public class RadioManager : MonoBehaviour
 
 	private bool CanReceiverReceiverSignal(RadioReceiver rec, RadioSignal signal, RadioMessager originator)
 	{
+		if (rec ==null || signal == null || originator == null) return false;
+
+		//Prevent signallers spamming in a loop.
+		if (originator == LastRadioMessager) return false;
+
+		LastRadioMessager = originator;
+
 		//Prevent a receiver picking up a signal if it was the one that sent it.
 		if (rec.gameObject.Equals(originator.gameObject)) return false;
 

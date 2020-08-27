@@ -39,14 +39,12 @@ public class RightClickAppearance : MonoBehaviour
 			SpriteRenderer firstSprite = GetComponentInChildren<SpriteRenderer>();
 			if (firstSprite != null)
 			{
-				sprite = firstSprite.sprite;
+				return RightClickMenuItem.CreateObjectMenuItem(backgroundColor, firstSprite.sprite, backgroundSprite, label, subMenus, firstSprite.color);
 			}
-			else
-			{
-				Logger.LogWarningFormat("Could not determine sprite to use for right click menu" +
-				                        " for object {0}. Please specify a sprite in the RightClickMenu component" +
-				                        " for this object.", Category.UI, gameObject.name);
-			}
+
+			Logger.LogWarningFormat("Could not determine sprite to use for right click menu" +
+			                        " for object {0}. Please specify a sprite in the RightClickMenu component" +
+			                        " for this object.", Category.UI, gameObject.name);
 		}
 		else
 		{

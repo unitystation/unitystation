@@ -53,6 +53,7 @@ public partial class MatrixManager : MonoBehaviour
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
 
 	public Matrix spaceMatrix { get; private set; }
+	public Matrix lavaLandMatrix { get; private set; }
 	private Matrix mainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
@@ -113,7 +114,7 @@ public partial class MatrixManager : MonoBehaviour
 		trackedIntersections.Clear();
 	}
 
-	public static void RegisterMatrix(Matrix matrixToRegister, bool isSpaceMatrix = false, bool isMainStation = false)
+	public static void RegisterMatrix(Matrix matrixToRegister, bool isSpaceMatrix = false, bool isMainStation = false, bool isLavaLand = false)
 	{
 		foreach (var curInfo in Instance.ActiveMatrices)
 		{
@@ -153,6 +154,18 @@ public partial class MatrixManager : MonoBehaviour
 			else
 			{
 				Logger.Log("There is already a main station matrix registered");
+			}
+		}
+
+		if (isLavaLand)
+		{
+			if (Instance.lavaLandMatrix == null)
+			{
+				Instance.lavaLandMatrix = matrixToRegister;
+			}
+			else
+			{
+				Logger.Log("There is already a lava land matrix registered");
 			}
 		}
 
@@ -399,7 +412,7 @@ public partial class MatrixManager : MonoBehaviour
 			if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
 				return originDoor;
 		}
-		
+
 		// No closed door on local tile, check target tile
 		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
 		var targetDoorList = GetAt<InteractableDoor>(targetPos, isServer);
@@ -801,7 +814,7 @@ public partial class MatrixManager : MonoBehaviour
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
+	public static Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
 	{
 		return LocalToWorld(localPos, Get(matrix));
 	}

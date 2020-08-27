@@ -1,0 +1,245 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1628611137711136242
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: spritePath
+      value: icons/obj/doors/blastdoor
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: closeFrame
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: doorController
+      value: 
+      objectReference: {fileID: 7880321078131954941}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[0]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[1]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[2]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[3]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[4]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: animFrames.Array.data[5]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: doorType
+      value: 16
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: maxTimeOpen
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: openSFX
+      value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: closeSFX
+      value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: IsAutomatic
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: openingDirection
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: damageOnClose
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: ignorePassableChecks
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 720260447592516819, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: restriction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2768548541953953568, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: initialDescription
+      value: A heavy duty blast door that opens mechanically.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2768548541953953568, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: initialName
+      value: blast door
+      objectReference: {fileID: 0}
+    - target: {fileID: 3968779613111739762, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 600
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: damageDeflection
+      value: 70
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: Armor.Bullet
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: Armor.Laser
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: Armor.Energy
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117113471282552717, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 4732752304642126855, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -6414844655479305141, guid: e3ed1efa0a7f4f547a1cb0ad5853e1d4,
+        type: 3}
+    - target: {fileID: 4813822218561835024, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_Name
+      value: BlastDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4986678559899695466, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
+--- !u!114 &7880321078131954941 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 1628611137711136242}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: abede496a2014828a4bdb14c65ffd675, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

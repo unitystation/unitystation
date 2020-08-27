@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: CommonFood
+  m_EditorClassIdentifier: 
+  pool:
+  - prefab: {fileID: 198778007159947886, guid: 42541a231596b9048846974c482128fe, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4501053395374146654, guid: 1a8ca75092f9cdd4d9c6022e08419c9b,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5558746297286370, guid: 7433fede76bc68c40851a73d529d8b3a, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5558746297286370, guid: fd49dd2cee50dce468c4545c460e75a9, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd,
+      type: 3}
+    maxAmount: 1
+    probability: 100

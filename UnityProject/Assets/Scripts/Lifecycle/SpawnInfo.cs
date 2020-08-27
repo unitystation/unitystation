@@ -58,13 +58,13 @@ public class SpawnInfo
 	public readonly CharacterSettings CharacterSettings;
 
 	/// <summary>
-	/// If SpawnType.Player, whether character should be spawned naked or populated with their default loadout.
+	/// The gear or items that spawn on creation will be enabled or not. ex: equipment on characters.
 	/// </summary>
-	public readonly bool Naked;
+	public readonly bool SpawnItems;
 
 	private SpawnInfo(SpawnType spawnType, ISpawnable spawnable, SpawnDestination spawnDestination, float? scatterRadius, int count, Occupation occupation,
 		GameObject clonedFrom = null,
-		CharacterSettings characterSettings = null, bool naked = false)
+		CharacterSettings characterSettings = null, bool spawnItems = true)
 	{
 		SpawnType = spawnType;
 		SpawnableToSpawn = spawnable;
@@ -74,7 +74,7 @@ public class SpawnInfo
 		Occupation = occupation;
 		ClonedFrom = clonedFrom;
 		CharacterSettings = characterSettings;
-		Naked = naked;
+		SpawnItems = spawnItems;
 	}
 
 	/// <summary>
@@ -84,13 +84,13 @@ public class SpawnInfo
 	/// <param name="characterSettings">settings to use for this player</param>
 	/// <param name="playerPrefab">Prefab to use to spawn this player</param>
 	/// <param name="spawnDestination">destinaton to spawn at</param>
-	/// <param name="naked">whether player should spawn naked or with their default loadout</param>
+	/// <param name="spawnItems">whether player should spawn naked or with their default loadout</param>
 	/// <returns>the newly created GameObject</returns>
 	/// <returns></returns>
 	public static SpawnInfo Player(Occupation occupation, CharacterSettings characterSettings, GameObject playerPrefab, SpawnDestination spawnDestination,
-		bool naked = false)
+		bool spawnItems = false)
 	{
-		return new SpawnInfo(SpawnType.Player, SpawnablePrefab.For(playerPrefab), spawnDestination, null, 1, occupation, characterSettings: characterSettings, naked: naked);
+		return new SpawnInfo(SpawnType.Player, SpawnablePrefab.For(playerPrefab), spawnDestination, null, 1, occupation, characterSettings: characterSettings, spawnItems: spawnItems);
 	}
 
 	/// <summary>
@@ -119,9 +119,9 @@ public class SpawnInfo
 	/// null (no scatter).</param>
 	/// <param name="cancelIfImpassable">If true, the spawn will be cancelled if the location being spawned into is totally impassable.</param>
 	/// <returns>the newly created GameObject</returns>
-	public static SpawnInfo Spawnable(ISpawnable spawnable, SpawnDestination spawnDestination, int count = 1, float? scatterRadius = null)
+	public static SpawnInfo Spawnable(ISpawnable spawnable, SpawnDestination spawnDestination, int count = 1, float? scatterRadius = null, bool spawnItems = true)
 	{
-		return new SpawnInfo(SpawnType.Default, spawnable, spawnDestination, scatterRadius, count, null);
+		return new SpawnInfo(SpawnType.Default, spawnable, spawnDestination, scatterRadius, count, null, spawnItems: spawnItems);
 	}
 
 	/// <summary>
@@ -163,7 +163,7 @@ public class SpawnInfo
 		return $"{nameof(SpawnType)}: {SpawnType}, {nameof(ClonedFrom)}: {ClonedFrom}, {nameof(SpawnableToSpawn)}: " +
 		       $"{SpawnableToSpawn}, {nameof(SpawnDestination)}: {SpawnDestination}, {nameof(ScatterRadius)}: " +
 		       $"{ScatterRadius}, {nameof(Count)}: {Count}, {nameof(Occupation)}: {Occupation}, " +
-		       $"{nameof(CharacterSettings)}: {CharacterSettings}, {nameof(Naked)}: {Naked}";
+		       $"{nameof(CharacterSettings)}: {CharacterSettings}, {nameof(SpawnItems)}: {SpawnItems}";
 	}
 }
 

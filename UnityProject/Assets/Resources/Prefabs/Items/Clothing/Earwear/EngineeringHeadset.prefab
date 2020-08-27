@@ -7,6 +7,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 236481346396351825, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f6d11409f88c5a14ba23390f8d78b4eb,
+        type: 2}
+    - target: {fileID: 1041179462549308755, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: f25ffc90a5fe9314eb665e3c68f9976c,
+        type: 2}
+    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: initialName
+      value: engineering radio headset
+      objectReference: {fileID: 0}
+    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: initialDescription
+      value: When the engineers wish to chat like girls.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6124838470649275786, guid: abf4818425fa84c67a62abb4425a4dcb,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 33a8f162cc734e84b9055ffcbbf1f972,
+        type: 3}
     - target: {fileID: 6200957232458716886, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
       propertyPath: m_Name
@@ -16,16 +44,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Clothing
-      objectReference: {fileID: 0}
-    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: serverOnly
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6205322156016085922, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
@@ -82,27 +100,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
+    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
-      propertyPath: initialName
-      value: engineering radio headset
-      objectReference: {fileID: 0}
-    - target: {fileID: 5828681613421754804, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: initialDescription
-      value: When the engineers wish to chat like girls.
-      objectReference: {fileID: 0}
-    - target: {fileID: 1041179462549308755, guid: abf4818425fa84c67a62abb4425a4dcb,
-        type: 3}
-      propertyPath: clothData
+      propertyPath: m_AssetId
       value: 
-      objectReference: {fileID: 11400000, guid: f25ffc90a5fe9314eb665e3c68f9976c,
-        type: 2}
-    - target: {fileID: 6124838470649275786, guid: abf4818425fa84c67a62abb4425a4dcb,
+      objectReference: {fileID: 0}
+    - target: {fileID: 6312371192114801506, guid: abf4818425fa84c67a62abb4425a4dcb,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 33a8f162cc734e84b9055ffcbbf1f972,
-        type: 3}
+      propertyPath: serverOnly
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abf4818425fa84c67a62abb4425a4dcb, type: 3}

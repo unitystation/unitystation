@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using Mirror;
+using ScriptableObjects;
 using Tilemaps.Behaviours.Meta;
 
 public partial class Chat
@@ -48,6 +49,10 @@ public partial class Chat
 	public const ChatChannel ServiceChannels = ChatChannel.Action | ChatChannel.Admin | ChatChannel.Combat
 		| ChatChannel.Examine | ChatChannel.OOC | ChatChannel.System | ChatChannel.Warning;
 
+	/// <summary>
+	/// This channels are either non verbal communication (Ghost, Binary) or some serivice channel (OOC, Action)
+	/// </summary>
+	public const ChatChannel NonSpeechChannels = Chat.NonVerbalChannels | Chat.ServiceChannels;
 
 	/// <summary>
 	/// Processes a message to be used in the chat log and chat bubbles.
@@ -229,6 +234,14 @@ public partial class Chat
 			verb = "yells,";
 			message = $"<b>{message}</b>";
 		}
+		else if ((modifiers & ChatModifier.State) == ChatModifier.State)
+		{
+			verb = "states,";
+		}
+		else if ((modifiers & ChatModifier.ColdlyState) == ChatModifier.ColdlyState)
+		{
+			verb = "coldly states,";
+		}
 		else if (message.EndsWith("!"))
 		{
 			verb = "exclaims,";
@@ -267,33 +280,6 @@ public partial class Chat
 
 
 //TODO move all these methods to a proper SpeechModifier SO
-	private static string Slur(Match m)
-	{
-		string x = m.ToString();
-		if (char.IsLower(x[0]))
-		{
-			x = x + "h";
-		}
-		else
-		{
-			x = x + "H";
-		}
-
-		return x;
-	}
-
-	private static string Hic(Match m)
-	{
-		string x = m.ToString();
-		//10% chance to hic at any given space
-		if (Random.Range(1, 11) == 1)
-		{
-			x = " ...hic!... ";
-		}
-
-		return x;
-	}
-
 	private static string Hiss(Match m)
 	{
 		string x = m.ToString();

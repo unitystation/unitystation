@@ -17,7 +17,7 @@ public class AutoOccupationStoragePopulator : ItemStoragePopulator
 	{
 		var occupation = PopulatorUtils.TryGetOccupation(context);
 		if (occupation == null) return;
-		if (context.SpawnInfo.Naked) return;
+		if (context.SpawnInfo.SpawnItems == false) return;
 
 		Logger.LogTraceFormat("Populating item storage using configured populator for occupation {0}",
 			Category.Inventory, occupation.JobType);

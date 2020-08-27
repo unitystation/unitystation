@@ -188,6 +188,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114130822872460300
 MonoBehaviour:
@@ -215,6 +216,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &1612245312422546373
@@ -257,19 +259,9 @@ MonoBehaviour:
     Name: 
     Plantname: 
     Description: 
-    PacketsSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    GrowthSprites: []
-    FullyGrownSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    DeadSprite:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+    DeadSpriteSO: {fileID: 0}
+    FullyGrownSpriteSO: {fileID: 0}
+    GrowthSpritesSOs: []
     WeedResistance: 50
     WeedGrowthRate: 10
     GrowthSpeed: 60
@@ -279,7 +271,19 @@ MonoBehaviour:
     Lifespan: 25
     PlantTrays: 
     ReagentProduction: []
-    MutatesInTo: []
+    MutatesInToGameObject: []
+    plantEvolveStats:
+      WeedResistanceChange: 0
+      WeedGrowthRateChange: 0
+      GrowthSpeedChange: 0
+      PotencyChange: 0
+      EnduranceChange: 0
+      YieldChange: 0
+      LifespanChange: 0
+      PlantTrays: 
+      ReagentProduction: []
+      RemovePlantTrays: 
+      RemoveReagentProduction: []
     Age: 0
     NextGrowthStageProgress: 0
     Health: 0
@@ -314,6 +318,7 @@ MonoBehaviour:
       m_values:
       - 100
       - 100
+  destroyOnEmpty: 0
 --- !u!114 &114193634347157676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -427,10 +432,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 3a2e910deacfcfd4facaa1e17a6c00d5, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 3964132422398169974, guid: c0cbb1853d350404685a523d617f3458,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
 --- !u!1 &1998759520953530410
 GameObject:
@@ -503,7 +509,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 2
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -511,7 +517,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &7881375107564956764
@@ -526,22 +532,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300002, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300004, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300006, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300008, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300010, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    - {fileID: 21300012, guid: 2ceb4c268e998e442a734342bea90606, type: 3}
-    EquippedData: {fileID: 4900000, guid: 50ef21e6e336cfb418b42593aa5f49c0, type: 3}
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: b2bcc48cd1fe1224fa63b46854d61731, type: 2}
+  Sprites: []
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1 &2821288067960047100
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,7 +609,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 2
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -621,7 +617,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1254092131188494499
@@ -636,22 +632,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites:
-  - Texture: {fileID: 2800000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300002, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300004, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300006, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300008, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300010, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    - {fileID: 21300012, guid: e68ca6a528b15fa41b3d44a12350dc2f, type: 3}
-    EquippedData: {fileID: 4900000, guid: 60a3c368792b5ba4aaf26bed6d8d93d8, type: 3}
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 9149d3bede9fd2240a3af3f95752d5b1, type: 2}
+  Sprites: []
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1 &3663177110161525043
 GameObject:
   m_ObjectHideFlags: 0
@@ -723,7 +709,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 2
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -731,7 +717,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &2269397715240448978
@@ -746,22 +732,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites:
-  - Texture: {fileID: 2800000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300002, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300004, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300006, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300008, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300010, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    - {fileID: 21300012, guid: aea86856306566d43bfb7f194de93f06, type: 3}
-    EquippedData: {fileID: 4900000, guid: 8200e94d6a411ff47a4718cf685f1075, type: 3}
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: df36fe710569d8b45ad564d6fa3a1a98, type: 2}
+  Sprites: []
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1 &5226030624696872044
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,7 +809,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 2
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -841,7 +817,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 0
+  m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &4430441488956415440
@@ -856,22 +832,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300002, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300004, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300006, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300008, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300010, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    - {fileID: 21300012, guid: 8900cdeabd1254649a8dfe5764f9c9de, type: 3}
-    EquippedData: {fileID: 4900000, guid: 44ef32d51c580c7459f347a7de3828b6, type: 3}
-  spriteIndex: 0
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: de4912c9ed032ce498ce529b2ba9b1f9, type: 2}
+  Sprites: []
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1 &8254462624725952794
 GameObject:
   m_ObjectHideFlags: 0
@@ -966,9 +932,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []

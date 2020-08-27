@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7925486248149978988, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: e0cbade8ffcf76348ae351d0d0956ead,
+        type: 2}
+    - target: {fileID: 1987768667762010246, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c389cb78aa8cee94aaa5713ffc645469,
+        type: 2}
     - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: initialDescription
@@ -85,6 +97,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: a7d0d4e8832cb994aaa526cf0fe37f0e, type: 3}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: cabaf7fbec494f749b46712a96904354,
+        type: 2}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: de95708d18e972b4c907ef6300c40b8a,
+        type: 2}
     - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: CableType
@@ -180,7 +204,7 @@ PrefabInstance:
     - target: {fileID: 5680136605834777345, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: m_Name
-      value: High Cable Coil
+      value: HighCableCoil
       objectReference: {fileID: 0}
     - target: {fileID: 5712767464971415221, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
@@ -234,7 +258,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4019383695740491213, guid: 930cb494644d9ed46b31e1ecf4222089,
         type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 8951186497684717993, guid: c3e6805b264a935428b0de415ea57943, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: c3e6805b264a935428b0de415ea57943, type: 3}
 --- !u!1 &1431646644770877665 stripped
 GameObject:

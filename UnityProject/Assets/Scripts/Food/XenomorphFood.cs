@@ -47,7 +47,7 @@ public class XenomorphFood : Edible
 			Eat(eater, feeder);
 		}
 	}
-	private void Eat(PlayerScript eater, PlayerScript feeder)
+	public override void Eat(PlayerScript eater, PlayerScript feeder)
 	{
 		SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 

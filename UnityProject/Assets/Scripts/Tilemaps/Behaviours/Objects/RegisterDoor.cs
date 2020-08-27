@@ -32,7 +32,7 @@
 			}
 		}
 
-		private void Awake()
+		protected override void Awake()
 		{
 			base.Awake();
 			GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);

@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: -6026534052110882755}
   - component: {fileID: 8750409313360246655}
   - component: {fileID: 3525087957271516229}
+  - component: {fileID: -8103344908248815986}
   m_Layer: 10
   m_Name: Pipe
   m_TagString: Untagged
@@ -85,6 +86,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114271167785033994
 MonoBehaviour:
@@ -98,6 +100,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114007797438959630
@@ -208,7 +211,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -229,7 +234,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &7564706497059525126
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -245,6 +249,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
 --- !u!114 &9181656149164435648
@@ -345,9 +352,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8103344908248815986
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1645856876941636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b752b8671651846ba4fca8bf2c233a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forceHidden: 0
+  isFlippable: 0
+  flippedObject: {fileID: 0}
 --- !u!1 &3573311523730322217
 GameObject:
   m_ObjectHideFlags: 0

@@ -93,5 +93,18 @@ namespace Antagonists
 			}
 			return objSB.ToString();
 		}
+
+		public string GetObjectiveStatusNonRich()
+		{
+			var message = $"{Owner.body.playerName}\n";
+			var objectiveList = Objectives.ToList();
+			message += "Their objectives were:\n";
+			for (int i = 0; i < objectiveList.Count; i++)
+			{
+				message += $"{i + 1}. {objectiveList[i].Description}: ";
+				message += objectiveList[i].IsComplete() ? "Completed\n" : "Failed\n";
+			}
+			return message;
+		}
 	}
 }

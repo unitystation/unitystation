@@ -1,0 +1,106 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &2281583929562587896
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d797a041601d264aa974a54e67cd2d7,
+        type: 2}
+    - target: {fileID: 1017792316374873018, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 94dda8bbe96daf14ba6bb4b4067824fc,
+        type: 2}
+    - target: {fileID: 6460420345527728993, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 1bb2215885879394595d4c0b24a40360,
+        type: 3}
+    - target: {fileID: 6543103638195795337, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582560128087083069, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_Name
+      value: PRTHelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752137445666072415, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: initialName
+      value: paranormal response team helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752137445666072415, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: initialDescription
+      value: A helmet worn by those who deal with paranormal threats for a living.
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6746541494595479454, guid: 4870238ed625c0e45839e280fab63823, type: 3}
+    - {fileID: 6962848488984513411, guid: 4870238ed625c0e45839e280fab63823, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 4870238ed625c0e45839e280fab63823, type: 3}

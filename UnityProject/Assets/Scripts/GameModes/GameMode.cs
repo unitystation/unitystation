@@ -5,6 +5,7 @@ using UnityEngine;
 using Antagonists;
 using UI.CharacterCreator;
 using UnityEngine.Serialization;
+using DiscordWebhook;
 
 /// <summary>
 /// Contains the definition of a game mode. To create a new one you should
@@ -202,7 +203,7 @@ public abstract class GameMode : ScriptableObject
 		}
 
 		// Has this player enabled any of the possible antags?
-		if (!HasPossibleAntagEnabled(ref spawnRequest.CharacterSettings.AntagPreferences))
+		if (!HasPossibleAntagEnabled(ref spawnRequest.CharacterSettings.AntagPreferences) || !HasPossibleAntagNotBanned(spawnRequest.UserID))
 		{
 			return false;
 		}
@@ -231,7 +232,7 @@ public abstract class GameMode : ScriptableObject
 		}
 
 		var antagPool = PossibleAntags.Where(a =>
-			HasAntagEnabled(ref playerSpawnRequest.CharacterSettings.AntagPreferences, a)).ToList();
+			HasAntagEnabled(ref playerSpawnRequest.CharacterSettings.AntagPreferences, a) && PlayerList.Instance.CheckJobBanState(playerSpawnRequest.UserID, a.AntagJobType)).ToList();
 
 		if (antagPool.Count < 1)
 		{
@@ -281,6 +282,24 @@ public abstract class GameMode : ScriptableObject
 	}
 
 	/// <summary>
+	/// Checks if the antag preferences is not job banned.
+	/// </summary>
+	/// <param name="antagPrefs"></param>
+	/// <returns></returns>
+	protected bool HasPossibleAntagNotBanned(string userID)
+	{
+		foreach (var antag in PossibleAntags)
+		{
+			if (PlayerList.Instance.CheckJobBanState(userID, antag.AntagJobType))
+			{
+				//True if at least one of the antags can be spawned by the player
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/// <summary>
 	/// Start the round
 	/// </summary>
 	public virtual void StartRound()
@@ -298,7 +317,7 @@ public abstract class GameMode : ScriptableObject
 			playerSpawnRequests = jobAllocator.DetermineJobs(playerPool);
 			var antagCandidates = playerSpawnRequests.Where(p =>
 					!NonAntagJobTypes.Contains(p.RequestedOccupation.JobType) &&
-					HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences));
+					HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.UserID));
 			antagSpawnRequests = antagCandidates.PickRandom(antagsToSpawn).ToList();
 			// Player and antag spawn requests are kept separate to stop players being spawned twice
 			playerSpawnRequests.RemoveAll(antagSpawnRequests.Contains);
@@ -307,7 +326,7 @@ public abstract class GameMode : ScriptableObject
 		{
 			// Choose antags first then allocate jobs to all other players
 			var antagCandidates = playerPool.Where(p =>
-				HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences));
+				HasPossibleAntagEnabled(ref p.CharacterSettings.AntagPreferences) && HasPossibleAntagNotBanned(p.UserId));
 			var chosenAntags = antagCandidates.PickRandom(antagsToSpawn).ToList();
 			// Player and antag spawn requests are kept separate to stop players being spawned twice
 			playerPool.RemoveAll(chosenAntags.Contains);
@@ -352,6 +371,11 @@ public abstract class GameMode : ScriptableObject
 	{
 		Logger.LogFormat("Ending {0} round!", Category.GameMode, Name);
 		AntagManager.Instance.ShowAntagStatusReport();
+
+		var msg = $"The round will restart in {GameManager.Instance.RoundEndTime} seconds.";
+		Chat.AddGameWideSystemMsgToChat(msg);
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "\n	A round has ended	\n", "");
 	}
 
 	#endregion

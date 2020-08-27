@@ -40,7 +40,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// and Integrity is about to apply damage.
 	/// </summary>
 	[NonSerialized]
-	public DamagedEvent OnApllyDamage = new DamagedEvent();
+	public DamagedEvent OnApplyDamage = new DamagedEvent();
 
 	/// <summary>
 	/// event for hotspots
@@ -60,8 +60,15 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	public Action OnServerDespawnEvent;
 
+	[Tooltip("This object's initial \"HP\"")]
+	public float initialIntegrity = 100f;
+
 	[Tooltip("Sound to play when damage applied.")]
 	public string soundOnHit;
+
+	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]
+	public float damageDeflection = 0;
+
 	/// <summary>
 	/// Armor for this object.
 	/// </summary>
@@ -80,7 +87,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
 
-	public float initialIntegrity = 100f;
 
 	[SyncVar(hook = nameof(SyncOnFire))]
 	private bool onFire = false;
@@ -196,12 +202,11 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType)
 	{
 		//already destroyed, don't apply damage
-		if (destroyed || Resistances.Indestructable) return;
+		if (destroyed || Resistances.Indestructable || damage < damageDeflection) return;
 
 		if (Resistances.FireProof && attackType == AttackType.Fire) return;
 
 		var damageInfo = new DamageInfo(damage, attackType, damageType);
-
 
 		damage = Armor.GetDamage(damage, attackType);
 		if (damage > 0)
@@ -212,7 +217,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 			}
 			integrity -= damage;
 			lastDamageType = damageType;
-			OnApllyDamage.Invoke(damageInfo);
+			OnApplyDamage.Invoke(damageInfo);
 			CheckDestruction();
 
 			Logger.LogTraceFormat("{0} took {1} {2} damage from {3} attack (resistance {4}) (integrity now {5})", Category.Health, name, damage, damageType, attackType, Armor.GetRating(attackType), integrity);

@@ -38,7 +38,7 @@ public class ConnectedTile : BasicTile
 	/// </summary>
 	private Layer layer;
 
-	public override Sprite PreviewSprite => sprites[0];
+	public override Sprite PreviewSprite => sprites != null && sprites.Length > 0 ? sprites[0] : null;
 
 	private Sprite[] sprites
 	{
@@ -74,7 +74,10 @@ public class ConnectedTile : BasicTile
 		}
 		if (layer != null)
 		{
-			rotation = layer.RotationOffset.QuaternionInverted;
+			//I dont really get the need for this since
+			//to make a rotation makes sense you would have to rotate The tile positionally
+			//rotation = layer.RotationOffset.QuaternionInverted;
+			rotation = Quaternion.identity;
 		}
 		else
 		{
@@ -112,12 +115,15 @@ public class ConnectedTile : BasicTile
 
 		if (i >= 0)
 		{
-			tileData.sprite = sprites[i];
+			if (sprites != null && sprites.Length > i)
+			{
+				tileData.sprite = sprites[i];
+			}
 			tileData.flags = TileFlags.None;
 			// create collider for tiles, None, Sprite or Grid
 			tileData.colliderType = Tile.ColliderType.Grid;
 			tileData.transform = Matrix4x4.Rotate(rotation);
-			tileData.flags = TileFlags.LockTransform;
+			//tileData.flags = TileFlags.LockTransform;
 		}
 	}
 

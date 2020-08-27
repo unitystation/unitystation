@@ -1,11 +1,11 @@
-﻿﻿using System;
- using System.Collections.Generic;
- using UnityEngine;
- using UnityEngine.Events;
- using Mirror;
- using UnityEngine.Serialization;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.Serialization;
+using Mirror;
 
- public enum ObjectType
+public enum ObjectType
 {
 	Item,
 	Object,
@@ -116,6 +116,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	[NonSerialized]
 	public UnityEvent OnAppearClient = new UnityEvent();
 
+	/// <summary>
+	/// Invoked serverside when object is despawned
+	/// </summary>
+	[NonSerialized]
+	public UnityEvent OnDespawnedServer = new UnityEvent();
+
 
 	[SyncVar(hook = nameof(SyncNetworkedMatrixNetId))]
 	private uint networkedMatrixNetId;
@@ -211,6 +217,9 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	private ElectricalOIinheritance electricalData;
 	public ElectricalOIinheritance ElectricalData => electricalData;
 
+	private Pipes.PipeData pipeData;
+	public Pipes.PipeData PipeData => pipeData;
+
 	protected virtual void Awake()
 	{
 		EnsureInit();
@@ -286,12 +295,22 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 				SpatialRelationship.ServerEnd(relationship);
 			}
 		}
+
+		OnDespawnedServer.Invoke();
 	}
 
+	//This makes it so electrical Stuff can be done on its own thread
 	public void SetElectricalData(ElectricalOIinheritance inElectricalData)
 	{
 		//Logger.Log("seting " + this.name);
 		electricalData = inElectricalData;
+	}
+
+	//This makes it so electrical Stuff can be done on its own thread
+	public void SetPipeData(Pipes.PipeData InPipeData)
+	{
+		//Logger.Log("seting " + this.name);
+		pipeData = InPipeData;
 	}
 
 
@@ -382,7 +401,8 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		LogMatrixDebug("ForceRegister");
 		if (transform.parent != null)
 		{
-			objectLayer = transform.parent.GetComponentInParent<ObjectLayer>();
+			// in most scenes ObjectLayer script is placed on parent
+			objectLayer = transform.parent.GetComponent<ObjectLayer>() ?? transform.parent.GetComponentInParent<ObjectLayer>();
 			Matrix = transform.parent.GetComponentInParent<Matrix>();
 
 			LocalPositionServer = Vector3Int.RoundToInt(transform.localPosition);
@@ -403,6 +423,12 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// <param name="initAction">Action to call when the Matrix is configured</param>
 	public void WaitForMatrixInit(Action<MatrixInfo> initAction)
 	{
+		if (matrix == null)
+		{
+			Logger.LogWarning("Error - [RegisterTile.WaitForMatrixInit] - Matrix is null", Category.Matrix);
+			return;
+		}
+
 		matrixManagerDependantActions.Add(initAction);
 		if (!matrix.MatrixInfoConfigured)
 		{
@@ -727,7 +753,6 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 	/// Uses cached IFireExposable so no GC caused by GetComponent
 	/// </summary>
 	/// <param name="exposure"></param>
-	/// <exception cref="NotImplementedException"></exception>
 	public void OnExposed(FireExposure exposure)
 	{
 		if (fireExposables == null) return;

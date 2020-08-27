@@ -53,18 +53,18 @@ MonoBehaviour:
   - name: Rack Parts
     prefab: {fileID: 6034371561869202664, guid: 5c6173d6c15c149ff82f936c14acb687,
       type: 3}
-    cost: 1
+    cost: 2
     buildTime: 5
     spawnAmount: 1
     onePerTile: 0
   - name: Closet
-    prefab: {fileID: 1615565101381030, guid: 951a8e1779fea4e8eab1ab3aa05089cb, type: 3}
-    cost: 2
+    prefab: {fileID: 933576176691117832, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73, type: 3}
+    cost: 10
     buildTime: 5
     spawnAmount: 1
     onePerTile: 1
   - name: Oxygen Canister
-    prefab: {fileID: 1810766273111493946, guid: 6b8afceaf6efbea778b48cb41f1fdb8a,
+    prefab: {fileID: 4045535016109707588, guid: dd86caf1f673b7642be83819773021d8,
       type: 3}
     cost: 10
     buildTime: 5
@@ -91,7 +91,7 @@ MonoBehaviour:
     spawnAmount: 1
     onePerTile: 1
   - name: Computer Frame
-    prefab: {fileID: 5458395581066390877, guid: 1be8a69cf08a1499a9e722a88cc274ab,
+    prefab: {fileID: 7744868707174103517, guid: ce874e42e21343a429f39c4780a09059,
       type: 3}
     cost: 5
     buildTime: 2.5
@@ -130,7 +130,7 @@ MonoBehaviour:
     spawnAmount: 1
     onePerTile: 1
   - name: Machine Frame
-    prefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+    prefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
       type: 3}
     cost: 5
     buildTime: 3
@@ -139,8 +139,8 @@ MonoBehaviour:
   - name: APC Frame
     prefab: {fileID: 7187812193856883994, guid: eb83c6edf05d1f24188f4c09edc90e47,
       type: 3}
-    cost: 5
-    buildTime: 10
+    cost: 2
+    buildTime: 1
     spawnAmount: 1
     onePerTile: 0
   - name: Conveyor Belt
@@ -148,5 +148,82 @@ MonoBehaviour:
       type: 3}
     cost: 5
     buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Fire Extinguisher Cabinet Frame
+    prefab: {fileID: 7187812193856883994, guid: 608ae5a1619e79b48ae9fb246f9986d1,
+      type: 3}
+    cost: 2
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Mounted Monitor Frame
+    prefab: {fileID: 7187812193856883994, guid: 01d129c70034afe4b80978b1a8f2684c,
+      type: 3}
+    cost: 2
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Light Tube Fixture Frame
+    prefab: {fileID: 7187812193856883994, guid: de58f144ae6ff79468a9ade48faecd43,
+      type: 3}
+    cost: 2
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Light Bulb Fixture Frame
+    prefab: {fileID: 7187812193856883994, guid: 7e815097a7c80ed42b9d8cf1297154ea,
+      type: 3}
+    cost: 1
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 0
+  - name: Water pump L to R
+    prefab: {fileID: 2372823301344523609, guid: 1be8bfa36ee455345a8f27806cda3f2a,
+      type: 3}
+    cost: 25
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
+  - name: FluidTank
+    prefab: {fileID: 3407542624209996665, guid: 5eb0441fd1e97844189c28a3633d2cb9,
+      type: 3}
+    cost: 20
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Boiler Tank
+    prefab: {fileID: 8390320911816615196, guid: 212fb4f9ee5822c4c8584d1e7fc90905,
+      type: 3}
+    cost: 15
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Fire Alarm Frame
+    prefab: {fileID: 7187812193856883994, guid: db136d83c6a92b743935ef8168fd12fc,
+      type: 3}
+    cost: 2
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Light Switch Frame
+    prefab: {fileID: 7187812193856883994, guid: 713f5041eed533a48bed42c6dedee0e2,
+      type: 3}
+    cost: 1
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Iron Door
+    prefab: {fileID: 2606798810909552498, guid: c125c458ad8030546a4d69037504571c,
+      type: 3}
+    cost: 20
+    buildTime: 2.5
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Button Frame
+    prefab: {fileID: 7187812193856883994, guid: 105ab2aaf8b19d740b1f39c131b989b4,
+      type: 3}
+    cost: 1
+    buildTime: 1
     spawnAmount: 1
     onePerTile: 1

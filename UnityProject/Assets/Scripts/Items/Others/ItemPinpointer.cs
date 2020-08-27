@@ -25,18 +25,23 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	public float mediumMagnitude = 40;
 	public float closeMagnitude = 10;
 
-	[SyncVar(hook = nameof(SyncSheetVariant))]
 	private int spriteSheetVariant;
 
-	[SyncVar(hook = nameof(SyncVariant))]
 	private int spriteVariant;
 
 	private void Start()
 	{
-		var NukeDisk = FindObjectOfType<NukeDiskScript>();
-		if (NukeDisk != null)
+		var NukeDisks = FindObjectsOfType<NukeDiskScript>();
+
+		foreach (var nukeDisk in NukeDisks)
 		{
-			objectToTrack =  NukeDisk.gameObject;
+			if (nukeDisk == null) continue;
+
+			if(!nukeDisk.secondaryNukeDisk)
+			{
+				objectToTrack =  nukeDisk.gameObject;
+				break;
+			}
 		}
 	}
 
@@ -127,7 +132,7 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	}
 
-	private void SyncSheetVariant(int oldSheetVar, int newSheetVar)
+	private void SyncSheetVariant(int newSheetVar)
 	{
 		spriteVariant = 0;
 		spriteHandler.ChangeSpriteVariant(0);
@@ -137,12 +142,11 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	}
 
-	private void SyncVariant(int oldVar, int newVar)
+	private void SyncVariant(int newVar)
 	{
 		spriteVariant = newVar;
 		spriteHandler.ChangeSpriteVariant(newVar);
 		pick.RefreshUISlotImage();
-
 	}
 	private void EnsureInit()
 	{
@@ -166,6 +170,7 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	private void ServerChangeSpriteSheetVariant(int newSheetVar)
 	{
 		spriteSheetVariant = newSheetVar;
+		SyncSheetVariant(spriteSheetVariant);
 	}
 
 	[Server]

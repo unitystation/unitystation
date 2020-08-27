@@ -63,12 +63,12 @@ public class Highlight : MonoBehaviour
 	{
 		if (HighlightEnabled)
 		{
-			if (Highlight.instance.spriteRenderer == null)
+			if (instance.spriteRenderer == null)
 			{
-				Highlight.instance.spriteRenderer = Instantiate(Highlight.instance.prefabSpriteRenderer);
+				instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
 			}
-			//Highlight.instance.spriteRenderer.transform.SetParent(Highlight.instance.transform.parent);
-			Texture2D mainTex = Highlight.instance.spriteRenderer.sprite.texture;
+
+			Texture2D mainTex = instance.spriteRenderer.sprite.texture;
 			Unity.Collections.NativeArray<Color32> data = mainTex.GetRawTextureData<Color32>();
 			for (int xy = 0; xy < data.Length; xy++)
 			{
@@ -82,32 +82,44 @@ public class Highlight : MonoBehaviour
 	{
 		if (!PlayerManager.LocalPlayerScript.IsGhost && HighlightEnabled)
 		{
-			if (Highlight.instance.spriteRenderer == null)
-			{
-				Highlight.instance.spriteRenderer = Instantiate(Highlight.instance.prefabSpriteRenderer);
-			}
-			Highlight.instance.spriteRenderer.gameObject.SetActive(true);
-			Highlight.instance.spriteRenderer.enabled = true;
-			var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
-			Highlight.instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, false);
-			Highlight.instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
-
-
-			SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != Highlight.instance.spriteRenderer).ToArray();
-			Texture2D mainTex = Highlight.instance.spriteRenderer.sprite.texture;
-			if (Highlight.CheckHandApply(Highlightobject))
-			{
-				foreach (var T in SpriteRenderers)
-				{
-					RecursiveTextureStack(mainTex, T);
-				}
-
-				//data = mainTex.GetRawTextureData<Color32>().CopyTo;
-				mainTex.Apply();
-				Highlight.instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height), new Vector2(0.5f, 0.5f), 32, 1, SpriteMeshType.FullRect, new Vector4(32, 32, 32, 32));
-			}
+			ShowHighlight(Highlightobject);
 		}
 	}
+
+	public static void ShowHighlight(GameObject Highlightobject, bool ignoreHandApply = false)
+	{
+		if (instance.spriteRenderer == null)
+		{
+			instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
+		}
+		instance.spriteRenderer.gameObject.SetActive(true);
+		instance.spriteRenderer.enabled = true;
+		var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
+
+		instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, true);
+		instance.spriteRenderer.transform.localPosition = Vector3.zero;
+		instance.spriteRenderer.transform.transform.localRotation = Quaternion.Euler(0,0,0);
+		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
+
+		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer).ToArray();
+		Texture2D mainTex = instance.spriteRenderer.sprite.texture;
+		if (ignoreHandApply || CheckHandApply(Highlightobject))
+		{
+			if (ignoreHandApply)
+			{
+				instance.material.SetColor("_OutlineColor", Color.green);
+			}
+
+			foreach (var T in SpriteRenderers)
+			{
+				RecursiveTextureStack(mainTex, T);
+			}
+
+			mainTex.Apply();
+			instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height), new Vector2(0.5f, 0.5f), 32, 1, SpriteMeshType.FullRect, new Vector4(32, 32, 32, 32));
+		}
+	}
+
 
 	static void RecursiveTextureStack(Texture2D mainTex, SpriteRenderer SpriteRenderers)
 	{
@@ -154,7 +166,7 @@ public class Highlight : MonoBehaviour
 					var hap = handAppliable as IBaseInteractable<HandApply>;
 					if (CheckInteractInternal(hap, handApply, NetworkSide.Client))
 					{
-						Highlight.instance.material.SetColor("_OutlineColor", Color.cyan);
+						instance.material.SetColor("_OutlineColor", Color.cyan);
 						return true;
 					}
 				}
@@ -163,7 +175,7 @@ public class Highlight : MonoBehaviour
 					var hap = handAppliable as IBaseInteractable<PositionalHandApply>;
 					if (CheckInteractInternal(hap, posHandApply, NetworkSide.Client))
 					{
-						Highlight.instance.material.SetColor("_OutlineColor", Color.magenta);
+						instance.material.SetColor("_OutlineColor", Color.magenta);
 						return true;
 					}
 
@@ -182,7 +194,7 @@ public class Highlight : MonoBehaviour
 				//var hap = targetHandAppliable as IBaseInteractable<HandApply>;
 				if (CheckInteractInternal(Hap, handApply, NetworkSide.Client))
 				{
-					Highlight.instance.material.SetColor("_OutlineColor", Color.green);
+					instance.material.SetColor("_OutlineColor", Color.green);
 					return true;
 				}
 			}
@@ -191,12 +203,12 @@ public class Highlight : MonoBehaviour
 				var hap = targetHandAppliable as IBaseInteractable<PositionalHandApply>;
 				if (CheckInteractInternal(hap, posHandApply, NetworkSide.Client))
 				{
-					Highlight.instance.material.SetColor("_OutlineColor", new Color(1, 0.647f, 0));
+					instance.material.SetColor("_OutlineColor", new Color(1, 0.647f, 0));
 					return true;
 				}
 			}
 		}
-		//Highlight.instance.material.SetColor("_OutlineColor", Color.grey);
+		//instance.material.SetColor("_OutlineColor", Color.grey);
 		return false;
 	}
 

@@ -2,11 +2,10 @@
 using System.Collections;
 using Mirror;
 using UnityEngine;
-using Random = System.Random;
 
 namespace Alien
 {
-	public class AlienEggCycle : NetworkBehaviour, IInteractable<HandApply>
+	public class AlienEggCycle : MonoBehaviour, IInteractable<HandApply>, IServerSpawn, IServerDespawn
 	{
 		private const float OPENING_ANIM_TIME = 1.6f;
 		private const int SMALL_SPRITE = 0;
@@ -15,161 +14,104 @@ namespace Alien
 		private const int HATCHED_SPRITE = 3;
 		private const int SQUISHED_SPRITE = 4;
 
+
+		[Tooltip("The spawned egg will take a random amount of time from 60 seconds to this attribute to spawn " +
+		         "a facehugger.")]
+		[SerializeField]
 		private float incubationTime = 300;
+
 		[Tooltip("In what state will this egg spawn in the world.")]
 		[SerializeField]
 		private EggState initialState = EggState.Growing;
 
 		[Tooltip("Allows mappers to have eggs that won't start cycle once spawned, but are still intractable")][SerializeField]
 		private bool freezeCycle = false;
+
 		[Tooltip("A reference for the facehugger mob so we can spawn it.")]
 		[SerializeField]
 		private GameObject facehugger = null;
 
-		[SyncVar(hook = nameof(SyncState))]
 		private EggState currentState;
 		private SpriteHandler spriteHandler;
 		private RegisterObject registerObject;
 		private ObjectAttributes objectAttributes;
+		private bool isAlive;
+		private float internalTimer = 0;
 		public EggState State => currentState;
 
-		private float serverTimer = 0f;
-		private bool noLongerAlive = false;
-		private bool initialized = false;
-		private bool isUpdate = false;
 
-		void EnsureInit()
+		public void Awake()
 		{
-			if (initialized) return;
 			spriteHandler = GetComponentInChildren<SpriteHandler>();
 			registerObject = GetComponent<RegisterObject>();
 			objectAttributes = GetComponent<ObjectAttributes>();
-			initialized = true;
 		}
 
-		private void OnDisable()
+
+		public void OnSpawnServer(SpawnInfo info)
 		{
-			if (isUpdate)
-			{
-				isUpdate = false;
-				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			}
+			isAlive = true;
+			incubationTime = UnityEngine.Random.Range(60f, incubationTime);
+			UpdatePhase(initialState);
+			UpdateExamineMessage();
+			registerObject.Passable = false;
 		}
 
-		public override void OnStartClient()
+
+		public void OnDespawnServer(DespawnInfo info)
 		{
-			base.OnStartClient();
-			EnsureInit();
-			SyncState(currentState, currentState);
+			StopAllCoroutines();
 		}
 
-		public override void OnStartServer()
+
+		private void UpdatePhase(EggState state)
 		{
-			base.OnStartServer();
-			EnsureInit();
-			registerObject.WaitForMatrixInit(StartEggCycleServer);
-		}
-
-		void StartEggCycleServer(MatrixInfo info)
-		{
-			UpdateState(initialState);
-			noLongerAlive = false;
-			incubationTime = UnityEngine.Random.Range(60f, 400f);
-			serverTimer = 0f;
-			if (isUpdate)
-			{
-				isUpdate = true;
-				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			}
-		}
-
-		void UpdateMe()
-		{
-			if (freezeCycle || noLongerAlive) return;
-			ServerMonitorEggState();
-		}
-
-		void ServerMonitorEggState()
-		{
-			serverTimer += Time.deltaTime;
-			if (currentState == EggState.Growing)
-			{
-				if (serverTimer > incubationTime)
-				{
-					incubationTime = UnityEngine.Random.Range(60f, 400f);
-					UpdateState(EggState.Grown);
-					serverTimer = 0f;
-				}
-			}
-
-			if (currentState == EggState.Grown)
-			{
-				if (serverTimer > incubationTime)
-				{
-					UpdateState(EggState.Burst);
-					serverTimer = 0f;
-				}
-			}
-
-			if (currentState == EggState.Burst)
-			{
-				if (serverTimer > OPENING_ANIM_TIME)
-				{
-					Spawn.ServerPrefab(facehugger, gameObject.RegisterTile().WorldPositionServer);
-					noLongerAlive = true;
-				}
-			}
-		}
-
-		private void SyncState(EggState oldState, EggState newState)
-		{
-			EnsureInit();
-			currentState = newState;
+			currentState = state;
 
 			switch (currentState)
 			{
 				case EggState.Growing:
-					spriteHandler.SetSprite(spriteHandler.Sprites[SMALL_SPRITE]);
+					spriteHandler.ChangeSprite(SMALL_SPRITE);
+					StopAllCoroutines();
+					StartCoroutine(GrowEgg());
 					break;
 				case EggState.Grown:
-					spriteHandler.SetSprite(spriteHandler.Sprites[BIG_SPRITE]);
+					spriteHandler.ChangeSprite(BIG_SPRITE);
+					StopAllCoroutines();
+					StartCoroutine(HatchEgg());
 					break;
 				case EggState.Burst:
-					StopAllCoroutines();
-					StartCoroutine(OpenEgg());
+					spriteHandler.ChangeSprite(HATCHED_SPRITE);
+					isAlive = false;
+					registerObject.Passable = true;
 					break;
 				case EggState.Squished:
-					spriteHandler.SetSprite(spriteHandler.Sprites[SQUISHED_SPRITE]);
+					spriteHandler.ChangeSprite(SQUISHED_SPRITE);
 					break;
 			}
+
+			UpdateExamineMessage();
 		}
 
-		private IEnumerator OpenEgg()
+
+		IEnumerator GrowEgg()
 		{
-			spriteHandler.SetSprite(spriteHandler.Sprites[OPENING_SPRITE]);
+			yield return WaitFor.Seconds(incubationTime / 2);
+			UpdatePhase(EggState.Grown);
+		}
+
+
+		IEnumerator HatchEgg()
+		{
+			yield return WaitFor.Seconds(incubationTime / 2);
+			spriteHandler.ChangeSprite(OPENING_SPRITE);
 			yield return WaitFor.Seconds(OPENING_ANIM_TIME);
-			spriteHandler.SetSprite(spriteHandler.Sprites[HATCHED_SPRITE]);
+			UpdatePhase(EggState.Burst);
+
+			Spawn.ServerPrefab(facehugger, gameObject.RegisterTile().WorldPositionServer);
 		}
 
-		private void Squish(HandApply interaction)
-		{
-			SoundManager.PlayNetworkedAtPos(
-				"squish",
-				gameObject.RegisterTile().WorldPositionServer,
-				1f,
-				Global: false);
 
-			Chat.AddActionMsgToChat(
-				interaction.Performer.gameObject,
-				"You squish the alien egg!",
-				$"{interaction.Performer.ExpensiveName()} squishes the alien egg!");
-
-			UpdateState(EggState.Squished);
-			registerObject.Passable = true;
-			noLongerAlive = true;
-		}
-
-		[Server]
 		private void UpdateExamineMessage()
 		{
 			string examineMessage = objectAttributes.InitialDescription;
@@ -195,6 +137,7 @@ namespace Alien
 			objectAttributes.ServerSetArticleDescription(examineMessage);
 		}
 
+
 		public void ServerPerformInteraction(HandApply interaction)
 		{
 			switch (currentState)
@@ -209,13 +152,35 @@ namespace Alien
 					Squish(interaction);
 					break;
 				case EggState.Grown:
-					UpdateState(EggState.Burst);
+					UpdatePhase(EggState.Burst);
 					break;
 				default:
-					UpdateState(EggState.Burst);
+					UpdatePhase(EggState.Burst);
 					break;
 			}
 		}
+
+
+		private void Squish(HandApply interaction)
+		{
+			StopAllCoroutines();
+
+			SoundManager.PlayNetworkedAtPos(
+				"squish",
+				gameObject.RegisterTile().WorldPositionServer,
+				1f,
+				global: false);
+
+			Chat.AddActionMsgToChat(
+				interaction.Performer.gameObject,
+				"You squish the alien egg!",
+				$"{interaction.Performer.ExpensiveName()} squishes the alien egg!");
+
+			isAlive = false;
+			UpdatePhase(EggState.Squished);
+			registerObject.Passable = true;
+		}
+
 
 		private void FeelsSlimy(Interaction interaction)
 		{
@@ -225,23 +190,6 @@ namespace Alien
 				$"{interaction.Performer.ExpensiveName()} touches the slimy egg!");
 		}
 
-		[Server]
-		private void UpdateState(EggState state)
-		{
-			if (gameObject == null || !gameObject.activeInHierarchy)
-			{
-				return;
-			}
-
-			if (state == currentState)
-			{
-				UpdateExamineMessage();
-				return;
-			}
-
-			currentState = state;
-			UpdateExamineMessage();
-		}
 
 		public enum EggState
 		{

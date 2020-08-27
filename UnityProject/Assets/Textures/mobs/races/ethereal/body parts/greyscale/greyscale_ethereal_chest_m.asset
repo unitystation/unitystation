@@ -1,0 +1,45 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: greyscale_ethereal_chest_m
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 21300008, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 21300016, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.1
+  - Frames:
+    - sprite: {fileID: 21300002, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 21300010, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 21300018, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.1
+  - Frames:
+    - sprite: {fileID: 21300004, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 21300012, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 21300020, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.1
+  - Frames:
+    - sprite: {fileID: 21300006, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 21300014, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: 21300022, guid: ef7699340204d7043b32b2d4247dd6b0, type: 3}
+      secondDelay: 0.1
+  IsPalette: 0
+  setID: 11031

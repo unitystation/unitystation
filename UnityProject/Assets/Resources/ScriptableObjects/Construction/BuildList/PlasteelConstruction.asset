@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba38351aa03f427e90c2f6010b4c1b05, type: 3}
+  m_Name: PlasteelConstruction
+  m_EditorClassIdentifier: 
+  entries:
+  - name: Reactor Core
+    prefab: {fileID: 8390320911816615196, guid: 28076fd63342e8b48879932cf48f8961,
+      type: 3}
+    cost: 40
+    buildTime: 25
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Reactor Turbine
+    prefab: {fileID: 4097072626232324428, guid: 8c393ccc08d534149b66f4fe18918959,
+      type: 3}
+    cost: 25
+    buildTime: 10
+    spawnAmount: 1
+    onePerTile: 1

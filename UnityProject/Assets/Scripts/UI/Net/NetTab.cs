@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -28,13 +29,31 @@ public enum NetTabType
 	Autolathe = 18,
 	HackingPanel = 19,
 	BoozeDispenser = 20,
-	SodaDispenser = 21
+	SodaDispenser = 21,
+	ReactorController = 22,
+	BoilerTurbineController = 23,
+	PipeDispenser = 24,
+	DisposalBin = 25,
+	PDA = 26,
+	Jukebox = 27,
+	Filter = 28,
+	Mixer = 29,
+
 	//add your tabs here
 }
 
 /// Descriptor for unique Net UI Tab
 public class NetTab : Tab
 {
+	[SerializeField]
+	public ConnectedPlayerEvent OnTabClosed = new ConnectedPlayerEvent();
+
+	/// <summary>
+	/// Invoked when there is a new peeper to this tab
+	/// </summary>
+	[SerializeField]
+	public ConnectedPlayerEvent OnTabOpened = new ConnectedPlayerEvent();
+
 	[HideInInspector]
 	public GameObject Provider;
 
@@ -48,25 +67,16 @@ public class NetTab : Tab
 	//	public static readonly NetTab Invalid = new NetworkTabInfo(null);
 	private ISet<NetUIElementBase> Elements => new HashSet<NetUIElementBase>(GetComponentsInChildren<NetUIElementBase>(false));
 
-	public Dictionary<string, NetUIElementBase> CachedElements => cachedElements;
-	private Dictionary<string, NetUIElementBase> cachedElements = new Dictionary<string, NetUIElementBase>();
+	public Dictionary<string, NetUIElementBase> CachedElements { get; } = new Dictionary<string, NetUIElementBase>();
 
 	//for server
-	public HashSet<ConnectedPlayer> Peepers => peepers;
+	public HashSet<ConnectedPlayer> Peepers { get; } = new HashSet<ConnectedPlayer>();
 
-	private HashSet<ConnectedPlayer> peepers = new HashSet<ConnectedPlayer>();
 	public bool IsUnobserved => Peepers.Count == 0;
 
-	/// <summary>
-	/// Invoked when there is a new peeper to this tab
-	/// </summary>
-	[SerializeField]
-	public ConnectedPlayerEvent OnTabOpened = new ConnectedPlayerEvent();
-
-	[SerializeField]
-	public ConnectedPlayerEvent OnTabClosed = new ConnectedPlayerEvent();
-
 	public ElementValue[] ElementValues => CachedElements.Values.Select(element => element.ElementValue).ToArray(); //likely expensive
+
+	public NetUIElementBase this[string elementId] => CachedElements.ContainsKey(elementId) ? CachedElements[elementId] : null;
 
 	public virtual void OnEnable()
 	{
@@ -84,10 +94,7 @@ public class NetTab : Tab
 
 	private void AfterInitElements()
 	{
-		foreach (var element in CachedElements.Values.ToArray())
-		{
-			element.AfterInit();
-		}
+		foreach (var element in CachedElements.Values.ToArray()) element.AfterInit();
 	}
 
 	/// <summary>
@@ -95,19 +102,17 @@ public class NetTab : Tab
 	/// </summary>
 	protected virtual void InitServer() { }
 
-	public NetUIElementBase this[string elementId] => CachedElements.ContainsKey(elementId) ? CachedElements[elementId] : null;
-
 	//for server
 	public void AddPlayer(GameObject player)
 	{
-		ConnectedPlayer newPeeper = PlayerList.Instance.Get(player);
+		var newPeeper = PlayerList.Instance.Get(player);
 		Peepers.Add(newPeeper);
 		OnTabOpened.Invoke(newPeeper);
 	}
 
 	public void RemovePlayer(GameObject player)
 	{
-		ConnectedPlayer newPeeper = PlayerList.Instance.Get(player);
+		var newPeeper = PlayerList.Instance.Get(player);
 		OnTabClosed.Invoke(newPeeper);
 		Peepers.Remove(newPeeper);
 	}
@@ -130,10 +135,7 @@ public class NetTab : Tab
 				return;
 			}
 
-			if (CachedElements.ContainsKey(element.name))
-			{
-				continue;
-			}
+			if (CachedElements.ContainsKey(element.name)) continue;
 			element.Init();
 
 			if (CachedElements.ContainsKey(element.name))
@@ -149,18 +151,10 @@ public class NetTab : Tab
 		var toRemove = new List<string>();
 		//Mark non-existent elements for removal
 		foreach (var pair in CachedElements)
-		{
-			if (!elements.Contains(pair.Value))
-			{
-				toRemove.Add(pair.Key);
-			}
-		}
+			if (!elements.Contains(pair.Value)) toRemove.Add(pair.Key);
 
 		//Remove obsolete elements from cache
-		foreach (var removed in toRemove)
-		{
-			CachedElements.Remove(removed);
-		}
+		foreach (var removed in toRemove) CachedElements.Remove(removed);
 	}
 
 	/// Import values.
@@ -174,10 +168,7 @@ public class NetTab : Tab
 		var shouldRescan = ImportContainer(values, nonLists);
 
 		//rescan elements in case of dynamic list changes
-		if (shouldRescan)
-		{
-			RescanElements();
-		}
+		if (shouldRescan) RescanElements();
 
 		//set the rest of the values
 		return ImportNonContainer(nonLists);
@@ -185,7 +176,7 @@ public class NetTab : Tab
 
 	private bool ImportContainer(ElementValue[] values, List<ElementValue> nonLists)
 	{
-		bool shouldRescan = false;
+		var shouldRescan = false;
 		foreach (var elementValue in values)
 		{
 			var element = this[elementValue.Id];
@@ -194,10 +185,7 @@ public class NetTab : Tab
 				(element is NetUIDynamicList || element is NetPageSwitcher))
 			{
 				var listContentsChanged = element.ValueObject != elementValue.Value;
-				if (!listContentsChanged)
-				{
-					continue;
-				}
+				if (!listContentsChanged) continue;
 
 				element.BinaryValue = elementValue.Value;
 				shouldRescan = true;
@@ -215,16 +203,12 @@ public class NetTab : Tab
 	{
 		NetUIElementBase firstTouchedElement = null;
 		foreach (var elementValue in nonLists)
-		{
 			if (CachedElements.ContainsKey(elementValue.Id))
 			{
 				var element = this[elementValue.Id];
 				element.BinaryValue = elementValue.Value;
 
-				if (firstTouchedElement == null)
-				{
-					firstTouchedElement = element;
-				}
+				if (firstTouchedElement == null) firstTouchedElement = element;
 			}
 			else
 			{
@@ -232,7 +216,6 @@ public class NetTab : Tab
 					$"'{name}' wonky value import: can't find '{elementValue.Id}'.\n Expected: {string.Join("/", CachedElements.Keys)}",
 					Category.NetUI);
 			}
-		}
 
 		return firstTouchedElement;
 	}
@@ -244,12 +227,13 @@ public class NetTab : Tab
 	{
 		foreach (var peeper in Peepers.ToArray())
 		{
-			bool validate = peeper.Script && Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
-			if (!validate)
-			{
-				TabUpdateMessage.Send(peeper.GameObject, Provider, Type, TabAction.Close);
-			}
+			var validate = peeper.Script && Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
+			if (!validate) TabUpdateMessage.Send(peeper.GameObject, Provider, Type, TabAction.Close);
 		}
+	}
+	public void CloseTab()
+	{
+		ControlTabs.CloseTab(Type, Provider);
 	}
 }
 

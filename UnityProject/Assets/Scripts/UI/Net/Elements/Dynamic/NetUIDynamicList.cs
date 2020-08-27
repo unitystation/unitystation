@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Base class for List of dynamic entries, which can be added/removed at runtime.
@@ -115,10 +116,15 @@ public class NetUIDynamicList : NetUIElement<string[]>
 	/// </summary>
 	private void RearrangeListItems()
 	{
-		if (!MasterTab.IsServer) return;
-		NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
-		RefreshPositions();
-		UpdatePeepers();
+		if (MasterTab.IsServer)
+		{
+			NetworkTabManager.Instance.Rescan(MasterTab.NetTabDescriptor);
+			RefreshPositions();
+			UpdatePeepers();
+		}
+
+		// rebuild layout to fix bug with moved UI elements position
+		LayoutRebuilder.MarkLayoutForRebuild(transform as RectTransform);
 	}
 
 	/// <summary>

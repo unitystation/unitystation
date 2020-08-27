@@ -98,7 +98,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		}
 	}
 
-	private void Eat(PlayerScript eater, PlayerScript feeder)
+	public virtual void Eat(PlayerScript eater, PlayerScript feeder)
 	{
 		SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 

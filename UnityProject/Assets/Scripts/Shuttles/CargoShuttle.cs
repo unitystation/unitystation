@@ -11,6 +11,8 @@ public class CargoShuttle : MonoBehaviour
 	public Vector2 StationDest = new Vector2(4, 85);
 	[SerializeField]
 	private int dockOffset = 23;
+	[SerializeField]
+	private bool ChangeDirectionAtOffset = false;
 	private Vector3 destination;
 	private List<Vector3Int> availableSpawnSlots = new List<Vector3Int>();
 	//It is actually (cargoZoneWidth - 1) / 2
@@ -94,6 +96,12 @@ public class CargoShuttle : MonoBehaviour
 
 	IEnumerator ReverseIntoStation()
 	{
+		if (ChangeDirectionAtOffset)
+		{
+			mm.SteerTo(Orientation.Down);
+			mm.ChangeFlyingDirection(Orientation.Up);
+		}
+
 		if (dockOffset != 0)
 		{
 			yield return new WaitForSeconds(3f);
@@ -104,16 +112,25 @@ public class CargoShuttle : MonoBehaviour
 	}
 
 	/// <summary>
+	/// Scans and finds all objects that are aboard the shuttle.
+	/// <returns>All objects found as children of a Transform variable.</returns>
+	/// </summary>
+	public Transform SearchForObjectsOnShuttle()
+	{
+		//note: This scan also seems to find objects contained inside closets only if the object was placed
+		//into the crate after the crate was already on the cargo shuttle. Hence we are using alreadySold
+		//to avoid duplicate selling in lieu of a more thorough fix to closet held items logic.
+		Transform ObjectHolder = mm.MatrixInfo.Objects;
+		return ObjectHolder;
+	}
+
+	/// <summary>
 	/// Calls CargoManager.DestroyItem() for all items on the shuttle.
 	/// Server only.
 	/// </summary>
 	void UnloadCargo()
 	{
-		//Destroy all items on the shuttle
-		//note: This scan also seems to find objects contained inside closets only if the object was placed
-		//into the crate after the crate was already on the cargo shuttle. Hence we are using alreadySold
-		//to avoid duplicate selling in lieu of a more thorough fix to closet held items logic.
-		Transform objectHolder = mm.MatrixInfo.Objects;
+		Transform objectHolder = SearchForObjectsOnShuttle();
 		//track what we've already sold so it's not sold twice.
 		HashSet<GameObject> alreadySold = new HashSet<GameObject>();
 		for (int i = 0; i < objectHolder.childCount; i++)

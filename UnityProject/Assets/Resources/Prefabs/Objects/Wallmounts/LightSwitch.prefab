@@ -162,6 +162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114942625721484022
@@ -200,9 +201,10 @@ MonoBehaviour:
   isOn: 1
   coolDownTime: 2
   sprites:
-  - {fileID: 21300000, guid: e1204639981bd5642aa9bca944ee47d7, type: 3}
+  - {fileID: 21300000, guid: 78c7a580cdf74bc4a8f85b744365253a, type: 3}
   - {fileID: 21300000, guid: 78c7a580cdf74bc4a8f85b744365253a, type: 3}
   spriteRenderer: {fileID: 212000013332854840}
+  conType: 6
 --- !u!114 &114056794007261734
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directional: {fileID: 0}
 --- !u!114 &114773043881674562
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -244,6 +247,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
 --- !u!114 &114148094876921124
@@ -260,6 +266,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114026713173586346
 MonoBehaviour:
@@ -275,7 +282,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -296,7 +305,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114330810423114948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,15 +336,18 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   MinimumWorkingVoltage: 220
+  ExpectedRunningVoltage: 240
   MaximumWorkingVoltage: 600
   deviceType: 6
   isSelfPowered: 0
-  wattusage: 0.01
+  wattusage: 10
   Resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
+  SelfPowered: 0
   State: 2
+  conType: 1
 --- !u!114 &-2046554790018608125
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -349,6 +360,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0

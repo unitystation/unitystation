@@ -30,6 +30,9 @@ public class DevDestroyMessage : ClientMessage
 		else
 		{
 			LoadNetworkObject(ToDestroy);
+
+			if (NetworkObject == null) return;
+
 			Vector2Int worldPos = NetworkObject.transform.position.To2Int();
 			UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(
 				$"{admin.ExpensiveName()} destroyed a {NetworkObject} at {worldPos}", AdminId);

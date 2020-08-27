@@ -14,8 +14,8 @@ public class BloodSystem : MonoBehaviour
 	/// </summary>
 	public float ToxinLevel
 	{
-		get { return Mathf.Clamp(toxinLevel, 0, 101); }
-		set { toxinLevel = Mathf.Clamp(value, 0, 101); }
+		get { return Mathf.Clamp(toxinLevel, 0, 200); }
+		set { toxinLevel = Mathf.Clamp(value, 0, 200); }
 	}
 
 	/// <summary>

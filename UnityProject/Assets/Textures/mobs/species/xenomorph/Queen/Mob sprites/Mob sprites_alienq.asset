@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: Mob sprites_alienq
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 1712390716968457018, guid: 1a2abb432b2c73c4190f5ec4472f922e,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -916205771387471893, guid: 1a2abb432b2c73c4190f5ec4472f922e,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -7221481357887369191, guid: 1a2abb432b2c73c4190f5ec4472f922e,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -867655553512052890, guid: 1a2abb432b2c73c4190f5ec4472f922e,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 12793

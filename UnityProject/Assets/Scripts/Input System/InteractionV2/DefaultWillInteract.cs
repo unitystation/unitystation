@@ -43,6 +43,14 @@ public static class DefaultWillInteract
 		{
 			return TileApply(interaction as TileApply, side);
 		}
+		else if (typeof(T) == typeof(ConnectionApply))
+		{
+			return ConnectionApply(interaction as ConnectionApply, side);
+		}
+		else if (typeof(T) == typeof(ContextMenuApply))
+		{
+			return ContextMenuApply(interaction as ContextMenuApply, side);
+		}
 		Logger.LogError("Unable to recognize interaction type.");
 		return false;
 	}
@@ -120,4 +128,19 @@ public static class DefaultWillInteract
 		return Validations.CanApply(interaction, side);
 	}
 
+	/// <summary>
+	/// Default WillInteract logic for ConnectionApply interactions
+	/// </summary>
+	public static bool ConnectionApply(ConnectionApply interaction, NetworkSide side)
+	{
+		return Validations.CanApply(interaction, side);
+	}
+
+	/// <summary>
+	/// Default WillInteract logic for ContextMenuApply interactions
+	/// </summary>
+	public static bool ContextMenuApply(ContextMenuApply interaction, NetworkSide side)
+	{
+		return Validations.CanApply(interaction, side);
+	}
 }

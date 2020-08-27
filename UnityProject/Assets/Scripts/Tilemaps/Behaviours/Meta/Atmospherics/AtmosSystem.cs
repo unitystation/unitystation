@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System.Diagnostics;
+using System.Threading;
 using Atmospherics;
 using UnityEngine;
 
@@ -12,10 +13,10 @@ public class AtmosSystem : SubsystemBehaviour
 		{
 			//get toptile at pos to check if it should spawn with no air
 			bool spawnWithNoAir = false;
-			var topTile = metaTileMap.GetTile(position,true);
-			if (topTile is BasicTile)
+			var topTile = metaTileMap.GetTile(position,LayerTypeSelection.Effects | LayerTypeSelection.Underfloor);
+			if (topTile is BasicTile tile)
 			{
-				spawnWithNoAir = (topTile as BasicTile).SpawnWithNoAir;
+				spawnWithNoAir = tile.SpawnWithNoAir;
 			}
 			MetaDataNode node = metaDataLayer.Get(position, false);
 			node.GasMix = new GasMix( (node.IsRoom||node.IsOccupied) && !spawnWithNoAir ? GasMixes.Air : GasMixes.Space );

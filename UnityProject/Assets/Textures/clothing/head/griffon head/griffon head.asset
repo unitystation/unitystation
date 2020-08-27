@@ -42,6 +42,12 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 2c2be45504d0f3c479ce73097e19a0b4, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 2e664936d04649a4c922dfeb000049a6, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: 05a7efafffafa3042a05c7d3a020a26d,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: d48c6563d6b4fc34dac71618b4e801a9,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: 5108fbc4bc63c5a4699d60c38f2970f5, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -69,6 +75,10 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -96,6 +106,10 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}

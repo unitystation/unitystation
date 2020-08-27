@@ -1,0 +1,117 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &976692908927997590
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialName
+      value: chief medical officer's hypospray
+      objectReference: {fileID: 0}
+    - target: {fileID: 5080599931393148512, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: Resistances.Indestructable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5080599931393148512, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: Resistances.LavaProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5080599931393148512, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5084121085497256480, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5118862732597750496, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5123505008160872340, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: m_Name
+      value: HyposprayCMO
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: fa60dedbe4f861e76a46f56f59987729,
+        type: 2}
+    - target: {fileID: 6210555589579530044, guid: 1265e6ed7f0c58249b9a29aacc18a166,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 30
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 1265e6ed7f0c58249b9a29aacc18a166, type: 3}

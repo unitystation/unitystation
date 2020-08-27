@@ -3,8 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn
+public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, IServerSpawn, IServerDespawn, IAPCPowered
 {
+
+	public PowerStates PoweredState;
+
 	[SyncVar(hook = nameof(SyncSprite))]
 	private AutolatheState stateSync;
 
@@ -12,13 +15,13 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 	private SpriteHandler spriteHandler = null;
 
 	[SerializeField]
-	private SpriteSheetAndData idleSprite = null;
+	private SpriteDataSO idleSprite = null;
 
 	[SerializeField]
-	private SpriteSheetAndData productionSprite = null;
+	private SpriteDataSO productionSprite = null;
 
 	[SerializeField]
-	private SpriteSheetAndData acceptingMaterialsSprite = null;
+	private SpriteDataSO acceptingMaterialsSprite = null;
 
 	private RegisterObject registerObject = null;
 
@@ -144,13 +147,9 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		if (materialStorage.TryRemoveMaterialSheet(materialType, amountOfSheets))
 		{
 			Spawn.ServerPrefab(materialStorage.ItemTraitToMaterialRecord[materialType].materialPrefab,
-			registerObject.WorldPositionServer, transform.parent, count: amountOfSheets);
+				registerObject.WorldPositionServer, transform.parent, count: amountOfSheets);
 
 			UpdateGUI();
-		}
-		else
-		{
-			//Not enough materials to dispense
 		}
 	}
 
@@ -159,9 +158,12 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 	{
 		if (materialStorage.TryRemoveCM3Materials(product.materialToAmounts))
 		{
-			currentProduction = ProcessProduction(product.Product, product.ProductionTime);
-			StartCoroutine(currentProduction);
-			return true;
+			if (APCPoweredDevice.IsOn(PoweredState))
+			{
+				currentProduction = ProcessProduction(product.Product, product.ProductionTime);
+				StartCoroutine(currentProduction);
+				return true;
+			}
 		}
 
 		return false;
@@ -187,7 +189,7 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 
 			if (amountToSpawn > 0)
 			{
-				Spawn.ServerPrefab(materialToSpawn, registerObject.WorldPositionServer, transform.parent, count: amountToSpawn);
+				Spawn.ServerPrefab(materialToSpawn, gameObject.transform.position, transform.parent, count: amountToSpawn);
 			}
 		}
 	}
@@ -197,19 +199,15 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		stateSync = stateNew;
 		if (stateNew == AutolatheState.Idle)
 		{
-			spriteHandler.SetSprite(idleSprite);
+			spriteHandler.SetSpriteSO(idleSprite);
 		}
 		else if (stateNew == AutolatheState.Production)
 		{
-			spriteHandler.SetSprite(productionSprite, 0);
+			spriteHandler.SetSpriteSO(productionSprite);
 		}
 		else if (stateNew == AutolatheState.AcceptingMaterials)
 		{
-			spriteHandler.SetSprite(acceptingMaterialsSprite, 0);
-		}
-		else
-		{
-			//Do nothing
+			spriteHandler.SetSpriteSO(acceptingMaterialsSprite);
 		}
 	}
 
@@ -222,5 +220,12 @@ public class Autolathe : NetworkBehaviour, ICheckedInteractable<HandApply>, ISer
 		}
 
 		DropAllMaterials();
+	}
+
+	public void PowerNetworkUpdate(float Voltage) { }
+
+	public void StateUpdate(PowerStates State)
+	{
+		PoweredState = State;
 	}
 }

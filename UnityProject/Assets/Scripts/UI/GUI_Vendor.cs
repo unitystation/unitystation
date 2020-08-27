@@ -1,95 +1,79 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 public class GUI_Vendor : NetTab
 {
 	[SerializeField]
-	private bool allowSell = true;
-	[SerializeField]
-	private float cooldownTimer = 2f;
-
-	private Vendor vendor;
-	private List<VendorItem> vendorContent = new List<VendorItem>();
-	[SerializeField]
 	private EmptyItemList itemList = null;
 	[SerializeField]
 	private NetColorChanger hullColor = null;
-	private bool inited = false;
-	[SerializeField]
-	private string deniedMessage = "Bzzt.";
-	[SerializeField]
-	private string restockMessage = "Items restocked.";
 
-	private void Start()
-	{
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			return;
-		}
-	}
+	private Vendor vendor;
 
 	protected override void InitServer()
 	{
 		StartCoroutine(WaitForProvider());
 	}
 
-	IEnumerator WaitForProvider()
+	private IEnumerator WaitForProvider()
 	{
 		while (Provider == null)
 		{
+			// waiting for Provider
 			yield return WaitFor.EndOfFrame;
 		}
+
 		vendor = Provider.GetComponent<Vendor>();
-		hullColor.SetValueServer(vendor.HullColor);
-		inited = true;
-		GenerateContentList();
-		UpdateList();
-		vendor.OnRestockUsed.AddListener(RestockItems);
-	}
-
-	private void GenerateContentList()
-	{
-		if (!CustomNetworkManager.Instance._isServer)
+		if (vendor)
 		{
-			return;
-		}
+			hullColor.SetValueServer(vendor.HullColor);
+			UpdateAllItemsView();
 
-		vendorContent = new List<VendorItem>();
-		for (int i = 0; i < vendor.VendorContent.Count; i++)
-		{
-			//protects against missing references
-			if (vendor.VendorContent[i] != null && vendor.VendorContent[i].Item != null)
-			{
-				vendorContent.Add(new VendorItem(vendor.VendorContent[i]));
-			}
+			vendor.OnItemVended.AddListener(UpdateItemView);
+			vendor.OnRestockUsed.AddListener(UpdateAllItemsView);
 		}
 	}
 
 	public override void OnEnable()
 	{
 		base.OnEnable();
-		if (!CustomNetworkManager.Instance._isServer || !inited)
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateAllItemsView();
+		}
+	}
+
+	/// <summary>
+	/// Buy UI button was pressed by client
+	/// </summary>
+	public void OnVendItemButtonPressed(VendorItem vendorItem, ConnectedPlayer player)
+	{
+		if (vendor)
+		{
+			vendor.TryVendItem(vendorItem, player);
+		}
+	}
+
+	/// <summary>
+	/// Clear all items and send new vendor state to clients UI
+	/// </summary>
+	private void UpdateAllItemsView()
+	{
+		if (!vendor)
 		{
 			return;
 		}
-		UpdateList();
-		allowSell = true;
-	}
 
-	public void RestockItems()
-	{
-		GenerateContentList();
-		UpdateList();
-		SendToChat(restockMessage);
-	}
-
-	private void UpdateList()
-	{
+		// remove all items UI
 		itemList.Clear();
+
+		var vendorContent = vendor.VendorContent;
 		itemList.AddItems(vendorContent.Count);
+
+		// update UI for clients
 		for (int i = 0; i < vendorContent.Count; i++)
 		{
 			VendorItemEntry item = itemList.Entries[i] as VendorItemEntry;
@@ -97,83 +81,33 @@ public class GUI_Vendor : NetTab
 		}
 	}
 
-	public void VendItem(VendorItem item)
+	/// <summary>
+	/// Update only single item and send new state to clients UI
+	/// </summary>
+	private void UpdateItemView(VendorItem itemToUpdate)
 	{
-		if (item == null || vendor == null) return;
-		VendorItem itemToSpawn = null;
-		foreach (var vendorItem in vendorContent)
-		{
-			if (vendorItem == item)
-			{
-				itemToSpawn = item;
-				break;
-			}
-		}
-
-		if (!CanSell(itemToSpawn))
+		if (!vendor)
 		{
 			return;
 		}
-
-		Vector3 spawnPos = vendor.gameObject.RegisterTile().WorldPositionServer;
-		var spawnedItem = Spawn.ServerPrefab(itemToSpawn.Item, spawnPos, vendor.transform.parent).GameObject;
-		//something went wrong trying to spawn the item
-		if (spawnedItem == null) return;
-
-		itemToSpawn.Stock--;
-
-		SendToChat($"{spawnedItem.ExpensiveName()} was dispensed from the vending machine");
-
-		//Ejecting in direction
-		if (vendor.EjectObjects && vendor.EjectDirection != EjectDirection.None &&
-		    spawnedItem.TryGetComponent<CustomNetTransform>(out var cnt))
+		if (!APCPoweredDevice.IsOn(vendor.ActualCurrentPowerState))  return;
+		// find entry for this item
+		var vendorItems = itemList.Entries;
+		var vendorItemEntry = vendorItems.FirstOrDefault((listEntry) =>
 		{
-			Vector3 offset = Vector3.zero;
-			switch (vendor.EjectDirection)
-			{
-				case EjectDirection.Up:
-					offset = vendor.transform.rotation * Vector3.up / Random.Range(4, 12);
-					break;
-				case EjectDirection.Down:
-					offset = vendor.transform.rotation * Vector3.down / Random.Range(4, 12);
-					break;
-				case EjectDirection.Random:
-					offset = new Vector3(Random.Range(-0.15f, 0.15f), Random.Range(-0.15f, 0.15f), 0);
-					break;
-			}
-			cnt.Throw(new ThrowInfo
-			{
-				ThrownBy = spawnedItem,
-				Aim = BodyPartType.Chest,
-				OriginWorldPos = spawnPos,
-				WorldTrajectory = offset,
-				SpinMode = (vendor.EjectDirection == EjectDirection.Random) ? SpinMode.Clockwise : SpinMode.None
-			});
+			var itemEntry = listEntry as VendorItemEntry;
+			return itemEntry && (itemEntry.vendorItem == itemToUpdate);
+		}) as VendorItemEntry;
+
+		// check if found entry is valid
+		if (!vendorItemEntry)
+		{
+			Logger.LogError($"Can't find {itemToUpdate} to update in {this.gameObject} vendor. " +
+			                $"UpdateAllItems wasn't called before?", Category.UI);
+			return;
 		}
 
-		UpdateList();
-		allowSell = false;
-		StartCoroutine(VendorInputCoolDown());
-	}
-
-	private bool CanSell(VendorItem itemToSpawn)
-	{
-		if (allowSell && itemToSpawn != null && itemToSpawn.Stock > 0)
-		{
-			return true;
-		}
-		SendToChat(deniedMessage);
-		return false;
-	}
-
-	private void SendToChat(string messageToSend)
-	{
-		Chat.AddLocalMsgToChat(messageToSend, vendor.transform.position, vendor?.gameObject);
-	}
-
-	private IEnumerator VendorInputCoolDown()
-	{
-		yield return WaitFor.Seconds(cooldownTimer);
-		allowSell = true;
+		// update entry UI state
+		vendorItemEntry.SetItem(itemToUpdate, this);
 	}
 }

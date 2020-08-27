@@ -53,6 +53,9 @@ public enum ChatModifier
 	Exclaim = 1 << 8, // Message ends with a "!"
 	Question= 1 << 9, // Message ends with a "?"
 	Sing = 1 << 10, // Message starts with "/s" or "%"
+	State = 1 << 22, // Silicon speaking
+	Query = 1 << 23, // Silicon querying
+	ColdlyState = 1 << 24, // Automated Announcer speaking
 	
 	//Speech mutations, these should happen before drunk, stutter and that kind of thing!
 	Canadian = 1 << 11,

@@ -8,6 +8,9 @@ using UnityEngine;
 public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<PositionalHandApply>
 {
 	[SerializeField]
+	private bool isMeleeable = true;
+
+	[SerializeField]
 	private static readonly StandardProgressActionConfig ProgressConfig
 	= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
@@ -160,4 +163,8 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 		}
 	}
 
+	public bool GetMeleeable()
+	{
+		return isMeleeable;
+	}
 }

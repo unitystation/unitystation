@@ -1,0 +1,165 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &626293229514929580
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: aa689bf3ff0a9d344ad93e4011e80ec8,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: cc321a8d9a8b7114ea30d90579b02908,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 7ec65e7381bfd32418de68016228bc0c,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: a41f69df9347432469036df948e56997,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 76850fbcf64a1324a81b3a1f872e06d0,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300000, guid: a45b8c26248a1e8469e5322adcf489f5,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300000, guid: 309e55211dd5b454496a170ef59c048e,
+        type: 3}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: caecc69291577364a881fc9a867c9172,
+        type: 2}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[6]
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[7]
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: transferAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679969532050251905, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_Name
+      value: XLargeBeaker
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782379728963083573, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828330504940196829, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 34df003826d8d49499560521911842ad,
+        type: 3}
+    - target: {fileID: 9122297201582428131, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: initialName
+      value: x-large
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122297201582428131, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: initialDescription
+      value: An extra-large beaker. Can hold up to 120 units.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8fee22e722a3782408324281846ebd02, type: 3}

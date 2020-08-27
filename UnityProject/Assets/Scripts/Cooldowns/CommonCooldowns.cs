@@ -1,4 +1,5 @@
 
+using ScriptableObjects;
 using UnityEngine;
 
 /// <summary>
@@ -17,4 +18,8 @@ public class CommonCooldowns : SingletonScriptableObject<CommonCooldowns>
 	/// cannot be quickly spammed.
 	/// </summary>
 	public Cooldown Melee;
+	/// <summary>
+	/// Cooldown for vending new items from vending machines.
+	/// </summary>
+	public Cooldown Vending;
 }

@@ -23,13 +23,46 @@ public static class SweetExtensions
 		return go.GetComponent<ItemAttributesV2>();
 	}
 
+	public static ObjectAttributes Object(this GameObject go)
+	{
+		return go.GetComponent<ObjectAttributes>();
+	}
+
+	/// <summary>
+	/// Returns human-readable object name for IC texts
+	/// </summary>
 	public static string ExpensiveName(this GameObject go)
 	{
 		var item = go.Item();
-		if (item != null && !String.IsNullOrWhiteSpace(item.ArticleName)) return item.ArticleName;
+		if (item)
+		{
+			// try get current instance name
+			if (!String.IsNullOrWhiteSpace(item.ArticleName))
+			{
+				return item.ArticleName;
+			}
+
+			// maybe it's non-instanced prefab - get initial name
+			if (!String.IsNullOrWhiteSpace(item.InitialName))
+			{
+				return item.InitialName;
+			}
+		}
+
+		var entityObject = go.Object();
+		if (entityObject != null)
+		{
+			if (!string.IsNullOrWhiteSpace(entityObject.InitialName))
+			{
+				return entityObject.InitialName;
+			}
+		}
 
 		var player = go.Player();
-		if (player != null && !String.IsNullOrWhiteSpace(player.Name)) return player.Name;
+		if (player != null && !String.IsNullOrWhiteSpace(player.Name))
+		{
+			return player.Name;
+		}
 
 		return go.name.Replace("NPC_", "").Replace("_", " ").Replace("(Clone)","");
 	}
@@ -87,12 +120,20 @@ public static class SweetExtensions
 	/// Wraps provided index value if it's more than array length or is negative
 	public static T Wrap<T>(this T[] array, int index)
 	{
+		if (array == null || array.Length == 0)
+		{
+			return default(T);
+		}
 		return array[((index % array.Length) + array.Length) % array.Length];
 	}
 
 	/// Wraps provided index value if it's more than list length or is negative
 	public static T Wrap<T>(this List<T> list, int index)
 	{
+		if (list == null || list.Count == 0)
+		{
+			return default(T);
+		}
 		return list[((index % list.Count) + list.Count) % list.Count];
 	}
 
@@ -314,5 +355,17 @@ public static class SweetExtensions
 		foreach (Enum value in Enum.GetValues(input.GetType()))
 			if (input.HasFlag(value))
 				yield return value;
+	}
+
+	/// <summary>
+	/// direct port of java's Map.getOrDefault
+	/// </summary>
+	public static V GetOrDefault<T,V>(this Dictionary<T, V> dic, T key, V defaultValue)
+	{
+		V v;
+		return (dic.ContainsKey(key) && ((v = dic[key]) != null))
+			? v
+			: defaultValue;
+
 	}
 }

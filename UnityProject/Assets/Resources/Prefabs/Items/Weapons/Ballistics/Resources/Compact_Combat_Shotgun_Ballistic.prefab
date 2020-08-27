@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2476310525894982432, guid: 8aa9c1617fcf44905b26d836feca524f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aefe5a6b4f42d12469a039f096cdeefa,
+        type: 2}
     - target: {fileID: 3792137954170839874, guid: 8aa9c1617fcf44905b26d836feca524f,
         type: 3}
       propertyPath: MagSize
@@ -36,8 +42,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 6f8a9d32581e94255816cefcb2280896,
+      objectReference: {fileID: 21300000, guid: cbf226739a9e48a48a38d67a760a52bf,
         type: 3}
+    - target: {fileID: 8496733281243395067, guid: 8aa9c1617fcf44905b26d836feca524f,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8543247000716147987, guid: 8aa9c1617fcf44905b26d836feca524f,
         type: 3}
       propertyPath: m_AssetId

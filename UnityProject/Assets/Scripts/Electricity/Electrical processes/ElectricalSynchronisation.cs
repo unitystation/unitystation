@@ -133,9 +133,10 @@ public class ElectricalSynchronisation : MonoBehaviour
 	public float tickRate;
 	private const int Steps = 5;
 
-	public List<PowerTypeCategory> OrderList = new List<PowerTypeCategory>()
+	private List<PowerTypeCategory> OrderList = new List<PowerTypeCategory>()
 	{
 		//Since you want the batteries to come after the radiation collectors so batteries don't put all there charge out then realise radiation collectors already doing it
+		PowerTypeCategory.Turbine,
 		PowerTypeCategory.SolarPanel,
 		PowerTypeCategory.RadiationCollector,
 		PowerTypeCategory.PowerGenerator, //make sure unconditional supplies come first
@@ -145,9 +146,10 @@ public class ElectricalSynchronisation : MonoBehaviour
 		PowerTypeCategory.DepartmentBattery,
 	};
 
-	public List<PowerTypeCategory> UnconditionalSupplies = new List<PowerTypeCategory>()
+	private List<PowerTypeCategory> UnconditionalSupplies = new List<PowerTypeCategory>()
 	{
 		PowerTypeCategory.RadiationCollector, //make sure unconditional supplies come first
+		PowerTypeCategory.Turbine,
 		PowerTypeCategory.PowerGenerator,
 		PowerTypeCategory.SolarPanel,
 	};
@@ -370,20 +372,14 @@ public class ElectricalSynchronisation : MonoBehaviour
 	{
 		for (int i = InitialiseResistanceChange.Count - 1; i >= 0; i--)
 		{
-			if (i < InitialiseResistanceChange.Count)
-			{
-				InitialiseResistanceChange.ElementAt(i).InitialPowerUpdateResistance();
-			}
+			InitialiseResistanceChange.ElementAt(i).InitialPowerUpdateResistance();
 		}
 
 		InitialiseResistanceChange.Clear();
 
 		for (int i = ResistanceChange.Count - 1; i >= 0; i--)
 		{
-			if (i < InitialiseResistanceChange.Count)
-			{
-				ResistanceChange.ElementAt(i).PowerUpdateResistanceChange();
-			}
+			ResistanceChange.ElementAt(i).PowerUpdateResistanceChange();
 		}
 
 		ResistanceChange.Clear();

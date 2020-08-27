@@ -12,6 +12,7 @@
 			#pragma vertex vertex_shader
 			#pragma fragment pixel_shader
 			#pragma target 2.0
+			#include "UnityCG.cginc"
 
 			sampler2D _MainTex;
 

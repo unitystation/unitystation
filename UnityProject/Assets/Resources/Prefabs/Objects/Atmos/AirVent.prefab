@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 6479037130962053368}
   - component: {fileID: 3953549719403137607}
   - component: {fileID: 114207068481858528}
-  - component: {fileID: 7499999529140733009}
   - component: {fileID: 6203799934882642808}
   - component: {fileID: 3771872541723634421}
   - component: {fileID: 1554776711696640}
@@ -23,6 +22,7 @@ GameObject:
   - component: {fileID: -678374216968888500}
   - component: {fileID: 8341462466351120766}
   - component: {fileID: -5122027614549771309}
+  - component: {fileID: 1057025735111035645}
   m_Layer: 10
   m_Name: AirVent
   m_TagString: Untagged
@@ -85,6 +85,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &966013011358701611
 MonoBehaviour:
@@ -138,6 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114207068481858528
@@ -154,31 +156,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &7499999529140733009
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000010733523080}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 49a3b980b33b4f6c945ab7c474875ab6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  direction: 0
-  anchored: 1
-  volume: 70
-  pipeSprites:
-  - {fileID: 21300040, guid: b9e58be60cbc7ce45a1cb2938d57b239, type: 3}
-  - {fileID: 21300040, guid: b9e58be60cbc7ce45a1cb2938d57b239, type: 3}
-  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
-  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
-  - {fileID: 21300000, guid: 6dd8897b3868b3945a0e8c941b0699f7, type: 3}
-  spriteRenderer: {fileID: 8418407404781841632}
-  MinimumPressure: 101.3249
 --- !u!114 &6203799934882642808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -205,7 +182,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -226,7 +205,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &1554776711696640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,18 +274,9 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   itemSprites:
-    LeftHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    RightHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InventoryIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+    SpriteInventoryIcon: {fileID: 0}
+    SpriteLeftHand: {fileID: 0}
+    SpriteRightHand: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -344,6 +313,76 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1057025735111035645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000010733523080}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49a3b980b33b4f6c945ab7c474875ab6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritehandler: {fileID: 7243013755106268893}
+  SpawnOnDeconstruct: {fileID: 0}
+  registerTile: {fileID: 0}
+  pipeData:
+    PipeLayer: 1
+    Connections:
+      Directions:
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+      - Bool: 0
+        pipeType: 1
+        PortType: 0
+        flagLogic: 0
+    CustomLogic: 0
+    NetCompatible: 0
+    mixAndVolume:
+      Volume: 0.05
+      Mix:
+        temperature: 273.15
+        reagents:
+          m_keys: []
+          m_values: []
+      gasMix:
+        Gases:
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        - 0
+        Pressure: 0
+        Volume: 0.05
+    ConnectedPipes: []
+    Outputs: []
+    MonoPipe: {fileID: 0}
+  Colour: {r: 1, g: 1, b: 1, a: 1}
+  SelfSufficient: 1
+  MaxTransferMoles: 100
+  MaxOutletPressure: 110
 --- !u!1 &8513106460640881890
 GameObject:
   m_ObjectHideFlags: 0
@@ -354,6 +393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8517998356432444984}
   - component: {fileID: 8418407404781841632}
+  - component: {fileID: 7243013755106268893}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -425,3 +465,22 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7243013755106268893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8513106460640881890}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []

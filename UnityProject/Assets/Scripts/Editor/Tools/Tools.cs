@@ -146,7 +146,7 @@ public class Tools : Editor
 			}
 
 			//does component exist in it or any children?
-			var melees = rootPrefabGO.GetComponents<Meleeable>();
+			var melees = rootPrefabGO.GetComponents<BoxCollider2D>();
 
 			if (melees == null || melees.Length <= 1) continue;
 

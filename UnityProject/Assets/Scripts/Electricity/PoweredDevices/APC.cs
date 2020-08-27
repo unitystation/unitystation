@@ -1,12 +1,10 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+using Electric.Inheritance;
 using UnityEngine;
 using Mirror;
 
-public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn
+public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn, ISetMultitoolMaster
 {
 	// -----------------------------------------------------
 	//					ELECTRICAL THINGS
@@ -228,6 +226,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 			case APCState.Critical:
 				loadedScreenSprites = criticalSprites;
 				EmergencyState = true;
+				TriggerSoundOff();
 				if (!RefreshDisplay) StartRefresh();
 				break;
 			case APCState.Dead:
@@ -351,6 +350,7 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 		}
 	}
 
+	#region Editor
 
 	void OnDrawGizmosSelected()
 	{
@@ -369,6 +369,81 @@ public class APC : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeContr
 		}
 	}
 
+	#endregion
 
+	//######################################## Multitool interaction ##################################
+	[SerializeField]
+	private MultitoolConnectionType conType = MultitoolConnectionType.APC;
+	public MultitoolConnectionType ConType  => conType;
+
+	[SerializeField]
+	private bool multiMaster = true;
+	public bool MultiMaster  => multiMaster;
+
+	public void AddSlave(object SlaveObject)
+	{
+	}
+
+	public void RemoveDevice(APCPoweredDevice APCPoweredDevice)
+	{
+		if (ConnectedDevices.Contains(APCPoweredDevice))
+		{
+			ConnectedDevices.Remove(APCPoweredDevice);
+			APCPoweredDevice.PowerNetworkUpdate(0.1f);
+
+		}
+	}
+	public void AddDevice(APCPoweredDevice APCPoweredDevice)
+	{
+		if (!ConnectedDevices.Contains(APCPoweredDevice))
+		{
+			ConnectedDevices.Add(APCPoweredDevice);
+		}
+	}
+
+	public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
+	{
+		var approvedObjects = new List<GameObject>();
+
+		foreach (var potentialObject in potentialObjects)
+		{
+			var poweredDevice = potentialObject.GetComponent<APCPoweredDevice>();
+			if (poweredDevice == null) continue;
+			AddDeviceFromScene(poweredDevice);
+			approvedObjects.Add(potentialObject);
+		}
+
+		return approvedObjects;
+	}
+
+	private void AddDeviceFromScene(APCPoweredDevice poweredDevice)
+	{
+		if (ConnectedDevices.Contains(poweredDevice))
+		{
+			ConnectedDevices.Remove(poweredDevice);
+			poweredDevice.RelatedAPC = null;
+		}
+		else
+		{
+			ConnectedDevices.Add(poweredDevice);
+			poweredDevice.RelatedAPC = this;
+		}
+	}
+
+	public void TriggerSoundOff()
+	{
+		if(!CustomNetworkManager.IsServer) return;
+
+		StartCoroutine(TriggerSoundOffRoutine());
+	}
+
+	private IEnumerator TriggerSoundOffRoutine()
+	{
+		yield return new WaitForSeconds(1f);
+
+		if (State != APCState.Critical) yield break;
+
+		SoundManager.PlayNetworkedAtPos("APCPowerOff", gameObject.WorldPosServer());
+	}
 }
 

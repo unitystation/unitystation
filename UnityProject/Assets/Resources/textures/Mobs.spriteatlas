@@ -23,7 +23,7 @@ SpriteAtlas:
     platformSettings:
     - serializedVersion: 3
       m_BuildTarget: DefaultTexturePlatform
-      m_MaxTextureSize: 4096
+      m_MaxTextureSize: 2048
       m_ResizeAlgorithm: 0
       m_TextureFormat: 4
       m_TextureCompression: 1
@@ -33,12 +33,24 @@ SpriteAtlas:
       m_Overridden: 0
       m_AndroidETC2FallbackOverride: 0
       m_ForceMaximumCompressionQuality_BC6H_BC7: 1
+    - serializedVersion: 3
+      m_BuildTarget: iPhone
+      m_MaxTextureSize: 2048
+      m_ResizeAlgorithm: 0
+      m_TextureFormat: 13
+      m_TextureCompression: 1
+      m_CompressionQuality: 50
+      m_CrunchedCompression: 0
+      m_AllowsAlphaSplitting: 0
+      m_Overridden: 1
+      m_AndroidETC2FallbackOverride: 0
+      m_ForceMaximumCompressionQuality_BC6H_BC7: 0
     packingSettings:
       serializedVersion: 2
       padding: 2
       blockOffset: 1
       allowAlphaSplitting: 0
-      enableRotation: 0
+      enableRotation: 1
       enableTightPacking: 0
     variantMultiplier: 1
     packables:
@@ -96,7 +108,7 @@ SpriteAtlas:
     - {fileID: 102900000, guid: 2b2ff38e685ef234184b75983ed1a4d5, type: 3}
     - {fileID: 102900000, guid: 7137eb198caea14489e4f01cf450370c, type: 3}
     - {fileID: 102900000, guid: 9098bb0ccc568a542b419113997c6e30, type: 3}
-    totalSpriteSurfaceArea: 11008783
+    totalSpriteSurfaceArea: 11013903
     bindAsDefault: 1
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
@@ -644,6 +656,7 @@ SpriteAtlas:
   - {fileID: 21300044, guid: c295b3d0ba604774baedf4a41b88c615, type: 3}
   - {fileID: 21300042, guid: c295b3d0ba604774baedf4a41b88c615, type: 3}
   - {fileID: 21300040, guid: c295b3d0ba604774baedf4a41b88c615, type: 3}
+  - {fileID: 21300000, guid: 1ae605d0f683bf948aeb84d933d729d7, type: 3}
   - {fileID: 21300000, guid: 6ca66bd0851f03e46ad8715749bcf6c8, type: 3}
   - {fileID: 21300020, guid: 6208bcd02daf2bd46b63306bdb5cd223, type: 3}
   - {fileID: 21300026, guid: 6208bcd02daf2bd46b63306bdb5cd223, type: 3}
@@ -2230,6 +2243,7 @@ SpriteAtlas:
   - {fileID: 21300006, guid: f694f78332bec52429d9a96eaa636c8d, type: 3}
   - {fileID: 21300000, guid: f694f78332bec52429d9a96eaa636c8d, type: 3}
   - {fileID: 21300002, guid: f694f78332bec52429d9a96eaa636c8d, type: 3}
+  - {fileID: 21300000, guid: 346709832a3eedf4e8bd1ba51d627f3f, type: 3}
   - {fileID: 21300000, guid: beb57f833afabcf4798afd35ad02c6d5, type: 3}
   - {fileID: 21300002, guid: 6823a393c04757646ad1d92114a6e016, type: 3}
   - {fileID: 21300000, guid: 6823a393c04757646ad1d92114a6e016, type: 3}
@@ -9242,6 +9256,7 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 8cb5ef5e7fd0bc64db678021f438bfa1, type: 3}
   - {fileID: 21300006, guid: 8cb5ef5e7fd0bc64db678021f438bfa1, type: 3}
   - {fileID: 21300004, guid: 8cb5ef5e7fd0bc64db678021f438bfa1, type: 3}
+  - {fileID: 21300000, guid: bd95a76ea5bef07478a4a984d8605672, type: 3}
   - {fileID: 21300004, guid: b56cb86ed77858c48be7b57533c398f6, type: 3}
   - {fileID: 21300006, guid: b56cb86ed77858c48be7b57533c398f6, type: 3}
   - {fileID: 21300000, guid: b56cb86ed77858c48be7b57533c398f6, type: 3}
@@ -9939,6 +9954,8 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 3888ddef5a0fa3646b264567f0a60339, type: 3}
   - {fileID: 21300006, guid: 3888ddef5a0fa3646b264567f0a60339, type: 3}
   - {fileID: 21300004, guid: 3888ddef5a0fa3646b264567f0a60339, type: 3}
+  - {fileID: 3093160451266126740, guid: d546bfef3536f9342894606705d01a9e, type: 3}
+  - {fileID: -2799959199036154382, guid: d546bfef3536f9342894606705d01a9e, type: 3}
   - {fileID: 21300002, guid: 0aafd0ff00da671488fe27d41f530e1b, type: 3}
   - {fileID: 21300000, guid: 0aafd0ff00da671488fe27d41f530e1b, type: 3}
   - {fileID: 21300000, guid: 842ee0ffe767a9d4db9b0cd505afab18, type: 3}
@@ -10519,6 +10536,7 @@ SpriteAtlas:
   - m_waggingspines_longmeme_ADJ_22
   - m_waggingspines_longmeme_ADJ_21
   - m_waggingspines_longmeme_ADJ_20
+  - wooden_cleanbot_cleanbot1
   - farmbot_farmbot1
   - m_waggingspines_longmeme_BEHIND_10
   - m_waggingspines_longmeme_BEHIND_13
@@ -12105,6 +12123,7 @@ SpriteAtlas:
   - larva1_stun_3
   - larva1_stun_0
   - larva1_stun_1
+  - wooden_cleanbot_bucket_proxy
   - medibot_firstaid_arm_scanner
   - drone_scout_1
   - drone_scout_0
@@ -19117,6 +19136,7 @@ SpriteAtlas:
   - parasitepink_0
   - parasitepink_3
   - parasitepink_2
+  - wooden_cleanbot_cleanbot0
   - m_moth_wings_ragged_FRONT_2
   - m_moth_wings_ragged_FRONT_3
   - m_moth_wings_ragged_FRONT_0
@@ -19814,6 +19834,8 @@ SpriteAtlas:
   - shadow_r_hand_0
   - shadow_r_hand_3
   - shadow_r_hand_2
+  - wooden_cleanbot_cleanbot-c_0
+  - wooden_cleanbot_cleanbot-c_1
   - pink_adult_slime_eat_1
   - pink_adult_slime_eat_0
   - combatbear_0

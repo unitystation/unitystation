@@ -1,5 +1,8 @@
+using Items.PDA;
 using UnityEngine;
 using Machines;
+using Pipes;
+using ScriptableObjects;
 
 /// <summary>
 /// In order for the SingletonScriptableObject to work, the singleton instance must
@@ -19,11 +22,15 @@ public class ScriptableObjectSingletons : MonoBehaviour
 	public DefaultPlantDataSOs DefaultPlantDataSOs;
 	public CommonPrefabs CommonPrefabs;
 	public CommonCooldowns CommonCooldowns;
-	public AmmoPrefabs AmmoPrefabs;
 	public UIActionSOSingleton UIActionSOSingleton;
 	public SpeechModManager SpeechModManager;
 	public MachinePartsItemTraits MachinePartsItemTraits;
 	public MachinePartsPrefabs MachinePartsPrefabs;
 	public SOAdminJobsList AdminJobsList;
 	public PoolConfig PoolConfig;
+	public UplinkCategoryList UplinkCategoryList;
+	public UplinkPasswordList UplinkPasswordList;
+	public PipeTileSingleton PipeTileSingleton;
+	public AlcoholicDrinksSOScript AlcoholicDrinksSOScript;
+	public SpriteCatalogue SpriteCatalogue;
 }

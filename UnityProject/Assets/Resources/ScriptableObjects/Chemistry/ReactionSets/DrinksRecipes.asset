@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d6ae085312b071098d3dbb5d8da0511, type: 3}
   m_Name: DrinksRecipes
   m_EditorClassIdentifier: 
-  parents: []
+  parents:
+  - {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   reactions:
   - {fileID: 11400000, guid: 5f8adf53cc25246d18b062f780c233f8, type: 2}
   - {fileID: 11400000, guid: 98d98b45dd93045709a28735f5ff7835, type: 2}

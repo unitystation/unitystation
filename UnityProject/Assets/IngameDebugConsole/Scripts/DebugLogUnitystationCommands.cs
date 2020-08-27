@@ -9,6 +9,7 @@ using Mirror;
 using UnityEditor;
 using Random = UnityEngine.Random;
 using DatabaseAPI;
+using ScriptableObjects;
 
 namespace IngameDebugConsole
 {
@@ -131,6 +132,9 @@ namespace IngameDebugConsole
 
 		}
 
+#if UNITY_EDITOR
+		[MenuItem("Networking/Call shuttle")]
+#endif
 		[ConsoleMethod("call-shuttle", "Calls the escape shuttle. Server only command")]
 		public static void CallEscapeShuttle()
 		{
@@ -140,7 +144,7 @@ namespace IngameDebugConsole
 				return;
 			}
 
-			if (GameManager.Instance.PrimaryEscapeShuttle.Status == ShuttleStatus.DockedCentcom)
+			if (GameManager.Instance.PrimaryEscapeShuttle.Status == EscapeShuttleStatus.DockedCentcom)
 			{
 				GameManager.Instance.PrimaryEscapeShuttle.CallShuttle(out var result, 40);
 				Logger.Log("Called Escape shuttle from DebugConsole: "+result);
@@ -361,11 +365,13 @@ namespace IngameDebugConsole
 					var suit = Spawn.ServerPrefab("MiningHardsuit").GameObject;
 					var mask = Spawn.ServerPrefab(CommonPrefabs.Instance.Mask).GameObject;
 					var oxyTank = Spawn.ServerPrefab(CommonPrefabs.Instance.EmergencyOxygenTank).GameObject;
+					var MagBoots = Spawn.ServerPrefab("MagBoots").GameObject;
 
 					Inventory.ServerAdd(helmet, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.head), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(suit, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.outerwear), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(mask, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.mask), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01), ReplacementStrategy.DropOther);
+					Inventory.ServerAdd(MagBoots, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.feet), ReplacementStrategy.DropOther);
 					player.Script.Equipment.IsInternalsEnabled = true;
 				}
 
@@ -545,5 +551,60 @@ namespace IngameDebugConsole
 
 			PlayerList.Instance.ProcessAdminEnableRequest(ServerData.UserID, userIDToPromote);
 		}
+#if UNITY_EDITOR
+		[MenuItem("Networking/Calculate Cargo Export Costs")]
+		private static void SetCargoExportValues()
+		{
+			foreach (var cargoDataList in CargoManager.Instance.CargoData.Supplies)
+			{
+				foreach (var items in cargoDataList.Supplies)
+				{
+					int value = 0;
+					foreach (var item in items.Items)
+					{
+						if(item == null) continue;
+
+						var itemAttribute = item.GetComponent<ItemAttributesV2>();
+
+						if (itemAttribute != null)
+						{
+							value += itemAttribute.ExportCost;
+						}
+
+						var objectAttribute = item.GetComponent<ObjectAttributes>();
+
+						if (objectAttribute != null)
+						{
+							value += objectAttribute.ExportCost;
+						}
+					}
+
+					var itemAttributeCrate = items.Crate.GetComponent<ItemAttributesV2>();
+
+					if (items.Crate != null && itemAttributeCrate != null)
+					{
+						value += itemAttributeCrate.ExportCost;
+					}
+
+					var objectAttributesCrate = items.Crate.GetComponent<ObjectAttributes>();
+
+					if (items.Crate != null && objectAttributesCrate != null)
+					{
+						value += objectAttributesCrate.ExportCost;
+					}
+
+					items.TotalCreditExport = value;
+
+					if (value > items.CreditsCost)
+					{
+						Debug.LogError($"{items.OrderName}'s credit cost: {items.CreditsCost} is less than its export value: {value}, exploit possible!");
+					}
+
+					Debug.Log($"value: {value}, cost: {items.CreditsCost}, {items.OrderName}");
+				}
+			}
+			Debug.Log("Cost Calculation Complete");
+		}
+#endif
 	}
 }

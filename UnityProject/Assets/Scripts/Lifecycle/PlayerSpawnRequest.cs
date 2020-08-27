@@ -22,11 +22,17 @@ public class PlayerSpawnRequest
 	/// </summary>
 	public readonly CharacterSettings CharacterSettings;
 
-	private PlayerSpawnRequest(Occupation requestedOccupation, JoinedViewer joinedViewer, CharacterSettings characterSettings)
+	/// <summary>
+	/// UserID the viewer is attempting to spawn with.
+	/// </summary>
+	public readonly string UserID;
+
+	private PlayerSpawnRequest(Occupation requestedOccupation, JoinedViewer joinedViewer, CharacterSettings characterSettings, string userID)
 	{
 		RequestedOccupation = requestedOccupation;
 		JoinedViewer = joinedViewer;
 		CharacterSettings = characterSettings;
+		UserID = userID;
 	}
 
 	/// <summary>
@@ -34,14 +40,14 @@ public class PlayerSpawnRequest
 	/// selected occupation and settings.
 	/// </summary>
 	/// <returns></returns>
-	public static PlayerSpawnRequest RequestOccupation(JoinedViewer requestedBy, Occupation requestedOccupation, CharacterSettings characterSettings)
+	public static PlayerSpawnRequest RequestOccupation(JoinedViewer requestedBy, Occupation requestedOccupation, CharacterSettings characterSettings, string userID)
 	{
-		return new PlayerSpawnRequest(requestedOccupation, requestedBy, characterSettings);
+		return new PlayerSpawnRequest(requestedOccupation, requestedBy, characterSettings, userID);
 	}
 
 	public static PlayerSpawnRequest RequestOccupation(ConnectedPlayer requestedBy, Occupation requestedOccupation)
 	{
-		return new PlayerSpawnRequest(requestedOccupation, requestedBy.ViewerScript, requestedBy.CharacterSettings);
+		return new PlayerSpawnRequest(requestedOccupation, requestedBy.ViewerScript, requestedBy.CharacterSettings, requestedBy.UserId);
 	}
 
 	public override string ToString()

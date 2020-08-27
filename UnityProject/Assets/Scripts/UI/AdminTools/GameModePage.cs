@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using DatabaseAPI;
 using UnityEngine;
 using UnityEngine.UI;
+using AdminCommands;
 
 namespace AdminTools
 {
@@ -64,6 +65,11 @@ namespace AdminTools
 			{
 				nextDropDown.value = index;
 			}
+		}
+
+		public void ToggleOOCMute()
+		{
+			ServerCommandVersionOneMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, "CmdToggleOOCMute");
 		}
 	}
 }

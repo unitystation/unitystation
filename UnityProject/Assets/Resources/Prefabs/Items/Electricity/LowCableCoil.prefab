@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7925486248149978988, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 20396c9482ca30c42acc20f3fc2e1ed2,
+        type: 2}
+    - target: {fileID: 1987768667762010246, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 019ec0446d92b564db8cb9b1c053b5aa,
+        type: 2}
     - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: initialName
@@ -91,6 +103,18 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A coil of insulated low power cable.
       objectReference: {fileID: 0}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f5ef7dcd1a179ae489ce556c76d0cd7f,
+        type: 2}
+    - target: {fileID: 5205735185705106531, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: de7c8fb297b8d83439a6883b074398e9,
+        type: 2}
     - target: {fileID: 5425488054116134134, guid: c3e6805b264a935428b0de415ea57943,
         type: 3}
       propertyPath: CableType
@@ -223,6 +247,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4433336198165141055, guid: 827dad187b7a6e449b5b73aa0e691a38,
         type: 3}
+    - target: {fileID: 8951186497684717993, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: backgroundColor.r
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8951186497684717993, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: backgroundColor.g
+      value: 0.8627451
+      objectReference: {fileID: 0}
+    - target: {fileID: 8951186497684717993, guid: c3e6805b264a935428b0de415ea57943,
+        type: 3}
+      propertyPath: backgroundColor.b
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3e6805b264a935428b0de415ea57943, type: 3}
 --- !u!1 &7657921970005526780 stripped

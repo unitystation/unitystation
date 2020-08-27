@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &6903592377766332727
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9026303602175473701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: ChairRoll
+  soundDelayTime: 500
+  soundMinimumPitchVariance: 0.65
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!1001 &4702096810031762357
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4324277455529423760, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_Name
+      value: WaterTank
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4330033629727454538, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5323037765139105522, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388099446472322208, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: initialName
+      value: water tank
+      objectReference: {fileID: 0}
+    - target: {fileID: 6388099446472322208, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: initialDescription
+      value: A water tank.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 39da184d881f73c48b25ae5921795c55, type: 3}
+--- !u!1 &9026303602175473701 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4324277455529423760, guid: 39da184d881f73c48b25ae5921795c55,
+    type: 3}
+  m_PrefabInstance: {fileID: 4702096810031762357}
+  m_PrefabAsset: {fileID: 0}

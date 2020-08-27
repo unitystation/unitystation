@@ -195,7 +195,8 @@ using UnityEditor;
 		{
 			if (offset > -1 && numberOfSpritesToPlay > 0)
 			{
-				int limit = offset + numberOfSpritesToPlay;
+				// clamp to make sure that index is not out of range
+				int limit = Mathf.Clamp(offset + numberOfSpritesToPlay, 0, list.Length-1);
 				if (skipToEnd)
 				{
 					renderer.sprite = list[limit - 1];

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: belt_cutters
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -6739876155392906448, guid: 2be3ca0d74110c140bc895a62130d49b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -7054829001907146557, guid: 2be3ca0d74110c140bc895a62130d49b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 6191605384233411387, guid: 2be3ca0d74110c140bc895a62130d49b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 808310439799271284, guid: 2be3ca0d74110c140bc895a62130d49b,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 19855

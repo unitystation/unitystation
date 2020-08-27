@@ -190,11 +190,22 @@ PrefabInstance:
       propertyPath: throwRange
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: initialSize
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4421781600494999209, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: itemStoragePopulator
       value: 
       objectReference: {fileID: 11400000, guid: 9ad83fbd53c9d52459791ea992b769ad,
+        type: 2}
+    - target: {fileID: 7482199438493803764, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 33892ed1ccfa7164084a7fa1b04cf859,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46ba34aab52d654787ef10d896b0874, type: 3}

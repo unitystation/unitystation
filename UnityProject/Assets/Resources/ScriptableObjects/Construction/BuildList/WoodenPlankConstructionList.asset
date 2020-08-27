@@ -26,3 +26,17 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 4
     onePerTile: 0
+  - name: Wood Door
+    prefab: {fileID: 8406608262543337592, guid: 93dbd338c6220214c926ec72a2c9c6b2,
+      type: 3}
+    cost: 10
+    buildTime: 2
+    spawnAmount: 1
+    onePerTile: 1
+  - name: Wooden Bucket
+    prefab: {fileID: 2264909744418000957, guid: f74cd572a2fd578449d39575ba225405,
+      type: 3}
+    cost: 3
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 0

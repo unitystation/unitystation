@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: talk-clock0
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 6269092668895574985, guid: 58cdf0e541724584d8f81cd1d36f54cd,
+        type: 3}
+      secondDelay: 0.2
+    - sprite: {fileID: -4927439405403328906, guid: 58cdf0e541724584d8f81cd1d36f54cd,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 7437180291454180073, guid: 58cdf0e541724584d8f81cd1d36f54cd,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 3566043541758129491, guid: 58cdf0e541724584d8f81cd1d36f54cd,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -921474434370979460, guid: 58cdf0e541724584d8f81cd1d36f54cd,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 2707403704386187307, guid: 58cdf0e541724584d8f81cd1d36f54cd,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -3191486447947257455, guid: 58cdf0e541724584d8f81cd1d36f54cd,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 8330578688623624819, guid: 58cdf0e541724584d8f81cd1d36f54cd,
+        type: 3}
+      secondDelay: 0.3
+  IsPalette: 0
+  setID: 2900

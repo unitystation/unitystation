@@ -84,17 +84,25 @@ public class MetaTileMap : MonoBehaviour
 	/// <summary>
 	/// Apply damage to damageable layers, top to bottom.
 	/// If tile gets destroyed, remaining damage is applied to the layer below
+	/// Returns how much damage was absorbed
 	/// </summary>
-	public void ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
+	public float ApplyDamage(Vector3Int cellPos, float damage, Vector3Int worldPos, AttackType attackType = AttackType.Melee)
 	{
+		float RemainingDamage = damage;
 		foreach ( var damageableLayer in DamageableLayers )
 		{
-			if ( damage <= 0f )
+			if ( RemainingDamage <= 0f )
 			{
-				return;
+				return (damage);
 			}
-			damage = damageableLayer.TilemapDamage.ApplyDamage( cellPos, damage, worldPos, attackType );
+			RemainingDamage -= damageableLayer.TilemapDamage.ApplyDamage(damage, attackType, worldPos);
 		}
+
+		if (RemainingDamage > damage)
+		{
+			return (damage);
+		}
+		return (damage - RemainingDamage);
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer)
@@ -103,7 +111,8 @@ public class MetaTileMap : MonoBehaviour
 	}
 
 	public bool IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
 	{
 		Vector3Int toX = new Vector3Int(to.x, origin.y, origin.z);
 		Vector3Int toY = new Vector3Int(origin.x, to.y, origin.z);
@@ -116,7 +125,8 @@ public class MetaTileMap : MonoBehaviour
 
 
 	private bool _IsPassableAt(Vector3Int origin, Vector3Int to, bool isServer,
-		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null, List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+		CollisionType collisionType = CollisionType.Player, bool inclPlayers = true, GameObject context = null,
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
 	{
 		for (var i = 0; i < SolidLayersValues.Length; i++)
 		{
@@ -198,17 +208,18 @@ public class MetaTileMap : MonoBehaviour
 		return false;
 	}
 
-	public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null)
+	public void SetTile(Vector3Int position, LayerTile tile, Matrix4x4? matrixTransform = null, Color? color = null)
 	{
 		if (Layers.TryGetValue(tile.LayerType, out var layer))
 		{
-			layer.SetTile(position, tile, matrixTransform.GetValueOrDefault(Matrix4x4.identity));
+			layer.SetTile(position, tile,
+					matrixTransform.GetValueOrDefault(Matrix4x4.identity),
+					color.GetValueOrDefault(Color.white));
 		}
 		else
 		{
 			LogMissingLayer(position, tile.LayerType);
 		}
-
 	}
 
 	private void LogMissingLayer(Vector3Int position, LayerType layerType)
@@ -259,6 +270,30 @@ public class MetaTileMap : MonoBehaviour
 		}
 
 		return null;
+	}
+
+
+	/// <summary>
+	/// used to check if the tiles are same for networking
+	/// </summary>
+	/// <param name="position"></param>
+	/// <param name="layerTile"></param>
+	/// <param name="transformMatrix"></param>
+	/// <param name="color"></param>
+	/// <returns></returns>
+	public bool IsDifferent(Vector3Int cellPosition,LayerTile layerTile , LayerType layerType, Matrix4x4? transformMatrix = null,
+		Color? color = null)
+	{
+		if (Layers.TryGetValue(layerType, out var layer))
+		{
+			return layer.IsDifferent(cellPosition, layerTile, transformMatrix,color );
+		}
+		else
+		{
+			LogMissingLayer(cellPosition, layerType);
+		}
+
+		return true;
 	}
 
 	/// <summary>
@@ -442,7 +477,7 @@ public class MetaTileMap : MonoBehaviour
 		return false;
 	}
 
-	public void RemoveTile(Vector3Int position, LayerType refLayer)
+	public void RemoveTile(Vector3Int position, LayerType refLayer, bool RemoveAll = true)
 	{
 		for (var i = 0; i < LayersValues.Length; i++)
 		{
@@ -452,12 +487,15 @@ public class MetaTileMap : MonoBehaviour
 			    !(refLayer == LayerType.Objects && layer.LayerType == LayerType.Floors) &&
 			    refLayer != LayerType.Grills)
 			{
-				layer.RemoveTile(position);
+				if (layer.RemoveTile(position) && RemoveAll == false)
+				{
+					return;
+				}
 			}
 		}
 	}
 
-	public void RemoveTile(Vector3Int position, LayerType refLayer, bool removeAll)
+	public void RemoveTileWithlayer(Vector3Int position, LayerType refLayer, bool removeAll)
 	{
 		if (Layers.TryGetValue(refLayer, out var layer))
 		{

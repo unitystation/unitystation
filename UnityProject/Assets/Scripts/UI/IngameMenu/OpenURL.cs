@@ -7,9 +7,8 @@ using UnityEngine;
 /// </summary>
 public class OpenURL : MonoBehaviour
 {
-	[SerializeField]
 	[Tooltip("URL to open.")]
-	private string url = "https://discordapp.com/invite/fhhQcV9";
+	public string url = "https://discordapp.com/invite/fhhQcV9";
 
 	public void Open()
 	{

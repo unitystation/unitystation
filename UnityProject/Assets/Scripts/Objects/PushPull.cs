@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +8,7 @@ using Mirror;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
 
-public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
+public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	public const float DEFAULT_PUSH_SPEED = 6;
 	/// <summary>
 	/// Maximum speed player can reach by throwing stuff in space
@@ -87,7 +87,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	/// how many levels deep.
 	/// </summary>
 	/// <returns></returns>
-	public Vector3 AssumedWorldPositionServer()
+	public Vector3Int AssumedWorldPositionServer()
 	{
 		//If this object is contained in another, run until highest layer layer is reached
 		if (parentContainer)
@@ -231,14 +231,14 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		this.isNotPushable = isNowNotPushable;
 	}
 
+	public override void OnStartServer()
+	{
+		isNotPushable = isInitiallyNotPushable;
+	}
+
 	public override void OnStartClient()
 	{
 		SyncIsNotPushable(isNotPushable, this.isNotPushable);
-	}
-
-	public void OnSpawnServer(SpawnInfo info)
-	{
-		SyncIsNotPushable(isNotPushable, isInitiallyNotPushable);
 	}
 
 	private void OnHighSpeedCollision( CollisionInfo collision )
@@ -251,7 +251,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		}
 		foreach ( var tile in MatrixManager.GetDamageableTilemapsAt( collision.CollisionTile ) )
 		{
-			tile.DoMeleeDamage( collision.CollisionTile.To2Int(), gameObject, (int)collision.Damage );
+			tile.ApplyDamage((int)collision.Damage, AttackType.Melee, collision.CollisionTile);
 			collided = true;
 		}
 
@@ -341,6 +341,7 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 	/// Client asks to toggle pulling of given object
 	[Command]
 	public void CmdPullObject(GameObject pullableObject) {
+		if(pullableObject == null) return;
 		PushPull pullable = pullableObject.GetComponent<PushPull>();
 		if ( !pullable ) {
 			return;
@@ -444,8 +445,9 @@ public class PushPull : NetworkBehaviour, IRightClickable, IServerSpawn {
 		}
 		else
 		{
-			//check if in range for pulling
-			if (Validations.IsInReach(registerTile, initiator.registerTile, false) && initiator != this)
+			// Check if in range for pulling, not trying to pull itself and it can be pulled.
+			if (Validations.IsInReach(registerTile, initiator.registerTile, false) &&
+				IsPushable && initiator != this)
 			{
 				return RightClickableResult.Create()
 					.AddElement("Pull", TryPullThis);

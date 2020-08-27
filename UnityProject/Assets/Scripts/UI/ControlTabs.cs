@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -230,7 +231,7 @@ public class ControlTabs : MonoBehaviour
 			headerButton.Value = tab.transform.GetSiblingIndex();
 			string tabName = tab.name.Replace("Tab", "").Replace("_", " ").Replace("(Clone)", "").Trim();
 			headerButton.gameObject.name = tabName;
-			headerButton.GetComponentInChildren<Text>().text = tabName;
+			headerButton.GetComponentInChildren<TextMeshProUGUI>().text = tabName;
 
 			approvedHeaders.Add(headerButton);
 		}

@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class GUI_CargoPageCart : GUI_CargoPage
@@ -13,6 +15,9 @@ public class GUI_CargoPageCart : GUI_CargoPage
 	[SerializeField]
 	private EmptyItemList orderList = null;
 	private bool inited = false;
+
+	[SerializeField]
+	private GUI_Cargo cargoController;
 
 	public override void Init()
 	{
@@ -33,27 +38,46 @@ public class GUI_CargoPageCart : GUI_CargoPage
 		UpdateTab();
 	}
 
-	private void UpdateTab()
+	private void Start()
+	{
+		CheckTotalPrice();
+		DisplayCurrentCart();
+	}
+
+	public void UpdateTab()
 	{
 		if (!CustomNetworkManager.Instance._isServer)
 			return;
 
+
 		DisplayCurrentCart();
-		if (CanAffordCart())
+		if (cargoController.CurrentId())
 		{
-			confirmButtonText.SetValueServer("CONFIRM CART");
+			if (CanAffordCart())
+			{
+				confirmButtonText.SetValueServer("CONFIRM CART");
+			}
+			else
+			{
+				confirmButtonText.SetValueServer("NOT ENOUGH CREDITS");
+			}
+			CheckTotalPrice();
+			if (CargoManager.Instance.CurrentCart.Count == 0)
+			{
+				confirmButtonText.SetValueServer("CART IS EMPTY");
+				totalPriceText.SetValueServer("");
+			}
 		}
 		else
 		{
-			confirmButtonText.SetValueServer("NOT ENOUGH CREDITS");
-		}
-		totalPriceText.SetValueServer("TOTAL: " + CargoManager.Instance.TotalCartPrice().ToString() + " CREDITS");
-		if (CargoManager.Instance.CurrentCart.Count == 0)
-		{
-			confirmButtonText.SetValueServer("CART IS EMPTY");
-			totalPriceText.SetValueServer("");
+			confirmButtonText.SetValueServer("InvalidID");
 		}
 
+	}
+
+	private void CheckTotalPrice()
+	{
+		totalPriceText.SetValueServer("TOTAL: " + CargoManager.Instance.TotalCartPrice().ToString() + " CREDITS");
 	}
 
 	public void ConfirmCart()
@@ -61,11 +85,12 @@ public class GUI_CargoPageCart : GUI_CargoPage
 		if (!CustomNetworkManager.Instance._isServer)
 			return;
 
-		if (!CanAffordCart())
+		if (!CanAffordCart() || !cargoController.CurrentId())
 		{
 			return;
 		}
 		CargoManager.Instance.ConfirmCart();
+		cargoController.ResetId();
 	}
 
 	private bool CanAffordCart()
@@ -86,5 +111,11 @@ public class GUI_CargoPageCart : GUI_CargoPage
 			item.Order = currentCart[i];
 			item.gameObject.SetActive(true);
 		}
+		if (cargoController.CurrentId())
+		{
+			confirmButtonText.SetValueServer("InvalidID");
+		}
+		CheckTotalPrice();
 	}
+
 }

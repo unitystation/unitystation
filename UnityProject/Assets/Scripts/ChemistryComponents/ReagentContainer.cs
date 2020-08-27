@@ -13,10 +13,9 @@ namespace Chemistry.Components
 	/// Client can only interact with container by Interactions (Examine, HandApply, etc).
 	/// </summary>
 	[RequireComponent(typeof(RightClickAppearance))]
-	public partial class ReagentContainer : MonoBehaviour, IServerSpawn, IRightClickable,
+	public partial class ReagentContainer : MonoBehaviour, IServerSpawn, IRightClickable, ICheckedInteractable<ContextMenuApply>,
 		IEnumerable<KeyValuePair<Reagent, float>>
 	{
-
 		[Header("Container Parameters")]
 
 		[Tooltip("Max container capacity in units")]
@@ -39,9 +38,9 @@ namespace Chemistry.Components
 		[FormerlySerializedAs("reagentMix")]
 		[SerializeField] private ReagentMix initialReagentMix = new ReagentMix();
 		[SerializeField]
-		private bool destroyOnEmpty;
+		private bool destroyOnEmpty = default;
 
-		private ItemAttributesV2 itemAttributes;
+		private ItemAttributesV2 itemAttributes = default;
 		private RegisterTile registerTile;
 		private CustomNetTransform customNetTransform;
 		private Integrity integrity;
@@ -61,7 +60,7 @@ namespace Chemistry.Components
 		/// Server side only. Current reagent mix inside container.
 		/// Invoke OnReagentMixChanged if you change anything in reagent mix
 		/// </summary>
-		private ReagentMix CurrentReagentMix
+		public ReagentMix CurrentReagentMix
 		{
 			get
 			{
@@ -206,7 +205,10 @@ namespace Chemistry.Components
 			// add addition to reagent mix
 			CurrentReagentMix.Add(addition);
 			//Reactions happen here
-			ReactionSet.Apply(this, CurrentReagentMix);
+			if (ReactionSet != null)
+			{
+				ReactionSet.Apply(this, CurrentReagentMix);
+			}
 
 			// get mix total after all reactions
 			var afterReactionTotal = CurrentReagentMix.Total;
@@ -305,7 +307,8 @@ namespace Chemistry.Components
 			{
 				if (registerTile && registerTile.CustomTransform)
 				{
-					var worldPos = registerTile.CustomTransform.AssumedWorldPositionServer().CutToInt();
+					var worldPos = registerTile.CustomTransform.AssumedWorldPositionServer();
+					worldPos.z = 0;
 					SpillAll(worldPos, thrown);
 				}
 			}
@@ -367,21 +370,46 @@ namespace Chemistry.Components
 		public RightClickableResult GenerateRightClickOptions()
 		{
 			var result = RightClickableResult.Create();
-
-			if (!CustomNetworkManager.Instance._isServer)
-			{
-				return result;
-			}
-
-			//fixme: these only work on server
-			result.AddElement("Contents", ExamineContents);
+			result.AddElement("Contents", OnExamineContentsClicked);
 			//Pour / add can only be done if in reach
-			if (Validations.IsInReach(registerTile, PlayerManager.LocalPlayerScript.registerTile, false))
+			if (WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, "PourOut"), NetworkSide.Client))
 			{
-				result.AddElement("PourOut", () => SpillAll());
+				result.AddElement("PourOut", OnPourOutClicked);
 			}
 
 			return result;
+		}
+
+		private void OnExamineContentsClicked()
+		{
+			var menuApply = ContextMenuApply.ByLocalPlayer(gameObject, "Contents");
+			RequestInteractMessage.Send(menuApply, this);
+		}
+
+		private void OnPourOutClicked()
+		{
+			var menuApply = ContextMenuApply.ByLocalPlayer(gameObject, "PourOut");
+			RequestInteractMessage.Send(menuApply, this);
+		}
+
+		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(ContextMenuApply interaction)
+		{
+			switch (interaction.RequestedOption)
+			{
+				case "Contents":
+					// I think some condition should be met before the user knows what the exact contents of a container are.
+					// Wearing science goggles?
+					ExamineContents();
+					break;
+				case "PourOut":
+					SpillAll();
+					break;
+			}
 		}
 
 		private void ExamineContents()

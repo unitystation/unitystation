@@ -1,4 +1,7 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using NaughtyAttributes;
+using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(MobFollow))]
@@ -11,16 +14,16 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	         "be rotated to indicate a knocked down or dead NPC")]
 	public float knockedDownRotation = 90f;
 
+	public event Action PettedEvent;
 	protected MobFollow mobFollow;
 	protected MobExplore mobExplore;
 	protected MobFlee mobFlee;
-	protected LivingHealthBehaviour health;
+	[NonSerialized] public LivingHealthBehaviour health;
 	protected NPCDirectionalSprites dirSprites;
 	protected CustomNetTransform cnt;
 	protected RegisterObject registerObject;
 	protected UprightSprites uprightSprites;
 	protected bool isServer;
-
 	private float followingTime = 0f;
 	private float followTimeMax;
 
@@ -29,6 +32,10 @@ public class MobAI : MonoBehaviour, IServerDespawn
 
 	private float fleeingTime = 0f;
 	private float fleeTimeMax;
+
+	//Limit number of damage calls
+	private int damageAttempts = 0;
+	private int maxDamageAttempts = 1;
 
 	//Events:
 	protected UnityEvent followingStopped = new UnityEvent();
@@ -72,7 +79,8 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		if (CustomNetworkManager.Instance._isServer)
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			health.applyDamageEvent += OnAttackReceived;
+			UpdateManager.Add(PeriodicUpdate, 1f);
+			health.applyDamageEvent += AttackReceivedCoolDown;
 			isServer = true;
 			AIStartServer();
 		}
@@ -83,7 +91,8 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		if (isServer)
 		{
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-			health.applyDamageEvent += OnAttackReceived;
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+			health.applyDamageEvent += AttackReceivedCoolDown;
 		}
 	}
 
@@ -105,6 +114,14 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		MonitorFollowingTime();
 		MonitorExploreTime();
 		MonitorFleeingTime();
+	}
+
+	protected void PeriodicUpdate()
+	{
+		if (damageAttempts >= maxDamageAttempts)
+		{
+			damageAttempts = 0;
+		}
 	}
 
 	/// <summary>
@@ -199,6 +216,18 @@ public class MobAI : MonoBehaviour, IServerDespawn
 	/// by the NPC
 	/// </summary>
 	public virtual void LocalChatReceived(ChatEvent chatEvent) { }
+
+	protected void AttackReceivedCoolDown(GameObject damagedBy = null)
+	{
+		if (damageAttempts >= maxDamageAttempts)
+		{
+			return;
+		}
+
+		damageAttempts++;
+
+		OnAttackReceived(damagedBy);
+	}
 
 	/// <summary>
 	/// Called on the server whenever the NPC is physically attacked
@@ -416,6 +445,7 @@ public class MobAI : MonoBehaviour, IServerDespawn
 		// face performer
 		var dir = (performer.transform.position - transform.position).normalized;
 		dirSprites.ChangeDirection(dir);
+		PettedEvent?.Invoke();
 	}
 
 	///<summary>

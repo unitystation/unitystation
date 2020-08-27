@@ -1,0 +1,137 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &5166228698105017493
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8393056579400956317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed44c09dda7911046be12dffc5fdebdb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  mainSpriteRender: {fileID: 8542156281846680257}
+  data: {fileID: 11400000, guid: 8825d85e8e276914d956fa8f14b3efd1, type: 2}
+--- !u!1001 &8942877516477775324
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 415827526093052497, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 603864730428163137, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_Name
+      value: SmallCarton
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 608788480501922101, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 717601064801597941, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 761300034505144093, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: a7c1fc90b829a724493043079240a341,
+        type: 3}
+    - target: {fileID: 1048425508058114851, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: initialDescription
+      value: A small carton, intended for holding drinks.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1048425508058114851, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: initialName
+      value: small carton
+      objectReference: {fileID: 0}
+    - target: {fileID: 1822638479480687849, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6712409577912827846, guid: 40c34e56c622eb749908c4cf23b4778f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f8f273cea70a9fc4fb032ea6d68bc955,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 953749028936127685, guid: 40c34e56c622eb749908c4cf23b4778f, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 40c34e56c622eb749908c4cf23b4778f, type: 3}
+--- !u!1 &8393056579400956317 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 603864730428163137, guid: 40c34e56c622eb749908c4cf23b4778f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8942877516477775324}
+  m_PrefabAsset: {fileID: 0}
+--- !u!212 &8542156281846680257 stripped
+SpriteRenderer:
+  m_CorrespondingSourceObject: {fileID: 761300034505144093, guid: 40c34e56c622eb749908c4cf23b4778f,
+    type: 3}
+  m_PrefabInstance: {fileID: 8942877516477775324}
+  m_PrefabAsset: {fileID: 0}

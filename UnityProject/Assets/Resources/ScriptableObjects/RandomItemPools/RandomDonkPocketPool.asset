@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: RandomDonkPocketPool
+  m_EditorClassIdentifier: 
+  pool:
+  - prefab: {fileID: 5519980735549114617, guid: b2635e9d9a9147f499bb49f9e17c6acd,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4137765648563881622, guid: fae7c477fdabcd24ebbffd2e9718e4c5,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4858025108857819275, guid: f5d5f3f9ed71a7143a3add4cdabd5234,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7956709455914103835, guid: f3618afa1e3d9bd439013f5b56195388,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5775455268267556729, guid: 973f41e593e554c4aa1e447dc63808de,
+      type: 3}
+    maxAmount: 1
+    probability: 100

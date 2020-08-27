@@ -109,12 +109,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: ce21b73b5871e53458c587d56498f940, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1001 &2527073017877488697
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -207,6 +207,12 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 14b6795f3a7c586488ff9135a8106b6f,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: df6b539dc32d1f24a9891da9462fd0c4,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}

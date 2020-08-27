@@ -56,6 +56,8 @@ public class GUI_JobPreferences : MonoBehaviour
 	/// </summary>
 	private JobPrefsDict jobPreferences = new JobPrefsDict();
 
+	public JobPrefsDict JobPreferences => jobPreferences;
+
 	private void OnEnable()
 	{
 		PopulateJobs();
@@ -123,6 +125,7 @@ public class GUI_JobPreferences : MonoBehaviour
 		{
 			entry.SetPriority(priority);
 		}
+
 	}
 
 	/// <summary>
@@ -132,6 +135,7 @@ public class GUI_JobPreferences : MonoBehaviour
 	{
 		SetAllPriorities(Priority.None);
 		highEntry = null;
+
 	}
 
 	/// <summary>
@@ -204,9 +208,17 @@ public class GUI_JobPreferences : MonoBehaviour
 	{
 		// Loop through all jobs and set the dropdown to the specified priority.
 		// This will update the local jobPreferences variable using OnPriorityChange.
-		foreach (var jobPref in PlayerManager.CurrentCharacterSettings.JobPreferences)
+		foreach (var jobPref in PlayerManager.CurrentCharacterSettings.JobPreferences.ToList())
 		{
 			jobEntries[jobPref.Key].SetPriority(jobPref.Value);
 		}
+	}
+
+	/// <summary>
+	/// Use this to add the assistant job priority to player, used for when they have no other job selected
+	/// </summary>
+	public void SetAssistantDefault()
+	{
+		OnPriorityChange(JobType.ASSISTANT,Priority.Low,null);
 	}
 }

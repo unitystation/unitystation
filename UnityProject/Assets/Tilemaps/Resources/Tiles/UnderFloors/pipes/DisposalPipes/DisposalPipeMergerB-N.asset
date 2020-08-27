@@ -1,0 +1,57 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 178bd6d44a133a6458f56e4016f73bd6, type: 3}
+  m_Name: DisposalPipeMergerB-N
+  m_EditorClassIdentifier: 
+  displayName: disposal pipe merger
+  LayerType: 8
+  TileType: 10
+  RequiredTiles: []
+  floorTileType: 0
+  atmosPassable: 1
+  isSealed: 0
+  SpawnWithNoAir: 0
+  passable: 1
+  mineable: 0
+  passableException:
+    m_keys: 
+    m_values: 
+  maxHealth: 200
+  damageDeflection: 10
+  armor:
+    Melee: 25
+    Bullet: 10
+    Laser: 10
+    Energy: 100
+    Bomb: 0
+    Rad: 100
+    Fire: 90
+    Acid: 30
+    Magic: 0
+    Bio: 100
+  tileInteractions:
+  - {fileID: 11400000, guid: 60beb21b338960e459175e414f6016ef, type: 2}
+  spawnOnDeconstruct: {fileID: 2025448082421612283, guid: 583126a22bc8a9e409ca1b70c2ed0afd,
+    type: 3}
+  spawnAmountOnDeconstruct: 1
+  lootOnDespawn: {fileID: 0}
+  soundOnHit: 
+  PipeType: 2
+  DisposalPipeObjectOrientation: 1
+  sprite: {fileID: 21300002, guid: 6885f192ba3a1e24fa995aa0e5601743, type: 3}
+  _ConnectablePoints:
+  - Side: 1
+    Type: 1
+  - Side: 3
+    Type: 0
+  - Side: 2
+    Type: 0

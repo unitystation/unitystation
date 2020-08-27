@@ -35,30 +35,9 @@ MonoBehaviour:
     Name: tower
     Plantname: Tower Caps
     Description: This mycelium grows into tower-cap mushrooms.
-    PacketsSprite:
-      Texture: {fileID: 2800000, guid: 3686435fd5ccde34f89765c27cb9b71b, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 3686435fd5ccde34f89765c27cb9b71b, type: 3}
-      EquippedData: {fileID: 0}
-    GrowthSprites:
-    - Texture: {fileID: 2800000, guid: dfc18f5db27d6ab4689e11b66c0cc5be, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: dfc18f5db27d6ab4689e11b66c0cc5be, type: 3}
-      EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 1b9f4e35cb565714b8532988bbfb56d7, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 1b9f4e35cb565714b8532988bbfb56d7, type: 3}
-      EquippedData: {fileID: 0}
-    FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: eb1b1050ba602e74f977f88fcd2af37e, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: eb1b1050ba602e74f977f88fcd2af37e, type: 3}
-      EquippedData: {fileID: 0}
-    DeadSprite:
-      Texture: {fileID: 2800000, guid: de5805f6e6311fc4ab47a865623ca744, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: de5805f6e6311fc4ab47a865623ca744, type: 3}
-      EquippedData: {fileID: 0}
+    DeadSpriteSO: {fileID: 0}
+    FullyGrownSpriteSO: {fileID: 0}
+    GrowthSpritesSOs: []
     WeedResistance: 50
     WeedGrowthRate: 10
     GrowthSpeed: 10
@@ -68,8 +47,19 @@ MonoBehaviour:
     Lifespan: 80
     PlantTrays: 
     ReagentProduction: []
-    MutatesInTo:
-    - {fileID: 11400000, guid: edbd1e9dc89cce540ae541edf4f05b16, type: 2}
+    MutatesInToGameObject: []
+    plantEvolveStats:
+      WeedResistanceChange: 0
+      WeedGrowthRateChange: 0
+      GrowthSpeedChange: 0
+      PotencyChange: 0
+      EnduranceChange: 0
+      YieldChange: 0
+      LifespanChange: 0
+      PlantTrays: 
+      ReagentProduction: []
+      RemovePlantTrays: 
+      RemoveReagentProduction: []
     Age: 0
     NextGrowthStageProgress: 0
     Health: 0
@@ -108,6 +98,7 @@ MonoBehaviour:
     reagents:
       m_keys: []
       m_values: []
+  destroyOnEmpty: 0
 --- !u!114 &2884347744520720850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,12 +111,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 9553cf8a0175a124b84d95c72a39b689, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1001 &8350101497234306685
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -309,6 +300,27 @@ PrefabInstance:
       propertyPath: throwSpeed
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9553cf8a0175a124b84d95c72a39b689,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &8350257510729075399 stripped

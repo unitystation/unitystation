@@ -28,7 +28,7 @@ public class LowVoltageMachineConnector : NetworkBehaviour  , ICheckedInteractab
 		RelatedWire.InData.CanConnectTo = CanConnectTo;
 		RelatedWire.InData.Categorytype = ApplianceType;
 		RelatedWire.InData.WireEndA = Connection.MachineConnect;
-		RelatedWire.InData.WireEndB = Connection.Overlap;
+		RelatedWire.InData.WireEndB = Connection.SurroundingTiles;
 	}
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)

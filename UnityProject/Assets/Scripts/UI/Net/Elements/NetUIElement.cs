@@ -80,7 +80,7 @@ public abstract class NetUIElement<T> : NetUIElementBase
 	/// <summary>
 	/// Server-only method for updating element (i.e. changing label text) from server GUI code
 	/// </summary>
-	public void SetValueServer(T value)
+	public virtual void SetValueServer(T value)
 	{
 		Value = value;
 		UpdatePeepers();

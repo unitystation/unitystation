@@ -1,0 +1,312 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4008321086357629162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5680136605834777345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d95e80c8fc844f38a2d4a6f11bee3c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waysToPlace:
+  - layerTile: {fileID: 11400000, guid: 657356183813ad14b9739f199d420fbe, type: 2}
+    placeableOn: 5
+    placeableOnlyOnTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28,
+      type: 2}
+    itemCost: 2
+  placeTime: 6
+  placeSound: GlassHit
+--- !u!114 &1974579397293470367
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5680136605834777345}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e3ac583a1e4eddb2808ce1a2fc3b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buildList: {fileID: 11400000, guid: ea41669abf5244445b79347403892473, type: 2}
+--- !u!1001 &6201122676745358930
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stacksWith.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -6495101291114284292, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: stacksWith.Array.data[0]
+      value: 
+      objectReference: {fileID: 5680136605834777345}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1787564279694303271, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_Name
+      value: PlastitaniumGlassSheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821288291537931431, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821288291537931431, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821288291537931431, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 1821991397738242279, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1886097303314001423, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2969212a797ef144587079a0c45c4714,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialName
+      value: plastitanium glass sheet
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: exportCost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: exportMessage
+      value: cm3 of plastitanium glass
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ef95b18f5d8aa42d2b4241d48a97d81d,
+        type: 2}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: hitDamage
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: throwDamage
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: aac78ba65a86c8e4bb1e524f08bf33d9, type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: aac78ba65a86c8e4bb1e524f08bf33d9,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: aac78ba65a86c8e4bb1e524f08bf33d9,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: aac78ba65a86c8e4bb1e524f08bf33d9,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: aac78ba65a86c8e4bb1e524f08bf33d9,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 061d8a1d707654a4da1e1693a1887d7e, type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Texture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: ca782d5e0aac50d44b682a878de52f1e,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: ca782d5e0aac50d44b682a878de52f1e,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: ca782d5e0aac50d44b682a878de52f1e,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: ca782d5e0aac50d44b682a878de52f1e,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.EquippedData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: cdea50710dd86594f95a4c8fc8564865, type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: cdea50710dd86594f95a4c8fc8564865,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: cdea50710dd86594f95a4c8fc8564865,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: cdea50710dd86594f95a4c8fc8564865,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: cdea50710dd86594f95a4c8fc8564865,
+        type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 2fe733b1e1c355c4b9c76c20ec3765f0, type: 3}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: initialDescription
+      value: A glass sheet made out of a plasma-titanium-silicate alloy.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 58c9ee32774032a4db455bb815f5024c,
+        type: 2}
+    - target: {fileID: 2175428465337217585, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 47ce9b63d8c531746872e58fb9c76aae,
+        type: 2}
+    - target: {fileID: 5592108624515032788, guid: c3138c3e8a46444199668b85070b1a39,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: da01749f130d3a846a90307447238777,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c3138c3e8a46444199668b85070b1a39, type: 3}
+--- !u!1 &5680136605834777345 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1791647728409730387, guid: c3138c3e8a46444199668b85070b1a39,
+    type: 3}
+  m_PrefabInstance: {fileID: 6201122676745358930}
+  m_PrefabAsset: {fileID: 0}

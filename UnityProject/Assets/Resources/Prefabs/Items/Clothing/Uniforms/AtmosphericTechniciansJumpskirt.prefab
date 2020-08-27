@@ -91,13 +91,20 @@ PrefabInstance:
     - target: {fileID: 3397443007502491847, guid: 7836d5b8852b74938820fb198f01e5ba,
         type: 3}
       propertyPath: initialDescription
-      value: It's a jumpskirt worn by atmospheric technicians.
+      value: It's a jumpskirt worn by atmospheric technicians. It has minor protection
+        from fire.
       objectReference: {fileID: 0}
     - target: {fileID: 8193882076658244640, guid: 7836d5b8852b74938820fb198f01e5ba,
         type: 3}
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: d7710f81fbf16f844bd805d3d0566d0d,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: 7836d5b8852b74938820fb198f01e5ba,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: afa094f5379966d4cb2d67c839f9d172,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7836d5b8852b74938820fb198f01e5ba, type: 3}

@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: CommonMedicalNChemical
+  m_EditorClassIdentifier: 
+  pool:
+  - prefab: {fileID: 7188868217503671157, guid: fc35b50e497fc8d469ec0c0e7abc9cdb,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 7190773224479098488, guid: f6b4337f71037664e83de378d446ca98,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8582594776399167655, guid: 5eb15adcfc6eff74587417fd1e12310e,
+      type: 3}
+    maxAmount: 1
+    probability: 0
+  - prefab: {fileID: 8679969532050251905, guid: 8fee22e722a3782408324281846ebd02,
+      type: 3}
+    maxAmount: 1
+    probability: 100

@@ -180,6 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 1
 --- !u!114 &114868527810879464
 MonoBehaviour:
@@ -193,6 +194,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &5151831765998453531
@@ -209,9 +211,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  FalseWall: {fileID: 1395021743432191680, guid: 6758ee1e3731dd6419af3471a3e3db4c,
+  FalseWall: {fileID: 1626197849799790230, guid: e3fb07aeead92a74091216ef8df2c338,
     type: 3}
-  FalseReinforcedWall: {fileID: 7559400922104186197, guid: 72ac4cacc3c1f734b9f6e1f9314ad414,
+  FalseReinforcedWall: {fileID: 2057434539693897599, guid: ad3ad861919b88a479eacc3d06e05fd5,
     type: 3}
   reinforcedGirder: {fileID: 4943491835017597119, guid: 2fd10ec3332f84282b64353660ace1f9,
     type: 3}
@@ -245,7 +247,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 200
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -266,7 +270,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 200
 --- !u!114 &114876689548865824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,6 +322,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0

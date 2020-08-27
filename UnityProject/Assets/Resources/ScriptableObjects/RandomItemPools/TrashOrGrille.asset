@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: TrashOrGrille
+  m_EditorClassIdentifier: 
+  pool:
+  - prefab: {fileID: 7376449702682419346, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+      type: 3}
+    maxAmount: 1
+    probability: 50
+  - prefab: {fileID: 1562085630854840, guid: 74a4d1096ea27044c9000c8feff1f52d, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 1722833055556988, guid: 3867b56bd9960f84a8f76cfd857c80b9, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5558746297286370, guid: 7433fede76bc68c40851a73d529d8b3a, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 773683976701909403, guid: dae0cbe22cdb0e6478da04587c4e38e1, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 5558746297286370, guid: fd49dd2cee50dce468c4545c460e75a9, type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 1931456197757473819, guid: 1eea6c0e153fb2343bf1097664784d9c,
+      type: 3}
+    maxAmount: 1
+    probability: 100

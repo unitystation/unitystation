@@ -62,7 +62,7 @@ public class MobAgent : Agent
 		tickWait = 0f;
 	}
 
-	public void Start()
+	public virtual void Start()
 	{
 		//only needed for starting via a map scene through the editor:
 		if (CustomNetworkManager.Instance == null) return;
@@ -245,7 +245,7 @@ public class MobAgent : Agent
 						dest, true);
 				if (tryGetDoor)
 				{
-					tryGetDoor.ServerTryOpen(gameObject);
+					tryGetDoor.MobTryOpen(gameObject);
 				}
 			}
 			else

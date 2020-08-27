@@ -7,9 +7,15 @@ public class DoorNewPlayer: ClientMessage
 
 	public override void Process()
 	{
-		LoadNetworkObject(Door);
-		NetworkObject.GetComponent<DoorController>().UpdateNewPlayer(
-			SentByPlayer.Connection);
+		// LoadNetworkObject returns bool, so it can be used to check if object is loaded correctly
+		if (LoadNetworkObject(Door))
+		{
+			// https://docs.unity3d.com/2019.3/Documentation/ScriptReference/Component.TryGetComponent.html
+			if (NetworkObject.TryGetComponent(out DoorController doorController))
+			{
+				doorController.UpdateNewPlayer(SentByPlayer.Connection);
+			}
+		}
 	}
 
 	public static DoorNewPlayer Send(uint netId)

@@ -19,6 +19,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: eec3f6d6a1eab4d4a938887a63074661,
         type: 3}
+    - target: {fileID: 4076730188616988094, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 14576ae832147c44daec690486803fa9,
+        type: 2}
     - target: {fileID: 5035609469445439989, guid: 908afbc5b9f871148b5ccd0b81bd147f,
         type: 3}
       propertyPath: maxCapacity
@@ -132,6 +138,18 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 408d609d5f3612f418e64577d98cc183,
+        type: 2}
+    - target: {fileID: 7726190153568297307, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 70f2eec666e8f5a409d9ba1a70a57c03,
+        type: 2}
+    - target: {fileID: 7726190153568297307, guid: 908afbc5b9f871148b5ccd0b81bd147f,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c2f81893618a91438aa185b32930aba,
         type: 2}
     - target: {fileID: 7800619582892077965, guid: 908afbc5b9f871148b5ccd0b81bd147f,
         type: 3}

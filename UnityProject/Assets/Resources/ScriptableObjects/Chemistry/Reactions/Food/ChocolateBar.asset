@@ -1,0 +1,29 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
+  m_Name: ChocolateBar
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: 0c793b26027c29a1cb5806c738a7a556, type: 2}
+    - {fileID: 11400000, guid: 0d70c7e3be7f9db159f739339ff04b3e, type: 2}
+    - {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
+    m_values: 020000000200000002000000
+  useExactAmounts: 1
+  catalysts:
+    m_keys: []
+    m_values: 
+  results:
+    m_keys: []
+    m_values: 
+  effects:
+  - {fileID: 11400000, guid: 2c0172542abd51a499cb719cbb483e72, type: 2}

@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3609312079422856073
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 479374489354486641, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1720155920867715363, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: initialName
+      value: gold door
+      objectReference: {fileID: 0}
+    - target: {fileID: 8078043400501678596, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1739994179472381967, guid: b25d5f7385c8b9448a7b88fcb655f985,
+        type: 3}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8317990795859112137, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8321180160226194963, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: m_Name
+      value: GoldDoor
+      objectReference: {fileID: 0}
+    - target: {fileID: 9176220511878430704, guid: d6882bf1e96328b4189c858524c259b6,
+        type: 3}
+      propertyPath: spritePath
+      value: icons/obj/doors/mineral/mineral_doors_gold
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: d6882bf1e96328b4189c858524c259b6, type: 3}

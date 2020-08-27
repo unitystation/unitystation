@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4483784073314418}
   - component: {fileID: 61353820898220742}
-  - component: {fileID: 61831471734525118}
   - component: {fileID: 114886235695965992}
   - component: {fileID: 114518165931300696}
   - component: {fileID: 114411181499774446}
@@ -19,6 +18,9 @@ GameObject:
   - component: {fileID: 114527855772597142}
   - component: {fileID: 9166398494684673146}
   - component: {fileID: -7059121599107143143}
+  - component: {fileID: 6882544262421382559}
+  - component: {fileID: 3389356315660204640}
+  - component: {fileID: 4596431440032544948}
   m_Layer: 11
   m_Name: research_0
   m_TagString: Untagged
@@ -67,32 +69,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61831471734525118
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024134714361146}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114886235695965992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +101,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114411181499774446
 MonoBehaviour:
@@ -152,6 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114718090502416624
@@ -231,11 +209,63 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 441a624c541ebf04c922208813d3d85d, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 8026946951644424067, guid: 23d78abe2740d804ca053640b8d7d10e,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
+--- !u!114 &6882544262421382559
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024134714361146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a9cc33842e80b54aa608c12d31b8750, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  PoweredState: 2
+  spriteHandler: {fileID: 1291619189881775208}
+  idleSprite: {fileID: 0}
+  productionSprite: {fileID: 0}
+  acceptingMaterialsSprite: {fileID: 0}
+  materialStorage: {fileID: 4596431440032544948}
+  autolatheProducts: {fileID: 11400000, guid: f4149bd30d5f03f4cb903a9418d550e3, type: 2}
+--- !u!114 &3389356315660204640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024134714361146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 18
+--- !u!114 &4596431440032544948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1024134714361146}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9cbbddbea96e4804186a58b019b786fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  materialsInMachines: {fileID: 11400000, guid: b6e83d10ca1eed247949504321b25658,
+    type: 2}
+  maximumTotalResourceStorage: 1000000
 --- !u!1 &1880078836778836
 GameObject:
   m_ObjectHideFlags: 0
@@ -246,6 +276,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4345547865384232}
   - component: {fileID: 212668705858877436}
+  - component: {fileID: 1291619189881775208}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -317,3 +348,21 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1291619189881775208
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880078836778836}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: d70277bfa0ca32049b0f6f1f24452b40, type: 2}
+  Sprites: []
+  variantIndex: 0
+  palette: []

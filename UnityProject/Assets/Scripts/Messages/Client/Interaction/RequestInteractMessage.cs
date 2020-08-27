@@ -51,6 +51,10 @@ public class RequestInteractMessage : ClientMessage
 	public int SlotIndex;
 	//named slot targeted in storage
 	public NamedSlot NamedSlot;
+	// connections used in CableApply
+	public Connection connectionPointA, connectionPointB;
+	// Requested option of a right-click context menu interaction
+	public string RequestedOption;
 
 	private static readonly Dictionary<ushort, Type> componentIDToComponentType = new Dictionary<ushort, Type>();
 	private static readonly Dictionary<Type, ushort> componentTypeToComponentID = new Dictionary<Type, ushort>();
@@ -214,7 +218,7 @@ public class RequestInteractMessage : ClientMessage
 				TargetVector, processorObj, usedSlot, usedObject, Intent,
 				TileApply.ApplyType.HandApply);
 		}
-		else if(InteractionType == typeof(TileMouseDrop))
+		else if (InteractionType == typeof(TileMouseDrop))
 		{
 			LoadMultipleObjects(new uint[]{UsedObject,
 				ProcessorObject
@@ -225,6 +229,31 @@ public class RequestInteractMessage : ClientMessage
 			processorObj.GetComponent<InteractableTiles>().ServerProcessInteraction(SentByPlayer.GameObject,
 				TargetVector, processorObj, null, usedObj, Intent,
 				TileApply.ApplyType.MouseDrop);
+		}
+		else if (InteractionType == typeof(ConnectionApply))
+		{
+			//look up item in active hand slot
+			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var usedSlot = clientStorage.GetActiveHandSlot();
+			var usedObject = clientStorage.GetActiveHandSlot().ItemObject;
+			LoadMultipleObjects(new uint[]{
+				TargetObject, ProcessorObject
+			});
+			var targetObj = NetworkObjects[0];
+			var processorObj = NetworkObjects[1];
+			var interaction = ConnectionApply.ByClient(performer, usedObject, targetObj, connectionPointA, connectionPointB, TargetVector, usedSlot, Intent);
+			ProcessInteraction(interaction, processorObj);
+		}
+		else if (InteractionType == typeof(ContextMenuApply))
+		{
+			LoadMultipleObjects(new uint[] { TargetObject, ProcessorObject });
+			var clientStorage = SentByPlayer.Script.ItemStorage;
+			var usedObj = clientStorage.GetActiveHandSlot().ItemObject;
+			var targetObj = NetworkObjects[0];
+			var processorObj = NetworkObjects[1];
+
+			var interaction = ContextMenuApply.ByClient(performer, usedObj, targetObj, RequestedOption, Intent);
+			ProcessInteraction(interaction, processorObj);
 		}
 	}
 
@@ -292,8 +321,9 @@ public class RequestInteractMessage : ClientMessage
 			//check the target object if there is one
 			if (interaction is TargetedInteraction targetedInteraction)
 			{
+				if(targetedInteraction.TargetObject == null) return;
 				var interactables = targetedInteraction.TargetObject.GetComponents<IInteractable<T>>()
-					.Where(c => c != null && (c as MonoBehaviour).enabled);
+					.Where(c => c != null && (c as MonoBehaviour)?.enabled == true);
 				Logger.LogTraceFormat("Server checking which component to trigger for {0} on object {1}", Category.Interaction,
 					typeof(T).Name, targetedInteraction.TargetObject.name);
 				if (ServerCheckAndTrigger(interaction, interactables))
@@ -427,6 +457,20 @@ public class RequestInteractMessage : ClientMessage
 			msg.UsedObject = casted.UsedObject.NetId();
 			msg.IsAltUsed = casted.IsAltClick;
 		}
+		else if (typeof(T) == typeof(ConnectionApply))
+		{
+			var casted = interaction as ConnectionApply;
+			msg.TargetObject = casted.TargetObject.NetId();
+			msg.TargetVector = casted.TargetVector;
+			msg.connectionPointA = casted.WireEndA;
+			msg.connectionPointB = casted.WireEndB;
+		}
+		else if (typeof(T) == typeof(ContextMenuApply))
+		{
+			var casted = interaction as ContextMenuApply;
+			msg.TargetObject = casted.TargetObject.NetId();
+			msg.RequestedOption = casted.RequestedOption;
+		}
 		msg.Send();
 	}
 
@@ -544,10 +588,22 @@ public class RequestInteractMessage : ClientMessage
 		{
 			TargetVector = reader.ReadVector2();
 		}
-		else if(InteractionType == typeof(TileMouseDrop))
+		else if (InteractionType == typeof(TileMouseDrop))
 		{
 			UsedObject = reader.ReadUInt32();
 			TargetVector = reader.ReadVector2();
+		}
+		else if (InteractionType == typeof(ConnectionApply))
+		{
+			TargetObject = reader.ReadUInt32();
+			TargetVector = reader.ReadVector2();
+			connectionPointA = (Connection)reader.ReadByte();
+			connectionPointB = (Connection)reader.ReadByte();
+		}
+		else if (InteractionType == typeof(ContextMenuApply))
+		{
+			TargetObject = reader.ReadUInt32();
+			RequestedOption = reader.ReadString();
 		}
 	}
 
@@ -605,11 +661,22 @@ public class RequestInteractMessage : ClientMessage
 		{
 			writer.WriteVector2(TargetVector);
 		}
-		else if(InteractionType == typeof(TileMouseDrop))
+		else if (InteractionType == typeof(TileMouseDrop))
 		{
 			writer.WriteUInt32(UsedObject);
 			writer.WriteVector2(TargetVector);
 		}
+		else if (InteractionType == typeof(ConnectionApply))
+		{
+			writer.WriteUInt32(TargetObject);
+			writer.WriteVector2(TargetVector);
+			writer.WriteByte((byte)connectionPointA);
+			writer.WriteByte((byte)connectionPointB);
+		}
+		else if (InteractionType == typeof(ContextMenuApply))
+		{
+			writer.WriteUInt32(TargetObject);
+			writer.WriteString(RequestedOption);
+		}
 	}
-
 }

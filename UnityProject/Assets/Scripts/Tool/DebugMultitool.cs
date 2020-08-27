@@ -16,11 +16,13 @@ public class DebugMultitool : MonoBehaviour, ICheckedInteractable<PositionalHand
 		MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
 		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
 		var matrix = interaction.Performer.GetComponentInParent<Matrix>();
-		var MetaDataNode = matrix.GetMetaDataNode(localPosInt);
-		Logger.Log("MetaDataNodeCount " + MetaDataNode.ElectricalData.Count);
+		var MetaDataNode = matrix.GetElectricalConnections(localPosInt);
+		Logger.Log("MetaDataNodeCount " + MetaDataNode.Count);
 
-		foreach (var D in MetaDataNode.ElectricalData) {
-			D.InData.ShowDetails();
+		foreach (var D in MetaDataNode) {
+			D.ShowDetails();
 		}
+		MetaDataNode.Clear();
+		ElectricalPool.PooledFPCList.Add(MetaDataNode);
 	}
 }

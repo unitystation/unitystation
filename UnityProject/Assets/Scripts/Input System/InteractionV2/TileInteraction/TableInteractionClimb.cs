@@ -74,5 +74,9 @@ public class TableInteractionClimb : TileInteraction
 				}
 			}
 		}).ServerStartProgress(interaction.UsedObject.RegisterTile(), 3.0f, interaction.Performer);
+		
+		Chat.AddActionMsgToChat(interaction.Performer,
+			"You begin cimbing onto the table...",
+			$"{interaction.Performer.ExpensiveName()} begins climbing onto the table...");
 	}
 }

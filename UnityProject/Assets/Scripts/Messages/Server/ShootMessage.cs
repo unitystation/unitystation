@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
+using Weapons;
 
 /// <summary>
 /// Informs all clients that a shot has been performed so they can display it (but they needn't

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -29,7 +29,7 @@ public class CustomNetworkManager : NetworkManager
 	[NonSerialized]
 	public UnityEvent OnClientDisconnected = new UnityEvent();
 
-	void Awake()
+	public override void Awake()
 	{
 		if (Instance == null)
 		{
@@ -108,29 +108,6 @@ public class CustomNetworkManager : NetworkManager
 		foreach (NetworkIdentity netObj in networkObjects)
 		{
 			spawnPrefabs.Add(netObj.gameObject);
-		}
-
-		string[] dirs = Directory.GetDirectories(Application.dataPath, "Resources/Prefabs", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times
-		foreach (string dir in dirs)
-		{
-			//Should yield For a frame to Increase performance
-			LoadFolder(dir);
-			foreach (string subdir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
-			{
-				LoadFolder(subdir);
-			}
-		}
-	}
-
-	private void LoadFolder(string folderpath)
-	{
-		folderpath = folderpath.Substring(folderpath.IndexOf("Resources", StringComparison.Ordinal) + "Resources".Length);
-		foreach (NetworkIdentity netObj in Resources.LoadAll<NetworkIdentity>(folderpath))
-		{
-			if (!spawnPrefabs.Contains(netObj.gameObject))
-			{
-				spawnPrefabs.Add(netObj.gameObject);
-			}
 		}
 	}
 
@@ -215,7 +192,7 @@ public class CustomNetworkManager : NetworkManager
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
 		//register them as removed from our own player list
-		PlayerList.Instance.Remove(conn);
+		PlayerList.Instance.RemoveByConnection(conn);
 
 		//NOTE: We don't call the base.OnServerDisconnect method because it destroys the player object -
 		//we want to keep the object around so player can rejoin and reenter their body.

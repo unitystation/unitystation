@@ -1,16 +1,13 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using AdminTools;
+using Audio.Managers;
 using Mirror;
 using UI.UI_Bottom;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
-using Unitystation.Options;
 
 public class UIManager : MonoBehaviour
 {
@@ -44,6 +41,8 @@ public class UIManager : MonoBehaviour
 	public AdminChatWindows adminChatWindows;
 	public PlayerAlerts playerAlerts;
 	private bool preventChatInput;
+	[SerializeField] [Range(0.1f,10f)] private float PhoneZoomFactor = 1.6f;
+	public LobbyUIPlayerListController lobbyUIPlayerListController = null;
 
 	public static bool PreventChatInput
 	{
@@ -112,6 +111,24 @@ public class UIManager : MonoBehaviour
 #else
 	public static bool UseGamePad = false;
 #endif
+
+	public static bool IsTablet => DeviceDiagonalSizeInInches > 6.5f && AspectRatio < 2f;
+	public static float AspectRatio =>
+		(float) Mathf.Max(Screen.width, Screen.height) / Mathf.Min(Screen.width, Screen.height);
+
+	public static float DeviceDiagonalSizeInInches
+	{
+		get
+		{
+			float screenWidth = Screen.width / Screen.dpi;
+			float screenHeight = Screen.height / Screen.dpi;
+			float diagonalInches = Mathf.Sqrt (Mathf.Pow (screenWidth, 2) + Mathf.Pow (screenHeight, 2));
+
+			Debug.Log ("Getting device inches: " + diagonalInches);
+
+			return diagonalInches;
+		}
+	}
 
 	//		public static ControlChat Chat => Instance.chatControl; //Use ChatRelay.Instance.AddToChatLog instead!
 	public static PlayerHealthUI PlayerHealthUI => Instance.playerHealthUI;
@@ -201,6 +218,7 @@ public class UIManager : MonoBehaviour
 	{
 		DetermineInitialTargetFrameRate();
 		Logger.Log("Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI);
+		InitMobile();
 
 		if (!PlayerPrefs.HasKey(PlayerPrefKeys.TTSToggleKey))
 		{
@@ -215,6 +233,30 @@ public class UIManager : MonoBehaviour
 
 		adminChatButtons.transform.parent.gameObject.SetActive(false);
 		SetVersionDisplay = $"Work In Progress {GameData.BuildNumber}";
+	}
+
+	private void InitMobile()
+	{
+		if (!Application.isMobilePlatform)
+		{
+			return;
+		}
+
+		if (!IsTablet) //tablets should be fine as is
+		{
+			Logger.Log("Looks like it's a phone, scaling UI", Category.UI);
+			var canvasScaler = GetComponent<CanvasScaler>();
+			if (!canvasScaler)
+			{
+				return;
+			}
+
+			canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+			canvasScaler.matchWidthOrHeight = 0f; //match width
+			canvasScaler.referenceResolution =
+				new Vector2(Screen.width/PhoneZoomFactor, canvasScaler.referenceResolution.y);
+
+		}
 	}
 
 	private void OnEnable()
@@ -282,6 +324,7 @@ public class UIManager : MonoBehaviour
 		}
 
 		StorageHandler.CloseStorageUI();
+		Hands.SetHand(true);
 		Camera2DFollow.followControl.ZeroStars();
 		IsOxygen = false;
 		GamePad.gameObject.SetActive(UseGamePad);
@@ -364,24 +407,13 @@ public class UIManager : MonoBehaviour
 	/// <param name="player">player performing the action</param>
 	/// <returns>progress bar associated with this action (can use this to interrupt progress). Null if
 	/// progress was not started for some reason (such as already in progress for this action on the specified tile).</returns>
-	public static ProgressBar _ServerStartProgress(IProgressAction progressAction, ActionTarget actionTarget,
-		float timeForCompletion,
-		GameObject player)
+	public static ProgressBar _ServerStartProgress(
+			IProgressAction progressAction, ActionTarget actionTarget, float timeForCompletion, GameObject player)
 	{
-		//convert to an offset so local position ends up being correct even on moving matrix
-		var offsetFromPlayer = actionTarget.TargetWorldPosition.To2Int() - player.TileWorldPosition();
-		//convert to local position so it appears correct on moving matrix
-		//do not use tileworldposition for actual spawn position - bar will appear shifted on moving matrix
-		var targetWorldPosition = player.transform.position + offsetFromPlayer.To3Int();
-		var targetTilePosition = player.TileWorldPosition() + offsetFromPlayer;
-		var targetMatrixInfo = MatrixManager.AtPoint(targetTilePosition.To3Int(), true);
+		var targetMatrixInfo = MatrixManager.AtPoint(actionTarget.TargetWorldPosition.CutToInt(), true);
 		var targetParent = targetMatrixInfo.Objects;
-		//snap to local position
-		var targetLocalPosition = targetParent.transform.InverseTransformPoint(targetWorldPosition).RoundToInt();
 
-		//back to world so we can call PoolClientInstantiate
-		targetWorldPosition = targetParent.transform.TransformPoint(targetLocalPosition);
-		var barObject = Spawn.ClientPrefab("ProgressBar", targetWorldPosition, targetParent).GameObject;
+		var barObject = Spawn.ClientPrefab("ProgressBar", actionTarget.TargetWorldPosition, targetParent).GameObject;
 		var progressBar = barObject.GetComponent<ProgressBar>();
 
 		//make sure it should start and call start hooks
@@ -453,7 +485,7 @@ public class UIManager : MonoBehaviour
 			yield return null;
 		}
 
-		SoundManager.StopAmbient();
+		SoundAmbientManager.StopAllAudio();
 
 	}
 

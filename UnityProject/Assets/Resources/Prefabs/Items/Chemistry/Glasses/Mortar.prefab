@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1045571452938225250
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2121397489038221665, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 92630a41d5f4a614a870268727678d4a,
+        type: 2}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5198608423821879186, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5203532174433049318, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_Name
+      value: Mortar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5305976386938988370, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5388378204652235194, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: bdff9117030f4d045898db2b160ac088,
+        type: 3}
+    - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: initialDescription
+      value: A specially formed bowl of ancient design. It is possible to crush or
+        juice items placed in it using a pestle; however the process, unlike modern
+        methods, is slow and physically exhausting. Alt click to eject the item.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5682190628715771268, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: initialName
+      value: mortar
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[7]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: transferAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6421186659643855438, guid: 364841a08150e9345b119e71191c8dcf,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 100
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 364841a08150e9345b119e71191c8dcf, type: 3}

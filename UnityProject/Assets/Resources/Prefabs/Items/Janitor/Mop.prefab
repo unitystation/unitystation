@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   reagentsPerUse: 5
-  useTime: 5
+  useTime: 1.5
 --- !u!114 &1580949991522562425
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,6 +42,7 @@ MonoBehaviour:
     reagents:
       m_keys: []
       m_values: []
+  destroyOnEmpty: 0
 --- !u!114 &2900683335283585837
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +279,30 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 20597800d3cec8f438706d926881018b,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: aab9cb7b93e761c40b569e30d02a7768,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 57538f9315679bf468543a5af6e2818d,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 8dd6b4158c4468847837c9c2f037992e,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aab9cb7b93e761c40b569e30d02a7768,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}

@@ -37,6 +37,8 @@ public class GUI_HackingWire : MonoBehaviour
 
 	public void SetEndUINode(GUI_HackingNode endNode)
 	{
+		if (endNode == null) return;
+
 		this.endNode = endNode;
 		RectTransform nodeRectTransform = endNode.GetComponent<RectTransform>();
 		RectTransform wireEndRectTransform = wireEnd.GetComponent<RectTransform>();

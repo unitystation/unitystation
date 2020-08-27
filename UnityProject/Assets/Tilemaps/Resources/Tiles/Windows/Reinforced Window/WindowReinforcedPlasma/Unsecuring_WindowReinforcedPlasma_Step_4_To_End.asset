@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f0627a4860741578ec35e4340e83cc6, type: 3}
+  m_Name: Unsecuring_WindowReinforcedPlasma_Step_4_To_End
+  m_EditorClassIdentifier: 
+  requiredTrait: {fileID: 11400000, guid: 024541a41c4ab42a499f8e49374496d4, type: 2}
+  performerStartActionMessage: You start unfastening the bolts from the reinforced
+    window's frame...
+  othersStartActionMessage: '{performer} starts unfastening the bolts on the reinforced
+    window''s frame...'
+  seconds: 4
+  objectsToSpawn: {fileID: 11400000, guid: e08d0dc183ce1bf4fb19cbf0f817d2ba, type: 2}
+  performerFinishActionMessage: You unfasten the bolts from the frame and the reinforced
+    window pops loose.
+  othersFinishActionMessage: '{performer} unfastens the bolts from the frame and
+    the reinforced window pops loose.'

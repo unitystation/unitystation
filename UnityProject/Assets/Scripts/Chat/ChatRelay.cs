@@ -19,6 +19,8 @@ public class ChatRelay : NetworkBehaviour
 	private LayerMask layerMask;
 	private LayerMask npcMask;
 
+	private RconManager rconManager;
+
 
 	/// <summary>
 	/// The char indicating that the following text is speech.
@@ -46,6 +48,8 @@ public class ChatRelay : NetworkBehaviour
 						   ChatChannel.Combat;
 		layerMask = LayerMask.GetMask("Walls", "Door Closed");
 		npcMask = LayerMask.GetMask("NPC");
+
+		rconManager = RconManager.Instance;
 	}
 
 	[Server]
@@ -59,31 +63,31 @@ public class ChatRelay : NetworkBehaviour
 	{
 		List<ConnectedPlayer> players;
 
-		if (chatEvent.matrix != MatrixInfo.Invalid)
-		{
+		//if (chatEvent.matrix != MatrixInfo.Invalid) //no, bad
+		//{
 			//get players only on provided matrix
-			players = PlayerList.Instance.GetPlayersOnMatrix(chatEvent.matrix);
-		}
-		else
-		{
+			//players = PlayerList.Instance.GetPlayersOnMatrix(chatEvent.matrix);
+		//}
+		//else
+		//{
 			//Try get the matrix first:
-			if (chatEvent.originator != null)
-			{
-				var regiTile = chatEvent.originator.GetComponent<RegisterTile>();
-				if (regiTile != null)
-				{
-					players = PlayerList.Instance.GetPlayersOnMatrix(MatrixManager.Get(regiTile.Matrix));
-				}
-				else
-				{
-					players = PlayerList.Instance.AllPlayers;
-				}
-			}
-			else
-			{
+			//if (chatEvent.originator != null)
+			//{
+				//var regiTile = chatEvent.originator.GetComponent<RegisterTile>();
+				//if (regiTile != null)
+				//{
+					//players = PlayerList.Instance.GetPlayersOnMatrix(MatrixManager.Get(regiTile.Matrix));
+				//}
+				//else
+				//{
+					//players = PlayerList.Instance.AllPlayers;
+				//}
+			//}
+			//else
+			//{
 				players = PlayerList.Instance.AllPlayers;
-			}
-		}
+			//}
+		//}
 
 		//Local chat range checks:
 		if (chatEvent.channels.HasFlag(ChatChannel.Local) || chatEvent.channels.HasFlag(ChatChannel.Combat)
@@ -179,7 +183,7 @@ public class ChatRelay : NetworkBehaviour
 			}
 		}
 
-		if (RconManager.Instance != null)
+		if (rconManager != null)
 		{
 			string name = "";
 			if ((namelessChannels & chatEvent.channels) != chatEvent.channels)

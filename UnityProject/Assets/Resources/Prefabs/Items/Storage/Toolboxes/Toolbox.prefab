@@ -94,12 +94,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 629838426e75c1047be7985e566681d3, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!114 &4699351480206158359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -293,11 +293,29 @@ PrefabInstance:
       propertyPath: initialSize
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b141c5d6b1f8b8245a182b3a94ed9948,
+        type: 2}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b5a3e682ce8ab64aa63a4044cc5cdd0,
+        type: 2}
     - target: {fileID: 6900997446700812531, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: denyStorageOfStorageItems
       value: -1
       objectReference: {fileID: 0}
+    - target: {fileID: 7482199438493803764, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5ea8558db487ae74b8bb8789ee193232,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e46ba34aab52d654787ef10d896b0874, type: 3}
 --- !u!1 &8568672687853555390 stripped

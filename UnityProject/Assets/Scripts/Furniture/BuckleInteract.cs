@@ -1,26 +1,18 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using UnityEngine;
-using Mirror;
 
 /// <summary>
 /// Buckle a player in when they are dragged and dropped while on this object, then unbuckle
 /// them when the object is hand-applied to.
 /// </summary>
-public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, ICheckedInteractable<HandApply>
+public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, ICheckedInteractable<HandApply>,
+	IServerLifecycle
 {
 	//may be null
 	private OccupiableDirectionalSprite occupiableDirectionalSprite;
 	private Integrity integrity;
 
 	public bool forceLayingDown;
-
-	private void OnEnable()
-	{
-		integrity = GetComponent<Integrity>();
-	}
 
 	private void Start()
 	{
@@ -60,16 +52,22 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 
 	public void ServerPerformInteraction(MouseDrop drop)
 	{
-		SoundManager.PlayNetworkedAtPos("Click01", drop.TargetObject.WorldPosServer(), sourceObj: gameObject);
+		var playerScript = drop.UsedObject.GetComponent<PlayerScript>();
+		BucklePlayer(playerScript);
+	}
 
-		var playerMove = drop.UsedObject.GetComponent<PlayerMove>();
-		playerMove.ServerBuckle(gameObject, OnUnbuckle);
+	/// <summary>
+	/// Don't use it without proper validation!
+	/// </summary>
+	public void BucklePlayer(PlayerScript playerScript)
+	{
+		SoundManager.PlayNetworkedAtPos("Click01", gameObject.WorldPosServer(), sourceObj: gameObject);
 
-		if(integrity != null) integrity.OnServerDespawnEvent += playerMove.Unbuckle;
+		playerScript.playerMove.ServerBuckle(gameObject, OnUnbuckle);
 
 		//if this is a directional sprite, we render it in front of the player
 		//when they are buckled
-		occupiableDirectionalSprite?.SetOccupant(drop.UsedObject.NetId());
+		occupiableDirectionalSprite?.SetOccupant(playerScript.netId);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -78,8 +76,6 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 		if (interaction.TargetObject != gameObject) return false;
 		//can only do this empty handed
 		if (interaction.HandObject != null) return false;
-
-
 
 		//can only do this if there is a buckled player here
 		return MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
@@ -90,21 +86,38 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 	{
 		SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer(), sourceObj: gameObject);
 
-		var playerMoveAtPosition = MatrixManager
-			.GetAt<PlayerMove>(transform.position.CutToInt(), true)?
-			.FirstOrDefault(pm => pm.IsBuckled);
-		//cannot use the CmdUnrestrain because commands are only allowed to be invoked by local player
-		if (playerMoveAtPosition != null)
-		{
-			playerMoveAtPosition.Unbuckle();
-		}
+		Unbuckle();
+	}
 
-		//the above will then invoke onunbuckle as it was the callback passed to Restrain
+	/// <summary>
+	/// Eject whoever is buckled to this
+	/// </summary>
+	public void Unbuckle()
+	{
+		if (!CustomNetworkManager.IsServer)
+		{
+			return;
+		}
+		foreach (var playerMove in MatrixManager.GetAt<PlayerMove>(gameObject, NetworkSide.Server))
+		{
+			if (playerMove.IsBuckled)
+			{
+				playerMove.Unbuckle();
+				return;
+			}
+		}
 	}
 
 	//delegate invoked from playerMove when they are unrestrained from this
 	private void OnUnbuckle()
 	{
 		occupiableDirectionalSprite?.SetOccupant(NetId.Empty);
+	}
+
+	public void OnSpawnServer(SpawnInfo info){}
+
+	public void OnDespawnServer(DespawnInfo info)
+	{
+		Unbuckle();
 	}
 }

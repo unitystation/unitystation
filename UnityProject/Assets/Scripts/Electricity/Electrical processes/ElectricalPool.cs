@@ -89,9 +89,13 @@ public class ElectricalPool
 	{
 		if (PooledFPCList.Count > 0)
 		{
-			var FPCList = PooledFPCList[0];
-			PooledFPCList.RemoveAt(0);
-			return (FPCList);
+			lock (PooledFPCList)
+			{
+				var FPCList = PooledFPCList[0];
+				PooledFPCList.RemoveAt(0);
+				FPCList.Clear();
+				return (FPCList);
+			}
 		}
 		else {
 			return (new List<IntrinsicElectronicData>());

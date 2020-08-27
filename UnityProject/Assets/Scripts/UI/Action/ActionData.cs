@@ -1,27 +1,46 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 [System.Serializable]
 
 [CreateAssetMenu(fileName = "ActionData", menuName = "ScriptableObjects/ActionData")]
 public class ActionData : ScriptableObject
 {
-	public bool CallOnClient;
-	public bool CallOnServer;
+	[FormerlySerializedAs("CallOnClient")]
+	[SerializeField]
+	private bool callOnClient = default;
+	[FormerlySerializedAs("CallOnServer")]
+	[SerializeField]
+	private bool callOnServer = default;
+	public virtual bool CallOnClient => callOnClient;
+	public virtual bool CallOnServer => callOnServer;
 
-	public List<SpriteSheetAndData> Sprites = new List<SpriteSheetAndData>();
-	public List<SpriteSheetAndData> Backgrounds = new List<SpriteSheetAndData>();
+	[FormerlySerializedAs("spellName")]
+	[SerializeField] protected string actionName = "";
+	[SerializeField] protected string description = "";
+	public string Name => actionName;
+	public string Description => description;
+
+	public List<SpriteDataSO>  Sprites = null;
+	public List<SpriteDataSO> Backgrounds = null;
 
 	public List<ActionController> PreventBeingControlledBy = new List<ActionController>();
 
-
 	public List<EVENT> DisableOnEvent = new List<EVENT>();
 
+	public override string ToString()
+	{
+		if (SpellList.Instance && this == SpellList.Instance.InvalidData)
+		{
+			return "[InvalidData]";
+		}
+		return $"[ActionData '{Name}' ({Description})]";
+	}
 }
 
-
-public enum ActionController { 
+public enum ActionController {
 	Inventory
 
 }

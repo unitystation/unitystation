@@ -16,12 +16,12 @@ public class CooldownID
 		Interaction
 	}
 
-	private readonly Cooldown cooldownAsset;
+	private readonly ICooldown cooldownAsset;
 	private readonly Type interactableComponentType;
 	private readonly NetworkSide networkSide;
 	private readonly CooldownType cooldownType;
 
-	private CooldownID(Cooldown cooldownAsset, Type interactableComponentType, NetworkSide networkSide, CooldownType cooldownType)
+	private CooldownID(ICooldown cooldownAsset, Type interactableComponentType, NetworkSide networkSide, CooldownType cooldownType)
 	{
 		this.cooldownAsset = cooldownAsset;
 		this.interactableComponentType = interactableComponentType;
@@ -35,7 +35,7 @@ public class CooldownID
 	/// <param name="cooldownAsset"></param>
 	/// <param name="side">network side this cooldown is for</param>
 	/// <returns></returns>
-	public static CooldownID Asset(Cooldown cooldownAsset, NetworkSide side)
+	public static CooldownID Asset(ICooldown cooldownAsset, NetworkSide side)
 	{
 		return new CooldownID(cooldownAsset, null, side, CooldownType.Asset);
 	}

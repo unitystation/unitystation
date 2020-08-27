@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 322132419
   m_SortingLayer: 2
   m_SortingOrder: 200
-  m_Sprite: {fileID: 21300002, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -94,93 +94,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 28f81cfb5e6696c49ae986e31646c495, type: 2}
+  - {fileID: 11400000, guid: b76152e634978fa468aa2f1870fdfccf, type: 2}
+  - {fileID: 11400000, guid: e13c71d185e78764cba01b9bdc37027e, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 28f81cfb5e6696c49ae986e31646c495, type: 2}
   Sprites:
   - Texture: {fileID: 2800000, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300002, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300004, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300006, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300008, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300010, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300012, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300014, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300016, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300018, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300020, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300022, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300024, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300026, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300028, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300030, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300032, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300034, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300036, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300038, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300040, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300042, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300044, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300046, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300048, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300050, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300052, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300054, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300056, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300058, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300060, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    - {fileID: 21300062, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
-    EquippedData: {fileID: 4900000, guid: 14b5724d02b32724ba920b51c7c8e097, type: 3}
   - Texture: {fileID: 2800000, guid: b741542666fee104e85d1e45811c983b, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: b741542666fee104e85d1e45811c983b, type: 3}
-    - {fileID: 21300002, guid: b741542666fee104e85d1e45811c983b, type: 3}
-    - {fileID: 21300004, guid: b741542666fee104e85d1e45811c983b, type: 3}
-    - {fileID: 21300006, guid: b741542666fee104e85d1e45811c983b, type: 3}
-    - {fileID: 21300008, guid: b741542666fee104e85d1e45811c983b, type: 3}
-    - {fileID: 21300010, guid: b741542666fee104e85d1e45811c983b, type: 3}
-    - {fileID: 21300012, guid: b741542666fee104e85d1e45811c983b, type: 3}
-    - {fileID: 21300014, guid: b741542666fee104e85d1e45811c983b, type: 3}
-    EquippedData: {fileID: 4900000, guid: 2ed45f4d1d5c7454d88721b71612d3c1, type: 3}
   - Texture: {fileID: 2800000, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300002, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300004, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300006, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300008, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300010, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300012, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300014, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300016, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300018, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300020, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300022, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300024, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300026, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300028, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300030, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300032, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300034, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300036, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300038, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300040, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300042, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300044, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300046, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300048, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300050, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300052, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300054, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300056, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300058, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300060, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    - {fileID: 21300062, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-    EquippedData: {fileID: 4900000, guid: 82ac7ddef4e1ae745983d8bac934817f, type: 3}
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1 &7144248469089430455
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,6 +186,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &74958767906644875
 MonoBehaviour:
@@ -292,6 +218,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &1835757013911865864
@@ -383,6 +310,7 @@ MonoBehaviour:
   spriteHandler: {fileID: 3569393190955387615}
   CurrentDirection: 0
   CurrentStatus: 0
+  conType: 2
 --- !u!114 &-2830540189932370351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -395,6 +323,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0

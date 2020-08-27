@@ -107,8 +107,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4000011119182976}
   - component: {fileID: 61000010130597256}
-  - component: {fileID: 1858633288062230997}
   - component: {fileID: 114234539136935032}
+  - component: {fileID: 1858633288062230997}
   - component: {fileID: 114450786801091896}
   - component: {fileID: 114789676302844992}
   - component: {fileID: 114034692067134764}
@@ -168,6 +168,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114234539136935032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000012425957516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMeleeable: 1
+  butcherTime: 2
+  butcherSound: BladeSlice
 --- !u!114 &1858633288062230997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,35 +202,14 @@ MonoBehaviour:
   coolDownTime: 1
   isInCooldown: 0
   spriteHandler: {fileID: 8923557852116195065}
-  topLightOverlay: {fileID: 212000013751545988}
   topLightSpriteNormal: {fileID: 21300000, guid: 23890d1fdf7434443ae128ad29a885c0,
     type: 3}
-  topLightSpriteAlert:
-    Texture: {fileID: 2800000, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
-    - {fileID: 21300002, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
-    - {fileID: 21300004, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
-    - {fileID: 21300006, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
-    - {fileID: 21300008, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
-    - {fileID: 21300010, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
-    - {fileID: 21300012, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
-    - {fileID: 21300014, guid: 1973d30bff8f19e4b8b43e21569c6c3a, type: 3}
-    EquippedData: {fileID: 4900000, guid: 6dac1410eae58ef4fa57cc9b837a3550, type: 3}
---- !u!114 &114234539136935032
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000012425957516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  butcherTime: 2
-  butcherSound: BladeSlice
+  openEmptySprite: {fileID: 21300000, guid: 6c911a9ed4c82f44aa252825428fe0ee, type: 3}
+  openCabledSprite: {fileID: 21300000, guid: c3971b2f8f3d3a34eae4d775786708b0, type: 3}
+  topLightSpriteAlert: {fileID: 0}
+  coverOpen: 0
+  hasCables: 1
+  conType: 5
 --- !u!114 &114450786801091896
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,6 +240,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f227cc6622a9ad44f981a39d11d3d343, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  directional: {fileID: 114774275199163462}
 --- !u!114 &114034692067134764
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -294,6 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114949534438748220
 MonoBehaviour:
@@ -362,6 +358,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
   MaximumWorkingVoltage: 300
   deviceType: 0
   isSelfPowered: 1
@@ -370,7 +367,9 @@ MonoBehaviour:
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
+  SelfPowered: 0
   State: 0
+  conType: 1
 --- !u!114 &8759964297267644194
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -477,12 +476,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 5209ae0633fb8a24d9d4f9d45d46053d, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 1
+  palette: []
 --- !u!1 &1000014173103480
 GameObject:
   m_ObjectHideFlags: 0

@@ -91,7 +91,7 @@ PrefabInstance:
     - target: {fileID: 3169463835222568116, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
       propertyPath: isClip
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3176908863337649637, guid: 2c406df2572ceba47af8a9de4f9a50ba,
         type: 3}
@@ -113,6 +113,12 @@ PrefabInstance:
       propertyPath: initialTraits.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: 40d2c518784e9aa99abd08d9e7252555,
+        type: 2}
+    - target: {fileID: 9204548693471559936, guid: 2c406df2572ceba47af8a9de4f9a50ba,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 96d9512d635dee045bc7210d2913e66f,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c406df2572ceba47af8a9de4f9a50ba, type: 3}

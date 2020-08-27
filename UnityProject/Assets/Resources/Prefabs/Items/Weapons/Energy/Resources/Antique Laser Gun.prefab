@@ -94,12 +94,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: d876447fb4123ef4f8f6d359f9206a70, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []
 --- !u!1001 &3510444784868631258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -112,6 +112,12 @@ PrefabInstance:
       propertyPath: SpawnsCaseing
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4598361863285954486, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d8578971970ac94d8b3e42de4651a1a,
+        type: 2}
     - target: {fileID: 7523055829715214189, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Sprite
@@ -256,6 +262,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: ad64a2222f9cd524caad3c9491205b10, type: 3}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ef8719d64b8c8424dbbea6d60bd98809,
+        type: 2}
+    - target: {fileID: 7816890247776797523, guid: c456c86d5736aee499478a158376781e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 80e4e7e19f99fd94693de88004fbc88c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c456c86d5736aee499478a158376781e, type: 3}
 --- !u!4 &6499448772516230047 stripped

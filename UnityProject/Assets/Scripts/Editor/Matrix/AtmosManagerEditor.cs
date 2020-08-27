@@ -28,8 +28,7 @@ public class AtmosManagerEditor : Editor
 		AddButtonGroup(atmosManager);
 
 		EditorGUILayout.LabelField("Update List Count", AtmosThread.GetUpdateListCount().ToString());
-
-		EditorUtility.SetDirty(atmosManager);
+		DrawDefaultInspector ();
 	}
 
 	private static void AddButtonGroup(AtmosManager atmosManager)

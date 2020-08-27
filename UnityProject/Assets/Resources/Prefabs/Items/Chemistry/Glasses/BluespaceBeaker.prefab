@@ -1,0 +1,185 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5010954572608521789
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Sprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: c7836196e241ca44086c9fa4defcfdee, type: 3}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: c7836196e241ca44086c9fa4defcfdee,
+        type: 3}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: c7836196e241ca44086c9fa4defcfdee,
+        type: 3}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: c7836196e241ca44086c9fa4defcfdee,
+        type: 3}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: c7836196e241ca44086c9fa4defcfdee,
+        type: 3}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: d42d66e3bb6a0b946b15f8fb0e6e724e, type: 3}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: SetSpriteOnStartUp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e69a483e31038b4a96a6d63d691e160,
+        type: 2}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6e69a483e31038b4a96a6d63d691e160,
+        type: 2}
+    - target: {fileID: 4004836250214930999, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[7]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[8]
+      value: 300
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679969532050251905, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_Name
+      value: BluespaceBeaker
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782379728963083573, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828330504940196829, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: c7836196e241ca44086c9fa4defcfdee,
+        type: 3}
+    - target: {fileID: 9122297201582428131, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: initialDescription
+      value: A bluespace beaker, powered by experimental bluespace technology and
+        Element Cuban combined with the Compound Pete. Can hold up to 300 units.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122297201582428131, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: initialName
+      value: bluespace beaker
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 8fee22e722a3782408324281846ebd02, type: 3}

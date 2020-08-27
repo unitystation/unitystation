@@ -187,7 +187,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
 			UpdateSecured(isSecured, !isSecured);
-			ElectricalNodeControl.PowerUpdateStructureChange();
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
 			if (!isSecured && isOn)
 			{
 				isOn = !isOn;

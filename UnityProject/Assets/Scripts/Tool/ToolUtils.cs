@@ -124,7 +124,8 @@ public static class ToolUtils
 		if (seconds <= 0f)
 		{
 			ServerPlayToolSound(tool, actionTarget.TargetWorldPosition, performer);
-			progressCompleteAction.Invoke();
+			// Check for null as ServerUseTool(interaction) accepts null Action
+			if (progressCompleteAction != null) progressCompleteAction.Invoke();
 			return null;
 		}
 		else

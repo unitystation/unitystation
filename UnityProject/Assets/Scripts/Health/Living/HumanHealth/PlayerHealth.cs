@@ -121,7 +121,7 @@ public class PlayerHealth : LivingHealthBehaviour
 				string descriptor = null;
 				if (player != null)
 				{
-					descriptor = player?.Script?.characterSettings?.PossessivePronoun();
+					descriptor = player.CharacterSettings?.TheirPronoun();
 				}
 
 				if (descriptor == null)
@@ -266,6 +266,7 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	protected override void MildElectrocution(Electrocution electrocution, float shockPower)
 	{
+		SoundManager.PlayNetworkedAtPos("SmallElectricShock#", registerPlayer.WorldPosition);
 		Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
 	}
 
@@ -287,7 +288,7 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	protected override void LethalElectrocution(Electrocution electrocution, float shockPower)
 	{
-		
+
 		playerMove.allowInput = false;
 		// TODO: Add sparks VFX at shockSourcePos.
 		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);

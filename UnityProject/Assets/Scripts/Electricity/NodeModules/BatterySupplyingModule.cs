@@ -84,11 +84,11 @@ public class BatterySupplyingModule : ModuleSupplyingDevice
 
 					if (current != Previouscurrent)
 					{
-						if (Previouscurrent == 0 && !(current <= 0))
+						if (Previouscurrent == 0 && !(current == 0))
 						{
 
 						}
-						else if (current == 0 && !(Previouscurrent <= 0))
+						else if (current == 0 && !(Previouscurrent == 0))
 						{
 							ControllingNode.Node.InData.FlushSupplyAndUp(ControllingNode.Node);
 						}

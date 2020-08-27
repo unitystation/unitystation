@@ -30,7 +30,8 @@ public class NetPageSwitcher : NetUIStringElement
 		get => CurrentPageIndex.ToString();
 		set {
 			externalChange = true;
-			if ( int.TryParse( value, out var parsedValue ) && Pages.Count > parsedValue )
+
+			if (int.TryParse(value, out var parsedValue) && Pages.Count > parsedValue && parsedValue > -1)
 			{
 				SetActivePageInternal( Pages[parsedValue] );
 			}
@@ -99,6 +100,18 @@ public class NetPageSwitcher : NetUIStringElement
 	public void SetActivePage( NetPage page )
 	{
 		SetValueServer(Pages.IndexOf( page ).ToString());
+	}
+
+	/// <summary>
+	/// [Server]
+	/// Activates the page corresponding to the given page index.
+	/// </summary>
+	/// <param name="pageIndex">The index of the page to be activated (from Pages field)</param>
+	public void SetActivePage(int pageIndex)
+	{
+		if (Pages.ElementAtOrDefault(pageIndex) == null) return;
+
+		SetActivePage(Pages[pageIndex]);
 	}
 
 	private void SetActivePageInternal( NetPage newPage )

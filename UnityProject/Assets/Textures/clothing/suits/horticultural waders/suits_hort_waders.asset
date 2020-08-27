@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: suits_hort_waders
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -3109838437762050199, guid: e994d3e297c776d40b5925443a5de938,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -3893430923206009876, guid: e994d3e297c776d40b5925443a5de938,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 1489058345702103413, guid: e994d3e297c776d40b5925443a5de938,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -300278396813813054, guid: e994d3e297c776d40b5925443a5de938,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 20967

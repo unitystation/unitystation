@@ -9,14 +9,14 @@ using Random = UnityEngine.Random;
 public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	ICheckedInteractable<InventoryApply>
 {
-	private SpriteHandlerController spriteHandlerController;
 	private ItemAttributesV2 itemAttributes;
 	public EswordSprites Sprites;
-	public PlayerLightControl playerLightControl;
+	public ItemLightControl playerLightControl;
 	public LightSprite worldLight;
 	public GameObject worldRenderer;
+	public SpriteHandler spriteHandler;
 
-	[SyncVar(hook = nameof(SyncColor))]
+	[SyncVar(hook = nameof(ClientSyncColor))]
 	public int color;
 
 	[Range(0, 100)]
@@ -41,20 +41,10 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	[SyncVar(hook = nameof(UpdateState))]
 	public bool activated;
 
-	private Pickupable pickupable;
-
 	public void Awake()
 	{
-		EnsureInit();
-	}
-
-	private void EnsureInit()
-	{
-		if (itemAttributes != null) return;
 		itemAttributes = GetComponent<ItemAttributesV2>();
-		spriteHandlerController = GetComponent<SpriteHandlerController>();
-		pickupable = GetComponent<Pickupable>();
-		if (color == (int) SwordColor.Random)
+		if (color == (int)SwordColor.Random)
 		{
 			color = Random.Range(1, 5);
 		}
@@ -62,23 +52,8 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		worldRenderer.SetActive(false);
 	}
 
-	public override void OnStartClient()
+	private void ClientSyncColor(int oldC, int c)
 	{
-		EnsureInit();
-		SyncColor(color, color);
-	}
-
-	public override void OnStartServer()
-	{
-		EnsureInit();
-		SyncColor(color, color);
-	}
-
-	private void SyncColor(int oldC, int c)
-	{
-		EnsureInit();
-		color = c;
-
 		var lightColor = Color.white;
 
 		switch ((SwordColor)color)
@@ -100,7 +75,6 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		playerLightControl.Colour = lightColor;
 		playerLightControl.PlayerLightData.Colour = lightColor;
 		worldLight.Color = lightColor;
-		pickupable.RefreshUISlotImage();
 	}
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -162,62 +136,62 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 				c = (int)SwordColor.Red;
 			}
 
-			SyncColor(color, c);
+			ClientSyncColor(color, c);
 		}
 		else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Multitool))
 		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "RNBW_ENGAGE");
-			SyncColor(color, (int)SwordColor.Rainbow);
+			ClientSyncColor(color, (int)SwordColor.Rainbow);
 		}
 	}
 
 	public void ToggleState(Vector3 position)
 	{
-		UpdateState(activated, !activated);
+		activated = !activated;
 
+		ServerUpdateValues();
 		SoundManager.PlayNetworkedAtPos(activated ? "saberon" : "saberoff", position, 1f);
 	}
 
 	private void UpdateState(bool oldState, bool newState)
 	{
-		activated = newState;
-
-		UpdateSprite();
-		UpdateValues();
-		UpdateLight();
-		pickupable.RefreshUISlotImage();
+		ClientUpdateSprite();
+		ClientUpdateLight();
 	}
 
-	private void UpdateSprite()
+	private void ClientUpdateSprite()
 	{
 		if (activated)
 		{
 			switch ((SwordColor)color)
 			{
 				case SwordColor.Blue:
-					spriteHandlerController.SetSprites(Sprites.Blue);
+					itemAttributes.SetSprites(Sprites.Blue);
 					break;
 				case SwordColor.Green:
-					spriteHandlerController.SetSprites(Sprites.Green);
+					itemAttributes.SetSprites(Sprites.Green);
 					break;
 				case SwordColor.Purple:
-					spriteHandlerController.SetSprites(Sprites.Purple);
+					itemAttributes.SetSprites(Sprites.Purple);
 					break;
 				case SwordColor.Rainbow:
-					spriteHandlerController.SetSprites(Sprites.Rainbow);
+					itemAttributes.SetSprites(Sprites.Rainbow);
 					break;
 				case SwordColor.Red:
-					spriteHandlerController.SetSprites(Sprites.Red);
+					itemAttributes.SetSprites(Sprites.Red);
 					break;
 			}
+
+			spriteHandler?.ChangeSprite(color, false);
 		}
 		else
 		{
-			spriteHandlerController.SetSprites(Sprites.Off);
+			itemAttributes.SetSprites(Sprites.Off);
+			spriteHandler?.ChangeSprite(0, false);
 		}
 	}
 
-	private void UpdateValues()
+	private void ServerUpdateValues()
 	{
 		if (originalVerbs.Count == 0)
 		{ // Get the initial values before we replace
@@ -246,9 +220,10 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		}
 	}
 
-	private void UpdateLight()
+	private void ClientUpdateLight()
 	{
-		playerLightControl.Toggle(activated, activated ? activatedLightIntensity : 0);
+		playerLightControl.Toggle(activated);
+		playerLightControl.SetIntensity(activated ? activatedLightIntensity : 0);
 		worldRenderer.SetActive(activated);
 	}
 

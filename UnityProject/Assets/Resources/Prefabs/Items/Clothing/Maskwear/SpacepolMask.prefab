@@ -81,8 +81,8 @@ PrefabInstance:
     - target: {fileID: 1059892868337511363, guid: 518823bf8eeebc848b0d18a293a1f56f,
         type: 3}
       propertyPath: initialDescription
-      value: A close-fitting tactical mask created in cooperation with a certain megacorporation,
-        comes with an especially aggressive Compli-o-nator 3000.
+      value: A close-fitting tactical mask created in cooperation with a certain
+        megacorporation, comes with an especially aggressive Compli-o-nator 3000.
       objectReference: {fileID: 0}
     - target: {fileID: 1059892868337511363, guid: 518823bf8eeebc848b0d18a293a1f56f,
         type: 3}
@@ -94,6 +94,12 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 9b12e8cc7a8cb744897da4971fa88966,
+        type: 2}
+    - target: {fileID: 6710076958083219238, guid: 518823bf8eeebc848b0d18a293a1f56f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ab4df8b9be4810446b3f49adcb0d37a0,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 518823bf8eeebc848b0d18a293a1f56f, type: 3}

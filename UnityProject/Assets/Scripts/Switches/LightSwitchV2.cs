@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Electric.Inheritance;
 using Mirror;
 using UnityEngine;
 
 namespace Lighting
 {
-	public class LightSwitchV2 : NetworkBehaviour, ICheckedInteractable<HandApply>,IAPCPowered
+	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>,IAPCPowered, ISetMultitoolMaster
 	{
 		public List<LightSource> listOfLights;
 
@@ -27,6 +28,17 @@ namespace Lighting
 		private SpriteRenderer spriteRenderer = null;
 
 		private PowerStates powerState = PowerStates.On;
+
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.LightSwitch;
+		public MultitoolConnectionType ConType  => conType;
+
+		private bool multiMaster = true;
+		public bool MultiMaster => multiMaster;
+
+		public void AddSlave(object SlaveObject)
+		{
+		}
 
 		private void Awake()
 		{
@@ -108,6 +120,15 @@ namespace Lighting
 			SyncState(isOn, isOn);
 		}
 
+		private IEnumerator SwitchCoolDown()
+		{
+			isInCoolDown = true;
+			yield return WaitFor.Seconds(coolDownTime);
+			isInCoolDown = false;
+		}
+
+		#region Editor
+
 		void OnDrawGizmosSelected()
 		{
 			var sprite = GetComponentInChildren<SpriteRenderer>();
@@ -125,11 +146,36 @@ namespace Lighting
 			}
 		}
 
-		private IEnumerator SwitchCoolDown()
+		public override IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects)
 		{
-			isInCoolDown = true;
-			yield return WaitFor.Seconds(coolDownTime);
-			isInCoolDown = false;
+			var approvedObjects = new List<GameObject>();
+
+			foreach (var potentialObject in potentialObjects)
+			{
+				var lightSource = potentialObject.GetComponent<LightSource>();
+				if (lightSource == null) continue;
+				AddLightSourceFromScene(lightSource);
+				approvedObjects.Add(potentialObject);
+			}
+
+			return approvedObjects;
 		}
+
+		private void AddLightSourceFromScene(LightSource lightSource)
+		{
+			if (listOfLights.Contains(lightSource))
+			{
+				listOfLights.Remove(lightSource);
+				lightSource.relatedLightSwitch = null;
+			}
+			else
+			{
+				listOfLights.Add(lightSource);
+				lightSource.relatedLightSwitch = this;
+			}
+		}
+
+		#endregion
+
 	}
 }

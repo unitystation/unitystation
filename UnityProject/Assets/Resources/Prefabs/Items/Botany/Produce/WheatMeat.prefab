@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4825893436846648935, guid: 3a5a99b7474120a4ca37b33ad2068760,
         type: 3}
+    - target: {fileID: 1294793839381664232, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dac3ea384320aa34cbd7495cb791b3ad,
+        type: 2}
     - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: Reagents.Array.size
@@ -59,6 +65,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: meatwheat
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
@@ -136,5 +147,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 7640553959568001153, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dac3ea384320aa34cbd7495cb791b3ad,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}

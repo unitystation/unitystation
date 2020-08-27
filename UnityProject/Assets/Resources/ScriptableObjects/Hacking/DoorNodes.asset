@@ -13,123 +13,105 @@ MonoBehaviour:
   m_Name: DoorNodes
   m_EditorClassIdentifier: 
   nodeInfoList:
-  - InternalIdentifier: OnAttemptOpen
-    IsInput: 0
-    IsOutput: 1
-    IsDeviceNode: 0
-    HiddenLabel: OnAttemptOpen
-    PublicLabel: a
-  - InternalIdentifier: OnAttemptClose
-    IsInput: 0
-    IsOutput: 1
-    IsDeviceNode: 0
-    HiddenLabel: OnAttemptClose
-    PublicLabel: b
-  - InternalIdentifier: BeginOpenProcedure
-    IsInput: 1
-    IsOutput: 0
-    IsDeviceNode: 0
-    HiddenLabel: BeginOpenProcedure
-    PublicLabel: c
-  - InternalIdentifier: BeginCloseProcedure
-    IsInput: 1
-    IsOutput: 0
-    IsDeviceNode: 0
-    HiddenLabel: BeginCloseProcedure
-    PublicLabel: d
-  - InternalIdentifier: OnShouldOpen
+  - InternalIdentifier: 1
     IsInput: 0
     IsOutput: 1
     IsDeviceNode: 0
     HiddenLabel: OnShouldOpen
-    PublicLabel: e
-  - InternalIdentifier: OnShouldClose
-    IsInput: 0
-    IsOutput: 1
-    IsDeviceNode: 0
-    HiddenLabel: OnShouldClose
-    PublicLabel: f
-  - InternalIdentifier: OpenDoor
+    PublicLabel: a
+  - InternalIdentifier: 2
     IsInput: 1
     IsOutput: 0
     IsDeviceNode: 0
     HiddenLabel: OpenDoor
-    PublicLabel: g
-  - InternalIdentifier: CloseDoor
+    PublicLabel: b
+  - InternalIdentifier: 3
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OnShouldClose
+    PublicLabel: c
+  - InternalIdentifier: 4
     IsInput: 1
     IsOutput: 0
     IsDeviceNode: 0
     HiddenLabel: CloseDoor
-    PublicLabel: h
-  - InternalIdentifier: OnDoorOpened
+    PublicLabel: d
+  - InternalIdentifier: 5
     IsInput: 0
     IsOutput: 1
     IsDeviceNode: 0
-    HiddenLabel: OnDoorOpened
-    PublicLabel: i
-  - InternalIdentifier: OnDoorClosed
+    HiddenLabel: OnIdRejected
+    PublicLabel: e
+  - InternalIdentifier: 6
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: RejectId
+    PublicLabel: f
+  - InternalIdentifier: 7
     IsInput: 0
     IsOutput: 1
     IsDeviceNode: 0
-    HiddenLabel: OnDoorClosed
-    PublicLabel: j
-  - InternalIdentifier: OnIDAccepted
-    IsInput: 0
-    IsOutput: 1
-    IsDeviceNode: 0
-    HiddenLabel: OnIDAccepted
-    PublicLabel: k
-  - InternalIdentifier: OnIDRejected
-    IsInput: 0
-    IsOutput: 1
-    IsDeviceNode: 0
-    HiddenLabel: OnIDRejected
-    PublicLabel: l
-  - InternalIdentifier: AcceptId
+    HiddenLabel: OnIdAccepted
+    PublicLabel: g
+  - InternalIdentifier: 8
     IsInput: 1
     IsOutput: 0
     IsDeviceNode: 0
     HiddenLabel: AcceptId
-    PublicLabel: m
-  - InternalIdentifier: RejectID
-    IsInput: 1
-    IsOutput: 0
-    IsDeviceNode: 0
-    HiddenLabel: RejectID
-    PublicLabel: n
-  - InternalIdentifier: ShouldDoPressureWarning
+    PublicLabel: h
+  - InternalIdentifier: 9
     IsInput: 0
     IsOutput: 1
     IsDeviceNode: 0
     HiddenLabel: ShouldDoPressureWarning
-    PublicLabel: o
-  - InternalIdentifier: DoPressureWarning
+    PublicLabel: i
+  - InternalIdentifier: 10
     IsInput: 1
     IsOutput: 0
     IsDeviceNode: 0
     HiddenLabel: DoPressureWarning
-    PublicLabel: p
-  - InternalIdentifier: PowerOut
+    PublicLabel: j
+  - InternalIdentifier: 11
     IsInput: 0
     IsOutput: 1
     IsDeviceNode: 0
     HiddenLabel: PowerOut
-    PublicLabel: q
-  - InternalIdentifier: PowerIn
+    PublicLabel: k
+  - InternalIdentifier: 12
     IsInput: 1
     IsOutput: 0
     IsDeviceNode: 0
     HiddenLabel: PowerIn
-    PublicLabel: r
-  - InternalIdentifier: DummyOut
+    PublicLabel: l
+  - InternalIdentifier: 13
     IsInput: 0
     IsOutput: 1
     IsDeviceNode: 0
     HiddenLabel: DummyOut
-    PublicLabel: s
-  - InternalIdentifier: DummyIn
+    PublicLabel: m
+  - InternalIdentifier: 14
     IsInput: 1
     IsOutput: 0
     IsDeviceNode: 0
     HiddenLabel: DummyIn
-    PublicLabel: t
+    PublicLabel: n
+  - InternalIdentifier: 15
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OutsideSignalOpen
+    PublicLabel: o
+  - InternalIdentifier: 16
+    IsInput: 0
+    IsOutput: 1
+    IsDeviceNode: 0
+    HiddenLabel: OutsideSignalClose
+    PublicLabel: p
+  - InternalIdentifier: 17
+    IsInput: 1
+    IsOutput: 0
+    IsDeviceNode: 0
+    HiddenLabel: CancelCloseTimer
+    PublicLabel: q

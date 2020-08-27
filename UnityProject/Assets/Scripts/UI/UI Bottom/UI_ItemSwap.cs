@@ -31,7 +31,7 @@ public class UI_ItemSwap : TooltipMonoBehaviour, IPointerClickHandler, IDropHand
 		if (KeyboardInputManager.IsShiftPressed() && itemSlot.Item != null)
 		{
 			RequestExamineMessage.Send(itemSlot.Item.GetComponent<NetworkIdentity>().netId);
-			return; 
+			return;
 		}
 
 		SoundManager.Play("Click01");

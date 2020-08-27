@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: device_health-scan
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -5921993903696030291, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 3500186644074263955, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 1733600672051457336, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 9223190066340108408, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 7046819340486902099, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 1378989125738015172, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 1287013920115753166, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 6638313796540135215, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 7096092597840566120, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -1101872987289199645, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -8089594255520077881, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 6534853493426076530, guid: dde1f77cec13c86498fbd218ced1548d,
+        type: 3}
+      secondDelay: 0.5
+  IsPalette: 0
+  setID: 6212

@@ -1,6 +1,8 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using NaughtyAttributes;
 
 /// <summary>
 /// AI brain specifically trained to explore
@@ -18,16 +20,30 @@ public class MobExplore : MobAgent
 		players
 	}
 
+	public event Action FoodEatenEvent;
+
 	public Target target;
 
 	[Tooltip("Indicates the time it takes for the mob to perform its main action. If the the time is 0, it means that the action is instantaneous.")]
 	[SerializeField]
 	private float actionPerformTime = 0.0f;
 
+	[Tooltip("If true, this creature will only eat stuff in the food preferences list.")] [SerializeField]
+	private bool hasFoodPrefereces = false;
+
+	[Tooltip("Objects in this list are considered food by this creature (even non edible stuff!)")]
+	[SerializeField]
+	[ShowIf(nameof(hasFoodPrefereces))]
+	private List<GameObject> foodPreferences = null;
+
+	private List<string> foodInitialNames = new List<string>();
+
 	// Timer that indicates if the action perform time is reached and the action can be performed.
 	private float actionPerformTimer = 0.0f;
 
 	private InteractableTiles _interactableTiles = null;
+	// Position at which an action is performed
+	protected Vector3Int actionPosition;
 
 	private InteractableTiles interactableTiles
 	{
@@ -42,8 +58,23 @@ public class MobExplore : MobAgent
 		}
 	}
 
-// Position at which an action is performed
-protected Vector3Int actionPosition;
+	public override void Start()
+	{
+		base.Start();
+		if (!hasFoodPrefereces || foodInitialNames.Any())
+		{
+			return;
+		}
+
+		foreach (GameObject food in foodPreferences)
+		{
+			var initName = food.GetComponent<ItemAttributesV2>()?.InitialName;
+			if (initName != null)
+			{
+				foodInitialNames.Add(initName);
+			}
+		}
+	}
 
 	/// <summary>
 	/// Begin searching for the predefined target
@@ -93,13 +124,14 @@ protected Vector3Int actionPosition;
 		}
 	}
 
-	bool IsTargetFound(Vector3Int checkPos)
+	private bool IsTargetFound(Vector3Int checkPos)
 	{
 		switch (target)
 		{
 			case Target.food:
-				if (registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null) return true;
-				return false;
+				if (hasFoodPrefereces)
+					return registerObj.Matrix.Get<ItemAttributesV2>(checkPos, true).Any(IsInFoodPreferences);
+				return registerObj.Matrix.GetFirst<Edible>(checkPos, true) != null;
 			case Target.dirtyFloor:
 				return (registerObj.Matrix.Get<FloorDecal>(checkPos, true).Any(p => p.Cleanable));
 			case Target.missingFloor:
@@ -109,10 +141,67 @@ protected Vector3Int actionPosition;
 				return false;
 			// this includes ghosts!
 			case Target.players:
-				if (registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true) != null) return true;
-				return false;
+				return registerObj.Matrix.GetFirst<PlayerScript>(checkPos, true) != null;
 		}
 		return false;
+	}
+
+	/// <summary>
+	/// Returns true if given food is in this creatures food preferences.
+	/// Mobs with no food preferences will return true for any edible object.
+	/// </summary>
+	/// <param name="food"></param>
+	/// <returns></returns>
+	public bool IsInFoodPreferences(ItemAttributesV2 food)
+	{
+		if (!hasFoodPrefereces)
+		{
+			return food.gameObject.GetComponent<Edible>() != null;
+		}
+
+		return foodInitialNames.Contains(food.InitialName);
+	}
+
+	/// <summary>
+	/// Returns true if given food is in this creatures food preferences.
+	/// Mobs with no food preferences will return true for any edible object.
+	/// </summary>
+	/// <param name="food"></param>
+	/// <returns></returns>
+	public bool IsInFoodPreferences(GameObject food)
+	{
+		return IsInFoodPreferences(food.GetComponent<ItemAttributesV2>());
+	}
+
+	/// <summary>
+	/// Tries  to eat the target, doesn't matter if it is not actually edible.
+	/// </summary>
+	private void TryEatTarget(Vector3Int checkPos)
+	{
+		if (hasFoodPrefereces)
+		{
+			var food = registerObj.Matrix.Get<ItemAttributesV2>(checkPos, true).FirstOrDefault(IsInFoodPreferences);
+
+			if (food == null)
+			{
+				return;
+			}
+
+			// Send the sound to all nearby clients
+			SoundManager.PlayNetworkedAtPos("EatFood", transform.position, null, false, false, gameObject);
+
+			Despawn.ServerSingle(food.gameObject);
+			FoodEatenEvent?.Invoke();
+		}
+		else
+		{
+			var food = registerObj.Matrix.GetFirst<Edible>(checkPos, true);
+
+			if (food != null)
+			{
+				food.TryConsume(gameObject);
+			}
+		}
 	}
 
 	/// <summary>
@@ -128,8 +217,7 @@ protected Vector3Int actionPosition;
 		switch (target)
 		{
 			case Target.food:
-				var edible = registerObj.Matrix.GetFirst<Edible>(checkPos, true);
-				if(edible != null) edible.TryConsume(gameObject);
+				TryEatTarget(checkPos);
 				break;
 			case Target.dirtyFloor:
 				var floorDecal = registerObj.Matrix.Get<FloorDecal>(checkPos, true).FirstOrDefault(p => p.Cleanable);

@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &8210323885322932869
@@ -181,8 +182,8 @@ MonoBehaviour:
   syncInterval: 0.1
   statusSync: 0
   spriteRenderer: {fileID: 212392876378255176}
-  cloningSprite: {fileID: 21300000, guid: 6b02511c94942644d905be085342b7cc, type: 3}
-  emptySprite: {fileID: 21300000, guid: ddf80a356ac2d614aa9847a70f6b6636, type: 3}
+  cloningSprite: {fileID: 21300002, guid: 53f08645fc7d8aa47abb61b96d176a64, type: 3}
+  emptySprite: {fileID: 21300000, guid: 148d701db3c61814ea1432da38890c50, type: 3}
   statusString: 
   console: {fileID: 0}
 --- !u!114 &3673450989709832100
@@ -241,6 +242,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114272959470978344
 MonoBehaviour:
@@ -286,7 +288,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -307,7 +311,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114141448509805176
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -357,10 +360,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 2f6f01c41ec0f4841aa63519acc366ef, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 8026946951644424067, guid: 27fc1b3085c201f49914af0105be9480,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
 --- !u!114 &3226492502455936700
 MonoBehaviour:

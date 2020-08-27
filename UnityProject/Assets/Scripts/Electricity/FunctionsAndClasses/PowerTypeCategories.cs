@@ -17,14 +17,17 @@ public enum PowerTypeCategory { //The standard way of identifying what machinery
 	HighVoltageCable,
 	DeadEndConnection,
 	PowerGenerator,
-	SolarPanel, 
+	SolarPanel,
 	SolarPanelController,
 	PowerSink,
+	Turbine,
+	VoltageProbe,
+	WaterPump,
 
-}//hey Be careful when changing this because it's stored as numbers in prefabs/saved scenes for some stupid reason so addon never Change the order 
+}//hey Be careful when changing this because it's stored as numbers in prefabs/saved scenes for some stupid reason so addon never Change the order
 
 public enum ElectricalUpdateTypeCategory
-{ 
+{
 	OnStartServer,
 	ModifyResistancyOutput,
 	ModifyResistanceInput,
@@ -37,7 +40,7 @@ public enum ElectricalUpdateTypeCategory
 	PowerUpdateStructureChangeReact,
 	PowerUpdateStructureChange,
 	TurnOffCleanup,
-	TurnOnSupply, 
+	TurnOnSupply,
 	TurnOffSupply,
 	PotentialDestroyed,
 	GoingOffStage,

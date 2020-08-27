@@ -1,0 +1,162 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &551113872907803671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397275954408119094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a459a0316cc4d5b87d046f28dc136c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matrixDebugLogging: 0
+  objectType: 1
+  AtmosPassable: 1
+  Passable: 0
+--- !u!114 &7431892531360401419
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6397275954408119094}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9e51e431ef59f64ea946349935e5148, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  layerTile: {fileID: 11400000, guid: 657356183813ad14b9739f199d420fbe, type: 2}
+  matsOnDeconstruct: {fileID: 5680136605834777345, guid: 4290212beee28a545b253f88f147b029,
+    type: 3}
+  countOfMatsOnDissasemle: 2
+  soundOnDeconstruct: Wrench
+  shardsOnDestroy: {fileID: 5680136605834777345, guid: 4290212beee28a545b253f88f147b029,
+    type: 3}
+  minCountOfShardsOnDestroy: 1
+  maxCountOfShardsOnDestroy: 2
+  rodsOnDestroy: {fileID: 0}
+  minCountOfRodsOnDestroy: 0
+  maxCountOfRodsOnDestroy: 0
+  soundOnDestroy: GlassBreak01
+--- !u!1001 &5942251505986921882
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 707225928725273275, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 142874271
+      objectReference: {fileID: 0}
+    - target: {fileID: 707225928725273275, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 707225928725273275, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 707225928725273275, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -8867055189563445288, guid: 8a68cd9823bcbbc4ea58db062339a340,
+        type: 3}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 767049130398480502, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 770307766077472428, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_Name
+      value: WindowPlastitaniumFullTile
+      objectReference: {fileID: 0}
+    - target: {fileID: 4913797670289714080, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: isInitiallyNotPushable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8168513753466466609, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 200
+      objectReference: {fileID: 0}
+    - target: {fileID: 9182134985305426894, guid: 422afccc119081a4fa895bc72e8ecd78,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4417768362827673165, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
+    - {fileID: 247435684349913066, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
+    - {fileID: 931126256679165182, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
+    - {fileID: 7139832653136909775, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 422afccc119081a4fa895bc72e8ecd78, type: 3}
+--- !u!1 &6397275954408119094 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 770307766077472428, guid: 422afccc119081a4fa895bc72e8ecd78,
+    type: 3}
+  m_PrefabInstance: {fileID: 5942251505986921882}
+  m_PrefabAsset: {fileID: 0}

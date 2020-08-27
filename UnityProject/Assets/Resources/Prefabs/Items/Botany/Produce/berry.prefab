@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6096225575505558569, guid: d942e8739f8acdb42b1c0d42ab2f0055,
         type: 3}
+    - target: {fileID: 1294793839381664232, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8336ae5b799c6ab46ab8e81f8e6295f7,
+        type: 2}
     - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: Reagents.Array.size
@@ -140,5 +146,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 70
       objectReference: {fileID: 0}
+    - target: {fileID: 7640553959568001153, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8336ae5b799c6ab46ab8e81f8e6295f7,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}

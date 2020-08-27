@@ -1,7 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using ScriptableObjects;
 
 namespace Machines
 {
@@ -34,10 +35,9 @@ namespace Machines
 		[SerializeField] private StatefulState circuitAddedState = null;
 		[SerializeField] private StatefulState partsAddedState = null;
 
-		[SerializeField] private Sprite box = null;
-		[SerializeField] private Sprite boxCable = null;
-		[SerializeField] private Sprite boxCircuit = null;
-		[SerializeField] private SpriteRenderer spriteRender = null;
+		private ObjectBehaviour objectBehaviour;
+		private Integrity integrity;
+		private SpriteHandler spriteHandler;
 
 		private ItemSlot circuitBoardSlot;//Index 0
 		private IDictionary<ItemTrait, int> basicPartsUsed = new Dictionary<ItemTrait, int>();
@@ -55,10 +55,6 @@ namespace Machines
 		private bool putBoardInManually;
 
 		private StatefulState CurrentState => stateful.CurrentState;
-		private ObjectBehaviour objectBehaviour;
-
-		[SyncVar(hook =nameof(SyncState))]
-		private SpriteStates spriteForClient;
 
 		private void Awake()
 		{
@@ -66,44 +62,17 @@ namespace Machines
 			stateful = GetComponent<Stateful>();
 			objectBehaviour = GetComponent<ObjectBehaviour>();
 
-			SetSprite();
+			if (!CustomNetworkManager.IsServer) return;
 
-			if (!isServer) return;
+			integrity = GetComponent<Integrity>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+
+			integrity.OnWillDestroyServer.AddListener(WhenDestroyed);
 
 			if (CurrentState != partsAddedState)
 			{
 				stateful.ServerChangeState(initialState);
 			}
-		}
-
-		private void SyncState(SpriteStates oldVar, SpriteStates newVar)
-		{
-			spriteForClient = newVar;
-			//do your thing
-			//all clients will be updated with this
-			SetSprite();
-		}
-
-		private void SetSprite()
-		{
-			switch (spriteForClient)
-			{
-				case SpriteStates.Box:
-					spriteRender.sprite = box;
-					break;
-				case SpriteStates.BoxCable:
-					spriteRender.sprite = boxCable;
-					break;
-				case SpriteStates.BoxCircuit:
-					spriteRender.sprite = boxCircuit;
-					break;
-			}
-		}
-
-		[Server]
-		private void ServerChangeSprite(SpriteStates newVar)
-		{
-			spriteForClient = newVar;
 		}
 
 		public override void OnStartClient()
@@ -249,9 +218,7 @@ namespace Machines
 						Inventory.ServerConsume(interaction.HandSlot, 5);
 						stateful.ServerChangeState(cablesAddedState);
 
-						//sprite change
-						spriteRender.sprite = boxCable;
-						ServerChangeSprite(SpriteStates.BoxCable);
+						spriteHandler.ChangeSprite((int) SpriteStates.BoxCable);
 					});
 			}
 			else if (Validations.HasUsedActiveWelder(interaction))
@@ -285,9 +252,7 @@ namespace Machines
 				Spawn.ServerPrefab(CommonPrefabs.Instance.SingleCableCoil, SpawnDestination.At(gameObject), 5);
 				stateful.ServerChangeState(initialState);
 
-				//sprite change
-				spriteRender.sprite = box;
-				ServerChangeSprite(SpriteStates.Box);
+				spriteHandler.ChangeSprite((int)SpriteStates.Box);
 			}
 			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
@@ -342,9 +307,7 @@ namespace Machines
 				stateful.ServerChangeState(circuitAddedState);
 				putBoardInManually = true;
 
-				//sprite change
-				spriteRender.sprite = boxCircuit;
-				ServerChangeSprite(SpriteStates.BoxCircuit);
+				spriteHandler.ChangeSprite((int)SpriteStates.BoxCircuit);
 			}
 			else if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench))
 			{
@@ -371,35 +334,8 @@ namespace Machines
 				Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
 					$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
 				ToolUtils.ServerPlayToolSound(interaction);
-				Inventory.ServerDrop(circuitBoardSlot);
-				stateful.ServerChangeState(wrenchedState);
 
-				if (partsInFrame.Count == 0 && !putBoardInManually)//technically never true as this state cannot happen for a mapped machine
-				{
-					foreach (var part in machineParts.machineParts)
-					{
-						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
-					}
-				}
-				else
-				{
-					foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
-					{
-						if (item.Key == null) return;
-
-						item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(gameObject.GetComponent<CustomNetTransform>().ServerPosition);
-					}
-				}
-
-				putBoardInManually = false;
-
-				//Sprite change
-				spriteRender.sprite = boxCable;
-				ServerChangeSprite(SpriteStates.BoxCable);
-
-				//Reset frame data
-				partsInFrame.Clear();
-				basicPartsUsed.Clear();
+				RemoveCircuitAndParts();
 			}
 			else if (ItemTraitCheck(interaction)) //Adding parts validation
 			{
@@ -457,41 +393,8 @@ namespace Machines
 				Chat.AddActionMsgToChat(interaction, $"You remove the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.",
 					$"{interaction.Performer.ExpensiveName()} removes the {circuitBoardSlot.ItemObject.ExpensiveName()} from the frame.");
 				ToolUtils.ServerPlayToolSound(interaction);
-				Inventory.ServerDrop(circuitBoardSlot);
-				stateful.ServerChangeState(wrenchedState);
 
-				//If frame in mapped; count == 0 and its the only time putBoardInManually will be false as putting in board makes it true
-				if (partsInFrame.Count == 0 && !putBoardInManually)
-				{
-					foreach (var part in machineParts.machineParts)
-					{
-						Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
-					}
-				}
-				else
-				{
-					foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
-					{
-						if (item.Key == null)//Shouldnt ever happen, but just incase
-						{
-							continue;
-						}
-
-						var pos = gameObject.GetComponent<CustomNetTransform>().ServerPosition;
-
-						item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(pos);
-					}
-				}
-
-				putBoardInManually = false;
-
-				//Sprite change
-				spriteRender.sprite = boxCable;
-				ServerChangeSprite(SpriteStates.BoxCable);
-
-				//Reset data
-				partsInFrame.Clear();
-				basicPartsUsed.Clear();
+				RemoveCircuitAndParts();
 			}
 		}
 
@@ -729,8 +632,7 @@ namespace Machines
 		/// <param name="machine"></param>
 		public void ServerInitFromComputer(Machine machine)
 		{
-			spriteRender.sprite = boxCircuit;
-			ServerChangeSprite(SpriteStates.BoxCircuit);
+			spriteHandler.ChangeSprite((int) SpriteStates.BoxCircuit);
 
 			// Create the circuit board
 			var board = Spawn.ServerPrefab(machine.MachineBoardPrefab).GameObject;
@@ -743,9 +645,12 @@ namespace Machines
 
 			board.GetComponent<MachineCircuitBoard>().SetMachineParts(machine.MachineParts); // Basic item requirements to the circuit board
 
+			//PM: Below is commented out because I've decided to make all the machines use appropriate machine board .prefabs instead of the blank board.
+			/*
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleName(machine.MachineParts.NameOfCircuitBoard); // Sets name of board
 
 			board.GetComponent<ItemAttributesV2>().ServerSetArticleDescription(machine.MachineParts.DescriptionOfCircuitBoard); // Sets desc of board
+			*/
 
 			// Basic items to the machine frame from the despawned machine
 			machineParts = machine.MachineParts;
@@ -768,6 +673,52 @@ namespace Machines
 			objectBehaviour.ServerSetPushable(false);
 			stateful.ServerChangeState(partsAddedState);
 			putBoardInManually = false;
+		}
+
+		public void WhenDestroyed(DestructionInfo info)
+		{
+			if (CurrentState == partsAddedState || CurrentState == circuitAddedState)
+			{
+				RemoveCircuitAndParts();
+			}
+
+			integrity.OnWillDestroyServer.RemoveListener(WhenDestroyed);
+		}
+
+		private void RemoveCircuitAndParts()
+		{
+			Inventory.ServerDrop(circuitBoardSlot);
+			stateful.ServerChangeState(wrenchedState);
+
+			//If frame in mapped; count == 0 and its the only time putBoardInManually will be false as putting in board makes it true
+			if (partsInFrame.Count == 0 && !putBoardInManually)
+			{
+				foreach (var part in machineParts.machineParts)
+				{
+					Spawn.ServerPrefab(part.basicItem, gameObject.WorldPosServer(), gameObject.transform.parent, count: part.amountOfThisPart);
+				}
+			}
+			else
+			{
+				foreach (var item in partsInFrame)//Moves the hidden objects back on to the gameobject.
+				{
+					if (item.Key == null)//Shouldnt ever happen, but just incase
+					{
+						continue;
+					}
+
+					var pos = gameObject.GetComponent<CustomNetTransform>().ServerPosition;
+
+					item.Key.GetComponent<CustomNetTransform>().AppearAtPositionServer(pos);
+				}
+			}
+
+			putBoardInManually = false;
+			spriteHandler.ChangeSprite((int) SpriteStates.BoxCable);
+
+			//Reset data
+			partsInFrame.Clear();
+			basicPartsUsed.Clear();
 		}
 
 		private enum SpriteStates

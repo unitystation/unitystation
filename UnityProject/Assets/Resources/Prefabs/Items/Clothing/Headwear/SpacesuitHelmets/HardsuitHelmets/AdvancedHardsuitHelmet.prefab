@@ -1,0 +1,142 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5964384898568933765
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 3601505531603534332, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 14daa1d8240a50042809a80d239ed753,
+        type: 2}
+    - target: {fileID: 4377564325058947582, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0287527d229ef16459d28adea4e829a1,
+        type: 2}
+    - target: {fileID: 7499075161934737357, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: HeatResistance
+      value: 35000
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: Armor.Bomb
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7502318203366802317, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: Armor.Melee
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 7603805397101384313, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_Name
+      value: AdvancedHardsuitHelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7608170320721702669, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7743888036882555173, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 25046d1cc9626fd40a6d2946b71eae3a,
+        type: 3}
+    - target: {fileID: 8028719723017469211, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: initialName
+      value: advanced hardsuit helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 8028719723017469211, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: initialDescription
+      value: An advanced helmet designed for work in a hazardous, low pressure environment.
+        Shines with a high polish.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8034228813080640986, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 18f81a75b12175e4dba3bd3a1fb700a0,
+        type: 3}
+    - target: {fileID: 8034228813080640986, guid: c947ef228fe12b44dad029156a74f62b,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 25046d1cc9626fd40a6d2946b71eae3a,
+        type: 3}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c947ef228fe12b44dad029156a74f62b, type: 3}

@@ -12,22 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dba9e42ad4040154b8541513b096645f, type: 3}
   m_Name: cchemist uniform
   m_EditorClassIdentifier: 
-  PrefabVariant: {fileID: 0}
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 7
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    IsEVACapable: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []
   Base:
     Equipped:
       Texture: {fileID: 2800000, guid: 1f1c407b399063345b1a8dd720a35067, type: 3}
@@ -58,6 +42,22 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: cf46245b3aa14664ebdef9de3aff5a0f, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 73c9fe3deb3244344808c12986d5cb43, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: e6a71dd940af2b74395d96f5dea3118d,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: 6ed0b0ed7ba5c5546ae90c303cbf393b,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: 5e9e9d9e3a363c14087fd9fe1303a149, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   Base_Adjusted:
     Equipped:
       Texture: {fileID: 2800000, guid: 3ff9b95b45099204fb8f13d6a991bbb6, type: 3}
@@ -79,6 +79,20 @@ MonoBehaviour:
       Texture: {fileID: 0}
       Sprites: []
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 982076642ca6e034babae64589b9962d, type: 2}
+    SpriteInHandsLeft: {fileID: 0}
+    SpriteInHandsRight: {fileID: 0}
+    SpriteItemIcon: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   DressVariant:
     Equipped:
       Texture: {fileID: 2800000, guid: a242befbef58c5342a7b39c487ed1e35, type: 3}
@@ -109,4 +123,20 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: e871e454d4a365445b3ad6bf4ba67ef9, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: d564aede5141ee9429e79d18b1771cd3, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: e6a71dd940af2b74395d96f5dea3118d,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: 6ed0b0ed7ba5c5546ae90c303cbf393b,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: cf742fda23c4afd47a040cd0760a6774, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   Variants: []

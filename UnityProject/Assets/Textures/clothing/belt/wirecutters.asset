@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6001e9fdf4c400d809990a27b869c71, type: 3}
+  m_Name: wirecutters
+  m_EditorClassIdentifier: 
+  sprites:
+    Equipped:
+      Texture: {fileID: 2800000, guid: 2be3ca0d74110c140bc895a62130d49b, type: 3}
+      Sprites:
+      - {fileID: -6739876155392906448, guid: 2be3ca0d74110c140bc895a62130d49b, type: 3}
+      - {fileID: -7054829001907146557, guid: 2be3ca0d74110c140bc895a62130d49b, type: 3}
+      - {fileID: 6191605384233411387, guid: 2be3ca0d74110c140bc895a62130d49b, type: 3}
+      - {fileID: 808310439799271284, guid: 2be3ca0d74110c140bc895a62130d49b, type: 3}
+      EquippedData: {fileID: 4900000, guid: dd879fc0f18a93b4eb7366e96c32272e, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 745d4f07db61a804b9afcb885206d6d0, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 745d4f07db61a804b9afcb885206d6d0, type: 3}
+      - {fileID: 21300002, guid: 745d4f07db61a804b9afcb885206d6d0, type: 3}
+      - {fileID: 21300004, guid: 745d4f07db61a804b9afcb885206d6d0, type: 3}
+      - {fileID: 21300006, guid: 745d4f07db61a804b9afcb885206d6d0, type: 3}
+      EquippedData: {fileID: 4900000, guid: f061a47faa1ada9488222436e0bde835, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: 58b90230362a0c241b2b510949dcf424, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 58b90230362a0c241b2b510949dcf424, type: 3}
+      - {fileID: 21300002, guid: 58b90230362a0c241b2b510949dcf424, type: 3}
+      - {fileID: 21300004, guid: 58b90230362a0c241b2b510949dcf424, type: 3}
+      - {fileID: 21300006, guid: 58b90230362a0c241b2b510949dcf424, type: 3}
+      EquippedData: {fileID: 4900000, guid: 9eb53e9cfa5af564f8fb41d06f28fefd, type: 3}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 5623fd6e2d27f1448b98cba1d6a96d48, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: d279bb7b3ece3f04db81531840e5c04f,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: 80ed84bf9c845b34984bbe2a58f4daee,
+      type: 2}
+    SpriteItemIcon: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0

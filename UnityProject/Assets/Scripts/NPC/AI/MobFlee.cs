@@ -13,7 +13,12 @@ public class MobFlee : MobPathFinder
 
 	private DateTime lastFlee;
 	private float fleeCoolDown = 4f;
-
+	/// <summary>
+	/// attemps made at fleeing
+	/// </summary>
+	private int attemps = 0;
+	private int delay = 5;
+	private bool attemptReset;
 	public override void OnEnable()
 	{
 		base.OnEnable();
@@ -57,6 +62,25 @@ public class MobFlee : MobPathFinder
 
 	IEnumerator FindValidWayPoint(Vector2 oppositeDir)
 	{
+		if (attemps >= 10)
+		{
+			if (attemptReset) yield break;
+			attemptReset = true;
+			yield return new WaitForSeconds(delay);
+
+			attemps = 0;
+			attemptReset = false;
+			yield break;
+		}
+
+		// check fleeTarget again because it can be destroyed after waiting ^
+		if(!fleeTarget)
+		{
+			// set fleeTarget to itself if null
+			fleeTarget = transform;
+			oppositeDir = Vector2.zero;
+		}
+		
 		//First try to escape the room by looking for a door
 		var possibleDoors = Physics2D.OverlapCircleAll(transform.position, 20f, doorMask);
 
@@ -173,6 +197,7 @@ public class MobFlee : MobPathFinder
 		{
 			if (path.Count == 0)
 			{
+				attemps++;
 				TryToFlee();
 			}
 			else
@@ -182,7 +207,9 @@ public class MobFlee : MobPathFinder
 		}
 		else
 		{
+			attemps++;
 			TryToFlee();
+			
 		}
 	}
 

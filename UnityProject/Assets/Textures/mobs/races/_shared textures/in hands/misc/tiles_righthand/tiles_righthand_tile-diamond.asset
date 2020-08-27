@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: tiles_righthand_tile-diamond
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 8767995988511979317, guid: 8eae20dc1ef0a8946a4cbe618243e8b8,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 4995598997512921048, guid: 8eae20dc1ef0a8946a4cbe618243e8b8,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -3387001033734866269, guid: 8eae20dc1ef0a8946a4cbe618243e8b8,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -7547140880017900424, guid: 8eae20dc1ef0a8946a4cbe618243e8b8,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 6388

@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: tiles_lefthand_tile-carpet-green
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 1573011307866035556, guid: f3e90bd16cf6b68478b56d5de383d655,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -7843400890112194906, guid: f3e90bd16cf6b68478b56d5de383d655,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 843978045554178845, guid: f3e90bd16cf6b68478b56d5de383d655,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 6718855367049241203, guid: f3e90bd16cf6b68478b56d5de383d655,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 6342

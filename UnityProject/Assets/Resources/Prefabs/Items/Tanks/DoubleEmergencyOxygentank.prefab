@@ -86,6 +86,18 @@ PrefabInstance:
       propertyPath: itemSprites.LeftHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 81028e5120dd20a409daa3f340d6b1bd, type: 3}
+    - target: {fileID: 2435569459091623823, guid: 09868dc1147587f4191af0a4defd8c1d,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7335808bfdf794f40a9e4a2b475c9870,
+        type: 2}
+    - target: {fileID: 2435569459091623823, guid: 09868dc1147587f4191af0a4defd8c1d,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d36c552d52628744f9329654bbdf563b,
+        type: 2}
     - target: {fileID: 2724834644005131185, guid: 09868dc1147587f4191af0a4defd8c1d,
         type: 3}
       propertyPath: m_Sprite
@@ -157,5 +169,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8243667626062846826, guid: 09868dc1147587f4191af0a4defd8c1d,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a7b1c59fdd10fc84482c6d9974ada03e,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09868dc1147587f4191af0a4defd8c1d, type: 3}

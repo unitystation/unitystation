@@ -12,9 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 175001bada3c3ba47945b92e3bfa2bd2, type: 3}
   m_Name: MagBoots
   m_EditorClassIdentifier: 
-  CallOnClient: 1
-  CallOnServer: 1
-  Sprites: []
+  callOnClient: 1
+  callOnServer: 1
+  actionName: Toggle Magboots
+  description: 
+  Sprites:
+  - {fileID: 11400000, guid: e7a9c4058739e964dacc0b6f7eeb548f, type: 2}
+  - {fileID: 11400000, guid: 178404daa0d55514f90c2cb30bacd44e, type: 2}
   Backgrounds: []
   PreventBeingControlledBy: 
   DisableOnEvent: 

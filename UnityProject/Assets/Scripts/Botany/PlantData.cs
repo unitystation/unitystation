@@ -12,30 +12,45 @@ public class PlantData
 	public GameObject ProduceObject;
 	public string Name;
 	public string Plantname;
+
 	public string Description;
-	public SpriteSheetAndData PacketsSprite;
+
 	//public SpriteSheetAndData ProduceSprite;
-	public List<SpriteSheetAndData> GrowthSprites = new List<SpriteSheetAndData>();
-	public SpriteSheetAndData FullyGrownSprite;
-	public SpriteSheetAndData DeadSprite;
+	//public List<SpriteSheetAndData> GrowthSprites = new List<SpriteSheetAndData>();
+	//public SpriteSheetAndData FullyGrownSprite;
+	//public SpriteSheetAndData DeadSprite;
+
+	public SpriteDataSO DeadSpriteSO = null;
+	public SpriteDataSO FullyGrownSpriteSO = null;
+	public List<SpriteDataSO> GrowthSpritesSOs = new List<SpriteDataSO>();
+
+
 	//add Fully grown sprite with Animations
-	public int WeedResistance = 50;// -1; //Dank
-	public int WeedGrowthRate = 10;//-1;
-	public int GrowthSpeed = 60;//-1;
-	public int Potency = 15;//-1;
-	public int Endurance = 15;//-1;
-	public int Yield = 40;//-1;
-	public int Lifespan = 25;//-1;
+	public int WeedResistance = 50; //Dank
+	public int WeedGrowthRate = 10;
+	public int GrowthSpeed = 60;
+	public int Potency = 15;
+	public int Endurance = 15;
+	public int Yield = 40;
+	public int Lifespan = 25;
 	public List<PlantTrays> PlantTrays = new List<PlantTrays>();
 	public List<Reagent> ReagentProduction = new List<Reagent>();
-	public List<DefaultPlantData> MutatesInTo = new List<DefaultPlantData>();
+	//public List<DefaultPlantData> MutatesInTo = new List<DefaultPlantData>();
+
+	public List<GameObject> MutatesInToGameObject = new List<GameObject>();
+
+	public PlantEvolveStats plantEvolveStats = new PlantEvolveStats();
 
 	public int Age;
 	public int NextGrowthStageProgress;
 	public float Health;
 
+	private const int MAX_POTENCY = 100;
+
 	//Use static methods to create new instances of PlantData
-	private PlantData() { }
+	private PlantData()
+	{
+	}
 
 	/// <summary>
 	/// Gets a new instance of PlantData based on param
@@ -78,33 +93,33 @@ public class PlantData
 	/// <summary>
 	/// Mutates the plant instance this is run against
 	/// </summary>
-	/// <param name="_DefaultPlantData"></param>
-	public void MutateTo(DefaultPlantData _DefaultPlantData)
+	/// <param name="_PlantData.plantEvolveStats"></param>
+	public void MutateTo(PlantData _PlantData)
 	{
-		if (_DefaultPlantData == null) return;
-		Plantname = _DefaultPlantData.plantData.Plantname;
-		Description = _DefaultPlantData.plantData.Description;
-		Name = _DefaultPlantData.plantData.Name;
-		ProduceObject = _DefaultPlantData.plantData.ProduceObject;
-		PacketsSprite = _DefaultPlantData.plantData.PacketsSprite;
-		//ProduceSprite = _DefaultPlantData.plantData.ProduceSprite;
-		GrowthSprites = _DefaultPlantData.plantData.GrowthSprites;
-		FullyGrownSprite = _DefaultPlantData.plantData.FullyGrownSprite;
-		DeadSprite = _DefaultPlantData.plantData.DeadSprite;
-
-		MutatesInTo = _DefaultPlantData.plantData.MutatesInTo;
-
-		WeedResistance = WeedResistance + _DefaultPlantData.WeedResistanceChange;
-		WeedGrowthRate = WeedGrowthRate + _DefaultPlantData.WeedGrowthRateChange;
-		GrowthSpeed = GrowthSpeed + _DefaultPlantData.GrowthSpeedChange;
-		Potency = Potency + _DefaultPlantData.PotencyChange;
-		Endurance = Endurance + _DefaultPlantData.EnduranceChange;
-		Yield = Yield + _DefaultPlantData.YieldChange;
-		Lifespan = Lifespan + _DefaultPlantData.LifespanChange;
+		if (_PlantData.plantEvolveStats == null) return;
+		Plantname = _PlantData.Plantname;
+		Description = _PlantData.Description;
+		Name = _PlantData.Name;
+		ProduceObject = _PlantData.ProduceObject;
 
 
-		PlantTrays = (_DefaultPlantData.PlantTrays.Union(PlantTrays)).ToList();
-		CombineReagentProduction(_DefaultPlantData.ReagentProduction);
+		GrowthSpritesSOs =  _PlantData.GrowthSpritesSOs;
+
+		FullyGrownSpriteSO = _PlantData.FullyGrownSpriteSO;
+		DeadSpriteSO = _PlantData.DeadSpriteSO;
+		MutatesInToGameObject = _PlantData.MutatesInToGameObject;
+
+		WeedResistance = WeedResistance + _PlantData.plantEvolveStats.WeedResistanceChange;
+		WeedGrowthRate = WeedGrowthRate + _PlantData.plantEvolveStats.WeedGrowthRateChange;
+		GrowthSpeed = GrowthSpeed + _PlantData.plantEvolveStats.GrowthSpeedChange;
+		Potency = Mathf.Clamp(Potency + _PlantData.plantEvolveStats.PotencyChange, 0, MAX_POTENCY);
+		Endurance = Endurance + _PlantData.plantEvolveStats.EnduranceChange;
+		Yield = Yield + _PlantData.plantEvolveStats.YieldChange;
+		Lifespan = Lifespan + _PlantData.plantEvolveStats.LifespanChange;
+
+
+		PlantTrays = (_PlantData.plantEvolveStats.PlantTrays.Union(PlantTrays)).ToList();
+		CombineReagentProduction(_PlantData.plantEvolveStats.ReagentProduction);
 	}
 
 	/// <summary>
@@ -117,11 +132,9 @@ public class PlantData
 		Description = _PlantData.Description;
 		Name = _PlantData.Name;
 		ProduceObject = _PlantData.ProduceObject;
-		PacketsSprite = _PlantData.PacketsSprite;
-		//ProduceSprite = _PlantData.ProduceSprite;
-		GrowthSprites = _PlantData.GrowthSprites;
-		FullyGrownSprite = _PlantData.FullyGrownSprite;
-		DeadSprite = _PlantData.DeadSprite;
+		GrowthSpritesSOs = _PlantData.GrowthSpritesSOs;
+		FullyGrownSpriteSO = _PlantData.FullyGrownSpriteSO;
+		DeadSpriteSO = _PlantData.DeadSpriteSO;
 		WeedResistance = _PlantData.WeedResistance;
 		WeedGrowthRate = _PlantData.WeedGrowthRate;
 		GrowthSpeed = _PlantData.GrowthSpeed;
@@ -131,7 +144,7 @@ public class PlantData
 		Lifespan = _PlantData.Lifespan;
 		PlantTrays = _PlantData.PlantTrays;
 		ReagentProduction = _PlantData.ReagentProduction;
-		MutatesInTo = _PlantData.MutatesInTo;
+		MutatesInToGameObject = _PlantData.MutatesInToGameObject;
 	}
 
 	/// <summary>
@@ -148,28 +161,22 @@ public class PlantData
 		{
 			ProduceObject = _PlantData.ProduceObject;
 		}
-		if (PacketsSprite?.Texture == null)
-		{
-			PacketsSprite = _PlantData.PacketsSprite;
-		}
-		//if (ProduceSprite?.Texture == null)
-		//{
-		//	ProduceSprite = _PlantData.ProduceSprite;
-		//}
 
-		if (GrowthSprites.Count == 0)
+		if (GrowthSpritesSOs.Count == 0)
 		{
-			GrowthSprites = _PlantData.GrowthSprites;
+			GrowthSpritesSOs = _PlantData.GrowthSpritesSOs;
 		}
 
-		if (FullyGrownSprite?.Texture == null)
+		if (FullyGrownSpriteSO == null)
 		{
-			FullyGrownSprite = _PlantData.FullyGrownSprite;
+			FullyGrownSpriteSO = _PlantData.FullyGrownSpriteSO;
 		}
-		if (DeadSprite?.Texture == null)
+
+		if (DeadSpriteSO == null)
 		{
-			DeadSprite = _PlantData.DeadSprite;
+			DeadSpriteSO = _PlantData.DeadSpriteSO;
 		}
+
 		WeedResistance = _PlantData.WeedResistance;
 		WeedGrowthRate = _PlantData.WeedGrowthRate;
 		GrowthSpeed = _PlantData.GrowthSpeed;
@@ -179,9 +186,8 @@ public class PlantData
 		Lifespan = _PlantData.Lifespan;
 
 
-
 		PlantTrays = (_PlantData.PlantTrays.Union(PlantTrays)).ToList();
-		MutatesInTo = (_PlantData.MutatesInTo.Union(MutatesInTo)).ToList();
+		MutatesInToGameObject = (_PlantData.MutatesInToGameObject.Union(MutatesInToGameObject)).ToList();
 		CombineReagentProduction(_PlantData.ReagentProduction);
 	}
 
@@ -205,17 +211,20 @@ public class PlantData
 						{
 							ToRemove.Add(Reagent);
 						}
-						else {
+						else
+						{
 							ToRemove.Add(_Reagent);
 						}
 					}
 				}
 			}
 		}
+
 		foreach (var Reagent in ToRemove)
 		{
 			Reagents.Remove(Reagent);
 		}
+
 		ReagentProduction = Reagents;
 	}
 
@@ -225,13 +234,17 @@ public class PlantData
 	/// </summary>
 	public void Mutation()
 	{
-		if (MutatesInTo.Count == 0) return;
+		if (MutatesInToGameObject.Count == 0) return;
 
 
-		var newPlantData = MutatesInTo.Where(mutation => mutation.plantData.ProduceObject != null).PickRandom();
-		if (newPlantData == null) { return; }
+		var newPlantData = MutatesInToGameObject.PickRandom();
+		if (newPlantData == null)
+		{
+			return;
+		}
+
 		//var oldPlantData = plantData;
-		MutateTo(newPlantData);
+		MutateTo(newPlantData.GetComponent<SeedPacket>().plantData);
 		//UpdatePlant(oldPlantData.Name, Name);
 	}
 
@@ -309,19 +322,52 @@ public class PlantData
 
 	private static int BadStatMutation(float stat, float maxStat)
 	{
-		return ((int)stat + random.Next(-(int)Math.Ceiling((maxStat / 100f) * 5),
-					(int)Math.Ceiling((maxStat / 100f) * 2)));
+		return ((int) stat + random.Next(-(int) Math.Ceiling((maxStat / 100f) * 5),
+			(int) Math.Ceiling((maxStat / 100f) * 2)));
 	}
 
 	private static int SpecialStatMutation(float stat, float maxStat)
 	{
-		return ((int)stat + random.Next(0, (int)Math.Ceiling((maxStat / 100f) * 7)));
+		return ((int) stat + random.Next(0, (int) Math.Ceiling((maxStat / 100f) * 7)));
 	}
 
 	private static int StatMutation(float stat, float maxStat)
 	{
-		return ((int)stat + random.Next(-(int)Math.Ceiling((maxStat / 100f) * 2),
-					(int)Math.Ceiling((maxStat / 100f) * 5)));
+		return ((int) stat + random.Next(-(int) Math.Ceiling((maxStat / 100f) * 2),
+			(int) Math.Ceiling((maxStat / 100f) * 5)));
+	}
+
+	[System.Serializable]
+	public class PlantEvolveStats
+	{
+		public int WeedResistanceChange; //Dank
+		public int WeedGrowthRateChange;
+		public int GrowthSpeedChange;
+		public int PotencyChange;
+		public int EnduranceChange;
+		public int YieldChange;
+		public int LifespanChange;
+
+		public List<PlantTrays> PlantTrays = new List<PlantTrays>();
+		public List<Reagent> ReagentProduction = new List<Reagent>();
+
+		public List<PlantTrays> RemovePlantTrays = new List<PlantTrays>();
+		public List<Reagent> RemoveReagentProduction = new List<Reagent>();
+
+		public void copyFrom(DefaultPlantData defaultPlantData)
+		{
+			WeedResistanceChange = defaultPlantData.WeedResistanceChange;
+			WeedGrowthRateChange = defaultPlantData.WeedGrowthRateChange;
+			GrowthSpeedChange = defaultPlantData.GrowthSpeedChange;
+			PotencyChange = defaultPlantData.PotencyChange;;
+			EnduranceChange= defaultPlantData.EnduranceChange;
+			YieldChange= defaultPlantData.YieldChange;
+			LifespanChange= defaultPlantData.LifespanChange;
+			PlantTrays = defaultPlantData.PlantTrays;
+			ReagentProduction = defaultPlantData.ReagentProduction;
+			RemovePlantTrays = defaultPlantData.RemovePlantTrays;
+			RemoveReagentProduction = defaultPlantData.RemoveReagentProduction;
+		}
 	}
 }
 

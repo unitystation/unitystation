@@ -407,9 +407,33 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	}
 
 	/// <summary>
-	/// true when player tries to break pull or leave locker.
+	/// true when player tries to break pull or leave container (e.g. locker).
 	/// </summary>
 	private bool didWiggle = false;
+
+	private void TryEscapeContainer()
+	{
+		if (Camera2DFollow.followControl.target.TryGetComponent(out ClosetControl closet))
+		{
+			InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(closet.gameObject), closet);
+		}
+		else if (Camera2DFollow.followControl.target.TryGetComponent(out Disposals.DisposalVirtualContainer disposalContainer))
+		{
+			CmdTryEscapeDisposals();
+		}
+	}
+
+	[Command]
+	private void CmdTryEscapeDisposals()
+	{
+		if (pushPull?.parentContainer == null) return;
+		GameObject parentContainer = pushPull.parentContainer.gameObject;
+
+		if (parentContainer.TryGetComponent(out Disposals.DisposalVirtualContainer disposalContainer))
+		{
+			disposalContainer.PlayerTryEscaping(gameObject);
+		}
+	}
 
 	private void UpdateMe()
 	{
@@ -427,15 +451,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 						pushPull.CmdStopFollowing();
 						didWiggle = true;
 					}
+					// Player inside something
 					else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
 					{
-						//	Leaving locker
-						var closet = Camera2DFollow.followControl.target.GetComponent<ClosetControl>();
-						if (closet)
-						{
-							InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(closet.gameObject), closet);
-							didWiggle = true;
-						}
+						TryEscapeContainer();
+						didWiggle = true;
 					}
 				}
 			}

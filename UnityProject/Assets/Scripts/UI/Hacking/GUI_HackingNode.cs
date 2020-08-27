@@ -31,6 +31,11 @@ public class GUI_HackingNode : MonoBehaviour
 
 	public void OnClick()
 	{
+		Pickupable handItem = PlayerManager.LocalPlayerScript.Equipment.ItemStorage.GetActiveHandSlot().Item;
+		if (handItem == null || !Validations.HasItemTrait(handItem.gameObject, CommonTraits.Instance.Cable))
+		{
+			return;
+		}
 		if (parentHackingPanel.IsAddingWire)
 		{
 			if (hackNode.IsInput)
@@ -38,12 +43,9 @@ public class GUI_HackingNode : MonoBehaviour
 				parentHackingPanel.FinishAddingWire(this);
 			}
 		}
-		else
+		else if (hackNode.IsOutput)
 		{
-			if (hackNode.IsOutput)
-			{
-				parentHackingPanel.BeginAddingWire(this);
-			}
+			parentHackingPanel.BeginAddingWire(this);
 		}
 	}
 }

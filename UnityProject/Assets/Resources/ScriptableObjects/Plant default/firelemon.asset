@@ -13,11 +13,12 @@ MonoBehaviour:
   m_Name: firelemon
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 0}
-    Name: firelemon
+    ProduceObject: {fileID: 6769435367495353566, guid: 46b3090af3e214a8ca589e9f73ded0bd,
+      type: 3}
+    Name: combustible lemon
     Plantname: Combustible Lemon Tree
-    Description: When life gives you lemons, don't make lemonade. Make life take the
-      lemons back! Get mad! I don't want your damn lemons!
+    Description: When life gives you lemons, don't make lemonade. Make life take
+      the lemons back! Get mad! I don't want your damn lemons!
     PacketsSprite:
       Texture: {fileID: 2800000, guid: 055dea0bdb6b8084a9ae002b4774282a, type: 3}
       Sprites:
@@ -70,6 +71,9 @@ MonoBehaviour:
     - Name: nutriment
       Ammount: 5
     MutatesInTo: []
+    Age: 0
+    NextGrowthStageProgress: 0
+    Health: 0
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

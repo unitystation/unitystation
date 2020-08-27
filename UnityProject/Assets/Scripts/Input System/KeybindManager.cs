@@ -61,8 +61,9 @@ public enum KeyAction
 	TargetGroin,
 
 	//Right click stuff
-	ShowAdminOptions
+	ShowAdminOptions,
 
+	Point
 }
 
 /// <summary>
@@ -134,6 +135,36 @@ public class KeybindManager : MonoBehaviour {
 			ModKey2 = modKey2;
 		}
 		// Define all equality and hash code operators
+
+		public static int TotalKeys(KeyCombo keyCombo)
+		{
+			var result = 0;
+			if (keyCombo.MainKey != KeyCode.None)
+				result++;
+			if(keyCombo.ModKey1 != KeyCode.None)
+				result++;
+			if(keyCombo.ModKey2 != KeyCode.None)
+				result++;
+			return result;
+		}
+
+		public static bool ShareKey(KeyCombo a, KeyCombo b)
+		{
+			if (a.MainKey == b.MainKey || a.MainKey == b.ModKey1 || a.MainKey == b.ModKey2)
+			{
+				return true;
+			}
+			if (a.ModKey1 == b.MainKey || a.ModKey1 == b.ModKey1 || a.ModKey1 == b.ModKey2)
+			{
+				return true;
+			}
+			if (a.ModKey2 == b.MainKey || a.ModKey2 == b.ModKey1 || a.ModKey2 == b.ModKey2)
+			{
+				return true;
+			}
+			return false;
+		}
+
 		public static bool operator == (KeyCombo a, KeyCombo b)
 		{
 			if (object.ReferenceEquals(a, b))
@@ -221,6 +252,7 @@ public class KeybindManager : MonoBehaviour {
 		Intent,
 		Targeting,
 		RightClick,
+		Point
 	}
 
 	/// <summary>
@@ -279,6 +311,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ActionResist,	new KeybindMetadata("Resist", ActionType.Action)},
 		{ KeyAction.ActionStopPull,	new KeybindMetadata("Stop Pulling", ActionType.Action)},
 
+		{  KeyAction.Point, 		new KeybindMetadata("Point", ActionType.Point)},
 		{  KeyAction.HandSwap, 		new KeybindMetadata("Swap Hands", ActionType.Hand)},
 		{  KeyAction.HandActivate,	new KeybindMetadata("Activate Item", ActionType.Hand)},
 		{  KeyAction.HandEquip, 	new KeybindMetadata("Equip Item", ActionType.Hand)},
@@ -326,6 +359,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.ActionResist,	new DualKeyCombo(new KeyCombo(KeyCode.V), 	null)},
 		{ KeyAction.ActionStopPull, new DualKeyCombo(new KeyCombo(KeyCode.H), new KeyCombo(KeyCode.Delete))},
 
+		{  KeyAction.Point,			new DualKeyCombo(new KeyCombo(KeyCode.Mouse2, KeyCode.LeftShift), null)},
 		{  KeyAction.HandSwap, 		new DualKeyCombo(new KeyCombo(KeyCode.X),	new KeyCombo(KeyCode.Mouse2))},
 		{  KeyAction.HandActivate,	new DualKeyCombo(new KeyCombo(KeyCode.Z),	new KeyCombo(KeyCode.PageDown))},
 		{  KeyAction.HandEquip, 	new DualKeyCombo(new KeyCombo(KeyCode.E),	null)},

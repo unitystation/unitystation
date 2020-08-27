@@ -41,7 +41,7 @@ public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandAppl
 	public BatterySupplyingModule BatterySupplyingModule;
 
 	[SyncVar(hook = nameof(UpdateState))]
-	public bool isOn = false;
+	public bool isOn = true;
 
 	private bool hasInit;
 
@@ -68,6 +68,7 @@ public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandAppl
 		}
 
 		hasInit = true;
+		UpdateServerState();
 	}
 
 	public override void OnStartClient()

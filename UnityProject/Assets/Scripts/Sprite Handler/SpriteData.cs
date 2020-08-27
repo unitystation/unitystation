@@ -6,7 +6,7 @@ using UnityEngine;
 [System.Serializable]
 public class SpriteData
 {
-	public List<List<List<SpriteHandler.SpriteInfo>>> List = new List<List<List<SpriteHandler.SpriteInfo>>>();
+	/*public List<List<List<SpriteHandler.SpriteInfo>>> List = new List<List<List<SpriteHandler.SpriteInfo>>>();
 	public List<bool> isPaletteds = new List<bool>();
 	public List<List<Color>> palettes = new List<List<Color>>();
 
@@ -35,5 +35,5 @@ public class SpriteData
 		else {
 			return (null);
 		}
-	}
+	}*/
 }

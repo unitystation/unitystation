@@ -44,6 +44,7 @@ public class PlayerSprites : MonoBehaviour
 	private PlayerSync playerSync;
 
 	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
+	private	ulong overflow = 0UL;
 	/// <summary>
 	/// Define which piece of clothing are hidden (not rendering) right now
 	/// </summary>
@@ -146,8 +147,8 @@ public class PlayerSprites : MonoBehaviour
 	{
 		if (customisationName != "None")
 		{
-			SpriteSheetAndData spriteSheetAndData = PlayerCustomisationDataSOs.Instance.Get(customisationType, ThisCharacter.Gender, customisationName).Equipped;
-			SetupSprite(spriteSheetAndData, customisationKey, color);
+			SpriteDataSO spriteDataSO = PlayerCustomisationDataSOs.Instance.Get(customisationType, ThisCharacter.Gender, customisationName).SpriteEquipped;
+			SetupSprite(spriteDataSO, customisationKey, color);
 		}
 	}
 
@@ -196,25 +197,17 @@ public class PlayerSprites : MonoBehaviour
 	/// <summary>
 	/// Sets up the sprite for a specific body part
 	/// </summary>
-	private void SetupBodySprite(SpriteSheetAndData variantBodypart, string bodypartKey, Color? color = null)
+	private void SetupBodySprite(SpriteDataSO variantBodypart, string bodypartKey, Color? color = null)
 	{
-		if (variantBodypart.Texture != null)
+		if (variantBodypart != null && variantBodypart.Variance.Count > 0)
 		{
 			SetupSprite(variantBodypart, bodypartKey, color);
 		}
 	}
 
-	private void SetupSprite(SpriteSheetAndData spriteSheetAndData, string clothesDictKey, Color? color = null)
+	private void SetupSprite(SpriteDataSO spriteSheetAndData, string clothesDictKey, Color? color = null)
 	{
-		clothes[clothesDictKey].spriteHandler.spriteData = new SpriteData();
-		clothes[clothesDictKey].spriteHandler.spriteData.List.Add(SpriteFunctions.CompleteSpriteSetup(spriteSheetAndData));
-
-		if (color != null)
-		{
-			clothes[clothesDictKey].spriteHandler.SetColor(color.Value);
-		}
-
-		clothes[clothesDictKey].spriteHandler.PushTexture();
+		clothes[clothesDictKey].spriteHandler.SetSpriteSO(spriteSheetAndData, color.GetValueOrDefault(Color.white));
 	}
 
 	private void OnClientFireStacksChange(float newStacks)
@@ -336,19 +329,35 @@ public class PlayerSprites : MonoBehaviour
 
 		// if new clothes equiped, add new hide flags
 		if (isEquiped)
-			hideClothingFlags |= clothing.HideClothingFlags;
+		{
+			for (int n = 0; n < 11; n++)
+			{
+				//if both bits are enabled set the n'th bit in the overflow string
+				if (IsBitSet((ulong)clothing.HideClothingFlags,n) && (IsBitSet((ulong)hideClothingFlags,n)))
+				{
+					overflow |= 1UL << n;
+				}
+				else if (IsBitSet((ulong)clothing.HideClothingFlags,n)) //check if n'th bit is set to 1
+				{
+					ulong bytechange = (ulong)hideClothingFlags;
+					bytechange |= 1UL << n; //set n'th bit to 1
+					hideClothingFlags = (ClothingHideFlags)bytechange;
+				}
+			}
+		}
 		// if player get off old clothes, we need to remove old flags
 		else
 		{
-			for (int i = 0; i < 11; i++) //repeat 11 times, once for each bit
+			for (int n = 0; n < 11; n++) //repeat 11 times, once for each hide flag
 			{
-				//get a bit from the byte
-				ulong bit = ((ulong)clothing.HideClothingFlags >> i) & 1U;
-				if (bit == 1)
+				if (IsBitSet(overflow,n)) //check if n'th bit in overflow is set to 1
 				{
-					//disable the enabled bit
+					overflow &= ~(1UL << n); //set n'th bit to 0
+				}
+				else if (IsBitSet((ulong)clothing.HideClothingFlags,n)) //check if n'th bit is set to 1
+				{
 					ulong bytechange = (ulong)hideClothingFlags;
-					bytechange &= ~(1UL << i);
+					bytechange &= ~(1UL << n); //set n'th bit to 0
 					hideClothingFlags = (ClothingHideFlags)bytechange;
 				}
 			}
@@ -357,6 +366,10 @@ public class PlayerSprites : MonoBehaviour
 		ValidateHideFlags();
 	}
 
+	private bool IsBitSet(ulong b, int pos)
+	{
+   		return ((b >> pos) & 1) != 0;
+	}
 	private void ValidateHideFlags()
 	{
 		// Need to check all flags with their gameobject names...

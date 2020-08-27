@@ -1,0 +1,55 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ce108c02d022d1940bc023ceca025d81, type: 3}
+  m_Name: CommonConstructionNCrafting
+  m_EditorClassIdentifier: 
+  pool:
+  - prefab: {fileID: 4435676122793348777, guid: c567e6c3b003a2b488534a8766866cb0,
+      type: 3}
+    maxAmount: 5
+    probability: 100
+  - prefab: {fileID: 2527188313238870147, guid: d84851eeb2ee38b4fab01c7a2cea13a5,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
+      type: 3}
+    maxAmount: 20
+    probability: 100
+  - prefab: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,
+      type: 3}
+    maxAmount: 25
+    probability: 100
+  - prefab: {fileID: 6254655335276451647, guid: 70a15a1bc92d10944878d2f52dfe2be0,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 8610225452865205335, guid: c9d03be44229a74469be1b6738941ec3,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 3506820747392627008, guid: 1fa9f2d6fbcfef845bb2f5903ffcfd23,
+      type: 3}
+    maxAmount: 1
+    probability: 100
+  - prefab: {fileID: 4433336198165141055, guid: 827dad187b7a6e449b5b73aa0e691a38,
+      type: 3}
+    maxAmount: 5
+    probability: 100
+  - prefab: {fileID: 4019383695740491213, guid: 930cb494644d9ed46b31e1ecf4222089,
+      type: 3}
+    maxAmount: 5
+    probability: 100
+  - prefab: {fileID: 3506820747392627008, guid: a417db40295ef264db403f38810bf817,
+      type: 3}
+    maxAmount: 1
+    probability: 100

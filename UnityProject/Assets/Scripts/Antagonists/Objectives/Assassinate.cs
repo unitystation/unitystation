@@ -33,23 +33,37 @@ namespace Antagonists
 		/// </summary>
 		protected override void Setup()
 		{
-			// Get all ingame players except the one who owns this objective and players who have already been targeted
+			// Get all ingame players except the one who owns this objective and players who have already been targeted and the ones who cant be targeted
 			List<ConnectedPlayer> playerPool = PlayerList.Instance.InGamePlayers.Where( p =>
-				(p.Script != Owner.body) && !AntagManager.Instance.TargetedPlayers.Contains(p.Script)
+				(p.Script != Owner.body) && !AntagManager.Instance.TargetedPlayers.Contains(p.Script) && p.Script.mind.occupation != null && p.Script.mind.occupation.IsTargeteable
+
 			).ToList();
 
 			if (playerPool.Count == 0)
 			{
-				Logger.LogWarning("Unable to find any suitable assassination targets! Giving free objective", Category.Antags);
-				description = "Free objective";
-				Complete = true;
+				FreeObjective();
 				return;
 			}
 
 			// Pick a random target and add them to the targeted list
 			Target = playerPool.PickRandom().Script;
+
+			//If still null then its a free objective
+			if(Target == null || Target.mind.occupation == null)
+			{
+				FreeObjective();
+				return;
+			}
+
 			AntagManager.Instance.TargetedPlayers.Add(Target);
 			description = $"Assassinate {Target.playerName}, the {Target.mind.occupation.DisplayName}";
+		}
+
+		private void FreeObjective()
+		{
+			Logger.LogWarning("Unable to find any suitable assassination targets! Giving free objective", Category.Antags);
+			description = "Free objective";
+			Complete = true;
 		}
 
 		protected override bool CheckCompletion()

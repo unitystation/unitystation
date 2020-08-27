@@ -3,32 +3,44 @@ using System.Collections.Generic;
 using UnityEngine;
 using Atmospherics;
 
-public class Connector : AdvancedPipe
+namespace Pipes
 {
-	private Canister canister;
-
-	public void ConnectCanister(Canister newCanister)
+	public class Connector : MonoPipe
 	{
-		canister = newCanister;
-	}
+		private Canister canister;
 
-	public void DisconnectCanister()
-	{
-		canister = null;
-	}
-
-	public override void TickUpdate()
-	{
-		base.TickUpdate();
-		if ( anchored && canister != null)
+		public void Start()
 		{
-			MergeAir();
+			pipeData.PipeAction = new MonoActions();
+			base.Start();
+		}
+
+		public override void TickUpdate()
+		{
+			base.TickUpdate();
+			if (canister != null)
+			{
+				pipeData.mixAndVolume.EqualiseWithExternal(canister.container.GasMix);
+			}
+			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
+		}
+
+		public void DisconnectCanister()
+		{
+			canister = null;
+		}
+
+		public void ConnectCanister(Canister Incanister)
+		{
+			canister = Incanister;
+		}
+
+		public override void OnDisassembly(HandApply interaction)
+		{
+			if (canister != null)
+			{
+				canister.Disconnect();
+			}
 		}
 	}
-
-	void MergeAir()
-	{
-		pipenet.gasMix.MergeGasMix(canister.container.GasMix);
-	}
-
 }

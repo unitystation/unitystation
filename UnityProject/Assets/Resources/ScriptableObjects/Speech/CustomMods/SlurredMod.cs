@@ -1,10 +1,26 @@
 ﻿using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using UnityEngine;
+using AdminTools;
+using ScriptableObjects;
 
 [CreateAssetMenu(fileName = "CustomSpeechModifierCode", menuName = "ScriptableObjects/SpeechModifiers/SlurredSpeech")]
 public class SlurredMod : CustomSpeechModifier
 {
-	// i also need to randomly insert burps and hiccups
+	public int drunkSpeechTime;
+	public Mind playerMind;
+	private void DoEffectTimeCheck()
+	{
+		if (drunkSpeechTime > 0)
+		{
+			playerMind.inventorySpeechModifiers |= ChatModifier.Drunk;
+			drunkSpeechTime--;
+		}
+		else
+		{
+			playerMind.inventorySpeechModifiers &= ~ChatModifier.Drunk;
+		}
+	}
 	private static string Slur(Match m)
 	{
 		string x = m.ToString();
@@ -17,7 +33,7 @@ public class SlurredMod : CustomSpeechModifier
 			int intensity = Random.Range(1, 6);
 			for (int i = 0; i < intensity; i++)
 			{
-				slur = slur + x; //huuuuuh?
+				slur = slur + x; //uuuuu
 			}
 		}
 		else
@@ -31,24 +47,23 @@ public class SlurredMod : CustomSpeechModifier
 		string x = m.ToString();
 		string hicburp = "";
 
-		if (DMMath.Prob(40))
+		if (DMMath.Prob(10))
 		{
-			int hicburptext = Random.Range(1,4);
-			if(hicburptext == 1)
+			int hicburptext = Random.Range(1, 4);
+			switch (hicburptext)
 			{
-				hicburp = " burp ";
-			}
-			else if(hicburptext == 2)
-			{
-				hicburp = " hic- ";
-			}
-			else if(hicburptext == 3)
-			{
-				hicburp = " hiccup- ";
-			}
-			else if(hicburptext == 4)
-			{
-				hicburp = " buuuurp ";
+				case 1:
+					hicburp = "- burp... ";
+					break;
+				case 2:
+					hicburp = "- hic- ";
+					break;
+				case 3:
+					hicburp = "- hic! ";
+					break;
+				case 4:
+					hicburp = "- buuuurp... ";
+					break;
 			}
 		}
 		else
@@ -59,9 +74,9 @@ public class SlurredMod : CustomSpeechModifier
 	}
 	public override string ProcessMessage(string message)
 	{
+		message = Regex.Replace(message, @"\B([aeiouslnmr]\B)", Slur);
 		//	//Drunk people commonly extend their vowels and doubled letters, as well as hiccupping and burping infrequently.
 		//	//Regex - find vowels and other commonly slurred letters, like L. How? I dunno.
-		message = Regex.Replace(message, @"", Slur);
 		message = Regex.Replace(message, @" ", HicBurp);
 		return message;
 	}

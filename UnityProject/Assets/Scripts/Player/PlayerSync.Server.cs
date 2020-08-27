@@ -191,7 +191,7 @@ public partial class PlayerSync
 	/// (turns on tile snapping and removes player collision check)</param>
 	/// <returns>true if push was successful</returns>
 	[Server]
-	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false)
+	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false)
 	{
 		//if we are buckled, transfer the impulse to our buckled object.
 		if (playerMove.IsBuckled)
@@ -201,11 +201,12 @@ public partial class PlayerSync
 		}
 		else
 		{
-			return PushInternal(direction, false, speed, followMode);
+			return PushInternal(direction, false, speed, followMode, ignorePassable);
 		}
 	}
 
-	private bool PushInternal(Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN, bool followMode = false )
+	private bool PushInternal(
+			Vector2Int direction, bool isNewtonian = false, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false)
 	{
 		if (!float.IsNaN(speed) && speed <= 0)
 		{
@@ -224,7 +225,7 @@ public partial class PlayerSync
 		Vector3Int origin = ServerPosition;
 		Vector3Int pushGoal = origin + direction.To3Int();
 
-		if ( !MatrixManager.IsPassableAt( origin, pushGoal, isServer: true, includingPlayers: !followMode ) ) {
+		if (!ignorePassable && !MatrixManager.IsPassableAt( origin, pushGoal, isServer: true, includingPlayers: !followMode ) ) {
 			return false;
 		}
 
@@ -569,10 +570,13 @@ public partial class PlayerSync
 	///Revert client push prediction straight ahead if it's wrong
 	[Command]
 	private void CmdValidatePush( GameObject pushable ) {
-		var pushPull = pushable.GetComponent<PushPull>();
-		if ( Validations.CanInteract(playerScript, NetworkSide.Server) || pushPull && !playerScript.IsInReach(pushPull.registerTile, true) ) {
-			questionablePushables.Add( pushPull );
-			Logger.LogWarningFormat( "Added questionable {0}", Category.PushPull, pushPull );
+		if (pushable && pushable.TryGetComponent(out PushPull pushPull))
+		{
+			if (Validations.CanInteract(playerScript, NetworkSide.Server) || pushPull && !playerScript.IsInReach(pushPull.registerTile, true))
+			{
+				questionablePushables.Add(pushPull);
+				Logger.LogWarningFormat("Added questionable {0}", Category.PushPull, pushPull);
+			}
 		}
 	}
 
@@ -848,18 +852,23 @@ public partial class PlayerSync
 		{
 			return;
 		}
-
+		
 		CheckTileSlip();
 
-		var crossedItems = MatrixManager.GetAt<ItemAttributesV2>(position, true);
-		foreach ( var crossedItem in crossedItems )
-		{
-			if ( crossedItem.HasTrait( CommonTraits.Instance.Slippery ) )
-			{
-				registerPlayer.ServerSlip( slipWhileWalking: true );
-			}
-		}
-	}
+		var shoeSlot = playerScript.ItemStorage.GetNamedItemSlot( NamedSlot.feet );
+
+		bool slipProtection = !shoeSlot.IsEmpty && shoeSlot.ItemAttributes.HasTrait( CommonTraits.Instance.NoSlip );
+
+		if (slipProtection) return;
+			var crossedItems = MatrixManager.GetAt<ItemAttributesV2>(position, true);
+            foreach ( var crossedItem in crossedItems )
+            {
+                if ( crossedItem.HasTrait( CommonTraits.Instance.Slippery ) )
+                {
+                    registerPlayer.ServerSlip( slipWhileWalking: true );
+                }
+            }
+        }
 
 	public void CheckTileSlip()
 	{

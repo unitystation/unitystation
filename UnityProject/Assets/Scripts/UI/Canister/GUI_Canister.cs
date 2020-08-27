@@ -101,7 +101,7 @@ public class GUI_Canister : NetTab
 	}
 
 
-	private void OnEnable()
+	public override void OnEnable()
 	{
 		base.OnEnable();
 		StartCoroutine(ClientWaitForProvider());
@@ -391,8 +391,8 @@ public class GUI_Canister : NetTab
 		{
 			GasMix canisterGas = canisterTank.GasMix;
 			GasMix tankGas = externalTank.GasMix;
-			float[] updatedCanisterGases = { 0f, 0f, 0f, 0f };
-			float[] updatedTankGases = { 0f, 0f, 0f, 0f };
+			float[] updatedCanisterGases = { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
+			float[] updatedTankGases = { 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f, 0f };
 			float updatedTankMoles = 0f;
 
 			GasMix totalGas = canisterGas + tankGas;

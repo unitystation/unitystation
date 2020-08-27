@@ -94,7 +94,6 @@ public class GUI_IDConsole : NetTab
 	/// <summary>
 	/// Goes through each entry and updates its status based on the inserted card
 	/// </summary>
-	/// <exception cref="NotImplementedException"></exception>
 	private void ServerRefreshEntries()
 	{
 		foreach (var entry in accessToEntry.Values.Concat(occupationToEntry.Values))

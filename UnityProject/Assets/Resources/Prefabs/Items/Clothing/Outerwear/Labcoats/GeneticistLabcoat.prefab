@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!1001 &5781328312500305117
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -22,22 +21,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226,
-        type: 3}
-      propertyPath: m_Name
-      value: GeneticistLabcoat
-      objectReference: {fileID: 0}
-    - target: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226,
-        type: 3}
-      propertyPath: m_TagString
-      value: Clothing
-      objectReference: {fileID: 0}
-    - target: {fileID: 7931175119129480439, guid: ed1b2998d2c424811881ca9c2cad1226,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: c467bcd0062d3d141bcf7969fed7bd34,
-        type: 2}
     - target: {fileID: 3495234765619245072, guid: ed1b2998d2c424811881ca9c2cad1226,
         type: 3}
       propertyPath: initialDescription
@@ -48,6 +31,22 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: geneticist labcoat
+      objectReference: {fileID: 0}
+    - target: {fileID: 3791466462619397166, guid: ed1b2998d2c424811881ca9c2cad1226,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: aa651af3858a5ce4b85cae9dac426442,
+        type: 3}
+    - target: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226,
+        type: 3}
+      propertyPath: m_Name
+      value: GeneticistLabcoat
+      objectReference: {fileID: 0}
+    - target: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226,
+        type: 3}
+      propertyPath: m_TagString
+      value: Clothing
       objectReference: {fileID: 0}
     - target: {fileID: 3927008119850082822, guid: ed1b2998d2c424811881ca9c2cad1226,
         type: 3}
@@ -109,12 +108,18 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 3791466462619397166, guid: ed1b2998d2c424811881ca9c2cad1226,
+    - target: {fileID: 7145545764318209269, guid: ed1b2998d2c424811881ca9c2cad1226,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 21300000, guid: aa651af3858a5ce4b85cae9dac426442,
+      objectReference: {fileID: 11400000, guid: 62a37c98fc20db54ba35749cd63c12d4,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: ed1b2998d2c424811881ca9c2cad1226,
         type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: c467bcd0062d3d141bcf7969fed7bd34,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
 --- !u!1 &7374481989050852271 stripped

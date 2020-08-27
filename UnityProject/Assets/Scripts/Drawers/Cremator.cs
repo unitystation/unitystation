@@ -7,7 +7,7 @@ using UnityEngine;
 /// TODO: Implement activation via button when buttons can be assigned a generic component instead of only a DoorController component
 /// and remove the activation by right-click option.
 /// </summary>
-public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
+public class Cremator : Drawer, IRightClickable, ICheckedInteractable<ContextMenuApply>
 {
 	// Extra states over the base DrawerState enum.
 	private enum CrematorState
@@ -19,22 +19,8 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 	}
 
 	private AccessRestrictions accessRestrictions;
-	private OverlayTile ashOverlay
-	{
-		get
-		{
-			if (ashOverlay == null)
-			{
-				return TileManager.GetTile(TileType.Effects, "SmallAsh") as OverlayTile;
-			}
-
-			return ashOverlay;
-		}
-	}
 
 	private const float BURNING_DURATION = 1.5f; // In seconds - timed to the Ding SFX.
-
-	private bool containsAsh = false;
 
 	protected override void Awake()
 	{
@@ -50,16 +36,18 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 		RightClickableResult result = RightClickableResult.Create();
 		if (drawerState == DrawerState.Open) return result;
 		if (!accessRestrictions.CheckAccess(PlayerManager.LocalPlayer)) return result;
+		var cremateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, null);
+		if (!WillInteract(cremateInteraction, NetworkSide.Client)) return result;
 
-		return result.AddElement("Activate Ignition", RightClickInteract);
+		return result.AddElement("Activate", () => OnCremateClicked(cremateInteraction));
 	}
 
-	private void RightClickInteract()
+	private void OnCremateClicked(ContextMenuApply interaction)
 	{
-		InteractionUtils.RequestInteract(MouseDrop.ByLocalPlayer(gameObject, PlayerManager.LocalPlayer), this);
+		InteractionUtils.RequestInteract(interaction, this);
 	}
 
-	public bool WillInteract(MouseDrop interaction, NetworkSide side)
+	public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (drawerState == (DrawerState)CrematorState.ShutAndActive) return false;
@@ -67,7 +55,7 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 		return true;
 	}
 
-	public void ServerPerformInteraction(MouseDrop interaction)
+	public void ServerPerformInteraction(ContextMenuApply interaction)
 	{
 		Cremate();
 	}
@@ -86,17 +74,7 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 
 	#region Server Only
 
-	protected override void OpenDrawer()
-	{
-		base.OpenDrawer();
-		if (containsAsh)
-		{
-			registerObject.TileChangeManager.UpdateOverlay(TrayLocalPosition, ashOverlay);
-			containsAsh = false;
-		}
-	}
-
-	protected override void CloseDrawer()
+	public override void CloseDrawer()
 	{
 		base.CloseDrawer();
 		// Note: the sprite setting done in base.CloseDrawer() would be overridden (an unnecessary sprite call).
@@ -109,19 +87,17 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 	{
 		if (serverHeldItems.Count > 0 || serverHeldPlayers.Count > 0)
 		{
-			drawerState = (DrawerState)CrematorState.ShutWithContents;
+			SetDrawerState((DrawerState)CrematorState.ShutWithContents);
 		}
-		else drawerState = DrawerState.Shut;
+		else SetDrawerState(DrawerState.Shut);
 	}
 
 	private void Cremate()
 	{
 		OnStartPlayerCremation();
 		StartCoroutine(PlayIncineratingAnim());
-		SoundManager.PlayNetworkedAtPos("Ding", DrawerWorldPosition, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos("Microwave", DrawerWorldPosition, sourceObj: gameObject);
 		DestroyItems();
-
-		if (serverHeldItems.Count > 0 || serverHeldPlayers.Count > 0) containsAsh = true;		
 	}
 
 	private void DestroyItems()
@@ -169,7 +145,7 @@ public class Cremator : Drawer, IRightClickable, ICheckedInteractable<MouseDrop>
 
 	private IEnumerator PlayIncineratingAnim()
 	{
-		drawerState = (DrawerState)CrematorState.ShutAndActive;
+		SetDrawerState((DrawerState)CrematorState.ShutAndActive);
 		yield return WaitFor.Seconds(BURNING_DURATION);
 		OnFinishPlayerCremation();
 		UpdateCloseState();

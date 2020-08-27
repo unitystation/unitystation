@@ -1,18 +1,18 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Text))]
 public class LabeledGameKey : GameKey
 {
-	private Text Text;
+	[SerializeField] private TextMeshProUGUI Text;
 
 	protected override void OnEnable()
 	{
 		base.OnEnable();
 		if ( Text == null )
 		{
-			Text = GetComponent<Text>();
+			Text = GetComponentInChildren<TextMeshProUGUI>();
 		}
 
 		if ( Text )

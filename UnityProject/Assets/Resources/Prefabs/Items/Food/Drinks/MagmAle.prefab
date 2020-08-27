@@ -1,0 +1,199 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7105033006757328015
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4101888782254060587, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bff601b3547709b4aa2c347e1d0cf840,
+        type: 2}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialDescription
+      value: A true dorf's drink of choice.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialName
+      value: Magm-Ale
+      objectReference: {fileID: 0}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 67c6b657bedfac746bb76446e13e92fe, type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 67c6b657bedfac746bb76446e13e92fe,
+        type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 67c6b657bedfac746bb76446e13e92fe,
+        type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 67c6b657bedfac746bb76446e13e92fe,
+        type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 67c6b657bedfac746bb76446e13e92fe,
+        type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: fc47af01c711b244fba0dd790d67511d, type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 23b7fbbe775154443a8c0ef8ea687e39, type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 23b7fbbe775154443a8c0ef8ea687e39,
+        type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 23b7fbbe775154443a8c0ef8ea687e39,
+        type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 23b7fbbe775154443a8c0ef8ea687e39,
+        type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 23b7fbbe775154443a8c0ef8ea687e39,
+        type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 8411f4131e499ae43925d0c2ad1e0eb1, type: 3}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1830abd54ea321342b747714176cd89c,
+        type: 2}
+    - target: {fileID: 7730239227723964622, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 32de1f4d04e224f4399721f51621df9d,
+        type: 2}
+    - target: {fileID: 7799949450078925336, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7902349682654515116, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_Name
+      value: MagmAle
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7906433130967298776, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8024073914213612784, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4eb15f35dc1d61141bde3a2d3c0bb080,
+        type: 3}
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: a80a4097725f1257d8c0e7aaada54634,
+        type: 2}
+    - target: {fileID: 8971384748461147908, guid: 46bb2fe95f4f66341aadfb4600751333,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 30
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 46bb2fe95f4f66341aadfb4600751333, type: 3}

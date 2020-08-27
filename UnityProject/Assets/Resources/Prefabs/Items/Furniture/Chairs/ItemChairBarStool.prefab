@@ -84,6 +84,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &499351249353511896
 MonoBehaviour:
@@ -118,26 +119,9 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   itemSprites:
-    LeftHand:
-      Texture: {fileID: 2800000, guid: 66d419bae66ac6744a9cd6db5235b4b9, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 66d419bae66ac6744a9cd6db5235b4b9, type: 3}
-      - {fileID: 21300002, guid: 66d419bae66ac6744a9cd6db5235b4b9, type: 3}
-      - {fileID: 21300004, guid: 66d419bae66ac6744a9cd6db5235b4b9, type: 3}
-      - {fileID: 21300006, guid: 66d419bae66ac6744a9cd6db5235b4b9, type: 3}
-      EquippedData: {fileID: 4900000, guid: f0fc792d05a5f914cb06a6d4e89b2bc8, type: 3}
-    RightHand:
-      Texture: {fileID: 2800000, guid: 8f920363211a0e94eb5e1fc386f6241c, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 8f920363211a0e94eb5e1fc386f6241c, type: 3}
-      - {fileID: 21300002, guid: 8f920363211a0e94eb5e1fc386f6241c, type: 3}
-      - {fileID: 21300004, guid: 8f920363211a0e94eb5e1fc386f6241c, type: 3}
-      - {fileID: 21300006, guid: 8f920363211a0e94eb5e1fc386f6241c, type: 3}
-      EquippedData: {fileID: 4900000, guid: 490fdf3beffd3244d8073b8a0d6feefb, type: 3}
-    InventoryIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+    SpriteInventoryIcon: {fileID: 0}
+    SpriteLeftHand: {fileID: 11400000, guid: 3ff158f16a0e2de4cb4be915e5569139, type: 2}
+    SpriteRightHand: {fileID: 11400000, guid: 98136b65c48e5a94b85a680617fb288d, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -160,6 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114734890905785284
@@ -296,7 +281,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!114 &-3510037546702707323
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,9 +310,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &1344926539164060
 GameObject:
   m_ObjectHideFlags: 0
@@ -423,9 +404,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteData:
-    isPaletteds: 
+  NetworkThis: 1
+  SubCatalogue: []
+  PresentSpriteSet: {fileID: 11400000, guid: 0b76ccb6d912e014f8b23f94d27007ed, type: 2}
   Sprites: []
-  spriteIndex: 0
   variantIndex: 0
-  SetSpriteOnStartUp: 0
+  palette: []

@@ -30,7 +30,6 @@ public class ChatIcon : MonoBehaviour
 		{
 			spriteHandler.gameObject.SetActive(true);
 			spriteHandler.ChangeSprite(TypingSprite);
-			spriteHandler.PushTexture();
 
 			// start coroutine to wait for TypingTimeout
 			// if we didn't recived any change for so long - other player must be disconected

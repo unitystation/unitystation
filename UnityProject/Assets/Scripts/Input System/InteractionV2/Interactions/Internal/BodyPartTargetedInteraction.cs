@@ -11,11 +11,6 @@ public abstract class BodyPartTargetedInteraction: TargetedInteraction
 	private readonly BodyPartType targetBodyPart;
 
 	/// <summary>
-	/// Object that is targeted by the interaction
-	/// </summary>
-	public GameObject TargetObject => targetObject;
-
-	/// <summary>
 	/// Body part being targeted.
 	/// </summary>
 	public BodyPartType TargetBodyPart => targetBodyPart;

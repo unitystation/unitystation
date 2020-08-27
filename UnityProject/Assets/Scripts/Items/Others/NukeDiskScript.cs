@@ -26,6 +26,16 @@ public class NukeDiskScript : NetworkBehaviour
 	private bool isInit = false;
 	private bool boundsConfigured = false;
 
+	/// <summary>
+	/// Pinpointers wont find this.
+	/// </summary>
+	public bool secondaryNukeDisk;
+
+	/// <summary>
+	/// Stops the disk from teleporting if moved off station matrix.
+	/// </summary>
+	public bool stopAutoTeleport;
+
 	public override void OnStartServer()
 	{
 		base.OnStartServer();
@@ -74,7 +84,7 @@ public class NukeDiskScript : NetworkBehaviour
 		{
 			timeCurrentDisk += Time.deltaTime;
 
-			if (timeCurrentDisk > timeCheckDiskLocation)
+			if (timeCurrentDisk > timeCheckDiskLocation && !stopAutoTeleport)
 			{
 				if (DiskLost()) { Teleport();}
 				timeCurrentDisk = 0;
@@ -97,7 +107,7 @@ public class NukeDiskScript : NetworkBehaviour
 		if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
 			.magnitude < boundRadius)) return false;
 
-		if (escapeShuttle != null && escapeShuttle.Status != ShuttleStatus.DockedCentcom)
+		if (escapeShuttle != null && escapeShuttle.Status != EscapeShuttleStatus.DockedCentcom)
 		{
 			if (escapeShuttle.MatrixInfo.Bounds.Contains(registerItem.WorldPositionServer))
 			{

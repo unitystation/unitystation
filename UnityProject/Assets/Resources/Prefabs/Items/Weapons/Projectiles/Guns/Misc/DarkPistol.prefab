@@ -1,0 +1,121 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3259185059940722778
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 194690359122840740, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: bdc786e1f75e5f84aba0eaaf636421c9,
+        type: 2}
+    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: hitDamage
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: initialDescription
+      value: A small spring-loaded sidearm that functions identically to a syringe
+        gun.
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: initialName
+      value: dart pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 48ee0a2c22644c54784f2bb106415d44,
+        type: 2}
+    - target: {fileID: 5843464883585849409, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 42e5466ddef02874b982886c7c91632c,
+        type: 2}
+    - target: {fileID: 6126099951621653631, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0f371938d77fca04da5286d5e66452ad,
+        type: 3}
+    - target: {fileID: 6224405101200099991, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6333803587758656087, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6338168785921865507, guid: b39d85aa9080f014b9956cb59d760674,
+        type: 3}
+      propertyPath: m_Name
+      value: DarkPistol
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b39d85aa9080f014b9956cb59d760674, type: 3}

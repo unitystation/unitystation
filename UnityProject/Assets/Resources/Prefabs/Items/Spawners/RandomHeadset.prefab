@@ -21,7 +21,7 @@ PrefabInstance:
         type: 3}
       propertyPath: poolList.Array.data[0].randomItemPool
       value: 
-      objectReference: {fileID: 11400000, guid: 1fe262b0d1927df489163775af4e9c0b,
+      objectReference: {fileID: 11400000, guid: 79b27f79a1ad15842af3420faa3b3045,
         type: 2}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -32,7 +32,7 @@ PrefabInstance:
         type: 3}
       propertyPath: poolList.Array.data[1].randomItemPool
       value: 
-      objectReference: {fileID: 11400000, guid: a788815c46dad624ba8fecc3f75ad697,
+      objectReference: {fileID: 11400000, guid: 60ed3a7ff50b64c4e84a3fbae182b713,
         type: 2}
     - target: {fileID: 1158969463323420989, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -43,7 +43,7 @@ PrefabInstance:
         type: 3}
       propertyPath: poolList.Array.data[2].randomItemPool
       value: 
-      objectReference: {fileID: 11400000, guid: bad350ee11e13f9448abcf9ee6bb2566,
+      objectReference: {fileID: 11400000, guid: bf6ffb027c9ec5f4fa11045ada138460,
         type: 2}
     - target: {fileID: 2708525666452541148, guid: abff3ae0227731244b0814b2055fa6f0,
         type: 3}
@@ -116,5 +116,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8223985327567078919, guid: abff3ae0227731244b0814b2055fa6f0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c1c10eeb22c60324ba2306033d17a58b,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: abff3ae0227731244b0814b2055fa6f0, type: 3}

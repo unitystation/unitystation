@@ -105,10 +105,34 @@ public class VotingManager : NetworkBehaviour
 	[Server]
 	public void RegisterVote(string userId, bool isFor)
 	{
-		//User already voted
-		if (votes.ContainsKey(userId)) return;
-		votes.Add(userId, isFor);
-		Logger.Log("A user voted: ", Category.Admin);
+		//If user has vote change vote if different, else add to vote list
+		if (votes.ContainsKey(userId))
+		{
+			votes.TryGetValue(userId, out bool value);
+			if (value == isFor) return;
+
+			votes[userId] = isFor;
+		}
+		else
+		{
+			votes.Add(userId, isFor);
+		}
+		Logger.Log($"A user: {userId} voted: {isFor}", Category.Admin);
+	}
+
+	[Server]
+	public void VetoVote(string adminId)
+	{
+		voteInProgress = false;
+		FinishVote();
+		votes.Clear();
+
+		Chat.AddGameWideSystemMsgToChat("<color=blue>Vote was Vetoed by admin</color>");
+
+		var msg = $"Vote was vetoed by {PlayerList.Instance.GetByUserID(adminId).Username}";
+
+		UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord(msg, adminId);
+		Logger.Log(msg, Category.Admin);
 	}
 
 	void Update()
@@ -121,7 +145,11 @@ public class VotingManager : NetworkBehaviour
 			{
 				prevSecond = (int) countTime;
 				RpcUpdateVoteStats((30 - prevSecond).ToString(), CountAmountString());
-				CheckVoteCriteria(true);
+
+				//If there are admins online, dont complete vote until after 15 seconds even if it will pass to allow for veto
+				if (PlayerList.Instance.GetAllAdmins().Count > 0 && (30 - prevSecond) > 15) return;
+
+				CheckVoteCriteria();
 			}
 
 			if (countTime > 30f)
@@ -143,7 +171,7 @@ public class VotingManager : NetworkBehaviour
 		isCooldownActive = false;
 	}
 
-	private void CheckVoteCriteria(bool stopVoteIfSuccess = false)
+	private void CheckVoteCriteria()
 	{
 		if (IsSuccess(ForVoteCount(), PlayerList.Instance.AllPlayers.Count))
 		{
@@ -158,11 +186,8 @@ public class VotingManager : NetworkBehaviour
 					break;
 			}
 
-			if (stopVoteIfSuccess)
-			{
-				voteInProgress = false;
-				FinishVote();
-			}
+			voteInProgress = false;
+			FinishVote();
 		}
 	}
 

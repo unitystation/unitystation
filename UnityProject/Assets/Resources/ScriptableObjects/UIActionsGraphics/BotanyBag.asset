@@ -12,13 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 175001bada3c3ba47945b92e3bfa2bd2, type: 3}
   m_Name: BotanyBag
   m_EditorClassIdentifier: 
-  CallOnClient: 1
-  CallOnServer: 0
+  callOnClient: 1
+  callOnServer: 0
+  actionName: 
+  description: 
   Sprites:
-  - Texture: {fileID: 2800000, guid: d247dbdd2fa610648a4d2490d1d931a8, type: 3}
-    Sprites:
-    - {fileID: 21300000, guid: d247dbdd2fa610648a4d2490d1d931a8, type: 3}
-    EquippedData: {fileID: 0}
+  - {fileID: 11400000, guid: 6cc654814da48e144add22cb2d7eab23, type: 2}
   Backgrounds: []
   PreventBeingControlledBy: 
   DisableOnEvent: 

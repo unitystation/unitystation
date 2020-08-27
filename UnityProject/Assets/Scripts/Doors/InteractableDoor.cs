@@ -51,15 +51,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		if (Controller.IsClosed && Controller.IsAutomatic)
 		{
-			if (Controller.IsHackable)
-			{
-				HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
-				onAttemptOpen.SendOutputToConnectedNodes(byPlayer);
-			}
-			else
-			{
-				Controller.ServerTryOpen(byPlayer);
-			}
+			TryOpen(byPlayer);
 		}
 	}
 
@@ -67,7 +59,11 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 	{
 		this.interaction = interaction;
 
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
+		if(Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+		{
+			TryEmag();
+		}
+		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
 		{
 			TryCrowbar();
 		}
@@ -81,15 +77,7 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 		}
 		// Attempt to open if it's closed
 		//Tell the OnAttemptOpen node to activate.
-		else if (Controller.IsHackable)
-		{
-			HackingNode onAttemptOpen = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptOpen");
-			onAttemptOpen.SendOutputToConnectedNodes(interaction.Performer);
-		}
-		else
-		{
-			Controller.ServerTryOpen(interaction.Performer);
-		}
+		TryOpen(interaction.Performer);
 	}
 
 	/// <summary>
@@ -103,22 +91,41 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 
 	public virtual void TryClose()
 	{
-		Controller.ServerTryClose();
+		Controller.CloseSignal();
 	}
 
 	public virtual void TryOpen(GameObject performer)
 	{
-		Controller.ServerTryOpen(performer);
+		Controller.MobTryOpen(performer);
+	}
+
+	public void TryEmag()
+	{
+		if (Controller == null) return;
+
+		if (Controller.IsClosed)
+		{
+			Controller.isEmagged = true;
+			TryOpen(interaction.Performer);
+		}
 	}
 
 	public void TryCrowbar()
 	{
 		if (Controller == null) return;
 
-		if (Controller.IsHackable)
-		{
-			HackingNode onAttemptClose = Controller.HackingProcess.GetNodeWithInternalIdentifier("OnAttemptClose");
-			onAttemptClose.SendOutputToConnectedNodes(interaction.Performer);
+		if (Controller.IsClosed && Controller.IsHackable && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.CanPryDoor ))
+        {
+			//allows the jaws of life to pry open doors
+            ToolUtils.ServerUseToolWithActionMessages(interaction, 4.5f,
+            "You start prying open the door...",
+            $"{interaction.Performer.ExpensiveName()} starts prying open the door...",
+            $"You force the door open with your {gameObject.ExpensiveName()}!",
+            $"{interaction.Performer.ExpensiveName()} forces the door open!",
+            () =>
+            {
+                Controller.Open();
+            });
 		}
 		else
 		{
@@ -126,11 +133,11 @@ public class InteractableDoor : NetworkBehaviour, IPredictedCheckedInteractable<
 
 			if (!Controller.IsClosed)
 			{
-				Controller.ServerTryClose();
+				Controller.TryClose();
 			}
 			else
 			{
-				Controller.ServerTryOpen(interaction.Performer);
+				Controller.MobTryOpen(interaction.Performer);
 			}
 		}
 	}

@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using System.Linq;
+using DiscordWebhook;
+using DatabaseAPI;
 
 namespace Antagonists
 {
@@ -109,22 +111,38 @@ namespace Antagonists
 		{
 			StringBuilder statusSB = new StringBuilder($"<color=white><size=30><b>End of Round Report</b></size></color>\n\n", 200);
 
+			var message = $"End of Round Report on {ServerData.ServerConfig.ServerName}\n";
+
 			if (ActiveAntags.Count > 0)
 			{
 				// Group all the antags by type and list them together
 				foreach (var antagType in ActiveAntags.GroupBy(t => t.GetType()))
 				{
 					statusSB.AppendLine($"<size=24>The <b>{antagType.Key.Name}s</b> were:\n</size>");
+					message += $"The {antagType.Key.Name}s were:\n";
 					foreach (var antag in antagType)
 					{
+						message += $"\n{antag.GetObjectiveStatusNonRich()}\n";
 						statusSB.AppendLine(antag.GetObjectiveStatus());
 					}
 				}
 			}
 			else
 			{
+				message += $"\nThere were no antagonists!\n";
 				statusSB.AppendLine("<size=24>There were no antagonists!</size>");
 			}
+
+			if (PlayerList.Instance.ConnectionCount == 1)
+			{
+				message += $"\n There is 1 player online.\n";
+			}
+			else
+			{
+				message += $"\n There are {PlayerList.Instance.ConnectionCount} players online.\n";
+			}
+
+			DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
 
 			// Send the message
 			Chat.AddGameWideSystemMsgToChat(statusSB.ToString());

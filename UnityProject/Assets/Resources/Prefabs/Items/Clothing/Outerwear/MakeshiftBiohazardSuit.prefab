@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &9179018833238750179
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 855803449108065293, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: bodyPartsCovered
+      value: -1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: initialName
+      value: makeshift biohazard suit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3495234765619245072, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: initialDescription
+      value: Just like momma used to make. Stitched together from whatever materials
+        were on hand, this suit offers some protection from radiation and biological
+        hazards.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3791466462619397166, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6314d401f5052594b80942c3d6ee2f41,
+        type: 3}
+    - target: {fileID: 3921521694364753778, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_Name
+      value: MakeshiftBiohazardSuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3927008119850082822, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032895559081938566, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: Armor.Rad
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032895559081938566, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032895559081938566, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: Armor.Bio
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 4032895559081938566, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4033042375367942854, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7145545764318209269, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c72053e44104c5c4c961d62345b9fb8f,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 530c2cdf67453c34e91d803a553c68d4,
+        type: 2}
+    - target: {fileID: 7931175119129480439, guid: e3a0238ef8323eb4caadcb2e19bbcf41,
+        type: 3}
+      propertyPath: hideClothingFlags
+      value: 1021
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e3a0238ef8323eb4caadcb2e19bbcf41, type: 3}

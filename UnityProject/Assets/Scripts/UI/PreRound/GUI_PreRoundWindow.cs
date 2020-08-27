@@ -1,8 +1,12 @@
 using System;
+using System.Collections;
 using Mirror;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DatabaseAPI;
+using ServerInfo;
+using AdminCommands;
 
 public class GUI_PreRoundWindow : MonoBehaviour
 {
@@ -16,11 +20,14 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	[SerializeField]
 	private TMP_Text readyText = null;
 
+
 	[SerializeField] private TMP_Text loadingText = null;
 
 	[SerializeField] private Scrollbar loadingBar = null;
 
 	[SerializeField] private GameObject normalWindows = null;
+
+	[SerializeField] private GameObject warnText = null;
 
 	// UI panels
 	[SerializeField]
@@ -42,13 +49,36 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	// Character objects
 	[SerializeField]
 	private GameObject characterCustomization = null;
+
+	[SerializeField]
+	private GUI_JobPreferences localJobPref;
+
 	[SerializeField]
 	private Button characterButton = null;
+
+	public GameObject serverInfo;
 
 	// Internal variables
 	private bool doCountdown;
 	private double countdownEndTime;
 	private bool isReady;
+
+	public static GUI_PreRoundWindow Instance;
+
+	private bool startedAlready = false;
+
+	void Awake()
+	{
+		//localJobPref = null;
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
 
 	private void OnDisable()
 	{
@@ -59,15 +89,22 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	private void Update()
 	{
-		// TODO: remove once admin system is in
-		if (Input.GetKeyDown(KeyCode.F7) && !BuildPreferences.isForRelease)
+		if (Input.GetKeyDown(KeyCode.F7))
 		{
-			adminPanel.SetActive(true);
+			TryShowAdminPanel();
 		}
 
 		if (doCountdown)
 		{
 			UpdateCountdownUI();
+		}
+	}
+
+	private void TryShowAdminPanel()
+	{
+		if (PlayerList.Instance.AdminToken != null)
+		{
+			adminPanel.SetActive(true);
 		}
 	}
 
@@ -95,6 +132,20 @@ public class GUI_PreRoundWindow : MonoBehaviour
 			OnCountdownEnd();
 		}
 		timer.text = TimeSpan.FromSeconds(countdownEndTime - NetworkTime.time).ToString(@"mm\:ss");
+
+		if (GameManager.Instance.QuickLoad && mapLoadingPanel.activeSelf == false)
+		{
+			if (startedAlready == true) return;
+			startedAlready = true;
+			StartCoroutine(WaitForInitialisation());
+		}
+	}
+
+	private IEnumerator WaitForInitialisation()
+	{
+		yield return null;
+		SetReady(true);
+		StartNowButton();
 	}
 
 	public void UpdatePlayerCount(int count)
@@ -105,12 +156,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 
 	public void StartNowButton()
 	{
-		if (CustomNetworkManager.Instance._isServer == false)
-		{
-			Logger.LogError("Can only execute command from server.", Category.DebugConsole);
-			return;
-		}
-		GameManager.Instance.StartRound();
+		ServerCommandVersionOneMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, "CmdStartRound");
 	}
 
 	public void SyncCountdown(bool started, double endTime)
@@ -144,6 +190,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	{
 		SoundManager.Play("Click01");
 		SetReady(!isReady);
+		TryShowAdminPanel();
 	}
 
 	/// <summary>
@@ -161,6 +208,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	/// <param name="ready"></param>
 	private void SetReady(bool ready)
 	{
+		NoJobWarn(localJobPref.JobPreferences.Count == 0);
 		if (isReady != ready)
 		{
 			// Ready status changed so tell the server
@@ -169,6 +217,31 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		isReady = ready;
 		characterButton.interactable = !ready;
 		readyText.text = (!ready) ? "Ready" : "Unready";
+	}
+
+	/// <summary>
+	/// Warns the player when they have no job selected and default their job preference
+	/// </summary>
+	/// <param name="noJob"></param>
+	private void NoJobWarn(bool noJob)
+	{
+		if (noJob)
+		{
+			warnText.SetActive(true);
+			localJobPref.SetAssistantDefault();
+		}
+		else
+		{
+			warnText.SetActive(false);
+		}
+	}
+
+	private void SetInfoScreenOn()
+	{
+		ServerInfoLobbyMessageClient.Send(ServerData.UserID);
+		serverInfo.SetActive(false);
+		if(string.IsNullOrEmpty(ServerInfoUI.serverDesc)) return;
+		serverInfo.SetActive(true);
 	}
 
 	/// <summary>
@@ -181,6 +254,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		playerWaitPanel.SetActive(true);
 		mainPanel.SetActive(false);
 		rejoiningRoundPanel.SetActive(false);
+
+		SetInfoScreenOn();
 	}
 
 	/// <summary>
@@ -194,6 +269,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		playerWaitPanel.SetActive(false);
 		mainPanel.SetActive(true);
 		rejoiningRoundPanel.SetActive(false);
+
+		SetInfoScreenOn();
 	}
 
 	/// <summary>
@@ -206,6 +283,8 @@ public class GUI_PreRoundWindow : MonoBehaviour
 		playerWaitPanel.SetActive(false);
 		mainPanel.SetActive(true);
 		rejoiningRoundPanel.SetActive(false);
+
+		SetInfoScreenOn();
 	}
 
 	public void ShowRejoiningPanel()

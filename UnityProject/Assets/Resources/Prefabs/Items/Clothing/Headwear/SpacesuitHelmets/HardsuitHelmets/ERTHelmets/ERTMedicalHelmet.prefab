@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5338008076063230574
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 226526901835897784, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4efdb6db82e1177498675f48872de5db,
+        type: 2}
+    - target: {fileID: 1017792316374873018, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2201c0ffa1d133b43947813e9b626fce,
+        type: 2}
+    - target: {fileID: 6460420345527728993, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6a1b7399edfbfdb48ad6ee378f0aa150,
+        type: 3}
+    - target: {fileID: 6543103638195795337, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6578195204801803593, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6582560128087083069, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: m_Name
+      value: ERTMedicalHelmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6746541494595479454, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 162a1686d9cabe348aacf88f87f760c2,
+        type: 3}
+    - target: {fileID: 6746541494595479454, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: toggleSprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 6a1b7399edfbfdb48ad6ee378f0aa150,
+        type: 3}
+    - target: {fileID: 6752137445666072415, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: initialName
+      value: emergency response team medical helmet
+      objectReference: {fileID: 0}
+    - target: {fileID: 6752137445666072415, guid: 4870238ed625c0e45839e280fab63823,
+        type: 3}
+      propertyPath: initialDescription
+      value: The integrated helmet of an ERT hardsuit, this one has white highlights.
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4870238ed625c0e45839e280fab63823, type: 3}

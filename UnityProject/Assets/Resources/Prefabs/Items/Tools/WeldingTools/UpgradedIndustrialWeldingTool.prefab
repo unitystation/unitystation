@@ -7,6 +7,24 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7122471403829571703, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: f2f3b275f8803124c85226ea74a9f713,
+        type: 2}
+    - target: {fileID: 3117172067951294432, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 280e537efc2efcc4dbc0690fc5492e4d,
+        type: 2}
+    - target: {fileID: 3871032415882939504, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 962e2585cff13d5439dc63d8ae64b744,
+        type: 2}
     - target: {fileID: 4282312991069114565, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: m_Sprite
@@ -220,6 +238,18 @@ PrefabInstance:
       propertyPath: itemSprites.RightHand.EquippedData
       value: 
       objectReference: {fileID: 4900000, guid: 6fb9b7de90a873f4b8de85eb0b49b5cb, type: 3}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e39e0254e1d47ab4194dcdefc552a4b4,
+        type: 2}
+    - target: {fileID: 7355274273567987861, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a25034a1392e1f4fac821699e25074c,
+        type: 2}
     - target: {fileID: 9051842671118403817, guid: b735ab74dab174a4f90c79558cd51e43,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
@@ -230,5 +260,11 @@ PrefabInstance:
       propertyPath: maxCapacity
       value: 80
       objectReference: {fileID: 0}
+    - target: {fileID: 9182518269629492315, guid: b735ab74dab174a4f90c79558cd51e43,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 962e2585cff13d5439dc63d8ae64b744,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b735ab74dab174a4f90c79558cd51e43, type: 3}

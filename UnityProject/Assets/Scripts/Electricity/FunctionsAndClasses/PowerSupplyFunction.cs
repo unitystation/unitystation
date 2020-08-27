@@ -1,12 +1,27 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Text;
 using UnityEngine;
 
-public static class PowerSupplyFunction  { //Responsible for keeping the update and day to clean up off the supply in check
+/// <summary>
+/// Responsible for keeping the update and day to clean up off the supply in check
+/// </summary>
+public static class PowerSupplyFunction  {
+	/// <summary>
+	/// Called when a Supplying Device is turned off.
+	/// </summary>
+	/// <param name="Supply">The supplying device that is turned off</param>
 	public static void TurnOffSupply(ModuleSupplyingDevice Supply)
 	{
+		if (Supply.ControllingNode == null)
+		{
+			Logger.LogError("Supply.ControllingNode == null");
+			return;
+		}
+
 		Supply.ControllingNode.Node.InData.Data.ChangeToOff = true;
-		ElectricalManager.Instance.electricalSync.NUCurrentChange.Add (Supply.ControllingNode);
+		ElectricalManager.Instance.electricalSync.NUCurrentChange.Add(Supply.ControllingNode);
 	}
 	public static void TurnOnSupply(ModuleSupplyingDevice Supply)
 	{
@@ -32,41 +47,22 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 
 			if (!Supply.ControllingNode.Node.InData.Data.ChangeToOff)
 			{
-				if (Supply.ControllingNode.Node.InData.Data.SupplyingCurrent != 0)
+				if (Supply.current != 0)
 				{
-					Supply.CurrentSource.current = Supply.ControllingNode.Node.InData.Data.SupplyingCurrent;
-					var WrapCurrentSource = ElectricalPool.GetWrapCurrent();
-					WrapCurrentSource.Current = Supply.CurrentSource;
-					WrapCurrentSource.Strength = 1;
-
-					var VIR = ElectricalPool.GetVIRCurrent();
-					VIR.addCurrent(WrapCurrentSource);
-
-
-
-					Supply.ControllingNode.Node.InData.ElectricityOutput(VIR,
-																  Supply.ControllingNode.Node);
+					PushCurrentDownline(Supply, Supply.current);
 				}
-				else if (Supply.ControllingNode.Node.InData.Data.SupplyingVoltage != 0)
+				else if (Supply.SupplyingVoltage != 0)
 				{
 					float Current = (Supply.SupplyingVoltage) / (Supply.InternalResistance
 					+ ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.InData.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom));
-
-
-					Supply.CurrentSource.current = Current;
-					var WrapCurrentSource = ElectricalPool.GetWrapCurrent();
-					//Logger.Log("Supply.CurrentSource.current" + Supply.CurrentSource.current);
-					WrapCurrentSource.Current = Supply.CurrentSource;
-					WrapCurrentSource.Strength = 1;
-					//Logger.Log("2 > " + WrapCurrentSource.Current.current);
-					var VIR = ElectricalPool.GetVIRCurrent();
-					VIR.addCurrent(WrapCurrentSource);
-
-					//Logger.Log("3 > " + VIR);
-					Supply.ControllingNode.Node.InData.ElectricityOutput(VIR,
-																  Supply.ControllingNode.Node
-																  );
-					//Logger.Log("END > " + VIR);
+					PushCurrentDownline(Supply, Current);
+				}
+				else if (Supply.ProducingWatts != 0)
+ 				{
+	                float Current =(float) (Math.Sqrt(Supply.ProducingWatts *
+	                ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.InData.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom))
+	                /ElectricityFunctions.WorkOutResistance(Supply.ControllingNode.Node.InData.Data.SupplyDependent[Supply.ControllingNode.Node].ResistanceComingFrom));
+	                PushCurrentDownline(Supply, Current);
 				}
 			}
 			else {
@@ -87,7 +83,22 @@ public static class PowerSupplyFunction  { //Responsible for keeping the update 
 			Supply.ControllingNode.Node.InData.Data.ChangeToOff = false;
 			Supply.ControllingNode.TurnOffCleanup();
 
-			sync.RemoveSupply(Supply.ControllingNode.Node.InData.ControllingDevice, Supply.ControllingNode.Node.InData.Categorytype);
+			sync.RemoveSupply(Supply.ControllingNode, Supply.ControllingNode.Node.InData.Categorytype);
 		}
 	}
+
+
+	public static void PushCurrentDownline(ModuleSupplyingDevice Supply, float FloatCurrent)
+	{
+		Supply.CurrentSource.current = FloatCurrent;
+		var WrapCurrentSource = ElectricalPool.GetWrapCurrent();
+		WrapCurrentSource.Current = Supply.CurrentSource;
+		WrapCurrentSource.Strength = 1;
+		var VIR = ElectricalPool.GetVIRCurrent();
+		VIR.addCurrent(WrapCurrentSource);
+		Supply.ControllingNode.Node.InData.ElectricityOutput(VIR,
+			Supply.ControllingNode.Node
+		);
+	}
+
 }

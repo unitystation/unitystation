@@ -8,7 +8,6 @@ using UnityEngine;
 /// </summary>
 public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 {
-
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -21,7 +20,8 @@ public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		var livingHealth = interaction.TargetObject.GetComponent<LivingHealthBehaviour>();
 		string ToShow = (livingHealth.name + " is " + livingHealth.ConsciousState.ToString() + "\n"
-		                 + "OverallHealth = " + livingHealth.OverallHealth.ToString() + " Blood level = " + livingHealth.bloodSystem.BloodLevel.ToString() + "\n"
+		                 + "OverallHealth = " + livingHealth.OverallHealth.ToString() + " Blood level = " +
+		                 livingHealth.bloodSystem.BloodLevel.ToString() + "\n"
 		                 + "Blood levels = " + livingHealth.CalculateOverallBloodLossDamage() + "\n");
 		string StringBuffer = "";
 		float TotalBruteDamage = 0;
@@ -35,8 +35,11 @@ public class HealthScanner : MonoBehaviour, ICheckedInteractable<HandApply>
 			TotalBurnDamage += BodyPart.BurnDamage;
 			StringBuffer += "\n";
 		}
-		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " OxyLoss " + livingHealth.bloodSystem.OxygenDamage.ToString() + "\n" + "Body Part, Brute, Burn \n" + StringBuffer;
-		if(livingHealth.cloningDamage > 0)
+
+		ToShow = ToShow + "Overall, Brute " + TotalBruteDamage.ToString() + " Burn " + TotalBurnDamage.ToString() + " Toxin " + livingHealth.bloodSystem.ToxinLevel +
+		         " OxyLoss " + livingHealth.bloodSystem.OxygenDamage.ToString() + "\n" + "Body Part, Brute, Burn \n" +
+		         StringBuffer;
+		if (livingHealth.cloningDamage > 0)
 		{
 			ToShow += $"Cellular Damage Level: {livingHealth.cloningDamage}";
 		}

@@ -5053,6 +5053,12 @@ MonoBehaviour:
   UseStandardExamine: 1
   ExamineAmount: 0
   ExamineContent: 0
+  traitWhitelist: []
+  reagentWhitelist:
+  - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
+  transferMode: 3
+  possibleTransferAmounts: []
+  transferAmount: 20
   maxCapacity: 3000
   reactionSet: {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
   initialReagentMix:
@@ -5062,13 +5068,7 @@ MonoBehaviour:
       - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
       m_values:
       - 3000
-  itemAttributes: {fileID: 0}
-  traitWhitelist: []
-  reagentWhitelist:
-  - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
-  transferMode: 3
-  possibleTransferAmounts: []
-  transferAmount: 20
+  destroyOnEmpty: 0
 --- !u!1001 &7914790827376915075
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5254,6 +5254,24 @@ PrefabInstance:
       propertyPath: initialSize
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: da4c4bdabcb58eb4d946069f695874e3,
+        type: 2}
+    - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 5b20623f96301874a8020232345f4479,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: da74f7e1b82ede541abc3d3bd88ece23,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &7914350351518715449 stripped

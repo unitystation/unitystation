@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96e73ad475d1d24158bd2935f105cf3d, type: 3}
+  m_Name: SufferingBastard
+  m_EditorClassIdentifier: 
+  ingredients:
+    m_keys:
+    - {fileID: 11400000, guid: e93999e64602a55eba3f8021139e5822, type: 2}
+    - {fileID: 11400000, guid: f79e241e14050be0ead752207c026273, type: 2}
+    - {fileID: 11400000, guid: 802748d3f74335a789baeafecd0351f9, type: 2}
+    - {fileID: 11400000, guid: 0e911336dddca2f8d993b04b94ee8f42, type: 2}
+    m_values: 01000000010000000100000002000000
+  useExactAmounts: 0
+  catalysts:
+    m_keys: []
+    m_values: 
+  results:
+    m_keys:
+    - {fileID: 11400000, guid: 556434352e0c9b33495cca56bbaa805e, type: 2}
+    m_values: 05000000
+  effects: []

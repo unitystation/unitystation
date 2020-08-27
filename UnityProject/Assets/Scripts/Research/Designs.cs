@@ -53,21 +53,21 @@ public class Design
 
 }
 
-public class Designs : MonoBehaviour 
+public class Designs : MonoBehaviour
 {
 
 	void Awake()
 	{
-		if (!(Globals.IsInitialised))
-		{
-			JsonImportInitialization();
-			Globals.IsInitialised = true;
-		}
+		//if (!(Globals.IsInitialised))
+		//{
+		//	JsonImportInitialization();
+		//	Globals.IsInitialised = true;
+		//}
 	}
 	public static class Globals
 	{
 		public static bool IsInitialised = false;
-		public static List<string> PathsList = new List<string> { 
+		public static List<string> PathsList = new List<string> {
 			@"Metadata\Designs\AIDesigns",
 			@"Metadata\Designs\BiogeneratorDesigns",
 			@"Metadata\Designs\BluespaceDesigns",
@@ -87,8 +87,8 @@ public class Designs : MonoBehaviour
 			@"Metadata\Designs\WeaponDesigns",
 		};
 		public static Dictionary<string,Design> InternalIDSearch;
-			
-		
+
+
 	}
 	private static void JsonImportInitialization ()
 	{
@@ -141,6 +141,6 @@ public class Designs : MonoBehaviour
 		}
 		Logger.Log ("JsonImportInitialization for designs is done!", Category.Research);
 	}
-		
+
 }
 

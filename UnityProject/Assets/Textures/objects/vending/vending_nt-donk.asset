@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: vending_nt-donk
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -5735678612994900929, guid: d3bd2eff52d196f468f7973d11c6344a,
+        type: 3}
+      secondDelay: 0.5
+    - sprite: {fileID: -6431184454578801888, guid: d3bd2eff52d196f468f7973d11c6344a,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -9038464573195087099, guid: d3bd2eff52d196f468f7973d11c6344a,
+        type: 3}
+      secondDelay: 0.5
+    - sprite: {fileID: 337500836987132712, guid: d3bd2eff52d196f468f7973d11c6344a,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -7284667045233097400, guid: d3bd2eff52d196f468f7973d11c6344a,
+        type: 3}
+      secondDelay: 0.5
+    - sprite: {fileID: 3208453565778128371, guid: d3bd2eff52d196f468f7973d11c6344a,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 8829329491802084809, guid: d3bd2eff52d196f468f7973d11c6344a,
+        type: 3}
+      secondDelay: 0.5
+    - sprite: {fileID: 6103931842333238776, guid: d3bd2eff52d196f468f7973d11c6344a,
+        type: 3}
+      secondDelay: 0.1
+  IsPalette: 0
+  setID: 17821

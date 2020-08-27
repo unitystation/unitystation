@@ -285,7 +285,7 @@ public class ItemAttributesV2 : Attributes
 	}
 
 	/// <summary>
-	/// ues SpriteHandlerController.SetSprites Instead
+	/// Used for setting inventory and In hand sprites
 	/// </summary>
 	/// <param name="newSprites">New sprites.</param>
 	public void SetSprites(ItemsSprites newSprites)

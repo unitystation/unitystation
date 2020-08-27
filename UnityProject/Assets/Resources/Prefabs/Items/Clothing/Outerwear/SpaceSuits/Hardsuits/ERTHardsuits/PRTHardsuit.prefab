@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1239299505167023138
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2905032154871127383, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: initialDescription
+      value: Powerful wards are built into this hardsuit, protecting the user from
+        all manner of paranormal threats.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2905032154871127383, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: initialName
+      value: paranormal response team hardsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192155426716549481, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 96a18d310fe9bcf4eb1e0e1c3fccb1be,
+        type: 3}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3367889802436522549, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_Name
+      value: PRTHardsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3398265494507982721, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556873813547803056, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 4d83dfaea6dd7a248ad4cf7fb6e066b8,
+        type: 2}
+    - target: {fileID: 8933798993108994482, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 88eb9bfb32e51c140a3b06557ee2679b,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 05f59888eb108484aabd67b53074c7a6, type: 3}

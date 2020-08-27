@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using ScriptableObjects;
 
 [CreateAssetMenu(fileName = "UIActionSOSingleton", menuName = "Singleton/UIActionSOSingleton")]
 public class UIActionSOSingleton : SingletonScriptableObject<UIActionSOSingleton>
@@ -32,7 +33,7 @@ public class UIActionSOSingleton : SingletonScriptableObject<UIActionSOSingleton
 		Initialised = true;
 	}
 
-	public IServerActionGUI ReturnFromID(ushort ID)
+	public IActionGUI FromID(ushort ID)
 	{
 		if (!Initialised)
 		{

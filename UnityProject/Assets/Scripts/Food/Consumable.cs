@@ -34,6 +34,7 @@ public abstract class Consumable : MonoBehaviour, ICheckedInteractable<HandApply
 		if (Validations.IsTarget(gameObject, interaction)) return false;
 
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
 		return CanBeConsumedBy(interaction.TargetObject);
 	}
 
