@@ -83,7 +83,7 @@ public class ReactorBoiler : MonoBehaviour, ISetMultitoolMaster, ICheckedInterac
 				"You start to deconstruct the ReactorBoiler..",
 				$"{interaction.Performer.ExpensiveName()} starts to deconstruct the ReactorBoiler...",
 				"You deconstruct the ReactorBoiler",
-				$"{interaction.Performer.ExpensiveName()} deconstruct the ReactorBoiler.",
+				$"{interaction.Performer.ExpensiveName()} deconstructs the ReactorBoiler.",
 				() => { Despawn.ServerSingle(gameObject); });
 		}
 	}

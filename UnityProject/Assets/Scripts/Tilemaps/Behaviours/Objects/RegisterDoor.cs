@@ -56,7 +56,7 @@
 		private void OnWillDestroyServer(DestructionInfo arg0)
 		{
 			//spawn some metal for the door
-	        Spawn.ServerPrefab("Metal", WorldPosition, transform.parent, count: 2,
+	        Spawn.ServerPrefab("MetalSheet", WorldPosition, transform.parent, count: 2,
 		        scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		}
 

@@ -61,9 +61,9 @@ public class UnderFloorLayer : Layer
 
 	public T GetFirstTileByType<T>(Vector3Int position) where T : LayerTile
 	{
-		if (!TileStore.ContainsKey((Vector2Int)position)) return default;
+		if (!TileStore.ContainsKey((Vector2Int) position)) return default;
 
-		foreach (LayerTile Tile in TileStore[(Vector2Int)position])
+		foreach (LayerTile Tile in TileStore[(Vector2Int) position])
 		{
 			if (Tile is T) return Tile as T;
 		}
@@ -74,12 +74,27 @@ public class UnderFloorLayer : Layer
 	public IEnumerable<T> GetAllTilesByType<T>(Vector3Int position) where T : LayerTile
 	{
 		List<T> tiles = new List<T>();
-
-		if (!TileStore.ContainsKey((Vector2Int)position)) return tiles;
-
-		foreach (LayerTile Tile in TileStore[(Vector2Int)position])
+		if (CustomNetworkManager.Instance._isServer)
 		{
-			if (Tile is T) tiles.Add(Tile as T);
+			if (!TileStore.ContainsKey((Vector2Int) position)) return tiles;
+
+			foreach (LayerTile Tile in TileStore[(Vector2Int) position])
+			{
+				if (Tile is T) tiles.Add(Tile as T);
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 50; i++)
+			{
+				var localPlace = position;
+				localPlace.z = -i + 1;
+				var getTile = tilemap.GetTile(localPlace) as LayerTile;
+				if (getTile != null)
+				{
+					if (getTile is T) tiles.Add(getTile as T);
+				}
+			}
 		}
 
 		return tiles;
@@ -204,7 +219,6 @@ public class UnderFloorLayer : Layer
 	}
 
 
-
 	private int FindFirstEmpty(List<LayerTile> LookThroughList)
 	{
 		for (var i = 0; i < LookThroughList.Count; i++)
@@ -220,7 +234,6 @@ public class UnderFloorLayer : Layer
 
 	public override bool RemoveTile(Vector3Int position, bool removeAll = false)
 	{
-
 		if (Application.isPlaying)
 		{
 			if (TileStore.ContainsKey((Vector2Int) position))
@@ -260,6 +273,7 @@ public class UnderFloorLayer : Layer
 		{
 			return tilemap.GetColor(position);
 		}
+
 		if (!TileStore.ContainsKey((Vector2Int) position)) return Color.white;
 		if (TileStore.ContainsKey((Vector2Int) position))
 		{
@@ -304,6 +318,7 @@ public class UnderFloorLayer : Layer
 		{
 			return tilemap.GetTransformMatrix(position);
 		}
+
 		if (!TileStore.ContainsKey((Vector2Int) position)) return Matrix4x4.identity;
 		if (TileStore.ContainsKey((Vector2Int) position))
 		{

@@ -8,10 +8,10 @@ public class SpawnOnWrench : MonoBehaviour, ICheckedInteractable<HandApply>
 	[SerializeField]
 	private GameObject toSpawn = null;
 
-	public GameObject gameObject => toSpawn;
+	public GameObject gametoSpawnObject => toSpawn;
 	public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (DefaultWillInteract.Default(interaction, side) == false) return false;
 		if (interaction.TargetObject != gameObject) return false;
 		if (interaction.HandObject == null) return false;
 		return true;
