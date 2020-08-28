@@ -8,7 +8,6 @@ namespace Doors
 	public class DoorAnimatorV2 : MonoBehaviour
 	{
 		#region Sprite layers
-
 		[BoxGroup("Sprite Layers"),
 		 Tooltip("Game object which represents the base of this door"),
 		 SerializeField]
@@ -54,7 +53,7 @@ namespace Doors
 		[SerializeField, Tooltip("Sound that plays when closing this door")]
 		private string closingSFX = "AirlockClose";
 		[SerializeField, Tooltip("Sound that plays when access is denied by this door")]
-		private string deniedSFX = "TripleBeep";
+		private string deniedSFX = "AccessDenied";
 		[SerializeField, Tooltip("Sound that plays when pressure warning is played by this door")]
 		private string warningSFX = "TripleBeep";
 
@@ -80,7 +79,7 @@ namespace Doors
 			StartCoroutine(coroutine);
 		}
 
-		public IEnumerator PlayOpeningAnimation(bool panelExposed, bool lights)
+		public IEnumerator PlayOpeningAnimation(bool panelExposed = false, bool lights = true)
 		{
 			if (panelExposed)
 			{
@@ -104,7 +103,7 @@ namespace Doors
 
 		}
 
-		public IEnumerator PlayClosingAnimation(bool panelExposed, bool lights)
+		public IEnumerator PlayClosingAnimation(bool panelExposed = false, bool lights = true)
 		{
 			if (panelExposed)
 			{
@@ -191,16 +190,6 @@ namespace Doors
 				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel);
 			}
 		}
-	}
-
-	public class DoorSpriteData
-	{
-		public DoorFrame doorFrame;
-		public Sparks OverlaySparks;
-		public Lights OverlayLights;
-		public DoorFrame OverlayFill;
-		public Weld OverlayWeld;
-		public Panel OverlayHacking;
 	}
 
 	public enum Weld

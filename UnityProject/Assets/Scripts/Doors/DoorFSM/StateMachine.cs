@@ -80,6 +80,8 @@ namespace Doors.DoorFSM
 			NextState(new Closing(this, currentState, ClosedState));
 		}
 
+
+
 		public void NextState(DoorTransition transition)
 		{
 			if (isBusy)

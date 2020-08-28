@@ -1,13 +1,17 @@
-﻿using UnityEngine;
+﻿using Doors.DoorFSM;
+using UnityEngine;
 
 namespace Doors
 {
-	public class InteractableDoorV2: MonoBehaviour, ICheckedInteractable<HandApply>
+	public class InteractableDoorV2: MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
 	{
-		private DoorControllerV2 doorControllerV2;
+		private DoorControllerV2 doorControl;
+		private StateMachine fsm;
+
 		private void Awake()
 		{
-			doorControllerV2 = GetComponent<DoorControllerV2>();
+			doorControl = GetComponent<DoorControllerV2>();
+			fsm = doorControl.DoorFsm;
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -27,19 +31,19 @@ namespace Doors
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Crowbar) ||
 			    Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.CanPryDoor))
 			{
-				doorControllerV2.TryCrowbar(interaction.Performer);
+				doorControl.TryCrowbar(interaction.Performer);
 				return;
 			}
 
 			if (Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver))
 			{
-				doorControllerV2.TryPanel(interaction.Performer);
+				doorControl.TryPanel(interaction.Performer);
 				return;
 			}
 
 			if (Validations.HasUsedActiveWelder(interaction))
 			{
-				doorControllerV2.TryWelder(interaction.Intent, interaction.Performer);
+				doorControl.TryWelder(interaction.Intent, interaction.Performer);
 				return;
 			}
 
@@ -48,14 +52,50 @@ namespace Doors
 				return;
 			}
 
-			if (!doorControllerV2.IsClosed)
+			if (!doorControl.IsClosed)
 			{
-				doorControllerV2.TryClose(interaction.Performer);
+				doorControl.TryClose(interaction.Performer);
 			}
 			else
 			{
-				doorControllerV2.TryOpen(interaction.Performer);
+				doorControl.TryOpen(interaction.Performer);
 			}
+		}
+
+		public string Examine(Vector3 worldPos = default(Vector3))
+		{
+			string examineMessage = $"The {gameObject.ExpensiveName()} is ";
+
+			if (!doorControl.IsClosed)
+			{
+				examineMessage += "open. ";
+			}
+			else
+			{
+				examineMessage += "closed. ";
+			}
+
+			if (fsm.Properties.IsWeld)
+			{
+				examineMessage += "Seems like someone welded it. ";
+			}
+
+			if (fsm.Properties.HasPanelExposed)
+			{
+				examineMessage += "The maintenance panel is open and it has all the wiring exposed. ";
+			}
+
+			if (fsm.Properties.HasPower && fsm.Properties.HasBoltsDown && fsm.Properties.HasBoltLights)
+			{
+				examineMessage += "The bolts lights are on. ";
+			}
+
+			if (!fsm.Properties.HasPower)
+			{
+				examineMessage += "Doesn't look like it is powered. ";
+			}
+
+			return examineMessage;
 		}
 	}
 }

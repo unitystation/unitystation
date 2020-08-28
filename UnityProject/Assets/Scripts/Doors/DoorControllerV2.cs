@@ -7,9 +7,9 @@ using UnityEngine;
 namespace Doors
 {
 	/// <summary>
-	/// Generic class for handling base door interactions.
+	/// Generic class for handling airlocks behavior.
 	/// </summary>
-	public class DoorControllerV2: MonoBehaviour, IServerSpawn, IExaminable, IServerDespawn
+	public class DoorControllerV2: MonoBehaviour, IServerSpawn, IServerDespawn
 	{
 		#region Inspector
 		[SerializeField,
@@ -49,6 +49,7 @@ namespace Doors
 		private DoorProperties doorProperties;
 		private APCPoweredDevice poweredDevice;
 
+		public StateMachine DoorFsm => doorFSM;
 		public bool IsClosed => doorFSM.RegisterDoor.IsClosed;
 		public bool HasPanelExposed => doorProperties.HasPanelExposed;
 
@@ -57,7 +58,6 @@ namespace Doors
 			poweredDevice = GetComponent<APCPoweredDevice>();
 		}
 
-
 		public void Bump(GameObject byPlayer)
 		{
 			if (isAutomatic)
@@ -65,7 +65,6 @@ namespace Doors
 				TryOpen(byPlayer);
 			}
 		}
-
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
@@ -89,7 +88,6 @@ namespace Doors
 		{
 			poweredDevice.PowerStateChangedEvent -= ChangePower;
 		}
-
 
 		#region interface methods
 		public void TryOpen(GameObject byPlayer, bool force = false)
@@ -148,43 +146,6 @@ namespace Doors
 			doorFSM.NextState(doorFSM.CurrentState.ChangePower(state));
 		}
 		#endregion
-
-
-		public string Examine(Vector3 worldPos = default(Vector3))
-		{
-			string examineMessage = $"The {gameObject.ExpensiveName()} is ";
-
-			if (!IsClosed)
-			{
-				examineMessage += "open. ";
-			}
-			else
-			{
-				examineMessage += "closed. ";
-			}
-
-			if (doorFSM.Properties.IsWeld)
-			{
-				examineMessage += "Seems like someone welded it. ";
-			}
-
-			if (doorFSM.Properties.HasPanelExposed)
-			{
-				examineMessage += "The maintenance panel is open and it has all the wiring exposed. ";
-			}
-
-			if (doorFSM.Properties.HasPower && doorFSM.Properties.HasBoltsDown && doorFSM.Properties.HasBoltLights)
-			{
-				examineMessage += "The bolts lights are on. ";
-			}
-
-			if (!doorFSM.Properties.HasPower)
-			{
-				examineMessage += "Doesn't look like it is powered. ";
-			}
-
-			return examineMessage;
-		}
 
 		public void UpdateNewPlayer(NetworkConnection connection)
 		{
