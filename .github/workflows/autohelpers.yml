@@ -14,7 +14,7 @@ jobs:
       - name: conflicts check
         uses: mschilde/auto-label-merge-conflicts@v2.0
         with:
-          CONFLICT_LABEL_NAME: "Merge Conflicts"
+          CONFLICT_LABEL_NAME: "Status: Merge Conflicts"
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     
       - name: auto labeler
