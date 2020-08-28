@@ -17,7 +17,7 @@ public class GUI_Cargo : NetTab
 	private CargoConsole cargoConsole;
 
 	[SerializeField]
-	private GUI_CargoPageCart pageCart;
+	private GUI_CargoPageCart pageCart = null;
 
 	protected override void InitServer()
 	{

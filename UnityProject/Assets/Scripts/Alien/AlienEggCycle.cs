@@ -36,7 +36,7 @@ namespace Alien
 		private SpriteHandler spriteHandler;
 		private RegisterObject registerObject;
 		private ObjectAttributes objectAttributes;
-		private bool isAlive;
+		private bool isAlive; // TODO This is assigned, but not used
 		private float internalTimer = 0;
 		public EggState State => currentState;
 
