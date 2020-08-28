@@ -141,32 +141,15 @@ public partial class GameManager : MonoBehaviour
 	// TODO: Currently, there is no data validation to ensure the config has reasonable values, need to configure setters.
 	private void LoadConfig()
 	{
-		if(GameConfigManager.GameConfig.MinPlayersForCountdown != null)
-			MinPlayersForCountdown = GameConfigManager.GameConfig.MinPlayersForCountdown;
-
-		if(GameConfigManager.GameConfig.PreRoundTime != null)
-			PreRoundTime = GameConfigManager.GameConfig.PreRoundTime;
-
-		if(GameConfigManager.GameConfig.RoundEndTime != null)
-			RoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
-
-		if(GameConfigManager.GameConfig.RoundsPerMap != null)
-			RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
-
-		if(GameConfigManager.GameConfig.InitialGameMode != null)
-			InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
-
-		if(GameConfigManager.GameConfig.RespawnAllowed != null)
-			RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
-
-		if(GameConfigManager.GameConfig.ShuttleDepartTime != null)
-			ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
-
-		if (GameConfigManager.GameConfig.GibbingAllowed != null)
-			GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
-
-		if (GameConfigManager.GameConfig.ShuttleGibbingAllowed != null)
-			ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
+		MinPlayersForCountdown = GameConfigManager.GameConfig.MinPlayersForCountdown;
+		PreRoundTime = GameConfigManager.GameConfig.PreRoundTime;
+		RoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
+		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
+		InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
+		RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
+		ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
+		GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
+		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
 	}
 
 	private void OnEnable()
