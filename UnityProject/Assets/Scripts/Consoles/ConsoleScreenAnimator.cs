@@ -26,19 +26,12 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	[SerializeField]
 	private SpriteHandler spriteHandler;
 	public GameObject ScreenGlow;
-	private int sIndex = 0;
-
-	private void OnEnable()
-	{
-
-	}
 
 	private void ToggleOn(bool turnOn)
 	{
 		if (turnOn)
 		{
 			isOn = true;
-			sIndex = 0;
 			if (SpriteHandlerHere == null)
 			{
 				Logger.Log("Sprite handler is missing on" + this.gameObject);
