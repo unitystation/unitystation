@@ -9,7 +9,7 @@ namespace Weapons.Projectiles.Behaviours
 	/// </summary>
 	public class ProjectileAnimateTile : MonoBehaviour, IOnDespawn
 	{
-		[SerializeField] private AnimationTile animation;
+		[SerializeField] private AnimationTile animation = null;
 
 		public void OnDespawn(RaycastHit2D hit, Vector2 point)
 		{

@@ -15,7 +15,7 @@ namespace Weapons.Projectiles.Behaviours
 		[SerializeField] private DamageData damageData = null;
 
 		[Tooltip("Tile layers to damage(Walls, Window, etc.)")]
-		[SerializeField] private CheckLayerType layerType;
+		[SerializeField] private CheckLayerType layerType = null;
 
 		public bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{

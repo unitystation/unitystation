@@ -51,7 +51,7 @@ public class GUI_PreRoundWindow : MonoBehaviour
 	private GameObject characterCustomization = null;
 
 	[SerializeField]
-	private GUI_JobPreferences localJobPref;
+	private GUI_JobPreferences localJobPref = null;
 
 	[SerializeField]
 	private Button characterButton = null;

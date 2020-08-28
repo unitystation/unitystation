@@ -26,7 +26,7 @@ public class ClothingV2 : NetworkBehaviour
 	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
 
 	private ItemAttributesV2 myItem;
-	private Pickupable myPickupable; 
+	private Pickupable myPickupable;
 
 	public List<SpriteDataSO> SpriteDataSO = new List<SpriteDataSO>();
 	private bool isAdjusted = false; // TODO Nothing is assigning to this variable, not serialized so SpriteInfoState is always false.
