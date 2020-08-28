@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 
 namespace ScriptableObjects.Gun.HitConditions.Tile
 {
@@ -6,6 +6,7 @@ namespace ScriptableObjects.Gun.HitConditions.Tile
 	public class ConditionsTileArray : ScriptableObject
 	{
 		[SerializeField] private HitInteractTileCondition[] conditions = default;
+
 		public HitInteractTileCondition[] Conditions => conditions;
 	}
 }

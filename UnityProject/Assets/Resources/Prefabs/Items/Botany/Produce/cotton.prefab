@@ -1,0 +1,497 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &7655903962316108183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1225252759033022674}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3ddd16a1508246889e80d771a7f97fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  result: {fileID: 185181431847209148, guid: 21b9a0af91fc37f468662b92a09c5960, type: 3}
+--- !u!1001 &6178639553414095549
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.PacketsSprite.Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[0].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[1].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[2].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[3].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[4].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[5].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.FullyGrownSprite.Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.DeadSprite.Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.PlantTrays.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 1225252759033022674}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.Name
+      value: cotton
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.Plantname
+      value: Cotton
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.Description
+      value: A pack of seeds that'll grow into a cotton plant. Assistants make good
+        free labor if neccesary.
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.PacketsSprite.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 2e2bebb02f499b6468194e3f15438170, type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.PacketsSprite.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 2e2bebb02f499b6468194e3f15438170,
+        type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[0].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: ac638fe376224f04a8c7880ce4565632, type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: ac638fe376224f04a8c7880ce4565632,
+        type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[1].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 5857fbbe4613340438d14620215b114e, type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[1].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 5857fbbe4613340438d14620215b114e,
+        type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[2].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: bc692dd8a0e0d1a4394c25838b4c6708, type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[2].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: bc692dd8a0e0d1a4394c25838b4c6708,
+        type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[3].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: db0c8f3bbd58ea24d8f05e5374945c16, type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[3].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: db0c8f3bbd58ea24d8f05e5374945c16,
+        type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[4].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: fbedcf49b2816574bb605daa1d390630, type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[4].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: fbedcf49b2816574bb605daa1d390630,
+        type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[5].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: bc30db9a5eceb5d4ea0e52c3bd053584, type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[5].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: bc30db9a5eceb5d4ea0e52c3bd053584,
+        type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.FullyGrownSprite.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 3959ee3893ad25a4e84048a386047378, type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.FullyGrownSprite.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 3959ee3893ad25a4e84048a386047378,
+        type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.DeadSprite.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: b1325a0105092b54f84e677115b0d2c8, type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.DeadSprite.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: b1325a0105092b54f84e677115b0d2c8,
+        type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.WeedResistance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.WeedGrowthRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSpeed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.Potency
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.Endurance
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.Yield
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.Lifespan
+      value: 35
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: seedPacket
+      value: 
+      objectReference: {fileID: 11639533463445157, guid: c5a9cf9eaa1364fa0a48ff032bc4c5d7,
+        type: 3}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: edible
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f378b0e531c65643a43e89a99bd83ee,
+        type: 2}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 6cfed056512c6c74ca63ac7c69b77d8e,
+        type: 2}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 14d761f322124b24ba18e3c2760404c5,
+        type: 2}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ec4f79f11e352b94b9636a4bd77a1a12,
+        type: 2}
+    - target: {fileID: -9006715302198902684, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2e53e2d4f17085e49a8a2b807de17c2d,
+        type: 2}
+    - target: {fileID: 1294793839381664232, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fd946aac990926c43baadab433539ce9,
+        type: 2}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[0]
+      value: vitamin
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Reagents.Array.data[1]
+      value: nutriment
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[0]
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: Amounts.Array.data[1]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: initialName
+      value: cotton bundle
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A fluffy bundle of cotton.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: f3dcbaf83997cef45957bb1625dc3d36, type: 3}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.InventoryIcon.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: f3dcbaf83997cef45957bb1625dc3d36,
+        type: 3}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 640a4524e899c424bbc28f75f929f4c6,
+        type: 2}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: throwRange
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[0]
+      value: pomfed
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_Name
+      value: cotton
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983833925385836507, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 5066517181570930995, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 94320d202fa72714cb997a48e1aae840,
+        type: 3}
+    - target: {fileID: 6259075970471028923, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 7640553959568001153, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fd946aac990926c43baadab433539ce9,
+        type: 2}
+    m_RemovedComponents:
+    - {fileID: 6259075970471028923, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}
+--- !u!1 &1225252759033022674 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4953422017611688559, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+    type: 3}
+  m_PrefabInstance: {fileID: 6178639553414095549}
+  m_PrefabAsset: {fileID: 0}

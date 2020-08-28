@@ -6,12 +6,14 @@ public class DisablePlatformSpecific : MonoBehaviour
 	[SerializeField] private bool disable = true;
 	[SerializeField] private bool destroy = false;
 
+#pragma warning disable 0414
 	[Header("Disable this GameObject for these platforms:")]
 	[SerializeField] private bool hideOnIOS = false;
 	[SerializeField] private bool hideOnAndroid = false;
 	[SerializeField] private bool hideOnWindows = false;
 	[SerializeField] private bool hideOnMac = false;
 	[SerializeField] private bool hideOnLinux = false;
+#pragma warning restore 0414
 
 	void Awake()
 	{
