@@ -122,11 +122,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ce4358f721d0d0245813360139eae270,
         type: 2}
+    - target: {fileID: 5347638606518830364, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 33c15e3f013f174439fde47235ec278f,
+        type: 2}
+    - target: {fileID: 5347638606518830364, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ce4358f721d0d0245813360139eae270,
+        type: 2}
+    - target: {fileID: 5347638606518830364, guid: 82677ff961fa72944936cc923625a1bc,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 318180ee59365e64683ba015c2f2ecf6,
+        type: 2}
     - target: {fileID: 7942108884443502463, guid: 82677ff961fa72944936cc923625a1bc,
         type: 3}
       propertyPath: TransformTo
       value: 
-      objectReference: {fileID: 5680136605834777345, guid: 74c9d3aa100fca24d830d213df433dbf,
+      objectReference: {fileID: 1151981523841236988, guid: dfe30ea3b0c7a1a48ab584f1f6776309,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82677ff961fa72944936cc923625a1bc, type: 3}

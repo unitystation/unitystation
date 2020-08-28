@@ -74,11 +74,6 @@ public class GUI_BoilerTurbineController : NetTab
 
 	}
 
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
-
 	[System.Serializable]
 	public class GUI_BoilerAnnunciators
 	{

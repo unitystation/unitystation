@@ -17,7 +17,7 @@ public class GUI_Cargo : NetTab
 	private CargoConsole cargoConsole;
 
 	[SerializeField]
-	private GUI_CargoPageCart pageCart;
+	private GUI_CargoPageCart pageCart = null;
 
 	protected override void InitServer()
 	{
@@ -69,11 +69,6 @@ public class GUI_Cargo : NetTab
 	{
 		NestedSwitcher.SetActivePage(pageToOpen);
 		pageToOpen.GetComponent<GUI_CargoPage>().OpenTab();
-	}
-
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
 	}
 
 	public void ResetId()

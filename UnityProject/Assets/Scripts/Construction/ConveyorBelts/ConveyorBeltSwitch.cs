@@ -1,63 +1,64 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Diagnostics;
+using UnityEngine;
 using Mirror;
 using ScriptableObjects;
-using UnityEngine;
-using Debug = UnityEngine.Debug;
 
+/// <summary>
+/// Used for controlling conveyor belts.
+/// </summary>
 public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApply>, ISetMultitoolSlaveMultiMaster
 {
-	public SpriteRenderer spriteRenderer;
+	[Tooltip("Assign the conveyor belts this switch should control.")]
+	[SerializeField]
+	private List<ConveyorBelt> conveyorBelts = new List<ConveyorBelt>();
 
-	public List<ConveyorBelt> conveyorBelts = new List<ConveyorBelt>();
+	[Tooltip("Conveyor belt speed.")]
+	[SerializeField]
+	private float ConveyorBeltSpeed = 0.5f;
 
-	public Sprite spriteForward;
-	public Sprite spriteBackward;
-	public Sprite spriteOff;
+	private SpriteHandler spriteHandler;
 
-	private float timeElapsed = 0;
+	public SwitchState CurrentState { get; private set; }
 
-	[SerializeField] private float ConveyorBeltSpeed = 0.5f;
+	private SwitchState prevMoveState;
 
-	[SyncVar(hook = nameof(SyncSwitchState))]
-	public State currentState;
+	#region Lifecycle
 
-	private State prevMoveState;
-
-	private void OnEnable()
+	private void Awake()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		spriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (!isServer) return;
+
+		SetState(SwitchState.Off);
 	}
 
 	public override void OnStartServer()
 	{
-		currentState = State.Off;
 		SetBeltInfo();
 	}
 
-	public override void OnStartClient()
+	#endregion Lifecycle
+
+	private void UpdateMe()
 	{
-		SyncSwitchState(currentState, currentState);
+		MoveConveyorBelts();
 	}
 
-	protected virtual void UpdateMe()
+	private void MoveConveyorBelts()
 	{
-		if (currentState == State.Off) return;
-
-		timeElapsed += Time.deltaTime;
-		if (timeElapsed > ConveyorBeltSpeed)
+		for (int i = 0; i < conveyorBelts.Count; i++)
 		{
-			MoveConveyorBelt();
-			timeElapsed = 0;
+			if (conveyorBelts[i] != null) conveyorBelts[i].MoveBelt();
 		}
 	}
+
+	#region Interaction
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -66,35 +67,7 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 		if (!Validations.IsTarget(gameObject, interaction)) return false;
 
 		return interaction.HandObject == null ||
-		       Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
-	}
-
-	private void SyncSwitchState(State oldValue, State newValue)
-	{
-		currentState = newValue;
-
-		switch (currentState)
-		{
-			case State.Off:
-				spriteRenderer.sprite = spriteOff;
-				break;
-			case State.Forward:
-				spriteRenderer.sprite = spriteForward;
-				break;
-			case State.Backward:
-				spriteRenderer.sprite = spriteBackward;
-				break;
-			default:
-				throw new ArgumentOutOfRangeException();
-		}
-	}
-
-	void MoveConveyorBelt()
-	{
-		for (int i = 0; i < conveyorBelts.Count; i++)
-		{
-			if (conveyorBelts[i] != null) conveyorBelts[i].MoveBelt();
-		}
+				Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Wrench);
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
@@ -107,53 +80,56 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 				$"{interaction.Performer.ExpensiveName()} starts deconstructing the conveyor belt switch...",
 				"You deconstruct the conveyor belt switch.",
 				$"{interaction.Performer.ExpensiveName()} deconstructs the conveyor belt switch.",
-				() =>
-				{
-					currentState = State.Off;
-					spriteRenderer.sprite = spriteOff;
-					conveyorBelts.Clear();
-					Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
-					Despawn.ServerSingle(gameObject);
-				});
+				DeconstructSwitch);
 		}
 		else
 		{
-			switch (currentState)
-			{
-				case State.Off:
-					if (prevMoveState == State.Forward)
-					{
-						currentState = State.Backward;
-					}
-					else if (prevMoveState == State.Backward)
-					{
-						currentState = State.Forward;
-					}
-					else
-					{
-						currentState = State.Forward;
-					}
-					prevMoveState = currentState;
-					break;
-				case State.Forward:
-				case State.Backward:
-					currentState = State.Off;
-					break;
-				default:
-					throw new ArgumentOutOfRangeException();
-			}
-
-			foreach (ConveyorBelt conveyor in conveyorBelts)
-			{
-				if (conveyor != null)
-				{
-					conveyor.UpdateStatus(currentState); //sync clients
-				}
-			}
+			ToggleSwitch();
 		}
 	}
 
-	//Multitool buffer adding
+	private void ToggleSwitch()
+	{
+		switch (CurrentState)
+		{
+			case SwitchState.Off:
+				if (prevMoveState == SwitchState.Forward)
+				{
+					SetState(SwitchState.Backward);
+				}
+				else if (prevMoveState == SwitchState.Backward)
+				{
+					SetState(SwitchState.Forward);
+				}
+				else
+				{
+					SetState(SwitchState.Forward);
+				}
+				prevMoveState = CurrentState;
+				break;
+			case SwitchState.Forward:
+			case SwitchState.Backward:
+				SetState(SwitchState.Off);
+				break;
+			default:
+				throw new ArgumentOutOfRangeException();
+		}
+	}
+
+	private void DeconstructSwitch()
+	{
+		SetState(SwitchState.Off);
+		conveyorBelts.Clear();
+		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, SpawnDestination.At(gameObject), 5);
+		Despawn.ServerSingle(gameObject);
+	}
+
+	#endregion Interaction
+
+	/// <summary>
+	/// Allow these conveyor belts to be controlled by this switch.
+	/// </summary>
+	/// <param name="newConveyorBelts"> Conveyor belts to control </param>
 	public void AddConveyorBelt(List<ConveyorBelt> newConveyorBelts)
 	{
 		foreach (var conveyor in newConveyorBelts)
@@ -167,8 +143,10 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 		SetBeltInfo();
 	}
 
-	//Hands a reference of this switch to the belts so any neighbour ones
-	//can automatically sync up
+	/// <summary>
+	/// Hands a reference of this switch to the belts so any neighbour ones
+	/// can automatically sync up
+	/// </summary>
 	private void SetBeltInfo()
 	{
 		for (int i = 0; i < conveyorBelts.Count; i++)
@@ -177,18 +155,48 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 		}
 	}
 
-	public enum State
+	private void SetState(SwitchState newState)
+	{
+		CurrentState = newState;
+		spriteHandler.ChangeSprite((int)CurrentState);
+
+		if (CurrentState != SwitchState.Off)
+		{
+			UpdateManager.Add(UpdateMe, ConveyorBeltSpeed);
+		}
+		else
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+		}
+
+		UpdateConveyorStates();
+	}
+
+	private void UpdateConveyorStates()
+	{
+		foreach (ConveyorBelt conveyor in conveyorBelts)
+		{
+			if (conveyor != null)
+			{
+				conveyor.UpdateState();
+			}
+		}
+	}
+
+	public enum SwitchState
 	{
 		Off = 0,
 		Forward = 1,
 		Backward = 2
 	}
-	//######################################## Multitool interaction ##################################
+
+	#region Multitool Interaction
+
 	[SerializeField]
 	private MultitoolConnectionType conType = MultitoolConnectionType.Conveyor;
 	public MultitoolConnectionType ConType  => conType;
 
-	public void SetMasters( List<ISetMultitoolMaster> Imasters)
+	public void SetMasters(List<ISetMultitoolMaster> Imasters)
 	{
 		List<ConveyorBelt> InnewConveyorBelts = new List<ConveyorBelt>();
 		foreach (var Conveyor in Imasters)
@@ -198,5 +206,5 @@ public class ConveyorBeltSwitch : NetworkBehaviour, ICheckedInteractable<HandApp
 		AddConveyorBelt(InnewConveyorBelts);
 	}
 
-
+	#endregion Multitool Interaction
 }

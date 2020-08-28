@@ -49,7 +49,7 @@ public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandAppl
 	[SyncVar]
 	public int currentCharge; // 0 - 100
 
-	void Start()
+	private void Start()
 	{
 		EnsureInit();
 	}
@@ -101,7 +101,7 @@ public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandAppl
 		}
 	}
 
-	void UpdateBattery(BatteryStateSprite oldState, BatteryStateSprite State)
+	private void UpdateBattery(BatteryStateSprite oldState, BatteryStateSprite State)
 	{
 		EnsureInit();
 		CurrentState = State;

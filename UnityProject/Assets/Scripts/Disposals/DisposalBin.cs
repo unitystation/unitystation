@@ -15,6 +15,21 @@ namespace Disposals
 		Recharging
 	}
 
+	public enum BinSprite
+	{
+		Upright = 0,
+		Sideways = 1,
+		Flushing = 2
+	}
+
+	public enum BinOverlaySprite
+	{
+		Ready = 0,
+		Charging = 1,
+		Full = 2,
+		Handle = 3
+	}
+
 	[ExecuteInEditMode]
 	public class DisposalBin : DisposalMachine, IServerDespawn, IExaminable, ICheckedInteractable<MouseDrop>
 	{
@@ -33,6 +48,8 @@ namespace Disposals
 		// GUI instances can listen to this, to update UI state.
 		public event Action BinStateUpdated;
 
+		// We sync binState so that the client knows when to play or stop the recharging SFX.
+		[SyncVar(hook = nameof(OnSyncBinState))]
 		BinState binState = BinState.Disconnected;
 		[SyncVar]
 		int chargePressure = 0;
@@ -55,7 +72,7 @@ namespace Disposals
 		public bool BinCharged => chargePressure >= CHARGED_PRESSURE;
 		public bool ServerHasContents => virtualContainer != null ? virtualContainer.HasContents : false;
 
-		#region Initialisation
+		#region Lifecycle
 
 		protected override void Awake()
 		{
@@ -76,14 +93,7 @@ namespace Disposals
 			base.SpawnMachineAsInstalled();
 
 			chargePressure = CHARGED_PRESSURE;
-			binState = BinState.Ready;
-			OnSyncBinState(binState);
-		}
-
-		public override void OnStartClient()
-		{
-			base.OnStartClient();
-			UpdateSpriteBinState();
+			SetBinState(BinState.Ready);
 		}
 
 		public void OnDespawnServer(DespawnInfo info)
@@ -91,17 +101,31 @@ namespace Disposals
 			if (virtualContainer != null) Despawn.ServerSingle(virtualContainer.gameObject);
 		}
 
-		#endregion Initialisation
+		#endregion Lifecycle
 
 		#region Sync
 
-		void OnSyncBinState(BinState newState)
+		void OnSyncBinState(BinState oldState, BinState newState)
+		{
+			binState = newState;
+
+			if (BinCharging)
+			{
+				rechargeSFX.Play();
+			}
+			else
+			{
+				rechargeSFX.Stop();
+			}
+		}
+
+		#endregion Sync
+
+		void SetBinState(BinState newState)
 		{
 			binState = newState;
 			UpdateSpriteBinState();
 		}
-
-		#endregion Sync
 
 		#region Sprites
 
@@ -114,7 +138,7 @@ namespace Disposals
 		{
 			if (MachineUnattached)
 			{
-				baseSpriteHandler.ChangeSprite(1);
+				baseSpriteHandler.ChangeSprite((int) BinSprite.Sideways);
 				overlaysSpriteHandler.PushClear();
 				return;
 			}
@@ -122,29 +146,24 @@ namespace Disposals
 			switch (binState)
 			{
 				case BinState.Disconnected:
-					rechargeSFX.Stop();
-					baseSpriteHandler.ChangeSprite(0);
+					baseSpriteHandler.ChangeSprite((int) BinSprite.Upright);
 					overlaysSpriteHandler.PushClear();
 					break;
 				case BinState.Off:
-					rechargeSFX.Stop();
-					baseSpriteHandler.ChangeSprite(0);
+					baseSpriteHandler.ChangeSprite((int) BinSprite.Upright);
 					overlaysSpriteHandler.PushClear();
 					break;
 				case BinState.Ready:
-					rechargeSFX.Stop();
-					baseSpriteHandler.ChangeSprite(0);
-					overlaysSpriteHandler.ChangeSprite(1);
+					baseSpriteHandler.ChangeSprite((int) BinSprite.Upright);
+					overlaysSpriteHandler.ChangeSprite((int) BinOverlaySprite.Ready);
 					break;
 				case BinState.Flushing:
-					rechargeSFX.Stop();
-					baseSpriteHandler.ChangeSprite(2);
+					baseSpriteHandler.ChangeSprite((int) BinSprite.Flushing);
 					overlaysSpriteHandler.PushClear();
 					break;
 				case BinState.Recharging:
-					rechargeSFX.Play();
-					baseSpriteHandler.ChangeSprite(0);
-					overlaysSpriteHandler.ChangeSprite(0);
+					baseSpriteHandler.ChangeSprite((int) BinSprite.Upright);
+					overlaysSpriteHandler.ChangeSprite((int) BinOverlaySprite.Charging);
 					break;
 			}
 
@@ -333,8 +352,7 @@ namespace Disposals
 
 			if (BinCharged)
 			{
-				binState = BinState.Ready;
-				OnSyncBinState(binState);
+				SetBinState(BinState.Ready);
 				if (ServerHasContents)
 				{
 					this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
@@ -342,8 +360,7 @@ namespace Disposals
 			}
 			else
 			{
-				binState = BinState.Recharging;
-				OnSyncBinState(binState);
+				SetBinState(BinState.Recharging);
 				this.RestartCoroutine(Recharge(), ref rechargeCoroutine);
 			}
 		}
@@ -355,8 +372,7 @@ namespace Disposals
 
 			if (autoFlushCoroutine != null) StopCoroutine(autoFlushCoroutine);
 			if (rechargeCoroutine != null) StopCoroutine(rechargeCoroutine);
-			binState = BinState.Off;
-			OnSyncBinState(binState);
+			SetBinState(BinState.Off);
 		}
 
 		IEnumerator Recharge()
@@ -369,8 +385,7 @@ namespace Disposals
 
 			if (!PowerOff && !PowerDisconnected)
 			{
-				binState = BinState.Ready;
-				OnSyncBinState(binState);
+				SetBinState(BinState.Ready);
 				this.RestartCoroutine(AutoFlush(), ref autoFlushCoroutine);
 			}
 
@@ -381,8 +396,7 @@ namespace Disposals
 		IEnumerator RunFlushSequence()
 		{
 			// Bin orifice closes...
-			binState = BinState.Flushing;
-			OnSyncBinState(binState);
+			SetBinState(BinState.Flushing);
 			yield return WaitFor.Seconds(ANIMATION_TIME);
 
 			// Bin orifice closed. Release the charge.
@@ -396,8 +410,7 @@ namespace Disposals
 			}
 
 			// Restore charge.
-			binState = BinState.Recharging;
-			OnSyncBinState(binState);
+			SetBinState(BinState.Recharging);
 			StartCoroutine(Recharge());
 		}
 
@@ -429,23 +442,29 @@ namespace Disposals
 		void UseScrewdriver()
 		{
 			// Advance construction state by connecting power.
-			if (PowerDisconnected) OnSyncBinState(BinState.Off);
+			if (PowerDisconnected)
+			{
+				SetBinState(BinState.Off);
+			}
 
 			// Retard construction state - deconstruction beginning - by disconnecting power.
-			else  OnSyncBinState(BinState.Disconnected);
+			else
+			{
+				SetBinState(BinState.Disconnected);
+			}
 		}
 
 		protected override void SetMachineInstalled()
 		{
 			base.SetMachineInstalled();
-			OnSyncBinState(BinState.Disconnected);
+			SetBinState(BinState.Disconnected);
 			netTab.enabled = true;
 		}
 
 		protected override void SetMachineUninstalled()
 		{
 			base.SetMachineUninstalled();
-			OnSyncBinState(BinState.Disconnected);
+			SetBinState(BinState.Disconnected);
 			netTab.enabled = false;
 		}
 

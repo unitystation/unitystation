@@ -163,11 +163,6 @@ public class GUI_ChemistryDispenser : NetTab
 		UpdateAll();
 	}
 
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
-
 	public void SetHeaterTemperature(string TheString)
 	{
 		if (int.TryParse(TheString, out var temp))

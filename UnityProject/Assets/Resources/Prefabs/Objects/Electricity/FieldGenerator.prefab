@@ -55,6 +55,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114590706900826186
@@ -69,30 +70,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2d5abc7c87dbf4367935e3e1dbce8d42, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  connectedToOther: 0
-  offSprite: {fileID: 21300000, guid: 9f8a5f444b0e4da4eb84cef9f7829521, type: 3}
-  onSprite: {fileID: 21300000, guid: d586c68ec2013504b85cc0ae65cd6f2e, type: 3}
-  searchingSprites:
-  - {fileID: 21300000, guid: d5a843da19cbb1c45b76439931c8a8ba, type: 3}
-  - {fileID: 21300002, guid: d5a843da19cbb1c45b76439931c8a8ba, type: 3}
-  - {fileID: 21300004, guid: d5a843da19cbb1c45b76439931c8a8ba, type: 3}
-  - {fileID: 21300006, guid: d5a843da19cbb1c45b76439931c8a8ba, type: 3}
-  - {fileID: 21300008, guid: d5a843da19cbb1c45b76439931c8a8ba, type: 3}
-  - {fileID: 21300010, guid: d5a843da19cbb1c45b76439931c8a8ba, type: 3}
-  - {fileID: 21300014, guid: d5a843da19cbb1c45b76439931c8a8ba, type: 3}
-  - {fileID: 21300016, guid: d5a843da19cbb1c45b76439931c8a8ba, type: 3}
-  connectedSprites:
-  - {fileID: 21300000, guid: d586c68ec2013504b85cc0ae65cd6f2e, type: 3}
-  - {fileID: 21300002, guid: d586c68ec2013504b85cc0ae65cd6f2e, type: 3}
-  - {fileID: 21300004, guid: d586c68ec2013504b85cc0ae65cd6f2e, type: 3}
-  - {fileID: 21300006, guid: d586c68ec2013504b85cc0ae65cd6f2e, type: 3}
-  spriteRend: {fileID: 212285348860713558}
-  Voltage: 0
   ElectricalNodeControl: {fileID: 3903394726411491279}
   ResistanceSourceModule: {fileID: 1461403780681083615}
-  isOn: 0
+  connectedToOther: 0
+  Voltage: 0
 --- !u!61 &61697181358093446
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -266,7 +247,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -287,7 +270,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114104876763743222
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -326,6 +308,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4301764206996866}
   - component: {fileID: 212285348860713558}
+  - component: {fileID: 4962864411890081112}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -397,3 +380,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &4962864411890081112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1712574560713454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 5a6f6c9082b345f40a9fced30d44d90b, type: 2}
+  - {fileID: 11400000, guid: db9c00ed03a635f49bbd63f389b0d092, type: 2}
+  - {fileID: 11400000, guid: 6511aeb4c806a5148a293747bf5a63d9, type: 2}
+  - {fileID: 11400000, guid: 82e31717630d55443830fa28d53ff2d1, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 5a6f6c9082b345f40a9fced30d44d90b, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []

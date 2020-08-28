@@ -13,10 +13,16 @@ namespace Disposals
 		Directional directional;
 		List<DisposalVirtualContainer> receivedContainers = new List<DisposalVirtualContainer>();
 
-		public bool OutletOperating { get; private set; }
+		public bool IsOperating { get; private set; }
 		public bool ServerHasContainers => receivedContainers.Count > 0;
 
-		#region Initialisation
+		private enum SpriteState
+		{
+			Idle = 0,
+			Operating = 1
+		}
+
+		#region Lifecycle
 
 		protected override void Awake()
 		{
@@ -40,29 +46,31 @@ namespace Disposals
 			}
 		}
 
-		#endregion Initialisation
+		#endregion Lifecycle
 
 		void OnDirectionChanged(Orientation newDir)
 		{
 			UpdateSpriteOrientation();
 		}
 
-		#region Sync
-
 		void SetOutletOperating(bool isOperating)
 		{
-			OutletOperating = isOperating;
+			IsOperating = isOperating;
 			UpdateSpriteState();
 		}
-
-		#endregion Sync
 
 		#region Sprites
 
 		void UpdateSpriteState()
 		{
-			if (OutletOperating) baseSpriteHandler.ChangeSprite(1);
-			else baseSpriteHandler.ChangeSprite(0);
+			if (IsOperating)
+			{
+				baseSpriteHandler.ChangeSprite((int) SpriteState.Operating);
+			}
+			else
+			{
+				baseSpriteHandler.ChangeSprite((int) SpriteState.Idle);
+			}
 		}
 
 		void UpdateSpriteOrientation()
@@ -93,7 +101,7 @@ namespace Disposals
 			string baseString = "It";
 			if (FloorPlatingExposed()) baseString = base.Examine().TrimEnd('.') + " and";
 
-			if (OutletOperating) return $"{baseString} is currently ejecting its contents.";
+			if (IsOperating) return $"{baseString} is currently ejecting its contents.";
 			else return $"{baseString} is ready for use.";
 		}
 
@@ -117,7 +125,7 @@ namespace Disposals
 		{
 			receivedContainers.Add(virtualContainer);
 			virtualContainer.GetComponent<ObjectBehaviour>().parentContainer = objectBehaviour;
-			if (!OutletOperating) StartCoroutine(RunEjectionSequence());
+			if (!IsOperating) StartCoroutine(RunEjectionSequence());
 		}
 
 		IEnumerator RunEjectionSequence()

@@ -17,7 +17,7 @@ public class GUI_CargoPageCart : GUI_CargoPage
 	private bool inited = false;
 
 	[SerializeField]
-	private GUI_Cargo cargoController;
+	private GUI_Cargo cargoController = null;
 
 	public override void Init()
 	{

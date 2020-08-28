@@ -1,45 +1,49 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
 
-public class FieldGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
+public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl
 {
-	public bool connectedToOther = false;
-	private Coroutine coSpriteAnimator;
-	public Sprite offSprite;
-	public Sprite onSprite;
-	public Sprite[] searchingSprites;
-	public Sprite[] connectedSprites;
-	public SpriteRenderer spriteRend;
-	List<Sprite> animSprites = new List<Sprite>();
-	public float Voltage;
+	private SpriteHandler spriteHandler;
 
 	public ElectricalNodeControl ElectricalNodeControl;
-
 	public ResistanceSourceModule ResistanceSourceModule;
 
-	[SyncVar(hook = nameof(UpdateSprites))]
-	public bool isOn = false;
+	public bool connectedToOther = false;
+	public float Voltage;
+	public bool IsOn { get; private set; } = false;
 
-	public override void OnStartClient()
+	#region Lifecycle
+
+	private void Awake()
 	{
-		UpdateSprites(isOn, isOn);
+		spriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
 
+	#endregion Lifecycle
+
+	#region Interaction
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TargetObject != gameObject) return false;
 		if (interaction.HandObject != null) return false;
+
 		return true;
 	}
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		isOn = !isOn;
-		UpdateSprites(isOn, isOn);
+		TogglePower();
+	}
+
+	#endregion Interaction
+
+	private void TogglePower()
+	{
+		IsOn = !IsOn;
+		UpdateSprites();
 	}
 
 	public void PowerNetworkUpdate()
@@ -49,60 +53,44 @@ public class FieldGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
 	}
 
-	void UpdateSprites(bool _wasOn, bool _isOn){
-		isOn = _isOn;
-		if (isOn)
+	private void UpdateSprites()
+	{
+		if (IsOn)
 		{
-			if(Voltage < 2700){
-				if (coSpriteAnimator != null) {
-					StopCoroutine(coSpriteAnimator);
-					coSpriteAnimator = null;
-				}
-				spriteRend.sprite = onSprite;
+			if (Voltage < 2700)
+			{
+				spriteHandler.ChangeSprite((int) SpriteState.GeneratorOffBr);
 			}
-			if(Voltage >= 2700){
+			else if (Voltage >= 2700)
+			{
 				ResistanceSourceModule.Resistance = 50f;
-				if(!connectedToOther){
-					animSprites = new List<Sprite>(searchingSprites);
-					if (coSpriteAnimator == null) {
-						coSpriteAnimator = StartCoroutine(SpriteAnimator());
-					}
-				} else {
-					animSprites = new List<Sprite>(connectedSprites);
-					if(coSpriteAnimator == null) {
-						coSpriteAnimator = StartCoroutine(SpriteAnimator());
-					}
+				if (!connectedToOther)
+				{
+					spriteHandler.ChangeSprite((int) SpriteState.GeneratorOnBr);
+				}
+				else
+				{
+					spriteHandler.ChangeSprite((int) SpriteState.GeneratorOn);
 				}
 			}
 		}
 		else
 		{
-			if (coSpriteAnimator != null)
-			{
-				StopCoroutine(coSpriteAnimator);
-				coSpriteAnimator = null;
-			}
-			spriteRend.sprite = offSprite;
+			spriteHandler.ChangeSprite((int) SpriteState.GeneratorOff);
 		}
 	}
+
 	//Check the operational state
-	void CheckState(bool _isOn)
+	private void CheckState(bool _isOn)
 	{
 
 	}
 
-	IEnumerator SpriteAnimator()
+	private enum SpriteState
 	{
-		int index = 0;
-		while (true)
-		{
-			if (index >= animSprites.Count)
-			{
-				index = 0;
-			}
-			spriteRend.sprite = animSprites[index];
-			index++;
-			yield return WaitFor.Seconds(0.3f);
-		}
+		GeneratorOff = 0,
+		GeneratorOn = 1,
+		GeneratorOffBr = 2,
+		GeneratorOnBr = 3
 	}
 }

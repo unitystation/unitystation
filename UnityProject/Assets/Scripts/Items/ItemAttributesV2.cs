@@ -1,14 +1,9 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using IngameDebugConsole;
 using UnityEngine;
 using Mirror;
-using UnityEngine.Serialization;
-using Random = System.Random;
 
 /// <summary>
 /// Various attributes associated with a particular item.
@@ -18,8 +13,7 @@ using Random = System.Random;
 [RequireComponent(typeof(Pickupable))] //Inventory interaction
 [RequireComponent(typeof(ObjectBehaviour))] //pull and Push
 [RequireComponent(typeof(RegisterItem))] //Registry with subsistence
-[RequireComponent(typeof(SpriteHandlerController))] //Handles the item sprites and In hands
-public class ItemAttributesV2 : Attributes
+public class ItemAttributesV2 : Attributes, IServerSpawn
 {
 	[SerializeField]
 	[Tooltip("Initial traits of this item on spawn.")]
@@ -29,11 +23,10 @@ public class ItemAttributesV2 : Attributes
 	[SerializeField]
 	private ItemSize initialSize = ItemSize.None;
 
-
 	/// <summary>
 	/// Current size.
 	/// </summary>
-	[SyncVar(hook=nameof(SyncSize))]
+	[SyncVar]
 	private ItemSize size;
 	/// <summary>
 	/// Current size
@@ -167,6 +160,8 @@ public class ItemAttributesV2 : Attributes
 	[SerializeField]
 	private ItemsSprites itemSprites;
 
+	#region Lifecycle
+
 	private void Awake()
 	{
 		EnsureInit();
@@ -183,19 +178,18 @@ public class ItemAttributesV2 : Attributes
 		hasInit = true;
 	}
 
-
 	public override void OnStartClient()
 	{
 		EnsureInit();
-		SyncSize(size, this.size);
 		base.OnStartClient();
 	}
 
-	public override void OnSpawnServer(SpawnInfo info)
+	public void OnSpawnServer(SpawnInfo info)
 	{
-		SyncSize(size, initialSize);
-		base.OnSpawnServer(info);
+		size = initialSize;
 	}
+
+	#endregion Lifecycle
 
 	/// <summary>
 	/// All traits currently on the item.
@@ -216,7 +210,6 @@ public class ItemAttributesV2 : Attributes
 	{
 		return traits.Contains(toCheck);
 	}
-
 
 	/// <summary>
 	/// Does it have any of the given traits?
@@ -248,12 +241,6 @@ public class ItemAttributesV2 : Attributes
 		traits.Add(toAdd);
 	}
 
-	private void SyncSize(ItemSize oldSize, ItemSize newSize)
-	{
-		EnsureInit();
-		size = newSize;
-	}
-
 	/// <summary>
 	/// Removes the trait dynamically
 	/// NOTE: Not synced between client / server
@@ -281,7 +268,7 @@ public class ItemAttributesV2 : Attributes
 	[Server]
 	public void ServerSetSize(ItemSize newSize)
 	{
-		SyncSize(size, newSize);
+		size = newSize;
 	}
 
 	/// <summary>

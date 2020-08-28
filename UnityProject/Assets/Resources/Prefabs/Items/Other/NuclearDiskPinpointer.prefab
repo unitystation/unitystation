@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  rendererSprite: {fileID: 3731637510708635801}
-  timeWait: 0.2
+  arrowGameObject: {fileID: 3731637510708635801}
+  scanTime: 0.2
   maxMagnitude: 50
   mediumMagnitude: 20
   closeMagnitude: 10
@@ -114,11 +114,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue: []
+  SubCatalogue:
+  - {fileID: 11400000, guid: 5a9ab032af75965428729a36d94645fb, type: 2}
+  - {fileID: 11400000, guid: 5cfe5f763f84e9c4cb82236089f631f0, type: 2}
+  - {fileID: 11400000, guid: 8e8f922bcc7081046ba9b6cade7567c1, type: 2}
+  - {fileID: 11400000, guid: bc49d6db230bae34c9078b700246feb4, type: 2}
+  - {fileID: 11400000, guid: ea0abaecd136e8e49821967150a50193, type: 2}
+  - {fileID: 11400000, guid: 99b9020453405bd4c86c7d924e97e972, type: 2}
+  - {fileID: 11400000, guid: f645b10decf10724ab2aa4ca37d60242, type: 2}
+  - {fileID: 11400000, guid: 7e489763d9936ce449e6e444390cc5f3, type: 2}
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1001 &101322261917603612
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -334,17 +343,11 @@ PrefabInstance:
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 1397050043076861577, guid: a7abba22164ce49f0bf9b9b219f39298,
-        type: 3}
-      propertyPath: spriteHandler
-      value: 
-      objectReference: {fileID: 6327570960467637109}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 28d8cd0bc39389e47a3072eeddc7961b,
-        type: 2}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &100328150011014054 stripped

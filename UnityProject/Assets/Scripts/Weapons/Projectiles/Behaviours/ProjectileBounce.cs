@@ -14,7 +14,7 @@ namespace Weapons.Projectiles.Behaviours
 		private Gun weapon;
 		private BodyPartType targetZone;
 
-		[SerializeField] private ConditionsTileArray hitInteractTileConditions;
+		[SerializeField] private ConditionsTileArray hitInteractTileConditions = null;
 
 		[SerializeField] private int maxHitCount = 4;
 		private int currentCount = 0;

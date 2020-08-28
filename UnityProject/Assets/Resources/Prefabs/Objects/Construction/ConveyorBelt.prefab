@@ -71,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: 322132419
   m_SortingLayer: 2
   m_SortingOrder: 200
-  m_Sprite: {fileID: 21300000, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b741542666fee104e85d1e45811c983b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -96,16 +96,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
-  - {fileID: 11400000, guid: 28f81cfb5e6696c49ae986e31646c495, type: 2}
   - {fileID: 11400000, guid: b76152e634978fa468aa2f1870fdfccf, type: 2}
+  - {fileID: 11400000, guid: 28f81cfb5e6696c49ae986e31646c495, type: 2}
   - {fileID: 11400000, guid: e13c71d185e78764cba01b9bdc37027e, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 28f81cfb5e6696c49ae986e31646c495, type: 2}
+  - {fileID: 11400000, guid: 0c47d65ee8ed0a640820cb0e813bcc59, type: 2}
+  - {fileID: 11400000, guid: bba5a1a4e6330304ea49014d4a382e8c, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: b76152e634978fa468aa2f1870fdfccf, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
   Sprites:
   - Texture: {fileID: 2800000, guid: 52a1eac3dd200734087b556da4454cca, type: 3}
   - Texture: {fileID: 2800000, guid: b741542666fee104e85d1e45811c983b, type: 3}
   - Texture: {fileID: 2800000, guid: 7bad4c90f1043ac46a9f96b15276172b, type: 3}
-  variantIndex: 0
-  palette: []
 --- !u!1 &7144248469089430455
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,7 +238,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 20
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -256,7 +261,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 20
 --- !u!114 &3348285834374005981
 MonoBehaviour:
   m_ObjectHideFlags: 0

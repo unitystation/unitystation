@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
-using System.Collections.Generic;
 using ScriptableObjects.Hacking;
-using YamlDotNet.Samples;
-using UnityEngine.Events;
 
 /// <summary>
-/// This is a controller for hacking an object. This compoenent being attached to an object means that the object is hackable.
+/// This is a controller for hacking an object. This component being attached to an object means that the object is hackable.
 /// It will check interactions with the object, and once the goal interactions have been met, it will open a hacking UI prefab.
 /// e.g. check if interacted with a screw driver, then check if
 /// </summary>

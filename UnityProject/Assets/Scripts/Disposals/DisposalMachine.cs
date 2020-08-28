@@ -6,10 +6,17 @@ namespace Disposals
 {
 	public enum InstallState
 	{
-		Unattached = 0, // default spawn state if no pipe terminal detected at spawn position,
-						// sprite rotated, can push around, must anchor with wrench
-		Anchored = 1, // can unanchor with wrench, can secure with welder
-		Secured = 2, // ready for interaction, can open ui, can unsecure with welder, can connect with screwdriver, can start accepting items
+		/// <summary>
+		/// Sprite rotated, can push around, must anchor with wrench.
+		/// Default spawn state if no pipe terminal detected at spawn position.
+		/// </summary>
+		Unattached = 0,
+		/// <summary> Can unanchor with wrench, can secure with welder. </summary>
+		Anchored = 1,
+		/// <summary>
+		/// Ready for interaction: can open UI, unsecure with welder, connect with screwdriver and accept items.
+		/// </summary>
+		Secured = 2
 	}
 
 	public abstract class DisposalMachine : NetworkBehaviour, IExaminable, ICheckedInteractable<PositionalHandApply> // Must it be positional?
@@ -24,8 +31,7 @@ namespace Disposals
 
 		protected PositionalHandApply currentInteraction;
 
-		[SyncVar(hook = nameof(OnSyncInstallState))]
-		protected InstallState installState = InstallState.Unattached;
+		private InstallState installState = InstallState.Unattached;
 		public bool MachineUnattached => installState == InstallState.Unattached;
 		public bool MachineAnchored => installState == InstallState.Anchored;
 		public bool MachineSecured => installState == InstallState.Secured;
@@ -33,7 +39,7 @@ namespace Disposals
 		public virtual bool MachineWrenchable => MachineUnattached || MachineAnchored;
 		public virtual bool MachineWeldable => MachineAnchored || MachineSecured;
 
-		#region Initialisation
+		#region Lifecycle
 
 		protected virtual void Awake()
 		{
@@ -56,8 +62,10 @@ namespace Disposals
 				yield return WaitFor.EndOfFrame;
 			}
 
-			if (PipeTerminalExists()) SpawnMachineAsInstalled();
-			UpdateSpriteConstructionState();
+			if (PipeTerminalExists())
+			{
+				SpawnMachineAsInstalled();
+			}
 		}
 
 		/// <summary>
@@ -69,22 +77,7 @@ namespace Disposals
 			objectBehaviour.ServerSetPushable(false);
 		}
 
-		public override void OnStartClient()
-		{
-			UpdateSpriteConstructionState();
-		}
-
-		#endregion Initialisation
-
-		#region Sync
-
-		void OnSyncInstallState(InstallState oldState, InstallState newState)
-		{
-			installState = newState;
-			UpdateSpriteConstructionState();
-		}
-
-		#endregion Sync
+		#endregion Lifecycle
 
 		#region Sprites
 
@@ -190,7 +183,6 @@ namespace Disposals
 			return false;
 		}
 
-		// Why just these protected? Move interactions here? Consider that?
 		protected void TryUseWrench()
 		{
 			string finishPerformerMsg, finishOthersMsg;
@@ -212,15 +204,20 @@ namespace Disposals
 							$"{objectAttributes.InitialName} to the {PIPE_TERMINAL_NAME}.";
 			}
 
-			ToolUtils.ServerUseToolWithActionMessages(currentInteraction, 0, "", "", finishPerformerMsg, finishOthersMsg, () => UseWrench());
+			ToolUtils.ServerUseToolWithActionMessages(currentInteraction, 0, "", "", finishPerformerMsg, finishOthersMsg, UseWrench);
 		}
 
 		void UseWrench()
 		{
-			//objectBehaviour.ServerSetAnchored(!objectBehaviour.IsPushable, currentInteraction.Performer);
 			objectBehaviour.ServerSetPushable(!objectBehaviour.IsPushable);
-			if (objectBehaviour.IsPushable) installState = InstallState.Unattached;
-			else installState = InstallState.Anchored;
+			if (objectBehaviour.IsPushable)
+			{
+				SetInstallState(InstallState.Unattached);
+			}
+			else
+			{
+				SetInstallState(InstallState.Anchored);
+			}
 		}
 
 		protected void TryUseWelder()
@@ -255,7 +252,7 @@ namespace Disposals
 			ToolUtils.ServerUseToolWithActionMessages(
 					currentInteraction, WELD_TIME,
 					startPerformerMsg, startOthersMsg, finishPerformerMsg, finishOthersMsg,
-					() => UseWelder()
+					 UseWelder
 			);
 		}
 
@@ -270,13 +267,19 @@ namespace Disposals
 		// Virtual, so specific machines can run logic when installation occurs.
 		protected virtual void SetMachineInstalled()
 		{
-			installState = InstallState.Secured;
+			SetInstallState(InstallState.Secured);
 		}
 
 		// Virtual, so specific machines can run logic when uninstallation occurs.
 		protected virtual void SetMachineUninstalled()
 		{
-			installState = InstallState.Anchored;
+			SetInstallState(InstallState.Anchored);
+		}
+
+		private void SetInstallState(InstallState newInstallState)
+		{
+			installState = newInstallState;
+			UpdateSpriteConstructionState();
 		}
 
 		#endregion Construction

@@ -1,31 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &8469091460828482844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1637793186427787921}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 1
-  SubCatalogue:
-  - {fileID: 11400000, guid: 689094875fd0df8419231bf0fdbe1452, type: 2}
-  - {fileID: 11400000, guid: 83afc2d4d1938654c8c33cb843c30162, type: 2}
-  - {fileID: 11400000, guid: 8bda0a38a29a3a5468d76571b70d45c6, type: 2}
-  - {fileID: 11400000, guid: 3b7feb912342dfe49b533b894142bbcd, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 3b7feb912342dfe49b533b894142bbcd, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: e9df4be7bb1ed5d42a347d99dbcd4147, type: 3}
-  - Texture: {fileID: 2800000, guid: ef29a5ef1583c5f4b92b96d3a3ab88d9, type: 3}
-  - Texture: {fileID: 2800000, guid: 379eb1cc18d837a45b27b22619d6175e, type: 3}
-  - Texture: {fileID: 2800000, guid: e01b2ff042a47914091952e5e0cd7374, type: 3}
-  variantIndex: 0
-  palette: []
 --- !u!114 &3714082574942529750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,7 +109,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 8469091460828482844}
+  spriteHandler: {fileID: 0}
   _APCPoweredDevice: {fileID: 5794580443693233542}
   ChargingWatts: 0
 --- !u!1001 &7797068074463247659
@@ -221,6 +195,93 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3558259718671294003, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Sprites.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b7feb912342dfe49b533b894142bbcd,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 83afc2d4d1938654c8c33cb843c30162,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8bda0a38a29a3a5468d76571b70d45c6,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 2c611e5a9ef34d34bbfebbe135d28c21,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3b7feb912342dfe49b533b894142bbcd,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Sprites.Array.data[0].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: e9df4be7bb1ed5d42a347d99dbcd4147, type: 3}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Sprites.Array.data[1].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: ef29a5ef1583c5f4b92b96d3a3ab88d9, type: 3}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Sprites.Array.data[2].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 379eb1cc18d837a45b27b22619d6175e, type: 3}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: Sprites.Array.data[3].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: e01b2ff042a47914091952e5e0cd7374, type: 3}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 689094875fd0df8419231bf0fdbe1452,
+        type: 2}
+    - target: {fileID: 5212070883374448474, guid: b06b702714bab49b9ad949eab1ca4534,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 623273e85261b404db61ca2e875fda7e,
+        type: 2}
     - target: {fileID: 7971921043980192432, guid: b06b702714bab49b9ad949eab1ca4534,
         type: 3}
       propertyPath: initialName
@@ -246,12 +307,6 @@ PrefabInstance:
 --- !u!1 &7363612023958579371 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 721717256067945856, guid: b06b702714bab49b9ad949eab1ca4534,
-    type: 3}
-  m_PrefabInstance: {fileID: 7797068074463247659}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1637793186427787921 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8831097227523844026, guid: b06b702714bab49b9ad949eab1ca4534,
     type: 3}
   m_PrefabInstance: {fileID: 7797068074463247659}
   m_PrefabAsset: {fileID: 0}

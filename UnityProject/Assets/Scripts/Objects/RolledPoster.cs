@@ -1,5 +1,5 @@
-using Mirror;
 using UnityEngine;
+using Mirror;
 
 public class RolledPoster : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 {
