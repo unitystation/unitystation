@@ -15,11 +15,11 @@ public class Loom : NetworkBehaviour, ICheckedInteractable<HandApply>
 	
 	[Tooltip("When raw cotton bundles are processed, this will be created.")]
 	[SerializeField]
-	private GameObject cottonSheet;
+	private GameObject cottonSheet = null;
 
 	[Tooltip("When raw durathread bundles are processed, this will be created.")]
 	[SerializeField]
-	private GameObject durathreadSheet;
+	private GameObject durathreadSheet = null;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{

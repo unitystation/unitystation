@@ -8,7 +8,7 @@ public class CottonBundle : MonoBehaviour, ICheckedInteractable<HandActivate>
 
 	[Tooltip("What you get when you use this in your hand.")]
 	[SerializeField]
-	private GameObject result;
+	private GameObject result = null;
 
     private int seedModifier;
 
