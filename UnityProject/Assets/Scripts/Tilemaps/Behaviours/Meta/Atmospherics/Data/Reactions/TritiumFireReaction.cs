@@ -19,8 +19,6 @@ namespace Atmospherics
 			var energyReleased = 0f;
 			var oldHeatCap = gasMix.WholeHeatCapacity;
 
-			var temperatureScale = 1f;
-
 			var burnedFuel = 0f;
 
 			if (gasMix.GetMoles(Gas.Oxygen) < gasMix.GetMoles(Gas.Tritium) || AtmosDefines.MINIMUM_TRIT_OXYBURN_ENERGY > gasMix.InternalEnergy)

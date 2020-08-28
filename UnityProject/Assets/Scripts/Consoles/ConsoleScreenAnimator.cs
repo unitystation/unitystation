@@ -7,7 +7,6 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 {
 	private bool isOn;
 
-	private bool isAnimating = false;
 	public SpriteHandler SpriteHandlerHere
 	{
 		get
