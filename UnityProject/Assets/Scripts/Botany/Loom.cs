@@ -31,6 +31,8 @@ public class Loom : NetworkBehaviour, ICheckedInteractable<HandApply>
 		//only try to interact if the user has at least 4 bundles.
 		if (Validations.HasItemTrait(ObjectInHand, CommonTraits.Instance.Loomable)&&
 			(ObjectInHand.GetComponent<Stackable>().Amount >= bundles)) { return true; }
+		//if there aren't enough bundles to make a roll, the the user.
+		Chat.AddExamineMsgFromServer(interaction.Performer, "You do not enough enough bundles to make a roll!");
 		return false;
 	}
 	public void ServerPerformInteraction(HandApply interaction)
