@@ -10,7 +10,7 @@ using Mirror;
 /// Otherwise, any food item that doesn't have the cookable component will be cooked using
 /// the legacy way, of converting to cooked when the microwave's timer finishes.
 /// </summary>
-public class Microwave : NetworkBehaviour, IAPCPowered, IServerDespawn
+public class Microwave : NetworkBehaviour, IAPCPowered
 {
 	private const int MAX_TIMER_TIME = 60; // Seconds
 	private const float DIRTY_CHANCE_PER_FINISH = 10; // Percent
@@ -60,6 +60,11 @@ public class Microwave : NetworkBehaviour, IAPCPowered, IServerDespawn
 
 	private void Awake()
 	{
+		EnsureInit();
+	}
+
+	private void EnsureInit()
+	{
 		registerTile = GetComponent<RegisterTile>();
 		spriteHandler = GetComponentInChildren<SpriteHandler>();
 		storage = GetComponent<ItemStorage>();
@@ -76,11 +81,6 @@ public class Microwave : NetworkBehaviour, IAPCPowered, IServerDespawn
 	private void OnDisable()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
-
-	public void OnDespawnServer(DespawnInfo info)
-	{
-		Inventory.ServerDrop(storageSlot);
 	}
 
 	#endregion Lifecycle
@@ -143,6 +143,7 @@ public class Microwave : NetworkBehaviour, IAPCPowered, IServerDespawn
 	/// <param name="state">The power state to set the microwave's state with.</param>
 	public void StateUpdate(PowerStates state)
 	{
+		EnsureInit(); // This method could be called before the component's Awake().
 		currentState.PowerStateUpdate(state);
 	}
 

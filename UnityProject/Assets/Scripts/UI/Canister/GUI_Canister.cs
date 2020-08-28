@@ -451,11 +451,6 @@ public class GUI_Canister : NetTab
 		}
 	}
 
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
-
 	public void EjectExternalTank()
 	{
 		Canister canister = Provider.GetComponent<Canister>();

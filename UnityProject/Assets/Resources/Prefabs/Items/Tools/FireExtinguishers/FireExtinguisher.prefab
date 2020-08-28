@@ -5017,7 +5017,7 @@ MonoBehaviour:
   registerItem: {fileID: 7800578374368079781}
   pickupable: {fileID: 7800624420709097799}
   reagentsPerUse: 5
-  spriteRenderer: {fileID: 8008699943347289445}
+  spriteRenderer: {fileID: 7914790827377032573}
   spriteSync: 0
   spriteList:
   - {fileID: 21300000, guid: 65bae883a79671342ba887b2c584674c, type: 3}
@@ -5268,9 +5268,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: da74f7e1b82ede541abc3d3bd88ece23,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: da74f7e1b82ede541abc3d3bd88ece23,
+        type: 2}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 666968a3b9531a74c87377716fe13c05,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}

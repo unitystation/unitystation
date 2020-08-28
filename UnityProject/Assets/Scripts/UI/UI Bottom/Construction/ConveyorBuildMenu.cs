@@ -1,34 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Construction;
 using UnityEngine;
 
-public class ConveyorBuildMenu : MonoBehaviour
+namespace Construction.Conveyors
 {
-	private BuildingMaterial materials;
-	private BuildList.Entry entry;
-
-	public void OpenConveyorBuildMenu(BuildList.Entry entry, BuildingMaterial materials)
+	public class ConveyorBuildMenu : MonoBehaviour
 	{
-		this.materials = materials;
-		this.entry = entry;
-		gameObject.SetActive(true);
-	}
+		private BuildingMaterial materials;
+		private BuildList.Entry entry;
 
-	public void TryBuildBelt(int direction)
-	{
-		SoundManager.Play("Click01");
-		CloseWindow();
-		RequestConveyorBuildMessage.Send(entry, materials, (ConveyorBelt.ConveyorDirection) direction);
-	}
+		public void OpenConveyorBuildMenu(BuildList.Entry entry, BuildingMaterial materials)
+		{
+			this.materials = materials;
+			this.entry = entry;
+			gameObject.SetActive(true);
+		}
 
-	public void GoToMainMenu()
-	{
-		UIManager.BuildMenu.ShowBuildMenu(materials);
-	}
+		public void TryBuildBelt(int direction)
+		{
+			SoundManager.Play("Click01");
+			CloseWindow();
+			RequestConveyorBuildMessage.Send(entry, materials, (ConveyorBelt.ConveyorDirection)direction);
+		}
 
-	public void CloseWindow()
-	{
-		gameObject.SetActive(false);
+		public void GoToMainMenu()
+		{
+			UIManager.BuildMenu.ShowBuildMenu(materials);
+		}
+
+		public void CloseWindow()
+		{
+			gameObject.SetActive(false);
+		}
 	}
 }

@@ -1,54 +1,47 @@
-﻿using System.Collections;
-using Mirror;
+﻿using System;
 using UnityEngine;
 
-public class Charger : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowered
+public class Charger : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowered
 {
-	private bool IsCharging;
-	private ItemSlot ChargingSlot;
 	private ItemStorage itemStorage;
+	private ItemSlot ChargingSlot;
 
 	private ElectricalMagazine electricalMagazine;
 
-	public SpriteHandler spriteHandler;
-	public APCPoweredDevice _APCPoweredDevice;
+	[SerializeField]
+	private APCPoweredDevice _APCPoweredDevice = default;
+	private SpriteHandler spriteHandler;
 
-
-	public int ChargingWatts;
+	private int ChargingWatts;
 	private Battery battery;
 
-	[SyncVar(hook = nameof(SyncState))]
-	private ChargeState chargeState;
-
-
-	public enum ChargeState
-	{
-		Off = 0,
-		Charging,
-		Charged,
-		NoCharging
-	}
-
-	private void SyncState(ChargeState old, ChargeState newState)
-	{
-		if (old != newState)
-		{
-			chargeState = newState;
-			spriteHandler.ChangeSprite((int)chargeState);
-		}
-	}
-
-	// Start is called before the first frame update
-	void Start()
-	{
-		SyncState(chargeState, chargeState);
-	}
+	#region Lifecycle
 
 	private void Awake()
 	{
+		spriteHandler = GetComponentInChildren<SpriteHandler>();
 		itemStorage = GetComponent<ItemStorage>();
 		ChargingSlot = itemStorage.GetIndexedItemSlot(0);
 	}
+
+	private void OnDisable()
+	{
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+	}
+
+	#endregion Lifecycle
+
+	public enum SpriteState
+	{
+		Idle = 0,
+		Charging = 1,
+		Charged = 2,
+		Error = 3,
+		Off = 4,
+		Open = 5
+	}
+
+	#region Interaction
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -65,6 +58,8 @@ public class Charger : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPo
 	{
 		if (ChargingSlot.Item && interaction.UsedObject == null)
 		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
+
 			if (interaction.HandSlot.Item == null)
 			{
 				Inventory.ServerTransfer(ChargingSlot,interaction.HandSlot);
@@ -75,9 +70,8 @@ public class Charger : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPo
 			}
 
 			battery = null;
-			IsCharging = false;
 			electricalMagazine = null;
-			SyncState(chargeState,ChargeState.Off);
+			SetSprite(SpriteState.Idle);
 			_APCPoweredDevice.Resistance = 99999;
 		}
 		else if (ChargingSlot.Item == null && interaction.UsedObject != null)
@@ -90,69 +84,59 @@ public class Charger : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPo
 			if (battery != null)
 			{
 				_APCPoweredDevice.Resistance = battery.InternalResistance;
-				SyncState(chargeState,ChargeState.Charging);
-				CheckCharging();
-				StartCoroutine(Recharge());
+				UpdateManager.Add(UpdateMe, 1);
+				UpdateMe();
 			}
 		}
 	}
 
-	public void Charge()
+	#endregion Interaction
+
+	private void UpdateMe()
+	{
+		CheckCharging();
+	}
+
+	private void CheckCharging()
+	{
+		if (battery.Watts < battery.MaxWatts)
+		{
+			if (ChargingWatts == 0)
+			{
+				SetSprite(SpriteState.Error);
+				return;
+			}
+
+			SetSprite(SpriteState.Charging);
+			AddCharge();
+		}
+		else
+		{
+			SetSprite(SpriteState.Charged);
+		}
+	}
+
+	private void AddCharge()
 	{
 		battery.Watts += ChargingWatts;
-		if (battery.MaxWatts < battery.Watts)
-		{
-			battery.Watts = battery.MaxWatts;
-		}
 
 		if (electricalMagazine != null)
 		{
 			//For electrical guns
 			electricalMagazine.AddCharge();
 		}
-
-		CheckCharging();
 	}
 
-	private void CheckCharging()
+	private void SetSprite(SpriteState newState)
 	{
-		if (battery.MaxWatts > battery.Watts)
-		{
-			IsCharging = true;
-			if (ChargingWatts == 0)
-			{
-				SyncState(chargeState,ChargeState.NoCharging);
-			}
-			else
-			{
-				if (chargeState != ChargeState.Charging)
-				{
-					SyncState(chargeState,ChargeState.Charging);
-				}
-			}
-		}
-		else
-		{
-			SyncState(chargeState,ChargeState.Charged);
-			IsCharging = false;
-		}
-	}
-
-	private IEnumerator Recharge()
-	{
-		yield return WaitFor.Seconds(1f);
-		if (IsCharging)
-		{
-			Charge();
-			StartCoroutine(Recharge());
-		}
+		spriteHandler.ChangeSprite((int) newState);
 	}
 
 	public void PowerNetworkUpdate(float Voltage)
 	{
 		if (battery != null)
 		{
-			ChargingWatts = Mathf.RoundToInt((Voltage / battery.InternalResistance)*Voltage);
+			ChargingWatts = Mathf.RoundToInt((Voltage / battery.InternalResistance) * Voltage);
 			_APCPoweredDevice.Resistance = battery.InternalResistance;
 		}
 	}

@@ -6,63 +6,51 @@ using Mirror;
 using Chemistry.Components;
 
 [RequireComponent(typeof(Pickupable))]
-public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
+public class FireExtinguisher : NetworkBehaviour,
 	IInteractable<HandActivate>,
 	ICheckedInteractable<AimApply>
 {
-	bool safety = true;
-	public int travelDistance = 6;
-	private float travelTime => 1f / travelDistance;
-	public ReagentContainer reagentContainer;
-	public RegisterItem registerItem;
-	public Pickupable pickupable;
+	[SerializeField]
+	[Range(1, 20)]
+	private int travelDistance = 6;
 
 	[SerializeField]
 	[Range(1, 50)]
 	private int reagentsPerUse = 1;
 
-	public SpriteRenderer spriteRenderer;
-	[SyncVar(hook = nameof(SyncSprite))] public int spriteSync;
-	public Sprite[] spriteList;
+	[SerializeField]
+	private ReagentContainer reagentContainer = default;
 
-	private DateTime clientLastInteract = DateTime.Now;
+	private SpriteHandler spriteHandler;
 
-	public override void OnStartClient()
+	private float TravelTime => 1f / travelDistance;
+
+	bool safety = true;
+	private DateTime clientLastInteract = DateTime.Now;	
+
+	private enum SpriteState
 	{
-		EnsureInit();
-		SyncSprite(spriteSync, spriteSync);
+		SafetyOn = 0,
+		SafetyOff = 1
 	}
 
 	public void Awake()
 	{
-		EnsureInit();
+		spriteHandler = GetComponentInChildren<SpriteHandler>();
 	}
 
-	private void EnsureInit()
-	{
-		if (!pickupable)
-		{
-			pickupable = GetComponent<Pickupable>();
-		}
-	}
-
-	public void OnSpawnServer(SpawnInfo info)
-	{
-		safety = true;
-		SyncSprite(spriteSync, 0);
-	}
+	#region Interaction
 
 	public void ServerPerformInteraction(HandActivate interaction)
 	{
+		safety = !safety;
 		if (safety)
 		{
-			safety = false;
-			SyncSprite(spriteSync, 1);
+			spriteHandler.ChangeSprite((int) SpriteState.SafetyOn);
 		}
 		else
 		{
-			safety = true;
-			SyncSprite(spriteSync, 0);
+			spriteHandler.ChangeSprite((int) SpriteState.SafetyOff);
 		}
 	}
 
@@ -98,6 +86,8 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
 	}
 
+	#endregion Interaction;
+
 	/// <summary>
 	/// Returns the vectors that form a line parallel to the arguments
 	/// </summary>
@@ -129,23 +119,15 @@ public class FireExtinguisher : NetworkBehaviour, IServerSpawn,
 		for (int i = 0; i < positionList.Count; i++)
 		{
 			ExtinguishTile(positionList[i]);
-			yield return WaitFor.Seconds(travelTime);
+			yield return WaitFor.Seconds(TravelTime);
 		}
 	}
 
-	void ExtinguishTile(Vector3Int worldPos)
+	private void ExtinguishTile(Vector3Int worldPos)
 	{
 		reagentContainer.Spill(worldPos, reagentsPerUse);
 	}
 
-	public void SyncSprite(int oldValue, int value)
-	{
-		EnsureInit();
-		spriteSync = value;
-		spriteRenderer.sprite = spriteList[spriteSync];
-
-		pickupable.RefreshUISlotImage();
-	}
 	private List<Vector3Int> CheckPassableTiles(Vector2 startPos, Vector2 targetPos)
 	{
 		List<Vector3Int> passableTiles = new List<Vector3Int>();

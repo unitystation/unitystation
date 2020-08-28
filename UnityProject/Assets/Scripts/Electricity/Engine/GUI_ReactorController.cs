@@ -43,12 +43,6 @@ public class GUI_ReactorController : NetTab
 		UpdateManager.Add(Refresh, 1);
 	}
 
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
-
-
 	private void OnDisable()
 	{
 		if (CustomNetworkManager.Instance._isServer == false ) return;
@@ -94,7 +88,6 @@ public class GUI_ReactorController : NetTab
 		}
 	}
 
-
 	public float SetLogScale(float INNum)
 	{
 		if (INNum == 0)
@@ -112,14 +105,12 @@ public class GUI_ReactorController : NetTab
 		SetControlDepth();
 	}
 
-
 	private float SecondarySetControl = 1;
 	public void SecondarySetControlDepth(float Depth)
 	{
 		SecondarySetControl = Depth;
 		SetControlDepth();
 	}
-
 
 	/// <summary>
 	///  Set the control rod Depth percentage

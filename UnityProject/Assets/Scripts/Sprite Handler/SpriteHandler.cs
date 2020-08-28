@@ -58,6 +58,11 @@ public class SpriteHandler : MonoBehaviour
 	public event System.Action<Sprite> OnSpriteChanged;
 
 	/// <summary>
+	/// The amount of SubCatalogues defined for this SpriteHandler.
+	/// </summary>
+	public int CatalogueCount => SubCatalogue.Count;
+
+	/// <summary>
 	/// Current sprite from SpriteRender or Image
 	/// Null if sprite is hidden
 	/// </summary>

@@ -247,11 +247,6 @@ public class GUI_Autolathe : NetTab
 		nestedSwitcher.SetActivePage(pageToOpen);
 	}
 
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
-
 	private void OnDestroy()
 	{
 		Autolathe.MaterialsManipulated -= UpdateMaterialsDisplay;

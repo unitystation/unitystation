@@ -9,21 +9,20 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 {
 	public bool IsClosed;
 
-	[SyncVar(hook = nameof(SyncSprite))] private FireCabinetState stateSync;
-	public SpriteHandler spriteHandler;
-	public Sprite spriteClosed;
-	public Sprite spriteOpenedEmpty;
-	public Sprite spriteOpenedOccupied;
-
+	[SerializeField]
+	private SpriteHandler spriteHandler = default;
 	private ItemStorage storageObject;
 	private ItemSlot slot;
 
-	public enum FireCabinetState
+	private enum FireCabinetState
 	{
-		Closed,
-		OpenEmpty,
-		OpenOccupied,
+		Closed = 0,
+		OpenEmpty = 1,
+		OpenFull = 2,
+		/// <summary> OpenMini represents Open state containing pocket extinguisher. Not implemented. </summary>
+		OpenMini = 3
 	};
+
 	private void Awake()
 	{
 		EnsureInit();
@@ -67,14 +66,16 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 		if (interaction.IsAltClick)
 		{
 			if (!IsClosed)
+			{
 				Close();
+			}
 		}
 		else // Take out or put in object into cabinet.
 		{
-
 			if (IsClosed)
 			{
-				if(slot.Item != null && interaction.HandObject == null) {
+				if(slot.Item != null && interaction.HandObject == null)
+				{
 					ServerRemoveExtinguisher(interaction.HandSlot);
 				}
 				Open();
@@ -105,14 +106,13 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 				}
 			}
 		}
-
 	}
 
 	private void ServerRemoveExtinguisher(ItemSlot toSlot)
 	{
 		if (Inventory.ServerTransfer(slot, toSlot))
 		{
-			stateSync = FireCabinetState.OpenEmpty;
+			ServerSetState(FireCabinetState.OpenEmpty);
 		}
 	}
 
@@ -120,7 +120,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	{
 		if (Inventory.ServerTransfer(interaction.HandSlot, slot))
 		{
-			stateSync = FireCabinetState.OpenOccupied;
+			ServerSetState(FireCabinetState.OpenFull);
 		}
 	}
 
@@ -130,11 +130,11 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 		SoundManager.PlayAtPosition("OpenClose", transform.position, gameObject);
 		if (slot.Item != null)
 		{
-			stateSync = FireCabinetState.OpenOccupied;
+			ServerSetState(FireCabinetState.OpenFull);
 		}
 		else
 		{
-			stateSync = FireCabinetState.OpenEmpty;
+			ServerSetState(FireCabinetState.OpenEmpty);
 		}
 	}
 
@@ -142,24 +142,11 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	{
 		IsClosed = true;
 		SoundManager.PlayAtPosition("OpenClose", transform.position, gameObject);
-		stateSync = FireCabinetState.Closed;
+		ServerSetState(FireCabinetState.Closed);
 	}
 
-	public void SyncSprite(FireCabinetState stateOld, FireCabinetState stateNew)
+	private void ServerSetState(FireCabinetState newState)
 	{
-		stateSync = stateNew;
-		if (stateNew == FireCabinetState.Closed)
-		{
-			spriteHandler.SetSprite(spriteClosed);
-		}
-		else if (stateNew == FireCabinetState.OpenEmpty)
-		{
-			spriteHandler.SetSprite(spriteOpenedEmpty);
-		}
-		else if (stateNew == FireCabinetState.OpenOccupied)
-		{
-			spriteHandler.SetSprite(spriteOpenedOccupied);
-		}
+		spriteHandler.ChangeSprite((int) newState);
 	}
-
 }

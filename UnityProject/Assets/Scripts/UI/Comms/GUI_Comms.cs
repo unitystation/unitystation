@@ -285,9 +285,4 @@ public class GUI_Comms : NetTab
 	{
 		mainSwitcher.SetActivePage(menuPage);
 	}
-
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
 }

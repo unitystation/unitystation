@@ -10,16 +10,17 @@ GameObject:
   m_Component:
   - component: {fileID: 4734855229797344}
   - component: {fileID: 61344596048250936}
+  - component: {fileID: 114042349333397026}
   - component: {fileID: 114038174743996046}
   - component: {fileID: 114703946515217786}
-  - component: {fileID: 2612899668775311046}
-  - component: {fileID: 2731523975421391927}
-  - component: {fileID: 3919982737323789382}
-  - component: {fileID: 114042349333397026}
   - component: {fileID: 5103205208060466886}
   - component: {fileID: -1607867197496824203}
+  - component: {fileID: 8025540690505148928}
   - component: {fileID: 1908906372044386879}
   - component: {fileID: 3157373369197861252}
+  - component: {fileID: 3919982737323789382}
+  - component: {fileID: 2731523975421391927}
+  - component: {fileID: 2612899668775311046}
   m_Layer: 11
   m_Name: Transformer
   m_TagString: Untagged
@@ -70,6 +71,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114042349333397026
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
 --- !u!114 &114038174743996046
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104,7 +121,7 @@ MonoBehaviour:
   syncInterval: 0.1
   snapToGridOnStart: 1
   IsFixedMatrix: 0
---- !u!114 &2612899668775311046
+--- !u!114 &5103205208060466886
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -113,19 +130,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 949c77a5c6348e94e90d1c1a8f074e44, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModuleType: 0
-  ControllingNode: {fileID: 2731523975421391927}
-  TurnRatio: 250
-  InvertingTurnRatio: 0
-  VoltageLimiting: 3300
-  VoltageLimitedTo: 3300
-  HighsideConnections: 0b000000
-  LowsideConnections: 01000000
-  TreatComingFromNullAs: 0
---- !u!114 &2731523975421391927
+  isMeleeable: 1
+  butcherTime: 2
+  butcherSound: BladeSlice
+--- !u!114 &-1607867197496824203
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -134,18 +145,86 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  Node: {fileID: 3919982737323789382}
-  ApplianceType: 6
-  WireEndB: 3
-  WireEndA: 7
-  ListCanConnectTo: 010000000b000000
-  SelfDestruct: 0
-  Reactions: []
+  initialIntegrity: 100
+  soundOnHit: 
+  damageDeflection: 0
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &8025540690505148928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: electrical transformer
+  initialDescription: An electrical transformer. This one steps high voltage down
+    to medium voltage for station-wide transmission.
+  willHighlight: 1
+  exportCost: 50
+  exportName: 
+  exportMessage: 
+--- !u!114 &1908906372044386879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &3157373369197861252
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1575520830166772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 12c12df71c09fde4e83eba1917733b4a, type: 2}
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
+    type: 3}
+  machineBoardPrefab: {fileID: 3565926771059640241, guid: db23d828345b6744485ee266629dfe9d,
+    type: 3}
+  canNotBeDeconstructed: 0
+  secondsToScrewdrive: 2
 --- !u!114 &3919982737323789382
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,7 +260,7 @@ MonoBehaviour:
   registerTile: {fileID: 0}
   connected: 0
   Logall: 0
---- !u!114 &114042349333397026
+--- !u!114 &2731523975421391927
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -190,65 +269,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDirty: 0
-  sceneId: 0
-  serverOnly: 0
-  m_AssetId: 
---- !u!114 &5103205208060466886
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMeleeable: 1
-  butcherTime: 2
-  butcherSound: BladeSlice
---- !u!114 &-1607867197496824203
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Script: {fileID: 11500000, guid: f382852d80b4a434f9d53c414fc2d72b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  soundOnHit: 
-  Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-  Resistances:
-    LavaProof: 0
-    FireProof: 0
-    Flammable: 0
-    UnAcidable: 0
-    AcidProof: 0
-    Indestructable: 0
-    FreezeProof: 0
-  HeatResistance: 100
-  initialIntegrity: 100
---- !u!114 &1908906372044386879
+  Node: {fileID: 3919982737323789382}
+  ApplianceType: 6
+  WireEndB: 3
+  WireEndA: 7
+  ListCanConnectTo: 010000000b000000
+  SelfDestruct: 0
+  Reactions: []
+--- !u!114 &2612899668775311046
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -257,28 +290,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1575520830166772}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Script: {fileID: 11500000, guid: 949c77a5c6348e94e90d1c1a8f074e44, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &3157373369197861252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1575520830166772}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MachineParts: {fileID: 11400000, guid: 12c12df71c09fde4e83eba1917733b4a, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
-  machineBoardPrefab: {fileID: 3565926771059640241, guid: db23d828345b6744485ee266629dfe9d,
-    type: 3}
-  canNotBeDeconstructed: 0
-  secondsToScrewdrive: 2
+  ModuleType: 0
+  ControllingNode: {fileID: 2731523975421391927}
+  TurnRatio: 250
+  InvertingTurnRatio: 0
+  VoltageLimiting: 3300
+  VoltageLimitedTo: 3300
+  HighsideConnections: 0b000000
+  LowsideConnections: 01000000
+  TreatComingFromNullAs: 0
 --- !u!1 &1744594665423798
 GameObject:
   m_ObjectHideFlags: 0
@@ -378,10 +401,11 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 0}
   PresentSpriteSet: {fileID: 0}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: c2088b604ffb10845a34477ca96f654f, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: c2088b604ffb10845a34477ca96f654f, type: 3}
 --- !u!1 &2215391653596606113
 GameObject:
   m_ObjectHideFlags: 0

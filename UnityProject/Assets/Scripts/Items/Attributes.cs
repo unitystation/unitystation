@@ -1,25 +1,21 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using IngameDebugConsole;
 using UnityEngine;
 using Mirror;
-using UnityEngine.Serialization;
-using Random = System.Random;
 
 
 [RequireComponent(typeof(Integrity))]
 [RequireComponent(typeof(CustomNetTransform))]
-public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExaminable
+public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 {
 
 	[Tooltip("Display name of this item when spawned.")]
 	[SerializeField]
 	private string initialName = null;
 
-	[SyncVar(hook = nameof(SyncArticleName))]
+	[SyncVar]
 	private string articleName;
 	/// <summary>
 	/// Current name
@@ -67,37 +63,13 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
 
-	[SyncVar(hook = nameof(SyncArticleDescription))]
+	[SyncVar]
 	private string articleDescription;
 
 	/// <summary>
 	/// Current description
 	/// </summary>
 	public string ArticleDescription => articleDescription;
-
-	public override void OnStartClient()
-	{
-		SyncArticleName(articleName, articleName);
-		SyncArticleDescription(articleDescription, articleDescription);
-		base.OnStartClient();
-	}
-
-
-	public virtual void OnSpawnServer(SpawnInfo info)
-	{
-		SyncArticleName(articleName, initialName);
-		SyncArticleDescription(articleDescription, initialDescription);
-	}
-
-	private void SyncArticleName(string oldName, string newName)
-	{
-		articleName = newName;
-	}
-
-	private void SyncArticleDescription(string oldDescription, string newDescription)
-	{
-		articleDescription = newDescription;
-	}
 
 	/// <summary>
 	/// When hovering over an object or item its name and description is shown as a tooltip on the bottom-left of the screen.
@@ -136,7 +108,6 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 
 		UIManager.SetToolTip = string.Empty;
 	}
-
 
 	// Sends examine event to all monobehaviors on gameobject - keep for now - TODO: integrate w shift examine
 	public void SendExamine()
@@ -177,16 +148,14 @@ public class Attributes : NetworkBehaviour, IRightClickable, IServerSpawn, IExam
 			.AddElement("Examine", OnExamine);
 	}
 
-
 	public void ServerSetArticleName(string newName)
 	{
-		SyncArticleName(articleName, newName);
+		articleName = newName;
 	}
 
 	[Server]
 	public void ServerSetArticleDescription(string desc)
 	{
-		SyncArticleDescription(articleDescription, desc);
+		articleDescription = desc;
 	}
-
 }

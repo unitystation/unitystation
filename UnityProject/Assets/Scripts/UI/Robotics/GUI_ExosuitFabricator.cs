@@ -234,11 +234,6 @@ public class GUI_ExosuitFabricator : NetTab
 		nestedSwitcher.SetActivePage(pageToOpen);
 	}
 
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
-
 	private void OnDestroy()
 	{
 		ExosuitFabricator.MaterialsManipulated -= UpdateMaterialsDisplay;

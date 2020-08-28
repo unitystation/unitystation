@@ -366,6 +366,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4552222611090834}
   - component: {fileID: 212599920820597512}
+  - component: {fileID: 5787128111152746299}
   m_Layer: 0
   m_Name: Sprite
   m_TagString: Untagged
@@ -437,6 +438,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5787128111152746299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1161029308456310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 978c2be3703d9bd4ca7a8a187ba5a327, type: 2}
+  - {fileID: 11400000, guid: 3d0bb4d0b1bf23b4ebf4c743845271dc, type: 2}
+  - {fileID: 11400000, guid: 04aab938d3b952f4c836fb603ccaa46c, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 978c2be3703d9bd4ca7a8a187ba5a327, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &1642589051554738
 GameObject:
   m_ObjectHideFlags: 0
@@ -5201,19 +5224,22 @@ GameObject:
   m_Component:
   - component: {fileID: 4297268230046392}
   - component: {fileID: 61778593853642650}
+  - component: {fileID: 114904772816368656}
   - component: {fileID: 114738137265545768}
-  - component: {fileID: 2031766418865421906}
   - component: {fileID: 114537316452419530}
-  - component: {fileID: 114093731737732554}
+  - component: {fileID: 2031766418865421906}
+  - component: {fileID: 1348606562097783112}
+  - component: {fileID: 3535876737568715888}
+  - component: {fileID: -3599987768168059985}
+  - component: {fileID: 7951845945411301283}
+  - component: {fileID: 114102132577365772}
   - component: {fileID: 820786687953803850}
+  - component: {fileID: 2256282160280969908}
+  - component: {fileID: 4667894046416146223}
   - component: {fileID: 7281671087508858390}
   - component: {fileID: 6324674111779620640}
   - component: {fileID: 579887912259031821}
-  - component: {fileID: 114102132577365772}
-  - component: {fileID: 114904772816368656}
-  - component: {fileID: 1348606562097783112}
-  - component: {fileID: -3599987768168059985}
-  - component: {fileID: 7951845945411301283}
+  - component: {fileID: 114093731737732554}
   m_Layer: 11
   m_Name: PowerGeneratorPlasma
   m_TagString: Untagged
@@ -5265,6 +5291,22 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &114904772816368656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
 --- !u!114 &114738137265545768
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5283,21 +5325,6 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
---- !u!114 &2031766418865421906
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853426429102140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isMeleeable: 1
-  butcherTime: 2
-  butcherSound: BladeSlice
 --- !u!114 &114537316452419530
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5314,7 +5341,7 @@ MonoBehaviour:
   syncInterval: 0.1
   snapToGridOnStart: 1
   IsFixedMatrix: 0
---- !u!114 &114093731737732554
+--- !u!114 &2031766418865421906
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5323,27 +5350,114 @@ MonoBehaviour:
   m_GameObject: {fileID: 1853426429102140}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da4a35ac83c48864898817a319fae506, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isMeleeable: 1
+  butcherTime: 2
+  butcherSound: BladeSlice
+--- !u!114 &1348606562097783112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  objectBehaviour: {fileID: 820786687953803850}
-  isSecured: 0
-  startSecured: 0
-  startAsOn: 0
-  generatorSecuredSprite: {fileID: 21300000, guid: 94d4fea9ba039594f8e666d858b9afc1,
+  initialIntegrity: 300
+  soundOnHit: 
+  damageDeflection: 0
+  Armor:
+    Melee: 0
+    Bullet: 0
+    Laser: 0
+    Energy: 0
+    Bomb: 0
+    Rad: 0
+    Fire: 0
+    Acid: 0
+    Magic: 0
+    Bio: 0
+  Resistances:
+    LavaProof: 0
+    FireProof: 0
+    Flammable: 0
+    UnAcidable: 0
+    AcidProof: 0
+    Indestructable: 0
+    FreezeProof: 0
+  HeatResistance: 100
+--- !u!114 &3535876737568715888
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: portable generator
+  initialDescription: A portable generator for emergency backup power.
+  willHighlight: 1
+  exportCost: 50
+  exportName: 
+  exportMessage: 
+--- !u!114 &-3599987768168059985
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7951845945411301283
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MachineParts: {fileID: 11400000, guid: 52fff1ebf0dfdce40beab5e2d39dd722, type: 2}
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  generatorOnSprite: {fileID: 21300000, guid: fa903ffb4c7aa7a49934fda16b93f2b6, type: 3}
-  generatorUnSecuredSprite: {fileID: 21300000, guid: 1938d68cf014593418170d935cc445d5,
+  machineBoardPrefab: {fileID: 4184383661120845852, guid: 23ae18d4d92f03a4faba5c8e2e04ab49,
     type: 3}
-  spriteRend: {fileID: 212599920820597512}
-  generatorRunSfx: {fileID: 82901662514687406}
-  generatorEndSfx: {fileID: 82174488758175454}
-  smokeParticles: {fileID: 198581407923697672}
-  plasmaFuel: []
-  isOn: 0
-  ElectricalNodeControl: {fileID: 6324674111779620640}
+  canNotBeDeconstructed: 0
+  secondsToScrewdrive: 2
+--- !u!114 &114102132577365772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteMatrixRotationBehavior: 1
+  ignoreExtraRotation: []
 --- !u!114 &820786687953803850
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5368,6 +5482,41 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2256282160280969908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 48487dad7f2bc0541964880f6187c474, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  stateSecuredStatus: 1
+  RequireFloorPlatingExposed: 0
+  secondsToSecure: 0
+  secondsToUnsecure: 0
+--- !u!114 &4667894046416146223
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1853426429102140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 2c004a22c0d6abf47880f2e3e86d62fe,
+    type: 2}
+  itemStoragePopulator: {fileID: 0}
 --- !u!114 &7281671087508858390
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5465,21 +5614,7 @@ MonoBehaviour:
   InternalResistance: 76000
   PreviousProducingWatts: 0
   ProducingWatts: 0
---- !u!114 &114102132577365772
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853426429102140}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d06639902572409c80160fe696467bed, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  spriteMatrixRotationBehavior: 1
-  ignoreExtraRotation: []
---- !u!114 &114904772816368656
+--- !u!114 &114093731737732554
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -5488,77 +5623,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1853426429102140}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isDirty: 0
-  sceneId: 0
-  serverOnly: 0
-  m_AssetId: 
---- !u!114 &1348606562097783112
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853426429102140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f24590037b6b486082fc874d1bfd9d95, type: 3}
+  m_Script: {fileID: 11500000, guid: da4a35ac83c48864898817a319fae506, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  soundOnHit: 
-  Armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
-  Resistances:
-    LavaProof: 0
-    FireProof: 0
-    Flammable: 0
-    UnAcidable: 0
-    AcidProof: 0
-    Indestructable: 0
-    FreezeProof: 0
-  HeatResistance: 100
-  initialIntegrity: 300
---- !u!114 &-3599987768168059985
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853426429102140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &7951845945411301283
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1853426429102140}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec392d028bea6ad43b1fa1cbc45394ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  MachineParts: {fileID: 11400000, guid: 52fff1ebf0dfdce40beab5e2d39dd722, type: 2}
-  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
-    type: 3}
-  machineBoardPrefab: {fileID: 4184383661120845852, guid: 23ae18d4d92f03a4faba5c8e2e04ab49,
-    type: 3}
-  canNotBeDeconstructed: 0
-  secondsToScrewdrive: 2
+  startAsOn: 0
+  PlasmaConsumptionRate: 0.02
+  generatorRunSfx: {fileID: 82901662514687406}
+  generatorEndSfx: {fileID: 82174488758175454}
+  smokeParticles: {fileID: 198581407923697672}
