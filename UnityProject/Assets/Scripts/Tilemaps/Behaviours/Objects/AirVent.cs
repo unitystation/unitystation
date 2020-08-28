@@ -53,6 +53,11 @@ namespace Pipes
 				return;
 			}
 
+			if (metaNode.GasMix.Pressure == 0)
+			{
+				return;
+			}
+
 			float Available =
 				((MaxOutletPressure / metaNode.GasMix.Pressure) * metaNode.GasMix.Moles) - metaNode.GasMix.Moles;
 
@@ -75,7 +80,6 @@ namespace Pipes
 					Available = pipeData.mixAndVolume.Total.y;
 				}
 			}
-
 
 			var Gasonnnode = metaNode.GasMix;
 			var pipeMix = new GasMix(GasMixes.Empty);

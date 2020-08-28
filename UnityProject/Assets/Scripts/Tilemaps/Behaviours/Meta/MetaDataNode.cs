@@ -11,7 +11,7 @@ using UnityEngine;
 /// <summary>
 /// Holds all of the metadata associated with an individual tile, such as for atmospherics simulation, damage.
 /// </summary>
-public class MetaDataNode//: //IGasMixContainer
+public class MetaDataNode : IGasMixContainer
 {
 	public static readonly MetaDataNode None;
 

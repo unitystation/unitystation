@@ -390,11 +390,6 @@ namespace Pipes
 			Volume = Volume + mixAndVolume.Volume;
 			gasMix = gasMix + mixAndVolume.gasMix;
 			gasMix.ChangeVolumeValue(mixAndVolume.gasMix.Volume);
-
-			if (gasMix.Gases.Any(x => x < 0))
-			{
-				Logger.Log("0!!!");
-			}
 		}
 
 		public Tuple<ReagentMix, GasMix> Take(MixAndVolume InmixAndVolume, bool removeVolume = true)
@@ -409,11 +404,6 @@ namespace Pipes
 			}
 
 			var ReturnGasMix = gasMix.RemoveVolume(InmixAndVolume.gasMix.Volume);
-
-			if (gasMix.Gases.Any(x => x < 0))
-			{
-				Logger.Log("0!!!");
-			}
 
 			return new Tuple<ReagentMix, GasMix>(ReturnMix, ReturnGasMix);
 
@@ -430,10 +420,6 @@ namespace Pipes
 		{
 			Mix.RemoveVolume(ToRemove.x);
 			gasMix.RemoveMoles(ToRemove.y);
-			if (gasMix.Gases.Any(x => x < 0))
-			{
-				Logger.Log("0!!!");
-			}
 		}
 
 		public void Add(GasMix ToAdd)
@@ -447,10 +433,6 @@ namespace Pipes
 			gasMix = gasMix / DivideAmount;
 			gasMix.ChangeVolumeValue(gasMix.Volume-(gasMix.Volume / DivideAmount));
 			Volume = Volume / DivideAmount;
-			if (gasMix.Gases.Any(x => x < 0))
-			{
-				Logger.Log("0!!!");
-			}
 		}
 
 
@@ -521,11 +503,6 @@ namespace Pipes
 			if (float.IsNaN(amount.y) == false)
 			{
 				toTransfer.gasMix = toTransfer.gasMix + gasMix.RemoveMoles(amount.y);
-
-				if (toTransfer.gasMix.Gases.Any(x => x < 0))
-				{
-					Logger.Log("0!!!");
-				}
 			}
 		}
 
@@ -540,11 +517,6 @@ namespace Pipes
 			if (EqualiseGas)
 			{
 				PipeFunctions.PipeOrNet(Another).gasMix = gasMix.MergeGasMix(PipeFunctions.PipeOrNet(Another).gasMix);
-
-				if (gasMix.Gases.Any(x => x < 0))
-				{
-					Logger.Log("0!!!");
-				}
 			}
 
 			if (EqualiseLiquid)
@@ -576,10 +548,6 @@ namespace Pipes
 			if (EqualiseGas)
 			{
 				gasMix.MergeGasMixes(others);
-				if (gasMix.Gases.Any(x => x < 0))
-				{
-					Logger.Log("0!!!");
-				}
 			}
 
 			if (EqualiseLiquid)

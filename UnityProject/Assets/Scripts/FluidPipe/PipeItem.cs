@@ -27,7 +27,7 @@ namespace Pipes
 		public void SetRotation(float Oldz, float Newz)
 		{
 			Netz = Newz;
-			transform.eulerAngles.Set(transform.eulerAngles.x, transform.eulerAngles.y, Newz);
+			transform.eulerAngles =  new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, Newz);
 		}
 
 		public void Start()
