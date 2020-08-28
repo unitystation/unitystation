@@ -17,8 +17,6 @@ public class LavaLandRandomGenScript : MonoBehaviour
 
     public int numR;
 
-    private int count = 0;
-
     private int[,] terrainMap;
     public Vector3Int tmpSize;
     public Tilemap topMap;

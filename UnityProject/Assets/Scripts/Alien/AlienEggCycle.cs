@@ -24,6 +24,7 @@ namespace Alien
 		[SerializeField]
 		private EggState initialState = EggState.Growing;
 
+		// TODO This is entirely unused.
 		[Tooltip("Allows mappers to have eggs that won't start cycle once spawned, but are still intractable")][SerializeField]
 		private bool freezeCycle = false;
 
@@ -35,7 +36,7 @@ namespace Alien
 		private SpriteHandler spriteHandler;
 		private RegisterObject registerObject;
 		private ObjectAttributes objectAttributes;
-		private bool isAlive;
+		private bool isAlive; // TODO This is assigned, but not used
 		private float internalTimer = 0;
 		public EggState State => currentState;
 
