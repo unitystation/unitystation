@@ -29,7 +29,7 @@ public class ClothingV2 : NetworkBehaviour
 	private Pickupable myPickupable;
 
 	public List<SpriteDataSO> SpriteDataSO = new List<SpriteDataSO>();
-	private bool isAdjusted; // Nothing is assigning to this variable, not serialized so SpriteInfoState is always false.
+	private bool isAdjusted = false; // TODO Nothing is assigning to this variable, not serialized so SpriteInfoState is always false.
 	/// <summary>
 	/// Clothing item this is currently equipped to, if there is one. Will be updated when the data is synced.
 	/// </summary>

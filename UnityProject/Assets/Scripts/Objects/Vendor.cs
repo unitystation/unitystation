@@ -34,7 +34,7 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 
 	[Header("Text messages")]
 	[SerializeField]
-	private string restockMessage = "Items restocked.";
+	private string restockMessage = "Items restocked."; // TODO This is never displayed anywhere.
 	[SerializeField]
 	private string noAccessMessage = "Access denied!";
 

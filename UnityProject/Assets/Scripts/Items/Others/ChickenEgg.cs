@@ -14,7 +14,7 @@ namespace Items.Others
 		private int fertilizedChance = 0;
 
 		[SerializeField, Tooltip("How long until it hatches (or tries to)"), MinMaxSlider(0f, 999f)]
-		private Vector2 hatchingTime;
+		private Vector2 hatchingTime = Vector2.zero;
 
 		[SerializeField, Tooltip("Reference to the little chick object")]
 		private GameObject chick = null;

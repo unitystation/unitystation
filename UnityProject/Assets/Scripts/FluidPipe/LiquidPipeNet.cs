@@ -173,7 +173,8 @@ namespace Pipes
 	{
 		public override void TickUpdate()
 		{
-			float EnergyChange = 0;
+			// TODO Why was this commented out? Remove it or state a reason.
+			// float EnergyChange = 0;
 			// if (LiquidPipeNet.mixAndVolume.Mix.Total > 0)
 			// {
 				// var SmallMix = LiquidPipeNet.mixAndVolume.Mix.Clone();
