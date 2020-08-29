@@ -71,11 +71,6 @@ public class GUI_Cargo : NetTab
 		pageToOpen.GetComponent<GUI_CargoPage>().OpenTab();
 	}
 
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
-
 	public void ResetId()
 	{
 		cargoConsole.ResetID();

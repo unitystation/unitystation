@@ -8,7 +8,7 @@ namespace ScriptableObjects.Gun
 	[CreateAssetMenu(fileName = "LayerMaskData", menuName ="ScriptableObjects/Gun/LayerMaskData", order = 0)]
 	public class LayerMaskData : ScriptableObject
 	{
-		[SerializeField] private LayerMask layers;
+		[SerializeField] private LayerMask layers = default;
 
 		public LayerMask Layers => layers;
 	}

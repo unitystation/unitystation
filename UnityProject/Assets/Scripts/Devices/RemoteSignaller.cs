@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Atmospherics;
-using Chemistry;
 using UnityEngine;
 using Mirror;
-using UnityEngine.Events;
 
 [RequireComponent(typeof(Pickupable))]
 [RequireComponent(typeof(RadioMessager))]
@@ -20,14 +17,13 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 	private RadioReceiver radioReceiver;
 	private HackingDevice hackDevice;
 
-	[SyncVar(hook = nameof(SyncIsOn))]
-	private bool isOn;
+	[SyncVar]
+	private bool isOn = true;
 
 	/// <summary>
 	/// Is the signaler on?
 	/// </summary>
 	public bool IsOn => isOn;
-
 
 	void Awake()
 	{
@@ -51,13 +47,11 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 	public override void OnStartClient()
 	{
 		EnsureInit();
-		SyncIsOn(isOn, isOn);
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		EnsureInit();
-		SyncIsOn(isOn, true);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)
@@ -70,18 +64,13 @@ public class RemoteSignaller : NetworkBehaviour, IInteractable<HandActivate>, IS
 			}
 			else if (interaction.Intent == Intent.Disarm)
 			{
-				SyncIsOn(IsOn, !IsOn);
+				isOn = !isOn;
 			}
 			else if (interaction.Intent == Intent.Help)
 			{
 				//Ad frequency change code here.
 			}
 		}
-	}
-
-	private void SyncIsOn(bool _wasOn, bool _isOn)
-	{
-		isOn = _isOn;
 	}
 
 	/// <summary>

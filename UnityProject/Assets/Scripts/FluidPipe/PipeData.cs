@@ -143,7 +143,7 @@ namespace Pipes
 			foreach (var Pipe in ConnectedPipes)
 			{
 				if(Pipe == null) continue;
-				
+
 				Pipe.ConnectedRemove(this);
 
 				foreach (var Connection in Connections.Directions)

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +8,6 @@ using UnityEngine;
 /// Optimized, new GUI_IDConsole
 /// </summary>
 public class GUI_NukeWindow : NetTab
-
 {
 	private Coroutine corHandler;
 
@@ -166,7 +164,9 @@ public class GUI_NukeWindow : NetTab
 
 	#region Buttons
 
-	//Eject the nuke disk if it is containted within the nuke
+	/// <summary>
+	/// Eject the nuke disk if it is containted within the nuke.
+	/// </summary>
 	public void DiskButton()
 	{
 		if (nuke.NukeSlot.IsEmpty)
@@ -180,7 +180,9 @@ public class GUI_NukeWindow : NetTab
 		Clear();
 	}
 
-	//Toggle safety if the nuke disk has been inserted and the code has been entered
+	/// <summary>
+	/// Toggle safety if the nuke disk has been inserted and the code has been entered
+	/// </summary>
 	public void SafetyToggle()
 	{
 		if (nuke.NukeSlot.IsEmpty)
@@ -204,7 +206,9 @@ public class GUI_NukeWindow : NetTab
 		}
 	}
 
-//Toggle the nuke anchor if the disk has been inserted, the code has been input and the nuke can be anchored
+	/// <summary>
+	/// Toggle the nuke anchor if the disk has been inserted, the code has been input and the nuke can be anchored
+	/// </summary>
 	public void AnchorNukeButton()
 	{
 		if(!Nuke.IsAncharable)
@@ -231,7 +235,9 @@ public class GUI_NukeWindow : NetTab
 		}
 	}
 
-//Toggle the timer if the disk has been inserted
+	/// <summary>
+	/// Toggle the timer if the disk has been inserted
+	/// </summary>
 	public void TimerSetButton()
 	{
 		if (nuke.NukeSlot.IsEmpty)
@@ -261,7 +267,10 @@ public class GUI_NukeWindow : NetTab
 		}
 	}
 
-	//Code input
+	/// <summary>
+	/// Code input
+	/// </summary>
+	/// <param name="digit">The single digit to enter</param>
 	public void EnterDigit(char digit)
 	{
 		if (nuke.NukeSlot.IsEmpty)
@@ -350,11 +359,6 @@ public class GUI_NukeWindow : NetTab
 		}
 	}
 
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
-
 	#endregion
 
 	private string FormatTime(int timerSeconds)
@@ -388,6 +392,4 @@ public class GUI_NukeWindow : NetTab
 
 		InfoNukeDisplay.SetValueServer(strSet);
 	}
-
 }
-

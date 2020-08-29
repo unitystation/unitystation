@@ -242,9 +242,4 @@ public class GUI_IdConsoleOld : NetTab
 		pageSwitcher.SetActivePage(loginPage);
 		UpdateLoginCardName();
 	}
-
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
 }

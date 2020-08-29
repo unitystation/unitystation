@@ -14,9 +14,15 @@ namespace Disposals
 		DirectionalPassable directionalPassable;
 		DisposalVirtualContainer virtualContainer;
 
-		public bool IntakeOperating { get; private set; }
+		public bool IsOperating { get; private set; }
 
-		#region Initialisation
+		private enum SpriteState
+		{
+			Idle = 0,
+			Operating = 1
+		}
+
+		#region Lifecycle
 
 		protected override void Awake()
 		{
@@ -32,7 +38,6 @@ namespace Disposals
 
 		void Start()
 		{
-			UpdateSpriteState();
 			UpdateSpriteOrientation();
 		}
 
@@ -41,14 +46,14 @@ namespace Disposals
 			if (virtualContainer != null) Despawn.ServerSingle(virtualContainer.gameObject);
 		}
 
-		#endregion Initialisation
+		#endregion Lifecycle
 
 		// Woman! I can hardly express
 		// My mixed motions at my thoughtlessness
 		// TODO: Don't poll, find some sort of trigger for when an entity enters the same tile.
 		void UpdateMe()
 		{
-			if (!MachineSecured || IntakeOperating) return;
+			if (!MachineSecured || IsOperating) return;
 			GatherEntities();
 		}
 
@@ -59,7 +64,7 @@ namespace Disposals
 
 		void SetIntakeOperating(bool isOperating)
 		{
-			IntakeOperating = isOperating;
+			IsOperating = isOperating;
 			UpdateSpriteState();
 		}
 
@@ -67,8 +72,14 @@ namespace Disposals
 
 		void UpdateSpriteState()
 		{
-			if (IntakeOperating) baseSpriteHandler.ChangeSprite(1);
-			else baseSpriteHandler.ChangeSprite(0);
+			if (IsOperating)
+			{
+				baseSpriteHandler.ChangeSprite((int) SpriteState.Operating);
+			}
+			else
+			{
+				baseSpriteHandler.ChangeSprite((int) SpriteState.Idle);
+			}
 		}
 
 		void UpdateSpriteOrientation()
@@ -99,7 +110,7 @@ namespace Disposals
 			string baseString = "It";
 			if (FloorPlatingExposed()) baseString = base.Examine().TrimEnd('.') + " and";
 
-			if (IntakeOperating) return $"{baseString} is currently flushing its contents.";
+			if (IsOperating) return $"{baseString} is currently flushing its contents.";
 			else return $"{baseString} is ready for use.";
 		}
 

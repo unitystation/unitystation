@@ -215,10 +215,4 @@ public class GUI_IDConsole : NetTab
 		ServerUpdateLoginCardName();
 		ServerRemoveAccessCard();
 	}
-
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
 }
-

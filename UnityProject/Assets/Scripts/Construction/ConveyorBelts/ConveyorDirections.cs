@@ -1,10 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public static class ConveyorDirections
+namespace Construction.Conveyors
 {
-	public static Dictionary<ConveyorBelt.ConveyorDirection, Vector3> directionsForward =
-		new Dictionary<ConveyorBelt.ConveyorDirection, Vector3>()
+	public static class ConveyorDirections
+	{
+		public static Dictionary<ConveyorBelt.ConveyorDirection, Vector3> directionsForward =
+				new Dictionary<ConveyorBelt.ConveyorDirection, Vector3>()
 		{
 			{ConveyorBelt.ConveyorDirection.Up, Vector3.up},
 			{ConveyorBelt.ConveyorDirection.Right, Vector3.right},
@@ -20,8 +22,8 @@ public static class ConveyorDirections
 			{ConveyorBelt.ConveyorDirection.UpRight, Vector3.right}
 		};
 
-	public static Dictionary<ConveyorBelt.ConveyorDirection, Vector3> directionsBackward =
-		new Dictionary<ConveyorBelt.ConveyorDirection, Vector3>()
+		public static Dictionary<ConveyorBelt.ConveyorDirection, Vector3> directionsBackward =
+				new Dictionary<ConveyorBelt.ConveyorDirection, Vector3>()
 		{
 			{ConveyorBelt.ConveyorDirection.Up, Vector3.down},
 			{ConveyorBelt.ConveyorDirection.Right, Vector3.left},
@@ -36,4 +38,5 @@ public static class ConveyorDirections
 			{ConveyorBelt.ConveyorDirection.DownRight, Vector3.down},
 			{ConveyorBelt.ConveyorDirection.UpRight, Vector3.up}
 		};
+	}
 }

@@ -11,7 +11,7 @@ namespace Weapons.Projectiles.Behaviours
 		private IOnHit[] behavioursOnBulletHit;
 		private Vector2 direction;
 
-		[SerializeField] private LayerMask layersToHit;
+		[SerializeField] private LayerMask layersToHit = default;
 
 		private void Awake()
 		{

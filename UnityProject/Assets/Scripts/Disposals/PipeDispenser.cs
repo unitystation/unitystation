@@ -5,7 +5,7 @@ using Pipes;
 
 public class PipeDispenser : NetworkBehaviour
 {
-	const float ANIMATION_TIME = 2; // As per sprite sheet JSON file.
+	const float DISPENSING_TIME = 2; // As per sprite sheet JSON file.
 
 	ObjectBehaviour objectBehaviour;
 	WrenchSecurable securable;
@@ -14,9 +14,7 @@ public class PipeDispenser : NetworkBehaviour
 
 	Coroutine animationRoutine;
 
-	bool machineOperating = false;
-
-	public bool MachineOperating => machineOperating;
+	public bool MachineOperating { get; private set; } = false;
 
 	[SyncVar(hook = nameof(SyncObjectProperties))]
 	PipeObjectSettings newPipe;
@@ -26,6 +24,12 @@ public class PipeDispenser : NetworkBehaviour
 		LayerOne,
 		LayerTwo,
 		LayerThree
+	}
+
+	private enum SpriteState
+	{
+		Idle = 0,
+		Operating = 1
 	}
 
 	void Awake()
@@ -38,16 +42,16 @@ public class PipeDispenser : NetworkBehaviour
 		securable.OnAnchoredChange.AddListener(OnAnchoredChange);
 	}
 
-	void OnMachineStatusChange(bool oldState, bool newState)
-	{
-		machineOperating = newState;
-		UpdateSprite();
-	}
-
 	void UpdateSprite()
 	{
-		if (MachineOperating) spriteHandler.ChangeSprite(1);
-		else spriteHandler.ChangeSprite(0);
+		if (MachineOperating)
+		{
+			spriteHandler.ChangeSprite((int) SpriteState.Operating);
+		}
+		else
+		{
+			spriteHandler.ChangeSprite((int) SpriteState.Idle);
+		}
 	}
 
 	void SyncObjectProperties(PipeObjectSettings oldState, PipeObjectSettings newState)
@@ -80,10 +84,11 @@ public class PipeDispenser : NetworkBehaviour
 
 	IEnumerator SetMachineOperating()
 	{
-		machineOperating = true;
+		MachineOperating = true;
 		UpdateSprite();
-		yield return WaitFor.Seconds(ANIMATION_TIME);
-		machineOperating = false;
+		SoundManager.PlayNetworkedAtPos("PosterCreate", objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
+		yield return WaitFor.Seconds(DISPENSING_TIME);
+		MachineOperating = false;
 		UpdateSprite();
 	}
 

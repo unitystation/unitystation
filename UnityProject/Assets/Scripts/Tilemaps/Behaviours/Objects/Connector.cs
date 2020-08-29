@@ -20,7 +20,7 @@ namespace Pipes
 			base.TickUpdate();
 			if (canister != null)
 			{
-				pipeData.mixAndVolume.EqualiseWithExternal(canister.container.GasMix);
+				canister.container.GasMix = pipeData.mixAndVolume.EqualiseWithExternal(canister.container.GasMix);
 			}
 			pipeData.mixAndVolume.EqualiseWithOutputs(pipeData.Outputs);
 		}

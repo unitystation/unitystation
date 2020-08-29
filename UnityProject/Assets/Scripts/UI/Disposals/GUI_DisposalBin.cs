@@ -170,11 +170,6 @@ namespace Disposals
 
 		#region Buttons
 
-		public void CloseTab()
-		{
-			ControlTabs.CloseTab(Type, Provider);
-		}
-
 		public void ServerTogglePower()
 		{
 			bin.TogglePower();

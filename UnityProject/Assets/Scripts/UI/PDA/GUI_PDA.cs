@@ -143,13 +143,7 @@ namespace UI.PDA
 			//TODO Get someone else to do messenger
 			throw new NotImplementedException();
 		}
-		/// <summary>
-		/// Closes the PDA
-		/// </summary>
-		public void CloseTab()
-		{
-			ControlTabs.CloseTab(Type, Provider);
-		}
+
 		/// <summary>
 		/// Tells the PDA to remove the ID card and updates the menu page
 		/// </summary>

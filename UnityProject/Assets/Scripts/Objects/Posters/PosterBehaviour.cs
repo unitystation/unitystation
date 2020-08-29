@@ -1,7 +1,6 @@
-
 using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
+using Mirror;
 
 public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
@@ -139,5 +138,3 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 		SyncPosterType(posterVariant, Posters.Ripped);
 	}
 }
-
-

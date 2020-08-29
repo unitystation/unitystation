@@ -113,11 +113,6 @@ public class GUI_PipeDispenser : NetTab
 
 	#region Buttons
 
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
-
 	public void ServerSetCategory(int categoryNumber)
 	{
 		categorySwitcher.SetActivePage(categoryNumber);

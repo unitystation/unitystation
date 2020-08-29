@@ -1,4 +1,4 @@
-﻿using System.Linq;
+using System.Linq;
 using UnityEngine;
 
 namespace ScriptableObjects.Gun.HitConditions.Tile
@@ -6,7 +6,8 @@ namespace ScriptableObjects.Gun.HitConditions.Tile
 	[CreateAssetMenu(fileName = "CheckLayerType", menuName = "ScriptableObjects/Gun/HitConditions/Tile/CheckLayerType", order = 0)]
 	public class CheckLayerType : HitInteractTileCondition
 	{
-		[SerializeField] private LayerType[] layerTypes = null;
+		[SerializeField] private LayerType[] layerTypes = default;
+    
 		public override bool CheckCondition(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
 			var layers = interactableTiles.MetaTileMap.DamageableLayers;

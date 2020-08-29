@@ -103,11 +103,6 @@ public class GUI_SecurityRecords : NetTab
 		nestedSwitcher.SetActivePage(entryPage);
 		entryPage.OnOpen(recordToOpen, this);
 	}
-
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
 }
 
 public enum SecurityStatus

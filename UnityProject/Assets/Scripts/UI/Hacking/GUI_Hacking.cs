@@ -562,10 +562,4 @@ public class GUI_Hacking : NetTab
 			}
 		}
 	}
-
-	public void CloseTab()
-	{
-		ControlTabs.CloseTab(Type, Provider);
-	}
-
 }
