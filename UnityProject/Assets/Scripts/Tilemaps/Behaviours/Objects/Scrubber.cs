@@ -66,9 +66,15 @@ namespace Pipes
 				}
 			}
 
-
-			float Available = metaNode.GasMix.Moles -
-			                  ((MMinimumPressure / metaNode.GasMix.Pressure) * metaNode.GasMix.Moles);
+			float Available = 0;
+			if (metaNode.GasMix.Pressure != 0)
+			{
+				Available =	((MMinimumPressure / metaNode.GasMix.Pressure) * metaNode.GasMix.Moles) - metaNode.GasMix.Moles;
+			}
+			else
+			{
+				Available = MaxTransferMoles;
+			}
 
 
 			if (MaxTransferMoles < Available)
