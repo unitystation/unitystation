@@ -44,19 +44,15 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 	public ReactorPipe ReactorPipe;
 
 	private float WaterEnergyDensityPer1 = 10f;
-	private float RodDensityPer1 = 7.5f;
-
 
 	public ReactorChamberRod[] ReactorRods = new ReactorChamberRod[16];
 	public List<FuelRod> ReactorFuelRods = new List<FuelRod>();
 	public List<EngineStarter> ReactorEngineStarters = new List<EngineStarter>();
 
-
 	public float ControlRodDepthPercentage = 1;
 
 	private float EnergyToEvaporateWaterPer1 = 2000;
 
-	//public float RodLockingTemperatureK = 700f;
 	public float RodMeltingTemperatureK = 1100;
 	private float BoilingPoint = 373.15f;
 
@@ -67,7 +63,6 @@ public class ReactorGraphiteChamber : MonoBehaviour, IInteractable<HandApply>, I
 	public decimal CurrentPressure = 0;
 
 	public decimal MaxPressure = 120000;
-
 
 	public decimal KFactor
 	{

@@ -15,17 +15,14 @@ namespace Pipes
 
 		public float MaxTransferMoles = 100;
 
-
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;
 
 
-
-		private void Start()
+		public override void Start()
 		{
 			pipeData.PipeAction = new MonoActions();
 			registerTile = this.GetComponent<RegisterTile>();
-
 
 			base.Start();
 		}

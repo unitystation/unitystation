@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mirror;
@@ -20,7 +20,6 @@ public class ChatRelay : NetworkBehaviour
 	private LayerMask npcMask;
 
 	private RconManager rconManager;
-
 
 	/// <summary>
 	/// The char indicating that the following text is speech.
@@ -61,37 +60,12 @@ public class ChatRelay : NetworkBehaviour
 	[Server]
 	private void PropagateChatToClients(ChatEvent chatEvent)
 	{
-		List<ConnectedPlayer> players;
-
-		//if (chatEvent.matrix != MatrixInfo.Invalid) //no, bad
-		//{
-			//get players only on provided matrix
-			//players = PlayerList.Instance.GetPlayersOnMatrix(chatEvent.matrix);
-		//}
-		//else
-		//{
-			//Try get the matrix first:
-			//if (chatEvent.originator != null)
-			//{
-				//var regiTile = chatEvent.originator.GetComponent<RegisterTile>();
-				//if (regiTile != null)
-				//{
-					//players = PlayerList.Instance.GetPlayersOnMatrix(MatrixManager.Get(regiTile.Matrix));
-				//}
-				//else
-				//{
-					//players = PlayerList.Instance.AllPlayers;
-				//}
-			//}
-			//else
-			//{
-				players = PlayerList.Instance.AllPlayers;
-			//}
-		//}
+		List<ConnectedPlayer> players = PlayerList.Instance.AllPlayers;
 
 		//Local chat range checks:
-		if (chatEvent.channels.HasFlag(ChatChannel.Local) || chatEvent.channels.HasFlag(ChatChannel.Combat)
-													|| chatEvent.channels.HasFlag(ChatChannel.Action))
+		if (chatEvent.channels.HasFlag(ChatChannel.Local)
+				|| chatEvent.channels.HasFlag(ChatChannel.Combat)
+				|| chatEvent.channels.HasFlag(ChatChannel.Action))
 		{
 			for (int i = players.Count - 1; i >= 0; i--)
 			{

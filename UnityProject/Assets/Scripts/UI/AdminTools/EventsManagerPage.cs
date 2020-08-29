@@ -17,7 +17,7 @@ public class EventsManagerPage : AdminPage
 	private Dropdown eventTypeDropDown = null;
 
 	[SerializeField]
-	private Button triggerEvent = null;
+	private Button triggerEvent = null; // TODO: this is unused and is creating a compiler warning.
 
 	[SerializeField]
 	private Toggle isFakeToggle = null;

@@ -15,7 +15,7 @@ namespace Pipes
 
 		public bool IsOn = false;
 
-		public void Start()
+		public override void Start()
 		{
 			pipeData.PipeAction = new MonoActions();
 			base.Start();

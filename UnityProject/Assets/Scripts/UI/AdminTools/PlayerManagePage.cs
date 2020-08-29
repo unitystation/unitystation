@@ -15,10 +15,10 @@ namespace AdminTools
 		[SerializeField] private Button respawnBtn = null;
 		[SerializeField] private Button respawnAsBtn = null;
 		[SerializeField] private Dropdown adminJobsDropdown = null;
-		[SerializeField] private Button teleportAdminToPlayer = null;
-		[SerializeField] private Button teleportPlayerToAdmin = null;
-		[SerializeField] private Button teleportAdminToPlayerAghost = null;
-		[SerializeField] private Button teleportAllPlayersToPlayer = null;
+		[SerializeField] private Button teleportAdminToPlayer = null; // TODO: this is unused and is creating a compiler warning.
+		[SerializeField] private Button teleportPlayerToAdmin = null; // Same issue with this.
+		[SerializeField] private Button teleportAdminToPlayerAghost = null; // This too.
+		[SerializeField] private Button teleportAllPlayersToPlayer = null; // And this.
 		private AdminPlayerEntry playerEntry;
 
 		public override void OnPageRefresh(AdminPageRefreshData adminPageData)

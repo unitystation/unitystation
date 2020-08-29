@@ -5,14 +5,21 @@ using UnityEngine.Events;
 [RequireComponent(typeof(Canvas))]
 public class CanvasHelper : MonoBehaviour
 {
-    private static List<CanvasHelper> helpers = new List<CanvasHelper>();
+	// These are creating compiler warnings, but it seems they are in fact used for mobile.
+#pragma warning disable CS0414
 
-    public static UnityEvent OnResolutionOrOrientationChanged = new UnityEvent();
+	private static List<CanvasHelper> helpers = new List<CanvasHelper>();
 
-    private static bool screenChangeVarsInitialized = false;
-    private static ScreenOrientation lastOrientation = ScreenOrientation.Landscape;
-    private static Vector2 lastResolution = Vector2.zero;
-    private static Rect lastSafeArea = Rect.zero;
+	public static UnityEvent OnResolutionOrOrientationChanged = new UnityEvent();
+
+	private static bool screenChangeVarsInitialized = false;
+
+	private static ScreenOrientation lastOrientation = ScreenOrientation.Landscape;
+
+	private static Vector2 lastResolution = Vector2.zero;
+	private static Rect lastSafeArea = Rect.zero;
+
+#pragma warning restore CS0414
 
 #if UNITY_ANDROID || UNITY_IOS
 	private Canvas canvas;

@@ -87,6 +87,7 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 		{
 			OnRestockUsed?.Invoke();
 			Inventory.ServerDespawn(interaction.HandSlot);
+			Chat.AddActionMsgToChat(interaction.Performer, restockMessage, restockMessage);
 		}
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
 		{

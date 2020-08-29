@@ -13,7 +13,7 @@ using Mirror;
 [RequireComponent(typeof(Pickupable))] //Inventory interaction
 [RequireComponent(typeof(ObjectBehaviour))] //pull and Push
 [RequireComponent(typeof(RegisterItem))] //Registry with subsistence
-public class ItemAttributesV2 : Attributes, IServerSpawn
+public class ItemAttributesV2 : Attributes
 {
 	[SerializeField]
 	[Tooltip("Initial traits of this item on spawn.")]
@@ -26,8 +26,9 @@ public class ItemAttributesV2 : Attributes, IServerSpawn
 	/// <summary>
 	/// Current size.
 	/// </summary>
-	[SyncVar]
+	[SyncVar(hook = nameof(SyncSize))]
 	private ItemSize size;
+
 	/// <summary>
 	/// Current size
 	/// </summary>
@@ -37,13 +38,14 @@ public class ItemAttributesV2 : Attributes, IServerSpawn
 	[Range(0, 100)]
 	[SerializeField]
 	private float hitDamage = 0;
+
 	/// <summary>
 	/// Damage when we click someone with harm intent, tracked server side only.
 	/// </summary>
 	public float ServerHitDamage
 	{
-		get {
-
+		get
+		{
 			//If item has an ICustomDamageCalculation component, use that instead.
 			ICustomDamageCalculation part = GetComponent<ICustomDamageCalculation>();
 			if (part != null)
@@ -181,12 +183,14 @@ public class ItemAttributesV2 : Attributes, IServerSpawn
 	public override void OnStartClient()
 	{
 		EnsureInit();
+		SyncSize(size, this.size);
 		base.OnStartClient();
 	}
 
-	public void OnSpawnServer(SpawnInfo info)
+	public override void OnSpawnServer(SpawnInfo info)
 	{
-		size = initialSize;
+		SyncSize(size, initialSize);
+		base.OnSpawnServer(info);
 	}
 
 	#endregion Lifecycle
@@ -232,7 +236,7 @@ public class ItemAttributesV2 : Attributes, IServerSpawn
 	}
 
 	/// <summary>
-	/// Adds the trait dynamically
+	/// Adds the trait dynamically.
 	/// NOTE: Not synced between client / server
 	/// </summary>
 	/// <param name="itemTrait"></param>
@@ -241,8 +245,14 @@ public class ItemAttributesV2 : Attributes, IServerSpawn
 		traits.Add(toAdd);
 	}
 
+	private void SyncSize(ItemSize oldSize, ItemSize newSize)
+	{
+		EnsureInit();
+		size = newSize;
+	}
+
 	/// <summary>
-	/// Removes the trait dynamically
+	/// Removes the trait dynamically.
 	/// NOTE: Not synced between client / server
 	/// </summary>
 	/// <param name="itemTrait"></param>
@@ -262,19 +272,19 @@ public class ItemAttributesV2 : Attributes, IServerSpawn
 	}
 
 	/// <summary>
-	/// CHange this item's size and sync it to clients
+	/// Change this item's size and sync it to clients.
 	/// </summary>
 	/// <param name="newSize"></param>
 	[Server]
 	public void ServerSetSize(ItemSize newSize)
 	{
-		size = newSize;
+		SyncSize(size, newSize);
 	}
 
 	/// <summary>
-	/// Used for setting inventory and In hand sprites
+	/// Use SpriteHandlerController.SetSprites instead. (SpriteHandlerController may now be deprecated)
 	/// </summary>
-	/// <param name="newSprites">New sprites.</param>
+	/// <param name="newSprites">New sprites</param>
 	public void SetSprites(ItemsSprites newSprites)
 	{
 		itemSprites = newSprites;
