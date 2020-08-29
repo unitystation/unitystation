@@ -7,6 +7,7 @@ using System;
 using System.Linq;
 using Random = UnityEngine.Random;
 using GameConfig;
+using Assets.Scripts.InGameEvents;
 
 namespace InGameEvents
 {
@@ -110,7 +111,7 @@ namespace InGameEvents
 			list.Add(eventToAdd);
 		}
 
-		public void TriggerSpecificEvent(int eventIndex, InGameEventType eventType, bool isFake = false, string adminName = null, bool announceEvent = true)
+		public void TriggerSpecificEvent(int eventIndex, InGameEventType eventType, bool isFake = false, string adminName = null, bool announceEvent = true, string serializedEventParameters = null)
 		{
 			List<EventScriptBase> list;
 
@@ -138,7 +139,7 @@ namespace InGameEvents
 				var eventChosen = list[eventIndex - 1];
 				eventChosen.FakeEvent = isFake;
 				eventChosen.AnnounceEvent = announceEvent;
-				eventChosen.TriggerEvent();
+				eventChosen.TriggerEvent(serializedEventParameters);
 
 				var msg = $"{adminName}: triggered the event: {eventChosen.EventName}. Is fake: {isFake}. Announce: {announceEvent}";
 

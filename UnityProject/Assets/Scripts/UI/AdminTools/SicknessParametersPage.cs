@@ -1,10 +1,11 @@
-﻿using AdminTools;
+﻿using AdminCommands;
+using AdminTools;
 using Assets.Scripts.Health.Sickness;
+using Assets.Scripts.InGameEvents;
+using DatabaseAPI;
+using InGameEvents;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -17,6 +18,11 @@ namespace Assets.Scripts.UI.AdminTools
 
 		[SerializeField]
 		private InputField NumberOfPlayerInput = null;
+
+		private int index;
+		private bool fakeEvent;
+		private bool announceEvent;
+		private InGameEventType eventType;
 
 		public void Awake()
 		{
@@ -32,9 +38,21 @@ namespace Assets.Scripts.UI.AdminTools
 			sicknessDropdown.AddOptions(optionDatas);
 		}
 
+		public void SetBasicEventParameters(int index, bool isFake, bool announce, InGameEventType eventType)
+		{
+			this.index = index;
+			fakeEvent = isFake;
+			announceEvent = announce;
+			this.eventType = eventType;
+		}
+
 		public void StartInfection()
 		{
+			SicknessEventParameters eventParameters = new SicknessEventParameters();
+			eventParameters.PlayerToInfect = Convert.ToInt32(NumberOfPlayerInput.textComponent.text);
+			eventParameters.SicknessIndex = sicknessDropdown.value;
 
+			ServerCommandVersionFourMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, index, fakeEvent, announceEvent, eventType, "CmdTriggerGameEvent", eventParameters);
 		}
 	}
 }

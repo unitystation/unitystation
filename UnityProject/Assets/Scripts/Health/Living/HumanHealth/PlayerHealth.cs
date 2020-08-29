@@ -33,7 +33,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	/// <summary>
 	/// Current sicknesses status of the player and their current stage.
 	/// </summary>
-	private PlayerSickness playerSickness = null;
+	public PlayerSickness PlayerSickness = null;
 
 	/// <summary>
 	/// List of sicknesses that player has gained immunity.
@@ -69,7 +69,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	{
 		if (UnityEngine.Random.Range(0, 100) < percentAllergies)
 		{
-			playerSickness.Add(commonAllergies, Time.time);
+			PlayerSickness.Add(commonAllergies, Time.time);
 		}
 	}
 
@@ -83,7 +83,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 		itemStorage = GetComponent<ItemStorage>();
-		playerSickness = GetComponent<PlayerSickness>();
+		PlayerSickness = GetComponent<PlayerSickness>();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 

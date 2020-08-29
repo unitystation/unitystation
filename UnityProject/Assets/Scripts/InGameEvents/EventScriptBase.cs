@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Assets.Scripts.InGameEvents;
+using UnityEngine;
 
 namespace InGameEvents
 {
@@ -79,6 +80,11 @@ namespace InGameEvents
 
 		public virtual void OnEventStart()
 		{
+			OnEventStart(null);
+		}
+
+		public virtual void OnEventStart(string serializedEventParameters = null)
+		{
 			Invoke(nameof(OnEventStartTimed), StartTimer);
 		}
 
@@ -97,9 +103,9 @@ namespace InGameEvents
 
 		}
 
-		public void TriggerEvent()
+		public void TriggerEvent(string serializedEventParameters = null)
 		{
-			OnEventStart();
+			OnEventStart(serializedEventParameters);
 		}
 	}
 

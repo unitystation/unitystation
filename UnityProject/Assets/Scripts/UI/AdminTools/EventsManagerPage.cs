@@ -62,6 +62,7 @@ public class EventsManagerPage : AdminPage
 			if (parameterPage)
 			{
 				parameterPage.SetActive(true);
+				parameterPage.GetComponent<SicknessParametersPage>().SetBasicEventParameters(index, isFakeToggle.isOn, announceToggle.isOn, InGameEventType.Fun);
 				return;
 			}
 		}		
