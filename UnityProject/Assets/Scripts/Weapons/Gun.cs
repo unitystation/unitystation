@@ -678,19 +678,23 @@ namespace Weapons
 			//display the effects of the shot
 
 			//get the bullet prefab being shot
-			GameObject bullet = Spawn.ClientPrefab(Projectile.name,
-				shooter.transform.position, parent: shooter.transform.parent).GameObject;
-			var b = bullet.GetComponent<Projectile>();
+
 			if (isSuicideShot)
 			{
+				GameObject bullet = Spawn.ClientPrefab(Projectile.name,
+					shooter.transform.position, parent: shooter.transform.parent).GameObject;
+				var b = bullet.GetComponent<Projectile>();
 				b.Suicide(shooter, this, damageZone);
 			}
 			else
 			{
 				for (int n = 0; n < ProjectilesFired; n++)
 				{
+					GameObject Abullet = Spawn.ClientPrefab(Projectile.name,
+						shooter.transform.position, parent: shooter.transform.parent).GameObject;
+					var A = Abullet.GetComponent<Projectile>();
 					var finalDirectionOverride = CalcDirection(finalDirection, n);
-					b.Shoot(finalDirectionOverride, shooter, this, damageZone);
+					A.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}
 			}
 			SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
@@ -700,9 +704,9 @@ namespace Weapons
 		private Vector2 CalcDirection(Vector2 direction, int iteration)
 		{
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-			float angleVariance = iteration/1.6f;
+			float angleVariance = iteration/1f;
 			float angleDeviation = Random.Range(-angleVariance, angleVariance);
-			float newAngle = angle * Mathf.Deg2Rad + angleDeviation;
+			float newAngle = (angle+ angleDeviation) * Mathf.Deg2Rad;
 			Vector2 vec2 = new Vector2(Mathf.Cos(newAngle), Mathf.Sin(newAngle)).normalized;
 			return vec2;
 		}
