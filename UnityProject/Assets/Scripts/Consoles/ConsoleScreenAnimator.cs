@@ -5,8 +5,6 @@ using UnityEngine;
 
 public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 {
-	private bool isOn;
-
 	public SpriteHandler SpriteHandlerHere
 	{
 		get
@@ -31,7 +29,6 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 	{
 		if (turnOn)
 		{
-			isOn = true;
 			if (SpriteHandlerHere == null)
 			{
 				Logger.Log("Sprite handler is missing on" + this.gameObject);
@@ -41,7 +38,6 @@ public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 		}
 		else
 		{
-			isOn = false;
 			SpriteHandlerHere.PushClear();
 			if (ScreenGlow != null)
 			{

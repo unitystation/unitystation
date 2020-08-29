@@ -18,7 +18,7 @@ namespace Pipes
 		private MetaDataLayer metaDataLayer;
 
 
-		private void Start()
+		public override void Start()
 		{
 			pipeData.PipeAction = new MonoActions();
 			registerTile = this.GetComponent<RegisterTile>();

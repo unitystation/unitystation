@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
-using Mirror;
 using UnityEngine;
+using Mirror;
 
 namespace Alien
 {
@@ -24,7 +24,7 @@ namespace Alien
 		[SerializeField]
 		private EggState initialState = EggState.Growing;
 
-		// TODO This is entirely unused.
+		// TODO This is entirely unused and is creating a compiler warning.
 		[Tooltip("Allows mappers to have eggs that won't start cycle once spawned, but are still intractable")][SerializeField]
 		private bool freezeCycle = false;
 
@@ -36,8 +36,6 @@ namespace Alien
 		private SpriteHandler spriteHandler;
 		private RegisterObject registerObject;
 		private ObjectAttributes objectAttributes;
-		private bool isAlive; // TODO This is assigned, but not used
-		private float internalTimer = 0;
 		public EggState State => currentState;
 
 
@@ -51,7 +49,6 @@ namespace Alien
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			isAlive = true;
 			incubationTime = UnityEngine.Random.Range(60f, incubationTime);
 			UpdatePhase(initialState);
 			UpdateExamineMessage();
@@ -83,7 +80,6 @@ namespace Alien
 					break;
 				case EggState.Burst:
 					spriteHandler.ChangeSprite(HATCHED_SPRITE);
-					isAlive = false;
 					registerObject.Passable = true;
 					break;
 				case EggState.Squished:
@@ -177,7 +173,6 @@ namespace Alien
 				"You squish the alien egg!",
 				$"{interaction.Performer.ExpensiveName()} squishes the alien egg!");
 
-			isAlive = false;
 			UpdatePhase(EggState.Squished);
 			registerObject.Passable = true;
 		}

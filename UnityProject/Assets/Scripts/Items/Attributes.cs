@@ -15,7 +15,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	[SerializeField]
 	private string initialName = null;
 
-	[SyncVar]
+	[SyncVar(hook = nameof(SyncArticleName))]
 	private string articleName;
 	/// <summary>
 	/// Current name
@@ -63,13 +63,37 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 	private string exportMessage = null;
 	public string ExportMessage => exportMessage;
 
-	[SyncVar]
+	[SyncVar(hook = nameof(SyncArticleDescription))]
 	private string articleDescription;
 
 	/// <summary>
 	/// Current description
 	/// </summary>
 	public string ArticleDescription => articleDescription;
+
+	public override void OnStartClient()
+	{
+		SyncArticleName(articleName, articleName);
+		SyncArticleDescription(articleDescription, articleDescription);
+		base.OnStartClient();
+	}
+
+
+	public virtual void OnSpawnServer(SpawnInfo info)
+	{
+		SyncArticleName(articleName, initialName);
+		SyncArticleDescription(articleDescription, initialDescription);
+	}
+
+	private void SyncArticleName(string oldName, string newName)
+	{
+		articleName = newName;
+	}
+
+	private void SyncArticleDescription(string oldDescription, string newDescription)
+	{
+		articleDescription = newDescription;
+	}
 
 	/// <summary>
 	/// When hovering over an object or item its name and description is shown as a tooltip on the bottom-left of the screen.
@@ -150,12 +174,12 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
 
 	public void ServerSetArticleName(string newName)
 	{
-		articleName = newName;
+		SyncArticleName(articleName, newName);
 	}
 
 	[Server]
 	public void ServerSetArticleDescription(string desc)
 	{
-		articleDescription = desc;
+		SyncArticleDescription(articleDescription, desc);
 	}
 }

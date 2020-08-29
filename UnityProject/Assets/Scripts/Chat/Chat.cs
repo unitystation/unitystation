@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using AdminTools;
 using Tilemaps.Behaviours.Meta;
@@ -51,27 +51,25 @@ public partial class Chat : MonoBehaviour
 
 	public static void InvokeChatEvent(ChatEvent chatEvent)
 	{
+		var channels = chatEvent.channels;
 		string discordMessage = "";
 
 		// There could be multiple channels we need to send a message for each.
-		// We do this on the server side that local chans can be determined correctly
-		foreach (Enum value in Enum.GetValues(chatEvent.channels.GetType()))
+		// We do this on the server side so that local chans can be validated correctly
+		foreach (ChatChannel channel in channels.GetFlags())
 		{
-			if (chatEvent.channels.HasFlag((ChatChannel)value))
+			if (IsNamelessChan(channel) || channel == ChatChannel.None)
 			{
-				//Using HasFlag will always return true for flag at value 0 so skip it
-				if ((ChatChannel)value == ChatChannel.None) continue;
-
-				if (IsNamelessChan((ChatChannel)value)) continue;
-
-				chatEvent.channels = (ChatChannel)value;
-				Instance.addChatLogServer.Invoke(chatEvent);
-
-				discordMessage += $"[{chatEvent.channels}] ";
+				continue;
 			}
+
+			chatEvent.channels = channel;
+			Instance.addChatLogServer.Invoke(chatEvent);
+			discordMessage += $"[{channel}] ";
 		}
 
-		discordMessage += $"\n{chatEvent.speaker}: {chatEvent.message}\n";
+		Instance.addChatLogServer.Invoke(chatEvent);
+		discordMessage += $"\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n";
 
 		//Sends All Chat messages to a discord webhook
 		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAllChatURL, discordMessage, "");
@@ -102,7 +100,7 @@ public partial class Chat : MonoBehaviour
 			message = isOOC ? message : processedMessage.message,
 			modifiers = (player == null) ? ChatModifier.None : processedMessage.chatModifiers,
 			speaker = (player == null) ? sentByPlayer.Username : player.name,
-			position = ((player == null) ? TransformState.HiddenPos : player.WorldPos),
+			position = (player == null) ? TransformState.HiddenPos : player.WorldPos,
 			channels = channels,
 			originator = sentByPlayer.GameObject
 		};
@@ -182,7 +180,7 @@ public partial class Chat : MonoBehaviour
 		{
 			message = message,
 			modifiers = chatModifiers,
-			speaker = (broadcasterName != default ? broadcasterName : sentByMachine.ExpensiveName()),
+			speaker = broadcasterName != default ? broadcasterName : sentByMachine.ExpensiveName(),
 			position = sentByMachine.WorldPosServer(),
 			channels = channels,
 			originator = sentByMachine
