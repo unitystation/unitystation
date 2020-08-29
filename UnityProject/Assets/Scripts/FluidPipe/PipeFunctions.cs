@@ -507,7 +507,11 @@ namespace Pipes
 
 		public void TransferTo(MixAndVolume toTransfer, Vector2 amount)
 		{
-			Mix.TransferTo(toTransfer.Mix, amount.x);
+			if (float.IsNaN(amount.x) == false)
+			{
+				Mix.TransferTo(toTransfer.Mix, amount.x);
+			}
+
 			if (float.IsNaN(amount.y) == false)
 			{
 				toTransfer.gasMix = toTransfer.gasMix + gasMix.RemoveMoles(amount.y);
