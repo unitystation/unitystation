@@ -71,7 +71,8 @@ public class PipeDispenser : NetworkBehaviour
 		{
 			spawnResult.GameObject.GetComponent<PipeItem>()?.SetColour(pipeColor);
 
-			newPipe = new PipeObjectSettings {
+			newPipe = new PipeObjectSettings
+			{
 					pipeObject = spawnResult.GameObject,
 					pipeColor = pipeColor
 			};

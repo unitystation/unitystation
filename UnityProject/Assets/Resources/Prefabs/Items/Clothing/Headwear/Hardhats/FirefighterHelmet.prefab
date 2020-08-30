@@ -127,5 +127,34 @@ PrefabInstance:
       propertyPath: initialName
       value: firefighter helmet
       objectReference: {fileID: 0}
+    - target: {fileID: 8626702741117139027, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 0199d560afe823e4b8056e121e013268,
+        type: 3}
+    - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: dc427106ebb8b39458c147544511317a,
+        type: 2}
+    - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: dc427106ebb8b39458c147544511317a,
+        type: 2}
+    - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7690bf645acffeb419b8883f07602184,
+        type: 2}
+    - target: {fileID: 8626702741117329122, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}

@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
+using Mirror;
 
 namespace Items.Others
 {
@@ -15,16 +15,18 @@ namespace Items.Others
 		[SerializeField]
 		private SpriteHandler spriteHandler = default;
 
-		[Tooltip("The ON sprite should be in the first element (That's element 0)")]
-		[SerializeField] private Sprite [] toggleSprites = default;
-
+		private enum SpriteState
+		{
+			LightOff = 0,
+			LightOn = 1
+		}
 
 		/// <summary>
 		/// Grabs the "ItemLightControl" component from the current gameObject, used to toggle the light, only does this once
 		/// </summary>
 		private void Start()
 		{
-			lightControl= gameObject.GetComponent<ItemLightControl>();
+			lightControl = GetComponent<ItemLightControl>();
 		}
 
 		/// <summary>
@@ -44,12 +46,12 @@ namespace Items.Others
 			if (isOn)
 			{
 				lightControl.Toggle(false);
-				spriteHandler.SetSprite(toggleSprites[1]);
+				spriteHandler.ChangeSprite((int) SpriteState.LightOff);
 			}
 			else
 			{
 				lightControl.Toggle(true);
-				spriteHandler.SetSprite(toggleSprites[0]);
+				spriteHandler.ChangeSprite((int) SpriteState.LightOn);
 			}
 		}
 	}
