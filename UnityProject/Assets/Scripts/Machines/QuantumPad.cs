@@ -161,28 +161,24 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		var registerTileLocation = registerTile.LocalPositionServer;
 
-		//detect players positioned on the portal bit of the gateway
-		var playersFound = Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true);
-
 		var somethingTeleported = false;
 
-		foreach (ObjectBehaviour player in playersFound)
+		//Use the transport object code from StationGateway
+
+		//detect players positioned on the portal bit of the gateway
+		foreach (ObjectBehaviour player in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true))
 		{
 			Chat.AddLocalMsgToChat(message, travelCoord, gameObject);
 			SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
-			TransportPlayers(player);
+			TransportUtility.TransportObjectAndPulled(player, travelCoord);
 			somethingTeleported = true;
 		}
 
-		foreach (var objects in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Object, true))
+		//detect objects and items
+		foreach (var item in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Object, true)
+								.Concat(Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Item, true)))
 		{
-			TransportObjectsItems(objects);
-			somethingTeleported = true;
-		}
-
-		foreach (var items in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Item, true))
-		{
-			TransportObjectsItems(items);
+			TransportUtility.TransportObjectAndPulled(item, travelCoord);
 			somethingTeleported = true;
 		}
 
@@ -202,18 +198,75 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 		ServerSync(false);
 	}
 
-
 	[Server]
-	public void TransportPlayers(ObjectBehaviour player)
+	private void TransportObject(PushPull pushPullObject)
 	{
-		//teleports player to the front of the new gateway
-		player.GetComponent<PlayerSync>().SetPosition(travelCoord, true);
+		if (pushPullObject == null)
+			return; //Don't even bother...
+
+		//Handle PlayerSync and CustomNetTransform (No shared base SetPosition call)
+		//Use Matrix.Get because for some reason that works better than directly getting the PlayerSync or CustomNetTransform components of the pulled object
+		//Have the object disappear, set position, and appear at the target position,rollback prediction to avoid all lerps,
+		//No common base class, so unforunately duplicated code is unavoidable.
+
+		//Player objects get PlayerSync
+		var player = Matrix.Get<ObjectBehaviour>(pushPullObject.registerTile.LocalPositionServer, ObjectType.Player, true)
+			.FirstOrDefault(pulled => pulled == pushPullObject)
+			?.GetComponent<PlayerSync>();
+		if (player != null)
+		{
+			player.DisappearFromWorldServer();
+			player.AppearAtPositionServer(travelCoord);
+			player.RollbackPrediction();
+		}
+		//Object and Item objects get CustomNetTransform
+		var obj = Matrix.Get<ObjectBehaviour>(pushPullObject.registerTile.LocalPositionServer, ObjectType.Object, true)
+			.Concat(Matrix.Get<ObjectBehaviour>(pushPullObject.registerTile.LocalPositionServer, ObjectType.Item, true))
+			.FirstOrDefault(pulled => pulled == pushPullObject)
+			?.GetComponent<CustomNetTransform>();
+		if (obj != null)
+		{
+			obj.DisappearFromWorldServer();
+			obj.AppearAtPositionServer(travelCoord);
+			obj.RollbackPrediction();
+		}
 	}
 
 	[Server]
-	public void TransportObjectsItems(ObjectBehaviour objectsItems)
+	private void TransportObjectAndPulled(PushPull pushPullObject)
 	{
-		objectsItems.GetComponent<CustomNetTransform>().SetPosition(travelCoord);
+		var linkedList = new LinkedList<PushPull>();
+
+		//Iterate the chain of linkage
+		//The list will be used to rebuild the chain of pulling through the teleporter.
+		//Ensure that no matter what, if some object in the chain is pulling the original object, the chain is broken there.
+
+		//Start with the start object
+		linkedList.AddFirst(pushPullObject);
+
+		//Add all the things it pulls in a chain
+		for(var currentObj = pushPullObject; currentObj.IsPullingSomething && currentObj.PulledObject != pushPullObject; currentObj = currentObj.PulledObject)
+		{
+			linkedList.AddLast(currentObj.PulledObject);
+		}
+
+		for (var node = linkedList.First; node != null; node = node.Next?.Next) //Current and next object are handled each cycle
+		{
+			var currentObj = node?.Value;
+			var pulledObj = node?.Next?.Value;
+
+			//Disconnect pulling to make it not be a problem
+			currentObj.CmdStopPulling();
+
+			//Transport current
+			TransportObject(currentObj);
+			if (pulledObj != null)
+			{
+				TransportObject(pulledObj);
+				//Try to pull it again
+				currentObj?.CmdPullObject(pulledObj?.gameObject);
+			}
+		}
 	}
 
 	public enum PadDirection
