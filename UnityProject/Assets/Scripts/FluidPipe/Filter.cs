@@ -18,7 +18,7 @@ namespace Pipes
 
 		public Gas GasIndex = Gas.Oxygen;
 		public Chemistry.Reagent FilterReagent;
-		public void Start()
+		public override void Start()
 		{
 			pipeData.PipeAction = new MonoActions();
 			spriteHandlerOverlay.PushClear();

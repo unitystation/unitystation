@@ -9,7 +9,7 @@ namespace Pipes
 	{
 		private Canister canister;
 
-		public void Start()
+		public override void Start()
 		{
 			pipeData.PipeAction = new MonoActions();
 			base.Start();

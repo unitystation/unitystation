@@ -15,17 +15,14 @@ namespace Pipes
 
 		public float MaxTransferMoles = 100;
 
-
 		private MetaDataNode metaNode;
 		private MetaDataLayer metaDataLayer;
 
 
-
-		private void Start()
+		public override void Start()
 		{
 			pipeData.PipeAction = new MonoActions();
 			registerTile = this.GetComponent<RegisterTile>();
-
 
 			base.Start();
 		}
@@ -66,10 +63,20 @@ namespace Pipes
 				}
 			}
 
+			float Available = 0;
+			if (metaNode.GasMix.Pressure != 0)
+			{
+				Available =	((MMinimumPressure / metaNode.GasMix.Pressure) * metaNode.GasMix.Moles);
+			}
+			else
+			{
+				return;
+			}
 
-			float Available = metaNode.GasMix.Moles -
-			                  ((MMinimumPressure / metaNode.GasMix.Pressure) * metaNode.GasMix.Moles);
-
+			if (Available < 0)
+			{
+				return;
+			}
 
 			if (MaxTransferMoles < Available)
 			{

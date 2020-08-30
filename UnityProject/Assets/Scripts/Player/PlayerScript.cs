@@ -349,6 +349,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		{
 			return transmitChannels;
 		}
+
 		return transmitChannels | receiveChannels;
 	}
 

@@ -10,9 +10,6 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class CloningConsole : MonoBehaviour, IServerSpawn
 {
-	public delegate void ChangeEvent();
-	public static event ChangeEvent changeEvent; // TODO Is this warning true?
-
 	private List<CloningRecord> cloningRecords = new List<CloningRecord>();
 
 	private DNAscanner scanner;

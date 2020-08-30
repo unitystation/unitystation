@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using Pipes;
 using ScriptableObjects;
-using UnityEngine;
 
 namespace Pipes
 {
@@ -76,7 +76,7 @@ namespace Pipes
 			return true;
 		}
 
-		public bool WillInteract( HandApply interaction, NetworkSide side )
+		public override bool WillInteract(HandApply interaction, NetworkSide side )
 		{
 
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
@@ -85,7 +85,7 @@ namespace Pipes
 			return true;
 		}
 
-		public void ServerPerformInteraction(HandApply interaction)
+		public override void ServerPerformInteraction(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder))
 			{

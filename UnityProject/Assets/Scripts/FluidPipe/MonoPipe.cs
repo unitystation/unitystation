@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Reflection.Emit;
 using UnityEngine;
 
 namespace Pipes
@@ -42,7 +41,6 @@ namespace Pipes
 			spritehandler?.SetColor(Colour);
 		}
 
-
 		void OnEnable()
 		{
 
@@ -59,14 +57,14 @@ namespace Pipes
 			pipeData.OnDisable();
 		}
 
-		public bool WillInteract(HandApply interaction, NetworkSide side)
+		public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 		{
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (interaction.TargetObject != gameObject) return false;
 			return true;
 		}
 
-		public void ServerPerformInteraction(HandApply interaction)
+		public virtual void ServerPerformInteraction(HandApply interaction)
 		{
 			if (SpawnOnDeconstruct != null)
 			{

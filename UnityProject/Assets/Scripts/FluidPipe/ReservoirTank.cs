@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UnityEngine;
 using Chemistry.Components;
 using ScriptableObjects;
-using UnityEngine;
-
 
 namespace Pipes
 {
-	public class ReservoirTank : MonoPipe,IServerDespawn , ICheckedInteractable<HandApply>
+	public class ReservoirTank : MonoPipe, IServerDespawn , ICheckedInteractable<HandApply>
 	{
 		public Chemistry.Reagent Water;
 		public ReagentContainer Container;
+
 		public override void Start()
 		{
 			pipeData.PipeAction = new ReservoirAction();
@@ -18,18 +18,15 @@ namespace Pipes
 			base.Start();
 		}
 
-
-
-		public bool WillInteract( HandApply interaction, NetworkSide side )
+		public override bool WillInteract(HandApply interaction, NetworkSide side )
 		{
-
 			if (!DefaultWillInteract.Default(interaction, side)) return false;
 			if (!Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder)) return false;
 
 			return true;
 		}
 
-		public void ServerPerformInteraction(HandApply interaction)
+		public override void ServerPerformInteraction(HandApply interaction)
 		{
 			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Welder))
 			{
@@ -53,7 +50,5 @@ namespace Pipes
 			base.OnDespawnServer(info);
 			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, this.GetComponent<RegisterObject>().WorldPositionServer, count: 10 );
 		}
-
 	}
-
 }

@@ -211,11 +211,11 @@ public class MetaDataSystem : SubsystemBehaviour
 
 			if (metaTileMap.IsSpaceAt(neighbor, true))
 			{
-				/*// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
+				// if current node is a room, but the neighboring is a space tile, this node needs to be checked regularly for changes by other matrices
 				if (node.IsRoom && !externalNodes.ContainsKey(node) && metaTileMap.IsSpaceAt(node.Position, true) == false)
 				{
 					externalNodes[node] = node;
-				}*/
+				}
 
 				// If the node is not space, check other matrices if it has a tile next to this node.
 				if (!node.IsSpace)

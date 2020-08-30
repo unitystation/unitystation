@@ -34,7 +34,6 @@ public class GUI_Cloning : NetTab
 			CloningConsole = Provider.GetComponentInChildren<CloningConsole>();
 			CloningConsole.RegisterConsoleGUI(this);
 			//Subscribe to change event from CloningConsole.cs
-			CloningConsole.changeEvent += UpdateDisplay;
 			UpdateDisplay();
 		}
 	}
@@ -46,12 +45,6 @@ public class GUI_Cloning : NetTab
 		DisplayPodStatus();
 		DisplayScannerStatus();
 		buttonTextViewRecord.SetValueServer($"View Records({CloningConsole.CloningRecords.Count()})");
-	}
-
-	public void OnDestroy()
-	{
-		//Unsubscribe container update event
-		CloningConsole.changeEvent -= UpdateDisplay;
 	}
 
 	public void StartScan()
