@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System.Linq;
+using Assets.Scripts.Gateway;
 
 public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
