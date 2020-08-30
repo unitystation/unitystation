@@ -1,12 +1,11 @@
-﻿using System;
+﻿using AdminTools;
+using Assets.Scripts.Health.Sickness;
+using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using AdminTools;
-using UnityEngine;
-using Mirror;
-using UnityEditor;
-using Assets.Scripts.Health.Sickness;
 using System.Linq;
+using UnityEngine;
 
 /// <summary>
 /// Provides central access to the Players Health
@@ -33,7 +32,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	/// <summary>
 	/// Current sicknesses status of the player and their current stage.
 	/// </summary>
-	public PlayerSickness PlayerSickness = null;
+	private PlayerSickness playerSickness = null;
 
 	/// <summary>
 	/// List of sicknesses that player has gained immunity.
@@ -69,9 +68,43 @@ public class PlayerHealth : LivingHealthBehaviour
 	{
 		if (UnityEngine.Random.Range(0, 100) < percentAllergies)
 		{
-			PlayerSickness.Add(commonAllergies, Time.time);
+			AddSickness(commonAllergies);
 		}
 	}
+
+	/// <summary>
+	/// Add a sickness to the player if he doesn't already has it and isn't immuned
+	/// </summary>
+	/// <param name="">The sickness to add</param>
+	public void AddSickness(Sickness sickness)
+	{
+		if ((!playerSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
+			playerSickness.Add(sickness, Time.time);
+	}
+
+	/// <summary>
+	/// This will remove the sickness from the player, healing him.
+	/// </summary>
+	/// <remarks>Thread safe</remarks>
+	public void RemoveSickness(Sickness sickness)
+	{
+		SicknessAffliction sicknessAffliction = playerSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
+
+		if (sicknessAffliction)
+			sicknessAffliction.Heal();
+	}
+
+	/// <summary>
+	/// This will remove the sickness from the player, healing him.  This will also make him immune for the current round.
+	/// </summary>
+	public void ImmuneSickness(Sickness sickness)
+	{
+		RemoveSickness(sickness);
+
+		if (!immunedSickness.Contains(sickness))
+			immunedSickness.Add(sickness);
+	}
+
 
 	void EnsureInit()
 	{
@@ -83,7 +116,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 		itemStorage = GetComponent<ItemStorage>();
-		PlayerSickness = GetComponent<PlayerSickness>();
+		playerSickness = GetComponent<PlayerSickness>();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 
@@ -195,7 +228,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	protected override void Gib()
 	{
 		Death();
-		EffectsFactory.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
+		EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 
 		//drop everything
@@ -209,11 +242,11 @@ public class PlayerHealth : LivingHealthBehaviour
 	}
 
 	///     make player unconscious upon crit
-	private void OnPlayerConsciousStateChangeServer( ConsciousState oldState, ConsciousState newState )
+	private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
 	{
 		if (playerNetworkActions == null || registerPlayer == null) EnsureInit();
 
-		if ( isServer )
+		if (isServer)
 		{
 			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 		}
@@ -361,7 +394,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		// TODO: Add micro-lerping here. (Player quick but short vertical, horizontal movements)
 
 		yield return WaitFor.Seconds(timeBeforeDrop); // Instantly dropping to ground looks odd.
-		// TODO: Add sparks VFX at shockSourcePos.
+													  // TODO: Add sparks VFX at shockSourcePos.
 		registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
 		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition,
 				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);

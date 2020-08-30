@@ -1,12 +1,10 @@
+using Assets.Scripts.Objects;
+using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
-using Mirror;
-using Assets.Scripts.Objects;
 
 public partial class PlayerSync
 {

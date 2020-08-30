@@ -53,6 +53,9 @@ namespace Assets.Scripts.UI.AdminTools
 			eventParameters.SicknessIndex = sicknessDropdown.value;
 
 			ServerCommandVersionFourMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, index, fakeEvent, announceEvent, eventType, "CmdTriggerGameEvent", eventParameters);
+
+			// We hide the panel
+			gameObject.SetActive(false);
 		}
 	}
 }

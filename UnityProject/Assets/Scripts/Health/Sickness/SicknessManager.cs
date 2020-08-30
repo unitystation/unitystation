@@ -21,7 +21,7 @@ namespace Assets.Scripts.Health.Sickness
 		private BlockingCollection<SymptomManifestation> blockingCollectionSymptoms;
 
 		[SerializeField]
-		private GameObject contagionPrefab;
+		private GameObject contagionPrefab = null;
 
 		public static SicknessManager Instance
 		{
@@ -70,8 +70,12 @@ namespace Assets.Scripts.Health.Sickness
 				{
 					lock (sickPlayers)
 					{
+						sickPlayers.RemoveAll(p => p.sicknessAfflictions.Count == 0);
+
 						foreach (PlayerSickness playerSickness in sickPlayers)
 						{
+							playerSickness.sicknessAfflictions.RemoveAll(p => p.IsHealed);
+
 							foreach (SicknessAffliction sicknessAffliction in playerSickness.sicknessAfflictions)
 							{
 								CheckSicknessProgression(sicknessAffliction);
@@ -255,7 +259,7 @@ namespace Assets.Scripts.Health.Sickness
 		/// </summary>
 		private void PerformSymptomWellbeing(SymptomManifestation symptomManifestation)
 		{
-
+			symptomManifestation.PlayerHealth.RemoveSickness(symptomManifestation.SicknessAffliction.Sickness);
 		}
 
 		/// <summary>
@@ -263,7 +267,7 @@ namespace Assets.Scripts.Health.Sickness
 		/// </summary>
 		private void PerformSymptomImmune(SymptomManifestation symptomManifestation)
 		{
-
+			symptomManifestation.PlayerHealth.ImmuneSickness(symptomManifestation.SicknessAffliction.Sickness);
 		}
 
 		/// <summary>
@@ -299,12 +303,23 @@ namespace Assets.Scripts.Health.Sickness
 			spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
 		}
 
+		// Add this player as a sick player
 		public void RegisterSickPlayer(PlayerSickness playerSickness)
 		{
 			lock(sickPlayers)
 			{
 				if (!sickPlayers.Contains(playerSickness))
 					sickPlayers.Add(playerSickness);
+			}
+		}
+
+		// Remove this player from the sick players
+		public void UnregisterHealedPlayer(PlayerSickness playerSickness)
+		{
+			lock (sickPlayers)
+			{
+				if (!sickPlayers.Contains(playerSickness))
+					sickPlayers.Remove(playerSickness);
 			}
 		}
 

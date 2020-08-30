@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace Assets.Scripts.Health.Sickness
@@ -14,7 +9,7 @@ namespace Assets.Scripts.Health.Sickness
 
 		[SerializeField]
 		[Tooltip("Time (in seconds) for the contagion to despawn itself")]
-		private int contagionTime;
+		private int contagionTime = 20;
 
 		private float spawnedTime;
 
@@ -33,7 +28,6 @@ namespace Assets.Scripts.Health.Sickness
 			{
 				// Despawns itself
 				Despawn.ServerSingle(gameObject);
-				Chat.AddGameWideSystemMsgToChat($"Contagion zone despawned itself");
 			}
 		}
 
@@ -43,11 +37,14 @@ namespace Assets.Scripts.Health.Sickness
 		}
 
 		/// <summary>
-		/// Called from the Walkable component.  Handles what happens when a player enters the location of the contagion.
+		/// Called from the Enterable component.  Handles what happens when a player enters the location of the contagion.
 		/// </summary>
-		public void OnWalkableEnter(BaseEventData eventData)
+		public void OnEnterableEnter(BaseEventData eventData)
 		{
-			Chat.AddGameWideSystemMsgToChat($"Player {eventData.selectedObject.name} inside contagion zone!");
+			if (eventData.selectedObject.TryGetComponent(out PlayerHealth playerHealth))
+			{
+				playerHealth.AddSickness(Sickness);
+			}
 		}
 
 		/// <summary>

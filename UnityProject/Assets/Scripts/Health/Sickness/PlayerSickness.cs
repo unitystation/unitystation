@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace Assets.Scripts.Health.Sickness
 {
+	/// <summary>
+	/// The sickness state of a particular player.
+	/// </summary>
 	[Serializable]
 	public class PlayerSickness : MonoBehaviour
 	{
@@ -31,6 +34,26 @@ namespace Assets.Scripts.Health.Sickness
 
 			// Register the player as a sick player
 			SicknessManager.Instance.RegisterSickPlayer(this);
+		}
+
+
+		/// <summary>
+		/// Remove a sickness from the player, healing him.
+		/// </summary>
+		/// <param name="sickness">The sickness to remove</param>
+		public void Remove(Sickness sickness)
+		{
+			sicknessAfflictions.Remove(sicknessAfflictions.Find(p => p.Sickness == sickness));
+		}
+
+		/// <summary>
+		/// Check if the player already is infected by this sickness
+		/// </summary>
+		/// <param name="sickness"></param>
+		/// <returns>True if the player already has this sickness active</returns>
+		public bool HasSickness(Sickness sickness)
+		{
+			return sicknessAfflictions.Exists(p => p.Sickness == sickness);
 		}
 	}
 }

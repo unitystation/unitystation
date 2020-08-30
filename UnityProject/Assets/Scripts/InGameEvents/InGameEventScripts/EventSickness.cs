@@ -1,9 +1,7 @@
 ﻿using Assets.Scripts.Health.Sickness;
 using InGameEvents;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Networking.PlayerConnection;
 using UnityEngine;
 
 namespace Assets.Scripts.InGameEvents.InGameEventScripts
@@ -17,7 +15,7 @@ namespace Assets.Scripts.InGameEvents.InGameEventScripts
 			Sickness sickness = SicknessManager.Instance.Sicknesses[sicknessEventParameters.SicknessIndex];
 
 			foreach (ConnectedPlayer player in PlayerList.Instance.AllPlayers.PickRandom(sicknessEventParameters.PlayerToInfect).ToList())
-				player.Script.playerHealth.PlayerSickness.Add(sickness, Time.time);
+				player.Script.playerHealth.AddSickness(sickness);
 		}
 	}
 }

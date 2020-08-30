@@ -1,6 +1,4 @@
-﻿using Mirror;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets.Scripts.Health.Sickness
@@ -10,10 +8,11 @@ namespace Assets.Scripts.Health.Sickness
 	/// </summary>
 	public class SicknessAffliction: MonoBehaviour
 	{
+
 		/// <summary>
-		/// The afflicted sickness
+		/// Indicates that the sickness is healed and will be removed from the player
 		/// </summary>
-		private Sickness sickness = null;
+		public bool IsHealed { get; private set; } = false;
 
 		/// <summary>
 		/// The current stage of the sickness
@@ -26,32 +25,18 @@ namespace Assets.Scripts.Health.Sickness
 			}
 		}
 
-		/// <summary>
-		/// The time it was when the played got the affliction.
-		/// </summary>
-		/// <remarks>
-		/// That will tell if a new stage got reached.
-		/// </remarks>
-		private float contractedTime;
+        public float ContractedTime { get; }
 
-		public float ContractedTime
-		{
-			get
-			{
-				return contractedTime;
-			}
-		}
-
-		/// <summary>
-		/// Indicates the next occurence of a symptom in each stages
-		/// </summary>
-		/// <remarks>
-		/// The index indicates which stage/symptom it is.
-		/// The value is a Time at which the symptom will trigger.
-		/// Value of null means that this stage's symptom is not triggered anymore.
-		/// The number of elements indicates at which stage the sickness is at.
-		/// </remarks>
-		private List<float?> stageNextOccurence = null;
+        /// <summary>
+        /// Indicates the next occurence of a symptom in each stages
+        /// </summary>
+        /// <remarks>
+        /// The index indicates which stage/symptom it is.
+        /// The value is a Time at which the symptom will trigger.
+        /// Value of null means that this stage's symptom is not triggered anymore.
+        /// The number of elements indicates at which stage the sickness is at.
+        /// </remarks>
+        private List<float?> stageNextOccurence = null;
 
 		/// <summary>
 		/// Indicate the time of the next occurence of a particular stage symptom
@@ -70,21 +55,15 @@ namespace Assets.Scripts.Health.Sickness
 		/// <param name="sicknessContractedTime">The time at which the player contracted the sickness.</param>
 		public SicknessAffliction(Sickness sicknessToAdd, float sicknessContractedTime)
 		{
-			contractedTime = sicknessContractedTime;
-			sickness = sicknessToAdd;
+			ContractedTime = sicknessContractedTime;
+			Sickness = sicknessToAdd;
 			stageNextOccurence = new List<float?>();
 		}
 
-		/// <summary>
-		/// The sickness affecting the player
-		/// </summary>
-		public Sickness Sickness
-		{
-			get
-			{
-				return sickness;
-			}
-		}
+        /// <summary>
+        /// The sickness affecting the player
+        /// </summary>
+        public Sickness Sickness { get; } = null;
 
 		/// <summary>
 		/// Schedule when will occur the next occurence of a stage symptom.
@@ -97,6 +76,15 @@ namespace Assets.Scripts.Health.Sickness
 				stageNextOccurence[stage] = nextOccurenceTime;
 			else
 				stageNextOccurence.Add(nextOccurenceTime);
+		}
+
+		/// <summary>
+		/// Mark the current sickness for deletion.
+		/// </summary>
+		/// <remarks>This method is Thread Safe</remarks>
+		public void Heal()
+		{
+			IsHealed = true;
 		}
 	}
 }
