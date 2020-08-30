@@ -27,15 +27,15 @@ public class StationGateway : NetworkBehaviour, IAPCPowered
 	[SerializeField]
 	private Sprite[] PowerOff = null;
 
-	/// <summary>
-	/// 
-	/// </summary>
 	private WorldGateway selectedWorld;// The world from the list that was chosen
 
 	/// <summary>
 	/// Gets the coordinates of the teleport target where things will be teleported to.
 	/// </summary>
-	public virtual Vector3 TeleportTargetCoord => selectedWorld.registerTile.WorldPosition;
+	//If the selected world has an override, use it.
+	public virtual Vector3 TeleportTargetCoord => (selectedWorld?.OverrideCoord ?? Vector3Int.zero) != Vector3Int.zero
+		? selectedWorld.OverrideCoord
+		: selectedWorld.registerTile.WorldPosition;
 
 	private bool HasPower = true;// Not used atm
 
