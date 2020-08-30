@@ -1,5 +1,5 @@
 ﻿using AdminTools;
-using Assets.Scripts.Health.Sickness;
+using Health.Sickness;
 using Mirror;
 using System;
 using System.Collections;

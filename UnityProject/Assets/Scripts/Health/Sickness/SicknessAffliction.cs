@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Health.Sickness
+namespace Health.Sickness
 {
 	/// <summary>
 	/// An occurence of a sickness for a particular afflicted individual

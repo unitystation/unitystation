@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Health.Sickness
+namespace Health.Sickness
 {
 	/// <summary>
 	/// The type of symptom applied at a particuliar stage of a sickness

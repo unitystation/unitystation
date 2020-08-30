@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Health.Sickness
+namespace Health.Sickness
 {
 	/// <summary>
 	/// The sickness state of a particular player.

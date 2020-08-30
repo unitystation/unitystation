@@ -1,6 +1,4 @@
-﻿using Assets.Scripts.Health.Sickness;
-
-namespace Assets.Scripts.InGameEvents
+﻿namespace InGameEvents
 {
 	/// <summary>
 	/// Parameters for the sickness event

@@ -1,15 +1,13 @@
 ﻿using AdminCommands;
-using AdminTools;
-using Assets.Scripts.Health.Sickness;
-using Assets.Scripts.InGameEvents;
 using DatabaseAPI;
+using Health.Sickness;
 using InGameEvents;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Assets.Scripts.UI.AdminTools
+namespace AdminTools
 {
 	public class SicknessParametersPage: AdminPage
 	{

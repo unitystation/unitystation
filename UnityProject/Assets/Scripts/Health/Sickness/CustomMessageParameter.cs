@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Health.Sickness
+namespace Health.Sickness
 {
 	public class CustomMessage
 	{

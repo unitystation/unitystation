@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
 
-namespace Assets.Scripts.Health.Sickness
+namespace Health.Sickness
 {
 	/// <summary>
 	/// Sickness subsystem manager

@@ -1,9 +1,8 @@
-﻿using Assets.Scripts.Health.Sickness;
-using InGameEvents;
+﻿using Health.Sickness;
 using Newtonsoft.Json;
 using System.Linq;
 
-namespace Assets.Scripts.InGameEvents.InGameEventScripts
+namespace InGameEvents
 {
 	/// <summary>
 	/// The sickness event

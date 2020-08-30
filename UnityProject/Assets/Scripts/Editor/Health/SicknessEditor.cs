@@ -1,12 +1,10 @@
-﻿using Assets.Scripts.Health.Sickness;
-using System;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEditor;
+using Health.Sickness;
 
-namespace Assets.Scripts.Editor.Health
+namespace CustomInspectors
 {
 	[CustomEditor(typeof(Sickness))]
-	public class SicknessEditor : UnityEditor.Editor
+	public class SicknessEditor : Editor
 	{
 		public override void OnInspectorGUI()
 		{

@@ -1,5 +1,4 @@
-﻿using Assets.Scripts.InGameEvents;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace InGameEvents
 {

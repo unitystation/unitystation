@@ -1,4 +1,4 @@
-﻿namespace Assets.Scripts.Health.Sickness
+﻿namespace Health.Sickness
 {
 	/// <summary>
 	/// A symptom to be manifested

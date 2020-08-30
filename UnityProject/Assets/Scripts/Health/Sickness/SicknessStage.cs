@@ -2,7 +2,7 @@
 using System;
 using UnityEngine;
 
-namespace Assets.Scripts.Health.Sickness
+namespace Health.Sickness
 {
 	/// <summary>
 	/// Sickness stage

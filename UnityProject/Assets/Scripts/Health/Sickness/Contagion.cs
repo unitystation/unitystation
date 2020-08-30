@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
-namespace Assets.Scripts.Health.Sickness
+namespace Health.Sickness
 {
 	public class Contagion: MonoBehaviour
 	{
