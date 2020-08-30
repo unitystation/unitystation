@@ -36,12 +36,22 @@ namespace Assets.Scripts.Health.Sickness
 			}
 		}
 
+		private void OnEnable()
+		{
+			UpdateManager.Add(SicknessUpdate, 1);
+		}
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, SicknessUpdate);
+		}
+
 		private void Start()
 		{
 			sickPlayers = new List<PlayerSickness>();
 		}
 
-		private void Update()
+		private void SicknessUpdate()
 		{
 			// Since unity can provide Time.time only in the main thread, we update for our running thread at the begining of frame.
 			startedTime = Time.time;
