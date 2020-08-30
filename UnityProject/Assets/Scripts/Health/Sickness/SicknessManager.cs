@@ -245,13 +245,16 @@ namespace Assets.Scripts.Health.Sickness
 
 			CustomMessageParameter customMessageParameter = (CustomMessageParameter)symptomManifestation.SicknessAffliction.Sickness.SicknessStages[symptomManifestation.Stage].ExtendedSymptomParameters;
 
-			int randomMessage = Random.Range(0, customMessageParameter.CustomMessages.Count - 1);
+			int randomMessage = Random.Range(0, customMessageParameter.CustomMessages.Count);
 			CustomMessage customMessage = customMessageParameter.CustomMessages[randomMessage];
 
 			string privateMessage = (customMessage.privateMessage ?? "").Replace("%PLAYERNAME&", performer.name);
 			string publicMessage = (customMessage.publicMessage ?? "").Replace("%PLAYERNAME&", performer.name);
 
-			Chat.AddActionMsgToChat(performer, privateMessage, publicMessage);
+			if (string.IsNullOrWhiteSpace(publicMessage))
+				Chat.AddExamineMsg(performer, privateMessage);
+			else
+				Chat.AddActionMsgToChat(performer, privateMessage, publicMessage);
 		}
 
 		/// <summary>

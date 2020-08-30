@@ -16,6 +16,8 @@ namespace Assets.Scripts.InGameEvents.InGameEventScripts
 			{
 				SpawnSickness(serializedEventParameters);
 			}
+
+			base.OnEventStart(serializedEventParameters);
 		}
 
 		public override void OnEventEndTimed()
