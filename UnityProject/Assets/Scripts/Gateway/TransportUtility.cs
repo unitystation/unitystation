@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Assets.Scripts.Gateway
+namespace Gateway
 {
 	/// <summary>
 	/// Utility class for Transporting objects.

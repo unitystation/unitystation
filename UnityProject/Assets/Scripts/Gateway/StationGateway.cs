@@ -2,7 +2,7 @@
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
-using Assets.Scripts.Gateway;
+using Gateway;
 
 /// <summary>
 /// For Gateways inheritable class
