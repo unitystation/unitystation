@@ -196,8 +196,8 @@ public class MetaDataLayer : MonoBehaviour
 	}
 
 
-	public void UpdateSystemsAt(Vector3Int localPosition)
+	public void UpdateSystemsAt(Vector3Int localPosition, SystemType ToUpDate = SystemType.All)
 	{
-		subsystemManager.UpdateAt(localPosition);
+		subsystemManager.UpdateAt(localPosition, ToUpDate);
 	}
 }

@@ -216,7 +216,7 @@ namespace Pipes
 			{
 				matrix.GetMetaDataNode(ZeroedLocation).GasMix += ToSpill.Item2;
 			}
-			metaDataLayer.UpdateSystemsAt(ZeroedLocation);
+			metaDataLayer.UpdateSystemsAt(ZeroedLocation, SystemType.AtmosSystem);
 		}
 
 		public void NetHookUp(PipeData NewConnection)
