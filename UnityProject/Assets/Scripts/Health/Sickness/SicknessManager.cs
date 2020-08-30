@@ -84,13 +84,17 @@ namespace Health.Sickness
 
 						foreach (PlayerSickness playerSickness in sickPlayers)
 						{
-							playerSickness.sicknessAfflictions.RemoveAll(p => p.IsHealed);
-
-							foreach (SicknessAffliction sicknessAffliction in playerSickness.sicknessAfflictions)
+							// Don't check sickness for dead players.
+							if (!playerSickness.playerHealth.IsDead)
 							{
-								CheckSicknessProgression(sicknessAffliction);
-								CheckSymptomOccurence(sicknessAffliction, playerSickness.playerHealth);
-								Thread.Sleep(100);
+								playerSickness.sicknessAfflictions.RemoveAll(p => p.IsHealed);
+
+								foreach (SicknessAffliction sicknessAffliction in playerSickness.sicknessAfflictions)
+								{
+									CheckSicknessProgression(sicknessAffliction);
+									CheckSymptomOccurence(sicknessAffliction, playerSickness.playerHealth);
+									Thread.Sleep(100);
+								}
 							}
 							Thread.Sleep(100);
 						}
