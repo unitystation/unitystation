@@ -103,7 +103,7 @@ GameObject:
   - component: {fileID: 4941744328973670436}
   - component: {fileID: 8772865639506659438}
   m_Layer: 18
-  m_Name: Old_TDirectionalWindow
+  m_Name: BVOld_TDirectionalWindow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -196,6 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114475937421885612
@@ -226,7 +227,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 75
   soundOnHit: GlassHit
+  damageDeflection: 0
   Armor:
     Melee: 80
     Bullet: 0
@@ -247,7 +250,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 1600
-  initialIntegrity: 75
 --- !u!114 &114876689548865824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -351,7 +353,7 @@ MonoBehaviour:
     type: 3}
   minCountOfShardsOnDestroy: 1
   maxCountOfShardsOnDestroy: 2
-  rodsOnDestroy: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,
+  rodsOnDestroy: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
     type: 3}
   minCountOfRodsOnDestroy: 2
   maxCountOfRodsOnDestroy: 4

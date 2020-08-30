@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1548325837674453430}
   - component: {fileID: 985023517015034822}
-  m_Layer: 18
+  m_Layer: 16
   m_Name: overlay_Weld
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -91,7 +91,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5397585133301594750}
   - component: {fileID: 5194188100063199680}
-  m_Layer: 18
+  m_Layer: 16
   m_Name: doorbase
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -173,7 +173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5397996782020181742}
   - component: {fileID: 5194577459239038550}
-  m_Layer: 18
+  m_Layer: 16
   m_Name: overlay_Lights
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -254,7 +254,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5397951447904559400}
   - component: {fileID: 5194472403174301332}
-  m_Layer: 18
+  m_Layer: 16
   m_Name: overlay_Glass
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -348,8 +348,8 @@ GameObject:
   - component: {fileID: 5440160121166514594}
   - component: {fileID: 8382108481817994428}
   - component: {fileID: -1066748792942594941}
-  m_Layer: 18
-  m_Name: FireLock
+  m_Layer: 16
+  m_Name: BVOld_FireLock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -423,6 +423,7 @@ MonoBehaviour:
   DoorSpriteOffset: 2
   weldOverlay: {fileID: 985023517015034822}
   weldSprite: {fileID: 21300000, guid: a02b4f763fa778d4ba5c9664ee50c42c, type: 3}
+  isEmagged: 0
   doorType: 13
   damageOnClose: 1
   damageClosed: 90
@@ -439,6 +440,7 @@ MonoBehaviour:
   pressureLevel: 0
   openingDirection: 0
   spriteRenderer: {fileID: 0}
+  BlockAutoClose: 0
 --- !u!114 &5436608837719691304
 MonoBehaviour:
   m_ObjectHideFlags: 0

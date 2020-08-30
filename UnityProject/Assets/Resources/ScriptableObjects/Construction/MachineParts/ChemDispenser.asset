@@ -13,8 +13,6 @@ MonoBehaviour:
   m_Name: ChemDispenser
   m_EditorClassIdentifier: 
   machine: {fileID: 1880613391911220, guid: 1581b03bb13b84328a0f9fe743bb5bbf, type: 3}
-  NameOfCircuitBoard: Portable Chem Dispenser Board
-  DescriptionOfCircuitBoard: Used to be the Chem Dispenser.
   machineParts:
   - itemTrait: {fileID: 11400000, guid: 2b530cc6dc3250f4e97d022110dbf1f8, type: 2}
     basicItem: {fileID: 2527188313238870147, guid: 1ca8c26ca2f61444bb8d374104ed2a02,
@@ -29,7 +27,7 @@ MonoBehaviour:
       type: 3}
     amountOfThisPart: 1
   - itemTrait: {fileID: 11400000, guid: ef95b18f5d8aa42d2b4241d48a97d81d, type: 2}
-    basicItem: {fileID: 5680136605834777345, guid: ea07289ba72453444a4ff1202b47a57d,
+    basicItem: {fileID: 8579127030982015588, guid: 66a5287d0bf216847a2f4fe34228a0cf,
       type: 3}
     amountOfThisPart: 1
   - itemTrait: {fileID: 11400000, guid: 2f43c5f3e48dc7d4f954a6c847dbf9ef, type: 2}

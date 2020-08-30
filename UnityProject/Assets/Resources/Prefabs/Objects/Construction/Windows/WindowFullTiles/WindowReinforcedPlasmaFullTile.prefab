@@ -33,7 +33,7 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   layerTile: {fileID: 11400000, guid: 7e4862f8c5d385d448754a86a2f73169, type: 2}
-  matsOnDeconstruct: {fileID: 5680136605834777345, guid: 336f7dfb535e752438244ccb536899a9,
+  matsOnDeconstruct: {fileID: 77673353444578627, guid: b6a0d928019a24a4f9cee04a1d06b3b1,
     type: 3}
   countOfMatsOnDissasemle: 2
   soundOnDeconstruct: Wrench
@@ -41,7 +41,7 @@ MonoBehaviour:
     type: 3}
   minCountOfShardsOnDestroy: 1
   maxCountOfShardsOnDestroy: 2
-  rodsOnDestroy: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,
+  rodsOnDestroy: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
     type: 3}
   minCountOfRodsOnDestroy: 1
   maxCountOfRodsOnDestroy: 4
@@ -164,6 +164,7 @@ PrefabInstance:
     - {fileID: 5832035534636942266, guid: 9028811e852742d40ac5ae72a716a679, type: 3}
     - {fileID: 7011150130230751497, guid: 9028811e852742d40ac5ae72a716a679, type: 3}
     - {fileID: 4545905496693852811, guid: 9028811e852742d40ac5ae72a716a679, type: 3}
+    - {fileID: 8283773366978316339, guid: 9028811e852742d40ac5ae72a716a679, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 9028811e852742d40ac5ae72a716a679, type: 3}
 --- !u!1 &8209036267351138478 stripped
 GameObject:
