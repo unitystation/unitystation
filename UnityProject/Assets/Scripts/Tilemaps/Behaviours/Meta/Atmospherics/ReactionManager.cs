@@ -488,11 +488,11 @@ public class ReactionManager : MonoBehaviour
 	//Being called by AtmosSimulation
 	public void AddReactionEvent(ReactionData node)
 	{
-		if (reactions.ContainsKey(node.metaDataNode.Position))
+		if (reactions.TryGetValue(node.metaDataNode.Position, out var gasHastSet))
 		{
-			if(reactions[node.metaDataNode.Position].Contains(node.gasReaction)) return;
+			if(gasHastSet.Contains(node.gasReaction)) return;
 
-			reactions[node.metaDataNode.Position].Add(node.gasReaction);
+			gasHastSet.Add(node.gasReaction);
 		}
 		else
 		{
