@@ -48,6 +48,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05c8730738c663341ae1c74de5b588a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Sickness: {fileID: 0}
   contagionTime: 20
 --- !u!114 &7783699364719522167
 MonoBehaviour:
@@ -141,7 +142,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 4943178488977169442}
-        m_MethodName: OnWalkableEnter
+        m_MethodName: OnEnterableEnter
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

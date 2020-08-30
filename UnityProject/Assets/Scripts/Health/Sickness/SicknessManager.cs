@@ -285,22 +285,24 @@ namespace Assets.Scripts.Health.Sickness
 			Directional playerDirectional = symptomManifestation.PlayerHealth.PlayerMove.PlayerDirectional;
 
 			// Player position
-			SpawnResult spawnResult = Spawn.ServerPrefab(contagionPrefab, position, null, null, 1, null, true);
-			spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
+			SpawnContagionSpot(symptomManifestation, position);
 
 			// In front
-			spawnResult = Spawn.ServerPrefab(contagionPrefab, position + playerDirectional.CurrentDirection.Vector, null, null, 1, null, true);
-			spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
+			SpawnContagionSpot(symptomManifestation, position + playerDirectional.CurrentDirection.Vector);
 
 			// Front left
-			Vector3 vector3 = Quaternion.Euler(0, 0, -45) * playerDirectional.CurrentDirection.Vector;
-			spawnResult = Spawn.ServerPrefab(contagionPrefab, position + vector3, null, null, 1, null, true);
-			spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
+			SpawnContagionSpot(symptomManifestation, position + (Quaternion.Euler(0, 0, -45) * playerDirectional.CurrentDirection.Vector));
 
 			// Front Right
-			vector3 = Quaternion.Euler(0, 0, 45) * playerDirectional.CurrentDirection.Vector;
-			spawnResult = Spawn.ServerPrefab(contagionPrefab, position + vector3, null, null, 1, null, true);
-			spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
+			SpawnContagionSpot(symptomManifestation, position + (Quaternion.Euler(0, 0, 45) * playerDirectional.CurrentDirection.Vector));
+		}
+
+		private void SpawnContagionSpot(SymptomManifestation symptomManifestation, Vector3 position)
+		{
+			SpawnResult spawnResult = Spawn.ServerPrefab(contagionPrefab, position, null, null, 1, null, true);
+
+			if (spawnResult.Successful)
+				spawnResult.GameObject.GetComponent<Contagion>().Sickness = symptomManifestation.SicknessAffliction.Sickness;
 		}
 
 		// Add this player as a sick player
