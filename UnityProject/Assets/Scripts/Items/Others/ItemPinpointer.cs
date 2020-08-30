@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,6 +24,22 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private GameObject objectToTrack;
 	private bool isOn = false;
+
+	private readonly Dictionary<int, ArrowSpriteVariant> directions = new Dictionary<int, ArrowSpriteVariant>()
+	{
+		// Cardinal arrow
+		{ -90, ArrowSpriteVariant.Down },
+		{ 0, ArrowSpriteVariant.Right },
+		{ 90, ArrowSpriteVariant.Up },
+		{ 180, ArrowSpriteVariant.Left },
+		{ -180, ArrowSpriteVariant.Left }, // Wraps around
+
+		// Diagonal arrow
+		{ -135, ArrowSpriteVariant.DownLeft },
+		{ -45, ArrowSpriteVariant.DownRight },
+		{ 45, ArrowSpriteVariant.UpRight },
+		{ 135, ArrowSpriteVariant.UpLeft }
+	};
 
 	private enum ArrowSprite
 	{
@@ -81,8 +97,15 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void UpdateMe()
 	{
-		Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
-		UpdateArrowSprite(moveDirection);
+		if (objectToTrack != null)
+		{
+			Vector3 moveDirection = objectToTrack.AssumedWorldPosServer() - gameObject.AssumedWorldPosServer();
+			UpdateArrowSprite(moveDirection);
+		}
+		else
+		{
+			SetArrowSpriteToNull();
+		}
 	}
 
 	private void UpdateArrowSprite(Vector3 moveDirection)
@@ -113,19 +136,20 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private ArrowSpriteVariant GetArrowVariantFromAngle(float angle)
 	{
-		// Cardinal arrow
-		if (angle <= -45 && angle >= -135f) return ArrowSpriteVariant.Down;
-		if (angle <= 135f && angle >= 45f) return ArrowSpriteVariant.Up;
-		if (angle <= 45f && angle >= -45f) return ArrowSpriteVariant.Right;
-		if (angle <= 225f && angle >= 135f) return ArrowSpriteVariant.Left;
+		float bestAngle = 360;
+		ArrowSpriteVariant bestVariant = default;
 
-		// Diagonal arrow
-		if (angle <= 0f && angle >= -90f) return ArrowSpriteVariant.DownRight;
-		if (angle <= -90f && angle >= -180f) return ArrowSpriteVariant.DownLeft;
-		if (angle <= 90f && angle >= 0f) return ArrowSpriteVariant.UpRight;
-		if (angle <= 180f && angle >= 90f) return ArrowSpriteVariant.UpLeft;
+		foreach (var kvp in directions)
+		{
+			var testValue = Math.Abs(kvp.Key - angle);
+			if (testValue < bestAngle)
+			{
+				bestAngle = testValue;
+				bestVariant = kvp.Value;
+			}
+		}
 
-		return default;
+		return bestVariant;
 	}
 
 	private void ChangeArrowSprite(ArrowSprite sprite)
@@ -136,6 +160,12 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 	private void ChangeArrowSpriteVariant(ArrowSpriteVariant spriteVariant)
 	{
 		arrowSpriteHandler.ChangeSpriteVariant((int)spriteVariant);
+	}
+
+	private void SetArrowSpriteToNull()
+	{
+		ChangeArrowSprite(ArrowSprite.AlertNull);
+		arrowSpriteHandler.ChangeSpriteVariant(0); // No variant for AlertNull.
 	}
 
 	#region Interaction
@@ -161,26 +191,21 @@ public class ItemPinpointer : NetworkBehaviour, IInteractable<HandActivate>
 
 	private void ToggleOn()
 	{
+		SetArrowSpriteToNull();
+		arrowSpriteHandler.PushTexture();
+
 		if (objectToTrack == null)
 		{
 			objectToTrack = FindObjectOfType<NukeDiskScript>().gameObject;
 		}
 
-		if (objectToTrack == null)
-		{
-			ChangeArrowSprite(ArrowSprite.AlertNull);
-			arrowSpriteHandler.ChangeSpriteVariant(0); // No variant for AlertNull.
-			arrowSpriteHandler.PushTexture();
-		}
-
-		UpdateMe();
 		UpdateManager.Add(UpdateMe, scanTime);
 	}
 
 	private void ToggleOff()
 	{
 		arrowSpriteHandler.PushClear();
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}
 
 	#endregion Interaction

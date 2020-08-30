@@ -112,10 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 4377197623706982477}
-  toggleSprites:
-  - {fileID: 21300000, guid: 097d1d016970659418f5f1e5e70c415e, type: 3}
-  - {fileID: 21300000, guid: a97041fcb2f76c3489632b73d091d142, type: 3}
+  spriteHandler: {fileID: 8626702741117238922}
 --- !u!114 &3714036432172209818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,9 +296,26 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: fb162db8c06c8d742ab14e593ac452ee,
+        type: 2}
+    - target: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: fb162db8c06c8d742ab14e593ac452ee,
+        type: 2}
+    - target: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: a3f3213151fec5b46a8eef9de3f8e4b3,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7a048f6c330048e9a2358fb6f71d385, type: 3}
@@ -317,7 +331,7 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8626702741117152277}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4377197623706982477 stripped
+--- !u!114 &8626702741117238922 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5406248525527790680, guid: a7a048f6c330048e9a2358fb6f71d385,
     type: 3}

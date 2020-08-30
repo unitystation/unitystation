@@ -9,10 +9,25 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1276274369776324930, guid: b9f24bba431b4954d90487de487848e9,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1276274369776324930, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: dc073b00daf18ef44add0e2a5c4ea577,
         type: 2}
+    - target: {fileID: 1276274369776324930, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1276274369776324930, guid: b9f24bba431b4954d90487de487848e9,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2057328618789337408, guid: b9f24bba431b4954d90487de487848e9,
         type: 3}
       propertyPath: clothData

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4000012664116732}
   - component: {fileID: 212000013919365814}
+  - component: {fileID: 2185168857273886848}
   m_Layer: 19
   m_Name: Sprite
   m_TagString: Untagged
@@ -70,7 +71,7 @@ SpriteRenderer:
   m_SortingLayerID: -932335445
   m_SortingLayer: 17
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 9a0b93c92ce12554e976d346f6bd4d48, type: 3}
+  m_Sprite: {fileID: 21300048, guid: 9a0b93c92ce12554e976d346f6bd4d48, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -81,6 +82,30 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2185168857273886848
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1000013197971696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 4284a67f2830d4d4ea81fc8f8c8f9fa1, type: 2}
+  - {fileID: 11400000, guid: 7f25a477de733e94fb16c64677d8ab41, type: 2}
+  - {fileID: 11400000, guid: fdf36b612a3a56e419736ba884a6c48e, type: 2}
+  - {fileID: 11400000, guid: fd198c94bd785b442b7470b08f28f11f, type: 2}
+  - {fileID: 11400000, guid: 39fd8c927184fa9408b8fbd2b4337023, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 4284a67f2830d4d4ea81fc8f8c8f9fa1, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &1000014018295980
 GameObject:
   m_ObjectHideFlags: 0
@@ -176,6 +201,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114072681450652006
 MonoBehaviour:
@@ -207,6 +233,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114008601245719976
@@ -223,7 +250,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -244,7 +273,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114730624852685936
 MonoBehaviour:
   m_ObjectHideFlags: 0
