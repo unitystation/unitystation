@@ -14,14 +14,14 @@ namespace Assets.Scripts.Health.Sickness
 		/// Symptom the player develop at this stage of the sickness
 		/// </summary>
 		[SerializeField]
-		private SymptomType symptom;
+		private SymptomType symptom = SymptomType.Wellbeing;
 
 		/// <summary>
 		/// Indicates if a symptom should be repeated once in a while.
 		/// For symptoms such as hiccup, cough, sneeze, vomit, etc.
 		/// </summary>
 		[SerializeField]
-		private bool repeatSymptom;
+		private bool repeatSymptom = true;
 
 		/// <summary>
 		/// For repeatable symptoms.  This is the minimum time (in seconds) the game waits before applying the effect once more
@@ -42,7 +42,7 @@ namespace Assets.Scripts.Health.Sickness
 		private int secondsBeforeNextStage = 300;
 
 		[SerializeField]
-		private string extendedSymptomParametersSerialized;
+		private string extendedSymptomParametersSerialized = string.Empty;
 
 		/// <summary>
 		/// This is for extended symptom parameters that should derive from BaseSymptomParameter Abstract Class.

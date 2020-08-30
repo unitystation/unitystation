@@ -14,7 +14,7 @@ namespace Assets.Scripts.Objects
 		/// This is the function that will handle what happens when a player enters that enterable.
 		/// </summary>
 		[SerializeField]
-		public TriggerEvent enterEvent;
+		public TriggerEvent enterEvent = null;
 
 		/// <summary>
 		/// Triggers the enter event

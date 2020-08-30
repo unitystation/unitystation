@@ -19,13 +19,13 @@ public class PlayerHealth : LivingHealthBehaviour
 	/// The percentage of players that start with common allergies.
 	/// </summary>
 	[SerializeField]
-	private int percentAllergies;
+	private int percentAllergies = 30;
 
 	/// <summary>
 	/// Common allergies.  A percent of players start with that.
 	/// </summary>
 	[SerializeField]
-	private Sickness commonAllergies;
+	private Sickness commonAllergies = null;
 
 	public MetabolismSystem Metabolism { get => metabolism; }
 
