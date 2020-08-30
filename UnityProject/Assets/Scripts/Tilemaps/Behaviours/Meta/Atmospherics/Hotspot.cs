@@ -81,8 +81,8 @@ namespace Atmospherics
 
 		private bool Check()
 		{
-			if (Temperature > Reactions.PlasmaMaintainFire && Volume > 0.0001 && node.GasMix.GetMoles(Gas.Plasma) > 0 &&
-				node.GasMix.GetMoles(Gas.Oxygen) > 0)
+			if (Temperature > Reactions.PlasmaMaintainFire && Volume > 0.0001 && node.GasMix.GetMoles(Gas.Plasma) > 0.1f &&
+				node.GasMix.GetMoles(Gas.Oxygen) > 0.1f)
 			{
 				if (PlasmaFireReaction.GetOxygenContact(node.GasMix) > Reactions.MinimumOxygenContact)
 				{

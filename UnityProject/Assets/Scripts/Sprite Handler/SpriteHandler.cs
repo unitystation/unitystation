@@ -282,8 +282,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		isSubCatalogueChanged = true;
 		SubCatalogue = NewCatalogue;
-		cataloguePage = JumpToPage;
-		if (cataloguePage > -1)
+		if (JumpToPage > -1)
 		{
 			ChangeSprite(JumpToPage, NetWork);
 		}
@@ -336,6 +335,8 @@ public class SpriteHandler : MonoBehaviour
 		TryToggleAnimationState(false);
 	}
 
+
+
 	private void NetUpdate(
 		SpriteDataSO NewSpriteDataSO = null,
 		int NewVariantIndex = -1,
@@ -357,12 +358,6 @@ public class SpriteHandler : MonoBehaviour
 				Logger.LogError("Was unable to find A NetworkBehaviour for " + gameObject.name,
 					Category.SpriteHandler);
 			}
-		}
-
-		if (NetworkIdentity.netId == 0)
-		{
-			//Logger.Log("ID hasn't been set for " + this.transform.parent);
-			return;
 		}
 
 		if (CustomNetworkManager.Instance._isServer == false) return;
@@ -433,7 +428,34 @@ public class SpriteHandler : MonoBehaviour
 			spriteChange.Pallet = NewPalette;
 		}
 
+		if (NetworkIdentity.netId == 0)
+		{
+			//Logger.Log("ID hasn't been set for " + this.transform.parent);
+			StartCoroutine(WaitForNetInitialisation(spriteChange));
+		}
+		else
+		{
+			SpriteHandlerManager.Instance.QueueChanges[this] = spriteChange;
+		}
+
+	}
+
+	private IEnumerator WaitForNetInitialisation(SpriteHandlerManager.SpriteChange spriteChange)
+	{
+		yield return new WaitForEndOfFrame();
+		if (NetworkIdentity.netId == 0)
+		{
+			Logger.LogError("ID hasn't been set for " + this.transform.parent);
+			yield break;
+		}
+
+		if (SpriteHandlerManager.Instance.QueueChanges.ContainsKey(this))
+		{
+			spriteChange.MergeInto(SpriteHandlerManager.Instance.QueueChanges[this]);
+
+		}
 		SpriteHandlerManager.Instance.QueueChanges[this] = spriteChange;
+
 	}
 
 

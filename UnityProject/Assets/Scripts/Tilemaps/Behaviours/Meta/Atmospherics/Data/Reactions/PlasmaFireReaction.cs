@@ -9,8 +9,8 @@ namespace Atmospherics
 	{
 		public bool Satisfies(GasMix gasMix)
 		{
-			if (gasMix.Temperature > Reactions.PlasmaMaintainFire && gasMix.GetMoles(Gas.Plasma) > 0 &&
-	gasMix.GetMoles(Gas.Oxygen) > 0)
+			if (gasMix.Temperature > Reactions.PlasmaMaintainFire && gasMix.GetMoles(Gas.Plasma) > 0.1f &&
+	gasMix.GetMoles(Gas.Oxygen) > 0.1f)
 			{
 				if (GetOxygenContact(gasMix) > Reactions.MinimumOxygenContact)
 				{
