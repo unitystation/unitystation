@@ -258,8 +258,8 @@ namespace Assets.Scripts.Health.Sickness
 			int randomMessage = Random.Range(0, customMessageParameter.CustomMessages.Count);
 			CustomMessage customMessage = customMessageParameter.CustomMessages[randomMessage];
 
-			string privateMessage = (customMessage.privateMessage ?? "").Replace("%PLAYERNAME&", performer.name);
-			string publicMessage = (customMessage.publicMessage ?? "").Replace("%PLAYERNAME&", performer.name);
+			string privateMessage = (customMessage.privateMessage ?? "").Replace("%PLAYERNAME%", performer.name);
+			string publicMessage = (customMessage.publicMessage ?? "").Replace("%PLAYERNAME%", performer.name);
 
 			if (string.IsNullOrWhiteSpace(publicMessage))
 				Chat.AddExamineMsg(performer, privateMessage);
