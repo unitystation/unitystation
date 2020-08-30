@@ -53,19 +53,22 @@ public class EventsManagerPage : AdminPage
 			index = 0;
 		}
 
-		// Instead of triggering the event right away, if we have an extra parameter page, we show it
-		List<EventScriptBase> listEvents = InGameEventsManager.Instance.GetListFromEnum(eventType);
-		if (listEvents[index - 1].parametersPageType != ParametersPageType.None)
+		if (index != 0) // Index 0 (Random Event) will never have a parameter page
 		{
-			GameObject parameterPage = eventsParametersPages.eventParameterPages.FirstOrDefault(p => p.ParametersPageType == listEvents[index - 1].parametersPageType).ParameterPage;
-
-			if (parameterPage)
+			// Instead of triggering the event right away, if we have an extra parameter page, we show it
+			List<EventScriptBase> listEvents = InGameEventsManager.Instance.GetListFromEnum(eventType);
+			if (listEvents[index - 1].parametersPageType != ParametersPageType.None)
 			{
-				parameterPage.SetActive(true);
-				parameterPage.GetComponent<SicknessParametersPage>().SetBasicEventParameters(index, isFakeToggle.isOn, announceToggle.isOn, InGameEventType.Fun);
-				return;
+				GameObject parameterPage = eventsParametersPages.eventParameterPages.FirstOrDefault(p => p.ParametersPageType == listEvents[index - 1].parametersPageType).ParameterPage;
+
+				if (parameterPage)
+				{
+					parameterPage.SetActive(true);
+					parameterPage.GetComponent<SicknessParametersPage>().SetBasicEventParameters(index, isFakeToggle.isOn, announceToggle.isOn, InGameEventType.Fun);
+					return;
+				}
 			}
-		}		
+		}
 		
 		ServerCommandVersionFourMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, index, isFakeToggle.isOn, announceToggle.isOn, eventType, "CmdTriggerGameEvent");
 	}
