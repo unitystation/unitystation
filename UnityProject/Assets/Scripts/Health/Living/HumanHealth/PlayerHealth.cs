@@ -13,7 +13,7 @@ using UnityEngine;
 public class PlayerHealth : LivingHealthBehaviour
 {
 	[SerializeField]
-	private MetabolismSystem metabolism;
+	private MetabolismSystem metabolism = null;
 
 	/// <summary>
 	/// The percentage of players that start with common allergies.
