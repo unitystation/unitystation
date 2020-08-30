@@ -10,6 +10,9 @@ using UnityEngine;
 /// </summary>
 public class MetaDataSystem : SubsystemBehaviour
 {
+	// for Conditional updating
+	public override SystemType SubsystemType =>SystemType.MetaDataSystem;
+
 	// Set higher priority to ensure that it is executed before other systems
 	public override int Priority => 100;
 

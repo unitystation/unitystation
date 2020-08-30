@@ -69,7 +69,7 @@ MonoBehaviour:
     MonoPipe: {fileID: 0}
   Colour: {r: 1, g: 1, b: 1, a: 1}
   SelfSufficient: 0
-  MMinimumPressure: 90
+  MMinimumPressure: 101
   MaxInternalPressure: 8000
   MaxTransferMoles: 100
 --- !u!1 &8584966427123999583
@@ -184,7 +184,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300160, guid: ab114164e53d9954dac5b33964df4cf3,
+      objectReference: {fileID: 21300088, guid: ab114164e53d9954dac5b33964df4cf3,
         type: 3}
     - target: {fileID: 4116897424394887774, guid: ebb08cf966efc084aa918bd8d9429604,
         type: 3}

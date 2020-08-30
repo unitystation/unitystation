@@ -107,7 +107,7 @@ namespace Pipes
 
 
 			metaNode.GasMix = (Gasonnnode + TransferringGas);
-			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer);
+			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer, SystemType.AtmosSystem);
 		}
 	}
 }

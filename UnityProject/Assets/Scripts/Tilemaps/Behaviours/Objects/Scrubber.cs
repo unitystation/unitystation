@@ -91,7 +91,7 @@ namespace Pipes
 				pipeData.mixAndVolume.Add(TransferringGas);
 			}
 
-			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer);
+			metaDataLayer.UpdateSystemsAt(registerTile.LocalPositionServer, SystemType.AtmosSystem);
 		}
 	}
 }

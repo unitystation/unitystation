@@ -62,7 +62,7 @@ namespace Objects
 				GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 			var shakeDistance = Mathf.Lerp(1, 64, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 			node.GasMix += GasMix;
-			metaDataLayer.UpdateSystemsAt(position);
+			metaDataLayer.UpdateSystemsAt(position, SystemType.AtmosSystem);
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject.TileWorldPosition());
 
 			Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
@@ -100,7 +100,7 @@ namespace Objects
 
 					GasMix *= (1 - ratio);
 
-					metaDataLayer.UpdateSystemsAt(position);
+					metaDataLayer.UpdateSystemsAt(position, SystemType.AtmosSystem);
 
 					Volume = GasMix.Volume;
 					Temperature = GasMix.Temperature;
