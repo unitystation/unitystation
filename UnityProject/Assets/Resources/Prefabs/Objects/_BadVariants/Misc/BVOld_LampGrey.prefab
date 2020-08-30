@@ -101,7 +101,7 @@ GameObject:
   - component: {fileID: -5014777076349897504}
   - component: {fileID: 7402795715563578900}
   m_Layer: 11
-  m_Name: LampGrey
+  m_Name: BVOld_LampGrey
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -180,6 +180,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114612570594370890
 MonoBehaviour:
@@ -207,6 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114692596090418488
@@ -223,7 +225,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -244,7 +248,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114928563535158040
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  resourcesMadeOf: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,
+  resourcesMadeOf: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
     type: 3}
   howMany: 1
 --- !u!114 &7402795715563578900
@@ -310,6 +313,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
