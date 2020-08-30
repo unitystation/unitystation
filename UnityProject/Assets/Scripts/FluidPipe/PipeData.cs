@@ -229,14 +229,6 @@ namespace Pipes
 
 		public void ConnectedAdd(PipeData NewConnection)
 		{
-			if (MonoPipe != null)
-			{
-				if (MonoPipe.name == "Filter (1)")
-				{
-					Logger.Log("yay");
-				}
-			}
-
 			ConnectedPipes.Add(NewConnection);
 			var pipe1Connection =
 				this.Connections.Directions[(int) PipeFunctions.PipesToDirections(this, NewConnection)];
