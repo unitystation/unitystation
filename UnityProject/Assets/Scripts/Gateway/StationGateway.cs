@@ -2,6 +2,7 @@
 using UnityEngine;
 using System.Linq;
 using UnityEditor;
+using Gateway;
 
 /// <summary>
 /// For Gateways inheritable class
@@ -27,6 +28,14 @@ public class StationGateway : NetworkBehaviour, IAPCPowered
 	private Sprite[] PowerOff = null;
 
 	private WorldGateway selectedWorld;// The world from the list that was chosen
+
+	/// <summary>
+	/// Gets the coordinates of the teleport target where things will be teleported to.
+	/// </summary>
+	//If the selected world has an override, use it.
+	public virtual Vector3 TeleportTargetCoord => (selectedWorld?.OverrideCoord ?? Vector3Int.zero) != Vector3Int.zero
+		? selectedWorld.OverrideCoord
+		: selectedWorld.registerTile.WorldPosition;
 
 	private bool HasPower = true;// Not used atm
 
@@ -212,43 +221,14 @@ public class StationGateway : NetworkBehaviour, IAPCPowered
 			var coord = new Vector2(Position.x, Position.y);
 			Chat.AddLocalMsgToChat(Message, coord, gameObject);
 			SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
-			TransportPlayers(player);
+			TransportUtility.TransportObjectAndPulled(player, TeleportTargetCoord);
 		}
 
-		foreach (var objects in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Object, true))
+		foreach (var item in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Object, true)
+									.Concat(Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Item, true)))
 		{
-			TransportObjectsItems(objects);
+			TransportUtility.TransportObjectAndPulled(item, TeleportTargetCoord);
 		}
-
-		foreach (var items in Matrix.Get<ObjectBehaviour>(registerTile.LocalPositionServer + Vector3Int.up, ObjectType.Item, true))
-		{
-			TransportObjectsItems(items);
-		}
-	}
-
-	[Server]
-	public virtual void TransportPlayers(ObjectBehaviour player)
-	{
-		var newPosition = selectedWorld.registerTile.WorldPosition;
-		if (selectedWorld.OverrideCoord != Vector3Int.zero)
-		{
-			newPosition = selectedWorld.OverrideCoord;
-		}
-
-		//teleports player to the front of the new gateway
-		player.GetComponent<PlayerSync>().SetPosition(newPosition);
-	}
-
-	[Server]
-	public virtual void TransportObjectsItems(ObjectBehaviour objectsitems)
-	{
-		var newPosition = selectedWorld.registerTile.WorldPosition;
-		if (selectedWorld.OverrideCoord != Vector3Int.zero)
-		{
-			newPosition = selectedWorld.OverrideCoord;
-		}
-		//teleports objects/items to the front of the new gateway
-		objectsitems.GetComponent<CustomNetTransform>().SetPosition(newPosition);
 	}
 
 	public virtual void SetOnline()

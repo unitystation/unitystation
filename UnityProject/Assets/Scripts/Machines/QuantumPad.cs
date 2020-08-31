@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using System.Linq;
+using Gateway;
 
 public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
@@ -161,28 +162,24 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		var registerTileLocation = registerTile.LocalPositionServer;
 
-		//detect players positioned on the portal bit of the gateway
-		var playersFound = Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true);
-
 		var somethingTeleported = false;
 
-		foreach (ObjectBehaviour player in playersFound)
+		//Use the transport object code from StationGateway
+
+		//detect players positioned on the portal bit of the gateway
+		foreach (ObjectBehaviour player in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true))
 		{
 			Chat.AddLocalMsgToChat(message, travelCoord, gameObject);
 			SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
-			TransportPlayers(player);
+			TransportUtility.TransportObjectAndPulled(player, travelCoord);
 			somethingTeleported = true;
 		}
 
-		foreach (var objects in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Object, true))
+		//detect objects and items
+		foreach (var item in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Object, true)
+								.Concat(Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Item, true)))
 		{
-			TransportObjectsItems(objects);
-			somethingTeleported = true;
-		}
-
-		foreach (var items in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Item, true))
-		{
-			TransportObjectsItems(items);
+			TransportUtility.TransportObjectAndPulled(item, travelCoord);
 			somethingTeleported = true;
 		}
 
@@ -200,20 +197,6 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 		yield return WaitFor.Seconds(1f);
 		spriteHandler.ChangeSprite(0);
 		ServerSync(false);
-	}
-
-
-	[Server]
-	public void TransportPlayers(ObjectBehaviour player)
-	{
-		//teleports player to the front of the new gateway
-		player.GetComponent<PlayerSync>().SetPosition(travelCoord, true);
-	}
-
-	[Server]
-	public void TransportObjectsItems(ObjectBehaviour objectsItems)
-	{
-		objectsItems.GetComponent<CustomNetTransform>().SetPosition(travelCoord);
 	}
 
 	public enum PadDirection
