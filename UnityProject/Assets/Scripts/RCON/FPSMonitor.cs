@@ -17,6 +17,8 @@ using System.Collections.Generic;
 
 			    return _fpsMonitor;
 		    }
+
+		    set { Instance = value; }
 	    }
 
         private List<float> avgSamples = new List<float>();
@@ -28,6 +30,14 @@ using System.Collections.Generic;
 
         float timeInMax = 0f;
         float timeInMin = 0f;
+
+        private void Awake()
+        {
+	        if ( Instance == null )
+	        {
+		        Instance = this;
+	        }
+        }
 
         void Update()
         {

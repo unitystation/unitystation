@@ -20,6 +20,8 @@ namespace Audio.Managers
 
 				return soundAmbientManager;
 			}
+
+			set { Instance = value; }
 		}
 
 		/// <summary>
@@ -145,6 +147,11 @@ namespace Audio.Managers
 
 		private void Awake()
 		{
+			if ( Instance == null )
+			{
+				Instance = this;
+			}
+
 			SetVolumeWithPlayerPrefs();
 		}
 

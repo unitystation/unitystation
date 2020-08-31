@@ -16,8 +16,18 @@ public class NetworkTabManager : MonoBehaviour {
 			}
 			return networkTabManager;
 		}
+
+		set { Instance = value; }
 	}
 	private readonly Dictionary<NetTabDescriptor, NetTab> openTabs = new Dictionary<NetTabDescriptor, NetTab>();
+
+	private void Awake()
+	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
+	}
 
 	public List<ConnectedPlayer> GetPeepers(GameObject provider, NetTabType type)
 	{

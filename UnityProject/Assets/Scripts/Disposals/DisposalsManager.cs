@@ -31,6 +31,14 @@ namespace Disposals
 
 		List<DisposalTraversal> disposalInstances = new List<DisposalTraversal>();
 
+		private void Awake()
+		{
+			if ( Instance == null )
+			{
+				Instance = this;
+			}
+		}
+
 		void Update()
 		{
 			/*

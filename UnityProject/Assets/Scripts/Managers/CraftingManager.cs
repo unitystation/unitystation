@@ -31,6 +31,16 @@ public class CraftingManager : MonoBehaviour
 
 			return craftingManager;
 		}
+
+		set { Instance = value; }
+	}
+
+	private void Awake()
+	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
 	}
 
 	public Techweb techweb;

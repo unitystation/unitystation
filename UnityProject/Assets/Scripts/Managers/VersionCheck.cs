@@ -27,6 +27,16 @@ public class VersionCheck : MonoBehaviour
 			}
 			return versionCheck;
 		}
+
+		set { Instance = value; }
+	}
+
+	private void Awake()
+	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
 	}
 
 	private void Start()

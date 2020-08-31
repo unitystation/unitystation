@@ -21,10 +21,19 @@ public class LoadingScreenManager : MonoBehaviour
 
 			return _loadingScreenManager;
 		}
+
+		set { Instance = value; }
 	}
 
 	[SerializeField] private LoadingScreen loadingScreen = null;
 
+	private void Awake()
+	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
+	}
 
 	private void OnEnable()
 	{

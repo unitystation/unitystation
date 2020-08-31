@@ -50,6 +50,8 @@ public class TileManager : MonoBehaviour
 
 			return tileManager;
 		}
+
+		set { Instance = value; }
 	}
 
 	private int tilesToLoad = 0;
@@ -61,6 +63,14 @@ public class TileManager : MonoBehaviour
 	private bool initialized;
 
 	[SerializeField] private List<TilePathEntry> layerTileCollections = new List<TilePathEntry>();
+
+	private void Awake()
+	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
+	}
 
 	private void Start()
 	{

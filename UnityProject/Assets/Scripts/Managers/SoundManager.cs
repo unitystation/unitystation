@@ -41,6 +41,8 @@ public class SoundManager : MonoBehaviour
 
 			return soundManager;
 		}
+
+		set { Instance = value; }
 	}
 
 	[SerializeField]
@@ -67,6 +69,11 @@ public class SoundManager : MonoBehaviour
 
 	private void Awake()
 	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
+
 		Init();
 	}
 
@@ -720,7 +727,7 @@ public class SoundManager : MonoBehaviour
 					audioSourceParameters,
 					polyphonic: true,
 					Global: false,
-					sourceObj: performer					
+					sourceObj: performer
 				);
 			}
 

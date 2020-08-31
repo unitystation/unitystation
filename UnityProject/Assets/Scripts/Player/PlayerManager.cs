@@ -37,11 +37,19 @@ public class PlayerManager : MonoBehaviour
 
 			return playerManager;
 		}
+
+		set { Instance = value; }
 	}
 
-#if UNITY_EDITOR	//Opening the station scene instead of going through the lobby
+	//Opening the station scene instead of going through the lobby
 	private void Awake()
 	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
+
+#if UNITY_EDITOR
 		if (CurrentCharacterSettings != null)
 		{
 			return;
@@ -51,8 +59,9 @@ public class PlayerManager : MonoBehaviour
 		var deserialized = JsonConvert.DeserializeObject<CharacterSettings>(unescapedJson);
 		PlayerCustomisationDataSOs.Instance.ValidateCharacterSettings(ref deserialized);
 		CurrentCharacterSettings = deserialized ?? new CharacterSettings();
-	}
 #endif
+	}
+
 
 	private void OnEnable()
 	{

@@ -28,6 +28,8 @@ namespace DatabaseAPI
 
 				return serverData;
 			}
+
+			set { Instance = value; }
 		}
 
 		public static string UserFirestoreURL
@@ -69,6 +71,10 @@ namespace DatabaseAPI
 
 		void Awake()
 		{
+			if ( Instance == null )
+			{
+				Instance = this;
+			}
 			//Handles config for RCON and Server Status API for dedicated servers
 			AttemptConfigLoad();
 			InitializeFirebase();

@@ -38,6 +38,8 @@ public partial class MatrixManager : MonoBehaviour
 
 			return matrixManager;
 		}
+
+		set { Instance = value; }
 	}
 
 	private static LayerMask tileDmgMask;
@@ -57,6 +59,14 @@ public partial class MatrixManager : MonoBehaviour
 	private Matrix mainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
+
+	private void Awake()
+	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
+	}
 
 	private IEnumerator WaitForLoad()
 	{

@@ -25,6 +25,8 @@ public partial class Chat : MonoBehaviour
 
 			return chat;
 		}
+
+		set { Instance = value; }
 	}
 
 	//Connections to scene based ChatRelay. This is null if in the lobby
@@ -47,6 +49,14 @@ public partial class Chat : MonoBehaviour
 		Instance.addChatLogServer = serverChatMethod;
 		Instance.addChatLogClient = clientChatMethod;
 		Instance.addAdminPriv = adminMethod;
+	}
+
+	private void Awake()
+	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
 	}
 
 	public static void InvokeChatEvent(ChatEvent chatEvent)

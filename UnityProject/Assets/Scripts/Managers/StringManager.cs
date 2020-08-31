@@ -15,6 +15,8 @@ public class StringManager : MonoBehaviour
 			}
 			return stringManager;
 		}
+
+		set { Instance = value; }
 	}
 
 	/// <summary>
@@ -29,6 +31,14 @@ public class StringManager : MonoBehaviour
 	public Dictionary<string, List<string>> textObjects = new Dictionary<string, List<string>>();
 
 	public List<TextAsset> nameTextFiles;
+
+	private void Awake()
+	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
+	}
 
 	void Start()
 	{

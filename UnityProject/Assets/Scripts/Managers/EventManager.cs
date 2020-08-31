@@ -50,6 +50,16 @@ public class EventManager : MonoBehaviour
 			}
 			return eventManager;
 		}
+
+		set { Instance = value; }
+	}
+
+	private void Awake()
+	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
 	}
 
 	public static void UpdateLights()

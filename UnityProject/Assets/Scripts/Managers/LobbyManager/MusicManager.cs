@@ -18,6 +18,8 @@ namespace Audio.Containers
 
 				return musicManager;
 			}
+
+			set { Instance = value; }
 		}
 
 		[SerializeField] private SongTracker songTracker = null;
@@ -35,6 +37,11 @@ namespace Audio.Containers
 
 		private void Awake()
 		{
+			if ( Instance == null )
+			{
+				Instance = this;
+			}
+
 			Init();
 		}
 

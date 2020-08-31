@@ -21,12 +21,22 @@ public class RadioManager : MonoBehaviour
 
 			return radioManager;
 		}
+
+		set { Instance = value; }
 	}
 
 	private RadioMessager LastRadioMessager = null;
 
 
 	private List<RadioReceiver> receivers = new List<RadioReceiver>();
+
+	private void Awake()
+	{
+		if ( Instance == null )
+		{
+			Instance = this;
+		}
+	}
 
 	public void RegisterReceiver(RadioReceiver rec)
 	{
