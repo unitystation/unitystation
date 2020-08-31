@@ -112,7 +112,9 @@ public class TabUpdateMessage : ServerMessage
 		{
 			case TabAction.Open:
 				NetworkTabManager.Instance.Add(provider, type, recipient);
-				values = NetworkTabManager.Instance.Get(provider, type).ElementValues;
+				var instance = NetworkTabManager.Instance.Get(provider, type);
+				if (instance == null) return null;
+				values = instance.ElementValues;
 				break;
 			case TabAction.Close:
 				NetworkTabManager.Instance.Remove(provider, type, recipient);
