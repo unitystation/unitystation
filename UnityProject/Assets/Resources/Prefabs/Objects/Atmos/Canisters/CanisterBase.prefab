@@ -1,92 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-6176799362412192573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetTabType: 10
---- !u!114 &3242550791702936155
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  Opened: 0
-  MaximumMoles: 1846.242
-  ReleasePressure: 101.325
-  Volume: 1
-  Temperature: 293.15
-  Gases:
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
-  - 0
---- !u!114 &4620245307892029763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 931d5444a5bf4c9aa3be62ecbf046740, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  gasContainer: {fileID: 3242550791702936155}
-  molesAdded: 15000
---- !u!114 &7067097863662868376
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  UIBGTint: {r: 0.9882353, g: 0.81960785, b: 0.16470589, a: 1}
-  UIInnerPanelTint: {r: 0.99215686, g: 0.99215686, b: 0.65882355, a: 1}
-  ContentsName: Gas
-  objectBehaviour: {fileID: 195607162214552374}
-  container: {fileID: 0}
-  hasContainerInserted: 0
-  connector: {fileID: 0}
-  isConnected: 0
-  connectorRenderer: {fileID: 4787550694329366047}
-  connectorFuel: {fileID: 0}
-  connectorSprite: {fileID: 21300000, guid: a7172f3398019e044a68e8bb2fefbb72, type: 3}
 --- !u!1 &2770036439668985193
 GameObject:
   m_ObjectHideFlags: 0
@@ -115,7 +28,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3327308291878936282}
+  m_Father: {fileID: 71571786451045753}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4787550694329366047
@@ -168,6 +81,95 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &-6176799362412192573
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71571786451006913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6d7277dcc993463cb6c7f79b663f36fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetTabType: 10
+--- !u!114 &3242550791702936155
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71571786451006913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf6a312c50114272bc561c429cbb4175, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  sheetsToSpawn: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
+    type: 3}
+  Opened: 0
+  MaximumMoles: 1846.242
+  ReleasePressure: 101.325
+  Volume: 1
+  Temperature: 293.15
+  Gases:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+--- !u!114 &4620245307892029763
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71571786451006913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 931d5444a5bf4c9aa3be62ecbf046740, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gasContainer: {fileID: 3242550791702936155}
+  molesAdded: 15000
+--- !u!114 &7067097863662868376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 71571786451006913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c9ae6b6bba5c4e3aa4780272577c9bcf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  UIBGTint: {r: 0.9882353, g: 0.81960785, b: 0.16470589, a: 1}
+  UIInnerPanelTint: {r: 0.99215686, g: 0.99215686, b: 0.65882355, a: 1}
+  ContentsName: Gas
+  objectBehaviour: {fileID: 71571786450981893}
+  container: {fileID: 0}
+  hasContainerInserted: 0
+  connector: {fileID: 0}
+  isConnected: 0
+  connectorRenderer: {fileID: 4787550694329366047}
+  connectorFuel: {fileID: 0}
+  connectorSprite: {fileID: 21300000, guid: a7172f3398019e044a68e8bb2fefbb72, type: 3}
 --- !u!1 &8387653848795343260
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +199,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3327308291878936282}
+  m_Father: {fileID: 71571786451045753}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &1969798539537519914
@@ -406,25 +408,25 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d7892c86699e21499ad5f872fd4d512, type: 3}
---- !u!1 &3330777552754972672 stripped
+--- !u!1 &71571786451006913 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3370674530075112738, guid: 5d7892c86699e21499ad5f872fd4d512,
     type: 3}
   m_PrefabInstance: {fileID: 71571786451086626}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &3327308291878936282 stripped
+--- !u!4 &71571786451045753 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3373969533394793464, guid: 5d7892c86699e21499ad5f872fd4d512,
     type: 3}
   m_PrefabInstance: {fileID: 71571786451086626}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &195607162214552374 stripped
+--- !u!114 &71571786450981893 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 164567772411035156, guid: 5d7892c86699e21499ad5f872fd4d512,
     type: 3}
   m_PrefabInstance: {fileID: 71571786451086626}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3330777552754972672}
+  m_GameObject: {fileID: 71571786451006913}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
