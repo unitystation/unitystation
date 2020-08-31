@@ -146,8 +146,8 @@ namespace Weapons
 		/// <summary>
 		/// The amount of projectiles spawned per shot
 		/// </summary>
-		[HideInInspector]
-		public int ProjectilesFired = 1;
+		[SerializeField]
+		private int ProjectilesFired = 1;
 
 		//TODO: make this dependent on the mag used/projectile fired
 		/// <summary>
