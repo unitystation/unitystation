@@ -36,7 +36,10 @@ namespace InGameEvents
 			Sickness sickness = SicknessManager.Instance.Sicknesses[sicknessEventParameters.SicknessIndex];
 
 			foreach (ConnectedPlayer player in PlayerList.Instance.AllPlayers.PickRandom(sicknessEventParameters.PlayerToInfect).ToList())
-				player.Script.playerHealth.AddSickness(sickness);
+			{
+				if ((player.Script != null) && (player.Script.playerHealth != null))
+					player.Script.playerHealth.AddSickness(sickness);
+			}
 		}
 	}
 }

@@ -78,6 +78,9 @@ public class PlayerHealth : LivingHealthBehaviour
 	/// <param name="">The sickness to add</param>
 	public void AddSickness(Sickness sickness)
 	{
+		if (IsDead)
+			return;
+
 		if ((!playerSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
 			playerSickness.Add(sickness, Time.time);
 	}

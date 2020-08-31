@@ -79,12 +79,12 @@ namespace InGameEvents
 
 		public virtual void OnEventStart()
 		{
-			OnEventStart(null);
+			Invoke(nameof(OnEventStartTimed), StartTimer);
 		}
 
 		public virtual void OnEventStart(string serializedEventParameters = null)
 		{
-			Invoke(nameof(OnEventStartTimed), StartTimer);
+			OnEventStart();
 		}
 
 		public virtual void OnEventStartTimed()
