@@ -230,5 +230,7 @@ public enum AmmoType
 	Slug,
 	Syringe,
 	Gasoline,
-	Internal
+	Internal,
+	_762x38mmR,
+	_84mm
 }

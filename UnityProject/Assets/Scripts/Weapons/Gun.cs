@@ -29,12 +29,6 @@ namespace Weapons
 		protected GameObject ammoPrefab = null;
 
 		/// <summary>
-		/// Link to the generic internal mag prefab, if this link is incorrect all internal mag weapons will not function!
-		/// </summary>
-		[SerializeField]
-		protected GameObject genericInternalMag = null;
-
-		/// <summary>
 		/// Optional ejected casing override, will default to the standard casing if left null and will only be used if SpawnsCasing is true
 		/// </summary>
 		[SerializeField, Tooltip("Optional casing override, defaults to standard casing when null")]
@@ -77,7 +71,7 @@ namespace Weapons
 
 		/// <summary>
 		/// The cooldown between full bursts in seconds
-		/// <summary>
+		/// </summary>
 		[HideInInspector, Tooltip("The cooldown between full a burst in seconds")] // will be shown by the code at the very end, if appropriate
 		public double burstCooldown = 3;
 
@@ -93,12 +87,6 @@ namespace Weapons
 		/// </summary>
 		[HideInInspector, Tooltip("If the gun should eject an empty mag automatically")] // will be shown by the code at the very end, if appropriate
 		public bool SmartGun = false;
-
-		/// <summary>
-		/// Size of the internal magazine (internal-magazine-specific)
-		/// </summary>
-		[HideInInspector, Tooltip("Size of the internal mag")] // will be shown by the code at the very end, if appropriate
-		public int MagSize = 10;
 
 		/// <summary>
 		/// The the current recoil variance this weapon has reached
@@ -225,33 +213,17 @@ namespace Weapons
 				//ejecting an internal mag should never be allowed
 				allowMagazineRemoval = false;
 				//populate with a full internal mag on spawn
-				Logger.LogTraceFormat("Auto-populate internal magazine for {0}", Category.Inventory, name);
-
-				//Make generic magazine and modify it to fit weapon
-				GameObject internalMag = genericInternalMag;
-
-				Inventory.ServerAdd(Spawn.ServerPrefab(internalMag).GameObject, magSlot);
-
-				if (CurrentMagazine == null)
-				{
-					Debug.LogError($"{gameObject.name} has null current magazine");
-					return;
-				}
-
-				CurrentMagazine.ChangeSize(MagSize);
-				CurrentMagazine.ammoType = ammoType;
-
-				if (isServer)
-				{
-					CurrentMagazine.ServerSetAmmoRemains(MagSize);
-				}
 			}
-			else
+
+			if (ammoPrefab == null)
 			{
-				//populate with a full external mag on spawn
-				Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
-				Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
+				Debug.LogError($"{gameObject.name} magazine prefab was null, cannot auto-populate.");
+				return;
 			}
+
+			//populate with a full external mag on spawn
+			Logger.LogTraceFormat("Auto-populate external magazine for {0}", Category.Inventory, name);
+			Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
 		}
 
 		public void OnInventoryMoveServer(InventoryMove info)
@@ -887,11 +859,8 @@ namespace Weapons
 
 			script.MagInternal = EditorGUILayout.Toggle("Magazine Internal", script.MagInternal);
 
-			if (script.MagInternal) // show exclusive fields depending on whether magazine is internal
+			if (!script.MagInternal) // show exclusive fields depending on whether magazine is internal
 			{
-				script.MagSize = EditorGUILayout.IntField("Internal Magazine Size", script.MagSize);
-			}
-			else{
 				script.SmartGun = EditorGUILayout.Toggle("Smart Gun", script.SmartGun);
 			}
 
