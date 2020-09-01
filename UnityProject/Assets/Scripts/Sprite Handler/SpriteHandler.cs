@@ -247,8 +247,8 @@ public class SpriteHandler : MonoBehaviour
 			SubCatalogue = new List<SpriteDataSO>();
 		}
 
-		if (HasSpriteInImageComponent() == false && PresentSpriteSet == null) return;
-
+		if (HasSpriteInImageComponent() == false && PresentSpriteSet == null && cataloguePage == -1) return;
+		cataloguePage = -1;
 		PushClear(false);
 		PresentSpriteSet = null;
 
@@ -485,6 +485,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (spriteRenderer != null)
 		{
+			spriteRenderer.enabled = true;
 			spriteRenderer.sprite = value;
 			MaterialPropertyBlock block = new MaterialPropertyBlock();
 			spriteRenderer.GetPropertyBlock(block);
@@ -508,6 +509,10 @@ public class SpriteHandler : MonoBehaviour
 			if (value == null)
 			{
 				image.enabled = false;
+			}
+			else
+			{
+				image.enabled = true;
 			}
 		}
 

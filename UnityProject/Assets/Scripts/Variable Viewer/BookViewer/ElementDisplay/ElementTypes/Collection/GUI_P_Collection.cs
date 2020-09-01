@@ -9,6 +9,8 @@ using TMPro;
 
 public class GUI_P_Collection : PageElement
 {
+	public override PageElementEnum PageElementType => PageElementEnum.Collection;
+
 	public TMP_Text TText;
 	public Text ButtonText;
 	public GameObject Page;

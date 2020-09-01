@@ -7,6 +7,7 @@ using DatabaseAPI;
 
 public class GUI_P_Bool : PageElement
 {
+	public override PageElementEnum PageElementType => PageElementEnum.Bool;
 	public Toggle TToggle;
 
 	public override bool IsThisType(Type TType)
