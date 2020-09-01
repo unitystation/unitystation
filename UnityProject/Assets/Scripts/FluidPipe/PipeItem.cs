@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +7,12 @@ using UnityEngine;
 
 namespace Pipes
 {
-	public class PipeItem : NetworkBehaviour, ICheckedInteractable<HandApply>
+	public class PipeItem : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<HandActivate>
 	{
 		public Color Colour = Color.white;
 
 		[SyncVar(hook = nameof(SetRotation))]
 		public float Netz = 0;
-
 
 		public SpriteHandler SpriteHandler;
 		public RegisterItem registerItem;
@@ -40,6 +39,8 @@ namespace Pipes
 			Colour = newColour;
 			SpriteHandler.SetColor(Colour);
 		}
+
+		#region Interactions
 
 		public virtual bool WillInteract(HandApply interaction, NetworkSide side)
 		{
@@ -73,8 +74,25 @@ namespace Pipes
 				BuildPipe();
 			}
 
+			RotatePipe();
+		}
+
+		public virtual bool WillInteract(HandActivate interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public virtual void ServerPerformInteraction(HandActivate interaction)
+		{
+			RotatePipe();
+		}
+
+		#endregion Interactions
+
+		protected virtual void RotatePipe()
+		{
 			this.transform.Rotate(0, 0, -90);
-			SetRotation(Netz,transform.eulerAngles.z);
+			SetRotation(Netz, transform.eulerAngles.z);
 		}
 
 		public virtual void BuildPipe()
@@ -87,4 +105,3 @@ namespace Pipes
 		}
 	}
 }
-

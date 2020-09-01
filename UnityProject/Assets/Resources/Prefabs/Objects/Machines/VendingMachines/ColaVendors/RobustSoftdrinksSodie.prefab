@@ -7,10 +7,31 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 471271850343394589, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e960fbb1bbd67494fbb535d59370321d,
+        type: 2}
     - target: {fileID: 3532909349452968613, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: Color.r
+      value: 0.37647063
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: Color.g
+      value: 0.32941177
+      objectReference: {fileID: 0}
+    - target: {fileID: 3570249104166932168, guid: cce47c5ed69f6ca40a312fa09d93db8f,
+        type: 3}
+      propertyPath: Color.b
+      value: 0.3647059
       objectReference: {fileID: 0}
     - target: {fileID: 4585709544569780028, guid: cce47c5ed69f6ca40a312fa09d93db8f,
         type: 3}

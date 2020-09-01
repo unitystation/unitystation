@@ -146,8 +146,8 @@ namespace Weapons
 		/// <summary>
 		/// The amount of projectiles spawned per shot
 		/// </summary>
-		[HideInInspector]
-		public int ProjectilesFired = 1;
+		[SerializeField]
+		private int ProjectilesFired = 1;
 
 		//TODO: make this dependent on the mag used/projectile fired
 		/// <summary>
@@ -228,9 +228,9 @@ namespace Weapons
 				Logger.LogTraceFormat("Auto-populate internal magazine for {0}", Category.Inventory, name);
 
 				//Make generic magazine and modify it to fit weapon
-				GameObject ammoPrefab = genericInternalMag;
+				GameObject internalMag = genericInternalMag;
 
-				Inventory.ServerAdd(Spawn.ServerPrefab(ammoPrefab).GameObject, magSlot);
+				Inventory.ServerAdd(Spawn.ServerPrefab(internalMag).GameObject, magSlot);
 
 				if (CurrentMagazine == null)
 				{

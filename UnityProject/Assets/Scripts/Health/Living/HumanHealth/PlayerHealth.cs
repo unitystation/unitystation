@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AdminTools;
+using Health.Sickness;
+using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using AdminTools;
+using System.Linq;
 using UnityEngine;
-using Mirror;
-using UnityEditor;
 
 /// <summary>
 /// Provides central access to the Players Health
@@ -12,11 +13,33 @@ using UnityEditor;
 public class PlayerHealth : LivingHealthBehaviour
 {
 	[SerializeField]
-	private MetabolismSystem metabolism;
+	private MetabolismSystem metabolism = null;
+
+	/// <summary>
+	/// The percentage of players that start with common allergies.
+	/// </summary>
+	[SerializeField]
+	private int percentAllergies = 30;
+
+	/// <summary>
+	/// Common allergies.  A percent of players start with that.
+	/// </summary>
+	[SerializeField]
+	private Sickness commonAllergies = null;
 
 	public MetabolismSystem Metabolism { get => metabolism; }
 
-	private PlayerMove playerMove;
+	/// <summary>
+	/// Current sicknesses status of the player and their current stage.
+	/// </summary>
+	private PlayerSickness playerSickness = null;
+
+	/// <summary>
+	/// List of sicknesses that player has gained immunity.
+	/// </summary>
+	private List<Sickness> immunedSickness;
+
+	public PlayerMove PlayerMove;
 	private PlayerSprites playerSprites;
 
 	private PlayerNetworkActions playerNetworkActions;
@@ -36,7 +59,55 @@ public class PlayerHealth : LivingHealthBehaviour
 	{
 		base.Awake();
 		EnsureInit();
+		ApplyStartingAllergies();
 	}
+
+	// At round start, a percent of players start with mild allergy
+	// The purpose of this, is to make believe that coughing and sneezing at random is "probably" not a real sickness.
+	private void ApplyStartingAllergies()
+	{
+		if (UnityEngine.Random.Range(0, 100) < percentAllergies)
+		{
+			AddSickness(commonAllergies);
+		}
+	}
+
+	/// <summary>
+	/// Add a sickness to the player if he doesn't already has it and isn't immuned
+	/// </summary>
+	/// <param name="">The sickness to add</param>
+	public void AddSickness(Sickness sickness)
+	{
+		if (IsDead)
+			return;
+
+		if ((!playerSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
+			playerSickness.Add(sickness, Time.time);
+	}
+
+	/// <summary>
+	/// This will remove the sickness from the player, healing him.
+	/// </summary>
+	/// <remarks>Thread safe</remarks>
+	public void RemoveSickness(Sickness sickness)
+	{
+		SicknessAffliction sicknessAffliction = playerSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
+
+		if (sicknessAffliction)
+			sicknessAffliction.Heal();
+	}
+
+	/// <summary>
+	/// This will remove the sickness from the player, healing him.  This will also make him immune for the current round.
+	/// </summary>
+	public void ImmuneSickness(Sickness sickness)
+	{
+		RemoveSickness(sickness);
+
+		if (!immunedSickness.Contains(sickness))
+			immunedSickness.Add(sickness);
+	}
+
 
 	void EnsureInit()
 	{
@@ -44,12 +115,15 @@ public class PlayerHealth : LivingHealthBehaviour
 
 		init = true;
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
-		playerMove = GetComponent<PlayerMove>();
+		PlayerMove = GetComponent<PlayerMove>();
 		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 		itemStorage = GetComponent<ItemStorage>();
+		playerSickness = GetComponent<PlayerSickness>();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
+
+		immunedSickness = new List<Sickness>();
 
 		metabolism = GetComponent<MetabolismSystem>();
 		if (metabolism == null)
@@ -157,7 +231,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	protected override void Gib()
 	{
 		Death();
-		EffectsFactory.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
+		EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 
 		//drop everything
@@ -166,22 +240,22 @@ public class PlayerHealth : LivingHealthBehaviour
 			Inventory.ServerDrop(slot);
 		}
 
-		playerMove.PlayerScript.pushPull.VisibleState = false;
+		PlayerMove.PlayerScript.pushPull.VisibleState = false;
 		playerNetworkActions.ServerSpawnPlayerGhost();
 	}
 
 	///     make player unconscious upon crit
-	private void OnPlayerConsciousStateChangeServer( ConsciousState oldState, ConsciousState newState )
+	private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
 	{
 		if (playerNetworkActions == null || registerPlayer == null) EnsureInit();
 
-		if ( isServer )
+		if (isServer)
 		{
 			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 		}
 
 		//we stay upright if buckled or conscious
-		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || playerMove.IsBuckled);
+		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
 	}
 
 	/// These electrocution methods are specific to players,
@@ -289,7 +363,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	protected override void LethalElectrocution(Electrocution electrocution, float shockPower)
 	{
 
-		playerMove.allowInput = false;
+		PlayerMove.allowInput = false;
 		// TODO: Add sparks VFX at shockSourcePos.
 		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
 		StartCoroutine(ElectrocutionSequence());
@@ -323,7 +397,7 @@ public class PlayerHealth : LivingHealthBehaviour
 		// TODO: Add micro-lerping here. (Player quick but short vertical, horizontal movements)
 
 		yield return WaitFor.Seconds(timeBeforeDrop); // Instantly dropping to ground looks odd.
-		// TODO: Add sparks VFX at shockSourcePos.
+													  // TODO: Add sparks VFX at shockSourcePos.
 		registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
 		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition,
 				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);

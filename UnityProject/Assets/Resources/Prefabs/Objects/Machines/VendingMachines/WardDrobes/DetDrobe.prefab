@@ -9,13 +9,13 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
-      propertyPath: InitialVendorContent.Array.size
+      propertyPath: VendorContent.Array.size
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
-      propertyPath: VendorContent.Array.size
-      value: 0
+      propertyPath: InitialVendorContent.Array.size
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
@@ -35,7 +35,7 @@ PrefabInstance:
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[0].ItemName
-      value: Hard Worn Suit
+      value: Hard-Worn Suit
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
@@ -51,7 +51,7 @@ PrefabInstance:
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[1].ItemName
-      value: Hard Worn Suitskirt
+      value: Hard-Worn Suitskirt
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
@@ -99,7 +99,7 @@ PrefabInstance:
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[4].ItemName
-      value: Detectives Hat
+      value: Detective's Hat
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
@@ -115,7 +115,7 @@ PrefabInstance:
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[5].ItemName
-      value: Nor Suit
+      value: Noir Suit
       objectReference: {fileID: 0}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
@@ -313,7 +313,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[17].Item
       value: 
-      objectReference: {fileID: 8684129920059976793, guid: 0010029d500bcc9469c05ec34573f8de,
+      objectReference: {fileID: 7116736864254828308, guid: 823ad5b6a9d0dc94d8b6cf26ab12e175,
         type: 3}
     - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
@@ -566,11 +566,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2043259655805960583, guid: c9c8ffe7c5a0a044bbe8343e681e1fe2,
         type: 3}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[20].Item
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300265576470810490, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[20].Stock
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2325254099903673000, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: -7186647468132015367, guid: b0e724f2c716c4d48a0060158d97a58b,
+      objectReference: {fileID: -6082626668263232754, guid: b0e724f2c716c4d48a0060158d97a58b,
         type: 3}
     - target: {fileID: 2532371680913741503, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
@@ -653,12 +663,33 @@ PrefabInstance:
       propertyPath: restriction
       value: 35
       objectReference: {fileID: 0}
+    - target: {fileID: 6229150752284204976, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: Color.r
+      value: 0.8313726
+      objectReference: {fileID: 0}
+    - target: {fileID: 6229150752284204976, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: Color.g
+      value: 0.8000001
+      objectReference: {fileID: 0}
+    - target: {fileID: 6229150752284204976, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: Color.b
+      value: 0.7411765
+      objectReference: {fileID: 0}
     - target: {fileID: 6267070499382879197, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 6367465037517563460, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 39b1a138676dafb49ab10c5932419be2,
+        type: 2}
+    - target: {fileID: 7022302039327439973, guid: bc2878fc1e4346c41bf6bc3b53b91f6a,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 

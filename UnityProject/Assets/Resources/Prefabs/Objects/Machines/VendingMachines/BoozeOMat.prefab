@@ -13,6 +13,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 46494561c3b66154dac22b9ede2c993f,
         type: 2}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Color.r
+      value: 0.31764707
+      objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Color.g
+      value: 0.5529412
+      objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Color.b
+      value: 0.5686275
+      objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
@@ -34,6 +49,12 @@ PrefabInstance:
       value: A technological marvel, supposedly able to mix just the mixture you'd
         like to drink the moment you ask for one.
       objectReference: {fileID: 0}
+    - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 46494561c3b66154dac22b9ede2c993f,
+        type: 2}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
@@ -677,7 +698,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a66daa6c84d771445bf2a00e0e1389a6,
+      objectReference: {fileID: 21300002, guid: a66daa6c84d771445bf2a00e0e1389a6,
         type: 3}
     - target: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -36,7 +37,7 @@ public class SubsystemManager : NetworkBehaviour
 		systems.Add(system);
 	}
 
-	public void UpdateAt(Vector3Int localPosition)
+	public void UpdateAt(Vector3Int localPosition, SystemType ToUpDate = SystemType.All)
 	{
 		if (!initialized)
 		{
@@ -48,7 +49,18 @@ public class SubsystemManager : NetworkBehaviour
 
 		for (int i = 0; i < systems.Count; i++)
 		{
-			systems[i].UpdateAt(localPosition);
+			if (ToUpDate.HasFlag(systems[i].SubsystemType))
+			{
+				systems[i].UpdateAt(localPosition);
+			}
 		}
 	}
+}
+[Flags]
+public enum SystemType
+{
+	None = 0,
+	AtmosSystem = 1 << 0,
+	MetaDataSystem = 1 << 1,
+	All = ~None
 }

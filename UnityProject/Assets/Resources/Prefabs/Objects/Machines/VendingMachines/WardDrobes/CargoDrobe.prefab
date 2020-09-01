@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 618660645418473005, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 5aa272f8693a07c43aff130cf1b7eb4e,
+        type: 2}
     - target: {fileID: 2710638318996389568, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: restriction
@@ -34,11 +40,21 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4581204742557119992, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: Color.r
+      value: 0.9843137
+      objectReference: {fileID: 0}
+    - target: {fileID: 4581204742557119992, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: Color.b
+      value: 0.13725491
+      objectReference: {fileID: 0}
     - target: {fileID: 5306683621526280416, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 832a6ff5ec806524db73adc50b87d4e4,
+      objectReference: {fileID: 21300004, guid: 832a6ff5ec806524db73adc50b87d4e4,
         type: 3}
     - target: {fileID: 5387743639968234743, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -108,13 +124,13 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.size
-      value: 8
+      propertyPath: VendorContent.Array.size
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: VendorContent.Array.size
-      value: 0
+      propertyPath: InitialVendorContent.Array.size
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -246,7 +262,7 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[7].ItemName
-      value: Shaft Miner's Jumpsuit
+      value: Shaft Miner's Overalls
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}

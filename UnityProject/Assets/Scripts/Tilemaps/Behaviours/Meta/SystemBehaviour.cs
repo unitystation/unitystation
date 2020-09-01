@@ -3,9 +3,12 @@
 
 public abstract class SubsystemBehaviour : MonoBehaviour
 	{
+
 		protected MetaDataLayer metaDataLayer;
 		protected MetaTileMap metaTileMap;
 		protected SubsystemManager subsystemManager;
+
+		public virtual SystemType SubsystemType => SystemType.None;
 
 		public virtual int Priority => 0;
 

@@ -11,6 +11,9 @@ namespace Objects
 		//max pressure for determining explosion effects - effects will be maximum at this contained pressure
 		private static readonly float MAX_EXPLOSION_EFFECT_PRESSURE = 148517f;
 
+		[SerializeField]
+		private GameObject sheetsToSpawn = null;
+
 		public GasMix GasMix { get; set; }
 
 		public bool Opened;
@@ -62,10 +65,10 @@ namespace Objects
 				GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 			var shakeDistance = Mathf.Lerp(1, 64, GasMix.Pressure / MAX_EXPLOSION_EFFECT_PRESSURE);
 			node.GasMix += GasMix;
-			metaDataLayer.UpdateSystemsAt(position);
+			metaDataLayer.UpdateSystemsAt(position, SystemType.AtmosSystem);
 			Chat.AddLocalDestroyMsgToChat(gameObject.ExpensiveName(), " exploded!", gameObject.TileWorldPosition());
 
-			Spawn.ServerPrefab("Metal", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
+			Spawn.ServerPrefab(sheetsToSpawn, gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
 				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 
 			ExplosionUtils.PlaySoundAndShake(tileWorldPosition, shakeIntensity, (int) shakeDistance);
@@ -100,7 +103,7 @@ namespace Objects
 
 					GasMix *= (1 - ratio);
 
-					metaDataLayer.UpdateSystemsAt(position);
+					metaDataLayer.UpdateSystemsAt(position, SystemType.AtmosSystem);
 
 					Volume = GasMix.Volume;
 					Temperature = GasMix.Temperature;

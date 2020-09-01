@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using AdminTools;
-using UnityEngine;
-using DiscordWebhook;
-using System;
-using System.Linq;
-using Random = UnityEngine.Random;
+﻿using DiscordWebhook;
 using GameConfig;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace InGameEvents
 {
@@ -110,7 +108,7 @@ namespace InGameEvents
 			list.Add(eventToAdd);
 		}
 
-		public void TriggerSpecificEvent(int eventIndex, InGameEventType eventType, bool isFake = false, string adminName = null, bool announceEvent = true)
+		public void TriggerSpecificEvent(int eventIndex, InGameEventType eventType, bool isFake = false, string adminName = null, bool announceEvent = true, string serializedEventParameters = null)
 		{
 			List<EventScriptBase> list;
 
@@ -138,7 +136,7 @@ namespace InGameEvents
 				var eventChosen = list[eventIndex - 1];
 				eventChosen.FakeEvent = isFake;
 				eventChosen.AnnounceEvent = announceEvent;
-				eventChosen.TriggerEvent();
+				eventChosen.TriggerEvent(serializedEventParameters);
 
 				var msg = $"{adminName}: triggered the event: {eventChosen.EventName}. Is fake: {isFake}. Announce: {announceEvent}";
 

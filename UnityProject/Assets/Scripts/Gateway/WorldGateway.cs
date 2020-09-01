@@ -28,6 +28,11 @@ public class WorldGateway : StationGateway
 	/// </summary>
 	public Vector3Int  OverrideCoord;
 
+	/// <summary>
+	/// Gets the coordinates of the teleport target where things will be teleported to.
+	/// </summary>
+	public override Vector3 TeleportTargetCoord => StationGateway.GetComponent<RegisterTile>().WorldPosition;
+
 	public override void OnStartServer()
 	{
 		SetOffline();
@@ -75,18 +80,5 @@ public class WorldGateway : StationGateway
 		}
 
 		SpawnedMobs = true;
-	}
-
-	[Server]
-	public override void TransportPlayers(ObjectBehaviour player)
-	{
-		//teleports player to the front of the new gateway
-		player.GetComponent<PlayerSync>().SetPosition(StationGateway.GetComponent<RegisterTile>().WorldPosition);
-	}
-
-	[Server]
-	public override void TransportObjectsItems(ObjectBehaviour objectsitems)
-	{
-		objectsitems.GetComponent<CustomNetTransform>().SetPosition(StationGateway.GetComponent<RegisterTile>().WorldPosition);
 	}
 }

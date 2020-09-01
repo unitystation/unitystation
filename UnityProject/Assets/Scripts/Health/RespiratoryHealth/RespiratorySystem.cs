@@ -120,7 +120,7 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 		{
 			breathGasMix.RemoveGas(Gas.Oxygen, oxygenUsed);
 			node.GasMix.AddGas(Gas.CarbonDioxide, oxygenUsed);
-			registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient);
+			registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
 		}
 
 		gasMix += breathGasMix;

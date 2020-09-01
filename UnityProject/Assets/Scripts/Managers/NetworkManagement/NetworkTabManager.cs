@@ -71,13 +71,15 @@ public class NetworkTabManager : MonoBehaviour {
 		if ( tabDescriptor.Equals( NetTabDescriptor.Invalid ) ) {
 			return;
 		}
-
-		if ( !openTabs.ContainsKey( tabDescriptor ) ) {
+		if (!openTabs.TryGetValue(tabDescriptor, out var tab)) {
 			//Spawning new one
-			openTabs.Add( tabDescriptor, tabDescriptor.Spawn(transform) );
+			tab = tabDescriptor.Spawn(transform);
+			if (tab == null)
+			{
+				return;
+			}
+			openTabs.Add( tabDescriptor, tab );
 		}
-		NetTab tab = openTabs[tabDescriptor];
-//		tab.gameObject.SetActive( true );
 		tab.AddPlayer( player );
 	}
 	public void Add( GameObject provider, NetTabType type, GameObject player ) {

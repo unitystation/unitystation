@@ -151,8 +151,8 @@ namespace NPC
 		{
 			Chat.AddActionMsgToChat(
 				gameObject,
-				$"{mobNameCap} start licking its paws!",
-				$"{mobNameCap} start licking its paws!");
+				$"{mobNameCap} starts licking its paws!",
+				$"{mobNameCap} starts licking its paws!");
 		}
 
 		// Public method so it can be called from CorgiAI

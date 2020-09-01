@@ -1,7 +1,8 @@
-﻿using System;
-using Mirror;
-using DiscordWebhook;
+﻿using DiscordWebhook;
 using InGameEvents;
+using Mirror;
+using Newtonsoft.Json;
+using System;
 using UnityEngine;
 
 namespace AdminCommands
@@ -70,13 +71,13 @@ namespace AdminCommands
 		[Server]
 		public void CmdTriggerGameEvent(string adminId, string adminToken, int eventIndex, bool isFake,
 			bool announceEvent,
-			InGameEventType eventType)
+			InGameEventType eventType, string serializedEventParameters)
 		{
 			var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 			if (admin == null) return;
 
 			InGameEventsManager.Instance.TriggerSpecificEvent(eventIndex, eventType, isFake,
-				PlayerList.Instance.GetByUserID(adminId).Username, announceEvent);
+				PlayerList.Instance.GetByUserID(adminId).Username, announceEvent, serializedEventParameters);
 		}
 
 		#endregion
@@ -497,6 +498,11 @@ namespace AdminCommands
 		public InGameEventType EventType;
 		public string Action;
 
+		/// <summary>
+		/// JSon Serialization of the extra event parameters
+		/// </summary>
+		public string SerializedEventParameters;
+
 		public override void Process()
 		{
 			var admin = PlayerList.Instance.GetAdmin(AdminId, AdminToken);
@@ -509,7 +515,8 @@ namespace AdminCommands
 				EventIndex,
 				IsFake,
 				AnnounceEvent,
-				EventType
+				EventType,
+				SerializedEventParameters
 			};
 
 			var instance = AdminCommandsManager.Instance;
@@ -522,7 +529,7 @@ namespace AdminCommands
 
 		public static ServerCommandVersionFourMessageClient Send(string adminId, string adminToken, int eventIndex,
 			bool isFake, bool announceEvent, InGameEventType eventType,
-			string action)
+			string action, BaseEventParameters eventParameters = null)
 		{
 			ServerCommandVersionFourMessageClient msg = new ServerCommandVersionFourMessageClient
 			{
@@ -532,7 +539,8 @@ namespace AdminCommands
 				IsFake = isFake,
 				AnnounceEvent = announceEvent,
 				EventType = eventType,
-				Action = action
+				Action = action,
+				SerializedEventParameters = JsonConvert.SerializeObject(eventParameters)
 			};
 			msg.Send();
 			return msg;

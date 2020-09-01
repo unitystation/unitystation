@@ -229,7 +229,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -250,7 +252,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114738972662350094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,7 +296,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  resourcesMadeOf: {fileID: 6254655335276451647, guid: ab486d104d39e584e935c8a5459a967c,
+  resourcesMadeOf: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
     type: 3}
   howMany: 1
 --- !u!114 &4778249315414111879
@@ -407,6 +408,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 14632e88f6fbfa34fae408cc6e46a39d, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []

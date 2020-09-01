@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using Atmospherics;
@@ -21,7 +22,7 @@ public class ReactionManager : MonoBehaviour
 
 	public Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
 
-	public Dictionary<Vector3Int, HashSet<GasReactions>> reactions = new Dictionary<Vector3Int, HashSet<GasReactions>>();
+	public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> reactions = new ConcurrentDictionary<Vector3Int, HashSet<GasReactions>>();
 
 	private static readonly int FIRE_FX_Z = -2;
 
@@ -236,23 +237,17 @@ public class ReactionManager : MonoBehaviour
 		int gasReactionCount = addReaction.Count;
 		if (gasReactionCount > 0)
 		{
-			for (int i = 0; i < gasReactionCount; i++)
+			for (int i = gasReactionCount; i >= 0; i--)
 			{
 				if (addReaction.TryDequeue(out var addReactionNode))
 				{
-					if (addReactionNode == null)
-					{
-						Debug.LogError("Was null");
-						continue;
-					}
-
 					var gasMix = addReactionNode.metaDataNode.GasMix;
 
 					addReactionNode.gasReaction.Reaction.React(ref gasMix, addReactionNode.metaDataNode.Position);
 
-					if (reactions[addReactionNode.metaDataNode.Position].Count == 1)
+					if (reactions.TryGetValue(addReactionNode.metaDataNode.Position, out var gasHashSet) && gasHashSet.Count == 1)
 					{
-						reactions.Remove(addReactionNode.metaDataNode.Position);
+						reactions.TryRemove(addReactionNode.metaDataNode.Position, out var value);
 						continue;
 					}
 
@@ -493,15 +488,15 @@ public class ReactionManager : MonoBehaviour
 	//Being called by AtmosSimulation
 	public void AddReactionEvent(ReactionData node)
 	{
-		if (reactions.ContainsKey(node.metaDataNode.Position))
+		if (reactions.TryGetValue(node.metaDataNode.Position, out var gasHastSet))
 		{
-			if(reactions[node.metaDataNode.Position].Contains(node.gasReaction)) return;
+			if(gasHastSet.Contains(node.gasReaction)) return;
 
-			reactions[node.metaDataNode.Position].Add(node.gasReaction);
+			gasHastSet.Add(node.gasReaction);
 		}
 		else
 		{
-			reactions.Add(node.metaDataNode.Position, new HashSet<GasReactions>{node.gasReaction});
+			reactions.TryAdd(node.metaDataNode.Position, new HashSet<GasReactions>{node.gasReaction});
 		}
 
 		addReaction.Enqueue(node);

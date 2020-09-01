@@ -29,6 +29,12 @@ PrefabInstance:
       value: A snack machine courtesy of the Getmore Chocolate Corporation, based
         out of Mars.
       objectReference: {fileID: 0}
+    - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e8271589fcb217c408a333742ec38504,
+        type: 2}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
@@ -203,7 +209,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300004, guid: 6f8612a65d41a3147919c3485b1e4f29,
+      objectReference: {fileID: 21300000, guid: 6f8612a65d41a3147919c3485b1e4f29,
         type: 3}
     - target: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}

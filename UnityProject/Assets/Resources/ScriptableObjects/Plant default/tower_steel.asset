@@ -13,39 +13,14 @@ MonoBehaviour:
   m_Name: tower_steel
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 4519819786599941225, guid: 2a170fdb7187e38459de34c4d2b131ad,
+    ProduceObject: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
       type: 3}
     Name: tower_steel
     Plantname: Steel Caps
     Description: This mycelium grows into steel logs.
-    PacketsSprite:
-      Texture: {fileID: 2800000, guid: 68be7f1ccf67601418d7a7cfdb534a67, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 68be7f1ccf67601418d7a7cfdb534a67, type: 3}
-      EquippedData: {fileID: 0}
-    GrowthSprites:
-    - Texture: {fileID: 2800000, guid: 7c44b51015894ca49ba0db24138aa8eb, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 7c44b51015894ca49ba0db24138aa8eb, type: 3}
-      EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 7ef3b847e432b6f4cb7bb1b7a16ac508, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 7ef3b847e432b6f4cb7bb1b7a16ac508, type: 3}
-      EquippedData: {fileID: 0}
-    - Texture: {fileID: 2800000, guid: 780b3988245e6bf47926ba2f89ff5406, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 780b3988245e6bf47926ba2f89ff5406, type: 3}
-      EquippedData: {fileID: 0}
-    FullyGrownSprite:
-      Texture: {fileID: 2800000, guid: 7c44b51015894ca49ba0db24138aa8eb, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 7c44b51015894ca49ba0db24138aa8eb, type: 3}
-      EquippedData: {fileID: 0}
-    DeadSprite:
-      Texture: {fileID: 2800000, guid: de5805f6e6311fc4ab47a865623ca744, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: de5805f6e6311fc4ab47a865623ca744, type: 3}
-      EquippedData: {fileID: 0}
+    DeadSpriteSO: {fileID: 0}
+    FullyGrownSpriteSO: {fileID: 0}
+    GrowthSpritesSOs: []
     WeedResistance: 50
     WeedGrowthRate: 10
     GrowthSpeed: 10
@@ -55,7 +30,22 @@ MonoBehaviour:
     Lifespan: 80
     PlantTrays: 02000000
     ReagentProduction: []
-    MutatesInTo: []
+    MutatesInToGameObject: []
+    plantEvolveStats:
+      WeedResistanceChange: 0
+      WeedGrowthRateChange: 0
+      GrowthSpeedChange: 0
+      PotencyChange: 0
+      EnduranceChange: 0
+      YieldChange: 0
+      LifespanChange: 0
+      PlantTrays: 
+      ReagentProduction: []
+      RemovePlantTrays: 
+      RemoveReagentProduction: []
+    Age: 0
+    NextGrowthStageProgress: 0
+    Health: 0
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

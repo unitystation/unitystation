@@ -18,6 +18,16 @@ PrefabInstance:
       propertyPath: Resistances.FireProof
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Color.g
+      value: 0.078431375
+      objectReference: {fileID: 0}
+    - target: {fileID: 815363352763762453, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: Color.b
+      value: 0.454902
+      objectReference: {fileID: 0}
     - target: {fileID: 854479238589397880, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: m_AssetId
@@ -33,6 +43,12 @@ PrefabInstance:
       propertyPath: initialName
       value: BODA
       objectReference: {fileID: 0}
+    - target: {fileID: 4347831001461171392, guid: 2f2954acc32d9d3468c620e34a625966,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 9ad56bee4b93db844984261927b454d7,
+        type: 2}
     - target: {fileID: 4813939428139522015, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
@@ -79,7 +95,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f9c935cd8bdf606469fd52bfdc5884d6,
+      objectReference: {fileID: 21300004, guid: f9c935cd8bdf606469fd52bfdc5884d6,
         type: 3}
     - target: {fileID: 9081061823247388186, guid: 2f2954acc32d9d3468c620e34a625966,
         type: 3}
