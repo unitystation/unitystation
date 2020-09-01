@@ -8,6 +8,8 @@ using TMPro;
 
 public class GUI_P_Class : PageElement
 {
+	public override PageElementEnum PageElementType => PageElementEnum.Class;
+
 	public Button TButton;
 	public TMP_Text TText;
 	public bool IsSentence;

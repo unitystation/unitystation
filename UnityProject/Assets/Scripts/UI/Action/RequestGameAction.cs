@@ -79,6 +79,7 @@ public class RequestGameAction : ClientMessage
 				ComponentType =	componentType,
 			};
 			msg.Send();
+			return;
 		}
 
 		Logger.LogError("Failed to find IServerActionGUI on NetworkIdentity");
