@@ -6,15 +6,14 @@ using UnityEngine;
 
 namespace Doors
 {
-	[RequireComponent(typeof(DoorMasterController))]
-	public abstract class DoorModuleBase : NetworkBehaviour
+	public abstract class DoorModuleBase : MonoBehaviour
 	{
 		//Master Controller, assigned when the object spawns in.
-		private DoorMasterController master;
+		protected DoorMasterController master;
 
-		private void Awake()
+		protected virtual void Awake()
 		{
-			master = GetComponent<DoorMasterController>();
+			master = GetComponentInParent<DoorMasterController>();
 		}
 
 		public abstract ModuleSignal OpenInteraction(HandApply interaction);

@@ -91,7 +91,7 @@ namespace Doors
 			registerTile = gameObject.GetComponent<RegisterDoor>();
 
 			//Get out list of modules for use later.
-			modulesList = GetComponents<DoorModuleBase>().ToList();
+			modulesList = GetComponentsInChildren<DoorModuleBase>().ToList();
 		}
 
 		public override void OnStartClient()
@@ -141,7 +141,10 @@ namespace Doors
 				}
 			}
 
-			TryClose(interaction.Performer);
+			if (!isPerformingAction)
+			{
+				TryClose(interaction.Performer);
+			}
 		}
 
 		private void ClosedInteraction(HandApply interaction)
@@ -160,7 +163,10 @@ namespace Doors
 				}
 			}
 
-			TryOpen(interaction.Performer);
+			if (!isPerformingAction)
+			{
+				TryOpen(interaction.Performer);
+			}
 		}
 
 		public void TryOpen(GameObject originator = null, bool blockClosing = false)
