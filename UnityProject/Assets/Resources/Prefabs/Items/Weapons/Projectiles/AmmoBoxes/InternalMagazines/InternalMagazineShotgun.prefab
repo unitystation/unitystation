@@ -7,6 +7,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1053198998585859953, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: ammoType
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053198998585859953, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: magazineSize
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4340418770804641687, guid: 279de6cf129850f4b8a22d99511dfd03,
         type: 3}
       propertyPath: PresentSpriteSet

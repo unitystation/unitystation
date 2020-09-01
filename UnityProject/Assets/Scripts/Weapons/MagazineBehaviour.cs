@@ -232,5 +232,6 @@ public enum AmmoType
 	Gasoline,
 	Internal,
 	_762x38mmR,
-	_84mm
+	_84mm,
+	FoamForceDart
 }

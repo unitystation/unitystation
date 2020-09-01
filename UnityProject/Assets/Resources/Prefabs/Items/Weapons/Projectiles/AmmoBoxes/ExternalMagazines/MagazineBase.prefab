@@ -7,6 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1367725800532977169, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1367725800532977169, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: e97648598582a134b94dc1e17fb1ef56,
+        type: 2}
     - target: {fileID: 1442624996090196999, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,7 +76,12 @@ PrefabInstance:
     - target: {fileID: 1447548746969270643, guid: 3fae459459df71d4999b6618dc06f219,
         type: 3}
       propertyPath: m_Name
-      value: AmmoBoxBase
+      value: MagazineBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 1549955644806952135, guid: 3fae459459df71d4999b6618dc06f219,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3fae459459df71d4999b6618dc06f219, type: 3}

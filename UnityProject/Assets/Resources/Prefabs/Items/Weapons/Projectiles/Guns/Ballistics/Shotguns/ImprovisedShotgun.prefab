@@ -114,6 +114,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 80b6946b53e48b944b0b60b7ee05ce56,
         type: 2}
+    - target: {fileID: 4881930153370599954, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
+        type: 3}
+      propertyPath: genericInternalMag
+      value: 
+      objectReference: {fileID: 484621910317547679, guid: 4a6e2f5fc0231d74fb2bb97ddc3fd9d8,
+        type: 3}
+    - target: {fileID: 4881930153370599954, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
+        type: 3}
+      propertyPath: MagSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4881930153370599954, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 484621910317547679, guid: 4a6e2f5fc0231d74fb2bb97ddc3fd9d8,
+        type: 3}
     - target: {fileID: 8095660190261211141, guid: 3da33d6eccc1bbe4cb49cdc7fd00662f,
         type: 3}
       propertyPath: m_Sprite

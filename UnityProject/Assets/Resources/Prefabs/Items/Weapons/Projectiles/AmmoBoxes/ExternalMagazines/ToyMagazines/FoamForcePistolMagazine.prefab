@@ -9,9 +9,20 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1250843745268640460, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1250843745268640460, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
       propertyPath: initialName
       value: foam force pistol magazine
       objectReference: {fileID: 0}
+    - target: {fileID: 1250843745268640460, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: b16ae3645633b9d4d88ad96b045060e3,
+        type: 2}
     - target: {fileID: 1533349136993711858, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
         type: 3}
       propertyPath: m_Sprite
@@ -89,5 +100,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1c7a995e702f0bd45b4b524d35c4767e,
         type: 2}
+    - target: {fileID: 8093411948979334863, guid: 8e8424eb1a0a54f4380ff97f6a51d872,
+        type: 3}
+      propertyPath: magazineSize
+      value: 8
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e8424eb1a0a54f4380ff97f6a51d872, type: 3}

@@ -65,7 +65,17 @@ PrefabInstance:
     - target: {fileID: 4040938859939369650, guid: 863f3c5765447184b8b0d23ff0b9ddff,
         type: 3}
       propertyPath: m_Name
-      value: InternalMagazineShotgun
+      value: InternalMagazineShotgunToy
+      objectReference: {fileID: 0}
+    - target: {fileID: 4143445675893075718, guid: 863f3c5765447184b8b0d23ff0b9ddff,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6914052666156841427, guid: 863f3c5765447184b8b0d23ff0b9ddff,
+        type: 3}
+      propertyPath: ammoType
+      value: 21
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 863f3c5765447184b8b0d23ff0b9ddff, type: 3}
