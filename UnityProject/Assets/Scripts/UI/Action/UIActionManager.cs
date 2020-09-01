@@ -101,7 +101,7 @@ public class UIActionManager : MonoBehaviour
 		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
 			var _UIAction = Instance.DicIActionGUI[iActionGUI];
-			_UIAction.IconFront.ChangeSpriteVariant(Location);
+			_UIAction.IconFront.ChangeSprite(Location);
 		}
 		else {
 
@@ -114,7 +114,7 @@ public class UIActionManager : MonoBehaviour
 		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
 			var _UIAction = Instance.DicIActionGUI[iActionGUI];
-			_UIAction.IconBackground.ChangeSpriteVariant(Location);
+			_UIAction.IconBackground.ChangeSprite(Location);
 		}
 		else {
 

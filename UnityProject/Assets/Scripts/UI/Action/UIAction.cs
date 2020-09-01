@@ -36,10 +36,9 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
 	public void Pool()
 	{
-		IconBackground.ChangeSpriteVariant(0, false);
-		IconFront.ChangeSpriteVariant(0, false);
+		IconBackground.Empty(true, false);
+		IconFront.Empty(true, false);
 		IconBackground.SetSpriteSO(DefaultIconBackground, Network : false);
-		IconFront.PushClear(false);
 		this.gameObject.SetActive(false);
 	}
 
