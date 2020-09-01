@@ -85,6 +85,15 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	{
 		Init();
 		SyncPlayerName(playerName, playerName);
+		ShowSpells();
+	}
+
+	private void ShowSpells()
+	{
+		foreach (var spell in mind.Spells)
+		{
+			UIActionManager.ToggleLocal(spell, true);
+		}
 	}
 
 	//isLocalPlayer is always called after OnStartClient
