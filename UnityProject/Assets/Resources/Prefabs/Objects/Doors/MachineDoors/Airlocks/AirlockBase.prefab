@@ -679,6 +679,8 @@ GameObject:
   - component: {fileID: 3405652838765079119}
   - component: {fileID: 934849774931252631}
   - component: {fileID: 2928157364170990969}
+  - component: {fileID: 5626014973276032656}
+  - component: {fileID: 3801622674961811191}
   m_Layer: 18
   m_Name: modules
   m_TagString: Untagged
@@ -725,6 +727,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   restriction: 7
+--- !u!114 &5626014973276032656
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444326074182531729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8dcb740346f9fac4b8b867342b52735e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weldTime: 5
+--- !u!114 &3801622674961811191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3444326074182531729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf459e4d0882ff240b38afcbd2bc7a01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  warningCooldown: 5
+  enablePressureWarning: 1
+  warningSFX: TripleBeep
 --- !u!114 &2243806384905767094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,15 +943,15 @@ PrefabInstance:
     - {fileID: -304701645951842033, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
     - {fileID: -4969049584947791526, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1291a5cb15d008c41bf0a373403f56b2, type: 3}
---- !u!1 &215518841633704133 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3622147455447933482, guid: 1291a5cb15d008c41bf0a373403f56b2,
-    type: 3}
-  m_PrefabInstance: {fileID: 3511082394880060143}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &8242232534866279461 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4817606987798484682, guid: 1291a5cb15d008c41bf0a373403f56b2,
+    type: 3}
+  m_PrefabInstance: {fileID: 3511082394880060143}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &215518841633704133 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3622147455447933482, guid: 1291a5cb15d008c41bf0a373403f56b2,
     type: 3}
   m_PrefabInstance: {fileID: 3511082394880060143}
   m_PrefabAsset: {fileID: 0}

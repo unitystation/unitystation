@@ -71,6 +71,7 @@ namespace Doors
 			overlayLightsHandler = overlayLights.GetComponent<SpriteHandler>();
 			overlayFillHandler = overlayFill.GetComponent<SpriteHandler>();
 			overlayWeldHandler = overlayWeld.GetComponent<SpriteHandler>();
+			overlayWeldHandler.ChangeSprite((int) Weld.NoWeld);
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
 		}
 

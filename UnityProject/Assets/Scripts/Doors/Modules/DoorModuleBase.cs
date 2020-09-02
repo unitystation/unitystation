@@ -19,5 +19,8 @@ namespace Doors
 		public abstract ModuleSignal OpenInteraction(HandApply interaction);
 
 		public abstract ModuleSignal ClosedInteraction(HandApply interaction);
+
+		//Whether or not the door can opened or closed.
+		public abstract bool CanDoorStateChange();
 	}
 }

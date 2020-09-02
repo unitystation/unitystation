@@ -12,6 +12,7 @@ namespace Doors
 		Continue, //Continue executing through modules.
 		Break, //Prevent any further execution, including door masters own methods.
 		SkipRemaining, //Skip the remaining modules, but continue with the door masters methods.
+		ContinueWithoutDoorStateChange,
 	}
 //This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	public class DoorMasterController : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
@@ -63,6 +64,7 @@ namespace Doors
 		private int doorDirection;
 
 		private bool isPerformingAction;
+		public bool IsPerformingAction => isPerformingAction;
 
 		[SerializeField]
 		[Tooltip("Does it have a glass window you can see trough?")]
@@ -72,6 +74,8 @@ namespace Doors
 		private OpeningDirection openingDirection;
 
 		private RegisterDoor registerTile;
+		public RegisterDoor RegisterTile => registerTile;
+
 		private Matrix matrix => registerTile.Matrix;
 
 		[HideInInspector]
@@ -127,9 +131,15 @@ namespace Doors
 		//They're separated so that the modules can handle interactions differently when either open or closed.
 		private void OpenInteraction(HandApply interaction)
 		{
+			bool canOpen = true;
 			foreach (DoorModuleBase module in modulesList)
 			{
 				ModuleSignal signal = module.OpenInteraction(interaction);
+
+				if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
+				{
+					canOpen = false;
+				}
 
 				if (signal == ModuleSignal.SkipRemaining)
 				{
@@ -141,7 +151,7 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction)
+			if (!isPerformingAction && canOpen)
 			{
 				TryClose(interaction.Performer);
 			}
@@ -149,9 +159,15 @@ namespace Doors
 
 		private void ClosedInteraction(HandApply interaction)
 		{
+			bool canClose = true;
 			foreach (DoorModuleBase module in modulesList)
 			{
 				ModuleSignal signal = module.ClosedInteraction(interaction);
+
+				if (!module.CanDoorStateChange() || signal == ModuleSignal.ContinueWithoutDoorStateChange)
+				{
+					canClose = false;
+				}
 
 				if (signal == ModuleSignal.SkipRemaining)
 				{
@@ -163,7 +179,7 @@ namespace Doors
 				}
 			}
 
-			if (!isPerformingAction)
+			if (!isPerformingAction && canClose)
 			{
 				TryOpen(interaction.Performer);
 			}

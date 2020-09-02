@@ -25,10 +25,15 @@ public class AccessModule : DoorModuleBase
 	{
 		if (!CheckAccess(interaction.Performer))
 		{
-			return ModuleSignal.Break;
+			return ModuleSignal.ContinueWithoutDoorStateChange;
 		}
 
 		return ModuleSignal.Continue;
+	}
+
+	public override bool CanDoorStateChange()
+	{
+		return true;
 	}
 
 	private bool CheckAccess(GameObject player)

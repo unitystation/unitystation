@@ -14,4 +14,9 @@ public class BoltsModule : DoorModuleBase
 	{
 		throw new System.NotImplementedException();
 	}
+
+	public override bool CanDoorStateChange()
+	{
+		throw new System.NotImplementedException();
+	}
 }
