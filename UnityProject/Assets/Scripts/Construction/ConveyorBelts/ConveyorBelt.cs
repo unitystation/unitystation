@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
@@ -40,13 +41,6 @@ namespace Construction.Conveyors
 		private void Awake()
 		{
 			registerTile = GetComponent<RegisterTile>();
-		}
-
-		// Only runs in editor - useful for updating the sprite direction
-		// when the initial direction is altered via inspector.
-		private void OnValidate()
-		{
-			RefreshSprites();
 		}
 
 		public override void OnStartServer()
@@ -173,6 +167,7 @@ namespace Construction.Conveyors
 
 		private void RefreshSprites()
 		{
+			if (this == null) return;
 			spriteHandler.ChangeSprite((int)CurrentStatus);
 			var variant = (int)CurrentDirection;
 			switch (variant)
