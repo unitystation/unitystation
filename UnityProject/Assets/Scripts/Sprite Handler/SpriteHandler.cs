@@ -352,10 +352,15 @@ public class SpriteHandler : MonoBehaviour
 		if (SpriteHandlerManager.Instance == null) return;
 		if (NetworkIdentity == null)
 		{
-			NetworkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this.gameObject)?.netIdentity;
+			NetworkIdentity = SpriteHandlerManager.GetRecursivelyANetworkBehaviour(this?.gameObject)?.netIdentity;
 			if (NetworkIdentity == null)
 			{
-				Logger.LogError("Was unable to find A NetworkBehaviour for " + gameObject.name,
+				var gamename = "";
+				if (this?.gameObject != null)
+				{
+					gamename = gameObject.name;
+				}
+				Logger.LogError("Was unable to find A NetworkBehaviour for " + gamename,
 					Category.SpriteHandler);
 			}
 		}

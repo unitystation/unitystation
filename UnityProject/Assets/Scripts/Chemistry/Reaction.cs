@@ -52,10 +52,10 @@ namespace Chemistry
 				return false;
 			}
 
-			if (inhibitors.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
-			{
-				return false;
-			}
+			// if (inhibitors.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
+			// {
+			// 	return false;
+			// }
 
 			foreach (var ingredient in ingredients)
 			{
