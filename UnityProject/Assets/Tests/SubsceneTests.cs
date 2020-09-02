@@ -147,6 +147,7 @@ namespace Tests
 			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath);
 			foreach (var scene in scenesPaths)
 			{
+				if (scene.Contains("Outpost") == false) continue;
 				if (scene.Contains("DevScenes")) continue;
 
 				var Openedscene = EditorSceneManager.OpenScene(scene);
