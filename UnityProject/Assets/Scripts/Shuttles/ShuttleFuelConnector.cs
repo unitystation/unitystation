@@ -1,19 +1,23 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Objects.GasContainer;
 
-public class ShuttleFuelConnector : MonoBehaviour
+namespace Pipes
 {
-	public Canister canister;
-
-
-   	public void ConnectCanister(Canister newCanister)
+	public class ShuttleFuelConnector : MonoBehaviour
 	{
-		canister = newCanister;
-	}
+		public Canister canister;
 
-	public void DisconnectCanister()
-	{
-		canister = null;
+
+		public void ConnectCanister(Canister newCanister)
+		{
+			canister = newCanister;
+		}
+
+		public void DisconnectCanister()
+		{
+			canister = null;
+		}
 	}
 }

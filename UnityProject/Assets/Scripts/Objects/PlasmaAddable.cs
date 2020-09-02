@@ -4,7 +4,7 @@
  */
 
 using Atmospherics;
-using Objects;
+using Objects.GasContainer;
 using UnityEngine;
 
 public class PlasmaAddable : MonoBehaviour, ICheckedInteractable<HandApply>, IRightClickable

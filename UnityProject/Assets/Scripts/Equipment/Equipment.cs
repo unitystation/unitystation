@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Objects;
 using UnityEngine;
 using Mirror;
-using Newtonsoft.Json;
-using YamlDotNet.Samples;
+using Objects.GasContainer;
 
 /// <summary>
 /// Component which manages all the equipment on a player.
