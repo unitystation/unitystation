@@ -28,6 +28,12 @@ public class PressureModule : DoorModuleBase
 
 	public override ModuleSignal ClosedInteraction(HandApply interaction)
 	{
+		//If the door isn't powered, we skip this check. We don't have the power to scan pressure.
+		if (!master.PowerCheck())
+		{
+			return ModuleSignal.Continue;
+		}
+
 		if (!warningActive)
 		{
 			if (DoorUnderPressure())

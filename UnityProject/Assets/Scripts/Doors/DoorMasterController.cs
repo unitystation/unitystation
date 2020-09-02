@@ -4,6 +4,8 @@ using System.Linq;
 using Mirror;
 using UnityEngine;
 
+//TODO: Needs unique animation for opening when powered off.
+//TODO: Need to reimplement hacking with this system. Might be a nightmare, dk yet.
 namespace Doors
 {
 	//These are used by modules when signaling to the master controller what to do when looping through modules.
@@ -12,9 +14,9 @@ namespace Doors
 		Continue, //Continue executing through modules.
 		Break, //Prevent any further execution, including door masters own methods.
 		SkipRemaining, //Skip the remaining modules, but continue with the door masters methods.
-		ContinueWithoutDoorStateChange,
+		ContinueWithoutDoorStateChange, //Continue with module interactions, but the door wont change states from here on out.
 	}
-//This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
+	//This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	public class DoorMasterController : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
 	{
 		public enum OpeningDirection
@@ -83,6 +85,11 @@ namespace Doors
 
 		private List<DoorModuleBase> modulesList;
 
+		private APCPoweredDevice apc;
+
+		[SerializeField]
+		private float inputCooldown = 1f;
+
 		private void Awake()
 		{
 			EnsureInit();
@@ -92,10 +99,13 @@ namespace Doors
 		{
 			if (registerTile) return;
 			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-			registerTile = gameObject.GetComponent<RegisterDoor>();
+			registerTile = GetComponent<RegisterDoor>();
 
 			//Get out list of modules for use later.
 			modulesList = GetComponentsInChildren<DoorModuleBase>().ToList();
+
+			//Our APC powered device.
+			apc = GetComponent<APCPoweredDevice>();
 		}
 
 		public override void OnStartClient()
@@ -125,6 +135,8 @@ namespace Doors
 				ClosedInteraction(interaction);
 			}
 
+			allowInput = false;
+			StartCoroutine(InputCooldown());
 		}
 
 		//These two methods are called when the door is interacted with, either opened or closed.
@@ -187,10 +199,33 @@ namespace Doors
 
 		public void TryOpen(GameObject originator = null, bool blockClosing = false)
 		{
-			if (IsClosed && !isPerformingAction)
+			if (IsClosed && !isPerformingAction && PowerCheck())
 			{
 				Open(blockClosing);
 			}
+		}
+
+		//Used to determine if the door has enough power from the APC to open.
+		public bool PowerCheck()
+		{
+			return APCPoweredDevice.IsOn(apc.State);
+		}
+
+		//Try to force the door open regardless of access/internal fuckery.
+		//Purely check to see if there is something physically restraining the door from being opened, such as prying the door with a crowbar.
+		public void TryForceOpen()
+		{
+			if (!IsClosed) return; //Can't open if we are open. Figures.
+
+			foreach (DoorModuleBase module in modulesList)
+			{
+				if (!module.CanDoorStateChange())
+				{
+					return;
+				}
+			}
+
+			Open();
 		}
 
 		public void TryClose(GameObject originator = null)
@@ -222,6 +257,7 @@ namespace Doors
 			}
 		}
 
+		//TODO: Make it play a unique animation/sound if the power isn't on.
 		public void Open(bool blockClosing = false)
 		{
 			if (!this || !gameObject) return; // probably destroyed by a shuttle crash
@@ -248,12 +284,13 @@ namespace Doors
 		public void ServerRollbackClient(HandApply interaction) {}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
-	    {
+		{
+			if (!allowInput) return false;
 		    if (!DefaultWillInteract.Default(interaction, side)) return false;
 		    if (interaction.TargetObject != gameObject) return false;
-		    if (interaction.HandObject && interaction.Intent == Intent.Harm) return false; // False to allow melee
+		    //if (interaction.HandObject && interaction.Intent == Intent.Harm) return false; // False to allow melee
 
-		    return allowInput;
+		    return true;
 	    }
 
 	    public void StartInputCoolDown()
@@ -335,6 +372,12 @@ namespace Doors
 				    TryClose();
 			    }
 		    }
+	    }
+
+	    private IEnumerator InputCooldown()
+	    {
+		    yield return WaitFor.Seconds(inputCooldown);
+		    allowInput = true;
 	    }
 
 	}

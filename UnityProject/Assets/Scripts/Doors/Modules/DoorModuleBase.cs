@@ -20,7 +20,8 @@ namespace Doors
 
 		public abstract ModuleSignal ClosedInteraction(HandApply interaction);
 
-		//Whether or not the door can opened or closed.
+		//Whether or not the door can opened or closed. This should only return false if the door is physically prevented
+		//from changing states, such as when welded shut or when the bolts are down.
 		public abstract bool CanDoorStateChange();
 	}
 }
