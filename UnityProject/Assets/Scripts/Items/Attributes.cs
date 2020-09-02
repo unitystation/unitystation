@@ -8,7 +8,7 @@ using Mirror;
 
 [RequireComponent(typeof(Integrity))]
 [RequireComponent(typeof(CustomNetTransform))]
-public class Attributes : NetworkBehaviour, IRightClickable, IExaminable
+public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServerSpawn
 {
 
 	[Tooltip("Display name of this item when spawned.")]

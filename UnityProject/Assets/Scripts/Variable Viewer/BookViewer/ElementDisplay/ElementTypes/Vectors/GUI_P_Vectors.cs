@@ -18,7 +18,7 @@ public class GUI_P_Vectors : PageElement
 	public bool iskey;
 
 	public Vector IsThisVector;
-
+	public override PageElementEnum PageElementType => PageElementEnum.Vectors;
 
 	public HashSet<Type> CanDo = new HashSet<Type>()
 	{

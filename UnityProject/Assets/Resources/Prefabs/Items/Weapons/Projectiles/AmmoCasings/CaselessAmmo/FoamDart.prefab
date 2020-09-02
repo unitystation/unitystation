@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &8503423773277236794
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510177817998055822}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isClip: 1
+  ammoType: 21
+  magazineSize: 1
 --- !u!1001 &564620911124968292
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -17,6 +34,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1348118095198553914, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: snapToGridOnStart
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1378335696131893994, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
@@ -80,6 +102,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
       propertyPath: initialDescription
       value: It's nerf or nothing! Ages 8 and up.
       objectReference: {fileID: 0}
@@ -88,6 +115,12 @@ PrefabInstance:
       propertyPath: initialName
       value: foam dart
       objectReference: {fileID: 0}
+    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 46788cf45e943054a99926c1a893147c,
+        type: 2}
     - target: {fileID: 5072964358972903789, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -96,3 +129,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2087e57fe27fd8419f779b3abb9cf91, type: 3}
+--- !u!1 &1510177817998055822 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1378335696131893994, guid: a2087e57fe27fd8419f779b3abb9cf91,
+    type: 3}
+  m_PrefabInstance: {fileID: 564620911124968292}
+  m_PrefabAsset: {fileID: 0}

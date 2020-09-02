@@ -114,6 +114,45 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ba4463881b8a2414fab0c64b31130f44,
         type: 2}
+    - target: {fileID: 5647755007262651736, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
+        type: 2}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: MagInternal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: MagSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 3848343717668343118, guid: 1ff9dd0fc4df49c4e8e6201312a8d2f5,
+        type: 3}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: ammoType
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 3212608658101538330, guid: 895e8d0909213b44094eb90767c8b1cd,
+        type: 3}
+    - target: {fileID: 5749777290144094747, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: genericInternalMag
+      value: 
+      objectReference: {fileID: 3212608658101538330, guid: 895e8d0909213b44094eb90767c8b1cd,
+        type: 3}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: initialTraits.Array.size

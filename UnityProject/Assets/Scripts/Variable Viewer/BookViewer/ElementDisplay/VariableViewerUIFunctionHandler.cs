@@ -160,6 +160,7 @@ public static class VVUIElementHandler
 
 public enum PageElementEnum
 {
+	Colour,
 	Vectors,
 	Bool = 0,
 	Collection,

@@ -108,6 +108,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: ammoType
+      value: 21
+      objectReference: {fileID: 0}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 8926349090719206047, guid: f29df69b3b938f941b3064a2cb7dc4b6,
+        type: 3}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 3315583441666538418, guid: 0bc76d43c20ede548ac2af69f6644adf,
+        type: 3}
+    - target: {fileID: 1324267755354293044, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: SpawnsCasing
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1426280140011400311, guid: 24274bda3be42c049b4bbb150f6e1220,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: a17f70e19efb28a47ac2da2c0980964b,
+        type: 2}
     - target: {fileID: 2494139950867988427, guid: 24274bda3be42c049b4bbb150f6e1220,
         type: 3}
       propertyPath: m_AssetId
