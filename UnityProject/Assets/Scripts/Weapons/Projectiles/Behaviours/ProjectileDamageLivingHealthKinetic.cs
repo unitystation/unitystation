@@ -11,7 +11,6 @@ namespace Weapons.Projectiles.Behaviours
 	public class ProjectileDamageLivingHealthKinetic : MonoBehaviour, IOnShoot, IOnHit
 	{
 		private GameObject shooter;
-		private Gun weapon;
 		private BodyPartType targetZone;
 		private ProjectileKineticDamageCalculation projectileKineticDamage;
 
@@ -21,7 +20,6 @@ namespace Weapons.Projectiles.Behaviours
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			this.shooter = shooter;
-			this.weapon = weapon;
 			this.targetZone = targetZone;
 		}
 
@@ -43,7 +41,7 @@ namespace Weapons.Projectiles.Behaviours
 
 			livingHealth.ApplyDamageToBodypart(shooter, newDamage, damageData.AttackType, damageData.DamageType, targetZone);
 
-			Chat.AddAttackMsgToChat(shooter, coll.gameObject, targetZone, weapon.gameObject);
+			Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 
 			Logger.LogTraceFormat(
 				"Hit {0} for {1} with HealthBehaviour! bullet absorbed",
@@ -57,7 +55,6 @@ namespace Weapons.Projectiles.Behaviours
 		private void OnDisable()
 		{
 			shooter = null;
-			weapon = null;
 		}
 
 		private void Awake()

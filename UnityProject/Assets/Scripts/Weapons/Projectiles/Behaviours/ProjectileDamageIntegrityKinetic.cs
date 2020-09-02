@@ -10,16 +10,14 @@ namespace Weapons.Projectiles.Behaviours
 	/// </summary>
 	public class ProjectileDamageIntegrityKinetic : MonoBehaviour, IOnShoot, IOnHit
 	{
-		private GameObject shooter;
-		private Gun weapon;
 		private ProjectileKineticDamageCalculation projectileKineticDamage;
+		private BodyPartType targetZone;
 
 		[SerializeField] private DamageData damageData = null;
 
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
-			this.shooter = shooter;
-			this.weapon = weapon;
+			this.targetZone = targetZone;
 		}
 
 		public bool OnHit(RaycastHit2D hit)
@@ -40,11 +38,7 @@ namespace Weapons.Projectiles.Behaviours
 
 			integrity.ApplyDamage(newDamage, damageData.AttackType, damageData.DamageType);
 
-			Chat.AddAttackMsgToChat(
-				shooter,
-				coll.gameObject,
-				BodyPartType.None,
-				weapon.gameObject);
+			Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 
 			Logger.LogTraceFormat(
 				"Hit {0} for {1} with Integrity! bullet absorbed",
@@ -53,12 +47,6 @@ namespace Weapons.Projectiles.Behaviours
 				newDamage);
 
 			return true;
-		}
-
-		private void OnDisable()
-		{
-			weapon = null;
-			shooter = null;
 		}
 
 		private void Awake()
