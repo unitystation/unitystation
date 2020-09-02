@@ -114,9 +114,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1001 &367195167144467298
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -130,6 +131,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 2de0cfdf95bef534a9da1243fca09275,
         type: 2}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
       propertyPath: initialDescription
@@ -219,6 +225,12 @@ PrefabInstance:
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: d0c10536301ee414d8ea610e80938e11,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: cfdb88b89cb5788469b0fb2734022f76,
         type: 2}
     - target: {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}
