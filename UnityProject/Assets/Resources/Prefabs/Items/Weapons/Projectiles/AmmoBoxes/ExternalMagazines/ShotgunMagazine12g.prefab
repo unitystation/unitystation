@@ -13,6 +13,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: bbb46477ea7fa5b49967ce74f1a0b60e,
         type: 2}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: ammoType
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: magazineSize
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: initialName
@@ -23,6 +38,12 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A drum magazine.
       objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: d278ba3e6b9d66a4489c0bf23557cb31,
+        type: 2}
     - target: {fileID: 6636107547650964854, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: m_Sprite

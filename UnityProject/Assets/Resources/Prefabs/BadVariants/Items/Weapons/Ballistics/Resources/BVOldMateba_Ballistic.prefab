@@ -21,8 +21,13 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 742292832060491855, guid: 9e8f0c4c21855a34f8ebe8ba3170f6de,
+      objectReference: {fileID: 782836474257692363, guid: 697318e0925068143a28d0a4fb8b5f10,
         type: 3}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: MagInternal
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3623955159015093207, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -53,7 +58,7 @@ PrefabInstance:
     - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_Name
-      value: Mateba_Ballistic
+      value: BVOldMateba_Ballistic
       objectReference: {fileID: 0}
     - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -110,5 +115,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f46dc50d35397f04f8f6be3fb49668ca, type: 3}

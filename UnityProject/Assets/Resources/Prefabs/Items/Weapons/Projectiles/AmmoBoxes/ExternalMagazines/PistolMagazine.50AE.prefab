@@ -13,11 +13,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: e3dcc30a96ecf674c81847d064854300,
         type: 2}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: ammoType
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: magazineSize
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: initialName
       value: handgun magazine (.50 AE)
       objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 21c6d37a63316cc2c8d9d9bccd508864,
+        type: 2}
     - target: {fileID: 6636107547650964854, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: m_Sprite

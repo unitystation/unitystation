@@ -1,0 +1,139 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5040370391692023791
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1176912263951196322, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: initialDescription
+      value: A Donk Co. machine pistol. It fires quickly, but kicks like a mule.
+        Uses 9mm ammo. Has a threaded barrel for suppressors.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1176912263951196322, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: initialName
+      value: Cutthroat 9S machine pistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 1461792321626733724, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 845e0a00f7a66664ab47921e9672c123,
+        type: 3}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1633438751717143220, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1637236327471730624, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_Name
+      value: Cutthroat9SMachinePistol
+      objectReference: {fileID: 0}
+    - target: {fileID: 1669872684171752052, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2772890753714954696, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: d33fd6a73ef08ad4387ac2c01ee5da54,
+        type: 2}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: ammoType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: FireRate
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 1104235240792570141, guid: 623189688b8953843aa87c899f5b0c31,
+        type: 3}
+    - target: {fileID: 2869036814349520523, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 6911475130857718571, guid: 40ea4aea218be439eaf29f853612870c,
+        type: 3}
+    - target: {fileID: 4899563401211278407, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 647353599af754f47b240826bd9dc177,
+        type: 2}
+    - target: {fileID: 5811409874850895525, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7367c7855897fb541b5e274f77182c01,
+        type: 3}
+    - target: {fileID: 6534465197878010292, guid: 29de35ce9f3e2ae4daa8de0460cc3009,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8f792f935acd86b47a50b77fef4ffa45,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 29de35ce9f3e2ae4daa8de0460cc3009, type: 3}

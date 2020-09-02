@@ -126,6 +126,29 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1011439349190346756, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
+        type: 2}
+    - target: {fileID: 1126689358047389511, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: ammoType
+      value: 12
+      objectReference: {fileID: 0}
+    - target: {fileID: 1126689358047389511, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 301006007775382093, guid: d02ff8c97e3e1a04a883dbe5bf0beb6d,
+        type: 3}
+    - target: {fileID: 1126689358047389511, guid: f0c995ee924eb904dae952cd56a8c1d6,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 5184028687306108153, guid: 7011865b4b4ff8841a9007ac7c9701fe,
+        type: 3}
     - target: {fileID: 4046247594122168686, guid: f0c995ee924eb904dae952cd56a8c1d6,
         type: 3}
       propertyPath: initialName
