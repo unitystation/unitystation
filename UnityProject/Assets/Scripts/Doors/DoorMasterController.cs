@@ -19,17 +19,11 @@ namespace Doors
 	//This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
 	public class DoorMasterController : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
 	{
-		public enum OpeningDirection
-		{
-			Horizontal,
-			Vertical
-		}
-
 		//Whether or not users can interact with the door.
 		private bool allowInput = true;
 
 		[SerializeField]
-		private DoorType doorType;
+		private DoorType doorType = DoorType.civilian;
 
 		[SerializeField]
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
@@ -45,7 +39,7 @@ namespace Doors
 
 		[SerializeField]
 		[Tooltip("Is this door designed no matter what is under neath it?")]
-		private bool ignorePassableChecks;
+		private bool ignorePassableChecks = false;
 
 		//Maximum time the door will remain open before closing itself.
 		[SerializeField]
@@ -53,7 +47,7 @@ namespace Doors
 
 		[SerializeField]
 		[Tooltip("Prevent the door from auto closing when open.")]
-		private bool BlockAutoClose;
+		private bool BlockAutoClose = false;
 
 		public bool IsClosed { get { return registerTile.IsClosed; } set { registerTile.IsClosed = value; } }
 
@@ -63,25 +57,15 @@ namespace Doors
 		[SerializeField]
 		private DoorAnimatorV2 doorAnimator;
 
-		private int doorDirection;
-
-		private bool isPerformingAction;
+		private bool isPerformingAction = false;
 		public bool IsPerformingAction => isPerformingAction;
 
-		[SerializeField]
-		[Tooltip("Does it have a glass window you can see trough?")]
-		private bool isWindowedDoor;
-
-		[SerializeField]
-		private OpeningDirection openingDirection;
 
 		private RegisterDoor registerTile;
 		public RegisterDoor RegisterTile => registerTile;
 
 		private Matrix matrix => registerTile.Matrix;
 
-		[HideInInspector]
-		public SpriteRenderer spriteRenderer;
 
 		private List<DoorModuleBase> modulesList;
 
@@ -98,7 +82,6 @@ namespace Doors
 		private void EnsureInit()
 		{
 			if (registerTile) return;
-			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 			registerTile = GetComponent<RegisterDoor>();
 
 			//Get out list of modules for use later.
@@ -119,6 +102,10 @@ namespace Doors
 		/// </summary>
 		public void Bump(GameObject byPlayer)
 		{
+			if (IsAutomatic)
+			{
+				TryOpen(byPlayer);
+			}
 		}
 
 		public void ServerPerformInteraction(HandApply interaction)
@@ -212,7 +199,8 @@ namespace Doors
 		}
 
 		//Try to force the door open regardless of access/internal fuckery.
-		//Purely check to see if there is something physically restraining the door from being opened, such as prying the door with a crowbar.
+		//Purely check to see if there is something physically restraining the door from being opened such as a weld or door bolts.
+		//This would be in situations like as prying the door with a crowbar.
 		public void TryForceOpen()
 		{
 			if (!IsClosed) return; //Can't open if we are open. Figures.
