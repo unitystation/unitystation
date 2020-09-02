@@ -76,7 +76,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			ToggleOff();
 			baseSpriteHandler.ChangeSprite((int) SpriteState.Unsecured);
 		}
-		
+
 		ElectricalManager.Instance.electricalSync.StructureChange = true;
 	}
 
@@ -119,7 +119,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	{
 		if (IsFueled)
 		{
-			burningSheet = itemSlot.ItemObject.GetComponent<SolidPlasma>();			
+			burningSheet = itemSlot.ItemObject.GetComponent<SolidPlasma>();
 			burningSheet.StartBurningPlasma(PlasmaConsumptionRate, FuelExhaustedEvent);
 			return true;
 		}
@@ -154,8 +154,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TargetObject != gameObject) return false;
-		if (interaction.HandObject != null &&
-				!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
+		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
 
 		return true;
 	}
@@ -164,6 +163,11 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	{
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
 		{
+			if (itemSlot.Item)
+			{
+				Chat.AddWarningMsgFromServer(interaction.Performer, "The generator already contains a sheet!");
+				return;
+			}
 			Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
 		}
 		else if (securable.IsAnchored)
