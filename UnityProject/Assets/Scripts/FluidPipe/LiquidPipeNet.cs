@@ -11,10 +11,13 @@ namespace Pipes
 {
 	public class LiquidPipeNet
 	{
+		public bool ISNewNet = true;
 		public NetUpdateProxy NetUpdateProxy = new NetUpdateProxy();
 		public MixAndVolume mixAndVolume = new MixAndVolume();
 		public List<PipeData> Covering = new List<PipeData>();
+
 		public List<PipeData> CanEqualiseWith = new List<PipeData>();
+
 		//public List<PipeData> Inputs = new List<PipeData>();
 		public PipeNetAction pipeNetAction = null;
 
@@ -39,20 +42,39 @@ namespace Pipes
 
 		public void AddPipe(PipeData pipeData)
 		{
-			if (pipeData.OnNet == null)
+			if (ISNewNet)
 			{
 				pipeData.OnNet = this;
-				mixAndVolume.Add(pipeData.mixAndVolume);
-				Covering.Add(pipeData);
+				this.mixAndVolume = pipeData.mixAndVolume.Clone();
+				pipeData.mixAndVolume.Empty();
+				this.Covering.Add(pipeData);
+				this.NetUpdateProxy.OnNet = this;
+				this.NetUpdateProxy.OnEnable();
+				if (pipeData.CustomLogic == CustomLogic.CoolingPipe)
+				{
+					this.pipeNetAction = new CoolingNet();
+					this.pipeNetAction.LiquidPipeNet = this;
+				}
+
+				ISNewNet = false;
+
 			}
 			else
 			{
-				if (this != pipeData.OnNet)
+				if (pipeData.OnNet == null)
 				{
-					this.CombinePipeNets(pipeData.OnNet);
+					pipeData.OnNet = this;
+					mixAndVolume.Add(pipeData.mixAndVolume);
+					Covering.Add(pipeData);
+				}
+				else
+				{
+					if (this != pipeData.OnNet)
+					{
+						this.CombinePipeNets(pipeData.OnNet);
+					}
 				}
 			}
-
 		}
 
 		public void RemovePipe(PipeData pipeData)
@@ -75,8 +97,29 @@ namespace Pipes
 			{
 				pipe.OnNet = this;
 			}
+
 			mixAndVolume.Add(LiquidPipeNet.mixAndVolume);
 			LiquidPipeNet.DisableThis();
+		}
+
+		public void SpreadPipenet(PipeData pipe)
+		{
+			List<PipeData> foundPipes = new List<PipeData>();
+			foundPipes.Add(pipe);
+			while (foundPipes.Count > 0)
+			{
+				var foundPipe = foundPipes[0];
+				AddPipe(foundPipe);
+				foundPipes.Remove(foundPipe);
+				for (int i = 0; i < foundPipe.ConnectedPipes.Count; i++)
+				{
+					var nextPipe = foundPipe.ConnectedPipes[i];
+					if (nextPipe.NetCompatible && nextPipe.OnNet == null)
+					{
+						foundPipes.Add(nextPipe);
+					}
+				}
+			}
 		}
 
 		public void SplitPipeNets()
@@ -85,13 +128,34 @@ namespace Pipes
 			//Not the most optimal way of doing it but the easiest TODO Optimise this
 			foreach (var pipe in Covering)
 			{
-				mixAndVolume.Take(pipe.mixAndVolume);
+				//mixAndVolume.Take(pipe.mixAndVolume);
 				pipe.OnNet = null;
 			}
 
-			foreach (var pipe in Covering)
+			LiquidPipeNet newPipenet = new LiquidPipeNet();
+			var separatedPipenets = new List<LiquidPipeNet>(){newPipenet};
+			for (int i = 0; i < Covering.Count; i++)
 			{
-				pipe.LiquidFindNetWork();
+				var pipe = Covering[i];
+				if(pipe.OnNet == null)
+				{
+					if(newPipenet == null)
+					{
+						newPipenet = new LiquidPipeNet();
+						separatedPipenets.Add(newPipenet);
+					}
+					newPipenet.SpreadPipenet(pipe);
+					newPipenet = null;
+				}
+			}
+
+			mixAndVolume.Divide(mixAndVolume.TheVolume);
+			for (int i = 0; i < separatedPipenets.Count; i++)
+			{
+				var pipenet = separatedPipenets[i];
+				var MultiplyMixed = mixAndVolume.Clone();
+				MultiplyMixed.Multiply(pipenet.mixAndVolume.TheVolume);
+				pipenet.mixAndVolume.Add(MultiplyMixed, false);
 			}
 
 			DisableThis();
@@ -101,17 +165,7 @@ namespace Pipes
 		public static LiquidPipeNet MakeNewNet(PipeData pipeData)
 		{
 			var Net = new LiquidPipeNet();
-			pipeData.OnNet = Net;
-			Net.mixAndVolume = pipeData.mixAndVolume.Clone();
-			Net.Covering.Add(pipeData);
-			Net.NetUpdateProxy.OnNet = Net;
-			Net.NetUpdateProxy.OnEnable();
-			if (pipeData.CustomLogic == CustomLogic.CoolingPipe)
-			{
-				Net.pipeNetAction = new CoolingNet();
-				Net.pipeNetAction.LiquidPipeNet = Net;
-
-			}
+			Net.AddPipe(pipeData);
 			return (Net);
 		}
 
@@ -140,7 +194,6 @@ namespace Pipes
 			return "Covering > " + Covering.Count + " Outputs " + CanEqualiseWith.Count + " mixAndVolume > " +
 			       mixAndVolume.ToString();
 		}
-
 	}
 
 	public class NetUpdateProxy : PipeData
@@ -164,6 +217,7 @@ namespace Pipes
 	public class PipeNetAction
 	{
 		public LiquidPipeNet LiquidPipeNet;
+
 		public virtual void TickUpdate()
 		{
 		}
@@ -177,25 +231,25 @@ namespace Pipes
 			// float EnergyChange = 0;
 			// if (LiquidPipeNet.mixAndVolume.Mix.Total > 0)
 			// {
-				// var SmallMix = LiquidPipeNet.mixAndVolume.Mix.Clone();
-				// SmallMix.Divide(LiquidPipeNet.Covering.Count);
-				// foreach (var pipe in LiquidPipeNet.Covering)
-				// {
-					// var Node = pipe.matrix.GetMetaDataNode(pipe.MatrixPos);
-					// EnergyChange += EqualisePipe(Node, SmallMix);
-				// }
-				// needs a better equation for this so It doesnt go to minus
-				// LiquidPipeNet.mixAndVolume.Mix.InternalEnergy += (EnergyChange);
-				// if (LiquidPipeNet.mixAndVolume.Mix.InternalEnergy < 0)
-				// {
-					// LiquidPipeNet.mixAndVolume.Mix.InternalEnergy = LiquidPipeNet.mixAndVolume.Mix.Total;
-				// }
+			// var SmallMix = LiquidPipeNet.mixAndVolume.Mix.Clone();
+			// SmallMix.Divide(LiquidPipeNet.Covering.Count);
+			// foreach (var pipe in LiquidPipeNet.Covering)
+			// {
+			// var Node = pipe.matrix.GetMetaDataNode(pipe.MatrixPos);
+			// EnergyChange += EqualisePipe(Node, SmallMix);
 			// }
-
+			// needs a better equation for this so It doesnt go to minus
+			// LiquidPipeNet.mixAndVolume.Mix.InternalEnergy += (EnergyChange);
+			// if (LiquidPipeNet.mixAndVolume.Mix.InternalEnergy < 0)
+			// {
+			// LiquidPipeNet.mixAndVolume.Mix.InternalEnergy = LiquidPipeNet.mixAndVolume.Mix.Total;
+			// }
+			// }
 		}
 
 		public const float StefanBoltzmannConstant = 0.5f;
-		public float EqualisePipe(MetaDataNode Node,ReagentMix Mix )
+
+		public float EqualisePipe(MetaDataNode Node, ReagentMix Mix)
 		{
 			//add Radiation of Heat
 /*
@@ -237,7 +291,5 @@ namespace Pipes
 			*/
 			return (0);
 		}
-
-
 	}
 }

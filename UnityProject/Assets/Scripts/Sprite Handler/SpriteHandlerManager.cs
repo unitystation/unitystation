@@ -123,6 +123,10 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public static NetworkBehaviour GetRecursivelyANetworkBehaviour(GameObject gameObject)
 	{
+		if (gameObject == null)
+		{
+			return null;
+		}
 		var Net = gameObject.GetComponent<NetworkBehaviour>();
 		if (Net != null)
 		{

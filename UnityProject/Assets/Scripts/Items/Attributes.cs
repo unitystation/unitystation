@@ -55,7 +55,7 @@ public class Attributes : NetworkBehaviour, IRightClickable, IExaminable, IServe
 
 	[Tooltip("Should an alternate name be used when displaying this in the cargo console report?")]
 	[SerializeField]
-	private string exportName = null;
+	private string exportName = "";
 	public string ExportName => exportName;
 
 	[Tooltip("Additional message to display in the cargo console report.")]
