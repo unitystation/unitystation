@@ -258,7 +258,7 @@ public class CargoManager : MonoBehaviour
 		OnCreditsUpdate?.Invoke();
 
 		var attributes = item.gameObject.GetComponent<Attributes>();
-		string exportName;
+		string exportName = System.String.Empty;
 		if (attributes)
 		{
 			if (string.IsNullOrEmpty(attributes.ExportName))
