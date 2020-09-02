@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &912157411329195805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8275438994216272918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isClip: 1
+  ammoType: 12
+  magazineSize: 1
 --- !u!1001 &7890033429995526111
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -96,3 +113,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31d01d60b659392429fe6a6384563082, type: 3}
+--- !u!1 &8275438994216272918 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2280866994825352137, guid: 31d01d60b659392429fe6a6384563082,
+    type: 3}
+  m_PrefabInstance: {fileID: 7890033429995526111}
+  m_PrefabAsset: {fileID: 0}

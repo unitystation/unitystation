@@ -97,6 +97,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 5f64abdb483eef948ade1ba613ea8252, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -147,7 +148,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 7084227562698833519, guid: 143730adc80c6f445b18ce70155a0cb1,
+      objectReference: {fileID: 7508253555952636633, guid: 251c85198dd9873499087ca7a48dd1f7,
         type: 3}
     - target: {fileID: 3623955159015093207, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -265,7 +266,7 @@ PrefabInstance:
     - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_Name
-      value: C20rSMG_Ballistic
+      value: BVOldC20rSMG_Ballistic
       objectReference: {fileID: 0}
     - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -326,7 +327,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemStorageCapacity
       value: 
-      objectReference: {fileID: 11400000, guid: 0f92788f3da8d9f03aca73fa19847330,
+      objectReference: {fileID: 11400000, guid: 88218c5bedaa9fa429bac8f632653444,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f46dc50d35397f04f8f6be3fb49668ca, type: 3}

@@ -1,5 +1,22 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-2625148932084804424
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7885618348377886950}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e01cf0e4c6ebb4443a9ca96c6f09f22c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isClip: 1
+  ammoType: 20
+  magazineSize: 1
 --- !u!1001 &9101648509990566412
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -80,6 +97,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
       propertyPath: initialDescription
       value: An 84mm High-Explosive rocket. Fire at people and pray.
       objectReference: {fileID: 0}
@@ -88,6 +110,12 @@ PrefabInstance:
       propertyPath: initialName
       value: PM-9HE
       objectReference: {fileID: 0}
+    - target: {fileID: 1570999493726520712, guid: a2087e57fe27fd8419f779b3abb9cf91,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8bffc0e596a954a44b45d598ffd3560c,
+        type: 2}
     - target: {fileID: 5072964358972903789, guid: a2087e57fe27fd8419f779b3abb9cf91,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -96,3 +124,9 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2087e57fe27fd8419f779b3abb9cf91, type: 3}
+--- !u!1 &7885618348377886950 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1378335696131893994, guid: a2087e57fe27fd8419f779b3abb9cf91,
+    type: 3}
+  m_PrefabInstance: {fileID: 9101648509990566412}
+  m_PrefabAsset: {fileID: 0}

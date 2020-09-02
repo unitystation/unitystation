@@ -14,9 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  ammoPrefab: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
-    type: 3}
-  genericInternalMag: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
+  ammoPrefab: {fileID: 6264992622563169082, guid: 272cdf93d39c0fa499a321d2f9c03aff,
     type: 3}
   casingPrefabOverride: {fileID: 0}
   allowMagazineRemoval: 1
@@ -26,7 +24,6 @@ MonoBehaviour:
   burstCooldown: 0
   burstCount: 3
   SmartGun: 0
-  MagSize: 1
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FiringSound: ShootKinetic
@@ -145,7 +142,7 @@ PrefabInstance:
     - target: {fileID: 7680527389759007793, guid: c456c86d5736aee499478a158376781e,
         type: 3}
       propertyPath: m_Name
-      value: Proto-Kinetic-Accelerator
+      value: BVOld_Proto-Kinetic-Accelerator
       objectReference: {fileID: 0}
     - target: {fileID: 7710870028303749509, guid: c456c86d5736aee499478a158376781e,
         type: 3}

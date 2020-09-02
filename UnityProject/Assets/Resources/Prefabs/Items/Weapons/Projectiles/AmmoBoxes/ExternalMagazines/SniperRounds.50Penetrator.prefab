@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 3562339482328281069, guid: 7bf36ad773bdc1f49b1d7b0b3314f2e4,
+        type: 3}
+      propertyPath: magazineSize
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5793186483055078382, guid: 7bf36ad773bdc1f49b1d7b0b3314f2e4,
         type: 3}
       propertyPath: initialName
@@ -21,7 +26,7 @@ PrefabInstance:
     - target: {fileID: 6235254427324400780, guid: 7bf36ad773bdc1f49b1d7b0b3314f2e4,
         type: 3}
       propertyPath: m_Name
-      value: SniperRoundsPenetrator
+      value: SniperRounds.50Penetrator
       objectReference: {fileID: 0}
     - target: {fileID: 6240741128023194104, guid: 7bf36ad773bdc1f49b1d7b0b3314f2e4,
         type: 3}

@@ -7,6 +7,34 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 84595747301293129, guid: 747c190858b67c84d9a9218621a2f190,
+        type: 3}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: MagInternal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: ammoType
+      value: 23
+      objectReference: {fileID: 0}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 21396104557255652, guid: b786c064039c17e4aa61dd51c6b59646,
+        type: 3}
+    - target: {fileID: 711826421371790644, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
+        type: 2}
     - target: {fileID: 4086796152908822152, guid: 538cebc4fa9119344aa630d0f273bced,
         type: 3}
       propertyPath: m_AssetId

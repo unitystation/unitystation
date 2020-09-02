@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 363312622086426299, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
+      propertyPath: magazineSize
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 4011383383968898653, guid: b207c10b72e178346bee8cf182f264eb,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -94,5 +99,11 @@ PrefabInstance:
       propertyPath: initialName
       value: rifle magazine (10mm)
       objectReference: {fileID: 0}
+    - target: {fileID: 7205986369602161336, guid: b207c10b72e178346bee8cf182f264eb,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8d0e6068e86aa7749948cfed4fb1703f,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b207c10b72e178346bee8cf182f264eb, type: 3}

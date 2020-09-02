@@ -1,0 +1,103 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8973575817151147596
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1053198998585859953, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: ammoType
+      value: 18
+      objectReference: {fileID: 0}
+    - target: {fileID: 1053198998585859953, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: magazineSize
+      value: 28
+      objectReference: {fileID: 0}
+    - target: {fileID: 4340418770804641687, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a181fd23b03f30049b0879457111adcc,
+        type: 2}
+    - target: {fileID: 7561096614868355492, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7595847401659255140, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7600489401807614992, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_Name
+      value: InternalMagazinePlasmaCutter
+      objectReference: {fileID: 0}
+    - target: {fileID: 7749473724758755148, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 91747fb8a8ae72e4ba94f78e2d8f65b4,
+        type: 3}
+    - target: {fileID: 8041113790362737522, guid: 279de6cf129850f4b8a22d99511dfd03,
+        type: 3}
+      propertyPath: initialName
+      value: plasma cutter cell
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 279de6cf129850f4b8a22d99511dfd03, type: 3}
