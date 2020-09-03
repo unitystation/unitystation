@@ -1,7 +1,8 @@
-﻿using Systems.Atmospherics;
-using Items;
-using NaughtyAttributes;
-using Objects.Atmospherics;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using Atmospherics;
+using Objects.GasContainer;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -13,7 +14,6 @@ namespace HealthV2
 	{
 
 		[SerializeField]
-		[Required("Must have information about our respiratory system.")]
 		private RespiratoryInfo respiratoryInfo;
 		public RespiratoryInfo RespiratoryInfo => respiratoryInfo;
 
@@ -62,11 +62,11 @@ namespace HealthV2
 		void UpdateMe()
 		{
 			//Server Only:
-			// if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
-			                                  // && !canBreathAnywhere)
-			// {
-				// MonitorSystem();
-			// }
+			if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
+			                                  && !canBreathAnywhere)
+			{
+				MonitorSystem();
+			}
 		}
 
 		private void MonitorSystem()
@@ -107,16 +107,19 @@ namespace HealthV2
 			IGasMixContainer container = GetInternalGasMix() ?? node;
 
 			GasMix gasMix = container.GasMix;
+			GasMix breathGasMix = gasMix.RemoveVolume(AtmosConstants.BREATH_VOLUME, true);
 
-
-			float gasUsed = HandleBreathing(gasMix);
+			float gasUsed = HandleBreathing(breathGasMix);
 
 			if (gasUsed > 0)
 			{
-				gasMix.RemoveGas(respiratoryInfo.RequiredGas, gasUsed);
+				breathGasMix.RemoveGas(respiratoryInfo.RequiredGas, gasUsed);
 				node.GasMix.AddGas(respiratoryInfo.ReleasedGas, gasUsed);
 				registerTile.Matrix.MetaDataLayer.UpdateSystemsAt(registerTile.LocalPositionClient, SystemType.AtmosSystem);
 			}
+
+			gasMix += breathGasMix;
+			container.GasMix = gasMix;
 
 			return gasUsed > 0;
 		}
