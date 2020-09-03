@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -43,4 +44,13 @@ namespace HealthV2
 		}
 	}
 
+=======
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using Objects;
+
+public class BodyPartContainerBase : ItemStorage
+{
+>>>>>>> 0bdef99d26... Added Storage Containers for Organs/Implants
 }
