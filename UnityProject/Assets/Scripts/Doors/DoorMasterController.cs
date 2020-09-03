@@ -17,13 +17,10 @@ namespace Doors
 		ContinueWithoutDoorStateChange, //Continue with module interactions, but the door wont change states from here on out.
 	}
 	//This is the master 'controller' for the door. It handles interactions by players and passes any interactions it need to to its components.
-	public class DoorMasterController : NetworkBehaviour, IPredictedCheckedInteractable<HandApply>
+	public class DoorMasterController : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
 		//Whether or not users can interact with the door.
 		private bool allowInput = true;
-
-		[SerializeField]
-		private DoorType doorType = DoorType.civilian;
 
 		[SerializeField]
 		[Tooltip("Toggle damaging any living entities caught in the door as it closes")]
@@ -219,7 +216,7 @@ namespace Doors
 		public void TryClose(GameObject originator = null)
 		{
 			// Sliding door is not passable according to matrix
-			if(!isPerformingAction && (ignorePassableChecks || matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true ) || doorType == DoorType.sliding) )
+			if(!isPerformingAction && (ignorePassableChecks || matrix.CanCloseDoorAt( registerTile.LocalPositionServer, true )) )
 			{
 				Close();
 			}
@@ -263,13 +260,6 @@ namespace Doors
 				DoorUpdateMessage.SendToAll( gameObject, DoorUpdateType.Open );
 			}
 		}
-
-		//Nothing to predict.
-		//This may change. Might be worth calling this on the modules on the door.
-		public void ClientPredictInteraction(HandApply interaction) {}
-
-		//Nothing to rollback.
-		public void ServerRollbackClient(HandApply interaction) {}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
