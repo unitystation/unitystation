@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-7805310354547922843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025448082421612283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3b445a472f777a43b5342591e139e38, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  flippedObject: {fileID: 2025448082421612283, guid: 939e6587a9109644b9dc3507b3b34e5c,
+    type: 3}
 --- !u!1001 &843849146950285694
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -181,6 +195,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b9bb4cf2e55ac1249ae2afe0243cf436, type: 3}
+--- !u!1 &2025448082421612283 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1706338798251575173, guid: b9bb4cf2e55ac1249ae2afe0243cf436,
+    type: 3}
+  m_PrefabInstance: {fileID: 843849146950285694}
+  m_PrefabAsset: {fileID: 0}
 --- !u!212 &2268664829468498668 stripped
 SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1499169744200704914, guid: b9bb4cf2e55ac1249ae2afe0243cf436,

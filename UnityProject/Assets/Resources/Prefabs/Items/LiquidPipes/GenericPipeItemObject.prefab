@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-6934157409561590755
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7357625900617566154}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1b752b8671651846ba4fca8bf2c233a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
 --- !u!114 &-5592012004282470109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12,9 +26,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9323f97f0b3359f4d95d4edc908db8ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Colour: {r: 1, g: 1, b: 1, a: 1}
   SpriteHandler: {fileID: 0}
-  objectBehaviour: {fileID: 0}
+  registerItem: {fileID: 0}
   pipeObject: {fileID: 0}
 --- !u!1001 &7356663126975511408
 PrefabInstance:

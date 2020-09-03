@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Pipes
 {
-	public class MonoPipe : MonoBehaviour,IServerDespawn, ICheckedInteractable<HandApply>
+	public class MonoPipe : MonoBehaviour, IServerDespawn, ICheckedInteractable<HandApply>
 	{
 		public SpriteHandler spritehandler;
 		public GameObject SpawnOnDeconstruct;
@@ -70,6 +70,7 @@ namespace Pipes
 			{
 				if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 				{
+					ToolUtils.ServerPlayToolSound(interaction);
 					var Item = Spawn.ServerPrefab(SpawnOnDeconstruct, registerTile.WorldPositionServer, localRotation : this.transform.localRotation);
 					Item.GameObject.GetComponent<PipeItem>().SetColour(Colour);
 					OnDisassembly(interaction);

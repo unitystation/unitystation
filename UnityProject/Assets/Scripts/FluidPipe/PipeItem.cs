@@ -11,22 +11,15 @@ namespace Pipes
 	{
 		public Color Colour = Color.white;
 
-		[SyncVar(hook = nameof(SetRotation))]
-		public float Netz = 0;
-
 		public SpriteHandler SpriteHandler;
 		public RegisterItem registerItem;
+		private PlayerRotatable rotatable;
 
 		private void Awake()
 		{
 			SpriteHandler = this.GetComponentInChildren<SpriteHandler>();
 			registerItem = this.GetComponent<RegisterItem>();
-		}
-
-		public void SetRotation(float Oldz, float Newz)
-		{
-			Netz = Newz;
-			transform.eulerAngles =  new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, Newz);
+			rotatable = GetComponent<PlayerRotatable>();
 		}
 
 		public void Start()
@@ -71,10 +64,11 @@ namespace Pipes
 						}
 					}
 				}
+				ToolUtils.ServerPlayToolSound(interaction);
 				BuildPipe();
 			}
 
-			RotatePipe();
+			rotatable.Rotate();
 		}
 
 		public virtual bool WillInteract(HandActivate interaction, NetworkSide side)
@@ -84,16 +78,10 @@ namespace Pipes
 
 		public virtual void ServerPerformInteraction(HandActivate interaction)
 		{
-			RotatePipe();
+			rotatable.Rotate();
 		}
 
 		#endregion Interactions
-
-		protected virtual void RotatePipe()
-		{
-			this.transform.Rotate(0, 0, -90);
-			SetRotation(Netz, transform.eulerAngles.z);
-		}
 
 		public virtual void BuildPipe()
 		{
@@ -101,7 +89,7 @@ namespace Pipes
 
 		public virtual Connections GetConnections()
 		{
-			return (null);
+			return null;
 		}
 	}
 }

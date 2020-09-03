@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Atmospherics;
 using UnityEngine;
+using Atmospherics;
 
 public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
 {
@@ -12,24 +12,12 @@ public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, I
 		if (metaDataLayer != null)
 		{
 			var node = metaDataLayer.Get(interaction.Performer.transform.localPosition.RoundToInt());
-			if(node != null)
+			if (node != null)
 			{
-				toShow = $"Pressure : {node.GasMix.Pressure:0.###} kPa \n"
-				         + $"Temperature : {node.GasMix.Temperature:0.###} K {node.GasMix.Temperature - Atmospherics.Reactions.KOffsetC:0.###} C)" +
-				         " \n" //You want Fahrenheit? HAHAHAHA
-				         + $"Total Moles of gas : {node.GasMix.Moles:0.###} \n";
-
-				foreach (var gas in Gas.All)
-				{
-					var ratio = node.GasMix.GasRatio(gas);
-
-					if (ratio != 0)
-					{
-						toShow += $"{gas.Name} : {ratio * 100:0.###} %\n";
-					}
-				}
+				toShow = GetGasMixInfo(node.GasMix);
 			}
 		}
+
 		Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
 	}
 
@@ -42,17 +30,35 @@ public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, I
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		Vector3Int worldPosInt = interaction.WorldPositionTarget.To2Int().To3Int();
-		MatrixInfo matrixinfo = MatrixManager.AtPoint(worldPosInt, true);
-		var localPosInt = MatrixManager.WorldToLocalInt(worldPosInt, matrixinfo);
-		var matrix = interaction.Performer.GetComponentInParent<Matrix>();
-		string toShow = "";
-		foreach (var pipeNode in matrix.GetPipeConnections(localPosInt))
+		Vector3 worldPosition = interaction.WorldPositionTarget;
+		var matrix = MatrixManager.AtPoint(worldPosition.CutToInt(), true);
+		var localPosition = MatrixManager.WorldToLocal(worldPosition, matrix).CutToInt();
+		var metaDataNode = matrix.MetaDataLayer.Get(localPosition, false);
+
+		if (metaDataNode.PipeData.Count > 0)
 		{
-			toShow += pipeNode.ToAnalyserExamineString() + "\n";
+			var gasMix = metaDataNode.PipeData[0].pipeData.GetMixAndVolume.GetGasMix();
+			Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(gasMix));
+		}
+	}
+
+	private string GetGasMixInfo(GasMix gasMix)
+	{
+		string info = $"Pressure: {gasMix.Pressure:0.###} kPa\n" +
+				$"Temperature: {gasMix.Temperature:0.###} K ({gasMix.Temperature - Reactions.KOffsetC:0.###} °C)\n" +
+				// You want Fahrenheit? HAHAHAHA
+				$"Total Moles of gas: {gasMix.Moles:0.###}\n";
+
+		foreach (var gas in Gas.All)
+		{
+			var ratio = gasMix.GasRatio(gas);
+
+			if (ratio != 0)
+			{
+				info += $"{gas.Name}: {ratio * 100:0.###} %\n";
+			}
 		}
 
-
-		Chat.AddExamineMsgFromServer(interaction.Performer, toShow);
+		return info;
 	}
 }
