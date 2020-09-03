@@ -1,14 +1,23 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using Health.Sickness;
 using HealthV2;
 using JetBrains.Annotations;
+=======
+﻿using System.Collections;
+using System.Collections.Generic;
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 using Mirror;
 using UnityEngine;
 
 public abstract class LivingHealthMasterBase : NetworkBehaviour
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 	/// <summary>
 	/// Server side, each mob has a different one and never it never changes
 	/// </summary>
@@ -24,6 +33,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	private float tick = 0;
 
 	private RegisterTile registerTile;
+<<<<<<< HEAD
 
 	[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
 	public ConsciousState ConsciousState
@@ -107,6 +117,10 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	public FireStackEvent OnClientFireStacksChange = new FireStackEvent();
 
 
+=======
+	private ConsciousState consciousState;
+
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 	public virtual void Awake()
 	{
 		EnsureInit();
@@ -126,10 +140,15 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 	private void EnsureInit()
 	{
+<<<<<<< HEAD
 		if (registerTile) return;
 		registerTile = GetComponent<RegisterTile>();
 		respiratorySystem = GetComponent<RespiratorySystemBase>();
 		circulatorySystem = GetComponent<CirculatorySystemBase>();
+=======
+		if (registerTile != null) return;
+		registerTile = GetComponent<RegisterTile>();
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 		//Always include blood for living entities:
 	}
 
@@ -142,6 +161,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		DNABloodType = new DNAandBloodType();
 	}
 
+<<<<<<< HEAD
 	/// <summary>
 	/// Adds a new implant to the health master.
 	/// This is NOT how implants should be added, it is called automatically by the body part container system!
@@ -158,6 +178,8 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	}
 
 
+=======
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
@@ -165,6 +187,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		StartCoroutine(WaitForClientLoad());
 	}
 
+<<<<<<< HEAD
 	private void UpdateMe()
 	{
 		foreach (ImplantBase implant in implantList)
@@ -177,6 +200,8 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	{
 	}
 
+=======
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 	IEnumerator WaitForClientLoad()
 	{
 		//wait for DNA:
@@ -196,6 +221,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		DNABloodTypeJSON = updatedDNA;
 		DNABloodType = JsonUtility.FromJson<DNAandBloodType>(updatedDNA);
 	}
+<<<<<<< HEAD
 
 		/// <summary>
 	///  Apply Damage to the whole body of this Living thing. Server only
@@ -357,4 +383,6 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	}
 
 
+=======
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 }
