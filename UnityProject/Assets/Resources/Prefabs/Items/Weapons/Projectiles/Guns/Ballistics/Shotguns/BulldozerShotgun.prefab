@@ -231,6 +231,11 @@ PrefabInstance:
       propertyPath: FireRate
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: allowMagazineRemoval
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2297580117821714339, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: itemStorageCapacity

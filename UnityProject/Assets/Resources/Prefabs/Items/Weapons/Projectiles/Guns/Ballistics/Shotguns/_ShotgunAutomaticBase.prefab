@@ -7,10 +7,20 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2182328595051184352, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: allowMagazineRemoval
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3365730268199074847, guid: 3da1d244806a96340a48e959ecc816e4,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3396079434555916715, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
       propertyPath: m_Name
-      value: Shotgun
+      value: _ShotgunAutomaticBase
       objectReference: {fileID: 0}
     - target: {fileID: 3401007583477333215, guid: 3da1d244806a96340a48e959ecc816e4,
         type: 3}
