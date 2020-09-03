@@ -52,7 +52,6 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Volume: 100
       Mix:
         temperature: 273.15
         reagents:
@@ -78,7 +77,7 @@ MonoBehaviour:
         - 0
         - 0
         Pressure: 0
-        Volume: 2.5
+        Volume: 100
     ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}

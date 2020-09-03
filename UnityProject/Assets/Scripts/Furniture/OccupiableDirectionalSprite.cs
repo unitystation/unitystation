@@ -101,6 +101,16 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 
 	}
 
+	// Only runs in editor - useful for updating the sprite direction
+	// when the initial direction is altered via inspector.
+	private void OnValidate()
+	{
+		if (Application.isPlaying) return;
+		OnEditorDirectionChange();
+	}
+
+
+
 	public override void OnStartClient()
 	{
 		EnsureInit();

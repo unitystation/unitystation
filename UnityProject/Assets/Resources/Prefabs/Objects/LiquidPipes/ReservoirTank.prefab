@@ -119,14 +119,13 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Volume: 1000
       Mix:
         temperature: 293.15
         reagents:
           m_keys:
           - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
           m_values:
-          - 1000
+          - 300
       gasMix:
         Gases:
         - 0
@@ -145,7 +144,7 @@ MonoBehaviour:
         - 0
         - 0
         Pressure: 0
-        Volume: 2.5
+        Volume: 300
     ConnectedPipes: []
     Outputs: []
     MonoPipe: {fileID: 0}

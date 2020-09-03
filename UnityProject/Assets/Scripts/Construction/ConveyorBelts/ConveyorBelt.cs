@@ -43,6 +43,12 @@ namespace Construction.Conveyors
 			registerTile = GetComponent<RegisterTile>();
 		}
 
+		private void OnValidate()
+		{
+			if (Application.isPlaying) return;
+			RefreshSprites();
+		}
+
 		public override void OnStartServer()
 		{
 			base.OnStartServer();
