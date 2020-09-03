@@ -46,11 +46,14 @@ public class DefaultPlantData : ScriptableObject
 			{
 				Resources.Load<DefaultPlantDataSOs>("ScriptableObjects/SOs singletons/DefaultPlantDataSOs");
 			}
-			if (!DefaultPlantDataSOs.Instance.DefaultPlantDatas.Contains(this))
-			{
-				DefaultPlantDataSOs.Instance.DefaultPlantDatas.Add(this);
-			}
 
+			if (DefaultPlantDataSOs.Instance != null)
+			{
+				if (!DefaultPlantDataSOs.Instance.DefaultPlantDatas.Contains(this))
+				{
+					DefaultPlantDataSOs.Instance.DefaultPlantDatas.Add(this);
+				}
+			}
 		}
 
 #endif

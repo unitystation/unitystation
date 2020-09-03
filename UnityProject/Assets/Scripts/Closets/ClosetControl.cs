@@ -1,11 +1,9 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
-using Enum = Google.Protobuf.WellKnownTypes.Enum;
 
 /// <summary>
 /// Allows closet to be opened / closed / locked
@@ -31,10 +29,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[Tooltip("Max amount of players that can fit in it at once.")]
 	[SerializeField]
 	private int playerLimit = 3;
-	
+
 	[Tooltip("Type of material to drop when destroyed")]
 	public GameObject matsOnDestroy;
-	
+
 	[FormerlySerializedAs("metalDroppedOnDestroy")]
 	[Tooltip("How much material to drop when destroyed")]
 	[SerializeField]
@@ -510,12 +508,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			.Where(ob => ob != null && ob.gameObject != gameObject)
 			.Where(ob =>
 			{
-				//exclude anchored pipes
-				if (ob.TryGetComponent<Pipe>(out var pipe))
-				{
-					return !pipe.anchored;
-				}
-
 				return true;
 			});
 
@@ -611,7 +603,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			var optionName = IsClosed ? "Open" : "Close";
 			result.AddElement("OpenClose", RightClickInteract, nameOverride: optionName);
 		}
-
 
 		return result;
 	}

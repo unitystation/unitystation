@@ -106,7 +106,7 @@ using UnityEditor;
 			{
 				StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset, skipToEnd: skipAnimation));
 			}
-			
+
 			//mabe the boxColliderStuff should be on the DoorController.
 			StartCoroutine(MakePassable(skipAnimation));
 		}
@@ -165,7 +165,7 @@ using UnityEditor;
 			{
 				StartCoroutine(PlayAnim(overlay_Glass, overlaySprites, doorController.DoorCoverSpriteOffset + 6, skipToEnd: skipAnimation));
 			}
-			
+
 			StartCoroutine(MakeSolid(skipAnimation));
 		}
 
