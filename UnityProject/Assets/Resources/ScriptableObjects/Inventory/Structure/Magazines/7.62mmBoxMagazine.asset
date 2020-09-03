@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
+  m_Name: 7.62mmBoxMagazine
+  m_EditorClassIdentifier: 
+  MaxItemSize: 5
+  Whitelist:
+  - {fileID: 11400000, guid: 5344f7d34a67046a19f7955f984f8ea0, type: 2}
+  Required: []
+  Blacklist: []

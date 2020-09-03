@@ -140,5 +140,22 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8253531733322593078, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: b53117bababc92944869e261b64614f2,
+        type: 2}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: WeaponType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8296188907648457845, guid: f99b98719ad16074496e272268d289f9,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 8670478144276522147, guid: 215c07b6aa6d556439078165149ba3a5,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f99b98719ad16074496e272268d289f9, type: 3}

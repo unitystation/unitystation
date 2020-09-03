@@ -10,15 +10,13 @@ namespace Weapons.Projectiles.Behaviours
 	public class ProjectileDamageLivingHealth : MonoBehaviour, IOnShoot, IOnHit
 	{
 		private GameObject shooter;
-		private Gun weapon;
 		private BodyPartType targetZone;
-		
+
 		[SerializeField] private DamageData damageData = null;
 
 		public void OnShoot(Vector2 direction, GameObject shooter, Gun weapon, BodyPartType targetZone = BodyPartType.Chest)
 		{
 			this.shooter = shooter;
-			this.weapon = weapon;
 			this.targetZone = targetZone;
 		}
 
@@ -32,11 +30,11 @@ namespace Weapons.Projectiles.Behaviours
 			var coll = hit.collider;
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
 			if (livingHealth == null) return false;
-		
+
 
 			livingHealth.ApplyDamageToBodypart(shooter, damageData.Damage, damageData.AttackType, damageData.DamageType, targetZone);
 
-			Chat.AddAttackMsgToChat(shooter, coll.gameObject, targetZone, weapon.gameObject);
+			Chat.AddThrowHitMsgToChat(gameObject, coll.gameObject, targetZone);
 			Logger.LogTraceFormat("Hit {0} for {1} with HealthBehaviour! bullet absorbed", Category.Firearms,
 				livingHealth.gameObject.name, damageData.Damage);
 
@@ -46,7 +44,6 @@ namespace Weapons.Projectiles.Behaviours
 		private void OnDisable()
 		{
 			shooter = null;
-			weapon = null;
 		}
 	}
 }

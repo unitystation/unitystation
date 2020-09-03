@@ -158,6 +158,8 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	public String LoadFromClip( MagazineBehaviour clip)
 	{
 		if (clip == null) return "";
+		Logger.Log(magazineSize + "-" + serverAmmoRemains + "," + clip.serverAmmoRemains);
+
 		int toTransfer = Math.Min(magazineSize - serverAmmoRemains, clip.serverAmmoRemains);
 
 		clip.ExpendAmmo(toTransfer);
@@ -177,7 +179,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		MagazineBehaviour mag = interaction.TargetObject.GetComponent<MagazineBehaviour>();
 
 		if (mag == null) return false;
-		if (mag == this) return false;
+		if (interaction.UsedObject == null) return false;
 		if (mag.ammoType != ammoType || !isClip) return false;
 
 		return true;
@@ -187,7 +189,9 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		if (interaction.UsedObject == null || interaction.Performer == null) return;
 		MagazineBehaviour clip = interaction.UsedObject.GetComponent<MagazineBehaviour>();
-		Chat.AddExamineMsg(interaction.Performer, LoadFromClip(clip));
+		MagazineBehaviour usedclip = interaction.TargetObject.GetComponent<MagazineBehaviour>();
+		string message = usedclip.LoadFromClip(clip);
+		Chat.AddExamineMsg(interaction.Performer, message);
 	}
 
 
@@ -218,17 +222,22 @@ public enum AmmoType
 	tommy9mm,
 	_10mm,
 	_46mm,
-	_50mm,
+	_50Cal,
 	_556mm,
 	_38,
 	_45,
-	_50,
+	_44,
 	_357,
 	_762,
-	A762,
+	_712x82mm,
 	FusionCells,
 	Slug,
 	Syringe,
 	Gasoline,
-	Internal
+	Internal,
+	_762x38mmR,
+	_84mm,
+	FoamForceDart,
+	_75,
+	_40mm
 }

@@ -13,11 +13,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c455e9b9305a9814a9c501174fc8181e,
         type: 2}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: ammoType
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: magazineSize
+      value: 24
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: initialName
       value: SMG magazine (.45)
       objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 403b6d15f1cbe104fbb2f9ed44bdfa24,
+        type: 2}
     - target: {fileID: 6636107547650964854, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: m_Sprite

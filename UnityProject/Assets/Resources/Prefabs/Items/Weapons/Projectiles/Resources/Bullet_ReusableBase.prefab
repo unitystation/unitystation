@@ -1,5 +1,19 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &8139445808837525756
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2357234433818018675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af9f4bdb89f9ab479b27b78ade918a7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  droppedObject: {fileID: 0}
+  isTriggeredOnHit: 1
 --- !u!1001 &2356261501323763175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9,7 +23,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d, type: 3}
       propertyPath: m_Name
-      value: Bullet_ProjectileBase
+      value: Bullet_ReusableBase
       objectReference: {fileID: 0}
     - target: {fileID: 4714298942886824, guid: 5858b89c4790c084bb1915952309853d, type: 3}
       propertyPath: m_LocalPosition.x
@@ -55,5 +69,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 745527988631323550, guid: 5858b89c4790c084bb1915952309853d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5858b89c4790c084bb1915952309853d, type: 3}
+--- !u!1 &2357234433818018675 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1560634355228308, guid: 5858b89c4790c084bb1915952309853d,
+    type: 3}
+  m_PrefabInstance: {fileID: 2356261501323763175}
+  m_PrefabAsset: {fileID: 0}

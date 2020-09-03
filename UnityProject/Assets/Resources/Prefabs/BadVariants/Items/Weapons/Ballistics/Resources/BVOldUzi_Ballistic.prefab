@@ -97,6 +97,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: e3dd4f6e7093d194794efc8f6bbd8c72, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []
@@ -152,7 +153,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 742292832060491855, guid: ed7e0ecac17e8ab45ae891ef388f3d8f,
+      objectReference: {fileID: 9135394499241875567, guid: 817c16204fef2b34f812fc1016235e36,
         type: 3}
     - target: {fileID: 3623955159015093207, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
@@ -184,7 +185,7 @@ PrefabInstance:
     - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}
       propertyPath: m_Name
-      value: Uzi_Ballistic
+      value: BVOldUzi_Ballistic
       objectReference: {fileID: 0}
     - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
         type: 3}

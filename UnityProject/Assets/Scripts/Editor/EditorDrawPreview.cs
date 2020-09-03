@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 #if UNITY_EDITOR
@@ -7,31 +8,34 @@ using UnityEditor;
 [InitializeOnLoad]
 public class MyProjectViewExtentions
 {
+	public static int FrameLoops = 3;
+
 	static MyProjectViewExtentions()
 	{
 		EditorApplication.projectWindowItemOnGUI += DrawProjectItem;
 	}
 
-	public static Dictionary<string, Texture2D> Dictionaryguid = new Dictionary<string, Texture2D>();
+	public static Dictionary<string, DatabaseEntry> Dictionaryguid = new Dictionary<string, DatabaseEntry>();
 
 	public class DatabaseEntry
 	{
-		public DatabaseEntry(string _guid, GameObject _gameObject, SpriteHandler _spriteHandler,
-			SpriteDataSO _spriteDataSO,
-			Texture2D _generatedTexture2D)
+		public DatabaseEntry(SpriteDataSO _spriteDataSO,
+			Texture2D _generatedTexture2D,
+			SpriteDataSO.Frame _PresentFrame)
 		{
-			guid = _guid;
-			gameObject = _gameObject;
-			spriteHandler = _spriteHandler;
 			spriteDataSO = _spriteDataSO;
-			generatedTexture2D = _generatedTexture2D;
+			Textdict = new Dictionary<SpriteDataSO.Frame, Texture2D> {[_PresentFrame] = _generatedTexture2D};
+			TimeSet = DateTime.Now;
+			PresentFrame = _PresentFrame;
 		}
 
-		public string guid;
-		public GameObject gameObject;
-		public SpriteHandler spriteHandler;
+		public System.DateTime TimeSet;
+		public int Variant = 0;
+		public int Frame = 0;
+		public int FrameLoop = 0;
 		public SpriteDataSO spriteDataSO;
-		public Texture2D generatedTexture2D;
+		public SpriteDataSO.Frame PresentFrame;
+		public Dictionary<SpriteDataSO.Frame, Texture2D> Textdict;
 	}
 
 	private static void DrawProjectItem(string guid, Rect selectionRect)
@@ -42,23 +46,29 @@ public class MyProjectViewExtentions
 			Texture2D mainTex;
 			if (Dictionaryguid.ContainsKey(guid))
 			{
-				mainTex = Dictionaryguid[guid];
+				mainTex = GetCorrectTexture(Dictionaryguid[guid]);
 			}
 			else
 			{
 				var spriteDataSO = AssetDatabase.LoadAssetAtPath<SpriteDataSO>(sTing);
 
 				if (spriteDataSO == null) return;
-				if (spriteDataSO.Variance.Count <= 0 || spriteDataSO.Variance[0].Frames.Count <= 0 || spriteDataSO.Variance[0].Frames[0].sprite == null) return;
-				TextureImporter importer = AssetImporter.GetAtPath (AssetDatabase.GetAssetPath(spriteDataSO.Variance[0].Frames[0].sprite))as TextureImporter;
+				if (spriteDataSO.Variance.Count <= 0 || spriteDataSO.Variance[0].Frames.Count <= 0 ||
+				    spriteDataSO.Variance[0].Frames[0].sprite == null) return;
+				TextureImporter importer =
+					AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(spriteDataSO.Variance[0].Frames[0].sprite)) as
+						TextureImporter;
 				if (importer.isReadable == false)
 				{
-					Logger.Log("hey, Texture read and write is not enabled for this Sprite " + spriteDataSO.Variance[0].Frames[0].sprite + "Please update the values on the import settings to make it Read and write");
+					Logger.Log("hey, Texture read and write is not enabled for this Sprite " +
+					           spriteDataSO.Variance[0].Frames[0].sprite +
+					           "Please update the values on the import settings to make it Read and write");
 					return;
 				}
-				mainTex = CopySprite(GenerateNewTexture2D(), spriteDataSO.Variance[0].Frames[0].sprite);
 
-				Dictionaryguid[guid] = mainTex;
+				mainTex = CopySprite(GenerateNewTexture2D(), spriteDataSO.Variance[0].Frames[0].sprite);
+				var DBin = new DatabaseEntry(spriteDataSO, mainTex, spriteDataSO.Variance[0].Frames[0]);
+				Dictionaryguid[guid] = DBin;
 			}
 
 			selectionRect.height = selectionRect.width;
@@ -70,6 +80,46 @@ public class MyProjectViewExtentions
 		}
 	}
 
+	public static Texture2D GetCorrectTexture(DatabaseEntry Db)
+	{
+		var SO = Db.spriteDataSO;
+		var timeElapsed = ((DateTime.Now - Db.TimeSet).Milliseconds / 1000f);
+
+		if (timeElapsed >= Db.PresentFrame.secondDelay)
+		{
+			Db.Frame++;
+			Db.TimeSet = SO.Variance[Db.Variant].Frames.Count == 1 ? DateTime.Now.AddSeconds(1) : DateTime.Now;
+
+			if (Db.Frame >= SO.Variance[Db.Variant].Frames.Count)
+			{
+				Db.Frame = 0;
+				Db.FrameLoop++;
+			}
+
+			if (Db.FrameLoop > FrameLoops)
+			{
+				Db.FrameLoop = 0;
+				Db.Variant++;
+				if (SO.Variance.Count > Db.Variant == false)
+				{
+					Db.Variant = 0;
+				}
+			}
+
+			if (Db.Frame >= SO.Variance[Db.Variant].Frames.Count)
+			{
+				Db.Frame = 0;
+			}
+
+			Db.PresentFrame = SO.Variance[Db.Variant].Frames[Db.Frame];
+			if (Db.Textdict.ContainsKey(Db.PresentFrame) == false)
+			{
+				Db.Textdict[Db.PresentFrame] = CopySprite(GenerateNewTexture2D(), Db.PresentFrame.sprite);
+			}
+		}
+
+		return Db.Textdict[Db.PresentFrame];
+	}
 
 	public static Texture2D GetSpriteRenderer(GameObject GameO)
 	{
@@ -80,12 +130,15 @@ public class MyProjectViewExtentions
 		{
 			if (SR.enabled && SR.sprite != null)
 			{
-				TextureImporter importer = AssetImporter.GetAtPath (AssetDatabase.GetAssetPath(SR.sprite))as TextureImporter;
+				TextureImporter importer =
+					AssetImporter.GetAtPath(AssetDatabase.GetAssetPath(SR.sprite)) as TextureImporter;
 				if (importer.isReadable == false)
 				{
-					Logger.Log("hey, Texture read and write is not enabled for this Sprite " + SR.sprite + "Please update the values on the import settings to make it Read and write");
+					Logger.Log("hey, Texture read and write is not enabled for this Sprite " + SR.sprite +
+					           "Please update the values on the import settings to make it Read and write");
 					return T2D;
 				}
+
 				T2D = CopySprite(T2D, SR.sprite);
 			}
 		}
@@ -113,7 +166,6 @@ public class MyProjectViewExtentions
 	{
 		int xx = 0;
 		int yy = 0;
-
 
 
 		for (int x = (int) NewSprite.textureRect.position.x;

@@ -472,11 +472,11 @@ public partial class PlayerSync
 		lastDirectionServer = Vector2Int.RoundToInt(newPos - oldPos);
 		ServerState = nextState;
 		//In case positions already match
-		TryNotifyPlayers();
 		if (lastDirectionServer != Vector2.zero)
 		{
 			CheckMovementServer();
 			OnStartMove().Invoke(oldPos.RoundToInt(), newPos.RoundToInt());
+			SyncMatrix();
 		}
 
 		TryUpdateServerTarget();

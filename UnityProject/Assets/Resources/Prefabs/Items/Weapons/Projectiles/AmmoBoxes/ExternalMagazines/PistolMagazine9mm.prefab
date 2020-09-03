@@ -13,11 +13,32 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4e6eff93c5e0b0a4ab6b8258fef03d1c,
         type: 2}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: ammoType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: magazineSize
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: initialName
       value: pistol magazine (9mm)
       objectReference: {fileID: 0}
+    - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4fbd68bd00efb44529aea7a89057a257,
+        type: 2}
     - target: {fileID: 6636107547650964854, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: m_Sprite

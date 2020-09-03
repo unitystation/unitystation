@@ -16,6 +16,7 @@ public class ElectricalPool
 
 	//ResistanceWrap
 	public static List<ResistanceWrap> PooledResistanceWraps = new List<ResistanceWrap>();
+
 	public static ResistanceWrap GetResistanceWrap()
 	{
 		if (PooledResistanceWraps.Count > 0)
@@ -25,7 +26,8 @@ public class ElectricalPool
 			ResistanceWrap.inPool = false;
 			return (ResistanceWrap);
 		}
-		else {
+		else
+		{
 			return (new ResistanceWrap());
 		}
 	}
@@ -33,6 +35,7 @@ public class ElectricalPool
 
 	//VIRResistances
 	public static List<VIRResistances> PooledVIRResistances = new List<VIRResistances>();
+
 	public static VIRResistances GetVIRResistances()
 	{
 		if (PooledVIRResistances.Count > 0)
@@ -51,6 +54,7 @@ public class ElectricalPool
 
 	//VIRCurrent
 	public static List<VIRCurrent> PooledVIRCurrent = new List<VIRCurrent>();
+
 	public static VIRCurrent GetVIRCurrent()
 	{
 		if (PooledVIRCurrent.Count > 0)
@@ -60,7 +64,8 @@ public class ElectricalPool
 			VIRCurrent.inPool = false;
 			return (VIRCurrent);
 		}
-		else {
+		else
+		{
 			return (new VIRCurrent());
 		}
 	}
@@ -68,6 +73,7 @@ public class ElectricalPool
 
 	//WrapCurrent
 	public static List<WrapCurrent> PooledWrapCurrent = new List<WrapCurrent>();
+
 	public static WrapCurrent GetWrapCurrent()
 	{
 		if (PooledWrapCurrent.Count > 0)
@@ -77,7 +83,8 @@ public class ElectricalPool
 			WrapCurrent.inPool = false;
 			return (WrapCurrent);
 		}
-		else {
+		else
+		{
 			return (new WrapCurrent());
 		}
 	}
@@ -85,26 +92,29 @@ public class ElectricalPool
 
 	//Find possible connections
 	public static List<List<IntrinsicElectronicData>> PooledFPCList = new List<List<IntrinsicElectronicData>>();
+
 	public static List<IntrinsicElectronicData> GetFPCList()
 	{
-		if (PooledFPCList.Count > 0)
+		lock (PooledFPCList)
 		{
-			lock (PooledFPCList)
+			if (PooledFPCList.Count > 0)
 			{
 				var FPCList = PooledFPCList[0];
 				PooledFPCList.RemoveAt(0);
 				FPCList.Clear();
 				return (FPCList);
 			}
-		}
-		else {
-			return (new List<IntrinsicElectronicData>());
+			else
+			{
+				return (new List<IntrinsicElectronicData>());
+			}
 		}
 	}
 
 
 	//ElectronicSupplyData
-	public static List<ElectronicSupplyData> PooledElectronicSupplyData= new List<ElectronicSupplyData>();
+	public static List<ElectronicSupplyData> PooledElectronicSupplyData = new List<ElectronicSupplyData>();
+
 	public static ElectronicSupplyData GetElectronicSupplyData()
 	{
 		if (PooledElectronicSupplyData.Count > 0)
@@ -113,14 +123,16 @@ public class ElectricalPool
 			PooledElectronicSupplyData.RemoveAt(0);
 			return (ElectronicSupplyData);
 		}
-		else {
+		else
+		{
 			return (new ElectronicSupplyData());
 		}
 	}
 
 	//KeyValuePair<ElectricalOIinheritance, IntrinsicElectronicData> edd
 	public static List<ElectricalSynchronisation.QEntry> PooledQEntry
-	 = new List<ElectricalSynchronisation.QEntry>();
+		= new List<ElectricalSynchronisation.QEntry>();
+
 	public static ElectricalSynchronisation.QEntry GetQEntry()
 	{
 		if (PooledQEntry.Count > 0)
@@ -129,7 +141,8 @@ public class ElectricalPool
 			PooledQEntry.RemoveAt(0);
 			return (QEntry);
 		}
-		else {
+		else
+		{
 			return (new ElectricalSynchronisation.QEntry());
 		}
 	}
