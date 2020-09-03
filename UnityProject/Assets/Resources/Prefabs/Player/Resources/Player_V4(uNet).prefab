@@ -1,7 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
-<<<<<<< HEAD
-=======
 --- !u!1 &1010132269202050
 GameObject:
   m_ObjectHideFlags: 0
@@ -11,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4021687629784058}
-  - component: {fileID: 114859648697239420}
+  - component: {fileID: 8313995809844929117}
   m_Layer: 8
   m_Name: HumanBodyPartRightArm
   m_TagString: Untagged
@@ -33,7 +31,7 @@ Transform:
   m_Father: {fileID: 4113773884394540}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114859648697239420
+--- !u!114 &8313995809844929117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,40 +40,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1010132269202050}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 21300000, guid: 3f34ad64db1de3947b2d8e070993afec,
-    type: 3}
-  GreenDamageMonitorIcon: {fileID: 21300000, guid: 100a51edd335e5e4786dabc4059c4ac8,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300000, guid: 9e9a8aa269bdb8d46ba8344c29c76af2,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300000, guid: 6bd15fbeb32b3f44faee8be4c54b2c44,
-    type: 3}
-  DarkOrangeDamageMonitorIcon: {fileID: 21300000, guid: 067dbe567f3ca5846acef2609fa11387,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300000, guid: 7ab3c49e037c03c478b3e56bb09c793d,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300000, guid: ef9c15b1dae2be64ab9cc67afa230913,
-    type: 3}
-  MaxDamage: 200
-  Type: 2
-  isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
-  Severity: 0
-  armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
+  itemStorageStructure: {fileID: 11400000, guid: 2a08b0ab47119b1449ec00a26dfd7f39,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 9413867bc4abca64ebf10dce06ec374f,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: a4d2a7c9ad408b94ba691df83258ccca,
+    type: 2}
 --- !u!1 &1028579746739352
 GameObject:
   m_ObjectHideFlags: 0
@@ -492,8 +465,6 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
-<<<<<<< HEAD
-=======
 --- !u!1 &1074894628694278
 GameObject:
   m_ObjectHideFlags: 0
@@ -503,7 +474,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4650464137434912}
-  - component: {fileID: 114645575864574208}
+  - component: {fileID: 903678303888577172}
   m_Layer: 8
   m_Name: HumanBodyPartLeftLeg
   m_TagString: Untagged
@@ -525,7 +496,7 @@ Transform:
   m_Father: {fileID: 4113773884394540}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114645575864574208
+--- !u!114 &903678303888577172
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -534,40 +505,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1074894628694278}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 21300000, guid: 3f34ad64db1de3947b2d8e070993afec,
-    type: 3}
-  GreenDamageMonitorIcon: {fileID: 21300000, guid: 6e2cf6207a57a6145a82c0cf24af98ad,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300000, guid: 93e8da8371429c7479e944f5287e64e9,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300000, guid: d6e8954a8f01cd84ba6042a69c678c87,
-    type: 3}
-  DarkOrangeDamageMonitorIcon: {fileID: 21300000, guid: 6110d18ac91fd8349a4a3be20a2de443,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300000, guid: ac6938c0ccef8bd468089c69737c61de,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300000, guid: 7d2f6e0527d7d0848ab991bdfe603b51,
-    type: 3}
-  MaxDamage: 200
-  Type: 5
-  isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
-  Severity: 0
-  armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
+  itemStorageStructure: {fileID: 11400000, guid: d5e23192825d2ce4d9ef7628d05597a4,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 4f53f6ef272b63247a621006aa5b9d97,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: d2fb364248494114db4900fb03c7bb2a,
+    type: 2}
 --- !u!1 &1075270923249368
 GameObject:
   m_ObjectHideFlags: 0
@@ -595,22 +541,13 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-<<<<<<< HEAD
-  - {fileID: 6891507498242434814}
-  - {fileID: 4251119692072226}
-  - {fileID: 7986318412658928937}
-  - {fileID: 4693874674396353312}
-  - {fileID: 1332380215880933872}
-  - {fileID: 1243662661477769720}
-  - {fileID: 5053645022321470033}
-=======
   - {fileID: 4251119692072226}
   - {fileID: 4479868398487846}
   - {fileID: 4136849634666066}
   - {fileID: 4650464137434912}
   - {fileID: 4021687629784058}
   - {fileID: 4604220880130844}
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
+  - {fileID: 4264052834501045488}
   m_Father: {fileID: 4102488425209486}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -750,11 +687,8 @@ GameObject:
   - component: {fileID: 114390575568471296}
   - component: {fileID: 114792299177679754}
   - component: {fileID: 114617980452984522}
-<<<<<<< HEAD
-=======
   - component: {fileID: 114173340621344012}
   - component: {fileID: 114418639699052366}
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
   - component: {fileID: 114644792539986700}
   - component: {fileID: 114285504268110804}
   - component: {fileID: 114803877374308862}
@@ -779,16 +713,8 @@ GameObject:
   - component: {fileID: -7196392364410790442}
   - component: {fileID: -5061689181288922864}
   - component: {fileID: 7092917086790084979}
-<<<<<<< HEAD
-  - component: {fileID: 1354417930896543338}
-  - component: {fileID: 2708192528502292653}
-  - component: {fileID: 4232843736106124361}
   m_Layer: 8
   m_Name: Player_V4(uNet)
-=======
-  m_Layer: 8
-  m_Name: Player_V3(uNet)
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -969,8 +895,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerMove: {fileID: 114792299177679754}
-<<<<<<< HEAD
-=======
 --- !u!114 &114173340621344012
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -993,12 +917,12 @@ MonoBehaviour:
   respiratorySystem: {fileID: 0}
   bloodColor: 0
   BodyParts:
-  - {fileID: 114457795912083674}
-  - {fileID: 114316649585772562}
-  - {fileID: 114593625294156532}
-  - {fileID: 114859648697239420}
-  - {fileID: 114645575864574208}
-  - {fileID: 114626459693876662}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   allowKnifeHarvest: 0
   butcherResults:
   - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
@@ -1030,7 +954,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 --- !u!114 &114644792539986700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1405,11 +1328,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-<<<<<<< HEAD
-=======
-  isFlippable: 0
-  flippedObject: {fileID: 0}
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 --- !u!114 &7092917086790084979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1424,59 +1342,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: {fileID: 0}
   sicknessAfflictions: []
-<<<<<<< HEAD
---- !u!114 &1354417930896543338
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f391033110eb6324494d054acda7a321, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  RTT: 0
-  maxHealth: 100
-  bodyPartContainers: []
-  PlayerMove: {fileID: 0}
---- !u!114 &2708192528502292653
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1c58bdf91308514abf6c708bee62286, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
-  bloodInfo: {fileID: 11400000, guid: 5a85f8bded849a44290c34e227cd4096, type: 2}
---- !u!114 &4232843736106124361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fad55d26381ef594c8bff2db4222570c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  respiratoryInfo: {fileID: 11400000, guid: b6c38107088779a448643e7f7c63eb23, type: 2}
-  canBreathAnywhere: 0
-  tickRate: 1
-  IsSuffocating: 0
-  temperature: 293.15
-  pressure: 101.325
-=======
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1942,12 +1807,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4251119692072226}
-<<<<<<< HEAD
-  - component: {fileID: 1920938442658806036}
-  - component: {fileID: 1344256072867758033}
-=======
-  - component: {fileID: 114457795912083674}
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
+  - component: {fileID: 8349631170377124280}
   m_Layer: 8
   m_Name: HumanBodyPartChest
   m_TagString: Untagged
@@ -1967,10 +1827,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4113773884394540}
-<<<<<<< HEAD
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1920938442658806036
+--- !u!114 &8349631170377124280
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1982,66 +1841,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
---- !u!114 &1344256072867758033
-=======
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114457795912083674
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1308134912561008}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-<<<<<<< HEAD
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: cd30a2ac1bcd7c5498ea24f3df62fc09,
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 6f0e29c7be781754896d30e71cf91c39,
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: 6851b333d0d549e429f4b395361f75bb,
     type: 2}
-=======
-  m_Script: {fileID: 11500000, guid: f8b6bad0196f4cca947cdfe73fcf7ca5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 21300000, guid: 3f34ad64db1de3947b2d8e070993afec,
-    type: 3}
-  GreenDamageMonitorIcon: {fileID: 21300000, guid: f6ca45a95e3baff4eab564b2e07feca4,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300000, guid: 6b0b3626f0ab53742814f584a7ba8d6f,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300000, guid: 2b8cd2c91e6bf494e977fbc8c4b7a002,
-    type: 3}
-  DarkOrangeDamageMonitorIcon: {fileID: 21300000, guid: 6b3f37f1159aeff4bbbd760733e76eac,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300000, guid: d4ae7712470e9b24b855858d7f9d7e45,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300000, guid: a261914c60576104798db8967dc3b56d,
-    type: 3}
-  MaxDamage: 200
-  Type: 1
-  isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
-  Severity: 0
-  armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 --- !u!1 &1332325770335918
 GameObject:
   m_ObjectHideFlags: 0
@@ -2756,8 +2561,6 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
-<<<<<<< HEAD
-=======
 --- !u!1 &1475777022527010
 GameObject:
   m_ObjectHideFlags: 0
@@ -2767,7 +2570,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4136849634666066}
-  - component: {fileID: 114593625294156532}
+  - component: {fileID: 4817381550898854545}
   m_Layer: 8
   m_Name: HumanBodyPartLeftArm
   m_TagString: Untagged
@@ -2789,7 +2592,7 @@ Transform:
   m_Father: {fileID: 4113773884394540}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114593625294156532
+--- !u!114 &4817381550898854545
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2798,40 +2601,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1475777022527010}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 21300000, guid: 3f34ad64db1de3947b2d8e070993afec,
-    type: 3}
-  GreenDamageMonitorIcon: {fileID: 21300000, guid: e9dba932a62a3b641959db2547d764d5,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300000, guid: 2a3e78d284e38b843ac712d167c81143,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300000, guid: 88a9808eb8c6f62419c984e6190675dc,
-    type: 3}
-  DarkOrangeDamageMonitorIcon: {fileID: 21300000, guid: 45e43996e9940c240acacda4f9bd2f78,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300000, guid: 30eb0bfe234d43144b7fbe4f3727df33,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300000, guid: 789ff42a76e2dd6438170d676733a29c,
-    type: 3}
-  MaxDamage: 200
-  Type: 3
-  isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
-  Severity: 0
-  armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
+  itemStorageStructure: {fileID: 11400000, guid: 2a08b0ab47119b1449ec00a26dfd7f39,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 9413867bc4abca64ebf10dce06ec374f,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: 4d6564b5543daf24bbbc56ef64f2a9da,
+    type: 2}
 --- !u!1 &1492008254133120
 GameObject:
   m_ObjectHideFlags: 0
@@ -3640,8 +3418,6 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
-<<<<<<< HEAD
-=======
 --- !u!1 &1693036899965374
 GameObject:
   m_ObjectHideFlags: 0
@@ -3651,7 +3427,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4479868398487846}
-  - component: {fileID: 114316649585772562}
+  - component: {fileID: 4020851249566531393}
   m_Layer: 8
   m_Name: HumanBodyPartHead
   m_TagString: Untagged
@@ -3673,7 +3449,7 @@ Transform:
   m_Father: {fileID: 4113773884394540}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114316649585772562
+--- !u!114 &4020851249566531393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3682,39 +3458,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1693036899965374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 286e2ff4e04b48b0b91e6ebfc4b212f5, type: 3}
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 21300000, guid: 3f34ad64db1de3947b2d8e070993afec,
-    type: 3}
-  GreenDamageMonitorIcon: {fileID: 21300000, guid: 8c9e96de87474c54e833e75b5a6b4124,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300000, guid: 4815bcace68597840be2e8ea27b1a1ec,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300000, guid: f73ec5d7266d51141ab7d961fb6175ef,
-    type: 3}
-  DarkOrangeDamageMonitorIcon: {fileID: 21300000, guid: cde39b879327bbf42a5e728bae858829,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300000, guid: 07b0764d0e76c024e9aff05256f8723f,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300000, guid: 06551178bfb5bda408e377b5fa3c2f64,
-    type: 3}
-  MaxDamage: 200
-  Type: 0
-  isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
-  Severity: 0
-  armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
+  itemStorageStructure: {fileID: 11400000, guid: a5d824fe561730a4a98eff3f985fba4a,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 565fe31ecc33ba84880001dab9c75d54,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: e38fd839a0331ad4db48c26a0a51f371,
+    type: 2}
 --- !u!1 &1708637642242452
 GameObject:
   m_ObjectHideFlags: 0
@@ -3724,7 +3476,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4604220880130844}
-  - component: {fileID: 114626459693876662}
+  - component: {fileID: 2571182288792229098}
   m_Layer: 8
   m_Name: HumanBodyPartRightLeg
   m_TagString: Untagged
@@ -3746,7 +3498,7 @@ Transform:
   m_Father: {fileID: 4113773884394540}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114626459693876662
+--- !u!114 &2571182288792229098
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3755,40 +3507,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1708637642242452}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdad2d3b11224e58b19f7f483935abc8, type: 3}
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BlueDamageMonitorIcon: {fileID: 21300000, guid: 3f34ad64db1de3947b2d8e070993afec,
-    type: 3}
-  GreenDamageMonitorIcon: {fileID: 21300000, guid: 1f09b7c9167147f428d0b03ac61f7ae3,
-    type: 3}
-  YellowDamageMonitorIcon: {fileID: 21300000, guid: e4781fa700d0c6247b823eab99c6db07,
-    type: 3}
-  OrangeDamageMonitorIcon: {fileID: 21300000, guid: 5f21370017aa2e140b7eab64407ce6be,
-    type: 3}
-  DarkOrangeDamageMonitorIcon: {fileID: 21300000, guid: efc9405923e3d444a9d739abb0c5536f,
-    type: 3}
-  RedDamageMonitorIcon: {fileID: 21300000, guid: 92500adc2c023a045a9f241eaa014f6a,
-    type: 3}
-  GrayDamageMonitorIcon: {fileID: 21300000, guid: 363a2f63bbe0c1f46acdba549f7d0009,
-    type: 3}
-  MaxDamage: 200
-  Type: 4
-  isBleeding: 0
-  livingHealthBehaviour: {fileID: 0}
-  Severity: 0
-  armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
-    Energy: 0
-    Bomb: 0
-    Rad: 0
-    Fire: 0
-    Acid: 0
-    Magic: 0
-    Bio: 0
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
+  itemStorageStructure: {fileID: 11400000, guid: d5e23192825d2ce4d9ef7628d05597a4,
+    type: 2}
+  itemStorageCapacity: {fileID: 11400000, guid: 4f53f6ef272b63247a621006aa5b9d97,
+    type: 2}
+  itemStoragePopulator: {fileID: 11400000, guid: 3e38d12029ee746499e935badd68870e,
+    type: 2}
 --- !u!1 &1795409780741894
 GameObject:
   m_ObjectHideFlags: 0
@@ -4463,7 +4190,6 @@ MonoBehaviour:
   GameObjectReference: {fileID: 0}
   spriteType: 0
   thisPlayerScript: {fileID: 114617133355526680}
-<<<<<<< HEAD
 --- !u!114 &3267990453321456714
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4483,88 +4209,6 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
---- !u!1 &287353311002591051
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1243662661477769720}
-  - component: {fileID: 9079628026583812923}
-  - component: {fileID: 9179393390781181201}
-  m_Layer: 8
-  m_Name: HumanBodyPartRightLeg
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1243662661477769720
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 287353311002591051}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4113773884394540}
-  m_RootOrder: 5
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &9079628026583812923
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 287353311002591051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
---- !u!114 &9179393390781181201
-=======
---- !u!114 &3267990453321456714
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-<<<<<<< HEAD
-  m_GameObject: {fileID: 287353311002591051}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: d5e23192825d2ce4d9ef7628d05597a4,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 4f53f6ef272b63247a621006aa5b9d97,
-    type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: 3e38d12029ee746499e935badd68870e,
-    type: 2}
-=======
-  m_GameObject: {fileID: 1969254411952092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 1
-  SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: e8bc09468ba0f3f42add3b2e6c68e234, type: 2}
-  pushTextureOnStartUp: 1
-  variantIndex: 0
-  palette: []
-  Sprites: []
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 --- !u!1 &1243472505666966351
 GameObject:
   m_ObjectHideFlags: 0
@@ -9610,11 +9254,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 16
   m_SortingOrder: 20
-<<<<<<< HEAD
-  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
-=======
-  m_Sprite: {fileID: 7660122581263827943, guid: 2adbceb9cc674484cb9a2c58b41d5493,
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
+  m_Sprite: {fileID: -4549444404219585148, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -9653,8 +9293,7 @@ MonoBehaviour:
   - Texture: {fileID: 2800000, guid: 37e6c24b3c7e32f4e85502799da9c86b, type: 3}
   - Texture: {fileID: 2800000, guid: 1d6a4a738a10d7642afdbb67afc5bc14, type: 3}
   - Texture: {fileID: 2800000, guid: 4713bd3c8ac12ad4c847a7b3d17d95dc, type: 3}
-<<<<<<< HEAD
---- !u!1 &4126900911203604516
+--- !u!1 &4337277197467460931
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9662,71 +9301,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 6891507498242434814}
-  - component: {fileID: 8405483864507254325}
-  - component: {fileID: 1947918668586742020}
-  m_Layer: 8
-  m_Name: HumanBodyPartHead
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &6891507498242434814
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126900911203604516}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4113773884394540}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8405483864507254325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126900911203604516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthMaster: {fileID: 1354417930896543338}
---- !u!114 &1947918668586742020
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4126900911203604516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: a5d824fe561730a4a98eff3f985fba4a,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 565fe31ecc33ba84880001dab9c75d54,
-    type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: e38fd839a0331ad4db48c26a0a51f371,
-    type: 2}
---- !u!1 &4195123652733082770
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5053645022321470033}
-  - component: {fileID: 3936168547863706194}
+  - component: {fileID: 4264052834501045488}
+  - component: {fileID: 6340922538656458710}
   m_Layer: 8
   m_Name: HumanBodyPartButtocks
   m_TagString: Untagged
@@ -9734,13 +9310,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &5053645022321470033
+--- !u!4 &4264052834501045488
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4195123652733082770}
+  m_GameObject: {fileID: 4337277197467460931}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -9748,16 +9324,16 @@ Transform:
   m_Father: {fileID: 4113773884394540}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3936168547863706194
+--- !u!114 &6340922538656458710
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4195123652733082770}
+  m_GameObject: {fileID: 4337277197467460931}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: 80d8e51e4dff95f41880caa8ca222b36,
@@ -9766,8 +9342,6 @@ MonoBehaviour:
     type: 2}
   itemStoragePopulator: {fileID: 11400000, guid: d5027586317a8544884f278e89213d31,
     type: 2}
-=======
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 --- !u!1 &4560473325844253165
 GameObject:
   m_ObjectHideFlags: 0
@@ -9874,72 +9448,6 @@ MonoBehaviour:
   - {fileID: 6543762784068199679, guid: d0b2a654fbecfa346af5d50335a739ea, type: 3}
   spriteRend: {fileID: 6479668554434910921}
   actionData: {fileID: 11400000, guid: 82e905f8f9e96df499feb90ee421b2ee, type: 2}
-<<<<<<< HEAD
---- !u!1 &4874886226674653263
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7986318412658928937}
-  - component: {fileID: 4837690354534997538}
-  - component: {fileID: 1952187324222623786}
-  m_Layer: 8
-  m_Name: HumanBodyPartLeftArm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7986318412658928937
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4874886226674653263}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4113773884394540}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4837690354534997538
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4874886226674653263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
---- !u!114 &1952187324222623786
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4874886226674653263}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 2a08b0ab47119b1449ec00a26dfd7f39,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 9413867bc4abca64ebf10dce06ec374f,
-    type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: 4d6564b5543daf24bbbc56ef64f2a9da,
-    type: 2}
-=======
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 --- !u!1 &5415306199211915668
 GameObject:
   m_ObjectHideFlags: 0
@@ -10260,135 +9768,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
-<<<<<<< HEAD
---- !u!1 &9181345394221410009
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4693874674396353312}
-  - component: {fileID: 2100081870701062641}
-  - component: {fileID: 2124729432226362533}
-  m_Layer: 8
-  m_Name: HumanBodyPartLeftLeg
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4693874674396353312
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9181345394221410009}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4113773884394540}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2100081870701062641
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9181345394221410009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
---- !u!114 &2124729432226362533
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9181345394221410009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: d5e23192825d2ce4d9ef7628d05597a4,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 4f53f6ef272b63247a621006aa5b9d97,
-    type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: d2fb364248494114db4900fb03c7bb2a,
-    type: 2}
---- !u!1 &9192195548966132879
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1332380215880933872}
-  - component: {fileID: 1575254483796522841}
-  - component: {fileID: 3647386249907161083}
-  m_Layer: 8
-  m_Name: HumanBodyPartRightArm
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1332380215880933872
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9192195548966132879}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 4113773884394540}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1575254483796522841
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9192195548966132879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
---- !u!114 &3647386249907161083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9192195548966132879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 2a08b0ab47119b1449ec00a26dfd7f39,
-    type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 9413867bc4abca64ebf10dce06ec374f,
-    type: 2}
-  itemStoragePopulator: {fileID: 11400000, guid: a4d2a7c9ad408b94ba691df83258ccca,
-    type: 2}
-=======
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 --- !u!1001 &4300145449095171559
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -10462,15 +9841,12 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
-<<<<<<< HEAD
 --- !u!4 &4304794156734570639 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
     type: 3}
   m_PrefabInstance: {fileID: 4300145449095171559}
   m_PrefabAsset: {fileID: 0}
-=======
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 --- !u!114 &4196149980577959187 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
@@ -10483,15 +9859,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-<<<<<<< HEAD
-=======
---- !u!4 &4304794156734570639 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
-    type: 3}
-  m_PrefabInstance: {fileID: 4300145449095171559}
-  m_PrefabAsset: {fileID: 0}
->>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 --- !u!1 &4299649681570296155 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff,

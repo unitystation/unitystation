@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c909446621c41cd975e26eab73860a6, type: 3}
   m_Name: HumanButtocksCapacity
   m_EditorClassIdentifier: 
+<<<<<<< HEAD
   MaxItemSize: 2
   Whitelist:
   - {fileID: 11400000, guid: d859938ed34564a4a932f3beb902e34c, type: 2}
   - {fileID: 11400000, guid: 658af8203b5c2fc4dbaced78a47ce133, type: 2}
+=======
+  MaxItemSize: 5
+  Whitelist: []
+>>>>>>> 0bdef99d26... Added Storage Containers for Organs/Implants
   Required: []
   Blacklist: []
