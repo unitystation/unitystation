@@ -23,6 +23,7 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	public SpriteHandler spriteHandler = null;
 	private FireSource fireSource = null;
 	private Pickupable pickupable = null;
+	private Coroutine fireCoroutine;
 
 	[SyncVar]
 	private bool isLit = false;
@@ -98,12 +99,13 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			fireSource.IsBurning = isLitNow;
 		}
 
-		StartCoroutine(FireRoutine());
+		fireCoroutine = StartCoroutine(FireRoutine());
 		isLit = isLitNow;
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
 	{
+		StopCoroutine(fireCoroutine);
 		ServerChangeLit(false);
 	}
 
@@ -133,7 +135,7 @@ public class Cigarette : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		var tr = gameObject.transform.parent;
 		var rotation = RandomUtils.RandomRotatation2D();
 
-		// Print burn out message if in players inventory 
+		// Print burn out message if in players inventory
 		if (pickupable && pickupable.ItemSlot != null)
 		{
 			var player = pickupable.ItemSlot.Player;
