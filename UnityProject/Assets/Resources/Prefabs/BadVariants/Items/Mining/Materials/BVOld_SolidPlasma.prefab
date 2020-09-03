@@ -1,19 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &5246252379686580522
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6254655335276451647}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 672cd2ba39f4e3b40b8762060913e27b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!1001 &6088777242366952148
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 194588578257589739, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
       propertyPath: m_Name
-      value: SolidPlasma
+      value: BVOld_SolidPlasma
       objectReference: {fileID: 0}
     - target: {fileID: 227261219375573087, guid: 208d0d984a62d439babfcfb9d8bfe087,
         type: 3}
@@ -160,7 +146,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: c29cd779d93e8a3449a6b4aa1179788c,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7218027344974714252, guid: 208d0d984a62d439babfcfb9d8bfe087, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 208d0d984a62d439babfcfb9d8bfe087, type: 3}
 --- !u!1 &6254655335276451647 stripped
 GameObject:

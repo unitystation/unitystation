@@ -226,20 +226,21 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 	/// </summary>
 	/// <param name="toAdd"></param>
 	[Server]
-	public void ServerCombine(Stackable toAdd)
+	public int ServerCombine(Stackable toAdd)
 	{
 		if (!StacksWith(toAdd))
 		{
 			Logger.LogErrorFormat("toAdd {0} doesn't stack with this {2}, cannot combine. Consider adding" +
 			                      " this prefab to stacksWith if these really should be stackable.",
 				Category.Inventory, toAdd, this);
-			return;
+			return 0;
 		}
 		var amountToConsume = Math.Min(toAdd.amount, SpareCapacity);
-		if (amountToConsume <= 0) return;
+		if (amountToConsume <= 0) return 0;
 		Logger.LogTraceFormat("Combining {0} <- {1}", Category.Inventory, GetInstanceID(), toAdd.GetInstanceID());
 		toAdd.ServerConsume(amountToConsume);
 		SyncAmount(amount, amount + amountToConsume);
+		return amountToConsume;
 	}
 
 	/// <summary>
