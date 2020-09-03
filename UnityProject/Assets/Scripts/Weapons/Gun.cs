@@ -365,7 +365,7 @@ namespace Weapons
 		public bool Interact(HandActivate interaction)
 		{
 			//try ejecting the mag if external
-			if (CurrentMagazine != null && allowMagazineRemoval)
+			if (CurrentMagazine != null && allowMagazineRemoval && !MagInternal)
 			{
 				RequestUnload(CurrentMagazine);
 				return true;
@@ -440,7 +440,7 @@ namespace Weapons
 				DequeueAndProcessServerShot();
 			}
 
-			if (queuedUnload && queuedShots.Count == 0 && allowMagazineRemoval)
+			if (queuedUnload && queuedShots.Count == 0 && allowMagazineRemoval && !MagInternal)
 			{
 				// done processing shot queue,
 				// perform the queued unload action, causing all clients and server to update their version of this Weapon
