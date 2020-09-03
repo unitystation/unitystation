@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+<<<<<<< HEAD
 [CreateAssetMenu(fileName = "CirculatoryInfo", menuName = "ScriptableObjects/Health/CirculatoryInfo", order = 0)]
 public class CirculatoryInfo : ScriptableObject
 {
@@ -24,12 +25,30 @@ public class CirculatoryInfo : ScriptableObject
 
 	//Default value for the amount of blood in the circulatory system. Human average is 5000.
 	public float BLOOD_DEFAULT = 5000;
+=======
+public class CirculatoryInfo : ScriptableObject
+{
+	//General data that the circulatory system needs.
+	public int BLOOD_MAX = 2000;
+	public int BLOOD_SLIME_SPLIT = 1120;
+	public int BLOOD_NORMAL = 560;
+	public int BLOOD_SAFE = 460;
+	public int BLOOD_OKAY = 336;
+	public int BLOOD_BAD = 224;
+
+	//If we reach critical, the organism will quickly accumalte damage.
+	public int BLOOD_CRITICAL = 168;
+
+	//Default value for the amount of blood in the circulatory system.
+	public int BLOOD_DEFAULT = 560;
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 
 	//Important to note - these values will not determine the true heartrate of the organism.
 	//That is something that an organ has will do. These represent the ideal conditions for the
 	//circulatory system itself.
 	//These will be used as suggestions by the organism responsible for circulating blood.
 
+<<<<<<< HEAD
 	//The maximum heartrate of the circulatory system. If this is surpassed, the organism will suffer damage.
 	[Tooltip("This is the maximum safe heart rate of the circulatory system." +
 	         "Be warned, it is entirely possible that heart organs will just overshoot this.")]
@@ -48,10 +67,21 @@ public class CirculatoryInfo : ScriptableObject
 	[Tooltip("The maximum strength that a heart can pump with without damaging the organism." +
 	         "100 is the human normal.")]
 	public float HEART_STRENGTH_MAX = 150;
+=======
+	//The maximum heartrate of the circulatory system. If this is surpassed, the organism may suffer damage.
+	public int HEARTRATE_MAX = 200;
+
+	//The ideal resting heartrate of the organism.
+	public int HEARTRATE_NORMAL = 55;
+
+	//The minimum heartrate of the circulatory system. If this is reached, the organism will enter cardiac arrest.
+	public int HEARTRATE_MIN = 2;
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 
 	//The maximum amount of reagent we can have in our circulatory system.
 	//This has no unit, and is an arbitrary amount. Essentially, it will be a value that
 	//is purely used for gameplay interaction, with no tangible real world component.
+<<<<<<< HEAD
 	[Tooltip("The maximum amount of reagent that we can have in our circulatory system." +
 	         "This value has no unit and is an arbitrary number." +
 	         "It is used purely for gameplay interaction, with no tangible real world component." +
@@ -60,11 +90,20 @@ public class CirculatoryInfo : ScriptableObject
 
 	[Tooltip("Default amount of blood reagent in the body.")]
 	public float BLOOD_REAGENT_DEFAULT = 100;
+=======
+	public int BLOOD_REAGENT_MAX = 200;
+
+	//The normal amount of reagent in our blood.
+	public int BLOOD_REAGENT_NORMAL = 100;
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 
 	//How much of our blood reagent is consumed per heartbeat.
 	//Organs and body parts may consume additional.
 	//How this is refilled isn't handled by the circulatory system.
+<<<<<<< HEAD
 	[Tooltip("How much of our blood reagent is consumed per heartbeat." +
 	         "Organs and body parts may consume additional amounts of oxygen.")]
+=======
+>>>>>>> f6fdd9fe97... Initial Commit to Save Progress
 	public float BLOOD_REAGENT_CONSUME_PER_BEAT = 0.1f;
 }
