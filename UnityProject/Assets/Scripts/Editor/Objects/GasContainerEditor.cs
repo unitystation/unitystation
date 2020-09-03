@@ -1,8 +1,8 @@
 using System.Linq;
 using Atmospherics;
-using Objects;
 using UnityEditor;
 using UnityEngine;
+using Objects.GasContainer;
 
 [CustomEditor(typeof(GasContainer))]
 public class GasContainerEditor : Editor

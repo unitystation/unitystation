@@ -1,14 +1,20 @@
-﻿using System.Collections;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Metre : MonoBehaviour, ICheckedInteractable<HandApply>
+public class Metre : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
 {
 	public SpriteHandler spriteHandler;
 	public MetaDataNode metaDataNode;
 	public RegisterTile registerTile;
 
 	private Pipes.MixAndVolume MixAndVolume;
+
+	public string Examine(Vector3 worldPos = default)
+	{
+		return ReadMeter();
+	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
@@ -20,25 +26,29 @@ public class Metre : MonoBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (metaDataNode.PipeData.Count > 0)
-		{
-			Chat.AddExamineMsgFromServer(interaction.Performer,
-				"The pressure gauge reads " + metaDataNode.PipeData[0].pipeData.GetMixAndVolume.Density().y + " Kpa " +
-				metaDataNode.PipeData[0].pipeData.GetMixAndVolume.Temperature + "K (" + (metaDataNode.PipeData[0].pipeData.GetMixAndVolume.Temperature-273.15f) + "C)" );
-			return;
-		}
-
-		Chat.AddExamineMsgFromServer(interaction.Performer, " ? Kpa ");
+		Chat.AddExamineMsgFromServer(interaction.Performer, ReadMeter());
 	}
 
+	private string ReadMeter()
+	{
+		var gasInfo = metaDataNode.PipeData[0].pipeData.GetMixAndVolume;
+		string pressure = gasInfo.Density().y.ToString("#.00");
+		string tempK = gasInfo.Temperature.ToString("#.00");
+		string tempC = (gasInfo.Temperature - 273.15f).ToString("#.00");
+
+		if (metaDataNode.PipeData.Count > 0)
+		{
+			return $"The pressure gauge reads {pressure} kPa, with a temperature of {tempK} K ({tempC} °C).";
+		}
+		else
+		{
+			return "The meter is not connected to anything.";
+		}
+	}
 
 	void Start()
 	{
 		registerTile = this.GetComponent<RegisterTile>();
-	}
-
-	void Update()
-	{
 	}
 
 	private void OnEnable()

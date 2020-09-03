@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using Atmospherics;
-using Objects;
+using Objects.GasContainer;
 using UnityEngine;
 
 /// <inheritdoc />

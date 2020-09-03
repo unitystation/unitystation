@@ -52,6 +52,11 @@ public class SpriteHandler : MonoBehaviour
 	private List<SerialisationStanding> Sprites =new List<SerialisationStanding>();
 
 	/// <summary>
+	/// The catalogue index representing the current sprite SO.
+	/// </summary>
+	public int CataloguePage => cataloguePage;
+
+	/// <summary>
 	/// Invokes when sprite just changed by animation or other script
 	/// Null if sprite became hidden
 	/// </summary>
@@ -124,7 +129,7 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (SubCataloguePage == cataloguePage) return;
 
-		if ((SubCataloguePage >= SubCatalogue.Count))
+		if (SubCataloguePage >= SubCatalogue.Count)
 		{
 			Logger.LogError("new SubCataloguePage Is out of bounds on " + this.transform.parent.gameObject);
 			return;
@@ -335,7 +340,22 @@ public class SpriteHandler : MonoBehaviour
 		TryToggleAnimationState(false);
 	}
 
-
+	/// <summary>
+	/// Toggles the SpriteRenderer texture. Calls PushTexture() if the new state is on, or PushClear() otherwise.
+	/// </summary>
+	/// <param name="newState">If on, sets the texture (to last known). If off, clears the texture.</param>
+	/// <param name="network">Will send update to clients if true (default).</param>
+	public void ToggleTexture(bool newState, bool network = true)
+	{
+		if (newState)
+		{
+			PushTexture();
+		}
+		else
+		{
+			PushClear();
+		}
+	}
 
 	private void NetUpdate(
 		SpriteDataSO NewSpriteDataSO = null,
