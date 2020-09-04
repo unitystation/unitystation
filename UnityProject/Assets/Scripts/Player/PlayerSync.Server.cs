@@ -485,12 +485,14 @@ public partial class PlayerSync
 			return state;
 		}
 
+		// if player is in RCS mode and MatrixMove is not null
 		if(playerScript.RcsMode && playerScript.RcsMatrixMove)
 		{
 			Vector2Int dir = action.Direction();
+			// try to move shuttle on server side
 			playerScript.RcsMatrixMove.RcsMoveServer(Orientation.From(dir));
-			Debug.Log("PLAYER IS IN RCS MODE");
-			//RollbackPosition();
+
+			// don't move player while in RCS mode so return state without any changes
 			return state;
 		}
 

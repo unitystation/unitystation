@@ -86,6 +86,15 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Tooltip("Does it require fuel in order to fly?")]
 	public bool RequiresFuel;
 
+	[SyncVar(hook = nameof(OnRcsActivated))]
+	[HideInInspector]
+	public bool rcsModeActive;
+
+	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
+	private bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead
+	private bool IsAutopilotEngaged => Target != TransformState.HiddenPos;
+	private bool IsMovingClient => clientState.IsMoving && clientState.Speed > 0f;
+
 	/// <summary>
 	/// Dictionary containing lists of RCS thrusters.
 	/// [If you want to remove all thrusters clear the lists not dictionary]
@@ -98,17 +107,22 @@ public class MatrixMove : ManagedNetworkBehaviour
 		{OrientationEnum.Right, new List<RcsThruster>()}
 	};
 
+	/// <summary>
+	/// shuttle position when starting RCS movement
+	/// </summary>
 	private Vector2Int rcsMovementStartPosition;
+	
+	/// <summary>
+	/// position on which player should be after the start of RCS
+	/// position on which shuttle should be located at the end of RCS movement
+	/// </summary>
 	private Vector2Int rcsMovementTargetPosition;
 
-	[SyncVar]
-	[HideInInspector]
-	public bool rcsModeActive;
+	/// <summary>
+	/// TODO
+	/// </summary>
+	private bool canClientUseRcs = true;
 
-	private bool ServerPositionsMatch => serverTargetState.Position == serverState.Position;
-	private bool IsRotatingServer => NeedsRotationClient; //todo: calculate rotation time on server instead
-	private bool IsAutopilotEngaged => Target != TransformState.HiddenPos;
-	private bool IsMovingClient => clientState.IsMoving && clientState.Speed > 0f;
 	/// <summary>
 	/// Does current transform rotation not yet match the client matrix state rotation, and thus this matrix's transform needs to
 	/// be rotated to match the target?
@@ -199,6 +213,9 @@ public class MatrixMove : ManagedNetworkBehaviour
 			SyncInitialPosition(initialPosition, initialPosition);
 			MatrixMoveNewPlayer.Send(netId);
 			clientStarted = true;
+
+			var child = transform.GetChild(0);
+			matrixInfo = MatrixManager.Get(child.gameObject);
 		}
 	}
 
@@ -432,31 +449,39 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	public void RcsStartMovementServer(Orientation flyingDirection)
 	{
-		if (IsForceStopped) return;
-
-		moveLimit = 0;
-		SetSpeed(1);
-
-		ChangeFlyingDirection(flyingDirection);
+		moveLimit = moveCur + 1;
 
 		serverTargetState.IsMoving = true;
-		MatrixMoveEvents.OnStartMovementServer.Invoke();
+		serverTargetState.Speed = 1;
+		ChangeFlyingDirection(flyingDirection);
+
 		RequestNotify();
+
+		MatrixMoveEvents.OnStartMovementServer.Invoke();
 	}
 
 	[Client]
 	public void RcsStartMovementClient(Orientation flyingDirection)
 	{
-		if (IsForceStopped) return;
-
 		rcsMovementStartPosition = Vector2Int.RoundToInt(transform.position);
 		rcsMovementTargetPosition = rcsMovementStartPosition + flyingDirection.VectorInt;
+
+		canClientUseRcs = false;
 
 		clientState.Speed = 1;
 		clientState.FlyingDirection = flyingDirection;
 		clientState.IsMoving = true;
 
 		MatrixMoveEvents.OnStartMovementClient.Invoke();
+	}
+
+	[Client]
+	public void OnRcsActivated(bool oldValue, bool newValue)
+	{
+		if (newValue)
+		{
+			CacheRcs();
+		}
 	}
 
 	/// Stop movement
@@ -595,13 +620,15 @@ public class MatrixMove : ManagedNetworkBehaviour
 			//Only move target if rotation is finished
 			//predict client state because we don't get constant updates when flying in one direction.
 			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.Vector;
-			if(rcsModeActive && clientState.IsMoving)
+			if (rcsModeActive && clientState.IsMoving)
 			{
-				if(Vector2.Distance(clientState.Position, rcsMovementTargetPosition) < 0.05f)
+				if (Vector2.Distance(clientState.Position, rcsMovementTargetPosition) < 0.05f)
 				{
 					clientState.Position = new Vector3(rcsMovementTargetPosition.x, rcsMovementTargetPosition.y, clientState.Position.z);
 					clientState.Speed = 0;
 					clientState.IsMoving = false;
+
+					canClientUseRcs = true;
 
 					MatrixMoveEvents.OnStopMovementClient.Invoke();
 				}
@@ -808,11 +835,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 			MatrixMoveEvents.OnRotate.Invoke(new MatrixRotationInfo(this, inProgressRotation.Value, NetworkSide.Client, RotationEvent.Start));
 		}
 
-		if(rcsModeActive)
+		if (rcsModeActive)
 		{
 			// dont teleport player back to start point
-			if(Vector2Int.RoundToInt(clientState.Position) == rcsMovementStartPosition)
+			Vector2Int roundedPosition = Vector2Int.RoundToInt(clientState.Position);
+			if (roundedPosition == rcsMovementStartPosition)
+			{
 				clientState.Position = oldState.Position;
+			}
 		}
 
 		if (!oldState.IsMoving && newState.IsMoving)
@@ -849,7 +879,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	private void TryNotifyPlayers()
 	{
-		Debug.Log("TRY notify players " + ServerPositionsMatch);
 		if (ServerPositionsMatch)
 		{
 			//				When serverState reaches its planned destination,
@@ -867,7 +896,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 		//Generally not sending mid-flight updates (unless there's a sudden change of course etc.)\
 		if (!IsMovingServer || serverState.Inform)
 		{
-			Chat.AddGameWideSystemMsgToChat("NotifyPlayers " + serverState.Position);
 			serverState.RotationTime = rotTime;
 
 			//fixme: this whole class behaves like ass!
@@ -1036,9 +1064,15 @@ public class MatrixMove : ManagedNetworkBehaviour
 		yield return null;
 	}
 
+	/// <summary>
+	/// [Server] start RCS movement on server side
+	/// </summary>
+	/// <seealso cref="RcsMoveClient(Orientation)"></seealso>
+	/// <param name="orientation">flying direction in world space</param>
+	[Server]
 	public void RcsMoveServer(Orientation orientation)
 	{
-		if (serverState.IsMoving || (!IsFueled && RequiresFuel)) return;
+		if (serverState.IsMoving || IsForceStopped || (!IsFueled && RequiresFuel)) return;
 
 		OrientationEnum releativeDirection = orientation.AsEnum();
 		// get releative direcion based on shutter facing
@@ -1111,14 +1145,21 @@ public class MatrixMove : ManagedNetworkBehaviour
 		// move only if shuttle has RCS thrusters pointing target direction
 		if (rcsThrusters[releativeDirection].Count > 0)
 		{
+			StartCoroutine(ServerDisableRcsThrusters(serverState.FlyingDirection, serverState.Speed, moveLimit));
 			RcsStartMovementServer(orientation);
-			StartCoroutine(DisableRcsThrusters(releativeDirection));
 		}
 	}
 
+	/// <summary>
+	/// [Client] start RCS movement on client side (prediction)
+	/// </summary>
+	/// <seealso cref="RcsMoveServer(Orientation)"></seealso>
+	/// <param name="orientation">flying direction in world space</param>
+	[Client]
 	public void RcsMoveClient(Orientation orientation)
 	{
-		if (clientState.IsMoving || (!IsFueled && RequiresFuel)) return;
+		if (!canClientUseRcs || clientState.IsMoving || IsForceStopped || (!IsFueled && RequiresFuel))
+			return;
 
 		OrientationEnum releativeDirection = orientation.AsEnum();
 		// get releative direcion based on shutter facing
@@ -1189,15 +1230,21 @@ public class MatrixMove : ManagedNetworkBehaviour
 		}
 
 		// move only if shuttle has RCS thrusters pointing target direction
-		// TODO: fix finding thrusters
-		//if (rcsThrusters[releativeDirection].Count > 0)
-		//{
-		RcsStartMovementClient(orientation);
-		//StartCoroutine(DisableRcsThrusters(releativeDirection));
-		//}
+		if (rcsThrusters[releativeDirection].Count > 0)
+		{
+			StartCoroutine(ClientDisableRcsThrusters(releativeDirection, clientState.FlyingDirection));
+			RcsStartMovementClient(orientation);
+		}
 	}
 
-	private IEnumerator DisableRcsThrusters(OrientationEnum releativeDirection)
+	/// <summary>
+	/// Turns on RCS engines, waits for flyTime (1s by default) and turns off the engines.
+	/// </summary>
+	/// <param name="releativeDirection">RCS flight direction</param>
+	/// <param name="defaultFlyingDirection">flight direction before turning on the RCS</param>
+	/// <param name="flyTime">time for which the rcs engines are to be switched on</param>
+	[Client]
+	private IEnumerator ClientDisableRcsThrusters(OrientationEnum releativeDirection, Orientation defaultFlyingDirection, float flyTime = 1)
 	{
 		// loop trough all thrusters
 		foreach (var item in rcsThrusters)
@@ -1211,31 +1258,67 @@ public class MatrixMove : ManagedNetworkBehaviour
 			}
 		}
 
-		yield return WaitFor.Seconds(1);
+		yield return WaitFor.Seconds(flyTime);
 
-		// disable all thrusters after 1 second
+		// set flyingDirection to movement direction after using RCS
+		clientState.FlyingDirection = defaultFlyingDirection;
+
+		// disable all thrusters
 		foreach (var thruster in rcsThrusters[releativeDirection])
 		{
 			thruster.thrusterParticles.gameObject.SetActive(false);
 		}
 	}
 
-	//Searches the matrix for RcsThrusters
+	/// <summary>
+	/// Turns on RCS engines, waits for flyTime (1s by default) and turns off the engines.
+	/// </summary>
+	/// <param name="defaultFlyingDirection">flight direction before turning on the RCS</param>
+	/// <param name="flyTime">time for which the rcs engines are to be switched on</param>
+	[Server]
+	private IEnumerator ServerDisableRcsThrusters(Orientation defaultFlyingDirection, float defaultSpeed, int defaultMoveLimit, float flyTime = 1)
+	{
+		yield return WaitFor.Seconds(flyTime);
+
+		serverTargetState.FlyingDirection = defaultFlyingDirection;
+		serverTargetState.Speed = defaultSpeed;
+		serverTargetState.IsMoving = false;
+
+		moveLimit = defaultMoveLimit;
+
+		MatrixMoveEvents.OnStopMovementServer.Invoke();
+		RequestNotify();
+	}
+
+	/// <summary>
+	/// Search matrix for RCS thrusters and cache them
+	/// </summary>
 	public void CacheRcs()
 	{
 		ClearRcsCache();
+
 		foreach (Transform child in matrixInfo.Objects)
 		{
-			if (child.CompareTag("Rcs"))
+			if (child.CompareTag("Rcs") && child.TryGetComponent(out RcsThruster thruster))
 			{
-				if (child.TryGetComponent(out RcsThruster thruster))
-				{
-					rcsThrusters[thruster.directional.MappedOrientation].Add(thruster);
-				}
+				// remove all listeners
+				if (thruster.OnThrusterDestroyedEvent != null)
+					foreach (Delegate listener in thruster.OnThrusterDestroyedEvent.GetInvocationList())
+					{
+						thruster.OnThrusterDestroyedEvent -= (RcsThruster.OnThrusterDestroyedDelegate)listener;
+					}
+
+				// add listener to remove thruster from list when destroyed
+				thruster.OnThrusterDestroyedEvent += () => rcsThrusters[thruster.directional.MappedOrientation].Remove(thruster);
+				// add thruster to list
+				rcsThrusters[thruster.directional.MappedOrientation].Add(thruster);
 			}
 		}
 	}
 
+	/// <summary>
+	/// Clear cached RCS thrusters
+	/// </summary>
 	void ClearRcsCache()
 	{
 		rcsThrusters[OrientationEnum.Up].Clear();

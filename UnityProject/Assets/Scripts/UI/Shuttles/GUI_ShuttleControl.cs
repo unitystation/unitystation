@@ -66,6 +66,11 @@ public class GUI_ShuttleControl : NetTab
 		StartCoroutine(WaitForProvider());
 	}
 
+	private void OnDisable()
+	{
+		RcsMode = false;
+	}
+
 	private IEnumerator WaitForProvider()
 	{
 		while (Provider == null)
@@ -159,8 +164,6 @@ public class GUI_ShuttleControl : NetTab
 
 	public void ServerToggleRcs(bool on, ConnectedPlayer subject)
 	{
-		Debug.Log("[ServerToggleRcs] " + subject.Name + " " + on);
-
 		subject.Script.RcsMode = on;
 		subject.Script.RcsMatrixMove = on ? MatrixMove : null;
 		RcsMode = on;
@@ -182,7 +185,7 @@ public class GUI_ShuttleControl : NetTab
 		PlayerManager.LocalPlayerScript.RcsMode = on;
 		PlayerManager.LocalPlayerScript.RcsMatrixMove = on ? MatrixMove : null;
 
-		//MatrixMove.CacheRcs();
+		MatrixMove.CacheRcs();
 
 		RcsMode = on;
 		SetRcsLight(on);
@@ -433,13 +436,5 @@ public class GUI_ShuttleControl : NetTab
 		float speed = speedMultiplier * (MatrixMove.MaxSpeed - 1) + 1;
 		//		Logger.Log( $"Multiplier={speedMultiplier}, setting speed to {speed}" );
 		MatrixMove.SetSpeed(speed);
-	}
-
-	/// <summary>
-	/// Handle input when in RCS mode
-	/// </summary>
-	public void HandleRCSInput()
-	{
-
 	}
 }
