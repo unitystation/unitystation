@@ -18,7 +18,7 @@ namespace Health.Sickness
 			sicknessAfflictions = new List<SicknessAffliction>();
 		}
 
-		private void Awake()
+		private void Start()
 		{
 			playerHealth = GetComponent<PlayerHealth>();
 		}
@@ -30,7 +30,10 @@ namespace Health.Sickness
 		/// <param name="contractedTime">The time at which the player contracted the sickness</param>
 		public void Add(Sickness sickness, float contractedTime)
 		{
-			sicknessAfflictions.Add(new SicknessAffliction(sickness, contractedTime));
+			lock (sicknessAfflictions)
+			{
+				sicknessAfflictions.Add(new SicknessAffliction(sickness, contractedTime));
+			}
 
 			// Register the player as a sick player
 			SicknessManager.Instance.RegisterSickPlayer(this);
@@ -43,7 +46,10 @@ namespace Health.Sickness
 		/// <param name="sickness">The sickness to remove</param>
 		public void Remove(Sickness sickness)
 		{
-			sicknessAfflictions.Remove(sicknessAfflictions.Find(p => p.Sickness == sickness));
+			lock (sicknessAfflictions)
+			{
+				sicknessAfflictions.Remove(sicknessAfflictions.Find(p => p.Sickness == sickness));
+			}
 		}
 
 		/// <summary>
@@ -53,7 +59,10 @@ namespace Health.Sickness
 		/// <returns>True if the player already has this sickness active</returns>
 		public bool HasSickness(Sickness sickness)
 		{
-			return sicknessAfflictions.Exists(p => p.Sickness == sickness);
+			lock (sicknessAfflictions)
+			{
+				return sicknessAfflictions.Exists(p => p.Sickness == sickness);
+			}
 		}
 	}
 }

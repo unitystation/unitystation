@@ -224,6 +224,19 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		}
 	}
 
+	/// <summary>
+	/// Directly restore integrity to this object. Final integrity will not exceed the initial integrity.
+	/// </summary>
+	[Server]
+	public void RestoreIntegrity(float amountToRestore)
+	{
+		integrity += amountToRestore;
+		if (integrity > initialIntegrity)
+		{
+			integrity = initialIntegrity;
+		}
+	}
+
 	private void UpdateMe()
 	{
 		if (onFire && isServer)

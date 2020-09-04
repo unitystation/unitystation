@@ -21,6 +21,7 @@ public class SpawnOnWrench : MonoBehaviour, ICheckedInteractable<HandApply>
 	{
 		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Wrench))
 		{
+			ToolUtils.ServerPlayToolSound(interaction);
 			Spawn.ServerPrefab(toSpawn, this.transform.position);
 			Despawn.ServerSingle(this.gameObject);
 			return;

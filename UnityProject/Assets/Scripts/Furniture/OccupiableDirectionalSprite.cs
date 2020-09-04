@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using Mirror;
@@ -74,13 +75,6 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 	/// </summary>
 	public PlayerScript OccupantPlayerScript => occupantPlayerScript;
 
-	// Only runs in editor - useful for updating the sprite direction
-	// when the initial direction is altered via inspector.
-	private void OnValidate()
-	{
-		OnEditorDirectionChange();
-	}
-
 	private void EnsureInit()
 	{
 		if (directional != null || gameObject == null) return;
@@ -107,6 +101,16 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 
 	}
 
+	// Only runs in editor - useful for updating the sprite direction
+	// when the initial direction is altered via inspector.
+	private void OnValidate()
+	{
+		if (Application.isPlaying) return;
+		OnEditorDirectionChange();
+	}
+
+
+
 	public override void OnStartClient()
 	{
 		EnsureInit();
@@ -123,6 +127,7 @@ public class OccupiableDirectionalSprite : NetworkBehaviour
 
 	public void OnEditorDirectionChange()
 	{
+		if (this == null) return;
 		if (directional == null) directional = GetComponent<Directional>();
 		SetDirectionalSprite(directional.InitialOrientation);
 	}
