@@ -124,8 +124,7 @@ namespace Pipes
 
 		public void SplitPipeNets()
 		{
-
-			//Not the most optimal way of doing it but the easiest TODO Optimise this
+			if (mixAndVolume.TheVolume == 0) return; //Assuming that there was only one pipe and it's already been removed from It Spilling
 			foreach (var pipe in Covering)
 			{
 				//mixAndVolume.Take(pipe.mixAndVolume);
