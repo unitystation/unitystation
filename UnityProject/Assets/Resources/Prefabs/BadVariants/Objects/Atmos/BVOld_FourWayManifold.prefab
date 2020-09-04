@@ -94,8 +94,6 @@ GameObject:
   - component: {fileID: 114675370128025870}
   - component: {fileID: 114670025683286498}
   - component: {fileID: 114007797438959630}
-  - component: {fileID: 8770073454358235300}
-  - component: {fileID: 5640039996929275955}
   - component: {fileID: 114923609856049834}
   - component: {fileID: 114185907784239616}
   - component: {fileID: 114665036458884384}
@@ -201,50 +199,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
---- !u!114 &8770073454358235300
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645856876941636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f6083c1f01853b44b287c22b0bb00c5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  direction: 3
-  anchored: 0
-  volume: 70
-  pipeSprites:
-  - {fileID: 0}
-  - {fileID: 0}
-  spriteRenderer: {fileID: 212588640390319518}
-  connectionSprite:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  conectionRenderer:
-  - {fileID: 3405745187045870037}
-  - {fileID: 671696593743680170}
-  - {fileID: 2369631279410760376}
-  - {fileID: 4656729331413939348}
-  connectionSpriteSync: 0
---- !u!114 &5640039996929275955
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645856876941636}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 027d1f2fae780624ebb2115cfc6e78af, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114923609856049834
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,18 +345,9 @@ MonoBehaviour:
   isEVACapable: 0
   attackVerbs: []
   itemSprites:
-    LeftHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    RightHand:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
-    InventoryIcon:
-      Texture: {fileID: 0}
-      Sprites: []
-      EquippedData: {fileID: 0}
+    SpriteInventoryIcon: {fileID: 0}
+    SpriteLeftHand: {fileID: 0}
+    SpriteRightHand: {fileID: 0}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -427,7 +372,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!114 &721765409792805558
 MonoBehaviour:
   m_ObjectHideFlags: 0
