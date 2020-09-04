@@ -13,7 +13,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	[Tooltip("The rate of fuel this generator should consume.")]
 	[Range(0.01f, 0.1f)]
 	[SerializeField]
-	private float PlasmaConsumptionRate = 0.02f;
+	private float plasmaConsumptionRate = 0.02f;
 
 	private RegisterTile registerTile;
 	private ItemSlot itemSlot;
@@ -30,7 +30,6 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	[SyncVar(hook = nameof(OnSyncState))]
 	private bool isOn;
-	private bool burningPlasma;
 	private float fuelAmount;
 	private float fuelPerSheet = 10f;
 
@@ -149,9 +148,6 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			}
 			else
 			{
-
-			}
-			{
 				ToggleOff();
 			}
 		}
@@ -161,7 +157,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	void UpdateMe()
 	{
-		fuelAmount -= Time.deltaTime * PlasmaConsumptionRate;
+		fuelAmount -= Time.deltaTime * plasmaConsumptionRate;
 		if (fuelAmount <= 0)
 		{
 			ConsumeSheet();
@@ -200,7 +196,6 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	private void ToggleOn()
 	{
-		burningPlasma = true;
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		electricalNodeControl.TurnOnSupply();
 		baseSpriteHandler.ChangeSprite((int)SpriteState.On);
@@ -209,7 +204,6 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	private void ToggleOff()
 	{
-		burningPlasma = false;
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		electricalNodeControl.TurnOffSupply();
 		baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
