@@ -57,6 +57,8 @@ namespace Doors
 		[SerializeField, Tooltip("Sound that plays when pressure warning is played by this door")]
 		private string warningSFX = "TripleBeep";
 
+		public event Action AnimationFinished;
+
 		private SpriteHandler doorBaseHandler;
 		private SpriteHandler overlaySparksHandler;
 		private SpriteHandler overlayLightsHandler;
@@ -71,13 +73,7 @@ namespace Doors
 			overlayLightsHandler = overlayLights.GetComponent<SpriteHandler>();
 			overlayFillHandler = overlayFill.GetComponent<SpriteHandler>();
 			overlayWeldHandler = overlayWeld.GetComponent<SpriteHandler>();
-			overlayWeldHandler.ChangeSprite((int) Weld.NoWeld);
 			overlayHackingHandler = overlayHacking.GetComponent<SpriteHandler>();
-		}
-
-		public void RequestAnimation(IEnumerator coroutine)
-		{
-			StartCoroutine(coroutine);
 		}
 
 		public IEnumerator PlayOpeningAnimation(bool panelExposed = false, bool lights = true)
@@ -102,6 +98,7 @@ namespace Doors
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Open);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Open);
 
+			AnimationFinished?.Invoke();
 		}
 
 		public IEnumerator PlayClosingAnimation(bool panelExposed = false, bool lights = true)
@@ -115,6 +112,7 @@ namespace Doors
 			{
 				overlayLightsHandler.ChangeSprite((int) Lights.Closing);
 			}
+
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Closing);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Closing);
 			SoundManager.PlayNetworkedAtPos(closingSFX, gameObject.AssumedWorldPosServer());
@@ -133,63 +131,58 @@ namespace Doors
 			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Closed);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Closed);
+
+			AnimationFinished?.Invoke();
 		}
 
 		public IEnumerator PlayDeniedAnimation()
 		{
+			int previousLightSprite = overlayLightsHandler.CurrentSpriteIndex;
 			overlayLightsHandler.ChangeSprite((int)Lights.Denied);
 			SoundManager.PlayNetworkedAtPos(deniedSFX, gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(deniedAnimationTime);
 
-			overlayLightsHandler.ChangeSprite((int)Lights.NoLight);
+			overlayLightsHandler.ChangeSprite(previousLightSprite);
+
+			AnimationFinished?.Invoke();
 		}
 
-		public IEnumerator PlayWarningAnimation()
+		public IEnumerator PlayPressureWarningAnimation()
 		{
-			throw new NotImplementedException();
+			SoundManager.PlayNetworkedAtPos(warningSFX, gameObject.AssumedWorldPosServer());
+			AnimationFinished?.Invoke();
+			yield break;
 		}
 
-		public void ToggleBoltsLights()
+		public void TurnOffAllLights()
 		{
-			if (overlayLightsHandler.CurrentSpriteIndex != (int) Lights.NoLight)
-			{
-				overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
-			}
-			else
-			{
-				if (doorBaseHandler.CurrentSpriteIndex == (int) DoorFrame.Open)
-				{
-					overlayLightsHandler.ChangeSprite((int) Lights.BoltOpen);
-				}
-				else
-				{
-					overlayLightsHandler.ChangeSprite((int) Lights.BoltClosed);
-				}
-			}
+			overlayLightsHandler.ChangeSprite((int) Lights.NoLight);
 		}
 
-		public void ToggleWeldOverlay()
+		public void TurnOnBoltsLight()
 		{
-			if (overlayWeldHandler.CurrentSpriteIndex == (int) Weld.NoWeld)
-			{
-				overlayWeldHandler.ChangeSprite((int) Weld.Weld);
-			}
-			else
-			{
-				overlayWeldHandler.ChangeSprite((int) Weld.NoWeld);
-			}
+			overlayLightsHandler.ChangeSprite((int) Lights.BoltsLights);
 		}
 
-		public void TogglePanelExposition()
+		public void AddWeldOverlay()
 		{
-			if (overlayHackingHandler.CurrentSpriteIndex == (int) Panel.NoPanel)
-			{
-				overlayHackingHandler.ChangeSprite((int) Panel.Closed);
-			}
-			else
-			{
-				overlayHackingHandler.ChangeSprite((int) Panel.NoPanel);
-			}
+			overlayWeldHandler.ChangeSprite((int) Weld.Weld);
+		}
+
+		public void RemoveWeldOverlay()
+		{
+
+			overlayWeldHandler.ChangeSprite((int) Weld.NoWeld);
+		}
+
+		public void AddPanelOverlay()
+		{
+			overlayHackingHandler.ChangeSprite((int) Panel.Closed);
+		}
+
+		public void RemovePanelOverlay()
+		{
+			overlayHackingHandler.ChangeSprite((int) Panel.NoPanel);
 		}
 	}
 
@@ -214,8 +207,8 @@ namespace Doors
 		Opening,
 		Closing,
 		Emergency,
-		BoltClosed,
-		BoltOpen
+		BoltsLights,
+		PressureWarning
 	}
 
 	public enum Sparks

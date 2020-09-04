@@ -1,68 +1,86 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Doors;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class WeldModule : DoorModuleBase
+namespace Doors.Modules
 {
-	private bool isWelded = false;
-
-	[SerializeField]
-	private float weldTime = 5f;
-
-	private DoorAnimatorV2 doorAnimator;
-
-	protected override void Awake()
+	public class WeldModule : DoorModuleBase
 	{
-		base.Awake();
-		doorAnimator = GetComponentInParent<DoorAnimatorV2>();
-	}
-	public override ModuleSignal OpenInteraction(HandApply interaction)
-	{
-		return ModuleSignal.Continue;
-	}
+		private bool isWelded = false;
 
-	public override ModuleSignal ClosedInteraction(HandApply interaction)
-	{
-		if (Validations.HasUsedActiveWelder(interaction))
+		[SerializeField] [Tooltip("Base time this door takes to be welded")]
+		private float weldTime = 5f;//TODO use time multipliers from welder tools
+
+		public override ModuleSignal OpenInteraction(HandApply interaction)
 		{
-			TryWeld(interaction);
-			return ModuleSignal.Break;
-		}
-		else if (isWelded)
-		{
-			UpdateChatMessage.Send(interaction.Performer, ChatChannel.Examine, ChatModifier.None, "The door is welded shut.");
+			return ModuleSignal.Continue;
 		}
 
-		return ModuleSignal.Continue;
-	}
-
-	public override bool CanDoorStateChange()
-	{
-		return !isWelded;
-	}
-
-	private void TryWeld(HandApply interaction)
-	{
-		if (interaction.Intent == Intent.Harm)
+		public override ModuleSignal ClosedInteraction(HandApply interaction)
 		{
-			ToolUtils.ServerUseToolWithActionMessages(
-				interaction, weldTime,
-				$"You start {(isWelded ? "unwelding" : "welding")} the door...",
-				$"{interaction.Performer.ExpensiveName()} starts {(isWelded ? "unwelding" : "welding")} the door...",
-				$"You {(isWelded ? "unweld" : "weld")} the door.",
-				$"{interaction.Performer.ExpensiveName()} {(isWelded ? "unwelds" : "welds")} the door.",
-				ToggleWeld);
+			if (Validations.HasUsedActiveWelder(interaction))
+			{
+				TryWeld(interaction);
+				return ModuleSignal.Break;
+			}
+
+			if (isWelded)
+			{
+				UpdateChatMessage.Send(
+					interaction.Performer,
+					ChatChannel.Examine,
+					ChatModifier.None,
+					"The door is welded shut.");
+			}
+
+			return ModuleSignal.Continue;
 		}
-	}
 
-	private void ToggleWeld()
-	{
-		if (!master.IsPerformingAction && master.IsClosed)
+		public override ModuleSignal BumpingInteraction(GameObject byPlayer)
 		{
+			return ModuleSignal.Continue;
+		}
+
+		public override bool CanDoorStateChange()
+		{
+			return !isWelded;
+		}
+
+		private void TryWeld(HandApply interaction)
+		{
+			switch (interaction.Intent)
+			{
+				case Intent.Harm:
+					ToolUtils.ServerUseToolWithActionMessages(
+						interaction, weldTime,
+						$"You start {(isWelded ? "unwelding" : "welding")} the door...",
+						$"{interaction.Performer.ExpensiveName()} starts {(isWelded ? "unwelding" : "welding")} the door...",
+						$"You {(isWelded ? "unweld" : "weld")} the door.",
+						$"{interaction.Performer.ExpensiveName()} {(isWelded ? "unwelds" : "welds")} the door.",
+						ToggleWeld);
+					break;
+				case Intent.Help:
+					//TODO add repairing door logic here
+					break;
+			}
+		}
+
+		private void ToggleWeld()
+		{
+			if (master.IsPerformingAction || !master.IsClosed)
+			{
+				return;
+			}
+
 			isWelded = !isWelded;
-			doorAnimator.ToggleWeldOverlay();
-		}
-	}
 
+			if (isWelded)
+			{
+				master.DoorAnimator.AddWeldOverlay();
+			}
+			else
+			{
+				master.DoorAnimator.RemoveWeldOverlay();
+			}
+		}
+
+	}
 }
