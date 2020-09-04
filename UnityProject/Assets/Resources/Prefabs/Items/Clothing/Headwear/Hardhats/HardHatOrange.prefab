@@ -1,47 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7449673874222202999
+--- !u!1001 &5505694681143819732
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 493305885587545889, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: toggleSprites.Array.data[0]
-      value: 
-      objectReference: {fileID: 21300000, guid: 05644881440f194468c66e2b928c197e,
-        type: 3}
-    - target: {fileID: 493305885587545889, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: toggleSprites.Array.data[1]
-      value: 
-      objectReference: {fileID: 21300000, guid: 4e9cd1d8fae3565449d5b438b2e9bbf6,
-        type: 3}
     - target: {fileID: 3568482238077595727, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: b0c73d0e4d486c6429896647a1868de0,
-        type: 2}
-    - target: {fileID: 4377197623706982477, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 9ea85ae0b8f64e247b92e19d4a145f8a,
+      objectReference: {fileID: 11400000, guid: d0c6ba243e00f1e4f96ea05e324b96ad,
         type: 2}
     - target: {fileID: 4377197623706982477, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: SubCatalogue.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: 9ea85ae0b8f64e247b92e19d4a145f8a,
+      objectReference: {fileID: 11400000, guid: d6b9c5298c5a8c14fa00e2a3470a6cfc,
         type: 2}
     - target: {fileID: 4377197623706982477, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: SubCatalogue.Array.data[1]
       value: 
-      objectReference: {fileID: 11400000, guid: 91dda8ccb5a25fa479f5f57ce9eacba9,
+      objectReference: {fileID: 11400000, guid: f0f5d2c2e2b432a44b9943f8b41944bf,
+        type: 2}
+    - target: {fileID: 4377197623706982477, guid: 64e430f828cfc465ea88b8d6e6fecda4,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d6b9c5298c5a8c14fa00e2a3470a6cfc,
         type: 2}
     - target: {fileID: 7524605284256423550, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
@@ -106,47 +94,13 @@ PrefabInstance:
     - target: {fileID: 7636118406116123594, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: m_Name
-      value: WhiteHardHat
+      value: OrangeHardhat
       objectReference: {fileID: 0}
     - target: {fileID: 7712700953546887318, guid: 64e430f828cfc465ea88b8d6e6fecda4,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 4e9cd1d8fae3565449d5b438b2e9bbf6,
+      objectReference: {fileID: 21300000, guid: 3d0a2576828bd934ba253849ae970ab7,
         type: 3}
-    - target: {fileID: 8626702741117100762, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: m_Name
-      value: WhiteHardHat
-      objectReference: {fileID: 0}
-    - target: {fileID: 8626702741117139027, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 4e9cd1d8fae3565449d5b438b2e9bbf6,
-        type: 3}
-    - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: SubCatalogue.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9ea85ae0b8f64e247b92e19d4a145f8a,
-        type: 2}
-    - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: PresentSpriteSet
-      value: 
-      objectReference: {fileID: 11400000, guid: 9ea85ae0b8f64e247b92e19d4a145f8a,
-        type: 2}
-    - target: {fileID: 8626702741117238922, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: SubCatalogue.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 91dda8ccb5a25fa479f5f57ce9eacba9,
-        type: 2}
-    - target: {fileID: 8626702741117329122, guid: 64e430f828cfc465ea88b8d6e6fecda4,
-        type: 3}
-      propertyPath: m_AssetId
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 64e430f828cfc465ea88b8d6e6fecda4, type: 3}
