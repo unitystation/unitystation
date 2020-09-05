@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Systems.Atmospherics;
+using Atmospherics;
 using NaughtyAttributes;
 using UnityEngine;
 
