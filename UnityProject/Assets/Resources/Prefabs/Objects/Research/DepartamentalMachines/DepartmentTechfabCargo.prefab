@@ -7,6 +7,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 256317274070250499, guid: 8c638788cde389a4e897d3fd1a25e1e3,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: ad016f814b0611f419a890011920b200,
+        type: 2}
+    - target: {fileID: 256317274070250499, guid: 8c638788cde389a4e897d3fd1a25e1e3,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 5779713911622386537, guid: c60a499f63b592b4a87be59ecabb2bda,
+        type: 3}
     - target: {fileID: 2281697198738232920, guid: 8c638788cde389a4e897d3fd1a25e1e3,
         type: 3}
       propertyPath: m_LocalPosition.x

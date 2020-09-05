@@ -67,6 +67,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: DepartmentProtolatheCargo
       objectReference: {fileID: 0}
+    - target: {fileID: 4514527140972215470, guid: f17d6c099ecfc4b49a1b59d77cbe2d28,
+        type: 3}
+      propertyPath: MachineParts
+      value: 
+      objectReference: {fileID: 11400000, guid: 8eeb3756925d39449a0b5f2ad5171caf,
+        type: 2}
+    - target: {fileID: 4514527140972215470, guid: f17d6c099ecfc4b49a1b59d77cbe2d28,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 8346792620938451998, guid: 35c7fb817932a774c8077028cd86eefa,
+        type: 3}
     - target: {fileID: 5058160342810838815, guid: f17d6c099ecfc4b49a1b59d77cbe2d28,
         type: 3}
       propertyPath: initialName
