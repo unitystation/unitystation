@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
+using NaughtyAttributes;
 using Objects.GasContainer;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -14,6 +15,7 @@ namespace HealthV2
 	{
 
 		[SerializeField]
+		[Required("Must have information about our respiratory system.")]
 		private RespiratoryInfo respiratoryInfo;
 		public RespiratoryInfo RespiratoryInfo => respiratoryInfo;
 
