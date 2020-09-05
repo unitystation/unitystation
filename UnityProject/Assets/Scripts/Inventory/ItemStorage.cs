@@ -58,6 +58,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// </summary>
 	private readonly HashSet<GameObject> serverObserverPlayers = new HashSet<GameObject>();
 
+	public event Action<InventoryMove> ServerInventoryMoveEvent;
+
 	private void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
