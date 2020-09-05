@@ -109,6 +109,11 @@ public class HackingProcessDoorSimple : HackingProcessBase
 		}
 	}
 
+	public static void ServerResetHackingSeedOnRoundReset()
+	{
+		seed = null;
+	}
+
 	public void Shuffle(List<HackingNodeInfo> list)
 	{
 		System.Random rng = new System.Random((int)seed);
@@ -125,6 +130,7 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 	public override void ServerGenerateNodesFromNodeInfo()
 	{
+		EventManager.AddHandler(EVENT.PreRoundStarted, ServerResetHackingSeedOnRoundReset);
 		List<HackingNodeInfo> infList = nodeInfo.nodeInfoList.ToList();
 		Shuffle(infList);
 		foreach (HackingNodeInfo inf in infList)
