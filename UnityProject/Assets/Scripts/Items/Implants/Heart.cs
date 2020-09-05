@@ -8,9 +8,12 @@ public class Heart : ImplantBase
 {
 
 	//The actual heartrate of this implant, in BPM.
+<<<<<<< HEAD
 	/// <summary>
 	/// Heart Rate in BPM (beats per minute).
 	/// </summary>
+=======
+>>>>>>> bea84a13e1... I dont remember, lots of changes
 	private float heartRate = 0;
 
 	[SerializeField]
@@ -42,8 +45,11 @@ public class Heart : ImplantBase
 			nextHeartBeat = lastHeartBeat + heartBeatDelay;
 		}
 
+<<<<<<< HEAD
 		Debug.Log("Heart updated! Something is working!");
 
+=======
+>>>>>>> bea84a13e1... I dont remember, lots of changes
 	}
 
 	public void DoHeartBeat(LivingHealthMasterBase healthMaster)
@@ -61,12 +67,16 @@ public class Heart : ImplantBase
 
 	private void UpdateHeartRate(CirculatorySystemBase circulatorySystem)
 	{
+<<<<<<< HEAD
 		//This may seem strange, but the heart itself isn't in charge of when to increase its heart rate.
 		//The circulatory system will let us know if that needs changing.
+=======
+>>>>>>> bea84a13e1... I dont remember, lots of changes
 		if (circulatorySystem.HeartRateNeedsIncreasing)
 		{
 			heartRate += Math.Min((Time.time - lastHeartBeat) * heartRateDelta, heartRateDelta);
 			heartRate = Math.Min(heartRate, maxHeartRate);
+<<<<<<< HEAD
 		}
 		else
 		{
@@ -80,6 +90,10 @@ public class Heart : ImplantBase
 		//individual pump events.
 
 		heartBeatDelay = 60f / heartRate; //Time in seconds between heart beats.
+=======
+			circulatorySystem.HeartRate = heartRate;
+		}
+>>>>>>> bea84a13e1... I dont remember, lots of changes
 	}
 
 

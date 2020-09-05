@@ -589,8 +589,6 @@ GameObject:
   - component: {fileID: 114390575568471296}
   - component: {fileID: 114792299177679754}
   - component: {fileID: 114617980452984522}
-  - component: {fileID: 114173340621344012}
-  - component: {fileID: 114418639699052366}
   - component: {fileID: 114644792539986700}
   - component: {fileID: 114285504268110804}
   - component: {fileID: 114803877374308862}
@@ -615,6 +613,9 @@ GameObject:
   - component: {fileID: -7196392364410790442}
   - component: {fileID: -5061689181288922864}
   - component: {fileID: 7092917086790084979}
+  - component: {fileID: 1354417930896543338}
+  - component: {fileID: 2708192528502292653}
+  - component: {fileID: 4232843736106124361}
   m_Layer: 8
   m_Name: Player_V4(uNet)
   m_TagString: Untagged
@@ -797,65 +798,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   playerMove: {fileID: 114792299177679754}
---- !u!114 &114173340621344012
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 91ec24547a834ed59569affa30e7249b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  maxHealth: 100
-  canBreathAnywhere: 0
-  cloningDamage: 0
-  bloodSystem: {fileID: 0}
-  brainSystem: {fileID: 0}
-  respiratorySystem: {fileID: 0}
-  bloodColor: 0
-  BodyParts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  allowKnifeHarvest: 0
-  butcherResults:
-  - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
-  - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
-  - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
-  - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
-  - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
-  - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
-  - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
-  - {fileID: 5155784515580247650, guid: 82854d05a642eb841b438f039ae33cb5, type: 3}
-  RTT: 0
-  RadiationStacks: 0
-  metabolism: {fileID: 0}
-  percentAllergies: 30
-  commonAllergies: {fileID: 3966646720165241360, guid: ea566460739c810479d34aa94471a397,
-    type: 3}
-  PlayerMove: {fileID: 0}
---- !u!114 &114418639699052366
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1133514949248654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28c2cd445a75442e6842dd3e2fe81f16, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
 --- !u!114 &114644792539986700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1244,6 +1186,55 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: {fileID: 0}
   sicknessAfflictions: []
+--- !u!114 &1354417930896543338
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f391033110eb6324494d054acda7a321, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  maxHealth: 100
+  bodyPartContainers: []
+  PlayerMove: {fileID: 0}
+--- !u!114 &2708192528502292653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1c58bdf91308514abf6c708bee62286, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodType: {fileID: 11400000, guid: efcde740e9b85074485bcd68a7a21816, type: 2}
+  bloodInfo: {fileID: 11400000, guid: 5a85f8bded849a44290c34e227cd4096, type: 2}
+--- !u!114 &4232843736106124361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad55d26381ef594c8bff2db4222570c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respiratoryInfo: {fileID: 11400000, guid: b6c38107088779a448643e7f7c63eb23, type: 2}
+  canBreathAnywhere: 0
+  tickRate: 1
+  IsSuffocating: 0
+  temperature: 293.15
+  pressure: 101.325
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -1710,6 +1701,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4251119692072226}
   - component: {fileID: 1920938442658806036}
+  - component: {fileID: 1344256072867758033}
   m_Layer: 8
   m_Name: HumanBodyPartChest
   m_TagString: Untagged
@@ -1741,6 +1733,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthMaster: {fileID: 0}
+--- !u!114 &1344256072867758033
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1308134912561008}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: cd30a2ac1bcd7c5498ea24f3df62fc09,
@@ -3974,6 +3979,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1243662661477769720}
   - component: {fileID: 9079628026583812923}
+  - component: {fileID: 9179393390781181201}
   m_Layer: 8
   m_Name: HumanBodyPartRightLeg
   m_TagString: Untagged
@@ -4005,6 +4011,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthMaster: {fileID: 0}
+--- !u!114 &9179393390781181201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 287353311002591051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: d5e23192825d2ce4d9ef7628d05597a4,
@@ -9058,7 +9077,7 @@ SpriteRenderer:
   m_SortingLayerID: -902452607
   m_SortingLayer: 16
   m_SortingOrder: 20
-  m_Sprite: {fileID: -1841058614580174146, guid: 2adbceb9cc674484cb9a2c58b41d5493,
+  m_Sprite: {fileID: 8165807964432903219, guid: 2adbceb9cc674484cb9a2c58b41d5493,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -9107,6 +9126,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6891507498242434814}
   - component: {fileID: 8405483864507254325}
+  - component: {fileID: 1947918668586742020}
   m_Layer: 8
   m_Name: HumanBodyPartHead
   m_TagString: Untagged
@@ -9140,6 +9160,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthMaster: {fileID: 0}
+--- !u!114 &1947918668586742020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4126900911203604516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: a5d824fe561730a4a98eff3f985fba4a,
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 565fe31ecc33ba84880001dab9c75d54,
@@ -9155,7 +9188,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5053645022321470033}
-  - component: {fileID: 1298120215193643668}
+  - component: {fileID: 3936168547863706194}
   m_Layer: 8
   m_Name: HumanBodyPartButtocks
   m_TagString: Untagged
@@ -9177,7 +9210,7 @@ Transform:
   m_Father: {fileID: 4113773884394540}
   m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1298120215193643668
+--- !u!114 &3936168547863706194
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -9186,7 +9219,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4195123652733082770}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: 80d8e51e4dff95f41880caa8ca222b36,
@@ -9311,6 +9344,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7986318412658928937}
   - component: {fileID: 4837690354534997538}
+  - component: {fileID: 1952187324222623786}
   m_Layer: 8
   m_Name: HumanBodyPartLeftArm
   m_TagString: Untagged
@@ -9342,6 +9376,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthMaster: {fileID: 0}
+--- !u!114 &1952187324222623786
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4874886226674653263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: 2a08b0ab47119b1449ec00a26dfd7f39,
@@ -9680,6 +9727,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4693874674396353312}
   - component: {fileID: 2100081870701062641}
+  - component: {fileID: 2124729432226362533}
   m_Layer: 8
   m_Name: HumanBodyPartLeftLeg
   m_TagString: Untagged
@@ -9713,6 +9761,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  healthMaster: {fileID: 0}
+--- !u!114 &2124729432226362533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9181345394221410009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: d5e23192825d2ce4d9ef7628d05597a4,
     type: 2}
   itemStorageCapacity: {fileID: 11400000, guid: 4f53f6ef272b63247a621006aa5b9d97,
@@ -9729,6 +9790,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1332380215880933872}
   - component: {fileID: 1575254483796522841}
+  - component: {fileID: 3647386249907161083}
   m_Layer: 8
   m_Name: HumanBodyPartRightArm
   m_TagString: Untagged
@@ -9760,6 +9822,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthMaster: {fileID: 0}
+--- !u!114 &3647386249907161083
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9192195548966132879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   itemStorageStructure: {fileID: 11400000, guid: 2a08b0ab47119b1449ec00a26dfd7f39,
@@ -9841,6 +9916,12 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
+--- !u!4 &4304794156734570639 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4196149980577959187 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
@@ -9853,12 +9934,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &4304794156734570639 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
-    type: 3}
-  m_PrefabInstance: {fileID: 4300145449095171559}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &4299649681570296155 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff,
