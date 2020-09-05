@@ -84,8 +84,8 @@ namespace Health.Sickness
 
 						foreach (PlayerSickness playerSickness in sickPlayers)
 						{
-							// Don't check sickness for dead players.
-							if ((playerSickness.playerHealth != null) && (!playerSickness.playerHealth.IsDead))
+							// Don't check sickness for unconcious and dead players.
+							if ((playerSickness.playerHealth != null) && (playerSickness.playerHealth.ConsciousState < ConsciousState.UNCONSCIOUS))
 							{
 								playerSickness.sicknessAfflictions.RemoveAll(p => p.IsHealed);
 
@@ -179,7 +179,12 @@ namespace Health.Sickness
 		/// <param name="asyncSymptom">The symptom to be applied (including player reference and such)</param>
 		private void TriggerStageSymptom(SymptomManifestation symptomManifestation)
 		{
-			switch (symptomManifestation.SicknessAffliction.Sickness.SicknessStages[symptomManifestation.Stage].Symptom)
+			// Sometimes, the symptom get queued before the player dies and is unqueud when the player is dead/unconcious.
+			// This prevents the symptom to be shown.
+			if (symptomManifestation.PlayerHealth.ConsciousState >= ConsciousState.UNCONSCIOUS)
+				return;
+
+				switch (symptomManifestation.SicknessAffliction.Sickness.SicknessStages[symptomManifestation.Stage].Symptom)
 			{
 				case SymptomType.Wellbeing:
 					PerformSymptomWellbeing(symptomManifestation);
