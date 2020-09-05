@@ -49,8 +49,14 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	private float overallHealth = 100;
 	public float OverallHealth => overallHealth;
 
+	[SerializeField]
+	[Tooltip("These are the things that will hold all our organs and implants.")]
+	private List<BodyPartContainerBase> bodyPartContainers;
+
 	[CanBeNull]
 	private CirculatorySystemBase circulatorySystem;
+
+	public CirculatorySystemBase CirculatorySystem => circulatorySystem;
 
 	[CanBeNull]
 	private RespiratorySystemBase respiratorySystem;
@@ -63,6 +69,9 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 	public bool InCardiacArrest => circulatorySystem != null && circulatorySystem.HeartIsStopped;
 
+	private List<ImplantBase> implantList = new List<ImplantBase>();
+
+	public List<ImplantBase> ImplantList => implantList;
 
 	public virtual void Awake()
 	{
@@ -83,7 +92,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 	private void EnsureInit()
 	{
-		if (registerTile != null) return;
+		if (registerTile) return;
 		registerTile = GetComponent<RegisterTile>();
 		//Always include blood for living entities:
 	}
@@ -97,6 +106,22 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		DNABloodType = new DNAandBloodType();
 	}
 
+	/// <summary>
+	/// Adds a new implant to the health master.
+	/// This is NOT how implants should be added, it is called automatically by the body part container system!
+	/// </summary>
+	/// <param name="implant"></param>
+	public void AddNewImplant(ImplantBase implant)
+	{
+		implantList.Add(implant);
+	}
+
+	public void RemoveImplant(ImplantBase implantBase)
+	{
+		implantList.Remove(implantBase);
+	}
+
+
 	public override void OnStartClient()
 	{
 		base.OnStartClient();
@@ -106,6 +131,10 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 
 	private void UpdateMe()
 	{
+		foreach (ImplantBase implant in implantList)
+		{
+			implant.ImplantUpdate(this);
+		}
 	}
 
 	private void PeriodicUpdate()
