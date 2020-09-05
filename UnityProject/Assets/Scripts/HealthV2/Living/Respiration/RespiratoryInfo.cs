@@ -4,6 +4,7 @@ using Atmospherics;
 using NaughtyAttributes;
 using UnityEngine;
 
+[CreateAssetMenu(fileName = "Respiratory Info", menuName = "ScriptableObjects/Health/RespiratoryInfo", order = 0)]
 public class RespiratoryInfo : ScriptableObject
 {
 	//Not sure if this belongs here. Seems like something the lungs organ should handle.
