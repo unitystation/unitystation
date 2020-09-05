@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 911725522681720307, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: m_Name
-      value: PrisonersPlasmaEnvirosuitHelmet
+      value: PrisonersEnvirohelmet
       objectReference: {fileID: 0}
     - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
@@ -99,6 +99,18 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7290da27cf7bbfb4da7fb420f88735d7,
+        type: 2}
+    - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7290da27cf7bbfb4da7fb420f88735d7,
+        type: 2}
+    - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8c3ff9efa048619408c5f8f84b2939b9,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c46f309a45d8714f9c5db5361e854e6, type: 3}
