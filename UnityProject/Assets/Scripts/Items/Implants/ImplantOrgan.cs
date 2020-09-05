@@ -2,11 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace HealthV2
+public class ImplantOrgan : ImplantBase
 {
-	public class ImplantOrgan : BodyPart
-	{
+    // Start is called before the first frame update
+    void Start()
+    {
 
-	}
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
 }
