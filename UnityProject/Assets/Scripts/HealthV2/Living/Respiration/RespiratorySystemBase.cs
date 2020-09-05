@@ -2,10 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Atmospherics;
-<<<<<<< HEAD
 using NaughtyAttributes;
-=======
->>>>>>> c5ff7dcecc... Basics of Respiratory System
 using Objects.GasContainer;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -18,10 +15,7 @@ namespace HealthV2
 	{
 
 		[SerializeField]
-<<<<<<< HEAD
 		[Required("Must have information about our respiratory system.")]
-=======
->>>>>>> c5ff7dcecc... Basics of Respiratory System
 		private RespiratoryInfo respiratoryInfo;
 		public RespiratoryInfo RespiratoryInfo => respiratoryInfo;
 
