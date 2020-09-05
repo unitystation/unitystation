@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &19435806262469539
+--- !u!1001 &8948271779606101088
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -10,17 +10,19 @@ PrefabInstance:
     - target: {fileID: 741549383598998161, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: initialDescription
-      value: An envirohelmet specially designed for only the most pious of plasmamen.
+      value: A green and blue envirohelmet designating it's wearer as a botanist.
+        While not specially designed for it, it protects against minor plant-related
+        injuries.
       objectReference: {fileID: 0}
     - target: {fileID: 741549383598998161, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: initialName
-      value: chaplain's envirohelmet
+      value: botany envirohelmet
       objectReference: {fileID: 0}
     - target: {fileID: 911725522681720307, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: m_Name
-      value: ChaplainsEnvirohelm
+      value: BotanyEnvirohelm
       objectReference: {fileID: 0}
     - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
@@ -86,19 +88,31 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 277a01bec1bc8fc4facf7218f16211b5,
+      objectReference: {fileID: 21300000, guid: 72b779d387f35014ba03cbd3ec4a8a9a,
         type: 3}
     - target: {fileID: 6114237942327262838, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: clothData
       value: 
-      objectReference: {fileID: 11400000, guid: e6815953592ff31488fbc3998e3284f1,
+      objectReference: {fileID: 11400000, guid: 5df9ba9914e64304cb3d0b7665c3b792,
         type: 2}
     - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: c92087a0a20c10c48885771fcad6b93d,
+      objectReference: {fileID: 11400000, guid: 1b056531b38204847b2dcb8f97afdd0e,
+        type: 2}
+    - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1b056531b38204847b2dcb8f97afdd0e,
+        type: 2}
+    - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: eb6d57d489fe8f44787aacf27f4ed9eb,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c46f309a45d8714f9c5db5361e854e6, type: 3}
