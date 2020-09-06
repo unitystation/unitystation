@@ -123,6 +123,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// </summary>
 	private bool canClientUseRcs = true;
 
+	private bool canServerUseRcs = true;
+
 	/// <summary>
 	/// Does current transform rotation not yet match the client matrix state rotation, and thus this matrix's transform needs to
 	/// be rotated to match the target?
@@ -390,6 +392,10 @@ public class MatrixMove : ManagedNetworkBehaviour
 			if (shuttleControlGUI != null && rcsModeActive != shuttleControlGUI.RcsMode)
 			{
 				shuttleControlGUI.ClientToggleRcs(rcsModeActive);
+
+				// int.MaxValue instead of zero to avoid bugs when shuttle is on position (0, 0)
+				rcsMovementStartPosition = new Vector2Int(int.MaxValue, int.MaxValue);
+				rcsMovementTargetPosition = new Vector2Int(int.MaxValue, int.MaxValue);
 			}
 		}
 	}
@@ -429,6 +435,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		if (IsForceStopped) return;
 
+		if(rcsModeActive)
+		{
+			if(!canServerUseRcs)
+				return;
+			
+			rcsModeActive = false;
+		}
+
 		//Not allowing movement without any thrusters:
 		if (HasWorkingThrusters && (IsFueled || !RequiresFuel))
 		{
@@ -465,8 +479,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 	{
 		rcsMovementStartPosition = Vector2Int.RoundToInt(transform.position);
 		rcsMovementTargetPosition = rcsMovementStartPosition + flyingDirection.VectorInt;
-
-		canClientUseRcs = false;
 
 		clientState.Speed = 1;
 		clientState.FlyingDirection = flyingDirection;
@@ -627,8 +639,6 @@ public class MatrixMove : ManagedNetworkBehaviour
 					clientState.Position = new Vector3(rcsMovementTargetPosition.x, rcsMovementTargetPosition.y, clientState.Position.z);
 					clientState.Speed = 0;
 					clientState.IsMoving = false;
-
-					canClientUseRcs = true;
 
 					MatrixMoveEvents.OnStopMovementClient.Invoke();
 				}
@@ -841,7 +851,16 @@ public class MatrixMove : ManagedNetworkBehaviour
 			Vector2Int roundedPosition = Vector2Int.RoundToInt(clientState.Position);
 			if (roundedPosition == rcsMovementStartPosition)
 			{
+				clientState.FlyingDirection = oldState.FlyingDirection;
 				clientState.Position = oldState.Position;
+				clientState.Speed = oldState.Speed;
+				clientState.IsMoving = oldState.IsMoving;
+
+				canClientUseRcs = true;
+			}
+			else if(roundedPosition == rcsMovementTargetPosition)
+			{
+				canClientUseRcs = true;
 			}
 		}
 
@@ -1072,7 +1091,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	public void RcsMoveServer(Orientation orientation)
 	{
-		if (serverState.IsMoving || IsForceStopped || (!IsFueled && RequiresFuel)) return;
+		if (!canServerUseRcs || serverState.IsMoving || IsForceStopped || (!IsFueled && RequiresFuel)) return;
 
 		OrientationEnum releativeDirection = orientation.AsEnum();
 		// get releative direcion based on shutter facing
@@ -1258,6 +1277,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 			}
 		}
 
+		canClientUseRcs = false;
+
 		yield return WaitFor.Seconds(flyTime);
 
 		// set flyingDirection to movement direction after using RCS
@@ -1278,7 +1299,11 @@ public class MatrixMove : ManagedNetworkBehaviour
 	[Server]
 	private IEnumerator ServerDisableRcsThrusters(Orientation defaultFlyingDirection, float defaultSpeed, int defaultMoveLimit, float flyTime = 1)
 	{
+		canServerUseRcs = false;
+
 		yield return WaitFor.Seconds(flyTime);
+
+		canServerUseRcs = true;
 
 		serverTargetState.FlyingDirection = defaultFlyingDirection;
 		serverTargetState.Speed = defaultSpeed;
