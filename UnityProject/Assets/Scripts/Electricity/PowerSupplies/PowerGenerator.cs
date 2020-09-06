@@ -8,7 +8,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 {
 	[Tooltip("Whether this generator should start running when spawned.")]
 	[SerializeField]
-	private bool startAsOn;
+	private bool startAsOn = false;
 
 	[Tooltip("The rate of fuel this generator should consume.")]
 	[Range(0.01f, 0.1f)]

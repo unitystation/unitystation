@@ -55,7 +55,14 @@ public class ConnectedPlayer
 
 	public string Name
 	{
-		get => name;
+		get
+		{
+			if (string.IsNullOrEmpty(name))
+			{
+				return gameObject.name;
+			}
+			return name;
+		}
 		set
 		{
 			TryChangeName(value);
