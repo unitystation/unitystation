@@ -25,7 +25,7 @@ namespace Gateway
 			//Handle PlayerSync and CustomNetTransform (No shared base class, so terrible duping time)
 
 			//Player objects get PlayerSync
-			var playerSync = pushPullObject?.GetComponent<PlayerSync>();
+			var playerSync = pushPullObject.GetComponent<PlayerSync>();
 			if (playerSync != null)
 			{
 				playerSync.DisappearFromWorldServer();
@@ -33,7 +33,7 @@ namespace Gateway
 				playerSync.RollbackPrediction();
 			}
 			//Object and Item objects get CustomNetTransform
-			var customNetTransform = pushPullObject?.GetComponent<CustomNetTransform>();
+			var customNetTransform = pushPullObject.GetComponent<CustomNetTransform>();
 			if (customNetTransform != null)
 			{
 				customNetTransform.DisappearFromWorldServer();
@@ -52,6 +52,9 @@ namespace Gateway
 		[Server]
 		public static void TransportObjectAndPulled(PushPull pushPullObject, Vector3 transportTo)
 		{
+			if (pushPullObject == null)
+				return; //Don't even bother...
+
 			var linkedList = new LinkedList<PushPull>();
 
 			//Iterate the chain of linkage

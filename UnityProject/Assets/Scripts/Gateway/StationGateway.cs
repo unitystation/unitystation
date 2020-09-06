@@ -33,7 +33,7 @@ public class StationGateway : NetworkBehaviour, IAPCPowered
 	/// Gets the coordinates of the teleport target where things will be teleported to.
 	/// </summary>
 	//If the selected world has an override, use it.
-	public virtual Vector3 TeleportTargetCoord => (selectedWorld?.OverrideCoord ?? Vector3Int.zero) != Vector3Int.zero
+	public virtual Vector3 TeleportTargetCoord => selectedWorld.OverrideCoord != Vector3Int.zero
 		? selectedWorld.OverrideCoord
 		: selectedWorld.registerTile.WorldPosition;
 
