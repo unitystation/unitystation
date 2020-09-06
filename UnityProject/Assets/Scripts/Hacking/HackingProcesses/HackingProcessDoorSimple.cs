@@ -191,7 +191,10 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 	public override void ServerGenerateNodesFromNodeInfo()
 	{
-		if (serverEndRoundHackingResetSetup == false) ServerRegisterHackingReset();
+		if (serverEndRoundHackingResetSetup == false)
+		{
+			ServerRegisterHackingReset();
+		}
 
 		List<HackingNodeInfo> infList = nodeInfo.nodeInfoList.ToList();
 		Shuffle(infList, Controller.doorType);
