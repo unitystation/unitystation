@@ -150,15 +150,16 @@ namespace Tests
 				if (scene.Contains("DevScenes")) continue;
 
 				var Openedscene = EditorSceneManager.OpenScene(scene);
-
+				report.AppendLine($"Checking {scene}");
+				Logger.Log($"Checking {scene}");
 				var gameObjects = Openedscene.GetRootGameObjects();
 				foreach (var gameObject in gameObjects)
 				{
 					var ObjectLaye = gameObject.GetComponentInChildren<ObjectLayer>();
 					if (ObjectLaye == null) continue;
 					int NumberOfChildren = ObjectLaye.transform.childCount;
-					report.AppendLine($"Checking {scene}");
-					Logger.Log($"Checking {scene}");
+
+
 					for (int i = 0; i < NumberOfChildren; i++)
 					{
 						var ChildObject = ObjectLaye.transform.GetChild(i);
