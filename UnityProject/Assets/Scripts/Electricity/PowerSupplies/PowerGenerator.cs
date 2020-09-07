@@ -13,11 +13,9 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	[Tooltip("The rate of fuel this generator should consume.")]
 	[Range(0.01f, 0.1f)]
 	[SerializeField]
-	private float PlasmaConsumptionRate = 0.02f;
+	private float plasmaConsumptionRate = 0.02f;
 
 	private RegisterTile registerTile;
-	private ObjectBehaviour objectBehaviour;
-	private ItemStorage itemStorage;
 	private ItemSlot itemSlot;
 	private WrenchSecurable securable;
 	private SpriteHandler baseSpriteHandler;
@@ -31,9 +29,9 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	private ParticleSystem smokeParticles = default;
 
 	[SyncVar(hook = nameof(OnSyncState))]
-	private bool isOn = false;
-	private SolidPlasma burningSheet;
-	public bool IsFueled => itemSlot.IsOccupied || burningSheet != null;
+	private bool isOn;
+	private float fuelAmount;
+	private float fuelPerSheet = 10f;
 
 	private enum SpriteState
 	{
@@ -47,8 +45,6 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	void Awake()
 	{
 		registerTile = GetComponent<RegisterTile>();
-		objectBehaviour = GetComponent<ObjectBehaviour>();
-		itemStorage = GetComponent<ItemStorage>();
 		securable = GetComponent<WrenchSecurable>();
 		baseSpriteHandler = GetComponentInChildren<SpriteHandler>();
 		electricalNodeControl = GetComponent<ElectricalNodeControl>();
@@ -56,11 +52,15 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	public override void OnStartServer()
 	{
+		var itemStorage = GetComponent<ItemStorage>();
 		itemSlot = itemStorage.GetIndexedItemSlot(0);
 		securable.OnAnchoredChange.AddListener(OnSecuredChanged);
-		registerTile.WaitForMatrixInit(CheckStartingPlasma);
+		if (startAsOn)
+		{
+			fuelAmount = fuelPerSheet;
+			TryToggleOn();
+		}
 	}
-
 	#endregion Lifecycle
 
 	public void PowerNetworkUpdate() { }
@@ -76,26 +76,8 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 			ToggleOff();
 			baseSpriteHandler.ChangeSprite((int) SpriteState.Unsecured);
 		}
-		
+
 		ElectricalManager.Instance.electricalSync.StructureChange = true;
-	}
-
-	/// <summary>
-	/// Map solid plasma so that it is sitting on the same tile as the generator for it to be added
-	/// to the starting plasma amounts.false Server Only.
-	/// </summary>
-	private void CheckStartingPlasma(MatrixInfo matrixInfo)
-	{
-		var plasmaObjs = matrixInfo.Matrix.Get<SolidPlasma>(registerTile.LocalPositionServer, true);
-		foreach (var plasma in plasmaObjs)
-		{
-			Inventory.ServerAdd(plasma.gameObject, itemSlot);
-		}
-
-		if (startAsOn)
-		{
-			TryToggleOn();
-		}
 	}
 
 	private void OnSyncState(bool oldState, bool newState)
@@ -115,38 +97,11 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 		}
 	}
 
-	private bool TryBurnFuel()
-	{
-		if (IsFueled)
-		{
-			burningSheet = itemSlot.ItemObject.GetComponent<SolidPlasma>();			
-			burningSheet.StartBurningPlasma(PlasmaConsumptionRate, FuelExhaustedEvent);
-			return true;
-		}
-
-		return false;
-	}
-
-	//Server Only
-	private void FuelExhaustedEvent()
-	{
-		Inventory.ServerConsume(itemSlot, 1);
-		burningSheet = null;
-
-		if (isOn)
-		{
-			if (!TryBurnFuel())
-			{
-				ToggleOff();
-			}
-		}
-	}
-
 	#region Interaction
 
 	public string Examine(Vector3 worldPos = default)
 	{
-		return $"The generator is {(IsFueled ? "fueled" : "unfueled")} and " +
+		return $"The generator is {(HasFuel() ? "fueled" : "unfueled")} and " +
 				$"{(isOn ? "running" : "not running")}.";
 	}
 
@@ -154,8 +109,7 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 		if (interaction.TargetObject != gameObject) return false;
-		if (interaction.HandObject != null &&
-				!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
+		if (interaction.HandObject != null && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
 
 		return true;
 	}
@@ -164,26 +118,85 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 	{
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
 		{
-			Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
+			int amountTransfered;
+			var handStackable = interaction.HandObject.GetComponent<Stackable>();
+			if (itemSlot.Item)
+			{
+				var stackable = itemSlot.Item.GetComponent<Stackable>();
+				if (stackable.SpareCapacity == 0)
+				{
+					Chat.AddWarningMsgFromServer(interaction.Performer, "The generator sheet storage is full!");
+					return;
+				}
+				amountTransfered = stackable.ServerCombine(handStackable);
+			}
+			else
+			{
+				amountTransfered = handStackable.Amount;
+				Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
+			}
+			Chat.AddExamineMsgFromServer(interaction.Performer, $"You fill the generator sheet storage with {amountTransfered.ToString()} more.");
 		}
 		else if (securable.IsAnchored)
 		{
-			TryTogglePower();
+			if (!isOn)
+			{
+				if (!TryToggleOn())
+				{
+					Chat.AddWarningMsgFromServer(interaction.Performer, $"The generator needs more fuel!");
+				}
+			}
+			else
+			{
+				ToggleOff();
+			}
 		}
 	}
 
 	#endregion Interaction
 
-	private void TryToggleOn()
+	void UpdateMe()
 	{
-		if (TryBurnFuel())
+		fuelAmount -= Time.deltaTime * plasmaConsumptionRate;
+		if (fuelAmount <= 0)
+		{
+			ConsumeSheet();
+		}
+	}
+
+	private void ConsumeSheet()
+	{
+		if (Inventory.ServerConsume(itemSlot, 1))
+		{
+			fuelAmount += fuelPerSheet;
+		}
+		else
+		{
+			ToggleOff();
+		}
+	}
+	private bool TryToggleOn()
+	{
+		if (fuelAmount > 0 || itemSlot.Item)
 		{
 			ToggleOn();
+			return true;
 		}
+		return false;
+	}
+
+	private bool HasFuel()
+	{
+		if (fuelAmount > 0 || itemSlot.Item)
+		{
+			return true;
+		}
+		return false;
 	}
 
 	private void ToggleOn()
 	{
+		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		electricalNodeControl.TurnOnSupply();
 		baseSpriteHandler.ChangeSprite((int)SpriteState.On);
 		isOn = true;
@@ -191,24 +204,18 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	private void ToggleOff()
 	{
-		baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
+		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		electricalNodeControl.TurnOffSupply();
-		if (burningSheet != null)
-		{
-			burningSheet.StopBurningPlasma();
-		}
+		baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
 		isOn = false;
 	}
 
-	private void TryTogglePower()
+	void OnDisable()
 	{
-		if (!isOn)
-		{
-			TryToggleOn();
-		}
-		else
+		if (isOn)
 		{
 			ToggleOff();
 		}
 	}
+
 }

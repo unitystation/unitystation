@@ -21,7 +21,7 @@ PrefabInstance:
     - target: {fileID: 911725522681720307, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: m_Name
-      value: MimeEnvirosuitHelmet
+      value: MimeEnvirohelmet
       objectReference: {fileID: 0}
     - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
@@ -100,6 +100,18 @@ PrefabInstance:
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: f34d5c2d7e89ac04aab0f16712dcb190,
+        type: 2}
+    - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f34d5c2d7e89ac04aab0f16712dcb190,
+        type: 2}
+    - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c205dbf76e440374f9ef4a8b61547b38,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c46f309a45d8714f9c5db5361e854e6, type: 3}

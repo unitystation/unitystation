@@ -25,7 +25,7 @@ namespace Gateway
 			//Handle PlayerSync and CustomNetTransform (No shared base class, so terrible duping time)
 
 			//Player objects get PlayerSync
-			var playerSync = pushPullObject?.GetComponent<PlayerSync>();
+			var playerSync = pushPullObject.GetComponent<PlayerSync>();
 			if (playerSync != null)
 			{
 				playerSync.DisappearFromWorldServer();
@@ -33,7 +33,7 @@ namespace Gateway
 				playerSync.RollbackPrediction();
 			}
 			//Object and Item objects get CustomNetTransform
-			var customNetTransform = pushPullObject?.GetComponent<CustomNetTransform>();
+			var customNetTransform = pushPullObject.GetComponent<CustomNetTransform>();
 			if (customNetTransform != null)
 			{
 				customNetTransform.DisappearFromWorldServer();
@@ -52,6 +52,9 @@ namespace Gateway
 		[Server]
 		public static void TransportObjectAndPulled(PushPull pushPullObject, Vector3 transportTo)
 		{
+			if (pushPullObject == null)
+				return; //Don't even bother...
+
 			var linkedList = new LinkedList<PushPull>();
 
 			//Iterate the chain of linkage
@@ -67,24 +70,26 @@ namespace Gateway
 				linkedList.AddLast(currentObj.PulledObject);
 			}
 
-			for (var node = linkedList.First; node != null; node = node.Next?.Next) //Current and next object are handled each cycle
+			//Each object in the chain needs to be transported first, and re-establish pull later
+			for (var node = linkedList.First; node != null; node = node.Next)
 			{
-				var currentObj = node?.Value;
-				var pulledObj = node?.Next?.Value;
+				var currentObj = node.Value;
+				var previous = node.Previous?.Value;
 
 				//Disconnect pulling to make it not be a problem
 				currentObj.CmdStopPulling();
 
 				//Transport current
 				TransportObject(currentObj, transportTo);
-				if (pulledObj != null)
+
+				if (previous != null && currentObj.gameObject != null)
 				{
-					TransportObject(pulledObj, transportTo);
-					//Try to pull it again
-					currentObj?.CmdPullObject(pulledObj?.gameObject);
-					//TODO: Make pulling acutally continue working across teleporters for clients, not just server
-					//TODO: Find a way to make the teleporter the teleport not all be on the same tile.
+					//There was another object before this one, pulling it. Re-establish pulling. (But only if the current object's gameObject is not null)
+					previous.CmdPullObject(currentObj.gameObject);
 				}
+
+				//TODO: Make pulling acutally continue working across teleporters for clients, not just server
+				//TODO: Find a way to make the teleporter the teleport not all be on the same tile.
 			}
 		}
 	}

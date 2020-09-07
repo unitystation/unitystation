@@ -23,7 +23,7 @@ PrefabInstance:
     - target: {fileID: 911725522681720307, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
       propertyPath: m_Name
-      value: CuratorsPlasmaEnvirosuitHelmet
+      value: PrototypeEnvirohelmet
       objectReference: {fileID: 0}
     - target: {fileID: 915527771566739591, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
@@ -99,9 +99,27 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: b7d0cc0072a137046a5d94fef02be7b9,
         type: 2}
-    m_RemovedComponents: []
+    - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: b7d0cc0072a137046a5d94fef02be7b9,
+        type: 2}
+    - target: {fileID: 6476465160503121524, guid: 2c46f309a45d8714f9c5db5361e854e6,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 9128007668606455301, guid: 2c46f309a45d8714f9c5db5361e854e6, type: 3}
+    - {fileID: 7083980442365488448, guid: 2c46f309a45d8714f9c5db5361e854e6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 2c46f309a45d8714f9c5db5361e854e6, type: 3}

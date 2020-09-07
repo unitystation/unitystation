@@ -119,7 +119,7 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.size
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -264,7 +264,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[3].Item
       value: 
-      objectReference: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4,
+      objectReference: {fileID: 6179021888983442440, guid: 068aa5798984db4498831a074f5c5102,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -275,7 +275,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[4].Item
       value: 
-      objectReference: {fileID: 3011710637427380133, guid: 54c252491fc58478aac029a841777c90,
+      objectReference: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -286,7 +286,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[5].Item
       value: 
-      objectReference: {fileID: 6618757841128137006, guid: 0a840a47782653a47a8bcefb93b92131,
+      objectReference: {fileID: 3011710637427380133, guid: 54c252491fc58478aac029a841777c90,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -297,7 +297,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[6].Item
       value: 
-      objectReference: {fileID: 7374481989050852271, guid: 1fada2a01fe5e49208acb17e93095002,
+      objectReference: {fileID: 6618757841128137006, guid: 0a840a47782653a47a8bcefb93b92131,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -308,7 +308,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[7].Item
       value: 
-      objectReference: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09,
+      objectReference: {fileID: 7374481989050852271, guid: 1fada2a01fe5e49208acb17e93095002,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -328,27 +328,27 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[7].ItemName
-      value: Medical Headset
-      objectReference: {fileID: 0}
-    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
-        type: 3}
-      propertyPath: InitialVendorContent.Array.data[6].ItemName
       value: Chemist Labcoat
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[5].ItemName
+      propertyPath: InitialVendorContent.Array.data[6].ItemName
       value: Chemist's Jumpskirt
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[4].ItemName
+      propertyPath: InitialVendorContent.Array.data[5].ItemName
       value: Chemist's Jumpsuit
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
-      propertyPath: InitialVendorContent.Array.data[3].ItemName
+      propertyPath: InitialVendorContent.Array.data[4].ItemName
       value: White Shoes
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[3].ItemName
+      value: Chemistry Bag
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -360,5 +360,16 @@ PrefabInstance:
       propertyPath: InitialVendorContent.Array.data[1].ItemName
       value: Chemistry Backpack
       objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[8].ItemName
+      value: Medical Headset
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[8].Item
+      value: 
+      objectReference: {fileID: 835768756810601639, guid: cad7d826b673041f5b2b4d9b9d64aa09,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5000c293075c074d80896d211fcd50b, type: 3}
