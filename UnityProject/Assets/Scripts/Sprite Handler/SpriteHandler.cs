@@ -349,11 +349,11 @@ public class SpriteHandler : MonoBehaviour
 	{
 		if (newState)
 		{
-			PushTexture();
+			PushTexture(network);
 		}
 		else
 		{
-			PushClear();
+			PushClear(network);
 		}
 	}
 

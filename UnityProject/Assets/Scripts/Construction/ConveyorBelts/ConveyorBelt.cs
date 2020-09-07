@@ -135,6 +135,7 @@ namespace Construction.Conveyors
 					}
 				}
 			}
+			RefreshSprites();
 		}
 
 		public void SetSwitchRef(ConveyorBeltSwitch switchRef)

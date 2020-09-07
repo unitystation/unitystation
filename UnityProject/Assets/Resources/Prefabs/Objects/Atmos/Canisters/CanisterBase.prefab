@@ -199,7 +199,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 97f07cb954e3e6e47a2ed1ea2b508b96, type: 2}
   - {fileID: 11400000, guid: 2aa4e176185f75f4c926728760c8fab3, type: 2}
   PresentSpriteSet: {fileID: 0}
-  pushTextureOnStartUp: 1
+  pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
   Sprites: []
@@ -304,7 +304,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 369a30a19cf0bbb44850ec3bd0bef42a, type: 2}
   - {fileID: 11400000, guid: 41c41bb0965692a4cab150130b77aef8, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 41c41bb0965692a4cab150130b77aef8, type: 2}
-  pushTextureOnStartUp: 1
+  pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
   Sprites: []
@@ -406,7 +406,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: ca9478d224a5a1740b087437d7052b6d, type: 2}
   PresentSpriteSet: {fileID: 0}
-  pushTextureOnStartUp: 1
+  pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
   Sprites: []
@@ -513,7 +513,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 41ca67d7574e27747af6ce62161c708f, type: 2}
   - {fileID: 11400000, guid: a630f4c1c7d07544ca2a375985e00775, type: 2}
   PresentSpriteSet: {fileID: 0}
-  pushTextureOnStartUp: 1
+  pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
   Sprites: []
@@ -674,6 +674,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ece3554a33a7c7849894088ccea47d78,
         type: 2}
+    - target: {fileID: 7824998303851274232, guid: 5d7892c86699e21499ad5f872fd4d512,
+        type: 3}
+      propertyPath: pushTextureOnStartUp
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d7892c86699e21499ad5f872fd4d512, type: 3}
 --- !u!1 &3330777552754972672 stripped
