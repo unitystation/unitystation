@@ -14,8 +14,26 @@ TextureImporter:
   - first:
       213: 21300006
     second: broadcast_receiver_o_3
+  - first:
+      213: 4427082489533356638
+    second: broadcast_receiver_o_0
+  - first:
+      213: 3662675723311798674
+    second: broadcast_receiver_o_1
+  - first:
+      213: -3901416238453384296
+    second: broadcast_receiver_o_2
+  - first:
+      213: 7366202270158002227
+    second: broadcast_receiver_o_3
+  - first:
+      213: -1912243992293213631
+    second: broadcast_receiver_o_4
+  - first:
+      213: -6124884694860738910
+    second: broadcast_receiver_o_5
   externalObjects: {}
-  serializedVersion: 10
+  serializedVersion: 11
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -69,6 +87,7 @@ TextureImporter:
   maxTextureSizeSet: 0
   compressionQualitySet: 0
   textureFormatSet: 0
+  applyGammaDecoding: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -112,8 +131,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300000
+      spriteID: e5adcfb8118207d30800000000000000
+      internalID: 4427082489533356638
       vertices: []
       indices: 
       edges: []
@@ -133,8 +152,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300002
+      spriteID: 29952772a2074d230800000000000000
+      internalID: 3662675723311798674
       vertices: []
       indices: 
       edges: []
@@ -154,8 +173,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300004
+      spriteID: 89b9b0a0a926bd9c0800000000000000
+      internalID: -3901416238453384296
       vertices: []
       indices: 
       edges: []
@@ -175,8 +194,50 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b16489681e753a24ab39d1f4a26cd82a
-      internalID: 21300006
+      spriteID: 3389178dfe10a3660800000000000000
+      internalID: 7366202270158002227
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: broadcast_receiver_o_4
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14afc7378385675e0800000000000000
+      internalID: -1912243992293213631
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: broadcast_receiver_o_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 0
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2ae499032d9000ba0800000000000000
+      internalID: -6124884694860738910
       vertices: []
       indices: 
       edges: []
