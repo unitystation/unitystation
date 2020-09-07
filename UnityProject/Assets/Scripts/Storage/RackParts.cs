@@ -1,11 +1,14 @@
 using UnityEngine;
+using ScriptableObjects;
 
 public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<InventoryApply>
 {
 	private static readonly StandardProgressActionConfig ProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.Construction, allowMultiple: true);
 
-	public GameObject rackPrefab;
+	[Tooltip("The prefab to spawn when the rack parts are assembled.")]
+	[SerializeField]
+	private GameObject rackPrefab = default;
 
 	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
@@ -52,8 +55,8 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 	{
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f, sourceObj: interaction.Performer);
-			Spawn.ServerPrefab("Metal", interaction.WorldPositionTarget.RoundToInt(), transform.parent, count: 1,
+			ToolUtils.ServerPlayToolSound(interaction);
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, interaction.WorldPositionTarget.RoundToInt(), transform.parent, count: 1,
 				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 			Despawn.ServerSingle(gameObject);
 
@@ -88,8 +91,8 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-		SoundManager.PlayNetworkedAtPos("Wrench", interaction.Performer.WorldPosServer(), 1f, sourceObj: interaction.Performer);
-		Spawn.ServerPrefab("Metal", interaction.Performer.WorldPosServer().CutToInt(), transform.parent, count: 1,
+		ToolUtils.ServerPlayToolSound(interaction);
+		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, interaction.Performer.WorldPosServer().CutToInt(), transform.parent, count: 1,
 			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		Inventory.ServerDespawn(interaction.FromSlot);
 	}

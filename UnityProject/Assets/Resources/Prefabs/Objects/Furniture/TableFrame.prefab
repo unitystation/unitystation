@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 4261692257620568318}
   - component: {fileID: -5674889107690341303}
   m_Layer: 23
-  m_Name: table frame
+  m_Name: TableFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -79,6 +79,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114601193997943186
@@ -113,6 +114,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &8992642222336011252
 MonoBehaviour:
@@ -142,7 +144,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 250
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -163,7 +167,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 1370
-  initialIntegrity: 250
 --- !u!114 &114383195819837994
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -214,6 +217,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  spawnOnDestruction: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+    type: 3}
   metalTable: {fileID: 11400000, guid: cf31da1d9b545944fb7423aac9d9b7d3, type: 2}
   glassTable: {fileID: 11400000, guid: bd5274eeb48464753b12714bb88a6bff, type: 2}
   woodTable: {fileID: 11400000, guid: 67c4061d03a804403a48b3c56a2bda4f, type: 2}
@@ -230,9 +235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &1581991274901662
 GameObject:
   m_ObjectHideFlags: 0
