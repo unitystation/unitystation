@@ -23,6 +23,12 @@ PrefabInstance:
       propertyPath: initialName
       value: penguin meat
       objectReference: {fileID: 0}
+    - target: {fileID: 2619852224633018959, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: da60a470b61e15a47b3a9a4044ebd058,
+        type: 3}
     - target: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
         type: 3}
       propertyPath: m_Name
@@ -103,5 +109,11 @@ PrefabInstance:
       propertyPath: NutritionLevel
       value: 128
       objectReference: {fileID: 0}
+    - target: {fileID: 8353191170574324372, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 84152202fe6ffc741a13f6f862f852e6,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9914f83c172606747877a09872724398, type: 3}
