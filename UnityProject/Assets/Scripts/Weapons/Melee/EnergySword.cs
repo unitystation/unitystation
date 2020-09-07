@@ -1,81 +1,91 @@
+using System;
+using System.Collections;
 using System.Collections.Generic;
-using Light2D;
-using Mirror;
 using UnityEngine;
-using UnityEngine.UIElements;
+using Mirror;
 using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(Pickupable))]
 public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
-	ICheckedInteractable<InventoryApply>
+	ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
 {
+	[SerializeField]
+	[SyncVar]
+	private SwordColor color = default;
+
+	[SerializeField]
+	private ItemSize activatedSize = ItemSize.Huge;
+	private ItemSize offSize;
+
+	[SerializeField]
+	private string activatedHitSound = "blade1";
+	private string offHitSound;
+
+	[SerializeField]
+	[Range(0, 100)]
+	private float activatedHitDamage = 30;
+	private float offHitDamage;
+
+	[SerializeField]
+	[Range(0, 100)]
+	private float activatedThrowDamage = 20;
+	private float offThrowDamage;
+
+	[SerializeField]
+	[Tooltip("The verbs to use when the energy sword being used to attack something while activated.")]
+	private List<string> activatedVerbs = new List<string>();
+	private List<string> offAttackVerbs;
+
+	[SerializeField]
+	private EswordSprites Sprites;
+
 	private ItemAttributesV2 itemAttributes;
-	public EswordSprites Sprites;
-	public ItemLightControl playerLightControl;
-	public LightSprite worldLight;
-	public GameObject worldRenderer;
-	public SpriteHandler spriteHandler;
+	private ItemLightControl lightControl;
+	private SpriteHandler spriteHandler;
 
-	[SyncVar(hook = nameof(ClientSyncColor))]
-	public int color;
+	[SyncVar(hook = nameof(SyncState))]
+	private bool isActivated;
 
-	[Range(0, 100)]
-	public float activatedHitDamage = 30;
-	private float originalHitDamage;
+	#region Lifecycle
 
-	[Range(0, 100)]
-	public float activatedThrowDamage = 20;
-	private float originalThrowDamage;
-
-	public List<string> activatedVerbs = new List<string>();
-	private List<string> originalVerbs = new List<string>();
-
-	public ItemSize activatedSize = ItemSize.Huge;
-	private ItemSize originalSize;
-
-	public string activatedHitSound = "blade1";
-	private string originalHitSound;
-
-	public float activatedLightIntensity = 1;
-
-	[SyncVar(hook = nameof(UpdateState))]
-	public bool activated;
-
-	public void Awake()
+	private void Awake()
 	{
 		itemAttributes = GetComponent<ItemAttributesV2>();
-		if (color == (int)SwordColor.Random)
+		lightControl = GetComponent<ItemLightControl>();
+		spriteHandler = GetComponentInChildren<SpriteHandler>();
+		if (color == SwordColor.Random)
 		{
-			color = Random.Range(1, 5);
+			// Get random color
+			color = (SwordColor)Enum.GetValues(typeof(SwordColor)).GetValue(Random.Range(1, 5));
 		}
-
-		worldRenderer.SetActive(false);
 	}
 
-	private void ClientSyncColor(int oldC, int c)
+	private void Start()
 	{
-		var lightColor = Color.white;
-
-		switch ((SwordColor)color)
-		{
-			case SwordColor.Red:
-				lightColor = new Color32(250, 130, 130, 255); // LIGHT_COLOR_RED
-				break;
-			case SwordColor.Blue:
-				lightColor = new Color32(64, 206, 255, 255); // LIGHT_COLOR_LIGHT_CYAN
-				break;
-			case SwordColor.Green:
-				lightColor = new Color32(100, 200, 100, 255); // LIGHT_COLOR_GREEN
-				break;
-			case SwordColor.Purple:
-				lightColor = new Color32(155, 81, 255, 255); // LIGHT_COLOR_LAVENDER
-				break;
-		}
-
-		playerLightControl.Colour = lightColor;
-		playerLightControl.PlayerLightData.Colour = lightColor;
-		worldLight.Color = lightColor;
+		offSize = itemAttributes.Size;
+		offHitSound = itemAttributes.ServerHitSound;
+		offHitDamage = itemAttributes.ServerHitDamage;
+		offThrowDamage = itemAttributes.ServerThrowDamage;
+		offAttackVerbs = new List<string>(itemAttributes.ServerAttackVerbs);
 	}
+
+	#endregion Lifecycle
+
+	private void SyncState(bool oldState, bool newState)
+	{
+		isActivated = newState;
+
+		if (isActivated)
+		{
+			itemAttributes.SetSprites(GetItemSprites(color));
+		}
+		else
+		{
+			itemAttributes.SetSprites(Sprites.Off);
+		}
+	}
+
+	#region Interaction-ToggleState
 
 	public bool WillInteract(HandActivate interaction, NetworkSide side)
 	{
@@ -87,147 +97,165 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		return true;
 	}
 
+	public void ServerPerformInteraction(HandActivate interaction)
+	{
+		ServerToggleState(interaction);
+	}
+
+	#endregion Interaction-ToggleState
+
+	private void ServerToggleState(HandActivate interaction)
+	{
+		isActivated = !isActivated; // This runs SyncState, which sets itemAttributes on clients
+		var lightColor = GetLightSourceColor(color);
+		lightControl.SetColor(lightColor);
+		lightControl.Toggle(isActivated);
+
+		if (isActivated)
+		{
+			SetActivatedAttributes();
+			spriteHandler.ChangeSprite((int)color);
+			itemAttributes.SetSprites(GetItemSprites(color));
+		}
+		else
+		{
+			SetDeactivatedAttributes();
+			spriteHandler.ChangeSprite(0);
+			itemAttributes.SetSprites(Sprites.Off);
+		}
+
+		SoundManager.PlayNetworkedAtPos(
+				isActivated ? "saberon" : "saberoff", gameObject.AssumedWorldPosServer());
+		StartCoroutine(DelayCharacterSprite(interaction));
+	}
+
+	// Cheap hack until networked character sprites.
+	private IEnumerator DelayCharacterSprite(HandActivate interaction)
+	{
+		yield return WaitFor.Seconds(1);
+		PlayerAppearanceMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);
+	}
+
+	#region Interaction-AdjustColor
+
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-		if (!DefaultWillInteract.Default(interaction, side))
-		{
-			return false;
-		}
-
-
-		if (interaction.TargetObject != gameObject
-			|| !Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
-		{
-			return false;
-		}
-
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (interaction.TargetObject != gameObject) return false;
 		//only works if screwdriver is in hand
 		if (!interaction.IsFromHandSlot) return false;
 
-		return true;
-	}
-
-	public void ServerPerformInteraction(HandActivate interaction)
-	{
-		ToggleState(interaction.Performer.WorldPosServer());
-		PlayerAppearanceMessage.SendToAll(interaction.Performer, (int)interaction.HandSlot.NamedSlot.GetValueOrDefault(NamedSlot.none), gameObject);
+		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Multitool);
 	}
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-		if (activated)
+		AdjustColor(interaction.UsedObject, interaction.Performer);
+	}
+
+	public bool WillInteract(HandApply interaction, NetworkSide side)
+	{
+		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) ||
+				Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Multitool);
+	}
+
+	public void ServerPerformInteraction(HandApply interaction)
+	{
+		AdjustColor(interaction.UsedObject, interaction.Performer);
+	}
+
+	private void AdjustColor(GameObject usedObject, GameObject performer)
+	{
+		if (isActivated)
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "You can't adjust the sword while it's on!");
+			Chat.AddExamineMsgFromServer(performer, "You can't adjust the sword while it's <i>on</i>!");
 			return;
 		}
 
-		if (color == (int)SwordColor.Rainbow)
+		if (color == SwordColor.Rainbow)
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "It's already fabulous!");
+			Chat.AddExamineMsgFromServer(performer, "It's <i>already</i> fabulous!");
 			return;
 		}
 
-		if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Screwdriver))
+		if (Validations.HasItemTrait(usedObject, CommonTraits.Instance.Screwdriver))
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "You adjust the crystalline beam emitter...");
-			var c = color + 1;
-			if (c >= (int)SwordColor.Rainbow)
+			color += 1;
+			if (color > SwordColor.Purple)
 			{
-				c = (int)SwordColor.Red;
+				color = SwordColor.Red;
 			}
 
-			ClientSyncColor(color, c);
+			Chat.AddExamineMsgFromServer(performer, "You adjust the crystalline beam emitter.");
 		}
-		else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.Multitool))
+		else if (Validations.HasItemTrait(usedObject, CommonTraits.Instance.Multitool))
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "RNBW_ENGAGE");
-			ClientSyncColor(color, (int)SwordColor.Rainbow);
+			color = SwordColor.Rainbow;
+			Chat.AddExamineMsgFromServer(performer,
+					"You tinker with the sword's firmware using the multitool.\nIt reports; <b>RNBW_ENGAGE</b>.");
 		}
 	}
 
-	public void ToggleState(Vector3 position)
-	{
-		activated = !activated;
+	#endregion Interaction-AdjustColor
 
-		ServerUpdateValues();
-		SoundManager.PlayNetworkedAtPos(activated ? "saberon" : "saberoff", position, 1f);
+	private void SetDeactivatedAttributes()
+	{
+		itemAttributes.ServerSetSize(offSize);
+		itemAttributes.ServerHitSound = offHitSound;
+		itemAttributes.ServerHitDamage = offHitDamage;
+		itemAttributes.ServerThrowDamage = offThrowDamage;
+		itemAttributes.ServerAttackVerbs = offAttackVerbs;
 	}
 
-	private void UpdateState(bool oldState, bool newState)
+	private void SetActivatedAttributes()
 	{
-		ClientUpdateSprite();
-		ClientUpdateLight();
+		itemAttributes.ServerSetSize(activatedSize);
+		itemAttributes.ServerHitSound = activatedHitSound;
+		itemAttributes.ServerHitDamage = activatedHitDamage;
+		itemAttributes.ServerThrowDamage = activatedThrowDamage;
+		itemAttributes.ServerAttackVerbs = activatedVerbs;
 	}
 
-	private void ClientUpdateSprite()
+	private ItemsSprites GetItemSprites(SwordColor swordColor)
 	{
-		if (activated)
+		switch (swordColor)
 		{
-			switch ((SwordColor)color)
-			{
-				case SwordColor.Blue:
-					itemAttributes.SetSprites(Sprites.Blue);
-					break;
-				case SwordColor.Green:
-					itemAttributes.SetSprites(Sprites.Green);
-					break;
-				case SwordColor.Purple:
-					itemAttributes.SetSprites(Sprites.Purple);
-					break;
-				case SwordColor.Rainbow:
-					itemAttributes.SetSprites(Sprites.Rainbow);
-					break;
-				case SwordColor.Red:
-					itemAttributes.SetSprites(Sprites.Red);
-					break;
-			}
+			case SwordColor.Red:
+				return Sprites.Red;
+			case SwordColor.Blue:
+				return Sprites.Blue;
+			case SwordColor.Green:
+				return Sprites.Green;
+			case SwordColor.Purple:
+				return Sprites.Purple;
+			case SwordColor.Rainbow:
+				return Sprites.Rainbow;
+		}
 
-			spriteHandler?.ChangeSprite(color, false);
-		}
-		else
-		{
-			itemAttributes.SetSprites(Sprites.Off);
-			spriteHandler?.ChangeSprite(0, false);
-		}
+		return Sprites.Off;
 	}
 
-	private void ServerUpdateValues()
+	private Color GetLightSourceColor(SwordColor swordColor)
 	{
-		if (originalVerbs.Count == 0)
-		{ // Get the initial values before we replace
-			originalHitDamage = itemAttributes.ServerHitDamage;
-			originalThrowDamage = itemAttributes.ServerThrowDamage;
-			originalVerbs = new List<string>(itemAttributes.ServerAttackVerbs);
-			originalSize = itemAttributes.Size;
-			originalHitSound = itemAttributes.ServerHitSound;
+		switch (swordColor)
+		{
+			case SwordColor.Red:
+				return new Color32(250, 130, 130, 255); // LIGHT_COLOR_RED
+			case SwordColor.Blue:
+				return new Color32(64, 206, 255, 255); // LIGHT_COLOR_LIGHT_CYAN
+			case SwordColor.Green:
+				return new Color32(100, 200, 100, 255); // LIGHT_COLOR_GREEN
+			case SwordColor.Purple:
+				return new Color32(155, 81, 255, 255); // LIGHT_COLOR_LAVENDER
 		}
 
-		if (activated)
-		{
-			itemAttributes.ServerHitDamage = activatedHitDamage;
-			itemAttributes.ServerThrowDamage = activatedThrowDamage;
-			itemAttributes.ServerAttackVerbs = activatedVerbs;
-			itemAttributes.ServerSetSize(activatedSize);
-			itemAttributes.ServerHitSound = activatedHitSound;
-		}
-		else
-		{
-			itemAttributes.ServerHitDamage = originalHitDamage;
-			itemAttributes.ServerThrowDamage = originalThrowDamage;
-			itemAttributes.ServerAttackVerbs = originalVerbs;
-			itemAttributes.ServerSetSize(originalSize);
-			itemAttributes.ServerHitSound = originalHitSound;
-		}
+		return default;
 	}
 
-	private void ClientUpdateLight()
-	{
-		playerLightControl.Toggle(activated);
-		playerLightControl.SetIntensity(activated ? activatedLightIntensity : 0);
-		worldRenderer.SetActive(activated);
-	}
-
-	public enum SwordColor
+	private enum SwordColor
 	{
 		Random = 0,
 		Red = 1,
@@ -237,7 +265,8 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 		Rainbow = 5
 	}
 }
-[System.Serializable]
+
+[Serializable]
 public class EswordSprites{
 	public ItemsSprites Blue = new ItemsSprites();
 	public ItemsSprites Green = new ItemsSprites();
