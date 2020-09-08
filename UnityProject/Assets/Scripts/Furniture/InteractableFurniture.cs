@@ -41,21 +41,21 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Hand
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) { return false; }
 		return true;
 	}
+
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		if (interaction.TargetObject != gameObject) return;
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+			ToolUtils.ServerPlayToolSound(interaction);
 			Disassemble(interaction);
 		}
-
 	}
+
 	[Server]
 	private void Disassemble(HandApply interaction)
 	{
 		Spawn.ServerPrefab(resourcesMadeOf, gameObject.WorldPosServer() , count: howMany);
 		Despawn.ServerSingle(gameObject);
 	}
-
 }

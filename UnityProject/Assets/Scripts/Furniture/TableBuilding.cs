@@ -67,7 +67,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 				"You finish deconstructing the table frame.",
 				$"{interaction.Performer.ExpensiveName()} deconstructs the table frame.",
 				() => Disassemble(interaction));
-			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+			ToolUtils.ServerPlayToolSound(interaction);
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
 		{

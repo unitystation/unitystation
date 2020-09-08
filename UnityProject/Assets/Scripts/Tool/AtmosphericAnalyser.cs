@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Atmospherics;
+using Objects.GasContainer;
 
 public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, ICheckedInteractable<PositionalHandApply>
 {
@@ -30,6 +31,15 @@ public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, I
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
+		if (interaction.TargetObject != null)
+		{
+			if (interaction.TargetObject.TryGetComponent(out GasContainer container))
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, GetGasMixInfo(container.GasMix));
+				return;
+			}
+		}
+
 		Vector3 worldPosition = interaction.WorldPositionTarget;
 		var matrix = MatrixManager.AtPoint(worldPosition.CutToInt(), true);
 		var localPosition = MatrixManager.WorldToLocal(worldPosition, matrix).CutToInt();
@@ -47,7 +57,7 @@ public class AtmosphericAnalyser : MonoBehaviour, IInteractable<HandActivate>, I
 		string info = $"Pressure: {gasMix.Pressure:0.###} kPa\n" +
 				$"Temperature: {gasMix.Temperature:0.###} K ({gasMix.Temperature - Reactions.KOffsetC:0.###} °C)\n" +
 				// You want Fahrenheit? HAHAHAHA
-				$"Total Moles of gas: {gasMix.Moles:0.###}\n";
+				$"Total mols of gas: {gasMix.Moles:0.###}\n";
 
 		foreach (var gas in Gas.All)
 		{
