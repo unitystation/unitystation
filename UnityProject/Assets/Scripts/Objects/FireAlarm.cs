@@ -135,7 +135,7 @@ public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInter
 					stateSync = FireAlarmState.OpenEmptySprite;
 				}
 			}
-			SoundManager.PlayNetworkedAtPos("screwdriver1", interaction.Performer.WorldPosServer());
+			ToolUtils.ServerPlayToolSound(interaction);
 			return;
 		}
 		if (coverOpen)
@@ -169,7 +169,6 @@ public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInter
 						stateSync = FireAlarmState.OpenCabledSprite;
 					});
 			}
-
 		}
 		else
 		{
@@ -192,7 +191,6 @@ public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInter
 				SendCloseAlerts();
 			}
 		}
-
 	}
 
 	private IEnumerator SwitchCoolDown()

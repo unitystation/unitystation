@@ -11,7 +11,8 @@ using UnityEngine.UI;
 /// Mounted monitor to show simple images or text
 /// Escape Shuttle channel is a priority one and will overtake other channels.
 /// </summary>
-public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster
+public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInteractable<HandApply>, ISetMultitoolMaster,
+		IRightClickable, ICheckedInteractable<ContextMenuApply>
 {
 	public static readonly int MAX_CHARS_PER_PAGE = 18;
 
@@ -385,6 +386,62 @@ public class StatusDisplay : NetworkBehaviour, IServerLifecycle, ICheckedInterac
 			MonitorSpriteHandler.SetSprite(openEmpty);
 		}
 	}
+
+	#region Interaction-ContextMenu
+
+	public RightClickableResult GenerateRightClickOptions()
+	{
+		var result = RightClickableResult.Create();
+
+		if (!WillInteract(ContextMenuApply.ByLocalPlayer(gameObject, null), NetworkSide.Client)) return result;
+
+		var stopTimerInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "StopTimer");
+		result.AddElement("Stop Timer", () => ContextMenuOptionClicked(stopTimerInteraction));
+
+		var addTimeInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "AddTime");
+		result.AddElement("Add 1 Min", () => ContextMenuOptionClicked(addTimeInteraction));
+
+		var removeTimeInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "RemoveTime");
+		result.AddElement("Take 1 Min", () => ContextMenuOptionClicked(removeTimeInteraction));
+
+		return result;
+	}
+
+	private void ContextMenuOptionClicked(ContextMenuApply interaction)
+	{
+		InteractionUtils.RequestInteract(interaction, this);
+	}
+
+	public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+	{
+		return DefaultWillInteract.Default(interaction, side);
+	}
+
+	public void ServerPerformInteraction(ContextMenuApply interaction)
+	{
+		switch (interaction.RequestedOption)
+		{
+			case "StopTimer":
+				currentTimerSeconds = 0;
+				break;
+			case "AddTime":
+				if (!countingDown)
+				{
+					StartCoroutine(TickTimer());
+				}
+				currentTimerSeconds += 60;
+				break;
+			case "RemoveTime":
+				currentTimerSeconds -= 60;
+				if (currentTimerSeconds < 0)
+				{
+					currentTimerSeconds = 0;
+				}
+				break;
+		}
+	}
+
+	#endregion Interaction-ContextMenu
 }
 
 public enum StatusDisplayChannel

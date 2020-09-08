@@ -47,6 +47,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (interaction.HandObject.GetComponent<Stackable>().Amount < 2) return false;
 		return true;
 	}
+
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		if (interaction.TargetObject != gameObject) return;
@@ -58,7 +59,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 				"You finish deconstructing the table frame.",
 				$"{interaction.Performer.ExpensiveName()} deconstructs the table frame.",
 				() => Disassemble(interaction));
-			SoundManager.PlayNetworkedAtPos("Wrench", gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+			ToolUtils.ServerPlayToolSound(interaction);
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet))
 		{
@@ -77,6 +78,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 			Assemble(interaction, "reinforced", glassTable, "Deconstruct");
 		}
 	}
+
 	private void Assemble(HandApply interaction, string tableType, LayerTile layerTile, string soundName)
 	{
 		ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
@@ -103,5 +105,4 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 		Despawn.ServerSingle(gameObject);
 	}
-
 }
