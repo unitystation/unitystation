@@ -1,21 +1,26 @@
 ﻿using System;
 using Mirror;
 using UnityEngine;
+using ScriptableObjects;
 using Random = UnityEngine.Random;
 
 public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
 	[Tooltip("If apply Metal Sheet.")]
-	public LayerTile metalTable;
+	[SerializeField]
+	private LayerTile metalTable = default;
 
 	[Tooltip("If apply Glass Sheet.")]
-	public LayerTile glassTable;
+	[SerializeField]
+	private LayerTile glassTable = default;
 
 	[Tooltip("If apply Wood Plank.")]
-	public LayerTile woodTable;
+	[SerializeField]
+	private LayerTile woodTable = default;
 
 	[Tooltip("If apply Wood Plank.")]
-	public LayerTile reinforcedTable;
+	[SerializeField]
+	private LayerTile reinforcedTable = default;
 
 	private Integrity integrity;
 
@@ -27,7 +32,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		Spawn.ServerPrefab("Rods", gameObject.TileWorldPosition().To3Int(), transform.parent,
+		Spawn.ServerPrefab(CommonPrefabs.Instance.MetalRods, gameObject.TileWorldPosition().To3Int(), transform.parent,
 			count: Random.Range(0, 3), scatterRadius: Random.Range(0f, 2f));
 	}
 
@@ -38,13 +43,16 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
+
+		if (interaction.HandObject.GetComponent<Stackable>().Amount < 2) return false;
+
 		//only try to interact if the user has a wrench, screwdriver in their hand
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench) &&
-		    !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet) &&
+			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.MetalSheet) &&
 			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.GlassSheet) &&
 			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.WoodenPlank) &&
-		!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet)){ return false; }
-		if (interaction.HandObject.GetComponent<Stackable>().Amount < 2) return false;
+			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet)) return false;
+		
 		return true;
 	}
 
@@ -71,11 +79,11 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.WoodenPlank))
 		{
-			Assemble(interaction, "wooden", glassTable, "wood3");
+			Assemble(interaction, "wooden", woodTable, "wood3");
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.PlasteelSheet))
 		{
-			Assemble(interaction, "reinforced", glassTable, "Deconstruct");
+			Assemble(interaction, "reinforced", reinforcedTable, "Deconstruct");
 		}
 	}
 
@@ -92,7 +100,7 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	private void Disassemble(HandApply interaction)
 	{
-		Spawn.ServerPrefab("Rods", gameObject.WorldPosServer(), count: 2);
+		Spawn.ServerPrefab(CommonPrefabs.Instance.MetalRods, gameObject.WorldPosServer(), count: 2);
 		Despawn.ServerSingle(gameObject);
 	}
 
