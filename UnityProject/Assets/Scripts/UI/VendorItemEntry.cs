@@ -26,7 +26,17 @@ public class VendorItemEntry : DynamicEntry
 		vendorWindow = correspondingWindow;
 
 		var itemGO = vendorItem.Item;
-		var itemAttr = itemGO.GetComponent<ItemAttributesV2>();
+
+		if (itemGO != null)
+		{
+			// TODO This is unused. What was it for? Is this why soda machine entries are just called Drinking glass? (Issue #4942)
+			// I've just moved the line around to stop the NRE.
+			var itemAttr = itemGO.GetComponent<ItemAttributesV2>();
+		}
+		else
+		{
+			Logger.LogError($"{this} variable {nameof(itemGO)} was null!");
+		}
 
 		// try get human-readable item name
 		var itemNameStr = TextUtils.UppercaseFirst(itemGO.ExpensiveName());
