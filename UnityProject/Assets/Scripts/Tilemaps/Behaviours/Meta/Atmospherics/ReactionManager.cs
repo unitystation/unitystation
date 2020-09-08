@@ -14,7 +14,8 @@ using Random = UnityEngine.Random;
 /// </summary>
 public class ReactionManager : MonoBehaviour
 {
-	public float n = 20;
+	private float RollingAverageN = 20;
+	private float PushMultiplier = 5;
 
 	private GameObject fireLight = null;
 
@@ -22,7 +23,8 @@ public class ReactionManager : MonoBehaviour
 
 	public Dictionary<Vector3Int, HashSet<Gas>> fogTiles = new Dictionary<Vector3Int, HashSet<Gas>>();
 
-	public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> reactions = new ConcurrentDictionary<Vector3Int, HashSet<GasReactions>>();
+	public ConcurrentDictionary<Vector3Int, HashSet<GasReactions>> reactions =
+		new ConcurrentDictionary<Vector3Int, HashSet<GasReactions>>();
 
 	private static readonly int FIRE_FX_Z = -2;
 
@@ -93,7 +95,7 @@ public class ReactionManager : MonoBehaviour
 				{
 					foreach (var pushable in matrix.Get<PushPull>(windyNode.Position, true))
 					{
-						float correctedForce = windyNode.WindForce / (int) pushable.Pushable.Size;
+						float correctedForce = (windyNode.WindForce*PushMultiplier) / (int) pushable.Pushable.Size;
 						if (correctedForce >= AtmosConstants.MinPushForce)
 						{
 							if (pushable.Pushable.IsTileSnap)
@@ -119,8 +121,9 @@ public class ReactionManager : MonoBehaviour
 							}
 						}
 					}
-					windyNode.WindForce = (windyNode.WindForce * (n - 1) / n);
-					if (windyNode.WindForce >= 0.5f)
+
+					windyNode.WindForce = (windyNode.WindForce * ((RollingAverageN - 1) / RollingAverageN));
+					if (windyNode.WindForce >= 0.5f*(1f/PushMultiplier))
 					{
 						winds.Enqueue(windyNode);
 					}
@@ -129,7 +132,6 @@ public class ReactionManager : MonoBehaviour
 						windyNode.WindForce = 0;
 						windyNode.WindDirection = Vector2Int.zero;
 					}
-
 				}
 			}
 		}
@@ -194,7 +196,7 @@ public class ReactionManager : MonoBehaviour
 					new Vector3Int(addedHotspot.node.Position.x, addedHotspot.node.Position.y, FIRE_FX_Z),
 					TileType.Effects, "Fire");
 
-				if(fireLightDictionary.ContainsKey(addedHotspot.node.Position)) continue;
+				if (fireLightDictionary.ContainsKey(addedHotspot.node.Position)) continue;
 
 				var fireLightSpawn = Spawn.ServerPrefab(fireLight, addedHotspot.node.Position, transform);
 
@@ -215,7 +217,7 @@ public class ReactionManager : MonoBehaviour
 					LayerType.Effects, false);
 				hotspots.Remove(removedHotspot);
 
-				if(!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;
+				if (!fireLightDictionary.ContainsKey(affectedNode.Position)) continue;
 
 				var fireObject = fireLightDictionary[affectedNode.Position];
 
@@ -245,7 +247,8 @@ public class ReactionManager : MonoBehaviour
 
 					addReactionNode.gasReaction.Reaction.React(ref gasMix, addReactionNode.metaDataNode.Position);
 
-					if (reactions.TryGetValue(addReactionNode.metaDataNode.Position, out var gasHashSet) && gasHashSet.Count == 1)
+					if (reactions.TryGetValue(addReactionNode.metaDataNode.Position, out var gasHashSet) &&
+					    gasHashSet.Count == 1)
 					{
 						reactions.TryRemove(addReactionNode.metaDataNode.Position, out var value);
 						continue;
@@ -277,11 +280,13 @@ public class ReactionManager : MonoBehaviour
 					}
 					else
 					{
-						fogTiles.Add(addFogNode.metaDataNode.Position, new HashSet<Gas>{addFogNode.gas}); //Add it to fogTiles
+						fogTiles.Add(addFogNode.metaDataNode.Position,
+							new HashSet<Gas> {addFogNode.gas}); //Add it to fogTiles
 					}
 
 					tileChangeManager.UpdateTile(
-						new Vector3Int(addFogNode.metaDataNode.Position.x, addFogNode.metaDataNode.Position.y, addFogNode.gas.OverlayIndex),
+						new Vector3Int(addFogNode.metaDataNode.Position.x, addFogNode.metaDataNode.Position.y,
+							addFogNode.gas.OverlayIndex),
 						TileType.Effects, addFogNode.gas.TileName);
 				}
 			}
@@ -303,7 +308,8 @@ public class ReactionManager : MonoBehaviour
 					if (!fogTiles[removeFogNode.metaDataNode.Position].Contains(removeFogNode.gas)) continue;
 
 					tileChangeManager.RemoveTile(
-						new Vector3Int(removeFogNode.metaDataNode.Position.x, removeFogNode.metaDataNode.Position.y, removeFogNode.gas.OverlayIndex),
+						new Vector3Int(removeFogNode.metaDataNode.Position.x, removeFogNode.metaDataNode.Position.y,
+							removeFogNode.gas.OverlayIndex),
 						LayerType.Effects, false);
 
 					if (fogTiles[removeFogNode.metaDataNode.Position].Count == 1)
@@ -452,21 +458,14 @@ public class ReactionManager : MonoBehaviour
 		if (node != MetaDataNode.None && pressureDifference > AtmosConstants.MinWindForce
 		                              && windDirection != Vector2Int.zero)
 		{
-			if (node.WindForce == 0)
+			if (winds.Contains(node) == false)
 			{
-				node.WindForce = pressureDifference;
-				node.WindDirection = windDirection;
 				winds.Enqueue(node);
 			}
-			else
-			{
-				if (n == 0)
-				{
-					n = 1;
-				}
 
-				node.WindForce = (node.WindForce * (n - 1) / n) + pressureDifference / n;
-			}
+			node.WindForce = (node.WindForce * ((RollingAverageN - 1) / RollingAverageN)) +
+			                 pressureDifference / RollingAverageN;
+			node.WindDirection = windDirection;
 		}
 	}
 
@@ -490,13 +489,13 @@ public class ReactionManager : MonoBehaviour
 	{
 		if (reactions.TryGetValue(node.metaDataNode.Position, out var gasHastSet))
 		{
-			if(gasHastSet.Contains(node.gasReaction)) return;
+			if (gasHastSet.Contains(node.gasReaction)) return;
 
 			gasHastSet.Add(node.gasReaction);
 		}
 		else
 		{
-			reactions.TryAdd(node.metaDataNode.Position, new HashSet<GasReactions>{node.gasReaction});
+			reactions.TryAdd(node.metaDataNode.Position, new HashSet<GasReactions> {node.gasReaction});
 		}
 
 		addReaction.Enqueue(node);

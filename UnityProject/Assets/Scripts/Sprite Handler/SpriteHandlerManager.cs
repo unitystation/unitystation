@@ -79,8 +79,14 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-
+		StartCoroutine(WaitForNetInitialisation());
 		base.OnStartClient();
+	}
+
+	private IEnumerator WaitForNetInitialisation()
+	{
+		yield return WaitFor.Seconds(3);
+		SpriteRequestCurrentStateMessage.Send(this.GetComponent<NetworkIdentity>().netId);
 	}
 
 	void LateUpdate()
@@ -93,7 +99,7 @@ public class SpriteHandlerManager : NetworkBehaviour
 	{
 		if (QueueChanges.Count > 0)
 		{
-			//Logger.Log(QueueChanges.Count.ToString());
+			Logger.Log(QueueChanges.Count.ToString());
 			//32767 Number of management characters
 			//Assuming 50 characters per change
 			//655.34‬ changes
