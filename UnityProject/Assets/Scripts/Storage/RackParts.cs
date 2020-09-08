@@ -52,7 +52,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 	{
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f, sourceObj: interaction.Performer);
+			ToolUtils.ServerPlayToolSound(interaction);
 			Spawn.ServerPrefab("Metal", interaction.WorldPositionTarget.RoundToInt(), transform.parent, count: 1,
 				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 			Despawn.ServerSingle(gameObject);

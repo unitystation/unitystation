@@ -106,7 +106,7 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 		var item = pna.GetActiveHandItem();
 		if (Validations.HasItemTrait(item, CommonTraits.Instance.Wirecutter))
 		{
-			SoundManager.PlayNetworkedAtPos("WireCutter", pos, 1f, sourceObj: gameObject);
+			ToolUtils.ServerPlayToolSound(interaction);
 
 			if (posterVariant == Posters.Ripped)
 			{
