@@ -476,7 +476,7 @@ public class SpriteHandler : MonoBehaviour
 
 	private IEnumerator WaitForNetInitialisation(SpriteHandlerManager.SpriteChange spriteChange)
 	{
-		yield return new WaitForEndOfFrame();
+		yield return null;
 		if (NetworkIdentity.netId == 0)
 		{
 			Logger.LogError("ID hasn't been set for " + this.transform.parent);

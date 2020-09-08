@@ -124,6 +124,7 @@ public class Stackable : NetworkBehaviour, IServerLifecycle, ICheckedInteractabl
 
 	private void ServerStackOnGround(Vector3Int localPosition)
 	{
+		if (registerTile?.Matrix == null) return;
 		//stacks with things on the same tile
 		foreach (var stackable in registerTile.Matrix.Get<Stackable>(localPosition, true))
 		{
