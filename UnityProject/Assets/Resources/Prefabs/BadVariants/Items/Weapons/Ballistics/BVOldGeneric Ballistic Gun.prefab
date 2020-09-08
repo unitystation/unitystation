@@ -15,8 +15,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   ammoPrefab: {fileID: 0}
-  genericInternalMag: {fileID: 2422759989583602921, guid: d819938d5d7681c4ba69845f60102a8c,
-    type: 3}
   casingPrefabOverride: {fileID: 0}
   allowMagazineRemoval: 1
   ammoType: 357
@@ -25,7 +23,6 @@ MonoBehaviour:
   burstCooldown: 0
   burstCount: 3
   SmartGun: 0
-  MagSize: 10
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FiringSound: ShootGun01
@@ -34,7 +31,7 @@ MonoBehaviour:
   Projectile: {fileID: 1011412119081755325, guid: f1e541b806000994b970a77f497619ca,
     type: 3}
   ProjectilesFired: 1
-  ProjectileVelocity: 10
+  ProjectileVelocity: 20
   CameraRecoilConfig:
     Distance: 0
     RecoilDuration: 0
@@ -66,7 +63,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: Generic Ballistic Gun
+      value: BVOldGeneric Ballistic Gun
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
