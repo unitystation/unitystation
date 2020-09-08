@@ -66,7 +66,7 @@ PrefabInstance:
     - target: {fileID: -6909192434074767838, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: Passable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 928039887571597778, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -127,6 +127,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BodyBag
+      objectReference: {fileID: 0}
+    - target: {fileID: 995757621677257747, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1122670086388767519, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -194,6 +199,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730627397065656938, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: isDirty
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8970863354629131570, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
