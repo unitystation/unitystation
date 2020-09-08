@@ -71,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 933576176691117832, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Name
-      value: ClosetSyndicate
+      value: ClosetSyndicateBase
       objectReference: {fileID: 0}
     - target: {fileID: 1122670086388767519, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -85,6 +85,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: ccec3a762c93fba41af3626fac160ecc,
         type: 3}
+    - target: {fileID: 5985477544408477782, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8329be6d0bd788443977f9b936b716e7,
+        type: 2}
     - target: {fileID: 7516867733009817656, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: initialName
