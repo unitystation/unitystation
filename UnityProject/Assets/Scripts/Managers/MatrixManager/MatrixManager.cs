@@ -60,20 +60,9 @@ public partial class MatrixManager : MonoBehaviour
 
 	private IEnumerator WaitForLoad()
 	{
-		float waitingTime = 0f;
 		while (Instance.spaceMatrix == null || Instance.mainStationMatrix == null)
 		{
-			waitingTime += Time.deltaTime;
-			if (waitingTime > 30f)
-			{
-				Logger.LogError("No Space matrix or MainStation matrix was found. " +
-				                "You need to load a matrix that is set to " +
-				                "Spacematrix or MainStation or both.");
-				yield break;
-			}
-
 			yield return WaitFor.EndOfFrame;
-
 		}
 		//Wait half a second to capture the majority of other matrices loading in
 		yield return WaitFor.Seconds(0.1f);
