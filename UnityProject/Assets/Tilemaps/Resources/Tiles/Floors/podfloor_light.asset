@@ -27,7 +27,7 @@ MonoBehaviour:
   passableException:
     m_keys: 01000000
     m_values: 00
-  maxHealth: 70
+  maxHealth: 200
   damageDeflection: 0
   armor:
     Melee: 50
@@ -39,7 +39,7 @@ MonoBehaviour:
     Fire: 0
     Acid: 0
     Magic: 0
-    Bio: 50
+    Bio: 100
   tileInteractions:
   - {fileID: 11400000, guid: 7b6820d9f95c544a8bf274f9125b4941, type: 2}
   spawnOnDeconstruct: {fileID: 1458398585430308084, guid: f0918ee9a7aa7d445a2a9768ef5c51b9,
