@@ -2,172 +2,97 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using NUnit.Framework.Constraints;
 using UnityEngine;
-using UnityEngine.Events;
+using Items.PDA;
 
 namespace UI.PDA
 {
 	public class GUI_PDA : NetTab
 	{
-		[SerializeField] [Tooltip("Put the main netpage switcher here")]
-		private NetPageSwitcher mainSwitcher = null; //The main switcher used to switch pages
+		[Tooltip("Assign the breadcrumb here")]
+		[SerializeField]
+		private NetLabel breadcrumb = null;
 
-		[SerializeField] [Tooltip("Main menu here")]
-		private GUI_PDAMainMenu menuPage = null; //The menuPage for reference
+		[Tooltip("Put the main NetPage switcher here")]
+		public NetPageSwitcher mainSwitcher = null;
 
-		[SerializeField] [Tooltip("Setting Menu here")]
-		private GUI_PDASettingMenu settingPage = null; //The settingPage for reference
+		[Header("Assign the PDA's main pages here")]
+		public GUI_PDAMainMenu menuPage = null;
+		public GUI_PDACrewManifest manifestPage = null;
+		public GUI_PDANotes notesPage = null;
+		public GUI_PDASettingMenu settingsPage = null;
+		public GUI_PDAUplinkMenu uplinkPage = null;
 
-		[SerializeField] [Tooltip("Uplink here")]
-		private GUI_PDAUplinkMenu uplinkPage = null; //The uplinkPage for reference
+		public PDALogic PDA { get; private set; }
+		public NetPage MainPage => mainSwitcher.DefaultPage;
 
-		[SerializeField] [Tooltip("CrewManifest here")]
-		private GUI_PDACrewManifest crewManifestPage = null; //The uplinkPage for reference
+		#region Lifecycle
 
-		[SerializeField] [Tooltip("Notes Page")]
-		private GUI_PDANotes notesPage = null; //The uplinkPage for reference
-
-		[NonSerialized]
-		public Items.PDA.PDALogic Pda;
-
-		private UplinkItemClickedEvent onItemClicked;
-		public UplinkItemClickedEvent OnItemClickedEvent {get => onItemClicked;}
-
-		private UplinkCategoryClickedEvent onCategoryClicked;
-		public UplinkCategoryClickedEvent OnCategoryClickedEvent {get => onCategoryClicked;}
-
-
-
-		// Grabs the PDA component and opens the mainmenu
 		[SuppressMessage("ReSharper", "UEA0006")] // Supresses the couroutine allocation warning, because it's annoying
 		private void Start()
 		{
-			onItemClicked = new UplinkItemClickedEvent();
-			OnItemClickedEvent.AddListener(SpawnUplinkItem);
-			onCategoryClicked = new UplinkCategoryClickedEvent();
-			OnCategoryClickedEvent.AddListener(OpenUplinkCategory);
 			StartCoroutine(WaitForProvider());
-			Pda.AntagCheck(Pda.TabOnGameObject.LastInteractedPlayer());
-			OpenMainMenu();
 		}
 
-		/// <summary>
-		/// Refreshes the strings of tabs if they're active
-		/// </summary>
-		public override void RefreshTab()
-		{
-			menuPage.RefreshText();
-			notesPage.RefreshText();
-			base.RefreshTab();
-		}
-
-		IEnumerator WaitForProvider()
+		private IEnumerator WaitForProvider()
 		{
 			while (Provider == null)
 			{
 				yield return WaitFor.EndOfFrame;
 			}
-			Pda = Provider.GetComponent<Items.PDA.PDALogic>();
+			PDA = Provider.GetComponent<PDALogic>();
+			OpenPage(MainPage);
+		}
+
+		#endregion Lifecycle
+
+		/// <summary>
+		/// Opens the page on the given switcher, setting it as the current page.
+		/// Runs the page's lifecycle methods if it implements IPageCleanupable or IPageReadyable.
+		/// </summary>
+		/// <param name="switcher">The switcher that the page is associated with</param>
+		/// <param name="page">The page to set as the current page for the given switcher</param>
+		public void OpenPageOnSwitcher(NetPageSwitcher switcher, NetPage page)
+		{
+			if (switcher.CurrentPage is IPageCleanupable cleanupable)
+			{
+				cleanupable.OnPageDeactivated();
+			}
+
+			if (page is IPageReadyable readyable)
+			{
+				readyable.OnPageActivated();
+			}
+
+			switcher.SetActivePage(page);
 		}
 
 		/// <summary>
-		/// It opens the updates the ID strings then sets the menu page
+		/// Tells the main page switcher to set the current page.
 		/// </summary>
-		public void OpenMainMenu()
+		/// <param name="page">The page to set as the current page</param>
+		public void OpenPage(NetPage page)
 		{
-			menuPage.UpdateId();
-			mainSwitcher.SetActivePage(menuPage);
+			OpenPageOnSwitcher(mainSwitcher, page);
 		}
 
 		/// <summary>
-		/// It opens settings, what did you expect?
+		/// Sets the text for the breadcrumb that exists the top of every page.
 		/// </summary>
-		public void OpenSettings()
+		/// <param name="directory"></param>
+		public void SetBreadcrumb(string directory)
 		{
-			mainSwitcher.SetActivePage(settingPage);
+			breadcrumb.SetValueServer(directory);
 		}
 
-		public void OpenManifest()
+		public void PlayRingtone()
 		{
-			crewManifestPage.GenerateEntries();
-			mainSwitcher.SetActivePage(crewManifestPage);
+			PDA.PlayRingtone();
 		}
 
-		public void OpenNotes()
+		public void PlayDenyTone()
 		{
-			mainSwitcher.SetActivePage(notesPage);
+			PDA.PlayDenyTone();
 		}
-
-		/// <summary>
-		/// Asks the PDA to test the notification string against its Uplinkstring server side
-		/// </summary>
-		public bool TestForUplink(string notificationString)
-		{
-
-			if (!IsServer || !Pda.ActivateUplink(notificationString)) return false;
-			OpenUplink();
-			return true;
-		}
-
-		/// <summary>
-		/// Opens the uplink
-		/// </summary>
-		private void OpenUplink()
-		{
-			uplinkPage.ShowCategories();
-			mainSwitcher.SetActivePage(uplinkPage);
-		}
-
-		/// <summary>
-		/// Generates a list of items to select from using a list containing said items
-		/// </summary>
-		private void OpenUplinkCategory(List<UplinkItems> items)
-		{
-			uplinkPage.OpenSelectedCategory(items);
-		}
-
-		/// <summary>
-		/// //Tells the PDA script to spawn an item at the cost of TC
-		/// </summary>
-		private void SpawnUplinkItem(UplinkItems itemRequested)
-		{
-			Pda.SpawnUplinkItem(itemRequested.Item, itemRequested.Cost);
-		}
-
-		/// <summary>
-		/// Opens the messenger that does not exist yet
-		/// </summary>
-		public void OpenMessenger()
-		{
-			//TODO Get someone else to do messenger
-			throw new NotImplementedException();
-		}
-
-		/// <summary>
-		/// Tells the PDA to remove the ID card and updates the menu page
-		/// </summary>
-		public void RemoveId()
-		{
-			if (Pda.IdCard) Pda.RemoveDevice(true);
-			menuPage.UpdateId();
-		}
-		/// <summary>
-		/// Resets the PDA's name and ID, opens the menu
-		/// </summary>
-		public void ResetPda()
-		{
-			Pda.PdaReset();
-			OpenMainMenu();
-		}
-	}
-	[Serializable]
-	public class UplinkCategoryClickedEvent : UnityEvent<List<UplinkItems>>
-	{
-	}
-
-	[Serializable]
-	public class UplinkItemClickedEvent : UnityEvent<UplinkItems>
-	{
 	}
 }

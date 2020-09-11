@@ -315,7 +315,7 @@ public class ItemSlot
 
 		ItemStorage storageToCheck = itemStorage;
 		StorageIdentifier storeIdentifier = toStore.GetComponent<StorageIdentifier>();
-
+		
 		//Check if there is a deny entry for this toStore item
 		if (storageToCheck != null && storeIdentifier != null)
 		{
@@ -324,10 +324,12 @@ public class ItemSlot
 			{
 				if (interactiveStorage.denyStorageOfStorageItems.HasFlag(storeIdentifier.StorageItemName))
 				{
+					Logger.LogTrace($"Cannot fit {toStore} in slot {ToString()}, item was blacklisted.", Category.Inventory);
 					if (examineRecipient)
 					{
 						Chat.AddExamineMsg(examineRecipient, $"{toStore.gameObject.ExpensiveName()} can't be placed there!");
 					}
+
 					return false;
 				}
 			}

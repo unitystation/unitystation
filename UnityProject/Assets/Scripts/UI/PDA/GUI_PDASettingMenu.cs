@@ -1,30 +1,47 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 
 namespace UI.PDA
 {
-	public class GUI_PDASettingMenu : NetPage
+	public class GUI_PDASettingMenu : NetPage, IPageReadyable
 	{
 		[SerializeField] private GUI_PDA controller = null;
 
 		[SerializeField] public NetLabel input;
 
-		private bool selectionCheck; // a simple variable to make sure the PDA asks the player to confirm the reset
+		private bool clickedRecently; // a simple variable to make sure the PDA asks the player to confirm the reset
 
-		//Logic pushed to controller for safety checks, cant have client fucking shit up
-		public void SetNotificationSound(string notificationString)
+		public void OnPageActivated()
 		{
-			if (controller.TestForUplink(notificationString) != true)
+			controller.SetBreadcrumb("/bin/settings.sh");
+		}
+
+		public void SetRingtone(string ringtone)
+		{
+			if (ringtone == default) return;
+
+			if (controller.PDA.IsUplinkCapable)
 			{
-				Debug.LogError("Sounds not implimented");
+				controller.PDA.UnlockUplink(ringtone);
 			}
+
+			if (!controller.PDA.IsUplinkLocked)
+			{
+				controller.OpenPage(controller.uplinkPage);
+			}
+			else
+			{
+				controller.PDA.SetRingtone(ringtone);
+				controller.PDA.PlayRingtone();
+			}
+
 			input.SetValueServer("");
 		}
 
-		private void ResetTimer()
+		public void EjectCartridge()
 		{
-			WaitFor.Seconds(1);
-			selectionCheck = false;
+			controller.PDA.EjectCartridge();
 		}
 
 		/// <summary>
@@ -32,22 +49,28 @@ namespace UI.PDA
 		/// </summary>
 		public void FactoryReset()
 		{
-			if (selectionCheck)
+			if (clickedRecently)
 			{
-				selectionCheck = false;
-				controller.ResetPda();
-
+				clickedRecently = false;
+				controller.PDA.ResetPDA();
 			}
 			else
 			{
-				StartCoroutine("ResetTimer");
-				selectionCheck = true;
+				StartCoroutine(ResetTimer());
+				clickedRecently = true;
 			}
 		}
-		// Supposed to handle the changing of UI themes, might drop this one
+
+		// Unimplemented
 		public void Themes()
 		{
-			Debug.LogError("UI themes are not implimented yet!");
+			controller.PlayDenyTone();
+		}
+
+		private IEnumerator ResetTimer()
+		{
+			yield return WaitFor.Seconds(0.5f);
+			clickedRecently = false;
 		}
 	}
 }

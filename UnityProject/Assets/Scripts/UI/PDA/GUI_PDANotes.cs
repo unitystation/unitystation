@@ -2,26 +2,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Items.PDA;
-using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
+using Items.PDA;
 
 namespace UI.PDA
 {
-	public class GUI_PDANotes : NetPage
+	public class GUI_PDANotes : NetPage, IPageReadyable
 	{
 		[SerializeField] private GUI_PDA controller = null;
-		private GameObject cachedProvider;
 		[SerializeField] private InputField textField = null;
 		[SerializeField] private ContentSizeFitter contentSizeFitter = null;
 
-		/// <summary>
-		///Grabs the reference of the provider for later use
-		/// </summary>
-		private void Start()
+		private GameObject PDAObject => controller.PDA.gameObject;
+
+		public void OnPageActivated()
 		{
-			cachedProvider = controller.Provider.gameObject;
+			controller.SetBreadcrumb("/bin/notes.sh");
+			controller.PlayDenyTone();
 		}
 
 		/// <summary>
@@ -41,7 +39,7 @@ namespace UI.PDA
 		/// </summary>
 		public void OnTextEditEnd()
 		{
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestNoteEdit(cachedProvider, textField.text);
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestNoteEdit(PDAObject, textField.text);
 			UIManager.IsInputFocus = false;
 			UIManager.PreventChatInput = false;
 		}
@@ -71,6 +69,7 @@ namespace UI.PDA
 				CheckLineLimit();
 			}
 		}
+
 		/// <summary>
 		/// Makes sure the players dont write huge notes that the server wont send due to packet size
 		/// </summary>
@@ -83,14 +82,14 @@ namespace UI.PDA
 				textField.text = sub;
 			}
 		}
+
 		/// <summary>
 		/// Refreshes the note text
 		/// </summary>
 		public void RefreshText()
 		{
 			if (gameObject.activeInHierarchy != true) return;
-			textField.text = cachedProvider.GetComponent<PDANotesNetworkHandler>().NoteString;
+			textField.text = PDAObject.GetComponent<PDANotesNetworkHandler>().NoteString;
 		}
-
 	}
 }
