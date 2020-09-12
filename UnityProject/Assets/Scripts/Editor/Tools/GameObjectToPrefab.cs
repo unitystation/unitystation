@@ -9,7 +9,7 @@ public class GameObjectToPrefab : EditorWindow
 	private bool createFolders = false;
 	private GameObject parentObject;
 
-	[MenuItem("GameObject/GameObject to Prefab Converter")]
+	[MenuItem("Tools/GameObject to Prefab Converter")]
 	private static void Init()
 	{
 		// Get existing open window or if none, make a new one:
