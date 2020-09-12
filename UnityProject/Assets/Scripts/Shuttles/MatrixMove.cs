@@ -111,7 +111,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// shuttle position when starting RCS movement
 	/// </summary>
 	private Vector2Int rcsMovementStartPosition;
-	
+
 	/// <summary>
 	/// position on which player should be after the start of RCS
 	/// position on which shuttle should be located at the end of RCS movement
@@ -433,15 +433,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 			RecheckThrusters();
 		}
 
-		if (IsForceStopped) return;
-
-		if(rcsModeActive)
-		{
-			if(!canServerUseRcs)
-				return;
-			
-			rcsModeActive = false;
-		}
+		if (IsForceStopped || rcsModeActive) return;
 
 		//Not allowing movement without any thrusters:
 		if (HasWorkingThrusters && (IsFueled || !RequiresFuel))
@@ -634,7 +626,8 @@ public class MatrixMove : ManagedNetworkBehaviour
 			clientState.Position += (clientState.Speed * Time.deltaTime) * clientState.FlyingDirection.Vector;
 			if (rcsModeActive && clientState.IsMoving)
 			{
-				if (Vector2.Distance(clientState.Position, rcsMovementTargetPosition) < 0.05f)
+				// if shuttle is close to reach target position,
+				if (Vector2.Distance(clientState.Position, rcsMovementTargetPosition) <= 0.02f)
 				{
 					clientState.Position = new Vector3(rcsMovementTargetPosition.x, rcsMovementTargetPosition.y, clientState.Position.z);
 					clientState.Speed = 0;
@@ -847,7 +840,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 		if (rcsModeActive)
 		{
-			// dont teleport player back to start point
+			// enable engines for clients that aren't using RCS
+			if (clientState.IsMoving && !oldState.IsMoving && rcsMovementStartPosition != Vector2Int.RoundToInt(clientState.Position))
+			{
+				OrientationEnum releativeDirection = GetReleativeOrientation(clientState.FacingDirection.AsEnum(), clientState.FlyingDirection.AsEnum());
+				StartCoroutine(ClientRCSCoroutine(releativeDirection, clientState.FlyingDirection, false));
+			}
+
+			// don't teleport player back to start point
 			Vector2Int roundedPosition = Vector2Int.RoundToInt(clientState.Position);
 			if (roundedPosition == rcsMovementStartPosition)
 			{
@@ -858,7 +858,13 @@ public class MatrixMove : ManagedNetworkBehaviour
 
 				canClientUseRcs = true;
 			}
-			else if(roundedPosition == rcsMovementTargetPosition)
+			else if (roundedPosition == rcsMovementTargetPosition)
+			{
+				clientState.Position = new Vector3(rcsMovementTargetPosition.x, rcsMovementTargetPosition.y, clientState.Position.z);
+				canClientUseRcs = true;
+			}
+			// else - player is teleported to server position
+			else
 			{
 				canClientUseRcs = true;
 			}
@@ -1093,78 +1099,13 @@ public class MatrixMove : ManagedNetworkBehaviour
 	{
 		if (!canServerUseRcs || serverState.IsMoving || IsForceStopped || (!IsFueled && RequiresFuel)) return;
 
-		OrientationEnum releativeDirection = orientation.AsEnum();
 		// get releative direcion based on shutter facing
-		switch (serverState.FacingDirection.AsEnum())
-		{
-			case OrientationEnum.Up:
-				switch (releativeDirection)
-				{
-					case OrientationEnum.Down:
-						releativeDirection = OrientationEnum.Up;
-						break;
-					case OrientationEnum.Up:
-						releativeDirection = OrientationEnum.Down;
-						break;
-				}
-				break;
-			case OrientationEnum.Right:
-				switch (releativeDirection)
-				{
-					case OrientationEnum.Up:
-						releativeDirection = OrientationEnum.Left;
-						break;
-					case OrientationEnum.Right:
-						releativeDirection = OrientationEnum.Down;
-						break;
-					case OrientationEnum.Down:
-						releativeDirection = OrientationEnum.Right;
-						break;
-					case OrientationEnum.Left:
-						releativeDirection = OrientationEnum.Up;
-						break;
-				}
-				break;
-			case OrientationEnum.Down:
-				switch (releativeDirection)
-				{
-					case OrientationEnum.Up:
-						releativeDirection = OrientationEnum.Up;
-						break;
-					case OrientationEnum.Right:
-						releativeDirection = OrientationEnum.Left;
-						break;
-					case OrientationEnum.Down:
-						releativeDirection = OrientationEnum.Down;
-						break;
-					case OrientationEnum.Left:
-						releativeDirection = OrientationEnum.Right;
-						break;
-				}
-				break;
-			case OrientationEnum.Left:
-				switch (releativeDirection)
-				{
-					case OrientationEnum.Up:
-						releativeDirection = OrientationEnum.Right;
-						break;
-					case OrientationEnum.Right:
-						releativeDirection = OrientationEnum.Up;
-						break;
-					case OrientationEnum.Down:
-						releativeDirection = OrientationEnum.Left;
-						break;
-					case OrientationEnum.Left:
-						releativeDirection = OrientationEnum.Down;
-						break;
-				}
-				break;
-		}
+		OrientationEnum releativeDirection = GetReleativeOrientation(serverState.FacingDirection.AsEnum(), orientation.AsEnum());
 
 		// move only if shuttle has RCS thrusters pointing target direction
 		if (rcsThrusters[releativeDirection].Count > 0)
 		{
-			StartCoroutine(ServerDisableRcsThrusters(serverState.FlyingDirection, serverState.Speed, moveLimit));
+			StartCoroutine(ServerRCSCoroutine(serverState.FlyingDirection, serverState.Speed, moveLimit));
 			RcsStartMovementServer(orientation);
 		}
 	}
@@ -1180,80 +1121,77 @@ public class MatrixMove : ManagedNetworkBehaviour
 		if (!canClientUseRcs || clientState.IsMoving || IsForceStopped || (!IsFueled && RequiresFuel))
 			return;
 
-		OrientationEnum releativeDirection = orientation.AsEnum();
 		// get releative direcion based on shutter facing
-		switch (clientState.FacingDirection.AsEnum())
-		{
-			case OrientationEnum.Up:
-				switch (releativeDirection)
-				{
-					case OrientationEnum.Down:
-						releativeDirection = OrientationEnum.Up;
-						break;
-					case OrientationEnum.Up:
-						releativeDirection = OrientationEnum.Down;
-						break;
-				}
-				break;
-			case OrientationEnum.Right:
-				switch (releativeDirection)
-				{
-					case OrientationEnum.Up:
-						releativeDirection = OrientationEnum.Left;
-						break;
-					case OrientationEnum.Right:
-						releativeDirection = OrientationEnum.Down;
-						break;
-					case OrientationEnum.Down:
-						releativeDirection = OrientationEnum.Right;
-						break;
-					case OrientationEnum.Left:
-						releativeDirection = OrientationEnum.Up;
-						break;
-				}
-				break;
-			case OrientationEnum.Down:
-				switch (releativeDirection)
-				{
-					case OrientationEnum.Up:
-						releativeDirection = OrientationEnum.Up;
-						break;
-					case OrientationEnum.Right:
-						releativeDirection = OrientationEnum.Left;
-						break;
-					case OrientationEnum.Down:
-						releativeDirection = OrientationEnum.Down;
-						break;
-					case OrientationEnum.Left:
-						releativeDirection = OrientationEnum.Right;
-						break;
-				}
-				break;
-			case OrientationEnum.Left:
-				switch (releativeDirection)
-				{
-					case OrientationEnum.Up:
-						releativeDirection = OrientationEnum.Right;
-						break;
-					case OrientationEnum.Right:
-						releativeDirection = OrientationEnum.Up;
-						break;
-					case OrientationEnum.Down:
-						releativeDirection = OrientationEnum.Left;
-						break;
-					case OrientationEnum.Left:
-						releativeDirection = OrientationEnum.Down;
-						break;
-				}
-				break;
-		}
+		OrientationEnum releativeDirection = GetReleativeOrientation(clientState.FacingDirection.AsEnum(), orientation.AsEnum());
 
 		// move only if shuttle has RCS thrusters pointing target direction
 		if (rcsThrusters[releativeDirection].Count > 0)
 		{
-			StartCoroutine(ClientDisableRcsThrusters(releativeDirection, clientState.FlyingDirection));
+			StartCoroutine(ClientRCSCoroutine(releativeDirection, clientState.FlyingDirection));
 			RcsStartMovementClient(orientation);
 		}
+	}
+
+	/// <summary>
+	/// Get releative orientation based on shutter facing
+	/// </summary>
+	/// <param name="facingDirection">shuttle facing direction</param>
+	/// <param name="worldOrientation">world space orientation</param>
+	private OrientationEnum GetReleativeOrientation(OrientationEnum facingDirection, OrientationEnum worldOrientation)
+	{
+		switch (facingDirection)
+		{
+			case OrientationEnum.Up:
+				switch (worldOrientation)
+				{
+					case OrientationEnum.Down:
+						return OrientationEnum.Up;
+					case OrientationEnum.Up:
+						return OrientationEnum.Down;
+				}
+				break;
+			case OrientationEnum.Right:
+				switch (worldOrientation)
+				{
+					case OrientationEnum.Up:
+						return OrientationEnum.Left;
+					case OrientationEnum.Right:
+						return OrientationEnum.Down;
+					case OrientationEnum.Down:
+						return OrientationEnum.Right;
+					case OrientationEnum.Left:
+						return OrientationEnum.Up;
+				}
+				break;
+			case OrientationEnum.Down:
+				switch (worldOrientation)
+				{
+					case OrientationEnum.Up:
+						return OrientationEnum.Up;
+					case OrientationEnum.Right:
+						return OrientationEnum.Left;
+					case OrientationEnum.Down:
+						return OrientationEnum.Down;
+					case OrientationEnum.Left:
+						return OrientationEnum.Right;
+				}
+				break;
+			case OrientationEnum.Left:
+				switch (worldOrientation)
+				{
+					case OrientationEnum.Up:
+						return OrientationEnum.Right;
+					case OrientationEnum.Right:
+						return OrientationEnum.Up;
+					case OrientationEnum.Down:
+						return OrientationEnum.Left;
+					case OrientationEnum.Left:
+						return OrientationEnum.Down;
+				}
+				break;
+		}
+
+		return worldOrientation;
 	}
 
 	/// <summary>
@@ -1263,7 +1201,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// <param name="defaultFlyingDirection">flight direction before turning on the RCS</param>
 	/// <param name="flyTime">time for which the rcs engines are to be switched on</param>
 	[Client]
-	private IEnumerator ClientDisableRcsThrusters(OrientationEnum releativeDirection, Orientation defaultFlyingDirection, float flyTime = 1)
+	private IEnumerator ClientRCSCoroutine(OrientationEnum releativeDirection, Orientation defaultFlyingDirection, bool isControlligPlayer = true, float flyTime = 1f)
 	{
 		// loop trough all thrusters
 		foreach (var item in rcsThrusters)
@@ -1277,12 +1215,14 @@ public class MatrixMove : ManagedNetworkBehaviour
 			}
 		}
 
-		canClientUseRcs = false;
+		if(isControlligPlayer)
+			canClientUseRcs = false;
 
 		yield return WaitFor.Seconds(flyTime);
 
 		// set flyingDirection to movement direction after using RCS
 		clientState.FlyingDirection = defaultFlyingDirection;
+		clientState.IsMoving = false;
 
 		// disable all thrusters
 		foreach (var thruster in rcsThrusters[releativeDirection])
@@ -1297,7 +1237,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// <param name="defaultFlyingDirection">flight direction before turning on the RCS</param>
 	/// <param name="flyTime">time for which the rcs engines are to be switched on</param>
 	[Server]
-	private IEnumerator ServerDisableRcsThrusters(Orientation defaultFlyingDirection, float defaultSpeed, int defaultMoveLimit, float flyTime = 1)
+	private IEnumerator ServerRCSCoroutine(Orientation defaultFlyingDirection, float defaultSpeed, int defaultMoveLimit, float flyTime = 1)
 	{
 		canServerUseRcs = false;
 

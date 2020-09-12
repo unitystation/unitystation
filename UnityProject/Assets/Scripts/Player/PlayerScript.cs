@@ -77,7 +77,9 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	public Vector3IntEvent OnTileReached() => onTileReached;
 
 	public float RTT;
-	public bool RcsMode { get; set; }
+
+	[SyncVar]
+	public bool RcsMode;
 	public MatrixMove RcsMatrixMove { get; set; }
 
 	private bool isUpdateRTT;
