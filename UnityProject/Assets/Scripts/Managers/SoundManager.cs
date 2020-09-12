@@ -1,13 +1,18 @@
-﻿using System;
+﻿using Assets.Scripts.Messages.Server.SoundMessages;
+using Mirror;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 using UnityEngine;
-using Mirror;
-using Random = UnityEngine.Random;
+using UnityEngine.AddressableAssets;
+using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.Audio;
+using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.SceneManagement;
-using Assets.Scripts.Messages.Server.SoundMessages;
+using Random = UnityEngine.Random;
 
 public class SoundManager : MonoBehaviour
 {
@@ -19,7 +24,43 @@ public class SoundManager : MonoBehaviour
 
 	private static SoundManager soundManager;
 
+	[HideInInspector]
 	public readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+
+	/// <summary>
+	/// Library of musics paths (primaryKey) and their AudioSource (null if not loaded)
+	/// </summary>
+	[HideInInspector]
+	public readonly Dictionary<string, AudioSource> MusicLibrary = new Dictionary<string, AudioSource>();
+
+	/// <summary>
+	/// Load the AudioSource of a music inside the library and returns it.
+	/// </summary>
+	/// <param name="primaryKey">The primary key of the music to load</param>
+	/// <returns>The AudioSource component of the music</returns>
+	public async Task<AudioSource> GetMusicAsync(string primaryKey)
+	{
+		if (MusicLibrary[primaryKey] == null)
+		{
+			GameObject music = await Addressables.LoadAssetAsync<GameObject>(primaryKey).Task;
+			MusicLibrary[primaryKey] = music.GetComponent<AudioSource>();
+		}
+
+		return MusicLibrary[primaryKey];
+	}
+
+	/// <summary>
+	/// Unload the music by it's primaryKey, freeing resource RAM usage
+	/// </summary>
+	/// <param name="primaryKey">The primary of the music to unload </param>
+	public void UnloadMusic(string primaryKey)
+	{
+		if (MusicLibrary[primaryKey] != null)
+		{
+			Addressables.ReleaseInstance(MusicLibrary[primaryKey].gameObject);
+			MusicLibrary[primaryKey] = null;
+		}
+	}
 
 	private readonly Dictionary<string, string[]> soundPatterns = new Dictionary<string, string[]>();
 
@@ -67,7 +108,17 @@ public class SoundManager : MonoBehaviour
 
 	private void Awake()
 	{
-		Init();
+		Init();		
+	}
+
+	private void Start()
+	{
+		// We build the library of musics location
+		Addressables.LoadResourceLocationsAsync("SoundPrefab", typeof(GameObject)).Completed += (obj) =>
+		{
+			foreach (IResourceLocation resourceLocation in obj.Result)
+				MusicLibrary.Add(resourceLocation.PrimaryKey, null);
+		};
 	}
 
 	private void Init()
