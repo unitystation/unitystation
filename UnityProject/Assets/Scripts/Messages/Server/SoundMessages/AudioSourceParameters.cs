@@ -36,6 +36,9 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		// Note:  2D spatial blend doesn't attenuate with distance
 		public float? SpatialBlend { get; set; } = null;
 
+		//Sets the spread angle (in degrees) of a 3d stereo or multichannel sound in speaker space. (0 - 360f)
+		public float? Spread { get; set; } = null;
+
 		// Minimum distance in which the sound is at maximum volume
 		public float? MinDistance { get; set; } = null;
 
@@ -53,11 +56,12 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			string mixerTypeValue = MixerType.ToString();
 			string pitchValue = Pitch.HasValue ? Pitch.Value.ToString() : "Null";
 			string spatialBlendValue = SpatialBlend.HasValue ? SpatialBlend.Value.ToString() : "Null";
+			string spreadValue = Spread.HasValue ? Spread.Value.ToString() : "Null";
 			string minDistanceValue = MinDistance.HasValue ? MinDistance.Value.ToString() : "Null";
 			string maxDistanceValue = MaxDistance.HasValue ? MaxDistance.Value.ToString() : "Null";
 			string volumeRolloffTypeValue = VolumeRolloffType.ToString();
 
-			return $"{nameof(Volume)}: {volumeValue}, {nameof(Time)}: {timeValue}, {nameof(Pan)}: {panValue}, {nameof(MixerType)}: {mixerTypeValue}, {nameof(Pitch)}: {pitchValue}, {nameof(SpatialBlend)}: {spatialBlendValue}, {nameof(MinDistance)}: {minDistanceValue}, {nameof(MaxDistance)}: {maxDistanceValue}, {nameof(VolumeRolloffType)}: {volumeRolloffTypeValue}";
+			return $"{nameof(Volume)}: {volumeValue}, {nameof(Time)}: {timeValue}, {nameof(Pan)}: {panValue}, {nameof(MixerType)}: {mixerTypeValue}, {nameof(Pitch)}: {pitchValue}, {nameof(SpatialBlend)}: {spatialBlendValue}, {nameof(Spread)}: {spreadValue}, {nameof(MinDistance)}: {minDistanceValue}, {nameof(MaxDistance)}: {maxDistanceValue}, {nameof(VolumeRolloffType)}: {volumeRolloffTypeValue}";
 		}
 	}
 }

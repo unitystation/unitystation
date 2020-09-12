@@ -24,15 +24,20 @@ namespace Objects.GasContainer
 		public Color UIInnerPanelTint;
 
 		[Header("Canister Settings")]
-		[Tooltip("What tier this canister is. Will affect the capacity (only the overlay is implemented).")]
-		[SerializeField] [Range(0, 3)] int canisterTier;
+		[Tooltip("What tier this canister is. Sets the pressure to 4500e[tier].")]
+		[SerializeField] [Range(0, 3)]
+		private int canisterTier = 0;
+
+		[Tooltip("Whether this canister is considered open at roundstart.")]
+		[SerializeField]
+		private bool valveIsInitiallyOpen = false;
 
 		[Header("Canister SpriteHandlers")]
-		[SerializeField] private SpriteHandler baseSpriteHandler;
-		[SerializeField] private SpriteHandler canisterTierOverlay;
-		[SerializeField] private SpriteHandler pressureIndicatorOverlay;
-		[SerializeField] private SpriteHandler connectorHoseOverlay;
-		[SerializeField] private SpriteHandler tankInsertedOverlay;
+		[SerializeField] private SpriteHandler baseSpriteHandler = default;
+		[SerializeField] private SpriteHandler canisterTierOverlay = default;
+		[SerializeField] private SpriteHandler pressureIndicatorOverlay = default;
+		[SerializeField] private SpriteHandler connectorHoseOverlay = default;
+		[SerializeField] private SpriteHandler tankInsertedOverlay = default;
 
 		// Components attached to GameObject.
 		public GasContainer GasContainer { get; private set; }
@@ -48,8 +53,10 @@ namespace Objects.GasContainer
 		public bool HasContainerInserted => InsertedContainer != null;
 		public bool IsConnected => connector != null || connectorFuel != null;
 
+#pragma warning disable CS0414 // The boolean is used to trigger code on the clients.
 		[SyncVar(hook = nameof(SyncBurstState))]
 		private bool hasBurst = false;
+#pragma warning restore CS0414
 
 		/// <summary>
 		/// Invoked on server side when connection status changes, provides a bool indicating
@@ -85,18 +92,19 @@ namespace Objects.GasContainer
 			SetDefaultIntegrity();
 		}
 
-		private void Start()
+		public override void OnStartServer()
 		{
+			// Update gas mix manually, in case Canister component loads before GasContainer.
+			// This ensures pressure indicator and canister tier are set correctly.
+			GasContainer.UpdateGasMix();
+
 			SetCanisterTier();
 
 			// We push pressureIndicatorOverlay ourselves; if not,
 			// SpriteHandler will do so but overwrite the current SO when it loads after this component.
 			pressureIndicatorOverlay.PushTexture();
 			RefreshOverlays();
-		}
-
-		public override void OnStartServer()
-		{
+			SetValve(valveIsInitiallyOpen);
 			GasContainer.ServerContainerExplode += OnContainerExploded;
 		}
 
@@ -358,9 +366,25 @@ namespace Objects.GasContainer
 			RefreshOverlays();
 			objectBehaviour.ServerSetPushable(!IsConnected);
 			ServerOnConnectionStatusChange.Invoke(IsConnected);
+
+			// Will release gas if canister valve was not turned off before disconnecting from a connector,
+			// or stop the release of gas if canister valve is open and is now connected.
+			if (ValveIsOpen)
+			{
+				GasContainer.SetVent(!IsConnected);
+			}
 		}
 
 		#endregion Interaction
+
+		private void SetCanisterTier()
+		{
+			if (canisterTier > 0)
+			{
+				GasContainer.GasMix *= Mathf.Pow(10, canisterTier);
+				canisterTierOverlay.ChangeSprite(canisterTier - 1); // Tier 0 has no overlay.
+			}
+		}
 
 		public void RefreshPressureIndicator()
 		{
@@ -387,24 +411,14 @@ namespace Objects.GasContainer
 			}
 		}
 
-		private void SetCanisterTier()
-		{
-			if (canisterTier > 0)
-			{
-				canisterTierOverlay.PushTexture();
-				canisterTierOverlay.ChangeSprite(canisterTier);
-			}
-		}
-
 		private void RefreshOverlays()
 		{
+			RefreshPressureIndicator();
+
 			// We set present sprite SO here.
-			// If present SO is set in editor, then the SpriteRenderer is updated from blank too
-			// - don't want overlays to show in editor.
+			// If present SO is set in editor, then the overlays show in editor.
 			connectorHoseOverlay.ChangeSprite(0);
 			tankInsertedOverlay.ChangeSprite(0);
-
-			RefreshPressureIndicator();
 
 			connectorHoseOverlay.ToggleTexture(IsConnected);
 			tankInsertedOverlay.ToggleTexture(HasContainerInserted);

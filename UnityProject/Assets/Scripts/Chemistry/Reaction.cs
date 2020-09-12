@@ -21,7 +21,7 @@ namespace Chemistry
 		public bool Apply(MonoBehaviour sender, ReagentMix reagentMix)
 		{
 			if ((tempMin != null || reagentMix.Temperature >= tempMin) &&
-				(tempMax != null || reagentMix.Temperature <= tempMax))
+			    (tempMax != null || reagentMix.Temperature <= tempMax))
 			{
 				return false;
 			}
@@ -35,11 +35,12 @@ namespace Chemistry
 			{
 				return false;
 			}
+
 			var reactionAmount = ingredients.Min(i => reagentMix[i.Key] / i.Value);
 
 			if (useExactAmounts == true)
 			{
-				reactionAmount = (float)Math.Floor(reactionAmount);
+				reactionAmount = (float) Math.Floor(reactionAmount);
 				if (reactionAmount == 0)
 				{
 					return false;
@@ -52,10 +53,14 @@ namespace Chemistry
 				return false;
 			}
 
-			// if (inhibitors.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
-			// {
-			// 	return false;
-			// }
+			if (inhibitors.Count > 0)
+			{
+				if (inhibitors.All(inhibitor => reagentMix[inhibitor.Key] > inhibitor.Value * reactionAmount))
+				{
+					return false;
+				}
+			}
+
 
 			foreach (var ingredient in ingredients)
 			{

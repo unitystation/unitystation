@@ -66,7 +66,5 @@ namespace Pipes
 			pipeNode.Initialise(this, metaData, ZeroedLocation, matrix, Offset);
 			metaData.PipeData.Add(pipeNode);
 		}
-
-
 	}
 }

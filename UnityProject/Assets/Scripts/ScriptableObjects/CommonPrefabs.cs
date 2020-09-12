@@ -14,6 +14,8 @@ namespace ScriptableObjects
 		public GameObject Plasteel;
 		public GameObject GlassSheet;
 		public GameObject WoodenPlank;
+		public GameObject MetalRods;
+		public GameObject GlassShard;
 		public GameObject SingleCableCoil;
 		public GameObject Mask;
 		public GameObject EmergencyOxygenTank;

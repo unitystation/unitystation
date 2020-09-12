@@ -79,8 +79,14 @@ public class SpriteHandlerManager : NetworkBehaviour
 
 	public override void OnStartClient()
 	{
-
+		StartCoroutine(WaitForNetInitialisation());
 		base.OnStartClient();
+	}
+
+	private IEnumerator WaitForNetInitialisation()
+	{
+		yield return WaitFor.Seconds(3);
+		SpriteRequestCurrentStateMessage.Send(this.GetComponent<NetworkIdentity>().netId);
 	}
 
 	void LateUpdate()

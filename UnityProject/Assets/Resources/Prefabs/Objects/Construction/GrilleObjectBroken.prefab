@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3389120949323851542
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 114876689548865824, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456424331474363299, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: exportCost
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456424331474363299, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: initialDescription
+      value: A broken mess of twisted rods.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4456424331474363299, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: initialName
+      value: broken grille
+      objectReference: {fileID: 0}
+    - target: {fileID: 7254393612801982914, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 2f1b3e8d6fb118b41889deb99ae48c0d,
+        type: 3}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.00000014901144
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7373467433817843582, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7376449702682419346, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: m_Name
+      value: GrilleObjectBroken
+      objectReference: {fileID: 0}
+    - target: {fileID: 7479226819894283132, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: Passable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8402624206278935752, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: cutPrefab
+      value: 
+      objectReference: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+        type: 3}
+    - target: {fileID: 8402624206278935752, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: transformToPrefab
+      value: 
+      objectReference: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+        type: 3}
+    - target: {fileID: 8402624206278935752, guid: e7a19fe59d5bcfe49a1d885d7fedab6e,
+        type: 3}
+      propertyPath: layerTile
+      value: 
+      objectReference: {fileID: 11400000, guid: c87a62cb7a026433f9d4e361d2740cbc,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: e7a19fe59d5bcfe49a1d885d7fedab6e, type: 3}

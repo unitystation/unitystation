@@ -2,28 +2,46 @@
 using Mirror;
 using Random = UnityEngine.Random;
 
-public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
+/// <summary>
+/// A grille GameObject for unsecured grilles. Secured ones are a tile instead.
+/// </summary>
+public class GrilleObject : NetworkBehaviour, IExaminable, ICheckedInteractable<HandApply>
 {
+	[Tooltip("Layer tile which this will create when screwed in place.")]
+	[SerializeField]
+	private LayerTile layerTile = default;
+
+	[Tooltip("Prefab to spawn when deconstructed.")]
+	[SerializeField]
+	private GameObject transformToPrefab = default;
+
+	[Tooltip("Amount to spawn of the aforementioned prefab.")]
+	[SerializeField]
+	private int spawnAmount = 2;
 
 	private RegisterObject registerObject;
-	private ObjectBehaviour objectBehaviour;
 
-	[Tooltip("Layer tile which this will create when screwed in place.")]
-	public LayerTile layerTile;
+	private HandApply interaction;
+	private string performerName;
+
+	#region Lifecycle
 
 	private void Start()
 	{
 		registerObject = GetComponent<RegisterObject>();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
-		objectBehaviour = GetComponent<ObjectBehaviour>();
 	}
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
-		SoundManager.PlayNetworkedAtPos("GrillHit", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-		Spawn.ServerPrefab("Rods", gameObject.TileWorldPosition().To3Int(), transform.parent, count: 2,
-			scatterRadius: Random.Range(0.9f, 1.8f), cancelIfImpassable: true);
+		Spawn.ServerPrefab(transformToPrefab, gameObject.TileWorldPosition().To3Int(), transform.parent, count: spawnAmount);
+	}
 
+	#endregion Lifecycle
+
+	public string Examine(Vector3 worldPos = default)
+	{
+		return "The anchoring screws are <i>unscrewed</i>. The rods look like they could be <b>cut</b> through.";
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -33,7 +51,7 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 		//only care about interactions targeting us
 		if (interaction.TargetObject != gameObject) return false;
-		//only try to interact if the user has a wrench, screwdriver, metal, or plasteel in their hand
+		// Only try to interact if the user has a screwdriver or wirecutter in their hand.
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver) &&
 			!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter)) return false;
 		return true;
@@ -41,72 +59,61 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		if (interaction.TargetObject != gameObject) return;
+		this.interaction = interaction;
+		performerName = interaction.Performer.ExpensiveName();
 
-		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
+		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Screwdriver))
 		{
-			if (objectBehaviour.IsPushable)
-			{
-				//secure it if there's floor
-				if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true))
-				{
-					Chat.AddExamineMsg(interaction.Performer, "A floor must be present to secure the grille!");
-					return;
-				}
-
-				if (!ServerValidations.IsAnchorBlocked(interaction))
-				{
-					ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
-						"You start securing the grille...",
-						$"{interaction.Performer.ExpensiveName()} starts securing the grille...",
-						"You secure the grille.",
-						$"{interaction.Performer.ExpensiveName()} secures the grille.",
-						() => ScrewInPlace(interaction));
-
-
-					return;
-
-				}
-			}
-			else
-			{
-				//unsecure it
-				ToolUtils.ServerUseToolWithActionMessages(interaction, 0.5f,
-					"You start unsecuring the grille...",
-					$"{interaction.Performer.ExpensiveName()} starts unsecuring the grille...",
-					"You unsecure the grille.",
-					$"{interaction.Performer.ExpensiveName()} unsecures the grille.",
-					() => objectBehaviour.ServerSetAnchored(false, interaction.Performer));
-				SoundManager.PlayNetworkedAtPos("screwdriver2", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
-			}
-
+			SecureGrille();
 		}
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wirecutter))
 		{
-
-			ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
-				"You start to disassemble the grille...",
-				$"{interaction.Performer.ExpensiveName()} starts to disassemble the grille...",
-				"You disassemble the grille.",
-				$"{interaction.Performer.ExpensiveName()} disassembles the grille.",
-				() => Disassemble(interaction));
-
-
-			return;
-
+			CutGrille();
 		}
 	}
 
-	[Server]
-	private void Disassemble(HandApply interaction)
+	private void SecureGrille()
 	{
-		Spawn.ServerPrefab("Rods", registerObject.WorldPositionServer, count: 2);
-		SoundManager.PlayNetworkedAtPos("wirecutter", gameObject.TileWorldPosition().To3Int(), Random.Range(0.9f, 1.1f), sourceObj: gameObject);
+		// Don't secure it if there's no floor.
+		if (MatrixManager.IsSpaceAt(registerObject.WorldPositionServer, true))
+		{
+			Chat.AddExamineMsg(interaction.Performer, "A floor must be present to secure the grille!");
+			return;
+		}
+
+		if (ServerValidations.IsAnchorBlocked(interaction)) return;
+
+		ToolUtils.ServerUseToolWithActionMessages(
+				interaction, 0.5f,
+				"You start securing the grille...",
+				$"{performerName} starts securing the grille...",
+				"You secure the grille.",
+				$"{performerName} secures the grille.",
+				ScrewInPlace
+		);
+	}
+
+	private void CutGrille()
+	{
+		ToolUtils.ServerUseToolWithActionMessages(interaction, 1f,
+				"You start to disassemble the grille...",
+				$"{performerName} starts to disassemble the grille...",
+				"You disassemble the grille.",
+				$"{performerName} disassembles the grille.",
+				Disassemble
+		);
+	}
+
+	[Server]
+	private void Disassemble()
+	{
+		Spawn.ServerPrefab(transformToPrefab, registerObject.WorldPositionServer, count: spawnAmount);
+		ToolUtils.ServerPlayToolSound(interaction);
 		Despawn.ServerSingle(gameObject);
 	}
 
 	[Server]
-	private void ScrewInPlace(HandApply interaction)
+	private void ScrewInPlace()
 	{
 		var interactableTiles = InteractableTiles.GetAt(interaction.TargetObject.TileWorldPosition(), true);
 		Vector3Int cellPos = interactableTiles.WorldToCell(interaction.TargetObject.TileWorldPosition());
@@ -114,5 +121,4 @@ public class GrilleObject : NetworkBehaviour, ICheckedInteractable<HandApply>
 		interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 		Despawn.ServerSingle(gameObject);
 	}
-
 }

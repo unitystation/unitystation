@@ -102,7 +102,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 0c47d65ee8ed0a640820cb0e813bcc59, type: 2}
   - {fileID: 11400000, guid: bba5a1a4e6330304ea49014d4a382e8c, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: b76152e634978fa468aa2f1870fdfccf, type: 2}
-  pushTextureOnStartUp: 1
+  pushTextureOnStartUp: 0
   variantIndex: 0
   palette: []
   Sprites:
@@ -311,9 +311,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 3569393190955387615}
   CurrentDirection: 0
   CurrentStatus: 0
+  spriteHandler: {fileID: 3569393190955387615}
   conType: 2
 --- !u!114 &-2830540189932370351
 MonoBehaviour:

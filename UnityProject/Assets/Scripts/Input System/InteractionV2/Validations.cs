@@ -246,7 +246,17 @@ public static class Validations
 		}
 
 		var result = false;
-		if (reachRange == ReachRange.Unlimited)
+
+		// Check if target is in player's inventory.
+		// This was added so NetTabs (NetTab.ValidatePeepers()) can be used on items in an inventory.
+		if (target != null && target.TryGetComponent(out Pickupable pickupable) && pickupable.ItemSlot != null)
+		{
+			if (pickupable.ItemSlot.RootPlayer().gameObject == playerScript.gameObject)
+			{
+				result = true;
+			}
+		}
+		else if (reachRange == ReachRange.Unlimited)
 		{
 			result = true;
 		}

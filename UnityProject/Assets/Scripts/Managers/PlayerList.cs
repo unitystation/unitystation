@@ -247,9 +247,12 @@ public partial class PlayerList : NetworkBehaviour
 	}
 
 	[Server]
-	public bool ContainsName(string name)
+	public bool ContainsName(string name, string _UserId)
 	{
-		return !Get(name).Equals(ConnectedPlayer.Invalid);
+		var Character = Get(name);
+		if (Character.Equals(ConnectedPlayer.Invalid)) return false;
+
+		return Character.UserId != _UserId;
 	}
 
 	[Server]

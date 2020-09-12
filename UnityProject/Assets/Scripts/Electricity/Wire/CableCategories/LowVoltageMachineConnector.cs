@@ -4,8 +4,12 @@ using UnityEngine;
 using Mirror;
 
 
-public class LowVoltageMachineConnector : NetworkBehaviour  , ICheckedInteractable<PositionalHandApply>
+public class LowVoltageMachineConnector : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 {
+	[Tooltip("The machine connector prefab to spawn on interaction.")]
+	[SerializeField]
+	private GameObject machineConnectorPrefab = default;
+
 	private bool SelfDestruct = false;
 
 	public WireConnect RelatedWire;
@@ -16,8 +20,10 @@ public class LowVoltageMachineConnector : NetworkBehaviour  , ICheckedInteractab
 		PowerTypeCategory.APC,
 	};
 
-	public void PotentialDestroyed(){
-		if (SelfDestruct) {
+	public void PotentialDestroyed()
+	{
+		if (SelfDestruct)
+		{
 			
 		}
 	}
@@ -51,8 +57,9 @@ public class LowVoltageMachineConnector : NetworkBehaviour  , ICheckedInteractab
 			return;
 		}
 
-		Spawn.ServerPrefab("Low machine connector", gameObject.AssumedWorldPosServer());
+		ToolUtils.ServerPlayToolSound(interaction);
+
+		Spawn.ServerPrefab(machineConnectorPrefab, gameObject.AssumedWorldPosServer());
 		Despawn.ServerSingle(gameObject);
 	}
 }
-

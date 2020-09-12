@@ -23,7 +23,8 @@ public class HackingProcessDoorSimple : HackingProcessBase
 	[SerializeField]
 	private Sprite hackPanelSprite = null;
 
-	private static int? seed = null;
+	//Currently 11 door types have unique hack seeds with 1 fallback for doors that don't coincide with any
+	private static int?[] seed = new int?[12];
 
 	private List<HackingNode> inputNodes = new List<HackingNode>();
 	private List<HackingNode> outputNodes = new List<HackingNode>();
@@ -56,9 +57,12 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 	private void Awake()
 	{
-		if (seed == null)
+		for(int i = 0; i < seed.Length; i++)
 		{
-			seed = Random.Range(1, 100000);
+			if(seed[i] == null)
+			{
+				seed[i] = Random.Range(1, 100000);
+			}
 		}
 	}
 
@@ -109,9 +113,71 @@ public class HackingProcessDoorSimple : HackingProcessBase
 		}
 	}
 
-	public void Shuffle(List<HackingNodeInfo> list)
+	private static bool serverEndRoundHackingResetSetup = false;
+	private static void ServerRegisterHackingReset()
 	{
-		System.Random rng = new System.Random((int)seed);
+		if (serverEndRoundHackingResetSetup) return;
+
+		EventManager.AddHandler(EVENT.PreRoundStarted, ServerResetHackingSeedOnRoundReset);
+		serverEndRoundHackingResetSetup = true;
+	}
+	private static void ServerResetHackingSeedOnRoundReset()
+	{
+		for (int i = 0; i < seed.Length; i++)
+		{
+			seed[i] = null;
+		}
+	}
+
+	/// <summary>
+	/// Returns a different hacking seed based on door type to create a set of doors with the same seed
+	/// </summary>
+	private int GetHackSeedByDoorType(DoorType type)
+	{
+		switch (type)
+		{
+			case DoorType.atmos:
+				return (int)seed[1];
+
+			case DoorType.command:
+				return (int)seed[2];
+
+			case DoorType.engineering:
+				return (int)seed[3];
+
+			case DoorType.maintenance:
+				return (int)seed[4];
+
+			case DoorType.medical:
+				return (int)seed[5];
+
+			case DoorType.mining:
+				return (int)seed[6];
+
+			case DoorType.civilian:
+				return (int)seed[7];
+
+			case DoorType.research:
+				return (int)seed[8];
+
+			case DoorType.science:
+				return (int)seed[9];
+
+			case DoorType.security:
+				return (int)seed[10];
+
+			case DoorType.virology:
+				return (int)seed[11];
+
+			default:
+				return (int)seed[0];
+		}
+	}
+
+	public void Shuffle(List<HackingNodeInfo> list, DoorType type)
+	{
+		int hackSeed = GetHackSeedByDoorType(type);
+		System.Random rng = new System.Random(hackSeed);
 		int n = list.Count;
 		while (n > 1)
 		{
@@ -125,8 +191,13 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 	public override void ServerGenerateNodesFromNodeInfo()
 	{
+		if (serverEndRoundHackingResetSetup == false)
+		{
+			ServerRegisterHackingReset();
+		}
+
 		List<HackingNodeInfo> infList = nodeInfo.nodeInfoList.ToList();
-		Shuffle(infList);
+		Shuffle(infList, Controller.doorType);
 		foreach (HackingNodeInfo inf in infList)
 		{
 				HackingNode newNode = new HackingNode();
@@ -152,7 +223,7 @@ public class HackingProcessDoorSimple : HackingProcessBase
 
 	public override void ClientGenerateNodesFromNodeInfo()
 	{
-		List<HackingNodeInfo> infList = nodeInfo.nodeInfoList.ToList();
+		List<HackingNodeInfo> infList = nodeInfo.nodeInfoList;
 		foreach (HackingNodeInfo inf in infList)
 		{
 			HackingNode newNode = new HackingNode();

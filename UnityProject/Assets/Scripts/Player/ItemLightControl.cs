@@ -1,10 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using System;
-using Newtonsoft.Json;
 using Mirror;
-using UnityEngine.Serialization;
 
 [Serializable]
 public class PlayerLightData
@@ -47,16 +45,33 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 	};
 
 	public float Intensity;
-	public Color Colour;
+
+	[SerializeField]
+	private Color Colour = default;
+
 	//public Sprite Sprite;
 	public EnumSpriteLightData EnumSprite;
 	public float Size;
 
+	[SyncVar(hook = nameof(SyncState))]
 	public bool IsOn = true;
 
 	private float CachedIntensity = 0.5f;
 
 	public PlayerLightData PlayerLightData;
+
+	private Light2D.LightSprite objectLightSprite;
+
+	private void Awake()
+	{
+		if (objectLightEmission == null)
+		{
+			Debug.LogError($"{this} field objectLightEmission is null, please check {gameObject} prefab.");
+			return;
+		}
+
+		objectLightSprite = objectLightEmission.GetComponent<Light2D.LightSprite>();
+	}
 
 	private void Start()
 	{
@@ -95,24 +110,15 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 	/// </summary>
 	public void Toggle(bool on)
 	{
+		if (IsOn == on) return;
 		if (LightEmission == null)
 		{
-			Debug.LogError("LightEmission returned Null please check scripts");
+			Debug.LogError($"{this} field LightEmission is null, please check scripts.");
 			return;
 		}
-		if (on && IsOn != true)
-		{
-			IsOn = true;
-			LightEmission.AddLight(PlayerLightData);
-			LightToggleIntensity();
-			objectLightEmission.SetActive(true);
-		}
-		else if (!on && IsOn)
-		{
-			IsOn = false;
-			LightEmission.RemoveLight(PlayerLightData);
-			objectLightEmission.SetActive(false);
-		}
+		
+		IsOn = on; // Will trigger SyncState.
+		UpdateLights();
 	}
 	/// <summary>
 	/// Changes the intensity of the light, must be higher than -1
@@ -138,6 +144,38 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 			CachedIntensity = intensity;
 		}
 	}
+
+	/// <summary>
+	/// Set the color for this GameObject's Light2D object's LightSprite component world color.
+	/// </summary>
+	/// <param name="color"></param>
+	public void SetColor(Color color)
+	{
+		Colour = color;
+		PlayerLightData.Colour = color;
+		objectLightSprite.Color = color;
+	}
+
+	private void SyncState(bool oldState, bool newState)
+	{
+		objectLightEmission.SetActive(newState);
+	}
+
+	private void UpdateLights()
+	{
+		if (IsOn)
+		{
+			LightEmission.AddLight(PlayerLightData);
+			LightToggleIntensity();
+			objectLightEmission.SetActive(true);
+		}
+		else
+		{
+			LightEmission.RemoveLight(PlayerLightData);
+			objectLightEmission.SetActive(false);
+		}
+	}
+
 	/// <summary>
 	/// Called when the light is toggled on so that it can set the intensity
 	/// </summary>
@@ -145,5 +183,4 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 	{
 		PlayerLightData.Intensity = CachedIntensity;
 	}
-
 }
