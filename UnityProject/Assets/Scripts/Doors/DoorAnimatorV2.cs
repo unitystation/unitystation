@@ -184,6 +184,15 @@ namespace Doors
 		{
 			overlayHackingHandler.ChangeSprite((int) Panel.NoPanel);
 		}
+
+		/// <summary>
+		/// Used to call coroutines from outside monobehaviors
+		/// </summary>
+		/// <param name="anim"></param>
+		public void RequestAnimation(IEnumerator anim)
+		{
+			StartCoroutine(anim);
+		}
 	}
 
 	public enum Weld
