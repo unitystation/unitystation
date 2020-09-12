@@ -1,7 +1,9 @@
 ﻿using Assets.Scripts.Messages.Server.SoundMessages;
 using Mirror;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using UnityEngine;
 
 /// <summary>
@@ -44,10 +46,6 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	[Range(0, 1)]
 	private float Volume = 1;
 
-	private List<AudioSource> musics;
-
-	private SpriteRenderer spriteRenderer;
-
 	/// <summary>
 	/// The current state of the jukebox powered/overpowered/underpowered/no power
 	/// </summary>
@@ -70,27 +68,25 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		get
 		{
-			return $"{currentSongTrackIndex + 1} / {musics.Count}";
+			return $"{currentSongTrackIndex + 1} / {SoundManager.Instance.MusicLibrary.Count}";
 		}
 	}
 
-	public string SongName
+	public async Task<string> GetSongNameAsync()
 	{
-		get
-		{
-			string songName = musics[currentSongTrackIndex].clip.name;
-			return $"{songName.Split('_')[0]}";
-		}
+		string songPrimaryKey = SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key;
+		AudioSource audioSource = await SoundManager.Instance.GetMusicAsync(songPrimaryKey);
+		return $"{audioSource.clip.name.Split('_')[0]}";
 	}
 
-	public string Artist
+	public async Task<string> GetArtistNameAsync()
 	{
-		get
-		{
-			string songName = musics[currentSongTrackIndex].clip.name;
-			string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
-			return $"{artist}";
-		}
+
+		string songPrimaryKey = SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key;
+		AudioSource audioSource = await SoundManager.Instance.GetMusicAsync(songPrimaryKey);
+		string songName = audioSource.clip.name;
+		string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
+		return $"{artist}";
 	}
 
 	public string PlayStopButtonPrefabImage
@@ -144,19 +140,12 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		// We want the same musics that are in the lobby,
 		// so, I copy it's playlist here instead of managing two different playlists in UnityEditor.
-		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
 		APCConnectionHandler = GetComponent<APCPoweredDevice>();
 		power = GetComponent<APCPoweredDevice>();
 		registerTile = GetComponent<RegisterTile>();
-		musics = new List<AudioSource>();
+		UpdateGUIAsync();
 
-		Transform transformAdminMusic = SoundManager.Instance.transform.Find("AdminMusic");
-		foreach (Transform transform in transformAdminMusic)
-		{
-			musics.Add(transform.GetComponent<AudioSource>());
-		}
-
-		UpdateGUI();
+		UpdateManager.Add(CheckSongFinished, 1.0f);
 	}
 
 	private void Awake()
@@ -165,11 +154,13 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		integrity.OnApplyDamage.AddListener(OnDamageReceived);
 	}
 
-	private void Update()
+	private async void CheckSongFinished()
 	{
 		// Check if the jukebox is in play mode and if the sound is finished playing.
 		// We didn't use "AudioSource.isPlaying" here because of a racing condition between PlayNetworkAtPos latency and Update.
-		if (IsPlaying && Time.time > startPlayTime + musics[currentSongTrackIndex].clip.length)
+		AudioSource audioSource = await SoundManager.Instance.GetMusicAsync(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key);
+
+		if (IsPlaying && Time.time > startPlayTime + audioSource.clip.length)
 		{
 			// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
 			if (!NextSong())
@@ -195,9 +186,9 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 				VolumeRolloffType = VolumeRolloffType.EaseInAndOut
 			};
 
-			SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
+			SoundManager.PlayNetworkedAtPos(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
 			startPlayTime = Time.time;
-			UpdateGUI();
+			UpdateGUIAsync();
 		}
 	}
 
@@ -210,9 +201,10 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		else
 			spriteHandler.SetSpriteSO(SpriteDamaged);
 
-		SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
+		
+		SoundManager.StopNetworked(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key);
 
-		UpdateGUI();
+		UpdateGUIAsync();
 	}
 
 	public void PreviousSong()
@@ -220,10 +212,13 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		if (currentSongTrackIndex > 0)
 		{
 			if (IsPlaying)
-				SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
+				SoundManager.StopNetworked(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key);
+
+			// We unload the music from the library, freeing RAM
+			SoundManager.Instance.UnloadMusic(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key);
 
 			currentSongTrackIndex--;
-			UpdateGUI();
+			UpdateGUIAsync();
 
 			if (IsPlaying)
 				Play();
@@ -232,13 +227,16 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 	public bool NextSong()
 	{
-		if (currentSongTrackIndex < musics.Count - 1)
+		if (currentSongTrackIndex < SoundManager.Instance.MusicLibrary.Count - 1)
 		{
 			if (IsPlaying)
-				SoundManager.StopNetworked(musics[currentSongTrackIndex].name);
+				SoundManager.StopNetworked(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key);
+
+			// We unload the music from the library, freeing RAM
+			SoundManager.Instance.UnloadMusic(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key);
 
 			currentSongTrackIndex++;
-			UpdateGUI();
+			UpdateGUIAsync();
 
 			if (IsPlaying)
 				Play();
@@ -258,7 +256,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			Volume = newVolume,
 		};
 
-		ChangeAudioSourceParametersMessage.SendToAll(musics[currentSongTrackIndex].name, audioSourceParameters);
+		ChangeAudioSourceParametersMessage.SendToAll(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key, audioSourceParameters);
 	}
 
 	private void OnDamageReceived(DamageInfo damageInfo)
@@ -269,12 +267,12 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		}
 	}
 
-	private void UpdateGUI()
+	private async void UpdateGUIAsync()
 	{
 		List<ElementValue> valuesToSend = new List<ElementValue>();
 		valuesToSend.Add(new ElementValue() { Id = "TextTrack", Value = Encoding.UTF8.GetBytes(TrackPosition) });
-		valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes(SongName) });
-		valuesToSend.Add(new ElementValue() { Id = "TextArtist", Value = Encoding.UTF8.GetBytes(Artist) });
+		valuesToSend.Add(new ElementValue() { Id = "TextSong", Value = Encoding.UTF8.GetBytes(await GetSongNameAsync()) });
+		valuesToSend.Add(new ElementValue() { Id = "TextArtist", Value = Encoding.UTF8.GetBytes(await GetArtistNameAsync()) });
 		valuesToSend.Add(new ElementValue() { Id = "ImagePlayStop", Value = Encoding.UTF8.GetBytes(PlayStopButtonPrefabImage) });
 
 		// Update all UI currently opened.
