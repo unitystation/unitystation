@@ -8,6 +8,22 @@ namespace Doors.Modules
 		private bool boltsDown = false;
 		private bool boltsLights = true;
 
+		[SerializeField][Tooltip("If true, the door needs to be closed to see the bolts lights")]
+		private bool needsClosedToLight = true;
+
+		private bool CanShowLights
+		{
+			get
+			{
+				if (needsClosedToLight)
+				{
+					return boltsLights && master.HasPower && master.IsClosed;
+				}
+
+				return boltsLights && master.HasPower;
+			}
+		}
+
 		/// <summary>
 		/// Set the current state for this door's bolts.
 		/// </summary>
@@ -17,7 +33,7 @@ namespace Doors.Modules
 		{
 			boltsDown = state;
 
-			if (boltsDown && boltsLights && master.HasPower)
+			if (boltsDown && CanShowLights)
 			{
 				master.DoorAnimator.TurnOnBoltsLight();
 			}
@@ -34,24 +50,6 @@ namespace Doors.Modules
 		public void SetBoltsLight(bool enable)
 		{
 			boltsLights = enable;
-		}
-
-		/// <summary>
-		/// Debug method to toggle the bolts state. Click the button on inspector while in play mode.
-		/// </summary>
-		[Button("Toggle bolt state")]
-		private void ToggleBoltState()
-		{
-			SetBoltsState(!boltsDown);
-		}
-
-		/// <summary>
-		/// Debug method to toggle the bolts lights state. Click the button on inspector while in play mode.
-		/// </summary>
-		[Button("Toggle bolt lights state")]
-		private void ToggleBoltsLights()
-		{
-			SetBoltsLight(!boltsLights);
 		}
 
 		public override ModuleSignal OpenInteraction(HandApply interaction)
