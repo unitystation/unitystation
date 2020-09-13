@@ -790,17 +790,17 @@ public partial class PlayerList
 	{
 		if (!adminUsers.Contains(admin)) return;
 
-		var admin = PlayerList.Instance.GetByUserID(admin);
+		var adminPlayer = PlayerList.Instance.GetByUserID(admin);
 		var players = GetAllByUserID(userToKick);
 		if (players.Count != 0)
 		{
 			foreach (var p in players)
 			{
-				var message = $"A kick/ban has been processed by {admin.Username}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+				var message = $"A kick/ban has been processed by {adminPlayer.Username}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 
 				Logger.Log(message);
 
-				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes,admin));
+				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes,adminPlayer));
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
@@ -902,7 +902,7 @@ public partial class PlayerList
 	{
 		if (!adminUsers.Contains(admin)) return;
 		
-		var admin = PlayerList.Instance.GetByUserID(admin);
+		var adminPlayer = PlayerList.Instance.GetByUserID(admin);
 		var players = GetAllByUserID(userToJobBan);
 		if (players.Count != 0)
 		{
@@ -912,18 +912,18 @@ public partial class PlayerList
 
 				if (isPerma)
 				{
-					message = $"A job ban has been processed by {admin.Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} IsPerma: {isPerma} Time: {DateTime.Now}";
+					message = $"A job ban has been processed by {adminPlayer.Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} IsPerma: {isPerma} Time: {DateTime.Now}";
 				}
 				else
 				{
-					message = $"A job ban has been processed by {admin.Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+					message = $"A job ban has been processed by {adminPlayer.Username}: Username: {p.Username} Player: {p.Name} Job: {jobType} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 				}
 
 				Logger.Log(message);
 
-				StartCoroutine(JobBanPlayer(p, reason, isPerma, banMinutes, jobType, admin));
+				StartCoroutine(JobBanPlayer(p, reason, isPerma, banMinutes, jobType, adminPlayer));
 
-				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{admin.Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
+				UIManager.Instance.adminChatWindows.adminToAdminChat.ServerAddChatRecord($"{adminPlayer.Username}: job banned {p.Username} from {jobType}, IsPerma: {isPerma}, BanMinutes: {banMinutes}", null);
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
@@ -949,7 +949,7 @@ public partial class PlayerList
 		}
 	}
 
-	IEnumerator JobBanPlayer(ConnectedPlayer connPlayer, string reason, bool isPermaBool, int banLengthInMinutes, JobType jobType,ConnectedPlayer admin = null)
+	IEnumerator JobBanPlayer(ConnectedPlayer connPlayer, string reason, bool isPermaBool, int banLengthInMinutes, JobType jobType, ConnectedPlayer admin)
 	{
 		if (jobBanList == null)
 		{
