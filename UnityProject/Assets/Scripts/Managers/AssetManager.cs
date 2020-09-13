@@ -9,6 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class AssetManager : MonoBehaviour
 {
 	private static AssetManager _assetManager;
+	private static AssetLoadingPopupManager _popupManager;
 
 	public static AssetManager Instance
 	{
@@ -23,28 +24,10 @@ public class AssetManager : MonoBehaviour
 		}
 	}
 
-	//public async Task LoadAssetFromReference<T>(AddressableReference<T> reference) where T : UnityEngine.Object
-	//{
-	//	var loadTask = reference.Load();
-	//}
-
-	public void AddLoadingAssetHandle(AsyncOperationHandle handle)
+	public void AddLoadingAssetHandle(AsyncOperationHandle handle, string path)
 	{
-		// pass to asset loading in order to show the player what is currently downloading.
+		if (handle.Status == AsyncOperationStatus.Failed || handle.Status == AsyncOperationStatus.Succeeded)
+			return;
+		_popupManager.AddAssetLoadingPopup(handle, path);
 	}
-
-	//public void LoadAssetFromReference<T>(AssetReference reference, System.Action<AsyncOperationHandle<T>> callback)
-	//{
-	//	Addressables.LoadAssetAsync<T>(reference).Completed += callback;
-	//}
-
-	//public void LoadAssetFromPath<T>(string path, System.Action<AsyncOperationHandle<T>> callback)
-	//{
-	//	Addressables.LoadAssetAsync<T>(path).Completed += callback;
-	//}
-
-	//public ConnectToRemoteHostingService(string URL)
-	//{
-
-	//}
 }
