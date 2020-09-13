@@ -42,6 +42,11 @@ namespace Atmospherics
 					MolesPlasmaBurnt = (gasMix.GetMoles(Gas.Oxygen) * Reactions.BurningDelta * BurnRate)/2;
 				}
 
+				if (MolesPlasmaBurnt < 0)
+				{
+					return 0;
+				}
+
 				if (gasMix.GetMoles(Gas.Oxygen) / gasMix.GetMoles(Gas.Plasma) > AtmosDefines.SUPER_SATURATION_THRESHOLD)
 				{
 					superSaturated = true;
