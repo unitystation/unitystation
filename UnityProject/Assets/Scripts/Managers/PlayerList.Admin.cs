@@ -790,16 +790,17 @@ public partial class PlayerList
 	{
 		if (!adminUsers.Contains(admin)) return;
 
+		var admin = PlayerList.Instance.GetByUserID(admin);
 		var players = GetAllByUserID(userToKick);
 		if (players.Count != 0)
 		{
 			foreach (var p in players)
 			{
-				var message = $"A kick/ban has been processed by {PlayerList.Instance.GetByUserID(admin).Username}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+				var message = $"A kick/ban has been processed by {admin.Username}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 
 				Logger.Log(message);
 
-				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes));
+				StartCoroutine(KickPlayer(p, reason, isBan, banMinutes,admin));
 
 				DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAdminLogURL, message + $"\nReason: {reason}", "");
 
@@ -826,7 +827,7 @@ public partial class PlayerList
 	}
 
 	IEnumerator KickPlayer(ConnectedPlayer connPlayer, string reason,
-		bool ban = false, int banLengthInMinutes = 0)
+		bool ban = false, int banLengthInMinutes = 0, ConnectedPlayer admin = null)
 	{
 		Logger.Log("Processing KickPlayer/ban for " + "\n"
 				   + "UserId " + connPlayer?.UserId + "\n"
@@ -856,7 +857,9 @@ public partial class PlayerList
 				reason = reason,
 				dateTimeOfBan = DateTime.Now.ToString("O"),
 				ipAddress = connPlayer?.Connection?.address,
-				clientId = connPlayer?.ClientId
+				clientId = connPlayer?.ClientId,
+				adminId = admin?.UserID,
+				adminUsername = admin?.Username
 			});
 
 			SaveBanList();
