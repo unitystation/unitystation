@@ -121,8 +121,16 @@ public partial class PlayerSync
 
 				action.isRun = UIManager.WalkRun.running;
 
+				// handle predictions here
+				if(playerScript.RcsMode)
+				{
+					Vector2Int dir = action.Direction();
+					// try to move shuttle on client side
+					playerScript.RcsMatrixMove.RcsMoveClient(Orientation.From(dir));
+
+				}
 				//can only move freely if we are grounded or adjacent to another player
-				if (CanMoveFreely(isGrounded, clientBump))
+				else if (CanMoveFreely(isGrounded, clientBump))
 				{
 					//move freely
 					pendingActions.Enqueue(action);
@@ -358,7 +366,7 @@ public partial class PlayerSync
 				SpeedClient = playerMove.CrawlSpeed;
 			}
 		}
-
+			
 		var nextState = NextState(state, action, isReplay);
 
 		nextState.Speed = SpeedClient;

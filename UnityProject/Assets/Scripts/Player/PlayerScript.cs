@@ -51,7 +51,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public HitIcon hitIcon { get; set; }
 
-	public ChatIcon chatIcon { get; private set;}
+	public ChatIcon chatIcon { get; private set; }
 
 	/// <summary>
 	/// Serverside world position.
@@ -77,6 +77,11 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	public Vector3IntEvent OnTileReached() => onTileReached;
 
 	public float RTT;
+
+	[HideInInspector]
+	[SyncVar]
+	public bool RcsMode;
+	public MatrixMove RcsMatrixMove { get; set; }
 
 	private bool isUpdateRTT;
 	private float waitTimeForRTTUpdate = 0f;
@@ -321,7 +326,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 			var playerStorage = gameObject.GetComponent<ItemStorage>();
 			if (playerStorage && !playerStorage.GetNamedItemSlot(NamedSlot.ear).IsEmpty)
 			{
-				Headset headset =  playerStorage.GetNamedItemSlot(NamedSlot.ear)?.Item?.GetComponent<Headset>();
+				Headset headset = playerStorage.GetNamedItemSlot(NamedSlot.ear)?.Item?.GetComponent<Headset>();
 				if (headset)
 				{
 					EncryptionKeyType key = headset.EncryptionKey;
@@ -416,12 +421,12 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		if (PlayerList.Instance.IsAntag(gameObject))
 		{
 			return $"<color=yellow>Name: {characterSettings.Name}\r\n" +
-			       $"Acc: {characterSettings.Username}\r\n" +
-			       $"Antag: True</color>";
+				   $"Acc: {characterSettings.Username}\r\n" +
+				   $"Antag: True</color>";
 		}
 
 		return $"Name: {characterSettings.Name}\r\n" +
-		       $"Acc: {characterSettings.Username}\r\n" +
-		       $"Antag: False";
+			   $"Acc: {characterSettings.Username}\r\n" +
+			   $"Antag: False";
 	}
 }
