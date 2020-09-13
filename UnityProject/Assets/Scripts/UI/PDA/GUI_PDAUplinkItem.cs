@@ -3,34 +3,43 @@ using UnityEngine;
 
 namespace UI.PDA
 {
-	public class GUI_PDAUplinkItem : NetPage
+	public class GUI_PDAUplinkItem : NetPage, IPageLifecycle
 	{
 		[SerializeField]
 		private GUI_PDAUplinkMenu controller = null;
 
 		[SerializeField]
-		private EmptyItemList itemTemplate = null;
+		private EmptyItemList dynamicList = null;
 
-		public void GenerateEntries(List<UplinkItems> itementries)
+		public void OnPageActivated()
 		{
-			itemTemplate.Clear();
-			itemTemplate.AddItems(itementries.Count);
-			for (int i = 0; i < itementries.Count; i++)
+			controller.SetBreadcrumb($"{controller.UPLINK_DIRECTORY}/categories/");
+		}
+
+		public void OnPageDeactivated()
+		{
+			ClearItems();
+		}
+
+		public void GenerateEntries(UplinkCategory category)
+		{
+			controller.SetBreadcrumb($"{controller.UPLINK_DIRECTORY}/categories/{category.CategoryName}/");
+			dynamicList.AddItems(category.ItemList.Count);
+			for (int i = 0; i < category.ItemList.Count; i++)
 			{
-				itemTemplate.Entries[i].GetComponent<GUI_PDAUplinkItemTemplate>().ReInit(itementries[i]);
+				dynamicList.Entries[i].GetComponent<GUI_PDAUplinkItemTemplate>().ReInit(category.ItemList[i]);
 			}
 		}
 
-		public void ClearItems()
+		public void SelectItem(UplinkItem item)
 		{
-			itemTemplate.Clear();
+			controller.mainController.PDA.SpawnUplinkItem(item.Item, item.Cost);
+			controller.UpdateTCCounter();
 		}
 
-		public void Back()
+		private void ClearItems()
 		{
-			ClearItems();
-			controller.ShowCategories();
+			dynamicList.Clear();
 		}
-
 	}
 }

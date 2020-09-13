@@ -30,7 +30,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   ammoPrefab: {fileID: 0}
-  genericInternalMag: {fileID: 0}
   casingPrefabOverride: {fileID: 0}
   allowMagazineRemoval: 1
   ammoType: 0
@@ -39,7 +38,6 @@ MonoBehaviour:
   burstCooldown: 0
   burstCount: 3
   SmartGun: 0
-  MagSize: 10
   CurrentRecoilVariance: 0
   FireCountDown: 0
   FiringSound: 
@@ -47,7 +45,7 @@ MonoBehaviour:
   MaxRecoilVariance: 0
   Projectile: {fileID: 0}
   ProjectilesFired: 0
-  ProjectileVelocity: 0
+  ProjectileVelocity: 20
   CameraRecoilConfig:
     Distance: 0
     RecoilDuration: 0
@@ -62,7 +60,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: GunBase
+      value: _GunBase
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x

@@ -4,34 +4,25 @@ namespace UI.PDA
 {
 	public class GUI_PDAUplinkItemTemplate : DynamicEntry
 	{
-		private GUI_PDA pdaMasterTab = null;
-
 		[SerializeField]
 		private NetLabel itemName = null;
-
 		[SerializeField]
 		private NetLabel itemCost = null;
 
-		private UplinkItems item;
-
-		private void Start()
-		{
-			pdaMasterTab = MasterTab.GetComponent<GUI_PDA>();
-		}
-
+		private GUI_PDAUplinkItem itemPage = null;
+		private UplinkItem item;
 
 		public void SelectItem()
 		{
-			if (pdaMasterTab == null) { MasterTab.GetComponent<GUI_PDA>().OnItemClickedEvent.Invoke(item); }
-			else { pdaMasterTab.OnItemClickedEvent.Invoke(item); }
+			itemPage.SelectItem(item);
 		}
 
-
-		public void ReInit(UplinkItems assignedItem)
+		public void ReInit(UplinkItem assignedItem)
 		{
+			itemPage = MasterTab.GetComponent<GUI_PDA>().uplinkPage.itemPage;
 			item = assignedItem;
 			itemName.SetValueServer(item.Name);;
-			itemCost.SetValueServer($"Cost {item.Cost} TC");
+			itemCost.SetValueServer(item.Cost.ToString());
 		}
 	}
 }

@@ -98,8 +98,9 @@ GameObject:
   - component: {fileID: 114590610092742494}
   - component: {fileID: 114876689548865824}
   - component: {fileID: 8501056774758602355}
-  - component: {fileID: 8402624206278935752}
   - component: {fileID: 5807791750556871521}
+  - component: {fileID: 4456424331474363299}
+  - component: {fileID: 8402624206278935752}
   m_Layer: 11
   m_Name: GrilleObject
   m_TagString: Untagged
@@ -180,6 +181,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 1
 --- !u!114 &114868527810879464
 MonoBehaviour:
@@ -193,6 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114475937421885612
@@ -223,7 +226,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 50
   soundOnHit: GrillHit
+  damageDeflection: 0
   Armor:
     Melee: 50
     Bullet: 70
@@ -244,7 +249,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 50
 --- !u!114 &114876689548865824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,6 +289,38 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &5807791750556871521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376449702682419346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4456424331474363299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7376449702682419346}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: baefcc8407233924095693a84ff89db1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  initialName: grille
+  initialDescription: A flimsy framework of metal rods.
+  willHighlight: 1
+  exportCost: 10
+  exportName: 
+  exportMessage: 
 --- !u!114 &8402624206278935752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,15 +336,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   layerTile: {fileID: 11400000, guid: 3975642db6c52ed4fa2086247abc1f28, type: 2}
---- !u!114 &5807791750556871521
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7376449702682419346}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  transformToPrefab: {fileID: 5284686503705020292, guid: 0ce26a7341e66b142b36e308022db584,
+    type: 3}
+  spawnAmount: 1

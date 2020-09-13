@@ -16,7 +16,7 @@ MonoBehaviour:
   syncInterval: 0.1
   LightEmission: {fileID: 0}
   objectLightEmission: {fileID: 5667522765297587855}
-  Intensity: 0
+  Intensity: 1
   Colour: {r: 0, g: 0, b: 0, a: 0}
   EnumSprite: 0
   Size: 3.5
@@ -40,6 +40,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  color: 0
+  activatedSize: 5
+  activatedHitSound: blade1
+  activatedHitDamage: 30
+  activatedThrowDamage: 20
+  activatedVerbs:
+  - attacked
+  - slashed
+  - stabbed
+  - sliced
+  - tore
+  - ripped
+  - diced
+  - cut
   Sprites:
     Blue:
       SpriteInventoryIcon: {fileID: 11400000, guid: daeae19dda5100c4a95cc1947601b05f,
@@ -137,26 +151,6 @@ MonoBehaviour:
       - {r: 0, g: 0, b: 0, a: 0}
       - {r: 0, g: 0, b: 0, a: 0}
       IsPaletted: 0
-  playerLightControl: {fileID: 2350815963227468493}
-  worldLight: {fileID: 6176213448508576191}
-  worldRenderer: {fileID: 5667522765297587855}
-  spriteHandler: {fileID: 4236242615490386138}
-  color: 0
-  activatedHitDamage: 30
-  activatedThrowDamage: 20
-  activatedVerbs:
-  - attacked
-  - slashed
-  - stabbed
-  - sliced
-  - torn
-  - ripped
-  - diced
-  - cut
-  activatedSize: 5
-  activatedHitSound: blade1
-  activatedLightIntensity: 1
-  activated: 0
 --- !u!1 &5667522765297587855
 GameObject:
   m_ObjectHideFlags: 0
@@ -175,7 +169,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3285035241223762049
 Transform:
   m_ObjectHideFlags: 0

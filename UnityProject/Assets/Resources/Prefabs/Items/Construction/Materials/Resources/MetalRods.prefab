@@ -56,8 +56,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  metal: 1
-  rods: 2
+  metalPrefab: {fileID: 5770283965274354279, guid: b83b68cfa4a201748aeeece963a989c3,
+    type: 3}
+  metalSpawnCount: 1
+  minimumRods: 2
 --- !u!1001 &8878983786138796137
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -34,7 +34,9 @@ namespace Objects.GasContainer
 		public float ServerInternalPressure => GasMix.Pressure;
 		private Vector3Int WorldPosition => gameObject.RegisterTile().WorldPosition;
 		private Vector3Int LocalPosition => gameObject.RegisterTile().LocalPosition;
-		
+
+		private bool gasIsInitialised = false;
+
 		#region Lifecycle
 
 		private void Awake()
@@ -44,7 +46,11 @@ namespace Objects.GasContainer
 
 		public void OnSpawnServer(SpawnInfo info)
 		{
-			UpdateGasMix();
+			if (!gasIsInitialised)
+			{
+				UpdateGasMix();
+			}
+
 			integrity.OnApplyDamage.AddListener(OnServerDamage);
 		}
 
@@ -157,6 +163,7 @@ namespace Objects.GasContainer
 
 		public void UpdateGasMix()
 		{
+			gasIsInitialised = true;
 			GasMix = GasMix.FromTemperature(Gases, Temperature, Volume);
 		}
 	}

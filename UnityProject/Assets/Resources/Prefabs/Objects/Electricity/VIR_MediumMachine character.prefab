@@ -74,6 +74,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  machineConnectorPrefab: {fileID: 2576181618821966758, guid: d88c145d60cabfd4092f839650cea997,
+    type: 3}
   RelatedWire: {fileID: 114008051345712512}
   ApplianceType: 4
 --- !u!114 &114008051345712512
@@ -103,6 +105,7 @@ MonoBehaviour:
       SupplyingCurrent: 0
       InternalResistance: 0
       SupplyingVoltage: 0
+      ProducingWatts: 0
       ChangeToOff: 0
       CurrentStoreValue: 0
     DestroyQueueing: 0
@@ -126,6 +129,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 1
 --- !u!61 &61506100139303226
 BoxCollider2D:
@@ -220,9 +224,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &1816013858564998
 GameObject:
   m_ObjectHideFlags: 0

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c576ac449c2d45d99890dcfa21598645, type: 3}
   m_Name: GrilleInDoors
   m_EditorClassIdentifier: 
-  displayName: 
+  displayName: grille
   LayerType: 5
   TileType: 6
   RequiredTiles:
@@ -27,12 +27,12 @@ MonoBehaviour:
   passableException:
     m_keys: 
     m_values: 
-  maxHealth: 0
+  maxHealth: 50
   damageDeflection: 0
   armor:
-    Melee: 0
-    Bullet: 0
-    Laser: 0
+    Melee: 50
+    Bullet: 70
+    Laser: 70
     Energy: 0
     Bomb: 0
     Rad: 0
@@ -41,10 +41,11 @@ MonoBehaviour:
     Magic: 0
     Bio: 0
   tileInteractions:
+  - {fileID: 11400000, guid: 433fa20f26ef08d4a844cf98c3a923f3, type: 2}
   - {fileID: 11400000, guid: 10228000f4d0b45ccbe54926e21b9cb0, type: 2}
   spawnOnDeconstruct: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
     type: 3}
   spawnAmountOnDeconstruct: 1
   lootOnDespawn: {fileID: 0}
-  soundOnHit: 
+  soundOnHit: GrillHit
   sprite: {fileID: 21300000, guid: 10623b9787a8d384b8d9825b3337ea04, type: 3}

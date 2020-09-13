@@ -246,7 +246,17 @@ public static class Validations
 		}
 
 		var result = false;
-		if (reachRange == ReachRange.Unlimited)
+
+		// Check if target is in player's inventory.
+		// This was added so NetTabs (NetTab.ValidatePeepers()) can be used on items in an inventory.
+		if (target != null && target.TryGetComponent(out Pickupable pickupable) && pickupable.ItemSlot != null)
+		{
+			if (pickupable.ItemSlot.RootPlayer().gameObject == playerScript.gameObject)
+			{
+				result = true;
+			}
+		}
+		else if (reachRange == ReachRange.Unlimited)
 		{
 			result = true;
 		}
@@ -486,11 +496,11 @@ public static class Validations
 	/// <param name="side">network side check is happening on</param>
 	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
 	/// <returns></returns>
-	public static bool CanFit(ItemSlot itemSlot, GameObject toCheck, NetworkSide side, bool ignoreOccupied = false)
+	public static bool CanFit(ItemSlot itemSlot, GameObject toCheck, NetworkSide side, bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
 		var pu = toCheck.GetComponent<Pickupable>();
 		if (pu == null) return false;
-		return CanFit(itemSlot, pu, side, ignoreOccupied);
+		return CanFit(itemSlot, pu, side, ignoreOccupied, examineRecipient);
 	}
 
 	/// <summary>

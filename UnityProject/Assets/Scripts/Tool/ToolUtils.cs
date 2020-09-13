@@ -225,6 +225,15 @@ public static class ToolUtils
 	}
 
 	/// <summary>
+	/// Plays the tool sound for the used objet at the performer's position.
+	/// </summary>
+	/// <param name="inventoryApply"></param>
+	public static void ServerPlayToolSound(InventoryApply inventoryApply)
+	{
+		ServerPlayToolSound(inventoryApply.UsedObject, inventoryApply.Performer.TileWorldPosition(), inventoryApply.Performer);
+	}
+
+	/// <summary>
 	/// Performs common tool usage logic, such as playing the correct sound.
 	/// If item is not a tool, simply performs the progress action normally.
 	/// </summary>

@@ -1,9 +1,14 @@
 using System.Collections;
+using UnityEngine;
 
 namespace Spells
 {
 	public class MimeBox : Spell
 	{
+		[Tooltip("The prefab for the mime's special box.")]
+		[SerializeField]
+		private GameObject boxMime = default;
+
 		protected override string FormatInvocationMessage(ConnectedPlayer caster, string modPrefix)
 		{
 			return string.Format(SpellData.InvocationMessage, caster.Name, caster.CharacterSettings.TheirPronoun());
@@ -32,7 +37,7 @@ namespace Spells
 				return false;
 			}
 			//Using our own spawn logic for mime box and handling despawn ourselves as well
-			var box = Spawn.ServerPrefab("BoxMime").GameObject;
+			var box = Spawn.ServerPrefab(boxMime).GameObject;
 			if (SpellData.ShouldDespawn)
 			{
 				//but also destroy when lifespan ends

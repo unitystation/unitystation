@@ -6,6 +6,10 @@ using Mirror;
 
 public class MediumMachineConnector : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 {
+	[Tooltip("The machine connector prefab to spawn on interaction.")]
+	[SerializeField]
+	private GameObject machineConnectorPrefab = default;
+
 	public WireConnect RelatedWire;
 	public PowerTypeCategory ApplianceType = PowerTypeCategory.MediumMachineConnector;
 	public HashSet<PowerTypeCategory> CanConnectTo = new HashSet<PowerTypeCategory>(){
@@ -43,7 +47,9 @@ public class MediumMachineConnector : NetworkBehaviour, ICheckedInteractable<Pos
 			return;
 		}
 
-		Spawn.ServerPrefab("Medium machine connector", gameObject.AssumedWorldPosServer());
+		ToolUtils.ServerPlayToolSound(interaction);
+
+		Spawn.ServerPrefab(machineConnectorPrefab, gameObject.AssumedWorldPosServer());
 		Despawn.ServerSingle(gameObject);
 	}
 }
