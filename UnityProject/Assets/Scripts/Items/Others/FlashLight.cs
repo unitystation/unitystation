@@ -1,31 +1,38 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
 
 namespace Items.Others
 {
 	[RequireComponent(typeof(ItemLightControl))]
-	public class FlashLight : NetworkBehaviour, ICheckedInteractable<HandActivate>
+	public class FlashLight : NetworkBehaviour, IServerActionGUI, IClientInventoryMove,
+			ICheckedInteractable<HandActivate>
 	{
-		// The light the flashlight has access to
-		private ItemLightControl lightControl;
-
 		[SerializeField]
 		private SpriteHandler spriteHandler = default;
 
-		private enum SpriteState
-		{
-			LightOff = 0,
-			LightOn = 1
-		}
+		[SerializeField]
+		[Tooltip("Should this flashlight have a relevant action button?")]
+		private bool hasActionButton = true;
 
-		/// <summary>
-		/// Grabs the "ItemLightControl" component from the current gameObject, used to toggle the light, only does this once
-		/// </summary>
-		private void Start()
+		[SerializeField, ShowIf(nameof(hasActionButton))]
+		[Tooltip("Assign the action button this flashlight should use.")]
+		private ActionData flashlightAction = default;
+
+		// The light the flashlight has access to
+		private ItemLightControl lightControl;
+		private Pickupable pickupable;
+
+		protected bool IsOn => lightControl.IsOn;
+		protected int SpriteIndex => IsOn ? 1 : 0;
+		public ActionData ActionData => flashlightAction;
+
+		private void Awake()
 		{
+			pickupable = GetComponent<Pickupable>();
 			lightControl = GetComponent<ItemLightControl>();
 		}
 
@@ -42,17 +49,47 @@ namespace Items.Others
 		/// </summary>
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			bool isOn = lightControl.IsOn;
-			if (isOn)
+			ToggleLight();
+		}
+
+		public void OnInventoryMoveClient(ClientInventoryMove info)
+		{
+			if (!hasActionButton) return;
+
+			bool shouldShowButton = pickupable.ItemSlot != null &&
+					pickupable.ItemSlot.Player != null &&
+					info.ClientInventoryMoveType == ClientInventoryMoveType.Added;
+
+			if (!shouldShowButton)
 			{
-				lightControl.Toggle(false);
-				spriteHandler.ChangeSprite((int) SpriteState.LightOff);
+				UIActionManager.ToggleLocal(this, false);
+				return;
 			}
-			else
+
+			// If the slot the item is a slot of the client's.
+			if (pickupable.ItemSlot.LocalUISlot != null)
 			{
-				lightControl.Toggle(true);
-				spriteHandler.ChangeSprite((int) SpriteState.LightOn);
+				UIActionManager.ToggleLocal(this, true);
+				UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), false);
 			}
+		}
+
+		/// <summary>
+		/// The action button calls this when clicked.
+		/// </summary>
+		/// <param name="SentByPlayer"></param>
+		public void CallActionServer(ConnectedPlayer SentByPlayer)
+		{
+			ToggleLight();
+		}
+
+		public void CallActionClient() { }
+
+		protected virtual void ToggleLight()
+		{
+			lightControl.Toggle(!lightControl.IsOn);
+			spriteHandler.ChangeSprite(SpriteIndex);
+			UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO());
 		}
 	}
 }

@@ -12,7 +12,7 @@ namespace Items.PDA
 	[RequireComponent(typeof(HasNetworkTab))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(PDANotesNetworkHandler))]
-	public class PDALogic : NetworkBehaviour, IServerActionGUI,
+	public class PDALogic : NetworkBehaviour, IServerActionGUI, IClientInventoryMove, 
 			ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
 	{
 		private const bool DEBUG_UPLINK = true;
@@ -22,7 +22,7 @@ namespace Items.PDA
 		#region Inspector
 		[Tooltip("The cartridge prefab to be spawned for this PDA")]
 		[SerializeField]
-		private GameObject cartridgePrefab;
+		private GameObject cartridgePrefab = default;
 
 		[Tooltip("The default ringtone to play")]
 		[SerializeField]
@@ -33,7 +33,10 @@ namespace Items.PDA
 		private bool willResetName = false;
 
 		[SerializeField]
-		private ActionData flashlightAction = null;
+		private ActionData flashlightAction = default;
+
+		[SerializeField]
+		private SpriteHandler baseSpriteHandler = default;
 
 		#endregion Inspector
 
@@ -62,7 +65,7 @@ namespace Items.PDA
 		public Action idSlotUpdated;
 		public Action cartridgeSlotUpdated;
 
-		private ItemSlot IDSlot = null;
+		private ItemSlot IDSlot = default;
 		private ItemSlot CartridgeSlot = default;
 
 		#region Messenger stuff (unused)
@@ -76,12 +79,6 @@ namespace Items.PDA
 		//private MessengerManager messengerSystem;
 
 		#endregion Messenger stuff (unused)
-
-		private enum ActionState
-		{
-			LightOff = 0,
-			LightOn = 1
-		}
 
 		#region Lifecycle
 
@@ -109,7 +106,6 @@ namespace Items.PDA
 		{
 			// TODO Instead, consider listening for client's OnPlayerSpawned and then request server to run stuff.
 			StartCoroutine(DelayInitialisation());
-			UIActionManager.Show(this);
 		}
 
 		private IEnumerator DelayInitialisation()
@@ -149,7 +145,6 @@ namespace Items.PDA
 		public void ToggleFlashlight()
 		{
 			flashlight.Toggle(!flashlight.IsOn);
-			UIActionManager.SetSprite(this, FlashlightOn ? (int)ActionState.LightOn : (int)ActionState.LightOff);
 		}
 
 		/// <summary>
@@ -367,6 +362,7 @@ namespace Items.PDA
 		private void InformUplinkCode(GameObject player)
 		{
 			var uplinkMessage =
+					$"{(DEBUG_UPLINK ? "<b>UPLINK DEBUGGING ENABLED: </b>" : "")}" +
 					$"The Syndicate has cunningly disguised a <i>Syndicate Uplink</i> as your <i>{gameObject.ExpensiveName()}</i>." +
 					$"Simply enter the code <b>{UplinkUnlockCode}</b> into the ringtone select to unlock its hidden features.";
 
@@ -415,6 +411,26 @@ namespace Items.PDA
 		#endregion Uplink
 
 		#region Inventory
+
+		public void OnInventoryMoveClient(ClientInventoryMove info)
+		{
+			bool shouldShowButton = pickupable.ItemSlot != null &&
+				pickupable.ItemSlot.Player != null &&
+				info.ClientInventoryMoveType == ClientInventoryMoveType.Added;
+
+			if (!shouldShowButton)
+			{
+				UIActionManager.ToggleLocal(this, false);
+				return;
+			}
+
+			// If the slot the item is a slot of the client's.
+			if (pickupable.ItemSlot.LocalUISlot != null)
+			{
+				UIActionManager.ToggleLocal(this, true);
+				UIActionManager.SetSpriteSO(this, baseSpriteHandler.GetCurrentSpriteSO(), false);
+			}
+		}
 
 		private void OnIDSlotChanged()
 		{
