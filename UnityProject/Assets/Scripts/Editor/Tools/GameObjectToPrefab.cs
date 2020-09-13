@@ -17,6 +17,7 @@ public class GameObjectToPrefab : EditorWindow
 		window.titleContent.text = "GameObject to Prefab Converter";
 		window.Show();
 	}
+
 	private void SelectPath()
 	{
 		string baseSTR = EditorUtility.OpenFolderPanel("Select folder to save prefabs", Application.dataPath, "prefabs");
