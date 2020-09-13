@@ -1,10 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.AddressableAssets.Settings;
 using UnityEngine;
 
+/// <summary>
+/// Will convert all prefabs in a path to addressable and put them in chosen Addressable Group with chosen labels.
+/// </summary>
 public class PrefabToAddressable : EditorWindow
 {
 	private string path;
@@ -81,7 +83,7 @@ public class PrefabToAddressable : EditorWindow
 	{
 		EditorGUILayout.HelpBox("Choose the root path where the prefabs are found", MessageType.Info);
 		EditorGUILayout.BeginHorizontal();
-		EditorGUILayout.LabelField("Save folder:", GUILayout.MaxWidth(75.0f));
+		EditorGUILayout.LabelField("Prefab root folder:", GUILayout.MaxWidth(75.0f));
 
 		path = EditorGUILayout.TextField(path, EditorStyles.textField);
 

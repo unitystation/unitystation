@@ -2,6 +2,9 @@
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// Will convert a traditional GameObject and all its child objects to prefabs.
+/// </summary>
 public class GameObjectToPrefab : EditorWindow
 {
 	private string path;
