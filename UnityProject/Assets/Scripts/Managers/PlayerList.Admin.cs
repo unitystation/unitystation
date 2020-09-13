@@ -786,17 +786,17 @@ public partial class PlayerList
 
 	#region Kick/Ban
 
-	public void ProcessKickRequest(string admin, string userToKick, string reason, bool isBan, int banMinutes, bool announceBan)
+	public void ProcessKickRequest(string adminId, string userToKick, string reason, bool isBan, int banMinutes, bool announceBan)
 	{
-		if (!adminUsers.Contains(admin)) return;
+		if (!adminUsers.Contains(adminId)) return;
 
-		var adminPlayer = PlayerList.Instance.GetByUserID(admin);
-		var players = GetAllByUserID(userToKick);
+		ConnectedPlayer adminPlayer = PlayerList.Instance.GetByUserID(adminId);
+		List<ConnectedPlayer> players = GetAllByUserID(userToKick);
 		if (players.Count != 0)
 		{
 			foreach (var p in players)
 			{
-				var message = $"A kick/ban has been processed by {adminPlayer.Username}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
+				string message = $"A kick/ban has been processed by {adminPlayer.Username}: Username: {p.Username} Player: {p.Name} IsBan: {isBan} BanMinutes: {banMinutes} Time: {DateTime.Now}";
 
 				Logger.Log(message);
 
@@ -827,7 +827,7 @@ public partial class PlayerList
 	}
 
 	IEnumerator KickPlayer(ConnectedPlayer connPlayer, string reason,
-		bool ban = false, int banLengthInMinutes = 0, ConnectedPlayer admin = null)
+		bool ban = false, int banLengthInMinutes = 0, ConnectedPlayer adminPlayer = null)
 	{
 		Logger.Log("Processing KickPlayer/ban for " + "\n"
 				   + "UserId " + connPlayer?.UserId + "\n"
@@ -842,7 +842,7 @@ public partial class PlayerList
 			message = $"You have been banned for {banLengthInMinutes}" +
 					  $" minutes. Reason: {reason}";
 
-			var index = banList.banEntries.FindIndex(x => x.userId == connPlayer.UserId);
+			int index = banList.banEntries.FindIndex(x => x.userId == connPlayer.UserId);
 			if (index != -1)
 			{
 				Logger.Log("removing pre-existing ban entry for userId of" + connPlayer.UserId);
@@ -858,8 +858,8 @@ public partial class PlayerList
 				dateTimeOfBan = DateTime.Now.ToString("O"),
 				ipAddress = connPlayer?.Connection?.address,
 				clientId = connPlayer?.ClientId,
-				adminId = admin?.UserID,
-				adminUsername = admin?.Username
+				adminId = adminPlayer?.UserID,
+				adminUsername = adminPlayer?.Username
 			});
 
 			SaveBanList();
