@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 7594331227309748916}
   - component: {fileID: -232477747850587932}
   m_Layer: 11
-  m_Name: MediDrobe
+  m_Name: BVOld_MediDrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -144,10 +144,10 @@ MonoBehaviour:
     Item: {fileID: 1853682798720230140, guid: 1c4a4e2e7d6a9ce4e9135ceb57d872b8, type: 3}
     Stock: 4
   - ItemName: Labcoat
-    Item: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
+    Item: {fileID: 9115997771601037915, guid: dfc0f23c4db66d144a03103586ce7619, type: 3}
     Stock: 4
   - ItemName: Paramedic Jacket
-    Item: {fileID: 7950450905082407941, guid: ae6a4b707a3e192449843e8b3196b67c, type: 3}
+    Item: {fileID: 3711258730230011658, guid: 38282bf586e1d544e83af94a9c4ece90, type: 3}
     Stock: 4
   - ItemName: White Shoes
     Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
@@ -173,6 +173,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent:
   - ItemName: 
     Item: {fileID: 6700281191928912403, guid: 0ad6b406825f747548ae2f66be19e5bd, type: 3}
@@ -320,7 +321,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -341,7 +344,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114472266138859352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -502,7 +504,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 091a2a95a2699c94d92b84b0a903dfb7, type: 3}
+  m_Sprite: {fileID: 21300004, guid: 091a2a95a2699c94d92b84b0a903dfb7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -529,7 +531,8 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 948918b0af230c64385fbf83d14c95c6, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 948918b0af230c64385fbf83d14c95c6, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 091a2a95a2699c94d92b84b0a903dfb7, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 091a2a95a2699c94d92b84b0a903dfb7, type: 3}
