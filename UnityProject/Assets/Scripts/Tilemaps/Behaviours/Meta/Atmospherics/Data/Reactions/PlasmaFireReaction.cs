@@ -48,7 +48,10 @@ namespace Atmospherics
 				}
 
 				gasMix.RemoveGas(Gas.Plasma, MolesPlasmaBurnt);
+				if (gasMix.Gases[Gas.Plasma] < 0) gasMix.Gases[Gas.Plasma] = 0;
+
 				gasMix.RemoveGas(Gas.Oxygen, MolesPlasmaBurnt * 2);
+				if (gasMix.Gases[Gas.Oxygen] < 0) gasMix.Gases[Gas.Oxygen] = 0;
 				var TotalmolestoCO2 = MolesPlasmaBurnt + (MolesPlasmaBurnt * 2);
 
 				if (superSaturated)
