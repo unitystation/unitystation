@@ -898,17 +898,17 @@ public partial class PlayerList
 		loggedOff.Remove(connPlayer);
 	}
 
-	public void ProcessJobBanRequest(string admin, string userToJobBan, string reason, bool isPerma, int banMinutes, JobType jobType, bool kickAfter = false, bool ghostAfter = false)
+	public void ProcessJobBanRequest(string adminId, string userToJobBan, string reason, bool isPerma, int banMinutes, JobType jobType, bool kickAfter = false, bool ghostAfter = false)
 	{
-		if (!adminUsers.Contains(admin)) return;
+		if (!adminUsers.Contains(adminId)) return;
 		
-		var adminPlayer = PlayerList.Instance.GetByUserID(admin);
-		var players = GetAllByUserID(userToJobBan);
+		ConnectedPlayer adminPlayer = PlayerList.Instance.GetByUserID(adminId);
+		List<ConnectedPlayer> players = GetAllByUserID(userToJobBan);
 		if (players.Count != 0)
 		{
 			foreach (var p in players)
 			{
-				var message = "";
+				string message = "";
 
 				if (isPerma)
 				{
@@ -945,7 +945,7 @@ public partial class PlayerList
 		}
 		else
 		{
-			Logger.Log($"job ban failed, can't find player: {userToJobBan}. Requested by {admin}");
+			Logger.Log($"job ban failed, can't find player: {userToJobBan}. Requested by {adminPlayer.Username}");
 		}
 	}
 
