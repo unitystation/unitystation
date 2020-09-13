@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using AdminTools;
 using Audio.Managers;
 using Mirror;
+using UI.Jobs;
 using UI.UI_Bottom;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -40,6 +41,7 @@ public class UIManager : MonoBehaviour
 	public AdminChatButtons adminChatButtons;
 	public AdminChatWindows adminChatWindows;
 	public PlayerAlerts playerAlerts;
+	public GUIAntagBanner antagBanner;
 	private bool preventChatInput;
 	[SerializeField] [Range(0.1f,10f)] private float PhoneZoomFactor = 1.6f;
 	public LobbyUIPlayerListController lobbyUIPlayerListController = null;
