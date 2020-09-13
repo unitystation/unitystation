@@ -7,9 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
-using UnityEngine.AddressableAssets.ResourceLocators;
 using UnityEngine.Audio;
-using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.SceneManagement;
 using Random = UnityEngine.Random;
@@ -24,12 +22,21 @@ public class SoundManager : MonoBehaviour
 
 	private static SoundManager soundManager;
 
+	/// <summary>
+	/// Library of sound AssetReferences and their AudioSource if loaded
+	/// </summary>
+	/// <remarks>
+	/// If AudioSource is null, it means it's not loaded.
+	/// </remarks>
 	[HideInInspector]
-	public readonly Dictionary<string, AudioSource> sounds = new Dictionary<string, AudioSource>();
+	public readonly Dictionary<AssetReference, AudioSource> SoundsLibrary = new Dictionary<AssetReference, AudioSource>();
 
 	/// <summary>
-	/// Library of musics paths (primaryKey) and their AudioSource (null if not loaded)
+	/// Library of music paths (primaryKey) and their AudioSource if loaded
 	/// </summary>
+	/// <remarks>
+	/// If AudioSource is null, it means it's not loaded.
+	/// </remarks>
 	[HideInInspector]
 	public readonly Dictionary<string, AudioSource> MusicLibrary = new Dictionary<string, AudioSource>();
 
@@ -55,11 +62,64 @@ public class SoundManager : MonoBehaviour
 	/// <param name="primaryKey">The primary of the music to unload </param>
 	public void UnloadMusic(string primaryKey)
 	{
-		if (MusicLibrary[primaryKey] != null)
+		if (Music[primaryKey] != null)
 		{
 			Addressables.ReleaseInstance(MusicLibrary[primaryKey].gameObject);
 			MusicLibrary[primaryKey] = null;
 		}
+	}
+
+	/// <summary>
+	/// Load the AudioSource of a sound inside the library and returns it.
+	/// </summary>
+	/// <param name="assetReference">The assetReference to load</param>
+	/// <returns>The AudioSource component of the sound</returns>
+	private async Task<AudioSource> GetSoundAsync(AssetReference assetReference)
+	{
+		if (SoundsLibrary[assetReference] == null)
+		{
+			GameObject sound = await assetReference.LoadAssetAsync<GameObject>().Task;
+			SoundsLibrary[assetReference] = sound.GetComponent<AudioSource>();
+		}
+
+		return SoundsLibrary[assetReference];
+	}
+
+
+	/// <summary>
+	/// Get all sounds associated to the SoundManager and put them in the library.
+	/// </summary>
+	/// <remarks>That doesn't load the objets themselves, that only assemble the library</remarks>
+	private void AddSoundsToLibraryRecursive(Transform rootTransform)
+	{
+		int childCount = rootTransform.childCount;
+
+		AssetReferenceLibrary assetReferenceLibrary = null;
+		if (TryGetComponent<AssetReferenceLibrary>(out assetReferenceLibrary))
+		{
+			foreach (AssetReference assetReference in assetReferenceLibrary.AssetReferences)
+				SoundsLibrary.Add(assetReference, null);
+		}
+
+		for (int childIndex = 0; childIndex < childCount; childIndex++)
+		{
+			AddSoundsToLibraryRecursive(rootTransform.GetChild(childIndex));
+		}			
+	}
+
+	/// <summary>
+	/// Adds all musics to the music library.
+	/// </summary>
+	/// <remarks>
+	/// Musics are identified in Addressable groups with a special label "Music"
+	/// </remarks>
+	private async void AddMusicsToLibraryAsync()
+	{
+		// We build the library of musics location (by a special Label that identifies them).
+		IList<IResourceLocation> resourceLocations = await Addressables.LoadResourceLocationsAsync("Music", typeof(GameObject)).Task;
+
+		foreach (IResourceLocation resourceLocation in resourceLocations)
+			MusicLibrary.Add(resourceLocation.PrimaryKey, null);
 	}
 
 	private readonly Dictionary<string, string[]> soundPatterns = new Dictionary<string, string[]>();
@@ -97,14 +157,14 @@ public class SoundManager : MonoBehaviour
 		"Yeehaw"
 	};
 
-	public AudioSource this[string key]
-	{
-		get
-		{
-			AudioSource source;
-			return sounds.TryGetValue(key, out source) ? source : null;
-		}
-	}
+	//public AudioSource this[string key]
+	//{
+	//	get
+	//	{
+	//		AudioSource source;
+	//		return sounds.TryGetValue(key, out source) ? source : null;
+	//	}
+	//}
 
 	private void Awake()
 	{
@@ -113,12 +173,11 @@ public class SoundManager : MonoBehaviour
 
 	private void Start()
 	{
-		// We build the library of musics location
-		Addressables.LoadResourceLocationsAsync("SoundPrefab", typeof(GameObject)).Completed += (obj) =>
-		{
-			foreach (IResourceLocation resourceLocation in obj.Result)
-				MusicLibrary.Add(resourceLocation.PrimaryKey, null);
-		};
+		// Load all musics in the music library
+		AddMusicsToLibraryAsync();
+
+		// Load all other sounds to the sound library
+		AddSoundsToLibraryRecursive(transform);
 	}
 
 	private void Init()
@@ -153,6 +212,17 @@ public class SoundManager : MonoBehaviour
 				sounds.Add(audioSource.name, audioSource);
 			}
 		}
+	}
+
+
+	/// <summary>
+	/// Return the asset reference for the sound to be played.  Pick a random sound among a list of sound Guids.
+	/// </summary>
+	/// <param name="soundGuid">The list of sound guids to be choosen from</param>
+	/// <returns>The random sound chosen</returns>
+	private AudioSource GetAudioSource(string soundGuid)
+	{
+
 	}
 
 	private void OnEnable()
@@ -248,24 +318,6 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Chooses a random sound matching the given pattern if the name contains a wildcard. (#)
-	/// Otherwise, it returns the same name.
-	/// </summary>
-	private string ResolveSoundPattern(string sndName)
-	{
-		if (!sounds.ContainsKey(sndName) && sndName.Contains('#'))
-		{
-			var soundNames = GetMatchingSounds(sndName);
-			if (soundNames.Length > 0)
-			{
-				return soundNames[Random.Range(0, soundNames.Length)];
-			}
-		}
-
-		return sndName;
-	}
-
-	/// <summary>
 	/// Returns a list of known sounds that match the given pattern.
 	/// </summary>
 	private string[] GetMatchingSounds(string pattern)
@@ -280,10 +332,11 @@ public class SoundManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Serverside: Play sound for all clients.
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// Play sound for all clients.
+	/// If more than one sound is specified, one will be picked at random.
 	/// </summary>
-	public static void PlayNetworked(string sndName, float pitch = -1,
+	[Server]
+	public static void PlayNetworked(List<AssetReference> soundsAssetReferences, float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30)
 	{
@@ -307,40 +360,45 @@ public class SoundManager : MonoBehaviour
 			};
 		}
 
-		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.SendToAll(sndName, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
+		string[] soundGuids = FindSoundGuids(soundsAssetReferences);
+		PlaySoundMessage.SendToAll(soundsAssetReferences, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
 	}
 
 	/// <summary>
 	/// Serverside: Play sound at given position for all clients.
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// If more than one sound is specified, the sound will be chosen at random
 	/// </summary>
-	/// <param name="sndName">The name of the sound to be played</param>
+	/// <param name="assetReferences">The sound to be played.  If more than one is specified, a single one will be picked at random</param>
 	/// <param name="worldPos">The position at which the sound is played</param>
 	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
 	/// <param name="audioSourceParameters">Extra parameters of the audio source.</param>
 	/// <param name="Global">Does everyone will receive the sound our just nearby players</param>
 	/// <param name="sourceObj">The object that is the source of the sound</param>
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
-	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, AudioSourceParameters audioSourceParameters, bool polyphonic = false, bool Global = true, GameObject sourceObj = null, ShakeParameters shakeParameters = null)
+	[Server]
+	public static void PlayNetworkedAtPos(List<AssetReference> assetReferences, Vector3 worldPos, AudioSourceParameters audioSourceParameters,
+		bool polyphonic = false, bool Global = true, GameObject sourceObj = null, ShakeParameters shakeParameters = null)
 	{
-		sndName = Instance.ResolveSoundPattern(sndName);
+		string soundGuid = assetReferences.PickRandom().AssetGUID;
+
 		if (Global)
 		{
-			PlaySoundMessage.SendToAll(sndName, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
+			PlaySoundMessage.SendToAll(soundGuid, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
 		}
 		else
 		{
-			PlaySoundMessage.SendToNearbyPlayers(sndName, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
+			PlaySoundMessage.SendToNearbyPlayers(soundGuid, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
 		}
 	}
 
 
 	/// <summary>
-	/// Serverside: Play sound at given position for all clients.
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// Play sound at given position for all clients.
 	/// </summary>
-	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, float pitch = -1,
+	/// If more than one is specified, one will be picked at random.
+	/// <param name="assetReferences">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	[Server]
+	public static void PlayNetworkedAtPos(List<AssetReference> assetReferences, Vector3 worldPos, float pitch = -1,
 	bool polyphonic = false,
 	bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool global = true, GameObject sourceObj = null)
 	{
@@ -364,15 +422,20 @@ public class SoundManager : MonoBehaviour
 			};
 		}
 
-		PlayNetworkedAtPos(sndName, worldPos, audioSourceParameters, polyphonic, global, sourceObj, shakeParameters);
+		string soundGuid = assetReferences.PickRandom().AssetGUID;
+		PlayNetworkedAtPos(soundGuid, worldPos, audioSourceParameters, polyphonic, global, sourceObj, shakeParameters);
 	}
 
 	/// <summary>
-	/// Serverside: Play sound for particular player.
+	/// Play sound for particular player.
 	/// ("Doctor, there are voices in my head!")
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// If more than one is specified, one will be picked at random.
 	/// </summary>
-	public static void PlayNetworkedForPlayer(GameObject recipient, string sndName, float pitch = -1,
+	/// <param name="recipient">The player that will receive the sound</param>
+	/// <param name="assetReferences">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="pitch">The pitch variation of the sound.  Null for default pitch.</param>
+	[Server]
+	public static void PlayNetworkedForPlayer(GameObject recipient, List<AssetReference> assetReferences, float? pitch = null,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
 	{
@@ -388,7 +451,7 @@ public class SoundManager : MonoBehaviour
 		}
 
 		AudioSourceParameters audioSourceParameters = null;
-		if (pitch > 0)
+		if (pitch != null)
 		{
 			audioSourceParameters = new AudioSourceParameters
 			{
@@ -396,16 +459,17 @@ public class SoundManager : MonoBehaviour
 			};
 		}
 
-		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, TransformState.HiddenPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
+		string soundGuid = assetReferences.PickRandom().AssetGUID;
+		PlaySoundMessage.Send(recipient, soundGuid, TransformState.HiddenPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
 	}
 
 	/// <summary>
 	/// Serverside: Play sound at given position for particular player.
 	/// ("Doctor, there are voices in my head!")
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// If more than one is specified, one will be picked at random.
 	/// </summary>
-	public static void PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos, string sndName,
+	/// <param name="assetReferences">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	public static void PlayNetworkedForPlayerAtPos(GameObject recipient, Vector3 worldPos, List<AssetReference> assetReferences,
 		float pitch = -1,
 		bool polyphonic = false,
 		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, GameObject sourceObj = null)
@@ -430,18 +494,20 @@ public class SoundManager : MonoBehaviour
 			};
 		}
 
-		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
+		string soundGuid = assetReferences.PickRandom().AssetGUID;
+		PlaySoundMessage.Send(recipient, soundGuid, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
 	}
 
 	/// <summary>
 	/// Play a sound locally
+	/// If more than one is specified, one will be picked at random.
 	/// </summary>
-	/// <param name="name">Name of the sound to be played</param>
+	/// <param name="assetReferences">The sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="audioSourceParameters">Parameters for how to play the sound</param>
 	/// <param name="polyphonic">Should the sound be played polyphonically</param>
-	public static void Play(string name, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
+	public static void Play(List<AssetReference> assetReferences, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
 	{
+
 		name = Instance.ResolveSoundPattern(name);
 		var sound = Instance.GetSourceFromPool(Instance.sounds[name]);
 
@@ -484,15 +550,15 @@ public class SoundManager : MonoBehaviour
 
 	/// <summary>
 	/// Play sound locally.
-	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
+	/// If more than one element is specified, one will be picked at random.
 	/// </summary>
-	/// <param name="name">Name of the sound to be played</param>
+	/// <param name="assetReferences">AssetReference of the sound to be played.  (Or chosen at random if many)</param>
 	/// <param name="polyphonic">Should the sound be played polyphonically</param>
 	/// <param name="global">Should the sound be played for the default mixer or false to check if it should play muffled</param>
 	/// <remarks>
 	///		If Global is true, the sound may still be muffled if the source is configured with the muffled mixer.
 	/// </remarks>
-	public static void Play(string name, bool polyphonic = false, bool global = true)
+	public static void Play(List<AssetReference> assetReferences, bool polyphonic = false, bool global = true)
 	{
 		name = Instance.ResolveSoundPattern(name);
 		Instance.PlaySource(Instance.GetSourceFromPool(Instance.sounds[name]), polyphonic, global);

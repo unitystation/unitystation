@@ -9,7 +9,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class PlaySoundMessage : ServerMessage
 	{
-		public string SoundName;
+		public string SoundGuid;
 		public Vector3 Position;
 		///Allow this one to sound polyphonically
 		public bool Polyphonic;
@@ -36,11 +36,11 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(SoundName, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioSourceParameters );
+				SoundManager.PlayAtPosition(SoundGuid, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioSourceParameters );
 			}
 			else
 			{
-				SoundManager.Play(SoundName, AudioSourceParameters, Polyphonic);
+				SoundManager.Play(SoundGuid, AudioSourceParameters, Polyphonic);
 			}
 		
 			if (ShakeParameters != null && ShakeParameters.ShakeGround)
@@ -57,7 +57,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			}
 		}
 
-		public static PlaySoundMessage SendToNearbyPlayers(string sndName, Vector3 pos,
+		public static PlaySoundMessage SendToNearbyPlayers(string soundGuid, Vector3 pos,
 			bool polyphonic = false,
 			GameObject sourceObj = null,
 			ShakeParameters shakeParameters = null,
@@ -75,7 +75,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundName = sndName,
+				SoundGuid = soundGuid,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -87,7 +87,18 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			return msg;
 		}
 
-		public static PlaySoundMessage SendToAll(string sndName, Vector3 pos,
+		/// <summary>
+		/// Tell all cliends to play the specified sound
+		/// </summary>
+		/// <param name="soundGuid">The GUID of the sound to be played</param>
+		/// <param name="pos"></param>
+		/// <param name="polyphonic"></param>
+		/// <param name="sourceObj"></param>
+		/// <param name="shakeParameters"></param>
+		/// <param name="audioSourceParameters"></param>
+		/// <returns></returns>
+		[Server]
+		public static PlaySoundMessage SendToAll(string soundGuid, Vector3 pos,
 			bool polyphonic = false,
 			GameObject sourceObj = null,
 			ShakeParameters shakeParameters = null,
@@ -105,7 +116,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundName = sndName,
+				SoundGuid = soundGuid,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -136,7 +147,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundName = sndName,
+				SoundGuid = sndName,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -153,12 +164,12 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		{
 			string audioSourceParametersValue = (AudioSourceParameters == null) ? "Null" : AudioSourceParameters.ToString();
 			string shakeParametersValue = (ShakeParameters == null) ? "Null" : ShakeParameters.ToString();
-			return $"{nameof(SoundName)}: {SoundName}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
+			return $"{nameof(SoundGuid)}: {SoundGuid}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
 		}
 
 		public override void Serialize(NetworkWriter writer)
 		{
-			writer.WriteString(SoundName);
+			writer.WriteString(SoundGuid);
 			writer.WriteVector3(Position);
 			writer.WriteBoolean(Polyphonic);
 			writer.WriteUInt32(TargetNetId);
@@ -168,7 +179,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override void Deserialize(NetworkReader reader)
 		{
-			SoundName = reader.ReadString();
+			SoundGuid = reader.ReadString();
 			Position = reader.ReadVector3();
 			Polyphonic = reader.ReadBoolean();
 			TargetNetId = reader.ReadUInt32();
