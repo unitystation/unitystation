@@ -74,7 +74,9 @@ namespace AddressableReferences
 			}
 
 			//Add to manager tracker
-			await AssetReference.LoadAssetAsync<T>().Task;
+			var handle = AssetReference.LoadAssetAsync<T>();
+			AssetManager.Instance.AddLoadingAssetHandle(handle);
+			await handle.Task;
 			return (T) (AssetReference.Asset);
 		}
 
