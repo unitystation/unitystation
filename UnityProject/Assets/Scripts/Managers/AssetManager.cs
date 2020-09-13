@@ -8,8 +8,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class AssetManager : MonoBehaviour
 {
+	[SerializeField] private AssetLoadingPopupManager _assetLoadingPopupManager;
 	private static AssetManager _assetManager;
-	private static AssetLoadingPopupManager _assetLoadingPopupManager;
 	private int amountOfAddressablesToLoad = 0;
 
 	public static AssetManager Instance
