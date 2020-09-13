@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace AddressableReferences
 {
@@ -74,10 +75,26 @@ namespace AddressableReferences
 			}
 
 			//Add to manager tracker
+			await AssetReference.LoadAssetAsync<T>().Task;
+			return (T) (AssetReference.Asset);
+		}
+
+		/// <summary>
+		/// Load an asset and passes the handle to the AssetManager
+		/// </summary>
+		public async Task<T> LoadThroughAssetManager()
+		{
+			if (IsNotValidKey) return null;
+			if (IsReadyLoaded)
+			{
+				return (T)AssetReference.Asset;
+			}
+
+			//Add to manager tracker
 			var handle = AssetReference.LoadAssetAsync<T>();
 			AssetManager.Instance.AddLoadingAssetHandle(handle, Path);
-			await handle.Task;
-			return (T) (AssetReference.Asset);
+			await AssetReference.LoadAssetAsync<T>().Task;
+			return (T)(AssetReference.Asset);
 		}
 
 		public void Unload()

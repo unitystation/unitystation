@@ -18,7 +18,11 @@ public class AssetLoadingPopup : MonoBehaviour
 	private void Update()
 	{
 		if (handle.IsDone)
+		{
+			AssetManager.Instance.AssetDoneLoading();
 			Destroy(gameObject);
+		}
+
 		loadingSlider.value = handle.PercentComplete;
 	}
 }

@@ -9,7 +9,8 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 public class AssetManager : MonoBehaviour
 {
 	private static AssetManager _assetManager;
-	private static AssetLoadingPopupManager _popupManager;
+	private static AssetLoadingPopupManager _assetLoadingPopupManager;
+	private int amountOfAddressablesToLoad = 0;
 
 	public static AssetManager Instance
 	{
@@ -26,8 +27,20 @@ public class AssetManager : MonoBehaviour
 
 	public void AddLoadingAssetHandle(AsyncOperationHandle handle, string path)
 	{
+		if (!_assetLoadingPopupManager.gameObject.activeSelf)
+			_assetLoadingPopupManager.gameObject.SetActive(true);
+
+		amountOfAddressablesToLoad++;
+
 		if (handle.Status == AsyncOperationStatus.Failed || handle.Status == AsyncOperationStatus.Succeeded)
 			return;
-		_popupManager.AddAssetLoadingPopup(handle, path);
+		_assetLoadingPopupManager.AddAssetLoadingPopup(handle, path);
+	}
+
+	public void AssetDoneLoading()
+	{
+		amountOfAddressablesToLoad--;
+		if (amountOfAddressablesToLoad <= 0)
+			_assetLoadingPopupManager.gameObject.SetActive(false);
 	}
 }
