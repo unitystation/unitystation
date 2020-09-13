@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 4550042133714957143}
   - component: {fileID: 5582155779951188486}
   m_Layer: 11
-  m_Name: SciDrobe
+  m_Name: BVOld_SciDrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,7 +120,7 @@ MonoBehaviour:
     Item: {fileID: 5032308470899878357, guid: 52c38364bd286a7498241ec0af93ed9e, type: 3}
     Stock: 3
   - ItemName: Scientist Labcoat
-    Item: {fileID: 7374481989050852271, guid: d45ca61e9864044ebb02cf9d0d01f986, type: 3}
+    Item: {fileID: 1750313274439006309, guid: 933034bb80fc577419f86c7bb8e13a0e, type: 3}
     Stock: 3
   - ItemName: White Shoes
     Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
@@ -137,6 +137,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent:
   - ItemName: 
     Item: {fileID: 0}
@@ -248,7 +249,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -269,7 +272,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114472266138859352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -457,7 +459,8 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 338a52a979f0af64184411b1e750dbed, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 338a52a979f0af64184411b1e750dbed, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: affbd98a58e35484bb4d9f4d0782fd92, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: affbd98a58e35484bb4d9f4d0782fd92, type: 3}
