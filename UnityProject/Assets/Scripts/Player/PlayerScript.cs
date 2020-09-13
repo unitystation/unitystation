@@ -78,6 +78,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public float RTT;
 
+	[HideInInspector]
 	[SyncVar]
 	public bool RcsMode;
 	public MatrixMove RcsMatrixMove { get; set; }
