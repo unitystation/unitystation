@@ -1,6 +1,9 @@
 ﻿using Mirror;
 using Newtonsoft.Json;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Assets.Scripts.Messages.Server.SoundMessages
 {
@@ -23,9 +26,9 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override void Process()
 		{
-			if (string.IsNullOrEmpty(SoundName))
+			if (string.IsNullOrEmpty(SoundGuid))
 			{
-				Logger.LogError(ToString() + " has no SoundName!", Category.Audio);
+				Logger.LogError(ToString() + " has no SoundGuid!", Category.Audio);
 				return;
 			}
 
@@ -34,13 +37,19 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			if (AudioSourceParameters == null)
 				AudioSourceParameters = new AudioSourceParameters();
 
+			// Find the sound AssetReference by it's GUID
+			AssetReference assetReference = SoundManager.Instance.SoundsLibrary.FirstOrDefault(p => p.Key.AssetGUID == SoundGuid).Key;
+
+			if (assetReference == null)
+				Logger.LogError("Sound Asset Reference was not found in sound library");
+
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(SoundGuid, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioSourceParameters );
+				SoundManager.PlayAtPosition(new List<AssetReference>() { assetReference }, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioSourceParameters );
 			}
 			else
 			{
-				SoundManager.Play(SoundGuid, AudioSourceParameters, Polyphonic);
+				SoundManager.Play(new List<AssetReference>() { assetReference }, AudioSourceParameters, Polyphonic);
 			}
 		
 			if (ShakeParameters != null && ShakeParameters.ShakeGround)

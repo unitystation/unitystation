@@ -445,9 +445,31 @@ public partial class GameManager : MonoBehaviour
 
 			if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Null && !GameData.Instance.testServer)
 			{
-				SoundManager.Instance.PlayRandomRoundEndSound();
+				PlayRandomRoundEndSound();
 			}
 		}
+	}
+
+	[SerializeField]
+	private string[] RoundEndSounds = new string[]
+{
+		"ApcDestroyed",
+		"BanginDonk",
+		"Disappointed",
+		"ItsOnlyGame",
+		"LeavingTG",
+		"NewRoundSexy",
+		"Scrunglartiy",
+		"Yeehaw"
+};
+
+	/// <summary>
+	/// Plays a random round end sound using sounds picked from RoundEndSounds
+	/// </summary>
+	private void PlayRandomRoundEndSound()
+	{
+		var rand = RANDOM.Next(RoundEndSounds.Length);
+		SoundManager.PlayNetworked(RoundEndSounds[rand], 1f);
 	}
 
 	/// <summary>

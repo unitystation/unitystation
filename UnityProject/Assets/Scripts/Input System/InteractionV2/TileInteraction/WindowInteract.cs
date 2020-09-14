@@ -28,7 +28,7 @@ public class WindowInteract : TileInteraction
 		{
 			Chat.AddActionMsgToChat(interaction.Performer,
 				$"You knock on the {interaction.BasicTile.DisplayName}.", $"{interaction.Performer.ExpensiveName()} knocks on the {interaction.BasicTile.DisplayName}.");
-			SoundManager.GlassknockAtPosition(interaction.WorldPositionTarget, interaction.Performer);
+			GlassknockAtPosition(interaction.WorldPositionTarget, interaction.Performer);
 		}
 		else
 		{
@@ -39,6 +39,19 @@ public class WindowInteract : TileInteraction
 				$"{interaction.Performer.ExpensiveName()} repairs the {interaction.BasicTile.DisplayName}.",
 				() => RepairWindow(interaction));
 		}
+	}
+
+	/// <summary>
+	/// Play Glassknock at given world position.
+	/// </summary>
+	private void GlassknockAtPosition(Vector3 worldPos, GameObject performer = null)
+	{
+		AudioSourceParameters audioSourceParameters = new AudioSourceParameters
+		{
+			Pitch = Random.Range(0.7f, 1.2f)
+		};
+
+		PlayNetworkedAtPos("GlassKnock", worldPos, audioSourceParameters, true, false, performer);
 	}
 
 	private void RepairWindow(TileApply interaction)
