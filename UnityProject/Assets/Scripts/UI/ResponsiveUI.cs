@@ -1,4 +1,5 @@
 using System.Collections;
+using Initialisation;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -8,7 +9,7 @@ using UnityEngine.SceneManagement;
 ///     and adjusts all the elements accordingly
 ///     (i.e. forcing 16:9 aspect ratio, resizing camera size etc)
 /// </summary>
-public class ResponsiveUI : MonoBehaviour
+public class ResponsiveUI : MonoBehaviour, IInitialise
 {
 	private CanvasScaler canvasScaler;
 	private GraphicRaycaster graphicRaycaster;
@@ -24,7 +25,9 @@ public class ResponsiveUI : MonoBehaviour
 	public float screenHeightCache { get; set; }
 	public float cacheWidth { get; set; }
 
-	private void Start()
+	public InitialisationSystems Subsystem => InitialisationSystems.ResponsiveUI;
+
+	void IInitialise.Initialise()
 	{
 		parentCanvas = GetComponent<Canvas>();
 		canvasScaler = GetComponent<CanvasScaler>();
@@ -87,7 +90,7 @@ public class ResponsiveUI : MonoBehaviour
 
 	private IEnumerator ForceGameWindowAspect()
 	{
-		yield return WaitFor.Seconds(1.2f);
+		yield return WaitFor.Seconds(3f);
 		//The following conditions check if the screen width or height
 		//is an odd number. If it is, then it adjusted to be an even number
 		//This fixes the sprite bleeding between tiles:

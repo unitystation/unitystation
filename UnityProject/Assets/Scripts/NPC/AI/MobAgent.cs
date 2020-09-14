@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Initialisation;
+using UnityEngine;
 using MLAgents;
 
 /// <summary>
@@ -31,6 +32,12 @@ public class MobAgent : Agent
 
 	void Awake()
 	{
+		LoadManager.Instance.RegisterAction(Init);
+	}
+
+
+	void Init()
+	{
 		cnt = GetComponent<CustomNetTransform>();
 		registerObj = GetComponent<RegisterObject>();
 		dirSprites = GetComponent<NPCDirectionalSprites>();
@@ -38,6 +45,7 @@ public class MobAgent : Agent
 		integrity = GetComponent<Integrity>();
 		agentParameters.onDemandDecision = true;
 	}
+
 
 	//Reset is used mainly for training
 	//SetPosition() has now been commented out
@@ -62,7 +70,12 @@ public class MobAgent : Agent
 		tickWait = 0f;
 	}
 
-	public virtual void Start()
+	void Start()
+	{
+		LoadManager.Instance.RegisterAction(SetUPStart);
+	}
+
+	public virtual void SetUPStart()
 	{
 		//only needed for starting via a map scene through the editor:
 		if (CustomNetworkManager.Instance == null) return;

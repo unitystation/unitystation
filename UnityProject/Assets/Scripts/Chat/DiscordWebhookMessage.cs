@@ -230,17 +230,17 @@ namespace DiscordWebhook
 			switch(url)
 			{
 				case DiscordWebhookURLs.DiscordWebhookOOCURL:
-					return (ServerData.ServerConfig.DiscordWebhookOOCURL, OOCMessageQueue);
+					return (ServerData.ServerConfig?.DiscordWebhookOOCURL, OOCMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAdminURL:
-					return (ServerData.ServerConfig.DiscordWebhookAdminURL, AdminAhelpMessageQueue);
+					return (ServerData.ServerConfig?.DiscordWebhookAdminURL, AdminAhelpMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAnnouncementURL:
-					return (ServerData.ServerConfig.DiscordWebhookAnnouncementURL, AnnouncementMessageQueue);
+					return (ServerData.ServerConfig?.DiscordWebhookAnnouncementURL, AnnouncementMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAllChatURL:
-					return (ServerData.ServerConfig.DiscordWebhookAllChatURL, AllChatMessageQueue);
+					return (ServerData.ServerConfig?.DiscordWebhookAllChatURL, AllChatMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookAdminLogURL:
-					return (ServerData.ServerConfig.DiscordWebhookAdminLogURL, AdminLogMessageQueue);
+					return (ServerData.ServerConfig?.DiscordWebhookAdminLogURL, AdminLogMessageQueue);
 				case DiscordWebhookURLs.DiscordWebhookErrorLogURL:
-					return (ServerData.ServerConfig.DiscordWebhookErrorLogURL, ErrorLogMessageQueue);
+					return (ServerData.ServerConfig?.DiscordWebhookErrorLogURL, ErrorLogMessageQueue);
 				default:
 					return (null, null);
 			}
