@@ -8,10 +8,6 @@ using Atmospherics;
 public class ItemMagBoots : NetworkBehaviour,
 	IServerActionGUI, IClientInventoryMove, IServerInventoryMove
 {
-	[Tooltip("For UI button, 0 = off, 1 = on.")]
-	[SerializeField]
-	private Sprite[] sprites = new Sprite[2];
-
 	[Tooltip("The speed debuff to apply to run speed.")]
 	[SerializeField]
 	private float runSpeedDebuff = 1.5f;
@@ -23,7 +19,7 @@ public class ItemMagBoots : NetworkBehaviour,
 	private SpriteHandler spriteHandler;
 	private ConnectedPlayer player;
 	private ItemAttributesV2 itemAttributesV2;
-	private Pickupable pick;
+	private Pickupable pickupable;
 	private PlayerMove playerMove;
 
 	private bool isOn = false;
@@ -36,17 +32,18 @@ public class ItemMagBoots : NetworkBehaviour,
 
 	private void Awake()
 	{
-		pick = GetComponent<Pickupable>();
+		pickupable = GetComponent<Pickupable>();
 		spriteHandler = GetComponentInChildren<SpriteHandler>();
 		itemAttributesV2 = GetComponent<ItemAttributesV2>();
-		pick.RefreshUISlotImage();
+		pickupable.RefreshUISlotImage();
 	}
 
 	private void ToggleState()
 	{
 		isOn = !isOn;
 		spriteHandler.ChangeSprite(isOn ? (int) SpriteState.On : (int) SpriteState.Off);
-		//pick.RefreshUISlotImage();
+		UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO());
+		pickupable.RefreshUISlotImage();
 	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
@@ -143,7 +140,7 @@ public class ItemMagBoots : NetworkBehaviour,
 		{
 			case ClientInventoryMoveType.Added when pna.GetActiveItemInSlot(NamedSlot.feet)?.gameObject == gameObject:
 				UIActionManager.ToggleLocal(this, true);
-				UIActionManager.SetSprite(this, sprites[(int) SpriteState.Off]);
+				UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO());
 				break;
 			case ClientInventoryMoveType.Removed when pna.GetActiveItemInSlot(NamedSlot.feet)?.gameObject != gameObject:
 				UIActionManager.ToggleLocal(this, false);
@@ -151,14 +148,7 @@ public class ItemMagBoots : NetworkBehaviour,
 		}
 	}
 
-	public void CallActionClient()
-	{
-		if (!PlayerManager.LocalPlayerScript.IsDeadOrGhost)
-		{
-			int index = isOn ? (int) SpriteState.On : (int) SpriteState.Off;
-			UIActionManager.SetSprite(this, index);
-		}
-	}
+	public void CallActionClient() { }
 
 	public void CallActionServer(ConnectedPlayer SentByPlayer)
 	{

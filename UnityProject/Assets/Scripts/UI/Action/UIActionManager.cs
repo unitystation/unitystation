@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using UnityEngine;
@@ -39,7 +39,7 @@ public class UIActionManager : MonoBehaviour
 
 
 	/// <summary>
-	/// Toggle it locally (clientside)
+	/// Set the action button visibility, locally (clientside)
 	/// </summary>
 	public static void ToggleLocal(IActionGUI iActionGUI, bool show)
 	{
@@ -59,7 +59,7 @@ public class UIActionManager : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Toggle with network sync
+	/// Set the action button visibility for the given player, with network sync
 	/// </summary>
 	public static void Toggle(IActionGUI iActionGUI, bool show, GameObject recipient)
 	{
@@ -81,7 +81,6 @@ public class UIActionManager : MonoBehaviour
 		return false;
 	}
 
-
 	public static void SetSprite(IActionGUI iActionGUI, Sprite sprite)
 	{
 		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
@@ -94,7 +93,21 @@ public class UIActionManager : MonoBehaviour
 		}
 	}
 
-
+	/// <summary>
+	/// Sets the sprite of the action button.
+	/// </summary>
+	public static void SetSpriteSO(IActionGUI iActionGUI, SpriteDataSO sprite, bool networked = true)
+	{
+		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
+		{
+			var _UIAction = Instance.DicIActionGUI[iActionGUI];
+			_UIAction.IconFront.SetSpriteSO(sprite, Network: networked);
+		}
+		else
+		{
+			Logger.Log("iActionGUI Not present", Category.UI);
+		}
+	}
 
 	public static void SetSprite(IActionGUI iActionGUI, int Location)
 	{

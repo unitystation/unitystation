@@ -66,6 +66,11 @@ public class GUI_ShuttleControl : NetTab
 		StartCoroutine(WaitForProvider());
 	}
 
+	private void OnDisable()
+	{
+		RcsMode = false;
+	}
+
 	private IEnumerator WaitForProvider()
 	{
 		while (Provider == null)
@@ -85,7 +90,12 @@ public class GUI_ShuttleControl : NetTab
 			//Init listeners
 			string temp = "1";
 			StartButton.SetValueServer(temp);
-			MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(() => StartButton.SetValueServer("1"));
+			MatrixMove.MatrixMoveEvents.OnStartMovementServer.AddListener(() => 
+			{
+				// dont enable button when moving with RCS
+				if(!matrixMove.rcsModeActive)
+					StartButton.SetValueServer("1");
+			});
 			MatrixMove.MatrixMoveEvents.OnStopMovementServer.AddListener(() =>
 		   {
 			   StartButton.SetValueServer("0");
@@ -159,6 +169,18 @@ public class GUI_ShuttleControl : NetTab
 
 	public void ServerToggleRcs(bool on, ConnectedPlayer subject)
 	{
+		if(playerControllingRcs != null && playerControllingRcs != subject)
+		{
+			playerControllingRcs.Script.RcsMode = false;
+			playerControllingRcs.Script.RcsMatrixMove = null;
+		}
+
+		if(subject != null)
+		{
+			subject.Script.RcsMode = on;
+			subject.Script.RcsMatrixMove = on ? MatrixMove : null;
+		}
+
 		RcsMode = on;
 		MatrixMove.ToggleRcs(on);
 		SetRcsLight(on);
@@ -175,6 +197,10 @@ public class GUI_ShuttleControl : NetTab
 
 	public void ClientToggleRcs(bool on)
 	{
+		PlayerManager.LocalPlayerScript.RcsMatrixMove = on ? MatrixMove : null;
+
+		MatrixMove.CacheRcs();
+
 		RcsMode = on;
 		SetRcsLight(on);
 		rcsToggleButton.isOn = on;
@@ -377,7 +403,7 @@ public class GUI_ShuttleControl : NetTab
 	/// <param name="off">Toggle parameter</param>
 	public void TurnOnOff(bool on)
 	{
-		if (on && State != TabState.Off)
+		if (on && State != TabState.Off && !matrixMove.rcsModeActive)
 		{
 			MatrixMove.StartMovement();
 		}

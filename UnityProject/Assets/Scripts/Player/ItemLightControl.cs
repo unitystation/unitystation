@@ -41,7 +41,8 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 		NamedSlot.storage01,
 		NamedSlot.storage02,
 		NamedSlot.suitStorage,
-		NamedSlot.head
+		NamedSlot.head,
+		NamedSlot.id // PDA in ID slot
 	};
 
 	public float Intensity;

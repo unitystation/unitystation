@@ -495,6 +495,17 @@ public partial class PlayerSync
 			return state;
 		}
 
+		// if player is in RCS mode and MatrixMove is not null
+		if(playerScript.RcsMode && playerScript.RcsMatrixMove)
+		{
+			Vector2Int dir = action.Direction();
+			// try to move shuttle on server side
+			playerScript.RcsMatrixMove.RcsMoveServer(Orientation.From(dir));
+
+			// don't move player while in RCS mode so return state without any changes
+			return state;
+		}
+
 		//Check if there is a bump interaction according to the server
 		BumpType serverBump = CheckSlideAndBump(state, isServer: true, ref action);
 

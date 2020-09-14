@@ -126,6 +126,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8ddc1bf1d79674344b6b5c7cf6b3f1ee,
         type: 2}
+    - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's a card with a magnetic strip attached to some circuitry.
+      objectReference: {fileID: 0}
+    - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
+        type: 3}
+      propertyPath: initialName
+      value: cryptographic sequencer
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 08128a9a69925eb4c93bc817c6ec2a88, type: 3}
 --- !u!1 &3086828684011793880 stripped

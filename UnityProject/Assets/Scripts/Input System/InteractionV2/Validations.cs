@@ -496,11 +496,11 @@ public static class Validations
 	/// <param name="side">network side check is happening on</param>
 	/// <param name="ignoreOccupied">if true, does not check if an item is already in the slot</param>
 	/// <returns></returns>
-	public static bool CanFit(ItemSlot itemSlot, GameObject toCheck, NetworkSide side, bool ignoreOccupied = false)
+	public static bool CanFit(ItemSlot itemSlot, GameObject toCheck, NetworkSide side, bool ignoreOccupied = false, GameObject examineRecipient = null)
 	{
 		var pu = toCheck.GetComponent<Pickupable>();
 		if (pu == null) return false;
-		return CanFit(itemSlot, pu, side, ignoreOccupied);
+		return CanFit(itemSlot, pu, side, ignoreOccupied, examineRecipient);
 	}
 
 	/// <summary>

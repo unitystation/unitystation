@@ -127,22 +127,6 @@ MonoBehaviour:
     Colour: {r: 0, g: 0, b: 0, a: 0}
     EnumSprite: 0
     Size: 5
---- !u!114 &743878090157387265
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 234969413023505447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72c43885acb654c59b452e7069cb64f8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  denyStorageOfStorageItems: -1
-  canClickPickup: 0
-  canQuickEmpty: 0
-  actionData: {fileID: 0}
 --- !u!114 &1293357877581254245
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -157,27 +141,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  flashlight: {fileID: -2461206429612825053}
-  pdaCartridge: {fileID: 0}
-  uplinkLocked: 0
-  initalTeleCrystal: 25
-  antagSet: {fileID: 11400000, guid: c060c33698c0f81449f0735a800740ca, type: 2}
-  actionData: {fileID: 11400000, guid: cdcecaa96c17cbcb99c4a982c1fce206, type: 2}
---- !u!114 &2912611813431457252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 234969413023505447}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9ffa270baac4723983d4ed66622180e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shadow: {fileID: 0}
-  draggerMustBeAdjacent: 1
-  allowDragWhileSoftCrit: 1
+  cartridgePrefab: {fileID: 0}
+  defaultRingtone: TwoBeep
+  willResetName: 0
+  flashlightAction: {fileID: 11400000, guid: cdcecaa96c17cbcb99c4a982c1fce206, type: 2}
+  baseSpriteHandler: {fileID: 6198316859901323168}
 --- !u!114 &3562618048956884338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -190,9 +158,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemStorageStructure: {fileID: 11400000, guid: 263bf834f99424f12bda19d67c3ab5fc,
+  itemStorageStructure: {fileID: 11400000, guid: 74bf3e872403e488695c17ecdde194ab,
     type: 2}
-  itemStorageCapacity: {fileID: 11400000, guid: 6151cf8fb4f9c4bf890b69fad47b155b,
+  itemStorageCapacity: {fileID: 11400000, guid: b6353b80914314e4eba7f19cfa358fb4,
     type: 2}
   itemStoragePopulator: {fileID: 0}
 --- !u!114 &3675490826683128217
@@ -914,6 +882,18 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
+--- !u!114 &6198316859901323168 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+    type: 3}
+  m_PrefabInstance: {fileID: 234557215263547549}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &239048463826641235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298,
