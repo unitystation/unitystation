@@ -111,7 +111,11 @@ namespace Items.PDA
 		private IEnumerator DelayInitialisation()
 		{
 			yield return WaitFor.Seconds(TIME_BEFORE_UPLINK_ACTIVATION);
+			OnStartServerDelayed();
+		}
 
+		private void OnStartServerDelayed()
+		{
 			if (cartridgePrefab != null)
 			{
 				var cartridge = Spawn.ServerPrefab(cartridgePrefab).GameObject;
@@ -119,7 +123,7 @@ namespace Items.PDA
 			}
 
 			var owner = GetPlayerByParentInventory();
-			if (owner == null) yield return default;
+			if (owner == null) return;
 
 			RegisteredPlayerName = owner.ExpensiveName();
 			TryInstallUplink(owner);
