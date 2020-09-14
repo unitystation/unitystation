@@ -1,7 +1,6 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
-namespace UI.Animations
+namespace UI.Animations.Presets
 {
 	public abstract class AnimationBase: MonoBehaviour
 	{
