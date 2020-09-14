@@ -999,7 +999,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 		var healthString = $"{theyPronoun} is ";
 		if (IsDead)
 		{
-			healthString += "limp and responsive; there are no signs of life";
+			healthString += "limp and unresponsive; there are no signs of life";
 			if (this is PlayerHealth && GetComponent<PlayerScript>().mind.IsOnline() == false)
 			{
 				healthString += $" and {theirPronoun} soul has departed";
