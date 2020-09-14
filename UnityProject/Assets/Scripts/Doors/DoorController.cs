@@ -249,7 +249,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 		if (openSFX != null)
 		{
 			// Need to play this sound as global - this will ignore muffle effect
-			SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
+			// JESTER SoundManager.PlayAtPosition(openSFX, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
 		}
 	}
 
@@ -257,7 +257,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 	{
 		if (closeSFX != null)
 		{
-			SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
+			// JESTER SoundManager.PlayAtPosition(closeSFX, registerTile.WorldPosition, gameObject, polyphonic: true, isGlobal: true);
 		}
 	}
 

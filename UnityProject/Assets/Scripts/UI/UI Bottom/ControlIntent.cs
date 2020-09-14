@@ -28,7 +28,7 @@ using UnityEngine.EventSystems;
 		{
 			Logger.Log("Intent Button", Category.UI);
 
-			SoundManager.Play("Click01");
+			// JESTER SoundManager.Play("Click01");
 
 			UIManager.CurrentIntent = (Intent) selectedIntent;
 
@@ -38,7 +38,7 @@ using UnityEngine.EventSystems;
 		public void CycleIntent(bool cycleLeft = true)
 		{
 			Logger.Log("Intent cycling " + (cycleLeft ? "left" : "right"), Category.UI);
-			SoundManager.Play("Click01");
+			// JESTER SoundManager.Play("Click01");
 
 			int intent = (int) UIManager.CurrentIntent;
 			intent += (cycleLeft ? 1 : -1);

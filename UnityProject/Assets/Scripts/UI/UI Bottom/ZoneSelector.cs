@@ -29,7 +29,7 @@ using UnityEngine.EventSystems;
 		{
 			if (clickSound)
 			{
-				SoundManager.Play("Click01");
+				// JESTER SoundManager.Play("Click01");
 			}
 			selImg.sprite = selectorSprites[(int)curSelect];
 			UIManager.DamageZone = curSelect;

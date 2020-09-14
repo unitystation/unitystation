@@ -186,7 +186,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 				VolumeRolloffType = VolumeRolloffType.EaseInAndOut
 			};
 
-			SoundManager.PlayNetworkedAtPos(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
+			// JESTER SoundManager.PlayNetworkedAtPos(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
 			startPlayTime = Time.time;
 			UpdateGUIAsync();
 		}

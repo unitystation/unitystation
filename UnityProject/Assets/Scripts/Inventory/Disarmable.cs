@@ -50,7 +50,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 		}
 		else
 		{
-			SoundManager.PlayNetworkedAtPos("PunchMiss", interactionWorldPosition, sourceObj: target);
+			// JESTER SoundManager.PlayNetworkedAtPos("PunchMiss", interactionWorldPosition, sourceObj: target);
 
 			Chat.AddCombatMsgToChat(
 					gameObject,
@@ -65,7 +65,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 		var targetRegister = target.GetComponent<RegisterPlayer>();
 		targetRegister.ServerStun(KNOCKDOWN_STUN_TIME, false);
 
-		SoundManager.PlayNetworkedAtPos("ThudSwoosh", interactionWorldPosition, sourceObj: target);
+		// JESTER SoundManager.PlayNetworkedAtPos("ThudSwoosh", interactionWorldPosition, sourceObj: target);
 		Chat.AddCombatMsgToChat(
 				gameObject,
 				$"You knock {targetName} down!",
@@ -89,7 +89,7 @@ public class Disarmable : MonoBehaviour, ICheckedInteractable<PositionalHandAppl
 			Inventory.ServerDrop(rightHandSlot);
 		}
 
-		SoundManager.PlayNetworkedAtPos("ThudSwoosh", interactionWorldPosition, sourceObj: target);
+		// JESTER SoundManager.PlayNetworkedAtPos("ThudSwoosh", interactionWorldPosition, sourceObj: target);
 		Chat.AddCombatMsgToChat(
 				gameObject,
 				$"You successfully disarm {targetName}!",

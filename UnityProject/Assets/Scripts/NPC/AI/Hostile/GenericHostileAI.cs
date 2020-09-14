@@ -167,11 +167,14 @@ namespace NPC
 				return;
 			}
 
+			// JESTER
+			/*
 			SoundManager.PlayNetworkedAtPos(
 				randomSound.PickRandom(),
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
+			*/
 
 			Invoke(nameof(PlayRandomSound), playRandomSoundTimer);
 		}
@@ -184,11 +187,14 @@ namespace NPC
 			if (!IsDead || deathSoundPlayed || deathSounds.Count <= 0) return;
 			ResetBehaviours();
 			deathSoundPlayed = true;
+			// JESTER
+			/*
 			SoundManager.PlayNetworkedAtPos(
 				deathSounds.PickRandom(),
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
+			*/
 		}
 
 		/// <summary>

@@ -18,6 +18,6 @@ public static class ExplosionUtils
 	public static void PlaySoundAndShake(Vector3Int worldPosition, byte shakeIntensity, int shakeDistance)
 	{
 		string sndName = EXPLOSION_SOUNDS[Random.Range(0, EXPLOSION_SOUNDS.Length)];
-		SoundManager.PlayNetworkedAtPos( sndName, worldPosition, -1f, true, true, shakeIntensity, (int)shakeDistance);
+		// JESTER SoundManager.PlayNetworkedAtPos( sndName, worldPosition, -1f, true, true, shakeIntensity, (int)shakeDistance);
 	}
 }

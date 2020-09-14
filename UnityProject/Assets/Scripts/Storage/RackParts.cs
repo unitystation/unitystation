@@ -52,7 +52,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 	{
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
-			SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f, sourceObj: interaction.Performer);
+			// JESTER SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f, sourceObj: interaction.Performer);
 			Spawn.ServerPrefab("Metal", interaction.WorldPositionTarget.RoundToInt(), transform.parent, count: 1,
 				scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 			Despawn.ServerSingle(gameObject);
@@ -88,7 +88,7 @@ public class RackParts : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-		SoundManager.PlayNetworkedAtPos("Wrench", interaction.Performer.WorldPosServer(), 1f, sourceObj: interaction.Performer);
+		// JESTER SoundManager.PlayNetworkedAtPos("Wrench", interaction.Performer.WorldPosServer(), 1f, sourceObj: interaction.Performer);
 		Spawn.ServerPrefab("Metal", interaction.Performer.WorldPosServer().CutToInt(), transform.parent, count: 1,
 			scatterRadius: Spawn.DefaultScatterRadius, cancelIfImpassable: true);
 		Inventory.ServerDespawn(interaction.FromSlot);

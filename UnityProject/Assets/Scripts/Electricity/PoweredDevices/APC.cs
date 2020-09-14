@@ -443,7 +443,7 @@ public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INod
 
 		if (State != APCState.Critical) yield break;
 
-		SoundManager.PlayNetworkedAtPos("APCPowerOff", gameObject.WorldPosServer());
+		// JESTER SoundManager.PlayNetworkedAtPos("APCPowerOff", gameObject.WorldPosServer());
 	}
 }
 

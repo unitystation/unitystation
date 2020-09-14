@@ -9,7 +9,7 @@ public class WishSoup : Edible
 		wishChance = Random.value;
 		if (wishChance <= 0.25)
 		{
-			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+			// JESTER SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
 			eater.playerHealth.Metabolism
 				.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));
@@ -31,7 +31,7 @@ public class WishSoup : Edible
 		}
 		else
 		{
-			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+			// JESTER SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
 			eater.playerHealth.Metabolism
 				.AddEffect(new MetabolismEffect(0, 0, MetabolismDuration.Food));

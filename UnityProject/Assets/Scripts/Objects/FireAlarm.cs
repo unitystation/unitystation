@@ -51,7 +51,7 @@ public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInter
 		{
 			activated = true;
 			stateSync = FireAlarmState.TopLightSpriteAlert;
-			SoundManager.PlayNetworkedAtPos("FireAlarm", metaNode.Position);
+			// JESTER SoundManager.PlayNetworkedAtPos("FireAlarm", metaNode.Position);
 			StartCoroutine(SwitchCoolDown());
 			foreach (var firelock in FireLockList)
 			{
@@ -135,7 +135,7 @@ public class FireAlarm : SubscriptionController, IServerLifecycle, ICheckedInter
 					stateSync = FireAlarmState.OpenEmptySprite;
 				}
 			}
-			SoundManager.PlayNetworkedAtPos("screwdriver1", interaction.Performer.WorldPosServer());
+			// JESTER SoundManager.PlayNetworkedAtPos("screwdriver1", interaction.Performer.WorldPosServer());
 			return;
 		}
 		if (coverOpen)

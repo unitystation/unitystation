@@ -46,12 +46,15 @@ public class WindowInteract : TileInteraction
 	/// </summary>
 	private void GlassknockAtPosition(Vector3 worldPos, GameObject performer = null)
 	{
+		// JESTER
+		/*
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters
 		{
 			Pitch = Random.Range(0.7f, 1.2f)
 		};
 
 		PlayNetworkedAtPos("GlassKnock", worldPos, audioSourceParameters, true, false, performer);
+		*/
 	}
 
 	private void RepairWindow(TileApply interaction)

@@ -53,6 +53,6 @@ public class WindowDirectionalObject : NetworkBehaviour
 		Spawn.ServerPrefab(rodsOnDestroy, gameObject.TileWorldPosition().To3Int(), transform.parent, count: Random.Range(minCountOfRodsOnDestroy, maxCountOfRodsOnDestroy + 1),
 			scatterRadius: Random.Range(0, 3), cancelIfImpassable: true);
 
-		SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
+		// JESTER SoundManager.PlayNetworkedAtPos(soundOnDestroy, gameObject.TileWorldPosition().To3Int(), 1f, sourceObj: gameObject);
 	}
 }

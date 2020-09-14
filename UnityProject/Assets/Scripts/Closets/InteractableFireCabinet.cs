@@ -127,7 +127,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	private void Open()
 	{
 		IsClosed = false;
-		SoundManager.PlayAtPosition("OpenClose", transform.position, gameObject);
+		// JESTER SoundManager.PlayAtPosition("OpenClose", transform.position, gameObject);
 		if (slot.Item != null)
 		{
 			ServerSetState(FireCabinetState.OpenFull);
@@ -141,7 +141,7 @@ public class InteractableFireCabinet : NetworkBehaviour, ICheckedInteractable<Ha
 	private void Close()
 	{
 		IsClosed = true;
-		SoundManager.PlayAtPosition("OpenClose", transform.position, gameObject);
+		// JESTER SoundManager.PlayAtPosition("OpenClose", transform.position, gameObject);
 		ServerSetState(FireCabinetState.Closed);
 	}
 

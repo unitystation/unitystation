@@ -291,7 +291,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 	[Server]
 	public void ServerToggleClosed(bool? nowClosed = null)
 	{
-		SoundManager.PlayNetworkedAtPos(soundOnOpenOrClose, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+		// JESTER SoundManager.PlayNetworkedAtPos(soundOnOpenOrClose, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 		ServerSetIsClosed(nowClosed.GetValueOrDefault(!IsClosed));
 	}
 
@@ -412,7 +412,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply> ,
 			}
 			else if (IsClosed && !isEmagged && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
 			{
-				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+				// JESTER SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 				ServerHandleContentsOnStatusChange(false);
 				isEmagged = true;
 				SyncLocked(isLocked, false);

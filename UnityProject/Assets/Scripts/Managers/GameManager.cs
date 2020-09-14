@@ -468,8 +468,11 @@ public partial class GameManager : MonoBehaviour
 	/// </summary>
 	private void PlayRandomRoundEndSound()
 	{
+		// JESTER
+		/*
 		var rand = RANDOM.Next(RoundEndSounds.Length);
 		SoundManager.PlayNetworked(RoundEndSounds[rand], 1f);
+		*/
 	}
 
 	/// <summary>

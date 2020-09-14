@@ -179,7 +179,7 @@ public class FireLemon : NetworkBehaviour, IPredictedInteractable<HandActivate>,
 
 	private void PlayPinSFX(Vector3 position)
 	{
-		SoundManager.PlayNetworkedAtPos("sizzle", position, sourceObj: gameObject);
+		// JESTER SoundManager.PlayNetworkedAtPos("sizzle", position, sourceObj: gameObject);
 	}
 
 	private void UpdateTimer(bool timerRunning)

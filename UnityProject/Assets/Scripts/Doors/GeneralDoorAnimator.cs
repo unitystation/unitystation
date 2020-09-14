@@ -94,7 +94,7 @@ public class GeneralDoorAnimator : DoorAnimator
 		}
 
 		doorController.isPerformingAction = true;
-		SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
+		// JESTER SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
 		StartCoroutine(PlayDeniedAnim());
 	}
 

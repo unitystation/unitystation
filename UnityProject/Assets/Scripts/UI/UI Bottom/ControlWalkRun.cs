@@ -24,7 +24,7 @@ using UnityEngine.EventSystems;
 		{
 			Logger.Log("RunWalk Button", Category.UI);
 
-			SoundManager.Play("Click01");
+			// JESTER SoundManager.Play("Click01");
 
 			if (!running)
 			{

@@ -339,8 +339,11 @@ namespace AdminCommands
 
 			foreach (PlayerScript player in players)
 			{
+				// JESTER
+				/*
 				SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject,
 					player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
+				*/
 			}
 
 			var msg = $"{PlayerList.Instance.GetByUserID(adminId).Username}: played the global sound: {index}.";

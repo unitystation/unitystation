@@ -81,7 +81,7 @@ public class FireExtinguisher : NetworkBehaviour,
 
 		Effect.PlayParticleDirectional(this.gameObject, interaction.TargetVector);
 
-		SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1, sourceObj: interaction.Performer);
+		// JESTER SoundManager.PlayNetworkedAtPos("Extinguish", startPos, 1, sourceObj: interaction.Performer);
 
 		interaction.Performer.Pushable()?.NewtonianMove((-interaction.TargetVector).NormalizeToInt());
 	}

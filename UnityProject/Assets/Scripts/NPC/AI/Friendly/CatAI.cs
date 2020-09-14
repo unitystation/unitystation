@@ -98,7 +98,7 @@ namespace NPC
 
 		private void Purr(GameObject purred = null)
 		{
-			SoundManager.PlayNetworkedAtPos("Purr", gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+			// JESTER SoundManager.PlayNetworkedAtPos("Purr", gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
 
 			if (purred != null)
 			{
@@ -115,7 +115,7 @@ namespace NPC
 
 		private void Meow(GameObject meowed = null)
 		{
-			SoundManager.PlayNetworkedAtPos("Meow#", gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
+			// JESTER SoundManager.PlayNetworkedAtPos("Meow#", gameObject.WorldPosServer(), Random.Range(.8f, 1.2f));
 
 			if (meowed != null)
 			{
@@ -132,7 +132,7 @@ namespace NPC
 
 		private void Hiss(GameObject hissed = null)
 		{
-			SoundManager.PlayNetworkedAtPos("CatHiss", gameObject.WorldPosServer(), Random.Range(.9f, 1f));
+			// JESTER SoundManager.PlayNetworkedAtPos("CatHiss", gameObject.WorldPosServer(), Random.Range(.9f, 1f));
 
 			if (hissed != null)
 			{

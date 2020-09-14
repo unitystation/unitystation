@@ -123,7 +123,7 @@ public partial class GameManager
 			if (status == EscapeShuttleStatus.DockedStation)
 			{
 				beenToStation = true;
-				SoundManager.PlayNetworked("ShuttleDocked");
+				// JESTER SoundManager.PlayNetworked("ShuttleDocked");
 				Chat.AddSystemMsgToChat($"<color=white>Escape shuttle has arrived! Crew has {TimeSpan.FromSeconds(ShuttleDepartTime).Minutes} minutes to get on it.</color>", MatrixManager.MainStationMatrix);
 				//should be changed to manual send later
 				StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );

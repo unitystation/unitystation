@@ -152,7 +152,7 @@ namespace Disposals
 		{
 			TryDamageTileFromEjection(NextPipeLocalPosition);
 			var worldPos = MatrixManager.LocalToWorld(NextPipeLocalPosition, matrix);
-			SoundManager.PlayNetworkedAtPos("DisposalEjectionHiss", worldPos);
+			// JESTER SoundManager.PlayNetworkedAtPos("DisposalEjectionHiss", worldPos);
 			TransferContainerToVector(NextPipeVector);
 			virtualContainer.EjectContentsAndThrow(currentPipeOutputSide.Vector);
 			DespawnContainerAndFinish();

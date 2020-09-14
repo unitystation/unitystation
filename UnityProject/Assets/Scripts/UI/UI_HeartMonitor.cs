@@ -128,7 +128,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 		if (overallHealthCache <= 0 &&
 		    overallHealthCache < 15)
 		{
-			SoundManager.Play("Critstate");
+			// JESTER SoundManager.Play("Critstate");
 			CurrentSpriteSet = 5;
 			pulseImg.sprite = StatesSprites[5].SP[currentSprite];
 			overlayCrits.SetState(OverlayState.unconscious);

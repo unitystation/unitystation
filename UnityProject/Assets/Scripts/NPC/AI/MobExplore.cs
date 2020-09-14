@@ -188,7 +188,7 @@ public class MobExplore : MobAgent
 			}
 
 			// Send the sound to all nearby clients
-			SoundManager.PlayNetworkedAtPos("EatFood", transform.position, null, false, false, gameObject);
+			// JESTER SoundManager.PlayNetworkedAtPos("EatFood", transform.position, null, false, false, gameObject);
 
 			Despawn.ServerSingle(food.gameObject);
 			FoodEatenEvent?.Invoke();

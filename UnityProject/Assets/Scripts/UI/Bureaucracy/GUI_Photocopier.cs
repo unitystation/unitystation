@@ -99,7 +99,7 @@ namespace Assets.Scripts.UI.Bureaucracy
 		{
 			if (!Photocopier.TrayOpen)
 			{
-				SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
+				// JESTER SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
 				Photocopier.ToggleTray();
 			}
 		}
@@ -108,7 +108,7 @@ namespace Assets.Scripts.UI.Bureaucracy
 		{
 			if (!Photocopier.ScannerOpen)
 			{
-				SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
+				// JESTER SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
 				Photocopier.ToggleScannerLid();
 			}
 		}
@@ -117,7 +117,7 @@ namespace Assets.Scripts.UI.Bureaucracy
 		{
 			if (Photocopier.CanPrint())
 			{
-				SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
+				// JESTER SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
 				Photocopier.Print();
 			}
 		}
@@ -126,7 +126,7 @@ namespace Assets.Scripts.UI.Bureaucracy
 		{
 			if (Photocopier.CanScan())
 			{
-				SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
+				// JESTER SoundManager.PlayNetworkedAtPos("Beep", registerObject.WorldPosition);
 				Photocopier.Scan();
 			}
 		}

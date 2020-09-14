@@ -592,6 +592,8 @@ public partial class PlayerSync
 	/// <param name="performer">The creature making the sound</param>
 	private void PlayFootstepSoundAtPosition(Vector3 worldPos, StepType stepType, GameObject performer)
 	{
+		// JESTER
+		/*
 		MatrixInfo matrix = MatrixManager.AtPoint(worldPos.NormalizeToInt(), false);
 		var locPos = matrix.ObjectParent.transform.InverseTransformPoint(worldPos).RoundToInt();
 		var tile = matrix.MetaTileMap.GetTile(locPos) as BasicTile;
@@ -617,6 +619,7 @@ public partial class PlayerSync
 
 			step = !step;
 		}
+		*/
 	}
 
 

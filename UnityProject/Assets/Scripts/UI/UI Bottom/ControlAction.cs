@@ -30,8 +30,8 @@ public class ControlAction : MonoBehaviour
 		}
 		
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdResist();
-		
-		SoundManager.Play("Click01");
+
+		// JESTER SoundManager.Play("Click01");
 		Logger.Log("Resist Button", Category.UI);
 	}
 
@@ -59,7 +59,7 @@ public class ControlAction : MonoBehaviour
 			Throw();
 		}
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdDropItem(currentSlot.NamedSlot);
-		SoundManager.Play("Click01");
+		// JESTER SoundManager.Play("Click01");
 		Logger.Log("Drop Button", Category.UI);
 	}
 
@@ -87,7 +87,7 @@ public class ControlAction : MonoBehaviour
 
 			// Enable throw
 			Logger.Log("Throw Button Enabled", Category.UI);
-			SoundManager.Play("Click01");
+			// JESTER SoundManager.Play("Click01");
 			UIManager.IsThrow = true;
 			throwImage.sprite = throwSprites[1];
 		}

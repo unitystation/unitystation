@@ -356,7 +356,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		{
 
 			ServerChangeLightState(LightMountState.MissingBulb);
-			SoundManager.PlayNetworkedAtPos("GlassStep", pos, sourceObj: gameObject);
+			// JESTER SoundManager.PlayNetworkedAtPos("GlassStep", pos, sourceObj: gameObject);
 		}
 		else
 		{

@@ -42,7 +42,7 @@ namespace InGameEvents
 
 				CentComm.MakeAnnouncementNoSound(CentComm.CentCommAnnounceTemplate, text);
 
-				SoundManager.PlayNetworked("Meteors");
+				// JESTER SoundManager.PlayNetworked("Meteors");
 			}
 
 			if (FakeEvent) return;

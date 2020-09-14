@@ -29,7 +29,7 @@ using UnityEngine.EventSystems;
 
 		public void RolloutEquipmentMenu()
 		{
-			SoundManager.Play("Click01");
+			// JESTER SoundManager.Play("Click01");
 
 			if (isOpen)
 			{

@@ -531,7 +531,7 @@ public class InteractableTiles : NetworkBehaviour, IClientInteractable<Positiona
 		var getTile = metaTileMap.GetTile(cellPos, LayerType.Walls) as BasicTile;
 		if (getTile == null || getTile.Mineable == false) return false;
 
-		SoundManager.PlayNetworkedAtPos("BreakStone", worldPosition);
+		// JESTER SoundManager.PlayNetworkedAtPos("BreakStone", worldPosition);
 		Spawn.ServerPrefab(getTile.SpawnOnDeconstruct, worldPosition,
 			count: getTile.SpawnAmountOnDeconstruct);
 		tileChangeManager.RemoveTile(cellPos, LayerType.Walls);

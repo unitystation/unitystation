@@ -135,7 +135,7 @@ namespace Disposals
 			{
 				// Outlet orifice opens...
 				SetOutletOperating(true);
-				SoundManager.PlayNetworkedAtPos("DisposalMachineBuzzer", registerObject.WorldPositionServer, sourceObj: gameObject);
+				// JESTER SoundManager.PlayNetworkedAtPos("DisposalMachineBuzzer", registerObject.WorldPositionServer, sourceObj: gameObject);
 				yield return WaitFor.Seconds(EJECTION_DELAY);
 
 				// Outlet orifice open. Release the charge.

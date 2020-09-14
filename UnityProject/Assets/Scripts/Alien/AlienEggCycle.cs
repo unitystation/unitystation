@@ -162,11 +162,14 @@ namespace Alien
 		{
 			StopAllCoroutines();
 
+			// JESTER
+			/*
 			SoundManager.PlayNetworkedAtPos(
 				"squish",
 				gameObject.RegisterTile().WorldPositionServer,
 				1f,
 				global: false);
+			*/
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer.gameObject,
