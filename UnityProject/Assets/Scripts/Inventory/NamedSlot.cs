@@ -35,3 +35,31 @@ public enum NamedSlot
 	none = 2048,
 
 }
+
+// NOTE: Ensure that NamedSlotFlagged == 2^(NamedSlot).
+/// <summary>
+/// All possible item slots as a flagged enum.
+/// </summary>
+[Serializable, Flags]
+public enum NamedSlotFlagged
+{
+	None = 0,
+	Outerwear = 1,
+	Belt = 2,
+	Head = 4,
+	Feet = 8,
+	Mask = 32,
+	Uniform = 64,
+	LeftHand = 128,
+	RightHand = 256,
+	Eyes = 512,
+	Back = 1024,
+	Hands = 2048,
+	Ear = 4096,
+	Neck = 8192,
+	Handcuffs = 16384,
+	ID = 32768,
+	Storage01 = 65536,
+	storage02 = 131072,
+	SuitStorage = 262144
+}
