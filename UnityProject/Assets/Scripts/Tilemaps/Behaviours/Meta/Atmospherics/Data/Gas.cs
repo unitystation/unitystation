@@ -12,7 +12,7 @@ namespace Atmospherics
 		public static readonly Gas Plasma = new Gas("Plasma", 200, 40f, true, 0.4f, "PlasmaAir", -4, 0);
 		public static readonly Gas Oxygen = new Gas("Oxygen", 20, 31.9988f, false, 0.4f, "NONE", -3, 0);
 		public static readonly Gas Nitrogen = new Gas("Nitrogen", 20, 28.0134f, false, 0.4f, "NONE", -3, 0);
-		public static readonly Gas CarbonDioxide = new Gas("Carbon Dioxide", 30, 44.01f, false, 0.4f, "NONE", -3, 0);
+		public static readonly Gas CarbonDioxide = new Gas("Carbon Dioxide", 20, 44.01f, false, 0.4f, "NONE", -3, 0);
 
 		public static readonly Gas NitrousOxide = new Gas("Nitrous Oxide", 40, 44.01f, true, 0.4f, "NO2", -5, 10);
 		public static readonly Gas Hydrogen = new Gas("Hydrogen", 30, 44.01f, false, 0.4f, "NONE", -3, 0);

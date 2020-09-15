@@ -69,7 +69,7 @@ namespace Atmospherics
 				}
 
 				float heatCapacity = gasMix.WholeHeatCapacity;
-				gasMix.Temperature = (temperature * heatCapacity + (Reactions.EnergyPerMole * TotalmolestoCO2)) / gasMix.WholeHeatCapacity;
+				gasMix.SetTemperature((temperature * heatCapacity + (Reactions.EnergyPerMole * TotalmolestoCO2)) / gasMix.WholeHeatCapacity);
 				consumed = TotalmolestoCO2;
 			}
 			return (consumed);
