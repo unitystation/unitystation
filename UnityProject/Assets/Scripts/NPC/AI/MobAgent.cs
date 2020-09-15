@@ -32,12 +32,6 @@ public class MobAgent : Agent
 
 	void Awake()
 	{
-		LoadManager.Instance.RegisterAction(Init);
-	}
-
-
-	void Init()
-	{
 		cnt = GetComponent<CustomNetTransform>();
 		registerObj = GetComponent<RegisterObject>();
 		dirSprites = GetComponent<NPCDirectionalSprites>();
@@ -70,12 +64,7 @@ public class MobAgent : Agent
 		tickWait = 0f;
 	}
 
-	void Start()
-	{
-		LoadManager.Instance.RegisterAction(SetUPStart);
-	}
-
-	public virtual void SetUPStart()
+	public virtual void Start()
 	{
 		//only needed for starting via a map scene through the editor:
 		if (CustomNetworkManager.Instance == null) return;

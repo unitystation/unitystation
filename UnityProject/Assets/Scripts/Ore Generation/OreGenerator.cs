@@ -37,7 +37,7 @@ public class OreGenerator : MonoBehaviour
 	void Start()
 	{
 		if(!runOnStart) return;
-		LoadManager.Instance.RegisterAction(RunOreGenerator);
+		LoadManager.RegisterAction(RunOreGenerator);
 	}
 
 

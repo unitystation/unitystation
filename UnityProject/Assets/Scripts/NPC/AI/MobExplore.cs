@@ -58,9 +58,9 @@ public class MobExplore : MobAgent
 		}
 	}
 
-	public override void SetUPStart()
+	public override void Start()
 	{
-		base.SetUPStart();
+		base.Start();
 		if (!hasFoodPrefereces || foodInitialNames.Any())
 		{
 			return;

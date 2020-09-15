@@ -141,7 +141,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 	private void Start()
 	{
-		LoadManager.Instance.RegisterAction(Init);
+		LoadManager.RegisterAction(Init);
 	}
 
 	private void Init()

@@ -85,7 +85,7 @@ public class Layer : MonoBehaviour
 
 	private void Start()
 	{
-		LoadManager.Instance.RegisterAction(Init);
+		LoadManager.RegisterAction(Init);
 	}
 
 	void Init()

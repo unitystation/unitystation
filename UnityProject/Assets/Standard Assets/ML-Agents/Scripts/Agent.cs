@@ -586,7 +586,7 @@ namespace MLAgents
             {
                 return;
             }
-
+            
             m_Info.memories = m_Action.memories;
             m_Info.storedVectorActions = m_Action.vectorActions;
             m_Info.storedTextActions = m_Action.textActions;

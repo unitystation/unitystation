@@ -13,9 +13,9 @@ namespace Initialisation
 
 		public int TargetMSprefFrame = 50;
 
-		public  Stopwatch stopwatch = new Stopwatch();
+		public Stopwatch stopwatch = new Stopwatch();
 
-		public Queue<Action> QueueInitialise = new Queue<Action>();
+		public static Queue<Action> QueueInitialise = new Queue<Action>();
 
 
 		//ServerData Awake moved to Start
@@ -33,7 +33,7 @@ namespace Initialisation
 		//Otherwise
 		//call Manager with function and what to Load before
 
-		public void RegisterAction(Action InAction)
+		public static void RegisterAction(Action InAction)
 		{
 			QueueInitialise.Enqueue(InAction);
 		}
@@ -51,6 +51,7 @@ namespace Initialisation
 
 			if (QueueInitialise.Count > 0)
 			{
+				//Logger.Log(QueueInitialise.Count.ToString() + " < in queue ");
 				stopwatch.Reset();
 				stopwatch.Start();
 				Action QueueAction = null;
@@ -66,8 +67,9 @@ namespace Initialisation
 						break;
 					}
 				}
+
 				stopwatch.Stop();
-				Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
+				//Logger.Log(stopwatch.ElapsedMilliseconds.ToString() + " < ElapsedMilliseconds ");
 			}
 		}
 	}
