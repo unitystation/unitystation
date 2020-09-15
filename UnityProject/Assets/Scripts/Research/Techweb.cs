@@ -49,35 +49,35 @@ public class Technology
 public class Techweb : MonoBehaviour
 {
 	// Use this for initialization
-	void Awake()
-	{
-		if (!(Globals.IsInitialised))
-		{
-			JsonImportInitialization();
-			Initialization();
-			Globals.IsInitialised = true;
-		}
+	// void Awake()
+	// {
+		// if (!(Globals.IsInitialised))
+		// {
+			// JsonImportInitialization();
+			// Initialization();
+			// Globals.IsInitialised = true;
+		// }
 		//Logger.Log(Globals.ResearchedTechnology.Count().ToString() + " yo2", Category.Research);
-		string Something1 = string.Join(",", Globals.ResearchedTechnology);
-		string Something2 = string.Join(",", Globals.AvailableTechnology);
-		string Something3 = string.Join(",", Globals.AvailableDesigns);
+		// string Something1 = string.Join(",", Globals.ResearchedTechnology);
+		// string Something2 = string.Join(",", Globals.AvailableTechnology);
+		// string Something3 = string.Join(",", Globals.AvailableDesigns);
 
 		//Logger.Log(Something1 + " sResearchedTechnology", Category.Research);
 		//Logger.Log(Something2 + " sAvailableTechnology", Category.Research);
 		//Logger.Log(Something3 + " sAvailableDesigns", Category.Research);
 
-		Research("datatheory");
+		// Research("datatheory");
 
-		Something1 = string.Join(",", Globals.ResearchedTechnology);
-		Something2 = string.Join(",", Globals.AvailableTechnology);
-		Something3 = string.Join(",", Globals.AvailableDesigns);
+		// Something1 = string.Join(",", Globals.ResearchedTechnology);
+		// Something2 = string.Join(",", Globals.AvailableTechnology);
+		// Something3 = string.Join(",", Globals.AvailableDesigns);
 
 		//Logger.Log(Globals.ResearchedTechnology.Count().ToString() + " yo3", Category.Research);
 		//Logger.Log(Something1 + " ResearchedTechnology", Category.Research);
 		//Logger.Log(Something2 + " AvailableTechnology", Category.Research);
 		//Logger.Log(Something3 + " AvailableDesigns", Category.Research);
-	
-	}
+
+	// }
 
 	public static class Globals
 	{
@@ -130,7 +130,7 @@ public class Techweb : MonoBehaviour
 			else
 			{ TechnologyPass.StartingNode = false; }
 
-			TechnologyPass.PotentialUnlocks = new List<string>(); 
+			TechnologyPass.PotentialUnlocks = new List<string>();
 
 			Globals.Technologies.Add (TechnologyPass);
 		}
@@ -165,7 +165,7 @@ public class Techweb : MonoBehaviour
 					{
 						AllPresent = false;
 					}
-			
+
 				}
 				if (AllPresent)
 				{

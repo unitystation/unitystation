@@ -2,13 +2,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Initialisation;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 ///------------
 /// CENTRAL COMMAND HQ
 ///------------
-public class CentComm : MonoBehaviour
+public class CentComm : MonoBehaviour, IInitialise
 {
 	public GameManager gameManager;
 
@@ -78,10 +79,13 @@ public class CentComm : MonoBehaviour
 	private string AntagInitialUpdate =
 		"Enemy communication intercepted. Security level elevated.";
 
-	void Start()
+	public InitialisationSystems Subsystem => InitialisationSystems.CentComm;
+
+	void IInitialise.Initialise()
 	{
 		paperPrefab = Resources.Load<GameObject>("Paper");
 	}
+
 
 	private void OnEnable()
 	{

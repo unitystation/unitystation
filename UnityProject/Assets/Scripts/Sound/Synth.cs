@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.IO;
+using Initialisation;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,7 +12,7 @@ public enum Slot
 	FX = 2,
 }
 
-public class Synth : MonoBehaviour
+public class Synth : MonoBehaviour, IInitialise
 {
 	public static Synth Instance;
 
@@ -36,15 +37,12 @@ public class Synth : MonoBehaviour
 					Disabled = true;
 					Logger.Log("Headless Detected: Disabling Synth", Category.Server);
 				}
-				else
-				{
-					Init();
-				}
 			}
 		} //else gets destroyed by parent
 	}
+	public InitialisationSystems Subsystem => InitialisationSystems.Synth;
 
-	void Start()
+	void IInitialise.Initialise()
 	{
 		Init();
 		FxModule = LoadFxInstrument("Keys/fm1.sunsynth");

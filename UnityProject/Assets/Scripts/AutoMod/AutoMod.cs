@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Initialisation;
 using UnityEngine;
 using Telepathy;
 using Debug = UnityEngine.Debug;
@@ -13,7 +14,7 @@ namespace AdminTools
 {
 	//A serverside optional auto moderator to help make
 	//server admin work easier. Only works in headless mode
-	public class AutoMod : MonoBehaviour
+	public class AutoMod : MonoBehaviour, IInitialise
 	{
 		private static AutoMod autoMod;
 
@@ -30,6 +31,15 @@ namespace AdminTools
 			}
 		}
 
+		public InitialisationSystems Subsystem => InitialisationSystems.AutoMod;
+
+		void IInitialise.Initialise()
+		{
+			LoadWordFilter();
+			LoadConfig();
+		}
+
+
 		private Dictionary<string, string> loadedWordFilter = new Dictionary<string, string>();
 
 		//Cooldown is based on a score system. A score is created every time a user posts a chat message. It will check how many
@@ -44,12 +54,6 @@ namespace AdminTools
 
 		private static string AutoModConfigPath =>
 			Path.Combine(Application.streamingAssetsPath, "admin", "automodconfig.json");
-
-		private void Start()
-		{
-			LoadWordFilter();
-			LoadConfig();
-		}
 
 		private void LoadWordFilter()
 		{
