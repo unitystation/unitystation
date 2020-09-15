@@ -973,49 +973,77 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// </summary>
 	public string Examine(Vector3 worldPos)
 	{
-		var healthFraction = OverallHealth / maxHealth;
-		var healthString = "";
-
-		if (!IsDead)
+		if (this is PlayerHealth)
 		{
-			if (healthFraction < 0.2f)
-			{
-				healthString = "heavily wounded.";
-			}
-			else if (healthFraction < 0.6f)
-			{
-				healthString = "wounded.";
-			}
-			else
-			{
-				healthString = "in good shape.";
-			}
-
-			// On fire?
-			if (FireStacks > 0)
-			{
-				healthString = "on fire!";
-			}
-
-			healthString = ConsciousState.ToString().ToLower().Replace("_", " ") + " and " + healthString;
-		}
-		else
-		{
-			healthString = "limp and unresponsive. There are no signs of life...";
+			// Let ExaminablePlayer take care of this.
+			return default;
 		}
 
+		return GetExamineText();
+	}
+
+	public string GetExamineText()
+	{
 		// Assume animal
-		string pronoun = "It";
+		string theyPronoun = "It";
+		string theirPronoun = "its";
+
 		var cs = GetComponentInParent<PlayerScript>()?.characterSettings;
 		if (cs != null)
 		{
-			pronoun = cs.TheyPronoun();
-			pronoun = pronoun[0].ToString().ToUpper() + pronoun.Substring(1);
+			theyPronoun = cs.TheyPronoun();
+			theyPronoun = theyPronoun[0].ToString().ToUpper() + theyPronoun.Substring(1);
+			theirPronoun = cs.TheirPronoun();
 		}
 
-		healthString = pronoun + " is " + healthString + (respiratorySystem.IsSuffocating && !IsDead
-			? " " + pronoun + " is having trouble breathing!"
-			: "");
+		var healthString = $"{theyPronoun} is ";
+		if (IsDead)
+		{
+			healthString += "limp and unresponsive; there are no signs of life";
+			if (this is PlayerHealth && GetComponent<PlayerScript>().mind.IsOnline() == false)
+			{
+				healthString += $" and {theirPronoun} soul has departed";
+			}
+
+			healthString += "...";
+		}
+		else // Is alive
+		{
+			healthString += $"{ConsciousState.ToString().ToLower().Replace("_", " ")} and ";
+
+			var healthFraction = OverallHealth / maxHealth;
+			string healthDescription;
+			if (healthFraction < 0.2f)
+			{
+				healthDescription = "heavily wounded.";
+			}
+			else if (healthFraction < 0.6f)
+			{
+				healthDescription = "wounded.";
+			}
+			else
+			{
+				healthDescription = "in good shape.";
+			}
+
+			if (respiratorySystem.IsSuffocating)
+			{
+				healthDescription = "having trouble breathing!";
+			}
+			// On fire?
+			if (FireStacks > 0)
+			{
+				healthDescription= "on fire!";
+			}
+			healthString += healthDescription;
+
+			if (this is PlayerHealth && GetComponent<PlayerScript>().mind.IsOnline() == false)
+			{
+				healthString += $"\n{theyPronoun} has a blank, absent-minded stare and appears completely unresponsive to anything. " +
+						$"{theyPronoun} may snap out of it soon.";
+			}
+		}
+
 		return healthString;
 	}
 

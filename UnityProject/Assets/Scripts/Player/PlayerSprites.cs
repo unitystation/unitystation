@@ -62,7 +62,7 @@ public class PlayerSprites : MonoBehaviour
 		{
 			clothes[c.name] = c;
 			// add listener in case clothing was changed
-			c.OnClothingEquiped += OnClothingEquipped;
+			c.OnClothingEquipped += OnClothingEquipped;
 		}
 
 		//TODO: Remove Resources.Load calls, change to prefab references stored somewhere
@@ -323,12 +323,12 @@ public class PlayerSprites : MonoBehaviour
 		return characterSprites.FirstOrDefault(ci => ci.Slot == namedSlot) != null;
 	}
 
-	private void OnClothingEquipped(ClothingV2 clothing, bool isEquiped)
+	private void OnClothingEquipped(ClothingV2 clothing, bool isEquipped)
 	{
 		//Logger.Log($"Clothing {clothing} was equipped {isEquiped}!", Category.Inventory);
 
 		// if new clothes equiped, add new hide flags
-		if (isEquiped)
+		if (isEquipped)
 		{
 			for (int n = 0; n < 11; n++)
 			{

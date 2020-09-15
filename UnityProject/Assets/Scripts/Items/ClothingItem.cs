@@ -38,7 +38,7 @@ public class ClothingItem : MonoBehaviour
 	/// <summary>
 	/// Player equipped or unequipped some clothing from ClothingItem slot
 	/// </summary>
-	public event OnClothingEquippedDelegate OnClothingEquiped;
+	public event OnClothingEquippedDelegate OnClothingEquipped;
 
 	/// <summary>
 	/// Direction clothing is facing (absolute)
@@ -88,8 +88,12 @@ public class ClothingItem : MonoBehaviour
 			{
 				// did we take off clothing?
 				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
+
+				// Unhide the players's slots defined in the clothing's HiddenSlots, as we're removing it.
+				thisPlayerScript.Equipment.obscuredSlots &= ~unequippedClothing.HiddenSlots;
+
 				if (unequippedClothing)
-					OnClothingEquiped?.Invoke(unequippedClothing, false);
+					OnClothingEquipped?.Invoke(unequippedClothing, false);
 			}
 
 			GameObjectReference = null; // Remove the item from equipment
@@ -110,12 +114,15 @@ public class ClothingItem : MonoBehaviour
 				var equippedClothing = Item.GetComponent<ClothingV2>();
 				equippedClothing?.LinkClothingItem(this);
 
+				// Set the slots defined in hidesSlots as hidden.
+				thisPlayerScript.Equipment.obscuredSlots |= equippedClothing.HiddenSlots;
+
 				// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
-				// But for the others, we call the OnClothingEquiped event.
+				// But for the others, we call the OnClothingEquipped event.
 				if (equippedClothing)
 				{
 					// call the event of equiped clothing
-					OnClothingEquiped?.Invoke(equippedClothing, true);
+					OnClothingEquipped?.Invoke(equippedClothing, true);
 				}
 			}
 		}

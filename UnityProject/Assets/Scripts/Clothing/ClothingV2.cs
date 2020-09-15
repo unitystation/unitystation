@@ -21,12 +21,16 @@ public class ClothingV2 : NetworkBehaviour
 	[SerializeField][SyncVar(hook = nameof(SyncSprites))]
 	private ClothingVariantType variantType = ClothingVariantType.Default;
 
+	[Tooltip("Determine which slots this clothing should obscure.")]
+	[SerializeField, EnumFlag]
+	private NamedSlotFlagged hidesSlots = NamedSlotFlagged.None;
+
 	[Tooltip("Determine when a piece of clothing hides another")]
 	[SerializeField, EnumFlag]
 	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
 
 	private ItemAttributesV2 myItem;
-	private Pickupable myPickupable;
+	private Pickupable pickupable;
 
 	public List<SpriteDataSO> SpriteDataSO = new List<SpriteDataSO>();
 	private bool isAdjusted = false; // TODO Nothing is assigning to this variable, not serialized so SpriteInfoState is always false.
@@ -47,6 +51,10 @@ public class ClothingV2 : NetworkBehaviour
 	public int SpriteInfoState => isAdjusted ? 1 : 0;
 
 	/// <summary>
+	/// When this item is equipped, these are the slots that should be hidden.
+	/// </summary>
+	public NamedSlotFlagged HiddenSlots => hidesSlots;
+	/// <summary>
 	/// Determine when a piece of clothing hides another
 	/// </summary>
 	public ClothingHideFlags HideClothingFlags => hideClothingFlags;
@@ -56,7 +64,7 @@ public class ClothingV2 : NetworkBehaviour
 	private void Awake()
 	{
 		myItem = GetComponent<ItemAttributesV2>();
-		myPickupable = GetComponent<Pickupable>();
+		pickupable = GetComponent<Pickupable>();
 		TryInit();
 	}
 
@@ -110,7 +118,7 @@ public class ClothingV2 : NetworkBehaviour
 		{
 			//	myItem.SetPaletteOfCurrentSprite(palette);
 			clothingItem?.spriteHandler.SetPaletteOfCurrentSprite(palette,  Network:false);
-			myPickupable.SetPalette(palette);
+			pickupable.SetPalette(palette);
 		}
 	}
 
@@ -154,7 +162,7 @@ public class ClothingV2 : NetworkBehaviour
 }
 
 /// <summary>
-/// Bit flags which determine when a piece of clothing hides another.
+/// Bit flags which determine when a piece of clothing hides another visually.
 /// IE a helmet hiding glasses.
 /// </summary>
 [Flags]
