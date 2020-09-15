@@ -6,6 +6,7 @@ using System.Text;
 using System.Linq;
 using DiscordWebhook;
 using DatabaseAPI;
+using Messages.Server.LocalGuiMessages;
 
 namespace Antagonists
 {
@@ -16,11 +17,8 @@ namespace Antagonists
 		/// </summary>
 		public static AntagManager Instance;
 
-		/// <summary>
-		/// Stores all antag and objective data.
-		/// </summary>
-		[SerializeField]
-		private AntagData AntagData = null;
+		[SerializeField] [Tooltip("Stores all antag and objective data.")]
+		private AntagData antagData = null;
 
 		/// <summary>
 		/// All active antagonists
@@ -30,12 +28,12 @@ namespace Antagonists
 		/// <summary>
 		/// Keeps track of which players have already been targeted for objectives
 		/// </summary>
-		public List<PlayerScript> TargetedPlayers = new List<PlayerScript>();
+		[NonSerialized] public List<PlayerScript> TargetedPlayers = new List<PlayerScript>();
 
 		/// <summary>
 		/// Keeps track of which items have already been targeted for objectives
 		/// </summary>
-		public List<GameObject> TargetedItems = new List<GameObject>();
+		[NonSerialized] public List<GameObject> TargetedItems = new List<GameObject>();
 
 		private void Awake()
 		{
@@ -84,14 +82,31 @@ namespace Antagonists
 			var connectedPlayer = PlayerList.Instance.Get(spawnedPlayer);
 
 			// Generate objectives for this antag
-			List<Objective> objectives = AntagData.GenerateObjectives(connectedPlayer.Script, chosenAntag);
+			List<Objective> objectives = antagData.GenerateObjectives(connectedPlayer.Script, chosenAntag);
 			// Set the antag
 			var spawnedAntag = SpawnedAntag.Create(chosenAntag, connectedPlayer.Script.mind, objectives);
 			connectedPlayer.Script.mind.SetAntag(spawnedAntag);
 			ActiveAntags.Add(spawnedAntag);
+			ShowAntagBanner(spawnedPlayer, chosenAntag);
+
 			Logger.Log($"Created new antag. Made {connectedPlayer.Name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}", Category.Antags);
 		}
 
+		/// <summary>
+		/// Sends a message to the antag player and tells it to start the antag banner animation.
+		/// </summary>
+		/// <param name="player">Who</param>
+		/// <param name="antag">What antag data</param>
+		private static void ShowAntagBanner(GameObject player, Antagonist antag)
+		{
+			AntagBannerMessage.Send(
+				player,
+				antag.AntagName,
+				antag.SpawnSound,
+				antag.TextColor,
+				antag.BackgroundColor,
+				antag.PlaySound);
+		}
 
 		/// <summary>
 		/// Remind all antagonists of their objectives.
