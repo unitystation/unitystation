@@ -34,23 +34,23 @@ jobs:
   #   - Replace UnityLicense.ulf in the Tools directory with it.
   #   - Make sure LICENSE_FILE_PATH in the 'Setup license' step still points to it.
 
-  # # Request license file job
-  # requestManualActivationFile:
-  #   name: Request manual activation file
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     # Request manual activation file
-  #     - name: Request manual activation file
-  #       uses: webbertakken/unity-request-manual-activation-file@v1.1
-  #       id: getManualLicenseFile
-  #       with:
-  #         unityVersion: 2019.3.15f1
-  #     # Upload artifact (Unity_v20XX.X.XXXX.alf)
-  #     - name: Expose as artifact
-  #       uses: actions/upload-artifact@v1
-  #       with:
-  #         name: ${{ steps.getManualLicenseFile.outputs.filePath }}
-  #         path: ${{ steps.getManualLicenseFile.outputs.filePath }}
+   # Request license file job
+   requestManualActivationFile:
+     name: Request manual activation file
+     runs-on: ubuntu-latest
+     steps:
+       # Request manual activation file
+       - name: Request manual activation file
+         uses: webbertakken/unity-request-manual-activation-file@v1.1
+         id: getManualLicenseFile
+         with:
+           unityVersion: 2019.3.15f1
+       # Upload artifact (Unity_v20XX.X.XXXX.alf)
+       - name: Expose as artifact
+         uses: actions/upload-artifact@v1
+         with:
+           name: ${{ steps.getManualLicenseFile.outputs.filePath }}
+           path: ${{ steps.getManualLicenseFile.outputs.filePath }}
   
   # Perform unit testing
   performTest:
@@ -84,10 +84,10 @@ jobs:
       # Set the UNITY_LICENSE environment variable
       - name: Setup license
         # This step:
-        #   - Grabs the license file contents from the $LICENSE_FILE_PATH
-        #   - Uses substitution to escape newline characters for GitHub Actions set-env.
-        #     (from: https://github.community/t5/GitHub-Actions/set-output-Truncates-Multiline-Strings/td-p/37870)
-        #   - Set the UNITY_LICENSE env var for all future steps using special GitHub Actions syntax
+           - Grabs the license file contents from the $LICENSE_FILE_PATH
+           - Uses substitution to escape newline characters for GitHub Actions set-env.
+             (from: https://github.community/t5/GitHub-Actions/set-output-Truncates-Multiline-Strings/td-p/37870)
+           - Set the UNITY_LICENSE env var for all future steps using special GitHub Actions syntax
         env:
           LICENSE_FILE_PATH: ./Tools/UnityLicense.ulf
         run: |
