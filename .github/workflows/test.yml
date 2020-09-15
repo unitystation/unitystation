@@ -51,7 +51,6 @@ jobs:
          with:
            name: ${{ steps.getManualLicenseFile.outputs.filePath }}
            path: ${{ steps.getManualLicenseFile.outputs.filePath }}
-  
 #Perform unit testing
   performTest:
     name: Unit testing on ${{ matrix.unityVersion }}
