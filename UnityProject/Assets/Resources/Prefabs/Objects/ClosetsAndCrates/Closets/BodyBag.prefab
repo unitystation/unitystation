@@ -58,6 +58,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8766114959041811600, guid: e04b035c5758bbf479e3d67c638b1310,
         type: 3}
+    - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: weldOverlay
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: -6909192434074767838, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: closetType
@@ -66,7 +71,7 @@ PrefabInstance:
     - target: {fileID: -6909192434074767838, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: Passable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 928039887571597778, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
@@ -134,6 +139,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4e5ba2ee6f8cf2d48a8276afe672270a,
         type: 3}
+    - target: {fileID: 3132194016869022796, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5029123947003194478, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: m_Sprite
@@ -184,6 +194,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_AssetId
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8730627397065656938, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: isDirty
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8970863354629131570, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
