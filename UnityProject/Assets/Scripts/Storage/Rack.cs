@@ -47,6 +47,7 @@ public class Rack : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 		    && interaction.Intent != Intent.Help)
 		{
 			// JESTER SoundManager.PlayNetworkedAtPos("Wrench", interaction.WorldPositionTarget, 1f, sourceObj: interaction.Performer);
+			//ToolUtils.ServerPlayToolSound(interaction);
 			Spawn.ServerPrefab(rackParts, interaction.WorldPositionTarget.RoundToInt(),
 				interaction.TargetObject.transform.parent);
 			Despawn.ServerSingle(gameObject);

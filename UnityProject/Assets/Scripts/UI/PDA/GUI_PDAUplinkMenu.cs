@@ -4,59 +4,51 @@ using UnityEngine;
 
 namespace UI.PDA
 {
-	public class GUI_PDAUplinkMenu : NetPage
+	public class GUI_PDAUplinkMenu : NetPage, IPageReadyable
 	{
+		private const string ROOT_DIRECTORY = "???";
+		public readonly string UPLINK_DIRECTORY = "tc-red34.syn";
+
 		public GUI_PDA mainController;
 
 		[SerializeField]
 		private NetPageSwitcher subSwitcher = null;
 
 		[SerializeField]
-		private GUI_PDAUplinkItem itemPage = null;
+		public GUI_PDAUplinkItem itemPage = null;
 
 		[SerializeField]
-		private GUI_PDAUplinkCategory categoryPage = null;
+		public GUI_PDAUplinkCategory categoryPage = null;
 
 		[SerializeField]
 		private NetLabel tcCounter = null;
-
-
-		/// <summary>
-		/// Shows the categories and wipes any entries from itempage
-		/// </summary>
-		public void ShowCategories()
+		
+		public void OnPageActivated()
 		{
-			UpdateCounter();
-			itemPage.ClearItems();
-			categoryPage.ClearCategory();
-			categoryPage.UpdateCategory();
-			subSwitcher.SetActivePage(categoryPage);
+			mainController.SetBreadcrumb(ROOT_DIRECTORY);
+			UpdateTCCounter();
+			OpenSubPage(categoryPage);
 		}
 
-		/// <summary>
-		/// This generates the list of items in the selected category
-		/// </summary>
-		public void OpenSelectedCategory(List<UplinkItems> items)
+		public void OpenSubPage(NetPage page)
 		{
-			UpdateCounter();
-			itemPage.ClearItems();
-			categoryPage.ClearCategory();
-			itemPage.GenerateEntries(items);
-			subSwitcher.SetActivePage(itemPage);
+			mainController.OpenPageOnSwitcher(subSwitcher, page);
 		}
 
-		/// <summary>
-		/// Updates the TCcounter
-		/// </summary>
-		public void UpdateCounter()
+		public void UpdateTCCounter()
 		{
-			tcCounter.SetValueServer($"TC: {mainController.Pda.TeleCrystals}");
+			tcCounter.SetValueServer($"TC:{mainController.PDA.UplinkTC}");
 		}
 
 		public void LockUplink()
 		{
-			mainController.OpenMainMenu();
-			mainController.Pda.LockUplink();
+			mainController.PDA.LockUplink();
+			mainController.OpenPage(mainController.MainPage);
+		}
+
+		public void SetBreadcrumb(string directory)
+		{
+			mainController.SetBreadcrumb($"{ROOT_DIRECTORY}/{directory}");
 		}
 	}
 }

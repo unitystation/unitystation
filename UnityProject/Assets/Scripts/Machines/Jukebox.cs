@@ -46,6 +46,11 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	[Range(0, 1)]
 	private float Volume = 1;
 
+	[SerializeField] [Range(0, 360)]
+	private float Spread = 0;
+
+
+	private SpriteRenderer spriteRenderer;
 	/// <summary>
 	/// The current state of the jukebox powered/overpowered/underpowered/no power
 	/// </summary>
@@ -183,7 +188,9 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 				Volume = Volume,
 				MinDistance = MinSoundDistance,
 				MaxDistance = MaxSoundDistance,
-				VolumeRolloffType = VolumeRolloffType.EaseInAndOut
+				VolumeRolloffType = VolumeRolloffType.EaseInAndOut,
+				Spread = Spread
+
 			};
 
 			// JESTER SoundManager.PlayNetworkedAtPos(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Key, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);

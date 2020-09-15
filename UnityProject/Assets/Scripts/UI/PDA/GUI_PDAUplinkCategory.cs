@@ -1,45 +1,44 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace UI.PDA
 {
-	public class GUI_PDAUplinkCategory : NetPage
+	public class GUI_PDAUplinkCategory : NetPage, IPageReadyable
 	{
 		[SerializeField]
 		private GUI_PDAUplinkMenu controller = null;
-
 		[SerializeField]
-		private EmptyItemList categoryTemplate = null;
+		private EmptyItemList dynamicList = null;
 
-		private UplinkCategoryList categories;
-		public void UpdateCategory()
+		private bool isInitialised = false;
+
+		public void OnPageActivated()
 		{
-			if (categories == null)
+			if (!isInitialised)
 			{
-				categories = UplinkCategoryList.Instance;
+				InitialiseCategories();
 			}
-			categoryTemplate.Clear();
-			categoryTemplate.AddItems(categories.ItemCategoryList.Count);
-			for (int i = 0; i < categories.ItemCategoryList.Count; i++)
+
+			controller.SetBreadcrumb($"{controller.UPLINK_DIRECTORY}/categories/");
+		}
+
+		public void OpenUplinkCategory(UplinkCategory category)
+		{
+			controller.OpenSubPage(controller.itemPage);
+			controller.itemPage.GenerateEntries(category);
+		}
+
+		private void InitialiseCategories()
+		{
+			var categories = UplinkCategoryList.Instance.ItemCategoryList;
+
+			isInitialised = true;
+			dynamicList.AddItems(categories.Count);
+			for (int i = 0; i < categories.Count; i++)
 			{
-				categoryTemplate.Entries[i].GetComponent<GUI_PDAUplinkCategoryTemplate>().ReInit(categories.ItemCategoryList[i]);
+				dynamicList.Entries[i].GetComponent<GUI_PDAUplinkCategoryTemplate>().ReInit(categories[i]);
 			}
-		}
-		public void ClearCategory()
-		{
-			categoryTemplate.Clear();
-		}
-
-		public void Back()
-		{
-			ClearCategory();
-			controller.mainController.OpenSettings();
-		}
-
-		public void Lock()
-		{
-			Back();
-			controller.mainController.Pda.LockUplink();
 		}
 	}
 }

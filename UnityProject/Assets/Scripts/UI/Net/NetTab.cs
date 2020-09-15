@@ -227,8 +227,12 @@ public class NetTab : Tab
 	{
 		foreach (var peeper in Peepers.ToArray())
 		{
-			var validate = peeper.Script && Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
-			if (!validate) TabUpdateMessage.Send(peeper.GameObject, Provider, Type, TabAction.Close);
+			bool canApply = Validations.CanApply(peeper.Script, Provider, NetworkSide.Server);
+
+			if (!peeper.Script || !canApply)
+			{
+				TabUpdateMessage.Send(peeper.GameObject, Provider, Type, TabAction.Close);
+			}
 		}
 	}
 	public void CloseTab()

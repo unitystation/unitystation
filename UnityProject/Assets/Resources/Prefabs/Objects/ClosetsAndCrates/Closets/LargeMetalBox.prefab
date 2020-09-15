@@ -71,8 +71,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0acfed262eec27544bacd419dfed4dbc,
+      objectReference: {fileID: 0}
+    - target: {fileID: 3661236735629347827, guid: d0665b639a1bfc340afe3b1fde2773dd,
         type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4439490637053750649, guid: d0665b639a1bfc340afe3b1fde2773dd,
         type: 3}
       propertyPath: doorOpened
@@ -115,6 +119,12 @@ PrefabInstance:
       propertyPath: initialName
       value: large metal box
       objectReference: {fileID: 0}
+    - target: {fileID: 7947557062516400314, guid: d0665b639a1bfc340afe3b1fde2773dd,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2d96a0de87f852e40958ddf0a94a30a9,
+        type: 2}
     - target: {fileID: 8687686136168823938, guid: d0665b639a1bfc340afe3b1fde2773dd,
         type: 3}
       propertyPath: m_Sprite

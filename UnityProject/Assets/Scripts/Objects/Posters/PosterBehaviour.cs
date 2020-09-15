@@ -107,6 +107,7 @@ public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 		if (Validations.HasItemTrait(item, CommonTraits.Instance.Wirecutter))
 		{
 			// JESTER SoundManager.PlayNetworkedAtPos("WireCutter", pos, 1f, sourceObj: gameObject);
+			ToolUtils.ServerPlayToolSound(interaction);
 
 			if (posterVariant == Posters.Ripped)
 			{

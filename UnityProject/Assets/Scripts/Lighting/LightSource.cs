@@ -253,7 +253,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 			{
 				interaction.PerformerPlayerScript.playerHealth.ApplyDamageToBodypart(gameObject, 10f, AttackType.Energy, DamageType.Burn,
 					interaction.HandSlot.NamedSlot == NamedSlot.leftHand ? BodyPartType.LeftArm : BodyPartType.RightArm);
-				Chat.AddExamineMsgFromServer(performer, $"<color=red>You burn your hand while attempting to remove the light</color>");
+				Chat.AddExamineMsgFromServer(performer, $"<color=red>You burn your hand on the bulb while attempting to remove it!</color>");
 				return;
 			}
 			Spawn.ServerPrefab(itemInMount,performer.WorldPosServer());
@@ -361,7 +361,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 		else
 		{
 			ServerChangeLightState(LightMountState.Broken);
-			Spawn.ServerPrefab("GlassShard", pos, count: Random.Range(0, 2),
+			Spawn.ServerPrefab(CommonPrefabs.Instance.GlassShard, pos, count: Random.Range(0, 2),
 				scatterRadius: Random.Range(0, 2));
 		}
 	}

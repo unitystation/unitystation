@@ -111,5 +111,3 @@ public class GasContainerEditor : Editor
 		return result;
 	}
 }
-
-

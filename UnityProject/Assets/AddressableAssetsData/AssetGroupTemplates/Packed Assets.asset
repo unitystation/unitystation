@@ -52,7 +52,24 @@ MonoBehaviour:
     m_AssemblyName: 
     m_ClassName: 
   m_BundleNaming: 0
---- !u!114 &4450142835188351907
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1a3c5d64ac83548c09dd1678b9f6f1cd, type: 3}
+  m_Name: Packed Assets
+  m_EditorClassIdentifier: 
+  m_SchemaObjects:
+  - {fileID: -8197393064129250084}
+  - {fileID: 1711176294180150282}
+  m_Description: Pack assets into asset bundles.
+  m_Settings: {fileID: 0}
+--- !u!114 &1711176294180150282
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}

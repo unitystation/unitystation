@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
-using Mirror;
 using UnityEngine;
 
 namespace UI.PDA
 {
-	public class GUI_PDACrewManifest : NetPage
+	public class GUI_PDACrewManifest : NetPage, IPageLifecycle
 	{
 		[SerializeField]
 		private GUI_PDA controller = null;
@@ -14,10 +13,21 @@ namespace UI.PDA
 
 		private List<SecurityRecord> storedRecords;
 
+		public void OnPageActivated()
+		{
+			controller.SetBreadcrumb("/bin/manifest.sh");
+			GenerateEntries();
+		}
+
+		public void OnPageDeactivated()
+		{
+			ClearEntries();
+		}
+
 		/// <summary>
 		/// Generates new Entries for the manifest, making sure to update it just incase it changed
 		/// </summary>
-		public void GenerateEntries()
+		private void GenerateEntries()
 		{
 			storedRecords = SecurityRecordsManager.Instance.SecurityRecords;
 			crewManifestTemplate.Clear();
@@ -32,12 +42,6 @@ namespace UI.PDA
 		private void ClearEntries()
 		{
 			crewManifestTemplate.Clear();
-		}
-
-		public void Back()
-		{
-			ClearEntries();
-			controller.OpenMainMenu();
 		}
 	}
 }

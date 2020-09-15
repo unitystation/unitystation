@@ -37,7 +37,7 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 	private List<string> offAttackVerbs;
 
 	[SerializeField]
-	private EswordSprites Sprites;
+	private EswordSprites Sprites = default;
 
 	private ItemAttributesV2 itemAttributes;
 	private ItemLightControl lightControl;

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
-  m_DefaultGroup: 92899f08ecf5cd44caacc42c8a1fe7e8
+  m_DefaultGroup: 3c2fbe78e3760d4418eedde383510abc
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
   m_DisableCatalogUpdateOnStart: 0
@@ -25,10 +25,8 @@ MonoBehaviour:
     m_Id: 
   m_overridePlayerVersion: 
   m_GroupAssets:
-  - {fileID: 11400000, guid: 841e4c03ff9ac514f9cd0f11003ff086, type: 2}
-  - {fileID: 11400000, guid: 0865ee6c61f156749806fdc59c90b983, type: 2}
-  - {fileID: 11400000, guid: abae38f09039bb244a59b4f912f68265, type: 2}
-  - {fileID: 11400000, guid: 184a6579610a56642bbddf92a14056f8, type: 2}
+  - {fileID: 11400000, guid: 73646ee3470b655439d9b3ac2912190a, type: 2}
+  - {fileID: 11400000, guid: 519ae0e3c5016cc4dbe2b365a361ddb0, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -37,56 +35,53 @@ MonoBehaviour:
   m_ProfileSettings:
     m_Profiles:
     - m_InheritedParent: 
-      m_Id: 6e70dafaf111e6f4bbd4761e06ff7581
+      m_Id: 12c74a3742ea7144bae2f5264e9589d9
       m_ProfileName: Default
       m_Values:
-      - m_Id: 082ef5d67e4b09f449b2f1ccc4777ddd
+      - m_Id: fb6dcb1b4cc8ca54f80ac1ad385f5024
         m_Value: '[UnityEditor.EditorUserBuildSettings.activeBuildTarget]'
-      - m_Id: 58f9bd970d5f92146a1e55f6cd854469
+      - m_Id: 4bf4a185212756e4b9ec2fe850214538
         m_Value: '[UnityEngine.AddressableAssets.Addressables.BuildPath]/[BuildTarget]'
-      - m_Id: 9803d365527e6d448870c7b4b0d83b87
+      - m_Id: 15aefbc600cd3364ba514e2df426b09d
         m_Value: '{UnityEngine.AddressableAssets.Addressables.RuntimePath}/[BuildTarget]'
-      - m_Id: 25eed817c21a1cf4fbdb781191ce79a4
+      - m_Id: ba38a3e2fe2262c499153e416f700dac
         m_Value: ServerData/[BuildTarget]
-      - m_Id: ca62b422b3ce67e4e8eb901e6dd8b1a9
+      - m_Id: 5adadf179cb3b3d4aacb20390ddd3357
         m_Value: http://localhost/[BuildTarget]
     m_ProfileEntryNames:
-    - m_Id: 082ef5d67e4b09f449b2f1ccc4777ddd
+    - m_Id: fb6dcb1b4cc8ca54f80ac1ad385f5024
       m_Name: BuildTarget
       m_InlineUsage: 0
-    - m_Id: 58f9bd970d5f92146a1e55f6cd854469
+    - m_Id: 4bf4a185212756e4b9ec2fe850214538
       m_Name: LocalBuildPath
       m_InlineUsage: 0
-    - m_Id: 9803d365527e6d448870c7b4b0d83b87
+    - m_Id: 15aefbc600cd3364ba514e2df426b09d
       m_Name: LocalLoadPath
       m_InlineUsage: 0
-    - m_Id: 25eed817c21a1cf4fbdb781191ce79a4
+    - m_Id: ba38a3e2fe2262c499153e416f700dac
       m_Name: RemoteBuildPath
       m_InlineUsage: 0
-    - m_Id: ca62b422b3ce67e4e8eb901e6dd8b1a9
+    - m_Id: 5adadf179cb3b3d4aacb20390ddd3357
       m_Name: RemoteLoadPath
       m_InlineUsage: 0
     m_ProfileVersion: 1
   m_LabelTable:
     m_LabelNames:
     - default
-    - AudioFile
-    - SoundPrefab
-    - Music
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
-  - {fileID: 11400000, guid: 77acc33fae43bc14687948d5bd390efd, type: 2}
+  - {fileID: 11400000, guid: b0f690ae2d685c544acd4f7032db4413, type: 2}
   m_InitializationObjects: []
   m_CertificateHandlerType:
     m_AssemblyName: 
     m_ClassName: 
   m_ActivePlayerDataBuilderIndex: 3
   m_DataBuilders:
-  - {fileID: 11400000, guid: 9e3f996484b74dd489606a9640272d51, type: 2}
-  - {fileID: 11400000, guid: 27a697a22e4957140bdda4255aeefbd0, type: 2}
-  - {fileID: 11400000, guid: 79bfad47e0d663945b43eeee0f1fec56, type: 2}
-  - {fileID: 11400000, guid: 0b2c5eff36042ec46b7f5cfcaddfb9c6, type: 2}
-  m_ActiveProfileId: 6e70dafaf111e6f4bbd4761e06ff7581
+  - {fileID: 11400000, guid: 6a3a1c3761d384b42b2fe0cb218dbb6a, type: 2}
+  - {fileID: 11400000, guid: a484a20d75b80674c9a5caca0a366d51, type: 2}
+  - {fileID: 11400000, guid: f871b6599cffde1469d8ceb24385f174, type: 2}
+  - {fileID: 11400000, guid: 80277bc9b7ea4ec419f602b27d8243fc, type: 2}
+  m_ActiveProfileId: 12c74a3742ea7144bae2f5264e9589d9
   m_HostingServicesManager:
     m_HostingServiceInfos: []
     m_Settings: {fileID: 11400000}

@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
+using ScriptableObjects;
 
 public class BurstCanister : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
 {
-	[Tooltip("The prefab to spawn when the burst canister is salvaged.")]
-	[SerializeField]
-	private GameObject metalPrefab = default;
 
-	[Tooltip("How much of the indicated prefab should spawn")]
+	[Tooltip("How many metal sheets should spawn.")]
 	[SerializeField] [Range(1, 5)]
 	private int spawnCount = 2;
 
@@ -55,12 +53,13 @@ public class BurstCanister : MonoBehaviour, ICheckedInteractable<HandApply>, IEx
 
 	private void SalvageMetal()
 	{
-		Spawn.ServerPrefab(metalPrefab, gameObject.RegisterTile().WorldPositionServer, count: spawnCount);
+		Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, gameObject.RegisterTile().WorldPositionServer, count: spawnCount);
 		Despawn.ServerSingle(gameObject);
 	}
 
 	public string Examine(Vector3 worldPos = default)
 	{
+		if (!enabled) return default;
 		return "This canister has burst and is now useless. Perhaps you could salvage it?";
 	}
 

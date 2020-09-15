@@ -1,301 +1,500 @@
 ﻿using System;
-using Antagonists;
-using Mirror;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
+using Mirror;
+using Antagonists;
 using Random = UnityEngine.Random;
-
 
 namespace Items.PDA
 {
 	[RequireComponent(typeof(ItemStorage))]
 	[RequireComponent(typeof(ItemLightControl))]
-	[RequireComponent(typeof(HasNetworkTabItem))]
+	[RequireComponent(typeof(HasNetworkTab))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(PDANotesNetworkHandler))]
-	public class PDALogic : NetworkBehaviour, ICheckedInteractable<HandApply>
+	public class PDALogic : NetworkBehaviour, IServerActionGUI,
+			ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
 	{
+		private const bool DEBUG_UPLINK = true;
+		private const string DEBUG_UPLINK_CODE = "Whiskey Tango Foxtrot-1337";
+		private const int TIME_BEFORE_UPLINK_ACTIVATION = 10;
+
+		#region Inspector
+		[Tooltip("The cartridge prefab to be spawned for this PDA")]
+		[SerializeField]
+		private GameObject cartridgePrefab;
+
+		[Tooltip("The default ringtone to play")]
+		[SerializeField]
+		private string defaultRingtone = "TwoBeep";
+
+		[Tooltip("Reset registered name on FactoryReset?")]
+		[SerializeField]
+		private bool willResetName = false;
+
+		[SerializeField]
+		private ActionData flashlightAction = null;
+
+		#endregion Inspector
+
+		// GameObject attached components
+		private NetworkIdentity pdaID;
+		private Pickupable pickupable;
+		private ItemStorage storage;
+		private ItemLightControl flashlight;
+
+		/// <summary> The IDCard that is currently inserted into the PDA </summary>
+		public IDCard IDCard { get; private set; }
+		/// <summary> The name of the currently registered player (since the last PDA reset) </summary>
+		public string RegisteredPlayerName { get; private set; }
+		public string Ringtone { get; private set; }
+		/// <summary> The string that must be entered into the ringtone slot for the uplink </summary>
+		public string UplinkUnlockCode { get; private set; }
+		public bool IsUplinkCapable { get; private set; } = false;
+		public bool IsUplinkLocked { get; private set; } = true;
+		/// <summary> The count of how many telecrystals this PDA has </summary>
+		public int UplinkTC { get; private set; }
+
+		public bool FlashlightOn => flashlight.IsOn;
+		public ActionData ActionData => flashlightAction;
+
+		public Action registeredPlayerUpdated;
+		public Action idSlotUpdated;
+		public Action cartridgeSlotUpdated;
+
+		private ItemSlot IDSlot = null;
+		private ItemSlot CartridgeSlot = default;
+
+		#region Messenger stuff (unused)
+
 		// for messenger system
 		//MessengerSyncDictionary pdas;
 
 		//The actual list of access allowed set via the server and synced to all clients
 		private readonly SyncListInt accessSyncList = new SyncListInt();
 
-		// Check to see if the PDA has been registered the first time
-		private bool firstRegister = true;
-
-		// The light the pda controls
-		[Tooltip("The light the pda controls")]
-		public ItemLightControl flashlight;
-
-		// Is the flashlight on?
-		[NonSerialized]
-		public bool FlashlightOn = true;
-
-		// The ID that's inserted, if any.
-		[NonSerialized]
-		public IDCard IdCard;
-
-
-		[NonSerialized]
-		public bool IdEject;
-
-		// The slot the ID is currently stored in
-		[NonSerialized]
-		public ItemSlot IdSlot = null;
-
-		[FormerlySerializedAs("OnServerIDCardChanged")] [FormerlySerializedAs("IdEvent")]
-		public IDEvent onServerIdCardChanged = new IDEvent();
-
-		//The cartridge loaded into the PDA, acts like a container of methods
-		[Tooltip("The cartridge loaded into the PDA")]
-		public GameObject pdaCartridge;
-
-		//The netID of the PDA, will be used later for the messenger
-		private NetworkIdentity pdaId;
-
-		// The name of the first person who put their ID into the PDA
-		[NonSerialized] public string PdaRegisteredName;
-
-		//Local storage of the PDA
-		private ItemStorage storage;
-
-		// a simple bool to see if the uplink is locked, remove Serialize field when done
-		[SerializeField]
-		private bool uplinkLocked;
-
-		// The string that must be entered into the ringtone slot for the uplink
-		[SyncVar]
-		private string uplinkString;
-		public string UplinkString => uplinkString;
-
-		// A public readonly accessor for the TC
-		public int TeleCrystals => teleCrystals;
-
-		//Initial TC value, only assigned if antag
-		[SerializeField]
-		private int initalTeleCrystal = 0;
-
-		//The actual TC used, it's a syncvar so people cant to blackmagic fuckery to it
-		[SyncVar]
-		private int teleCrystals;
-
-		[NonSerialized]
-		public HasNetworkTabItem TabOnGameObject;
-
-		//What antag the PDA should look for when running antagcheck
-		[SerializeField]
-		private Antagonist antagSet = null;
-
-		private UplinkPasswordList passlist;
-
-		[SerializeField] private ActionData actionData = null;
-
-		public ActionData ActionData => actionData;
-
-
-		//Checks weather the player is trying to insert a cartridge or a new ID
-		public bool WillInteract(HandApply interaction, NetworkSide side)
-		{
-			var hand = interaction.HandObject != null ? interaction.HandObject : null;
-			if (hand != null)
-				if (hand.GetComponent<PDACartridge>() != null)
-				{
-					IdEject = false;
-					return true;
-				}
-
-			if (!DefaultWillInteract.Default(interaction, side))
-				return false;
-
-			if (!Validations.HasComponent<IDCard>(interaction.HandObject))
-				return false;
-
-			if (!Validations.CanFit(IdSlot, interaction.HandObject, side, true))
-				return false;
-
-			IdEject = true;
-			return true;
-		}
-		/// <summary>
-		/// Checks weather you're putting a new ID in or trying to put in a cartridge
-		/// </summary>
-		public void ServerPerformInteraction(HandApply interaction)
-		{
-			//Eject existing id card if there is one and put new one in
-			var hand = interaction.HandObject != null ? interaction.HandObject : null;
-			if ((IdSlot.Item != null) & IdEject)
-			{
-				RemoveDevice(true);
-			}
-			else if (hand != null && (hand.GetComponent<PDACartridge>() != null))
-			{
-				//despawns cartridge and also store it in the PDA's memory
-				pdaCartridge = hand;
-				Inventory.ServerDespawn(hand);
-			}
-
-			Inventory.ServerTransfer(interaction.HandSlot, IdSlot);
-		}
-
 		//private MessengerManager messengerSystem;
 
-		/// <summary>
-		/// Grabs the components on the game objects and readies itself for slot changes
-		/// </summary>
+		#endregion Messenger stuff (unused)
+
+		private enum ActionState
+		{
+			LightOff = 0,
+			LightOn = 1
+		}
+
+		#region Lifecycle
+
+		private void Awake()
+		{
+			pdaID = GetComponent<NetworkIdentity>();
+			pickupable = GetComponent<Pickupable>();
+			storage = GetComponent<ItemStorage>();
+			flashlight = GetComponent<ItemLightControl>();
+		}
+
 		private void Start()
 		{
-			storage = gameObject.GetComponent<ItemStorage>();
-			TabOnGameObject = gameObject.GetComponent<HasNetworkTabItem>();
-			pdaId = gameObject.GetComponent<NetworkIdentity>();
-			var slot = storage.GetIndexedItemSlot(0);
-			if (slot.IsEmpty != true) IdCard = slot.Item.GetComponent<IDCard>();
-			slot.OnSlotContentsChangeServer.AddListener(SlotChange);
-			passlist = UplinkPasswordList.Instance;
+			SetRingtone(defaultRingtone);
+
+			IDSlot = storage.GetIndexedItemSlot(0);
+			CartridgeSlot = storage.GetIndexedItemSlot(1);
+
+			IDSlot.OnSlotContentsChangeServer.AddListener(OnIDSlotChanged);
 			//messengerSystem = GameObject.Find("MessengerManager").GetComponent<MessengerManager>();
 			//AddSelf();
 		}
-		// checks to see if the character is the antag set in editor, if so enables uplink and gives TC
-		[Server]
-		public void AntagCheck(GameObject player)
+
+		public override void OnStartServer()
 		{
-			//TODO This is a hacky fix someone please figure out why the GUI start method runs twice
-			uplinkString = null;
-			SpawnedAntag antag = player.GetComponent<PlayerScript>().mind.GetAntag();
-			if (antag == null) return;
-			string antagName = antag.Antagonist.AntagName;
-			if (antagName != antagSet.AntagName || !isServer) return;
-			teleCrystals = initalTeleCrystal;
-			UplinkGenerate();
-			uplinkLocked = false;
-			PlayerCodeRemind(player);
+			// TODO Instead, consider listening for client's OnPlayerSpawned and then request server to run stuff.
+			StartCoroutine(DelayInitialisation());
+			UIActionManager.Show(this);
 		}
-		[Server]
-		private void UplinkGenerate()
+
+		private IEnumerator DelayInitialisation()
 		{
-			for (int i = 0; i < 3; i++)
+			yield return WaitFor.Seconds(TIME_BEFORE_UPLINK_ACTIVATION);
+
+			if (cartridgePrefab != null)
 			{
-				string word = passlist.WordList[Random.Range(0,passlist.WordList.Count)];
-				uplinkString += word;
+				var cartridge = Spawn.ServerPrefab(cartridgePrefab).GameObject;
+				Inventory.ServerAdd(cartridge, CartridgeSlot);
 			}
 
-			string nums = Random.Range(111, 999).ToString();
-			uplinkString += nums;
+			var owner = GetPlayerByParentInventory();
+			if (owner == null) yield return default;
+
+			RegisteredPlayerName = owner.ExpensiveName();
+			TryInstallUplink(owner);
+
+			if (DEBUG_UPLINK)
+			{
+				UplinkTC = 20;
+				UplinkUnlockCode = DEBUG_UPLINK_CODE;
+				IsUplinkCapable = true;
+				InformUplinkCode(owner);
+			}
 		}
 
-		private void PlayerCodeRemind(GameObject playerref)
+		#endregion Lifecycle
+
+		public void CallActionServer(ConnectedPlayer SentByPlayer)
 		{
-			Chat.AddExamineMsgFromServer(playerref, $"You suddenly remember reading an ominous message saying UplinkString: {uplinkString}");
+			ToggleFlashlight();
 		}
-		//The methods bellow are general functions of the PDA
+
+		public void CallActionClient() { }
+
+		public void ToggleFlashlight()
+		{
+			flashlight.Toggle(!flashlight.IsOn);
+			UIActionManager.SetSprite(this, FlashlightOn ? (int)ActionState.LightOn : (int)ActionState.LightOff);
+		}
 
 		/// <summary>
 		/// Resets PDA and tells the MessengerManager to set PDA to unknown
 		/// </summary>
-		public void PdaReset()
+		public void ResetPDA()
 		{
-			ReplaceName(pdaId, "UnknownPDA");
-			PdaRegisteredName = null;
-			firstRegister = true;
+			if (RegisteredPlayerName == default ||
+					IDSlot.IsOccupied && IDCard.RegisteredName == RegisteredPlayerName)
+			{
+				if (willResetName)
+				{
+					ReplaceName(pdaID, "UnknownPDA");
+					RegisteredPlayerName = default;
+				}
+
+				LockUplink();
+				SetRingtone(defaultRingtone);
+				PlayRingtone();
+
+				registeredPlayerUpdated?.Invoke();
+			}
+
+			else
+			{
+				PlayDenyTone();
+			}
 		}
 
-		/// <summary>
-		/// Locks the uplink
-		/// </summary>
+		private GameObject GetPlayerByParentInventory()
+		{
+			if (pickupable.ItemSlot == null) return default;
+
+			return pickupable.ItemSlot.RootPlayer().gameObject;
+		}
+
+		#region Sounds
+
+		public void SetRingtone(string newRingtone)
+		{
+			Ringtone = newRingtone;
+		}
+
+		public void PlayRingtone()
+		{
+			PlaySound(Ringtone);
+		}
+
+		public void PlayDenyTone()
+		{
+			PlaySound("BuzzDeny");
+		}
+
+		public void PlaySound(string soundName)
+		{
+			var sourceObject = GetPlayerByParentInventory();
+			if (sourceObject == null)
+			{
+				sourceObject = gameObject;
+			}
+
+			SoundManager.PlayNetworkedAtPos(soundName, sourceObject.AssumedWorldPosServer(), sourceObj: sourceObject);
+		}
+
+		public void PlaySoundPrivate(string soundName)
+		{
+			var player = GetPlayerByParentInventory();
+			if (player == null) return;
+
+			SoundManager.PlayNetworkedForPlayerAtPos(player, player.AssumedWorldPosServer(), soundName, sourceObj: player);
+		}
+
+		#endregion Sounds
+
+		#region Interaction
+		// HandApply for clicking on the PDA while it is on the ground.
+		// InventoryApply for clicking on the PDA while in inventory.
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.IsAltClick && IDSlot.IsOccupied) return true;
+
+			return WillInsert(interaction.UsedObject, side);
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.IsAltClick && IDSlot.IsOccupied)
+			{
+				EjectIDCard();
+				return;
+			}
+
+			ServerInsertItem(interaction.UsedObject, interaction.HandSlot);
+		}
+
+		public bool WillInteract(InventoryApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.IsAltClick && IDSlot.IsOccupied) return true;
+
+			return WillInsert(interaction.UsedObject, side);
+		}
+
+		public void ServerPerformInteraction(InventoryApply interaction)
+		{
+			if (interaction.IsAltClick && IDSlot.IsOccupied)
+			{
+				EjectIDCard();
+				return;
+			}
+
+			ServerInsertItem(interaction.UsedObject, interaction.FromSlot);
+		}
+
+		private bool WillInsert(GameObject item, NetworkSide side)
+		{
+			if (item == null) return false;
+
+			if (item.TryGetComponent(out IDCard card) && Validations.CanFit(IDSlot, item, side, true))
+			{
+				return true;
+			}
+
+			if (item.TryGetComponent(out PDACartridge cartridge) && Validations.CanFit(CartridgeSlot, item, side, true))
+			{
+				return true;
+			}
+
+			return false;
+		}
+
+		private void ServerInsertItem(GameObject item, ItemSlot fromSlot)
+		{
+			if (item.TryGetComponent(out IDCard card))
+			{
+				if (IDSlot.IsOccupied)
+				{
+					EjectIDCard();
+				}
+
+				Inventory.ServerTransfer(fromSlot, IDSlot);
+				IDCard = card;
+			}
+
+			else if (item.TryGetComponent(out PDACartridge cartridge))
+			{
+				if (CartridgeSlot.IsOccupied)
+				{
+					EjectCartridge();
+				}
+
+				Inventory.ServerTransfer(fromSlot, CartridgeSlot);
+			}
+		}
+
+		#endregion Interaction
+
+		#region Uplink-Init
+
+		private void TryInstallUplink(GameObject owner)
+		{
+			var antagType = TryGetAntagType(owner);
+			if (antagType == null) return;
+
+			UplinkTC = GetTCFromAntag(antagType);
+			if (UplinkTC <= 0) return;
+
+			UplinkUnlockCode = GenerateUplinkUnlockCode();
+			IsUplinkCapable = true;
+
+			InformUplinkCode(owner);
+		}
+
+		private Antagonist TryGetAntagType(GameObject player)
+		{
+			var playerMind = player.GetComponent<PlayerScript>().mind;
+			if (playerMind.IsAntag)
+			{
+				return playerMind.GetAntag().Antagonist;
+			}
+
+			return default;
+		}
+
+		private int GetTCFromAntag(Antagonist antag)
+		{
+			if (antag is Antagonists.Traitor traitor)
+			{
+				return traitor.initialTC;
+			}
+			else if (antag is NuclearOperative operative)
+			{
+				return operative.initialTC;
+			}
+
+			return default;
+		}
+
+		private string GenerateUplinkUnlockCode()
+		{
+			var code = "";
+			var codeList = UplinkPasswordList.Instance.WordList;
+			for (int i = 0; i < 3; i++)
+			{
+				string word = codeList[Random.Range(0, codeList.Count)];
+				code += word;
+			}
+
+			string nums = Random.Range(111, 999).ToString();
+			return code += nums;
+		}
+
+		private void InformUplinkCode(GameObject player)
+		{
+			var uplinkMessage =
+					$"The Syndicate has cunningly disguised a <i>Syndicate Uplink</i> as your <i>{gameObject.ExpensiveName()}</i>." +
+					$"Simply enter the code <b>{UplinkUnlockCode}</b> into the ringtone select to unlock its hidden features.";
+
+			PlaySoundPrivate(Ringtone);
+			Chat.AddExamineMsgFromServer(player, uplinkMessage);
+		}
+
+		#endregion Uplink-Init
+
+		#region Uplink
+
 		[Server]
 		public void LockUplink()
 		{
-			if (isServer) uplinkLocked = true;
+			IsUplinkLocked = true;
 		}
-		/// <summary>
-		/// Return true if it is server and uplink and notification string are the same
-		/// </summary>
+
 		[Server]
-		public bool ActivateUplink(string notificationString)
+		public void UnlockUplink(string attemptedCode)
 		{
-			return notificationString == uplinkString && isServer && uplinkLocked != true;
+			if (attemptedCode == UplinkUnlockCode)
+			{
+				IsUplinkLocked = false;
+			}
 		}
+
 		/// <summary>
-		/// Spawns the item requested by the uplink
+		/// Spawns the item requested by the uplink if there are enough TC.
 		/// </summary>
 		[Server]
 		public void SpawnUplinkItem(GameObject objectRequested, int cost)
 		{
-			// Grabs the player's playerscript by asking HasNetworkTabItem who was the last person to interact
-			if (cost <= teleCrystals)
+			if (!IsUplinkCapable || IsUplinkLocked) return;
+
+			if (cost > UplinkTC) return;
+
+			var result = Spawn.ServerPrefab(objectRequested);
+			if (result.Successful)
 			{
-				var player = TabOnGameObject.LastInteractedPlayer().GetComponent<PlayerScript>().ItemStorage;
-				var result = Spawn.ServerPrefab(objectRequested);
+				UplinkTC -= cost;
 				var item = result.GameObject;
-				teleCrystals -=cost;
-				if (player.GetNamedItemSlot(NamedSlot.rightHand) == null)
+				Inventory.ServerAdd(item, GetBestSlot(item));
+			}
+		}
+
+		#endregion Uplink
+
+		#region Inventory
+
+		private void OnIDSlotChanged()
+		{
+			IDCard = null;
+			if (IDSlot.IsOccupied && isServer)
+			{
+				IDCard = IDSlot.Item.GetComponent<IDCard>();
+
+				if (RegisteredPlayerName == default)
 				{
-					Inventory.ServerAdd(item, player.GetNamedItemSlot(NamedSlot.rightHand),
-						ReplacementStrategy.DropOther);
+					RegisteredPlayerName = IDCard.RegisteredName;
+					ReplaceName(pdaID, RegisteredPlayerName);
 				}
-				Inventory.ServerAdd(item, player.GetNamedItemSlot(NamedSlot.leftHand),
-					ReplacementStrategy.DropOther);
 			}
+
+			idSlotUpdated?.Invoke();
 		}
 
-		/// <summary>
-		/// Toggles the flashlight
-		/// </summary>
-		public void ToggleFlashlight()
+		public void EjectIDCard()
 		{
-			if (FlashlightOn)
-			{
-				flashlight.Toggle(false);
-				FlashlightOn = false;
-			}
-			else
-			{
-				flashlight.Toggle(true);
-				FlashlightOn = true;
-			}
+			EjectSlotContents(IDSlot);
 		}
 
-
-		/// Checks to see what the new ID is and will register the PDA with the ID if this is its first ID
-		private void SlotChange()
+		public void EjectCartridge()
 		{
-			//Checks the slots again and will update the variables
-			var slot = storage.GetIndexedItemSlot(0);
-			IdCard = null;
-			if (slot.IsEmpty != true && isServer)
+			EjectSlotContents(CartridgeSlot);
+		}
+
+		private void EjectSlotContents(ItemSlot slot)
+		{
+			var bestSlot = GetBestSlot(slot.ItemObject);
+			if (!Inventory.ServerTransfer(slot, bestSlot))
 			{
-				IdCard = slot.Item.GetComponent<IDCard>();
-				onServerIdCardChanged.Invoke(IdCard);
+				Inventory.ServerDrop(IDSlot);
+			}
+		}
+
+		// Surely there is already a method that does what this one does?
+		// Numerous things would benefit, Canister.cs and removing bulbs from fixtures come to mind.
+		// The only addition, really, is it includes hands (and prioritises them) as a potential slot.
+		private ItemSlot GetBestSlot(GameObject item)
+		{
+			var player = GetPlayerByParentInventory();
+			if (player == null)
+			{
+				return default;
 			}
 
-			//Will register the PDA to the ID card if firstRegister is true
-			if (!(firstRegister & (IdCard != null))) return;
-			PdaRegisteredName = IdCard.RegisteredName;
-			firstRegister = false;
-			ReplaceName(pdaId, PdaRegisteredName);
+			var playerStorage = player.GetComponent<PlayerScript>().ItemStorage;
+
+			var activeHand = playerStorage.GetActiveHandSlot();
+			if (activeHand.IsEmpty)
+			{
+				return activeHand;
+			}
+
+			var leftHand = playerStorage.GetNamedItemSlot(NamedSlot.leftHand);
+			if (leftHand != activeHand && leftHand.IsEmpty)
+			{
+				return leftHand;
+			}
+
+			var rightHand = playerStorage.GetNamedItemSlot(NamedSlot.rightHand);
+			if (rightHand != activeHand && rightHand.IsEmpty)
+			{
+				return rightHand;
+			}
+
+			return playerStorage.GetBestSlotFor(item);
 		}
+
+		#endregion Inventory
+
+		#region Messaging (unused)
 
 		//Just to make sure this only runs on client as Cmd only works Client ---> server
 		[Client]
 		private void ReplaceName(NetworkIdentity pdaId, string newName)
 		{
 			//messengerSystem.ReplaceName(pdaID, newName);
-		}
-
-		/// <summary>
-		/// A simple check to see if the ID should be ejected or the pda cartridge should be ejected
-		/// </summary>
-		public void RemoveDevice(bool isId)
-		{
-			if (isId)
-			{
-				Inventory.ServerDrop(storage.GetIndexedItemSlot(0));
-			}
-			else
-			{
-				Spawn.ServerPrefab(pdaCartridge, gameObject.RegisterTile().WorldPosition, transform.parent, count: 1);
-				pdaCartridge = null;
-			}
 		}
 
 		//TODO Get someone else to do the networking for the messenger
@@ -341,8 +540,13 @@ namespace Items.PDA
 		messengerSystem.RemovePDA(pdaID);
 	}
 	*/
+
+		#endregion Messaging
+
+		#region IDAccess
 		// All these methods handle ID card access, should only be ran server side because we cant trust client
 		//Note I I dont 100% understand all this but it works on the old code so im guessing its all fine
+
 		[Server]
 		public bool HasAccess(Access access)
 		{
@@ -355,7 +559,6 @@ namespace Items.PDA
 			return accessSyncList;
 		}
 
-
 		// Removes the indicated access from this IDCard
 		[Server]
 		public void ServerRemoveAccess(Access access)
@@ -364,7 +567,6 @@ namespace Items.PDA
 			accessSyncList.Remove((int) access);
 		}
 
-
 		// Adds the indicated access to this IDCard
 		[Server]
 		public void ServerAddAccess(Access access)
@@ -372,5 +574,7 @@ namespace Items.PDA
 			if (HasAccess(access)) return;
 			accessSyncList.Add((int) access);
 		}
+
+		#endregion IDAccess
 	}
 }

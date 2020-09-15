@@ -5,23 +5,20 @@ namespace UI.PDA
 {
 	public class GUI_PDAUplinkCategoryTemplate : DynamicEntry
 	{
-		private GUI_PDA mainTab;
-
-		private UplinkCatagories category;
-
 		[SerializeField]
 		private NetLabel categoryName = null;
 
+		private GUI_PDAUplinkCategory categoryPage;
+		private UplinkCategory category;
 
 		public void OpenCategory()
 		{
-			mainTab.OnCategoryClickedEvent.Invoke(category.ItemList);
+			categoryPage.OpenUplinkCategory(category);
 		}
 
-
-		public void ReInit(UplinkCatagories assignedCategory)
+		public void ReInit(UplinkCategory assignedCategory)
 		{
-			mainTab = MasterTab.GetComponent<GUI_PDA>();
+			categoryPage = MasterTab.GetComponent<GUI_PDA>().uplinkPage.categoryPage;
 			category = assignedCategory;
 			categoryName.SetValueServer(category.CategoryName);
 		}
