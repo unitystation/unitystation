@@ -16,4 +16,10 @@ public class TestingQuickly : MonoBehaviour
     {
 
     }
+
+    [NaughtyAttributes.Button("NotValidKey?")]
+    public void bob()
+    {
+	    Reference.NotValidKey();
+    }
 }
