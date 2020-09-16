@@ -12,7 +12,7 @@ namespace AddressableReferences
 	[System.Serializable]
 	public class AddressableReference<T> where T : UnityEngine.Object
 	{
-		public LoadSetting SetLoadSetting = LoadSetting.PreLoad;
+		public UnLoadSetting SetLoadSetting = UnLoadSetting.KeepLoaded;
 		public string Path = "";
 		public AssetReference AssetReference = null;
 
@@ -107,6 +107,13 @@ namespace AddressableReferences
 			}
 		}
 		#endregion
+	}
+
+	public enum UnLoadSetting
+	{
+		KeepLoaded, //Keep loaded until the game closes
+		UnloadOnRoundEnd,//Unloads when the round ends
+		When0Referenced //Unloads when there are zero references
 	}
 
 	public enum LoadSetting
