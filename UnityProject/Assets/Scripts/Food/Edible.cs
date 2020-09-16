@@ -74,7 +74,8 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 
 		var feeder = feederGO.GetComponent<PlayerScript>();
 
-		// Show eater message
+		//TODO: Reimplement metabolism
+		/*
 		var eaterHungerState = eater.playerHealth.Metabolism.HungerState;
 		ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
@@ -95,12 +96,13 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 			{
 				Eat(eater, feeder);
 			}
-		}
+		}*/
 	}
 
 	public virtual void Eat(PlayerScript eater, PlayerScript feeder)
 	{
-		SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
+		//TODO: Reimplement metabolism.
+		/*SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
 		eater.playerHealth.Metabolism
 			.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));
@@ -126,6 +128,6 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 				//If stackable has leavings and they couldn't go in the same slot, they should be dropped
 				pickupable.CustomNetTransform.SetPosition(feeder.WorldPos);
 			}
-		}
+		}*/
 	}
 }

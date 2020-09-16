@@ -38,9 +38,8 @@ public class PlayerSprites : MonoBehaviour
 	private PlayerDirectionalOverlay engulfedBurningOverlay;
 	private PlayerDirectionalOverlay partialBurningOverlay;
 	private PlayerDirectionalOverlay electrocutedOverlay;
-	private LivingHealthBehaviour livingHealthBehaviour;
 	private PlayerScript playerScript;
-	private PlayerHealth playerHealth;
+	private PlayerHealthV2 playerHealth;
 	private PlayerSync playerSync;
 
 	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
@@ -56,7 +55,7 @@ public class PlayerSprites : MonoBehaviour
 	protected void Awake()
 	{
 		directional = GetComponent<Directional>();
-		livingHealthBehaviour = GetComponent<LivingHealthBehaviour>();
+		playerHealth = GetComponent<PlayerHealthV2>();
 
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
@@ -76,8 +75,9 @@ public class PlayerSprites : MonoBehaviour
 		AddOverlayGameObjects();
 
 		directional.OnDirectionChange.AddListener(OnDirectionChange);
-		livingHealthBehaviour.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
-		OnClientFireStacksChange(livingHealthBehaviour.FireStacks);
+		//TODO: Need to reimplement fire stacks on players.
+		//playerHealth.OnClientFireStacksChange.AddListener(OnClientFireStacksChange);
+		//OnClientFireStacksChange(playerHealth.FireStacks);
 	}
 
 	/// <summary>
@@ -223,7 +223,8 @@ public class PlayerSprites : MonoBehaviour
 			c.Direction = direction;
 		}
 
-		UpdateBurningOverlays(livingHealthBehaviour.FireStacks, direction);
+		//TODO: Reimplement player fire sprites.
+		//UpdateBurningOverlays(playerHealth.FireStacks, direction);
 		UpdateElectrocutionOverlay(direction);
 	}
 

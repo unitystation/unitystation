@@ -100,7 +100,7 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 
 	private bool CanUncuff()
 	{
-		PlayerHealth playerHealth = thisPlayerScript.playerHealth;
+		PlayerHealthV2 playerHealth = thisPlayerScript.playerHealth;
 
 		if (playerHealth == null ||
 			playerHealth.ConsciousState == ConsciousState.DEAD ||

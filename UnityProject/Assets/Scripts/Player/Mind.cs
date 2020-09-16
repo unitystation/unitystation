@@ -99,7 +99,7 @@ public class Mind
 		Spells.Clear();
 		playerScript.mind = this;
 		body = playerScript;
-		bodyMobID = playerScript.GetComponent<LivingHealthBehaviour>().mobID;
+		bodyMobID = playerScript.GetComponent<LivingHealthMasterBase>().mobID;
 		if (occupation != null)
 		{
 			foreach (var spellData in occupation.Spells)
@@ -174,7 +174,7 @@ public class Mind
 		var currentMob = GetCurrentMob();
 		if (!IsGhosting)
 		{
-			var livingHealthBehaviour = currentMob.GetComponent<LivingHealthBehaviour>();
+			var livingHealthBehaviour = currentMob.GetComponent<LivingHealthMasterBase>();
 			if (!livingHealthBehaviour.IsDead)
 			{
 				return CloneableStatus.StillAlive;
