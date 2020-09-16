@@ -10,8 +10,9 @@ using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 
+[CustomPropertyDrawer(typeof(AddressableTexture))]
 [CustomPropertyDrawer(typeof(AddressableSprite))]
-public class AddressableSpritePropertyDrawe : PropertyDrawer
+public class AddressableReferencePropertyDrawer : PropertyDrawer
 {
 	public const int Height = 20;
 
