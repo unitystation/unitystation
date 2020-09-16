@@ -9,6 +9,10 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace AddressableReferences
 {
+	/// <summary>
+	/// Note about this class, Currently if you want a custom AssetReference Like asset reference texture, might have to make a new class this needs to be explored
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	[System.Serializable]
 	public class AddressableReference<T> where T : UnityEngine.Object
 	{
@@ -125,4 +129,6 @@ namespace AddressableReferences
 
 	[System.Serializable]
 	public class AddressableSprite : AddressableReference<Sprite> { }
+	[System.Serializable]
+	public class AddressableTexture : AddressableReference<Texture> { }
 }
