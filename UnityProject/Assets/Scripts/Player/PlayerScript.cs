@@ -29,7 +29,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 	/// <summary>
 	/// Will be null if player is a ghost.
 	/// </summary>
-	public PlayerHealth playerHealth { get; set; }
+	public PlayerHealthV2 playerHealth { get; set; }
 
 	public PlayerMove playerMove { get; set; }
 	public PlayerSprites playerSprites { get; set; }
@@ -201,7 +201,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		playerSprites = GetComponent<PlayerSprites>();
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
 		registerTile = GetComponent<RegisterPlayer>();
-		playerHealth = GetComponent<PlayerHealth>();
+		playerHealth = GetComponent<PlayerHealthV2>();
 		pushPull = GetComponent<ObjectBehaviour>();
 		weaponNetworkActions = GetComponent<WeaponNetworkActions>();
 		mouseInputController = GetComponent<MouseInputController>();
