@@ -192,7 +192,6 @@ public class UI_ItemImage
 
 		var rt = go.GetComponent<RectTransform>();
 		rt.SetParent(root.transform);
-		rt.transform.SetSiblingIndex(0);
 		rt.anchorMin = Vector2.zero;
 		rt.anchorMax = Vector2.one;
 		rt.sizeDelta = Vector2.zero;
