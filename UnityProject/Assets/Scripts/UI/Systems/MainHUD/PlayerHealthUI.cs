@@ -22,8 +22,6 @@ public class PlayerHealthUI : MonoBehaviour
 	public GameObject baseBody;
 	public GameObject alertsBox;
 
-	public Button oxygenButton;
-
 	public bool humanUI;
 
 	void Awake()
@@ -133,25 +131,21 @@ public class PlayerHealthUI : MonoBehaviour
 		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.IsSuffocating, oxygenAlert);
 
 		SetSpecificVisibility(false, toxinAlert);
-		// if (PlayerManager.LocalPlayerScript?.playerHealth?.Metabolism?.IsHungry != null)
-		// {
-			// SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
-		// }
-
+		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
 
 		//TODO: Reimplement metabolism stuff.
 		//SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
 
-		// if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
-		// {
-			// oxygenButton.interactable = true;
-		// }
+		if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
+		{
+			oxygenButton.interactable = true;
+		}
 
-		// if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
-		// {
-			// EventManager.Broadcast(EVENT.DisableInternals);
-			// oxygenButton.interactable = false;
-		// }
+		if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
+		{
+			EventManager.Broadcast(EVENT.DisableInternals);
+			oxygenButton.interactable = false;
+		}
 	}
 
 	/// <summary>

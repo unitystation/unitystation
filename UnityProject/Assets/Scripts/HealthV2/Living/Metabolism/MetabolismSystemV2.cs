@@ -1,4 +1,7 @@
-﻿using Mirror;
+﻿using System.Collections;
+using System.Collections.Generic;
+using Mirror;
+using UnityEngine;
 
 public class MetabolismSystemV2 : NetworkBehaviour
 {

@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ImplantProperty : ScriptableObject
+namespace HealthV2
 {
-	public abstract void ImplantUpdate(ImplantBase implant, LivingHealthMasterBase healthMaster);
+	public abstract class ImplantProperty : ScriptableObject
+	{
+		public abstract void ImplantUpdate(ImplantBase implant, LivingHealthMasterBase healthMaster);
+	}
+
 }
