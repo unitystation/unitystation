@@ -422,7 +422,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL)
 												|| playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
-												|| playerScript.playerHealth.IsCardiacArrest)
+												|| playerScript.playerHealth.InCardiacArrest)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them

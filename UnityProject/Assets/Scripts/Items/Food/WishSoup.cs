@@ -11,8 +11,11 @@ public class WishSoup : Edible
 		{
 			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
+			//TODO: Update to new metabolism system
+			/*
 			eater.playerHealth.Metabolism
 				.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));
+				*/
 
 			var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
 			Inventory.ServerDespawn(gameObject);
@@ -33,8 +36,10 @@ public class WishSoup : Edible
 		{
 			SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-			eater.playerHealth.Metabolism
-				.AddEffect(new MetabolismEffect(0, 0, MetabolismDuration.Food));
+
+			//TODO: Update to new metabolism
+			/*eater.playerHealth.Metabolism
+				.AddEffect(new MetabolismEffect(0, 0, MetabolismDuration.Food));*/
 
 			var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
 			Inventory.ServerDespawn(gameObject);
