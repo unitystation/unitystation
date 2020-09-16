@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +11,6 @@ using Audio.Containers;
 using ScriptableObjects;
 using Antagonists;
 using Systems.Atmospherics;
-using DiscordWebhook;
-using Messages.Server;
-
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -186,7 +183,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 		else if (playerScript.playerMove.IsTrapped) // Check if trapped.
 		{
-			playerScript.PlayerSync.ServerTryEscapeContainer();
+			playerScript.PlayerSync.TryEscapeContainer();
 		}
 	}
 
@@ -471,7 +468,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void CmdToggleChatIcon(bool turnOn, string message, ChatChannel chatChannel, ChatModifier chatModifier)
 	{
 		if (!playerScript.pushPull.VisibleState || (playerScript.mind.occupation.JobType == JobType.NULL
-		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit))
+		                                        || playerScript.playerHealth.IsDead || playerScript.playerHealth.IsCrit
+		                                        || playerScript.playerHealth.IsCardiacArrest)
 		{
 			//Don't do anything with chat icon if player is invisible or not spawned in
 			//This will also prevent clients from snooping other players local chat messages that aren't visible to them
@@ -496,16 +494,13 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	//Respawn action for Deathmatch v 0.1.3
 
 	[Command]
-	public void CmdRespawnPlayer(string adminID, string adminToken)
+	public void CmdRespawnPlayer()
 	{
-		if (GameManager.Instance.RespawnCurrentlyAllowed ||
-		    PlayerList.Instance.GetAdmin(adminID, adminToken))
+		if (CustomNetworkManager.IsServer
+				|| PlayerList.Instance.IsAdmin(gameObject.Player())
+				|| GameManager.Instance.RespawnCurrentlyAllowed)
 		{
 			ServerRespawnPlayer();
-		}
-		else
-		{
-			Logger.LogWarning($"Player with user id {adminID} tried to revive themselves while server has not allowed and they are not admin.");
 		}
 	}
 
@@ -595,8 +590,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	public void ServerSpawnPlayerGhost()
 	{
 		//Only force to ghost if the mind belongs in to that body
-		var currentMobID = GetComponent<LivingHealthMasterBase>().mobID;
-		if (GetComponent<LivingHealthMasterBase>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
+		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
+		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind != null &&
 		    playerScript.mind.bodyMobID == currentMobID)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);

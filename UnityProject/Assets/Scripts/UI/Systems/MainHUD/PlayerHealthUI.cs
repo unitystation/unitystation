@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using HealthV2;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -22,8 +21,6 @@ public class PlayerHealthUI : MonoBehaviour
 	public Color destroyedBodyPartColor;
 	public GameObject baseBody;
 	public GameObject alertsBox;
-
-	public Button oxygenButton;
 
 	public bool humanUI;
 
@@ -134,36 +131,32 @@ public class PlayerHealthUI : MonoBehaviour
 		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.RespiratorySystem.IsSuffocating, oxygenAlert);
 
 		SetSpecificVisibility(false, toxinAlert);
-		// if (PlayerManager.LocalPlayerScript?.playerHealth?.Metabolism?.IsHungry != null)
-		// {
-			// SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
-		// }
-
+		SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
 
 		//TODO: Reimplement metabolism stuff.
 		//SetSpecificVisibility(PlayerManager.LocalPlayerScript.playerHealth.Metabolism.IsHungry, hungerAlert);
 
-		// if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
-		// {
-			// oxygenButton.interactable = true;
-		// }
+		if (PlayerManager.Equipment.HasInternalsEquipped() && !oxygenButton.IsInteractable())
+		{
+			oxygenButton.interactable = true;
+		}
 
-		// if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
-		// {
-			// EventManager.Broadcast(EVENT.DisableInternals);
-			// oxygenButton.interactable = false;
-		// }
+		if (!PlayerManager.Equipment.HasInternalsEquipped() && oxygenButton.IsInteractable())
+		{
+			EventManager.Broadcast(EVENT.DisableInternals);
+			oxygenButton.interactable = false;
+		}
 	}
 
 	/// <summary>
 	/// Update the PlayerHealth body part hud icon
 	/// </summary>
 	/// <param name="bodyPart"> Body part that requires updating </param>
-	public void SetBodyTypeOverlay(BodyPart bodyPart)
+	public void SetBodyTypeOverlay(BodyPartBehaviour bodyPart)
 	{
 		for (int i = 0; i < bodyPartListeners.Count; i++)
 		{
-			if (bodyPartListeners[i].bodyPartType != bodyPart.bodyPartType)
+			if (bodyPartListeners[i].bodyPartType != bodyPart.Type)
 			{
 				continue;
 			}
