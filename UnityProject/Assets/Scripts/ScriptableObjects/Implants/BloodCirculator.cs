@@ -1,10 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-<<<<<<< HEAD
 using HealthV2;
-=======
->>>>>>> bea84a13e1... I dont remember, lots of changes
 
 public class BloodCirculator : ImplantProperty
 {
