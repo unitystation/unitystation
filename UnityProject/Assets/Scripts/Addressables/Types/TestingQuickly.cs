@@ -17,6 +17,7 @@ public class TestingQuickly : MonoBehaviour
 
     }
 
+	[RightClickMethod]
     [NaughtyAttributes.Button("NotValidKey?")]
     public void bob()
     {
