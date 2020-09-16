@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-<<<<<<< HEAD
 using Mirror;
-=======
->>>>>>> bea84a13e1... I dont remember, lots of changes
 using UnityEngine;
 
 public class PlayerHealthV2 : LivingHealthMasterBase
@@ -21,12 +18,9 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 
 	private bool init = false;
 
-<<<<<<< HEAD
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
-=======
->>>>>>> bea84a13e1... I dont remember, lots of changes
 	public override void Awake()
 	{
 		base.Awake();
@@ -73,7 +67,6 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
 	}
 
-<<<<<<< HEAD
 	[Server]
 	public void ServerGibPlayer()
 	{
@@ -95,6 +88,4 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 		PlayerMove.PlayerScript.pushPull.VisibleState = false;
 		playerNetworkActions.ServerSpawnPlayerGhost();
 	}
-=======
->>>>>>> bea84a13e1... I dont remember, lots of changes
 }
