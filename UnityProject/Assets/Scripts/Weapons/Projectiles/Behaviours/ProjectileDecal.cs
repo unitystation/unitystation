@@ -11,6 +11,12 @@ namespace Weapons.Projectiles.Behaviours
 
 		public bool OnHit(RaycastHit2D hit)
 		{
+			if (decal == null)
+			{
+				Logger.LogError($"{this} on {gameObject} decal field not set in inspector!");
+				return false;
+			}
+
 			var newDecal = Spawn.ClientPrefab(decal.name,
 				hit.point).GameObject;
 			var timeLimitedDecal = newDecal.GetComponent<TimeLimitedDecal>();
