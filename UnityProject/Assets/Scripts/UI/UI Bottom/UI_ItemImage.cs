@@ -38,7 +38,7 @@ public class UI_ItemImage
 	}
 
 	/// <summary>
-	/// 
+	///
 	/// </summary>
 	/// <param name="root">Object to be used as parent for new Image instances</param>
 	public UI_ItemImage(GameObject root)
