@@ -119,7 +119,6 @@ MonoBehaviour:
   EnumSprite: 0
   Size: 3.5
   IsOn: 1
-  CachedIntensity: 1
   PlayerLightData:
     Intensity: 0
     Colour: {r: 0, g: 0, b: 0, a: 0}
@@ -139,6 +138,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  color: 0
+  activatedSize: 4
+  activatedHitSound: Tap
+  activatedHitDamage: 0
+  activatedThrowDamage: 0
+  activatedVerbs:
+  - attacked
+  - smacked
+  - jabbed
+  - struck
+  - hit
+  - whacked
   Sprites:
     Blue:
       SpriteInventoryIcon: {fileID: 11400000, guid: daeae19dda5100c4a95cc1947601b05f,
@@ -188,23 +199,6 @@ MonoBehaviour:
         type: 2}
       Palette: []
       IsPaletted: 0
-  playerLightControl: {fileID: 2337747668151587465}
-  worldLight: {fileID: 4779673724405218061}
-  worldRenderer: {fileID: 6020904010321352661}
-  color: 0
-  activatedHitDamage: 0
-  activatedThrowDamage: 0
-  activatedVerbs:
-  - attacked
-  - smacked
-  - jabbed
-  - struck
-  - hit
-  - whacked
-  activatedSize: 4
-  activatedHitSound: Tap
-  activatedLightIntensity: 1
-  activated: 0
 --- !u!1001 &7388155062899857025
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -214,9 +208,50 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1655691407480885068, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1655691407480885068, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: ecf7a882f70db2040a4355d24e304b8e,
+        type: 2}
+    - target: {fileID: 1655691407480885068, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ecf7a882f70db2040a4355d24e304b8e,
+        type: 2}
+    - target: {fileID: 1655691407480885068, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1e0fcea3e4d339c468ede79557cc3686,
+        type: 2}
+    - target: {fileID: 1655691407480885068, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: daeae19dda5100c4a95cc1947601b05f,
+        type: 2}
+    - target: {fileID: 1655691407480885068, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: bc29df4853fc2d74dbc8ec751d904071,
+        type: 2}
+    - target: {fileID: 1655691407480885068, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 673a9786899740c42a4c1ab6a7b1bf35,
+        type: 2}
+    - target: {fileID: 1655691407480885068, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 576dd1204ecd1794e8c6d6bcb9fb9e74,
         type: 2}
     - target: {fileID: 4705654935379183511, guid: b2cc2b1c514be164282a4cdd366643e5,
         type: 3}

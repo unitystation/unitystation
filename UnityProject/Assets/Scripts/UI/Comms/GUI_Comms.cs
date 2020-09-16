@@ -58,12 +58,13 @@ public class GUI_Comms : NetTab
 	{
 		string FormatTime( int timerSeconds )
 		{
-			if ( shuttle.Status == EscapeShuttleStatus.DockedCentcom || shuttle.Status == EscapeShuttleStatus.DockedStation )
+			if (shuttle.Status == EscapeShuttleStatus.DockedCentcom ||
+				shuttle.Status == EscapeShuttleStatus.DockedStation)
 			{
 				return string.Empty;
 			}
 
-			return "ETA: " + TimeSpan.FromSeconds( timerSeconds ).ToString( "mm\\:ss" );
+			return "ETA: " + TimeSpan.FromSeconds(timerSeconds).ToString("mm\\:ss");
 		}
 
 		while (Provider == null)
@@ -75,29 +76,32 @@ public class GUI_Comms : NetTab
 
 		//starting up, setting appropriate labels
 		ProcessIdChange(console.IdCard);
-		console.OnServerIDCardChanged.AddListener( ProcessIdChange );
+		console.OnServerIDCardChanged.AddListener(ProcessIdChange);
 		shuttle = GameManager.Instance.PrimaryEscapeShuttle;
 
 		shuttleStatusLabel.SetValueServer(shuttle.Status.ToString());
-		statusImage.SetComplicatedValue( "shuttle_status", (int)shuttle.Status );
-		shuttle.OnShuttleUpdate.AddListener( status =>
+		statusImage.SetSprite((int) shuttle.Status);
+		shuttle.OnShuttleUpdate.AddListener(status =>
 		{
-			statusImage.SetComplicatedValue( "shuttle_status", (int)status );
+			statusImage.SetSprite((int) shuttle.Status);
 			shuttleStatusLabel.SetValueServer(status.ToString());
-		} );
+		});
 
-		shuttleTimerLabel.SetValueServer(FormatTime( shuttle.CurrentTimerSeconds ));
-		shuttle.OnTimerUpdate.AddListener( timerSeconds =>{ shuttleTimerLabel.SetValueServer(FormatTime( timerSeconds )); } );
+		shuttleTimerLabel.SetValueServer(FormatTime(shuttle.CurrentTimerSeconds));
+		shuttle.OnTimerUpdate.AddListener( timerSeconds =>
+		{
+			shuttleTimerLabel.SetValueServer(FormatTime(timerSeconds));
+		});
 
 		RefreshCallButtonText();
 
-		Logger.Log( nameof(WaitForProvider), Category.NetUI );
+		Logger.Log(nameof(WaitForProvider), Category.NetUI);
 	}
 
-	private void ProcessIdChange( IDCard newId = null )
+	private void ProcessIdChange(IDCard newId = null)
 	{
 		UpdateIdTexts();
-		if ( newId != null )
+		if (newId != null)
 		{
 			LogIn();
 		}
