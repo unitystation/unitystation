@@ -312,7 +312,7 @@ namespace Pipes
 
 				var Temperature = (value / WholeHeatCapacity);
 				Mix.Temperature = Temperature;
-				gasMix.Temperature = Temperature;
+				gasMix.SetTemperature(Temperature);
 			}
 		}
 

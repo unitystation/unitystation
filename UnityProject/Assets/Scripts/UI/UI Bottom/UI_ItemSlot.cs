@@ -63,11 +63,10 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	private bool hidden;
 	private UI_ItemImage image;
 	private ItemSlot itemSlot;
-	private Text amountText;
+	public Text amountText;
 
 	private void Awake()
 	{
-		amountText = GetComponentInChildren<Text>();
 		if (amountText)
 		{
 			amountText.enabled = false;

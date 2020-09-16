@@ -25,7 +25,7 @@ namespace Atmospherics
 
 			gasMix.AddGas(Gas.Oxygen, cleanedAir);
 
-			gasMix.Temperature += cleanedAir * 0.002f;
+			gasMix.SetTemperature(gasMix.Temperature + cleanedAir * 0.002f);
 
 			return 0f;
 		}
