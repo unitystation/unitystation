@@ -52,11 +52,13 @@ public static class PlayerUtils
 			{
 				//love clown
 				ps.playerMove.Uncuff();
-				foreach (var bodyPart in ps.playerHealth.BodyParts)
+
+				//TODO: Reimplement body part thing here.
+				/*foreach (var bodyPart in ps.playerHealth.BodyParts)
 				{
 					bodyPart.HealDamage(200, DamageType.Brute);
 					bodyPart.HealDamage(200, DamageType.Burn);
-				}
+				}*/
 				ps.registerTile.ServerStandUp();
 				var left = Spawn.ServerPrefab("Bike Horn").GameObject;
 				var right = Spawn.ServerPrefab("Bike Horn").GameObject;

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Mirror;
 using UnityEngine;
 
 public class PlayerHealthV2 : LivingHealthMasterBase
@@ -16,6 +17,9 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 	private ItemStorage itemStorage;
 
 	private bool init = false;
+
+	//fixme: not actually set or modified. keep an eye on this!
+	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
 	public override void Awake()
 	{
@@ -63,4 +67,25 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
 	}
 
+	[Server]
+	public void ServerGibPlayer()
+	{
+		Gib();
+	}
+
+	protected override void Gib()
+	{
+		Death();
+		//EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
+		//drop clothes, gib... but don't destroy actual player, a piece should remain
+
+		//drop everything
+		foreach (var slot in itemStorage.GetItemSlots())
+		{
+			Inventory.ServerDrop(slot);
+		}
+
+		PlayerMove.PlayerScript.pushPull.VisibleState = false;
+		playerNetworkActions.ServerSpawnPlayerGhost();
+	}
 }

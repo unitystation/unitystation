@@ -81,10 +81,7 @@ namespace HealthV2
 				pumpedReagent = Math.Max(implant.BloodPumpedEvent(bloodType.CirculatedReagent, pumpedReagent), 0);
 			}
 
-			if (pumpedReagent <= 0)
-			{
-				heartRateNeedsIncreasing = true;
-			}
+			heartRateNeedsIncreasing = (pumpedReagent <= 0);
 
 			float usedReagent = initialPumpAmount - pumpedReagent;
 			bloodReagentAmount -= usedReagent + bloodInfo.BLOOD_REAGENT_CONSUME_PER_BEAT;

@@ -467,7 +467,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	private bool CanUnBuckleSelf()
 	{
-		PlayerHealth playerHealth = playerScript.playerHealth;
+		PlayerHealthV2 playerHealth = playerScript.playerHealth;
 
 		return !(playerHealth == null ||
 		         playerHealth.ConsciousState == ConsciousState.DEAD ||
