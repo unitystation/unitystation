@@ -15,7 +15,7 @@ namespace Items.PDA
 	public class PDALogic : NetworkBehaviour, IServerActionGUI, IClientInventoryMove, 
 			ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
 	{
-		private const bool DEBUG_UPLINK = true;
+		private const bool DEBUG_UPLINK = false;
 		private const string DEBUG_UPLINK_CODE = "Whiskey Tango Foxtrot-1337";
 		private const int TIME_BEFORE_UPLINK_ACTIVATION = 10;
 

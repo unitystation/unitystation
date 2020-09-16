@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Initialisation;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -82,7 +83,12 @@ public class Layer : MonoBehaviour
 		this.TryStopCoroutine(ref recalculateBoundsHandle);
 	}
 
-	public void Start()
+	private void Start()
+	{
+		LoadManager.RegisterAction(Init);
+	}
+
+	void Init()
 	{
 		if (!Application.isPlaying)
 		{

@@ -5,11 +5,12 @@ using UnityEngine;
 using TMPro;
 using Mirror;
 using System.IO;
+using Initialisation;
 using UnityEngine.UI;
 
 namespace ServerInfo
 {
-	public class ServerInfoUI : MonoBehaviour
+	public class ServerInfoUI : MonoBehaviour, IInitialise
     {
     	public TMP_Text ServerName;
 
@@ -19,7 +20,9 @@ namespace ServerInfo
 
         public static string serverDesc;
 
-        public void Start()
+        public InitialisationSystems Subsystem => InitialisationSystems.ServerInfoUI;
+
+        void IInitialise.Initialise()
         {
 	        var path = Path.Combine(Application.streamingAssetsPath, "config", "serverDesc.txt");
 

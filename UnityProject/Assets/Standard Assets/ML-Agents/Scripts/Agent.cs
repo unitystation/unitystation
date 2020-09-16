@@ -334,8 +334,7 @@ namespace MLAgents
         public virtual void OnEnable()
         {
             m_Id = gameObject.GetInstanceID();
-            var academy = FindObjectOfType<Academy>();
-            OnEnableHelper(academy);
+            OnEnableHelper(Academy.Instance);
 
             m_Recorder = GetComponent<DemonstrationRecorder>();
         }
@@ -379,7 +378,7 @@ namespace MLAgents
         /// becomes disabled or inactive.
         public virtual void OnDisable()
         {
-            var academy = FindObjectOfType<Academy>();
+            var academy =  Academy.Instance;
             if (academy != null)
             {
                 academy.AgentSetStatus -= SetStatus;
@@ -587,7 +586,7 @@ namespace MLAgents
             {
                 return;
             }
-
+            
             m_Info.memories = m_Action.memories;
             m_Info.storedVectorActions = m_Action.vectorActions;
             m_Info.storedTextActions = m_Action.textActions;
