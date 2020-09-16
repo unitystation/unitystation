@@ -53,8 +53,9 @@ public class GUI_ReactorController : NetTab
 	{
 		if (ReactorControlConsole != null && ReactorControlConsole.ReactorChambers != null)
 		{
-			var tep = ReactorControlConsole.ReactorChambers.Temperature;
-			ReactorCoreTemperature.SetValueServer(Math.Round((tep / 1200) * 100).ToString());
+			float temp = ReactorControlConsole.ReactorChambers.Temperature;
+			float tempSliderPercent = Mathf.Clamp(Mathf.Round((temp / 1200) * 100), 0, 1200);
+			ReactorCoreTemperature.SetValueServer(tempSliderPercent.ToString());
 
 			CorePressure.SetValueServer(Math
 				.Round((ReactorControlConsole.ReactorChambers.CurrentPressure /
