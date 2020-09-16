@@ -1200,6 +1200,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  RTT: 0
   maxHealth: 100
   bodyPartContainers: []
   PlayerMove: {fileID: 0}
@@ -9160,7 +9161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d00aa48aecf7df349b24873e7b46a340, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthMaster: {fileID: 0}
+  healthMaster: {fileID: 1354417930896543338}
 --- !u!114 &1947918668586742020
 MonoBehaviour:
   m_ObjectHideFlags: 0
