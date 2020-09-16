@@ -105,6 +105,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	private static readonly float weldTime = 5.0f;
 
+	private string closetName;
+	private ObjectAttributes closetAttributes;
 
 	/// <summary>
 	/// Whether locker is weldable.
@@ -165,14 +167,24 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	{
 		EnsureInit();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
+
+		registerTile = GetComponent<RegisterCloset>();
+		pushPull = GetComponent<PushPull>();
+		if (gameObject.ExpensiveName() != null)
+		{
+			closetName = gameObject.ExpensiveName();
+		}
+		else
+		{
+			closetAttributes = GetComponent<ObjectAttributes>();
+			closetName = closetAttributes.InitialName;
+		}
 	}
 
 	private void EnsureInit()
 	{
 		if (registerTile != null) return;
 		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
-		registerTile = GetComponent<RegisterCloset>();
-		pushPull = GetComponent<PushPull>();
 	}
 
 
@@ -458,42 +470,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
 		{
-			Debug.Log("trying to emag");
-		}
-		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
-		{
-			
-		}
-		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
-		{
-			//Should be able to anchor 
-			
-			Debug.Log("trying to wrench");
-
-		}
-		else if (Validations.HasUsedActiveWelder(interaction))
-		{
-			//TryWelder(); // Repair or un/weld door, or deconstruct false wall
-			if (IsWeldable && interaction.Intent == Intent.Harm)
-			{
-				ToolUtils.ServerUseToolWithActionMessages(
-						interaction, weldTime,
-						$"You start {(IsWelded ? "unwelding" : "welding")} the closet door...",
-						$"{interaction.Performer.ExpensiveName()} starts {(IsWelded ? "unwelding" : "welding")} the closet door...",
-						$"You {(IsWelded ? "unweld" : "weld")} the closet door.",
-						$"{interaction.Performer.ExpensiveName()} {(IsWelded ? "unwelds" : "welds")} the closet door.",
-						ServerTryWeld);
-			}
-		}
-		else if (interaction.HandObject != null)
-		{
-			if (!IsClosed)
-			{
-				Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
-				Vector3 performerPosition = interaction.Performer.WorldPosServer();
-				Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
-			}
-			else if (IsClosed && !isEmagged && Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
+			if(IsClosed && !isEmagged)
 			{
 				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 				ServerHandleContentsOnStatusChange(false);
@@ -502,16 +479,44 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				SyncStatus(statusSync, ClosetStatus.Open);
 			}
 		}
-		else
+		else if (Validations.HasUsedActiveWelder(interaction))
+		{
+			// Is the player trying to weld closet?
+			if (IsWeldable && interaction.Intent == Intent.Harm)
+			{
+				ToolUtils.ServerUseToolWithActionMessages(
+						interaction, weldTime,
+						$"You start {(IsWelded ? "unwelding" : "welding")} the {closetName} door...",
+						$"{interaction.Performer.ExpensiveName()} starts {(IsWelded ? "unwelding" : "welding")} the {closetName} door...",
+						$"You {(IsWelded ? "unweld" : "weld")} the {closetName} door.",
+						$"{interaction.Performer.ExpensiveName()} {(IsWelded ? "unwelds" : "welds")} the {closetName} door.",
+						ServerTryWeld);
+			}
+		}
+		else if (interaction.HandObject != null)
+		{
+			// If nothing in the players hand can be used on the closet, drop it on the closet
+			if (!IsClosed)
+			{
+				Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
+				Vector3 performerPosition = interaction.Performer.WorldPosServer();
+				Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
+			}
+		}
+		else if(interaction.HandObject == null)
 		{
 			// player want to close locker?
 			if (!isLocked && !isEmagged && !isWelded)
 			{
 				ServerToggleClosed();
 			}
-
+			else if(!AccessRestrictions.CheckAccess(interaction.Performer) && (isLocked || isWelded))
+			{
+				Chat.AddExamineMsg(
+				interaction.Performer,
+				$"Can\'t open {closetName}");
+			}
 		}
-
 
 		// player trying to unlock locker?
 		if (IsLockable && AccessRestrictions != null)
