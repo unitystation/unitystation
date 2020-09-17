@@ -39,9 +39,12 @@ namespace NPC
 
 		private void SingleBark(GameObject barked = null)
 		{
+			// JESTER
+			/*
 			SoundManager.PlayNetworkedAtPos("Bark",
 				gameObject.transform.position,
 				Random.Range(.8F, 1.3F));
+			*/
 
 			if (barked != null)
 			{

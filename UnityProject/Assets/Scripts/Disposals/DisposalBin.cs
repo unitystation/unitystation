@@ -390,7 +390,8 @@ namespace Disposals
 			}
 
 			// Sound of the bin's air intake flap closing.
-			SoundManager.PlayNetworkedAtPos("Click", registerObject.WorldPositionServer, sourceObj: gameObject);
+			// JESTER
+			//SoundManager.PlayNetworkedAtPos("Click", registerObject.WorldPositionServer, sourceObj: gameObject);
 		}
 
 		IEnumerator RunFlushSequence()
@@ -401,7 +402,8 @@ namespace Disposals
 
 			// Bin orifice closed. Release the charge.
 			chargePressure = 0;
-			SoundManager.PlayNetworkedAtPos("DisposalMachineFlush", registerObject.WorldPositionServer, sourceObj: gameObject);
+			// JESTER
+			//SoundManager.PlayNetworkedAtPos("DisposalMachineFlush", registerObject.WorldPositionServer, sourceObj: gameObject);
 			if (virtualContainer != null)
 			{
 				virtualContainer.GetComponent<ObjectBehaviour>().parentContainer = null;

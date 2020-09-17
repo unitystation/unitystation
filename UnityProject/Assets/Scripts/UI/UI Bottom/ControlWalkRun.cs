@@ -3,38 +3,39 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 
-	public class ControlWalkRun : TooltipMonoBehaviour
+public class ControlWalkRun : TooltipMonoBehaviour
+{
+	private Image image;
+	public Sprite[] runWalkSprites;
+	public override string Tooltip => "run/walk toggle";
+
+	public bool running { get; private set; } = true;
+
+	private void Start()
 	{
-		private Image image;
-		public Sprite[] runWalkSprites;
-		public override string Tooltip => "run/walk toggle";
+		image = GetComponent<Image>();
+	}
 
-		public bool running { get; private set; } = true;
+	/*
+	* Button OnClick methods
+	*/
 
-		private void Start()
+	public void RunWalk()
+	{
+		Logger.Log("RunWalk Button", Category.UI);
+
+		// JESTER
+		//SoundManager.Play("Click01");
+
+		if (!running)
 		{
-			image = GetComponent<Image>();
+			running = true;
+			image.sprite = runWalkSprites[1];
 		}
-
-		/*
-		* Button OnClick methods
-		*/
-
-		public void RunWalk()
+		else
 		{
-			Logger.Log("RunWalk Button", Category.UI);
-
-			SoundManager.Play("Click01");
-
-			if (!running)
-			{
-				running = true;
-				image.sprite = runWalkSprites[1];
-			}
-			else
-			{
-				running = false;
-				image.sprite = runWalkSprites[0];
-			}
+			running = false;
+			image.sprite = runWalkSprites[0];
 		}
 	}
+}

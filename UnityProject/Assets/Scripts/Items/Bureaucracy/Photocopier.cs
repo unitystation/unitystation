@@ -151,7 +151,8 @@ namespace Assets.Scripts.Items.Bureaucracy
 		public void Print()
 		{
 			SyncPhotocopierState( PhotocopierState.Production);
-			SoundManager.PlayNetworkedAtPos("Copier", registerObject.WorldPosition);
+			// JESTER
+			//SoundManager.PlayNetworkedAtPos("Copier", registerObject.WorldPosition);
 			StartCoroutine(WaitForPrint());
 		}
 

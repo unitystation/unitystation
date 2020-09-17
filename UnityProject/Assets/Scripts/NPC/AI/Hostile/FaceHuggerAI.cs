@@ -165,11 +165,14 @@ namespace NPC
 				}
 			}
 
+			// JESTER
+			/*
 			SoundManager.PlayNetworkedAtPos(
-				randomSound.PickRandom(),
+			randomSound.PickRandom(),
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
+			*/
 
 			Invoke(nameof(PlayRandomSound), playRandomSoundTimer);
 		}
@@ -181,11 +184,16 @@ namespace NPC
 		{
 			if (!IsDead || deathSoundPlayed || deathSounds.Count <= 0) return;
 			deathSoundPlayed = true;
+
+			// JESTER
+			/*
 			SoundManager.PlayNetworkedAtPos(
 				deathSounds.PickRandom(),
 				transform.position,
 				Random.Range(0.9f, 1.1f),
 				sourceObj: gameObject);
+			*/
+
 			XenoQueenAI.CurrentHuggerAmt -= 1;
 		}
 
@@ -327,12 +335,15 @@ namespace NPC
 				null,
 				verb);
 
+			// JESTER
+			/*
 			SoundManager.PlayNetworkedAtPos(
 				"bite",
 				player.gameObject.RegisterTile().WorldPositionServer,
 				1f,
 				true,
 				player.gameObject);
+			*/
 
 			if (success)
 			{

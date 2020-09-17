@@ -144,7 +144,8 @@ public class Meleeable : MonoBehaviour, IPredictedCheckedInteractable<Positional
 				{
 					LivingHealthBehaviour victimHealth = victim.GetComponent<LivingHealthBehaviour>();
 					victimHealth.Harvest();
-					SoundManager.PlayNetworkedAtPos(butcherSound, victim.RegisterTile().WorldPositionServer);
+					// JESTER
+					// SoundManager.PlayNetworkedAtPos(butcherSound, victim.RegisterTile().WorldPositionServer);
 				}
 
 				var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)

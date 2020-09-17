@@ -61,7 +61,8 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 	/// </summary>
 	public void BucklePlayer(PlayerScript playerScript)
 	{
-		SoundManager.PlayNetworkedAtPos("Click01", gameObject.WorldPosServer(), sourceObj: gameObject);
+		// JESTER
+		//SoundManager.PlayNetworkedAtPos("Click01", gameObject.WorldPosServer(), sourceObj: gameObject);
 
 		playerScript.playerMove.ServerBuckle(gameObject, OnUnbuckle);
 
@@ -84,7 +85,8 @@ public class BuckleInteract : MonoBehaviour, ICheckedInteractable<MouseDrop>, IC
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer(), sourceObj: gameObject);
+		// JESTER
+		//SoundManager.PlayNetworkedAtPos("Click01", interaction.TargetObject.WorldPosServer(), sourceObj: gameObject);
 
 		Unbuckle();
 	}

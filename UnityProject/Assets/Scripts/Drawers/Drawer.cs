@@ -199,7 +199,9 @@ public class Drawer : NetworkBehaviour, IServerDespawn, ICheckedInteractable<Han
 		EjectItems();
 		EjectPlayers();
 
-		SoundManager.PlayNetworkedAtPos("BinOpen", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+		// JESTER
+		// SoundManager.PlayNetworkedAtPos("BinOpen", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+
 		SetDrawerState(DrawerState.Open);
 	}
 
@@ -211,7 +213,8 @@ public class Drawer : NetworkBehaviour, IServerDespawn, ICheckedInteractable<Han
 		GatherItems();
 		if (storePlayers) GatherPlayers();
 
-		SoundManager.PlayNetworkedAtPos("BinClose", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+		// JESTER
+		// SoundManager.PlayNetworkedAtPos("BinClose", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 		SetDrawerState(DrawerState.Shut);
 	}
 

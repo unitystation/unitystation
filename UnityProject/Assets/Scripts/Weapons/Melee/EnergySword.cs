@@ -124,8 +124,8 @@ public class EnergySword : NetworkBehaviour, ICheckedInteractable<HandActivate>,
 			itemAttributes.SetSprites(Sprites.Off);
 		}
 
-		SoundManager.PlayNetworkedAtPos(
-				isActivated ? "saberon" : "saberoff", gameObject.AssumedWorldPosServer());
+		// JESTER
+		// SoundManager.PlayNetworkedAtPos(isActivated ? "saberon" : "saberoff", gameObject.AssumedWorldPosServer());
 		StartCoroutine(DelayCharacterSprite(interaction));
 	}
 

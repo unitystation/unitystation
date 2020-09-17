@@ -313,7 +313,8 @@ public class ControlTabs : MonoBehaviour
 
 		if (click)
 		{
-			SoundManager.Play("Click01");
+			// JESTER
+			//SoundManager.Play("Click01");
 		}
 	}
 

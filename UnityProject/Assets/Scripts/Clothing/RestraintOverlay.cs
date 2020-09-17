@@ -95,7 +95,8 @@ public class RestraintOverlay : ClothingItem, IActionGUI
 		Chat.AddActionMsgToChat(thisPlayerScript.gameObject, "You have successfully removed the cuffs",
 			thisPlayerScript.playerName + " has removed their cuffs");
 
-		SoundManager.PlayNetworkedAtPos("Handcuffs", thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
+		// JESTER
+		//SoundManager.PlayNetworkedAtPos("Handcuffs", thisPlayerScript.registerTile.WorldPosition, sourceObj: gameObject);
 	}
 
 	private bool CanUncuff()

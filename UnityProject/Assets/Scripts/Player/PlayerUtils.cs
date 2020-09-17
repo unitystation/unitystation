@@ -76,6 +76,7 @@ public static class PlayerUtils
 				}
 			}
 		}
-		SoundManager.PlayNetworked("ClownHonk",Random.Range(0.2f,0.5f),true,true);
+		// JESTER
+		//SoundManager.PlayNetworked("ClownHonk",Random.Range(0.2f,0.5f),true,true);
 	}
 }

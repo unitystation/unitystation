@@ -26,7 +26,8 @@ public class AlertUI : MonoBehaviour
 	//invoked when the restrained alert is clicked
 	public void OnClickAlertRestrained()
 	{
-		SoundManager.Play("Click01");
+		// JESTER
+		//SoundManager.Play("Click01");
 		onClickBuckled?.Invoke();
 	}
 
@@ -34,7 +35,8 @@ public class AlertUI : MonoBehaviour
 	public void OnClickCuffed()
 	{
 		PlayerManager.PlayerScript.playerNetworkActions.CmdTryUncuff();
-		SoundManager.Play("Click01");
+		// JESTER
+		//SoundManager.Play("Click01");
 	}
 
 	/// <summary>
@@ -43,7 +45,8 @@ public class AlertUI : MonoBehaviour
 	public void OnClickSwitchPickupMode()
 	{
 		PlayerManager.PlayerScript.playerNetworkActions.CmdSwitchPickupMode();
-		SoundManager.Play("Click01");
+		// JESTER
+		//SoundManager.Play("Click01");
 	}
 
 	/// <summary>
@@ -51,7 +54,8 @@ public class AlertUI : MonoBehaviour
 	/// </summary>
 	public void OnClickMagBoots()
 	{
-		SoundManager.Play("Click01");
+		// JESTER
+		//SoundManager.Play("Click01");
 		magBootsAction?.Invoke();
 	}
 

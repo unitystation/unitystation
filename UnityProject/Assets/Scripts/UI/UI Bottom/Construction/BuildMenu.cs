@@ -53,7 +53,8 @@ namespace UI.UI_Bottom
 
 		public void CloseBuildMenu()
 		{
-			SoundManager.Play("Click01");
+			// JESTER
+			//SoundManager.Play("Click01");
 			transform.GetChild(0).gameObject.SetActive(false);
 		}
 

@@ -112,7 +112,8 @@ public class CentComm : MonoBehaviour
 		//Generic AI welcome message
 		//this sound will feel just like home once we have the proper job allocation.
 		//it plays as soon as the round starts.
-		SoundManager.PlayNetworked("Welcome");
+		// JESTER
+		//SoundManager.PlayNetworked("Welcome");
 		//Wait some time after the round has started
 		yield return WaitFor.Seconds(60f);
 
@@ -167,7 +168,8 @@ public class CentComm : MonoBehaviour
 	}
 	private void SendAntagUpdate()
 	{
-		SoundManager.PlayNetworked("InterceptMessage");
+		// JESTER
+		//SoundManager.PlayNetworked("InterceptMessage");
 		MakeAnnouncement(CentCommAnnounceTemplate,
 						string.Format(InitialUpdateTemplate,AntagInitialUpdate+"\n\n"+AlertLevelStrings[AlertLevelString.UpToBlue]),
 						UpdateSound.alert);
@@ -254,8 +256,10 @@ public class CentComm : MonoBehaviour
 
 		Chat.AddSystemMsgToChat(string.Format(CentCommAnnounceTemplate, CommandNewReportString), MatrixManager.MainStationMatrix);
 
-		SoundManager.PlayNetworked(UpdateTypes[type], 1f);
-		SoundManager.PlayNetworked("Commandreport");
+		// JESTER
+		//SoundManager.PlayNetworked(UpdateTypes[type], 1f);
+		// JESTER
+		//SoundManager.PlayNetworked("Commandreport");
 	}
 
 	/// <summary>
@@ -271,7 +275,8 @@ public class CentComm : MonoBehaviour
 			return;
 		}
 
-		SoundManager.PlayNetworked( UpdateTypes[type] );
+		// JESTER
+		//SoundManager.PlayNetworked( UpdateTypes[type] );
 		Chat.AddSystemMsgToChat(string.Format( template, text ), MatrixManager.MainStationMatrix);
 	}
 
@@ -303,7 +308,8 @@ public class CentComm : MonoBehaviour
 
 		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleCallSubTemplate,minutes,text) ),
 			MatrixManager.MainStationMatrix);
-		SoundManager.PlayNetworked("ShuttleCalled");
+		// JESTER
+		//SoundManager.PlayNetworked("ShuttleCalled");
 	}
 
 	/// <summary>
@@ -313,7 +319,8 @@ public class CentComm : MonoBehaviour
 	{
 		Chat.AddSystemMsgToChat(string.Format( PriorityAnnouncementTemplate, string.Format(ShuttleRecallSubTemplate,text) ),
 			MatrixManager.MainStationMatrix);
-		SoundManager.PlayNetworked("ShuttleRecalled");
+		// JESTER
+		//SoundManager.PlayNetworked("ShuttleRecalled");
 	}
 
 	private string StationObjectiveReport()

@@ -46,7 +46,8 @@ public class UI_StorageHandler : MonoBehaviour
 			CloseStorageUI();
 			CurrentOpenStorage = itemStorage;
 			PopulateInventorySlots();
-			SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position, PlayerManager.LocalPlayer);
+			// JESTER
+			//SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position, PlayerManager.LocalPlayer);
 		}
 	}
 
@@ -93,7 +94,8 @@ public class UI_StorageHandler : MonoBehaviour
 	{
 		if (PlayerManager.LocalPlayer != null)
 		{
-			SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position, PlayerManager.LocalPlayer);
+			// JESTER
+			//SoundManager.PlayAtPosition("Rustle#", PlayerManager.LocalPlayer.transform.position, PlayerManager.LocalPlayer);
 		}
 		CurrentOpenStorage = null;
 		otherPlayerStorage.SetActive(false);

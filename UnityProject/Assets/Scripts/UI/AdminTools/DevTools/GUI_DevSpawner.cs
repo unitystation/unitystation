@@ -99,7 +99,8 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	public void Open()
 	{
-		SoundManager.Play("Click01");
+		// JESTER
+		//SoundManager.Play("Click01");
 		Logger.Log("Opening dev spawner menu", Category.UI);
 		transform.GetChild(0).gameObject.SetActive(true);
 		transform.SetAsLastSibling();
@@ -107,7 +108,8 @@ public class GUI_DevSpawner : MonoBehaviour
 
 	public void Close()
 	{
-		SoundManager.Play("Click01");
+		// JESTER
+		//SoundManager.Play("Click01");
 		Logger.Log("Closing dev spawner menu", Category.UI);
 		transform.GetChild(0).gameObject.SetActive(false);
 	}

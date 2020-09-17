@@ -170,7 +170,9 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 		foreach (ObjectBehaviour player in Matrix.Get<ObjectBehaviour>(registerTileLocation, ObjectType.Player, true))
 		{
 			Chat.AddLocalMsgToChat(message, travelCoord, gameObject);
-			SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
+			// JESTER
+			// SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
+
 			TransportUtility.TransportObjectAndPulled(player, travelCoord);
 			somethingTeleported = true;
 		}

@@ -369,7 +369,8 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
 
 			if ( pullable.StartFollowing( this ) ) {
-				SoundManager.PlayNetworkedAtPos( "Rustle#", pullable.transform.position , sourceObj: pullableObject);
+				// JESTER
+				// SoundManager.PlayNetworkedAtPos( "Rustle#", pullable.transform.position , sourceObj: pullableObject);
 
 				PulledObjectServer = pullable;
 
@@ -709,8 +710,11 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 			// If there is a sound to be played
 			if (!string.IsNullOrWhiteSpace(pushPullSound) && (Time.time * 1000 > lastPlayedSoundTime + soundDelayTime))
 			{
+				// JESTER
+				/*
 				SoundManager.PlayNetworkedAtPos(pushPullSound, target, Random.Range(soundMinimumPitchVariance, soundMaximumPitchVariance), sourceObj: gameObject);
 				lastPlayedSoundTime = Time.time * 1000;
+				*/
 			}
 
 			pushTarget = target;

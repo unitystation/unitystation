@@ -34,7 +34,9 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 	private IEnumerator CritHonk( PositionalHandApply clickData, LivingHealthBehaviour targetHealth )
 	{
 		yield return WaitFor.Seconds( 0.02f );
-		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5, sourceObj: GetHonkSoundObject());
+		// JESTER
+		// SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), -1f, true, true, 20, 5, sourceObj: GetHonkSoundObject());
+
 		targetHealth.ApplyDamageToBodypart( clickData.Performer, CritDamage, AttackType.Energy, DamageType.Brute, BodyPartType.Head );
 	}
 
@@ -80,7 +82,8 @@ public class Horn : MonoBehaviour, ICheckedInteractable<HandActivate>, ICheckedI
 
 	private void ClassicHonk()
 	{
-		SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: GetHonkSoundObject());
+		// JESTER
+		// SoundManager.PlayNetworkedAtPos( Sound, gameObject.AssumedWorldPosServer(), randomPitch, true, sourceObj: GetHonkSoundObject());
 	}
 
 	/// <summary>

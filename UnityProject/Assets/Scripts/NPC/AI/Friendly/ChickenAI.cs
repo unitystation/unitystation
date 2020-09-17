@@ -94,11 +94,15 @@ namespace NPC
 		{
 			Inventory.ServerConsume(interaction.HandSlot, 1);
 			mood.OnFoodEaten();
+
+			// JESTER
+			/*
 			SoundManager.PlayNetworkedAtPos(
 				"EatFood",
 				gameObject.RegisterTile().WorldPosition,
 				1f,
 				sourceObj: gameObject);
+			*/
 
 			Chat.AddActionMsgToChat(
 				interaction.Performer,

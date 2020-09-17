@@ -112,7 +112,8 @@ public class PlaceableTile : MonoBehaviour, ICheckedInteractable<PositionalHandA
 				interactableTiles.TileChangeManager.UpdateTile(cellPos, placeableTileEntry.layerTile);
 				interactableTiles.TileChangeManager.SubsystemManager.UpdateAt(cellPos);
 				Inventory.ServerConsume(interaction.HandSlot, placeableTileEntry.itemCost);
-				SoundManager.PlayNetworkedAtPos(placeSound, targetPosition);
+				// JESTER
+				//SoundManager.PlayNetworkedAtPos(placeSound, targetPosition);
 			}
 
 			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)

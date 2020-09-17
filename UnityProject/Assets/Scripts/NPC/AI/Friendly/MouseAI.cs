@@ -57,10 +57,13 @@ namespace NPC
 
 		private void Squeak()
 		{
+			// JESTER
+			/*
 			SoundManager.PlayNetworkedAtPos(
 				"MouseSqueek",
 				gameObject.transform.position,
 				Random.Range(.6f, 1.2f));
+			*/
 
 			Chat.AddActionMsgToChat(
 				gameObject,

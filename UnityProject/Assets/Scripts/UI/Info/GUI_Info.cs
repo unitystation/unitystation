@@ -11,7 +11,8 @@ public class GUI_Info : MonoBehaviour
 
 	public void BtnOk()
 	{
-		SoundManager.Play("Click01");
+		// JESTER
+		//SoundManager.Play("Click01");
 		gameObject.SetActive(false);
 
 	}

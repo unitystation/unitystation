@@ -284,7 +284,8 @@ public class Nuke : NetworkBehaviour, ICheckedInteractable<HandApply>,IAdminInfo
 		while (CurrentTimerSeconds > 0)
 		{
 			CurrentTimerSeconds -= 1;
-			SoundManager.PlayNetworkedAtPos("TimerTick", gameObject.AssumedWorldPosServer());
+			// JESTER
+			//SoundManager.PlayNetworkedAtPos("TimerTick", gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(1);
 		}
 		Detonate();

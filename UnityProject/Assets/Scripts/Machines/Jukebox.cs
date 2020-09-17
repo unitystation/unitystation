@@ -200,7 +200,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 			};
 
-			SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
+			// JESTER
+			//SoundManager.PlayNetworkedAtPos(musics[currentSongTrackIndex].name, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
 			startPlayTime = Time.time;
 			UpdateGUI();
 		}

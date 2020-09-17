@@ -123,14 +123,16 @@ public class Morgue : Drawer
 				$"You wave the {interaction.HandObject.name.ToLower()} over the {name.ToLower()}'s electrical panel. " +
 				"The status panel flickers and the buzzer makes sickly popping noises. You can smell smoke...",
 				"You can smell caustic smoke from somewhere...");
-		SoundManager.PlayNetworkedAtPos("SnapCracklePop1", DrawerWorldPosition, sourceObj: gameObject);
+		// JESTER
+		//SoundManager.PlayNetworkedAtPos("SnapCracklePop1", DrawerWorldPosition, sourceObj: gameObject);
 		StartCoroutine(PlayEmagAnimation());
 	}
 
 	private void ToggleBuzzer()
 	{
 		buzzerEnabled = !buzzerEnabled;
-		SoundManager.PlayNetworkedAtPos("Pop", DrawerWorldPosition, sourceObj: gameObject);
+		// JESTER
+		//SoundManager.PlayNetworkedAtPos("Pop", DrawerWorldPosition, sourceObj: gameObject);
 		StartCoroutine(PlayAlarm());
 	}
 
@@ -155,7 +157,8 @@ public class Morgue : Drawer
 		alarmRunning = true;
 		while (consciousnessPresent && buzzerEnabled && !alarmBroken)
 		{
-			SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", DrawerWorldPosition, sourceObj: gameObject);
+			// JESTER
+			//SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", DrawerWorldPosition, sourceObj: gameObject);
 			yield return WaitFor.Seconds(ALARM_PERIOD);
 			if (drawerState == DrawerState.Open) break;
 			UpdateCloseState();

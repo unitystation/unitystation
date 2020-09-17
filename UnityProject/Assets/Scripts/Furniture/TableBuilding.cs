@@ -95,7 +95,8 @@ public class TableBuilding : NetworkBehaviour, ICheckedInteractable<HandApply>
 			$"You finish assembling the {tableType} table.",
 			$"{interaction.Performer.ExpensiveName()} assembles a {tableType} table.",
 			() => SpawnTable(interaction, layerTile));
-		SoundManager.PlayNetworkedAtPos(soundName, gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
+		// JESTER
+		// SoundManager.PlayNetworkedAtPos(soundName, gameObject.WorldPosServer(), 1f, sourceObj: gameObject);
 	}
 
 	private void Disassemble(HandApply interaction)

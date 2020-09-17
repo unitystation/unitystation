@@ -200,7 +200,8 @@ public class Vendor : MonoBehaviour, ICheckedInteractable<HandApply>, IAPCPowere
 		Chat.AddLocalMsgToChat($"{itemNameStr} was dispensed from the vending machine", gameObject);
 
 		// Play vending sound
-		SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), Random.Range(.75f, 1.1f), sourceObj: gameObject);
+		// JESTER
+		// SoundManager.PlayNetworkedAtPos(VendingSound, gameObject.WorldPosServer(), Random.Range(.75f, 1.1f), sourceObj: gameObject);
 
 		//Ejecting in direction
 		if (EjectObjects && EjectDirection != EjectDirection.None &&

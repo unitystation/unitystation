@@ -29,11 +29,14 @@ namespace NPC
 				return;
 			}
 			{
+				// JESTER
+				/*
 				SoundManager.PlayNetworkedAtPos(
 					GenericSounds.PickRandom(),
 					transform.position,
 					Random.Range(0.9f, 1.1f),
 					sourceObj: gameObject);
+				*/
 			}
 			Invoke(nameof(PlaySound), PlaySoundTime);
 		}
