@@ -40,6 +40,7 @@ public class SpawnPoint : NetworkStartPosition
 			{JobDepartment.DeathSquad, new [] {JobType.DEATHSQUAD}},
 			{JobDepartment.CentComm, new[] {JobType.CENTCOMM_OFFICER, JobType.CENTCOMM_INTERN}},
 			{JobDepartment.EmergencyResponseTeam, new[] {JobType.ERT_COMMANDER, JobType.ERT_SECURITY, JobType.ERT_MEDIC, JobType.ERT_ENGINEER, JobType.ERT_CHAPLAIN, JobType.ERT_JANITOR, JobType.ERT_CLOWN}},
+			{JobDepartment.MaintSpawns, new[] {JobType.FUGITIVE}}
 		};
 
 	public IEnumerable<JobType> JobRestrictions =>
