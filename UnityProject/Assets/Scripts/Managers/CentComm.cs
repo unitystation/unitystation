@@ -9,13 +9,16 @@ using Random = UnityEngine.Random;
 ///------------
 /// CENTRAL COMMAND HQ
 ///------------
-public class CentComm : MonoBehaviour, IInitialise
+public class CentComm : MonoBehaviour
 {
 	public GameManager gameManager;
 
+	[SerializeField][Tooltip("Reference to the paper prefab. Needed to send reports.")]
+	private GameObject paperPrefab;
+
 	public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
-	public string CommandStatusString;
-	public string EscapeShuttleTimeString;
+	[NonSerialized] public string CommandStatusString;
+	[NonSerialized] public string EscapeShuttleTimeString;
 
 	public void UpdateStatusDisplay(StatusDisplayChannel channel, string text)
 	{
@@ -35,20 +38,19 @@ public class CentComm : MonoBehaviour, IInitialise
 	//Server only:
 	private List<Vector2> AsteroidLocations = new List<Vector2>();
 	private int PlasmaOrderRequestAmt;
-	private GameObject paperPrefab;
 	public DateTime lastAlertChange;
 	public double coolDownAlertChange = 5;
 
 	public static string CaptainAnnounceTemplate =
 		"\n\n<color=white><size=60><b>Captain Announces</b></size></color>\n\n"
-	  + "<color=#FF151F><b>{0}</b></color>\n\n";
+		+ "<color=#FF151F><b>{0}</b></color>\n\n";
 
 	public static string CentCommAnnounceTemplate =
 		"\n\n<color=white><size=60><b>Central Command Update</b></size></color>\n\n"
-	  + "<color=#FF151F><b>{0}</b></color>\n\n";
+		+ "<color=#FF151F><b>{0}</b></color>\n\n";
 	public static string PriorityAnnouncementTemplate =
 		"\n\n<color=white><size=60><b>Priority Announcement</b></size></color>\n\n"
-	  + "<color=#FF151F>{0}</color>\n\n";
+		+ "<color=#FF151F>{0}</color>\n\n";
 
 	public static string ShuttleCallSubTemplate =
 		"\n\nThe emergency shuttle has been called. It will arrive in {0} " +
@@ -59,8 +61,8 @@ public class CentComm : MonoBehaviour, IInitialise
 
 	public static string ShuttleRecallSubTemplate =
 		"\n\nThe emergency shuttle has been recalled. " +
-	// Not traced yet, but eventually will:
-	//		+"Recall signal traced. Results can be viewed on any communications console.";
+		// Not traced yet, but eventually will:
+		//		+"Recall signal traced. Results can be viewed on any communications console.";
 		"\n\n{0}";
 
 	public static string CentCommReportTemplate =
@@ -80,11 +82,6 @@ public class CentComm : MonoBehaviour, IInitialise
 		"Enemy communication intercepted. Security level elevated.";
 
 	public InitialisationSystems Subsystem => InitialisationSystems.CentComm;
-
-	void IInitialise.Initialise()
-	{
-		paperPrefab = Resources.Load<GameObject>("Paper");
-	}
 
 
 	private void OnEnable()
@@ -166,15 +163,15 @@ public class CentComm : MonoBehaviour, IInitialise
 	private void SendExtendedUpdate()
 	{
 		MakeAnnouncement(CentCommAnnounceTemplate, string.Format(InitialUpdateTemplate, ExtendedInitialUpdate),
-						UpdateSound.notice);
+			UpdateSound.notice);
 		SpawnReports(StationObjectiveReport());
 	}
 	private void SendAntagUpdate()
 	{
 		SoundManager.PlayNetworked("InterceptMessage");
 		MakeAnnouncement(CentCommAnnounceTemplate,
-						string.Format(InitialUpdateTemplate,AntagInitialUpdate+"\n\n"+AlertLevelStrings[AlertLevelString.UpToBlue]),
-						UpdateSound.alert);
+			string.Format(InitialUpdateTemplate,AntagInitialUpdate+"\n\n"+AlertLevelStrings[AlertLevelString.UpToBlue]),
+			UpdateSound.alert);
 		SpawnReports(StationObjectiveReport());
 		SpawnReports(AntagThreatReport);
 		ChangeAlertLevel(AlertLevel.Blue, false);

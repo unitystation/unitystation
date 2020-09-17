@@ -58,7 +58,9 @@ public enum JobType
 	ERT_JANITOR = 46,
 	ERT_CLOWN = 47,
 	TRAITOR = 48,
-	CARGONIAN = 49
+	CARGONIAN = 49,
+	PRISONER = 50,
+	FUGITIVE = 51
 }
 
 public static class JobCategories
