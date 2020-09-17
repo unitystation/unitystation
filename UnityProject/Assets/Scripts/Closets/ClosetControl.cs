@@ -167,15 +167,9 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		EnsureInit();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 
-		if (gameObject.ExpensiveName() != null)
-		{
-			closetName = gameObject.ExpensiveName();
-		}
-		else
-		{
-			closetAttributes = GetComponent<ObjectAttributes>();
-			closetName = closetAttributes.InitialName;
-		}
+		//Fetch the items name to use in messages
+		closetName = gameObject.ExpensiveName();
+	
 	}
 
 	private void EnsureInit()
@@ -578,7 +572,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			}
 			else
 			{
-				//				netTransform.AppearAtPositionServer(pos);
 				item.VisibleState = true; //should act identical to line above
 			}
 			item.parentContainer = null;
