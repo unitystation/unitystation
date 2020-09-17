@@ -58,6 +58,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8766114959041811600, guid: e04b035c5758bbf479e3d67c638b1310,
         type: 3}
+    - target: {fileID: -9167103284037124715, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: weldOverlay
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: -6909192434074767838, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: closetType
@@ -175,6 +180,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 87590b3bea51ad9489dc3aafbc926b16,
         type: 2}
+    - target: {fileID: 6872015153723498109, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7516867733009817656, guid: 68a3eee06f0a8cf4da5d8ab811ce1c73,
         type: 3}
       propertyPath: initialDescription

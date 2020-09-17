@@ -79,6 +79,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 60053cb20be94564cb84cf11df48f4c4,
         type: 3}
+    - target: {fileID: 4082161822413405290, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
+      propertyPath: weldOverlay
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4704084513949387669, guid: 4325ff5e8c92fee47b53476d3cd97788,
         type: 3}
       propertyPath: m_AssetId
@@ -93,6 +98,11 @@ PrefabInstance:
         type: 3}
       propertyPath: initialName
       value: laundry cart
+      objectReference: {fileID: 0}
+    - target: {fileID: 7439777199561940866, guid: 4325ff5e8c92fee47b53476d3cd97788,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4325ff5e8c92fee47b53476d3cd97788, type: 3}
