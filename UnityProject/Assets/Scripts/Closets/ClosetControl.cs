@@ -162,14 +162,11 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		}
 	}
 
-
 	private void Awake()
 	{
 		EnsureInit();
 		GetComponent<Integrity>().OnWillDestroyServer.AddListener(OnWillDestroyServer);
 
-		registerTile = GetComponent<RegisterCloset>();
-		pushPull = GetComponent<PushPull>();
 		if (gameObject.ExpensiveName() != null)
 		{
 			closetName = gameObject.ExpensiveName();
@@ -185,8 +182,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	{
 		if (registerTile != null) return;
 		doorClosed = spriteRenderer != null ? spriteRenderer.sprite : null;
-	}
 
+		registerTile = GetComponent<RegisterCloset>();
+		pushPull = GetComponent<PushPull>();
+	}
 
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
@@ -240,13 +239,11 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			SyncLocked(isLocked, false);
 		}
 
-
 		//if this is a mapped spawn, stick any items mapped on top of us in
 		if (info.SpawnType == SpawnType.Mapped)
 		{
 			CloseItemHandling();
 		}
-
 	}
 
 	public void OnDespawnServer(DespawnInfo info)
@@ -388,6 +385,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			weldOverlay.sprite = isWelded ? weldSprite : null;
 		}
 	}
+
 	private void SyncStatus(ClosetStatus oldValue, ClosetStatus value)
 	{
 		EnsureInit();
@@ -439,6 +437,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	private void SyncLocked(bool oldValue, bool value)
 	{
+		//Set closet to locked or unlocked as well as update light graphic
 		EnsureInit();
 		isLocked = value;
 		if (lockLight)
@@ -467,7 +466,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		// Is the player trying to put something in the closet?
-
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
 		{
 			if(IsClosed && !isEmagged)
@@ -484,6 +482,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			// Is the player trying to weld closet?
 			if (IsWeldable && interaction.Intent == Intent.Harm)
 			{
+				//TODO: Need to add an examine msg saying "Its welded shut
 				ToolUtils.ServerUseToolWithActionMessages(
 						interaction, weldTime,
 						$"You start {(IsWelded ? "unwelding" : "welding")} the {closetName} door...",
@@ -495,7 +494,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		}
 		else if (interaction.HandObject != null)
 		{
-			// If nothing in the players hand can be used on the closet, drop it on the closet
+			// If nothing in the players hand can be used on the closet, drop it in the closet
 			if (!IsClosed)
 			{
 				Vector3 targetPosition = interaction.TargetObject.WorldPosServer().RoundToInt();
@@ -630,6 +629,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		}
 		serverHeldPlayers = new List<ObjectBehaviour>();
 	}
+	//TODO: add player escape code for closets, should take 2 min (120 seconds)
 
 	/// <summary>
 	/// Adds all players currently sitting on this closet into the closet
@@ -689,6 +689,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 		if (WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client))
 		{
+			//TODO: Make this contexual if holding a welder or wrench
 			var optionName = IsClosed ? "Open" : "Close";
 			result.AddElement("OpenClose", RightClickInteract, nameOverride: optionName);
 		}
