@@ -328,6 +328,7 @@ namespace Atmospherics
 
 		public void RemoveGas(Gas gas, float moles)
 		{
+			moles = Mathf.Clamp(moles, 0);
 			Gases[gas] -= moles;
 			Recalculate();
 		}
