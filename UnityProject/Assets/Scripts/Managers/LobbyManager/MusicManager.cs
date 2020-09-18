@@ -75,7 +75,7 @@ namespace Audio.Containers
 		public String[] PlayRandomTrack()
 		{
 			StopMusic();
-
+			if (currentLobbyAudioSource == null) Init();
 			currentLobbyAudioSource.clip = audioClips.GetRandomClip();
 			currentLobbyAudioSource.mute = isMusicMute;
 			currentLobbyAudioSource.volume = Instance.MusicVolume;
