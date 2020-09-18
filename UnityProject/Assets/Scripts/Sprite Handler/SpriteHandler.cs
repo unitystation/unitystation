@@ -34,6 +34,11 @@ public class SpriteHandler : MonoBehaviour
 
 	private int cataloguePage = -1;
 
+	/// <summary>
+	/// Returns the current catalogue page
+	/// </summary>
+	public int CurrentSpriteIndex => cataloguePage;
+
 	private float timeElapsed = 0;
 
 	private bool isAnimation = false;
