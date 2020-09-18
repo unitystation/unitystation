@@ -6,11 +6,11 @@ public class RadarEntry : DynamicEntry
 {
 	[Tooltip("Assign the component responible for the icon.")]
 	[SerializeField]
-	private NetSpriteImage icon;
+	private NetSpriteImage icon = default;
 
 	[Tooltip("Assign the NetRadiusCircle component.")]
 	[SerializeField]
-	private NetRadiusCircle circle;
+	private NetRadiusCircle circle = default;
 
 	public MapIconType type = MapIconType.None;
 	public MapIconType Type
