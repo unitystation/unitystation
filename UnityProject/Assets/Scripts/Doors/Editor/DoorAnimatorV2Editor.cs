@@ -1,12 +1,14 @@
 ﻿using System;
 using UnityEngine;
+#if UNITY_EDITOR
+using UnityEditor;
 
 namespace Doors.Editor
 {
-	using UnityEditor;
+
 
 	[CustomEditor(typeof(DoorAnimatorV2))]
-	public class DoorAnimatorV2Editor : Editor
+	public class DoorAnimatorV2Editor : UnityEditor.Editor
 	{
 		private bool panel = false;
 		private bool welded = false;
@@ -101,3 +103,4 @@ namespace Doors.Editor
 		}
 	}
 }
+#endif
