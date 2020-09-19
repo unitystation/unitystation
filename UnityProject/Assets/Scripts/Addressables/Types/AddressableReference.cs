@@ -9,10 +9,14 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace AddressableReferences
 {
+	/// <summary>
+	/// Note about this class, Currently if you want a custom AssetReference Like asset reference texture, might have to make a new class this needs to be explored
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	[Serializable]
 	public class AddressableReference<T> where T : UnityEngine.Object
 	{
-		public LoadSetting SetLoadSetting = LoadSetting.PreLoad;
+		public UnLoadSetting SetLoadSetting = UnLoadSetting.KeepLoaded;
 		public string Path = "";
 		public AssetReference AssetReference = null;
 
@@ -109,6 +113,13 @@ namespace AddressableReferences
 		#endregion
 	}
 
+	public enum UnLoadSetting
+	{
+		KeepLoaded, //Keep loaded until the game closes
+		UnloadOnRoundEnd,//Unloads when the round ends
+		When0Referenced //Unloads when there are zero references
+	}
+
 	public enum LoadSetting
 	{
 		PreLoad, //Preload on game start
@@ -150,4 +161,7 @@ namespace AddressableReferences
 			AssetReference = new AssetReference(assetReferenceGuid);
 		}
 	}
+
+	[System.Serializable]
+	public class AddressableTexture : AddressableReference<Texture> { }
 }
