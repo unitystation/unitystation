@@ -43,7 +43,7 @@ public enum NamedSlot
 [Serializable, Flags]
 public enum NamedSlotFlagged
 {
-None = 1 << -1,
+None = 0,
 Outerwear = 1 << 0,
 Belt = 1 << 1,
 Head = 1 << 2,
