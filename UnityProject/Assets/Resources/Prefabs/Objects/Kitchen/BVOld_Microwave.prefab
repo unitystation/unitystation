@@ -25,7 +25,7 @@ GameObject:
   - component: {fileID: 2614019100448779621}
   - component: {fileID: 5586223872053215385}
   m_Layer: 11
-  m_Name: Microwave
+  m_Name: BVOld_Microwave
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -204,7 +204,45 @@ MonoBehaviour:
   RunningAudio: {fileID: 82554502596860898}
   ScreenGlow: {fileID: 2324396478013233987}
   OvenGlow: {fileID: 4124619900872816426}
-  MicrowaveTimer: 0
+  doorSound:
+  - SetLoadSetting: 2
+    Path: 
+    AssetReference:
+      m_AssetGUID: 95bd68df2ea5fab41942e3f7eb78bed2
+      m_SubObjectName: 
+  - SetLoadSetting: 2
+    Path: 
+    AssetReference:
+      m_AssetGUID: 3b95ada4145272448b384e814e57dca1
+      m_SubObjectName: 
+  - SetLoadSetting: 2
+    Path: 
+    AssetReference:
+      m_AssetGUID: 14f82e6893ee1754fa6ac1382d17799f
+      m_SubObjectName: 
+  - SetLoadSetting: 2
+    Path: 
+    AssetReference:
+      m_AssetGUID: bf7978465bf3551428d902db468e4a0f
+      m_SubObjectName: 
+  doneSound:
+    SetLoadSetting: 2
+    Path: 
+    AssetReference:
+      m_AssetGUID: deddf44457868484d811f2b57b7d619f
+      m_SubObjectName: 
+  startSound:
+    SetLoadSetting: 2
+    Path: 
+    AssetReference:
+      m_AssetGUID: 05f2aaf4de2ccb04a9f1db8a3a56d77d
+      m_SubObjectName: 
+  timerSound:
+    SetLoadSetting: 2
+    Path: 
+    AssetReference:
+      m_AssetGUID: d22a50001283fcd4fa5b54c4f6faed9d
+      m_SubObjectName: 
 --- !u!114 &114643057465573826
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -529,6 +567,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 53b4b3268f209eb49a64a3bf7bf02393, type: 2}
   - {fileID: 11400000, guid: d61e2ef2c736262499b80a36a26c91ab, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: a9d9bf1a77c00d44f8434a8bd3be24c7, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites: []

@@ -9,7 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 
 namespace AddressableReferences
 {
-	[System.Serializable]
+	[Serializable]
 	public class AddressableReference<T> where T : UnityEngine.Object
 	{
 		public LoadSetting SetLoadSetting = LoadSetting.PreLoad;
@@ -49,12 +49,12 @@ namespace AddressableReferences
 		/// <summary>
 		/// Assuming that you've loaded the asset allow you to access it instantly
 		/// </summary>
-		public T Retrieve()
+		public virtual T Retrieve()
 		{
 			if (IsNotValidKey) return null;
 			if (IsReadyLoaded)
 			{
-				return (T) AssetReference.Asset;
+				return (T)AssetReference.Asset;
 			}
 			else
 			{
@@ -71,12 +71,12 @@ namespace AddressableReferences
 			if (IsNotValidKey) return null;
 			if (IsReadyLoaded)
 			{
-				return (T) AssetReference.Asset;
+				return (T)AssetReference.Asset;
 			}
 
 			//Add to manager tracker
 			await AssetReference.LoadAssetAsync<T>().Task;
-			return (T) (AssetReference.Asset);
+			return (T)(AssetReference.Asset);
 		}
 
 		/// <summary>
@@ -116,6 +116,38 @@ namespace AddressableReferences
 		OnDemand //Load and unload when it's needed
 	}
 
-	[System.Serializable]
+	[Serializable]
 	public class AddressableSprite : AddressableReference<Sprite> { }
+
+	[Serializable]
+	public class AddressableAudioSource : AddressableReference<GameObject>
+	{
+		private AudioSource audioSource = null;
+
+		public AudioSource AudioSource
+		{
+			get
+			{
+				if (audioSource == null)
+				{
+					GameObject gameObject = base.Retrieve();
+					if (!gameObject.TryGetComponent(out audioSource))
+					{
+						throw new ArgumentException($"Invalid AddressableAudioSource {gameObject.name} is missing AudioSource component");
+					}
+				}
+
+				return audioSource;
+			}
+		}
+
+		/// <summary>
+		/// Constructor that provides an AddressableAudioSource by an AssetReference Primary Key (AssetGuid)
+		/// </summary>
+		/// <param name="assetReferenceGuid">The primary key (AssetGuid) of the AssetReference</param>
+		public AddressableAudioSource(string assetReferenceGuid)
+		{
+			AssetReference = new AssetReference(assetReferenceGuid);
+		}
+	}
 }

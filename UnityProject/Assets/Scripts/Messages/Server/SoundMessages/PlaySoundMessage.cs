@@ -1,6 +1,9 @@
-﻿using Mirror;
+﻿using AddressableReferences;
+using Mirror;
 using Newtonsoft.Json;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AddressableAssets;
 
 namespace Assets.Scripts.Messages.Server.SoundMessages
 {
@@ -9,7 +12,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class PlaySoundMessage : ServerMessage
 	{
-		public string SoundName;
+		public string SoundAssetReferenceGuid;
 		public Vector3 Position;
 		///Allow this one to sound polyphonically
 		public bool Polyphonic;
@@ -23,9 +26,9 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override void Process()
 		{
-			if (string.IsNullOrEmpty(SoundName))
+			if (string.IsNullOrEmpty(SoundAssetReferenceGuid))
 			{
-				Logger.LogError(ToString() + " has no SoundName!", Category.Audio);
+				Logger.LogError(ToString() + " has no AssetReference Guid!", Category.Audio);
 				return;
 			}
 
@@ -34,15 +37,18 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			if (AudioSourceParameters == null)
 				AudioSourceParameters = new AudioSourceParameters();
 
+			// Recompose a list of a single AddressableAudioSoure from its primart key (Guid)
+			List<AddressableAudioSource> addressableAudioSources = new List<AddressableAudioSource>() { new AddressableAudioSource(SoundAssetReferenceGuid) };
+
 			if (isPositionProvided)
 			{
-				SoundManager.PlayAtPosition(SoundName, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioSourceParameters );
+				SoundManager.PlayAtPosition(addressableAudioSources, Position, Polyphonic, netId: TargetNetId, audioSourceParameters: AudioSourceParameters );
 			}
 			else
 			{
-				SoundManager.Play(SoundName, AudioSourceParameters, Polyphonic);
+				SoundManager.Play(addressableAudioSources, AudioSourceParameters, Polyphonic);
 			}
-		
+
 			if (ShakeParameters != null && ShakeParameters.ShakeGround)
 			{
 				if (isPositionProvided
@@ -57,7 +63,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			}
 		}
 
-		public static PlaySoundMessage SendToNearbyPlayers(string sndName, Vector3 pos,
+		public static PlaySoundMessage SendToNearbyPlayers(AddressableAudioSource addressableAudioSource, Vector3 pos,
 			bool polyphonic = false,
 			GameObject sourceObj = null,
 			ShakeParameters shakeParameters = null,
@@ -75,7 +81,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundName = sndName,
+				SoundAssetReferenceGuid = addressableAudioSource.AssetReference.AssetGUID,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -87,7 +93,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			return msg;
 		}
 
-		public static PlaySoundMessage SendToAll(string sndName, Vector3 pos,
+		public static PlaySoundMessage SendToAll(AddressableAudioSource addressableAudioSource, Vector3 pos,
 			bool polyphonic = false,
 			GameObject sourceObj = null,
 			ShakeParameters shakeParameters = null,
@@ -105,7 +111,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundName = sndName,
+				SoundAssetReferenceGuid = addressableAudioSource.AssetReference.AssetGUID,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -118,7 +124,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 			return msg;
 		}
 
-		public static PlaySoundMessage Send(GameObject recipient, string sndName, Vector3 pos,
+		public static PlaySoundMessage Send(GameObject recipient, AddressableAudioSource addressableAudioSource, Vector3 pos,
 			bool polyphonic = false,
 			GameObject sourceObj = null,
 			ShakeParameters shakeParameters = null,
@@ -136,7 +142,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundName = sndName,
+				SoundAssetReferenceGuid = addressableAudioSource.AssetReference.AssetGUID,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -153,12 +159,12 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		{
 			string audioSourceParametersValue = (AudioSourceParameters == null) ? "Null" : AudioSourceParameters.ToString();
 			string shakeParametersValue = (ShakeParameters == null) ? "Null" : ShakeParameters.ToString();
-			return $"{nameof(SoundName)}: {SoundName}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
+			return $"{nameof(SoundAssetReferenceGuid)}: {SoundAssetReferenceGuid}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
 		}
 
 		public override void Serialize(NetworkWriter writer)
 		{
-			writer.WriteString(SoundName);
+			writer.WriteString(SoundAssetReferenceGuid);
 			writer.WriteVector3(Position);
 			writer.WriteBoolean(Polyphonic);
 			writer.WriteUInt32(TargetNetId);
@@ -168,7 +174,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override void Deserialize(NetworkReader reader)
 		{
-			SoundName = reader.ReadString();
+			SoundAssetReferenceGuid = reader.ReadString();
 			Position = reader.ReadVector3();
 			Polyphonic = reader.ReadBoolean();
 			TargetNetId = reader.ReadUInt32();

@@ -11,6 +11,8 @@ GameObject:
   - component: {fileID: 5164389089927884966}
   - component: {fileID: 2538525614273923828}
   - component: {fileID: 5484852710180414376}
+  - component: {fileID: -4994027296182721032}
+  - component: {fileID: -4594010881968899041}
   m_Layer: 0
   m_Name: SoundSpawn
   m_TagString: Untagged
@@ -141,5 +143,39 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 156c44f0c00d89e4383bb734092d7aba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 2538525614273923828}
+  AudioSource: {fileID: 2538525614273923828}
   isPlaying: 0
+  Transform: {fileID: 0}
+  Token: 
+--- !u!114 &-4994027296182721032
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7013270530123256728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isDirty: 0
+  sceneId: 0
+  serverOnly: 0
+  m_AssetId: 
+--- !u!114 &-4594010881968899041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7013270530123256728}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9687285516594f6ea533d605ae94403c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  matrixDebugLogging: 0
+  objectType: 0

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UnityEngine.AddressableAssets;
+using AddressableReferences;
 
 /// <summary>
 /// A machine into which players can insert items for cooking. If the item has the Cookable component,
@@ -14,8 +16,6 @@ public class Microwave : NetworkBehaviour, IAPCPowered
 {
 	private const int MAX_TIMER_TIME = 60; // Seconds
 	private const float DIRTY_CHANCE_PER_FINISH = 10; // Percent
-	private const string DOOR_SOUND = "Punch#"; // SFX the microwave door should make when opening/closing.
-	private const string TIMER_BEEP = "Beep"; // Beep to play when timer time is added/removed.
 
 	[SerializeField]
 	[Range(0, MAX_TIMER_TIME)]
@@ -33,6 +33,23 @@ public class Microwave : NetworkBehaviour, IAPCPowered
 	[SerializeField]
 	[Tooltip("Child GameObject that is responsible for the glow from the interior oven when the door is open.")]
 	private GameObject OvenGlow = default;
+
+	[SerializeField]
+	[Tooltip("The sounds the door might make when you open/close it.  One of these sound will be chosen at random")]
+	private List<AddressableAudioSource> doorSound = null;
+
+	[SerializeField]
+	[Tooltip("The sound the microwave does when it's done cooking (Ding!)")]
+	private AddressableAudioSource doneSound = null;
+
+	[SerializeField]
+	[Tooltip("The sound the microwave does when it's starting")]
+	private AddressableAudioSource startSound = null;
+
+	[SerializeField]
+	[Tooltip("The sound the microwave does when you add/remove time to the timer")]
+	private AddressableAudioSource timerSound = null;
+
 
 	/// <summary>
 	/// How much time remains on the microwave's timer.
@@ -160,14 +177,12 @@ public class Microwave : NetworkBehaviour, IAPCPowered
 			}
 		}
 
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos(DOOR_SOUND, WorldPosition, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(doorSound, WorldPosition, sourceObj: gameObject);
 	}
 
 	private void OpenMicrowaveAndEjectContents()
 	{
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos(DOOR_SOUND, WorldPosition, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(doorSound, WorldPosition, sourceObj: gameObject);
 
 		Vector2 spritePosWorld = spriteHandler.transform.position;
 		Vector2 microwaveInteriorCenterAbs = spritePosWorld + new Vector2(-0.075f, -0.075f);
@@ -181,8 +196,7 @@ public class Microwave : NetworkBehaviour, IAPCPowered
 	private void StartMicrowave()
 	{
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos("MicrowaveStart", WorldPosition, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(startSound, WorldPosition, sourceObj: gameObject);
 		playAudioLoop = true;
 	}
 
@@ -201,15 +215,13 @@ public class Microwave : NetworkBehaviour, IAPCPowered
 			microwaveTimer += seconds;
 		}
 
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos(TIMER_BEEP, WorldPosition, sourceObj: gameObject, pitch: seconds < 0 ? 0.8f : 1);
+		SoundManager.PlayNetworkedAtPos(timerSound, WorldPosition, sourceObj: gameObject, pitch: seconds < 0 ? 0.8f : 1);
 	}
 
 	private void MicrowaveTimerComplete()
 	{
 		HaltMicrowave();
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos("MicrowaveDing", WorldPosition, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(doneSound, WorldPosition, sourceObj: gameObject);
 
 		// Chance to dirty microwave. Could probably tie this tied into what is cooked instead or additionally.
 		if (UnityEngine.Random.Range(1, 101) < DIRTY_CHANCE_PER_FINISH)
