@@ -98,6 +98,24 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3320711171919508498}
   m_Mesh: {fileID: 0}
+--- !u!114 &-6066636166583991181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5734849685452875998}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1360d2b65a03cdf449035cd3c4cd0153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  actionData: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19, type: 2}
+  allowedSlots: -1
+  useSpriteHandler: 1
+  spriteHandler: {fileID: 1932141341405303641}
 --- !u!114 &5091645988084169630
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -113,8 +131,6 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   spriteHandler: {fileID: 1932141341405303641}
-  hasActionButton: 1
-  flashlightAction: {fileID: 11400000, guid: 9cf6b1b6994732d4cb5f023e0cefaf19, type: 2}
 --- !u!114 &5334267868750357690
 MonoBehaviour:
   m_ObjectHideFlags: 0
