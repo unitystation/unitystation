@@ -9,7 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae9ae92335e8a62469444ee2caab74e3, type: 3}
-  m_Name: MagBootsUIActionSO
+  m_Script: {fileID: 11500000, guid: 175001bada3c3ba47945b92e3bfa2bd2, type: 3}
+  m_Name: TogglePDALight
   m_EditorClassIdentifier: 
-  actionData: {fileID: 11400000, guid: a9f264c5391b47441beaa8c56ebbf935, type: 2}
+  callOnClient: 1
+  callOnServer: 1
+  actionName: Toggle PDA Light
+  description: 
+  Sprites: []
+  Backgrounds: []
+  PreventBeingControlledBy: 
+  DisableOnEvent: 
