@@ -5,7 +5,7 @@ using UnityEngine;
 using Mirror;
 using NaughtyAttributes;
 
-namespace Assets.Scripts.UI.Action
+namespace UI.Action
 {
 	public class ItemActionButton : NetworkBehaviour, IServerActionGUI, IClientInventoryMove
 	{

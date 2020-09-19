@@ -4,7 +4,7 @@ using UnityEngine;
 using Mirror;
 using Antagonists;
 using Random = UnityEngine.Random;
-using Assets.Scripts.UI.Action;
+using UI.Action;
 
 namespace Items.PDA
 {
@@ -30,9 +30,6 @@ namespace Items.PDA
 		[Tooltip("Reset registered name on FactoryReset?")]
 		[SerializeField]
 		private bool willResetName = false;
-
-		[SerializeField]
-		private SpriteHandler baseSpriteHandler = default;
 
 		#endregion Inspector
 
@@ -137,10 +134,12 @@ namespace Items.PDA
 
 			if (DEBUG_UPLINK)
 			{
+#pragma warning disable CS0162 // Unreachable code detected
 				UplinkTC = 20;
 				UplinkUnlockCode = DEBUG_UPLINK_CODE;
 				IsUplinkCapable = true;
 				InformUplinkCode(owner);
+#pragma warning restore CS0162 // Unreachable code detected
 			}
 		}
 

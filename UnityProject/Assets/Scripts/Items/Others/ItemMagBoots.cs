@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Assets.Scripts.UI.Action;
+using UI.Action;
 
 public class ItemMagBoots : NetworkBehaviour, IServerInventoryMove
 {
