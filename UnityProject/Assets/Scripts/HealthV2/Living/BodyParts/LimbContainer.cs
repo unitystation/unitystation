@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using HealthV2;
 using UnityEngine;
@@ -9,15 +10,16 @@ namespace HealthV2
 	{
 		private List<ImplantLimb> limbs = new List<ImplantLimb>();
 
-		[SerializeField]
-		private PlayerMove playerMove;
+		public event Action<ImplantLimb, ImplantLimb> LimbUpdateEvent;
 
 		public override void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
 			base.ImplantAdded(prevImplant, newImplant);
+
+			ImplantLimb newLimb = newImplant?.GetComponent<ImplantLimb>();
+			ImplantLimb oldLimb = prevImplant?.GetComponent<ImplantLimb>();
 			if (newImplant)
 			{
-				ImplantLimb newLimb = newImplant.GetComponent<ImplantLimb>();
 				if (newLimb)
 				{
 					limbs.Add(newLimb);
@@ -25,14 +27,13 @@ namespace HealthV2
 			}
 			if (prevImplant)
 			{
-				ImplantLimb oldLimb = prevImplant.GetComponent<ImplantLimb>();
 				if (oldLimb)
 				{
 					limbs.Remove(oldLimb);
 				}
 			}
 
-			playerMove.UpdateSpeedFromLimbs();
+			LimbUpdateEvent?.Invoke(oldLimb, newLimb);
 		}
 
 		public float GetTotalWalkingSpeed()
@@ -66,11 +67,6 @@ namespace HealthV2
 			}
 
 			return totalSpeed;
-		}
-
-		private void UpdatePlayerSpeed()
-		{
-			playerMove.ServerChangeSpeed(GetTotalRunningSpeed(), GetTotalWalkingSpeed());
 		}
 	}
 }
