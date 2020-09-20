@@ -19,6 +19,11 @@ public class BodyPartSprites : MonoBehaviour
 	[SerializeField]
 	private SpriteHandler damageOverlaySpriteHandler;
 
+	[SerializeField]
+	[Tooltip("The sprites that will be used when there is no limbs installed.")]
+	private SpriteDataSO noLimbSpriteData;
+
+
 	public void UpdateSpritesForImplant(ImplantBase implant)
 	{
 		if (implant.LimbSpriteData)
