@@ -7,7 +7,19 @@ using Objects;
 
 namespace HealthV2
 {
-	public class BodyPartContainerBase : MonoBehaviour, IServerInventoryMove
+	public enum BodyPartType
+	{
+		Head,
+		Chest,
+		LeftArm,
+		RightArm,
+		LeftLeg,
+		RightLeg,
+		Buttocks,
+		Implant
+	}
+
+	public class BodyPartContainerBase : MonoBehaviour
 	{
 		[SerializeField]
 		[Required("Need a health master to send updates too." +
@@ -15,9 +27,14 @@ namespace HealthV2
 		private LivingHealthMasterBase healthMaster = null;
 
 		private ItemStorage storage;
+
+		[SerializeField]
+		private BodyPartSprites bodyPartSprites;
+
 		private void Awake()
 		{
 			storage = GetComponent<ItemStorage>();
+			storage.ServerInventoryItemSlotSet += ImplantAdded;
 
 			if (!healthMaster)
 			{
@@ -25,22 +42,22 @@ namespace HealthV2
 			}
 		}
 
-		public void OnInventoryMoveServer(InventoryMove info)
+		public void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
-			//If the implant is being added, or transfered to the storage.
-			if (info.InventoryMoveType == InventoryMoveType.Add || (info.InventoryMoveType == InventoryMoveType.Transfer && storage.HasSlot(info.ToSlot.SlotIdentifier)))
+			if (newImplant)
 			{
-				//Note: This assumes the moved item will have the implant base component.
-				//I would not normally make this kind of assumption, especially one without any checks.
-				//However, if this happens and returns a null component, that really is an error. In which case
-				//we want to be logging it as such anyway.
-				healthMaster.AddNewImplant(info.MovedObject.GetComponent<ImplantBase>());
+				ImplantBase implant = newImplant.GetComponent<ImplantBase>();
+				healthMaster.AddNewImplant(implant);
+				bodyPartSprites.UpdateSpritesForImplant(implant);
 			}
-			else //I'm pretty sure the only other option is removal?
+			if (prevImplant)
 			{
-				healthMaster.RemoveImplant(info.MovedObject.GetComponent<ImplantBase>());
+				ImplantBase implant = prevImplant.GetComponent<ImplantBase>();
+				healthMaster.RemoveImplant(implant);
+				bodyPartSprites.UpdateSpritesOnImplantRemoved(implant);
 			}
 		}
+
 	}
 
 }
