@@ -142,7 +142,8 @@ public class ClothingItem : MonoBehaviour
 				return;
 			}
 
-			equippedClothing.LinkClothingItem(this);
+				// Set the slots defined in hidesSlots as hidden.
+				//thisPlayerScript.Equipment.obscuredSlots |= equippedClothing.HiddenSlots;
 
 			// Set the slots defined in hidesSlots as hidden.
 			thisPlayerScript.Equipment.obscuredSlots |= equippedClothing.HiddenSlots;
