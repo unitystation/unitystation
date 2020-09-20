@@ -13,6 +13,10 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 	/// Cached register player
 	/// </summary>
 	private RegisterPlayer registerPlayer;
+	public RegisterPlayer RegPlayer => registerPlayer;
+
+	private Equipment equipment;
+	public Equipment Equip => equipment;
 
 	private ItemStorage itemStorage;
 
@@ -38,6 +42,7 @@ public class PlayerHealthV2 : LivingHealthMasterBase
 		playerSprites = GetComponent<PlayerSprites>();
 		registerPlayer = GetComponent<RegisterPlayer>();
 		itemStorage = GetComponent<ItemStorage>();
+		equipment = GetComponent<Equipment>();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
 	}
