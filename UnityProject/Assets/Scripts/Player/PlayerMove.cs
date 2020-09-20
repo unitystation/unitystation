@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Messages.Client.Interaction;
 using HealthV2;
 using UnityEngine;
 using Mirror;
@@ -14,7 +13,8 @@ using Objects;
 ///     handles interaction with objects that can
 ///     be walked into it.
 /// </summary>
-public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI, ICheckedInteractable<ContextMenuApply>
+public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActionGUI,
+	ICheckedInteractable<ContextMenuApply>
 {
 	public PlayerScript PlayerScript => playerScript;
 
@@ -30,6 +30,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// Object this player is buckled to (if buckled). Null if not buckled.
 	/// </summary>
 	public GameObject BuckledObject => buckledObject;
+
 	//cached for fast access
 	private GameObject buckledObject;
 
@@ -56,8 +57,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// <summary>
 	/// Invoked on server side when the cuffed state is changed
 	/// </summary>
-	[NonSerialized]
-	public CuffEvent OnCuffChangeServer = new CuffEvent();
+	[NonSerialized] public CuffEvent OnCuffChangeServer = new CuffEvent();
 
 	/// <summary>
 	/// Whether this player meets all the conditions for being swapped with, but only
@@ -66,20 +66,19 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// Doesn't incorporate any other conditions into this
 	/// flag, but IsSwappable does.
 	/// </summary>
-	[SyncVar]
-	private bool isSwappable;
+	[SyncVar] private bool isSwappable;
 
 	/// <summary>
 	/// server side only, tracks whether this player has indicated they are on help intent. Used
 	/// for checking for swaps.
 	/// </summary>
 	public bool IsHelpIntentServer => isHelpIntentServer;
+
 	//starts true because all players spawn with help intent.
 	private bool isHelpIntentServer = true;
 
 
-	[SerializeField]
-	private ActionData actionData = null;
+	[SerializeField] private ActionData actionData = null;
 	public ActionData ActionData => actionData;
 
 	/// <summary>
@@ -109,6 +108,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				//rely on server synced value
 				canSwap = isSwappable;
 			}
+
 			return canSwap
 			       //don't swap with ghosts
 			       && !PlayerScript.IsGhost
@@ -130,9 +130,18 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
+	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))]
+	public float RunSpeed;
+
+	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))]
+	public float WalkSpeed;
+
+	[HideInInspector] public float CrawlSpeed;
+
 	[SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
 	[SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
-	[SyncVar(hook = nameof(SyncCrawlingSpeed))] public float CrawlSpeed;
+	public float CrawlSpeed;
+
 
 	/// <summary>
 	/// Player will fall when pushed with such speed
@@ -143,10 +152,15 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private Matrix matrix => registerPlayer.Matrix;
 	private PlayerScript playerScript;
 
+	[SerializeField]
+	private List<LimbContainer> legContainers;
+
+	[SerializeField]
+	private List<LimbContainer> armContainers;
+
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
-
 		PlayerDirectional = gameObject.GetComponent<Directional>();
 
 		registerPlayer = GetComponent<RegisterPlayer>();
@@ -154,13 +168,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		//Aren't these set up with sync vars? Why are they set like this?
 		//They don't appear to ever get synced either.
-		if (PlayerScript.IsGhost == false)
-		{
-			RunSpeed = 1;
-			WalkSpeed = 1;
-			CrawlSpeed = 0f;
-		}
-
+		RunSpeed = 1;
+		WalkSpeed = 1;
+		CrawlSpeed = 0f;
 	}
 
 	public override void OnStartClient()
@@ -218,11 +228,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		for (int i = 0; i < moveList.Length; i++)
 		{
-			if (actionKeys.Contains((int)moveList[i]) && !moveActionList.Contains(moveList[i]))
+			if (actionKeys.Contains((int) moveList[i]) && !moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Add(moveList[i]);
 			}
-			else if (!actionKeys.Contains((int)moveList[i]) && moveActionList.Contains(moveList[i]))
+			else if (!actionKeys.Contains((int) moveList[i]) && moveActionList.Contains(moveList[i]))
 			{
 				moveActionList.Remove(moveList[i]);
 			}
@@ -343,6 +353,19 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	{
 		if (IsCuffed)
 		{
+			Chat.AddActionMsgToChat(
+				playerScript.gameObject,
+				"You're trying to ubuckle yourself from the chair! (this will take some time...)",
+				playerScript.name + " is trying to ubuckle themself from the chair!"
+			);
+			StandardProgressAction.Create(
+				new StandardProgressActionConfig(StandardProgressActionType.Unbuckle),
+				Unbuckle
+			).ServerStartProgress(
+				buckledObject.RegisterTile(),
+				buckledObject.GetComponent<BuckleInteract>().ResistTime,
+				playerScript.gameObject
+			);
 			return;
 		}
 		Unbuckle();
@@ -365,7 +388,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (previouslyBuckledTo == null) return;
 
 		var integrityBuckledObject = previouslyBuckledTo.GetComponent<Integrity>();
-		if(integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
+		if (integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
 
 		//we are unbuckled but still will drift with the object.
 		var buckledCNT = previouslyBuckledTo.GetComponent<CustomNetTransform>();
@@ -387,6 +410,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		{
 			PlayerDirectional = gameObject.GetComponent<Directional>();
 		}
+
 		PlayerDirectional.FaceDirection(newDir);
 	}
 
@@ -425,49 +449,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		playerScript?.PlayerSync?.RollbackPrediction();
 	}
 
-	private readonly HashSet<IMovementEffect> MovementAffects = new HashSet<IMovementEffect>();
-
-
-	public interface IMovementEffect
-	{
-		float RunningAdd { get; set; }
-		float WalkingAdd { get; set; }
-		float CrawlAdd { get; set; }
-
-	}
-
-
-	[Server]
-	public void AddModifier( IMovementEffect Modifier)
-	{
-		MovementAffects.Add(Modifier);
-		UpdateSpeeds();
-	}
-
-	[Server]
-	public void RemoveModifier( IMovementEffect Modifier)
-	{
-		MovementAffects.Remove(Modifier);
-		UpdateSpeeds();
-	}
-
-	public void UpdateSpeeds()
-	{
-		RunSpeed = 0;
-		WalkSpeed = 0;
-		CrawlSpeed = 0;
-		foreach (var MovementAffect in MovementAffects)
-		{
-			RunSpeed += MovementAffect.RunningAdd;
-			WalkSpeed += MovementAffect.WalkingAdd;
-			CrawlSpeed+= MovementAffect.CrawlAdd;
-		}
-
-		if (RunSpeed < 0) RunSpeed = 0;
-		if (WalkSpeed < 0) WalkSpeed = 0;
-		if (CrawlSpeed < 0) CrawlSpeed = 0;
-	}
-
 	/// <summary>
 	/// Changes the player speed from Server. Values inputted as arguments will OVERRIDE the current speed!
 	/// </summary>
@@ -488,11 +469,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private void SyncWalkSpeed(float oldSpeed, float newSpeed)
 	{
 		this.WalkSpeed = newSpeed;
-	}
-
-	private void SyncCrawlingSpeed(float oldSpeed, float newSpeed)
-	{
-		this.CrawlSpeed = newSpeed;
 	}
 
 	public void CallActionClient()
@@ -581,7 +557,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// </summary>
 	public void ServerPerformInteraction(ContextMenuApply interaction)
 	{
-		var handcuffs = interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs).ItemObject;
+		var handcuffs = interaction.TargetObject.GetComponent<ItemStorage>().GetNamedItemSlot(NamedSlot.handcuffs)
+			.ItemObject;
 		if (handcuffs == null) return;
 
 		var restraint = handcuffs.GetComponent<Restraint>();
@@ -651,6 +628,18 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	}
 
 	#endregion Cuffing
+
+	public void UpdateSpeedFromLimbs()
+	{
+		float totalRunSpeed = 0f;
+		float totalWalkSpeed = 0f;
+		foreach (LimbContainer limbContainer in legContainers)
+		{
+			totalRunSpeed += limbContainer.GetTotalRunningSpeed();
+			totalWalkSpeed += limbContainer.GetTotalWalkingSpeed();
+		}
+		ServerChangeSpeed(totalRunSpeed, totalWalkSpeed);
+	}
 
 }
 
