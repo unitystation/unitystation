@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using AddressableReferences;
 using Mirror;
 using UnityEditor;
 using UnityEngine;
@@ -101,12 +102,6 @@ namespace Weapons
 		public double FireCountDown;
 
 		/// <summary>
-		/// The name of the sound this gun makes when shooting
-		/// </summary>
-		[FormerlySerializedAs("FireingSound"), Tooltip("The name of the sound the gun uses when shooting (must be in soundmanager")]
-		public string FiringSound;
-
-		/// <summary>
 		/// The amount of times per second this weapon can fire
 		/// </summary>
 		[Tooltip("The amount of times per second this weapon can fire")]
@@ -155,6 +150,24 @@ namespace Weapons
 		/// </summary>
 		[Tooltip("The firemode this weapon will use")]
 		public WeaponType WeaponType;
+
+		/// <summary>
+		/// The sound this gun makes when shooting
+		/// </summary>
+		[SerializeField]
+		private AddressableAudioSource firingSound;
+
+		/// <summary>
+		/// The sound this gun makes when out of ammo
+		/// </summary>
+		[SerializeField]
+		private AddressableAudioSource outOfAmmoSound;
+
+		/// <summary>
+		/// The sound this gun makes when out of empty
+		/// </summary>
+		[SerializeField]
+		private AddressableAudioSource emptySound;
 
 		/// <summary>
 		/// Used only in server, the queued up shots that need to be performed when the weapon FireCountDown hits
@@ -669,8 +682,8 @@ namespace Weapons
 					A.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}
 			}
-			// JESTER
-			// SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
+
+			SoundManager.PlayAtPosition(firingSound, shooter.transform.position, shooter);
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}
 
@@ -768,14 +781,12 @@ namespace Weapons
 
 		private void OutOfAmmoSFX()
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position, sourceObj: serverHolder);
+			SoundManager.PlayNetworkedAtPos(outOfAmmoSound, transform.position, sourceObj: serverHolder);
 		}
 
 		private void PlayEmptySFX()
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
+			SoundManager.PlayNetworkedAtPos(emptySound, transform.position, sourceObj: serverHolder);
 		}
 
 		#endregion

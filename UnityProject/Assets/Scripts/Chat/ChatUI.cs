@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿using AddressableReferences;
+using AdminTools;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-using System;
-using AdminTools;
-using System.Linq;
 
 public class ChatUI : MonoBehaviour
 {
@@ -25,6 +25,7 @@ public class ChatUI : MonoBehaviour
 	[SerializeField] private Transform thresholdMarkerBottom = null;
 	[SerializeField] private Transform thresholdMarkerTop = null;
 	[SerializeField] private AdminHelpChat adminHelpChat = null;
+	[SerializeField] private AddressableAudioSource clickSound = null;
 	private bool windowCoolDown = false;
 
 	private ChatChannel selectedChannels;
@@ -317,8 +318,7 @@ public class ChatUI : MonoBehaviour
 		parsedInput = Chat.ParsePlayerInput(InputFieldChat.text, chatContext);
 		if (Chat.IsValidToSend(parsedInput.ClearMessage))
 		{
-			// JESTER
-			// SoundManager.Play("Click01");
+			SoundManager.Play(clickSound);
 			PlayerSendChat(parsedInput.ClearMessage);
 		}
 
@@ -337,8 +337,7 @@ public class ChatUI : MonoBehaviour
 
 	public void OnChatCancel()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound);
 		InputFieldChat.text = "";
 		CloseChatWindow();
 	}
@@ -422,8 +421,7 @@ public class ChatUI : MonoBehaviour
 	public void Toggle_ChannelPanel()
 	{
 		showChannels = !showChannels;
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound);
 		if (showChannels)
 		{
 			channelPanel.gameObject.SetActive(true);
@@ -499,8 +497,7 @@ public class ChatUI : MonoBehaviour
 		radioEntry.GetComponentInChildren<Text>().text = channel.ToString();
 		radioEntry.GetComponentInChildren<Button>().onClick.AddListener(() =>
 		{
-			// JESTER
-			//SoundManager.Play("Click01");
+			SoundManager.Play(clickSound);
 			DisableChannel(channel);
 		});
 		// Add it to a list for easy access later
@@ -568,8 +565,7 @@ public class ChatUI : MonoBehaviour
 
 	public void Toggle_Channel(bool turnOn)
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound);
 		GameObject curObject = EventSystem.current.currentSelectedGameObject;
 		if (!curObject)
 		{

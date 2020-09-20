@@ -5,6 +5,7 @@ using Light2D;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Mirror;
+using AddressableReferences;
 
 /// <summary>
 /// Generic grenade base.
@@ -24,6 +25,10 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 	public SpriteHandler spriteHandler;
 	[Tooltip("Used for inventory animation")]
 	public Pickupable pickupable;
+
+	[SerializeField]
+	[Tooltip("The sound it makes when you remove the pin from a grenade")]
+	private AddressableAudioSource grenadePinSound;
 
 	// Zero and one sprites reserved for left and right hands
 	private const int LOCKED_SPRITE = 2;
@@ -159,8 +164,7 @@ public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, I
 
 	private void PlayPinSFX(Vector3 position)
 	{
-		// JESTER
-		//SoundManager.PlayNetworkedAtPos("armbomb", position, sourceObj: gameObject);
+		SoundManager.PlayNetworkedAtPos(grenadePinSound, position, sourceObj: gameObject);
 	}
 
 	private void UpdateTimer(bool timerRunning)

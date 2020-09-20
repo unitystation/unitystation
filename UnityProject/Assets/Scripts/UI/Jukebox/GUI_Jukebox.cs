@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class GUI_Jukebox : NetTab
 {
@@ -30,16 +29,16 @@ public class GUI_Jukebox : NetTab
 		}
 	}
 
-	public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+	public async void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
 	{
 		labelTrack.Value = jukeboxController.TrackPosition;
-		labelSong.Value = jukeboxController.SongName;
-		labelArtist.Value = jukeboxController.Artist;
+		labelSong.Value = await jukeboxController.GetSongNameAsync();
+		labelArtist.Value = await jukeboxController.GetArtistNameAsync();
 		prefabImagePlayStop.Value = jukeboxController.PlayStopButtonPrefabImage;
 	}
 
 	public void PlayOrStop()
-    {
+	{
 		if (jukeboxController.IsPlaying)
 			jukeboxController.Stop();
 		else
@@ -52,7 +51,7 @@ public class GUI_Jukebox : NetTab
 	}
 
 	public void NextSong()
-    {
+	{
 		jukeboxController.NextSong();
 	}
 

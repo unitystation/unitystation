@@ -5,6 +5,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using System;
 using System.Globalization;
+using AddressableReferences;
 
 /// <summary>
 /// Manages the UI buttons for letting the player choose their desired job.
@@ -55,6 +56,9 @@ public class GUI_PlayerJobs : MonoBehaviour
 	[Tooltip("Number of seconds to wait after selecting a job. If the player does not spawn within that time the job selection re-opens.")]
 	private float waitForSpawnTimerMax = 6;
 
+	[SerializeField]
+	AddressableAudioSource clickSound = null;
+
 	/// <summary>
 	/// Called when the player select a job selection button.
 	/// Assigns the player that job and spawns them, unless the job was already taken.
@@ -66,8 +70,8 @@ public class GUI_PlayerJobs : MonoBehaviour
 		{
 			return; // Disallowing picking a job while another job has been selected.
 		}
-		// JESTER
-		//SoundManager.Play("Click01");
+		
+		SoundManager.Play(clickSound);
 		screen_Jobs.SetActive(false);
 		footer.SetActive(false);
 		waitMessage.SetActive(true);
@@ -78,8 +82,7 @@ public class GUI_PlayerJobs : MonoBehaviour
 
 	private void ShowJobSelection()
 	{
-		// JESTER
-		//SoundManager.Play("Click01");
+		SoundManager.Play(clickSound);
 		screen_Jobs.SetActive(true);
 		footer.SetActive(true);
 		waitMessage.SetActive(false);

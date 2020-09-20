@@ -11,6 +11,10 @@ using UnityEngine.Audio;
 using UnityEngine.ResourceManagement.ResourceLocations;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// Manager that allows to play sounds.
+/// Should they be local (single client) or networked across one or more client.
+/// </summary>
 public class SoundManager : MonoBehaviour
 {
 	public AudioMixerGroup DefaultMixer;
@@ -49,13 +53,6 @@ public class SoundManager : MonoBehaviour
 	private Dictionary<string, SoundSpawn> SoundSpawns = new Dictionary<string, SoundSpawn>();
 
 	/// <summary>
-	/// List of all known sounds, for retrieval later on by GUID (PrimaryKey)
-	/// </summary>
-	private List<IResourceLocation> AllSounds = new List<IResourceLocation>();
-
-	private readonly Dictionary<string, string[]> soundPatterns = new Dictionary<string, string[]>();
-
-	/// <summary>
 	/// Load the AudioSource of a music inside the library and returns it.
 	/// </summary>
 	/// <param name="primaryKey">The primary key of the music to load</param>
@@ -65,6 +62,9 @@ public class SoundManager : MonoBehaviour
 		if (MusicLibrary[primaryKey] == null)
 		{
 			GameObject music = await Addressables.LoadAssetAsync<GameObject>(primaryKey).Task;
+			//AssetReference assetReference = new AssetReference();
+			//assetReference.Asset = music;
+
 			MusicLibrary[primaryKey] = music.GetComponent<AudioSource>();
 		}
 
@@ -387,6 +387,18 @@ public class SoundManager : MonoBehaviour
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
 	/// <param name="audioSourceParameters">Parameters for how to play the sound</param>
 	/// <param name="polyphonic">Should the sound be played polyphonically</param>
+	public static async void Play(AddressableAudioSource addressableAudioSource, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
+	{
+		Play(new List<AddressableAudioSource>() { addressableAudioSource }, audioSourceParameters, polyphonic);
+	}
+
+	/// <summary>
+	/// Play a sound locally
+	/// If more than one is specified, one will be picked at random.
+	/// </summary>
+	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="audioSourceParameters">Parameters for how to play the sound</param>
+	/// <param name="polyphonic">Should the sound be played polyphonically</param>
 	public static async void Play(List<AddressableAudioSource> addressableAudioSources, AudioSourceParameters audioSourceParameters, bool polyphonic = false)
 	{
 		AudioSource audioSource = await GetAudioSourceFromLibrary(addressableAudioSources);
@@ -417,6 +429,22 @@ public class SoundManager : MonoBehaviour
 		soundSpawn.AudioSource.volume = volume;
 		soundSpawn.AudioSource.panStereo = pan;
 		Instance.PlaySource(soundSpawn, oneShot);
+	}
+
+
+	/// <summary>
+	/// Play sound locally.
+	/// If more than one element is specified, one will be picked at random.
+	/// </summary>
+	/// <param name="addressableAudioSources">Sound to be played.  If more than one is specified, one will be picked at random.</param>
+	/// <param name="polyphonic">Should the sound be played polyphonically</param>
+	/// <param name="global">Should the sound be played for the default mixer or false to check if it should play muffled</param>
+	/// <remarks>
+	///		If Global is true, the sound may still be muffled if the source is configured with the muffled mixer.
+	/// </remarks>
+	public static async void Play(AddressableAudioSource addressableAudioSource, bool polyphonic = false, bool global = true)
+	{
+		Play(new List<AddressableAudioSource>() { addressableAudioSource }, polyphonic, global);
 	}
 
 	/// <summary>

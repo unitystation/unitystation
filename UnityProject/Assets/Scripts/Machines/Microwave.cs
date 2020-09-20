@@ -1,10 +1,9 @@
-﻿using System;
+﻿using AddressableReferences;
+using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
-using UnityEngine.AddressableAssets;
-using AddressableReferences;
 
 /// <summary>
 /// A machine into which players can insert items for cooking. If the item has the Cookable component,
