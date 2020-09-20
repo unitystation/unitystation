@@ -70,6 +70,12 @@ namespace HealthV2
 			bloodAmount = BloodInfo.BLOOD_DEFAULT;
 		}
 
+		public virtual void AddBloodReagent(float amount)
+		{
+			bloodReagentAmount += amount;
+			bloodReagentAmount = Mathf.Min(bloodInfo.BLOOD_REAGENT_MAX, bloodReagentAmount);
+		}
+
 		//This circulates blood around the body.
 		//This isn't actually called by the circulatory system, it is going to be activated by an organ pumping blood.
 		public virtual void HeartBeat(float strength)
