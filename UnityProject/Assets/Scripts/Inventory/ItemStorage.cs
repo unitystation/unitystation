@@ -58,7 +58,9 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// </summary>
 	private readonly HashSet<GameObject> serverObserverPlayers = new HashSet<GameObject>();
 
-	public event Action<InventoryMove> ServerInventoryMoveEvent;
+	//This is called when an itemslot in the item storage has its item set.
+	//It can be null, or it can be a pickupable.
+	public event Action<Pickupable, Pickupable> ServerInventoryItemSlotSet;
 
 	private void Awake()
 	{
@@ -115,6 +117,11 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		}
 	}
 
+	public void OnInventorySlotSet(Pickupable prevItem, Pickupable newItem)
+	{
+		//If we have any actions stored, invoke em.
+		ServerInventoryItemSlotSet?.Invoke(prevItem, newItem);
+	}
 
 	/// <summary>
 	/// Gets the top-level ItemStorage containing this storage. I.e. if this

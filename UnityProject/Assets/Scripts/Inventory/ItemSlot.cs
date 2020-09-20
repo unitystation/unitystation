@@ -254,6 +254,8 @@ public class ItemSlot
 		item = newItem;
 		OnSlotContentsChangeServer.Invoke();
 
+		itemStorage.OnInventorySlotSet(removedItem, newItem);
+
 		//server has to call their own client side hooks because by the time the message is received,
 		//the server will not be able to determine what slot the item came from.
 		OnSlotContentsChangeClient.Invoke();
@@ -315,7 +317,7 @@ public class ItemSlot
 
 		ItemStorage storageToCheck = itemStorage;
 		StorageIdentifier storeIdentifier = toStore.GetComponent<StorageIdentifier>();
-		
+
 		//Check if there is a deny entry for this toStore item
 		if (storageToCheck != null && storeIdentifier != null)
 		{
