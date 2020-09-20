@@ -48,6 +48,22 @@ namespace HealthV2
 
 		private float bloodReagentStored = 0;
 
+		[SerializeField]
+		private BodyPartType bodyPartType;
+
+		[SerializeField]
+		[Tooltip("The visuals of this implant. This will be used for the limb the implant represents." +
+		         "It is intended for things like arms/legs/heads." +
+		         "Leave empty if it shouldn't change this.")]
+		private SpriteDataSO limbSpriteData;
+		public SpriteDataSO LimbSpriteData => limbSpriteData;
+
+		[SerializeField]
+		[Tooltip("The overlaying visuals of this implant. It will be laid on top of the limb sprite." +
+		         "Leave empty if there should be no visual representation.")]
+		private SpriteDataSO limbOverlaySpriteData;
+		public SpriteDataSO LimbOverlaySpriteData => limbOverlaySpriteData;
+
 		private void Awake()
 		{
 			attributes = GetComponent<ItemAttributesV2>();
