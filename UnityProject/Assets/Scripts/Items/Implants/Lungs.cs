@@ -41,6 +41,14 @@ public class Lungs : ImplantBase
 		if(breatheCooldown > 0){
 			return false;
 		}
+
+		if (!healthMaster.CirculatorySystem) //No point breathing if we dont have blood.
+		{
+			return false;
+		}
+
+		//TODO: This should also make sure that the circulatory system accepts the type of gas these lungs do!
+
 		// if no internal breathing is possible, get the from the surroundings
 		IGasMixContainer container = node;
 		if (healthMaster is PlayerHealthV2 playerHealth)
@@ -60,11 +68,8 @@ public class Lungs : ImplantBase
 			breathGasMix.RemoveGas(requiredGas, reagentUsed);
 			node.GasMix.AddGas(expelledGas, reagentUsed);
 			healthMaster.RegisterTile.Matrix.MetaDataLayer.UpdateSystemsAt(healthMaster.RegisterTile.LocalPositionClient, SystemType.AtmosSystem);
-
-			if (healthMaster.CirculatorySystem)
-			{
-				healthMaster.CirculatorySystem.AddBloodReagent(reagentUsed);
-			}
+			
+			healthMaster.CirculatorySystem.AddBloodReagent(reagentUsed);
 
 		}
 
