@@ -9,6 +9,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.Serialization;
 using WebSocketSharp;
 
+
 namespace AddressableReferences
 {
 	/// <summary>
@@ -26,6 +27,7 @@ namespace AddressableReferences
 		public bool IsReadyLoaded => ReadyLoaded();
 
 		private T StoredLoadedReference = null;
+
 
 		#region InternalStuff
 

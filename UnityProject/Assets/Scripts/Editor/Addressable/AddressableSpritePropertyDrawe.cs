@@ -26,7 +26,11 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		EditorGUI.indentLevel = 0;
 		EditorGUI.BeginChangeCheck();
 
+<<<<<<< HEAD
 		var Path = property.FindPropertyRelative("AssetAddress");
+=======
+		var Path = property.FindPropertyRelative("Path");
+>>>>>>> 30fa0c1a8466410cac3d19c41795b7add8559cd4
 		var AssetReference = property.FindPropertyRelative("AssetReference");
 
 
