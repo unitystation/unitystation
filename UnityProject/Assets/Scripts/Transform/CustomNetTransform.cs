@@ -1,5 +1,6 @@
 using System.Collections;
 using DatabaseAPI;
+using Initialisation;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
@@ -140,12 +141,19 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 	private void Start()
 	{
+		LoadManager.RegisterAction(Init);
+	}
+
+	private void Init()
+	{
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		var _pushPull = PushPull; //init
 		OnUpdateRecieved().AddListener( Poke );
 		occupiableDirectionalSprite = GetComponent<OccupiableDirectionalSprite>();
 	}
+
+
 	/// <summary>
 	/// Subscribes this CNT to Update() cycle
 	/// </summary>

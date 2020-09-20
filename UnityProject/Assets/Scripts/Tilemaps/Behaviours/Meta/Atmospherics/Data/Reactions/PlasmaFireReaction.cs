@@ -42,13 +42,21 @@ namespace Atmospherics
 					MolesPlasmaBurnt = (gasMix.GetMoles(Gas.Oxygen) * Reactions.BurningDelta * BurnRate)/2;
 				}
 
+				if (MolesPlasmaBurnt < 0)
+				{
+					return 0;
+				}
+
 				if (gasMix.GetMoles(Gas.Oxygen) / gasMix.GetMoles(Gas.Plasma) > AtmosDefines.SUPER_SATURATION_THRESHOLD)
 				{
 					superSaturated = true;
 				}
 
 				gasMix.RemoveGas(Gas.Plasma, MolesPlasmaBurnt);
+				if (gasMix.Gases[Gas.Plasma] < 0) gasMix.Gases[Gas.Plasma] = 0;
+
 				gasMix.RemoveGas(Gas.Oxygen, MolesPlasmaBurnt * 2);
+				if (gasMix.Gases[Gas.Oxygen] < 0) gasMix.Gases[Gas.Oxygen] = 0;
 				var TotalmolestoCO2 = MolesPlasmaBurnt + (MolesPlasmaBurnt * 2);
 
 				if (superSaturated)
@@ -61,7 +69,7 @@ namespace Atmospherics
 				}
 
 				float heatCapacity = gasMix.WholeHeatCapacity;
-				gasMix.Temperature = (temperature * heatCapacity + (Reactions.EnergyPerMole * TotalmolestoCO2)) / gasMix.WholeHeatCapacity;
+				gasMix.SetTemperature((temperature * heatCapacity + (Reactions.EnergyPerMole * TotalmolestoCO2)) / gasMix.WholeHeatCapacity);
 				consumed = TotalmolestoCO2;
 			}
 			return (consumed);

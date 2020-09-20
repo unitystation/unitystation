@@ -8,17 +8,25 @@ using Objects.GasContainer;
 /// <summary>
 /// Component which manages all the equipment on a player.
 /// </summary>
-public class Equipment : NetworkBehaviour, IExaminable
+public class Equipment : NetworkBehaviour
 {
-	private Dictionary<NamedSlot, ClothingItem> clothingItems;
+	private PlayerScript script;
+	public ItemStorage ItemStorage { get; private set; }
+
 	public bool IsInternalsEnabled;
 	private ItemSlot maskSlot;
-	private ItemStorage itemStorage;
-	public ItemStorage ItemStorage => itemStorage;
+	private Dictionary<NamedSlot, ClothingItem> clothingItems;
+
+	[NonSerialized]
+	public NamedSlotFlagged obscuredSlots = NamedSlotFlagged.None;
+
+	private string TheyPronoun => script.characterSettings.TheyPronoun();
+	private string TheirPronoun => script.characterSettings.TheirPronoun();
 
 	private void Awake()
 	{
-		itemStorage = GetComponent<ItemStorage>();
+		ItemStorage = GetComponent<ItemStorage>();
+		script = GetComponent<PlayerScript>();
 
 		clothingItems = new Dictionary<NamedSlot, ClothingItem>();
 		foreach (var clothingItem in GetComponentsInChildren<ClothingItem>())
@@ -29,7 +37,7 @@ public class Equipment : NetworkBehaviour, IExaminable
 			}
 		}
 
-		maskSlot = itemStorage.GetNamedItemSlot(NamedSlot.mask);
+		maskSlot = ItemStorage.GetNamedItemSlot(NamedSlot.mask);
 		InitInternals();
 	}
 
@@ -92,7 +100,7 @@ public class Equipment : NetworkBehaviour, IExaminable
 
 		if (itemAttrs.HasTrait(CommonTraits.Instance.Mask))
 		{
-			foreach (var gasSlot in itemStorage.GetGasSlots())
+			foreach (var gasSlot in ItemStorage.GetGasSlots())
 			{
 				if (gasSlot.Item && gasSlot.Item.GetComponent<GasContainer>())
 				{
@@ -117,12 +125,15 @@ public class Equipment : NetworkBehaviour, IExaminable
 	/// <summary>
 	/// Gets the clothing item corresponding to this slot, null if no clothing item exists for this slot.
 	/// </summary>
-	/// <param name="namedSlot"></param>
-	/// <returns></returns>
 	public ClothingItem GetClothingItem(NamedSlot namedSlot)
 	{
 		clothingItems.TryGetValue(namedSlot, out var clothingItem);
 		return clothingItem;
+	}
+
+	public bool IsSlotObscured(NamedSlot namedSlot)
+	{
+		return obscuredSlots.HasFlag(ItemSlot.GetFlaggedSlot(namedSlot));
 	}
 
 	/// <summary>
@@ -133,7 +144,7 @@ public class Equipment : NetworkBehaviour, IExaminable
 	public String GetIdentityFromID()
 	{
 		IDCard card = null;
-		var tryGetItem = ItemSlot.GetNamed(itemStorage, NamedSlot.id).Item;
+		var tryGetItem = ItemSlot.GetNamed(ItemStorage, NamedSlot.id).Item;
 		if (tryGetItem != null)
 		{
 			card = tryGetItem.GetComponent<IDCard>();
@@ -149,14 +160,119 @@ public class Equipment : NetworkBehaviour, IExaminable
 		}
 	}
 
-	public string Examine(Vector3 worldPos)
+	#region Examination
+
+	public string Examine()
 	{
-		// Collect clothing + ID info.
-		string msg = "This is " + GetComponent<PlayerScript>().visibleName + ".";
+		string theyPronoun = TheyPronoun;
+		theyPronoun = theyPronoun[0].ToString().ToUpper() + theyPronoun.Substring(1);
+		string theirPronoun = TheirPronoun;
+		string equipment = "";
 
-		// TODO: LOOP over items
-		// msg += blah;
+		if (IsExaminable(NamedSlot.uniform))
+		{
+			equipment += $"{theyPronoun} is wearing a <b>{ItemNameInSlot(NamedSlot.uniform)}</b>.\n";
+		}
 
-		return msg;
+		if (IsExaminable(NamedSlot.head))
+		{
+			equipment += $"{theyPronoun} is wearing a <b>{ItemNameInSlot(NamedSlot.head)}</b> on {theirPronoun} head.\n";
+		}
+
+		if (IsExaminable(NamedSlot.outerwear))
+		{
+			equipment += $"{theyPronoun} is wearing a <b>{ItemNameInSlot(NamedSlot.outerwear)}</b>.\n";
+
+			if (IsExaminable(NamedSlot.suitStorage))
+			{
+				equipment += $"{theyPronoun} is carrying a <b>{ItemNameInSlot(NamedSlot.suitStorage)}</b> " +
+						$"on {theirPronoun} {ItemNameInSlot(NamedSlot.outerwear)}.\n";
+			}
+		}
+
+		if (IsExaminable(NamedSlot.back))
+		{
+			equipment += $"{theyPronoun} has a <b>{ItemNameInSlot(NamedSlot.back)}</b> on {theirPronoun} back.\n";
+		}
+
+		if (IsExaminable(NamedSlot.leftHand))
+		{
+			equipment += $"{theyPronoun} is holding a <b>{ItemNameInSlot(NamedSlot.leftHand)}</b> in {theirPronoun} left hand.\n";
+		}
+
+		if (IsExaminable(NamedSlot.rightHand))
+		{
+			equipment += $"{theyPronoun} is holding a <b>{ItemNameInSlot(NamedSlot.rightHand)}</b> in {theirPronoun} right hand.\n";
+		}
+
+		if (IsExaminable(NamedSlot.hands))
+		{
+			equipment += $"{theyPronoun} has <b>{ItemNameInSlot(NamedSlot.hands)}</b> on {theirPronoun} hands.\n";
+		}
+
+		if (IsExaminable(NamedSlot.handcuffs))
+		{
+			equipment += $"<color=red>{theyPronoun} is restrained with <b>{ItemNameInSlot(NamedSlot.handcuffs)}</b>!</color>\n";
+		}
+
+		if (IsExaminable(NamedSlot.belt))
+		{
+			equipment += $"{theyPronoun} has a <b>{ItemNameInSlot(NamedSlot.belt)}</b> about {theirPronoun} waist.\n";
+		}
+
+		if (IsExaminable(NamedSlot.feet))
+		{
+			equipment += $"{theyPronoun} is wearing <b>{ItemNameInSlot(NamedSlot.feet)}</b> on {theirPronoun} feet.\n";
+		}
+
+		if (IsExaminable(NamedSlot.mask))
+		{
+			equipment += $"{theyPronoun} has a <b>{ItemNameInSlot(NamedSlot.mask)}</b> on {theirPronoun} face.\n";
+		}
+
+		if (IsExaminable(NamedSlot.neck))
+		{
+			equipment += $"{theyPronoun} is wearing a <b>{ItemNameInSlot(NamedSlot.neck)}</b> around {theirPronoun} neck.\n";
+		}
+
+		if (IsExaminable(NamedSlot.eyes))
+		{
+			equipment += $"{theyPronoun} has <b>{ItemNameInSlot(NamedSlot.eyes)}</b> covering {theirPronoun} eyes.\n";
+		}
+
+		if (IsExaminable(NamedSlot.ear))
+		{
+			equipment += $"{theyPronoun} has <b>{ItemNameInSlot(NamedSlot.ear)}</b> on {theirPronoun} ears.\n";
+		}
+
+		if (IsExaminable(NamedSlot.id))
+		{
+			equipment += $"{theyPronoun} is wearing a <b>{ItemNameInSlot(NamedSlot.id)}</b>.\n";
+		}
+
+		return equipment;
 	}
+
+	private bool IsExaminable(NamedSlot slot)
+	{
+		if (IsSlotObscured(slot))
+		{
+			return false;
+		}
+
+		var storageSlot = ItemStorage.GetNamedItemSlot(slot);
+		if (storageSlot.IsEmpty)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	private string ItemNameInSlot(NamedSlot slot)
+	{
+		return ItemStorage.GetNamedItemSlot(slot).ItemObject.ExpensiveName();
+	}
+
+	#endregion Examination
 }

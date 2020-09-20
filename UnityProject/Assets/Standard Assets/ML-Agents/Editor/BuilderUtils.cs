@@ -17,7 +17,7 @@ namespace MLAgents
             foreach (string scenePath in scenePaths)
             {
                 var curScene = EditorSceneManager.OpenScene(scenePath);
-                var aca = SceneAsset.FindObjectOfType<Academy>();
+                var aca = SceneAsset. Academy.Instance;
                 if (aca != null)
                 {
                     var learningBrains = aca.broadcastHub.broadcastingBrains.Where(

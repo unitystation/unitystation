@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
@@ -8,11 +9,11 @@ namespace Audio.Containers
 	[CreateAssetMenu(fileName = "AudioClipsArray", menuName = "ScriptableObjects/Audio/AudioClipsArray", order = 0)]
 	public class AudioClipsArray : ScriptableObject
 	{
-		[SerializeField] private AudioClip[] audioClips = null;
+		[SerializeField] private List<AudioClip> audioClips = new List<AudioClip>();
 
-		[NonSerialized] private AudioClip[] shuffledClips = null;
+		[NonSerialized] private List<AudioClip> shuffledClips = new List<AudioClip>();
 
-		public AudioClip[] AudioClips => audioClips;
+		public List<AudioClip> AudioClips => audioClips;
 
 		private int i = 0;
 
@@ -22,7 +23,7 @@ namespace Audio.Containers
 		/// <returns> Random clip in range </returns>
 		public AudioClip GetRandomClip()
 		{
-			if (shuffledClips == null)
+			if (shuffledClips.Count == 0)
 			{
 				var hasTracks = Shuffle();
 				if (!hasTracks)
@@ -36,11 +37,12 @@ namespace Audio.Containers
 
 		private bool Shuffle()
 		{
-			if (audioClips == null || audioClips.Length == 0)
+			if (audioClips.Count == 0)
 			{
 				return false;
 			}
-			shuffledClips = audioClips.OrderBy(clip => Random.value).ToArray();
+
+			shuffledClips = audioClips.OrderBy(clip => Random.value).ToList();
 			return true;
 		}
 
@@ -54,9 +56,9 @@ namespace Audio.Containers
 
 		private void RemoveNulls()
 		{
-			if (audioClips.Length == 0) return;
+			if (audioClips.Count == 0) return;
 			var audioList = audioClips.ToList();
-			for (int i = audioList.Count - 1; i >= 0 ; i--)
+			for (int i = audioList.Count - 1; i >= 0; i--)
 			{
 				if (audioList[i] == null)
 				{
@@ -64,16 +66,16 @@ namespace Audio.Containers
 				}
 			}
 
-			audioClips = audioList.ToArray();
+			audioClips = audioList;
 		}
 
 		private void RemoveDuplicates()
 		{
-			if (audioClips.Length == 0) return;
+			if (audioClips.Count == 0) return;
 			var audioList = audioClips.ToList();
 			if (audioList.GroupBy(x => x.name).Any(g => g.Count() > 1) == false) return;
 			audioList = audioList.OrderBy(c => c.name).ToList();
-			for (int i = audioList.Count - 2; i >= 0 ; i--)
+			for (int i = audioList.Count - 2; i >= 0; i--)
 			{
 				if (audioList[i] == audioList[i + 1])
 				{
@@ -81,7 +83,7 @@ namespace Audio.Containers
 				}
 			}
 
-			audioClips = audioList.ToArray();
+			audioClips = audioList;
 		}
 
 		#endregion

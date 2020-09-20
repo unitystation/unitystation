@@ -35,7 +35,7 @@ public abstract class ServerMessage : GameMessageBase
 		Logger.LogTraceFormat("SentToAllExcept {1}: {0}", Category.NetMessage, this, excluded.name);
 	}
 
-	public void SendTo(GameObject recipient)
+	public virtual void SendTo(GameObject recipient)
 	{
 		if (recipient == null)
 		{

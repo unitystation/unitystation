@@ -572,7 +572,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 	private void ServerElectrocute(GameObject obj)
 	{
 		float r = UnityEngine.Random.value;
-		if (r < 0.45)
+		if (r < 0.45) //TODO: Magic number, needs to be fixed.
 		{
 			PlayerScript ply = obj.GetComponent<PlayerScript>();
 			if (ply != null)
@@ -580,7 +580,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 				hackingProcess.HackingGUI.RemovePlayer(ply.gameObject);
 				TabUpdateMessage.Send(ply.gameObject, hackingProcess.HackingGUI.Provider, NetTabType.HackingPanel, TabAction.Close);
 				var playerLHB = obj.GetComponent<LivingHealthBehaviour>();
-				var electrocution = new Electrocution(9080, registerTile.WorldPositionServer, "wire");
+				var electrocution = new Electrocution(9080, registerTile.WorldPositionServer, "wire"); //More magic numbers.
 				if (playerLHB != null) playerLHB.Electrocute(electrocution);
 			}
 		}

@@ -1,50 +1,61 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Runtime.CompilerServices;
-using Antagonists;
-using UnityEngine;
+﻿using UnityEngine;
 using Mirror;
-using Debug = UnityEngine.Debug;
+using UnityEngine.Serialization;
 
 public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolSlave
 {
-	public float MinimumWorkingVoltage = 190;
-	public float ExpectedRunningVoltage = 240;
-	public float MaximumWorkingVoltage = 300;
+	[SerializeField][FormerlySerializedAs("MinimumWorkingVoltage")]
+	private float minimumWorkingVoltage = 190;
 
-	public DeviceType deviceType = DeviceType.None;
+	[SerializeField][FormerlySerializedAs("ExpectedRunningVoltage")]
+	private float expectedRunningVoltage = 240;
 
-	[SerializeField]
+	[SerializeField][FormerlySerializedAs("MaximumWorkingVoltage")]
+	private float maximumWorkingVoltage = 300;
+
+	[SerializeField][Tooltip("Category of this powered device. Different categories work like a set of breakers, so you" +
+	                         " can turn off lights and keep machines working.")]
+	private DeviceType deviceType = DeviceType.None;
+
+	[SerializeField][Tooltip("This device powers itself and doesn't need an APC")]
 	private bool isSelfPowered = false;
 
 	public bool IsSelfPowered => isSelfPowered;
 
-	[SerializeField]
+	[SerializeField][Tooltip("Watts consumed per update when running at 240v")]
 	private float wattusage = 0.01f;
 
 	public float Wattusage
 	{
-		get { return wattusage; }
+		get => wattusage;
 		set
 		{
 			wattusage = value;
-			Resistance = 240 / (value / 240);
+			resistance = 240 / (value / 240);
 		}
 	}
 
-	public float Resistance = 99999999;
+	[SerializeField][FormerlySerializedAs("Resistance")]
+	private float resistance = 99999999;
+
+	public float Resistance
+	{
+		get => resistance;
+		set => resistance = value;
+	}
+
 	public APC RelatedAPC;
 	public IAPCPowered Powered;
 	public bool AdvancedControlToScript;
 
 	public bool StateUpdateOnClient = true;
 
-	public bool SelfPowered = false;
-
 	[SyncVar(hook = nameof(UpdateSynchronisedState))]
-	public PowerStates State;
+	public PowerStates State = PowerStates.Off;
+
+
+	[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
+	public float RecordedVoltage = 0;
 
 	[SerializeField]
 	private MultitoolConnectionType conType = MultitoolConnectionType.APC;
@@ -80,7 +91,7 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 		//Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
 		if (Wattusage > 0)
 		{
-			Resistance = 240 / (Wattusage / 240);
+			resistance = 240 / (Wattusage / 240);
 		}
 	}
 
@@ -88,16 +99,16 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 	{
 		if (Powered != null) return;
 		Powered = GetComponent<IAPCPowered>();
-		if (Powered == null) return;
-		if (SelfPowered)
+		if (isSelfPowered)
 		{
 			if (AdvancedControlToScript)
 			{
-				Powered.PowerNetworkUpdate(ExpectedRunningVoltage);
+				RecordedVoltage = expectedRunningVoltage;
+				Powered?.PowerNetworkUpdate(expectedRunningVoltage);
 			}
 			else
 			{
-				Powered.StateUpdate( PowerStates.On );
+				Powered?.StateUpdate( PowerStates.On );
 			}
 
 		}
@@ -106,21 +117,35 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 	public override void OnStartClient()
 	{
 		EnsureInit();
-		UpdateSynchronisedState(State, State);
+		if (AdvancedControlToScript)
+		{
+			UpdateSynchronisedVoltage(RecordedVoltage, RecordedVoltage);
+		}
+		else
+		{
+			UpdateSynchronisedState(State, State);
+		}
 	}
 
 	public override void OnStartServer()
 	{
 		EnsureInit();
-		UpdateSynchronisedState(State, State);
+		if (AdvancedControlToScript)
+		{
+			UpdateSynchronisedVoltage(RecordedVoltage, RecordedVoltage);
+		}
+		else
+		{
+			UpdateSynchronisedState(State, State);
+		}
 	}
 
 	public void PowerNetworkUpdate(float Voltage) //Could be optimised to not update when voltage is same as previous voltage
 	{
-		if (Powered == null) return;
 		if (AdvancedControlToScript)
 		{
-			Powered.PowerNetworkUpdate(Voltage);
+			RecordedVoltage = Voltage;
+			Powered?.PowerNetworkUpdate(Voltage);
 		}
 		else
 		{
@@ -129,11 +154,11 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 			{
 				NewState = PowerStates.Off;
 			}
-			else if (Voltage > MaximumWorkingVoltage)
+			else if (Voltage > maximumWorkingVoltage)
 			{
 				NewState = PowerStates.OverVoltage;
 			}
-			else if (Voltage < MinimumWorkingVoltage)
+			else if (Voltage < minimumWorkingVoltage)
 			{
 				NewState = PowerStates.LowVoltage;
 			}
@@ -143,7 +168,34 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 
 			if (NewState == State) return;
 			State = NewState;
-			Powered.StateUpdate(State);
+			Powered?.StateUpdate(State);
+		}
+	}
+
+	private void UpdateSynchronisedVoltage(float _OldVoltage,float _NewVoltage)
+	{
+		EnsureInit();
+		if (_OldVoltage != _NewVoltage)
+		{
+			Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), _OldVoltage, _NewVoltage);
+		}
+
+		RecordedVoltage = _NewVoltage;
+		if (isSelfPowered)
+		{
+			RecordedVoltage = expectedRunningVoltage;
+		}
+
+		if (Powered != null && StateUpdateOnClient && AdvancedControlToScript)
+		{
+			if (isSelfPowered)
+			{
+				Powered?.PowerNetworkUpdate( expectedRunningVoltage );
+			}
+			else
+			{
+				Powered?.PowerNetworkUpdate(_NewVoltage);
+			}
 		}
 	}
 
@@ -156,15 +208,21 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 		}
 
 		State = _State;
+
+		if (isSelfPowered)
+		{
+			State = PowerStates.On;
+		}
+
 		if (Powered != null && StateUpdateOnClient)
 		{
-			if (SelfPowered)
+			if (isSelfPowered)
 			{
-				Powered.StateUpdate( PowerStates.On );
+				Powered?.StateUpdate( PowerStates.On );
 			}
 			else
 			{
-				Powered.StateUpdate(State);
+				Powered?.StateUpdate(State);
 			}
 		}
 	}
@@ -190,7 +248,7 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 		RemoveFromAPC();
 	}
 
-	public static bool  IsOn(PowerStates States)
+	public static bool IsOn(PowerStates States)
 	{
 		return (States == PowerStates.On || States == PowerStates.LowVoltage || States == PowerStates.OverVoltage);
 	}

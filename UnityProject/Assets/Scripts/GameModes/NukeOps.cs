@@ -1,11 +1,13 @@
-using System;
 using UnityEngine;
 
-[CreateAssetMenu(menuName="ScriptableObjects/GameModes/NukeOps")]
-public class NukeOps : GameMode
+namespace GameModes
 {
-	public override bool IsPossible()
+	[CreateAssetMenu(menuName="ScriptableObjects/GameModes/NukeOps")]
+	public class NukeOps : GameMode
 	{
-		return base.IsPossible() && (FindObjectOfType<Nuke>() != null);
+		public override bool IsPossible()
+		{
+			return base.IsPossible() && (FindObjectOfType<Nuke>() != null);
+		}
 	}
 }

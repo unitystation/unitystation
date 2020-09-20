@@ -31,13 +31,12 @@ public class Metre : MonoBehaviour, ICheckedInteractable<HandApply>, IExaminable
 
 	private string ReadMeter()
 	{
-		var gasInfo = metaDataNode.PipeData[0].pipeData.GetMixAndVolume;
-		string pressure = gasInfo.Density().y.ToString("#.00");
-		string tempK = gasInfo.Temperature.ToString("#.00");
-		string tempC = (gasInfo.Temperature - 273.15f).ToString("#.00");
-
 		if (metaDataNode.PipeData.Count > 0)
 		{
+			var gasInfo = metaDataNode.PipeData[0].pipeData.GetMixAndVolume;
+			string pressure = gasInfo.Density().y.ToString("#.00");
+			string tempK = gasInfo.Temperature.ToString("#.00");
+			string tempC = (gasInfo.Temperature - 273.15f).ToString("#.00");
 			return $"The pressure gauge reads {pressure} kPa, with a temperature of {tempK} K ({tempC} °C).";
 		}
 		else

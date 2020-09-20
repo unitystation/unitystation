@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Initialisation;
+using UnityEngine;
 using MLAgents;
 
 /// <summary>
@@ -38,6 +39,7 @@ public class MobAgent : Agent
 		integrity = GetComponent<Integrity>();
 		agentParameters.onDemandDecision = true;
 	}
+
 
 	//Reset is used mainly for training
 	//SetPosition() has now been commented out

@@ -34,7 +34,7 @@ public class GUI_NukeOps : MonoBehaviour
 		}
 		else
 		{
-			nukeOpsbtn.interactable = true;;
+			nukeOpsbtn.interactable = true;
 			return true;
 		}
 	}

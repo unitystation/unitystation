@@ -31,8 +31,10 @@ MonoBehaviour:
     IsPaletted: 0
   Base_Adjusted:
     SpriteEquipped: {fileID: 11400000, guid: b3bbe47aee4f1874f9023b4ea56663d7, type: 2}
-    SpriteInHandsLeft: {fileID: 0}
-    SpriteInHandsRight: {fileID: 0}
+    SpriteInHandsLeft: {fileID: 11400000, guid: 2cf212a811f9b2a4fbdc8ed218497618,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: 0e372fc0180f03f4da271acee31591fd,
+      type: 2}
     SpriteItemIcon: {fileID: 11400000, guid: 178404daa0d55514f90c2cb30bacd44e, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 8501795274546436726}
   - component: {fileID: 7976599852802295432}
   m_Layer: 11
-  m_Name: GeneDrobe
+  m_Name: BVOld_GeneDrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -108,7 +108,7 @@ MonoBehaviour:
     Item: {fileID: 7106618204054676533, guid: 33d5403cf4de64f558d4b1735fdf85b4, type: 3}
     Stock: 2
   - ItemName: Genetics Labcoat
-    Item: {fileID: 7374481989050852271, guid: 1eabf8d0cc67b4d04926dd8eb07bf946, type: 3}
+    Item: {fileID: 3897939628877172860, guid: b8dfc33d8571c5a4381cdbdbd51a40ad, type: 3}
     Stock: 2
   - ItemName: Genetics Backpack
     Item: {fileID: 8541207335635205697, guid: 3eb130e231b60914a8b231815835140b, type: 3}
@@ -128,6 +128,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent:
   - ItemName: 
     Item: {fileID: 3011710637427380133, guid: 05d3054c3617b467ea8e086e2969e172, type: 3}
@@ -230,7 +231,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -251,7 +254,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114472266138859352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -438,7 +440,8 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 538f38b4a90ff9d49ba76ad5ca02b125, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 538f38b4a90ff9d49ba76ad5ca02b125, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 76198fee39e7a9742b0a0bb0f53ee674, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 76198fee39e7a9742b0a0bb0f53ee674, type: 3}

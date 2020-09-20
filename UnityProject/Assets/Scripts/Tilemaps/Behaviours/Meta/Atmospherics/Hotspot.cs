@@ -71,7 +71,7 @@ namespace Atmospherics
 			else
 			{
 				GasMix removed = node.GasMix.RemoveVolume(Volume);
-				removed.Temperature = Temperature;
+				removed.SetTemperature(Temperature);
 				float consumed = Reactions.React(ref removed);
 				Volume = consumed * 40;
 				Temperature = removed.Temperature;

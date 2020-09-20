@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: -6046975930861010149}
   - component: {fileID: 6846989126369187442}
   m_Layer: 11
-  m_Name: AutoDrobe
+  m_Name: BVOld_AutoDrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -182,7 +182,7 @@ MonoBehaviour:
     Item: {fileID: 7636118406116123594, guid: 63587900698efce47a648bd987aef283, type: 3}
     Stock: 1
   - ItemName: The Mads Labcoat
-    Item: {fileID: 2647627343863631382, guid: 786f07174bf918c48a2388cbfa400fde, type: 3}
+    Item: {fileID: 6515444984644878765, guid: 11f558128ddef354c8d610913d2079a0, type: 3}
     Stock: 1
   - ItemName: Jack Boots
     Item: {fileID: 7106618204054676533, guid: eaeac5365190b4842bedb2b846ff15da, type: 3}
@@ -598,6 +598,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent:
   - ItemName: 
     Item: {fileID: 3921521694364753778, guid: a13fbe8edd77fac409d1ce7543dee807, type: 3}
@@ -1180,7 +1181,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -1201,7 +1204,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114472266138859352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1375,7 +1377,8 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: fb0dc0a220322694cbe4011445034e36, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: fb0dc0a220322694cbe4011445034e36, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 632aa08a2bf0e1d4bbf2b6ff5a68d7fc, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 632aa08a2bf0e1d4bbf2b6ff5a68d7fc, type: 3}

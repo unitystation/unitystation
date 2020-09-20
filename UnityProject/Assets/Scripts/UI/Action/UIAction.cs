@@ -28,8 +28,12 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 			return;
 		}
 
-		IconFront.SetCatalogue(actionData.Sprites,0, NetWork: false);
-		if (actionData.Backgrounds.Count > 0) {
+		if (actionData.Sprites.Count > 0)
+		{
+			IconFront.SetCatalogue(actionData.Sprites, 0, NetWork: false);
+		}
+		if (actionData.Backgrounds.Count > 0)
+		{
 			IconBackground.SetCatalogue(actionData.Backgrounds,0 ,NetWork: false);
 		}
 	}

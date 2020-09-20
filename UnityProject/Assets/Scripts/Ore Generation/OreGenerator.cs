@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System;
+using Initialisation;
 using UnityEngine.Serialization;
 
 /// <summary>
@@ -36,8 +37,10 @@ public class OreGenerator : MonoBehaviour
 	void Start()
 	{
 		if(!runOnStart) return;
-		RunOreGenerator();
+		LoadManager.RegisterAction(RunOreGenerator);
 	}
+
+
 
 	public void RunOreGenerator()
 	{

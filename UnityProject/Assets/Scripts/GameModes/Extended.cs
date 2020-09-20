@@ -1,12 +1,14 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-[CreateAssetMenu(menuName="ScriptableObjects/GameModes/Extended")]
-public class Extended : GameMode
+namespace GameModes
 {
-	protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
+	[CreateAssetMenu(menuName="ScriptableObjects/GameModes/Extended")]
+	public class Extended : GameMode
 	{
-		//no antags
-		return false;
+		protected override bool ShouldSpawnAntag(PlayerSpawnRequest spawnRequest)
+		{
+			//no antags
+			return false;
+		}
 	}
 }

@@ -50,7 +50,7 @@ namespace Atmospherics
 				var newHeatCap = gasMix.WholeHeatCapacity;
 				if (newHeatCap > 0.0003f)
 				{
-					gasMix.Temperature = (gasMix.Temperature * oldHeatCap + energyReleased) / newHeatCap;
+					gasMix.SetTemperature((gasMix.Temperature * oldHeatCap + energyReleased) / newHeatCap);
 				}
 			}
 

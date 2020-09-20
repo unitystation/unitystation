@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Initialisation;
 using UnityEngine;
 
 namespace Unitystation.Options
@@ -10,7 +11,7 @@ namespace Unitystation.Options
 	/// It is spawned via managers on manager start
 	/// and persists across scene changes
 	/// </summary>
-	public class OptionsMenu : MonoBehaviour
+	public class OptionsMenu : MonoBehaviour, IInitialise
 	{
 		public static OptionsMenu Instance;
 		[SerializeField]
@@ -23,14 +24,20 @@ namespace Unitystation.Options
 			if (Instance == null)
 			{
 				Instance = this;
-				// DontDestroyOnLoad(gameObject); //Commented out because it only works for root or components of root (Warning)
-				Init();
 			}
 			else
 			{
 				Destroy(gameObject);
 			}
 		}
+
+		public InitialisationSystems Subsystem => InitialisationSystems.OptionsMenu;
+
+		void IInitialise.Initialise()
+		{
+			Init();
+		}
+
 
 		void Init()
 		{
