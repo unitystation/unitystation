@@ -157,6 +157,16 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
 
+		foreach (LimbContainer limbContainer in legContainers)
+		{
+			limbContainer.LimbUpdateEvent += UpdateSpeedFromLimbUpdate;
+		}
+
+		foreach (LimbContainer limbContainer in armContainers)
+		{
+			limbContainer.LimbUpdateEvent += UpdateSpeedFromLimbUpdate;
+		}
+
 		//Aren't these set up with sync vars? Why are they set like this?
 		//They don't appear to ever get synced either.
 		RunSpeed = 1;
@@ -605,16 +615,19 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	#endregion Cuffing
 
-	public void UpdateSpeedFromLimbs()
+	public void UpdateSpeedFromLimbUpdate(ImplantLimb prevLimb, ImplantLimb newLimb)
 	{
-		float totalRunSpeed = 0f;
-		float totalWalkSpeed = 0f;
-		foreach (LimbContainer limbContainer in legContainers)
+		//If we had a previous limb that's being replaced, we need to remove the speed bonuses it gave.
+		if (prevLimb)
 		{
-			totalRunSpeed += limbContainer.GetTotalRunningSpeed();
-			totalWalkSpeed += limbContainer.GetTotalWalkingSpeed();
+			ServerChangeSpeed(RunSpeed - prevLimb.GetRunningSpeed(), WalkSpeed - prevLimb.GetWalkingSpeed());
 		}
-		ServerChangeSpeed(totalRunSpeed, totalWalkSpeed);
+
+		//Check if we're getting a new limb as well.
+		if (newLimb)
+		{
+			ServerChangeSpeed(RunSpeed + newLimb.GetRunningSpeed(), WalkSpeed + newLimb.GetWalkingSpeed());
+		}
 	}
 
 }
