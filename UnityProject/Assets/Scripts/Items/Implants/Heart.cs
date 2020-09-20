@@ -42,8 +42,6 @@ public class Heart : ImplantBase
 			nextHeartBeat = lastHeartBeat + heartBeatDelay;
 		}
 
-		Debug.Log("Heart updated! Something is working!");
-
 	}
 
 	public void DoHeartBeat(LivingHealthMasterBase healthMaster)
