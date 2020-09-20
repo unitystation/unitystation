@@ -43,8 +43,8 @@ namespace Assets.Scripts.Editor.Tools
 					var aaaaaa = 1;
 				}
 				MemberInfo[] members = obj.GetType().GetMembers(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.FlattenHierarchy);
-				
-				var a = members.Where(p => p.MemberType == MemberTypes.);
+
+				var a = members.Where(p => p.MemberType == MemberTypes.All);
 
 				if (a.Count() > 0)
 					objs.Add(obj);
