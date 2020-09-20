@@ -11,7 +11,7 @@ namespace Assets.Scripts.Player
 
 		private PlayerScript script;
 
-		private PlayerHealth Health => script.playerHealth;
+		private PlayerHealthV2 Health => script.playerHealth;
 		private Equipment Equipment => script.Equipment;
 		private string VisibleName => script.visibleName;
 

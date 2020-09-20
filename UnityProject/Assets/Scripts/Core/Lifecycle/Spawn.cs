@@ -370,7 +370,7 @@ public static class Spawn
 		//fire server hooks
 		foreach (var spawnedObject in result.GameObjects)
 		{
-			var comps = spawnedObject.GetComponents<IServerSpawn>();
+			var comps = spawnedObject.GetComponentsInChildren<IServerSpawn>();
 			if (comps != null)
 			{
 				foreach (var comp in comps)
