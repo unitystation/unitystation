@@ -87,7 +87,7 @@ namespace Radiation
 			lightSprite.Color.a = LightPower;
 		}
 
-		void RequestPulse()
+		private void RequestPulse()
 		{
 			if (OutPuttingRadiation > 0.358f)
 			{

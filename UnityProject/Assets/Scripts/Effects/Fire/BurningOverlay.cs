@@ -17,8 +17,6 @@ public class BurningOverlay : MonoBehaviour
 
 	private SpriteRenderer spriteRenderer;
 
-	private float animSpriteTime;
-
 	private void Awake()
 	{
 		spriteRenderer = GetComponent<SpriteRenderer>();
@@ -30,7 +28,7 @@ public class BurningOverlay : MonoBehaviour
 	{
 		if (burn)
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.UPDATE, PeriodicAnimate);
 		}
 	}
 
@@ -39,10 +37,10 @@ public class BurningOverlay : MonoBehaviour
 	/// </summary>
 	public void Burn()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 		spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
 		spriteRenderer.enabled = true;
 		burn = true;
+		UpdateManager.Add(PeriodicAnimate, AnimationSpeed);
 	}
 
 	/// <summary>
@@ -50,21 +48,15 @@ public class BurningOverlay : MonoBehaviour
 	/// </summary>
 	public void StopBurning()
 	{
+		UpdateManager.Remove(CallbackType.UPDATE, PeriodicAnimate);
 		if (spriteRenderer == null) return;
 		spriteRenderer.sprite = null;
 		spriteRenderer.enabled = false;
 		burn = false;
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
-	private void UpdateMe()
+	private void PeriodicAnimate()
 	{
-		if (!burn) return;
-		animSpriteTime += Time.deltaTime;
-		if (animSpriteTime > AnimationSpeed)
-		{
-			animSpriteTime = 0f;
-			spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
-		}
+		spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
 	}
 }
