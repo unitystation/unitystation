@@ -356,5 +356,10 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		SyncFireStacks(fireStacks, 0);
 	}
 
+	public virtual string GetExamineText()
+	{
+		return "Weeee";
+	}
+
 
 }

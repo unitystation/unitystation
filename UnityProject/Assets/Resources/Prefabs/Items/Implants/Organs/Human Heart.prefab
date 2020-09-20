@@ -20,6 +20,9 @@ MonoBehaviour:
   bloodReagentConsumed: 0.15
   bloodReagentStoreAmount: 0.01
   bloodReagentStoredMax: 20
+  bodyPartType: 7
+  limbSpriteData: {fileID: 0}
+  limbOverlaySpriteData: {fileID: 0}
   heartRateDelta: 10
   maxHeartRate: 200
   heartStrength: 100
@@ -103,6 +106,11 @@ PrefabInstance:
         type: 3}
     - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
       propertyPath: initialName
       value: Human Heart
       objectReference: {fileID: 0}
@@ -116,6 +124,12 @@ PrefabInstance:
       propertyPath: initialSize
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5146776682568007683, guid: 35ef0ee8523cfc342bc863c12a3ac07c,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 8e3a656a9a75c0a4d826681427d5d901,
+        type: 2}
     m_RemovedComponents:
     - {fileID: -7049597064599244388, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 35ef0ee8523cfc342bc863c12a3ac07c, type: 3}
