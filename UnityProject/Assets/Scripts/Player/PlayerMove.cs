@@ -144,9 +144,16 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private Matrix matrix => registerPlayer.Matrix;
 	private PlayerScript playerScript;
 
+	[SerializeField]
+	private List<LimbContainer> legContainers;
+
+	[SerializeField]
+	private List<LimbContainer> armContainers;
+
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
+
 		PlayerDirectional = gameObject.GetComponent<Directional>();
 
 		registerPlayer = GetComponent<RegisterPlayer>();
@@ -154,12 +161,18 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		//Aren't these set up with sync vars? Why are they set like this?
 		//They don't appear to ever get synced either.
+
 		if (PlayerScript.IsGhost == false)
 		{
 			RunSpeed = 1;
 			WalkSpeed = 1;
 			CrawlSpeed = 0f;
 		}
+
+
+		RunSpeed = 1;
+		WalkSpeed = 1;
+		CrawlSpeed = 0f;
 
 	}
 
@@ -666,6 +679,20 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	}
 
 	#endregion Cuffing
+
+
+	public void UpdateSpeedFromLimbs()
+	{
+		float totalRunSpeed = 0f;
+		float totalWalkSpeed = 0f;
+		foreach (LimbContainer limbContainer in legContainers)
+		{
+			totalRunSpeed += limbContainer.GetTotalRunningSpeed();
+			totalWalkSpeed += limbContainer.GetTotalWalkingSpeed();
+		}
+		ServerChangeSpeed(totalRunSpeed, totalWalkSpeed);
+	}
+
 
 }
 
