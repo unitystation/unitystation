@@ -31,6 +31,7 @@ namespace HealthV2
 		[SerializeField]
 		private BodyPartSprites bodyPartSprites;
 
+		public event Action<ImplantBase, ImplantBase> ImplantUpdateEvent;
 		void Awake()
 		{
 			storage = GetComponent<ItemStorage>();
