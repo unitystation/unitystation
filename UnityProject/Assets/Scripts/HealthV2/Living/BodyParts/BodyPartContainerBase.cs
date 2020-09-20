@@ -31,7 +31,7 @@ namespace HealthV2
 		[SerializeField]
 		private BodyPartSprites bodyPartSprites;
 
-		private void Awake()
+		void Awake()
 		{
 			storage = GetComponent<ItemStorage>();
 			storage.ServerInventoryItemSlotSet += ImplantAdded;
@@ -40,9 +40,10 @@ namespace HealthV2
 			{
 				healthMaster = GetComponentInParent<LivingHealthMasterBase>();
 			}
+
 		}
 
-		public void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
+		public virtual void ImplantAdded(Pickupable prevImplant, Pickupable newImplant)
 		{
 			if (newImplant)
 			{

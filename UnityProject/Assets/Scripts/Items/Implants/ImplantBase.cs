@@ -64,6 +64,9 @@ namespace HealthV2
 		private SpriteDataSO limbOverlaySpriteData;
 		public SpriteDataSO LimbOverlaySpriteData => limbOverlaySpriteData;
 
+		[SerializeField]
+		private bool implantPreventsBleeding = true;
+
 		private void Awake()
 		{
 			attributes = GetComponent<ItemAttributesV2>();

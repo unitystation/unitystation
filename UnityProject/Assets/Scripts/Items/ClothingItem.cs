@@ -115,7 +115,7 @@ public class ClothingItem : MonoBehaviour
 				equippedClothing?.LinkClothingItem(this);
 
 				// Set the slots defined in hidesSlots as hidden.
-				thisPlayerScript.Equipment.obscuredSlots |= equippedClothing.HiddenSlots;
+				//thisPlayerScript.Equipment.obscuredSlots |= equippedClothing.HiddenSlots;
 
 				// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
 				// But for the others, we call the OnClothingEquipped event.
