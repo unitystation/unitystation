@@ -24,6 +24,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	private float tick = 0;
 
 	private RegisterTile registerTile;
+	public RegisterTile RegisterTile => registerTile;
 
 	[NonSerialized] public ConsciousStateEvent OnConsciousStateChangeServer = new ConsciousStateEvent();
 	public ConsciousState ConsciousState
@@ -106,6 +107,9 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 	[NonSerialized]
 	public FireStackEvent OnClientFireStacksChange = new FireStackEvent();
 
+	private ObjectBehaviour objectBehaviour;
+	public ObjectBehaviour OBehavior => objectBehaviour;
+
 
 	public virtual void Awake()
 	{
@@ -130,6 +134,7 @@ public abstract class LivingHealthMasterBase : NetworkBehaviour
 		registerTile = GetComponent<RegisterTile>();
 		respiratorySystem = GetComponent<RespiratorySystemBase>();
 		circulatorySystem = GetComponent<CirculatorySystemBase>();
+		objectBehaviour = GetComponent<ObjectBehaviour>();
 		//Always include blood for living entities:
 	}
 
