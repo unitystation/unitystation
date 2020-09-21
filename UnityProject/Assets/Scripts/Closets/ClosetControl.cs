@@ -462,7 +462,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		// Is the player trying to put something in the closet?
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
 		{
-			if(IsClosed && !isEmagged)
+			if (IsClosed && !isEmagged)
 			{
 				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 				ServerHandleContentsOnStatusChange(false);
@@ -476,7 +476,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			// Is the player trying to weld closet?
 			if (IsWeldable && interaction.Intent == Intent.Harm)
 			{
-				//TODO: Need to add an examine msg saying "Its welded shut
 				ToolUtils.ServerUseToolWithActionMessages(
 						interaction, weldTime,
 						$"You start {(IsWelded ? "unwelding" : "welding")} the {closetName} door...",
@@ -496,21 +495,26 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
 			}
 		}
-		else if(interaction.HandObject == null)
+		else if (interaction.HandObject == null)
 		{
 			// player want to close locker?
 			if (!isLocked && !isEmagged && !isWelded)
 			{
 				ServerToggleClosed();
 			}
-			else if(!AccessRestrictions.CheckAccess(interaction.Performer) && (isLocked || isWelded))
+			else if (!AccessRestrictions.CheckAccess(interaction.Performer) && (isLocked || isWelded))
 			{
 				Chat.AddExamineMsg(
 				interaction.Performer,
 				$"Can\'t open {closetName}");
 			}
+			else
+			{
+				//catch for case where there is no performer
+				//TODO: Add closet breakout code here
+			}
 		}
-
+				
 		// player trying to unlock locker?
 		if (IsLockable && AccessRestrictions != null)
 		{
