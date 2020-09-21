@@ -253,10 +253,10 @@ namespace NPC.AI
 			isForLerpBack = false;
 		}
 
-		protected override void UpdateMe()
+		protected override void ServerUpdateMe()
 		{
 			CheckLerping();
-			base.UpdateMe();
+			base.ServerUpdateMe();
 		}
 
 		private void CheckLerping()

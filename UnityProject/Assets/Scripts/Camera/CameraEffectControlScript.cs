@@ -9,13 +9,26 @@ namespace CameraEffects
 	{
 
 		public DrunkCamera drunkCamera;
-		public int drunkCameraTime = 0;
-
 		public GlitchEffect glitchEffect;
-
 		public NightVisionCamera nightVisionCamera;
 
 		private const float TIMER_INTERVAL = 1f;
+		private int drunkCameraTime = 0;
+
+		private void OnDisable()
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DoEffectTimeCheck);
+		}
+
+		public void AddDrunkTime(int time)
+		{
+			drunkCameraTime += time;
+
+			if (drunkCamera.enabled == false)
+			{
+				UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
+			}
+		}
 
 		public void ToggleDrunkEffectState()
 		{
@@ -32,16 +45,6 @@ namespace CameraEffects
 			nightVisionCamera.enabled = !nightVisionCamera.enabled;
 		}
 
-		private void OnEnable()
-		{
-			UpdateManager.Add(DoEffectTimeCheck, TIMER_INTERVAL);
-		}
-
-		private void OnDisable()
-		{
-			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DoEffectTimeCheck);
-		}
-
 		private void DoEffectTimeCheck()
 		{
 			if (drunkCameraTime > 0)
@@ -52,6 +55,7 @@ namespace CameraEffects
 			else
 			{
 				drunkCamera.enabled = false;
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DoEffectTimeCheck);
 			}
 		}
 	}

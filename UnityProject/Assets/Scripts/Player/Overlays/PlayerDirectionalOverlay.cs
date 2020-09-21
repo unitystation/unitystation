@@ -26,7 +26,6 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 
 	private int leftIndex, rightIndex, upIndex, downIndex = 0;
 	private Orientation orientation;
-	private float animSpriteTime;
 
 	private bool init = false;
 
@@ -60,7 +59,7 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 		EnsureInit();
 		if (!OverlayActive)
 		{
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Add(PeriodicUpdate, AnimationSpeed);
 			OverlayActive = true;
 		}
 		orientation = direction;
@@ -103,22 +102,17 @@ public class PlayerDirectionalOverlay : MonoBehaviour
 	public void StopOverlay()
 	{
 		if (!OverlayActive) return;
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		spriteRenderer.sprite = null;
 		spriteRenderer.enabled = false;
 		OverlayActive = false;
 		leftIndex = rightIndex = upIndex = downIndex = 0;
-
 	}
 
-	private void UpdateMe()
+	private void PeriodicUpdate()
 	{
 		if (!OverlayActive) return;
-		animSpriteTime += Time.deltaTime;
-		if (animSpriteTime > AnimationSpeed)
-		{
-			animSpriteTime = 0f;
-			ChangeOverlaySprite();
-		}
+
+		ChangeOverlaySprite();
 	}
 }

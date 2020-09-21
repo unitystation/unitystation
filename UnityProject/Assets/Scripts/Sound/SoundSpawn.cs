@@ -6,7 +6,6 @@ public class SoundSpawn : MonoBehaviour
 	public AudioSource audioSource;
 	//We need to handle this manually to prevent multiple requests grabbing sound pool items in the same frame
 	public bool isPlaying = false;
-	private float waitLead = 0;
 	private bool monitor = false;
 
 	public void PlayOneShot()
@@ -25,33 +24,27 @@ public class SoundSpawn : MonoBehaviour
 
 	void WaitForPlayToFinish()
 	{
-		waitLead = 0f;
 		monitor = true;
 	}
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Add(UpdateMe, 0.2f);
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}
 
 	void UpdateMe()
 	{
 		if (!monitor || audioSource == null) return;
 
-		waitLead += Time.deltaTime;
-		if (waitLead > 0.2f)
+		if (!audioSource.isPlaying)
 		{
-			if (!audioSource.isPlaying)
-			{
-				isPlaying = false;
-				waitLead = 0f;
-				monitor = false;
-			}
+			isPlaying = false;
+			monitor = false;
 		}
 	}
 }

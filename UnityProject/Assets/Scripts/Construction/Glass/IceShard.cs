@@ -19,37 +19,34 @@ public class IceShard : MonoBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(UpdateCycle, 1f);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(ServerUpdateCycle, 1f);
+		}
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateCycle);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerUpdateCycle);
+		}
 	}
 
-	private void UpdateCycle()
+	private void ServerUpdateCycle()
 	{
-		if(!CustomNetworkManager.IsServer) return;
-
 		var pos = registerTile.WorldPosition;
 
-		if (pos == posCache && metaDataNode.GasMix.Temperature > AtmosDefines.WATER_VAPOR_FREEZE)
+		if (pos != posCache)
+		{
+			metaDataNode = MatrixManager.GetMetaDataAt(pos);
+			posCache = pos;
+		}
+
+		if (metaDataNode.GasMix.Temperature > AtmosDefines.WATER_VAPOR_FREEZE)
 		{
 			metaDataNode.GasMix.AddGas(Gas.WaterVapor, 2f);
 			Despawn.ServerSingle(gameObject);
-			return;
-		}
-		else
-		{
-			posCache = pos;
-			metaDataNode = MatrixManager.GetMetaDataAt(pos);
-
-			if (metaDataNode.GasMix.Temperature > AtmosDefines.WATER_VAPOR_FREEZE)
-			{
-				metaDataNode.GasMix.AddGas(Gas.WaterVapor, 2f);
-				Despawn.ServerSingle(gameObject);
-				return;
-			}
 		}
 	}
 }

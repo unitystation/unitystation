@@ -9,11 +9,10 @@ public class OutsideFlashingLight : MonoBehaviour
 	public SpriteRenderer lightSprite;
 	public Color spriteOffCol;
 	public Color spriteOnCol;
-	private float timeCount;
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Add(UpdateMe, flashWaitTime);
 	}
 
 	private void OnDisable()
@@ -23,12 +22,7 @@ public class OutsideFlashingLight : MonoBehaviour
 
 	private void UpdateMe()
 	{
-		timeCount += Time.deltaTime;
-		if (timeCount >= flashWaitTime)
-		{
-			timeCount = 0f;
-			SwitchLights();
-		}
+		SwitchLights();
 	}
 
 	private void SwitchLights()

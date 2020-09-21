@@ -290,10 +290,10 @@ public class MobMeleeAttack : MobFollow
 		isForLerpBack = false;
 	}
 
-	protected override void UpdateMe()
+	protected override void ServerUpdateMe()
 	{
 		CheckLerping();
-		base.UpdateMe();
+		base.ServerUpdateMe();
 	}
 
 	void CheckLerping()
