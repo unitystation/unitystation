@@ -10,6 +10,7 @@ using Mirror;
 using UnityEngine;
 using UnityEngine.Diagnostics;
 using DiscordWebhook;
+using Messages.Client;
 using Newtonsoft.Json;
 
 /// <summary>

@@ -6,6 +6,7 @@ using TMPro;
 using Mirror;
 using System.IO;
 using Initialisation;
+using Messages.Client;
 using UnityEngine.UI;
 
 namespace ServerInfo

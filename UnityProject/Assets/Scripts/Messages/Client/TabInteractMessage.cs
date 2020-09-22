@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Messages.Client;
 using UnityEngine;
 using Mirror;
 using Newtonsoft.Json;
