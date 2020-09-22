@@ -152,7 +152,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	void OnEnable()
 	{
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			UpdateManager.Add(ServerPeriodicUpdate, tickRate);
 		}
@@ -162,7 +162,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	void OnDisable()
 	{
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
 		}

@@ -88,7 +88,7 @@ public class MetabolismSystem : NetworkBehaviour
 
 	private void OnEnable()
 	{
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			UpdateManager.Add(ServerUpdateMe, metabolismRate);
 		}
@@ -98,7 +98,7 @@ public class MetabolismSystem : NetworkBehaviour
 
 	private void OnDisable()
 	{
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerUpdateMe);
 		}
