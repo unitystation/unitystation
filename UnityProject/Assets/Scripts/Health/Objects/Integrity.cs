@@ -122,7 +122,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 
 	private void OnDisable()
 	{
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdateBurn);
 		}
