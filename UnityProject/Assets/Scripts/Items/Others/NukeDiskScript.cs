@@ -66,7 +66,7 @@ public class NukeDiskScript : NetworkBehaviour
 
 	private void OnEnable()
 	{
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			UpdateManager.Add(ServerPeriodicUpdate, timeCheckDiskLocation);
 		}
@@ -74,7 +74,7 @@ public class NukeDiskScript : NetworkBehaviour
 
 	private void OnDisable()
 	{
-		if (isServer)
+		if (CustomNetworkManager.IsServer)
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
 		}
