@@ -60,7 +60,8 @@ public enum JobType
 	TRAITOR = 48,
 	CARGONIAN = 49,
 	PRISONER = 50,
-	FUGITIVE = 51
+	FUGITIVE = 51,
+	WIZARD = 52
 }
 
 public static class JobCategories

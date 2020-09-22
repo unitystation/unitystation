@@ -112,7 +112,8 @@ public static class PlayerSpawn
 	private static readonly ReadOnlyCollection<JobType> NEVER_SPAWN_ARRIVALS_JOBS = new ReadOnlyCollection<JobType>(new List<JobType>
 		{
 			JobType.AI,
-			JobType.SYNDICATE
+			JobType.SYNDICATE,
+			JobType.WIZARD
 		});
 	//Time to start spawning players at arrivals
 	private static readonly DateTime ARRIVALS_SPAWN_TIME = new DateTime().AddHours(12).AddMinutes(2);

@@ -135,9 +135,17 @@ public partial class GameManager
 
 		foreach (var job in GameMode.PossibleAntags)
 		{
-			if (job.AntagOccupation != null && job.AntagOccupation.JobType == JobType.SYNDICATE)
+			if (job.AntagOccupation == null) continue;
+
+			if (job.AntagOccupation.JobType == JobType.SYNDICATE)
 			{
 				yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
+				break;
+			}
+
+			if (job.AntagOccupation.JobType == JobType.WIZARD)
+			{
+				yield return StartCoroutine(SubSceneManager.Instance.LoadWizard());
 				break;
 			}
 		}
