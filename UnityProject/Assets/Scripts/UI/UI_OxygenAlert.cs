@@ -12,7 +12,6 @@ public class UI_OxygenAlert : TooltipMonoBehaviour
 	private int nextImageIndex = 1;
 
 	public Image img;
-	private float timeWait;
 
 	public override string Tooltip => "Choking (No O2)";
 
@@ -23,23 +22,18 @@ public class UI_OxygenAlert : TooltipMonoBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Add(PeriodicUpdate, SpriteCycleTime);
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		ResetImg();
 	}
 
-	void UpdateMe()
+	void PeriodicUpdate()
 	{
-		timeWait += Time.deltaTime;
-		if (timeWait > SpriteCycleTime)
-		{
-			CycleImg();
-			timeWait -= SpriteCycleTime;
-		}
+		CycleImg();
 	}
 
 	void CycleImg()
@@ -50,6 +44,6 @@ public class UI_OxygenAlert : TooltipMonoBehaviour
 	void ResetImg() {
 		img.sprite = statusImages[0];
 		nextImageIndex = 1;
-		timeWait = 0f;
+		CycleImg();
 	}
 }

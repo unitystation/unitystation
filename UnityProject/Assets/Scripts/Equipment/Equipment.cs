@@ -133,12 +133,7 @@ public class Equipment : NetworkBehaviour
 
 	public bool IsSlotObscured(NamedSlot namedSlot)
 	{
-		return obscuredSlots.HasFlag(ConvertNamedSlotToObscuredSlot(namedSlot));
-	}
-
-	private NamedSlotFlagged ConvertNamedSlotToObscuredSlot(NamedSlot slot)
-	{
-		return (NamedSlotFlagged) Math.Pow(2, (int)slot);
+		return obscuredSlots.HasFlag(ItemSlot.GetFlaggedSlot(namedSlot));
 	}
 
 	/// <summary>

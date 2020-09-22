@@ -329,6 +329,7 @@ namespace Atmospherics
 		public void RemoveGas(Gas gas, float moles)
 		{
 			Gases[gas] -= moles;
+			if (Gases[gas] < 0)  Gases[gas] = 0;
 			Recalculate();
 		}
 

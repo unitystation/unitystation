@@ -4,16 +4,15 @@ using UnityEngine;
 using Mirror;
 using Antagonists;
 using Random = UnityEngine.Random;
+using UI.Action;
 
 namespace Items.PDA
 {
 	[RequireComponent(typeof(ItemStorage))]
 	[RequireComponent(typeof(ItemLightControl))]
-	[RequireComponent(typeof(HasNetworkTab))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(PDANotesNetworkHandler))]
-	public class PDALogic : NetworkBehaviour, IServerActionGUI, IClientInventoryMove, 
-			ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
+	public class PDALogic : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
 	{
 		private const bool DEBUG_UPLINK = false;
 		private const string DEBUG_UPLINK_CODE = "Whiskey Tango Foxtrot-1337";
@@ -32,12 +31,6 @@ namespace Items.PDA
 		[SerializeField]
 		private bool willResetName = false;
 
-		[SerializeField]
-		private ActionData flashlightAction = default;
-
-		[SerializeField]
-		private SpriteHandler baseSpriteHandler = default;
-
 		#endregion Inspector
 
 		// GameObject attached components
@@ -45,6 +38,7 @@ namespace Items.PDA
 		private Pickupable pickupable;
 		private ItemStorage storage;
 		private ItemLightControl flashlight;
+		private ItemActionButton actionButton;
 
 		/// <summary> The IDCard that is currently inserted into the PDA </summary>
 		public IDCard IDCard { get; private set; }
@@ -59,7 +53,6 @@ namespace Items.PDA
 		public int UplinkTC { get; private set; }
 
 		public bool FlashlightOn => flashlight.IsOn;
-		public ActionData ActionData => flashlightAction;
 
 		public Action registeredPlayerUpdated;
 		public Action idSlotUpdated;
@@ -88,6 +81,17 @@ namespace Items.PDA
 			pickupable = GetComponent<Pickupable>();
 			storage = GetComponent<ItemStorage>();
 			flashlight = GetComponent<ItemLightControl>();
+			actionButton = GetComponent<ItemActionButton>();
+		}
+
+		private void OnEnable()
+		{
+			actionButton.ServerActionClicked += ToggleFlashlight;
+		}
+
+		private void OnDisable()
+		{
+			actionButton.ServerActionClicked -= ToggleFlashlight;
 		}
 
 		private void Start()
@@ -130,21 +134,16 @@ namespace Items.PDA
 
 			if (DEBUG_UPLINK)
 			{
+#pragma warning disable CS0162 // Unreachable code detected
 				UplinkTC = 20;
 				UplinkUnlockCode = DEBUG_UPLINK_CODE;
 				IsUplinkCapable = true;
 				InformUplinkCode(owner);
+#pragma warning restore CS0162 // Unreachable code detected
 			}
 		}
 
 		#endregion Lifecycle
-
-		public void CallActionServer(ConnectedPlayer SentByPlayer)
-		{
-			ToggleFlashlight();
-		}
-
-		public void CallActionClient() { }
 
 		public void ToggleFlashlight()
 		{
@@ -415,26 +414,6 @@ namespace Items.PDA
 		#endregion Uplink
 
 		#region Inventory
-
-		public void OnInventoryMoveClient(ClientInventoryMove info)
-		{
-			bool shouldShowButton = pickupable.ItemSlot != null &&
-				pickupable.ItemSlot.Player != null &&
-				info.ClientInventoryMoveType == ClientInventoryMoveType.Added;
-
-			if (!shouldShowButton)
-			{
-				UIActionManager.ToggleLocal(this, false);
-				return;
-			}
-
-			// If the slot the item is a slot of the client's.
-			if (pickupable.ItemSlot.LocalUISlot != null)
-			{
-				UIActionManager.ToggleLocal(this, true);
-				UIActionManager.SetSpriteSO(this, baseSpriteHandler.GetCurrentSpriteSO(), false);
-			}
-		}
 
 		private void OnIDSlotChanged()
 		{

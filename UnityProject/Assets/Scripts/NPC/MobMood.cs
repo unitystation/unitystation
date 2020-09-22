@@ -54,7 +54,6 @@ namespace NPC
 		private MobAI mobAi;
 		private MobExplore mobExplore;
 		private LivingHealthBehaviour lbh;
-		private float tick = 0;
 		private DateTime lastPetted;
 
 		private void Awake()
@@ -99,19 +98,10 @@ namespace NPC
 			UpdateMoodLevel(moodOnFood);
 		}
 
-		private void UpdateMe()
+		private void ServerPeriodicUpdate()
 		{
-			tick += Time.deltaTime;
-
-			if (!(tick >= timeBetweenFoodCheck))
-			{
-				return;
-			}
-
 			// Hungry tick
 			UpdateMoodLevel(moodOnFood * -1);
-
-			tick = 0;
 		}
 
 		/// <summary>
@@ -139,9 +129,9 @@ namespace NPC
 				return;
 			}
 
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
-				UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+				UpdateManager.Add(ServerPeriodicUpdate, timeBetweenFoodCheck);
 			}
 
 			lbh.applyDamageEvent += OnDamageReceived;
@@ -151,9 +141,9 @@ namespace NPC
 
 		public void OnDespawnServer(DespawnInfo info)
 		{
-			if (CustomNetworkManager.Instance._isServer)
+			if (CustomNetworkManager.IsServer)
 			{
-				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
 			}
 
 			mobAi.health.applyDamageEvent -= OnDamageReceived;

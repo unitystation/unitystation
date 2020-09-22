@@ -1,4 +1,4 @@
-
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Mirror;
@@ -543,4 +543,8 @@ public class ItemSlot
 		return ItemSlot.GetIndexed(itemStorage, slotIndex);
 	}
 
+	public static NamedSlotFlagged GetFlaggedSlot(NamedSlot slot)
+	{
+		return (NamedSlotFlagged) (1 << (int) slot);
+	}
 }

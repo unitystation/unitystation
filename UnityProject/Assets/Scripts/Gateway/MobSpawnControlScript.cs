@@ -14,8 +14,6 @@ public class MobSpawnControlScript : NetworkBehaviour
 
 	private bool SpawnedMobs;
 
-	private float timeElapsedServer = 0;
-
 	private const float PlayerCheckTime = 1f;
 
 	[Server]
@@ -52,25 +50,22 @@ public class MobSpawnControlScript : NetworkBehaviour
 
 	protected virtual void UpdateMe()
 	{
-		if (isServer)
-		{
-			timeElapsedServer += Time.deltaTime;
-			if (timeElapsedServer > PlayerCheckTime && !SpawnedMobs)
-			{
-				DetectPlayer();
-				timeElapsedServer = 0;
-			}
-		}
+		DetectPlayer();
 	}
 
 	private void OnEnable()
 	{
 		if (!DetectViaMatrix) return;
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (!isServer) return;
+
+		UpdateManager.Add(UpdateMe, PlayerCheckTime);
 	}
+
 	void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (!isServer) return;
+
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}
 
 	[Server]
@@ -84,7 +79,7 @@ public class MobSpawnControlScript : NetworkBehaviour
 			if (!script.IsGhost && script.registerTile.Matrix == gameObject.GetComponent<RegisterObject>().Matrix)
 			{
 				SpawnMobs();
-				UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+				UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 				return;
 			}
 		}

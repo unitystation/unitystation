@@ -43,7 +43,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 11
+  serializedVersion: 12
   m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
@@ -98,7 +98,8 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_LightingSettings: {fileID: 4890085278179872738, guid: 3f211d94443773e48a3cee5999fd2e80,
+    type: 2}
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -118,6 +119,8 @@ NavMeshSettings:
     manualTileSize: 0
     tileSize: 256
     accuratePlacement: 0
+    maxJobWorkers: 0
+    preserveTilesOutsideBounds: 0
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
@@ -1430,6 +1433,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -3637,6 +3641,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -5855,6 +5860,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -23977,6 +23983,11 @@ PrefabInstance:
       propertyPath: SelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8632938316192302950, guid: 133b93fb7d8a5794bbfff599bea64863,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 133b93fb7d8a5794bbfff599bea64863, type: 3}
 --- !u!4 &110011232 stripped
@@ -30951,6 +30962,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -32053,6 +32065,7 @@ Mesh:
   m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 
@@ -33130,6 +33143,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -40416,6 +40430,7 @@ Mesh:
   m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 
@@ -42212,6 +42227,7 @@ Mesh:
   m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 
@@ -45374,6 +45390,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -46008,6 +46025,11 @@ PrefabInstance:
     - target: {fileID: -3448077814019289555, guid: ad564df14e0bd4e0f9395ac826d7e103,
         type: 3}
       propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3448077814019289555, guid: ad564df14e0bd4e0f9395ac826d7e103,
+        type: 3}
+      propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1430744253466650, guid: ad564df14e0bd4e0f9395ac826d7e103, type: 3}
@@ -50743,6 +50765,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -52268,6 +52291,11 @@ PrefabInstance:
     - target: {fileID: 2468827694050083430, guid: c5aecb2f211bbae49916919ff6128733,
         type: 3}
       propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2468827694050083430, guid: c5aecb2f211bbae49916919ff6128733,
+        type: 3}
+      propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6418660937620795214, guid: c5aecb2f211bbae49916919ff6128733,
@@ -59612,6 +59640,7 @@ Mesh:
   m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 
@@ -59677,6 +59706,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -60505,6 +60535,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -64079,6 +64110,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -65861,6 +65893,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -67874,6 +67907,11 @@ PrefabInstance:
       propertyPath: SelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3457690808742924177, guid: eb515572856b64cfcacb99a939bf5671,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eb515572856b64cfcacb99a939bf5671, type: 3}
 --- !u!4 &1216022847 stripped
@@ -69343,6 +69381,11 @@ PrefabInstance:
       propertyPath: SelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5701952445905522319, guid: 5b3b6252bb8c74b039e4d7926e55dee3,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5b3b6252bb8c74b039e4d7926e55dee3, type: 3}
 --- !u!4 &1280174043 stripped
@@ -70050,6 +70093,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -81397,6 +81441,7 @@ Mesh:
   m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 
@@ -84177,6 +84222,11 @@ PrefabInstance:
       propertyPath: SelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -2396292700458581964, guid: b01097252d0464e5b8bdd6374ca95094,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1867260642268590, guid: b01097252d0464e5b8bdd6374ca95094, type: 3}
       propertyPath: m_Name
       value: kitchen_58 (1)
@@ -84433,6 +84483,11 @@ PrefabInstance:
     - target: {fileID: 3772588541069511424, guid: 8415a5df4c61423dacd6b94592fd8e72,
         type: 3}
       propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3772588541069511424, guid: 8415a5df4c61423dacd6b94592fd8e72,
+        type: 3}
+      propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -84836,6 +84891,7 @@ Mesh:
   m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 
@@ -87330,6 +87386,7 @@ Mesh:
   m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 
@@ -88626,6 +88683,11 @@ PrefabInstance:
       propertyPath: SelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3448077814019289555, guid: ad564df14e0bd4e0f9395ac826d7e103,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1430744253466650, guid: ad564df14e0bd4e0f9395ac826d7e103, type: 3}
       propertyPath: m_Name
       value: vending_34 (1)
@@ -89551,6 +89613,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -89815,6 +89878,11 @@ PrefabInstance:
     - target: {fileID: -8296487574283174664, guid: 7a6ff0dc64e8d406391a8988a86c8815,
         type: 3}
       propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8296487574283174664, guid: 7a6ff0dc64e8d406391a8988a86c8815,
+        type: 3}
+      propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1539789314040182, guid: 7a6ff0dc64e8d406391a8988a86c8815, type: 3}
@@ -91030,6 +91098,11 @@ PrefabInstance:
     - target: {fileID: -2255941777277100191, guid: d313575a2ea0a46b7a28df803e466338,
         type: 3}
       propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -2255941777277100191, guid: d313575a2ea0a46b7a28df803e466338,
+        type: 3}
+      propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1367764145107636, guid: d313575a2ea0a46b7a28df803e466338, type: 3}
@@ -92958,6 +93031,11 @@ PrefabInstance:
     - target: {fileID: 3457690808742924177, guid: eb515572856b64cfcacb99a939bf5671,
         type: 3}
       propertyPath: SelfPowered
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3457690808742924177, guid: eb515572856b64cfcacb99a939bf5671,
+        type: 3}
+      propertyPath: isSelfPowered
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -95481,6 +95559,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -96204,6 +96283,7 @@ Mesh:
   m_MeshMetrics[1]: 1
   m_MeshOptimizationFlags: 1
   m_StreamData:
+    serializedVersion: 2
     offset: 0
     size: 0
     path: 
@@ -99484,6 +99564,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -103187,6 +103268,11 @@ PrefabInstance:
       propertyPath: SelfPowered
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -3383270325892898680, guid: 6634be3f98f8b455a8df97fab03db31c,
+        type: 3}
+      propertyPath: isSelfPowered
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1641417262004324, guid: 6634be3f98f8b455a8df97fab03db31c, type: 3}
       propertyPath: m_Name
       value: vending_110 (1)
@@ -106532,6 +106618,7 @@ TilemapRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -108959,6 +109046,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Emission: {r: 0, g: 0, b: 0, a: 0}
     - _SpecColor: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []
 --- !u!1001 &2102846533
 PrefabInstance:
   m_ObjectHideFlags: 0

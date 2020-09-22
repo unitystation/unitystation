@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 /// <summary>
 ///     Controller for the heart monitor GUI
@@ -28,7 +27,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 
 	[SerializeField]
 	public List<Spritelist> StatesSprites;
-	private int CurrentSpriteSet = 0; 
+	private int CurrentSpriteSet = 0;
 	private float timeWait;
 	private float overallHealthCache = 100;
 
@@ -54,26 +53,25 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 	//Managed by UpdateManager
 	void UpdateMe()
 	{
-		if (PlayerManager.LocalPlayer != null && !PlayerManager.LocalPlayerScript.IsGhost)
+		if (PlayerManager.LocalPlayer == null || PlayerManager.LocalPlayerScript.IsGhost) return;
+
+		CheckHealth();
+		timeWait += Time.deltaTime;
+		if (timeWait > 0.05f)
 		{
-			CheckHealth();
-			timeWait += Time.deltaTime;
-			if (timeWait > 0.05f)
+			if (currentSprite != 27)
 			{
-				if (currentSprite != 27) 
+				pulseImg.sprite = StatesSprites[CurrentSpriteSet].SP[currentSprite];
+				currentSprite++;
+				timeWait = 0f;
+			}
+			else
+			{
+				pulseImg.sprite = StatesSprites[CurrentSpriteSet].SP[currentSprite];
+				if (timeWait > 2f)
 				{
-					pulseImg.sprite = StatesSprites[CurrentSpriteSet].SP[currentSprite];
-					currentSprite++;
+					currentSprite = 0;
 					timeWait = 0f;
-				}
-				else
-				{
-					pulseImg.sprite = StatesSprites[CurrentSpriteSet].SP[currentSprite];
-					if (timeWait > 2f)
-					{
-						currentSprite = 0;
-						timeWait = 0f;
-					}
 				}
 			}
 		}
@@ -110,7 +108,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 			overlayCrits.SetState(OverlayState.injured);
 		}
 		if (overallHealthCache <= 50 &&
-			overallHealthCache > 30 )
+			overallHealthCache > 30)
 		{
 			SoundManager.Stop("Critstate");
 			CurrentSpriteSet = 3;
@@ -118,7 +116,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 			overlayCrits.SetState(OverlayState.injured);
 		}
 		if (overallHealthCache <= 30 &&
-			overallHealthCache > 0 )
+			overallHealthCache > 0)
 		{
 			SoundManager.Stop("Critstate");
 			CurrentSpriteSet = 4;
@@ -126,7 +124,7 @@ public class UI_HeartMonitor : TooltipMonoBehaviour
 			overlayCrits.SetState(OverlayState.injured);
 		}
 		if (overallHealthCache <= 0 &&
-		    overallHealthCache < 15)
+			overallHealthCache < 15)
 		{
 			SoundManager.Play("Critstate");
 			CurrentSpriteSet = 5;

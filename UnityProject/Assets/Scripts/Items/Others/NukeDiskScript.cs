@@ -19,9 +19,6 @@ public class NukeDiskScript : NetworkBehaviour
 	private EscapeShuttle escapeShuttle;
 
 	private float timeCheckDiskLocation = 5.0f;
-	private float timeCurrentDisk = 0;
-
-	private float timeCurrentAnimation = 0;
 
 	private bool isInit = false;
 	private bool boundsConfigured = false;
@@ -48,7 +45,7 @@ public class NukeDiskScript : NetworkBehaviour
 		Init();
 	}
 
-	void Init()
+	private void Init()
 	{
 		if (isInit) return;
 		isInit = true;
@@ -69,36 +66,28 @@ public class NukeDiskScript : NetworkBehaviour
 
 	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-	}
-	void OnDisable()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
-
-	protected virtual void UpdateMe()
-	{
-		if (!boundsConfigured) return;
-
 		if (isServer)
 		{
-			timeCurrentDisk += Time.deltaTime;
-
-			if (timeCurrentDisk > timeCheckDiskLocation && !stopAutoTeleport)
-			{
-				if (DiskLost()) { Teleport();}
-				timeCurrentDisk = 0;
-			}
+			UpdateManager.Add(ServerPeriodicUpdate, timeCheckDiskLocation);
 		}
-		else
-		{
-			timeCurrentAnimation += Time.deltaTime;
-			if (timeCurrentAnimation > 0.1f)
-			{
-				pick.RefreshUISlotImage();
-				timeCurrentAnimation = 0;
-			}
+	}
 
+	private void OnDisable()
+	{
+		if (isServer)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
+		}
+	}
+
+	protected virtual void ServerPeriodicUpdate()
+	{
+		if (!boundsConfigured) return;
+		if (!stopAutoTeleport) return;
+
+		if (DiskLost())
+		{
+			Teleport();
 		}
 	}
 
