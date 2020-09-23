@@ -280,7 +280,7 @@ public class EncryptionKey : NetworkBehaviour
 			case EncryptionKeyType.SrvSec:
 				spriteRenderer.sprite = srvsecSprite;
 				break;
-            case EncryptionKeyType.SrvMed:
+			case EncryptionKeyType.SrvMed:
 				spriteRenderer.sprite = srvmedSprite;
 				break;
 			case EncryptionKeyType.CentCommPlus:
