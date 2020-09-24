@@ -104,6 +104,7 @@ jobs:
       - name: Run tests
         uses: webbertakken/unity-test-runner@v1.6
         with:
+          customParameters: '-nographics'
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}
