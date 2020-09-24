@@ -31,22 +31,17 @@ namespace AdminTools
 		private void OnEnable()
 		{
 			RefreshPlayerList();
-			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Add(PeriodicUpdate, refreshTime);
 		}
 
 		private void OnDisable()
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
-		void UpdateMe()
+		void PeriodicUpdate()
 		{
-			currentCount += Time.deltaTime;
-			if (currentCount > refreshTime)
-			{
-				currentCount = 0;
-				RefreshPlayerList();
-			}
+			RefreshPlayerList();
 		}
 
 		void RefreshPlayerList()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using AdminTools;
+using Messages.Client;
 using Mirror;
 
 public class RequestAdminBwoink : ClientMessage

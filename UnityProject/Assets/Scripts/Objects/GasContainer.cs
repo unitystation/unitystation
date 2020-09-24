@@ -125,10 +125,7 @@ namespace Objects.GasContainer
 
 		private void UpdateVenting()
 		{
-			if (isServer)
-			{
-				VentContents();
-			}
+			VentContents();
 		}
 
 		[Server]

@@ -11,8 +11,7 @@ public class UpdateHungerStateMessage : ServerMessage
 	public override void Process()
 	{
 		MetabolismSystem metabolismSystem = PlayerManager.LocalPlayer.GetComponent<MetabolismSystem>();
-
-		metabolismSystem.HungerState = State;
+		metabolismSystem.SetHungerState(State);
 	}
 
 	public static UpdateHungerStateMessage Send(GameObject recipient, HungerState state)

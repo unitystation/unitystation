@@ -37,14 +37,20 @@ public class MetaDataSystem : SubsystemBehaviour
 		externalNodes = new ConcurrentDictionary<MetaDataNode, MetaDataNode>();
 	}
 
-	void OnEnable()
+	private void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(CallbackType.UPDATE, ServerUpdateMe);
+		}
 	}
 
-	void OnDisable()
+	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.UPDATE, ServerUpdateMe);
+		}
 	}
 
 	public override void Initialize()
@@ -104,7 +110,6 @@ public class MetaDataSystem : SubsystemBehaviour
 			FindRoomAt(position);
 		}
 	}
-
 
 	private void FindRoomAt(Vector3Int position)
 	{
@@ -267,10 +272,8 @@ public class MetaDataSystem : SubsystemBehaviour
 
 	}
 
-	void UpdateMe()
+	private void ServerUpdateMe()
 	{
-		if (CustomNetworkManager.Instance._isServer == false) return;
-
 		foreach (MetaDataNode node in externalNodes.Keys)
 		{
 			subsystemManager.UpdateAt(node.Position);
