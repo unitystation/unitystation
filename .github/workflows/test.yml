@@ -102,7 +102,7 @@ jobs:
         run: sudo rm ./${{ matrix.projectPath }}/ProjectSettings/ProjectVersion.txt        
       # Run tests - only edit mode supported
       - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.5
+        uses: webbertakken/unity-test-runner@v1.6
         with:
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
