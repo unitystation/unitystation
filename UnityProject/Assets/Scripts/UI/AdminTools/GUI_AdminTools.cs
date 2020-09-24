@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DatabaseAPI;
+using AdminCommands;
 
 namespace AdminTools
 {
@@ -20,6 +21,7 @@ namespace AdminTools
 		[SerializeField] private GameObject centCommPage = null;
 		[SerializeField] private GameObject eventsManagerPage = null;
 		[SerializeField] private GameObject roundManagerPage = null;
+		[SerializeField] private GameObject devToolsPage = null;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
@@ -121,6 +123,15 @@ namespace AdminTools
 			windowTitle.text = "ROUND MANAGER";
 		}
 
+		public void ShowDevToolsPage()
+		{
+			DisableAllPages();
+			devToolsPage.SetActive(true);
+			backBtn.SetActive(true);
+			windowTitle.text = "DEV TOOLS";
+			AdminCommandsManager.Instance.CmdRequestProfiles(ServerData.UserID, PlayerList.Instance.AdminToken);
+		}
+
 		void DisableAllPages()
 		{
 			retrievingDataScreen.SetActive(false);
@@ -133,6 +144,7 @@ namespace AdminTools
 			eventsManagerPage.SetActive(false);
 			playersScrollView.SetActive(false);
 			roundManagerPage.SetActive(false);
+			devToolsPage.SetActive(false);
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);
 		}
