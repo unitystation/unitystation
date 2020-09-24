@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using DatabaseAPI;
+using UI.AdminTools;
 
 namespace AdminTools
 {
@@ -20,6 +21,7 @@ namespace AdminTools
 		[SerializeField] private GameObject centCommPage = null;
 		[SerializeField] private GameObject eventsManagerPage = null;
 		[SerializeField] private GameObject roundManagerPage = null;
+		[SerializeField] private AdminRespawnPage adminRespawnPage = default;
 		private PlayerChatPage playerChatPageScript;
 		private PlayerManagePage playerManagePageScript;
 		public KickBanEntryPage kickBanEntryPage;
@@ -29,6 +31,7 @@ namespace AdminTools
 		[SerializeField] private GameObject playerEntryPrefab = null;
 
 		[SerializeField] private Text windowTitle = null;
+		public Text WindowTitle => windowTitle;
 
 		private List<AdminPlayerEntry> playerEntries = new List<AdminPlayerEntry>();
 		public string SelectedPlayer { get; private set; }
@@ -121,6 +124,13 @@ namespace AdminTools
 			windowTitle.text = "ROUND MANAGER";
 		}
 
+		public void ShowRespawnPage()
+		{
+			DisableAllPages();
+			adminRespawnPage.gameObject.SetActive(true);
+			windowTitle.text = "RESPAWN A PLAYER";
+		}
+
 		void DisableAllPages()
 		{
 			retrievingDataScreen.SetActive(false);
@@ -135,6 +145,7 @@ namespace AdminTools
 			roundManagerPage.SetActive(false);
 			kickBanEntryPage.gameObject.SetActive(false);
 			areYouSurePage.gameObject.SetActive(false);
+			adminRespawnPage.gameObject.SetActive(false);
 		}
 
 		public void CloseRetrievingDataScreen()

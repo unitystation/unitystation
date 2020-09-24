@@ -25,13 +25,18 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 	}
 
 	private RegisterItem registerItem = null;
+
 	private void OnEnable()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
+
 		UpdateManager.Add(CycleUpdate, 1f);
 	}
 
 	private void OnDisable()
 	{
+		if (CustomNetworkManager.IsServer == false) return;
+
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, CycleUpdate);
 	}
 
@@ -42,7 +47,6 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 
 	public void CycleUpdate()
 	{
-		if(!CustomNetworkManager.IsServer) return;
 		//TODO optimise by having a loop on the client side that picks the random noises and only get updates when it changes intensity or turns off
 		//TODO should integrate this into register item
 		MetaDataNode node = null;
@@ -58,24 +62,25 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 		if (node  == null) return;
 		if (node.RadiationNode.RadiationLevel > 1000)
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos(Noise[Level.Extreme][RNG.Next(0,3)], registerItem.WorldPositionServer, sourceObj: gameObject);
+			PlaySound(Noise[Level.Extreme][RNG.Next(0,3)]);
 		}
 		else if (node.RadiationNode.RadiationLevel > 500)
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos(Noise[Level.High][RNG.Next(0,3)], registerItem.WorldPositionServer, sourceObj: gameObject);
+			PlaySound(Noise[Level.High][RNG.Next(0,3)]);
 		}
 		else if (node.RadiationNode.RadiationLevel > 100)
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos(Noise[Level.Mid][RNG.Next(0,3)], registerItem.WorldPositionServer, sourceObj: gameObject);
+			PlaySound(Noise[Level.Mid][RNG.Next(0,3)]);
 		}
 		else if (node.RadiationNode.RadiationLevel > 20)
 		{
-			// JESTER
-			//SoundManager.PlayNetworkedAtPos(Noise[Level.Low][RNG.Next(0,3)], registerItem.WorldPositionServer, sourceObj: gameObject);
+			PlaySound(Noise[Level.Low][RNG.Next(0,3)]);
 		}
+	}
+
+	private void PlaySound(string sound)
+	{
+		SoundManager.PlayNetworkedAtPos(sound, registerItem.WorldPositionServer, sourceObj: gameObject);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)

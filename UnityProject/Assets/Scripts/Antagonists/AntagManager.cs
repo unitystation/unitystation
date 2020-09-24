@@ -81,16 +81,45 @@ namespace Antagonists
 
 			var connectedPlayer = PlayerList.Instance.Get(spawnedPlayer);
 
+			ServerFinishAntag(chosenAntag, connectedPlayer, spawnedPlayer);
+		}
+
+		public void ServerRespawnAsAntag(ConnectedPlayer connectedPlayer, Antagonist antagonist)
+		{
+			SetAntagDetails(antagonist, connectedPlayer);
+			var antagOccupation = antagonist.AntagOccupation;
+
+			if (antagOccupation != null)
+			{
+				connectedPlayer.Script.mind.occupation = antagonist.AntagOccupation;
+			}
+
+			ServerFinishAntag(antagonist, connectedPlayer, connectedPlayer.GameObject);
+			PlayerSpawn.ServerRespawnPlayer(connectedPlayer.Script.mind);
+		}
+
+		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, ConnectedPlayer connectedPlayer)
+		{
 			// Generate objectives for this antag
 			List<Objective> objectives = antagData.GenerateObjectives(connectedPlayer.Script, chosenAntag);
 			// Set the antag
 			var spawnedAntag = SpawnedAntag.Create(chosenAntag, connectedPlayer.Script.mind, objectives);
 			connectedPlayer.Script.mind.SetAntag(spawnedAntag);
+			return spawnedAntag;
+		}
+
+		private void ServerFinishAntag(Antagonist chosenAntag, ConnectedPlayer connectedPlayer, GameObject spawnedPlayer)
+		{
+			var spawnedAntag = SetAntagDetails(chosenAntag, connectedPlayer);
 			ActiveAntags.Add(spawnedAntag);
 			ShowAntagBanner(spawnedPlayer, chosenAntag);
 
-			Logger.Log($"Created new antag. Made {connectedPlayer.Name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}", Category.Antags);
+			Logger.Log(
+				$"Created new antag. Made {connectedPlayer.Name} a {chosenAntag.AntagName} with objectives:\n{spawnedAntag.GetObjectivesForLog()}",
+				Category.Antags);
 		}
+
+
 
 		/// <summary>
 		/// Sends a message to the antag player and tells it to start the antag banner animation.

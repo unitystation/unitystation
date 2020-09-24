@@ -98,12 +98,14 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 	private void OnEnable()
 	{
 		if (!passiveDetect) return;
-		UpdateManager.Add(DetectObjectsOnTile, 1f);
+		if (!CustomNetworkManager.IsServer) return;
+
+		UpdateManager.Add(ServerDetectObjectsOnTile, 1f);
 	}
 
 	private void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, DetectObjectsOnTile);
+		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerDetectObjectsOnTile);
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -117,14 +119,12 @@ public class QuantumPad : NetworkBehaviour, ICheckedInteractable<HandApply>
 
 	public void ServerPerformInteraction(HandApply interaction)
 	{
-		DetectObjectsOnTile();
+		ServerDetectObjectsOnTile();
 	}
 
-	public void DetectObjectsOnTile()
+	public void ServerDetectObjectsOnTile()
 	{
-		if(!CustomNetworkManager.IsServer) return;
-
-		if(connectedPad == null) return;
+		if (connectedPad == null) return;
 
 		if (!doingAnimation && !passiveDetect)
 		{

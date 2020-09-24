@@ -154,6 +154,8 @@ public partial class GameManager : MonoBehaviour, IInitialise
 		ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
 		GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
+		Physics.autoSimulation = false;
+		Physics2D.simulationMode = SimulationMode2D.Script;
 	}
 
 	private void OnEnable()

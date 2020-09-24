@@ -125,7 +125,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	// BloodType and DNA Data.
 	private DNAandBloodType DNABloodType;
 	private float tickRate = 1f;
-	private float tick = 0;
 	private RegisterTile registerTile;
 	private ConsciousState consciousState;
 
@@ -153,13 +152,21 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(ServerPeriodicUpdate, tickRate);
+		}
+		
 		UpdateManager.Add(PeriodicUpdate, 1f);
 	}
 
 	void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
+		}
+				
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 	}
 
@@ -182,7 +189,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			respiratorySystem = gameObject.AddComponent<RespiratorySystem>();
 		}
 
-		respiratorySystem.canBreathAnywhere = canBreathAnywhere;
+		respiratorySystem.CanBreatheAnywhere = canBreathAnywhere;
 
 		var tryGetHead = FindBodyPart(BodyPartType.Head);
 		if (tryGetHead != null && brainSystem == null)
@@ -482,37 +489,31 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// ---------------------------
 
 	//Handled via UpdateManager
-	void UpdateMe()
+	void ServerPeriodicUpdate()
 	{
-		//Server Only:
-		if (isServer && !IsDead)
+		// TODO If becomes dead, why not remove from UpdateManager?
+		if (IsDead) return;
+
+		if (fireStacks > 0)
 		{
-			tick += Time.deltaTime;
-			if (tick > tickRate)
+			//TODO: Burn clothes (see species.dm handle_fire)
+			ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn);
+			//gradually deplete fire stacks
+			SyncFireStacks(fireStacks, fireStacks - 0.1f);
+			//instantly stop burning if there's no oxygen at this location
+			MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
+			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 			{
-				tick = 0f;
-				if (fireStacks > 0)
-				{
-					//TODO: Burn clothes (see species.dm handle_fire)
-					ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn);
-					//gradually deplete fire stacks
-					SyncFireStacks(fireStacks, fireStacks - 0.1f);
-					//instantly stop burning if there's no oxygen at this location
-					MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
-					if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
-					{
-						SyncFireStacks(fireStacks, 0);
-					}
-
-					registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(),
-						BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
-				}
-
-				CalculateRadiationDamage();
-				CalculateOverallHealth();
-				CheckHealthAndUpdateConsciousState();
+				SyncFireStacks(fireStacks, 0);
 			}
+
+			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(),
+				BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
 		}
+
+		CalculateRadiationDamage();
+		CalculateOverallHealth();
+		CheckHealthAndUpdateConsciousState();
 	}
 
 	private void PeriodicUpdate()

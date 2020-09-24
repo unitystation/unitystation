@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Messages.Client;
 
 public class RequestGameAction : ClientMessage
 {
