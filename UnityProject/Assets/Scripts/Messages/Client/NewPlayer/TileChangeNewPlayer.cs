@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Messages.Client;
 using Mirror;
 
 public class TileChangeNewPlayer: ClientMessage

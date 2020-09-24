@@ -76,6 +76,12 @@ namespace Objects.GasContainer
 		public bool MuteSounds => muteSounds;
 		private GasContainer gasContainer => canister.GasContainer;
 
+		private enum ExternalTank
+		{
+			NoTank = 0,
+			TankInserted = 1
+		}
+
 		#region Lifecycle
 
 		private void Awake()
@@ -171,7 +177,7 @@ namespace Objects.GasContainer
 			if (externalExists)
 			{
 				externalTankStatus.SetValueServer(insertedContainer.Item().InitialName);
-				externalTankImage.SetValueServer("ExternalTankInserted@0");
+				externalTankImage.SetSprite((int) ExternalTank.TankInserted);
 				GasContainer externalTank = insertedContainer.GetComponent<GasContainer>();
 				ExternalPressureDial.ServerSpinTo(Mathf.RoundToInt(externalTank.ServerInternalPressure));
 
@@ -179,7 +185,7 @@ namespace Objects.GasContainer
 			else
 			{
 				externalTankStatus.SetValueServer("No Tank Inserted");
-				externalTankImage.SetValueServer("ExternalTankEmpty@0");
+				externalTankImage.SetSprite((int) ExternalTank.NoTank);
 				ExternalPressureDial.ServerSpinTo(0);
 			}
 		}

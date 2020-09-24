@@ -28,11 +28,10 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 	private ObjectBehaviour objectBehaviour;
 
 	private float tickRate = 1f;
-	private float tick = 0f;
 	private PlayerScript playerScript; //can be null since mobs also use this!
 	private RegisterTile registerTile;
 	private float breatheCooldown = 0;
-	public bool canBreathAnywhere { get; set; }
+	public bool CanBreatheAnywhere { get; set; }
 
 
 	void Awake()
@@ -47,58 +46,58 @@ public class RespiratorySystem : MonoBehaviour //Do not turn into NetBehaviour
 
 	void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(ServerPeriodicUpdate, tickRate);
+		}
 	}
 
 	void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
+		}
 	}
 
 	//Handle by UpdateManager
-	void UpdateMe()
+	void ServerPeriodicUpdate()
 	{
-		//Server Only:
-		if (CustomNetworkManager.IsServer && MatrixManager.IsInitialized
-		                                  && !canBreathAnywhere)
+		if (MatrixManager.IsInitialized && !CanBreatheAnywhere)
 		{
-			tick += Time.deltaTime;
-			if (tick >= tickRate)
-			{
-				tick = 0f;
-				MonitorSystem();
-			}
+			MonitorSystem();
 		}
 	}
 
 	private void MonitorSystem()
 	{
-		if (!livingHealthBehaviour.IsDead)
+		if (livingHealthBehaviour.IsDead) return;
+
+		Vector3Int position = objectBehaviour.AssumedWorldPositionServer();
+		MetaDataNode node = MatrixManager.GetMetaDataAt(position);
+
+		if (!IsEVACompatible())
 		{
-			Vector3Int position = objectBehaviour.AssumedWorldPositionServer();
-			MetaDataNode node = MatrixManager.GetMetaDataAt(position);
+			temperature = node.GasMix.Temperature;
+			pressure = node.GasMix.Pressure;
+			CheckPressureDamage();
+		}
+		else
+		{
+			pressure = 101.325f;
+			temperature = 293.15f;
+		}
 
-			if (!IsEVACompatible())
+		if (livingHealthBehaviour.OverallHealth >= HealthThreshold.SoftCrit)
+		{
+			if (Breathe(node))
 			{
-				temperature = node.GasMix.Temperature;
-				pressure = node.GasMix.Pressure;
-				CheckPressureDamage();
+				AtmosManager.Update(node);
 			}
-			else
-			{
-				pressure = 101.325f;
-				temperature = 293.15f;
-			}
-
-			if(livingHealthBehaviour.OverallHealth >= HealthThreshold.SoftCrit){
-				if (Breathe(node))
-				{
-					AtmosManager.Update(node);
-				}
-			}
-			else{
-				bloodSystem.OxygenDamage += 1;
-			}
+		}
+		else
+		{
+			bloodSystem.OxygenDamage += 1;
 		}
 	}
 

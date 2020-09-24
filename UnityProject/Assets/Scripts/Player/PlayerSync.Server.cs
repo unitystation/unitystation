@@ -3,6 +3,7 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Doors;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -735,12 +736,17 @@ public partial class PlayerSync
 	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 	{
 		// Make sure there is a door which can be interacted with
-		InteractableDoor door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
+		InteractableDoor door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);//TODO kill this call
+		DoorMasterController newDoor = MatrixManager.GetNewClosedDoorAt(currentPos, targetPos, true);
 
 		// Attempt to open door
 		if (door != null)
 		{
 			door.Bump(gameObject);
+		}
+		else if (newDoor != null)
+		{
+			newDoor.Bump(gameObject);
 		}
 	}
 

@@ -23,7 +23,7 @@ public class PlayerEatDrinkEffectsServerMessage : ServerMessage
 	{
 		var camera = Camera.main;
 		if (camera == null) return;
-		camera.GetComponent<CameraEffectControlScript>().drunkCameraTime += alcoholValue;
+		camera.GetComponent<CameraEffectControlScript>().AddDrunkTime(alcoholValue);
 	}
 
 	/// <summary>

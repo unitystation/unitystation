@@ -14,7 +14,7 @@ public class CentComm : MonoBehaviour
 	public GameManager gameManager;
 
 	[SerializeField][Tooltip("Reference to the paper prefab. Needed to send reports.")]
-	private GameObject paperPrefab;
+	private GameObject paperPrefab = default;
 
 	public StatusDisplayUpdateEvent OnStatusDisplayUpdate = new StatusDisplayUpdateEvent();
 	[NonSerialized] public string CommandStatusString;

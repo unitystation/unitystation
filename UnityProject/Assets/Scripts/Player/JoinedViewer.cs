@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Globalization;
+using Messages.Client;
 
 /// <summary>
 /// This is the Viewer object for a joined player.

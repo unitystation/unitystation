@@ -14,7 +14,7 @@ namespace AdminTools
 		{
 			if (adminTools == null)
 			{
-				adminTools = FindObjectOfType<GUI_AdminTools>();
+				adminTools = FindObjectOfType<GUI_AdminTools>(); // TODO This causes a ~80ms frame hitch when the page is opened.
 			}
 			RefreshPage();
 		}

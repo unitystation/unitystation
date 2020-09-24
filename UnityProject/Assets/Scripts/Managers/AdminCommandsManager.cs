@@ -3,6 +3,7 @@ using InGameEvents;
 using Mirror;
 using Newtonsoft.Json;
 using System;
+using Messages.Client;
 using UnityEngine;
 using UnityEngine.Profiling;
 using System.Collections;
