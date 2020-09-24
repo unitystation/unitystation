@@ -60,6 +60,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -170,6 +172,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -336,6 +340,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -394,6 +400,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8973573160182646088}
+        m_TargetAssemblyTypeName: 
         m_MethodName: OnTrackButtonClick
         m_Mode: 1
         m_Arguments:
@@ -464,6 +471,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.851, g: 0.851, b: 0.851, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -541,6 +550,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0.90099996, g: 0.90099996, b: 0.90099996, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -618,6 +629,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0.6}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -692,6 +705,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -795,6 +810,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 8973573160182646088}
+        m_TargetAssemblyTypeName: Audio.Containers.SongTracker, Assets
         m_MethodName: OnVolumeSliderChange
         m_Mode: 1
         m_Arguments:
@@ -868,6 +884,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -943,6 +961,7 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 8973573160182646088}
+          m_TargetAssemblyTypeName: 
           m_MethodName: ToggleMusicMute
           m_Mode: 1
           m_Arguments:
@@ -1122,6 +1141,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1222,6 +1243,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1295,6 +1318,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 0
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1418,6 +1443,8 @@ MonoBehaviour:
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1711,7 +1738,7 @@ MonoBehaviour:
     m_RotationOrder: 4
   adminChatButtons: {fileID: 4827786959436423629}
   adminChatWindows: {fileID: 7202757496456318431}
-  profileScrollView: {fileID: 7874911666119790518}
+  profileScrollView: {fileID: 5074980598909388710}
   playerAlerts: {fileID: 7969094656009152741}
   antagBanner: {fileID: 9112774073186637723}
   PhoneZoomFactor: 1.6
@@ -2015,9 +2042,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3d2aece24bd3c47b266d505e6077db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &7874911666119790518 stripped
+--- !u!114 &5074980598909388710 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7822017761226491394, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
+  m_CorrespondingSourceObject: {fileID: 5163902739791187474, guid: 9f0e0bdfe1253d44baf682fff5dd5156,
     type: 3}
   m_PrefabInstance: {fileID: 127277103599438260}
   m_PrefabAsset: {fileID: 0}
@@ -3691,7 +3718,7 @@ PrefabInstance:
     - target: {fileID: 5310848962886298822, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 409.3
+      value: 409.29993
       objectReference: {fileID: 0}
     - target: {fileID: 5380185652939830920, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
@@ -3711,12 +3738,12 @@ PrefabInstance:
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Size
-      value: 0.41528565
+      value: 0.0000004359654
       objectReference: {fileID: 0}
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Value
-      value: 0.00000067104367
+      value: 0.00000037280202
       objectReference: {fileID: 0}
     - target: {fileID: 5420804678553840072, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
@@ -3929,6 +3956,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.y
       value: 1.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236986214194089631, guid: 2cee823abaaaa4e4a853404330e4b8a1,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236986214194089631, guid: 2cee823abaaaa4e4a853404330e4b8a1,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236986214194089631, guid: 2cee823abaaaa4e4a853404330e4b8a1,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236986214194089631, guid: 2cee823abaaaa4e4a853404330e4b8a1,
+        type: 3}
+      propertyPath: m_textAlignment
+      value: 65535
       objectReference: {fileID: 0}
     - target: {fileID: 5322105462336844431, guid: 2cee823abaaaa4e4a853404330e4b8a1,
         type: 3}
@@ -5820,6 +5867,26 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5236986214194089631, guid: 2cee823abaaaa4e4a853404330e4b8a1,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236986214194089631, guid: 2cee823abaaaa4e4a853404330e4b8a1,
+        type: 3}
+      propertyPath: m_HorizontalAlignment
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236986214194089631, guid: 2cee823abaaaa4e4a853404330e4b8a1,
+        type: 3}
+      propertyPath: m_VerticalAlignment
+      value: 512
+      objectReference: {fileID: 0}
+    - target: {fileID: 5236986214194089631, guid: 2cee823abaaaa4e4a853404330e4b8a1,
+        type: 3}
+      propertyPath: m_textAlignment
+      value: 65535
+      objectReference: {fileID: 0}
     - target: {fileID: 5322105462336844431, guid: 2cee823abaaaa4e4a853404330e4b8a1,
         type: 3}
       propertyPath: m_Name
@@ -6470,6 +6537,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Disclaimer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035950953989472864, guid: 2e0a7b469f8a01845b94f68b95bb0670,
+        type: 3}
+      propertyPath: m_TextStyleHashCode
+      value: -1183493901
+      objectReference: {fileID: 0}
+    - target: {fileID: 2035950953989472864, guid: 2e0a7b469f8a01845b94f68b95bb0670,
+        type: 3}
+      propertyPath: m_textAlignment
+      value: 65535
       objectReference: {fileID: 0}
     - target: {fileID: 6155837151793988168, guid: 2e0a7b469f8a01845b94f68b95bb0670,
         type: 3}
