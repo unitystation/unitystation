@@ -41,7 +41,7 @@ public class SoundManager : MonoBehaviour
 	/// If AudioSource is null, it means it's not loaded.
 	/// </remarks>
 	[HideInInspector]
-	public readonly Dictionary<string, AudioSource> MusicLibrary = new Dictionary<string, AudioSource>();
+	public readonly List<AddressableAudioSource> MusicLibrary = new List<AddressableAudioSource>();
 
 	/// <summary>
 	/// A list of all sounds currently playing
@@ -55,34 +55,33 @@ public class SoundManager : MonoBehaviour
 	/// <summary>
 	/// Load the AudioSource of a music inside the library and returns it.
 	/// </summary>
-	/// <param name="primaryKey">The primary key of the music to load</param>
+	/// <param name="primaryKey">The primary key (path) of the music to load</param>
 	/// <returns>The AudioSource component of the music</returns>
-	public async Task<AudioSource> GetMusicAsync(string primaryKey)
+	public async Task<AddressableAudioSource> LoadMusicAsync(string primaryKey)
 	{
-		if (MusicLibrary[primaryKey] == null)
-		{
-			GameObject music = await Addressables.LoadAssetAsync<GameObject>(primaryKey).Task;
-			//AssetReference assetReference = new AssetReference();
-			//assetReference.Asset = music;
+		AddressableAudioSource addressableAudioSource = MusicLibrary.FirstOrDefault(p => p.Path == primaryKey);
 
-			MusicLibrary[primaryKey] = music.GetComponent<AudioSource>();
-		}
+		if (addressableAudioSource == null)
+			throw new ArgumentException($"Invalid music path {primaryKey}");
 
-		return MusicLibrary[primaryKey];
+		await addressableAudioSource.Load();
+
+		return addressableAudioSource;
 	}
 
 	/// <summary>
-	/// Unload the music by it's primaryKey, freeing resource RAM usage
+	/// Unload the music by it's primaryKey (path), freeing resource RAM usage
 	/// </summary>
-	/// <param name="primaryKey">The primary of the music to unload </param>
+	/// <param name="primaryKey">The primary key (path) of the music to unload </param>
 	public void UnloadMusic(string primaryKey)
 	{
-		if (MusicLibrary[primaryKey] != null)
-		{
-			Addressables.ReleaseInstance(MusicLibrary[primaryKey].gameObject);
-			MusicLibrary[primaryKey] = null;
-		}
-	}
+		AddressableAudioSource addressableAudioSource = MusicLibrary.FirstOrDefault(p => p.Path == primaryKey);
+
+		if (addressableAudioSource == null)
+			throw new ArgumentException($"Invalid music path {primaryKey}");
+
+		addressableAudioSource.Unload();
+    }
 
 	/// <summary>
 	/// Adds all musics to the music library.
@@ -92,12 +91,14 @@ public class SoundManager : MonoBehaviour
 	/// </remarks>
 	private async void AddMusicsToLibraryAsync()
 	{
-		// We build the library of musics location (by a special Label that identifies them).
-		IList<IResourceLocation> resourceLocations = await Addressables.LoadResourceLocationsAsync("Music", typeof(GameObject)).Task;
+        // We build the library of musics location (by a special Label that identifies them).
+        IList<IResourceLocation> resourceLocations = await Addressables.LoadResourceLocationsAsync("Music", typeof(GameObject)).Task;
 
-		foreach (IResourceLocation resourceLocation in resourceLocations)
-			MusicLibrary.Add(resourceLocation.PrimaryKey, null);
-	}
+        foreach (IResourceLocation resourceLocation in resourceLocations)
+        {
+            MusicLibrary.Add(new AddressableAudioSource(resourceLocation.PrimaryKey));
+        }
+    }
 
 	public static SoundManager Instance
 	{
@@ -518,6 +519,16 @@ public class SoundManager : MonoBehaviour
 		}
 
 		PlayAtPosition(addressableAudioSources, worldPos, polyphonic, isGlobal, netId, audioSourceParameters);
+	}
+
+	/// <summary>
+	/// Play sound locally at given world position.
+	/// </summary>
+	/// <param name="addressableAudioSources">Sound to be played.</param>
+	public static async void PlayAtPosition(AddressableAudioSource addressableAudioSource, Vector3 worldPos, bool polyphonic = false,
+		bool isGlobal = false, uint netId = NetId.Empty, AudioSourceParameters audioSourceParameters = null)
+	{
+		PlayAtPosition(new List<AddressableAudioSource>() { addressableAudioSource }, worldPos, polyphonic, isGlobal, netId, audioSourceParameters);
 	}
 
 	/// <summary>

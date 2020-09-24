@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
 using NaughtyAttributes;
+using AddressableReferences;
 
 namespace Antagonists
 {
@@ -30,8 +31,8 @@ namespace Antagonists
 		[ShowIf(nameof(playSound))]
 		[Tooltip("The sound a player hears when they spawn as this antag.")]
 		[SerializeField]
-		private string spawnSound = "Notice1";
-		public string SpawnSound => spawnSound;
+		private AddressableAudioSource spawnSound = null;
+		public AddressableAudioSource SpawnSound => spawnSound;
 
 		[BoxGroup("Spawn Banner")]
 		[Tooltip("What color should the text in the spawn banner be for this antag.")]

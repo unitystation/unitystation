@@ -12,6 +12,7 @@ using UnityEngine.AddressableAssets;
 
 [CustomPropertyDrawer(typeof(AddressableTexture))]
 [CustomPropertyDrawer(typeof(AddressableSprite))]
+[CustomPropertyDrawer(typeof(AddressableAudioSource))]
 public class AddressableReferencePropertyDrawer : PropertyDrawer
 {
 	public const int Height = 20;

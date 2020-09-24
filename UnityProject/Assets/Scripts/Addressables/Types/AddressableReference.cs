@@ -152,9 +152,18 @@ namespace AddressableReferences
 		/// Constructor that provides an AddressableAudioSource by an AssetReference Primary Key (AssetGuid)
 		/// </summary>
 		/// <param name="assetReferenceGuid">The primary key (AssetGuid) of the AssetReference</param>
-		public AddressableAudioSource(string assetReferenceGuid)
+		public AddressableAudioSource(AssetReference assetReference)
 		{
-			AssetReference = new AssetReference(assetReferenceGuid);
+			AssetReference = assetReference;
+		}
+
+		/// <summary>
+		/// Constructor that provides an AddressableAudioSource by an Addressable path
+		/// </summary>
+		/// <param name="addressablePath">The path of the addressable</param>
+		public AddressableAudioSource(string addressablePath)
+		{
+			Path = addressablePath;
 		}
 	}
 

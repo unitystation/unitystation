@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using AddressableReferences;
 using NaughtyAttributes;
 using UnityEngine;
 
@@ -49,13 +50,13 @@ namespace Doors
 		#endregion
 
 		[SerializeField, Tooltip("Sound that plays when opening this door")]
-		private string openingSFX = "AirlockOpen";
+		private AddressableAudioSource openingSFX = null;
 		[SerializeField, Tooltip("Sound that plays when closing this door")]
-		private string closingSFX = "AirlockClose";
+		private AddressableAudioSource closingSFX = null;
 		[SerializeField, Tooltip("Sound that plays when access is denied by this door")]
-		private string deniedSFX = "AccessDenied";
+		private AddressableAudioSource deniedSFX = null;
 		[SerializeField, Tooltip("Sound that plays when pressure warning is played by this door")]
-		private string warningSFX = "TripleBeep";
+		private AddressableAudioSource warningSFX = null;
 
 		public event Action AnimationFinished;
 

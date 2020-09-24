@@ -1,4 +1,5 @@
-﻿using Antagonists;
+﻿using AddressableReferences;
+using Antagonists;
 using UnityEngine;
 
 namespace Messages.Server.LocalGuiMessages
@@ -6,7 +7,7 @@ namespace Messages.Server.LocalGuiMessages
 	public class AntagBannerMessage: ServerMessage
 	{
 		public string AntagName;
-		public string AntagSound;
+		public string AntagSoundGuid;
 		public Color TextColor;
 		public Color BackgroundColor;
 		private bool playSound;
@@ -14,7 +15,7 @@ namespace Messages.Server.LocalGuiMessages
 		public static AntagBannerMessage Send(
 			GameObject player,
 			string antagName,
-			string antagSound,
+			AddressableAudioSource antagSound,
 			Color textColor,
 			Color backgroundColor,
 			bool playSound)
@@ -22,7 +23,7 @@ namespace Messages.Server.LocalGuiMessages
 			AntagBannerMessage msg = new AntagBannerMessage
 			{
 				AntagName = antagName,
-				AntagSound = antagSound,
+				AntagSoundGuid = antagSound.AssetReference.AssetGUID,
 				TextColor = textColor,
 				BackgroundColor = backgroundColor,
 				playSound = playSound
@@ -39,7 +40,9 @@ namespace Messages.Server.LocalGuiMessages
 
 			if (playSound)
 			{
-				SoundManager.Play(AntagSound);
+				// Recompose an AddressableAudioSoure from its primart key (Guid)
+				AddressableAudioSource addressableAudioSource = new AddressableAudioSource(AntagSoundGuid);
+				SoundManager.Play(addressableAudioSource);
 			}
 		}
 	}
