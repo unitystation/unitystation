@@ -220,16 +220,7 @@ namespace MLAgents
         // Sigals to all the agents each time the Academy force resets.
         public event System.Action AgentForceReset;
 
-        /// <summary>
-        /// Monobehavior function called at the very beginning of environment
-        /// creation. Academy uses this time to initialize internal data
-        /// structures, initialize the environment and check for the existence
-        /// of a communicator.
-        /// </summary>
-        void Awake()
-        {
-            InitializeEnvironment();
-        }
+
 
         // Used to read Python-provided environment parameters
         private int ReadArgs()
@@ -388,6 +379,20 @@ namespace MLAgents
             }
         }
 
+        public static Academy Instance;
+        /// <summary>
+        /// Monobehavior function called at the very beginning of environment
+        /// creation. Academy uses this time to initialize internal data
+        /// structures, initialize the environment and check for the existence
+        /// of a communicator.
+        /// </summary>
+        public virtual void Awake()
+        {
+	        Instance = this;
+	        InitializeEnvironment();
+        }
+
+
         /// <summary>
         /// Helper method for initializing the environment based on the provided
         /// configuration.
@@ -414,6 +419,8 @@ namespace MLAgents
         public virtual void InitializeAcademy()
         {
         }
+
+
 
         /// <summary>
         /// Specifies the academy behavior at every step of the environment.
@@ -602,7 +609,10 @@ namespace MLAgents
             Physics.gravity = m_OriginalGravity;
             Time.fixedDeltaTime = m_OriginalFixedDeltaTime;
             Time.maximumDeltaTime = m_OriginalMaximumDeltaTime;
-
+            if (Instance == this)
+            {
+	            Instance = null;
+            }
             // Signal to listeners that the academy is being destroyed now
             DestroyAction();
         }

@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: initialName
       value: sandstone airlock assembly
       objectReference: {fileID: 0}
+    - target: {fileID: 700425905060650895, guid: b52e9566ba635f944a7a656928335414,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f978dc2b27cc8344a90d548bf1eda9d,
+        type: 2}
     - target: {fileID: 1706320983422357412, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_AssetId
@@ -87,7 +93,7 @@ PrefabInstance:
     - target: {fileID: 7094225144452479686, guid: b52e9566ba635f944a7a656928335414,
         type: 3}
       propertyPath: m_Name
-      value: AirlockAssemblySandStone
+      value: AirlockAssemblySandstone
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b52e9566ba635f944a7a656928335414, type: 3}

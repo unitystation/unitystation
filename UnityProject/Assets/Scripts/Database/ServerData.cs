@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.Net.Http;
 using Firebase.Extensions;
+using Initialisation;
 using UnityEngine;
 
 namespace DatabaseAPI
 {
-	public partial class ServerData : MonoBehaviour
+	public partial class ServerData : MonoBehaviour, IInitialise
 	{
 		class Status
 		{
@@ -67,7 +68,9 @@ namespace DatabaseAPI
 
 		public static HttpClient HttpClient => Instance.httpClient;
 
-		void Awake()
+		public InitialisationSystems Subsystem => InitialisationSystems.ServerData;
+
+		void IInitialise.Initialise()
 		{
 			//Handles config for RCON and Server Status API for dedicated servers
 			AttemptConfigLoad();

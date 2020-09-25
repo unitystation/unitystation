@@ -34,6 +34,11 @@ public class SpriteHandler : MonoBehaviour
 
 	private int cataloguePage = -1;
 
+	/// <summary>
+	/// Returns the current catalogue page
+	/// </summary>
+	public int CurrentSpriteIndex => cataloguePage;
+
 	private float timeElapsed = 0;
 
 	private bool isAnimation = false;
@@ -679,6 +684,26 @@ public class SpriteHandler : MonoBehaviour
 		SetImageSprite(Frame.sprite);
 	}
 
+	/// <summary>
+	/// Gets the current sprite SO, if it exists.
+	/// </summary>
+	public SpriteDataSO GetCurrentSpriteSO()
+	{
+		return PresentSpriteSet;
+	}
+
+	/// <summary>
+	/// Gets the sprite SO from the SO catalogue of the given index, if it exists.
+	/// </summary>
+	public SpriteDataSO GetSpriteSO(int index)
+	{
+		if (index < CatalogueCount)
+		{
+			return SubCatalogue[index];
+		}
+
+		return default;
+	}
 
 #if UNITY_EDITOR
 	IEnumerator EditorAnimations()

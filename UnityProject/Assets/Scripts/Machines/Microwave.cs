@@ -151,13 +151,11 @@ public class Microwave : NetworkBehaviour, IAPCPowered
 
 	private void TransferToMicrowaveAndClose(ItemSlot fromSlot)
 	{
-		if (fromSlot != null && fromSlot.ItemObject != null)
+		if (fromSlot == null || fromSlot.IsEmpty) return;
+		if (!Inventory.ServerTransfer(fromSlot, storageSlot)) return;
+		if (storageSlot.ItemObject.TryGetComponent(out Cookable cookable))
 		{
-			Inventory.ServerTransfer(fromSlot, storageSlot);
-			if (storageSlot.ItemObject.TryGetComponent(out Cookable cookable))
-			{
-				storedCookable = cookable;
-			}
+			storedCookable = cookable;
 		}
 
 		SoundManager.PlayNetworkedAtPos(DOOR_SOUND, WorldPosition, sourceObj: gameObject);

@@ -3,6 +3,7 @@ using Mirror;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Doors;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -495,6 +496,17 @@ public partial class PlayerSync
 			return state;
 		}
 
+		// if player is in RCS mode and MatrixMove is not null
+		if(playerScript.RcsMode && playerScript.RcsMatrixMove)
+		{
+			Vector2Int dir = action.Direction();
+			// try to move shuttle on server side
+			playerScript.RcsMatrixMove.RcsMoveServer(Orientation.From(dir));
+
+			// don't move player while in RCS mode so return state without any changes
+			return state;
+		}
+
 		//Check if there is a bump interaction according to the server
 		BumpType serverBump = CheckSlideAndBump(state, isServer: true, ref action);
 
@@ -724,12 +736,17 @@ public partial class PlayerSync
 	private void InteractDoor(Vector3Int currentPos, Vector3Int targetPos)
 	{
 		// Make sure there is a door which can be interacted with
-		InteractableDoor door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);
+		InteractableDoor door = MatrixManager.GetClosedDoorAt(currentPos, targetPos, true);//TODO kill this call
+		DoorMasterController newDoor = MatrixManager.GetNewClosedDoorAt(currentPos, targetPos, true);
 
 		// Attempt to open door
 		if (door != null)
 		{
 			door.Bump(gameObject);
+		}
+		else if (newDoor != null)
+		{
+			newDoor.Bump(gameObject);
 		}
 	}
 

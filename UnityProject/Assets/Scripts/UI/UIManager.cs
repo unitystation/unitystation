@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using AdminTools;
 using Audio.Managers;
+using Initialisation;
 using Mirror;
+using UI.Jobs;
 using UI.UI_Bottom;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class UIManager : MonoBehaviour, IInitialise
 {
 	private static UIManager uiManager;
 	public GUI_VariableViewer VariableViewer;
@@ -40,6 +42,7 @@ public class UIManager : MonoBehaviour
 	public AdminChatButtons adminChatButtons;
 	public AdminChatWindows adminChatWindows;
 	public PlayerAlerts playerAlerts;
+	public GUIAntagBanner antagBanner;
 	private bool preventChatInput;
 	[SerializeField] [Range(0.1f,10f)] private float PhoneZoomFactor = 1.6f;
 	public LobbyUIPlayerListController lobbyUIPlayerListController = null;
@@ -214,7 +217,9 @@ public class UIManager : MonoBehaviour
 	/// </summary>
 	public static bool IsOxygen { get; set; }
 
-	private void Start()
+	public InitialisationSystems Subsystem => InitialisationSystems.UIManager;
+
+	void IInitialise.Initialise()
 	{
 		DetermineInitialTargetFrameRate();
 		Logger.Log("Touchscreen support = " + CommonInput.IsTouchscreen, Category.UI);

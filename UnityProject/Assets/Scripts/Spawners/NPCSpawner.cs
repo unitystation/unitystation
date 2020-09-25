@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Initialisation;
 using UnityEngine;
 
 /// <summary>
@@ -26,10 +27,14 @@ public class NPCSpawner : MonoBehaviour
 
 	void Start()
 	{
+		LoadManager.RegisterAction(Init);
+	}
+
+	void Init()
+	{
 		transform.localPosition = Vector3Int.RoundToInt(transform.localPosition);
 		this.WaitForNetworkManager(OnStartServer);
 	}
-
 	//Is ready on the server:
 	void OnStartServer()
 	{

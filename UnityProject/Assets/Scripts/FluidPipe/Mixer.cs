@@ -23,8 +23,16 @@ namespace Pipes
 		public override void Start()
 		{
 			pipeData.PipeAction = new MonoActions();
-			spriteHandlerOverlay.PushClear();
 			base.Start();
+
+			if (IsOn)
+			{
+				spriteHandlerOverlay.PushTexture();
+			}
+			else
+			{
+				spriteHandlerOverlay.PushClear();
+			}
 		}
 
 		public void TogglePower()

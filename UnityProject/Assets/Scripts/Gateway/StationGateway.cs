@@ -126,7 +126,8 @@ public class StationGateway : NetworkBehaviour, IAPCPowered
 		PoweredDevice = this.GetComponent<APCPoweredDevice>();
 		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
 	}
-	void OnDisable()
+
+	private void OnDisable()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}

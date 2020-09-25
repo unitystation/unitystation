@@ -9,7 +9,6 @@ using UnityEditor;
 using UnityEngine;
 using YamlDotNet.Serialization;
 using Unity.EditorCoroutines.Editor;
-using UnityScript.Macros;
 
 namespace Chemistry.Editor
 {

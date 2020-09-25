@@ -6,32 +6,67 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.Serialization;
+using WebSocketSharp;
+
 
 namespace AddressableReferences
 {
+	/// <summary>
+	/// Note about this class, Currently if you want a custom AssetReference Like asset reference texture, might have to make a new class this needs to be explored
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
 	[System.Serializable]
 	public class AddressableReference<T> where T : UnityEngine.Object
 	{
-		public LoadSetting SetLoadSetting = LoadSetting.PreLoad;
-		public string Path = "";
+		public UnLoadSetting SetLoadSetting = UnLoadSetting.KeepLoaded;
+		[FormerlySerializedAs("Path")] public string AssetAddress = "";
 		public AssetReference AssetReference = null;
 
 		public bool IsNotValidKey => NotValidKey();
 		public bool IsReadyLoaded => ReadyLoaded();
+
+		private T StoredLoadedReference = null;
+
 
 		#region InternalStuff
 
 		private bool ReadyLoaded()
 		{
 			if (IsNotValidKey) return false;
-			return AssetReference.Asset != null;
+			return StoredLoadedReference != null;
 		}
 
-		public bool NotValidKey()
+		private bool NotValidKey()
 		{
 			if (AssetReference.RuntimeKey == null) return true;
 			return false;
 		}
+
+
+		private async Task<T> LoadAsset()
+		{
+			//Just comment the try out if you want to just load by AssetAddress
+			try
+			{
+				await AssetReference.LoadAssetAsync<T>().Task;
+				StoredLoadedReference = AssetReference.Asset as T;
+				return StoredLoadedReference;
+			}
+			catch (Exception e)
+			{
+				if (AssetAddress.IsNullOrEmpty())
+				{
+					Logger.LogError("Address is null for " + AssetReference.SubObjectName);
+					return null;
+				}
+				var AsynchronousHandle = Addressables.LoadAssetAsync<T>(AssetAddress);
+				await AsynchronousHandle.Task;
+				StoredLoadedReference = AsynchronousHandle.Result;
+				return StoredLoadedReference;
+			}
+		}
+
 		#endregion
 		#region Externally accessible stuff
 
@@ -42,7 +77,7 @@ namespace AddressableReferences
 		{
 			if (IsNotValidKey) return;
 			if (IsReadyLoaded) return;
-			AssetReference.LoadAssetAsync<T>();
+			LoadAsset();
 		}
 
 
@@ -54,7 +89,7 @@ namespace AddressableReferences
 			if (IsNotValidKey) return null;
 			if (IsReadyLoaded)
 			{
-				return (T) AssetReference.Asset;
+				return StoredLoadedReference;
 			}
 			else
 			{
@@ -71,16 +106,17 @@ namespace AddressableReferences
 			if (IsNotValidKey) return null;
 			if (IsReadyLoaded)
 			{
-				return (T) AssetReference.Asset;
+				return StoredLoadedReference;
 			}
 
 			//Add to manager tracker
-			await AssetReference.LoadAssetAsync<T>().Task;
-			return (T) (AssetReference.Asset);
+			await LoadAsset();
+			return (StoredLoadedReference);
 		}
 
 		/// <summary>
 		/// Load an asset and passes the handle to the AssetManager
+		/// not yet working with string path?
 		/// </summary>
 		public async Task<T> LoadThroughAssetManager()
 		{
@@ -92,7 +128,7 @@ namespace AddressableReferences
 
 			//Add to manager tracker
 			var handle = AssetReference.LoadAssetAsync<T>();
-			AssetManager.Instance.AddLoadingAssetHandle(handle, Path);
+			AssetManager.Instance.AddLoadingAssetHandle(handle, AssetAddress);
 			await AssetReference.LoadAssetAsync<T>().Task;
 			return (T)(AssetReference.Asset);
 		}
@@ -109,6 +145,13 @@ namespace AddressableReferences
 		#endregion
 	}
 
+	public enum UnLoadSetting
+	{
+		KeepLoaded, //Keep loaded until the game closes
+		UnloadOnRoundEnd,//Unloads when the round ends
+		When0Referenced //Unloads when there are zero references
+	}
+
 	public enum LoadSetting
 	{
 		PreLoad, //Preload on game start
@@ -118,4 +161,6 @@ namespace AddressableReferences
 
 	[System.Serializable]
 	public class AddressableSprite : AddressableReference<Sprite> { }
+	[System.Serializable]
+	public class AddressableTexture : AddressableReference<Texture> { }
 }

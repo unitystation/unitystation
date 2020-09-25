@@ -68,7 +68,6 @@ public partial class Chat : MonoBehaviour
 			discordMessage += $"[{channel}] ";
 		}
 
-		Instance.addChatLogServer.Invoke(chatEvent);
 		discordMessage += $"\n```css\n{chatEvent.speaker}: {chatEvent.message}\n```\n";
 
 		//Sends All Chat messages to a discord webhook

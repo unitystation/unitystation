@@ -7,8 +7,9 @@ using Mirror;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using DatabaseAPI;
+using Initialisation;
 
-public class CustomNetworkManager : NetworkManager
+public class CustomNetworkManager : NetworkManager, IInitialise
 {
 	public static bool IsServer => Instance._isServer;
 
@@ -40,8 +41,9 @@ public class CustomNetworkManager : NetworkManager
 			Destroy(gameObject);
 		}
 	}
+	public InitialisationSystems Subsystem => InitialisationSystems.CustomNetworkManager;
 
-	public override void Start()
+	void IInitialise.Initialise()
 	{
 		CheckTransport();
 		ApplyConfig();

@@ -36,15 +36,15 @@ public partial class GameManager
 	private void InitEscapeStuff()
 	{
 		//Primary escape shuttle lookup
-		if ( !PrimaryEscapeShuttle )
+		if (PrimaryEscapeShuttle == null)
 		{
 			var shuttles = FindObjectsOfType<EscapeShuttle>();
-			if ( shuttles.Length != 1 )
+			if (shuttles.Length != 1)
 			{
-				Logger.LogError( "Primary escape shuttle is missing from GameManager!", Category.Round );
+				Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
 				return;
 			}
-			Logger.LogWarning( "Primary escape shuttle is missing from GameManager, but one was found on scene" );
+			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene");
 			primaryEscapeShuttle = shuttles[0];
 		}
 
@@ -61,7 +61,7 @@ public partial class GameManager
 		var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;
 		float width;
 
-		if (orientation== Orientation.Up || orientation == Orientation.Down)
+		if (orientation == Orientation.Up || orientation == Orientation.Down)
 		{
 			width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.x;
 		}

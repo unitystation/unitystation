@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using Initialisation;
 
-public class Highlight : MonoBehaviour
+public class Highlight : MonoBehaviour, IInitialise
 {
 	public static bool HighlightEnabled;
 	public static Highlight instance;
@@ -12,7 +13,9 @@ public class Highlight : MonoBehaviour
 	public SpriteRenderer spriteRenderer;
 	public Material material;
 
-	 void Start()
+	public InitialisationSystems Subsystem => InitialisationSystems.Highlight;
+
+	void IInitialise.Initialise()
 	{
 		if (PlayerPrefs.HasKey(PlayerPrefKeys.EnableHighlights))
 		{
@@ -30,9 +33,8 @@ public class Highlight : MonoBehaviour
 			PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 1);
 			PlayerPrefs.Save();
 		}
-
-
 	}
+
 	public static void SetPreference(bool preference)
 	{
 		if (preference)
@@ -45,6 +47,7 @@ public class Highlight : MonoBehaviour
 			PlayerPrefs.SetInt(PlayerPrefKeys.EnableHighlights, 0);
 			HighlightEnabled = false;
 		}
+
 		PlayerPrefs.Save();
 	}
 
@@ -59,6 +62,7 @@ public class Highlight : MonoBehaviour
 			Destroy(gameObject);
 		}
 	}
+
 	public static void DeHighlight()
 	{
 		if (HighlightEnabled)
@@ -74,6 +78,7 @@ public class Highlight : MonoBehaviour
 			{
 				data[xy] = new Color32(0, 0, 0, 0);
 			}
+
 			mainTex.Apply();
 		}
 	}
@@ -92,13 +97,14 @@ public class Highlight : MonoBehaviour
 		{
 			instance.spriteRenderer = Instantiate(instance.prefabSpriteRenderer);
 		}
+
 		instance.spriteRenderer.gameObject.SetActive(true);
 		instance.spriteRenderer.enabled = true;
 		var SpriteRenderers = Highlightobject.GetComponentsInChildren<SpriteRenderer>();
 
 		instance.spriteRenderer.transform.SetParent(SpriteRenderers[0].transform, true);
 		instance.spriteRenderer.transform.localPosition = Vector3.zero;
-		instance.spriteRenderer.transform.transform.localRotation = Quaternion.Euler(0,0,0);
+		instance.spriteRenderer.transform.transform.localRotation = Quaternion.Euler(0, 0, 0);
 		instance.spriteRenderer.sortingLayerID = SpriteRenderers[0].sortingLayerID;
 
 		SpriteRenderers = SpriteRenderers.Where(x => x.sprite != null && x != instance.spriteRenderer).ToArray();
@@ -116,7 +122,8 @@ public class Highlight : MonoBehaviour
 			}
 
 			mainTex.Apply();
-			instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height), new Vector2(0.5f, 0.5f), 32, 1, SpriteMeshType.FullRect, new Vector4(32, 32, 32, 32));
+			instance.spriteRenderer.sprite = Sprite.Create(mainTex, new Rect(0, 0, mainTex.width, mainTex.height),
+				new Vector2(0.5f, 0.5f), 32, 1, SpriteMeshType.FullRect, new Vector4(32, 32, 32, 32));
 		}
 	}
 
@@ -126,17 +133,23 @@ public class Highlight : MonoBehaviour
 		int xx = 3;
 		int yy = 3;
 
-		for (int x = (int)SpriteRenderers.sprite.textureRect.position.x; x < (int)SpriteRenderers.sprite.textureRect.position.x + SpriteRenderers.sprite.rect.width; x++)
+		for (int x = (int) SpriteRenderers.sprite.textureRect.position.x;
+			x < (int) SpriteRenderers.sprite.textureRect.position.x + SpriteRenderers.sprite.rect.width;
+			x++)
 		{
-			for (int y = (int)SpriteRenderers.sprite.textureRect.position.y; y < SpriteRenderers.sprite.textureRect.position.y + SpriteRenderers.sprite.rect.height; y++)
+			for (int y = (int) SpriteRenderers.sprite.textureRect.position.y;
+				y < SpriteRenderers.sprite.textureRect.position.y + SpriteRenderers.sprite.rect.height;
+				y++)
 			{
 				//Logger.Log(yy + " <XX YY> " + xx + "   " +  x + " <X Y> " + y  );
 				if (SpriteRenderers.sprite.texture.GetPixel(x, y).a != 0)
 				{
 					mainTex.SetPixel(xx, yy, SpriteRenderers.sprite.texture.GetPixel(x, y));
 				}
+
 				yy = yy + 1;
 			}
+
 			yy = 3;
 			xx = xx + 1;
 		}
@@ -145,7 +158,6 @@ public class Highlight : MonoBehaviour
 
 	public static bool CheckHandApply(GameObject target)
 	{
-
 		//call the used object's handapply interaction methods if it has any, for each object we are applying to
 		var handApply = HandApply.ByLocalPlayer(target);
 		var posHandApply = PositionalHandApply.ByLocalPlayer(target);
@@ -155,7 +167,8 @@ public class Highlight : MonoBehaviour
 		{
 			//get all components that can handapply or PositionalHandApply
 			var handAppliables = handApply.HandObject.GetComponents<MonoBehaviour>()
-				.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
+				.Where(c => c != null && c.enabled &&
+				            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
 			Logger.LogTraceFormat("Checking HandApply / PositionalHandApply interactions from {0} targeting {1}",
 				Category.Interaction, handApply.HandObject.name, target.name);
 
@@ -178,7 +191,6 @@ public class Highlight : MonoBehaviour
 						instance.material.SetColor("_OutlineColor", Color.magenta);
 						return true;
 					}
-
 				}
 			}
 		}
@@ -186,7 +198,8 @@ public class Highlight : MonoBehaviour
 
 		//call the hand apply interaction methods on the target object if it has any
 		var targetHandAppliables = handApply.TargetObject.GetComponents<MonoBehaviour>()
-			.Where(c => c != null && c.enabled && (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
+			.Where(c => c != null && c.enabled &&
+			            (c is IBaseInteractable<HandApply> || c is IBaseInteractable<PositionalHandApply>));
 		foreach (var targetHandAppliable in targetHandAppliables.Reverse())
 		{
 			if (targetHandAppliable is IBaseInteractable<HandApply> Hap)
@@ -208,14 +221,15 @@ public class Highlight : MonoBehaviour
 				}
 			}
 		}
+
 		//instance.material.SetColor("_OutlineColor", Color.grey);
 		return false;
 	}
 
 
 	private static bool CheckInteractInternal<T>(IBaseInteractable<T> interactable, T interaction,
-	NetworkSide side)
-	where T : Interaction
+		NetworkSide side)
+		where T : Interaction
 	{
 		if (Cooldowns.IsOn(interaction, CooldownID.Asset(CommonCooldowns.Instance.Interaction, side))) return false;
 		var result = false;
@@ -225,19 +239,22 @@ public class Highlight : MonoBehaviour
 			result = clientInteractable.Interact(interaction);
 			if (result)
 			{
-				Logger.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
+				Logger.LogTraceFormat("ClientInteractable triggered from {0} on {1} for object {2}",
+					Category.Interaction, typeof(T).Name, clientInteractable.GetType().Name,
 					(clientInteractable as Component).gameObject.name);
 				Cooldowns.TryStartClient(interaction, CommonCooldowns.Instance.Interaction);
 				return true;
 			}
 		}
+
 		//check other kinds of interactions
 		if (interactable is ICheckable<T> checkable)
 		{
 			result = checkable.WillInteract(interaction, side);
 			if (result)
 			{
-				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, checkable.GetType().Name,
+				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
+					typeof(T).Name, checkable.GetType().Name,
 					(checkable as Component).gameObject.name);
 				return true;
 			}
@@ -248,17 +265,18 @@ public class Highlight : MonoBehaviour
 			result = DefaultWillInteract.Default(interaction, side);
 			if (result)
 			{
-				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, interactable.GetType().Name,
+				Logger.LogTraceFormat("WillInteract triggered from {0} on {1} for object {2}", Category.Interaction,
+					typeof(T).Name, interactable.GetType().Name,
 					(interactable as Component).gameObject.name);
 
 				return true;
 			}
 		}
 
-		Logger.LogTraceFormat("No interaction triggered from {0} on {1} for object {2}", Category.Interaction, typeof(T).Name, interactable.GetType().Name,
+		Logger.LogTraceFormat("No interaction triggered from {0} on {1} for object {2}", Category.Interaction,
+			typeof(T).Name, interactable.GetType().Name,
 			(interactable as Component).gameObject.name);
 
 		return false;
 	}
 }
-

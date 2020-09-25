@@ -12,6 +12,8 @@ using DiscordWebhook;
 using InGameEvents;
 using ScriptableObjects;
 using System.Collections;
+using System.Collections.Generic;
+using Antagonists;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -458,7 +460,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (occupation != null)
 		{
-			foreach (var job in SOAdminJobsList.Instance.AdminAvailableJobs)
+			foreach (var job in OccupationList.Instance.Occupations)
 			{
 				if (job.name != occupation)
 				{
@@ -470,21 +472,43 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 
-		StartCoroutine(CoRespawn());
+		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
 	[Server]
-	IEnumerator CoRespawn()
+	public void ServerRespawnPlayerSpecial(string occupation = null)
 	{
-		if (playerScript.mind.occupation.JobType == JobType.SYNDICATE && !SubSceneManager.Instance.SyndicateLoaded)
+		if (occupation != null)
 		{
-			//yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
+			foreach (var job in SOAdminJobsList.Instance.SpecialJobs)
+			{
+				if (job.name != occupation)
+				{
+					continue;
+				}
+
+				playerScript.mind.occupation = job;
+				break;
+			}
 		}
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
-
-		yield break;
 	}
+
+	[Server]
+	public void ServerRespawnPlayerAntag(ConnectedPlayer playerToRespawn, string antagonist)
+	{
+		foreach (var antag in SOAdminJobsList.Instance.Antags)
+		{
+			if (antag.AntagName != antagonist)
+			{
+				continue;
+			}
+			AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag);
+			break;
+		}
+	}
+
 
 	[Command]
 	public void CmdToggleAllowCloning()

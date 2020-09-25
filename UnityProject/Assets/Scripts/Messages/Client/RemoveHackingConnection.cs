@@ -3,6 +3,7 @@ using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using System.Collections.Generic;
+using Messages.Client;
 using Newtonsoft.Json;
 
 public class RemoveHackingConnection : ClientMessage

@@ -4,25 +4,24 @@ using UnityEngine;
 using Mirror;
 using Antagonists;
 using Random = UnityEngine.Random;
+using UI.Action;
 
 namespace Items.PDA
 {
 	[RequireComponent(typeof(ItemStorage))]
 	[RequireComponent(typeof(ItemLightControl))]
-	[RequireComponent(typeof(HasNetworkTab))]
 	[RequireComponent(typeof(ItemAttributesV2))]
 	[RequireComponent(typeof(PDANotesNetworkHandler))]
-	public class PDALogic : NetworkBehaviour, IServerActionGUI,
-			ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
+	public class PDALogic : NetworkBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
 	{
-		private const bool DEBUG_UPLINK = true;
+		private const bool DEBUG_UPLINK = false;
 		private const string DEBUG_UPLINK_CODE = "Whiskey Tango Foxtrot-1337";
 		private const int TIME_BEFORE_UPLINK_ACTIVATION = 10;
 
 		#region Inspector
 		[Tooltip("The cartridge prefab to be spawned for this PDA")]
 		[SerializeField]
-		private GameObject cartridgePrefab;
+		private GameObject cartridgePrefab = default;
 
 		[Tooltip("The default ringtone to play")]
 		[SerializeField]
@@ -32,9 +31,6 @@ namespace Items.PDA
 		[SerializeField]
 		private bool willResetName = false;
 
-		[SerializeField]
-		private ActionData flashlightAction = null;
-
 		#endregion Inspector
 
 		// GameObject attached components
@@ -42,6 +38,7 @@ namespace Items.PDA
 		private Pickupable pickupable;
 		private ItemStorage storage;
 		private ItemLightControl flashlight;
+		private ItemActionButton actionButton;
 
 		/// <summary> The IDCard that is currently inserted into the PDA </summary>
 		public IDCard IDCard { get; private set; }
@@ -56,13 +53,12 @@ namespace Items.PDA
 		public int UplinkTC { get; private set; }
 
 		public bool FlashlightOn => flashlight.IsOn;
-		public ActionData ActionData => flashlightAction;
 
 		public Action registeredPlayerUpdated;
 		public Action idSlotUpdated;
 		public Action cartridgeSlotUpdated;
 
-		private ItemSlot IDSlot = null;
+		private ItemSlot IDSlot = default;
 		private ItemSlot CartridgeSlot = default;
 
 		#region Messenger stuff (unused)
@@ -77,12 +73,6 @@ namespace Items.PDA
 
 		#endregion Messenger stuff (unused)
 
-		private enum ActionState
-		{
-			LightOff = 0,
-			LightOn = 1
-		}
-
 		#region Lifecycle
 
 		private void Awake()
@@ -91,6 +81,17 @@ namespace Items.PDA
 			pickupable = GetComponent<Pickupable>();
 			storage = GetComponent<ItemStorage>();
 			flashlight = GetComponent<ItemLightControl>();
+			actionButton = GetComponent<ItemActionButton>();
+		}
+
+		private void OnEnable()
+		{
+			actionButton.ServerActionClicked += ToggleFlashlight;
+		}
+
+		private void OnDisable()
+		{
+			actionButton.ServerActionClicked -= ToggleFlashlight;
 		}
 
 		private void Start()
@@ -109,13 +110,16 @@ namespace Items.PDA
 		{
 			// TODO Instead, consider listening for client's OnPlayerSpawned and then request server to run stuff.
 			StartCoroutine(DelayInitialisation());
-			UIActionManager.Show(this);
 		}
 
 		private IEnumerator DelayInitialisation()
 		{
 			yield return WaitFor.Seconds(TIME_BEFORE_UPLINK_ACTIVATION);
+			OnStartServerDelayed();
+		}
 
+		private void OnStartServerDelayed()
+		{
 			if (cartridgePrefab != null)
 			{
 				var cartridge = Spawn.ServerPrefab(cartridgePrefab).GameObject;
@@ -123,33 +127,27 @@ namespace Items.PDA
 			}
 
 			var owner = GetPlayerByParentInventory();
-			if (owner == null) yield return default;
+			if (owner == null) return;
 
 			RegisteredPlayerName = owner.ExpensiveName();
 			TryInstallUplink(owner);
 
 			if (DEBUG_UPLINK)
 			{
+#pragma warning disable CS0162 // Unreachable code detected
 				UplinkTC = 20;
 				UplinkUnlockCode = DEBUG_UPLINK_CODE;
 				IsUplinkCapable = true;
 				InformUplinkCode(owner);
+#pragma warning restore CS0162 // Unreachable code detected
 			}
 		}
 
 		#endregion Lifecycle
 
-		public void CallActionServer(ConnectedPlayer SentByPlayer)
-		{
-			ToggleFlashlight();
-		}
-
-		public void CallActionClient() { }
-
 		public void ToggleFlashlight()
 		{
 			flashlight.Toggle(!flashlight.IsOn);
-			UIActionManager.SetSprite(this, FlashlightOn ? (int)ActionState.LightOn : (int)ActionState.LightOff);
 		}
 
 		/// <summary>
@@ -367,6 +365,7 @@ namespace Items.PDA
 		private void InformUplinkCode(GameObject player)
 		{
 			var uplinkMessage =
+					$"{(DEBUG_UPLINK ? "<b>UPLINK DEBUGGING ENABLED: </b>" : "")}" +
 					$"The Syndicate has cunningly disguised a <i>Syndicate Uplink</i> as your <i>{gameObject.ExpensiveName()}</i>." +
 					$"Simply enter the code <b>{UplinkUnlockCode}</b> into the ringtone select to unlock its hidden features.";
 

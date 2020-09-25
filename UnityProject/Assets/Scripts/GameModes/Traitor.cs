@@ -1,10 +1,10 @@
 using UnityEngine;
-using Antagonists;
-using System.Collections.Generic;
-using System;
 
-[CreateAssetMenu(menuName="ScriptableObjects/GameModes/Traitor")]
-public class Traitor : GameMode
+namespace GameModes
 {
-	// No need to override anything since the base game mode functions are good enough
+	[CreateAssetMenu(menuName="ScriptableObjects/GameModes/Traitor")]
+	public class Traitor : GameMode
+	{
+		// No need to override anything since the base game mode functions are good enough
+	}
 }

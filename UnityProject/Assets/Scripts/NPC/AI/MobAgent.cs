@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Initialisation;
+using UnityEngine;
 using MLAgents;
 
 /// <summary>
@@ -39,6 +40,7 @@ public class MobAgent : Agent
 		agentParameters.onDemandDecision = true;
 	}
 
+
 	//Reset is used mainly for training
 	//SetPosition() has now been commented out
 	//as it was used in training. Leaving the
@@ -67,10 +69,9 @@ public class MobAgent : Agent
 		//only needed for starting via a map scene through the editor:
 		if (CustomNetworkManager.Instance == null) return;
 
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-
 		if (CustomNetworkManager.Instance._isServer)
 		{
+			UpdateManager.Add(CallbackType.UPDATE, ServerUpdateMe);
 			cnt.OnTileReached().AddListener(OnTileReached);
 			startPos = transform.position;
 			isServer = true;
@@ -90,8 +91,8 @@ public class MobAgent : Agent
 		if (isServer)
 		{
 			cnt.OnTileReached().RemoveListener(OnTileReached);
+			UpdateManager.Remove(CallbackType.UPDATE, ServerUpdateMe);
 		}
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 	}
 
 	protected virtual void OnTileReached(Vector3Int tilePos)
@@ -117,9 +118,9 @@ public class MobAgent : Agent
 	/// <summary>
 	/// Make sure to call base.UpdateMe if overriding
 	/// </summary>
-	protected virtual void UpdateMe()
+	protected virtual void ServerUpdateMe()
 	{
-		if (CustomNetworkManager.Instance._isServer && MatrixManager.IsInitialized)
+		if (MatrixManager.IsInitialized)
 		{
 			MonitorDecisionMaking();
 		}

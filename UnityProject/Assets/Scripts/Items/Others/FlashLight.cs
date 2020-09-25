@@ -1,33 +1,56 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using UI.Action;
 
 namespace Items.Others
 {
 	[RequireComponent(typeof(ItemLightControl))]
 	public class FlashLight : NetworkBehaviour, ICheckedInteractable<HandActivate>
 	{
-		// The light the flashlight has access to
-		private ItemLightControl lightControl;
-
+		[Tooltip("The SpriteHandler this flashlight type should use when setting the on/off sprite.")]
 		[SerializeField]
 		private SpriteHandler spriteHandler = default;
 
-		private enum SpriteState
-		{
-			LightOff = 0,
-			LightOn = 1
-		}
+		// The light the flashlight has access to
+		private ItemLightControl lightControl;
+		private ItemActionButton actionButton;
 
-		/// <summary>
-		/// Grabs the "ItemLightControl" component from the current gameObject, used to toggle the light, only does this once
-		/// </summary>
-		private void Start()
+		protected bool IsOn => lightControl.IsOn;
+		protected int SpriteIndex => IsOn ? 1 : 0;
+		protected bool HasActionButton => actionButton != null;
+
+		#region Lifecycle
+
+		private void Awake()
 		{
 			lightControl = GetComponent<ItemLightControl>();
+			actionButton = GetComponent<ItemActionButton>();
 		}
+
+		private void OnEnable()
+		{
+			if (HasActionButton)
+			{
+				actionButton.ClientActionClicked += ClientUpdateActionSprite;
+				actionButton.ServerActionClicked += ToggleLight;
+			}
+		}
+
+		private void OnDisable()
+		{
+			if (HasActionButton)
+			{
+				actionButton.ClientActionClicked -= ClientUpdateActionSprite;
+				actionButton.ServerActionClicked -= ToggleLight;
+			}
+		}
+
+		#endregion Lifecycle
+
+		#region Interaction
 
 		/// <summary>
 		/// Checks to make sure the player is conscious and stuff
@@ -42,17 +65,20 @@ namespace Items.Others
 		/// </summary>
 		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			bool isOn = lightControl.IsOn;
-			if (isOn)
-			{
-				lightControl.Toggle(false);
-				spriteHandler.ChangeSprite((int) SpriteState.LightOff);
-			}
-			else
-			{
-				lightControl.Toggle(true);
-				spriteHandler.ChangeSprite((int) SpriteState.LightOn);
-			}
+			ToggleLight();
+		}
+
+		#endregion Interaction
+
+		protected virtual void ClientUpdateActionSprite()
+		{
+			spriteHandler.ChangeSprite(IsOn ? 0 : 1);
+		}
+
+		protected virtual void ToggleLight()
+		{
+			lightControl.Toggle(!lightControl.IsOn);
+			spriteHandler.ChangeSprite(SpriteIndex);
 		}
 	}
 }

@@ -65,7 +65,7 @@ namespace MLAgents
         {
             if (!m_IsInitialized)
             {
-                var academy = FindObjectOfType<Academy>();
+                var academy =  Academy.Instance;
                 if (academy)
                 {
                     academy.BrainDecideAction += BrainDecideAction;

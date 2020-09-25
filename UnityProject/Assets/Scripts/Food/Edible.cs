@@ -32,7 +32,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		item = GetComponent<RegisterItem>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		stackable = GetComponent<Stackable>();
-		if (itemAttributes)
+		if (itemAttributes != null)
 		{
 			itemAttributes.AddTrait(CommonTraits.Instance.Food);
 		}

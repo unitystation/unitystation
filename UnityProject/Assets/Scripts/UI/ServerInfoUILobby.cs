@@ -6,11 +6,13 @@ using TMPro;
 using Mirror;
 using System.IO;
 using System;
+using Initialisation;
+using Messages.Client;
 using UnityEngine.UI;
 
 namespace ServerInfo
 {
-	public class ServerInfoUILobby : MonoBehaviour
+	public class ServerInfoUILobby : MonoBehaviour, IInitialise
     {
     	public TMP_Text ServerName;
 
@@ -24,7 +26,9 @@ namespace ServerInfo
 
         public static string serverDiscordID;
 
-        public void Start()
+        public InitialisationSystems Subsystem => InitialisationSystems.ServerInfoUILobby;
+
+        void IInitialise.Initialise()
         {
 	        LoadNameAndDesc();
 	        LoadLinks();

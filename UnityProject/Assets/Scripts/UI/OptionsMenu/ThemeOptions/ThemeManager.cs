@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Initialisation;
 using UnityEngine;
 using YamlDotNet.RepresentationModel;
 
@@ -12,7 +13,7 @@ namespace Unitystation.Options
     /// Handles everything to do with Themes
     /// Add a ThemeHandler to your customizable UI elements
     /// </summary>
-    public class ThemeManager : MonoBehaviour
+    public class ThemeManager : MonoBehaviour, IInitialise
     {
         private static ThemeManager themeManager;
         public static ThemeManager Instance
@@ -41,16 +42,18 @@ namespace Unitystation.Options
         //Set to true when all the themes have been successfully loaded
         private bool themesLoaded = false;
 
-        void Awake()
-        {
-            //Create DirectoryInfo's for each folder path for ease of use
-            diPaths.Clear();
-            foreach (string p in folderPaths)
-            {
-                diPaths.Add(new DirectoryInfo(Path.Combine(Application.streamingAssetsPath, $"Themes/{p}")));
-            }
+        public InitialisationSystems Subsystem => InitialisationSystems.ThemeManager;
 
-            LoadAllThemes();
+        void IInitialise.Initialise()
+        {
+	        //Create DirectoryInfo's for each folder path for ease of use
+	        diPaths.Clear();
+	        foreach (string p in folderPaths)
+	        {
+		        diPaths.Add(new DirectoryInfo(Path.Combine(Application.streamingAssetsPath, $"Themes/{p}")));
+	        }
+
+	        LoadAllThemes();
         }
 
         public static void RegisterHandler(ThemeHandler handler)
@@ -90,7 +93,7 @@ namespace Unitystation.Options
         }
 
         /// <summary>
-        /// Get a list of available configs for a 
+        /// Get a list of available configs for a
         /// Theme Type
         /// </summary>
         public static List<string> GetThemeOptions(ThemeType themeType)
@@ -118,7 +121,7 @@ namespace Unitystation.Options
         public void LoadAllThemes()
         {
             configs.Clear();
-            
+
             foreach (DirectoryInfo di in diPaths)
             {
                 if (di.Exists)
@@ -156,7 +159,7 @@ namespace Unitystation.Options
             foreach (var entry in mapping.Children)
             {
                 var nodeName = ((YamlScalarNode) entry.Key).Value;
-                
+
                 if (string.IsNullOrEmpty(nodeName))
                 {
                     Logger.LogError($"No Theme Type found for {nodeName}", Category.Themes);
@@ -170,7 +173,7 @@ namespace Unitystation.Options
                 {
                     configs.Add(theme, new List<ThemeConfig>());
                 }
-                
+
                 //Get all the config names and their settings associated with this Theme type in this file
                 var settings = (YamlMappingNode) entry.Value;
                 foreach (var c in settings.Children)

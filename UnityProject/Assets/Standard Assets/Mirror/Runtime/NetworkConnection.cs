@@ -19,7 +19,7 @@ namespace Mirror
         // internal so it can be tested
         internal readonly HashSet<NetworkIdentity> visList = new HashSet<NetworkIdentity>();
 
-        Dictionary<int, NetworkMessageDelegate> messageHandlers;
+        Dictionary<int, NetworkMessageDelegate> messageHandlers = new Dictionary<int, NetworkMessageDelegate>();
 
         /// <summary>
         /// Unique identifier for this connection that is assigned by the transport layer.

@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 4637827490710136155}
   - component: {fileID: -7196419461780528121}
   m_Layer: 11
-  m_Name: ViroDrobe
+  m_Name: BVOld_ViroDrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -117,7 +117,7 @@ MonoBehaviour:
     Item: {fileID: 4172758320385125961, guid: 7294d72d86040fa45a54a16e2c0a36bf, type: 3}
     Stock: 2
   - ItemName: Virology Labcoat
-    Item: {fileID: 7374481989050852271, guid: 22ce62e388fa84ff098d72a7856ea506, type: 3}
+    Item: {fileID: 1333716201451594390, guid: c90b3a12bf05beb4f8f488884e23db95, type: 3}
     Stock: 2
   - ItemName: Sterile Mask
     Item: {fileID: 6404652678407139925, guid: e9076ebebbcd65e56b189cd1a837d018, type: 3}
@@ -131,6 +131,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent:
   - ItemName: 
     Item: {fileID: 0}
@@ -236,7 +237,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -257,7 +260,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114472266138859352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -444,7 +446,8 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 21b49e45d9f992e47abee3ae2d5afff8, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 21b49e45d9f992e47abee3ae2d5afff8, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: cb795f7d425097141adec3e6428a0e11, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: cb795f7d425097141adec3e6428a0e11, type: 3}

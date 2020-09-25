@@ -160,7 +160,7 @@ namespace Atmospherics
 					meanGasMix.Gases[j] += node.GasMix.Gases[j];
 				}
 
-				meanGasMix.Pressure += node.GasMix.Pressure;
+				meanGasMix.SetPressure(meanGasMix.Pressure + node.GasMix.Pressure);
 
 				if (!node.IsOccupied)
 				{
@@ -182,7 +182,7 @@ namespace Atmospherics
 					meanGasMix.Gases[j] /= targetCount;
 				}
 
-				meanGasMix.Pressure /= targetCount;
+				meanGasMix.SetPressure(meanGasMix.Pressure / targetCount);
 			}
 
 			return meanGasMix;
@@ -196,7 +196,7 @@ namespace Atmospherics
 				atmos.Gases[i] = gasMix.Gases[i];
 			}
 
-			atmos.Pressure = gasMix.Pressure;
+			atmos.SetPressure(gasMix.Pressure);
 
 			return atmos;
 		}

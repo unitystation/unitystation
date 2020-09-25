@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 5540236878160341080}
   - component: {fileID: 1213250963482824974}
   m_Layer: 11
-  m_Name: RoboDrobe
+  m_Name: BVOld_RoboDrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -111,7 +111,7 @@ MonoBehaviour:
     Item: {fileID: 4890432691518747385, guid: 430362c2798d81c43aca26b9da3f19b4, type: 3}
     Stock: 2
   - ItemName: Labcoat
-    Item: {fileID: 3921521694364753778, guid: ed1b2998d2c424811881ca9c2cad1226, type: 3}
+    Item: {fileID: 9115997771601037915, guid: dfc0f23c4db66d144a03103586ce7619, type: 3}
     Stock: 2
   - ItemName: Black Shoes
     Item: {fileID: 7106618204054676533, guid: aa1e5a44ff182415dac90bed74ef8bfa, type: 3}
@@ -143,6 +143,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent:
   - ItemName: 
     Item: {fileID: 0}
@@ -257,7 +258,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -278,7 +281,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114472266138859352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -466,7 +468,8 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 202fe16037bf27b4aaeea39ec789e6f2, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 202fe16037bf27b4aaeea39ec789e6f2, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 7275ca4843eb7734ab914cb40925fff1, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 7275ca4843eb7734ab914cb40925fff1, type: 3}

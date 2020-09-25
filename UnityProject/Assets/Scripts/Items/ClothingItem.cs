@@ -38,7 +38,7 @@ public class ClothingItem : MonoBehaviour
 	/// <summary>
 	/// Player equipped or unequipped some clothing from ClothingItem slot
 	/// </summary>
-	public event OnClothingEquippedDelegate OnClothingEquiped;
+	public event OnClothingEquippedDelegate OnClothingEquipped;
 
 	/// <summary>
 	/// Direction clothing is facing (absolute)
@@ -74,53 +74,85 @@ public class ClothingItem : MonoBehaviour
 		}
 	}
 
-	public virtual void SetReference(GameObject Item)
+	public virtual void SetReference(GameObject item)
 	{
 		UpdateReferenceOffset();
-		if (Item == null)
+
+		if (item == null)
 		{
-			if (spriteHandler != null)
-			{
-				spriteHandler.Empty();
-			}
-
-			if (!InHands && GameObjectReference != null)
-			{
-				// did we take off clothing?
-				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
-				if (unequippedClothing)
-					OnClothingEquiped?.Invoke(unequippedClothing, false);
-			}
-
-			GameObjectReference = null; // Remove the item from equipment
+			RemoveItemFromEquipment();
 		}
-
-		if (Item != null)
+		else
 		{
-			GameObjectReference = Item; // Add item to equipment
-
-			if (InHands)
-			{
-				var ItemAttributesV2 = Item.GetComponent<ItemAttributesV2>();
-				var InHandsSprites = ItemAttributesV2?.ItemSprites;
-				SetInHand(InHandsSprites);
-			}
-			else
-			{
-				var equippedClothing = Item.GetComponent<ClothingV2>();
-				equippedClothing?.LinkClothingItem(this);
-
-				// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
-				// But for the others, we call the OnClothingEquiped event.
-				if (equippedClothing)
-				{
-					// call the event of equiped clothing
-					OnClothingEquiped?.Invoke(equippedClothing, true);
-				}
-			}
+			AddItemToEquipment(item);
 		}
 
 		UpdateReferenceOffset();
+	}
+
+	private void RemoveItemFromEquipment()
+	{
+		if (spriteHandler != null)
+		{
+			spriteHandler.Empty();
+		}
+
+		if (!InHands && GameObjectReference != null)
+		{
+			// did we take off clothing?
+			var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
+
+			if (unequippedClothing == null)
+			{
+				//Not clothing, maybe PDA
+				return;
+			}
+
+			// Unhide the players's slots defined in the clothing's HiddenSlots, as we're removing it.
+			thisPlayerScript.Equipment.obscuredSlots &= ~unequippedClothing.HiddenSlots;
+
+			if (unequippedClothing)
+				OnClothingEquipped?.Invoke(unequippedClothing, false);
+		}
+
+		GameObjectReference = null;
+	}
+
+	private void AddItemToEquipment(GameObject item)
+	{
+		GameObjectReference = item;
+
+		if (InHands)
+		{
+			var itemAttributesV2 = item.GetComponent<ItemAttributesV2>();
+			var inHandsSprites = itemAttributesV2.ItemSprites;
+
+			if (inHandsSprites != null)
+			{
+				SetInHand(inHandsSprites);
+			}
+		}
+		else
+		{
+			var equippedClothing = item.GetComponent<ClothingV2>();
+
+			if (equippedClothing == null)
+			{
+				//Not clothing, maybe PDA
+				return;
+			}
+
+			equippedClothing.LinkClothingItem(this);
+
+			// Set the slots defined in hidesSlots as hidden.
+			thisPlayerScript.Equipment.obscuredSlots |= equippedClothing.HiddenSlots;
+
+			// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
+			// But for the others, we call the OnClothingEquipped event.
+
+			// call the event of equiped clothing
+			OnClothingEquipped?.Invoke(equippedClothing, true);
+		}
 	}
 
 	public void RefreshFromClothing(ClothingV2 clothing)
