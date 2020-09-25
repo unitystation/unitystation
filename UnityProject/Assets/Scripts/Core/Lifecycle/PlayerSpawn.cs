@@ -156,7 +156,6 @@ public static class PlayerSpawn
 				{
 					spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
 				}
-
 			}
 
 			if (spawnTransform == null)
@@ -483,26 +482,31 @@ public static class PlayerSpawn
 
 		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
 	}
-	private static Transform GetSpawnForJob(JobType jobType)
+	public static Transform GetSpawnForJob(JobType jobType)
 	{
 		if (jobType == JobType.NULL)
 		{
 			return null;
 		}
 
-		List<SpawnPoint> arrivals = CustomNetworkManager.startPositions.Select(
-			x => x.GetComponent<SpawnPoint>()).Where(
-			x => x.Department == JobDepartment.LateJoin).ToList();
+		var spawns = CustomNetworkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>()).ToList();
 
-		List<SpawnPoint> spawnPoints = CustomNetworkManager.startPositions.Select(
-			x => x.GetComponent<SpawnPoint>()).Where(
-			x => x.JobRestrictions.Contains(jobType)).ToList();
+		var spawnPoints = spawns.Where(x => x.JobRestrictions.Contains(jobType)).ToList();
+		if (spawnPoints.Count != 0)
+		{
+			return spawnPoints.PickRandom().transform;
+		}
 
-		//Deafault to arrivals if there is no mapped spawn point for this job!
-		// will still return null if there is no arrivals spawn points set (and people will just not spawn!).
-		return spawnPoints.Count == 0
-			? arrivals.Count != 0 ? arrivals.PickRandom().transform : null
-			: spawnPoints.PickRandom().transform;
+		// Default to arrivals if there is no mapped spawn point for this job!
+		// Will still return null if there is no arrivals spawn points set (and people will just not spawn!).
+
+		var arrivals = spawns.Where(x => x.Department == JobDepartment.LateJoin).ToList();
+		if (arrivals.Count != 0)
+		{
+			return arrivals.PickRandom().transform;
+		}
+
+		return default;
 	}
 
 	private static StepType GetStepType(PlayerScript player)
