@@ -101,8 +101,18 @@ public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>,
 
 	public string Examine(Vector3 worldPos = default)
 	{
-		return $"The generator is {(HasFuel() ? "fueled" : "unfueled")} and " +
-				$"{(isOn ? "running" : "not running")}.";
+		var examineText=$"The generator is {(HasFuel() ? "fueled" : "unfueled")} and " +
+								$"{(isOn ? "running" : "not running")}. ";
+		if (itemSlot.Item)
+		{
+			var stackable = itemSlot.Item.GetComponent<Stackable>();
+			examineText += $"There's {stackable.Amount} sheets left in the storage compartment.";
+		}
+		else
+		{
+			examineText += $"There's no more sheets left in the storage compartment.";
+		}
+		return examineText;
 	}
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)

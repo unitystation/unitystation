@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public AnimationCurve strandedZoomOutCurve;
 	public AdminChatButtons adminChatButtons;
 	public AdminChatWindows adminChatWindows;
+	public ProfileScrollView profileScrollView;
 	public PlayerAlerts playerAlerts;
 	public GUIAntagBanner antagBanner;
 	private bool preventChatInput;

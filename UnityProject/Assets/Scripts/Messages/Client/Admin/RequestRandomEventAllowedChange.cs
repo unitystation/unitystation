@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using InGameEvents;
 using UnityEngine;
 using DiscordWebhook;
+using Messages.Client;
 
 public class RequestRandomEventAllowedChange : ClientMessage
 {

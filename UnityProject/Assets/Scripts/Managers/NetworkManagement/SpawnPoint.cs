@@ -13,7 +13,7 @@ public class SpawnPoint : NetworkStartPosition
 			{JobDepartment.Cargo, new[] {JobType.CARGOTECH}},
 			{JobDepartment.CargoHead, new[] {JobType.QUARTERMASTER}},
 			{JobDepartment.Mining, new[] {JobType.MINER}},
-			{JobDepartment.Medical, new[] {JobType.GENETICIST, JobType.DOCTOR, JobType.MEDSCI, JobType.VIROLOGIST}},
+			{JobDepartment.Medical, new[] {JobType.GENETICIST, JobType.DOCTOR, JobType.MEDSCI, JobType.VIROLOGIST, JobType.PARAMEDIC, JobType.PSYCHIATRIST}},
 			{JobDepartment.CMO, new[] {JobType.CMO}},
 			{JobDepartment.Chemist, new[] {JobType.CHEMIST}},
 			{JobDepartment.Research, new[] {JobType.SCIENTIST}},

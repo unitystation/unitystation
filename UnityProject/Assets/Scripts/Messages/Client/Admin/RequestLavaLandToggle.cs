@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using DiscordWebhook;
 using InGameEvents;
+using Messages.Client;
 
 public class RequestLavaLandToggle : ClientMessage
 {

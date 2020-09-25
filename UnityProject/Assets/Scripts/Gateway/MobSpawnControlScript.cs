@@ -56,14 +56,14 @@ public class MobSpawnControlScript : NetworkBehaviour
 	private void OnEnable()
 	{
 		if (!DetectViaMatrix) return;
-		if (!isServer) return;
+		if (!CustomNetworkManager.IsServer) return;
 
 		UpdateManager.Add(UpdateMe, PlayerCheckTime);
 	}
 
 	void OnDisable()
 	{
-		if (!isServer) return;
+		if (!CustomNetworkManager.IsServer) return;
 
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, UpdateMe);
 	}

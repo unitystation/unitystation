@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Messages.Client;
 using Mirror;
 
 public static class NetworkManagerExtensions

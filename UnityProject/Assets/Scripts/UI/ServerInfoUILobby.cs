@@ -7,6 +7,7 @@ using Mirror;
 using System.IO;
 using System;
 using Initialisation;
+using Messages.Client;
 using UnityEngine.UI;
 
 namespace ServerInfo
