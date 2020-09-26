@@ -9,7 +9,7 @@ public class CatalogLoader : MonoBehaviour
 {
     public List<IResourceLocation> locations;
 
-    public void loadCatalog(string catalogURL)
+    public void LoadCatalog(string catalogURL)
     {
         Debug.Log("loadCatalog");
         AsyncOperationHandle<IResourceLocator> handle = Addressables.LoadContentCatalogAsync(catalogURL);
