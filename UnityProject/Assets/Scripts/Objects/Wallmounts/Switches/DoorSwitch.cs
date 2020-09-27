@@ -1,13 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Electric.Inheritance;
+using Electricity.Inheritance;
 using UnityEngine;
 using Mirror;
+using NaughtyAttributes;
+using UnityEditor;
 
 /// <summary>
 /// Allows object to function as a door switch - opening / closing door when clicked.
 /// </summary>
+[ExecuteInEditMode]
 public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply>, ISetMultitoolMaster, IServerSpawn
 {
 	private SpriteRenderer spriteRenderer;
@@ -18,11 +21,12 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 	[Header("Access Restrictions for ID")] [Tooltip("Is this door restricted?")]
 	public bool restricted;
 
-	[Tooltip("Access level to limit door if above is set.")]
+	[Tooltip("Access level to limit door if above is set.")][ShowIf(nameof(restricted))]
 	public Access access;
 
-
-	public List<DoorController> doorControllers = new List<DoorController>();
+	[SerializeField][Tooltip("List of doors that this switch can control")]
+	private List<DoorController> doorControllers = new List<DoorController>();
+	public List<DoorController> DoorControllers => doorControllers;
 
 	private bool buttonCoolDown = false;
 	private AccessRestrictions accessRestrictions;
@@ -43,7 +47,7 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 		foreach (var door in doorControllers)
 		{
 			if(door == null) continue;
-			
+
 			if (door.IsHackable)
 			{
 				HackingNode outsideSignalOpen = door.HackingProcess.GetNodeWithInternalIdentifier(HackingIdentifier.OutsideSignalOpen);
@@ -55,9 +59,24 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 		}
 	}
 
+	private Texture noDoorsImg;
+
+	private void Awake()
+	{
+		if (Application.isPlaying)
+		{
+			return;
+		}
+		noDoorsImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/noDoor.png");
+	}
 
 	private void Start()
 	{
+		if (!Application.isPlaying)
+		{
+			return;
+		}
+
 		//This is needed because you can no longer apply shutterSwitch prefabs (it will move all of the child sprite positions)
 		gameObject.layer = LayerMask.NameToLayer("WallMounts");
 		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
@@ -101,6 +120,11 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 
 	private void RunDoorController()
 	{
+		if (doorControllers.Count == 0)
+		{
+			return;
+		}
+
 		foreach (DoorController door in doorControllers)
 		{
 			if (door.IsClosed)
@@ -183,7 +207,7 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 
 	#region Editor
 
-	void OnDrawGizmosSelected()
+	private void OnDrawGizmosSelected()
 	{
 		var sprite = GetComponentInChildren<SpriteRenderer>();
 		if (sprite == null)
@@ -197,6 +221,14 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 			if(doorController == null) continue;
 			Gizmos.DrawLine(sprite.transform.position, doorController.transform.position);
 			Gizmos.DrawSphere(doorController.transform.position, 0.25f);
+		}
+	}
+
+	private void OnDrawGizmos()
+	{
+		if (doorControllers.Count == 0 || doorControllers.Any(controller => controller == null))
+		{
+			Gizmos.DrawIcon(transform.position, "noDoor");
 		}
 	}
 
@@ -228,5 +260,4 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 	}
 
 	#endregion
-
 }
