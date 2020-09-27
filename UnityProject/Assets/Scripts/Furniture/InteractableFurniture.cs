@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<HandApply>
+public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<PositionalHandApply>
 {
 	[Tooltip("What it's made of.")]
 	public GameObject resourcesMadeOf;
@@ -13,6 +13,9 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Hand
 	public int howMany = 1;
 
 	private Integrity integrity;
+
+	//Testing Line Below
+	public GameObject prefabVariant;
 
 	private void Start()
 	{
@@ -23,13 +26,17 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Hand
 	private void OnWillDestroyServer(DestructionInfo arg0)
 	{
 		Spawn.ServerPrefab(resourcesMadeOf, gameObject.TileWorldPosition().To3Int(), transform.parent,
-			count: Random.Range(0, howMany+1), scatterRadius: Random.Range(0f,2f));
+			count: Random.Range(0, howMany + 1), scatterRadius: Random.Range(0f, 2f));
 	}
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
+	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 	{
 		//start with the default HandApply WillInteract logic.
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
+		var vector = interaction.WorldPositionTarget.RoundToInt();
+		if (!MatrixManager.IsPassableAt(vector, vector, false)) { return false; }
+		return true;
 		if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
 			.Any(pm => pm.IsBuckled))
 		{
@@ -42,8 +49,19 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Hand
 		return true;
 	}
 
-	public void ServerPerformInteraction(HandApply interaction)
+	[Server]
+	private void Disassemble(PositionalHandApply interaction)
 	{
+		Spawn.ServerPrefab(resourcesMadeOf, gameObject.WorldPosServer(), count: howMany);
+		Despawn.ServerSingle(gameObject);
+	}
+	public void ServerPerformInteraction(PositionalHandApply interaction)
+	{
+		// Spawn the opened body bag in the world
+		Spawn.ServerPrefab(prefabVariant, interaction.WorldPositionTarget.RoundToInt(), interaction.Performer.transform.parent);
+
+		// Remove the body bag from the player's inventory
+		Inventory.ServerDespawn(interaction.HandSlot);
 		if (interaction.TargetObject != gameObject) return;
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
 		{
@@ -51,11 +69,6 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Hand
 			Disassemble(interaction);
 		}
 	}
-
-	[Server]
-	private void Disassemble(HandApply interaction)
-	{
-		Spawn.ServerPrefab(resourcesMadeOf, gameObject.WorldPosServer() , count: howMany);
-		Despawn.ServerSingle(gameObject);
-	}
+	
 }
+

@@ -299,6 +299,8 @@ MonoBehaviour:
   resourcesMadeOf: {fileID: 2663802320431471963, guid: 9ae38f6aa43b5cd4ba608cd31b462b24,
     type: 3}
   howMany: 1
+  prefabVariant: {fileID: 1568171546625408, guid: f3bbbef4ed74ac949af35a1e86452669,
+    type: 3}
 --- !u!114 &-2888343265337834937
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,6 +360,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
