@@ -1,6 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Electric.Inheritance;
+using Electricity.Inheritance;
 using Mirror;
 using ScriptableObjects;
 using UnityEngine;

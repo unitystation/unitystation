@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Electric.Inheritance;
+﻿using System.Linq;
+using Electricity.Inheritance;
 using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;

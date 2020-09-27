@@ -2,7 +2,7 @@
 using Mirror;
 using UnityEngine;
 
-namespace Electric.Inheritance
+namespace Electricity.Inheritance
 {
 	/// <summary>
 	/// Used for editor scripts
@@ -16,6 +16,6 @@ namespace Electric.Inheritance
 		/// </summary>
 		/// <param name="potentialObjects"></param>
 		/// <returns> Chosen objects </returns>
-		 public abstract IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects);
+		public abstract IEnumerable<GameObject> SubscribeToController(IEnumerable<GameObject> potentialObjects);
 	}
 }

@@ -66,7 +66,7 @@ public class DoorController : NetworkBehaviour, IServerSpawn, ISetMultitoolSlave
 		var doorSwitch = (Imaster as DoorSwitch);
 		if (doorSwitch)
 		{
-			doorSwitch.doorControllers.Add(this);
+			doorSwitch.DoorControllers.Add(this);
 			return;
 		}
 		var statusDisplay = (Imaster as StatusDisplay);
