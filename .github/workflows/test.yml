@@ -128,8 +128,8 @@ jobs:
         with:
           entrypoint: /sonar-scanner.sh
           projectKey: unitystation
-          projectName: Unitystation
-          sonarOrganisation: unitystation
+          projectName: unitystation
+          sonarOrganisation: Unitystation
           beginArguments: >-
               /d:sonar.verbose="true" 
               /d:sonar.cs.nunit.reportsPaths=Tests/editmode-results.xml,Tests/playimode-results.xml 
