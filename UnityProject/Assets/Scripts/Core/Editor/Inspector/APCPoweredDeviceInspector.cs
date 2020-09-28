@@ -1,5 +1,4 @@
-﻿using System;
-using Electricity.PoweredDevices;
+﻿using Electricity.PoweredDevices;
 using UnityEditor;
 using UnityEngine;
 
@@ -64,6 +63,5 @@ namespace CustomInspectors
 			device.RelatedAPC = bestTarget;
 			bestTarget.AddDevice(device);
 		}
-
 	}
 }
