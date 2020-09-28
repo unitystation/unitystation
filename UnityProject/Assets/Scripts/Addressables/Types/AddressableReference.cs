@@ -15,6 +15,7 @@ namespace AddressableReferences
 		public UnLoadSetting SetLoadSetting = UnLoadSetting.KeepLoaded;
 		public string Path = "";
 		public AssetReference AssetReference = null;
+		public T Asset;
 
 		public bool IsNotValidKey => NotValidKey();
 		public bool IsReadyLoaded => ReadyLoaded();
@@ -23,6 +24,11 @@ namespace AddressableReferences
 
 		private bool ReadyLoaded()
 		{
+			if ((AssetReference == null) && (!string.IsNullOrWhiteSpace(Path)))
+			{
+				return !(Asset == null);
+			}
+
 			if (IsNotValidKey) return false;
 			return AssetReference.Asset != null;
 		}
@@ -51,6 +57,17 @@ namespace AddressableReferences
 		/// </summary>
 		public virtual T Retrieve()
 		{
+			if ((AssetReference == null) && (!string.IsNullOrWhiteSpace(Path)))
+			{
+				if (IsReadyLoaded)
+					return Asset;
+				else
+				{
+					Logger.LogError("Asset is not loaded", Category.Addressables);
+					return null;
+				}
+			}
+
 			if (IsNotValidKey) return null;
 			if (IsReadyLoaded)
 			{
@@ -68,6 +85,18 @@ namespace AddressableReferences
 		/// </summary>
 		public async Task<T> Load()
 		{
+			// Special load when AssetReference is null but we have an addressable path
+			if ((AssetReference == null) && (!string.IsNullOrWhiteSpace(Path)))
+			{
+				if (IsReadyLoaded)
+				{
+					return Retrieve();
+				}
+
+				Asset = await Addressables.LoadAssetAsync<T>(Path).Task;
+				return Retrieve();
+			}
+
 			if (IsNotValidKey) return null;
 			if (IsReadyLoaded)
 			{
@@ -131,6 +160,19 @@ namespace AddressableReferences
 	{
 		private AudioSource audioSource = null;
 
+		public new AssetReference AssetReference
+		{
+			get
+			{
+				if (base.AssetReference == null)
+				{
+					base.AssetReference = new AssetReference(base.Asset.)
+				}
+
+				return base.AssetReference;
+			}
+		}
+
 		public AudioSource AudioSource
 		{
 			get
@@ -164,6 +206,8 @@ namespace AddressableReferences
 		public AddressableAudioSource(string addressablePath)
 		{
 			Path = addressablePath;
+
+			Addressables.Lo
 		}
 	}
 

@@ -80,7 +80,8 @@ public class GeigerCounter : MonoBehaviour, IInteractable<HandActivate>, IServer
 
 	private void PlaySound(string sound)
 	{
-		SoundManager.PlayNetworkedAtPos(sound, registerItem.WorldPositionServer, sourceObj: gameObject);
+		// JESTER
+		// SoundManager.PlayNetworkedAtPos(sound, registerItem.WorldPositionServer, sourceObj: gameObject);
 	}
 
 	public void ServerPerformInteraction(HandActivate interaction)

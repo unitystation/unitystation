@@ -81,7 +81,7 @@ public class SoundManager : MonoBehaviour
 			throw new ArgumentException($"Invalid music path {primaryKey}");
 
 		addressableAudioSource.Unload();
-    }
+	}
 
 	/// <summary>
 	/// Adds all musics to the music library.
@@ -91,14 +91,14 @@ public class SoundManager : MonoBehaviour
 	/// </remarks>
 	private async void AddMusicsToLibraryAsync()
 	{
-        // We build the library of musics location (by a special Label that identifies them).
-        IList<IResourceLocation> resourceLocations = await Addressables.LoadResourceLocationsAsync("Music", typeof(GameObject)).Task;
+		// We build the library of musics location (by a special Label that identifies them).
+		IList<IResourceLocation> resourceLocations = await Addressables.LoadResourceLocationsAsync("Music", typeof(GameObject)).Task;
 
-        foreach (IResourceLocation resourceLocation in resourceLocations)
-        {
-            MusicLibrary.Add(new AddressableAudioSource(resourceLocation.PrimaryKey));
-        }
-    }
+		foreach (IResourceLocation resourceLocation in resourceLocations)
+		{
+			MusicLibrary.Add(new AddressableAudioSource(resourceLocation.PrimaryKey));
+		}
+	}
 
 	public static SoundManager Instance
 	{
@@ -243,6 +243,22 @@ public class SoundManager : MonoBehaviour
 
 	/// <summary>
 	/// Serverside: Play sound at given position for all clients.
+	/// </summary>
+	/// <param name="addressableAudioSources">The sound to be played.</param>
+	/// <param name="worldPos">The position at which the sound is played</param>
+	/// <param name="polyphonic">Is the sound to be played polyphonic</param>
+	/// <param name="audioSourceParameters">Extra parameters of the audio source.</param>
+	/// <param name="Global">Does everyone will receive the sound our just nearby players</param>
+	/// <param name="sourceObj">The object that is the source of the sound</param>
+	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
+	public static void PlayNetworkedAtPos(AddressableAudioSource addressableAudioSource, Vector3 worldPos, AudioSourceParameters audioSourceParameters,
+		bool polyphonic = false, bool Global = true, GameObject sourceObj = null, ShakeParameters shakeParameters = null)
+	{
+		PlayNetworkedAtPos(new List<AddressableAudioSource> { addressableAudioSource }, worldPos, audioSourceParameters, polyphonic, Global, sourceObj, shakeParameters);
+	}
+
+	/// <summary>
+	/// Serverside: Play sound at given position for all clients.
 	/// If more than one sound is specified, the sound will be chosen at random
 	/// </summary>
 	/// <param name="addressableAudioSources">The sound to be played.  If more than one is specified, a single one will be picked at random</param>
@@ -253,7 +269,7 @@ public class SoundManager : MonoBehaviour
 	/// <param name="sourceObj">The object that is the source of the sound</param>
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
 	public static async void PlayNetworkedAtPos(List<AddressableAudioSource> addressableAudioSources, Vector3 worldPos, AudioSourceParameters audioSourceParameters,
-		bool polyphonic = false, bool Global = true, GameObject sourceObj = null, ShakeParameters shakeParameters = null)
+			bool polyphonic = false, bool Global = true, GameObject sourceObj = null, ShakeParameters shakeParameters = null)
 	{
 		AddressableAudioSource addressableAudioSource = await GetAddressableAudioSourceFromLibrary(addressableAudioSources);
 

@@ -1,4 +1,5 @@
-﻿using Assets.Scripts.Messages.Server.SoundMessages;
+﻿using AddressableReferences;
+using Assets.Scripts.Messages.Server.SoundMessages;
 using Mirror;
 using System.Collections.Generic;
 using System.Linq;
@@ -81,7 +82,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	public async Task<string> GetSongNameAsync()
 	{
 		string songPrimaryKey = SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path;
-		AudioSource audioSource = await SoundManager.Instance.LoadMusicAsync(songPrimaryKey).Task.AudioSource;
+		AddressableAudioSource addressableAudioSource = await SoundManager.Instance.LoadMusicAsync(songPrimaryKey);
+		AudioSource audioSource = addressableAudioSource.AudioSource;
 		return $"{audioSource.clip.name.Split('_')[0]}";
 	}
 
@@ -89,7 +91,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 
 		string songPrimaryKey = SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path;
-		AudioSource audioSource = await SoundManager.Instance.LoadMusicAsync(songPrimaryKey).AudioSource;
+		AddressableAudioSource addressableAudioSource = await SoundManager.Instance.LoadMusicAsync(songPrimaryKey);
+		AudioSource audioSource = addressableAudioSource.AudioSource;
 		string songName = audioSource.clip.name;
 		string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
 		return $"{artist}";
@@ -164,7 +167,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		// Check if the jukebox is in play mode and if the sound is finished playing.
 		// We didn't use "AudioSource.isPlaying" here because of a racing condition between PlayNetworkAtPos latency and Update.
-		AudioSource audioSource = await SoundManager.Instance.LoadMusicAsync(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
+		AddressableAudioSource addressableAudioSource = await SoundManager.Instance.LoadMusicAsync(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
+		AudioSource audioSource = addressableAudioSource.AudioSource;
 
 		if (IsPlaying && Time.time > startPlayTime + audioSource.clip.length)
 		{
@@ -174,7 +178,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		}
 	}
 
-	public void Play()
+	public async void Play()
 	{
 		// Too much damage stops the jukebox from being able to play
 		if (integrity.integrity > integrity.initialIntegrity / 2)
@@ -194,8 +198,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 			};
 
-			SoundManager.Instance.LoadMusicAsync(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex));
-			SoundManager.PlayNetworkedAtPos(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex), registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
+			AddressableAudioSource addressableAudioSource = await SoundManager.Instance.LoadMusicAsync(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
+			SoundManager.PlayNetworkedAtPos(addressableAudioSource, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
 
 			startPlayTime = Time.time;
 			UpdateGUIAsync();

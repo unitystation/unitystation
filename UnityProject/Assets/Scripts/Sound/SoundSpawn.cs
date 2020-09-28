@@ -65,9 +65,9 @@ public class SoundSpawn: MonoBehaviour
 
 	void UpdateMe()
 	{
-		if (!monitor || audioSource == null) return;
+		if (!monitor || AudioSource == null) return;
 
-		if (!audioSource.isPlaying)
+		if (!AudioSource.isPlaying)
 		{
 			isPlaying = false;
 			monitor = false;
