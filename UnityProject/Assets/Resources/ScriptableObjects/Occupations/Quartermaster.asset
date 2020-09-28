@@ -17,6 +17,7 @@ MonoBehaviour:
   limit: 1
   priority: 2
   allowedAccess: 08000000090000001a0000001e000000220000003c00000045000000300000003100000032000000350000003600000037000000
+  spells: []
   progress: 80
   choiceColor: {r: 0.84313726, g: 0.6901961, b: 0.53333336, a: 1}
   previewSprite: {fileID: 21300000, guid: 3670c9ff06ede2b4ab39ba7ec6912de5, type: 3}
@@ -25,14 +26,18 @@ MonoBehaviour:
   descriptionShort: "\u2022 Order equipment for the station\n\u2022 Coordinate shaft
     miners\n\u2022 Flood the station with paperwork"
   descriptionLong: "You are in charge of the station economy. Your duty is to buy
-    and sell cargo and to try making a profit. Keep track of what goes in and out,
-    making the crew fill paperwork for their orders. Supply them with the equipment
-    they need to keep working and delay their desire to descend into chaos.\r\n\r\nYou\u2019re
-    expected to know and understand how the Cargo computer works and to keep an eye
+    and sell cargo and to try and make a profit. Keep track of what goes in and out
+    and make the crew fill out paperwork for their orders. Supply them with the equipment
+    they need to keep working and delay the station's descent into chaos.\r\n\r\nYou\u2019re
+    expected to know and understand how the cargo console works and to keep an eye
     on the credits. Crewmembers will come to your desk and ask for supplies. It is
     your job to make sure everyone gets what they need whenever you don\u2019t suspect
     it is for devilish deeds.\r\n\r\nNot sure what to do? Try to keep people out
     of your department; for some reason everyone loves to get in and disturb your
     labor. Design an incredibly detailed form and make the crew fill it. Manage your
-    cargo technicians and be the most (only?) efficient department on the station.
-    Yell at miners over the radioover radio to get back with rocks already!"
+    cargo technicians and miners to be the most (only?) efficient department on the
+    station. Yell at miners over the radio to get back with rocks already!"
+  customProperties:
+    m_keys: []
+    m_values: 
+  isTargeteable: 1
