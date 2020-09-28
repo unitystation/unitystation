@@ -34,11 +34,6 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Posi
 		//start with the default HandApply WillInteract logic.
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		//only care about interactions targeting us
-		if (interaction.TargetObject != gameObject) return false;
-		//only try to interact if the user has a wrench, screwdriver in their hand
-		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) { return false; }
-
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 		var vector = interaction.WorldPositionTarget.RoundToInt();
 		if (!MatrixManager.IsPassableAt(vector, vector, false)) { return false; }
@@ -49,6 +44,8 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Posi
 		{
 			return false;
 		}
+		//only care about interactions targeting us
+		if (interaction.TargetObject != gameObject) return false;
 		//only try to interact if the user has a wrench, screwdriver in their hand
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) { return false; }
 		return true;
