@@ -502,16 +502,24 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			{
 				ServerToggleClosed();
 			}
-			else if (!AccessRestrictions.CheckAccess(interaction.Performer) && (isLocked || isWelded))
+			else if (isLocked || isWelded)
 			{
-				Chat.AddExamineMsg(
-				interaction.Performer,
-				$"Can\'t open {closetName}");
-			}
-			else
-			{
-				//catch for case where there is no performer
-				//TODO: Add closet breakout code here
+				if (IsLockable)
+				{ //This is to stop seeing cant open msg even though you can
+					if (!AccessRestrictions.CheckAccess(interaction.Performer))
+					{
+						Chat.AddExamineMsg(
+						interaction.Performer,
+						$"Can\'t open {closetName}");
+					}
+				}
+				else
+				{
+					Chat.AddExamineMsg(
+					interaction.Performer,
+					$"Can\'t open {closetName}");
+				}
+				
 			}
 		}
 				
