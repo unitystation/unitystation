@@ -124,7 +124,7 @@ jobs:
         run: sh ./Tools/fixDotNet.sh
       - name: SonarQube analysis
         if: always()
-        uses: webbertakken/unity-runner@v1.7
+        uses: MirrorNG/unity-runner@2.0.0
         with:
           entrypoint: /sonar-scanner.sh
           projectKey: unitystation
@@ -132,8 +132,6 @@ jobs:
           sonarOrganisation: unitystation
           beginArguments: >-
               /d:sonar.verbose="true" 
-              /d:sonar.cs.nunit.reportsPaths=Tests/editmode-results.xml,Tests/playimode-results.xml 
-              /d:sonar.cs.opencover.reportsPaths=Tests/workspace-opencov/EditMode/TestCoverageResults_0000.xml,Tests/workspace-opencov/PlayMode/TestCoverageResults_0000.xml
         env:
           FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
