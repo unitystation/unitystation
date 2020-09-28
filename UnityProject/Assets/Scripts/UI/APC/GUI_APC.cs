@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Electricity.PoweredDevices;
 using UnityEngine;
 
 public class GUI_APC : NetTab

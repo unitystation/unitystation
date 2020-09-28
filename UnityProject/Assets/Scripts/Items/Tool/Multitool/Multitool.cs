@@ -58,84 +58,61 @@ public class Multitool : MonoBehaviour, ICheckedInteractable<PositionalHandApply
 
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		if (!Validations.IsTarget(gameObject, interaction))
+		if (Validations.IsTarget(gameObject, interaction))
 		{
-			var MultitoolBases = interaction.TargetObject.GetComponents<ISetMultitoolBase>();
-			foreach (var MultitoolBase in MultitoolBases)
-			{
-				if (Buffer == null || MultiMaster)
-				{
-					ISetMultitoolMaster Master = (MultitoolBase as ISetMultitoolMaster);
-					if (Master != null)
-					{
-						ConfigurationBuffer = Master.ConType;
-						ListBuffer.Add(Master);
-						MultiMaster = Master.MultiMaster;
-						Chat.AddExamineMsgFromServer(interaction.Performer,
-							"You add the master component " + interaction.TargetObject.ExpensiveName() +
-							" to the Multi-tools buffer");
-						return;
-					}
-				}
-
-				if (Buffer != null)
-				{
-					if (ConfigurationBuffer == MultitoolBase.ConType)
-					{
-						ISetMultitoolSlave Slave = (MultitoolBase as ISetMultitoolSlave);
-						if (Slave != null)
-						{
-							Slave.SetMaster(Buffer);
-							Chat.AddExamineMsgFromServer(interaction.Performer,
-								"You set the " + interaction.TargetObject.ExpensiveName() + " to use the " +
-								(Buffer as Component)?.gameObject.ExpensiveName() + " in the buffer");
-							return;
-						}
-
-						ISetMultitoolSlaveMultiMaster SlaveMultiMaster =
-							(MultitoolBase as ISetMultitoolSlaveMultiMaster);
-						if (SlaveMultiMaster != null)
-						{
-							SlaveMultiMaster.SetMasters(ListBuffer);
-							Chat.AddExamineMsgFromServer(interaction.Performer,
-								"You set the" + interaction.TargetObject.ExpensiveName() +
-								" to use the devices in the buffer");
-							return;
-						}
-
-						Chat.AddExamineMsgFromServer(interaction.Performer,
-							"This only seems to have the capability of accepting Writing to buffer");
-						return;
-					}
-				}
-			}
-
-
-			//conveyorbelt
-			/*
-			ConveyorBelt conveyorBelt = interaction.TargetObject.GetComponent<ConveyorBelt>();
-			if (conveyorBelt != null)
-			{
-				Chat.AddExamineMsgFromServer(interaction.Performer, "You set the internal buffer of the multitool to the Conveyor Belt");
-				ConveyorBeltBuffer.Add(conveyorBelt);
-			}
-			ConveyorBeltSwitch conveyorBeltSwitch = interaction.TargetObject.GetComponent<ConveyorBeltSwitch>();
-			if (conveyorBeltSwitch != null)
-			{
-				if (ConveyorBeltBuffer != null)
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, "You set the Conveyor Belt Switch to use the Conveyor Belt in the buffer");
-					conveyorBeltSwitch.AddConveyorBelt(ConveyorBeltBuffer);
-				}
-				else
-				{
-					Chat.AddExamineMsgFromServer(interaction.Performer, "Your Conveyor Belt buffer is empty fill it with something");
-				}
-			}
-			*/
-
-			PrintElectricalThings(interaction);
+			return;
 		}
+
+		var multitoolBases = interaction.TargetObject.GetComponents<ISetMultitoolBase>();
+		foreach (var multitoolBase in multitoolBases)
+		{
+			if (Buffer == null || MultiMaster)
+			{
+				if (multitoolBase is ISetMultitoolMaster master)
+				{
+					ConfigurationBuffer = master.ConType;
+					ListBuffer.Add(master);
+					MultiMaster = master.MultiMaster;
+					Chat.AddExamineMsgFromServer(
+						interaction.Performer,
+						$"You add the master component {interaction.TargetObject.ExpensiveName()} " +
+						$"to the Multi-Tools buffer.");
+					return;
+				}
+			}
+
+			if (Buffer == null)
+			{
+				continue;
+			}
+
+			if (ConfigurationBuffer != multitoolBase.ConType)
+			{
+				continue;
+			}
+
+			switch (multitoolBase)
+			{
+				case ISetMultitoolSlave slave:
+					slave.SetMaster(Buffer);
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						$"You set the {interaction.TargetObject.ExpensiveName()} to use the " +
+						$"{(Buffer as Component)?.gameObject.ExpensiveName()} in the buffer.");
+					return;
+				case ISetMultitoolSlaveMultiMaster slaveMultiMaster:
+					slaveMultiMaster.SetMasters(ListBuffer);
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						"You set the" + interaction.TargetObject.ExpensiveName() +
+						" to use the devices in the buffer");
+					return;
+				default:
+					Chat.AddExamineMsgFromServer(interaction.Performer,
+						"This only seems to have the capability of accepting Writing to buffer");
+					return;
+			}
+		}
+
+		PrintElectricalThings(interaction);
 	}
 
 	public void PrintElectricalThings(PositionalHandApply interaction)

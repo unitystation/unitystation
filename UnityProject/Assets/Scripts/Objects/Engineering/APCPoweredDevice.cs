@@ -1,7 +1,10 @@
-﻿using UnityEngine;
+﻿using Electricity.PoweredDevices;
+using UnityEngine;
 using Mirror;
+using UnityEditor;
 using UnityEngine.Serialization;
 
+[ExecuteInEditMode]
 public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolSlave
 {
 	[SerializeField][FormerlySerializedAs("MinimumWorkingVoltage")]
@@ -44,31 +47,34 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 		set => resistance = value;
 	}
 
-	public APC RelatedAPC;
+	[HideInInspector]public APC RelatedAPC;
 	public IAPCPowered Powered;
 	public bool AdvancedControlToScript;
 
 	public bool StateUpdateOnClient = true;
 
-	[SyncVar(hook = nameof(UpdateSynchronisedState))]
-	public PowerStates State = PowerStates.Off;
+	[SyncVar(hook = nameof(UpdateSynchronisedState))][FormerlySerializedAs("State")]
+	private PowerStates state = PowerStates.Off;
+	public PowerStates State => state;
 
 
 	[SyncVar(hook = nameof(UpdateSynchronisedVoltage))]
-	public float RecordedVoltage = 0;
+	private float recordedVoltage = 0;
 
 	[SerializeField]
 	private MultitoolConnectionType conType = MultitoolConnectionType.APC;
 	public MultitoolConnectionType ConType  => conType;
 
-	public void SetMaster(ISetMultitoolMaster Imaster)
+	private Texture disconnectedImg;
+
+	public void SetMaster(ISetMultitoolMaster imaster)
 	{
-		var InAPC = (Imaster as Component)?.gameObject.GetComponent<APC>();
+		var inApc = (imaster as Component)?.gameObject.GetComponent<APC>();
 		if (RelatedAPC != null)
 		{
 			RemoveFromAPC();
 		}
-		RelatedAPC = InAPC;
+		RelatedAPC = inApc;
 		RelatedAPC.AddDevice(this);
 	}
 
@@ -83,11 +89,20 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 
 	private void Awake()
 	{
-		EnsureInit();
+		if (!Application.isPlaying)
+		{
+			disconnectedImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/disconnected.png");
+		}
+		else
+		{
+			EnsureInit();
+		}
 	}
 
 	void Start()
 	{
+		if (!Application.isPlaying) return;
+
 		//Logger.LogTraceFormat("{0}({1}) starting, state {2}", Category.Electrical, name, transform.position.To2Int(), State);
 		if (Wattusage > 0)
 		{
@@ -103,7 +118,7 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 		{
 			if (AdvancedControlToScript)
 			{
-				RecordedVoltage = expectedRunningVoltage;
+				recordedVoltage = expectedRunningVoltage;
 				Powered?.PowerNetworkUpdate(expectedRunningVoltage);
 			}
 			else
@@ -119,11 +134,11 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 		EnsureInit();
 		if (AdvancedControlToScript)
 		{
-			UpdateSynchronisedVoltage(RecordedVoltage, RecordedVoltage);
+			UpdateSynchronisedVoltage(recordedVoltage, recordedVoltage);
 		}
 		else
 		{
-			UpdateSynchronisedState(State, State);
+			UpdateSynchronisedState(state, state);
 		}
 	}
 
@@ -132,58 +147,58 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 		EnsureInit();
 		if (AdvancedControlToScript)
 		{
-			UpdateSynchronisedVoltage(RecordedVoltage, RecordedVoltage);
+			UpdateSynchronisedVoltage(recordedVoltage, recordedVoltage);
 		}
 		else
 		{
-			UpdateSynchronisedState(State, State);
+			UpdateSynchronisedState(state, state);
 		}
 	}
 
-	public void PowerNetworkUpdate(float Voltage) //Could be optimised to not update when voltage is same as previous voltage
+	public void PowerNetworkUpdate(float voltage) //Could be optimised to not update when voltage is same as previous voltage
 	{
 		if (AdvancedControlToScript)
 		{
-			RecordedVoltage = Voltage;
-			Powered?.PowerNetworkUpdate(Voltage);
+			recordedVoltage = voltage;
+			Powered?.PowerNetworkUpdate(voltage);
 		}
 		else
 		{
-			var NewState = PowerStates.Off;
-			if (Voltage <= 1)
+			var newState = PowerStates.Off;
+			if (voltage <= 1)
 			{
-				NewState = PowerStates.Off;
+				newState = PowerStates.Off;
 			}
-			else if (Voltage > maximumWorkingVoltage)
+			else if (voltage > maximumWorkingVoltage)
 			{
-				NewState = PowerStates.OverVoltage;
+				newState = PowerStates.OverVoltage;
 			}
-			else if (Voltage < minimumWorkingVoltage)
+			else if (voltage < minimumWorkingVoltage)
 			{
-				NewState = PowerStates.LowVoltage;
+				newState = PowerStates.LowVoltage;
 			}
 			else {
-				NewState = PowerStates.On;
+				newState = PowerStates.On;
 			}
 
-			if (NewState == State) return;
-			State = NewState;
-			Powered?.StateUpdate(State);
+			if (newState == state) return;
+			state = newState;
+			Powered?.StateUpdate(state);
 		}
 	}
 
-	private void UpdateSynchronisedVoltage(float _OldVoltage,float _NewVoltage)
+	private void UpdateSynchronisedVoltage(float oldVoltage,float newVoltage)
 	{
 		EnsureInit();
-		if (_OldVoltage != _NewVoltage)
+		if (oldVoltage != newVoltage)
 		{
-			Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), _OldVoltage, _NewVoltage);
+			Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), oldVoltage, newVoltage);
 		}
 
-		RecordedVoltage = _NewVoltage;
+		recordedVoltage = newVoltage;
 		if (isSelfPowered)
 		{
-			RecordedVoltage = expectedRunningVoltage;
+			recordedVoltage = expectedRunningVoltage;
 		}
 
 		if (Powered != null && StateUpdateOnClient && AdvancedControlToScript)
@@ -194,24 +209,24 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 			}
 			else
 			{
-				Powered?.PowerNetworkUpdate(_NewVoltage);
+				Powered?.PowerNetworkUpdate(newVoltage);
 			}
 		}
 	}
 
-	private void UpdateSynchronisedState(PowerStates _OldState, PowerStates _State)
+	private void UpdateSynchronisedState(PowerStates oldState, PowerStates newState)
 	{
 		EnsureInit();
-		if (_State != State)
+		if (newState != state)
 		{
-			Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), State, _State);
+			Logger.LogTraceFormat("{0}({1}) state changing {2} to {3}", Category.Electrical, name, transform.position.To2Int(), this.state, newState);
 		}
 
-		State = _State;
+		state = newState;
 
 		if (isSelfPowered)
 		{
-			State = PowerStates.On;
+			state = PowerStates.On;
 		}
 
 		if (Powered != null && StateUpdateOnClient)
@@ -222,18 +237,15 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 			}
 			else
 			{
-				Powered?.StateUpdate(State);
+				Powered?.StateUpdate(state);
 			}
 		}
 	}
 
-	void OnDrawGizmosSelected()
+	private void OnDrawGizmosSelected()
 	{
-		if (RelatedAPC == null)
+		if (RelatedAPC == null || isSelfPowered)
 		{
-			if (isSelfPowered) return;
-			Gizmos.color = new Color(1f, 0f, 0, 1);
-			Gizmos.DrawCube(gameObject.transform.position,new Vector3(0.3f,0.3f));
 			return;
 		}
 
@@ -243,14 +255,24 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 		Gizmos.DrawSphere(RelatedAPC.transform.position, 0.15f);
 	}
 
+	private void OnDrawGizmos()
+	{
+		if (RelatedAPC != null || isSelfPowered)
+		{
+			return;
+		}
+
+		Gizmos.DrawIcon(transform.position, "disconnected");
+	}
+
 	public void OnDespawnServer(DespawnInfo info)
 	{
 		RemoveFromAPC();
 	}
 
-	public static bool IsOn(PowerStates States)
+	public static bool IsOn(PowerStates states)
 	{
-		return (States == PowerStates.On || States == PowerStates.LowVoltage || States == PowerStates.OverVoltage);
+		return (states == PowerStates.On || states == PowerStates.LowVoltage || states == PowerStates.OverVoltage);
 	}
 }
 

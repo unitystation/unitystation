@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Events;
 
 public class FireLock : InteractableDoor, ISetMultitoolSlave
 {
