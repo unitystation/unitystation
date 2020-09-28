@@ -99,44 +99,23 @@ jobs:
           echo "::set-env name=UNITY_LICENSE::$license"
       # Delete unity version file (test runner will crash otherwise)
       - name: Delete ProjectVersion.txt
-        run: sudo rm ./${{ matrix.projectPath }}/ProjectSettings/ProjectVersion.txt        
-      # Run tests - only edit mode supported
-      #- name: Run tests
-      #  uses: webbertakken/unity-test-runner@v1.6
-      #  with:
-      #    customParameters: '-nographics'
-      #    projectPath: ${{ matrix.projectPath }}
-      #    unityVersion: ${{ matrix.unityVersion }}
-      #    artifactsPath: ./testReports/${{ matrix.targetPlatform }}
-      #    testMode: editmode   
-      # Install dotnet
-      #- name: Installing dotnet
-      #  if: always()
-      #  uses: actions/setup-dotnet@v1
-      #  with:
-      #    dotnet-version: '2.2.102'
-      #    
-      # Do the report magic
-      #- name: Generate .html report
-      #  run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
-      #  if: always()
-      #- name: Fixdotnet
-      #  run: sh ./Tools/fixDotNet.sh
+        run: sudo rm ./${{ matrix.projectPath }}/ProjectSettings/ProjectVersion.txt
+        
       - name: Sonarscanner for dotnet
         uses: Secbyte/dotnet-sonarscanner@v2.3
         with:
-            buildCommand: dotnet build .
-            testCommand: dotnet test .
-            projectKey: unitystation
-            projectName: Unitystation
-            sonarOrganisation: unitystation
-            beginArguments: >
-                /d:sonar.verbose="true"
-                /d:sonar.cs.opencover.reportsPaths='"/path/to/coverage.xml","/path/to/coverage.2.xml"'
-                /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
-            env:
-                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           buildCommand: dotnet build .
+           testCommand: dotnet test .
+           projectKey: unitystation
+           projectName: Unitystation
+           sonarOrganisation: unitystation
+           beginArguments: >
+              /d:sonar.verbose="true"
+              /d:sonar.cs.opencover.reportsPaths='"/path/to/coverage.xml","/path/to/coverage.2.xml"'
+              /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
+           env:
+              SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # Upload test results
       - name: Upload Test Results
         if: always()
