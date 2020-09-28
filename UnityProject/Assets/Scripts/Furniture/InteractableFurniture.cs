@@ -14,7 +14,7 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Posi
 
 	private Integrity integrity;
 
-	//Testing Line Below
+	[Tooltip("What object does it become when placed.")]
 	public GameObject prefabVariant;
 
 	private void Start()
@@ -33,34 +33,33 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Posi
 	{
 		//start with the default HandApply WillInteract logic.
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+		//only care about interactions targeting us
+		if (interaction.TargetObject != gameObject) return false;
+		//only try to interact if the user has a wrench, screwdriver in their hand
+		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) { return false; }
+
 		if (!Validations.HasComponent<InteractableTiles>(interaction.TargetObject)) return false;
 		var vector = interaction.WorldPositionTarget.RoundToInt();
 		if (!MatrixManager.IsPassableAt(vector, vector, false)) { return false; }
 		return true;
+
 		if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
 			.Any(pm => pm.IsBuckled))
 		{
 			return false;
 		}
-		//only care about interactions targeting us
-		if (interaction.TargetObject != gameObject) return false;
 		//only try to interact if the user has a wrench, screwdriver in their hand
 		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) { return false; }
 		return true;
 	}
 
-	[Server]
-	private void Disassemble(PositionalHandApply interaction)
-	{
-		Spawn.ServerPrefab(resourcesMadeOf, gameObject.WorldPosServer(), count: howMany);
-		Despawn.ServerSingle(gameObject);
-	}
 	public void ServerPerformInteraction(PositionalHandApply interaction)
 	{
-		// Spawn the opened body bag in the world
+		// Spawn the object in the world
 		Spawn.ServerPrefab(prefabVariant, interaction.WorldPositionTarget.RoundToInt(), interaction.Performer.transform.parent);
 
-		// Remove the body bag from the player's inventory
+		// Remove the item from the player's inventory
 		Inventory.ServerDespawn(interaction.HandSlot);
 		if (interaction.TargetObject != gameObject) return;
 		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
@@ -69,6 +68,12 @@ public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<Posi
 			Disassemble(interaction);
 		}
 	}
-	
+
+	[Server]
+	private void Disassemble(PositionalHandApply interaction)
+	{
+		Spawn.ServerPrefab(resourcesMadeOf, gameObject.WorldPosServer(), count: howMany);
+		Despawn.ServerSingle(gameObject);
+	}
 }
 
