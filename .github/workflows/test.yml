@@ -124,7 +124,7 @@ jobs:
         run: sh ./Tools/fixDotNet.sh
       - name: SonarQube analysis
         if: always()
-        uses: MirrorNG/unity-runner@2.0.0
+        uses: webbertakken/unity-runner@2.0.0
         with:
           entrypoint: /sonar-scanner.sh
           projectKey: unitystation
