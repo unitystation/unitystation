@@ -120,23 +120,24 @@ jobs:
       #- name: Generate .html report
       #  run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
       #  if: always()
-      - name: Fixdotnet
-        run: sh ./Tools/fixDotNet.sh
-      - name: SonarQube analysis
-        if: always()
-        uses: MirrorNG/unity-runner@2.0.0
+      #- name: Fixdotnet
+      #  run: sh ./Tools/fixDotNet.sh
+      - name: Sonarscanner for dotnet
+        uses: Secbyte/dotnet-sonarscanner@v2.3
         with:
-          entrypoint: /sonar-scanner.sh
-          projectKey: unitystation
-          projectName: Unitystation
-          sonarOrganisation: unitystation
-          beginArguments: >-
-              /d:sonar.verbose="true" 
-        env:
-          FrameworkPathOverride: /opt/Unity/Editor/Data/MonoBleedingEdge/
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      # Upload test results
+            buildCommand: dotnet build .
+            testCommand: dotnet test .
+            projectKey: unitystation
+            projectName: Unitystation
+            sonarOrganisation: unitystation
+            beginArguments: >
+                /d:sonar.verbose="true"
+                /d:sonar.cs.opencover.reportsPaths='"/path/to/coverage.xml","/path/to/coverage.2.xml"'
+                /d:sonar.coverage.exclusions='"**/*.cs","**/*.md"'
+            env:
+                SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Upload test results
       - name: Upload Test Results
         if: always()
         uses: actions/upload-artifact@v1
