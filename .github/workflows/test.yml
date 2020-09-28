@@ -110,16 +110,16 @@ jobs:
       #    artifactsPath: ./testReports/${{ matrix.targetPlatform }}
       #    testMode: editmode   
       # Install dotnet
-      - name: Installing dotnet
-        if: always()
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '2.2.102'
-          
+      #- name: Installing dotnet
+      #  if: always()
+      #  uses: actions/setup-dotnet@v1
+      #  with:
+      #    dotnet-version: '2.2.102'
+      #    
       # Do the report magic
-      - name: Generate .html report
-        run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
-        if: always()
+      #- name: Generate .html report
+      #  run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
+      #  if: always()
       - name: Fixdotnet
         run: ./Tools/fixDotNet.sh
       - name: SonarQube analysis
