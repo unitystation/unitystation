@@ -89,14 +89,11 @@ public class APCPoweredDevice : NetworkBehaviour, IServerDespawn, ISetMultitoolS
 
 	private void Awake()
 	{
-		if (!Application.isPlaying)
-		{
-			disconnectedImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/disconnected.png");
-		}
-		else
-		{
-			EnsureInit();
-		}
+#if Unity_Editor
+		disconnectedImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/disconnected.png");
+#endif
+
+		EnsureInit();
 	}
 
 	void Start()

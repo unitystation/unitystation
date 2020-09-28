@@ -63,11 +63,9 @@ public class DoorSwitch : SubscriptionController, ICheckedInteractable<HandApply
 
 	private void Awake()
 	{
-		if (Application.isPlaying)
-		{
-			return;
-		}
+#if Unity_Editor
 		noDoorsImg = AssetDatabase.LoadAssetAtPath<Texture>("Assets/Textures/EditorAssets/noDoor.png");
+#endif
 	}
 
 	private void Start()
