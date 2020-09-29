@@ -121,6 +121,7 @@ jobs:
         run: sudo dotnet ./Tools/ExtentReports/ExtentReportsDotNetCLI.dll -i=testReports/${{ matrix.targetPlatform }}/editmode-results.xml -o testReports/${{ matrix.targetPlatform }}/
         if: always()
       - name: Sonarscanner for dotnet
+        if: always()
         uses: Secbyte/dotnet-sonarscanner@v2.3
         with:
           buildCommand: dotnet build .
