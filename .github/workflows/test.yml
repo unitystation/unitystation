@@ -101,14 +101,14 @@ jobs:
       - name: Delete ProjectVersion.txt
         run: sudo rm ./${{ matrix.projectPath }}/ProjectSettings/ProjectVersion.txt        
       # Run tests - only edit mode supported
-      - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.6
-        with:
-          customParameters: '-nographics'
-          projectPath: ${{ matrix.projectPath }}
-          unityVersion: ${{ matrix.unityVersion }}
-          artifactsPath: ./testReports/${{ matrix.targetPlatform }}
-          testMode: editmode   
+      #- name: Run tests
+      #  uses: webbertakken/unity-test-runner@v1.6
+      #  with:
+      #    customParameters: '-nographics'
+      #    projectPath: ${{ matrix.projectPath }}
+      #    unityVersion: ${{ matrix.unityVersion }}
+      #    artifactsPath: ./testReports/${{ matrix.targetPlatform }}
+      #    testMode: editmode   
       # Install dotnet
       - name: Installing dotnet
         if: always()
