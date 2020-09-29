@@ -1,4 +1,5 @@
-﻿using Mirror;
+﻿using Messages.Client;
+using Mirror;
 using UnityEngine.SceneManagement;
 
 /// <summary>
