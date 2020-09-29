@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1560966032627148193}
   - component: {fileID: 1682087833536344853}
-  - component: {fileID: -6019239046493335571}
+  - component: {fileID: -1894424199744463202}
+  - component: {fileID: 8746195124161956548}
   m_Layer: 10
-  m_Name: EngulfedBurningPlayer
+  m_Name: BurningLarge
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,6 +48,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -68,9 +70,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: -932335445
-  m_SortingLayer: 17
-  m_SortingOrder: 550
+  m_SortingLayerID: -1463207863
+  m_SortingLayer: 11
+  m_SortingOrder: 32767
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -82,7 +84,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-6019239046493335571
+--- !u!114 &-1894424199744463202
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -91,28 +93,26 @@ MonoBehaviour:
   m_GameObject: {fileID: 1558421102126524431}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: da6b2b680c7a816499f794469bf8980c, type: 3}
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomOrder: 1
-  AnimationSpeed: 0.1
-  leftSprites:
-  - {fileID: 21300006, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300014, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300022, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300030, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  rightSprites:
-  - {fileID: 21300004, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300012, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300020, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300028, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  upSprites:
-  - {fileID: 21300002, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300010, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300018, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300026, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  downSprites:
-  - {fileID: 21300000, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300008, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300016, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
-  - {fileID: 21300024, guid: 83490d1e465e1c847b22735c77ad9109, type: 3}
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: a2c357fc7bfb24f4482551ffb8b31523, type: 2}
+  PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
+--- !u!114 &8746195124161956548
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558421102126524431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dec6e9c0f1454b1a90892bc8915e6c16, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
