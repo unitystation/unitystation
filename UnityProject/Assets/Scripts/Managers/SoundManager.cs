@@ -148,7 +148,7 @@ public class SoundManager : MonoBehaviour
 	private static async Task<AddressableAudioSource> AddAddressableAudioSourceToLibrary(List<AddressableAudioSource> addressableAudioSources)
 	{
 		AddressableAudioSource addressableAudioSource = addressableAudioSources.PickRandom();
-		AddressableAudioSource addressableAudioSourceFromCache = Instance.SoundsLibrary.FirstOrDefault(p => p.AssetReference == addressableAudioSource.AssetReference);
+		AddressableAudioSource addressableAudioSourceFromCache = Instance.SoundsLibrary.FirstOrDefault(p => p.Path == addressableAudioSource.Path);
 
 		if (addressableAudioSourceFromCache == null)
 		{
@@ -157,7 +157,8 @@ public class SoundManager : MonoBehaviour
 
 			if (!gameObject.TryGetComponent(out audioSource))
 			{
-				throw new ArgumentException($"AssetReference in SoundManager doesn't contain an AudioSource: {addressableAudioSource.AssetReference.SubObjectName}");
+				Logger.LogError($"AddressableAudioSource in SoundManager doesn't contain an AudioSource: {addressableAudioSource.Path}", Category.Addressables);
+				return null;
 			}
 
 			Instance.SoundsLibrary.Add(addressableAudioSource);
@@ -676,5 +677,13 @@ public class SoundManager : MonoBehaviour
 			SoundSpawn soundSpawn = Instance.SoundSpawns[soundSpawnToken];
 			ApplyAudioSourceParameters(audioSourceParameters, soundSpawn);
 		}
+	}
+
+	public bool IsSoundPlaying(string soundSpawnToken)
+	{
+		if (Instance.SoundSpawns.ContainsKey(soundSpawnToken))
+			return Instance.SoundSpawns[soundSpawnToken].IsPlaying;
+		else
+			return false;		
 	}
 }

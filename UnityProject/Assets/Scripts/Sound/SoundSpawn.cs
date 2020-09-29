@@ -11,7 +11,7 @@ public class SoundSpawn: MonoBehaviour
 	public RegisterTile RegisterTile = null;
 
 	//We need to handle this manually to prevent multiple requests grabbing sound pool items in the same frame
-	public bool isPlaying = false;
+	public bool IsPlaying = false;
 	private bool monitor = false;
 
 	
@@ -69,7 +69,7 @@ public class SoundSpawn: MonoBehaviour
 
 		if (!AudioSource.isPlaying)
 		{
-			isPlaying = false;
+			IsPlaying = false;
 			monitor = false;
 		}
 	}		

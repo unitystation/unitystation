@@ -69,6 +69,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	private int currentSongTrackIndex = 0;
 	private float startPlayTime;
 
+	private string soundSpawnToken;
+
 	public bool IsPlaying { get; set; } = false;
 
 	public string TrackPosition
@@ -167,15 +169,17 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 	{
 		// Check if the jukebox is in play mode and if the sound is finished playing.
 		// We didn't use "AudioSource.isPlaying" here because of a racing condition between PlayNetworkAtPos latency and Update.
-		AddressableAudioSource addressableAudioSource = await SoundManager.Instance.LoadMusicAsync(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
-		AudioSource audioSource = addressableAudioSource.AudioSource;
 
-		if (IsPlaying && Time.time > startPlayTime + audioSource.clip.length)
-		{
-			// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
-			if (!NextSong())
-				Stop();
-		}
+		// JESTER
+		//if (SoundManager.Instance.IsSoundPlaying(soundSpawnToken))
+			
+		
+		//if (IsPlaying && Time.time > startPlayTime + audioSource.clip.length)
+		//{
+		//	// The fun isn't over, we just finished the current track.  We just start playing the next one (or stop if it was the last one).
+		//	if (!NextSong())
+		//		Stop();
+		//}
 	}
 
 	public async void Play()

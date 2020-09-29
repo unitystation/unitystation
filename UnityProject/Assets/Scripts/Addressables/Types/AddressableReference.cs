@@ -160,19 +160,6 @@ namespace AddressableReferences
 	{
 		private AudioSource audioSource = null;
 
-		public new AssetReference AssetReference
-		{
-			get
-			{
-				if (base.AssetReference == null)
-				{
-					base.AssetReference = new AssetReference(base.Asset.)
-				}
-
-				return base.AssetReference;
-			}
-		}
-
 		public AudioSource AudioSource
 		{
 			get
@@ -206,8 +193,6 @@ namespace AddressableReferences
 		public AddressableAudioSource(string addressablePath)
 		{
 			Path = addressablePath;
-
-			Addressables.Lo
 		}
 	}
 

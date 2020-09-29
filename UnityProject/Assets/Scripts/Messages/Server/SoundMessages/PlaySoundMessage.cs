@@ -3,7 +3,6 @@ using Mirror;
 using Newtonsoft.Json;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AddressableAssets;
 
 namespace Assets.Scripts.Messages.Server.SoundMessages
 {
@@ -12,7 +11,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 	/// </summary>
 	public class PlaySoundMessage : ServerMessage
 	{
-		public string SoundAssetReferenceGuid;
+		public string SoundAddressablePath;
 		public Vector3 Position;
 		///Allow this one to sound polyphonically
 		public bool Polyphonic;
@@ -26,9 +25,9 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override void Process()
 		{
-			if (string.IsNullOrEmpty(SoundAssetReferenceGuid))
+			if (string.IsNullOrEmpty(SoundAddressablePath))
 			{
-				Logger.LogError(ToString() + " has no AssetReference Guid!", Category.Audio);
+				Logger.LogError(ToString() + " has no Addressable Path!", Category.Audio);
 				return;
 			}
 
@@ -38,7 +37,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 				AudioSourceParameters = new AudioSourceParameters();
 
 			// Recompose a list of a single AddressableAudioSoure from its primart key (Guid)
-			List<AddressableAudioSource> addressableAudioSources = new List<AddressableAudioSource>() { new AddressableAudioSource(SoundAssetReferenceGuid) };
+			List<AddressableAudioSource> addressableAudioSources = new List<AddressableAudioSource>() { new AddressableAudioSource(SoundAddressablePath) };
 
 			if (isPositionProvided)
 			{
@@ -81,7 +80,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundAssetReferenceGuid = addressableAudioSource.AssetReference.AssetGUID,
+				SoundAddressablePath = addressableAudioSource.Path,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -111,7 +110,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundAssetReferenceGuid = addressableAudioSource.AssetReference.AssetGUID,
+				SoundAddressablePath = addressableAudioSource.Path,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -142,7 +141,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 			PlaySoundMessage msg = new PlaySoundMessage
 			{
-				SoundAssetReferenceGuid = addressableAudioSource.AssetReference.AssetGUID,
+				SoundAddressablePath = addressableAudioSource.Path,
 				Position = pos,
 				Polyphonic = polyphonic,
 				TargetNetId = netId,
@@ -159,12 +158,12 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 		{
 			string audioSourceParametersValue = (AudioSourceParameters == null) ? "Null" : AudioSourceParameters.ToString();
 			string shakeParametersValue = (ShakeParameters == null) ? "Null" : ShakeParameters.ToString();
-			return $"{nameof(SoundAssetReferenceGuid)}: {SoundAssetReferenceGuid}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
+			return $"{nameof(SoundAddressablePath)}: {SoundAddressablePath}, {nameof(Position)}: {Position}, {nameof(Polyphonic)}: {Polyphonic}, {nameof(ShakeParameters)}: {shakeParametersValue}, {nameof(AudioSourceParameters)}: {audioSourceParametersValue}";
 		}
 
 		public override void Serialize(NetworkWriter writer)
 		{
-			writer.WriteString(SoundAssetReferenceGuid);
+			writer.WriteString(SoundAddressablePath);
 			writer.WriteVector3(Position);
 			writer.WriteBoolean(Polyphonic);
 			writer.WriteUInt32(TargetNetId);
@@ -174,7 +173,7 @@ namespace Assets.Scripts.Messages.Server.SoundMessages
 
 		public override void Deserialize(NetworkReader reader)
 		{
-			SoundAssetReferenceGuid = reader.ReadString();
+			SoundAddressablePath = reader.ReadString();
 			Position = reader.ReadVector3();
 			Polyphonic = reader.ReadBoolean();
 			TargetNetId = reader.ReadUInt32();
