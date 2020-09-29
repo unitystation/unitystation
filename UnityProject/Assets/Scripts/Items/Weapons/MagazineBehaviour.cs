@@ -152,8 +152,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 					{
 						containedBullets.RemoveAt(0); //remove shot projectile
 						containedProjectilesFired.RemoveAt(0);
-						ProjectilesFired = containedProjectilesFired[0];
-						Projectile = containedBullets[0]; //sets the projectile that will be fired next
+						UpdateProjectile(); //sets the projectile that will be fired next
 					}
 				}
 				if (isClip && serverAmmoRemains == 0)
@@ -192,9 +191,8 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 				containedBullets.Add(clip.Projectile);
 				containedProjectilesFired.Add(clip.ProjectilesFired);
 			}
-			ProjectilesFired = containedProjectilesFired[0];
-			Projectile = containedBullets[0];	//sets the projectile that will be fired next
-												//this is here in the case that we had no ammo loaded, so the 0th entry was changed
+			UpdateProjectile();	//sets the projectile that will be fired next
+								//this is here in the case that we had no ammo loaded, so the 0th entry was changed
 		}
 		ServerSetAmmoRemains(serverAmmoRemains + toTransfer);
 
@@ -239,6 +237,12 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		double currentRNG = RNGContents[clientAmmoRemains];
 		Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, currentRNG, serverAmmoRemains, clientAmmoRemains);
 		return currentRNG;
+	}
+
+	public void UpdateProjectile()
+	{
+		ProjectilesFired = containedProjectilesFired[0];
+		Projectile = containedBullets[0];
 	}
 
 	public String Examine(Vector3 pos)

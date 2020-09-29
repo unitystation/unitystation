@@ -455,6 +455,7 @@ namespace Weapons
 					var fromSlot = magazine.GetComponent<Pickupable>().ItemSlot;
 					Inventory.ServerTransfer(fromSlot, magSlot);
 					queuedLoadMagNetID = NetId.Invalid;
+					CurrentMagazine.UpdateProjectile();
 				}
 			}
 		}
