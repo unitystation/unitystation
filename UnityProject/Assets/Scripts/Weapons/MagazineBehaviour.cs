@@ -38,9 +38,9 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// <summary>
 	///	Whether this can be used to reload other (internal or external) magazines.
 	/// </summary>
-	public bool isClip;
+	public bool isClip = false;
 	public GameObject Projectile;
-	public int ProjectilesFired;
+	public int ProjectilesFired = 1;
 
 	List<int> containedProjectilesFired = new List<int>();
 
