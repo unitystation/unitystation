@@ -56,12 +56,13 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 	public override void OnStartClient()
 	{
+		InitLists();
 		SetupRNG();
 	}
 
 	public override void OnStartServer()
 	{
-		ServerInit();
+		SetupRNG();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -75,14 +76,25 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		clientAmmoRemains = -1;
 		if (!isClip)
 		{
-			for (int i = magazineSize ; i != 0; i--)
-			{
-				containedBullets.Add(Projectile);
-				containedProjectilesFired.Add(ProjectilesFired);
-			}
+			InitLists();
 		}
 		SyncServerAmmo(magazineSize, magazineSize);
 		SetupRNG();
+	}
+
+	public void InitLists()
+	{
+		containedBullets.Clear();
+		containedProjectilesFired.Clear();
+		for (int i = magazineSize + 1; i != 0; i--)
+		{
+			containedBullets.Add(Projectile);
+			containedProjectilesFired.Add(ProjectilesFired);
+		}
+		//containedBullets.Capacity(magazineSize);
+		//containedBullets.TrimExcess();	//fix issues that are caused by onstartserver() being executed twice
+		//containedProjectilesFired.Capacity(magazineSize);
+		//containedProjectilesFired.TrimExcess();
 	}
 
 	/// <summary>
