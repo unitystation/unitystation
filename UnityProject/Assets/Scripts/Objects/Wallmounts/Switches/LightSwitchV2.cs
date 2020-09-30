@@ -11,7 +11,7 @@ namespace Lighting
 	{
 		public List<LightSource> listOfLights;
 
-		public Action<bool> switchTriggerEvent;
+		public Action<bool> SwitchTriggerEvent;
 
 		[SyncVar(hook = nameof(SyncState))]
 		public bool isOn = true;
@@ -60,7 +60,7 @@ namespace Lighting
 		{
 			isOn = newState;
 			if (!invokeEvent) return;
-			switchTriggerEvent?.Invoke(isOn);
+			SwitchTriggerEvent?.Invoke(isOn);
 		}
 
 		#region ICheckedInteractable<HandApply>

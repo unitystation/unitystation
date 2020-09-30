@@ -71,7 +71,14 @@ public class SubscriptionControllerEditor : Editor
 			EditorUtility.SetDirty(controller);
 			foreach (var objectToDirt in objectsToDirt)
 			{
+				//make that shit dirty
 				EditorUtility.SetDirty(objectToDirt);
+
+				//make all that shit's shit dirty because fuck you unity
+				foreach (var component in objectToDirt.GetComponents<Component>())
+				{
+					EditorUtility.SetDirty(component);
+				}
 			}
 
 			EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
