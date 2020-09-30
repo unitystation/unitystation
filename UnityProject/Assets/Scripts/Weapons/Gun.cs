@@ -683,7 +683,7 @@ namespace Weapons
 				}
 			}
 
-			SoundManager.PlayAtPosition(firingSound, shooter.transform.position, shooter);
+			SoundManager.PlayAtPosition(firingSound, string.Empty, shooter.transform.position, shooter);
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}
 

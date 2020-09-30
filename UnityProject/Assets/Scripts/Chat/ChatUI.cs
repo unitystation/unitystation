@@ -318,7 +318,7 @@ public class ChatUI : MonoBehaviour
 		parsedInput = Chat.ParsePlayerInput(InputFieldChat.text, chatContext);
 		if (Chat.IsValidToSend(parsedInput.ClearMessage))
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			PlayerSendChat(parsedInput.ClearMessage);
 		}
 
@@ -337,7 +337,7 @@ public class ChatUI : MonoBehaviour
 
 	public void OnChatCancel()
 	{
-		SoundManager.Play(clickSound);
+		SoundManager.Play(clickSound, string.Empty);
 		InputFieldChat.text = "";
 		CloseChatWindow();
 	}
@@ -421,7 +421,7 @@ public class ChatUI : MonoBehaviour
 	public void Toggle_ChannelPanel()
 	{
 		showChannels = !showChannels;
-		SoundManager.Play(clickSound);
+		SoundManager.Play(clickSound, string.Empty);
 		if (showChannels)
 		{
 			channelPanel.gameObject.SetActive(true);
@@ -497,7 +497,7 @@ public class ChatUI : MonoBehaviour
 		radioEntry.GetComponentInChildren<Text>().text = channel.ToString();
 		radioEntry.GetComponentInChildren<Button>().onClick.AddListener(() =>
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			DisableChannel(channel);
 		});
 		// Add it to a list for easy access later
@@ -565,7 +565,7 @@ public class ChatUI : MonoBehaviour
 
 	public void Toggle_Channel(bool turnOn)
 	{
-		SoundManager.Play(clickSound);
+		SoundManager.Play(clickSound, string.Empty);
 		GameObject curObject = EventSystem.current.currentSelectedGameObject;
 		if (!curObject)
 		{

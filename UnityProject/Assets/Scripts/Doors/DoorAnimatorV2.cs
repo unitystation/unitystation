@@ -90,7 +90,7 @@ namespace Doors
 			}
 			overlayFillHandler.ChangeSprite((int) DoorFrame.Opening);
 			doorBaseHandler.ChangeSprite((int) DoorFrame.Opening);
-			SoundManager.PlayAtPosition(openingSFX, gameObject.AssumedWorldPosServer());
+			SoundManager.PlayAtPosition(openingSFX, string.Empty, gameObject.AssumedWorldPosServer());
 			yield return WaitFor.Seconds(openingAnimationTime);
 
 			//Change to open sprite after done opening

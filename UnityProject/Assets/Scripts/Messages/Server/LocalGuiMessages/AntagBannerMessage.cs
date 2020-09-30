@@ -42,7 +42,7 @@ namespace Messages.Server.LocalGuiMessages
 			{
 				// Recompose an AddressableAudioSoure from its primart key (Guid)
 				AddressableAudioSource addressableAudioSource = new AddressableAudioSource(AntagSoundGuid);
-				SoundManager.Play(addressableAudioSource);
+				SoundManager.Play(addressableAudioSource, string.Empty);
 			}
 		}
 	}

@@ -80,7 +80,7 @@ namespace Lobby
 
 		public void ShowCreationPanel()
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			HideAllPanels();
 			createAccountPanel.SetActive(true);
 			dialogueTitle.text = "Create an Account";
@@ -88,7 +88,7 @@ namespace Lobby
 
 		public void ShowCharacterEditor(Action onCloseAction = null)
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			HideAllPanels();
 			LobbyManager.Instance.characterCustomization.gameObject.SetActive(true);
 			if (onCloseAction != null)
@@ -158,7 +158,7 @@ namespace Lobby
 
 		public void CreationNextButton()
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			HideAllPanels();
 			pendingCreationPanel.SetActive(true);
 			nextCreationButton.SetActive(false);
@@ -193,7 +193,7 @@ namespace Lobby
 
 		public void OnLogin()
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			PerformLogin();
 		}
 
@@ -221,7 +221,7 @@ namespace Lobby
 
 		public void OnLogout()
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			HideAllPanels();
 			ServerData.Auth.SignOut();
 			NetworkClient.Disconnect();
@@ -234,7 +234,7 @@ namespace Lobby
 
 		public void OnExit()
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			Application.Quit();
 		}
 
@@ -267,7 +267,7 @@ namespace Lobby
 			loggingInText.text =
 				$"A new verification email has been sent to {FirebaseAuth.DefaultInstance.CurrentUser.Email}.";
 
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			FirebaseAuth.DefaultInstance.CurrentUser.SendEmailVerificationAsync();
 			FirebaseAuth.DefaultInstance.SignOut();
 		}
@@ -281,7 +281,7 @@ namespace Lobby
 		// Button handlers
 		public void OnStartGame()
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 
 			// Return if no network address is specified
 			if (string.IsNullOrEmpty(serverAddressInput.text))
@@ -317,13 +317,13 @@ namespace Lobby
 
 		public void OnShowInformationPanel()
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			ShowInformationPanel();
 		}
 
 		public void OnShowControlInformationPanel()
 		{
-			SoundManager.Play(clickSound);
+			SoundManager.Play(clickSound, string.Empty);
 			ShowControlInformationPanel();
 		}
 

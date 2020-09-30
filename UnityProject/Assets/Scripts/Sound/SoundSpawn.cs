@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// A sound spawn is an instance of a currently playing sound.
@@ -25,7 +24,6 @@ public class SoundSpawn: MonoBehaviour
 
 	private void Awake()
 	{
-		Token = Guid.NewGuid().ToString();
 		AudioSource = GetComponent<AudioSource>();
 		RegisterTile = GetComponent<RegisterTile>();
 	}

@@ -71,6 +71,13 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 	private string soundSpawnToken;
 
+	private async Task<AddressableAudioSource> GetAddressableAudioSourceFromCache()
+	{
+		AddressableAudioSource addressableAudioSourceParam = new AddressableAudioSource(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex));
+		AddressableAudioSource addressableAudioSourceFromCache = await SoundManager.GetAddressableAudioSourceFromCache(new List<AddressableAudioSource> { addressableAudioSourceParam });
+		return addressableAudioSourceFromCache;
+	}
+
 	public bool IsPlaying { get; set; } = false;
 
 	public string TrackPosition
@@ -83,18 +90,15 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 	public async Task<string> GetSongNameAsync()
 	{
-		string songPrimaryKey = SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path;
-		AddressableAudioSource addressableAudioSource = await SoundManager.Instance.LoadMusicAsync(songPrimaryKey);
-		AudioSource audioSource = addressableAudioSource.AudioSource;
+		AddressableAudioSource addressableAudioSourceFromCache = await GetAddressableAudioSourceFromCache();
+		AudioSource audioSource = addressableAudioSourceFromCache.AudioSource;
 		return $"{audioSource.clip.name.Split('_')[0]}";
 	}
 
 	public async Task<string> GetArtistNameAsync()
 	{
-
-		string songPrimaryKey = SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path;
-		AddressableAudioSource addressableAudioSource = await SoundManager.Instance.LoadMusicAsync(songPrimaryKey);
-		AudioSource audioSource = addressableAudioSource.AudioSource;
+		AddressableAudioSource addressableAudioSourceFromCache = await GetAddressableAudioSourceFromCache();
+		AudioSource audioSource = addressableAudioSourceFromCache.AudioSource;
 		string songName = audioSource.clip.name;
 		string artist = songName.Contains("_") ? songName.Split('_')[1] : "Unknown";
 		return $"{artist}";
@@ -202,8 +206,8 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 
 			};
 
-			AddressableAudioSource addressableAudioSource = await SoundManager.Instance.LoadMusicAsync(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
-			SoundManager.PlayNetworkedAtPos(addressableAudioSource, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
+			AddressableAudioSource addressableAudioSourceFromCache = await GetAddressableAudioSourceFromCache();
+			soundSpawnToken = await SoundManager.PlayNetworkedAtPos(addressableAudioSourceFromCache, registerTile.WorldPositionServer, audioSourceParameters, false, true, gameObject);
 
 			startPlayTime = Time.time;
 			UpdateGUIAsync();
@@ -219,8 +223,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		else
 			spriteHandler.SetSpriteSO(SpriteDamaged);
 
-
-		SoundManager.StopNetworked(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
+		SoundManager.StopNetworked(soundSpawnToken);
 
 		UpdateGUIAsync();
 	}
@@ -230,10 +233,11 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		if (currentSongTrackIndex > 0)
 		{
 			if (IsPlaying)
-				SoundManager.StopNetworked(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
+				SoundManager.StopNetworked(soundSpawnToken);
 
+			// JESTER
 			// We unload the music from the library, freeing RAM
-			SoundManager.Instance.UnloadMusic(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
+			//SoundManager.Instance.UnloadMusic(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
 
 			currentSongTrackIndex--;
 			UpdateGUIAsync();
@@ -248,10 +252,11 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 		if (currentSongTrackIndex < SoundManager.Instance.MusicLibrary.Count - 1)
 		{
 			if (IsPlaying)
-				SoundManager.StopNetworked(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
+				SoundManager.StopNetworked(soundSpawnToken);
 
+			// JESTER
 			// We unload the music from the library, freeing RAM
-			SoundManager.Instance.UnloadMusic(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
+			// SoundManager.Instance.UnloadMusic(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path);
 
 			currentSongTrackIndex++;
 			UpdateGUIAsync();
@@ -274,7 +279,7 @@ public class Jukebox : NetworkBehaviour, IAPCPowered
 			Volume = newVolume,
 		};
 
-		ChangeAudioSourceParametersMessage.SendToAll(SoundManager.Instance.MusicLibrary.ElementAt(currentSongTrackIndex).Path, audioSourceParameters);
+		ChangeAudioSourceParametersMessage.SendToAll(soundSpawnToken, audioSourceParameters);
 	}
 
 	private void OnDamageReceived(DamageInfo damageInfo)
