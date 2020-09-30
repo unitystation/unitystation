@@ -91,7 +91,8 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 			containedBullets.Add(Projectile);
 			containedProjectilesFired.Add(ProjectilesFired);
 		}
-		
+	}
+	
 	/// <summary>
 	/// Changes size of magazine and reloads it. Be sure to call this on every client and the server if you do, or face the consequences.
 	/// Also sets the contained ammunition to full.
