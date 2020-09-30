@@ -918,28 +918,6 @@ public partial class MatrixManager : MonoBehaviour
 		return positionList;
 	}
 
-	public void CleanTile(Vector3 worldPos, bool makeSlippery)
-	{
-		var worldPosInt = worldPos.CutToInt();
-		var matrix = AtPoint(worldPosInt, true);
-		var localPosInt = WorldToLocalInt(worldPosInt, matrix);
-		var floorDecals = GetAt<FloorDecal>(worldPosInt, isServer: true);
-
-	    for (var i = 0; i<floorDecals.Count; i++ )
-	    {
-		    floorDecals[i].TryClean();
-		}
-
-	    if (!IsSpaceAt(worldPosInt, true) && makeSlippery)
-	    {
-		    // Create a WaterSplat Decal (visible slippery tile)
-		    EffectsFactory.WaterSplat(worldPosInt);
-
-		    // Sets a tile to slippery
-		    matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);
-	    }
-	}
-
 	public static Transform GetDefaultParent( Vector3? position, bool isServer )
 	{
 		if ( !position.HasValue )
