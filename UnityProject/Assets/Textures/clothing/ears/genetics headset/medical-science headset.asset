@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 29426ca7d955d2c429f6808f9fd5e786, type: 3}
-  m_Name: CentCom headset
+  m_Name: medical-science headset
   m_EditorClassIdentifier: 
   Sprites:
     SpriteEquipped: {fileID: 11400000, guid: 7908706a8d937a4409f76118bc90503f, type: 2}
@@ -18,7 +18,7 @@ MonoBehaviour:
       type: 2}
     SpriteInHandsRight: {fileID: 11400000, guid: b94e20227c573f945ab19acee6a2b483,
       type: 2}
-    SpriteItemIcon: {fileID: 11400000, guid: a6a80e1d051002a4bb4a1ef681005523, type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: e976f0d138b8be446853c7cf74ad2ced, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}
@@ -30,4 +30,4 @@ MonoBehaviour:
     - {r: 0, g: 0, b: 0, a: 0}
     IsPaletted: 0
   Key:
-    EncryptionKey: 17
+    EncryptionKey: 19
