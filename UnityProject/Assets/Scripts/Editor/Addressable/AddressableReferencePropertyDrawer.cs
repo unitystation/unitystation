@@ -27,22 +27,17 @@ public class AddressableReferencePropertyDrawer : PropertyDrawer
 		EditorGUI.indentLevel = 0;
 		EditorGUI.BeginChangeCheck();
 
-		var Path = property.FindPropertyRelative("AssetAddress");
+		var Path = property.FindPropertyRelative("Path");
 		var AssetReference = property.FindPropertyRelative("AssetReference");
-
 
 		EditorGUI.PropertyField(new Rect(15, position.y+(Height*2), position.width+position.x-15, Height), AssetReference, GUIContent.none);
 		EditorGUI.PropertyField(new Rect(position.x, position.y+(Height*0), position.width, Height), property.FindPropertyRelative("SetLoadSetting"), GUIContent.none);
-		EditorGUI.PropertyField(new Rect(position.x, position.y+(Height*1), position.width, Height), Path, GUIContent.none);
+		EditorGUI.LabelField(new Rect(position.x, position.y+(Height*1), position.width, Height), Path.stringValue);
 
 		if (EditorGUI.EndChangeCheck())
 		{
-			//aaSettings.FindAssetEntry(guid)
-
 			var m_AssetRefObject = SerializedPropertyExtensions.GetActualObjectForSerializedProperty<AssetReference>(AssetReference,fieldInfo, ref labelText);
-			//AssetDatabase.GUIDToAssetPath(m_AssetRefObject.AssetGUID);
 			Path.stringValue = AddressableAssetSettingsDefaultObject.Settings.FindAssetEntry(m_AssetRefObject.AssetGUID).address;
-			//AssetReference.e
 		}
 
 		EditorGUI.indentLevel = indent;

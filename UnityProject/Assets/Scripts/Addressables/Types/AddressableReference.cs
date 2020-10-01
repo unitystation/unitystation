@@ -15,6 +15,8 @@ namespace AddressableReferences
 		public UnLoadSetting SetLoadSetting = UnLoadSetting.KeepLoaded;
 		public string Path = "";
 		public AssetReference AssetReference = null;
+
+		[HideInInspector]
 		public T Asset;
 
 		public bool IsNotValidKey => NotValidKey();
