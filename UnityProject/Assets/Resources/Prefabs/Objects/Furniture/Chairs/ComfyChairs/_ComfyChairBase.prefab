@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &7906010592902707263
 Transform:
   m_ObjectHideFlags: 0
@@ -248,6 +248,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: a55e8d2c4e4969742a18411f28c8b973,
         type: 2}
+    - target: {fileID: 4752306197363050836, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: howMany
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -303,6 +308,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8182946741261951715, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: spriteHandlers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8182946741261951715, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: spriteHandlers.Array.data[1]
+      value: 
+      objectReference: {fileID: 2166773928914461475}
     - target: {fileID: 8185880096148182776, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: m_Name
@@ -314,7 +329,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: eb4f7837edd2d104a8826621c12dfabb,
         type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4122229879968008687, guid: 1a00e842e154f7d43811c5d45328988c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1a00e842e154f7d43811c5d45328988c, type: 3}
 --- !u!4 &4762619992935748996 stripped
 Transform:

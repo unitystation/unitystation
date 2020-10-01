@@ -100,7 +100,7 @@ PrefabInstance:
     - target: {fileID: 8185880096148182776, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: m_Name
-      value: OfficeChair
+      value: OfficeChairDark
       objectReference: {fileID: 0}
     - target: {fileID: 8284981173973840623, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
@@ -108,7 +108,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 7d8d57f855b05d04aa1bfce4148d9f9b,
         type: 3}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4122229879968008687, guid: 1a00e842e154f7d43811c5d45328988c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1a00e842e154f7d43811c5d45328988c, type: 3}
 --- !u!1 &7214057705511220808 stripped
 GameObject:

@@ -46,6 +46,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ShuttleChair
       objectReference: {fileID: 0}
+    - target: {fileID: 4762609705790187333, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
+      propertyPath: spriteHandlers.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4762619992935748996, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -101,6 +106,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5178273871970585101, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8242730471954189554, guid: 670ba51760414e64093966f4abfab82d,
+        type: 3}
+      propertyPath: resourcesMadeOf
+      value: 
+      objectReference: {fileID: 50811173315437471, guid: 25625619713dba04296304a60f5f37c1,
+        type: 3}
     - target: {fileID: 9120451367959794684, guid: 670ba51760414e64093966f4abfab82d,
         type: 3}
       propertyPath: m_Sprite

@@ -38,6 +38,23 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 1d138343609b8564f8ebd6570a947154,
         type: 2}
+    - target: {fileID: 4122229879968008687, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: prefabVariant
+      value: 
+      objectReference: {fileID: 3175792500284053558, guid: 9843990c973070e40bb9244d59d676b1,
+        type: 3}
+    - target: {fileID: 4752306197363050836, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: resourcesMadeOf
+      value: 
+      objectReference: {fileID: 2663802320431471963, guid: 9ae38f6aa43b5cd4ba608cd31b462b24,
+        type: 3}
+    - target: {fileID: 4752306197363050836, guid: 1a00e842e154f7d43811c5d45328988c,
+        type: 3}
+      propertyPath: howMany
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8182938654540533794, guid: 1a00e842e154f7d43811c5d45328988c,
         type: 3}
       propertyPath: m_LocalPosition.x
