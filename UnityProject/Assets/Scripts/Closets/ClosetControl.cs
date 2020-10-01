@@ -601,7 +601,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			}
 
 			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
-				.ServerStartProgress(target.RegisterTile(), 5f, performer);
+				.ServerStartProgress(target.RegisterTile(), breakoutTime, performer);
 			if (bar != null)
 			{
 				SoundManager.PlayNetworkedAtPos(soundOnEscape, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
