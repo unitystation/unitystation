@@ -20,7 +20,7 @@ PrefabInstance:
     - target: {fileID: 3875362642490517515, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
       propertyPath: m_Name
-      value: EncryptionKeyPsychology
+      value: EncryptionKeyPsychiatry
       objectReference: {fileID: 0}
     - target: {fileID: 3880853740962649471, guid: 4fc25c61215094048b41943837cf2e3f,
         type: 3}
@@ -81,7 +81,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a2590ddb57512f3498ace2924773390a,
+      objectReference: {fileID: 21300000, guid: d8f2cc60d16414e40b78349794df5102,
         type: 3}
+    - target: {fileID: 6957519355703055244, guid: 4fc25c61215094048b41943837cf2e3f,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6a85dfeca973a734d81b0f78329775e8,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4fc25c61215094048b41943837cf2e3f, type: 3}
