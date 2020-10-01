@@ -47,6 +47,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	public bool IsCuffed => cuffed;
 
 	/// <summary>
+	/// Whether the character is trapped in a closet (or similar)
+	/// </summary>
+	public bool IsTrapped = false;
+
+	/// <summary>
 	/// Invoked on server side when the cuffed state is changed
 	/// </summary>
 	[NonSerialized]

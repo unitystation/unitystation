@@ -12,5 +12,6 @@ public enum StandardProgressActionType
 	SelfHeal = 3,
 	CPR = 4,
 	Disrobe = 5,
-	Mop = 6
+	Mop = 6,
+	Escape = 7
 }

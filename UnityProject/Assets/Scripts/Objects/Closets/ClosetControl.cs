@@ -11,8 +11,10 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(RightClickAppearance))]
 public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, IRightClickable,
 	IServerLifecycle
-
 {
+	private static readonly StandardProgressActionConfig ProgressConfig =
+		new StandardProgressActionConfig(StandardProgressActionType.Escape);
+
 	[Tooltip("Contents that will spawn inside every instance of this locker when the" +
 			 " locker spawns.")]
 	[SerializeField]
@@ -30,6 +32,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[SerializeField]
 	private int playerLimit = 3;
 
+	[Tooltip("Time to breakout or resist out of closet")]
+	[SerializeField]
+	private float breakoutTime = 120f;
+	
 	[Tooltip("Type of material to drop when destroyed")]
 	public GameObject matsOnDestroy;
 
@@ -45,7 +51,11 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	[Tooltip("Name of sound to play when emagged")]
 	[SerializeField]
-	private string soundOnEmag = "grillehit";
+	private string soundOnEmag = "Grillehit";
+
+	[Tooltip("Name of sound to play when emagged")]
+	[SerializeField]
+	private string soundOnEscape = "Rustle 1";
 
 	[Tooltip("Sprite to show when door is open.")]
 	[SerializeField]
@@ -54,6 +64,10 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[Tooltip("Renderer for the whole locker")]
 	[SerializeField]
 	protected SpriteRenderer spriteRenderer;
+
+	[Tooltip("GameObject for the lock overlay")]
+	[SerializeField]
+	protected GameObject lockOverlay = null;
 
 	/// <summary>
 	/// Invoked when locker becomes closed / open. Param is true
@@ -71,7 +85,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	/// Currently held players, only valid server side
 	/// </summary>
 	public IEnumerable<ObjectBehaviour> ServerHeldPlayers => serverHeldPlayers;
-
 
 	/// <summary>
 	/// Whether locker is currently closed. Valid client / server side.
@@ -101,8 +114,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 	[SerializeField]
 	private Sprite weldSprite = null;
-
-
 	private static readonly float weldTime = 5.0f;
 
 	private string closetName;
@@ -112,7 +123,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	/// Whether locker is weldable.
 	/// </summary>
 	public bool IsWeldable => (weldOverlay != null);
-
 
 	/// <summary>
 	/// Current status of the closet, valid client / server side.
@@ -157,7 +167,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			{
 				Logger.LogErrorFormat("Closet {0} has no PushPull component! All contained items will appear at HiddenPos!", Category.Transform, gameObject.ExpensiveName());
 			}
-
 			return pushPull;
 		}
 	}
@@ -169,7 +178,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 
 		//Fetch the items name to use in messages
 		closetName = gameObject.ExpensiveName();
-	
 	}
 
 	private void EnsureInit()
@@ -352,7 +360,21 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		{
 			statusSync = ClosetStatus.Open;
 		}
+	}
 
+	/// <summary>
+	/// Break the closet lock.
+	/// </summary>
+	public void BreakLock()
+	{
+		//Disable the lock and hide its light 
+		if (IsLockable)
+		{
+			SyncLocked(isLocked, false);
+			IsLockable = false;
+			lockLight.Hide();
+			Despawn.ClientSingle(lockOverlay);
+		}
 	}
 
 	public void ServerTryWeld()
@@ -366,7 +388,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	public void ServerWeld()
 	{
 		if (this == null || gameObject == null) return; // probably destroyed by a shuttle crash
-		
+	
 		SyncIsWelded(isWelded, !isWelded);
 		
 	}
@@ -403,7 +425,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		if (statusSync == ClosetStatus.Open)
 		{
 			spriteRenderer.sprite = doorOpened;
-			if (lockLight)
+			if (lockLight && IsLockable)
 			{
 				lockLight.Hide();
 			}
@@ -411,7 +433,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		else
 		{
 			spriteRenderer.sprite = doorClosed;
-			if (lockLight)
+			if (lockLight && IsLockable)
 			{
 				lockLight.Show();
 			}
@@ -462,13 +484,14 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		// Is the player trying to put something in the closet?
 		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
 		{
-			if(IsClosed && !isEmagged)
+			if (IsClosed && !isEmagged)
 			{
-				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
-				ServerHandleContentsOnStatusChange(false);
+				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, gameObject);
+				//ServerHandleContentsOnStatusChange(false);
 				isEmagged = true;
-				SyncLocked(isLocked, false);
-				SyncStatus(statusSync, ClosetStatus.Open);
+				
+				//SyncStatus(statusSync, ClosetStatus.Open);
+				BreakLock();
 			}
 		}
 		else if (Validations.HasUsedActiveWelder(interaction))
@@ -476,7 +499,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			// Is the player trying to weld closet?
 			if (IsWeldable && interaction.Intent == Intent.Harm)
 			{
-				//TODO: Need to add an examine msg saying "Its welded shut
 				ToolUtils.ServerUseToolWithActionMessages(
 						interaction, weldTime,
 						$"You start {(IsWelded ? "unwelding" : "welding")} the {closetName} door...",
@@ -496,21 +518,34 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				Inventory.ServerDrop(interaction.HandSlot, targetPosition - performerPosition);
 			}
 		}
-		else if(interaction.HandObject == null)
+		else if (interaction.HandObject == null)
 		{
 			// player want to close locker?
-			if (!isLocked && !isEmagged && !isWelded)
+			if (!isLocked && !isWelded)
 			{
 				ServerToggleClosed();
 			}
-			else if(!AccessRestrictions.CheckAccess(interaction.Performer) && (isLocked || isWelded))
+			else if (isLocked || isWelded)
 			{
-				Chat.AddExamineMsg(
-				interaction.Performer,
-				$"Can\'t open {closetName}");
+				if (IsLockable)
+				{ //This is to stop cant open msg even though you can
+					if (!AccessRestrictions.CheckAccess(interaction.Performer))
+					{
+						Chat.AddExamineMsg(
+						interaction.Performer,
+						$"Can\'t open {closetName}");
+					}
+				}
+				else
+				{
+					Chat.AddExamineMsg(
+					interaction.Performer,
+					$"Can\'t open {closetName}");
+				}
+	
 			}
 		}
-
+				
 		// player trying to unlock locker?
 		if (IsLockable && AccessRestrictions != null)
 		{
@@ -533,6 +568,46 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				{
 					SyncLocked(isLocked, false);
 				}
+			}
+		}
+	}
+
+	public void PlayerTryEscaping(GameObject player)
+	{
+		// First, try to just open the closet. 
+		if (!isLocked && !isWelded)
+		{
+			ServerToggleClosed();
+		}
+		else
+		{
+			GameObject target = this.gameObject;
+			GameObject performer = player;
+
+			void ProgressFinishAction()
+			{
+				//TODO: Add some sound here. 
+				ServerToggleClosed();
+				BreakLock();
+
+				//Remove the weld
+				if (isWelded)
+				{
+					ServerTryWeld();
+				}
+				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+				Chat.AddActionMsgToChat(performer, $"You successfully broke out of {target.ExpensiveName()}.",
+					$"{performer.ExpensiveName()} successfully breaks out of {target.ExpensiveName()}.");
+			}
+
+			var bar = StandardProgressAction.Create(ProgressConfig, ProgressFinishAction)
+				.ServerStartProgress(target.RegisterTile(), breakoutTime, performer);
+			if (bar != null)
+			{
+				SoundManager.PlayNetworkedAtPos(soundOnEscape, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+				Chat.AddActionMsgToChat(performer,
+					$"You begin breaking out of {target.ExpensiveName()}...",
+					$"{performer.ExpensiveName()} begins breaking out of {target.ExpensiveName()}...");
 			}
 		}
 	}
@@ -576,7 +651,6 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			}
 			item.parentContainer = null;
 		}
-
 		serverHeldItems.Clear();
 	}
 
@@ -597,7 +671,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 			//force add, because we call clositemhandling before the
 			//closet is actually updated as being closed.
 			//Blame this mess on DNA scanner
-			//TODO: FIx this mess, remove the need for a special OccupiedWithPlayer status, move that as a special
+			//TODO: Fix this mess, remove the need for a special OccupiedWithPlayer status, move that as a special
 			//syncvar inside DNAScanner
 			ServerAddInternalItemInternal(objectBehaviour, true);
 		}
@@ -611,18 +685,17 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		foreach (ObjectBehaviour player in serverHeldPlayers)
 		{
 			player.VisibleState = true;
+			player.GetComponent<PlayerMove>().IsTrapped = false;
 			if (PushPull && PushPull.Pushable.IsMovingServer)
 			{
 				player.TryPush(PushPull.InheritedImpulse.To2Int(), PushPull.Pushable.SpeedServer);
 			}
 			player.parentContainer = null;
-
 			//Stop tracking closet
 			FollowCameraMessage.Send(player.gameObject, player.gameObject);
 		}
 		serverHeldPlayers = new List<ObjectBehaviour>();
 	}
-	//TODO: add player escape code for closets, should take 2 min (120 seconds)
 
 	/// <summary>
 	/// Adds all players currently sitting on this closet into the closet
@@ -649,6 +722,7 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		var playerScript = player.GetComponent<PlayerScript>();
 
 		player.VisibleState = false;
+		playerScript.playerMove.IsTrapped = true;
 		player.parentContainer = PushPull;
 
 		//Start tracking closet
