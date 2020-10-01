@@ -321,14 +321,14 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	{
 		UnSubscribeFromSwitchEvent();
 		relatedLightSwitch = lightSwitch;
-		lightSwitch.switchTriggerEvent += Trigger;
+		lightSwitch.SwitchTriggerEvent += Trigger;
 	}
 
 	public void UnSubscribeFromSwitchEvent()
 	{
 		if (relatedLightSwitch == null)
 			return;
-		relatedLightSwitch.switchTriggerEvent -= Trigger;
+		relatedLightSwitch.SwitchTriggerEvent -= Trigger;
 		relatedLightSwitch = null;
 	}
 

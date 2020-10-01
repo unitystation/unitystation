@@ -1,13 +1,17 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Electricity.Inheritance;
 using Mirror;
 using NaughtyAttributes;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
 namespace Electricity.PoweredDevices
 {
+	[RequireComponent(typeof(ElectricalNodeControl))]
+	[RequireComponent(typeof(ResistanceSourceModule))]
 	public class APC : SubscriptionController, ICheckedInteractable<HandApply>, INodeControl, IServerDespawn, ISetMultitoolMaster
 	{
 		// -----------------------------------------------------
@@ -38,10 +42,10 @@ namespace Electricity.PoweredDevices
 		private float current;
 		public float Current => current;
 
-		[SerializeField][FormerlySerializedAs("ElectricalNodeControl")]
-		private ElectricalNodeControl ElectricalNodeControl;
-		[SerializeField][FormerlySerializedAs("ResistanceSourceModule")]
-		private ResistanceSourceModule ResistanceSourceModule;
+		private ElectricalNodeControl electricalNodeControl;
+		private ResistanceSourceModule resistanceSourceModule;
+
+
 		[SerializeField][FormerlySerializedAs("NetTabType")]
 		private NetTabType netTabType;
 
@@ -52,6 +56,12 @@ namespace Electricity.PoweredDevices
 		{
 			voltageSync = newVoltage;
 			UpdateDisplay();
+		}
+
+		private void Awake()
+		{
+			electricalNodeControl = GetComponent<ElectricalNodeControl>();
+			resistanceSourceModule = GetComponent<ResistanceSourceModule>();
 		}
 
 		private void Start()
@@ -86,10 +96,10 @@ namespace Electricity.PoweredDevices
 
 		private void OnDisable()
 		{
-			if (ElectricalNodeControl == null) return;
+			if (electricalNodeControl == null) return;
 			if(ElectricalManager.Instance == null)return;
 			if(ElectricalManager.Instance.electricalSync == null)return;
-			ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(ElectricalNodeControl);
+			ElectricalManager.Instance.electricalSync.PoweredDevices.Remove(electricalNodeControl);
 		}
 
 		public bool WillInteract(HandApply interaction, NetworkSide side)
@@ -102,12 +112,11 @@ namespace Electricity.PoweredDevices
 
 		public void PowerNetworkUpdate()
 		{
-			//Logger.Log("humm...");
-			if (cashOfConnectedDevices != ElectricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices.Count)
+			if (cashOfConnectedDevices != electricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices.Count)
 			{
-				cashOfConnectedDevices = ElectricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices.Count;
+				cashOfConnectedDevices = electricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices.Count;
 				connectedDepartmentBatteries.Clear();
-				foreach (var device in ElectricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices)
+				foreach (var device in electricalNodeControl.Node.InData.Data.ResistanceToConnectedDevices)
 				{
 					if (device.Key.InData.Categorytype != PowerTypeCategory.DepartmentBattery) continue;
 
@@ -125,9 +134,9 @@ namespace Electricity.PoweredDevices
 					batteryCharging = true;
 				}
 			}
-			ElectricityFunctions.WorkOutActualNumbers(ElectricalNodeControl.Node.InData);
-			SyncVoltage(voltageSync, ElectricalNodeControl.Node.InData.Data.ActualVoltage);
-			current = ElectricalNodeControl.Node.InData.Data.CurrentInWire;
+			ElectricityFunctions.WorkOutActualNumbers(electricalNodeControl.Node.InData);
+			SyncVoltage(voltageSync, electricalNodeControl.Node.InData.Data.ActualVoltage);
+			current = electricalNodeControl.Node.InData.Data.CurrentInWire;
 			HandleDevices();
 			UpdateDisplay();
 		}
@@ -174,7 +183,7 @@ namespace Electricity.PoweredDevices
 				CalculatingResistance += (1 / Device.Resistance);
 			}
 
-			ResistanceSourceModule.Resistance = (1 / CalculatingResistance);
+			resistanceSourceModule.Resistance = (1 / CalculatingResistance);
 		}
 
 
