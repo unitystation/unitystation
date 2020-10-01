@@ -10,9 +10,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1560966032627148193}
   - component: {fileID: 1682087833536344853}
+  - component: {fileID: 6485798593100464536}
   - component: {fileID: 8746195124161956548}
   m_Layer: 10
-  m_Name: SmallBurning
+  m_Name: BurningSmall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46,6 +47,8 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -81,6 +84,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6485798593100464536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558421102126524431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: f9b77dfc129fc3e44a167504093a3265, type: 2}
+  PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!114 &8746195124161956548
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -93,8 +116,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dec6e9c0f1454b1a90892bc8915e6c16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  AnimationSpeed: 0.1
-  sprites:
-  - {fileID: 21300000, guid: 217caae2d9adab145872b50ed0a46be5, type: 3}
-  - {fileID: 21300002, guid: 217caae2d9adab145872b50ed0a46be5, type: 3}
-  - {fileID: 21300004, guid: 217caae2d9adab145872b50ed0a46be5, type: 3}

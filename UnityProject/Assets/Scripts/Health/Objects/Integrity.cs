@@ -12,6 +12,8 @@ using Tilemaps.Behaviours.Meta;
 using UnityEngine.Profiling;
 using Object = System.Object;
 using Random = UnityEngine.Random;
+using Effects.Overlays;
+
 /// <summary>
 /// Component which allows an object to have an integrity value (basically an object's version of HP),
 /// take damage, and do things in response to integrity changes. Objects are destroyed when their integrity
@@ -87,7 +89,6 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	[Tooltip("Below this temperature (in Kelvin) the object will be unaffected by fire exposure.")]
 	public float HeatResistance = 100;
 
-
 	[SyncVar(hook = nameof(SyncOnFire))]
 	private bool onFire = false;
 	private BurningOverlay burningObjectOverlay;
@@ -133,8 +134,8 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 		if (registerTile != null) return;
 		if (SMALL_BURNING_PREFAB == null)
 		{
-			SMALL_BURNING_PREFAB = Resources.Load<GameObject>("SmallBurning");
-			LARGE_BURNING_PREFAB = Resources.Load<GameObject>("LargeBurning");
+			SMALL_BURNING_PREFAB = Resources.Load<GameObject>("BurningSmall");
+			LARGE_BURNING_PREFAB = Resources.Load<GameObject>("BurningLarge");
 		}
 
 		if (SMALL_ASH == null)
