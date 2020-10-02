@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using Light2D;
 using ScriptableObjects;
 using UnityEngine;
 
@@ -24,7 +23,8 @@ public class DepartmentList : SingletonScriptableObject<DepartmentList>
 	public IEnumerable<Occupation> GetAllHeadJobs()
 	{
 		// Log Errors for missing head jobs (Improves debugging)
-		departments.Where(p => p.HeadOccupations == null).ForEach(dept => Logger.LogError($"Missing head of department reference for department {dept.Description}"));
+		foreach (Department dept in departments.Where(p => p.HeadOccupations == null))
+			Logger.LogError($"Missing head of department reference for department {dept.Description}");
 
 		// Won't crash if a department is missing it's headOccupation reference.
 		return departments.Where(p => p.HeadOccupations != null).SelectMany(dept => dept.HeadOccupations);
