@@ -43,7 +43,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 7e4e4a84289e52c4f83c6deb88f32549,
+      objectReference: {fileID: 21300008, guid: 7e4e4a84289e52c4f83c6deb88f32549,
         type: 3}
     - target: {fileID: 5387743639968234743, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -146,7 +146,7 @@ PrefabInstance:
         type: 3}
       propertyPath: InitialVendorContent.Array.data[1].Item
       value: 
-      objectReference: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89,
+      objectReference: {fileID: 4257228480532492980, guid: c564124daeebb4d479474858c16e6e3d,
         type: 3}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -431,7 +431,7 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: InitialVendorContent.Array.data[20].Stock
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
@@ -653,6 +653,16 @@ PrefabInstance:
     - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
         type: 3}
       propertyPath: VendorContent.Array.data[21].Stock
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[22].ItemName
+      value: EMPTY SLOT
+      objectReference: {fileID: 0}
+    - target: {fileID: 8506729810979480882, guid: f5000c293075c074d80896d211fcd50b,
+        type: 3}
+      propertyPath: InitialVendorContent.Array.data[22].Stock
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
