@@ -8,15 +8,12 @@ namespace UI.Scroll
 {
 	public class GUI_TeleportScroll : NetTab
 	{
-		[Tooltip("Assign the uses remaining label here.")]
 		[SerializeField]
 		private NetLabel chargesLabel = default;
-
-		[Tooltip("Assign the teleport destination entry template here.")]
 		[SerializeField]
 		private EmptyItemList dynamicList = null;
 
-		public ScrollOfTeleportation Scroll { get; private set; }
+		private ScrollOfTeleportation scroll;
 
 		#region Lifecycle
 
@@ -31,7 +28,8 @@ namespace UI.Scroll
 			{
 				yield return WaitFor.EndOfFrame;
 			}
-			Scroll = Provider.GetComponent<ScrollOfTeleportation>();
+
+			scroll = Provider.GetComponent<ScrollOfTeleportation>();
 			UpdateChargesCount();
 			GenerateEntries();
 		}
@@ -40,7 +38,7 @@ namespace UI.Scroll
 
 		public void TeleportTo(TeleportDestination destination)
 		{
-			Scroll.TeleportTo(destination);
+			scroll.TeleportTo(destination);
 
 			UpdateChargesCount();
 			CloseTab(); // TODO: does not close clientside.
@@ -60,13 +58,13 @@ namespace UI.Scroll
 
 		private void UpdateChargesCount()
 		{
-			if (Scroll.ChargesRemaining < 0)
+			if (scroll.ChargesRemaining < 0)
 			{
 				chargesLabel.SetValueServer("");
 			}
 			else
 			{
-				chargesLabel.SetValueServer($"Teleport Charges: {Scroll.ChargesRemaining}");
+				chargesLabel.SetValueServer($"Teleport Charges: {scroll.ChargesRemaining}");
 			}
 		}
 	}

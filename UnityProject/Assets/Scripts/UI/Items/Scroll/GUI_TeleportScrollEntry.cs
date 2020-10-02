@@ -9,20 +9,20 @@ namespace UI.Scroll
 		[SerializeField]
 		private NetLabel destinationLabel = default;
 
-		private GUI_TeleportScroll ScrollGUI;
+		private GUI_TeleportScroll scrollGUI;
 
 		private TeleportDestination destination;
 
-		public void Init(GUI_TeleportScroll scrollGUI, TeleportDestination destinationInit)
+		public void Init(GUI_TeleportScroll scrollGUI, TeleportDestination destination)
 		{
-			ScrollGUI = scrollGUI;
-			destination = destinationInit;
+			this.scrollGUI = scrollGUI;
+			this.destination = destination;
 			destinationLabel.SetValueServer(destination.ToString());
 		}
 
 		public void Teleport()
 		{
-			ScrollGUI.TeleportTo(destination);
+			scrollGUI.TeleportTo(destination);
 		}
 	}
 }
