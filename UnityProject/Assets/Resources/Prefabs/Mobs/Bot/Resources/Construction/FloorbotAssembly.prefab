@@ -229,7 +229,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -250,7 +252,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &8520176200339000472
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -297,7 +298,7 @@ MonoBehaviour:
   syncInterval: 0.1
   armLast: 0
   stageParts:
-  - {fileID: 3506820747392627008, guid: 1fa9f2d6fbcfef845bb2f5903ffcfd23, type: 3}
+  - {fileID: 6513434798660266608, guid: f5de4bfc8649c7a428e694010049af77, type: 3}
   - {fileID: 6704733875890864299, guid: efa2c04573e08dd478e4b46c23747b75, type: 3}
   stageSprite:
   - {fileID: 21300000, guid: 637acabec9cccee4ab43ba8edd1e2657, type: 3}
@@ -364,6 +365,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -414,6 +416,7 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 5279f6047c52ad649bce422031dc55aa, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
