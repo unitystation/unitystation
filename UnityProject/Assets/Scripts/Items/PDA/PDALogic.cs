@@ -451,9 +451,6 @@ namespace Items.PDA
 			}
 		}
 
-		// Surely there is already a method that does what this one does?
-		// Numerous things would benefit, Canister.cs and removing bulbs from fixtures come to mind.
-		// The only addition, really, is it includes hands (and prioritises them) as a potential slot.
 		private ItemSlot GetBestSlot(GameObject item)
 		{
 			var player = GetPlayerByParentInventory();
@@ -463,26 +460,7 @@ namespace Items.PDA
 			}
 
 			var playerStorage = player.GetComponent<PlayerScript>().ItemStorage;
-
-			var activeHand = playerStorage.GetActiveHandSlot();
-			if (activeHand.IsEmpty)
-			{
-				return activeHand;
-			}
-
-			var leftHand = playerStorage.GetNamedItemSlot(NamedSlot.leftHand);
-			if (leftHand != activeHand && leftHand.IsEmpty)
-			{
-				return leftHand;
-			}
-
-			var rightHand = playerStorage.GetNamedItemSlot(NamedSlot.rightHand);
-			if (rightHand != activeHand && rightHand.IsEmpty)
-			{
-				return rightHand;
-			}
-
-			return playerStorage.GetBestSlotFor(item);
+			return playerStorage.GetBestHandOrSlotFor(item);
 		}
 
 		#endregion Inventory
@@ -549,7 +527,7 @@ namespace Items.PDA
 		[Server]
 		public bool HasAccess(Access access)
 		{
-			return accessSyncList.Contains((int) access);
+			return accessSyncList.Contains((int)access);
 		}
 
 		[Server]
@@ -563,7 +541,7 @@ namespace Items.PDA
 		public void ServerRemoveAccess(Access access)
 		{
 			if (!HasAccess(access)) return;
-			accessSyncList.Remove((int) access);
+			accessSyncList.Remove((int)access);
 		}
 
 		// Adds the indicated access to this IDCard
@@ -571,7 +549,7 @@ namespace Items.PDA
 		public void ServerAddAccess(Access access)
 		{
 			if (HasAccess(access)) return;
-			accessSyncList.Add((int) access);
+			accessSyncList.Add((int)access);
 		}
 
 		#endregion IDAccess

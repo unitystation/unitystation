@@ -221,13 +221,19 @@ namespace Objects.GasContainer
 		}
 
 		/// <summary>
-		/// Respawns the modified container back into the world
+		/// Respawns the modified container back into the world - or into the player's hand, if possible.
 		/// </summary>
 		public void RetrieveInsertedContainer()
 		{
+			var gasContainer = InsertedContainer;
 			EjectInsertedContainer();
-			ItemStorage player = networkTab.LastInteractedPlayer().GetComponent<PlayerScript>().ItemStorage;
-			HandInsert(player);
+
+			var playerScript = networkTab.LastInteractedPlayer().GetComponent<PlayerScript>();
+			var bestHand = playerScript.ItemStorage.GetBestHand();
+			if (bestHand != null)
+			{
+				Inventory.ServerAdd(gasContainer, bestHand);
+			}
 		}
 
 		private void EjectInsertedContainer()
@@ -236,28 +242,6 @@ namespace Objects.GasContainer
 			InsertedContainer = null;
 			ServerOnExternalTankInserted.Invoke(false);
 			RefreshOverlays();
-		}
-
-		/// <summary>
-		/// Checks to see if it can put it in any hand, if it cant it will do nothing meaning the item should just drop.
-		/// </summary>
-		/// <param name="player"></param>
-		private void HandInsert(ItemStorage player)
-		{
-			ItemSlot activeHand = player.GetActiveHandSlot();
-			if (Inventory.ServerAdd(InsertedContainer, activeHand)) return;
-			switch (activeHand.NamedSlot)
-			{
-				case NamedSlot.leftHand:
-					ItemSlot rSlot = player.GetNamedItemSlot(NamedSlot.rightHand);
-					Inventory.ServerAdd(InsertedContainer, rSlot);
-					break;
-
-				case NamedSlot.rightHand:
-					ItemSlot lSlot = player.GetNamedItemSlot(NamedSlot.leftHand);
-					Inventory.ServerAdd(InsertedContainer, lSlot);
-					break;
-			}
 		}
 
 		#region Interaction
