@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Objects.GasContainer;
+using Objects.Atmospherics;
 
 /// <summary>
 /// Component which manages all the equipment on a player.

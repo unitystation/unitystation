@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Disposals
+namespace Objects.Disposals
 {
 	public class DisposalOutlet : DisposalMachine, IServerDespawn, IExaminable
 	{

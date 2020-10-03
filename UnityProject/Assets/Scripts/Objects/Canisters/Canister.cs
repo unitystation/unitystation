@@ -3,7 +3,7 @@ using UnityEngine;
 using Mirror;
 using Pipes;
 
-namespace Objects.GasContainer
+namespace Objects.Atmospherics
 {
 	/// <summary>
 	/// Main component for canister

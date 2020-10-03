@@ -1,64 +1,71 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Objects.Security;
 
-public class GUI_SecurityRecordsCrime : DynamicEntry
+namespace UI.Objects.Security
 {
-	private SecurityRecordCrime crime;
-	private GUI_SecurityRecordsEntryPage entryPage;
-	[SerializeField]
-	private NetLabel crimeText = null;
-	[SerializeField]
-	private NetLabel detailsText = null;
-	[SerializeField]
-	private NetLabel authorText = null;
-	[SerializeField]
-	private NetLabel timeText = null;
-
-	public void ReInit(SecurityRecordCrime crimeToInit, GUI_SecurityRecordsEntryPage entryPageToInit)
+	public class GUI_SecurityRecordsCrime : DynamicEntry
 	{
-		crime = crimeToInit;
-		entryPage = entryPageToInit;
+		private SecurityRecordCrime crime;
+		private GUI_SecurityRecordsEntryPage entryPage;
+		[SerializeField]
+		private NetLabel crimeText = null;
+		[SerializeField]
+		private NetLabel detailsText = null;
+		[SerializeField]
+		private NetLabel authorText = null;
+		[SerializeField]
+		private NetLabel timeText = null;
 
-		crimeText.SetValueServer(crime.Crime);
-		detailsText.SetValueServer(crime.Details);
-		authorText.SetValueServer(crime.Author);
-		timeText.SetValueServer(crime.Time);
-	}
+		public void ReInit(SecurityRecordCrime crimeToInit, GUI_SecurityRecordsEntryPage entryPageToInit)
+		{
+			crime = crimeToInit;
+			entryPage = entryPageToInit;
 
-	public void DeleteCrime()
-	{
-		entryPage.DeleteCrime(crime);
-	}
+			crimeText.SetValueServer(crime.Crime);
+			detailsText.SetValueServer(crime.Details);
+			authorText.SetValueServer(crime.Author);
+			timeText.SetValueServer(crime.Time);
+		}
 
-	public void SetEditingField(NetLabel fieldToEdit)
-	{
-		entryPage.SetEditingField(fieldToEdit, crime);
-	}
+		public void DeleteCrime()
+		{
+			entryPage.DeleteCrime(crime);
+		}
 
-	public void OpenPopup(NetLabel fieldToEdit)
-	{
-		//Previously we set entryPage only server-side, but popup is opening client-side
-		if (entryPage == null)
-			entryPage = GetComponentInParent<GUI_SecurityRecordsEntryPage>();
-		entryPage.OpenPopup(fieldToEdit);
+		public void SetEditingField(NetLabel fieldToEdit)
+		{
+			entryPage.SetEditingField(fieldToEdit, crime);
+		}
+
+		public void OpenPopup(NetLabel fieldToEdit)
+		{
+			//Previously we set entryPage only server-side, but popup is opening client-side
+			if (entryPage == null)
+				entryPage = GetComponentInParent<GUI_SecurityRecordsEntryPage>();
+			entryPage.OpenPopup(fieldToEdit);
+		}
 	}
 }
 
-[System.Serializable]
-public class SecurityRecordCrime
+namespace Objects.Security
 {
-	public string Crime;
-	public string Details;
-	public string Author;
-	public string Time;
-
-	public SecurityRecordCrime()
+	[Serializable]
+	public class SecurityRecordCrime
 	{
-		Crime = "None";
-		Details = "-";
-		Author = "The law";
-		Time = "12:00";
-	}
+		public string Crime;
+		public string Details;
+		public string Author;
+		public string Time;
 
+		public SecurityRecordCrime()
+		{
+			Crime = "None";
+			Details = "-";
+			Author = "The law";
+			Time = "12:00";
+		}
+	}
 }

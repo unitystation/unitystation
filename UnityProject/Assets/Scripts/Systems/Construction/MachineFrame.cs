@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using ScriptableObjects;
+using Machines;
+using Objects.Machines;
 
-namespace Machines
+namespace Objects.Construction
 {
 	[System.Serializable]
 	public class AllowedTraitList

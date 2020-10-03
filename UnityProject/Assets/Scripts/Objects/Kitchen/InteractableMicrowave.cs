@@ -1,127 +1,130 @@
 using System;
 using UnityEngine;
 
-/// <summary>
-/// Allows Microwave to be interacted with. Player can put food in the microwave to cook it.
-/// The microwave can be interacted with to, for example, check the remaining time.
-/// </summary>
-[RequireComponent(typeof(Microwave))]
-public class InteractableMicrowave : MonoBehaviour, IExaminable, ICheckedInteractable<PositionalHandApply>,
-		IRightClickable, ICheckedInteractable<ContextMenuApply>
+namespace Objects.Kitchen
 {
-	const int TIMER_INCREMENT = 5; // Seconds
-
-	[SerializeField]
-	[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the microwave's door.")]
-	private SpriteClickRegion doorRegion = default;
-
-	[SerializeField]
-	[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the microwave's power button.")]
-	private SpriteClickRegion powerRegion = default;
-
-	[SerializeField]
-	[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the microwave's add time button.")]
-	private SpriteClickRegion timerAddRegion = default;
-
-	[SerializeField]
-	[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the microwave's remove time button.")]
-	private SpriteClickRegion timerRemoveRegion = default;
-
-	private Microwave microwave;
-
-	private void Start()
+	/// <summary>
+	/// Allows Microwave to be interacted with. Player can put food in the microwave to cook it.
+	/// The microwave can be interacted with to, for example, check the remaining time.
+	/// </summary>
+	[RequireComponent(typeof(Microwave))]
+	public class InteractableMicrowave : MonoBehaviour, IExaminable, ICheckedInteractable<PositionalHandApply>,
+			IRightClickable, ICheckedInteractable<ContextMenuApply>
 	{
-		microwave = GetComponent<Microwave>();
-	}
+		const int TIMER_INCREMENT = 5; // Seconds
 
-	public string Examine(Vector3 worldPos = default)
-	{
-		return $"The microwave is currently {microwave.currentState.StateMsgForExamine}. " +
-				$"You see {(microwave.HasContents ? microwave.storageSlot.ItemObject.ExpensiveName() : "nothing")} inside. " +
-				$"The timer shows {Math.Ceiling(microwave.microwaveTimer)} seconds remaining.";
-	}
+		[SerializeField]
+		[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the microwave's door.")]
+		private SpriteClickRegion doorRegion = default;
 
-	#region Interaction-PositionalHandApply
+		[SerializeField]
+		[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the microwave's power button.")]
+		private SpriteClickRegion powerRegion = default;
 
-	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		[SerializeField]
+		[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the microwave's add time button.")]
+		private SpriteClickRegion timerAddRegion = default;
 
-		return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false;
-	}
+		[SerializeField]
+		[Tooltip("The GameObject in this hierarchy that contains the SpriteClickRegion component defining the microwave's remove time button.")]
+		private SpriteClickRegion timerRemoveRegion = default;
 
-	public void ServerPerformInteraction(PositionalHandApply interaction)
-	{
-		if (doorRegion.Contains(interaction.WorldPositionTarget))
+		private Microwave microwave;
+
+		private void Start()
 		{
-			microwave.RequestDoorInteraction(interaction.HandSlot);
+			microwave = GetComponent<Microwave>();
 		}
-		else if (powerRegion.Contains(interaction.WorldPositionTarget))
+
+		public string Examine(Vector3 worldPos = default)
 		{
-			microwave.RequestToggleActive();
+			return $"The microwave is currently {microwave.currentState.StateMsgForExamine}. " +
+					$"You see {(microwave.HasContents ? microwave.storageSlot.ItemObject.ExpensiveName() : "nothing")} inside. " +
+					$"The timer shows {Math.Ceiling(microwave.microwaveTimer)} seconds remaining.";
 		}
-		else if (timerAddRegion.Contains(interaction.WorldPositionTarget))
+
+		#region Interaction-PositionalHandApply
+
+		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			microwave.RequestAddTime(TIMER_INCREMENT);
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+			return Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Screwdriver) == false;
 		}
-		else if (timerRemoveRegion.Contains(interaction.WorldPositionTarget))
+
+		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			microwave.RequestAddTime(-TIMER_INCREMENT);
-		}
-	}
-
-	#endregion Interaction-PositionalHandApply
-
-	#region Interaction-ContextMenu
-
-	public RightClickableResult GenerateRightClickOptions()
-	{
-		var result = RightClickableResult.Create();		
-
-		var activateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "ToggleActive");
-		if (!WillInteract(activateInteraction, NetworkSide.Client)) return result;
-		result.AddElement("Activate", () => ContextMenuOptionClicked(activateInteraction));
-
-		var ejectInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "ToggleDoor");
-		result.AddElement("Toggle Door", () => ContextMenuOptionClicked(ejectInteraction));
-
-		var addTimeInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "AddTime");
-		result.AddElement("Add 5 Sec", () => ContextMenuOptionClicked(addTimeInteraction));
-
-		var removeTimeInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "RemoveTime");
-		result.AddElement("Take 5 Sec", () => ContextMenuOptionClicked(removeTimeInteraction));
-
-		return result;
-	}
-
-	private void ContextMenuOptionClicked(ContextMenuApply interaction)
-	{
-		InteractionUtils.RequestInteract(interaction, this);
-	}
-
-	public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
-	{
-		return DefaultWillInteract.Default(interaction, side);
-	}
-
-	public void ServerPerformInteraction(ContextMenuApply interaction)
-	{
-		switch (interaction.RequestedOption)
-		{
-			case "ToggleActive":
+			if (doorRegion.Contains(interaction.WorldPositionTarget))
+			{
+				microwave.RequestDoorInteraction(interaction.HandSlot);
+			}
+			else if (powerRegion.Contains(interaction.WorldPositionTarget))
+			{
 				microwave.RequestToggleActive();
-				break;
-			case "ToggleDoor":
-				microwave.RequestDoorInteraction();
-				break;
-			case "AddTime":
+			}
+			else if (timerAddRegion.Contains(interaction.WorldPositionTarget))
+			{
 				microwave.RequestAddTime(TIMER_INCREMENT);
-				break;
-			case "RemoveTime":
+			}
+			else if (timerRemoveRegion.Contains(interaction.WorldPositionTarget))
+			{
 				microwave.RequestAddTime(-TIMER_INCREMENT);
-				break;
+			}
 		}
-	}
 
-	#endregion Interaction-ContextMenu
+		#endregion Interaction-PositionalHandApply
+
+		#region Interaction-ContextMenu
+
+		public RightClickableResult GenerateRightClickOptions()
+		{
+			var result = RightClickableResult.Create();
+
+			var activateInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "ToggleActive");
+			if (!WillInteract(activateInteraction, NetworkSide.Client)) return result;
+			result.AddElement("Activate", () => ContextMenuOptionClicked(activateInteraction));
+
+			var ejectInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "ToggleDoor");
+			result.AddElement("Toggle Door", () => ContextMenuOptionClicked(ejectInteraction));
+
+			var addTimeInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "AddTime");
+			result.AddElement("Add 5 Sec", () => ContextMenuOptionClicked(addTimeInteraction));
+
+			var removeTimeInteraction = ContextMenuApply.ByLocalPlayer(gameObject, "RemoveTime");
+			result.AddElement("Take 5 Sec", () => ContextMenuOptionClicked(removeTimeInteraction));
+
+			return result;
+		}
+
+		private void ContextMenuOptionClicked(ContextMenuApply interaction)
+		{
+			InteractionUtils.RequestInteract(interaction, this);
+		}
+
+		public bool WillInteract(ContextMenuApply interaction, NetworkSide side)
+		{
+			return DefaultWillInteract.Default(interaction, side);
+		}
+
+		public void ServerPerformInteraction(ContextMenuApply interaction)
+		{
+			switch (interaction.RequestedOption)
+			{
+				case "ToggleActive":
+					microwave.RequestToggleActive();
+					break;
+				case "ToggleDoor":
+					microwave.RequestDoorInteraction();
+					break;
+				case "AddTime":
+					microwave.RequestAddTime(TIMER_INCREMENT);
+					break;
+				case "RemoveTime":
+					microwave.RequestAddTime(-TIMER_INCREMENT);
+					break;
+			}
+		}
+
+		#endregion Interaction-ContextMenu
+	}
 }

@@ -6,6 +6,8 @@ using UnityEngine;
 using Newtonsoft.Json;
 using System.Linq;
 using System.Reflection;
+using Systems.Botany;
+using Items.Botany;
 
 public class GenerateSpriteSO : EditorWindow
 {

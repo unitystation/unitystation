@@ -1,6 +1,7 @@
 ﻿using Initialisation;
 using UnityEngine;
 using MLAgents;
+using Doors;
 
 /// <summary>
 /// Handles the underlying logic for

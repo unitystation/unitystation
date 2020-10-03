@@ -1,22 +1,24 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Atmospherics;
+using Systems.Atmospherics;
 using UnityEngine;
 
-public class GUI_Filter : NetTab
+namespace UI.Objects.Atmospherics
 {
-	public string CurrentlyFiltering = "O2";
-	public Pipes.Filter Filter;
+	public class GUI_Filter : NetTab
+	{
+		public string CurrentlyFiltering = "O2";
+		public Pipes.Filter Filter;
 
-	public NetWheel NetWheel;
+		public NetWheel NetWheel;
 
-	public NumberSpinner numberSpinner;
+		public NumberSpinner numberSpinner;
 
-	public NetToggle PToggle;
+		public NetToggle PToggle;
 
 
-	private Dictionary<string,Gas> CapableFiltering = new Dictionary<string,Gas>()
+		private Dictionary<string, Gas> CapableFiltering = new Dictionary<string, Gas>()
 	{
 		{"O2",Gas.Oxygen},
 		{"N2",Gas.Nitrogen},
@@ -26,60 +28,61 @@ public class GUI_Filter : NetTab
 	};
 
 
-	public void SetFilterAmount(string Number)
-	{
-		CurrentlyFiltering = Number;
-
-		foreach (var INFilter in CapableFiltering)
+		public void SetFilterAmount(string Number)
 		{
-			if (INFilter.Key == Number.ToString()) //Checks what button has been pressed  And sets the correct position appropriate
+			CurrentlyFiltering = Number;
+
+			foreach (var INFilter in CapableFiltering)
 			{
-				((NetUIElement<string>) this[INFilter.Key]).SetValueServer("1");
+				if (INFilter.Key == Number.ToString()) //Checks what button has been pressed  And sets the correct position appropriate
+				{
+					((NetUIElement<string>)this[INFilter.Key]).SetValueServer("1");
+				}
+				else
+				{
+					((NetUIElement<string>)this[INFilter.Key]).SetValueServer("0");
+				}
+			}
+
+			Filter.GasIndex = CapableFiltering[Number];
+		}
+
+		void Start()
+		{
+			if (Provider != null)
+			{
+				Filter = Provider.GetComponentInChildren<Pipes.Filter>();
+			}
+			numberSpinner.ServerSpinTo(Filter.ToMaxPressure);
+			numberSpinner.DisplaySpinTo(Filter.ToMaxPressure);
+			NetWheel.SetValueServer(Filter.ToMaxPressure.ToString());
+			numberSpinner.OnValueChange.AddListener(SetMaxPressure);
+			PToggle.SetValueServer(BOOLTOstring(Filter.IsOn));
+			((NetUIElement<string>)this["O2"]).SetValueServer("1");
+
+		}
+
+		public string BOOLTOstring(bool Bool)
+		{
+			if (Bool)
+			{
+				return "1";
 			}
 			else
 			{
-				((NetUIElement<string>) this[INFilter.Key]).SetValueServer("0");
+				return "0";
 			}
 		}
 
-		Filter.GasIndex = CapableFiltering[Number];
-	}
-
-	void Start()
-	{
-		if (Provider != null)
+		public void TogglePower()
 		{
-			Filter = Provider.GetComponentInChildren<Pipes.Filter>();
+			Filter.TogglePower();
 		}
-		numberSpinner.ServerSpinTo( Filter.ToMaxPressure);
-		numberSpinner.DisplaySpinTo(Filter.ToMaxPressure);
-		NetWheel.SetValueServer(Filter.ToMaxPressure.ToString());
-		numberSpinner.OnValueChange.AddListener(SetMaxPressure);
-		PToggle.SetValueServer(BOOLTOstring(Filter.IsOn)) ;
-		((NetUIElement<string>) this["O2"]).SetValueServer("1");
 
-	}
 
-	public string BOOLTOstring(bool Bool)
-	{
-		if (Bool)
+		public void SetMaxPressure(int To)
 		{
-			return "1";
+			Filter.ToMaxPressure = To;
 		}
-		else
-		{
-			return "0";
-		}
-	}
-
-	public void TogglePower()
-	{
-		Filter.TogglePower();
-	}
-
-
-	public void SetMaxPressure(int To)
-	{
-		Filter.ToMaxPressure = To;
 	}
 }

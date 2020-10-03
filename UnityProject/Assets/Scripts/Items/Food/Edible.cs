@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using Mirror;
 using UnityEngine.Serialization;
+using Items;
 
 /// <summary>
 /// Indicates an edible object

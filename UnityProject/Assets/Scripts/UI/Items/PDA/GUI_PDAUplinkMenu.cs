@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UI.PDA
+namespace UI.Items.PDA
 {
 	public class GUI_PDAUplinkMenu : NetPage, IPageReadyable
 	{

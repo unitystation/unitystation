@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Mirror;
+using Items;
 
 /// <summary>
 /// Component which allows this object to be applied to a living thing, healing it.

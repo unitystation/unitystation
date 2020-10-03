@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Objects.Security;
 
-namespace UI.PDA
+namespace UI.Items.PDA
 {
 	public class GUI_PDACrewManifest : NetPage, IPageLifecycle
 	{

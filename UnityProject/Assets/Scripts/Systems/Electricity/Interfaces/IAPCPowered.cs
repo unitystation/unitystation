@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public interface IAPCPowered
+namespace Systems.Electricity
 {
-	void PowerNetworkUpdate(float Voltage);
-	void StateUpdate(PowerStates State);
+	public interface IAPCPowered
+	{
+		void PowerNetworkUpdate(float Voltage);
+		void StateUpdate(PowerStates State);
+	}
 }

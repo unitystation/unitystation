@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Systems.Disposals;
 
-namespace Disposals
+namespace Objects.Disposals
 {
 	public enum BinState
 	{

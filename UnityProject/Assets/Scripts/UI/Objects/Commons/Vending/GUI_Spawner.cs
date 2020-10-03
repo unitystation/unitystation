@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UI.Objects.Shuttles;
 
 public class GUI_Spawner : NetTab
 {

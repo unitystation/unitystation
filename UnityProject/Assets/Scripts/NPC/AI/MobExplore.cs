@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
+using Objects.Construction;
 
 /// <summary>
 /// AI brain specifically trained to explore

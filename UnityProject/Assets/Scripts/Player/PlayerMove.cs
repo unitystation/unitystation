@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+using Objects;
 
 /// <summary>
 ///     ** Now all movement input keys are sent to PlayerSync.Client

@@ -4,49 +4,53 @@ using UnityEngine;
 using System;
 using UnityEngine.Serialization;
 
-/// <summary>
-/// Causes object to consume ore on the tile above it and produce materials on the tile below it. Temporary
-/// until ORM UI is implemented.
-/// </summary>
-public class OreRedemptionMachine : MonoBehaviour, IInteractable<HandApply>
+namespace Objects.Mining
 {
-	[FormerlySerializedAs("ExpectedOres")]
-	[SerializeField]
-	private List<OreToMaterial> expectedOres = null;
-
-	private RegisterObject registerObject;
-
-	public void OnEnable()
+	/// <summary>
+	/// Causes object to consume ore on the tile above it and produce materials on the tile below it. Temporary
+	/// until ORM UI is implemented.
+	/// </summary>
+	public class OreRedemptionMachine : MonoBehaviour, IInteractable<HandApply>
 	{
-		registerObject = GetComponent<RegisterObject>();
-	}
+		[FormerlySerializedAs("ExpectedOres")]
+		[SerializeField]
+		private List<OreToMaterial> expectedOres = null;
 
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		var localPosInt = MatrixManager.Instance.WorldToLocalInt(registerObject.WorldPositionServer, registerObject.Matrix);
-		var OreItems = registerObject.Matrix.Get<ItemAttributesV2>(localPosInt + Vector3Int.up, true);
+		private RegisterObject registerObject;
 
-		foreach (var Ore in OreItems)
+		public void OnEnable()
 		{
-			foreach (var exOre in expectedOres)
+			registerObject = GetComponent<RegisterObject>();
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			var localPosInt = MatrixManager.Instance.WorldToLocalInt(registerObject.WorldPositionServer, registerObject.Matrix);
+			var OreItems = registerObject.Matrix.Get<ItemAttributesV2>(localPosInt + Vector3Int.up, true);
+
+			foreach (var Ore in OreItems)
 			{
-				if (Ore != null)
+				foreach (var exOre in expectedOres)
 				{
-					if (Ore.HasTrait(exOre.Trait))
+					if (Ore != null)
 					{
-						var inStackable = Ore.gameObject.GetComponent<Stackable>();
-						Spawn.ServerPrefab(exOre.Material, registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: inStackable.Amount );
-						Despawn.ServerSingle(Ore.transform.gameObject);
+						if (Ore.HasTrait(exOre.Trait))
+						{
+							var inStackable = Ore.gameObject.GetComponent<Stackable>();
+							Spawn.ServerPrefab(exOre.Material, registerObject.WorldPositionServer + Vector3Int.down, transform.parent, count: inStackable.Amount);
+							Despawn.ServerSingle(Ore.transform.gameObject);
+						}
 					}
 				}
 			}
 		}
 	}
-}
 
-[Serializable]
-public class OreToMaterial {
-	[FormerlySerializedAs("Tray")]
-	public ItemTrait Trait;
-	public GameObject Material;
+	[Serializable]
+	public class OreToMaterial
+	{
+		[FormerlySerializedAs("Tray")]
+		public ItemTrait Trait;
+		public GameObject Material;
+	}
 }

@@ -3,64 +3,66 @@
  * into liquid plasma. When this is implemented, this component is to be deleted.
  */
 
-using Atmospherics;
-using Objects.GasContainer;
 using UnityEngine;
+using Systems.Atmospherics;
 
-public class PlasmaAddable : MonoBehaviour, ICheckedInteractable<HandApply>, IRightClickable
+namespace Objects.Atmospherics
 {
-	public GasContainer gasContainer;
-	public float molesAdded = 15000f;
-
-	void Awake()
+	public class PlasmaAddable : MonoBehaviour, ICheckedInteractable<HandApply>, IRightClickable
 	{
-		gasContainer = GetComponent<GasContainer>();
-	}
+		public GasContainer gasContainer;
+		public float molesAdded = 15000f;
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side))
+		void Awake()
 		{
-			return false;
+			gasContainer = GetComponent<GasContainer>();
 		}
 
-		if (interaction.TargetObject != gameObject
-		    || interaction.HandObject == null
-			|| !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
+		public bool WillInteract(HandApply interaction, NetworkSide side)
 		{
-			return false;
+			if (!DefaultWillInteract.Default(interaction, side))
+			{
+				return false;
+			}
+
+			if (interaction.TargetObject != gameObject
+				|| interaction.HandObject == null
+				|| !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
+			{
+				return false;
+			}
+
+			return true;
 		}
 
-		return true;
-	}
-
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		var handObj = interaction.HandObject;
-
-		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
+		public void ServerPerformInteraction(HandApply interaction)
 		{
-			return;
+			var handObj = interaction.HandObject;
+
+			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
+			{
+				return;
+			}
+
+			interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
+			gasContainer.GasMix = gasContainer.GasMix.AddGasReturn(Gas.Plasma, molesAdded);
 		}
 
-		interaction.HandObject.GetComponent<Stackable>().ServerConsume(1);
-		gasContainer.GasMix = gasContainer.GasMix.AddGasReturn(Gas.Plasma, molesAdded);
-	}
-
-	public RightClickableResult GenerateRightClickOptions()
-	{
-		var result = RightClickableResult.Create();
-
-		if (WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client))
+		public RightClickableResult GenerateRightClickOptions()
 		{
-			result.AddElement("Add Solid Plasma", RightClickInteract);
+			var result = RightClickableResult.Create();
+
+			if (WillInteract(HandApply.ByLocalPlayer(gameObject), NetworkSide.Client))
+			{
+				result.AddElement("Add Solid Plasma", RightClickInteract);
+			}
+
+			return result;
 		}
 
-		return result;
-	}
-
-	private void RightClickInteract()
-	{
-		InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(gameObject), this);
+		private void RightClickInteract()
+		{
+			InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(gameObject), this);
+		}
 	}
 }

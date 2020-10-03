@@ -1,15 +1,19 @@
 ﻿
 using System.Collections.Generic;
 using UnityEngine;
+using Objects;
 
-public class CargoData : ScriptableObject
+namespace Systems.Cargo
 {
-	//Stores all possible supplies broken into categories
-	public List<CargoOrderCategory> Supplies = new List<CargoOrderCategory>();
-
-	//TO-DO - comeup with clever idea for bounties
-	public int GetBounty(ObjectBehaviour item)
+	public class CargoData : ScriptableObject
 	{
-		return 50;
+		//Stores all possible supplies broken into categories
+		public List<CargoOrderCategory> Supplies = new List<CargoOrderCategory>();
+
+		//TO-DO - comeup with clever idea for bounties
+		public int GetBounty(ObjectBehaviour item)
+		{
+			return 50;
+		}
 	}
 }

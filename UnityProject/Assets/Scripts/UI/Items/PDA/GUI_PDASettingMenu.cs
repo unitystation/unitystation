@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace UI.PDA
+namespace UI.Items.PDA
 {
 	public class GUI_PDASettingMenu : NetPage, IPageReadyable
 	{

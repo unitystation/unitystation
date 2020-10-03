@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Atmospherics;
-using Explosions;
-using Radiation;
+using Systems.Atmospherics;
+using Systems.Explosions;
+using Systems.Radiation;
 using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 

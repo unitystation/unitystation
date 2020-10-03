@@ -2,47 +2,50 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExoFabPageBuildingProcess : NetPage
+namespace UI.Objects.Robotics
 {
-	private bool isAnimating = false;
-	public bool IsAnimating { get => isAnimating; }
+	public class GUI_ExoFabPageBuildingProcess : NetPage
+	{
+		private bool isAnimating = false;
+		public bool IsAnimating { get => isAnimating; }
 
-	[SerializeField]
-	private NetLabel buildingLabel = null;
+		[SerializeField]
+		private NetLabel buildingLabel = null;
 
-	[SerializeField]
-	private NetLabel pleaseWaitLabel = null;
+		[SerializeField]
+		private NetLabel pleaseWaitLabel = null;
 
-	private string[] pleaseWaitText = { "Please wait until completion . . .",
+		private string[] pleaseWaitText = { "Please wait until completion . . .",
 		"Please wait until completion . .", "Please wait until completion .", "Please wait until completion" };
 
-	public void SetProductLabelProductName(string productName)
-	{
-		buildingLabel.SetValueServer("Building " + productName);
-	}
-
-	public void StartAnimateLabel()
-	{
-		if (isAnimating == false)
+		public void SetProductLabelProductName(string productName)
 		{
-			isAnimating = true;
-			StartCoroutine(AnimatingLabel());
+			buildingLabel.SetValueServer("Building " + productName);
 		}
-	}
 
-	public void StopAnimatingLabel()
-	{
-		isAnimating = false;
-	}
-
-	private IEnumerator AnimatingLabel()
-	{
-		while (isAnimating)
+		public void StartAnimateLabel()
 		{
-			foreach (string text in pleaseWaitText)
+			if (isAnimating == false)
 			{
-				pleaseWaitLabel.SetValueServer(text);
-				yield return WaitFor.Seconds(0.5f);
+				isAnimating = true;
+				StartCoroutine(AnimatingLabel());
+			}
+		}
+
+		public void StopAnimatingLabel()
+		{
+			isAnimating = false;
+		}
+
+		private IEnumerator AnimatingLabel()
+		{
+			while (isAnimating)
+			{
+				foreach (string text in pleaseWaitText)
+				{
+					pleaseWaitLabel.SetValueServer(text);
+					yield return WaitFor.Seconds(0.5f);
+				}
 			}
 		}
 	}

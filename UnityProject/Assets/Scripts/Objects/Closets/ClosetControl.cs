@@ -4,6 +4,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
+using Objects;
 
 /// <summary>
 /// Allows closet to be opened / closed / locked

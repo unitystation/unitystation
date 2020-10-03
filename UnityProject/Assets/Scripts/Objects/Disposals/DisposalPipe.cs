@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Disposals
+namespace Objects.Disposals
 {
 	[CreateAssetMenu(fileName = "DisposalPipe", menuName = "Tiles/Disposal Pipe", order = 1)]
 	public class DisposalPipe : BasicTile, IExaminable

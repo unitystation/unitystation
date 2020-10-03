@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
 using Mirror;
 using UnityEngine.Serialization;
+using Objects;
+using Objects.Construction;
 using Random = UnityEngine.Random;
 
-public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
+public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
+{
 	public const float DEFAULT_PUSH_SPEED = 6;
 	/// <summary>
 	/// Maximum speed player can reach by throwing stuff in space
@@ -25,8 +27,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	/// Setting it to false only makes sense if you plan to reinitialize CNT later...
 	/// I think this is valid server side only
 	/// </summary>
-	public bool VisibleState
-	{
+	public bool VisibleState {
 		get => Pushable.VisibleState;
 		set => Pushable.VisibleState = value;
 	}
@@ -34,14 +35,12 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	/// <summary>
 	/// Server only: The object that this object is contained inside
 	/// </summary>
-	public PushPull parentContainer
-	{
+	public PushPull parentContainer {
 		get => _parentContainer;
-		set
-		{
-			if ( value == this )
+		set {
+			if (value == this)
 			{
-				Logger.LogError( gameObject.name + " tried to set parentContainer to itself!", Category.Transform );
+				Logger.LogError(gameObject.name + " tried to set parentContainer to itself!", Category.Transform);
 				return;
 			}
 
@@ -52,30 +51,28 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	/// <summary>
 	/// Experimental. Top owner object
 	/// </summary>
-	public PushPull TopContainer
-	{
-		get
-		{
-			if ( parentContainer )
+	public PushPull TopContainer {
+		get {
+			if (parentContainer)
 			{
 				return parentContainer.parentContainer;
 			}
 
-            if ( !VisibleState )
-            {
-	            var pu = GetComponent<Pickupable>();
-	            if ( pu != null && pu.ItemSlot != null )
-	            {
-		            //we are in an itemstorage, so report our root item storage object.
-		            var pushPull = pu.ItemSlot.GetRootStorage().GetComponent<PushPull>();
-		            if ( pushPull != null )
-		            {
-			            //our container has a pushpull, so use its parent
-			            return pushPull.TopContainer;
-		            }
-	            }
-            }
-            return this;
+			if (!VisibleState)
+			{
+				var pu = GetComponent<Pickupable>();
+				if (pu != null && pu.ItemSlot != null)
+				{
+					//we are in an itemstorage, so report our root item storage object.
+					var pushPull = pu.ItemSlot.GetRootStorage().GetComponent<PushPull>();
+					if (pushPull != null)
+					{
+						//our container has a pushpull, so use its parent
+						return pushPull.TopContainer;
+					}
+				}
+			}
+			return this;
 		}
 	}
 
@@ -96,7 +93,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		}
 
 		var pos = registerTile.WorldPositionServer;
-		if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
+		if (pos == TransformState.HiddenPos || pos == Vector3.zero)
 		{
 			var pu = GetComponent<Pickupable>();
 			if (pu != null && pu.ItemSlot != null)
@@ -114,9 +111,9 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 				{
 					//our container doesn't have a push pull so use world position
 					pos = storage.gameObject.WorldPosServer().CutToInt();
-					if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
+					if (pos == TransformState.HiddenPos || pos == Vector3.zero)
 					{
-						Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name );
+						Logger.LogWarningFormat("{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name);
 					}
 
 					return pos;
@@ -124,9 +121,9 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 			}
 			//wasn't in an item storage, so use our last non hidden position
 			pos = Pushable.LastNonHiddenPosition;
-			if ( pos == TransformState.HiddenPos || pos == Vector3.zero )
+			if (pos == TransformState.HiddenPos || pos == Vector3.zero)
 			{
-				Logger.LogWarningFormat( "{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name );
+				Logger.LogWarningFormat("{0}: Assumed World Position is HiddenPos or Zero, something might be wrong", Category.Transform, gameObject.name);
 			}
 		}
 		return pos;
@@ -138,7 +135,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	[SerializeField]
 	private bool isInitiallyNotPushable = false;
 
-	[SyncVar(hook=nameof(SyncIsNotPushable))]
+	[SyncVar(hook = nameof(SyncIsNotPushable))]
 	private bool isNotPushable;
 
 	/// <summary>
@@ -162,7 +159,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	}
 
 	[Tooltip("The sound to play when pushed/pulled")]
-    [SerializeField]
+	[SerializeField]
 	private string pushPullSound = null;
 
 	[Tooltip("A minimum delay for the sound to be played again (in milliseconds)")]
@@ -195,7 +192,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		if (isAnchored)
 		{
 			if (ServerValidations.IsConstructionBlocked(performer, gameObject,
-				(Vector2Int) registerTile.WorldPositionServer, allowed)) return;
+				(Vector2Int)registerTile.WorldPositionServer, allowed)) return;
 		}
 
 		SyncIsNotPushable(isNotPushable, isAnchored);
@@ -206,19 +203,22 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	public IPushable Pushable {
 		get {
 			IPushable pushable;
-			if ( pushableTransform != null ) {
+			if (pushableTransform != null)
+			{
 				pushable = pushableTransform;
-			} else {
+			}
+			else
+			{
 				pushable = pushableTransform = GetComponent<IPushable>();
-				pushable?.OnUpdateRecieved().AddListener( OnUpdateReceived );
-				pushable?.OnTileReached().AddListener( OnServerTileReached );
-				pushable?.OnClientTileReached().AddListener( OnClientTileReached );
-				pushable?.OnPullInterrupt().AddListener( () =>
+				pushable?.OnUpdateRecieved().AddListener(OnUpdateReceived);
+				pushable?.OnTileReached().AddListener(OnServerTileReached);
+				pushable?.OnClientTileReached().AddListener(OnClientTileReached);
+				pushable?.OnPullInterrupt().AddListener(() =>
 				{
 					StopFollowing();
 					ReleaseControl();//maybe it won't be required for all situations
-				} );
-				pushable?.OnHighSpeedCollision().AddListener( OnHighSpeedCollision );
+			});
+				pushable?.OnHighSpeedCollision().AddListener(OnHighSpeedCollision);
 			}
 			return pushable;
 		}
@@ -241,31 +241,32 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		SyncIsNotPushable(isNotPushable, this.isNotPushable);
 	}
 
-	private void OnHighSpeedCollision( CollisionInfo collision )
+	private void OnHighSpeedCollision(CollisionInfo collision)
 	{
 		bool collided = false;
-		foreach ( var living in MatrixManager.GetAt<LivingHealthBehaviour>( collision.CollisionTile, true ) )
+		foreach (var living in MatrixManager.GetAt<LivingHealthBehaviour>(collision.CollisionTile, true))
 		{
-			living.ApplyDamageToBodypart( gameObject, collision.Damage, AttackType.Melee, DamageType.Brute );
+			living.ApplyDamageToBodypart(gameObject, collision.Damage, AttackType.Melee, DamageType.Brute);
 			collided = true;
 		}
-		foreach ( var tile in MatrixManager.GetDamageableTilemapsAt( collision.CollisionTile ) )
+		foreach (var tile in MatrixManager.GetDamageableTilemapsAt(collision.CollisionTile))
 		{
 			tile.ApplyDamage((int)collision.Damage, AttackType.Melee, collision.CollisionTile);
 			collided = true;
 		}
 
-		if ( collided )
+		if (collided)
 		{
 			//Damage self as bad as the thing you collide with
-			GetComponent<LivingHealthBehaviour>()?.ApplyDamageToBodypart( gameObject, collision.Damage,  AttackType.Melee, DamageType.Brute );
-			Logger.LogFormat( "{0}: collided with something at {2}, both received {1} damage",
-				Category.Health, gameObject.name, collision.Damage, collision.CollisionTile );
+			GetComponent<LivingHealthBehaviour>()?.ApplyDamageToBodypart(gameObject, collision.Damage, AttackType.Melee, DamageType.Brute);
+			Logger.LogFormat("{0}: collided with something at {2}, both received {1} damage",
+				Category.Health, gameObject.name, collision.Damage, collision.CollisionTile);
 		}
 	}
 
 	/// Just in case
-	private void OnDestroy() {
+	private void OnDestroy()
+	{
 		Pushable?.OnPullInterrupt().RemoveAllListeners();
 		Pushable?.OnStartMove().RemoveAllListeners();
 		Pushable?.OnTileReached().RemoveAllListeners();
@@ -300,11 +301,9 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	/// </summary>
 	public UnityEvent OnPullingSomethingChangedServer = new UnityEvent();
 
-	public PushPull PulledObjectServer
-	{
+	public PushPull PulledObjectServer {
 		get => pulledObjectServer;
-		private set
-		{
+		private set {
 			pulledObjectServer = value;
 			OnPullingSomethingChangedServer.Invoke();
 		}
@@ -316,7 +315,8 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 
 	/// Client requests to stop pulling any objects
 	[Command]
-	public void CmdStopPulling() {
+	public void CmdStopPulling()
+	{
 		ReleaseControl();
 	}
 
@@ -326,12 +326,14 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		ReleaseControl();
 	}
 
-	private void ReleaseControl() {
-		if ( !IsPullingSomethingServer ) {
+	private void ReleaseControl()
+	{
+		if (!IsPullingSomethingServer)
+		{
 			return;
 		}
 
-		Logger.LogTraceFormat( "{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, PulledObjectServer.gameObject.name );
+		Logger.LogTraceFormat("{0} stopped controlling {1}", Category.PushPull, this.gameObject.name, PulledObjectServer.gameObject.name);
 		PulledObjectServer.PulledBy = null;
 		PulledObjectServer = null;
 
@@ -340,13 +342,16 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 
 	/// Client asks to toggle pulling of given object
 	[Command]
-	public void CmdPullObject(GameObject pullableObject) {
-		if(pullableObject == null) return;
+	public void CmdPullObject(GameObject pullableObject)
+	{
+		if (pullableObject == null) return;
 		PushPull pullable = pullableObject.GetComponent<PushPull>();
-		if ( !pullable ) {
+		if (!pullable)
+		{
 			return;
 		}
-		if ( IsPullingSomethingServer ) {
+		if (IsPullingSomethingServer)
+		{
 			var alreadyPulling = PulledObjectServer;
 			ReleaseControl();
 
@@ -355,21 +360,24 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 			alreadyPulling.Stop();
 
 			//Just stopping pulling of object if we ctrl+click it again
-			if ( alreadyPulling == pullable ) {
+			if (alreadyPulling == pullable)
+			{
 				return;
 			}
 		}
-		ConnectedPlayer clientWhoAsked = PlayerList.Instance.Get( gameObject );
+		ConnectedPlayer clientWhoAsked = PlayerList.Instance.Get(gameObject);
 		if (!Validations.CanApply(clientWhoAsked.Script, gameObject, NetworkSide.Server))
 		{
 			return;
 		}
 
-		if ( Validations.IsInReach( pullable.registerTile, this.registerTile, true )
-		     && !pullable.isNotPushable && pullable != this && !IsBeingPulled ) {
+		if (Validations.IsInReach(pullable.registerTile, this.registerTile, true)
+				&& !pullable.isNotPushable && pullable != this && !IsBeingPulled)
+		{
 
-			if ( pullable.StartFollowing( this ) ) {
-				SoundManager.PlayNetworkedAtPos( "Rustle#", pullable.transform.position , sourceObj: pullableObject);
+			if (pullable.StartFollowing(this))
+			{
+				SoundManager.PlayNetworkedAtPos("Rustle#", pullable.transform.position, sourceObj: pullableObject);
 
 				PulledObjectServer = pullable;
 
@@ -406,28 +414,34 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 
 	public Vector2 InheritedImpulse => IsBeingPulled ? PulledBy.InheritedImpulse : Pushable.ServerImpulse;
 
-	private IEnumerator RevertPullTimer() {
+	private IEnumerator RevertPullTimer()
+	{
 		yield return WaitFor.Seconds(2);
 
-		if ( !Pushable.IsMovingClient
-			 && Pushable.ClientPosition != Pushable.TrustedPosition
-		   )
+		if (!Pushable.IsMovingClient
+				&& Pushable.ClientPosition != Pushable.TrustedPosition
+			)
 		{
-			Logger.LogFormat( "{0}: Reverted pull position", Category.PushPull, gameObject.name );
+			Logger.LogFormat("{0}: Reverted pull position", Category.PushPull, gameObject.name);
 			Pushable.RollbackPrediction();
-		} else {
-			Logger.LogTraceFormat( "{0}: No need to revert pull position", Category.PushPull, gameObject.name );
+		}
+		else
+		{
+			Logger.LogTraceFormat("{0}: No need to revert pull position", Category.PushPull, gameObject.name);
 		}
 	}
-	private IEnumerator RevertPushTimer() {
+	private IEnumerator RevertPushTimer()
+	{
 		yield return WaitFor.Seconds(2);
 
-		if ( Pushable.ClientPosition != Pushable.TrustedPosition )
+		if (Pushable.ClientPosition != Pushable.TrustedPosition)
 		{
-			Logger.LogFormat( "{0}: Reverted push position", Category.PushPull, gameObject.name );
+			Logger.LogFormat("{0}: Reverted push position", Category.PushPull, gameObject.name);
 			Pushable.RollbackPrediction();
-		} else {
-			Logger.LogTraceFormat( "{0}: No need to revert push position", Category.PushPull, gameObject.name );
+		}
+		else
+		{
+			Logger.LogTraceFormat("{0}: No need to revert push position", Category.PushPull, gameObject.name);
 		}
 	}
 
@@ -457,45 +471,58 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		return null;
 	}
 
-	protected void Awake() {
+	protected void Awake()
+	{
 		registerTile = GetComponent<RegisterTile>();
 		floorDecal = GetComponent<FloorDecal>();
 		var pushable = Pushable; //don't remove this, it initializes Pushable listeners ^
 
-		followAction = (oldPos, newPos) => {
+		followAction = (oldPos, newPos) =>
+		{
 			Vector3Int currentPos = Pushable.ServerPosition;
-			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos ) {
+			if (oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos)
+			{
 				return;
 			}
-			Vector2Int followDir =  oldPos.To2Int() - currentPos.To2Int();
-			if ( followDir == Vector2Int.zero ) {
+			Vector2Int followDir = oldPos.To2Int() - currentPos.To2Int();
+			if (followDir == Vector2Int.zero)
+			{
 				return;
 			}
-			if ( !TryFollow( currentPos, followDir, GetHeadSpeedServer() ) ) {
+			if (!TryFollow(currentPos, followDir, GetHeadSpeedServer()))
+			{
 				StopFollowing();
-			} else {
+			}
+			else
+			{
 				PulledBy.NotifyPlayers(); // doubles messages for puller, but pulling looks proper even in high ping. might mess something up tho
-//				Logger.Log( $"{gameObject.name}: following {PulledBy.gameObject.name} " +
-//							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
+											//				Logger.Log( $"{gameObject.name}: following {PulledBy.gameObject.name} " +
+											//							$"from {currentSlavePos} to {masterPos} : {followDir}", Category.PushPull );
 			}
 		};
-		predictiveFollowAction = (oldPos, newPos) => {
+		predictiveFollowAction = (oldPos, newPos) =>
+		{
 			Vector3Int currentPos = Pushable.ClientPosition;
-			if ( oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos ) {
+			if (oldPos == newPos || oldPos == TransformState.HiddenPos || newPos == currentPos)
+			{
 				return;
 			}
 			var masterPos = oldPos.To2Int();
 			var currentSlavePos = currentPos.To2Int();
-			var followDir =  masterPos - currentSlavePos;
-			if ( followDir == Vector2Int.zero ) {
+			var followDir = masterPos - currentSlavePos;
+			if (followDir == Vector2Int.zero)
+			{
 				return;
 			}
-			if ( !TryPredictiveFollow( currentPos, oldPos, GetHeadSpeedClient() ) ) {
-				Logger.LogError( $"{gameObject.name}: oops, predictive following {PulledByClient.gameObject.name} failed", Category.PushPull );
-			} else {
+			if (!TryPredictiveFollow(currentPos, oldPos, GetHeadSpeedClient()))
+			{
+				Logger.LogError($"{gameObject.name}: oops, predictive following {PulledByClient.gameObject.name} failed", Category.PushPull);
+			}
+			else
+			{
 				Logger.LogTraceFormat(
 					"{0}: predictive following {1} from {2} to {3} : {4}", Category.PushPull,
-					gameObject.name, PulledByClient.gameObject.name, currentSlavePos, masterPos, followDir );
+					gameObject.name, PulledByClient.gameObject.name, currentSlavePos, masterPos, followDir);
 
 			}
 		};
@@ -505,19 +532,19 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	/// <returns>bool that represents if the object must cause gravity or not.</returns>
 	/// </summary>
 	public bool CausesGravity()
-    {
-		if (!isNotPushable || floorDecal!= null)
+	{
+		if (!isNotPushable || floorDecal != null)
 			return false;
 
 		return true;
-    }
+	}
 
 	/// <summary>
 	/// Recursive method to get client speed of the train head
 	/// </summary>
 	public float GetHeadSpeedClient()
 	{
-		if ( IsBeingPulledClient )
+		if (IsBeingPulledClient)
 		{
 			return PulledByClient.GetHeadSpeedClient();
 		}
@@ -528,7 +555,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	/// </summary>
 	public float GetHeadSpeedServer()
 	{
-		if ( IsBeingPulled )
+		if (IsBeingPulled)
 		{
 			return PulledBy.GetHeadSpeedServer();
 		}
@@ -537,49 +564,56 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 
 	#region Pull
 
-	private UnityAction<Vector3Int,Vector3Int> followAction;
-	private UnityAction<Vector3Int,Vector3Int> predictiveFollowAction;
+	private UnityAction<Vector3Int, Vector3Int> followAction;
+	private UnityAction<Vector3Int, Vector3Int> predictiveFollowAction;
 
 	public bool IsBeingPulled => PulledBy != null;
 	private PushPull pulledBy;
 	public PushPull PulledBy {
 		get { return pulledBy; }
 		private set {
-			if ( IsBeingPulled ) {
-				pulledBy.Pushable?.OnStartMove().RemoveListener( followAction );
+			if (IsBeingPulled)
+			{
+				pulledBy.Pushable?.OnStartMove().RemoveListener(followAction);
 				//inform previous master that it's over </3
-				UninformHead( pulledBy, this );
+				UninformHead(pulledBy, this);
 			}
 
-			if ( value != null )
+			if (value != null)
 			{
-				value.Pushable?.OnStartMove().AddListener( followAction );
+				value.Pushable?.OnStartMove().AddListener(followAction);
 			}
 
 			pulledBy = value;
-			InformPullMessage.Send( this, this, pulledBy ); //inform slave of new master – or lack thereof
+			InformPullMessage.Send(this, this, pulledBy); //inform slave of new master – or lack thereof
 
-			if ( IsBeingPulled ) {
-				InformHead( pulledBy, this);
+			if (IsBeingPulled)
+			{
+				InformHead(pulledBy, this);
 			}
 		}
 	}
 
 	///inform new master puller about who's pulling who in the train
-	public void InformHead( PushPull whoToInform, PushPull subject = null ) {
-		if ( subject == null ) {
+	public void InformHead(PushPull whoToInform, PushPull subject = null)
+	{
+		if (subject == null)
+		{
 			subject = this;
 		}
-		InformPullMessage.Send( whoToInform, subject, subject.PulledBy );
-		if ( IsPullingSomethingServer ) {
-			PulledObjectServer.InformHead( whoToInform, PulledObjectServer );
+		InformPullMessage.Send(whoToInform, subject, subject.PulledBy);
+		if (IsPullingSomethingServer)
+		{
+			PulledObjectServer.InformHead(whoToInform, PulledObjectServer);
 		}
 	}
 
-	private void UninformHead( PushPull whoToInform, PushPull subject ) {
-		InformPullMessage.Send( whoToInform, subject, null );
-		if ( IsPullingSomethingServer ) {
-			PulledObjectServer.UninformHead( whoToInform, PulledObjectServer );
+	private void UninformHead(PushPull whoToInform, PushPull subject)
+	{
+		InformPullMessage.Send(whoToInform, subject, null);
+		if (IsPullingSomethingServer)
+		{
+			PulledObjectServer.UninformHead(whoToInform, PulledObjectServer);
 		}
 	}
 
@@ -588,15 +622,16 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	public PushPull PulledByClient {
 		get { return pulledByClient; }
 		set {
-			if ( IsBeingPulledClient /*&& !isServer*/ ) { //toggle prediction here <v
-				pulledByClient.Pushable?.OnClientStartMove().RemoveListener( predictiveFollowAction );
+			if (IsBeingPulledClient /*&& !isServer*/ )
+			{ //toggle prediction here <v
+				pulledByClient.Pushable?.OnClientStartMove().RemoveListener(predictiveFollowAction);
 				Pushable?.OnClientStopFollowing();
 
 			}
 
-			if ( value != null /*&& !isServer*/ )
+			if (value != null /*&& !isServer*/ )
 			{
-				value.Pushable?.OnClientStartMove().AddListener( predictiveFollowAction );
+				value.Pushable?.OnClientStartMove().AddListener(predictiveFollowAction);
 				Pushable?.OnClientStartFollowing();
 			}
 
@@ -605,32 +640,37 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	}
 
 	/// (Eventually)
-	public bool IsPulledByClient( PushPull pushPull ) {
-		if ( !IsBeingPulledClient ) {
+	public bool IsPulledByClient(PushPull pushPull)
+	{
+		if (!IsBeingPulledClient)
+		{
 			return false;
 		}
 
-		return PulledByClient == pushPull || PulledByClient.IsPulledByClient( pushPull );
+		return PulledByClient == pushPull || PulledByClient.IsPulledByClient(pushPull);
 	}
 
 
 	[Server]
-	public bool StartFollowing( PushPull attachTo ) {
-		if ( attachTo == this ) {
+	public bool StartFollowing(PushPull attachTo)
+	{
+		if (attachTo == this)
+		{
 			return false;
 		}
 		//if attached to someone else:
-		if ( IsBeingPulled ) {
+		if (IsBeingPulled)
+		{
 			StopFollowing();
 		}
 
 		bool chooChooTrain = attachTo.IsBeingPulled && attachTo.PulledBy != this;
 
 		//if puller can reach this + not trying to pull himself + not being pulled
-		if ( Validations.IsInReach( attachTo.registerTile, this.registerTile, true )
-		     && attachTo != this && (!attachTo.IsBeingPulled || chooChooTrain) )
+		if (Validations.IsInReach(attachTo.registerTile, this.registerTile, true)
+				&& attachTo != this && (!attachTo.IsBeingPulled || chooChooTrain))
 		{
-			Logger.LogTraceFormat( "{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name );
+			Logger.LogTraceFormat("{0} started following {1}", Category.PushPull, this.gameObject.name, attachTo.gameObject.name);
 			PulledBy = attachTo;
 			return true;
 		}
@@ -639,22 +679,27 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	}
 	/// Client requests to to break free
 	[Command]
-	public void CmdStopFollowing() {
-		if ( !IsBeingPulled ) {
+	public void CmdStopFollowing()
+	{
+		if (!IsBeingPulled)
+		{
 			return;
 		}
-		var player = PlayerList.Instance.Get( this.gameObject );
-		if ( player != ConnectedPlayer.Invalid && Validations.CanInteract(player.Script, NetworkSide.Server)) {
+		var player = PlayerList.Instance.Get(this.gameObject);
+		if (player != ConnectedPlayer.Invalid && Validations.CanInteract(player.Script, NetworkSide.Server))
+		{
 			StopFollowing();
 		}
 	}
 
 	[Server]
-	public void StopFollowing() {
-		if ( !IsBeingPulled ) {
+	public void StopFollowing()
+	{
+		if (!IsBeingPulled)
+		{
 			return;
 		}
-		Logger.LogTraceFormat( "{0} stopped following {1}", Category.PushPull, this.gameObject.name, PulledBy.gameObject.name );
+		Logger.LogTraceFormat("{0} stopped following {1}", Category.PushPull, this.gameObject.name, PulledBy.gameObject.name);
 
 		PulledBy.PulledObjectServer = null;
 
@@ -665,40 +710,46 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		NotifyPlayers();
 	}
 
-	public void TryPullThis() {
+	public void TryPullThis()
+	{
 		var initiator = PlayerManager.LocalPlayerScript.pushPull;
 		//client pre-validation
-		if ( Validations.IsInReach( this.registerTile, initiator.registerTile, false ) && initiator != this ) {
+		if (Validations.IsInReach(this.registerTile, initiator.registerTile, false) && initiator != this)
+		{
 			//client request: start/stop pulling
-			initiator.CmdPullObject( gameObject );
+			initiator.CmdPullObject(gameObject);
 
-			if ( PulledByClient == initiator ) {
-				Logger.LogTraceFormat( "{0}: Breaking pull predictively", Category.PushPull, initiator.gameObject.name );
+			if (PulledByClient == initiator)
+			{
+				Logger.LogTraceFormat("{0}: Breaking pull predictively", Category.PushPull, initiator.gameObject.name);
 				PulledByClient.PulledObjectClient = null;
 				PulledByClient = null;
 			}
 		}
 	}
 	[Server]
-	private bool TryFollow( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
-		if ( !IsBeingPulled || isNotPushable || isBeingPushed || Pushable == null )
+	private bool TryFollow(Vector3Int from, Vector2Int dir, float speed = Single.NaN)
+	{
+		if (!IsBeingPulled || isNotPushable || isBeingPushed || Pushable == null)
 		{
 			return false;
 		}
 
-		if ( Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1 ) {
-			Logger.LogTrace( "oops="+dir, Category.PushPull );
+		if (Mathf.Abs(dir.x) > 1 || Mathf.Abs(dir.y) > 1)
+		{
+			Logger.LogTrace("oops=" + dir, Category.PushPull);
 			return false;
 		}
 
-		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !MatrixManager.IsPassableAt( from, target, isServer: true, includingPlayers: false) ) //non-solid things can be pushed to player tile
+		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
+		if (!MatrixManager.IsPassableAt(from, target, isServer: true, includingPlayers: false)) //non-solid things can be pushed to player tile
 		{
 			return false;
 		}
 
-		bool success = Pushable.Push( dir, speed, true );
-		if ( success ) {
+		bool success = Pushable.Push(dir, speed, true);
+		if (success)
+		{
 			// Pulling a directional component should change it's orientation to match the one that pulls it
 			Directional directionalComponent;
 			if (TryGetComponent(out directionalComponent))
@@ -714,20 +765,22 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 			}
 
 			pushTarget = target;
-//			Logger.LogTraceFormat( "Following {0}->{1}", Category.PushPull, from, target );
+			//			Logger.LogTraceFormat( "Following {0}->{1}", Category.PushPull, from, target );
 		}
 
 		return success;
 	}
-	private bool TryPredictiveFollow( Vector3Int from, Vector3Int target, float speed = Single.NaN ) {
-		if ( !IsBeingPulledClient || isNotPushable || Pushable == null )
+	private bool TryPredictiveFollow(Vector3Int from, Vector3Int target, float speed = Single.NaN)
+	{
+		if (!IsBeingPulledClient || isNotPushable || Pushable == null)
 		{
 			return false;
 		}
 
-		bool success = Pushable.PredictivePush( target.To2Int(), speed, true );
-		if ( success ) {
-//			Logger.LogTraceFormat( "Started predictive follow {0}->{1}", Category.PushPull, from, target );
+		bool success = Pushable.PredictivePush(target.To2Int(), speed, true);
+		if (success)
+		{
+			//			Logger.LogTraceFormat( "Started predictive follow {0}->{1}", Category.PushPull, from, target );
 		}
 
 		return success;
@@ -753,23 +806,23 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	#region Push
 
 	[Server]
-	public void QueuePush( Vector2Int dir, float speed = Single.NaN, bool allowDiagonals = false )
+	public void QueuePush(Vector2Int dir, float speed = Single.NaN, bool allowDiagonals = false)
 	{
-//		Logger.LogTraceFormat( "{0}: queued push {1} {2}", Category.PushPull, gameObject.name, dir, speed );
-		pushRequestQueue.Enqueue( new Tuple<Vector2Int, float>(dir, speed) );
+		//		Logger.LogTraceFormat( "{0}: queued push {1} {2}", Category.PushPull, gameObject.name, dir, speed );
+		pushRequestQueue.Enqueue(new Tuple<Vector2Int, float>(dir, speed));
 		CheckQueue();
 	}
 
 	private void CheckQueue()
 	{
-		if ( pushRequestQueue.Count > 0 && !isBeingPushed )
+		if (pushRequestQueue.Count > 0 && !isBeingPushed)
 		{
 			var tuple = pushRequestQueue.Dequeue();
-			if ( !TryPush(tuple.Item1, tuple.Item2 ) )
+			if (!TryPush(tuple.Item1, tuple.Item2))
 			{
 				pushRequestQueue.Clear();
 			}
-			StartCoroutine( ReCheckQueueLater() );
+			StartCoroutine(ReCheckQueueLater());
 		}
 	}
 
@@ -781,7 +834,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 
 
 	[Server]
-	public bool TryPush( Vector2Int dir, float speed = Single.NaN )
+	public bool TryPush(Vector2Int dir, float speed = Single.NaN)
 	{
 		Vector3Int from = Pushable.ServerPosition;
 		if (!CanPushServer(from, dir, speed))
@@ -789,51 +842,51 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 			return false;
 		}
 
-		bool success = Pushable.Push( dir, speed );
+		bool success = Pushable.Push(dir, speed);
 		Vector3Int target = from + dir.To3Int();
-		if ( success )
+		if (success)
 		{
-			if ( IsBeingPulled && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledBy.registerTile.WorldPositionServer, target) ) )
+			if (IsBeingPulled && //Break pull only if pushable will end up far enough
+					(pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledBy.registerTile.WorldPositionServer, target)))
 			{
 				StopFollowing();
 			}
-			if ( IsPullingSomethingServer && //Break pull only if pushable will end up far enough
-			     ( pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target) ) )
+			if (IsPullingSomethingServer && //Break pull only if pushable will end up far enough
+					(pushRequestQueue.Count > 0 || !Validations.IsInReach(PulledObjectServer.registerTile.WorldPositionServer, target)))
 			{
 				ReleaseControl();
 			}
 			isBeingPushed = true;
 			pushTarget = target;
-			Logger.LogTraceFormat( "{2}: Started push {0}->{1}", Category.PushPull, from, target, gameObject.name );
-			this.RestartCoroutine( NoMoveSafeguard( from ), ref revertIsBeingPushedHandle );
+			Logger.LogTraceFormat("{2}: Started push {0}->{1}", Category.PushPull, from, target, gameObject.name);
+			this.RestartCoroutine(NoMoveSafeguard(from), ref revertIsBeingPushedHandle);
 		}
 
 		return success;
 	}
 
-	private IEnumerator NoMoveSafeguard( Vector3Int @from )
+	private IEnumerator NoMoveSafeguard(Vector3Int @from)
 	{
 		yield return WaitFor.Seconds(1);
-		if ( isBeingPushed && Pushable.ServerPosition == from )
+		if (isBeingPushed && Pushable.ServerPosition == from)
 		{
-			Logger.LogWarningFormat( "{0} didn't move despite being pushed! Removing isBeingPushed flag", Category.PushPull, gameObject.name );
+			Logger.LogWarningFormat("{0} didn't move despite being pushed! Removing isBeingPushed flag", Category.PushPull, gameObject.name);
 			isBeingPushed = false;
 		}
 	}
 
 	/// Check against clientside position
 	/// <inheritdoc cref="CanPush"/>
-	public bool CanPushClient( Vector3Int from, Vector2Int dir, float speed = Single.NaN )
+	public bool CanPushClient(Vector3Int from, Vector2Int dir, float speed = Single.NaN)
 	{
-		return CanPush( from, dir, speed, false );
+		return CanPush(from, dir, speed, false);
 	}
 
 	/// Check against serverside position
 	/// <inheritdoc cref="CanPush"/>
-	public bool CanPushServer( Vector3Int from, Vector2Int dir, float speed = Single.NaN )
+	public bool CanPushServer(Vector3Int from, Vector2Int dir, float speed = Single.NaN)
 	{
-		return CanPush( from, dir, speed, true );
+		return CanPush(from, dir, speed, true);
 	}
 
 	/// <summary>
@@ -873,26 +926,31 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 		return true;
 	}
 
-	public bool TryPredictivePush( Vector3Int from, Vector2Int dir, float speed = Single.NaN ) {
-		if ( isNotPushable || !CanPredictPush || Pushable == null || !isAllowedDir( dir ) ) {
+	public bool TryPredictivePush(Vector3Int from, Vector2Int dir, float speed = Single.NaN)
+	{
+		if (isNotPushable || !CanPredictPush || Pushable == null || !isAllowedDir(dir))
+		{
 			return false;
 		}
 		lastReliablePos = registerTile.WorldPositionClient;
-		if ( from != lastReliablePos ) {
+		if (from != lastReliablePos)
+		{
 			return false;
 		}
-		Vector3Int target = from + Vector3Int.RoundToInt( ( Vector2 ) dir );
-		if ( !MatrixManager.IsPassableAt( from, target, isServer: false ) ||
-		     MatrixManager.IsNoGravityAt( target, isServer: false ) ) { //not allowing predictive push into space
+		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
+		if (!MatrixManager.IsPassableAt(from, target, isServer: false) ||
+				MatrixManager.IsNoGravityAt(target, isServer: false))
+		{ //not allowing predictive push into space
 			return false;
 		}
 
-		bool success = Pushable.PredictivePush( target.To2Int(), speed );
-		if ( success ) {
+		bool success = Pushable.PredictivePush(target.To2Int(), speed);
+		if (success)
+		{
 			pushPrediction = PushState.InProgress;
 			pushApproval = ApprovalState.None;
 			predictivePushTarget = target;
-			Logger.LogTraceFormat( "Started predictive push {0}->{1}", Category.PushPull, from, target );
+			Logger.LogTraceFormat("Started predictive push {0}->{1}", Category.PushPull, from, target);
 		}
 
 		return success;
@@ -900,20 +958,22 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 
 	private void FinishPrediction()
 	{
-		Logger.LogTraceFormat( "Finishing predictive push", Category.PushPull );
+		Logger.LogTraceFormat("Finishing predictive push", Category.PushPull);
 		pushPrediction = PushState.None;
 		pushApproval = ApprovalState.None;
 		predictivePushTarget = TransformState.HiddenPos;
 		lastReliablePos = TransformState.HiddenPos;
-		this.TryStopCoroutine( ref revertPredictivePushHandle );
+		this.TryStopCoroutine(ref revertPredictivePushHandle);
 	}
 
 	[Server]
-	public void NotifyPlayers() {
+	public void NotifyPlayers()
+	{
 		Pushable.NotifyPlayers();
 	}
 
-	private bool isAllowedDir( Vector2Int dir ) {
+	private bool isAllowedDir(Vector2Int dir)
+	{
 		return dir == Vector2Int.up || dir == Vector2Int.down || dir == Vector2Int.left || dir == Vector2Int.right
 			|| dir == MINUS_ONE || dir == BOTTOM_RIGHT || dir == TOP_LEFT || dir == Vector2Int.one; //temp diagonal
 	}
@@ -925,17 +985,19 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 
 	#region Events
 
-	private void OnServerTileReached( Vector3Int newPos ) {
-		if ( !isBeingPushed && pushRequestQueue.Count == 0 ) {
+	private void OnServerTileReached(Vector3Int newPos)
+	{
+		if (!isBeingPushed && pushRequestQueue.Count == 0)
+		{
 			return;
 		}
-//		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
+		//		Logger.LogTraceFormat( "{0}: {1} is reached ON SERVER", Category.PushPull, gameObject.name, pos );
 		isBeingPushed = false;
-		this.TryStopCoroutine( ref revertIsBeingPushedHandle );
+		this.TryStopCoroutine(ref revertIsBeingPushedHandle);
 
-		if ( pushTarget != TransformState.HiddenPos &&
-		     pushTarget != newPos &&
-		     !MatrixManager.IsFloatingAt(gameObject, newPos, true))
+		if (pushTarget != TransformState.HiddenPos &&
+				pushTarget != newPos &&
+				!MatrixManager.IsFloatingAt(gameObject, newPos, true))
 		{
 			//unexpected pos reported by server tile (common in space, space )
 			pushRequestQueue.Clear();
@@ -944,74 +1006,94 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	}
 
 	/// For prediction
-	private void OnUpdateReceived( Vector3Int serverPos ) {
-		if ( IsBeingPulledClient ) {
-			this.RestartCoroutine( RevertPullTimer(), ref revertPredictivePullHandle );
+	private void OnUpdateReceived(Vector3Int serverPos)
+	{
+		if (IsBeingPulledClient)
+		{
+			this.RestartCoroutine(RevertPullTimer(), ref revertPredictivePullHandle);
 		}
 
-		if ( pushPrediction == PushState.None ) {
+		if (pushPrediction == PushState.None)
+		{
 			return;
 		}
 
 		pushApproval = serverPos == predictivePushTarget ? ApprovalState.Approved : ApprovalState.Unexpected;
-		Logger.LogTraceFormat( "{0} predictive push to {1}", Category.PushPull, pushApproval, serverPos );
+		Logger.LogTraceFormat("{0} predictive push to {1}", Category.PushPull, pushApproval, serverPos);
 
 		//if predictive lerp is finished
-		if ( pushApproval == ApprovalState.Approved ) {
-			if ( pushPrediction == PushState.Finished ) {
+		if (pushApproval == ApprovalState.Approved)
+		{
+			if (pushPrediction == PushState.Finished)
+			{
 				FinishPrediction();
-			} else if ( pushPrediction == PushState.InProgress ) {
-				Logger.LogTraceFormat( "Approved and waiting till lerp is finished", Category.PushPull );
 			}
-		} else if ( pushApproval == ApprovalState.Unexpected ) {
+			else if (pushPrediction == PushState.InProgress)
+			{
+				Logger.LogTraceFormat("Approved and waiting till lerp is finished", Category.PushPull);
+			}
+		}
+		else if (pushApproval == ApprovalState.Unexpected)
+		{
 			var info = "";
-			if ( serverPos == lastReliablePos ) {
+			if (serverPos == lastReliablePos)
+			{
 				info += $"lastReliablePos match!({lastReliablePos})";
-			} else {
+			}
+			else
+			{
 				info += "NO reliablePos match";
 			}
-			if ( pushPrediction == PushState.Finished ) {
+			if (pushPrediction == PushState.Finished)
+			{
 				info += ". Finishing!";
 				FinishPrediction();
-			} else {
+			}
+			else
+			{
 				info += ". NOT Finishing yet";
 			}
-			Logger.LogFormat( "Unexpected push detected OnUpdateRecieved {0}", Category.PushPull, info );
+			Logger.LogFormat("Unexpected push detected OnUpdateRecieved {0}", Category.PushPull, info);
 		}
 	}
 
 	/// For prediction
-	private void OnClientTileReached( Vector3Int pos ) {
-		if ( pushPrediction == PushState.None ) {
+	private void OnClientTileReached(Vector3Int pos)
+	{
+		if (pushPrediction == PushState.None)
+		{
 			return;
 		}
 
-		if ( pos != predictivePushTarget ) {
-			Logger.LogFormat( "Lerped to {0} while target pos was {1}", Category.PushPull, pos, predictivePushTarget );
-			if ( MatrixManager.IsNoGravityAt( pos, false ) ) {
-				Logger.LogTraceFormat( "...uh, we assume it's a space push and finish prediction", Category.PushPull );
+		if (pos != predictivePushTarget)
+		{
+			Logger.LogFormat("Lerped to {0} while target pos was {1}", Category.PushPull, pos, predictivePushTarget);
+			if (MatrixManager.IsNoGravityAt(pos, false))
+			{
+				Logger.LogTraceFormat("...uh, we assume it's a space push and finish prediction", Category.PushPull);
 				FinishPrediction();
 			}
-			else if ( revertPredictivePushHandle == null )
+			else if (revertPredictivePushHandle == null)
 			{
-				this.StartCoroutine( RevertPushTimer(), ref revertPredictivePushHandle );
+				this.StartCoroutine(RevertPushTimer(), ref revertPredictivePushHandle);
 			}
 			return;
 		}
 
-		Logger.LogTraceFormat( "{0} is reached ON CLIENT, approval={1}", Category.PushPull, pos, pushApproval );
+		Logger.LogTraceFormat("{0} is reached ON CLIENT, approval={1}", Category.PushPull, pos, pushApproval);
 		pushPrediction = PushState.Finished;
-		switch ( pushApproval ) {
+		switch (pushApproval)
+		{
 			case ApprovalState.Approved:
 				//ok, finishing
 				FinishPrediction();
 				break;
 			case ApprovalState.Unexpected:
-				Logger.LogFormat( "Invalid push detected in OnClientTileReached, finishing", Category.PushPull );
+				Logger.LogFormat("Invalid push detected in OnClientTileReached, finishing", Category.PushPull);
 				FinishPrediction();
 				break;
 			case ApprovalState.None:
-				Logger.LogTraceFormat( "Finished lerp, waiting for server approval...", Category.PushPull );
+				Logger.LogTraceFormat("Finished lerp, waiting for server approval...", Category.PushPull);
 				break;
 		}
 	}
@@ -1019,27 +1101,31 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/ {
 	#endregion
 
 	//Stop object
-	public void Stop() {
+	public void Stop()
+	{
 		Pushable.Stop();
 	}
 
-	public static readonly Vector2Int MINUS_ONE = new Vector2Int(-1,-1);
-	public static readonly Vector2Int TOP_LEFT = new Vector2Int(-1,1);
-	public static readonly Vector2Int BOTTOM_RIGHT = new Vector2Int(1,-1);
+	public static readonly Vector2Int MINUS_ONE = new Vector2Int(-1, -1);
+	public static readonly Vector2Int TOP_LEFT = new Vector2Int(-1, 1);
+	public static readonly Vector2Int BOTTOM_RIGHT = new Vector2Int(1, -1);
 #if UNITY_EDITOR
 	private static Color color1 = Color.red;
 	private static Color color2 = Color.cyan;
-	private static Vector3 offset = new Vector2(0.03f,0.05f);
+	private static Vector3 offset = new Vector2(0.03f, 0.05f);
 
-	private void OnDrawGizmos() {
-		if ( IsBeingPulled ) {
+	private void OnDrawGizmos()
+	{
+		if (IsBeingPulled)
+		{
 			Gizmos.color = color1;
-			DebugGizmoUtils.DrawArrow( transform.position, PulledBy.transform.position - transform.position, 0.1f );
+			DebugGizmoUtils.DrawArrow(transform.position, PulledBy.transform.position - transform.position, 0.1f);
 		}
-		if ( IsBeingPulledClient ) {
+		if (IsBeingPulledClient)
+		{
 			Gizmos.color = color2;
 			Vector3 offPosition = transform.position + offset;
-			DebugGizmoUtils.DrawArrow( offPosition, (PulledByClient.transform.position + offset) - offPosition, 0.1f );
+			DebugGizmoUtils.DrawArrow(offPosition, (PulledByClient.transform.position + offset) - offPosition, 0.1f);
 		}
 	}
 #endif

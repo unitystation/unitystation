@@ -2,6 +2,9 @@
 using UnityEngine;
 using Mirror;
 using Chemistry.Components;
+using Systems.Botany;
+using Objects.Botany;
+using Items.Botany;
 
 //Used when spawning the food
 [RequireComponent(typeof(CustomNetTransform))]

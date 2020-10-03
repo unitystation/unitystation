@@ -1,40 +1,43 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Objects.Machines;
 
-public class GUI_ExoFabCategoryEntry : DynamicEntry
+namespace UI.Objects.Robotics
 {
-	private GUI_ExosuitFabricator ExoFabMasterTab = null;
-	private MachineProductList exoFabProducts = null;
-
-	public MachineProductList ExoFabProducts
+	public class GUI_ExoFabCategoryEntry : DynamicEntry
 	{
-		get => exoFabProducts;
-		set => exoFabProducts = value;
-	}
+		private GUI_ExosuitFabricator ExoFabMasterTab = null;
+		private MachineProductList exoFabProducts = null;
 
-	public void OpenCategory()
-	{
-		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnCategoryClicked.Invoke(ExoFabProducts); }
-		else { ExoFabMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
-	}
+		public MachineProductList ExoFabProducts {
+			get => exoFabProducts;
+			set => exoFabProducts = value;
+		}
 
-	public void AddAllProducts()
-	{
-		//Not implemented yet
-	}
-
-	public void ReInit(MachineProductList productCategory)
-	{
-		ExoFabProducts = productCategory;
-		foreach (var element in Elements)
+		public void OpenCategory()
 		{
-			string nameBeforeIndex = element.name.Split('~')[0];
-			switch (nameBeforeIndex)
+			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnCategoryClicked.Invoke(ExoFabProducts); }
+			else { ExoFabMasterTab?.OnCategoryClicked.Invoke(ExoFabProducts); }
+		}
+
+		public void AddAllProducts()
+		{
+			//Not implemented yet
+		}
+
+		public void ReInit(MachineProductList productCategory)
+		{
+			ExoFabProducts = productCategory;
+			foreach (var element in Elements)
 			{
-				case "CategoryName":
-					((NetUIElement<string>)element).SetValueServer(ExoFabProducts.CategoryName);
-					break;
+				string nameBeforeIndex = element.name.Split('~')[0];
+				switch (nameBeforeIndex)
+				{
+					case "CategoryName":
+						((NetUIElement<string>)element).SetValueServer(ExoFabProducts.CategoryName);
+						break;
+				}
 			}
 		}
 	}

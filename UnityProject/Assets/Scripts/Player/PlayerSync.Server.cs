@@ -1,4 +1,3 @@
-using Assets.Scripts.Objects;
 using Mirror;
 using System;
 using System.Collections;
@@ -6,6 +5,7 @@ using System.Collections.Generic;
 using Doors;
 using UnityEngine;
 using UnityEngine.Events;
+using Objects;
 
 public partial class PlayerSync
 {

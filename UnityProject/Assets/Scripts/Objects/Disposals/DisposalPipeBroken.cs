@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Disposals
+namespace Objects.Disposals
 {
 	public class DisposalPipeBroken : MonoBehaviour, ICheckedInteractable<HandApply>
 	{

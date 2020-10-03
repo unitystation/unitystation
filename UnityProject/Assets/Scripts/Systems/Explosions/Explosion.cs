@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using NUnit.Framework;
-using Radiation;
 using UnityEngine;
 
-namespace Explosions
+namespace Systems.Explosions
 {
 	public class ExplosionPropagationLine
 	{

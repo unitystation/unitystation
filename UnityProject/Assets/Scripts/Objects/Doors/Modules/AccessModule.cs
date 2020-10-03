@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Systems.Electricity;
 using Random = UnityEngine.Random;
 
 namespace Doors.Modules

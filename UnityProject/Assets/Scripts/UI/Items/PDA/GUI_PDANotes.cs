@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Items.PDA;
 
-namespace UI.PDA
+namespace UI.Items.PDA
 {
 	public class GUI_PDANotes : NetPage, IPageReadyable
 	{
