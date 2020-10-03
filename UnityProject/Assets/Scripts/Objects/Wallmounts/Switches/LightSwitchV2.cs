@@ -4,10 +4,11 @@ using System.Collections.Generic;
 using Electricity.Inheritance;
 using Mirror;
 using UnityEngine;
+using Systems.Electricity;
 
 namespace Lighting
 {
-	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>,IAPCPowered, ISetMultitoolMaster
+	public class LightSwitchV2 : SubscriptionController, ICheckedInteractable<HandApply>, IAPCPowered, ISetMultitoolMaster
 	{
 		public List<LightSource> listOfLights;
 

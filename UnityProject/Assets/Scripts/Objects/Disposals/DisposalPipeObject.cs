@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 
-namespace Disposals
+namespace Objects.Disposals
 {
 	public class DisposalPipeObject : NetworkBehaviour, IExaminable, ICheckedInteractable<HandApply>
 	{

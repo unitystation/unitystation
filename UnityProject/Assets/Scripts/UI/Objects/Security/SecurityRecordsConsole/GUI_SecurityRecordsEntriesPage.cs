@@ -2,96 +2,100 @@
 using System.Collections.Generic;
 using UnityEngine;
 using WebSocketSharp;
+using Objects.Security;
 
-public class GUI_SecurityRecordsEntriesPage : NetPage
+namespace UI.Objects.Security
 {
-	[SerializeField]
-	private EmptyItemList recordsList = null;
-	private GUI_SecurityRecords securityRecordsTab;
-	private List<SecurityRecord> currentRecords = new List<SecurityRecord>();
-	[SerializeField]
-	private NetLabel idNameText = null;
-
-	public void OnOpen(GUI_SecurityRecords recordsTab)
+	public class GUI_SecurityRecordsEntriesPage : NetPage
 	{
-		securityRecordsTab = recordsTab;
-		ResetList();
-		UpdateTab();
-	}
+		[SerializeField]
+		private EmptyItemList recordsList = null;
+		private GUI_SecurityRecords securityRecordsTab;
+		private List<SecurityRecord> currentRecords = new List<SecurityRecord>();
+		[SerializeField]
+		private NetLabel idNameText = null;
 
-	/// <summary>
-	/// Reseting list - removing all search conditions.
-	/// </summary>
-	private void ResetList()
-	{
-		List<SecurityRecord> records = SecurityRecordsManager.Instance.SecurityRecords;
-
-		currentRecords.Clear();
-		for (int i = 0; i < records.Count; i++)
+		public void OnOpen(GUI_SecurityRecords recordsTab)
 		{
-			currentRecords.Add(records[i]);
+			securityRecordsTab = recordsTab;
+			ResetList();
+			UpdateTab();
 		}
-	}
 
-/// <summary>
-/// Searches for records containing specific text.
-/// All ToLower() might be slow, but otherwise search would be case-sensitive
-/// </summary>
-/// <param name="searchText">Text to search</param>
-	public void Search(string searchText)
-	{
-		List<SecurityRecord> newList = new List<SecurityRecord>();
-		ResetList();
-
-		if (!searchText.IsNullOrEmpty())
+		/// <summary>
+		/// Reseting list - removing all search conditions.
+		/// </summary>
+		private void ResetList()
 		{
-			searchText = searchText.ToLower();
-			foreach (var record in currentRecords)
-			{
-				if (record.EntryName.ToLower().Contains(searchText) || record.Age.ToLower().Contains(searchText) ||
-					record.ID.ToLower().Contains(searchText) || record.Rank.ToLower().Contains(searchText) ||
-					record.Sex.ToLower().Contains(searchText) || record.Species.ToLower().Contains(searchText) ||
-					record.Fingerprints.ToLower().Contains(searchText) ||
-					record.Status.ToString().ToLower().Contains(searchText))
-				{
-					newList.Add(record);
-				}
-			}
+			List<SecurityRecord> records = SecurityRecordsManager.Instance.SecurityRecords;
+
 			currentRecords.Clear();
-			currentRecords.AddRange(newList);
+			for (int i = 0; i < records.Count; i++)
+			{
+				currentRecords.Add(records[i]);
+			}
 		}
-		UpdateTab();
-	}
 
-	public void RemoveID()
-	{
-		securityRecordsTab.RemoveId();
-		securityRecordsTab.UpdateIdText(idNameText);
-	}
-
-	public void UpdateTab()
-	{
-		if (!CustomNetworkManager.Instance._isServer)
+		/// <summary>
+		/// Searches for records containing specific text.
+		/// All ToLower() might be slow, but otherwise search would be case-sensitive
+		/// </summary>
+		/// <param name="searchText">Text to search</param>
+		public void Search(string searchText)
 		{
-			return;
+			List<SecurityRecord> newList = new List<SecurityRecord>();
+			ResetList();
+
+			if (!searchText.IsNullOrEmpty())
+			{
+				searchText = searchText.ToLower();
+				foreach (var record in currentRecords)
+				{
+					if (record.EntryName.ToLower().Contains(searchText) || record.Age.ToLower().Contains(searchText) ||
+						record.ID.ToLower().Contains(searchText) || record.Rank.ToLower().Contains(searchText) ||
+						record.Sex.ToLower().Contains(searchText) || record.Species.ToLower().Contains(searchText) ||
+						record.Fingerprints.ToLower().Contains(searchText) ||
+						record.Status.ToString().ToLower().Contains(searchText))
+					{
+						newList.Add(record);
+					}
+				}
+				currentRecords.Clear();
+				currentRecords.AddRange(newList);
+			}
+			UpdateTab();
 		}
 
-		securityRecordsTab.UpdateIdText(idNameText);
-		recordsList.SetItems(currentRecords.Count);
-		for (int i = 0; i < currentRecords.Count; i++)
+		public void RemoveID()
 		{
-			var item = (GUI_SecurityRecordsItem)recordsList.Entries[i];
-			item.ReInit(currentRecords[i], securityRecordsTab);
-			item.gameObject.SetActive(true);
+			securityRecordsTab.RemoveId();
+			securityRecordsTab.UpdateIdText(idNameText);
 		}
-	}
 
-	public void NewRecord()
-	{
-		List<SecurityRecord> records = SecurityRecordsManager.Instance.SecurityRecords;
-		SecurityRecord record = new SecurityRecord();
-		records.Add(record);
-		ResetList();
-		UpdateTab();
+		public void UpdateTab()
+		{
+			if (!CustomNetworkManager.Instance._isServer)
+			{
+				return;
+			}
+
+			securityRecordsTab.UpdateIdText(idNameText);
+			recordsList.SetItems(currentRecords.Count);
+			for (int i = 0; i < currentRecords.Count; i++)
+			{
+				var item = (GUI_SecurityRecordsItem)recordsList.Entries[i];
+				item.ReInit(currentRecords[i], securityRecordsTab);
+				item.gameObject.SetActive(true);
+			}
+		}
+
+		public void NewRecord()
+		{
+			List<SecurityRecord> records = SecurityRecordsManager.Instance.SecurityRecords;
+			SecurityRecord record = new SecurityRecord();
+			records.Add(record);
+			ResetList();
+			UpdateTab();
+		}
 	}
 }

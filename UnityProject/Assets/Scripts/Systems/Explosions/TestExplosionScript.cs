@@ -2,32 +2,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestExplosionScript : MonoBehaviour
+namespace Systems.Explosions
 {
-	private ObjectBehaviour objectBehaviour;
-	private RegisterObject registerObject;
-
-	private void Awake()
+	public class TestExplosionScript : MonoBehaviour
 	{
-		objectBehaviour = this.GetComponent<ObjectBehaviour>();
-		registerObject = this.GetComponent<RegisterObject>();
-	}
+		private ObjectBehaviour objectBehaviour;
+		private RegisterObject registerObject;
 
-	public float Strength = 9000;
+		private void Awake()
+		{
+			objectBehaviour = this.GetComponent<ObjectBehaviour>();
+			registerObject = this.GetComponent<RegisterObject>();
+		}
 
-	[RightClickMethod]
-	void StartExplosion()
-	{
-		if (registerObject == null)
+		public float Strength = 9000;
+
+		[RightClickMethod]
+		void StartExplosion()
 		{
-			Explosions.Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, Strength,
-				objectBehaviour.registerTile.Matrix);
+			if (registerObject == null)
+			{
+				Systems.Explosions.Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, Strength,
+					objectBehaviour.registerTile.Matrix);
+			}
+			else
+			{
+				Explosion.StartExplosion(registerObject.LocalPosition, Strength,
+					registerObject.Matrix);
+			}
+			//Logger.Log("RequestPulse!!" + Time.time);
 		}
-		else
-		{
-			Explosions.Explosion.StartExplosion(registerObject.LocalPosition, Strength,
-				registerObject.Matrix);
-		}
-		//Logger.Log("RequestPulse!!" + Time.time);
 	}
 }

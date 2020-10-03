@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Objects.Disposals;
 
-namespace Disposals
+namespace Systems.Disposals
 {
 	/// <summary>
 	/// Creates, updates, and removes all disposal instances.

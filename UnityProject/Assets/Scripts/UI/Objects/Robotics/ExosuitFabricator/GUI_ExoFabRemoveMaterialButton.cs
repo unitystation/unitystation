@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExoFabRemoveMaterialButton : NetButton
+namespace UI.Objects.Robotics
 {
-	public int value = 5;
-	public ItemTrait itemTrait;
-
-	public override void ExecuteServer(ConnectedPlayer subject)
+	public class GUI_ExoFabRemoveMaterialButton : NetButton
 	{
-		ServerMethod.Invoke();
+		public int value = 5;
+		public ItemTrait itemTrait;
+
+		public override void ExecuteServer(ConnectedPlayer subject)
+		{
+			ServerMethod.Invoke();
+		}
 	}
 }

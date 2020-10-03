@@ -5,7 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 using UnityEngine;
 using Items.PDA;
 
-namespace UI.PDA
+namespace UI.Items.PDA
 {
 	public class GUI_PDA : NetTab
 	{

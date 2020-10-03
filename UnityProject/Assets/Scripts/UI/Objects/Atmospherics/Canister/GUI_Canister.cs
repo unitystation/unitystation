@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using AdminTools;
 using UnityEngine;
 using UnityEngine.UI;
-using Atmospherics;
+using Systems.Atmospherics;
+using Objects.Atmospherics;
 
-namespace Objects.GasContainer
+namespace UI.Objects.Atmospherics
 {
 	public class GUI_Canister : NetTab
 	{

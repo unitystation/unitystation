@@ -4,35 +4,34 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-[Serializable]
-public class GUI_ExoFabQueueLabel : NetUIStringElement
+namespace UI.Objects.Robotics
 {
-	public override string Value
+	[Serializable]
+	public class GUI_ExoFabQueueLabel : NetUIStringElement
 	{
-		get { return TextComponent.text; }
-		set
-		{
-			externalChange = true;
-			TextComponent.text = value;
-			externalChange = false;
-		}
-	}
-
-	private Text textComponent;
-
-	public Text TextComponent
-	{
-		get
-		{
-			if (!textComponent)
-			{
-				textComponent = GetComponent<Text>();
+		public override string Value {
+			get { return TextComponent.text; }
+			set {
+				externalChange = true;
+				TextComponent.text = value;
+				externalChange = false;
 			}
-			return textComponent;
 		}
-	}
 
-	public override void ExecuteServer(ConnectedPlayer subject)
-	{
+		private Text textComponent;
+
+		public Text TextComponent {
+			get {
+				if (!textComponent)
+				{
+					textComponent = GetComponent<Text>();
+				}
+				return textComponent;
+			}
+		}
+
+		public override void ExecuteServer(ConnectedPlayer subject)
+		{
+		}
 	}
 }

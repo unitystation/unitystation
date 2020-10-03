@@ -1,8 +1,9 @@
-﻿using Electricity.PoweredDevices;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Systems.Electricity;
+using Objects.Engineering;
 
 namespace CustomInspectors
 {

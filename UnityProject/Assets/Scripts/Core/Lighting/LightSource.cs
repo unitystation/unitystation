@@ -4,6 +4,7 @@ using Lighting;
 using Mirror;
 using ScriptableObjects;
 using UnityEngine;
+using Systems.Electricity;
 using Random = UnityEngine.Random;
 
 public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCPowered, IServerLifecycle, ISetMultitoolSlave

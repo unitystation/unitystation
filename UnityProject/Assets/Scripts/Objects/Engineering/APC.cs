@@ -2,13 +2,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Electricity.Inheritance;
+using Systems.Electricity;
 using Mirror;
-using NaughtyAttributes;
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-namespace Electricity.PoweredDevices
+namespace Objects.Engineering
 {
 	[RequireComponent(typeof(ElectricalNodeControl))]
 	[RequireComponent(typeof(ResistanceSourceModule))]

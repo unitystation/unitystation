@@ -2,38 +2,40 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReactorControlConsole : MonoBehaviour, ISetMultitoolSlave
+namespace Objects.Engineering
 {
-	public ReactorGraphiteChamber ReactorChambers = null;
-	public void SuchControllRodDepth(float Specified)
+	public class ReactorControlConsole : MonoBehaviour, ISetMultitoolSlave
 	{
-		if (Specified > 1)
+		public ReactorGraphiteChamber ReactorChambers = null;
+		public void SuchControllRodDepth(float Specified)
 		{
-			Specified = 1;
-		}
-		else if (0 > Specified)
-		{
-			Specified = 0;
+			if (Specified > 1)
+			{
+				Specified = 1;
+			}
+			else if (0 > Specified)
+			{
+				Specified = 0;
+			}
+
+			if (ReactorChambers != null)
+			{
+				ReactorChambers.SetControlRodDepth(Specified);
+			}
 		}
 
-		if (ReactorChambers != null)
+		//######################################## Multitool interaction ##################################
+		[SerializeField]
+		private MultitoolConnectionType conType = MultitoolConnectionType.ReactorChamber;
+		public MultitoolConnectionType ConType => conType;
+
+		public void SetMaster(ISetMultitoolMaster Imaster)
 		{
-			ReactorChambers.SetControlRodDepth(Specified);
+			var Chamber = (Imaster as Component)?.gameObject.GetComponent<ReactorGraphiteChamber>();
+			if (Chamber != null)
+			{
+				ReactorChambers = Chamber;
+			}
 		}
 	}
-
-	//######################################## Multitool interaction ##################################
-	[SerializeField]
-	private MultitoolConnectionType conType = MultitoolConnectionType.ReactorChamber;
-	public MultitoolConnectionType ConType  => conType;
-
-	public void SetMaster(ISetMultitoolMaster Imaster)
-	{
-		var Chamber  = (Imaster as Component)?.gameObject.GetComponent<ReactorGraphiteChamber>();
-		if (Chamber != null)
-		{
-			ReactorChambers = Chamber;
-		}
-	}
-
 }

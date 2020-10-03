@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Light2D;
 using UnityEngine;
 using Mirror;
+using Objects;
 using Random = UnityEngine.Random;
 
 public enum SpinMode

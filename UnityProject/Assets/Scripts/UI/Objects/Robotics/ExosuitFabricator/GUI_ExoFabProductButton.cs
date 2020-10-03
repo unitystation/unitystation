@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GUI_ExoFabProductButton : NetButton
+namespace Objects.Machines
 {
-	[HideInInspector]
-	public MachineProduct machineProduct;
-
-	[HideInInspector]
-	public string categoryName;
-
-	public override void ExecuteServer(ConnectedPlayer subject)
+	public class GUI_ExoFabProductButton : NetButton
 	{
-		ServerMethod.Invoke();
+		[HideInInspector]
+		public MachineProduct machineProduct;
+
+		[HideInInspector]
+		public string categoryName;
+
+		public override void ExecuteServer(ConnectedPlayer subject)
+		{
+			ServerMethod.Invoke();
+		}
 	}
 }

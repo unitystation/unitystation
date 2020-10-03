@@ -1,7 +1,7 @@
 using UnityEngine;
 using WebSocketSharp;
 
-namespace Disposals
+namespace Objects.Disposals
 {
 	/// <summary>
 	/// Deconstruction logic for disposal pipes

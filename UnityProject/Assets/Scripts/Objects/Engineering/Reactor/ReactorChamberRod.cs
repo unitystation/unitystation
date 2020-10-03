@@ -2,24 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ReactorChamberRod : MonoBehaviour
+namespace Items.Engineering
 {
-	public RodType rodType;
-	public Color color = new Color(0.6666f, 0.6666f, 0.6666f, 1);
-	public virtual RodType GetRodType()
+	public class ReactorChamberRod : MonoBehaviour
 	{
-		return (RodType.Fuel);
+		public RodType rodType;
+		public Color color = new Color(0.6666f, 0.6666f, 0.6666f, 1);
+		public virtual RodType GetRodType()
+		{
+			return RodType.Fuel;
+		}
+
+		public virtual Color GetUIColour()
+		{
+			return color;
+		}
 	}
 
-	public virtual Color GetUIColour()
+	public enum RodType
 	{
-		return (color);
+		Fuel,
+		Control,
+		Starter
 	}
-}
-
-public enum RodType
-{
-	Fuel,
-	Control,
-	Starter
 }

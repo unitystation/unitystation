@@ -12,163 +12,166 @@ public enum BatteryStateSprite
 	Empty,
 }
 
-public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
+namespace Objects.Engineering
 {
-	public DepartmentBatterySprite CurrentSprite  = DepartmentBatterySprite.Default;
-	public SpriteRenderer Renderer;
-
-	public Sprite BatteryOpenPresent;
-	public Sprite BatteryOpenMissing;
-	public Sprite BatteryClosedMissing;
-
-	public Sprite BatteryCharged;
-	public Sprite PartialCharge;
-	[SyncVar(hook = nameof(UpdateBattery))]
-	public BatteryStateSprite CurrentState;
-
-	public Sprite LightOn;
-	public Sprite LightOff;
-	public Sprite LightRed;
-
-	public SpriteRenderer BatteryCompartmentSprite;
-	public SpriteRenderer BatteryIndicatorSprite;
-	public SpriteRenderer PowerIndicator;
-
-	public List<DepartmentBatterySprite> enums;
-	public List<Sprite> Sprite;
-	public Dictionary<DepartmentBatterySprite,Sprite> Sprites = new Dictionary<DepartmentBatterySprite, Sprite>();
-
-	public ElectricalNodeControl ElectricalNodeControl;
-	public BatterySupplyingModule BatterySupplyingModule;
-
-	[SyncVar(hook = nameof(UpdateState))]
-	public bool isOn = true;
-
-	private bool hasInit;
-
-
-	[SyncVar]
-	public int currentCharge; // 0 - 100
-
-	private void Start()
+	public class DepartmentBattery : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl
 	{
-		EnsureInit();
-	}
+		public DepartmentBatterySprite CurrentSprite = DepartmentBatterySprite.Default;
+		public SpriteRenderer Renderer;
 
-	private void EnsureInit()
-	{
-		if (hasInit) return;
-		for (int i = 0; i< enums.Count; i++)
+		public Sprite BatteryOpenPresent;
+		public Sprite BatteryOpenMissing;
+		public Sprite BatteryClosedMissing;
+
+		public Sprite BatteryCharged;
+		public Sprite PartialCharge;
+		[SyncVar(hook = nameof(UpdateBattery))]
+		public BatteryStateSprite CurrentState;
+
+		public Sprite LightOn;
+		public Sprite LightOff;
+		public Sprite LightRed;
+
+		public SpriteRenderer BatteryCompartmentSprite;
+		public SpriteRenderer BatteryIndicatorSprite;
+		public SpriteRenderer PowerIndicator;
+
+		public List<DepartmentBatterySprite> enums;
+		public List<Sprite> Sprite;
+		public Dictionary<DepartmentBatterySprite, Sprite> Sprites = new Dictionary<DepartmentBatterySprite, Sprite>();
+
+		public ElectricalNodeControl ElectricalNodeControl;
+		public BatterySupplyingModule BatterySupplyingModule;
+
+		[SyncVar(hook = nameof(UpdateState))]
+		public bool isOn = true;
+
+		private bool hasInit;
+
+
+		[SyncVar]
+		public int currentCharge; // 0 - 100
+
+		private void Start()
 		{
-			Sprites[enums[i]] = Sprite[i];
+			EnsureInit();
 		}
 
-		if (enums.Count > 0)
+		private void EnsureInit()
 		{
-			Renderer.sprite = Sprites[CurrentSprite];
+			if (hasInit) return;
+			for (int i = 0; i < enums.Count; i++)
+			{
+				Sprites[enums[i]] = Sprite[i];
+			}
+
+			if (enums.Count > 0)
+			{
+				Renderer.sprite = Sprites[CurrentSprite];
+			}
+
+			hasInit = true;
+			UpdateServerState();
 		}
 
-		hasInit = true;
-		UpdateServerState();
-	}
-
-	public override void OnStartClient()
-	{
-		EnsureInit();
-		base.OnStartClient();
-		UpdateState(isOn, isOn);
-	}
-
-	public void PowerNetworkUpdate()
-	{
-		BatteryStateSprite newState;
-
-		if (BatterySupplyingModule.CurrentCapacity <= 0)
+		public override void OnStartClient()
 		{
-			newState = BatteryStateSprite.Empty;
-		}
-		else if (BatterySupplyingModule.CurrentCapacity <= (BatterySupplyingModule.CapacityMax / 2))
-		{
-			newState = BatteryStateSprite.Half;
-		}
-		else
-		{
-			newState = BatteryStateSprite.Full;
+			EnsureInit();
+			base.OnStartClient();
+			UpdateState(isOn, isOn);
 		}
 
-		if (CurrentState != newState)
+		public void PowerNetworkUpdate()
 		{
-			UpdateBattery(CurrentState, newState);
+			BatteryStateSprite newState;
+
+			if (BatterySupplyingModule.CurrentCapacity <= 0)
+			{
+				newState = BatteryStateSprite.Empty;
+			}
+			else if (BatterySupplyingModule.CurrentCapacity <= (BatterySupplyingModule.CapacityMax / 2))
+			{
+				newState = BatteryStateSprite.Half;
+			}
+			else
+			{
+				newState = BatteryStateSprite.Full;
+			}
+
+			if (CurrentState != newState)
+			{
+				UpdateBattery(CurrentState, newState);
+			}
 		}
-	}
 
-	private void UpdateBattery(BatteryStateSprite oldState, BatteryStateSprite State)
-	{
-		EnsureInit();
-		CurrentState = State;
-
-		if (BatteryIndicatorSprite == null) return;
-
-		switch (CurrentState)
+		private void UpdateBattery(BatteryStateSprite oldState, BatteryStateSprite State)
 		{
-			case BatteryStateSprite.Full:
-				if (BatteryIndicatorSprite.enabled == false)
-				{
-					BatteryIndicatorSprite.enabled = true;
-				}
-				BatteryIndicatorSprite.sprite = BatteryCharged;
-				break;
-			case BatteryStateSprite.Half:
-				if (BatteryIndicatorSprite.enabled == false)
-				{
-					BatteryIndicatorSprite.enabled = true;
-				}
-				BatteryIndicatorSprite.sprite = PartialCharge;
-				break;
-			case BatteryStateSprite.Empty:
-				BatteryIndicatorSprite.enabled = false;
-				break;
+			EnsureInit();
+			CurrentState = State;
+
+			if (BatteryIndicatorSprite == null) return;
+
+			switch (CurrentState)
+			{
+				case BatteryStateSprite.Full:
+					if (BatteryIndicatorSprite.enabled == false)
+					{
+						BatteryIndicatorSprite.enabled = true;
+					}
+					BatteryIndicatorSprite.sprite = BatteryCharged;
+					break;
+				case BatteryStateSprite.Half:
+					if (BatteryIndicatorSprite.enabled == false)
+					{
+						BatteryIndicatorSprite.enabled = true;
+					}
+					BatteryIndicatorSprite.sprite = PartialCharge;
+					break;
+				case BatteryStateSprite.Empty:
+					BatteryIndicatorSprite.enabled = false;
+					break;
+			}
 		}
-	}
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		if (interaction.HandObject != null) return false;
+			if (interaction.HandObject != null) return false;
 
-		return true;
-	}
+			return true;
+		}
 
-	public void ServerPerformInteraction(HandApply interaction)
-	{
+		public void ServerPerformInteraction(HandApply interaction)
+		{
 			isOn = !isOn;
 			UpdateServerState();
-	}
+		}
 
-	public void UpdateServerState()
-	{
-		if (isOn)
+		public void UpdateServerState()
 		{
-			ElectricalNodeControl.TurnOnSupply();
+			if (isOn)
+			{
+				ElectricalNodeControl.TurnOnSupply();
+			}
+			else
+			{
+				ElectricalNodeControl.TurnOffSupply();
+			}
 		}
-		else
-		{
-			ElectricalNodeControl.TurnOffSupply();
-		}
-	}
 
-	public void UpdateState(bool _wasOn, bool _isOn)
-	{
-		EnsureInit();
-		isOn = _isOn;
-		if (isOn)
+		public void UpdateState(bool _wasOn, bool _isOn)
 		{
-			PowerIndicator.sprite = LightOn;
-		}
-		else
-		{
-			PowerIndicator.sprite = LightOff;
+			EnsureInit();
+			isOn = _isOn;
+			if (isOn)
+			{
+				PowerIndicator.sprite = LightOn;
+			}
+			else
+			{
+				PowerIndicator.sprite = LightOff;
+			}
 		}
 	}
 }

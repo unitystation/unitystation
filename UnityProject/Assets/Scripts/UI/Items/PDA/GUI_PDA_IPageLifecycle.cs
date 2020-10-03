@@ -1,4 +1,4 @@
-﻿namespace UI.PDA
+﻿namespace UI.Items.PDA
 {
 	/// <summary>
 	/// Allows the page to get ready before activation.

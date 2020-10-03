@@ -6,6 +6,8 @@ using Light2D;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Serialization;
+using UI.Objects.Shuttles;
+using Systems.Shuttles;
 
 /// <summary>
 /// Behavior which allows an entire matrix to move and rotate (and be synced over the network).

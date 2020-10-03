@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using UnityEngine;
+using Objects.Disposals;
 
-namespace Disposals
+namespace Systems.Disposals
 {
 	/// <summary>
 	/// Represents an instance of a disposal. It takes a virtual container,

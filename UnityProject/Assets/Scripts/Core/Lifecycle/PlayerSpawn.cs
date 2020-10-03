@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Objects.Security;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.

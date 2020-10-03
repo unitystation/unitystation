@@ -2,60 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.Text;
+using Objects.Machines;
 
-public class GUI_AutolatheItem : DynamicEntry
+namespace UI.Objects
 {
-	private GUI_Autolathe AutolatheMasterTab = null;
-	private MachineProduct product = null;
-
-	public MachineProduct Product
+	public class GUI_AutolatheItem : DynamicEntry
 	{
-		get
-		{
-			return product;
-		}
-		set
-		{
-			product = value;
-			ReInit();
-		}
-	}
+		private GUI_Autolathe AutolatheMasterTab = null;
+		private MachineProduct product = null;
 
-	public void AddToQueue()
-	{
-		if (AutolatheMasterTab == null) { MasterTab.GetComponent<GUI_Autolathe>().OnProductAddClicked.Invoke(Product); }
-		else { AutolatheMasterTab?.OnProductAddClicked.Invoke(Product); }
-	}
-
-	public void ReInit()
-	{
-		if (product == null)
-		{
-			Logger.Log("ExoFab Product not found");
-			return;
+		public MachineProduct Product {
+			get {
+				return product;
+			}
+			set {
+				product = value;
+				ReInit();
+			}
 		}
-		foreach (var element in Elements)
+
+		public void AddToQueue()
 		{
-			string nameBeforeIndex = element.name.Split('~')[0];
-			switch (nameBeforeIndex)
+			if (AutolatheMasterTab == null) { MasterTab.GetComponent<GUI_Autolathe>().OnProductAddClicked.Invoke(Product); }
+			else { AutolatheMasterTab?.OnProductAddClicked.Invoke(Product); }
+		}
+
+		public void ReInit()
+		{
+			if (product == null)
 			{
-				case "ProductName":
-					((NetUIElement<string>)element).SetValueServer(Product.Name);
-					break;
+				Logger.Log("ExoFab Product not found");
+				return;
+			}
+			foreach (var element in Elements)
+			{
+				string nameBeforeIndex = element.name.Split('~')[0];
+				switch (nameBeforeIndex)
+				{
+					case "ProductName":
+						((NetUIElement<string>)element).SetValueServer(Product.Name);
+						break;
 
-				case "MaterialCost":
-					StringBuilder sb = new StringBuilder();
-					string materialName;
-					string materialPrice;
-					sb.Append("Cost: ");
-					foreach (MaterialSheet material in Product.materialToAmounts.Keys)
-					{
-						materialName = material.displayName;
-						materialPrice = Product.materialToAmounts[material].ToString();
-						sb.Append(materialPrice + " " + materialName + " " + "| ");
-					}
-					((NetUIElement<string>)element).SetValueServer(sb.ToString());
-					break;
+					case "MaterialCost":
+						StringBuilder sb = new StringBuilder();
+						string materialName;
+						string materialPrice;
+						sb.Append("Cost: ");
+						foreach (MaterialSheet material in Product.materialToAmounts.Keys)
+						{
+							materialName = material.displayName;
+							materialPrice = Product.materialToAmounts[material].ToString();
+							sb.Append(materialPrice + " " + materialName + " " + "| ");
+						}
+						((NetUIElement<string>)element).SetValueServer(sb.ToString());
+						break;
+				}
 			}
 		}
 	}

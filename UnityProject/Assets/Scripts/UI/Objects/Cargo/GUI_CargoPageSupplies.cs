@@ -1,82 +1,85 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
+using Systems.Cargo;
 
-public class GUI_CargoPageSupplies : GUI_CargoPage
+namespace UI.Objects.Cargo
 {
-	[SerializeField]
-	private EmptyItemList orderList = null;
-	private bool inited = false;
-	[SerializeField]
-	private NetLabel categoryText = null;
-
-	public override void Init()
+	public class GUI_CargoPageSupplies : GUI_CargoPage
 	{
-		if (inited || !gameObject.activeInHierarchy)
-		{
-			return;
-		}
-		if (!CustomNetworkManager.Instance._isServer)
-		{
-			return;
-		}
-		CargoManager.Instance.OnCategoryUpdate.AddListener(UpdateTab);
-		CargoManager.Instance.CurrentCategory = null;
-	}
+		[SerializeField]
+		private EmptyItemList orderList = null;
+		private bool inited = false;
+		[SerializeField]
+		private NetLabel categoryText = null;
 
-	public override void OpenTab()
-	{
-		if (!inited)
+		public override void Init()
 		{
-			Init();
-			inited = true;
+			if (inited || !gameObject.activeInHierarchy)
+			{
+				return;
+			}
+			if (!CustomNetworkManager.Instance._isServer)
+			{
+				return;
+			}
+			CargoManager.Instance.OnCategoryUpdate.AddListener(UpdateTab);
+			CargoManager.Instance.CurrentCategory = null;
 		}
-		UpdateTab();
-	}
 
-	private void UpdateTab()
-	{
-		if (CargoManager.Instance.CurrentCategory == null)
+		public override void OpenTab()
 		{
-			DisplayCategoriesCatalog();
+			if (!inited)
+			{
+				Init();
+				inited = true;
+			}
+			UpdateTab();
 		}
-		else
+
+		private void UpdateTab()
 		{
-			DisplayCurrentSupplies();
+			if (CargoManager.Instance.CurrentCategory == null)
+			{
+				DisplayCategoriesCatalog();
+			}
+			else
+			{
+				DisplayCurrentSupplies();
+			}
 		}
-	}
 
-	private void DisplayCategoriesCatalog()
-	{
-		List<CargoOrderCategory> categories = CargoManager.Instance.Supplies;
-
-		orderList.Clear();
-		orderList.AddItems(categories.Count);
-		for (int i = 0; i < categories.Count; i++)
+		private void DisplayCategoriesCatalog()
 		{
-			GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
-			item.ReInit(categories[i]);
+			List<CargoOrderCategory> categories = CargoManager.Instance.Supplies;
+
+			orderList.Clear();
+			orderList.AddItems(categories.Count);
+			for (int i = 0; i < categories.Count; i++)
+			{
+				GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
+				item.ReInit(categories[i]);
+			}
+			categoryText.SetValueServer("Categories");
 		}
-		categoryText.SetValueServer("Categories");
-	}
 
-	private void DisplayCurrentSupplies()
-	{
-		List<CargoOrder> supplies = CargoManager.Instance.CurrentCategory.Supplies;
-
-		orderList.Clear();
-		orderList.AddItems(supplies.Count);
-		for (int i = 0; i < supplies.Count; i++)
+		private void DisplayCurrentSupplies()
 		{
-			GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
-			item.Order = supplies[i];
-		}
-		categoryText.SetValueServer(CargoManager.Instance.CurrentCategory.CategoryName);
-	}
+			List<CargoOrder> supplies = CargoManager.Instance.CurrentCategory.Supplies;
 
-	public void CloseCategory()
-	{
-		CargoManager.Instance.OpenCategory(null);
+			orderList.Clear();
+			orderList.AddItems(supplies.Count);
+			for (int i = 0; i < supplies.Count; i++)
+			{
+				GUI_CargoItem item = orderList.Entries[i] as GUI_CargoItem;
+				item.Order = supplies[i];
+			}
+			categoryText.SetValueServer(CargoManager.Instance.CurrentCategory.CategoryName);
+		}
+
+		public void CloseCategory()
+		{
+			CargoManager.Instance.OpenCategory(null);
+		}
 	}
 }

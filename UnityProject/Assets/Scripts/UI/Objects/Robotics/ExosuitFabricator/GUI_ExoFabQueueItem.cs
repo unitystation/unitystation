@@ -1,96 +1,95 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Objects.Machines;
 
-public class GUI_ExoFabQueueItem : DynamicEntry
+namespace UI.Objects.Robotics
 {
-	private GUI_ExosuitFabricator ExoFabMasterTab
+	public class GUI_ExoFabQueueItem : DynamicEntry
 	{
-		get => MasterTab as GUI_ExosuitFabricator;
-	}
-
-	private MachineProduct product;
-
-	public MachineProduct Product
-	{
-		get => product;
-		set
-		{
-			product = value;
+		private GUI_ExosuitFabricator ExoFabMasterTab {
+			get => MasterTab as GUI_ExosuitFabricator;
 		}
-	}
 
-	private int numberInQueue;
+		private MachineProduct product;
 
-	public int NumberInQueue
-	{
-		get => numberInQueue;
-		set
-		{
-			numberInQueue = value;
+		public MachineProduct Product {
+			get => product;
+			set {
+				product = value;
+			}
 		}
-	}
 
-	private GUI_ExoFabButton upButton;
-	public GUI_ExoFabButton UpButton { get => upButton; }
-	private GUI_ExoFabButton downButton;
-	public GUI_ExoFabButton DownButton { get => downButton; }
-	private GUI_ExoFabQueueLabel queueNumberElement;
-	private GUI_ExoFabQueueLabel productTextColorElement;
+		private int numberInQueue;
 
-	public void ForwardInQueue()
-	{
-		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnUpQueueClicked.Invoke(numberInQueue); }
-		else { ExoFabMasterTab?.OnUpQueueClicked.Invoke(numberInQueue); }
-	}
-
-	public void BackwardsInQueue()
-	{
-		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnDownQueueClicked.Invoke(numberInQueue); }
-		else { ExoFabMasterTab?.OnDownQueueClicked.Invoke(numberInQueue); }
-	}
-
-	public void RemoveFromQueue()
-	{
-		if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnRemoveProductClicked.Invoke(numberInQueue); }
-		else { ExoFabMasterTab?.OnRemoveProductClicked.Invoke(NumberInQueue); }
-	}
-
-	public void SetTextToRed()
-	{
-	}
-
-	public void ReInit()
-	{
-		if (product == null)
-		{
-			Logger.Log("ExoFab Product not found");
-			return;
+		public int NumberInQueue {
+			get => numberInQueue;
+			set {
+				numberInQueue = value;
+			}
 		}
-		foreach (var element in Elements)
+
+		private GUI_ExoFabButton upButton;
+		public GUI_ExoFabButton UpButton { get => upButton; }
+		private GUI_ExoFabButton downButton;
+		public GUI_ExoFabButton DownButton { get => downButton; }
+		private GUI_ExoFabQueueLabel queueNumberElement;
+		private GUI_ExoFabQueueLabel productTextColorElement;
+
+		public void ForwardInQueue()
 		{
-			string nameBeforeIndex = element.name.Split('~')[0];
-			switch (nameBeforeIndex)
+			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnUpQueueClicked.Invoke(numberInQueue); }
+			else { ExoFabMasterTab?.OnUpQueueClicked.Invoke(numberInQueue); }
+		}
+
+		public void BackwardsInQueue()
+		{
+			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnDownQueueClicked.Invoke(numberInQueue); }
+			else { ExoFabMasterTab?.OnDownQueueClicked.Invoke(numberInQueue); }
+		}
+
+		public void RemoveFromQueue()
+		{
+			if (ExoFabMasterTab == null) { MasterTab.GetComponent<GUI_ExosuitFabricator>().OnRemoveProductClicked.Invoke(numberInQueue); }
+			else { ExoFabMasterTab?.OnRemoveProductClicked.Invoke(NumberInQueue); }
+		}
+
+		public void SetTextToRed()
+		{
+		}
+
+		public void ReInit()
+		{
+			if (product == null)
 			{
-				case "QueueNumber":
-					queueNumberElement = (GUI_ExoFabQueueLabel)element;
-					queueNumberElement.SetValueServer(NumberInQueue.ToString());
-					break;
+				Logger.Log("ExoFab Product not found");
+				return;
+			}
+			foreach (var element in Elements)
+			{
+				string nameBeforeIndex = element.name.Split('~')[0];
+				switch (nameBeforeIndex)
+				{
+					case "QueueNumber":
+						queueNumberElement = (GUI_ExoFabQueueLabel)element;
+						queueNumberElement.SetValueServer(NumberInQueue.ToString());
+						break;
 
-				case "ProductName":
-					productTextColorElement = (GUI_ExoFabQueueLabel)element;
-					productTextColorElement.SetValueServer(Product.Name);
-					break;
+					case "ProductName":
+						productTextColorElement = (GUI_ExoFabQueueLabel)element;
+						productTextColorElement.SetValueServer(Product.Name);
+						break;
 
-				case "UpButton":
-					upButton = (GUI_ExoFabButton)element;
-					upButton.SetValueServer("true");
-					break;
+					case "UpButton":
+						upButton = (GUI_ExoFabButton)element;
+						upButton.SetValueServer("true");
+						break;
 
-				case "DownButton":
-					downButton = (GUI_ExoFabButton)element;
-					downButton.SetValueServer("true");
-					break;
+					case "DownButton":
+						downButton = (GUI_ExoFabButton)element;
+						downButton.SetValueServer("true");
+						break;
+				}
 			}
 		}
 	}

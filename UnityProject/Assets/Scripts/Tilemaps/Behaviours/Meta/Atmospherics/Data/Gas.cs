@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public struct Gas
 	{

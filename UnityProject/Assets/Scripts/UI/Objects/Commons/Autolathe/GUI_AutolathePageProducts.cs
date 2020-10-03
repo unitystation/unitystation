@@ -1,21 +1,25 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Objects.Machines;
 
-public class GUI_AutolathePageProducts : NetPage
+namespace UI.Objects
 {
-	[SerializeField]
-	private EmptyItemList productList = null;
-
-	public void DisplayProducts(MachineProductList autolatheProducts)
+	public class GUI_AutolathePageProducts : NetPage
 	{
-		List<MachineProduct> products = autolatheProducts.Products;
-		productList.Clear();
-		productList.AddItems(products.Count);
-		for (int i = 0; i < products.Count; i++)
+		[SerializeField]
+		private EmptyItemList productList = null;
+
+		public void DisplayProducts(MachineProductList autolatheProducts)
 		{
-			GUI_AutolatheItem item = productList.Entries[i] as GUI_AutolatheItem;
-			item.Product = products[i];
+			List<MachineProduct> products = autolatheProducts.Products;
+			productList.Clear();
+			productList.AddItems(products.Count);
+			for (int i = 0; i < products.Count; i++)
+			{
+				GUI_AutolatheItem item = productList.Entries[i] as GUI_AutolatheItem;
+				item.Product = products[i];
+			}
 		}
 	}
 }

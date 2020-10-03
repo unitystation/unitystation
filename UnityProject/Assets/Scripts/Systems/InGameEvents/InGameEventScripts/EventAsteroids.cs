@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.Explosions;
 
 namespace InGameEvents
 {
@@ -94,7 +95,7 @@ namespace InGameEvents
 
 				var strength = UnityEngine.Random.Range(minStrength * multiplier, maxStrength * multiplier);
 
-				Explosions.Explosion.StartExplosion(impactCoords.Dequeue().ToLocalInt(stationMatrix), strength,
+				Explosion.StartExplosion(impactCoords.Dequeue().ToLocalInt(stationMatrix), strength,
 					stationMatrix.Matrix);
 
 				yield return new WaitForSeconds(UnityEngine.Random.Range(minTimeBetweenMeteors, maxTimeBetweenMeteors));

@@ -1,31 +1,34 @@
 ﻿using UnityEngine;
 
-[ExecuteInEditMode]
-public class FloorTile : MonoBehaviour
+namespace Objects.Construction
 {
-	public GameObject ambientTile;
-	public GameObject fireScorch;
-
-	private void Start()
+	[ExecuteInEditMode]
+	public class FloorTile : MonoBehaviour
 	{
-		CheckAmbientTile();
-	}
+		public GameObject ambientTile;
+		public GameObject fireScorch;
 
-	public void CheckAmbientTile()
-	{
-		if (ambientTile == null)
+		private void Start()
 		{
-			ambientTile = Instantiate(Resources.Load("AmbientTile") as GameObject, transform.position,
-				Quaternion.identity, transform);
+			CheckAmbientTile();
 		}
-	}
 
-	public void CleanTile()
-	{
-		if (fireScorch != null)
+		public void CheckAmbientTile()
 		{
-			fireScorch.transform.parent = null;
-			Despawn.ClientSingle(fireScorch);
+			if (ambientTile == null)
+			{
+				ambientTile = Instantiate(Resources.Load("AmbientTile") as GameObject, transform.position,
+					Quaternion.identity, transform);
+			}
+		}
+
+		public void CleanTile()
+		{
+			if (fireScorch != null)
+			{
+				fireScorch.transform.parent = null;
+				Despawn.ClientSingle(fireScorch);
+			}
 		}
 	}
 }

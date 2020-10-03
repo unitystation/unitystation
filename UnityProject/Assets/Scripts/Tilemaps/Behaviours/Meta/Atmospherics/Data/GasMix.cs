@@ -5,12 +5,12 @@ using NaughtyAttributes;
 using Pipes;
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	/// <summary>
 	/// Represents a mix of gases
 	/// </summary>
-	[System.Serializable]
+	[Serializable]
 	public struct GasMix
 	{
 		[InfoBox("Plasma, oxygen, nitrogen, carbon dioxide", EInfoBoxType.Normal)]

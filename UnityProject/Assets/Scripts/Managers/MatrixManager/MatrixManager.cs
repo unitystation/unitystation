@@ -8,6 +8,7 @@ using Doors;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using Systems.Atmospherics;
 
 /// <summary>
 /// Defines collision type we expect

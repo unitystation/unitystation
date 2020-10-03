@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Doors;
 
 [RequireComponent(typeof(ConeOfSight))]
 public class MobFlee : MobPathFinder

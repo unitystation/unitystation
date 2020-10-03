@@ -1,24 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Analytics;
 
-namespace Explosions
+namespace Systems.Explosions
 {
 	public class ExplosionNode
 	{
 		public Vector2Int Location;
 		public Matrix matrix;
 
-
 		public HashSet<ExplosionPropagationLine> PresentLines = new HashSet<ExplosionPropagationLine>();
 		public Vector2 AngleAndIntensity;
 
 		public List<Pipes.PipeNode> SavedPipes = new List<Pipes.PipeNode>();
-
-
-
-
 
 		public void Initialise(Vector2Int Loc, Matrix Inmatrix)
 		{
@@ -86,4 +80,3 @@ namespace Explosions
 		}
 	}
 }
-

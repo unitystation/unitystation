@@ -6,6 +6,7 @@ using Pipes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using Systems.Atmospherics;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -344,10 +345,10 @@ public class Matrix : MonoBehaviour
 		return (true);
 	}
 
-	public IEnumerable<Disposals.DisposalPipe> GetDisposalPipesAt(Vector3Int position)
+	public IEnumerable<Objects.Disposals.DisposalPipe> GetDisposalPipesAt(Vector3Int position)
 	{
 		// Return a list, because we may allow disposal pipes to overlap each other - NS with EW e.g.
-		return UnderFloorLayer.GetAllTilesByType<Disposals.DisposalPipe>(position);
+		return UnderFloorLayer.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position);
 	}
 
 	public List<IntrinsicElectronicData> GetElectricalConnections(Vector3Int position)

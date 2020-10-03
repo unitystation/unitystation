@@ -1,41 +1,44 @@
 ﻿using System;
 using UnityEngine;
 
-public class OutsideFlashingLight : MonoBehaviour
+namespace Objects
 {
-	public float flashWaitTime = 1f;
-
-	public GameObject lightSource;
-	public SpriteRenderer lightSprite;
-	public Color spriteOffCol;
-	public Color spriteOnCol;
-
-	private void OnEnable()
+	public class OutsideFlashingLight : MonoBehaviour
 	{
-		UpdateManager.Add(UpdateMe, flashWaitTime);
-	}
+		public float flashWaitTime = 1f;
 
-	private void OnDisable()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-	}
+		public GameObject lightSource;
+		public SpriteRenderer lightSprite;
+		public Color spriteOffCol;
+		public Color spriteOnCol;
 
-	private void UpdateMe()
-	{
-		SwitchLights();
-	}
-
-	private void SwitchLights()
-	{
-		if (!lightSource.activeSelf)
+		private void OnEnable()
 		{
-			lightSource.SetActive(true);
-			lightSprite.color = spriteOnCol;
+			UpdateManager.Add(UpdateMe, flashWaitTime);
 		}
-		else
+
+		private void OnDisable()
 		{
-			lightSource.SetActive(false);
-			lightSprite.color = spriteOffCol;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		}
+
+		private void UpdateMe()
+		{
+			SwitchLights();
+		}
+
+		private void SwitchLights()
+		{
+			if (!lightSource.activeSelf)
+			{
+				lightSource.SetActive(true);
+				lightSprite.color = spriteOnCol;
+			}
+			else
+			{
+				lightSource.SetActive(false);
+				lightSprite.color = spriteOffCol;
+			}
 		}
 	}
 }

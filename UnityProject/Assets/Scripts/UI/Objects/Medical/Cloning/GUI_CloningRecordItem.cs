@@ -2,23 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using Objects.Medical;
 
-public class GUI_CloningRecordItem : DynamicEntry
+namespace UI.Objects.Medical
 {
-	public CloningRecord cloningRecord;
-	public GUI_Cloning gui_Cloning;
-
-	public NetLabel recordName;
-	public NetLabel recrodScanID;
-
-	public void SetValues()
+	public class GUI_CloningRecordItem : DynamicEntry
 	{
-		recordName.SetValueServer(cloningRecord.name);
-		recrodScanID.SetValueServer("Scan ID " + cloningRecord.scanID);
-	}
+		public CloningRecord cloningRecord;
+		public GUI_Cloning gui_Cloning;
 
-	public void ViewRecord()
-	{
-		gui_Cloning.ViewRecord(cloningRecord);
+		public NetLabel recordName;
+		public NetLabel recrodScanID;
+
+		public void SetValues()
+		{
+			recordName.SetValueServer(cloningRecord.name);
+			recrodScanID.SetValueServer("Scan ID " + cloningRecord.scanID);
+		}
+
+		public void ViewRecord()
+		{
+			gui_Cloning.ViewRecord(cloningRecord);
+		}
 	}
 }

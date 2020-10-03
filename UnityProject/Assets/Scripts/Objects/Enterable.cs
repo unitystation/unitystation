@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using static UnityEngine.EventSystems.EventTrigger;
 
-namespace Assets.Scripts.Objects
+namespace Objects
 {
 	/// <summary>
 	/// Allows to trigger an event when a player enter in the space occupied by this component.

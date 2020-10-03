@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Objects.Disposals;
+using UI.Objects.Robotics;
 
-namespace Disposals
+namespace UI.Objects.Disposals
 {
 	public class GUI_DisposalBin : NetTab
 	{

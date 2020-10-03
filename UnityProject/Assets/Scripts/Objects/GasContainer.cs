@@ -1,9 +1,10 @@
-using Atmospherics;
-using Mirror;
 using System;
 using UnityEngine;
+using Mirror;
+using Systems.Atmospherics;
+using Systems.Explosions;
 
-namespace Objects.GasContainer
+namespace Objects.Atmospherics
 {
 	[RequireComponent(typeof(Integrity))]
 	public class GasContainer : NetworkBehaviour, IGasMixContainer, IServerSpawn

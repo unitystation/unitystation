@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public static class AtmosUtils
 	{

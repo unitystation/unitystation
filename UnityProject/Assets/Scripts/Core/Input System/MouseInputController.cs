@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Weapons;
+using Objects.Wallmounts;
 
 /// <summary>
 /// Main entry point for handling all input events
