@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b9e74db66f84d28937416872ec44976, type: 3}
-  m_Name: TripleSlotStructure
+  m_Script: {fileID: 11500000, guid: 4dcdd86e87cc447d94b99df8b1a383b3, type: 3}
+  m_Name: MedalBoxServicePopulator
   m_EditorClassIdentifier: 
-  indexedSlots: 3
-  namedSlots: 
+  Contents:
+  - {fileID: 9080901177021258027, guid: 0d3831f20ce509542b9b058a5826ebe6, type: 3}
+  MergeMode: 0

@@ -9,8 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b9e74db66f84d28937416872ec44976, type: 3}
-  m_Name: DoubleSlotStructure
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: belts_syndicate_holster
   m_EditorClassIdentifier: 
-  IndexedSlots: 2
-  NamedSlots: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: 21300000, guid: 245b8f13ca739ad47859855d23665fc3, type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 923
