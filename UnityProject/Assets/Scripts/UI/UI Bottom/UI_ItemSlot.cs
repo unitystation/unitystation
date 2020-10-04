@@ -240,7 +240,7 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	/// Check if item has an interaction with a an item in a slot
 	/// If not or if bool returned is true, swap items
 	/// </summary>
-	public void TryItemInteract()
+	public void TryItemInteract(bool swapIfEmpty = true)
 	{
 
 		var slotName = itemSlot.SlotIdentifier.NamedSlot;
@@ -254,12 +254,14 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 				//both are occupied)
 				if (TryIF2InventoryApply()) return;
 
-				UIManager.Hands.SwapItem(this);
+				if(swapIfEmpty)
+					UIManager.Hands.SwapItem(this);
 				return;
 			}
 			else
 			{
-				UIManager.Hands.SwapItem(this);
+				if(swapIfEmpty)
+					UIManager.Hands.SwapItem(this);
 				return;
 			}
 		}
@@ -280,7 +282,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 				if (UIManager.Hands.OtherSlot.Item != null)
 				{
 					if (TryIF2InventoryApply()) return;
-					UIManager.Hands.SwapItem(this);
+					if(swapIfEmpty)
+						UIManager.Hands.SwapItem(this);
 				}
 			}
 		}

@@ -10,6 +10,9 @@ using UnityEngine.EventSystems;
 		private UI_ItemSlot[] itemSlots;
 		public GameObject hideOnRetract;
 		private bool isOpen;
+
+		[SerializeField] private GameObject openButtonImage;
+		[SerializeField] private GameObject closeButtonImage;
 		/// <summary>
 		/// Whether the expandable clothing menu is open
 		/// </summary>
@@ -44,6 +47,8 @@ using UnityEngine.EventSystems;
 		private void ToggleEquipMenu(bool isOn)
 		{
 			isOpen = isOn;
+			openButtonImage.SetActive(!isOn);
+			closeButtonImage.SetActive(isOn);
 			//TODO: This needs to hide the slots better
 			if (isOn)
 			{

@@ -63,7 +63,12 @@ public enum KeyAction
 	//Right click stuff
 	ShowAdminOptions,
 
-	Point
+	Point,
+
+	// UI
+	OpenBackpack,
+	OpenPDA,
+	OpenBelt
 }
 
 /// <summary>
@@ -340,7 +345,13 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.TargetGroin, 	new KeybindMetadata("Target Groin", ActionType.Targeting)},
 
 		//Right click stuff
-		{ KeyAction.ShowAdminOptions, 	new KeybindMetadata("Show Admin Options", ActionType.RightClick)}
+		{ KeyAction.ShowAdminOptions, 	new KeybindMetadata("Show Admin Options", ActionType.RightClick)},
+		
+		// UI
+		// TODO: change ActionType
+		{ KeyAction.OpenBackpack, 	new KeybindMetadata("Open Backpack", ActionType.Action)},
+		{ KeyAction.OpenPDA, 		new KeybindMetadata("Open PDA", ActionType.Action)},
+		{ KeyAction.OpenBelt, 		new KeybindMetadata("Open Belt", ActionType.Action)}
 
 	};
 
@@ -388,7 +399,12 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.TargetGroin, 	new DualKeyCombo(new KeyCombo(KeyCode.Keypad2), null)},
 
 		//Right click stuff
-		{ KeyAction.ShowAdminOptions, new DualKeyCombo(new KeyCombo(KeyCode.LeftControl), null)}
+		{ KeyAction.ShowAdminOptions, new DualKeyCombo(new KeyCombo(KeyCode.LeftControl), null)},
+
+		// UI
+		{KeyAction.OpenBackpack, 	new DualKeyCombo(new KeyCombo(KeyCode.I), null)},
+		{KeyAction.OpenPDA, 		new DualKeyCombo(new KeyCombo(KeyCode.P), null)},
+		{KeyAction.OpenBelt, 		new DualKeyCombo(new KeyCombo(KeyCode.J), null)}
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
 
@@ -419,6 +435,20 @@ public class KeybindManager : MonoBehaviour {
 			if (isPrimary)
 			{
 				this[keyAction].PrimaryCombo = keyCombo;
+				// Set keybind texts when changing keybind
+				// TODO: maybe move to different place?
+				switch(keyAction)
+				{
+					case KeyAction.OpenBackpack:
+						UIManager.Instance.panelHudBottomController.SetBackPackKeybindText(keyCombo.MainKey);
+						break;
+					case KeyAction.OpenPDA:
+						UIManager.Instance.panelHudBottomController.SetPDAKeybindText(keyCombo.MainKey);
+						break;
+					case KeyAction.OpenBelt:
+						UIManager.Instance.panelHudBottomController.SetBeltKeybindText(keyCombo.MainKey);
+						break;
+				}
 			}
 			else
 			{
@@ -561,6 +591,23 @@ public class KeybindManager : MonoBehaviour {
 			try
 			{
 				userKeybinds = JsonConvert.DeserializeObject<KeybindDict>(jsonKeybinds);
+				// Set keybind texts when loading keybinds
+				// TODO: maybe move to different place?
+				foreach (var keyValuePair in userKeybinds)
+				{
+					switch(keyValuePair.Key)
+					{
+						case KeyAction.OpenBackpack:
+							UIManager.Instance.panelHudBottomController.SetBackPackKeybindText(keyValuePair.Value.PrimaryCombo.MainKey);
+							break;
+						case KeyAction.OpenPDA:
+							UIManager.Instance.panelHudBottomController.SetPDAKeybindText(keyValuePair.Value.PrimaryCombo.MainKey);
+							break;
+						case KeyAction.OpenBelt:
+							UIManager.Instance.panelHudBottomController.SetBeltKeybindText(keyValuePair.Value.PrimaryCombo.MainKey);
+							break;
+					}
+				}
 			}
 			catch (Exception e)
 			{

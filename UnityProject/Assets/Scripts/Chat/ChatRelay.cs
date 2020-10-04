@@ -197,7 +197,10 @@ public class ChatRelay : NetworkBehaviour
 
 		if (channels != ChatChannel.None)
 		{
-			ChatUI.Instance.AddChatEntry(message);
+			if(channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) || channels.HasFlag(ChatChannel.Examine))
+				ChatBubbleManager.ShowAChatBubble(PlayerManager.LocalPlayerScript.transform , Regex.Replace(message, "<.*?>", string.Empty));
+			else
+				ChatUI.Instance.AddChatEntry(message);
 		}
 	}
 

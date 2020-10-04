@@ -228,6 +228,11 @@ public class KeyboardInputManager : MonoBehaviour
 		{ KeyAction.TargetRightArm, () => { UIManager.ZoneSelector.SelectAction(BodyPartType.RightArm); }},
 		{ KeyAction.TargetLeftLeg,  () => { UIManager.ZoneSelector.SelectAction(BodyPartType.LeftLeg); }},
 		{ KeyAction.TargetRightLeg, () => { UIManager.ZoneSelector.SelectAction(BodyPartType.RightLeg); }},
-		{ KeyAction.TargetGroin, 	() => { UIManager.ZoneSelector.SelectAction(BodyPartType.Groin); }}
+		{ KeyAction.TargetGroin, 	() => { UIManager.ZoneSelector.SelectAction(BodyPartType.Groin); }},
+
+		// UI
+		{ KeyAction.OpenBackpack, 	() => { UIManager.Instance.panelHudBottomController.backpackItemSlot.TryItemInteract(swapIfEmpty: false); }},
+		{ KeyAction.OpenPDA, 		() => { UIManager.Instance.panelHudBottomController.PDAItemSlot.TryItemInteract(swapIfEmpty: false); }},
+		{ KeyAction.OpenBelt, 		() => { UIManager.Instance.panelHudBottomController.beltItemSlot.TryItemInteract(swapIfEmpty: false); }}
 	};
 }

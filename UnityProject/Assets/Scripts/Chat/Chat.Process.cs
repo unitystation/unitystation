@@ -189,7 +189,8 @@ public partial class Chat
 		{
 			// /me message
 			channels = ChatChannel.Local;
-			message = AddMsgColor(channels, $"<i><b>{speaker}</b> {message}</i>");
+			speaker = AddMsgColor(channels, speaker);
+			message = $"<i><b>{speaker}</b>| {message}</i>";
 			return message;
 		}
 
@@ -202,7 +203,8 @@ public partial class Chat
 			{
 				name = "nerd";
 			}
-			message = AddMsgColor(channels, $"[ooc] <b>{speaker}: {message}</b>");
+			speaker = AddMsgColor(ChatChannel.OOC, speaker);
+			message = $"[ooc] <b>{speaker}</b>|:<b>{message}</b>";
 			return message;
 		}
 
@@ -210,7 +212,8 @@ public partial class Chat
 		if (channels.HasFlag(ChatChannel.Ghost))
 		{
 			string[] _ghostVerbs = {"cries", "moans"};
-			return AddMsgColor(channels, $"[dead] <b>{speaker}</b> {_ghostVerbs.PickRandom()}: {message}");
+			speaker = AddMsgColor(ChatChannel.Ghost, speaker);
+			return  $"[dead] <b>{speaker}</b>| {_ghostVerbs.PickRandom()}: {message}";
 		}
 		string verb = "says,";
 
@@ -263,10 +266,10 @@ public partial class Chat
 			chan = "";
 		}
 
-		return AddMsgColor(channels,
-			$"{chan}<b>{speaker}</b> {verb}"    // [cmd] Username says,
+		return
+			$"<b>{AddMsgColor(channels, speaker)}</b>| {verb}"    // [cmd] Username says,
 			+ "  "                              // Two hair spaces. This triggers Text-to-Speech.
-			+ "\"" + message + "\"");           // "This text will be spoken by TTS!"
+			+ "\"" + message + "\"";           // "This text will be spoken by TTS!"
 	}
 
 	private static string StripTags(string input)

@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	[FormerlySerializedAs("dragAndDrop")] public UIDragAndDrop uiDragAndDrop;
 	public ControlDisplays displayControl;
 	public ControlClothing controlClothing;
+	public PanelHudBottomController panelHudBottomController;
 	public Hands hands;
 	public ControlIntent intentControl;
 	public PlayerHealthUI playerHealthUI;

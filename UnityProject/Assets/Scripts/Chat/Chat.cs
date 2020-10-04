@@ -35,6 +35,8 @@ public partial class Chat : MonoBehaviour
 	//Does the ghost hear everyone or just local
 	public bool GhostHearAll { get; set; } = true;
 
+	public static bool isOnRightSide = false;
+
 	public static bool OOCMute = false;
 
 	/// <summary>
@@ -557,5 +559,14 @@ public partial class Chat : MonoBehaviour
 	{
 		AddExamineMsg(recipient, message,
 			CustomNetworkManager.IsServer ? NetworkSide.Server : NetworkSide.Client);
+	}
+
+	/// <summary>
+	/// Set chat window position
+	/// </summary>
+	/// <param name="right">true if right, false if left</param>
+	public static void SetChatWindowSide(bool right)
+	{
+		// TODO:  There should be an option to switch the chat and chat log from the left to right side.
 	}
 }
