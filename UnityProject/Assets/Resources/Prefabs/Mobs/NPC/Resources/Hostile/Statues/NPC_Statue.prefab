@@ -346,8 +346,10 @@ MonoBehaviour:
   - {fileID: 4858910464699741597}
   allowKnifeHarvest: 1
   butcherResults:
-  - {fileID: 5776497215191974577, guid: 250ca2e271f85f14bb775ad6b2f0a290, type: 3}
-  - {fileID: 5776497215191974577, guid: 250ca2e271f85f14bb775ad6b2f0a290, type: 3}
+  - {fileID: 6375000470135993727, guid: 81e1dcfb97892054295d23cfd69c5542, type: 3}
+  - {fileID: 6375000470135993727, guid: 81e1dcfb97892054295d23cfd69c5542, type: 3}
+  RTT: 0
+  RadiationStacks: 0
   aliveSprite: {fileID: 21300006, guid: 02e539e4d967dcc4faedfec1c2719692, type: 3}
   deadSprite: {fileID: 21300000, guid: 6393059d409e068409218a18dca1970d, type: 3}
   deadState: 0
@@ -409,6 +411,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &4859381606111050923
 MonoBehaviour:
@@ -422,6 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &4859213822428636291
@@ -554,6 +558,8 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
+  hasFoodPrefereces: 0
+  foodPreferences: []
 --- !u!114 &3708589072684735304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -618,6 +624,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -7,8 +7,9 @@ using Mirror;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 using DatabaseAPI;
+using Initialisation;
 
-public class CustomNetworkManager : NetworkManager
+public class CustomNetworkManager : NetworkManager, IInitialise
 {
 	public static bool IsServer => Instance._isServer;
 
@@ -29,7 +30,7 @@ public class CustomNetworkManager : NetworkManager
 	[NonSerialized]
 	public UnityEvent OnClientDisconnected = new UnityEvent();
 
-	void Awake()
+	public override void Awake()
 	{
 		if (Instance == null)
 		{
@@ -40,8 +41,9 @@ public class CustomNetworkManager : NetworkManager
 			Destroy(gameObject);
 		}
 	}
+	public InitialisationSystems Subsystem => InitialisationSystems.CustomNetworkManager;
 
-	public override void Start()
+	void IInitialise.Initialise()
 	{
 		CheckTransport();
 		ApplyConfig();
@@ -109,29 +111,6 @@ public class CustomNetworkManager : NetworkManager
 		{
 			spawnPrefabs.Add(netObj.gameObject);
 		}
-
-		string[] dirs = Directory.GetDirectories(Application.dataPath, "Resources/Prefabs", SearchOption.AllDirectories); //could be changed later not to load everything to save start-up times
-		foreach (string dir in dirs)
-		{
-			//Should yield For a frame to Increase performance
-			LoadFolder(dir);
-			foreach (string subdir in Directory.GetDirectories(dir, "*", SearchOption.AllDirectories))
-			{
-				LoadFolder(subdir);
-			}
-		}
-	}
-
-	private void LoadFolder(string folderpath)
-	{
-		folderpath = folderpath.Substring(folderpath.IndexOf("Resources", StringComparison.Ordinal) + "Resources".Length);
-		foreach (NetworkIdentity netObj in Resources.LoadAll<NetworkIdentity>(folderpath))
-		{
-			if (!spawnPrefabs.Contains(netObj.gameObject))
-			{
-				spawnPrefabs.Add(netObj.gameObject);
-			}
-		}
 	}
 
 	private void OnEnable()
@@ -170,6 +149,7 @@ public class CustomNetworkManager : NetworkManager
 
 		Logger.LogFormat("Client connecting to server {0}", Category.Connections, conn);
 		base.OnServerAddPlayer(conn);
+		SubSceneManager.Instance.AddNewObserverScenePermissions(conn);
 		UpdateRoundTimeMessage.Send(GameManager.Instance.stationTime.ToString("O"));
 	}
 
@@ -187,69 +167,6 @@ public class CustomNetworkManager : NetworkManager
 	{
 		base.OnClientDisconnect(conn);
 		OnClientDisconnected.Invoke();
-	}
-
-	///Sync init data with specific scenes
-	public void SyncPlayerData(GameObject playerGameObject, string sceneName)
-	{
-		Logger.LogFormat("SyncPlayerData. This server sending a bunch of sync data to new client {0} for scene {1}", Category.Connections, playerGameObject, sceneName);
-
-		var sceneContext = SceneManager.GetSceneByName(sceneName);
-		//All matrices
-		MatrixMove[] matrices = FindObjectsOfType<MatrixMove>();
-		for (var i = 0; i < matrices.Length; i++)
-		{
-			if(matrices[i].gameObject.scene != sceneContext) continue;
-			matrices[i].NotifyPlayer(playerGameObject, true);
-		}
-
-		//All transforms
-		CustomNetTransform[] scripts = FindObjectsOfType<CustomNetTransform>();
-		for (var i = 0; i < scripts.Length; i++)
-		{
-			if(scripts[i].gameObject.scene != sceneContext) continue;
-			scripts[i].NotifyPlayer(playerGameObject);
-		}
-
-		//All player bodies
-		PlayerSync[] playerBodies = FindObjectsOfType<PlayerSync>();
-		for (var i = 0; i < playerBodies.Length; i++)
-		{
-			if(playerBodies[i].gameObject.scene != sceneContext) continue;
-			var playerBody = playerBodies[i];
-			playerBody.NotifyPlayer(playerGameObject, true);
-
-			var playerSprites = playerBody.GetComponent<PlayerSprites>();
-			if (playerSprites)
-			{
-				playerSprites.NotifyPlayer(playerGameObject);
-			}
-			var equipment = playerBody.GetComponent<Equipment>();
-			if (equipment)
-			{
-				equipment.NotifyPlayer(playerGameObject);
-			}
-		}
-
-		//TileChange Data
-		TileChangeManager[] tcManagers = FindObjectsOfType<TileChangeManager>();
-		for (var i = 0; i < tcManagers.Length; i++)
-		{
-			if(tcManagers[i].gameObject.scene != sceneContext) continue;
-			tcManagers[i].NotifyPlayer(playerGameObject);
-		}
-
-		//Doors
-		DoorController[] doors = FindObjectsOfType<DoorController>();
-		for (var i = 0; i < doors.Length; i++)
-		{
-			if(doors[i].gameObject.scene != sceneContext) continue;
-			doors[i].NotifyPlayer(playerGameObject);
-		}
-		Logger.Log($"Sent sync data ({matrices.Length} matrices, {scripts.Length} transforms, {playerBodies.Length} players) to {playerGameObject.name}", Category.Connections);
-
-		//all despawned objects in the pool
-
 	}
 
 	public override void OnServerConnect(NetworkConnection conn)
@@ -277,7 +194,7 @@ public class CustomNetworkManager : NetworkManager
 	public override void OnServerDisconnect(NetworkConnection conn)
 	{
 		//register them as removed from our own player list
-		PlayerList.Instance.Remove(conn);
+		PlayerList.Instance.RemoveByConnection(conn);
 
 		//NOTE: We don't call the base.OnServerDisconnect method because it destroys the player object -
 		//we want to keep the object around so player can rejoin and reenter their body.

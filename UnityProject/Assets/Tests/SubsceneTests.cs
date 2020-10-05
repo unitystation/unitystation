@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 
 namespace Tests
 {
@@ -21,7 +22,8 @@ namespace Tests
 				return;
 			}
 
-			MainStationListSO mainStations = AssetDatabase.LoadAssetAtPath<MainStationListSO>(AssetDatabase.GUIDToAssetPath(asset));
+			MainStationListSO mainStations =
+				AssetDatabase.LoadAssetAtPath<MainStationListSO>(AssetDatabase.GUIDToAssetPath(asset));
 
 			if (!CheckForScenesInBuildSettings(typeof(MainStationListSO), report, mainStations.MainStations))
 			{
@@ -41,7 +43,8 @@ namespace Tests
 				return;
 			}
 
-			AwayWorldListSO awayWorlds = AssetDatabase.LoadAssetAtPath<AwayWorldListSO>(AssetDatabase.GUIDToAssetPath(asset));
+			AwayWorldListSO awayWorlds =
+				AssetDatabase.LoadAssetAtPath<AwayWorldListSO>(AssetDatabase.GUIDToAssetPath(asset));
 
 			if (!CheckForScenesInBuildSettings(typeof(AwayWorldListSO), report, awayWorlds.AwayWorlds))
 			{
@@ -61,7 +64,8 @@ namespace Tests
 				return;
 			}
 
-			AsteroidListSO asteroids = AssetDatabase.LoadAssetAtPath<AsteroidListSO>(AssetDatabase.GUIDToAssetPath(asset));
+			AsteroidListSO asteroids =
+				AssetDatabase.LoadAssetAtPath<AsteroidListSO>(AssetDatabase.GUIDToAssetPath(asset));
 
 			if (!CheckForScenesInBuildSettings(typeof(AsteroidListSO), report, asteroids.Asteroids))
 			{
@@ -96,16 +100,19 @@ namespace Tests
 			return true;
 		}
 
+
 		/// <summary>
 		/// Checks that build settings contain all scenes in the provided list and that they are enabled, writes errors to the StringBuilder.
 		/// </summary>
 		bool CheckForScenesInBuildSettings(Type scriptableObjectType, StringBuilder sb, List<string> scenesToCheck)
 		{
-			Dictionary<string, EditorBuildSettingsScene> buildSettingFiles = new Dictionary<string, EditorBuildSettingsScene>();
+			Dictionary<string, EditorBuildSettingsScene> buildSettingFiles =
+				new Dictionary<string, EditorBuildSettingsScene>();
 			foreach (EditorBuildSettingsScene ebss in EditorBuildSettings.scenes)
 			{
 				buildSettingFiles.Add(Path.GetFileNameWithoutExtension(ebss.path), ebss);
 			}
+
 			bool success = true;
 			string typeString = scriptableObjectType.Name;
 			foreach (string scene in scenesToCheck)
@@ -123,7 +130,62 @@ namespace Tests
 					continue;
 				}
 			}
+
 			return success;
+		}
+
+
+		/// <summary>
+		/// Checks scenes for prefabs that have gone to 0,0 and another check for missing prefabs since the other component doesn't seem to work too well
+		/// </summary>
+		[Test]
+		public void Check00prefabs()
+		{
+			bool isok = true;
+			var report = new StringBuilder();
+			var scenesGUIDs = AssetDatabase.FindAssets("t:Scene");
+			var scenesPaths = scenesGUIDs.Select(AssetDatabase.GUIDToAssetPath);
+			foreach (var scene in scenesPaths)
+			{
+				if (scene.Contains("DevScenes")) continue;
+
+				var Openedscene = EditorSceneManager.OpenScene(scene);
+				report.AppendLine($"Checking {scene}");
+				Logger.Log($"Checking {scene}");
+				var gameObjects = Openedscene.GetRootGameObjects();
+				foreach (var gameObject in gameObjects)
+				{
+					var ObjectLaye = gameObject.GetComponentInChildren<ObjectLayer>();
+					if (ObjectLaye == null) continue;
+					int NumberOfChildren = ObjectLaye.transform.childCount;
+
+
+					for (int i = 0; i < NumberOfChildren; i++)
+					{
+						var ChildObject = ObjectLaye.transform.GetChild(i);
+						if (ChildObject.name.Contains("Missing Prefab"))
+						{
+							isok = false;
+							report.AppendLine(
+								$"{scene}: {ChildObject.name} Missing prefab");
+						}
+
+
+						if (ChildObject.localPosition.x == 0 &&
+						    ChildObject.localPosition.y == 0)
+						{
+							isok = false;
+							report.AppendLine(
+								$"{scene}: {ChildObject} is at 0,0 Please update the prefab/update the map/revert ");
+						}
+					}
+				}
+			}
+
+			if (isok == false)
+			{
+				Assert.Fail(report.ToString());
+			}
 		}
 	}
 }

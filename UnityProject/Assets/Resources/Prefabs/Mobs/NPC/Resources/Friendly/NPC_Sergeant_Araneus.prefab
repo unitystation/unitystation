@@ -264,8 +264,18 @@ MonoBehaviour:
   - {fileID: 114804766488326296}
   allowKnifeHarvest: 1
   butcherResults:
-  - {fileID: 6532193109441330816, guid: f4a7f2a5df1b98449bdf7af94d28ca29, type: 3}
-  - {fileID: 6532193109441330816, guid: f4a7f2a5df1b98449bdf7af94d28ca29, type: 3}
+  - {fileID: 1411125148902785070, guid: 4e05669938be94241b6b3453843bdd31, type: 3}
+  - {fileID: 1411125148902785070, guid: 4e05669938be94241b6b3453843bdd31, type: 3}
+  - {fileID: 4371567217900483034, guid: be5f4804a63cc5f46a57c13fde1253bc, type: 3}
+  - {fileID: 4371567217900483034, guid: be5f4804a63cc5f46a57c13fde1253bc, type: 3}
+  - {fileID: 4371567217900483034, guid: be5f4804a63cc5f46a57c13fde1253bc, type: 3}
+  - {fileID: 4371567217900483034, guid: be5f4804a63cc5f46a57c13fde1253bc, type: 3}
+  - {fileID: 4371567217900483034, guid: be5f4804a63cc5f46a57c13fde1253bc, type: 3}
+  - {fileID: 4371567217900483034, guid: be5f4804a63cc5f46a57c13fde1253bc, type: 3}
+  - {fileID: 4371567217900483034, guid: be5f4804a63cc5f46a57c13fde1253bc, type: 3}
+  - {fileID: 4371567217900483034, guid: be5f4804a63cc5f46a57c13fde1253bc, type: 3}
+  RTT: 0
+  RadiationStacks: 0
   aliveSprite: {fileID: 21300000, guid: b66515ad7b970f54ca08f76c0b8efd62, type: 3}
   deadSprite: {fileID: 21300000, guid: 9ad98872d94786044b33c982e5627a4a, type: 3}
   deadState: 0
@@ -327,6 +337,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114405087929252270
 MonoBehaviour:
@@ -340,6 +351,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114536369792164230
@@ -509,9 +521,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0

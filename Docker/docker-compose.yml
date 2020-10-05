@@ -9,6 +9,7 @@ services:
       HUB_USERNAME: $HUB_USERNAME
       HUB_PASSWORD: $HUB_PASSWORD
       SERVER_NAME: Unitystation - EU02 Staging
+      ERROR_WEBHOOK: $ERROR_WEBHOOK
     labels:
       - io.portainer.accesscontrol.public
     volumes:

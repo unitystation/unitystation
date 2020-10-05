@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89423981fdf5b0d46af8718c36521ad8, type: 3}
+  m_Name: Slime Cake Slices
+  m_EditorClassIdentifier: 
+  Name: Slime Cake Slices
+  Ingredients:
+  - requiredAmount: 1
+    ingredientName: slime cake
+  Output: {fileID: 4051810111200297444, guid: dc9261e9776e42e4a9c74b93db125123, type: 3}

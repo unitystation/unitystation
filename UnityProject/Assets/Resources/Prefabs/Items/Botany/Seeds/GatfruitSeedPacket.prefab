@@ -9,9 +9,168 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
+      propertyPath: plantData.GrowthSprites.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[0].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[1].Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.FullyGrownSprite.Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.DeadSprite.Sprites.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.PlantTrays.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
       propertyPath: defaultPlantData
       value: 
       objectReference: {fileID: 11400000, guid: 9994b6c89868763469f08ef9ca44c181,
+        type: 2}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.ProduceObject
+      value: 
+      objectReference: {fileID: 2317139877093392249, guid: 7765910587f4dc04d82f04bf0ccf2d21,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.Name
+      value: gatfruit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.Plantname
+      value: Gatfruit Tree
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.Description
+      value: These seeds grow into .357 revolvers.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[0].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 72a1f56d37103274289095c834db3b28, type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[0].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 72a1f56d37103274289095c834db3b28,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[1].Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: f5f0b0cabfe754a4790ace0f5a6f1aa8, type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSprites.Array.data[1].Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: f5f0b0cabfe754a4790ace0f5a6f1aa8,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.FullyGrownSprite.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 6997a350a08a6ec4cb240f989d00df8d, type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.FullyGrownSprite.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 6997a350a08a6ec4cb240f989d00df8d,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.DeadSprite.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 5117fc3bd655e8640829084b6983b3be, type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.DeadSprite.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 5117fc3bd655e8640829084b6983b3be,
+        type: 3}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.WeedResistance
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.WeedGrowthRate
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSpeed
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.Potency
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.Endurance
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.Yield
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.Lifespan
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.DeadSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 3ad385276d2197b4184c7faa831efc55,
+        type: 2}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.FullyGrownSpriteSO
+      value: 
+      objectReference: {fileID: 11400000, guid: 908b699926b1f89429bc3aab02a6921c,
+        type: 2}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: ea48aa16c0cbf3741b79e1228a786a5b,
+        type: 2}
+    - target: {fileID: 2472774062389222616, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: plantData.GrowthSpritesSOs.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 230408e1ee8c2f14b819c425a8580a6c,
         type: 2}
     - target: {fileID: 3693160207910545667, guid: 26abf4c2c542ffa4098216683cb5f652,
         type: 3}
@@ -94,5 +253,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: d07b9d96ab0617f4c9e31c6c6dda0c95,
         type: 3}
+    - target: {fileID: 6983737391352839654, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1155a1eb63c94d0458fad439858db52b,
+        type: 2}
+    - target: {fileID: 7137446383190126757, guid: 26abf4c2c542ffa4098216683cb5f652,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1155a1eb63c94d0458fad439858db52b,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 26abf4c2c542ffa4098216683cb5f652, type: 3}

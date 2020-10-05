@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4953561366154430}
   - component: {fileID: 61511986785789464}
-  - component: {fileID: 61084898871787378}
   - component: {fileID: 114981672792840120}
   - component: {fileID: 114586167594770278}
   - component: {fileID: 114067914942104522}
@@ -67,32 +66,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61084898871787378
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1592598708461892}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114981672792840120
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -125,6 +98,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &114067914942104522
 MonoBehaviour:
@@ -152,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114018429479872388
@@ -231,10 +206,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MachineParts: {fileID: 11400000, guid: 3e13e554e4a9a77488f9c82a22ec05a5, type: 2}
-  framePrefab: {fileID: 5458395581066390877, guid: 72eb86d5ac08290448d10b535ea0d025,
+  framePrefab: {fileID: 8621073510343042932, guid: c4c22bdc7cdd546479ac1de5589b5617,
     type: 3}
-  machineBoardPrefab: {fileID: 372985771419607861, guid: 3882f9f8fa1bc0a48bcff27ead25d775,
+  machineBoardPrefab: {fileID: 5967373569650379141, guid: 837c89c8d01f2f1448f8d9eab06080dd,
     type: 3}
+  canNotBeDeconstructed: 0
   secondsToScrewdrive: 2
 --- !u!1 &1941829748320182
 GameObject:

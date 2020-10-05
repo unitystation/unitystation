@@ -1,50 +1,42 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
-using Random = UnityEngine.Random;
+using ScriptableObjects;
 
 public class RodsToMetal : NetworkBehaviour, ICheckedInteractable<HandApply>
 {
-	[Header("How many Metal Sheets you get from Rods.")]
-	[Tooltip("How many metal sheets.")]
+	[Tooltip("How many metal sheets the interaction should produce.")]
 	[SerializeField]
-	private int metal = 1;
+	private int metalSpawnCount = 1;
 
-	[Tooltip("How many Rods needed.")]
+	[Tooltip("How many rods needed for the interaction.")]
 	[SerializeField]
-	private int rods = 2;
+	private int minimumRods = 2;
 
 	public bool WillInteract(HandApply interaction, NetworkSide side)
 	{
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		GameObject ObjectInHand = interaction.HandObject;
-
-		//only active welder will transform rods
-		if (Validations.HasItemTrait(ObjectInHand, CommonTraits.Instance.Welder) &&
-			Validations.HasUsedActiveWelder(interaction)) return true;
-		return false;
+		// Only active welder will transform rods.
+		return Validations.HasUsedActiveWelder(interaction);
 	}
+
 	public void ServerPerformInteraction(HandApply interaction)
 	{
 		if (interaction.TargetObject != gameObject) return;
 
-		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Welder))
-		{
-			//Turn Rods to Metal
-			convertRods(interaction);
-		}
-
+		// Turn rods to metal
+		ConvertRods(interaction);
 	}
+
 	[Server]
-	private void convertRods(HandApply interaction)
+	private void ConvertRods(HandApply interaction)
 	{
 		Stackable stack = gameObject.GetComponent<Stackable>();
-		if (stack.Amount >= rods)
+		if (stack.Amount >= minimumRods)
 		{
-			Spawn.ServerPrefab("Metal", interaction.Performer.WorldPosServer(), count: metal);
-			stack.ServerConsume(rods);
+			Spawn.ServerPrefab(CommonPrefabs.Instance.Metal, interaction.Performer.WorldPosServer(), count: metalSpawnCount);
+			stack.ServerConsume(minimumRods);
 		}
 	}
-
 }

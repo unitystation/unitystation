@@ -9,7 +9,7 @@ public class PageElement : MonoBehaviour
 {
 	public ulong PageID;
 	public uint SentenceID;
-	public PageElementEnum PageElementType;
+	public virtual PageElementEnum PageElementType => PageElementEnum.InputField;
 	public bool IsPoolble = true;
 
 	public virtual HashSet<Type> GetCompatibleTypes()

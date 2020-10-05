@@ -9,7 +9,7 @@ using Mirror;
 /// </summary>
 [RequireComponent(typeof(ItemStorage))]
 [RequireComponent(typeof(MouseDraggable))]
-[RequireComponent(typeof(ActionControlInventory))]
+//[RequireComponent(typeof(ActionControlInventory))] removed because the PDA wont need it
 public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActivate>, IClientInteractable<InventoryApply>,
 	ICheckedInteractable<InventoryApply>, ICheckedInteractable<PositionalHandApply>, ICheckedInteractable<MouseDrop>,
 	IServerInventoryMove, IClientInventoryMove, IActionGUI
@@ -485,7 +485,7 @@ public class InteractableStorage : MonoBehaviour, IClientInteractable<HandActiva
 			var showAlert = pna.GetActiveHandItem() == gameObject ||
 							pna.GetOffHandItem() == gameObject;
 
-			UIActionManager.Toggle(this, showAlert);
+			UIActionManager.ToggleLocal(this, showAlert);
 		}
 	}
 

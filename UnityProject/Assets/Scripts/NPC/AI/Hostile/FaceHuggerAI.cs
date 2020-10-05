@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Clothing;
 using NPC.AI;
 using UnityEngine;
+using Doors;
 using Random = UnityEngine.Random;
 
 namespace NPC
@@ -430,7 +431,7 @@ namespace NPC
 
 			XenoQueenAI.CurrentHuggerAmt++;
 			dirSprites.SetToNPCLayer();
-			registerObject.Passable = false;
+			registerObject.RestoreAllToDefault();
 			simpleAnimal.SetDeadState(false);
 			ResetBehaviours();
 			BeginSearch();

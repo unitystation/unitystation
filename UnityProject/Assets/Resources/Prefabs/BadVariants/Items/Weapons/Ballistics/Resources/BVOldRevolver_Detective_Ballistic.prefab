@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1159535383240640759
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: AmmoType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: ammoType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 5028489969333880017, guid: 7b41205052d6c7e4895869394631a735,
+        type: 3}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootGun04
+      objectReference: {fileID: 0}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 46470095045359637, guid: 7a103e9d0eb3d0a4d9f2e3a8266c0231,
+        type: 3}
+    - target: {fileID: 2645616468337568693, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: MagInternal
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3623955159015093207, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 1bfbc763f1dd7b94dbc52e4414debb0d,
+        type: 2}
+    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: initialName
+      value: P238 Revolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 7053030124553676594, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: initialDescription
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7349041914971061004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7af99b84c0d3fde45b2154db1691f4b5,
+        type: 3}
+    - target: {fileID: 7392881626475492836, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7425590482768185424, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_Name
+      value: BVOldRevolver_Detective_Ballistic
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7430795432937076004, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9027814007798219086, guid: f46dc50d35397f04f8f6be3fb49668ca,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 89c4ca9ba5f44ce4f897a1684803eb2c,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: f46dc50d35397f04f8f6be3fb49668ca, type: 3}

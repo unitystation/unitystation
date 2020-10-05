@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.Events;
+using Objects;
 
 public class TileChangeManager : NetworkBehaviour
 {
@@ -13,12 +14,14 @@ public class TileChangeManager : NetworkBehaviour
 	public Vector3IntEvent OnFloorOrPlatingRemoved = new Vector3IntEvent();
 
 	private SubsystemManager subsystemManager;
+
 	/// <summary>
 	/// subsystem manager for these tiles
 	/// </summary>
 	public SubsystemManager SubsystemManager => subsystemManager;
 
 	private InteractableTiles interactableTiles;
+
 	/// <summary>
 	/// interactable tiles component for these tiles.
 	/// </summary>
@@ -33,6 +36,12 @@ public class TileChangeManager : NetworkBehaviour
 		interactableTiles = GetComponent<InteractableTiles>();
 	}
 
+	public override void OnStartClient()
+	{
+		base.OnStartClient();
+		TileChangeNewPlayer.Send(netId);
+	}
+
 	public void InitServerSync(string data)
 	{
 		//server doesn't ever need to run this because this will replay its own changes
@@ -42,7 +51,8 @@ public class TileChangeManager : NetworkBehaviour
 		var dataList = JsonUtility.FromJson<TileChangeList>(data);
 		foreach (TileChangeEntry entry in dataList.List)
 		{
-			Logger.LogTraceFormat("Received update for {0} layer {1} " + entry.TileName , Category.TileMaps, entry.Position,
+			Logger.LogTraceFormat("Received update for {0} layer {1} " + entry.TileName, Category.TileMaps,
+				entry.Position,
 				entry.LayerType);
 			// load tile & apply
 			if (entry.TileType.Equals(TileType.None))
@@ -51,13 +61,13 @@ public class TileChangeManager : NetworkBehaviour
 			}
 			else
 			{
-				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName);
+				InternalUpdateTile(entry.Position, entry.TileType, entry.TileName,entry.transformMatrix, entry.color );
 			}
 		}
 	}
 
 	[Server]
-	public void NotifyPlayer (GameObject requestedBy)
+	public void UpdateNewPlayer(NetworkConnection requestedBy)
 	{
 		if (changeList.List.Count > 0)
 		{
@@ -66,29 +76,31 @@ public class TileChangeManager : NetworkBehaviour
 	}
 
 	[Server]
-	public void UpdateTile(Vector3Int cellPosition, TileType tileType, string tileName)
+	public void UpdateTile(Vector3Int cellPosition, TileType tileType, string tileName,
+		Matrix4x4? transformMatrix = null, Color? color = null)
 	{
-		if (IsDifferent(cellPosition, tileType, tileName))
+		if (IsDifferent(cellPosition, tileType, tileName, transformMatrix, color))
 		{
-			InternalUpdateTile(cellPosition, tileType, tileName);
+			InternalUpdateTile(cellPosition, tileType, tileName, transformMatrix, color);
 
-			RpcUpdateTile(cellPosition, tileType, tileName);
+			ChooseCorrectRpc(cellPosition, tileType, tileName, transformMatrix, color);
 
-			AddToChangeList(cellPosition, tileType:tileType, tileName:tileName);
+			AddToChangeList(cellPosition, tileType: tileType, tileName: tileName, transformMatrix : transformMatrix , color: color);
 		}
 	}
 
 
 	[Server]
-	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile)
+	public void UpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+		Color? color = null)
 	{
-		if (IsDifferent(cellPosition, layerTile))
+		if (IsDifferent(cellPosition, layerTile, transformMatrix, color))
 		{
-			InternalUpdateTile(cellPosition, layerTile);
+			InternalUpdateTile(cellPosition, layerTile,transformMatrix, color);
 
-			RpcUpdateTile(cellPosition, layerTile.TileType, layerTile.name);
+			ChooseCorrectRpc(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
 
-			AddToChangeList(cellPosition, layerTile);
+			AddToChangeList(cellPosition, layerTile, transformMatrix : transformMatrix , color: color);
 		}
 	}
 
@@ -98,10 +110,11 @@ public class TileChangeManager : NetworkBehaviour
 	/// <param name="cellPosition"></param>
 	/// <param name="layerTile"></param>
 	[Server]
-	public void UnderfloorUpdateTile(Vector3Int cellPosition, LayerTile layerTile)
+	public void UnderfloorUpdateTile(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+		Color? color = null)
 	{
-		RpcUpdateTile(cellPosition, layerTile.TileType, layerTile.name);
-		AddToChangeList(cellPosition, layerTile);
+		ChooseCorrectRpc(cellPosition, layerTile.TileType, layerTile.name, transformMatrix, color);
+		AddToChangeList(cellPosition, layerTile, transformMatrix: transformMatrix, color : color);
 	}
 
 	/// <summary>
@@ -113,27 +126,28 @@ public class TileChangeManager : NetworkBehaviour
 	/// <param name="cellPosition"></param>
 	/// <param name="tileName"></param>
 	[Server]
-	public void UpdateOverlay(Vector3Int cellPosition, OverlayTile overlayTile)
+	public void UpdateOverlay(Vector3Int cellPosition, OverlayTile overlayTile, Matrix4x4? transformMatrix = null,
+		Color? color = null)
 	{
 		cellPosition.z = 0;
 		if (!metaTileMap.HasTile(cellPosition, overlayTile.LayerType, true)) return;
 		cellPosition.z = -1;
 		if (IsDifferent(cellPosition, overlayTile))
 		{
-			InternalUpdateTile(cellPosition, overlayTile);
+			InternalUpdateTile(cellPosition, overlayTile, transformMatrix, color);
 
-			RpcUpdateTile(cellPosition, overlayTile.TileType, overlayTile.name);
+			ChooseCorrectRpc(cellPosition, overlayTile.TileType, overlayTile.name, transformMatrix, color);
 
-			AddToChangeList(cellPosition, overlayTile);
+			AddToChangeList(cellPosition, overlayTile, transformMatrix : transformMatrix,color : color );
 		}
 	}
 
 	[Server]
-	public void RemoveTile( Vector3Int cellPosition )
+	public void RemoveTile(Vector3Int cellPosition)
 	{
-		foreach ( var layerType in metaTileMap.LayersKeys )
+		foreach (var layerType in metaTileMap.LayersKeys)
 		{
-			RemoveTile( cellPosition, layerType );
+			RemoveTile(cellPosition, layerType);
 		}
 	}
 
@@ -147,11 +161,10 @@ public class TileChangeManager : NetworkBehaviour
 	/// <param name="removeAll"></param>
 	/// <returns></returns>
 	[Server]
-	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType, bool removeAll=true)
+	public LayerTile RemoveTile(Vector3Int cellPosition, LayerType layerType, bool removeAll = true)
 	{
-
 		var layerTile = metaTileMap.GetTile(cellPosition, layerType);
-		if(metaTileMap.HasTile(cellPosition, layerType, true))
+		if (metaTileMap.HasTile(cellPosition, layerType, true))
 		{
 			InternalRemoveTile(cellPosition, layerType, removeAll);
 
@@ -159,9 +172,9 @@ public class TileChangeManager : NetworkBehaviour
 
 			AddToChangeList(cellPosition, layerType);
 
-			if (layerType == LayerType.Floors || layerType == LayerType.Base )
+			if (layerType == LayerType.Floors || layerType == LayerType.Base)
 			{
-				OnFloorOrPlatingRemoved.Invoke( cellPosition );
+				OnFloorOrPlatingRemoved.Invoke(cellPosition);
 			}
 			else if (layerType == LayerType.Windows)
 			{
@@ -193,7 +206,7 @@ public class TileChangeManager : NetworkBehaviour
 
 			RpcRemoveTile(cellPosition, layerType, false);
 
-			AddToChangeList(cellPosition, layerType, removeAll:true);
+			AddToChangeList(cellPosition, layerType, removeAll: true);
 		}
 	}
 
@@ -206,10 +219,11 @@ public class TileChangeManager : NetworkBehaviour
 	[ClientRpc]
 	private void RpcRemoveTile(Vector3 position, LayerType layerType, bool removeAll)
 	{
-		if ( isServer )
+		if (isServer)
 		{
 			return;
 		}
+
 		InternalRemoveTile(position, layerType, removeAll);
 	}
 
@@ -217,7 +231,66 @@ public class TileChangeManager : NetworkBehaviour
 	{
 		Vector3Int p = position.RoundToInt();
 
-		metaTileMap.RemoveTile(p, layerType, removeAll);
+		metaTileMap.RemoveTileWithlayer(p, layerType, removeAll);
+	}
+
+	private void ChooseCorrectRpc(Vector3Int position, TileType tileType, string tileName,
+		Matrix4x4? transformMatrix = null, Color? color = null)
+	{
+		if (transformMatrix != null)
+		{
+			if (color != null)
+			{
+				RpcUpdateTileMC(position, tileType, tileName, transformMatrix.GetValueOrDefault(Matrix4x4.identity),
+					color.GetValueOrDefault(Color.white));
+				return;
+			}
+
+			RpcUpdateTileM(position, tileType, tileName, transformMatrix.GetValueOrDefault(Matrix4x4.identity));
+			return;
+
+		}
+
+		if (color != null) { RpcUpdateTileC(position, tileType, tileName, color.GetValueOrDefault(Color.white)); return;
+		}
+
+
+		RpcUpdateTile(position, tileType, tileName);
+		return;
+	}
+
+	[ClientRpc]
+	private void RpcUpdateTileMC(Vector3Int position, TileType tileType, string tileName, Matrix4x4 transformMatrix,
+		Color color)
+	{
+		if (isServer)
+		{
+			return;
+		}
+
+		InternalUpdateTile(position, tileType, tileName, transformMatrix, color);
+	}
+
+	[ClientRpc]
+	private void RpcUpdateTileM(Vector3Int position, TileType tileType, string tileName, Matrix4x4 transformMatrix)
+	{
+		if (isServer)
+		{
+			return;
+		}
+
+		InternalUpdateTile(position, tileType, tileName, transformMatrix: transformMatrix);
+	}
+
+	[ClientRpc]
+	private void RpcUpdateTileC(Vector3Int position, TileType tileType, string tileName, Color color)
+	{
+		if (isServer)
+		{
+			return;
+		}
+
+		InternalUpdateTile(position, tileType, tileName, color: color);
 	}
 
 	[ClientRpc]
@@ -231,10 +304,12 @@ public class TileChangeManager : NetworkBehaviour
 		InternalUpdateTile(position, tileType, tileName);
 	}
 
-	private void InternalUpdateTile(Vector3Int position, TileType tileType, string tileName)
+
+	private void InternalUpdateTile(Vector3Int position, TileType tileType, string tileName,
+		Matrix4x4? transformMatrix = null, Color? color = null)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
-		metaTileMap.SetTile(position, layerTile);
+		metaTileMap.SetTile(position, layerTile, transformMatrix, color);
 		//if we are changing a tile at z=0, make sure to remove any overlays it has as well
 
 		//TODO: OVERLAYS - right now it only removes at z = -1, but we will eventually need
@@ -252,7 +327,8 @@ public class TileChangeManager : NetworkBehaviour
 		}
 	}
 
-	private void InternalUpdateTile(Vector3 position, LayerTile layerTile)
+	private void InternalUpdateTile(Vector3 position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+		Color? color = null)
 	{
 		if (layerTile.TileType == TileType.WindowDamaged)
 		{
@@ -261,10 +337,13 @@ public class TileChangeManager : NetworkBehaviour
 
 		Vector3Int p = position.RoundToInt();
 
-		metaTileMap.SetTile(p, layerTile);
+		metaTileMap.SetTile(p, layerTile, transformMatrix, color);
+
 	}
 
-	private void AddToChangeList(Vector3Int position, LayerType layerType=LayerType.None, TileType tileType=TileType.None, string tileName=null, bool removeAll = false)
+	private void AddToChangeList(Vector3Int position, LayerType layerType = LayerType.None,
+		TileType tileType = TileType.None, string tileName = null, bool removeAll = false, Matrix4x4? transformMatrix = null,
+		Color? color = null)
 	{
 		changeList.List.Add(new TileChangeEntry()
 		{
@@ -272,11 +351,15 @@ public class TileChangeManager : NetworkBehaviour
 			LayerType = layerType,
 			TileType = tileType,
 			TileName = tileName,
-			RemoveAll = removeAll
+			RemoveAll = removeAll,
+			transformMatrix = transformMatrix,
+			color = color
 		});
 	}
 
-	private void AddToChangeList(Vector3Int position, LayerTile layerTile, LayerType layerType=LayerType.None, bool removeAll = false)
+	private void AddToChangeList(Vector3Int position, LayerTile layerTile, LayerType layerType = LayerType.None,
+		bool removeAll = false, Matrix4x4? transformMatrix = null,
+		Color? color = null)
 	{
 		changeList.List.Add(new TileChangeEntry()
 		{
@@ -284,20 +367,24 @@ public class TileChangeManager : NetworkBehaviour
 			LayerType = layerType,
 			TileType = layerTile.TileType,
 			TileName = layerTile.name,
-			RemoveAll = removeAll
+			RemoveAll = removeAll,
+			transformMatrix = transformMatrix,
+			color = color
 		});
 	}
 
-	private bool IsDifferent(Vector3Int position, TileType tileType, string tileName)
+	private bool IsDifferent(Vector3Int position, TileType tileType, string tileName, Matrix4x4? transformMatrix = null,
+		Color? color = null)
 	{
 		LayerTile layerTile = TileManager.GetTile(tileType, tileName);
 
-		return metaTileMap.GetTile(position, layerTile.LayerType) != layerTile;
+		return IsDifferent(position, layerTile, transformMatrix, color);
 	}
 
-	private bool IsDifferent(Vector3Int position, LayerTile layerTile)
+	private bool IsDifferent(Vector3Int position, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+		Color? color = null)
 	{
-		return metaTileMap.GetTile(position, layerTile.LayerType) != layerTile;
+		return metaTileMap.IsDifferent(position, layerTile, layerTile.LayerType, transformMatrix, color);
 	}
 }
 
@@ -313,7 +400,6 @@ public class TileChangeList
 			List = entry.ToList()
 		};
 	}
-
 }
 
 [System.Serializable]
@@ -328,6 +414,13 @@ public class TileChangeEntry
 	public string TileName;
 
 	public bool RemoveAll;
+
+	public Matrix4x4? transformMatrix;
+
+	public Color? color;
+
 }
 
-public class TileChangeEvent : UnityEvent<Vector3Int, GenericTile> { }
+public class TileChangeEvent : UnityEvent<Vector3Int, GenericTile>
+{
+}

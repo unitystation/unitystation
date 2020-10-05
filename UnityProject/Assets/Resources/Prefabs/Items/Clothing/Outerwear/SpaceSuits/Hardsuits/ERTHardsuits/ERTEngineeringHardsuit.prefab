@@ -1,0 +1,105 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5800036488553165439
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2905032154871127383, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: initialName
+      value: emergency response team engineering hardsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 2905032154871127383, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: initialDescription
+      value: The standard issue hardsuit of the ERT, this one has orange highlights.
+        Offers superb protection against environmental hazards.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3192155426716549481, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4b9b569311ee37b40800941dba8f55b1,
+        type: 3}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3363810476688920385, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3367889802436522549, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_Name
+      value: ERTEngineeringHardsuit
+      objectReference: {fileID: 0}
+    - target: {fileID: 3398265494507982721, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8556873813547803056, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: a87d501495b3fbb41bc5ea4d2b16ce00,
+        type: 2}
+    - target: {fileID: 8933798993108994482, guid: 05f59888eb108484aabd67b53074c7a6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e309a36b5810c954a9ee11841bb5fef7,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 05f59888eb108484aabd67b53074c7a6, type: 3}

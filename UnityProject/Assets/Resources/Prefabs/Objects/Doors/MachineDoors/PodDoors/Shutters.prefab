@@ -1,0 +1,167 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &7970581281550633740
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2416758669775616128, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: animFrames.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: spritePath
+      value: icons/obj/doors/shutters
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: animFrames.Array.data[0]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: animFrames.Array.data[1]
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: animFrames.Array.data[2]
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: animFrames.Array.data[3]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: animFrames.Array.data[4]
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: animFrames.Array.data[5]
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: closeFrame
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: animFrames.Array.data[6]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3284142867708519592, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: animFrames.Array.data[7]
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3439362329626657407, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: damageDeflection
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526917778408936146, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: initialDescription
+      value: Heavy duty metal shutters that open mechanically.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3526917778408936146, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: initialName
+      value: shutters
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6071530922454240056, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6077569209427463650, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Name
+      value: Shutters
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300004, guid: 9357df457aba141c5983326814664ee2,
+        type: 3}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6284738190861314549, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7880321078131954941, guid: 79cea07a5f8e66f49a554df1a003ecba,
+        type: 3}
+      propertyPath: doorAnimationSize
+      value: 8
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 79cea07a5f8e66f49a554df1a003ecba, type: 3}

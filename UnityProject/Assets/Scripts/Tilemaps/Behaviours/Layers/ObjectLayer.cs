@@ -16,7 +16,7 @@ public class ObjectLayer : Layer
 	public TileList ServerObjects => serverObjects ?? (serverObjects = new TileList());
 	public TileList ClientObjects => clientObjects ?? (clientObjects = new TileList());
 
-	public override void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
+	public override void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
 	{
 		ObjectTile objectTile = tile as ObjectTile;
 
@@ -30,7 +30,7 @@ public class ObjectLayer : Layer
 		}
 		else
 		{
-			base.SetTile(position, tile, transformMatrix);
+			base.SetTile(position, tile, transformMatrix, color);
 		}
 	}
 
@@ -39,7 +39,7 @@ public class ObjectLayer : Layer
 		return (isServer ? ServerObjects.HasObjects(position) : ClientObjects.HasObjects(position)) || base.HasTile(position, isServer);
 	}
 
-	public override void RemoveTile(Vector3Int position, bool removeAll = false)
+	public override bool RemoveTile(Vector3Int position, bool removeAll = false)
 	{
 //		if ( removeAll )
 //		{
@@ -62,7 +62,7 @@ public class ObjectLayer : Layer
 //			}
 //		}
 
-		base.RemoveTile(position, removeAll);
+		return  base.RemoveTile(position, removeAll);
 	}
 
 	public float GetObjectResistanceAt( Vector3Int position, bool isServer )

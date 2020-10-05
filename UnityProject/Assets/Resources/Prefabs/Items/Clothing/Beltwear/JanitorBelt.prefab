@@ -7,6 +7,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -3418033316280837315, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: a4e75e87d5c814200843f6139ce2721b,
+        type: 2}
+    - target: {fileID: 568251073254023583, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8029865bb4b1b2749a712085cb423ac8,
+        type: 2}
+    - target: {fileID: 781920904040974749, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: clothData
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d64efa97331e4e6fb8678e02bd1c4a8,
+        type: 2}
+    - target: {fileID: 5788603249075284292, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 3680d730b6d947c45b99e94aafb2ac8c,
+        type: 3}
     - target: {fileID: 5955107123228105240, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
       propertyPath: m_Name
@@ -16,16 +40,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_TagString
       value: Clothing
-      objectReference: {fileID: 0}
-    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
-        type: 3}
-      propertyPath: initialName
-      value: janibelt
-      objectReference: {fileID: 0}
-    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
-        type: 3}
-      propertyPath: initialDescription
-      value: A belt used to hold most janitorial supplies.
       objectReference: {fileID: 0}
     - target: {fileID: 5960312074135185260, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
@@ -87,23 +101,15 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: -3418033316280837315, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: a4e75e87d5c814200843f6139ce2721b,
-        type: 2}
-    - target: {fileID: 5788603249075284292, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
+      propertyPath: initialName
+      value: janibelt
+      objectReference: {fileID: 0}
+    - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 3680d730b6d947c45b99e94aafb2ac8c,
-        type: 3}
-    - target: {fileID: 781920904040974749, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
-        type: 3}
-      propertyPath: clothData
-      value: 
-      objectReference: {fileID: 11400000, guid: 7d64efa97331e4e6fb8678e02bd1c4a8,
-        type: 2}
+      propertyPath: initialDescription
+      value: A belt used to hold most janitorial supplies.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a379cfb2056ee4a0f8ce1f68696ef45c, type: 3}

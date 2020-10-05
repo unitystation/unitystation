@@ -13,6 +13,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: fe3ad7e3dd7394e4b8d513384fa9917e,
         type: 2}
+    - target: {fileID: 4377197623706982477, guid: 788649a7f84574c48a54361479106732,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: cfd963385c088a1479e7364b687ec676,
+        type: 2}
     - target: {fileID: 7524605284256423550, guid: 788649a7f84574c48a54361479106732,
         type: 3}
       propertyPath: m_AssetId
@@ -76,7 +82,7 @@ PrefabInstance:
     - target: {fileID: 7636118406116123594, guid: 788649a7f84574c48a54361479106732,
         type: 3}
       propertyPath: m_Name
-      value: red
+      value: RedCap
       objectReference: {fileID: 0}
     - target: {fileID: 7712700953546887318, guid: 788649a7f84574c48a54361479106732,
         type: 3}

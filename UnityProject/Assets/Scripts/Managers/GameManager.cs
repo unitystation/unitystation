@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -8,53 +8,76 @@ using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using DatabaseAPI;
+using DiscordWebhook;
+using Mirror;
+using GameConfig;
+using Initialisation;
 
-public partial class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour, IInitialise
 {
 	public static GameManager Instance;
 	public bool counting;
 	/// <summary>
 	/// The minimum number of players needed to start the pre-round countdown
 	/// </summary>
-	public int MinPlayersForCountdown = 1;
+	public int MinPlayersForCountdown { get; set; } = 1;
 
 	/// <summary>
 	/// How long the pre-round stage should last
 	/// </summary>
-	[SerializeField]
-	private float PreRoundTime = 120f;
+	public float PreRoundTime { get; set; } = 120f;
 
 	/// <summary>
 	/// How long to wait between ending the round and starting a new one
 	/// </summary>
-	[SerializeField]
-	private float RoundEndTime = 60f;
+	public float RoundEndTime { get; set; } = 60f;
+
+	/// <summary>
+	/// How long to wait between ending the round and starting a new one
+	/// </summary>
+	public int ShuttleDepartTime { get; set; } = 30;
 
 	/// <summary>
 	/// The current time left on the countdown timer
 	/// </summary>
 	public float CountdownTime { get; private set; }
+	public double CountdownEndTime { get; private set; }
 
 	/// <summary>
 	/// Is respawning currently allowed? Can be set during a game to disable, such as when a nuke goes off.
 	/// Reset to the server setting of RespawnAllowed when the level loads.
 	/// </summary>
-	[NonSerialized]
-	public bool RespawnCurrentlyAllowed;
+	public bool RespawnCurrentlyAllowed { get; set; }
 
 	[HideInInspector] public string NextGameMode = "Random";
 
 	/// <summary>
-	/// Server setting - set in editor. Should not be changed in code.
+	/// True if the server allows respawning at round start by default.
 	/// </summary>
-	public bool RespawnAllowed;
+	public bool RespawnAllowed { get; set; }
+
+	/// <summary>
+	/// True if the server allows gibbing people when they receive enough post-mortem damage.
+	/// </summary>
+	public bool GibbingAllowed { get; set; }
+
+	/// <summary>
+	/// If true, it will allow shuttles from dealing 9001 damage and instantly gibbing people when crashed
+	/// </summary>
+	public bool ShuttleGibbingAllowed { get; set; }
+
+	/// <summary>
+	/// The game mode that the server will switch to at round end if no mode or an invalid mode is selected.
+	/// <summary>
+	public string InitialGameMode { get; set; } = "Random";
 
 	public Text roundTimer;
 
 	public bool waitForStart;
 
 	public DateTime stationTime;
-	public int RoundsPerMap = 10;
+	public int RoundsPerMap { get; set; } = 10;
 
 	//Space bodies in the solar system <Only populated ServerSide>:
 	//---------------------------------
@@ -76,7 +99,25 @@ public partial class GameManager : MonoBehaviour
 	private bool loadedDirectlyToStation;
 	public bool LoadedDirectlyToStation => loadedDirectlyToStation;
 
+	public Queue<PlayerSpawnRequest> SpawnPlayerRequestQueue = new Queue<PlayerSpawnRequest>();
+
 	private bool QueueProcessing;
+
+	private float timeElapsedQueueCheckServer = 0;
+
+	private const float QueueCheckTimeServer = 1f;
+
+	public bool QuickLoad = false;
+
+	public InitialisationSystems Subsystem => InitialisationSystems.GameManager;
+
+	void IInitialise.Initialise()
+	{
+		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
+		LoadConfig();
+		RespawnCurrentlyAllowed = RespawnAllowed;
+		NextGameMode = InitialGameMode;
+	}
 
 	private void Awake()
 	{
@@ -94,9 +135,27 @@ public partial class GameManager : MonoBehaviour
 		{
 			Destroy(this);
 		}
+	}
 
-		//so respawn works when loading directly to outpost station
-		RespawnCurrentlyAllowed = RespawnAllowed;
+
+	///<summary>
+	/// Loads end user config settings for server defaults.
+	/// If the JSON is configured incorrectly (null entry), uses default values.
+	///</summary>
+	// TODO: Currently, there is no data validation to ensure the config has reasonable values, need to configure setters.
+	private void LoadConfig()
+	{
+		MinPlayersForCountdown = GameConfigManager.GameConfig.MinPlayersForCountdown;
+		PreRoundTime = GameConfigManager.GameConfig.PreRoundTime;
+		RoundEndTime = GameConfigManager.GameConfig.RoundEndTime;
+		RoundsPerMap = GameConfigManager.GameConfig.RoundsPerMap;
+		InitialGameMode = GameConfigManager.GameConfig.InitialGameMode;
+		RespawnAllowed = GameConfigManager.GameConfig.RespawnAllowed;
+		ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
+		GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
+		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
+		Physics.autoSimulation = false;
+		Physics2D.simulationMode = SimulationMode2D.Script;
 	}
 
 	private void OnEnable()
@@ -141,8 +200,8 @@ public partial class GameManager : MonoBehaviour
 		}
 
 		//Fills list of Vectors all along shuttle path
-		var beginning = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationCentcom;
-		var target = GameManager.Instance.PrimaryEscapeShuttle.DockingLocationStation;
+		var beginning = GameManager.Instance.PrimaryEscapeShuttle.stationTeleportLocation;
+		var target = GameManager.Instance.PrimaryEscapeShuttle.stationDockingLocation;
 
 
 		var distance = (int)Vector2.Distance(beginning, target);
@@ -273,8 +332,7 @@ public partial class GameManager : MonoBehaviour
 
 		if (waitForStart)
 		{
-			CountdownTime -= Time.deltaTime;
-			if (CountdownTime <= 0f)
+			if (NetworkTime.time >= CountdownEndTime)
 			{
 				StartRound();
 			}
@@ -283,6 +341,13 @@ public partial class GameManager : MonoBehaviour
 		{
 			stationTime = stationTime.AddSeconds(Time.deltaTime);
 			roundTimer.text = stationTime.ToString("HH:mm");
+		}
+
+		timeElapsedQueueCheckServer += Time.deltaTime;
+		if (timeElapsedQueueCheckServer > QueueCheckTimeServer)
+		{
+			ProcessSpawnPlayerQueue();
+			timeElapsedQueueCheckServer -= QueueCheckTimeServer;
 		}
 	}
 
@@ -300,13 +365,8 @@ public partial class GameManager : MonoBehaviour
 			CurrentRoundState = RoundState.PreRound;
 			EventManager.Broadcast(EVENT.PreRoundStarted);
 
-
 			// Wait for the PlayerList instance to init before checking player count
 			StartCoroutine(WaitToCheckPlayers());
-		}
-		else
-		{
-			StartCoroutine(WaitToFireClientHooks());
 		}
 	}
 
@@ -320,14 +380,7 @@ public partial class GameManager : MonoBehaviour
 			{
 				s.OnSpawnServer(SpawnInfo.Mapped(((Component)s).gameObject));
 			}
-			Spawn._CallAllClientSpawnHooksInScene();
 		}
-	}
-
-	private IEnumerator WaitToFireClientHooks()
-	{
-		yield return WaitFor.Seconds(3f);
-		Spawn._CallAllClientSpawnHooksInScene();
 	}
 
 	/// <summary>
@@ -339,17 +392,16 @@ public partial class GameManager : MonoBehaviour
 		// Only do this stuff on the server
 		if (CustomNetworkManager.Instance._isServer)
 		{
-			if (string.IsNullOrEmpty(NextGameMode)
-			    || NextGameMode == "Random")
+			if (string.IsNullOrEmpty(NextGameMode) || NextGameMode == "Random")
 			{
 				SetRandomGameMode();
 			}
 			else
 			{
+				//Set game mode to the selected game mode
 				SetGameMode(NextGameMode);
-				//set it back to random when it has been loaded
-				//TODO set default game modes
-				NextGameMode = "Random";
+				//Then reset it to the default game mode set in the config for next round.
+				NextGameMode = InitialGameMode;
 			}
 
 			// Game mode specific setup
@@ -441,9 +493,80 @@ public partial class GameManager : MonoBehaviour
 
 	public void StartCountdown()
 	{
-		CountdownTime = PreRoundTime;
+		// Calculate when the countdown will end relative to the NetworkTime
+		CountdownEndTime = NetworkTime.time + PreRoundTime;
 		waitForStart = true;
-		UpdateCountdownMessage.Send(waitForStart, CountdownTime);
+
+		string msg = GameManager.Instance.SecretGameMode ? "Secret" : $"{GameManager.Instance.GameMode}";
+
+		string message = $"A new round is starting on {ServerData.ServerConfig.ServerName}.\nThe current gamemode is: {msg}\nThe current map is: {SubSceneManager.ServerChosenMainStation}\n";
+
+		var playerNumber = PlayerList.Instance.ConnectionCount > PlayerList.LastRoundPlayerCount
+			? PlayerList.Instance.ConnectionCount
+			: PlayerList.LastRoundPlayerCount;
+
+		if (playerNumber == 1)
+		{
+			message += "There is 1 player online.\n";
+		}
+		else
+		{
+			message += $"There are {playerNumber} players online.\n";
+		}
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookAnnouncementURL, message, "");
+
+		DiscordWebhookMessage.Instance.AddWebHookMessageToQueue(DiscordWebhookURLs.DiscordWebhookOOCURL, "\n	A new round has started		\n", "");
+
+		UpdateCountdownMessage.Send(waitForStart, PreRoundTime);
+	}
+
+	public void ProcessSpawnPlayerQueue()
+	{
+		if (QueueProcessing) return;
+
+		QueueProcessing = true;
+
+		var count = SpawnPlayerRequestQueue.Count;
+
+		if (count == 0)
+		{
+			QueueProcessing = false;
+			return;
+		}
+
+		for(var i = 1; i <= count; i++)
+		{
+			var player = SpawnPlayerRequestQueue.Peek();
+
+			if (player == null || player.JoinedViewer == null)
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			int slotsTaken = GameManager.Instance.GetOccupationsCount(player.RequestedOccupation.JobType);
+			int slotsMax = GameManager.Instance.GetOccupationMaxCount(player.RequestedOccupation.JobType);
+			if (slotsTaken >= slotsMax)
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			//regardless of their chosen occupation, they might spawn as an antag instead.
+			//If they do, bypass the normal spawn logic.
+			if (GameManager.Instance.TrySpawnAntag(player))
+			{
+				SpawnPlayerRequestQueue.Dequeue();
+				continue;
+			}
+
+			PlayerSpawn.ServerSpawnPlayer(player);
+
+			SpawnPlayerRequestQueue.Dequeue();
+		}
+
+		QueueProcessing = false;
 	}
 
 	public int GetOccupationsCount(JobType jobType)
@@ -546,6 +669,7 @@ public partial class GameManager : MonoBehaviour
 	IEnumerator ServerRoundRestart()
 	{
 		Logger.Log("Server restarting round now.", Category.Round);
+		Chat.AddGameWideSystemMsgToChat("The round is now restarting...");
 
 		//Notify all clients that the round has ended
 		ServerToClientEventsMsg.SendToAll(EVENT.RoundEnded);
@@ -553,5 +677,7 @@ public partial class GameManager : MonoBehaviour
 		yield return WaitFor.Seconds(0.2f);
 
 		CustomNetworkManager.Instance.ServerChangeScene("OnlineScene");
+
+		StopAllCoroutines();
 	}
 }

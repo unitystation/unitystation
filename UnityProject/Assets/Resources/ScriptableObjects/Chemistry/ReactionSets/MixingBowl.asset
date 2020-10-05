@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d6ae085312b071098d3dbb5d8da0511, type: 3}
+  m_Name: MixingBowl
+  m_EditorClassIdentifier: 
+  parents:
+  - {fileID: 11400000, guid: 2d5f766d9268838aa8d819bee2a442a7, type: 2}
+  reactions:
+  - {fileID: 11400000, guid: b77703c1947bbc04ebc4fa98579437da, type: 2}
+  - {fileID: 11400000, guid: 6dfbcf309344bfb45993ca33bd2c7ab2, type: 2}
+  - {fileID: 11400000, guid: d0f1c9902795dd34c8c6beb13a08f051, type: 2}
+  - {fileID: 11400000, guid: c7c5d68505803a44fbb2047522099752, type: 2}
+  - {fileID: 11400000, guid: ba6999c8a32986946bd0272f71168d3e, type: 2}
+  - {fileID: 11400000, guid: 7937047d90b19164bb270349f388cd5a, type: 2}
+  - {fileID: 11400000, guid: 983f575b078ccc349a19d20f44d3c092, type: 2}

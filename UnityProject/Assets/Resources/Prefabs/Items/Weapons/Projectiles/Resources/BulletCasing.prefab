@@ -24,7 +24,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1011433845357754, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_Name
-      value: BulletCasing1
+      value: BulletCasing
       objectReference: {fileID: 0}
     - target: {fileID: 4527534762131918, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
       propertyPath: m_LocalPosition.x
@@ -75,6 +75,12 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 10a4dece4d9c35a4cb028b81175171d4,
+        type: 3}
     - target: {fileID: 499351249353511896, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
       propertyPath: initialName
@@ -100,12 +106,12 @@ PrefabInstance:
       propertyPath: hitSound
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 212340400423555046, guid: a7abba22164ce49f0bf9b9b219f39298,
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
         type: 3}
-      propertyPath: m_Sprite
+      propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 21300000, guid: 10a4dece4d9c35a4cb028b81175171d4,
-        type: 3}
+      objectReference: {fileID: 11400000, guid: 94a70525043a0be41bc5e37a7e877653,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &6928256385168923100 stripped

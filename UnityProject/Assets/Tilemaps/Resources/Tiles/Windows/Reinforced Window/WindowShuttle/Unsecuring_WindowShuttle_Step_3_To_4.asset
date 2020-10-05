@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b78698377d6a4aaf8d6e3a304a6cbc5e, type: 3}
+  m_Name: Unsecuring_WindowShuttle_Step_3_To_4
+  m_EditorClassIdentifier: 
+  requiredTrait: {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
+  harmIntentRequired: 0
+  performerStartActionMessage: You start cutting the exposed bars on the reinforced
+    window...
+  othersStartActionMessage: '{performer} starts cutting the exposed bars on the reinforced
+    window...'
+  seconds: 2
+  objectsToSpawn: {fileID: 0}
+  toTile: {fileID: 11400000, guid: 6611d5bc9fc12ec48a41859839ab6a2b, type: 2}
+  performerFinishActionMessage: The panels falls out of the way exposing the frame
+    bolts.
+  othersFinishActionMessage: The panels falls out of the way exposing the frame bolts.

@@ -1,0 +1,170 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8726181390830312938
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: fa2f7997b386ac640a5565240c1b6446,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300000, guid: 5093fa3b5e1b66c48a6b8d3f5c704aa4,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300000, guid: 9da2708c84213924a924f3d121170a53,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300000, guid: 6a25851e754c92949b5412826483f19b,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[4]
+      value: 
+      objectReference: {fileID: 21300000, guid: 99b648d899fb55846a4551ad37c6f848,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[5]
+      value: 
+      objectReference: {fileID: 21300000, guid: c8b48070e4101d8439a043f5e9ac39b4,
+        type: 3}
+    - target: {fileID: -5205002211501559933, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: fillIcons.Array.data[6]
+      value: 
+      objectReference: {fileID: 21300000, guid: 8ae57ec39da434f45a9160e6e51ba048,
+        type: 3}
+    - target: {fileID: 3257067329106942726, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fe6d136315148b7479c510350bcda2a4,
+        type: 2}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: transferAmount
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[6]
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[7]
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 7592921098270337065, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.data[8]
+      value: 180
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8675886083473792501, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8679969532050251905, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_Name
+      value: MetamaterialBeaker
+      objectReference: {fileID: 0}
+    - target: {fileID: 8782379728963083573, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8828330504940196829, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: ac0222acf81eb314a88920e2235ea8d4,
+        type: 3}
+    - target: {fileID: 9122297201582428131, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: initialDescription
+      value: A large beaker. Can hold up to 180 units.
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122297201582428131, guid: 8fee22e722a3782408324281846ebd02,
+        type: 3}
+      propertyPath: initialName
+      value: metamaterial beaker
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8fee22e722a3782408324281846ebd02, type: 3}

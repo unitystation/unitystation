@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Mirror;
+using Objects;
 
 public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllable
 {
@@ -366,6 +366,7 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	{
 		//prevents player temporarily showing up at 0,0 when they spawn before they receive their first position
 		playerState.WorldPosition = transform.localPosition;
+		PlayerNewPlayer.Send(netId);
 	}
 
 	public override void OnStartServer()
@@ -406,9 +407,44 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	}
 
 	/// <summary>
-	/// true when player tries to break pull or leave locker.
+	/// true when player tries to break pull or leave container (e.g. locker).
 	/// </summary>
 	private bool didWiggle = false;
+
+	public void TryEscapeContainer()
+	{
+		if (Camera2DFollow.followControl.target.TryGetComponent(out ClosetControl closet))
+		{
+			CmdTryEscapeCloset();
+		}
+		else if (Camera2DFollow.followControl.target.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
+		{
+			CmdTryEscapeDisposals();
+		}
+	}
+
+	[Command]
+	private void CmdTryEscapeCloset()
+	{
+		if (pushPull?.parentContainer == null) return;
+		GameObject parentContainer = pushPull.parentContainer.gameObject;
+
+		if (parentContainer.TryGetComponent(out ClosetControl closet))
+		{
+			closet.PlayerTryEscaping(gameObject);
+		}
+	}
+	[Command]
+	private void CmdTryEscapeDisposals()
+	{
+		if (pushPull?.parentContainer == null) return;
+		GameObject parentContainer = pushPull.parentContainer.gameObject;
+
+		if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
+		{
+			disposalContainer.PlayerTryEscaping(gameObject);
+		}
+	}
 
 	private void UpdateMe()
 	{
@@ -426,15 +462,11 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 						pushPull.CmdStopFollowing();
 						didWiggle = true;
 					}
+					// Player inside something
 					else if (Camera2DFollow.followControl.target != PlayerManager.LocalPlayer.transform)
 					{
-						//	Leaving locker
-						var closet = Camera2DFollow.followControl.target.GetComponent<ClosetControl>();
-						if (closet)
-						{
-							InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(closet.gameObject), closet);
-							didWiggle = true;
-						}
+						TryEscapeContainer();
+						didWiggle = true;
 					}
 				}
 			}

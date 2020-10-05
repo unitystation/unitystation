@@ -4,15 +4,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdminTools;
+using Items.PDA;
 using UnityEngine;
 using Mirror;
+using Audio.Containers;
+using ScriptableObjects;
+using Antagonists;
+using Systems.Atmospherics;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
 	private static readonly StandardProgressActionConfig DisrobeProgressConfig =
 		new StandardProgressActionConfig(StandardProgressActionType.Disrobe);
-	private static readonly StandardProgressActionConfig CPRProgressConfig =
-		new StandardProgressActionConfig(StandardProgressActionType.CPR);
 
 	// For access checking. Must be nonserialized.
 	// This has to be added because using the UIManager at client gets the server's UIManager. So instead I just had it send the active hand to be cached at server.
@@ -97,7 +100,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		return slot.SlotIdentifier.NamedSlot != null;
 	}
 
-
 	[Server]
 	private void SyncEquipSprite(string slotName, GameObject Item)
 	{
@@ -175,6 +177,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					restraintOverlay.ServerBeginUnCuffAttempt();
 				}
 			}
+		}else if (playerScript.playerMove.IsTrapped) // Check if trapped.
+		{
+			playerScript.PlayerSync.TryEscapeContainer();
 		}
 	}
 
@@ -242,11 +247,14 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 		var timeTaken = occupiedSlots * .4f;
 		void ProgressComplete()
-		{
+		{ var victimsHealth = toDisrobe.GetComponent < PlayerHealth >();
 			foreach (var itemSlot in itemStorage.GetItemSlots())
 			{
 				//skip slots which have special uses
 				if (itemSlot.NamedSlot == NamedSlot.handcuffs) continue;
+						// cancels out of the loop if player gets up
+				if (!victimsHealth.IsCrit) break;
+
 				Inventory.ServerDrop(itemSlot);
 			}
 		}
@@ -269,30 +277,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerThrow(slot, worldTargetVector,
 			equipSlot == NamedSlot.leftHand ? SpinMode.Clockwise : SpinMode.CounterClockwise, (BodyPartType)aim);
-	}
-
-	[Command]
-	public void CmdToggleLightSwitch(GameObject switchObj)
-	{
-		if (!Validations.CanApply(playerScript, switchObj, NetworkSide.Server)) return;
-		if (CanInteractWallmount(switchObj.GetComponent<WallmountBehavior>()))
-		{
-			if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-			LightSwitch s = switchObj.GetComponent<LightSwitch>();
-			if (s.isOn == LightSwitch.States.On)
-			{
-				s.isOn = LightSwitch.States.Off;
-			}
-			else if (s.isOn == LightSwitch.States.Off)
-			{
-				s.isOn = LightSwitch.States.On;
-			}
-		}
-		else
-		{
-			Logger.LogWarningFormat("Player {0} attempted to interact with light switch through wall," +
-									" this could indicate a hacked client.", Category.Exploits, this.gameObject.name);
-		}
 	}
 
 	[Command]
@@ -327,6 +311,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		VotingManager.Instance.RegisterVote(connectedPlayer.UserId, isFor);
 	}
 
+	[Command]
+	public void CmdVetoRestartVote(string adminId, string adminToken)
+	{
+		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
+		if (admin == null) return;
+
+		if (VotingManager.Instance == null) return;
+		VotingManager.Instance.VetoVote(adminId);
+	}
+
 	/// <summary>
 	/// Switches the pickup mode for the InteractableStorage in the players hands
 	/// TODO should probably be turned into some kind of UIAction component which can hold all these functions
@@ -338,18 +332,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var storage = GetActiveHandItem()?.GetComponent<InteractableStorage>() ??
 		              GetOffHandItem()?.GetComponent<InteractableStorage>();
 		storage.ServerSwitchPickupMode(gameObject);
-	}
-
-	/// <summary>
-	/// Validates that the player can interact with the specified wallmount
-	/// </summary>
-	/// <param name="wallmount">wallmount to check</param>
-	/// <returns>true iff interaction is allowed</returns>
-	[Server]
-	private bool CanInteractWallmount(WallmountBehavior wallmount)
-	{
-		//can only interact if the player is facing the wallmount
-		return wallmount.IsFacingPosition(transform.position);
 	}
 
 	/// <summary>
@@ -366,7 +348,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	[TargetRpc]
 	public void TargetStopMusic(NetworkConnection target)
 	{
-		SoundManager.SongTracker.Stop();
+		MusicManager.SongTracker.Stop();
 	}
 
 	/// <summary>
@@ -478,7 +460,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (occupation != null)
 		{
-			foreach (var job in SOAdminJobsList.Instance.AdminAvailableJobs)
+			foreach (var job in OccupationList.Instance.Occupations)
 			{
 				if (job.name != occupation)
 				{
@@ -492,6 +474,41 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
+
+	[Server]
+	public void ServerRespawnPlayerSpecial(string occupation = null)
+	{
+		if (occupation != null)
+		{
+			foreach (var job in SOAdminJobsList.Instance.SpecialJobs)
+			{
+				if (job.name != occupation)
+				{
+					continue;
+				}
+
+				playerScript.mind.occupation = job;
+				break;
+			}
+		}
+
+		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
+	}
+
+	[Server]
+	public void ServerRespawnPlayerAntag(ConnectedPlayer playerToRespawn, string antagonist)
+	{
+		foreach (var antag in SOAdminJobsList.Instance.Antags)
+		{
+			if (antag.AntagName != antagonist)
+			{
+				continue;
+			}
+			AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag);
+			break;
+		}
+	}
+
 
 	[Command]
 	public void CmdToggleAllowCloning()
@@ -528,7 +545,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		}
 	}
 
-
 	/// <summary>
 	/// Asks the server to let the client rejoin into a logged off character.
 	/// </summary>
@@ -545,6 +561,8 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		PlayerScript body = playerScript.mind.body;
 
 		if (playerScript.mind.IsSpectator) return;
+
+		if(playerScript.mind.ghostLocked) return;
 
 		if (!playerScript.IsGhost )
 		{
@@ -581,6 +599,22 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
+	public void CmdPoint(GameObject pointTarget, Vector3 mousePos)
+	{
+		if (playerScript.IsGhost || playerScript.playerHealth.ConsciousState != ConsciousState.CONSCIOUS)
+			return;
+		string pointedName = pointTarget.name;
+		var interactableTiles = pointTarget.GetComponent<InteractableTiles>();
+		if (interactableTiles)
+		{
+			LayerTile tile = interactableTiles.LayerTileAt(mousePos);
+			pointedName = tile.DisplayName;
+		}
+		Effect.PlayParticleDirectional(gameObject, mousePos);
+		Chat.AddActionMsgToChat(playerScript.gameObject, $"You point at {pointedName}.", $"{playerScript.gameObject.name} points at {pointTarget.name}.");
+	}
+
+	[Command]
 	public void CmdRequestPaperEdit(GameObject paper, string newMsg)
 	{
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
@@ -611,6 +645,19 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 				paperComponent.UpdatePlayer(gameObject);
 			}
 		}
+	}
+
+	/// <summary>
+	/// A variation of CmdRequestPaperEdit, but is used for the PDA notes system
+	/// </summary>
+	[Command]
+	public void CmdRequestNoteEdit(GameObject pdaObject, string newMsg)
+	{
+		if (!Validations.CanInteract(playerScript, NetworkSide.Server)) return;
+		PDANotesNetworkHandler noteNetworkScript = pdaObject.GetComponent<PDANotesNetworkHandler>();
+		noteNetworkScript.SetServerString(newMsg);
+		noteNetworkScript.UpdatePlayer(gameObject);
+
 	}
 
 	[Command]
@@ -644,122 +691,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 		Chat.AddExamineMsgFromServer(gameObject, "You set the " + handLabeler.Item().InitialName.ToLower() + "s text to '" + label + "'.");
 		handLabeler.GetComponent<HandLabeler>().SetLabel(label);
-	}
-
-	/// <summary>
-	/// Performs a hug from one player to another.
-	/// </summary>
-	[Command]
-	public void CmdRequestHug(string hugger, GameObject huggedPlayer)
-	{
-		//validate that hug can be done
-		if (!Validations.CanApply(playerScript, huggedPlayer, NetworkSide.Server)) return;
-		//hugging is kind of a melee-type action, at least we wouldn't want to spam it quickly
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee)) return;
-
-		string hugged = huggedPlayer.GetComponent<PlayerScript>().playerName;
-		var lhb = gameObject.GetComponent<LivingHealthBehaviour>();
-		var lhbOther = huggedPlayer.GetComponent<LivingHealthBehaviour>();
-		if (lhb != null && lhbOther != null && (lhb.FireStacks > 0 || lhbOther.FireStacks > 0))
-		{
-			lhb.ApplyDamage(huggedPlayer, 1, AttackType.Fire, DamageType.Burn);
-			lhbOther.ApplyDamage(gameObject, 1, AttackType.Fire, DamageType.Burn);
-			Chat.AddCombatMsgToChat(gameObject, $"You give {hugged} a fiery hug.", $"{hugger} has given {hugged} a fiery hug.");
-		}
-		else
-		{
-			Chat.AddActionMsgToChat(gameObject, $"You hugged {hugged}.", $"{hugger} has hugged {hugged}.");
-		}
-	}
-
-	/// <summary>
-	///	Performs a CPR action from one player to another.
-	/// </summary>
-	[Command]
-	public void CmdRequestCPR(GameObject cardiacArrestPlayer)
-	{
-		//TODO: Probably refactor this to IF2
-		if (!Validations.CanApply(playerScript, cardiacArrestPlayer, NetworkSide.Server)) return;
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-
-		var cardiacArrestPlayerRegister = cardiacArrestPlayer.GetComponent<RegisterPlayer>();
-
-		void ProgressComplete()
-		{
-			DoCPR(playerScript.gameObject, cardiacArrestPlayer);
-		}
-
-		var bar = StandardProgressAction.Create(CPRProgressConfig, ProgressComplete)
-			.ServerStartProgress(cardiacArrestPlayerRegister, 5f, playerScript.gameObject);
-		if (bar != null)
-		{
-			Chat.AddActionMsgToChat(playerScript.gameObject, $"You begin performing CPR on {cardiacArrestPlayer.Player()?.Name}.",
-			$"{playerScript.gameObject.Player()?.Name} is trying to perform CPR on {cardiacArrestPlayer.Player()?.Name}.");
-		}
-	}
-
-	[Server]
-	private void DoCPR(GameObject rescuer, GameObject CardiacArrestPlayer)
-	{
-		CardiacArrestPlayer.GetComponent<PlayerHealth>().bloodSystem.oxygenDamage -= 7f;
-
-		Chat.AddActionMsgToChat(rescuer, $"You have performed CPR on {CardiacArrestPlayer.Player()?.Name}.",
-			$"{rescuer.Player()?.Name} has performed CPR on {CardiacArrestPlayer.Player()?.Name}.");
-	}
-
-	/// <summary>
-	/// Performs a disarm attempt from one player to another.
-	/// </summary>
-	[Command]
-	public void CmdRequestDisarm(GameObject playerToDisarm)
-	{
-		if (!Validations.CanApply(playerScript, playerToDisarm, NetworkSide.Server)) return;
-		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
-		var rng = new System.Random();
-		string disarmerName = playerScript.gameObject.Player()?.Name;
-		string playerToDisarmName = playerToDisarm.Player()?.Name;
-		var disarmStorage = playerToDisarm.GetComponent<ItemStorage>();
-		var leftHandSlot = disarmStorage.GetNamedItemSlot(NamedSlot.leftHand);
-		var rightHandSlot = disarmStorage.GetNamedItemSlot(NamedSlot.rightHand);
-		var disarmedPlayerRegister = playerToDisarm.GetComponent<RegisterPlayer>();
-		var disarmedPlayerNetworkActions = playerToDisarm.GetComponent<PlayerNetworkActions>();
-
-		// This is based off the alien/humanoid/attack_hand disarm code of TGStation's codebase.
-		// Disarms have 5% chance to knock down, then it has a 50% chance to disarm.
-		if (5 >= rng.Next(1, 100))
-		{
-			disarmedPlayerRegister.ServerStun(6f, false);
-			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
-
-			Chat.AddCombatMsgToChat(gameObject, $"You have knocked {playerToDisarmName} down!",
-				$"{disarmerName} has knocked {playerToDisarmName} down!");
-		}
-
-		else if (50 >= rng.Next(1, 100))
-		{
-			// Disarms
-			if (leftHandSlot.Item != null)
-			{
-				Inventory.ServerDrop(leftHandSlot);
-			}
-
-			if (rightHandSlot.Item != null)
-			{
-				Inventory.ServerDrop(rightHandSlot);
-			}
-
-			SoundManager.PlayNetworkedAtPos("ThudSwoosh", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
-
-			Chat.AddCombatMsgToChat(gameObject, $"You have disarmed {playerToDisarmName}!",
-				$"{disarmerName} has disarmed {playerToDisarmName}!");
-		}
-		else
-		{
-			SoundManager.PlayNetworkedAtPos("PunchMiss", disarmedPlayerRegister.WorldPositionServer, sourceObj: disarmedPlayerRegister.gameObject);
-
-			Chat.AddCombatMsgToChat(gameObject, $"You attempted to disarm {playerToDisarmName}!",
-				$"{disarmerName} has attempted to disarm {playerToDisarmName}!");
-		}
 	}
 
 	[Command]
@@ -805,28 +736,6 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	[Command]
-	public void CmdPlaySound(string index, string adminId, string adminToken)
-	{
-		PlaySound(index, adminId, adminToken);
-	}
-
-	[Server]
-	public void PlaySound(string index, string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		var players = FindObjectsOfType(typeof(PlayerScript));
-
-		if (players == null) return;//If list of Players is empty dont run rest of code.
-
-		foreach (PlayerScript player in players)
-		{
-			SoundManager.PlayNetworkedForPlayerAtPos(player.gameObject, player.gameObject.GetComponent<RegisterTile>().WorldPositionClient, index);
-		}
-	}
-
-	[Command]
 	public void CmdAdminMakeHotspot(GameObject onObject, string adminId, string adminToken)
 	{
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
@@ -861,39 +770,24 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		integrity.ApplyDamage(float.MaxValue, AttackType.Melee, DamageType.Brute);
 	}
 
-	//simulates despawning and immediately respawning this object, expectation
-	//being that it should properly initialize itself regardless of its previous state.
-	[Command]
-	public void CmdAdminRespawn(GameObject toRespawn, string adminId, string adminToken)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		Spawn.ServerPoolTestRespawn(toRespawn);
-	}
-
-	[Command]
-	public void CmdSendCentCommAnnouncement(string adminId, string adminToken, string text)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-
-		CentComm.MakeAnnouncement(CentComm.CentCommAnnounceTemplate, text, CentComm.UpdateSound.notice);
-	}
-
-	[Command]
-	public void CmdSendCentCommReport(string adminId, string adminToken, string text)
-	{
-		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
-		if (admin == null) return;
-		GameManager.Instance.CentComm.MakeCommandReport(text,
-														CentComm.UpdateSound.notice);
-	}
-
 	[Command]
 	public void CmdGetAdminOverlayFullUpdate(string adminId, string adminToken)
 	{
 		AdminOverlay.RequestFullUpdate(adminId, adminToken);
 	}
+
 	#endregion
+
+	[Command]
+	public void CmdRequestSpell(int spellIndex)
+	{
+		foreach (var spell in playerScript.mind.Spells)
+		{
+			if (spell.SpellData.Index == spellIndex)
+			{
+				spell.CallActionServer(PlayerList.Instance.Get(gameObject));
+				return;
+			}
+		}
+	}
 }

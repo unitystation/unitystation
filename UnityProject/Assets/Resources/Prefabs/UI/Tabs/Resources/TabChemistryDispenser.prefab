@@ -1641,6 +1641,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1183557891911290
 GameObject:
   m_ObjectHideFlags: 0
@@ -1992,6 +1995,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1242486658726090
 GameObject:
   m_ObjectHideFlags: 0
@@ -5016,6 +5022,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1442725537366160
 GameObject:
   m_ObjectHideFlags: 0
@@ -6534,6 +6543,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!222 &222996116566301026
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6840,6 +6852,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1576420294694384
 GameObject:
   m_ObjectHideFlags: 0
@@ -6920,6 +6935,12 @@ MonoBehaviour:
   Provider: {fileID: 0}
   ProviderRegisterTile: {fileID: 0}
   Type: 5
+  OnTabOpened:
+    m_PersistentCalls:
+      m_Calls: []
+  OnTabClosed:
+    m_PersistentCalls:
+      m_Calls: []
   HeaterTemperatureCelsius: 0
   DispensedTemperatureCelsius: 30
   DispensedNumber: 20
@@ -6943,7 +6964,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 05a7d0a1d347f6c21a6bace25e4e03ff, type: 2}
   - {fileID: 11400000, guid: 7b6a18c45b96273d39d6db9ebb2830ac, type: 2}
   - {fileID: 11400000, guid: effe7ba43fbfe30cb93be2e817c190f2, type: 2}
-  - {fileID: 11400000, guid: 5b255694ed5e8945790b893c1975d7cc, type: 2}
+  - {fileID: 11400000, guid: 43a6ef917538f898ca86fa22a81babd4, type: 2}
   - {fileID: 11400000, guid: 0dbe4ccb54c65da5e88a73f36441a195, type: 2}
   - {fileID: 11400000, guid: 6632b4728c32edfccbcb305c3958ae75, type: 2}
   - {fileID: 11400000, guid: 82a5bc56eb2b0b03aadb87a6967e8da3, type: 2}
@@ -6952,7 +6973,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 5758bc33729d6b659a58df7a702e162e, type: 2}
   - {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31, type: 2}
   - {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
-  - {fileID: 11400000, guid: 11dd09fc0e79f0391a03cea4eac8b16d, type: 2}
 --- !u!114 &114971830198623498
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7147,6 +7167,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1595790102347564
 GameObject:
   m_ObjectHideFlags: 0
@@ -7832,7 +7855,7 @@ MonoBehaviour:
         m_MethodName: DispenseChemical
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 11400000, guid: 5b255694ed5e8945790b893c1975d7cc,
+          m_ObjectArgument: {fileID: 11400000, guid: 43a6ef917538f898ca86fa22a81babd4,
             type: 2}
           m_ObjectArgumentAssemblyTypeName: Chemistry.Reagent, Chemistry
           m_IntArgument: 0
@@ -9836,6 +9859,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1752497000683092
 GameObject:
   m_ObjectHideFlags: 0
@@ -10104,11 +10130,14 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 50
+          m_IntArgument: 100
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1805848744898480
 GameObject:
   m_ObjectHideFlags: 0
@@ -11702,6 +11731,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  ServerMethodWithSubject:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &1935064104177088
 GameObject:
   m_ObjectHideFlags: 0

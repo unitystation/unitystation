@@ -12,7 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 070914b0fa83e4540b98a98820fe27ae, type: 3}
   m_Name: Captains backpack
   m_EditorClassIdentifier: 
-  PrefabVariant: {fileID: 0}
   Sprites:
     Equipped:
       Texture: {fileID: 2800000, guid: c6eed42b9f44e014bb2e33611ea51d8f, type: 3}
@@ -43,20 +42,22 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 4329798e307d2f64b85f51e515e079ea, type: 3}
       EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: c9753d0c0efdac7409960921dfe051c6, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: 3c2e90a3ca7be294f8ba526eb98d5424,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: 9eda83055f0d5a442837735a3de68a0a,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: 3ebcfd71909380e419e5180a305c26f7, type: 2}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0
   StorageData:
     maxSlots: 7
     maxItemSize: 4
-  ItemAttributes:
-    itemName: 
-    itemDescription: 
-    itemType: 11
-    size: 0
-    spriteType: 0
-    CanConnectToTank: 0
-    hitDamage: 0
-    damageType: 0
-    throwDamage: 0
-    throwSpeed: 2
-    throwRange: 7
-    hitSound: GenericHit
-    attackVerb: []

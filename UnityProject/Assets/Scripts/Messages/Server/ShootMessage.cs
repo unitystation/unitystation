@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
+using Weapons;
 
 /// <summary>
 /// Informs all clients that a shot has been performed so they can display it (but they needn't
@@ -32,11 +33,16 @@ public class ShootMessage : ServerMessage {
 	///To be run on client
 	public override void Process()
 	{
+		if (!MatrixManager.IsInitialized) return;
+
 		if (Shooter.Equals(NetId.Invalid)) {
 			//Failfast
 			Logger.LogWarning($"Shoot request invalid, processing stopped: {ToString()}", Category.Firearms);
 			return;
 		}
+
+		//Not even spawned don't show bullets
+		if (PlayerManager.LocalPlayer == null) return;
 
 		LoadMultipleObjects(new uint[] {Shooter, Weapon});
 

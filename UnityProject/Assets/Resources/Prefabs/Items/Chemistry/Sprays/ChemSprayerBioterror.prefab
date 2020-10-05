@@ -1,0 +1,152 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5978688807706929593
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4e39afaaf9adfc737963607ff47aac06,
+        type: 2}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 57b5e2d1f4d4ebf38bcb325c1c1913f4,
+        type: 2}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1a0d3d772ca8863b19514f620289014a,
+        type: 2}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: b297c259c012907a19324e8aee4d063e,
+        type: 2}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: b874c725172fcf7d58a34dc3c490ab6c,
+        type: 2}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[4]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: cb08e4c00d2933413a176598c4bf5977,
+        type: 2}
+    - target: {fileID: 1081227393840756941, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[5]
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 2173903097886535781, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_Name
+      value: ChemSprayerBioterror
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2177705346901052689, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2287675510519221713, guid: 07120134cc41aa64791c8829078a7e78,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 07120134cc41aa64791c8829078a7e78, type: 3}

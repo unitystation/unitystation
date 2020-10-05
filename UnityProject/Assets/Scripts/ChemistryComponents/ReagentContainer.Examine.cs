@@ -16,7 +16,8 @@ namespace Chemistry.Components
 		public enum ExamineContentMode
 		{
 			NONE, // player can't see what reagent inside container
-			COLOR_AND_STUCTURE // container is transparent and player can see reagent color and structure
+			COLOR_AND_STUCTURE, // container is transparent and player can see reagent color and structure
+			ACTUAL_CONTENTS // player can clearly tell exactly what is inside
 		}
 
 		[Header("Examine settings")]
@@ -40,6 +41,7 @@ namespace Chemistry.Components
 			var color = CurrentReagentMix.MixColor;
 			var colorDesc = TextUtils.ColorToString(color);
 			var units = Mathf.RoundToInt(ReagentMixTotal);
+			var name = CurrentReagentMix.MixName;
 
 			if (ExamineAmount == ExamineAmountMode.APROXIMATE_AMOUNT)
 			{
@@ -51,6 +53,10 @@ namespace Chemistry.Components
 				{
 					return $"It's {fillDesc}. There is {colorDesc} {stateDesc} inside";
 				}
+				else if (ExamineContent == ExamineContentMode.ACTUAL_CONTENTS)
+				{
+					return $"It's {fillDesc}. It seems to mostly contain {name}.";
+				}
 			}
 			else if (ExamineAmount == ExamineAmountMode.EXACT_AMOUNT)
 			{
@@ -61,6 +67,10 @@ namespace Chemistry.Components
 				else if (ExamineContent == ExamineContentMode.COLOR_AND_STUCTURE)
 				{
 					return $"It's {fillDesc}. There are {units} units of {colorDesc} {stateDesc} inside";
+				}
+				else if (ExamineContent == ExamineContentMode.ACTUAL_CONTENTS)
+				{
+					return $"It's {fillDesc}. It contains {units} units, mostly of {name}.";
 				}
 			}
 

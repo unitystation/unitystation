@@ -4,9 +4,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Chemistry;
+using Doors;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.SceneManagement;
+using Systems.Atmospherics;
 
 /// <summary>
 /// Defines collision type we expect
@@ -53,26 +55,16 @@ public partial class MatrixManager : MonoBehaviour
 	public Dictionary<Collider2D, Tilemap> wallsTileMaps = new Dictionary<Collider2D, Tilemap>();
 
 	public Matrix spaceMatrix { get; private set; }
+	public Matrix lavaLandMatrix { get; private set; }
 	private Matrix mainStationMatrix = null;
 
 	public static MatrixInfo MainStationMatrix => Get(Instance.mainStationMatrix);
 
 	private IEnumerator WaitForLoad()
 	{
-		float waitingTime = 0f;
 		while (Instance.spaceMatrix == null || Instance.mainStationMatrix == null)
 		{
-			waitingTime += Time.deltaTime;
-			if (waitingTime > 30f)
-			{
-				Logger.LogError("No Space matrix or MainStation matrix was found. " +
-				                "You need to load a matrix that is set to " +
-				                "Spacematrix or MainStation or both.");
-				yield break;
-			}
-
 			yield return WaitFor.EndOfFrame;
-
 		}
 		//Wait half a second to capture the majority of other matrices loading in
 		yield return WaitFor.Seconds(0.1f);
@@ -113,7 +105,7 @@ public partial class MatrixManager : MonoBehaviour
 		trackedIntersections.Clear();
 	}
 
-	public static void RegisterMatrix(Matrix matrixToRegister, bool isSpaceMatrix = false, bool isMainStation = false)
+	public static void RegisterMatrix(Matrix matrixToRegister, bool isSpaceMatrix = false, bool isMainStation = false, bool isLavaLand = false)
 	{
 		foreach (var curInfo in Instance.ActiveMatrices)
 		{
@@ -153,6 +145,18 @@ public partial class MatrixManager : MonoBehaviour
 			else
 			{
 				Logger.Log("There is already a main station matrix registered");
+			}
+		}
+
+		if (isLavaLand)
+		{
+			if (Instance.lavaLandMatrix == null)
+			{
+				Instance.lavaLandMatrix = matrixToRegister;
+			}
+			else
+			{
+				Logger.Log("There is already a lava land matrix registered");
 			}
 		}
 
@@ -399,11 +403,36 @@ public partial class MatrixManager : MonoBehaviour
 			if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
 				return originDoor;
 		}
-		
+
 		// No closed door on local tile, check target tile
 		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
 		var targetDoorList = GetAt<InteractableDoor>(targetPos, isServer);
 		foreach (InteractableDoor targetDoor in targetDoorList)
+		{
+			if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
+				return targetDoor;
+		}
+
+		// No closed doors on either tile
+		return null;
+	}
+
+
+	public static DoorMasterController GetNewClosedDoorAt(Vector3Int worldOrigin, Vector3Int targetPos, bool isServer)
+	{
+		// Check door on the local tile first
+		Vector3Int localTarget = Instance.WorldToLocalInt(targetPos, AtPoint(targetPos, isServer).Matrix);
+		var originDoorList = GetAt<DoorMasterController>(worldOrigin, isServer);
+		foreach (DoorMasterController originDoor in originDoorList)
+		{
+			if (originDoor && !originDoor.GetComponent<RegisterDoor>().IsPassableTo(localTarget, isServer))
+				return originDoor;
+		}
+
+		// No closed door on local tile, check target tile
+		Vector3Int localOrigin = Instance.WorldToLocalInt(worldOrigin, AtPoint(worldOrigin, isServer).Matrix);
+		var targetDoorList = GetAt<DoorMasterController>(targetPos, isServer);
+		foreach (DoorMasterController targetDoor in targetDoorList)
 		{
 			if (targetDoor && !targetDoor.GetComponent<RegisterDoor>().IsPassable(localOrigin, isServer))
 				return targetDoor;
@@ -801,7 +830,7 @@ public partial class MatrixManager : MonoBehaviour
 	}
 
 	/// Convert local matrix coordinates to world position. Keeps offsets in mind (+ rotation and pivot if MatrixMove is present)
-	public Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
+	public static Vector3 LocalToWorld(Vector3 localPos, Matrix matrix)
 	{
 		return LocalToWorld(localPos, Get(matrix));
 	}
@@ -888,28 +917,6 @@ public partial class MatrixManager : MonoBehaviour
 			positionList.Add((startPos).CutToInt());
 		}
 		return positionList;
-	}
-
-	public void CleanTile(Vector3 worldPos, bool makeSlippery)
-	{
-		var worldPosInt = worldPos.CutToInt();
-		var matrix = AtPoint(worldPosInt, true);
-		var localPosInt = WorldToLocalInt(worldPosInt, matrix);
-		var floorDecals = GetAt<FloorDecal>(worldPosInt, isServer: true);
-
-	    for (var i = 0; i<floorDecals.Count; i++ )
-	    {
-		    floorDecals[i].TryClean();
-		}
-
-	    if (!IsSpaceAt(worldPosInt, true) && makeSlippery)
-	    {
-		    // Create a WaterSplat Decal (visible slippery tile)
-		    EffectsFactory.WaterSplat(worldPosInt);
-
-		    // Sets a tile to slippery
-		    matrix.MetaDataLayer.MakeSlipperyAt(localPosInt);
-	    }
 	}
 
 	public static Transform GetDefaultParent( Vector3? position, bool isServer )

@@ -1,0 +1,126 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &393104190860762590
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 5076532583587170338, guid: 211099f6eecb10d448ec77f0f35887f8,
+        type: 3}
+    - target: {fileID: 177576810467860530, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootHeavySuppressed
+      objectReference: {fileID: 0}
+    - target: {fileID: 4092814885568586395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4128444937792741979, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4132242788693647151, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_Name
+      value: EnergyCrossbowMini
+      objectReference: {fileID: 0}
+    - target: {fileID: 4299065660771937395, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 85cb83b7a8418b944bad2349a62bfd82,
+        type: 3}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1590047ee4158834e9e62332be73b1d0,
+        type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: f35170e82cee2b14399b2137581cdebf,
+        type: 2}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialName
+      value: mini energy crossbow
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialDescription
+      value: A weapon favored by syndicate stealth specialists.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4590635147716259917, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7790862161162773672, guid: ad527ba4de069794796e314f236794f4,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: d134dc2c8206bda4285ed465f4f154c8,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: ad527ba4de069794796e314f236794f4, type: 3}

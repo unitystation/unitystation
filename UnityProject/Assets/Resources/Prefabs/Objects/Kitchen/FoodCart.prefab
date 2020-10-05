@@ -91,7 +91,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4000013836882314}
   - component: {fileID: 61000010556243922}
-  - component: {fileID: 61296298072299154}
   - component: {fileID: 114005397856953186}
   - component: {fileID: 114585462459452276}
   - component: {fileID: 114969507595526308}
@@ -150,32 +149,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61296298072299154
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1000011358831344}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114005397856953186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -188,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114585462459452276
@@ -202,14 +176,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2, type: 3}
+  InitialVendorContent:
+  - ItemName: 
+    Item: {fileID: 3664851965229280547, guid: 7eeb39ee45a50e543ad74ff71631525c, type: 3}
     Stock: 2
-  - Item: {fileID: 6546673936360135170, guid: 9df8b42a3b7c7554ab9c48ba64b45d2e, type: 3}
+  - ItemName: 
+    Item: {fileID: 683694994805896424, guid: 51ddc7025f52f6e4e96d4410324d2bd0, type: 3}
     Stock: 5
   HullColor: {r: 0.45882353, g: 0.3882353, b: 0.3137255, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 6532193109441330816, guid: f5b3ac01c1928bf4ab03433000e00ca2, type: 3}
+    Stock: 2
+  - ItemName: 
+    Item: {fileID: 6546673936360135170, guid: 9df8b42a3b7c7554ab9c48ba64b45d2e, type: 3}
+    Stock: 5
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114969507595526308
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -242,6 +230,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &2893974677095702031
 MonoBehaviour:
@@ -358,6 +347,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  forceHidden: 0

@@ -36,7 +36,7 @@ public class TransformStateMessage : ServerMessage
 	///     (to avoid updating it twice)
 	/// </param>
 	/// <returns>The sent message</returns>
-	public static TransformStateMessage Send(GameObject recipient, GameObject transformedObject, TransformState state,
+	public static TransformStateMessage Send(NetworkConnection recipient, GameObject transformedObject, TransformState state,
 		bool forced = true)
 	{
 		var msg = new TransformStateMessage

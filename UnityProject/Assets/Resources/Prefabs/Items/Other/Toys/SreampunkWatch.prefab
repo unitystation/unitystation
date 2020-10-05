@@ -1,0 +1,138 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &3461410463352182890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8356283644732995989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  clothData: {fileID: 11400000, guid: d3f118957b800b943be485c789e43438, type: 2}
+  variantType: 0
+  hideClothingFlags: 0
+  SpriteDataSO: []
+--- !u!1001 &3479969781875297630
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1655691407480885068, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c9a2759253a00174283209a8c12af1db,
+        type: 2}
+    - target: {fileID: 4705654935379183511, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300018, guid: 4c4d529721c9de64180e072ec2afc30d,
+        type: 3}
+    - target: {fileID: 4767086867303369087, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4877309918594877887, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4880826294590387403, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: m_Name
+      value: SreampunkWatch
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialDescription
+      value: A stylish steampunk watch made out of thousands of tiny cogwheels.
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialName
+      value: steampunk watch
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialSize
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4994974757112765353, guid: b2cc2b1c514be164282a4cdd366643e5,
+        type: 3}
+      propertyPath: initialTraits.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b2cc2b1c514be164282a4cdd366643e5, type: 3}
+--- !u!1 &8356283644732995989 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4880826294590387403, guid: b2cc2b1c514be164282a4cdd366643e5,
+    type: 3}
+  m_PrefabInstance: {fileID: 3479969781875297630}
+  m_PrefabAsset: {fileID: 0}

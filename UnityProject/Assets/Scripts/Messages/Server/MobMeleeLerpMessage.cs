@@ -10,9 +10,11 @@ public class MobMeleeLerpMessage : ServerMessage
 
 	public override void Process()
 	{
-		if (mob == NetId.Empty) return;
+		LoadNetworkObject(mob);
 
-		var getMob = NetworkIdentity.spawned[mob];
+		if (NetworkObject == null) return;
+		
+		var getMob = NetworkObject;
 		var mobMelee = getMob.GetComponent<MobMeleeAttack>();
 		var mobAction = getMob.GetComponent<MobMeleeAction>();
 		if (mobMelee == null & mobAction == null)

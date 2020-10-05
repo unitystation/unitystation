@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   clothData: {fileID: 11400000, guid: 24f0a7ebb7d7fde939849f10b923b934, type: 2}
-  variantIndex: -1
   variantType: 0
   hideClothingFlags: 0
+  SpriteDataSO: []
 --- !u!1001 &4351880891726439777
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23,6 +25,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4520221803203555702, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c97772837423324eabed99aad6712cf,
+        type: 2}
     - target: {fileID: 7569679527290075565, guid: d70fb70bc4fe6534a85996e49221bb53,
         type: 3}
       propertyPath: m_Sprite
@@ -291,6 +299,18 @@ PrefabInstance:
       propertyPath: hitDamage
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: bfd4e73a282593945a78682b7db51b35,
+        type: 2}
+    - target: {fileID: 7858931176587863443, guid: d70fb70bc4fe6534a85996e49221bb53,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: ede0d7e766485c24abd59c27bd9cb84f,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d70fb70bc4fe6534a85996e49221bb53, type: 3}
 --- !u!1 &6312338506369003408 stripped

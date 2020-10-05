@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &5545039007243800730
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: -3446966416386936099, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: meatSteakPrefab
+      value: 
+      objectReference: {fileID: 7978280207352521409, guid: 073406f81f40e704695ba5d6cb56f3db,
+        type: 3}
+    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialName
+      value: killer tomato meat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2326103295181735537, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialDescription
+      value: A slice from a huge tomato.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2619852224633018959, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 48c03f665f9efcd41a6bcc304ad6228a,
+        type: 3}
+    - target: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_Name
+      value: KillerTomatoMeat
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790509982930818151, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2827791845413590183, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999315099893948859, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6304245728322857827, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 75
+      objectReference: {fileID: 0}
+    - target: {fileID: 8353191170574324372, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a3016fb6456ff23499a4ff603ad49a34,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 9914f83c172606747877a09872724398, type: 3}

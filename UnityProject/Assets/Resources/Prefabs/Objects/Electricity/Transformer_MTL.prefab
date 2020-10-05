@@ -60,6 +60,17 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 212514117955345912, guid: 84482a6a9ce96a746b992465f8766f03,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -1152738003139098640, guid: c2088b604ffb10845a34477ca96f654f,
+        type: 3}
+    - target: {fileID: 212514117955345912, guid: 84482a6a9ce96a746b992465f8766f03,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2222114085642024225, guid: 84482a6a9ce96a746b992465f8766f03,
         type: 3}
       propertyPath: m_Sprite
@@ -97,6 +108,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9dde58721e227f64197968d763aee1a5,
         type: 2}
+    - target: {fileID: 3157373369197861252, guid: 84482a6a9ce96a746b992465f8766f03,
+        type: 3}
+      propertyPath: machineBoardPrefab
+      value: 
+      objectReference: {fileID: 3228036655590114128, guid: 025f9c4810685f645804eb0b80b1b0ed,
+        type: 3}
     - target: {fileID: 4247218517331294700, guid: 84482a6a9ce96a746b992465f8766f03,
         type: 3}
       propertyPath: m_Sprite

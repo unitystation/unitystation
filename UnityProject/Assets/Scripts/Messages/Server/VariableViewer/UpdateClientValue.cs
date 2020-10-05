@@ -37,12 +37,17 @@ public class UpdateClientValue : ServerMessage
 	public static UpdateClientValue Send(string InNewvalue, string InValueName, string InMonoBehaviourName,
 		GameObject InObject)
 	{
+		uint netID = NetId.Empty;
+		if (InObject != null)
+		{
+			netID = InObject.NetId();
+		}
 		UpdateClientValue msg = new UpdateClientValue()
 		{
 			Newvalue = InNewvalue,
 			ValueName = InValueName,
 			MonoBehaviourName = InMonoBehaviourName,
-			GameObject = InObject.NetId()
+			GameObject = netID
 		};
 		msg.SendToAll();
 		return msg;

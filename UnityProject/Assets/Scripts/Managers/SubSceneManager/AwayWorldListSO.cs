@@ -14,6 +14,14 @@ public class AwayWorldListSO : ScriptableObject
 
 	public string GetRandomAwaySite()
 	{
-		return AwayWorlds[Random.Range(0, AwayWorlds.Count)];
+		if (AwayWorlds.Count > 0 && GameManager.Instance.QuickLoad == false)
+		{
+			return AwayWorlds[Random.Range(0, AwayWorlds.Count)];
+		}
+		else
+		{
+			return "";
+		}
+
 	}
 }

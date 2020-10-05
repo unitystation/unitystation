@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Initialisation;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -82,7 +83,12 @@ public class Layer : MonoBehaviour
 		this.TryStopCoroutine(ref recalculateBoundsHandle);
 	}
 
-	public void Start()
+	private void Start()
+	{
+		LoadManager.RegisterAction(Init);
+	}
+
+	void Init()
 	{
 		if (!Application.isPlaying)
 		{
@@ -159,9 +165,11 @@ public class Layer : MonoBehaviour
 		return !tilemap.HasTile(position) || tilemap.GetTile<BasicTile>(position).IsSpace();
 	}
 
-	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix)
+	public virtual void SetTile(Vector3Int position, GenericTile tile, Matrix4x4 transformMatrix, Color color)
 	{
 		InternalSetTile(position, tile);
+
+		tilemap.SetColor(position, color);
 		tilemap.SetTransformMatrix(position, transformMatrix);
 		subsystemManager?.UpdateAt(position);
 	}
@@ -169,10 +177,12 @@ public class Layer : MonoBehaviour
 	/// <summary>
 	/// Set tile and invoke tile changed event.
 	/// </summary>
-	protected void InternalSetTile(Vector3Int position, GenericTile tile)
+	protected bool InternalSetTile(Vector3Int position, GenericTile tile)
 	{
+		bool HasTile = tilemap.HasTile(position);
 		tilemap.SetTile(position, tile);
 		OnTileChanged.Invoke(position, tile);
+		return HasTile;
 	}
 
 	public virtual LayerTile GetTile(Vector3Int position)
@@ -180,13 +190,25 @@ public class Layer : MonoBehaviour
 		return tilemap.GetTile<LayerTile>(position);
 	}
 
+	public virtual bool IsDifferent(Vector3Int cellPosition, LayerTile layerTile, Matrix4x4? transformMatrix = null,
+		Color? color = null)
+	{
+		if (tilemap.GetTile<LayerTile>(cellPosition) != layerTile) return true;
+
+		if (tilemap.GetColor(cellPosition) != color.GetValueOrDefault(Color.white)) return true;
+		if (tilemap.GetTransformMatrix(cellPosition) != transformMatrix.GetValueOrDefault(Matrix4x4.identity)) return true;
+		return false;
+	}
+
+
 	public virtual bool HasTile(Vector3Int position, bool isServer)
 	{
 		return tilemap.HasTile(position);
 	}
 
-	public virtual void RemoveTile(Vector3Int position, bool removeAll = false)
+	public virtual bool RemoveTile(Vector3Int position, bool removeAll = false)
 	{
+		bool TileREmoved = false;
 		if (removeAll)
 		{
 			//TODO: OVERLAYS - This wouldn't work reliably if there is something at level -3 but nothing at -1 and -2.
@@ -195,15 +217,17 @@ public class Layer : MonoBehaviour
 			{
 				InternalSetTile(position, null);
 				position.z--;
+				TileREmoved = true;
 			}
 		}
 		else
 		{
-			InternalSetTile(position, null);
+			TileREmoved = InternalSetTile(position, null);
 		}
 
 		position.z = 0;
 		subsystemManager.UpdateAt(position);
+		return TileREmoved;
 	}
 
 	public virtual void ClearAllTiles()

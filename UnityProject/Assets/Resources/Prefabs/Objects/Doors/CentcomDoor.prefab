@@ -345,6 +345,7 @@ MonoBehaviour:
   damageClosed: 90
   ignorePassableChecks: 0
   IsAutomatic: 1
+  conType: 7
   isPerformingAction: 0
   isWindowedDoor: 0
   useSimpleLightAnimation: 0
@@ -367,6 +368,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114287951213915578
@@ -596,6 +598,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 1
 --- !u!114 &114246988198392272
 MonoBehaviour:
@@ -625,7 +628,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 350
   soundOnHit: 
+  damageDeflection: 21
   Armor:
     Melee: 30
     Bullet: 30
@@ -646,7 +651,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 350
 --- !u!114 &114852647110043552
 MonoBehaviour:
   m_ObjectHideFlags: 0

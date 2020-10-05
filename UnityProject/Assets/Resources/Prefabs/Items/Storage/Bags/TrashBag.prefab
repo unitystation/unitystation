@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1239932774843137898
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2449762591122860759, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 31e85fdaff610a047b77f53487ba609b,
+        type: 2}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: initialDescription
+      value: It's the heavy-duty black polymer kind. Time to take out the trash!
+      objectReference: {fileID: 0}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: initialName
+      value: trash bag
+      objectReference: {fileID: 0}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: d61a462861cf99947b8e7da8ce1e0c79,
+        type: 2}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: c6383cb997d1332468b702762241ab25,
+        type: 2}
+    - target: {fileID: 3225680128402821201, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 561e20b7e9a47b54785460f02d55c582,
+        type: 3}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328757573197865741, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_Name
+      value: TrashBag
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433479011725450937, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8895735541756795018, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ebe181d5f2a1cc846822a0f98496fc64,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a4904005b4f886143a41a4b3c99a6845, type: 3}

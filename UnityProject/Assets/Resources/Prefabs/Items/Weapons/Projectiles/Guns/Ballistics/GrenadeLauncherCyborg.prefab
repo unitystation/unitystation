@@ -1,0 +1,109 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &1194028345834599535
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 910367471053248064, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 94a1420132f6fea459c684a80d4048a2,
+        type: 2}
+    - target: {fileID: 6372713094223728755, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6477400379713760711, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_Name
+      value: GrenadeLauncherCyborg
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6482891477787988147, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6563342038320062107, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 04e6c7b8c7a088b4495ed951d549e6a7,
+        type: 3}
+    - target: {fileID: 6848220107917509285, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: initialDescription
+      value: multi grenade launcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 6848220107917509285, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: initialName
+      value: A 6-shot grenade launcher
+      objectReference: {fileID: 0}
+    - target: {fileID: 7533437337818279052, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 206720570986087849, guid: 5c81f0700645def468bfc5dcf5fd3a2d,
+        type: 3}
+    - target: {fileID: 7533437337818279052, guid: b7d73073fe314b142b63ea52626ddbad,
+        type: 3}
+      propertyPath: allowMagazineRemoval
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b7d73073fe314b142b63ea52626ddbad, type: 3}

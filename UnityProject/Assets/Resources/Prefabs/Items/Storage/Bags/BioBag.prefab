@@ -1,0 +1,122 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8524145954627237720
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2449762591122860759, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: itemStorageStructure
+      value: 
+      objectReference: {fileID: 11400000, guid: 4a17de5c703656048bf20898c47783a9,
+        type: 2}
+    - target: {fileID: 2449762591122860759, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: 55d27543c314d084189a7d2f6dcac008,
+        type: 2}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: initialName
+      value: bio bag
+      objectReference: {fileID: 0}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: initialDescription
+      value: A bag for the safe transportation and disposal of biowaste and other
+        biological materials.
+      objectReference: {fileID: 0}
+    - target: {fileID: 3225680128402821201, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 55b0e80c7364d5742bbf8fc10912a97f,
+        type: 3}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3324110899454533241, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328757573197865741, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_Name
+      value: BioBag
+      objectReference: {fileID: 0}
+    - target: {fileID: 3433479011725450937, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3434466890231362297, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4856947985332647053, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: actionData
+      value: 
+      objectReference: {fileID: 11400000, guid: 35c2d87812413cf4c996161862900807,
+        type: 2}
+    - target: {fileID: 8895735541756795018, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: c5ef2b086c810dc40b3974ae404e070d,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a4904005b4f886143a41a4b3c99a6845, type: 3}

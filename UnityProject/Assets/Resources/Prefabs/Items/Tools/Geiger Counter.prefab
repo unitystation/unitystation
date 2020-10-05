@@ -1,0 +1,131 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &459147627687685513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4705670883515168300}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1344cf947a63b044a52d1273b36fb7d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!1001 &3904705344237945467
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: ac47ad6f8f4cb264f88927ae6244f545,
+        type: 2}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: initialName
+      value: Geiger counter
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: initialDescription
+      value: Tells you how much radiation in the local area
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: exportCost
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: exportName
+      value: Gieger Counter
+      objectReference: {fileID: 0}
+    - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: exportMessage
+      value: You might have needed that....
+      objectReference: {fileID: 0}
+    - target: {fileID: 8470250495983453963, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f81a1fff37be8fc48b70ad7ef04c7552,
+        type: 3}
+    - target: {fileID: 8568555645537651171, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8605860254165158179, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: m_Name
+      value: Geiger Counter
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: c9c58a9243d494537abcb4ee470efab0, type: 3}
+--- !u!1 &4705670883515168300 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8610225452865205335, guid: c9c58a9243d494537abcb4ee470efab0,
+    type: 3}
+  m_PrefabInstance: {fileID: 3904705344237945467}
+  m_PrefabAsset: {fileID: 0}

@@ -14,7 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
 --- !u!1001 &1033827207183564811
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107,7 +106,7 @@ PrefabInstance:
     - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}
       propertyPath: initialName
-      value: belt
+      value: toolbelt
       objectReference: {fileID: 0}
     - target: {fileID: 6073474446224864634, guid: a379cfb2056ee4a0f8ce1f68696ef45c,
         type: 3}

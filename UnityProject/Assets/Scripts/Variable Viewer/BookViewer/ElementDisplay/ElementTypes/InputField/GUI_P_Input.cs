@@ -8,6 +8,7 @@ using TMPro;
 
 public class GUI_P_Input : PageElement
 {
+	public override PageElementEnum PageElementType => PageElementEnum.InputField;
 	public InputFieldFocus TInputField;
 
 	public override bool IsThisType(Type TType)

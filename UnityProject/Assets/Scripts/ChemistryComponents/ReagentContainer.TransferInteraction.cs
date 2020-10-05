@@ -31,18 +31,18 @@ namespace Chemistry.Components
 		[Tooltip("If not empty, another container should have one of this traits to interact")]
 		[FormerlySerializedAs("TraitWhitelist")]
 		[FormerlySerializedAs("AcceptedTraits")]
-		[SerializeField] private List<ItemTrait> traitWhitelist;
+		[SerializeField] private List<ItemTrait> traitWhitelist = new List<ItemTrait>();
 
 		[Tooltip("If not empty, only listed reagents can be inside container")]
 		[FormerlySerializedAs("ReagentWhitelist")]
 		[FormerlySerializedAs("AcceptedReagents")]
-		[SerializeField] private List<Chemistry.Reagent> reagentWhitelist;
+		[SerializeField] private List<Reagent> reagentWhitelist = new List<Reagent>();
 
 		[FormerlySerializedAs("TransferMode")]
 		[SerializeField] private TransferMode transferMode = TransferMode.Normal;
 
 		[FormerlySerializedAs("PossibleTransferAmounts")]
-		[SerializeField] private List<float> possibleTransferAmounts;
+		[SerializeField] private List<float> possibleTransferAmounts = new List<float>();
 
 		[Range(1, 100)]
 		[FormerlySerializedAs("TransferAmount")]
@@ -153,6 +153,13 @@ namespace Chemistry.Components
 				var one = interaction.HandObject.GetComponent<ReagentContainer>();
 				var two = interaction.TargetObject.GetComponent<ReagentContainer>();
 
+				var reagentContainerObjectInteractionScript = interaction.TargetObject.GetComponent<ReagentContainerObjectInteractionScript>();
+
+				if (reagentContainerObjectInteractionScript != null)
+				{
+					reagentContainerObjectInteractionScript.TriggerEvent(interaction);
+				}
+
 				ServerTransferInteraction(one, two, interaction.Performer);
 			}
 			else
@@ -196,7 +203,6 @@ namespace Chemistry.Components
 			Chat.AddExamineMsg(interaction.Performer,
 				$"The {gameObject.ExpensiveName()}'s transfer amount is now {TransferAmount} units.");
 		}
-
 
 		/// <summary>
 		/// Server side only
@@ -319,6 +325,8 @@ namespace Chemistry.Components
 					: $"You transfer {result.TransferAmount} units of the solution to the {transferTo.gameObject.ExpensiveName()}.";
 			else
 				resultMessage = result.Message;
+			if (transferFrom.IsEmpty && transferFrom.destroyOnEmpty)
+				Despawn.ServerSingle(transferFrom.gameObject);
 			Chat.AddExamineMsg(performer, resultMessage);
 		}
 
@@ -376,6 +384,5 @@ namespace Chemistry.Components
 
 			return transferResult;
 		}
-
 	}
 }

@@ -74,7 +74,7 @@ public class PlayerAppearanceMessage : ServerMessage
 		return msg;
 	}
 
-	public static PlayerAppearanceMessage SendTo(GameObject equipmentObject, int index, GameObject recipient,
+	public static PlayerAppearanceMessage SendTo(GameObject equipmentObject, int index, NetworkConnection recipient,
 		GameObject _Item, bool _forceInit, bool _isBodyParts)
 	{
 		var msg = CreateMsg(equipmentObject, index, _Item, _forceInit, _isBodyParts);

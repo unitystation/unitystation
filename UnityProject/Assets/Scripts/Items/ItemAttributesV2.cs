@@ -1,14 +1,10 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using IngameDebugConsole;
 using UnityEngine;
 using Mirror;
-using UnityEngine.Serialization;
-using Random = System.Random;
+using Objects;
 
 /// <summary>
 /// Various attributes associated with a particular item.
@@ -18,7 +14,6 @@ using Random = System.Random;
 [RequireComponent(typeof(Pickupable))] //Inventory interaction
 [RequireComponent(typeof(ObjectBehaviour))] //pull and Push
 [RequireComponent(typeof(RegisterItem))] //Registry with subsistence
-[RequireComponent(typeof(SpriteHandlerController))] //Handles the item sprites and In hands
 public class ItemAttributesV2 : Attributes
 {
 	[SerializeField]
@@ -29,12 +24,12 @@ public class ItemAttributesV2 : Attributes
 	[SerializeField]
 	private ItemSize initialSize = ItemSize.None;
 
-
 	/// <summary>
 	/// Current size.
 	/// </summary>
-	[SyncVar(hook=nameof(SyncSize))]
+	[SyncVar(hook = nameof(SyncSize))]
 	private ItemSize size;
+
 	/// <summary>
 	/// Current size
 	/// </summary>
@@ -44,13 +39,14 @@ public class ItemAttributesV2 : Attributes
 	[Range(0, 100)]
 	[SerializeField]
 	private float hitDamage = 0;
+
 	/// <summary>
 	/// Damage when we click someone with harm intent, tracked server side only.
 	/// </summary>
 	public float ServerHitDamage
 	{
-		get {
-
+		get
+		{
 			//If item has an ICustomDamageCalculation component, use that instead.
 			ICustomDamageCalculation part = GetComponent<ICustomDamageCalculation>();
 			if (part != null)
@@ -167,6 +163,8 @@ public class ItemAttributesV2 : Attributes
 	[SerializeField]
 	private ItemsSprites itemSprites;
 
+	#region Lifecycle
+
 	private void Awake()
 	{
 		EnsureInit();
@@ -183,7 +181,6 @@ public class ItemAttributesV2 : Attributes
 		hasInit = true;
 	}
 
-
 	public override void OnStartClient()
 	{
 		EnsureInit();
@@ -196,6 +193,8 @@ public class ItemAttributesV2 : Attributes
 		SyncSize(size, initialSize);
 		base.OnSpawnServer(info);
 	}
+
+	#endregion Lifecycle
 
 	/// <summary>
 	/// All traits currently on the item.
@@ -216,7 +215,6 @@ public class ItemAttributesV2 : Attributes
 	{
 		return traits.Contains(toCheck);
 	}
-
 
 	/// <summary>
 	/// Does it have any of the given traits?
@@ -239,7 +237,7 @@ public class ItemAttributesV2 : Attributes
 	}
 
 	/// <summary>
-	/// Adds the trait dynamically
+	/// Adds the trait dynamically.
 	/// NOTE: Not synced between client / server
 	/// </summary>
 	/// <param name="itemTrait"></param>
@@ -255,7 +253,7 @@ public class ItemAttributesV2 : Attributes
 	}
 
 	/// <summary>
-	/// Removes the trait dynamically
+	/// Removes the trait dynamically.
 	/// NOTE: Not synced between client / server
 	/// </summary>
 	/// <param name="itemTrait"></param>
@@ -275,7 +273,7 @@ public class ItemAttributesV2 : Attributes
 	}
 
 	/// <summary>
-	/// CHange this item's size and sync it to clients
+	/// Change this item's size and sync it to clients.
 	/// </summary>
 	/// <param name="newSize"></param>
 	[Server]
@@ -285,9 +283,9 @@ public class ItemAttributesV2 : Attributes
 	}
 
 	/// <summary>
-	/// ues SpriteHandlerController.SetSprites Instead
+	/// Use SpriteHandlerController.SetSprites instead. (SpriteHandlerController may now be deprecated)
 	/// </summary>
-	/// <param name="newSprites">New sprites.</param>
+	/// <param name="newSprites">New sprites</param>
 	public void SetSprites(ItemsSprites newSprites)
 	{
 		itemSprites = newSprites;

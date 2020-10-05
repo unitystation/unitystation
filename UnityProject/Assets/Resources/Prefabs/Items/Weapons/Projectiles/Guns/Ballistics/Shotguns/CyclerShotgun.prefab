@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &816667660122668623
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1996529631628265754, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: initialDescription
+      value: An advanced shotgun with two separate magazine tubes, allowing you to
+        quickly toggle between ammo types.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1996529631628265754, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: initialName
+      value: cycler shotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 2075233859075398604, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2110782547575642892, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2114584796393072248, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_Name
+      value: CyclerShotgun
+      objectReference: {fileID: 0}
+    - target: {fileID: 2281484668691174692, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 16f8edce2ec3b9f4da4e9be1ee2585e1,
+        type: 3}
+    - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: genericInternalMag
+      value: 
+      objectReference: {fileID: 3548435841490649705, guid: 4cc9fd651e73d8d48b911c08311a1845,
+        type: 3}
+    - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 3548435841490649705, guid: 4cc9fd651e73d8d48b911c08311a1845,
+        type: 3}
+    - target: {fileID: 3184326003018196787, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: allowMagazineRemoval
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5196763216403881471, guid: 0ed41d7e8ee57b545bf808b775a1f78c,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e2f15ba769acfcb4ea4669e9065339a3,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 0ed41d7e8ee57b545bf808b775a1f78c, type: 3}

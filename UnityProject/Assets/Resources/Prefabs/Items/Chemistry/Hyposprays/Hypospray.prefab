@@ -1,0 +1,227 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3104849460869947508
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4128362409855863911, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f7443b062157ad147892958a623fa88e,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: initialDescription
+      value: The DeForest Medical Corporation hypospray is a sterile, air-needle
+        autoinjector for rapid administration of drugs to patients.
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: initialName
+      value: hypospray
+      objectReference: {fileID: 0}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: dd7de6502f637d6488830d490ee200bd,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 632e4662d565f9a478ed1f69aedbde10, type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 632e4662d565f9a478ed1f69aedbde10,
+        type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 632e4662d565f9a478ed1f69aedbde10,
+        type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 632e4662d565f9a478ed1f69aedbde10,
+        type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 632e4662d565f9a478ed1f69aedbde10,
+        type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: c9a2ef2aed68a7744b4e47bd899a1b7f, type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: c0f604f00718fb44eaeae224adc6ab49, type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: c0f604f00718fb44eaeae224adc6ab49,
+        type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: c0f604f00718fb44eaeae224adc6ab49,
+        type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: c0f604f00718fb44eaeae224adc6ab49,
+        type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: c0f604f00718fb44eaeae224adc6ab49,
+        type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: fac21a42e88784b479413c3429d4bf22, type: 3}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 52d3bc99cff9eac43b3350a6c44a0770,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 4de7eca4463f47940beb0c5f6709eb1d,
+        type: 2}
+    - target: {fileID: 7785875528613525472, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_Name
+      value: Hypospray
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7791085151706811028, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896866896034096660, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: Resistances.AcidProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7897283028627769940, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7997558505216099516, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: f13e0539436304646b9c6ecf5510140d,
+        type: 3}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: possibleTransferAmounts.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: ExamineAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: transferAmount
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
+        type: 3}
+      propertyPath: transferMode
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 8249693547510685597, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: f866b44bcdd7d734885f7c49999d85c9, type: 3}

@@ -58,7 +58,13 @@ public class ShipThruster : MonoBehaviour
 	public void UpdateEngineState()
 	{
 		var emissionFX = particleFX.emission;
-		if (EngineStatus())
+
+		// don't enable FX if movement is caused by RCS
+		if(shipMatrixMove.rcsModeActive) 
+		{
+			emissionFX.enabled = false;
+		}
+		else if (EngineStatus())
 		{
 			emissionFX.enabled = true;
 			SpeedChange(0, shipMatrixMove.ClientState.Speed); //Set particle speed on engine updates, used for setting speed at beginning of flight.

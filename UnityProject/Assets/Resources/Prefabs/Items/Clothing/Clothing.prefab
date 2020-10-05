@@ -12,10 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e15827970984ba78808f03bc3f01586, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   clothData: {fileID: 0}
-  variantIndex: -1
   variantType: 0
   hideClothingFlags: 0
+  SpriteDataSO: []
 --- !u!1001 &3020818611218779800
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -82,6 +84,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 68180b1e5bc197b458e349ee87c1c030,
         type: 3}
+    - target: {fileID: 6144467708197095229, guid: a7abba22164ce49f0bf9b9b219f39298,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: f98caab6b40f38d4d9244a6749b98523,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7abba22164ce49f0bf9b9b219f39298, type: 3}
 --- !u!1 &3021789324208599586 stripped

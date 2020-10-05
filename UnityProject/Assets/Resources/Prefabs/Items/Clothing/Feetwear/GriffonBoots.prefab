@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
       propertyPath: m_Name
-      value: Jackboots 1
+      value: GriffonBoots
       objectReference: {fileID: 0}
     - target: {fileID: 1864679013969520924, guid: 502f496beb9034b9b9c97868e845ed7e,
         type: 3}
@@ -108,6 +108,12 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 75a463f9e8efc444a90313bde963f93b,
+        type: 2}
+    - target: {fileID: 5523300560698462875, guid: 502f496beb9034b9b9c97868e845ed7e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6d8690bd804a60a4f87b1274efe2e69d,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 502f496beb9034b9b9c97868e845ed7e, type: 3}

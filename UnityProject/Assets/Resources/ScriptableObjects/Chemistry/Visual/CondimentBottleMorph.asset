@@ -1,0 +1,75 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0a01f6dd2ad544480e43f9a12f5fc7, type: 3}
+  m_Name: CondimentBottleMorph
+  m_EditorClassIdentifier: 
+  spritesData:
+    m_keys:
+    - {fileID: 11400000, guid: d634f341665a083d6b7627735a2c8635, type: 2}
+    - {fileID: 11400000, guid: 0c4cf985d57ba9ce18282581b4f45fe9, type: 2}
+    - {fileID: 11400000, guid: dd3b306d4528a15b691e4147eb3a4d54, type: 2}
+    - {fileID: 11400000, guid: a1724b1210d8177c097a28325415c0b1, type: 2}
+    - {fileID: 11400000, guid: 2aaf2943c2bb469f7a9a7cc94d373ef5, type: 2}
+    - {fileID: 11400000, guid: 5492c9211fc87fdb7bdab55f9cdcfccc, type: 2}
+    - {fileID: 11400000, guid: b9bdb0acb54b8dc40837f92c2e7819a6, type: 2}
+    - {fileID: 11400000, guid: 0c793b26027c29a1cb5806c738a7a556, type: 2}
+    - {fileID: 11400000, guid: 911271db97b77da51889f97d6688a103, type: 2}
+    - {fileID: 11400000, guid: 7ace1bf0147f08919bb5c16a12fb72f3, type: 2}
+    - {fileID: 11400000, guid: 35888fb2853c5f66abec0ff080f80481, type: 2}
+    - {fileID: 11400000, guid: 06591e0eee3251debaa74000df4682be, type: 2}
+    - {fileID: 11400000, guid: 3dc3f81736a407fda8141be714d3e47f, type: 2}
+    - {fileID: 11400000, guid: ad830833fe67f0a48ac1ea6ab6f42d75, type: 2}
+    m_values:
+    - CustomName: universal enzyme bottle
+      CustomDescription: Used in cooking various dishes.
+      MainSprite: {fileID: 21300000, guid: 879c8a84475c63349902fff6f32bed40, type: 3}
+    - CustomName: flour sack
+      CustomDescription: A big bag of flour. Good for baking!
+      MainSprite: {fileID: 21300000, guid: 940f8e80db4af5544afc98484a76da84, type: 3}
+    - CustomName: mayonnaise jar
+      CustomDescription: An oily condiment made from egg yolks.
+      MainSprite: {fileID: 21300000, guid: fd6d907c2eed7cf42847f10aff6dfe36, type: 3}
+    - CustomName: space milk
+      CustomDescription: It's milk. White and nutritious goodness!
+      MainSprite: {fileID: 21300000, guid: 5e8030e9f2813964fa41b86579228557, type: 3}
+    - CustomName: pepper mill
+      CustomDescription: 'Often used to flavor food or make people sneeze.
+
+'
+      MainSprite: {fileID: 21300000, guid: 0982eeaa9d2f7b04f95837334e0d9cdc, type: 3}
+    - CustomName: rice sack
+      CustomDescription: A big bag of rice. Good for cooking!
+      MainSprite: {fileID: 21300000, guid: 8a3257a60982a3f4abc66726098b0322, type: 3}
+    - CustomName: salt shaker
+      CustomDescription: Salt. From dead crew, presumably.
+      MainSprite: {fileID: 21300000, guid: 17dd79253dd19dc4dbb44ce7a6472d63, type: 3}
+    - CustomName: soy milk
+      CustomDescription: It's soy milk. White and nutritious goodness!
+      MainSprite: {fileID: 21300000, guid: c9c4c14516adc9c4f9c6d34ef9354d85, type: 3}
+    - CustomName: sugar sack
+      CustomDescription: Tasty spacey sugar!
+      MainSprite: {fileID: 21300000, guid: 9a184cd5b290ae34ba41e4902cc94c01, type: 3}
+    - CustomName: ketchup bottle
+      CustomDescription: You feel more American already.
+      MainSprite: {fileID: 21300000, guid: c90d70f2528a3ad4e8efdf00feab0b8b, type: 3}
+    - CustomName: hotsauce bottle
+      CustomDescription: You can almost TASTE the stomach ulcers!
+      MainSprite: {fileID: 21300000, guid: 5284cdd95891086498d465c2daabf922, type: 3}
+    - CustomName: coldsauce bottle
+      CustomDescription: Leaves the tongue numb from its passage.
+      MainSprite: {fileID: 21300000, guid: 9694db37c2d468446a428450097940db, type: 3}
+    - CustomName: corn oil bottle
+      CustomDescription: A delicious oil used in cooking. Made from corn.
+      MainSprite: {fileID: 21300000, guid: 542e74080d3d7e842b70cb0ef1355b5b, type: 3}
+    - CustomName: BBQ sauce bottle
+      CustomDescription: Hand wipes not included.
+      MainSprite: {fileID: 21300000, guid: 070383de2a442d143a4ccef7593fc05c, type: 3}

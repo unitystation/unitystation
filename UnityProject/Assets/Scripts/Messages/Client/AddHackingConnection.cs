@@ -3,6 +3,7 @@ using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using System.Collections.Generic;
+using Messages.Client;
 using Newtonsoft.Json;
 
 public class AddHackingConnection : ClientMessage
@@ -21,6 +22,7 @@ public class AddHackingConnection : ClientMessage
 		HackingProcessBase hackingProcess = hackObject.GetComponent<HackingProcessBase>();
 		if (hackingProcess.ServerPlayerCanAddConnection(playerScript, connectionToAdd))
 		{
+			SoundManager.PlayNetworkedAtPos("Wiremend#", playerScript.WorldPos); 
 			hackingProcess.AddNodeConnection(connectionToAdd);
 			HackingNodeConnectionList.Send(NetworkObjects[0], hackObject, hackingProcess.GetNodeConnectionList());
 		}

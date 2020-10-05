@@ -91,7 +91,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4667768644863624}
   - component: {fileID: 61547189736919662}
-  - component: {fileID: 61513006529587702}
   - component: {fileID: 114892356372757746}
   - component: {fileID: 114668526465205184}
   - component: {fileID: 114294952158468094}
@@ -101,6 +100,7 @@ GameObject:
   - component: {fileID: 114839175629978664}
   - component: {fileID: 114999509781892224}
   - component: {fileID: -8506929227668245501}
+  - component: {fileID: -2396292700458581964}
   m_Layer: 11
   m_Name: kitchen_58
   m_TagString: Untagged
@@ -149,32 +149,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!61 &61513006529587702
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1867260642268590}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1}
-  m_EdgeRadius: 0
 --- !u!114 &114892356372757746
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -187,6 +161,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114668526465205184
@@ -201,12 +176,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ed381a72f1e344bb8020dc181414b43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VendorContent:
-  - Item: {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
+  InitialVendorContent:
+  - ItemName: Bear Meat
+    Item: {fileID: 6854599682859987425, guid: cfc3a66a4c5c805409f38aea0e083851, type: 3}
     Stock: 5
   HullColor: {r: 1, g: 1, b: 1, a: 1}
   EjectObjects: 0
   EjectDirection: 0
+  VendingSound: MachineVend
+  restockMessage: Items restocked.
+  noAccessMessage: Access denied!
+  VendorContent:
+  - ItemName: 
+    Item: {fileID: 6532193109441330816, guid: 08f2ed80656ab8548b303e79671a18e8, type: 3}
+    Stock: 5
+  ActualCurrentPowerState: 2
+  DoesntRequirePower: 0
 --- !u!114 &114294952158468094
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -239,6 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &9083440936198049442
 MonoBehaviour:
@@ -331,6 +317,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-2396292700458581964
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1867260642268590}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 053e2d398d507cc449f05be2499aa497, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forceHidden: 0
+  MinimumWorkingVoltage: 190
+  ExpectedRunningVoltage: 240
+  MaximumWorkingVoltage: 300
+  deviceType: 0
+  isSelfPowered: 0
+  wattusage: 0.01
+  Resistance: 100000000
+  RelatedAPC: {fileID: 0}
+  AdvancedControlToScript: 0
+  StateUpdateOnClient: 1
+  SelfPowered: 0
+  State: 0
+  conType: 1

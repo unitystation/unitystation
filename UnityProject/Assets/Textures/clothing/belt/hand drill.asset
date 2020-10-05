@@ -1,0 +1,59 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f6001e9fdf4c400d809990a27b869c71, type: 3}
+  m_Name: hand drill
+  m_EditorClassIdentifier: 
+  sprites:
+    Equipped:
+      Texture: {fileID: 2800000, guid: a44ce5102dffdde47809ea9f602ae989, type: 3}
+      Sprites:
+      - {fileID: 254509965974115023, guid: a44ce5102dffdde47809ea9f602ae989, type: 3}
+      - {fileID: -6691675645143005069, guid: a44ce5102dffdde47809ea9f602ae989, type: 3}
+      - {fileID: -5204444195791515992, guid: a44ce5102dffdde47809ea9f602ae989, type: 3}
+      - {fileID: -652723830670757912, guid: a44ce5102dffdde47809ea9f602ae989, type: 3}
+      EquippedData: {fileID: 4900000, guid: 79453a0735d22cf43974fa607313bf29, type: 3}
+    InHandsLeft:
+      Texture: {fileID: 2800000, guid: 4ce5fd9e6499d544d9fd8dfed658a27c, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 4ce5fd9e6499d544d9fd8dfed658a27c, type: 3}
+      - {fileID: 21300002, guid: 4ce5fd9e6499d544d9fd8dfed658a27c, type: 3}
+      - {fileID: 21300004, guid: 4ce5fd9e6499d544d9fd8dfed658a27c, type: 3}
+      - {fileID: 21300006, guid: 4ce5fd9e6499d544d9fd8dfed658a27c, type: 3}
+      EquippedData: {fileID: 4900000, guid: 3f57659601ce8c64a95977b35ebff1ed, type: 3}
+    InHandsRight:
+      Texture: {fileID: 2800000, guid: 92b30f6c31cb7ea4f93e438786d06dd6, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 92b30f6c31cb7ea4f93e438786d06dd6, type: 3}
+      - {fileID: 21300002, guid: 92b30f6c31cb7ea4f93e438786d06dd6, type: 3}
+      - {fileID: 21300004, guid: 92b30f6c31cb7ea4f93e438786d06dd6, type: 3}
+      - {fileID: 21300006, guid: 92b30f6c31cb7ea4f93e438786d06dd6, type: 3}
+      EquippedData: {fileID: 4900000, guid: b0e0fdd060788dd48943185c0ef449dd, type: 3}
+    ItemIcon:
+      Texture: {fileID: 0}
+      Sprites: []
+      EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 92313556f4a0e71439ba7e62d93409cb, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: be5b5ebf719ba1d4aabccf6e3873c27a,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: c9d1560a64c5b984f8f1030c3fe8d1fc,
+      type: 2}
+    SpriteItemIcon: {fileID: 0}
+    Palette:
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    - {r: 0, g: 0, b: 0, a: 0}
+    IsPaletted: 0

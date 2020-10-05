@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: uniform_paramedic
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -1063418894456193897, guid: 41065e6e9c3e8b844b4b9924f521558b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 6546669239034678373, guid: 41065e6e9c3e8b844b4b9924f521558b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: -5669330802421126798, guid: 41065e6e9c3e8b844b4b9924f521558b,
+        type: 3}
+      secondDelay: 0
+  - Frames:
+    - sprite: {fileID: 9213836489222091755, guid: 41065e6e9c3e8b844b4b9924f521558b,
+        type: 3}
+      secondDelay: 0
+  IsPalette: 0
+  setID: 21635

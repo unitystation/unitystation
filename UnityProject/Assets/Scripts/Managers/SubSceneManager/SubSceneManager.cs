@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using Mirror;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -7,27 +8,33 @@ public partial class SubSceneManager : NetworkBehaviour
 {
 	private static SubSceneManager subSceneManager;
 
-	public static SubSceneManager Instance
-	{
-		get
-		{
-			if (subSceneManager == null)
-			{
-				subSceneManager = FindObjectOfType<SubSceneManager>();
-			}
-
-			return subSceneManager;
-		}
-	}
+	public static SubSceneManager Instance;
 
 	public AwayWorldListSO awayWorldList;
 	[SerializeField] private MainStationListSO mainStationList = null;
 	[SerializeField] private AsteroidListSO asteroidList = null;
+	[SerializeField] private AdditionalSceneListSO additionalSceneList = null;
 
 	readonly ScenesSyncList loadedScenesList = new ScenesSyncList();
 
+	public MainStationListSO MainStationList => mainStationList;
+
 	public bool AwaySiteLoaded { get; private set; }
 	public bool MainStationLoaded { get; private set; }
+
+	public bool SyndicateLoaded { get; private set; }
+
+	void Awake()
+	{
+		if (Instance == null)
+		{
+			Instance = this;
+		}
+		else
+		{
+			Destroy(gameObject);
+		}
+	}
 
 	void Update()
 	{
@@ -49,9 +56,6 @@ public partial class SubSceneManager : NetworkBehaviour
 		}
 
 		if (loadTimer != null) loadTimer.IncrementLoadBar();
-		yield return WaitFor.EndOfFrame;
-
-		if (loadTimer != null) loadTimer.IncrementLoadBar();
 		if (isServer)
 		{
 			NetworkServer.SpawnObjects();
@@ -59,7 +63,7 @@ public partial class SubSceneManager : NetworkBehaviour
 		else
 		{
 			ClientScene.PrepareToSpawnSceneObjects();
-			yield return WaitFor.EndOfFrame;
+			yield return WaitFor.Seconds(0.2f);
 			RequestObserverRefresh.Send(sceneName);
 		}
 	}
@@ -71,35 +75,39 @@ public partial class SubSceneManager : NetworkBehaviour
 			Instance.AddObserverToAllObjects(connectedPlayer.Connection, sceneContext);
 		}
 	}
-
-	public void WaitForSubScene(string data, uint id)
-	{
-		StartCoroutine(WaitForMapToLoad(data, id));
-	}
-	IEnumerator WaitForMapToLoad(string data, uint managerId)
-	{
-		while (!NetworkIdentity.spawned.ContainsKey(managerId))
-		{
-			yield return WaitFor.EndOfFrame;
-		}
-
-		TileChangeManager tm = NetworkIdentity.spawned[managerId].GetComponent<TileChangeManager>();
-		tm.InitServerSync(data);
-	}
 }
 
 public enum SceneType
 {
 	MainStation,
 	AwaySite,
-	Asteroid
+	Asteroid,
+	AdditionalScenes
 }
 
 [System.Serializable]
-public struct SceneInfo
+public struct SceneInfo : IEquatable<SceneInfo>
 {
 	public string SceneName;
 	public SceneType SceneType;
+
+	public bool Equals(SceneInfo other)
+	{
+		return SceneName == other.SceneName && SceneType == other.SceneType;
+	}
+
+	public override bool Equals(object obj)
+	{
+		return obj is SceneInfo other && Equals(other);
+	}
+
+	public override int GetHashCode()
+	{
+		unchecked
+		{
+			return ((SceneName != null ? SceneName.GetHashCode() : 0) * 397) ^ (int) SceneType;
+		}
+	}
 }
 
 [System.Serializable]

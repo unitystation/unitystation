@@ -1,0 +1,141 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &6689465699206570953
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 896176440821197890, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 896176440821197890, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 896176440821197890, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: d5386cc24a0a08cab9f2e1dab976ee2f,
+        type: 2}
+    - target: {fileID: 896176440821197890, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: bb1b374d9154ed45ca903a8ace087e8d,
+        type: 2}
+    - target: {fileID: 896176440821197890, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[2]
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 896176440821197890, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: fa60dedbe4f861e76a46f56f59987729,
+        type: 2}
+    - target: {fileID: 896176440821197890, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[3]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992925032281279368, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: initialDescription
+      value: I come over, maybe I give you a pizza, maybe I break off your arm.
+      objectReference: {fileID: 0}
+    - target: {fileID: 1992925032281279368, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: initialName
+      value: Arnold pizza slice
+      objectReference: {fileID: 0}
+    - target: {fileID: 2076693713923332446, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2109321205815305450, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_Name
+      value: ArnoldPizzaSlice
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2113967604886772126, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2284492601500686262, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8bdf88141d0101547895fb20c95d5dc9,
+        type: 3}
+    - target: {fileID: 5189219076529151853, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 80d2517de16fc15448e20c6aad33cf4b,
+        type: 2}
+    - target: {fileID: 7823489550948591258, guid: 48bd1ae82f15544478352338b47f67e6,
+        type: 3}
+      propertyPath: NutritionLevel
+      value: 225
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 48bd1ae82f15544478352338b47f67e6, type: 3}

@@ -13,35 +13,12 @@ MonoBehaviour:
   m_Name: centcom headset
   m_EditorClassIdentifier: 
   Sprites:
-    Equipped:
-      Texture: {fileID: 2800000, guid: c156d0660846db140add29bd22e08575, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: c156d0660846db140add29bd22e08575, type: 3}
-      - {fileID: 21300002, guid: c156d0660846db140add29bd22e08575, type: 3}
-      - {fileID: 21300004, guid: c156d0660846db140add29bd22e08575, type: 3}
-      - {fileID: 21300006, guid: c156d0660846db140add29bd22e08575, type: 3}
-      EquippedData: {fileID: 4900000, guid: 0d7c0a73bab1806419a95b1ba7fe56c0, type: 3}
-    InHandsLeft:
-      Texture: {fileID: 2800000, guid: 70ba8e0352dd81544849989e4abacff5, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 70ba8e0352dd81544849989e4abacff5, type: 3}
-      - {fileID: 21300002, guid: 70ba8e0352dd81544849989e4abacff5, type: 3}
-      - {fileID: 21300004, guid: 70ba8e0352dd81544849989e4abacff5, type: 3}
-      - {fileID: 21300006, guid: 70ba8e0352dd81544849989e4abacff5, type: 3}
-      EquippedData: {fileID: 4900000, guid: 147e5145073b5f44b9df5fcbc08146b0, type: 3}
-    InHandsRight:
-      Texture: {fileID: 2800000, guid: a4baffe7b0bee7a4286c05ed53b0310d, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: a4baffe7b0bee7a4286c05ed53b0310d, type: 3}
-      - {fileID: 21300002, guid: a4baffe7b0bee7a4286c05ed53b0310d, type: 3}
-      - {fileID: 21300004, guid: a4baffe7b0bee7a4286c05ed53b0310d, type: 3}
-      - {fileID: 21300006, guid: a4baffe7b0bee7a4286c05ed53b0310d, type: 3}
-      EquippedData: {fileID: 4900000, guid: 34cf85f5368714b489f878dd7831f68a, type: 3}
-    ItemIcon:
-      Texture: {fileID: 2800000, guid: 36dec7dda6cdf71c7953b57ba6ffc66e, type: 3}
-      Sprites:
-      - {fileID: 21300000, guid: 36dec7dda6cdf71c7953b57ba6ffc66e, type: 3}
-      EquippedData: {fileID: 0}
+    SpriteEquipped: {fileID: 11400000, guid: 7908706a8d937a4409f76118bc90503f, type: 2}
+    SpriteInHandsLeft: {fileID: 11400000, guid: f6cdfdd6871648349a045be11f42af2b,
+      type: 2}
+    SpriteInHandsRight: {fileID: 11400000, guid: b94e20227c573f945ab19acee6a2b483,
+      type: 2}
+    SpriteItemIcon: {fileID: 11400000, guid: a6a80e1d051002a4bb4a1ef681005523, type: 2}
     Palette:
     - {r: 0, g: 0, b: 0, a: 0}
     - {r: 0, g: 0, b: 0, a: 0}

@@ -23,7 +23,7 @@ public class MatrixMoveMessage : ServerMessage
 		}
 	}
 
-	public static MatrixMoveMessage Send(GameObject recipient, GameObject matrix, MatrixState state)
+	public static MatrixMoveMessage Send(NetworkConnection recipient, GameObject matrix, MatrixState state)
 	{
 		var msg = new MatrixMoveMessage
 		{

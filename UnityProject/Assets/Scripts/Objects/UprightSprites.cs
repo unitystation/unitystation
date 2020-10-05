@@ -8,7 +8,7 @@ using UnityEngine;
 /// Allows defining what should happen to the sprites during a matrix rotation,
 /// </summary>
 [ExecuteInEditMode]
-public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
+public class UprightSprites : MonoBehaviour, IMatrixRotation
 {
 	[Tooltip("Defines how this object's sprites should behave during a matrix rotation")]
 	public SpriteMatrixRotationBehavior spriteMatrixRotationBehavior =
@@ -59,12 +59,7 @@ public class UprightSprites : MonoBehaviour, IClientLifecycle, IMatrixRotation
 		SetSpritesUpright();
 	}
 
-	public void OnSpawnClient(ClientSpawnInfo info)
-	{
-		SetSpritesUpright();
-	}
-
-	public void OnDespawnClient(ClientDespawnInfo info)
+	private void OnDestroy()
 	{
 		UpdateManager.Remove(CallbackType.UPDATE, SetSpritesUpright);
 	}

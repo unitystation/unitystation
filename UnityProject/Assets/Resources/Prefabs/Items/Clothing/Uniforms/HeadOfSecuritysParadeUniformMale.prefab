@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 3011710637427380133, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
       propertyPath: m_Name
-      value: HeadOfSecuritysParadeUniform
+      value: HeadOfSecuritysParadeUniformMale
       objectReference: {fileID: 0}
     - target: {fileID: 3015227012818907857, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
         type: 3}
@@ -93,6 +93,12 @@ PrefabInstance:
       propertyPath: clothData
       value: 
       objectReference: {fileID: 11400000, guid: 76d65dd18ef68fe45a370d3832477bb7,
+        type: 2}
+    - target: {fileID: 8975007657035133986, guid: d2a5503a9764c49ed9a7b1a5c4e4c547,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 6f5b8aafbc3ada743ac0b64c89823e41,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d2a5503a9764c49ed9a7b1a5c4e4c547, type: 3}

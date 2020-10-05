@@ -7,6 +7,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 4128362409855863911, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 859417389fde79e4fa0051b5634b06e4,
+        type: 2}
     - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: itemSprites.LeftHand.Texture
@@ -91,6 +97,24 @@ PrefabInstance:
       propertyPath: initialDescription
       value: A heavy duty bar of Nanotrasen brand soap. Smells of plasma.
       objectReference: {fileID: 0}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 11400000, guid: 859417389fde79e4fa0051b5634b06e4,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 1546dd0b04719094487e934ba092a7f1,
+        type: 2}
+    - target: {fileID: 7701549257419364482, guid: 94dfead23e20498409009e55d3dfe3ca,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b264f19b093fb1e44b454d1f8b51ee8f,
+        type: 2}
     - target: {fileID: 7785875528613525472, guid: 94dfead23e20498409009e55d3dfe3ca,
         type: 3}
       propertyPath: m_Name

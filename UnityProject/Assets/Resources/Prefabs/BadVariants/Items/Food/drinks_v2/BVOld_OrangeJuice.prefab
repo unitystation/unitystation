@@ -1,0 +1,195 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4620663565366626656
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 544171576806319005, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: reagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d8a1146358df3df6aa2716780276565,
+        type: 2}
+    - target: {fileID: 544171576806319005, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d8a1146358df3df6aa2716780276565,
+        type: 2}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: initialName
+      value: orange juice
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: initialDescription
+      value: Full of vitamins and deliciousness!
+      objectReference: {fileID: 0}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: d85b95fa86f0ddc4f9b9c0ec1cdda80b, type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: d85b95fa86f0ddc4f9b9c0ec1cdda80b,
+        type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: d85b95fa86f0ddc4f9b9c0ec1cdda80b,
+        type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: d85b95fa86f0ddc4f9b9c0ec1cdda80b,
+        type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: d85b95fa86f0ddc4f9b9c0ec1cdda80b,
+        type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: d0c8f1ffdd1ae92448badaa2ab095d83, type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: bb630ccefb2d60d4a930a63dd19d80b5, type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: bb630ccefb2d60d4a930a63dd19d80b5,
+        type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: bb630ccefb2d60d4a930a63dd19d80b5,
+        type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: bb630ccefb2d60d4a930a63dd19d80b5,
+        type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: bb630ccefb2d60d4a930a63dd19d80b5,
+        type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 0020cbe03614e124284904f855713165, type: 3}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 9f180f9405f9ad24b8195dbc1b1681cf,
+        type: 2}
+    - target: {fileID: 1173988499351864407, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a15ebb6ad3276b40a5c74645251d0d1,
+        type: 2}
+    - target: {fileID: 1465560459664676969, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7787f6bf0526b1a4695cbda18224d103,
+        type: 3}
+    - target: {fileID: 1632346945329490741, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_Name
+      value: BVOld_OrangeJuice
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 29.583618
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 59.84265
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1636144520954025537, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671811269246637697, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: sceneId
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1671811269246637697, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891293828191637682, guid: bcafad97f0ef7384793b303b782af31b,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 04c6e58bc62143a43ba288887fc81d11,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: bcafad97f0ef7384793b303b782af31b, type: 3}

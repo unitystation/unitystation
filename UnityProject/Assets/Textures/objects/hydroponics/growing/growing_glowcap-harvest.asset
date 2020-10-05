@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d1de2691495b304e9843ac3335b626d, type: 3}
+  m_Name: growing_glowcap-harvest
+  m_EditorClassIdentifier: 
+  Variance:
+  - Frames:
+    - sprite: {fileID: -4076659103613678445, guid: 59c891eaed727d94587888dd88106bfa,
+        type: 3}
+      secondDelay: 4.2
+    - sprite: {fileID: 356020713836392871, guid: 59c891eaed727d94587888dd88106bfa,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 3801489327397335936, guid: 59c891eaed727d94587888dd88106bfa,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 8883766783015799422, guid: 59c891eaed727d94587888dd88106bfa,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 1653539008777539458, guid: 59c891eaed727d94587888dd88106bfa,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -5763064686002029047, guid: 59c891eaed727d94587888dd88106bfa,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: -2578652926993921514, guid: 59c891eaed727d94587888dd88106bfa,
+        type: 3}
+      secondDelay: 0.1
+    - sprite: {fileID: 5178706280533885441, guid: 59c891eaed727d94587888dd88106bfa,
+        type: 3}
+      secondDelay: 0.1
+  IsPalette: 0
+  setID: 22673

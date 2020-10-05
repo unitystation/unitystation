@@ -81,7 +81,13 @@ PrefabInstance:
     - target: {fileID: 3431291279286482953, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
         type: 3}
       propertyPath: m_Name
-      value: ChameleonSchut
+      value: ChameleonSecurityHUD
       objectReference: {fileID: 0}
+    - target: {fileID: 8851959254138389390, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e69efe4c829014f4e9ccf6621c564c7b,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a04a2ac5c1ef5a142b26e818b8dfa3fb, type: 3}

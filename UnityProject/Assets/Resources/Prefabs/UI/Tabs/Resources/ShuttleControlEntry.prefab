@@ -185,6 +185,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1bd4b313639849d2bad90a2330df0214, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sprites:
+  - {fileID: 21300000, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 21300002, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 21300004, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 0}
+  - {fileID: 21300008, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 21300010, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 21300018, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 21300020, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: -4366875309641743238, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 3354731494185947597, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 6398044217373421810, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 1805784024952669561, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: -1927381138756076784, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 2161689491496896386, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
+  - {fileID: 8333530429668401558, guid: 724172193c740c449ad0cd4b1aa1943e, type: 3}
 --- !u!1 &1666901027548932
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,6 +260,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4270a90140b446218da81f0ff022e3cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  icon: {fileID: 114093481544423086}
+  circle: {fileID: 114309200894942550}
   type: -1
   TrackedObject: {fileID: 0}
   StaticPosition: {x: 0, y: 0, z: -100}

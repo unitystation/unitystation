@@ -13,7 +13,8 @@ MonoBehaviour:
   m_Name: lemon
   m_EditorClassIdentifier: 
   plantData:
-    ProduceObject: {fileID: 0}
+    ProduceObject: {fileID: 7790500238027954597, guid: daa8a4d6cad4441f79bed8f0fb275672,
+      type: 3}
     Name: lemon
     Plantname: Lemon Tree
     Description: These are sour seeds.
@@ -22,7 +23,31 @@ MonoBehaviour:
       Sprites:
       - {fileID: 21300000, guid: 028b642707d9b284b9782776b3b7b207, type: 3}
       EquippedData: {fileID: 0}
-    GrowthSprites: []
+    GrowthSprites:
+    - Texture: {fileID: 2800000, guid: 03585adbc419a984fac81f0ba5320bed, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 03585adbc419a984fac81f0ba5320bed, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 5ef1d8b5382700746927abfab3d63b7f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 5ef1d8b5382700746927abfab3d63b7f, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 81fe018a8d901af468323113f7f05861, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 81fe018a8d901af468323113f7f05861, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 6be05fd44bbe9e84ba710746eff3b14f, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 6be05fd44bbe9e84ba710746eff3b14f, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: cc360dcd1147c3949b332b84aa039c66, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: cc360dcd1147c3949b332b84aa039c66, type: 3}
+      EquippedData: {fileID: 0}
+    - Texture: {fileID: 2800000, guid: 0324b0374c9095e49af7c60c229bcc9a, type: 3}
+      Sprites:
+      - {fileID: 21300000, guid: 0324b0374c9095e49af7c60c229bcc9a, type: 3}
+      EquippedData: {fileID: 0}
     FullyGrownSprite:
       Texture: {fileID: 2800000, guid: 462b527b44073154e968acd3f15e7013, type: 3}
       Sprites:
@@ -42,7 +67,11 @@ MonoBehaviour:
     Lifespan: 55
     PlantTrays: 00000000
     ReagentProduction: []
-    MutatesInTo: []
+    MutatesInTo:
+    - {fileID: 11400000, guid: 2b12a8a694ad1344eac44283986f9f12, type: 2}
+    Age: 0
+    NextGrowthStageProgress: 0
+    Health: 0
   WeedResistanceChange: 0
   WeedGrowthRateChange: 0
   GrowthSpeedChange: 0

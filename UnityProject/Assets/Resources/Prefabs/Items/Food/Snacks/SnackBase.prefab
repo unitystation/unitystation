@@ -1,0 +1,136 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-4748041340272161142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367782950990450119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 421c3b18959bb624f8fe705eaad88216, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7146114630749491127
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1367782950990450119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45e06ddb12acf47158b8cccf9289fd75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leavings: {fileID: 0}
+  sound: EatFood
+  NutritionLevel: 10
+--- !u!1001 &1737151937450733888
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 783851887035088007, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_Name
+      value: SnackBase
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 789061236122354163, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 825558115691839795, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: initialDescription
+      value: Yummy.
+      objectReference: {fileID: 0}
+    - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: initialName
+      value: snack
+      objectReference: {fileID: 0}
+    - target: {fileID: 868446610880926693, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: f4bf367b42a325c4dbf26b76591e0ef1,
+        type: 2}
+    - target: {fileID: 2002631705224524847, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+        type: 3}
+      propertyPath: transferMode
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 1481962708363400442, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3, type: 3}
+--- !u!1 &1367782950990450119 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 783851887035088007, guid: 6eb9748e1eaf8dc4598a50e5b09df3b3,
+    type: 3}
+  m_PrefabInstance: {fileID: 1737151937450733888}
+  m_PrefabAsset: {fileID: 0}

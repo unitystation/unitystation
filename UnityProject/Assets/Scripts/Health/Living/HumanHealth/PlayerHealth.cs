@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AdminTools;
+using Health.Sickness;
+using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using AdminTools;
+using System.Linq;
 using UnityEngine;
-using Mirror;
-using UnityEditor;
 
 /// <summary>
 /// Provides central access to the Players Health
@@ -12,11 +13,34 @@ using UnityEditor;
 public class PlayerHealth : LivingHealthBehaviour
 {
 	[SerializeField]
-	private MetabolismSystem metabolism;
+	private MetabolismSystem metabolism = null;
+
+	/// <summary>
+	/// The percentage of players that start with common allergies.
+	/// </summary>
+	[SerializeField]
+	private int percentAllergies = 30;
+
+	/// <summary>
+	/// Common allergies.  A percent of players start with that.
+	/// </summary>
+	[SerializeField]
+	private Sickness commonAllergies = null;
 
 	public MetabolismSystem Metabolism { get => metabolism; }
 
-	private PlayerMove playerMove;
+	/// <summary>
+	/// Current sicknesses status of the player and their current stage.
+	/// </summary>
+	private PlayerSickness playerSickness = null;
+
+	/// <summary>
+	/// List of sicknesses that player has gained immunity.
+	/// </summary>
+	private List<Sickness> immunedSickness;
+
+	public PlayerMove PlayerMove;
+	private PlayerSprites playerSprites;
 
 	private PlayerNetworkActions playerNetworkActions;
 	/// <summary>
@@ -26,14 +50,80 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	private ItemStorage itemStorage;
 
+	private bool init = false;
+
 	//fixme: not actually set or modified. keep an eye on this!
 	public bool serverPlayerConscious { get; set; } = true; //Only used on the server
 
 	public override void Awake()
 	{
 		base.Awake();
+		EnsureInit();
+		ApplyStartingAllergies();
+	}
+
+	// At round start, a percent of players start with mild allergy
+	// The purpose of this, is to make believe that coughing and sneezing at random is "probably" not a real sickness.
+	private void ApplyStartingAllergies()
+	{
+		if (UnityEngine.Random.Range(0, 100) < percentAllergies)
+		{
+			AddSickness(commonAllergies);
+		}
+	}
+
+	/// <summary>
+	/// Add a sickness to the player if he doesn't already has it and isn't immuned
+	/// </summary>
+	/// <param name="">The sickness to add</param>
+	public void AddSickness(Sickness sickness)
+	{
+		if (IsDead)
+			return;
+
+		if ((!playerSickness.HasSickness(sickness)) && (!immunedSickness.Contains(sickness)))
+			playerSickness.Add(sickness, Time.time);
+	}
+
+	/// <summary>
+	/// This will remove the sickness from the player, healing him.
+	/// </summary>
+	/// <remarks>Thread safe</remarks>
+	public void RemoveSickness(Sickness sickness)
+	{
+		SicknessAffliction sicknessAffliction = playerSickness.sicknessAfflictions.FirstOrDefault(p => p.Sickness == sickness);
+
+		if (sicknessAffliction)
+			sicknessAffliction.Heal();
+	}
+
+	/// <summary>
+	/// This will remove the sickness from the player, healing him.  This will also make him immune for the current round.
+	/// </summary>
+	public void ImmuneSickness(Sickness sickness)
+	{
+		RemoveSickness(sickness);
+
+		if (!immunedSickness.Contains(sickness))
+			immunedSickness.Add(sickness);
+	}
+
+
+	void EnsureInit()
+	{
+		if (init) return;
+
+		init = true;
+		playerNetworkActions = GetComponent<PlayerNetworkActions>();
+		PlayerMove = GetComponent<PlayerMove>();
+		playerSprites = GetComponent<PlayerSprites>();
+		registerPlayer = GetComponent<RegisterPlayer>();
+		itemStorage = GetComponent<ItemStorage>();
+		playerSickness = GetComponent<PlayerSickness>();
 
 		OnConsciousStateChangeServer.AddListener(OnPlayerConsciousStateChangeServer);
+
+		immunedSickness = new List<Sickness>();
 
 		metabolism = GetComponent<MetabolismSystem>();
 		if (metabolism == null)
@@ -44,11 +134,14 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	public override void OnStartClient()
 	{
-		playerNetworkActions = GetComponent<PlayerNetworkActions>();
-		playerMove = GetComponent<PlayerMove>();
-		registerPlayer = GetComponent<RegisterPlayer>();
-		itemStorage = GetComponent<ItemStorage>();
+		EnsureInit();
 		base.OnStartClient();
+	}
+
+	public override void OnStartServer()
+	{
+		EnsureInit();
+		base.OnStartServer();
 	}
 
 	protected override void OnDeathActions()
@@ -102,7 +195,7 @@ public class PlayerHealth : LivingHealthBehaviour
 				string descriptor = null;
 				if (player != null)
 				{
-					descriptor = player?.Script?.characterSettings?.PossessivePronoun();
+					descriptor = player.CharacterSettings?.TheirPronoun();
 				}
 
 				if (descriptor == null)
@@ -138,7 +231,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	protected override void Gib()
 	{
 		Death();
-		EffectsFactory.BloodSplat( transform.position, BloodSplatSize.large, bloodColor );
+		EffectsFactory.BloodSplat(transform.position, BloodSplatSize.large, bloodColor);
 		//drop clothes, gib... but don't destroy actual player, a piece should remain
 
 		//drop everything
@@ -147,20 +240,22 @@ public class PlayerHealth : LivingHealthBehaviour
 			Inventory.ServerDrop(slot);
 		}
 
-		playerMove.PlayerScript.pushPull.VisibleState = false;
+		PlayerMove.PlayerScript.pushPull.VisibleState = false;
 		playerNetworkActions.ServerSpawnPlayerGhost();
 	}
 
 	///     make player unconscious upon crit
-	private void OnPlayerConsciousStateChangeServer( ConsciousState oldState, ConsciousState newState )
+	private void OnPlayerConsciousStateChangeServer(ConsciousState oldState, ConsciousState newState)
 	{
-		if ( isServer )
+		if (playerNetworkActions == null || registerPlayer == null) EnsureInit();
+
+		if (isServer)
 		{
 			playerNetworkActions.OnConsciousStateChanged(oldState, newState);
 		}
 
 		//we stay upright if buckled or conscious
-		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || playerMove.IsBuckled);
+		registerPlayer.ServerSetIsStanding(newState == ConsciousState.CONSCIOUS || PlayerMove.IsBuckled);
 	}
 
 	/// These electrocution methods are specific to players,
@@ -171,6 +266,7 @@ public class PlayerHealth : LivingHealthBehaviour
 	private const int ELECTROCUTION_MAX_DAMAGE = 100; // -1 to disable limit
 	private const int ELECTROCUTION_STUN_PERIOD = 10; // In seconds.
 	private const int ELECTROCUTION_ANIM_PERIOD = 5; // Set less than stun period.
+	private const int ELECTROCUTION_MICROLERP_PERIOD = 15;
 	private BodyPartType electrocutedHand;
 
 	/// <summary>
@@ -244,6 +340,7 @@ public class PlayerHealth : LivingHealthBehaviour
 
 	protected override void MildElectrocution(Electrocution electrocution, float shockPower)
 	{
+		SoundManager.PlayNetworkedAtPos("SmallElectricShock#", registerPlayer.WorldPosition);
 		Chat.AddExamineMsgFromServer(gameObject, $"The {electrocution.ShockSourceName} gives you a slight tingling sensation...");
 	}
 
@@ -255,26 +352,34 @@ public class PlayerHealth : LivingHealthBehaviour
 		// Slip is essentially a yelp SFX.
 		SoundManager.PlayNetworkedAtPos("Slip", registerPlayer.WorldPosition,
 				UnityEngine.Random.Range(0.4f, 1.2f), sourceObj: gameObject);
-		Chat.AddExamineMsgFromServer(gameObject,
-				(electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
-				" gives you a small electric shock!");
+
+		string victimChatString = (electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
+				" gives you a small electric shock!";
+		Chat.AddExamineMsgFromServer(gameObject, victimChatString);
 
 		DealElectrocutionDamage(5, electrocutedHand);
 	}
 
 	protected override void LethalElectrocution(Electrocution electrocution, float shockPower)
 	{
+
+		PlayerMove.allowInput = false;
 		// TODO: Add sparks VFX at shockSourcePos.
-		// TODO: Consider adding a scream SFX.
 		SoundManager.PlayNetworkedAtPos("Sparks#", electrocution.ShockSourcePos);
-		registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD);
-		StartCoroutine(ElectrocutionAnimation());
-		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition,
-				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);
-		// Consider removing this message when the shock animation has been implemented as it should be obvious enough.
-		Chat.AddExamineMsgFromServer(gameObject,
-				(electrocution.ShockSourceName != null ? $"The {electrocution.ShockSourceName}" : "Something") +
-				" electrocutes you!");
+		StartCoroutine(ElectrocutionSequence());
+
+		string victimChatString, observerChatString;
+		if (electrocution.ShockSourceName != null)
+		{
+			victimChatString = $"The {electrocution.ShockSourceName} electrocutes you!";
+			observerChatString = $"{gameObject.ExpensiveName()} is electrocuted by the {electrocution.ShockSourceName}!";
+		}
+		else
+		{
+			victimChatString = $"Something electrocutes you!";
+			observerChatString = $"{gameObject.ExpensiveName()} is electrocuted by something!";
+		}
+		Chat.AddCombatMsgToChat(gameObject, victimChatString, observerChatString);
 
 		var damage = shockPower / ELECTROCUTION_BURNDAMAGE_MODIFIER;
 		if (ELECTROCUTION_MAX_DAMAGE != -1 && damage > ELECTROCUTION_MAX_DAMAGE) damage = ELECTROCUTION_MAX_DAMAGE;
@@ -284,18 +389,30 @@ public class PlayerHealth : LivingHealthBehaviour
 		DealElectrocutionDamage(damage * 0.175f, BodyPartType.RightLeg);
 	}
 
-	private IEnumerator ElectrocutionAnimation()
+	private IEnumerator ElectrocutionSequence()
 	{
+		float timeBeforeDrop = 0.5f;
+
 		RpcToggleElectrocutedOverlay();
-		yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD);
+		// TODO: Add micro-lerping here. (Player quick but short vertical, horizontal movements)
+
+		yield return WaitFor.Seconds(timeBeforeDrop); // Instantly dropping to ground looks odd.
+													  // TODO: Add sparks VFX at shockSourcePos.
+		registerPlayer.ServerStun(ELECTROCUTION_STUN_PERIOD - timeBeforeDrop);
+		SoundManager.PlayNetworkedAtPos("Bodyfall", registerPlayer.WorldPosition,
+				UnityEngine.Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+
+		yield return WaitFor.Seconds(ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);
 		RpcToggleElectrocutedOverlay();
+
+		//yield return WaitFor.Seconds(ELECTROCUTION_MICROLERP_PERIOD - ELECTROCUTION_ANIM_PERIOD - timeBeforeDrop);
+		// TODO: End micro-lerping here.
 	}
 
 	[ClientRpc]
 	private void RpcToggleElectrocutedOverlay()
 	{
-		// This will be uncommented once the prefab lockdown is lifted as it requires prefab work.
-		//playerSprites.ToggleElectrocutedOverlay();
+		playerSprites.ToggleElectrocutedOverlay();
 	}
 
 	#endregion Electrocution

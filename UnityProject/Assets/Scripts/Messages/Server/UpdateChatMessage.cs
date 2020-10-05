@@ -53,4 +53,33 @@ public class UpdateChatMessage : ServerMessage
 		msg.SendTo(recipient);
 		return msg;
 	}
+
+	public override void SendTo(GameObject recipient)
+	{
+		if (recipient == null)
+		{
+			return;
+		}
+
+		NetworkConnection connection = recipient.GetComponent<NetworkIdentity>().connectionToClient;
+
+		if (connection == null)
+		{
+			return;
+		}
+
+		//			only send to players that are currently controlled by a client
+		if (PlayerList.Instance.ContainsConnection(connection))
+		{
+			connection.Send(this, 0);
+			Logger.LogTraceFormat("SentTo {0}: {1}", Category.Chat, recipient.name, this);
+		}
+		else
+		{
+			Logger.LogTraceFormat("Not sending message {0} to {1}", Category.Chat, this, recipient.name);
+		}
+
+		//Obsolete version:
+		//NetworkServer.SendToClientOfPlayer(recipient, GetMessageType(), this);
+	}
 }

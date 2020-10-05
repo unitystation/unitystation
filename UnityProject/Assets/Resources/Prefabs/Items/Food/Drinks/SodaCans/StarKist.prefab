@@ -1,0 +1,210 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &3243527740008421652
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: initialDescription
+      value: The taste of a star in liquid form. And, a bit of tuna...?
+      objectReference: {fileID: 0}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: initialName
+      value: Star-kist
+      objectReference: {fileID: 0}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 1bc74996b1a483e44893ae721e2fbd10, type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 1bc74996b1a483e44893ae721e2fbd10,
+        type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 1bc74996b1a483e44893ae721e2fbd10,
+        type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 1bc74996b1a483e44893ae721e2fbd10,
+        type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 1bc74996b1a483e44893ae721e2fbd10,
+        type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: d7df97054a8947745b0b05e3b4406350, type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: e85c1d62a6fd613459547e92ca466091, type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: e85c1d62a6fd613459547e92ca466091,
+        type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: e85c1d62a6fd613459547e92ca466091,
+        type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: e85c1d62a6fd613459547e92ca466091,
+        type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: e85c1d62a6fd613459547e92ca466091,
+        type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 243ee6341a593ad43a0e852cc87afeaf, type: 3}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 0c10a21a477997e40911d7c97586ebec,
+        type: 2}
+    - target: {fileID: 2961187288205194212, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: acca956bb2e22de4a9dc230867e7683a,
+        type: 2}
+    - target: {fileID: 3243769371402153946, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 89253ba6824a88941835f80533a1e7f8,
+        type: 3}
+    - target: {fileID: 3342215226231398706, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3451543687366369778, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3455908610919537798, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: m_Name
+      value: StarKist
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530569950825010222, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530569950825010222, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530569950825010222, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f81752cf28b76cdd8993e76335fb8ea,
+        type: 2}
+    - target: {fileID: 4530569950825010222, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 4530569950825010222, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 5d8a1146358df3df6aa2716780276565,
+        type: 2}
+    - target: {fileID: 4530569950825010222, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[1]
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 8841627809843521281, guid: b04d0f9770ef17c459a1af178889e3ba,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 082c631c459a31b4f9eeeb2e84fe4ae1,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b04d0f9770ef17c459a1af178889e3ba, type: 3}

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Atmospherics;
+using Systems.Atmospherics;
 using Chemistry;
 using UnityEngine;
+using Objects.Construction;
 
 /// <summary>
 /// Holds and provides functionality for all the MetaDataTiles for a given matrix.
@@ -14,18 +15,18 @@ public class MetaDataLayer : MonoBehaviour
 	private SubsystemManager subsystemManager;
 	private ReactionManager reactionManager;
 	private Matrix matrix;
-	private MetaTileMap metaTileMap;
 
 	private void Awake()
 	{
 		subsystemManager = GetComponentInParent<SubsystemManager>();
 		reactionManager = GetComponentInParent<ReactionManager>();
 		matrix = GetComponent<Matrix>();
-		metaTileMap = GetComponent<MetaTileMap>();
 	}
 
 	public MetaDataNode Get(Vector3Int localPosition, bool createIfNotExists = true)
 	{
+		localPosition.z = 0; //Z Positions are always on 0
+
 		if (!nodes.ContainsKey(localPosition))
 		{
 			if (createIfNotExists)
@@ -196,8 +197,8 @@ public class MetaDataLayer : MonoBehaviour
 	}
 
 
-	public void UpdateSystemsAt(Vector3Int localPosition)
+	public void UpdateSystemsAt(Vector3Int localPosition, SystemType ToUpDate = SystemType.All)
 	{
-		subsystemManager.UpdateAt(localPosition);
+		subsystemManager.UpdateAt(localPosition, ToUpDate);
 	}
 }

@@ -8,7 +8,7 @@ public struct Destination
 {
 	public Vector3 Position;
 	public Orientation Orientation;
-	public bool ApproachReversed;
+	//public bool ApproachReversed;
 
 	/// <summary>
 	/// Null object

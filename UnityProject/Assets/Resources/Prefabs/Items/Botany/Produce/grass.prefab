@@ -159,6 +159,12 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4383293123033439814, guid: 984636f7870a4214d90dcc30fd5ea101,
         type: 3}
+    - target: {fileID: 1294793839381664232, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a9fb9a49d750378469da87dbcaa13cb3,
+        type: 2}
     - target: {fileID: 3608205971236566501, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: Reagents.Array.size
@@ -251,6 +257,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 640a4524e899c424bbc28f75f929f4c6,
         type: 2}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.SpriteInventoryIcon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4779319350699623693, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 4948775619215464219, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -322,5 +343,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 90dfc684e081a8441970a4baaf0f97fe,
         type: 3}
+    - target: {fileID: 7640553959568001153, guid: 2c4e266b6c133da4ba48f9fba33ec92e,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: a9fb9a49d750378469da87dbcaa13cb3,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c4e266b6c133da4ba48f9fba33ec92e, type: 3}

@@ -1,0 +1,214 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8265019288332577732
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 1082222910563012093, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: reagentsPerUse
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: initialName
+      value: water flower
+      objectReference: {fileID: 0}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: initialDescription
+      value: A seemingly innocent sunflower...with a twist.
+      objectReference: {fileID: 0}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 0ac265b345b17d546aed8dccc41138e2, type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 0ac265b345b17d546aed8dccc41138e2,
+        type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 0ac265b345b17d546aed8dccc41138e2,
+        type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 0ac265b345b17d546aed8dccc41138e2,
+        type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 0ac265b345b17d546aed8dccc41138e2,
+        type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.LeftHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 1dc036a93da49f34bb527588788f290c, type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Texture
+      value: 
+      objectReference: {fileID: 2800000, guid: 4bba5277697cdb04c9aa08d75853a70d, type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[0]
+      value: 
+      objectReference: {fileID: 21300000, guid: 4bba5277697cdb04c9aa08d75853a70d,
+        type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[1]
+      value: 
+      objectReference: {fileID: 21300002, guid: 4bba5277697cdb04c9aa08d75853a70d,
+        type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[2]
+      value: 
+      objectReference: {fileID: 21300004, guid: 4bba5277697cdb04c9aa08d75853a70d,
+        type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.Sprites.Array.data[3]
+      value: 
+      objectReference: {fileID: 21300006, guid: 4bba5277697cdb04c9aa08d75853a70d,
+        type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.RightHand.EquippedData
+      value: 
+      objectReference: {fileID: 4900000, guid: 4d589b9661c58f64eb6a506996656f40, type: 3}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 7bdc8152dbb252a499adb8e3f27dd13f,
+        type: 2}
+    - target: {fileID: 2325362725898172863, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: b9ce9b1a73e2d124eb60aab51363e6ec,
+        type: 2}
+    - target: {fileID: 2619184293417641345, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 6ee02c82bd786df4d906ac1468761c83,
+        type: 3}
+    - target: {fileID: 2785691462360487645, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_Name
+      value: WaterFlower
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2790896412868586409, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2827405387058899817, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999979801300213365, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999979801300213365, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999979801300213365, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: transferAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999979801300213365, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: maxCapacity
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 3999979801300213365, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 522665e55a63647f6a9959f4b0a52c31,
+        type: 2}
+    - target: {fileID: 3999979801300213365, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: initialReagentMix.reagents.m_values.Array.data[0]
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 8353856902336572762, guid: fb073eb335539484b90e5bd9a3dbc4d0,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 8b6fb16a4ac08af4f954b59bae551688,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fb073eb335539484b90e5bd9a3dbc4d0, type: 3}

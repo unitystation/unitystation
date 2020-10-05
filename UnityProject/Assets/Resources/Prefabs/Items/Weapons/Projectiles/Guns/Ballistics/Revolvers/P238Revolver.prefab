@@ -1,0 +1,115 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &4295580342931571641
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: ammoType
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootGun04
+      objectReference: {fileID: 0}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 46470095045359637, guid: 7a103e9d0eb3d0a4d9f2e3a8266c0231,
+        type: 3}
+    - target: {fileID: 597710880480496247, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 5028489969333880017, guid: 7b41205052d6c7e4895869394631a735,
+        type: 3}
+    - target: {fileID: 4086796152908822152, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 4117137691947961148, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_Name
+      value: P238Revolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4120935267568350792, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4310779879563671648, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8167bb14edb1ea941839408a1b6b1338,
+        type: 3}
+    - target: {fileID: 4597779802628547678, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: initialName
+      value: P238 revolver
+      objectReference: {fileID: 0}
+    - target: {fileID: 7810681965648851131, guid: 538cebc4fa9119344aa630d0f273bced,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: aef0c35f3a3221943b2f7a7556e1a26f,
+        type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 538cebc4fa9119344aa630d0f273bced, type: 3}

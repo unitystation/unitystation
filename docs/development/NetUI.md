@@ -26,7 +26,7 @@ NetLabel is very simple and straight forward, but if you need to see examples of
 ## NetColorChanger
 NetColorChanger syncs color of any `Graphic` element (i.e `Image`). Takes color hex value as a string.
 ### Usage:
-1. Add 'NetColorChanger` to gameobject with `Graphic` component.
+1. Add `NetColorChanger` to gameobject with `Graphic` component.
 2. When you need to change color, server should run `netColorChanger.SetValue = "ffffff";` where `ffffff` is new hex color.
 ### Examples:
 Current `GUI_APC` makes heavy usage of that component, `GUI_CargoPageStatus` contains NetColorChanger as well.

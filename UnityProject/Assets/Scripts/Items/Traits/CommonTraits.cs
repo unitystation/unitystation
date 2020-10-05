@@ -1,3 +1,4 @@
+using ScriptableObjects;
 using UnityEngine;
 
 /// <summary>
@@ -11,6 +12,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait ReagentContainer;
 	public ItemTrait CanisterFillable;
 	public ItemTrait Gun;
+	public ItemTrait Ingredient;
 	public ItemTrait Food;
 	public ItemTrait Mask;
 	public ItemTrait Wirecutter;
@@ -33,9 +35,11 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait ReinforcedGlassSheet;
 	public ItemTrait WoodenPlank;
 	public ItemTrait Cable;
+	public ItemTrait Egg;
 	public ItemTrait Welder;
 	public ItemTrait Shovel;
 	public ItemTrait Knife;
+	public ItemTrait RollingPin;
 	public ItemTrait Transforamble;
 	public ItemTrait Squeaky;
 	public ItemTrait LightTube;
@@ -48,7 +52,14 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait SolidPlasma;
 	public ItemTrait NukeDisk;
 	public ItemTrait Insulated;
+	public ItemTrait BudgetInsulated;
 	public ItemTrait InternalBattery;
 	public ItemTrait AntiFacehugger;
 	public ItemTrait PickUpProtection;
+	public ItemTrait ReactorRod;
+	public ItemTrait Pickaxe;
+	public ItemTrait CanPryDoor;
+	public ItemTrait RawCottonBundle;
+	public ItemTrait RawDurathreadBundle;
+	public ItemTrait Loomable;
 }

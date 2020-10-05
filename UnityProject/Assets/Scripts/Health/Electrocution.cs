@@ -24,7 +24,8 @@ public class Electrocution
 	private const int NON_INSULATED_ITEM_RESISTANCE = 20000; // 20 kilo Ohms
 	// Increase the below if voltages have been tweaked and medium voltage cables now cause painful electrocutions,
 	// but not so much that high voltage cables are no longer a threat (turn off power sources instead).
-	private const int INSULATED_ITEM_RESISTANCE = 10000000; // 10 Mega Ohms
+	private const int INSULATED_ITEM_RESISTANCE = 100000000; // 100 Mega Ohms
+	private const int BUDGETINSULATED_ITEM_RESISTANCE = 10000000; // 10 Mega Ohms
 
 	/// <summary> The voltage determines what effects the electrocution should apply </summary>
 	public readonly float Voltage;
@@ -62,9 +63,15 @@ public class Electrocution
 		if (item == null) return 0; // No item, no resistance.
 
 		var itemAttributes = item.GetComponent<ItemAttributesV2>();
-		if (itemAttributes != null && itemAttributes.HasTrait(CommonTraits.Instance.Insulated))
+		if (itemAttributes == null) return NON_INSULATED_ITEM_RESISTANCE;
+
+		if (itemAttributes.HasTrait(CommonTraits.Instance.Insulated))
 		{
 			return INSULATED_ITEM_RESISTANCE;
+		}
+		else if (itemAttributes.HasTrait(CommonTraits.Instance.BudgetInsulated))
+		{
+			return BUDGETINSULATED_ITEM_RESISTANCE;
 		}
 
 		return NON_INSULATED_ITEM_RESISTANCE;
