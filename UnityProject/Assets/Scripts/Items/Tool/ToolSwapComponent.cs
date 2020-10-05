@@ -1,36 +1,84 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ToolSwapComponent : MonoBehaviour, IInteractable<HandActivate>
+namespace Items
 {
-    [SerializeField]
-    [Tooltip("The tools which this item will be able to represent via a HandActivate toggle in-game. Effectively, you'll want this list to be at least 2 entries large.")]
-    private List<ItemTrait> toolTraits = null;
-    
-    private ItemAttributesV2 itemAttributeComponent;
-    private int toolSetting = 0;
-    
-    private void Awake()
-    {
-        itemAttributeComponent = GetComponent<ItemAttributesV2>();
-        
-        itemAttributeComponent.AddTrait(toolTraits[toolSetting]);    // send over the first entry in the component's list to the ItemAttributeV2
-    }
-    
-    public void ServerPerformInteraction(HandActivate interaction)
-    {
-        itemAttributeComponent.RemoveTrait(toolTraits[toolSetting]);    // look over to ItemAttributeV2 and REMOVE the trait specified by the current toolSetting from this component
+	/// <summary>
+	/// Allows an item to change traits when it is activated. For example, the Jaws of Life.
+	/// </summary>
+	public class ToolSwapComponent : MonoBehaviour, IExaminable, IInteractable<HandActivate>
+	{
+		[Tooltip("The initial state the tool is in.")]
+		[SerializeField]
+		private int initialStateIndex = 0;
+		
+		[Tooltip("The tool states which this item will be able to represent via a HandActivate toggle in-game. " +
+				"Effectively, you'll want this list to be at least 2 entries large.")]
+		[SerializeField]
+		private List<ToolState> states = default;
+		
+		private ItemAttributesV2 itemAttributes;
+		private SpriteHandler spriteHandler;
 
-        // cycle though the list, keeping in check the size of said list
-        toolSetting++;
-        if (toolSetting >= toolTraits.Count)
-        {
-            toolSetting = 0;
-        }
-        
-        Chat.AddExamineMsgFromServer(interaction.Performer, $"You flick the {gameObject.name} into {toolTraits[toolSetting].name} mode");
-        
-        itemAttributeComponent.AddTrait(toolTraits[toolSetting]);    // look over to ItemAttributeV2 and ADD the trait specified by the current toolSetting from this component
-    }
+		private int currentStateIndex = 0;
+		public ToolState CurrentState => states[currentStateIndex];
+
+		#region Lifecycle
+
+		private void Awake()
+		{
+			itemAttributes = GetComponent<ItemAttributesV2>();
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+		}
+
+		private void Start()
+		{
+			if (!CustomNetworkManager.IsServer) return;
+			currentStateIndex = initialStateIndex;
+		}
+
+		#endregion Lifecycle
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			return CurrentState.ExamineMessage;
+		}
+
+		public void ServerPerformInteraction(HandActivate interaction)
+		{
+			foreach (ItemTrait trait in CurrentState.traits)
+			{
+				itemAttributes.RemoveTrait(trait);
+			}
+
+			// Cycle though the list, keeping in check the size of said list.
+			currentStateIndex++;
+			if (currentStateIndex >= states.Count)
+			{
+				currentStateIndex = 0;
+			}
+
+			foreach (ItemTrait trait in CurrentState.traits)
+			{
+				itemAttributes.AddTrait(trait);
+			}
+
+			spriteHandler.ChangeSprite(CurrentState.spriteIndex);
+			SoundManager.PlayNetworkedAtPos(CurrentState.changeSound, interaction.PerformerPlayerScript.WorldPos);
+			Chat.AddExamineMsgFromServer(interaction.Performer, CurrentState.changeMessage);
+		}
+
+		[Serializable]
+		public struct ToolState
+		{
+			public string ExamineMessage;
+			public string changeMessage;
+			public string changeSound;
+			public int spriteIndex;
+			public ItemTrait[] traits;
+			public string usingSound;
+		}
+	}
 }
