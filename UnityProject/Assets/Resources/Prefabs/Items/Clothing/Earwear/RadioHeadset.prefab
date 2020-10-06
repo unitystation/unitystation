@@ -50,14 +50,8 @@ PrefabInstance:
     - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
-        type: 3}
-      propertyPath: initialTraits.Array.data[0]
-      value: 
-      objectReference: {fileID: 11400000, guid: 1d0eccef0fd2e408caaf04bfbc98e888,
-        type: 2}
     - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
       propertyPath: initialName
@@ -69,6 +63,12 @@ PrefabInstance:
       value: An updated, modular intercom that fits over the head. Takes encryption
         keys.
       objectReference: {fileID: 0}
+    - target: {fileID: 8279022589428523628, guid: 23a0b694284152342b2ec0817fade0d6,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 1d0eccef0fd2e408caaf04bfbc98e888,
+        type: 2}
     - target: {fileID: 8361325896675593486, guid: 23a0b694284152342b2ec0817fade0d6,
         type: 3}
       propertyPath: m_Name
