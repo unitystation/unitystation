@@ -37,9 +37,10 @@ namespace AddressableReferences
 
 		public bool NotValidKey()
 		{
-			if (AssetReference.RuntimeKey == null) return true;
+			if ((AssetReference == null) || (AssetReference.RuntimeKey == null)) return true;
 			return false;
 		}
+
 		#endregion
 		#region Externally accessible stuff
 
@@ -169,10 +170,8 @@ namespace AddressableReferences
 				if (audioSource == null)
 				{
 					GameObject gameObject = base.Retrieve();
-					if (!gameObject.TryGetComponent(out audioSource))
-					{
-						throw new ArgumentException($"Invalid AddressableAudioSource {gameObject.name} is missing AudioSource component");
-					}
+					if (gameObject == null || !gameObject.TryGetComponent(out audioSource))
+						return null;
 				}
 
 				return audioSource;

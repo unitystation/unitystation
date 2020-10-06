@@ -4,6 +4,8 @@ using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
 using UnityEngine.Serialization;
+using AddressableReferences;
+using Assets.Scripts.Player;
 
 /// <summary>
 ///     ** Now all movement input keys are sent to PlayerSync.Client
@@ -74,6 +76,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	[SerializeField]
 	private ActionData actionData = null;
 	public ActionData ActionData => actionData;
+
+	/// <summary>
+	/// The sound the player makes when stepping on different terrain
+	/// </summary>
+	[HideInInspector]
+	public StepSounds StepSounds;
 
 	/// <summary>
 	/// Whether this player meets all the conditions for being swapped with (being the swapee).
@@ -147,6 +155,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
+		StepSounds = gameObject.GetComponent<StepSounds>();
+
 		RunSpeed = 6;
 		WalkSpeed = 3;
 		CrawlSpeed = 0.8f;
