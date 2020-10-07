@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -97,9 +98,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: 629838426e75c1047be7985e566681d3, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!114 &4699351480206158359
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +214,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 46c9aaf587dc6ff46a7485fc909dad5d, type: 3}
@@ -305,6 +312,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 3b5a3e682ce8ab64aa63a4044cc5cdd0,
         type: 2}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[0]
+      value: robusted
+      objectReference: {fileID: 0}
     - target: {fileID: 6900997446700812531, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: denyStorageOfStorageItems

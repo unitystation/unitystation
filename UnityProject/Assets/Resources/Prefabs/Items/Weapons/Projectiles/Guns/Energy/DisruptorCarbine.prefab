@@ -116,6 +116,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
       propertyPath: initialDescription
       value: A compact variant of the disruptor cannon with less firepower but easier
         storage.
@@ -147,6 +152,12 @@ PrefabInstance:
       propertyPath: itemSprites.SpriteRightHand
       value: 
       objectReference: {fileID: 11400000, guid: fe93480e6f657a84f949a9a3b7b1ea9e,
+        type: 2}
+    - target: {fileID: 6746399788739183449, guid: 1c2ebf5951e982c4cb87e7204c670f99,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 17a405825a3b91049abaedff4c27bd1b,
         type: 2}
     - target: {fileID: 6753185735506847169, guid: 1c2ebf5951e982c4cb87e7204c670f99,
         type: 3}

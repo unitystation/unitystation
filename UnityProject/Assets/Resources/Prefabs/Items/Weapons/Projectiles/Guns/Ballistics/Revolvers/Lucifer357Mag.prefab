@@ -42,6 +42,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
       propertyPath: initialName
       value: Lucifer .357 Mag
       objectReference: {fileID: 0}
@@ -55,6 +60,12 @@ PrefabInstance:
       propertyPath: initialSize
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: a6adad4523390e74b900fb3fce5d1c23,
+        type: 2}
     - target: {fileID: 8958440777353242636, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: m_Sprite

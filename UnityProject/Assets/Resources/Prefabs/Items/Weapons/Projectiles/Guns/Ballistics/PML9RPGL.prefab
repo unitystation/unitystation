@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -161,7 +162,7 @@ PrefabInstance:
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
@@ -195,7 +196,8 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 11400000, guid: 93d9bd23d2af8ae41b4a0664dd809bbf,
+        type: 2}
     - target: {fileID: 8958440777353242636, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: m_Sprite
