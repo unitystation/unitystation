@@ -2,6 +2,9 @@
 ---
 
 
+* 2020/10/8: Alien alloy can be used to craft beds, lockers, floor tiles, table frames, and (useless) airlock frames if you somehow get it. by [PetMudstone](https://github.com/PetMudstone) in PR #[5263](https://github.com/unitystation/unitystation/pull/5263)
+* 2020/10/8: Table frames can now be moved around. Added table frames made out of wood and alien alloy. New table frames are craftable. by [PetMudstone](https://github.com/PetMudstone) in PR #[5263](https://github.com/unitystation/unitystation/pull/5263)
+* 2020/10/8: Adds a few more kinds of tables. Bronze, alien, and fancy (carpeted) tables. Not yet constructable, sadly. by [PetMudstone](https://github.com/PetMudstone) in PR #[5263](https://github.com/unitystation/unitystation/pull/5263)
 * 2020/10/7: Added holster and briefcase of cash to uplink. by [PetMudstone](https://github.com/PetMudstone) in PR #[5259](https://github.com/unitystation/unitystation/pull/5259)
 * 2020/10/7: Fixed certain grass tiles not using the right sprite. by [PetMudstone](https://github.com/PetMudstone) in PR #[5259](https://github.com/unitystation/unitystation/pull/5259)
 * 2020/10/7: Added medal boxes that appear in the quartermaster's, head of security's, head of personnels, and research director's lockers. Sadly, you can't pin the medals on your chest. by [PetMudstone](https://github.com/PetMudstone) in PR #[5259](https://github.com/unitystation/unitystation/pull/5259)
