@@ -1,21 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &7027833387664800941
+--- !u!114 &1596584984253954953
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2916116569050989923}
+  m_GameObject: {fileID: 3324775161014056536}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06cd60fceaba43eaac0fbddda1e4219d, type: 3}
+  m_Script: {fileID: 11500000, guid: c23c49138f42840a1bc22ade283c1694, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  rackParts: {fileID: 0}
---- !u!1001 &6647483129041870009
+  registerTile: {fileID: 0}
+  floorDecal: {fileID: 0}
+  isInitiallyNotPushable: 0
+  pushPullSound: 
+  soundDelayTime: 0
+  soundMinimumPitchVariance: 1
+  soundMaximumPitchVariance: 1
+  OnPullingSomethingChangedServer:
+    m_PersistentCalls:
+      m_Calls: []
+--- !u!114 &4565745364574768999
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3324775161014056536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c0cf77f792757c4d96d3e9ffe9fa695, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  metalTable: {fileID: 11400000, guid: cf31da1d9b545944fb7423aac9d9b7d3, type: 2}
+  glassTable: {fileID: 11400000, guid: bd5274eeb48464753b12714bb88a6bff, type: 2}
+  woodTable: {fileID: 11400000, guid: 67c4061d03a804403a48b3c56a2bda4f, type: 2}
+  reinforcedTable: {fileID: 11400000, guid: 71416f6cff737438f9dd90a1cd47c640, type: 2}
+--- !u!114 &5058045143437826953
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3324775161014056536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 799d5bd9e47a11b4588193b68921813a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  resourcesMadeOf: {fileID: 7198241665461443898, guid: 5dce4d3e01518474bb9bb8085b718980,
+    type: 3}
+  howMany: 2
+--- !u!1001 &6492857344283897730
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -32,26 +76,32 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 11
       objectReference: {fileID: 0}
+    - target: {fileID: 929166672355850642, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Passable
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialIntegrity
-      value: 20
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialDescription
-      value: Different from the Middle Ages version.
+      value: Four metal legs with four framing rods for a table. You could easily
+        pass through this.
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialName
-      value: rack
+      value: table frame
       objectReference: {fileID: 0}
     - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 7c741d562199a4b43a4f6f6cd52ce5cc,
+      objectReference: {fileID: 11400000, guid: b6dddd5f35a55e34d8251479189c1486,
         type: 2}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -111,7 +161,7 @@ PrefabInstance:
     - target: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_Name
-      value: Rack
+      value: TableFrame
       objectReference: {fileID: 0}
     - target: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -122,23 +172,13 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: cc4288219ec7de0449099a04c31f2b07,
+      objectReference: {fileID: 21300000, guid: 1f3612a0864a03f4c9f56e28255001d7,
         type: 3}
-    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: -391668011
-      objectReference: {fileID: 0}
-    - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 9
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a7af28adb717b4c44b8b2002b27670bd, type: 3}
---- !u!1 &2916116569050989923 stripped
+--- !u!1 &3324775161014056536 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
     type: 3}
-  m_PrefabInstance: {fileID: 6647483129041870009}
+  m_PrefabInstance: {fileID: 6492857344283897730}
   m_PrefabAsset: {fileID: 0}
