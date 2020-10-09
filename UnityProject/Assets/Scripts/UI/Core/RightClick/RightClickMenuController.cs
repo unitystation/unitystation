@@ -205,7 +205,7 @@ namespace UI.Core.RightClick
 	    public void Update()
 	    {
 		    var currentSnapTime = Time.time - SnapStartTime;
-		    if (SnapRotation != 0 && currentSnapTime <= snapTime)
+		    if (!SnapRotation.Equals(0) && currentSnapTime <= snapTime)
 		    {
 			    var eval = currentSnapTime > 0 ? currentSnapTime / snapTime : 0;
 			    var change = SnapRotation * snapCurve.Evaluate(eval);

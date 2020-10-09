@@ -147,7 +147,9 @@ public class RightClickManager : MonoBehaviour
 			}
 			var slotObject = itemSlot.OrNull()?.ItemObject;
 			if (slotObject != null)
+			{
 				return new List<GameObject>{ slotObject };
+			}
 		}
 
 		// If the user has clicked an empty UI element, don't return the items that are underneath the UI.
@@ -157,7 +159,9 @@ public class RightClickManager : MonoBehaviour
 	private List<GameObject> GetRightClickableObjects(Vector3 mousePosition)
 	{
 		if (lightingSystem.enabled && !lightingSystem.IsScreenPointVisible(mousePosition))
+		{
 			return null;
+		}
 
 		var position = Camera.main.ScreenToWorldPoint(mousePosition);
 		position.z = 0f;

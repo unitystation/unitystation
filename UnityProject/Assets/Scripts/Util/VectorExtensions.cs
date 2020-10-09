@@ -2,13 +2,13 @@ using UnityEngine;
 
 public static class VectorExtensions
 {
-	public static bool IsInRadius(this Vector2 position, float outerRadius, float innerRadius = 0)
+	public static bool IsInRadius(this Vector2 position, float outerRadius, float innerRadius)
     {
         var sqrMag = position.sqrMagnitude;
         return sqrMag <= outerRadius * outerRadius && (innerRadius <= 0 || sqrMag >= innerRadius * innerRadius);
     }
 
-    public static Vector3 RotateAround(this Vector3 position, Vector3 pivot, Vector3 axis, float angle) =>
+	public static Vector3 RotateAround(this Vector3 position, Vector3 pivot, Vector3 axis, float angle) =>
         Quaternion.AngleAxis(angle, axis) * (position - pivot) + pivot;
 
     public static Vector3 RotateAroundZ(this Vector3 position, Vector3 pivot, float angle) =>
