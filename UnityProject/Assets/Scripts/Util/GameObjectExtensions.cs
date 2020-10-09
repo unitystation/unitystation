@@ -8,6 +8,22 @@ using UnityEngine.UI;
 /// </summary>
 public static class GameObjectExtensions
 {
+	/// <summary>
+	/// Returns the unity engine object or null if it has been destroyed. Useful for null coalescing or propagation.
+	/// </summary>
+	/// <param name="obj"></param>
+	/// <typeparam name="T"></typeparam>
+	/// <returns></returns>
+	public static T OrNull<T>(this T obj) where T : Object => obj ? obj : null;
+
+	/// <summary>
+	/// Tries to activate/deactivate the gameObject associated with this component.
+	/// </summary>
+	/// <param name="component"></param>
+	/// <param name="active"></param>
+	/// <typeparam name="T"></typeparam>
+	public static void SetActive<T>(this T component, bool active) where T : Component =>
+		component.OrNull()?.gameObject.SetActive(active);
 
 	/// <summary>
 	/// Creates garbage, use sparingly.
