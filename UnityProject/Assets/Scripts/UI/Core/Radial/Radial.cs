@@ -9,7 +9,10 @@ namespace UI.Core.Radial
 	public class Radial<T> : MonoBehaviour, IReadOnlyList<T>, IRadial where T : RadialItem<T>
 	{
 		[SerializeField]
-		protected RadialItemData<T> itemData;
+		private T itemPrefab = default;
+
+		[SerializeField]
+		private int maxShownItems = 8;
 
 		[SerializeField]
 		private int outerRadius = default;
@@ -62,11 +65,13 @@ namespace UI.Core.Radial
 
 	    public float Scale => transform.localScale.x;
 
-	    public int RadiusSize => outerRadius - innerRadius;
-
 	    public float ItemArcAngle => (float)FillAngle / Math.Max(1, ShownItemsCount);
 
-	    public int ShownItemsCount => Math.Min(TotalItemCount, itemData.maxShownItems);
+	    protected T ItemPrefab => itemPrefab;
+
+	    protected int MaxShownItems => maxShownItems;
+
+	    public int ShownItemsCount => Math.Min(TotalItemCount, MaxShownItems);
 
 	    public virtual void Setup(int itemCount)
 	    {
@@ -78,7 +83,7 @@ namespace UI.Core.Radial
 		    {
 			    if (i >= Count)
 			    {
-				    Items.Add(Instantiate(itemData.radialItemPrefab, RotationParent));
+				    Items.Add(Instantiate(ItemPrefab, RotationParent));
 			    }
 
 			    var rotation = new Vector3(0, 0, i * ItemArcAngle);
@@ -111,7 +116,7 @@ namespace UI.Core.Radial
 		    var (lowerBound, upperBound) = GetItemBounds(item.Index, itemRotation);
 		    return IsPositionValid(screenPosition, lowerBound, upperBound, itemRotation);
 	    }
-	    
+
 	    public bool IsPositionWithinRadial(Vector2 position) =>
 		    IsPositionWithinRadial(position,false);
 

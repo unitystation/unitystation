@@ -25,7 +25,7 @@ namespace UI.Core.Radial
 	    {
 		    if (Items.Count <= index)
 		    {
-			    Items.Add(Instantiate(itemData.radialItemPrefab, RotationParent.transform));
+			    Items.Add(Instantiate(ItemPrefab, RotationParent.transform));
 		    }
 		    if (maskItem == null)
 		    {
@@ -83,7 +83,7 @@ namespace UI.Core.Radial
 		    {
 			    if (i >= Count)
 			    {
-				    Items.Add(Instantiate(itemData.radialItemPrefab, RotationParent.transform));
+				    Items.Add(Instantiate(ItemPrefab, RotationParent.transform));
 			    }
 
 			    var index = isScrollable ? i - 1 : i - 2;
