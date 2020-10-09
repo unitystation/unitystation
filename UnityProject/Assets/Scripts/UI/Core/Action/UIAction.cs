@@ -9,11 +9,12 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	public SpriteDataSO DefaultIconBackground;
 	public SpriteHandler IconBackground;
 	public SpriteHandler IconFront;
+	public Transform CooldownOpacity;
 
 	public IActionGUI iActionGUI;
 	private ActionData actionData;
 	private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
-	private ActionTooltip tooltip => UIActionManager.Instance.TooltipInstance;
+	private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
 	private bool isMine = false;
 
 	public void SetUp(IActionGUI action)
@@ -72,15 +73,15 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
 	public void OnPointerEnter(PointerEventData eventData)
 	{
-		tooltip.gameObject.SetActive(true);
-		tooltip.transform.position = transform.position + tooltipOffset;
-		tooltip.ApplyActionData(actionData);
+		Tooltip.gameObject.SetActive(true);
+		Tooltip.transform.position = transform.position + tooltipOffset;
+		Tooltip.ApplyActionData(actionData);
 		isMine = true;
 	}
 
 	public void OnPointerExit(PointerEventData eventData)
 	{
-		tooltip.gameObject.SetActive(false);
+		Tooltip.gameObject.SetActive(false);
 		isMine = false;
 	}
 
@@ -88,7 +89,7 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	{
 		if (isMine)
 		{
-			tooltip.gameObject.SetActive(false);
+			Tooltip.gameObject.SetActive(false);
 			isMine = false;
 		}
 	}

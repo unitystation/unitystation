@@ -2,108 +2,83 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UI.Core.Windows;
+using Systems.Teleport;
 
-public class UI_GhostOptions : MonoBehaviour
+namespace UI.Systems.Ghost
 {
-	[SerializeField] private Text ghostHearText = null;
-	[SerializeField] private GameObject teleportButtonList = null;
-
-	private bool TeleportScreenOpen = false;
-	private bool PlacesTeleportScreenOpen = false;
-
-	void OnEnable()
+	public class UI_GhostOptions : MonoBehaviour
 	{
-		DetermineGhostHearText();
-	}
+		[SerializeField] private Text ghostHearText = null;
 
-	public void JumpToMob()
-	{
-		if (TeleportScreenOpen == true)// close screen if true
+		private TeleportWindow TeleportWindow => UIManager.TeleportWindow;
+
+		private void OnEnable()
 		{
-			teleportButtonList.SetActive(false);
-			TeleportScreenOpen = false;
+			TeleportWindow.onTeleportRequested += TeleportUtils.TeleportLocalGhostTo;
+			TeleportWindow.onTeleportToVector += TeleportUtils.TeleportLocalGhostTo;
+			DetermineGhostHearText();
 		}
-		else if (TeleportScreenOpen == false & PlacesTeleportScreenOpen == true)//switches to mob screen from places if true
+
+		private void OnDisable()
 		{
-			TeleportScreenOpen = true;
-			PlacesTeleportScreenOpen = false;
-			GetComponentInChildren<TeleportButtonControl>().GenButtons();
+			TeleportWindow.onTeleportRequested -= TeleportUtils.TeleportLocalGhostTo;
+			TeleportWindow.onTeleportToVector -= TeleportUtils.TeleportLocalGhostTo;
 		}
-		else//opens screen
+
+		public void JumpToMob()
 		{
-			teleportButtonList.SetActive(true);
-			TeleportScreenOpen = true;
-			GetComponentInChildren<TeleportButtonControl>().GenButtons();
+			TeleportWindow.SetWindowTitle("Jump To Mob");
+			TeleportWindow.gameObject.SetActive(true);
+			TeleportWindow.GenerateButtons(TeleportUtils.GetMobDestinations());
 		}
-	}
 
-	public void Orbit()
-	{
-	}
-
-	public void ReenterCorpse()
-	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostCheck();
-	}
-
-	public void Teleport()
-	{
-		if (PlacesTeleportScreenOpen == true)//Close screen if true
+		public void Orbit()
 		{
-			teleportButtonList.SetActive(false);
-			PlacesTeleportScreenOpen = false;
 		}
-		else if (PlacesTeleportScreenOpen == false & TeleportScreenOpen == true)// switches to Place Teleport if mob teleport is open
+
+		public void ReenterCorpse()
 		{
-			PlacesTeleportScreenOpen = true;
-			TeleportScreenOpen = false;
-			GetComponentInChildren<TeleportButtonControl>().PlacesGenButtons();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostCheck();
 		}
-		else//opens screen
+
+		public void Teleport()
 		{
-			teleportButtonList.SetActive(true);
-			PlacesTeleportScreenOpen = true;
-			GetComponentInChildren<TeleportButtonControl>().PlacesGenButtons();
+			TeleportWindow.SetWindowTitle("Jump to Place");
+			TeleportWindow.gameObject.SetActive(true);
+			TeleportWindow.GenerateButtons(TeleportUtils.GetSpawnDestinations());
 		}
-	}
 
-	public void pAIcandidate()
-	{
-	}
-
-	public void Respawn()
-	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
-	}
-
-	public void ToggleAllowCloning()
-	{
-		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleAllowCloning();
-	}
-
-	public void ToggleGhostHearRange()
-	{
-		Chat.Instance.GhostHearAll = !Chat.Instance.GhostHearAll;
-		DetermineGhostHearText();
-	}
-
-	void DetermineGhostHearText()
-	{
-		if (Chat.Instance.GhostHearAll)
+		public void pAIcandidate()
 		{
-			ghostHearText.text = "HEAR\r\n \r\nLOCAL";
 		}
-		else
-		{
-			ghostHearText.text = "HEAR\r\n \r\nALL";
-		}
-	}
 
-	//closes window.
-	public void TeleportScreenClose()//closes screen by close button
-	{
-		teleportButtonList.SetActive(false);
-		TeleportScreenOpen = false;
-		PlacesTeleportScreenOpen = false;
+		public void Respawn()
+		{
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRespawnPlayer();
+		}
+
+		public void ToggleAllowCloning()
+		{
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdToggleAllowCloning();
+		}
+
+		public void ToggleGhostHearRange()
+		{
+			Chat.Instance.GhostHearAll = !Chat.Instance.GhostHearAll;
+			DetermineGhostHearText();
+		}
+
+		private void DetermineGhostHearText()
+		{
+			if (Chat.Instance.GhostHearAll)
+			{
+				ghostHearText.text = "HEAR\r\n \r\nLOCAL";
+			}
+			else
+			{
+				ghostHearText.text = "HEAR\r\n \r\nALL";
+			}
+		}
 	}
 }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using UI.Core.Windows;
 using UnityEngine;
 
 public class TeleportApplyButton : MonoBehaviour
@@ -7,6 +8,7 @@ public class TeleportApplyButton : MonoBehaviour
 	private int X;
 	private int Y;
 
+	[SerializeField] private TeleportWindow mainWindow;
 	[SerializeField] private GameObject XCoordinate = null;
 	[SerializeField] private GameObject YCoordinate = null;
 
@@ -28,8 +30,7 @@ public class TeleportApplyButton : MonoBehaviour
 			//makes new vector of coords
 			var newVector = new Vector3(X, Y, 0);
 
-			// Gets server to move player
-			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdGhostPerformTeleport(newVector);
+			mainWindow.TeleportToVector(newVector);
 		}
 	}
 }

@@ -38,9 +38,11 @@ namespace Items.Magical
 		public void OnInventoryMoveServer(InventoryMove info)
 		{
 			if (info.InventoryMoveType != InventoryMoveType.Add) return;
-			if (registeredPlayerScript != null) return;
+			if (registeredPlayerScript != null) return; // Register to only the first player.
 
-			registeredPlayerScript = info.FromRootPlayer.PlayerScript;
+			var player = info.ToRootPlayer;
+			if (player == null) return;
+			registeredPlayerScript = player.PlayerScript;
 		}
 
 		public void LearnSpell(SpellBookSpell spellEntry)
