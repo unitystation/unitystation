@@ -70,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 1257563116079482585, guid: cd26a108df3c1ac4098c55b854d97a8c,
         type: 3}
       propertyPath: m_Name
-      value: AmmoBoxFoamDartsFoamDartsRiot
+      value: AmmoBoxFoamDartRiot
       objectReference: {fileID: 0}
     - target: {fileID: 1405746923732219269, guid: cd26a108df3c1ac4098c55b854d97a8c,
         type: 3}
@@ -84,5 +84,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 073930ebafba5324189bdbf61037750f,
         type: 2}
+    - target: {fileID: 8544499210975833528, guid: cd26a108df3c1ac4098c55b854d97a8c,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 4235057242747518089, guid: 373a003621961ff4db0b4d6d222dbd67,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cd26a108df3c1ac4098c55b854d97a8c, type: 3}

@@ -12,6 +12,12 @@ PrefabInstance:
       propertyPath: initialName
       value: spent bullet casing
       objectReference: {fileID: 0}
+    - target: {fileID: 2114072713808011413, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 7050608a943742a4e850f78aa99b6c09,
+        type: 3}
     - target: {fileID: 2176208296632151677, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
       propertyPath: m_AssetId
@@ -77,5 +83,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5395694184195221582, guid: 31d01d60b659392429fe6a6384563082,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: e29916dde8f376d4db1e627d8f754119,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31d01d60b659392429fe6a6384563082, type: 3}
