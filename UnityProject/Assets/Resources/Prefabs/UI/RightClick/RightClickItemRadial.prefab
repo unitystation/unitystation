@@ -549,6 +549,7 @@ GameObject:
   - component: {fileID: 4251247080122228528}
   - component: {fileID: 5457052060183506644}
   - component: {fileID: 7864490826961940268}
+  - component: {fileID: 1429854986883380546}
   m_Layer: 5
   m_Name: RightClickItemRadial
   m_TagString: Untagged
@@ -603,10 +604,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f677606760cdab348a32da8f01100541, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData:
-    radialItemPrefab: {fileID: 5604967568846222120, guid: b642ecd08f6a7574baf12f01a00a0a29,
-      type: 3}
-    maxShownItems: 8
   itemPrefab: {fileID: 5604967568846222120, guid: b642ecd08f6a7574baf12f01a00a0a29,
     type: 3}
   maxShownItems: 8
@@ -633,6 +630,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speedFactor: 0.08
   dragThreshold: 0
+--- !u!114 &1429854986883380546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7740222803606294160}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b175d82d5712498c82c8263011547e0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scrollCount: 4
+  fullRadius: 1
 --- !u!1001 &4975887033321713892
 PrefabInstance:
   m_ObjectHideFlags: 0

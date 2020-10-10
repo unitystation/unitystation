@@ -141,6 +141,7 @@ namespace UI.Core.Radial
 		    lowerBound = Mathf.Round(lowerBound);
 		    upperBound = Mathf.Round(upperBound);
 
+		    // Using Equals as Codacy rightfully doesn't like float equality. In this case it is fine as both values are rounded and it serves its purpose.
 		    if (lowerBound.Equals(upperBound))
 		    {
 			    return false;

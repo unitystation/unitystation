@@ -205,6 +205,8 @@ namespace UI.Core.RightClick
 	    public void Update()
 	    {
 		    var currentSnapTime = Time.time - SnapStartTime;
+
+		    // Snap Rotation is set to zero on drag. The inequality check here is to keep it from rotating after dragging.
 		    if (!SnapRotation.Equals(0) && currentSnapTime <= snapTime)
 		    {
 			    var eval = currentSnapTime > 0 ? currentSnapTime / snapTime : 0;

@@ -14,11 +14,7 @@ namespace UI.Core.Radial
 		[SerializeField]
 		protected RectTransform upperMask;
 
-		[Tooltip("The number of items to scroll when using the mouse wheel.")]
-		[SerializeField]
-		protected int mouseWheelScroll;
-
-	    private T lowerMaskItem;
+		private T lowerMaskItem;
 	    private T upperMaskItem;
 
 	    private T InitOrGetMaskItem(ref T maskItem, RectTransform parent, int index)
@@ -93,25 +89,6 @@ namespace UI.Core.Radial
 		    }
 	    }
 
-	    public void Update()
-	    {
-		    if (!IsPositionWithinRadial(CommonInput.mousePosition, true))
-		    {
-			    return;
-		    }
-
-		    var scrollDelta = Input.mouseScrollDelta.y;
-		    // Allow mouse wheel to scroll through items.
-		    if (scrollDelta < 0 && TotalRotation > 0)
-		    {
-			    RotateRadial(ItemArcAngle * mouseWheelScroll);
-		    }
-		    else if (scrollDelta > 0 && TotalRotation < MaxIndexAngle)
-		    {
-			    RotateRadial(-ItemArcAngle * mouseWheelScroll);
-		    }
-	    }
-
 	    private void ChangeIndex(int newIndex)
 	    {
 		    if (newIndex == CurrentIndex)
@@ -160,6 +137,11 @@ namespace UI.Core.Radial
 
 	    public override void RotateRadial(float rotation)
 	    {
+		    if (TotalRotation <= 0 && rotation >= 0 || TotalRotation >= MaxIndexAngle && rotation < 0)
+		    {
+			    return;
+		    }
+
 		    TotalRotation -= rotation;
 
 		    ChangeIndex(Math.Min(MaxIndex, (int)(TotalRotation / ItemArcAngle)));
