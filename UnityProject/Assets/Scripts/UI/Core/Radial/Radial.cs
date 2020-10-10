@@ -81,14 +81,18 @@ namespace UI.Core.Radial
 
 		    for (var i = 0; i < Math.Max(ShownItemsCount, Count); i++)
 		    {
-			    if (i >= Count)
-			    {
-				    Items.Add(Instantiate(ItemPrefab, RotationParent));
-			    }
-
+			    InitItem(i);
 			    var rotation = new Vector3(0, 0, i * ItemArcAngle);
 			    var isActive = i < ShownItemsCount;
 			    SetupItem(Items[i], i, rotation, isActive);
+		    }
+	    }
+
+	    protected void InitItem(int index)
+	    {
+		    if (index >= Count)
+		    {
+			    Items.Add(Instantiate(ItemPrefab, RotationParent.transform));
 		    }
 	    }
 

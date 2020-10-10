@@ -19,10 +19,7 @@ namespace UI.Core.Radial
 
 	    private T InitOrGetMaskItem(ref T maskItem, RectTransform parent, int index)
 	    {
-		    if (Items.Count <= index)
-		    {
-			    Items.Add(Instantiate(ItemPrefab, RotationParent.transform));
-		    }
+		    InitItem(index);
 		    if (maskItem == null)
 		    {
 			    maskItem = Items[index];
@@ -77,11 +74,7 @@ namespace UI.Core.Radial
 		    SetupItem(UpperMaskItem, ShownItemsCount, new Vector3(0, 0 , ShownItemsCount * ItemArcAngle), isScrollable);
 		    for (var i = 2; i < Math.Max(2 + ShownItemsCount, Count); i++)
 		    {
-			    if (i >= Count)
-			    {
-				    Items.Add(Instantiate(ItemPrefab, RotationParent.transform));
-			    }
-
+			    InitItem(i);
 			    var index = isScrollable ? i - 1 : i - 2;
 			    var rotation = new Vector3(0, 0, index * ItemArcAngle);
 			    var isActive = index < ShownItemsCount;
@@ -137,7 +130,7 @@ namespace UI.Core.Radial
 
 	    public override void RotateRadial(float rotation)
 	    {
-		    if (TotalRotation <= 0 && rotation >= 0 || TotalRotation >= MaxIndexAngle && rotation < 0)
+		    if (TotalRotation <= 0 && rotation >= 0 || TotalRotation >= MaxIndexAngle && rotation <= 0)
 		    {
 			    return;
 		    }
