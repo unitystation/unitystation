@@ -154,7 +154,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
-		StepSounds = gameObject.GetComponent<StepSounds>();
 
 		RunSpeed = 6;
 		WalkSpeed = 3;
