@@ -37,5 +37,6 @@
 	CentComm,
 	DeathSquad,
 	EmergencyResponseTeam,
-	MaintSpawns
+	MaintSpawns,
+	WizardFederation,
 }

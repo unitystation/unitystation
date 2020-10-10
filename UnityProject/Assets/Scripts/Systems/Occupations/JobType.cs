@@ -62,7 +62,8 @@ public enum JobType
 	PRISONER = 50,
 	FUGITIVE = 51,
 	PARAMEDIC = 52,
-	PSYCHIATRIST = 53
+	PSYCHIATRIST = 53,
+	WIZARD = 54,
 }
 
 public static class JobCategories

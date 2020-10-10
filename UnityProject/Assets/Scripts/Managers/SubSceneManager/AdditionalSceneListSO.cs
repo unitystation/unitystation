@@ -25,6 +25,9 @@ public class AdditionalSceneListSO : ScriptableObject
 	[Tooltip("Used to set a specific scene to load for a map")]
 	public List<SyndicateData> SyndicateScenes = new List<SyndicateData>();
 
+	[Tooltip("List of wizard scenes that will be picked randomly at round load, if wizard gamemode.")]
+	public List<string> WizardScenes = new List<string>();
+
 	[Serializable]
 	public class CentComData
 	{

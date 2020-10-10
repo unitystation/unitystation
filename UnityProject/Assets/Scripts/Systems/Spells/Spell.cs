@@ -37,7 +37,7 @@ public class Spell : MonoBehaviour, IActionGUI
 		}
 	}
 
-	public void CallActionClient()
+	public virtual void CallActionClient()
 	{
 		//in the future: clientside cast info like cast click position
 		PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index);
@@ -73,12 +73,21 @@ public class Spell : MonoBehaviour, IActionGUI
 
 			Chat.AddActionMsgToChat(sentByPlayer.GameObject, FormatInvocationMessageSelf(sentByPlayer),
 				FormatInvocationMessage(sentByPlayer, modPrefix));
+
+			if (SpellData.InvocationType == SpellInvocationType.Shout)
+			{
+				Chat.AddChatMsgToChat(sentByPlayer, FormatInvocationMessage(sentByPlayer, modPrefix), ChatChannel.Local);
+			}
 		}
 
 		if (SpellData.ChargeType == SpellChargeType.FixedCharges && --ChargesLeft <= 0)
 		{
 			//remove it from spell list
 			UIActionManager.Toggle(this, false, sentByPlayer.GameObject);
+		}
+		else
+		{
+			UIActionManager.SetCooldown(this, SpellData.CooldownTime, sentByPlayer.GameObject);
 		}
 	}
 
@@ -110,7 +119,7 @@ public class Spell : MonoBehaviour, IActionGUI
 				break;
 		}
 
-		if ( castPosition == TransformState.HiddenPos)
+		if (castPosition == TransformState.HiddenPos)
 		{ //got invalid position, aborting
 			return false;
 		}
