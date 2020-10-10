@@ -20,7 +20,8 @@ public class StepTypes
 /// <summary>
 /// Allows to assign a list of AddressableAudioSource to a list of FloorTileType and a list of StepTypes
 /// </summary>
-public class StepSounds : MonoBehaviour
+[CreateAssetMenu(fileName = "StepSound", menuName = "ScriptableObjects/StepSound")]
+public class StepSounds : ScriptableObject
 {
     public List<StepTypes> StepTypes = new List<StepTypes>();
 }

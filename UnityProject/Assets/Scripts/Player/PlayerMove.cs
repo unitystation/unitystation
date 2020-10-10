@@ -80,7 +80,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// <summary>
 	/// The sound the player makes when stepping on different terrain
 	/// </summary>
-	[HideInInspector]
 	public StepSounds StepSounds;
 
 	/// <summary>
