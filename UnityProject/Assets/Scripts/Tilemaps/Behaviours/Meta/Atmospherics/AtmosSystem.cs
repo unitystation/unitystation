@@ -1,32 +1,32 @@
-﻿using System.Diagnostics;
-using System.Threading;
-using Atmospherics;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class AtmosSystem : SubsystemBehaviour
+namespace Systems.Atmospherics
 {
-	public override SystemType SubsystemType => SystemType.AtmosSystem;
-
-	public override void Initialize()
+	public class AtmosSystem : SubsystemBehaviour
 	{
-		BoundsInt bounds = metaTileMap.GetBounds();
+		public override SystemType SubsystemType => SystemType.AtmosSystem;
 
-		foreach (Vector3Int position in bounds.allPositionsWithin)
+		public override void Initialize()
 		{
-			//get toptile at pos to check if it should spawn with no air
-			bool spawnWithNoAir = false;
-			var topTile = metaTileMap.GetTile(position,LayerTypeSelection.Effects | LayerTypeSelection.Underfloor);
-			if (topTile is BasicTile tile)
-			{
-				spawnWithNoAir = tile.SpawnWithNoAir;
-			}
-			MetaDataNode node = metaDataLayer.Get(position, false);
-			node.GasMix = new GasMix( (node.IsRoom||node.IsOccupied) && !spawnWithNoAir ? GasMixes.Air : GasMixes.Space );
-		}
-	}
+			BoundsInt bounds = metaTileMap.GetBounds();
 
-	public override void UpdateAt(Vector3Int localPosition)
-	{
-		AtmosThread.Enqueue(metaDataLayer.Get(localPosition));
+			foreach (Vector3Int position in bounds.allPositionsWithin)
+			{
+				//get toptile at pos to check if it should spawn with no air
+				bool spawnWithNoAir = false;
+				var topTile = metaTileMap.GetTile(position, LayerTypeSelection.Effects | LayerTypeSelection.Underfloor);
+				if (topTile is BasicTile tile)
+				{
+					spawnWithNoAir = tile.SpawnWithNoAir;
+				}
+				MetaDataNode node = metaDataLayer.Get(position, false);
+				node.GasMix = new GasMix((node.IsRoom || node.IsOccupied) && !spawnWithNoAir ? GasMixes.Air : GasMixes.Space);
+			}
+		}
+
+		public override void UpdateAt(Vector3Int localPosition)
+		{
+			AtmosThread.Enqueue(metaDataLayer.Get(localPosition));
+		}
 	}
 }

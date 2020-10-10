@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 1801773235492261439, guid: a599ae33edcae4144b6e89b844f99370,
         type: 3}
       propertyPath: m_Name
-      value: StatueOfJanitor
+      value: StatueOfAJanitor
       objectReference: {fileID: 0}
     - target: {fileID: 1807239759236122853, guid: a599ae33edcae4144b6e89b844f99370,
         type: 3}
@@ -88,6 +88,12 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
+    - target: {fileID: 6580286726358508773, guid: a599ae33edcae4144b6e89b844f99370,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 597d47b5f02ea0f43a6ce7438d240534,
+        type: 2}
     - target: {fileID: 7844425010889767773, guid: a599ae33edcae4144b6e89b844f99370,
         type: 3}
       propertyPath: m_AssetId

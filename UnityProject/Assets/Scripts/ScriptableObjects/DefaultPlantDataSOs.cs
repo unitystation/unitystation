@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using Systems.Botany;
 
 namespace ScriptableObjects
 {
@@ -9,4 +10,3 @@ namespace ScriptableObjects
 		public List<DefaultPlantData> DefaultPlantDatas = new List<DefaultPlantData>();
 	}
 }
-

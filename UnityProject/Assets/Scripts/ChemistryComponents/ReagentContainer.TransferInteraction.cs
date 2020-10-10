@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Chemistry;
 using UnityEngine;
 using UnityEngine.Serialization;
-using UnityEngine.Events;
 
 namespace Chemistry.Components
 {

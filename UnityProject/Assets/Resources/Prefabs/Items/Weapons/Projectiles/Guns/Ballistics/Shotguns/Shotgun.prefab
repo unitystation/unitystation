@@ -16,6 +16,7 @@ MonoBehaviour:
   syncInterval: 0.1
   clothData: {fileID: 11400000, guid: 5136111f1c6795443a96c4b75b3c571b, type: 2}
   variantType: 0
+  hidesSlots: 0
   hideClothingFlags: 0
   SpriteDataSO: []
 --- !u!1001 &5873397258599373563
@@ -103,6 +104,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
       propertyPath: initialName
       value: shotgun
       objectReference: {fileID: 0}
@@ -140,6 +146,12 @@ PrefabInstance:
       propertyPath: hitDamage
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 8669052444454122546, guid: b17740819c0bf4b44a53be1e477dc4d5,
+        type: 3}
+      propertyPath: initialTraits.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: df0bff890a4657e459e7f19e84e47f5d,
+        type: 2}
     - target: {fileID: 8958440777353242636, guid: b17740819c0bf4b44a53be1e477dc4d5,
         type: 3}
       propertyPath: m_Sprite

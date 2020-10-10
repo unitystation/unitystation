@@ -99,7 +99,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   InitialVendorContent:
   - ItemName: Medical Belt
-    Item: {fileID: 6700281191928912403, guid: 0ad6b406825f747548ae2f66be19e5bd, type: 3}
+    Item: {fileID: 7594254446053789778, guid: 5322af238fc4d5747a67640c8e4a400b, type: 3}
     Stock: 4
   - ItemName: Stehoscope
     Item: {fileID: 3961673132676458627, guid: c57257234670e0e44a8b4f2b83801b45, type: 3}
@@ -420,18 +420,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 3
   isSelfPowered: 0
   wattusage: 0.01
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 0
   conType: 1
 --- !u!1 &1905444731887362
 GameObject:
@@ -480,6 +478,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:

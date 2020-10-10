@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public class PlasmaFireReaction : Reaction
 	{

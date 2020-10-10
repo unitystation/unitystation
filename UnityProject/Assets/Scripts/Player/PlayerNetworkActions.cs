@@ -1,19 +1,16 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdminTools;
-using Audio;
 using Items.PDA;
 using UnityEngine;
 using Mirror;
-using UI.PDA;
 using Audio.Containers;
-using DiscordWebhook;
-using InGameEvents;
 using ScriptableObjects;
-using System.Collections;
-using System.Collections.Generic;
 using Antagonists;
+using Systems.Atmospherics;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -180,6 +177,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					restraintOverlay.ServerBeginUnCuffAttempt();
 				}
 			}
+		}else if (playerScript.playerMove.IsTrapped) // Check if trapped.
+		{
+			playerScript.PlayerSync.TryEscapeContainer();
 		}
 	}
 

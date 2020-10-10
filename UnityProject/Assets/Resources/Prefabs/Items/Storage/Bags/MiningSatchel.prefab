@@ -21,6 +21,11 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
       propertyPath: initialDescription
       value: This little bugger can be used to store and transport ores.
       objectReference: {fileID: 0}
@@ -29,6 +34,12 @@ PrefabInstance:
       propertyPath: initialName
       value: mining satchel
       objectReference: {fileID: 0}
+    - target: {fileID: 2945219828330548335, guid: a4904005b4f886143a41a4b3c99a6845,
+        type: 3}
+      propertyPath: initialTraits.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: c84b721fb2f9f6a4b8403046e0c867df,
+        type: 2}
     - target: {fileID: 3225680128402821201, guid: a4904005b4f886143a41a4b3c99a6845,
         type: 3}
       propertyPath: m_Sprite

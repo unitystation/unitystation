@@ -1,6 +1,7 @@
 
 using System;
 using UnityEngine;
+using Objects;
 
 /// <summary>
 /// spatial relationship which fires some logic and ends the relationship

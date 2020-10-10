@@ -3,6 +3,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using NaughtyAttributes;
+using Objects.Construction;
 
 /// <summary>
 /// AI brain specifically trained to explore
@@ -220,8 +221,9 @@ public class MobExplore : MobAgent
 				TryEatTarget(checkPos);
 				break;
 			case Target.dirtyFloor:
-				var floorDecal = registerObj.Matrix.Get<FloorDecal>(checkPos, true).FirstOrDefault(p => p.Cleanable);
-				if(floorDecal != null) floorDecal.TryClean();
+				var matrixInfo = MatrixManager.AtPoint(checkPos, true);
+				var worldPos = MatrixManager.LocalToWorldInt(checkPos, matrixInfo);
+				matrixInfo.MetaDataLayer.Clean(worldPos, checkPos, false);
 				break;
 			case Target.missingFloor:
 				interactableTiles.TileChangeManager.UpdateTile(checkPos, TileType.Floor, "Floor");

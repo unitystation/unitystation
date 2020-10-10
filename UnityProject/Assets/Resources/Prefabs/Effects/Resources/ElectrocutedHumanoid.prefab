@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1560966032627148193}
   - component: {fileID: 1682087833536344853}
+  - component: {fileID: 2583848609479432936}
   - component: {fileID: -6019239046493335571}
   m_Layer: 10
   m_Name: ElectrocutedHumanoid
@@ -47,6 +48,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -82,6 +84,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &2583848609479432936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1558421102126524431}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: e1becc39f77311e45805231f8a1e2299, type: 2}
+  PresentSpriteSet: {fileID: 0}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!114 &-6019239046493335571
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -94,21 +116,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: da6b2b680c7a816499f794469bf8980c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  randomOrder: 0
-  AnimationSpeed: 0.06
-  leftSprites:
-  - {fileID: 21300006, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  - {fileID: 21300014, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  - {fileID: 21300022, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  rightSprites:
-  - {fileID: 21300004, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  - {fileID: 21300012, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  - {fileID: 21300020, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  upSprites:
-  - {fileID: 21300002, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  - {fileID: 21300010, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  - {fileID: 21300018, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  downSprites:
-  - {fileID: 21300000, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  - {fileID: 21300008, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}
-  - {fileID: 21300016, guid: b9edf9cc6069af549b560e77ab42b7c4, type: 3}

@@ -1,9 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using Mirror;
+using Objects;
 
 public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllable
 {
@@ -411,25 +411,36 @@ public partial class PlayerSync : NetworkBehaviour, IPushable, IPlayerControllab
 	/// </summary>
 	private bool didWiggle = false;
 
-	private void TryEscapeContainer()
+	public void TryEscapeContainer()
 	{
 		if (Camera2DFollow.followControl.target.TryGetComponent(out ClosetControl closet))
 		{
-			InteractionUtils.RequestInteract(HandApply.ByLocalPlayer(closet.gameObject), closet);
+			CmdTryEscapeCloset();
 		}
-		else if (Camera2DFollow.followControl.target.TryGetComponent(out Disposals.DisposalVirtualContainer disposalContainer))
+		else if (Camera2DFollow.followControl.target.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
 		{
 			CmdTryEscapeDisposals();
 		}
 	}
 
 	[Command]
+	private void CmdTryEscapeCloset()
+	{
+		if (pushPull?.parentContainer == null) return;
+		GameObject parentContainer = pushPull.parentContainer.gameObject;
+
+		if (parentContainer.TryGetComponent(out ClosetControl closet))
+		{
+			closet.PlayerTryEscaping(gameObject);
+		}
+	}
+	[Command]
 	private void CmdTryEscapeDisposals()
 	{
 		if (pushPull?.parentContainer == null) return;
 		GameObject parentContainer = pushPull.parentContainer.gameObject;
 
-		if (parentContainer.TryGetComponent(out Disposals.DisposalVirtualContainer disposalContainer))
+		if (parentContainer.TryGetComponent(out Objects.Disposals.DisposalVirtualContainer disposalContainer))
 		{
 			disposalContainer.PlayerTryEscaping(gameObject);
 		}
