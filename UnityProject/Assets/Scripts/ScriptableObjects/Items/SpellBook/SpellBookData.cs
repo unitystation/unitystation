@@ -50,10 +50,14 @@ namespace ScriptableObjects.Items.SpellBook
 		private new string name = default;
 		[SerializeField]
 		private string description = default;
+		[Tooltip("Any other info (not including 'Requires wizard garb.')")]
 		[SerializeField]
 		private string note = default;
 		[SerializeField]
 		private int cost = 2;
+		[Tooltip("If this spell is purchased, these listed spells will become unavailable.")]
+		[SerializeField]
+		private SpellBookEntry[] conflictsWith = default;
 
 		public string Name => name;
 		public string Description => description;

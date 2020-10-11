@@ -29,16 +29,17 @@ namespace UI.SpellBook
 			spellLabel.SetValueServer(entry.Name);
 			costLabel.SetValueServer($"Cost: {entry.Cost}");
 			descriptionLabel.SetValueServer(entry.Description);
-			noteLabel.SetValueServer(entry.Note);
 
 			if (entry is SpellBookSpell spellEntry)
 			{
 				cooldownLabel.SetValueServer($"Cooldown: {spellEntry.Cooldown}");
+				noteLabel.SetValueServer(spellEntry.RequiresWizardGarb ? $"Requires wizard garb. {entry.Note}" : entry.Note);
 				buttonLabel.SetValueServer("Learn");
 			}
 			else if (entry is SpellBookArtifact)
 			{
 				cooldownLabel.SetValueServer("");
+				noteLabel.SetValueServer(entry.Note);
 				buttonLabel.SetValueServer("Summon");
 			}
 		}

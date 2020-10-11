@@ -15,7 +15,8 @@ MonoBehaviour:
   categoryList:
   - name: Offensive
     description: Spells and items geared towards debilitating and destroying.
-    entryList: []
+    entryList:
+    - {fileID: 11400000, guid: 5f87294e709ac064080fb911d6c320e4, type: 2}
   - name: Defensive
     description: Spells and items geared towards improving your survivability or
       reducing foes' ability to attack.

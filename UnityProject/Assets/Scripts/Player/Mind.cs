@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using UnityEngine;
 using Mirror;
 using Antagonists;
+using Systems.Spells;
 using Object = UnityEngine.Object;
 
 /// <summary>

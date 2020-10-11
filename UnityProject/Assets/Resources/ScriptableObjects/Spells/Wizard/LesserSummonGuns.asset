@@ -9,34 +9,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 527d04810ffb4855b86689bf64eb71a2, type: 3}
-  m_Name: TeleportSpell
+  m_Script: {fileID: 11500000, guid: d9d639585f97bb841bc468b21539740e, type: 3}
+  m_Name: LesserSummonGuns
   m_EditorClassIdentifier: 
   callOnClient: 0
   callOnServer: 1
-  actionName: Teleport
-  description: This spell teleports you to an area of your selection.
+  actionName: Lesser Summon Guns
+  description: Summons an unending stream of bolt action rifles.
   Sprites:
-  - {fileID: 11400000, guid: aa5e00a0a9338d745a2e73f95d590f6a, type: 2}
+  - {fileID: 11400000, guid: 1ac4be7eddf403d45bc6037a31dfbd01, type: 2}
   Backgrounds:
   - {fileID: 11400000, guid: 8f7b96a7712804949a79f2ec18abee2c, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
-  spellImplementation: {fileID: 7469762742606550612, guid: 400c9a3ef18ca344ba6745843a4e5f15,
+  spellImplementation: {fileID: 7469762742606550612, guid: 751d903cc6682e04ba5dd33466daddab,
     type: 3}
-  stillRechargingMessage: The spell is still recharging
+  stillRechargingMessage: The spell is still recharging!
   chargeType: 0
-  cooldownTime: 60
+  cooldownTime: 75
   startingCharges: 10
   summonType: 0
   summonObjects: []
   summonTiles: []
   summonPosition: 1
-  summonLifespan: 0
+  summonLifespan: 10
   affectedMessage: 
-  castSound: 
-  invocationType: 2
-  invocationMessage: SCYAR NILA!
+  castSound: SummonItemsGeneric
+  invocationType: 0
+  invocationMessage: 
   range: 0
   invocationMessageSelf: 
   replaceExisting: 0
+  requireWizardGarb: 1

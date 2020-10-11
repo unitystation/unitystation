@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using Systems.Spells;
 using ScriptableObjects.Items.SpellBook;
 
 namespace Items.Magical
@@ -50,11 +51,11 @@ namespace Items.Magical
 			if (spellEntry.Cost > Points) return;
 
 			points -= spellEntry.Cost;
-			var player = netTab.LastInteractedPlayer();
-			var playerScript = player.GetComponent<PlayerScript>();
-			var spell = spellEntry.Spell.AddToPlayer(playerScript);
-			var mind = playerScript.mind;
-			mind.AddSpell(spell);
+			var player = netTab.LastInteractedPlayer().Player();
+			Chat.AddChatMsgToChat(player, spellEntry.Incantation, ChatChannel.Local);
+
+			Spell spell = spellEntry.Spell.AddToPlayer(player.Script);
+			player.Script.mind.AddSpell(spell);
 		}
 
 		public void SpawnArtifacts(SpellBookArtifact artifactEntry)
@@ -62,7 +63,6 @@ namespace Items.Magical
 			if (artifactEntry.Cost > Points) return;
 
 			var playerScript = netTab.LastInteractedPlayer().Player().Script;
-
 			var spawnResult = Spawn.ServerPrefab(dropPodPrefab, playerScript.WorldPos);
 			if (spawnResult.Successful)
 			{

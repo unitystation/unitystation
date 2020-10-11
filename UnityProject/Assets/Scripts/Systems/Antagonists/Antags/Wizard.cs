@@ -6,11 +6,10 @@ namespace Antagonists
 	public class Wizard : Antagonist
 	{
 		[Tooltip("How many random spells the wizard should start with.")]
-		public int startingSpellCount = 1;
+		[SerializeField]
+		private int startingSpellCount = 0;
 
-		[Tooltip("For use in Syndicate Uplinks")]
-		public int startingMagicPoints = 3;
-
+		public int StartingSpellCount => startingSpellCount;
 
 		public override GameObject ServerSpawn(PlayerSpawnRequest spawnRequest)
 		{

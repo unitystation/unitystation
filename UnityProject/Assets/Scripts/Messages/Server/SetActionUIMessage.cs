@@ -1,6 +1,8 @@
 ﻿using System;
 using Mirror;
 using UnityEngine;
+using Systems.Spells;
+using ScriptableObjects.Systems.Spells;
 
 /// <summary>
 /// ues to set ActionUI For a client

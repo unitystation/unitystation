@@ -2,6 +2,7 @@
 using UnityEngine;
 using Mirror;
 using Systems.Spells.Wizard;
+using ScriptableObjects.Systems.Spells;
 
 namespace Items.Scrolls.TeleportScroll
 {
@@ -39,7 +40,14 @@ namespace Items.Scrolls.TeleportScroll
 
 			Transform spawnTransform = PlayerSpawn.GetSpawnForJob((JobType)destination);
 			teleport.ServerTeleportWizard(teleportingPlayer, spawnTransform.position.CutToInt());
-			Chat.AddChatMsgToChat(teleportingPlayer.Player(), $"SCYAR NILA {destination.ToString().ToUpper()}!", ChatChannel.Local);
+
+			SpellData teleportSpell = SpellList.Instance.Spells.Find(spell => spell.Name == "Teleport");
+
+			SoundManager.PlayNetworkedAtPos(
+					teleportSpell.CastSound, teleportingPlayer.Player().Script.WorldPos, sourceObj: teleportingPlayer);
+
+			var incantation = $"{teleportSpell.InvocationMessage.Trim('!')} {destination.ToString().ToUpper()}!";
+			Chat.AddChatMsgToChat(teleportingPlayer.Player(), incantation, ChatChannel.Local);
 
 			ChargesRemaining--;
 		}
