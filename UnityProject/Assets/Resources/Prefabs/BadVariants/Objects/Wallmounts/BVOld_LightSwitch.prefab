@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 21
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300000, guid: e5190e92b1300c449b22db8ea3f4f37d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -103,7 +104,7 @@ GameObject:
   - component: {fileID: 8711263746210110711}
   - component: {fileID: -2046554790018608125}
   m_Layer: 19
-  m_Name: LightSwitch
+  m_Name: BVOld_LightSwitch
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -201,7 +202,7 @@ MonoBehaviour:
   isOn: 1
   coolDownTime: 2
   sprites:
-  - {fileID: 21300000, guid: 78c7a580cdf74bc4a8f85b744365253a, type: 3}
+  - {fileID: 21300000, guid: e5190e92b1300c449b22db8ea3f4f37d, type: 3}
   - {fileID: 21300000, guid: 78c7a580cdf74bc4a8f85b744365253a, type: 3}
   spriteRenderer: {fileID: 212000013332854840}
   conType: 6
@@ -335,18 +336,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 220
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 600
+  minimumWorkingVoltage: 220
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 600
   deviceType: 6
   isSelfPowered: 0
   wattusage: 10
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 2
   conType: 1
 --- !u!114 &-2046554790018608125
 MonoBehaviour:

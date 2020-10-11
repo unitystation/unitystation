@@ -13,18 +13,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fuel: {fileID: 11400000, guid: f4f9cca4ec6d74752a99cdbf95072489, type: 2}
---- !u!114 &2051916833606864452
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3385388350690225477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 06ef005744ea48f4ba47888c2c597331, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &-3161837320660021535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -49,6 +37,18 @@ MonoBehaviour:
   OnPullingSomethingChangedServer:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &2051916833606864452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3385388350690225477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06ef005744ea48f4ba47888c2c597331, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1367330309203123925
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -143,6 +143,12 @@ PrefabInstance:
       propertyPath: initialName
       value: fuel tank
       objectReference: {fileID: 0}
+    - target: {fileID: 9102368241754052938, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fb160ed9eddec4f4b8978f1638982bfa,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39da184d881f73c48b25ae5921795c55, type: 3}
 --- !u!1 &3385388350690225477 stripped
