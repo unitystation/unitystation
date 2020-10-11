@@ -531,6 +531,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	{
 		if (serverState.Active)
 		{
+			if (!registerTile) registerTile = this.GetComponent<RegisterTile>();
 			registerTile.UpdatePositionServer();
 		}
 		else

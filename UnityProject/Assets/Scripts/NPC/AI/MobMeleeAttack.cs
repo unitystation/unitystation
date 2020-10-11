@@ -46,7 +46,7 @@ public class MobMeleeAttack : MobFollow
 		base.OnEnable();
 		playersLayer = LayerMask.NameToLayer("Players");
 		npcLayer = LayerMask.NameToLayer("NPC");
-		checkMask = LayerMask.GetMask("Players", "NPC", "Windows", "Objects");
+		checkMask = LayerMask.GetMask("Players", "NPC", "Objects");
 		mobAI = GetComponent<MobAI>();
 	}
 
@@ -88,20 +88,20 @@ public class MobMeleeAttack : MobFollow
 			}
 
 			var dirToTarget = (followTarget.position - transform.position).normalized;
-			RaycastHit2D hitInfo =
-				Physics2D.Linecast(transform.position + dirToTarget, followTarget.position, checkMask);
+			var hitInfo =
+				MatrixManager.Linecast(transform.position + dirToTarget, LayerTypeSelection.Windows , checkMask,followTarget.position);
 			//	Debug.DrawLine(transform.position + dirToTarget, followTarget.position, Color.blue, 10f);
-			if (hitInfo.collider != null)
+			if (hitInfo.CollisionHit.GameObject != null)
 			{
-				if (Vector3.Distance(transform.position, hitInfo.point) < 1.5f)
+				if (Vector3.Distance(transform.position, hitInfo.TileHitWorld) < 1.5f)
 				{
-					var dir = ((Vector3) hitInfo.point - transform.position).normalized;
+					var dir = (hitInfo.TileHitWorld - transform.position).normalized;
 
 					//Only hit target
 					if (onlyHitTarget)
 					{
-						var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
-						if (hitInfo.transform != followTarget || healthBehaviour.IsDead)
+						var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
+						if (hitInfo.CollisionHit.GameObject.transform != followTarget || healthBehaviour.IsDead)
 						{
 							return false;
 						}
@@ -113,9 +113,9 @@ public class MobMeleeAttack : MobFollow
 					}
 
 					//What to do with player hit?
-					if (hitInfo.transform.gameObject.layer == playersLayer)
+					if (hitInfo.CollisionHit.GameObject.transform.gameObject.layer == playersLayer)
 					{
-						var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
+						var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
 						if (healthBehaviour.IsDead)
 						{
 							return false;
@@ -125,11 +125,11 @@ public class MobMeleeAttack : MobFollow
 
 						if (followTarget.gameObject.layer == playersLayer)
 						{
-							if (followTarget != hitInfo.transform)
+							if (followTarget != hitInfo.CollisionHit.GameObject.transform)
 							{
 								if (targetOtherPlayersWhoGetInWay)
 								{
-									followTarget = hitInfo.transform;
+									followTarget = hitInfo.CollisionHit.GameObject.transform;
 								}
 							}
 						}
@@ -138,9 +138,9 @@ public class MobMeleeAttack : MobFollow
 					}
 
 					//What to do with NPC hit?
-					if (hitInfo.transform.gameObject.layer == npcLayer)
+					if (hitInfo.CollisionHit.GameObject.transform.gameObject.layer == npcLayer)
 					{
-						var mobAi = hitInfo.transform.GetComponent<MobAI>();
+						var mobAi = hitInfo.CollisionHit.GameObject.transform.GetComponent<MobAI>();
 						if (mobAi != null && mobAI != null)
 						{
 							if (mobAi.mobName.Equals(mobAI.mobName, StringComparison.OrdinalIgnoreCase))
@@ -149,7 +149,7 @@ public class MobMeleeAttack : MobFollow
 							}
 						}
 
-						var healthBehaviour = hitInfo.transform.GetComponent<LivingHealthBehaviour>();
+						var healthBehaviour = hitInfo.CollisionHit.GameObject.transform.GetComponent<LivingHealthBehaviour>();
 						if (healthBehaviour != null)
 						{
 							if (healthBehaviour.IsDead) return false;
@@ -166,7 +166,7 @@ public class MobMeleeAttack : MobFollow
 						return false;
 					}
 
-					AttackTile(hitInfo.point.RoundToInt(), dir);
+					AttackTile(hitInfo.TileHitWorld.RoundToInt(), dir);
 					return true;
 				}
 			}

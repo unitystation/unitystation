@@ -15,7 +15,7 @@ public class ConeOfSight : MonoBehaviour
 	/// Provide the direction to look and
 	/// include the layers you want to test for in the hitMask
 	/// </summary>
-	public List<Collider2D> GetObjectsInSight(LayerMask hitMask, Vector2 direction, float lengthOfSight,
+	public List<MatrixManager.CollisionHit> GetObjectsInSight(LayerMask hitMask,LayerTypeSelection hitLayers , Vector2 direction, float lengthOfSight,
 		int rayCount = 5)
 	{
 		var angleOfDir = Vector3.Angle(direction, transform.up);
@@ -26,7 +26,7 @@ public class ConeOfSight : MonoBehaviour
 		}
 
 		var offsetDegrees = fieldOfView / 2f;
-		List<Collider2D> hitColls = new List<Collider2D>();
+		List<MatrixManager.CollisionHit> hitColls = new List<MatrixManager.CollisionHit>();
 
 		for (int i = 0; i < rayCount; i++)
 		{
@@ -34,11 +34,11 @@ public class ConeOfSight : MonoBehaviour
 			var offset = Mathf.Lerp(-offsetDegrees, offsetDegrees, step);
 			var castDir = (Quaternion.AngleAxis(-angleOfDir, Vector3.forward) * Quaternion.Euler(0,0, -offset)) * Vector3.up;
 
-			RaycastHit2D hit = Physics2D.Raycast(transform.position + castDir, castDir, lengthOfSight, hitMask);
+			var hit = MatrixManager.RayCast(transform.position + castDir, castDir, lengthOfSight, hitLayers, hitMask);
 			// Debug.DrawRay(transform.position, castDir, Color.blue, 10f);
-			if (hit.collider != null)
+			if (hit.ItHit)
 			{
-				hitColls.Add(hit.collider);
+				hitColls.Add(hit.CollisionHit);
 			}
 		}
 
@@ -50,7 +50,7 @@ public class ConeOfSight : MonoBehaviour
 	/// A world position is returned. It is advisable to use this
 	/// with matrix manager so all matricies are considered
 	/// </summary>
-	public Vector2 GetFurthestPositionInSight(Vector2 originWorldPos, LayerMask hitMask, Vector2 direction, float lengthOfSight,
+	public Vector2 GetFurthestPositionInSight(Vector2 originWorldPos,LayerTypeSelection layerMask, LayerMask hitMask, Vector2 direction, float lengthOfSight,
 		int rayCount = 5)
 	{
 		var angleOfDir = Vector3.Angle(direction, transform.up);
@@ -65,17 +65,17 @@ public class ConeOfSight : MonoBehaviour
 		var furthestPoint = Vector2.zero;
 
 		//First see how far the initial direction is
-		RaycastHit2D dirHit = Physics2D.Raycast(originWorldPos, direction, lengthOfSight, hitMask);
+		var  dirHit = MatrixManager.RayCast(originWorldPos, direction, lengthOfSight, layerMask , hitMask);
 	//	Debug.DrawRay(originWorldPos, direction, Color.red, 10f);
-		if (dirHit.collider == null)
+		if (dirHit.ItHit == false)
 		{
 			furthestDist = lengthOfSight;
 			furthestPoint = originWorldPos + ((direction * lengthOfSight) - direction);
 		}
 		else
 		{
-			furthestDist = dirHit.distance;
-			furthestPoint = originWorldPos + ((direction * dirHit.distance) - direction);
+			furthestDist = dirHit.Distance;
+			furthestPoint = originWorldPos + ((direction * dirHit.Distance) - direction);
 		}
 
 		//now test all rays in the cone of sight:
@@ -86,15 +86,15 @@ public class ConeOfSight : MonoBehaviour
 
 			var castDir = (Quaternion.AngleAxis(-angleOfDir, Vector3.forward) * Quaternion.Euler(0,0, -offset)) * Vector3.up;
 
-			RaycastHit2D hit = Physics2D.Raycast(originWorldPos, castDir, lengthOfSight, hitMask);
+			var hit = MatrixManager.RayCast(originWorldPos, castDir, lengthOfSight, layerMask, hitMask);
 		//	Debug.DrawRay(originWorldPos, castDir, Color.blue, 10f);
-			if (hit.collider != null)
+			if (hit.ItHit)
 			{
-				if (hit.distance > furthestDist)
+				if (hit.Distance > furthestDist)
 				{
 					//this ray is longer, calculate the general position:
-					furthestDist = hit.distance;
-					furthestPoint = originWorldPos + (Vector2)((castDir * hit.distance) - (castDir * 1.5f));
+					furthestDist = hit.Distance;
+					furthestPoint = originWorldPos + (Vector2)((castDir * hit.Distance) - (castDir * 1.5f));
 				}
 			}
 		}

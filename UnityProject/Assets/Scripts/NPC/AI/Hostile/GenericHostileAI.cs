@@ -44,7 +44,7 @@ namespace NPC
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			hitMask = LayerMask.GetMask("Walls", "Players");
+			hitMask = LayerMask.GetMask( "Players");
 			playersLayer = LayerMask.NameToLayer("Players");
 			mobMeleeAttack = GetComponent<MobMeleeAttack>();
 			coneOfSight = GetComponent<ConeOfSight>();
@@ -100,17 +100,17 @@ namespace NPC
 		/// <returns>Gameobject of the first player it found</returns>
 		protected virtual GameObject SearchForTarget()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, dirSprites.CurrentFacingDirection, 10f, 20);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
 			if (hits.Count == 0)
 			{
 				return null;
 			}
 
-			foreach (Collider2D coll in hits)
+			foreach (var coll in hits)
 			{
-				if (coll.gameObject.layer == playersLayer)
+				if (coll.GameObject != null && coll.GameObject.layer == playersLayer)
 				{
-					return coll.gameObject;
+					return coll.GameObject;
 				}
 			}
 

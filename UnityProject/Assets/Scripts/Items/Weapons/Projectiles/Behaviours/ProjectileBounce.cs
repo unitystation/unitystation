@@ -34,17 +34,17 @@ namespace Weapons.Projectiles.Behaviours
 			this.targetZone = targetZone;
 		}
 
-		public bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
+		public bool Interact(MatrixManager.CustomPhysicsHit hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
 			if (CheckConditions(hit, interactableTiles, worldPosition) == false) return true;
 
-			movingProjectile.position = hit.point;
+			movingProjectile.position = hit.HitWorld;
 			RotateBullet(GetNewDirection(hit));
 
 			return IsCountReached();
 		}
 
-		private bool CheckConditions(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
+		private bool CheckConditions(MatrixManager.CustomPhysicsHit hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
 			return hitInteractTileConditions.Conditions.Any(condition => condition.CheckCondition(hit, interactableTiles, worldPosition));
 		}
@@ -55,9 +55,9 @@ namespace Weapons.Projectiles.Behaviours
 			bullet.WillHurtShooter = true;
 		}
 
-		private Vector2 GetNewDirection(RaycastHit2D hit)
+		private Vector2 GetNewDirection(MatrixManager.CustomPhysicsHit hit)
 		{
-			var normal = hit.normal;
+			var normal = hit.Normal;
 			var newDirection = direction - 2 * (direction * normal) * normal;
 			return newDirection;
 		}

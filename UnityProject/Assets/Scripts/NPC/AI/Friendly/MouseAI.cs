@@ -74,7 +74,7 @@ namespace NPC
 			var matrix = metaTileMap.Layers[LayerType.Underfloor].matrix;
 
 			// Check if the floor plating is exposed.
-			if (metaTileMap.HasTile(registerObject.LocalPosition, LayerType.Floors, true)) return;
+			if (metaTileMap.HasTile(registerObject.LocalPosition, LayerType.Floors)) return;
 
 			// Check if there's cables at this position
 			var cables = matrix.GetElectricalConnections(registerObject.LocalPosition);

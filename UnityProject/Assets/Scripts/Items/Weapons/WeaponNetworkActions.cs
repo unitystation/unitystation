@@ -2,6 +2,7 @@
 using UnityEngine;
 using Utility = UnityEngine.Networking.Utility;
 using Mirror;
+using TileManagement;
 using Weapons;
 
 public class WeaponNetworkActions : ManagedNetworkBehaviour

@@ -8,6 +8,6 @@ namespace ScriptableObjects.Gun
 	/// </summary>
 	public abstract class HitProcessor : ScriptableObject
 	{
-		public abstract bool ProcessHit(RaycastHit2D hit, IOnHit[] behavioursOnBulletHit);
+		public abstract bool ProcessHit(MatrixManager.CustomPhysicsHit hit, IOnHit[] behavioursOnBulletHit);
 	}
 }

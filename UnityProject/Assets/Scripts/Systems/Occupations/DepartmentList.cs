@@ -14,7 +14,7 @@ public class DepartmentList : SingletonScriptableObject<DepartmentList>
 	[SerializeField]
 	[Tooltip("Allowed departments, and the order in which they should be displayed in" +
 	         " job preferences.")]
-	private Department[] departments = null;
+	private  List<Department> departments = new List<Department>();
 	public IEnumerable<Department> Departments => departments;
 
 	/// <summary>

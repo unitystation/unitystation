@@ -27,7 +27,7 @@ public partial class MatrixManager
 	public List<MatrixIntersection> TrackedIntersections => trackedIntersections;
 
 	private static LayerType[] layersToRemove = { LayerType.Effects };
-	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills, LayerType.Objects };
+	private static LayerType[] effectsToRemove = { LayerType.Effects, LayerType.Grills};
 
 	private void InitCollisions(MatrixInfo matrixInfo)
 	{
@@ -391,6 +391,7 @@ public partial class MatrixManager
 			{
 				foreach ( var damageableLayer in matrix.MetaTileMap.LayersValues )
 				{
+					if (damageableLayer.LayerType == LayerType.Objects) continue;
 					matrix.TileChangeManager.RemoveTile( cellPos, damageableLayer.LayerType);
 				}
 			}

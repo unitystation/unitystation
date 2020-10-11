@@ -33,7 +33,7 @@ namespace NPC
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			mobMask = LayerMask.GetMask("Walls", "NPC");
+			mobMask = LayerMask.GetMask( "NPC");
 			coneOfSight = GetComponent<ConeOfSight>();
 		}
 
@@ -191,13 +191,15 @@ namespace NPC
 
 		CatAI AnyCatsNearby()
 		{
-			var hits = coneOfSight.GetObjectsInSight(mobMask, dirSprites.CurrentFacingDirection, 10f, 5);
-			foreach (Collider2D coll in hits)
+			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls , dirSprites.CurrentFacingDirection, 10f, 5);
+			foreach (var coll in hits)
 			{
-				if (coll.gameObject != gameObject && coll.gameObject.GetComponent<CatAI>() != null
-				                                  && !coll.gameObject.GetComponent<LivingHealthBehaviour>().IsDead)
+				if (coll.GameObject == null) continue;
+
+				if (coll.GameObject != gameObject && coll.GameObject.GetComponent<CatAI>() != null
+				                                  && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead)
 				{
-					return coll.gameObject.GetComponent<CatAI>();
+					return coll.GameObject.GetComponent<CatAI>();
 				}
 			}
 			return null;
@@ -212,7 +214,7 @@ namespace NPC
 			//Make the cat flee!
 			cat.RunFromDog(gameObject.transform);
 			FollowTarget(cat.gameObject.transform, 5f);
-			RandomBarks();
+			StartCoroutine(RandomBarks());
 		}
 
 		protected override void DoRandomAction()
