@@ -57,6 +57,9 @@ namespace Systems.Spells
 		{
 			Cooldowns.TryStartServer(sentByPlayer.Script, SpellData, SpellData.CooldownTime);
 
+			SoundManager.PlayNetworkedAtPos(
+					SpellData.CastSound, sentByPlayer.Script.WorldPos, sourceObj: sentByPlayer.GameObject, global: false);
+
 			if (SpellData.InvocationType != SpellInvocationType.None)
 			{
 				string modPrefix = String.Empty;

@@ -15,9 +15,7 @@ MonoBehaviour:
   name: Teleport
   description: Instantly teleports a space wizard to any location he pleases, as
     long as it is within range (the same matrix).
-  note: Requires wizard garb.
+  note: 
   cost: 2
   conflictsWith: []
-  cooldown: 60
-  incantation: SCYAR NILA!
   spell: {fileID: 11400000, guid: 6869a5f7da49b8047ad59e04972fcf2a, type: 2}

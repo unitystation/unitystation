@@ -14,15 +14,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   antagName: Wizard
   antagJobType: 54
-  playSound: 0
-  spawnSound: Notice1
+  playSound: 1
+  spawnSound: AmbiGen7
   textColor: {r: 0.35686275, g: 0.7254902, b: 0.9686275, a: 1}
   backgroundColor: {r: 0.25882354, g: 0.33333334, b: 0.46274513, a: 1}
   numberOfObjectives: 2
   canUseSharedObjectives: 0
-  needsEscapeObjective: 1
-  coreObjectives: []
+  needsEscapeObjective: 0
+  coreObjectives:
+  - {fileID: 11400000, guid: 62560f1cff23ba84b9fe8e661f199730, type: 2}
+  - {fileID: 11400000, guid: 62560f1cff23ba84b9fe8e661f199730, type: 2}
+  - {fileID: 11400000, guid: 180a8d8c464973b4ebcf1d9778e8b895, type: 2}
+  - {fileID: 11400000, guid: 180a8d8c464973b4ebcf1d9778e8b895, type: 2}
   antagOccupation: {fileID: 11400000, guid: 191fa13b4d14221479bf108a4c9628fa, type: 2}
   showInPreferences: 1
   startingSpellCount: 1
-  startingMagicPoints: 3

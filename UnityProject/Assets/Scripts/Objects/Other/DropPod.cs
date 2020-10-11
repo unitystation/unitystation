@@ -78,6 +78,7 @@ namespace Objects
 			if (isLanding)
 			{
 				StartCoroutine(RunLandingSequence());
+				StartCoroutine(DelayLandingSFX());
 			}
 		}
 
@@ -115,6 +116,12 @@ namespace Objects
 			Explosion.StartExplosion(registerObject.LocalPosition, EXPLOSION_STRENGTH, matrixInfo.Matrix);
 
 			isLanding = false;
+		}
+
+		private IEnumerator DelayLandingSFX()
+		{
+			yield return WaitFor.Seconds(TRAVEL_TIME - 1);
+			SoundManager.PlayAtPosition("RocketLand", WorldPosition, sourceObj: gameObject);
 		}
 	}
 }
