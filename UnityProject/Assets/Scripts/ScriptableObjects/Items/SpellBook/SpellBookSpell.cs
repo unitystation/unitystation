@@ -12,14 +12,11 @@ namespace ScriptableObjects.Items.SpellBook
 	public sealed class SpellBookSpell : SpellBookEntry
 	{
 		[SerializeField]
-		private int cooldown = default;
-		[SerializeField]
-		private string incantation = default;
-		[SerializeField]
-		private SpellData spell = default;
+		private WizardSpellData spell = default;
 		
-		public int Cooldown => cooldown;
-		public string Incantation => incantation;
+		public float Cooldown => spell.CooldownTime;
+		public string Incantation => spell.InvocationMessage;
+		public bool RequiresWizardGarb => spell.RequiresWizardGarb;
 		public SpellData Spell => spell;
 	}
 }
