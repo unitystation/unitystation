@@ -1,11 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Systems.Electricity;
 using Lighting;
 using NUnit.Framework;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Objects.Engineering;
 
 namespace Tests
 {

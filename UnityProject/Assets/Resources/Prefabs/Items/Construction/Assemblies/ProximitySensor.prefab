@@ -9,6 +9,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
         type: 3}
+      propertyPath: initialTraits.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4103797577536159389, guid: 201d4b5714989d64d86b11da761ecb15,
+        type: 3}
       propertyPath: initialDescription
       value: Used for scanning and alerting when someone enters a certain proximity.
       objectReference: {fileID: 0}

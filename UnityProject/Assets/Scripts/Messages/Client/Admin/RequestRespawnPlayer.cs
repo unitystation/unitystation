@@ -24,7 +24,8 @@ namespace Messages.Client.Admin
 			if (deadPlayer == null || deadPlayer.Script == null) return;
 
 			//Wasn't so dead, let's kill them
-			if (deadPlayer.Script.playerHealth.IsDead == false)
+			if (deadPlayer.Script.playerHealth != null &&
+			    deadPlayer.Script.playerHealth.IsDead == false)
 			{
 				deadPlayer.Script.playerHealth.ApplyDamage(
 					player,

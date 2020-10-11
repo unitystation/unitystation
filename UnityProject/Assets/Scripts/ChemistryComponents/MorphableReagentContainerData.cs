@@ -4,40 +4,43 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 
-[System.Serializable]
-public class ContainerCustomSprite
+namespace Chemistry.Components
 {
-	public string CustomName;
-	[TextArea]
-	public string CustomDescription = "";
-	public Sprite MainSprite;
-}
-
-[System.Serializable]
-public class DictionaryReagentCustomSprite
-	: SerializableDictionary<Chemistry.Reagent, ContainerCustomSprite>
-{
-
-}
-
-[CreateAssetMenu(fileName = "morphable container", menuName = "ScriptableObjects/Chemistry/MorphableContainerData")]
-public class MorphableReagentContainerData : ScriptableObject
-{
-	[SerializeField]
-	private DictionaryReagentCustomSprite spritesData = new DictionaryReagentCustomSprite();
-
-	public ContainerCustomSprite Get(Chemistry.Reagent reagent)
+	[System.Serializable]
+	public class ContainerCustomSprite
 	{
-		if (spritesData.ContainsKey(reagent))
-			return spritesData[reagent];
-
-		return null;
+		public string CustomName;
+		[TextArea]
+		public string CustomDescription = "";
+		public Sprite MainSprite;
 	}
 
-	public ContainerCustomSprite Get(int reagentNameHash)
+	[System.Serializable]
+	public class DictionaryReagentCustomSprite
+		: SerializableDictionary<Chemistry.Reagent, ContainerCustomSprite>
 	{
-		var pair = spritesData.FirstOrDefault((p) =>
-			p.Key.Name.GetStableHashCode() == reagentNameHash);
-		return pair.Value;
+
+	}
+
+	[CreateAssetMenu(fileName = "morphable container", menuName = "ScriptableObjects/Chemistry/MorphableContainerData")]
+	public class MorphableReagentContainerData : ScriptableObject
+	{
+		[SerializeField]
+		private DictionaryReagentCustomSprite spritesData = new DictionaryReagentCustomSprite();
+
+		public ContainerCustomSprite Get(Chemistry.Reagent reagent)
+		{
+			if (spritesData.ContainsKey(reagent))
+				return spritesData[reagent];
+
+			return null;
+		}
+
+		public ContainerCustomSprite Get(int reagentNameHash)
+		{
+			var pair = spritesData.FirstOrDefault((p) =>
+				p.Key.Name.GetStableHashCode() == reagentNameHash);
+			return pair.Value;
+		}
 	}
 }

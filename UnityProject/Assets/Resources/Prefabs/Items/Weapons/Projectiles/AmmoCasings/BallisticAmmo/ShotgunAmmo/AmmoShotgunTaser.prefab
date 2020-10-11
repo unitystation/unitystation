@@ -7,11 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -4441519557137854397, guid: b564e5d916b891446903adc342af08bd,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 8503226174470518201, guid: 706335ffb89baf6489ccf920550be6f2,
+        type: 3}
     - target: {fileID: 2361978366132242104, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 0989b29305ea27f4c952fcbb65e7ad0a,
+      objectReference: {fileID: 11400000, guid: 1647040a37e5fdf4c91e4939cf0f130d,
         type: 2}
     - target: {fileID: 8317281327444857437, guid: b564e5d916b891446903adc342af08bd,
         type: 3}
@@ -92,7 +98,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: bcba333d957893f47a2298e8fe6b35a8,
+      objectReference: {fileID: 21300000, guid: 3c9cb7674ea2ad246ba575158a693579,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b564e5d916b891446903adc342af08bd, type: 3}

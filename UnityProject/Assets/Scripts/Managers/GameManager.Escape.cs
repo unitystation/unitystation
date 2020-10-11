@@ -1,8 +1,7 @@
-
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
+using Objects.Wallmounts;
 
 /// <summary>
 /// Escape-related part of GameManager

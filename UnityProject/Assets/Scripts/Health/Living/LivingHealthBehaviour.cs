@@ -2,12 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Atmospherics;
-using GameConfig;
+using Systems.Atmospherics;
 using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
-using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using UnityEngine.Profiling;
 

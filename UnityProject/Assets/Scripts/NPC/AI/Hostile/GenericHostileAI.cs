@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Doors;
 using Random = UnityEngine.Random;
 
 namespace NPC

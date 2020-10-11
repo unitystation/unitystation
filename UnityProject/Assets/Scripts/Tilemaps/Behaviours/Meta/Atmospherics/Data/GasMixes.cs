@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public static class GasMixes
 	{

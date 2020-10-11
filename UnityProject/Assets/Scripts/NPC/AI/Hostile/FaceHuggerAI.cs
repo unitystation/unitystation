@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Clothing;
 using NPC.AI;
 using UnityEngine;
+using Doors;
 using Random = UnityEngine.Random;
 
 namespace NPC
