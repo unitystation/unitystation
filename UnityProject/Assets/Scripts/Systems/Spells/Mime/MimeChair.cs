@@ -1,6 +1,7 @@
-
 using System.Linq;
 using Objects;
+using Systems.Spells;
+using ScriptableObjects.Systems.Spells;
 
 namespace Spells
 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using ScriptableObjects.Systems.Spells;
 
 namespace ScriptableObjects.Items.SpellBook
 {
