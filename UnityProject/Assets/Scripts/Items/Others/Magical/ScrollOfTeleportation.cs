@@ -46,7 +46,7 @@ namespace Items.Scrolls.TeleportScroll
 			SoundManager.PlayNetworkedAtPos(
 					teleportSpell.CastSound, teleportingPlayer.Player().Script.WorldPos, sourceObj: teleportingPlayer);
 
-			var incantation = teleportSpell.InvocationMessage.Trim('!') + destination.ToString().ToUpper() + "!";
+			var incantation = $"{teleportSpell.InvocationMessage.Trim('!')} {destination.ToString().ToUpper()}!";
 			Chat.AddChatMsgToChat(teleportingPlayer.Player(), incantation, ChatChannel.Local);
 
 			ChargesRemaining--;

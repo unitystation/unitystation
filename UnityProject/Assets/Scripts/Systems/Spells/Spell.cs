@@ -1,8 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using Mirror;
 using ScriptableObjects.Systems.Spells;
 
 namespace Systems.Spells
@@ -12,7 +12,7 @@ namespace Systems.Spells
 	/// </summary>
 	[Serializable]
 	[DisallowMultipleComponent]
-	public class Spell : MonoBehaviour, IActionGUI
+	public class Spell : NetworkBehaviour, IActionGUI
 	{
 		private SpellData spellData = null;
 		public SpellData SpellData {
