@@ -2,6 +2,8 @@
 ---
 
 
+* 2020/10/12: Fixed being able to remove powered light blubs with no gloves on. by [ThatDan123](https://github.com/ThatDan123) in PR #[5293](https://github.com/unitystation/unitystation/pull/5293)
+* 2020/10/12: Fixed captains gloves not allowing you to remove powered light bulbs. by [ThatDan123](https://github.com/ThatDan123) in PR #[5293](https://github.com/unitystation/unitystation/pull/5293)
 * 2020/10/12: Fixes Random Sickness Events by [ThatDan123](https://github.com/ThatDan123) in PR #[5294](https://github.com/unitystation/unitystation/pull/5294)
 * 2020/10/12: Adds wizard spells Lesser Summon Guns and Blink. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5286](https://github.com/unitystation/unitystation/pull/5286)
 * 2020/10/10: Adds wizardry. "A wizard is never late, nor is he early. He arrives precisely when he needs to." by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5274](https://github.com/unitystation/unitystation/pull/5274)
