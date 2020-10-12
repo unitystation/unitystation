@@ -13,7 +13,37 @@ namespace UI.Core.Radial
 		protected RectTransform upperMask;
 
 		private T lowerMaskItem;
-	    private T upperMaskItem;
+
+		private T upperMaskItem;
+
+	    private float totalRotation;
+
+	    protected float TotalRotation
+	    {
+		    get => totalRotation;
+		    private set => totalRotation = Mathf.Max(0, Mathf.Min(value, MaxIndexAngle));
+	    }
+
+	    private int CurrentIndex { get; set; }
+
+	    public Action<T> OnIndexChanged { get; set; }
+
+	    public float NearestItemAngle
+	    {
+		    get
+		    {
+			    var angle = TotalRotation % ItemArcAngle;
+			    return angle >= ItemArcAngle / 2 ? angle - ItemArcAngle : angle;
+		    }
+	    }
+
+	    protected T LowerMaskItem => InitOrGetMaskItem(ref lowerMaskItem, lowerMask, 0);
+
+	    protected T UpperMaskItem => InitOrGetMaskItem(ref upperMaskItem, upperMask, 1);
+
+	    protected int MaxIndex => TotalItemCount - ShownItemsCount;
+
+	    protected float MaxIndexAngle => MaxIndex * ItemArcAngle;
 
 	    private T InitOrGetMaskItem(ref T maskItem, RectTransform parent, int index)
 	    {
@@ -25,35 +55,6 @@ namespace UI.Core.Radial
 		    }
 
 		    return maskItem;
-	    }
-
-	    protected T LowerMaskItem => InitOrGetMaskItem(ref lowerMaskItem, lowerMask, 0);
-
-	    protected T UpperMaskItem => InitOrGetMaskItem(ref upperMaskItem, upperMask, 1);
-
-	    public Action<T> OnIndexChanged { get; set; }
-
-	    protected int MaxIndex => TotalItemCount - ShownItemsCount;
-
-	    protected float MaxIndexAngle => MaxIndex * ItemArcAngle;
-
-	    public int CurrentIndex { get; private set; }
-
-	    private float totalRotation;
-
-	    protected float TotalRotation
-	    {
-		    get => totalRotation;
-		    private set => totalRotation = Mathf.Max(0, Mathf.Min(value, MaxIndexAngle));
-	    }
-
-	    public float NearestItemAngle
-	    {
-		    get
-		    {
-			    var angle = TotalRotation % ItemArcAngle;
-			    return angle >= ItemArcAngle / 2 ? angle - ItemArcAngle : angle;
-		    }
 	    }
 
 	    public override void Setup(int itemCount)

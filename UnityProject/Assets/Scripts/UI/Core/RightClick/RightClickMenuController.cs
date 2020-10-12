@@ -33,9 +33,14 @@ namespace UI.Core.RightClick
 	    private float snapTime = default;
 
 	    private ItemRadial itemRadial;
+
 	    private ActionRadial actionRadial;
 
 	    private List<RightClickMenuItem> Items { get; set; }
+
+	    private float SnapStartTime { get; set; }
+
+	    private float SnapRotation { get; set; }
 
 	    private ItemRadial ItemRadial
 	    {
@@ -72,10 +77,6 @@ namespace UI.Core.RightClick
 			    return actionRadial;
 		    }
 	    }
-
-	    private float SnapStartTime { get; set; }
-
-	    private float SnapRotation { get; set; }
 
 	    public void SetupMenu(List<RightClickMenuItem> items, Vector3 position, bool followWorldPosition)
 	    {

@@ -16,6 +16,12 @@ namespace UI.Core.RightClick
 
 		private Vector3 menuPosition;
 
+		public Vector3 MenuPosition
+		{
+			get => Origin.localPosition - Vector3.Scale(-CurrentQuadrant, menuPosition);
+			private set => menuPosition = value;
+		}
+
 		private bool FollowWorldPosition { get; set; }
 
 		private Camera Camera { get; set; }
@@ -29,12 +35,6 @@ namespace UI.Core.RightClick
 		private RectTransform LineToRadial { get; set; }
 
 		private Vector3 CurrentQuadrant { get; set; }
-
-		public Vector3 MenuPosition
-		{
-			get => Origin.localPosition - Vector3.Scale(-CurrentQuadrant, menuPosition);
-			private set => menuPosition = value;
-		}
 
 		public void Awake()
 		{

@@ -18,13 +18,13 @@ namespace UI.Core.Radial
         [SerializeField]
         private float dragThreshold = default;
 
+        private IRadial RadialUI { get; set; }
+
         public DragEvent OnBeginDragEvent { get; } = new DragEvent();
 
         public DragEvent OnDragEvent { get; } = new DragEvent();
 
         public DragEvent OnEndDragEvent { get; } = new DragEvent();
-
-        private IRadial RadialUI { get; set; }
 
         public void Awake()
         {

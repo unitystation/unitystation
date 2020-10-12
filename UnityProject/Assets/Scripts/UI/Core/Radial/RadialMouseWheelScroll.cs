@@ -5,13 +5,6 @@ namespace UI.Core.Radial
 	[RequireComponent(typeof(IRadial))]
 	public class RadialMouseWheelScroll : MonoBehaviour
 	{
-		private IRadial RadialUI { get; set; }
-
-		public void Awake()
-		{
-			RadialUI = GetComponent<IRadial>();
-		}
-
 		[Tooltip("The number of items to scroll when using the mouse wheel.")]
 		[SerializeField]
 		private int scrollCount;
@@ -19,6 +12,13 @@ namespace UI.Core.Radial
 		[Tooltip("Whether to scroll when the mouse is inside the full radius of the radial or just between the outer and inner radius of the radial.")]
 		[SerializeField]
 		private bool fullRadius;
+
+		private IRadial RadialUI { get; set; }
+
+		public void Awake()
+		{
+			RadialUI = GetComponent<IRadial>();
+		}
 
 		public void Update()
 		{

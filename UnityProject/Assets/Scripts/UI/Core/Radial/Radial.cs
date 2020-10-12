@@ -26,12 +26,6 @@ namespace UI.Core.Radial
 		[SerializeField]
 		private int fillAngle = 360;
 
-		protected List<T> Items { get; } = new List<T>();
-
-		public PointerEventsListener<T> RadialEvents { get; } = new PointerEventsListener<T>();
-
-	    public T Selected { get; set; }
-
 		private Transform rotationParent;
 
 		public Transform RotationParent {
@@ -58,17 +52,23 @@ namespace UI.Core.Radial
 			set => fillAngle = Math.Max(1, Math.Min(value, 360));
 		}
 
-	    protected int TotalItemCount { get; set; }
+		public T Selected { get; set; }
+
+	    protected int TotalItemCount { get; private set; }
+
+	    public float ItemArcAngle { get; private set; }
 
 	    public Vector3 ItemCenter { get; private set; }
+
+	    protected List<T> Items { get; } = new List<T>();
+
+	    public PointerEventsListener<T> RadialEvents { get; } = new PointerEventsListener<T>();
 
 		public int OuterRadius => outerRadius;
 
 	    public int InnerRadius => innerRadius;
 
 	    public float Scale => transform.localScale.x;
-
-	    public float ItemArcAngle => (float)FillAngle / Math.Max(1, ShownItemsCount);
 
 	    protected T ItemPrefab => itemPrefab;
 
@@ -92,8 +92,9 @@ namespace UI.Core.Radial
 	    protected void BasicSetup(int itemCount)
 	    {
 		    transform.localScale = new Vector3(Scale, Scale, 1f);
-		    TotalItemCount = itemCount;
 		    RotationParent.localEulerAngles = Vector3.zero;
+		    TotalItemCount = itemCount;
+		    ItemArcAngle = (float)fillAngle / Math.Max(1, ShownItemsCount);
 		    CalcItemCenter();
 	    }
 
