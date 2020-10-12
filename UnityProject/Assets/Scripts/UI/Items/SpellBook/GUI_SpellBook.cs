@@ -53,6 +53,7 @@ namespace UI.SpellBook
 			else if (entry is SpellBookArtifact artifactEntry)
 			{
 				spellBook.SpawnArtifacts(artifactEntry);
+				CloseTab(); // We close tab so that the player is aware of the dropping pod.
 			}
 
 			UpdatePoints();

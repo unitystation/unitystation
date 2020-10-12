@@ -51,7 +51,10 @@ namespace Items.Magical
 			if (spellEntry.Cost > Points) return;
 
 			points -= spellEntry.Cost;
+			
 			var player = netTab.LastInteractedPlayer().Player();
+
+			SoundManager.PlayNetworkedAtPos("Blind", player.Script.WorldPos, sourceObj: player.GameObject);
 			Chat.AddChatMsgToChat(player, spellEntry.Incantation, ChatChannel.Local);
 
 			Spell spell = spellEntry.Spell.AddToPlayer(player.Script);
@@ -67,6 +70,7 @@ namespace Items.Magical
 			if (spawnResult.Successful)
 			{
 				points -= artifactEntry.Cost;
+				SoundManager.PlayNetworkedAtPos("SummonItemsGeneric", playerScript.WorldPos, sourceObj: playerScript.gameObject);
 
 				var closetControl = spawnResult.GameObject.GetComponent<ClosetControl>();
 

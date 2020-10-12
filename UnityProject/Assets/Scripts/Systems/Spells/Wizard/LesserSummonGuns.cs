@@ -61,6 +61,8 @@ namespace Systems.Spells.Wizard
 			Vector3Int randomPos = GetRandomPosition();
 			var portalPos = randomPos;
 			portalPos.y += PORTAL_HEIGHT; // Spawn portal two tiles above the landing zone.
+			StartCoroutine(DelaySoundFX(portalPos));
+
 			var newPortal = Spawn.ServerPrefab(portalPrefab, portalPos).GameObject;
 			latestPortal = newPortal;
 
@@ -69,6 +71,12 @@ namespace Systems.Spells.Wizard
 
 			yield return WaitFor.Seconds(PORTAL_OPEN_TIME + PORTAL_ACTIVE_TIME + PORTAL_CLOSE_TIME + 1); // Wait a good while first.
 			Despawn.ServerSingle(newPortal);
+		}
+
+		private IEnumerator DelaySoundFX(Vector3Int position)
+		{
+			yield return WaitFor.Seconds(0.6f);
+			SoundManager.PlayNetworkedAtPos("LesserSummonGuns", position);
 		}
 
 		private bool SpawnGunInHand(ConnectedPlayer caster)
@@ -122,7 +130,7 @@ namespace Systems.Spells.Wizard
 			Transform latestGunTransform = latestGun.transform.Find("Sprite").transform;
 
 			latestGunTransform.LeanSetLocalPosY(PORTAL_HEIGHT);
-			latestGunTransform.LeanRotateZ(Random.Range(0, 360), 0);
+			latestGunTransform.localRotation = RandomUtils.RandomRotatation2D();
 			latestGunTransform.LeanMoveLocalY(0, GUN_FALLING_TIME);
 			latestGunTransform.LeanRotateZ(Random.Range(0, 720), GUN_FALLING_TIME);
 		}

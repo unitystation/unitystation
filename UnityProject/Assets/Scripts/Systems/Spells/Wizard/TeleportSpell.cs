@@ -35,13 +35,17 @@ namespace Systems.Spells.Wizard
 
 		private IEnumerator RunTeleportSequence(Vector3Int toWorldPos)
 		{
+			ConnectedPlayer player = teleportingPlayer.Player();
+
 			IsBusy = true;
 			syncAnimation = true;
+			SoundManager.PlayNetworkedAtPos("TeleportDisappear", player.Script.WorldPos);
 			yield return WaitFor.Seconds(TELEPORT_ANIMATE_TIME + TELEPORT_TRAVEL_TIME);
 
-			teleportingPlayer.GetComponent<PlayerSync>().SetPosition(toWorldPos, true);
+			player.Script.PlayerSync.SetPosition(toWorldPos, true);
 
 			syncAnimation = false;
+			SoundManager.PlayNetworkedAtPos("TeleportAppear", player.Script.WorldPos);
 			yield return WaitFor.Seconds(TELEPORT_ANIMATE_TIME);
 			IsBusy = false;
 		}
@@ -63,12 +67,10 @@ namespace Systems.Spells.Wizard
 			if (syncAnimation)
 			{
 				AnimateTeleportBegin();
-				StartCoroutine(AnimateOpacity(-0.1f));
 			}
 			else
 			{
 				AnimateTeleportEnd();
-				StartCoroutine(AnimateOpacity(0.1f));
 			}
 		}
 
@@ -77,6 +79,7 @@ namespace Systems.Spells.Wizard
 			playerSprite.LeanScaleX(TELEPORT_ANIMATE_X_SCALE, TELEPORT_ANIMATE_TIME);
 			playerSprite.LeanScaleY(TELEPORT_ANIMATE_Y_SCALE, TELEPORT_ANIMATE_TIME);
 			playerSprite.LeanMoveLocalY(TELEPORT_ANIMATE_HEIGHT, TELEPORT_ANIMATE_TIME);
+			AnimateOpacity(0, TELEPORT_ANIMATE_TIME);
 		}
 
 		private void AnimateTeleportEnd()
@@ -84,24 +87,16 @@ namespace Systems.Spells.Wizard
 			playerSprite.LeanScaleX(1, TELEPORT_ANIMATE_TIME);
 			playerSprite.LeanScaleY(1, TELEPORT_ANIMATE_TIME);
 			playerSprite.LeanMoveLocalY(0, TELEPORT_ANIMATE_TIME);
+			AnimateOpacity(1, TELEPORT_ANIMATE_TIME);
 		}
 
-		private IEnumerator AnimateOpacity(float amountPerGrade)
+		private void AnimateOpacity(float alpha, float time)
 		{
 			SpriteHandler[] spriteHandlers = teleportingPlayer.GetComponentsInChildren<SpriteHandler>();
 
-			float lapsedTime = 0;
-			while (lapsedTime < TELEPORT_ANIMATE_TIME)
+			foreach (var handler in spriteHandlers)
 			{
-				foreach (var handler in spriteHandlers)
-				{
-					var newColor = handler.GetColor();
-					newColor.a = Mathf.Clamp(newColor.a + amountPerGrade, 0, 1);
-					handler.SetColor(newColor);
-				}
-
-				yield return WaitFor.Seconds(0.1f);
-				lapsedTime += 0.1f;
+				handler.gameObject.LeanAlpha(alpha, time);
 			}
 		}
 	}
