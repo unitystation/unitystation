@@ -233,7 +233,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -254,7 +256,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &6657982718786730346
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -417,7 +418,7 @@ MonoBehaviour:
   fuseLength: 3
   maxDamage: 125
   maxRadius: 5
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 628184727406542681}
   lemonPotencyOverride: 0
 --- !u!1 &6770754434974323192
 GameObject:
@@ -430,7 +431,6 @@ GameObject:
   - component: {fileID: 6765313202082436898}
   - component: {fileID: 6845515435948111746}
   - component: {fileID: 628184727406542681}
-  - component: {fileID: 2427945517095408565}
   m_Layer: 10
   m_Name: Sprite
   m_TagString: Untagged
@@ -467,6 +467,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -515,26 +516,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue: []
+  SubCatalogue:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 11400000, guid: 79557dda1b863f54891194179a2e7a64, type: 2}
+  - {fileID: 11400000, guid: 7b1b3779f4ffb2f4a8043d5ada077e2f, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 79557dda1b863f54891194179a2e7a64, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
---- !u!114 &2427945517095408565
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6770754434974323192}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 1
-  SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 79557dda1b863f54891194179a2e7a64, type: 2}
   Sprites: []
-  variantIndex: 0
-  palette: []
