@@ -110,6 +110,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 	public virtual void Eat(PlayerScript eater, PlayerScript feeder)
 	{
 		SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos, sourceObj: eater.gameObject);
+		//TODO: Reimplement metabolism.
 
 		eater.playerHealth.Metabolism
 			.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));
