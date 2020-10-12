@@ -12,7 +12,7 @@ namespace AdminTools
 
 		public void StartProfile()
 		{
-			AdminCommandsManager.Instance.CmdStartProfile(ServerData.UserID, PlayerList.Instance.AdminToken, (int) framesSlider.value);
+			ServerCommandVersionSixMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, (int) framesSlider.value, "CmdStartProfile");
 		}
 
 		public void ChangeInputField()

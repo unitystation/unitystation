@@ -350,6 +350,7 @@ namespace AdminCommands
 
 		#endregion
 
+		#region Profiling
 
 		public bool runningProfile = false;
 
@@ -409,6 +410,7 @@ namespace AdminCommands
 			ProfileMessage.SendToApplicable();
 		}
 
+		#endregion
 	}
 
 	/// <summary>
@@ -642,6 +644,50 @@ namespace AdminCommands
 				AdminId = adminId,
 				AdminToken = adminToken,
 				GenericBool = genericBool,
+				Action = action
+			};
+			msg.Send();
+			return msg;
+		}
+	}
+
+	/// <summary>
+	/// Generic net message with verification parameters, and a generic int parameter.
+	/// </summary>
+	public class ServerCommandVersionSixMessageClient : ClientMessage
+	{
+		public string AdminId;
+		public string AdminToken;
+		public int GenericInt;
+		public string Action;
+
+		public override void Process()
+		{
+			if (AdminCommandsManager.IsAdmin(AdminId, AdminToken) == false)
+				return;
+
+			object[] paraObject =
+			{
+				AdminId,
+				AdminToken,
+				GenericInt
+			};
+
+			var instance = AdminCommandsManager.Instance;
+
+			//server stuff
+			if (instance == null) return;
+
+			instance.GetType().GetMethod(Action)?.Invoke(instance, paraObject);
+		}
+
+		public static ServerCommandVersionSixMessageClient Send(string adminId, string adminToken, int genericInt, string action)
+		{
+			ServerCommandVersionSixMessageClient msg = new ServerCommandVersionSixMessageClient
+			{
+				AdminId = adminId,
+				AdminToken = adminToken,
+				GenericInt = genericInt,
 				Action = action
 			};
 			msg.Send();
