@@ -1,8 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Atmospherics;
+using Systems.Atmospherics;
 using HealthV2;
-using Objects.GasContainer;
+using Objects.Atmospherics;
 using UnityEngine;
 
 public class Lungs : ImplantBase

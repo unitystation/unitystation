@@ -78,7 +78,7 @@ public class PlayerSprites : MonoBehaviour
 	{
 		directional = GetComponent<Directional>();
 		playerHealth = GetComponent<PlayerHealthV2>();
-
+	
 		foreach (ClothingItem c in GetComponentsInChildren<ClothingItem>())
 		{
 			clothes[c.name] = c;
@@ -238,7 +238,7 @@ public class PlayerSprites : MonoBehaviour
 		}
 
 		//TODO: Reimplement player fire sprites.
-		//UpdateBurningOverlays(playerHealth.FireStacks, direction);
+		UpdateBurningOverlays(playerHealth.FireStacks, direction);
 		UpdateElectrocutionOverlay(direction);
 	}
 

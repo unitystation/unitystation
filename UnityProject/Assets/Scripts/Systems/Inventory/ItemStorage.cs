@@ -65,6 +65,7 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	//It can be null, or it can be a pickupable.(Health V2)
 	public event Action<Pickupable, Pickupable> ServerInventoryItemSlotSet;
 
+
 	public bool UesAddlistPopulater = false;
 
 	[ShowIf(nameof(UesAddlistPopulater))] public PrefabListPopulater Populater;
