@@ -59,21 +59,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7f1332865c32f340b453bf3e9853370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemData:
-    radialItemPrefab: {fileID: 5910594346213681078, guid: ae84613a21b9b044799520e4c79081bf,
-      type: 3}
-    maxShownItems: 12
   itemPrefab: {fileID: 5910594346213681078, guid: ae84613a21b9b044799520e4c79081bf,
     type: 3}
   maxShownItems: 12
   outerRadius: 224
   innerRadius: 162
-  fillAngle: 360
+  arcMeasure: 360
   borderPrefab: {fileID: 8380797343613280308, guid: fd3b76d65a417a64399cb3e8421946e6,
     type: 3}
   radialMask: {fileID: 8639802405008243711}
   background: {fileID: 4244721469443374232}
-  itemAngle: 30
+  actionArcMeasure: 30
 --- !u!1773428102 &6186643238481727165
 ParentConstraint:
   m_ObjectHideFlags: 0

@@ -42,7 +42,7 @@ namespace UI.Core.Radial
             var fixedDelta = delta.RotateAroundZ(Vector3.zero, (360 - theta) % 360);
             var rotationAmount = delta.sqrMagnitude * Mathf.Sign(fixedDelta.y) * speedFactor;
             var halfPI = Mathf.PI / 2;
-            rotationAmount = Mathf.Clamp(rotationAmount, -RadialUI.ItemArcAngle / halfPI, RadialUI.ItemArcAngle / halfPI);
+            rotationAmount = Mathf.Clamp(rotationAmount, -RadialUI.ItemArcMeasure / halfPI, RadialUI.ItemArcMeasure / halfPI);
             if (Math.Abs(rotationAmount) < dragThreshold)
             {
 	            return;

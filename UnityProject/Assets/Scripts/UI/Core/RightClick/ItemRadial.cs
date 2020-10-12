@@ -25,7 +25,7 @@ namespace UI.Core.RightClick
 		public void UpdateArrows()
 		{
 			previousArrow.SetActive(Mathf.Round(TotalRotation) > 0);
-			nextArrow.SetActive(Mathf.Round(TotalRotation) < MaxIndex * ItemArcAngle);
+			nextArrow.SetActive(Mathf.Round(TotalRotation) < MaxIndex * ItemArcMeasure);
 		}
 
 		public void ChangeLabel(string text) => itemLabel.SetText(text);

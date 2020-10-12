@@ -37,7 +37,7 @@ namespace UI.Core.RightClick
 	    public override void Setup(Radial<RightClickRadialButton> parent, int index)
 	    {
 		    base.Setup(parent, index);
-	        Mask.fillAmount = 1f / 360f * parent.ItemArcAngle;
+	        Mask.fillAmount = 1f / 360f * parent.ItemArcMeasure;
 	        var iconTransform = icon.transform;
 	        iconTransform.localPosition = Radial.ItemCenter;
 	        iconTransform.localScale = new Vector3(Radial.Scale, Radial.Scale, 1f);

@@ -31,11 +31,11 @@ namespace UI.Core.Radial
 			// Allow mouse wheel to scroll through items.
 			if (scrollDelta < 0)
 			{
-				RadialUI.RotateRadial(RadialUI.ItemArcAngle * scrollCount);
+				RadialUI.RotateRadial(RadialUI.ItemArcMeasure * scrollCount);
 			}
 			else if (scrollDelta > 0)
 			{
-				RadialUI.RotateRadial(-RadialUI.ItemArcAngle * scrollCount);
+				RadialUI.RotateRadial(-RadialUI.ItemArcMeasure * scrollCount);
 			}
 		}
 	}

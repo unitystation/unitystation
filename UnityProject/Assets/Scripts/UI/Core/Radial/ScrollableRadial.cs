@@ -32,8 +32,8 @@ namespace UI.Core.Radial
 	    {
 		    get
 		    {
-			    var angle = TotalRotation % ItemArcAngle;
-			    return angle >= ItemArcAngle / 2 ? angle - ItemArcAngle : angle;
+			    var angle = TotalRotation % ItemArcMeasure;
+			    return angle >= ItemArcMeasure / 2 ? angle - ItemArcMeasure : angle;
 		    }
 	    }
 
@@ -43,7 +43,7 @@ namespace UI.Core.Radial
 
 	    protected int MaxIndex => TotalItemCount - ShownItemsCount;
 
-	    protected float MaxIndexAngle => MaxIndex * ItemArcAngle;
+	    protected float MaxIndexAngle => MaxIndex * ItemArcMeasure;
 
 	    private T InitOrGetMaskItem(ref T maskItem, RectTransform parent, int index)
 	    {
@@ -64,14 +64,14 @@ namespace UI.Core.Radial
 		    CurrentIndex = 0;
 
 		    var isScrollable = itemCount > ShownItemsCount;
-		    upperMask.localEulerAngles = new Vector3(0, 0, FillAngle - 360);
+		    upperMask.localEulerAngles = new Vector3(0, 0, ArcMeasure - 360);
 		    SetupItem(LowerMaskItem, 0, Vector3.zero, isScrollable);
-		    SetupItem(UpperMaskItem, ShownItemsCount, new Vector3(0, 0 , ShownItemsCount * ItemArcAngle), isScrollable);
+		    SetupItem(UpperMaskItem, ShownItemsCount, new Vector3(0, 0 , ShownItemsCount * ItemArcMeasure), isScrollable);
 		    for (var i = 2; i < Math.Max(2 + ShownItemsCount, Count); i++)
 		    {
 			    InitItem(i);
 			    var index = isScrollable ? i - 1 : i - 2;
-			    var rotation = new Vector3(0, 0, index * ItemArcAngle);
+			    var rotation = new Vector3(0, 0, index * ItemArcMeasure);
 			    var isActive = index < ShownItemsCount;
 			    SetupItem(Items[i], index, rotation, isActive);
 		    }
@@ -89,7 +89,7 @@ namespace UI.Core.Radial
 
 		    void ChangeUnmaskedIndices(float angle, int startIndex, int indexModifier)
 		    {
-			    var unfilled = Mathf.Sign(delta) * (FillAngle - 360);
+			    var unfilled = Mathf.Sign(delta) * (ArcMeasure - 360);
 			    var posDelta = Math.Abs(delta);
 			    var rotation = angle * (1 + posDelta / shownItems) + unfilled;
 			    // Rotate the changed unmasked items around the masks and set their new index
@@ -106,12 +106,12 @@ namespace UI.Core.Radial
 
 		    if (delta > 0)
 		    {
-			    rotate = ItemArcAngle;
+			    rotate = ItemArcMeasure;
 			    ChangeUnmaskedIndices(rotate, CurrentIndex, shownItems + delta / shownItems);
 		    }
 		    else
 		    {
-			    rotate = -ItemArcAngle;
+			    rotate = -ItemArcMeasure;
 			    ChangeUnmaskedIndices(rotate, newIndex, 1);
 		    }
 
@@ -132,11 +132,11 @@ namespace UI.Core.Radial
 
 		    TotalRotation -= rotation;
 
-		    ChangeIndex(Math.Min(MaxIndex, (int)(TotalRotation / ItemArcAngle)));
+		    ChangeIndex(Math.Min(MaxIndex, (int)(TotalRotation / ItemArcMeasure)));
 
 		    if (TotalRotation >= MaxIndexAngle)
 		    {
-			    FixedAngle(new Vector3(0, 0, 360 - CurrentIndex * ItemArcAngle));
+			    FixedAngle(new Vector3(0, 0, 360 - CurrentIndex * ItemArcMeasure));
 		    }
 		    else if (TotalRotation <= 0)
 		    {
@@ -145,7 +145,7 @@ namespace UI.Core.Radial
 		    else
 		    {
 				RotationParent.Rotate(Vector3.forward, rotation);
-				RotateMasks(Math.Min(Math.Max(rotation, -ItemArcAngle), ItemArcAngle));
+				RotateMasks(Math.Min(Math.Max(rotation, -ItemArcMeasure), ItemArcMeasure));
 		    }
 
 	    }
@@ -166,7 +166,7 @@ namespace UI.Core.Radial
 	    protected override (float lowerBound, float upperBound) GetItemBounds(int index, float itemRotation)
 	    {
 		    var lowerBound = itemRotation;
-		    var upperBound = itemRotation + ItemArcAngle;
+		    var upperBound = itemRotation + ItemArcMeasure;
 		    var localAngle = transform.localEulerAngles.z;
 
 		    if (index == LowerMaskItem.Index)

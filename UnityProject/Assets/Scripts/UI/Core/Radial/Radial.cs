@@ -21,10 +21,10 @@ namespace UI.Core.Radial
 		[SerializeField]
 		private int innerRadius = default;
 
-		[Tooltip("The actual angle to use for the radial. Set lower to fill only a partial circle.")]
+		[Tooltip("The arc measure to use for the radial. Set lower to fill only a partial circle.")]
 		[Range(1, 360)]
 		[SerializeField]
-		private int fillAngle = 360;
+		private int arcMeasure = 360;
 
 		private Transform rotationParent;
 
@@ -46,17 +46,17 @@ namespace UI.Core.Radial
 			}
 		}
 
-		protected int FillAngle
+		protected int ArcMeasure
 		{
-			get => fillAngle;
-			set => fillAngle = Math.Max(1, Math.Min(value, 360));
+			get => arcMeasure;
+			set => arcMeasure = Math.Max(1, Math.Min(value, 360));
 		}
 
 		public T Selected { get; set; }
 
 	    protected int TotalItemCount { get; private set; }
 
-	    public float ItemArcAngle { get; private set; }
+	    public float ItemArcMeasure { get; private set; }
 
 	    public Vector3 ItemCenter { get; private set; }
 
@@ -83,7 +83,7 @@ namespace UI.Core.Radial
 		    for (var i = 0; i < Math.Max(ShownItemsCount, Count); i++)
 		    {
 			    InitItem(i);
-			    var rotation = new Vector3(0, 0, i * ItemArcAngle);
+			    var rotation = new Vector3(0, 0, i * ItemArcMeasure);
 			    var isActive = i < ShownItemsCount;
 			    SetupItem(Items[i], i, rotation, isActive);
 		    }
@@ -94,7 +94,7 @@ namespace UI.Core.Radial
 		    transform.localScale = new Vector3(Scale, Scale, 1f);
 		    RotationParent.localEulerAngles = Vector3.zero;
 		    TotalItemCount = itemCount;
-		    ItemArcAngle = (float)fillAngle / Math.Max(1, ShownItemsCount);
+		    ItemArcMeasure = (float)arcMeasure / Math.Max(1, ShownItemsCount);
 		    CalcItemCenter();
 	    }
 
@@ -116,7 +116,7 @@ namespace UI.Core.Radial
 	    private void CalcItemCenter()
 	    {
 		    var radius = OuterRadius - (OuterRadius - InnerRadius) / 2f;
-		    var angle = Mathf.Deg2Rad * (ItemArcAngle / 2);
+		    var angle = Mathf.Deg2Rad * (ItemArcMeasure / 2);
 		    ItemCenter = new Vector3(-radius * Mathf.Cos(angle), -radius * Mathf.Sin(angle));
 	    }
 
@@ -129,7 +129,7 @@ namespace UI.Core.Radial
 		    RadialEvents.Invoke(eventType, eventData, item);
 
 	    protected virtual (float lowerBound, float upperBound) GetItemBounds(int index, float itemRotation) =>
-		    (itemRotation, itemRotation + ItemArcAngle);
+		    (itemRotation, itemRotation + ItemArcMeasure);
 
 	    public bool IsItemRaycastable(RadialItem<T> item, Vector2 screenPosition)
 	    {
@@ -144,7 +144,7 @@ namespace UI.Core.Radial
 	    public bool IsPositionWithinRadial(Vector2 position, bool fullRadius)
 	    {
 		    var rotation = transform.eulerAngles.z;
-		    return IsPositionValid(position, rotation, rotation + FillAngle, FillAngle, fullRadius);
+		    return IsPositionValid(position, rotation, rotation + ArcMeasure, ArcMeasure, fullRadius);
 	    }
 
 	    private bool IsPositionValid(Vector2 position, float lowerBound, float upperBound, float checkAngle, bool fullRadius = false)
