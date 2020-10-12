@@ -1206,7 +1206,6 @@ GameObject:
   - component: {fileID: 92510964}
   - component: {fileID: 92510963}
   - component: {fileID: 92510962}
-  - component: {fileID: 92510961}
   - component: {fileID: 92510960}
   m_Layer: 9
   m_Name: Walls
@@ -1241,22 +1240,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &92510961
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 92510958}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!114 &92510962
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4299,7 +4282,6 @@ GameObject:
   - component: {fileID: 178877503}
   - component: {fileID: 178877502}
   - component: {fileID: 178877501}
-  - component: {fileID: 178877500}
   - component: {fileID: 178877499}
   m_Layer: 9
   m_Name: Walls
@@ -4334,22 +4316,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &178877500
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 178877497}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!114 &178877501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4880,7 +4846,6 @@ GameObject:
   - component: {fileID: 194887672}
   - component: {fileID: 194887671}
   - component: {fileID: 194887670}
-  - component: {fileID: 194887669}
   - component: {fileID: 194887668}
   m_Layer: 24
   m_Name: Base
@@ -4915,22 +4880,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &194887669
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 194887666}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!114 &194887670
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10189,7 +10138,6 @@ GameObject:
   - component: {fileID: 312938622}
   - component: {fileID: 312938621}
   - component: {fileID: 312938620}
-  - component: {fileID: 312938619}
   - component: {fileID: 312938618}
   m_Layer: 29
   m_Name: Objects
@@ -10380,6 +10328,7 @@ Transform:
   - {fileID: 1236947730}
   - {fileID: 1982661406}
   - {fileID: 359795657}
+  - {fileID: 1183866681}
   - {fileID: 314403870}
   - {fileID: 1599718316}
   - {fileID: 678214815}
@@ -10411,7 +10360,6 @@ Transform:
   - {fileID: 636928671}
   - {fileID: 1376267087}
   - {fileID: 1806318178}
-  - {fileID: 1183866681}
   - {fileID: 1468515293}
   - {fileID: 1670616503}
   - {fileID: 10064232}
@@ -10441,11 +10389,14 @@ Transform:
   - {fileID: 1795773164}
   - {fileID: 1420046168}
   - {fileID: 770895101}
-  - {fileID: 932370141}
+  - {fileID: 1328699127}
+  - {fileID: 109833550}
   - {fileID: 1028964417}
   - {fileID: 1779062903}
-  - {fileID: 109833550}
+  - {fileID: 916352752}
+  - {fileID: 932370141}
   - {fileID: 326096352}
+  - {fileID: 1344874289}
   - {fileID: 118769638}
   - {fileID: 1528660031}
   - {fileID: 1394024038}
@@ -10457,9 +10408,6 @@ Transform:
   - {fileID: 1805906256}
   - {fileID: 244484795}
   - {fileID: 1104698609}
-  - {fileID: 1328699127}
-  - {fileID: 916352752}
-  - {fileID: 1344874289}
   - {fileID: 485634553}
   - {fileID: 533924056}
   - {fileID: 1013300414}
@@ -10480,16 +10428,16 @@ Transform:
   - {fileID: 975525262}
   - {fileID: 832517150}
   - {fileID: 1531427951}
+  - {fileID: 1398552331}
   - {fileID: 905045245}
   - {fileID: 413726596}
   - {fileID: 1909680445}
-  - {fileID: 1414433004}
   - {fileID: 1778885630}
+  - {fileID: 1414433004}
+  - {fileID: 1171840808}
   - {fileID: 1813689126}
   - {fileID: 1689171750}
   - {fileID: 753188715}
-  - {fileID: 1398552331}
-  - {fileID: 1171840808}
   m_Father: {fileID: 1992921914}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10505,22 +10453,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &312938619
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 312938616}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!114 &312938620
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11857,7 +11789,6 @@ GameObject:
   - component: {fileID: 439894491}
   - component: {fileID: 439894490}
   - component: {fileID: 439894487}
-  - component: {fileID: 439894489}
   - component: {fileID: 439894488}
   m_Layer: 29
   m_Name: Objects
@@ -11898,8 +11829,8 @@ Transform:
   - {fileID: 1796386764}
   - {fileID: 403056479}
   - {fileID: 22784575}
-  - {fileID: 109443686}
   - {fileID: 831242170}
+  - {fileID: 109443686}
   m_Father: {fileID: 1171342885}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -11929,22 +11860,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &439894489
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 439894485}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &439894490
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -12228,7 +12143,6 @@ GameObject:
   - component: {fileID: 463550887}
   - component: {fileID: 463550892}
   - component: {fileID: 463550891}
-  - component: {fileID: 463550890}
   - component: {fileID: 463550889}
   - component: {fileID: 463550888}
   m_Layer: 18
@@ -12278,22 +12192,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 1171342886}
---- !u!19719996 &463550890
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 463550886}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &463550891
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -14177,6 +14075,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7057467c2d5f453192febab43b5785cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetMSpreFrame: 5
   ffLayersValues: []
 --- !u!156049354 &547718490
 Grid:
@@ -14275,7 +14174,6 @@ GameObject:
   - component: {fileID: 560543778}
   - component: {fileID: 560543777}
   - component: {fileID: 560543776}
-  - component: {fileID: 560543775}
   - component: {fileID: 560543774}
   m_Layer: 24
   m_Name: Base
@@ -14310,22 +14208,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &560543775
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 560543772}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!114 &560543776
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15927,7 +15809,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 21
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -16316,7 +16198,6 @@ GameObject:
   - component: {fileID: 653285961}
   - component: {fileID: 653285966}
   - component: {fileID: 653285965}
-  - component: {fileID: 653285964}
   - component: {fileID: 653285963}
   - component: {fileID: 653285962}
   m_Layer: 18
@@ -16366,22 +16247,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 547718486}
---- !u!19719996 &653285964
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 653285960}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &653285965
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -18366,7 +18231,6 @@ GameObject:
   - component: {fileID: 776263757}
   - component: {fileID: 776263762}
   - component: {fileID: 776263761}
-  - component: {fileID: 776263760}
   - component: {fileID: 776263759}
   - component: {fileID: 776263758}
   m_Layer: 18
@@ -18416,22 +18280,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 1992921915}
---- !u!19719996 &776263760
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 776263756}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &776263761
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -18984,7 +18832,6 @@ GameObject:
   - component: {fileID: 810931107}
   - component: {fileID: 810931112}
   - component: {fileID: 810931111}
-  - component: {fileID: 810931110}
   - component: {fileID: 810931109}
   - component: {fileID: 810931108}
   m_Layer: 18
@@ -19034,22 +18881,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 1992921915}
---- !u!19719996 &810931110
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 810931106}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &810931111
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -20401,7 +20232,6 @@ GameObject:
   - component: {fileID: 856083355}
   - component: {fileID: 856083360}
   - component: {fileID: 856083359}
-  - component: {fileID: 856083358}
   - component: {fileID: 856083357}
   - component: {fileID: 856083356}
   m_Layer: 18
@@ -20451,22 +20281,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 1171342886}
---- !u!19719996 &856083358
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 856083354}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &856083359
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -21097,7 +20911,6 @@ GameObject:
   - component: {fileID: 909749287}
   - component: {fileID: 909749286}
   - component: {fileID: 909749285}
-  - component: {fileID: 909749284}
   - component: {fileID: 909749283}
   m_Layer: 24
   m_Name: Base
@@ -21132,22 +20945,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &909749284
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 909749281}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!114 &909749285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -21758,7 +21555,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 312938617}
-  m_RootOrder: 249
+  m_RootOrder: 236
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &916352753
 MonoBehaviour:
@@ -23058,7 +22855,6 @@ GameObject:
   - component: {fileID: 979163619}
   - component: {fileID: 979163618}
   - component: {fileID: 979163617}
-  - component: {fileID: 979163616}
   - component: {fileID: 979163615}
   - component: {fileID: 979163614}
   - component: {fileID: 979163613}
@@ -23148,27 +22944,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf585bb4ff8944df896c3974105a1d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &979163616
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 979163610}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &979163617
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25315,7 +25090,6 @@ GameObject:
   - component: {fileID: 1152724927}
   - component: {fileID: 1152724926}
   - component: {fileID: 1152724925}
-  - component: {fileID: 1152724924}
   - component: {fileID: 1152724923}
   m_Layer: 9
   m_Name: Walls
@@ -25350,22 +25124,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &1152724924
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1152724921}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!114 &1152724925
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -25834,6 +25592,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7057467c2d5f453192febab43b5785cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetMSpreFrame: 5
   ffLayersValues: []
 --- !u!156049354 &1171342890
 Grid:
@@ -26244,7 +26003,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 312938617}
-  m_RootOrder: 202
+  m_RootOrder: 171
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1183866682
 MonoBehaviour:
@@ -27070,7 +26829,6 @@ GameObject:
   - component: {fileID: 1252529519}
   - component: {fileID: 1252529524}
   - component: {fileID: 1252529523}
-  - component: {fileID: 1252529522}
   - component: {fileID: 1252529521}
   - component: {fileID: 1252529520}
   m_Layer: 18
@@ -27120,22 +26878,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 547718486}
---- !u!19719996 &1252529522
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1252529518}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &1252529523
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -27445,7 +27187,6 @@ GameObject:
   - component: {fileID: 1273785520}
   - component: {fileID: 1273785519}
   - component: {fileID: 1273785516}
-  - component: {fileID: 1273785518}
   - component: {fileID: 1273785517}
   m_Layer: 29
   m_Name: Objects
@@ -27486,8 +27227,8 @@ Transform:
   - {fileID: 1758281908}
   - {fileID: 1167259463}
   - {fileID: 1961414245}
-  - {fileID: 1440695861}
   - {fileID: 1831288520}
+  - {fileID: 1440695861}
   m_Father: {fileID: 547718485}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -27517,22 +27258,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &1273785518
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1273785514}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &1273785519
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -28227,7 +27952,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 312938617}
-  m_RootOrder: 248
+  m_RootOrder: 232
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1328699128
 MonoBehaviour:
@@ -28349,7 +28074,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 312938617}
-  m_RootOrder: 250
+  m_RootOrder: 239
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1344874290
 MonoBehaviour:
@@ -30954,7 +30679,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 21
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -33553,7 +33278,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 21
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -41552,7 +41277,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 10
-      m_TileSpriteIndex: 53
+      m_TileSpriteIndex: 61
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -41642,7 +41367,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 38
+      m_TileSpriteIndex: 53
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -41651,7 +41376,7 @@ Tilemap:
     second:
       serializedVersion: 2
       m_TileIndex: 2
-      m_TileSpriteIndex: 37
+      m_TileSpriteIndex: 46
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -42309,12 +42034,10 @@ Tilemap:
       type: 3}
   - m_RefCount: 4
     m_Data: {fileID: 21300000, guid: 38b5abe5584ab8e4682dba97f789a2f4, type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 5381523481225255459, guid: 30a6ff63afdbe924798fe27be4a2b758,
-      type: 3}
-  - m_RefCount: 1
-    m_Data: {fileID: 5946363839424294653, guid: 30a6ff63afdbe924798fe27be4a2b758,
-      type: 3}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
+  - m_RefCount: 0
+    m_Data: {fileID: 0}
   - m_RefCount: 3
     m_Data: {fileID: 21300006, guid: 1779be9af20274945b5ebdab1934d5a8, type: 3}
   - m_RefCount: 6
@@ -42329,8 +42052,9 @@ Tilemap:
     m_Data: {fileID: 21300006, guid: e467262e0d658e742924eb7a64ba2ff9, type: 3}
   - m_RefCount: 0
     m_Data: {fileID: 0}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 5381523481225255459, guid: 30a6ff63afdbe924798fe27be4a2b758,
+      type: 3}
   - m_RefCount: 14
     m_Data: {fileID: 21300002, guid: 50c663c93ab14e54dab8924925e9c7e2, type: 3}
   - m_RefCount: 1
@@ -42345,7 +42069,8 @@ Tilemap:
   - m_RefCount: 11
     m_Data: {fileID: 21300004, guid: 50c663c93ab14e54dab8924925e9c7e2, type: 3}
   - m_RefCount: 1
-    m_Data: {fileID: 21300008, guid: 50c663c93ab14e54dab8924925e9c7e2, type: 3}
+    m_Data: {fileID: 5946363839424294653, guid: 30a6ff63afdbe924798fe27be4a2b758,
+      type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 21300000, guid: 1779be9af20274945b5ebdab1934d5a8, type: 3}
   - m_RefCount: 2
@@ -42364,8 +42089,8 @@ Tilemap:
       type: 3}
   - m_RefCount: 3
     m_Data: {fileID: 21300004, guid: 1779be9af20274945b5ebdab1934d5a8, type: 3}
-  - m_RefCount: 0
-    m_Data: {fileID: 0}
+  - m_RefCount: 1
+    m_Data: {fileID: 21300008, guid: 50c663c93ab14e54dab8924925e9c7e2, type: 3}
   - m_RefCount: 1
     m_Data: {fileID: 21300008, guid: 38b5abe5584ab8e4682dba97f789a2f4, type: 3}
   - m_RefCount: 1
@@ -42724,6 +42449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7057467c2d5f453192febab43b5785cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetMSpreFrame: 5
   ffLayersValues: []
 --- !u!156049354 &1992921919
 Grid:
@@ -43530,7 +43256,6 @@ GameObject:
   - component: {fileID: 2095439628}
   - component: {fileID: 2095439627}
   - component: {fileID: 2095439626}
-  - component: {fileID: 2095439625}
   - component: {fileID: 2095439624}
   - component: {fileID: 2095439623}
   - component: {fileID: 2095439622}
@@ -43620,27 +43345,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf585bb4ff8944df896c3974105a1d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &2095439625
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2095439619}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &2095439626
 MonoBehaviour:
   m_ObjectHideFlags: 0

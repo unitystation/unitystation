@@ -1310,7 +1310,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1622,7 +1622,6 @@ GameObject:
   - component: {fileID: 80458495}
   - component: {fileID: 80458500}
   - component: {fileID: 80458499}
-  - component: {fileID: 80458498}
   - component: {fileID: 80458497}
   - component: {fileID: 80458496}
   m_Layer: 9
@@ -1672,22 +1671,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 0
   matrix: {fileID: 744964238}
---- !u!19719996 &80458498
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 80458494}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &80458499
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -28225,7 +28208,6 @@ GameObject:
   - component: {fileID: 561696191}
   - component: {fileID: 561696196}
   - component: {fileID: 561696195}
-  - component: {fileID: 561696194}
   - component: {fileID: 561696193}
   - component: {fileID: 561696192}
   m_Layer: 18
@@ -28275,22 +28257,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 744964238}
---- !u!19719996 &561696194
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 561696190}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &561696195
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -31272,7 +31238,6 @@ GameObject:
   - component: {fileID: 711666139}
   - component: {fileID: 711666138}
   - component: {fileID: 711666137}
-  - component: {fileID: 711666136}
   - component: {fileID: 711666135}
   m_Layer: 29
   m_Name: Objects
@@ -31594,22 +31559,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &711666136
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 711666133}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!114 &711666137
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -34924,7 +34873,6 @@ GameObject:
   - component: {fileID: 735793747}
   - component: {fileID: 735793752}
   - component: {fileID: 735793751}
-  - component: {fileID: 735793750}
   - component: {fileID: 735793749}
   - component: {fileID: 735793748}
   m_Layer: 24
@@ -34974,22 +34922,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 4
   matrix: {fileID: 1498645824}
---- !u!19719996 &735793750
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 735793746}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &735793751
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -73126,6 +73058,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7057467c2d5f453192febab43b5785cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetMSpreFrame: 5
   ffLayersValues: []
 --- !u!156049354 &744964242
 Grid:
@@ -73760,7 +73693,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -74900,7 +74833,6 @@ GameObject:
   - component: {fileID: 828569393}
   - component: {fileID: 828569398}
   - component: {fileID: 828569397}
-  - component: {fileID: 828569396}
   - component: {fileID: 828569395}
   - component: {fileID: 828569394}
   m_Layer: 9
@@ -74950,22 +74882,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 0
   matrix: {fileID: 1498645824}
---- !u!19719996 &828569396
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 828569392}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &828569397
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -96315,7 +96231,6 @@ GameObject:
   - component: {fileID: 851943001}
   - component: {fileID: 851943006}
   - component: {fileID: 851943005}
-  - component: {fileID: 851943004}
   - component: {fileID: 851943003}
   - component: {fileID: 851943002}
   m_Layer: 18
@@ -96365,22 +96280,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 1
   matrix: {fileID: 1498645824}
---- !u!19719996 &851943004
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 851943000}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &851943005
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -98324,7 +98223,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -102218,7 +102117,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -103008,7 +102907,6 @@ GameObject:
   - component: {fileID: 1024306881}
   - component: {fileID: 1024306880}
   - component: {fileID: 1024306879}
-  - component: {fileID: 1024306878}
   - component: {fileID: 1024306877}
   - component: {fileID: 1024306876}
   - component: {fileID: 1024306875}
@@ -103076,27 +102974,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf585bb4ff8944df896c3974105a1d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &1024306878
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1024306873}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &1024306879
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -104147,7 +104024,6 @@ GameObject:
   - component: {fileID: 1062761071}
   - component: {fileID: 1062761076}
   - component: {fileID: 1062761075}
-  - component: {fileID: 1062761074}
   - component: {fileID: 1062761073}
   - component: {fileID: 1062761072}
   m_Layer: 24
@@ -104197,22 +104073,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 4
   matrix: {fileID: 744964238}
---- !u!19719996 &1062761074
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1062761070}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &1062761075
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -108219,7 +108079,6 @@ GameObject:
   - component: {fileID: 1123679054}
   - component: {fileID: 1123679053}
   - component: {fileID: 1123679050}
-  - component: {fileID: 1123679052}
   - component: {fileID: 1123679051}
   m_Layer: 29
   m_Name: Objects
@@ -108401,22 +108260,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d007c14d2939f4fb2a1121b89c7a030e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!19719996 &1123679052
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1123679048}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &1123679053
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -116304,6 +116147,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7057467c2d5f453192febab43b5785cc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TargetMSpreFrame: 5
   ffLayersValues: []
 --- !u!156049354 &1498645828
 Grid:
@@ -116603,7 +116447,6 @@ GameObject:
   - component: {fileID: 1513049003}
   - component: {fileID: 1513049002}
   - component: {fileID: 1513049001}
-  - component: {fileID: 1513049000}
   - component: {fileID: 1513048999}
   - component: {fileID: 1513048998}
   - component: {fileID: 1513048997}
@@ -116686,27 +116529,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf585bb4ff8944df896c3974105a1d53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!50 &1513049000
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1513048994}
-  m_BodyType: 1
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 0
 --- !u!114 &1513049001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -118960,7 +118782,6 @@ GameObject:
   - component: {fileID: 1630148863}
   - component: {fileID: 1630148868}
   - component: {fileID: 1630148867}
-  - component: {fileID: 1630148866}
   - component: {fileID: 1630148865}
   - component: {fileID: 1630148864}
   m_Layer: 18
@@ -119010,22 +118831,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 744964238}
---- !u!19719996 &1630148866
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1630148862}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &1630148867
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -121227,7 +121032,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -121570,7 +121375,6 @@ GameObject:
   - component: {fileID: 1725895402}
   - component: {fileID: 1725895407}
   - component: {fileID: 1725895406}
-  - component: {fileID: 1725895405}
   - component: {fileID: 1725895404}
   - component: {fileID: 1725895403}
   m_Layer: 18
@@ -121620,22 +121424,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   LayerType: 5
   matrix: {fileID: 1498645824}
---- !u!19719996 &1725895405
-TilemapCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1725895401}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
-  m_MaximumTileChangeCount: 1000
-  m_ExtrusionFactor: 0.00001
 --- !u!483693784 &1725895406
 TilemapRenderer:
   m_ObjectHideFlags: 0
@@ -127025,7 +126813,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -128561,7 +128349,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 21
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -130664,7 +130452,7 @@ TilemapRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1085623217
-  m_SortingLayer: 19
+  m_SortingLayer: 21
   m_SortingOrder: 10
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
@@ -131362,7 +131150,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 9168e226297846e449186f35771a57d7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
