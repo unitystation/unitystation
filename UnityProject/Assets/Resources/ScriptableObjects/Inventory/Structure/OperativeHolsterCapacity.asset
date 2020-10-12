@@ -13,8 +13,7 @@ MonoBehaviour:
   m_Name: OperativeHolsterCapacity
   m_EditorClassIdentifier: 
   MaxItemSize: 4
-  Whitelist: []
-  Required:
+  Whitelist:
   - {fileID: 11400000, guid: 661df715b71a96d43a15c87691675f10, type: 2}
   - {fileID: 11400000, guid: a6adad4523390e74b900fb3fce5d1c23, type: 2}
   - {fileID: 11400000, guid: e8985b79e43678340a5da4ca4ef37d67, type: 2}
@@ -23,4 +22,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 14180412be5e2674182d86f790137f6f, type: 2}
   - {fileID: 11400000, guid: df0bff890a4657e459e7f19e84e47f5d, type: 2}
   - {fileID: 11400000, guid: 93d9bd23d2af8ae41b4a0664dd809bbf, type: 2}
+  Required: []
   Blacklist: []
