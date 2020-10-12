@@ -6,8 +6,6 @@ namespace UI.Core.Radial
 {
 	public class ScrollableRadial<T> : Radial<T> where T : RadialItem<T>
 	{
-		public class IndexChangedEvent : UnityEvent<T> {}
-
 		[SerializeField]
 		protected RectTransform lowerMask;
 
@@ -33,9 +31,7 @@ namespace UI.Core.Radial
 
 	    protected T UpperMaskItem => InitOrGetMaskItem(ref upperMaskItem, upperMask, 1);
 
-	    protected readonly IndexChangedEvent onIndexChanged = new IndexChangedEvent();
-
-	    public IndexChangedEvent OnIndexChanged => onIndexChanged;
+	    public Action<T> OnIndexChanged { get; set; }
 
 	    protected int MaxIndex => TotalItemCount - ShownItemsCount;
 
@@ -101,7 +97,7 @@ namespace UI.Core.Radial
 				    var itemIndex = (startIndex + i) % (shownItems - 1) + 2;
 				    Items[itemIndex].transform.Rotate(Vector3.back, rotation);
 				    Items[itemIndex].Index = startIndex + i + indexModifier;
-				    onIndexChanged.Invoke(Items[itemIndex]);
+				    OnIndexChanged?.Invoke(Items[itemIndex]);
 			    }
 		    }
 
@@ -121,8 +117,8 @@ namespace UI.Core.Radial
 		    LowerMaskItem.Index = newIndex;
 		    UpperMaskItem.Index = (newIndex + shownItems) % TotalItemCount;
 		    RotateMasks(rotate);
-		    onIndexChanged.Invoke(LowerMaskItem);
-		    onIndexChanged.Invoke(UpperMaskItem);
+		    OnIndexChanged?.Invoke(LowerMaskItem);
+		    OnIndexChanged?.Invoke(UpperMaskItem);
 		    CurrentIndex = newIndex;
 	    }
 
