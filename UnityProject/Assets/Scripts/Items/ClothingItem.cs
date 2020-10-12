@@ -10,6 +10,7 @@ public enum SpriteHandType
 
 public delegate void OnClothingEquippedDelegate(ClothingV2 clothing, bool isEquiped);
 
+//TODO: This conflicted with commit: 888873b483eac262353c5318c0e0cb42eae5086f Fix annyoing fix annoying NRE by @corp-0 tried to merge into Health V2 but caused to many issues.
 /// <summary>
 /// For the Individual clothing player sprite renderers
 /// </summary>
@@ -77,83 +78,57 @@ public class ClothingItem : MonoBehaviour
 	public virtual void SetReference(GameObject item)
 	{
 		UpdateReferenceOffset();
-
 		if (item == null)
 		{
-			RemoveItemFromEquipment();
-		}
-		else
-		{
-			AddItemToEquipment(item);
-		}
-
-		UpdateReferenceOffset();
-	}
-
-	private void RemoveItemFromEquipment()
-	{
-		if (spriteHandler != null)
-		{
-			spriteHandler.Empty();
-		}
-
-		if (!InHands && GameObjectReference != null)
-		{
-			// did we take off clothing?
-			var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
-
-			if (unequippedClothing == null)
+			if (spriteHandler != null)
 			{
-				//Not clothing, maybe PDA
-				return;
+				spriteHandler.Empty();
 			}
 
-			// Unhide the players's slots defined in the clothing's HiddenSlots, as we're removing it.
-			thisPlayerScript.Equipment.obscuredSlots &= ~unequippedClothing.HiddenSlots;
+			if (!InHands && GameObjectReference != null)
+			{
+				// did we take off clothing?
+				var unequippedClothing = GameObjectReference.GetComponent<ClothingV2>();
 
-			if (unequippedClothing)
-				OnClothingEquipped?.Invoke(unequippedClothing, false);
+				// Unhide the players's slots defined in the clothing's HiddenSlots, as we're removing it.
+				thisPlayerScript.Equipment.obscuredSlots &= ~unequippedClothing.HiddenSlots;
+
+				if (unequippedClothing)
+					OnClothingEquipped?.Invoke(unequippedClothing, false);
+			}
+
+			GameObjectReference = null; // Remove the item from equipment
 		}
 
-		GameObjectReference = null;
-	}
-
-	private void AddItemToEquipment(GameObject item)
-	{
-		GameObjectReference = item;
-
-		if (InHands)
+		if (item != null)
 		{
-			var itemAttributesV2 = item.GetComponent<ItemAttributesV2>();
-			var inHandsSprites = itemAttributesV2.ItemSprites;
+			GameObjectReference = item; // Add item to equipment
 
-			if (inHandsSprites != null)
+			if (InHands)
 			{
-				SetInHand(inHandsSprites);
+				var ItemAttributesV2 = item.GetComponent<ItemAttributesV2>();
+				var InHandsSprites = ItemAttributesV2?.ItemSprites;
+				SetInHand(InHandsSprites);
 			}
-		}
-		else
-		{
-			var equippedClothing = item.GetComponent<ClothingV2>();
-
-			if (equippedClothing == null)
+			else
 			{
-				//Not clothing, maybe PDA
-				return;
-			}
+				var equippedClothing = item.GetComponent<ClothingV2>();
+				equippedClothing?.LinkClothingItem(this);
 
 				// Set the slots defined in hidesSlots as hidden.
 				//thisPlayerScript.Equipment.obscuredSlots |= equippedClothing.HiddenSlots;
 
-			// Set the slots defined in hidesSlots as hidden.
-			thisPlayerScript.Equipment.obscuredSlots |= equippedClothing.HiddenSlots;
-
-			// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
-			// But for the others, we call the OnClothingEquipped event.
-
-			// call the event of equiped clothing
-			OnClothingEquipped?.Invoke(equippedClothing, true);
+				// Some items like trash bags / mining satchels can be equipped but are not clothing and do not show on character sprite
+				// But for the others, we call the OnClothingEquipped event.
+				if (equippedClothing)
+				{
+					// call the event of equiped clothing
+					OnClothingEquipped?.Invoke(equippedClothing, true);
+				}
+			}
 		}
+
+		UpdateReferenceOffset();
 	}
 
 	public void RefreshFromClothing(ClothingV2 clothing)
@@ -163,7 +138,7 @@ public class ClothingItem : MonoBehaviour
 		List<Color> palette = clothing.GetComponent<ItemAttributesV2>()?.ItemSprites?.Palette;
 		if (palette != null)
 		{
-			spriteHandler.SetPaletteOfCurrentSprite(palette,  Network:false);
+			spriteHandler.SetPaletteOfCurrentSprite(palette, Network: false);
 		}
 
 
@@ -217,14 +192,14 @@ public class ClothingItem : MonoBehaviour
 		{
 			if (spriteType == SpriteHandType.RightHand)
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand,Network: false);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteRightHand, Network: false);
 			}
 			else
 			{
-				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, Network:false);
+				spriteHandler.SetSpriteSO(_ItemsSprites.SpriteLeftHand, Network: false);
 			}
 
-			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette,  Network:false);
+			spriteHandler.SetPaletteOfCurrentSprite(_ItemsSprites.Palette, Network: false);
 		}
 	}
 }
