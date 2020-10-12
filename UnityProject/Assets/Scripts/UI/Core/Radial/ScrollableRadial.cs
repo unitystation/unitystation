@@ -62,9 +62,7 @@ namespace UI.Core.Radial
 
 	    public override void Setup(int itemCount)
 	    {
-		    transform.localScale = new Vector3(Scale, Scale, 1f);
-		    RotationParent.localEulerAngles = Vector3.zero;
-		    TotalItemCount = itemCount;
+		    BasicSetup(itemCount);
 		    TotalRotation = 0;
 		    CurrentIndex = 0;
 

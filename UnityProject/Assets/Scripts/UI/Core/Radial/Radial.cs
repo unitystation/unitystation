@@ -60,6 +60,8 @@ namespace UI.Core.Radial
 
 	    protected int TotalItemCount { get; set; }
 
+	    public Vector3 ItemCenter { get; private set; }
+
 		public int OuterRadius => outerRadius;
 
 	    public int InnerRadius => innerRadius;
@@ -76,9 +78,7 @@ namespace UI.Core.Radial
 
 	    public virtual void Setup(int itemCount)
 	    {
-		    transform.localScale = new Vector3(Scale, Scale, 1f);
-		    TotalItemCount = itemCount;
-		    RotationParent.localEulerAngles = Vector3.zero;
+		    BasicSetup(itemCount);
 
 		    for (var i = 0; i < Math.Max(ShownItemsCount, Count); i++)
 		    {
@@ -87,6 +87,14 @@ namespace UI.Core.Radial
 			    var isActive = i < ShownItemsCount;
 			    SetupItem(Items[i], i, rotation, isActive);
 		    }
+	    }
+
+	    protected void BasicSetup(int itemCount)
+	    {
+		    transform.localScale = new Vector3(Scale, Scale, 1f);
+		    TotalItemCount = itemCount;
+		    RotationParent.localEulerAngles = Vector3.zero;
+		    CalcItemCenter();
 	    }
 
 	    protected void InitItem(int index)
@@ -102,6 +110,13 @@ namespace UI.Core.Radial
 		    item.Setup(this, index);
 		    item.transform.localEulerAngles = rotation;
 		    item.SetActive(isActive);
+	    }
+
+	    private void CalcItemCenter()
+	    {
+		    var radius = OuterRadius - (OuterRadius - InnerRadius) / 2f;
+		    var angle = Mathf.Deg2Rad * (ItemArcAngle / 2);
+		    ItemCenter = new Vector3(-radius * Mathf.Cos(angle), -radius * Mathf.Sin(angle));
 	    }
 
 	    public virtual void RotateRadial(float rotation)

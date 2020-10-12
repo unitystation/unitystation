@@ -39,11 +39,7 @@ namespace UI.Core.RightClick
 		    base.Setup(parent, index);
 	        Mask.fillAmount = 1f / 360f * parent.ItemArcAngle;
 	        var iconTransform = icon.transform;
-
-	        var outerRadius = Radial.OuterRadius;
-	        var size = outerRadius - Radial.InnerRadius;
-	        var iconLocation = new Vector3(-(outerRadius - (size / 2f)), 0f, 1f);
-	        iconTransform.localPosition = iconLocation.RotateAroundZ(Vector3.forward, Radial.ItemArcAngle / 2);
+	        iconTransform.localPosition = Radial.ItemCenter;
 	        iconTransform.localScale = new Vector3(Radial.Scale, Radial.Scale, 1f);
 	    }
 
