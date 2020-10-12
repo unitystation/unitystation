@@ -261,7 +261,7 @@ public class LightSource : ObjectTrigger, ICheckedInteractable<HandApply>, IAPCP
 	{
 		var handSlot = interaction.PerformerPlayerScript.ItemStorage.GetNamedItemSlot(NamedSlot.hands);
 
-		if (mState == LightMountState.On && (!handSlot.IsOccupied ||
+		if (mState == LightMountState.On && (handSlot.IsOccupied == false ||
 				!Validations.HasItemTrait(handSlot.ItemObject, CommonTraits.Instance.BlackGloves)))
 		{
 			var playerHealth = interaction.PerformerPlayerScript.playerHealth;
