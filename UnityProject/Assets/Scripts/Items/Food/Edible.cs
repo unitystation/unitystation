@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
-using Chemistry;
-using Chemistry.Components;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Items;
+using AddressableReferences;
+using Systems.Botany;
 
 /// <summary>
 /// Indicates an edible object
@@ -15,34 +15,32 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 {
 	public GameObject leavings;
 
-	public string sound = "EatFood";
+	[Tooltip("Copies plant data to the leavings, used for bananas and other produce.")]
+	public bool copyPlantDataToLeavings = false;
+
+	/// <summary>
+	/// The name of the sound the player makes when eating
+	/// </summary>
+	[Tooltip("The name of the sound the player makes when eating.")]
+	public AddressableAudioSource eatSound = null;
 
 	private static readonly StandardProgressActionConfig ProgressConfig
 		= new StandardProgressActionConfig(StandardProgressActionType.Restrain);
 
 	[FormerlySerializedAs("NutrientsHealAmount")]
-	[FormerlySerializedAs("NutritionLevel")]
-	public int StartingNutrients = 10;
-
-	public Reagent Nutriment;
+	public int NutritionLevel = 10;
 
 	protected ItemAttributesV2 itemAttributes;
 	private Stackable stackable;
 	private RegisterItem item;
 
-	public ReagentContainer FoodContents;
-
 	private string Name => itemAttributes.ArticleName;
 
 	private void Awake()
 	{
-		FoodContents = GetComponent<ReagentContainer>();
 		item = GetComponent<RegisterItem>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		stackable = GetComponent<Stackable>();
-
-		FoodContents.Add(new ReagentMix(Nutriment, StartingNutrients, TemperatureUtils.ToKelvin(20f, TemeratureUnits.C)));
-
 		if (itemAttributes != null)
 		{
 			itemAttributes.AddTrait(CommonTraits.Instance.Food);
@@ -73,7 +71,7 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		if (eater == null)
 		{
 			// todo: implement non-player eating
-			//SoundManager.PlayNetworkedAtPos(sound, item.WorldPosition);
+			SoundManager.PlayNetworkedAtPos(eatSound, item.WorldPosition);
 			if (leavings != null)
 			{
 				Spawn.ServerPrefab(leavings, item.WorldPosition, transform.parent);
@@ -86,13 +84,13 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 		var feeder = feederGO.GetComponent<PlayerScript>();
 
 		// Show eater message
-		var eaterHungerState = eater.playerHealth.hungerState;
+		var eaterHungerState = eater.playerHealth.Metabolism.HungerState;
 		ConsumableTextUtils.SendGenericConsumeMessage(feeder, eater, eaterHungerState, Name, "eat");
 
 		// Check if eater can eat anything
 		if (eaterHungerState != HungerState.Full)
 		{
-			if (feeder != eater) //If you're feeding it to someone else.
+			if (feeder != eater)  //If you're feeding it to someone else.
 			{
 				//Wait 3 seconds before you can feed
 				StandardProgressAction.Create(ProgressConfig, () =>
@@ -111,21 +109,11 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 
 	public virtual void Eat(PlayerScript eater, PlayerScript feeder)
 	{
+		SoundManager.PlayNetworkedAtPos(eatSound, eater.WorldPos, sourceObj: eater.gameObject);
 		//TODO: Reimplement metabolism.
-		//SoundManager.PlayNetworkedAtPos(sound, eater.WorldPos, sourceObj: eater.gameObject);
 
-		var Stomachs = eater.playerHealth.GetStomachs();
-		if (Stomachs.Count == 0)
-		{
-			//No stomachs?!
-			return;
-		}
-		FoodContents.Divide(Stomachs.Count);
-		foreach (var Stomach in Stomachs)
-		{
-			Stomach.StomachContents.Add(FoodContents.CurrentReagentMix.Clone());
-		}
-
+		eater.playerHealth.Metabolism
+			.AddEffect(new MetabolismEffect(NutritionLevel, 0, MetabolismDuration.Food));
 
 		var feederSlot = feeder.ItemStorage.GetActiveHandSlot();
 		//If food has a stack component, decrease amount by one instead of deleting the entire stack.
@@ -147,6 +135,13 @@ public class Edible : Consumable, ICheckedInteractable<HandActivate>
 			{
 				//If stackable has leavings and they couldn't go in the same slot, they should be dropped
 				pickupable.CustomNetTransform.SetPosition(feeder.WorldPos);
+			}
+			if (copyPlantDataToLeavings == true)
+			{
+				if (TryGetComponent<GrownFood>(out var produce) && leavingsInstance.TryGetComponent<GrownFood>(out var plantTrash)) 
+				{
+					plantTrash.SetPlantData(produce.GetPlantData());
+				}
 			}
 		}
 	}
