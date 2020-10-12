@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Atmospherics;
+using Systems.Atmospherics;
 using NaughtyAttributes;
-using Objects.GasContainer;
+using Objects.Atmospherics;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
