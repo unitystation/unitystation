@@ -2,22 +2,15 @@ using System.Collections.Generic;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
-namespace UI.Core.Radial
+namespace UI.Core.Events
 {
-	public enum PointerEventType
-	{
-		PointerEnter,
-		PointerExit,
-		PointerClick,
-		BeginDrag,
-		Drag,
-		EndDrag,
-		Select,
-		Deselect,
-	}
-
 	public class OnPointerEvent<T> : UnityEvent<PointerEventData, T> {}
 
+	/// <summary>
+	/// Used in cases where you need the ability to be able to listen to any pointer event from some class(es). A UI
+	/// behaviour then only needs to implement the interfaces it requires and invoke the event type.
+	/// </summary>
+	/// <typeparam name="T">The type that will be passed along with PointerEventData to the listener.</typeparam>
     public class PointerEventsListener<T>
     {
         private readonly Dictionary<PointerEventType, OnPointerEvent<T>> events = new Dictionary<PointerEventType, OnPointerEvent<T>>();

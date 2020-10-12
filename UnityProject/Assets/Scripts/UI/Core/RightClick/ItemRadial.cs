@@ -12,14 +12,13 @@ namespace UI.Core.RightClick
 		[SerializeField]
 		private CanvasRenderer nextArrow = default;
 
-		[Tooltip("The label displayed in the center of the item radial.")]
 		[SerializeField]
-		private TMP_Text label = default;
+		private TMP_Text itemLabel = default;
 
 		public override void Setup(int itemCount)
 		{
 			base.Setup(itemCount);
-			label.SetText(string.Empty);
+			itemLabel.SetText(string.Empty);
 			UpdateArrows();
 		}
 
@@ -29,6 +28,6 @@ namespace UI.Core.RightClick
 			nextArrow.SetActive(Mathf.Round(TotalRotation) < MaxIndex * ItemArcAngle);
 		}
 
-		public void ChangeLabel(string text) => label.SetText(text);
+		public void ChangeLabel(string text) => itemLabel.SetText(text);
 	}
 }

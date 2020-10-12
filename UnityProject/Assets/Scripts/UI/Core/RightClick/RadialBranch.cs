@@ -78,7 +78,7 @@ namespace UI.Core.RightClick
 
 		private void BuildBranch(int radius, float scale)
 		{
-			GameObject fromOriginObj = new GameObject("BranchLine", typeof(Image));
+			var fromOriginObj = new GameObject("BranchLine", typeof(Image));
 			var fromOriginImage = fromOriginObj.GetComponent<Image>();
 			fromOriginImage.color = Origin.GetComponent<Image>().color;
 
