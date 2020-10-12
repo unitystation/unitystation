@@ -101,7 +101,7 @@ namespace NPC.AI
 				return false;
 			}
 
-			if (!(Vector3.Distance(transform.position, hitInfo.TileHitWorld) < 1.5f))
+			if ((Vector3.Distance(transform.position, hitInfo.TileHitWorld) >= 1.5f))
 			{
 				return false;
 			}

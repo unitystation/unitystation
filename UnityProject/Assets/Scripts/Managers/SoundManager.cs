@@ -201,13 +201,13 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	private string ResolveSoundPattern(string sndName)
 	{
-		if (!sounds.ContainsKey(sndName) && sndName.Contains('#'))
+		if (sndName == null) return "";
+
+		if (sounds.ContainsKey(sndName) || !sndName.Contains('#')) return sndName;
+		var soundNames = GetMatchingSounds(sndName);
+		if (soundNames.Length > 0)
 		{
-			var soundNames = GetMatchingSounds(sndName);
-			if (soundNames.Length > 0)
-			{
-				return soundNames[Random.Range(0, soundNames.Length)];
-			}
+			return soundNames[Random.Range(0, soundNames.Length)];
 		}
 
 		return sndName;

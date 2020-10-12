@@ -422,7 +422,7 @@ public partial class Chat
 				else
 				{
 					if (MatrixManager.RayCast(getOrigin.transform.position, Vector2.zero, 0, LayerTypeSelection.Walls,
-						layerMask, PlayerManager.LocalPlayer.transform.position).ItHit);
+						layerMask, PlayerManager.LocalPlayer.transform.position).ItHit)
 					{
 						return true;
 					}
@@ -467,7 +467,6 @@ public partial class Chat
 		if (channel.HasFlag(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
 		if (channel.HasFlag(ChatChannel.Warning)) return ColorUtility.ToHtmlStringRGBA(Instance.warningColor);
 		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor);
-		;
 	}
 
 	private static bool IsNamelessChan(ChatChannel channel)

@@ -13,10 +13,10 @@ namespace TileManagement
 	{
 		public int TargetMSpreFrame = 5;
 
-		public Stopwatch stopwatch = new Stopwatch();
+		private Stopwatch stopwatch = new Stopwatch();
 
 
-		private Dictionary<Layer, Dictionary<Vector3Int, TileLocation>> PresentTiles =
+		private readonly Dictionary<Layer, Dictionary<Vector3Int, TileLocation>> PresentTiles =
 			new Dictionary<Layer, Dictionary<Vector3Int, TileLocation>>();
 
 		/// <summary>
@@ -24,9 +24,9 @@ namespace TileManagement
 		/// </summary>
 		public Dictionary<LayerType, Layer> Layers { get; private set; }
 
-		public static Stack<TileLocation> PooledTileLocation = new Stack<TileLocation>();
+		private static readonly Stack<TileLocation> PooledTileLocation = new Stack<TileLocation>();
 
-		public static TileLocation GetPooledTile()
+		private static TileLocation GetPooledTile()
 		{
 			lock (PooledTileLocation)
 			{
@@ -1134,17 +1134,8 @@ namespace TileManagement
 			int stepX = 0;
 			int stepY = 0;
 
-
 			double Offsetuntouchx = (origin.x - Math.Round(origin.x));
 			double Offsetuntouchy = (origin.y - Math.Round(origin.y));
-
-			double offsetX = 0; //Might be conditional
-			double offsetY = 0;
-
-
-			// offsetX = 0.5d - Offsetuntouchx;
-			// offsetY = 0.5d - Offsetuntouchy;
-
 
 			if (direction.x < 0)
 			{
@@ -1255,7 +1246,6 @@ namespace TileManagement
 					if (LayersValues[i].LayerType == LayerType.Objects) continue;
 					if (LTSUtil.IsLayerIn(layerMask, LayersValues[i].LayerType))
 					{
-						TileLcation = null;
 						lock (PresentTiles)
 						{
 							PresentTiles[LayersValues[i]].TryGetValue(vec, out TileLcation);
@@ -1282,19 +1272,19 @@ namespace TileManagement
 
 						if (TileLcation != null)
 						{
-							Vector2 Normal = Vector2.zero;
+							Vector2 normal;
 
 							if (LeftFaceHit)
 							{
-								Normal = Vector2.left * stepX;
+								normal = Vector2.left * stepX;
 							}
 							else
 							{
-								Normal = Vector2.down * stepY;
+								normal = Vector2.down * stepY;
 							}
 
 
-							Vector3 AdjustedNormal = ((Vector3) Normal).ToWorld(PresentMatrix);
+							Vector3 AdjustedNormal = ((Vector3) normal).ToWorld(PresentMatrix);
 							AdjustedNormal = AdjustedNormal - (Vector3.zero.ToWorld(PresentMatrix));
 
 

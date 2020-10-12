@@ -100,17 +100,19 @@ namespace NPC
 		/// <returns>Gameobject of the first player it found</returns>
 		protected virtual GameObject SearchForTarget()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
-			if (hits.Count == 0)
+			var player = Physics2D.OverlapCircleAll(transform.position, 20f, hitMask);
+			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
+			if (player.Length == 0)
 			{
 				return null;
 			}
 
-			foreach (var coll in hits)
+			foreach (var coll in player)
 			{
-				if (coll.GameObject != null && coll.GameObject.layer == playersLayer)
+				if (MatrixManager.Linecast(this.gameObject.WorldPosServer(), LayerTypeSelection.Walls, LayerMask.NameToLayer(""),
+					coll.gameObject.WorldPosServer()).ItHit)
 				{
-					return coll.GameObject;
+					return coll.gameObject;
 				}
 			}
 

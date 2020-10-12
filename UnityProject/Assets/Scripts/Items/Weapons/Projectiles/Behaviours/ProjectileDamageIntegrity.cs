@@ -24,7 +24,7 @@ namespace Weapons.Projectiles.Behaviours
 
 		private bool TryDamage(MatrixManager.CustomPhysicsHit  hit)
 		{
-			if (hit.CollisionHit.GameObject == null) return true;
+			if (hit.CollisionHit.GameObject == null) return false;
 			var coll = hit.CollisionHit.GameObject;
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null) return false;
