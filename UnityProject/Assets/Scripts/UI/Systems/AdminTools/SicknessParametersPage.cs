@@ -46,8 +46,14 @@ namespace AdminTools
 
 		public void StartInfection()
 		{
+			if (!Int32.TryParse(NumberOfPlayerInput.textComponent.text, out var result))
+			{
+				return;
+			}
+
 			SicknessEventParameters eventParameters = new SicknessEventParameters();
-			eventParameters.PlayerToInfect = Convert.ToInt32(NumberOfPlayerInput.textComponent.text);
+
+			eventParameters.PlayerToInfect = result;
 			eventParameters.SicknessIndex = sicknessDropdown.value;
 
 			ServerCommandVersionFourMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, index, fakeEvent, announceEvent, eventType, "CmdTriggerGameEvent", eventParameters);
