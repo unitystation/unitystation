@@ -10,23 +10,23 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d9d639585f97bb841bc468b21539740e, type: 3}
-  m_Name: LesserSummonGuns
+  m_Name: Blink
   m_EditorClassIdentifier: 
   callOnClient: 0
   callOnServer: 1
-  actionName: Lesser Summon Guns
-  description: Summons an unending stream of bolt action rifles.
+  actionName: Blink
+  description: This spell randomly teleports you a short distance.
   Sprites:
-  - {fileID: 11400000, guid: 1ac4be7eddf403d45bc6037a31dfbd01, type: 2}
+  - {fileID: 11400000, guid: c96569601d7a1b6409a07302a0e13bec, type: 2}
   Backgrounds:
   - {fileID: 11400000, guid: 8f7b96a7712804949a79f2ec18abee2c, type: 2}
   PreventBeingControlledBy: 
   DisableOnEvent: 
-  spellImplementation: {fileID: 7469762742606550612, guid: 751d903cc6682e04ba5dd33466daddab,
+  spellImplementation: {fileID: 7469762742606550612, guid: 727cdf95076f5664cb82421703bb12fd,
     type: 3}
   stillRechargingMessage: The spell is still recharging!
   chargeType: 0
-  cooldownTime: 75
+  cooldownTime: 2
   startingCharges: 10
   summonType: 0
   summonObjects: []
@@ -34,7 +34,7 @@ MonoBehaviour:
   summonPosition: 1
   summonLifespan: 10
   affectedMessage: 
-  castSound: LesserSummonGuns
+  castSound: Blink
   invocationType: 0
   invocationMessage: 
   range: 0

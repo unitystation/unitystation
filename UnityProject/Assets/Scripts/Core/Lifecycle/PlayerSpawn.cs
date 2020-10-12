@@ -34,6 +34,7 @@ public static class PlayerSpawn
 		if (newPlayer)
 		{
 			if (occupation.JobType != JobType.SYNDICATE &&
+				occupation.JobType != JobType.WIZARD &&
 				occupation.JobType != JobType.AI)
 			{
 				SecurityRecordsManager.Instance.AddRecord(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);

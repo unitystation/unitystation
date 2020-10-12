@@ -120,21 +120,14 @@ namespace Systems.Teleport
 		/// <param name="maxRadius">The maximum distance the object could teleport to.</param>
 		/// <param name="tryAvoidSpace">Will perform (limited) rerolling of the random vector generation
 		/// until a tile that is not space is found. If the limit is reached, will default to the last space roll.</param>
+		/// <param name="tryAvoidImpassable">Like tryAvoidSpace, but checks to see if the tile is passable (not a wall, machine).</param>
 		/// <returns>The teleported object's new position.</returns>
 		public static Vector3Int ServerTeleportRandom(
-				GameObject objectToTeleport, int minRadius = 0, int maxRadius = 16, bool tryAvoidSpace = false)
+				GameObject objectToTeleport, int minRadius = 0, int maxRadius = 16,
+				bool tryAvoidSpace = false, bool tryAvoidImpassable = false)
 		{
 			Vector3Int originalPosition = objectToTeleport.RegisterTile().WorldPositionServer;
-			Vector3Int newPosition;
-
-			if (tryAvoidSpace)
-			{
-				newPosition = GetTeleportPosAvoidSpace(originalPosition, minRadius, maxRadius);
-			}
-			else
-			{
-				newPosition = originalPosition + (Vector3Int) RandomUtils.RandomAnnulusPoint(minRadius, maxRadius).To2Int();
-			}
+			Vector3Int newPosition = GetTeleportPos(originalPosition, minRadius, maxRadius, tryAvoidSpace, tryAvoidImpassable);
 
 			if (objectToTeleport.TryGetComponent(out CustomNetTransform netTransform))
 			{
@@ -153,20 +146,27 @@ namespace Systems.Teleport
 			return newPosition;
 		}
 
-		private static Vector3Int GetTeleportPosAvoidSpace(Vector3Int centrePoint, float minRadius, float maxRadius)
+		private static Vector3Int GetTeleportPos(Vector3Int centrePoint, float minRadius, float maxRadius, bool avoidSpace, bool avoidImpassable)
 		{
 			Vector3Int randomVector;
 			Vector3Int newPosition = Vector3Int.zero;
 
-			for (int i = 0; i < 5; i++)
+			for (int i = 0; i < 8; i++)
 			{
 				randomVector = (Vector3Int) RandomUtils.RandomAnnulusPoint(minRadius, maxRadius).To2Int();
 				newPosition = centrePoint + randomVector;
 
-				if (!MatrixManager.IsSpaceAt(newPosition, CustomNetworkManager.IsServer))
+				if (avoidSpace && MatrixManager.IsSpaceAt(newPosition, CustomNetworkManager.IsServer))
 				{
-					return newPosition;
+					continue;
 				}
+
+				if (avoidImpassable && !MatrixManager.IsPassableAt(newPosition, CustomNetworkManager.IsServer))
+				{
+					continue;
+				}
+
+				return newPosition;
 			}
 
 			return newPosition;
