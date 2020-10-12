@@ -5,6 +5,7 @@ using Weapons;
 
 public class GunPKA : Gun
 {
+	public GameObject Projectile;
 
 	bool allowRecharge = true;
 	public float rechargeTime = 2.0f;
@@ -30,7 +31,8 @@ public class GunPKA : Gun
 	{
 		allowRecharge = false;
 		yield return WaitFor.Seconds(rechargeTime);
-		CurrentMagazine.ExpendAmmo(-1);
+		CurrentMagazine.ServerSetAmmoRemains(1);
+		CurrentMagazine.LoadProjectile(CurrentMagazine.Projectile, CurrentMagazine.ProjectilesFired);
 		SoundManager.PlayNetworkedAtPos("ReloadKinetic", gameObject.AssumedWorldPosServer(), sourceObj: serverHolder);
 		allowRecharge = true;
 	}

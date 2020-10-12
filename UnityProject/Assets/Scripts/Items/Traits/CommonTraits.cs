@@ -50,6 +50,7 @@ public class CommonTraits : SingletonScriptableObject<CommonTraits>
 	public ItemTrait Breakable;
 	public ItemTrait Rods;
 	public ItemTrait SolidPlasma;
+	public ItemTrait OrePlasma;
 	public ItemTrait NukeDisk;
 	public ItemTrait Insulated;
 	public ItemTrait BudgetInsulated;

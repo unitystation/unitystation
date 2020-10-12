@@ -92,7 +92,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 			containedProjectilesFired.Add(ProjectilesFired);
 		}
 	}
-	
+
 	/// <summary>
 	/// Changes size of magazine and reloads it. Be sure to call this on every client and the server if you do, or face the consequences.
 	/// Also sets the contained ammunition to full.
@@ -134,6 +134,11 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// <returns></returns>
 	public virtual void ExpendAmmo(int amount = 1)
 	{
+		if (amount < 0)
+		{
+			Logger.LogWarning("Attempted to expend a negitive amount of ammo", Category.Firearms); // dont use this method to replenish ammo
+		}
+
 		if (ClientAmmoRemains < amount)
 		{
 			Logger.LogWarning("Client ammo count is too low, cannot expend that much ammo. Make sure" +
@@ -205,6 +210,16 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		ServerSetAmmoRemains(serverAmmoRemains + toTransfer);
 
 		return ("Loaded " + toTransfer + (toTransfer == 1 ? " piece" : " pieces") + " of ammunition.");
+	}
+
+	/// <summary>
+	/// method to add info to the projectile array,
+	/// should be used when ammo is being increased outside of the reload logic
+	/// </summary>
+	public void LoadProjectile(GameObject projectile,int projectilesfired)
+	{
+		containedBullets.Add(projectile);
+		containedProjectilesFired.Add(projectilesfired);
 	}
 
 	/// <summary>
