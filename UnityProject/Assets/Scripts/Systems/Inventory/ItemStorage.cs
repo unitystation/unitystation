@@ -3,8 +3,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Items;
-using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -15,8 +13,7 @@ using UnityEngine.Serialization;
 ///
 /// The ways in which the storage can be interacted with is handled by other components.
 ///
-/// Note that items stored in an ItemStorage can themselves have ItemStorage (for example, storing a backpack
-/// in a player's inventory)!
+/// Note that items stored in an ItemStorage can themselveOnDespawnServer
 /// </summary>
 public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove, IClientInventoryMove
 {
@@ -65,10 +62,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	//It can be null, or it can be a pickupable.(Health V2)
 	public event Action<Pickupable, Pickupable> ServerInventoryItemSlotSet;
 
-	public bool UesAddlistPopulater = false;
-
-	[ShowIf(nameof(UesAddlistPopulater))] public PrefabListPopulater Populater;
-
 	private void Awake()
 	{
 		playerNetworkActions = GetComponent<PlayerNetworkActions>();
@@ -78,11 +71,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	public void OnSpawnServer(SpawnInfo info)
 	{
 		ServerPopulate(itemStoragePopulator, PopulationContext.AfterSpawn(info));
-		if (UesAddlistPopulater)
-		{
-			ServerPopulate(Populater, PopulationContext.AfterSpawn(info));
-		}
-
 		//if this is a player's inventory, make them an observer of all slots
 		if (GetComponent<PlayerScript>() != null)
 		{
@@ -107,58 +95,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		ItemSlot.Free(this);
 	}
 
-	public bool ServerTrySpawnAndAdd(GameObject InGameObject)
-	{
-		var spawned = Spawn.ServerPrefab(InGameObject);
-		if (spawned.Successful == false) return false;
-		return ServerTryAdd(spawned.GameObject);
-	}
-
-	//True equals successful false equals unsuccessful
-	public bool ServerTryAdd(GameObject InGameObject)
-	{
-		var Item = InGameObject.GetComponent<ItemAttributesV2>();
-		if (Item == null) return false;
-		var slot = GetBestSlotFor(InGameObject);
-		if (slot == null) return false;
-
-		return Inventory.ServerAdd(InGameObject, slot);
-	}
-
-	public bool ServerTryTransferFrom(ItemSlot inSlot)
-	{
-		var Item = inSlot.Item.GetComponent<ItemAttributesV2>();
-		if (Item == null) return false;
-		var slot = GetBestSlotFor(inSlot.Item);
-		if (slot == null) return false;
-
-		return Inventory.ServerTransfer(inSlot, slot, ReplacementStrategy.Cancel);
-	}
-
-	public bool ServerTryRemove(GameObject InGameObject, bool Destroy = false)
-	{
-		var Item = InGameObject.GetComponent<ItemAttributesV2>();
-		if (Item == null) return false;
-		var slots = GetItemSlots();
-		foreach (var slot in slots)
-		{
-			if (slot.Item.gameObject == InGameObject)
-			{
-				if (Destroy)
-				{
-					return Inventory.ServerDespawn(slot);
-				}
-				else
-				{
-					return Inventory.ServerDrop(slot);
-
-				}
-
-			}
-		}
-
-		return false;
-	}
 
 	public void OnInventoryMoveServer(InventoryMove info)
 	{
@@ -231,24 +167,6 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 		{
 			definedSlots.Add(slot);
 		}
-	}
-
-	/// <summary>
-	/// Change the number of available slots in the storage.
-	/// </summary>
-	public void AcceptNewStructure(ItemStorageStructure newStructure)
-	{
-		itemStorageStructure = newStructure;
-		definedSlots = null;
-		CacheDefinedSlots();
-	}
-
-	/// <summary>
-	/// Return the size of the storage.
-	/// </summary>
-	public int StorageSize()
-	{
-		return definedSlots.Count;
 	}
 
 	/// <summary>
@@ -470,8 +388,8 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	/// <summary>
 	/// Slots gas containers can be used from.
 	/// </summary>
-	public static readonly NamedSlot[] GasUseSlots = 	{NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02, NamedSlot.suitStorage,
-		NamedSlot.back, NamedSlot.belt};
+	public static readonly NamedSlot[] GasUseSlots = 	{NamedSlot.leftHand, NamedSlot.rightHand, NamedSlot.storage01, NamedSlot.storage02, NamedSlot.storage03,
+		NamedSlot.suitStorage, NamedSlot.back, NamedSlot.belt};
 
 	/// <summary>
 	/// Gets the highest indexed slot that is currently occupied. Null if none are occupied
