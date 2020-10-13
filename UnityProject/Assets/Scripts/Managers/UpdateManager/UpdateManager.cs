@@ -248,35 +248,31 @@ public class UpdateManager : MonoBehaviour
 		{
 			if (i > 0 && i < updateActions.Count)
 			{
-#if UNITY_EDITOR
 				if (Profile)
 				{
 					Profiler.BeginSample(updateActions[i]?.Method?.ReflectedType?.FullName);
 				}
-#endif
+
 				updateActions[i].Invoke();
-#if UNITY_EDITOR
+
 				if (Profile)
 				{
 					Profiler.EndSample();
 				}
-#endif
 			}
 		}
 
-#if UNITY_EDITOR
 		if (Profile)
 		{
 			Profiler.BeginSample(" Periodic update Process ");
 		}
-#endif
+
 		ProcessDelayUpdate();
-#if UNITY_EDITOR
+
 		if (Profile)
 		{
 			Profiler.EndSample();
 		}
-#endif
 	}
 
 	/// <summary>
