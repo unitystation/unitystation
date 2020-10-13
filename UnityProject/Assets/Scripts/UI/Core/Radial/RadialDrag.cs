@@ -8,8 +8,6 @@ namespace UI.Core.Radial
     [RequireComponent(typeof(IRadial))]
     public class RadialDrag : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
     {
-        public class DragEvent : UnityEvent<PointerEventData> {}
-
         [Tooltip("The drag speed multiplier.")]
         [SerializeField]
         private float speedFactor = 0.1f;
@@ -20,18 +18,18 @@ namespace UI.Core.Radial
 
         private IRadial RadialUI { get; set; }
 
-        public DragEvent OnBeginDragEvent { get; } = new DragEvent();
+        public Action<PointerEventData> OnBeginDragEvent { get; set;  }
 
-        public DragEvent OnDragEvent { get; } = new DragEvent();
+        public Action<PointerEventData> OnDragEvent { get; set; }
 
-        public DragEvent OnEndDragEvent { get; } = new DragEvent();
+        public Action<PointerEventData> OnEndDragEvent { get; set; }
 
         public void Awake()
         {
             RadialUI = GetComponent<IRadial>();
         }
 
-        public void OnBeginDrag(PointerEventData eventData) => OnBeginDragEvent.Invoke(eventData);
+        public void OnBeginDrag(PointerEventData eventData) => OnBeginDragEvent?.Invoke(eventData);
 
         public void OnDrag(PointerEventData eventData)
         {
@@ -48,10 +46,10 @@ namespace UI.Core.Radial
 	            return;
             }
             RadialUI.RotateRadial(-rotationAmount);
-            OnDragEvent.Invoke(eventData);
+            OnDragEvent?.Invoke(eventData);
         }
 
-        public void OnEndDrag(PointerEventData eventData) => OnEndDragEvent.Invoke(eventData);
+        public void OnEndDrag(PointerEventData eventData) => OnEndDragEvent?.Invoke(eventData);
 
     }
 }

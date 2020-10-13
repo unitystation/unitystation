@@ -53,8 +53,11 @@ namespace UI.Core.RightClick
 
 			    itemRadial = Instantiate(itemRadialPrefab, transform);
 			    var radialDrag = itemRadial.GetComponent<RadialDrag>();
-			    radialDrag.OrNull()?.OnBeginDragEvent.AddListener(OnBeginDragEvent);
-			    radialDrag.OrNull()?.OnEndDragEvent.AddListener(OnEndDragEvent);
+			    if (radialDrag != null)
+			    {
+				    radialDrag.OnBeginDragEvent = OnBeginDragEvent;
+					radialDrag.OnEndDragEvent = OnEndDragEvent;
+			    }
 			    itemRadial.OnIndexChanged = OnIndexChanged;
 			    itemRadial.RadialEvents.AddListener(PointerEventType.PointerEnter, OnHoverItem);
 			    itemRadial.RadialEvents.AddListener(PointerEventType.PointerClick, OnClickItem);

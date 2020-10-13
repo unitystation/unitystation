@@ -24,6 +24,10 @@ namespace UI.Core.Radial
 		    private set => totalRotation = Mathf.Max(0, Mathf.Min(value, MaxIndexAngle));
 	    }
 
+	    protected T LowerMaskItem { get; private set; }
+
+	    protected T UpperMaskItem { get; private set; }
+
 	    private int CurrentIndex { get; set; }
 
 	    public Action<T> OnIndexChanged { get; set; }
@@ -37,24 +41,23 @@ namespace UI.Core.Radial
 		    }
 	    }
 
-	    protected T LowerMaskItem => InitOrGetMaskItem(ref lowerMaskItem, lowerMask, 0);
-
-	    protected T UpperMaskItem => InitOrGetMaskItem(ref upperMaskItem, upperMask, 1);
-
 	    protected int MaxIndex => TotalItemCount - ShownItemsCount;
 
 	    protected float MaxIndexAngle => MaxIndex * ItemArcMeasure;
 
-	    private T InitOrGetMaskItem(ref T maskItem, RectTransform parent, int index)
+	    private T InitMaskItem(RectTransform parent, int index)
 	    {
 		    InitItem(index);
-		    if (maskItem == null)
-		    {
-			    maskItem = Items[index];
-			    maskItem.transform.SetParent(parent);
-		    }
+		    var maskItem = Items[index];
+		    maskItem.transform.SetParent(parent);
 
 		    return maskItem;
+	    }
+
+	    public void Awake()
+	    {
+		    LowerMaskItem = InitMaskItem(lowerMask, 0);
+		    UpperMaskItem = InitMaskItem(upperMask, 1);
 	    }
 
 	    public override void Setup(int itemCount)
