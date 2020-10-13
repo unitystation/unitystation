@@ -150,7 +150,7 @@ namespace UI.Core.Radial
 	    private bool IsPositionValid(Vector2 position, float lowerBound, float upperBound, float checkAngle, bool fullRadius = false)
 	    {
 		    var relativePosition = (Vector2)transform.position - position;
-		    if (!isActiveAndEnabled || !IsPositionInRadius(relativePosition, fullRadius))
+		    if (isActiveAndEnabled == false || IsPositionInRadius(relativePosition, fullRadius) == false)
 		    {
 			    return false;
 		    }

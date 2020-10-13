@@ -29,7 +29,11 @@ namespace UI.Core.Radial
             RadialUI = GetComponent<IRadial>();
         }
 
-        public void OnBeginDrag(PointerEventData eventData) => OnBeginDragEvent?.Invoke(eventData);
+        public void OnBeginDrag(PointerEventData eventData)
+        {
+			UIManager.IsMouseInteractionDisabled = true;
+			OnBeginDragEvent?.Invoke(eventData);
+        }
 
         public void OnDrag(PointerEventData eventData)
         {
@@ -39,8 +43,8 @@ namespace UI.Core.Radial
             var theta = Mathf.Rad2Deg * Mathf.Atan2(radialPos.y - mousePos.y, radialPos.x - mousePos.x);
             var fixedDelta = delta.RotateAroundZ(Vector3.zero, (360 - theta) % 360);
             var rotationAmount = delta.sqrMagnitude * Mathf.Sign(fixedDelta.y) * speedFactor;
-            var halfPI = Mathf.PI / 2;
-            rotationAmount = Mathf.Clamp(rotationAmount, -RadialUI.ItemArcMeasure / halfPI, RadialUI.ItemArcMeasure / halfPI);
+            var clampAmount = RadialUI.ItemArcMeasure / (Mathf.PI / 2);
+            rotationAmount = Mathf.Clamp(rotationAmount, -clampAmount, clampAmount);
             if (Math.Abs(rotationAmount) < dragThreshold)
             {
 	            return;
@@ -49,7 +53,11 @@ namespace UI.Core.Radial
             OnDragEvent?.Invoke(eventData);
         }
 
-        public void OnEndDrag(PointerEventData eventData) => OnEndDragEvent?.Invoke(eventData);
+        public void OnEndDrag(PointerEventData eventData)
+        {
+			OnEndDragEvent?.Invoke(eventData);
+			UIManager.IsMouseInteractionDisabled = false;
+        }
 
     }
 }

@@ -211,8 +211,8 @@ namespace UI.Core.RightClick
 	    {
 		    var currentSnapTime = Time.time - SnapStartTime;
 
-		    // Snap Rotation is set to zero on drag. The inequality check here is to keep it from rotating after dragging.
-		    if (!SnapRotation.Equals(0) && currentSnapTime <= snapTime)
+		    // Snap Rotation is set to zero on drag. The inequality check here is to keep it from rotating while dragging.
+		    if (SnapRotation.Equals(0) == false && currentSnapTime <= snapTime)
 		    {
 			    var eval = currentSnapTime > 0 ? currentSnapTime / snapTime : 0;
 			    var change = SnapRotation * snapCurve.Evaluate(eval);
@@ -229,14 +229,14 @@ namespace UI.Core.RightClick
 		    ItemRadial.transform.localPosition = radialBranch.MenuPosition;
 		    ItemRadial.UpdateArrows();
 
-		    if (!IsAnyPointerDown())
+		    if (IsAnyPointerDown() == false)
 		    {
 			    return;
 		    }
 
 		    // Deactivate the menu if there was a mouse click outside of the menu.
 		    var mousePos = CommonInput.mousePosition;
-		    if (!ItemRadial.IsPositionWithinRadial(mousePos, true) && !ActionRadial.IsPositionWithinRadial(mousePos))
+		    if (ItemRadial.IsPositionWithinRadial(mousePos, true) == false && ActionRadial.IsPositionWithinRadial(mousePos) == false)
 		    {
 			    this.SetActive(false);
 		    }
