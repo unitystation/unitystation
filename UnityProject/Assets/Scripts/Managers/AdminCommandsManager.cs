@@ -369,6 +369,9 @@ namespace AdminCommands
 			Profiler.logFile = "Profiles/" + DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss");
 			Profiler.enableBinaryLog = true;
 			Profiler.enabled = true;
+
+			UpdateManager.Instance.Profile = true;
+
 			StartCoroutine(RunPorfile(frameCount));
 		}
 
@@ -384,6 +387,8 @@ namespace AdminCommands
 			Profiler.enabled = false;
 			Profiler.enableBinaryLog = true;
 			Profiler.logFile = "";
+
+			UpdateManager.Instance.Profile = false;
 
 			ProfileMessage.SendToApplicable();
 		}
