@@ -41,10 +41,13 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	public bool isClip = false;
 	public GameObject Projectile;
 	public int ProjectilesFired = 1;
+	public bool isCell = false;
 
-	List<int> containedProjectilesFired = new List<int>();
+	[HideInInspector]
+	public List<int> containedProjectilesFired = new List<int>();
 
-	List<GameObject> containedBullets = new List<GameObject>();
+	[HideInInspector]
+	public List<GameObject> containedBullets = new List<GameObject>();
 	public AmmoType ammoType; //SET IT IN INSPECTOR
 	public int magazineSize = 20;
 
@@ -74,7 +77,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		//set to max ammo on initialization
 		clientAmmoRemains = -1;
-		if (!isClip)
+		if (!isClip && !isCell)
 		{
 			InitLists();
 		}
@@ -159,7 +162,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 			else
 			{
 				SyncServerAmmo(serverAmmoRemains, serverAmmoRemains - amount);
-				if (!isClip)
+				if (!isClip && !isCell)
 				{
 					for (int i = amount;i != 0;i--)
 					{
@@ -197,7 +200,7 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		int toTransfer = Math.Min(magazineSize - serverAmmoRemains, clip.serverAmmoRemains);
 
 		clip.ExpendAmmo(toTransfer);
-		if (!isClip)
+		if (!isClip && !isCell)
 		{
 			for (int i = toTransfer;i != 0;i--)
 			{
@@ -264,8 +267,11 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 	public void UpdateProjectile()
 	{
+		if (!isClip && !isCell)
+		{
 		ProjectilesFired = containedProjectilesFired[0];
 		Projectile = containedBullets[0];
+		}
 	}
 
 	public String Examine(Vector3 pos)

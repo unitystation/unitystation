@@ -1,17 +1,21 @@
 ﻿using UnityEngine;
 using Items;
+using Objects;
 
 namespace Weapons
 {
 	public class PlasmaRefill : MonoBehaviour, ICheckedInteractable<HandApply>, ICheckedInteractable<InventoryApply>
 	{
-		public int oreEff = 20;
+		private int oreEff = 500;
 
 		// sheets should be about twice as efficent as ore
-		public int sheetEff = 40;
-		private int consumed;
+		private int sheetEff = 1000;
+		private int toRefill;
 		private int refilledAmmo;
+		private int toConsume;
 		private MagazineBehaviour magazineBehaviour;
+		private ElectricalMagazine electricalMagazine;
+		private Battery battery;
 
 		private void Start()
 		{
@@ -54,60 +58,48 @@ namespace Weapons
 			if (needAmmo <= 0) return;
 
 			var stackable = interaction.HandObject.GetComponent<Stackable>();
+			var intbattery = interaction.HandObject.GetComponent<InternalBattery>();
+			battery = intbattery.GetBattery();
+			electricalMagazine = battery.GetComponent<ElectricalMagazine>();
 			Refill(stackable, needAmmo, refilledAmmo);
 		}
 
-		private void Refill(Stackable stackable, int needAmmo, int refilledAmmo)
+		private void Refill(Stackable stackable, int needAmmo, int ChargingWatts)
 		{
-			// get the amount of plasma being used to refill us
+
+			// get the amount of plasma being used to refill
 			var plasmaInStack = stackable.Amount;
 
-			consumed = 0;
+			toRefill = 0;
 			// calculate the amount of fuel we would need to
-			// refill us to capacity
+			// refill to capacity
 			for (int i = needAmmo; i > 0;i -= refilledAmmo)
 			{
-				consumed++;
+				toRefill++;
 			}
 
-			if (plasmaInStack < consumed)
+			if (plasmaInStack < toRefill)
 			{
-				// we do not have enough fuel to full refill, so calculate how much
-				// we can fill with the amount we have
-				magazineBehaviour.ServerSetAmmoRemains(magazineBehaviour.ServerAmmoRemains + (plasmaInStack * refilledAmmo));
-				// plasmaInStack * refilledAmmo is the amount of ammo we can refill,
-				// add this to the current amount of ammo we have as we are using a set method
-				// we shouldnt need to clamp this value as it wont refill us to capacity
-
-				// add the amount of projectiles we are loading to the clip's array
-				for (int i = (plasmaInStack * refilledAmmo); i > 0; i--)
-				{
-					magazineBehaviour.LoadProjectile(magazineBehaviour.Projectile, 1);
-				}
-				// consume the entire stack because the amount cant fill us to capacity
-				stackable.ServerConsume(plasmaInStack);
+				// dont have enough plasma to refill to capacity
+				toConsume = plasmaInStack;
 			}
 			else
 			{
-				// we have enough fuel to fill our ammo to capacity
-				// so dont bother calculating stuff and set our ammo to max
-				magazineBehaviour.ServerSetAmmoRemains(magazineBehaviour.magazineSize);
-
-				// add the amount of projectiles we are loading to the clip's array
-				for (int i = needAmmo; i > 0; i--)
-				{
-					magazineBehaviour.LoadProjectile(magazineBehaviour.Projectile, 1);
-				}
-				// consume the amount that will leave us refilled to max and leave the rest
-				stackable.ServerConsume(consumed);
+				// have enough to refill to capacity
+				toConsume = toRefill;
 			}
+			AddCharge(ChargingWatts * toConsume);
+			stackable.ServerConsume(toConsume);
+		}
 
-			if (needAmmo < plasmaInStack)
+		private void AddCharge(int ChargingWatts)
+		{
+			battery.Watts += ChargingWatts;
+
+			if (electricalMagazine != null)
 			{
-				for (int i = plasmaInStack; i > 0; i--)
-				{
-					magazineBehaviour.LoadProjectile(magazineBehaviour.Projectile, 1);
-				}
+				//For electrical guns
+				electricalMagazine.AddCharge();
 			}
 		}
 
@@ -146,6 +138,9 @@ namespace Weapons
 				return;
 			}
 			var stackable = interaction.FromSlot.Item.GetComponent<Stackable>();
+			var intbattery = interaction.FromSlot.Item.GetComponent<InternalBattery>();
+			battery = intbattery.GetBattery();
+			electricalMagazine = battery.GetComponent<ElectricalMagazine>();
 			Refill(stackable, needAmmo, refilledAmmo);
 		}
 	}

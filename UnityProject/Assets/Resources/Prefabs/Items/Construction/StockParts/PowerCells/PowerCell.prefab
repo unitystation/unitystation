@@ -15,6 +15,29 @@ MonoBehaviour:
   Watts: 1000
   MaxWatts: 1000
   InternalResistance: 240
+--- !u!114 &7397259818368812832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089748232968454180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4366bd96f24a5244680b41595883f300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  isClip: 0
+  Projectile: {fileID: 0}
+  ProjectilesFired: 1
+  isCell: 1
+  containedProjectilesFired: 
+  containedBullets: []
+  ammoType: 14
+  magazineSize: 20
+  battery: {fileID: 1851616424243757961}
 --- !u!1 &9156308078107356587
 GameObject:
   m_ObjectHideFlags: 0
