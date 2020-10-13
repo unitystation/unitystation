@@ -125,6 +125,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &114036725184049604
@@ -141,7 +142,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -162,7 +165,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114537195206963462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -237,6 +239,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -261,7 +264,8 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 620b2e14bf86df347b31333b0ae248ce, type: 3}
+  m_Sprite: {fileID: -5641520194656708008, guid: 59c91854ace4dae4c9474ec8e92a4e26,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
