@@ -83,7 +83,7 @@ namespace Items.Command
 		protected virtual void ServerPeriodicUpdate()
 		{
 			if (!boundsConfigured) return;
-			if (!stopAutoTeleport) return;
+			if (stopAutoTeleport) return;
 
 			if (DiskLost())
 			{
