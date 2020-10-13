@@ -124,7 +124,6 @@ namespace Weapons
 		/// </summary>
 		public float MaxRecoilVariance;
 
-		//TODO: make this dependent on the mag used/projectile fired
 		/// <summary>
 		/// The traveling speed for this weapons projectile
 		/// </summary>
@@ -287,10 +286,7 @@ namespace Weapons
 				}
 				else if (interaction.MouseButtonState == MouseButtonState.PRESS)
 				{
-					if (currentBurstCount != 0)
-					{
-						currentBurstCount = 0;
-					}
+					currentBurstCount = 0;
 					return true;
 				}
 				else
@@ -349,7 +345,7 @@ namespace Weapons
 
 
 
-		public bool Interact(HandActivate interaction)
+		public virtual bool Interact(HandActivate interaction)
 		{
 			//try ejecting the mag if external
 			if (CurrentMagazine != null && allowMagazineRemoval && !MagInternal)
@@ -380,7 +376,7 @@ namespace Weapons
 			return false;
 		}
 
-		public string Examine(Vector3 pos)
+		public virtual string Examine(Vector3 pos)
 		{
 			return WeaponType + " - Fires " + ammoType + " ammunition (" + (CurrentMagazine != null ? (CurrentMagazine.ServerAmmoRemains.ToString() + " rounds loaded in magazine") : "It's empty!") + ")";
 		}
@@ -588,7 +584,7 @@ namespace Weapons
 		/// <param name="finalDirection">direction the shot should travel (accuracy deviation should already be factored into this)</param>
 		/// <param name="damageZone">targeted damage zone</param>
 		/// <param name="isSuicideShot">if this is a suicide shot (aimed at shooter)</param>
-		public void DisplayShot(GameObject shooter, Vector2 finalDirection,
+		public virtual void DisplayShot(GameObject shooter, Vector2 finalDirection,
 			BodyPartType damageZone, bool isSuicideShot)
 		{
 			if (!MatrixManager.IsInitialized) return;
@@ -661,7 +657,7 @@ namespace Weapons
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}
 
-		private Vector2 CalcDirection(Vector2 direction, int iteration)
+		public Vector2 CalcDirection(Vector2 direction, int iteration)
 		{
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 			float angleVariance = iteration/1f;
@@ -787,7 +783,7 @@ namespace Weapons
 			return (float)(CurrentMagazine.CurrentRNG() * (max - min) + min);
 		}
 
-		private void AppendRecoil()
+		public void AppendRecoil()
 		{
 			if (CurrentRecoilVariance < MaxRecoilVariance)
 			{

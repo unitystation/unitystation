@@ -460,7 +460,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 5514211542297457100, guid: 1fa5cba1259242a4fb65ef81d8b64359,
+      objectReference: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
         type: 3}
     - target: {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22,
         type: 3}
@@ -567,18 +567,6 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
---- !u!1 &4454405483554457966 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8150840225578731674, guid: da85b7a590e7c8444af73629fcb5dd22,
-    type: 3}
-  m_PrefabInstance: {fileID: 5533974169584468468}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &4450321759764526106 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
-    type: 3}
-  m_PrefabInstance: {fileID: 5533974169584468468}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &942046851822298982 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -4477014874976573806, guid: da85b7a590e7c8444af73629fcb5dd22,
@@ -591,3 +579,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!4 &4450321759764526106 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4454405483554457966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8150840225578731674, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}
