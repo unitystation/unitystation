@@ -38,12 +38,11 @@ namespace UI.Core.Radial
         public void OnDrag(PointerEventData eventData)
         {
             var delta = eventData.delta;
-            var mousePos = eventData.position;
-            var radialPos = transform.position;
-            var theta = Mathf.Rad2Deg * Mathf.Atan2(radialPos.y - mousePos.y, radialPos.x - mousePos.x);
+            var relativePosition = (Vector2)transform.position - eventData.position;
+            var theta = Mathf.Rad2Deg * Mathf.Atan2(relativePosition.y, relativePosition.x);
             var fixedDelta = delta.RotateAroundZ(Vector3.zero, (360 - theta) % 360);
-            var rotationAmount = delta.sqrMagnitude * Mathf.Sign(fixedDelta.y) * speedFactor;
             var clampAmount = RadialUI.ItemArcMeasure / (Mathf.PI / 2);
+            var rotationAmount = delta.sqrMagnitude * Mathf.Sign(fixedDelta.y) * speedFactor;
             rotationAmount = Mathf.Clamp(rotationAmount, -clampAmount, clampAmount);
             if (Math.Abs(rotationAmount) < dragThreshold)
             {

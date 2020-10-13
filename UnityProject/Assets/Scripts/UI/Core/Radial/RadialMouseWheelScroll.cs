@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace UI.Core.Radial
 {
 	[RequireComponent(typeof(IRadial))]
-	public class RadialMouseWheelScroll : MonoBehaviour
+	public class RadialMouseWheelScroll : MonoBehaviour, IScrollHandler
 	{
 		[Tooltip("The number of items to scroll when using the mouse wheel.")]
 		[SerializeField]
@@ -20,15 +21,14 @@ namespace UI.Core.Radial
 			RadialUI = GetComponent<IRadial>();
 		}
 
-		public void Update()
+		public void OnScroll(PointerEventData eventData)
 		{
-			if (!RadialUI.IsPositionWithinRadial(CommonInput.mousePosition, fullRadius))
+			if (!RadialUI.IsPositionWithinRadial(eventData.position, fullRadius))
 			{
 				return;
 			}
 
-			var scrollDelta = Input.mouseScrollDelta.y;
-			// Allow mouse wheel to scroll through items.
+			var scrollDelta = eventData.scrollDelta.y;
 			if (scrollDelta < 0)
 			{
 				RadialUI.RotateRadial(RadialUI.ItemArcMeasure * scrollCount);
