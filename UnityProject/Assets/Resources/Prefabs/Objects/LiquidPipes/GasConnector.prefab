@@ -39,7 +39,6 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Volume: 0.05
       Mix:
         temperature: 273.15
         reagents:
@@ -182,7 +181,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 4bcb8d8cce82a384fbc97ab57e0f7ca1,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 90804091474310291, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &89826352100901616 stripped
 GameObject:
