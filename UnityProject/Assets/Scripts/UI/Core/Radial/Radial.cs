@@ -189,6 +189,11 @@ namespace UI.Core.Radial
 		    return relativePosition.IsInRadius(OuterRadius * lossyScale, inner);
 	    }
 
+	    public void OnDisable()
+	    {
+		    Selected = null;
+	    }
+
 	    public IEnumerator<T> GetEnumerator() => Items.GetEnumerator();
 
 	    IEnumerator IEnumerable.GetEnumerator() => Items.GetEnumerator();

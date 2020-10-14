@@ -6,13 +6,13 @@ using UI.Core.Events;
 
 namespace UI.Core.RightClick
 {
-	public class RightClickRadialButton : RadialItem<RightClickRadialButton>, IPointerEnterHandler, IPointerClickHandler, IBeginDragHandler, ISelectHandler
+	public class RightClickRadialButton : RadialItem<RightClickRadialButton>, IPointerEnterHandler, IPointerClickHandler
 	{
 		private static readonly int IsPaletted = Shader.PropertyToID("_IsPaletted");
 		private static readonly int ColorPalette = Shader.PropertyToID("_ColorPalette");
 
 		[SerializeField]
-		private Button button = default;
+		private RightClickButton button = default;
 
 		[SerializeField]
 		private Image icon = default;
@@ -26,12 +26,18 @@ namespace UI.Core.RightClick
 		[SerializeField]
 		private RectTransform divider = default;
 
-	    private Image Mask { get; set; }
+		public bool Interactable
+		{
+			get => button.IsInteractable();
+			set => button.interactable = value;
+		}
+
+		private Image Mask { get; set; }
 
 	    protected void Awake()
 	    {
 		    Mask = GetComponent<Image>();
-		    button = GetComponent<Button>();
+		    button = GetComponent<RightClickButton>();
 	    }
 
 	    public override void Setup(Radial<RightClickRadialButton> parent, int index)
@@ -56,6 +62,7 @@ namespace UI.Core.RightClick
 		    var colors = button.colors;
 		    colors.highlightedColor = CalculateHighlight(itemInfo.BackgroundColor);
 		    colors.selectedColor = colors.highlightedColor;
+		    colors.disabledColor = colors.normalColor;
 		    button.colors = colors;
 		    icon.canvasRenderer.SetColor(iconFadedColor);
 		    icon.color = itemInfo.IconColor;
@@ -81,34 +88,39 @@ namespace UI.Core.RightClick
 			    : Mathf.Lerp(channel, 1, (0.5f - channel) * 0.5f);
 	    }
 
+	    public void ResetState()
+	    {
+		    button.ResetState();
+		    icon.canvasRenderer.SetColor(iconFadedColor);
+	    }
+
 	    public void OnPointerEnter(PointerEventData eventData)
 	    {
+		    var selected = Radial.Selected;
+		    if (selected != this)
+		    {
+				selected.OrNull()?.FadeOut(eventData);
+				Radial.Selected = this;
+		    }
+
 		    if (eventData.dragging)
 		    {
 			    return;
 		    }
-		    OnSelect(eventData);
+		    icon.CrossFadeColor(Color.white, iconFadeDuration, false, true);
+		    button.OnPointerEnter(eventData);
 		    Radial.Invoke(PointerEventType.PointerEnter, eventData, this);
 	    }
 
 	    public void OnPointerClick(PointerEventData eventData) =>
 			Radial.Invoke(PointerEventType.PointerClick, eventData, this);
 
-	    public void OnBeginDrag(PointerEventData eventData) => OnDeselect(eventData);
-
-	    public void OnSelect(BaseEventData eventData)
+	    public void FadeOut(BaseEventData eventData)
 	    {
-		    Radial.Selected.OrNull()?.OnDeselect(eventData);
-		    Radial.Selected = this;
-		    icon.CrossFadeColor(Color.white, iconFadeDuration, false, true);
-	    }
-
-	    public void OnDeselect(BaseEventData eventData)
-	    {
-		    // Leaving the IOnDeselectHandler out so that this OnDeselect isn't triggered when an action radial or other button is selected/pressed.
-		    Radial.Selected = null;
 		    button.OnDeselect(eventData);
 		    icon.CrossFadeColor(iconFadedColor, iconFadeDuration, false, true);
 	    }
+
+	    public void OnDisable() => icon.canvasRenderer.SetColor(iconFadedColor);
 	}
 }

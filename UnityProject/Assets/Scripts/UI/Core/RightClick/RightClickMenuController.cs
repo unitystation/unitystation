@@ -58,6 +58,11 @@ namespace UI.Core.RightClick
 				    radialDrag.OnBeginDragEvent = OnBeginDragEvent;
 					radialDrag.OnEndDragEvent = OnEndDragEvent;
 			    }
+			    var radialScrollWheel = itemRadial.GetComponent<RadialMouseWheelScroll>();
+			    if (radialScrollWheel != null)
+			    {
+				    radialScrollWheel.OnEndScrollEvent = OnEndScrollEvent;
+			    }
 			    itemRadial.OnIndexChanged = OnIndexChanged;
 			    itemRadial.RadialEvents.AddListener(PointerEventType.PointerEnter, OnHoverItem);
 			    itemRadial.RadialEvents.AddListener(PointerEventType.PointerClick, OnClickItem);
@@ -103,38 +108,81 @@ namespace UI.Core.RightClick
 
 	    private void OnBeginDragEvent(PointerEventData pointerEvent)
 	    {
-		    ItemRadial.Selected.OrNull()?.OnDeselect(pointerEvent);
+		    ItemRadial.Selected.OrNull()?.FadeOut(pointerEvent);
 		    ItemRadial.ChangeLabel(string.Empty);
 		    ActionRadial.SetActive(false);
 		    SnapRotation = 0;
+		    foreach (var button in ItemRadial)
+		    {
+			    button.Interactable = false;
+		    }
 	    }
 
 	    private void OnEndDragEvent(PointerEventData pointerEvent)
 	    {
+		    foreach (var button in ItemRadial)
+		    {
+			    button.Interactable = true;
+		    }
+		    SnapRotation = ItemRadial.NearestItemAngle;
+		    SnapStartTime = Time.time;
+		    var item = ItemRadial.Selected;
+		    if (item != null && item.IsRaycastLocationValid(pointerEvent.position, null))
+		    {
+			    pointerEvent.dragging = false;
+			    item.OnPointerEnter(pointerEvent);
+		    }
+		    else
+		    {
+			    ItemRadial.Selected = null;
+		    }
+	    }
+
+	    private void OnEndScrollEvent(PointerEventData pointerEvent)
+	    {
+		    var item = ItemRadial.Selected;
+		    if (item == null)
+		    {
+			    return;
+		    }
+
+		    ItemRadial.ChangeLabel(string.Empty);
+		    ActionRadial.SetActive(false);
+		    if (item.IsRaycastLocationValid(pointerEvent.position, null))
+		    {
+			    item.OnPointerEnter(pointerEvent);
+		    }
+		    else
+		    {
+			    item.ResetState();
+		    }
 		    SnapRotation = ItemRadial.NearestItemAngle;
 		    SnapStartTime = Time.time;
 	    }
 
 	    private void OnIndexChanged(RightClickRadialButton button)
 	    {
-		    ItemRadial.ChangeLabel(string.Empty);
-		    ActionRadial.SetActive(false);
-		    var itemInfo = Items[button.Index];
+		    var index = button.Index;
+		    if (index > Items.Count)
+		    {
+			    return;
+		    }
+		    var itemInfo = Items[index];
 		    button.ChangeItem(itemInfo);
 	    }
 
 	    private void OnHoverItem(PointerEventData eventData, RightClickRadialButton button)
 	    {
-		    if (eventData.dragging)
+		    var index = button.Index;
+		    if (eventData.dragging || index > Items.Count)
 		    {
 			    return;
 		    }
 
-		    var index = button.Index;
 		    var item = Items[index];
-		    ItemRadial.ChangeLabel(item?.Label);
-		    var actions = item?.SubMenus;
-		    if (item == null || actions == null)
+		    ItemRadial.ChangeLabel(item.Label);
+		    var actions = item.SubMenus;
+		    if (actions == null)
 		    {
 			    ActionRadial.SetActive(false);
 			    return;
@@ -209,22 +257,7 @@ namespace UI.Core.RightClick
 
 	    public void Update()
 	    {
-		    var currentSnapTime = Time.time - SnapStartTime;
-
-		    // Snap Rotation is set to zero on drag. The inequality check here is to keep it from rotating while dragging.
-		    if (SnapRotation.Equals(0) == false && currentSnapTime <= snapTime)
-		    {
-			    var eval = currentSnapTime > 0 ? currentSnapTime / snapTime : 0;
-			    var change = SnapRotation * snapCurve.Evaluate(eval);
-			    ItemRadial.RotateRadial(change);
-			    SnapRotation -= change;
-		    }
-		    else if (currentSnapTime > snapTime)
-		    {
-			    ItemRadial.RotateRadial(SnapRotation);
-			    SnapRotation = 0;
-		    }
-
+		    SnapToNearestItem();
 		    radialBranch.UpdateDirection();
 		    ItemRadial.transform.localPosition = radialBranch.MenuPosition;
 		    ItemRadial.UpdateArrows();
@@ -239,6 +272,28 @@ namespace UI.Core.RightClick
 		    if (ItemRadial.IsPositionWithinRadial(mousePos, true) == false && ActionRadial.IsPositionWithinRadial(mousePos) == false)
 		    {
 			    this.SetActive(false);
+		    }
+	    }
+
+	    private void SnapToNearestItem()
+	    {
+		    // Snap Rotation is set to zero on drag. The equality check here is to keep it from rotating while dragging.
+		    if (SnapRotation.Equals(0))
+		    {
+			    return;
+		    }
+
+		    var currentSnapTime = Time.time - SnapStartTime;
+		    var eval = currentSnapTime > 0 ? currentSnapTime / snapTime : 0;
+		    var change = SnapRotation * snapCurve.Evaluate(eval);
+		    ItemRadial.RotateRadial(change);
+		    if (currentSnapTime <= snapTime)
+		    {
+			    SnapRotation -= change;
+		    }
+		    else
+		    {
+			    SnapRotation = 0;
 		    }
 	    }
 

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 namespace UI.Core.Radial
@@ -16,6 +17,10 @@ namespace UI.Core.Radial
 
 		private IRadial RadialUI { get; set; }
 
+		public Action<PointerEventData> OnBeginScrollEvent { get; set; }
+
+		public Action<PointerEventData> OnEndScrollEvent { get; set; }
+
 		public void Awake()
 		{
 			RadialUI = GetComponent<IRadial>();
@@ -23,10 +28,12 @@ namespace UI.Core.Radial
 
 		public void OnScroll(PointerEventData eventData)
 		{
-			if (!RadialUI.IsPositionWithinRadial(eventData.position, fullRadius))
+			if (RadialUI.IsPositionWithinRadial(eventData.position, fullRadius) == false || eventData.dragging)
 			{
 				return;
 			}
+
+			OnBeginScrollEvent?.Invoke(eventData);
 
 			var scrollDelta = eventData.scrollDelta.y;
 			if (scrollDelta < 0)
@@ -37,6 +44,8 @@ namespace UI.Core.Radial
 			{
 				RadialUI.RotateRadial(-RadialUI.ItemArcMeasure * scrollCount);
 			}
+
+			OnEndScrollEvent?.Invoke(eventData);
 		}
 	}
 }

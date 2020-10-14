@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.EventSystems;
 
 namespace UI.Core.Radial
@@ -31,8 +30,8 @@ namespace UI.Core.Radial
 
         public void OnBeginDrag(PointerEventData eventData)
         {
-			UIManager.IsMouseInteractionDisabled = true;
 			OnBeginDragEvent?.Invoke(eventData);
+			UIManager.IsMouseInteractionDisabled = true;
         }
 
         public void OnDrag(PointerEventData eventData)
@@ -54,9 +53,13 @@ namespace UI.Core.Radial
 
         public void OnEndDrag(PointerEventData eventData)
         {
-			OnEndDragEvent?.Invoke(eventData);
 			UIManager.IsMouseInteractionDisabled = false;
+			OnEndDragEvent?.Invoke(eventData);
         }
 
+        public void OnDisable()
+        {
+	        UIManager.IsMouseInteractionDisabled = false;
+        }
     }
 }
