@@ -116,7 +116,7 @@ public class RightClickManager : MonoBehaviour
 			var options = Generate(objects);
 			if (options != null && options.Count > 0)
 			{
-				MenuController.SetupMenu(options, mousePos, !isUI);
+				MenuController.SetupMenu(options, Camera.main.ScreenToWorldPoint(mousePos), !isUI);
 			}
 		}
 	}

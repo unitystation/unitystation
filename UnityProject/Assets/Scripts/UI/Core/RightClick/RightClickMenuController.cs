@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -86,11 +87,17 @@ namespace UI.Core.RightClick
 		    }
 	    }
 
-	    public void SetupMenu(List<RightClickMenuItem> items, Vector3 position, bool followWorldPosition)
+	    public void SetupMenu(List<RightClickMenuItem> items, Vector3 worldPosition, bool followWorldPosition)
 	    {
+		    if (IsPlayerInRange(worldPosition, followWorldPosition) == false)
+		    {
+			    this.SetActive(false);
+			    return;
+		    }
+
 		    this.SetActive(true);
 		    Items = items;
-		    radialBranch.Setup(position, itemRadialPrefab.OuterRadius, itemRadialPrefab.Scale, followWorldPosition);
+		    radialBranch.Setup(worldPosition, itemRadialPrefab.OuterRadius, itemRadialPrefab.Scale, followWorldPosition);
 		    ItemRadial.Setup(items.Count);
 		    foreach (var item in ItemRadial)
 		    {
@@ -104,6 +111,18 @@ namespace UI.Core.RightClick
 
 		    ActionRadial.Setup(0);
 		    ActionRadial.SetActive(false);
+	    }
+
+	    public bool IsPlayerInRange(Vector3 worldPosition, bool followWorldPosition)
+	    {
+			    if (followWorldPosition == false)
+			    {
+				    return true;
+			    }
+			    var player = PlayerManager.PlayerScript.registerTile;
+			    var playerPos = player.WorldPositionClient;
+			    var delta = playerPos.To2Int() - worldPosition.To2Int();
+			    return Math.Abs(delta.x) <= 1 && Math.Abs(delta.y) <= 1;
 	    }
 
 	    private void OnBeginDragEvent(PointerEventData pointerEvent)
@@ -259,6 +278,11 @@ namespace UI.Core.RightClick
 
 	    public void Update()
 	    {
+		    if (IsPlayerInRange(radialBranch.WorldPosition, radialBranch.FollowWorldPosition) == false)
+		    {
+			    this.SetActive(false);
+			    return;
+		    }
 		    SnapToNearestItem();
 		    radialBranch.UpdateDirection();
 		    ItemRadial.transform.localPosition = radialBranch.MenuPosition;

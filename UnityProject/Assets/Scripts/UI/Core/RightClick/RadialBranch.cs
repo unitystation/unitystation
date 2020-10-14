@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,11 +23,11 @@ namespace UI.Core.RightClick
 			private set => menuPosition = value;
 		}
 
-		private bool FollowWorldPosition { get; set; }
+		public bool FollowWorldPosition { get; private set; }
 
 		private Camera Camera { get; set; }
 
-		private Vector3 WorldPosition { get; set; }
+		public Vector3 WorldPosition { get; private set; }
 
 		private RectTransform Origin { get; set; }
 
@@ -58,14 +59,11 @@ namespace UI.Core.RightClick
 			SetScale();
 		}
 
-		public void Setup(Vector3 position, int radius, float scale, bool followWorldPosition)
+		public void Setup(Vector3 worldPosition, int radius, float scale, bool followWorldPosition)
 		{
 			FollowWorldPosition = followWorldPosition;
-			if (followWorldPosition)
-			{
-				WorldPosition = Camera.ScreenToWorldPoint(position);
-			}
-			Origin.position = position;
+			WorldPosition = worldPosition;
+			Origin.position = Camera.WorldToScreenPoint(WorldPosition);
 			if (LineFromOrigin == null)
 			{
 				BuildBranch(radius, scale);
