@@ -1,4 +1,5 @@
 # unitystation
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/052e45816e6d46b8bc12b7e07bc021a5)](https://www.codacy.com/gh/unitystation/unitystation/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=unitystation/unitystation&amp;utm_campaign=Badge_Grade)
 [![Tests](https://github.com/unitystation/unitystation/workflows/Tests/badge.svg)](https://github.com/unitystation/unitystation/actions?query=workflow%3ATests)
 [![Build Project](https://github.com/unitystation/unitystation/workflows/Build%20Project/badge.svg?branch=develop)](https://github.com/unitystation/unitystation/actions?query=workflow%3ABuild+branch%3Adevelop)
 [![GitHub last commit](https://img.shields.io/github/last-commit/unitystation/unitystation.svg)](https://github.com/unitystation/unitystation/commits/develop)
