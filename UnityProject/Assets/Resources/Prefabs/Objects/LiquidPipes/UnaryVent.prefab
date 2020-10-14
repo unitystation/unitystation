@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -141,7 +142,6 @@ MonoBehaviour:
     CustomLogic: 0
     NetCompatible: 0
     mixAndVolume:
-      Volume: 0.05
       Mix:
         temperature: 273.15
         reagents:
@@ -282,7 +282,8 @@ PrefabInstance:
       propertyPath: variantIndex
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 90804091474310291, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ebb08cf966efc084aa918bd8d9429604, type: 3}
 --- !u!1 &5583053235923205949 stripped
 GameObject:

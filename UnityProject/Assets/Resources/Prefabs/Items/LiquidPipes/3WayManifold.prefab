@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c88bb5b421259954781bcdfb75018051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   Colour: {r: 1, g: 1, b: 1, a: 1}
   SpriteHandler: {fileID: 3611509593911475594}
   registerItem: {fileID: 0}
@@ -275,6 +277,7 @@ PrefabInstance:
         type: 2}
     m_RemovedComponents:
     - {fileID: 7343457972493425774, guid: 59bffb44a6861484ca22d6edb4fbf5e5, type: 3}
+    - {fileID: 4188173932925032876, guid: 59bffb44a6861484ca22d6edb4fbf5e5, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 59bffb44a6861484ca22d6edb4fbf5e5, type: 3}
 --- !u!1 &7446904160649250317 stripped
 GameObject:
