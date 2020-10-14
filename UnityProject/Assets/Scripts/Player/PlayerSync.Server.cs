@@ -1,7 +1,7 @@
 using Assets.Scripts.Messages.Server.SoundMessages;
-using Assets.Scripts.Objects;
 using Doors;
 using Mirror;
+using Objects;
 using System;
 using System.Collections;
 using System.Collections.Generic;

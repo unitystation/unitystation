@@ -31,11 +31,11 @@ namespace UI.Objects
 			}
 		}
 
-		public void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
+		public async void OnTabOpenedHandler(ConnectedPlayer connectedPlayer)
 		{
 			labelTrack.Value = jukeboxController.TrackPosition;
-			labelSong.Value = jukeboxController.SongName;
-			labelArtist.Value = jukeboxController.Artist;
+			labelSong.Value = await jukeboxController.GetSongNameAsync();
+			labelArtist.Value = await jukeboxController.GetArtistNameAsync();
 			prefabImagePlayStop.Value = jukeboxController.PlayStopButtonPrefabImage;
 		}
 

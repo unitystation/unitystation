@@ -66,7 +66,8 @@ namespace Items
 			}
 
 			spriteHandler.ChangeSprite(CurrentState.spriteIndex);
-			SoundManager.PlayNetworkedAtPos(CurrentState.changeSound, interaction.PerformerPlayerScript.WorldPos);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos(CurrentState.changeSound, interaction.PerformerPlayerScript.WorldPos);
 			Chat.AddExamineMsgFromServer(interaction.Performer, CurrentState.changeMessage);
 		}
 

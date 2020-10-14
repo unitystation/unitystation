@@ -98,7 +98,8 @@ namespace Objects.Drawers
 		{
 			OnStartPlayerCremation();
 			StartCoroutine(PlayIncineratingAnim());
-			SoundManager.PlayNetworkedAtPos("Microwave", DrawerWorldPosition, sourceObj: gameObject);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos("Microwave", DrawerWorldPosition, sourceObj: gameObject);
 			DestroyItems();
 		}
 

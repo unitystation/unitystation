@@ -657,7 +657,8 @@ namespace Weapons
 					A.Shoot(finalDirectionOverride, shooter, this, damageZone);
 				}
 			}
-			SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
+			// JESTER
+			// SoundManager.PlayAtPosition(FiringSound, shooter.transform.position, shooter);
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}
 
@@ -755,12 +756,14 @@ namespace Weapons
 
 		private void OutOfAmmoSFX()
 		{
-			SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position, sourceObj: serverHolder);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos("OutOfAmmoAlarm", transform.position, sourceObj: serverHolder);
 		}
 
 		private void PlayEmptySFX()
 		{
-			SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos("EmptyGunClick", transform.position, sourceObj: serverHolder);
 		}
 
 		#endregion

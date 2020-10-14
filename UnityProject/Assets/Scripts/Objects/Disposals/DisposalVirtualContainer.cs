@@ -252,7 +252,8 @@ namespace Objects.Disposals
 			if (disposalMachine == null)
 			{
 				// Must be in the disposal pipes
-				SoundManager.PlayNetworkedAtPos("Clang", ContainerWorldPosition);
+				// JESTER
+				// SoundManager.PlayNetworkedAtPos("Clang", ContainerWorldPosition);
 			}
 			else if (disposalMachine.TryGetComponent(out DisposalBin disposalBin))
 			{

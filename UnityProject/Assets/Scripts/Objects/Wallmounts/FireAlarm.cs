@@ -55,7 +55,8 @@ namespace Objects.Wallmounts
 			{
 				activated = true;
 				stateSync = FireAlarmState.TopLightSpriteAlert;
-				SoundManager.PlayNetworkedAtPos("FireAlarm", metaNode.Position);
+				// JESTER
+				// SoundManager.PlayNetworkedAtPos("FireAlarm", metaNode.Position);
 				StartCoroutine(SwitchCoolDown());
 				foreach (var firelock in FireLockList)
 				{

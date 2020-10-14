@@ -90,7 +90,8 @@ namespace Objects.Atmospherics
 		{
 			MachineOperating = true;
 			UpdateSprite();
-			SoundManager.PlayNetworkedAtPos("PosterCreate", objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos("PosterCreate", objectBehaviour.AssumedWorldPositionServer(), sourceObj: gameObject);
 			yield return WaitFor.Seconds(DISPENSING_TIME);
 			MachineOperating = false;
 			UpdateSprite();

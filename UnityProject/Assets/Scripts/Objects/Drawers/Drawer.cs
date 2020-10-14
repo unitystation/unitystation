@@ -201,7 +201,8 @@ namespace Objects.Drawers
 			EjectItems();
 			EjectPlayers();
 
-			SoundManager.PlayNetworkedAtPos("BinOpen", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos("BinOpen", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 			SetDrawerState(DrawerState.Open);
 		}
 
@@ -213,7 +214,8 @@ namespace Objects.Drawers
 			GatherItems();
 			if (storePlayers) GatherPlayers();
 
-			SoundManager.PlayNetworkedAtPos("BinClose", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos("BinClose", DrawerWorldPosition, Random.Range(0.8f, 1.2f), sourceObj: gameObject);
 			SetDrawerState(DrawerState.Shut);
 		}
 

@@ -128,6 +128,8 @@ namespace Antagonists
 		/// <param name="antag">What antag data</param>
 		private static void ShowAntagBanner(GameObject player, Antagonist antag)
 		{
+			// JESTER
+			/*
 			AntagBannerMessage.Send(
 				player,
 				antag.AntagName,
@@ -135,6 +137,7 @@ namespace Antagonists
 				antag.TextColor,
 				antag.BackgroundColor,
 				antag.PlaySound);
+			*/
 		}
 
 		/// <summary>

@@ -149,7 +149,8 @@ namespace Objects.Disposals
 			yield return WaitFor.Seconds(FLUSH_DELAY);
 
 			// Intake orifice closed. Release the charge.
-			SoundManager.PlayNetworkedAtPos("DisposalMachineFlush", registerObject.WorldPositionServer, sourceObj: gameObject);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos("DisposalMachineFlush", registerObject.WorldPositionServer, sourceObj: gameObject);
 			DisposalsManager.Instance.NewDisposal(virtualContainer);
 
 			// Restore charge, open orifice.

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Objects;
+using UnityEngine;
 
 public class GUI_Jukebox : NetTab
 {

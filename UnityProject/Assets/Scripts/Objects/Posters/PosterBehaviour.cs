@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Objects;
+using Items;
 
 public class PosterBehaviour : NetworkBehaviour, ICheckedInteractable<HandApply>
 {

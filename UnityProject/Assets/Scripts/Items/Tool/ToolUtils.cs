@@ -198,7 +198,8 @@ public static class ToolUtils
 
 		if (soundName != null)
 		{
-			SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f), sourceObj: owner);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos(soundName, worldTilePos, Random.Range(0.8f, 1.2f), sourceObj: owner);
 		}
 	}
 

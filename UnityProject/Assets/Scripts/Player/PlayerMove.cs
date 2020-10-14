@@ -3,9 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
-using AddressableReferences;
-using Assets.Scripts.Player;
+using Objects;
 
 /// <summary>
 ///     ** Now all movement input keys are sent to PlayerSync.Client
@@ -47,6 +45,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// Whether the character is restrained with handcuffs (or similar)
 	/// </summary>
 	public bool IsCuffed => cuffed;
+
+	/// <summary>
+	/// Whether the character is trapped in a closet (or similar)
+	/// </summary>
+	public bool IsTrapped = false;
 
 	/// <summary>
 	/// Invoked on server side when the cuffed state is changed
@@ -101,7 +104,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				{
 					//locally predict
 					canSwap = UIManager.CurrentIntent == Intent.Help
-					          && !PlayerScript.pushPull.IsPullingSomething;
+							  && !PlayerScript.pushPull.IsPullingSomething;
 				}
 			}
 			else
@@ -110,12 +113,12 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 				canSwap = isSwappable;
 			}
 			return canSwap
-			       //don't swap with ghosts
-			       && !PlayerScript.IsGhost
-			       //pass through players if we can
-			       && !registerPlayer.IsPassable(isServer)
-			       //can't swap with buckled players, they're strapped down
-			       && !IsBuckled;
+				   //don't swap with ghosts
+				   && !PlayerScript.IsGhost
+				   //pass through players if we can
+				   && !registerPlayer.IsPassable(isServer)
+				   //can't swap with buckled players, they're strapped down
+				   && !IsBuckled;
 		}
 	}
 
@@ -154,7 +157,6 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
-
 		RunSpeed = 6;
 		WalkSpeed = 3;
 		CrawlSpeed = 0.8f;
@@ -243,7 +245,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		{
 			// Converting world direction to local direction
 			direction = Vector3Int.RoundToInt(matrixInfo.MatrixMove.FacingOffsetFromInitial.QuaternionInverted *
-			                                  direction);
+											  direction);
 		}
 
 
@@ -284,7 +286,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (netid == NetId.Invalid)
 		{
 			Logger.LogError("attempted to buckle to object " + toObject + " which has no NetworkIdentity. Buckle" +
-			                " can only be used on objects with a Net ID. Ensure this object has one.",
+							" can only be used on objects with a Net ID. Ensure this object has one.",
 				Category.Movement);
 			return;
 		}
@@ -362,7 +364,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		if (previouslyBuckledTo == null) return;
 
 		var integrityBuckledObject = previouslyBuckledTo.GetComponent<Integrity>();
-		if(integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
+		if (integrityBuckledObject != null) integrityBuckledObject.OnServerDespawnEvent -= Unbuckle;
 
 		//we are unbuckled but still will drift with the object.
 		var buckledCNT = previouslyBuckledTo.GetComponent<CustomNetTransform>();
@@ -457,9 +459,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 		PlayerHealth playerHealth = playerScript.playerHealth;
 
 		return !(playerHealth == null ||
-		         playerHealth.ConsciousState == ConsciousState.DEAD ||
-		         playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
-		         playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
+				 playerHealth.ConsciousState == ConsciousState.DEAD ||
+				 playerHealth.ConsciousState == ConsciousState.UNCONSCIOUS ||
+				 playerHealth.ConsciousState == ConsciousState.BARELY_CONSCIOUS);
 	}
 
 	/// <summary>
@@ -483,8 +485,8 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private void ServerUpdateIsSwappable()
 	{
 		isSwappable = isHelpIntentServer && PlayerScript != null &&
-		              PlayerScript.pushPull != null &&
-		              !PlayerScript.pushPull.IsPullingSomethingServer;
+					  PlayerScript.pushPull != null &&
+					  !PlayerScript.pushPull.IsPullingSomethingServer;
 	}
 
 	public void OnSpawnServer(SpawnInfo info)

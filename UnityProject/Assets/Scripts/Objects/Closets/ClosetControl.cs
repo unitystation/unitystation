@@ -332,7 +332,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 	[Server]
 	public void ServerToggleClosed(bool? nowClosed = null)
 	{
-		SoundManager.PlayNetworkedAtPos(soundOnOpenOrClose, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+		// JESTER
+		// SoundManager.PlayNetworkedAtPos(soundOnOpenOrClose, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 		ServerSetIsClosed(nowClosed.GetValueOrDefault(!IsClosed));
 	}
 
@@ -487,7 +488,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 		{
 			if (IsClosed && !isEmagged)
 			{
-				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, gameObject);
+				// JESTER
+				// SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, gameObject);
 				//ServerHandleContentsOnStatusChange(false);
 				isEmagged = true;
 				
@@ -596,7 +598,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				{
 					ServerTryWeld();
 				}
-				SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+				// JESTER
+				// SoundManager.PlayNetworkedAtPos(soundOnEmag, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 				Chat.AddActionMsgToChat(performer, $"You successfully broke out of {target.ExpensiveName()}.",
 					$"{performer.ExpensiveName()} successfully breaks out of {target.ExpensiveName()}.");
 			}
@@ -605,7 +608,8 @@ public class ClosetControl : NetworkBehaviour, ICheckedInteractable<HandApply>, 
 				.ServerStartProgress(target.RegisterTile(), breakoutTime, performer);
 			if (bar != null)
 			{
-				SoundManager.PlayNetworkedAtPos(soundOnEscape, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
+				// JESTER
+				// SoundManager.PlayNetworkedAtPos(soundOnEscape, registerTile.WorldPositionServer, 1f, sourceObj: gameObject);
 				Chat.AddActionMsgToChat(performer,
 					$"You begin breaking out of {target.ExpensiveName()}...",
 					$"{performer.ExpensiveName()} begins breaking out of {target.ExpensiveName()}...");

@@ -161,12 +161,14 @@ namespace Objects.Kitchen
 				storedCookable = cookable;
 			}
 
-			SoundManager.PlayNetworkedAtPos(DOOR_SOUND, WorldPosition, sourceObj: gameObject);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos(DOOR_SOUND, WorldPosition, sourceObj: gameObject);
 		}
 
 		private void OpenMicrowaveAndEjectContents()
 		{
-			SoundManager.PlayNetworkedAtPos(DOOR_SOUND, WorldPosition, sourceObj: gameObject);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos(DOOR_SOUND, WorldPosition, sourceObj: gameObject);
 
 			Vector2 spritePosWorld = spriteHandler.transform.position;
 			Vector2 microwaveInteriorCenterAbs = spritePosWorld + new Vector2(-0.075f, -0.075f);
@@ -180,7 +182,8 @@ namespace Objects.Kitchen
 		private void StartMicrowave()
 		{
 			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-			SoundManager.PlayNetworkedAtPos("MicrowaveStart", WorldPosition, sourceObj: gameObject);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos("MicrowaveStart", WorldPosition, sourceObj: gameObject);
 			playAudioLoop = true;
 		}
 
@@ -199,13 +202,15 @@ namespace Objects.Kitchen
 				microwaveTimer += seconds;
 			}
 
-			SoundManager.PlayNetworkedAtPos(TIMER_BEEP, WorldPosition, sourceObj: gameObject, pitch: seconds < 0 ? 0.8f : 1);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos(TIMER_BEEP, WorldPosition, sourceObj: gameObject, pitch: seconds < 0 ? 0.8f : 1);
 		}
 
 		private void MicrowaveTimerComplete()
 		{
 			HaltMicrowave();
-			SoundManager.PlayNetworkedAtPos("MicrowaveDing", WorldPosition, sourceObj: gameObject);
+			// JESTER
+			// SoundManager.PlayNetworkedAtPos("MicrowaveDing", WorldPosition, sourceObj: gameObject);
 
 			// Chance to dirty microwave. Could probably tie this tied into what is cooked instead or additionally.
 			if (UnityEngine.Random.Range(1, 101) < DIRTY_CHANCE_PER_FINISH)

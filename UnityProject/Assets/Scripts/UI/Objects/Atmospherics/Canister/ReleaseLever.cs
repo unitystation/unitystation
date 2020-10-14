@@ -25,7 +25,8 @@ namespace UI.Objects.Atmospherics
 			//play toggle sound
 			if (!muteSounds)
 			{
-				SoundManager.Play("Valve", 0.1f, pan: 0.3f);
+				// JESTER
+				// SoundManager.Play("Valve", 0.1f, pan: 0.3f);
 			}
 
 			//fix the shadow and rotate

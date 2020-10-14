@@ -31,7 +31,8 @@ namespace Doors
 				return;
 			}
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
+			// JESTER
+			// SoundManager.PlayAtPosition("AccessDenied", transform.position, gameObject);
 
 			// check if door uses a simple denied animation (flashes 1 frame on and off)
 			if (doorController.useSimpleDeniedAnimation)
@@ -61,7 +62,8 @@ namespace Doors
 			}
 
 			doorController.isPerformingAction = true;
-			SoundManager.PlayAtPosition("TripleBeep", transform.position, gameObject, polyphonic: true, isGlobal: true);
+			// JESTER
+			// SoundManager.PlayAtPosition("TripleBeep", transform.position, gameObject, polyphonic: true, isGlobal: true);
 			StartCoroutine(PlayPressureWarnAnim());
 		}
 

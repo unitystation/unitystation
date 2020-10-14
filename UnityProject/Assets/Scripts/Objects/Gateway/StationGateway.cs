@@ -102,7 +102,8 @@ namespace Objects
 				if (timeElapsedServerSound > SoundLength && isOn)
 				{
 					DetectPlayer();
-					SoundManager.PlayNetworkedAtPos("machinehum4", Position + Vector3Int.up);
+					// JESTER
+					// SoundManager.PlayNetworkedAtPos("machinehum4", Position + Vector3Int.up);
 					timeElapsedServerSound = 0;
 				}
 			}
@@ -224,7 +225,8 @@ namespace Objects
 			{
 				var coord = new Vector2(Position.x, Position.y);
 				Chat.AddLocalMsgToChat(Message, coord, gameObject);
-				SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
+				// JESTER
+				// SoundManager.PlayNetworkedForPlayer(player.gameObject, "StealthOff"); //very weird, sometimes does the sound other times not.
 				TransportUtility.TransportObjectAndPulled(player, TeleportTargetCoord);
 			}
 
