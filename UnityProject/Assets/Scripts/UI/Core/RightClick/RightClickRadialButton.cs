@@ -12,9 +12,6 @@ namespace UI.Core.RightClick
 		private static readonly int ColorPalette = Shader.PropertyToID("_ColorPalette");
 
 		[SerializeField]
-		private RightClickButton button = default;
-
-		[SerializeField]
 		private Image icon = default;
 
 		[SerializeField]
@@ -25,6 +22,8 @@ namespace UI.Core.RightClick
 
 		[SerializeField]
 		private RectTransform divider = default;
+
+		private RightClickButton button;
 
 		public bool Interactable
 		{
@@ -94,6 +93,12 @@ namespace UI.Core.RightClick
 		    icon.CrossFadeColor(iconFadedColor, 0, true, true);
 	    }
 
+	    public void FadeOut(BaseEventData eventData)
+	    {
+		    button.OnDeselect(eventData);
+		    icon.CrossFadeColor(iconFadedColor, iconFadeDuration, false, true);
+	    }
+
 	    public void OnPointerEnter(PointerEventData eventData)
 	    {
 		    var selected = Radial.Selected;
@@ -114,11 +119,5 @@ namespace UI.Core.RightClick
 
 	    public void OnPointerClick(PointerEventData eventData) =>
 			Radial.Invoke(PointerEventType.PointerClick, eventData, this);
-
-	    public void FadeOut(BaseEventData eventData)
-	    {
-		    button.OnDeselect(eventData);
-		    icon.CrossFadeColor(iconFadedColor, iconFadeDuration, false, true);
-	    }
 	}
 }
