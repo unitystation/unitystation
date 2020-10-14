@@ -12,7 +12,6 @@ public class Hatchet : MonoBehaviour, ICheckedInteractable<InventoryApply>
 	//check if item is being applied to offhand with chopable object on it.
 	public bool WillInteract(InventoryApply interaction, NetworkSide side)
 	{
-	
 		//can the player act at all?
 		if (!DefaultWillInteract.Default(interaction, side)) return false;
 
@@ -22,20 +21,20 @@ public class Hatchet : MonoBehaviour, ICheckedInteractable<InventoryApply>
 		//if the item isn't an axe, no go.
 		if (!Validations.HasUsedItemTrait(interaction, CommonTraits.Instance.Hatchet)) return false;
 		
-		
 		//TargetSlot must not be empty.
 		if (interaction.TargetSlot.Item == null) return false;
 
 		return true;
 	}
+
 	public void ServerPerformInteraction(InventoryApply interaction)
 	{
-
 		//is the target item chopable?
 		ItemAttributesV2 attr = interaction.TargetObject.GetComponent<ItemAttributesV2>();
 		Ingredient ingredient = new Ingredient(attr.ArticleName);
 		GameObject cut = CraftingManager.Logs.FindRecipe(new List<Ingredient> { ingredient });
-		if (cut)
+
+		if (cut != null)
 		{
 			Inventory.ServerDespawn(interaction.TargetSlot);
 
@@ -44,20 +43,17 @@ public class Hatchet : MonoBehaviour, ICheckedInteractable<InventoryApply>
 
 			if (spwn.Successful)
 			{
-				
 				//foreach (GameObject obj in spwn.GameObjects)
 				//{
 				//	Inventory.ServerAdd(obj,interaction.TargetSlot);
 				//}
 
 				Inventory.ServerAdd(spwn.GameObject ,interaction.TargetSlot);
-
 			}
-
-		} else {
-
+		}
+		else
+		{
 			Chat.AddExamineMsgFromServer(interaction.Performer, "You can't chop this.");
 		}
-
 	}
 }
