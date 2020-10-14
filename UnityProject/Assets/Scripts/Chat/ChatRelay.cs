@@ -197,8 +197,9 @@ public class ChatRelay : NetworkBehaviour
 
 		if (channels != ChatChannel.None)
 		{
+			// replace action messages with chat bubble (im not sure if this works properly with with multiple clients)
 			if(channels.HasFlag(ChatChannel.Combat) || channels.HasFlag(ChatChannel.Action) || channels.HasFlag(ChatChannel.Examine))
-				ChatBubbleManager.ShowAChatBubble(PlayerManager.LocalPlayerScript.transform , Regex.Replace(message, "<.*?>", string.Empty));
+				ChatBubbleManager.ShowAChatBubble(PlayerManager.LocalPlayerScript.transform, Regex.Replace(message, "<.*?>", string.Empty));
 			else
 				ChatUI.Instance.AddChatEntry(message);
 		}

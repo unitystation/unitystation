@@ -210,6 +210,7 @@ public class KeyboardInputManager : MonoBehaviour
 		// Intents
 		{ KeyAction.IntentLeft,		() => { UIManager.Intent.CycleIntent(true); }},
 		{ KeyAction.IntentRight, 	() => { UIManager.Intent.CycleIntent(false); }},
+		{ KeyAction.IntentSwap, 	() => { UIManager.Intent.OnClickIntent(); }},
 		{ KeyAction.IntentHelp, 	() => { UIManager.Intent.SetIntent(Intent.Help); }},
 		{ KeyAction.IntentDisarm,	() => { UIManager.Intent.SetIntent(Intent.Disarm); }},
 		{ KeyAction.IntentGrab, 	() => { UIManager.Intent.SetIntent(Intent.Grab); }},
@@ -233,6 +234,10 @@ public class KeyboardInputManager : MonoBehaviour
 		// UI
 		{ KeyAction.OpenBackpack, 	() => { UIManager.Instance.panelHudBottomController.backpackItemSlot.TryItemInteract(swapIfEmpty: false); }},
 		{ KeyAction.OpenPDA, 		() => { UIManager.Instance.panelHudBottomController.PDAItemSlot.TryItemInteract(swapIfEmpty: false); }},
-		{ KeyAction.OpenBelt, 		() => { UIManager.Instance.panelHudBottomController.beltItemSlot.TryItemInteract(swapIfEmpty: false); }}
+		{ KeyAction.OpenBelt, 		() => { UIManager.Instance.panelHudBottomController.beltItemSlot.TryItemInteract(swapIfEmpty: false); }},
+
+		{ KeyAction.PocketOne, 		() => { UIManager.Instance.panelHudBottomController.TryInteractWithPocket(1); }},
+		{ KeyAction.PocketTwo, 		() => { UIManager.Instance.panelHudBottomController.TryInteractWithPocket(2); }},
+		{ KeyAction.PocketThree, 	() => { UIManager.Instance.panelHudBottomController.TryInteractWithPocket(3); }}
 	};
 }

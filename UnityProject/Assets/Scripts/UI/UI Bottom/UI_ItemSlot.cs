@@ -147,7 +147,8 @@ public class UI_ItemSlot : TooltipMonoBehaviour
 	/// </summary>
 	public void RefreshImage()
 	{
-		UpdateImage(ItemObject);
+		if(itemSlot != null)
+			UpdateImage(ItemObject);
 	}
 
 	/// <summary>

@@ -9,7 +9,7 @@ using UnityEngine.EventSystems;
 		public Sprite[] runWalkSprites;
 		public override string Tooltip => "run/walk toggle";
 
-		public bool running { get; private set; } = true;
+		public bool running { get; set; } = true;
 
 		private void Start()
 		{

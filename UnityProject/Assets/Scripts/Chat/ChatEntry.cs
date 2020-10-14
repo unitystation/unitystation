@@ -121,7 +121,6 @@ public class ChatEntry : MonoBehaviour
 		}
 		// TODO: else - log
 
-		Debug.Log("actin", this);
 		StartCoroutine(UpdateMinHeight());
 		ToggleUIElements(true);
 	}

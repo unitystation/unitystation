@@ -24,6 +24,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public PanelHudBottomController panelHudBottomController;
 	public Hands hands;
 	public ControlIntent intentControl;
+	public ControlInternals internalControls;
 	public PlayerHealthUI playerHealthUI;
 	public PlayerListUI playerListUIControl;
 	public Text toolTip;
@@ -46,7 +47,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public PlayerAlerts playerAlerts;
 	public GUIAntagBanner antagBanner;
 	private bool preventChatInput;
-	[SerializeField] [Range(0.1f,10f)] private float PhoneZoomFactor = 1.6f;
+	[SerializeField] [Range(0.1f, 10f)] private float PhoneZoomFactor = 1.6f;
 	public LobbyUIPlayerListController lobbyUIPlayerListController = null;
 
 	public static bool PreventChatInput
@@ -119,7 +120,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	public static bool IsTablet => DeviceDiagonalSizeInInches > 6.5f && AspectRatio < 2f;
 	public static float AspectRatio =>
-		(float) Mathf.Max(Screen.width, Screen.height) / Mathf.Min(Screen.width, Screen.height);
+		(float)Mathf.Max(Screen.width, Screen.height) / Mathf.Min(Screen.width, Screen.height);
 
 	public static float DeviceDiagonalSizeInInches
 	{
@@ -127,9 +128,9 @@ public class UIManager : MonoBehaviour, IInitialise
 		{
 			float screenWidth = Screen.width / Screen.dpi;
 			float screenHeight = Screen.height / Screen.dpi;
-			float diagonalInches = Mathf.Sqrt (Mathf.Pow (screenWidth, 2) + Mathf.Pow (screenHeight, 2));
+			float diagonalInches = Mathf.Sqrt(Mathf.Pow(screenWidth, 2) + Mathf.Pow(screenHeight, 2));
 
-			Debug.Log ("Getting device inches: " + diagonalInches);
+			Debug.Log("Getting device inches: " + diagonalInches);
 
 			return diagonalInches;
 		}
@@ -141,6 +142,7 @@ public class UIManager : MonoBehaviour, IInitialise
 	public static Hands Hands => Instance.hands;
 
 	public static ControlIntent Intent => Instance.intentControl;
+	public static ControlInternals Internals => Instance.internalControls;
 
 	public static ControlAction Action => Instance.actionControl;
 
@@ -261,7 +263,7 @@ public class UIManager : MonoBehaviour, IInitialise
 			canvasScaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
 			canvasScaler.matchWidthOrHeight = 0f; //match width
 			canvasScaler.referenceResolution =
-				new Vector2(Screen.width/PhoneZoomFactor, canvasScaler.referenceResolution.y);
+				new Vector2(Screen.width / PhoneZoomFactor, canvasScaler.referenceResolution.y);
 
 		}
 	}
@@ -285,7 +287,7 @@ public class UIManager : MonoBehaviour, IInitialise
 
 	void DetermineInitialTargetFrameRate()
 	{
-		if(!PlayerPrefs.HasKey(PlayerPrefKeys.TargetFrameRate))
+		if (!PlayerPrefs.HasKey(PlayerPrefKeys.TargetFrameRate))
 		{
 			PlayerPrefs.SetInt(PlayerPrefKeys.TargetFrameRate, 99);
 			PlayerPrefs.Save();
@@ -308,6 +310,52 @@ public class UIManager : MonoBehaviour, IInitialise
 			pingUpdate = 0f;
 			pingDisplay.text = $"ping: {(NetworkTime.rtt * 1000):0}ms";
 		}
+	}
+
+	public static void UpdateKeybindText(KeyAction keyAction, KeybindManager.KeyCombo keyCombo)
+	{
+		switch (keyAction)
+		{
+			case KeyAction.OpenBackpack:
+				Instance.panelHudBottomController.SetBackPackKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			case KeyAction.OpenPDA:
+				Instance.panelHudBottomController.SetPDAKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			case KeyAction.OpenBelt:
+				Instance.panelHudBottomController.SetBeltKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			case KeyAction.PocketOne:
+				Instance.panelHudBottomController.SetPocketOneKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			case KeyAction.PocketTwo:
+				Instance.panelHudBottomController.SetPocketTwoKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+			case KeyAction.PocketThree:
+				Instance.panelHudBottomController.SetPocketThreeKeybindText(
+					FormatKeybind(keyCombo.MainKey)
+				);
+				break;
+		}
+	}
+
+	private static string FormatKeybind(KeyCode key)
+	{
+		string result = key.ToString();
+		if (result.StartsWith("Alpha"))
+			return result[result.Length - 1].ToString();
+
+		return key.ToString();
 	}
 
 	public static void ToggleTTS(bool activeState)

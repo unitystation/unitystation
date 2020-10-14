@@ -38,6 +38,7 @@ public enum KeyAction
 	HandEquip,
 
 	// Intents
+	IntentSwap,
 	IntentLeft,
 	IntentRight,
 	IntentHelp,
@@ -68,7 +69,11 @@ public enum KeyAction
 	// UI
 	OpenBackpack,
 	OpenPDA,
-	OpenBelt
+	OpenBelt,
+
+	PocketOne,
+	PocketTwo,
+	PocketThree
 }
 
 /// <summary>
@@ -257,7 +262,8 @@ public class KeybindManager : MonoBehaviour {
 		Intent,
 		Targeting,
 		RightClick,
-		Point
+		Point,
+		UI
 	}
 
 	/// <summary>
@@ -324,6 +330,7 @@ public class KeybindManager : MonoBehaviour {
 		// Intents
 		{ KeyAction.IntentLeft,		new KeybindMetadata("Cycle Intent Left", ActionType.Intent)},
 		{ KeyAction.IntentRight, 	new KeybindMetadata("Cycle Intent Right", ActionType.Intent)},
+		{ KeyAction.IntentSwap, 	new KeybindMetadata("Toggle Help/Harm Intent", ActionType.Intent)},
 		{ KeyAction.IntentHelp, 	new KeybindMetadata("Help Intent", ActionType.Intent)},
 		{ KeyAction.IntentDisarm,	new KeybindMetadata("Disarm Intent", ActionType.Intent)},
 		{ KeyAction.IntentGrab, 	new KeybindMetadata("Grab Intent", ActionType.Intent)},
@@ -349,9 +356,13 @@ public class KeybindManager : MonoBehaviour {
 		
 		// UI
 		// TODO: change ActionType
-		{ KeyAction.OpenBackpack, 	new KeybindMetadata("Open Backpack", ActionType.Action)},
-		{ KeyAction.OpenPDA, 		new KeybindMetadata("Open PDA", ActionType.Action)},
-		{ KeyAction.OpenBelt, 		new KeybindMetadata("Open Belt", ActionType.Action)}
+		{ KeyAction.OpenBackpack, 	new KeybindMetadata("Open Backpack", ActionType.UI)},
+		{ KeyAction.OpenPDA, 		new KeybindMetadata("Open PDA", ActionType.UI)},
+		{ KeyAction.OpenBelt, 		new KeybindMetadata("Open Belt", ActionType.UI)},
+
+		{ KeyAction.PocketOne, 		new KeybindMetadata("Open Pocket 1", ActionType.UI)},
+		{ KeyAction.PocketTwo, 		new KeybindMetadata("Open Pocket 2", ActionType.UI)},
+		{ KeyAction.PocketThree, 	new KeybindMetadata("Open Pocket 3", ActionType.UI)}
 
 	};
 
@@ -362,7 +373,7 @@ public class KeybindManager : MonoBehaviour {
 		{ KeyAction.MoveLeft, 		new DualKeyCombo(new KeyCombo(KeyCode.A), new KeyCombo(KeyCode.LeftArrow))},
 		{ KeyAction.MoveDown, 		new DualKeyCombo(new KeyCombo(KeyCode.S), new KeyCombo(KeyCode.DownArrow))},
 		{ KeyAction.MoveRight, 		new DualKeyCombo(new KeyCombo(KeyCode.D), new KeyCombo(KeyCode.RightArrow))},
-		{ KeyAction.ToggleWalkRun,   new DualKeyCombo(new KeyCombo(KeyCode.C), null)},
+		{ KeyAction.ToggleWalkRun,   new DualKeyCombo(new KeyCombo(KeyCode.Alpha5), null)},
 
 		// Actions
 		{ KeyAction.ActionThrow,	new DualKeyCombo(new KeyCombo(KeyCode.R),	new KeyCombo(KeyCode.End))},
@@ -378,6 +389,7 @@ public class KeybindManager : MonoBehaviour {
 		// Intents
 		{ KeyAction.IntentLeft,		new DualKeyCombo(new KeyCombo(KeyCode.F),		new KeyCombo(KeyCode.Insert))},
 		{ KeyAction.IntentRight, 	new DualKeyCombo(new KeyCombo(KeyCode.G),		new KeyCombo(KeyCode.Keypad0))},
+		{ KeyAction.IntentSwap, 	new DualKeyCombo(new KeyCombo(KeyCode.C), null)},
 		{ KeyAction.IntentHelp, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha1), null)},
 		{ KeyAction.IntentDisarm,	new DualKeyCombo(new KeyCombo(KeyCode.Alpha2), null)},
 		{ KeyAction.IntentGrab, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3), null)},
@@ -404,7 +416,11 @@ public class KeybindManager : MonoBehaviour {
 		// UI
 		{KeyAction.OpenBackpack, 	new DualKeyCombo(new KeyCombo(KeyCode.I), null)},
 		{KeyAction.OpenPDA, 		new DualKeyCombo(new KeyCombo(KeyCode.P), null)},
-		{KeyAction.OpenBelt, 		new DualKeyCombo(new KeyCombo(KeyCode.J), null)}
+		{KeyAction.OpenBelt, 		new DualKeyCombo(new KeyCombo(KeyCode.J), null)},
+
+		{KeyAction.PocketOne, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha1), null)},
+		{KeyAction.PocketTwo, 		new DualKeyCombo(new KeyCombo(KeyCode.Alpha2), null)},
+		{KeyAction.PocketThree, 	new DualKeyCombo(new KeyCombo(KeyCode.Alpha3), null)}
 	};
 	public KeybindDict userKeybinds = new KeybindDict();
 
@@ -436,19 +452,7 @@ public class KeybindManager : MonoBehaviour {
 			{
 				this[keyAction].PrimaryCombo = keyCombo;
 				// Set keybind texts when changing keybind
-				// TODO: maybe move to different place?
-				switch(keyAction)
-				{
-					case KeyAction.OpenBackpack:
-						UIManager.Instance.panelHudBottomController.SetBackPackKeybindText(keyCombo.MainKey);
-						break;
-					case KeyAction.OpenPDA:
-						UIManager.Instance.panelHudBottomController.SetPDAKeybindText(keyCombo.MainKey);
-						break;
-					case KeyAction.OpenBelt:
-						UIManager.Instance.panelHudBottomController.SetBeltKeybindText(keyCombo.MainKey);
-						break;
-				}
+				UIManager.UpdateKeybindText(keyAction, keyCombo);
 			}
 			else
 			{
@@ -592,21 +596,9 @@ public class KeybindManager : MonoBehaviour {
 			{
 				userKeybinds = JsonConvert.DeserializeObject<KeybindDict>(jsonKeybinds);
 				// Set keybind texts when loading keybinds
-				// TODO: maybe move to different place?
 				foreach (var keyValuePair in userKeybinds)
 				{
-					switch(keyValuePair.Key)
-					{
-						case KeyAction.OpenBackpack:
-							UIManager.Instance.panelHudBottomController.SetBackPackKeybindText(keyValuePair.Value.PrimaryCombo.MainKey);
-							break;
-						case KeyAction.OpenPDA:
-							UIManager.Instance.panelHudBottomController.SetPDAKeybindText(keyValuePair.Value.PrimaryCombo.MainKey);
-							break;
-						case KeyAction.OpenBelt:
-							UIManager.Instance.panelHudBottomController.SetBeltKeybindText(keyValuePair.Value.PrimaryCombo.MainKey);
-							break;
-					}
+					UIManager.UpdateKeybindText(keyValuePair.Key, keyValuePair.Value.PrimaryCombo);
 				}
 			}
 			catch (Exception e)

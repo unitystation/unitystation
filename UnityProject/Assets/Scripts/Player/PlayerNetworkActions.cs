@@ -184,7 +184,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	}
 
 	/// <summary>
-	/// Server handling of the request to drop an item from a client
+	/// Server handling of the request to drop an item from a client (only allowed to drop from hands)
 	/// </summary>
 	[Command]
 	public void CmdDropItem(NamedSlot equipSlot)
@@ -196,6 +196,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		if (!Validations.CanInteract(playerScript, NetworkSide.Server, allowCuffed: true)) return;
 		if (!Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Interaction)) return;
 
+		var slot = itemStorage.GetNamedItemSlot(equipSlot);
+		Inventory.ServerDrop(slot);
+	}
+
+	/// <summary>
+	/// Server handling of the request to drop an item from a client (any slot)
+	/// </summary>
+	[Command]
+	public void CmdDropItemWithoutValidations(NamedSlot equipSlot)
+	{
 		var slot = itemStorage.GetNamedItemSlot(equipSlot);
 		Inventory.ServerDrop(slot);
 	}
