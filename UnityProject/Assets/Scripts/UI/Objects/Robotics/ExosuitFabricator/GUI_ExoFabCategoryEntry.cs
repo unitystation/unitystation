@@ -31,14 +31,20 @@ namespace UI.Objects.Robotics
 			ExoFabProducts = productCategory;
 			foreach (var element in Elements)
 			{
-				string nameBeforeIndex = element.name.Split('~')[0];
-				switch (nameBeforeIndex)
-				{
-					case "CategoryName":
-						((NetUIElement<string>)element).SetValueServer(ExoFabProducts.CategoryName);
-						break;
-				}
+				((NetUIElement<string>)element).SetValueServer(GetName(element));
 			}
+		}
+
+		private string GetName(NetUIElementBase element)
+		{
+			string nameBeforeIndex = element.name.Split('~')[0];
+
+			if (nameBeforeIndex == "CategoryName")
+			{
+				return ExoFabProducts.CategoryName;
+			}
+
+			return default;
 		}
 	}
 }
