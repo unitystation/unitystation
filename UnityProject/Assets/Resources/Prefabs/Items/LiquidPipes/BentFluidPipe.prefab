@@ -133,7 +133,8 @@ PrefabInstance:
       propertyPath: SpriteHandler
       value: 
       objectReference: {fileID: 1529018625693911448}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 3625116594980674352, guid: ec0acc4f3411c554ebfa43f6dc6d375c, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: ec0acc4f3411c554ebfa43f6dc6d375c, type: 3}
 --- !u!114 &1529018625693911448 stripped
 MonoBehaviour:
