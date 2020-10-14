@@ -91,7 +91,7 @@ namespace UI.Core.RightClick
 	    public void ResetState()
 	    {
 		    button.ResetState();
-		    icon.canvasRenderer.SetColor(iconFadedColor);
+		    icon.CrossFadeColor(iconFadedColor, 0, true, true);
 	    }
 
 	    public void OnPointerEnter(PointerEventData eventData)
@@ -120,7 +120,5 @@ namespace UI.Core.RightClick
 		    button.OnDeselect(eventData);
 		    icon.CrossFadeColor(iconFadedColor, iconFadeDuration, false, true);
 	    }
-
-	    public void OnDisable() => icon.canvasRenderer.SetColor(iconFadedColor);
 	}
 }

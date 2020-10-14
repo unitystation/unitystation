@@ -148,16 +148,18 @@ namespace UI.Core.RightClick
 
 		    ItemRadial.ChangeLabel(string.Empty);
 		    ActionRadial.SetActive(false);
+		    SnapRotation = ItemRadial.NearestItemAngle;
+		    SnapStartTime = Time.time;
 		    if (item.IsRaycastLocationValid(pointerEvent.position, null))
 		    {
+			    pointerEvent.scrollDelta = Vector2.zero;
 			    item.OnPointerEnter(pointerEvent);
 		    }
 		    else
 		    {
 			    item.ResetState();
+			    ItemRadial.Selected = null;
 		    }
-		    SnapRotation = ItemRadial.NearestItemAngle;
-		    SnapStartTime = Time.time;
 	    }
 
 	    private void OnIndexChanged(RightClickRadialButton button)
