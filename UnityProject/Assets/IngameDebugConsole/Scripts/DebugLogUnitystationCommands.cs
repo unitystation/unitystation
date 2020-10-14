@@ -406,11 +406,7 @@ namespace IngameDebugConsole
 			{
 				var playerScript = PlayerManager.LocalPlayerScript;
 				var health = playerScript.playerHealth;
-				foreach (var bodyPart in health.BodyParts)
-				{
-					bodyPart.HealDamage(200, DamageType.Brute);
-					bodyPart.HealDamage(200, DamageType.Burn);
-				}
+				//TODO: Reimplement
 				playerScript.registerTile.ServerStandUp();
 			}
 		}

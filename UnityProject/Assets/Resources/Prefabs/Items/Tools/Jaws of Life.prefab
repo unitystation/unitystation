@@ -12,9 +12,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76265263b12ffbbc0ab21ee84affc2ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  toolTraits:
-  - {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
-  - {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
+  initialStateIndex: 0
+  states:
+  - ExamineMessage: It is in prying mode.
+    changeMessage: You flick the Jaws of Life into prying mode.
+    changeSound: JawsOfLifeChangeMode
+    spriteIndex: 0
+    traits:
+    - {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91, type: 2}
+    - {fileID: 11400000, guid: bf45f5f358fa083d281cc05cdfd81580, type: 2}
+    usingSound: JawsOfLifePry
+  - ExamineMessage: It is in cutting mode.
+    changeMessage: You flick the Jaws of Life into cutting mode.
+    changeSound: JawsOfLifeChangeMode
+    spriteIndex: 1
+    traits:
+    - {fileID: 11400000, guid: a78723f619e4a41f3ae170507ca20644, type: 2}
+    usingSound: JawsOfLifeCut
 --- !u!1001 &1691278609676860386
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29,9 +43,26 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
+      propertyPath: SubCatalogue.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
       propertyPath: PresentSpriteSet
       value: 
       objectReference: {fileID: 11400000, guid: 7979ae2957a77ae418acaf46a9087fd7,
+        type: 2}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7979ae2957a77ae418acaf46a9087fd7,
+        type: 2}
+    - target: {fileID: 2466764617220362192, guid: c9c58a9243d494537abcb4ee470efab0,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 551ec3235b9660c4aa0e1d37dce24efb,
         type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}
@@ -62,7 +93,7 @@ PrefabInstance:
         type: 3}
       propertyPath: initialTraits.Array.data[0]
       value: 
-      objectReference: {fileID: 11400000, guid: dddaaca292cc8a05eb38c8cd5ae2bb0e,
+      objectReference: {fileID: 11400000, guid: 5524008e9372c468aacfb95c83179a91,
         type: 2}
     - target: {fileID: 8183094236644858677, guid: c9c58a9243d494537abcb4ee470efab0,
         type: 3}

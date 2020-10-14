@@ -23,7 +23,7 @@ GameObject:
   - component: {fileID: 3549919079073232614}
   - component: {fileID: 5148306353955064233}
   m_Layer: 11
-  m_Name: JaniDrobe
+  m_Name: BVOld_JaniDrobe
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -150,7 +150,7 @@ MonoBehaviour:
     Item: {fileID: 0}
     Stock: 2
   - ItemName: Janitor Belt Full
-    Item: {fileID: 1069655924402247308, guid: 43a2f25b1176348c68d5d896d48d2fc6, type: 3}
+    Item: {fileID: 4770095003443762374, guid: 5b262a7685fde474e9ad13d31742ab69, type: 3}
     Stock: 2
   - ItemName: Service Headset
     Item: {fileID: 835768756810601639, guid: 357fbde8e937c49c6b4e0b33e089eb89, type: 3}
@@ -161,6 +161,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent:
   - ItemName: 
     Item: {fileID: 3011710637427380133, guid: 8fd881065be8b411d84cfc10b38be725, type: 3}
@@ -296,7 +297,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  initialIntegrity: 100
   soundOnHit: 
+  damageDeflection: 0
   Armor:
     Melee: 0
     Bullet: 0
@@ -317,7 +320,6 @@ MonoBehaviour:
     Indestructable: 0
     FreezeProof: 0
   HeatResistance: 100
-  initialIntegrity: 100
 --- !u!114 &114472266138859352
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -394,18 +396,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 3
   isSelfPowered: 0
   wattusage: 0.01
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 0
   conType: 1
 --- !u!1 &1905444731887362
 GameObject:
@@ -454,6 +454,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -478,7 +479,7 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 8095a7489c1934c4f8a0c0b98ec0327e, type: 3}
+  m_Sprite: {fileID: 21300006, guid: 8095a7489c1934c4f8a0c0b98ec0327e, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -505,7 +506,8 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 243a315b5bbff7f4892e6a6ca9654b44, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 243a315b5bbff7f4892e6a6ca9654b44, type: 2}
-  Sprites:
-  - Texture: {fileID: 2800000, guid: 8095a7489c1934c4f8a0c0b98ec0327e, type: 3}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites:
+  - Texture: {fileID: 2800000, guid: 8095a7489c1934c4f8a0c0b98ec0327e, type: 3}

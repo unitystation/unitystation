@@ -49,7 +49,7 @@ public class ItemSlot
 	/// <summary>
 	/// Net ID of the ItemStorage this slot exists in
 	/// </summary>
-	public uint ItemStorageNetID => itemStorage.GetComponent<NetworkIdentity>().netId;
+	public uint ItemStorageNetID => itemStorage.GetComponentInParent<NetworkIdentity>().netId;
 
 	/// <summary>
 	/// ItemAttributes of item in this slot, null if no item or item doesn't have any attributes.
@@ -254,6 +254,8 @@ public class ItemSlot
 		item = newItem;
 		OnSlotContentsChangeServer.Invoke();
 
+		itemStorage.OnInventorySlotSet(removedItem, newItem);
+
 		//server has to call their own client side hooks because by the time the message is received,
 		//the server will not be able to determine what slot the item came from.
 		OnSlotContentsChangeClient.Invoke();
@@ -455,14 +457,17 @@ public class ItemSlot
 				}
 			}
 		}
-
-		var instanceID = storageToFree.GetComponent<NetworkIdentity>().GetInstanceID();
-		slots.TryGetValue(instanceID, out var dict);
-		if (dict != null)
+		if (storageToFree.GetComponentInParent<NetworkIdentity>())
 		{
-			dict.Clear();
-			slots.Remove(instanceID);
+			var instanceID = storageToFree.GetComponentInParent<NetworkIdentity>().GetInstanceID();
+			slots.TryGetValue(instanceID, out var dict);
+			if (dict != null)
+			{
+				dict.Clear();
+				slots.Remove(instanceID);
+			}
 		}
+		
 	}
 
 	/// <summary>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using HealthV2;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
@@ -128,9 +129,9 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	[HideInInspector] public PlayerNetworkActions pna;
 
-	[HideInInspector] [SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
-	[HideInInspector] [SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
-	[HideInInspector] public float CrawlSpeed;
+	[SyncVar(hook = nameof(SyncRunSpeed))] public float RunSpeed;
+	[SyncVar(hook = nameof(SyncWalkSpeed))] public float WalkSpeed;
+	public float CrawlSpeed;
 
 	/// <summary>
 	/// Player will fall when pushed with such speed
@@ -141,20 +142,36 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	private Matrix matrix => registerPlayer.Matrix;
 	private PlayerScript playerScript;
 
+	[SerializeField]
+	private List<LimbContainer> legContainers;
+
+	[SerializeField]
+	private List<LimbContainer> armContainers;
+
 	private void Awake()
 	{
 		playerScript = GetComponent<PlayerScript>();
-	}
 
-	private void Start()
-	{
 		PlayerDirectional = gameObject.GetComponent<Directional>();
 
 		registerPlayer = GetComponent<RegisterPlayer>();
 		pna = gameObject.GetComponent<PlayerNetworkActions>();
-		RunSpeed = 6;
-		WalkSpeed = 3;
-		CrawlSpeed = 0.8f;
+
+		foreach (LimbContainer limbContainer in legContainers)
+		{
+			limbContainer.LimbUpdateEvent += UpdateSpeedFromLimbUpdate;
+		}
+
+		foreach (LimbContainer limbContainer in armContainers)
+		{
+			limbContainer.LimbUpdateEvent += UpdateSpeedFromLimbUpdate;
+		}
+
+		//Aren't these set up with sync vars? Why are they set like this?
+		//They don't appear to ever get synced either.
+		RunSpeed = 1;
+		WalkSpeed = 1;
+		CrawlSpeed = 0f;
 	}
 
 	public override void OnStartClient()
@@ -451,7 +468,7 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 
 	private bool CanUnBuckleSelf()
 	{
-		PlayerHealth playerHealth = playerScript.playerHealth;
+		PlayerHealthV2 playerHealth = playerScript.playerHealth;
 
 		return !(playerHealth == null ||
 		         playerHealth.ConsciousState == ConsciousState.DEAD ||
@@ -597,6 +614,22 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	}
 
 	#endregion Cuffing
+
+	public void UpdateSpeedFromLimbUpdate(ImplantLimb prevLimb, ImplantLimb newLimb)
+	{
+		//If we had a previous limb that's being replaced, we need to remove the speed bonuses it gave.
+		if (prevLimb)
+		{
+			ServerChangeSpeed(RunSpeed - prevLimb.GetRunningSpeed(), WalkSpeed - prevLimb.GetWalkingSpeed());
+		}
+
+		//Check if we're getting a new limb as well.
+		if (newLimb)
+		{
+			ServerChangeSpeed(RunSpeed + newLimb.GetRunningSpeed(), WalkSpeed + newLimb.GetWalkingSpeed());
+		}
+	}
+
 }
 
 /// <summary>

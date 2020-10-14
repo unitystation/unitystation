@@ -153,7 +153,7 @@ MonoBehaviour:
     Item: {fileID: 3961673132676458627, guid: 61c2c1d3267084042bfdfd08fdd7c7a7, type: 3}
     Stock: 1
   - ItemName: Bandolier
-    Item: {fileID: 6700281191928912403, guid: 1fc9adbf381f65c4b986900fe3a89148, type: 3}
+    Item: {fileID: 3268549694811427644, guid: 69cbd0a07a7d1de4d93b2937968ee0a4, type: 3}
     Stock: 1
   - ItemName: EMPTY SLOT
     Item: {fileID: 0}
@@ -170,6 +170,7 @@ MonoBehaviour:
   VendingSound: MachineVend
   restockMessage: Items restocked.
   noAccessMessage: Access denied!
+  isEmagged: 0
   VendorContent:
   - ItemName: 
     Item: {fileID: 7636118406116123594, guid: 489b0e24de7b7dc4ea31a401aadb3779, type: 3}
@@ -412,18 +413,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  MinimumWorkingVoltage: 190
-  ExpectedRunningVoltage: 240
-  MaximumWorkingVoltage: 300
+  minimumWorkingVoltage: 190
+  expectedRunningVoltage: 240
+  maximumWorkingVoltage: 300
   deviceType: 3
   isSelfPowered: 0
   wattusage: 0.01
-  Resistance: 100000000
+  resistance: 100000000
   RelatedAPC: {fileID: 0}
   AdvancedControlToScript: 0
   StateUpdateOnClient: 1
-  SelfPowered: 0
-  State: 0
   conType: 1
 --- !u!1 &1905444731887362
 GameObject:
@@ -472,6 +471,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -523,6 +523,7 @@ MonoBehaviour:
   SubCatalogue:
   - {fileID: 11400000, guid: 33a3890a5b11e4d4e8f99aa616c26d9c, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 33a3890a5b11e4d4e8f99aa616c26d9c, type: 2}
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
   Sprites:
