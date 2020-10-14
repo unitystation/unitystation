@@ -114,7 +114,7 @@ namespace UI.Core.RightClick
 		    SnapRotation = 0;
 		    foreach (var button in ItemRadial)
 		    {
-			    button.Interactable = false;
+			    button.SetInteractable(false);
 		    }
 	    }
 
@@ -122,7 +122,7 @@ namespace UI.Core.RightClick
 	    {
 		    foreach (var button in ItemRadial)
 		    {
-			    button.Interactable = true;
+			    button.SetInteractable(true);
 		    }
 		    SnapRotation = ItemRadial.NearestItemAngle;
 		    SnapStartTime = Time.time;

@@ -25,11 +25,7 @@ namespace UI.Core.RightClick
 
 		private RightClickButton button;
 
-		public bool Interactable
-		{
-			get => button.IsInteractable();
-			set => button.interactable = value;
-		}
+		public void SetInteractable(bool value) => button.interactable = value;
 
 		private Image Mask { get; set; }
 
