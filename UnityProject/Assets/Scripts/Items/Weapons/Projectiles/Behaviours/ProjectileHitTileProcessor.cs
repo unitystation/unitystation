@@ -55,8 +55,8 @@ namespace Weapons.Projectiles.Behaviours
 		private Vector3 GetHitTileWorldPosition(MatrixManager.CustomPhysicsHit hit)
 		{
 			var bulletHitTarget = Vector3.zero;
-			bulletHitTarget.x = hit.TileHitWorld.x - 0.01f * hit.TileHitWorld.x;
-			bulletHitTarget.y = hit.TileHitWorld.y - 0.01f * hit.TileHitWorld.y;
+			bulletHitTarget.x = hit.TileHitWorld.x;
+			bulletHitTarget.y = hit.TileHitWorld.y;
 			return bulletHitTarget;
 		}
 	}

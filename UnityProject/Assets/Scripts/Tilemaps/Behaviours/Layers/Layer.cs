@@ -142,7 +142,10 @@ public class Layer : MonoBehaviour
 			RotationOffset = info.RotationOffsetFromInitial;
 			Logger.LogTraceFormat("{0} layer redrawing with offset {1}", Category.Matrix, info.MatrixMove,
 				RotationOffset);
-			tilemap.RefreshAllTiles();
+			if (tilemap != null)
+			{
+				tilemap.RefreshAllTiles();
+			}
 		}
 	}
 

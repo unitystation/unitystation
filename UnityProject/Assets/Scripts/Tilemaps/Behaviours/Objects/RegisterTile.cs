@@ -522,7 +522,7 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 
 	public virtual void UpdatePositionClient()
 	{
-		var prevPosition = LocalPositionClient;
+		//var prevPosition = LocalPositionClient;
 
 		LocalPositionClient = CustomTransform
 			? CustomTransform.Pushable.ClientLocalPosition

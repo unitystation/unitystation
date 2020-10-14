@@ -460,12 +460,23 @@ public class SoundManager : MonoBehaviour
 		if (!forceMixer)
 		{
 			if (!Global
-			    && PlayerManager.LocalPlayer != null
-			    && MatrixManager.Linecast((Vector2) PlayerManager.LocalPlayer.TileWorldPosition(),
-				    LayerTypeSelection.Walls, layerMask, source.transform.position).ItHit)
+			    && PlayerManager.LocalPlayer != null)
+
 			{
-				//Logger.Log("MuffledMixer");
-				source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+				if (((Vector3)(Vector2) PlayerManager.LocalPlayer.TileWorldPosition() - source.transform.position).magnitude <
+				    15f)
+				{
+					if (MatrixManager.Linecast((Vector2) PlayerManager.LocalPlayer.TileWorldPosition(),
+						LayerTypeSelection.Walls, layerMask, source.transform.position).ItHit)
+					{
+						//Logger.Log("MuffledMixer");
+						source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+					}
+				}
+				else
+				{
+					source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+				}
 			}
 		}
 
