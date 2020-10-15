@@ -12,7 +12,7 @@ namespace Antagonists
 			var spawn = PlayerSpawn.ServerSpawnPlayer(spawnRequest);
 
 			//Add blob player to game object
-			spawn.AddComponent<BlobPlayer>();
+			spawn.AddComponent<BlobStarter>();
 
 			return spawn;
 		}

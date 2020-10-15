@@ -14,6 +14,8 @@ namespace Blob
 	public class BlobStarter : NetworkBehaviour
 	{
 
+		public bool bypass = true;
+
 		private BlobStates state = BlobStates.Start;
 
 		private BlobBody bodyPart = BlobBody.Stomach;
@@ -22,13 +24,15 @@ namespace Blob
 
 		private float internalTimer = 0f;
 
+		private const float updateTime = 1f;
+
 		private const float MessageFrequency = 20f;
 
 		private const float TimeToMiddle = 60f;
 
 		private const float TimeToEnd = 240f;
 
-		public List<string> GenericMiddlePhrases = new List<string>
+		private List<string> GenericMiddlePhrases = new List<string>
 		{
 			"You feel in pain, and want to hide away",
 			"You want to lay down in the dark",
@@ -38,20 +42,20 @@ namespace Blob
 			"You feel in pain"
 		};
 
-		public List<string> middlePhrasesStomach = new List<string>
+		private List<string> middlePhrasesStomach = new List<string>
 		{
 			"Your stomach hurts",
 			"You feel your insides in pain, but dont want help",
 			"Your stomach gurgles"
 		};
 
-		public List<string> middlePhrasesHead = new List<string>
+		private List<string> middlePhrasesHead = new List<string>
 		{
 			"Your head hurts",
 			"Your stomach gurgles"
 		};
 
-		public List<string> middlePhrasesAss = new List<string>
+		private List<string> middlePhrasesAss = new List<string>
 		{
 			"Your ass hurts",
 			"You feel your insides in pain, but dont want help",
@@ -74,7 +78,7 @@ namespace Blob
 
 		private void OnEnable()
 		{
-			UpdateManager.Add(PeriodicUpdate, 1f);
+			UpdateManager.Add(PeriodicUpdate, updateTime);
 		}
 
 		private void OnDisable()
@@ -86,9 +90,15 @@ namespace Blob
 		{
 			if (!CustomNetworkManager.IsServer) return;
 
-			stateTimer += Time.deltaTime;
+			stateTimer += updateTime;
 
-			internalTimer += Time.deltaTime;
+			internalTimer += updateTime;
+
+			if (bypass)
+			{
+				FormBlob();
+				return;
+			}
 
 			CheckState();
 		}
@@ -238,14 +248,13 @@ namespace Blob
 
 			PlayerSpawn.ServerTransferPlayerToNewBody(connectionToClient, spawnResult.GameObject, gameObject, EVENT.BlobSpawned, null);
 
+			//Start the blob control script
+			spawnResult.GameObject.GetComponent<BlobPlayer>().BlobStart();
+
 			gameObject.GetComponent<LivingHealthBehaviour>().Harvest();
+
+			Destroy(this);
 		}
-
-		#endregion
-
-		#region ClientSide
-
-
 
 		#endregion
 	}

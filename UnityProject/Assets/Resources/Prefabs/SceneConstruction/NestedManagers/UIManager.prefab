@@ -1760,6 +1760,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hudBottomHuman: {fileID: 8556172553787601039}
   hudBottomGhost: {fileID: 5132426982416102989}
+  hudBottomBlob: {fileID: 8322412643209625539, guid: 1da737e9aafad45459e754ba488ccfe1,
+    type: 3}
   jobSelectWindow: {fileID: 8556394910883754237}
   teamSelectionWindow: {fileID: 8554602371908804983}
   disclaimer: {fileID: 8048728987704432593}
@@ -3877,7 +3879,7 @@ PrefabInstance:
     - target: {fileID: 5310848962886298822, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 409.3001
+      value: 409.3
       objectReference: {fileID: 0}
     - target: {fileID: 5380185652939830920, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
@@ -3897,12 +3899,12 @@ PrefabInstance:
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Size
-      value: 0.41528562
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5420702621447585668, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
       propertyPath: m_Value
-      value: 0.0000001491208
+      value: 0.00000014912081
       objectReference: {fileID: 0}
     - target: {fileID: 5420804678553840072, guid: 7e170a9c9286e41469cecbe1717fdbd4,
         type: 3}
