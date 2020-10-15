@@ -23,6 +23,7 @@ public class ControlDisplays : MonoBehaviour
 	}
 	public GameObject hudBottomHuman;
 	public GameObject hudBottomGhost;
+	public GameObject hudBottomBlob;
 	public GameObject jobSelectWindow;
 	public GameObject teamSelectionWindow;
 	[CanBeNull] public GameObject disclaimer;
@@ -40,12 +41,14 @@ public class ControlDisplays : MonoBehaviour
 	{
 		EventManager.AddHandler(EVENT.PlayerSpawned, HumanUI);
 		EventManager.AddHandler(EVENT.GhostSpawned, GhostUI);
+		EventManager.AddHandler(EVENT.BlobSpawned, BlobUI);
 	}
 
 	void OnDisable()
 	{
 		EventManager.RemoveHandler(EVENT.PlayerSpawned, HumanUI);
 		EventManager.RemoveHandler(EVENT.GhostSpawned, GhostUI);
+		EventManager.RemoveHandler(EVENT.BlobSpawned, BlobUI);
 	}
 
 	public void RejoinedEvent()
@@ -119,6 +122,21 @@ public class ControlDisplays : MonoBehaviour
 		{
 			hudBottomHuman.SetActive(false);
 			hudBottomGhost.SetActive(true);
+		}
+		UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		panelRight.gameObject.SetActive(true);
+		rightClickManager.SetActive(true);
+		preRoundWindow.gameObject.SetActive(false);
+		MusicManager.SongTracker.Stop();
+	}
+
+	void BlobUI()
+	{
+		if (hudBottomBlob != null && hudBottomHuman != null && hudBottomGhost != null)
+		{
+			hudBottomHuman.SetActive(false);
+			hudBottomGhost.SetActive(false);
+			hudBottomBlob.SetActive(true);
 		}
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);

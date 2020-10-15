@@ -35,6 +35,8 @@ namespace Antagonists
 		/// </summary>
 		[NonSerialized] public List<GameObject> TargetedItems = new List<GameObject>();
 
+		public GameObject blobPlayerViewer = null;
+
 		private void Awake()
 		{
 			if ( Instance == null )
