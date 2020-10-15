@@ -113,7 +113,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 		EventManager.AddHandler(EVENT.PlayerRejoined, Init);
 		EventManager.AddHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
-		EventManager.AddHandler(EVENT.BlobSpawned, OnPlayerBecomeGhost);
 		EventManager.AddHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
 	}
 
@@ -185,7 +184,6 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, Init);
 		EventManager.RemoveHandler(EVENT.GhostSpawned, OnPlayerBecomeGhost);
-		EventManager.RemoveHandler(EVENT.BlobSpawned, OnPlayerBecomeGhost);
 		EventManager.RemoveHandler(EVENT.PlayerRejoined, OnPlayerReturnedToBody);
 	}
 

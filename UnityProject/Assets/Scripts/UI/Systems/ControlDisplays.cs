@@ -106,6 +106,7 @@ public class ControlDisplays : MonoBehaviour
 	{
 		if (hudBottomHuman != null && hudBottomGhost != null)
 		{
+			hudBottomBlob.SetActive(false);
 			hudBottomHuman.SetActive(true);
 			hudBottomGhost.SetActive(false);
 		}
@@ -120,6 +121,7 @@ public class ControlDisplays : MonoBehaviour
 	{
 		if (hudBottomHuman != null && hudBottomGhost != null)
 		{
+			hudBottomBlob.SetActive(false);
 			hudBottomHuman.SetActive(false);
 			hudBottomGhost.SetActive(true);
 		}
@@ -138,7 +140,7 @@ public class ControlDisplays : MonoBehaviour
 			hudBottomGhost.SetActive(false);
 			hudBottomBlob.SetActive(true);
 		}
-		UIManager.PlayerHealthUI.gameObject.SetActive(true);
+		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		panelRight.gameObject.SetActive(true);
 		rightClickManager.SetActive(true);
 		preRoundWindow.gameObject.SetActive(false);
