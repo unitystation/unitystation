@@ -4,6 +4,6 @@ namespace Weapons.Projectiles.Behaviours
 {
 	public interface IOnHitInteractTile
 	{
-		bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition);
+		bool Interact(MatrixManager.CustomPhysicsHit hit, InteractableTiles interactableTiles, Vector3 worldPosition);
 	}
 }

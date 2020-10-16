@@ -17,14 +17,15 @@ namespace Weapons.Projectiles.Behaviours
 			this.targetZone = targetZone;
 		}
 
-		public bool OnHit(RaycastHit2D hit)
+		public bool OnHit(MatrixManager.CustomPhysicsHit  hit)
 		{
 			return TryDamage(hit);
 		}
 
-		private bool TryDamage(RaycastHit2D hit)
+		private bool TryDamage(MatrixManager.CustomPhysicsHit  hit)
 		{
-			var coll = hit.collider;
+			if (hit.CollisionHit.GameObject == null) return false;
+			var coll = hit.CollisionHit.GameObject;
 			var integrity = coll.GetComponent<Integrity>();
 			if (integrity == null) return false;
 

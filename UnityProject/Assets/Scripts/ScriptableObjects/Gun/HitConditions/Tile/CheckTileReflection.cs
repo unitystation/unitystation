@@ -13,7 +13,7 @@ namespace ScriptableObjects.Gun.HitConditions.Tile
 		/// <param name="interactableTiles"></param>
 		/// <param name="worldPosition"></param>
 		/// <returns></returns>
-		public override bool CheckCondition(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
+		public override bool CheckCondition(MatrixManager.CustomPhysicsHit hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
 			var tile = interactableTiles.MetaTileMap.GetTileAtWorldPos(worldPosition, LayerType.Walls) as BasicTile;
 			return tile != null && tile.DoesReflectBullet;

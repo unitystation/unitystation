@@ -7,7 +7,7 @@ namespace Weapons.Projectiles.Behaviours
 	/// </summary>
 	public class ProjectileMine : MonoBehaviour, IOnHitInteractTile
 	{
-		public virtual bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
+		public virtual bool Interact(MatrixManager.CustomPhysicsHit hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
 			return interactableTiles.TryMine(worldPosition);
 		}

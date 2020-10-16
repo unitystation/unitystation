@@ -9,7 +9,9 @@ namespace ScriptableObjects.Gun
 	public class LayerMaskData : ScriptableObject
 	{
 		[SerializeField] private LayerMask layers = default;
-
+		[NaughtyAttributes.EnumFlags][SerializeField] private LayerTypeSelection tileMapLayers = default;
 		public LayerMask Layers => layers;
+
+		public LayerTypeSelection TileMapLayers => tileMapLayers;
 	}
 }

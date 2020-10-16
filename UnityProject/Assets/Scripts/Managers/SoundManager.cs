@@ -43,8 +43,7 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	[SerializeField]
-	private string[] RoundEndSounds = new string[]
+	[SerializeField] private string[] RoundEndSounds = new string[]
 	{
 		"ApcDestroyed",
 		"BanginDonk",
@@ -82,7 +81,7 @@ public class SoundManager : MonoBehaviour
 			MasterVolume(1f);
 		}
 
-		layerMask = LayerMask.GetMask("Walls", "Door Closed");
+		layerMask = LayerMask.GetMask("Door Closed");
 		// Cache all sounds in the tree
 		var audioSources = gameObject.GetComponentsInChildren<AudioSource>(true);
 		for (int i = 0; i < audioSources.Length; i++)
@@ -149,7 +148,7 @@ public class SoundManager : MonoBehaviour
 		for (int i = pooledSources.Count - 1; i > 0; i--)
 		{
 			if (pooledSources[i] != null && pooledSources[i].gameObject != null
-										 && !pooledSources[i].isPlaying)
+			                             && !pooledSources[i].isPlaying)
 			{
 				pooledSources[i].isPlaying = true;
 				CopySource(pooledSources[i].audioSource, sourceToCopy);
@@ -202,13 +201,13 @@ public class SoundManager : MonoBehaviour
 	/// </summary>
 	private string ResolveSoundPattern(string sndName)
 	{
-		if (!sounds.ContainsKey(sndName) && sndName.Contains('#'))
+		if (sndName == null) return "";
+
+		if (sounds.ContainsKey(sndName) || !sndName.Contains('#')) return sndName;
+		var soundNames = GetMatchingSounds(sndName);
+		if (soundNames.Length > 0)
 		{
-			var soundNames = GetMatchingSounds(sndName);
-			if (soundNames.Length > 0)
-			{
-				return soundNames[Random.Range(0, soundNames.Length)];
-			}
+			return soundNames[Random.Range(0, soundNames.Length)];
 		}
 
 		return sndName;
@@ -225,7 +224,7 @@ public class SoundManager : MonoBehaviour
 		}
 
 		var regex = new Regex(Regex.Escape(pattern).Replace(@"\#", @"\d+"));
-		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>)regex.IsMatch).ToArray();
+		return soundPatterns[pattern] = sounds.Keys.Where((Func<string, bool>) regex.IsMatch).ToArray();
 	}
 
 	/// <summary>
@@ -257,7 +256,8 @@ public class SoundManager : MonoBehaviour
 		}
 
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.SendToAll(sndName, TransformState.HiddenPos, polyphonic, null, shakeParameters, audioSourceParameters);
+		PlaySoundMessage.SendToAll(sndName, TransformState.HiddenPos, polyphonic, null, shakeParameters,
+			audioSourceParameters);
 	}
 
 	/// <summary>
@@ -271,16 +271,20 @@ public class SoundManager : MonoBehaviour
 	/// <param name="Global">Does everyone will receive the sound our just nearby players</param>
 	/// <param name="sourceObj">The object that is the source of the sound</param>
 	/// <param name="shakeParameters">Camera shake effect associated with this sound</param>
-	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, AudioSourceParameters audioSourceParameters, bool polyphonic = false, bool Global = true, GameObject sourceObj = null, ShakeParameters shakeParameters = null)
+	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, AudioSourceParameters audioSourceParameters,
+		bool polyphonic = false, bool Global = true, GameObject sourceObj = null,
+		ShakeParameters shakeParameters = null)
 	{
 		sndName = Instance.ResolveSoundPattern(sndName);
 		if (Global)
 		{
-			PlaySoundMessage.SendToAll(sndName, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
+			PlaySoundMessage.SendToAll(sndName, worldPos, polyphonic, sourceObj, shakeParameters,
+				audioSourceParameters);
 		}
 		else
 		{
-			PlaySoundMessage.SendToNearbyPlayers(sndName, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
+			PlaySoundMessage.SendToNearbyPlayers(sndName, worldPos, polyphonic, sourceObj, shakeParameters,
+				audioSourceParameters);
 		}
 	}
 
@@ -290,8 +294,9 @@ public class SoundManager : MonoBehaviour
 	/// Accepts "#" wildcards for sound variations. (Example: "Punch#")
 	/// </summary>
 	public static void PlayNetworkedAtPos(string sndName, Vector3 worldPos, float pitch = -1,
-	bool polyphonic = false,
-	bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool global = true, GameObject sourceObj = null)
+		bool polyphonic = false,
+		bool shakeGround = false, byte shakeIntensity = 64, int shakeRange = 30, bool global = true,
+		GameObject sourceObj = null)
 	{
 		ShakeParameters shakeParameters = null;
 		if (shakeGround == true)
@@ -346,7 +351,8 @@ public class SoundManager : MonoBehaviour
 		}
 
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, TransformState.HiddenPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
+		PlaySoundMessage.Send(recipient, sndName, TransformState.HiddenPos, polyphonic, sourceObj, shakeParameters,
+			audioSourceParameters);
 	}
 
 	/// <summary>
@@ -380,7 +386,8 @@ public class SoundManager : MonoBehaviour
 		}
 
 		sndName = Instance.ResolveSoundPattern(sndName);
-		PlaySoundMessage.Send(recipient, sndName, worldPos, polyphonic, sourceObj, shakeParameters, audioSourceParameters);
+		PlaySoundMessage.Send(recipient, sndName, worldPos, polyphonic, sourceObj, shakeParameters,
+			audioSourceParameters);
 	}
 
 	/// <summary>
@@ -396,7 +403,8 @@ public class SoundManager : MonoBehaviour
 
 		ApplyAudioSourceParameters(audioSourceParameters, sound.audioSource);
 
-		Instance.PlaySource(sound, polyphonic, true, audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
+		Instance.PlaySource(sound, polyphonic, true,
+			audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
 
 	/// <summary>
@@ -452,11 +460,23 @@ public class SoundManager : MonoBehaviour
 		if (!forceMixer)
 		{
 			if (!Global
-				&& PlayerManager.LocalPlayer != null
-				&& Physics2D.Linecast(PlayerManager.LocalPlayer.TileWorldPosition(), source.transform.position, layerMask))
+			    && PlayerManager.LocalPlayer != null)
+
 			{
-				//Logger.Log("MuffledMixer");
-				source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+				if (((Vector3)(Vector2) PlayerManager.LocalPlayer.TileWorldPosition() - source.transform.position).magnitude <
+				    15f)
+				{
+					if (MatrixManager.Linecast((Vector2) PlayerManager.LocalPlayer.TileWorldPosition(),
+						LayerTypeSelection.Walls, layerMask, source.transform.position).ItHit)
+					{
+						//Logger.Log("MuffledMixer");
+						source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+					}
+				}
+				else
+				{
+					source.audioSource.outputAudioMixerGroup = soundManager.MuffledMixer;
+				}
 			}
 		}
 
@@ -477,7 +497,7 @@ public class SoundManager : MonoBehaviour
 	{
 		AudioSourceParameters audioSourceParameters = new AudioSourceParameters
 		{
-			Pitch = (float)Instance.GetRandomNumber(0.7d, 1.2d)
+			Pitch = (float) Instance.GetRandomNumber(0.7d, 1.2d)
 		};
 
 		PlayNetworkedAtPos("GlassKnock", worldPos, audioSourceParameters, true, false, performer);
@@ -540,7 +560,8 @@ public class SoundManager : MonoBehaviour
 			sound.transform.position = worldPos;
 		}
 
-		Instance.PlaySource(sound, polyphonic, isGlobal, audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
+		Instance.PlaySource(sound, polyphonic, isGlobal,
+			audioSourceParameters != null && audioSourceParameters.MixerType != MixerType.Unspecified);
 	}
 
 	private static void ApplyAudioSourceParameters(AudioSourceParameters audioSourceParameters, AudioSource audioSource)
@@ -548,7 +569,9 @@ public class SoundManager : MonoBehaviour
 		if (audioSourceParameters != null)
 		{
 			if (audioSourceParameters.MixerType != MixerType.Unspecified)
-			audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master ? Instance.DefaultMixer : Instance.MuffledMixer;
+				audioSource.outputAudioMixerGroup = audioSourceParameters.MixerType == MixerType.Master
+					? Instance.DefaultMixer
+					: Instance.MuffledMixer;
 
 			if (audioSourceParameters.Pitch != null)
 				audioSource.pitch = audioSourceParameters.Pitch.Value;
@@ -576,11 +599,12 @@ public class SoundManager : MonoBehaviour
 			if (audioSourceParameters.Spread != null)
 				audioSource.spread = audioSourceParameters.Spread.Value;
 
-				switch (audioSourceParameters.VolumeRolloffType)
+			switch (audioSourceParameters.VolumeRolloffType)
 			{
 				case VolumeRolloffType.EaseInAndOut:
 					audioSource.rolloffMode = AudioRolloffMode.Custom;
-					audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff, AnimationCurve.EaseInOut(0, 1, 1, 0));
+					audioSource.SetCustomCurve(AudioSourceCurveType.CustomRolloff,
+						AnimationCurve.EaseInOut(0, 1, 1, 0));
 					break;
 				case VolumeRolloffType.Linear:
 					audioSource.rolloffMode = AudioRolloffMode.Linear;
@@ -636,6 +660,7 @@ public class SoundManager : MonoBehaviour
 						Instance.pooledSources[i].audioSource.Stop();
 					}
 				}
+
 				s.Stop();
 			}
 		}
@@ -731,308 +756,320 @@ public class SoundManager : MonoBehaviour
 		}
 	}
 
-	private readonly Dictionary<StepType, Dictionary<FloorTileType, List<string>>> stepSounds = new Dictionary<StepType, Dictionary<FloorTileType, List<string>>>()
-	{
+	private readonly Dictionary<StepType, Dictionary<FloorTileType, List<string>>> stepSounds =
+		new Dictionary<StepType, Dictionary<FloorTileType, List<string>>>()
 		{
-			StepType.Barefoot,
-			new Dictionary<FloorTileType, List<string>>
 			{
+				StepType.Barefoot,
+				new Dictionary<FloorTileType, List<string>>
 				{
-					FloorTileType.floor,
-					new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
-				},
+					{
+						FloorTileType.floor,
+						new List<string>
+							{"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
+					},
+					{
+						FloorTileType.asteroid,
+						new List<string>
+							{"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
+					},
+					{
+						FloorTileType.carpet,
+						new List<string>
+						{
+							"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4",
+							"carpetbarefoot5"
+						}
+					},
+					{
+						FloorTileType.catwalk,
+						new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
+					},
+					{
+						FloorTileType.grass,
+						new List<string> {"grass1", "grass2", "grass3", "grass4"}
+					},
+					{
+						FloorTileType.lava,
+						new List<string> {"lava1", "lava2", "lava3"}
+					},
+					{
+						FloorTileType.plating,
+						new List<string>
+							{"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
+					},
+					{
+						FloorTileType.wood,
+						new List<string>
+							{"woodbarefoot1", "woodbarefoot2", "woodbarefoot3", "woodbarefoot4", "woodbarefoot5"}
+					},
+					{
+						FloorTileType.sand,
+						new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+					},
+					{
+						FloorTileType.water,
+						new List<string> {"water1", "water2", "water3", "water4"}
+					},
+					{
+						FloorTileType.bananium,
+						new List<string> {"clownstep1", "clownstep2"}
+					}
+				}
+			},
+			{
+				StepType.Claw,
+				new Dictionary<FloorTileType, List<string>>
 				{
-					FloorTileType.asteroid,
-					new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
-				},
+					{
+						FloorTileType.floor,
+						new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
+					},
+					{
+						FloorTileType.asteroid,
+						new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
+					},
+					{
+						FloorTileType.carpet,
+						new List<string>
+						{
+							"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4",
+							"carpetbarefoot5"
+						}
+					},
+					{
+						FloorTileType.catwalk,
+						new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
+					},
+					{
+						FloorTileType.grass,
+						new List<string> {"grass1", "grass2", "grass3", "grass4"}
+					},
+					{
+						FloorTileType.lava,
+						new List<string> {"lava1", "lava2", "lava3"}
+					},
+					{
+						FloorTileType.plating,
+						new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
+					},
+					{
+						FloorTileType.wood,
+						new List<string> {"woodclaw1", "woodclaw2", "woodclaw3", "woodclaw4", "woodclaw5"}
+					},
+					{
+						FloorTileType.sand,
+						new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+					},
+					{
+						FloorTileType.water,
+						new List<string> {"water1", "water2", "water3", "water4"}
+					},
+					{
+						FloorTileType.bananium,
+						new List<string> {"clownstep1", "clownstep2"}
+					}
+				}
+			},
+			{
+				StepType.Shoes,
+				new Dictionary<FloorTileType, List<string>>
 				{
-					FloorTileType.carpet,
-					new List<string>
-						{"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}
-				},
+					{
+						FloorTileType.floor,
+						new List<string> {"floor1", "floor2", "floor3", "floor4", "floor5"}
+					},
+					{
+						FloorTileType.asteroid,
+						new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+					},
+					{
+						FloorTileType.carpet,
+						new List<string> {"carpet1", "carpet2", "carpet3", "carpet4", "carpet5"}
+					},
+					{
+						FloorTileType.catwalk,
+						new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
+					},
+					{
+						FloorTileType.grass,
+						new List<string> {"grass1", "grass2", "grass3", "grass4"}
+					},
+					{
+						FloorTileType.lava,
+						new List<string> {"lava1", "lava2", "lava3"}
+					},
+					{
+						FloorTileType.plating,
+						new List<string> {"plating1", "plating2", "plating3", "plating4", "plating5"}
+					},
+					{
+						FloorTileType.wood,
+						new List<string> {"wood1", "wood2", "wood3", "wood4", "wood5"}
+					},
+					{
+						FloorTileType.sand,
+						new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
+					},
+					{
+						FloorTileType.water,
+						new List<string> {"water1", "water2", "water3", "water4"}
+					},
+					{
+						FloorTileType.bananium,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+				}
+			},
+			{
+				StepType.Suit,
+				new Dictionary<FloorTileType, List<string>>
 				{
-					FloorTileType.catwalk,
-					new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
-				},
+					{
+						FloorTileType.floor,
+						new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+					},
+					{
+						FloorTileType.asteroid,
+						new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+					},
+					{
+						FloorTileType.carpet,
+						new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+					},
+					{
+						FloorTileType.catwalk,
+						new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+					},
+					{
+						FloorTileType.grass,
+						new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+					},
+					{
+						FloorTileType.lava,
+						new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+					},
+					{
+						FloorTileType.plating,
+						new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+					},
+					{
+						FloorTileType.wood,
+						new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
+					},
+					{
+						FloorTileType.sand,
+						new List<string> {"lava1", "lava2", "lava3"}
+					},
+					{
+						FloorTileType.water,
+						new List<string> {"water1", "water2", "water3", "water4"}
+					},
+					{
+						FloorTileType.bananium,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+				}
+			},
+			{
+				StepType.Heavy,
+				new Dictionary<FloorTileType, List<string>>
 				{
-					FloorTileType.grass,
-					new List<string> {"grass1", "grass2", "grass3", "grass4"}
-				},
+					{
+						FloorTileType.floor,
+						new List<string> {"heavystep1", "heavystep2"}
+					},
+					{
+						FloorTileType.asteroid,
+						new List<string> {"heavystep1", "heavystep2"}
+					},
+					{
+						FloorTileType.carpet,
+						new List<string> {"heavystep1", "heavystep2"}
+					},
+					{
+						FloorTileType.catwalk,
+						new List<string> {"heavystep1", "heavystep2"}
+					},
+					{
+						FloorTileType.grass,
+						new List<string> {"heavystep1", "heavystep2"}
+					},
+					{
+						FloorTileType.lava,
+						new List<string> {"heavystep1", "heavystep2"}
+					},
+					{
+						FloorTileType.plating,
+						new List<string> {"heavystep1", "heavystep2"}
+					},
+					{
+						FloorTileType.wood,
+						new List<string> {"heavystep1", "heavystep2"}
+					},
+					{
+						FloorTileType.sand,
+						new List<string> {"lava1", "lava2", "lava3"}
+					},
+					{
+						FloorTileType.water,
+						new List<string> {"water1", "water2", "water3", "water4"}
+					},
+					{
+						FloorTileType.bananium,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+				}
+			},
+			{
+				StepType.Clown,
+				new Dictionary<FloorTileType, List<string>>
 				{
-					FloorTileType.lava,
-					new List<string> {"lava1", "lava2", "lava3"}
-				},
-				{
-					FloorTileType.plating,
-					new List<string> {"hardbarefoot1", "hardbarefoot2", "hardbarefoot3", "hardbarefoot4", "hardbarefoot5"}
-				},
-				{
-					FloorTileType.wood,
-					new List<string> {"woodbarefoot1", "woodbarefoot2", "woodbarefoot3", "woodbarefoot4", "woodbarefoot5"}
-				},
-				{
-					FloorTileType.sand,
-					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
-				},
-				{
-					FloorTileType.water,
-					new List<string> {"water1", "water2", "water3", "water4"}
-				},
-				{
-					FloorTileType.bananium,
-					new List<string> {"clownstep1", "clownstep2"}
+					{
+						FloorTileType.floor,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+					{
+						FloorTileType.asteroid,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+					{
+						FloorTileType.carpet,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+					{
+						FloorTileType.catwalk,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+					{
+						FloorTileType.grass,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+					{
+						FloorTileType.lava,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+					{
+						FloorTileType.plating,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+					{
+						FloorTileType.wood,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+					{
+						FloorTileType.sand,
+						new List<string> {"clownstep1", "clownstep2"}
+					},
+					{
+						FloorTileType.water,
+						new List<string> {"water1", "water2", "water3", "water4"}
+					},
+					{
+						FloorTileType.bananium,
+						new List<string> {"clownstep1", "clownstep2"}
+					}
 				}
 			}
-		},
-		{
-			StepType.Claw,
-			new Dictionary<FloorTileType, List<string>>
-			{
-				{
-					FloorTileType.floor,
-					new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
-				},
-				{
-					FloorTileType.asteroid,
-					new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
-				},
-				{
-					FloorTileType.carpet,
-					new List<string> {"carpetbarefoot1", "carpetbarefoot2", "carpetbarefoot3", "carpetbarefoot4", "carpetbarefoot5"}
-				},
-				{
-					FloorTileType.catwalk,
-					new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
-				},
-				{
-					FloorTileType.grass,
-					new List<string> {"grass1", "grass2", "grass3", "grass4"}
-				},
-				{
-					FloorTileType.lava,
-					new List<string> {"lava1", "lava2", "lava3"}
-				},
-				{
-					FloorTileType.plating,
-					new List<string> {"hardclaw1", "hardclaw2", "hardclaw3", "hardclaw4", "hardclaw5"}
-				},
-				{
-					FloorTileType.wood,
-					new List<string> {"woodclaw1", "woodclaw2", "woodclaw3", "woodclaw4", "woodclaw5"}
-				},
-				{
-					FloorTileType.sand,
-					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
-				},
-				{
-					FloorTileType.water,
-					new List<string> {"water1", "water2", "water3", "water4"}
-				},
-				{
-					FloorTileType.bananium,
-					new List<string> {"clownstep1", "clownstep2"}
-				}
-			}
-		},
-		{
-			StepType.Shoes,
-			new Dictionary<FloorTileType, List<string>>
-			{
-				{
-					FloorTileType.floor,
-					new List<string> {"floor1", "floor2", "floor3", "floor4", "floor5"}
-				},
-				{
-					FloorTileType.asteroid,
-					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
-				},
-				{
-					FloorTileType.carpet,
-					new List<string> {"carpet1", "carpet2", "carpet3", "carpet4", "carpet5"}
-				},
-				{
-					FloorTileType.catwalk,
-					new List<string> {"catwalk1", "catwalk2", "catwalk3", "catwalk4", "catwalk5"}
-				},
-				{
-					FloorTileType.grass,
-					new List<string> {"grass1", "grass2", "grass3", "grass4"}
-				},
-				{
-					FloorTileType.lava,
-					new List<string> {"lava1", "lava2", "lava3"}
-				},
-				{
-					FloorTileType.plating,
-					new List<string> {"plating1", "plating2", "plating3", "plating4", "plating5"}
-				},
-				{
-					FloorTileType.wood,
-					new List<string> {"wood1", "wood2", "wood3", "wood4", "wood5"}
-				},
-				{
-					FloorTileType.sand,
-					new List<string> {"asteroid1", "asteroid2", "asteroid3", "asteroid4", "asteroid5"}
-				},
-				{
-					FloorTileType.water,
-					new List<string> {"water1", "water2", "water3", "water4"}
-				},
-				{
-					FloorTileType.bananium,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-			}
-		},
-		{
-			StepType.Suit,
-			new Dictionary<FloorTileType, List<string>>
-			{
-				{
-					FloorTileType.floor,
-					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
-				},
-				{
-					FloorTileType.asteroid,
-					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
-				},
-				{
-					FloorTileType.carpet,
-					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
-				},
-				{
-					FloorTileType.catwalk,
-					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
-				},
-				{
-					FloorTileType.grass,
-					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
-				},
-				{
-					FloorTileType.lava,
-					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
-				},
-				{
-					FloorTileType.plating,
-					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
-				},
-				{
-					FloorTileType.wood,
-					new List<string> {"suitstep1", "suitstep2", "suitstep3", "suitstep4", "suitstep5"}
-				},
-				{
-					FloorTileType.sand,
-					new List<string> {"lava1", "lava2", "lava3"}
-				},
-				{
-					FloorTileType.water,
-					new List<string> {"water1", "water2", "water3", "water4"}
-				},
-				{
-					FloorTileType.bananium,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-			}
-		},
-		{
-			StepType.Heavy,
-			new Dictionary<FloorTileType, List<string>>
-			{
-				{
-					FloorTileType.floor,
-					new List<string> {"heavystep1", "heavystep2"}
-				},
-				{
-					FloorTileType.asteroid,
-					new List<string> {"heavystep1", "heavystep2"}
-				},
-				{
-					FloorTileType.carpet,
-					new List<string> {"heavystep1", "heavystep2"}
-				},
-				{
-					FloorTileType.catwalk,
-					new List<string> {"heavystep1", "heavystep2"}
-				},
-				{
-					FloorTileType.grass,
-					new List<string> {"heavystep1", "heavystep2"}
-				},
-				{
-					FloorTileType.lava,
-					new List<string> {"heavystep1", "heavystep2"}
-				},
-				{
-					FloorTileType.plating,
-					new List<string> {"heavystep1", "heavystep2"}
-				},
-				{
-					FloorTileType.wood,
-					new List<string> {"heavystep1", "heavystep2"}
-				},
-				{
-					FloorTileType.sand,
-					new List<string> {"lava1", "lava2", "lava3"}
-				},
-				{
-					FloorTileType.water,
-					new List<string> {"water1", "water2", "water3", "water4"}
-				},
-				{
-					FloorTileType.bananium,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-			}
-		},
-		{
-			StepType.Clown,
-			new Dictionary<FloorTileType, List<string>>
-			{
-				{
-					FloorTileType.floor,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-				{
-					FloorTileType.asteroid,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-				{
-					FloorTileType.carpet,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-				{
-					FloorTileType.catwalk,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-				{
-					FloorTileType.grass,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-				{
-					FloorTileType.lava,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-				{
-					FloorTileType.plating,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-				{
-					FloorTileType.wood,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-				{
-					FloorTileType.sand,
-					new List<string> {"clownstep1", "clownstep2"}
-				},
-				{
-					FloorTileType.water,
-					new List<string> {"water1", "water2", "water3", "water4"}
-				},
-				{
-					FloorTileType.bananium,
-					new List<string> {"clownstep1", "clownstep2"}
-				}
-			}
-		}
-	};
+		};
 }

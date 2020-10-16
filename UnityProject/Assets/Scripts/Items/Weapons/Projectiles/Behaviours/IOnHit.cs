@@ -7,6 +7,6 @@ namespace Weapons.Projectiles.Behaviours
 	/// </summary>
 	public interface IOnHit
 	{
-		bool OnHit(RaycastHit2D hit);
+		bool OnHit(MatrixManager.CustomPhysicsHit hit);
 	}
 }

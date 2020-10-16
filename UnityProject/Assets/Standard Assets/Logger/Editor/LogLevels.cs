@@ -144,7 +144,7 @@ public class LogLevels : EditorWindow
 	{
 		scrollPosition = GUILayout.BeginScrollView(scrollPosition);
 		GUILayout.Space(10f);
-		foreach (LogOverridePref pref in loggerPrefs.logOverrides)
+		foreach (LogOverridePref pref in loggerPrefs.logOverrides.OrderBy(X => X.category.ToString()))
 		{
 			EditorGUILayout.BeginHorizontal();
 			LogLevel logLevel = pref.logLevel;

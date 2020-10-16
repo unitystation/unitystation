@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TileManagement;
+using UnityEngine;
 
 
 	public class TileMapBuilder
@@ -41,7 +42,7 @@
 		{
 			if (!importMode)
 			{
-				metaTileMap.RemoveTile(position, tile.LayerType);
+				metaTileMap.RemoveTileWithlayer(position, tile.LayerType);
 			}
 			SetTile(position, tile, matrixTransform);
 		}

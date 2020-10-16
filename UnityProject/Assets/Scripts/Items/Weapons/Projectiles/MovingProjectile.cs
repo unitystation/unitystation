@@ -71,7 +71,7 @@ namespace Weapons.Projectiles
 		private void SimulateCollision()
 		{
 			var distanceDelta = thisTransform.position - previousPosition;
-			var hit = Physics2D.Raycast(previousPosition, distanceDelta.normalized, distanceDelta.magnitude, maskData.Layers);
+			var hit = MatrixManager.RayCast(previousPosition, distanceDelta.normalized, distanceDelta.magnitude,maskData.TileMapLayers ,maskData.Layers);
 
 			projectile.ProcessRaycastHit(hit);
 		}

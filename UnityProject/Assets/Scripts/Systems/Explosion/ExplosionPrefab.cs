@@ -32,7 +32,7 @@ namespace Systems.Explosions
 		/// <param name="matrix"></param>
 		public void Explode(Matrix matrix)
 		{
-			obstacleMask = LayerMask.GetMask("Walls", "Door Closed");
+			obstacleMask = LayerMask.GetMask( "Door Closed");
 			StartCoroutine(ExplosionRoutine(matrix));
 		}
 
@@ -169,7 +169,7 @@ namespace Systems.Explosions
 
 		private bool IsPastWall(Vector2Int pos, Vector2Int damageablePos, float distance)
 		{
-			return Physics2D.Raycast(pos, damageablePos - pos, distance, obstacleMask).collider == null;
+			return MatrixManager.RayCast((Vector2)pos, damageablePos - pos, distance, LayerTypeSelection.Walls , obstacleMask).ItHit == false;
 		}
 
 		private int CalculateDamage(Vector2Int damagePos, Vector2Int explosionPos)

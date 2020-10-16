@@ -2,6 +2,10 @@
 ---
 
 
+* 2020/10/16: removed tables from objects, now on their own layer by [Bod9001](https://github.com/Bod9001) in PR #[5280](https://github.com/unitystation/unitystation/pull/5280)
+* 2020/10/16: removed tile map Colliders, replace it with a custom solution by [Bod9001](https://github.com/Bod9001) in PR #[5280](https://github.com/unitystation/unitystation/pull/5280)
+* 2020/10/16: moved tile get set out of unity functions to  allow it to be thread safe, this opens up the possibility of radiation being more dynamic by [Bod9001](https://github.com/Bod9001) in PR #[5280](https://github.com/unitystation/unitystation/pull/5280)
+* 2020/10/16: ordered log levels to be alphabetical by [Bod9001](https://github.com/Bod9001) in PR #[5280](https://github.com/unitystation/unitystation/pull/5280)
 * 2020/10/12: Fixed being able to remove powered light blubs with no gloves on. by [ThatDan123](https://github.com/ThatDan123) in PR #[5293](https://github.com/unitystation/unitystation/pull/5293)
 * 2020/10/12: Fixed captains gloves not allowing you to remove powered light bulbs. by [ThatDan123](https://github.com/ThatDan123) in PR #[5293](https://github.com/unitystation/unitystation/pull/5293)
 * 2020/10/12: Fixes Random Sickness Events by [ThatDan123](https://github.com/ThatDan123) in PR #[5294](https://github.com/unitystation/unitystation/pull/5294)
