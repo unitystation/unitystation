@@ -83,6 +83,11 @@ PrefabInstance:
       propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4567449949114439559, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4623851299524474988, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.size
@@ -119,5 +124,11 @@ PrefabInstance:
       propertyPath: initialName
       value: serving dish
       objectReference: {fileID: 0}
+    - target: {fileID: 9102368241754052938, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: fa890f6cb6f568b489f7c31a471828ec,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39da184d881f73c48b25ae5921795c55, type: 3}

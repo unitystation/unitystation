@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 301006007775382093, guid: d02ff8c97e3e1a04a883dbe5bf0beb6d,
         type: 3}
       propertyPath: m_Name
-      value: InternalMagazineBoltAction
+      value: InternalMagazineBoltActionEnchanted
       objectReference: {fileID: 0}
     - target: {fileID: 305929758516033337, guid: d02ff8c97e3e1a04a883dbe5bf0beb6d,
         type: 3}
@@ -67,5 +67,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 412456251848128505, guid: d02ff8c97e3e1a04a883dbe5bf0beb6d,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190710807807205676, guid: d02ff8c97e3e1a04a883dbe5bf0beb6d,
+        type: 3}
+      propertyPath: magazineSize
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7190710807807205676, guid: d02ff8c97e3e1a04a883dbe5bf0beb6d,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 5184028687306108153, guid: edc3a43116dce834a9a1660587e19d75,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d02ff8c97e3e1a04a883dbe5bf0beb6d, type: 3}

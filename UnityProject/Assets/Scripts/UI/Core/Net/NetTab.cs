@@ -38,6 +38,8 @@ public enum NetTabType
 	Jukebox = 27,
 	Filter = 28,
 	Mixer = 29,
+	SpellBook = 30,
+	TeleportScroll = 31,
 
 	//add your tabs here
 }

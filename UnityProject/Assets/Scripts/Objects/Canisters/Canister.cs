@@ -38,6 +38,7 @@ namespace Objects.Atmospherics
 		[SerializeField] private SpriteHandler pressureIndicatorOverlay = default;
 		[SerializeField] private SpriteHandler connectorHoseOverlay = default;
 		[SerializeField] private SpriteHandler tankInsertedOverlay = default;
+		[SerializeField] private SpriteHandler openValveOverlay = default;
 
 		// Components attached to GameObject.
 		public GasContainer GasContainer { get; private set; }
@@ -77,8 +78,11 @@ namespace Objects.Atmospherics
 		{
 			RedFlashing = 0,
 			Red = 1,
-			Yellow = 2,
-			Green = 3
+			Orange = 2,
+			OrangeYellow = 3,
+			Yellow = 4,
+			YellowGreen = 5,
+			Green = 6
 		}
 
 		#region Lifecycle
@@ -129,6 +133,7 @@ namespace Objects.Atmospherics
 			pressureIndicatorOverlay.PushClear();
 			connectorHoseOverlay.PushClear();
 			tankInsertedOverlay.PushClear();
+			openValveOverlay.PushClear();
 
 			hasBurst = true;
 		}
@@ -373,13 +378,25 @@ namespace Objects.Atmospherics
 		public void RefreshPressureIndicator()
 		{
 			var pressure = GasContainer.ServerInternalPressure;
-			if (pressure >= 40 * ONE_ATMOSPHERE)
+			if (pressure >= 9100)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Green);
 			}
-			else if (pressure >= 10 * ONE_ATMOSPHERE)
+			else if (pressure >= 40 * ONE_ATMOSPHERE)
+			{
+				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.YellowGreen);
+			}
+			else if (pressure >= 30 * ONE_ATMOSPHERE)
 			{
 				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Yellow);
+			}
+			else if (pressure >= 20 * ONE_ATMOSPHERE)
+			{
+				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.OrangeYellow);
+			}
+			else if (pressure >= 10 * ONE_ATMOSPHERE)
+			{
+				pressureIndicatorOverlay.ChangeSprite((int)PressureIndicatorState.Orange);
 			}
 			else if (pressure >= 5 * ONE_ATMOSPHERE)
 			{
@@ -403,9 +420,11 @@ namespace Objects.Atmospherics
 			// If present SO is set in editor, then the overlays show in editor.
 			connectorHoseOverlay.ChangeSprite(0);
 			tankInsertedOverlay.ChangeSprite(0);
+			openValveOverlay.ChangeSprite(0);
 
 			connectorHoseOverlay.ToggleTexture(IsConnected);
 			tankInsertedOverlay.ToggleTexture(HasContainerInserted);
+			openValveOverlay.ToggleTexture(ValveIsOpen);
 		}
 	}
 }

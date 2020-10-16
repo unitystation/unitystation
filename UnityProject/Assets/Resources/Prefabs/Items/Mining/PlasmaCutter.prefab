@@ -12,6 +12,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 65a8731c836944efb4baf302526fc662, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &7006481646463431652
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6433518719526052612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b65971c5a3836c41e850378c8d413b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ammoPrefab: {fileID: 1581563359143746140, guid: 89f916fe2ec00a748bb6533ddef5dde6,
+    type: 3}
+  casingPrefabOverride: {fileID: 0}
+  allowMagazineRemoval: 0
+  ammoType: 18
+  SpawnsCasing: 0
+  MagInternal: 0
+  burstCooldown: 3
+  burstCount: 3
+  SmartGun: 0
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FiringSound: PlasmaCutter
+  FireRate: 1
+  MaxRecoilVariance: 0
+  ProjectileVelocity: 20
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
+  WeaponType: 0
+  Projectile: {fileID: 5076580856386662130, guid: f65f1f0bd0295df468272b3d767985a7,
+    type: 3}
+  firemodeProjectiles:
+  - {fileID: 5076580856386662130, guid: f65f1f0bd0295df468272b3d767985a7, type: 3}
+  firemodeFiringSound:
+  - PlasmaCutter
+  firemodeName:
+  - 
+  countFiremode: 1
 --- !u!1001 &7248905475842763370
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -228,8 +272,7 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 4206346965545160429, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
 --- !u!1 &6433518719526052612 stripped
 GameObject:

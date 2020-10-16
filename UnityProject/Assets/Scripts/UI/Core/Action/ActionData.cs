@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Serialization;
+using ScriptableObjects.Systems.Spells;
 
 [System.Serializable]
 

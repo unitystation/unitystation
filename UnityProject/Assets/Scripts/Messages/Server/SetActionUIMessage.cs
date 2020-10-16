@@ -1,6 +1,8 @@
 ﻿using System;
 using Mirror;
 using UnityEngine;
+using Systems.Spells;
+using ScriptableObjects.Systems.Spells;
 
 /// <summary>
 /// ues to set ActionUI For a client
@@ -13,6 +15,7 @@ public class SetActionUIMessage : ServerMessage
 	public int ComponentLocation;
 	public uint NetObject;
 	public bool showAlert;
+	public float cooldown;
 	public Type ComponentType;
 	public UpdateType ProposedAction;
 
@@ -63,6 +66,9 @@ public class SetActionUIMessage : ServerMessage
 				case UpdateType.StateChange:
 					UIActionManager.ToggleLocal(action, showAlert);
 					break;
+				case UpdateType.Cooldown:
+					UIActionManager.SetCooldownLocal(action, cooldown);
+					break;
 			}
 		}
 	}
@@ -72,6 +78,7 @@ public class SetActionUIMessage : ServerMessage
 		IActionGUI action,
 		UpdateType ProposedAction,
 		bool show = false,
+		float cooldown = 0,
 		int location = 0)
 	{
 		//SO action singleton ID
@@ -81,6 +88,7 @@ public class SetActionUIMessage : ServerMessage
 			{
 				actionListID = UIActionSOSingleton.ActionsTOID[actionFromSO],
 				showAlert = show,
+				cooldown = cooldown,
 				SpriteLocation = location,
 				ProposedAction = ProposedAction,
 				ComponentType = actionFromSO.GetType()
@@ -95,6 +103,7 @@ public class SetActionUIMessage : ServerMessage
 			{
 				spellListIndex = spellAction.SpellData.Index,
 				showAlert = show,
+				cooldown = cooldown,
 				SpriteLocation = location,
 				ProposedAction = ProposedAction,
 				ComponentType = spellAction.GetType()
@@ -128,6 +137,7 @@ public class SetActionUIMessage : ServerMessage
 					NetObject = netObject.netId,
 					ComponentLocation = componentLocation,
 					ComponentType = type,
+					cooldown = cooldown,
 					showAlert = show,
 					SpriteLocation = location,
 					ProposedAction = ProposedAction
@@ -147,6 +157,11 @@ public class SetActionUIMessage : ServerMessage
 	public static SetActionUIMessage SetAction(GameObject recipient, IActionGUI iServerActionGUI, bool _showAlert)
 	{
 		return (_Send(recipient, iServerActionGUI, UpdateType.StateChange, _showAlert));
+	}
+
+	public static SetActionUIMessage SetAction(GameObject recipient, IActionGUI iServerActionGUI, float cooldown)
+	{
+		return _Send(recipient, iServerActionGUI, UpdateType.Cooldown, cooldown: cooldown);
 	}
 
 	public static SetActionUIMessage SetSprite(GameObject recipient, IActionGUI iServerActionGUI, int FrontIconlocation)
@@ -171,6 +186,7 @@ public class SetActionUIMessage : ServerMessage
 		ComponentLocation = reader.ReadInt32();
 		NetObject = reader.ReadUInt32();
 		showAlert = reader.ReadBoolean();
+		cooldown = reader.ReadSingle();
 		ComponentType = RequestGameAction.componentIDToComponentType[reader.ReadUInt16()];
 		ProposedAction = (UpdateType) reader.ReadInt32();
 	}
@@ -184,6 +200,7 @@ public class SetActionUIMessage : ServerMessage
 		writer.WriteInt32(ComponentLocation);
 		writer.WriteUInt32(NetObject);
 		writer.WriteBoolean(showAlert);
+		writer.WriteSingle(cooldown);
 		writer.WriteUInt16(RequestGameAction.componentTypeToComponentID[ComponentType]);
 		writer.WriteInt32((int) ProposedAction);
 	}
@@ -191,6 +208,7 @@ public class SetActionUIMessage : ServerMessage
 	{
 		StateChange,
 		BackgroundIcon,
-		FrontIcon
+		FrontIcon,
+		Cooldown,
 	}
 }

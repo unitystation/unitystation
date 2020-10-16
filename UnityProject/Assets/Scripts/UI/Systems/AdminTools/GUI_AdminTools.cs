@@ -132,9 +132,9 @@ namespace AdminTools
 			devToolsPage.SetActive(true);
 			backBtn.SetActive(true);
 			windowTitle.text = "DEV TOOLS";
-			AdminCommandsManager.Instance.CmdRequestProfiles(ServerData.UserID, PlayerList.Instance.AdminToken);
+			ServerCommandVersionOneMessageClient.Send(ServerData.UserID, PlayerList.Instance.AdminToken, "CmdRequestProfiles");
 		}
-		
+
 		public void ShowRespawnPage()
 		{
 			DisableAllPages();

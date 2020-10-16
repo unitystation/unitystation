@@ -2,6 +2,11 @@
 ---
 
 
+* 2020/10/12: Fixed being able to remove powered light blubs with no gloves on. by [ThatDan123](https://github.com/ThatDan123) in PR #[5293](https://github.com/unitystation/unitystation/pull/5293)
+* 2020/10/12: Fixed captains gloves not allowing you to remove powered light bulbs. by [ThatDan123](https://github.com/ThatDan123) in PR #[5293](https://github.com/unitystation/unitystation/pull/5293)
+* 2020/10/12: Fixes Random Sickness Events by [ThatDan123](https://github.com/ThatDan123) in PR #[5294](https://github.com/unitystation/unitystation/pull/5294)
+* 2020/10/12: Adds wizard spells Lesser Summon Guns and Blink. by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5286](https://github.com/unitystation/unitystation/pull/5286)
+* 2020/10/10: Adds wizardry. "A wizard is never late, nor is he early. He arrives precisely when he needs to." by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5274](https://github.com/unitystation/unitystation/pull/5274)
 * 2020/10/8: Alien alloy can be used to craft beds, lockers, floor tiles, table frames, and (useless) airlock frames if you somehow get it. by [PetMudstone](https://github.com/PetMudstone) in PR #[5263](https://github.com/unitystation/unitystation/pull/5263)
 * 2020/10/8: Table frames can now be moved around. Added table frames made out of wood and alien alloy. New table frames are craftable. by [PetMudstone](https://github.com/PetMudstone) in PR #[5263](https://github.com/unitystation/unitystation/pull/5263)
 * 2020/10/8: Adds a few more kinds of tables. Bronze, alien, and fancy (carpeted) tables. Not yet constructable, sadly. by [PetMudstone](https://github.com/PetMudstone) in PR #[5263](https://github.com/unitystation/unitystation/pull/5263)
