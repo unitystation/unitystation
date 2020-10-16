@@ -88,6 +88,31 @@ PrefabInstance:
       propertyPath: initialName
       value: shiny Blob Growth
       objectReference: {fileID: 0}
+    - target: {fileID: 5811203202289739051, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: AtmosPassable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: initialIntegrity
+      value: 150
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: Resistances.FireProof
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: damageDeflection
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 100
+      objectReference: {fileID: 0}
     - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: m_AssetId

@@ -14,7 +14,7 @@ namespace Blob
 	public class BlobStarter : NetworkBehaviour
 	{
 
-		public bool bypass = true;
+		public bool bypass = false;
 
 		private BlobStates state = BlobStates.Start;
 
