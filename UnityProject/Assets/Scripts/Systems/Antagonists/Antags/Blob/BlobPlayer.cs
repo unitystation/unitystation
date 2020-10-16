@@ -53,7 +53,7 @@ namespace Blob
 
 		private PlayerSync playerSync;
 		private RegisterPlayer registerPlayer;
-		private int numOfTilesForVictory = 400;
+		public int numOfTilesForVictory = 400;
 		private int numOfTilesForDetection = 75;
 
 		private bool teleportCheck;
@@ -67,7 +67,14 @@ namespace Blob
 		private float econTimer = 0f;
 		private float factoryTimer = 0f;
 
+		[SerializeField]
 		private float econModifier = 1f;
+
+		[SerializeField]
+		private bool endRoundWhenKilled = false;
+
+		[SerializeField]
+		private bool endRoundWhenBlobVictory = true;
 
 		public bool clickCoords = true;
 
@@ -97,6 +104,8 @@ namespace Blob
 
 		[SyncVar(hook = nameof(SyncNumOfBlobTiles))]
 		private int numOfBlobTiles = 1;
+
+		public int NumOfBlobTiles => numOfBlobTiles;
 
 		public void BlobStart()
 		{
@@ -754,7 +763,15 @@ namespace Blob
 
 			GameManager.Instance.PrimaryEscapeShuttle.blockCall = false;
 
-			GameManager.Instance.EndRound();
+			Chat.AddSystemMsgToChat(
+				string.Format(CentComm.BioHazardReportTemplate,
+					"The biohazard has been contained."),
+				MatrixManager.MainStationMatrix);
+
+			if (endRoundWhenKilled)
+			{
+				GameManager.Instance.EndRound();
+			}
 		}
 
 		#endregion
@@ -772,7 +789,15 @@ namespace Blob
 					"The biohazard has overwhelmed the station. Station integrity critical!"),
 				MatrixManager.MainStationMatrix);
 
-			StartCoroutine(EndRound());
+			foreach (var objective in GetComponent<PlayerScript>().mind.GetAntag().Objectives)
+			{
+				objective.SetAsComplete();
+			}
+
+			if (endRoundWhenBlobVictory)
+			{
+				StartCoroutine(EndRound());
+			}
 		}
 
 		private IEnumerator EndRound()
