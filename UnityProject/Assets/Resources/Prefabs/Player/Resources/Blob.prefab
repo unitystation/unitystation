@@ -236,9 +236,19 @@ MonoBehaviour:
     type: 3}
   attackEffect: {fileID: 1558421102126524431, guid: 1d53c177a1d95a0419ddbee5194f25d3,
     type: 3}
+  blobSpore: {fileID: 4827737755655954553, guid: 84296b926ea13cf479a927a4a897e294,
+    type: 3}
+  normalBlobCost: 4
+  strongBlobCost: 15
+  reflectiveBlobCost: 15
+  resourceBlobCost: 40
+  nodeBlobCost: 50
+  factoryBlobCost: 60
+  moveCoreCost: 80
   damage: 100
   attackType: 0
   damageType: 0
+  BlobRemoveMode: 0
   clickCoords: 1
 --- !u!114 &448360181673478972
 MonoBehaviour:
@@ -255,6 +265,9 @@ MonoBehaviour:
   MaxClickDuration: 1
   MouseDragDeadzone: 0.2
   AimApplyInterval: 0.01
+  moveCore: 0
+  placeOther: 0
+  blobConstructs: 0
 --- !u!1 &7320126117105815585
 GameObject:
   m_ObjectHideFlags: 0

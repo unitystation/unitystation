@@ -7,6 +7,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using Weapons;
 using Objects.Wallmounts;
+using Blob;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -14,6 +15,12 @@ using Objects.Wallmounts;
 public class BlobMouseInputController : MouseInputController
 {
 	private BlobPlayer blobPlayer;
+
+	public bool moveCore;
+
+	public bool placeOther;
+
+	public BlobConstructs blobConstructs;
 
 	public override void Start()
 	{
@@ -39,13 +46,13 @@ public class BlobMouseInputController : MouseInputController
 		if (CommonInput.GetMouseButtonDown(0))
 		{
 
+			if(ClicksFromBlobHud()) return;
+
 			//check ctrl+click for dragging
 			if (KeyboardInputManager.IsControlPressed())
 			{
-				//TODO place strong blob / reflective if strong blob already
-
-				Debug.LogError("ctrl");
-
+				//Place strong blob / reflective if strong blob already
+				blobPlayer.CmdTryPlaceStrongReflective(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt());
 				return;
 			}
 
@@ -58,14 +65,10 @@ public class BlobMouseInputController : MouseInputController
 
 			if (KeyboardInputManager.IsAltPressed())
 			{
-				//TODO remove blob
-				Debug.LogError("alt");
-
+				//Remove blob
+				blobPlayer.CmdRemoveBlob(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt());
 				return;
 			}
-
-			//todo check to see if we need to override
-			CheckClickInteractions(true);
 
 			blobPlayer.CmdTryPlaceBlobOrAttack(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt());
 		}
@@ -73,5 +76,48 @@ public class BlobMouseInputController : MouseInputController
 		{
 			CheckHover();
 		}
+	}
+
+	private bool ClicksFromBlobHud()
+	{
+		if (moveCore)
+		{
+			blobPlayer.CmdToggleRemove(true);
+
+			blobPlayer.CmdMoveCore(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt());
+
+			return true;
+		}
+
+		if (placeOther)
+		{
+			blobPlayer.CmdToggleRemove(true);
+
+			switch (blobConstructs)
+			{
+				case BlobConstructs.Core:
+					blobPlayer.CmdMoveCore(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt());
+					break;
+				case BlobConstructs.Node:
+					blobPlayer.CmdTryPlaceOther(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt(), BlobConstructs.Node);
+					break;
+				case BlobConstructs.Factory:
+					blobPlayer.CmdTryPlaceOther(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt(), BlobConstructs.Factory);
+					break;
+				case BlobConstructs.Resource:
+					blobPlayer.CmdTryPlaceOther(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt(), BlobConstructs.Resource);
+					break;
+				case BlobConstructs.Strong:
+					blobPlayer.CmdTryPlaceStrongReflective(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt());
+					break;
+				case BlobConstructs.Reflective:
+					blobPlayer.CmdTryPlaceStrongReflective(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt());
+					break;
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 }
