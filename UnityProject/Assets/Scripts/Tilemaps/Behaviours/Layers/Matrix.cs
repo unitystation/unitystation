@@ -16,6 +16,10 @@ using TileManagement;
 /// </summary>
 public class Matrix : MonoBehaviour
 {
+	private List<TilemapDamage> tilemapsDamage = new List<TilemapDamage>();
+
+	public List<TilemapDamage> TilemapsDamage => tilemapsDamage;
+
 	private MetaTileMap metaTileMap;
 	public MetaTileMap MetaTileMap => metaTileMap ? metaTileMap : metaTileMap = GetComponent<MetaTileMap>();
 
@@ -89,7 +93,7 @@ public class Matrix : MonoBehaviour
 		MatrixMove = GetComponentInParent<MatrixMove>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
-
+		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
 		OnEarthquake.AddListener((worldPos, magnitude) =>
 		{
 			var cellPos = metaTileMap.WorldToCell(worldPos);

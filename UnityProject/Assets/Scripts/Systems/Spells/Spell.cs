@@ -156,7 +156,7 @@ namespace Systems.Spells
 					var matrixInfo = MatrixManager.AtPoint(castPosition, true);
 					var localPos = MatrixManager.WorldToLocalInt(castPosition, matrixInfo);
 
-					if (matrixInfo.MetaTileMap.HasTile(localPos, tileToSummon.LayerType, true)
+					if (matrixInfo.MetaTileMap.HasTile(localPos, tileToSummon.LayerType)
 					&& !SpellData.ReplaceExisting)
 					{
 						return false;

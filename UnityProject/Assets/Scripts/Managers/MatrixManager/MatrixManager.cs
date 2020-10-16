@@ -499,11 +499,11 @@ public partial class MatrixManager : MonoBehaviour
 	/// </summary>
 	/// <param name="worldTarget"></param>
 	/// <returns></returns>
-	public static List<TilemapDamage> GetDamageableTilemapsAt(Vector3Int worldTarget)
+	public static IReadOnlyList<TilemapDamage> GetDamageableTilemapsAt(Vector3Int worldTarget)
 	{
 		var Matrix = MatrixManager.AtPoint(worldTarget, CustomNetworkManager.Instance._isServer);
-		var tileDmg = Matrix.Matrix.GetComponentsInChildren<TilemapDamage>().ToList();
-		return tileDmg;
+		return Matrix.Matrix.TilemapsDamage;
+
 	}
 
 	/// <summary>
