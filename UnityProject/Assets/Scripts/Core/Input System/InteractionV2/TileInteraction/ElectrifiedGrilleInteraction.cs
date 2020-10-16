@@ -1,3 +1,4 @@
+using TileManagement;
 using UnityEngine;
 
 /// <summary>
@@ -74,7 +75,7 @@ public class ElectrifiedGrilleInteraction : TileInteraction
 		Matrix matrix = metaTileMap.Layers[LayerType.Underfloor].matrix;
 
 		// Check if the floor plating is exposed.
-		if (metaTileMap.HasTile(targetCellPos, LayerType.Floors, true)) return 0;
+		if (metaTileMap.HasTile(targetCellPos, LayerType.Floors)) return 0;
 
 		// Check for cables underneath the grille.
 		var eConns = matrix.GetElectricalConnections(targetCellPos);

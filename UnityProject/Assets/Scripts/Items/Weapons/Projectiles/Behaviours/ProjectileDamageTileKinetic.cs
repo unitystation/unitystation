@@ -15,7 +15,7 @@ namespace Weapons.Projectiles.Behaviours
 
 		private ProjectileKineticDamageCalculation projectileKineticDamage;
 
-		public bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
+		public bool Interact(MatrixManager.CustomPhysicsHit hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
 			var layerToHit = GetLayerToHitOrGetNull(interactableTiles.MetaTileMap.DamageableLayers);
 			if (layerToHit == null) return false;

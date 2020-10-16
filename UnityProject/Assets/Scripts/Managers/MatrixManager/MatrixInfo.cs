@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using Systems.Atmospherics;
+using TileManagement;
 
 /// Struct that helps identify matrices
 public struct MatrixInfo
@@ -102,7 +103,7 @@ public struct MatrixInfo
 			string objectName = "MatrixInfo";
 			if(GameObject != null)
 				objectName = GameObject.name;
-			
+
 			string pivot = "pivot";
 			string state = "state";
 			if(MatrixMove != null)

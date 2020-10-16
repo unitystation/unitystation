@@ -129,7 +129,7 @@ namespace Objects.Disposals
 
 		bool VerbosePlatingExposed()
 		{
-			if (!tileChangeManager.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Floors, true)) return true;
+			if (!tileChangeManager.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Floors)) return true;
 
 			Chat.AddExamineMsg(
 					currentInteraction.Performer,

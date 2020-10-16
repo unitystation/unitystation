@@ -1,4 +1,5 @@
 ﻿using System;
+using TileManagement;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -82,7 +83,7 @@ public class LevelBrush : GridBrush
 		{
 			if (metaTileMap)
 			{
-				metaTileMap.RemoveTile(position, LayerType.None, false);
+				metaTileMap.RemoveTile(position,  false);
 			}
 			else
 			{

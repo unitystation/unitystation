@@ -107,7 +107,7 @@ namespace Objects.Construction
 
 		private bool VerbosePlatingExposed()
 		{
-			if (!registerObject.TileChangeManager.MetaTileMap.HasTile(registerObject.LocalPositionServer, LayerType.Floors, true))
+			if (!registerObject.TileChangeManager.MetaTileMap.HasTile(registerObject.LocalPositionServer, LayerType.Floors))
 			{
 				return true;
 			}

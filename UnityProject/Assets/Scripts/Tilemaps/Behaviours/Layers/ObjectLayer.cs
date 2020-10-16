@@ -28,41 +28,11 @@ public class ObjectLayer : Layer
 
 			objectTile.SpawnObject(position, tilemap, transformMatrix);
 		}
-		else
-		{
-			base.SetTile(position, tile, transformMatrix, color);
-		}
 	}
 
-	public override bool HasTile(Vector3Int position, bool isServer)
+	public bool HasObject(Vector3Int position, bool isServer)
 	{
-		return (isServer ? ServerObjects.HasObjects(position) : ClientObjects.HasObjects(position)) || base.HasTile(position, isServer);
-	}
-
-	public override bool RemoveTile(Vector3Int position, bool removeAll = false)
-	{
-//		if ( removeAll )
-//		{
-//			List<RegisterTile> list = ServerObjects.Get(position);
-//			for ( var i = list.Count - 1; i >= 0; i-- )
-//			{
-//				PoolManager.PoolNetworkDestroy( list[i].gameObject );
-//			}
-//
-//			List<RegisterTile> objs = ClientObjects.Get(position);
-//			for ( var i = objs.Count - 1; i >= 0; i-- )
-//			{
-//				if ( CustomNetworkManager.IsServer )
-//				{
-//					PoolManager.PoolNetworkDestroy( objs[i].gameObject );
-//				} else
-//				{
-//					DestroyImmediate( objs[i].gameObject );
-//				}
-//			}
-//		}
-
-		return  base.RemoveTile(position, removeAll);
+		return (isServer ? ServerObjects.HasObjects(position) : ClientObjects.HasObjects(position));
 	}
 
 	public float GetObjectResistanceAt( Vector3Int position, bool isServer )
@@ -101,7 +71,7 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		return base.IsPassableAt(origin, to, isServer, collisionType: collisionType, inclPlayers: inclPlayers, context: context, excludeTiles: excludeTiles);
+		return true;
 	}
 
 	public override bool IsAtmosPassableAt(Vector3Int origin, Vector3Int to, bool isServer)
@@ -122,12 +92,12 @@ public class ObjectLayer : Layer
 			}
 		}
 
-		return base.IsAtmosPassableAt(origin, to, isServer);
+		return true;
 	}
 
 	public override bool IsSpaceAt(Vector3Int position, bool isServer)
 	{
-		return IsAtmosPassableAt(position, position, isServer) && base.IsSpaceAt(position, isServer);
+		return IsAtmosPassableAt(position, position, isServer);
 	}
 
 	public override void ClearAllTiles()
@@ -148,7 +118,10 @@ public class ObjectLayer : Layer
 				DestroyImmediate(obj.gameObject);
 			}
 		}
+	}
 
-		base.ClearAllTiles();
+	public override void RecalculateBounds()
+	{
+
 	}
 }

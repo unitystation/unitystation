@@ -55,7 +55,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// <summary>
 	/// local pivot point, set on start and never changed afterwards
 	/// </summary>
-	public Vector3Int Pivot => pivot.RoundToInt();
+	public Vector3 Pivot => pivot.RoundToInt();
 
 	/// <summary>
 	/// All the various events that can be subscribed to on this matrix
@@ -157,7 +157,7 @@ public class MatrixMove : ManagedNetworkBehaviour
 	/// NOTE: This is not an offset from initialfacing, it's an offset from our current facing. So
 	/// if we are turning 90 degrees right, this will be Right no matter what our initial conditions were.
 	/// </summary>
-	private RotationOffset? inProgressRotation;
+	public RotationOffset? inProgressRotation;
 
 	private readonly int rotTime = 90;
 	[HideInInspector]

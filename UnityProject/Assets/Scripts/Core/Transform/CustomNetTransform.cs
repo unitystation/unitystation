@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Diagnostics;
 using Initialisation;
 using UnityEngine;
 using UnityEngine.Events;
@@ -146,6 +147,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 
 	private void Init()
 	{
+		if (this == null) return;
 		registerTile = GetComponent<RegisterTile>();
 		itemAttributes = GetComponent<ItemAttributesV2>();
 		var _pushPull = PushPull; //init
@@ -531,6 +533,7 @@ public partial class CustomNetTransform : ManagedNetworkBehaviour, IPushable //s
 	{
 		if (serverState.Active)
 		{
+			if (!registerTile) registerTile = this.GetComponent<RegisterTile>();
 			registerTile.UpdatePositionServer();
 		}
 		else

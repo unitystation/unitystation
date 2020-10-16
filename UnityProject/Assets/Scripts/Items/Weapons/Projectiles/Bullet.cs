@@ -74,7 +74,7 @@ namespace Weapons.Projectiles
 			{
 				if (behaviour.OnMove(distanceTraveled))
 				{
-					DespawnThis(new RaycastHit2D(), worldPosition);
+					DespawnThis(new MatrixManager.CustomPhysicsHit(), worldPosition);
 					return false;
 				}
 			}
@@ -86,13 +86,13 @@ namespace Weapons.Projectiles
 		/// Main method for processing ray cast hit
 		/// </summary>
 		/// <param name="hit"></param>
-		public void ProcessRaycastHit(RaycastHit2D hit)
+		public void ProcessRaycastHit(MatrixManager.CustomPhysicsHit hit)
 		{
 			if (IsHitValid(hit) == false) return;
 
 			if(hitProcessor.ProcessHit(hit, behavioursOnBulletHit) == false) return;
 
-			DespawnThis(hit, hit.point);
+			DespawnThis(hit, hit.HitWorld);
 		}
 
 		/// <summary>
@@ -101,11 +101,11 @@ namespace Weapons.Projectiles
 		/// </summary>
 		/// <param name="hit"></param>
 		/// <returns></returns>
-		private bool IsHitValid(RaycastHit2D hit)
+		private bool IsHitValid(MatrixManager.CustomPhysicsHit  hit)
 		{
-			if (hit.collider == null) return false;
+			if (hit.ItHit == false) return false;
 			if (WillHurtShooter) return true;
-			if (hit.collider.gameObject == shooter) return false;
+			if (hit.CollisionHit.GameObject == shooter) return false;
 			return true;
 		}
 
@@ -113,7 +113,7 @@ namespace Weapons.Projectiles
 		/// Despawn bullet and call all
 		/// on despawn behaviours
 		/// </summary>
-		private void DespawnThis(RaycastHit2D hit, Vector2 point)
+		private void DespawnThis(MatrixManager.CustomPhysicsHit  hit, Vector2 point)
 		{
 			foreach (var behaviour in behavioursOnBulletDespawn)
 			{

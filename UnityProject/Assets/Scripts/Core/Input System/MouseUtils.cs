@@ -43,13 +43,40 @@ public static class MouseUtils
 	/// <returns>the ordered game objects that were under the mouse, top first</returns>
 	public static IEnumerable<GameObject> GetOrderedObjectsAtPoint(Vector3 worldPoint, LayerMask? layerMask = null, Func<GameObject,bool> gameObjectFilter = null)
 	{
-		LayerMask layerMaskToUse = layerMask.GetValueOrDefault(GetDefaultInteractionLayerMask());
-		var result = Physics2D.RaycastAll(worldPoint, Vector2.zero, 10f,
-				layerMaskToUse)
-			//failsafe - exclude hidden / despawned things in case they happen to mouse over hiddenpos
-			.Where(hit => !hit.collider.gameObject.IsAtHiddenPos())
-			//get the hit game object
-			.Select(hit => hit.collider.gameObject);
+		worldPoint.z = 0;
+		var matrix = MatrixManager.AtPoint(Vector3Int.RoundToInt(worldPoint), CustomNetworkManager.Instance._isServer).Matrix;
+		if (!matrix)
+		{
+			return new List<GameObject>();
+		}
+
+
+		var tilePosition = Vector3Int.FloorToInt(worldPoint.ToLocal());
+
+		List<RegisterTile> resultRegisterTile = new List<RegisterTile>();
+
+		//humm probably there's a better way of doing this
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.up, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.down, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.right, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.left, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.up+Vector3Int.right, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.up+Vector3Int.left, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.down+Vector3Int.right, false).ToList());
+		resultRegisterTile.AddRange(matrix.GetRegisterTile(tilePosition+Vector3Int.down+Vector3Int.left, false).ToList());
+
+
+
+		var result = resultRegisterTile.Select(x => x.gameObject);
+		var IInteractableTiles = matrix.GetComponentInParent<InteractableTiles>().gameObject;
+		// var result = Physics2D.RaycastAll(worldPoint, Vector2.zero, 10f,
+				// layerMaskToUse)
+			// failsafe - exclude hidden / despawned things in case they happen to mouse over hiddenpos
+			// .Where(hit => !hit.collider.gameObject.IsAtHiddenPos())
+			// get the hit game object
+			// .Select(hit => hit.collider.gameObject);
+
 
 		if (gameObjectFilter != null)
 		{
@@ -70,7 +97,7 @@ public static class MouseUtils
 			.Select(r => r is TilemapRenderer ? r.GetComponentInParent<InteractableTiles>().gameObject :
 				r.GetComponentInParent<RegisterTile>().gameObject)
 			//each gameobject should only show up once
-			.Distinct();
+			.Distinct().Append(IInteractableTiles);
 	}
 
 	/// <summary>

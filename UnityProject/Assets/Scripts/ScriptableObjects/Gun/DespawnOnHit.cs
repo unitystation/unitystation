@@ -11,7 +11,7 @@ namespace ScriptableObjects.Gun
 	[CreateAssetMenu(fileName = "DespawnOnHit", menuName = "ScriptableObjects/Gun/DespawnOnHit", order = 0)]
 	public class DespawnOnHit : HitProcessor
 	{
-		public override bool ProcessHit(RaycastHit2D hit, IOnHit[] behavioursOnBulletHit)
+		public override bool ProcessHit(MatrixManager.CustomPhysicsHit  hit, IOnHit[] behavioursOnBulletHit)
 		{
 			foreach (var behaviour in behavioursOnBulletHit)
 			{

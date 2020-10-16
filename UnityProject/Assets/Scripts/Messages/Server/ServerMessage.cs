@@ -78,7 +78,7 @@ public abstract class ServerMessage : GameMessageBase
 	{
 		var players = PlayerList.Instance.AllPlayers;
 
-		LayerMask layerMask = LayerMask.GetMask("Walls", "Door Closed");
+		LayerMask layerMask = LayerMask.GetMask( "Door Closed");
 		for (int i = players.Count - 1; i > 0; i--)
 		{
 			if (Vector2.Distance(worldPosition,
@@ -90,8 +90,8 @@ public abstract class ServerMessage : GameMessageBase
 			else
 			{
 				//within range, but check if they are in another room or hiding behind a wall
-				if (Physics2D.Linecast(worldPosition,
-					players[i].GameObject.transform.position, layerMask))
+				if (MatrixManager.Linecast(worldPosition, LayerTypeSelection.Walls, layerMask,
+					players[i].GameObject.transform.position).ItHit)
 				{
 					//if it hit a wall remove that player
 					players.Remove(players[i]);
