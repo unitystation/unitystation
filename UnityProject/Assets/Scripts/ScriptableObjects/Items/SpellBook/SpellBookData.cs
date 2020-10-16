@@ -47,8 +47,6 @@ namespace ScriptableObjects.Items.SpellBook
 	public abstract class SpellBookEntry : ScriptableObject
 	{
 		[SerializeField]
-		private new string name = default;
-		[SerializeField]
 		private string description = default;
 		[Tooltip("Any other info (not including 'Requires wizard garb.')")]
 		[SerializeField]
@@ -59,9 +57,9 @@ namespace ScriptableObjects.Items.SpellBook
 		[SerializeField]
 		private SpellBookEntry[] conflictsWith = default;
 
-		public string Name => name;
 		public string Description => description;
 		public string Note => note;
 		public int Cost => cost;
+		public SpellBookEntry[] ConflictsWith => conflictsWith;
 	}
 }

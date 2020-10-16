@@ -13,7 +13,7 @@ namespace Items.Weapons
 	public class Grenade : NetworkBehaviour, IPredictedInteractable<HandActivate>, IServerDespawn
 	{
 		[Tooltip("Explosion effect prefab, which creates when timer ends")]
-		public ExplosionPrefab explosionPrefab;
+		public ExplosionComponent explosionPrefab;
 
 		[TooltipAttribute("If the fuse is precise or has a degree of error equal to fuselength / 4")]
 		public bool unstableFuse = false;

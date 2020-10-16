@@ -1,5 +1,6 @@
-﻿using ScriptableObjects.Gun;
-using UnityEngine;
+﻿using UnityEngine;
+using NaughtyAttributes;
+using ScriptableObjects.Gun;
 using Weapons.Projectiles.Behaviours;
 
 namespace Weapons.Projectiles
@@ -16,6 +17,12 @@ namespace Weapons.Projectiles
 
 		[SerializeField] private HitProcessor hitProcessor = null;
 		[SerializeField] private LayerMaskData maskData = null;
+
+		[Tooltip("If unchecked, projectile speed will be derived from the source weapon, if available.")]
+		[SerializeField]
+		private bool overrideVelocity = false;
+		[SerializeField, ShowIf(nameof(overrideVelocity)), Range(1, 100)]
+		private int projectileVelocity = 10;
 
 		public LayerMaskData MaskData => maskData;
 
@@ -54,7 +61,12 @@ namespace Weapons.Projectiles
 			var startPosition = new Vector3(direction.x, direction.y, thisTransform.position.z) * 0.2f;
 			thisTransform.position += startPosition;
 
-			movingProjectile.SetUpBulletTransform(direction, fromWeapon.ProjectileVelocity);
+			if (overrideVelocity == false && fromWeapon != null)
+			{
+				projectileVelocity = fromWeapon.ProjectileVelocity;
+			}
+
+			movingProjectile.SetUpBulletTransform(direction, projectileVelocity);
 
 			foreach (var behaviour in behavioursOnShoot)
 			{
@@ -119,7 +131,18 @@ namespace Weapons.Projectiles
 			{
 				behaviour.OnDespawn(hit, point);
 			}
-			Despawn.ClientSingle(gameObject);
+
+			if (CustomNetworkManager.IsServer)
+			{
+				Despawn.ServerSingle(gameObject);
+			}
+			else
+			{
+				if (Despawn.ClientSingle(gameObject).Successful == false)
+				{
+					Destroy(gameObject);
+				}
+			}
 		}
 
 		private void OnDisable()

@@ -10,7 +10,7 @@ namespace Weapons.Projectiles.Behaviours
 	public interface IOnMove
 	{
 		/// <summary>
-		/// Called every update
+		/// Called every update. Return true to stop the projectile.
 		/// </summary>
 		/// <param name="traveledDistance"></param>
 		/// <returns> Used in bullet to request despawn </returns>
