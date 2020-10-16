@@ -151,7 +151,7 @@ namespace Blob
 			econTimer += 1f;
 			factoryTimer += 1f;
 
-			if (!teleportCheck && !ValidateAction(playerSync.ServerPosition, true))
+			if (!teleportCheck && !ValidateAction(playerSync.ServerPosition, true) && blobCore != null)
 			{
 				teleportCheck = true;
 
@@ -233,6 +233,8 @@ namespace Blob
 
 			Chat.AddExamineMsgFromServer(gameObject, "Your mind gets sucked back to the core");
 
+			if(blobCore == null) yield break;
+
 			playerSync.SetPosition(blobCore.WorldPosServer());
 
 			teleportCheck = false;
@@ -241,6 +243,8 @@ namespace Blob
 		[Command]
 		public void CmdTeleportToCore()
 		{
+			if(blobCore == null) return;
+
 			playerSync.SetPosition(blobCore.WorldPosServer());
 		}
 
@@ -269,6 +273,8 @@ namespace Blob
 			if (node == null)
 			{
 				//If null go to core instead
+				if(blobCore == null) return;
+
 				playerSync.SetPosition(blobCore.WorldPosServer());
 				return;
 			}
@@ -747,6 +753,8 @@ namespace Blob
 			blobTiles = new ConcurrentDictionary<Vector3Int, GameObject>();
 
 			GameManager.Instance.PrimaryEscapeShuttle.blockCall = false;
+
+			GameManager.Instance.EndRound();
 		}
 
 		#endregion
