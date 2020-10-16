@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlobStructure : MonoBehaviour
+namespace Blob
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+	public class BlobStructure : MonoBehaviour
+	{
+		public bool isCore;
+		public bool isNode;
+		public bool isResource;
+		public bool isFactory;
+		public bool isReflective;
+		public bool isStrong;
+		public bool isNormal;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+	}
 }

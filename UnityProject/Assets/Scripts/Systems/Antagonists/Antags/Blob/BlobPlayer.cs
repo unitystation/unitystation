@@ -30,6 +30,9 @@ namespace Blob
 		[SerializeField]
 		private GameObject blobNormalPrefab = null;
 
+		[SerializeField]
+		private GameObject attackEffect = null;
+
 		private GameObject blobCore;
 		private Integrity coreHealth;
 		private TMP_Text text;
@@ -38,12 +41,21 @@ namespace Blob
 		public AttackType attackType = AttackType.Melee;
 		public DamageType damageType = DamageType.Brute;
 
-		private LayerMask destroyable;
-		private LayerMask walls;
-
 		private PlayerSync playerSync;
+		private RegisterPlayer registerPlayer;
 
-		private ConcurrentDictionary<Vector3, GameObject> blobTiles = new ConcurrentDictionary<Vector3, GameObject>();
+		public bool clickCoords = true;
+
+		private ConcurrentDictionary<Vector3Int, GameObject> blobTiles = new ConcurrentDictionary<Vector3Int, GameObject>();
+
+		private List<Vector3Int> coords = new List<Vector3Int>
+		{
+			new Vector3Int(0, 0, 0),
+			new Vector3Int(0, 1, 0),
+			new Vector3Int(1, 0, 0),
+			new Vector3Int(0, -1, 0),
+			new Vector3Int(-1, 0, 0)
+		};
 
 		[SyncVar(hook = nameof(SyncResources))]
 		private int resources = 0;
@@ -51,6 +63,7 @@ namespace Blob
 		public void BlobStart()
 		{
 			playerSync = GetComponent<PlayerSync>();
+			registerPlayer = GetComponent<RegisterPlayer>();
 
 			var result = Spawn.ServerPrefab(blobCorePrefab, playerSync.ServerPosition, gameObject.transform);
 
@@ -62,16 +75,13 @@ namespace Blob
 
 			blobCore = result.GameObject;
 
+			blobTiles.TryAdd(blobCore.GetComponent<CustomNetTransform>().ServerPosition, blobCore);
+
 			coreHealth = blobCore.GetComponent<Integrity>();
 
 			var uiBlob = UIManager.Display.hudBottomBlob.GetComponent<UI_Blob>();
 			uiBlob.blobPlayer = this;
 			text = uiBlob.text;
-
-			destroyable = LayerMask.GetMask("Furniture", "Machines", "Unshootable Machines", "Items",
-				"Objects");
-
-			walls = LayerMask.GetMask("Walls");
 		}
 
 		private void OnEnable()
@@ -98,43 +108,75 @@ namespace Blob
 		}
 
 		[Command]
-		public bool CmdTryPlaceBlobOrAttack(Vector3 worldpos)
+		public void CmdTryPlaceBlobOrAttack(Vector3Int worldPos)
 		{
-			//TODO only allow attack or build ajacent or on blob structures
+			worldPos.z = 0;
 
-			if (TryAttack(worldpos)) return true;
+			//TODO only allow attack or build adjacent or on blob structures
 
-			if (blobTiles.ContainsKey(worldpos))
+			if(!ValidateAction(worldPos)) return;
+
+			if (!clickCoords)
 			{
-				if (blobTiles.TryGetValue(worldpos, out var blob))
+				worldPos = playerSync.ServerPosition;
+			}
+
+			if (TryAttack(worldPos)) return;
+
+			if (blobTiles.ContainsKey(worldPos))
+			{
+				if (blobTiles.TryGetValue(worldPos, out var blob))
 				{
-					return false;
+					return;
 				}
 
-				var replaceResult = Spawn.ServerPrefab(blobNormalPrefab, playerSync.ServerPosition, gameObject.transform);
+				var replaceResult = Spawn.ServerPrefab(blobNormalPrefab, worldPos, gameObject.transform);
 
 				if (replaceResult.Successful)
 				{
-					blobTiles[worldpos] = replaceResult.GameObject;
+					blobTiles[worldPos] = replaceResult.GameObject;
 				}
+
+				return;
+			}
+
+			var result = Spawn.ServerPrefab(blobNormalPrefab, worldPos, gameObject.transform);
+
+			if (result.Successful)
+			{
+				blobTiles.TryAdd(worldPos, result.GameObject);
+			}
+
+			return;
+		}
+
+		private bool TryAttack(Vector3 worldPos)
+		{
+			var matrix = registerPlayer.Matrix;
+
+			if (matrix == null)
+			{
+				Debug.LogError("matrix for blob click was null");
+				return false;
+			}
+
+			var metaTileMap = matrix.MetaTileMap;
+
+			var pos = worldPos.RoundToInt();
+
+			var local = worldPos.ToLocalInt(matrix);
+
+			var players = matrix.Get<LivingHealthBehaviour>(local, ObjectType.Player, true);
+
+			if (players.Any())
+			{
+				players.First().ApplyDamage(gameObject, damage, attackType, damageType);
+				PlayAttackEffect(pos);
 
 				return true;
 			}
 
-			var result = Spawn.ServerPrefab(blobNormalPrefab, playerSync.ServerPosition, gameObject.transform);
-
-			if (result.Successful)
-			{
-				blobTiles.TryAdd(worldpos, result.GameObject);
-			}
-
-			return true;
-		}
-
-		private bool TryAttack(Vector3 worldpos)
-		{
-			var hits = MouseUtils.GetOrderedObjectsAtPoint(worldpos, destroyable,
-				go => go.GetComponent<CustomNetTransform>() != null && go.GetComponent<Integrity>() != null);
+			var hits = matrix.Get<RegisterTile>(local, ObjectType.Object, true);
 
 			if (hits.Any())
 			{
@@ -151,13 +193,79 @@ namespace Blob
 					return false;
 				}
 
-				toHit.GetComponent<Integrity>().ApplyDamage(damage, attackType, damageType);
+				//Try damage NPC
+				if (toHit.TryGetComponent<LivingHealthBehaviour>(out var npcComponent))
+				{
+					npcComponent.ApplyDamage(gameObject, damage, attackType, damageType);
+
+					PlayAttackEffect(pos);
+
+					return true;
+				}
+
+				//Dont bother destroying passable stuff, eg open door
+				if (toHit.IsPassable(true))
+				{
+					return false;
+				}
+
+				if (toHit.TryGetComponent<Integrity>(out var component) && !component.Resistances.Indestructable)
+				{
+					component.ApplyDamage(damage, attackType, damageType);
+
+					PlayAttackEffect(pos);
+
+					return true;
+				}
+
+				return false;
+			}
+
+			//Check for walls, windows and grills
+			if (metaTileMap != null && !MatrixManager.IsPassableAt(pos, true))
+			{
+				//Cell pos is unused var
+				metaTileMap.ApplyDamage(Vector3Int.zero, damage,
+					pos, attackType);
+
+				PlayAttackEffect(pos);
+
 				return true;
 			}
 
-			//todo check for walls
-
 			return false;
+		}
+
+		private bool ValidateAction(Vector3 worldPos)
+		{
+			var pos = worldPos.RoundToInt();
+
+			foreach (var offSet in coords)
+			{
+				if (blobTiles.ContainsKey(pos + offSet))
+				{
+					return true;
+				}
+			}
+
+			//No adjacent blobs, therefore cannot attack or expand
+			return false;
+		}
+
+		private void PlayAttackEffect(Vector3 worldPos)
+		{
+			var result = Spawn.ServerPrefab(attackEffect, worldPos, gameObject.transform);
+
+			if(!result.Successful) return;
+
+			StartCoroutine(DespawnEffect(result.GameObject));
+		}
+
+		private IEnumerator DespawnEffect(GameObject effect)
+		{
+			yield return WaitFor.Seconds(2f);
+
+			Despawn.ServerSingle(effect);
 		}
 
 		#region Death
@@ -174,7 +282,7 @@ namespace Blob
 				}
 			}
 
-			blobTiles = new ConcurrentDictionary<Vector3, GameObject>();
+			blobTiles = new ConcurrentDictionary<Vector3Int, GameObject>();
 		}
 
 		#endregion

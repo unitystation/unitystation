@@ -67,7 +67,7 @@ public class BlobMouseInputController : MouseInputController
 			//todo check to see if we need to override
 			CheckClickInteractions(true);
 
-			if(blobPlayer.CmdTryPlaceBlobOrAttack(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition))) return;
+			blobPlayer.CmdTryPlaceBlobOrAttack(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt());
 		}
 		else
 		{

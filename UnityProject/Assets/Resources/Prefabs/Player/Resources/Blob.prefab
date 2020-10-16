@@ -220,18 +220,26 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  blobCorePrefab: {fileID: 2916116569050989923, guid: aaad49508a997e84da89ae7c45316928,
+  blobCorePrefab: {fileID: 2295760805495773599, guid: 6900836707b2b9b44b1d402b18158c31,
     type: 3}
-  blobNodePrefab: {fileID: 0}
-  blobResourcePrefab: {fileID: 0}
-  blobFactoryPrefab: {fileID: 0}
-  blobReflectivePrefab: {fileID: 0}
-  blobStrongPrefab: {fileID: 0}
+  blobNodePrefab: {fileID: 8328666627165077003, guid: 78595bed3a93a2c459820c745204ed51,
+    type: 3}
+  blobResourcePrefab: {fileID: 1341230960551427084, guid: da15cba24151f9e4ab233f8df65d1600,
+    type: 3}
+  blobFactoryPrefab: {fileID: 8256274310041609366, guid: 126c0d380ee995a40a31d6ccbce98834,
+    type: 3}
+  blobReflectivePrefab: {fileID: 8512396916389881574, guid: 876def41fe458ae40bd39d945ccd6caf,
+    type: 3}
+  blobStrongPrefab: {fileID: 9146164621786091725, guid: 92a6ee20d8602704b95f5145a216c781,
+    type: 3}
   blobNormalPrefab: {fileID: 2916116569050989923, guid: 8222ca60d13546344a9ff991f239a0b0,
+    type: 3}
+  attackEffect: {fileID: 1558421102126524431, guid: 1d53c177a1d95a0419ddbee5194f25d3,
     type: 3}
   damage: 100
   attackType: 0
   damageType: 0
+  clickCoords: 1
 --- !u!114 &448360181673478972
 MonoBehaviour:
   m_ObjectHideFlags: 0

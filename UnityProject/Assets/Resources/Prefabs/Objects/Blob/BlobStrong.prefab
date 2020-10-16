@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &4009345905135017212
+--- !u!1001 &6239056490186167726
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -9,7 +9,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
-      propertyPath: isCore
+      propertyPath: isStrong
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1157012077813375949, guid: 8222ca60d13546344a9ff991f239a0b0,
@@ -75,18 +75,18 @@ PrefabInstance:
     - target: {fileID: 2916116569050989923, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: m_Name
-      value: BlobCore
+      value: BlobStrong
       objectReference: {fileID: 0}
     - target: {fileID: 3105263250979316084, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ffb3c1f8a4ab261408151899141de6ff,
+      objectReference: {fileID: 21300004, guid: 4bfd4c8cecd12be43b3e4796cd112707,
         type: 3}
     - target: {fileID: 5538826551895775827, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
-      propertyPath: willHighlight
-      value: 1
+      propertyPath: initialName
+      value: strong Blob Growth
       objectReference: {fileID: 0}
     - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
@@ -97,7 +97,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 8e1d038f6547b8940895d334c265cb9a,
+      objectReference: {fileID: 11400000, guid: 1479c1ecaf93966429fca08ebaab46fe,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8222ca60d13546344a9ff991f239a0b0, type: 3}

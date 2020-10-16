@@ -12,6 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33bd855d631f2a24ab40487ec0405ae9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isCore: 0
+  isNode: 0
+  isResource: 0
+  isFactory: 0
+  isReflective: 0
+  isStrong: 0
+  isNormal: 1
 --- !u!1001 &6647483129041870009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -47,13 +54,18 @@ PrefabInstance:
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialName
-      value: blob Core
+      value: blob Growth
+      objectReference: {fileID: 0}
+    - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: willHighlight
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: b3d1b159908edfa48a18c3f36a601892,
+      objectReference: {fileID: 11400000, guid: fcd276973d7c6cc4f985e6d166b2a00d,
         type: 2}
     - target: {fileID: 8371364824666529536, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -113,7 +125,7 @@ PrefabInstance:
     - target: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: m_Name
-      value: BlobCore
+      value: BlobNormal
       objectReference: {fileID: 0}
     - target: {fileID: 8374648283101600218, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -124,7 +136,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300004, guid: 46beec3dacdc0734d989038d0b73e5f0,
+      objectReference: {fileID: 21300000, guid: a018c447eb516654f85dc144557ace1a,
         type: 3}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}

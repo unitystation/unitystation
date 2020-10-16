@@ -199,6 +199,7 @@ public class ControlDisplays : MonoBehaviour
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		UIActionManager.Instance.OnRoundEnd();
 		hudBottomHuman.SetActive(false);
+		hudBottomBlob.SetActive(false);
 		hudBottomGhost.SetActive(false);
 		panelRight.gameObject.SetActive(false);
 		rightClickManager.SetActive(false);
@@ -212,6 +213,7 @@ public class ControlDisplays : MonoBehaviour
 	public void SetScreenForGame()
 	{
 		hudBottomHuman.SetActive(false);
+		hudBottomBlob.SetActive(false);
 		hudBottomGhost.SetActive(false);
 		UIManager.PlayerHealthUI.gameObject.SetActive(true);
 		panelRight.gameObject.SetActive(true);
@@ -227,6 +229,7 @@ public class ControlDisplays : MonoBehaviour
 		ResetUI(); //Make sure UI is back to default for next play
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		hudBottomHuman.SetActive(false);
+		hudBottomBlob.SetActive(false);
 		hudBottomGhost.SetActive(false);
 		panelRight.gameObject.SetActive(false);
 		rightClickManager.SetActive(false);
@@ -243,6 +246,7 @@ public class ControlDisplays : MonoBehaviour
 		ResetUI(); //Make sure UI is back to default for next play
 		UIManager.PlayerHealthUI.gameObject.SetActive(false);
 		hudBottomHuman.SetActive(false);
+		hudBottomBlob.SetActive(false);
 		hudBottomGhost.SetActive(false);
 		panelRight.gameObject.SetActive(false);
 		rightClickManager.SetActive(false);
