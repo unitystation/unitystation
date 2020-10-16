@@ -16,8 +16,6 @@ public class BlobMouseInputController : MouseInputController
 {
 	private BlobPlayer blobPlayer;
 
-	public bool moveCore;
-
 	public bool placeOther;
 
 	public BlobConstructs blobConstructs;
@@ -80,15 +78,6 @@ public class BlobMouseInputController : MouseInputController
 
 	private bool ClicksFromBlobHud()
 	{
-		if (moveCore)
-		{
-			blobPlayer.CmdToggleRemove(true);
-
-			blobPlayer.CmdMoveCore(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt());
-
-			return true;
-		}
-
 		if (placeOther)
 		{
 			blobPlayer.CmdToggleRemove(true);

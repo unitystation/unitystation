@@ -209,6 +209,7 @@ namespace Blob
 
 					factoryBlob.Value.Remove(null);
 
+					//Create max of three spore
 					if (factoryBlob.Value.Count >= 3) continue;
 
 					var result = Spawn.ServerPrefab(blobSpore, factoryBlob.Key.WorldPosServer(),
@@ -403,12 +404,13 @@ namespace Blob
 
 			var players = matrix.Get<LivingHealthBehaviour>(local, ObjectType.Player, true);
 
-			if (players.Any())
+			foreach (var player in players)
 			{
-				var playerHit = players.First();
-				playerHit.ApplyDamage(gameObject, damage, attackType, damageType);
+				if(player.IsDead) continue;
 
-				Chat.AddAttackMsgToChat(gameObject, playerHit.gameObject, customAttackVerb: "tried to absorb");
+				player.ApplyDamage(gameObject, damage, attackType, damageType);
+
+				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb");
 
 				PlayAttackEffect(pos);
 
@@ -417,29 +419,18 @@ namespace Blob
 
 			var hits = matrix.Get<RegisterTile>(local, ObjectType.Object, true);
 
-			if (hits.Any())
+			foreach (var hit in hits)
 			{
-				var toHit = hits.First();
-
-				var isBlob = toHit.GetComponent<BlobStructure>();
-
-				if (isBlob != null && hits.Count() > 1)
-				{
-					toHit = hits.Last();
-				}
-				else if (isBlob != null)
-				{
-					return false;
-				}
+				if(hit.GetComponent<BlobStructure>() != null) continue;
 
 				//Try damage NPC
-				if (toHit.TryGetComponent<LivingHealthBehaviour>(out var npcComponent))
+				if (hit.TryGetComponent<LivingHealthBehaviour>(out var npcComponent))
 				{
-					if (toHit.GetComponent<BlobStructure>() != null) return false;
+					if(npcComponent.IsDead) continue;
 
 					npcComponent.ApplyDamage(gameObject, damage, attackType, damageType);
 
-					Chat.AddAttackMsgToChat(gameObject, toHit.gameObject, customAttackVerb: "tried to absorb");
+					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb");
 
 					PlayAttackEffect(pos);
 
@@ -447,22 +438,25 @@ namespace Blob
 				}
 
 				//Dont bother destroying passable stuff, eg open door
-				if (toHit.IsPassable(true))
-				{
-					return false;
-				}
+				if (hit.IsPassable(true)) continue;
 
-				if (toHit.TryGetComponent<Integrity>(out var component) && !component.Resistances.Indestructable)
+				if (hit.TryGetComponent<Integrity>(out var component) && !component.Resistances.Indestructable)
 				{
 					component.ApplyDamage(damage, attackType, damageType);
 
-					Chat.AddLocalMsgToChat($"The blob attacks the {toHit.gameObject.ExpensiveName()}", gameObject);
+					Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
 
 					PlayAttackEffect(pos);
 
 					return true;
 				}
+			}
 
+			//Do check to see if the impassable thing is a friendly blob, as it will be the only object left
+			var hitsSecond = matrix.Get<RegisterTile>(local, ObjectType.Object, true);
+
+			if (hitsSecond.Count() == 1 && hitsSecond.First().GetComponent<BlobStructure>() != null)
+			{
 				return false;
 			}
 

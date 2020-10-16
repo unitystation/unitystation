@@ -65,7 +65,6 @@ public class UI_Blob : MonoBehaviour
 		if (remove)
 		{
 			overlayRemoveBlob.SetActive(false);
-			controller.moveCore = false;
 			controller.placeOther = false;
 			blobPlayer.CmdToggleRemove(true);
 			remove = false;
@@ -75,7 +74,6 @@ public class UI_Blob : MonoBehaviour
 		ClearBools();
 		remove = true;
 
-		controller.moveCore = false;
 		controller.placeOther = false;
 		blobPlayer.CmdToggleRemove(false);
 		ClearOutline();
@@ -95,7 +93,6 @@ public class UI_Blob : MonoBehaviour
 		ClearBools();
 		rally = true;
 
-		controller.moveCore = !controller.placeOther;
 		ClearOutline();
 		overlayRally.SetActive(controller.placeOther);
 	}
@@ -111,7 +108,6 @@ public class UI_Blob : MonoBehaviour
 		{
 			overlayMoveCore.SetActive(false);
 			controller.placeOther = false;
-			controller.moveCore = false;
 			core = false;
 			return;
 		}
@@ -119,8 +115,7 @@ public class UI_Blob : MonoBehaviour
 		ClearBools();
 		core = true;
 
-		controller.moveCore = !controller.placeOther;
-		controller.placeOther = false;
+		controller.placeOther = !controller.placeOther;
 		controller.blobConstructs = BlobConstructs.Core;
 		ClearOutline();
 		overlayMoveCore.SetActive(controller.placeOther);
