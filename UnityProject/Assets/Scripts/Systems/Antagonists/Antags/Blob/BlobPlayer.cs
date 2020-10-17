@@ -232,6 +232,7 @@ namespace Blob
 					string.Format(CentComm.BioHazardReportTemplate,
 						"Caution! Biohazard expanding rapidly. Station structural integrity failing."),
 					MatrixManager.MainStationMatrix);
+				SoundManager.PlayNetworked("Notice1");
 			}
 
 			if (!nearlyWon && numOfBlobTiles >= numOfTilesForVictory / 6)
@@ -242,6 +243,7 @@ namespace Blob
 					string.Format(CentComm.BioHazardReportTemplate,
 						"Alert! Station integrity near critical. Biomass sensor levels are off the charts."),
 					MatrixManager.MainStationMatrix);
+				SoundManager.PlayNetworked("Notice1");
 			}
 
 			//Blob wins after number of blob tiles reached
@@ -299,7 +301,7 @@ namespace Blob
 				yield break;
 			}
 
-			Chat.AddExamineMsgFromServer(gameObject, "Your mind gets sucked back to the core");
+			Chat.AddExamineMsgFromServer(gameObject, "Your mind gets sucked back to the blob");
 
 			if(blobCore == null) yield break;
 
@@ -430,7 +432,10 @@ namespace Blob
 					return false;
 				}
 
-				Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
+				if (!victory)
+				{
+					Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
+				}
 
 				resources -= attackCost;
 				return true;
@@ -439,7 +444,7 @@ namespace Blob
 			//See if theres blob already there
 			if (blobTiles.ContainsKey(worldPos))
 			{
-				if (blobTiles.TryGetValue(worldPos, out var blob))
+				if (blobTiles.TryGetValue(worldPos, out var blob) && blob != null)
 				{
 					//Cant place normal blob where theres normal blob
 					return true;
@@ -707,7 +712,7 @@ namespace Blob
 
 			if (!ValidateAction(worldPos)) return;
 
-			if (blobTiles.TryGetValue(worldPos, out var blob))
+			if (blobTiles.TryGetValue(worldPos, out var blob) && blob != null)
 			{
 				//Try place strong
 				if (blob != null && blob.isNormal)
@@ -778,7 +783,7 @@ namespace Blob
 
 			if (prefab == null) return;
 
-			if (blobTiles.TryGetValue(worldPos, out var blob))
+			if (blobTiles.TryGetValue(worldPos, out var blob) && blob != null)
 			{
 				if (blob != null && blob.isNormal)
 				{
@@ -997,7 +1002,7 @@ namespace Blob
 		{
 			worldPos.z = 0;
 
-			if (blobTiles.TryGetValue(worldPos, out var blob))
+			if (blobTiles.TryGetValue(worldPos, out var blob) && blob != null)
 			{
 				SwitchCore(blob);
 			}
@@ -1219,6 +1224,8 @@ namespace Blob
 				{
 					if (blobTiles.TryGetValue(healthPulseTarget.To3Int(), out var blob) && blob != null)
 					{
+						if(blob.integrity == null) continue;
+
 						blob.integrity.RestoreIntegrity(node.isCore ? 3 : 1);
 					}
 				}
