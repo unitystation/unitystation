@@ -209,6 +209,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 9cbb1b26048cd7b42aff39b6982412c2,
         type: 2}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: throwSpeed
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: throwRange
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6330548640132405979, guid: 93af1c166793efb498012ddc7370f8ec,
+        type: 3}
+      propertyPath: throwDamage
+      value: 10
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 93af1c166793efb498012ddc7370f8ec, type: 3}
 --- !u!1 &7781396554342910705 stripped
