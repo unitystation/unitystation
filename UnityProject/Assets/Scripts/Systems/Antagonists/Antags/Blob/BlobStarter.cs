@@ -238,6 +238,21 @@ namespace Blob
 		/// </summary>
 		private void FormBlob()
 		{
+			var bound = MatrixManager.MainStationMatrix.Bounds;
+
+			//Teleport user to random location on station if outside radius of 600 or on a space tile
+			if (((gameObject.AssumedWorldPosServer() - MatrixManager.MainStationMatrix.GameObject.AssumedWorldPosServer())
+				.magnitude > 600f) || MatrixManager.IsSpaceAt(gameObject.GetComponent<PlayerSync>().ServerPosition, true))
+			{
+				Vector3 position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
+				while (MatrixManager.IsSpaceAt(Vector3Int.FloorToInt(position), true) || MatrixManager.IsWallAt(Vector3Int.FloorToInt(position), true))
+				{
+					position = new Vector3(Random.Range(bound.xMin, bound.xMax), Random.Range(bound.yMin, bound.yMax), 0);
+				}
+
+				gameObject.GetComponent<PlayerSync>().SetPosition(position, true);
+			}
+
 			var spawnResult = Spawn.ServerPrefab(AntagManager.Instance.blobPlayerViewer, gameObject.GetComponent<PlayerSync>().ServerPosition, gameObject.transform.parent);
 
 			if (!spawnResult.Successful)

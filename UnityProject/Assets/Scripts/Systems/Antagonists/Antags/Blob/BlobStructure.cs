@@ -17,6 +17,15 @@ namespace Blob
 
 		private Integrity integrity;
 
+		[HideInInspector]
+		public List<Vector2Int> expandCoords = new List<Vector2Int>();
+
+		[HideInInspector]
+		public bool nodeDepleted;
+
+		[HideInInspector]
+		public Vector3Int location;
+
 		private void Start()
 		{
 			integrity = GetComponent<Integrity>();
