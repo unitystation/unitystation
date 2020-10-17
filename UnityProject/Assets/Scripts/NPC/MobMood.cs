@@ -2,7 +2,7 @@
 using NaughtyAttributes;
 using UnityEngine;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	[RequireComponent(typeof(MobAI))]
 

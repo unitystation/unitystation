@@ -4,7 +4,7 @@ using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace NPC.AI
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// Derives from MobMeleeAttack but instead of attacking, performs an action
@@ -199,7 +199,7 @@ namespace NPC.AI
 				angleOfDir = -angleOfDir;
 			}
 
-			dirSprites.CheckSpriteServer(angleOfDir);
+			directional.FaceDirection(new Orientation((int) angleOfDir));
 
 			Pause = true;
 			isActing = true;

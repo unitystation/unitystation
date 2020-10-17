@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// Enemy Statue NPC's
@@ -59,7 +59,7 @@ namespace NPC
 
 		private bool IsSomeoneLookingAtMe()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.None , dirSprites.CurrentFacingDirection, 10f, 20);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.None , directional.CurrentDirection.Vector, 10f, 20);
 			if (hits.Count == 0) return false;
 
 			foreach (var coll in hits)

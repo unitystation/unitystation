@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-namespace DirectionalSpriting
+namespace Core.Directionals
 {
 	/// <summary>
 	/// Behaviour for an object which has a different sprite SO for each direction it is facing
