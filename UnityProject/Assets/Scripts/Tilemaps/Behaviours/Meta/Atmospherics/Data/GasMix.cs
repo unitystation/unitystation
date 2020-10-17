@@ -53,7 +53,16 @@ namespace Systems.Atmospherics
 		{
 			get { return (WholeHeatCapacity * Temperature); }
 
-			set { Temperature = (value / WholeHeatCapacity); }
+			set {
+				if (WholeHeatCapacity == 0)
+				{
+					Temperature = 0;
+				}
+				else
+				{
+					Temperature = (value / WholeHeatCapacity);
+				}
+			}
 		}
 
 		private GasMix(float[] gases, float pressure, float volume = AtmosConstants.TileVolume)
