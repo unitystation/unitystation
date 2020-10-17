@@ -146,15 +146,16 @@ namespace TileManagement
 			DamageableLayers = damageableLayersValues.ToArray();
 			PresentMatrix = this.GetComponent<Matrix>();
 			if (Application.isPlaying == false) return;
-			UpdateManager.Add(CallbackType.UPDATE, ChangeCheck);
+			//UpdateManager.Add(CallbackType.UPDATE, ChangeCheck);
 		}
 
 		public void OnDisable()
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, ChangeCheck);
+			//Was calling uneven number of Disables and enables on main station Resulting in it being removed from the update manager even though it was enabled idk how
+			//UpdateManager.Remove(CallbackType.UPDATE, ChangeCheck);
 		}
 
-		public void ChangeCheck()
+		public void Update()
 		{
 			lock (QueuedChanges)
 			{
@@ -1055,6 +1056,7 @@ namespace TileManagement
 				Layer layer = LayersValues[i];
 				if (layer.LayerType < tile.LayerType)
 				{
+					if (layer.LayerType == LayerType.Objects) continue;
 					Layers[layer.LayerType].SetPreviewTile(position, LayerTile.EmptyTile, Matrix4x4.identity);
 				}
 			}
@@ -1072,6 +1074,7 @@ namespace TileManagement
 		{
 			for (var i = 0; i < LayersValues.Length; i++)
 			{
+				if (LayersValues[i].LayerType == LayerType.Objects) continue;
 				LayersValues[i].ClearPreview();
 			}
 		}
