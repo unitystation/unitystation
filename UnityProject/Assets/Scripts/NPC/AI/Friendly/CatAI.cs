@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// AI brain for mice
@@ -72,7 +72,7 @@ namespace NPC
 		private MouseAI AnyMiceNearby()
 		{
 			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls,
-				dirSprites.CurrentFacingDirection,
+				directional.CurrentDirection.Vector,
 				10f,
 				20);
 

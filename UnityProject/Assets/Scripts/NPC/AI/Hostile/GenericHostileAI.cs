@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Doors;
+using Systems.Mob;
 using Random = UnityEngine.Random;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// Generic hostile AI that will attack all players
@@ -292,7 +293,7 @@ namespace NPC
 
 			//face towards the origin:
 			var dir = (chatEvent.originator.transform.position - transform.position).normalized;
-			dirSprites.ChangeDirection(dir);
+			directional.FaceDirection(Orientation.From(dir));
 
 			//Then scan to see if anyone is there:
 			var findTarget = SearchForTarget();
@@ -315,7 +316,7 @@ namespace NPC
 
 		protected virtual void OnSpawnMob()
 		{
-			dirSprites.SetToNPCLayer();
+			mobSprite.SetToNPCLayer();
 			registerObject.RestoreAllToDefault();
 			if (simpleAnimal != null)
 			{
@@ -326,7 +327,7 @@ namespace NPC
 		public override void OnDespawnServer(DespawnInfo info)
 		{
 			base.OnDespawnServer(info);
-			dirSprites.SetToBodyLayer();
+			mobSprite.SetToBodyLayer();
 			deathSoundPlayed = false;
 			registerObject.Passable = true;
 		}

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// Magical dog AI brain for corgis!
@@ -191,7 +191,7 @@ namespace NPC
 
 		CatAI AnyCatsNearby()
 		{
-			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls , dirSprites.CurrentFacingDirection, 10f, 5);
+			var hits = coneOfSight.GetObjectsInSight(mobMask, LayerTypeSelection.Walls, directional.CurrentDirection.Vector, 10f, 5);
 			foreach (var coll in hits)
 			{
 				if (coll.GameObject == null) continue;
