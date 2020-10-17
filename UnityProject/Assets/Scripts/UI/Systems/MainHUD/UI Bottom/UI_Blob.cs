@@ -77,11 +77,15 @@ public class UI_Blob : MonoBehaviour
 		controller.placeOther = false;
 		blobPlayer.CmdToggleRemove(false);
 		ClearOutline();
-		overlayRemoveBlob.SetActive(controller.placeOther);
+		overlayRemoveBlob.SetActive(true);
 	}
 
 	public void RallySpores()
 	{
+		Chat.AddExamineMsgToClient("The blob has yet to evolve to command these.");
+
+		return;
+
 		if (rally)
 		{
 			overlayRally.SetActive(false);
@@ -99,7 +103,7 @@ public class UI_Blob : MonoBehaviour
 
 	public void ReadaptStrain()
 	{
-
+		Chat.AddExamineMsgToClient("The blob has yet to evolve these abilities.");
 	}
 
 	public void RelocateCore()

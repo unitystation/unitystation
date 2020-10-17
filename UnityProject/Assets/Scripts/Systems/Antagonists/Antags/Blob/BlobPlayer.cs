@@ -54,6 +54,7 @@ namespace Blob
 
 		private PlayerSync playerSync;
 		private RegisterPlayer registerPlayer;
+		private PlayerScript playerScript;
 		public int numOfTilesForVictory = 400;
 		private int numOfTilesForDetection = 75;
 
@@ -141,6 +142,7 @@ namespace Blob
 		{
 			playerSync = GetComponent<PlayerSync>();
 			registerPlayer = GetComponent<RegisterPlayer>();
+			playerScript = GetComponent<PlayerScript>();
 
 			var result = Spawn.ServerPrefab(blobCorePrefab, playerSync.ServerPosition, gameObject.transform);
 
@@ -252,6 +254,7 @@ namespace Blob
 		{
 			overmindLightObject.SetActive(true);
 			overmindLight.Color = color;
+			overmindLight.Color.a = 0.2f;
 		}
 
 		#region teleport
@@ -381,12 +384,20 @@ namespace Blob
 				return false;
 			}
 
+			if (!autoExpanding && Cooldowns.IsOn(playerScript, CooldownID.Asset(CommonCooldowns.Instance.Melee, NetworkSide.Server)))
+			{
+				//On attack cooldown
+				return false;
+			}
+
 			if (TryAttack(worldPos))
 			{
 				if (autoExpanding)
 				{
 					return false;
 				}
+
+				Cooldowns.TryStartServer(playerScript, CommonCooldowns.Instance.Melee);
 
 				resources -= attackCost;
 				return true;
@@ -895,7 +906,7 @@ namespace Blob
 				MatrixManager.MainStationMatrix);
 
 			//Make blob into ghost
-			PlayerSpawn.ServerSpawnGhost(GetComponent<PlayerScript>().mind);
+			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 
 			if (endRoundWhenKilled)
 			{
@@ -924,7 +935,7 @@ namespace Blob
 
 			rapidExpand = true;
 
-			foreach (var objective in GetComponent<PlayerScript>().mind.GetAntag().Objectives)
+			foreach (var objective in playerScript.mind.GetAntag().Objectives)
 			{
 				objective.SetAsComplete();
 			}
@@ -1146,6 +1157,7 @@ namespace Blob
 			if (blobStructure.lightSprite != null)
 			{
 				blobStructure.lightSprite.Color = color;
+				blobStructure.lightSprite.Color.a = 0.2f;
 			}
 
 			blobStructure.spriteHandler.SetColor(color);

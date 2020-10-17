@@ -85,7 +85,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Color: {r: 0.7735849, g: 0.20882004, b: 0, a: 0.8}
+  Color: {r: 0.7735849, g: 0.20882004, b: 0, a: 0.19607843}
   Sprite: {fileID: 21300000, guid: 9e9f6c63bf3334c8791e01efff5c16fb, type: 3}
   SortingOrder: 0
   Material: {fileID: 2100000, guid: b7e7f24fa2e49cb48818dace424b5868, type: 2}
@@ -177,12 +177,12 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300080, guid: 7452669db94fd3c428dd3fc393b43605,
+      objectReference: {fileID: 21300088, guid: 7452669db94fd3c428dd3fc393b43605,
         type: 3}
     - target: {fileID: 5538826551895775827, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: initialName
-      value: blob Resource
+      value: Blob Resource
       objectReference: {fileID: 0}
     - target: {fileID: 5538826551895775827, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
