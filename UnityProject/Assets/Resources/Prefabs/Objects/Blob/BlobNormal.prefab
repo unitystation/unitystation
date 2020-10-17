@@ -19,6 +19,11 @@ MonoBehaviour:
   isReflective: 0
   isStrong: 0
   isNormal: 1
+  lightSprite: {fileID: 0}
+  spriteHandler: {fileID: 7649593002434359225}
+  expandCoords: []
+  nodeDepleted: 0
+  location: {x: 0, y: 0, z: 0}
 --- !u!1001 &6647483129041870009
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44,7 +49,17 @@ PrefabInstance:
     - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
       propertyPath: initialIntegrity
-      value: 100
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Fire
+      value: 80
+      objectReference: {fileID: 0}
+    - target: {fileID: 1140667517167752775, guid: a7af28adb717b4c44b8b2002b27670bd,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 70
       objectReference: {fileID: 0}
     - target: {fileID: 1197192003336439530, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -136,7 +151,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: a018c447eb516654f85dc144557ace1a,
+      objectReference: {fileID: 21300006, guid: a018c447eb516654f85dc144557ace1a,
         type: 3}
     - target: {fileID: 8599771746108915149, guid: a7af28adb717b4c44b8b2002b27670bd,
         type: 3}
@@ -156,3 +171,15 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6647483129041870009}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7649593002434359225 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3920465809857098496, guid: a7af28adb717b4c44b8b2002b27670bd,
+    type: 3}
+  m_PrefabInstance: {fileID: 6647483129041870009}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

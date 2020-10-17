@@ -4,6 +4,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using DatabaseAPI;
+using Light2D;
 using Mirror;
 using UnityEngine;
 using TMPro;
@@ -84,12 +85,23 @@ namespace Blob
 		private bool rapidExpand = false;
 
 		[SerializeField]
-		private int buildDistanceLimit = 5;
+		private int blobSpreadDistance = 4;
+
+		[SerializeField]
+		private int buildDistanceLimit = 4;
+
+		[SerializeField]
+		private GameObject overmindLightObject = null;
+
+		[SerializeField]
+		private LightSprite overmindLight = null;
 
 		public bool clickCoords = true;
 
 		private ConcurrentDictionary<Vector3Int, GameObject> blobTiles =
 			new ConcurrentDictionary<Vector3Int, GameObject>();
+
+		private HashSet<GameObject> nonSpaceBlobTiles = new HashSet<GameObject>();
 
 		private HashSet<GameObject> resourceBlobs = new HashSet<GameObject>();
 
@@ -110,7 +122,8 @@ namespace Blob
 		[SyncVar(hook = nameof(SyncResources))]
 		private int resources = 20;
 
-		[SyncVar(hook = nameof(SyncHealth))] private float health = 20;
+		[SyncVar(hook = nameof(SyncHealth))]
+		private float health = 400;
 
 		[SyncVar(hook = nameof(SyncNumOfBlobTiles))]
 		private int numOfBlobTiles = 1;
@@ -139,8 +152,6 @@ namespace Blob
 
 			blobCore = result.GameObject;
 
-			blobCore.GetComponentInChildren<SpriteHandler>().SetColor(color);
-
 			var pos = blobCore.GetComponent<CustomNetTransform>().ServerPosition;
 
 			blobTiles.TryAdd(pos, blobCore);
@@ -148,6 +159,7 @@ namespace Blob
 			var structure = blobCore.GetComponent<BlobStructure>();
 
 			structure.location = pos;
+			SetLightAndColor(structure);
 
 			//Make core act like node
 			structure.expandCoords = GenerateCoords(pos);
@@ -159,6 +171,8 @@ namespace Blob
 
 			//Block escape shuttle from leaving station when it arrives
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(true);
+
+			TargetRpcTurnOnClientLight(connectionToClient);
 		}
 
 		private void OnEnable()
@@ -196,7 +210,7 @@ namespace Blob
 			}
 
 			//Count number of blob tiles
-			numOfBlobTiles = blobTiles.Count;
+			numOfBlobTiles = nonSpaceBlobTiles.Count;
 
 			if (numOfBlobTiles > maxCount)
 			{
@@ -231,6 +245,13 @@ namespace Blob
 			if (blobCore == null) return;
 
 			health = coreHealth.integrity;
+		}
+
+		[TargetRpc]
+		private void TargetRpcTurnOnClientLight(NetworkConnection target)
+		{
+			overmindLightObject.SetActive(true);
+			overmindLight.Color = color;
 		}
 
 		#region teleport
@@ -349,11 +370,11 @@ namespace Blob
 			PlaceBlobOrAttack(worldPos);
 		}
 
-		private bool PlaceBlobOrAttack(Vector3Int worldPos, bool ignoreCost = false)
+		private bool PlaceBlobOrAttack(Vector3Int worldPos, bool autoExpanding = false)
 		{
 			if (!ValidateAction(worldPos)) return false;
 
-			if (!ignoreCost && resources < attackCost)
+			if (!autoExpanding && resources < attackCost)
 			{
 				Chat.AddExamineMsgFromServer(gameObject,
 					$"Not enough biomass to attack, you need {attackCost} biomass");
@@ -362,7 +383,7 @@ namespace Blob
 
 			if (TryAttack(worldPos))
 			{
-				if (ignoreCost)
+				if (autoExpanding)
 				{
 					return false;
 				}
@@ -380,36 +401,43 @@ namespace Blob
 					return true;
 				}
 
-				SpawnNormalBlob(worldPos, ignoreCost);
+				SpawnNormalBlob(worldPos, autoExpanding);
 				return false;
 			}
 
 			//If blob doesnt exist at that location already try placing
-			SpawnNormalBlob(worldPos, ignoreCost, true);
+			SpawnNormalBlob(worldPos, autoExpanding, true);
 
 			return false;
 		}
 
-		private void SpawnNormalBlob(Vector3Int worldPos, bool ignoreCost, bool newPosition = false)
+		private void SpawnNormalBlob(Vector3Int worldPos, bool autoExpanding, bool newPosition = false)
 		{
-			if (!ignoreCost && !ValidateCost(normalBlobCost, blobNormalPrefab)) return;
+			if (!autoExpanding && !ValidateCost(normalBlobCost, blobNormalPrefab)) return;
 
 			var result = Spawn.ServerPrefab(blobNormalPrefab, worldPos, gameObject.transform);
 
-			if (result.Successful)
+			if (!result.Successful) return;
+
+			if (!autoExpanding)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "You grow a normal blob.");
-				result.GameObject.GetComponentInChildren<SpriteHandler>().SetColor(color);
-				result.GameObject.GetComponent<BlobStructure>().location = worldPos;
-
-				if (newPosition)
-				{
-					blobTiles.TryAdd(worldPos, result.GameObject);
-					return;
-				}
-
-				blobTiles[worldPos] = result.GameObject;
 			}
+
+			var structure = result.GameObject.GetComponent<BlobStructure>();
+
+			structure.location = worldPos;
+			SetLightAndColor(structure);
+
+			AddNonSpaceBlob(result.GameObject);
+
+			if (newPosition)
+			{
+				blobTiles.TryAdd(worldPos, result.GameObject);
+				return;
+			}
+
+			blobTiles[worldPos] = result.GameObject;
 		}
 
 		private bool TryAttack(Vector3 worldPos)
@@ -552,6 +580,58 @@ namespace Blob
 			return false;
 		}
 
+		/// <summary>
+		/// Validate the distance between specialised blobs
+		/// </summary>
+		/// <param name="worldPos"></param>
+		/// <returns></returns>
+		private bool ValidateDistance(Vector3Int worldPos, bool excludeNodes = false, bool excludeFactory = false,
+			bool excludeResource = false)
+		{
+			var specialisedBlobs = new List<Vector3Int>();
+
+			if (!excludeNodes)
+			{
+				foreach (var node in nodeBlobs)
+				{
+					if(node == null) continue;
+
+					specialisedBlobs.Add(node.location);
+				}
+			}
+
+			if (!excludeFactory)
+			{
+				foreach (var factory in factoryBlobs)
+				{
+					if(factory.Key == null) continue;
+
+					specialisedBlobs.Add(factory.Key.GetComponent<BlobStructure>().location);
+				}
+			}
+
+			if (!excludeResource)
+			{
+				foreach (var resourceBlob in resourceBlobs)
+				{
+					if(resourceBlob == null) continue;
+
+					specialisedBlobs.Add(resourceBlob.GetComponent<BlobStructure>().location);
+				}
+			}
+
+			foreach (var blob in specialisedBlobs)
+			{
+				if (Vector3Int.Distance(blob, worldPos) <= buildDistanceLimit)
+				{
+					//A blob is too close
+					return false;
+				}
+			}
+
+			return true;
+		}
+
 		#endregion
 
 		#region Effects
@@ -615,8 +695,9 @@ namespace Blob
 			Chat.AddExamineMsgFromServer(gameObject, msg);
 
 			Despawn.ServerSingle(originalBlob);
-			result.GameObject.GetComponentInChildren<SpriteHandler>().SetColor(color);
+			SetLightAndColor(result.GameObject.GetComponent<BlobStructure>());
 			blobTiles[worldPos] = result.GameObject;
+			AddNonSpaceBlob(result.GameObject);
 		}
 
 		#endregion
@@ -656,6 +737,18 @@ namespace Blob
 			{
 				if (blob != null && blob.GetComponent<BlobStructure>().isNormal)
 				{
+					if (blobConstructs != BlobConstructs.Node && !ValidateDistance(worldPos, true))
+					{
+						Chat.AddExamineMsgFromServer(gameObject, $"Too close to another factory or resource blob, place at least {buildDistanceLimit}m away");
+						return;
+					}
+
+					if (blobConstructs == BlobConstructs.Node && !ValidateDistance(worldPos, false, true, true))
+					{
+						Chat.AddExamineMsgFromServer(gameObject, $"Too close to another node, place at least {buildDistanceLimit}m away");
+						return;
+					}
+
 					if (!ValidateCost(cost, prefab)) return;
 
 					var result = Spawn.ServerPrefab(prefab, worldPos, gameObject.transform);
@@ -664,10 +757,12 @@ namespace Blob
 
 					Chat.AddExamineMsgFromServer(gameObject, $"You grow a {blobConstructs} blob.");
 
+					var structure = result.GameObject.GetComponent<BlobStructure>();
+
 					switch (blobConstructs)
 					{
 						case BlobConstructs.Node:
-							var structure = result.GameObject.GetComponent<BlobStructure>();
+
 							structure.expandCoords = GenerateCoords(worldPos);
 							nodeBlobs.Add(structure);
 							break;
@@ -680,9 +775,12 @@ namespace Blob
 					}
 
 					Despawn.ServerSingle(blob);
-					result.GameObject.GetComponentInChildren<SpriteHandler>().SetColor(color);
-					result.GameObject.GetComponent<BlobStructure>().location = worldPos;
+
+					structure.location = worldPos;
+					SetLightAndColor(structure);
+
 					blobTiles[worldPos] = result.GameObject;
+					AddNonSpaceBlob(result.GameObject);
 					return;
 				}
 			}
@@ -939,23 +1037,25 @@ namespace Blob
 
 		private void ResetArea(GameObject node)
 		{
+			var pos = node.GetComponent<CustomNetTransform>().ServerPosition;
 			var structNode = node.GetComponent<BlobStructure>();
-			structNode.expandCoords = GenerateCoords(node.GetComponent<CustomNetTransform>().ServerPosition);
+			structNode.expandCoords = GenerateCoords(pos);
+			structNode.location = pos;
 			structNode.nodeDepleted = false;
 		}
 
 		private List<Vector2Int> GenerateCoords(Vector3Int worldPos)
 		{
-			int r2 = buildDistanceLimit * buildDistanceLimit;
+			int r2 = blobSpreadDistance * blobSpreadDistance;
 			int area = r2 << 2;
-			int rr = buildDistanceLimit << 1;
+			int rr = blobSpreadDistance << 1;
 
 			var data = new List<Vector2Int>();
 
 			for (int i = 0; i < area; i++)
 			{
-				int tx = (i % rr) - buildDistanceLimit;
-				int ty = (i / rr) - buildDistanceLimit;
+				int tx = (i % rr) - blobSpreadDistance;
+				int ty = (i / rr) - blobSpreadDistance;
 
 				if (tx * tx + ty * ty <= r2)
 					data.Add(new Vector2Int(worldPos.x + tx, worldPos.y + ty));
@@ -1035,6 +1135,32 @@ namespace Blob
 
 			resources += used;
 			return used;
+		}
+
+		#endregion
+
+		#region Light/Color
+
+		private void SetLightAndColor(BlobStructure blobStructure)
+		{
+			if (blobStructure.lightSprite != null)
+			{
+				blobStructure.lightSprite.Color = color;
+			}
+
+			blobStructure.spriteHandler.SetColor(color);
+		}
+
+		#endregion
+
+		#region CountSpace
+
+		private void AddNonSpaceBlob(GameObject newBlob)
+		{
+			if(MatrixManager.IsSpaceAt(newBlob.GetComponent<RegisterObject>().WorldPositionServer, true)) return;
+
+			nonSpaceBlobTiles.Remove(null);
+			nonSpaceBlobTiles.Add(newBlob);
 		}
 
 		#endregion

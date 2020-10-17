@@ -111,7 +111,12 @@ PrefabInstance:
     - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
       propertyPath: Armor.Fire
-      value: 100
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 6022700009171782398, guid: 8222ca60d13546344a9ff991f239a0b0,
+        type: 3}
+      propertyPath: Armor.Acid
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 6748064994123771905, guid: 8222ca60d13546344a9ff991f239a0b0,
         type: 3}
