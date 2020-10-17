@@ -829,6 +829,9 @@ namespace Blob
 						case BlobConstructs.Resource:
 							resourceBlobs.Add(result.GameObject);
 							break;
+						default:
+							Debug.LogError("Switch has no correct case for blob structure!");
+							break;
 					}
 
 					Despawn.ServerSingle(blob.gameObject);
