@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Objects.Shuttles;
 using Objects.Command;
+using Systems.MobAIs;
 
 namespace UI.Objects.Shuttles
 {
@@ -142,7 +143,7 @@ namespace UI.Objects.Shuttles
 		private void AddEmagItems()
 		{
 			EntryList.AddItems(MapIconType.Human, GetObjectsOf<PlayerScript>(player => !player.IsDeadOrGhost));
-			EntryList.AddItems(MapIconType.Ian, GetObjectsOf<NPC.CorgiAI>());
+			EntryList.AddItems(MapIconType.Ian, GetObjectsOf<CorgiAI>());
 			EntryList.AddItems(MapIconType.Nuke, GetObjectsOf<Nuke>());
 
 			RescanElements();

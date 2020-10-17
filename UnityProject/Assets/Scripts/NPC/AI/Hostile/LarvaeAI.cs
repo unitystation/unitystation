@@ -2,9 +2,10 @@
 using System.Collections;
 using UnityEngine;
 using WebSocketSharp;
+using Systems.Mob;
 using Random = UnityEngine.Random;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	public class LarvaeAI : GenericFriendlyAI
 	{

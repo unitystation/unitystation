@@ -192,6 +192,8 @@ GameObject:
   - component: {fileID: 6697096454180026031}
   - component: {fileID: 1482997015936521030}
   - component: {fileID: 5673662740140621782}
+  - component: {fileID: -1762744355081339538}
+  - component: {fileID: 222141694745423987}
   m_Layer: 12
   m_Name: NPC_Chicken_Brown
   m_TagString: Untagged
@@ -271,11 +273,7 @@ MonoBehaviour:
   - {fileID: 2106675762234240265, guid: 7d0886a9531d70647be3830983bb598a, type: 3}
   RTT: 0
   RadiationStacks: 0
-  aliveSprite: {fileID: 21300008, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
-  deadSprite: {fileID: 21300000, guid: 89de693233ef8a74482f1d581384038f, type: 3}
   deadState: 0
-  spriteRend: {fileID: 4890346600101626888}
-  registerObject: {fileID: 0}
 --- !u!114 &114555785714625820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,11 +446,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  spriteHandler: {fileID: 0}
   spriteRend: {fileID: 4890346600101626888}
-  upSprite: {fileID: 21300002, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
-  rightSprite: {fileID: 21300020, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
-  downSprite: {fileID: 21300008, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
-  leftSprite: {fileID: 21300014, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
+  aliveSpriteIndex: 0
+  deadSpriteIndex: 1
+  burningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
+    type: 3}
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
+    type: 3}
 --- !u!114 &8602547056562296912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -605,6 +606,44 @@ MonoBehaviour:
   isAffectedByFood: 1
   moodOnFood: 10
   timeBetweenFoodCheck: 300
+--- !u!114 &-1762744355081339538
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
+  ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
+--- !u!114 &222141694745423987
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChangingSO: 0
+  indexDown: 0
+  indexUp: 1
+  indexRight: 2
+  indexLeft: 3
+  spriteHandlers: []
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -651,6 +690,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -673,7 +713,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300020, guid: 3f96dfa1ba5084447a3e6018ed35b637, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

@@ -2,7 +2,7 @@
 using Items.Others;
 using UnityEngine;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// Generic AI for Chickens. Keep them happy and they will lay eggs!
