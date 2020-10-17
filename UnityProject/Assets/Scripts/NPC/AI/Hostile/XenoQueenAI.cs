@@ -2,7 +2,7 @@
 using System.Collections;
 using UnityEngine;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	public class XenoQueenAI: GenericHostileAI
 	{

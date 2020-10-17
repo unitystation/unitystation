@@ -190,6 +190,8 @@ GameObject:
   - component: {fileID: 8093655862165673158}
   - component: {fileID: -2936979802063229476}
   - component: {fileID: -7364831029862001058}
+  - component: {fileID: -1527818559670774311}
+  - component: {fileID: 6546366356444698101}
   m_Layer: 12
   m_Name: NPC_Paperwork
   m_TagString: Untagged
@@ -270,11 +272,7 @@ MonoBehaviour:
   - {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398, type: 3}
   RTT: 0
   RadiationStacks: 0
-  aliveSprite: {fileID: 21300000, guid: 8373149a7f4a8d2489b43f886bc4d942, type: 3}
-  deadSprite: {fileID: 21300000, guid: 9269be2dc2aa6d74399a30d27df97f6c, type: 3}
   deadState: 0
-  spriteRend: {fileID: 4890346600101626888}
-  registerObject: {fileID: 0}
 --- !u!114 &114555785714625820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -447,11 +445,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  spriteHandler: {fileID: 0}
   spriteRend: {fileID: 4890346600101626888}
-  upSprite: {fileID: 21300002, guid: 8373149a7f4a8d2489b43f886bc4d942, type: 3}
-  rightSprite: {fileID: 21300004, guid: 8373149a7f4a8d2489b43f886bc4d942, type: 3}
-  downSprite: {fileID: 21300000, guid: 8373149a7f4a8d2489b43f886bc4d942, type: 3}
-  leftSprite: {fileID: 21300006, guid: 8373149a7f4a8d2489b43f886bc4d942, type: 3}
+  aliveSpriteIndex: 0
+  deadSpriteIndex: 1
+  burningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
+    type: 3}
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
+    type: 3}
 --- !u!114 &8602547056562296912
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -503,6 +504,8 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
+  hasFoodPrefereces: 0
+  foodPreferences: []
 --- !u!114 &-2936979802063229476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -527,6 +530,44 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-1527818559670774311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
+  ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
+--- !u!114 &6546366356444698101
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChangingSO: 0
+  indexDown: 0
+  indexUp: 1
+  indexRight: 2
+  indexLeft: 3
+  spriteHandlers: []
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +614,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -595,7 +637,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
   m_Sprite: {fileID: 21300004, guid: 8373149a7f4a8d2489b43f886bc4d942, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
