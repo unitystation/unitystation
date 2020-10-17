@@ -1,10 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
-using Atmospherics;
-using Tilemaps.Behaviours.Meta;
-using UnityEngine;
+using Systems.Atmospherics;
 using System.Diagnostics;
-using System;
 using UnityEngine.Profiling;
 
 public static class AtmosThread

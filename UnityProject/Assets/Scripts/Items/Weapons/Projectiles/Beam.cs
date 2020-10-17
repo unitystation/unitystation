@@ -40,7 +40,7 @@ namespace Weapons.Projectiles
 
 			var pos = transform.position;
 			Vector3 startPos = new Vector3(direction.x, direction.y, pos.z) * 0.7f;
-			var hit = Physics2D.Raycast(pos + startPos, direction, distance - 1, maskData.Layers);
+			var hit = MatrixManager.RayCast(pos + startPos, direction, distance - 1,maskData.TileMapLayers , maskData.Layers);
 
 			var dis = ((Vector2) pos + (direction * distance));
 			foreach (var behaviour in behavioursOnBulletDespawn)

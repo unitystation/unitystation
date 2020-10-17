@@ -1,4 +1,4 @@
-namespace Spells
+namespace Systems.Spells
 {
 	public class MimeWall : Spell
 	{

@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using ScriptableObjects;
 using UnityEngine;
 
-public class LavaLandAreaSpawnerScript : MonoBehaviour
+namespace Systems.Scenes
 {
-	public AreaSizes Size;
-
-	public bool allowSpecialSites;
-
-	private void Start()
+	public class LavaLandAreaSpawnerScript : MonoBehaviour
 	{
-		LavaLandManager.Instance.SpawnScripts.Add(this, Size);
+		public AreaSizes Size;
+
+		public bool allowSpecialSites;
+
+		private void Start()
+		{
+			LavaLandManager.Instance.SpawnScripts.Add(this, Size);
+		}
 	}
 }

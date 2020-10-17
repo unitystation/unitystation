@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Doors;
 
 [RequireComponent(typeof(ConeOfSight))]
 public class MobFlee : MobPathFinder
@@ -25,7 +26,7 @@ public class MobFlee : MobPathFinder
 		lastFlee = DateTime.Now;
 		coneOfSight = GetComponent<ConeOfSight>();
 		doorMask = LayerMask.GetMask("Door Open", "Door Closed", "Windows");
-		doorAndObstacleMask = LayerMask.GetMask("Walls", "Machines", "Windows", "Furniture", "Objects", "Door Open",
+		doorAndObstacleMask = LayerMask.GetMask( "Machines", "Furniture", "Objects", "Door Open",
 			"Door Closed", "Players");
 	}
 
@@ -80,7 +81,7 @@ public class MobFlee : MobPathFinder
 			fleeTarget = transform;
 			oppositeDir = Vector2.zero;
 		}
-		
+
 		//First try to escape the room by looking for a door
 		var possibleDoors = Physics2D.OverlapCircleAll(transform.position, 20f, doorMask);
 
@@ -89,11 +90,11 @@ public class MobFlee : MobPathFinder
 
 		foreach (Collider2D coll in possibleDoors)
 		{
-			RaycastHit2D hit = Physics2D.Linecast(transform.position, coll.transform.position, doorAndObstacleMask);
+			var hit = MatrixManager.Linecast(transform.position, LayerTypeSelection.Windows | LayerTypeSelection.Walls, doorAndObstacleMask, coll.transform.position );
 
-			if (hit.collider != null)
+			if (hit.ItHit)
 			{
-				if (hit.collider == coll)
+				if (hit.CollisionHit.GameObject == coll.gameObject)
 				{
 					var tryGetDoor = coll.GetComponent<DoorController>();
 					if (tryGetDoor != null)
@@ -159,7 +160,7 @@ public class MobFlee : MobPathFinder
 
 		var tryGetGoalPos =
 			Vector3Int.RoundToInt(coneOfSight.GetFurthestPositionInSight(refPoint + (Vector3) oppositeDir,
-				doorAndObstacleMask, oppositeDir, 20f, 10));
+				LayerTypeSelection.Windows | LayerTypeSelection.Walls, doorAndObstacleMask, oppositeDir, 20f, 10));
 
 		if (!MatrixManager.IsPassableAt(tryGetGoalPos, true))
 		{
@@ -176,9 +177,9 @@ public class MobFlee : MobPathFinder
 
 					if (MatrixManager.IsPassableAt(checkPos, true))
 					{
-						RaycastHit2D hit = Physics2D.Linecast(refPoint + (checkPos - refPoint).normalized, (Vector3) checkPos,
-							doorAndObstacleMask);
-						if (hit.collider == null)
+						var hit = MatrixManager.Linecast(refPoint + (checkPos - refPoint).normalized, LayerTypeSelection.None
+							, doorAndObstacleMask, (Vector3) checkPos);
+						if (hit.ItHit == false)
 						{
 							tryGetGoalPos = checkPos;
 							y = -100;
@@ -209,7 +210,7 @@ public class MobFlee : MobPathFinder
 		{
 			attemps++;
 			TryToFlee();
-			
+
 		}
 	}
 

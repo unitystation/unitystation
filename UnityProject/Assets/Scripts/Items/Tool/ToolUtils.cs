@@ -1,6 +1,6 @@
-
 using System;
 using UnityEngine;
+using Items;
 using Random = UnityEngine.Random;
 
 /// <summary>
@@ -161,9 +161,14 @@ public static class ToolUtils
 	public static void ServerPlayToolSound(GameObject tool, Vector2 worldTilePos, GameObject owner = null)
 	{
 		if (tool == null) return;
+
 		string soundName = null;
-		var itemAttrs = tool.GetComponent<ItemAttributesV2>();
-		if (itemAttrs != null)
+
+		if (tool.TryGetComponent(out ToolSwapComponent toolSwap))
+		{
+			soundName = toolSwap.CurrentState.usingSound;
+		}
+		else if (tool.TryGetComponent(out ItemAttributesV2 itemAttrs))
 		{
 			if (itemAttrs.HasTrait(CommonTraits.Instance.Crowbar))
 			{

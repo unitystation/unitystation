@@ -36,6 +36,12 @@ MonoBehaviour:
     - cost: 4
       item: {fileID: 661569839832110917, guid: 7cbde3b57839c144e933398cfd78e132, type: 3}
       name: .357 Speedloader
+  - categoryName: Explosives
+    itemList:
+    - cost: 6
+      item: {fileID: 4224399380362315448, guid: 0469b3922aa40e04d9c576979353df72,
+        type: 3}
+      name: Syndicate Minibomb
   - categoryName: Stealthy Weapons
     itemList:
     - cost: 2
@@ -46,6 +52,10 @@ MonoBehaviour:
       item: {fileID: 4335905146119127793, guid: ba0d71e0e5bfbac4e974fefc4ad1e300,
         type: 3}
       name: Miniature Energy Crossbow
+    - cost: 1
+      item: {fileID: 2883601815232707539, guid: 234e5bf5fd2610146adf689bbb987ddd,
+        type: 3}
+      name: Syndicate Holster
   - categoryName: Suits
     itemList:
     - cost: 4
@@ -63,13 +73,9 @@ MonoBehaviour:
         type: 3}
       name: Blood-Red Magboots
     - cost: 1
-      item: {fileID: 6700281191928912403, guid: 78cc0f9a4d927164b986aa34a81d2035,
+      item: {fileID: 3668676918291703395, guid: 00019cd41de95b244ac165825679fd64,
         type: 3}
       name: Chest Rig
-    - cost: 4
-      item: {fileID: 3086828684011793880, guid: 92d97624df4de9c44b21713ad3a016cc,
-        type: 3}
-      name: Cryptographic Sequencer
     - cost: 1
       item: {fileID: 2636666438991721797, guid: da5c775edced9c242be7c64d8f159b8f,
         type: 3}
@@ -83,6 +89,10 @@ MonoBehaviour:
       item: {fileID: 5493164221869647736, guid: 73d84de9587faaf418638005a58987f7,
         type: 3}
       name: Syndicate Balloon
+    - cost: 1
+      item: {fileID: 5781789070524544926, guid: b3d899ee0b9aba44799b8fcd80844a7d,
+        type: 3}
+      name: Syndicate Briefcase Full of Cash
     - cost: 2
       item: {fileID: 8743402964508765710, guid: 8c0cd43087354414196842dd7f64a46a,
         type: 3}

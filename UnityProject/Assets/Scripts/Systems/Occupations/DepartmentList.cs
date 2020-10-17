@@ -14,7 +14,7 @@ public class DepartmentList : SingletonScriptableObject<DepartmentList>
 	[SerializeField]
 	[Tooltip("Allowed departments, and the order in which they should be displayed in" +
 	         " job preferences.")]
-	private Department[] departments = null;
+	private  List<Department> departments = new List<Department>();
 	public IEnumerable<Department> Departments => departments;
 
 	/// <summary>
@@ -22,7 +22,12 @@ public class DepartmentList : SingletonScriptableObject<DepartmentList>
 	/// </summary>
 	public IEnumerable<Occupation> GetAllHeadJobs()
 	{
-		return departments.SelectMany(dept => dept.HeadOccupations);
+		// Log Errors for missing head jobs (Improves debugging)
+		foreach (Department dept in departments.Where(p => p.HeadOccupations == null))
+			Logger.LogError($"Missing head of department reference for department {dept.Description}");
+
+		// Won't crash if a department is missing it's headOccupation reference.
+		return departments.Where(p => p.HeadOccupations != null).SelectMany(dept => dept.HeadOccupations);
 	}
 
 	/// <summary>

@@ -13,6 +13,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 8249ef9479c13214ab0eb33e1ef83b7e,
         type: 2}
+    - target: {fileID: 3108338812106419955, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 828190728026662152, guid: 82634fbe84fa69d4b8cc2e16bc0756a4,
+        type: 3}
+    - target: {fileID: 3108338812106419955, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: ProjectilesFired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5343935634496596720, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
       propertyPath: initialName

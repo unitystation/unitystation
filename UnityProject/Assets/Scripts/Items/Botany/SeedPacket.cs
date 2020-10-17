@@ -2,41 +2,43 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Systems.Botany;
 
-public class SeedPacket : NetworkBehaviour
+namespace Items.Botany
 {
-	public SpriteHandler Sprite;
-	public PlantData plantData; //Stats and stuff
-
-	private SeedPacket() { }
-
-	/*public static SeedPacket CreateSeedPacketInstance(SeedPacket seedPacket)
+	public class SeedPacket : NetworkBehaviour
 	{
-		return new SeedPacket
+		public SpriteHandler Sprite;
+		public PlantData plantData; //Stats and stuff
+
+		private SeedPacket() { }
+
+		/*public static SeedPacket CreateSeedPacketInstance(SeedPacket seedPacket)
 		{
-			name = seedPacket.name,
-			Sprite = seedPacket.Sprite,
-			plantData = PlantData.CreateNewPlant(seedPacket.plantData),
-			defaultPlantData = seedPacket.defaultPlantData,
-			PlantSyncString = seedPacket.plantData.Name
-		};
-	}*/
+			return new SeedPacket
+			{
+				name = seedPacket.name,
+				Sprite = seedPacket.Sprite,
+				plantData = PlantData.CreateNewPlant(seedPacket.plantData),
+				defaultPlantData = seedPacket.defaultPlantData,
+				PlantSyncString = seedPacket.plantData.Name
+			};
+		}*/
 
-	public void SyncPlant(string _OldPlantSyncString, string _PlantSyncString)
-	{
-		//FFGD Sprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.PacketsSprite);
-		//Sprite.PushTexture();
-	}
+		public void SyncPlant(string _OldPlantSyncString, string _PlantSyncString)
+		{
+			//FFGD Sprite.spriteData = SpriteFunctions.SetupSingleSprite(plantData.PacketsSprite);
+			//Sprite.PushTexture();
+		}
 
-	public override void OnStartClient()
-	{
-	}
+		public override void OnStartClient()
+		{
+		}
 
 
 
-	void Start()
-	{
+		void Start()
+		{
+		}
 	}
 }
-
-

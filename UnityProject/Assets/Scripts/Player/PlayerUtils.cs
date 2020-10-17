@@ -28,7 +28,7 @@ public static class PlayerUtils
 	{
 		return "April fools!";
 	}
-	
+
 	public static void DoReport()
 	{
 		if (!CustomNetworkManager.IsServer)
@@ -43,7 +43,7 @@ public static class PlayerUtils
 			{
 				continue;
 			}
-			
+
 			if (ps.mind != null &&
 			    ps.mind.occupation != null &&
 			    ps.mind.occupation.JobType == JobType.CLOWN)
@@ -68,11 +68,13 @@ public static class PlayerUtils
 				{
 					var plantPos = ps.WorldPos + ps.CurrentDirection.Vector;
 					Spawn.ServerPrefab("Banana peel", plantPos, cancelIfImpassable: true);
-					
+
 				}
 				foreach (var pos in ps.WorldPos.BoundsAround().allPositionsWithin)
 				{
-					MatrixManager.Instance.CleanTile(pos, true);
+					var matrixInfo = MatrixManager.AtPoint(pos, true);
+					var localPos = MatrixManager.WorldToLocalInt(pos, matrixInfo);
+					matrixInfo.MetaDataLayer.Clean(pos, localPos, true);
 				}
 			}
 		}

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Atmospherics;
+using Systems.Atmospherics;
 using UnityEngine;
 
 namespace InGameEvents

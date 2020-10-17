@@ -60,6 +60,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -110,9 +111,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 11400000, guid: a8e76006c20364a439638c242eb704c1, type: 2}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!1001 &4991786853530350121
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -184,7 +186,7 @@ PrefabInstance:
     - target: {fileID: 3643415983708594035, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: m_Name
-      value: Box
+      value: BoxBase
       objectReference: {fileID: 0}
     - target: {fileID: 3676122640429376199, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
@@ -216,12 +218,6 @@ PrefabInstance:
       propertyPath: exportName
       value: 
       objectReference: {fileID: 0}
-    - target: {fileID: 4421781600494999209, guid: e46ba34aab52d654787ef10d896b0874,
-        type: 3}
-      propertyPath: itemStorageCapacity
-      value: 
-      objectReference: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
-        type: 2}
     - target: {fileID: 6900997446700812531, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: denyStorageOfStorageItems

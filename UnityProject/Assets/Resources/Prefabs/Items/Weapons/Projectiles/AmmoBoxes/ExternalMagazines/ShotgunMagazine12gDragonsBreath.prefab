@@ -13,6 +13,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 51fc110990d54d84aa726a63fe1dc4df,
         type: 2}
+    - target: {fileID: 3108338812106419955, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 6113211322604708707, guid: ba50a3735a8f0b94a8cff8d24c324f24,
+        type: 3}
+    - target: {fileID: 3108338812106419955, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: ProjectilesFired
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5343935634496596720, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
       propertyPath: initialName
@@ -21,7 +32,7 @@ PrefabInstance:
     - target: {fileID: 5531796456047199634, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
       propertyPath: m_Name
-      value: ShotgunMagazine12gDragon
+      value: ShotgunMagazine12gDragonsBreath
       objectReference: {fileID: 0}
     - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}

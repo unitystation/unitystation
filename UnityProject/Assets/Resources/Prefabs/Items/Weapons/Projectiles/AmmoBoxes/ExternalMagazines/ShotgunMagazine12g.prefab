@@ -23,6 +23,17 @@ PrefabInstance:
       propertyPath: magazineSize
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 3854254925289623273, guid: 4adcadc588a9b69449a7184abef7ad19,
+        type: 3}
+    - target: {fileID: 4111275205169505611, guid: d57fa00554efcec4abd669e2d6b24edc,
+        type: 3}
+      propertyPath: ProjectilesFired
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 6342299245117104456, guid: d57fa00554efcec4abd669e2d6b24edc,
         type: 3}
       propertyPath: initialTraits.Array.size

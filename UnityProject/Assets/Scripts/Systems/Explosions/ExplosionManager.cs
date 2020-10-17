@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Explosions
+namespace Systems.Explosions
 {
 	public class ExplosionManager : MonoBehaviour
 	{
@@ -37,6 +37,4 @@ namespace Explosions
 			CheckLocations.Clear();
 		}
 	}
-
-
 }

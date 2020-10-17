@@ -32,6 +32,12 @@ PrefabInstance:
       propertyPath: initialName
       value: high-capacity water tank
       objectReference: {fileID: 0}
+    - target: {fileID: 4545028754367107839, guid: b087cae0f7059d946a59146ea8d0fb04,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 2bb18b2472f84d043abb551eab876dc4,
+        type: 2}
     - target: {fileID: 9026303602175473701, guid: b087cae0f7059d946a59146ea8d0fb04,
         type: 3}
       propertyPath: m_Name
@@ -96,7 +102,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d94c4c420b88e6242b7f09eaa3ed82ff,
+      objectReference: {fileID: -2311933026464989708, guid: d94c4c420b88e6242b7f09eaa3ed82ff,
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b087cae0f7059d946a59146ea8d0fb04, type: 3}

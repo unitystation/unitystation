@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -97,9 +98,10 @@ MonoBehaviour:
   NetworkThis: 1
   SubCatalogue: []
   PresentSpriteSet: {fileID: 0}
-  Sprites: []
+  pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
+  Sprites: []
 --- !u!114 &-2645903112132741243
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,7 +411,7 @@ PrefabInstance:
         type: 3}
       propertyPath: reactionSet
       value: 
-      objectReference: {fileID: 11400000, guid: 701922900047cd742b7b5ede817b7837,
+      objectReference: {fileID: 11400000, guid: 498c0d2290747084c8ca13bdc8f60579,
         type: 2}
     - target: {fileID: 9018167180428263240, guid: f866b44bcdd7d734885f7c49999d85c9,
         type: 3}

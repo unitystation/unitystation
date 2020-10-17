@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Systems.Electricity.Inheritance;
 using UnityEngine;
 using Mirror;
 

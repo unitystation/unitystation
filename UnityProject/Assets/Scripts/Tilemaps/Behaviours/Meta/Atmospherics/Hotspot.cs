@@ -1,7 +1,6 @@
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	/// <summary>
 	/// Represents the potential for a MetaDataNode to ignite the gases on it, and provides logic related to igniting the actual

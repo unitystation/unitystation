@@ -1,9 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Atmospherics;
+using Systems.Atmospherics;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Assertions;
 
 public class MetaDataView : BasicView
 {

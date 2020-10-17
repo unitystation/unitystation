@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Doors;
 using Random = UnityEngine.Random;
 
 namespace NPC
@@ -43,7 +44,7 @@ namespace NPC
 		public override void OnEnable()
 		{
 			base.OnEnable();
-			hitMask = LayerMask.GetMask("Walls", "Players");
+			hitMask = LayerMask.GetMask( "Players");
 			playersLayer = LayerMask.NameToLayer("Players");
 			mobMeleeAttack = GetComponent<MobMeleeAttack>();
 			coneOfSight = GetComponent<ConeOfSight>();
@@ -99,15 +100,17 @@ namespace NPC
 		/// <returns>Gameobject of the first player it found</returns>
 		protected virtual GameObject SearchForTarget()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, dirSprites.CurrentFacingDirection, 10f, 20);
-			if (hits.Count == 0)
+			var player = Physics2D.OverlapCircleAll(transform.position, 20f, hitMask);
+			//var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls, dirSprites.CurrentFacingDirection, 10f, 20);
+			if (player.Length == 0)
 			{
 				return null;
 			}
 
-			foreach (Collider2D coll in hits)
+			foreach (var coll in player)
 			{
-				if (coll.gameObject.layer == playersLayer)
+				if (MatrixManager.Linecast(this.gameObject.WorldPosServer(), LayerTypeSelection.Walls, LayerMask.NameToLayer(""),
+					coll.gameObject.WorldPosServer()).ItHit)
 				{
 					return coll.gameObject;
 				}

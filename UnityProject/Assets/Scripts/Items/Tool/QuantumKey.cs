@@ -1,55 +1,59 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Objects.Science;
 
-public class QuantumKey : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IInteractable<HandActivate>
+namespace Items.Science
 {
-	[HideInInspector]
-	public QuantumPad padInBuffer;
-
-	public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
+	public class QuantumKey : MonoBehaviour, ICheckedInteractable<PositionalHandApply>, IInteractable<HandActivate>
 	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		[HideInInspector]
+		public QuantumPad padInBuffer;
 
-		if (Validations.IsTarget(gameObject, interaction)) return false;
-
-		if (Validations.HasComponent<QuantumPad>(interaction.TargetObject)) return true;
-
-		return false;
-	}
-
-	public void ServerPerformInteraction(PositionalHandApply interaction)
-	{
-		var pad = interaction.TargetObject.GetComponent<QuantumPad>();
-		if(pad == null) return;
-
-		if (pad.disallowLinkChange)
+		public bool WillInteract(PositionalHandApply interaction, NetworkSide side)
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "The link has been hard locked, you cannot change it.");
-			return;
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+
+			if (Validations.IsTarget(gameObject, interaction)) return false;
+
+			if (Validations.HasComponent<QuantumPad>(interaction.TargetObject)) return true;
+
+			return false;
 		}
 
-		if (pad == padInBuffer)
+		public void ServerPerformInteraction(PositionalHandApply interaction)
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "You cannot link the same pad together, clear the buffer if you wish to add to it.");
-			return;
+			var pad = interaction.TargetObject.GetComponent<QuantumPad>();
+			if (pad == null) return;
+
+			if (pad.disallowLinkChange)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "The link has been hard locked, you cannot change it.");
+				return;
+			}
+
+			if (pad == padInBuffer)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You cannot link the same pad together, clear the buffer if you wish to add to it.");
+				return;
+			}
+
+			if (padInBuffer == null)
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You set the buffer to this quantum pad.");
+				padInBuffer = pad;
+			}
+			else
+			{
+				Chat.AddExamineMsgFromServer(interaction.Performer, "You set this quantum pad to connect to the pad in buffer.");
+				pad.connectedPad = padInBuffer;
+			}
 		}
 
-		if (padInBuffer == null)
+		public void ServerPerformInteraction(HandActivate interaction)
 		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "You set the buffer to this quantum pad.");
-			padInBuffer = pad;
+			Chat.AddExamineMsgFromServer(interaction.Performer, "You clear the quantum key buffer.");
+			padInBuffer = null;
 		}
-		else
-		{
-			Chat.AddExamineMsgFromServer(interaction.Performer, "You set this quantum pad to connect to the pad in buffer.");
-			pad.connectedPad = padInBuffer;
-		}
-	}
-
-	public void ServerPerformInteraction(HandActivate interaction)
-	{
-		Chat.AddExamineMsgFromServer(interaction.Performer, "You clear the quantum key buffer.");
-		padInBuffer = null;
 	}
 }

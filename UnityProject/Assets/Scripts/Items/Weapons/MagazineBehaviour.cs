@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Mirror;
 using UnityEngine;
 
@@ -37,8 +38,16 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// <summary>
 	///	Whether this can be used to reload other (internal or external) magazines.
 	/// </summary>
-	public bool isClip;
+	public bool isClip = false;
+	public GameObject Projectile;
+	public int ProjectilesFired = 1;
+	public bool isCell = false;
 
+	[HideInInspector]
+	public List<int> containedProjectilesFired = new List<int>();
+
+	[HideInInspector]
+	public List<GameObject> containedBullets = new List<GameObject>();
 	public AmmoType ammoType; //SET IT IN INSPECTOR
 	public int magazineSize = 20;
 
@@ -50,12 +59,13 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 
 	public override void OnStartClient()
 	{
+		InitLists();
 		SetupRNG();
 	}
 
 	public override void OnStartServer()
 	{
-		ServerInit();
+		SetupRNG();
 	}
 
 	public void OnSpawnServer(SpawnInfo info)
@@ -67,8 +77,23 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		//set to max ammo on initialization
 		clientAmmoRemains = -1;
+		if (!isClip && !isCell)
+		{
+			InitLists();
+		}
 		SyncServerAmmo(magazineSize, magazineSize);
 		SetupRNG();
+	}
+
+	public void InitLists()
+	{
+		containedBullets.Clear();
+		containedProjectilesFired.Clear();
+		for (int i = magazineSize + 1; i != 0; i--)
+		{
+			containedBullets.Add(Projectile);
+			containedProjectilesFired.Add(ProjectilesFired);
+		}
 	}
 
 	/// <summary>
@@ -112,6 +137,11 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	/// <returns></returns>
 	public virtual void ExpendAmmo(int amount = 1)
 	{
+		if (amount < 0)
+		{
+			Logger.LogWarning("Attempted to expend a negitive amount of ammo", Category.Firearms); // dont use this method to replenish ammo
+		}
+
 		if (ClientAmmoRemains < amount)
 		{
 			Logger.LogWarning("Client ammo count is too low, cannot expend that much ammo. Make sure" +
@@ -132,6 +162,15 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 			else
 			{
 				SyncServerAmmo(serverAmmoRemains, serverAmmoRemains - amount);
+				if (!isClip && !isCell)
+				{
+					for (int i = amount;i != 0;i--)
+					{
+						containedBullets.RemoveAt(0); //remove shot projectile
+						containedProjectilesFired.RemoveAt(0);
+						UpdateProjectile(); //sets the projectile that will be fired next
+					}
+				}
 				if (isClip && serverAmmoRemains == 0)
 				{
 					Despawn.ServerSingle(gameObject);
@@ -151,21 +190,39 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 	{
 		SyncServerAmmo(serverAmmoRemains, remaining);
 	}
-
 	/// <summary>
 	/// Loads as much ammo as possible from the given clip. Returns reloading message.
 	/// </summary>
 	public String LoadFromClip( MagazineBehaviour clip)
 	{
 		if (clip == null) return "";
-		Logger.Log(magazineSize + "-" + serverAmmoRemains + "," + clip.serverAmmoRemains);
 
 		int toTransfer = Math.Min(magazineSize - serverAmmoRemains, clip.serverAmmoRemains);
 
 		clip.ExpendAmmo(toTransfer);
+		if (!isClip && !isCell)
+		{
+			for (int i = toTransfer;i != 0;i--)
+			{
+				containedBullets.Add(clip.Projectile);
+				containedProjectilesFired.Add(clip.ProjectilesFired);
+			}
+			UpdateProjectile();	//sets the projectile that will be fired next
+								//this is here in the case that we had no ammo loaded, so the 0th entry was changed
+		}
 		ServerSetAmmoRemains(serverAmmoRemains + toTransfer);
 
 		return ("Loaded " + toTransfer + (toTransfer == 1 ? " piece" : " pieces") + " of ammunition.");
+	}
+
+	/// <summary>
+	/// method to add info to the projectile array,
+	/// should be used when ammo is being increased outside of the reload logic
+	/// </summary>
+	public void LoadProjectile(GameObject projectile,int projectilesfired)
+	{
+		containedBullets.Add(projectile);
+		containedProjectilesFired.Add(projectilesfired);
 	}
 
 	/// <summary>
@@ -206,6 +263,15 @@ public class MagazineBehaviour : NetworkBehaviour, IServerSpawn, IExaminable, IC
 		double currentRNG = RNGContents[clientAmmoRemains];
 		Logger.LogTraceFormat("rng {0}, serverAmmo {1} clientAmmo {2}", Category.Firearms, currentRNG, serverAmmoRemains, clientAmmoRemains);
 		return currentRNG;
+	}
+
+	public void UpdateProjectile()
+	{
+		if (!isClip && !isCell)
+		{
+		ProjectilesFired = containedProjectilesFired[0];
+		Projectile = containedBullets[0];
+		}
 	}
 
 	public String Examine(Vector3 pos)

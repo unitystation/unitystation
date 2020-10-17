@@ -2,13 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ControlRod : ReactorChamberRod
+namespace Items.Engineering
 {
-	public decimal AbsorptionPower = 4;
-
-	public override RodType GetRodType()
+	public class ControlRod : ReactorChamberRod
 	{
-		return (RodType.Control);
-	}
+		public decimal AbsorptionPower = 4;
 
+		public override RodType GetRodType()
+		{
+			return RodType.Control;
+		}
+
+	}
 }

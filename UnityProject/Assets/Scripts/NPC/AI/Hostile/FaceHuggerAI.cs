@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Clothing;
 using NPC.AI;
 using UnityEngine;
+using Doors;
 using Random = UnityEngine.Random;
 
 namespace NPC
@@ -43,7 +44,7 @@ namespace NPC
 		{
 			base.OnEnable();
 			mobMeleeAction = gameObject.GetComponent<MobMeleeAction>();
-			hitMask = LayerMask.GetMask("Walls", "Players");
+			hitMask = LayerMask.GetMask( "Players");
 			playersLayer = LayerMask.NameToLayer("Players");
 			coneOfSight = GetComponent<ConeOfSight>();
 			PlayRandomSound();
@@ -96,17 +97,19 @@ namespace NPC
 		/// <returns>Gameobject of the first player it found</returns>
 		protected virtual GameObject SearchForTarget()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, dirSprites.CurrentFacingDirection, 10f, 20);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.Walls , dirSprites.CurrentFacingDirection, 10f, 20);
 			if (hits.Count == 0)
 			{
 				return null;
 			}
 
-			foreach (Collider2D coll in hits)
+			foreach (var coll in hits)
 			{
-				if (coll.gameObject.layer == playersLayer)
+				if (coll.GameObject == null) continue;
+
+				if (coll.GameObject.layer == playersLayer)
 				{
-					return coll.gameObject;
+					return coll.GameObject;
 				}
 			}
 

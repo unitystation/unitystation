@@ -23,14 +23,18 @@ namespace NPC
 			mood = GetComponent<MobMood>();
 		}
 
-		protected override void MonitorExtras()
+		protected override void UpdateMe()
 		{
 			if (health.IsDead)
 			{
 				Spawn.ServerPrefab(deadMouse, gameObject.RegisterTile().WorldPosition);
 				Despawn.ServerSingle(gameObject);
 			}
+			base.UpdateMe();
+		}
 
+		protected override void MonitorExtras()
+		{
 			base.MonitorExtras();
 			// If mouse not happy, mouse chew cable. Feed mouse. Or kill mouse, that would work too.
 			CheckMoodLevel();
@@ -74,7 +78,7 @@ namespace NPC
 			var matrix = metaTileMap.Layers[LayerType.Underfloor].matrix;
 
 			// Check if the floor plating is exposed.
-			if (metaTileMap.HasTile(registerObject.LocalPosition, LayerType.Floors, true)) return;
+			if (metaTileMap.HasTile(registerObject.LocalPosition, LayerType.Floors)) return;
 
 			// Check if there's cables at this position
 			var cables = matrix.GetElectricalConnections(registerObject.LocalPosition);

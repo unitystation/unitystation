@@ -2,9 +2,8 @@
 using Light2D;
 using Mirror;
 using UnityEngine;
-using UnityEngine.UI;
 
-namespace Radiation
+namespace Systems.Radiation
 {
 	public class RadiationProducer : NetworkBehaviour
 	{

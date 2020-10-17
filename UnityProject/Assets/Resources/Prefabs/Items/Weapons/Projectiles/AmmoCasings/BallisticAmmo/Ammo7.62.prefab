@@ -15,6 +15,9 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   isClip: 1
+  Projectile: {fileID: 5184028687306108153, guid: 7011865b4b4ff8841a9007ac7c9701fe,
+    type: 3}
+  ProjectilesFired: 1
   ammoType: 12
   magazineSize: 1
 --- !u!1001 &7890033429995526111
@@ -38,7 +41,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: d2714bc590d189e47b06c9ff78783845,
+      objectReference: {fileID: 21300000, guid: 076264686f879cc43bdac95e81054c8e,
         type: 3}
     - target: {fileID: 2176208296632151677, guid: 31d01d60b659392429fe6a6384563082,
         type: 3}
@@ -109,7 +112,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: f7f80a1e2b02494478e315917c8da6f0,
+      objectReference: {fileID: 11400000, guid: 5ae934e25ae8a7f4eb95eae1234c2097,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31d01d60b659392429fe6a6384563082, type: 3}

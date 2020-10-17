@@ -9,7 +9,7 @@ namespace ScriptableObjects.Gun
 	[CreateAssetMenu(fileName = "DespawnOnRequest", menuName = "ScriptableObjects/Gun/DespawnOnRequest", order = 0)]
 	public class DespawnOnRequest : HitProcessor
 	{
-		public override bool ProcessHit(RaycastHit2D hit, IOnHit[] behavioursOnBulletHit)
+		public override bool ProcessHit(MatrixManager.CustomPhysicsHit hit, IOnHit[] behavioursOnBulletHit)
 		{
 			var isRequesting = false;
 			foreach (var behaviour in behavioursOnBulletHit)

@@ -1,8 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Objects.Construction;
+using Machines;
 
-namespace Machines
+namespace Objects.Machines
 {
 	/// <summary>
 	/// Main Component for Machine deconstruction

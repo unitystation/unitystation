@@ -2,6 +2,7 @@ using UnityEngine;
 using Mirror;
 using System;
 using Audio.Managers;
+using Objects;
 
 public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 {

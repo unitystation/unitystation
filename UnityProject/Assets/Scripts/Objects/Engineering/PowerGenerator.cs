@@ -3,229 +3,234 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
+using Objects.Construction;
+using Items;
 
-public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable
+namespace Objects.Engineering
 {
-	[Tooltip("Whether this generator should start running when spawned.")]
-	[SerializeField]
-	private bool startAsOn = false;
-
-	[Tooltip("The rate of fuel this generator should consume.")]
-	[Range(0.01f, 0.1f)]
-	[SerializeField]
-	private float plasmaConsumptionRate = 0.02f;
-
-	private RegisterTile registerTile;
-	private ItemSlot itemSlot;
-	private WrenchSecurable securable;
-	private SpriteHandler baseSpriteHandler;
-	private ElectricalNodeControl electricalNodeControl;
-
-	[SerializeField]
-	private AudioSource generatorRunSfx = default;
-	[SerializeField]
-	private AudioSource generatorEndSfx = default;
-	[SerializeField]
-	private ParticleSystem smokeParticles = default;
-
-	[SyncVar(hook = nameof(OnSyncState))]
-	private bool isOn;
-	private float fuelAmount;
-	private float fuelPerSheet = 10f;
-
-	private enum SpriteState
+	public class PowerGenerator : NetworkBehaviour, ICheckedInteractable<HandApply>, INodeControl, IExaminable
 	{
-		Unsecured = 0,
-		Off = 1,
-		On = 2
-	}
+		[Tooltip("Whether this generator should start running when spawned.")]
+		[SerializeField]
+		private bool startAsOn = false;
 
-	#region Lifecycle
+		[Tooltip("The rate of fuel this generator should consume.")]
+		[Range(0.01f, 0.1f)]
+		[SerializeField]
+		private float plasmaConsumptionRate = 0.02f;
 
-	void Awake()
-	{
-		registerTile = GetComponent<RegisterTile>();
-		securable = GetComponent<WrenchSecurable>();
-		baseSpriteHandler = GetComponentInChildren<SpriteHandler>();
-		electricalNodeControl = GetComponent<ElectricalNodeControl>();
-	}
+		private RegisterTile registerTile;
+		private ItemSlot itemSlot;
+		private WrenchSecurable securable;
+		private SpriteHandler baseSpriteHandler;
+		private ElectricalNodeControl electricalNodeControl;
 
-	public override void OnStartServer()
-	{
-		var itemStorage = GetComponent<ItemStorage>();
-		itemSlot = itemStorage.GetIndexedItemSlot(0);
-		securable.OnAnchoredChange.AddListener(OnSecuredChanged);
-		if (startAsOn)
+		[SerializeField]
+		private AudioSource generatorRunSfx = default;
+		[SerializeField]
+		private AudioSource generatorEndSfx = default;
+		[SerializeField]
+		private ParticleSystem smokeParticles = default;
+
+		[SyncVar(hook = nameof(OnSyncState))]
+		private bool isOn;
+		private float fuelAmount;
+		private float fuelPerSheet = 10f;
+
+		private enum SpriteState
 		{
-			fuelAmount = fuelPerSheet;
-			TryToggleOn();
-		}
-	}
-	#endregion Lifecycle
-
-	public void PowerNetworkUpdate() { }
-
-	private void OnSecuredChanged()
-	{
-		if (securable.IsAnchored)
-		{
-			baseSpriteHandler.ChangeSprite((int) SpriteState.Off);
-		}
-		else
-		{
-			ToggleOff();
-			baseSpriteHandler.ChangeSprite((int) SpriteState.Unsecured);
+			Unsecured = 0,
+			Off = 1,
+			On = 2
 		}
 
-		ElectricalManager.Instance.electricalSync.StructureChange = true;
-	}
+		#region Lifecycle
 
-	private void OnSyncState(bool oldState, bool newState)
-	{
-		isOn = newState;
-		if (isOn)
+		void Awake()
 		{
-			baseSpriteHandler.PushTexture();
-			generatorRunSfx.Play();
-			smokeParticles.Play();
+			registerTile = GetComponent<RegisterTile>();
+			securable = GetComponent<WrenchSecurable>();
+			baseSpriteHandler = GetComponentInChildren<SpriteHandler>();
+			electricalNodeControl = GetComponent<ElectricalNodeControl>();
 		}
-		else
+
+		public override void OnStartServer()
 		{
-			generatorRunSfx.Stop();
-			smokeParticles.Stop();
-			generatorEndSfx.Play();
-		}
-	}
-
-	#region Interaction
-
-	public string Examine(Vector3 worldPos = default)
-	{
-		var examineText=$"The generator is {(HasFuel() ? "fueled" : "unfueled")} and " +
-								$"{(isOn ? "running" : "not running")}. ";
-		if (itemSlot.Item)
-		{
-			var stackable = itemSlot.Item.GetComponent<Stackable>();
-			examineText += $"There's {stackable.Amount} sheets left in the storage compartment.";
-		}
-		else
-		{
-			examineText += $"There's no more sheets left in the storage compartment.";
-		}
-		return examineText;
-	}
-
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (interaction.TargetObject != gameObject) return false;
-		if (interaction.HandObject != null && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
-
-		return true;
-	}
-
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
-		{
-			int amountTransfered;
-			var handStackable = interaction.HandObject.GetComponent<Stackable>();
-			if (itemSlot.Item)
+			var itemStorage = GetComponent<ItemStorage>();
+			itemSlot = itemStorage.GetIndexedItemSlot(0);
+			securable.OnAnchoredChange.AddListener(OnSecuredChanged);
+			if (startAsOn)
 			{
-				var stackable = itemSlot.Item.GetComponent<Stackable>();
-				if (stackable.SpareCapacity == 0)
-				{
-					Chat.AddWarningMsgFromServer(interaction.Performer, "The generator sheet storage is full!");
-					return;
-				}
-				amountTransfered = stackable.ServerCombine(handStackable);
+				fuelAmount = fuelPerSheet;
+				TryToggleOn();
+			}
+		}
+		#endregion Lifecycle
+
+		public void PowerNetworkUpdate() { }
+
+		private void OnSecuredChanged()
+		{
+			if (securable.IsAnchored)
+			{
+				baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
 			}
 			else
 			{
-				amountTransfered = handStackable.Amount;
-				Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
+				ToggleOff();
+				baseSpriteHandler.ChangeSprite((int)SpriteState.Unsecured);
 			}
-			Chat.AddExamineMsgFromServer(interaction.Performer, $"You fill the generator sheet storage with {amountTransfered.ToString()} more.");
+
+			ElectricalManager.Instance.electricalSync.StructureChange = true;
 		}
-		else if (securable.IsAnchored)
+
+		private void OnSyncState(bool oldState, bool newState)
 		{
-			if (!isOn)
+			isOn = newState;
+			if (isOn)
 			{
-				if (!TryToggleOn())
+				baseSpriteHandler.PushTexture();
+				generatorRunSfx.Play();
+				smokeParticles.Play();
+			}
+			else
+			{
+				generatorRunSfx.Stop();
+				smokeParticles.Stop();
+				generatorEndSfx.Play();
+			}
+		}
+
+		#region Interaction
+
+		public string Examine(Vector3 worldPos = default)
+		{
+			var examineText = $"The generator is {(HasFuel() ? "fueled" : "unfueled")} and " +
+									$"{(isOn ? "running" : "not running")}. ";
+			if (itemSlot.Item)
+			{
+				var stackable = itemSlot.Item.GetComponent<Stackable>();
+				examineText += $"There's {stackable.Amount} sheets left in the storage compartment.";
+			}
+			else
+			{
+				examineText += $"There's no more sheets left in the storage compartment.";
+			}
+			return examineText;
+		}
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.TargetObject != gameObject) return false;
+			if (interaction.HandObject != null && !Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma)) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.SolidPlasma))
+			{
+				int amountTransfered;
+				var handStackable = interaction.HandObject.GetComponent<Stackable>();
+				if (itemSlot.Item)
 				{
-					Chat.AddWarningMsgFromServer(interaction.Performer, $"The generator needs more fuel!");
+					var stackable = itemSlot.Item.GetComponent<Stackable>();
+					if (stackable.SpareCapacity == 0)
+					{
+						Chat.AddWarningMsgFromServer(interaction.Performer, "The generator sheet storage is full!");
+						return;
+					}
+					amountTransfered = stackable.ServerCombine(handStackable);
 				}
+				else
+				{
+					amountTransfered = handStackable.Amount;
+					Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
+				}
+				Chat.AddExamineMsgFromServer(interaction.Performer, $"You fill the generator sheet storage with {amountTransfered.ToString()} more.");
+			}
+			else if (securable.IsAnchored)
+			{
+				if (!isOn)
+				{
+					if (!TryToggleOn())
+					{
+						Chat.AddWarningMsgFromServer(interaction.Performer, $"The generator needs more fuel!");
+					}
+				}
+				else
+				{
+					ToggleOff();
+				}
+			}
+		}
+
+		#endregion Interaction
+
+		void UpdateMe()
+		{
+			fuelAmount -= Time.deltaTime * plasmaConsumptionRate;
+			if (fuelAmount <= 0)
+			{
+				ConsumeSheet();
+			}
+		}
+
+		private void ConsumeSheet()
+		{
+			if (Inventory.ServerConsume(itemSlot, 1))
+			{
+				fuelAmount += fuelPerSheet;
 			}
 			else
 			{
 				ToggleOff();
 			}
 		}
-	}
-
-	#endregion Interaction
-
-	void UpdateMe()
-	{
-		fuelAmount -= Time.deltaTime * plasmaConsumptionRate;
-		if (fuelAmount <= 0)
+		private bool TryToggleOn()
 		{
-			ConsumeSheet();
+			if (fuelAmount > 0 || itemSlot.Item)
+			{
+				ToggleOn();
+				return true;
+			}
+			return false;
 		}
-	}
 
-	private void ConsumeSheet()
-	{
-		if (Inventory.ServerConsume(itemSlot, 1))
+		private bool HasFuel()
 		{
-			fuelAmount += fuelPerSheet;
+			if (fuelAmount > 0 || itemSlot.Item)
+			{
+				return true;
+			}
+			return false;
 		}
-		else
+
+		private void ToggleOn()
 		{
-			ToggleOff();
+			UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+			electricalNodeControl.TurnOnSupply();
+			baseSpriteHandler.ChangeSprite((int)SpriteState.On);
+			isOn = true;
 		}
-	}
-	private bool TryToggleOn()
-	{
-		if (fuelAmount > 0 || itemSlot.Item)
+
+		private void ToggleOff()
 		{
-			ToggleOn();
-			return true;
+			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+			electricalNodeControl.TurnOffSupply();
+			baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
+			isOn = false;
 		}
-		return false;
-	}
 
-	private bool HasFuel()
-	{
-		if (fuelAmount > 0 || itemSlot.Item)
+		void OnDisable()
 		{
-			return true;
+			if (isOn)
+			{
+				ToggleOff();
+			}
 		}
-		return false;
-	}
 
-	private void ToggleOn()
-	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
-		electricalNodeControl.TurnOnSupply();
-		baseSpriteHandler.ChangeSprite((int)SpriteState.On);
-		isOn = true;
 	}
-
-	private void ToggleOff()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
-		electricalNodeControl.TurnOffSupply();
-		baseSpriteHandler.ChangeSprite((int)SpriteState.Off);
-		isOn = false;
-	}
-
-	void OnDisable()
-	{
-		if (isOn)
-		{
-			ToggleOff();
-		}
-	}
-
 }

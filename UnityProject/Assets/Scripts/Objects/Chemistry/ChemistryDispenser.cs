@@ -4,67 +4,71 @@ using System.Collections.Generic;
 using Chemistry.Components;
 using Mirror;
 using UnityEngine;
+using Systems.Electricity;
 
-/// <summary>
-/// Main component for chemistry dispenser.
-/// </summary>
-public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowered
+namespace Chemistry
 {
-	public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
-		? itemSlot.ItemObject.GetComponent<ReagentContainer>()
-		: null;
-
-	public delegate void ChangeEvent();
-
-	public static event ChangeEvent changeEvent;
-
-	private ItemStorage itemStorage;
-	private ItemSlot itemSlot;
-
-	private void Awake()
+	/// <summary>
+	/// Main component for chemistry dispenser.
+	/// </summary>
+	public class ChemistryDispenser : NetworkBehaviour, ICheckedInteractable<HandApply>, IAPCPowered
 	{
-		itemStorage = GetComponent<ItemStorage>();
-		itemSlot = itemStorage.GetIndexedItemSlot(0);
-	}
+		public ReagentContainer Container => itemSlot != null && itemSlot.ItemObject != null
+			? itemSlot.ItemObject.GetComponent<ReagentContainer>()
+			: null;
 
-	private void UpdateGUI()
-	{
-		// Change event runs updateAll in ChemistryGUI
-		if (changeEvent != null)
+		public delegate void ChangeEvent();
+
+		public static event ChangeEvent changeEvent;
+
+		private ItemStorage itemStorage;
+		private ItemSlot itemSlot;
+
+		private void Awake()
 		{
-			changeEvent();
+			itemStorage = GetComponent<ItemStorage>();
+			itemSlot = itemStorage.GetIndexedItemSlot(0);
 		}
-	}
 
-	public void EjectContainer()
-	{
-		Inventory.ServerDrop(itemSlot);
-	}
+		private void UpdateGUI()
+		{
+			// Change event runs updateAll in ChemistryGUI
+			if (changeEvent != null)
+			{
+				changeEvent();
+			}
+		}
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
+		public void EjectContainer()
+		{
+			Inventory.ServerDrop(itemSlot);
+		}
 
-		//only interaction that works is using a reagent container on this
-		if (!Validations.HasComponent<ReagentContainer>(interaction.HandObject)) return false;
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
 
-		return true;
-	}
+			//only interaction that works is using a reagent container on this
+			if (!Validations.HasComponent<ReagentContainer>(interaction.HandObject)) return false;
 
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		//put the reagant container inside me
-		Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
-		UpdateGUI();
-	}
+			return true;
+		}
 
-	//############################## power stuff ########################################
-	public PowerStates ThisState;
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			//put the reagant container inside me
+			Inventory.ServerTransfer(interaction.HandSlot, itemSlot);
+			UpdateGUI();
+		}
 
-	public void PowerNetworkUpdate(float Voltage) { }
+		//############################## power stuff ########################################
+		public PowerStates ThisState;
 
-	public void StateUpdate(PowerStates State)
-	{
-		ThisState = State;
+		public void PowerNetworkUpdate(float Voltage) { }
+
+		public void StateUpdate(PowerStates State)
+		{
+			ThisState = State;
+		}
 	}
 }

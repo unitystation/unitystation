@@ -4,81 +4,84 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
-/// <summary>
-/// Connects two portals together, can be separate from the station gateway.
-/// </summary>
-public class WorldGateway : StationGateway
+namespace Objects
 {
-	[SerializeField]
-	private GameObject StationGateway = null; // doesnt have to be station just the gateway this one will connect to
-
 	/// <summary>
-	/// Should the mobs spawn when gate connects
+	/// Connects two portals together, can be separate from the station gateway.
 	/// </summary>
-	public bool spawnMobsOnConnection;
-
-	/// <summary>
-	/// For world gate to world gate
-	/// </summary>
-	[SerializeField]
-	private bool ifWorldGateToWorldGate = default;
-
-	/// <summary>
-	/// If you want a person traveling to this gate to go somewhere else. WORLD POS, not local
-	/// </summary>
-	public Vector3Int  OverrideCoord;
-
-	/// <summary>
-	/// Gets the coordinates of the teleport target where things will be teleported to.
-	/// </summary>
-	public override Vector3 TeleportTargetCoord => StationGateway.GetComponent<RegisterTile>().WorldPosition;
-
-	public override void OnStartServer()
+	public class WorldGateway : StationGateway
 	{
-		SetOffline();
-		registerTile = GetComponent<RegisterTile>();
+		[SerializeField]
+		private GameObject StationGateway = null; // doesnt have to be station just the gateway this one will connect to
 
-		ServerChangeState(false);
+		/// <summary>
+		/// Should the mobs spawn when gate connects
+		/// </summary>
+		public bool spawnMobsOnConnection;
 
-		if (ifWorldGateToWorldGate && StationGateway != null)
+		/// <summary>
+		/// For world gate to world gate
+		/// </summary>
+		[SerializeField]
+		private bool ifWorldGateToWorldGate = default;
+
+		/// <summary>
+		/// If you want a person traveling to this gate to go somewhere else. WORLD POS, not local
+		/// </summary>
+		public Vector3Int OverrideCoord;
+
+		/// <summary>
+		/// Gets the coordinates of the teleport target where things will be teleported to.
+		/// </summary>
+		public override Vector3 TeleportTargetCoord => StationGateway.GetComponent<RegisterTile>().WorldPosition;
+
+		public override void OnStartServer()
 		{
-			SetUpWorldToWorld();
-		}
-		else if (!ifWorldGateToWorldGate)
-		{
-			SubSceneManager.RegisterWorldGateway(this);
-		}
-	}
+			SetOffline();
+			registerTile = GetComponent<RegisterTile>();
 
-	[Server]
-	public void SetUp(StationGateway stationGateway)
-	{
-		StationGateway = stationGateway.gameObject;
-		Message = "Teleporting to: " + stationGateway.WorldName;
+			ServerChangeState(false);
 
-		SetOnline();
-		ServerChangeState(true);
-		if (GetComponent<MobSpawnControlScript>() != null)
-		{
-			GetComponent<MobSpawnControlScript>().SpawnMobs();
-		}
-
-		SpawnedMobs = true;
-	}
-
-	[Server]
-	public void SetUpWorldToWorld()
-	{
-		Message = "Teleporting...";
-
-		SetOnline();
-		ServerChangeState(true);
-
-		if (GetComponent<MobSpawnControlScript>() != null)
-		{
-			GetComponent<MobSpawnControlScript>().SpawnMobs();
+			if (ifWorldGateToWorldGate && StationGateway != null)
+			{
+				SetUpWorldToWorld();
+			}
+			else if (!ifWorldGateToWorldGate)
+			{
+				SubSceneManager.RegisterWorldGateway(this);
+			}
 		}
 
-		SpawnedMobs = true;
+		[Server]
+		public void SetUp(StationGateway stationGateway)
+		{
+			StationGateway = stationGateway.gameObject;
+			Message = "Teleporting to: " + stationGateway.WorldName;
+
+			SetOnline();
+			ServerChangeState(true);
+			if (GetComponent<MobSpawnControlScript>() != null)
+			{
+				GetComponent<MobSpawnControlScript>().SpawnMobs();
+			}
+
+			SpawnedMobs = true;
+		}
+
+		[Server]
+		public void SetUpWorldToWorld()
+		{
+			Message = "Teleporting...";
+
+			SetOnline();
+			ServerChangeState(true);
+
+			if (GetComponent<MobSpawnControlScript>() != null)
+			{
+				GetComponent<MobSpawnControlScript>().SpawnMobs();
+			}
+
+			SpawnedMobs = true;
+		}
 	}
 }

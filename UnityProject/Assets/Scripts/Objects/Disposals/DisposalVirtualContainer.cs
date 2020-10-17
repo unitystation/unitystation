@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Disposals
+namespace Objects.Disposals
 {
 	/// <summary>
 	/// A virtual container for disposal instances. Contains the disposed contents,

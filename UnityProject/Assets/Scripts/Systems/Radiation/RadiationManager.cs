@@ -6,7 +6,7 @@ using System.Threading;
 using UnityEngine;
 using UnityEngine.Profiling;
 
-namespace Radiation
+namespace Systems.Radiation
 {
 	public class RadiationManager : MonoBehaviour
 	{
@@ -257,7 +257,6 @@ namespace Radiation
 				}
 			}
 		}
-
 
 		public void RequestPulse(Matrix Matrix, Vector3Int Location, float Strength, int InSourceID)
 		{

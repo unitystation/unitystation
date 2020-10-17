@@ -118,7 +118,7 @@ public class MyProjectViewExtentions
 			}
 		}
 
-		return Db.Textdict[Db.PresentFrame];
+		return Db?.Textdict[Db?.PresentFrame];
 	}
 
 	public static Texture2D GetSpriteRenderer(GameObject GameO)

@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Mirror;
-
+using Systems.Explosions;
 
 namespace Chemistry.Effects
 {
@@ -41,12 +41,12 @@ namespace Chemistry.Effects
 
 		if (registerObject == null)
 		{
-			Explosions.Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
+			Explosion.StartExplosion(objectBehaviour.registerTile.LocalPosition, strength,
 				objectBehaviour.registerTile.Matrix);
 		}
 		else
 		{
-			Explosions.Explosion.StartExplosion(registerObject.LocalPosition, strength,
+			Explosion.StartExplosion(registerObject.LocalPosition, strength,
 				registerObject.Matrix);
 		}
 

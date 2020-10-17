@@ -24,19 +24,19 @@ namespace Weapons.Projectiles.Behaviours
 			this.direction = direction;
 		}
 
-		public void OnDespawn(RaycastHit2D hit, Vector2 point)
+		public void OnDespawn(MatrixManager.CustomPhysicsHit hit, Vector2 point)
 		{
 			var pos = thisTransform.position;
 			Vector3 startPos = new Vector3(direction.x, direction.y, pos.z) * 0.7f;
 
-			if (hit.collider == null)
+			if (hit.CollisionHit.GameObject == null)
 			{
 				lineRenderer.SetPosition(0, pos + startPos);
 				lineRenderer.SetPosition(1, point);
 				return;
 			}
 
-			var endPosition = hit.point;
+			var endPosition = hit.HitWorld;
 			lineRenderer.SetPosition(0, pos + startPos);
 			lineRenderer.SetPosition(1, endPosition);
 		}

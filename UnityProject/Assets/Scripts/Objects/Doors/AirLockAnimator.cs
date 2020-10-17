@@ -5,7 +5,8 @@ using UnityEditor;
 
 #endif
 
-
+namespace Doors
+{
 	[ExecuteInEditMode]
 	public class AirLockAnimator : DoorAnimator
 	{
@@ -111,7 +112,8 @@ using UnityEditor;
 			StartCoroutine(MakePassable(skipAnimation));
 		}
 
-		private IEnumerator MakePassable(bool instant) {
+		private IEnumerator MakePassable(bool instant)
+		{
 			if (instant)
 			{
 				yield return WaitFor.EndOfFrame;
@@ -169,14 +171,15 @@ using UnityEditor;
 			StartCoroutine(MakeSolid(skipAnimation));
 		}
 
-		private IEnumerator MakeSolid(bool instant) {
+		private IEnumerator MakeSolid(bool instant)
+		{
 			if (instant)
 			{
 				yield return WaitFor.EndOfFrame;
 			}
 			else
 			{
-				yield return WaitFor.Seconds( 0.15f );
+				yield return WaitFor.Seconds(0.15f);
 			}
 			doorController.BoxCollToggleOn();
 		}
@@ -196,7 +199,7 @@ using UnityEditor;
 			if (offset > -1 && numberOfSpritesToPlay > 0)
 			{
 				// clamp to make sure that index is not out of range
-				int limit = Mathf.Clamp(offset + numberOfSpritesToPlay, 0, list.Length-1);
+				int limit = Mathf.Clamp(offset + numberOfSpritesToPlay, 0, list.Length - 1);
 				if (skipToEnd)
 				{
 					renderer.sprite = list[limit - 1];
@@ -270,11 +273,11 @@ using UnityEditor;
 		}
 
 		/// <summary>
-        /// Flashes the door's emergency access (yellow) lights several times,
-        /// or the door bolts, depending on the pressure difference over the door.
-        /// Sprite offset varies depending on door type - set in each door prefab.
-        /// </summary>
-        /// <returns></returns>
+		/// Flashes the door's emergency access (yellow) lights several times,
+		/// or the door bolts, depending on the pressure difference over the door.
+		/// Sprite offset varies depending on door type - set in each door prefab.
+		/// </summary>
+		/// <returns></returns>
 		private IEnumerator PlayPressureWarnAnim()
 		{
 			int flashCount = 3;
@@ -356,3 +359,4 @@ using UnityEditor;
 		}
 #endif
 	}
+}

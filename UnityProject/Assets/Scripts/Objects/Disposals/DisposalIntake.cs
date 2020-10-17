@@ -3,8 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using Systems.Disposals;
 
-namespace Disposals
+namespace Objects.Disposals
 {
 	public class DisposalIntake : DisposalMachine, IServerDespawn, IExaminable
 	{
