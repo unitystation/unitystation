@@ -63,12 +63,15 @@ namespace Blob
 		private bool announcedBlob;
 		private float announceAfterSeconds = 600f;
 		private bool hasDied;
+		private bool halfWay;
+		private bool nearlyWon;
 
 		[HideInInspector] public bool BlobRemoveMode;
 
 		private float timer = 0f;
 		private float econTimer = 0f;
 		private float factoryTimer = 0f;
+		private float healthTimer = 0f;
 
 		[SerializeField]
 		private float econModifier = 1f;
@@ -99,8 +102,8 @@ namespace Blob
 
 		public bool clickCoords = true;
 
-		private ConcurrentDictionary<Vector3Int, GameObject> blobTiles =
-			new ConcurrentDictionary<Vector3Int, GameObject>();
+		private ConcurrentDictionary<Vector3Int, BlobStructure> blobTiles =
+			new ConcurrentDictionary<Vector3Int, BlobStructure>();
 
 		private HashSet<GameObject> nonSpaceBlobTiles = new HashSet<GameObject>();
 
@@ -156,15 +159,16 @@ namespace Blob
 
 			var pos = blobCore.GetComponent<CustomNetTransform>().ServerPosition;
 
-			blobTiles.TryAdd(pos, blobCore);
-
 			var structure = blobCore.GetComponent<BlobStructure>();
+
+			blobTiles.TryAdd(pos, structure);
 
 			structure.location = pos;
 			SetLightAndColor(structure);
 
 			//Make core act like node
 			structure.expandCoords = GenerateCoords(pos);
+			structure.healthPulseCoords = structure.expandCoords;
 			nodeBlobs.Add(structure);
 
 			//Set up death detection
@@ -202,9 +206,10 @@ namespace Blob
 			timer += 1f;
 			econTimer += 1f;
 			factoryTimer += 1f;
+			healthTimer += 1f;
 
 			//Force overmind back to blob if camera moves too far
-			if (!teleportCheck && !ValidateAction(playerSync.ServerPosition, true) && blobCore != null)
+			if (!teleportCheck && !victory && !ValidateAction(playerSync.ServerPosition, true) && blobCore != null)
 			{
 				teleportCheck = true;
 
@@ -217,6 +222,26 @@ namespace Blob
 			if (numOfBlobTiles > maxCount)
 			{
 				maxCount = numOfBlobTiles;
+			}
+
+			if (!halfWay && numOfBlobTiles >= numOfTilesForVictory / 2)
+			{
+				halfWay = true;
+
+				Chat.AddSystemMsgToChat(
+					string.Format(CentComm.BioHazardReportTemplate,
+						"Caution! Biohazard expanding rapidly. Station structural integrity failing."),
+					MatrixManager.MainStationMatrix);
+			}
+
+			if (!nearlyWon && numOfBlobTiles >= numOfTilesForVictory / 6)
+			{
+				nearlyWon = true;
+
+				Chat.AddSystemMsgToChat(
+					string.Format(CentComm.BioHazardReportTemplate,
+						"Alert! Station integrity near critical. Biomass sensor levels are off the charts."),
+					MatrixManager.MainStationMatrix);
 			}
 
 			//Blob wins after number of blob tiles reached
@@ -243,6 +268,8 @@ namespace Blob
 			TrySpawnSpores();
 
 			AutoExpandBlob();
+
+			HealthPulse();
 
 			if (blobCore == null) return;
 
@@ -276,7 +303,7 @@ namespace Blob
 
 			if(blobCore == null) yield break;
 
-			playerSync.SetPosition(blobCore.WorldPosServer());
+			TeleportToNode();
 
 			teleportCheck = false;
 		}
@@ -291,6 +318,11 @@ namespace Blob
 
 		[Command]
 		public void CmdTeleportToNode()
+		{
+			TeleportToNode();
+		}
+
+		private void TeleportToNode()
 		{
 			GameObject node = null;
 
@@ -309,9 +341,10 @@ namespace Blob
 				node = blobStructure.gameObject;
 			}
 
+			//If null go to core instead
 			if (node == null)
 			{
-				//If null go to core instead
+				//Blob is dead :(
 				if(blobCore == null) return;
 
 				playerSync.SetPosition(blobCore.WorldPosServer());
@@ -444,11 +477,11 @@ namespace Blob
 
 			if (newPosition)
 			{
-				blobTiles.TryAdd(worldPos, result.GameObject);
+				blobTiles.TryAdd(worldPos, structure);
 				return;
 			}
 
-			blobTiles[worldPos] = result.GameObject;
+			blobTiles[worldPos] = structure;
 		}
 
 		private bool TryAttack(Vector3 worldPos)
@@ -677,14 +710,14 @@ namespace Blob
 			if (blobTiles.TryGetValue(worldPos, out var blob))
 			{
 				//Try place strong
-				if (blob != null && blob.GetComponent<BlobStructure>().isNormal)
+				if (blob != null && blob.isNormal)
 				{
 					PlaceStrongReflective(blobStrongPrefab, blob, strongBlobCost, worldPos, "You grow a strong blob, you can now mutate to a reflective.");
 					return;
 				}
 
 				//Try place reflective
-				if (blob != null && blob.GetComponent<BlobStructure>().isStrong)
+				if (blob != null && blob.isStrong)
 				{
 					PlaceStrongReflective(blobReflectivePrefab, blob, reflectiveBlobCost, worldPos, "You grow a reflective blob.");
 					return;
@@ -695,7 +728,7 @@ namespace Blob
 			Chat.AddExamineMsgFromServer(gameObject, "You need to place a normal blob first");
 		}
 
-		private void PlaceStrongReflective(GameObject prefab, GameObject originalBlob, int cost, Vector3Int worldPos, string msg)
+		private void PlaceStrongReflective(GameObject prefab, BlobStructure originalBlob, int cost, Vector3Int worldPos, string msg)
 		{
 			if (!ValidateCost(cost, prefab)) return;
 
@@ -705,9 +738,10 @@ namespace Blob
 
 			Chat.AddExamineMsgFromServer(gameObject, msg);
 
-			Despawn.ServerSingle(originalBlob);
-			SetLightAndColor(result.GameObject.GetComponent<BlobStructure>());
-			blobTiles[worldPos] = result.GameObject;
+			Despawn.ServerSingle(originalBlob.gameObject);
+			var structure = result.GameObject.GetComponent<BlobStructure>();
+			SetLightAndColor(structure);
+			blobTiles[worldPos] = structure;
 			AddNonSpaceBlob(result.GameObject);
 		}
 
@@ -746,7 +780,7 @@ namespace Blob
 
 			if (blobTiles.TryGetValue(worldPos, out var blob))
 			{
-				if (blob != null && blob.GetComponent<BlobStructure>().isNormal)
+				if (blob != null && blob.isNormal)
 				{
 					if (blobConstructs != BlobConstructs.Node && !ValidateDistance(worldPos, true))
 					{
@@ -775,6 +809,7 @@ namespace Blob
 						case BlobConstructs.Node:
 
 							structure.expandCoords = GenerateCoords(worldPos);
+							structure.healthPulseCoords = structure.expandCoords;
 							nodeBlobs.Add(structure);
 							break;
 						case BlobConstructs.Factory:
@@ -785,12 +820,12 @@ namespace Blob
 							break;
 					}
 
-					Despawn.ServerSingle(blob);
+					Despawn.ServerSingle(blob.gameObject);
 
 					structure.location = worldPos;
 					SetLightAndColor(structure);
 
-					blobTiles[worldPos] = result.GameObject;
+					blobTiles[worldPos] = structure;
 					AddNonSpaceBlob(result.GameObject);
 					return;
 				}
@@ -820,9 +855,7 @@ namespace Blob
 			}
 			else
 			{
-				var blobStructure = blob.GetComponent<BlobStructure>();
-
-				if (blobStructure.isNode || blobStructure.isCore)
+				if (blob.isNode || blob.isCore)
 				{
 					Chat.AddExamineMsgFromServer(gameObject, "This is a core or node blob. It cannot be removed");
 					return;
@@ -830,30 +863,30 @@ namespace Blob
 
 				var returnCost = 0;
 
-				if (blobStructure.isNormal)
+				if (blob.isNormal)
 				{
 					returnCost = Mathf.RoundToInt(normalBlobCost * refundPercentage);
 				}
-				else if (blobStructure.isStrong)
+				else if (blob.isStrong)
 				{
 					returnCost = Mathf.RoundToInt(strongBlobCost * refundPercentage);
 				}
-				else if (blobStructure.isReflective)
+				else if (blob.isReflective)
 				{
 					returnCost = Mathf.RoundToInt(reflectiveBlobCost * refundPercentage);
 				}
-				else if (blobStructure.isResource)
+				else if (blob.isResource)
 				{
 					returnCost = Mathf.RoundToInt(resourceBlobCost * refundPercentage);
 				}
-				else if (blobStructure.isFactory)
+				else if (blob.isFactory)
 				{
 					returnCost = Mathf.RoundToInt(factoryBlobCost * refundPercentage);
 				}
 
 				Chat.AddExamineMsgFromServer(gameObject, $"Blob removed, {AddToResources(returnCost)} biomass refunded");
 
-				Despawn.ServerSingle(blob);
+				Despawn.ServerSingle(blob.gameObject);
 				blobTiles.TryRemove(worldPos, out var empty);
 			}
 		}
@@ -890,11 +923,11 @@ namespace Blob
 			{
 				if (tile.Value != null)
 				{
-					Despawn.ServerSingle(tile.Value);
+					Despawn.ServerSingle(tile.Value.gameObject);
 				}
 			}
 
-			blobTiles = new ConcurrentDictionary<Vector3Int, GameObject>();
+			blobTiles = new ConcurrentDictionary<Vector3Int, BlobStructure>();
 
 			GameManager.Instance.PrimaryEscapeShuttle.SetHostileEnvironment(false);
 
@@ -964,7 +997,7 @@ namespace Blob
 		{
 			worldPos.z = 0;
 
-			if (blobTiles.TryGetValue(worldPos, out var blob) && blob.GetComponent<BlobStructure>().isNode)
+			if (blobTiles.TryGetValue(worldPos, out var blob))
 			{
 				SwitchCore(blob);
 			}
@@ -974,15 +1007,9 @@ namespace Blob
 		/// Switches a node into a core
 		/// </summary>
 		/// <param name="oldNode"></param>
-		public void SwitchCore(GameObject oldNode)
+		public void SwitchCore(BlobStructure oldNode)
 		{
-			if (!oldNode.TryGetComponent<BlobStructure>(out var blob))
-			{
-				Chat.AddExamineMsgFromServer(gameObject, "Unable to move core to node");
-				return;
-			}
-
-			if (!blob.isNode)
+			if (!oldNode.isNode)
 			{
 				Chat.AddExamineMsgFromServer(gameObject, "Can only move the core to a node");
 				return;
@@ -995,8 +1022,6 @@ namespace Blob
 				return;
 			}
 
-			Debug.LogError("1");
-
 			var core = blobCore.GetComponent<CustomNetTransform>();
 			var node = oldNode.GetComponent<CustomNetTransform>();
 
@@ -1006,7 +1031,7 @@ namespace Blob
 			node.SetPosition(coreCache);
 
 			ResetArea(blobCore);
-			ResetArea(oldNode);
+			ResetArea(oldNode.gameObject);
 		}
 
 		#endregion
@@ -1051,6 +1076,7 @@ namespace Blob
 			var pos = node.GetComponent<CustomNetTransform>().ServerPosition;
 			var structNode = node.GetComponent<BlobStructure>();
 			structNode.expandCoords = GenerateCoords(pos);
+			structNode.healthPulseCoords = structNode.expandCoords;
 			structNode.location = pos;
 			structNode.nodeDepleted = false;
 		}
@@ -1173,6 +1199,30 @@ namespace Blob
 
 			nonSpaceBlobTiles.Remove(null);
 			nonSpaceBlobTiles.Add(newBlob);
+		}
+
+		#endregion
+
+		#region HealthPulse
+
+		private void HealthPulse()
+		{
+			if(healthTimer <= 10f) return;
+
+			healthTimer = 0f;
+
+			foreach (var node in nodeBlobs)
+			{
+				if(node == null) continue;
+
+				foreach (var healthPulseTarget in node.healthPulseCoords)
+				{
+					if (blobTiles.TryGetValue(healthPulseTarget.To3Int(), out var blob) && blob != null)
+					{
+						blob.integrity.RestoreIntegrity(node.isCore ? 3 : 1);
+					}
+				}
+			}
 		}
 
 		#endregion

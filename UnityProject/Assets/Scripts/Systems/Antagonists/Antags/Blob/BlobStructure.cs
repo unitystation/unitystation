@@ -23,10 +23,14 @@ namespace Blob
 
 		public SpriteHandler spriteHandler = null;
 
-		private Integrity integrity;
+		[HideInInspector]
+		public Integrity integrity;
 
 		[HideInInspector]
 		public List<Vector2Int> expandCoords = new List<Vector2Int>();
+
+		[HideInInspector]
+		public List<Vector2Int> healthPulseCoords = new List<Vector2Int>();
 
 		[HideInInspector]
 		public bool nodeDepleted;
