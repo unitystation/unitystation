@@ -102,6 +102,9 @@ public class BlobMouseInputController : MouseInputController
 				case BlobConstructs.Reflective:
 					blobPlayer.CmdTryPlaceStrongReflective(Camera.main.ScreenToWorldPoint(CommonInput.mousePosition).RoundToInt());
 					break;
+				default:
+					Debug.LogError("Switch has no correct case for blob click!");
+					break;
 			}
 
 			return true;

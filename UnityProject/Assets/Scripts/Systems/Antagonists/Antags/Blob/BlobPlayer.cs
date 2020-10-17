@@ -147,6 +147,9 @@ namespace Blob
 			registerPlayer = GetComponent<RegisterPlayer>();
 			playerScript = GetComponent<PlayerScript>();
 
+			playerScript.mind.ghost = playerScript;
+			playerScript.mind.body = playerScript;
+
 			var result = Spawn.ServerPrefab(blobCorePrefab, playerSync.ServerPosition, gameObject.transform);
 
 			if (!result.Successful)
@@ -779,6 +782,9 @@ namespace Blob
 					prefab = blobResourcePrefab;
 					cost = resourceBlobCost;
 					break;
+				default:
+					Debug.LogError("Switch has no correct case for blob structure!");
+					break;
 			}
 
 			if (prefab == null) return;
@@ -793,7 +799,7 @@ namespace Blob
 						return;
 					}
 
-					if (blobConstructs == BlobConstructs.Node && !ValidateDistance(worldPos, false, true, true))
+					if (blobConstructs == BlobConstructs.Node && !ValidateDistance(worldPos, excludeFactory: true, excludeResource: true))
 					{
 						Chat.AddExamineMsgFromServer(gameObject, $"Too close to another node, place at least {buildDistanceLimit}m away");
 						return;
