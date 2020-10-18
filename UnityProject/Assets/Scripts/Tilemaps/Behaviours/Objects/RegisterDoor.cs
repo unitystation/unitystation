@@ -108,13 +108,13 @@
 			return true;
 		}
 
-		public override bool IsPassable( Vector3Int from, bool isServer )
+		public override bool IsPassable( Vector3Int from, bool isServer, GameObject context = null)
 		{
 			// Entering and leaving is the same check
 			return IsPassableTo( from, isServer );
 		}
 
-		public override bool IsPassable(bool isServer)
+		public override bool IsPassable(bool isServer, GameObject context = null)
 		{
 			return !isClosed;
 		}

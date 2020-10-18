@@ -65,7 +65,7 @@ public class ObjectLayer : Layer
 
 		foreach ( RegisterTile o in isServer ? ServerObjects.Get(to) : ClientObjects.Get(to) )
 		{
-			if ((inclPlayers || o.ObjectType != ObjectType.Player) && !o.IsPassable(origin, isServer) && (!context || o.gameObject != context))
+			if ((inclPlayers || o.ObjectType != ObjectType.Player) && !o.IsPassable(origin, isServer, context) && (!context || o.gameObject != context))
 			{
 				return false;
 			}

@@ -377,7 +377,7 @@ namespace Systems.MobAIs
 		{
 			if (dir != Vector2Int.zero)
 			{
-				cnt.Push(dir);
+				cnt.Push(dir, context: gameObject);
 				var angleOfDir = Vector3.Angle((Vector2)dir, transform.up);
 				if (dir.x < 0f)
 				{

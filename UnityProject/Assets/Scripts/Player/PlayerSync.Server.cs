@@ -193,7 +193,7 @@ public partial class PlayerSync
 	/// (turns on tile snapping and removes player collision check)</param>
 	/// <returns>true if push was successful</returns>
 	[Server]
-	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false)
+	public bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false, GameObject context = null)
 	{
 		//if we are buckled, transfer the impulse to our buckled object.
 		if (playerMove.IsBuckled)

@@ -325,7 +325,7 @@ namespace Systems.MobAIs
 					}
 
 					var dir = path[node].position - Vector2Int.RoundToInt(transform.localPosition);
-					if (!registerTile.Matrix.IsPassableAt(registerTile.LocalPositionServer + (Vector3Int)dir, true))
+					if (!registerTile.Matrix.IsPassableAt(registerTile.LocalPositionServer + (Vector3Int)dir, true, context: gameObject))
 					{
 						var dC = registerTile.Matrix.GetFirst<DoorController>(
 							registerTile.LocalPositionServer + (Vector3Int)dir, true);
@@ -354,7 +354,7 @@ namespace Systems.MobAIs
 						directional.FaceDirection(new Orientation((int)angleOfDir));
 					}
 
-					cnt.Push(dir);
+					cnt.Push(dir, context: gameObject);
 					movingToTile = true;
 				}
 				else
@@ -438,7 +438,7 @@ namespace Systems.MobAIs
 				return;
 			}
 
-			if (matrix.IsPassableAt(checkPos, true))
+			if (matrix.IsPassableAt(checkPos, true, context: gameObject))
 			{
 				node.nodeType = PathFinding.NodeType.Open;
 				return;

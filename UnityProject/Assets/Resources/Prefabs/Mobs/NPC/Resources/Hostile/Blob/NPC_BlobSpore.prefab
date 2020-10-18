@@ -295,6 +295,7 @@ GameObject:
   - component: {fileID: 6802317284926705481}
   - component: {fileID: -8387645216536072966}
   - component: {fileID: 6229107951203521580}
+  - component: {fileID: 4597930920075505297}
   m_Layer: 12
   m_Name: NPC_BlobSpore
   m_TagString: Untagged
@@ -417,6 +418,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  passableExclusionsToThis: []
 --- !u!114 &4859363408336224435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -712,3 +714,17 @@ MonoBehaviour:
   indexLeft: 3
   spriteHandlers:
   - {fileID: 1960808446058716421}
+--- !u!114 &4597930920075505297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10f279de1bb7a3a43b7226749419ca2c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  passableExclusions:
+  - {fileID: 11400000, guid: 27254faedab24ec4daecc9dbd770765e, type: 2}
