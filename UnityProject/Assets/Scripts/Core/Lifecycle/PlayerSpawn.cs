@@ -391,6 +391,12 @@ public static class PlayerSpawn
 		return player;
 	}
 
+	public static void ServerTransferPlayerToNewBody(NetworkConnection conn, GameObject newBody, GameObject oldBody,
+		EVENT eventType, CharacterSettings characterSettings, bool willDestroyOldBody = false)
+	{
+		ServerTransferPlayer(conn, newBody, oldBody, eventType, characterSettings, willDestroyOldBody);
+	}
+
 	/// <summary>
 	/// Server-side only. Transfers control of a player object to the indicated connection.
 	/// </summary>

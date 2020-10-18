@@ -28,7 +28,8 @@ public enum EVENT
 	ToggleChatBubbles,
 	PlayerRejoined,
 	PreRoundStarted,
-	MatrixManagerInit
+	MatrixManagerInit,
+	BlobSpawned
 } // + other events. Add them as you need them
 
 [ExecuteInEditMode]

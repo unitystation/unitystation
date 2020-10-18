@@ -83,6 +83,10 @@ public class CentComm : MonoBehaviour
 	private string AntagInitialUpdate =
 		"Enemy communication intercepted. Security level elevated.";
 
+	public static readonly string BioHazardReportTemplate =
+		"\n\n<color=#FF151F><size=60><b>BioHazard Report</b></size></color>\n\n"
+		+ "<b>{0}</b>\n\n";
+
 	public InitialisationSystems Subsystem => InitialisationSystems.CentComm;
 
 
