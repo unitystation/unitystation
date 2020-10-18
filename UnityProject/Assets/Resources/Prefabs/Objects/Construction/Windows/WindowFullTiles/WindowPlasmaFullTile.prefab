@@ -52,6 +52,12 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1267235756312871129, guid: 7020b235ecf8ece4ca00af70a60258f8,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 507117d4efde46d468359d7d31e778c2,
+        type: 2}
     - target: {fileID: 2109706411221417743, guid: 7020b235ecf8ece4ca00af70a60258f8,
         type: 3}
       propertyPath: isInitiallyNotPushable
@@ -164,6 +170,7 @@ PrefabInstance:
     - {fileID: 7221925336705448674, guid: 7020b235ecf8ece4ca00af70a60258f8, type: 3}
     - {fileID: 4207410744649580896, guid: 7020b235ecf8ece4ca00af70a60258f8, type: 3}
     - {fileID: 8610929551406220248, guid: 7020b235ecf8ece4ca00af70a60258f8, type: 3}
+    - {fileID: 527939903451879056, guid: 7020b235ecf8ece4ca00af70a60258f8, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7020b235ecf8ece4ca00af70a60258f8, type: 3}
 --- !u!1 &1467727991537208861 stripped
 GameObject:

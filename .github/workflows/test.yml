@@ -44,7 +44,7 @@ jobs:
   #       uses: webbertakken/unity-request-manual-activation-file@v1.1
   #       id: getManualLicenseFile
   #       with:
-  #         unityVersion: 2019.3.8f1
+  #         unityVersion: 2020.1.6f1
   #     # Upload artifact (Unity_v20XX.X.XXXX.alf)
   #     - name: Expose as artifact
   #       uses: actions/upload-artifact@v1
@@ -62,7 +62,8 @@ jobs:
         projectPath:
           - UnityProject
         unityVersion:
-          - 2019.3.8f1
+#           - 2019.3.15f1
+          - 2020.1.6f1
         targetPlatform:
           - StandaloneWindows64
     steps:
@@ -71,16 +72,16 @@ jobs:
         uses: actions/checkout@v2.0.0
       
       # Cache the library directory to speed up builds
-#      - name: Cache library directory
-#        uses: actions/cache@v1.1.0
-#        with:
-#          path: ${{ matrix.projectPath }}/Library
-#          key: Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-#          restore-keys: |
-#            Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
-#            Library2-${{ matrix.projectPath }}-
-#            Library2-
-
+    #  - name: Cache library directory
+    #    uses: actions/cache@v1.1.0
+    #    with:
+    #      path: ${{ matrix.projectPath }}/Library
+    #      key: Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+    #      restore-keys: |
+    #        Library2-${{ matrix.projectPath }}-${{ matrix.targetPlatform }}
+    #        Library2-${{ matrix.projectPath }}-
+    #        Library2-
+    #
       # Set the UNITY_LICENSE environment variable
       - name: Setup license
         # This step:
@@ -101,8 +102,9 @@ jobs:
         run: sudo rm ./${{ matrix.projectPath }}/ProjectSettings/ProjectVersion.txt        
       # Run tests - only edit mode supported
       - name: Run tests
-        uses: webbertakken/unity-test-runner@v1.5
+        uses: webbertakken/unity-test-runner@v1.6
         with:
+          customParameters: '-nographics'
           projectPath: ${{ matrix.projectPath }}
           unityVersion: ${{ matrix.unityVersion }}
           artifactsPath: ./testReports/${{ matrix.targetPlatform }}

@@ -1,9 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using Atmospherics;
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public class NitrylFormation : Reaction
 	{
@@ -34,7 +33,7 @@ namespace Atmospherics
 
 			if (energyUsed > 0)
 			{
-				gasMix.Temperature = Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed)/gasMix.WholeHeatCapacity, 2.7f);
+				gasMix.SetTemperature(Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed)/gasMix.WholeHeatCapacity, 2.7f));
 			}
 
 			return 0f;

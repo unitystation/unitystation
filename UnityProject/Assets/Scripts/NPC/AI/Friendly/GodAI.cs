@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	public class GodAI : GenericFriendlyAI
 	{

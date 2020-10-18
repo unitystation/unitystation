@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using Mirror;
+using Doors;
 
 public class DoorUpdateMessage : ServerMessage {
 

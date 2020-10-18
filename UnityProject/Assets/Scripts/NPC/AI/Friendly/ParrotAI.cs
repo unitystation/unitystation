@@ -2,7 +2,7 @@ using System.Collections;
 using UnityEngine;
 using WebSocketSharp;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// AI brain for parrots

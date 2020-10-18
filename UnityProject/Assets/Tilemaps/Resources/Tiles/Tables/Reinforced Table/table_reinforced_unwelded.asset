@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: table_reinforced_unwelded
   m_EditorClassIdentifier: 
   displayName: 
-  LayerType: 2
+  LayerType: 9
   TileType: 4
   RequiredTiles: []
   floorTileType: 0
@@ -47,7 +47,7 @@ MonoBehaviour:
   spawnOnDeconstruct: {fileID: 5331286249588652700, guid: 29ecbf5a1d918574cbcf5853927e0944,
     type: 3}
   spawnAmountOnDeconstruct: 2
-  lootOnDespawn: {fileID: 0}
+  lootOnDespawn: {fileID: 11400000, guid: 2fad2125ace992148ab83979ad84ec66, type: 2}
   soundOnHit: 
   connectCategory: 2
   connectType: 1

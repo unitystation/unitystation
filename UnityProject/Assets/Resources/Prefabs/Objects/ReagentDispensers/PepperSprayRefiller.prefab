@@ -105,6 +105,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 65d671faef080c1489342672b1947ead,
         type: 3}
+    - target: {fileID: 4567449949114439559, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_WasSpriteAssigned
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567449949114439559, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4567449949114439559, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4623851299524474988, guid: 39da184d881f73c48b25ae5921795c55,
         type: 3}
       propertyPath: initialReagentMix.reagents.m_keys.Array.data[0]
@@ -131,6 +146,12 @@ PrefabInstance:
       propertyPath: initialName
       value: pepper spray refiller
       objectReference: {fileID: 0}
+    - target: {fileID: 9102368241754052938, guid: 39da184d881f73c48b25ae5921795c55,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 63c7b8c098253c1449956a1711ebb3ce,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39da184d881f73c48b25ae5921795c55, type: 3}
 --- !u!1 &4126737456912587005 stripped

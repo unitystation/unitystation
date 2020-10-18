@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public class FreonFormation : Reaction
 	{
@@ -33,7 +33,7 @@ namespace Atmospherics
 
 			if (energyUsed > 0)
 			{
-				gasMix.Temperature = Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed)/gasMix.WholeHeatCapacity, 2.7f);
+				gasMix.SetTemperature(Mathf.Max((gasMix.Temperature * oldHeatCap - energyUsed)/gasMix.WholeHeatCapacity, 2.7f));
 			}
 
 			return 0f;

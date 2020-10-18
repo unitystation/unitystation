@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public class NO2Decomposition : Reaction
 	{
@@ -30,7 +30,7 @@ namespace Atmospherics
 				var newHeatCap = gasMix.WholeHeatCapacity;
 				if (newHeatCap > 0.0003f)
 				{
-					gasMix.Temperature = (gasMix.Temperature + energyReleased) / newHeatCap;
+					gasMix.SetTemperature((gasMix.Temperature + energyReleased) / newHeatCap);
 				}
 			}
 

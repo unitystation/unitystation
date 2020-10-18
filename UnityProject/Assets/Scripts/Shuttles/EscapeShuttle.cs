@@ -144,6 +144,9 @@ public class EscapeShuttle : NetworkBehaviour
 	[HideInInspector]
 	public bool blockRecall;
 
+	[HideInInspector]
+	public bool hostileEnvironment;
+
 	private void Start()
 	{
 		switch (orientationForDocking)
@@ -594,6 +597,18 @@ public class EscapeShuttle : NetworkBehaviour
 	{
 		currentDestination = dest;
 		mm.AutopilotTo( currentDestination.Position );
+	}
+
+	public void SetHostileEnvironment(bool toggle)
+	{
+		hostileEnvironment = toggle;
+
+		if (toggle) return;
+
+		if(Status != EscapeShuttleStatus.DockedStation) return;
+
+		Chat.AddSystemMsgToChat($"<color=white>Hostile Environment has been removed! Crew has {TimeSpan.FromSeconds(GameManager.Instance.ShuttleDepartTime).Minutes} minutes to get on it.</color>", MatrixManager.MainStationMatrix);
+		GameManager.Instance.ForceSendEscapeShuttleFromStation();
 	}
 }
 

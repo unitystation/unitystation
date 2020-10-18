@@ -13,7 +13,7 @@ public class SpawnPoint : NetworkStartPosition
 			{JobDepartment.Cargo, new[] {JobType.CARGOTECH}},
 			{JobDepartment.CargoHead, new[] {JobType.QUARTERMASTER}},
 			{JobDepartment.Mining, new[] {JobType.MINER}},
-			{JobDepartment.Medical, new[] {JobType.GENETICIST, JobType.DOCTOR, JobType.MEDSCI, JobType.VIROLOGIST}},
+			{JobDepartment.Medical, new[] {JobType.GENETICIST, JobType.DOCTOR, JobType.MEDSCI, JobType.VIROLOGIST, JobType.PARAMEDIC, JobType.PSYCHIATRIST}},
 			{JobDepartment.CMO, new[] {JobType.CMO}},
 			{JobDepartment.Chemist, new[] {JobType.CHEMIST}},
 			{JobDepartment.Research, new[] {JobType.SCIENTIST}},
@@ -40,6 +40,8 @@ public class SpawnPoint : NetworkStartPosition
 			{JobDepartment.DeathSquad, new [] {JobType.DEATHSQUAD}},
 			{JobDepartment.CentComm, new[] {JobType.CENTCOMM_OFFICER, JobType.CENTCOMM_INTERN}},
 			{JobDepartment.EmergencyResponseTeam, new[] {JobType.ERT_COMMANDER, JobType.ERT_SECURITY, JobType.ERT_MEDIC, JobType.ERT_ENGINEER, JobType.ERT_CHAPLAIN, JobType.ERT_JANITOR, JobType.ERT_CLOWN}},
+			{JobDepartment.MaintSpawns, new[] {JobType.FUGITIVE}},
+			{JobDepartment.WizardFederation, new[] {JobType.WIZARD}},
 		};
 
 	public IEnumerable<JobType> JobRestrictions =>

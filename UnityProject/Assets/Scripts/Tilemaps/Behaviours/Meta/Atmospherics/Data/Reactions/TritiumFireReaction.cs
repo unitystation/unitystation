@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Radiation;
+using Systems.Radiation;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public class TritiumFireReaction : Reaction
 	{
@@ -50,7 +50,7 @@ namespace Atmospherics
 				var newHeatCap = gasMix.WholeHeatCapacity;
 				if (newHeatCap > 0.0003f)
 				{
-					gasMix.Temperature = (gasMix.Temperature * oldHeatCap + energyReleased) / newHeatCap;
+					gasMix.SetTemperature((gasMix.Temperature * oldHeatCap + energyReleased) / newHeatCap);
 				}
 			}
 

@@ -760,6 +760,7 @@ GameObject:
   - component: {fileID: -7196392364410790442}
   - component: {fileID: -5061689181288922864}
   - component: {fileID: 7092917086790084979}
+  - component: {fileID: 8325930460559460490}
   m_Layer: 8
   m_Name: Player_V3(uNet)
   m_TagString: Untagged
@@ -843,6 +844,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RaceTexture: {fileID: 11400000, guid: 246903de1c8e6a5458d029144461c26e, type: 2}
+  partialBurningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
+    type: 3}
+  engulfedBurningPrefab: {fileID: 1558421102126524431, guid: 7a0d54e0877507a4eba1a70784ea9085,
+    type: 3}
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
+    type: 3}
+  muzzleFlash: {fileID: 114824170203619628}
   characterSprites:
   - {fileID: 114119110819432540}
   - {fileID: 114780271975595452}
@@ -857,7 +865,6 @@ MonoBehaviour:
   - {fileID: 114341362304352952}
   - {fileID: 6015914302054547211}
   - {fileID: 5499776427588436788}
-  muzzleFlash: {fileID: 114824170203619628}
 --- !u!114 &114413669770135258
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1375,8 +1382,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isFlippable: 0
-  flippedObject: {fileID: 0}
 --- !u!114 &7092917086790084979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1391,6 +1396,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerHealth: {fileID: 0}
   sicknessAfflictions: []
+--- !u!114 &8325930460559460490
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1133514949248654}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab29cf0a3c27be344af32538d91bca04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1147423205297840
 GameObject:
   m_ObjectHideFlags: 0
@@ -9937,6 +9954,18 @@ PrefabInstance:
         type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e2b1333de46384f95876864de1911fff, type: 3}
+--- !u!1 &4299649681570296155 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4304794156734570639 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
+    type: 3}
+  m_PrefabInstance: {fileID: 4300145449095171559}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4196149980577959187 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114445607401685236, guid: e2b1333de46384f95876864de1911fff,
@@ -9949,15 +9978,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 61930e16e81db5c43a4ecc22422a0953, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &4304794156734570639 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4676201352523112, guid: e2b1333de46384f95876864de1911fff,
-    type: 3}
-  m_PrefabInstance: {fileID: 4300145449095171559}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4299649681570296155 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1762630675659964, guid: e2b1333de46384f95876864de1911fff,
-    type: 3}
-  m_PrefabInstance: {fileID: 4300145449095171559}
-  m_PrefabAsset: {fileID: 0}

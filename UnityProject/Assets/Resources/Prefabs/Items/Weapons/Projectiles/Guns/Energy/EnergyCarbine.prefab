@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -101,6 +102,53 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
+--- !u!114 &1676629753262849623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6733076708105069041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b65971c5a3836c41e850378c8d413b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ammoPrefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+    type: 3}
+  casingPrefabOverride: {fileID: 0}
+  allowMagazineRemoval: 0
+  ammoType: 14
+  SpawnsCasing: 0
+  MagInternal: 0
+  burstCooldown: 3
+  burstCount: 3
+  SmartGun: 0
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FiringSound: ShootLaser
+  FireRate: 5
+  MaxRecoilVariance: 0
+  ProjectileVelocity: 20
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
+  WeaponType: 0
+  Projectile: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
+    type: 3}
+  firemodeProjectiles:
+  - {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85, type: 3}
+  - {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240, type: 3}
+  firemodeFiringSound:
+  - ShootLaser
+  - ShootTazer
+  firemodeName:
+  - Kill
+  - Taze
+  countFiremode: 2
 --- !u!1001 &6963000123108354207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -161,6 +209,12 @@ PrefabInstance:
       propertyPath: Projectile
       value: 
       objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
+        type: 3}
+    - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: ammoPrefab
+      value: 
+      objectReference: {fileID: 319333690820393223, guid: 0912d5acb5187db4aae8172dda64914c,
         type: 3}
     - target: {fileID: 1848979366670267442, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
@@ -328,6 +382,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
+--- !u!1 &6733076708105069041 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
+    type: 3}
+  m_PrefabInstance: {fileID: 6963000123108354207}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6729279132081544325 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,

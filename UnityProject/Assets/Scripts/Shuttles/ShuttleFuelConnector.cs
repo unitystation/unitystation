@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Objects.GasContainer;
+using Objects.Atmospherics;
 
 namespace Pipes
 {

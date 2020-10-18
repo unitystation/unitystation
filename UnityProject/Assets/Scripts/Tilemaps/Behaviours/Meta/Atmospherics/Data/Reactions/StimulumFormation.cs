@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public class StimulumFormation : Reaction
 	{
@@ -34,7 +34,7 @@ namespace Atmospherics
 			gasMix.RemoveGas(Gas.Plasma, heatScale);
 			gasMix.RemoveGas(Gas.Nitryl,  heatScale);
 
-			gasMix.Temperature = Mathf.Max((gasMix.Temperature * oldHeatCap + stimEnergyChange)/gasMix.WholeHeatCapacity, 2.7f);
+			gasMix.SetTemperature(Mathf.Max((gasMix.Temperature * oldHeatCap + stimEnergyChange)/gasMix.WholeHeatCapacity, 2.7f));
 
 			return 0f;
 		}

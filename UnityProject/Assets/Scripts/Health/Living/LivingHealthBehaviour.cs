@@ -2,12 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Atmospherics;
-using GameConfig;
+using Systems.Atmospherics;
 using Light2D;
 using UnityEngine;
 using UnityEngine.Events;
-using Utility = UnityEngine.Networking.Utility;
 using Mirror;
 using UnityEngine.Profiling;
 
@@ -125,7 +123,6 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	// BloodType and DNA Data.
 	private DNAandBloodType DNABloodType;
 	private float tickRate = 1f;
-	private float tick = 0;
 	private RegisterTile registerTile;
 	private ConsciousState consciousState;
 
@@ -153,13 +150,21 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 
 	void OnEnable()
 	{
-		UpdateManager.Add(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Add(ServerPeriodicUpdate, tickRate);
+		}
+		
 		UpdateManager.Add(PeriodicUpdate, 1f);
 	}
 
 	void OnDisable()
 	{
-		UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
+		if (CustomNetworkManager.IsServer)
+		{
+			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, ServerPeriodicUpdate);
+		}
+				
 		UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 	}
 
@@ -182,7 +187,7 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 			respiratorySystem = gameObject.AddComponent<RespiratorySystem>();
 		}
 
-		respiratorySystem.canBreathAnywhere = canBreathAnywhere;
+		respiratorySystem.CanBreatheAnywhere = canBreathAnywhere;
 
 		var tryGetHead = FindBodyPart(BodyPartType.Head);
 		if (tryGetHead != null && brainSystem == null)
@@ -482,37 +487,31 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// ---------------------------
 
 	//Handled via UpdateManager
-	void UpdateMe()
+	void ServerPeriodicUpdate()
 	{
-		//Server Only:
-		if (isServer && !IsDead)
+		// TODO If becomes dead, why not remove from UpdateManager?
+		if (IsDead) return;
+
+		if (fireStacks > 0)
 		{
-			tick += Time.deltaTime;
-			if (tick > tickRate)
+			//TODO: Burn clothes (see species.dm handle_fire)
+			ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn);
+			//gradually deplete fire stacks
+			SyncFireStacks(fireStacks, fireStacks - 0.1f);
+			//instantly stop burning if there's no oxygen at this location
+			MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
+			if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
 			{
-				tick = 0f;
-				if (fireStacks > 0)
-				{
-					//TODO: Burn clothes (see species.dm handle_fire)
-					ApplyDamageToBodypart(null, fireStacks * DAMAGE_PER_FIRE_STACK, AttackType.Fire, DamageType.Burn);
-					//gradually deplete fire stacks
-					SyncFireStacks(fireStacks, fireStacks - 0.1f);
-					//instantly stop burning if there's no oxygen at this location
-					MetaDataNode node = registerTile.Matrix.MetaDataLayer.Get(registerTile.LocalPositionClient);
-					if (node.GasMix.GetMoles(Gas.Oxygen) < 1)
-					{
-						SyncFireStacks(fireStacks, 0);
-					}
-
-					registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(),
-						BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
-				}
-
-				CalculateRadiationDamage();
-				CalculateOverallHealth();
-				CheckHealthAndUpdateConsciousState();
+				SyncFireStacks(fireStacks, 0);
 			}
+
+			registerTile.Matrix.ReactionManager.ExposeHotspotWorldPosition(gameObject.TileWorldPosition(),
+				BURNING_HOTSPOT_TEMPERATURE, BURNING_HOTSPOT_VOLUME);
 		}
+
+		CalculateRadiationDamage();
+		CalculateOverallHealth();
+		CheckHealthAndUpdateConsciousState();
 	}
 
 	private void PeriodicUpdate()
@@ -973,49 +972,77 @@ public abstract class LivingHealthBehaviour : NetworkBehaviour, IHealth, IFireEx
 	/// </summary>
 	public string Examine(Vector3 worldPos)
 	{
-		var healthFraction = OverallHealth / maxHealth;
-		var healthString = "";
-
-		if (!IsDead)
+		if (this is PlayerHealth)
 		{
-			if (healthFraction < 0.2f)
-			{
-				healthString = "heavily wounded.";
-			}
-			else if (healthFraction < 0.6f)
-			{
-				healthString = "wounded.";
-			}
-			else
-			{
-				healthString = "in good shape.";
-			}
-
-			// On fire?
-			if (FireStacks > 0)
-			{
-				healthString = "on fire!";
-			}
-
-			healthString = ConsciousState.ToString().ToLower().Replace("_", " ") + " and " + healthString;
-		}
-		else
-		{
-			healthString = "limp and unresponsive. There are no signs of life...";
+			// Let ExaminablePlayer take care of this.
+			return default;
 		}
 
+		return GetExamineText();
+	}
+
+	public string GetExamineText()
+	{
 		// Assume animal
-		string pronoun = "It";
+		string theyPronoun = "It";
+		string theirPronoun = "its";
+
 		var cs = GetComponentInParent<PlayerScript>()?.characterSettings;
 		if (cs != null)
 		{
-			pronoun = cs.TheyPronoun();
-			pronoun = pronoun[0].ToString().ToUpper() + pronoun.Substring(1);
+			theyPronoun = cs.TheyPronoun();
+			theyPronoun = theyPronoun[0].ToString().ToUpper() + theyPronoun.Substring(1);
+			theirPronoun = cs.TheirPronoun();
 		}
 
-		healthString = pronoun + " is " + healthString + (respiratorySystem.IsSuffocating && !IsDead
-			? " " + pronoun + " is having trouble breathing!"
-			: "");
+		var healthString = $"{theyPronoun} is ";
+		if (IsDead)
+		{
+			healthString += "limp and unresponsive; there are no signs of life";
+			if (this is PlayerHealth && GetComponent<PlayerScript>().mind.IsOnline() == false)
+			{
+				healthString += $" and {theirPronoun} soul has departed";
+			}
+
+			healthString += "...";
+		}
+		else // Is alive
+		{
+			healthString += $"{ConsciousState.ToString().ToLower().Replace("_", " ")} and ";
+
+			var healthFraction = OverallHealth / maxHealth;
+			string healthDescription;
+			if (healthFraction < 0.2f)
+			{
+				healthDescription = "heavily wounded.";
+			}
+			else if (healthFraction < 0.6f)
+			{
+				healthDescription = "wounded.";
+			}
+			else
+			{
+				healthDescription = "in good shape.";
+			}
+
+			if (respiratorySystem.IsSuffocating)
+			{
+				healthDescription = "having trouble breathing!";
+			}
+			// On fire?
+			if (FireStacks > 0)
+			{
+				healthDescription= "on fire!";
+			}
+			healthString += healthDescription;
+
+			if (this is PlayerHealth && GetComponent<PlayerScript>().mind.IsOnline() == false)
+			{
+				healthString += $"\n{theyPronoun} has a blank, absent-minded stare and appears completely unresponsive to anything. " +
+						$"{theyPronoun} may snap out of it soon.";
+			}
+		}
+
 		return healthString;
 	}
 

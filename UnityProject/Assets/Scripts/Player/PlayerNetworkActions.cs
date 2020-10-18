@@ -1,17 +1,16 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using AdminTools;
-using Audio;
 using Items.PDA;
 using UnityEngine;
 using Mirror;
-using UI.PDA;
 using Audio.Containers;
-using DiscordWebhook;
-using InGameEvents;
 using ScriptableObjects;
-using System.Collections;
+using Antagonists;
+using Systems.Atmospherics;
 
 public partial class PlayerNetworkActions : NetworkBehaviour
 {
@@ -178,6 +177,9 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 					restraintOverlay.ServerBeginUnCuffAttempt();
 				}
 			}
+		}else if (playerScript.playerMove.IsTrapped) // Check if trapped.
+		{
+			playerScript.PlayerSync.TryEscapeContainer();
 		}
 	}
 
@@ -458,7 +460,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		if (occupation != null)
 		{
-			foreach (var job in SOAdminJobsList.Instance.AdminAvailableJobs)
+			foreach (var job in OccupationList.Instance.Occupations)
 			{
 				if (job.name != occupation)
 				{
@@ -470,21 +472,43 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			}
 		}
 
-		StartCoroutine(CoRespawn());
+		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
 	}
 
 	[Server]
-	IEnumerator CoRespawn()
+	public void ServerRespawnPlayerSpecial(string occupation = null)
 	{
-		if (playerScript.mind.occupation.JobType == JobType.SYNDICATE && !SubSceneManager.Instance.SyndicateLoaded)
+		if (occupation != null)
 		{
-			//yield return StartCoroutine(SubSceneManager.Instance.LoadSyndicate());
+			foreach (var job in SOAdminJobsList.Instance.SpecialJobs)
+			{
+				if (job.name != occupation)
+				{
+					continue;
+				}
+
+				playerScript.mind.occupation = job;
+				break;
+			}
 		}
 
 		PlayerSpawn.ServerRespawnPlayer(playerScript.mind);
-
-		yield break;
 	}
+
+	[Server]
+	public void ServerRespawnPlayerAntag(ConnectedPlayer playerToRespawn, string antagonist)
+	{
+		foreach (var antag in SOAdminJobsList.Instance.Antags)
+		{
+			if (antag.AntagName != antagonist)
+			{
+				continue;
+			}
+			AntagManager.Instance.ServerRespawnAsAntag(playerToRespawn, antag);
+			break;
+		}
+	}
+
 
 	[Command]
 	public void CmdToggleAllowCloning()
@@ -515,7 +539,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Only force to ghost if the mind belongs in to that body
 		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
-		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind.bodyMobID == currentMobID)
+		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind != null && playerScript.mind.bodyMobID == currentMobID)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}

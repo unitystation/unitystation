@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	/// <summary>
 	/// Enemy Statue NPC's
@@ -59,16 +59,18 @@ namespace NPC
 
 		private bool IsSomeoneLookingAtMe()
 		{
-			var hits = coneOfSight.GetObjectsInSight(hitMask, dirSprites.CurrentFacingDirection, 10f, 20);
+			var hits = coneOfSight.GetObjectsInSight(hitMask, LayerTypeSelection.None , directional.CurrentDirection.Vector, 10f, 20);
 			if (hits.Count == 0) return false;
 
-			foreach (Collider2D coll in hits)
+			foreach (var coll in hits)
 			{
-				var dir = (transform.position - coll.gameObject.transform.position).normalized;
+				if (coll.GameObject == null) continue;
 
-				if (coll.gameObject.layer == playersLayer
-				    && !coll.gameObject.GetComponent<LivingHealthBehaviour>().IsDead
-				    && coll.gameObject.GetComponent<Directional>()?.CurrentDirection == orientations[DirToInt(dir)])
+				var dir = (transform.position - coll.GameObject.transform.position).normalized;
+
+				if (coll.GameObject.layer == playersLayer
+				    && !coll.GameObject.GetComponent<LivingHealthBehaviour>().IsDead
+				    && coll.GameObject.GetComponent<Directional>()?.CurrentDirection == orientations[DirToInt(dir)])
 				{
 					Freeze();
 					return true;

@@ -1,8 +1,7 @@
-
 using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.Events;
+using Objects.Wallmounts;
 
 /// <summary>
 /// Escape-related part of GameManager
@@ -36,15 +35,15 @@ public partial class GameManager
 	private void InitEscapeStuff()
 	{
 		//Primary escape shuttle lookup
-		if ( !PrimaryEscapeShuttle )
+		if (PrimaryEscapeShuttle == null)
 		{
 			var shuttles = FindObjectsOfType<EscapeShuttle>();
-			if ( shuttles.Length != 1 )
+			if (shuttles.Length != 1)
 			{
-				Logger.LogError( "Primary escape shuttle is missing from GameManager!", Category.Round );
+				Logger.LogError("Primary escape shuttle is missing from GameManager!", Category.Round);
 				return;
 			}
-			Logger.LogWarning( "Primary escape shuttle is missing from GameManager, but one was found on scene" );
+			Logger.LogWarning("Primary escape shuttle is missing from GameManager, but one was found on scene");
 			primaryEscapeShuttle = shuttles[0];
 		}
 
@@ -61,7 +60,7 @@ public partial class GameManager
 		var orientation = primaryEscapeShuttle.MatrixInfo.MatrixMove.InitialFacing;
 		float width;
 
-		if (orientation== Orientation.Up || orientation == Orientation.Down)
+		if (orientation == Orientation.Up || orientation == Orientation.Down)
 		{
 			width = PrimaryEscapeShuttle.MatrixInfo.Bounds.size.x;
 		}
@@ -120,7 +119,7 @@ public partial class GameManager
 				EndRound();
 			}
 
-			if (status == EscapeShuttleStatus.DockedStation)
+			if (status == EscapeShuttleStatus.DockedStation && !primaryEscapeShuttle.hostileEnvironment)
 			{
 				beenToStation = true;
 				SoundManager.PlayNetworked("ShuttleDocked");
@@ -128,7 +127,18 @@ public partial class GameManager
 				//should be changed to manual send later
 				StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
 			}
+			else if (status == EscapeShuttleStatus.DockedStation && primaryEscapeShuttle.hostileEnvironment)
+			{
+				beenToStation = true;
+				SoundManager.PlayNetworked("ShuttleDocked");
+				Chat.AddSystemMsgToChat($"<color=white>Escape shuttle has arrived! The shuttle <color=#FF151F>cannot</color> leave the station due to the hostile environment!</color>", MatrixManager.MainStationMatrix);
+			}
 		} );
+	}
+
+	public void ForceSendEscapeShuttleFromStation()
+	{
+		StartCoroutine( SendEscapeShuttle( ShuttleDepartTime ) );
 	}
 
 	private void TrackETA(int eta)

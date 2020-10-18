@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public class StimBallReaction : Reaction
 	{
@@ -34,7 +34,7 @@ namespace Atmospherics
 			gasMix.RemoveGas(Gas.Pluoxium, 10 * pluoxUsed);
 			gasMix.RemoveGas(Gas.Stimulum, 20 * stimUsed);
 
-			gasMix.Temperature = Mathf.Clamp((gasMix.Temperature * oldHeatCap + energyReleased)/gasMix.WholeHeatCapacity, 2.7f, Single.PositiveInfinity);
+			gasMix.SetTemperature(Mathf.Clamp((gasMix.Temperature * oldHeatCap + energyReleased)/gasMix.WholeHeatCapacity, 2.7f, Single.PositiveInfinity));
 
 			return 0f;
 		}

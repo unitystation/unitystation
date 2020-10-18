@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -70,7 +71,8 @@ SpriteRenderer:
   m_SortingLayerID: 142874271
   m_SortingLayer: 10
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 654cd3e1224e8454f8700a3e5b455232, type: 3}
+  m_Sprite: {fileID: -7811954950964234238, guid: 654cd3e1224e8454f8700a3e5b455232,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -100,7 +102,7 @@ GameObject:
   - component: {fileID: 8501056774758602355}
   - component: {fileID: 8705481116926788787}
   m_Layer: 11
-  m_Name: ArcadeMachine
+  m_Name: BVOld_ArcadeMachine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

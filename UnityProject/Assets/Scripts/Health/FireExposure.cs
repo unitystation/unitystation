@@ -1,6 +1,6 @@
 
-using Atmospherics;
 using UnityEngine;
+using Systems.Atmospherics;
 
 /// <summary>
 /// Provides information on the fire an object is being exposed to.

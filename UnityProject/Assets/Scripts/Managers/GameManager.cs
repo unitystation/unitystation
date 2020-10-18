@@ -12,8 +12,9 @@ using DatabaseAPI;
 using DiscordWebhook;
 using Mirror;
 using GameConfig;
+using Initialisation;
 
-public partial class GameManager : MonoBehaviour
+public partial class GameManager : MonoBehaviour, IInitialise
 {
 	public static GameManager Instance;
 	public bool counting;
@@ -108,6 +109,16 @@ public partial class GameManager : MonoBehaviour
 
 	public bool QuickLoad = false;
 
+	public InitialisationSystems Subsystem => InitialisationSystems.GameManager;
+
+	void IInitialise.Initialise()
+	{
+		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
+		LoadConfig();
+		RespawnCurrentlyAllowed = RespawnAllowed;
+		NextGameMode = InitialGameMode;
+	}
+
 	private void Awake()
 	{
 		if (Instance == null)
@@ -126,13 +137,6 @@ public partial class GameManager : MonoBehaviour
 		}
 	}
 
-	private void Start()
-	{
-		// Set up server defaults, needs to be loaded here to ensure gameConfigManager is load.
-		LoadConfig();
-		RespawnCurrentlyAllowed = RespawnAllowed;
-		NextGameMode = InitialGameMode;
-	}
 
 	///<summary>
 	/// Loads end user config settings for server defaults.
@@ -150,6 +154,8 @@ public partial class GameManager : MonoBehaviour
 		ShuttleDepartTime = GameConfigManager.GameConfig.ShuttleDepartTime;
 		GibbingAllowed = GameConfigManager.GameConfig.GibbingAllowed;
 		ShuttleGibbingAllowed = GameConfigManager.GameConfig.ShuttleGibbingAllowed;
+		Physics.autoSimulation = false;
+		Physics2D.simulationMode = SimulationMode2D.Script;
 	}
 
 	private void OnEnable()

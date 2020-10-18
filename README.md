@@ -1,4 +1,5 @@
 # unitystation
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/052e45816e6d46b8bc12b7e07bc021a5)](https://www.codacy.com/gh/unitystation/unitystation/dashboard?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=unitystation/unitystation&amp;utm_campaign=Badge_Grade)
 [![Tests](https://github.com/unitystation/unitystation/workflows/Tests/badge.svg)](https://github.com/unitystation/unitystation/actions?query=workflow%3ATests)
 [![Build Project](https://github.com/unitystation/unitystation/workflows/Build%20Project/badge.svg?branch=develop)](https://github.com/unitystation/unitystation/actions?query=workflow%3ABuild+branch%3Adevelop)
 [![GitHub last commit](https://img.shields.io/github/last-commit/unitystation/unitystation.svg)](https://github.com/unitystation/unitystation/commits/develop)
@@ -23,7 +24,7 @@ Please join us on Discord:
 ## Feel like getting involved?
 Read our Quick Start guide [here](https://unitystation.github.io/unitystation/contribution-guides/Starting-contribution/)
 1. [Get Unity Hub](https://unity3d.com/get-unity/download)
-2. Install editor version **2019.3.8f1**
+2. Install editor version **2020.1.6f1**
 3. Fork the repo
 4. Add your changes
 5. Read the contribution guidelines

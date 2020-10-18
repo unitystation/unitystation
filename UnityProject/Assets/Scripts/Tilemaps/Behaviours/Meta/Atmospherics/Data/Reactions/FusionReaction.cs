@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Radiation;
+using Systems.Radiation;
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	public class FusionReaction : Reaction
 	{
@@ -84,7 +84,7 @@ namespace Atmospherics
 				var newHeatCap = gasMix.WholeHeatCapacity;
 				if (newHeatCap > 0.0003f && (gasMix.Temperature <= AtmosDefines.FUSION_MAXIMUM_TEMPERATURE || reactionEnergy <= 0))
 				{
-					gasMix.Temperature = Mathf.Clamp(((gasMix.Temperature * oldHeatCap + reactionEnergy) / newHeatCap), 2.7f, Single.PositiveInfinity);
+					gasMix.SetTemperature(Mathf.Clamp(((gasMix.Temperature * oldHeatCap + reactionEnergy) / newHeatCap), 2.7f, Single.PositiveInfinity));
 				}
 			}
 

@@ -91,6 +91,16 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 3678228788835208839, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: Resistances.Flammable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: attackVerbs.Array.size
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: initialName
@@ -195,11 +205,49 @@ PrefabInstance:
       propertyPath: initialSize
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[1]
+      value: battered
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[2]
+      value: bludgeoned
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[3]
+      value: thrashed
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: attackVerbs.Array.data[4]
+      value: whacked
+      objectReference: {fileID: 0}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.SpriteLeftHand
+      value: 
+      objectReference: {fileID: 11400000, guid: e428c06ca76993249a6ff549cdd115c1,
+        type: 2}
+    - target: {fileID: 3782347747540316177, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemSprites.SpriteRightHand
+      value: 
+      objectReference: {fileID: 11400000, guid: 2a801bf4eb0b53449b7ba8f81ab84f05,
+        type: 2}
     - target: {fileID: 4421781600494999209, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}
       propertyPath: itemStoragePopulator
       value: 
       objectReference: {fileID: 11400000, guid: 9ad83fbd53c9d52459791ea992b769ad,
+        type: 2}
+    - target: {fileID: 4421781600494999209, guid: e46ba34aab52d654787ef10d896b0874,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
         type: 2}
     - target: {fileID: 7482199438493803764, guid: e46ba34aab52d654787ef10d896b0874,
         type: 3}

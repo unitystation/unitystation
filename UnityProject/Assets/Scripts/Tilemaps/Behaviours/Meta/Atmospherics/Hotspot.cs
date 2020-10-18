@@ -1,7 +1,6 @@
-using System.Runtime.ConstrainedExecution;
 using UnityEngine;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	/// <summary>
 	/// Represents the potential for a MetaDataNode to ignite the gases on it, and provides logic related to igniting the actual
@@ -71,7 +70,7 @@ namespace Atmospherics
 			else
 			{
 				GasMix removed = node.GasMix.RemoveVolume(Volume);
-				removed.Temperature = Temperature;
+				removed.SetTemperature(Temperature);
 				float consumed = Reactions.React(ref removed);
 				Volume = consumed * 40;
 				Temperature = removed.Temperature;

@@ -40,6 +40,16 @@ PrefabInstance:
       propertyPath: initialName
       value: large crate
       objectReference: {fileID: 0}
+    - target: {fileID: 2609456052550460453, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5773371694829651476, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8429732818373960007, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
       propertyPath: m_Sprite
@@ -110,7 +120,7 @@ PrefabInstance:
         type: 3}
       propertyPath: matsOnDestroy
       value: 
-      objectReference: {fileID: 6254655335276451647, guid: 7543d187ee101c148ab143a796d9d175,
+      objectReference: {fileID: 2663802320431471963, guid: 9ae38f6aa43b5cd4ba608cd31b462b24,
         type: 3}
     - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
         type: 3}
@@ -123,9 +133,20 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 4d623677862ae47418c43ad900267c02,
         type: 3}
+    - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: IsPryable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3,
+        type: 3}
+      propertyPath: weldOverlay
+      value: 
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 6590302535916000378, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
     - {fileID: 8912345532600371149, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
+    - {fileID: 5773371694829651476, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 1d35052f4fc2cad4d8226d1a63e4a1b3, type: 3}
 --- !u!1 &6264972350131591085 stripped
 GameObject:

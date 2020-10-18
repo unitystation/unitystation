@@ -15,7 +15,7 @@ PrefabInstance:
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: initialSize
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
@@ -38,6 +38,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: f5ea5b3cd2bd0204cac22194a8bb4a6e,
         type: 2}
+    - target: {fileID: 2465993488309703667, guid: 82cb1c39112974a498a9756981eb07d0,
+        type: 3}
+      propertyPath: initialName
+      value: compact pickaxe
+      objectReference: {fileID: 0}
     - target: {fileID: 2650052370968986085, guid: 82cb1c39112974a498a9756981eb07d0,
         type: 3}
       propertyPath: m_LocalPosition.x

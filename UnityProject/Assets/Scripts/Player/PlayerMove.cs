@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 using UnityEngine.Events;
-using UnityEngine.Serialization;
+using Objects;
 
 /// <summary>
 ///     ** Now all movement input keys are sent to PlayerSync.Client
@@ -45,6 +45,11 @@ public class PlayerMove : NetworkBehaviour, IRightClickable, IServerSpawn, IActi
 	/// Whether the character is restrained with handcuffs (or similar)
 	/// </summary>
 	public bool IsCuffed => cuffed;
+
+	/// <summary>
+	/// Whether the character is trapped in a closet (or similar)
+	/// </summary>
+	public bool IsTrapped = false;
 
 	/// <summary>
 	/// Invoked on server side when the cuffed state is changed

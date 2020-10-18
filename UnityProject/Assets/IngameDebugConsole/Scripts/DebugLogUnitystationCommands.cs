@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using Atmospherics;
-using PathFinding;
 using UnityEngine;
-using Mirror;
 using UnityEditor;
+using Systems.Atmospherics;
+using Systems.Cargo;
 using Random = UnityEngine.Random;
 using DatabaseAPI;
 using ScriptableObjects;
@@ -373,6 +371,22 @@ namespace IngameDebugConsole
 					Inventory.ServerAdd(oxyTank, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.storage01), ReplacementStrategy.DropOther);
 					Inventory.ServerAdd(MagBoots, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.feet), ReplacementStrategy.DropOther);
 					player.Script.Equipment.IsInternalsEnabled = true;
+				}
+
+			}
+		}
+
+#if UNITY_EDITOR
+		[MenuItem("Networking/Give me some goddamn Gloves!")]
+#endif
+		private static void GiveGloves()
+		{
+			if (CustomNetworkManager.Instance._isServer)
+			{
+				foreach ( ConnectedPlayer player in PlayerList.Instance.InGamePlayers )
+				{
+					var InsulatedGloves = Spawn.ServerPrefab("InsulatedGloves").GameObject;
+					Inventory.ServerAdd(InsulatedGloves, player.Script.ItemStorage.GetNamedItemSlot(NamedSlot.hands), ReplacementStrategy.DropOther);
 				}
 
 			}

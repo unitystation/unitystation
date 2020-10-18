@@ -4,6 +4,7 @@ using System.Linq;
 using Light2D;
 using Mirror;
 using UnityEngine;
+using Effects.Overlays;
 
 /// <summary>
 /// Handle displaying the sprites related to player, which includes underwear and the body.
@@ -14,16 +15,34 @@ using UnityEngine;
 [RequireComponent(typeof(PlayerScript))]
 public class PlayerSprites : MonoBehaviour
 {
-	private static GameObject ENGULFED_BURNING_OVERLAY_PREFAB;
-	private static GameObject PARTIAL_BURNING_OVERLAY_PREFAB;
-	private static GameObject ELECTROCUTED_OVERLAY_PREFAB;
+	#region Inspector fields
+
+	[Tooltip("The texture for this race.")]
+	[SerializeField]
+	private PlayerTextureData RaceTexture;
+
+	[Tooltip("Assign the prefab responsible for the partial burning overlay.")]
+	[SerializeField]
+	private GameObject partialBurningPrefab = default;
+
+	[Tooltip("Assign the prefab responsible for the engulfed burning overlay.")]
+	[SerializeField]
+	private GameObject engulfedBurningPrefab = default;
+
+	[Tooltip("Assign the prefab responsible for the electrocuted overlay.")]
+	[SerializeField]
+	private GameObject electrocutedPrefab = default;
+
+	[Tooltip("Muzzle flash, should be on a child of the player gameobject")]
+	[SerializeField]
+	private LightSprite muzzleFlash = default;
+
+	#endregion Inspector fields
 
 	/// <summary>
 	/// Threshold value where we switch from partial burning to fully engulfed sprite.
 	/// </summary>
 	private static readonly float FIRE_STACK_ENGULF_THRESHOLD = 3;
-
-	public PlayerTextureData RaceTexture;
 
 	//For character customization
 	public ClothingItem[] characterSprites;
@@ -39,9 +58,6 @@ public class PlayerSprites : MonoBehaviour
 	private PlayerDirectionalOverlay partialBurningOverlay;
 	private PlayerDirectionalOverlay electrocutedOverlay;
 	private LivingHealthBehaviour livingHealthBehaviour;
-	private PlayerScript playerScript;
-	private PlayerHealth playerHealth;
-	private PlayerSync playerSync;
 
 	private ClothingHideFlags hideClothingFlags = ClothingHideFlags.HIDE_NONE;
 	private	ulong overflow = 0UL;
@@ -49,9 +65,6 @@ public class PlayerSprites : MonoBehaviour
 	/// Define which piece of clothing are hidden (not rendering) right now
 	/// </summary>
 	public ClothingHideFlags HideClothingFlags => hideClothingFlags;
-
-	[Tooltip("Muzzle flash, should be on a child of the player gameobject")]
-	public LightSprite muzzleFlash;
 
 	protected void Awake()
 	{
@@ -62,15 +75,7 @@ public class PlayerSprites : MonoBehaviour
 		{
 			clothes[c.name] = c;
 			// add listener in case clothing was changed
-			c.OnClothingEquiped += OnClothingEquipped;
-		}
-
-		//TODO: Remove Resources.Load calls, change to prefab references stored somewhere
-		if (ENGULFED_BURNING_OVERLAY_PREFAB == null)
-		{
-			ENGULFED_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("EngulfedBurningPlayer");
-			PARTIAL_BURNING_OVERLAY_PREFAB = Resources.Load<GameObject>("PartialBurningPlayer");
-			ELECTROCUTED_OVERLAY_PREFAB = Resources.Load<GameObject>("ElectrocutedHumanoid");
+			c.OnClothingEquipped += OnClothingEquipped;
 		}
 
 		AddOverlayGameObjects();
@@ -87,19 +92,19 @@ public class PlayerSprites : MonoBehaviour
 	{
 		if (engulfedBurningOverlay == null)
 		{
-			engulfedBurningOverlay = Instantiate(ENGULFED_BURNING_OVERLAY_PREFAB, transform).GetComponent<PlayerDirectionalOverlay>();
+			engulfedBurningOverlay = Instantiate(engulfedBurningPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
 			engulfedBurningOverlay.enabled = true;
 			engulfedBurningOverlay.StopOverlay();
 		}
 		if (partialBurningOverlay == null)
 		{
-			partialBurningOverlay = Instantiate(PARTIAL_BURNING_OVERLAY_PREFAB, transform).GetComponent<PlayerDirectionalOverlay>();
+			partialBurningOverlay = Instantiate(partialBurningPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
 			partialBurningOverlay.enabled = true;
 			partialBurningOverlay.StopOverlay();
 		}
 		if (electrocutedOverlay == null)
 		{
-			electrocutedOverlay = Instantiate(ELECTROCUTED_OVERLAY_PREFAB, transform).GetComponent<PlayerDirectionalOverlay>();
+			electrocutedOverlay = Instantiate(electrocutedPrefab, transform).GetComponent<PlayerDirectionalOverlay>();
 			electrocutedOverlay.enabled = true;
 			electrocutedOverlay.StopOverlay();
 		}
@@ -248,6 +253,10 @@ public class PlayerSprites : MonoBehaviour
 		{
 			electrocutedOverlay.StartOverlay(currentFacing);
 		}
+		else
+		{
+			electrocutedOverlay.StopOverlay();
+		}
 	}
 
 	/// <summary>
@@ -323,12 +332,12 @@ public class PlayerSprites : MonoBehaviour
 		return characterSprites.FirstOrDefault(ci => ci.Slot == namedSlot) != null;
 	}
 
-	private void OnClothingEquipped(ClothingV2 clothing, bool isEquiped)
+	private void OnClothingEquipped(ClothingV2 clothing, bool isEquipped)
 	{
 		//Logger.Log($"Clothing {clothing} was equipped {isEquiped}!", Category.Inventory);
 
 		// if new clothes equiped, add new hide flags
-		if (isEquiped)
+		if (isEquipped)
 		{
 			for (int n = 0; n < 11; n++)
 			{

@@ -6,6 +6,8 @@ using Pipes;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.Tilemaps;
+using Systems.Atmospherics;
+using TileManagement;
 
 /// <summary>
 /// Behavior which indicates a matrix - a contiguous grid of tiles.
@@ -14,6 +16,10 @@ using UnityEngine.Tilemaps;
 /// </summary>
 public class Matrix : MonoBehaviour
 {
+	private List<TilemapDamage> tilemapsDamage = new List<TilemapDamage>();
+
+	public List<TilemapDamage> TilemapsDamage => tilemapsDamage;
+
 	private MetaTileMap metaTileMap;
 	public MetaTileMap MetaTileMap => metaTileMap ? metaTileMap : metaTileMap = GetComponent<MetaTileMap>();
 
@@ -87,7 +93,7 @@ public class Matrix : MonoBehaviour
 		MatrixMove = GetComponentInParent<MatrixMove>();
 		tileChangeManager = GetComponentInParent<TileChangeManager>();
 		underFloorLayer = GetComponentInChildren<UnderFloorLayer>();
-
+		tilemapsDamage = GetComponentsInChildren<TilemapDamage>().ToList();
 		OnEarthquake.AddListener((worldPos, magnitude) =>
 		{
 			var cellPos = metaTileMap.WorldToCell(worldPos);
@@ -186,12 +192,12 @@ public class Matrix : MonoBehaviour
 
 	public bool IsTableAt(Vector3Int position, bool isServer)
 	{
-		return MetaTileMap.IsTileTypeAt(position, isServer, TileType.Table);
+		return MetaTileMap.IsTableAt(position);
 	}
 
 	public bool IsWallAt(Vector3Int position, bool isServer)
 	{
-		return MetaTileMap.HasTile(position, LayerType.Walls, isServer);
+		return MetaTileMap.HasTile(position, LayerType.Walls);
 	}
 
 	public bool IsEmptyAt(Vector3Int position, bool isServer)
@@ -263,6 +269,12 @@ public class Matrix : MonoBehaviour
 		(isServer ? ServerObjects : ClientObjects).ForEachSafe(action, localPosition);
 	}
 
+
+	public IEnumerable<RegisterTile> GetRegisterTile(Vector3Int localPosition, bool isServer)
+	{
+		return (isServer ? ServerObjects : ClientObjects).Get(localPosition);
+	}
+
 	public IEnumerable<T> Get<T>(Vector3Int localPosition, bool isServer)
 	{
 		if (!(isServer ? ServerObjects : ClientObjects).HasObjects(localPosition))
@@ -319,24 +331,24 @@ public class Matrix : MonoBehaviour
 
 	public bool HasTile(Vector3Int position, bool isServer)
 	{
-		return MetaTileMap.HasTile(position, isServer);
+		return MetaTileMap.HasTile(position);
 	}
 
 	public bool IsClearUnderfloorConstruction(Vector3Int position, bool isServer)
 	{
-		if (MetaTileMap.HasTile(position, LayerType.Floors, isServer))
+		if (MetaTileMap.HasTile(position, LayerType.Floors))
 		{
 			return (false);
 		}
-		else if (MetaTileMap.HasTile(position, LayerType.Walls, isServer))
+		else if (MetaTileMap.HasTile(position, LayerType.Walls))
 		{
 			return (false);
 		}
-		else if (MetaTileMap.HasTile(position, LayerType.Windows, isServer))
+		else if (MetaTileMap.HasTile(position, LayerType.Windows))
 		{
 			return (false);
 		}
-		else if (MetaTileMap.HasTile(position, LayerType.Grills, isServer))
+		else if (MetaTileMap.HasTile(position, LayerType.Grills))
 		{
 			return (false);
 		}
@@ -344,10 +356,10 @@ public class Matrix : MonoBehaviour
 		return (true);
 	}
 
-	public IEnumerable<Disposals.DisposalPipe> GetDisposalPipesAt(Vector3Int position)
+	public IEnumerable<Objects.Disposals.DisposalPipe> GetDisposalPipesAt(Vector3Int position)
 	{
 		// Return a list, because we may allow disposal pipes to overlap each other - NS with EW e.g.
-		return UnderFloorLayer.GetAllTilesByType<Disposals.DisposalPipe>(position);
+		return UnderFloorLayer.GetAllTilesByType<Objects.Disposals.DisposalPipe>(position);
 	}
 
 	public List<IntrinsicElectronicData> GetElectricalConnections(Vector3Int position)

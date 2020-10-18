@@ -13,6 +13,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 014e35a078f189c428b5857831528ab1,
         type: 2}
+    - target: {fileID: 3108338812106419955, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 8503226174470518201, guid: 706335ffb89baf6489ccf920550be6f2,
+        type: 3}
+    - target: {fileID: 3108338812106419955, guid: 98da9a96ac84b28439d4baced674700d,
+        type: 3}
+      propertyPath: ProjectilesFired
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5343935634496596720, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
       propertyPath: initialName
@@ -21,7 +32,7 @@ PrefabInstance:
     - target: {fileID: 5531796456047199634, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}
       propertyPath: m_Name
-      value: ShotgunMagazine12gStun
+      value: ShotgunMagazine12gTaser
       objectReference: {fileID: 0}
     - target: {fileID: 5537001681630345446, guid: 98da9a96ac84b28439d4baced674700d,
         type: 3}

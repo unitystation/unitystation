@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
   m_Sprite: {fileID: -625339986992324421, guid: bb26347d6545b4c449fc4a51e2941362,
     type: 3}
@@ -272,6 +273,7 @@ GameObject:
   - component: {fileID: 3708589072684735304}
   - component: {fileID: 2252726863332589033}
   - component: {fileID: -1247464655803669763}
+  - component: {fileID: -8865815436443640318}
   m_Layer: 12
   m_Name: NPC_ClownPosse_Clowns
   m_TagString: Untagged
@@ -347,12 +349,9 @@ MonoBehaviour:
   - {fileID: 4858910464699741597}
   allowKnifeHarvest: 0
   butcherResults: []
-  aliveSprite: {fileID: -6756704425192550633, guid: bb26347d6545b4c449fc4a51e2941362,
-    type: 3}
-  deadSprite: {fileID: 21300000, guid: 6393059d409e068409218a18dca1970d, type: 3}
+  RTT: 0
+  RadiationStacks: 0
   deadState: 0
-  spriteRend: {fileID: 83192708151968013}
-  registerObject: {fileID: 0}
 --- !u!114 &4859231028589996057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -409,6 +408,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &4859381606111050923
 MonoBehaviour:
@@ -422,6 +422,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &4859213822428636291
@@ -523,14 +524,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  spriteHandler: {fileID: 0}
   spriteRend: {fileID: 83192708151968013}
-  upSprite: {fileID: -275229624462734458, guid: bb26347d6545b4c449fc4a51e2941362,
+  aliveSpriteIndex: 0
+  deadSpriteIndex: 1
+  burningPrefab: {fileID: 1558421102126524431, guid: 7a0d54e0877507a4eba1a70784ea9085,
     type: 3}
-  rightSprite: {fileID: -625339986992324421, guid: bb26347d6545b4c449fc4a51e2941362,
-    type: 3}
-  downSprite: {fileID: -6452387498663028108, guid: bb26347d6545b4c449fc4a51e2941362,
-    type: 3}
-  leftSprite: {fileID: -6756704425192550633, guid: bb26347d6545b4c449fc4a51e2941362,
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
     type: 3}
 --- !u!114 &3651291330810827203
 MonoBehaviour:
@@ -558,6 +558,8 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
+  hasFoodPrefereces: 0
+  foodPreferences: []
 --- !u!114 &3708589072684735304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -624,6 +626,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-8865815436443640318
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forceHidden: 0
+  InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
+  ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0
