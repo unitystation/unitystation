@@ -38,13 +38,14 @@ public partial class Chat
 	public Color localColor;
 	public Color combatColor;
 	public Color warningColor;
+	public Color blobColor;
 	public Color defaultColor;
 
 
 	/// <summary>
 	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
 	/// </summary>
-	public const ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost;
+	public const ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost | ChatChannel.Blob;
 
 	/// <summary>
 	/// This channels are OOC or service messages and shouldn't affect IC communications
@@ -405,7 +406,7 @@ public partial class Chat
 	{
 		if (PlayerManager.PlayerScript == null) return false;
 		if (!PlayerManager.PlayerScript.IsGhost) return false;
-		if (Instance.GhostHearAll) return false;
+		if (Instance.GhostHearAll && !PlayerManager.PlayerScript.IsBlob) return false;
 
 		if (NetworkIdentity.spawned.ContainsKey(originator))
 		{
@@ -466,6 +467,7 @@ public partial class Chat
 		if (channel.HasFlag(ChatChannel.Local)) return ColorUtility.ToHtmlStringRGBA(Instance.localColor);
 		if (channel.HasFlag(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
 		if (channel.HasFlag(ChatChannel.Warning)) return ColorUtility.ToHtmlStringRGBA(Instance.warningColor);
+		if (channel.HasFlag(ChatChannel.Blob)) return ColorUtility.ToHtmlStringRGBA(Instance.blobColor);
 		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor);
 	}
 

@@ -124,7 +124,7 @@ namespace Blob
 		};
 
 		[SyncVar(hook = nameof(SyncResources))]
-		private int resources = 20;
+		private int resources = 0;
 
 		[SyncVar(hook = nameof(SyncHealth))]
 		private float health = 400;
@@ -151,6 +151,8 @@ namespace Blob
 
 			playerScript.mind.ghost = playerScript;
 			playerScript.mind.body = playerScript;
+
+			playerScript.IsBlob = true;
 
 			var result = Spawn.ServerPrefab(blobCorePrefab, playerSync.ServerPosition, gameObject.transform);
 
@@ -953,6 +955,8 @@ namespace Blob
 				string.Format(CentComm.BioHazardReportTemplate,
 					"The biohazard has been contained."),
 				MatrixManager.MainStationMatrix);
+
+			playerScript.IsBlob = false;
 
 			//Make blob into ghost
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
