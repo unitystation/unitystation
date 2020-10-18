@@ -4,9 +4,10 @@ using System.Collections.Generic;
 using NaughtyAttributes;
 using UnityEngine;
 using WebSocketSharp;
+using Systems.Mob;
 using Random = UnityEngine.Random;
 
-namespace NPC
+namespace Systems.MobAIs
 {
 	public class GenericFriendlyAI : MobAI, IServerSpawn
 	{
@@ -71,14 +72,13 @@ namespace NPC
 			{
 				for (int spriteDir = 1; spriteDir < 5; spriteDir++)
 				{
-					dirSprites.DoManualChange(spriteDir);
+					directional.FaceDirection(directional.CurrentDirection.Rotate(1));
 					yield return WaitFor.Seconds(0.3f);
 				}
 			}
 
 			yield return WaitFor.EndOfFrame;
 		}
-
 
 		protected virtual void DoRandomAction() {}
 
@@ -89,7 +89,7 @@ namespace NPC
 
 		protected virtual void OnSpawnMob()
 		{
-			dirSprites.SetToNPCLayer();
+			mobSprite.SetToNPCLayer();
 			registerObject.RestoreAllToDefault();
 			if (simpleAnimal != null)
 			{
