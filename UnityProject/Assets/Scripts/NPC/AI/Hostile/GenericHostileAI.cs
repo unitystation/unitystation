@@ -138,7 +138,7 @@ namespace Systems.MobAIs
 					{
 						continue;
 					}
-					if (registerObject.Matrix.IsPassableAt(checkTile, true))
+					if (registerObject.Matrix.IsPassableAt(checkTile, true, context: gameObject))
 					{
 						nudgeDir = testDir;
 						break;

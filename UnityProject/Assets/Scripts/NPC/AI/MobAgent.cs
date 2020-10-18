@@ -240,7 +240,7 @@ namespace Systems.MobAIs
 
 				var dest = registerObj.LocalPositionServer + (Vector3Int)dirToMove;
 
-				if (!cnt.Push(dirToMove))
+				if (!cnt.Push(dirToMove, context: gameObject))
 				{
 					//Path is blocked try again
 					performingDecision = false;

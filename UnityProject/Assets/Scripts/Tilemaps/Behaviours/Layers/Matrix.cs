@@ -145,9 +145,9 @@ public class Matrix : MonoBehaviour
 	}
 
 	public bool IsPassableAt(Vector3Int position, bool isServer, bool includingPlayers = true,
-		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null)
+		List<LayerType> excludeLayers = null, List<TileType> excludeTiles = null, GameObject context = null)
 	{
-		return IsPassableAt(position, position, isServer, includingPlayers: includingPlayers,
+		return IsPassableAt(position, position, isServer, context: context,includingPlayers: includingPlayers,
 			excludeLayers: excludeLayers, excludeTiles: excludeTiles);
 	}
 
