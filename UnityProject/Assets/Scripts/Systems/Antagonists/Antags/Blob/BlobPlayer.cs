@@ -130,13 +130,15 @@ namespace Blob
 		private float health = 400;
 
 		[SyncVar(hook = nameof(SyncNumOfBlobTiles))]
+		private int numOfNonSpaceBlobTiles = 1;
+
 		private int numOfBlobTiles = 1;
 
 		private int maxCount = 0;
 
 		private Color color = Color.green;//new Color(154, 205, 50);
 
-		public int NumOfBlobTiles => numOfBlobTiles;
+		public int NumOfNonSpaceBlobTiles => numOfNonSpaceBlobTiles;
 
 		/// <summary>
 		/// The start function of the script called from BlobStarter when player turns into blob, sets up core.
@@ -220,14 +222,14 @@ namespace Blob
 			}
 
 			//Count number of blob tiles
-			numOfBlobTiles = nonSpaceBlobTiles.Count;
+			numOfNonSpaceBlobTiles = nonSpaceBlobTiles.Count;
 
-			if (numOfBlobTiles > maxCount)
+			if (numOfNonSpaceBlobTiles > maxCount)
 			{
-				maxCount = numOfBlobTiles;
+				maxCount = numOfNonSpaceBlobTiles;
 			}
 
-			if (!halfWay && numOfBlobTiles >= numOfTilesForVictory / 2)
+			if (!halfWay && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 2)
 			{
 				halfWay = true;
 
@@ -238,7 +240,7 @@ namespace Blob
 				SoundManager.PlayNetworked("Notice1");
 			}
 
-			if (!nearlyWon && numOfBlobTiles >= numOfTilesForVictory / 6)
+			if (!nearlyWon && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 1.25)
 			{
 				nearlyWon = true;
 
@@ -250,7 +252,7 @@ namespace Blob
 			}
 
 			//Blob wins after number of blob tiles reached
-			if (!victory && numOfBlobTiles >= numOfTilesForVictory)
+			if (!victory && numOfNonSpaceBlobTiles >= numOfTilesForVictory)
 			{
 				victory = true;
 				BlobWins();
@@ -377,7 +379,7 @@ namespace Blob
 
 		private void SyncNumOfBlobTiles(int oldVar, int newVar)
 		{
-			numOfBlobTiles = newVar;
+			numOfNonSpaceBlobTiles = newVar;
 			numOfBlobTilesText.text = newVar.ToString();
 		}
 

@@ -414,9 +414,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2814037277566469169}
-  - component: {fileID: 5238453998198822785}
+  - component: {fileID: 959434667324187030}
   m_Layer: 0
-  m_Name: Put antag events here
+  m_Name: Blob
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -436,7 +436,7 @@ Transform:
   m_Father: {fileID: 739026179657658727}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5238453998198822785
+--- !u!114 &959434667324187030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -445,21 +445,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 4769905310584923402}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a1d16b50667139142a97de599b0f039e, type: 3}
+  m_Script: {fileID: 11500000, guid: fdb72b6fe7dfcb64aa89bf5236a0bdc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EventName: Dummy
+  EventName: Infect Random Player With Blob
   StartTimer: 0
-  EndTimer: 2
+  EndTimer: 0
   EventType: 3
   ChanceToHappen: 0
-  MinPlayersToTrigger: 0
+  MinPlayersToTrigger: 20
   parametersPageType: 0
   FakeEvent: 0
   AnnounceEvent: 1
-  itemList:
-  - {fileID: 2176312772723587003, guid: 5922881ffc5c59842906e74798fa92bd, type: 3}
-  announceText: A gift from the gods!
 --- !u!1 &4938991384554239466
 GameObject:
   m_ObjectHideFlags: 0
