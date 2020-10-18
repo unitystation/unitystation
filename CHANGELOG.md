@@ -2,6 +2,9 @@
 ---
 
 
+* 2020/10/18: Added overlays to blob core and node by [ThatDan123](https://github.com/ThatDan123) in PR #[5333](https://github.com/unitystation/unitystation/pull/5333)
+* 2020/10/18: Fixed spores not being able to move over blob by [ThatDan123](https://github.com/ThatDan123) in PR #[5333](https://github.com/unitystation/unitystation/pull/5333)
+* 2020/10/18: Fixed some issues with blob messages by [ThatDan123](https://github.com/ThatDan123) in PR #[5333](https://github.com/unitystation/unitystation/pull/5333)
 * 2020/10/18: Witch robe sprites by TetraZeta. Newer tool sprites by Azlan. Photocopiers, hand labelers, and claymores by Toriate. by [PetMudstone](https://github.com/PetMudstone) in PR #[5332](https://github.com/unitystation/unitystation/pull/5332)
 * 2020/10/17: fixes tile maps not updating properly by [Bod9001](https://github.com/Bod9001) in PR #[5326](https://github.com/unitystation/unitystation/pull/5326)
 * 2020/10/17: realigns text on tab reactor and tab  boiler control by [Bod9001](https://github.com/Bod9001) in PR #[5326](https://github.com/unitystation/unitystation/pull/5326)
