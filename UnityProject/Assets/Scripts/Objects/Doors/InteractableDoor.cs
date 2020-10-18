@@ -61,6 +61,7 @@ namespace Doors
 
 			if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Emag))
 			{
+				interaction.HandObject.GetComponent<Emag>().UseCharge();
 				TryEmag();
 			}
 			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Crowbar))
