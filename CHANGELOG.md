@@ -2,6 +2,12 @@
 ---
 
 
+* 2020/10/18: Witch robe sprites by TetraZeta. Newer tool sprites by Azlan. Photocopiers, hand labelers, and claymores by Toriate. by [PetMudstone](https://github.com/PetMudstone) in PR #[5332](https://github.com/unitystation/unitystation/pull/5332)
+* 2020/10/17: fixes tile maps not updating properly by [Bod9001](https://github.com/Bod9001) in PR #[5326](https://github.com/unitystation/unitystation/pull/5326)
+* 2020/10/17: realigns text on tab reactor and tab  boiler control by [Bod9001](https://github.com/Bod9001) in PR #[5326](https://github.com/unitystation/unitystation/pull/5326)
+* 2020/10/17: fixes NAN temperature from reactor by [Bod9001](https://github.com/Bod9001) in PR #[5326](https://github.com/unitystation/unitystation/pull/5326)
+* 2020/10/17: fixes  mapping tools by [Bod9001](https://github.com/Bod9001) in PR #[5326](https://github.com/unitystation/unitystation/pull/5326)
+* 2020/10/17: Fixes  tables on outpost by [Bod9001](https://github.com/Bod9001) in PR #[5326](https://github.com/unitystation/unitystation/pull/5326)
 * 2020/10/16: removed tables from objects, now on their own layer by [Bod9001](https://github.com/Bod9001) in PR #[5280](https://github.com/unitystation/unitystation/pull/5280)
 * 2020/10/16: removed tile map Colliders, replace it with a custom solution by [Bod9001](https://github.com/Bod9001) in PR #[5280](https://github.com/unitystation/unitystation/pull/5280)
 * 2020/10/16: moved tile get set out of unity functions to  allow it to be thread safe, this opens up the possibility of radiation being more dynamic by [Bod9001](https://github.com/Bod9001) in PR #[5280](https://github.com/unitystation/unitystation/pull/5280)
