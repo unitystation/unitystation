@@ -12,7 +12,23 @@ public class Emag : NetworkBehaviour
     public static int rechargeTimeInSeconds = 10;
 
     private int charges = startCharges;
-    // Start is called before the first frame update
+    
+    public virtual void OnEnable()
+    {
+        if (CustomNetworkManager.Instance._isServer)
+        {
+            UpdateManager.Add(RegenerateCharge, rechargeTimeInSeconds);
+        }
+    }
+
+    public void OnDisable()
+    {
+        if (isServer)
+        {
+            UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RegenerateCharge);
+        }
+    }
+
     public bool UseCharge() 
     {
         if(this.charges > 0)
@@ -34,11 +50,5 @@ public class Emag : NetworkBehaviour
     public int GetCharges()
     {
         return this.charges;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }
