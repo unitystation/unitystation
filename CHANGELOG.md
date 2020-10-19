@@ -2,6 +2,8 @@
 ---
 
 
+* 2020/10/19: removes unneeded tile map Collider from outpost by [Bod9001](https://github.com/Bod9001) in PR #[5344](https://github.com/unitystation/unitystation/pull/5344)
+* 2020/10/19: you can walk across multiple tables now by [Bod9001](https://github.com/Bod9001) in PR #[5344](https://github.com/unitystation/unitystation/pull/5344)
 * 2020/10/19: Adds the wizard's fireball spell. ONI'SOMA! by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5341](https://github.com/unitystation/unitystation/pull/5341)
 * 2020/10/19: Blobs now have names by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
 * 2020/10/19: Rebalanced blob damage by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
