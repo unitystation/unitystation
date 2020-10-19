@@ -8,6 +8,7 @@ using Light2D;
 using Mirror;
 using UnityEngine;
 using TMPro;
+using Random = UnityEngine.Random;
 
 namespace Blob
 {
@@ -152,8 +153,19 @@ namespace Blob
 			registerPlayer = GetComponent<RegisterPlayer>();
 			playerScript = GetComponent<PlayerScript>();
 
+			if (playerScript == null && (!TryGetComponent(out playerScript) || playerScript == null))
+			{
+				Debug.LogError("Playerscript was null on blob and couldnt be found.");
+				return;
+			}
+
 			playerScript.mind.ghost = playerScript;
 			playerScript.mind.body = playerScript;
+
+			var name = $"Overmind {Random.Range(1, 1001)}";
+
+			playerScript.characterSettings.Name = name;
+			playerScript.playerName = name;
 
 			playerScript.IsBlob = true;
 
