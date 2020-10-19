@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/10/19: Adds the wizard's fireball spell. ONI'SOMA! by [NoooneyDude](https://github.com/NoooneyDude) in PR #[5341](https://github.com/unitystation/unitystation/pull/5341)
 * 2020/10/19: Blobs now have names by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
 * 2020/10/19: Rebalanced blob damage by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
 * 2020/10/19: Blob can no longer see ghosts by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
