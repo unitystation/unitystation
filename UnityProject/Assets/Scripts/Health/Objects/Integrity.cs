@@ -192,10 +192,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <param name="damage"></param>
 	/// <param name="damageType"></param>
 	[Server]
-	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType)
+	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false)
 	{
 		//already destroyed, don't apply damage
-		if (destroyed || Resistances.Indestructable || damage < damageDeflection) return;
+		if (destroyed || Resistances.Indestructable || (!ignoreDeflection && damage < damageDeflection)) return;
 
 		if (Resistances.FireProof && attackType == AttackType.Fire) return;
 
