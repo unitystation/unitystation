@@ -100,6 +100,9 @@ namespace Blob
 		[SerializeField]
 		private LightSprite overmindLight = null;
 
+		[SerializeField]
+		private GameObject overmindSprite = null;
+
 		public bool clickCoords = true;
 
 		private ConcurrentDictionary<Vector3Int, BlobStructure> blobTiles =
@@ -291,6 +294,7 @@ namespace Blob
 			overmindLightObject.SetActive(true);
 			overmindLight.Color = color;
 			overmindLight.Color.a = 0.2f;
+			overmindSprite.layer = 29;
 		}
 
 		#region teleport

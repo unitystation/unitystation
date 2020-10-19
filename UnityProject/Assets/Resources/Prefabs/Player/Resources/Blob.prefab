@@ -134,7 +134,6 @@ MonoBehaviour:
   syncInterval: 0.1
   matrixDebugLogging: 0
   objectType: 2
-  IsAlwaysPassable: 0
 --- !u!114 &1176408661413567387
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,6 +261,7 @@ MonoBehaviour:
   buildDistanceLimit: 4
   overmindLightObject: {fileID: 6777920429691229453}
   overmindLight: {fileID: 4711685050884406599}
+  overmindSprite: {fileID: 7320126117105815585}
   clickCoords: 1
 --- !u!114 &448360181673478972
 MonoBehaviour:
@@ -297,7 +297,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6724187335295023059
 Transform:
   m_ObjectHideFlags: 0
