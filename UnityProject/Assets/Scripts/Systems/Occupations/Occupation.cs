@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Serialization;
+using ScriptableObjects.Systems.Spells;
 
 /// <summary>
 /// Defines all aspects of a particular occupation

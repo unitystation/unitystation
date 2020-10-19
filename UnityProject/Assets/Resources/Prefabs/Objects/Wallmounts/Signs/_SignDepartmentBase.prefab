@@ -7,6 +7,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 877678010874754344, guid: 2d5ef1e4279414f4798d5cf1542d9388,
+        type: 3}
+      propertyPath: m_AssetId
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 8783786739138365072, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -65,7 +70,7 @@ PrefabInstance:
     - target: {fileID: 8787633699505619018, guid: 2d5ef1e4279414f4798d5cf1542d9388,
         type: 3}
       propertyPath: m_Name
-      value: _SignBase
+      value: _SignDepartmentBase
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2d5ef1e4279414f4798d5cf1542d9388, type: 3}

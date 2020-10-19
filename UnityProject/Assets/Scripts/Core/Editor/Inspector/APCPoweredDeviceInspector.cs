@@ -1,6 +1,9 @@
-﻿using Electricity.PoweredDevices;
-using UnityEditor;
+﻿using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using Systems.Electricity;
+using Objects.Engineering;
 
 namespace CustomInspectors
 {
@@ -17,6 +20,8 @@ namespace CustomInspectors
 			}
 
 			var device = (APCPoweredDevice) target;
+
+			if (device.ConType != MultitoolConnectionType.APC) return;
 
 			if (!device.IsSelfPowered)
 			{
@@ -59,9 +64,13 @@ namespace CustomInspectors
 				bestTarget = potentialTarget;
 			}
 
-			if (bestTarget == null) return;
+			if (bestTarget == null || bestTarget == device.RelatedAPC) return;
 			device.RelatedAPC = bestTarget;
+
+			EditorUtility.SetDirty(device);
+			EditorUtility.SetDirty(device.RelatedAPC);
 			bestTarget.AddDevice(device);
+			EditorSceneManager.MarkSceneDirty(SceneManager.GetActiveScene());
 		}
 	}
 }

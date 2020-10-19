@@ -1,6 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
-
+using Doors;
 
 	/// <summary>
 	///     DoorAnimatorEditor helps determine if the door

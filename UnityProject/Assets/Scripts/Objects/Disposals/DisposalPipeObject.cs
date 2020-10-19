@@ -2,7 +2,7 @@ using System.Linq;
 using UnityEngine;
 using Mirror;
 
-namespace Disposals
+namespace Objects.Disposals
 {
 	public class DisposalPipeObject : NetworkBehaviour, IExaminable, ICheckedInteractable<HandApply>
 	{
@@ -129,7 +129,7 @@ namespace Disposals
 
 		bool VerbosePlatingExposed()
 		{
-			if (!tileChangeManager.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Floors, true)) return true;
+			if (!tileChangeManager.MetaTileMap.HasTile(registerTile.LocalPositionServer, LayerType.Floors)) return true;
 
 			Chat.AddExamineMsg(
 					currentInteraction.Performer,

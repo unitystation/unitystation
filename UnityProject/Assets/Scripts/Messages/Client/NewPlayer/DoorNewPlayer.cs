@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Messages.Client;
 using Mirror;
+using Doors;
 
 public class DoorNewPlayer: ClientMessage
 {

@@ -19,6 +19,7 @@ TagManager:
   - APC
   - Abstract
   - Clothing
+  - Rcs
   layers:
   - Default
   - TransparentFX
@@ -95,6 +96,9 @@ TagManager:
   - name: Doors Open
     uniqueID: 2411169673
     locked: 0
+  - name: Sign
+    uniqueID: 1855317293
+    locked: 0
   - name: Bodies
     uniqueID: 10580839
     locked: 0
@@ -106,6 +110,9 @@ TagManager:
     locked: 0
   - name: OverPlayers
     uniqueID: 3362631851
+    locked: 0
+  - name: WallObject
+    uniqueID: 2330186233
     locked: 0
   - name: Doors Closed
     uniqueID: 2469278067

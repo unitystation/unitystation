@@ -1,62 +1,43 @@
 using System;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
-/// <summary>
-/// Handles animation of burning overlay prefabs, which are injected into burning objects.
-/// </summary>
-[RequireComponent(typeof(SpriteRenderer))]
-public class BurningOverlay : MonoBehaviour
+namespace Effects.Overlays
 {
-	[Tooltip("Seconds between sprite changes")]
-	public float AnimationSpeed = 0.1f;
-	[Tooltip("Possible burning sprites for this prefab")]
-	public Sprite[] sprites;
-
-	private bool burn;
-
-	private SpriteRenderer spriteRenderer;
-
-	private void Awake()
+	/// <summary>
+	/// Handles animation of burning overlay prefabs, which are injected into burning objects.
+	/// </summary>
+	[RequireComponent(typeof(SpriteHandler))]
+	public class BurningOverlay : MonoBehaviour
 	{
-		spriteRenderer = GetComponent<SpriteRenderer>();
-		//wait until we are told to burn
-		StopBurning();
-	}
+		private SpriteHandler spriteHandler;
 
-	private void OnDisable()
-	{
-		if (burn)
+		private void Awake()
 		{
-			UpdateManager.Remove(CallbackType.UPDATE, PeriodicAnimate);
+			spriteHandler = GetComponent<SpriteHandler>();
+			//wait until we are told to burn
+			StopBurning();
 		}
-	}
 
-	/// <summary>
-	/// start displaying the burning animation
-	/// </summary>
-	public void Burn()
-	{
-		spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
-		spriteRenderer.enabled = true;
-		burn = true;
-		UpdateManager.Add(PeriodicAnimate, AnimationSpeed);
-	}
+		/// <summary>
+		/// start displaying the burning animation
+		/// </summary>
+		public void Burn()
+		{
+			if (spriteHandler == null)
+			{
+				spriteHandler = GetComponent<SpriteHandler>();
+			}
 
-	/// <summary>
-	/// stop the burning animation
-	/// </summary>
-	public void StopBurning()
-	{
-		UpdateManager.Remove(CallbackType.UPDATE, PeriodicAnimate);
-		if (spriteRenderer == null) return;
-		spriteRenderer.sprite = null;
-		spriteRenderer.enabled = false;
-		burn = false;
-	}
+			spriteHandler.ChangeSprite(0); // Load SO into SpriteRenderer
+			spriteHandler.PushTexture();
+		}
 
-	private void PeriodicAnimate()
-	{
-		spriteRenderer.sprite = sprites[Random.Range(0, sprites.Length)];
+		/// <summary>
+		/// stop the burning animation
+		/// </summary>
+		public void StopBurning()
+		{
+			spriteHandler.PushClear();
+		}
 	}
 }

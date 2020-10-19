@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   entries:
   - name: Wooden Chair
-    prefab: {fileID: 1568171546625408, guid: f3bbbef4ed74ac949af35a1e86452669, type: 3}
+    prefab: {fileID: 5346880051612449098, guid: ce971a77eb7c2894e8583efec1c56965,
+      type: 3}
     cost: 1
     buildTime: 1
     spawnAmount: 1
@@ -26,6 +27,12 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 4
     onePerTile: 0
+  - name: Wood Table Frame
+    prefab: {fileID: 722470636391152515, guid: 178838c1c5b3f8c4f9bb61f39ce55541, type: 3}
+    cost: 2
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
   - name: Wood Door
     prefab: {fileID: 8406608262543337592, guid: 93dbd338c6220214c926ec72a2c9c6b2,
       type: 3}
@@ -40,6 +47,12 @@ MonoBehaviour:
     buildTime: 1
     spawnAmount: 1
     onePerTile: 0
+  - name: Wooden Table Frame
+    prefab: {fileID: 722470636391152515, guid: 178838c1c5b3f8c4f9bb61f39ce55541, type: 3}
+    cost: 2
+    buildTime: 1
+    spawnAmount: 1
+    onePerTile: 1
   - name: Loom
     prefab: {fileID: 1449387945419676, guid: df5517f4ff1b94c5c8fc72ffdfc9ad4c, type: 3}
     cost: 10

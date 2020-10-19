@@ -319,6 +319,54 @@ public class ItemStorage : MonoBehaviour, IServerLifecycle, IServerInventoryMove
 	}
 
 	/// <summary>
+	/// Returns the active hand slot if not occupied, else the hand that is free.
+	/// Returns null if no hands were available.
+	/// </summary>
+	public ItemSlot GetBestHand()
+	{
+		if (playerNetworkActions == null)
+		{
+			return default;
+		}
+
+		var activeHand = GetNamedItemSlot(playerNetworkActions.activeHand);
+		if (activeHand.IsEmpty)
+		{
+			return activeHand;
+		}
+
+		var leftHand = GetNamedItemSlot(NamedSlot.leftHand);
+		if (leftHand != activeHand && leftHand.IsEmpty)
+		{
+			return leftHand;
+		}
+
+		var rightHand = GetNamedItemSlot(NamedSlot.rightHand);
+		if (rightHand != activeHand && rightHand.IsEmpty)
+		{
+			return rightHand;
+		}
+
+		return default;
+	}
+
+	/// <summary>
+	/// Returns the active hand slot if not occupied, else the hand that is free.
+	/// If no hand is free, defaults to <see cref="GetBestSlotFor(GameObject)"/> behaviour.
+	/// </summary>
+	public ItemSlot GetBestHandOrSlotFor(GameObject item)
+	{
+		ItemSlot bestHand = GetBestHand();
+
+		if (bestHand != null)
+		{
+			return bestHand;
+		}
+
+		return GetBestSlotFor(item);
+	}
+
+	/// <summary>
 	/// Gets all slots in which a gas container can be stored and used
 	/// </summary>
 	/// <returns></returns>

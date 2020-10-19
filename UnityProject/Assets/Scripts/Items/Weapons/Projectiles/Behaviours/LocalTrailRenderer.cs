@@ -48,7 +48,7 @@ namespace Weapons.Projectiles.Behaviours
 			Reset();
 		}
 
-		public void OnDespawn(RaycastHit2D hit, Vector2 point)
+		public void OnDespawn(MatrixManager.CustomPhysicsHit hit, Vector2 point)
 		{
 			ShotDone();
 		}

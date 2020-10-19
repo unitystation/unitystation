@@ -1,7 +1,7 @@
 ﻿#if UNITY_EDITOR
 using UnityEditor;
-
 #endif
+using Objects.Construction;
 
 /* Editor control over the FloorTile component:
  * This is used to add the ambient tiles so the

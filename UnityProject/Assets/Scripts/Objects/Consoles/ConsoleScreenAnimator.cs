@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.Electricity;
 
 public class ConsoleScreenAnimator : MonoBehaviour, IAPCPowered
 {

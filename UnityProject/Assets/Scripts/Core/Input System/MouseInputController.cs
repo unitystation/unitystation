@@ -5,6 +5,7 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Weapons;
+using Objects.Wallmounts;
 
 /// <summary>
 /// Main entry point for handling all input events
@@ -86,7 +87,7 @@ public class MouseInputController : MonoBehaviour
 
 	}
 
-	private void Start()
+	public virtual void Start()
 	{
 		//for changing direction on click
 		playerDirectional = gameObject.GetComponent<Directional>();
@@ -99,7 +100,7 @@ public class MouseInputController : MonoBehaviour
 		CheckMouseInput();
 	}
 
-	private void CheckMouseInput()
+	public virtual void CheckMouseInput()
 	{
 		if (EventSystem.current.IsPointerOverGameObject())
 		{
@@ -254,7 +255,7 @@ public class MouseInputController : MonoBehaviour
 		}
 	}
 
-	private void CheckClickInteractions(bool includeAimApply)
+	public void CheckClickInteractions(bool includeAimApply)
 	{
 		if (CheckClick()) return;
 		if (includeAimApply) CheckAimApply(MouseButtonState.PRESS);
@@ -279,7 +280,7 @@ public class MouseInputController : MonoBehaviour
 
 	private GameObject lastHoveredThing;
 
-	private void CheckHover()
+	public void CheckHover()
 	{
 		//can only hover on things within FOV
 		if (lightingSystem.enabled && !lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
@@ -495,7 +496,7 @@ public class MouseInputController : MonoBehaviour
 	/// Fires if shift is pressed on click, initiates examine. Assumes inanimate object, but upgrades to checking health if living, and id if target has
 	/// storage and an ID card in-slot.
 	/// </summary>
-	private void Inspect()
+	public void Inspect()
 	{
 		// Get clickedObject from mousepos
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();

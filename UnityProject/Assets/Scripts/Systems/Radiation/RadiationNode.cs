@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Radiation
+namespace Systems.Radiation
 {
 	/// <summary>
 	/// Used for Gathering the radiation each node

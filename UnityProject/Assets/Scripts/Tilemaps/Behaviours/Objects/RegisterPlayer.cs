@@ -77,12 +77,12 @@ public class RegisterPlayer : RegisterTile, IServerSpawn
 		SyncIsLayingDown(isLayingDown, false);
 	}
 
-	public override bool IsPassable(bool isServer)
+	public override bool IsPassable(bool isServer, GameObject context = null)
 	{
 		return isServer ? !IsBlockingServer : !IsBlockingClient;
 	}
 
-	public override bool IsPassable(Vector3Int from, bool isServer)
+	public override bool IsPassable(Vector3Int from, bool isServer, GameObject context = null)
 	{
 		return IsPassable(isServer);
 	}

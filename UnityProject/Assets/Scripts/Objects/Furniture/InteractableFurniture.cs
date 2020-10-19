@@ -4,58 +4,61 @@ using Mirror;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<HandApply>
+namespace Objects
 {
-	[Tooltip("What it's made of.")]
-	public GameObject resourcesMadeOf;
-
-	[Tooltip("How many will it drop on deconstruct.")]
-	public int howMany = 1;
-
-	private Integrity integrity;
-
-	private void Start()
+	public class InteractableFurniture : NetworkBehaviour, ICheckedInteractable<HandApply>
 	{
-		integrity = gameObject.GetComponent<Integrity>();
-		integrity.OnWillDestroyServer.AddListener(OnWillDestroyServer);
-	}
+		[Tooltip("What it's made of.")]
+		public GameObject resourcesMadeOf;
 
-	private void OnWillDestroyServer(DestructionInfo arg0)
-	{
-		Spawn.ServerPrefab(resourcesMadeOf, gameObject.TileWorldPosition().To3Int(), transform.parent,
-			count: Random.Range(0, howMany+1), scatterRadius: Random.Range(0f,2f));
-	}
+		[Tooltip("How many will it drop on deconstruct.")]
+		public int howMany = 1;
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		//start with the default HandApply WillInteract logic.
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
-			.Any(pm => pm.IsBuckled))
+		private Integrity integrity;
+
+		private void Start()
 		{
-			return false;
+			integrity = gameObject.GetComponent<Integrity>();
+			integrity.OnWillDestroyServer.AddListener(OnWillDestroyServer);
 		}
-		//only care about interactions targeting us
-		if (interaction.TargetObject != gameObject) return false;
-		//only try to interact if the user has a wrench, screwdriver in their hand
-		if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) { return false; }
-		return true;
-	}
 
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		if (interaction.TargetObject != gameObject) return;
-		else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
+		private void OnWillDestroyServer(DestructionInfo arg0)
 		{
-			ToolUtils.ServerPlayToolSound(interaction);
-			Disassemble(interaction);
+			Spawn.ServerPrefab(resourcesMadeOf, gameObject.TileWorldPosition().To3Int(), transform.parent,
+				count: Random.Range(0, howMany + 1), scatterRadius: Random.Range(0f, 2f));
 		}
-	}
 
-	[Server]
-	private void Disassemble(HandApply interaction)
-	{
-		Spawn.ServerPrefab(resourcesMadeOf, gameObject.WorldPosServer() , count: howMany);
-		Despawn.ServerSingle(gameObject);
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			//start with the default HandApply WillInteract logic.
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (MatrixManager.GetAt<PlayerMove>(interaction.TargetObject, side)
+				.Any(pm => pm.IsBuckled))
+			{
+				return false;
+			}
+			//only care about interactions targeting us
+			if (interaction.TargetObject != gameObject) return false;
+			//only try to interact if the user has a wrench, screwdriver in their hand
+			if (!Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench)) { return false; }
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			if (interaction.TargetObject != gameObject) return;
+			else if (Validations.HasItemTrait(interaction.HandObject, CommonTraits.Instance.Wrench))
+			{
+				ToolUtils.ServerPlayToolSound(interaction);
+				Disassemble(interaction);
+			}
+		}
+
+		[Server]
+		private void Disassemble(HandApply interaction)
+		{
+			Spawn.ServerPrefab(resourcesMadeOf, gameObject.WorldPosServer(), count: howMany);
+			Despawn.ServerSingle(gameObject);
+		}
 	}
 }

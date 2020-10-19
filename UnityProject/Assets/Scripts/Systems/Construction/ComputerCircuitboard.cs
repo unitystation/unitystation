@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Construction
+namespace Items.Construction
 {
 	/// <summary>
 	/// Allows an object to function as a circuitboard for a computer, being placed into a computer frame and

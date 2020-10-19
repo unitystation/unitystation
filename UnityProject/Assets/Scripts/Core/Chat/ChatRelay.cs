@@ -4,6 +4,7 @@ using System.Linq;
 using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
+using Systems.MobAIs;
 using System.Text.RegularExpressions;
 
 /// <summary>
@@ -45,7 +46,7 @@ public class ChatRelay : NetworkBehaviour
 	{
 		namelessChannels = ChatChannel.Examine | ChatChannel.Local | ChatChannel.None | ChatChannel.System |
 						   ChatChannel.Combat;
-		layerMask = LayerMask.GetMask("Walls", "Door Closed");
+		layerMask = LayerMask.GetMask( "Door Closed");
 		npcMask = LayerMask.GetMask("NPC");
 
 		rconManager = RconManager.Instance;
@@ -97,8 +98,8 @@ public class ChatRelay : NetworkBehaviour
 				else
 				{
 					//within range, but check if they are in another room or hiding behind a wall
-					if (Physics2D.Linecast(chatEvent.position,
-						(Vector3)players[i].Script.WorldPos, layerMask))
+					if (MatrixManager.Linecast(chatEvent.position, LayerTypeSelection.Walls
+						 , layerMask,(Vector3)players[i].Script.WorldPos).ItHit)
 					{
 						//if it hit a wall remove that player
 						players.RemoveAt(i);
@@ -110,8 +111,8 @@ public class ChatRelay : NetworkBehaviour
 			var npcs = Physics2D.OverlapCircleAll(chatEvent.position, 14f, npcMask);
 			foreach (Collider2D coll in npcs)
 			{
-				if (!Physics2D.Linecast(chatEvent.position,
-					coll.transform.position, layerMask))
+				if (MatrixManager.Linecast(chatEvent.position,LayerTypeSelection.Walls,
+					 layerMask,coll.transform.position).ItHit ==false)
 				{
 					//NPC is in hearing range, pass the message on:
 					var mobAi = coll.GetComponent<MobAI>();

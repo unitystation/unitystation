@@ -4,63 +4,66 @@ using Mirror;
 using Chemistry;
 using Chemistry.Components;
 
-/// <summary>
-/// A machine into which players can insert certain food items.
-/// Upon being inserted, they will be ground into another material.
-/// </summary>
-[RequireComponent(typeof(ReagentContainer))]
-public class AIOGrinder : NetworkBehaviour
+namespace Objects.Kitchen
 {
 	/// <summary>
-	/// Result of the grinding.
+	/// A machine into which players can insert certain food items.
+	/// Upon being inserted, they will be ground into another material.
 	/// </summary>
-	[HideInInspector]
-	public string grind;
-
-	private ReagentContainer grinderStorage;
-
-	private int outputAmount;
-
-	private SpriteRenderer spriteRenderer;
-
-	/// <summary>
-	/// AudioSource for playing the grinding sound.
-	/// </summary>
-	private AudioSource audioSourceGrind;
-
-	/// <summary>
-	/// Set up the AudioSource.
-	/// </summary>
-	private void Start()
+	[RequireComponent(typeof(ReagentContainer))]
+	public class AIOGrinder : NetworkBehaviour
 	{
-		spriteRenderer = GetComponentInChildren<SpriteRenderer>();
-		audioSourceGrind = GetComponent<AudioSource>();
-	}
+		/// <summary>
+		/// Result of the grinding.
+		/// </summary>
+		[HideInInspector]
+		public string grind;
 
-	/// <summary>
-	/// Count remaining time to microwave previously inserted food.
-	/// </summary>
-	public void SetServerStackAmount(int stackAmount)
-	{
-		outputAmount = stackAmount;
-	}
+		private ReagentContainer grinderStorage;
 
-	public void ServerSetOutputMeal(string mealName)
-	{
-		grind = mealName;
-	}
+		private int outputAmount;
 
-	/// <summary>
-	/// Grind up the object.
-	/// </summary>
-	public void GrindFood()
-	{
-		if (isServer)
+		private SpriteRenderer spriteRenderer;
+
+		/// <summary>
+		/// AudioSource for playing the grinding sound.
+		/// </summary>
+		private AudioSource audioSourceGrind;
+
+		/// <summary>
+		/// Set up the AudioSource.
+		/// </summary>
+		private void Start()
 		{
-			audioSourceGrind.Play();
-			grinderStorage = GetComponent<ReagentContainer>();
-			grinderStorage.Add(new ReagentMix(CraftingManager.Grind.FindOutputReagent(grind), outputAmount));
+			spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+			audioSourceGrind = GetComponent<AudioSource>();
 		}
-		grind = null;
+
+		/// <summary>
+		/// Count remaining time to microwave previously inserted food.
+		/// </summary>
+		public void SetServerStackAmount(int stackAmount)
+		{
+			outputAmount = stackAmount;
+		}
+
+		public void ServerSetOutputMeal(string mealName)
+		{
+			grind = mealName;
+		}
+
+		/// <summary>
+		/// Grind up the object.
+		/// </summary>
+		public void GrindFood()
+		{
+			if (isServer)
+			{
+				audioSourceGrind.Play();
+				grinderStorage = GetComponent<ReagentContainer>();
+				grinderStorage.Add(new ReagentMix(CraftingManager.Grind.FindOutputReagent(grind), outputAmount));
+			}
+			grind = null;
+		}
 	}
 }

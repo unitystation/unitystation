@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Systems.Explosions;
 
 namespace InGameEvents
 {
@@ -121,7 +122,7 @@ namespace InGameEvents
 
 				StartCoroutine(MoveRodToPosition(rod.transform, nextCoord, timeBetweenExplosions));
 
-				Explosions.Explosion.StartExplosion(nextCoord.ToLocalInt(stationMatrix), strength,
+				Explosion.StartExplosion(nextCoord.ToLocalInt(stationMatrix), strength,
 					stationMatrix.Matrix);
 
 				yield return new WaitForSeconds(timeBetweenExplosions);

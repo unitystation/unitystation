@@ -11,9 +11,9 @@ namespace Weapons.Projectiles.Behaviours
 	{
 		[SerializeField] private AnimationTile animationTile = null;
 
-		public void OnDespawn(RaycastHit2D hit, Vector2 point)
+		public void OnDespawn(MatrixManager.CustomPhysicsHit hit, Vector2 point)
 		{
-			if (hit.collider == null)
+			if (hit.CollisionHit.GameObject == null)
 			{
 				OnBeamEnd(point);
 			}
@@ -30,14 +30,14 @@ namespace Weapons.Projectiles.Behaviours
 			interactableTiles.CreateAnimatedTile(position, animationTile.Tile, animationTile.Time);
 		}
 
-		private void OnCollision(RaycastHit2D hit)
+		private void OnCollision(MatrixManager.CustomPhysicsHit hit)
 		{
-			var coll = hit.collider;
+			var coll = hit.CollisionHit.GameObject;
 			var interactableTiles = coll.GetComponentInParent<InteractableTiles>();
 
 			var bulletHitTarget = Vector3.zero;
-			bulletHitTarget.x = hit.point.x - 0.01f * hit.normal.x;
-			bulletHitTarget.y = hit.point.y - 0.01f * hit.normal.y;
+			bulletHitTarget.x = hit.HitWorld.x - 0.01f * hit.Normal.x;
+			bulletHitTarget.y = hit.HitWorld.y - 0.01f * hit.Normal.y;
 
 			interactableTiles.CreateAnimatedTile(bulletHitTarget, animationTile.Tile, animationTile.Time);
 		}

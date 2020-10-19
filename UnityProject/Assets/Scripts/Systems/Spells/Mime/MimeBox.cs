@@ -1,5 +1,7 @@
 using System.Collections;
 using UnityEngine;
+using Systems.Spells;
+using ScriptableObjects.Systems.Spells;
 
 namespace Spells
 {

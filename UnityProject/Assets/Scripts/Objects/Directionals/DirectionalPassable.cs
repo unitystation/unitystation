@@ -32,7 +32,7 @@ public class DirectionalPassable : RegisterObject
 		return CheckPassable(to);
 	}
 
-	public override bool IsPassable(Vector3Int from, bool isServer)
+	public override bool IsPassable(Vector3Int from, bool isServer, GameObject context = null)
 	{
 		return CheckPassable(from);
 	}

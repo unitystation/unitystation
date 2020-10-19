@@ -15,17 +15,6 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
-      propertyPath: initialTraits.Array.size
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
-      propertyPath: initialTraits.Array.data[1]
-      value: 
-      objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
-        type: 2}
-    - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
-        type: 3}
       propertyPath: itemSprites.LeftHand.Texture
       value: 
       objectReference: {fileID: 2800000, guid: 041e84e7eb9d7b44889a300e15f07ec1, type: 3}
@@ -118,7 +107,7 @@ PrefabInstance:
         type: 2}
     - target: {fileID: 4753481360726882550, guid: 1265e6ed7f0c58249b9a29aacc18a166,
         type: 3}
-      propertyPath: initialTraits.Array.data[2]
+      propertyPath: initialTraits.Array.data[1]
       value: 
       objectReference: {fileID: 11400000, guid: 609eb161b7a626c48b33c283180d4fd7,
         type: 2}

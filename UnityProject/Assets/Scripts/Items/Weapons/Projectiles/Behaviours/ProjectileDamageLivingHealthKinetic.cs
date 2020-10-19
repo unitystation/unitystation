@@ -23,14 +23,15 @@ namespace Weapons.Projectiles.Behaviours
 			this.targetZone = targetZone;
 		}
 
-		public bool OnHit(RaycastHit2D hit)
+		public bool OnHit(MatrixManager.CustomPhysicsHit  hit)
 		{
 			return TryDamage(hit);
 		}
 
-		private bool TryDamage(RaycastHit2D hit)
+		private bool TryDamage(MatrixManager.CustomPhysicsHit  hit)
 		{
-			var coll = hit.collider;
+			var coll = hit.CollisionHit.GameObject;
+			if (coll == null) return true;
 			var livingHealth = coll.GetComponent<LivingHealthBehaviour>();
 			if (livingHealth == null)
 			{

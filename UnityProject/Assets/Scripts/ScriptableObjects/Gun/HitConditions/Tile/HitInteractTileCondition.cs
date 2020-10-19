@@ -12,7 +12,7 @@ namespace ScriptableObjects.Gun.HitConditions.Tile
 		/// <param name="worldPosition"></param>
 		/// <returns></returns>
 		public abstract bool CheckCondition(
-			RaycastHit2D hit,
+			MatrixManager.CustomPhysicsHit hit,
 			InteractableTiles interactableTiles,
 			Vector3 worldPosition);
 	}

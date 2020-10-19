@@ -104,13 +104,19 @@ PrefabInstance:
     - target: {fileID: 8635195139948178778, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: m_Name
-      value: BoxedSpaceSuitAndHelmet
+      value: FakeBoxedSpacesuitAndHelmet
       objectReference: {fileID: 0}
     - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
         type: 3}
       propertyPath: itemStoragePopulator
       value: 
       objectReference: {fileID: 11400000, guid: 8dcf4a7d5d6bd764e99737398e5e652c,
+        type: 2}
+    - target: {fileID: 8654565269348869248, guid: 3e5919f639f566c4590d07d54ef256dd,
+        type: 3}
+      propertyPath: itemStorageCapacity
+      value: 
+      objectReference: {fileID: 11400000, guid: d826281b4a2314b558681d69d7e7f5d2,
         type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e5919f639f566c4590d07d54ef256dd, type: 3}

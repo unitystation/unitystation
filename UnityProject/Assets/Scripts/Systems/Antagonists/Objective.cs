@@ -75,6 +75,14 @@ namespace Antagonists
 		}
 
 		/// <summary>
+		/// Manually set objective as complete
+		/// </summary>
+		public void SetAsComplete()
+		{
+			Complete = true;
+		}
+
+		/// <summary>
 		/// Defines how to check the completion of the objective.
 		/// </summary>
 		protected abstract bool CheckCompletion();

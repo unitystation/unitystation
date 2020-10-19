@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using Atmospherics;
+using Systems.Atmospherics;
 using Chemistry;
 using NaughtyAttributes;
 using UnityEngine;
 using UnityEngine.Serialization;
-
 
 namespace Pipes
 {
@@ -509,7 +507,7 @@ namespace Pipes
 			if (SpecifiedGas != null)
 			{
 				float ToRemovegas = 0;
-				var Gas = SpecifiedGas.GetValueOrDefault(Atmospherics.Gas.Oxygen);
+				var Gas = SpecifiedGas.GetValueOrDefault(Systems.Atmospherics.Gas.Oxygen);
 				if (amount != null)
 				{
 					ToRemovegas = amount.Value.y;

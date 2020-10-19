@@ -147,6 +147,13 @@ public partial class GameManager
 				yield return WaitFor.EndOfFrame;
 				break;
 			}
+
+			if (job.AntagOccupation.JobType == JobType.WIZARD)
+			{
+				yield return StartCoroutine(SubSceneManager.Instance.LoadWizard());
+				yield return WaitFor.EndOfFrame;
+				break;
+			}
 		}
 
 		GameMode.StartRound();

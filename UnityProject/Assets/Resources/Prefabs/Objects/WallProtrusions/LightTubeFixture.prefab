@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 5173863171863889205}
   - component: {fileID: 1689274832931870787}
-  - component: {fileID: 396571970354561139}
   m_Layer: 13
   m_Name: LightOn
   m_TagString: Untagged
@@ -47,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +68,7 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 1085623217
+  m_SortingLayerID: -1964781063
   m_SortingLayer: 19
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300002, guid: 1f8fe2981d2d3bb4f8643d0bed83b580, type: 3}
@@ -82,25 +82,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &396571970354561139
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2161202133596991296}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  NetworkThis: 1
-  SubCatalogue: []
-  PresentSpriteSet: {fileID: 11400000, guid: 07e249f505acb1244865f003c18ffc13, type: 2}
-  pushTextureOnStartUp: 1
-  variantIndex: 1
-  palette: []
-  Sprites: []
 --- !u!114 &2883810215281542680
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -120,6 +101,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 6947158127070171075}
+        m_TargetAssemblyTypeName: LightSource, Assets
         m_MethodName: EditorDirectionChange
         m_Mode: 1
         m_Arguments:
@@ -221,7 +203,7 @@ PrefabInstance:
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: m_SortingLayerID
-      value: 1085623217
+      value: -1964781063
       objectReference: {fileID: 0}
     - target: {fileID: 1583724279418462635, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -329,10 +311,20 @@ PrefabInstance:
       propertyPath: m_AssetId
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7354635586586802054, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: m_Layer
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 7887620515462466081, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
       propertyPath: initialIntegrity
       value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7946340047006197236, guid: b69bfc56f39849d4ba9139d2d51bedb6,
+        type: 3}
+      propertyPath: Passable
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8232375373487905420, guid: b69bfc56f39849d4ba9139d2d51bedb6,
         type: 3}
@@ -346,6 +338,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 768889878625444157, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
+    - {fileID: 6109775972905365350, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: b69bfc56f39849d4ba9139d2d51bedb6, type: 3}
 --- !u!1 &8010465399013802086 stripped
 GameObject:

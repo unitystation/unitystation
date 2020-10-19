@@ -11,7 +11,7 @@ Text_buffer_global = ['List_of_plants = []\nList_of_produce = []\n']
 Inherent = {}
 
 Inheritance_Dictionary = {}
-        
+
 def file_len(fname):
     with open(fname) as f:
         for i, l in enumerate(f):
@@ -20,7 +20,7 @@ def file_len(fname):
 
 #for a in range(0,file_len("ethy ithis.txt")):
     #pass
-#if "blah" not in somestring: 
+#if "blah" not in somestring:
 
 
 #print(file_len("ethy i()this.txt"))
@@ -33,7 +33,7 @@ def woek_lichgons(f):
         p = l.replace('\n','')
         p = p.replace('\t','')
         #print(p)
-        if '/obj/item/seeds' in p and not 'list(' in p and not '=' in p and not ',' in p and not ')' in p: 
+        if '/obj/item/seeds' in p and not 'list(' in p and not '=' in p and not ',' in p and not ')' in p:
             burer = [p]
         
         elif not p:
@@ -69,12 +69,12 @@ def burer_piopes(burer):
     production = ''
     plant_yield = ''
     potency = ''
-    weed_growth_rate = '' 
+    weed_growth_rate = ''
     weed_resistance = ''
 
     species = ''
     
-    growing_Sprites_folder = '' 
+    growing_Sprites_folder = ''
     Grown_Sprite = ''
     dead_Sprite = ''
     genes = ''
@@ -216,7 +216,7 @@ def burer_piopes(burer):
         Inheritance = True
     else:
         Inheritance = False
-        Inheritance_default = Inherent[topline.split('/')[0]] 
+        Inheritance_default = Inherent[topline.split('/')[0]]
         
       
     if name:
@@ -249,7 +249,7 @@ def burer_piopes(burer):
     
     if namename:
         if Inheritance:
-            Inherent[TL_naem]["namename"] = namename 
+            Inherent[TL_naem]["namename"] = namename
             
         namename = '\t'+namename+'\n'
         full = full + namename
@@ -260,7 +260,7 @@ def burer_piopes(burer):
     
     if Description:
         if Inheritance:
-            Inherent[TL_naem]["Description"] = Description 
+            Inherent[TL_naem]["Description"] = Description
         Description = '\t'+Description+'\n'
         full = full + Description
  
@@ -269,7 +269,7 @@ def burer_piopes(burer):
         
     if Seed_packet_name:
         if Inheritance:
-            Inherent[TL_naem]["Seed_packet_name"] = Seed_packet_name 
+            Inherent[TL_naem]["Seed_packet_name"] = Seed_packet_name
         Seed_packet_name = '\t'+Seed_packet_name+'\n'
         full = full + Seed_packet_name
 
@@ -278,7 +278,7 @@ def burer_piopes(burer):
 
     if plantname:
         if Inheritance:
-            Inherent[TL_naem]["plantname"] = plantname 
+            Inherent[TL_naem]["plantname"] = plantname
         plantname = '\t'+plantname+'\n'
         full = full + plantname
 
@@ -292,7 +292,7 @@ def burer_piopes(burer):
 
     if lifespan:
         if Inheritance:
-            Inherent[TL_naem]["lifespan"] = lifespan 
+            Inherent[TL_naem]["lifespan"] = lifespan
         lifespan = '\t'+lifespan+'\n'
         full = full + lifespan
 
@@ -305,7 +305,7 @@ def burer_piopes(burer):
     
     if endurance:
         if Inheritance:
-            Inherent[TL_naem]["endurance"] = endurance 
+            Inherent[TL_naem]["endurance"] = endurance
         endurance = '\t'+endurance+'\n'
         full = full + endurance
 
@@ -318,7 +318,7 @@ def burer_piopes(burer):
 
     if production:
         if Inheritance:
-            Inherent[TL_naem]["production"] = production 
+            Inherent[TL_naem]["production"] = production
         production = '\t'+production+'\n'
         full = full + production
 
@@ -337,7 +337,7 @@ def burer_piopes(burer):
 
     if plant_yield:
         if Inheritance:
-            Inherent[TL_naem]["plant_yield"] = plant_yield 
+            Inherent[TL_naem]["plant_yield"] = plant_yield
         plant_yield = '\t'+plant_yield+'\n'
         full = full + plant_yield
 
@@ -349,19 +349,19 @@ def burer_piopes(burer):
         
     if potency:
         if Inheritance:
-            Inherent[TL_naem]["potency"] = potency 
+            Inherent[TL_naem]["potency"] = potency
         potency = '\t'+potency+'\n'
         full = full + potency
 
     if "weed_growth_rate" in Inheritance_default and not weed_growth_rate:
-        weed_growth_rate = Inheritance_default["weed_growth_rate"]  
+        weed_growth_rate = Inheritance_default["weed_growth_rate"]
 
     if not weed_growth_rate:
-        weed_growth_rate = 'weed_growth_rate = 1' 
+        weed_growth_rate = 'weed_growth_rate = 1'
 
     if weed_growth_rate:
         if Inheritance:
-            Inherent[TL_naem]["weed_growth_rate"] = weed_growth_rate 
+            Inherent[TL_naem]["weed_growth_rate"] = weed_growth_rate
         weed_growth_rate = '\t'+weed_growth_rate+'\n'
         full = full + weed_growth_rate
 
@@ -373,7 +373,7 @@ def burer_piopes(burer):
     
     if weed_resistance:
         if Inheritance:
-            Inherent[TL_naem]["weed_resistance"] = weed_resistance 
+            Inherent[TL_naem]["weed_resistance"] = weed_resistance
         weed_resistance = '\t'+weed_resistance+'\n'
         full = full + weed_resistance
 
@@ -382,7 +382,7 @@ def burer_piopes(burer):
 
     if growing_Sprites_folder:
         if Inheritance:
-            Inherent[TL_naem]["growing_Sprites_folder"] = growing_Sprites_folder 
+            Inherent[TL_naem]["growing_Sprites_folder"] = growing_Sprites_folder
         growing_Sprites_folder = '\t'+growing_Sprites_folder+'\n'
         full = full + growing_Sprites_folder
 
@@ -391,7 +391,7 @@ def burer_piopes(burer):
         
     if Grown_Sprite:
         if Inheritance:
-            Inherent[TL_naem]["Grown_Sprite"] = Grown_Sprite 
+            Inherent[TL_naem]["Grown_Sprite"] = Grown_Sprite
         Grown_Sprite = '\t'+Grown_Sprite+'\n'
         full = full + Grown_Sprite
 
@@ -400,7 +400,7 @@ def burer_piopes(burer):
 
     if dead_Sprite:
         if Inheritance:
-            Inherent[TL_naem]["dead_Sprite"] = dead_Sprite 
+            Inherent[TL_naem]["dead_Sprite"] = dead_Sprite
         dead_Sprite = '\t'+dead_Sprite+'\n'
         full = full + dead_Sprite
 
@@ -409,7 +409,7 @@ def burer_piopes(burer):
 
     if genes:
         if Inheritance:
-            Inherent[TL_naem]["genes"] = genes 
+            Inherent[TL_naem]["genes"] = genes
         genes = '\t'+genes+'\n'
         full = full + genes
 
@@ -424,7 +424,7 @@ def burer_piopes(burer):
     
     if Chemical_content:
         if Inheritance:
-            Inherent[TL_naem]["Chemical_content"] = Chemical_content 
+            Inherent[TL_naem]["Chemical_content"] = Chemical_content
         Chemical_content = '\t'+Chemical_content+'\n'
         full = full + Chemical_content
 
@@ -443,10 +443,10 @@ def burer_piopes(burer):
 ##    production = 'production = 6'
 ##    plant_yield = 'plant_yield = 3'
 ##    potency = 'potency = 10'
-##    weed_growth_rate = 'weed_growth_rate = 1' 
+##    weed_growth_rate = 'weed_growth_rate = 1'
 ##    weed_resistance = 'weed_resistance = 5'
 ##    
-##    growing_Sprites_folder = '' 
+##    growing_Sprites_folder = ''
 ##    Grown_Sprite = ''
 ##    dead_Sprite = ''
 ##    genes = ''
@@ -464,7 +464,7 @@ def read_produce(f):
         p = l.replace('\n','')
         p = p.replace('\t','')
         #print(p)
-        if '/obj/item/reagent_containers' in p and not 'list(' in p and not '=' in p and not ',' in p and not ')' in p: 
+        if '/obj/item/reagent_containers' in p and not 'list(' in p and not '=' in p and not ',' in p and not ')' in p:
             burer = [p]
         
         elif not p:
@@ -486,7 +486,7 @@ def create_produce(burer):
     Inheritance_default = {}
     topline = ''
     TL_naem = ''
-    
+
     name = ''
     pretty_name = ''
     description = ''
@@ -572,5 +572,3 @@ Filenamepy = 'produce.py'
 PY_File = open(Filenamepy,'w+')
 PY_File.writelines(Text_buffer_global)
 PY_File.close()
-
-

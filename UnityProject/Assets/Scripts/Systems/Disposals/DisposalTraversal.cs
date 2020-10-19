@@ -1,7 +1,8 @@
 ﻿using System.Linq;
 using UnityEngine;
+using Objects.Disposals;
 
-namespace Disposals
+namespace Systems.Disposals
 {
 	/// <summary>
 	/// Represents an instance of a disposal. It takes a virtual container,
@@ -196,7 +197,7 @@ namespace Disposals
 
 		void TryDamageTileFromEjection(Vector3Int localPosition)
 		{
-			if (!matrix.TileChangeManager.MetaTileMap.HasTile(localPosition, LayerType.Floors, true)) return;
+			if (!matrix.TileChangeManager.MetaTileMap.HasTile(localPosition, LayerType.Floors)) return;
 			matrix.TileChangeManager.UpdateTile(localPosition, TileType.Floor, "damaged3");
 		}
 

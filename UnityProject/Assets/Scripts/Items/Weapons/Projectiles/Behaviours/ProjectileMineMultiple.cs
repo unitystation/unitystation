@@ -16,7 +16,7 @@ namespace Weapons.Projectiles.Behaviours
 			projectileRangeLimited = GetComponent<ProjectileRangeLimited>();
 		}
 
-		public override bool Interact(RaycastHit2D hit, InteractableTiles interactableTiles, Vector3 worldPosition)
+		public override bool Interact(MatrixManager.CustomPhysicsHit hit, InteractableTiles interactableTiles, Vector3 worldPosition)
 		{
 			if (base.Interact(hit, interactableTiles, worldPosition) == false)
 			{

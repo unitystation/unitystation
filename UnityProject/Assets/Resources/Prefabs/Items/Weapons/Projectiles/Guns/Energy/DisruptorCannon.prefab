@@ -47,6 +47,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -117,6 +118,7 @@ MonoBehaviour:
   syncInterval: 0.1
   clothData: {fileID: 11400000, guid: 418707f5ca3e45c47ba16bd11fbbf78f, type: 2}
   variantType: 0
+  hidesSlots: 0
   hideClothingFlags: 0
   SpriteDataSO: []
 --- !u!1001 &7393967512050525525
@@ -178,7 +180,7 @@ PrefabInstance:
         type: 3}
       propertyPath: ammoPrefab
       value: 
-      objectReference: {fileID: 1271333933859612166, guid: a7d5133a902792637a0a9a34499cfc91,
+      objectReference: {fileID: 1507742144348812911, guid: 1360dc20e1552274286b4133a2052b7a,
         type: 3}
     - target: {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}

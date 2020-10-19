@@ -3,7 +3,7 @@ using Tilemaps.Behaviours.Meta;
 using UnityEngine;
 using System;
 
-namespace Atmospherics
+namespace Systems.Atmospherics
 {
 	/// <summary>
 	/// Main class which runs the atmospheric simulation for a given atmos thread. Since there is currently only

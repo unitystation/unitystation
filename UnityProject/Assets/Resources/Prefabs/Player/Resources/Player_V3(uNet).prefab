@@ -844,6 +844,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   RaceTexture: {fileID: 11400000, guid: 246903de1c8e6a5458d029144461c26e, type: 2}
+  partialBurningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
+    type: 3}
+  engulfedBurningPrefab: {fileID: 1558421102126524431, guid: 7a0d54e0877507a4eba1a70784ea9085,
+    type: 3}
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
+    type: 3}
+  muzzleFlash: {fileID: 114824170203619628}
   characterSprites:
   - {fileID: 114119110819432540}
   - {fileID: 114780271975595452}
@@ -858,7 +865,6 @@ MonoBehaviour:
   - {fileID: 114341362304352952}
   - {fileID: 6015914302054547211}
   - {fileID: 5499776427588436788}
-  muzzleFlash: {fileID: 114824170203619628}
 --- !u!114 &114413669770135258
 MonoBehaviour:
   m_ObjectHideFlags: 0

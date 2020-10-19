@@ -1,15 +1,17 @@
 using System;
 using UnityEngine;
 using UnityEngine.Events;
+using Objects;
 
 /// Should be removed when common ancestor for PlayerSync and CustomNetTransform will be created
-public interface IPushable {
+public interface IPushable
+{
 	/// Push this thing in following direction
 	/// <param name="followMode">flag used when object is following its puller
 	/// (turns on tile snapping and removes player collision check)</param>
 	/// <returns>true if push was successful</returns>
-	bool Push( Vector2Int direction, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false);
-	bool PredictivePush( Vector2Int target, float speed = Single.NaN, bool followMode = false);
+	bool Push(Vector2Int direction, float speed = Single.NaN, bool followMode = false, bool ignorePassable = false, GameObject context = null);
+	bool PredictivePush(Vector2Int target, float speed = Single.NaN, bool followMode = false);
 
 	/// <summary>
 	/// Push this in provided direction if it's under no gravity (or on a frictionless floor)
@@ -38,7 +40,7 @@ public interface IPushable {
 
 	bool IsTileSnap { get; }
 
-	void Nudge( NudgeInfo info );
+	void Nudge(NudgeInfo info);
 	ItemSize Size { get; }
 
 	/// Try stopping object if it's flying
@@ -69,11 +71,11 @@ public interface IPushable {
 	void SetVisibleServer(bool visible);
 }
 public class Vector3Event : UnityEvent<Vector3> { }
-public class Vector3IntEvent : UnityEvent<Vector3Int> {}
-public class DualVector3IntEvent : UnityEvent<Vector3Int,Vector3Int> {}
+public class Vector3IntEvent : UnityEvent<Vector3Int> { }
+public class DualVector3IntEvent : UnityEvent<Vector3Int, Vector3Int> { }
 
 /// <summary>
 /// Collision event that's invoked when a tile snapped object (player/machine) flies into something at high enough speed
 /// In order to apply damage to both flying object and whatever there is on next tile
 /// </summary>
-public class CollisionEvent : UnityEvent<CollisionInfo> {}
+public class CollisionEvent : UnityEvent<CollisionInfo> { }

@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -229502157
-  m_SortingLayer: 15
+  m_SortingLayer: 16
   m_SortingOrder: 11
   m_Sprite: {fileID: -5445129116731783324, guid: 293575e6be357864482aa5a5f0113b59,
     type: 3}
@@ -272,6 +273,7 @@ GameObject:
   - component: {fileID: 3708589072684735304}
   - component: {fileID: -4996062402519425927}
   - component: {fileID: 5349552382227293093}
+  - component: {fileID: -4619773293426012802}
   m_Layer: 12
   m_Name: NPC_Sheep_Female
   m_TagString: Untagged
@@ -349,12 +351,9 @@ MonoBehaviour:
   butcherResults:
   - {fileID: 0}
   - {fileID: 0}
-  aliveSprite: {fileID: -5445129116731783324, guid: 293575e6be357864482aa5a5f0113b59,
-    type: 3}
-  deadSprite: {fileID: 21300000, guid: d5f3feba589d6ad4281496cdf138e320, type: 3}
+  RTT: 0
+  RadiationStacks: 0
   deadState: 0
-  spriteRend: {fileID: 83192708151968013}
-  registerObject: {fileID: 0}
 --- !u!114 &4859231028589996057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,6 +410,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  snapToGridOnStart: 1
   IsFixedMatrix: 0
 --- !u!114 &4859381606111050923
 MonoBehaviour:
@@ -424,6 +424,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f68d36ed5e334f99b82dc3801757e89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isMeleeable: 1
   butcherTime: 2
   butcherSound: BladeSlice
 --- !u!114 &4859213822428636291
@@ -525,14 +526,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  spriteHandler: {fileID: 0}
   spriteRend: {fileID: 83192708151968013}
-  upSprite: {fileID: 3997060083453960001, guid: 293575e6be357864482aa5a5f0113b59,
+  aliveSpriteIndex: 0
+  deadSpriteIndex: 1
+  burningPrefab: {fileID: 1558421102126524431, guid: 7a0d54e0877507a4eba1a70784ea9085,
     type: 3}
-  rightSprite: {fileID: -5445129116731783324, guid: 293575e6be357864482aa5a5f0113b59,
-    type: 3}
-  downSprite: {fileID: -5122627277612847654, guid: 293575e6be357864482aa5a5f0113b59,
-    type: 3}
-  leftSprite: {fileID: -8011812129411201105, guid: 293575e6be357864482aa5a5f0113b59,
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
     type: 3}
 --- !u!114 &3651291330810827203
 MonoBehaviour:
@@ -560,6 +560,8 @@ MonoBehaviour:
   tickRate: 1
   target: 0
   actionPerformTime: 0
+  hasFoodPrefereces: 0
+  foodPreferences: []
 --- !u!114 &3708589072684735304
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -626,6 +628,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 62cc3ef7cd9082443aaf3c255851d15a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &-4619773293426012802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 819809cff2481914d883a6e1fefb4edd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  forceHidden: 0
+  InitialDirection: 3
+  onEditorDirectionChange:
+    m_PersistentCalls:
+      m_Calls: []
+  ChangeDirectionWithMatrix: 1
+  DisableSyncing: 0

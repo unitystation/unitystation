@@ -117,7 +117,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 			Debug.LogError($"{this} field LightEmission is null, please check scripts.");
 			return;
 		}
-		
+
 		IsOn = on; // Will trigger SyncState.
 		UpdateLights();
 	}
@@ -166,6 +166,7 @@ public class ItemLightControl : NetworkBehaviour, IServerInventoryMove
 	{
 		if (IsOn)
 		{
+			PlayerLightData.Intensity = CachedIntensity;
 			LightEmission.AddLight(PlayerLightData);
 			LightToggleIntensity();
 			objectLightEmission.SetActive(true);

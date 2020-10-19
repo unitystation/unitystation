@@ -222,6 +222,16 @@ public class SpriteHandler : MonoBehaviour
 		}
 	}
 
+	public Color GetColor()
+	{
+		if (setColour == null)
+		{
+			UpdateImageColor();
+		}
+
+		return setColour.Value;
+	}
+
 	public void SetColor(Color value, bool NetWork = true)
 	{
 		if (setColour == value) return;
@@ -517,6 +527,18 @@ public class SpriteHandler : MonoBehaviour
 		else if (image != null)
 		{
 			image.color = value;
+		}
+	}
+
+	private void UpdateImageColor()
+	{
+		if (spriteRenderer != null)
+		{
+			setColour = spriteRenderer.color;
+		}
+		else if (image != null)
+		{
+			setColour = image.color;
 		}
 	}
 

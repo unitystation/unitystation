@@ -2,95 +2,98 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl
+namespace Objects.Engineering
 {
-	private SpriteHandler spriteHandler;
-
-	public ElectricalNodeControl ElectricalNodeControl;
-	public ResistanceSourceModule ResistanceSourceModule;
-
-	public bool connectedToOther = false;
-	public float Voltage;
-	public bool IsOn { get; private set; } = false;
-
-	#region Lifecycle
-
-	private void Awake()
+	public class FieldGenerator : MonoBehaviour, ICheckedInteractable<HandApply>, INodeControl
 	{
-		spriteHandler = GetComponentInChildren<SpriteHandler>();
-	}
+		private SpriteHandler spriteHandler;
 
-	#endregion Lifecycle
+		public ElectricalNodeControl ElectricalNodeControl;
+		public ResistanceSourceModule ResistanceSourceModule;
 
-	#region Interaction
+		public bool connectedToOther = false;
+		public float Voltage;
+		public bool IsOn { get; private set; } = false;
 
-	public bool WillInteract(HandApply interaction, NetworkSide side)
-	{
-		if (!DefaultWillInteract.Default(interaction, side)) return false;
-		if (interaction.TargetObject != gameObject) return false;
-		if (interaction.HandObject != null) return false;
+		#region Lifecycle
 
-		return true;
-	}
-
-	public void ServerPerformInteraction(HandApply interaction)
-	{
-		TogglePower();
-	}
-
-	#endregion Interaction
-
-	private void TogglePower()
-	{
-		IsOn = !IsOn;
-		UpdateSprites();
-	}
-
-	public void PowerNetworkUpdate()
-	{
-		//Voltage = ElectricalNodeControl.Node.Data.ActualVoltage;
-		//UpdateSprites(isOn, isOn);
-		//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
-	}
-
-	private void UpdateSprites()
-	{
-		if (IsOn)
+		private void Awake()
 		{
-			if (Voltage < 2700)
+			spriteHandler = GetComponentInChildren<SpriteHandler>();
+		}
+
+		#endregion Lifecycle
+
+		#region Interaction
+
+		public bool WillInteract(HandApply interaction, NetworkSide side)
+		{
+			if (!DefaultWillInteract.Default(interaction, side)) return false;
+			if (interaction.TargetObject != gameObject) return false;
+			if (interaction.HandObject != null) return false;
+
+			return true;
+		}
+
+		public void ServerPerformInteraction(HandApply interaction)
+		{
+			TogglePower();
+		}
+
+		#endregion Interaction
+
+		private void TogglePower()
+		{
+			IsOn = !IsOn;
+			UpdateSprites();
+		}
+
+		public void PowerNetworkUpdate()
+		{
+			//Voltage = ElectricalNodeControl.Node.Data.ActualVoltage;
+			//UpdateSprites(isOn, isOn);
+			//Logger.Log (Voltage.ToString () + "yeaahhh")   ;
+		}
+
+		private void UpdateSprites()
+		{
+			if (IsOn)
 			{
-				spriteHandler.ChangeSprite((int) SpriteState.GeneratorOffBr);
+				if (Voltage < 2700)
+				{
+					spriteHandler.ChangeSprite((int)SpriteState.GeneratorOffBr);
+				}
+				else if (Voltage >= 2700)
+				{
+					ResistanceSourceModule.Resistance = 50f;
+					if (!connectedToOther)
+					{
+						spriteHandler.ChangeSprite((int)SpriteState.GeneratorOnBr);
+					}
+					else
+					{
+						spriteHandler.ChangeSprite((int)SpriteState.GeneratorOn);
+					}
+				}
 			}
-			else if (Voltage >= 2700)
+			else
 			{
-				ResistanceSourceModule.Resistance = 50f;
-				if (!connectedToOther)
-				{
-					spriteHandler.ChangeSprite((int) SpriteState.GeneratorOnBr);
-				}
-				else
-				{
-					spriteHandler.ChangeSprite((int) SpriteState.GeneratorOn);
-				}
+				spriteHandler.ChangeSprite((int)SpriteState.GeneratorOff);
 			}
 		}
-		else
+
+		//Check the operational state
+		private void CheckState(bool _isOn)
 		{
-			spriteHandler.ChangeSprite((int) SpriteState.GeneratorOff);
+
 		}
-	}
 
-	//Check the operational state
-	private void CheckState(bool _isOn)
-	{
-
-	}
-
-	private enum SpriteState
-	{
-		GeneratorOff = 0,
-		GeneratorOn = 1,
-		GeneratorOffBr = 2,
-		GeneratorOnBr = 3
+		private enum SpriteState
+		{
+			GeneratorOff = 0,
+			GeneratorOn = 1,
+			GeneratorOffBr = 2,
+			GeneratorOnBr = 3
+		}
 	}
 }

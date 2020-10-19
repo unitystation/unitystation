@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Mirror;
+using Systems.Disposals;
 
-namespace Disposals
+namespace Objects.Disposals
 {
 	public enum InstallState
 	{
@@ -142,7 +143,7 @@ namespace Disposals
 
 		protected bool FloorPlatingExposed()
 		{
-			return !registerObject.TileChangeManager.MetaTileMap.HasTile(registerObject.LocalPositionServer, LayerType.Floors, true);
+			return !registerObject.TileChangeManager.MetaTileMap.HasTile(registerObject.LocalPositionServer, LayerType.Floors);
 		}
 
 		protected bool PipeTerminalExists()

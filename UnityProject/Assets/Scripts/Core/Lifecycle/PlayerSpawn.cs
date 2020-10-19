@@ -4,6 +4,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using UnityEngine;
 using Mirror;
+using Objects.Security;
 
 /// <summary>
 /// Main API for dealing with spawning players and related things.
@@ -33,6 +34,7 @@ public static class PlayerSpawn
 		if (newPlayer)
 		{
 			if (occupation.JobType != JobType.SYNDICATE &&
+				occupation.JobType != JobType.WIZARD &&
 				occupation.JobType != JobType.AI)
 			{
 				SecurityRecordsManager.Instance.AddRecord(newPlayer.GetComponent<PlayerScript>(), occupation.JobType);
@@ -112,7 +114,8 @@ public static class PlayerSpawn
 	private static readonly ReadOnlyCollection<JobType> NEVER_SPAWN_ARRIVALS_JOBS = new ReadOnlyCollection<JobType>(new List<JobType>
 		{
 			JobType.AI,
-			JobType.SYNDICATE
+			JobType.SYNDICATE,
+			JobType.WIZARD
 		});
 	//Time to start spawning players at arrivals
 	private static readonly DateTime ARRIVALS_SPAWN_TIME = new DateTime().AddHours(12).AddMinutes(2);
@@ -154,7 +157,6 @@ public static class PlayerSpawn
 				{
 					spawnTransform = GetSpawnForJob(JobType.ASSISTANT);
 				}
-
 			}
 
 			if (spawnTransform == null)
@@ -389,6 +391,12 @@ public static class PlayerSpawn
 		return player;
 	}
 
+	public static void ServerTransferPlayerToNewBody(NetworkConnection conn, GameObject newBody, GameObject oldBody,
+		EVENT eventType, CharacterSettings characterSettings, bool willDestroyOldBody = false)
+	{
+		ServerTransferPlayer(conn, newBody, oldBody, eventType, characterSettings, willDestroyOldBody);
+	}
+
 	/// <summary>
 	/// Server-side only. Transfers control of a player object to the indicated connection.
 	/// </summary>
@@ -481,26 +489,31 @@ public static class PlayerSpawn
 
 		return spawnPoints.Count == 0 ? null : spawnPoints.PickRandom().transform;
 	}
-	private static Transform GetSpawnForJob(JobType jobType)
+	public static Transform GetSpawnForJob(JobType jobType)
 	{
 		if (jobType == JobType.NULL)
 		{
 			return null;
 		}
 
-		List<SpawnPoint> arrivals = CustomNetworkManager.startPositions.Select(
-			x => x.GetComponent<SpawnPoint>()).Where(
-			x => x.Department == JobDepartment.LateJoin).ToList();
+		var spawns = CustomNetworkManager.startPositions.Select(x => x.GetComponent<SpawnPoint>()).ToList();
 
-		List<SpawnPoint> spawnPoints = CustomNetworkManager.startPositions.Select(
-			x => x.GetComponent<SpawnPoint>()).Where(
-			x => x.JobRestrictions.Contains(jobType)).ToList();
+		var spawnPoints = spawns.Where(x => x.JobRestrictions.Contains(jobType)).ToList();
+		if (spawnPoints.Count != 0)
+		{
+			return spawnPoints.PickRandom().transform;
+		}
 
-		//Deafault to arrivals if there is no mapped spawn point for this job!
-		// will still return null if there is no arrivals spawn points set (and people will just not spawn!).
-		return spawnPoints.Count == 0
-			? arrivals.Count != 0 ? arrivals.PickRandom().transform : null
-			: spawnPoints.PickRandom().transform;
+		// Default to arrivals if there is no mapped spawn point for this job!
+		// Will still return null if there is no arrivals spawn points set (and people will just not spawn!).
+
+		var arrivals = spawns.Where(x => x.Department == JobDepartment.LateJoin).ToList();
+		if (arrivals.Count != 0)
+		{
+			return arrivals.PickRandom().transform;
+		}
+
+		return default;
 	}
 
 	private static StepType GetStepType(PlayerScript player)
