@@ -38,25 +38,26 @@ public partial class Chat
 	public Color localColor;
 	public Color combatColor;
 	public Color warningColor;
+	public Color blobColor;
 	public Color defaultColor;
 
 
 	/// <summary>
 	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
 	/// </summary>
-	public const ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost;
+	public static readonly ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost | ChatChannel.Blob;
 
 	/// <summary>
 	/// This channels are OOC or service messages and shouldn't affect IC communications
 	/// </summary>
-	public const ChatChannel ServiceChannels = ChatChannel.Action | ChatChannel.Admin | ChatChannel.Combat
-	                                           | ChatChannel.Examine | ChatChannel.OOC | ChatChannel.System |
-	                                           ChatChannel.Warning;
+	public static readonly ChatChannel ServiceChannels = ChatChannel.Action | ChatChannel.Admin | ChatChannel.Combat
+	                                                     | ChatChannel.Examine | ChatChannel.OOC | ChatChannel.System |
+	                                                     ChatChannel.Warning;
 
 	/// <summary>
 	/// This channels are either non verbal communication (Ghost, Binary) or some serivice channel (OOC, Action)
 	/// </summary>
-	public const ChatChannel NonSpeechChannels = Chat.NonVerbalChannels | Chat.ServiceChannels;
+	public static readonly ChatChannel NonSpeechChannels = NonVerbalChannels | ServiceChannels;
 
 	/// <summary>
 	/// Processes a message to be used in the chat log and chat bubbles.
@@ -405,7 +406,7 @@ public partial class Chat
 	{
 		if (PlayerManager.PlayerScript == null) return false;
 		if (!PlayerManager.PlayerScript.IsGhost) return false;
-		if (Instance.GhostHearAll) return false;
+		if (Instance.GhostHearAll && !PlayerManager.PlayerScript.IsBlob) return false;
 
 		if (NetworkIdentity.spawned.ContainsKey(originator))
 		{
@@ -466,6 +467,7 @@ public partial class Chat
 		if (channel.HasFlag(ChatChannel.Local)) return ColorUtility.ToHtmlStringRGBA(Instance.localColor);
 		if (channel.HasFlag(ChatChannel.Combat)) return ColorUtility.ToHtmlStringRGBA(Instance.combatColor);
 		if (channel.HasFlag(ChatChannel.Warning)) return ColorUtility.ToHtmlStringRGBA(Instance.warningColor);
+		if (channel.HasFlag(ChatChannel.Blob)) return ColorUtility.ToHtmlStringRGBA(Instance.blobColor);
 		return ColorUtility.ToHtmlStringRGBA(Instance.defaultColor);
 	}
 

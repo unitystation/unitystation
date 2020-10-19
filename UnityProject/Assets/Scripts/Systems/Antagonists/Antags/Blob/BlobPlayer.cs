@@ -8,6 +8,7 @@ using Light2D;
 using Mirror;
 using UnityEngine;
 using TMPro;
+using Random = UnityEngine.Random;
 
 namespace Blob
 {
@@ -100,6 +101,9 @@ namespace Blob
 		[SerializeField]
 		private LightSprite overmindLight = null;
 
+		[SerializeField]
+		private GameObject overmindSprite = null;
+
 		public bool clickCoords = true;
 
 		private ConcurrentDictionary<Vector3Int, BlobStructure> blobTiles =
@@ -124,7 +128,7 @@ namespace Blob
 		};
 
 		[SyncVar(hook = nameof(SyncResources))]
-		private int resources = 20;
+		private int resources = 0;
 
 		[SyncVar(hook = nameof(SyncHealth))]
 		private float health = 400;
@@ -149,8 +153,21 @@ namespace Blob
 			registerPlayer = GetComponent<RegisterPlayer>();
 			playerScript = GetComponent<PlayerScript>();
 
+			if (playerScript == null && (!TryGetComponent(out playerScript) || playerScript == null))
+			{
+				Debug.LogError("Playerscript was null on blob and couldnt be found.");
+				return;
+			}
+
 			playerScript.mind.ghost = playerScript;
 			playerScript.mind.body = playerScript;
+
+			var name = $"Overmind {Random.Range(1, 1001)}";
+
+			playerScript.characterSettings.Name = name;
+			playerScript.playerName = name;
+
+			playerScript.IsBlob = true;
 
 			var result = Spawn.ServerPrefab(blobCorePrefab, playerSync.ServerPosition, gameObject.transform);
 
@@ -200,7 +217,6 @@ namespace Blob
 
 		private void OnDisable()
 		{
-			Death();
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
@@ -289,6 +305,7 @@ namespace Blob
 			overmindLightObject.SetActive(true);
 			overmindLight.Color = color;
 			overmindLight.Color.a = 0.2f;
+			overmindSprite.layer = 29;
 		}
 
 		#region teleport
@@ -953,6 +970,8 @@ namespace Blob
 				string.Format(CentComm.BioHazardReportTemplate,
 					"The biohazard has been contained."),
 				MatrixManager.MainStationMatrix);
+
+			playerScript.IsBlob = false;
 
 			//Make blob into ghost
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);

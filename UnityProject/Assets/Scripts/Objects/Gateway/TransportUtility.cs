@@ -78,7 +78,7 @@ namespace Gateway
 				var previous = node.Previous?.Value;
 
 				//Disconnect pulling to make it not be a problem
-				currentObj.CmdStopPulling();
+				currentObj.ServerStopPulling();
 
 				//Transport current
 				TransportObject(currentObj, transportTo);
