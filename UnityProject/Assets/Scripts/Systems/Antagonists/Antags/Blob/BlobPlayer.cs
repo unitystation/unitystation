@@ -81,6 +81,10 @@ namespace Blob
 		private int maxBiomass = 100;
 
 		[SerializeField]
+		[Tooltip("If true then there will be announcements when blob is close to destroying station, after the initial biohazard.")]
+		private bool isBlobGamemode = true;
+
+		[SerializeField]
 		private bool endRoundWhenKilled = false;
 
 		[SerializeField]
@@ -245,7 +249,7 @@ namespace Blob
 				maxCount = numOfNonSpaceBlobTiles;
 			}
 
-			if (!halfWay && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 2)
+			if (isBlobGamemode && !halfWay && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 2)
 			{
 				halfWay = true;
 
@@ -256,7 +260,7 @@ namespace Blob
 				SoundManager.PlayNetworked("Notice1");
 			}
 
-			if (!nearlyWon && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 1.25)
+			if (isBlobGamemode && !nearlyWon && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 1.25)
 			{
 				nearlyWon = true;
 
