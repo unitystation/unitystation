@@ -45,19 +45,19 @@ public partial class Chat
 	/// <summary>
 	/// This channels can't be heared as sound by other players (like binary or changeling hivemind)
 	/// </summary>
-	public const ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost | ChatChannel.Blob;
+	public static readonly ChatChannel NonVerbalChannels = ChatChannel.Binary | ChatChannel.Ghost | ChatChannel.Blob;
 
 	/// <summary>
 	/// This channels are OOC or service messages and shouldn't affect IC communications
 	/// </summary>
-	public const ChatChannel ServiceChannels = ChatChannel.Action | ChatChannel.Admin | ChatChannel.Combat
-	                                           | ChatChannel.Examine | ChatChannel.OOC | ChatChannel.System |
-	                                           ChatChannel.Warning;
+	public static readonly ChatChannel ServiceChannels = ChatChannel.Action | ChatChannel.Admin | ChatChannel.Combat
+	                                                     | ChatChannel.Examine | ChatChannel.OOC | ChatChannel.System |
+	                                                     ChatChannel.Warning;
 
 	/// <summary>
 	/// This channels are either non verbal communication (Ghost, Binary) or some serivice channel (OOC, Action)
 	/// </summary>
-	public const ChatChannel NonSpeechChannels = Chat.NonVerbalChannels | Chat.ServiceChannels;
+	public static readonly ChatChannel NonSpeechChannels = NonVerbalChannels | ServiceChannels;
 
 	/// <summary>
 	/// Processes a message to be used in the chat log and chat bubbles.
