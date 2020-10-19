@@ -205,7 +205,6 @@ namespace Blob
 
 		private void OnDisable()
 		{
-			Death();
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
 		}
 
