@@ -2,6 +2,7 @@
 ---
 
 
+* 2020/10/19: Properly made the Suffering Bastard drink makeable. by [PetMudstone](https://github.com/PetMudstone) in PR #[5339](https://github.com/unitystation/unitystation/pull/5339)
 * 2020/10/19: misc fallstation fixes (sec timers, door switches, wiring) by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5338](https://github.com/unitystation/unitystation/pull/5338)
 * 2020/10/18: Added overlays to blob core and node by [ThatDan123](https://github.com/ThatDan123) in PR #[5333](https://github.com/unitystation/unitystation/pull/5333)
 * 2020/10/18: Fixed spores not being able to move over blob by [ThatDan123](https://github.com/ThatDan123) in PR #[5333](https://github.com/unitystation/unitystation/pull/5333)
