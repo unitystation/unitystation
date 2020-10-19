@@ -208,7 +208,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1722833055556988}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 77, y: 55, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4152194380817414287}
@@ -316,6 +316,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  passableExclusionsToThis: []
 --- !u!114 &114386898746361270
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -446,7 +447,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 5013283685470895831}
   spriteRend: {fileID: 4890346600101626888}
   aliveSpriteIndex: 0
   deadSpriteIndex: 1
@@ -586,7 +587,8 @@ MonoBehaviour:
   indexUp: 1
   indexRight: 2
   indexLeft: 3
-  spriteHandlers: []
+  spriteHandlers:
+  - {fileID: 5013283685470895831}
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,8 +599,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4152194380817414287}
   - component: {fileID: 4890346600101626888}
+  - component: {fileID: 5013283685470895831}
   m_Layer: 12
-  m_Name: sprite
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -658,7 +661,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 16
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300004, guid: e521117653fea244c9645316be5ec3a6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e521117653fea244c9645316be5ec3a6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -669,3 +672,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &5013283685470895831
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7921138586108671727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 2175ca1821b1b3847823c6133cd8cc0c, type: 2}
+  - {fileID: 11400000, guid: 0e419cfb50f5c2b4ebed31d0b3dd33b0, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 2175ca1821b1b3847823c6133cd8cc0c, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []

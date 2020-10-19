@@ -11,8 +11,11 @@ namespace ScriptableObjects.Items.SpellBook
 	public class SpellBookArtifact : SpellBookEntry
 	{
 		[SerializeField]
+		private new string name = default;
+		[SerializeField]
 		private GameObject[] artifacts = default;
 
+		public string Name => name;
 		public GameObject[] Artifacts => artifacts;
 	}
 }

@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
-using Messages.Client;
 using Systems.Teleport;
 using UI.Core.Windows;
 
@@ -18,8 +16,6 @@ namespace Systems.Spells.Wizard
 		[Tooltip("Assign the teleport window prefab here")]
 		[SerializeField]
 		private GameObject teleportWindowPrefab = default;
-
-		private static Dictionary<ConnectedPlayer, Vector3Int> requestedTeleports = new Dictionary<ConnectedPlayer, Vector3Int>();
 
 		private TeleportWindow TeleportWindow => UIManager.TeleportWindow;
 
@@ -40,24 +36,9 @@ namespace Systems.Spells.Wizard
 			TeleportWindow.onTeleportToVector += ClientTeleportDestinationSelected;
 		}
 
-		public static void ServerProcessTeleportRequest(ConnectedPlayer caster, Vector3Int destination)
-		{
-			if (requestedTeleports.ContainsKey(caster))
-			{
-				requestedTeleports[caster] = destination;
-			}
-			else
-			{
-				requestedTeleports.Add(caster, destination);
-			}
-		}
-
-		public override bool CastSpellServer(ConnectedPlayer caster)
+		public override bool CastSpellServer(ConnectedPlayer caster, Vector3 destination)
 		{
 			// Do the actual teleportation here.
-			if (!requestedTeleports.ContainsKey(caster)) return false;
-			
-			Vector3Int destination = requestedTeleports[caster];
 			if ((caster.Script.WorldPos - destination).magnitude > MAX_TELEPORT_DISTANCE)
 			{
 				Chat.AddExamineMsgFromServer(caster.GameObject,
@@ -66,7 +47,7 @@ namespace Systems.Spells.Wizard
 				return false;
 			}
 
-			teleport.ServerTeleportWizard(caster.GameObject, destination);
+			teleport.ServerTeleportWizard(caster.GameObject, destination.CutToInt());
 
 			return true;
 		}
@@ -75,42 +56,13 @@ namespace Systems.Spells.Wizard
 		{
 			TeleportWindow.gameObject.SetActive(false);
 
-			// We run our own instead of base.CallActionClient();
-			ClientRequestTeleportMessage.Send(SpellData.Index, position.CutToInt());
+			// We piggyback off aim click instead of using base.CallActionClient();
+			PlayerManager.LocalPlayerScript.playerNetworkActions.CmdRequestSpell(SpellData.Index, position);
 		}
 
 		private void ClientTeleportDestinationSelected(TeleportInfo info)
 		{
 			ClientTeleportDestinationSelected(info.position);
-		}
-	}
-
-	// We use NetMessage to request the teleport. That way we can run the spell with data.
-	// This isn't a good solution as we want to be able to have spells that send other information,
-	// like click position.
-	public class ClientRequestTeleportMessage : ClientMessage
-	{
-		public int SpellIndex;
-		public Vector3Int Destination;
-
-		public override void Process()
-		{
-			TeleportAction.ServerProcessTeleportRequest(SentByPlayer, Destination);
-
-			Spell teleport = SentByPlayer.Script.mind.Spells.First(spell => spell.SpellData.Index == SpellIndex);
-			teleport.CallActionServer(SentByPlayer);
-		}
-
-		public static ClientRequestTeleportMessage Send(int spellIndex, Vector3Int destination)
-		{
-			ClientRequestTeleportMessage msg = new ClientRequestTeleportMessage
-			{
-				SpellIndex = spellIndex,
-				Destination = destination,
-			};
-
-			msg.Send();
-			return msg;
 		}
 	}
 }

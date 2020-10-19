@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Systems.Explosions
 {
-	public class ExplosionPrefab : MonoBehaviour
+	public class ExplosionComponent : MonoBehaviour
 	{
 		[TooltipAttribute("If explosion radius has a degree of error equal to radius / 4")]
 		public bool unstableRadius = false;

@@ -16,6 +16,11 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 	private static readonly Vector3 tooltipOffset = new Vector3(-40, -60);
 	private ActionTooltip Tooltip => UIActionManager.Instance.TooltipInstance;
 	private bool isMine = false;
+	public ActionData ActionData => actionData;
+	private Vector3 lastClickPosition = default;
+	public Vector3 LastClickPosition => lastClickPosition;
+
+	#region Lifecycle
 
 	public void SetUp(IActionGUI action)
 	{
@@ -47,28 +52,28 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		this.gameObject.SetActive(false);
 	}
 
+	private void OnDisable()
+	{
+		if (isMine)
+		{
+			Tooltip.gameObject.SetActive(false);
+			isMine = false;
+		}
+	}
+
+	#endregion Lifecycle
+
 	public void ButtonPress()
 	{
 		SoundManager.Play("Click01");
-		//calling clientside code
-		if (iActionGUI.ActionData.CallOnClient)
+
+		if (actionData.IsToggle)
 		{
-			iActionGUI.CallActionClient();
+			Toggle();
+			return;
 		}
 
-		//sending a message to server asking to run serverside code
-		if (iActionGUI.ActionData.CallOnServer) {
-			if (iActionGUI is IServerActionGUI) {
-				if (iActionGUI is UIActionScriptableObject actionSO)
-				{
-					RequestGameActionSO.Send(actionSO);
-				}
-				else
-				{
-					RequestGameAction.Send(iActionGUI as IServerActionGUI);
-				}
-			}
-		}
+		UseAction();
 	}
 
 	public void OnPointerEnter(PointerEventData eventData)
@@ -85,12 +90,90 @@ public class UIAction : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 		isMine = false;
 	}
 
-	private void OnDisable()
+	public void RunActionWithClick(Vector3 clickPosition)
 	{
-		if (isMine)
+		Toggle(); // Toggle button off after it is used. Could be removed if this is not desired.
+		lastClickPosition = clickPosition;
+		UseAction();
+	}
+
+	private void UseAction()
+	{
+		// Calling clientside code. If this is a spell,
+		// then the spell will call the server to run on the server itself.
+		// Not sure why we don't call the spell serverside from here, too...
+		// The spell's server request can provide a click position.
+		if (iActionGUI.ActionData.CallOnClient)
 		{
-			Tooltip.gameObject.SetActive(false);
-			isMine = false;
+			iActionGUI.CallActionClient();
+		}
+
+		// Sending a message to server asking to run serverside code.
+		// TODO: Doesn't support click positions yet.
+		// Once it does, consider moving the spell's server request to rely on this here instead, if possible.
+		if (iActionGUI.ActionData.CallOnServer == false) return;
+		if (iActionGUI is IServerActionGUI)
+		{
+			if (iActionGUI is UIActionScriptableObject actionSO)
+			{
+				RequestGameActionSO.Send(actionSO);
+			}
+			else
+			{
+				RequestGameAction.Send(iActionGUI as IServerActionGUI);
+			}
+		}
+	}
+
+	private void Toggle()
+	{
+		if (UIActionManager.Instance.HasActiveAction && UIActionManager.Instance.ActiveAction != this)
+		{
+			UIActionManager.Instance.ActiveAction.Toggle(); // Toggle off whatever other action was active.
+		}
+
+		// The currently active action is this, so toggle it off.
+		if (UIActionManager.Instance.HasActiveAction)
+		{
+			ToggleOff();
+		}
+		else
+		{
+			ToggleOn();
+		}
+	}
+
+	private void ToggleOff()
+	{
+		IconFront.SetSpriteSO(actionData.Sprites[0], Network: false);
+		UIActionManager.Instance.ActiveAction = null;
+
+		if (actionData.HasCustomCursor)
+		{
+			MouseInputController.ResetCursorTexture();
+		}
+	}
+
+	private void ToggleOn()
+	{
+		IconFront.SetSpriteSO(actionData.ActiveSprite, Network: false);
+		UIActionManager.Instance.ActiveAction = this;
+
+		TrySetCustomCursor();
+	}
+
+	private void TrySetCustomCursor()
+	{
+		if (actionData.HasCustomCursor == false) return;
+
+		if (actionData.HasCustomCursorOffset)
+		{
+			MouseInputController.SetCursorTexture(actionData.CursorTexture, actionData.CursorOffset);
+		}
+		else
+		{
+			bool isCentered = actionData.OffsetType == CursorOffsetType.Centered;
+			MouseInputController.SetCursorTexture(actionData.CursorTexture, isCentered);
 		}
 	}
 }

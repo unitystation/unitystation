@@ -343,15 +343,9 @@ namespace Systems.MobAIs
 						}
 					}
 
-					var angleOfDir = Vector2.Angle(dir, transform.up);
-					if (dir.x < 0f)
-					{
-						angleOfDir = -angleOfDir;
-					}
-
 					if (directional != null)
 					{
-						directional.FaceDirection(new Orientation((int)angleOfDir));
+						directional.FaceDirection(Orientation.From(dir));
 					}
 
 					cnt.Push(dir, context: gameObject);
