@@ -60,6 +60,7 @@ public class OreGenerator : MonoBehaviour
 				}
 			}
 
+			//TODO move BoundsInt bounds = wallTilemap.cellBounds to metaTileMap
 			BoundsInt bounds = wallTilemap.cellBounds;
 			List<Vector3Int> miningTiles = new List<Vector3Int>();
 
