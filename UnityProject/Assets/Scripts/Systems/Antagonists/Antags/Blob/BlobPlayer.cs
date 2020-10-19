@@ -144,6 +144,8 @@ namespace Blob
 
 		private int maxCount = 0;
 
+		private int maxNonSpaceCount = 0;
+
 		private Color color = Color.green;//new Color(154, 205, 50);
 
 		public int NumOfNonSpaceBlobTiles => numOfNonSpaceBlobTiles;
@@ -243,10 +245,16 @@ namespace Blob
 
 			//Count number of blob tiles
 			numOfNonSpaceBlobTiles = nonSpaceBlobTiles.Count;
+			numOfBlobTiles = blobTiles.Count;
 
-			if (numOfNonSpaceBlobTiles > maxCount)
+			if (numOfBlobTiles > maxCount)
 			{
-				maxCount = numOfNonSpaceBlobTiles;
+				maxCount = numOfBlobTiles;
+			}
+
+			if (numOfNonSpaceBlobTiles > maxNonSpaceCount)
+			{
+				maxNonSpaceCount = numOfNonSpaceBlobTiles;
 			}
 
 			if (isBlobGamemode && !halfWay && numOfNonSpaceBlobTiles >= numOfTilesForVictory / 2)
@@ -310,6 +318,13 @@ namespace Blob
 			overmindLight.Color = color;
 			overmindLight.Color.a = 0.2f;
 			overmindSprite.layer = 29;
+			playerScript.IsBlob = true;
+		}
+
+		[TargetRpc]
+		private void TargetRpcTurnOffBlob(NetworkConnection target)
+		{
+			playerScript.IsBlob = false;
 		}
 
 		#region teleport
@@ -570,7 +585,7 @@ namespace Blob
 
 				if (hit.TryGetComponent<Integrity>(out var component) && !component.Resistances.Indestructable)
 				{
-					component.ApplyDamage(damage, attackType, damageType);
+					component.ApplyDamage(damage, attackType, damageType, true);
 
 					Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
 
@@ -976,6 +991,7 @@ namespace Blob
 				MatrixManager.MainStationMatrix);
 
 			playerScript.IsBlob = false;
+			TargetRpcTurnOffBlob(connectionToClient);
 
 			//Make blob into ghost
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
@@ -1023,6 +1039,9 @@ namespace Blob
 			yield return WaitFor.Seconds(180f);
 
 			Chat.AddGameWideSystemMsgToChat("The blob has consumed the station, we are all but goo now.");
+
+			Chat.AddGameWideSystemMsgToChat($"At its biggest the blob had {maxCount} tiles controlled" +
+			                                $" but only had {maxNonSpaceCount} non-space tiles which counted to victory.");
 
 			GameManager.Instance.EndRound();
 		}
