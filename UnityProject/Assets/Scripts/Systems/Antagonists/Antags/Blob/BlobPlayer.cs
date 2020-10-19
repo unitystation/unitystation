@@ -318,6 +318,13 @@ namespace Blob
 			overmindLight.Color = color;
 			overmindLight.Color.a = 0.2f;
 			overmindSprite.layer = 29;
+			playerScript.IsBlob = true;
+		}
+
+		[TargetRpc]
+		private void TargetRpcTurnOffBlob(NetworkConnection target)
+		{
+			playerScript.IsBlob = false;
 		}
 
 		#region teleport
@@ -984,6 +991,7 @@ namespace Blob
 				MatrixManager.MainStationMatrix);
 
 			playerScript.IsBlob = false;
+			TargetRpcTurnOffBlob(connectionToClient);
 
 			//Make blob into ghost
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
