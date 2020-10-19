@@ -154,17 +154,18 @@ public class Layer : MonoBehaviour
 		List<TileType> excludeTiles = null)
 	{
 		// There's not tile here so its passable.
-		if (!tilemap.HasTile(to))
-			return true;
+		// if (!tilemap.HasTile(to))
+			// return true;
 
-		var tile = tilemap.GetTile<BasicTile>(to);
+		// var tile = tilemap.GetTile<BasicTile>(to);
 
 		// Return passable if the tile type is being excluded from checks.
-		if (excludeTiles != null && excludeTiles.Contains(tile.TileType))
-			return true;
+		// if (excludeTiles != null && excludeTiles.Contains(tile.TileType))
+			// return true;
 
-		return tile.IsPassable(collisionType);
+		// return tile.IsPassable(collisionType);
 		//return !tilemap.HasTile(to) || tilemap.GetTile<BasicTile>(to).IsPassable(collisionType);
+		return true;
 	}
 
 

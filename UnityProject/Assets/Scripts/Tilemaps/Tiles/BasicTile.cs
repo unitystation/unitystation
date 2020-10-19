@@ -1,13 +1,14 @@
 ﻿using System.Collections.Generic;
 using NaughtyAttributes;
 using ScriptableObjects;
+using TileManagement;
 using UnityEngine;
 using UnityEngine.Serialization;
 using UnityEngine.Tilemaps;
 
 public abstract class BasicTile : LayerTile
 {
-	[Tooltip("What it sounds like when walked over")][ShowIf(nameof(passable))]
+	[Tooltip("What it sounds like when walked over")] [ShowIf(nameof(passable))]
 	public FloorTileType floorTileType = FloorTileType.floor;
 
 	[Tooltip("Allow gases to pass through the cell this tile occupies?")]
@@ -15,9 +16,7 @@ public abstract class BasicTile : LayerTile
 	[SerializeField]
 	private bool atmosPassable = false;
 
-	[Tooltip("Does this tile form a seal against the floor?")]
-	[FormerlySerializedAs("IsSealed")]
-	[SerializeField]
+	[Tooltip("Does this tile form a seal against the floor?")] [FormerlySerializedAs("IsSealed")] [SerializeField]
 	private bool isSealed = false;
 
 	[Tooltip("Should this tile get initialized with Space gasmix at round start (e.g. asteroids)?")]
@@ -28,17 +27,16 @@ public abstract class BasicTile : LayerTile
 	[SerializeField]
 	private bool passable = false;
 
-	[Tooltip("Can this tile be mined?")]
-	[FormerlySerializedAs("Mineable")]
-	[SerializeField]
+	[Tooltip("Can this tile be mined?")] [FormerlySerializedAs("Mineable")] [SerializeField]
 	private bool mineable = false;
+
 	/// <summary>
 	/// Can this tile be mined?
 	/// </summary>
 	public bool Mineable => mineable;
 
-	[Tooltip("Will bullets bounce from this tile?")]
-	[SerializeField] private bool doesReflectBullet = false;
+	[Tooltip("Will bullets bounce from this tile?")] [SerializeField]
+	private bool doesReflectBullet = false;
 
 	public bool DoesReflectBullet => doesReflectBullet;
 
@@ -47,18 +45,15 @@ public abstract class BasicTile : LayerTile
 	[SerializeField]
 	private PassableDictionary passableException = null;
 
-	[Tooltip("What is this tile's max health?")]
-	[FormerlySerializedAs("MaxHealth")]
-	[SerializeField]
+	[Tooltip("What is this tile's max health?")] [FormerlySerializedAs("MaxHealth")] [SerializeField]
 	private float maxHealth = 0f;
+
 	public float MaxHealth => maxHealth;
 
 	[Tooltip("A damage threshold the attack needs to pass in order to apply damage to this item.")]
 	public float damageDeflection = 0;
 
-	[Tooltip("Armor of this tile")]
-	[FormerlySerializedAs("Armor")]
-	[SerializeField]
+	[Tooltip("Armor of this tile")] [FormerlySerializedAs("Armor")] [SerializeField]
 	private Armor armor = new Armor
 	{
 		Melee = 90,
@@ -77,17 +72,19 @@ public abstract class BasicTile : LayerTile
 	/// </summary>
 	public Armor Armor => armor;
 
-	[Tooltip("Interactions which can occur on this tile. They will be checked in the order they appear in this list (top to bottom).")]
+	[Tooltip(
+		"Interactions which can occur on this tile. They will be checked in the order they appear in this list (top to bottom).")]
 	[SerializeField]
 	private List<TileInteraction> tileInteractions = null;
+
 	/// <summary>
 	/// Interactions which can occur on this tile.
 	/// </summary>
 	public List<TileInteraction> TileInteractions => tileInteractions;
 
-	[Tooltip("What object to spawn when it's deconstructed or destroyed.")]
-	[SerializeField]
+	[Tooltip("What object to spawn when it's deconstructed or destroyed.")] [SerializeField]
 	private GameObject spawnOnDeconstruct = null;
+
 	/// <summary>
 	/// Object to spawn when deconstructed.
 	/// </summary>
@@ -125,8 +122,16 @@ public abstract class BasicTile : LayerTile
 	/// </summary>
 	/// <param name="colliderType"></param>
 	/// <returns>IsPassable</returns>
-	public bool IsPassable(CollisionType colliderType)
+	public bool IsPassable(CollisionType colliderType, Vector3Int origin, MetaTileMap metaTileMap)
 	{
+		if (this.LayerType == LayerType.Tables)
+		{
+			if (metaTileMap.IsTableAt(origin))
+			{
+				return true;
+			}
+		}
+
 		if (passableException.ContainsKey(colliderType))
 		{
 			return passableException[colliderType];
@@ -149,7 +154,7 @@ public abstract class BasicTile : LayerTile
 
 
 	//yeah,This needs to be moved out into its own class
-	public virtual bool AreUnderfloorSame( Matrix4x4 thisTransformMatrix,BasicTile basicTile, Matrix4x4 TransformMatrix)
+	public virtual bool AreUnderfloorSame(Matrix4x4 thisTransformMatrix, BasicTile basicTile, Matrix4x4 TransformMatrix)
 	{
 		if (basicTile == this)
 		{
@@ -159,4 +164,3 @@ public abstract class BasicTile : LayerTile
 		return false;
 	}
 }
-
