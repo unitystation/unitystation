@@ -2,6 +2,10 @@
 ---
 
 
+* 2020/10/19: Blobs now have names by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
+* 2020/10/19: Rebalanced blob damage by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
+* 2020/10/19: Blob can no longer see ghosts by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
+* 2020/10/19: Stops blob hearing all chat, speaking in ghost chat by [ThatDan123](https://github.com/ThatDan123) in PR #[5336](https://github.com/unitystation/unitystation/pull/5336)
 * 2020/10/19: Made it possible to properly place chairs that you picked up back down. by [PetMudstone](https://github.com/PetMudstone) in PR #[5340](https://github.com/unitystation/unitystation/pull/5340)
 * 2020/10/19: Properly made the Suffering Bastard drink makeable. by [PetMudstone](https://github.com/PetMudstone) in PR #[5339](https://github.com/unitystation/unitystation/pull/5339)
 * 2020/10/19: misc fallstation fixes (sec timers, door switches, wiring) by [the-other-autumn](https://github.com/the-other-autumn) in PR #[5338](https://github.com/unitystation/unitystation/pull/5338)
