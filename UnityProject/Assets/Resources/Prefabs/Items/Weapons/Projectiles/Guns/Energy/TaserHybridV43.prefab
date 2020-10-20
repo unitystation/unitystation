@@ -35,6 +35,69 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 7889e79f852f4964c924c3b509c8ee48,
         type: 2}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeName.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootTazer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: FireRate
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[0]
+      value: ShootTazer
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
+        type: 3}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240,
+        type: 3}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeName.Array.data[0]
+      value: Stun
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[1]
+      value: ShootLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeName.Array.data[1]
+      value: Disable
+      objectReference: {fileID: 0}
+    - target: {fileID: 4387921172387687617, guid: d589c17f6fd91da4190edfdd2cb5aa53,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.data[1]
+      value: 
+      objectReference: {fileID: 5418626791516505491, guid: b4492e96cb32b8941a4cf47edcf7c3cc,
+        type: 3}
     - target: {fileID: 4979405696378388488, guid: d589c17f6fd91da4190edfdd2cb5aa53,
         type: 3}
       propertyPath: m_Sprite

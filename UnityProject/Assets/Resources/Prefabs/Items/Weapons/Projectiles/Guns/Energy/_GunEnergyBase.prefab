@@ -217,6 +217,46 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BatteryitemStorage: {fileID: 942046851822298982}
+--- !u!114 &6648593666208859230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4454405483554457966}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b65971c5a3836c41e850378c8d413b4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  ammoPrefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
+    type: 3}
+  casingPrefabOverride: {fileID: 0}
+  allowMagazineRemoval: 0
+  ammoType: 14
+  SpawnsCasing: 0
+  MagInternal: 0
+  burstCooldown: 3
+  burstCount: 3
+  SmartGun: 0
+  CurrentRecoilVariance: 0
+  FireCountDown: 0
+  FiringSound: 
+  FireRate: 2
+  MaxRecoilVariance: 0
+  ProjectileVelocity: 20
+  CameraRecoilConfig:
+    Distance: 0
+    RecoilDuration: 0
+    RecoveryDuration: 0
+  WeaponType: 0
+  Projectile: {fileID: 0}
+  firemodeProjectiles: []
+  firemodeFiringSound: []
+  firemodeName: []
+  countFiremode: 1
 --- !u!1 &6227234703256324225
 GameObject:
   m_ObjectHideFlags: 0
@@ -565,8 +605,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: 5eafba0d7388d428c8e08ed1b5d5d260,
         type: 2}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4644871529314044369, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: da85b7a590e7c8444af73629fcb5dd22, type: 3}
+--- !u!1 &4454405483554457966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8150840225578731674, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &4450321759764526106 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
+    type: 3}
+  m_PrefabInstance: {fileID: 5533974169584468468}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &942046851822298982 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: -4477014874976573806, guid: da85b7a590e7c8444af73629fcb5dd22,
@@ -579,15 +632,3 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fdce8a163088453ca593c0e98f2c5f07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!4 &4450321759764526106 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8146475302025016814, guid: da85b7a590e7c8444af73629fcb5dd22,
-    type: 3}
-  m_PrefabInstance: {fileID: 5533974169584468468}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4454405483554457966 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8150840225578731674, guid: da85b7a590e7c8444af73629fcb5dd22,
-    type: 3}
-  m_PrefabInstance: {fileID: 5533974169584468468}
-  m_PrefabAsset: {fileID: 0}

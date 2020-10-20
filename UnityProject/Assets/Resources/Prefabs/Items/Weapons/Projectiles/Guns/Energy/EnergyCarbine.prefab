@@ -102,53 +102,6 @@ MonoBehaviour:
   variantIndex: 0
   palette: []
   Sprites: []
---- !u!114 &1676629753262849623
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6733076708105069041}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b65971c5a3836c41e850378c8d413b4c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  syncMode: 0
-  syncInterval: 0.1
-  ammoPrefab: {fileID: 1089748232968454180, guid: a910878bd30ff5d439b94cd12e623762,
-    type: 3}
-  casingPrefabOverride: {fileID: 0}
-  allowMagazineRemoval: 0
-  ammoType: 14
-  SpawnsCasing: 0
-  MagInternal: 0
-  burstCooldown: 3
-  burstCount: 3
-  SmartGun: 0
-  CurrentRecoilVariance: 0
-  FireCountDown: 0
-  FiringSound: ShootLaser
-  FireRate: 5
-  MaxRecoilVariance: 0
-  ProjectileVelocity: 20
-  CameraRecoilConfig:
-    Distance: 0
-    RecoilDuration: 0
-    RecoveryDuration: 0
-  WeaponType: 0
-  Projectile: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
-    type: 3}
-  firemodeProjectiles:
-  - {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85, type: 3}
-  - {fileID: 5951038657140010356, guid: 00552b9802a37ba4bbe1aca46515b240, type: 3}
-  firemodeFiringSound:
-  - ShootLaser
-  - ShootTazer
-  firemodeName:
-  - Kill
-  - Taze
-  countFiremode: 2
 --- !u!1001 &6963000123108354207
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -364,6 +317,69 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeName.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: FiringSound
+      value: ShootLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: countFiremode
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: Projectile
+      value: 
+      objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
+        type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.data[0]
+      value: 
+      objectReference: {fileID: 3294328072042417454, guid: 49a8364f6515be34bac52c48c9214d85,
+        type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeProjectiles.Array.data[1]
+      value: 
+      objectReference: {fileID: 5418626791516505491, guid: b4492e96cb32b8941a4cf47edcf7c3cc,
+        type: 3}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[0]
+      value: ShootLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeFiringSound.Array.data[1]
+      value: ShootLaser
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeName.Array.data[0]
+      value: Kill
+      objectReference: {fileID: 0}
+    - target: {fileID: 6648593666208859230, guid: 143d3926d4a5fa84f95f987c152b33a2,
+        type: 3}
+      propertyPath: firemodeName.Array.data[1]
+      value: Disable
+      objectReference: {fileID: 0}
     - target: {fileID: 7536533288437052137, guid: 143d3926d4a5fa84f95f987c152b33a2,
         type: 3}
       propertyPath: PresentSpriteSet
@@ -383,12 +399,6 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 916841119618418725, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 143d3926d4a5fa84f95f987c152b33a2, type: 3}
---- !u!1 &6733076708105069041 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4454405483554457966, guid: 143d3926d4a5fa84f95f987c152b33a2,
-    type: 3}
-  m_PrefabInstance: {fileID: 6963000123108354207}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6729279132081544325 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4450321759764526106, guid: 143d3926d4a5fa84f95f987c152b33a2,
