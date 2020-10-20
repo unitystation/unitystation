@@ -2,6 +2,8 @@
 ---
 
 
+* 2020/10/20: Refactored hostile environment to allow for multiple problems by [ThatDan123](https://github.com/ThatDan123) in PR #[5362](https://github.com/unitystation/unitystation/pull/5362)
+* 2020/10/20: Blobs now do more damage to objects and walls by [ThatDan123](https://github.com/ThatDan123) in PR #[5362](https://github.com/unitystation/unitystation/pull/5362)
 * 2020/10/19: Fixed blob chat on client by [ThatDan123](https://github.com/ThatDan123) in PR #[5349](https://github.com/unitystation/unitystation/pull/5349)
 * 2020/10/19: Fixed blob tile count by [ThatDan123](https://github.com/ThatDan123) in PR #[5349](https://github.com/unitystation/unitystation/pull/5349)
 * 2020/10/19: Blobs now ignore damage deflection by [ThatDan123](https://github.com/ThatDan123) in PR #[5349](https://github.com/unitystation/unitystation/pull/5349)
