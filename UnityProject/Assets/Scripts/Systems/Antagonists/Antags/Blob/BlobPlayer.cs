@@ -1000,6 +1000,8 @@ namespace Blob
 			{
 				GameManager.Instance.EndRound();
 			}
+
+			Destroy(this);
 		}
 
 		#endregion
