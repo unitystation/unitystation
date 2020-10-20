@@ -1177,6 +1177,16 @@ namespace Blob
 
 				factoryBlob.Value.Remove(null);
 
+				var spores = factoryBlob.Value;
+
+				foreach (var spore in spores)
+				{
+					if (spore.GetComponent<LivingHealthBehaviour>().IsDead)
+					{
+						factoryBlob.Value.Remove(spore);
+					}
+				}
+
 				//Create max of three spore
 				if (factoryBlob.Value.Count >= 3) continue;
 
