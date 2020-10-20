@@ -13,7 +13,8 @@ namespace ScriptableObjects.Items.SpellBook
 	{
 		[SerializeField]
 		private WizardSpellData spell = default;
-		
+
+		public string Name => spell.Name;
 		public float Cooldown => spell.CooldownTime;
 		public string Incantation => spell.InvocationMessage;
 		public bool RequiresWizardGarb => spell.RequiresWizardGarb;

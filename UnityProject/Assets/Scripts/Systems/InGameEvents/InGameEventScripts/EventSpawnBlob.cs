@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Antagonists;
 using Blob;
 using UnityEngine;
 using InGameEvents;
+using ScriptableObjects;
 
 public class EventSpawnBlob : EventScriptBase
 {
@@ -22,5 +24,15 @@ public class EventSpawnBlob : EventScriptBase
 		var player = PlayerList.Instance.InGamePlayers.Where(p => !p.Script.IsDeadOrGhost).PickRandom();
 
 		player.GameObject.AddComponent<BlobStarter>();
+
+		var playerScript = player.GameObject.GetComponent<PlayerScript>();
+
+		var antag = playerScript.mind.GetAntag();
+
+		//Set up objectives
+		if (antag == null || antag.Antagonist.AntagJobType != JobType.BLOB)
+		{
+			AntagManager.Instance.ServerFinishAntag(SOAdminJobsList.Instance.Antags.First(a => a.AntagJobType == JobType.BLOB), player, player.GameObject);
+		}
 	}
 }

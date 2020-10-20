@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 83192708151968013}
   - component: {fileID: 1960808446058716421}
   m_Layer: 12
-  m_Name: sprite
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -96,7 +96,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue: []
+  SubCatalogue:
+  - {fileID: 11400000, guid: 17ee385f895d1b342b95d67fbacd184a, type: 2}
+  - {fileID: 11400000, guid: 17ee385f895d1b342b95d67fbacd184a, type: 2}
   PresentSpriteSet: {fileID: 11400000, guid: 17ee385f895d1b342b95d67fbacd184a, type: 2}
   pushTextureOnStartUp: 1
   variantIndex: 0
@@ -370,9 +372,7 @@ MonoBehaviour:
   - {fileID: 4858358136733543843}
   - {fileID: 4858910464699741597}
   allowKnifeHarvest: 1
-  butcherResults:
-  - {fileID: 1579524858131255151, guid: 8af808dda238fe44492ea6412cf9ba52, type: 3}
-  - {fileID: 1579524858131255151, guid: 8af808dda238fe44492ea6412cf9ba52, type: 3}
+  butcherResults: []
   RTT: 0
   RadiationStacks: 0
   deadState: 0
@@ -549,7 +549,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 1960808446058716421}
   spriteRend: {fileID: 83192708151968013}
   aliveSpriteIndex: 0
   deadSpriteIndex: 1
@@ -581,7 +581,7 @@ MonoBehaviour:
   performingAction: 0
   activated: 0
   tickRate: 1
-  target: 0
+  target: 4
   actionPerformTime: 0
   hasFoodPrefereces: 0
   foodPreferences: []

@@ -16,13 +16,14 @@ MonoBehaviour:
   description: Something unusual is growing inside a crew member. The station must
     survive.
   canRespawn: 0
-  minPlayers: 1
-  antagRatio: 0
+  minPlayers: 20
+  antagRatio: 1
   minAntags: 1
+  maxAntags: 1
   requiresMinAntags: 1
   teamGameMode: 0
   midRoundAntags: 0
   allocateJobsToAntags: 1
   possibleAntags:
   - {fileID: 11400000, guid: 4e33e3c5bcb99b34cbab164bcfa68951, type: 2}
-  nonAntagJobTypes: 060000001600000017000000230000002100000011000000
+  nonAntagJobTypes: 0600000016000000170000002300000021000000110000000d0000001e000000

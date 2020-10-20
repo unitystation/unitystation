@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 8296882557816513143}
   - component: {fileID: 4509046927208064374}
   m_Layer: 23
-  m_Name: metal_chair
+  m_Name: BVOld_metal_chair
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -120,6 +120,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 1
+  passableExclusionsToThis: []
 --- !u!114 &114055517453558958
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +312,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1f386f82014aa4ba117d2289c3d540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabVariant: {fileID: 1011433845357754, guid: 4bc1ceab0f2d3024d8c92fb85d4dd9ee,
+  prefabVariant: {fileID: 6859803131222715545, guid: c8af057edecfa6c4f877ae1b042d6ead,
     type: 3}
 --- !u!114 &8296882557816513143
 MonoBehaviour:
@@ -339,8 +340,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  isFlippable: 0
-  flippedObject: {fileID: 0}
 --- !u!1 &1581991274901662
 GameObject:
   m_ObjectHideFlags: 0
@@ -387,6 +386,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
@@ -468,6 +468,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -490,7 +491,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}

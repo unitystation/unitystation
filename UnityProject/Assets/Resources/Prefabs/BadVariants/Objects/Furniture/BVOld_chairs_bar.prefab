@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -932335445
-  m_SortingLayer: 17
+  m_SortingLayer: 18
   m_SortingOrder: 0
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -127,6 +128,7 @@ SpriteRenderer:
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -186,7 +188,7 @@ GameObject:
   - component: {fileID: 8386195029513753312}
   - component: {fileID: -5886089061326209906}
   m_Layer: 23
-  m_Name: chairs_bar
+  m_Name: BVOld_chairs_bar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -283,6 +285,7 @@ MonoBehaviour:
   objectType: 0
   AtmosPassable: 1
   Passable: 1
+  passableExclusionsToThis: []
 --- !u!114 &909463862082034201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -458,7 +461,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc1f386f82014aa4ba117d2289c3d540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabVariant: {fileID: 1011433845357754, guid: d4ab748b91c63c446a3b30a6eebe9598,
+  prefabVariant: {fileID: 3097773884827705643, guid: 2c9ad226992c1e7499c818c96b03e6dd,
     type: 3}
 --- !u!114 &-5886089061326209906
 MonoBehaviour:

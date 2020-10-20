@@ -35,8 +35,12 @@ namespace UI.Items.PDA
 			crewManifestTemplate.AddItems(storedRecords.Count);
 			for (int i = 0; i < storedRecords.Count; i++)
 			{
-				crewManifestTemplate.Entries[i].GetComponent<GUI_PDAManifestTemplate>()
-					.ReInit(storedRecords[i].EntryName, storedRecords[i].Occupation.DisplayName);
+				DynamicEntry dynamicEntry = crewManifestTemplate.Entries[i];
+				var entry = dynamicEntry.GetComponent<GUI_PDAManifestTemplate>();
+				SecurityRecord record = storedRecords[i];
+				string entryName = record.EntryName;
+				string displayName = record.Occupation.DisplayName;
+				entry.ReInit(entryName, displayName);
 			}
 		}
 

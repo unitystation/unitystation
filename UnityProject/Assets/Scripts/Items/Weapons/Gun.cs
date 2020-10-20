@@ -435,6 +435,11 @@ namespace Weapons
 			}
 			if (queuedLoadMagNetID != NetId.Invalid && queuedShots.Count == 0)
 			{
+				if (CurrentMagazine == null)
+				{
+					Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this}?");
+				}
+
 				//done processing shot queue, perform the reload, causing all clients and server to update their version of this Weapon
 				//due to the syncvar hook
 				if (MagInternal)
@@ -623,7 +628,7 @@ namespace Weapons
 
 			if (CurrentMagazine == null)
 			{
-				Logger.Log("Why is CurrentMagazine null on this client?");
+				Logger.LogWarning($"Why is {nameof(CurrentMagazine)} null for {this} on this client?");
 			}
 			else
 			{
