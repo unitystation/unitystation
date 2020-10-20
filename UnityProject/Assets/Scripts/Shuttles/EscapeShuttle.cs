@@ -600,9 +600,9 @@ public class EscapeShuttle : NetworkBehaviour
 		mm.AutopilotTo( currentDestination.Position );
 	}
 
-	public void SetHostileEnvironment(bool toggle)
+	public void SetHostileEnvironment(bool activateHostileEnviro)
 	{
-		if (toggle)
+		if (activateHostileEnviro)
 		{
 			hostileEnvironmentCounter += 1;
 			return;
