@@ -3,22 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using Mirror;
 
+/// <summary>
+/// Emag charges handler
+/// </summary>
 public class Emag : NetworkBehaviour
 {
+    [Tooltip("Number of charges emags start with")]
     [SerializeField]
     public static int startCharges = 3;
 
+    [Tooltip("Number of seconds it takes to regenerate 1 charge")]
     [SerializeField]
-    public static int rechargeTimeInSeconds = 10;
+    public static float rechargeTimeInSeconds = 10f;
+
+	private SpriteHandler spriteHandler;
 
     private int charges = startCharges;
-    
-    public virtual void OnEnable()
+
+	/// <summary>
+	/// Number of charges left on emag
+	/// </summary>
+    public int Charges => charges;
+
+    private void Awake()
     {
-        if (CustomNetworkManager.Instance._isServer)
-        {
-            UpdateManager.Add(RegenerateCharge, rechargeTimeInSeconds);
-        }
+        spriteHandler = gameObject.transform.GetChild(1).GetComponent<SpriteHandler>(); //overlay is second child
     }
 
     public void OnDisable()
@@ -29,11 +38,28 @@ public class Emag : NetworkBehaviour
         }
     }
 
+	/// <summary>
+	/// Uses one charge from the emag, returns true if successful
+	/// </summary>
     public bool UseCharge() 
     {
-        if(this.charges > 0)
+        if(Charges > 0)
         {
-            this.charges -= 1;
+            //if this is the first charge taken off, add recharge loop
+            if(Charges >= startCharges)
+            {
+                UpdateManager.Add(RegenerateCharge, rechargeTimeInSeconds);
+            }
+
+            charges -= 1;
+            if(Charges > 0)
+            {
+                spriteHandler.ChangeSprite(Charges-1);
+            }
+            else 
+            {
+                spriteHandler.Empty();
+            }
             return true;
         }
         return false;
@@ -41,14 +67,14 @@ public class Emag : NetworkBehaviour
 
     private void RegenerateCharge()
     {
-        if(this.charges < startCharges)
+        if(Charges < startCharges)
         {
-            this.charges += 1;
+            charges += 1;
+            spriteHandler.ChangeSprite(Charges-1);
         }
-    }
-
-    public int GetCharges()
-    {
-        return this.charges;
+        if(Charges >= startCharges)
+        {
+            UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, RegenerateCharge);
+        }
     }
 }

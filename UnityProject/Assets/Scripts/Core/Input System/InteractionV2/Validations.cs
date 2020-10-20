@@ -684,6 +684,18 @@ public static class Validations
 		return welder.IsOn;
 	}
 
+	/// <summary>
+	/// Checks if an Emag has charges
+	/// </summary>
+	/// <param name="interaction"></param>
+	/// <returns></returns>
+	public static bool EmagHasCharges(GameObject toCheck)
+	{
+		if (toCheck == null) return false;
+		
+		return toCheck.GetComponent<Emag>().Charges > 0;
+	}
+
 	public static bool HasTarget(TargetedInteraction interaction)
 	{
 		return interaction.TargetObject != null;
