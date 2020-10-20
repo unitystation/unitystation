@@ -823,7 +823,7 @@ public partial class PlayerList
 		}
 		else
 		{
-			Logger.Log($"Kick ban failed, can't find player: {userToKick}. Requested by {admin}");
+			Logger.Log($"Kick ban failed, can't find player: {userToKick}. Requested by {adminPlayer.Username}");
 		}
 	}
 
@@ -859,8 +859,8 @@ public partial class PlayerList
 				dateTimeOfBan = DateTime.Now.ToString("O"),
 				ipAddress = connPlayer?.Connection?.address,
 				clientId = connPlayer?.ClientId,
-				adminId = adminPlayer?.UserID,
-				adminUsername = adminPlayer?.Username
+				adminId = adminPlayer?.UserId,
+				adminName = adminPlayer?.Username
 			});
 
 			SaveBanList();
@@ -1056,12 +1056,17 @@ public class BanEntry
 	public string ipAddress;
 	public string clientId;
 
+	public string adminId;
+
+	public string adminName;
+
 	public override string ToString()
 	{
 		return ("BanEntry of " + userId + " / " + userName + "\n"
 				 + "for " + minutes + " minutes, on" + dateTimeOfBan + "\n"
 				 + "on IP " + ipAddress + "\n"
 				 + "clientId " + clientId + "\n"
+				 + "by " + adminId + " / " + adminName + "\n"
 				 + "for reason" + reason);
 	}
 }
@@ -1091,6 +1096,10 @@ public class JobBanPlayerEntry
 	public string userName;
 	public string ipAddress;
 	public string clientId;
+
+	public string adminId;
+
+	public string adminName;
 
 	public List<JobBanEntry> jobBanEntry = new List<JobBanEntry>();
 
