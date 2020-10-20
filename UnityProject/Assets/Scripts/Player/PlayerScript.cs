@@ -220,7 +220,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 			PlayerManager.SetPlayerForControl(gameObject, PlayerSync);
 
-			if (IsGhost)
+			if (IsGhost && !IsBlob)
 			{
 				//stop the crit notification and change overlay to ghost mode
 				SoundManager.Stop("Critstate");
@@ -231,12 +231,22 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				Camera2DFollow.followControl.cam.cullingMask = mask;
 
 			}
-			else
+			else if(!IsBlob)
 			{
 				UIManager.LinkUISlots();
 				//play the spawn sound
 				SoundAmbientManager.PlayAudio("ambigen8");
 				//Hide ghosts
+				var mask = Camera2DFollow.followControl.cam.cullingMask;
+				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
+				Camera2DFollow.followControl.cam.cullingMask = mask;
+			}
+			else
+			{
+				//stop the crit notification and change overlay to ghost mode
+				SoundManager.Stop("Critstate");
+				UIManager.PlayerHealthUI.heartMonitor.overlayCrits.SetState(OverlayState.death);
+				//show ghosts
 				var mask = Camera2DFollow.followControl.cam.cullingMask;
 				mask &= ~(1 << LayerMask.NameToLayer("Ghosts"));
 				Camera2DFollow.followControl.cam.cullingMask = mask;
@@ -275,6 +285,9 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		}
 	}
 
+	[HideInInspector]
+	public bool IsBlob;
+
 	public object Chat { get; internal set; }
 
 	public bool IsInReach(GameObject go, bool isServer, float interactDist = interactionDistance)
@@ -306,7 +319,7 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 
 	public ChatChannel GetAvailableChannelsMask(bool transmitOnly = true)
 	{
-		if (IsDeadOrGhost)
+		if (IsDeadOrGhost && !IsBlob)
 		{
 			ChatChannel ghostTransmitChannels = ChatChannel.Ghost | ChatChannel.OOC;
 			ChatChannel ghostReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat |
@@ -318,6 +331,19 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 				return ghostTransmitChannels;
 			}
 			return ghostTransmitChannels | ghostReceiveChannels;
+		}
+
+		if (IsBlob)
+		{
+			ChatChannel blobTransmitChannels = ChatChannel.Blob | ChatChannel.OOC;
+			ChatChannel blobReceiveChannels = ChatChannel.Examine | ChatChannel.System | ChatChannel.Combat;
+
+			if (transmitOnly)
+			{
+				return blobTransmitChannels;
+			}
+
+			return blobTransmitChannels | blobReceiveChannels;
 		}
 
 		//TODO: Checks if player can speak (is not gagged, unconcious, has no mouth)

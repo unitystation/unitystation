@@ -299,7 +299,7 @@ namespace TileManagement
 				if (excludeTiles != null && excludeTiles.Contains(tile.TileType))
 					continue;
 
-				if (tile.IsPassable(collisionType) == false)
+				if (tile.IsPassable(collisionType, origin, this) == false)
 				{
 					return false;
 				}

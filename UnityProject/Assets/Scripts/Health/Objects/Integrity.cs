@@ -98,7 +98,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private static OverlayTile LARGE_ASH;
 
 	// damage incurred each tick while an object is on fire
-	private static float BURNING_DAMAGE = 0.08f;
+	private static float BURNING_DAMAGE = 0.04f;
 
 	private static readonly float BURN_RATE = 1f;
 
@@ -192,10 +192,10 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	/// <param name="damage"></param>
 	/// <param name="damageType"></param>
 	[Server]
-	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType)
+	public void ApplyDamage(float damage, AttackType attackType, DamageType damageType, bool ignoreDeflection = false)
 	{
 		//already destroyed, don't apply damage
-		if (destroyed || Resistances.Indestructable || damage < damageDeflection) return;
+		if (destroyed || Resistances.Indestructable || (!ignoreDeflection && damage < damageDeflection)) return;
 
 		if (Resistances.FireProof && attackType == AttackType.Fire) return;
 

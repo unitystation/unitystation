@@ -88,7 +88,7 @@ namespace Weapons
 				// have enough to refill to capacity
 				toConsume = toRefill;
 			}
-			AddCharge(ChargingWatts * toConsume);
+			AddCharge((ChargingWatts * toConsume));
 			stackable.ServerConsume(toConsume);
 		}
 

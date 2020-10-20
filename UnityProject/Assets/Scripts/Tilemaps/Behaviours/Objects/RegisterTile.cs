@@ -744,13 +744,13 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		}
 	}
 
-	public virtual bool IsPassable(bool isServer)
+	public virtual bool IsPassable(bool isServer, GameObject context = null)
 	{
 		return true;
 	}
 
 	/// Is it passable when approaching from outside?
-	public virtual bool IsPassable(Vector3Int from, bool isServer)
+	public virtual bool IsPassable(Vector3Int from, bool isServer, GameObject context = null)
 	{
 		return true;
 	}

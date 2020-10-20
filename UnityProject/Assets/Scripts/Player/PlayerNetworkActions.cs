@@ -539,7 +539,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 	{
 		//Only force to ghost if the mind belongs in to that body
 		var currentMobID = GetComponent<LivingHealthBehaviour>().mobID;
-		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind.bodyMobID == currentMobID)
+		if (GetComponent<LivingHealthBehaviour>().IsDead && !playerScript.IsGhost && playerScript.mind != null && playerScript.mind.bodyMobID == currentMobID)
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
@@ -778,14 +778,16 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 
 	#endregion
 
+	// If we end up needing more information to send to server,
+	// probably best to create a new interaction type and use IF2.
 	[Command]
-	public void CmdRequestSpell(int spellIndex)
+	public void CmdRequestSpell(int spellIndex, Vector3 clickPosition)
 	{
 		foreach (var spell in playerScript.mind.Spells)
 		{
 			if (spell.SpellData.Index == spellIndex)
 			{
-				spell.CallActionServer(PlayerList.Instance.Get(gameObject));
+				spell.CallActionServer(PlayerList.Instance.Get(gameObject), clickPosition);
 				return;
 			}
 		}

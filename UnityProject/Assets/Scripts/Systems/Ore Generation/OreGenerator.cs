@@ -30,6 +30,7 @@ public class OreGenerator : MonoBehaviour
 	private static readonly System.Random RANDOM = new System.Random();
 
 	private Tilemap wallTilemap;
+	private MetaTileMap metaTileMap;
 	private TileChangeManager tileChangeManager;
 
 	public bool runOnStart = true;
@@ -45,7 +46,7 @@ public class OreGenerator : MonoBehaviour
 
 	public void RunOreGenerator()
 	{
-		var metaTileMap = GetComponentInChildren<MetaTileMap>();
+		metaTileMap = GetComponentInChildren<MetaTileMap>();
 		wallTilemap = metaTileMap.Layers[LayerType.Walls].GetComponent<Tilemap>();
 		tileChangeManager = GetComponent<TileChangeManager>();
 
@@ -59,6 +60,7 @@ public class OreGenerator : MonoBehaviour
 				}
 			}
 
+			//TODO move BoundsInt bounds = wallTilemap.cellBounds to metaTileMap
 			BoundsInt bounds = wallTilemap.cellBounds;
 			List<Vector3Int> miningTiles = new List<Vector3Int>();
 
@@ -68,9 +70,9 @@ public class OreGenerator : MonoBehaviour
 				{
 					Vector3Int localPlace = (new Vector3Int(n, p, 0));
 
-					if (wallTilemap.HasTile(localPlace))
+					if (metaTileMap.HasTile(localPlace))
 					{
-						var tile = wallTilemap.GetTile(localPlace);
+						var tile = metaTileMap.GetTile(localPlace);
 						if (tile.name.Contains("rock_wall"))
 						{
 							miningTiles.Add(localPlace);
@@ -104,7 +106,7 @@ public class OreGenerator : MonoBehaviour
 		{
 			var chosenLocation = locations[RANDOM.Next(locations.Count)];
 			var ranLocation = chosenLocation + DIRECTIONS[RANDOM.Next(DIRECTIONS.Count)];
-			var tile = wallTilemap.GetTile(ranLocation);
+			var tile = metaTileMap.GetTile(ranLocation);
 			if (tile != null && tile.name.Contains("rock_wall"))
 			{
 				tileChangeManager.UpdateTile(ranLocation, materialSpecified.WallTile);

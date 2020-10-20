@@ -35,6 +35,8 @@ namespace Antagonists
 		/// </summary>
 		[NonSerialized] public List<GameObject> TargetedItems = new List<GameObject>();
 
+		public GameObject blobPlayerViewer = null;
+
 		private void Awake()
 		{
 			if ( Instance == null )
@@ -86,7 +88,6 @@ namespace Antagonists
 
 		public void ServerRespawnAsAntag(ConnectedPlayer connectedPlayer, Antagonist antagonist)
 		{
-			SetAntagDetails(antagonist, connectedPlayer);
 			var antagOccupation = antagonist.AntagOccupation;
 
 			if (antagOccupation != null)
@@ -94,8 +95,8 @@ namespace Antagonists
 				connectedPlayer.Script.mind.occupation = antagonist.AntagOccupation;
 			}
 
-			ServerFinishAntag(antagonist, connectedPlayer, connectedPlayer.GameObject);
 			PlayerSpawn.ServerRespawnPlayer(connectedPlayer.Script.mind);
+			ServerFinishAntag(antagonist, connectedPlayer, connectedPlayer.GameObject);
 		}
 
 		private SpawnedAntag SetAntagDetails(Antagonist chosenAntag, ConnectedPlayer connectedPlayer)
@@ -108,7 +109,7 @@ namespace Antagonists
 			return spawnedAntag;
 		}
 
-		private void ServerFinishAntag(Antagonist chosenAntag, ConnectedPlayer connectedPlayer, GameObject spawnedPlayer)
+		public void ServerFinishAntag(Antagonist chosenAntag, ConnectedPlayer connectedPlayer, GameObject spawnedPlayer)
 		{
 			var spawnedAntag = SetAntagDetails(chosenAntag, connectedPlayer);
 			ActiveAntags.Add(spawnedAntag);

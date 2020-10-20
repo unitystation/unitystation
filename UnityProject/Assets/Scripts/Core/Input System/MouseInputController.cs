@@ -87,7 +87,7 @@ public class MouseInputController : MonoBehaviour
 
 	}
 
-	private void Start()
+	public virtual void Start()
 	{
 		//for changing direction on click
 		playerDirectional = gameObject.GetComponent<Directional>();
@@ -98,9 +98,10 @@ public class MouseInputController : MonoBehaviour
 	void LateUpdate()
 	{
 		CheckMouseInput();
+		CheckCursorTexture();
 	}
 
-	private void CheckMouseInput()
+	public virtual void CheckMouseInput()
 	{
 		if (EventSystem.current.IsPointerOverGameObject())
 		{
@@ -255,7 +256,7 @@ public class MouseInputController : MonoBehaviour
 		}
 	}
 
-	private void CheckClickInteractions(bool includeAimApply)
+	public void CheckClickInteractions(bool includeAimApply)
 	{
 		if (CheckClick()) return;
 		if (includeAimApply) CheckAimApply(MouseButtonState.PRESS);
@@ -280,7 +281,7 @@ public class MouseInputController : MonoBehaviour
 
 	private GameObject lastHoveredThing;
 
-	private void CheckHover()
+	public void CheckHover()
 	{
 		//can only hover on things within FOV
 		if (lightingSystem.enabled && !lightingSystem.IsScreenPointVisible(CommonInput.mousePosition))
@@ -326,6 +327,12 @@ public class MouseInputController : MonoBehaviour
 		bool ctrlClick = KeyboardInputManager.IsControlPressed();
 		if (!ctrlClick)
 		{
+			if (UIActionManager.Instance.IsAiming)
+			{
+				UIActionManager.Instance.AimClicked(MouseWorldPosition);
+				return true;
+			}
+
 			var handApplyTargets =
 				MouseUtils.GetOrderedObjectsUnderMouse();
 
@@ -496,7 +503,7 @@ public class MouseInputController : MonoBehaviour
 	/// Fires if shift is pressed on click, initiates examine. Assumes inanimate object, but upgrades to checking health if living, and id if target has
 	/// storage and an ID card in-slot.
 	/// </summary>
-	private void Inspect()
+	public void Inspect()
 	{
 		// Get clickedObject from mousepos
 		var clickedObject = MouseUtils.GetOrderedObjectsUnderMouse(null, null).FirstOrDefault();
@@ -587,4 +594,76 @@ public class MouseInputController : MonoBehaviour
 			playerDirectional.FaceDirection(Orientation.From(dir));
 		}
 	}
+
+	#region Cursor Textures
+
+	[Header("Examine Cursor Settings")]
+	[SerializeField]
+	private Texture2D examineCursor = default;
+	[SerializeField]
+	private Vector2 cursorOffset = Vector2.zero;
+
+	private bool isShowingExamineCursor = false;
+	private static Texture2D currentCursorTexture = null;
+	private static Vector2 currentCursorOffset = Vector2.zero;
+
+	/// <summary>
+	/// Sets the cursor's texture to the given texture.
+	/// </summary>
+	/// <param name="texture">The texture to use.</param>
+	/// <param name="offset">The offset the texture should have. Used for aligning the texture to the click point.
+	/// Relative to the texture size so 512x512 would mean a supplied vector of 128x128
+	/// results in the texture's top left quadrant being the hotspot.</param>
+	public static void SetCursorTexture(Texture2D texture, Vector2 offset)
+	{
+		if (currentCursorTexture == texture) return;
+
+		Cursor.SetCursor(texture, offset, CursorMode.Auto);
+		currentCursorTexture = texture;
+		currentCursorOffset = offset;
+	}
+
+	/// <summary>
+	/// Sets the cursor's texture to the given texture.
+	/// </summary>
+	/// <param name="texture">The texture to use.</param>
+	/// <param name="centerTexture">If true, centers the texture relative to the click point. Else, top left is the click point.</param>
+	public static void SetCursorTexture(Texture2D texture, bool centerTexture = true)
+	{
+		var hotspot = Vector2.zero;
+		if (centerTexture)
+		{
+			hotspot = new Vector2(texture.height / 2, texture.width / 2);
+		}
+
+		SetCursorTexture(texture, hotspot);
+	}
+
+	/// <summary>
+	/// Sets the cursor back to the system default.
+	/// </summary>
+	public static void ResetCursorTexture()
+	{
+		if (currentCursorTexture == null) return;
+
+		Cursor.SetCursor(null, Vector2.zero, CursorMode.Auto);
+		currentCursorTexture = null;
+		currentCursorOffset = Vector2.zero;
+	}
+
+	private void CheckCursorTexture()
+	{
+		if (isShowingExamineCursor == false && KeyboardInputManager.IsShiftPressed())
+		{
+			Cursor.SetCursor(examineCursor, cursorOffset, CursorMode.Auto);
+			isShowingExamineCursor = true;
+		}
+		else if (isShowingExamineCursor && KeyboardInputManager.IsShiftPressed() == false)
+		{
+			Cursor.SetCursor(currentCursorTexture, currentCursorOffset, CursorMode.Auto);
+			isShowingExamineCursor = false;
+		}
+	}
+
+	#endregion Cursor Textures
 }
