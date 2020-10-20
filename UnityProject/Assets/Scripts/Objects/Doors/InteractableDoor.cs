@@ -106,7 +106,7 @@ namespace Doors
 			if (Controller.IsClosed)
 			{
 				Controller.isEmagged = true;
-				interaction.HandObject.GetComponent<Emag>().UseCharge();
+				interaction.HandObject.GetComponent<Emag>().UseCharge(interaction);
 				TryOpen(interaction.Performer);
 			}
 		}

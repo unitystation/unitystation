@@ -8,25 +8,27 @@ using Mirror;
 /// </summary>
 public class Emag : NetworkBehaviour
 {
+	private SpriteHandler spriteHandler;
+
     [Tooltip("Number of charges emags start with")]
     [SerializeField]
-    public static int startCharges = 3;
+    public int startCharges = 3;
 
     [Tooltip("Number of seconds it takes to regenerate 1 charge")]
     [SerializeField]
-    public static float rechargeTimeInSeconds = 10f;
+    public float rechargeTimeInSeconds = 10f;
 
-	private SpriteHandler spriteHandler;
-
-    private int charges = startCharges;
-
+    private int charges;
 	/// <summary>
 	/// Number of charges left on emag
 	/// </summary>
     public int Charges => charges;
 
+    public string OutOfChargesSFX = "sparks4";
+
     private void Awake()
     {
+        charges = startCharges;
         spriteHandler = gameObject.transform.GetChild(1).GetComponent<SpriteHandler>(); //overlay is second child
     }
 
@@ -41,7 +43,7 @@ public class Emag : NetworkBehaviour
 	/// <summary>
 	/// Uses one charge from the emag, returns true if successful
 	/// </summary>
-    public bool UseCharge() 
+    public bool UseCharge(HandApply interaction) 
     {
         if(Charges > 0)
         {
@@ -58,6 +60,7 @@ public class Emag : NetworkBehaviour
             }
             else 
             {
+                SoundManager.PlayNetworkedForPlayer(recipient:interaction.Performer, sndName:OutOfChargesSFX, sourceObj:gameObject);
                 spriteHandler.Empty();
             }
             return true;
