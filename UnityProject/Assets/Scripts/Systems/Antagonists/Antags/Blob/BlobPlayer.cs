@@ -49,7 +49,9 @@ namespace Blob
 		private TMP_Text resourceText;
 		private TMP_Text numOfBlobTilesText;
 
-		public int damage = 100;
+		public int playerDamage = 20;
+		public int objectDamage = 50;
+		public int layerDamage = 40;
 		public AttackType attackType = AttackType.Melee;
 		public DamageType damageType = DamageType.Brute;
 
@@ -552,7 +554,7 @@ namespace Blob
 			{
 				if(player.IsDead) continue;
 
-				player.ApplyDamage(gameObject, damage, attackType, damageType);
+				player.ApplyDamage(gameObject, playerDamage, attackType, damageType);
 
 				Chat.AddAttackMsgToChat(gameObject, player.gameObject, customAttackVerb: "tried to absorb");
 
@@ -571,7 +573,7 @@ namespace Blob
 				{
 					if(npcComponent.IsDead) continue;
 
-					npcComponent.ApplyDamage(gameObject, damage, attackType, damageType);
+					npcComponent.ApplyDamage(gameObject, playerDamage, attackType, damageType);
 
 					Chat.AddAttackMsgToChat(gameObject, hit.gameObject, customAttackVerb: "tried to absorb");
 
@@ -585,7 +587,7 @@ namespace Blob
 
 				if (hit.TryGetComponent<Integrity>(out var component) && !component.Resistances.Indestructable)
 				{
-					component.ApplyDamage(damage, attackType, damageType, true);
+					component.ApplyDamage(objectDamage, attackType, damageType, true);
 
 					Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
 
@@ -608,7 +610,7 @@ namespace Blob
 			if (metaTileMap != null && !MatrixManager.IsPassableAt(pos, true))
 			{
 				//Cell pos is unused var
-				metaTileMap.ApplyDamage(Vector3Int.zero, damage,
+				metaTileMap.ApplyDamage(Vector3Int.zero, layerDamage,
 					pos, attackType);
 
 				PlayAttackEffect(pos);
