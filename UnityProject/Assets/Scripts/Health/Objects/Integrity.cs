@@ -101,7 +101,7 @@ public class Integrity : NetworkBehaviour, IHealth, IFireExposable, IRightClicka
 	private static OverlayTile LARGE_ASH;
 
 	// damage incurred each tick while an object is on fire
-	private static float BURNING_DAMAGE = 0.08f;
+	private static float BURNING_DAMAGE = 0.04f;
 
 	private static readonly float BURN_RATE = 1f;
 
