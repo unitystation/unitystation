@@ -223,7 +223,7 @@ PrefabInstance:
     - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
       propertyPath: initialTraits.Array.size
-      value: 3
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
@@ -262,6 +262,12 @@ PrefabInstance:
       propertyPath: throwRange
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 3221977154736274355, guid: 792079a5e2a75f94fab3174a3bcd7033,
+        type: 3}
+      propertyPath: initialTraits.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: b50ab381094a3452f97238a079179c37,
+        type: 2}
     - target: {fileID: 9159554893325135702, guid: 792079a5e2a75f94fab3174a3bcd7033,
         type: 3}
       propertyPath: PresentSpriteSet
