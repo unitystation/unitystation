@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8891796486152224138}
   - component: {fileID: 83192708151968013}
+  - component: {fileID: 8201861227835086789}
   m_Layer: 12
-  m_Name: sprite
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -71,7 +72,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 16
   m_SortingOrder: 11
-  m_Sprite: {fileID: 5638368260636878300, guid: b43bea96f4820d5409b8dec7e1386781,
+  m_Sprite: {fileID: 3328515370160551024, guid: b43bea96f4820d5409b8dec7e1386781,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -83,6 +84,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8201861227835086789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3392343644113499114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 797abbd46b2ae1d4790601bb4e7c5b4d, type: 2}
+  - {fileID: 11400000, guid: 21afd098896c12b459cd45eb63c03754, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 797abbd46b2ae1d4790601bb4e7c5b4d, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &4826224059160213873
 GameObject:
   m_ObjectHideFlags: 0
@@ -274,6 +296,7 @@ GameObject:
   - component: {fileID: 5682037599910212993}
   - component: {fileID: -5149463464556926768}
   - component: {fileID: 7476635809843345553}
+  - component: {fileID: 8476528696537020372}
   m_Layer: 12
   m_Name: NPC_Megafauna_Dragon
   m_TagString: Untagged
@@ -394,6 +417,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  passableExclusionsToThis: []
 --- !u!114 &4859363408336224435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -524,7 +548,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 8201861227835086789}
   spriteRend: {fileID: 83192708151968013}
   aliveSpriteIndex: 0
   deadSpriteIndex: 1
@@ -646,3 +670,22 @@ MonoBehaviour:
       m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
+--- !u!114 &8476528696537020372
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChangingSO: 0
+  indexDown: 0
+  indexUp: 1
+  indexRight: 2
+  indexLeft: 3
+  spriteHandlers:
+  - {fileID: 8201861227835086789}

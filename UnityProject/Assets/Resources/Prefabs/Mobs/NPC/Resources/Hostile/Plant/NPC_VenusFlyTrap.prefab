@@ -10,8 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 8891796486152224138}
   - component: {fileID: 83192708151968013}
+  - component: {fileID: 7435777726379146859}
   m_Layer: 12
-  m_Name: sprite
+  m_Name: Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -82,6 +83,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7435777726379146859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3392343644113499114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: db025f3627a11af4fb670ccd1e2188ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NetworkThis: 1
+  SubCatalogue:
+  - {fileID: 11400000, guid: 010c16d8d9b0e934e82b5d159286fbe7, type: 2}
+  - {fileID: 11400000, guid: 0e5a540866db25745a959160d531c355, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 010c16d8d9b0e934e82b5d159286fbe7, type: 2}
+  pushTextureOnStartUp: 1
+  variantIndex: 0
+  palette: []
+  Sprites: []
 --- !u!1 &4826224059160213873
 GameObject:
   m_ObjectHideFlags: 0
@@ -273,6 +295,7 @@ GameObject:
   - component: {fileID: 6204461732975392109}
   - component: {fileID: -5142020566567542139}
   - component: {fileID: 7035873611134360690}
+  - component: {fileID: 8244373097024727068}
   m_Layer: 12
   m_Name: NPC_VenusFlyTrap
   m_TagString: Untagged
@@ -393,6 +416,7 @@ MonoBehaviour:
   objectType: 1
   AtmosPassable: 1
   Passable: 0
+  passableExclusionsToThis: []
 --- !u!114 &4859363408336224435
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -523,7 +547,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  spriteHandler: {fileID: 0}
+  spriteHandler: {fileID: 7435777726379146859}
   spriteRend: {fileID: 83192708151968013}
   aliveSpriteIndex: 0
   deadSpriteIndex: 1
@@ -643,3 +667,22 @@ MonoBehaviour:
       m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
+--- !u!114 &8244373097024727068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4827737755655954553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e74a412989a7a314db7c2d297a269da9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isChangingSO: 0
+  indexDown: 0
+  indexUp: 1
+  indexRight: 2
+  indexLeft: 3
+  spriteHandlers:
+  - {fileID: 7435777726379146859}
