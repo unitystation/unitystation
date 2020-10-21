@@ -506,7 +506,7 @@ namespace Blob
 				return false;
 			}
 
-			if (TryAttack(worldPos))
+			if (TryAttack(worldPos, autoExpanding))
 			{
 				if (autoExpanding)
 				{
@@ -572,7 +572,7 @@ namespace Blob
 			blobTiles[worldPos] = structure;
 		}
 
-		private bool TryAttack(Vector3 worldPos)
+		private bool TryAttack(Vector3 worldPos, bool autoExpanding = false)
 		{
 			var matrix = registerPlayer.Matrix;
 
@@ -629,7 +629,10 @@ namespace Blob
 				{
 					component.ApplyDamage(objectDamage, attackType, damageType, true);
 
-					Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
+					if (!autoExpanding)
+					{
+						Chat.AddLocalMsgToChat($"The blob attacks the {hit.gameObject.ExpensiveName()}", gameObject);
+					}
 
 					PlayAttackEffect(pos);
 
@@ -779,7 +782,7 @@ namespace Blob
 
 		private IEnumerator DespawnEffect(GameObject effect)
 		{
-			yield return WaitFor.Seconds(1f);
+			yield return WaitFor.Seconds(0.5f);
 
 			Despawn.ServerSingle(effect);
 		}
