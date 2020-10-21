@@ -96,12 +96,17 @@ public class UIActionManager : MonoBehaviour
 	/// <summary>
 	/// Sets the sprite of the action button.
 	/// </summary>
-	public static void SetSpriteSO(IActionGUI iActionGUI, SpriteDataSO sprite, bool networked = true)
+	public static void SetSpriteSO(IActionGUI iActionGUI, SpriteDataSO sprite, bool networked = true, List<Color> palette = null)
 	{
 		if (Instance.DicIActionGUI.ContainsKey(iActionGUI))
 		{
 			var _UIAction = Instance.DicIActionGUI[iActionGUI];
 			_UIAction.IconFront.SetSpriteSO(sprite, Network: networked);
+
+			if (sprite.IsPalette && palette != null)
+			{
+				_UIAction.IconFront.SetPaletteOfCurrentSprite(palette);
+			}
 		}
 		else
 		{
