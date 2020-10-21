@@ -72,12 +72,12 @@ SpriteRenderer:
   m_SortingLayerID: -1463207863
   m_SortingLayer: 11
   m_SortingOrder: 41
-  m_Sprite: {fileID: 21300000, guid: 8cd2981354187034ab8f720fcf3510b9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 16ba147fa73ba4049ae5f1560bb6b68c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.32, y: 0.32}
+  m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -97,10 +97,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
-  - {fileID: 11400000, guid: a7a1fa2856e21ce43821f1208d2606bf, type: 2}
-  - {fileID: 11400000, guid: 6b998128b6b176e42ba90514cec3b6d6, type: 2}
-  - {fileID: 11400000, guid: 0404ef70d8587f241a930b59069d987f, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 0404ef70d8587f241a930b59069d987f, type: 2}
+  - {fileID: 11400000, guid: 0dbc011a02fffc948a85829e5c5d5b4f, type: 2}
+  - {fileID: 11400000, guid: bb35fae8e1977a94fa22fbc183b58a46, type: 2}
+  - {fileID: 11400000, guid: c13410044db88504ba1fefa53cc1eaf7, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: c13410044db88504ba1fefa53cc1eaf7, type: 2}
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
