@@ -24,7 +24,7 @@ public class Emag : NetworkBehaviour
 	/// </summary>
     public int Charges => charges;
 
-    public string OutOfChargesSFX = "sparks4";
+    private string OutOfChargesSFX = "Sparks04";
 
     private void Awake()
     {

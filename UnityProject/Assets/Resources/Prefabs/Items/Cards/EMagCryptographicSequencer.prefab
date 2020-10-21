@@ -97,10 +97,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NetworkThis: 1
   SubCatalogue:
-  - {fileID: 11400000, guid: 686544ebb8bff2f4faf282f02da21ce5, type: 2}
-  - {fileID: 11400000, guid: c9e94094903482d4983c7159be2df55a, type: 2}
-  - {fileID: 11400000, guid: 5a16084b4cb4cf8499ed92fb89d9671b, type: 2}
-  PresentSpriteSet: {fileID: 11400000, guid: 5a16084b4cb4cf8499ed92fb89d9671b, type: 2}
+  - {fileID: 11400000, guid: a7a1fa2856e21ce43821f1208d2606bf, type: 2}
+  - {fileID: 11400000, guid: 6b998128b6b176e42ba90514cec3b6d6, type: 2}
+  - {fileID: 11400000, guid: 0404ef70d8587f241a930b59069d987f, type: 2}
+  PresentSpriteSet: {fileID: 11400000, guid: 0404ef70d8587f241a930b59069d987f, type: 2}
   pushTextureOnStartUp: 1
   variantIndex: 0
   palette: []
@@ -134,7 +134,6 @@ MonoBehaviour:
   syncInterval: 0.1
   startCharges: 3
   rechargeTimeInSeconds: 10
-  OutOfChargesSFX: sparks4
 --- !u!1001 &5805812536563727567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -156,8 +155,7 @@ PrefabInstance:
         type: 3}
       propertyPath: PresentSpriteSet
       value: 
-      objectReference: {fileID: 11400000, guid: 2b0e502c644e91e49986501da0dda7bb,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 3387519317821303440, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
       propertyPath: Sprites.Array.data[0].Texture
@@ -275,8 +273,7 @@ PrefabInstance:
         type: 3}
       propertyPath: itemSprites.SpriteInventoryIcon
       value: 
-      objectReference: {fileID: 11400000, guid: 2b0e502c644e91e49986501da0dda7bb,
-        type: 2}
+      objectReference: {fileID: 0}
     - target: {fileID: 8982824578945154677, guid: 08128a9a69925eb4c93bc817c6ec2a88,
         type: 3}
       propertyPath: itemSprites.SpriteLeftHand
