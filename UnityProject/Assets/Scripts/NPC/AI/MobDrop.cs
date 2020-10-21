@@ -10,8 +10,6 @@ namespace Systems.MobAIs
 
 	public class MobDrop : MonoBehaviour
 	{
-		private LivingHealthBehaviour mobHealth;
-
 		[SerializeField, Tooltip("Makes the mob despawn upon death if true.")]	
 		private bool despawnBody = true;
 
@@ -21,8 +19,7 @@ namespace Systems.MobAIs
 		
 		private void Awake()
 		{
-			mobHealth = GetComponent<LivingHealthBehaviour>();
-			mobHealth.OnDeathNotifyEvent += OnMobDeath;
+			GetComponent<LivingHealthBehaviour>().OnDeathNotifyEvent += OnMobDeath;
 		}
 
 		private void OnMobDeath()
