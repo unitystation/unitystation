@@ -159,6 +159,8 @@ namespace Systems.Scenes
 					}
 					else
 					{
+						if(keyValuePair.Key == null) continue;
+
 						var prefab = Instantiate(data.AreaPrefab, Vector3.zero, keyValuePair.Key.gameObject.transform.rotation, keyValuePair.Key.transform.parent);
 						prefab.transform.parent = null;
 						PrefabsUsed.Add(data.AreaPrefab, prefab);
