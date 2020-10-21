@@ -29,7 +29,7 @@ public class Emag : NetworkBehaviour
     private void Awake()
     {
         charges = startCharges;
-        spriteHandler = gameObject.transform.GetChild(1).GetComponent<SpriteHandler>(); //overlay is second child
+        spriteHandler = gameObject.transform.Find("Charges").GetComponent<SpriteHandler>();
     }
 
     public void OnDisable()
@@ -40,11 +40,21 @@ public class Emag : NetworkBehaviour
         }
     }
 
+    ///<summary>
+    ///Used to scale charges if starting charges > 3 so it will show proper pips
+    ///</summary>
+    private int ScaleChargesToSpriteIndex()
+    {
+        int output = Mathf.CeilToInt(((float)Charges/(float)startCharges)*3f) - 1;
+        return output;
+    }
+
 	/// <summary>
 	/// Uses one charge from the emag, returns true if successful
 	/// </summary>
     public bool UseCharge(HandApply interaction) 
     {
+        Logger.Log(spriteHandler.name);
         if(Charges > 0)
         {
             //if this is the first charge taken off, add recharge loop
@@ -56,7 +66,7 @@ public class Emag : NetworkBehaviour
             charges -= 1;
             if(Charges > 0)
             {
-                spriteHandler.ChangeSprite(Charges-1);
+                spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
             }
             else 
             {
@@ -73,7 +83,7 @@ public class Emag : NetworkBehaviour
         if(Charges < startCharges)
         {
             charges += 1;
-            spriteHandler.ChangeSprite(Charges-1);
+            spriteHandler.ChangeSprite(ScaleChargesToSpriteIndex());
         }
         if(Charges >= startCharges)
         {
