@@ -194,8 +194,9 @@ GameObject:
   - component: {fileID: -3251195665219911144}
   - component: {fileID: -941251173462922534}
   - component: {fileID: 8360819274652630896}
+  - component: {fileID: 6226127959722086012}
   m_Layer: 12
-  m_Name: NPC_Jerry
+  m_Name: BVOld_NPC_Jerry
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -525,8 +526,6 @@ MonoBehaviour:
   maxTimeBetweenRandomActions: 30
   doRandomActionWhenInTask: 1
   angryMouseLevel: -30
-  deadMouse: {fileID: 4184658972748340991, guid: eb0c626c3a078634594555c4139784d4,
-    type: 3}
 --- !u!114 &-1536778056985268859
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -613,6 +612,21 @@ MonoBehaviour:
   indexLeft: 3
   spriteHandlers:
   - {fileID: 5561176232556635535}
+--- !u!114 &6226127959722086012
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10470e342fd41de468f149e991721d5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  despawnBody: 1
+  lootDrop:
+  - {fileID: 4184658972748340991, guid: eb0c626c3a078634594555c4139784d4, type: 3}
 --- !u!1 &7921138586108671727
 GameObject:
   m_ObjectHideFlags: 0
@@ -685,7 +699,7 @@ SpriteRenderer:
   m_SortingLayerID: -229502157
   m_SortingLayer: 16
   m_SortingOrder: 11
-  m_Sprite: {fileID: 21300008, guid: 1e7522c57ba5dfa4e9f08b4edccaaf4c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1e7522c57ba5dfa4e9f08b4edccaaf4c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
