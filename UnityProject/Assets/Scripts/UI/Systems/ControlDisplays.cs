@@ -67,13 +67,13 @@ public class ControlDisplays : MonoBehaviour
 			yield return WaitFor.EndOfFrame;
 		}
 
-		if (PlayerManager.LocalPlayerScript.playerHealth == null && !PlayerManager.LocalPlayerScript.IsBlob)
-		{
-			GhostUI();
-		}
-		else if (PlayerManager.LocalPlayerScript.IsBlob)
+		if (PlayerManager.LocalPlayerScript.IsBlob)
 		{
 			BlobUI();
+		}
+		else if (PlayerManager.LocalPlayerScript.playerHealth == null)
+		{
+			GhostUI();
 		}
 		else
 		{

@@ -2,6 +2,7 @@ using UnityEngine;
 using Mirror;
 using System;
 using Audio.Managers;
+using Blob;
 using Objects;
 
 public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
@@ -203,6 +204,11 @@ public class PlayerScript : ManagedNetworkBehaviour, IMatrixRotation, IAdminInfo
 		ItemStorage = GetComponent<ItemStorage>();
 		Equipment = GetComponent<Equipment>();
 		Cooldowns = GetComponent<HasCooldowns>();
+
+		if (GetComponent<BlobPlayer>() != null)
+		{
+			IsBlob = true;
+		}
 	}
 
 	public void Init()

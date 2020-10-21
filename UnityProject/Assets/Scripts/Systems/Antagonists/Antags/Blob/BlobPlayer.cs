@@ -433,12 +433,14 @@ namespace Blob
 			overmindLight.Color.a = 0.2f;
 			overmindSprite.layer = 29;
 			playerScript.IsBlob = true;
+			PlayerManager.LocalPlayerScript.IsBlob = true;
 		}
 
 		[TargetRpc]
 		private void TargetRpcTurnOffBlob(NetworkConnection target)
 		{
 			playerScript.IsBlob = false;
+			PlayerManager.LocalPlayerScript.IsBlob = false;
 		}
 
 		[TargetRpc]
