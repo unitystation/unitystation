@@ -584,7 +584,7 @@ namespace Weapons
 		/// <param name="finalDirection">direction the shot should travel (accuracy deviation should already be factored into this)</param>
 		/// <param name="damageZone">targeted damage zone</param>
 		/// <param name="isSuicideShot">if this is a suicide shot (aimed at shooter)</param>
-		public virtual void DisplayShot(GameObject shooter, Vector2 finalDirection,
+		public void DisplayShot(GameObject shooter, Vector2 finalDirection,
 			BodyPartType damageZone, bool isSuicideShot)
 		{
 			if (!MatrixManager.IsInitialized) return;
@@ -657,7 +657,7 @@ namespace Weapons
 			shooter.GetComponent<PlayerSprites>().ShowMuzzleFlash();
 		}
 
-		public Vector2 CalcDirection(Vector2 direction, int iteration)
+		private Vector2 CalcDirection(Vector2 direction, int iteration)
 		{
 			float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 			float angleVariance = iteration/1f;
@@ -783,7 +783,7 @@ namespace Weapons
 			return (float)(CurrentMagazine.CurrentRNG() * (max - min) + min);
 		}
 
-		public void AppendRecoil()
+		private void AppendRecoil()
 		{
 			if (CurrentRecoilVariance < MaxRecoilVariance)
 			{
