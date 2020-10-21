@@ -576,6 +576,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 			Logger.LogFormat("There's nothing left of {0}'s body, not entering it", Category.Health, body);
 			return;
 		}
+
 		playerScript.mind.StopGhosting();
 		PlayerSpawn.ServerGhostReenterBody(connectionToClient, gameObject, playerScript.mind);
 		return;
@@ -723,7 +724,7 @@ public partial class PlayerNetworkActions : NetworkBehaviour
 		var admin = PlayerList.Instance.GetAdmin(adminId, adminToken);
 		if (admin == null) return;
 
-		if (!playerScript.IsGhost)//admin turns into ghost
+		if (!playerScript.IsGhost || playerScript.IsBlob)//admin turns into ghost
 		{
 			PlayerSpawn.ServerSpawnGhost(playerScript.mind);
 		}
