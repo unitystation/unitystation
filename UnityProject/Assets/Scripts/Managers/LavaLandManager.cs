@@ -145,12 +145,14 @@ namespace Systems.Scenes
 			{
 				var SO = GetCorrectSOFromSize(keyValuePair.Value);
 				if (SO == null) continue;
+				if(keyValuePair.Key == null) continue;
 
 				dataList = SO.AreaPrefabData.ToList();
 
 				foreach (var data in dataList.Shuffle())
 				{
 					if (data.isSpecialSite && !keyValuePair.Key.allowSpecialSites) continue;
+					if (data.AreaPrefab == null) continue;
 
 					//Prefab cache
 					if (PrefabsUsed.ContainsKey(data.AreaPrefab))
@@ -159,8 +161,6 @@ namespace Systems.Scenes
 					}
 					else
 					{
-						if(keyValuePair.Key == null) continue;
-
 						var prefab = Instantiate(data.AreaPrefab, Vector3.zero, keyValuePair.Key.gameObject.transform.rotation, keyValuePair.Key.transform.parent);
 						prefab.transform.parent = null;
 						PrefabsUsed.Add(data.AreaPrefab, prefab);
