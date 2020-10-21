@@ -116,7 +116,7 @@ namespace UI.Action
 		{
 			if (useSpriteHandler)
 			{
-				UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), isServer);
+				UIActionManager.SetSpriteSO(this, spriteHandler.GetCurrentSpriteSO(), networked: isServer, palette: spriteHandler.Palette );
 			}
 		}
 	}
