@@ -247,13 +247,16 @@ MonoBehaviour:
   nodeBlobCost: 50
   factoryBlobCost: 60
   moveCoreCost: 80
-  damage: 20
+  playerDamage: 20
+  objectDamage: 50
+  layerDamage: 50
   attackType: 0
   damageType: 0
   numOfTilesForVictory: 400
   BlobRemoveMode: 0
   econModifier: 1
   maxBiomass: 100
+  isBlobGamemode: 1
   endRoundWhenKilled: 0
   endRoundWhenBlobVictory: 1
   rapidExpand: 0
@@ -278,6 +281,8 @@ MonoBehaviour:
   MaxClickDuration: 1
   MouseDragDeadzone: 0.2
   AimApplyInterval: 0.01
+  examineCursor: {fileID: 0}
+  cursorOffset: {x: 0, y: 0}
   placeOther: 0
   blobConstructs: 0
 --- !u!1 &6777920429691229453

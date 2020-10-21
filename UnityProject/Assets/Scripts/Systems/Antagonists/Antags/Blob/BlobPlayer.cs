@@ -51,7 +51,7 @@ namespace Blob
 
 		public int playerDamage = 20;
 		public int objectDamage = 50;
-		public int layerDamage = 40;
+		public int layerDamage = 50;
 		public AttackType attackType = AttackType.Melee;
 		public DamageType damageType = DamageType.Brute;
 
@@ -255,6 +255,13 @@ namespace Blob
 		private void OnDisable()
 		{
 			UpdateManager.Remove(CallbackType.PERIODIC_UPDATE, PeriodicUpdate);
+		}
+
+		private void Start()
+		{
+			playerSync = GetComponent<PlayerSync>();
+			registerPlayer = GetComponent<RegisterPlayer>();
+			playerScript = GetComponent<PlayerScript>();
 		}
 
 		private void PeriodicUpdate()
