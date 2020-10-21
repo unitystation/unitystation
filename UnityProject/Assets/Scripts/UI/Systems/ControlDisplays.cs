@@ -2,6 +2,7 @@
 using System.Collections;
 using Audio.Managers;
 using Audio.Containers;
+using Blob;
 using DatabaseAPI;
 using JetBrains.Annotations;
 using ServerInfo;
@@ -70,6 +71,7 @@ public class ControlDisplays : MonoBehaviour
 		if (PlayerManager.LocalPlayerScript.IsBlob)
 		{
 			BlobUI();
+			PlayerManager.LocalPlayerScript.GetComponent<BlobPlayer>()?.TurnOnClientLight();
 		}
 		else if (PlayerManager.LocalPlayerScript.playerHealth == null)
 		{

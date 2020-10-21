@@ -428,12 +428,17 @@ namespace Blob
 		[TargetRpc]
 		private void TargetRpcTurnOnClientLight(NetworkConnection target)
 		{
+			TurnOnClientLight();
+			playerScript.IsBlob = true;
+			PlayerManager.LocalPlayerScript.IsBlob = true;
+		}
+
+		public void TurnOnClientLight()
+		{
 			overmindLightObject.SetActive(true);
 			overmindLight.Color = color;
 			overmindLight.Color.a = 0.2f;
 			overmindSprite.layer = 29;
-			playerScript.IsBlob = true;
-			PlayerManager.LocalPlayerScript.IsBlob = true;
 		}
 
 		[TargetRpc]
