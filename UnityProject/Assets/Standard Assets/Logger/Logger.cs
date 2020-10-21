@@ -270,6 +270,7 @@ public enum Category
 	MLAgents,
 	Direction,
 	Admin,
+	Mentor,
 	BuckledMovement,
 	ProgressAction,
 	Botany,
