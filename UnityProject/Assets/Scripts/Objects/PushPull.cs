@@ -742,12 +742,12 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 		}
 
 		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
-		if (!MatrixManager.IsPassableAt(from, target, isServer: true, includingPlayers: false)) //non-solid things can be pushed to player tile
+		if (!MatrixManager.IsPassableAt(from, target, isServer: true, includingPlayers: false, context: gameObject)) //non-solid things can be pushed to player tile
 		{
 			return false;
 		}
 
-		bool success = Pushable.Push(dir, speed, true);
+		bool success = Pushable.Push(dir, speed, true, gameObject);
 		if (success)
 		{
 			// Pulling a directional component should change it's orientation to match the one that pulls it
@@ -893,20 +893,20 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 	/// Return true if a push from the specified position in the specified direction would
 	/// cause this object to move. Does not actually move the object.
 	/// </summary>
-	/// <param name="from">position from which push is performed</param>
+	/// <param name="pusherPos">position from which push is performed</param>
 	/// <param name="dir">direction of the push</param>
 	/// <param name="speed">speed of the push</param>
 	/// <returns>true iff a push from the specified position in the specified direction would
 	/// cause the object to move.</returns>
-	private bool CanPush(Vector3Int from, Vector2Int dir, float speed = Single.NaN, bool serverSide = true)
+	private bool CanPush(Vector3Int pusherPos, Vector2Int dir, float speed = Single.NaN, bool serverSide = true)
 	{
 		if (isNotPushable || isBeingPushed || Pushable == null || !isAllowedDir(dir))
 		{
 			return false;
 		}
 
-		Vector3Int currentPos = serverSide ? Pushable.ServerPosition : Pushable.ClientPosition;
-		if (from != currentPos)
+		Vector3Int pushablePos = serverSide ? Pushable.ServerPosition : Pushable.ClientPosition;
+		if (pusherPos != pushablePos)
 		{
 			return false;
 		}
@@ -917,8 +917,9 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			return false;
 		}
 
-		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
-		if (!MatrixManager.IsPassableAt(from, target, isServer: false, includingPlayers: IsSolidClient)) //non-solid things can be pushed to player tile
+		// If the pushable's movement in that direction is obstructed, then it can't be pushed.
+		Vector3Int target = pusherPos + Vector3Int.RoundToInt((Vector2)dir);
+		if (!MatrixManager.IsPassableAt(pusherPos, target, isServer: serverSide, includingPlayers: IsSolidClient, context: gameObject)) //non-solid things can be pushed to player tile
 		{
 			return false;
 		}
@@ -938,7 +939,7 @@ public class PushPull : NetworkBehaviour, IRightClickable/*, IServerSpawn*/
 			return false;
 		}
 		Vector3Int target = from + Vector3Int.RoundToInt((Vector2)dir);
-		if (!MatrixManager.IsPassableAt(from, target, isServer: false) ||
+		if (!MatrixManager.IsPassableAt(from, target, isServer: false, context: gameObject) ||
 				MatrixManager.IsNoGravityAt(target, isServer: false))
 		{ //not allowing predictive push into space
 			return false;

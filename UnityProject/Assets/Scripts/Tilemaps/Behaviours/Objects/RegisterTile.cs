@@ -749,19 +749,20 @@ public class RegisterTile : NetworkBehaviour, IServerDespawn
 		return true;
 	}
 
-	/// Is it passable when approaching from outside?
-	public virtual bool IsPassable(Vector3Int from, bool isServer, GameObject context = null)
+	///<summary> Is it passable when approaching from outside? </summary>
+	public virtual bool IsPassable(Vector3Int enteringFrom, bool isServer, GameObject context = null)
 	{
 		return true;
 	}
 
-	/// Is it passable when trying to leave it?
-	public virtual bool IsPassableTo(Vector3Int to, bool isServer)
+	/// <summary> Is it passable when trying to leave it? </summary>
+	public virtual bool IsPassableTo(Vector3Int leavingTo, bool isServer, GameObject context = null)
 	{
 		return true;
 	}
 
-	public virtual bool IsAtmosPassable(Vector3Int from, bool isServer)
+	///<summary> Is it passable when approaching from outside? </summary>
+	public virtual bool IsAtmosPassable(Vector3Int enteringFrom, bool isServer)
 	{
 		return true;
 	}
