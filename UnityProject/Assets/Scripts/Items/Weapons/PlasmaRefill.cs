@@ -119,17 +119,16 @@ namespace Weapons
 
 		public void ServerPerformInteraction(InventoryApply interaction)
 		{
-			var needAmmo = magazineBehaviour.magazineSize - magazineBehaviour.ServerAmmoRemains;
-			if (needAmmo <= 0) return;
+
 			// check if what is trying to be used as fuel
 			// can actually be used as fuel
 			// and if it can, define a variable stating what
 			// fuel is being used
-			if (Validations.HasItemTrait(interaction.FromSlot.Item.gameObject, CommonTraits.Instance.SolidPlasma))
+			if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.SolidPlasma))
 			{
 				refilledAmmo = sheetEff;
 			}
-			else if (Validations.HasItemTrait(interaction.FromSlot.Item.gameObject, CommonTraits.Instance.OrePlasma))
+			else if (Validations.HasItemTrait(interaction.UsedObject, CommonTraits.Instance.OrePlasma))
 			{
 				refilledAmmo = oreEff;
 			}
@@ -137,8 +136,11 @@ namespace Weapons
 			{
 				return;
 			}
-			var stackable = interaction.FromSlot.Item.GetComponent<Stackable>();
-			var intbattery = interaction.FromSlot.Item.GetComponent<InternalBattery>();
+			var needAmmo = magazineBehaviour.magazineSize - magazineBehaviour.ServerAmmoRemains;
+			if (needAmmo <= 0) return;
+
+			var stackable = interaction.UsedObject.GetComponent<Stackable>();
+			var intbattery = interaction.TargetObject.GetComponent<InternalBattery>();
 			battery = intbattery.GetBattery();
 			electricalMagazine = battery.GetComponent<ElectricalMagazine>();
 			Refill(stackable, needAmmo, refilledAmmo);
