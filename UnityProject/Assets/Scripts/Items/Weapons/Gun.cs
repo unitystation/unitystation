@@ -185,7 +185,7 @@ namespace Weapons
 			UpdateManager.Remove(CallbackType.UPDATE, UpdateMe);
 		}
 
-		public void OnSpawnServer(SpawnInfo info)
+		public virtual void OnSpawnServer(SpawnInfo info)
 		{
 			Init();
 		}
