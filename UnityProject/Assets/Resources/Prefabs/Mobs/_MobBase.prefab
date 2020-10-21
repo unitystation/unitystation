@@ -19,7 +19,8 @@ GameObject:
   - component: {fileID: 114477129915142950}
   - component: {fileID: 114379009499332576}
   - component: {fileID: 6629319338155181355}
-  - component: {fileID: 3395809571451758387}
+  - component: {fileID: 5109876281741361594}
+  - component: {fileID: 4816238574199996034}
   m_Layer: 12
   m_Name: _MobBase
   m_TagString: Untagged
@@ -218,7 +219,7 @@ MonoBehaviour:
       m_Calls: []
   ChangeDirectionWithMatrix: 1
   DisableSyncing: 0
---- !u!114 &3395809571451758387
+--- !u!114 &5109876281741361594
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -236,7 +237,29 @@ MonoBehaviour:
   indexRight: 2
   indexLeft: 3
   spriteHandlers:
-  - {fileID: 7582501087640414221}
+  - {fileID: 6820114119091483409}
+--- !u!114 &4816238574199996034
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722833055556988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd3699f88578c2445b1173a427e8cb9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  spriteHandler: {fileID: 6820114119091483409}
+  spriteRend: {fileID: 4890346600101626888}
+  aliveSpriteIndex: 0
+  deadSpriteIndex: 1
+  burningPrefab: {fileID: 1558421102126524431, guid: 36094128399f8704da2ff54a58c2f4f5,
+    type: 3}
+  electrocutedPrefab: {fileID: 1558421102126524431, guid: 0cea8096a0de31746a1b6ef11b019ab2,
+    type: 3}
 --- !u!1 &3951175065346152907
 GameObject:
   m_ObjectHideFlags: 0
@@ -261,7 +284,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3951175065346152907}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 77, y: 55, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4398708211663736}
@@ -277,7 +300,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4152194380817414287}
   - component: {fileID: 4890346600101626888}
-  - component: {fileID: 7582501087640414221}
+  - component: {fileID: 6820114119091483409}
   m_Layer: 12
   m_Name: Sprite
   m_TagString: Untagged
@@ -336,8 +359,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -229502157
+  m_SortingLayer: 16
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 66305a19e3614694f868c75a982e6b68, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -350,7 +373,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7582501087640414221
+--- !u!114 &6820114119091483409
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -363,7 +386,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   NetworkThis: 1
-  SubCatalogue: []
+  SubCatalogue:
+  - {fileID: 0}
+  - {fileID: 0}
   PresentSpriteSet: {fileID: 0}
   pushTextureOnStartUp: 1
   variantIndex: 0

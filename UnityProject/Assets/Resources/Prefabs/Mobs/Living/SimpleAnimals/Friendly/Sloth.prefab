@@ -9,9 +9,32 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
+      propertyPath: butcherResults.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
       propertyPath: deadSprite
       value: 
       objectReference: {fileID: 21300000, guid: 9269be2dc2aa6d74399a30d27df97f6c,
+        type: 3}
+    - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: butcherResults.Array.data[0]
+      value: 
+      objectReference: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+    - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: butcherResults.Array.data[1]
+      value: 
+      objectReference: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
+        type: 3}
+    - target: {fileID: -6212835468440707557, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: butcherResults.Array.data[2]
+      value: 
+      objectReference: {fileID: 2786145059108661523, guid: 9914f83c172606747877a09872724398,
         type: 3}
     - target: {fileID: 89586231598816738, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
@@ -25,6 +48,24 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 21300000, guid: 8373149a7f4a8d2489b43f886bc4d942,
         type: 3}
+    - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: PresentSpriteSet
+      value: 
+      objectReference: {fileID: 11400000, guid: 3a26ff9ac0317eb4baf3c51b3ca30924,
+        type: 2}
+    - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 9e5a95b612910bf4a906ecb644da34b3,
+        type: 2}
+    - target: {fileID: 3936668391451231998, guid: 64d782023543d4542b89ce3f9402b084,
+        type: 3}
+      propertyPath: SubCatalogue.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 3a26ff9ac0317eb4baf3c51b3ca30924,
+        type: 2}
     - target: {fileID: 7494601431046934675, guid: 64d782023543d4542b89ce3f9402b084,
         type: 3}
       propertyPath: m_Name

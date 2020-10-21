@@ -7,6 +7,17 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1231411499212372502, guid: 8108519e2214a09419583900dbd1c899,
+        type: 3}
+      propertyPath: lootDrop.Array.data[0]
+      value: 
+      objectReference: {fileID: 4801339576872443896, guid: e507b79cc25485b46b2b9a34029c95de,
+        type: 3}
+    - target: {fileID: 1231411499212372502, guid: 8108519e2214a09419583900dbd1c899,
+        type: 3}
+      propertyPath: despawnBody
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3810538610030977224, guid: 8108519e2214a09419583900dbd1c899,
         type: 3}
       propertyPath: m_AssetId
@@ -81,7 +92,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300008, guid: dd9d409ce2befdd4b94599c70a4b471b,
+      objectReference: {fileID: 21300000, guid: dd9d409ce2befdd4b94599c70a4b471b,
         type: 3}
     - target: {fileID: 8550536778822556448, guid: 8108519e2214a09419583900dbd1c899,
         type: 3}

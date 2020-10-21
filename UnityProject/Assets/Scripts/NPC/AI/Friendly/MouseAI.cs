@@ -12,25 +12,12 @@ namespace Systems.MobAIs
 		[SerializeField, Tooltip("If this mouse get to this mood level, it will start chewing cables")]
 		private int angryMouseLevel = -30;
 
-		[SerializeField, Tooltip("Dead mouse item. Don't eat it, please.")]
-		private GameObject deadMouse = null;
-
 		private MobMood mood;
 
 		protected override void Awake()
 		{
 			base.Awake();
 			mood = GetComponent<MobMood>();
-		}
-
-		protected override void UpdateMe()
-		{
-			if (health.IsDead)
-			{
-				Spawn.ServerPrefab(deadMouse, gameObject.RegisterTile().WorldPosition);
-				Despawn.ServerSingle(gameObject);
-			}
-			base.UpdateMe();
 		}
 
 		protected override void MonitorExtras()
