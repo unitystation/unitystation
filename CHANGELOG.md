@@ -2,6 +2,9 @@
 ---
 
 
+* 2020/10/21: makes it so syndicate and Wizard scenes  spawningon by [Bod9001](https://github.com/Bod9001) in PR #[5377](https://github.com/unitystation/unitystation/pull/5377)
+* 2020/10/21: fixes lathes UI and exprefab UI by [Bod9001](https://github.com/Bod9001) in PR #[5377](https://github.com/unitystation/unitystation/pull/5377)
+* 2020/10/21: fixes situations where power would bug out by [Bod9001](https://github.com/Bod9001) in PR #[5377](https://github.com/unitystation/unitystation/pull/5377)
 * 2020/10/20: Refactored hostile environment to allow for multiple problems by [ThatDan123](https://github.com/ThatDan123) in PR #[5362](https://github.com/unitystation/unitystation/pull/5362)
 * 2020/10/20: Blobs now do more damage to objects and walls by [ThatDan123](https://github.com/ThatDan123) in PR #[5362](https://github.com/unitystation/unitystation/pull/5362)
 * 2020/10/19: Fixed blob chat on client by [ThatDan123](https://github.com/ThatDan123) in PR #[5349](https://github.com/unitystation/unitystation/pull/5349)
